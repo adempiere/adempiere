@@ -49,15 +49,6 @@ public interface I_A_Depreciation_Entry
 	  */
 	public int getAD_Client_ID();
 
-    /** Column name A_Depreciation_Entry_ID */
-    public static final String COLUMNNAME_A_Depreciation_Entry_ID = "A_Depreciation_Entry_ID";
-
-	/** Set Depreciation Entry	  */
-	public void setA_Depreciation_Entry_ID (int A_Depreciation_Entry_ID);
-
-	/** Get Depreciation Entry	  */
-	public int getA_Depreciation_Entry_ID();
-
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -70,6 +61,15 @@ public interface I_A_Depreciation_Entry
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name A_Depreciation_Entry_ID */
+    public static final String COLUMNNAME_A_Depreciation_Entry_ID = "A_Depreciation_Entry_ID";
+
+	/** Set Depreciation Entry	  */
+	public void setA_Depreciation_Entry_ID (int A_Depreciation_Entry_ID);
+
+	/** Get Depreciation Entry	  */
+	public int getA_Depreciation_Entry_ID();
 
     /** Column name A_Entry_Type */
     public static final String COLUMNNAME_A_Entry_Type = "A_Entry_Type";
@@ -93,7 +93,7 @@ public interface I_A_Depreciation_Entry
 	  */
 	public int getC_AcctSchema_ID();
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
+	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
 
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
@@ -108,7 +108,7 @@ public interface I_A_Depreciation_Entry
 	  */
 	public int getC_Currency_ID();
 
-	public I_C_Currency getC_Currency() throws RuntimeException;
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException;
 
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
@@ -123,7 +123,7 @@ public interface I_A_Depreciation_Entry
 	  */
 	public int getC_DocType_ID();
 
-	public I_C_DocType getC_DocType() throws RuntimeException;
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
 
     /** Column name C_Period_ID */
     public static final String COLUMNNAME_C_Period_ID = "C_Period_ID";
@@ -138,7 +138,7 @@ public interface I_A_Depreciation_Entry
 	  */
 	public int getC_Period_ID();
 
-	public I_C_Period getC_Period() throws RuntimeException;
+	public org.compiere.model.I_C_Period getC_Period() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -221,7 +221,7 @@ public interface I_A_Depreciation_Entry
 	  */
 	public int getGL_Category_ID();
 
-	public I_GL_Category getGL_Category() throws RuntimeException;
+	public org.compiere.model.I_GL_Category getGL_Category() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

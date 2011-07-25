@@ -75,7 +75,7 @@ public interface I_AD_Replication_Run
 	  */
 	public int getAD_Replication_ID();
 
-	public I_AD_Replication getAD_Replication() throws RuntimeException;
+	public org.compiere.model.I_AD_Replication getAD_Replication() throws RuntimeException;
 
     /** Column name AD_Replication_Run_ID */
     public static final String COLUMNNAME_AD_Replication_Run_ID = "AD_Replication_Run_ID";

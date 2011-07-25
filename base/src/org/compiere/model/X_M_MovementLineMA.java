@@ -32,7 +32,7 @@ public class X_M_MovementLineMA extends PO implements I_M_MovementLineMA, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_M_MovementLineMA (Properties ctx, int M_MovementLineMA_ID, String trxName)
@@ -101,9 +101,9 @@ public class X_M_MovementLineMA extends PO implements I_M_MovementLineMA, I_Pers
 		return ii.intValue();
 	}
 
-	public I_M_MovementLine getM_MovementLine() throws RuntimeException
+	public org.compiere.model.I_M_MovementLine getM_MovementLine() throws RuntimeException
     {
-		return (I_M_MovementLine)MTable.get(getCtx(), I_M_MovementLine.Table_Name)
+		return (org.compiere.model.I_M_MovementLine)MTable.get(getCtx(), org.compiere.model.I_M_MovementLine.Table_Name)
 			.getPO(getM_MovementLine_ID(), get_TrxName());	}
 
 	/** Set Move Line.

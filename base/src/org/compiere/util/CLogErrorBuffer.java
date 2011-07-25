@@ -273,14 +273,14 @@ public class CLogErrorBuffer extends Handler
 	public Vector<String> getColumnNames(Properties ctx)
 	{
 		Vector<String> cn = new Vector<String>();
-		cn.add("Time");
-		cn.add("Level");
+		cn.add(Msg.getMsg(ctx, "DateTime"));
+		cn.add(Msg.getMsg(ctx, "Level"));
 		//
-		cn.add("Class.Method");
-		cn.add("Message");
+		cn.add(Msg.getMsg(ctx, "Class.Method"));
+		cn.add(Msg.getMsg(ctx, "Message"));
 		//2
-		cn.add("Parameter");
-		cn.add("Trace");
+		cn.add(Msg.getMsg(ctx, "Parameter"));
+		cn.add(Msg.getMsg(ctx, "Trace"));
 		//
 		return cn;
 	}	//	getColumnNames

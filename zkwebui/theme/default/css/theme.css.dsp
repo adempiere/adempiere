@@ -440,3 +440,17 @@ div.z-vfiletree-body td.menu-tree-cell {
 	cursor: pointer; padding: 0 2px;
 	font-size: ${fontSizeM}; font-weight: normal; overflow: visible;
 }
+
+<%-- FOCUSED FIELD in different color --%>
+
+.z-textbox-focus, .z-textbox-focus input,
+.z-decimalbox-focus, .z-decimalbox-focus input,
+.z-intbox-focus, .z-intbox-focus input,
+.z-longbox-focus, .z-longbox-focus input,
+.z-doublebox-focus, .z-doublebox-focus input,
+.z-combobox-focus .z-combobox-inp,
+.z-checkbox-focus .z-checkbox-inp,
+.z-datebox-focus .z-datebox-inp,
+.z-timebox-focus .z-timebox-inp {
+	background: #FFFFCC;
+}

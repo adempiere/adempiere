@@ -30,7 +30,7 @@ public class X_M_Forecast extends PO implements I_M_Forecast, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_M_Forecast (Properties ctx, int M_Forecast_ID, String trxName)
@@ -74,9 +74,9 @@ public class X_M_Forecast extends PO implements I_M_Forecast, I_Persistent
       return sb.toString();
     }
 
-	public I_C_Calendar getC_Calendar() throws RuntimeException
+	public org.compiere.model.I_C_Calendar getC_Calendar() throws RuntimeException
     {
-		return (I_C_Calendar)MTable.get(getCtx(), I_C_Calendar.Table_Name)
+		return (org.compiere.model.I_C_Calendar)MTable.get(getCtx(), org.compiere.model.I_C_Calendar.Table_Name)
 			.getPO(getC_Calendar_ID(), get_TrxName());	}
 
 	/** Set Calendar.
@@ -102,9 +102,9 @@ public class X_M_Forecast extends PO implements I_M_Forecast, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Year getC_Year() throws RuntimeException
+	public org.compiere.model.I_C_Year getC_Year() throws RuntimeException
     {
-		return (I_C_Year)MTable.get(getCtx(), I_C_Year.Table_Name)
+		return (org.compiere.model.I_C_Year)MTable.get(getCtx(), org.compiere.model.I_C_Year.Table_Name)
 			.getPO(getC_Year_ID(), get_TrxName());	}
 
 	/** Set Year.
@@ -211,9 +211,9 @@ public class X_M_Forecast extends PO implements I_M_Forecast, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_PriceList getM_PriceList() throws RuntimeException
+	public org.compiere.model.I_M_PriceList getM_PriceList() throws RuntimeException
     {
-		return (I_M_PriceList)MTable.get(getCtx(), I_M_PriceList.Table_Name)
+		return (org.compiere.model.I_M_PriceList)MTable.get(getCtx(), org.compiere.model.I_M_PriceList.Table_Name)
 			.getPO(getM_PriceList_ID(), get_TrxName());	}
 
 	/** Set Price List.

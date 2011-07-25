@@ -59,6 +59,8 @@ public class NumberBox extends Div
     
     private Decimalbox decimalBox = null;
     private Button btn;
+    
+    private boolean btnEnabled = true;
 
 	private Popup popup;
     
@@ -379,8 +381,10 @@ public class NumberBox extends Div
 	public void setEnabled(boolean enabled)
 	{
 	     decimalBox.setReadonly(!enabled);
-	     btn.setEnabled(enabled);
-	     if (enabled)
+	     
+	     boolean isCalculatorEnabled = btnEnabled && enabled;
+	     btn.setEnabled(isCalculatorEnabled);
+	     if (isCalculatorEnabled)
 	    	 btn.setPopup(popup);
 	     else 
 	     {
@@ -424,5 +428,16 @@ public class NumberBox extends Div
 	public Decimalbox getDecimalbox()
 	{
 		return decimalBox;
+	}
+	
+	public void setCalculatorEnabled(boolean enabled)
+	{
+		btnEnabled = enabled;
+		btn.setEnabled(btnEnabled);
+		btn.setVisible(btnEnabled);
+	}
+	public boolean isCalculatorEnabled()
+	{
+		return this.btnEnabled;
 	}
 }

@@ -76,7 +76,7 @@ public interface I_T_MRP_CRP
 	  */
 	public int getAD_PInstance_ID();
 
-	public I_AD_PInstance getAD_PInstance() throws RuntimeException;
+	public org.compiere.model.I_AD_PInstance getAD_PInstance() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

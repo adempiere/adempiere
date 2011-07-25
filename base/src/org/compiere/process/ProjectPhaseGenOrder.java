@@ -22,6 +22,7 @@ import java.util.logging.Level;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MProject;
+import org.compiere.model.MProjectLine;
 import org.compiere.model.MProjectPhase;
 import org.compiere.model.MProjectTask;
 import org.compiere.util.Env;
@@ -91,9 +92,30 @@ public class ProjectPhaseGenOrder  extends SvrProcess
 				log.log(Level.SEVERE, "doIt - Lines not generated");
 			return "@C_Order_ID@ " + order.getDocumentNo() + " (1)";
 		}
+		
+		//	Project Phase Lines
+		int count = 0;
+		MProjectLine[] lines = fromPhase.getLines();
+		for (int i = 0; i < lines.length; i++)
+		{
+			MOrderLine ol = new MOrderLine(order);
+			ol.setLine(lines[i].getLine());
+			ol.setDescription(lines[i].getDescription());
+			//
+			ol.setM_Product_ID(lines[i].getM_Product_ID(), true);
+			ol.setQty(lines[i].getPlannedQty().subtract(lines[i].getInvoicedQty()));
+			ol.setPrice();
+			if (lines[i].getPlannedPrice() != null && lines[i].getPlannedPrice().compareTo(Env.ZERO) != 0)
+				ol.setPrice(lines[i].getPlannedPrice());
+			ol.setDiscount();
+			ol.setTax();
+			if (ol.save())
+				count++;
+		}	//	for all lines
+		if (lines.length != count)
+			log.log(Level.SEVERE, "Lines difference - ProjectLines=" + lines.length + " <> Saved=" + count);
 
 		//	Project Tasks
-		int count = 0;
 		MProjectTask[] tasks = fromPhase.getTasks ();
 		for (int i = 0; i < tasks.length; i++)
 		{
@@ -111,7 +133,7 @@ public class ProjectPhaseGenOrder  extends SvrProcess
 			if (ol.save())
 				count++;
 		}	//	for all lines
-		if (tasks.length != count)
+		if (tasks.length != count - lines.length)
 			log.log(Level.SEVERE, "doIt - Lines difference - ProjectTasks=" + tasks.length + " <> Saved=" + count);
 
 		return "@C_Order_ID@ " + order.getDocumentNo() + " (" + count + ")";

@@ -126,7 +126,8 @@ public final class BrowserToken {
 		MessageDigest digest = MessageDigest.getInstance("SHA-512");
 		BASE64Encoder encoder = new BASE64Encoder();
 	    digest.reset();
-	    digest.update(session.getWebSession().getBytes("UTF-8"));
+	    if (session.getWebSession() != null)
+	    	digest.update(session.getWebSession().getBytes("UTF-8"));
 	    String password = null;
 	    if (MSystem.isZKRememberPasswordAllowed())
 	    	password = user.getPassword();

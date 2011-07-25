@@ -75,7 +75,35 @@ public interface I_C_Subscription
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
+
+    /** Column name C_SubscriptionType_ID */
+    public static final String COLUMNNAME_C_SubscriptionType_ID = "C_SubscriptionType_ID";
+
+	/** Set Subscription Type.
+	  * Type of subscription
+	  */
+	public void setC_SubscriptionType_ID (int C_SubscriptionType_ID);
+
+	/** Get Subscription Type.
+	  * Type of subscription
+	  */
+	public int getC_SubscriptionType_ID();
+
+	public org.compiere.model.I_C_SubscriptionType getC_SubscriptionType() throws RuntimeException;
+
+    /** Column name C_Subscription_ID */
+    public static final String COLUMNNAME_C_Subscription_ID = "C_Subscription_ID";
+
+	/** Set Subscription.
+	  * Subscription of a Business Partner of a Product to renew
+	  */
+	public void setC_Subscription_ID (int C_Subscription_ID);
+
+	/** Get Subscription.
+	  * Subscription of a Business Partner of a Product to renew
+	  */
+	public int getC_Subscription_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -92,34 +120,6 @@ public interface I_C_Subscription
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_Subscription_ID */
-    public static final String COLUMNNAME_C_Subscription_ID = "C_Subscription_ID";
-
-	/** Set Subscription.
-	  * Subscription of a Business Partner of a Product to renew
-	  */
-	public void setC_Subscription_ID (int C_Subscription_ID);
-
-	/** Get Subscription.
-	  * Subscription of a Business Partner of a Product to renew
-	  */
-	public int getC_Subscription_ID();
-
-    /** Column name C_SubscriptionType_ID */
-    public static final String COLUMNNAME_C_SubscriptionType_ID = "C_SubscriptionType_ID";
-
-	/** Set Subscription Type.
-	  * Type of subscription
-	  */
-	public void setC_SubscriptionType_ID (int C_SubscriptionType_ID);
-
-	/** Get Subscription Type.
-	  * Type of subscription
-	  */
-	public int getC_SubscriptionType_ID();
-
-	public I_C_SubscriptionType getC_SubscriptionType() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -160,7 +160,7 @@ public interface I_C_Subscription
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

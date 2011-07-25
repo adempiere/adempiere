@@ -361,6 +361,10 @@ public class TableCreateColumns extends SvrProcess
 					|| columnName.toUpperCase().startsWith("CREATED") 
 					|| columnName.toUpperCase().equals("UPDATED") ))
 				column.setIsUpdateable(false);
+			
+			// Check if is a possible selection column
+			if (MColumn.isSuggestSelectionColumn(column.getColumnName(), false))
+				column.setIsSelectionColumn(true);
 
 			//	Done
 			if (column.save ())

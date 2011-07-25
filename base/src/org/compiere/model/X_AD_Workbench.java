@@ -30,7 +30,7 @@ public class X_AD_Workbench extends PO implements I_AD_Workbench, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_AD_Workbench (Properties ctx, int AD_Workbench_ID, String trxName)
@@ -97,9 +97,9 @@ public class X_AD_Workbench extends PO implements I_AD_Workbench, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Column getAD_Column() throws RuntimeException
+	public org.compiere.model.I_AD_Column getAD_Column() throws RuntimeException
     {
-		return (I_AD_Column)MTable.get(getCtx(), I_AD_Column.Table_Name)
+		return (org.compiere.model.I_AD_Column)MTable.get(getCtx(), org.compiere.model.I_AD_Column.Table_Name)
 			.getPO(getAD_Column_ID(), get_TrxName());	}
 
 	/** Set Column.

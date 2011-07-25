@@ -56,7 +56,6 @@
 	<classpathentry exported="true" kind="lib" path="tools/lib/jython-engine.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/script-api.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/barbecue-1.5-beta1.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/poi-3.0.1-FINAL-20070705.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/javaee.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jcommon-1.0.16.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jfreechart-1.0.13.jar"/>
@@ -128,7 +127,6 @@
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zkplus-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="posterita/posterita/web/WEB-INF/lib/displaytag-export-poi-1.1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="posterita/posterita/web/WEB-INF/lib/log4j-1.2.13.jar"/>
-	<classpathentry exported="true" kind="lib" path="posterita/posterita/web/WEB-INF/lib/poi-3.0-FINAL.jar"/>
 	<classpathentry exported="true" kind="lib" path="posterita/posterita/web/WEB-INF/lib/servlet.jar"/>
 	<classpathentry exported="true" kind="lib" path="packages/liberoHR.jar" sourcepath="/adempiereLiberoHR"/>
 	<classpathentry exported="true" kind="lib" path="packages/liberoMFG.jar" sourcepath="/adempiereLibero"/>
@@ -137,5 +135,7 @@
 	<classpathentry exported="true" kind="lib" path="tools/lib/payflow.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/cron4j-2.2.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="JasperReportsTools/lib/jasperreports-3.7.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/poi-3.5-FINAL-20090928.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/mysql-connector-java-5.1.13-bin.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

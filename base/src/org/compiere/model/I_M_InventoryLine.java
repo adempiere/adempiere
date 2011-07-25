@@ -75,7 +75,7 @@ public interface I_M_InventoryLine
 	  */
 	public int getC_Charge_ID();
 
-	public I_C_Charge getC_Charge() throws RuntimeException;
+	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -160,6 +160,19 @@ public interface I_M_InventoryLine
 
 	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
 
+    /** Column name M_InventoryLine_ID */
+    public static final String COLUMNNAME_M_InventoryLine_ID = "M_InventoryLine_ID";
+
+	/** Set Phys.Inventory Line.
+	  * Unique line in an Inventory document
+	  */
+	public void setM_InventoryLine_ID (int M_InventoryLine_ID);
+
+	/** Get Phys.Inventory Line.
+	  * Unique line in an Inventory document
+	  */
+	public int getM_InventoryLine_ID();
+
     /** Column name M_Inventory_ID */
     public static final String COLUMNNAME_M_Inventory_ID = "M_Inventory_ID";
 
@@ -173,20 +186,7 @@ public interface I_M_InventoryLine
 	  */
 	public int getM_Inventory_ID();
 
-	public I_M_Inventory getM_Inventory() throws RuntimeException;
-
-    /** Column name M_InventoryLine_ID */
-    public static final String COLUMNNAME_M_InventoryLine_ID = "M_InventoryLine_ID";
-
-	/** Set Phys.Inventory Line.
-	  * Unique line in an Inventory document
-	  */
-	public void setM_InventoryLine_ID (int M_InventoryLine_ID);
-
-	/** Get Phys.Inventory Line.
-	  * Unique line in an Inventory document
-	  */
-	public int getM_InventoryLine_ID();
+	public org.compiere.model.I_M_Inventory getM_Inventory() throws RuntimeException;
 
     /** Column name M_Locator_ID */
     public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
@@ -216,7 +216,7 @@ public interface I_M_InventoryLine
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
@@ -292,7 +292,7 @@ public interface I_M_InventoryLine
 	  */
 	public int getReversalLine_ID();
 
-	public I_M_InventoryLine getReversalLine() throws RuntimeException;
+	public org.compiere.model.I_M_InventoryLine getReversalLine() throws RuntimeException;
 
     /** Column name UPC */
     public static final String COLUMNNAME_UPC = "UPC";

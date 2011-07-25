@@ -365,16 +365,23 @@ public class CPaper extends Paper
 		StringBuffer sb = new StringBuffer();
 		//	Print Media size
 		//AA Goodwill : Custom Paper Support
-		if (m_mediaSize != null){
-			sb.append(m_mediaSize.getMediaSizeName());
+		if (m_mediaSize != null && m_mediaSize.getMediaSizeName() != null)
+		{
+			
 			//	Print dimension
+			sb.append(m_mediaSize.getMediaSizeName());
 			String name = m_mediaSize.getMediaSizeName().toString();
-			if (!name.startsWith("iso"))
-				sb.append(" - ").append(m_mediaSize.toString(MediaSize.INCH,"\""))
-					.append(" (").append(getMediaPrintableArea().toString(MediaPrintableArea.INCH,"\""));
-			if (!name.startsWith("na"))
-				sb.append(" - ").append(m_mediaSize.toString(MediaSize.MM,"mm"))
-					.append(" (").append(getMediaPrintableArea().toString(MediaPrintableArea.MM,"mm"));
+				
+			if(name != null)
+			{
+				if (!name.startsWith("iso"))
+					sb.append(" - ").append(m_mediaSize.toString(MediaSize.INCH,"\""))
+						.append(" (").append(getMediaPrintableArea().toString(MediaPrintableArea.INCH,"\""));
+				if (!name.startsWith("na"))
+					sb.append(" - ").append(m_mediaSize.toString(MediaSize.MM,"mm"))
+						.append(" (").append(getMediaPrintableArea().toString(MediaPrintableArea.MM,"mm"));	
+			}
+			
 			//	Print Orientation
 			sb.append(") - ")
 				.append(Msg.getMsg(ctx, m_landscape ? "Landscape" : "Portrait"));

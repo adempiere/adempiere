@@ -41,19 +41,6 @@ public interface I_AD_Table
 
     /** Load Meta Data */
 
-    /** Column name AccessLevel */
-    public static final String COLUMNNAME_AccessLevel = "AccessLevel";
-
-	/** Set Data Access Level.
-	  * Access Level required
-	  */
-	public void setAccessLevel (String AccessLevel);
-
-	/** Get Data Access Level.
-	  * Access Level required
-	  */
-	public String getAccessLevel();
-
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -101,7 +88,7 @@ public interface I_AD_Table
 	  */
 	public int getAD_Val_Rule_ID();
 
-	public I_AD_Val_Rule getAD_Val_Rule() throws RuntimeException;
+	public org.compiere.model.I_AD_Val_Rule getAD_Val_Rule() throws RuntimeException;
 
     /** Column name AD_Window_ID */
     public static final String COLUMNNAME_AD_Window_ID = "AD_Window_ID";
@@ -116,7 +103,20 @@ public interface I_AD_Table
 	  */
 	public int getAD_Window_ID();
 
-	public I_AD_Window getAD_Window() throws RuntimeException;
+	public org.compiere.model.I_AD_Window getAD_Window() throws RuntimeException;
+
+    /** Column name AccessLevel */
+    public static final String COLUMNNAME_AccessLevel = "AccessLevel";
+
+	/** Set Data Access Level.
+	  * Access Level required
+	  */
+	public void setAccessLevel (String AccessLevel);
+
+	/** Get Data Access Level.
+	  * Access Level required
+	  */
+	public String getAccessLevel();
 
     /** Column name CopyColumnsFromTable */
     public static final String COLUMNNAME_CopyColumnsFromTable = "CopyColumnsFromTable";
@@ -323,7 +323,7 @@ public interface I_AD_Table
 	  */
 	public int getPO_Window_ID();
 
-	public I_AD_Window getPO_Window() throws RuntimeException;
+	public org.compiere.model.I_AD_Window getPO_Window() throws RuntimeException;
 
     /** Column name ReplicationType */
     public static final String COLUMNNAME_ReplicationType = "ReplicationType";

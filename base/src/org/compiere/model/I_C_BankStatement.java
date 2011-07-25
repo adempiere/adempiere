@@ -88,7 +88,7 @@ public interface I_C_BankStatement
 	  */
 	public int getC_BankAccount_ID();
 
-	public I_C_BankAccount getC_BankAccount() throws RuntimeException;
+	public org.compiere.model.I_C_BankAccount getC_BankAccount() throws RuntimeException;
 
     /** Column name C_BankStatement_ID */
     public static final String COLUMNNAME_C_BankStatement_ID = "C_BankStatement_ID";
@@ -102,6 +102,19 @@ public interface I_C_BankStatement
 	  * Bank Statement of account
 	  */
 	public int getC_BankStatement_ID();
+
+    /** Column name CreateFrom */
+    public static final String COLUMNNAME_CreateFrom = "CreateFrom";
+
+	/** Set Create lines from.
+	  * Process which will generate a new document lines based on an existing document
+	  */
+	public void setCreateFrom (String CreateFrom);
+
+	/** Get Create lines from.
+	  * Process which will generate a new document lines based on an existing document
+	  */
+	public String getCreateFrom();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -118,19 +131,6 @@ public interface I_C_BankStatement
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name CreateFrom */
-    public static final String COLUMNNAME_CreateFrom = "CreateFrom";
-
-	/** Set Create lines from.
-	  * Process which will generate a new document lines based on an existing document
-	  */
-	public void setCreateFrom (String CreateFrom);
-
-	/** Get Create lines from.
-	  * Process which will generate a new document lines based on an existing document
-	  */
-	public String getCreateFrom();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

@@ -204,7 +204,7 @@ public interface I_AD_LdapProcessor
 	  */
 	public int getSupervisor_ID();
 
-	public I_AD_User getSupervisor() throws RuntimeException;
+	public org.compiere.model.I_AD_User getSupervisor() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

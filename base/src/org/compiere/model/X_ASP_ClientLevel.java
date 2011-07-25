@@ -29,7 +29,7 @@ public class X_ASP_ClientLevel extends PO implements I_ASP_ClientLevel, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_ASP_ClientLevel (Properties ctx, int ASP_ClientLevel_ID, String trxName)
@@ -91,9 +91,9 @@ public class X_ASP_ClientLevel extends PO implements I_ASP_ClientLevel, I_Persis
 		return ii.intValue();
 	}
 
-	public I_ASP_Level getASP_Level() throws RuntimeException
+	public org.compiere.model.I_ASP_Level getASP_Level() throws RuntimeException
     {
-		return (I_ASP_Level)MTable.get(getCtx(), I_ASP_Level.Table_Name)
+		return (org.compiere.model.I_ASP_Level)MTable.get(getCtx(), org.compiere.model.I_ASP_Level.Table_Name)
 			.getPO(getASP_Level_ID(), get_TrxName());	}
 
 	/** Set ASP Level.
@@ -116,9 +116,9 @@ public class X_ASP_ClientLevel extends PO implements I_ASP_ClientLevel, I_Persis
 		return ii.intValue();
 	}
 
-	public I_ASP_Module getASP_Module() throws RuntimeException
+	public org.compiere.model.I_ASP_Module getASP_Module() throws RuntimeException
     {
-		return (I_ASP_Module)MTable.get(getCtx(), I_ASP_Module.Table_Name)
+		return (org.compiere.model.I_ASP_Module)MTable.get(getCtx(), org.compiere.model.I_ASP_Module.Table_Name)
 			.getPO(getASP_Module_ID(), get_TrxName());	}
 
 	/** Set ASP Module.

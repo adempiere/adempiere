@@ -30,7 +30,7 @@ public class X_AD_UserDef_Win extends PO implements I_AD_UserDef_Win, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_AD_UserDef_Win (Properties ctx, int AD_UserDef_Win_ID, String trxName)
@@ -96,9 +96,9 @@ public class X_AD_UserDef_Win extends PO implements I_AD_UserDef_Win, I_Persiste
 		return (String)get_Value(COLUMNNAME_AD_Language);
 	}
 
-	public I_AD_Role getAD_Role() throws RuntimeException
+	public org.compiere.model.I_AD_Role getAD_Role() throws RuntimeException
     {
-		return (I_AD_Role)MTable.get(getCtx(), I_AD_Role.Table_Name)
+		return (org.compiere.model.I_AD_Role)MTable.get(getCtx(), org.compiere.model.I_AD_Role.Table_Name)
 			.getPO(getAD_Role_ID(), get_TrxName());	}
 
 	/** Set Role.
@@ -144,9 +144,9 @@ public class X_AD_UserDef_Win extends PO implements I_AD_UserDef_Win, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_AD_User getAD_User() throws RuntimeException
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
     {
-		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getAD_User_ID(), get_TrxName());	}
 
 	/** Set User/Contact.
@@ -172,9 +172,9 @@ public class X_AD_UserDef_Win extends PO implements I_AD_UserDef_Win, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_AD_Window getAD_Window() throws RuntimeException
+	public org.compiere.model.I_AD_Window getAD_Window() throws RuntimeException
     {
-		return (I_AD_Window)MTable.get(getCtx(), I_AD_Window.Table_Name)
+		return (org.compiere.model.I_AD_Window)MTable.get(getCtx(), org.compiere.model.I_AD_Window.Table_Name)
 			.getPO(getAD_Window_ID(), get_TrxName());	}
 
 	/** Set Window.

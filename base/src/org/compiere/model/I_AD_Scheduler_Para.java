@@ -71,7 +71,7 @@ public interface I_AD_Scheduler_Para
 	/** Get Process Parameter	  */
 	public int getAD_Process_Para_ID();
 
-	public I_AD_Process_Para getAD_Process_Para() throws RuntimeException;
+	public org.compiere.model.I_AD_Process_Para getAD_Process_Para() throws RuntimeException;
 
     /** Column name AD_Scheduler_ID */
     public static final String COLUMNNAME_AD_Scheduler_ID = "AD_Scheduler_ID";
@@ -86,7 +86,7 @@ public interface I_AD_Scheduler_Para
 	  */
 	public int getAD_Scheduler_ID();
 
-	public I_AD_Scheduler getAD_Scheduler() throws RuntimeException;
+	public org.compiere.model.I_AD_Scheduler getAD_Scheduler() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

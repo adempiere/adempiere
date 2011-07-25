@@ -32,7 +32,7 @@ public class X_C_RevenueRecognition_Run extends PO implements I_C_RevenueRecogni
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_C_RevenueRecognition_Run (Properties ctx, int C_RevenueRecognition_Run_ID, String trxName)
@@ -75,9 +75,9 @@ public class X_C_RevenueRecognition_Run extends PO implements I_C_RevenueRecogni
       return sb.toString();
     }
 
-	public I_C_RevenueRecognition_Plan getC_RevenueRecognition_Plan() throws RuntimeException
+	public org.compiere.model.I_C_RevenueRecognition_Plan getC_RevenueRecognition_Plan() throws RuntimeException
     {
-		return (I_C_RevenueRecognition_Plan)MTable.get(getCtx(), I_C_RevenueRecognition_Plan.Table_Name)
+		return (org.compiere.model.I_C_RevenueRecognition_Plan)MTable.get(getCtx(), org.compiere.model.I_C_RevenueRecognition_Plan.Table_Name)
 			.getPO(getC_RevenueRecognition_Plan_ID(), get_TrxName());	}
 
 	/** Set Revenue Recognition Plan.
@@ -134,9 +134,9 @@ public class X_C_RevenueRecognition_Run extends PO implements I_C_RevenueRecogni
 		return ii.intValue();
 	}
 
-	public I_GL_Journal getGL_Journal() throws RuntimeException
+	public org.compiere.model.I_GL_Journal getGL_Journal() throws RuntimeException
     {
-		return (I_GL_Journal)MTable.get(getCtx(), I_GL_Journal.Table_Name)
+		return (org.compiere.model.I_GL_Journal)MTable.get(getCtx(), org.compiere.model.I_GL_Journal.Table_Name)
 			.getPO(getGL_Journal_ID(), get_TrxName());	}
 
 	/** Set Journal.

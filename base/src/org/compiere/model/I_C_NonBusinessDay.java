@@ -75,7 +75,7 @@ public interface I_C_NonBusinessDay
 	  */
 	public int getC_Calendar_ID();
 
-	public I_C_Calendar getC_Calendar() throws RuntimeException;
+	public org.compiere.model.I_C_Calendar getC_Calendar() throws RuntimeException;
 
     /** Column name C_NonBusinessDay_ID */
     public static final String COLUMNNAME_C_NonBusinessDay_ID = "C_NonBusinessDay_ID";

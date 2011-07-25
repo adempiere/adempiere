@@ -88,7 +88,7 @@ public interface I_AD_UserBPAccess
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getAD_User() throws RuntimeException;
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
 
     /** Column name BPAccessType */
     public static final String COLUMNNAME_BPAccessType = "BPAccessType";
@@ -158,7 +158,7 @@ public interface I_AD_UserBPAccess
 	  */
 	public int getR_RequestType_ID();
 
-	public I_R_RequestType getR_RequestType() throws RuntimeException;
+	public org.compiere.model.I_R_RequestType getR_RequestType() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

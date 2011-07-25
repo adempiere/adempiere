@@ -31,7 +31,7 @@ public class X_S_ResourceType extends PO implements I_S_ResourceType, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_S_ResourceType (Properties ctx, int S_ResourceType_ID, String trxName)
@@ -117,26 +117,9 @@ public class X_S_ResourceType extends PO implements I_S_ResourceType, I_Persiste
 		return false;
 	}
 
-	/** Set Chargeable Quantity.
-		@param ChargeableQty Chargeable Quantity	  */
-	public void setChargeableQty (int ChargeableQty)
-	{
-		set_Value (COLUMNNAME_ChargeableQty, Integer.valueOf(ChargeableQty));
-	}
-
-	/** Get Chargeable Quantity.
-		@return Chargeable Quantity	  */
-	public int getChargeableQty () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_ChargeableQty);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_TaxCategory getC_TaxCategory() throws RuntimeException
+	public org.compiere.model.I_C_TaxCategory getC_TaxCategory() throws RuntimeException
     {
-		return (I_C_TaxCategory)MTable.get(getCtx(), I_C_TaxCategory.Table_Name)
+		return (org.compiere.model.I_C_TaxCategory)MTable.get(getCtx(), org.compiere.model.I_C_TaxCategory.Table_Name)
 			.getPO(getC_TaxCategory_ID(), get_TrxName());	}
 
 	/** Set Tax Category.
@@ -162,9 +145,9 @@ public class X_S_ResourceType extends PO implements I_S_ResourceType, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_C_UOM getC_UOM() throws RuntimeException
+	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException
     {
-		return (I_C_UOM)MTable.get(getCtx(), I_C_UOM.Table_Name)
+		return (org.compiere.model.I_C_UOM)MTable.get(getCtx(), org.compiere.model.I_C_UOM.Table_Name)
 			.getPO(getC_UOM_ID(), get_TrxName());	}
 
 	/** Set UOM.
@@ -185,6 +168,23 @@ public class X_S_ResourceType extends PO implements I_S_ResourceType, I_Persiste
 	public int getC_UOM_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_UOM_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Chargeable Quantity.
+		@param ChargeableQty Chargeable Quantity	  */
+	public void setChargeableQty (int ChargeableQty)
+	{
+		set_Value (COLUMNNAME_ChargeableQty, Integer.valueOf(ChargeableQty));
+	}
+
+	/** Get Chargeable Quantity.
+		@return Chargeable Quantity	  */
+	public int getChargeableQty () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_ChargeableQty);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -279,9 +279,9 @@ public class X_S_ResourceType extends PO implements I_S_ResourceType, I_Persiste
 		return false;
 	}
 
-	public I_M_Product_Category getM_Product_Category() throws RuntimeException
+	public org.compiere.model.I_M_Product_Category getM_Product_Category() throws RuntimeException
     {
-		return (I_M_Product_Category)MTable.get(getCtx(), I_M_Product_Category.Table_Name)
+		return (org.compiere.model.I_M_Product_Category)MTable.get(getCtx(), org.compiere.model.I_M_Product_Category.Table_Name)
 			.getPO(getM_Product_Category_ID(), get_TrxName());	}
 
 	/** Set Product Category.

@@ -88,7 +88,7 @@ public interface I_CM_NewsItem
 	  */
 	public int getCM_NewsChannel_ID();
 
-	public I_CM_NewsChannel getCM_NewsChannel() throws RuntimeException;
+	public org.compiere.model.I_CM_NewsChannel getCM_NewsChannel() throws RuntimeException;
 
     /** Column name CM_NewsItem_ID */
     public static final String COLUMNNAME_CM_NewsItem_ID = "CM_NewsItem_ID";

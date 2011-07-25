@@ -33,7 +33,7 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_I_Inventory (Properties ctx, int I_Inventory_ID, String trxName)
@@ -217,37 +217,9 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
 		return (String)get_Value(COLUMNNAME_Lot);
 	}
 
-	public I_M_Inventory getM_Inventory() throws RuntimeException
+	public org.compiere.model.I_M_InventoryLine getM_InventoryLine() throws RuntimeException
     {
-		return (I_M_Inventory)MTable.get(getCtx(), I_M_Inventory.Table_Name)
-			.getPO(getM_Inventory_ID(), get_TrxName());	}
-
-	/** Set Phys.Inventory.
-		@param M_Inventory_ID 
-		Parameters for a Physical Inventory
-	  */
-	public void setM_Inventory_ID (int M_Inventory_ID)
-	{
-		if (M_Inventory_ID < 1) 
-			set_Value (COLUMNNAME_M_Inventory_ID, null);
-		else 
-			set_Value (COLUMNNAME_M_Inventory_ID, Integer.valueOf(M_Inventory_ID));
-	}
-
-	/** Get Phys.Inventory.
-		@return Parameters for a Physical Inventory
-	  */
-	public int getM_Inventory_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Inventory_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_M_InventoryLine getM_InventoryLine() throws RuntimeException
-    {
-		return (I_M_InventoryLine)MTable.get(getCtx(), I_M_InventoryLine.Table_Name)
+		return (org.compiere.model.I_M_InventoryLine)MTable.get(getCtx(), org.compiere.model.I_M_InventoryLine.Table_Name)
 			.getPO(getM_InventoryLine_ID(), get_TrxName());	}
 
 	/** Set Phys.Inventory Line.
@@ -273,9 +245,37 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Locator getM_Locator() throws RuntimeException
+	public org.compiere.model.I_M_Inventory getM_Inventory() throws RuntimeException
     {
-		return (I_M_Locator)MTable.get(getCtx(), I_M_Locator.Table_Name)
+		return (org.compiere.model.I_M_Inventory)MTable.get(getCtx(), org.compiere.model.I_M_Inventory.Table_Name)
+			.getPO(getM_Inventory_ID(), get_TrxName());	}
+
+	/** Set Phys.Inventory.
+		@param M_Inventory_ID 
+		Parameters for a Physical Inventory
+	  */
+	public void setM_Inventory_ID (int M_Inventory_ID)
+	{
+		if (M_Inventory_ID < 1) 
+			set_Value (COLUMNNAME_M_Inventory_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Inventory_ID, Integer.valueOf(M_Inventory_ID));
+	}
+
+	/** Get Phys.Inventory.
+		@return Parameters for a Physical Inventory
+	  */
+	public int getM_Inventory_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Inventory_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_Locator getM_Locator() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_Locator)MTable.get(getCtx(), org.compiere.model.I_M_Locator.Table_Name)
 			.getPO(getM_Locator_ID(), get_TrxName());	}
 
 	/** Set Locator.
@@ -301,26 +301,9 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Movement Date.
-		@param MovementDate 
-		Date a product was moved in or out of inventory
-	  */
-	public void setMovementDate (Timestamp MovementDate)
-	{
-		set_Value (COLUMNNAME_MovementDate, MovementDate);
-	}
-
-	/** Get Movement Date.
-		@return Date a product was moved in or out of inventory
-	  */
-	public Timestamp getMovementDate () 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_MovementDate);
-	}
-
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.
@@ -346,9 +329,9 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Warehouse getM_Warehouse() throws RuntimeException
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException
     {
-		return (I_M_Warehouse)MTable.get(getCtx(), I_M_Warehouse.Table_Name)
+		return (org.compiere.model.I_M_Warehouse)MTable.get(getCtx(), org.compiere.model.I_M_Warehouse.Table_Name)
 			.getPO(getM_Warehouse_ID(), get_TrxName());	}
 
 	/** Set Warehouse.
@@ -372,6 +355,23 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Movement Date.
+		@param MovementDate 
+		Date a product was moved in or out of inventory
+	  */
+	public void setMovementDate (Timestamp MovementDate)
+	{
+		set_Value (COLUMNNAME_MovementDate, MovementDate);
+	}
+
+	/** Get Movement Date.
+		@return Date a product was moved in or out of inventory
+	  */
+	public Timestamp getMovementDate () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_MovementDate);
 	}
 
 	/** Set Processed.

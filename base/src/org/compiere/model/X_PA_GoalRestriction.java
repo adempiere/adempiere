@@ -30,7 +30,7 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_PA_GoalRestriction (Properties ctx, int PA_GoalRestriction_ID, String trxName)
@@ -40,8 +40,8 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
         {
 			setGoalRestrictionType (null);
 			setName (null);
-			setPA_Goal_ID (0);
 			setPA_GoalRestriction_ID (0);
+			setPA_Goal_ID (0);
         } */
     }
 
@@ -73,37 +73,9 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
       return sb.toString();
     }
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
-			.getPO(getC_BPartner_ID(), get_TrxName());	}
-
-	/** Set Business Partner .
-		@param C_BPartner_ID 
-		Identifies a Business Partner
-	  */
-	public void setC_BPartner_ID (int C_BPartner_ID)
-	{
-		if (C_BPartner_ID < 1) 
-			set_Value (COLUMNNAME_C_BPartner_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
-	}
-
-	/** Get Business Partner .
-		@return Identifies a Business Partner
-	  */
-	public int getC_BPartner_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_BP_Group getC_BP_Group() throws RuntimeException
-    {
-		return (I_C_BP_Group)MTable.get(getCtx(), I_C_BP_Group.Table_Name)
+		return (org.compiere.model.I_C_BP_Group)MTable.get(getCtx(), org.compiere.model.I_C_BP_Group.Table_Name)
 			.getPO(getC_BP_Group_ID(), get_TrxName());	}
 
 	/** Set Business Partner Group.
@@ -124,6 +96,34 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
 	public int getC_BP_Group_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Group_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
+			.getPO(getC_BPartner_ID(), get_TrxName());	}
+
+	/** Set Business Partner .
+		@param C_BPartner_ID 
+		Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID)
+	{
+		if (C_BPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+	}
+
+	/** Get Business Partner .
+		@return Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -159,9 +159,9 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
 		return (String)get_Value(COLUMNNAME_GoalRestrictionType);
 	}
 
-	public I_M_Product_Category getM_Product_Category() throws RuntimeException
+	public org.compiere.model.I_M_Product_Category getM_Product_Category() throws RuntimeException
     {
-		return (I_M_Product_Category)MTable.get(getCtx(), I_M_Product_Category.Table_Name)
+		return (org.compiere.model.I_M_Product_Category)MTable.get(getCtx(), org.compiere.model.I_M_Product_Category.Table_Name)
 			.getPO(getM_Product_Category_ID(), get_TrxName());	}
 
 	/** Set Product Category.
@@ -187,9 +187,9 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.
@@ -263,9 +263,32 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
 		return ii.intValue();
 	}
 
-	public I_PA_Goal getPA_Goal() throws RuntimeException
+	/** Set Goal Restriction.
+		@param PA_GoalRestriction_ID 
+		Performance Goal Restriction
+	  */
+	public void setPA_GoalRestriction_ID (int PA_GoalRestriction_ID)
+	{
+		if (PA_GoalRestriction_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_GoalRestriction_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_GoalRestriction_ID, Integer.valueOf(PA_GoalRestriction_ID));
+	}
+
+	/** Get Goal Restriction.
+		@return Performance Goal Restriction
+	  */
+	public int getPA_GoalRestriction_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PA_GoalRestriction_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_PA_Goal getPA_Goal() throws RuntimeException
     {
-		return (I_PA_Goal)MTable.get(getCtx(), I_PA_Goal.Table_Name)
+		return (org.compiere.model.I_PA_Goal)MTable.get(getCtx(), org.compiere.model.I_PA_Goal.Table_Name)
 			.getPO(getPA_Goal_ID(), get_TrxName());	}
 
 	/** Set Goal.
@@ -286,29 +309,6 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
 	public int getPA_Goal_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PA_Goal_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Goal Restriction.
-		@param PA_GoalRestriction_ID 
-		Performance Goal Restriction
-	  */
-	public void setPA_GoalRestriction_ID (int PA_GoalRestriction_ID)
-	{
-		if (PA_GoalRestriction_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_PA_GoalRestriction_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_PA_GoalRestriction_ID, Integer.valueOf(PA_GoalRestriction_ID));
-	}
-
-	/** Get Goal Restriction.
-		@return Performance Goal Restriction
-	  */
-	public int getPA_GoalRestriction_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PA_GoalRestriction_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

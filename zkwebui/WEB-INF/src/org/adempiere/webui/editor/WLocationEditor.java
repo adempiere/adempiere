@@ -21,6 +21,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import org.adempiere.webui.apps.AEnv;
+import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Locationbox;
 import org.adempiere.webui.event.ContextMenuEvent;
 import org.adempiere.webui.event.ContextMenuListener;
@@ -31,6 +32,7 @@ import org.compiere.model.GridField;
 import org.compiere.model.MLocation;
 import org.compiere.model.MLocationLookup;
 import org.compiere.util.CLogger;
+import org.compiere.util.DefaultContextProvider;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.Event;
@@ -40,6 +42,9 @@ import org.zkoss.zk.ui.event.Events;
 /**
  * @author Sendy Yagambrum
  * @date July 16, 2007
+ * @author victor.perez@e-evolution.com, www.e-evolution.com
+ * 		<li>BF [ 3294610] The location should allow open a google map
+ * 		<li>https://sourceforge.net/tracker/?func=detail&atid=879335&aid=3294610&group_id=176962
  * 
  * This class is based on VLocation written by Jorg Janke
  **/
@@ -82,7 +87,7 @@ public class WLocationEditor extends WEditor implements EventListener, PropertyC
 
     private void init()
     {
-    	getComponent().setButtonImage("/images/Location10.png");
+    	getComponent().setButtonImage("/images/Online10.png");
     	
     	popupMenu = new WEditorPopupMenu(false, false, true);
     	popupMenu.addMenuListener(this);
@@ -166,30 +171,38 @@ public class WLocationEditor extends WEditor implements EventListener, PropertyC
         //
         if ("onClick".equals(event.getName()))
         {
-            log.config( "actionPerformed - " + m_value);
-            WLocationDialog ld = new WLocationDialog(Msg.getMsg(Env.getCtx(), "Location"), m_value);
-            ld.setVisible(true);
-            AEnv.showWindow(ld);
-            m_value = ld.getValue();
-            //
-           if (!ld.isChanged())
-                return;
-    
-            //  Data Binding
-            int C_Location_ID = 0;
-            if (m_value != null)
-                C_Location_ID = m_value.getC_Location_ID();
-            Integer ii = new Integer(C_Location_ID);
-            //  force Change - user does not realize that embedded object is already saved.
-            ValueChangeEvent valuechange = new ValueChangeEvent(this,getColumnName(),null,null);
-            fireValueChange(valuechange);   //  resets m_mLocation
-            if (C_Location_ID != 0)
-            {
-                ValueChangeEvent vc = new ValueChangeEvent(this,getColumnName(),null,ii);
-                fireValueChange(vc);
-            }
-            setValue(ii); 
-        }
+        	if( ((Button)event.getTarget()).getName().equals("bUrl") )
+        	{
+        		Env.startBrowser(DefaultContextProvider.GOOGLE_MAPS_URL_PREFIX + m_value.toString().replace(" ", "%"));
+    			return;
+        	}
+        	else
+        	{	
+	            log.config( "actionPerformed - " + m_value);
+	            WLocationDialog ld = new WLocationDialog(Msg.getMsg(Env.getCtx(), "Location"), m_value);
+	            ld.setVisible(true);
+	            AEnv.showWindow(ld);
+	            m_value = ld.getValue();
+	            //
+	           if (!ld.isChanged())
+	                return;
+	    
+	            //  Data Binding
+	            int C_Location_ID = 0;
+	            if (m_value != null)
+	                C_Location_ID = m_value.getC_Location_ID();
+	            Integer ii = new Integer(C_Location_ID);
+	            //  force Change - user does not realize that embedded object is already saved.
+	            ValueChangeEvent valuechange = new ValueChangeEvent(this,getColumnName(),null,null);
+	            fireValueChange(valuechange);   //  resets m_mLocation
+	            if (C_Location_ID != 0)
+	            {
+	                ValueChangeEvent vc = new ValueChangeEvent(this,getColumnName(),null,ii);
+	                fireValueChange(vc);
+	            }
+	            setValue(ii); 
+        	}
+	     }
     }
     
     /**

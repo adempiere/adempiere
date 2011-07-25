@@ -195,7 +195,7 @@ public interface I_S_ResourceAssignment
 	  */
 	public int getS_Resource_ID();
 
-	public I_S_Resource getS_Resource() throws RuntimeException;
+	public org.compiere.model.I_S_Resource getS_Resource() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

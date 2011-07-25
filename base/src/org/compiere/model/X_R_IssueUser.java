@@ -30,7 +30,7 @@ public class X_R_IssueUser extends PO implements I_R_IssueUser, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_R_IssueUser (Properties ctx, int R_IssueUser_ID, String trxName)
@@ -71,9 +71,9 @@ public class X_R_IssueUser extends PO implements I_R_IssueUser, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_User getAD_User() throws RuntimeException
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
     {
-		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getAD_User_ID(), get_TrxName());	}
 
 	/** Set User/Contact.

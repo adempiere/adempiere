@@ -29,7 +29,7 @@ public class X_U_BlackListCheque extends PO implements I_U_BlackListCheque, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_U_BlackListCheque (Properties ctx, int U_BlackListCheque_ID, String trxName)

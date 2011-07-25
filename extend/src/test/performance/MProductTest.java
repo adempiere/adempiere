@@ -138,7 +138,7 @@ public class MProductTest extends AdempiereTestCase {
 		
 		System.out.println(  
 			  "Count = " + runCount 
-			+ "; Time(seconds) = " + time + "; Produsts/Second = " + ((float)runCount/time) + "; ");
+			+ "; Time(seconds) = " + time + "; Products/Second = " + ((float)runCount/time) + "; ");
 		
 		assertTrue(this.getClass().getName(), true);
 	}

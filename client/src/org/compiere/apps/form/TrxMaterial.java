@@ -89,10 +89,10 @@ public class TrxMaterial {
 			query.addRestriction("MovementType", MQuery.EQUAL, movementType);
 		//  DateFrom
 		if (movementDateFrom != null)
-			query.addRestriction("TRUNC(MovementDate)", MQuery.GREATER_EQUAL, movementDateFrom);
+			query.addRestriction("TRUNC(MovementDate, 'DD')", MQuery.GREATER_EQUAL, movementDateFrom);
 		//  DateTO
 		if (movementDateTo != null)
-			query.addRestriction("TRUNC(MovementDate)", MQuery.LESS_EQUAL, movementDateTo);
+			query.addRestriction("TRUNC(MovementDate, 'DD')", MQuery.LESS_EQUAL, movementDateTo);
 		log.info( "VTrxMaterial.refresh query=" + query.toString());
 
 		/**

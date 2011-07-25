@@ -62,7 +62,7 @@ public interface I_ASP_ClientException
 	  */
 	public int getAD_Field_ID();
 
-	public I_AD_Field getAD_Field() throws RuntimeException;
+	public org.compiere.model.I_AD_Field getAD_Field() throws RuntimeException;
 
     /** Column name AD_Form_ID */
     public static final String COLUMNNAME_AD_Form_ID = "AD_Form_ID";
@@ -77,7 +77,7 @@ public interface I_ASP_ClientException
 	  */
 	public int getAD_Form_ID();
 
-	public I_AD_Form getAD_Form() throws RuntimeException;
+	public org.compiere.model.I_AD_Form getAD_Form() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -105,7 +105,7 @@ public interface I_ASP_ClientException
 	  */
 	public int getAD_Process_ID();
 
-	public I_AD_Process getAD_Process() throws RuntimeException;
+	public org.compiere.model.I_AD_Process getAD_Process() throws RuntimeException;
 
     /** Column name AD_Process_Para_ID */
     public static final String COLUMNNAME_AD_Process_Para_ID = "AD_Process_Para_ID";
@@ -116,7 +116,7 @@ public interface I_ASP_ClientException
 	/** Get Process Parameter	  */
 	public int getAD_Process_Para_ID();
 
-	public I_AD_Process_Para getAD_Process_Para() throws RuntimeException;
+	public org.compiere.model.I_AD_Process_Para getAD_Process_Para() throws RuntimeException;
 
     /** Column name AD_Tab_ID */
     public static final String COLUMNNAME_AD_Tab_ID = "AD_Tab_ID";
@@ -131,7 +131,7 @@ public interface I_ASP_ClientException
 	  */
 	public int getAD_Tab_ID();
 
-	public I_AD_Tab getAD_Tab() throws RuntimeException;
+	public org.compiere.model.I_AD_Tab getAD_Tab() throws RuntimeException;
 
     /** Column name AD_Task_ID */
     public static final String COLUMNNAME_AD_Task_ID = "AD_Task_ID";
@@ -146,7 +146,7 @@ public interface I_ASP_ClientException
 	  */
 	public int getAD_Task_ID();
 
-	public I_AD_Task getAD_Task() throws RuntimeException;
+	public org.compiere.model.I_AD_Task getAD_Task() throws RuntimeException;
 
     /** Column name AD_WF_Node_ID */
     public static final String COLUMNNAME_AD_WF_Node_ID = "AD_WF_Node_ID";
@@ -161,7 +161,7 @@ public interface I_ASP_ClientException
 	  */
 	public int getAD_WF_Node_ID();
 
-	public I_AD_WF_Node getAD_WF_Node() throws RuntimeException;
+	public org.compiere.model.I_AD_WF_Node getAD_WF_Node() throws RuntimeException;
 
     /** Column name AD_Window_ID */
     public static final String COLUMNNAME_AD_Window_ID = "AD_Window_ID";
@@ -176,7 +176,7 @@ public interface I_ASP_ClientException
 	  */
 	public int getAD_Window_ID();
 
-	public I_AD_Window getAD_Window() throws RuntimeException;
+	public org.compiere.model.I_AD_Window getAD_Window() throws RuntimeException;
 
     /** Column name AD_Workflow_ID */
     public static final String COLUMNNAME_AD_Workflow_ID = "AD_Workflow_ID";
@@ -191,7 +191,7 @@ public interface I_ASP_ClientException
 	  */
 	public int getAD_Workflow_ID();
 
-	public I_AD_Workflow getAD_Workflow() throws RuntimeException;
+	public org.compiere.model.I_AD_Workflow getAD_Workflow() throws RuntimeException;
 
     /** Column name ASP_ClientException_ID */
     public static final String COLUMNNAME_ASP_ClientException_ID = "ASP_ClientException_ID";

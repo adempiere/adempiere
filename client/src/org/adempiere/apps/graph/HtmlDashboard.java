@@ -17,9 +17,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
@@ -35,6 +32,7 @@ import javax.swing.text.Document;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.AWindow;
 import org.compiere.model.MAchievement;
+import org.compiere.model.MDashboardContent;
 import org.compiere.model.MGoal;
 import org.compiere.model.MMeasureCalc;
 import org.compiere.model.MProjectType;
@@ -43,10 +41,10 @@ import org.compiere.model.MRequestType;
 import org.compiere.model.MRole;
 import org.compiere.swing.CMenuItem;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
 
 /**
  * @author fcsku
@@ -143,49 +141,39 @@ public class HtmlDashboard extends JPanel implements MouseListener,
 				queryZoom = null;
 				queryZoom = new ArrayList<MQuery>();
 				String appendToHome = null;
-				String sql =  " SELECT x.AD_CLIENT_ID, x.NAME, x.DESCRIPTION, x.AD_WINDOW_ID, x.PA_GOAL_ID, x.LINE, x.HTML, m.AD_MENU_ID"
-							+ " FROM PA_DASHBOARDCONTENT x"
-							+ " LEFT OUTER JOIN AD_MENU m ON x.ad_window_id=m.ad_window_id" 
-							+ " WHERE (x.AD_Client_ID=0 OR x.AD_Client_ID=?) AND x.IsActive='Y'"
-							+ " AND x.ZulFilePath IS NULL" // Elaine 2008/11/19 - available in WebUI only at the moment
-							+ " ORDER BY LINE";
-				PreparedStatement pstmt = null;
-				ResultSet rs = null;
 				try
 				{
-					pstmt = DB.prepareStatement(sql, null);
-					pstmt.setInt(1, Env.getAD_Client_ID(Env.getCtx()));
-					rs = pstmt.executeQuery();
-					while (rs.next()) {				
-						appendToHome = rs.getString("HTML");
+					for (final MDashboardContent dp : MDashboardContent.getForSession())
+					{
+						if (!Util.isEmpty(dp.getZulFilePath(), true))
+							continue;
+						//
+						appendToHome = dp.getHTML();
 						if (appendToHome != null) {
-							if (rs.getString("DESCRIPTION") != null)
-								result += "<H2>" + rs.getString("DESCRIPTION") + "</H2>\n";
+							if (dp.getDescription() != null)
+								result += "<H2>" + dp.getDescription() + "</H2>\n";
 							result += stripHtml(appendToHome, false) + "<br>\n";
 						}
 						
-						if (rs.getInt("AD_MENU_ID") > 0) {
+						if (dp.getAD_Menu_ID() > 0) {
 							result += "<a class=\"hrefNode\" href=\"http:///window/node#" 
-								   + String.valueOf( rs.getInt("AD_WINDOW_ID")// "AD_MENU_ID") fcsku 3.7.07
+								   + String.valueOf( dp.getAD_Window_ID() // "AD_MENU_ID") fcsku 3.7.07
 								   + "\">" 	
-								   + rs.getString("DESCRIPTION")
+								   + dp.getDescription()
 								   + "</a><br>\n");
 						}
 						result += "<br>\n";
 						//result += "table id: " + rs.getInt("AD_TABLE_ID");
-						if (rs.getInt("PA_GOAL_ID") > 0)
-							result += goalsDetail(rs.getInt("PA_GOAL_ID"));
-							//result += goalsDetail(rs.getInt("AD_TABLE_ID"));
+						if (dp.getPA_Goal_ID() > 0)
+							result += goalsDetail(dp.getPA_Goal_ID());
 					}
 				}
-				catch (SQLException e)
+				catch (Exception e)
 				{
-					log.log(Level.SEVERE, sql, e);
+					log.log(Level.SEVERE, e.getLocalizedMessage(), e);
 				}
 				finally
 				{
-					DB.close(rs, pstmt);
-					rs = null; pstmt = null;
 				}
 				result += "<br><br><br>\n"
 				+ "</div>\n</body>\n</html>\n";

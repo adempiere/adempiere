@@ -32,7 +32,7 @@ public class X_I_Order extends PO implements I_I_Order, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_I_Order (Properties ctx, int I_Order_ID, String trxName)
@@ -73,6 +73,57 @@ public class X_I_Order extends PO implements I_I_Order, I_Persistent
       return sb.toString();
     }
 
+	/** Set Trx Organization.
+		@param AD_OrgTrx_ID 
+		Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
+	{
+		if (AD_OrgTrx_ID < 1) 
+			set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
+	}
+
+	/** Get Trx Organization.
+		@return Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_OrgTrx_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
+			.getPO(getAD_User_ID(), get_TrxName());	}
+
+	/** Set User/Contact.
+		@param AD_User_ID 
+		User within the system - Internal or Business Partner Contact
+	  */
+	public void setAD_User_ID (int AD_User_ID)
+	{
+		if (AD_User_ID < 1) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+	}
+
+	/** Get User/Contact.
+		@return User within the system - Internal or Business Partner Contact
+	  */
+	public int getAD_User_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Address 1.
 		@param Address1 
 		Address line 1 for this location
@@ -107,60 +158,26 @@ public class X_I_Order extends PO implements I_I_Order, I_Persistent
 		return (String)get_Value(COLUMNNAME_Address2);
 	}
 
-	/** Set Trx Organization.
-		@param AD_OrgTrx_ID 
-		Performing or initiating organization
+	/** Set Business Partner Key.
+		@param BPartnerValue 
+		Key of the Business Partner
 	  */
-	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
+	public void setBPartnerValue (String BPartnerValue)
 	{
-		if (AD_OrgTrx_ID < 1) 
-			set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
+		set_Value (COLUMNNAME_BPartnerValue, BPartnerValue);
 	}
 
-	/** Get Trx Organization.
-		@return Performing or initiating organization
+	/** Get Business Partner Key.
+		@return Key of the Business Partner
 	  */
-	public int getAD_OrgTrx_ID () 
+	public String getBPartnerValue () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_OrgTrx_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		return (String)get_Value(COLUMNNAME_BPartnerValue);
 	}
 
-	public I_AD_User getAD_User() throws RuntimeException
+	public org.compiere.model.I_C_BPartner_Location getBillTo() throws RuntimeException
     {
-		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
-			.getPO(getAD_User_ID(), get_TrxName());	}
-
-	/** Set User/Contact.
-		@param AD_User_ID 
-		User within the system - Internal or Business Partner Contact
-	  */
-	public void setAD_User_ID (int AD_User_ID)
-	{
-		if (AD_User_ID < 1) 
-			set_Value (COLUMNNAME_AD_User_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
-	}
-
-	/** Get User/Contact.
-		@return User within the system - Internal or Business Partner Contact
-	  */
-	public int getAD_User_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_BPartner_Location getBillTo() throws RuntimeException
-    {
-		return (I_C_BPartner_Location)MTable.get(getCtx(), I_C_BPartner_Location.Table_Name)
+		return (org.compiere.model.I_C_BPartner_Location)MTable.get(getCtx(), org.compiere.model.I_C_BPartner_Location.Table_Name)
 			.getPO(getBillTo_ID(), get_TrxName());	}
 
 	/** Set Invoice To.
@@ -186,26 +203,9 @@ public class X_I_Order extends PO implements I_I_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Business Partner Key.
-		@param BPartnerValue 
-		Key of the Business Partner
-	  */
-	public void setBPartnerValue (String BPartnerValue)
-	{
-		set_Value (COLUMNNAME_BPartnerValue, BPartnerValue);
-	}
-
-	/** Get Business Partner Key.
-		@return Key of the Business Partner
-	  */
-	public String getBPartnerValue () 
-	{
-		return (String)get_Value(COLUMNNAME_BPartnerValue);
-	}
-
-	public I_C_Activity getC_Activity() throws RuntimeException
+	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException
     {
-		return (I_C_Activity)MTable.get(getCtx(), I_C_Activity.Table_Name)
+		return (org.compiere.model.I_C_Activity)MTable.get(getCtx(), org.compiere.model.I_C_Activity.Table_Name)
 			.getPO(getC_Activity_ID(), get_TrxName());	}
 
 	/** Set Activity.
@@ -231,9 +231,9 @@ public class X_I_Order extends PO implements I_I_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -259,9 +259,9 @@ public class X_I_Order extends PO implements I_I_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException
+	public org.compiere.model.I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException
     {
-		return (I_C_BPartner_Location)MTable.get(getCtx(), I_C_BPartner_Location.Table_Name)
+		return (org.compiere.model.I_C_BPartner_Location)MTable.get(getCtx(), org.compiere.model.I_C_BPartner_Location.Table_Name)
 			.getPO(getC_BPartner_Location_ID(), get_TrxName());	}
 
 	/** Set Partner Location.
@@ -287,9 +287,9 @@ public class X_I_Order extends PO implements I_I_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Campaign getC_Campaign() throws RuntimeException
+	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException
     {
-		return (I_C_Campaign)MTable.get(getCtx(), I_C_Campaign.Table_Name)
+		return (org.compiere.model.I_C_Campaign)MTable.get(getCtx(), org.compiere.model.I_C_Campaign.Table_Name)
 			.getPO(getC_Campaign_ID(), get_TrxName());	}
 
 	/** Set Campaign.
@@ -315,9 +315,9 @@ public class X_I_Order extends PO implements I_I_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Charge getC_Charge() throws RuntimeException
+	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException
     {
-		return (I_C_Charge)MTable.get(getCtx(), I_C_Charge.Table_Name)
+		return (org.compiere.model.I_C_Charge)MTable.get(getCtx(), org.compiere.model.I_C_Charge.Table_Name)
 			.getPO(getC_Charge_ID(), get_TrxName());	}
 
 	/** Set Charge.
@@ -343,9 +343,9 @@ public class X_I_Order extends PO implements I_I_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Country getC_Country() throws RuntimeException
+	public org.compiere.model.I_C_Country getC_Country() throws RuntimeException
     {
-		return (I_C_Country)MTable.get(getCtx(), I_C_Country.Table_Name)
+		return (org.compiere.model.I_C_Country)MTable.get(getCtx(), org.compiere.model.I_C_Country.Table_Name)
 			.getPO(getC_Country_ID(), get_TrxName());	}
 
 	/** Set Country.
@@ -371,9 +371,9 @@ public class X_I_Order extends PO implements I_I_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Currency getC_Currency() throws RuntimeException
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException
     {
-		return (I_C_Currency)MTable.get(getCtx(), I_C_Currency.Table_Name)
+		return (org.compiere.model.I_C_Currency)MTable.get(getCtx(), org.compiere.model.I_C_Currency.Table_Name)
 			.getPO(getC_Currency_ID(), get_TrxName());	}
 
 	/** Set Currency.
@@ -399,9 +399,9 @@ public class X_I_Order extends PO implements I_I_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_DocType getC_DocType() throws RuntimeException
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException
     {
-		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
 			.getPO(getC_DocType_ID(), get_TrxName());	}
 
 	/** Set Document Type.
@@ -422,6 +422,269 @@ public class X_I_Order extends PO implements I_I_Order, I_Persistent
 	public int getC_DocType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Location getC_Location() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Location)MTable.get(getCtx(), org.compiere.model.I_C_Location.Table_Name)
+			.getPO(getC_Location_ID(), get_TrxName());	}
+
+	/** Set Address.
+		@param C_Location_ID 
+		Location or Address
+	  */
+	public void setC_Location_ID (int C_Location_ID)
+	{
+		if (C_Location_ID < 1) 
+			set_Value (COLUMNNAME_C_Location_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Location_ID, Integer.valueOf(C_Location_ID));
+	}
+
+	/** Get Address.
+		@return Location or Address
+	  */
+	public int getC_Location_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Location_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_OrderLine getC_OrderLine() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_OrderLine)MTable.get(getCtx(), org.compiere.model.I_C_OrderLine.Table_Name)
+			.getPO(getC_OrderLine_ID(), get_TrxName());	}
+
+	/** Set Sales Order Line.
+		@param C_OrderLine_ID 
+		Sales Order Line
+	  */
+	public void setC_OrderLine_ID (int C_OrderLine_ID)
+	{
+		if (C_OrderLine_ID < 1) 
+			set_Value (COLUMNNAME_C_OrderLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_OrderLine_ID, Integer.valueOf(C_OrderLine_ID));
+	}
+
+	/** Get Sales Order Line.
+		@return Sales Order Line
+	  */
+	public int getC_OrderLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_OrderLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Order Source Key.
+		@param C_OrderSourceValue Order Source Key	  */
+	public void setC_OrderSourceValue (String C_OrderSourceValue)
+	{
+		set_Value (COLUMNNAME_C_OrderSourceValue, C_OrderSourceValue);
+	}
+
+	/** Get Order Source Key.
+		@return Order Source Key	  */
+	public String getC_OrderSourceValue () 
+	{
+		return (String)get_Value(COLUMNNAME_C_OrderSourceValue);
+	}
+
+	public org.compiere.model.I_C_OrderSource getC_OrderSource() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_OrderSource)MTable.get(getCtx(), org.compiere.model.I_C_OrderSource.Table_Name)
+			.getPO(getC_OrderSource_ID(), get_TrxName());	}
+
+	/** Set Order Source.
+		@param C_OrderSource_ID Order Source	  */
+	public void setC_OrderSource_ID (int C_OrderSource_ID)
+	{
+		if (C_OrderSource_ID < 1) 
+			set_Value (COLUMNNAME_C_OrderSource_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_OrderSource_ID, Integer.valueOf(C_OrderSource_ID));
+	}
+
+	/** Get Order Source.
+		@return Order Source	  */
+	public int getC_OrderSource_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_OrderSource_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Order)MTable.get(getCtx(), org.compiere.model.I_C_Order.Table_Name)
+			.getPO(getC_Order_ID(), get_TrxName());	}
+
+	/** Set Order.
+		@param C_Order_ID 
+		Order
+	  */
+	public void setC_Order_ID (int C_Order_ID)
+	{
+		if (C_Order_ID < 1) 
+			set_Value (COLUMNNAME_C_Order_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
+	}
+
+	/** Get Order.
+		@return Order
+	  */
+	public int getC_Order_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Order_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_PaymentTerm)MTable.get(getCtx(), org.compiere.model.I_C_PaymentTerm.Table_Name)
+			.getPO(getC_PaymentTerm_ID(), get_TrxName());	}
+
+	/** Set Payment Term.
+		@param C_PaymentTerm_ID 
+		The terms of Payment (timing, discount)
+	  */
+	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
+	{
+		if (C_PaymentTerm_ID < 1) 
+			set_Value (COLUMNNAME_C_PaymentTerm_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_PaymentTerm_ID, Integer.valueOf(C_PaymentTerm_ID));
+	}
+
+	/** Get Payment Term.
+		@return The terms of Payment (timing, discount)
+	  */
+	public int getC_PaymentTerm_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaymentTerm_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
+			.getPO(getC_Project_ID(), get_TrxName());	}
+
+	/** Set Project.
+		@param C_Project_ID 
+		Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID)
+	{
+		if (C_Project_ID < 1) 
+			set_Value (COLUMNNAME_C_Project_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
+	}
+
+	/** Get Project.
+		@return Financial Project
+	  */
+	public int getC_Project_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Region getC_Region() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Region)MTable.get(getCtx(), org.compiere.model.I_C_Region.Table_Name)
+			.getPO(getC_Region_ID(), get_TrxName());	}
+
+	/** Set Region.
+		@param C_Region_ID 
+		Identifies a geographical Region
+	  */
+	public void setC_Region_ID (int C_Region_ID)
+	{
+		if (C_Region_ID < 1) 
+			set_Value (COLUMNNAME_C_Region_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Region_ID, Integer.valueOf(C_Region_ID));
+	}
+
+	/** Get Region.
+		@return Identifies a geographical Region
+	  */
+	public int getC_Region_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Region_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Tax getC_Tax() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Tax)MTable.get(getCtx(), org.compiere.model.I_C_Tax.Table_Name)
+			.getPO(getC_Tax_ID(), get_TrxName());	}
+
+	/** Set Tax.
+		@param C_Tax_ID 
+		Tax identifier
+	  */
+	public void setC_Tax_ID (int C_Tax_ID)
+	{
+		if (C_Tax_ID < 1) 
+			set_Value (COLUMNNAME_C_Tax_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Tax_ID, Integer.valueOf(C_Tax_ID));
+	}
+
+	/** Get Tax.
+		@return Tax identifier
+	  */
+	public int getC_Tax_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Tax_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_UOM)MTable.get(getCtx(), org.compiere.model.I_C_UOM.Table_Name)
+			.getPO(getC_UOM_ID(), get_TrxName());	}
+
+	/** Set UOM.
+		@param C_UOM_ID 
+		Unit of Measure
+	  */
+	public void setC_UOM_ID (int C_UOM_ID)
+	{
+		if (C_UOM_ID < 1) 
+			set_Value (COLUMNNAME_C_UOM_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
+	}
+
+	/** Get UOM.
+		@return Unit of Measure
+	  */
+	public int getC_UOM_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_UOM_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -461,34 +724,6 @@ public class X_I_Order extends PO implements I_I_Order, I_Persistent
 		return (String)get_Value(COLUMNNAME_City);
 	}
 
-	public I_C_Location getC_Location() throws RuntimeException
-    {
-		return (I_C_Location)MTable.get(getCtx(), I_C_Location.Table_Name)
-			.getPO(getC_Location_ID(), get_TrxName());	}
-
-	/** Set Address.
-		@param C_Location_ID 
-		Location or Address
-	  */
-	public void setC_Location_ID (int C_Location_ID)
-	{
-		if (C_Location_ID < 1) 
-			set_Value (COLUMNNAME_C_Location_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_Location_ID, Integer.valueOf(C_Location_ID));
-	}
-
-	/** Get Address.
-		@return Location or Address
-	  */
-	public int getC_Location_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Location_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Contact Name.
 		@param ContactName 
 		Business Partner Contact Name
@@ -506,101 +741,6 @@ public class X_I_Order extends PO implements I_I_Order, I_Persistent
 		return (String)get_Value(COLUMNNAME_ContactName);
 	}
 
-	public I_C_Order getC_Order() throws RuntimeException
-    {
-		return (I_C_Order)MTable.get(getCtx(), I_C_Order.Table_Name)
-			.getPO(getC_Order_ID(), get_TrxName());	}
-
-	/** Set Order.
-		@param C_Order_ID 
-		Order
-	  */
-	public void setC_Order_ID (int C_Order_ID)
-	{
-		if (C_Order_ID < 1) 
-			set_Value (COLUMNNAME_C_Order_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
-	}
-
-	/** Get Order.
-		@return Order
-	  */
-	public int getC_Order_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Order_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_OrderLine getC_OrderLine() throws RuntimeException
-    {
-		return (I_C_OrderLine)MTable.get(getCtx(), I_C_OrderLine.Table_Name)
-			.getPO(getC_OrderLine_ID(), get_TrxName());	}
-
-	/** Set Sales Order Line.
-		@param C_OrderLine_ID 
-		Sales Order Line
-	  */
-	public void setC_OrderLine_ID (int C_OrderLine_ID)
-	{
-		if (C_OrderLine_ID < 1) 
-			set_Value (COLUMNNAME_C_OrderLine_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_OrderLine_ID, Integer.valueOf(C_OrderLine_ID));
-	}
-
-	/** Get Sales Order Line.
-		@return Sales Order Line
-	  */
-	public int getC_OrderLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_OrderLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_OrderSource getC_OrderSource() throws RuntimeException
-    {
-		return (I_C_OrderSource)MTable.get(getCtx(), I_C_OrderSource.Table_Name)
-			.getPO(getC_OrderSource_ID(), get_TrxName());	}
-
-	/** Set Order Source.
-		@param C_OrderSource_ID Order Source	  */
-	public void setC_OrderSource_ID (int C_OrderSource_ID)
-	{
-		if (C_OrderSource_ID < 1) 
-			set_Value (COLUMNNAME_C_OrderSource_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_OrderSource_ID, Integer.valueOf(C_OrderSource_ID));
-	}
-
-	/** Get Order Source.
-		@return Order Source	  */
-	public int getC_OrderSource_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_OrderSource_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Order Source Key.
-		@param C_OrderSourceValue Order Source Key	  */
-	public void setC_OrderSourceValue (String C_OrderSourceValue)
-	{
-		set_Value (COLUMNNAME_C_OrderSourceValue, C_OrderSourceValue);
-	}
-
-	/** Get Order Source Key.
-		@return Order Source Key	  */
-	public String getC_OrderSourceValue () 
-	{
-		return (String)get_Value(COLUMNNAME_C_OrderSourceValue);
-	}
-
 	/** Set ISO Country Code.
 		@param CountryCode 
 		Upper-case two-letter alphanumeric ISO Country code according to ISO 3166-1 - http://www.chemie.fu-berlin.de/diverse/doc/ISO_3166.html
@@ -616,146 +756,6 @@ public class X_I_Order extends PO implements I_I_Order, I_Persistent
 	public String getCountryCode () 
 	{
 		return (String)get_Value(COLUMNNAME_CountryCode);
-	}
-
-	public I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException
-    {
-		return (I_C_PaymentTerm)MTable.get(getCtx(), I_C_PaymentTerm.Table_Name)
-			.getPO(getC_PaymentTerm_ID(), get_TrxName());	}
-
-	/** Set Payment Term.
-		@param C_PaymentTerm_ID 
-		The terms of Payment (timing, discount)
-	  */
-	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
-	{
-		if (C_PaymentTerm_ID < 1) 
-			set_Value (COLUMNNAME_C_PaymentTerm_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_PaymentTerm_ID, Integer.valueOf(C_PaymentTerm_ID));
-	}
-
-	/** Get Payment Term.
-		@return The terms of Payment (timing, discount)
-	  */
-	public int getC_PaymentTerm_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaymentTerm_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_Project getC_Project() throws RuntimeException
-    {
-		return (I_C_Project)MTable.get(getCtx(), I_C_Project.Table_Name)
-			.getPO(getC_Project_ID(), get_TrxName());	}
-
-	/** Set Project.
-		@param C_Project_ID 
-		Financial Project
-	  */
-	public void setC_Project_ID (int C_Project_ID)
-	{
-		if (C_Project_ID < 1) 
-			set_Value (COLUMNNAME_C_Project_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
-	}
-
-	/** Get Project.
-		@return Financial Project
-	  */
-	public int getC_Project_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_Region getC_Region() throws RuntimeException
-    {
-		return (I_C_Region)MTable.get(getCtx(), I_C_Region.Table_Name)
-			.getPO(getC_Region_ID(), get_TrxName());	}
-
-	/** Set Region.
-		@param C_Region_ID 
-		Identifies a geographical Region
-	  */
-	public void setC_Region_ID (int C_Region_ID)
-	{
-		if (C_Region_ID < 1) 
-			set_Value (COLUMNNAME_C_Region_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_Region_ID, Integer.valueOf(C_Region_ID));
-	}
-
-	/** Get Region.
-		@return Identifies a geographical Region
-	  */
-	public int getC_Region_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Region_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_Tax getC_Tax() throws RuntimeException
-    {
-		return (I_C_Tax)MTable.get(getCtx(), I_C_Tax.Table_Name)
-			.getPO(getC_Tax_ID(), get_TrxName());	}
-
-	/** Set Tax.
-		@param C_Tax_ID 
-		Tax identifier
-	  */
-	public void setC_Tax_ID (int C_Tax_ID)
-	{
-		if (C_Tax_ID < 1) 
-			set_Value (COLUMNNAME_C_Tax_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_Tax_ID, Integer.valueOf(C_Tax_ID));
-	}
-
-	/** Get Tax.
-		@return Tax identifier
-	  */
-	public int getC_Tax_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Tax_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_UOM getC_UOM() throws RuntimeException
-    {
-		return (I_C_UOM)MTable.get(getCtx(), I_C_UOM.Table_Name)
-			.getPO(getC_UOM_ID(), get_TrxName());	}
-
-	/** Set UOM.
-		@param C_UOM_ID 
-		Unit of Measure
-	  */
-	public void setC_UOM_ID (int C_UOM_ID)
-	{
-		if (C_UOM_ID < 1) 
-			set_Value (COLUMNNAME_C_UOM_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
-	}
-
-	/** Get UOM.
-		@return Unit of Measure
-	  */
-	public int getC_UOM_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_UOM_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set Account Date.
@@ -1017,9 +1017,9 @@ public class X_I_Order extends PO implements I_I_Order, I_Persistent
 		return (String)get_Value(COLUMNNAME_LineDescription);
 	}
 
-	public I_M_PriceList getM_PriceList() throws RuntimeException
+	public org.compiere.model.I_M_PriceList getM_PriceList() throws RuntimeException
     {
-		return (I_M_PriceList)MTable.get(getCtx(), I_M_PriceList.Table_Name)
+		return (org.compiere.model.I_M_PriceList)MTable.get(getCtx(), org.compiere.model.I_M_PriceList.Table_Name)
 			.getPO(getM_PriceList_ID(), get_TrxName());	}
 
 	/** Set Price List.
@@ -1045,9 +1045,9 @@ public class X_I_Order extends PO implements I_I_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.
@@ -1073,9 +1073,9 @@ public class X_I_Order extends PO implements I_I_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Shipper getM_Shipper() throws RuntimeException
+	public org.compiere.model.I_M_Shipper getM_Shipper() throws RuntimeException
     {
-		return (I_M_Shipper)MTable.get(getCtx(), I_M_Shipper.Table_Name)
+		return (org.compiere.model.I_M_Shipper)MTable.get(getCtx(), org.compiere.model.I_M_Shipper.Table_Name)
 			.getPO(getM_Shipper_ID(), get_TrxName());	}
 
 	/** Set Shipper.
@@ -1101,9 +1101,9 @@ public class X_I_Order extends PO implements I_I_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Warehouse getM_Warehouse() throws RuntimeException
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException
     {
-		return (I_M_Warehouse)MTable.get(getCtx(), I_M_Warehouse.Table_Name)
+		return (org.compiere.model.I_M_Warehouse)MTable.get(getCtx(), org.compiere.model.I_M_Warehouse.Table_Name)
 			.getPO(getM_Warehouse_ID(), get_TrxName());	}
 
 	/** Set Warehouse.
@@ -1316,9 +1316,26 @@ public class X_I_Order extends PO implements I_I_Order, I_Persistent
 		return (String)get_Value(COLUMNNAME_RegionName);
 	}
 
-	public I_AD_User getSalesRep() throws RuntimeException
+	/** Set SKU.
+		@param SKU 
+		Stock Keeping Unit
+	  */
+	public void setSKU (String SKU)
+	{
+		set_Value (COLUMNNAME_SKU, SKU);
+	}
+
+	/** Get SKU.
+		@return Stock Keeping Unit
+	  */
+	public String getSKU () 
+	{
+		return (String)get_Value(COLUMNNAME_SKU);
+	}
+
+	public org.compiere.model.I_AD_User getSalesRep() throws RuntimeException
     {
-		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getSalesRep_ID(), get_TrxName());	}
 
 	/** Set Sales Representative.
@@ -1342,23 +1359,6 @@ public class X_I_Order extends PO implements I_I_Order, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set SKU.
-		@param SKU 
-		Stock Keeping Unit
-	  */
-	public void setSKU (String SKU)
-	{
-		set_Value (COLUMNNAME_SKU, SKU);
-	}
-
-	/** Get SKU.
-		@return Stock Keeping Unit
-	  */
-	public String getSKU () 
-	{
-		return (String)get_Value(COLUMNNAME_SKU);
 	}
 
 	/** Set Tax Amount.

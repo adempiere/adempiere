@@ -23,8 +23,11 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.logging.Level;
 
+import org.adempiere.model.ImportValidator;
+import org.adempiere.process.ImportProcess;
 import org.compiere.model.MProduct;
 import org.compiere.model.MProductPrice;
+import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.X_I_Product;
 import org.compiere.util.DB;
 
@@ -33,8 +36,12 @@ import org.compiere.util.DB;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: ImportProduct.java,v 1.3 2006/07/30 00:51:01 jjanke Exp $
+ * 
+ * @author Carlos Ruiz, globalqss
+ * 			<li>FR [ 2788278 ] Data Import Validator - migrate core processes
+ * 				https://sourceforge.net/tracker/?func=detail&aid=2788278&group_id=176962&atid=879335
  */
-public class ImportProduct extends SvrProcess
+public class ImportProduct extends SvrProcess implements ImportProcess
 {
 	/**	Client to be imported to		*/
 	private int				m_AD_Client_ID = 0;
@@ -78,7 +85,7 @@ public class ImportProduct extends SvrProcess
 	{
 		StringBuffer sql = null;
 		int no = 0;
-		String clientCheck = " AND AD_Client_ID=" + m_AD_Client_ID;
+		String clientCheck = getWhereClause();
 
 		//	****	Prepare	****
 
@@ -107,6 +114,8 @@ public class ImportProduct extends SvrProcess
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.info("Reset=" + no);
 
+		ModelValidationEngine.get().fireImportValidate(this, null, null, ImportValidator.TIMING_BEFORE_VALIDATE);
+		
 		//	Set Optional BPartner
 		sql = new StringBuffer ("UPDATE I_Product i "
 			+ "SET C_BPartner_ID=(SELECT C_BPartner_ID FROM C_BPartner p"
@@ -378,6 +387,8 @@ public class ImportProduct extends SvrProcess
 		}
 		log.fine("C_TaxCategory_ID=" + C_TaxCategory_ID);
 
+		ModelValidationEngine.get().fireImportValidate(this, null, null, ImportValidator.TIMING_AFTER_VALIDATE);
+
 		commitEx();
 		
 		//	-------------------------------------------------------------------
@@ -484,6 +495,7 @@ public class ImportProduct extends SvrProcess
 				{
 					MProduct product = new MProduct(imp);
 					product.setC_TaxCategory_ID(C_TaxCategory_ID);
+					ModelValidationEngine.get().fireImportValidate(this, imp, product, ImportValidator.TIMING_AFTER_IMPORT);
 					if (product.save())
 					{
 						M_Product_ID = product.getM_Product_ID();
@@ -619,6 +631,7 @@ public class ImportProduct extends SvrProcess
 							pp = new MProductPrice (getCtx(), 
 								p_M_PriceList_Version_ID, M_Product_ID, get_TrxName());
 						pp.setPrices(PriceList, PriceStd, PriceLimit);
+						ModelValidationEngine.get().fireImportValidate(this, imp, pp, ImportValidator.TIMING_AFTER_IMPORT);
 						pp.save();
 					}
 				}
@@ -657,5 +670,17 @@ public class ImportProduct extends SvrProcess
 		addLog (0, null, new BigDecimal (noUpdatePO), "@M_Product_ID@ @Purchase@: @Updated@");
 		return "";
 	}	//	doIt
+
+
+	@Override
+	public String getImportTableName() {
+		return X_I_Product.Table_Name;
+	}
+
+
+	@Override
+	public String getWhereClause() {
+		return " AND AD_Client_ID=" + m_AD_Client_ID;
+	}
 
 }	//	ImportProduct

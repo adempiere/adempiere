@@ -109,9 +109,9 @@ public class OrderBatchProcess extends SvrProcess
 		if (p_C_BPartner_ID != 0)
 			sql.append(" AND o.C_BPartner_ID=").append(p_C_BPartner_ID);
 		if (p_DateOrdered_From != null)
-			sql.append(" AND TRUNC(o.DateOrdered) >= ").append(DB.TO_DATE(p_DateOrdered_From, true));
+			sql.append(" AND TRUNC(o.DateOrdered, 'DD') >= ").append(DB.TO_DATE(p_DateOrdered_From, true));
 		if (p_DateOrdered_To != null)
-			sql.append(" AND TRUNC(o.DateOrdered) <= ").append(DB.TO_DATE(p_DateOrdered_To, true));
+			sql.append(" AND TRUNC(o.DateOrdered, 'DD') <= ").append(DB.TO_DATE(p_DateOrdered_To, true));
 		if ("Y".equals(p_IsDelivered))
 			sql.append(" AND NOT EXISTS (SELECT l.C_OrderLine_ID FROM C_OrderLine l ")
 			.append(" WHERE l.C_Order_ID=o.C_Order_ID AND l.QtyOrdered>l.QtyDelivered) ");

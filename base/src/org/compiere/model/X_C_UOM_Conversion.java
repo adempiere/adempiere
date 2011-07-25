@@ -32,7 +32,7 @@ public class X_C_UOM_Conversion extends PO implements I_C_UOM_Conversion, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_C_UOM_Conversion (Properties ctx, int C_UOM_Conversion_ID, String trxName)
@@ -107,9 +107,9 @@ public class X_C_UOM_Conversion extends PO implements I_C_UOM_Conversion, I_Pers
         return new KeyNamePair(get_ID(), String.valueOf(getC_UOM_Conversion_ID()));
     }
 
-	public I_C_UOM getC_UOM() throws RuntimeException
+	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException
     {
-		return (I_C_UOM)MTable.get(getCtx(), I_C_UOM.Table_Name)
+		return (org.compiere.model.I_C_UOM)MTable.get(getCtx(), org.compiere.model.I_C_UOM.Table_Name)
 			.getPO(getC_UOM_ID(), get_TrxName());	}
 
 	/** Set UOM.
@@ -135,9 +135,9 @@ public class X_C_UOM_Conversion extends PO implements I_C_UOM_Conversion, I_Pers
 		return ii.intValue();
 	}
 
-	public I_C_UOM getC_UOM_To() throws RuntimeException
+	public org.compiere.model.I_C_UOM getC_UOM_To() throws RuntimeException
     {
-		return (I_C_UOM)MTable.get(getCtx(), I_C_UOM.Table_Name)
+		return (org.compiere.model.I_C_UOM)MTable.get(getCtx(), org.compiere.model.I_C_UOM.Table_Name)
 			.getPO(getC_UOM_To_ID(), get_TrxName());	}
 
 	/** Set UoM To.
@@ -183,9 +183,9 @@ public class X_C_UOM_Conversion extends PO implements I_C_UOM_Conversion, I_Pers
 		return bd;
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.

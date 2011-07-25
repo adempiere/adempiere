@@ -30,7 +30,7 @@ public class X_C_DocTypeCounter extends PO implements I_C_DocTypeCounter, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_C_DocTypeCounter (Properties ctx, int C_DocTypeCounter_ID, String trxName)
@@ -99,9 +99,9 @@ public class X_C_DocTypeCounter extends PO implements I_C_DocTypeCounter, I_Pers
 		return ii.intValue();
 	}
 
-	public I_C_DocType getC_DocType() throws RuntimeException
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException
     {
-		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
 			.getPO(getC_DocType_ID(), get_TrxName());	}
 
 	/** Set Document Type.
@@ -127,9 +127,9 @@ public class X_C_DocTypeCounter extends PO implements I_C_DocTypeCounter, I_Pers
 		return ii.intValue();
 	}
 
-	public I_C_DocType getCounter_C_DocType() throws RuntimeException
+	public org.compiere.model.I_C_DocType getCounter_C_DocType() throws RuntimeException
     {
-		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
 			.getPO(getCounter_C_DocType_ID(), get_TrxName());	}
 
 	/** Set Counter Document Type.

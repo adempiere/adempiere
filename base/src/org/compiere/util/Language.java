@@ -55,6 +55,7 @@ public class Language implements Serializable
 	/** Additional Languages         */
 	private static final String AD_Language_en_GB = "en_GB";
 	private static final String AD_Language_en_AU = "en_AU";
+    private static final String AD_Language_en_CA = "en_CA";
 	private static final String AD_Language_ca_ES = "ca_ES";
 	private static final String AD_Language_hr_HR = "hr_HR";
 	private static final String AD_Language_de_DE = "de_DE";
@@ -121,6 +122,9 @@ public class Language implements Serializable
 		new Language ("English (UK)",
 			AD_Language_en_GB,  Locale.UK,      null, null,
 			MediaSize.ISO.A4),
+		new Language ("English (CA)",
+	        AD_Language_en_CA,  new Locale("en","CA"),      null, "MM/dd/yyyy",
+	        MediaSize.NA.LETTER),                               //  Canadian English	
 		new Language ("Espa\u00f1ol",
 			AD_Language_es_ES,  new Locale("es","ES"), new Boolean(false), "dd/MM/yyyy",
 			MediaSize.ISO.A4),
@@ -406,7 +410,8 @@ public class Language implements Serializable
 	 */
 	public static Language getLoginLanguage ()
 	{
-		return s_loginLanguage;
+		// return s_loginLanguage; // See bug [2946164]
+		return Env.getLanguage(Env.getCtx());
 	}   //  getLanguage
 
 	/**

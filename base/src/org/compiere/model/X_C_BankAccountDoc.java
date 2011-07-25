@@ -30,7 +30,7 @@ public class X_C_BankAccountDoc extends PO implements I_C_BankAccountDoc, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_C_BankAccountDoc (Properties ctx, int C_BankAccountDoc_ID, String trxName)
@@ -97,9 +97,9 @@ public class X_C_BankAccountDoc extends PO implements I_C_BankAccountDoc, I_Pers
 		return ii.intValue();
 	}
 
-	public I_C_BankAccount getC_BankAccount() throws RuntimeException
+	public org.compiere.model.I_C_BankAccount getC_BankAccount() throws RuntimeException
     {
-		return (I_C_BankAccount)MTable.get(getCtx(), I_C_BankAccount.Table_Name)
+		return (org.compiere.model.I_C_BankAccount)MTable.get(getCtx(), org.compiere.model.I_C_BankAccount.Table_Name)
 			.getPO(getC_BankAccount_ID(), get_TrxName());	}
 
 	/** Set Bank Account.
@@ -125,9 +125,9 @@ public class X_C_BankAccountDoc extends PO implements I_C_BankAccountDoc, I_Pers
 		return ii.intValue();
 	}
 
-	public I_AD_PrintFormat getCheck_PrintFormat() throws RuntimeException
+	public org.compiere.model.I_AD_PrintFormat getCheck_PrintFormat() throws RuntimeException
     {
-		return (I_AD_PrintFormat)MTable.get(getCtx(), I_AD_PrintFormat.Table_Name)
+		return (org.compiere.model.I_AD_PrintFormat)MTable.get(getCtx(), org.compiere.model.I_AD_PrintFormat.Table_Name)
 			.getPO(getCheck_PrintFormat_ID(), get_TrxName());	}
 
 	/** Set Check Print Format.

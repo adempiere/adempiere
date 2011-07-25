@@ -143,15 +143,6 @@ public interface I_M_Product_BOM
 	  */
 	public int getLine();
 
-    /** Column name M_Product_BOM_ID */
-    public static final String COLUMNNAME_M_Product_BOM_ID = "M_Product_BOM_ID";
-
-	/** Set BOM Line	  */
-	public void setM_Product_BOM_ID (int M_Product_BOM_ID);
-
-	/** Get BOM Line	  */
-	public int getM_Product_BOM_ID();
-
     /** Column name M_ProductBOM_ID */
     public static final String COLUMNNAME_M_ProductBOM_ID = "M_ProductBOM_ID";
 
@@ -165,7 +156,16 @@ public interface I_M_Product_BOM
 	  */
 	public int getM_ProductBOM_ID();
 
-	public I_M_Product getM_ProductBOM() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_ProductBOM() throws RuntimeException;
+
+    /** Column name M_Product_BOM_ID */
+    public static final String COLUMNNAME_M_Product_BOM_ID = "M_Product_BOM_ID";
+
+	/** Set BOM Line	  */
+	public void setM_Product_BOM_ID (int M_Product_BOM_ID);
+
+	/** Get BOM Line	  */
+	public int getM_Product_BOM_ID();
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -180,7 +180,7 @@ public interface I_M_Product_BOM
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

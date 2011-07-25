@@ -32,7 +32,7 @@ public class X_C_DunningRunLine extends PO implements I_C_DunningRunLine, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_C_DunningRunLine (Properties ctx, int C_DunningRunLine_ID, String trxName)
@@ -103,9 +103,9 @@ public class X_C_DunningRunLine extends PO implements I_C_DunningRunLine, I_Pers
 		return bd;
 	}
 
-	public I_C_DunningRunEntry getC_DunningRunEntry() throws RuntimeException
+	public org.compiere.model.I_C_DunningRunEntry getC_DunningRunEntry() throws RuntimeException
     {
-		return (I_C_DunningRunEntry)MTable.get(getCtx(), I_C_DunningRunEntry.Table_Name)
+		return (org.compiere.model.I_C_DunningRunEntry)MTable.get(getCtx(), org.compiere.model.I_C_DunningRunEntry.Table_Name)
 			.getPO(getC_DunningRunEntry_ID(), get_TrxName());	}
 
 	/** Set Dunning Run Entry.
@@ -154,9 +154,37 @@ public class X_C_DunningRunLine extends PO implements I_C_DunningRunLine, I_Pers
 		return ii.intValue();
 	}
 
-	public I_C_Invoice getC_Invoice() throws RuntimeException
+	public org.compiere.model.I_C_InvoicePaySchedule getC_InvoicePaySchedule() throws RuntimeException
     {
-		return (I_C_Invoice)MTable.get(getCtx(), I_C_Invoice.Table_Name)
+		return (org.compiere.model.I_C_InvoicePaySchedule)MTable.get(getCtx(), org.compiere.model.I_C_InvoicePaySchedule.Table_Name)
+			.getPO(getC_InvoicePaySchedule_ID(), get_TrxName());	}
+
+	/** Set Invoice Payment Schedule.
+		@param C_InvoicePaySchedule_ID 
+		Invoice Payment Schedule
+	  */
+	public void setC_InvoicePaySchedule_ID (int C_InvoicePaySchedule_ID)
+	{
+		if (C_InvoicePaySchedule_ID < 1) 
+			set_Value (COLUMNNAME_C_InvoicePaySchedule_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_InvoicePaySchedule_ID, Integer.valueOf(C_InvoicePaySchedule_ID));
+	}
+
+	/** Get Invoice Payment Schedule.
+		@return Invoice Payment Schedule
+	  */
+	public int getC_InvoicePaySchedule_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_InvoicePaySchedule_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Invoice)MTable.get(getCtx(), org.compiere.model.I_C_Invoice.Table_Name)
 			.getPO(getC_Invoice_ID(), get_TrxName());	}
 
 	/** Set Invoice.
@@ -190,57 +218,9 @@ public class X_C_DunningRunLine extends PO implements I_C_DunningRunLine, I_Pers
         return new KeyNamePair(get_ID(), String.valueOf(getC_Invoice_ID()));
     }
 
-	public I_C_InvoicePaySchedule getC_InvoicePaySchedule() throws RuntimeException
+	public org.compiere.model.I_C_Payment getC_Payment() throws RuntimeException
     {
-		return (I_C_InvoicePaySchedule)MTable.get(getCtx(), I_C_InvoicePaySchedule.Table_Name)
-			.getPO(getC_InvoicePaySchedule_ID(), get_TrxName());	}
-
-	/** Set Invoice Payment Schedule.
-		@param C_InvoicePaySchedule_ID 
-		Invoice Payment Schedule
-	  */
-	public void setC_InvoicePaySchedule_ID (int C_InvoicePaySchedule_ID)
-	{
-		if (C_InvoicePaySchedule_ID < 1) 
-			set_Value (COLUMNNAME_C_InvoicePaySchedule_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_InvoicePaySchedule_ID, Integer.valueOf(C_InvoicePaySchedule_ID));
-	}
-
-	/** Get Invoice Payment Schedule.
-		@return Invoice Payment Schedule
-	  */
-	public int getC_InvoicePaySchedule_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_InvoicePaySchedule_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Converted Amount.
-		@param ConvertedAmt 
-		Converted Amount
-	  */
-	public void setConvertedAmt (BigDecimal ConvertedAmt)
-	{
-		set_Value (COLUMNNAME_ConvertedAmt, ConvertedAmt);
-	}
-
-	/** Get Converted Amount.
-		@return Converted Amount
-	  */
-	public BigDecimal getConvertedAmt () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ConvertedAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
-	public I_C_Payment getC_Payment() throws RuntimeException
-    {
-		return (I_C_Payment)MTable.get(getCtx(), I_C_Payment.Table_Name)
+		return (org.compiere.model.I_C_Payment)MTable.get(getCtx(), org.compiere.model.I_C_Payment.Table_Name)
 			.getPO(getC_Payment_ID(), get_TrxName());	}
 
 	/** Set Payment.
@@ -264,6 +244,26 @@ public class X_C_DunningRunLine extends PO implements I_C_DunningRunLine, I_Pers
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Converted Amount.
+		@param ConvertedAmt 
+		Converted Amount
+	  */
+	public void setConvertedAmt (BigDecimal ConvertedAmt)
+	{
+		set_Value (COLUMNNAME_ConvertedAmt, ConvertedAmt);
+	}
+
+	/** Get Converted Amount.
+		@return Converted Amount
+	  */
+	public BigDecimal getConvertedAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ConvertedAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Days due.

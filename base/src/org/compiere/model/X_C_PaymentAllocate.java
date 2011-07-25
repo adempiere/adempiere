@@ -32,7 +32,7 @@ public class X_C_PaymentAllocate extends PO implements I_C_PaymentAllocate, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_C_PaymentAllocate (Properties ctx, int C_PaymentAllocate_ID, String trxName)
@@ -98,9 +98,9 @@ public class X_C_PaymentAllocate extends PO implements I_C_PaymentAllocate, I_Pe
 		return bd;
 	}
 
-	public I_C_AllocationLine getC_AllocationLine() throws RuntimeException
+	public org.compiere.model.I_C_AllocationLine getC_AllocationLine() throws RuntimeException
     {
-		return (I_C_AllocationLine)MTable.get(getCtx(), I_C_AllocationLine.Table_Name)
+		return (org.compiere.model.I_C_AllocationLine)MTable.get(getCtx(), org.compiere.model.I_C_AllocationLine.Table_Name)
 			.getPO(getC_AllocationLine_ID(), get_TrxName());	}
 
 	/** Set Allocation Line.
@@ -126,9 +126,9 @@ public class X_C_PaymentAllocate extends PO implements I_C_PaymentAllocate, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_Invoice getC_Invoice() throws RuntimeException
+	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException
     {
-		return (I_C_Invoice)MTable.get(getCtx(), I_C_Invoice.Table_Name)
+		return (org.compiere.model.I_C_Invoice)MTable.get(getCtx(), org.compiere.model.I_C_Invoice.Table_Name)
 			.getPO(getC_Invoice_ID(), get_TrxName());	}
 
 	/** Set Invoice.
@@ -185,9 +185,9 @@ public class X_C_PaymentAllocate extends PO implements I_C_PaymentAllocate, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_Payment getC_Payment() throws RuntimeException
+	public org.compiere.model.I_C_Payment getC_Payment() throws RuntimeException
     {
-		return (I_C_Payment)MTable.get(getCtx(), I_C_Payment.Table_Name)
+		return (org.compiere.model.I_C_Payment)MTable.get(getCtx(), org.compiere.model.I_C_Payment.Table_Name)
 			.getPO(getC_Payment_ID(), get_TrxName());	}
 
 	/** Set Payment.

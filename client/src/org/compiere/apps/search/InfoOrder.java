@@ -23,6 +23,10 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+import javax.swing.JPanel;
+
+import net.miginfocom.swing.MigLayout;
+
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.ALayout;
 import org.compiere.apps.ALayoutConstraint;
@@ -124,6 +128,7 @@ public class InfoOrder extends Info
 	private CLabel lAmtTo = new CLabel("-");
 	private VNumber fAmtTo = new VNumber("AmtTo", false, false, true, DisplayType.Amount, Msg.translate(Env.getCtx(), "AmtTo"));
 	private VCheckBox fIsSOTrx = new VCheckBox ("IsSOTrx", false, false, true, Msg.translate(Env.getCtx(), "IsSOTrx"), "", false);
+	private VCheckBox fIsDelivered = new VCheckBox("IsDelivered", false, false, true, Msg.translate(Env.getCtx(), "IsDelivered"), "", false);
 
 	/**  Array of Column Info    */
 	private static final Info_Column[] s_invoiceLayout = {
@@ -136,7 +141,8 @@ public class InfoOrder extends Info
 		new Info_Column(Msg.translate(Env.getCtx(), "ConvertedAmount"), "currencyBase(o.GrandTotal,o.C_Currency_ID,o.DateAcct, o.AD_Client_ID,o.AD_Org_ID)", BigDecimal.class),
 		new Info_Column(Msg.translate(Env.getCtx(), "IsSOTrx"), "o.IsSOTrx", Boolean.class),
 		new Info_Column(Msg.translate(Env.getCtx(), "Description"), "o.Description", String.class),
-		new Info_Column(Msg.translate(Env.getCtx(), "POReference"), "o.POReference", String.class)
+		new Info_Column(Msg.translate(Env.getCtx(), "POReference"), "o.POReference", String.class),
+		new Info_Column(Msg.translate(Env.getCtx(), "IsDelivered"), "o.IsDelivered", Boolean.class),
 	};
 
 	/**
@@ -156,6 +162,8 @@ public class InfoOrder extends Info
 		fPOReference.addActionListener(this);
 		fIsSOTrx.setSelected(!"N".equals(Env.getContext(Env.getCtx(), p_WindowNo, "IsSOTrx")));
 		fIsSOTrx.addActionListener(this);
+		fIsDelivered.setSelected(false);
+		fIsDelivered.addActionListener(this);
 		//
 	//	fOrg_ID = new VLookup("AD_Org_ID", false, false, true,
 	//		MLookupFactory.create(Env.getCtx(), 3486, m_WindowNo, DisplayType.TableDir, false),
@@ -180,29 +188,38 @@ public class InfoOrder extends Info
 		fAmtTo.setBackground(AdempierePLAF.getInfoBackground());
 		fAmtTo.setToolTipText(Msg.translate(Env.getCtx(), "AmtTo"));
 		//
-		parameterPanel.setLayout(new ALayout());
+		parameterPanel.setLayout(new MigLayout("", "[100][140][120][250][100]"));
 		//  First Row
-		parameterPanel.add(lDocumentNo, new ALayoutConstraint(0,0));
-		parameterPanel.add(fDocumentNo, null);
-		parameterPanel.add(lBPartner_ID, null);
-		parameterPanel.add(fBPartner_ID, null);
-		parameterPanel.add(fIsSOTrx, new ALayoutConstraint(0,5));
+		parameterPanel.add(lDocumentNo, "align right");
+		parameterPanel.add(fDocumentNo, "growx");
+		parameterPanel.add(lBPartner_ID, "align right");
+		parameterPanel.add(fBPartner_ID, "growx");
+		parameterPanel.add(fIsSOTrx, "gapleft 15,wrap");
+
 		//  2nd Row
-		parameterPanel.add(lDescription, new ALayoutConstraint(1,0));
-		parameterPanel.add(fDescription, null);
-		parameterPanel.add(lDateFrom, null);
-		parameterPanel.add(fDateFrom, null);
-		parameterPanel.add(lDateTo, null);
-		parameterPanel.add(fDateTo, null);
+		parameterPanel.add(lDescription, "align right");
+		parameterPanel.add(fDescription, "growx");
+		parameterPanel.add(lDateFrom, "align right");
+		
+		JPanel datePanel = new JPanel();
+		datePanel.setLayout(new MigLayout("insets 0","[120][min!][120]"));
+		datePanel.add(fDateFrom, "growx");
+		datePanel.add(lDateTo);
+		datePanel.add(fDateTo, "growx");
+		parameterPanel.add(datePanel);
+		parameterPanel.add(fIsDelivered, "gapleft 15,wrap");
+
 		//  3rd Row
-		parameterPanel.add(lPOReference, new ALayoutConstraint(2,0));
-		parameterPanel.add(fPOReference, null);
-		parameterPanel.add(lAmtFrom, null);
-		parameterPanel.add(fAmtFrom, null);
-		parameterPanel.add(lAmtTo, null);
-		parameterPanel.add(fAmtTo, null);
-	//	parameterPanel.add(lOrg_ID, null);
-	//	parameterPanel.add(fOrg_ID, null);
+		parameterPanel.add(lPOReference, "align right");
+		parameterPanel.add(fPOReference, "growx");
+		parameterPanel.add(lAmtFrom, "align right");
+		
+		JPanel amountPanel = new JPanel();
+		amountPanel.setLayout(new MigLayout("insets 0","[120][min!][120]"));
+		amountPanel.add(fAmtFrom, "growx");
+		amountPanel.add(lAmtTo);
+		amountPanel.add(fAmtTo, "growx");
+		parameterPanel.add(amountPanel);
 	}	//	statInit
 
 	/**
@@ -253,11 +270,11 @@ public class InfoOrder extends Info
 			Timestamp from = (Timestamp)fDateFrom.getValue();
 			Timestamp to = (Timestamp)fDateTo.getValue();
 			if (from == null && to != null)
-				sql.append(" AND TRUNC(o.DateOrdered) <= ?");
+				sql.append(" AND TRUNC(o.DateOrdered, 'DD') <= ?");
 			else if (from != null && to == null)
-				sql.append(" AND TRUNC(o.DateOrdered) >= ?");
+				sql.append(" AND TRUNC(o.DateOrdered, 'DD') >= ?");
 			else if (from != null && to != null)
-				sql.append(" AND TRUNC(o.DateOrdered) BETWEEN ? AND ?");
+				sql.append(" AND TRUNC(o.DateOrdered, 'DD') BETWEEN ? AND ?");
 		}
 		//
 		if (fAmtFrom.getValue() != null || fAmtTo.getValue() != null)
@@ -272,6 +289,7 @@ public class InfoOrder extends Info
 				sql.append(" AND o.GrandTotal BETWEEN ? AND ?");
 		}
 		sql.append(" AND o.IsSOTrx=?");
+		sql.append(" AND o.IsDelivered=?");
 
 		log.finer(sql.toString());
 		return sql.toString();
@@ -333,6 +351,7 @@ public class InfoOrder extends Info
 			}
 		}
 		pstmt.setString(index++, fIsSOTrx.isSelected() ? "Y" : "N");
+		pstmt.setString(index++, fIsDelivered.isSelected() ? "Y" : "N");
 	}   //  setParameters
 
 	/**

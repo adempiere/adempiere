@@ -29,7 +29,7 @@ public class X_AD_Package_Imp_Proc extends PO implements I_AD_Package_Imp_Proc, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_AD_Package_Imp_Proc (Properties ctx, int AD_Package_Imp_Proc_ID, String trxName)

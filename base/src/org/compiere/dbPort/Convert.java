@@ -44,13 +44,15 @@ import org.compiere.util.Ini;
  *  Convert SQL to Target DB
  *
  *  @author     Jorg Janke, Victor Perez
- *  @version    $Id: Convert.java,v 1.3 2006/07/30 00:55:04 jjanke Exp $
  *  
  *  @author Teo Sarca, www.arhipac.ro
  *  		<li>BF [ 2782095 ] Do not log *Access records
  *  			https://sourceforge.net/tracker/?func=detail&aid=2782095&group_id=176962&atid=879332
  *  		<li>TODO: BF [ 2782611 ] Migration scripts are not UTF8
  *  			https://sourceforge.net/tracker/?func=detail&aid=2782611&group_id=176962&atid=879332
+ *  @author Teo Sarca
+ *  		<li>BF [ 3137355 ] PG query not valid when contains quotes and backslashes
+ *  			https://sourceforge.net/tracker/?func=detail&aid=3137355&group_id=176962&atid=879332	
  */
 public abstract class Convert
 {
@@ -75,6 +77,8 @@ public abstract class Convert
     private static Writer writerOr;
     private static FileOutputStream tempFilePg = null;
     private static Writer writerPg;
+    private static FileOutputStream tempFileMySQL = null;
+    private static Writer writerMySQL;
 
     /**
 	 *  Set Verbose
@@ -87,7 +91,7 @@ public abstract class Convert
 
 	/**************************************************************************
 	 *  Execute SQL Statement (stops at first error).
-	 *  If an error occured hadError() returns true.
+	 *  If an error occurred hadError() returns true.
 	 *  You can get details via getConversionError() or getException()
 	 *  @param sqlStatements
 	 *  @param conn connection
@@ -180,9 +184,9 @@ public abstract class Convert
 	}   //  getException
 
 	/**
-	 *  Returns true if a conversion or execution error had occured.
+	 *  Returns true if a conversion or execution error had occurred.
 	 *  Get more details via getConversionError() or getException()
-	 *  @return true if error had occured
+	 *  @return true if error had occurred
 	 */
 	public boolean hasError()
 	{
@@ -192,7 +196,7 @@ public abstract class Convert
 	/**
 	 *  Convert SQL Statement (stops at first error).
 	 *  Statements are delimited by /
-	 *  If an error occured hadError() returns true.
+	 *  If an error occurred hadError() returns true.
 	 *  You can get details via getConversionError()
 	 *  @param sqlStatements
 	 *  @return converted statement as a string
@@ -213,7 +217,7 @@ public abstract class Convert
 
 	/**
 	 *  Convert SQL Statement (stops at first error).
-	 *  If an error occured hadError() returns true.
+	 *  If an error occurred hadError() returns true.
 	 *  You can get details via getConversionError()
 	 *  @param sqlStatements
 	 *  @return Array of converted Statements
@@ -264,7 +268,7 @@ public abstract class Convert
 	}   //  convertIt
 
 	/**
-	 * Clean up Statement. Remove trailing spaces, carrige return and tab 
+	 * Clean up Statement. Remove trailing spaces, carriage return and tab 
 	 * 
 	 * @param statement
 	 * @return sql statement
@@ -290,17 +294,25 @@ public abstract class Convert
 		// save every value  
 		// Carlos Ruiz - globalqss - better matching regexp
 		retVars.clear();
+		
+		// First we need to replace double quotes to not be matched by regexp - Teo Sarca BF [3137355 ]
+		final String quoteMarker = "<--QUOTE"+System.currentTimeMillis()+"-->";
+		inputValue = inputValue.replace("''", quoteMarker);
+		
 		Pattern p = Pattern.compile("'[[^']*]*'");
 		Matcher m = p.matcher(inputValue);
 		int i = 0;
 		StringBuffer retValue = new StringBuffer(inputValue.length());
 		while (m.find()) {
-			retVars.addElement(new String(inputValue.substring(m.start(), m.end())));
+			String var = inputValue.substring(m.start(), m.end()).replace(quoteMarker, "''"); // Put back quotes, if any
+			retVars.addElement(var);
 			m.appendReplacement(retValue, "<--" + i + "-->");
 			i++;
 		}
 		m.appendTail(retValue);
-		return retValue.toString();
+		return retValue.toString()
+			.replace(quoteMarker, "''") // Put back quotes, if any
+		;
 	}
 
 	/**
@@ -420,7 +432,7 @@ public abstract class Convert
 	 */
 	public abstract boolean isOracle();
 
-	public static void logMigrationScript(String oraStatement, String pgStatement) {
+	public static void logMigrationScript(String oraStatement, String pgStatement, String mySQLStatement) {
 		// Check AdempiereSys
 		// check property Log migration script
 		boolean logMigrationScript = Ini.isPropertyBool(Ini.P_LOGMIGRATIONSCRIPT);
@@ -452,6 +464,22 @@ public abstract class Convert
 		            writerPg = new BufferedWriter(new OutputStreamWriter(tempFilePg, "UTF8"));
 				}
 				writeLogMigrationScript(writerPg, pgStatement);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			try {
+				if (mySQLStatement == null) {
+					// if oracle call convert for MySQL before logging
+					Convert_MySQL convert = new Convert_MySQL();
+					String[] r = convert.convert(oraStatement);
+					mySQLStatement = r[0];
+				}
+				if (tempFileMySQL == null) {
+		            File fileNameMySQL = File.createTempFile("migration_script_", "_mysql.sql");
+		            tempFileMySQL = new FileOutputStream(fileNameMySQL, true);
+		            writerMySQL = new BufferedWriter(new OutputStreamWriter(tempFileMySQL, "UTF8"));
+				}
+				writeLogMigrationScript(writerMySQL, mySQLStatement);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

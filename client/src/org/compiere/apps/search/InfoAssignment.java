@@ -229,11 +229,11 @@ AND rt.C_UOM_ID=uom.C_UOM_ID
 		//
 		Timestamp ts = fieldFrom.getTimestamp();
 		if (ts != null)
-			sql.append(" AND TRUNC(ra.AssignDateFrom)>=").append(DB.TO_DATE(ts,false));
+			sql.append(" AND TRUNC(ra.AssignDateFrom, 'DD')>=").append(DB.TO_DATE(ts,false));
 		//
 		ts = fieldTo.getTimestamp();
 		if (ts != null)
-			sql.append(" AND TRUNC(ra.AssignDateTo)<=").append(DB.TO_DATE(ts,false));
+			sql.append(" AND TRUNC(ra.AssignDateTo, 'DD')<=").append(DB.TO_DATE(ts,false));
 		return sql.toString();
 	}	//	getSQLWhere
 

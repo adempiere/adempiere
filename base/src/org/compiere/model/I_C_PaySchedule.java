@@ -62,6 +62,19 @@ public interface I_C_PaySchedule
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name C_PaySchedule_ID */
+    public static final String COLUMNNAME_C_PaySchedule_ID = "C_PaySchedule_ID";
+
+	/** Set Payment Schedule.
+	  * Payment Schedule Template
+	  */
+	public void setC_PaySchedule_ID (int C_PaySchedule_ID);
+
+	/** Get Payment Schedule.
+	  * Payment Schedule Template
+	  */
+	public int getC_PaySchedule_ID();
+
     /** Column name C_PaymentTerm_ID */
     public static final String COLUMNNAME_C_PaymentTerm_ID = "C_PaymentTerm_ID";
 
@@ -75,20 +88,7 @@ public interface I_C_PaySchedule
 	  */
 	public int getC_PaymentTerm_ID();
 
-	public I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException;
-
-    /** Column name C_PaySchedule_ID */
-    public static final String COLUMNNAME_C_PaySchedule_ID = "C_PaySchedule_ID";
-
-	/** Set Payment Schedule.
-	  * Payment Schedule Template
-	  */
-	public void setC_PaySchedule_ID (int C_PaySchedule_ID);
-
-	/** Get Payment Schedule.
-	  * Payment Schedule Template
-	  */
-	public int getC_PaySchedule_ID();
+	public org.compiere.model.I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

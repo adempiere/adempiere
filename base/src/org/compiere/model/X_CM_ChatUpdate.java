@@ -29,7 +29,7 @@ public class X_CM_ChatUpdate extends PO implements I_CM_ChatUpdate, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_CM_ChatUpdate (Properties ctx, int CM_ChatUpdate_ID, String trxName)
@@ -71,9 +71,9 @@ public class X_CM_ChatUpdate extends PO implements I_CM_ChatUpdate, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_User getAD_User() throws RuntimeException
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
     {
-		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getAD_User_ID(), get_TrxName());	}
 
 	/** Set User/Contact.
@@ -99,9 +99,9 @@ public class X_CM_ChatUpdate extends PO implements I_CM_ChatUpdate, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_CM_Chat getCM_Chat() throws RuntimeException
+	public org.compiere.model.I_CM_Chat getCM_Chat() throws RuntimeException
     {
-		return (I_CM_Chat)MTable.get(getCtx(), I_CM_Chat.Table_Name)
+		return (org.compiere.model.I_CM_Chat)MTable.get(getCtx(), org.compiere.model.I_CM_Chat.Table_Name)
 			.getPO(getCM_Chat_ID(), get_TrxName());	}
 
 	/** Set Chat.

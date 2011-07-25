@@ -41,32 +41,6 @@ public interface I_C_BPartner
 
     /** Load Meta Data */
 
-    /** Column name AcqusitionCost */
-    public static final String COLUMNNAME_AcqusitionCost = "AcqusitionCost";
-
-	/** Set Acquisition Cost.
-	  * The cost of gaining the prospect as a customer
-	  */
-	public void setAcqusitionCost (BigDecimal AcqusitionCost);
-
-	/** Get Acquisition Cost.
-	  * The cost of gaining the prospect as a customer
-	  */
-	public BigDecimal getAcqusitionCost();
-
-    /** Column name ActualLifeTimeValue */
-    public static final String COLUMNNAME_ActualLifeTimeValue = "ActualLifeTimeValue";
-
-	/** Set Actual Life Time Value.
-	  * Actual Life Time Revenue
-	  */
-	public void setActualLifeTimeValue (BigDecimal ActualLifeTimeValue);
-
-	/** Get Actual Life Time Value.
-	  * Actual Life Time Revenue
-	  */
-	public BigDecimal getActualLifeTimeValue();
-
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -114,6 +88,32 @@ public interface I_C_BPartner
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name AcqusitionCost */
+    public static final String COLUMNNAME_AcqusitionCost = "AcqusitionCost";
+
+	/** Set Acquisition Cost.
+	  * The cost of gaining the prospect as a customer
+	  */
+	public void setAcqusitionCost (BigDecimal AcqusitionCost);
+
+	/** Get Acquisition Cost.
+	  * The cost of gaining the prospect as a customer
+	  */
+	public BigDecimal getAcqusitionCost();
+
+    /** Column name ActualLifeTimeValue */
+    public static final String COLUMNNAME_ActualLifeTimeValue = "ActualLifeTimeValue";
+
+	/** Set Actual Life Time Value.
+	  * Actual Life Time Revenue
+	  */
+	public void setActualLifeTimeValue (BigDecimal ActualLifeTimeValue);
+
+	/** Get Actual Life Time Value.
+	  * Actual Life Time Revenue
+	  */
+	public BigDecimal getActualLifeTimeValue();
+
     /** Column name BPartner_Parent_ID */
     public static final String COLUMNNAME_BPartner_Parent_ID = "BPartner_Parent_ID";
 
@@ -126,19 +126,6 @@ public interface I_C_BPartner
 	  * Business Partner Parent
 	  */
 	public int getBPartner_Parent_ID();
-
-    /** Column name C_BPartner_ID */
-    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
-
-	/** Set Business Partner .
-	  * Identifies a Business Partner
-	  */
-	public void setC_BPartner_ID (int C_BPartner_ID);
-
-	/** Get Business Partner .
-	  * Identifies a Business Partner
-	  */
-	public int getC_BPartner_ID();
 
     /** Column name C_BP_Group_ID */
     public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
@@ -153,7 +140,20 @@ public interface I_C_BPartner
 	  */
 	public int getC_BP_Group_ID();
 
-	public I_C_BP_Group getC_BP_Group() throws RuntimeException;
+	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException;
+
+    /** Column name C_BPartner_ID */
+    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
+
+	/** Set Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID);
+
+	/** Get Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID();
 
     /** Column name C_Dunning_ID */
     public static final String COLUMNNAME_C_Dunning_ID = "C_Dunning_ID";
@@ -168,7 +168,7 @@ public interface I_C_BPartner
 	  */
 	public int getC_Dunning_ID();
 
-	public I_C_Dunning getC_Dunning() throws RuntimeException;
+	public org.compiere.model.I_C_Dunning getC_Dunning() throws RuntimeException;
 
     /** Column name C_Greeting_ID */
     public static final String COLUMNNAME_C_Greeting_ID = "C_Greeting_ID";
@@ -183,7 +183,7 @@ public interface I_C_BPartner
 	  */
 	public int getC_Greeting_ID();
 
-	public I_C_Greeting getC_Greeting() throws RuntimeException;
+	public org.compiere.model.I_C_Greeting getC_Greeting() throws RuntimeException;
 
     /** Column name C_InvoiceSchedule_ID */
     public static final String COLUMNNAME_C_InvoiceSchedule_ID = "C_InvoiceSchedule_ID";
@@ -198,7 +198,7 @@ public interface I_C_BPartner
 	  */
 	public int getC_InvoiceSchedule_ID();
 
-	public I_C_InvoiceSchedule getC_InvoiceSchedule() throws RuntimeException;
+	public org.compiere.model.I_C_InvoiceSchedule getC_InvoiceSchedule() throws RuntimeException;
 
     /** Column name C_PaymentTerm_ID */
     public static final String COLUMNNAME_C_PaymentTerm_ID = "C_PaymentTerm_ID";
@@ -213,7 +213,18 @@ public interface I_C_BPartner
 	  */
 	public int getC_PaymentTerm_ID();
 
-	public I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException;
+	public org.compiere.model.I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException;
+
+    /** Column name C_TaxGroup_ID */
+    public static final String COLUMNNAME_C_TaxGroup_ID = "C_TaxGroup_ID";
+
+	/** Set Tax Group	  */
+	public void setC_TaxGroup_ID (int C_TaxGroup_ID);
+
+	/** Get Tax Group	  */
+	public int getC_TaxGroup_ID();
+
+	public org.eevolution.model.I_C_TaxGroup getC_TaxGroup() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -231,16 +242,18 @@ public interface I_C_BPartner
 	  */
 	public int getCreatedBy();
 
-    /** Column name C_TaxGroup_ID */
-    public static final String COLUMNNAME_C_TaxGroup_ID = "C_TaxGroup_ID";
+    /** Column name DUNS */
+    public static final String COLUMNNAME_DUNS = "DUNS";
 
-	/** Set Tax Group	  */
-	public void setC_TaxGroup_ID (int C_TaxGroup_ID);
+	/** Set D-U-N-S.
+	  * Dun & Bradstreet Number
+	  */
+	public void setDUNS (String DUNS);
 
-	/** Get Tax Group	  */
-	public int getC_TaxGroup_ID();
-
-	public org.eevolution.model.I_C_TaxGroup getC_TaxGroup() throws RuntimeException;
+	/** Get D-U-N-S.
+	  * Dun & Bradstreet Number
+	  */
+	public String getDUNS();
 
     /** Column name DeliveryRule */
     public static final String COLUMNNAME_DeliveryRule = "DeliveryRule";
@@ -303,19 +316,6 @@ public interface I_C_BPartner
 	/** Get Dunning Grace Date	  */
 	public Timestamp getDunningGrace();
 
-    /** Column name DUNS */
-    public static final String COLUMNNAME_DUNS = "DUNS";
-
-	/** Set D-U-N-S.
-	  * Dun & Bradstreet Number
-	  */
-	public void setDUNS (String DUNS);
-
-	/** Get D-U-N-S.
-	  * Dun & Bradstreet Number
-	  */
-	public String getDUNS();
-
     /** Column name FirstSale */
     public static final String COLUMNNAME_FirstSale = "FirstSale";
 
@@ -355,6 +355,19 @@ public interface I_C_BPartner
 	  */
 	public String getFreightCostRule();
 
+    /** Column name InvoiceRule */
+    public static final String COLUMNNAME_InvoiceRule = "InvoiceRule";
+
+	/** Set Invoice Rule.
+	  * Frequency and method of invoicing 
+	  */
+	public void setInvoiceRule (String InvoiceRule);
+
+	/** Get Invoice Rule.
+	  * Frequency and method of invoicing 
+	  */
+	public String getInvoiceRule();
+
     /** Column name Invoice_PrintFormat_ID */
     public static final String COLUMNNAME_Invoice_PrintFormat_ID = "Invoice_PrintFormat_ID";
 
@@ -368,20 +381,7 @@ public interface I_C_BPartner
 	  */
 	public int getInvoice_PrintFormat_ID();
 
-	public I_AD_PrintFormat getInvoice_PrintFormat() throws RuntimeException;
-
-    /** Column name InvoiceRule */
-    public static final String COLUMNNAME_InvoiceRule = "InvoiceRule";
-
-	/** Set Invoice Rule.
-	  * Frequency and method of invoicing 
-	  */
-	public void setInvoiceRule (String InvoiceRule);
-
-	/** Get Invoice Rule.
-	  * Frequency and method of invoicing 
-	  */
-	public String getInvoiceRule();
+	public org.compiere.model.I_AD_PrintFormat getInvoice_PrintFormat() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -557,7 +557,7 @@ public interface I_C_BPartner
 	  */
 	public int getM_DiscountSchema_ID();
 
-	public I_M_DiscountSchema getM_DiscountSchema() throws RuntimeException;
+	public org.compiere.model.I_M_DiscountSchema getM_DiscountSchema() throws RuntimeException;
 
     /** Column name M_PriceList_ID */
     public static final String COLUMNNAME_M_PriceList_ID = "M_PriceList_ID";
@@ -572,7 +572,7 @@ public interface I_C_BPartner
 	  */
 	public int getM_PriceList_ID();
 
-	public I_M_PriceList getM_PriceList() throws RuntimeException;
+	public org.compiere.model.I_M_PriceList getM_PriceList() throws RuntimeException;
 
     /** Column name NAICS */
     public static final String COLUMNNAME_NAICS = "NAICS";
@@ -626,6 +626,64 @@ public interface I_C_BPartner
 	  */
 	public int getNumberEmployees();
 
+    /** Column name POReference */
+    public static final String COLUMNNAME_POReference = "POReference";
+
+	/** Set Order Reference.
+	  * Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
+	  */
+	public void setPOReference (String POReference);
+
+	/** Get Order Reference.
+	  * Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
+	  */
+	public String getPOReference();
+
+    /** Column name PO_DiscountSchema_ID */
+    public static final String COLUMNNAME_PO_DiscountSchema_ID = "PO_DiscountSchema_ID";
+
+	/** Set PO Discount Schema.
+	  * Schema to calculate the purchase trade discount percentage
+	  */
+	public void setPO_DiscountSchema_ID (int PO_DiscountSchema_ID);
+
+	/** Get PO Discount Schema.
+	  * Schema to calculate the purchase trade discount percentage
+	  */
+	public int getPO_DiscountSchema_ID();
+
+	public org.compiere.model.I_M_DiscountSchema getPO_DiscountSchema() throws RuntimeException;
+
+    /** Column name PO_PaymentTerm_ID */
+    public static final String COLUMNNAME_PO_PaymentTerm_ID = "PO_PaymentTerm_ID";
+
+	/** Set PO Payment Term.
+	  * Payment rules for a purchase order
+	  */
+	public void setPO_PaymentTerm_ID (int PO_PaymentTerm_ID);
+
+	/** Get PO Payment Term.
+	  * Payment rules for a purchase order
+	  */
+	public int getPO_PaymentTerm_ID();
+
+	public org.compiere.model.I_C_PaymentTerm getPO_PaymentTerm() throws RuntimeException;
+
+    /** Column name PO_PriceList_ID */
+    public static final String COLUMNNAME_PO_PriceList_ID = "PO_PriceList_ID";
+
+	/** Set Purchase Pricelist.
+	  * Price List used by this Business Partner
+	  */
+	public void setPO_PriceList_ID (int PO_PriceList_ID);
+
+	/** Get Purchase Pricelist.
+	  * Price List used by this Business Partner
+	  */
+	public int getPO_PriceList_ID();
+
+	public org.compiere.model.I_M_PriceList getPO_PriceList() throws RuntimeException;
+
     /** Column name PaymentRule */
     public static final String COLUMNNAME_PaymentRule = "PaymentRule";
 
@@ -651,64 +709,6 @@ public interface I_C_BPartner
 	  * Purchase payment option
 	  */
 	public String getPaymentRulePO();
-
-    /** Column name PO_DiscountSchema_ID */
-    public static final String COLUMNNAME_PO_DiscountSchema_ID = "PO_DiscountSchema_ID";
-
-	/** Set PO Discount Schema.
-	  * Schema to calculate the purchase trade discount percentage
-	  */
-	public void setPO_DiscountSchema_ID (int PO_DiscountSchema_ID);
-
-	/** Get PO Discount Schema.
-	  * Schema to calculate the purchase trade discount percentage
-	  */
-	public int getPO_DiscountSchema_ID();
-
-	public I_M_DiscountSchema getPO_DiscountSchema() throws RuntimeException;
-
-    /** Column name PO_PaymentTerm_ID */
-    public static final String COLUMNNAME_PO_PaymentTerm_ID = "PO_PaymentTerm_ID";
-
-	/** Set PO Payment Term.
-	  * Payment rules for a purchase order
-	  */
-	public void setPO_PaymentTerm_ID (int PO_PaymentTerm_ID);
-
-	/** Get PO Payment Term.
-	  * Payment rules for a purchase order
-	  */
-	public int getPO_PaymentTerm_ID();
-
-	public I_C_PaymentTerm getPO_PaymentTerm() throws RuntimeException;
-
-    /** Column name PO_PriceList_ID */
-    public static final String COLUMNNAME_PO_PriceList_ID = "PO_PriceList_ID";
-
-	/** Set Purchase Pricelist.
-	  * Price List used by this Business Partner
-	  */
-	public void setPO_PriceList_ID (int PO_PriceList_ID);
-
-	/** Get Purchase Pricelist.
-	  * Price List used by this Business Partner
-	  */
-	public int getPO_PriceList_ID();
-
-	public I_M_PriceList getPO_PriceList() throws RuntimeException;
-
-    /** Column name POReference */
-    public static final String COLUMNNAME_POReference = "POReference";
-
-	/** Set Order Reference.
-	  * Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
-	  */
-	public void setPOReference (String POReference);
-
-	/** Get Order Reference.
-	  * Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
-	  */
-	public String getPOReference();
 
     /** Column name PotentialLifeTimeValue */
     public static final String COLUMNNAME_PotentialLifeTimeValue = "PotentialLifeTimeValue";
@@ -749,6 +749,58 @@ public interface I_C_BPartner
 	  */
 	public String getReferenceNo();
 
+    /** Column name SOCreditStatus */
+    public static final String COLUMNNAME_SOCreditStatus = "SOCreditStatus";
+
+	/** Set Credit Status.
+	  * Business Partner Credit Status
+	  */
+	public void setSOCreditStatus (String SOCreditStatus);
+
+	/** Get Credit Status.
+	  * Business Partner Credit Status
+	  */
+	public String getSOCreditStatus();
+
+    /** Column name SO_CreditLimit */
+    public static final String COLUMNNAME_SO_CreditLimit = "SO_CreditLimit";
+
+	/** Set Credit Limit.
+	  * Total outstanding invoice amounts allowed
+	  */
+	public void setSO_CreditLimit (BigDecimal SO_CreditLimit);
+
+	/** Get Credit Limit.
+	  * Total outstanding invoice amounts allowed
+	  */
+	public BigDecimal getSO_CreditLimit();
+
+    /** Column name SO_CreditUsed */
+    public static final String COLUMNNAME_SO_CreditUsed = "SO_CreditUsed";
+
+	/** Set Credit Used.
+	  * Current open balance
+	  */
+	public void setSO_CreditUsed (BigDecimal SO_CreditUsed);
+
+	/** Get Credit Used.
+	  * Current open balance
+	  */
+	public BigDecimal getSO_CreditUsed();
+
+    /** Column name SO_Description */
+    public static final String COLUMNNAME_SO_Description = "SO_Description";
+
+	/** Set Order Description.
+	  * Description to be used on orders
+	  */
+	public void setSO_Description (String SO_Description);
+
+	/** Get Order Description.
+	  * Description to be used on orders
+	  */
+	public String getSO_Description();
+
     /** Column name SalesRep_ID */
     public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";
 
@@ -762,7 +814,7 @@ public interface I_C_BPartner
 	  */
 	public int getSalesRep_ID();
 
-	public I_AD_User getSalesRep() throws RuntimeException;
+	public org.compiere.model.I_AD_User getSalesRep() throws RuntimeException;
 
     /** Column name SalesVolume */
     public static final String COLUMNNAME_SalesVolume = "SalesVolume";
@@ -816,58 +868,6 @@ public interface I_C_BPartner
 	  */
 	public int getShelfLifeMinPct();
 
-    /** Column name SO_CreditLimit */
-    public static final String COLUMNNAME_SO_CreditLimit = "SO_CreditLimit";
-
-	/** Set Credit Limit.
-	  * Total outstanding invoice amounts allowed
-	  */
-	public void setSO_CreditLimit (BigDecimal SO_CreditLimit);
-
-	/** Get Credit Limit.
-	  * Total outstanding invoice amounts allowed
-	  */
-	public BigDecimal getSO_CreditLimit();
-
-    /** Column name SOCreditStatus */
-    public static final String COLUMNNAME_SOCreditStatus = "SOCreditStatus";
-
-	/** Set Credit Status.
-	  * Business Partner Credit Status
-	  */
-	public void setSOCreditStatus (String SOCreditStatus);
-
-	/** Get Credit Status.
-	  * Business Partner Credit Status
-	  */
-	public String getSOCreditStatus();
-
-    /** Column name SO_CreditUsed */
-    public static final String COLUMNNAME_SO_CreditUsed = "SO_CreditUsed";
-
-	/** Set Credit Used.
-	  * Current open balance
-	  */
-	public void setSO_CreditUsed (BigDecimal SO_CreditUsed);
-
-	/** Get Credit Used.
-	  * Current open balance
-	  */
-	public BigDecimal getSO_CreditUsed();
-
-    /** Column name SO_Description */
-    public static final String COLUMNNAME_SO_Description = "SO_Description";
-
-	/** Set Order Description.
-	  * Description to be used on orders
-	  */
-	public void setSO_Description (String SO_Description);
-
-	/** Get Order Description.
-	  * Description to be used on orders
-	  */
-	public String getSO_Description();
-
     /** Column name TaxID */
     public static final String COLUMNNAME_TaxID = "TaxID";
 
@@ -894,6 +894,19 @@ public interface I_C_BPartner
 	  */
 	public BigDecimal getTotalOpenBalance();
 
+    /** Column name URL */
+    public static final String COLUMNNAME_URL = "URL";
+
+	/** Set URL.
+	  * Full URL address - e.g. http://www.adempiere.org
+	  */
+	public void setURL (String URL);
+
+	/** Get URL.
+	  * Full URL address - e.g. http://www.adempiere.org
+	  */
+	public String getURL();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -909,19 +922,6 @@ public interface I_C_BPartner
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name URL */
-    public static final String COLUMNNAME_URL = "URL";
-
-	/** Set URL.
-	  * Full URL address - e.g. http://www.adempiere.org
-	  */
-	public void setURL (String URL);
-
-	/** Get URL.
-	  * Full URL address - e.g. http://www.adempiere.org
-	  */
-	public String getURL();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

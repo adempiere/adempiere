@@ -30,7 +30,7 @@ public class X_AD_Desktop extends PO implements I_AD_Desktop, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_AD_Desktop (Properties ctx, int AD_Desktop_ID, String trxName)

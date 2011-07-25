@@ -32,7 +32,7 @@ public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_M_InOutLineConfirm (Properties ctx, int M_InOutLineConfirm_ID, String trxName)
@@ -77,9 +77,9 @@ public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_
       return sb.toString();
     }
 
-	public I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException
+	public org.compiere.model.I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException
     {
-		return (I_C_InvoiceLine)MTable.get(getCtx(), I_C_InvoiceLine.Table_Name)
+		return (org.compiere.model.I_C_InvoiceLine)MTable.get(getCtx(), org.compiere.model.I_C_InvoiceLine.Table_Name)
 			.getPO(getC_InvoiceLine_ID(), get_TrxName());	}
 
 	/** Set Invoice Line.
@@ -179,9 +179,9 @@ public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_
 		return bd;
 	}
 
-	public I_M_InOutConfirm getM_InOutConfirm() throws RuntimeException
+	public org.compiere.model.I_M_InOutConfirm getM_InOutConfirm() throws RuntimeException
     {
-		return (I_M_InOutConfirm)MTable.get(getCtx(), I_M_InOutConfirm.Table_Name)
+		return (org.compiere.model.I_M_InOutConfirm)MTable.get(getCtx(), org.compiere.model.I_M_InOutConfirm.Table_Name)
 			.getPO(getM_InOutConfirm_ID(), get_TrxName());	}
 
 	/** Set Ship/Receipt Confirmation.
@@ -230,9 +230,9 @@ public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_
 		return ii.intValue();
 	}
 
-	public I_M_InOutLine getM_InOutLine() throws RuntimeException
+	public org.compiere.model.I_M_InOutLine getM_InOutLine() throws RuntimeException
     {
-		return (I_M_InOutLine)MTable.get(getCtx(), I_M_InOutLine.Table_Name)
+		return (org.compiere.model.I_M_InOutLine)MTable.get(getCtx(), org.compiere.model.I_M_InOutLine.Table_Name)
 			.getPO(getM_InOutLine_ID(), get_TrxName());	}
 
 	/** Set Shipment/Receipt Line.
@@ -266,9 +266,9 @@ public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_
         return new KeyNamePair(get_ID(), String.valueOf(getM_InOutLine_ID()));
     }
 
-	public I_M_InventoryLine getM_InventoryLine() throws RuntimeException
+	public org.compiere.model.I_M_InventoryLine getM_InventoryLine() throws RuntimeException
     {
-		return (I_M_InventoryLine)MTable.get(getCtx(), I_M_InventoryLine.Table_Name)
+		return (org.compiere.model.I_M_InventoryLine)MTable.get(getCtx(), org.compiere.model.I_M_InventoryLine.Table_Name)
 			.getPO(getM_InventoryLine_ID(), get_TrxName());	}
 
 	/** Set Phys.Inventory Line.

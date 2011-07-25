@@ -76,7 +76,7 @@ public interface I_T_BOMLine
 	  */
 	public int getAD_PInstance_ID();
 
-	public I_AD_PInstance getAD_PInstance() throws RuntimeException;
+	public org.compiere.model.I_AD_PInstance getAD_PInstance() throws RuntimeException;
 
     /** Column name C_AcctSchema_ID */
     public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
@@ -91,7 +91,7 @@ public interface I_T_BOMLine
 	  */
 	public int getC_AcctSchema_ID();
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
+	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
 
     /** Column name Cost */
     public static final String COLUMNNAME_Cost = "Cost";
@@ -106,19 +106,6 @@ public interface I_T_BOMLine
 	  */
 	public BigDecimal getCost();
 
-    /** Column name CostingMethod */
-    public static final String COLUMNNAME_CostingMethod = "CostingMethod";
-
-	/** Set Costing Method.
-	  * Indicates how Costs will be calculated
-	  */
-	public void setCostingMethod (String CostingMethod);
-
-	/** Get Costing Method.
-	  * Indicates how Costs will be calculated
-	  */
-	public String getCostingMethod();
-
     /** Column name CostStandard */
     public static final String COLUMNNAME_CostStandard = "CostStandard";
 
@@ -131,6 +118,19 @@ public interface I_T_BOMLine
 	  * Standard Costs
 	  */
 	public BigDecimal getCostStandard();
+
+    /** Column name CostingMethod */
+    public static final String COLUMNNAME_CostingMethod = "CostingMethod";
+
+	/** Set Costing Method.
+	  * Indicates how Costs will be calculated
+	  */
+	public void setCostingMethod (String CostingMethod);
+
+	/** Get Costing Method.
+	  * Indicates how Costs will be calculated
+	  */
+	public String getCostingMethod();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -262,7 +262,7 @@ public interface I_T_BOMLine
 	  */
 	public int getM_CostElement_ID();
 
-	public I_M_CostElement getM_CostElement() throws RuntimeException;
+	public org.compiere.model.I_M_CostElement getM_CostElement() throws RuntimeException;
 
     /** Column name M_CostType_ID */
     public static final String COLUMNNAME_M_CostType_ID = "M_CostType_ID";
@@ -277,7 +277,7 @@ public interface I_T_BOMLine
 	  */
 	public int getM_CostType_ID();
 
-	public I_M_CostType getM_CostType() throws RuntimeException;
+	public org.compiere.model.I_M_CostType getM_CostType() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -292,22 +292,7 @@ public interface I_T_BOMLine
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
-
-    /** Column name PP_Product_BOM_ID */
-    public static final String COLUMNNAME_PP_Product_BOM_ID = "PP_Product_BOM_ID";
-
-	/** Set BOM & Formula.
-	  * BOM & Formula
-	  */
-	public void setPP_Product_BOM_ID (int PP_Product_BOM_ID);
-
-	/** Get BOM & Formula.
-	  * BOM & Formula
-	  */
-	public int getPP_Product_BOM_ID();
-
-	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name PP_Product_BOMLine_ID */
     public static final String COLUMNNAME_PP_Product_BOMLine_ID = "PP_Product_BOMLine_ID";
@@ -323,6 +308,21 @@ public interface I_T_BOMLine
 	public int getPP_Product_BOMLine_ID();
 
 	public org.eevolution.model.I_PP_Product_BOMLine getPP_Product_BOMLine() throws RuntimeException;
+
+    /** Column name PP_Product_BOM_ID */
+    public static final String COLUMNNAME_PP_Product_BOM_ID = "PP_Product_BOM_ID";
+
+	/** Set BOM & Formula.
+	  * BOM & Formula
+	  */
+	public void setPP_Product_BOM_ID (int PP_Product_BOM_ID);
+
+	/** Get BOM & Formula.
+	  * BOM & Formula
+	  */
+	public int getPP_Product_BOM_ID();
+
+	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException;
 
     /** Column name QtyBOM */
     public static final String COLUMNNAME_QtyBOM = "QtyBOM";

@@ -1,0 +1,8 @@
+#MySQL
+#Example Values: 
+# Windows - oracle.home=C:/mysql
+# Linux   - oracle.home=/usr
+mysql.home=
+
+#mysql connection string (-u USER -pPASSWORD --database=DB)
+mysql.connect.param=-u adempiere -padempiere --database=adempiere

@@ -32,7 +32,7 @@ public class X_HR_Contract extends PO implements I_HR_Contract, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_HR_Contract (Properties ctx, int HR_Contract_ID, String trxName)
@@ -73,9 +73,9 @@ public class X_HR_Contract extends PO implements I_HR_Contract, I_Persistent
       return sb.toString();
     }
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -101,9 +101,9 @@ public class X_HR_Contract extends PO implements I_HR_Contract, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Campaign getC_Campaign() throws RuntimeException
+	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException
     {
-		return (I_C_Campaign)MTable.get(getCtx(), I_C_Campaign.Table_Name)
+		return (org.compiere.model.I_C_Campaign)MTable.get(getCtx(), org.compiere.model.I_C_Campaign.Table_Name)
 			.getPO(getC_Campaign_ID(), get_TrxName());	}
 
 	/** Set Campaign.
@@ -129,9 +129,9 @@ public class X_HR_Contract extends PO implements I_HR_Contract, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Project getC_Project() throws RuntimeException
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
     {
-		return (I_C_Project)MTable.get(getCtx(), I_C_Project.Table_Name)
+		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
 			.getPO(getC_Project_ID(), get_TrxName());	}
 
 	/** Set Project.

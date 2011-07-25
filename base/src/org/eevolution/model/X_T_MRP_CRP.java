@@ -30,7 +30,7 @@ public class X_T_MRP_CRP extends PO implements I_T_MRP_CRP, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_T_MRP_CRP (Properties ctx, int T_MRP_CRP_ID, String trxName)
@@ -70,9 +70,9 @@ public class X_T_MRP_CRP extends PO implements I_T_MRP_CRP, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_PInstance getAD_PInstance() throws RuntimeException
+	public org.compiere.model.I_AD_PInstance getAD_PInstance() throws RuntimeException
     {
-		return (I_AD_PInstance)MTable.get(getCtx(), I_AD_PInstance.Table_Name)
+		return (org.compiere.model.I_AD_PInstance)MTable.get(getCtx(), org.compiere.model.I_AD_PInstance.Table_Name)
 			.getPO(getAD_PInstance_ID(), get_TrxName());	}
 
 	/** Set Process Instance.

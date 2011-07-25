@@ -195,7 +195,7 @@ public interface I_PA_Achievement
 	  */
 	public int getPA_Measure_ID();
 
-	public I_PA_Measure getPA_Measure() throws RuntimeException;
+	public org.compiere.model.I_PA_Measure getPA_Measure() throws RuntimeException;
 
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";

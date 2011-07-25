@@ -1148,9 +1148,9 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		PrintInfo info = new PrintInfo (pi);
 		info.setAD_Table_ID(AD_Table_ID);
 		
-		return new ReportEngine(ctx, format, query, info);
+		return new ReportEngine(ctx, format, query, info, pi.getTransactionName());
 	}	//	get
-
+	
 	/*************************************************************************/
 
 	/** Order = 0				*/

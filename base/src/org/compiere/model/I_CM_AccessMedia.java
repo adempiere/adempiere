@@ -75,7 +75,7 @@ public interface I_CM_AccessMedia
 	  */
 	public int getCM_AccessProfile_ID();
 
-	public I_CM_AccessProfile getCM_AccessProfile() throws RuntimeException;
+	public org.compiere.model.I_CM_AccessProfile getCM_AccessProfile() throws RuntimeException;
 
     /** Column name CM_Media_ID */
     public static final String COLUMNNAME_CM_Media_ID = "CM_Media_ID";
@@ -90,7 +90,7 @@ public interface I_CM_AccessMedia
 	  */
 	public int getCM_Media_ID();
 
-	public I_CM_Media getCM_Media() throws RuntimeException;
+	public org.compiere.model.I_CM_Media getCM_Media() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

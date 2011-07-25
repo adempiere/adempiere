@@ -29,7 +29,7 @@ public class X_AD_Form_Access extends PO implements I_AD_Form_Access, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_AD_Form_Access (Properties ctx, int AD_Form_Access_ID, String trxName)
@@ -71,9 +71,9 @@ public class X_AD_Form_Access extends PO implements I_AD_Form_Access, I_Persiste
       return sb.toString();
     }
 
-	public I_AD_Form getAD_Form() throws RuntimeException
+	public org.compiere.model.I_AD_Form getAD_Form() throws RuntimeException
     {
-		return (I_AD_Form)MTable.get(getCtx(), I_AD_Form.Table_Name)
+		return (org.compiere.model.I_AD_Form)MTable.get(getCtx(), org.compiere.model.I_AD_Form.Table_Name)
 			.getPO(getAD_Form_ID(), get_TrxName());	}
 
 	/** Set Special Form.
@@ -99,9 +99,9 @@ public class X_AD_Form_Access extends PO implements I_AD_Form_Access, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_AD_Role getAD_Role() throws RuntimeException
+	public org.compiere.model.I_AD_Role getAD_Role() throws RuntimeException
     {
-		return (I_AD_Role)MTable.get(getCtx(), I_AD_Role.Table_Name)
+		return (org.compiere.model.I_AD_Role)MTable.get(getCtx(), org.compiere.model.I_AD_Role.Table_Name)
 			.getPO(getAD_Role_ID(), get_TrxName());	}
 
 	/** Set Role.

@@ -75,7 +75,7 @@ public interface I_C_BP_Group_Acct
 	  */
 	public int getC_AcctSchema_ID();
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
+	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
 
     /** Column name C_BP_Group_ID */
     public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
@@ -90,7 +90,7 @@ public interface I_C_BP_Group_Acct
 	  */
 	public int getC_BP_Group_ID();
 
-	public I_C_BP_Group getC_BP_Group() throws RuntimeException;
+	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException;
 
     /** Column name C_Prepayment_Acct */
     public static final String COLUMNNAME_C_Prepayment_Acct = "C_Prepayment_Acct";
@@ -106,22 +106,6 @@ public interface I_C_BP_Group_Acct
 	public int getC_Prepayment_Acct();
 
 	public I_C_ValidCombination getC_Prepayment_A() throws RuntimeException;
-
-    /** Column name Created */
-    public static final String COLUMNNAME_Created = "Created";
-
-	/** Get Created.
-	  * Date this record was created
-	  */
-	public Timestamp getCreated();
-
-    /** Column name CreatedBy */
-    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
-
-	/** Get Created By.
-	  * User who created this records
-	  */
-	public int getCreatedBy();
 
     /** Column name C_Receivable_Acct */
     public static final String COLUMNNAME_C_Receivable_Acct = "C_Receivable_Acct";
@@ -152,6 +136,22 @@ public interface I_C_BP_Group_Acct
 	public int getC_Receivable_Services_Acct();
 
 	public I_C_ValidCombination getC_Receivable_Services_A() throws RuntimeException;
+
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
+
+	/** Get Created.
+	  * Date this record was created
+	  */
+	public Timestamp getCreated();
+
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
+	  */
+	public int getCreatedBy();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

@@ -30,7 +30,7 @@ public class X_AD_Message extends PO implements I_AD_Message, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_AD_Message (Properties ctx, int AD_Message_ID, String trxName)

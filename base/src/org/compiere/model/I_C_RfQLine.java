@@ -62,6 +62,34 @@ public interface I_C_RfQLine
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name C_RfQLine_ID */
+    public static final String COLUMNNAME_C_RfQLine_ID = "C_RfQLine_ID";
+
+	/** Set RfQ Line.
+	  * Request for Quotation Line
+	  */
+	public void setC_RfQLine_ID (int C_RfQLine_ID);
+
+	/** Get RfQ Line.
+	  * Request for Quotation Line
+	  */
+	public int getC_RfQLine_ID();
+
+    /** Column name C_RfQ_ID */
+    public static final String COLUMNNAME_C_RfQ_ID = "C_RfQ_ID";
+
+	/** Set RfQ.
+	  * Request for Quotation
+	  */
+	public void setC_RfQ_ID (int C_RfQ_ID);
+
+	/** Get RfQ.
+	  * Request for Quotation
+	  */
+	public int getC_RfQ_ID();
+
+	public org.compiere.model.I_C_RfQ getC_RfQ() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -77,34 +105,6 @@ public interface I_C_RfQLine
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_RfQ_ID */
-    public static final String COLUMNNAME_C_RfQ_ID = "C_RfQ_ID";
-
-	/** Set RfQ.
-	  * Request for Quotation
-	  */
-	public void setC_RfQ_ID (int C_RfQ_ID);
-
-	/** Get RfQ.
-	  * Request for Quotation
-	  */
-	public int getC_RfQ_ID();
-
-	public I_C_RfQ getC_RfQ() throws RuntimeException;
-
-    /** Column name C_RfQLine_ID */
-    public static final String COLUMNNAME_C_RfQLine_ID = "C_RfQLine_ID";
-
-	/** Set RfQ Line.
-	  * Request for Quotation Line
-	  */
-	public void setC_RfQLine_ID (int C_RfQLine_ID);
-
-	/** Get RfQ Line.
-	  * Request for Quotation Line
-	  */
-	public int getC_RfQLine_ID();
 
     /** Column name DateWorkComplete */
     public static final String COLUMNNAME_DateWorkComplete = "DateWorkComplete";
@@ -225,7 +225,7 @@ public interface I_C_RfQLine
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

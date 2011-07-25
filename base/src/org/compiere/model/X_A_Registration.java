@@ -31,7 +31,7 @@ public class X_A_Registration extends PO implements I_A_Registration, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_A_Registration (Properties ctx, int A_Registration_ID, String trxName)
@@ -76,37 +76,9 @@ public class X_A_Registration extends PO implements I_A_Registration, I_Persiste
       return sb.toString();
     }
 
-	public I_A_Asset getA_Asset() throws RuntimeException
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
     {
-		return (I_A_Asset)MTable.get(getCtx(), I_A_Asset.Table_Name)
-			.getPO(getA_Asset_ID(), get_TrxName());	}
-
-	/** Set Asset.
-		@param A_Asset_ID 
-		Asset used internally or by customers
-	  */
-	public void setA_Asset_ID (int A_Asset_ID)
-	{
-		if (A_Asset_ID < 1) 
-			set_Value (COLUMNNAME_A_Asset_ID, null);
-		else 
-			set_Value (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
-	}
-
-	/** Get Asset.
-		@return Asset used internally or by customers
-	  */
-	public int getA_Asset_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_AD_User getAD_User() throws RuntimeException
-    {
-		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getAD_User_ID(), get_TrxName());	}
 
 	/** Set User/Contact.
@@ -127,6 +99,34 @@ public class X_A_Registration extends PO implements I_A_Registration, I_Persiste
 	public int getAD_User_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException
+    {
+		return (org.compiere.model.I_A_Asset)MTable.get(getCtx(), org.compiere.model.I_A_Asset.Table_Name)
+			.getPO(getA_Asset_ID(), get_TrxName());	}
+
+	/** Set Asset.
+		@param A_Asset_ID 
+		Asset used internally or by customers
+	  */
+	public void setA_Asset_ID (int A_Asset_ID)
+	{
+		if (A_Asset_ID < 1) 
+			set_Value (COLUMNNAME_A_Asset_ID, null);
+		else 
+			set_Value (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
+	}
+
+	/** Get Asset.
+		@return Asset used internally or by customers
+	  */
+	public int getA_Asset_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -172,9 +172,9 @@ public class X_A_Registration extends PO implements I_A_Registration, I_Persiste
 		return (Timestamp)get_Value(COLUMNNAME_AssetServiceDate);
 	}
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -306,9 +306,9 @@ public class X_A_Registration extends PO implements I_A_Registration, I_Persiste
 		return false;
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.

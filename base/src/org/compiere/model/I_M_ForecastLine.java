@@ -75,7 +75,7 @@ public interface I_M_ForecastLine
 	  */
 	public int getC_Period_ID();
 
-	public I_C_Period getC_Period() throws RuntimeException;
+	public org.compiere.model.I_C_Period getC_Period() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -119,6 +119,19 @@ public interface I_M_ForecastLine
 	  */
 	public boolean isActive();
 
+    /** Column name M_ForecastLine_ID */
+    public static final String COLUMNNAME_M_ForecastLine_ID = "M_ForecastLine_ID";
+
+	/** Set Forecast Line.
+	  * Forecast Line
+	  */
+	public void setM_ForecastLine_ID (int M_ForecastLine_ID);
+
+	/** Get Forecast Line.
+	  * Forecast Line
+	  */
+	public int getM_ForecastLine_ID();
+
     /** Column name M_Forecast_ID */
     public static final String COLUMNNAME_M_Forecast_ID = "M_Forecast_ID";
 
@@ -132,20 +145,7 @@ public interface I_M_ForecastLine
 	  */
 	public int getM_Forecast_ID();
 
-	public I_M_Forecast getM_Forecast() throws RuntimeException;
-
-    /** Column name M_ForecastLine_ID */
-    public static final String COLUMNNAME_M_ForecastLine_ID = "M_ForecastLine_ID";
-
-	/** Set Forecast Line.
-	  * Forecast Line
-	  */
-	public void setM_ForecastLine_ID (int M_ForecastLine_ID);
-
-	/** Get Forecast Line.
-	  * Forecast Line
-	  */
-	public int getM_ForecastLine_ID();
+	public org.compiere.model.I_M_Forecast getM_Forecast() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -160,7 +160,7 @@ public interface I_M_ForecastLine
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name M_Warehouse_ID */
     public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
@@ -175,7 +175,7 @@ public interface I_M_ForecastLine
 	  */
 	public int getM_Warehouse_ID();
 
-	public I_M_Warehouse getM_Warehouse() throws RuntimeException;
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
 
     /** Column name Qty */
     public static final String COLUMNNAME_Qty = "Qty";

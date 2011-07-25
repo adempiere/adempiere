@@ -62,6 +62,19 @@ public interface I_C_SalesRegion
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name C_SalesRegion_ID */
+    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
+
+	/** Set Sales Region.
+	  * Sales coverage region
+	  */
+	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
+
+	/** Get Sales Region.
+	  * Sales coverage region
+	  */
+	public int getC_SalesRegion_ID();
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -77,19 +90,6 @@ public interface I_C_SalesRegion
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_SalesRegion_ID */
-    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
-
-	/** Set Sales Region.
-	  * Sales coverage region
-	  */
-	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
-
-	/** Get Sales Region.
-	  * Sales coverage region
-	  */
-	public int getC_SalesRegion_ID();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -169,7 +169,7 @@ public interface I_C_SalesRegion
 	  */
 	public int getSalesRep_ID();
 
-	public I_AD_User getSalesRep() throws RuntimeException;
+	public org.compiere.model.I_AD_User getSalesRep() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

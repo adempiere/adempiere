@@ -62,7 +62,7 @@ public interface I_C_AcctSchema_Element
 	  */
 	public int getAD_Column_ID();
 
-	public I_AD_Column getAD_Column() throws RuntimeException;
+	public org.compiere.model.I_AD_Column getAD_Column() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -99,7 +99,7 @@ public interface I_C_AcctSchema_Element
 	  */
 	public int getC_AcctSchema_ID();
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
+	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
 
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
@@ -114,7 +114,7 @@ public interface I_C_AcctSchema_Element
 	  */
 	public int getC_Activity_ID();
 
-	public I_C_Activity getC_Activity() throws RuntimeException;
+	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException;
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -129,7 +129,7 @@ public interface I_C_AcctSchema_Element
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_Campaign_ID */
     public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
@@ -144,22 +144,7 @@ public interface I_C_AcctSchema_Element
 	  */
 	public int getC_Campaign_ID();
 
-	public I_C_Campaign getC_Campaign() throws RuntimeException;
-
-    /** Column name C_Element_ID */
-    public static final String COLUMNNAME_C_Element_ID = "C_Element_ID";
-
-	/** Set Element.
-	  * Accounting Element
-	  */
-	public void setC_Element_ID (int C_Element_ID);
-
-	/** Get Element.
-	  * Accounting Element
-	  */
-	public int getC_Element_ID();
-
-	public I_C_Element getC_Element() throws RuntimeException;
+	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException;
 
     /** Column name C_ElementValue_ID */
     public static final String COLUMNNAME_C_ElementValue_ID = "C_ElementValue_ID";
@@ -174,7 +159,22 @@ public interface I_C_AcctSchema_Element
 	  */
 	public int getC_ElementValue_ID();
 
-	public I_C_ElementValue getC_ElementValue() throws RuntimeException;
+	public org.compiere.model.I_C_ElementValue getC_ElementValue() throws RuntimeException;
+
+    /** Column name C_Element_ID */
+    public static final String COLUMNNAME_C_Element_ID = "C_Element_ID";
+
+	/** Set Element.
+	  * Accounting Element
+	  */
+	public void setC_Element_ID (int C_Element_ID);
+
+	/** Get Element.
+	  * Accounting Element
+	  */
+	public int getC_Element_ID();
+
+	public org.compiere.model.I_C_Element getC_Element() throws RuntimeException;
 
     /** Column name C_Location_ID */
     public static final String COLUMNNAME_C_Location_ID = "C_Location_ID";
@@ -204,7 +204,22 @@ public interface I_C_AcctSchema_Element
 	  */
 	public int getC_Project_ID();
 
-	public I_C_Project getC_Project() throws RuntimeException;
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
+
+    /** Column name C_SalesRegion_ID */
+    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
+
+	/** Set Sales Region.
+	  * Sales coverage region
+	  */
+	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
+
+	/** Get Sales Region.
+	  * Sales coverage region
+	  */
+	public int getC_SalesRegion_ID();
+
+	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -221,21 +236,6 @@ public interface I_C_AcctSchema_Element
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_SalesRegion_ID */
-    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
-
-	/** Set Sales Region.
-	  * Sales coverage region
-	  */
-	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
-
-	/** Get Sales Region.
-	  * Sales coverage region
-	  */
-	public int getC_SalesRegion_ID();
-
-	public I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
 
     /** Column name ElementType */
     public static final String COLUMNNAME_ElementType = "ElementType";
@@ -298,7 +298,7 @@ public interface I_C_AcctSchema_Element
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

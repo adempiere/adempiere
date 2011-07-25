@@ -32,6 +32,7 @@ import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
 import org.compiere.model.MRMA;
 import org.compiere.model.MRMALine;
+import org.compiere.model.MUOMConversion;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
@@ -364,23 +365,24 @@ public class CreateFromInvoice extends CreateFrom
 			invoice.saveEx();
 		}
 
-		MInOut inout = null;
+//		MInOut inout = null;
 //		if (m_M_InOut_ID > 0)
 //		{
 //			inout = new MInOut(Env.getCtx(), m_M_InOut_ID, trxName);
 //		}
-		if (inout != null && inout.getM_InOut_ID() != 0
-			&& inout.getC_Invoice_ID() == 0)	//	only first time
-		{
-			inout.setC_Invoice_ID(C_Invoice_ID);
-			inout.saveEx();
-		}
+//		if (inout != null && inout.getM_InOut_ID() != 0
+//			&& inout.getC_Invoice_ID() == 0)	//	only first time
+//		{
+//			inout.setC_Invoice_ID(C_Invoice_ID);
+//			inout.saveEx();
+//		}
 
 		//  Lines
 		for (int i = 0; i < miniTable.getRowCount(); i++)
 		{
 			if (((Boolean)miniTable.getValueAt(i, 0)).booleanValue())
 			{
+				MProduct product = null;
 				//  variable values
 				BigDecimal QtyEntered = (BigDecimal)miniTable.getValueAt(i, 1);              //  1-Qty
 
@@ -410,7 +412,7 @@ public class CreateFromInvoice extends CreateFrom
 				int precision = 2;
 				if (M_Product_ID != 0)
 				{
-					MProduct product = MProduct.get(Env.getCtx(), M_Product_ID);
+					product = MProduct.get(Env.getCtx(), M_Product_ID);
 					precision = product.getUOMPrecision();
 				}
 				QtyEntered = QtyEntered.setScale(precision, BigDecimal.ROUND_HALF_DOWN);
@@ -423,6 +425,13 @@ public class CreateFromInvoice extends CreateFrom
 				MInvoiceLine invoiceLine = new MInvoiceLine (invoice);
 				invoiceLine.setM_Product_ID(M_Product_ID, C_UOM_ID);	//	Line UOM
 				invoiceLine.setQty(QtyEntered);							//	Invoiced/Entered
+				BigDecimal QtyInvoiced = null;
+				if (M_Product_ID > 0 && product.getC_UOM_ID() != C_UOM_ID) {
+					QtyInvoiced = MUOMConversion.convertProductFrom(Env.getCtx(), M_Product_ID, C_UOM_ID, QtyEntered);
+				}
+				if (QtyInvoiced == null)
+					QtyInvoiced = QtyEntered;
+				invoiceLine.setQtyInvoiced(QtyInvoiced);
 
 				//  Info
 				MOrderLine orderLine = null;
@@ -494,15 +503,11 @@ public class CreateFromInvoice extends CreateFrom
 
 				}
 				//	get Ship info
-
+				
 				//	Shipment Info
 				if (inoutLine != null)
 				{
 					invoiceLine.setShipLine(inoutLine);		//	overwrites
-					if (inoutLine.sameOrderLineUOM())
-						invoiceLine.setQtyInvoiced(QtyEntered);
-					else
-						invoiceLine.setQtyInvoiced(inoutLine.getMovementQty());
 				}
 				else {
 					log.fine("No Receipt Line");
@@ -510,10 +515,6 @@ public class CreateFromInvoice extends CreateFrom
 					if (orderLine != null)
 					{
 						invoiceLine.setOrderLine(orderLine);	//	overwrites
-						if (orderLine.getQtyEntered().compareTo(orderLine.getQtyOrdered()) != 0)
-							invoiceLine.setQtyInvoiced(QtyEntered
-								.multiply(orderLine.getQtyOrdered())
-								.divide(orderLine.getQtyEntered(), 12, BigDecimal.ROUND_HALF_UP));
 					}
 					else
 					{
@@ -526,7 +527,6 @@ public class CreateFromInvoice extends CreateFrom
 					if (rmaLine != null)
 					{
 						invoiceLine.setRMALine(rmaLine);		//	overwrites
-						invoiceLine.setQty(QtyEntered);
 					}
 					else
 						log.fine("No RMA Line");

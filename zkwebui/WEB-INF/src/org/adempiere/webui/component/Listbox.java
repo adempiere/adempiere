@@ -37,10 +37,10 @@ import org.zkoss.zul.Listitem;
  */
 public class Listbox extends org.zkoss.zul.Listbox implements EventListener
 {
-    /**
+	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -411510408730815382L;
+	private static final long serialVersionUID = 2102597724705225997L;
 	private List<EventListener> doubleClickListeners = new ArrayList<EventListener>();
     private List<EventListener> onDropListeners = new ArrayList<EventListener>();
 	private boolean draggable;
@@ -327,4 +327,17 @@ public class Listbox extends org.zkoss.zul.Listbox implements EventListener
 			oddRowSclass = scls;
 		super.setOddRowSclass(scls);
 	}
+	
+	@Override
+	public String toString() {
+		StringBuffer items = new StringBuffer("[");
+		for (ListItem item : getItems()) {
+			if (items.length() > 1)
+				items.append(", ");
+			items.append(item.toString());
+		}
+		items.append("]");
+		return items.toString();
+	}
+	
 }

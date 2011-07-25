@@ -70,7 +70,7 @@ public class MCash extends X_C_Cash implements DocAction
 	{
 		//	Existing Journal
 		final String whereClause = "C_Cash.AD_Org_ID=?"						//	#1
-		+ " AND TRUNC(C_Cash.StatementDate)=?"			//	#2
+		+ " AND TRUNC(C_Cash.StatementDate, 'DD')=?"			//	#2
 		+ " AND C_Cash.Processed='N'"
 		+ " AND EXISTS (SELECT * FROM C_CashBook cb "
 			+ "WHERE C_Cash.C_CashBook_ID=cb.C_CashBook_ID AND cb.AD_Org_ID=C_Cash.AD_Org_ID"
@@ -109,7 +109,7 @@ public class MCash extends X_C_Cash implements DocAction
 		Timestamp dateAcct, String trxName)
 	{
 		final String whereClause ="C_CashBook_ID=?"			//	#1
-				+ " AND TRUNC(StatementDate)=?"			//	#2
+				+ " AND TRUNC(StatementDate, 'DD')=?"		//	#2
 				+ " AND Processed='N'";
 		
 		MCash retValue = new Query(ctx, MCash.Table_Name, whereClause, trxName)

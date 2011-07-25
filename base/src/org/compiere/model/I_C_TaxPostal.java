@@ -62,6 +62,34 @@ public interface I_C_TaxPostal
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name C_TaxPostal_ID */
+    public static final String COLUMNNAME_C_TaxPostal_ID = "C_TaxPostal_ID";
+
+	/** Set Tax ZIP.
+	  * Tax Postal/ZIP
+	  */
+	public void setC_TaxPostal_ID (int C_TaxPostal_ID);
+
+	/** Get Tax ZIP.
+	  * Tax Postal/ZIP
+	  */
+	public int getC_TaxPostal_ID();
+
+    /** Column name C_Tax_ID */
+    public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";
+
+	/** Set Tax.
+	  * Tax identifier
+	  */
+	public void setC_Tax_ID (int C_Tax_ID);
+
+	/** Get Tax.
+	  * Tax identifier
+	  */
+	public int getC_Tax_ID();
+
+	public org.compiere.model.I_C_Tax getC_Tax() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -77,34 +105,6 @@ public interface I_C_TaxPostal
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_Tax_ID */
-    public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";
-
-	/** Set Tax.
-	  * Tax identifier
-	  */
-	public void setC_Tax_ID (int C_Tax_ID);
-
-	/** Get Tax.
-	  * Tax identifier
-	  */
-	public int getC_Tax_ID();
-
-	public I_C_Tax getC_Tax() throws RuntimeException;
-
-    /** Column name C_TaxPostal_ID */
-    public static final String COLUMNNAME_C_TaxPostal_ID = "C_TaxPostal_ID";
-
-	/** Set Tax ZIP.
-	  * Tax Postal/ZIP
-	  */
-	public void setC_TaxPostal_ID (int C_TaxPostal_ID);
-
-	/** Get Tax ZIP.
-	  * Tax Postal/ZIP
-	  */
-	public int getC_TaxPostal_ID();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

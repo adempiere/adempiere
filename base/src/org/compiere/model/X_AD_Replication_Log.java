@@ -30,7 +30,7 @@ public class X_AD_Replication_Log extends PO implements I_AD_Replication_Log, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_AD_Replication_Log (Properties ctx, int AD_Replication_Log_ID, String trxName)
@@ -73,6 +73,34 @@ public class X_AD_Replication_Log extends PO implements I_AD_Replication_Log, I_
       return sb.toString();
     }
 
+	public org.compiere.model.I_AD_ReplicationTable getAD_ReplicationTable() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_ReplicationTable)MTable.get(getCtx(), org.compiere.model.I_AD_ReplicationTable.Table_Name)
+			.getPO(getAD_ReplicationTable_ID(), get_TrxName());	}
+
+	/** Set Replication Table.
+		@param AD_ReplicationTable_ID 
+		Data Replication Strategy Table Info
+	  */
+	public void setAD_ReplicationTable_ID (int AD_ReplicationTable_ID)
+	{
+		if (AD_ReplicationTable_ID < 1) 
+			set_Value (COLUMNNAME_AD_ReplicationTable_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_ReplicationTable_ID, Integer.valueOf(AD_ReplicationTable_ID));
+	}
+
+	/** Get Replication Table.
+		@return Data Replication Strategy Table Info
+	  */
+	public int getAD_ReplicationTable_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_ReplicationTable_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Replication Log.
 		@param AD_Replication_Log_ID 
 		Data Replication Log Details
@@ -96,9 +124,9 @@ public class X_AD_Replication_Log extends PO implements I_AD_Replication_Log, I_
 		return ii.intValue();
 	}
 
-	public I_AD_Replication_Run getAD_Replication_Run() throws RuntimeException
+	public org.compiere.model.I_AD_Replication_Run getAD_Replication_Run() throws RuntimeException
     {
-		return (I_AD_Replication_Run)MTable.get(getCtx(), I_AD_Replication_Run.Table_Name)
+		return (org.compiere.model.I_AD_Replication_Run)MTable.get(getCtx(), org.compiere.model.I_AD_Replication_Run.Table_Name)
 			.getPO(getAD_Replication_Run_ID(), get_TrxName());	}
 
 	/** Set Replication Run.
@@ -131,34 +159,6 @@ public class X_AD_Replication_Log extends PO implements I_AD_Replication_Log, I_
     {
         return new KeyNamePair(get_ID(), String.valueOf(getAD_Replication_Run_ID()));
     }
-
-	public I_AD_ReplicationTable getAD_ReplicationTable() throws RuntimeException
-    {
-		return (I_AD_ReplicationTable)MTable.get(getCtx(), I_AD_ReplicationTable.Table_Name)
-			.getPO(getAD_ReplicationTable_ID(), get_TrxName());	}
-
-	/** Set Replication Table.
-		@param AD_ReplicationTable_ID 
-		Data Replication Strategy Table Info
-	  */
-	public void setAD_ReplicationTable_ID (int AD_ReplicationTable_ID)
-	{
-		if (AD_ReplicationTable_ID < 1) 
-			set_Value (COLUMNNAME_AD_ReplicationTable_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_ReplicationTable_ID, Integer.valueOf(AD_ReplicationTable_ID));
-	}
-
-	/** Get Replication Table.
-		@return Data Replication Strategy Table Info
-	  */
-	public int getAD_ReplicationTable_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_ReplicationTable_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	/** Set Replicated.
 		@param IsReplicated 

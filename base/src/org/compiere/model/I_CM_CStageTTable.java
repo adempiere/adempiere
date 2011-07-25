@@ -62,6 +62,19 @@ public interface I_CM_CStageTTable
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name CM_CStageTTable_ID */
+    public static final String COLUMNNAME_CM_CStageTTable_ID = "CM_CStageTTable_ID";
+
+	/** Set Stage T.Table.
+	  * Container Stage Template Table
+	  */
+	public void setCM_CStageTTable_ID (int CM_CStageTTable_ID);
+
+	/** Get Stage T.Table.
+	  * Container Stage Template Table
+	  */
+	public int getCM_CStageTTable_ID();
+
     /** Column name CM_CStage_ID */
     public static final String COLUMNNAME_CM_CStage_ID = "CM_CStage_ID";
 
@@ -75,20 +88,7 @@ public interface I_CM_CStageTTable
 	  */
 	public int getCM_CStage_ID();
 
-	public I_CM_CStage getCM_CStage() throws RuntimeException;
-
-    /** Column name CM_CStageTTable_ID */
-    public static final String COLUMNNAME_CM_CStageTTable_ID = "CM_CStageTTable_ID";
-
-	/** Set Stage T.Table.
-	  * Container Stage Template Table
-	  */
-	public void setCM_CStageTTable_ID (int CM_CStageTTable_ID);
-
-	/** Get Stage T.Table.
-	  * Container Stage Template Table
-	  */
-	public int getCM_CStageTTable_ID();
+	public org.compiere.model.I_CM_CStage getCM_CStage() throws RuntimeException;
 
     /** Column name CM_TemplateTable_ID */
     public static final String COLUMNNAME_CM_TemplateTable_ID = "CM_TemplateTable_ID";
@@ -103,7 +103,7 @@ public interface I_CM_CStageTTable
 	  */
 	public int getCM_TemplateTable_ID();
 
-	public I_CM_TemplateTable getCM_TemplateTable() throws RuntimeException;
+	public org.compiere.model.I_CM_TemplateTable getCM_TemplateTable() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

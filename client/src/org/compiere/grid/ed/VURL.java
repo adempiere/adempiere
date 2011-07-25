@@ -63,7 +63,7 @@ public class VURL extends JComponent
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -350536181025487190L;
+	private static final long serialVersionUID = -3023749380845372419L;
 
 	/******************************************************************************
 	 *	Mouse Listener
@@ -442,6 +442,10 @@ public class VURL extends JComponent
 			FieldRecordInfo.addMenu(this, popupMenu);
 	}   //  setField
 
+	@Override
+	public GridField getField() {
+		return m_mField;
+	}
 	
 	/**
 	 * 	Set Text

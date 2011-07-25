@@ -30,7 +30,7 @@ public class X_R_IssueProject extends PO implements I_R_IssueProject, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_R_IssueProject (Properties ctx, int R_IssueProject_ID, String trxName)
@@ -72,9 +72,9 @@ public class X_R_IssueProject extends PO implements I_R_IssueProject, I_Persiste
       return sb.toString();
     }
 
-	public I_A_Asset getA_Asset() throws RuntimeException
+	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException
     {
-		return (I_A_Asset)MTable.get(getCtx(), I_A_Asset.Table_Name)
+		return (org.compiere.model.I_A_Asset)MTable.get(getCtx(), org.compiere.model.I_A_Asset.Table_Name)
 			.getPO(getA_Asset_ID(), get_TrxName());	}
 
 	/** Set Asset.
@@ -100,9 +100,9 @@ public class X_R_IssueProject extends PO implements I_R_IssueProject, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_C_Project getC_Project() throws RuntimeException
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
     {
-		return (I_C_Project)MTable.get(getCtx(), I_C_Project.Table_Name)
+		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
 			.getPO(getC_Project_ID(), get_TrxName());	}
 
 	/** Set Project.

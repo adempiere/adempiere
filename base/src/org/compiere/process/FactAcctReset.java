@@ -267,9 +267,9 @@ public class FactAcctReset extends SvrProcess
 		if ( !autoPeriod )
 			sql1 += " AND pc.PeriodStatus = 'O'" + docBaseType;
 		if (p_DateAcct_From != null)
-			sql1 += " AND TRUNC(fact.DateAcct) >= " + DB.TO_DATE(p_DateAcct_From);
+			sql1 += " AND TRUNC(fact.DateAcct, 'DD') >= " + DB.TO_DATE(p_DateAcct_From);
 		if (p_DateAcct_To != null)
-			sql1 += " AND TRUNC(fact.DateAcct) <= " + DB.TO_DATE(p_DateAcct_To);
+			sql1 += " AND TRUNC(fact.DateAcct, 'DD') <= " + DB.TO_DATE(p_DateAcct_To);
 		sql1 += ")";
 
 		log.log(Level.FINE, sql1);
@@ -287,9 +287,9 @@ public class FactAcctReset extends SvrProcess
 			sql2 += " AND EXISTS (SELECT 1 FROM C_PeriodControl pc "
 				+ "WHERE Fact_Acct.C_Period_ID=pc.C_Period_ID)";
 		if (p_DateAcct_From != null)
-			sql2 += " AND TRUNC(Fact_Acct.DateAcct) >= " + DB.TO_DATE(p_DateAcct_From);
+			sql2 += " AND TRUNC(Fact_Acct.DateAcct, 'DD') >= " + DB.TO_DATE(p_DateAcct_From);
 		if (p_DateAcct_To != null)
-			sql2 += " AND TRUNC(Fact_Acct.DateAcct) <= " + DB.TO_DATE(p_DateAcct_To);
+			sql2 += " AND TRUNC(Fact_Acct.DateAcct, 'DD') <= " + DB.TO_DATE(p_DateAcct_To);
 
 		log.log(Level.FINE, sql2);
 		

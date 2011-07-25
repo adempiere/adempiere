@@ -25,6 +25,8 @@ import java.util.Properties;
 import java.util.TreeSet;
 
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Msg;
 
 
 /**
@@ -32,6 +34,9 @@ import org.compiere.util.DB;
  *
  *  @author Jorg Janke
  *  @version $Id: MScheduler.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
+ *  
+ *  Contributors:
+ *    Carlos Ruiz - globalqss - FR [3135351] - Enable Scheduler for buttons
  */
 public class MScheduler extends X_AD_Scheduler
 	implements AdempiereProcessor, AdempiereProcessor2
@@ -264,6 +269,38 @@ public class MScheduler extends X_AD_Scheduler
 				}
 			}
 		}
+		
+		// FR [3135351] - Enable Scheduler for buttons
+		if (getAD_Table_ID() > 0) {
+			// Validate the table has any button referencing the process
+			int colid = new Query(getCtx(), MColumn.Table_Name, "AD_Table_ID=? AND AD_Reference_ID=? AND AD_Process_ID=?", get_TrxName())
+				.setOnlyActiveRecords(true)
+				.setParameters(getAD_Table_ID(), DisplayType.Button, getAD_Process_ID())
+				.firstId();
+			if (colid <= 0) {
+				log.saveError("Error", Msg.getMsg(getCtx(), "TableMustHaveProcessButton"));
+				return false;
+			}
+		} else {
+			setRecord_ID(-1);
+		}
+		
+		if (getRecord_ID() != 0) {
+			// Validate AD_Table_ID must be set
+			if (getAD_Table_ID() <= 0) {
+				log.saveError("Error", Msg.getMsg(getCtx(), "MustFillTable"));
+				return false;
+			}
+			// Validate the record must exists on the same client of the scheduler
+			MTable table = MTable.get(getCtx(), getAD_Table_ID());
+			PO po = table.getPO(getRecord_ID(), get_TrxName());
+			if (po == null || po.get_ID() <= 0 || po.getAD_Client_ID() != getAD_Client_ID()) {
+				log.saveError("Error", Msg.getMsg(getCtx(), "NoRecordID"));
+				return false;
+			}
+		}
+		//
+		
 		return true;
 	}	//	beforeSave
 

@@ -249,11 +249,11 @@ public class InfoPayment extends Info
 			Timestamp from = (Timestamp)fDateFrom.getValue();
 			Timestamp to = (Timestamp)fDateTo.getValue();
 			if (from == null && to != null)
-				sql.append(" AND TRUNC(p.DateTrx) <= ?");
+				sql.append(" AND TRUNC(p.DateTrx, 'DD') <= ?");
 			else if (from != null && to == null)
-				sql.append(" AND TRUNC(p.DateTrx) >= ?");
+				sql.append(" AND TRUNC(p.DateTrx, 'DD') >= ?");
 			else if (from != null && to != null)
-				sql.append(" AND TRUNC(p.DateTrx) BETWEEN ? AND ?");
+				sql.append(" AND TRUNC(p.DateTrx, 'DD') BETWEEN ? AND ?");
 		}
 		//
 		if (fAmtFrom.getValue() != null || fAmtTo.getValue() != null)

@@ -34,6 +34,10 @@ import org.compiere.util.DB;
  *
  *  @author Jorg Janke
  *  @version $Id: GenerateModel.java,v 1.42 2005/05/08 15:16:56 jjanke Exp $
+ *  
+ *  @author Teo Sarca, teo.sarca@gmail.com
+ *  		<li>BF [ 3020640 ] GenerateModel is failing when we provide a list of tables
+ *  			https://sourceforge.net/tracker/?func=detail&aid=3020640&group_id=176962&atid=879332
  */
 public class GenerateModel
 {
@@ -120,8 +124,11 @@ public class GenerateModel
 			+ "WHERE (TableName IN ('RV_WarehousePrice','RV_BPartner')"	//	special views
 			+ " OR IsView='N')"
 			+ " AND IsActive = 'Y' AND TableName NOT LIKE '%_Trl' AND ");
-		sql.append(" AND TableName LIKE ").append(tableLike);
-		//sql.append(" AND TableName IN (").append(tableLike).append(")"); // only specific tables
+		// Autodetect if we need to use IN or LIKE clause - teo_sarca [ 3020640 ]
+		if (tableLike.indexOf(",") == -1)
+			sql.append(" AND TableName LIKE ").append(tableLike);
+		else
+			sql.append(" AND TableName IN (").append(tableLike).append(")"); // only specific tables
 
 		sql.append(" ORDER BY TableName");
 		

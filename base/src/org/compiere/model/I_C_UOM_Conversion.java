@@ -62,22 +62,6 @@ public interface I_C_UOM_Conversion
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name Created */
-    public static final String COLUMNNAME_Created = "Created";
-
-	/** Get Created.
-	  * Date this record was created
-	  */
-	public Timestamp getCreated();
-
-    /** Column name CreatedBy */
-    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
-
-	/** Get Created By.
-	  * User who created this records
-	  */
-	public int getCreatedBy();
-
     /** Column name C_UOM_Conversion_ID */
     public static final String COLUMNNAME_C_UOM_Conversion_ID = "C_UOM_Conversion_ID";
 
@@ -104,7 +88,7 @@ public interface I_C_UOM_Conversion
 	  */
 	public int getC_UOM_ID();
 
-	public I_C_UOM getC_UOM() throws RuntimeException;
+	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException;
 
     /** Column name C_UOM_To_ID */
     public static final String COLUMNNAME_C_UOM_To_ID = "C_UOM_To_ID";
@@ -119,7 +103,23 @@ public interface I_C_UOM_Conversion
 	  */
 	public int getC_UOM_To_ID();
 
-	public I_C_UOM getC_UOM_To() throws RuntimeException;
+	public org.compiere.model.I_C_UOM getC_UOM_To() throws RuntimeException;
+
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
+
+	/** Get Created.
+	  * Date this record was created
+	  */
+	public Timestamp getCreated();
+
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
+	  */
+	public int getCreatedBy();
 
     /** Column name DivideRate */
     public static final String COLUMNNAME_DivideRate = "DivideRate";
@@ -160,7 +160,7 @@ public interface I_C_UOM_Conversion
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name MultiplyRate */
     public static final String COLUMNNAME_MultiplyRate = "MultiplyRate";

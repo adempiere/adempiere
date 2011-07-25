@@ -30,7 +30,7 @@ public class X_W_MailMsg extends PO implements I_W_MailMsg, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_W_MailMsg (Properties ctx, int W_MailMsg_ID, String trxName)
@@ -246,9 +246,9 @@ public class X_W_MailMsg extends PO implements I_W_MailMsg, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_W_Store getW_Store() throws RuntimeException
+	public org.compiere.model.I_W_Store getW_Store() throws RuntimeException
     {
-		return (I_W_Store)MTable.get(getCtx(), I_W_Store.Table_Name)
+		return (org.compiere.model.I_W_Store)MTable.get(getCtx(), org.compiere.model.I_W_Store.Table_Name)
 			.getPO(getW_Store_ID(), get_TrxName());	}
 
 	/** Set Web Store.

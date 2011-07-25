@@ -75,7 +75,7 @@ public class MInOutLine extends X_M_InOutLine
 		int M_RMALine_ID, String where, String trxName)
 	{
 		String whereClause = "M_RMALine_ID=? " + (!Util.isEmpty(where, true) ? " AND "+where : "");
-		List<MRMALine> list = new Query(ctx, Table_Name, whereClause, trxName)
+		List<MInOutLine> list = new Query(ctx, Table_Name, whereClause, trxName)
 									.setParameters(M_RMALine_ID)
 									.list();
 		return list.toArray (new MInOutLine[list.size()]);

@@ -148,7 +148,7 @@ public class SingleMProductTest extends TestCase {
 		
 		System.out.println(  
 			  "Count = " + count 
-			+ "; Time(seconds) = " + time + "; Produsts/Second = " + ((float)count/time) + "; ");
+			+ "; Time(seconds) = " + time + "; Products/Second = " + ((float)count/time) + "; ");
 		
 		assertTrue(this.getClass().getName(), true);
 	}

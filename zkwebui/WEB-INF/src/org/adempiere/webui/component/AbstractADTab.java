@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.adempiere.webui.panel.ADSortTab;
 import org.adempiere.webui.panel.ADTabpanel;
+import org.adempiere.webui.panel.AbstractADWindowPanel;
 import org.adempiere.webui.panel.IADTabpanel;
 import org.adempiere.webui.part.AbstractUIPart;
 import org.compiere.model.DataStatusEvent;
@@ -48,6 +49,7 @@ public abstract class AbstractADTab extends AbstractUIPart implements IADTab
     
     /** Tabs associated to this tab box */
     protected List<IADTabpanel> tabPanelList = new ArrayList<IADTabpanel>();
+	protected AbstractADWindowPanel adWindowPanel;
     
     public AbstractADTab()
     {
@@ -133,7 +135,7 @@ public abstract class AbstractADTab extends AbstractUIPart implements IADTab
     
     private void prepareContext(int newIndex, IADTabpanel newTab) {
 		//update context
-		if (newTab != null)
+		if (newTab != null && (adWindowPanel == null || !adWindowPanel.isEmbedded()))
 		{
 			List<Integer> parents = new ArrayList<Integer>();
 			//get parent list
@@ -326,4 +328,8 @@ public abstract class AbstractADTab extends AbstractUIPart implements IADTab
     	int oldIndex = getSelectedIndex();
     	updateSelectedIndex(oldIndex, newIndex);
     }
+
+	public void setADWindowPanel(AbstractADWindowPanel abstractADWindowPanel) {
+		this.adWindowPanel = abstractADWindowPanel;
+	}
 }

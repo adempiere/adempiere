@@ -360,7 +360,7 @@ public abstract class AbstractExcelExporter
 		HSSFSheet sheet= createTableSheet();
 		String sheetName = null;
 		//
-		short colnumMax = 0;
+		int colnumMax = 0;
 		for (int rownum = 0, xls_rownum = 1; rownum < getRowCount(); rownum++, xls_rownum++)
 		{
 			setCurrentRow(rownum);
@@ -368,7 +368,7 @@ public abstract class AbstractExcelExporter
 			boolean isPageBreak = false;
 			HSSFRow row = sheet.createRow(xls_rownum);
 			//	for all columns
-			short colnum = 0;
+			int colnum = 0;
 			for (int col = 0; col < getColumnCount(); col++)
 			{
 				if (colnum > colnumMax)
@@ -377,7 +377,6 @@ public abstract class AbstractExcelExporter
 				if (isColumnPrinted(col))
 				{
 					HSSFCell cell = row.createCell(colnum);
-					cell.setEncoding(HSSFCell.ENCODING_UTF_16); // Bug-2017673 - Export Report as Excel - Bad Encoding
 					
 					// line row
 					Object obj = getValueAt(rownum, col);

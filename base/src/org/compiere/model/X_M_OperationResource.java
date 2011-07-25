@@ -32,7 +32,7 @@ public class X_M_OperationResource extends PO implements I_M_OperationResource, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_M_OperationResource (Properties ctx, int M_OperationResource_ID, String trxName)
@@ -77,9 +77,9 @@ public class X_M_OperationResource extends PO implements I_M_OperationResource, 
       return sb.toString();
     }
 
-	public I_A_Asset getA_Asset() throws RuntimeException
+	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException
     {
-		return (I_A_Asset)MTable.get(getCtx(), I_A_Asset.Table_Name)
+		return (org.compiere.model.I_A_Asset)MTable.get(getCtx(), org.compiere.model.I_A_Asset.Table_Name)
 			.getPO(getA_Asset_ID(), get_TrxName());	}
 
 	/** Set Asset.
@@ -105,9 +105,9 @@ public class X_M_OperationResource extends PO implements I_M_OperationResource, 
 		return ii.intValue();
 	}
 
-	public I_C_Job getC_Job() throws RuntimeException
+	public org.compiere.model.I_C_Job getC_Job() throws RuntimeException
     {
-		return (I_C_Job)MTable.get(getCtx(), I_C_Job.Table_Name)
+		return (org.compiere.model.I_C_Job)MTable.get(getCtx(), org.compiere.model.I_C_Job.Table_Name)
 			.getPO(getC_Job_ID(), get_TrxName());	}
 
 	/** Set Position.
@@ -190,9 +190,9 @@ public class X_M_OperationResource extends PO implements I_M_OperationResource, 
 		return ii.intValue();
 	}
 
-	public I_M_ProductOperation getM_ProductOperation() throws RuntimeException
+	public org.compiere.model.I_M_ProductOperation getM_ProductOperation() throws RuntimeException
     {
-		return (I_M_ProductOperation)MTable.get(getCtx(), I_M_ProductOperation.Table_Name)
+		return (org.compiere.model.I_M_ProductOperation)MTable.get(getCtx(), org.compiere.model.I_M_ProductOperation.Table_Name)
 			.getPO(getM_ProductOperation_ID(), get_TrxName());	}
 
 	/** Set Product Operation.

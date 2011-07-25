@@ -76,7 +76,7 @@ public interface I_PP_Order_Cost
 	  */
 	public int getAD_Workflow_ID();
 
-	public I_AD_Workflow getAD_Workflow() throws RuntimeException;
+	public org.compiere.model.I_AD_Workflow getAD_Workflow() throws RuntimeException;
 
     /** Column name C_AcctSchema_ID */
     public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
@@ -91,7 +91,7 @@ public interface I_PP_Order_Cost
 	  */
 	public int getC_AcctSchema_ID();
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
+	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
 
     /** Column name CostingMethod */
     public static final String COLUMNNAME_CostingMethod = "CostingMethod";
@@ -246,7 +246,7 @@ public interface I_PP_Order_Cost
 	  */
 	public int getM_CostElement_ID();
 
-	public I_M_CostElement getM_CostElement() throws RuntimeException;
+	public org.compiere.model.I_M_CostElement getM_CostElement() throws RuntimeException;
 
     /** Column name M_CostType_ID */
     public static final String COLUMNNAME_M_CostType_ID = "M_CostType_ID";
@@ -261,7 +261,7 @@ public interface I_PP_Order_Cost
 	  */
 	public int getM_CostType_ID();
 
-	public I_M_CostType getM_CostType() throws RuntimeException;
+	public org.compiere.model.I_M_CostType getM_CostType() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -276,7 +276,7 @@ public interface I_PP_Order_Cost
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name PP_Order_Cost_ID */
     public static final String COLUMNNAME_PP_Order_Cost_ID = "PP_Order_Cost_ID";

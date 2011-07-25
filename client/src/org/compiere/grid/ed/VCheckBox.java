@@ -46,7 +46,7 @@ public class VCheckBox extends CCheckBox
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -3822806631369725112L;
+	private static final long serialVersionUID = -9199643773556184995L;
 
 	/******************************************************************************
 	 *	Mouse Listener
@@ -242,6 +242,11 @@ public class VCheckBox extends CCheckBox
 			FieldRecordInfo.addMenu(this, popupMenu);
 	}   //  setField
 
+	@Override
+	public GridField getField() {
+		return m_mField;
+	}
+	
 	/**
 	 * @return Returns the savedMnemonic.
 	 */

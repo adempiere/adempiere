@@ -30,7 +30,7 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_C_DocType (Properties ctx, int C_DocType_ID, String trxName)
@@ -50,13 +50,13 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 			setIsDefaultCounterDoc (false);
 			setIsDocNoControlled (true);
 // Y
-			setIsIndexed (false);
 			setIsInTransit (false);
+			setIsIndexed (false);
 			setIsPickQAConfirm (false);
 			setIsPrepareSplitDocument (true);
 // Y
-			setIsShipConfirm (false);
 			setIsSOTrx (false);
+			setIsShipConfirm (false);
 			setIsSplitWhenDifference (false);
 // N
 			setName (null);
@@ -92,9 +92,9 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException
+	public org.compiere.model.I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException
     {
-		return (I_AD_PrintFormat)MTable.get(getCtx(), I_AD_PrintFormat.Table_Name)
+		return (org.compiere.model.I_AD_PrintFormat)MTable.get(getCtx(), org.compiere.model.I_AD_PrintFormat.Table_Name)
 			.getPO(getAD_PrintFormat_ID(), get_TrxName());	}
 
 	/** Set Print Format.
@@ -120,9 +120,9 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_DocType getC_DocTypeDifference() throws RuntimeException
+	public org.compiere.model.I_C_DocType getC_DocTypeDifference() throws RuntimeException
     {
-		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
 			.getPO(getC_DocTypeDifference_ID(), get_TrxName());	}
 
 	/** Set Difference Document.
@@ -143,6 +143,90 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public int getC_DocTypeDifference_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypeDifference_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_DocType getC_DocTypeInvoice() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
+			.getPO(getC_DocTypeInvoice_ID(), get_TrxName());	}
+
+	/** Set Document Type for Invoice.
+		@param C_DocTypeInvoice_ID 
+		Document type used for invoices generated from this sales document
+	  */
+	public void setC_DocTypeInvoice_ID (int C_DocTypeInvoice_ID)
+	{
+		if (C_DocTypeInvoice_ID < 1) 
+			set_Value (COLUMNNAME_C_DocTypeInvoice_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_DocTypeInvoice_ID, Integer.valueOf(C_DocTypeInvoice_ID));
+	}
+
+	/** Get Document Type for Invoice.
+		@return Document type used for invoices generated from this sales document
+	  */
+	public int getC_DocTypeInvoice_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypeInvoice_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_DocType getC_DocTypeProforma() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
+			.getPO(getC_DocTypeProforma_ID(), get_TrxName());	}
+
+	/** Set Document Type for ProForma.
+		@param C_DocTypeProforma_ID 
+		Document type used for pro forma invoices generated from this sales document
+	  */
+	public void setC_DocTypeProforma_ID (int C_DocTypeProforma_ID)
+	{
+		if (C_DocTypeProforma_ID < 1) 
+			set_Value (COLUMNNAME_C_DocTypeProforma_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_DocTypeProforma_ID, Integer.valueOf(C_DocTypeProforma_ID));
+	}
+
+	/** Get Document Type for ProForma.
+		@return Document type used for pro forma invoices generated from this sales document
+	  */
+	public int getC_DocTypeProforma_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypeProforma_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_DocType getC_DocTypeShipment() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
+			.getPO(getC_DocTypeShipment_ID(), get_TrxName());	}
+
+	/** Set Document Type for Shipment.
+		@param C_DocTypeShipment_ID 
+		Document type used for shipments generated from this sales document
+	  */
+	public void setC_DocTypeShipment_ID (int C_DocTypeShipment_ID)
+	{
+		if (C_DocTypeShipment_ID < 1) 
+			set_Value (COLUMNNAME_C_DocTypeShipment_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_DocTypeShipment_ID, Integer.valueOf(C_DocTypeShipment_ID));
+	}
+
+	/** Get Document Type for Shipment.
+		@return Document type used for shipments generated from this sales document
+	  */
+	public int getC_DocTypeShipment_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypeShipment_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -171,93 +255,9 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_DocType getC_DocTypeInvoice() throws RuntimeException
+	public org.compiere.model.I_AD_Sequence getDefiniteSequence() throws RuntimeException
     {
-		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
-			.getPO(getC_DocTypeInvoice_ID(), get_TrxName());	}
-
-	/** Set Document Type for Invoice.
-		@param C_DocTypeInvoice_ID 
-		Document type used for invoices generated from this sales document
-	  */
-	public void setC_DocTypeInvoice_ID (int C_DocTypeInvoice_ID)
-	{
-		if (C_DocTypeInvoice_ID < 1) 
-			set_Value (COLUMNNAME_C_DocTypeInvoice_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_DocTypeInvoice_ID, Integer.valueOf(C_DocTypeInvoice_ID));
-	}
-
-	/** Get Document Type for Invoice.
-		@return Document type used for invoices generated from this sales document
-	  */
-	public int getC_DocTypeInvoice_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypeInvoice_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_DocType getC_DocTypeProforma() throws RuntimeException
-    {
-		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
-			.getPO(getC_DocTypeProforma_ID(), get_TrxName());	}
-
-	/** Set Document Type for ProForma.
-		@param C_DocTypeProforma_ID 
-		Document type used for pro forma invoices generated from this sales document
-	  */
-	public void setC_DocTypeProforma_ID (int C_DocTypeProforma_ID)
-	{
-		if (C_DocTypeProforma_ID < 1) 
-			set_Value (COLUMNNAME_C_DocTypeProforma_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_DocTypeProforma_ID, Integer.valueOf(C_DocTypeProforma_ID));
-	}
-
-	/** Get Document Type for ProForma.
-		@return Document type used for pro forma invoices generated from this sales document
-	  */
-	public int getC_DocTypeProforma_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypeProforma_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_DocType getC_DocTypeShipment() throws RuntimeException
-    {
-		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
-			.getPO(getC_DocTypeShipment_ID(), get_TrxName());	}
-
-	/** Set Document Type for Shipment.
-		@param C_DocTypeShipment_ID 
-		Document type used for shipments generated from this sales document
-	  */
-	public void setC_DocTypeShipment_ID (int C_DocTypeShipment_ID)
-	{
-		if (C_DocTypeShipment_ID < 1) 
-			set_Value (COLUMNNAME_C_DocTypeShipment_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_DocTypeShipment_ID, Integer.valueOf(C_DocTypeShipment_ID));
-	}
-
-	/** Get Document Type for Shipment.
-		@return Document type used for shipments generated from this sales document
-	  */
-	public int getC_DocTypeShipment_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypeShipment_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_AD_Sequence getDefiniteSequence() throws RuntimeException
-    {
-		return (I_AD_Sequence)MTable.get(getCtx(), I_AD_Sequence.Table_Name)
+		return (org.compiere.model.I_AD_Sequence)MTable.get(getCtx(), org.compiere.model.I_AD_Sequence.Table_Name)
 			.getPO(getDefiniteSequence_ID(), get_TrxName());	}
 
 	/** Set Definite Sequence.
@@ -375,9 +375,9 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		return (String)get_Value(COLUMNNAME_DocBaseType);
 	}
 
-	public I_AD_Sequence getDocNoSequence() throws RuntimeException
+	public org.compiere.model.I_AD_Sequence getDocNoSequence() throws RuntimeException
     {
-		return (I_AD_Sequence)MTable.get(getCtx(), I_AD_Sequence.Table_Name)
+		return (org.compiere.model.I_AD_Sequence)MTable.get(getCtx(), org.compiere.model.I_AD_Sequence.Table_Name)
 			.getPO(getDocNoSequence_ID(), get_TrxName());	}
 
 	/** Set Document Sequence.
@@ -476,9 +476,9 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		return (String)get_Value(COLUMNNAME_DocumentNote);
 	}
 
-	public I_GL_Category getGL_Category() throws RuntimeException
+	public org.compiere.model.I_GL_Category getGL_Category() throws RuntimeException
     {
-		return (I_GL_Category)MTable.get(getCtx(), I_GL_Category.Table_Name)
+		return (org.compiere.model.I_GL_Category)MTable.get(getCtx(), org.compiere.model.I_GL_Category.Table_Name)
 			.getPO(getGL_Category_ID(), get_TrxName());	}
 
 	/** Set GL Category.
@@ -648,30 +648,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		return false;
 	}
 
-	/** Set Indexed.
-		@param IsIndexed 
-		Index the document for the internal search engine
-	  */
-	public void setIsIndexed (boolean IsIndexed)
-	{
-		set_Value (COLUMNNAME_IsIndexed, Boolean.valueOf(IsIndexed));
-	}
-
-	/** Get Indexed.
-		@return Index the document for the internal search engine
-	  */
-	public boolean isIndexed () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsIndexed);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** Set In Transit.
 		@param IsInTransit 
 		Movement is in transit
@@ -687,6 +663,30 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public boolean isInTransit () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsInTransit);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Indexed.
+		@param IsIndexed 
+		Index the document for the internal search engine
+	  */
+	public void setIsIndexed (boolean IsIndexed)
+	{
+		set_Value (COLUMNNAME_IsIndexed, Boolean.valueOf(IsIndexed));
+	}
+
+	/** Get Indexed.
+		@return Index the document for the internal search engine
+	  */
+	public boolean isIndexed () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsIndexed);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -786,30 +786,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		return false;
 	}
 
-	/** Set Ship/Receipt Confirmation.
-		@param IsShipConfirm 
-		Require Ship or Receipt Confirmation before processing
-	  */
-	public void setIsShipConfirm (boolean IsShipConfirm)
-	{
-		set_Value (COLUMNNAME_IsShipConfirm, Boolean.valueOf(IsShipConfirm));
-	}
-
-	/** Get Ship/Receipt Confirmation.
-		@return Require Ship or Receipt Confirmation before processing
-	  */
-	public boolean isShipConfirm () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsShipConfirm);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** Set Sales Transaction.
 		@param IsSOTrx 
 		This is a Sales Transaction
@@ -825,6 +801,30 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public boolean isSOTrx () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsSOTrx);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Ship/Receipt Confirmation.
+		@param IsShipConfirm 
+		Require Ship or Receipt Confirmation before processing
+	  */
+	public void setIsShipConfirm (boolean IsShipConfirm)
+	{
+		set_Value (COLUMNNAME_IsShipConfirm, Boolean.valueOf(IsShipConfirm));
+	}
+
+	/** Get Ship/Receipt Confirmation.
+		@return Require Ship or Receipt Confirmation before processing
+	  */
+	public boolean isShipConfirm () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsShipConfirm);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

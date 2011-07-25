@@ -75,7 +75,7 @@ public interface I_C_InvoiceBatch
 	  */
 	public int getC_ConversionType_ID();
 
-	public I_C_ConversionType getC_ConversionType() throws RuntimeException;
+	public org.compiere.model.I_C_ConversionType getC_ConversionType() throws RuntimeException;
 
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
@@ -90,7 +90,7 @@ public interface I_C_InvoiceBatch
 	  */
 	public int getC_Currency_ID();
 
-	public I_C_Currency getC_Currency() throws RuntimeException;
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException;
 
     /** Column name C_InvoiceBatch_ID */
     public static final String COLUMNNAME_C_InvoiceBatch_ID = "C_InvoiceBatch_ID";
@@ -247,7 +247,7 @@ public interface I_C_InvoiceBatch
 	  */
 	public int getSalesRep_ID();
 
-	public I_AD_User getSalesRep() throws RuntimeException;
+	public org.compiere.model.I_AD_User getSalesRep() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

@@ -49,19 +49,6 @@ public interface I_AD_User
 	  */
 	public int getAD_Client_ID();
 
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
-
     /** Column name AD_OrgTrx_ID */
     public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
 
@@ -74,6 +61,19 @@ public interface I_AD_User
 	  * Performing or initiating organization
 	  */
 	public int getAD_OrgTrx_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
 
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
@@ -114,7 +114,7 @@ public interface I_AD_User
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_BPartner_Location_ID */
     public static final String COLUMNNAME_C_BPartner_Location_ID = "C_BPartner_Location_ID";
@@ -129,7 +129,7 @@ public interface I_AD_User
 	  */
 	public int getC_BPartner_Location_ID();
 
-	public I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException;
 
     /** Column name C_Greeting_ID */
     public static final String COLUMNNAME_C_Greeting_ID = "C_Greeting_ID";
@@ -144,7 +144,7 @@ public interface I_AD_User
 	  */
 	public int getC_Greeting_ID();
 
-	public I_C_Greeting getC_Greeting() throws RuntimeException;
+	public org.compiere.model.I_C_Greeting getC_Greeting() throws RuntimeException;
 
     /** Column name C_Job_ID */
     public static final String COLUMNNAME_C_Job_ID = "C_Job_ID";
@@ -159,7 +159,7 @@ public interface I_AD_User
 	  */
 	public int getC_Job_ID();
 
-	public I_C_Job getC_Job() throws RuntimeException;
+	public org.compiere.model.I_C_Job getC_Job() throws RuntimeException;
 
     /** Column name Comments */
     public static final String COLUMNNAME_Comments = "Comments";
@@ -333,6 +333,19 @@ public interface I_AD_User
 	  */
 	public boolean isInPayroll();
 
+    /** Column name LDAPUser */
+    public static final String COLUMNNAME_LDAPUser = "LDAPUser";
+
+	/** Set LDAP User Name.
+	  * User Name used for authorization via LDAP (directory) services
+	  */
+	public void setLDAPUser (String LDAPUser);
+
+	/** Get LDAP User Name.
+	  * User Name used for authorization via LDAP (directory) services
+	  */
+	public String getLDAPUser();
+
     /** Column name LastContact */
     public static final String COLUMNNAME_LastContact = "LastContact";
 
@@ -358,19 +371,6 @@ public interface I_AD_User
 	  * Result of last contact
 	  */
 	public String getLastResult();
-
-    /** Column name LDAPUser */
-    public static final String COLUMNNAME_LDAPUser = "LDAPUser";
-
-	/** Set LDAP User Name.
-	  * User Name used for authorization via LDAP (directory) services
-	  */
-	public void setLDAPUser (String LDAPUser);
-
-	/** Get LDAP User Name.
-	  * User Name used for authorization via LDAP (directory) services
-	  */
-	public String getLDAPUser();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -459,7 +459,7 @@ public interface I_AD_User
 	  */
 	public int getSupervisor_ID();
 
-	public I_AD_User getSupervisor() throws RuntimeException;
+	public org.compiere.model.I_AD_User getSupervisor() throws RuntimeException;
 
     /** Column name Title */
     public static final String COLUMNNAME_Title = "Title";

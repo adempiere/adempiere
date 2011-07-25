@@ -866,6 +866,11 @@ public class CConnection implements Serializable, Cloneable
 			if (getDbPort () != DB_PostgreSQL.DEFAULT_PORT)
 				setDbPort (DB_PostgreSQL.DEFAULT_PORT);
 		}
+		if (isMySQL())
+		{
+			if (getDbPort () != DB_MySQL.DEFAULT_PORT)
+				setDbPort (DB_MySQL.DEFAULT_PORT);
+		}//  added by dete
 		//end vpj-cd e-evolution 09 ene 2006
 	} 	//  setType
 
@@ -897,6 +902,10 @@ public class CConnection implements Serializable, Cloneable
 		return Database.DB_POSTGRESQL.equals (m_type);
 	} 	//  isPostgreSQL
 
+	public boolean isMySQL(){
+		return Database.DB_MYSQL.equals(m_type);
+	} //  added by dete
+	
 	/**
 	 *  Is Database Connection OK
 	 *  @return true if database connection is OK

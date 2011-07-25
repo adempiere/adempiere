@@ -31,7 +31,7 @@ public class X_C_AcctProcessor extends PO implements I_C_AcctProcessor, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_C_AcctProcessor (Properties ctx, int C_AcctProcessor_ID, String trxName)
@@ -77,9 +77,9 @@ public class X_C_AcctProcessor extends PO implements I_C_AcctProcessor, I_Persis
       return sb.toString();
     }
 
-	public I_AD_Table getAD_Table() throws RuntimeException
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException
     {
-		return (I_AD_Table)MTable.get(getCtx(), I_AD_Table.Table_Name)
+		return (org.compiere.model.I_AD_Table)MTable.get(getCtx(), org.compiere.model.I_AD_Table.Table_Name)
 			.getPO(getAD_Table_ID(), get_TrxName());	}
 
 	/** Set Table.
@@ -128,9 +128,9 @@ public class X_C_AcctProcessor extends PO implements I_C_AcctProcessor, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException
+	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException
     {
-		return (I_C_AcctSchema)MTable.get(getCtx(), I_C_AcctSchema.Table_Name)
+		return (org.compiere.model.I_C_AcctSchema)MTable.get(getCtx(), org.compiere.model.I_C_AcctSchema.Table_Name)
 			.getPO(getC_AcctSchema_ID(), get_TrxName());	}
 
 	/** Set Accounting Schema.
@@ -319,9 +319,9 @@ public class X_C_AcctProcessor extends PO implements I_C_AcctProcessor, I_Persis
 		return false;
 	}
 
-	public I_AD_User getSupervisor() throws RuntimeException
+	public org.compiere.model.I_AD_User getSupervisor() throws RuntimeException
     {
-		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getSupervisor_ID(), get_TrxName());	}
 
 	/** Set Supervisor.

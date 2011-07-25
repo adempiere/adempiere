@@ -369,7 +369,7 @@ public class FinReport extends SvrProcess
 				select.append(" FROM Fact_Acct_Summary fa WHERE DateAcct ");
 			else {
 				//	Get Period/Date info
-				select.append(" FROM Fact_Acct fa WHERE TRUNC(DateAcct) ");
+				select.append(" FROM Fact_Acct fa WHERE TRUNC(DateAcct, 'DD') ");
 			}
 
 			BigDecimal relativeOffset = null;	//	current
@@ -941,7 +941,7 @@ public class FinReport extends SvrProcess
 			}  //report cube
 			else {
 			//	Get Period info
-				select.append(" FROM Fact_Acct fb WHERE TRUNC(DateAcct) ");
+				select.append(" FROM Fact_Acct fb WHERE TRUNC(DateAcct, 'DD') ");
 			}
 			FinReportPeriod frp = getPeriod (m_columns[col].getRelativePeriod());
 			if (m_lines[line].getPAPeriodType() != null)			//	line amount type overwrites column
@@ -1094,7 +1094,7 @@ public class FinReport extends SvrProcess
 			insert.append(" AND ").append(s);
 		//	Period restriction
 		FinReportPeriod frp = getPeriod (0);
-		insert.append(" AND TRUNC(DateAcct) ")
+		insert.append(" AND TRUNC(DateAcct, 'DD') ")
 			.append(frp.getPeriodWhere());
 		//	PostingType ??
 //		if (!m_lines[line].isPostingType())		//	only if not defined on line

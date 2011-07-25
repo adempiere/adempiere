@@ -41,19 +41,6 @@ public interface I_C_BankStatementLoader
 
     /** Load Meta Data */
 
-    /** Column name AccountNo */
-    public static final String COLUMNNAME_AccountNo = "AccountNo";
-
-	/** Set Account No.
-	  * Account Number
-	  */
-	public void setAccountNo (String AccountNo);
-
-	/** Get Account No.
-	  * Account Number
-	  */
-	public String getAccountNo();
-
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -74,6 +61,19 @@ public interface I_C_BankStatementLoader
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name AccountNo */
+    public static final String COLUMNNAME_AccountNo = "AccountNo";
+
+	/** Set Account No.
+	  * Account Number
+	  */
+	public void setAccountNo (String AccountNo);
+
+	/** Get Account No.
+	  * Account Number
+	  */
+	public String getAccountNo();
 
     /** Column name BranchID */
     public static final String COLUMNNAME_BranchID = "BranchID";
@@ -101,7 +101,7 @@ public interface I_C_BankStatementLoader
 	  */
 	public int getC_BankAccount_ID();
 
-	public I_C_BankAccount getC_BankAccount() throws RuntimeException;
+	public org.compiere.model.I_C_BankAccount getC_BankAccount() throws RuntimeException;
 
     /** Column name C_BankStatementLoader_ID */
     public static final String COLUMNNAME_C_BankStatementLoader_ID = "C_BankStatementLoader_ID";
@@ -249,19 +249,6 @@ public interface I_C_BankStatementLoader
 	  */
 	public String getName();
 
-    /** Column name Password */
-    public static final String COLUMNNAME_Password = "Password";
-
-	/** Set Password.
-	  * Password of any length (case sensitive)
-	  */
-	public void setPassword (String Password);
-
-	/** Get Password.
-	  * Password of any length (case sensitive)
-	  */
-	public String getPassword();
-
     /** Column name PIN */
     public static final String COLUMNNAME_PIN = "PIN";
 
@@ -274,6 +261,19 @@ public interface I_C_BankStatementLoader
 	  * Personal Identification Number
 	  */
 	public String getPIN();
+
+    /** Column name Password */
+    public static final String COLUMNNAME_Password = "Password";
+
+	/** Set Password.
+	  * Password of any length (case sensitive)
+	  */
+	public void setPassword (String Password);
+
+	/** Get Password.
+	  * Password of any length (case sensitive)
+	  */
+	public String getPassword();
 
     /** Column name ProxyAddress */
     public static final String COLUMNNAME_ProxyAddress = "ProxyAddress";

@@ -33,7 +33,7 @@ public class X_PA_SLA_Measure extends PO implements I_PA_SLA_Measure, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_PA_SLA_Measure (Properties ctx, int PA_SLA_Measure_ID, String trxName)
@@ -77,9 +77,9 @@ public class X_PA_SLA_Measure extends PO implements I_PA_SLA_Measure, I_Persiste
       return sb.toString();
     }
 
-	public I_AD_Table getAD_Table() throws RuntimeException
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException
     {
-		return (I_AD_Table)MTable.get(getCtx(), I_AD_Table.Table_Name)
+		return (org.compiere.model.I_AD_Table)MTable.get(getCtx(), org.compiere.model.I_AD_Table.Table_Name)
 			.getPO(getAD_Table_ID(), get_TrxName());	}
 
 	/** Set Table.
@@ -167,9 +167,9 @@ public class X_PA_SLA_Measure extends PO implements I_PA_SLA_Measure, I_Persiste
 		return bd;
 	}
 
-	public I_PA_SLA_Goal getPA_SLA_Goal() throws RuntimeException
+	public org.compiere.model.I_PA_SLA_Goal getPA_SLA_Goal() throws RuntimeException
     {
-		return (I_PA_SLA_Goal)MTable.get(getCtx(), I_PA_SLA_Goal.Table_Name)
+		return (org.compiere.model.I_PA_SLA_Goal)MTable.get(getCtx(), org.compiere.model.I_PA_SLA_Goal.Table_Name)
 			.getPO(getPA_SLA_Goal_ID(), get_TrxName());	}
 
 	/** Set SLA Goal.

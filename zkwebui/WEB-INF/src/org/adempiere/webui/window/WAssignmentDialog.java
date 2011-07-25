@@ -221,16 +221,14 @@ public class WAssignmentDialog extends Window implements EventListener
 
 		//	Set Resource
 		int S_Resource_ID = m_mAssignment.getS_Resource_ID();
-		KeyNamePair[] resources = new KeyNamePair[m_lookup.size()];
-		m_lookup.keySet().toArray(resources);
-		for (int i = 0; i < resources.length; i++)
-		{
-			if (resources[i].getKey() == S_Resource_ID)
-			{
-				fResource.setSelectedIndex(i);
+		
+		for (ListItem item : fResource.getItems()) {
+			if ( (Integer)item.getValue() == S_Resource_ID) {
+				fResource.setSelectedItem(item);
 				break;
 			}
 		}
+		
 		ListItem listItem = fResource.getSelectedItem();
 		KeyNamePair check = new KeyNamePair((Integer)listItem.getValue(), listItem.getLabel());
 		if (check == null || check.getKey() != S_Resource_ID)
@@ -284,7 +282,9 @@ public class WAssignmentDialog extends Window implements EventListener
 		getDateAndTimeFrom(date);
 		Timestamp assignDateFrom = new Timestamp(date.getTimeInMillis());
 		BigDecimal qty = fQty.getValue();
-		KeyNamePair uom = (KeyNamePair)m_lookup.get(fResource.getSelectedItem());
+		ListItem listItem = fResource.getSelectedItem();
+		KeyNamePair resource = listItem != null ? new KeyNamePair((Integer)listItem.getValue(), listItem.getLabel()) : null;
+		KeyNamePair uom = (KeyNamePair)m_lookup.get(resource);
 		int minutes = MUOMConversion.convertToMinutes(Env.getCtx(), uom.getKey(), qty);
 		Timestamp assignDateTo = TimeUtil.addMinutess(assignDateFrom, minutes);
 		m_mAssignment.setAssignDateTo (assignDateTo);
@@ -367,7 +367,7 @@ public class WAssignmentDialog extends Window implements EventListener
 		//	Resource - Look up UOM
 		if (e.getTarget() == fResource)
 		{
-			Object o = m_lookup.get(fResource.getSelectedItem());
+			Object o = m_lookup.get(resource);
 			if (o == null)
 				lUOM.setValue(" ? ");
 			else

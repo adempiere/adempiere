@@ -62,7 +62,7 @@ public interface I_ASP_Field
 	  */
 	public int getAD_Field_ID();
 
-	public I_AD_Field getAD_Field() throws RuntimeException;
+	public org.compiere.model.I_AD_Field getAD_Field() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -104,7 +104,7 @@ public interface I_ASP_Field
 	/** Get ASP Tab	  */
 	public int getASP_Tab_ID();
 
-	public I_ASP_Tab getASP_Tab() throws RuntimeException;
+	public org.compiere.model.I_ASP_Tab getASP_Tab() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

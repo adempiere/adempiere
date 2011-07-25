@@ -27,6 +27,7 @@
     <pathelement path="${jar.path}/postgresql.jar"/>
     <pathelement path="${jar.path}/jboss.jar"/>
     <pathelement path="${jar.path}/glassfish.jar"/>
+	<pathelement path="../tools/lib/mysql-connector-java-5.1.13-bin.jar"/><!--@MySQl-->
     <pathelement path="../tools/lib/junit.jar"/>
     <pathelement path="../tools/lib/j2ee.jar"/>
     <pathelement path="../tools/lib/jnlp.jar"/>
@@ -116,6 +117,7 @@
     <pathelement path="../adempiere/Adempiere/lib/jboss.jar" />
     <pathelement path="../adempiere/Adempiere/lib/oracle.jar" />
     <pathelement path="../adempiere/Adempiere/lib/postgresql.jar" />
+	<pathelement path="../adempiere/Adempiere/lib/mysql-connector-java-5.1.13-bin.jar" /><!--@MySQL-->
     <pathelement path="./base.jar" />
   </path>
 

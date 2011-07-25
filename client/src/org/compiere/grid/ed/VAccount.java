@@ -65,7 +65,7 @@ public final class VAccount extends JComponent
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -3397625857773619178L;
+	private static final long serialVersionUID = -4177614835777620089L;
 
 	/******************************************************************************
 	 *	Mouse Listener
@@ -450,6 +450,11 @@ public final class VAccount extends JComponent
 		
 	}   //  setField
 
+	@Override
+	public GridField getField() {
+		return m_mField;
+	}
+	
 	/**
 	 * 	String Representation
 	 *	@return info
@@ -484,5 +489,5 @@ public final class VAccount extends JComponent
 			cmd_text();
 		}
 	}
-	
+
 }	//	VAccount

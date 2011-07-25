@@ -30,7 +30,7 @@ public class X_CM_WebProject_Domain extends PO implements I_CM_WebProject_Domain
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_CM_WebProject_Domain (Properties ctx, int CM_WebProject_Domain_ID, String trxName)
@@ -73,9 +73,9 @@ public class X_CM_WebProject_Domain extends PO implements I_CM_WebProject_Domain
       return sb.toString();
     }
 
-	public I_CM_Container getCM_Container() throws RuntimeException
+	public org.compiere.model.I_CM_Container getCM_Container() throws RuntimeException
     {
-		return (I_CM_Container)MTable.get(getCtx(), I_CM_Container.Table_Name)
+		return (org.compiere.model.I_CM_Container)MTable.get(getCtx(), org.compiere.model.I_CM_Container.Table_Name)
 			.getPO(getCM_Container_ID(), get_TrxName());	}
 
 	/** Set Web Container.
@@ -124,9 +124,9 @@ public class X_CM_WebProject_Domain extends PO implements I_CM_WebProject_Domain
 		return ii.intValue();
 	}
 
-	public I_CM_WebProject getCM_WebProject() throws RuntimeException
+	public org.compiere.model.I_CM_WebProject getCM_WebProject() throws RuntimeException
     {
-		return (I_CM_WebProject)MTable.get(getCtx(), I_CM_WebProject.Table_Name)
+		return (org.compiere.model.I_CM_WebProject)MTable.get(getCtx(), org.compiere.model.I_CM_WebProject.Table_Name)
 			.getPO(getCM_WebProject_ID(), get_TrxName());	}
 
 	/** Set Web Project.

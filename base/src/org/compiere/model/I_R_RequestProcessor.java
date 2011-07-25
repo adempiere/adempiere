@@ -230,19 +230,6 @@ public interface I_R_RequestProcessor
 	/** Get Process Now	  */
 	public boolean isProcessing();
 
-    /** Column name RemindDays */
-    public static final String COLUMNNAME_RemindDays = "RemindDays";
-
-	/** Set Reminder Days.
-	  * Days between sending Reminder Emails for a due or inactive Document
-	  */
-	public void setRemindDays (int RemindDays);
-
-	/** Get Reminder Days.
-	  * Days between sending Reminder Emails for a due or inactive Document
-	  */
-	public int getRemindDays();
-
     /** Column name R_RequestProcessor_ID */
     public static final String COLUMNNAME_R_RequestProcessor_ID = "R_RequestProcessor_ID";
 
@@ -269,7 +256,20 @@ public interface I_R_RequestProcessor
 	  */
 	public int getR_RequestType_ID();
 
-	public I_R_RequestType getR_RequestType() throws RuntimeException;
+	public org.compiere.model.I_R_RequestType getR_RequestType() throws RuntimeException;
+
+    /** Column name RemindDays */
+    public static final String COLUMNNAME_RemindDays = "RemindDays";
+
+	/** Set Reminder Days.
+	  * Days between sending Reminder Emails for a due or inactive Document
+	  */
+	public void setRemindDays (int RemindDays);
+
+	/** Get Reminder Days.
+	  * Days between sending Reminder Emails for a due or inactive Document
+	  */
+	public int getRemindDays();
 
     /** Column name Supervisor_ID */
     public static final String COLUMNNAME_Supervisor_ID = "Supervisor_ID";
@@ -284,7 +284,7 @@ public interface I_R_RequestProcessor
 	  */
 	public int getSupervisor_ID();
 
-	public I_AD_User getSupervisor() throws RuntimeException;
+	public org.compiere.model.I_AD_User getSupervisor() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

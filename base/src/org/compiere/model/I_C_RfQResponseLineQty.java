@@ -62,6 +62,49 @@ public interface I_C_RfQResponseLineQty
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name C_RfQLineQty_ID */
+    public static final String COLUMNNAME_C_RfQLineQty_ID = "C_RfQLineQty_ID";
+
+	/** Set RfQ Line Quantity.
+	  * Request for Quotation Line Quantity
+	  */
+	public void setC_RfQLineQty_ID (int C_RfQLineQty_ID);
+
+	/** Get RfQ Line Quantity.
+	  * Request for Quotation Line Quantity
+	  */
+	public int getC_RfQLineQty_ID();
+
+	public org.compiere.model.I_C_RfQLineQty getC_RfQLineQty() throws RuntimeException;
+
+    /** Column name C_RfQResponseLineQty_ID */
+    public static final String COLUMNNAME_C_RfQResponseLineQty_ID = "C_RfQResponseLineQty_ID";
+
+	/** Set RfQ Response Line Qty.
+	  * Request for Quotation Response Line Quantity
+	  */
+	public void setC_RfQResponseLineQty_ID (int C_RfQResponseLineQty_ID);
+
+	/** Get RfQ Response Line Qty.
+	  * Request for Quotation Response Line Quantity
+	  */
+	public int getC_RfQResponseLineQty_ID();
+
+    /** Column name C_RfQResponseLine_ID */
+    public static final String COLUMNNAME_C_RfQResponseLine_ID = "C_RfQResponseLine_ID";
+
+	/** Set RfQ Response Line.
+	  * Request for Quotation Response Line
+	  */
+	public void setC_RfQResponseLine_ID (int C_RfQResponseLine_ID);
+
+	/** Get RfQ Response Line.
+	  * Request for Quotation Response Line
+	  */
+	public int getC_RfQResponseLine_ID();
+
+	public org.compiere.model.I_C_RfQResponseLine getC_RfQResponseLine() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -77,49 +120,6 @@ public interface I_C_RfQResponseLineQty
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_RfQLineQty_ID */
-    public static final String COLUMNNAME_C_RfQLineQty_ID = "C_RfQLineQty_ID";
-
-	/** Set RfQ Line Quantity.
-	  * Request for Quotation Line Quantity
-	  */
-	public void setC_RfQLineQty_ID (int C_RfQLineQty_ID);
-
-	/** Get RfQ Line Quantity.
-	  * Request for Quotation Line Quantity
-	  */
-	public int getC_RfQLineQty_ID();
-
-	public I_C_RfQLineQty getC_RfQLineQty() throws RuntimeException;
-
-    /** Column name C_RfQResponseLine_ID */
-    public static final String COLUMNNAME_C_RfQResponseLine_ID = "C_RfQResponseLine_ID";
-
-	/** Set RfQ Response Line.
-	  * Request for Quotation Response Line
-	  */
-	public void setC_RfQResponseLine_ID (int C_RfQResponseLine_ID);
-
-	/** Get RfQ Response Line.
-	  * Request for Quotation Response Line
-	  */
-	public int getC_RfQResponseLine_ID();
-
-	public I_C_RfQResponseLine getC_RfQResponseLine() throws RuntimeException;
-
-    /** Column name C_RfQResponseLineQty_ID */
-    public static final String COLUMNNAME_C_RfQResponseLineQty_ID = "C_RfQResponseLineQty_ID";
-
-	/** Set RfQ Response Line Qty.
-	  * Request for Quotation Response Line Quantity
-	  */
-	public void setC_RfQResponseLineQty_ID (int C_RfQResponseLineQty_ID);
-
-	/** Get RfQ Response Line Qty.
-	  * Request for Quotation Response Line Quantity
-	  */
-	public int getC_RfQResponseLineQty_ID();
 
     /** Column name Discount */
     public static final String COLUMNNAME_Discount = "Discount";

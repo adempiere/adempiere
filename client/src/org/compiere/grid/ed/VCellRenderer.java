@@ -18,6 +18,7 @@ package org.compiere.grid.ed;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Insets;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -42,7 +43,8 @@ import org.compiere.util.DisplayType;
  * 
  * @author Teo Sarca
  * 		<li>FR [ 2866571 ] VCellRenderer: implement getters
- * 			https://sourceforge.net/tracker/?func=detail&aid=2866571&group_id=176962&atid=879335
+ * 			https://sourceforge.net/tracker/?func=detail&aid=2866571&group_id=176962&atid=879335</li>
+ * 		<li>FR [ 3051618 ] VCellRenderer: preferred width from field.</li>
  */
 public final class VCellRenderer extends DefaultTableCellRenderer
 {
@@ -62,6 +64,10 @@ public final class VCellRenderer extends DefaultTableCellRenderer
 		this.setName(m_columnName);
 		m_lookup = mField.getLookup();
 		m_password = mField.isEncryptedField();
+		if (mField.getPreferredWidthInListView()>0) {
+			int height = this.getPreferredSize().height;
+			setPreferredSize(new Dimension(mField.getPreferredWidthInListView(), height));
+		}
 	}	//	VCellRenderer
 
 	/**

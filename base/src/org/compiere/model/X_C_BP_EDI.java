@@ -30,7 +30,7 @@ public class X_C_BP_EDI extends PO implements I_C_BP_EDI, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_C_BP_EDI (Properties ctx, int C_BP_EDI_ID, String trxName)
@@ -39,8 +39,8 @@ public class X_C_BP_EDI extends PO implements I_C_BP_EDI, I_Persistent
       /** if (C_BP_EDI_ID == 0)
         {
 			setAD_Sequence_ID (0);
-			setC_BPartner_ID (0);
 			setC_BP_EDI_ID (0);
+			setC_BPartner_ID (0);
 			setCustomerNo (null);
 			setEDIType (null);
 			setEMail_Error_To (null);
@@ -84,9 +84,9 @@ public class X_C_BP_EDI extends PO implements I_C_BP_EDI, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Sequence getAD_Sequence() throws RuntimeException
+	public org.compiere.model.I_AD_Sequence getAD_Sequence() throws RuntimeException
     {
-		return (I_AD_Sequence)MTable.get(getCtx(), I_AD_Sequence.Table_Name)
+		return (org.compiere.model.I_AD_Sequence)MTable.get(getCtx(), org.compiere.model.I_AD_Sequence.Table_Name)
 			.getPO(getAD_Sequence_ID(), get_TrxName());	}
 
 	/** Set Sequence.
@@ -112,9 +112,32 @@ public class X_C_BP_EDI extends PO implements I_C_BP_EDI, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	/** Set EDI Definition.
+		@param C_BP_EDI_ID 
+		Electronic Data Interchange
+	  */
+	public void setC_BP_EDI_ID (int C_BP_EDI_ID)
+	{
+		if (C_BP_EDI_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_BP_EDI_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_BP_EDI_ID, Integer.valueOf(C_BP_EDI_ID));
+	}
+
+	/** Get EDI Definition.
+		@return Electronic Data Interchange
+	  */
+	public int getC_BP_EDI_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_EDI_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -135,29 +158,6 @@ public class X_C_BP_EDI extends PO implements I_C_BP_EDI, I_Persistent
 	public int getC_BPartner_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set EDI Definition.
-		@param C_BP_EDI_ID 
-		Electronic Data Interchange
-	  */
-	public void setC_BP_EDI_ID (int C_BP_EDI_ID)
-	{
-		if (C_BP_EDI_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_BP_EDI_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_BP_EDI_ID, Integer.valueOf(C_BP_EDI_ID));
-	}
-
-	/** Get EDI Definition.
-		@return Electronic Data Interchange
-	  */
-	public int getC_BP_EDI_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_EDI_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -370,9 +370,9 @@ public class X_C_BP_EDI extends PO implements I_C_BP_EDI, I_Persistent
 		return false;
 	}
 
-	public I_M_Warehouse getM_Warehouse() throws RuntimeException
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException
     {
-		return (I_M_Warehouse)MTable.get(getCtx(), I_M_Warehouse.Table_Name)
+		return (org.compiere.model.I_M_Warehouse)MTable.get(getCtx(), org.compiere.model.I_M_Warehouse.Table_Name)
 			.getPO(getM_Warehouse_ID(), get_TrxName());	}
 
 	/** Set Warehouse.

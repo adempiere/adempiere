@@ -75,7 +75,7 @@ public interface I_M_DemandDetail
 	  */
 	public int getC_OrderLine_ID();
 
-	public I_C_OrderLine getC_OrderLine() throws RuntimeException;
+	public org.compiere.model.I_C_OrderLine getC_OrderLine() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -132,7 +132,7 @@ public interface I_M_DemandDetail
 	  */
 	public int getM_DemandLine_ID();
 
-	public I_M_DemandLine getM_DemandLine() throws RuntimeException;
+	public org.compiere.model.I_M_DemandLine getM_DemandLine() throws RuntimeException;
 
     /** Column name M_ForecastLine_ID */
     public static final String COLUMNNAME_M_ForecastLine_ID = "M_ForecastLine_ID";
@@ -147,7 +147,7 @@ public interface I_M_DemandDetail
 	  */
 	public int getM_ForecastLine_ID();
 
-	public I_M_ForecastLine getM_ForecastLine() throws RuntimeException;
+	public org.compiere.model.I_M_ForecastLine getM_ForecastLine() throws RuntimeException;
 
     /** Column name M_RequisitionLine_ID */
     public static final String COLUMNNAME_M_RequisitionLine_ID = "M_RequisitionLine_ID";
@@ -162,7 +162,7 @@ public interface I_M_DemandDetail
 	  */
 	public int getM_RequisitionLine_ID();
 
-	public I_M_RequisitionLine getM_RequisitionLine() throws RuntimeException;
+	public org.compiere.model.I_M_RequisitionLine getM_RequisitionLine() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

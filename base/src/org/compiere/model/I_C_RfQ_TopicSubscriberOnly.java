@@ -62,6 +62,34 @@ public interface I_C_RfQ_TopicSubscriberOnly
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name C_RfQ_TopicSubscriberOnly_ID */
+    public static final String COLUMNNAME_C_RfQ_TopicSubscriberOnly_ID = "C_RfQ_TopicSubscriberOnly_ID";
+
+	/** Set RfQ Topic Subscriber Restriction.
+	  * Include Subscriber only for certain products or product categories
+	  */
+	public void setC_RfQ_TopicSubscriberOnly_ID (int C_RfQ_TopicSubscriberOnly_ID);
+
+	/** Get RfQ Topic Subscriber Restriction.
+	  * Include Subscriber only for certain products or product categories
+	  */
+	public int getC_RfQ_TopicSubscriberOnly_ID();
+
+    /** Column name C_RfQ_TopicSubscriber_ID */
+    public static final String COLUMNNAME_C_RfQ_TopicSubscriber_ID = "C_RfQ_TopicSubscriber_ID";
+
+	/** Set RfQ Subscriber.
+	  * Request for Quotation Topic Subscriber
+	  */
+	public void setC_RfQ_TopicSubscriber_ID (int C_RfQ_TopicSubscriber_ID);
+
+	/** Get RfQ Subscriber.
+	  * Request for Quotation Topic Subscriber
+	  */
+	public int getC_RfQ_TopicSubscriber_ID();
+
+	public org.compiere.model.I_C_RfQ_TopicSubscriber getC_RfQ_TopicSubscriber() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -77,34 +105,6 @@ public interface I_C_RfQ_TopicSubscriberOnly
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_RfQ_TopicSubscriber_ID */
-    public static final String COLUMNNAME_C_RfQ_TopicSubscriber_ID = "C_RfQ_TopicSubscriber_ID";
-
-	/** Set RfQ Subscriber.
-	  * Request for Quotation Topic Subscriber
-	  */
-	public void setC_RfQ_TopicSubscriber_ID (int C_RfQ_TopicSubscriber_ID);
-
-	/** Get RfQ Subscriber.
-	  * Request for Quotation Topic Subscriber
-	  */
-	public int getC_RfQ_TopicSubscriber_ID();
-
-	public I_C_RfQ_TopicSubscriber getC_RfQ_TopicSubscriber() throws RuntimeException;
-
-    /** Column name C_RfQ_TopicSubscriberOnly_ID */
-    public static final String COLUMNNAME_C_RfQ_TopicSubscriberOnly_ID = "C_RfQ_TopicSubscriberOnly_ID";
-
-	/** Set RfQ Topic Subscriber Restriction.
-	  * Include Subscriber only for certain products or product categories
-	  */
-	public void setC_RfQ_TopicSubscriberOnly_ID (int C_RfQ_TopicSubscriberOnly_ID);
-
-	/** Get RfQ Topic Subscriber Restriction.
-	  * Include Subscriber only for certain products or product categories
-	  */
-	public int getC_RfQ_TopicSubscriberOnly_ID();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -145,7 +145,7 @@ public interface I_C_RfQ_TopicSubscriberOnly
 	  */
 	public int getM_Product_Category_ID();
 
-	public I_M_Product_Category getM_Product_Category() throws RuntimeException;
+	public org.compiere.model.I_M_Product_Category getM_Product_Category() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -160,7 +160,7 @@ public interface I_C_RfQ_TopicSubscriberOnly
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

@@ -75,7 +75,7 @@ public interface I_C_Element
 	  */
 	public int getAD_Tree_ID();
 
-	public I_AD_Tree getAD_Tree() throws RuntimeException;
+	public org.compiere.model.I_AD_Tree getAD_Tree() throws RuntimeException;
 
     /** Column name C_Element_ID */
     public static final String COLUMNNAME_C_Element_ID = "C_Element_ID";

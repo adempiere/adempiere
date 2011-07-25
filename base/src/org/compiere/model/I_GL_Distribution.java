@@ -41,21 +41,6 @@ public interface I_GL_Distribution
 
     /** Load Meta Data */
 
-    /** Column name Account_ID */
-    public static final String COLUMNNAME_Account_ID = "Account_ID";
-
-	/** Set Account.
-	  * Account used
-	  */
-	public void setAccount_ID (int Account_ID);
-
-	/** Get Account.
-	  * Account used
-	  */
-	public int getAccount_ID();
-
-	public I_C_ElementValue getAccount() throws RuntimeException;
-
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -63,6 +48,19 @@ public interface I_GL_Distribution
 	  * Client/Tenant for this installation.
 	  */
 	public int getAD_Client_ID();
+
+    /** Column name AD_OrgTrx_ID */
+    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
+
+	/** Set Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
+
+	/** Get Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID();
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -77,18 +75,20 @@ public interface I_GL_Distribution
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name AD_OrgTrx_ID */
-    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
+    /** Column name Account_ID */
+    public static final String COLUMNNAME_Account_ID = "Account_ID";
 
-	/** Set Trx Organization.
-	  * Performing or initiating organization
+	/** Set Account.
+	  * Account used
 	  */
-	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
+	public void setAccount_ID (int Account_ID);
 
-	/** Get Trx Organization.
-	  * Performing or initiating organization
+	/** Get Account.
+	  * Account used
 	  */
-	public int getAD_OrgTrx_ID();
+	public int getAccount_ID();
+
+	public org.compiere.model.I_C_ElementValue getAccount() throws RuntimeException;
 
     /** Column name AnyAcct */
     public static final String COLUMNNAME_AnyAcct = "AnyAcct";
@@ -272,7 +272,7 @@ public interface I_GL_Distribution
 	  */
 	public int getC_AcctSchema_ID();
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
+	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
 
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
@@ -287,7 +287,7 @@ public interface I_GL_Distribution
 	  */
 	public int getC_Activity_ID();
 
-	public I_C_Activity getC_Activity() throws RuntimeException;
+	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException;
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -302,7 +302,7 @@ public interface I_GL_Distribution
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_Campaign_ID */
     public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
@@ -317,7 +317,7 @@ public interface I_GL_Distribution
 	  */
 	public int getC_Campaign_ID();
 
-	public I_C_Campaign getC_Campaign() throws RuntimeException;
+	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException;
 
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
@@ -332,7 +332,7 @@ public interface I_GL_Distribution
 	  */
 	public int getC_DocType_ID();
 
-	public I_C_DocType getC_DocType() throws RuntimeException;
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
 
     /** Column name C_LocFrom_ID */
     public static final String COLUMNNAME_C_LocFrom_ID = "C_LocFrom_ID";
@@ -347,7 +347,7 @@ public interface I_GL_Distribution
 	  */
 	public int getC_LocFrom_ID();
 
-	public I_C_Location getC_LocFrom() throws RuntimeException;
+	public org.compiere.model.I_C_Location getC_LocFrom() throws RuntimeException;
 
     /** Column name C_LocTo_ID */
     public static final String COLUMNNAME_C_LocTo_ID = "C_LocTo_ID";
@@ -362,7 +362,7 @@ public interface I_GL_Distribution
 	  */
 	public int getC_LocTo_ID();
 
-	public I_C_Location getC_LocTo() throws RuntimeException;
+	public org.compiere.model.I_C_Location getC_LocTo() throws RuntimeException;
 
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
@@ -377,7 +377,22 @@ public interface I_GL_Distribution
 	  */
 	public int getC_Project_ID();
 
-	public I_C_Project getC_Project() throws RuntimeException;
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
+
+    /** Column name C_SalesRegion_ID */
+    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
+
+	/** Set Sales Region.
+	  * Sales coverage region
+	  */
+	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
+
+	/** Get Sales Region.
+	  * Sales coverage region
+	  */
+	public int getC_SalesRegion_ID();
+
+	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -394,21 +409,6 @@ public interface I_GL_Distribution
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_SalesRegion_ID */
-    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
-
-	/** Set Sales Region.
-	  * Sales coverage region
-	  */
-	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
-
-	/** Get Sales Region.
-	  * Sales coverage region
-	  */
-	public int getC_SalesRegion_ID();
-
-	public I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -501,7 +501,7 @@ public interface I_GL_Distribution
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -593,7 +593,7 @@ public interface I_GL_Distribution
 	  */
 	public int getUser1_ID();
 
-	public I_C_ElementValue getUser1() throws RuntimeException;
+	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException;
 
     /** Column name User2_ID */
     public static final String COLUMNNAME_User2_ID = "User2_ID";
@@ -608,5 +608,5 @@ public interface I_GL_Distribution
 	  */
 	public int getUser2_ID();
 
-	public I_C_ElementValue getUser2() throws RuntimeException;
+	public org.compiere.model.I_C_ElementValue getUser2() throws RuntimeException;
 }

@@ -30,7 +30,7 @@ public class X_C_Element extends PO implements I_C_Element, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_C_Element (Properties ctx, int C_Element_ID, String trxName)
@@ -76,9 +76,9 @@ public class X_C_Element extends PO implements I_C_Element, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Tree getAD_Tree() throws RuntimeException
+	public org.compiere.model.I_AD_Tree getAD_Tree() throws RuntimeException
     {
-		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+		return (org.compiere.model.I_AD_Tree)MTable.get(getCtx(), org.compiere.model.I_AD_Tree.Table_Name)
 			.getPO(getAD_Tree_ID(), get_TrxName());	}
 
 	/** Set Tree.

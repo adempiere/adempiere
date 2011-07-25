@@ -62,19 +62,6 @@ public interface I_I_BankStatement
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name BankAccountNo */
-    public static final String COLUMNNAME_BankAccountNo = "BankAccountNo";
-
-	/** Set Bank Account No.
-	  * Bank Account Number
-	  */
-	public void setBankAccountNo (String BankAccountNo);
-
-	/** Get Bank Account No.
-	  * Bank Account Number
-	  */
-	public String getBankAccountNo();
-
     /** Column name BPartnerValue */
     public static final String COLUMNNAME_BPartnerValue = "BPartnerValue";
 
@@ -88,50 +75,18 @@ public interface I_I_BankStatement
 	  */
 	public String getBPartnerValue();
 
-    /** Column name C_BankAccount_ID */
-    public static final String COLUMNNAME_C_BankAccount_ID = "C_BankAccount_ID";
+    /** Column name BankAccountNo */
+    public static final String COLUMNNAME_BankAccountNo = "BankAccountNo";
 
-	/** Set Bank Account.
-	  * Account at the Bank
+	/** Set Bank Account No.
+	  * Bank Account Number
 	  */
-	public void setC_BankAccount_ID (int C_BankAccount_ID);
+	public void setBankAccountNo (String BankAccountNo);
 
-	/** Get Bank Account.
-	  * Account at the Bank
+	/** Get Bank Account No.
+	  * Bank Account Number
 	  */
-	public int getC_BankAccount_ID();
-
-	public I_C_BankAccount getC_BankAccount() throws RuntimeException;
-
-    /** Column name C_BankStatement_ID */
-    public static final String COLUMNNAME_C_BankStatement_ID = "C_BankStatement_ID";
-
-	/** Set Bank Statement.
-	  * Bank Statement of account
-	  */
-	public void setC_BankStatement_ID (int C_BankStatement_ID);
-
-	/** Get Bank Statement.
-	  * Bank Statement of account
-	  */
-	public int getC_BankStatement_ID();
-
-	public I_C_BankStatement getC_BankStatement() throws RuntimeException;
-
-    /** Column name C_BankStatementLine_ID */
-    public static final String COLUMNNAME_C_BankStatementLine_ID = "C_BankStatementLine_ID";
-
-	/** Set Bank statement line.
-	  * Line on a statement from this Bank
-	  */
-	public void setC_BankStatementLine_ID (int C_BankStatementLine_ID);
-
-	/** Get Bank statement line.
-	  * Line on a statement from this Bank
-	  */
-	public int getC_BankStatementLine_ID();
-
-	public I_C_BankStatementLine getC_BankStatementLine() throws RuntimeException;
+	public String getBankAccountNo();
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -146,7 +101,52 @@ public interface I_I_BankStatement
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
+
+    /** Column name C_BankAccount_ID */
+    public static final String COLUMNNAME_C_BankAccount_ID = "C_BankAccount_ID";
+
+	/** Set Bank Account.
+	  * Account at the Bank
+	  */
+	public void setC_BankAccount_ID (int C_BankAccount_ID);
+
+	/** Get Bank Account.
+	  * Account at the Bank
+	  */
+	public int getC_BankAccount_ID();
+
+	public org.compiere.model.I_C_BankAccount getC_BankAccount() throws RuntimeException;
+
+    /** Column name C_BankStatementLine_ID */
+    public static final String COLUMNNAME_C_BankStatementLine_ID = "C_BankStatementLine_ID";
+
+	/** Set Bank statement line.
+	  * Line on a statement from this Bank
+	  */
+	public void setC_BankStatementLine_ID (int C_BankStatementLine_ID);
+
+	/** Get Bank statement line.
+	  * Line on a statement from this Bank
+	  */
+	public int getC_BankStatementLine_ID();
+
+	public org.compiere.model.I_C_BankStatementLine getC_BankStatementLine() throws RuntimeException;
+
+    /** Column name C_BankStatement_ID */
+    public static final String COLUMNNAME_C_BankStatement_ID = "C_BankStatement_ID";
+
+	/** Set Bank Statement.
+	  * Bank Statement of account
+	  */
+	public void setC_BankStatement_ID (int C_BankStatement_ID);
+
+	/** Get Bank Statement.
+	  * Bank Statement of account
+	  */
+	public int getC_BankStatement_ID();
+
+	public org.compiere.model.I_C_BankStatement getC_BankStatement() throws RuntimeException;
 
     /** Column name C_Charge_ID */
     public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
@@ -161,7 +161,7 @@ public interface I_I_BankStatement
 	  */
 	public int getC_Charge_ID();
 
-	public I_C_Charge getC_Charge() throws RuntimeException;
+	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException;
 
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
@@ -176,7 +176,37 @@ public interface I_I_BankStatement
 	  */
 	public int getC_Currency_ID();
 
-	public I_C_Currency getC_Currency() throws RuntimeException;
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException;
+
+    /** Column name C_Invoice_ID */
+    public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
+
+	/** Set Invoice.
+	  * Invoice Identifier
+	  */
+	public void setC_Invoice_ID (int C_Invoice_ID);
+
+	/** Get Invoice.
+	  * Invoice Identifier
+	  */
+	public int getC_Invoice_ID();
+
+	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException;
+
+    /** Column name C_Payment_ID */
+    public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
+
+	/** Set Payment.
+	  * Payment identifier
+	  */
+	public void setC_Payment_ID (int C_Payment_ID);
+
+	/** Get Payment.
+	  * Payment identifier
+	  */
+	public int getC_Payment_ID();
+
+	public org.compiere.model.I_C_Payment getC_Payment() throws RuntimeException;
 
     /** Column name ChargeAmt */
     public static final String COLUMNNAME_ChargeAmt = "ChargeAmt";
@@ -204,35 +234,14 @@ public interface I_I_BankStatement
 	  */
 	public String getChargeName();
 
-    /** Column name C_Invoice_ID */
-    public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
+    /** Column name CreatePayment */
+    public static final String COLUMNNAME_CreatePayment = "CreatePayment";
 
-	/** Set Invoice.
-	  * Invoice Identifier
-	  */
-	public void setC_Invoice_ID (int C_Invoice_ID);
+	/** Set Create Payment	  */
+	public void setCreatePayment (String CreatePayment);
 
-	/** Get Invoice.
-	  * Invoice Identifier
-	  */
-	public int getC_Invoice_ID();
-
-	public I_C_Invoice getC_Invoice() throws RuntimeException;
-
-    /** Column name C_Payment_ID */
-    public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
-
-	/** Set Payment.
-	  * Payment identifier
-	  */
-	public void setC_Payment_ID (int C_Payment_ID);
-
-	/** Get Payment.
-	  * Payment identifier
-	  */
-	public int getC_Payment_ID();
-
-	public I_C_Payment getC_Payment() throws RuntimeException;
+	/** Get Create Payment	  */
+	public String getCreatePayment();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -249,15 +258,6 @@ public interface I_I_BankStatement
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name CreatePayment */
-    public static final String COLUMNNAME_CreatePayment = "CreatePayment";
-
-	/** Set Create Payment	  */
-	public void setCreatePayment (String CreatePayment);
-
-	/** Get Create Payment	  */
-	public String getCreatePayment();
 
     /** Column name DateAcct */
     public static final String COLUMNNAME_DateAcct = "DateAcct";
@@ -454,6 +454,19 @@ public interface I_I_BankStatement
 	  */
 	public Timestamp getEftValutaDate();
 
+    /** Column name ISO_Code */
+    public static final String COLUMNNAME_ISO_Code = "ISO_Code";
+
+	/** Set ISO Currency Code.
+	  * Three letter ISO 4217 Code of the Currency
+	  */
+	public void setISO_Code (String ISO_Code);
+
+	/** Get ISO Currency Code.
+	  * Three letter ISO 4217 Code of the Currency
+	  */
+	public String getISO_Code();
+
     /** Column name I_BankStatement_ID */
     public static final String COLUMNNAME_I_BankStatement_ID = "I_BankStatement_ID";
 
@@ -531,19 +544,6 @@ public interface I_I_BankStatement
 	  * The record is active in the system
 	  */
 	public boolean isActive();
-
-    /** Column name ISO_Code */
-    public static final String COLUMNNAME_ISO_Code = "ISO_Code";
-
-	/** Set ISO Currency Code.
-	  * Three letter ISO 4217 Code of the Currency
-	  */
-	public void setISO_Code (String ISO_Code);
-
-	/** Get ISO Currency Code.
-	  * Three letter ISO 4217 Code of the Currency
-	  */
-	public String getISO_Code();
 
     /** Column name IsReversal */
     public static final String COLUMNNAME_IsReversal = "IsReversal";

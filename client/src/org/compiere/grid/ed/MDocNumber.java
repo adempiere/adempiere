@@ -16,6 +16,7 @@
  *****************************************************************************/
 package org.compiere.grid.ed;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
@@ -88,6 +89,8 @@ public final class MDocNumber extends PlainDocument
 	private char					m_groupingSeparator = ',';
 	/** Minus Sign					*/
 	private char					m_minusSign = '-';
+	/** Percent Sign				*/
+	private char					m_percentSign = '%';
 	/**	Logger	*/
 	private static CLogger 			log = CLogger.getCLogger (MDocNumber.class);
 	
@@ -191,7 +194,7 @@ public final class MDocNumber extends PlainDocument
 		}	//	decimal or thousand
 
 		//	something else
-		else if (VNumber.AUTO_POPUP || "=+-/*".indexOf(c) > -1)
+		else if (VNumber.AUTO_POPUP || "=+-/*%".indexOf(c) > -1) 
 		{
 			
 			//	Minus - put minus on start of string
@@ -207,13 +210,43 @@ public final class MDocNumber extends PlainDocument
 			else
 			{
 				log.fine("Input=" + c + " (" + (int)c + ")");
-			
-				String result = VNumber.startCalculator(m_tc, getText(),
-						m_format, m_displayType, m_title, c);
-				super.remove(0, content.length());
+
+				if (c == m_percentSign && offset > 0 ) {
+					// don't convert integers to percent. 1% = 0?
+					if (m_displayType == DisplayType.Integer)
+						return;
+					// divide by 100
+					else
+					{
+						String value = getText();
+						BigDecimal percentValue = new BigDecimal(0.0);
+						try
+						{
+							if (value != null && value.length() > 0)
+							{
+								Number number = m_format.parse(value);
+								percentValue = new BigDecimal (number.toString());
+								percentValue = percentValue.divide(new BigDecimal(100.0), m_format.getMaximumFractionDigits(), BigDecimal.ROUND_HALF_UP);
+								m_tc.setText(m_format.format(percentValue));
+							}
+						}
+						catch (ParseException pe)
+						{
+							log.info("InvalidEntry - " + pe.getMessage());
+						}
+
+					}
+				}
+				else
+				{
 				
-				// insertString(0, result, attr);
-				m_tc.setText(result);
+					String result = VNumber.startCalculator(m_tc, getText(),
+							m_format, m_displayType, m_title, c);
+					super.remove(0, content.length());
+					
+					// insertString(0, result, attr);
+					m_tc.setText(result);
+				}
 			}
 		}
 		else

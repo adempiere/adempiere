@@ -30,7 +30,7 @@ public class X_M_PromotionGroup extends PO implements I_M_PromotionGroup, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_M_PromotionGroup (Properties ctx, int M_PromotionGroup_ID, String trxName)

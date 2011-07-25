@@ -75,7 +75,7 @@ public interface I_CM_ChatTypeUpdate
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getAD_User() throws RuntimeException;
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
 
     /** Column name CM_ChatType_ID */
     public static final String COLUMNNAME_CM_ChatType_ID = "CM_ChatType_ID";
@@ -90,7 +90,7 @@ public interface I_CM_ChatTypeUpdate
 	  */
 	public int getCM_ChatType_ID();
 
-	public I_CM_ChatType getCM_ChatType() throws RuntimeException;
+	public org.compiere.model.I_CM_ChatType getCM_ChatType() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

@@ -30,7 +30,7 @@ public class X_C_SubAcct extends PO implements I_C_SubAcct, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_C_SubAcct (Properties ctx, int C_SubAcct_ID, String trxName)
@@ -73,9 +73,9 @@ public class X_C_SubAcct extends PO implements I_C_SubAcct, I_Persistent
       return sb.toString();
     }
 
-	public I_C_ElementValue getC_ElementValue() throws RuntimeException
+	public org.compiere.model.I_C_ElementValue getC_ElementValue() throws RuntimeException
     {
-		return (I_C_ElementValue)MTable.get(getCtx(), I_C_ElementValue.Table_Name)
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
 			.getPO(getC_ElementValue_ID(), get_TrxName());	}
 
 	/** Set Account Element.

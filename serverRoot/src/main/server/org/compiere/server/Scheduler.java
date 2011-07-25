@@ -52,6 +52,9 @@ import org.compiere.util.Trx;
  *
  *  @author Jorg Janke
  *  @version $Id: Scheduler.java,v 1.5 2006/07/30 00:53:33 jjanke Exp $
+ *  
+ *  Contributors:
+ *    Carlos Ruiz - globalqss - FR [3135351] - Enable Scheduler for buttons
  */
 public class Scheduler extends AdempiereServer
 {
@@ -157,8 +160,8 @@ public class Scheduler extends AdempiereServer
 		boolean isReport = (process.isReport() || process.getAD_ReportView_ID() > 0);
 		
 		//	Process (see also MWFActivity.performWork
-		int AD_Table_ID = 0;
-		int Record_ID = 0;
+		int AD_Table_ID = m_model.getAD_Table_ID();
+		int Record_ID = m_model.getRecord_ID();
 		//
 		MPInstance pInstance = new MPInstance(process, Record_ID);
 		fillParameter(pInstance);
@@ -294,6 +297,9 @@ public class Scheduler extends AdempiereServer
 				MSchedulerPara sPara = sParams[np];
 				if (iPara.getParameterName().equals(sPara.getColumnName()))
 				{
+					String paraDesc = sPara.getDescription();
+					if (paraDesc != null && paraDesc.trim().length() > 0)
+						iPara.setInfo(sPara.getDescription());
 					String variable = sPara.getParameterDefault();
 					log.fine(sPara.getColumnName() + " = " + variable);
 					//	Value - Constant/Variable

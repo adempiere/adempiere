@@ -33,7 +33,7 @@ public class X_PA_BenchmarkData extends PO implements I_PA_BenchmarkData, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_PA_BenchmarkData (Properties ctx, int PA_BenchmarkData_ID, String trxName)
@@ -179,9 +179,9 @@ public class X_PA_BenchmarkData extends PO implements I_PA_BenchmarkData, I_Pers
 		return ii.intValue();
 	}
 
-	public I_PA_Benchmark getPA_Benchmark() throws RuntimeException
+	public org.compiere.model.I_PA_Benchmark getPA_Benchmark() throws RuntimeException
     {
-		return (I_PA_Benchmark)MTable.get(getCtx(), I_PA_Benchmark.Table_Name)
+		return (org.compiere.model.I_PA_Benchmark)MTable.get(getCtx(), org.compiere.model.I_PA_Benchmark.Table_Name)
 			.getPO(getPA_Benchmark_ID(), get_TrxName());	}
 
 	/** Set Benchmark.

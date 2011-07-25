@@ -30,7 +30,7 @@ public class X_HR_Concept_Acct extends PO implements I_HR_Concept_Acct, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_HR_Concept_Acct (Properties ctx, int HR_Concept_Acct_ID, String trxName)
@@ -74,9 +74,9 @@ public class X_HR_Concept_Acct extends PO implements I_HR_Concept_Acct, I_Persis
       return sb.toString();
     }
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException
+	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException
     {
-		return (I_C_AcctSchema)MTable.get(getCtx(), I_C_AcctSchema.Table_Name)
+		return (org.compiere.model.I_C_AcctSchema)MTable.get(getCtx(), org.compiere.model.I_C_AcctSchema.Table_Name)
 			.getPO(getC_AcctSchema_ID(), get_TrxName());	}
 
 	/** Set Accounting Schema.
@@ -102,9 +102,9 @@ public class X_HR_Concept_Acct extends PO implements I_HR_Concept_Acct, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_BP_Group getC_BP_Group() throws RuntimeException
+	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException
     {
-		return (I_C_BP_Group)MTable.get(getCtx(), I_C_BP_Group.Table_Name)
+		return (org.compiere.model.I_C_BP_Group)MTable.get(getCtx(), org.compiere.model.I_C_BP_Group.Table_Name)
 			.getPO(getC_BP_Group_ID(), get_TrxName());	}
 
 	/** Set Business Partner Group.
@@ -243,9 +243,9 @@ public class X_HR_Concept_Acct extends PO implements I_HR_Concept_Acct, I_Persis
 		return false;
 	}
 
-	public I_C_ElementValue getUser1() throws RuntimeException
+	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException
     {
-		return (I_C_ElementValue)MTable.get(getCtx(), I_C_ElementValue.Table_Name)
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
 			.getPO(getUser1_ID(), get_TrxName());	}
 
 	/** Set User List 1.

@@ -88,7 +88,7 @@ public interface I_C_PaymentAllocate
 	  */
 	public int getC_AllocationLine_ID();
 
-	public I_C_AllocationLine getC_AllocationLine() throws RuntimeException;
+	public org.compiere.model.I_C_AllocationLine getC_AllocationLine() throws RuntimeException;
 
     /** Column name C_Invoice_ID */
     public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
@@ -103,7 +103,7 @@ public interface I_C_PaymentAllocate
 	  */
 	public int getC_Invoice_ID();
 
-	public I_C_Invoice getC_Invoice() throws RuntimeException;
+	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException;
 
     /** Column name C_PaymentAllocate_ID */
     public static final String COLUMNNAME_C_PaymentAllocate_ID = "C_PaymentAllocate_ID";
@@ -131,7 +131,7 @@ public interface I_C_PaymentAllocate
 	  */
 	public int getC_Payment_ID();
 
-	public I_C_Payment getC_Payment() throws RuntimeException;
+	public org.compiere.model.I_C_Payment getC_Payment() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

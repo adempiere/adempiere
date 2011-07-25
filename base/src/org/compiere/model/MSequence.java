@@ -95,23 +95,33 @@ public class MSequence extends X_AD_Sequence
 			s_log.log(LOGLEVEL, TableName + " - AdempiereSys=" + adempiereSys  + " [" + trxName + "]");
 		  //begin vpj-cd e-evolution 09/02/2005 PostgreSQL
 		String selectSQL = null;
-		if (DB.isOracle() == false)
+		if ( DB.isPostgreSQL() )
 		{
 			selectSQL = "SELECT CurrentNext, CurrentNextSys, IncrementNo, AD_Sequence_ID "
 				+ "FROM AD_Sequence "
 				+ "WHERE Name=?"
 				+ " AND IsActive='Y' AND IsTableID='Y' AND IsAutoSequence='Y' "
-				+ " FOR UPDATE OF AD_Sequence ";
+				+ " FOR UPDATE OF AD_Sequence " ;//OF AD_Sequence "; POSTGRES WORKS, FOR MYSQL SYNTAX						
 			USE_PROCEDURE=false;
 		}
-		else
+		else if (DB.isOracle())
 		{
 			selectSQL = "SELECT CurrentNext, CurrentNextSys, IncrementNo, AD_Sequence_ID "
 			+ "FROM AD_Sequence "
 			+ "WHERE Name=?"
-			+ " AND IsActive='Y' AND IsTableID='Y' AND IsAutoSequence='Y' ";
+			+ " AND IsActive='Y' AND IsTableID='Y' AND IsAutoSequence='Y' "
+			+ "FOR UPDATE";	// jz derby needs expicitly said it//OF CurrentNext, CurrentNextSys";
 
 			USE_PROCEDURE = true;
+		} else {
+			selectSQL = "SELECT CurrentNext, CurrentNextSys, IncrementNo, AD_Sequence_ID "
+				+ "FROM AD_Sequence "
+				+ "WHERE Name=?"
+				+ " AND IsActive='Y' AND IsTableID='Y' AND IsAutoSequence='Y' "
+				//+ "LOCK IN SHARE MODE" // MYSQL - TODO Trifon
+				//+ "FOR UPDATE";	// MYSQL
+				;
+				USE_PROCEDURE = false;
 		}
 
 		//hengsin: executing getNextID in transaction create huge performance and locking issue
@@ -425,7 +435,7 @@ public class MSequence extends X_AD_Sequence
 						+ "AND y.CalendarYear = ? "
 						+ "AND s.IsActive='Y' AND s.IsTableID='N' AND s.IsAutoSequence='Y' "
 						+ "ORDER BY s.AD_Client_ID DESC "
-						+ "FOR UPDATE OF y";
+						+ "FOR UPDATE "; //OF y"; // dete: MySql
 			} else {
 				selectSQL = "SELECT CurrentNext, CurrentNextSys, IncrementNo, Prefix, Suffix, DecimalPattern, AD_Sequence_ID "
 						+ "FROM AD_Sequence "
@@ -433,7 +443,7 @@ public class MSequence extends X_AD_Sequence
 						+ "AND AD_Client_ID = ? "
 						+ "AND IsActive='Y' AND IsTableID='N' AND IsAutoSequence='Y' "
 						+ "ORDER BY AD_Client_ID DESC "
-						+ "FOR UPDATE OF AD_Sequence";
+						+ "FOR UPDATE "; //OF AD_Sequence"; //dete: MySql
 			}
 			USE_PROCEDURE=false;
 		}
@@ -712,7 +722,7 @@ public class MSequence extends X_AD_Sequence
 						+ "AND s.AD_Sequence_ID = ? "
 						+ "AND y.CalendarYear = ? "
 						+ "AND s.IsActive='Y' AND s.IsTableID='N' AND s.IsAutoSequence='Y' "
-						+ "FOR UPDATE OF y";
+						+ "FOR UPDATE "; //OF y"; //dete: MySql
 			}
 			else
 			{
@@ -720,7 +730,7 @@ public class MSequence extends X_AD_Sequence
 						+ "FROM AD_Sequence "
 						+ "WHERE AD_Sequence_ID = ? "
 						+ "AND IsActive='Y' AND IsTableID='N' AND IsAutoSequence='Y' "
-						+ "FOR UPDATE OF AD_Sequence";
+						+ "FOR UPDATE "; //OF AD_Sequence"; //dete: MySql
 			}
 			USE_PROCEDURE=false;
 		}

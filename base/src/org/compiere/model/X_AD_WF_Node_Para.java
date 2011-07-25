@@ -30,7 +30,7 @@ public class X_AD_WF_Node_Para extends PO implements I_AD_WF_Node_Para, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_AD_WF_Node_Para (Properties ctx, int AD_WF_Node_Para_ID, String trxName)
@@ -73,9 +73,9 @@ public class X_AD_WF_Node_Para extends PO implements I_AD_WF_Node_Para, I_Persis
       return sb.toString();
     }
 
-	public I_AD_Process_Para getAD_Process_Para() throws RuntimeException
+	public org.compiere.model.I_AD_Process_Para getAD_Process_Para() throws RuntimeException
     {
-		return (I_AD_Process_Para)MTable.get(getCtx(), I_AD_Process_Para.Table_Name)
+		return (org.compiere.model.I_AD_Process_Para)MTable.get(getCtx(), org.compiere.model.I_AD_Process_Para.Table_Name)
 			.getPO(getAD_Process_Para_ID(), get_TrxName());	}
 
 	/** Set Process Parameter.
@@ -98,9 +98,9 @@ public class X_AD_WF_Node_Para extends PO implements I_AD_WF_Node_Para, I_Persis
 		return ii.intValue();
 	}
 
-	public I_AD_WF_Node getAD_WF_Node() throws RuntimeException
+	public org.compiere.model.I_AD_WF_Node getAD_WF_Node() throws RuntimeException
     {
-		return (I_AD_WF_Node)MTable.get(getCtx(), I_AD_WF_Node.Table_Name)
+		return (org.compiere.model.I_AD_WF_Node)MTable.get(getCtx(), org.compiere.model.I_AD_WF_Node.Table_Name)
 			.getPO(getAD_WF_Node_ID(), get_TrxName());	}
 
 	/** Set Node.

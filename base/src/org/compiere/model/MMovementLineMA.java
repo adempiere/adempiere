@@ -38,8 +38,7 @@ public class MMovementLineMA extends X_M_MovementLineMA
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -9056217457105828481L;
-
+	private static final long serialVersionUID = -8812388635431003742L;
 
 	/**
 	 * 	Get Material Allocations for Line
@@ -99,6 +98,18 @@ public class MMovementLineMA extends X_M_MovementLineMA
 			+ " AND M_Movement_ID=" + M_Movement_ID + ")";
 		return DB.executeUpdate(sql, trxName);
 	}	//	deleteInOutMA
+	
+	/**
+	 * 	Delete all Material Allocation for Movement Line
+	 *	@param M_MovementLine_ID movement line
+	 *	@param trxName transaction
+	 *	@return number of rows deleted or -1 for error
+	 */
+	public static int deleteMovementLineMA (int M_MovementLine_ID, String trxName)
+	{
+		String sql = "DELETE FROM M_MovementLineMA WHERE M_MovementLine_ID=" + M_MovementLine_ID;
+		return DB.executeUpdate(sql, trxName);
+	}	//	deleteMovementLineMA
 	
 	/**	Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (MMovementLineMA.class);

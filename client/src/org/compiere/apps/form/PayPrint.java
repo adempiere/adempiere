@@ -10,6 +10,10 @@
  * You should have received a copy of the GNU General Public License along    *
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ *                                                                            *
+ *  Contributors:                                                             *
+ *    Carlos Ruiz - GlobalQSS:                                                *
+ *      FR 3132033 - Make payment export class configurable per bank          *
  *****************************************************************************/
 package org.compiere.apps.form;
 
@@ -37,6 +41,8 @@ public class PayPrint {
 	public int         	m_WindowNo = 0;
 	/**	Used Bank Account	*/
 	public int				m_C_BankAccount_ID = -1;
+	/**	Export Class for Bank Account	*/
+	public String			m_PaymentExportClass = null;
 
 	/** Payment Information */
 	public MPaySelectionCheck[]     m_checks = null;
@@ -90,7 +96,7 @@ public class PayPrint {
 		//  load Banks from PaySelectLine
 		m_C_BankAccount_ID = -1;
 		String sql = "SELECT ps.C_BankAccount_ID, b.Name || ' ' || ba.AccountNo,"	//	1..2
-			+ " c.ISO_Code, CurrentBalance "										//	3..4
+			+ " c.ISO_Code, CurrentBalance, ba.PaymentExportClass "					//	3..5
 			+ "FROM C_PaySelection ps"
 			+ " INNER JOIN C_BankAccount ba ON (ps.C_BankAccount_ID=ba.C_BankAccount_ID)"
 			+ " INNER JOIN C_Bank b ON (ba.C_Bank_ID=b.C_Bank_ID)"
@@ -107,6 +113,7 @@ public class PayPrint {
 				bank = rs.getString(2);
 				currency = rs.getString(3);
 				balance = rs.getBigDecimal(4);
+				m_PaymentExportClass = rs.getString(5);
 			}
 			else
 			{
@@ -114,6 +121,7 @@ public class PayPrint {
 				bank = "";
 				currency = "";
 				balance = Env.ZERO;
+				m_PaymentExportClass = null;
 				log.log(Level.SEVERE, "No active BankAccount for C_PaySelection_ID=" + C_PaySelection_ID);
 			}
 			rs.close();

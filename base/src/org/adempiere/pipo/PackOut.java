@@ -173,7 +173,7 @@ public class PackOut extends SvrProcess
 				boolean success = (new File(packagename+File.separator+"doc"+File.separator)).mkdirs();
 				String file_document = packagename+File.separator+"doc"+File.separator+rs1.getString(X_AD_Package_Exp.COLUMNNAME_Name)+"Doc.xml";		
 				packageDocStream = new FileOutputStream (file_document, false);		
-				StreamResult streamResult_document = new StreamResult(new OutputStreamWriter(packageDocStream,"utf-8"));	
+				StreamResult streamResult_document = new StreamResult(new OutputStreamWriter(packageDocStream,"ISO-8859-1"));	
 				SAXTransformerFactory tf_document = (SAXTransformerFactory) SAXTransformerFactory.newInstance();
 				tf_document.setAttribute("indent-number", new Integer(4));
 				TransformerHandler packageDocument = tf_document.newTransformerHandler();		
@@ -246,7 +246,7 @@ public class PackOut extends SvrProcess
 				success = (new File(packagename+File.separator+ "dict"+File.separator)).mkdirs();		
 				String file_menu = packagename+File.separator+ "dict"+File.separator+"PackOut.xml";		
 				packOutDocStream = new FileOutputStream (file_menu, false);
-				StreamResult streamResult_menu = new StreamResult(new OutputStreamWriter(packOutDocStream,"utf-8"));	
+				StreamResult streamResult_menu = new StreamResult(new OutputStreamWriter(packOutDocStream,"ISO-8859-1"));	
 				SAXTransformerFactory tf_menu = (SAXTransformerFactory) SAXTransformerFactory.newInstance();					 
 				tf_menu.setAttribute("indent-number", new Integer(4));
 				TransformerHandler packOutDocument = tf_menu.newTransformerHandler();		

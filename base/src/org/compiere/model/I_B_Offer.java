@@ -75,7 +75,7 @@ public interface I_B_Offer
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getAD_User() throws RuntimeException;
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
 
     /** Column name B_Offer_ID */
     public static final String COLUMNNAME_B_Offer_ID = "B_Offer_ID";
@@ -103,7 +103,7 @@ public interface I_B_Offer
 	  */
 	public int getB_SellerFunds_ID();
 
-	public I_B_SellerFunds getB_SellerFunds() throws RuntimeException;
+	public org.compiere.model.I_B_SellerFunds getB_SellerFunds() throws RuntimeException;
 
     /** Column name B_Topic_ID */
     public static final String COLUMNNAME_B_Topic_ID = "B_Topic_ID";
@@ -118,7 +118,7 @@ public interface I_B_Offer
 	  */
 	public int getB_Topic_ID();
 
-	public I_B_Topic getB_Topic() throws RuntimeException;
+	public org.compiere.model.I_B_Topic getB_Topic() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

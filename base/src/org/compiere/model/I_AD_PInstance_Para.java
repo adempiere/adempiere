@@ -75,7 +75,7 @@ public interface I_AD_PInstance_Para
 	  */
 	public int getAD_PInstance_ID();
 
-	public I_AD_PInstance getAD_PInstance() throws RuntimeException;
+	public org.compiere.model.I_AD_PInstance getAD_PInstance() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -127,15 +127,6 @@ public interface I_AD_PInstance_Para
 	  * The record is active in the system
 	  */
 	public boolean isActive();
-
-    /** Column name ParameterName */
-    public static final String COLUMNNAME_ParameterName = "ParameterName";
-
-	/** Set Parameter Name	  */
-	public void setParameterName (String ParameterName);
-
-	/** Get Parameter Name	  */
-	public String getParameterName();
 
     /** Column name P_Date */
     public static final String COLUMNNAME_P_Date = "P_Date";
@@ -214,6 +205,15 @@ public interface I_AD_PInstance_Para
 	  * Process Parameter
 	  */
 	public String getP_String_To();
+
+    /** Column name ParameterName */
+    public static final String COLUMNNAME_ParameterName = "ParameterName";
+
+	/** Set Parameter Name	  */
+	public void setParameterName (String ParameterName);
+
+	/** Get Parameter Name	  */
+	public String getParameterName();
 
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";

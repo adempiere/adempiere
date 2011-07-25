@@ -116,7 +116,7 @@ public class DPActivities extends DashboardPanel implements EventListener {
 	{
 		String sql = MRole.getDefault().addAccessSQL ("SELECT COUNT(1) FROM R_Request "
 				+ "WHERE (SalesRep_ID=? OR AD_Role_ID=?) AND Processed='N'"
-				+ " AND (DateNextAction IS NULL OR TRUNC(DateNextAction) <= TRUNC(SysDate))"
+				+ " AND (DateNextAction IS NULL OR TRUNC(DateNextAction, 'DD') <= TRUNC(SysDate, 'DD'))"
 				+ " AND (R_Status_ID IS NULL OR R_Status_ID IN (SELECT R_Status_ID FROM R_Status WHERE IsClosed='N'))",
 					"R_Request", false, true);	//	not qualified - RW
 		int retValue = DB.getSQLValue(null, sql, Env.getAD_User_ID(Env.getCtx()), Env.getAD_Role_ID(Env.getCtx()));

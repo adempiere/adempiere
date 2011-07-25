@@ -62,7 +62,7 @@ public interface I_AD_Package_Exp_Detail
 	  */
 	public int getAD_EntityType_ID();
 
-	public I_AD_EntityType getAD_EntityType() throws RuntimeException;
+	public org.compiere.model.I_AD_EntityType getAD_EntityType() throws RuntimeException;
 
     /** Column name AD_Form_ID */
     public static final String COLUMNNAME_AD_Form_ID = "AD_Form_ID";
@@ -77,7 +77,7 @@ public interface I_AD_Package_Exp_Detail
 	  */
 	public int getAD_Form_ID();
 
-	public I_AD_Form getAD_Form() throws RuntimeException;
+	public org.compiere.model.I_AD_Form getAD_Form() throws RuntimeException;
 
     /** Column name AD_ImpFormat_ID */
     public static final String COLUMNNAME_AD_ImpFormat_ID = "AD_ImpFormat_ID";
@@ -88,7 +88,7 @@ public interface I_AD_Package_Exp_Detail
 	/** Get Import Format	  */
 	public int getAD_ImpFormat_ID();
 
-	public I_AD_ImpFormat getAD_ImpFormat() throws RuntimeException;
+	public org.compiere.model.I_AD_ImpFormat getAD_ImpFormat() throws RuntimeException;
 
     /** Column name AD_Menu_ID */
     public static final String COLUMNNAME_AD_Menu_ID = "AD_Menu_ID";
@@ -103,7 +103,7 @@ public interface I_AD_Package_Exp_Detail
 	  */
 	public int getAD_Menu_ID();
 
-	public I_AD_Menu getAD_Menu() throws RuntimeException;
+	public org.compiere.model.I_AD_Menu getAD_Menu() throws RuntimeException;
 
     /** Column name AD_Message_ID */
     public static final String COLUMNNAME_AD_Message_ID = "AD_Message_ID";
@@ -118,7 +118,7 @@ public interface I_AD_Package_Exp_Detail
 	  */
 	public int getAD_Message_ID();
 
-	public I_AD_Message getAD_Message() throws RuntimeException;
+	public org.compiere.model.I_AD_Message getAD_Message() throws RuntimeException;
 
     /** Column name AD_ModelValidator_ID */
     public static final String COLUMNNAME_AD_ModelValidator_ID = "AD_ModelValidator_ID";
@@ -129,7 +129,7 @@ public interface I_AD_Package_Exp_Detail
 	/** Get Model Validator	  */
 	public int getAD_ModelValidator_ID();
 
-	public I_AD_ModelValidator getAD_ModelValidator() throws RuntimeException;
+	public org.compiere.model.I_AD_ModelValidator getAD_ModelValidator() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -180,6 +180,8 @@ public interface I_AD_Package_Exp_Detail
 	/** Get Package Exp.	  */
 	public int getAD_Package_Exp_ID();
 
+	public org.compiere.model.I_AD_Package_Exp getAD_Package_Exp() throws RuntimeException;
+
     /** Column name AD_PrintFormat_ID */
     public static final String COLUMNNAME_AD_PrintFormat_ID = "AD_PrintFormat_ID";
 
@@ -193,7 +195,7 @@ public interface I_AD_Package_Exp_Detail
 	  */
 	public int getAD_PrintFormat_ID();
 
-	public I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException;
+	public org.compiere.model.I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException;
 
     /** Column name AD_Process_ID */
     public static final String COLUMNNAME_AD_Process_ID = "AD_Process_ID";
@@ -208,7 +210,7 @@ public interface I_AD_Package_Exp_Detail
 	  */
 	public int getAD_Process_ID();
 
-	public I_AD_Process getAD_Process() throws RuntimeException;
+	public org.compiere.model.I_AD_Process getAD_Process() throws RuntimeException;
 
     /** Column name AD_Reference_ID */
     public static final String COLUMNNAME_AD_Reference_ID = "AD_Reference_ID";
@@ -223,7 +225,7 @@ public interface I_AD_Package_Exp_Detail
 	  */
 	public int getAD_Reference_ID();
 
-	public I_AD_Reference getAD_Reference() throws RuntimeException;
+	public org.compiere.model.I_AD_Reference getAD_Reference() throws RuntimeException;
 
     /** Column name AD_ReportView_ID */
     public static final String COLUMNNAME_AD_ReportView_ID = "AD_ReportView_ID";
@@ -238,7 +240,7 @@ public interface I_AD_Package_Exp_Detail
 	  */
 	public int getAD_ReportView_ID();
 
-	public I_AD_ReportView getAD_ReportView() throws RuntimeException;
+	public org.compiere.model.I_AD_ReportView getAD_ReportView() throws RuntimeException;
 
     /** Column name AD_Role_ID */
     public static final String COLUMNNAME_AD_Role_ID = "AD_Role_ID";
@@ -253,7 +255,7 @@ public interface I_AD_Package_Exp_Detail
 	  */
 	public int getAD_Role_ID();
 
-	public I_AD_Role getAD_Role() throws RuntimeException;
+	public org.compiere.model.I_AD_Role getAD_Role() throws RuntimeException;
 
     /** Column name AD_Table_ID */
     public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
@@ -268,7 +270,7 @@ public interface I_AD_Package_Exp_Detail
 	  */
 	public int getAD_Table_ID();
 
-	public I_AD_Table getAD_Table() throws RuntimeException;
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
 
     /** Column name AD_Val_Rule_ID */
     public static final String COLUMNNAME_AD_Val_Rule_ID = "AD_Val_Rule_ID";
@@ -296,7 +298,7 @@ public interface I_AD_Package_Exp_Detail
 	  */
 	public int getAD_Window_ID();
 
-	public I_AD_Window getAD_Window() throws RuntimeException;
+	public org.compiere.model.I_AD_Window getAD_Window() throws RuntimeException;
 
     /** Column name AD_Workbench_ID */
     public static final String COLUMNNAME_AD_Workbench_ID = "AD_Workbench_ID";
@@ -311,7 +313,7 @@ public interface I_AD_Package_Exp_Detail
 	  */
 	public int getAD_Workbench_ID();
 
-	public I_AD_Workbench getAD_Workbench() throws RuntimeException;
+	public org.compiere.model.I_AD_Workbench getAD_Workbench() throws RuntimeException;
 
     /** Column name AD_Workflow_ID */
     public static final String COLUMNNAME_AD_Workflow_ID = "AD_Workflow_ID";
@@ -326,7 +328,7 @@ public interface I_AD_Package_Exp_Detail
 	  */
 	public int getAD_Workflow_ID();
 
-	public I_AD_Workflow getAD_Workflow() throws RuntimeException;
+	public org.compiere.model.I_AD_Workflow getAD_Workflow() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -384,15 +386,6 @@ public interface I_AD_Package_Exp_Detail
 	/** Get Destination_FileName	  */
 	public String getDestination_FileName();
 
-    /** Column name File_Directory */
-    public static final String COLUMNNAME_File_Directory = "File_Directory";
-
-	/** Set File_Directory	  */
-	public void setFile_Directory (String File_Directory);
-
-	/** Get File_Directory	  */
-	public String getFile_Directory();
-
     /** Column name FileName */
     public static final String COLUMNNAME_FileName = "FileName";
 
@@ -405,6 +398,15 @@ public interface I_AD_Package_Exp_Detail
 	  * Name of the local file or URL
 	  */
 	public String getFileName();
+
+    /** Column name File_Directory */
+    public static final String COLUMNNAME_File_Directory = "File_Directory";
+
+	/** Set File_Directory	  */
+	public void setFile_Directory (String File_Directory);
+
+	/** Get File_Directory	  */
+	public String getFile_Directory();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

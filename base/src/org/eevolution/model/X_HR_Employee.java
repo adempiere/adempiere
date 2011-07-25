@@ -32,7 +32,7 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_HR_Employee (Properties ctx, int HR_Employee_ID, String trxName)
@@ -76,9 +76,9 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
       return sb.toString();
     }
 
-	public I_C_Activity getC_Activity() throws RuntimeException
+	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException
     {
-		return (I_C_Activity)MTable.get(getCtx(), I_C_Activity.Table_Name)
+		return (org.compiere.model.I_C_Activity)MTable.get(getCtx(), org.compiere.model.I_C_Activity.Table_Name)
 			.getPO(getC_Activity_ID(), get_TrxName());	}
 
 	/** Set Activity.
@@ -104,9 +104,9 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .

@@ -51,7 +51,7 @@ public class VColor extends CButton
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -1668126756160533715L;
+	private static final long serialVersionUID = 3881508174949938138L;
 
 	/**
 	 *  Constructor
@@ -165,6 +165,8 @@ public class VColor extends CButton
 		}
 	}   //  propertyChange
 
+	//	Field for Value Preference
+	private GridField          m_mField = null;
 	/**
 	 *  Set Field/WindowNo for ValuePreference
 	 *  @param mField field
@@ -172,8 +174,14 @@ public class VColor extends CButton
 	public void setField (GridField mField)
 	{
 		mField.setValueNoFire(false);  //  fire every time
+		m_mField = mField;
 	}   //  setField
 
+	@Override
+	public GridField getField() {
+		return m_mField;
+	}
+	
 	/*************************************************************************/
 
 	/**

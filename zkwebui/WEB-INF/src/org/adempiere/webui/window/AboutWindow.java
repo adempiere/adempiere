@@ -67,6 +67,7 @@ public class AboutWindow extends Window implements EventListener {
 	private Tabpanels tabPanels;
 	private Button btnDownload;
 	private Button btnErrorEmail;
+	private Tab tabLog;
 
 	public AboutWindow() {
 		super();
@@ -100,28 +101,29 @@ public class AboutWindow extends Window implements EventListener {
 
 		//about
 		Tab tab = new Tab();
-		tab.setLabel("About");
+		tab.setLabel(Msg.getMsg(Env.getCtx(), "About"));
 		tab.setParent(tabs);
 		Tabpanel tabPanel = createAbout();
 		tabPanel.setParent(tabPanels);
 
 		//Credit
 		tab = new Tab();
-		tab.setLabel("Credit");
+		tab.setLabel(Msg.getMsg(Env.getCtx(), "Credits"));
 		tab.setParent(tabs);
 		tabPanel = createCredit();
 		tabPanel.setParent(tabPanels);
 
 		//Info
 		tab = new Tab();
-		tab.setLabel("Info");
+		tab.setLabel(Msg.getMsg(Env.getCtx(), "Info"));
 		tab.setParent(tabs);
 		tabPanel = createInfo();
 		tabPanel.setParent(tabPanels);
 
 		//Trace
 		tab = new Tab();
-		tab.setLabel("Logs");
+		tab.setLabel("Errors");
+		tabLog = tab;
 		tab.setParent(tabs);
 		tabPanel = createTrace();
 		tabPanel.setParent(tabPanels);
@@ -188,6 +190,10 @@ public class AboutWindow extends Window implements EventListener {
 		model.setMaxLength(new int[]{0, 0, 0, 200, 0, 200});
 		logTable.setItemRenderer(model);
 		logTable.setModel(model);
+		if (bErrorsOnly.isSelected())
+			tabLog.setLabel(Msg.getMsg(Env.getCtx(), "Errors") + " (" + data.size() + ")");
+		else
+			tabLog.setLabel(Msg.getMsg(Env.getCtx(), "TraceInfo") + " (" + data.size() + ")");
 	}
 
 	private Tabpanel createInfo() {

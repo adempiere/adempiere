@@ -478,7 +478,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
                         	Label label = editor.getLabel();
 	                        if (popupMenu.isZoomEnabled() && editor instanceof IZoomableEditor)
 	                        {
-	                        	label.setStyle("cursor: pointer; text-decoration: underline;");
+	                        	label.setZoomable(true);
 	                        	label.addEventListener(Events.ON_CLICK, new ZoomListener((IZoomableEditor) editor));
 	                        }
 
@@ -539,6 +539,11 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
             return;
         }
 
+        for (WEditor comp : editors)
+        {
+        	comp.setMandatoryLabels();
+        }
+        
         //  Selective
         if (col > 0)
         {
@@ -899,7 +904,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
         	listPanel.dynamicDisplay(col);
         }
 
-        if (!includedPanel.isEmpty()) {
+        if (!includedPanel.isEmpty() && e.getChangedColumn() == -1) {
         	for (EmbeddedPanel panel : includedPanel)
         		panel.tabPanel.query(false, 0, 0);
         }

@@ -75,7 +75,7 @@ public interface I_AD_Sequence_Audit
 	  */
 	public int getAD_Sequence_ID();
 
-	public I_AD_Sequence getAD_Sequence() throws RuntimeException;
+	public org.compiere.model.I_AD_Sequence getAD_Sequence() throws RuntimeException;
 
     /** Column name AD_Table_ID */
     public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
@@ -90,7 +90,7 @@ public interface I_AD_Sequence_Audit
 	  */
 	public int getAD_Table_ID();
 
-	public I_AD_Table getAD_Table() throws RuntimeException;
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

@@ -32,7 +32,7 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_C_PaymentProcessor (Properties ctx, int C_PaymentProcessor_ID, String trxName)
@@ -51,9 +51,9 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 			setAcceptMC (false);
 			setAcceptVisa (false);
 			setC_BankAccount_ID (0);
+			setC_PaymentProcessor_ID (0);
 			setCommission (Env.ZERO);
 			setCostPerTrx (Env.ZERO);
-			setC_PaymentProcessor_ID (0);
 			setHostAddress (null);
 			setHostPort (0);
 			setName (null);
@@ -90,6 +90,34 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	public org.compiere.model.I_AD_Sequence getAD_Sequence() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Sequence)MTable.get(getCtx(), org.compiere.model.I_AD_Sequence.Table_Name)
+			.getPO(getAD_Sequence_ID(), get_TrxName());	}
+
+	/** Set Sequence.
+		@param AD_Sequence_ID 
+		Document Sequence
+	  */
+	public void setAD_Sequence_ID (int AD_Sequence_ID)
+	{
+		if (AD_Sequence_ID < 1) 
+			set_Value (COLUMNNAME_AD_Sequence_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Sequence_ID, Integer.valueOf(AD_Sequence_ID));
+	}
+
+	/** Get Sequence.
+		@return Document Sequence
+	  */
+	public int getAD_Sequence_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Sequence_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** Set Accept AMEX.
 		@param AcceptAMEX 
@@ -331,37 +359,9 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 		return false;
 	}
 
-	public I_AD_Sequence getAD_Sequence() throws RuntimeException
+	public org.compiere.model.I_C_BankAccount getC_BankAccount() throws RuntimeException
     {
-		return (I_AD_Sequence)MTable.get(getCtx(), I_AD_Sequence.Table_Name)
-			.getPO(getAD_Sequence_ID(), get_TrxName());	}
-
-	/** Set Sequence.
-		@param AD_Sequence_ID 
-		Document Sequence
-	  */
-	public void setAD_Sequence_ID (int AD_Sequence_ID)
-	{
-		if (AD_Sequence_ID < 1) 
-			set_Value (COLUMNNAME_AD_Sequence_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_Sequence_ID, Integer.valueOf(AD_Sequence_ID));
-	}
-
-	/** Get Sequence.
-		@return Document Sequence
-	  */
-	public int getAD_Sequence_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Sequence_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_BankAccount getC_BankAccount() throws RuntimeException
-    {
-		return (I_C_BankAccount)MTable.get(getCtx(), I_C_BankAccount.Table_Name)
+		return (org.compiere.model.I_C_BankAccount)MTable.get(getCtx(), org.compiere.model.I_C_BankAccount.Table_Name)
 			.getPO(getC_BankAccount_ID(), get_TrxName());	}
 
 	/** Set Bank Account.
@@ -387,9 +387,9 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 		return ii.intValue();
 	}
 
-	public I_C_Currency getC_Currency() throws RuntimeException
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException
     {
-		return (I_C_Currency)MTable.get(getCtx(), I_C_Currency.Table_Name)
+		return (org.compiere.model.I_C_Currency)MTable.get(getCtx(), org.compiere.model.I_C_Currency.Table_Name)
 			.getPO(getC_Currency_ID(), get_TrxName());	}
 
 	/** Set Currency.
@@ -410,6 +410,29 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 	public int getC_Currency_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Currency_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Payment Processor.
+		@param C_PaymentProcessor_ID 
+		Payment processor for electronic payments
+	  */
+	public void setC_PaymentProcessor_ID (int C_PaymentProcessor_ID)
+	{
+		if (C_PaymentProcessor_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_PaymentProcessor_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_PaymentProcessor_ID, Integer.valueOf(C_PaymentProcessor_ID));
+	}
+
+	/** Get Payment Processor.
+		@return Payment processor for electronic payments
+	  */
+	public int getC_PaymentProcessor_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaymentProcessor_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -453,29 +476,6 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
-	}
-
-	/** Set Payment Processor.
-		@param C_PaymentProcessor_ID 
-		Payment processor for electronic payments
-	  */
-	public void setC_PaymentProcessor_ID (int C_PaymentProcessor_ID)
-	{
-		if (C_PaymentProcessor_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_PaymentProcessor_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_PaymentProcessor_ID, Integer.valueOf(C_PaymentProcessor_ID));
-	}
-
-	/** Get Payment Processor.
-		@return Payment processor for electronic payments
-	  */
-	public int getC_PaymentProcessor_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaymentProcessor_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set Description.

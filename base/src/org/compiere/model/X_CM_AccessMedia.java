@@ -29,7 +29,7 @@ public class X_CM_AccessMedia extends PO implements I_CM_AccessMedia, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_CM_AccessMedia (Properties ctx, int CM_AccessMedia_ID, String trxName)
@@ -70,9 +70,9 @@ public class X_CM_AccessMedia extends PO implements I_CM_AccessMedia, I_Persiste
       return sb.toString();
     }
 
-	public I_CM_AccessProfile getCM_AccessProfile() throws RuntimeException
+	public org.compiere.model.I_CM_AccessProfile getCM_AccessProfile() throws RuntimeException
     {
-		return (I_CM_AccessProfile)MTable.get(getCtx(), I_CM_AccessProfile.Table_Name)
+		return (org.compiere.model.I_CM_AccessProfile)MTable.get(getCtx(), org.compiere.model.I_CM_AccessProfile.Table_Name)
 			.getPO(getCM_AccessProfile_ID(), get_TrxName());	}
 
 	/** Set Web Access Profile.
@@ -98,9 +98,9 @@ public class X_CM_AccessMedia extends PO implements I_CM_AccessMedia, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_CM_Media getCM_Media() throws RuntimeException
+	public org.compiere.model.I_CM_Media getCM_Media() throws RuntimeException
     {
-		return (I_CM_Media)MTable.get(getCtx(), I_CM_Media.Table_Name)
+		return (org.compiere.model.I_CM_Media)MTable.get(getCtx(), org.compiere.model.I_CM_Media.Table_Name)
 			.getPO(getCM_Media_ID(), get_TrxName());	}
 
 	/** Set Media Item.

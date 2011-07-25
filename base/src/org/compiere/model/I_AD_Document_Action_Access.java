@@ -75,7 +75,7 @@ public interface I_AD_Document_Action_Access
 	  */
 	public int getAD_Ref_List_ID();
 
-	public I_AD_Ref_List getAD_Ref_List() throws RuntimeException;
+	public org.compiere.model.I_AD_Ref_List getAD_Ref_List() throws RuntimeException;
 
     /** Column name AD_Role_ID */
     public static final String COLUMNNAME_AD_Role_ID = "AD_Role_ID";
@@ -90,7 +90,7 @@ public interface I_AD_Document_Action_Access
 	  */
 	public int getAD_Role_ID();
 
-	public I_AD_Role getAD_Role() throws RuntimeException;
+	public org.compiere.model.I_AD_Role getAD_Role() throws RuntimeException;
 
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
@@ -105,7 +105,7 @@ public interface I_AD_Document_Action_Access
 	  */
 	public int getC_DocType_ID();
 
-	public I_C_DocType getC_DocType() throws RuntimeException;
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

@@ -88,7 +88,7 @@ public interface I_C_Phase
 	  */
 	public int getC_ProjectType_ID();
 
-	public I_C_ProjectType getC_ProjectType() throws RuntimeException;
+	public org.compiere.model.I_C_ProjectType getC_ProjectType() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -158,7 +158,7 @@ public interface I_C_Phase
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

@@ -32,7 +32,7 @@ public class X_B_SellerFunds extends PO implements I_B_SellerFunds, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_B_SellerFunds (Properties ctx, int B_SellerFunds_ID, String trxName)
@@ -75,9 +75,9 @@ public class X_B_SellerFunds extends PO implements I_B_SellerFunds, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_User getAD_User() throws RuntimeException
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
     {
-		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getAD_User_ID(), get_TrxName());	}
 
 	/** Set User/Contact.
@@ -134,29 +134,9 @@ public class X_B_SellerFunds extends PO implements I_B_SellerFunds, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Committed Amount.
-		@param CommittedAmt 
-		The (legal) commitment amount
-	  */
-	public void setCommittedAmt (BigDecimal CommittedAmt)
-	{
-		set_Value (COLUMNNAME_CommittedAmt, CommittedAmt);
-	}
-
-	/** Get Committed Amount.
-		@return The (legal) commitment amount
-	  */
-	public BigDecimal getCommittedAmt () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CommittedAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
-	public I_C_Order getC_Order() throws RuntimeException
+	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException
     {
-		return (I_C_Order)MTable.get(getCtx(), I_C_Order.Table_Name)
+		return (org.compiere.model.I_C_Order)MTable.get(getCtx(), org.compiere.model.I_C_Order.Table_Name)
 			.getPO(getC_Order_ID(), get_TrxName());	}
 
 	/** Set Order.
@@ -182,9 +162,9 @@ public class X_B_SellerFunds extends PO implements I_B_SellerFunds, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Payment getC_Payment() throws RuntimeException
+	public org.compiere.model.I_C_Payment getC_Payment() throws RuntimeException
     {
-		return (I_C_Payment)MTable.get(getCtx(), I_C_Payment.Table_Name)
+		return (org.compiere.model.I_C_Payment)MTable.get(getCtx(), org.compiere.model.I_C_Payment.Table_Name)
 			.getPO(getC_Payment_ID(), get_TrxName());	}
 
 	/** Set Payment.
@@ -208,6 +188,26 @@ public class X_B_SellerFunds extends PO implements I_B_SellerFunds, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Committed Amount.
+		@param CommittedAmt 
+		The (legal) commitment amount
+	  */
+	public void setCommittedAmt (BigDecimal CommittedAmt)
+	{
+		set_Value (COLUMNNAME_CommittedAmt, CommittedAmt);
+	}
+
+	/** Get Committed Amount.
+		@return The (legal) commitment amount
+	  */
+	public BigDecimal getCommittedAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CommittedAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Not Committed Aount.

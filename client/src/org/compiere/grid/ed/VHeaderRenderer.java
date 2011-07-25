@@ -19,15 +19,13 @@ package org.compiere.grid.ed;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Insets;
-
 import javax.swing.Icon;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 import javax.swing.table.TableCellRenderer;
 
+import org.compiere.model.GridField;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CTable;
 import org.compiere.util.DisplayType;
@@ -41,11 +39,39 @@ import org.compiere.util.Env;
  */
 public final class VHeaderRenderer implements TableCellRenderer
 {
+	private Integer	prefWidth;
+	//  for 3D effect in Windows
+	private CButton m_button; 
+	private int m_alignment;
+	private JLabel	m_label;
+	
 	public VHeaderRenderer() 
 	{
 		m_button = new CButton();
 		m_button.setMargin(new Insets(0,0,0,0));
 		m_button.putClientProperty("Plastic.is3D", Boolean.FALSE);
+	}
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param mField
+	 * @param col		The position of this column in the table.
+	 */
+	public VHeaderRenderer(GridField mField) {
+		super();
+		//	Alignment
+		if (DisplayType.isNumeric(mField.getDisplayType()))
+			m_alignment = JLabel.RIGHT;
+		else if (mField.getDisplayType() == DisplayType.YesNo)
+			m_alignment = JLabel.CENTER;
+		else
+			m_alignment = JLabel.LEFT;
+		
+		m_label = new JLabel();
+		if (mField.getPreferredWidthInListView()!=0) {
+			prefWidth = mField.getPreferredWidthInListView();
+		}
 	}
 	
 	/**
@@ -64,10 +90,6 @@ public final class VHeaderRenderer implements TableCellRenderer
 			m_alignment = JLabel.LEFT;
 	}	//	VHeaderRenderer
 
-	//  for 3D effect in Windows
-	private CButton m_button; 
-	
-	private int m_alignment;
 
 	/**
 	 *	Get TableCell RendererComponent
@@ -82,7 +104,6 @@ public final class VHeaderRenderer implements TableCellRenderer
 	public Component getTableCellRendererComponent(JTable table, Object value,
 		boolean isSelected, boolean hasFocus, int row, int column)
 	{
-	//	Log.trace(this,10, "VHeaderRenderer.getTableCellRendererComponent", value==null ? "null" : value.toString());
 		//  indicator for invisible column
 		Icon icon = null;
 		if (table instanceof CTable)
@@ -95,36 +116,55 @@ public final class VHeaderRenderer implements TableCellRenderer
 					: Env.getImageIcon2("downarrow");
 			}
 		}
-		
-		TableCellRenderer headerRenderer = table.getTableHeader().getDefaultRenderer();
-		Component headerComponent = headerRenderer == null ? null :
-			headerRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-		if (headerComponent != null && headerComponent instanceof JComponent) {
-			if (headerComponent instanceof JLabel ) {
-				JLabel label = (JLabel)headerComponent;
-				label.setHorizontalAlignment(m_alignment);
-				if (value == null) 
-					label.setPreferredSize(new Dimension(0,0));
-				else
-					label.setText(value.toString());
-				label.setIcon(icon);
-				label.setHorizontalTextPosition(SwingConstants.LEADING);
-				return label;
+
+		/**
+		 * If VHeaderRenderer is just created with display type as argument
+		 */
+		if (m_label==null && m_button==null) {
+			TableCellRenderer headerRenderer = table.getTableHeader().getDefaultRenderer();
+			Component headerComponent = headerRenderer == null ? null :
+				headerRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+			if (value == null)
+				headerComponent.setPreferredSize(new Dimension(0,0));
+			if (headerComponent instanceof JLabel) {
+				((JLabel)headerComponent).setIcon(icon);
+				((JLabel)headerComponent).setHorizontalTextPosition(SwingConstants.LEADING);
 			}
-			m_button.setBorder(((JComponent)headerComponent).getBorder());
-		} else {
-			m_button.setBorder(UIManager.getBorder("TableHeader.cellBorder"));
+			return headerComponent;
 		}
-		
-		if (value == null)
-		{
-			m_button.setPreferredSize(new Dimension(0,0));
+
+		/**
+		 * If VHeaderRenderer has been created with GridField as argument
+		 */
+		if (m_button==null) {
+			m_label.setHorizontalAlignment(m_alignment);
+			
+			if (value == null) 
+				m_label.setPreferredSize(new Dimension(0,0));
+			else {
+				m_label.setText(value.toString());
+				if (prefWidth!=null && prefWidth>0) {
+					m_label.setPreferredSize(new Dimension(prefWidth, m_label.getHeight()));
+					m_label.setToolTipText(value.toString());
+				}
+			}
+			m_label.setIcon(icon);
+			m_label.setHorizontalTextPosition(SwingConstants.LEADING);
+			return m_label;
+		} else {
+			/**
+			 * VHeaderRenderer has been created with no argument
+			 */
+			if (value == null)
+			{
+				m_button.setPreferredSize(new Dimension(0,0));
+				return m_button;
+			}
+			m_button.setText(value.toString());
+			m_button.setIcon(icon);
+			m_button.setHorizontalTextPosition(SwingConstants.LEADING);
 			return m_button;
 		}
-		m_button.setText(value.toString());
-		m_button.setIcon(icon);
-		m_button.setHorizontalTextPosition(SwingConstants.LEADING);
-		return m_button;
 	}	//	getTableCellRendererComponent
 
 }	//	VHeaderRenderer

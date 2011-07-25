@@ -30,7 +30,7 @@ public class X_M_AttributeValue extends PO implements I_M_AttributeValue, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_M_AttributeValue (Properties ctx, int M_AttributeValue_ID, String trxName)
@@ -38,8 +38,8 @@ public class X_M_AttributeValue extends PO implements I_M_AttributeValue, I_Pers
       super (ctx, M_AttributeValue_ID, trxName);
       /** if (M_AttributeValue_ID == 0)
         {
-			setM_Attribute_ID (0);
 			setM_AttributeValue_ID (0);
+			setM_Attribute_ID (0);
 			setName (null);
 			setValue (null);
         } */
@@ -90,9 +90,32 @@ public class X_M_AttributeValue extends PO implements I_M_AttributeValue, I_Pers
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public I_M_Attribute getM_Attribute() throws RuntimeException
+	/** Set Attribute Value.
+		@param M_AttributeValue_ID 
+		Product Attribute Value
+	  */
+	public void setM_AttributeValue_ID (int M_AttributeValue_ID)
+	{
+		if (M_AttributeValue_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_AttributeValue_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_AttributeValue_ID, Integer.valueOf(M_AttributeValue_ID));
+	}
+
+	/** Get Attribute Value.
+		@return Product Attribute Value
+	  */
+	public int getM_AttributeValue_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_AttributeValue_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_Attribute getM_Attribute() throws RuntimeException
     {
-		return (I_M_Attribute)MTable.get(getCtx(), I_M_Attribute.Table_Name)
+		return (org.compiere.model.I_M_Attribute)MTable.get(getCtx(), org.compiere.model.I_M_Attribute.Table_Name)
 			.getPO(getM_Attribute_ID(), get_TrxName());	}
 
 	/** Set Attribute.
@@ -113,29 +136,6 @@ public class X_M_AttributeValue extends PO implements I_M_AttributeValue, I_Pers
 	public int getM_Attribute_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Attribute_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Attribute Value.
-		@param M_AttributeValue_ID 
-		Product Attribute Value
-	  */
-	public void setM_AttributeValue_ID (int M_AttributeValue_ID)
-	{
-		if (M_AttributeValue_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_AttributeValue_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_AttributeValue_ID, Integer.valueOf(M_AttributeValue_ID));
-	}
-
-	/** Get Attribute Value.
-		@return Product Attribute Value
-	  */
-	public int getM_AttributeValue_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_AttributeValue_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

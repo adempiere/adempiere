@@ -75,7 +75,7 @@ public interface I_M_MatchInv
 	  */
 	public int getC_InvoiceLine_ID();
 
-	public I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException;
+	public org.compiere.model.I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -186,7 +186,7 @@ public interface I_M_MatchInv
 	  */
 	public int getM_InOutLine_ID();
 
-	public I_M_InOutLine getM_InOutLine() throws RuntimeException;
+	public org.compiere.model.I_M_InOutLine getM_InOutLine() throws RuntimeException;
 
     /** Column name M_MatchInv_ID */
     public static final String COLUMNNAME_M_MatchInv_ID = "M_MatchInv_ID";
@@ -214,7 +214,7 @@ public interface I_M_MatchInv
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Posted */
     public static final String COLUMNNAME_Posted = "Posted";

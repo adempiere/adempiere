@@ -30,7 +30,7 @@ public class X_M_ProductDownload extends PO implements I_M_ProductDownload, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_M_ProductDownload (Properties ctx, int M_ProductDownload_ID, String trxName)
@@ -113,9 +113,9 @@ public class X_M_ProductDownload extends PO implements I_M_ProductDownload, I_Pe
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.

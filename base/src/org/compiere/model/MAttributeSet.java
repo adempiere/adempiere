@@ -86,7 +86,7 @@ public class MAttributeSet extends X_M_AttributeSet
 			setIsSerNo (false);
 			setIsSerNoMandatory (false);
 			setIsInstanceAttribute(false);
-			setMandatoryType (MANDATORYTYPE_NotMandatary);
+			setMandatoryType (MANDATORYTYPE_NotMandatory);
 		}
 	}	//	MAttributeSet
 
@@ -185,7 +185,7 @@ public class MAttributeSet extends X_M_AttributeSet
 	 */
 	public boolean isMandatory()
 	{
-		return !MANDATORYTYPE_NotMandatary.equals(getMandatoryType())
+		return !MANDATORYTYPE_NotMandatory.equals(getMandatoryType())
 			|| isLotMandatory()
 			|| isSerNoMandatory()
 			|| isGuaranteeDateMandatory();

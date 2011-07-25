@@ -75,7 +75,7 @@ public interface I_M_Promotion
 	  */
 	public int getC_Campaign_ID();
 
-	public I_C_Campaign getC_Campaign() throws RuntimeException;
+	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

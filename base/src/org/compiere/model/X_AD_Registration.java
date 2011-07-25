@@ -30,7 +30,7 @@ public class X_AD_Registration extends PO implements I_AD_Registration, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_AD_Registration (Properties ctx, int AD_Registration_ID, String trxName)
@@ -103,9 +103,9 @@ public class X_AD_Registration extends PO implements I_AD_Registration, I_Persis
 		return ii.intValue();
 	}
 
-	public I_AD_System getAD_System() throws RuntimeException
+	public org.compiere.model.I_AD_System getAD_System() throws RuntimeException
     {
-		return (I_AD_System)MTable.get(getCtx(), I_AD_System.Table_Name)
+		return (org.compiere.model.I_AD_System)MTable.get(getCtx(), org.compiere.model.I_AD_System.Table_Name)
 			.getPO(getAD_System_ID(), get_TrxName());	}
 
 	/** Set System.
@@ -131,9 +131,9 @@ public class X_AD_Registration extends PO implements I_AD_Registration, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_Currency getC_Currency() throws RuntimeException
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException
     {
-		return (I_C_Currency)MTable.get(getCtx(), I_C_Currency.Table_Name)
+		return (org.compiere.model.I_C_Currency)MTable.get(getCtx(), org.compiere.model.I_C_Currency.Table_Name)
 			.getPO(getC_Currency_ID(), get_TrxName());	}
 
 	/** Set Currency.

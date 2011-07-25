@@ -42,19 +42,6 @@ public interface I_HR_Movement
 
     /** Load Meta Data */
 
-    /** Column name AccountSign */
-    public static final String COLUMNNAME_AccountSign = "AccountSign";
-
-	/** Set Account Sign.
-	  * Indicates the Natural Sign of the Account as a Debit or Credit
-	  */
-	public void setAccountSign (String AccountSign);
-
-	/** Get Account Sign.
-	  * Indicates the Natural Sign of the Account as a Debit or Credit
-	  */
-	public String getAccountSign();
-
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -62,19 +49,6 @@ public interface I_HR_Movement
 	  * Client/Tenant for this installation.
 	  */
 	public int getAD_Client_ID();
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
 
     /** Column name AD_OrgTrx_ID */
     public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
@@ -89,6 +63,19 @@ public interface I_HR_Movement
 	  */
 	public int getAD_OrgTrx_ID();
 
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
     /** Column name AD_Rule_ID */
     public static final String COLUMNNAME_AD_Rule_ID = "AD_Rule_ID";
 
@@ -98,7 +85,20 @@ public interface I_HR_Movement
 	/** Get Rule	  */
 	public int getAD_Rule_ID();
 
-	public I_AD_Rule getAD_Rule() throws RuntimeException;
+	public org.compiere.model.I_AD_Rule getAD_Rule() throws RuntimeException;
+
+    /** Column name AccountSign */
+    public static final String COLUMNNAME_AccountSign = "AccountSign";
+
+	/** Set Account Sign.
+	  * Indicates the Natural Sign of the Account as a Debit or Credit
+	  */
+	public void setAccountSign (String AccountSign);
+
+	/** Get Account Sign.
+	  * Indicates the Natural Sign of the Account as a Debit or Credit
+	  */
+	public String getAccountSign();
 
     /** Column name Amount */
     public static final String COLUMNNAME_Amount = "Amount";
@@ -126,22 +126,7 @@ public interface I_HR_Movement
 	  */
 	public int getC_Activity_ID();
 
-	public I_C_Activity getC_Activity() throws RuntimeException;
-
-    /** Column name C_BPartner_ID */
-    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
-
-	/** Set Business Partner .
-	  * Identifies a Business Partner
-	  */
-	public void setC_BPartner_ID (int C_BPartner_ID);
-
-	/** Get Business Partner .
-	  * Identifies a Business Partner
-	  */
-	public int getC_BPartner_ID();
-
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
+	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException;
 
     /** Column name C_BP_BankAccount_ID */
     public static final String COLUMNNAME_C_BP_BankAccount_ID = "C_BP_BankAccount_ID";
@@ -156,7 +141,7 @@ public interface I_HR_Movement
 	  */
 	public int getC_BP_BankAccount_ID();
 
-	public I_C_BP_BankAccount getC_BP_BankAccount() throws RuntimeException;
+	public org.compiere.model.I_C_BP_BankAccount getC_BP_BankAccount() throws RuntimeException;
 
     /** Column name C_BP_Group_ID */
     public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
@@ -171,7 +156,22 @@ public interface I_HR_Movement
 	  */
 	public int getC_BP_Group_ID();
 
-	public I_C_BP_Group getC_BP_Group() throws RuntimeException;
+	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException;
+
+    /** Column name C_BPartner_ID */
+    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
+
+	/** Set Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID);
+
+	/** Get Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID();
+
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_Campaign_ID */
     public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
@@ -186,31 +186,7 @@ public interface I_HR_Movement
 	  */
 	public int getC_Campaign_ID();
 
-	public I_C_Campaign getC_Campaign() throws RuntimeException;
-
-    /** Column name ColumnType */
-    public static final String COLUMNNAME_ColumnType = "ColumnType";
-
-	/** Set Column Type	  */
-	public void setColumnType (String ColumnType);
-
-	/** Get Column Type	  */
-	public String getColumnType();
-
-    /** Column name C_Project_ID */
-    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
-
-	/** Set Project.
-	  * Financial Project
-	  */
-	public void setC_Project_ID (int C_Project_ID);
-
-	/** Get Project.
-	  * Financial Project
-	  */
-	public int getC_Project_ID();
-
-	public I_C_Project getC_Project() throws RuntimeException;
+	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException;
 
     /** Column name C_ProjectPhase_ID */
     public static final String COLUMNNAME_C_ProjectPhase_ID = "C_ProjectPhase_ID";
@@ -225,7 +201,7 @@ public interface I_HR_Movement
 	  */
 	public int getC_ProjectPhase_ID();
 
-	public I_C_ProjectPhase getC_ProjectPhase() throws RuntimeException;
+	public org.compiere.model.I_C_ProjectPhase getC_ProjectPhase() throws RuntimeException;
 
     /** Column name C_ProjectTask_ID */
     public static final String COLUMNNAME_C_ProjectTask_ID = "C_ProjectTask_ID";
@@ -240,7 +216,31 @@ public interface I_HR_Movement
 	  */
 	public int getC_ProjectTask_ID();
 
-	public I_C_ProjectTask getC_ProjectTask() throws RuntimeException;
+	public org.compiere.model.I_C_ProjectTask getC_ProjectTask() throws RuntimeException;
+
+    /** Column name C_Project_ID */
+    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
+
+	/** Set Project.
+	  * Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID);
+
+	/** Get Project.
+	  * Financial Project
+	  */
+	public int getC_Project_ID();
+
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
+
+    /** Column name ColumnType */
+    public static final String COLUMNNAME_ColumnType = "ColumnType";
+
+	/** Set Column Type	  */
+	public void setColumnType (String ColumnType);
+
+	/** Get Column Type	  */
+	public String getColumnType();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -348,6 +348,19 @@ public interface I_HR_Movement
 	  */
 	public boolean isActive();
 
+    /** Column name IsManual */
+    public static final String COLUMNNAME_IsManual = "IsManual";
+
+	/** Set Manual.
+	  * This is a manual process
+	  */
+	public void setIsManual (boolean IsManual);
+
+	/** Get Manual.
+	  * This is a manual process
+	  */
+	public boolean isManual();
+
     /** Column name IsPrinted */
     public static final String COLUMNNAME_IsPrinted = "IsPrinted";
 
@@ -360,19 +373,6 @@ public interface I_HR_Movement
 	  * Indicates if this document / line is printed
 	  */
 	public boolean isPrinted();
-
-    /** Column name IsRegistered */
-    public static final String COLUMNNAME_IsRegistered = "IsRegistered";
-
-	/** Set Registered.
-	  * The application is registered.
-	  */
-	public void setIsRegistered (boolean IsRegistered);
-
-	/** Get Registered.
-	  * The application is registered.
-	  */
-	public boolean isRegistered();
 
     /** Column name PP_Cost_Collector_ID */
     public static final String COLUMNNAME_PP_Cost_Collector_ID = "PP_Cost_Collector_ID";
@@ -466,7 +466,7 @@ public interface I_HR_Movement
 	  */
 	public int getUser1_ID();
 
-	public I_C_ElementValue getUser1() throws RuntimeException;
+	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException;
 
     /** Column name User2_ID */
     public static final String COLUMNNAME_User2_ID = "User2_ID";
@@ -481,7 +481,7 @@ public interface I_HR_Movement
 	  */
 	public int getUser2_ID();
 
-	public I_C_ElementValue getUser2() throws RuntimeException;
+	public org.compiere.model.I_C_ElementValue getUser2() throws RuntimeException;
 
     /** Column name ValidFrom */
     public static final String COLUMNNAME_ValidFrom = "ValidFrom";

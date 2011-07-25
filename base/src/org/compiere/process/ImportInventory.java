@@ -263,7 +263,7 @@ public class ImportInventory extends SvrProcess
 		//	Go through Inventory Records
 		sql = new StringBuffer ("SELECT * FROM I_Inventory "
 			+ "WHERE I_IsImported='N'").append (clientCheck)
-			.append(" ORDER BY M_Warehouse_ID, TRUNC(MovementDate), I_Inventory_ID");
+			.append(" ORDER BY M_Warehouse_ID, TRUNC(MovementDate, 'DD'), I_Inventory_ID");
 		try
 		{
 			PreparedStatement pstmt = DB.prepareStatement (sql.toString (), get_TrxName());
@@ -298,7 +298,7 @@ public class ImportInventory extends SvrProcess
 
 				//	Line
 				int M_AttributeSetInstance_ID = 0;
-				if (imp.getLot() != null || imp.getSerNo() != null)
+				if ((imp.getLot() != null && imp.getLot().length() > 0) || (imp.getSerNo() != null && imp.getSerNo().length() > 0))
 				{
 					MProduct product = MProduct.get(getCtx(), imp.getM_Product_ID());
 					if (product.isInstanceAttribute())

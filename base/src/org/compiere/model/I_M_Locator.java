@@ -130,7 +130,7 @@ public interface I_M_Locator
 	  */
 	public int getM_Warehouse_ID();
 
-	public I_M_Warehouse getM_Warehouse() throws RuntimeException;
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
 
     /** Column name PriorityNo */
     public static final String COLUMNNAME_PriorityNo = "PriorityNo";

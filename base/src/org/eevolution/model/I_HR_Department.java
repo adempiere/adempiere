@@ -76,7 +76,7 @@ public interface I_HR_Department
 	  */
 	public int getC_Activity_ID();
 
-	public I_C_Activity getC_Activity() throws RuntimeException;
+	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

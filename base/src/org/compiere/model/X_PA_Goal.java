@@ -33,7 +33,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_PA_Goal (Properties ctx, int PA_Goal_ID, String trxName)
@@ -85,9 +85,9 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Role getAD_Role() throws RuntimeException
+	public org.compiere.model.I_AD_Role getAD_Role() throws RuntimeException
     {
-		return (I_AD_Role)MTable.get(getCtx(), I_AD_Role.Table_Name)
+		return (org.compiere.model.I_AD_Role)MTable.get(getCtx(), org.compiere.model.I_AD_Role.Table_Name)
 			.getPO(getAD_Role_ID(), get_TrxName());	}
 
 	/** Set Role.
@@ -113,9 +113,9 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_User getAD_User() throws RuntimeException
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
     {
-		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getAD_User_ID(), get_TrxName());	}
 
 	/** Set User/Contact.
@@ -431,9 +431,9 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 		return (String)get_Value(COLUMNNAME_Note);
 	}
 
-	public I_PA_ColorSchema getPA_ColorSchema() throws RuntimeException
+	public org.compiere.model.I_PA_ColorSchema getPA_ColorSchema() throws RuntimeException
     {
-		return (I_PA_ColorSchema)MTable.get(getCtx(), I_PA_ColorSchema.Table_Name)
+		return (org.compiere.model.I_PA_ColorSchema)MTable.get(getCtx(), org.compiere.model.I_PA_ColorSchema.Table_Name)
 			.getPO(getPA_ColorSchema_ID(), get_TrxName());	}
 
 	/** Set Color Schema.
@@ -454,6 +454,34 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	public int getPA_ColorSchema_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ColorSchema_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_PA_Goal getPA_GoalParent() throws RuntimeException
+    {
+		return (org.compiere.model.I_PA_Goal)MTable.get(getCtx(), org.compiere.model.I_PA_Goal.Table_Name)
+			.getPO(getPA_GoalParent_ID(), get_TrxName());	}
+
+	/** Set Parent Goal.
+		@param PA_GoalParent_ID 
+		Parent Goal
+	  */
+	public void setPA_GoalParent_ID (int PA_GoalParent_ID)
+	{
+		if (PA_GoalParent_ID < 1) 
+			set_Value (COLUMNNAME_PA_GoalParent_ID, null);
+		else 
+			set_Value (COLUMNNAME_PA_GoalParent_ID, Integer.valueOf(PA_GoalParent_ID));
+	}
+
+	/** Get Parent Goal.
+		@return Parent Goal
+	  */
+	public int getPA_GoalParent_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PA_GoalParent_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -482,37 +510,9 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_PA_Goal getPA_GoalParent() throws RuntimeException
+	public org.compiere.model.I_PA_Measure getPA_Measure() throws RuntimeException
     {
-		return (I_PA_Goal)MTable.get(getCtx(), I_PA_Goal.Table_Name)
-			.getPO(getPA_GoalParent_ID(), get_TrxName());	}
-
-	/** Set Parent Goal.
-		@param PA_GoalParent_ID 
-		Parent Goal
-	  */
-	public void setPA_GoalParent_ID (int PA_GoalParent_ID)
-	{
-		if (PA_GoalParent_ID < 1) 
-			set_Value (COLUMNNAME_PA_GoalParent_ID, null);
-		else 
-			set_Value (COLUMNNAME_PA_GoalParent_ID, Integer.valueOf(PA_GoalParent_ID));
-	}
-
-	/** Get Parent Goal.
-		@return Parent Goal
-	  */
-	public int getPA_GoalParent_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PA_GoalParent_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_PA_Measure getPA_Measure() throws RuntimeException
-    {
-		return (I_PA_Measure)MTable.get(getCtx(), I_PA_Measure.Table_Name)
+		return (org.compiere.model.I_PA_Measure)MTable.get(getCtx(), org.compiere.model.I_PA_Measure.Table_Name)
 			.getPO(getPA_Measure_ID(), get_TrxName());	}
 
 	/** Set Measure.

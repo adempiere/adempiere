@@ -147,19 +147,6 @@ public interface I_M_ProductionLine
 
 	public I_M_Locator getM_Locator() throws RuntimeException;
 
-    /** Column name MovementQty */
-    public static final String COLUMNNAME_MovementQty = "MovementQty";
-
-	/** Set Movement Quantity.
-	  * Quantity of a product moved.
-	  */
-	public void setMovementQty (BigDecimal MovementQty);
-
-	/** Get Movement Quantity.
-	  * Quantity of a product moved.
-	  */
-	public BigDecimal getMovementQty();
-
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -173,7 +160,7 @@ public interface I_M_ProductionLine
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name M_ProductionLine_ID */
     public static final String COLUMNNAME_M_ProductionLine_ID = "M_ProductionLine_ID";
@@ -201,7 +188,20 @@ public interface I_M_ProductionLine
 	  */
 	public int getM_ProductionPlan_ID();
 
-	public I_M_ProductionPlan getM_ProductionPlan() throws RuntimeException;
+	public org.compiere.model.I_M_ProductionPlan getM_ProductionPlan() throws RuntimeException;
+
+    /** Column name MovementQty */
+    public static final String COLUMNNAME_MovementQty = "MovementQty";
+
+	/** Set Movement Quantity.
+	  * Quantity of a product moved.
+	  */
+	public void setMovementQty (BigDecimal MovementQty);
+
+	/** Get Movement Quantity.
+	  * Quantity of a product moved.
+	  */
+	public BigDecimal getMovementQty();
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";

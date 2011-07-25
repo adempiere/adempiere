@@ -31,7 +31,7 @@ public class X_CM_BroadcastServer extends PO implements I_CM_BroadcastServer, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_CM_BroadcastServer (Properties ctx, int CM_BroadcastServer_ID, String trxName)
@@ -96,9 +96,9 @@ public class X_CM_BroadcastServer extends PO implements I_CM_BroadcastServer, I_
 		return ii.intValue();
 	}
 
-	public I_CM_WebProject getCM_WebProject() throws RuntimeException
+	public org.compiere.model.I_CM_WebProject getCM_WebProject() throws RuntimeException
     {
-		return (I_CM_WebProject)MTable.get(getCtx(), I_CM_WebProject.Table_Name)
+		return (org.compiere.model.I_CM_WebProject)MTable.get(getCtx(), org.compiere.model.I_CM_WebProject.Table_Name)
 			.getPO(getCM_WebProject_ID(), get_TrxName());	}
 
 	/** Set Web Project.

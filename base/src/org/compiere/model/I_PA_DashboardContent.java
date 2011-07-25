@@ -75,7 +75,7 @@ public interface I_PA_DashboardContent
 	  */
 	public int getAD_Window_ID();
 
-	public I_AD_Window getAD_Window() throws RuntimeException;
+	public org.compiere.model.I_AD_Window getAD_Window() throws RuntimeException;
 
     /** Column name ColumnNo */
     public static final String COLUMNNAME_ColumnNo = "ColumnNo";
@@ -167,6 +167,15 @@ public interface I_PA_DashboardContent
 	  */
 	public boolean isCollapsible();
 
+    /** Column name IsOpenByDefault */
+    public static final String COLUMNNAME_IsOpenByDefault = "IsOpenByDefault";
+
+	/** Set Open By Default	  */
+	public void setIsOpenByDefault (boolean IsOpenByDefault);
+
+	/** Get Open By Default	  */
+	public boolean isOpenByDefault();
+
     /** Column name Line */
     public static final String COLUMNNAME_Line = "Line";
 
@@ -196,10 +205,10 @@ public interface I_PA_DashboardContent
     /** Column name PA_DashboardContent_ID */
     public static final String COLUMNNAME_PA_DashboardContent_ID = "PA_DashboardContent_ID";
 
-	/** Set PA_DashboardContent_ID	  */
+	/** Set Dashboard Content	  */
 	public void setPA_DashboardContent_ID (int PA_DashboardContent_ID);
 
-	/** Get PA_DashboardContent_ID	  */
+	/** Get Dashboard Content	  */
 	public int getPA_DashboardContent_ID();
 
     /** Column name PA_Goal_ID */
@@ -215,7 +224,7 @@ public interface I_PA_DashboardContent
 	  */
 	public int getPA_Goal_ID();
 
-	public I_PA_Goal getPA_Goal() throws RuntimeException;
+	public org.compiere.model.I_PA_Goal getPA_Goal() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

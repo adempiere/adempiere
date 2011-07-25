@@ -31,7 +31,7 @@ public class X_C_BankStatementLoader extends PO implements I_C_BankStatementLoad
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_C_BankStatementLoader (Properties ctx, int C_BankStatementLoader_ID, String trxName)
@@ -107,9 +107,9 @@ public class X_C_BankStatementLoader extends PO implements I_C_BankStatementLoad
 		return (String)get_Value(COLUMNNAME_BranchID);
 	}
 
-	public I_C_BankAccount getC_BankAccount() throws RuntimeException
+	public org.compiere.model.I_C_BankAccount getC_BankAccount() throws RuntimeException
     {
-		return (I_C_BankAccount)MTable.get(getCtx(), I_C_BankAccount.Table_Name)
+		return (org.compiere.model.I_C_BankAccount)MTable.get(getCtx(), org.compiere.model.I_C_BankAccount.Table_Name)
 			.getPO(getC_BankAccount_ID(), get_TrxName());	}
 
 	/** Set Bank Account.
@@ -305,23 +305,6 @@ public class X_C_BankStatementLoader extends PO implements I_C_BankStatementLoad
         return new KeyNamePair(get_ID(), getName());
     }
 
-	/** Set Password.
-		@param Password 
-		Password of any length (case sensitive)
-	  */
-	public void setPassword (String Password)
-	{
-		set_Value (COLUMNNAME_Password, Password);
-	}
-
-	/** Get Password.
-		@return Password of any length (case sensitive)
-	  */
-	public String getPassword () 
-	{
-		return (String)get_Value(COLUMNNAME_Password);
-	}
-
 	/** Set PIN.
 		@param PIN 
 		Personal Identification Number
@@ -337,6 +320,23 @@ public class X_C_BankStatementLoader extends PO implements I_C_BankStatementLoad
 	public String getPIN () 
 	{
 		return (String)get_Value(COLUMNNAME_PIN);
+	}
+
+	/** Set Password.
+		@param Password 
+		Password of any length (case sensitive)
+	  */
+	public void setPassword (String Password)
+	{
+		set_Value (COLUMNNAME_Password, Password);
+	}
+
+	/** Get Password.
+		@return Password of any length (case sensitive)
+	  */
+	public String getPassword () 
+	{
+		return (String)get_Value(COLUMNNAME_Password);
 	}
 
 	/** Set Proxy address.

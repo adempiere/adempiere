@@ -30,7 +30,7 @@ public class X_AD_Alert extends PO implements I_AD_Alert, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_AD_Alert (Properties ctx, int AD_Alert_ID, String trxName)
@@ -38,8 +38,8 @@ public class X_AD_Alert extends PO implements I_AD_Alert, I_Persistent
       super (ctx, AD_Alert_ID, trxName);
       /** if (AD_Alert_ID == 0)
         {
-			setAD_Alert_ID (0);
 			setAD_AlertProcessor_ID (0);
+			setAD_Alert_ID (0);
 			setAlertMessage (null);
 			setAlertSubject (null);
 			setEnforceClientSecurity (true);
@@ -80,32 +80,9 @@ public class X_AD_Alert extends PO implements I_AD_Alert, I_Persistent
       return sb.toString();
     }
 
-	/** Set Alert.
-		@param AD_Alert_ID 
-		Adempiere Alert
-	  */
-	public void setAD_Alert_ID (int AD_Alert_ID)
-	{
-		if (AD_Alert_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_Alert_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_Alert_ID, Integer.valueOf(AD_Alert_ID));
-	}
-
-	/** Get Alert.
-		@return Adempiere Alert
-	  */
-	public int getAD_Alert_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Alert_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_AD_AlertProcessor getAD_AlertProcessor() throws RuntimeException
+	public org.compiere.model.I_AD_AlertProcessor getAD_AlertProcessor() throws RuntimeException
     {
-		return (I_AD_AlertProcessor)MTable.get(getCtx(), I_AD_AlertProcessor.Table_Name)
+		return (org.compiere.model.I_AD_AlertProcessor)MTable.get(getCtx(), org.compiere.model.I_AD_AlertProcessor.Table_Name)
 			.getPO(getAD_AlertProcessor_ID(), get_TrxName());	}
 
 	/** Set Alert Processor.
@@ -126,6 +103,29 @@ public class X_AD_Alert extends PO implements I_AD_Alert, I_Persistent
 	public int getAD_AlertProcessor_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_AlertProcessor_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Alert.
+		@param AD_Alert_ID 
+		Adempiere Alert
+	  */
+	public void setAD_Alert_ID (int AD_Alert_ID)
+	{
+		if (AD_Alert_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Alert_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Alert_ID, Integer.valueOf(AD_Alert_ID));
+	}
+
+	/** Get Alert.
+		@return Adempiere Alert
+	  */
+	public int getAD_Alert_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Alert_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

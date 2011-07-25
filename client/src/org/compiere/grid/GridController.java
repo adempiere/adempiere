@@ -557,7 +557,12 @@ public class GridController extends CPanel
 			GridField mField = mTab.getField (i);
 			TableColumn tc = tcm.getColumn(i);
 			tc.setMinWidth(30);
-			//
+
+			// FR 3051618 - Hide in list view
+			if (mField.isHideInListView()) {
+				vTable.setColumnVisibility(tc, false);
+			}
+			
 			if (mField.getColumnName().equals(tc.getIdentifier().toString()))
 			{
 				//don't show included tab field in grid
@@ -589,8 +594,7 @@ public class GridController extends CPanel
 						//
 						tc.setHeaderValue (mField.getHeader ());
 						tc.setPreferredWidth (Math.max (mField.getDisplayLength (), 30));
-						tc.setHeaderRenderer (new VHeaderRenderer (mField.getDisplayType ()));
-
+						tc.setHeaderRenderer (new VHeaderRenderer(mField)); 
 						//  Enable Button actions in grid
 						if (mField.getDisplayType () == DisplayType.Button)
 						{
@@ -608,9 +612,6 @@ public class GridController extends CPanel
 						tc.setPreferredWidth (0);
 					}
 				}
-			//	System.out.println ("TableColumnID " + tc.getIdentifier ()
-			//	  + "  Renderer=" + tc.getCellRenderer ()
-			//	  + mField.getHeader ());
 
 			}	//	found field
 			else

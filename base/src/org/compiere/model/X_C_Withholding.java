@@ -32,7 +32,7 @@ public class X_C_Withholding extends PO implements I_C_Withholding, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_C_Withholding (Properties ctx, int C_Withholding_ID, String trxName)
@@ -79,9 +79,9 @@ public class X_C_Withholding extends PO implements I_C_Withholding, I_Persistent
       return sb.toString();
     }
 
-	public I_C_BPartner getBenefici() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getBenefici() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getBeneficiary(), get_TrxName());	}
 
 	/** Set Beneficiary.
@@ -104,9 +104,9 @@ public class X_C_Withholding extends PO implements I_C_Withholding, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException
+	public org.compiere.model.I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException
     {
-		return (I_C_PaymentTerm)MTable.get(getCtx(), I_C_PaymentTerm.Table_Name)
+		return (org.compiere.model.I_C_PaymentTerm)MTable.get(getCtx(), org.compiere.model.I_C_PaymentTerm.Table_Name)
 			.getPO(getC_PaymentTerm_ID(), get_TrxName());	}
 
 	/** Set Payment Term.

@@ -62,6 +62,19 @@ public interface I_AD_WorkflowProcessorLog
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name AD_WorkflowProcessorLog_ID */
+    public static final String COLUMNNAME_AD_WorkflowProcessorLog_ID = "AD_WorkflowProcessorLog_ID";
+
+	/** Set Workflow Processorl Log.
+	  * Result of the execution of the Workflow Processor
+	  */
+	public void setAD_WorkflowProcessorLog_ID (int AD_WorkflowProcessorLog_ID);
+
+	/** Get Workflow Processorl Log.
+	  * Result of the execution of the Workflow Processor
+	  */
+	public int getAD_WorkflowProcessorLog_ID();
+
     /** Column name AD_WorkflowProcessor_ID */
     public static final String COLUMNNAME_AD_WorkflowProcessor_ID = "AD_WorkflowProcessor_ID";
 
@@ -75,20 +88,7 @@ public interface I_AD_WorkflowProcessorLog
 	  */
 	public int getAD_WorkflowProcessor_ID();
 
-	public I_AD_WorkflowProcessor getAD_WorkflowProcessor() throws RuntimeException;
-
-    /** Column name AD_WorkflowProcessorLog_ID */
-    public static final String COLUMNNAME_AD_WorkflowProcessorLog_ID = "AD_WorkflowProcessorLog_ID";
-
-	/** Set Workflow Processorl Log.
-	  * Result of the execution of the Workflow Processor
-	  */
-	public void setAD_WorkflowProcessorLog_ID (int AD_WorkflowProcessorLog_ID);
-
-	/** Get Workflow Processorl Log.
-	  * Result of the execution of the Workflow Processor
-	  */
-	public int getAD_WorkflowProcessorLog_ID();
+	public org.compiere.model.I_AD_WorkflowProcessor getAD_WorkflowProcessor() throws RuntimeException;
 
     /** Column name BinaryData */
     public static final String COLUMNNAME_BinaryData = "BinaryData";

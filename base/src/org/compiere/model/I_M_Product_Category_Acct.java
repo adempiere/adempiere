@@ -75,7 +75,7 @@ public interface I_M_Product_Category_Acct
 	  */
 	public int getC_AcctSchema_ID();
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
+	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
 
     /** Column name CostingLevel */
     public static final String COLUMNNAME_CostingLevel = "CostingLevel";
@@ -145,7 +145,7 @@ public interface I_M_Product_Category_Acct
 	  */
 	public int getM_Product_Category_ID();
 
-	public I_M_Product_Category getM_Product_Category() throws RuntimeException;
+	public org.compiere.model.I_M_Product_Category getM_Product_Category() throws RuntimeException;
 
     /** Column name P_Asset_Acct */
     public static final String COLUMNNAME_P_Asset_Acct = "P_Asset_Acct";
@@ -417,15 +417,6 @@ public interface I_M_Product_Category_Acct
 
 	public I_C_ValidCombination getP_Revenue_A() throws RuntimeException;
 
-    /** Column name Processing */
-    public static final String COLUMNNAME_Processing = "Processing";
-
-	/** Set Process Now	  */
-	public void setProcessing (boolean Processing);
-
-	/** Get Process Now	  */
-	public boolean isProcessing();
-
     /** Column name P_Scrap_Acct */
     public static final String COLUMNNAME_P_Scrap_Acct = "P_Scrap_Acct";
 
@@ -500,6 +491,15 @@ public interface I_M_Product_Category_Acct
 	public int getP_WIP_Acct();
 
 	public I_C_ValidCombination getP_WIP_A() throws RuntimeException;
+
+    /** Column name Processing */
+    public static final String COLUMNNAME_Processing = "Processing";
+
+	/** Set Process Now	  */
+	public void setProcessing (boolean Processing);
+
+	/** Get Process Now	  */
+	public boolean isProcessing();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

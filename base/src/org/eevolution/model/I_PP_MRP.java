@@ -76,22 +76,7 @@ public interface I_PP_MRP
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
-
-    /** Column name C_Order_ID */
-    public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
-
-	/** Set Order.
-	  * Order
-	  */
-	public void setC_Order_ID (int C_Order_ID);
-
-	/** Get Order.
-	  * Order
-	  */
-	public int getC_Order_ID();
-
-	public I_C_Order getC_Order() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_OrderLine_ID */
     public static final String COLUMNNAME_C_OrderLine_ID = "C_OrderLine_ID";
@@ -106,7 +91,22 @@ public interface I_PP_MRP
 	  */
 	public int getC_OrderLine_ID();
 
-	public I_C_OrderLine getC_OrderLine() throws RuntimeException;
+	public org.compiere.model.I_C_OrderLine getC_OrderLine() throws RuntimeException;
+
+    /** Column name C_Order_ID */
+    public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
+
+	/** Set Order.
+	  * Order
+	  */
+	public void setC_Order_ID (int C_Order_ID);
+
+	/** Get Order.
+	  * Order
+	  */
+	public int getC_Order_ID();
+
+	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -123,6 +123,28 @@ public interface I_PP_MRP
 	  * User who created this records
 	  */
 	public int getCreatedBy();
+
+    /** Column name DD_OrderLine_ID */
+    public static final String COLUMNNAME_DD_OrderLine_ID = "DD_OrderLine_ID";
+
+	/** Set Distribution Order Line	  */
+	public void setDD_OrderLine_ID (int DD_OrderLine_ID);
+
+	/** Get Distribution Order Line	  */
+	public int getDD_OrderLine_ID();
+
+	public org.eevolution.model.I_DD_OrderLine getDD_OrderLine() throws RuntimeException;
+
+    /** Column name DD_Order_ID */
+    public static final String COLUMNNAME_DD_Order_ID = "DD_Order_ID";
+
+	/** Set Distribution Order	  */
+	public void setDD_Order_ID (int DD_Order_ID);
+
+	/** Get Distribution Order	  */
+	public int getDD_Order_ID();
+
+	public org.eevolution.model.I_DD_Order getDD_Order() throws RuntimeException;
 
     /** Column name DateConfirm */
     public static final String COLUMNNAME_DateConfirm = "DateConfirm";
@@ -215,28 +237,6 @@ public interface I_PP_MRP
 	  */
 	public Timestamp getDateStartSchedule();
 
-    /** Column name DD_Order_ID */
-    public static final String COLUMNNAME_DD_Order_ID = "DD_Order_ID";
-
-	/** Set Distribution Order	  */
-	public void setDD_Order_ID (int DD_Order_ID);
-
-	/** Get Distribution Order	  */
-	public int getDD_Order_ID();
-
-	public org.eevolution.model.I_DD_Order getDD_Order() throws RuntimeException;
-
-    /** Column name DD_OrderLine_ID */
-    public static final String COLUMNNAME_DD_OrderLine_ID = "DD_OrderLine_ID";
-
-	/** Set Distribution Order Line	  */
-	public void setDD_OrderLine_ID (int DD_OrderLine_ID);
-
-	/** Get Distribution Order Line	  */
-	public int getDD_OrderLine_ID();
-
-	public org.eevolution.model.I_DD_OrderLine getDD_OrderLine() throws RuntimeException;
-
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
 
@@ -289,21 +289,6 @@ public interface I_PP_MRP
 	  */
 	public boolean isAvailable();
 
-    /** Column name M_Forecast_ID */
-    public static final String COLUMNNAME_M_Forecast_ID = "M_Forecast_ID";
-
-	/** Set Forecast.
-	  * Material Forecast
-	  */
-	public void setM_Forecast_ID (int M_Forecast_ID);
-
-	/** Get Forecast.
-	  * Material Forecast
-	  */
-	public int getM_Forecast_ID();
-
-	public I_M_Forecast getM_Forecast() throws RuntimeException;
-
     /** Column name M_ForecastLine_ID */
     public static final String COLUMNNAME_M_ForecastLine_ID = "M_ForecastLine_ID";
 
@@ -317,7 +302,22 @@ public interface I_PP_MRP
 	  */
 	public int getM_ForecastLine_ID();
 
-	public I_M_ForecastLine getM_ForecastLine() throws RuntimeException;
+	public org.compiere.model.I_M_ForecastLine getM_ForecastLine() throws RuntimeException;
+
+    /** Column name M_Forecast_ID */
+    public static final String COLUMNNAME_M_Forecast_ID = "M_Forecast_ID";
+
+	/** Set Forecast.
+	  * Material Forecast
+	  */
+	public void setM_Forecast_ID (int M_Forecast_ID);
+
+	/** Get Forecast.
+	  * Material Forecast
+	  */
+	public int getM_Forecast_ID();
+
+	public org.compiere.model.I_M_Forecast getM_Forecast() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -332,22 +332,7 @@ public interface I_PP_MRP
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
-
-    /** Column name M_Requisition_ID */
-    public static final String COLUMNNAME_M_Requisition_ID = "M_Requisition_ID";
-
-	/** Set Requisition.
-	  * Material Requisition
-	  */
-	public void setM_Requisition_ID (int M_Requisition_ID);
-
-	/** Get Requisition.
-	  * Material Requisition
-	  */
-	public int getM_Requisition_ID();
-
-	public I_M_Requisition getM_Requisition() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name M_RequisitionLine_ID */
     public static final String COLUMNNAME_M_RequisitionLine_ID = "M_RequisitionLine_ID";
@@ -362,7 +347,22 @@ public interface I_PP_MRP
 	  */
 	public int getM_RequisitionLine_ID();
 
-	public I_M_RequisitionLine getM_RequisitionLine() throws RuntimeException;
+	public org.compiere.model.I_M_RequisitionLine getM_RequisitionLine() throws RuntimeException;
+
+    /** Column name M_Requisition_ID */
+    public static final String COLUMNNAME_M_Requisition_ID = "M_Requisition_ID";
+
+	/** Set Requisition.
+	  * Material Requisition
+	  */
+	public void setM_Requisition_ID (int M_Requisition_ID);
+
+	/** Get Requisition.
+	  * Material Requisition
+	  */
+	public int getM_Requisition_ID();
+
+	public org.compiere.model.I_M_Requisition getM_Requisition() throws RuntimeException;
 
     /** Column name M_Warehouse_ID */
     public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
@@ -377,7 +377,7 @@ public interface I_PP_MRP
 	  */
 	public int getM_Warehouse_ID();
 
-	public I_M_Warehouse getM_Warehouse() throws RuntimeException;
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -404,17 +404,6 @@ public interface I_PP_MRP
 	  * Type of Order: MRP records grouped by source (Sales Order, Purchase Order, Distribution Order, Requisition)
 	  */
 	public String getOrderType();
-
-    /** Column name Planner_ID */
-    public static final String COLUMNNAME_Planner_ID = "Planner_ID";
-
-	/** Set Planner	  */
-	public void setPlanner_ID (int Planner_ID);
-
-	/** Get Planner	  */
-	public int getPlanner_ID();
-
-	public I_AD_User getPlanner() throws RuntimeException;
 
     /** Column name PP_MRP_ID */
     public static final String COLUMNNAME_PP_MRP_ID = "PP_MRP_ID";
@@ -455,6 +444,17 @@ public interface I_PP_MRP
 
 	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException;
 
+    /** Column name Planner_ID */
+    public static final String COLUMNNAME_Planner_ID = "Planner_ID";
+
+	/** Set Planner	  */
+	public void setPlanner_ID (int Planner_ID);
+
+	/** Get Planner	  */
+	public int getPlanner_ID();
+
+	public org.compiere.model.I_AD_User getPlanner() throws RuntimeException;
+
     /** Column name Priority */
     public static final String COLUMNNAME_Priority = "Priority";
 
@@ -494,7 +494,7 @@ public interface I_PP_MRP
 	  */
 	public int getS_Resource_ID();
 
-	public I_S_Resource getS_Resource() throws RuntimeException;
+	public org.compiere.model.I_S_Resource getS_Resource() throws RuntimeException;
 
     /** Column name TypeMRP */
     public static final String COLUMNNAME_TypeMRP = "TypeMRP";

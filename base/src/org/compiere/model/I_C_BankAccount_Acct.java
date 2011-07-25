@@ -92,6 +92,21 @@ public interface I_C_BankAccount_Acct
 
 	public I_C_ValidCombination getB_Expense_A() throws RuntimeException;
 
+    /** Column name B_InTransit_Acct */
+    public static final String COLUMNNAME_B_InTransit_Acct = "B_InTransit_Acct";
+
+	/** Set Bank In Transit.
+	  * Bank In Transit Account
+	  */
+	public void setB_InTransit_Acct (int B_InTransit_Acct);
+
+	/** Get Bank In Transit.
+	  * Bank In Transit Account
+	  */
+	public int getB_InTransit_Acct();
+
+	public I_C_ValidCombination getB_InTransit_A() throws RuntimeException;
+
     /** Column name B_InterestExp_Acct */
     public static final String COLUMNNAME_B_InterestExp_Acct = "B_InterestExp_Acct";
 
@@ -121,21 +136,6 @@ public interface I_C_BankAccount_Acct
 	public int getB_InterestRev_Acct();
 
 	public I_C_ValidCombination getB_InterestRev_A() throws RuntimeException;
-
-    /** Column name B_InTransit_Acct */
-    public static final String COLUMNNAME_B_InTransit_Acct = "B_InTransit_Acct";
-
-	/** Set Bank In Transit.
-	  * Bank In Transit Account
-	  */
-	public void setB_InTransit_Acct (int B_InTransit_Acct);
-
-	/** Get Bank In Transit.
-	  * Bank In Transit Account
-	  */
-	public int getB_InTransit_Acct();
-
-	public I_C_ValidCombination getB_InTransit_A() throws RuntimeException;
 
     /** Column name B_PaymentSelect_Acct */
     public static final String COLUMNNAME_B_PaymentSelect_Acct = "B_PaymentSelect_Acct";
@@ -255,7 +255,7 @@ public interface I_C_BankAccount_Acct
 	  */
 	public int getC_AcctSchema_ID();
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
+	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
 
     /** Column name C_BankAccount_ID */
     public static final String COLUMNNAME_C_BankAccount_ID = "C_BankAccount_ID";
@@ -270,7 +270,7 @@ public interface I_C_BankAccount_Acct
 	  */
 	public int getC_BankAccount_ID();
 
-	public I_C_BankAccount getC_BankAccount() throws RuntimeException;
+	public org.compiere.model.I_C_BankAccount getC_BankAccount() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

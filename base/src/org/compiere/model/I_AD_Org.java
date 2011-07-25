@@ -75,7 +75,7 @@ public interface I_AD_Org
 	  */
 	public int getAD_ReplicationStrategy_ID();
 
-	public I_AD_ReplicationStrategy getAD_ReplicationStrategy() throws RuntimeException;
+	public org.compiere.model.I_AD_ReplicationStrategy getAD_ReplicationStrategy() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

@@ -30,7 +30,7 @@ public class X_B_Bid extends PO implements I_B_Bid, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_B_Bid (Properties ctx, int B_Bid_ID, String trxName)
@@ -75,9 +75,9 @@ public class X_B_Bid extends PO implements I_B_Bid, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_User getAD_User() throws RuntimeException
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
     {
-		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getAD_User_ID(), get_TrxName());	}
 
 	/** Set User/Contact.
@@ -126,9 +126,9 @@ public class X_B_Bid extends PO implements I_B_Bid, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_B_BuyerFunds getB_BuyerFunds() throws RuntimeException
+	public org.compiere.model.I_B_BuyerFunds getB_BuyerFunds() throws RuntimeException
     {
-		return (I_B_BuyerFunds)MTable.get(getCtx(), I_B_BuyerFunds.Table_Name)
+		return (org.compiere.model.I_B_BuyerFunds)MTable.get(getCtx(), org.compiere.model.I_B_BuyerFunds.Table_Name)
 			.getPO(getB_BuyerFunds_ID(), get_TrxName());	}
 
 	/** Set Buyer Funds.
@@ -154,9 +154,9 @@ public class X_B_Bid extends PO implements I_B_Bid, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_B_Topic getB_Topic() throws RuntimeException
+	public org.compiere.model.I_B_Topic getB_Topic() throws RuntimeException
     {
-		return (I_B_Topic)MTable.get(getCtx(), I_B_Topic.Table_Name)
+		return (org.compiere.model.I_B_Topic)MTable.get(getCtx(), org.compiere.model.I_B_Topic.Table_Name)
 			.getPO(getB_Topic_ID(), get_TrxName());	}
 
 	/** Set Topic.

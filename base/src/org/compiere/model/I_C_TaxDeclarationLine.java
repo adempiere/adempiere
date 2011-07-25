@@ -75,7 +75,7 @@ public interface I_C_TaxDeclarationLine
 	  */
 	public int getC_AllocationLine_ID();
 
-	public I_C_AllocationLine getC_AllocationLine() throws RuntimeException;
+	public org.compiere.model.I_C_AllocationLine getC_AllocationLine() throws RuntimeException;
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -90,7 +90,7 @@ public interface I_C_TaxDeclarationLine
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
@@ -105,22 +105,7 @@ public interface I_C_TaxDeclarationLine
 	  */
 	public int getC_Currency_ID();
 
-	public I_C_Currency getC_Currency() throws RuntimeException;
-
-    /** Column name C_Invoice_ID */
-    public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
-
-	/** Set Invoice.
-	  * Invoice Identifier
-	  */
-	public void setC_Invoice_ID (int C_Invoice_ID);
-
-	/** Get Invoice.
-	  * Invoice Identifier
-	  */
-	public int getC_Invoice_ID();
-
-	public I_C_Invoice getC_Invoice() throws RuntimeException;
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException;
 
     /** Column name C_InvoiceLine_ID */
     public static final String COLUMNNAME_C_InvoiceLine_ID = "C_InvoiceLine_ID";
@@ -135,7 +120,65 @@ public interface I_C_TaxDeclarationLine
 	  */
 	public int getC_InvoiceLine_ID();
 
-	public I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException;
+	public org.compiere.model.I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException;
+
+    /** Column name C_Invoice_ID */
+    public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
+
+	/** Set Invoice.
+	  * Invoice Identifier
+	  */
+	public void setC_Invoice_ID (int C_Invoice_ID);
+
+	/** Get Invoice.
+	  * Invoice Identifier
+	  */
+	public int getC_Invoice_ID();
+
+	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException;
+
+    /** Column name C_TaxDeclarationLine_ID */
+    public static final String COLUMNNAME_C_TaxDeclarationLine_ID = "C_TaxDeclarationLine_ID";
+
+	/** Set Tax Declaration Line.
+	  * Tax Declaration Document Information
+	  */
+	public void setC_TaxDeclarationLine_ID (int C_TaxDeclarationLine_ID);
+
+	/** Get Tax Declaration Line.
+	  * Tax Declaration Document Information
+	  */
+	public int getC_TaxDeclarationLine_ID();
+
+    /** Column name C_TaxDeclaration_ID */
+    public static final String COLUMNNAME_C_TaxDeclaration_ID = "C_TaxDeclaration_ID";
+
+	/** Set Tax Declaration.
+	  * Define the declaration to the tax authorities
+	  */
+	public void setC_TaxDeclaration_ID (int C_TaxDeclaration_ID);
+
+	/** Get Tax Declaration.
+	  * Define the declaration to the tax authorities
+	  */
+	public int getC_TaxDeclaration_ID();
+
+	public org.compiere.model.I_C_TaxDeclaration getC_TaxDeclaration() throws RuntimeException;
+
+    /** Column name C_Tax_ID */
+    public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";
+
+	/** Set Tax.
+	  * Tax identifier
+	  */
+	public void setC_Tax_ID (int C_Tax_ID);
+
+	/** Get Tax.
+	  * Tax identifier
+	  */
+	public int getC_Tax_ID();
+
+	public org.compiere.model.I_C_Tax getC_Tax() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -152,49 +195,6 @@ public interface I_C_TaxDeclarationLine
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_TaxDeclaration_ID */
-    public static final String COLUMNNAME_C_TaxDeclaration_ID = "C_TaxDeclaration_ID";
-
-	/** Set Tax Declaration.
-	  * Define the declaration to the tax authorities
-	  */
-	public void setC_TaxDeclaration_ID (int C_TaxDeclaration_ID);
-
-	/** Get Tax Declaration.
-	  * Define the declaration to the tax authorities
-	  */
-	public int getC_TaxDeclaration_ID();
-
-	public I_C_TaxDeclaration getC_TaxDeclaration() throws RuntimeException;
-
-    /** Column name C_TaxDeclarationLine_ID */
-    public static final String COLUMNNAME_C_TaxDeclarationLine_ID = "C_TaxDeclarationLine_ID";
-
-	/** Set Tax Declaration Line.
-	  * Tax Declaration Document Information
-	  */
-	public void setC_TaxDeclarationLine_ID (int C_TaxDeclarationLine_ID);
-
-	/** Get Tax Declaration Line.
-	  * Tax Declaration Document Information
-	  */
-	public int getC_TaxDeclarationLine_ID();
-
-    /** Column name C_Tax_ID */
-    public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";
-
-	/** Set Tax.
-	  * Tax identifier
-	  */
-	public void setC_Tax_ID (int C_Tax_ID);
-
-	/** Get Tax.
-	  * Tax identifier
-	  */
-	public int getC_Tax_ID();
-
-	public I_C_Tax getC_Tax() throws RuntimeException;
 
     /** Column name DateAcct */
     public static final String COLUMNNAME_DateAcct = "DateAcct";

@@ -319,13 +319,13 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 		Timestamp ts = f != null ? new Timestamp(f.getTime()) : null;
 		
 		if (ts != null)
-			sql.append(" AND TRUNC(ra.AssignDateFrom)>=").append(DB.TO_DATE(ts,false));
+			sql.append(" AND TRUNC(ra.AssignDateFrom, 'DD')>=").append(DB.TO_DATE(ts,false));
 
 		Date t = fieldTo.getValue();
 		ts = t != null ? new Timestamp(t.getTime()) : null;
 
 		if (ts != null)
-			sql.append(" AND TRUNC(ra.AssignDateTo)<=").append(DB.TO_DATE(ts,false));
+			sql.append(" AND TRUNC(ra.AssignDateTo, 'DD')<=").append(DB.TO_DATE(ts,false));
 		
 		return sql.toString();
 	} // getSQLWhere

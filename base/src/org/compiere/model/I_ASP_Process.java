@@ -75,7 +75,7 @@ public interface I_ASP_Process
 	  */
 	public int getAD_Process_ID();
 
-	public I_AD_Process getAD_Process() throws RuntimeException;
+	public org.compiere.model.I_AD_Process getAD_Process() throws RuntimeException;
 
     /** Column name ASP_Level_ID */
     public static final String COLUMNNAME_ASP_Level_ID = "ASP_Level_ID";
@@ -86,7 +86,7 @@ public interface I_ASP_Process
 	/** Get ASP Level	  */
 	public int getASP_Level_ID();
 
-	public I_ASP_Level getASP_Level() throws RuntimeException;
+	public org.compiere.model.I_ASP_Level getASP_Level() throws RuntimeException;
 
     /** Column name ASP_Process_ID */
     public static final String COLUMNNAME_ASP_Process_ID = "ASP_Process_ID";

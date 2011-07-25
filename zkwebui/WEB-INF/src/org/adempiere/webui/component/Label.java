@@ -28,10 +28,10 @@ import org.zkoss.zk.ui.Component;
  */
 public class Label extends org.zkoss.zul.Label
 {
-    /**
-	 *
+	/**
+	 * 
 	 */
-	private static final long serialVersionUID = 1912498227823474678L;
+	private static final long serialVersionUID = -6818124304324329510L;
 
 	private Component decorator;
 
@@ -106,4 +106,15 @@ public class Label extends org.zkoss.zul.Label
 	public Component rightAlign() {
 		return LayoutUtils.makeRightAlign(this);
 	}
+	
+	private boolean m_zoomable = false;
+
+	public boolean isZoomable() {
+		return m_zoomable;
+	}
+	
+	public void setZoomable(boolean zoomable) {
+		m_zoomable  = zoomable;
+	}
+	
 }

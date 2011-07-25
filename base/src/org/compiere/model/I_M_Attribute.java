@@ -143,19 +143,6 @@ public interface I_M_Attribute
 	  */
 	public boolean isMandatory();
 
-    /** Column name M_Attribute_ID */
-    public static final String COLUMNNAME_M_Attribute_ID = "M_Attribute_ID";
-
-	/** Set Attribute.
-	  * Product Attribute
-	  */
-	public void setM_Attribute_ID (int M_Attribute_ID);
-
-	/** Get Attribute.
-	  * Product Attribute
-	  */
-	public int getM_Attribute_ID();
-
     /** Column name M_AttributeSearch_ID */
     public static final String COLUMNNAME_M_AttributeSearch_ID = "M_AttributeSearch_ID";
 
@@ -169,7 +156,20 @@ public interface I_M_Attribute
 	  */
 	public int getM_AttributeSearch_ID();
 
-	public I_M_AttributeSearch getM_AttributeSearch() throws RuntimeException;
+	public org.compiere.model.I_M_AttributeSearch getM_AttributeSearch() throws RuntimeException;
+
+    /** Column name M_Attribute_ID */
+    public static final String COLUMNNAME_M_Attribute_ID = "M_Attribute_ID";
+
+	/** Set Attribute.
+	  * Product Attribute
+	  */
+	public void setM_Attribute_ID (int M_Attribute_ID);
+
+	/** Get Attribute.
+	  * Product Attribute
+	  */
+	public int getM_Attribute_ID();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

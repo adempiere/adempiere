@@ -30,7 +30,7 @@ public class X_CM_TemplateTable extends PO implements I_CM_TemplateTable, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_CM_TemplateTable (Properties ctx, int CM_TemplateTable_ID, String trxName)
@@ -39,8 +39,8 @@ public class X_CM_TemplateTable extends PO implements I_CM_TemplateTable, I_Pers
       /** if (CM_TemplateTable_ID == 0)
         {
 			setAD_Table_ID (0);
-			setCM_Template_ID (0);
 			setCM_TemplateTable_ID (0);
+			setCM_Template_ID (0);
 			setName (null);
         } */
     }
@@ -73,9 +73,9 @@ public class X_CM_TemplateTable extends PO implements I_CM_TemplateTable, I_Pers
       return sb.toString();
     }
 
-	public I_AD_Table getAD_Table() throws RuntimeException
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException
     {
-		return (I_AD_Table)MTable.get(getCtx(), I_AD_Table.Table_Name)
+		return (org.compiere.model.I_AD_Table)MTable.get(getCtx(), org.compiere.model.I_AD_Table.Table_Name)
 			.getPO(getAD_Table_ID(), get_TrxName());	}
 
 	/** Set Table.
@@ -101,9 +101,32 @@ public class X_CM_TemplateTable extends PO implements I_CM_TemplateTable, I_Pers
 		return ii.intValue();
 	}
 
-	public I_CM_Template getCM_Template() throws RuntimeException
+	/** Set Template Table.
+		@param CM_TemplateTable_ID 
+		CM Template Table Link
+	  */
+	public void setCM_TemplateTable_ID (int CM_TemplateTable_ID)
+	{
+		if (CM_TemplateTable_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_TemplateTable_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_TemplateTable_ID, Integer.valueOf(CM_TemplateTable_ID));
+	}
+
+	/** Get Template Table.
+		@return CM Template Table Link
+	  */
+	public int getCM_TemplateTable_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CM_TemplateTable_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_CM_Template getCM_Template() throws RuntimeException
     {
-		return (I_CM_Template)MTable.get(getCtx(), I_CM_Template.Table_Name)
+		return (org.compiere.model.I_CM_Template)MTable.get(getCtx(), org.compiere.model.I_CM_Template.Table_Name)
 			.getPO(getCM_Template_ID(), get_TrxName());	}
 
 	/** Set Template.
@@ -124,29 +147,6 @@ public class X_CM_TemplateTable extends PO implements I_CM_TemplateTable, I_Pers
 	public int getCM_Template_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_CM_Template_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Template Table.
-		@param CM_TemplateTable_ID 
-		CM Template Table Link
-	  */
-	public void setCM_TemplateTable_ID (int CM_TemplateTable_ID)
-	{
-		if (CM_TemplateTable_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_CM_TemplateTable_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_CM_TemplateTable_ID, Integer.valueOf(CM_TemplateTable_ID));
-	}
-
-	/** Get Template Table.
-		@return CM Template Table Link
-	  */
-	public int getCM_TemplateTable_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_CM_TemplateTable_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

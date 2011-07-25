@@ -1,7 +1,6 @@
 #!/bin/sh
 #
-echo Install Adempiere Server
-# $Header: /cvsroot/adempiere/install/Adempiere/RUN_setup.sh,v 1.19 2005/09/08 21:54:12 jjanke Exp $
+echo Install ADempiere Server
 
 if [ $JAVA_HOME ]; then
   JAVA=$JAVA_HOME/bin/java
@@ -18,7 +17,7 @@ fi
 echo ===================================
 echo Starting Setup ...
 echo ===================================
-CP=lib/CInstall.jar:lib/Adempiere.jar:lib/CCTools.jar:lib/oracle.jar:lib/jboss.jar:lib/postgresql.jar:
+CP=lib/CInstall.jar:lib/Adempiere.jar:lib/CCTools.jar:lib/oracle.jar:lib/jboss.jar:lib/postgresql.jar:lib/mysql-connector-java-5.1.13-bin.jar:
 
 # Trace Level Parameter, e.g. ARGS=ALL
 ARGS=CONFIG

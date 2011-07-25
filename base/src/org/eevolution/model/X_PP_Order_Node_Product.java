@@ -32,7 +32,7 @@ public class X_PP_Order_Node_Product extends PO implements I_PP_Order_Node_Produ
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_PP_Order_Node_Product (Properties ctx, int PP_Order_Node_Product_ID, String trxName)
@@ -97,9 +97,9 @@ public class X_PP_Order_Node_Product extends PO implements I_PP_Order_Node_Produ
 		return false;
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.

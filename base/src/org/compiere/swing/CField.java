@@ -324,5 +324,11 @@ public class CField extends JComboBox
 		super.firePropertyChange("DataChanged", m_oldValue, newValue);
 		m_oldValue = newValue;
 	}   //     //  actionPerformed
+	
+	@Override
+	public void setBackground(Color bg)
+	{
+		m_editor.setBackground(bg);
+	}
 
 }   //  CField

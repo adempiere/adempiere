@@ -30,7 +30,7 @@ public class X_M_Warehouse extends PO implements I_M_Warehouse, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_M_Warehouse (Properties ctx, int M_Warehouse_ID, String trxName)
@@ -144,32 +144,9 @@ public class X_M_Warehouse extends PO implements I_M_Warehouse, I_Persistent
 		return false;
 	}
 
-	/** Set Warehouse.
-		@param M_Warehouse_ID 
-		Storage Warehouse and Service Point
-	  */
-	public void setM_Warehouse_ID (int M_Warehouse_ID)
-	{
-		if (M_Warehouse_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_Warehouse_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
-	}
-
-	/** Get Warehouse.
-		@return Storage Warehouse and Service Point
-	  */
-	public int getM_Warehouse_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Warehouse_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_M_Warehouse getM_WarehouseSource() throws RuntimeException
+	public org.compiere.model.I_M_Warehouse getM_WarehouseSource() throws RuntimeException
     {
-		return (I_M_Warehouse)MTable.get(getCtx(), I_M_Warehouse.Table_Name)
+		return (org.compiere.model.I_M_Warehouse)MTable.get(getCtx(), org.compiere.model.I_M_Warehouse.Table_Name)
 			.getPO(getM_WarehouseSource_ID(), get_TrxName());	}
 
 	/** Set Source Warehouse.
@@ -190,6 +167,29 @@ public class X_M_Warehouse extends PO implements I_M_Warehouse, I_Persistent
 	public int getM_WarehouseSource_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_WarehouseSource_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Warehouse.
+		@param M_Warehouse_ID 
+		Storage Warehouse and Service Point
+	  */
+	public void setM_Warehouse_ID (int M_Warehouse_ID)
+	{
+		if (M_Warehouse_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Warehouse_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
+	}
+
+	/** Get Warehouse.
+		@return Storage Warehouse and Service Point
+	  */
+	public int getM_Warehouse_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Warehouse_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

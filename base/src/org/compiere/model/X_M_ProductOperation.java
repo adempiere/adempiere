@@ -32,7 +32,7 @@ public class X_M_ProductOperation extends PO implements I_M_ProductOperation, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_M_ProductOperation (Properties ctx, int M_ProductOperation_ID, String trxName)
@@ -40,8 +40,8 @@ public class X_M_ProductOperation extends PO implements I_M_ProductOperation, I_
       super (ctx, M_ProductOperation_ID, trxName);
       /** if (M_ProductOperation_ID == 0)
         {
-			setM_Product_ID (0);
 			setM_ProductOperation_ID (0);
+			setM_Product_ID (0);
 			setName (null);
         } */
     }
@@ -108,9 +108,32 @@ public class X_M_ProductOperation extends PO implements I_M_ProductOperation, I_
 		return (String)get_Value(COLUMNNAME_Help);
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	/** Set Product Operation.
+		@param M_ProductOperation_ID 
+		Product Manufacturing Operation
+	  */
+	public void setM_ProductOperation_ID (int M_ProductOperation_ID)
+	{
+		if (M_ProductOperation_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_ProductOperation_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_ProductOperation_ID, Integer.valueOf(M_ProductOperation_ID));
+	}
+
+	/** Get Product Operation.
+		@return Product Manufacturing Operation
+	  */
+	public int getM_ProductOperation_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_ProductOperation_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.
@@ -131,29 +154,6 @@ public class X_M_ProductOperation extends PO implements I_M_ProductOperation, I_
 	public int getM_Product_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Product Operation.
-		@param M_ProductOperation_ID 
-		Product Manufacturing Operation
-	  */
-	public void setM_ProductOperation_ID (int M_ProductOperation_ID)
-	{
-		if (M_ProductOperation_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_ProductOperation_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_ProductOperation_ID, Integer.valueOf(M_ProductOperation_ID));
-	}
-
-	/** Get Product Operation.
-		@return Product Manufacturing Operation
-	  */
-	public int getM_ProductOperation_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_ProductOperation_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

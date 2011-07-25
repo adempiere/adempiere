@@ -30,7 +30,7 @@ public class X_R_RequestType extends PO implements I_R_RequestType, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_R_RequestType (Properties ctx, int R_RequestType_ID, String trxName)
@@ -411,9 +411,9 @@ public class X_R_RequestType extends PO implements I_R_RequestType, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_R_StatusCategory getR_StatusCategory() throws RuntimeException
+	public org.compiere.model.I_R_StatusCategory getR_StatusCategory() throws RuntimeException
     {
-		return (I_R_StatusCategory)MTable.get(getCtx(), I_R_StatusCategory.Table_Name)
+		return (org.compiere.model.I_R_StatusCategory)MTable.get(getCtx(), org.compiere.model.I_R_StatusCategory.Table_Name)
 			.getPO(getR_StatusCategory_ID(), get_TrxName());	}
 
 	/** Set Status Category.

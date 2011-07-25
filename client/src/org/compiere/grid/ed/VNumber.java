@@ -75,7 +75,8 @@ public final class VNumber extends JComponent
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -516704171367798447L;
+	private static final long serialVersionUID = -1473227631807352033L;
+
 	/**	Number of Columns (12)		*/
 	public final static int SIZE = 12;
 	/** Automatically pop up calculator */
@@ -735,7 +736,7 @@ public final class VNumber extends JComponent
 		//	Actual Call
 		Calculator calc = new Calculator(frame, title,
 			displayType, format, startValue);
-		if ( "*+-/".indexOf(operator) > -1 )
+		if ( "*+-/%".indexOf(operator) > -1 )
 			calc.handleInput(operator);
 		AEnv.showCenterWindow(frame, calc);
 		BigDecimal result = calc.getNumber();
@@ -764,6 +765,10 @@ public final class VNumber extends JComponent
 			FieldRecordInfo.addMenu(this, popupMenu);
 	}   //  setField
 	
+	@Override
+	public GridField getField() {
+		return m_mField;
+	}
 	/*
 	 * BF [ 1834393 ] VNumber.setFocusable not working
 	 */

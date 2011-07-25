@@ -557,6 +557,8 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 				rsColOffset = 1;
 				for (col = 0; col < m_layout.length; col++)
 				{
+					//reset the data value
+					data=null;
 					columnClass = m_layout[col].getColClass();
 					rsColIndex = col + rsColOffset;
 
@@ -607,6 +609,10 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 						if (s != null)
 						{
 							data = s.trim();	//	problems with NCHAR
+						}
+						else
+						{
+							data=null;
 						}
 					}
 					//  store in underlying model

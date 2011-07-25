@@ -421,9 +421,10 @@ public class MLanguage extends X_AD_Language
 		String keyColumn = baseTable + "_ID";
 		String insert = "INSERT INTO " + tableName
 			+ "(AD_Language,IsTranslated, AD_Client_ID,AD_Org_ID, "
+			+ "Created,Updated, "
 			+ "Createdby,UpdatedBy, "
 			+ keyColumn + cols + ") "
-			+ "SELECT '" + getAD_Language() + "','N', AD_Client_ID,AD_Org_ID, "
+			+ "SELECT '" + getAD_Language() + "','N', AD_Client_ID,AD_Org_ID, SYSDATE, SYSDATE ,"
 			+ AD_User_ID + "," + AD_User_ID + ", "
 			+ keyColumn + cols
 			+ " FROM " + baseTable

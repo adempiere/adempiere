@@ -80,7 +80,7 @@ public interface I_ASP_Level
 	/** Get ASP Module	  */
 	public int getASP_Module_ID();
 
-	public I_ASP_Module getASP_Module() throws RuntimeException;
+	public org.compiere.model.I_ASP_Module getASP_Module() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

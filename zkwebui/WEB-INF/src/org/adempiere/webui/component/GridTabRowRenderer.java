@@ -194,10 +194,7 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
     	}
     	else if (gridTab.getTableModel().getColumnClass(getColumnIndex(gridField)).equals(Timestamp.class))
     	{
-    		int displayType = DisplayType.Date;
-    		if (gridField != null && gridField.getDisplayType() == DisplayType.DateTime)
-    			displayType = DisplayType.DateTime;
-    		SimpleDateFormat dateFormat = DisplayType.getDateFormat(displayType, AEnv.getLanguage(Env.getCtx()));
+    		SimpleDateFormat dateFormat = DisplayType.getDateFormat(gridField.getDisplayType(), AEnv.getLanguage(Env.getCtx()));
     		return dateFormat.format((Timestamp)value);
     	}
     	else if (DisplayType.isNumeric(gridField.getDisplayType()))

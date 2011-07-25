@@ -42,6 +42,7 @@
 	<pathelement location="../lib/oracle.jar" />
 	<pathelement location="../lib/jboss.jar" />
 	<pathelement location="../lib/postgresql.jar" />
+	<pathelement location="../tools/lib/mysql-connector-java-5.1.13-bin.jar" />
     <pathelement location="${build.classes.dir}" />
   </path>
 

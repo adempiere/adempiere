@@ -20,20 +20,17 @@ import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
 
 import javax.swing.KeyStroke;
-import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
 
 import net.miginfocom.swing.MigLayout;
 
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
-import org.compiere.minigrid.MiniTable;
 import org.compiere.model.MWarehousePrice;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
 import org.compiere.swing.CScrollPane;
-import org.compiere.swing.CTextField;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -41,10 +38,8 @@ import org.compiere.util.Msg;
 /**
  *	POS Query Product
  *	
- *  @author Comunidad de Desarrollo OpenXpertya 
- *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
+ *  @author Based on Modified Original Code, Revised and Optimized
  *         *Copyright (c) Jorg Janke
- *  @version $Id: QueryProduct.java,v 1.1 2004/07/12 04:10:04 jjanke Exp $
  */
 public class QueryProduct extends PosQuery
 {
@@ -162,10 +157,19 @@ public class QueryProduct extends PosQuery
 			+ " ORDER BY Margin, QtyAvailable";
 		m_table.addMouseListener(this);
 		m_table.getSelectionModel().addListSelectionListener(this);
+		m_table.setColumnVisibility(m_table.getColumn(0), false);
+		m_table.getColumn(1).setPreferredWidth(175);
+		m_table.getColumn(2).setPreferredWidth(175);
+		m_table.getColumn(3).setPreferredWidth(100);
+		m_table.getColumn(4).setPreferredWidth(75);
+		m_table.getColumn(5).setPreferredWidth(75);
+		m_table.getColumn(6).setPreferredWidth(75);
+		m_table.getColumn(7).setPreferredWidth(75);
 		enableButtons();
+		m_table.setFillsViewportHeight( true ); //@Trifon
+		m_table.growScrollbars();
 		centerScroll = new CScrollPane(m_table);
 		panel.add (centerScroll, "growx, growy,south");
-		m_table.growScrollbars();
 		panel.setPreferredSize(new Dimension(800,600));
 		f_value.requestFocus();
 	}	//	init
@@ -212,6 +216,8 @@ public class QueryProduct extends PosQuery
 			if (row < 0)
 				row = 0;
 			m_table.getSelectionModel().setSelectionInterval(row, row);
+			// https://sourceforge.net/tracker/?func=detail&atid=879332&aid=3121975&group_id=176962
+			m_table.scrollRectToVisible(m_table.getCellRect(row, 1, true)); //@Trifon - BF[3121975]
 			return;
 		}
 		else if ("Next".equalsIgnoreCase(e.getActionCommand()))
@@ -224,6 +230,8 @@ public class QueryProduct extends PosQuery
 			if (row >= rows)
 				row = rows - 1;
 			m_table.getSelectionModel().setSelectionInterval(row, row);
+			// https://sourceforge.net/tracker/?func=detail&atid=879332&aid=3121975&group_id=176962
+			m_table.scrollRectToVisible(m_table.getCellRect(row, 1, true)); //@Trifon - BF[3121975]
 			return;
 		}
 		//	Exit

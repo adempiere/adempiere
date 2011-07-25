@@ -28,6 +28,7 @@ import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
 
 /**
  *	Persistent Column Model
@@ -37,10 +38,11 @@ import org.compiere.util.Msg;
  */
 public class MColumn extends X_AD_Column
 {
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2954312267794622096L;
+	private static final long serialVersionUID = 6543789555737635129L;
 
 	/**
 	 * 	Get MColumn from Cache
@@ -566,5 +568,24 @@ public class MColumn extends X_AD_Column
 		return DB.getSQLValue(trxName, sqlStmt, AD_Column_ID);
 	}
 
-	
+
+	public static boolean isSuggestSelectionColumn(String columnName, boolean caseSensitive)
+	{
+		if (Util.isEmpty(columnName, true))
+			return false;
+		//
+        if (columnName.equals("Value") || (!caseSensitive && columnName.equalsIgnoreCase("Value")))
+            return true;
+        else if (columnName.equals("Name") || (!caseSensitive && columnName.equalsIgnoreCase("Name")))
+            return true;
+        else if (columnName.equals("DocumentNo") || (!caseSensitive && columnName.equalsIgnoreCase("DocumentNo")))
+            return true;
+        else if (columnName.equals("Description") || (!caseSensitive && columnName.equalsIgnoreCase("Description")))
+            return true;
+        else if (columnName.indexOf("Name") != -1
+        		|| (!caseSensitive && columnName.toUpperCase().indexOf("Name".toUpperCase()) != -1) )
+            return true;
+        else
+        	return false;
+	}
 }	//	MColumn

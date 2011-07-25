@@ -67,6 +67,9 @@ public class Scriptlet
 
 	/** Default Result Variable Name    */
 	public static final String      VARIABLE = "result";
+	/** Default Description Variable Name    */
+	public static final String      DESCRIPTION_VARIABLE = "description";
+
 
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(Scriptlet.class);
@@ -109,6 +112,8 @@ public class Scriptlet
 	private HashMap<String,Object>	m_ctx;
 	/** Result				*/
 	private Object      			m_result;
+	/** Description				*/
+	private Object      			m_description;
 
 	/*************************************************************************/
 
@@ -120,6 +125,7 @@ public class Scriptlet
 	public Exception execute()
 	{
 		m_result = null;
+		m_description = null;
 		if (m_variable == null || m_variable.length() == 0 || m_script == null || m_script.length() == 0)
 		{
 			IllegalArgumentException e = new IllegalArgumentException("No variable/script");
@@ -149,6 +155,15 @@ public class Scriptlet
 			if (e instanceof NullPointerException)
 				e = new IllegalArgumentException("Result Variable not found - " + m_variable);
 			return e;
+		}
+		try
+		{
+			m_description = i.get (DESCRIPTION_VARIABLE);
+		}
+		catch (Exception e)
+		{
+			  log.warning("Description - " + e);
+			  return e;
 		}
 		return null;
 	}   //  execute
@@ -404,6 +419,15 @@ public class Scriptlet
 		if (runIt) 
 			execute();
 		return m_result;
+	}   //  getResult
+
+	/**************************************************************************
+	 *  Get Description
+	 *  @return description or null
+	 */
+	public Object getDescription()
+	{
+		return m_description;
 	}   //  getResult
 
 	/**

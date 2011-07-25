@@ -31,7 +31,7 @@ public class X_AD_WorkflowProcessor extends PO implements I_AD_WorkflowProcessor
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_AD_WorkflowProcessor (Properties ctx, int AD_WorkflowProcessor_ID, String trxName)
@@ -323,9 +323,9 @@ public class X_AD_WorkflowProcessor extends PO implements I_AD_WorkflowProcessor
 		return ii.intValue();
 	}
 
-	public I_AD_User getSupervisor() throws RuntimeException
+	public org.compiere.model.I_AD_User getSupervisor() throws RuntimeException
     {
-		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getSupervisor_ID(), get_TrxName());	}
 
 	/** Set Supervisor.

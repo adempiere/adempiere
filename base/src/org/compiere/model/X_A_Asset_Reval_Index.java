@@ -33,7 +33,7 @@ public class X_A_Asset_Reval_Index extends PO implements I_A_Asset_Reval_Index, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_A_Asset_Reval_Index (Properties ctx, int A_Asset_Reval_Index_ID, String trxName)

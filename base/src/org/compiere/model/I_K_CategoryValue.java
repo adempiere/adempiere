@@ -104,6 +104,19 @@ public interface I_K_CategoryValue
 	  */
 	public boolean isActive();
 
+    /** Column name K_CategoryValue_ID */
+    public static final String COLUMNNAME_K_CategoryValue_ID = "K_CategoryValue_ID";
+
+	/** Set Category Value.
+	  * The value of the category
+	  */
+	public void setK_CategoryValue_ID (int K_CategoryValue_ID);
+
+	/** Get Category Value.
+	  * The value of the category
+	  */
+	public int getK_CategoryValue_ID();
+
     /** Column name K_Category_ID */
     public static final String COLUMNNAME_K_Category_ID = "K_Category_ID";
 
@@ -117,20 +130,7 @@ public interface I_K_CategoryValue
 	  */
 	public int getK_Category_ID();
 
-	public I_K_Category getK_Category() throws RuntimeException;
-
-    /** Column name K_CategoryValue_ID */
-    public static final String COLUMNNAME_K_CategoryValue_ID = "K_CategoryValue_ID";
-
-	/** Set Category Value.
-	  * The value of the category
-	  */
-	public void setK_CategoryValue_ID (int K_CategoryValue_ID);
-
-	/** Get Category Value.
-	  * The value of the category
-	  */
-	public int getK_CategoryValue_ID();
+	public org.compiere.model.I_K_Category getK_Category() throws RuntimeException;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

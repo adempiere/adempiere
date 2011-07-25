@@ -156,7 +156,7 @@ public class FinReportPeriod
 		String yearWhere = getYearWhere();
 		String totalWhere = getTotalWhere();
 		String bs = " EXISTS (SELECT C_ElementValue_ID FROM C_ElementValue WHERE C_ElementValue_ID = " + alias + ".Account_ID AND AccountType NOT IN ('R', 'E'))";
-		String full = totalWhere + " AND ( " + bs + " OR TRUNC(" + alias + ".DateAcct) " + yearWhere + " ) ";
+		String full = totalWhere + " AND ( " + bs + " OR TRUNC(" + alias + ".DateAcct, 'DD') " + yearWhere + " ) ";
 		
 		return full;
 	}

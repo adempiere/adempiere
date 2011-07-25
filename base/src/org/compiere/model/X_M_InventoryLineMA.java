@@ -32,7 +32,7 @@ public class X_M_InventoryLineMA extends PO implements I_M_InventoryLineMA, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_M_InventoryLineMA (Properties ctx, int M_InventoryLineMA_ID, String trxName)
@@ -102,9 +102,9 @@ public class X_M_InventoryLineMA extends PO implements I_M_InventoryLineMA, I_Pe
 		return ii.intValue();
 	}
 
-	public I_M_InventoryLine getM_InventoryLine() throws RuntimeException
+	public org.compiere.model.I_M_InventoryLine getM_InventoryLine() throws RuntimeException
     {
-		return (I_M_InventoryLine)MTable.get(getCtx(), I_M_InventoryLine.Table_Name)
+		return (org.compiere.model.I_M_InventoryLine)MTable.get(getCtx(), org.compiere.model.I_M_InventoryLine.Table_Name)
 			.getPO(getM_InventoryLine_ID(), get_TrxName());	}
 
 	/** Set Phys.Inventory Line.

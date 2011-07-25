@@ -208,7 +208,7 @@ public interface I_R_Status
 	  */
 	public int getNext_Status_ID();
 
-	public I_R_Status getNext_Status() throws RuntimeException;
+	public org.compiere.model.I_R_Status getNext_Status() throws RuntimeException;
 
     /** Column name R_StatusCategory_ID */
     public static final String COLUMNNAME_R_StatusCategory_ID = "R_StatusCategory_ID";
@@ -223,7 +223,7 @@ public interface I_R_Status
 	  */
 	public int getR_StatusCategory_ID();
 
-	public I_R_StatusCategory getR_StatusCategory() throws RuntimeException;
+	public org.compiere.model.I_R_StatusCategory getR_StatusCategory() throws RuntimeException;
 
     /** Column name R_Status_ID */
     public static final String COLUMNNAME_R_Status_ID = "R_Status_ID";
@@ -266,6 +266,21 @@ public interface I_R_Status
 	  */
 	public int getTimeoutDays();
 
+    /** Column name Update_Status_ID */
+    public static final String COLUMNNAME_Update_Status_ID = "Update_Status_ID";
+
+	/** Set Update Status.
+	  * Automatically change the status after entry from web
+	  */
+	public void setUpdate_Status_ID (int Update_Status_ID);
+
+	/** Get Update Status.
+	  * Automatically change the status after entry from web
+	  */
+	public int getUpdate_Status_ID();
+
+	public org.compiere.model.I_R_Status getUpdate_Status() throws RuntimeException;
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -281,21 +296,6 @@ public interface I_R_Status
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name Update_Status_ID */
-    public static final String COLUMNNAME_Update_Status_ID = "Update_Status_ID";
-
-	/** Set Update Status.
-	  * Automatically change the status after entry from web
-	  */
-	public void setUpdate_Status_ID (int Update_Status_ID);
-
-	/** Get Update Status.
-	  * Automatically change the status after entry from web
-	  */
-	public int getUpdate_Status_ID();
-
-	public I_R_Status getUpdate_Status() throws RuntimeException;
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

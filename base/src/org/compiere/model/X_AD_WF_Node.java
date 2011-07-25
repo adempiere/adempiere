@@ -33,7 +33,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_AD_WF_Node (Properties ctx, int AD_WF_Node_ID, String trxName)
@@ -41,10 +41,10 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
       super (ctx, AD_WF_Node_ID, trxName);
       /** if (AD_WF_Node_ID == 0)
         {
-			setAction (null);
-// Z
 			setAD_WF_Node_ID (0);
 			setAD_Workflow_ID (0);
+			setAction (null);
+// Z
 			setCost (Env.ZERO);
 			setDuration (0);
 			setEntityType (null);
@@ -92,53 +92,9 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
       return sb.toString();
     }
 
-	/** Action AD_Reference_ID=302 */
-	public static final int ACTION_AD_Reference_ID=302;
-	/** Wait (Sleep) = Z */
-	public static final String ACTION_WaitSleep = "Z";
-	/** User Choice = C */
-	public static final String ACTION_UserChoice = "C";
-	/** Sub Workflow = F */
-	public static final String ACTION_SubWorkflow = "F";
-	/** Set Variable = V */
-	public static final String ACTION_SetVariable = "V";
-	/** User Window = W */
-	public static final String ACTION_UserWindow = "W";
-	/** User Form = X */
-	public static final String ACTION_UserForm = "X";
-	/** Apps Task = T */
-	public static final String ACTION_AppsTask = "T";
-	/** Apps Report = R */
-	public static final String ACTION_AppsReport = "R";
-	/** Apps Process = P */
-	public static final String ACTION_AppsProcess = "P";
-	/** Document Action = D */
-	public static final String ACTION_DocumentAction = "D";
-	/** EMail = M */
-	public static final String ACTION_EMail = "M";
-	/** User Workbench = B */
-	public static final String ACTION_UserWorkbench = "B";
-	/** Set Action.
-		@param Action 
-		Indicates the Action to be performed
-	  */
-	public void setAction (String Action)
-	{
-
-		set_Value (COLUMNNAME_Action, Action);
-	}
-
-	/** Get Action.
-		@return Indicates the Action to be performed
-	  */
-	public String getAction () 
-	{
-		return (String)get_Value(COLUMNNAME_Action);
-	}
-
-	public I_AD_Column getAD_Column() throws RuntimeException
+	public org.compiere.model.I_AD_Column getAD_Column() throws RuntimeException
     {
-		return (I_AD_Column)MTable.get(getCtx(), I_AD_Column.Table_Name)
+		return (org.compiere.model.I_AD_Column)MTable.get(getCtx(), org.compiere.model.I_AD_Column.Table_Name)
 			.getPO(getAD_Column_ID(), get_TrxName());	}
 
 	/** Set Column.
@@ -164,9 +120,9 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Form getAD_Form() throws RuntimeException
+	public org.compiere.model.I_AD_Form getAD_Form() throws RuntimeException
     {
-		return (I_AD_Form)MTable.get(getCtx(), I_AD_Form.Table_Name)
+		return (org.compiere.model.I_AD_Form)MTable.get(getCtx(), org.compiere.model.I_AD_Form.Table_Name)
 			.getPO(getAD_Form_ID(), get_TrxName());	}
 
 	/** Set Special Form.
@@ -192,9 +148,9 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Image getAD_Image() throws RuntimeException
+	public org.compiere.model.I_AD_Image getAD_Image() throws RuntimeException
     {
-		return (I_AD_Image)MTable.get(getCtx(), I_AD_Image.Table_Name)
+		return (org.compiere.model.I_AD_Image)MTable.get(getCtx(), org.compiere.model.I_AD_Image.Table_Name)
 			.getPO(getAD_Image_ID(), get_TrxName());	}
 
 	/** Set Image.
@@ -220,9 +176,9 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Process getAD_Process() throws RuntimeException
+	public org.compiere.model.I_AD_Process getAD_Process() throws RuntimeException
     {
-		return (I_AD_Process)MTable.get(getCtx(), I_AD_Process.Table_Name)
+		return (org.compiere.model.I_AD_Process)MTable.get(getCtx(), org.compiere.model.I_AD_Process.Table_Name)
 			.getPO(getAD_Process_ID(), get_TrxName());	}
 
 	/** Set Process.
@@ -248,9 +204,9 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Task getAD_Task() throws RuntimeException
+	public org.compiere.model.I_AD_Task getAD_Task() throws RuntimeException
     {
-		return (I_AD_Task)MTable.get(getCtx(), I_AD_Task.Table_Name)
+		return (org.compiere.model.I_AD_Task)MTable.get(getCtx(), org.compiere.model.I_AD_Task.Table_Name)
 			.getPO(getAD_Task_ID(), get_TrxName());	}
 
 	/** Set OS Task.
@@ -276,9 +232,9 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_WF_Block getAD_WF_Block() throws RuntimeException
+	public org.compiere.model.I_AD_WF_Block getAD_WF_Block() throws RuntimeException
     {
-		return (I_AD_WF_Block)MTable.get(getCtx(), I_AD_WF_Block.Table_Name)
+		return (org.compiere.model.I_AD_WF_Block)MTable.get(getCtx(), org.compiere.model.I_AD_WF_Block.Table_Name)
 			.getPO(getAD_WF_Block_ID(), get_TrxName());	}
 
 	/** Set Workflow Block.
@@ -327,9 +283,9 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_WF_Responsible getAD_WF_Responsible() throws RuntimeException
+	public org.compiere.model.I_AD_WF_Responsible getAD_WF_Responsible() throws RuntimeException
     {
-		return (I_AD_WF_Responsible)MTable.get(getCtx(), I_AD_WF_Responsible.Table_Name)
+		return (org.compiere.model.I_AD_WF_Responsible)MTable.get(getCtx(), org.compiere.model.I_AD_WF_Responsible.Table_Name)
 			.getPO(getAD_WF_Responsible_ID(), get_TrxName());	}
 
 	/** Set Workflow Responsible.
@@ -355,9 +311,9 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Window getAD_Window() throws RuntimeException
+	public org.compiere.model.I_AD_Window getAD_Window() throws RuntimeException
     {
-		return (I_AD_Window)MTable.get(getCtx(), I_AD_Window.Table_Name)
+		return (org.compiere.model.I_AD_Window)MTable.get(getCtx(), org.compiere.model.I_AD_Window.Table_Name)
 			.getPO(getAD_Window_ID(), get_TrxName());	}
 
 	/** Set Window.
@@ -383,9 +339,9 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Workflow getAD_Workflow() throws RuntimeException
+	public org.compiere.model.I_AD_Workflow getAD_Workflow() throws RuntimeException
     {
-		return (I_AD_Workflow)MTable.get(getCtx(), I_AD_Workflow.Table_Name)
+		return (org.compiere.model.I_AD_Workflow)MTable.get(getCtx(), org.compiere.model.I_AD_Workflow.Table_Name)
 			.getPO(getAD_Workflow_ID(), get_TrxName());	}
 
 	/** Set Workflow.
@@ -409,6 +365,50 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Action AD_Reference_ID=302 */
+	public static final int ACTION_AD_Reference_ID=302;
+	/** Wait (Sleep) = Z */
+	public static final String ACTION_WaitSleep = "Z";
+	/** User Choice = C */
+	public static final String ACTION_UserChoice = "C";
+	/** Sub Workflow = F */
+	public static final String ACTION_SubWorkflow = "F";
+	/** Set Variable = V */
+	public static final String ACTION_SetVariable = "V";
+	/** User Window = W */
+	public static final String ACTION_UserWindow = "W";
+	/** User Form = X */
+	public static final String ACTION_UserForm = "X";
+	/** Apps Task = T */
+	public static final String ACTION_AppsTask = "T";
+	/** Apps Report = R */
+	public static final String ACTION_AppsReport = "R";
+	/** Apps Process = P */
+	public static final String ACTION_AppsProcess = "P";
+	/** Document Action = D */
+	public static final String ACTION_DocumentAction = "D";
+	/** EMail = M */
+	public static final String ACTION_EMail = "M";
+	/** User Workbench = B */
+	public static final String ACTION_UserWorkbench = "B";
+	/** Set Action.
+		@param Action 
+		Indicates the Action to be performed
+	  */
+	public void setAction (String Action)
+	{
+
+		set_Value (COLUMNNAME_Action, Action);
+	}
+
+	/** Get Action.
+		@return Indicates the Action to be performed
+	  */
+	public String getAction () 
+	{
+		return (String)get_Value(COLUMNNAME_Action);
 	}
 
 	/** Set Attribute Name.
@@ -445,9 +445,9 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return (String)get_Value(COLUMNNAME_AttributeValue);
 	}
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -940,9 +940,9 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_R_MailText getR_MailText() throws RuntimeException
+	public org.compiere.model.I_R_MailText getR_MailText() throws RuntimeException
     {
-		return (I_R_MailText)MTable.get(getCtx(), I_R_MailText.Table_Name)
+		return (org.compiere.model.I_R_MailText)MTable.get(getCtx(), org.compiere.model.I_R_MailText.Table_Name)
 			.getPO(getR_MailText_ID(), get_TrxName());	}
 
 	/** Set Mail Template.
@@ -963,6 +963,34 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	public int getR_MailText_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_R_MailText_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_S_Resource getS_Resource() throws RuntimeException
+    {
+		return (org.compiere.model.I_S_Resource)MTable.get(getCtx(), org.compiere.model.I_S_Resource.Table_Name)
+			.getPO(getS_Resource_ID(), get_TrxName());	}
+
+	/** Set Resource.
+		@param S_Resource_ID 
+		Resource
+	  */
+	public void setS_Resource_ID (int S_Resource_ID)
+	{
+		if (S_Resource_ID < 1) 
+			set_Value (COLUMNNAME_S_Resource_ID, null);
+		else 
+			set_Value (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
+	}
+
+	/** Get Resource.
+		@return Resource
+	  */
+	public int getS_Resource_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_S_Resource_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -1010,34 +1038,6 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	public String getSplitElement () 
 	{
 		return (String)get_Value(COLUMNNAME_SplitElement);
-	}
-
-	public I_S_Resource getS_Resource() throws RuntimeException
-    {
-		return (I_S_Resource)MTable.get(getCtx(), I_S_Resource.Table_Name)
-			.getPO(getS_Resource_ID(), get_TrxName());	}
-
-	/** Set Resource.
-		@param S_Resource_ID 
-		Resource
-	  */
-	public void setS_Resource_ID (int S_Resource_ID)
-	{
-		if (S_Resource_ID < 1) 
-			set_Value (COLUMNNAME_S_Resource_ID, null);
-		else 
-			set_Value (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
-	}
-
-	/** Get Resource.
-		@return Resource
-	  */
-	public int getS_Resource_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_S_Resource_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** StartMode AD_Reference_ID=303 */
@@ -1159,26 +1159,6 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return (String)get_Value(COLUMNNAME_Value);
 	}
 
-	/** Set Waiting Time.
-		@param WaitingTime 
-		Workflow Simulation Waiting time
-	  */
-	public void setWaitingTime (int WaitingTime)
-	{
-		set_Value (COLUMNNAME_WaitingTime, Integer.valueOf(WaitingTime));
-	}
-
-	/** Get Waiting Time.
-		@return Workflow Simulation Waiting time
-	  */
-	public int getWaitingTime () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_WaitingTime);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Wait Time.
 		@param WaitTime 
 		Time in minutes to wait (sleep)
@@ -1199,9 +1179,29 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Workflow getWorkflow() throws RuntimeException
+	/** Set Waiting Time.
+		@param WaitingTime 
+		Workflow Simulation Waiting time
+	  */
+	public void setWaitingTime (int WaitingTime)
+	{
+		set_Value (COLUMNNAME_WaitingTime, Integer.valueOf(WaitingTime));
+	}
+
+	/** Get Waiting Time.
+		@return Workflow Simulation Waiting time
+	  */
+	public int getWaitingTime () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_WaitingTime);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_AD_Workflow getWorkflow() throws RuntimeException
     {
-		return (I_AD_Workflow)MTable.get(getCtx(), I_AD_Workflow.Table_Name)
+		return (org.compiere.model.I_AD_Workflow)MTable.get(getCtx(), org.compiere.model.I_AD_Workflow.Table_Name)
 			.getPO(getWorkflow_ID(), get_TrxName());	}
 
 	/** Set Workflow.
@@ -1267,26 +1267,6 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Yield %.
-		@param Yield 
-		The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
-	  */
-	public void setYield (int Yield)
-	{
-		set_Value (COLUMNNAME_Yield, Integer.valueOf(Yield));
-	}
-
-	/** Get Yield %.
-		@return The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
-	  */
-	public int getYield () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Yield);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Y Position.
 		@param YPosition 
 		Absolute Y (vertical) position in 1/72 of an inch
@@ -1302,6 +1282,26 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	public int getYPosition () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_YPosition);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Yield %.
+		@param Yield 
+		The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
+	  */
+	public void setYield (int Yield)
+	{
+		set_Value (COLUMNNAME_Yield, Integer.valueOf(Yield));
+	}
+
+	/** Get Yield %.
+		@return The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
+	  */
+	public int getYield () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Yield);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

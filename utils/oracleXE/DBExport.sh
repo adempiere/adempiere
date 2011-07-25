@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo	Adempiere Database Export 	$Revision: 1.5 $
+echo	ADempiere Database Export
 
 # $Id: DBExport.sh,v 1.5 2005/12/20 07:12:17 jjanke Exp $
 
@@ -24,7 +24,7 @@ fi
 sqlplus $1/$2@$ADEMPIERE_DB_SERVER:$ADEMPIERE_DB_PORT/$ADEMPIERE_DB_NAME @$ADEMPIERE_HOME/utils/$ADEMPIERE_DB_PATH/Daily.sql
 
 # Export
-exp $1/$2@$ADEMPIERE_DB_SERVER:$ADEMPIERE_DB_PORT/$ADEMPIERE_DB_NAME FILE=$ADEMPIERE_HOME/data/ExpDat.dmp Log=$ADEMPIERE_HOME/data/ExpDat.log CONSISTENT=Y OWNER=$1 
+exp $1/$2@$ADEMPIERE_DB_SERVER:$ADEMPIERE_DB_PORT/$ADEMPIERE_DB_NAME FILE=$ADEMPIERE_HOME/data/ExpDat.dmp Log=$ADEMPIERE_HOME/data/ExpDat.log CONSISTENT=Y STATISTICS=NONE OWNER=$1 
 
 cd $ADEMPIERE_HOME/data
 jar cvfM ExpDat.jar ExpDat.dmp ExpDat.log

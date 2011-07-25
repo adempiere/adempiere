@@ -62,6 +62,34 @@ public interface I_C_ServiceLevelLine
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name C_ServiceLevelLine_ID */
+    public static final String COLUMNNAME_C_ServiceLevelLine_ID = "C_ServiceLevelLine_ID";
+
+	/** Set Service Level Line.
+	  * Product Revenue Recognition Service Level Line
+	  */
+	public void setC_ServiceLevelLine_ID (int C_ServiceLevelLine_ID);
+
+	/** Get Service Level Line.
+	  * Product Revenue Recognition Service Level Line
+	  */
+	public int getC_ServiceLevelLine_ID();
+
+    /** Column name C_ServiceLevel_ID */
+    public static final String COLUMNNAME_C_ServiceLevel_ID = "C_ServiceLevel_ID";
+
+	/** Set Service Level.
+	  * Product Revenue Recognition Service Level 
+	  */
+	public void setC_ServiceLevel_ID (int C_ServiceLevel_ID);
+
+	/** Get Service Level.
+	  * Product Revenue Recognition Service Level 
+	  */
+	public int getC_ServiceLevel_ID();
+
+	public org.compiere.model.I_C_ServiceLevel getC_ServiceLevel() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -77,34 +105,6 @@ public interface I_C_ServiceLevelLine
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_ServiceLevel_ID */
-    public static final String COLUMNNAME_C_ServiceLevel_ID = "C_ServiceLevel_ID";
-
-	/** Set Service Level.
-	  * Product Revenue Recognition Service Level 
-	  */
-	public void setC_ServiceLevel_ID (int C_ServiceLevel_ID);
-
-	/** Get Service Level.
-	  * Product Revenue Recognition Service Level 
-	  */
-	public int getC_ServiceLevel_ID();
-
-	public I_C_ServiceLevel getC_ServiceLevel() throws RuntimeException;
-
-    /** Column name C_ServiceLevelLine_ID */
-    public static final String COLUMNNAME_C_ServiceLevelLine_ID = "C_ServiceLevelLine_ID";
-
-	/** Set Service Level Line.
-	  * Product Revenue Recognition Service Level Line
-	  */
-	public void setC_ServiceLevelLine_ID (int C_ServiceLevelLine_ID);
-
-	/** Get Service Level Line.
-	  * Product Revenue Recognition Service Level Line
-	  */
-	public int getC_ServiceLevelLine_ID();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

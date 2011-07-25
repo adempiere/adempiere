@@ -30,7 +30,7 @@ public class X_AD_SchedulerRecipient extends PO implements I_AD_SchedulerRecipie
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_AD_SchedulerRecipient (Properties ctx, int AD_SchedulerRecipient_ID, String trxName)
@@ -38,8 +38,8 @@ public class X_AD_SchedulerRecipient extends PO implements I_AD_SchedulerRecipie
       super (ctx, AD_SchedulerRecipient_ID, trxName);
       /** if (AD_SchedulerRecipient_ID == 0)
         {
-			setAD_Scheduler_ID (0);
 			setAD_SchedulerRecipient_ID (0);
+			setAD_Scheduler_ID (0);
         } */
     }
 
@@ -71,9 +71,9 @@ public class X_AD_SchedulerRecipient extends PO implements I_AD_SchedulerRecipie
       return sb.toString();
     }
 
-	public I_AD_Role getAD_Role() throws RuntimeException
+	public org.compiere.model.I_AD_Role getAD_Role() throws RuntimeException
     {
-		return (I_AD_Role)MTable.get(getCtx(), I_AD_Role.Table_Name)
+		return (org.compiere.model.I_AD_Role)MTable.get(getCtx(), org.compiere.model.I_AD_Role.Table_Name)
 			.getPO(getAD_Role_ID(), get_TrxName());	}
 
 	/** Set Role.
@@ -94,34 +94,6 @@ public class X_AD_SchedulerRecipient extends PO implements I_AD_SchedulerRecipie
 	public int getAD_Role_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Role_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_AD_Scheduler getAD_Scheduler() throws RuntimeException
-    {
-		return (I_AD_Scheduler)MTable.get(getCtx(), I_AD_Scheduler.Table_Name)
-			.getPO(getAD_Scheduler_ID(), get_TrxName());	}
-
-	/** Set Scheduler.
-		@param AD_Scheduler_ID 
-		Schedule Processes
-	  */
-	public void setAD_Scheduler_ID (int AD_Scheduler_ID)
-	{
-		if (AD_Scheduler_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_Scheduler_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_Scheduler_ID, Integer.valueOf(AD_Scheduler_ID));
-	}
-
-	/** Get Scheduler.
-		@return Schedule Processes
-	  */
-	public int getAD_Scheduler_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Scheduler_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -150,9 +122,37 @@ public class X_AD_SchedulerRecipient extends PO implements I_AD_SchedulerRecipie
 		return ii.intValue();
 	}
 
-	public I_AD_User getAD_User() throws RuntimeException
+	public org.compiere.model.I_AD_Scheduler getAD_Scheduler() throws RuntimeException
     {
-		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+		return (org.compiere.model.I_AD_Scheduler)MTable.get(getCtx(), org.compiere.model.I_AD_Scheduler.Table_Name)
+			.getPO(getAD_Scheduler_ID(), get_TrxName());	}
+
+	/** Set Scheduler.
+		@param AD_Scheduler_ID 
+		Schedule Processes
+	  */
+	public void setAD_Scheduler_ID (int AD_Scheduler_ID)
+	{
+		if (AD_Scheduler_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Scheduler_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Scheduler_ID, Integer.valueOf(AD_Scheduler_ID));
+	}
+
+	/** Get Scheduler.
+		@return Schedule Processes
+	  */
+	public int getAD_Scheduler_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Scheduler_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getAD_User_ID(), get_TrxName());	}
 
 	/** Set User/Contact.

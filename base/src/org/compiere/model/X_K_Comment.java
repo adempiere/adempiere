@@ -30,7 +30,7 @@ public class X_K_Comment extends PO implements I_K_Comment, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_K_Comment (Properties ctx, int K_Comment_ID, String trxName)
@@ -75,9 +75,9 @@ public class X_K_Comment extends PO implements I_K_Comment, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Session getAD_Session() throws RuntimeException
+	public org.compiere.model.I_AD_Session getAD_Session() throws RuntimeException
     {
-		return (I_AD_Session)MTable.get(getCtx(), I_AD_Session.Table_Name)
+		return (org.compiere.model.I_AD_Session)MTable.get(getCtx(), org.compiere.model.I_AD_Session.Table_Name)
 			.getPO(getAD_Session_ID(), get_TrxName());	}
 
 	/** Set Session.
@@ -158,9 +158,9 @@ public class X_K_Comment extends PO implements I_K_Comment, I_Persistent
         return new KeyNamePair(get_ID(), String.valueOf(getK_Comment_ID()));
     }
 
-	public I_K_Entry getK_Entry() throws RuntimeException
+	public org.compiere.model.I_K_Entry getK_Entry() throws RuntimeException
     {
-		return (I_K_Entry)MTable.get(getCtx(), I_K_Entry.Table_Name)
+		return (org.compiere.model.I_K_Entry)MTable.get(getCtx(), org.compiere.model.I_K_Entry.Table_Name)
 			.getPO(getK_Entry_ID(), get_TrxName());	}
 
 	/** Set Entry.

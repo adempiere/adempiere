@@ -75,7 +75,7 @@ public interface I_C_OrgAssignment
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getAD_User() throws RuntimeException;
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
 
     /** Column name C_OrgAssignment_ID */
     public static final String COLUMNNAME_C_OrgAssignment_ID = "C_OrgAssignment_ID";

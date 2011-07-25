@@ -33,7 +33,7 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_A_Asset_Transfer (Properties ctx, int A_Asset_Transfer_ID, String trxName)
@@ -520,9 +520,9 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 		return false;
 	}
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException
+	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException
     {
-		return (I_C_AcctSchema)MTable.get(getCtx(), I_C_AcctSchema.Table_Name)
+		return (org.compiere.model.I_C_AcctSchema)MTable.get(getCtx(), org.compiere.model.I_C_AcctSchema.Table_Name)
 			.getPO(getC_AcctSchema_ID(), get_TrxName());	}
 
 	/** Set Accounting Schema.
@@ -548,9 +548,9 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 		return ii.intValue();
 	}
 
-	public I_C_Period getC_Period() throws RuntimeException
+	public org.compiere.model.I_C_Period getC_Period() throws RuntimeException
     {
-		return (I_C_Period)MTable.get(getCtx(), I_C_Period.Table_Name)
+		return (org.compiere.model.I_C_Period)MTable.get(getCtx(), org.compiere.model.I_C_Period.Table_Name)
 			.getPO(getC_Period_ID(), get_TrxName());	}
 
 	/** Set Period.

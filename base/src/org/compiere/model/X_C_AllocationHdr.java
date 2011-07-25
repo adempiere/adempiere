@@ -33,7 +33,7 @@ public class X_C_AllocationHdr extends PO implements I_C_AllocationHdr, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_C_AllocationHdr (Properties ctx, int C_AllocationHdr_ID, String trxName)
@@ -129,9 +129,9 @@ public class X_C_AllocationHdr extends PO implements I_C_AllocationHdr, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_Currency getC_Currency() throws RuntimeException
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException
     {
-		return (I_C_Currency)MTable.get(getCtx(), I_C_Currency.Table_Name)
+		return (org.compiere.model.I_C_Currency)MTable.get(getCtx(), org.compiere.model.I_C_Currency.Table_Name)
 			.getPO(getC_Currency_ID(), get_TrxName());	}
 
 	/** Set Currency.

@@ -75,7 +75,35 @@ public interface I_C_UserRemuneration
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getAD_User() throws RuntimeException;
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
+
+    /** Column name C_Remuneration_ID */
+    public static final String COLUMNNAME_C_Remuneration_ID = "C_Remuneration_ID";
+
+	/** Set Remuneration.
+	  * Wage or Salary
+	  */
+	public void setC_Remuneration_ID (int C_Remuneration_ID);
+
+	/** Get Remuneration.
+	  * Wage or Salary
+	  */
+	public int getC_Remuneration_ID();
+
+	public org.compiere.model.I_C_Remuneration getC_Remuneration() throws RuntimeException;
+
+    /** Column name C_UserRemuneration_ID */
+    public static final String COLUMNNAME_C_UserRemuneration_ID = "C_UserRemuneration_ID";
+
+	/** Set Employee Remuneration.
+	  * Employee Wage or Salary Overwrite
+	  */
+	public void setC_UserRemuneration_ID (int C_UserRemuneration_ID);
+
+	/** Get Employee Remuneration.
+	  * Employee Wage or Salary Overwrite
+	  */
+	public int getC_UserRemuneration_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -92,34 +120,6 @@ public interface I_C_UserRemuneration
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_Remuneration_ID */
-    public static final String COLUMNNAME_C_Remuneration_ID = "C_Remuneration_ID";
-
-	/** Set Remuneration.
-	  * Wage or Salary
-	  */
-	public void setC_Remuneration_ID (int C_Remuneration_ID);
-
-	/** Get Remuneration.
-	  * Wage or Salary
-	  */
-	public int getC_Remuneration_ID();
-
-	public I_C_Remuneration getC_Remuneration() throws RuntimeException;
-
-    /** Column name C_UserRemuneration_ID */
-    public static final String COLUMNNAME_C_UserRemuneration_ID = "C_UserRemuneration_ID";
-
-	/** Set Employee Remuneration.
-	  * Employee Wage or Salary Overwrite
-	  */
-	public void setC_UserRemuneration_ID (int C_UserRemuneration_ID);
-
-	/** Get Employee Remuneration.
-	  * Employee Wage or Salary Overwrite
-	  */
-	public int getC_UserRemuneration_ID();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

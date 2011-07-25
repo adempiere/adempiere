@@ -30,7 +30,7 @@ public class X_AD_ReplicationTable extends PO implements I_AD_ReplicationTable, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_AD_ReplicationTable (Properties ctx, int AD_ReplicationTable_ID, String trxName)
@@ -75,9 +75,9 @@ public class X_AD_ReplicationTable extends PO implements I_AD_ReplicationTable, 
       return sb.toString();
     }
 
-	public I_AD_ReplicationStrategy getAD_ReplicationStrategy() throws RuntimeException
+	public org.compiere.model.I_AD_ReplicationStrategy getAD_ReplicationStrategy() throws RuntimeException
     {
-		return (I_AD_ReplicationStrategy)MTable.get(getCtx(), I_AD_ReplicationStrategy.Table_Name)
+		return (org.compiere.model.I_AD_ReplicationStrategy)MTable.get(getCtx(), org.compiere.model.I_AD_ReplicationStrategy.Table_Name)
 			.getPO(getAD_ReplicationStrategy_ID(), get_TrxName());	}
 
 	/** Set Replication Strategy.
@@ -134,9 +134,9 @@ public class X_AD_ReplicationTable extends PO implements I_AD_ReplicationTable, 
 		return ii.intValue();
 	}
 
-	public I_AD_Table getAD_Table() throws RuntimeException
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException
     {
-		return (I_AD_Table)MTable.get(getCtx(), I_AD_Table.Table_Name)
+		return (org.compiere.model.I_AD_Table)MTable.get(getCtx(), org.compiere.model.I_AD_Table.Table_Name)
 			.getPO(getAD_Table_ID(), get_TrxName());	}
 
 	/** Set Table.

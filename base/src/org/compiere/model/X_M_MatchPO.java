@@ -33,7 +33,7 @@ public class X_M_MatchPO extends PO implements I_M_MatchPO, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_M_MatchPO (Properties ctx, int M_MatchPO_ID, String trxName)
@@ -82,9 +82,9 @@ public class X_M_MatchPO extends PO implements I_M_MatchPO, I_Persistent
       return sb.toString();
     }
 
-	public I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException
+	public org.compiere.model.I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException
     {
-		return (I_C_InvoiceLine)MTable.get(getCtx(), I_C_InvoiceLine.Table_Name)
+		return (org.compiere.model.I_C_InvoiceLine)MTable.get(getCtx(), org.compiere.model.I_C_InvoiceLine.Table_Name)
 			.getPO(getC_InvoiceLine_ID(), get_TrxName());	}
 
 	/** Set Invoice Line.
@@ -110,9 +110,9 @@ public class X_M_MatchPO extends PO implements I_M_MatchPO, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_OrderLine getC_OrderLine() throws RuntimeException
+	public org.compiere.model.I_C_OrderLine getC_OrderLine() throws RuntimeException
     {
-		return (I_C_OrderLine)MTable.get(getCtx(), I_C_OrderLine.Table_Name)
+		return (org.compiere.model.I_C_OrderLine)MTable.get(getCtx(), org.compiere.model.I_C_OrderLine.Table_Name)
 			.getPO(getC_OrderLine_ID(), get_TrxName());	}
 
 	/** Set Sales Order Line.
@@ -266,9 +266,9 @@ public class X_M_MatchPO extends PO implements I_M_MatchPO, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_InOutLine getM_InOutLine() throws RuntimeException
+	public org.compiere.model.I_M_InOutLine getM_InOutLine() throws RuntimeException
     {
-		return (I_M_InOutLine)MTable.get(getCtx(), I_M_InOutLine.Table_Name)
+		return (org.compiere.model.I_M_InOutLine)MTable.get(getCtx(), org.compiere.model.I_M_InOutLine.Table_Name)
 			.getPO(getM_InOutLine_ID(), get_TrxName());	}
 
 	/** Set Shipment/Receipt Line.
@@ -317,9 +317,9 @@ public class X_M_MatchPO extends PO implements I_M_MatchPO, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.

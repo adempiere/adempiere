@@ -29,7 +29,7 @@ public class X_R_RequestUpdates extends PO implements I_R_RequestUpdates, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_R_RequestUpdates (Properties ctx, int R_RequestUpdates_ID, String trxName)
@@ -71,9 +71,9 @@ public class X_R_RequestUpdates extends PO implements I_R_RequestUpdates, I_Pers
       return sb.toString();
     }
 
-	public I_AD_User getAD_User() throws RuntimeException
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
     {
-		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getAD_User_ID(), get_TrxName());	}
 
 	/** Set User/Contact.
@@ -123,9 +123,9 @@ public class X_R_RequestUpdates extends PO implements I_R_RequestUpdates, I_Pers
 		return false;
 	}
 
-	public I_R_Request getR_Request() throws RuntimeException
+	public org.compiere.model.I_R_Request getR_Request() throws RuntimeException
     {
-		return (I_R_Request)MTable.get(getCtx(), I_R_Request.Table_Name)
+		return (org.compiere.model.I_R_Request)MTable.get(getCtx(), org.compiere.model.I_R_Request.Table_Name)
 			.getPO(getR_Request_ID(), get_TrxName());	}
 
 	/** Set Request.

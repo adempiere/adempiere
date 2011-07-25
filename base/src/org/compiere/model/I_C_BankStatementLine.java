@@ -62,20 +62,20 @@ public interface I_C_BankStatementLine
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_BankStatement_ID */
-    public static final String COLUMNNAME_C_BankStatement_ID = "C_BankStatement_ID";
+    /** Column name C_BPartner_ID */
+    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 
-	/** Set Bank Statement.
-	  * Bank Statement of account
+	/** Set Business Partner .
+	  * Identifies a Business Partner
 	  */
-	public void setC_BankStatement_ID (int C_BankStatement_ID);
+	public void setC_BPartner_ID (int C_BPartner_ID);
 
-	/** Get Bank Statement.
-	  * Bank Statement of account
+	/** Get Business Partner .
+	  * Identifies a Business Partner
 	  */
-	public int getC_BankStatement_ID();
+	public int getC_BPartner_ID();
 
-	public I_C_BankStatement getC_BankStatement() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_BankStatementLine_ID */
     public static final String COLUMNNAME_C_BankStatementLine_ID = "C_BankStatementLine_ID";
@@ -90,20 +90,20 @@ public interface I_C_BankStatementLine
 	  */
 	public int getC_BankStatementLine_ID();
 
-    /** Column name C_BPartner_ID */
-    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
+    /** Column name C_BankStatement_ID */
+    public static final String COLUMNNAME_C_BankStatement_ID = "C_BankStatement_ID";
 
-	/** Set Business Partner .
-	  * Identifies a Business Partner
+	/** Set Bank Statement.
+	  * Bank Statement of account
 	  */
-	public void setC_BPartner_ID (int C_BPartner_ID);
+	public void setC_BankStatement_ID (int C_BankStatement_ID);
 
-	/** Get Business Partner .
-	  * Identifies a Business Partner
+	/** Get Bank Statement.
+	  * Bank Statement of account
 	  */
-	public int getC_BPartner_ID();
+	public int getC_BankStatement_ID();
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
+	public org.compiere.model.I_C_BankStatement getC_BankStatement() throws RuntimeException;
 
     /** Column name C_Charge_ID */
     public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
@@ -118,7 +118,7 @@ public interface I_C_BankStatementLine
 	  */
 	public int getC_Charge_ID();
 
-	public I_C_Charge getC_Charge() throws RuntimeException;
+	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException;
 
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
@@ -133,20 +133,7 @@ public interface I_C_BankStatementLine
 	  */
 	public int getC_Currency_ID();
 
-	public I_C_Currency getC_Currency() throws RuntimeException;
-
-    /** Column name ChargeAmt */
-    public static final String COLUMNNAME_ChargeAmt = "ChargeAmt";
-
-	/** Set Charge amount.
-	  * Charge Amount
-	  */
-	public void setChargeAmt (BigDecimal ChargeAmt);
-
-	/** Get Charge amount.
-	  * Charge Amount
-	  */
-	public BigDecimal getChargeAmt();
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException;
 
     /** Column name C_Invoice_ID */
     public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
@@ -161,7 +148,7 @@ public interface I_C_BankStatementLine
 	  */
 	public int getC_Invoice_ID();
 
-	public I_C_Invoice getC_Invoice() throws RuntimeException;
+	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException;
 
     /** Column name C_Payment_ID */
     public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
@@ -176,7 +163,29 @@ public interface I_C_BankStatementLine
 	  */
 	public int getC_Payment_ID();
 
-	public I_C_Payment getC_Payment() throws RuntimeException;
+	public org.compiere.model.I_C_Payment getC_Payment() throws RuntimeException;
+
+    /** Column name ChargeAmt */
+    public static final String COLUMNNAME_ChargeAmt = "ChargeAmt";
+
+	/** Set Charge amount.
+	  * Charge Amount
+	  */
+	public void setChargeAmt (BigDecimal ChargeAmt);
+
+	/** Get Charge amount.
+	  * Charge Amount
+	  */
+	public BigDecimal getChargeAmt();
+
+    /** Column name CreatePayment */
+    public static final String COLUMNNAME_CreatePayment = "CreatePayment";
+
+	/** Set Create Payment	  */
+	public void setCreatePayment (String CreatePayment);
+
+	/** Get Create Payment	  */
+	public String getCreatePayment();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -193,15 +202,6 @@ public interface I_C_BankStatementLine
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name CreatePayment */
-    public static final String COLUMNNAME_CreatePayment = "CreatePayment";
-
-	/** Set Create Payment	  */
-	public void setCreatePayment (String CreatePayment);
-
-	/** Get Create Payment	  */
-	public String getCreatePayment();
 
     /** Column name DateAcct */
     public static final String COLUMNNAME_DateAcct = "DateAcct";

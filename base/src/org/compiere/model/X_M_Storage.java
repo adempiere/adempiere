@@ -32,7 +32,7 @@ public class X_M_Storage extends PO implements I_M_Storage, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_M_Storage (Properties ctx, int M_Storage_ID, String trxName)
@@ -150,9 +150,9 @@ public class X_M_Storage extends PO implements I_M_Storage, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.
@@ -176,6 +176,26 @@ public class X_M_Storage extends PO implements I_M_Storage, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Qty Allocated.
+		@param QtyAllocated 
+		Allocated quantity
+	  */
+	public void setQtyAllocated (BigDecimal QtyAllocated)
+	{
+		set_Value (COLUMNNAME_QtyAllocated, QtyAllocated);
+	}
+
+	/** Get Qty Allocated.
+		@return Allocated quantity
+	  */
+	public BigDecimal getQtyAllocated () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyAllocated);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set On Hand Quantity.

@@ -62,7 +62,7 @@ public interface I_AD_WorkbenchWindow
 	  */
 	public int getAD_Form_ID();
 
-	public I_AD_Form getAD_Form() throws RuntimeException;
+	public org.compiere.model.I_AD_Form getAD_Form() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -90,7 +90,7 @@ public interface I_AD_WorkbenchWindow
 	  */
 	public int getAD_Process_ID();
 
-	public I_AD_Process getAD_Process() throws RuntimeException;
+	public org.compiere.model.I_AD_Process getAD_Process() throws RuntimeException;
 
     /** Column name AD_Task_ID */
     public static final String COLUMNNAME_AD_Task_ID = "AD_Task_ID";
@@ -105,7 +105,7 @@ public interface I_AD_WorkbenchWindow
 	  */
 	public int getAD_Task_ID();
 
-	public I_AD_Task getAD_Task() throws RuntimeException;
+	public org.compiere.model.I_AD_Task getAD_Task() throws RuntimeException;
 
     /** Column name AD_Window_ID */
     public static final String COLUMNNAME_AD_Window_ID = "AD_Window_ID";
@@ -120,7 +120,16 @@ public interface I_AD_WorkbenchWindow
 	  */
 	public int getAD_Window_ID();
 
-	public I_AD_Window getAD_Window() throws RuntimeException;
+	public org.compiere.model.I_AD_Window getAD_Window() throws RuntimeException;
+
+    /** Column name AD_WorkbenchWindow_ID */
+    public static final String COLUMNNAME_AD_WorkbenchWindow_ID = "AD_WorkbenchWindow_ID";
+
+	/** Set Workbench Window	  */
+	public void setAD_WorkbenchWindow_ID (int AD_WorkbenchWindow_ID);
+
+	/** Get Workbench Window	  */
+	public int getAD_WorkbenchWindow_ID();
 
     /** Column name AD_Workbench_ID */
     public static final String COLUMNNAME_AD_Workbench_ID = "AD_Workbench_ID";
@@ -135,16 +144,7 @@ public interface I_AD_WorkbenchWindow
 	  */
 	public int getAD_Workbench_ID();
 
-	public I_AD_Workbench getAD_Workbench() throws RuntimeException;
-
-    /** Column name AD_WorkbenchWindow_ID */
-    public static final String COLUMNNAME_AD_WorkbenchWindow_ID = "AD_WorkbenchWindow_ID";
-
-	/** Set Workbench Window	  */
-	public void setAD_WorkbenchWindow_ID (int AD_WorkbenchWindow_ID);
-
-	/** Get Workbench Window	  */
-	public int getAD_WorkbenchWindow_ID();
+	public org.compiere.model.I_AD_Workbench getAD_Workbench() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

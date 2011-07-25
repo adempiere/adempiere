@@ -75,7 +75,7 @@ public interface I_K_Entry
 	  */
 	public int getAD_Session_ID();
 
-	public I_AD_Session getAD_Session() throws RuntimeException;
+	public org.compiere.model.I_AD_Session getAD_Session() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -145,19 +145,6 @@ public interface I_K_Entry
 	  */
 	public int getK_Entry_ID();
 
-    /** Column name Keywords */
-    public static final String COLUMNNAME_Keywords = "Keywords";
-
-	/** Set Keywords.
-	  * List of Keywords - separated by space, comma or semicolon
-	  */
-	public void setKeywords (String Keywords);
-
-	/** Get Keywords.
-	  * List of Keywords - separated by space, comma or semicolon
-	  */
-	public String getKeywords();
-
     /** Column name K_Source_ID */
     public static final String COLUMNNAME_K_Source_ID = "K_Source_ID";
 
@@ -171,7 +158,7 @@ public interface I_K_Entry
 	  */
 	public int getK_Source_ID();
 
-	public I_K_Source getK_Source() throws RuntimeException;
+	public org.compiere.model.I_K_Source getK_Source() throws RuntimeException;
 
     /** Column name K_Topic_ID */
     public static final String COLUMNNAME_K_Topic_ID = "K_Topic_ID";
@@ -186,7 +173,20 @@ public interface I_K_Entry
 	  */
 	public int getK_Topic_ID();
 
-	public I_K_Topic getK_Topic() throws RuntimeException;
+	public org.compiere.model.I_K_Topic getK_Topic() throws RuntimeException;
+
+    /** Column name Keywords */
+    public static final String COLUMNNAME_Keywords = "Keywords";
+
+	/** Set Keywords.
+	  * List of Keywords - separated by space, comma or semicolon
+	  */
+	public void setKeywords (String Keywords);
+
+	/** Get Keywords.
+	  * List of Keywords - separated by space, comma or semicolon
+	  */
+	public String getKeywords();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

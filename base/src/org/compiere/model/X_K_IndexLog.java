@@ -30,7 +30,7 @@ public class X_K_IndexLog extends PO implements I_K_IndexLog, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_K_IndexLog (Properties ctx, int K_IndexLog_ID, String trxName)

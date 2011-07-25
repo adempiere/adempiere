@@ -62,6 +62,21 @@ public interface I_RV_WarehousePrice
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name C_UOM_ID */
+    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
+
+	/** Set UOM.
+	  * Unit of Measure
+	  */
+	public void setC_UOM_ID (int C_UOM_ID);
+
+	/** Get UOM.
+	  * Unit of Measure
+	  */
+	public int getC_UOM_ID();
+
+	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -77,21 +92,6 @@ public interface I_RV_WarehousePrice
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_UOM_ID */
-    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
-
-	/** Set UOM.
-	  * Unit of Measure
-	  */
-	public void setC_UOM_ID (int C_UOM_ID);
-
-	/** Get UOM.
-	  * Unit of Measure
-	  */
-	public int getC_UOM_ID();
-
-	public I_C_UOM getC_UOM() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -119,19 +119,6 @@ public interface I_RV_WarehousePrice
 	  */
 	public boolean isInstanceAttribute();
 
-    /** Column name Margin */
-    public static final String COLUMNNAME_Margin = "Margin";
-
-	/** Set Margin %.
-	  * Margin for a product as a percentage
-	  */
-	public void setMargin (BigDecimal Margin);
-
-	/** Get Margin %.
-	  * Margin for a product as a percentage
-	  */
-	public BigDecimal getMargin();
-
     /** Column name M_PriceList_Version_ID */
     public static final String COLUMNNAME_M_PriceList_Version_ID = "M_PriceList_Version_ID";
 
@@ -145,7 +132,7 @@ public interface I_RV_WarehousePrice
 	  */
 	public int getM_PriceList_Version_ID();
 
-	public I_M_PriceList_Version getM_PriceList_Version() throws RuntimeException;
+	public org.compiere.model.I_M_PriceList_Version getM_PriceList_Version() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -160,7 +147,7 @@ public interface I_RV_WarehousePrice
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name M_Warehouse_ID */
     public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
@@ -175,7 +162,20 @@ public interface I_RV_WarehousePrice
 	  */
 	public int getM_Warehouse_ID();
 
-	public I_M_Warehouse getM_Warehouse() throws RuntimeException;
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
+
+    /** Column name Margin */
+    public static final String COLUMNNAME_Margin = "Margin";
+
+	/** Set Margin %.
+	  * Margin for a product as a percentage
+	  */
+	public void setMargin (BigDecimal Margin);
+
+	/** Get Margin %.
+	  * Margin for a product as a percentage
+	  */
+	public BigDecimal getMargin();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

@@ -29,7 +29,7 @@ public class X_M_RelatedProduct extends PO implements I_M_RelatedProduct, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_M_RelatedProduct (Properties ctx, int M_RelatedProduct_ID, String trxName)
@@ -39,8 +39,8 @@ public class X_M_RelatedProduct extends PO implements I_M_RelatedProduct, I_Pers
         {
 			setM_Product_ID (0);
 			setName (null);
-			setRelatedProduct_ID (0);
 			setRelatedProductType (null);
+			setRelatedProduct_ID (0);
         } */
     }
 
@@ -89,9 +89,9 @@ public class X_M_RelatedProduct extends PO implements I_M_RelatedProduct, I_Pers
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.
@@ -134,9 +134,32 @@ public class X_M_RelatedProduct extends PO implements I_M_RelatedProduct, I_Pers
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
-	public I_M_Product getRelatedProduct() throws RuntimeException
+	/** RelatedProductType AD_Reference_ID=313 */
+	public static final int RELATEDPRODUCTTYPE_AD_Reference_ID=313;
+	/** Web Promotion = P */
+	public static final String RELATEDPRODUCTTYPE_WebPromotion = "P";
+	/** Alternative = A */
+	public static final String RELATEDPRODUCTTYPE_Alternative = "A";
+	/** Supplemental = S */
+	public static final String RELATEDPRODUCTTYPE_Supplemental = "S";
+	/** Set Related Product Type.
+		@param RelatedProductType Related Product Type	  */
+	public void setRelatedProductType (String RelatedProductType)
+	{
+
+		set_ValueNoCheck (COLUMNNAME_RelatedProductType, RelatedProductType);
+	}
+
+	/** Get Related Product Type.
+		@return Related Product Type	  */
+	public String getRelatedProductType () 
+	{
+		return (String)get_Value(COLUMNNAME_RelatedProductType);
+	}
+
+	public org.compiere.model.I_M_Product getRelatedProduct() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getRelatedProduct_ID(), get_TrxName());	}
 
 	/** Set Related Product.
@@ -160,28 +183,5 @@ public class X_M_RelatedProduct extends PO implements I_M_RelatedProduct, I_Pers
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** RelatedProductType AD_Reference_ID=313 */
-	public static final int RELATEDPRODUCTTYPE_AD_Reference_ID=313;
-	/** Web Promotion = P */
-	public static final String RELATEDPRODUCTTYPE_WebPromotion = "P";
-	/** Alternative = A */
-	public static final String RELATEDPRODUCTTYPE_Alternative = "A";
-	/** Supplemental = S */
-	public static final String RELATEDPRODUCTTYPE_Supplemental = "S";
-	/** Set Related Product Type.
-		@param RelatedProductType Related Product Type	  */
-	public void setRelatedProductType (String RelatedProductType)
-	{
-
-		set_ValueNoCheck (COLUMNNAME_RelatedProductType, RelatedProductType);
-	}
-
-	/** Get Related Product Type.
-		@return Related Product Type	  */
-	public String getRelatedProductType () 
-	{
-		return (String)get_Value(COLUMNNAME_RelatedProductType);
 	}
 }

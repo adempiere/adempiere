@@ -45,6 +45,7 @@ import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 
@@ -509,7 +510,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 					M_Warehouse_ID, M_PriceList_ID, true, queryValue, whereClause);
 
 			ip.setVisible(true);
-			ip.setTitle("Product Info");
+			ip.setTitle(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "InfoProduct")));
 			ip.setStyle("border: 2px");
 			ip.setClosable(true);
 			ip.setAttribute("mode", "modal");
@@ -534,7 +535,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 			InfoBPartnerPanel ip = new InfoBPartnerPanel(queryValue, lookup.getWindowNo(), isSOTrx,false, whereClause);
 
 			ip.setVisible(true);
-			ip.setTitle("Business Partner Info");
+			ip.setTitle(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "InfoBPartner")));
 			ip.setStyle("border: 2px");
 			ip.setClosable(true);
 			ip.setAttribute("mode", "modal");

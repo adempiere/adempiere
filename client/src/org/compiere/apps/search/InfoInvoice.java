@@ -244,7 +244,7 @@ public class InfoInvoice extends Info
 		prepareTable(s_invoiceLayout,
 			" C_Invoice_v i",   //  corrected for CM
 			where.toString(),
-			"2,3,4");
+			"2,3,4,5");
 		//
 	//	MAllocationLine.setIsPaid(Env.getCtx(), 0, null);
 		return true;
@@ -278,11 +278,11 @@ public class InfoInvoice extends Info
 			Timestamp from = (Timestamp)fDateFrom.getValue();
 			Timestamp to = (Timestamp)fDateTo.getValue();
 			if (from == null && to != null)
-				sql.append(" AND TRUNC(i.DateInvoiced) <= ?");
+				sql.append(" AND TRUNC(i.DateInvoiced, 'DD') <= ?");
 			else if (from != null && to == null)
-				sql.append(" AND TRUNC(i.DateInvoiced) >= ?");
+				sql.append(" AND TRUNC(i.DateInvoiced, 'DD') >= ?");
 			else if (from != null && to != null)
-				sql.append(" AND TRUNC(i.DateInvoiced) BETWEEN ? AND ?");
+				sql.append(" AND TRUNC(i.DateInvoiced, 'DD') BETWEEN ? AND ?");
 		}
 		//
 		if (fAmtFrom.getValue() != null || fAmtTo.getValue() != null)

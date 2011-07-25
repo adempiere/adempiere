@@ -1,5 +1,4 @@
-@Title Install Adempiere Server
-@Rem  $Header: /cvsroot/adempiere/install/Adempiere/RUN_setup.bat,v 1.19 2005/09/08 21:54:12 jjanke Exp $
+@Title Install ADempiere Server
 @Echo off
 
 
@@ -20,7 +19,7 @@ goto START
 @Echo =======================================
 @Echo Starting Setup Dialog ...
 @Echo =======================================
-@SET CP=lib\CInstall.jar;lib\Adempiere.jar;lib\CCTools.jar;lib\oracle.jar;lib\jboss.jar;lib\postgresql.jar;
+@SET CP=lib\CInstall.jar;lib\Adempiere.jar;lib\CCTools.jar;lib\oracle.jar;lib\jboss.jar;lib\postgresql.jar;lib\mysql-connector-java-5.1.13-bin.jar;
 
 @Rem Trace Level Parameter, e.g. SET ARGS=ALL
 @SET ARGS=CONFIG
@@ -52,7 +51,7 @@ cd utils
 @Call RUN_SignDatabaseBuild.bat > NUL 2>&1
 
 @Rem ===================================
-@Rem Setup Adempiere Environment
+@Rem Setup ADempiere Environment
 @Rem ===================================
 @Call RUN_WinEnv.bat
 

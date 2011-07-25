@@ -173,7 +173,7 @@ public class ScheduleUtil
 		//	ORA-00932: inconsistent datatypes: expected NUMBER got TIMESTAMP
 		sql = MRole.getDefault(m_ctx, false).addAccessSQL (
 			"SELECT Name, Date1 FROM C_NonBusinessDay "
-			+ "WHERE TRUNC(Date1) BETWEEN ? AND ?",
+			+ "WHERE TRUNC(Date1, 'DD') BETWEEN ? AND ?",
 			"C_NonBusinessDay", false, false);	// not qualified - RO
 		try
 		{

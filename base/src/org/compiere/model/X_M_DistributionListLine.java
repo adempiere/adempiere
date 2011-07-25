@@ -32,7 +32,7 @@ public class X_M_DistributionListLine extends PO implements I_M_DistributionList
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_M_DistributionListLine (Properties ctx, int M_DistributionListLine_ID, String trxName)
@@ -42,8 +42,8 @@ public class X_M_DistributionListLine extends PO implements I_M_DistributionList
         {
 			setC_BPartner_ID (0);
 			setC_BPartner_Location_ID (0);
-			setM_DistributionList_ID (0);
 			setM_DistributionListLine_ID (0);
+			setM_DistributionList_ID (0);
 			setMinQty (Env.ZERO);
         } */
     }
@@ -76,9 +76,9 @@ public class X_M_DistributionListLine extends PO implements I_M_DistributionList
       return sb.toString();
     }
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -104,9 +104,9 @@ public class X_M_DistributionListLine extends PO implements I_M_DistributionList
 		return ii.intValue();
 	}
 
-	public I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException
+	public org.compiere.model.I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException
     {
-		return (I_C_BPartner_Location)MTable.get(getCtx(), I_C_BPartner_Location.Table_Name)
+		return (org.compiere.model.I_C_BPartner_Location)MTable.get(getCtx(), org.compiere.model.I_C_BPartner_Location.Table_Name)
 			.getPO(getC_BPartner_Location_ID(), get_TrxName());	}
 
 	/** Set Partner Location.
@@ -149,9 +149,32 @@ public class X_M_DistributionListLine extends PO implements I_M_DistributionList
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public I_M_DistributionList getM_DistributionList() throws RuntimeException
+	/** Set Distribution List Line.
+		@param M_DistributionListLine_ID 
+		Distribution List Line with Business Partner and Quantity/Percentage
+	  */
+	public void setM_DistributionListLine_ID (int M_DistributionListLine_ID)
+	{
+		if (M_DistributionListLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_DistributionListLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_DistributionListLine_ID, Integer.valueOf(M_DistributionListLine_ID));
+	}
+
+	/** Get Distribution List Line.
+		@return Distribution List Line with Business Partner and Quantity/Percentage
+	  */
+	public int getM_DistributionListLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_DistributionListLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_DistributionList getM_DistributionList() throws RuntimeException
     {
-		return (I_M_DistributionList)MTable.get(getCtx(), I_M_DistributionList.Table_Name)
+		return (org.compiere.model.I_M_DistributionList)MTable.get(getCtx(), org.compiere.model.I_M_DistributionList.Table_Name)
 			.getPO(getM_DistributionList_ID(), get_TrxName());	}
 
 	/** Set Distribution List.
@@ -184,29 +207,6 @@ public class X_M_DistributionListLine extends PO implements I_M_DistributionList
     {
         return new KeyNamePair(get_ID(), String.valueOf(getM_DistributionList_ID()));
     }
-
-	/** Set Distribution List Line.
-		@param M_DistributionListLine_ID 
-		Distribution List Line with Business Partner and Quantity/Percentage
-	  */
-	public void setM_DistributionListLine_ID (int M_DistributionListLine_ID)
-	{
-		if (M_DistributionListLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_DistributionListLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_DistributionListLine_ID, Integer.valueOf(M_DistributionListLine_ID));
-	}
-
-	/** Get Distribution List Line.
-		@return Distribution List Line with Business Partner and Quantity/Percentage
-	  */
-	public int getM_DistributionListLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_DistributionListLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	/** Set Minimum Quantity.
 		@param MinQty 

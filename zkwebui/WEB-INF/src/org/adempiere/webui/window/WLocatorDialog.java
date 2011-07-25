@@ -137,14 +137,12 @@ public class WLocatorDialog extends Window implements EventListener
 	
 	private void initComponents()
 	{
-		txtWarehouse.setEnabled(false);
-		
-		lblLocator.setValue("Locator");
-		lblWarehouse.setValue("Warehouse");
-		lblAisleX.setValue("Aisle (X)");
-		lblBinY.setValue("Bin (Y)");
-		lblLevelZ.setValue("Level (Z)");
-		lblKey.setValue("Key");
+		lblLocator.setValue(Msg.translate(Env.getCtx(), "M_Locator_ID"));
+		lblWarehouse.setValue(Msg.translate(Env.getCtx(), "M_Warehouse_ID"));
+		lblAisleX.setValue(Msg.getElement(Env.getCtx(), "X"));
+		lblBinY.setValue(Msg.getElement(Env.getCtx(), "Y"));
+		lblLevelZ.setValue(Msg.getElement(Env.getCtx(), "Z"));
+		lblKey.setValue(Msg.translate(Env.getCtx(), "Value"));
 		
 		Hbox boxLocator = new Hbox();
 		boxLocator.setWidth("100%");
@@ -162,7 +160,7 @@ public class WLocatorDialog extends Window implements EventListener
 		boxCheckbox.setWidths("30%, 70%");
 		boxCheckbox.setStyle("text-align:left");
 		
-		chkCreateNew.setLabel(Msg.getMsg(Env.getCtx(), "Create New Record"));
+		chkCreateNew.setLabel(Msg.getMsg(Env.getCtx(), "CreateNew"));
 		
 		boxCheckbox.appendChild(new Label());
 		boxCheckbox.appendChild(chkCreateNew);
@@ -368,6 +366,7 @@ public class WLocatorDialog extends Window implements EventListener
 		//lWarehouseInfo.setVisible(!sel);
 		txtWarehouse.setVisible(!sel);
 		
+		txtWarehouse.setReadonly(true);
 		txtAisleX.setReadonly(!sel);
 		txtBinY.setReadonly(!sel);
 		txtLevelZ.setReadonly(!sel);

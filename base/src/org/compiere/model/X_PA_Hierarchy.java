@@ -30,7 +30,7 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_PA_Hierarchy (Properties ctx, int PA_Hierarchy_ID, String trxName)
@@ -79,9 +79,9 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Tree getAD_Tree_Account() throws RuntimeException
+	public org.compiere.model.I_AD_Tree getAD_Tree_Account() throws RuntimeException
     {
-		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+		return (org.compiere.model.I_AD_Tree)MTable.get(getCtx(), org.compiere.model.I_AD_Tree.Table_Name)
 			.getPO(getAD_Tree_Account_ID(), get_TrxName());	}
 
 	/** Set Account Tree.
@@ -107,9 +107,9 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Tree getAD_Tree_Activity() throws RuntimeException
+	public org.compiere.model.I_AD_Tree getAD_Tree_Activity() throws RuntimeException
     {
-		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+		return (org.compiere.model.I_AD_Tree)MTable.get(getCtx(), org.compiere.model.I_AD_Tree.Table_Name)
 			.getPO(getAD_Tree_Activity_ID(), get_TrxName());	}
 
 	/** Set Activity Tree.
@@ -135,9 +135,9 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Tree getAD_Tree_BPartner() throws RuntimeException
+	public org.compiere.model.I_AD_Tree getAD_Tree_BPartner() throws RuntimeException
     {
-		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+		return (org.compiere.model.I_AD_Tree)MTable.get(getCtx(), org.compiere.model.I_AD_Tree.Table_Name)
 			.getPO(getAD_Tree_BPartner_ID(), get_TrxName());	}
 
 	/** Set BPartner Tree.
@@ -163,9 +163,9 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Tree getAD_Tree_Campaign() throws RuntimeException
+	public org.compiere.model.I_AD_Tree getAD_Tree_Campaign() throws RuntimeException
     {
-		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+		return (org.compiere.model.I_AD_Tree)MTable.get(getCtx(), org.compiere.model.I_AD_Tree.Table_Name)
 			.getPO(getAD_Tree_Campaign_ID(), get_TrxName());	}
 
 	/** Set Campaign Tree.
@@ -191,9 +191,9 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Tree getAD_Tree_Org() throws RuntimeException
+	public org.compiere.model.I_AD_Tree getAD_Tree_Org() throws RuntimeException
     {
-		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+		return (org.compiere.model.I_AD_Tree)MTable.get(getCtx(), org.compiere.model.I_AD_Tree.Table_Name)
 			.getPO(getAD_Tree_Org_ID(), get_TrxName());	}
 
 	/** Set Organization Tree.
@@ -219,9 +219,9 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Tree getAD_Tree_Product() throws RuntimeException
+	public org.compiere.model.I_AD_Tree getAD_Tree_Product() throws RuntimeException
     {
-		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+		return (org.compiere.model.I_AD_Tree)MTable.get(getCtx(), org.compiere.model.I_AD_Tree.Table_Name)
 			.getPO(getAD_Tree_Product_ID(), get_TrxName());	}
 
 	/** Set Product Tree.
@@ -247,9 +247,9 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Tree getAD_Tree_Project() throws RuntimeException
+	public org.compiere.model.I_AD_Tree getAD_Tree_Project() throws RuntimeException
     {
-		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+		return (org.compiere.model.I_AD_Tree)MTable.get(getCtx(), org.compiere.model.I_AD_Tree.Table_Name)
 			.getPO(getAD_Tree_Project_ID(), get_TrxName());	}
 
 	/** Set Project Tree.
@@ -275,9 +275,9 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Tree getAD_Tree_SalesRegion() throws RuntimeException
+	public org.compiere.model.I_AD_Tree getAD_Tree_SalesRegion() throws RuntimeException
     {
-		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+		return (org.compiere.model.I_AD_Tree)MTable.get(getCtx(), org.compiere.model.I_AD_Tree.Table_Name)
 			.getPO(getAD_Tree_SalesRegion_ID(), get_TrxName());	}
 
 	/** Set Sales Region Tree.

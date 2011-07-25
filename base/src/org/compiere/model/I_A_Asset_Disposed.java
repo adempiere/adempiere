@@ -41,6 +41,27 @@ public interface I_A_Asset_Disposed
 
     /** Load Meta Data */
 
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
     /** Column name A_Asset_Disposed_ID */
     public static final String COLUMNNAME_A_Asset_Disposed_ID = "A_Asset_Disposed_ID";
 
@@ -72,15 +93,7 @@ public interface I_A_Asset_Disposed
 	/** Get Asset Trade	  */
 	public int getA_Asset_Trade_ID();
 
-	public I_A_Asset getA_Asset_Trade() throws RuntimeException;
-
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
+	public org.compiere.model.I_A_Asset getA_Asset_Trade() throws RuntimeException;
 
     /** Column name A_Disposed_Date */
     public static final String COLUMNNAME_A_Disposed_Date = "A_Disposed_Date";
@@ -109,19 +122,6 @@ public interface I_A_Asset_Disposed
 	/** Get Disposed Reason Code	  */
 	public String getA_Disposed_Reason();
 
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
-
     /** Column name A_Proceeds */
     public static final String COLUMNNAME_A_Proceeds = "A_Proceeds";
 
@@ -144,7 +144,7 @@ public interface I_A_Asset_Disposed
 	  */
 	public int getC_Period_ID();
 
-	public I_C_Period getC_Period() throws RuntimeException;
+	public org.compiere.model.I_C_Period getC_Period() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

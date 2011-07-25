@@ -48,6 +48,7 @@ import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
 import org.compiere.swing.CTextField;
 import org.compiere.util.CLogger;
+import org.compiere.util.DefaultContextProvider;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
@@ -66,6 +67,9 @@ import com.akunagroup.uk.postcode.Postcode;
  * 			<li>FR [ 1741222 ] - Webservice connector for address lookups
  * @author Cristina Ghita, www.arhipac.ro
  * 			<li>FR [ 2794312 ] Location AutoComplete
+ * @author victor.perez@e-evolution.com, www.e-evolution.com
+ * 			<li>BF [ 3294610] The location should allow open a google map
+ * 			<li>https://sourceforge.net/tracker/?func=detail&atid=879335&aid=3294610&group_id=176962
  */
 public class VLocationDialog extends CDialog 
 	implements ActionListener
@@ -131,6 +135,7 @@ public class VLocationDialog extends CDialog
 		initLocation();
 		fCountry.addActionListener(this);
 		fOnline.addActionListener(this);
+		bUrl.addActionListener(this);
 		fRegion.addActionListener(this);
 		AEnv.positionCenterWindow(frame, this);
 	}	//	VLocationDialog
@@ -170,7 +175,9 @@ public class VLocationDialog extends CDialog
 	private CComboBox	fRegion;
 	private CTextField	fPostal = new CTextField(5);		//	length=10
 	private CTextField	fPostalAdd = new CTextField(5);		//	length=10
-	private CButton 	fOnline = new CButton();			
+	private CButton 	fOnline = new CButton();
+	private CButton		bUrl = new CButton();
+
 	//
 	private GridBagConstraints gbc = new GridBagConstraints();
 	private Insets labelInsets = new Insets(2,15,2,0);		// 	top,left,bottom,right
@@ -203,6 +210,10 @@ public class VLocationDialog extends CDialog
 		panel.add(mainPanel, BorderLayout.CENTER);
 		panel.add(southPanel, BorderLayout.SOUTH);
 		southPanel.add(confirmPanel, BorderLayout.NORTH);
+		
+		bUrl.setMargin(ConfirmPanel.s_insets);
+		bUrl.setIcon(Env.getImageIcon("Online10.gif"));
+		confirmPanel.addComponent(bUrl);
 		//
 		confirmPanel.addActionListener(this);
 		//
@@ -458,6 +469,10 @@ public class VLocationDialog extends CDialog
 				lookupPostcode(c, fPostal.getText());
 			}
 		}
+		else if (e.getSource() == bUrl)
+		{			
+			Env.startBrowser(DefaultContextProvider.GOOGLE_MAPS_URL_PREFIX + getCurrentLocation());
+		}
 	}	//	actionPerformed
 
 	// LCO - address 1, region and city required
@@ -690,6 +705,32 @@ public class VLocationDialog extends CDialog
  			}
  		}
 
+	}
+	
+	/**
+	 * 	Get edited Value (MLocation)
+	 *	@return location
+	 */
+	private String getCurrentLocation() {
+		m_location.setAddress1(fAddress1.getText());
+		m_location.setAddress2(fAddress2.getText());
+		m_location.setAddress3(fAddress3.getText());
+		m_location.setAddress4(fAddress4.getText());
+		m_location.setCity(fCity.getText());
+		m_location.setPostal(fPostal.getText());
+		m_location.setPostal_Add(fPostalAdd.getText());
+		//  Country/Region
+		MCountry c = (MCountry)fCountry.getSelectedItem();
+		m_location.setCountry(c);
+		if (m_location.getCountry().isHasRegion())
+		{
+			MRegion r = (MRegion)fRegion.getSelectedItem();
+			m_location.setRegion(r);
+		}
+		else
+			m_location.setC_Region_ID(0);
+		
+		return m_location.toString().replace(" ", "%");
 	}
 
 }	//	VLocationDialog

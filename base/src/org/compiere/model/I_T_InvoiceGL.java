@@ -75,7 +75,20 @@ public interface I_T_InvoiceGL
 	  */
 	public int getAD_PInstance_ID();
 
-	public I_AD_PInstance getAD_PInstance() throws RuntimeException;
+	public org.compiere.model.I_AD_PInstance getAD_PInstance() throws RuntimeException;
+
+    /** Column name APAR */
+    public static final String COLUMNNAME_APAR = "APAR";
+
+	/** Set AP - AR.
+	  * Include Receivables and/or Payables transactions
+	  */
+	public void setAPAR (String APAR);
+
+	/** Get AP - AR.
+	  * Include Receivables and/or Payables transactions
+	  */
+	public String getAPAR();
 
     /** Column name AmtAcctBalance */
     public static final String COLUMNNAME_AmtAcctBalance = "AmtAcctBalance";
@@ -155,19 +168,6 @@ public interface I_T_InvoiceGL
 	  */
 	public BigDecimal getAmtSourceBalance();
 
-    /** Column name APAR */
-    public static final String COLUMNNAME_APAR = "APAR";
-
-	/** Set AP - AR.
-	  * Include Receivables and/or Payables transactions
-	  */
-	public void setAPAR (String APAR);
-
-	/** Get AP - AR.
-	  * Include Receivables and/or Payables transactions
-	  */
-	public String getAPAR();
-
     /** Column name C_ConversionTypeReval_ID */
     public static final String COLUMNNAME_C_ConversionTypeReval_ID = "C_ConversionTypeReval_ID";
 
@@ -181,7 +181,7 @@ public interface I_T_InvoiceGL
 	  */
 	public int getC_ConversionTypeReval_ID();
 
-	public I_C_ConversionType getC_ConversionTypeReval() throws RuntimeException;
+	public org.compiere.model.I_C_ConversionType getC_ConversionTypeReval() throws RuntimeException;
 
     /** Column name C_DocTypeReval_ID */
     public static final String COLUMNNAME_C_DocTypeReval_ID = "C_DocTypeReval_ID";
@@ -196,7 +196,7 @@ public interface I_T_InvoiceGL
 	  */
 	public int getC_DocTypeReval_ID();
 
-	public I_C_DocType getC_DocTypeReval() throws RuntimeException;
+	public org.compiere.model.I_C_DocType getC_DocTypeReval() throws RuntimeException;
 
     /** Column name C_Invoice_ID */
     public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
@@ -211,7 +211,7 @@ public interface I_T_InvoiceGL
 	  */
 	public int getC_Invoice_ID();
 
-	public I_C_Invoice getC_Invoice() throws RuntimeException;
+	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

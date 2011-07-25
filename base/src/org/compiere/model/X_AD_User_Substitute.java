@@ -31,7 +31,7 @@ public class X_AD_User_Substitute extends PO implements I_AD_User_Substitute, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_AD_User_Substitute (Properties ctx, int AD_User_Substitute_ID, String trxName)
@@ -74,9 +74,9 @@ public class X_AD_User_Substitute extends PO implements I_AD_User_Substitute, I_
       return sb.toString();
     }
 
-	public I_AD_User getAD_User() throws RuntimeException
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
     {
-		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getAD_User_ID(), get_TrxName());	}
 
 	/** Set User/Contact.
@@ -167,9 +167,9 @@ public class X_AD_User_Substitute extends PO implements I_AD_User_Substitute, I_
         return new KeyNamePair(get_ID(), getName());
     }
 
-	public I_AD_User getSubstitute() throws RuntimeException
+	public org.compiere.model.I_AD_User getSubstitute() throws RuntimeException
     {
-		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getSubstitute_ID(), get_TrxName());	}
 
 	/** Set Substitute.

@@ -2,6 +2,9 @@ syntax: glob
 build
 
 syntax: regexp
+^.DS_Store$
+^tools/.DS_Store$
+^bin
 ^adempiere$
 ^base/Base\.jar$
 ^extend/Extend\.jar$
@@ -36,10 +39,11 @@ syntax: regexp
 ^lib/posteritaPatches\.jar$
 ^lib/postgresql\.jar$
 ^lib/webui\.war$
-^packages/liberoMFG\.jar$
 ^posterita/posterita/dist$
 ^posterita/posterita/web/WEB-INF/classes$
 ^sqlj/sqlj\.jar$
+^utils_dev/mybuild\.properties$
 ^webCM/deploy$
 ^zkwebui/dist$
 ^zkwebui/WEB-INF/classes$
+^migration/my_processes_post_migration$

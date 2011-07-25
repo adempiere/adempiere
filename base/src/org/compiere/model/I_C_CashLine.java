@@ -75,19 +75,6 @@ public interface I_C_CashLine
 	  */
 	public BigDecimal getAmount();
 
-    /** Column name CashType */
-    public static final String COLUMNNAME_CashType = "CashType";
-
-	/** Set Cash Type.
-	  * Source of Cash
-	  */
-	public void setCashType (String CashType);
-
-	/** Get Cash Type.
-	  * Source of Cash
-	  */
-	public String getCashType();
-
     /** Column name C_BankAccount_ID */
     public static final String COLUMNNAME_C_BankAccount_ID = "C_BankAccount_ID";
 
@@ -101,22 +88,7 @@ public interface I_C_CashLine
 	  */
 	public int getC_BankAccount_ID();
 
-	public I_C_BankAccount getC_BankAccount() throws RuntimeException;
-
-    /** Column name C_Cash_ID */
-    public static final String COLUMNNAME_C_Cash_ID = "C_Cash_ID";
-
-	/** Set Cash Journal.
-	  * Cash Journal
-	  */
-	public void setC_Cash_ID (int C_Cash_ID);
-
-	/** Get Cash Journal.
-	  * Cash Journal
-	  */
-	public int getC_Cash_ID();
-
-	public I_C_Cash getC_Cash() throws RuntimeException;
+	public org.compiere.model.I_C_BankAccount getC_BankAccount() throws RuntimeException;
 
     /** Column name C_CashLine_ID */
     public static final String COLUMNNAME_C_CashLine_ID = "C_CashLine_ID";
@@ -131,6 +103,21 @@ public interface I_C_CashLine
 	  */
 	public int getC_CashLine_ID();
 
+    /** Column name C_Cash_ID */
+    public static final String COLUMNNAME_C_Cash_ID = "C_Cash_ID";
+
+	/** Set Cash Journal.
+	  * Cash Journal
+	  */
+	public void setC_Cash_ID (int C_Cash_ID);
+
+	/** Get Cash Journal.
+	  * Cash Journal
+	  */
+	public int getC_Cash_ID();
+
+	public org.compiere.model.I_C_Cash getC_Cash() throws RuntimeException;
+
     /** Column name C_Charge_ID */
     public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
 
@@ -144,7 +131,7 @@ public interface I_C_CashLine
 	  */
 	public int getC_Charge_ID();
 
-	public I_C_Charge getC_Charge() throws RuntimeException;
+	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException;
 
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
@@ -159,7 +146,7 @@ public interface I_C_CashLine
 	  */
 	public int getC_Currency_ID();
 
-	public I_C_Currency getC_Currency() throws RuntimeException;
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException;
 
     /** Column name C_Invoice_ID */
     public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
@@ -174,7 +161,7 @@ public interface I_C_CashLine
 	  */
 	public int getC_Invoice_ID();
 
-	public I_C_Invoice getC_Invoice() throws RuntimeException;
+	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException;
 
     /** Column name C_Payment_ID */
     public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
@@ -189,7 +176,20 @@ public interface I_C_CashLine
 	  */
 	public int getC_Payment_ID();
 
-	public I_C_Payment getC_Payment() throws RuntimeException;
+	public org.compiere.model.I_C_Payment getC_Payment() throws RuntimeException;
+
+    /** Column name CashType */
+    public static final String COLUMNNAME_CashType = "CashType";
+
+	/** Set Cash Type.
+	  * Source of Cash
+	  */
+	public void setCashType (String CashType);
+
+	/** Get Cash Type.
+	  * Source of Cash
+	  */
+	public String getCashType();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

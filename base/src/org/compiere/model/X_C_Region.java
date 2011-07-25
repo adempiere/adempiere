@@ -30,7 +30,7 @@ public class X_C_Region extends PO implements I_C_Region, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_C_Region (Properties ctx, int C_Region_ID, String trxName)
@@ -72,9 +72,9 @@ public class X_C_Region extends PO implements I_C_Region, I_Persistent
       return sb.toString();
     }
 
-	public I_C_Country getC_Country() throws RuntimeException
+	public org.compiere.model.I_C_Country getC_Country() throws RuntimeException
     {
-		return (I_C_Country)MTable.get(getCtx(), I_C_Country.Table_Name)
+		return (org.compiere.model.I_C_Country)MTable.get(getCtx(), org.compiere.model.I_C_Country.Table_Name)
 			.getPO(getC_Country_ID(), get_TrxName());	}
 
 	/** Set Country.

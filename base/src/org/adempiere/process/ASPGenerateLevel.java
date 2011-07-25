@@ -178,38 +178,43 @@ public class ASPGenerateLevel extends SvrProcess
 			}
 			// tabs
 			for (MTab tab : window.getTabs(true, get_TrxName())) {
-				if (DB.getSQLValueEx(
-						get_TrxName(),
-						"SELECT COUNT(*) FROM ASP_Tab WHERE ASP_Window_ID = ? AND AD_Tab_ID = ?",
-						asp_window_id, tab.getAD_Tab_ID()) < 1) {
-					X_ASP_Tab aspTab = new X_ASP_Tab(getCtx(), 0, get_TrxName());
+				int asp_tab_id = DB.getSQLValueEx(get_TrxName(),
+						"SELECT ASP_Tab_ID FROM ASP_Tab WHERE ASP_Window_ID = ? AND AD_Tab_ID = ?",
+						asp_window_id, tab.getAD_Tab_ID());
+				X_ASP_Tab aspTab = null;
+				if (asp_tab_id < 1) {
+					aspTab = new X_ASP_Tab(getCtx(), 0, get_TrxName());
 					aspTab.setASP_Window_ID(asp_window_id);
 					aspTab.setAD_Tab_ID(tab.getAD_Tab_ID());
 					aspTab.setASP_Status(p_ASP_Status);
 					aspTab.setAllFields(! p_IsGenerateFields);
-					if (aspTab.save())
+					if (aspTab.save()) {
 						noTabs++;
-					// fields
-					for (MField field : tab.getFields(true, get_TrxName())) {
-						if (p_IsGenerateFields) {
-							if (DB.getSQLValueEx(
-									get_TrxName(),
-									"SELECT COUNT(*) FROM ASP_Field WHERE ASP_Tab_ID = ? AND AD_Field_ID = ?",
-									aspTab.getASP_Tab_ID(), field.getAD_Field_ID()) < 1) {
-								X_ASP_Field aspField = new X_ASP_Field(getCtx(), 0, get_TrxName());
-								aspField.setASP_Tab_ID(aspTab.getASP_Tab_ID());
-								aspField.setAD_Field_ID(field.getAD_Field_ID());
-								aspField.setASP_Status(p_ASP_Status);
-								if (aspField.save())
-									noFields++;
-							}
+						asp_tab_id = aspTab.getASP_Tab_ID();
+					}
+				} else {
+					aspTab = new X_ASP_Tab(getCtx(), asp_tab_id, get_TrxName());
+				}
+				// fields
+				for (MField field : tab.getFields(true, get_TrxName())) {
+					if (p_IsGenerateFields) {
+						if (DB.getSQLValueEx(
+								get_TrxName(),
+								"SELECT COUNT(*) FROM ASP_Field WHERE ASP_Tab_ID = ? AND AD_Field_ID = ?",
+								aspTab.getASP_Tab_ID(), field.getAD_Field_ID()) < 1) {
+							X_ASP_Field aspField = new X_ASP_Field(getCtx(), 0, get_TrxName());
+							aspField.setASP_Tab_ID(aspTab.getASP_Tab_ID());
+							aspField.setAD_Field_ID(field.getAD_Field_ID());
+							aspField.setASP_Status(p_ASP_Status);
+							if (aspField.save())
+								noFields++;
 						}
-						// verify if a field is a button and assign permission to the corresponding process
-						MColumn column = MColumn.get(getCtx(), field.getAD_Column_ID());
-						if (column.getAD_Reference_ID() == DisplayType.Button) {
-							if (column.getAD_Process_ID() > 0) {
-								generateProcess(column.getAD_Process_ID());
-							}
+					}
+					// verify if a field is a button and assign permission to the corresponding process
+					MColumn column = MColumn.get(getCtx(), field.getAD_Column_ID());
+					if (column.getAD_Reference_ID() == DisplayType.Button) {
+						if (column.getAD_Process_ID() > 0) {
+							generateProcess(column.getAD_Process_ID());
 						}
 					}
 				}
@@ -254,7 +259,7 @@ public class ASPGenerateLevel extends SvrProcess
 		// Add Process and Parameters
 		MProcess process = new MProcess(getCtx(), p_AD_Process_ID, get_TrxName());
 		int asp_process_id = DB.getSQLValueEx(get_TrxName(),
-				"SELECT COUNT(*) FROM ASP_Process WHERE ASP_Level_ID = ? AND AD_Process_ID = ?",
+				"SELECT ASP_Process_ID FROM ASP_Process WHERE ASP_Level_ID = ? AND AD_Process_ID = ?",
 				p_ASP_Level_ID, process.getAD_Process_ID());
 		X_ASP_Process aspProcess = null;
 		if (asp_process_id < 1) {

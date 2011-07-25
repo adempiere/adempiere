@@ -38,6 +38,8 @@ import org.compiere.util.ValueNamePair;
  */
 public class PosOrderModel extends MOrder {
 
+	private static final long serialVersionUID = 5253837037827124425L;
+	
 	private MPOS m_pos;
 	
 	public PosOrderModel(Properties ctx, int C_Order_ID, String trxName, MPOS pos) {

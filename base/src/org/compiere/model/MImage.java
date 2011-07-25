@@ -16,7 +16,9 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import java.awt.Container;
 import java.awt.Image;
+import java.awt.MediaTracker;
 import java.awt.Toolkit;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -116,7 +118,10 @@ public class MImage extends X_AD_Image
 			{
 				Toolkit tk = Toolkit.getDefaultToolkit();
 				m_image = tk.createImage(data);
-				return m_image;
+				MediaTracker mediaTracker = new MediaTracker(new Container());
+                mediaTracker.addImage(m_image, 0);
+                mediaTracker.waitForID(0);
+                return m_image;
 			}
 			catch (Exception e)
 			{
@@ -132,6 +137,9 @@ public class MImage extends X_AD_Image
 		{
 			Toolkit tk = Toolkit.getDefaultToolkit();
 			m_image = tk.getImage(url);
+			MediaTracker mediaTracker = new MediaTracker(new Container());
+            mediaTracker.addImage(m_image, 0);
+            mediaTracker.waitForID(0);
 			return m_image;
 		}
 		catch (Exception e)

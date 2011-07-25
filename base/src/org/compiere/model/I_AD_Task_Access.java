@@ -75,7 +75,7 @@ public interface I_AD_Task_Access
 	  */
 	public int getAD_Role_ID();
 
-	public I_AD_Role getAD_Role() throws RuntimeException;
+	public org.compiere.model.I_AD_Role getAD_Role() throws RuntimeException;
 
     /** Column name AD_Task_ID */
     public static final String COLUMNNAME_AD_Task_ID = "AD_Task_ID";
@@ -90,7 +90,7 @@ public interface I_AD_Task_Access
 	  */
 	public int getAD_Task_ID();
 
-	public I_AD_Task getAD_Task() throws RuntimeException;
+	public org.compiere.model.I_AD_Task getAD_Task() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

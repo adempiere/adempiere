@@ -32,7 +32,7 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_T_BOMLine (Properties ctx, int T_BOMLine_ID, String trxName)
@@ -73,9 +73,9 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_PInstance getAD_PInstance() throws RuntimeException
+	public org.compiere.model.I_AD_PInstance getAD_PInstance() throws RuntimeException
     {
-		return (I_AD_PInstance)MTable.get(getCtx(), I_AD_PInstance.Table_Name)
+		return (org.compiere.model.I_AD_PInstance)MTable.get(getCtx(), org.compiere.model.I_AD_PInstance.Table_Name)
 			.getPO(getAD_PInstance_ID(), get_TrxName());	}
 
 	/** Set Process Instance.
@@ -101,9 +101,9 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException
+	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException
     {
-		return (I_C_AcctSchema)MTable.get(getCtx(), I_C_AcctSchema.Table_Name)
+		return (org.compiere.model.I_C_AcctSchema)MTable.get(getCtx(), org.compiere.model.I_C_AcctSchema.Table_Name)
 			.getPO(getC_AcctSchema_ID(), get_TrxName());	}
 
 	/** Set Accounting Schema.
@@ -149,6 +149,26 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 		return bd;
 	}
 
+	/** Set Standard Cost.
+		@param CostStandard 
+		Standard Costs
+	  */
+	public void setCostStandard (BigDecimal CostStandard)
+	{
+		set_Value (COLUMNNAME_CostStandard, CostStandard);
+	}
+
+	/** Get Standard Cost.
+		@return Standard Costs
+	  */
+	public BigDecimal getCostStandard () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CostStandard);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	/** CostingMethod AD_Reference_ID=122 */
 	public static final int COSTINGMETHOD_AD_Reference_ID=122;
 	/** Standard Costing = S */
@@ -185,26 +205,6 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 	public String getCostingMethod () 
 	{
 		return (String)get_Value(COLUMNNAME_CostingMethod);
-	}
-
-	/** Set Standard Cost.
-		@param CostStandard 
-		Standard Costs
-	  */
-	public void setCostStandard (BigDecimal CostStandard)
-	{
-		set_Value (COLUMNNAME_CostStandard, CostStandard);
-	}
-
-	/** Get Standard Cost.
-		@return Standard Costs
-	  */
-	public BigDecimal getCostStandard () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CostStandard);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
 	}
 
 	/** Set Current Cost Price.
@@ -360,9 +360,9 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 		return (String)get_Value(COLUMNNAME_Levels);
 	}
 
-	public I_M_CostElement getM_CostElement() throws RuntimeException
+	public org.compiere.model.I_M_CostElement getM_CostElement() throws RuntimeException
     {
-		return (I_M_CostElement)MTable.get(getCtx(), I_M_CostElement.Table_Name)
+		return (org.compiere.model.I_M_CostElement)MTable.get(getCtx(), org.compiere.model.I_M_CostElement.Table_Name)
 			.getPO(getM_CostElement_ID(), get_TrxName());	}
 
 	/** Set Cost Element.
@@ -388,9 +388,9 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_CostType getM_CostType() throws RuntimeException
+	public org.compiere.model.I_M_CostType getM_CostType() throws RuntimeException
     {
-		return (I_M_CostType)MTable.get(getCtx(), I_M_CostType.Table_Name)
+		return (org.compiere.model.I_M_CostType)MTable.get(getCtx(), org.compiere.model.I_M_CostType.Table_Name)
 			.getPO(getM_CostType_ID(), get_TrxName());	}
 
 	/** Set Cost Type.
@@ -416,9 +416,9 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.
@@ -439,34 +439,6 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 	public int getM_Product_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException
-    {
-		return (org.eevolution.model.I_PP_Product_BOM)MTable.get(getCtx(), org.eevolution.model.I_PP_Product_BOM.Table_Name)
-			.getPO(getPP_Product_BOM_ID(), get_TrxName());	}
-
-	/** Set BOM & Formula.
-		@param PP_Product_BOM_ID 
-		BOM & Formula
-	  */
-	public void setPP_Product_BOM_ID (int PP_Product_BOM_ID)
-	{
-		if (PP_Product_BOM_ID < 1) 
-			set_Value (COLUMNNAME_PP_Product_BOM_ID, null);
-		else 
-			set_Value (COLUMNNAME_PP_Product_BOM_ID, Integer.valueOf(PP_Product_BOM_ID));
-	}
-
-	/** Get BOM & Formula.
-		@return BOM & Formula
-	  */
-	public int getPP_Product_BOM_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Product_BOM_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -495,6 +467,34 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 	public int getPP_Product_BOMLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Product_BOMLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException
+    {
+		return (org.eevolution.model.I_PP_Product_BOM)MTable.get(getCtx(), org.eevolution.model.I_PP_Product_BOM.Table_Name)
+			.getPO(getPP_Product_BOM_ID(), get_TrxName());	}
+
+	/** Set BOM & Formula.
+		@param PP_Product_BOM_ID 
+		BOM & Formula
+	  */
+	public void setPP_Product_BOM_ID (int PP_Product_BOM_ID)
+	{
+		if (PP_Product_BOM_ID < 1) 
+			set_Value (COLUMNNAME_PP_Product_BOM_ID, null);
+		else 
+			set_Value (COLUMNNAME_PP_Product_BOM_ID, Integer.valueOf(PP_Product_BOM_ID));
+	}
+
+	/** Get BOM & Formula.
+		@return BOM & Formula
+	  */
+	public int getPP_Product_BOM_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Product_BOM_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

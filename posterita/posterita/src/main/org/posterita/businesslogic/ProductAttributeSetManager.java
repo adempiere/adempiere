@@ -31,7 +31,7 @@ public class ProductAttributeSetManager
     public  static MAttributeSet createAttributeSet(Properties ctx, String name) throws OperationException
     {
         MAttributeSet attributeSet = new MAttributeSet(ctx, 0, null);
-        attributeSet.setMandatoryType(MAttributeSet.MANDATORYTYPE_NotMandatary);
+        attributeSet.setMandatoryType(MAttributeSet.MANDATORYTYPE_NotMandatory);
         attributeSet.setIsSerNo(false);
         attributeSet.setIsSerNoMandatory(false);
         attributeSet.setIsInstanceAttribute(false);

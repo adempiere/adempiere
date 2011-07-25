@@ -72,7 +72,7 @@ public interface I_HR_PayrollConcept
 	/** Get Rule	  */
 	public int getAD_Rule_ID();
 
-	public I_AD_Rule getAD_Rule() throws RuntimeException;
+	public org.compiere.model.I_AD_Rule getAD_Rule() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

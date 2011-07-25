@@ -32,7 +32,7 @@ public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_Fact_Acct_Summary (Properties ctx, int Fact_Acct_Summary_ID, String trxName)
@@ -79,37 +79,9 @@ public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Pe
       return sb.toString();
     }
 
-	public I_C_ElementValue getAccount() throws RuntimeException
+	public org.compiere.model.I_AD_Org getAD_OrgTrx() throws RuntimeException
     {
-		return (I_C_ElementValue)MTable.get(getCtx(), I_C_ElementValue.Table_Name)
-			.getPO(getAccount_ID(), get_TrxName());	}
-
-	/** Set Account.
-		@param Account_ID 
-		Account used
-	  */
-	public void setAccount_ID (int Account_ID)
-	{
-		if (Account_ID < 1) 
-			set_Value (COLUMNNAME_Account_ID, null);
-		else 
-			set_Value (COLUMNNAME_Account_ID, Integer.valueOf(Account_ID));
-	}
-
-	/** Get Account.
-		@return Account used
-	  */
-	public int getAccount_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Account_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_AD_Org getAD_OrgTrx() throws RuntimeException
-    {
-		return (I_AD_Org)MTable.get(getCtx(), I_AD_Org.Table_Name)
+		return (org.compiere.model.I_AD_Org)MTable.get(getCtx(), org.compiere.model.I_AD_Org.Table_Name)
 			.getPO(getAD_OrgTrx_ID(), get_TrxName());	}
 
 	/** Set Trx Organization.
@@ -130,6 +102,34 @@ public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Pe
 	public int getAD_OrgTrx_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_OrgTrx_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_ElementValue getAccount() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
+			.getPO(getAccount_ID(), get_TrxName());	}
+
+	/** Set Account.
+		@param Account_ID 
+		Account used
+	  */
+	public void setAccount_ID (int Account_ID)
+	{
+		if (Account_ID < 1) 
+			set_Value (COLUMNNAME_Account_ID, null);
+		else 
+			set_Value (COLUMNNAME_Account_ID, Integer.valueOf(Account_ID));
+	}
+
+	/** Get Account.
+		@return Account used
+	  */
+	public int getAccount_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Account_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -175,9 +175,9 @@ public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Pe
 		return bd;
 	}
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException
+	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException
     {
-		return (I_C_AcctSchema)MTable.get(getCtx(), I_C_AcctSchema.Table_Name)
+		return (org.compiere.model.I_C_AcctSchema)MTable.get(getCtx(), org.compiere.model.I_C_AcctSchema.Table_Name)
 			.getPO(getC_AcctSchema_ID(), get_TrxName());	}
 
 	/** Set Accounting Schema.
@@ -203,9 +203,9 @@ public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_Activity getC_Activity() throws RuntimeException
+	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException
     {
-		return (I_C_Activity)MTable.get(getCtx(), I_C_Activity.Table_Name)
+		return (org.compiere.model.I_C_Activity)MTable.get(getCtx(), org.compiere.model.I_C_Activity.Table_Name)
 			.getPO(getC_Activity_ID(), get_TrxName());	}
 
 	/** Set Activity.
@@ -231,9 +231,9 @@ public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -259,9 +259,9 @@ public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_Campaign getC_Campaign() throws RuntimeException
+	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException
     {
-		return (I_C_Campaign)MTable.get(getCtx(), I_C_Campaign.Table_Name)
+		return (org.compiere.model.I_C_Campaign)MTable.get(getCtx(), org.compiere.model.I_C_Campaign.Table_Name)
 			.getPO(getC_Campaign_ID(), get_TrxName());	}
 
 	/** Set Campaign.
@@ -287,9 +287,9 @@ public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_Location getC_LocFrom() throws RuntimeException
+	public org.compiere.model.I_C_Location getC_LocFrom() throws RuntimeException
     {
-		return (I_C_Location)MTable.get(getCtx(), I_C_Location.Table_Name)
+		return (org.compiere.model.I_C_Location)MTable.get(getCtx(), org.compiere.model.I_C_Location.Table_Name)
 			.getPO(getC_LocFrom_ID(), get_TrxName());	}
 
 	/** Set Location From.
@@ -315,9 +315,9 @@ public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_Location getC_LocTo() throws RuntimeException
+	public org.compiere.model.I_C_Location getC_LocTo() throws RuntimeException
     {
-		return (I_C_Location)MTable.get(getCtx(), I_C_Location.Table_Name)
+		return (org.compiere.model.I_C_Location)MTable.get(getCtx(), org.compiere.model.I_C_Location.Table_Name)
 			.getPO(getC_LocTo_ID(), get_TrxName());	}
 
 	/** Set Location To.
@@ -343,9 +343,9 @@ public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_Period getC_Period() throws RuntimeException
+	public org.compiere.model.I_C_Period getC_Period() throws RuntimeException
     {
-		return (I_C_Period)MTable.get(getCtx(), I_C_Period.Table_Name)
+		return (org.compiere.model.I_C_Period)MTable.get(getCtx(), org.compiere.model.I_C_Period.Table_Name)
 			.getPO(getC_Period_ID(), get_TrxName());	}
 
 	/** Set Period.
@@ -371,37 +371,9 @@ public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_Project getC_Project() throws RuntimeException
+	public org.compiere.model.I_C_ProjectPhase getC_ProjectPhase() throws RuntimeException
     {
-		return (I_C_Project)MTable.get(getCtx(), I_C_Project.Table_Name)
-			.getPO(getC_Project_ID(), get_TrxName());	}
-
-	/** Set Project.
-		@param C_Project_ID 
-		Financial Project
-	  */
-	public void setC_Project_ID (int C_Project_ID)
-	{
-		if (C_Project_ID < 1) 
-			set_Value (COLUMNNAME_C_Project_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
-	}
-
-	/** Get Project.
-		@return Financial Project
-	  */
-	public int getC_Project_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_ProjectPhase getC_ProjectPhase() throws RuntimeException
-    {
-		return (I_C_ProjectPhase)MTable.get(getCtx(), I_C_ProjectPhase.Table_Name)
+		return (org.compiere.model.I_C_ProjectPhase)MTable.get(getCtx(), org.compiere.model.I_C_ProjectPhase.Table_Name)
 			.getPO(getC_ProjectPhase_ID(), get_TrxName());	}
 
 	/** Set Project Phase.
@@ -427,9 +399,9 @@ public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_ProjectTask getC_ProjectTask() throws RuntimeException
+	public org.compiere.model.I_C_ProjectTask getC_ProjectTask() throws RuntimeException
     {
-		return (I_C_ProjectTask)MTable.get(getCtx(), I_C_ProjectTask.Table_Name)
+		return (org.compiere.model.I_C_ProjectTask)MTable.get(getCtx(), org.compiere.model.I_C_ProjectTask.Table_Name)
 			.getPO(getC_ProjectTask_ID(), get_TrxName());	}
 
 	/** Set Project Task.
@@ -455,9 +427,37 @@ public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_SalesRegion getC_SalesRegion() throws RuntimeException
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
     {
-		return (I_C_SalesRegion)MTable.get(getCtx(), I_C_SalesRegion.Table_Name)
+		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
+			.getPO(getC_Project_ID(), get_TrxName());	}
+
+	/** Set Project.
+		@param C_Project_ID 
+		Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID)
+	{
+		if (C_Project_ID < 1) 
+			set_Value (COLUMNNAME_C_Project_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
+	}
+
+	/** Get Project.
+		@return Financial Project
+	  */
+	public int getC_Project_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_SalesRegion)MTable.get(getCtx(), org.compiere.model.I_C_SalesRegion.Table_Name)
 			.getPO(getC_SalesRegion_ID(), get_TrxName());	}
 
 	/** Set Sales Region.
@@ -483,9 +483,9 @@ public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_SubAcct getC_SubAcct() throws RuntimeException
+	public org.compiere.model.I_C_SubAcct getC_SubAcct() throws RuntimeException
     {
-		return (I_C_SubAcct)MTable.get(getCtx(), I_C_SubAcct.Table_Name)
+		return (org.compiere.model.I_C_SubAcct)MTable.get(getCtx(), org.compiere.model.I_C_SubAcct.Table_Name)
 			.getPO(getC_SubAcct_ID(), get_TrxName());	}
 
 	/** Set Sub Account.
@@ -528,9 +528,9 @@ public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Pe
 		return (Timestamp)get_Value(COLUMNNAME_DateAcct);
 	}
 
-	public I_GL_Budget getGL_Budget() throws RuntimeException
+	public org.compiere.model.I_GL_Budget getGL_Budget() throws RuntimeException
     {
-		return (I_GL_Budget)MTable.get(getCtx(), I_GL_Budget.Table_Name)
+		return (org.compiere.model.I_GL_Budget)MTable.get(getCtx(), org.compiere.model.I_GL_Budget.Table_Name)
 			.getPO(getGL_Budget_ID(), get_TrxName());	}
 
 	/** Set Budget.
@@ -556,9 +556,9 @@ public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Pe
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.
@@ -584,9 +584,9 @@ public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Pe
 		return ii.intValue();
 	}
 
-	public I_PA_ReportCube getPA_ReportCube() throws RuntimeException
+	public org.compiere.model.I_PA_ReportCube getPA_ReportCube() throws RuntimeException
     {
-		return (I_PA_ReportCube)MTable.get(getCtx(), I_PA_ReportCube.Table_Name)
+		return (org.compiere.model.I_PA_ReportCube)MTable.get(getCtx(), org.compiere.model.I_PA_ReportCube.Table_Name)
 			.getPO(getPA_ReportCube_ID(), get_TrxName());	}
 
 	/** Set Report Cube.
@@ -656,9 +656,9 @@ public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Pe
 		return bd;
 	}
 
-	public I_C_ElementValue getUser1() throws RuntimeException
+	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException
     {
-		return (I_C_ElementValue)MTable.get(getCtx(), I_C_ElementValue.Table_Name)
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
 			.getPO(getUser1_ID(), get_TrxName());	}
 
 	/** Set User List 1.
@@ -684,9 +684,9 @@ public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_ElementValue getUser2() throws RuntimeException
+	public org.compiere.model.I_C_ElementValue getUser2() throws RuntimeException
     {
-		return (I_C_ElementValue)MTable.get(getCtx(), I_C_ElementValue.Table_Name)
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
 			.getPO(getUser2_ID(), get_TrxName());	}
 
 	/** Set User List 2.

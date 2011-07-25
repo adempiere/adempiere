@@ -158,7 +158,7 @@ public interface I_M_TransactionAllocation
 	  */
 	public int getM_InOutLine_ID();
 
-	public I_M_InOutLine getM_InOutLine() throws RuntimeException;
+	public org.compiere.model.I_M_InOutLine getM_InOutLine() throws RuntimeException;
 
     /** Column name M_InventoryLine_ID */
     public static final String COLUMNNAME_M_InventoryLine_ID = "M_InventoryLine_ID";
@@ -173,7 +173,7 @@ public interface I_M_TransactionAllocation
 	  */
 	public int getM_InventoryLine_ID();
 
-	public I_M_InventoryLine getM_InventoryLine() throws RuntimeException;
+	public org.compiere.model.I_M_InventoryLine getM_InventoryLine() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -188,7 +188,7 @@ public interface I_M_TransactionAllocation
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name M_ProductionLine_ID */
     public static final String COLUMNNAME_M_ProductionLine_ID = "M_ProductionLine_ID";
@@ -203,7 +203,7 @@ public interface I_M_TransactionAllocation
 	  */
 	public int getM_ProductionLine_ID();
 
-	public I_M_ProductionLine getM_ProductionLine() throws RuntimeException;
+	public org.compiere.model.I_M_ProductionLine getM_ProductionLine() throws RuntimeException;
 
     /** Column name M_Transaction_ID */
     public static final String COLUMNNAME_M_Transaction_ID = "M_Transaction_ID";
@@ -214,7 +214,7 @@ public interface I_M_TransactionAllocation
 	/** Get Inventory Transaction	  */
 	public int getM_Transaction_ID();
 
-	public I_M_Transaction getM_Transaction() throws RuntimeException;
+	public org.compiere.model.I_M_Transaction getM_Transaction() throws RuntimeException;
 
     /** Column name Out_M_InOutLine_ID */
     public static final String COLUMNNAME_Out_M_InOutLine_ID = "Out_M_InOutLine_ID";
@@ -229,7 +229,7 @@ public interface I_M_TransactionAllocation
 	  */
 	public int getOut_M_InOutLine_ID();
 
-	public I_M_InOutLine getOut_M_InOutLine() throws RuntimeException;
+	public org.compiere.model.I_M_InOutLine getOut_M_InOutLine() throws RuntimeException;
 
     /** Column name Out_M_InventoryLine_ID */
     public static final String COLUMNNAME_Out_M_InventoryLine_ID = "Out_M_InventoryLine_ID";
@@ -244,7 +244,7 @@ public interface I_M_TransactionAllocation
 	  */
 	public int getOut_M_InventoryLine_ID();
 
-	public I_M_InventoryLine getOut_M_InventoryLine() throws RuntimeException;
+	public org.compiere.model.I_M_InventoryLine getOut_M_InventoryLine() throws RuntimeException;
 
     /** Column name Out_M_ProductionLine_ID */
     public static final String COLUMNNAME_Out_M_ProductionLine_ID = "Out_M_ProductionLine_ID";
@@ -259,7 +259,7 @@ public interface I_M_TransactionAllocation
 	  */
 	public int getOut_M_ProductionLine_ID();
 
-	public I_M_ProductionLine getOut_M_ProductionLine() throws RuntimeException;
+	public org.compiere.model.I_M_ProductionLine getOut_M_ProductionLine() throws RuntimeException;
 
     /** Column name Out_M_Transaction_ID */
     public static final String COLUMNNAME_Out_M_Transaction_ID = "Out_M_Transaction_ID";
@@ -274,7 +274,7 @@ public interface I_M_TransactionAllocation
 	  */
 	public int getOut_M_Transaction_ID();
 
-	public I_M_Transaction getOut_M_Transaction() throws RuntimeException;
+	public org.compiere.model.I_M_Transaction getOut_M_Transaction() throws RuntimeException;
 
     /** Column name Qty */
     public static final String COLUMNNAME_Qty = "Qty";

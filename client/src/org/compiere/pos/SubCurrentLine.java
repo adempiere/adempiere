@@ -14,8 +14,6 @@
 
 package org.compiere.pos;
 
-import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,33 +25,23 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.logging.Level;
 
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.JViewport;
 import javax.swing.KeyStroke;
-import javax.swing.ListSelectionModel;
-import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import net.miginfocom.swing.MigLayout;
 
 import org.compiere.apps.ADialog;
-import org.compiere.grid.ed.VNumber;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
-import org.compiere.minigrid.MiniTable;
-import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
-import org.compiere.model.MUOM;
 import org.compiere.model.MWarehousePrice;
 import org.compiere.model.PO;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CScrollPane;
-import org.compiere.swing.CTextField;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
@@ -63,10 +51,9 @@ import org.compiere.util.Msg;
 /**
  * Current Line Sub Panel
  * 
- * @author Comunidad de Desarrollo OpenXpertya 
- *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
- *         *Copyright � Jorg Janke
- * @version $Id: SubCurrentLine.java,v 1.3 2004/07/24 04:31:52 jjanke Exp $
+ * @author OpenXpertya
+ * Based on Modified Original Code, Revised and Optimized
+ *         *Copyright Jorg Janke
  * red1 - [2093355 ] Small bugs in OpenXpertya POS
  */
 public class SubCurrentLine extends PosSubPanel implements ActionListener, FocusListener, ListSelectionListener {
@@ -78,12 +65,11 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 	/**
 	 * Constructor
 	 * 
-	 * @param posPanel
-	 *            POS Panel
+	 * @param posPanel POS Panel
 	 */
 	public SubCurrentLine(PosBasePanel posPanel) {
 		super(posPanel);
-	} //	PosSubCurrentLine
+	}
 
 	private CButton f_up;
 	private CButton f_delete;
@@ -171,6 +157,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 		m_table.getColumn(5).setPreferredWidth(75);
 		m_table.getColumn(6).setPreferredWidth(30);
 		m_table.setFocusable(false);
+		m_table.setFillsViewportHeight( true ); //@Trifon
 		m_table.growScrollbars();
 
 		add (scroll, "growx, spanx, growy, pushy, h 200:300:");
@@ -217,9 +204,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 		setPrice(Env.ZERO);
 		
 		enableButtons();
-
-		
-	} //	init
+	} //init
 
 
 	/**
@@ -298,6 +283,12 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 			qt.setQueryData(m_M_PriceList_Version_ID, m_M_Warehouse_ID);
 			qt.setVisible(true);
 			findProduct();
+			
+			int row = m_table.getSelectedRow();
+			if (row < 0) row = 0;
+			m_table.getSelectionModel().setSelectionInterval(row, row);
+			// https://sourceforge.net/tracker/?func=detail&atid=879332&aid=3121975&group_id=176962
+			m_table.scrollRectToVisible(m_table.getCellRect(row, 1, true)); //@Trifon - BF[3121975]
 		}
 		//	Name
 		else if (e.getSource() == f_name)
@@ -305,13 +296,15 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 		if ("Previous".equalsIgnoreCase(e.getActionCommand()))
 		{
 			int rows = m_table.getRowCount();
-			if (rows == 0)
+			if (rows == 0) 
 				return;
 			int row = m_table.getSelectedRow();
 			row--;
 			if (row < 0)
 				row = 0;
 			m_table.getSelectionModel().setSelectionInterval(row, row);
+			// https://sourceforge.net/tracker/?func=detail&atid=879332&aid=3121975&group_id=176962
+			m_table.scrollRectToVisible(m_table.getCellRect(row, 1, true)); //@Trifon - BF[3121975]
 			return;
 		}
 		else if ("Next".equalsIgnoreCase(e.getActionCommand()))
@@ -324,6 +317,8 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 			if (row >= rows)
 				row = rows - 1;
 			m_table.getSelectionModel().setSelectionInterval(row, row);
+			// https://sourceforge.net/tracker/?func=detail&atid=879332&aid=3121975&group_id=176962
+			m_table.scrollRectToVisible(m_table.getCellRect(row, 1, true)); //@Trifon - BF[3121975]
 			return;
 		}
 		//	Delete

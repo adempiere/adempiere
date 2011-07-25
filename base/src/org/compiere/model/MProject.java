@@ -33,11 +33,10 @@ import org.compiere.util.Env;
  */
 public class MProject extends X_C_Project
 {
-
-    /**
-     * 
-     */
-    private static final long serialVersionUID = -1781787100948563589L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2151648902207548617L;
 
 	/**
 	 * 	Create new Project by copying
@@ -279,6 +278,10 @@ public class MProject extends X_C_Project
 		MProjectLine[] fromLines = project.getLines();
 		for (int i = 0; i < fromLines.length; i++)
 		{
+			//BF 3067850 - monhate
+			if((fromLines[i].getC_ProjectPhase_ID() != 0)||
+			   (fromLines[i].getC_ProjectTask_ID() != 0)) continue;
+			
 			MProjectLine line = new MProjectLine (getCtx(), 0, project.get_TrxName());
 			PO.copyValues(fromLines[i], line, getAD_Client_ID(), getAD_Org_ID());
 			line.setC_Project_ID(getC_Project_ID());
@@ -306,7 +309,7 @@ public class MProject extends X_C_Project
 		if (isProcessed() || fromProject == null)
 			return 0;
 		int count = 0;
-		int taskCount = 0;
+		int taskCount = 0, lineCount = 0;
 		//	Get Phases
 		MProjectPhase[] myPhases = getPhases();
 		MProjectPhase[] fromPhases = fromProject.getPhases();
@@ -343,13 +346,15 @@ public class MProject extends X_C_Project
 				{
 					count++;
 					taskCount += toPhase.copyTasksFrom (fromPhases[i]);
+					//BF 3067850 - monhate
+					lineCount += toPhase.copyLinesFrom(fromPhases[i]);
 				}
 			}
 		}
 		if (fromPhases.length != count)
 			log.warning("Count difference - Project=" + fromPhases.length + " <> Saved=" + count);
 
-		return count + taskCount;
+		return count + taskCount + lineCount;
 	}	//	copyPhasesFrom
 
 
@@ -458,5 +463,18 @@ public class MProject extends X_C_Project
 			delete_Tree(MTree_Base.TREETYPE_Project);
 		return success;
 	}	//	afterDelete
+	
+	/**
+	 * 	Return the Invoices Generated for this Project
+	 *	@return invoices
+	 *	@author monhate
+	 */	
+	public MInvoice[] getMInvoices(){
+		StringBuilder sb = new StringBuilder();
+		sb.append(MInvoice.COLUMNNAME_C_Project_ID).append("=?");
+		Query qry = new Query(getCtx(), MInvoice.Table_Name, sb.toString(), get_TrxName());
+		qry.setParameters(getC_Project_ID());		
+		return (MInvoice[]) qry.list().toArray();
+	}
 
 }	//	MProject

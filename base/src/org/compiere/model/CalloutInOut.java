@@ -80,7 +80,11 @@ public class CalloutInOut extends CalloutEngine
 
 			//[ 1867464 ]
 			mTab.setValue("C_BPartner_Location_ID", new Integer(order.getC_BPartner_Location_ID()));
-			mTab.setValue("AD_User_ID", new Integer(order.getAD_User_ID()));
+			
+			if (order.getAD_User_ID() > 0)
+				mTab.setValue("AD_User_ID", new Integer(order.getAD_User_ID()));
+			else
+				mTab.setValue("AD_User_ID", null);
 		}
 		return "";
 	}	//	order
@@ -129,7 +133,11 @@ public class CalloutInOut extends CalloutEngine
 
 			//[ 1867464 ]
 			mTab.setValue("C_BPartner_Location_ID", new Integer(originalReceipt.getC_BPartner_Location_ID()));
-			mTab.setValue("AD_User_ID", new Integer(originalReceipt.getAD_User_ID()));
+
+			if (originalReceipt.getAD_User_ID() > 0)
+				mTab.setValue("AD_User_ID", new Integer(originalReceipt.getAD_User_ID()));
+			else
+				mTab.setValue("AD_User_ID", null);
 		}
 		return "";
 	}	//	rma

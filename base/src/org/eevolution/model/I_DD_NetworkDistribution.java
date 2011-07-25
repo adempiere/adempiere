@@ -166,7 +166,7 @@ public interface I_DD_NetworkDistribution
 	  */
 	public int getM_ChangeNotice_ID();
 
-	public I_M_ChangeNotice getM_ChangeNotice() throws RuntimeException;
+	public org.compiere.model.I_M_ChangeNotice getM_ChangeNotice() throws RuntimeException;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

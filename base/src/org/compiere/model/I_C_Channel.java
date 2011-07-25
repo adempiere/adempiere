@@ -75,7 +75,7 @@ public interface I_C_Channel
 	  */
 	public int getAD_PrintColor_ID();
 
-	public I_AD_PrintColor getAD_PrintColor() throws RuntimeException;
+	public org.compiere.model.I_AD_PrintColor getAD_PrintColor() throws RuntimeException;
 
     /** Column name C_Channel_ID */
     public static final String COLUMNNAME_C_Channel_ID = "C_Channel_ID";

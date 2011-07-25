@@ -147,7 +147,7 @@ public class MPeriod extends X_C_Period
 			+ "FROM C_Period "
 			+ "WHERE C_Year_ID IN "
 				+ "(SELECT C_Year_ID FROM C_Year WHERE C_Calendar_ID= ?)"
-			+ " AND ? BETWEEN TRUNC(StartDate) AND TRUNC(EndDate)"
+			+ " AND ? BETWEEN TRUNC(StartDate, 'DD') AND TRUNC(EndDate, 'DD')"
 			+ " AND IsActive=? AND PeriodType=?";
         
 		PreparedStatement pstmt = null;

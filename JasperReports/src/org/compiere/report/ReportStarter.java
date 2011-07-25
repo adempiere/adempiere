@@ -74,7 +74,7 @@ import org.compiere.model.PrintInfo;
 import org.compiere.model.X_AD_PInstance_Para;
 import org.compiere.print.MPrintFormat;
 import org.compiere.print.PrintUtil;
-import org.compiere.print.ReportCtl;
+import org.compiere.print.ServerReportCtl;
 import org.compiere.process.ClientProcess;
 import org.compiere.process.ProcessCall;
 import org.compiere.process.ProcessInfo;
@@ -472,18 +472,29 @@ public class ReportStarter implements ProcessCall, ClientProcess
 			}
 
             for( int i=0; i<subreports.length; i++) {
-                JasperData subData = processReport( subreports[i]);
-                if (subData.getJasperReport()!=null) {
-                    params.put( subData.getJasperName(), subData.getJasperFile().getAbsolutePath());
-                }
+            	// @Trifon - begin
+            	if (subreports[i].getName().toLowerCase().endsWith(".jasper")
+            			|| subreports[i].getName().toLowerCase().endsWith(".jrxml")
+            		)
+            	{
+                    JasperData subData = processReport( subreports[i] );
+                    if (subData.getJasperReport()!=null) {
+                        params.put( subData.getJasperName(), subData.getJasperFile().getAbsolutePath());
+                    }
+            	} // @Trifon - end
             }
 
             if (Record_ID > 0)
             	params.put("RECORD_ID", new Integer( Record_ID));
 
-            // contribution from Ricardo (ralexsander)
+        	// contribution from Ricardo (ralexsander)
             // in iReports you can 'SELECT' AD_Client_ID, AD_Org_ID and AD_User_ID using only AD_PINSTANCE_ID
             params.put("AD_PINSTANCE_ID", new Integer( AD_PInstance_ID));
+
+            // FR [3123850] - Add continuosly needed parameters to Jasper Starter - Carlos Ruiz - GlobalQSS
+        	params.put("AD_CLIENT_ID", new Integer( Env.getAD_Client_ID(Env.getCtx())));
+        	params.put("AD_ROLE_ID", new Integer( Env.getAD_Role_ID(Env.getCtx())));
+        	params.put("AD_USER_ID", new Integer( Env.getAD_User_ID(Env.getCtx())));
 
         	Language currLang = Env.getLanguage(Env.getCtx());
         	String printerName = null;
@@ -493,13 +504,13 @@ public class ReportStarter implements ProcessCall, ClientProcess
         	// Get print format and print info parameters
         	if (pip!=null) {
         		for (int i=0; i<pip.length; i++) {
-        			if (ReportCtl.PARAM_PRINT_FORMAT.equalsIgnoreCase(pip[i].getParameterName())) {
+        			if (ServerReportCtl.PARAM_PRINT_FORMAT.equalsIgnoreCase(pip[i].getParameterName())) {
         				printFormat = (MPrintFormat)pip[i].getParameter();
         			}
-        			if (ReportCtl.PARAM_PRINT_INFO.equalsIgnoreCase(pip[i].getParameterName())) {
+        			if (ServerReportCtl.PARAM_PRINT_INFO.equalsIgnoreCase(pip[i].getParameterName())) {
         				printInfo = (PrintInfo)pip[i].getParameter();
         			}
-        			if (ReportCtl.PARAM_PRINTER_NAME.equalsIgnoreCase(pip[i].getParameterName())) {
+        			if (ServerReportCtl.PARAM_PRINTER_NAME.equalsIgnoreCase(pip[i].getParameterName())) {
         				printerName = (String)pip[i].getParameter();
         			}
         		}
@@ -552,7 +563,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
             try {
             	conn = getConnection();
                 jasperPrint = JasperFillManager.fillReport( jasperReport, params, conn);
-                if (reportData.isDirectPrint())
+                if (reportData.isDirectPrint() || !processInfo.isPrintPreview())
                 {
                     log.info( "ReportStarter.startProcess print report -" + jasperPrint.getName());
                     //RF 1906632
@@ -566,13 +577,16 @@ public class ReportStarter implements ProcessCall, ClientProcess
                 		PrintRequestAttributeSet prats = new HashPrintRequestAttributeSet();
  
                 		//	add:				copies, job-name, priority
-                		if (printInfo.isDocumentCopy() || printInfo.getCopies() < 1)
+                		if (printInfo == null || printInfo.isDocumentCopy() || printInfo.getCopies() < 1) // @Trifon
                 			prats.add (new Copies(1));
                 		else
                 			prats.add (new Copies(printInfo.getCopies()));
                 		Locale locale = Language.getLoginLanguage().getLocale();
-                		prats.add(new JobName(printFormat.getName() + "_" + pi.getRecord_ID(), locale));
-                		prats.add(PrintUtil.getJobPriority(jasperPrint.getPages().size() , printInfo.getCopies(), true));
+                		// @Trifon
+                		String printFormat_name = printFormat == null ? "" : printFormat.getName();
+                		int numCopies = printInfo == null ? 0 : printInfo.getCopies();
+                		prats.add(new JobName(printFormat_name + "_" + pi.getRecord_ID(), locale));
+                		prats.add(PrintUtil.getJobPriority(jasperPrint.getPages().size(), numCopies, true));
 
                 		// Create print service exporter
                     	JRPrintServiceExporter exporter = new JRPrintServiceExporter();;
@@ -685,8 +699,15 @@ public class ReportStarter implements ProcessCall, ClientProcess
 		ArrayList<File> subreports = new ArrayList<File>();
 		MAttachmentEntry[] entries = attachment.getEntries();
 		for(int i = 0; i < entries.length; i++) {
-			if (!entries[i].getName().equals(name) &&
-				(entries[i].getName().toLowerCase().endsWith(".jrxml") || entries[i].getName().toLowerCase().endsWith(".jasper"))) {
+			// @Trifon
+			if (!entries[i].getName().equals(name) 
+					&& (entries[i].getName().toLowerCase().endsWith(".jrxml") 
+							|| entries[i].getName().toLowerCase().endsWith(".jasper")
+							|| entries[i].getName().toLowerCase().endsWith(".jpg")
+							|| entries[i].getName().toLowerCase().endsWith(".png")
+						)
+			   ) 
+			{
 				File reportFile = getAttachmentEntryFile(entries[i]);
 				if (reportFile != null)
 					subreports.add(reportFile);

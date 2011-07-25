@@ -30,7 +30,7 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_C_ValidCombination (Properties ctx, int C_ValidCombination_ID, String trxName)
@@ -73,9 +73,32 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
       return sb.toString();
     }
 
-	public I_C_ElementValue getAccount() throws RuntimeException
+	/** Set Trx Organization.
+		@param AD_OrgTrx_ID 
+		Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
+	{
+		if (AD_OrgTrx_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_OrgTrx_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
+	}
+
+	/** Get Trx Organization.
+		@return Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_OrgTrx_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_ElementValue getAccount() throws RuntimeException
     {
-		return (I_C_ElementValue)MTable.get(getCtx(), I_C_ElementValue.Table_Name)
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
 			.getPO(getAccount_ID(), get_TrxName());	}
 
 	/** Set Account.
@@ -101,29 +124,6 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
 		return ii.intValue();
 	}
 
-	/** Set Trx Organization.
-		@param AD_OrgTrx_ID 
-		Performing or initiating organization
-	  */
-	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
-	{
-		if (AD_OrgTrx_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_OrgTrx_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
-	}
-
-	/** Get Trx Organization.
-		@return Performing or initiating organization
-	  */
-	public int getAD_OrgTrx_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_OrgTrx_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Alias.
 		@param Alias 
 		Defines an alternate method of indicating an account combination.
@@ -141,9 +141,9 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
 		return (String)get_Value(COLUMNNAME_Alias);
 	}
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException
+	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException
     {
-		return (I_C_AcctSchema)MTable.get(getCtx(), I_C_AcctSchema.Table_Name)
+		return (org.compiere.model.I_C_AcctSchema)MTable.get(getCtx(), org.compiere.model.I_C_AcctSchema.Table_Name)
 			.getPO(getC_AcctSchema_ID(), get_TrxName());	}
 
 	/** Set Accounting Schema.
@@ -169,9 +169,9 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
 		return ii.intValue();
 	}
 
-	public I_C_Activity getC_Activity() throws RuntimeException
+	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException
     {
-		return (I_C_Activity)MTable.get(getCtx(), I_C_Activity.Table_Name)
+		return (org.compiere.model.I_C_Activity)MTable.get(getCtx(), org.compiere.model.I_C_Activity.Table_Name)
 			.getPO(getC_Activity_ID(), get_TrxName());	}
 
 	/** Set Activity.
@@ -197,9 +197,9 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -225,9 +225,9 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
 		return ii.intValue();
 	}
 
-	public I_C_Campaign getC_Campaign() throws RuntimeException
+	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException
     {
-		return (I_C_Campaign)MTable.get(getCtx(), I_C_Campaign.Table_Name)
+		return (org.compiere.model.I_C_Campaign)MTable.get(getCtx(), org.compiere.model.I_C_Campaign.Table_Name)
 			.getPO(getC_Campaign_ID(), get_TrxName());	}
 
 	/** Set Campaign.
@@ -253,9 +253,9 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
 		return ii.intValue();
 	}
 
-	public I_C_Location getC_LocFrom() throws RuntimeException
+	public org.compiere.model.I_C_Location getC_LocFrom() throws RuntimeException
     {
-		return (I_C_Location)MTable.get(getCtx(), I_C_Location.Table_Name)
+		return (org.compiere.model.I_C_Location)MTable.get(getCtx(), org.compiere.model.I_C_Location.Table_Name)
 			.getPO(getC_LocFrom_ID(), get_TrxName());	}
 
 	/** Set Location From.
@@ -281,9 +281,9 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
 		return ii.intValue();
 	}
 
-	public I_C_Location getC_LocTo() throws RuntimeException
+	public org.compiere.model.I_C_Location getC_LocTo() throws RuntimeException
     {
-		return (I_C_Location)MTable.get(getCtx(), I_C_Location.Table_Name)
+		return (org.compiere.model.I_C_Location)MTable.get(getCtx(), org.compiere.model.I_C_Location.Table_Name)
 			.getPO(getC_LocTo_ID(), get_TrxName());	}
 
 	/** Set Location To.
@@ -309,34 +309,9 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
 		return ii.intValue();
 	}
 
-	/** Set Combination.
-		@param Combination 
-		Unique combination of account elements
-	  */
-	public void setCombination (String Combination)
-	{
-		set_ValueNoCheck (COLUMNNAME_Combination, Combination);
-	}
-
-	/** Get Combination.
-		@return Unique combination of account elements
-	  */
-	public String getCombination () 
-	{
-		return (String)get_Value(COLUMNNAME_Combination);
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
     {
-        return new KeyNamePair(get_ID(), getCombination());
-    }
-
-	public I_C_Project getC_Project() throws RuntimeException
-    {
-		return (I_C_Project)MTable.get(getCtx(), I_C_Project.Table_Name)
+		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
 			.getPO(getC_Project_ID(), get_TrxName());	}
 
 	/** Set Project.
@@ -362,9 +337,9 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
 		return ii.intValue();
 	}
 
-	public I_C_SalesRegion getC_SalesRegion() throws RuntimeException
+	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException
     {
-		return (I_C_SalesRegion)MTable.get(getCtx(), I_C_SalesRegion.Table_Name)
+		return (org.compiere.model.I_C_SalesRegion)MTable.get(getCtx(), org.compiere.model.I_C_SalesRegion.Table_Name)
 			.getPO(getC_SalesRegion_ID(), get_TrxName());	}
 
 	/** Set Sales Region.
@@ -390,9 +365,9 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
 		return ii.intValue();
 	}
 
-	public I_C_SubAcct getC_SubAcct() throws RuntimeException
+	public org.compiere.model.I_C_SubAcct getC_SubAcct() throws RuntimeException
     {
-		return (I_C_SubAcct)MTable.get(getCtx(), I_C_SubAcct.Table_Name)
+		return (org.compiere.model.I_C_SubAcct)MTable.get(getCtx(), org.compiere.model.I_C_SubAcct.Table_Name)
 			.getPO(getC_SubAcct_ID(), get_TrxName());	}
 
 	/** Set Sub Account.
@@ -441,6 +416,31 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
 		return ii.intValue();
 	}
 
+	/** Set Combination.
+		@param Combination 
+		Unique combination of account elements
+	  */
+	public void setCombination (String Combination)
+	{
+		set_ValueNoCheck (COLUMNNAME_Combination, Combination);
+	}
+
+	/** Get Combination.
+		@return Unique combination of account elements
+	  */
+	public String getCombination () 
+	{
+		return (String)get_Value(COLUMNNAME_Combination);
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), getCombination());
+    }
+
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
@@ -482,9 +482,9 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
 		return false;
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.
@@ -510,9 +510,9 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
 		return ii.intValue();
 	}
 
-	public I_C_ElementValue getUser1() throws RuntimeException
+	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException
     {
-		return (I_C_ElementValue)MTable.get(getCtx(), I_C_ElementValue.Table_Name)
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
 			.getPO(getUser1_ID(), get_TrxName());	}
 
 	/** Set User List 1.
@@ -538,9 +538,9 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
 		return ii.intValue();
 	}
 
-	public I_C_ElementValue getUser2() throws RuntimeException
+	public org.compiere.model.I_C_ElementValue getUser2() throws RuntimeException
     {
-		return (I_C_ElementValue)MTable.get(getCtx(), I_C_ElementValue.Table_Name)
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
 			.getPO(getUser2_ID(), get_TrxName());	}
 
 	/** Set User List 2.

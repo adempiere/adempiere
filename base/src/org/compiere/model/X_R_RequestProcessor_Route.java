@@ -30,7 +30,7 @@ public class X_R_RequestProcessor_Route extends PO implements I_R_RequestProcess
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_R_RequestProcessor_Route (Properties ctx, int R_RequestProcessor_Route_ID, String trxName)
@@ -73,9 +73,9 @@ public class X_R_RequestProcessor_Route extends PO implements I_R_RequestProcess
       return sb.toString();
     }
 
-	public I_AD_User getAD_User() throws RuntimeException
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
     {
-		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getAD_User_ID(), get_TrxName());	}
 
 	/** Set User/Contact.
@@ -118,9 +118,9 @@ public class X_R_RequestProcessor_Route extends PO implements I_R_RequestProcess
 		return (String)get_Value(COLUMNNAME_Keyword);
 	}
 
-	public I_R_RequestProcessor getR_RequestProcessor() throws RuntimeException
+	public org.compiere.model.I_R_RequestProcessor getR_RequestProcessor() throws RuntimeException
     {
-		return (I_R_RequestProcessor)MTable.get(getCtx(), I_R_RequestProcessor.Table_Name)
+		return (org.compiere.model.I_R_RequestProcessor)MTable.get(getCtx(), org.compiere.model.I_R_RequestProcessor.Table_Name)
 			.getPO(getR_RequestProcessor_ID(), get_TrxName());	}
 
 	/** Set Request Processor.
@@ -169,9 +169,9 @@ public class X_R_RequestProcessor_Route extends PO implements I_R_RequestProcess
 		return ii.intValue();
 	}
 
-	public I_R_RequestType getR_RequestType() throws RuntimeException
+	public org.compiere.model.I_R_RequestType getR_RequestType() throws RuntimeException
     {
-		return (I_R_RequestType)MTable.get(getCtx(), I_R_RequestType.Table_Name)
+		return (org.compiere.model.I_R_RequestType)MTable.get(getCtx(), org.compiere.model.I_R_RequestType.Table_Name)
 			.getPO(getR_RequestType_ID(), get_TrxName());	}
 
 	/** Set Request Type.

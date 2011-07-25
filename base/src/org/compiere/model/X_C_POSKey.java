@@ -32,7 +32,7 @@ public class X_C_POSKey extends PO implements I_C_POSKey, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_C_POSKey (Properties ctx, int C_POSKey_ID, String trxName)
@@ -40,8 +40,8 @@ public class X_C_POSKey extends PO implements I_C_POSKey, I_Persistent
       super (ctx, C_POSKey_ID, trxName);
       /** if (C_POSKey_ID == 0)
         {
-			setC_POSKey_ID (0);
 			setC_POSKeyLayout_ID (0);
+			setC_POSKey_ID (0);
 			setName (null);
 			setSeqNo (0);
 // @SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM C_POSKey WHERE C_POSKeyLayout_ID=@C_POSKeyLayout_ID@
@@ -76,11 +76,6 @@ public class X_C_POSKey extends PO implements I_C_POSKey, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Image getAD_Image() throws RuntimeException
-    {
-		return (I_AD_Image)MTable.get(getCtx(), I_AD_Image.Table_Name)
-			.getPO(getAD_Image_ID(), get_TrxName());	}
-
 	/** Set Image.
 		@param AD_Image_ID 
 		Image or Icon
@@ -104,9 +99,9 @@ public class X_C_POSKey extends PO implements I_C_POSKey, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_PrintColor getAD_PrintColor() throws RuntimeException
+	public org.compiere.model.I_AD_PrintColor getAD_PrintColor() throws RuntimeException
     {
-		return (I_AD_PrintColor)MTable.get(getCtx(), I_AD_PrintColor.Table_Name)
+		return (org.compiere.model.I_AD_PrintColor)MTable.get(getCtx(), org.compiere.model.I_AD_PrintColor.Table_Name)
 			.getPO(getAD_PrintColor_ID(), get_TrxName());	}
 
 	/** Set Print Color.
@@ -132,9 +127,9 @@ public class X_C_POSKey extends PO implements I_C_POSKey, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_PrintFont getAD_PrintFont() throws RuntimeException
+	public org.compiere.model.I_AD_PrintFont getAD_PrintFont() throws RuntimeException
     {
-		return (I_AD_PrintFont)MTable.get(getCtx(), I_AD_PrintFont.Table_Name)
+		return (org.compiere.model.I_AD_PrintFont)MTable.get(getCtx(), org.compiere.model.I_AD_PrintFont.Table_Name)
 			.getPO(getAD_PrintFont_ID(), get_TrxName());	}
 
 	/** Set Print Font.
@@ -155,6 +150,34 @@ public class X_C_POSKey extends PO implements I_C_POSKey, I_Persistent
 	public int getAD_PrintFont_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PrintFont_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_POSKeyLayout getC_POSKeyLayout() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_POSKeyLayout)MTable.get(getCtx(), org.compiere.model.I_C_POSKeyLayout.Table_Name)
+			.getPO(getC_POSKeyLayout_ID(), get_TrxName());	}
+
+	/** Set POS Key Layout.
+		@param C_POSKeyLayout_ID 
+		POS Function Key Layout
+	  */
+	public void setC_POSKeyLayout_ID (int C_POSKeyLayout_ID)
+	{
+		if (C_POSKeyLayout_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_POSKeyLayout_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_POSKeyLayout_ID, Integer.valueOf(C_POSKeyLayout_ID));
+	}
+
+	/** Get POS Key Layout.
+		@return POS Function Key Layout
+	  */
+	public int getC_POSKeyLayout_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_POSKeyLayout_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -183,34 +206,6 @@ public class X_C_POSKey extends PO implements I_C_POSKey, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_POSKeyLayout getC_POSKeyLayout() throws RuntimeException
-    {
-		return (I_C_POSKeyLayout)MTable.get(getCtx(), I_C_POSKeyLayout.Table_Name)
-			.getPO(getC_POSKeyLayout_ID(), get_TrxName());	}
-
-	/** Set POS Key Layout.
-		@param C_POSKeyLayout_ID 
-		POS Function Key Layout
-	  */
-	public void setC_POSKeyLayout_ID (int C_POSKeyLayout_ID)
-	{
-		if (C_POSKeyLayout_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_POSKeyLayout_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_POSKeyLayout_ID, Integer.valueOf(C_POSKeyLayout_ID));
-	}
-
-	/** Get POS Key Layout.
-		@return POS Function Key Layout
-	  */
-	public int getC_POSKeyLayout_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_POSKeyLayout_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
@@ -228,9 +223,9 @@ public class X_C_POSKey extends PO implements I_C_POSKey, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.
@@ -361,9 +356,9 @@ public class X_C_POSKey extends PO implements I_C_POSKey, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_POSKeyLayout getSubKeyLayout() throws RuntimeException
+	public org.compiere.model.I_C_POSKeyLayout getSubKeyLayout() throws RuntimeException
     {
-		return (I_C_POSKeyLayout)MTable.get(getCtx(), I_C_POSKeyLayout.Table_Name)
+		return (org.compiere.model.I_C_POSKeyLayout)MTable.get(getCtx(), org.compiere.model.I_C_POSKeyLayout.Table_Name)
 			.getPO(getSubKeyLayout_ID(), get_TrxName());	}
 
 	/** Set Key Layout.
