@@ -31,7 +31,6 @@ import java.util.regex.Pattern;
 import org.adempiere.exceptions.BPartnerNoBillToAddressException;
 import org.adempiere.exceptions.BPartnerNoShipToAddressException;
 import org.adempiere.exceptions.FillMandatoryException;
-import org.adempiere.process.AllocateSalesOrders;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
@@ -1232,7 +1231,6 @@ public class MOrder extends X_C_Order implements DocAction
 			m_processMsg = "Cannot reserve Stock";
 			return DocAction.STATUS_Invalid;
 		}
-		
 		if (!calculateTaxTotal())
 		{
 			m_processMsg = "Error calculating tax";
@@ -1283,18 +1281,6 @@ public class MOrder extends X_C_Order implements DocAction
 						+ ", @SO_CreditLimit@=" + bp.getSO_CreditLimit();
 					return DocAction.STATUS_Invalid;
 				}
-			}
-		}
-
-		// Check if allocation should be made 
-		if (isSOTrx() && MDocType.DOCSUBTYPESO_StandardOrder.equals(dt.getDocSubTypeSO())) {
-
-			// Run allocation
-			try {
-				AllocateSalesOrders.runSalesOrderAllocation(log, Env.getCtx(), getM_Warehouse_ID(), get_ID(), get_TrxName());
-			} catch (Exception ee) {
-				m_processMsg = "Cannot allocate Stock: " + ee.getMessage();
-				return DocAction.STATUS_Invalid;
 			}
 		}
 		
@@ -1505,7 +1491,7 @@ public class MOrder extends X_C_Order implements DocAction
 						}
 					}
 					//	== Update Storage  
-					//  reserve but don't allocate now if quantity is increased.
+					//  reserve but don't allocate if quantity is increased.
 					//  If quantity is decreased, release allocation.
 					if (reserved.signum()<0) {
 						// Decreasing reservation, check if allocation should be released
@@ -1536,7 +1522,6 @@ public class MOrder extends X_C_Order implements DocAction
 		
 		setVolume(Volume);
 		setWeight(Weight);
-		
 		return true;
 	}	//	reserveStock
 
