@@ -33,7 +33,7 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20100622L;
 
     /** Standard Constructor */
     public X_C_OrderLine (Properties ctx, int C_OrderLine_ID, String trxName)
