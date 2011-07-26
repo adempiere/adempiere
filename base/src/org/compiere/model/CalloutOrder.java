@@ -17,12 +17,10 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
-import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.sql.Types;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -768,25 +766,10 @@ public class CalloutOrder extends CalloutEngine
 					(M_Warehouse_ID, M_Product_ID.intValue(), M_AttributeSetInstance_ID, null);
 				if (available == null)
 					available = Env.ZERO;
-				if (available.signum() == 0 || available.compareTo(QtyOrdered) < 0) {
-					
-					// Update promised date
-					java.sql.Timestamp promisedDate = new java.sql.Timestamp(0);
-					String promisedDatePrecision = getBestPromiseDate(product.get_ID(), promisedDate, M_Warehouse_ID, QtyOrdered.subtract(available));
-					if (promisedDatePrecision!=null) {
-						if (promisedDate!=null && promisedDate.getTime()>0) {
-							java.sql.Timestamp datePromised = new java.sql.Timestamp(promisedDate.getTime());
-							mTab.setValue("DatePromised", datePromised);
-						}
-						mTab.setValue("DatePromisedPrecision", promisedDatePrecision);
-					}
-					if (available.signum() == 0) {
-						mTab.fireDataStatusEEvent ("NoQtyAvailable", "0", false);
-					} else {
-						mTab.fireDataStatusEEvent ("InsufficientQtyAvailable", available.toString(), false);
-					}
-					
-				}
+				if (available.signum() == 0)
+					mTab.fireDataStatusEEvent ("NoQtyAvailable", "0", false);
+				else if (available.compareTo(QtyOrdered) < 0)
+					mTab.fireDataStatusEEvent ("InsufficientQtyAvailable", available.toString(), false);
 				else
 				{
 					Integer C_OrderLine_ID = (Integer)mTab.getValue("C_OrderLine_ID");
@@ -813,39 +796,6 @@ public class CalloutOrder extends CalloutEngine
 		return tax (ctx, WindowNo, mTab, mField, value);
 	}	//	product
 
-	/**
-	 * Returns best promise date and precision for this product and quantity
-	 * 
-	 * @param	productId		The id of the product
-	 * @param	promiseDate		This must be a non-null parameter since the promise
-	 * 							date is returned in this in parameter.
-	 * @param	qty				The quantity we want to check
-	 * @return	Promise date precision. The promise date itself is passed in the 
-	 * 			in-parameter promiseDate (which must not be null).
-	 */
-	public String getBestPromiseDate(int productId, java.sql.Timestamp promiseDate, int warehouseId, BigDecimal qty)  {
-	
-		try {
-			CallableStatement cs;
-			cs = DB.prepareCall("{call get_best_datepromised(?, ?, ?)}");
-			cs.setInt(1, productId);
-			cs.setInt(2, warehouseId);
-			cs.setBigDecimal(3, qty);
-			cs.registerOutParameter(1, Types.DATE);
-			cs.registerOutParameter(2, Types.CHAR);
-			cs.execute();
-			java.sql.Date returnDate = cs.getDate(1);
-			promiseDate.setTime(returnDate!=null ? returnDate.getTime() : 0);
-			String precision = cs.getString(2);
-			return(precision);
-		} catch (SQLException se) {
-			log.warning(se.getMessage());
-			return(null);
-		}
-		
-	}
-	
-	
 	/**
 	 *	Order Line - Charge.
 	 * 		- updates PriceActual from Charge

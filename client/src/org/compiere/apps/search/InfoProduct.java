@@ -1190,7 +1190,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 		}
 
 		//	Orders
-		sql = "SELECT ol.DatePromised, ol.QtyReserved,"
+		sql = "SELECT o.DatePromised, ol.QtyReserved,"
 			+ " productAttribute(ol.M_AttributeSetInstance_ID), ol.M_AttributeSetInstance_ID,"
 			+ " dt.DocBaseType, bp.Name,"
 			+ " dt.PrintName || ' ' || o.DocumentNo As DocumentNo, w.Name "
