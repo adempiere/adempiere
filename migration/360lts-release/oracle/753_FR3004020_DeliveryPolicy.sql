@@ -119,4 +119,3 @@ BEGIN
 	-- RAISE NOTICE 'Default answer, something to deliver';
 	return 1;	
 END;
-/
