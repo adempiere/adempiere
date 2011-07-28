@@ -32,7 +32,7 @@ public class X_C_RevenueRecognition_Run extends PO implements I_C_RevenueRecogni
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_C_RevenueRecognition_Run (Properties ctx, int C_RevenueRecognition_Run_ID, String trxName)

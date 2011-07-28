@@ -30,7 +30,7 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_PA_GoalRestriction (Properties ctx, int PA_GoalRestriction_ID, String trxName)

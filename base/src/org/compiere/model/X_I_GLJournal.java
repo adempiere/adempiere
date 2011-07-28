@@ -33,7 +33,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_I_GLJournal (Properties ctx, int I_GLJournal_ID, String trxName)

@@ -30,7 +30,7 @@ public class X_AD_DesktopWorkbench extends PO implements I_AD_DesktopWorkbench, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_AD_DesktopWorkbench (Properties ctx, int AD_DesktopWorkbench_ID, String trxName)

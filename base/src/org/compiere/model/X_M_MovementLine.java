@@ -32,7 +32,7 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_M_MovementLine (Properties ctx, int M_MovementLine_ID, String trxName)

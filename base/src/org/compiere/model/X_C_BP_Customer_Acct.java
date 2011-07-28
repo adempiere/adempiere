@@ -29,7 +29,7 @@ public class X_C_BP_Customer_Acct extends PO implements I_C_BP_Customer_Acct, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_C_BP_Customer_Acct (Properties ctx, int C_BP_Customer_Acct_ID, String trxName)

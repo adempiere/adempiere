@@ -30,7 +30,7 @@ public class X_PA_ReportColumnSet extends PO implements I_PA_ReportColumnSet, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_PA_ReportColumnSet (Properties ctx, int PA_ReportColumnSet_ID, String trxName)

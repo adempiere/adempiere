@@ -30,7 +30,7 @@ public class X_C_BP_Withholding extends PO implements I_C_BP_Withholding, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_C_BP_Withholding (Properties ctx, int C_BP_Withholding_ID, String trxName)

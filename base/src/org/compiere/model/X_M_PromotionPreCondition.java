@@ -30,7 +30,7 @@ public class X_M_PromotionPreCondition extends PO implements I_M_PromotionPreCon
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_M_PromotionPreCondition (Properties ctx, int M_PromotionPreCondition_ID, String trxName)

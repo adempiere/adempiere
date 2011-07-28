@@ -238,7 +238,6 @@ public interface I_M_PriceList
 	  */
 	public int getPricePrecision();
 
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -254,4 +253,13 @@ public interface I_M_PriceList
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name isPresentForProduct */
+    public static final String COLUMNNAME_isPresentForProduct = "isPresentForProduct";
+
+	/** Set isPresentForProduct	  */
+	public void setisPresentForProduct (boolean isPresentForProduct);
+
+	/** Get isPresentForProduct	  */
+	public boolean isPresentForProduct();
 }

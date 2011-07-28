@@ -33,7 +33,7 @@ public class X_GL_JournalBatch extends PO implements I_GL_JournalBatch, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_GL_JournalBatch (Properties ctx, int GL_JournalBatch_ID, String trxName)

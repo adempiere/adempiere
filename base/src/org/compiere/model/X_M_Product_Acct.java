@@ -29,7 +29,7 @@ public class X_M_Product_Acct extends PO implements I_M_Product_Acct, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_M_Product_Acct (Properties ctx, int M_Product_Acct_ID, String trxName)

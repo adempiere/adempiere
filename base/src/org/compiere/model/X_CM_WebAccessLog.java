@@ -31,7 +31,7 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_CM_WebAccessLog (Properties ctx, int CM_WebAccessLog_ID, String trxName)

@@ -30,7 +30,7 @@ public class X_CM_CStage_Element extends PO implements I_CM_CStage_Element, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_CM_CStage_Element (Properties ctx, int CM_CStage_Element_ID, String trxName)

@@ -30,7 +30,7 @@ public class X_CM_Container_Element extends PO implements I_CM_Container_Element
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_CM_Container_Element (Properties ctx, int CM_Container_Element_ID, String trxName)

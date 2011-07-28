@@ -30,7 +30,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_AD_Package_Exp_Common (Properties ctx, int AD_Package_Exp_Common_ID, String trxName)

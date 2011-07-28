@@ -29,7 +29,7 @@ public class X_CM_AccessListBPGroup extends PO implements I_CM_AccessListBPGroup
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_CM_AccessListBPGroup (Properties ctx, int CM_AccessListBPGroup_ID, String trxName)

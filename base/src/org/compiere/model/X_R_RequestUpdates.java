@@ -29,7 +29,7 @@ public class X_R_RequestUpdates extends PO implements I_R_RequestUpdates, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_R_RequestUpdates (Properties ctx, int R_RequestUpdates_ID, String trxName)

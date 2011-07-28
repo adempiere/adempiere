@@ -31,7 +31,7 @@ public class X_C_Period extends PO implements I_C_Period, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_C_Period (Properties ctx, int C_Period_ID, String trxName)

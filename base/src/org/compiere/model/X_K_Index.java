@@ -31,7 +31,7 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_K_Index (Properties ctx, int K_Index_ID, String trxName)

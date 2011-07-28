@@ -29,7 +29,7 @@ public class X_C_Project_Acct extends PO implements I_C_Project_Acct, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_C_Project_Acct (Properties ctx, int C_Project_Acct_ID, String trxName)

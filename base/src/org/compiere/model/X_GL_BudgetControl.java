@@ -30,7 +30,7 @@ public class X_GL_BudgetControl extends PO implements I_GL_BudgetControl, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_GL_BudgetControl (Properties ctx, int GL_BudgetControl_ID, String trxName)

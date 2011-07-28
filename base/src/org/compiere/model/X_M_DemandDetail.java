@@ -30,7 +30,7 @@ public class X_M_DemandDetail extends PO implements I_M_DemandDetail, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_M_DemandDetail (Properties ctx, int M_DemandDetail_ID, String trxName)

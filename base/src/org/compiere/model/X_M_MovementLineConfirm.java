@@ -32,7 +32,7 @@ public class X_M_MovementLineConfirm extends PO implements I_M_MovementLineConfi
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_M_MovementLineConfirm (Properties ctx, int M_MovementLineConfirm_ID, String trxName)

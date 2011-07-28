@@ -432,7 +432,7 @@ public class PriceListManager
 	   priceList.setName(name);
 	   priceList.setIsActive(isActive);
 	   priceList.setIsMandatory(isMandatory);
-//	   priceList.setisPresentForProduct(isPresentForProduct);
+	   priceList.setisPresentForProduct(isPresentForProduct);
 	   priceList.setAD_Org_ID(orgId);
 	   priceList.setC_Currency_ID(currencyId);
 	   priceList.setIsSOPriceList(isSOPriceList);
@@ -690,7 +690,7 @@ public class PriceListManager
 			productBean.setPriceListVersionId(plv.getM_PriceList_Version_ID());
 			productBean.setIsMandatory(pl.isMandatory());
 			productBean.setIsActive(pl.isActive());
-//			productBean.setIsPresentForProduct(pl.isPresentForProduct());
+			productBean.setIsPresentForProduct(pl.isPresentForProduct());
 			productBean.setIsDefault(pl.isDefault());
 			productBean.setIsTaxIncluded(pl.isTaxIncluded());
 
@@ -842,7 +842,7 @@ public class PriceListManager
 			bean.setName(priceList.getName());
 			bean.setIsMandatory(priceList.isMandatory());
 			bean.setIsDefault(priceList.isDefault());
-//			bean.setIsPresentForProduct(priceList.isPresentForProduct());	
+			bean.setIsPresentForProduct(priceList.isPresentForProduct());	
 			bean.setPriceListId(priceList.getM_PriceList_ID());
 			bean.setOrgName(org.getName());
 			bean.setOrgId(priceList.getAD_Org_ID());
@@ -865,7 +865,7 @@ public class PriceListManager
 		bean.setName(priceList.getName());
 		bean.setIsMandatory(priceList.isMandatory());
 		bean.setIsDefault(priceList.isDefault());
-//		bean.setIsPresentForProduct(priceList.isPresentForProduct());		
+		bean.setIsPresentForProduct(priceList.isPresentForProduct());		
 		bean.setPriceListId(priceList.getM_PriceList_ID());
 		bean.setOrgName(org.getName());
 		bean.setOrgId(priceList.getAD_Org_ID());

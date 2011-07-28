@@ -29,7 +29,7 @@ public class X_AD_AlertProcessorLog extends PO implements I_AD_AlertProcessorLog
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_AD_AlertProcessorLog (Properties ctx, int AD_AlertProcessorLog_ID, String trxName)

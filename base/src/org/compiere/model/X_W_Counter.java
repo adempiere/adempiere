@@ -30,7 +30,7 @@ public class X_W_Counter extends PO implements I_W_Counter, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_W_Counter (Properties ctx, int W_Counter_ID, String trxName)

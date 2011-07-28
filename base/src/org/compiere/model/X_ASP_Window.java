@@ -30,7 +30,7 @@ public class X_ASP_Window extends PO implements I_ASP_Window, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_ASP_Window (Properties ctx, int ASP_Window_ID, String trxName)

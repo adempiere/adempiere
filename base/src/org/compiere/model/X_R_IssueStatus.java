@@ -30,7 +30,7 @@ public class X_R_IssueStatus extends PO implements I_R_IssueStatus, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_R_IssueStatus (Properties ctx, int R_IssueStatus_ID, String trxName)

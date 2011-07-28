@@ -30,7 +30,7 @@ public class X_C_BP_Relation extends PO implements I_C_BP_Relation, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_C_BP_Relation (Properties ctx, int C_BP_Relation_ID, String trxName)

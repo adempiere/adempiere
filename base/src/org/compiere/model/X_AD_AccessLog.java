@@ -30,7 +30,7 @@ public class X_AD_AccessLog extends PO implements I_AD_AccessLog, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_AD_AccessLog (Properties ctx, int AD_AccessLog_ID, String trxName)

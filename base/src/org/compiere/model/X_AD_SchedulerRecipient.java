@@ -30,7 +30,7 @@ public class X_AD_SchedulerRecipient extends PO implements I_AD_SchedulerRecipie
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_AD_SchedulerRecipient (Properties ctx, int AD_SchedulerRecipient_ID, String trxName)

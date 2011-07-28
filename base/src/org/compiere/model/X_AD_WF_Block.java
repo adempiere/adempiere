@@ -30,7 +30,7 @@ public class X_AD_WF_Block extends PO implements I_AD_WF_Block, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_AD_WF_Block (Properties ctx, int AD_WF_Block_ID, String trxName)

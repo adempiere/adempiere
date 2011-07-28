@@ -30,7 +30,7 @@ public class X_C_Job extends PO implements I_C_Job, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_C_Job (Properties ctx, int C_Job_ID, String trxName)

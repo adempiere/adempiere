@@ -33,7 +33,7 @@ public class X_A_Depreciation_Workfile extends PO implements I_A_Depreciation_Wo
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_A_Depreciation_Workfile (Properties ctx, int A_Depreciation_Workfile_ID, String trxName)

@@ -30,7 +30,7 @@ public class X_CM_Media_Server extends PO implements I_CM_Media_Server, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_CM_Media_Server (Properties ctx, int CM_Media_Server_ID, String trxName)

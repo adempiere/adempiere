@@ -30,7 +30,7 @@ public class X_K_IndexStop extends PO implements I_K_IndexStop, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_K_IndexStop (Properties ctx, int K_IndexStop_ID, String trxName)

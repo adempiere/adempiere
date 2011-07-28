@@ -30,7 +30,7 @@ public class X_M_PriceList extends PO implements I_M_PriceList, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_M_PriceList (Properties ctx, int M_PriceList_ID, String trxName)
@@ -337,5 +337,26 @@ public class X_M_PriceList extends PO implements I_M_PriceList, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set isPresentForProduct.
+		@param isPresentForProduct isPresentForProduct	  */
+	public void setisPresentForProduct (boolean isPresentForProduct)
+	{
+		set_Value (COLUMNNAME_isPresentForProduct, Boolean.valueOf(isPresentForProduct));
+	}
+
+	/** Get isPresentForProduct.
+		@return isPresentForProduct	  */
+	public boolean isPresentForProduct () 
+	{
+		Object oo = get_Value(COLUMNNAME_isPresentForProduct);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 }

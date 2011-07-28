@@ -32,7 +32,7 @@ public class X_C_RfQLineQty extends PO implements I_C_RfQLineQty, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_C_RfQLineQty (Properties ctx, int C_RfQLineQty_ID, String trxName)

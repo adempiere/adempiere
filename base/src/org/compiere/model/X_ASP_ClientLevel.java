@@ -29,7 +29,7 @@ public class X_ASP_ClientLevel extends PO implements I_ASP_ClientLevel, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_ASP_ClientLevel (Properties ctx, int ASP_ClientLevel_ID, String trxName)

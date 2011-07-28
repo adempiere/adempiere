@@ -29,7 +29,7 @@ public class X_M_AttributeSetExclude extends PO implements I_M_AttributeSetExclu
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110727L;
 
     /** Standard Constructor */
     public X_M_AttributeSetExclude (Properties ctx, int M_AttributeSetExclude_ID, String trxName)
