@@ -22,6 +22,7 @@ public class FunctionalTestSuite {
 		suite.addTestSuite(TrxTest.class);
 		suite.addTestSuite(MRefListTest.class);
 		suite.addTestSuite(MUOMTest.class);
+		suite.addTestSuite(MTableTest.class);
 		//$JUnit-END$
 		return suite;
 	}
