@@ -1476,13 +1476,11 @@ public class MInOut extends X_M_InOut implements DocAction
 					if (isSOTrx()) {
 						oLine.setQtyDelivered(oLine.getQtyDelivered().subtract(Qty));
 						// Adjust allocated on order line
-						if (isStrictOrder && product!=null && product.isStocked()) 
-							oLine.setQtyAllocated(oLine.getQtyAllocated().add(Qty));
+						if (isStrictOrder && product.isStocked()) oLine.setQtyAllocated(oLine.getQtyAllocated().add(Qty));
 					} else {
 						oLine.setQtyDelivered(oLine.getQtyDelivered().add(Qty));
 						// Adjust allocated on order line
-						if (isStrictOrder && product!=null && product.isStocked()) 
-							oLine.setQtyAllocated(oLine.getQtyAllocated().subtract(Qty));
+						if (isStrictOrder && product.isStocked()) oLine.setQtyAllocated(oLine.getQtyAllocated().subtract(Qty));
 					}
 					oLine.setDateDelivered(getMovementDate());	//	overwrite=last
 				}
