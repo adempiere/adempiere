@@ -55,29 +55,41 @@ public class MaterialReceiptModelValidator implements ModelValidator {
 				MInOutLine line;
 
 				try {
+					String trxName = Trx.createTrxName();
+					Trx trx = Trx.get(trxName, true);
+					Connection conn = trx.getConnection();
 					
 					for (int i=0; i<lines.length; i++) {
 						line = lines[i];
-						allocateProducts(po.get_TrxName(), line);
+						try {
+							allocateProducts(conn, trxName, line);
+							trx.commit();
+							trx.close();
+							conn.close();
+						} catch (SQLException e) {
+							trx.rollback();
+							trx.close();
+							conn.close();
+							return(e.getMessage());
+						}
 					}
 					
 				} catch (SQLException ee) {
-					logger.severe(ee.getMessage());
-					return(ee.getMessage());
+					
 				}
 			}
 		}
 		return "";
 	}
 
-	private void allocateProducts(String trxName, MInOutLine iol) throws SQLException {
+	private void allocateProducts(Connection conn, String trxName, MInOutLine iol) throws SQLException {
 
 		BigDecimal qty = iol.getMovementQty();
 		
 		// Make sure we have a positive amount
 		if (qty.signum()>0) {
 
-			List<MOrderLine> lines = AllocateSalesOrders.getOrderLinesToAllocate(iol.getProduct().get_ID(), trxName);
+			List<MOrderLine> lines = AllocateSalesOrders.getOrderLinesToAllocate(conn, iol.getProduct().get_ID(), trxName);
 			
 			MOrderLine line;
 			BigDecimal receivedQty = iol.getMovementQty();
