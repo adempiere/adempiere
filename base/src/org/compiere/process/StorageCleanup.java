@@ -17,24 +17,16 @@
 package org.compiere.process;
 
 import java.math.BigDecimal;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Vector;
 import java.util.logging.Level;
 
-import org.compiere.model.MClient;
 import org.compiere.model.MLocator;
 import org.compiere.model.MMovement;
 import org.compiere.model.MMovementLine;
-import org.compiere.model.MProduct;
 import org.compiere.model.MRefList;
 import org.compiere.model.MStorage;
-import org.compiere.model.Query;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 
@@ -106,18 +98,15 @@ public class StorageCleanup extends SvrProcess
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		int lines = 0;
-		int allocationLines = 0;
 		try
 		{
-/**			pstmt = DB.prepareStatement (sql, get_TrxName());
+			pstmt = DB.prepareStatement (sql, get_TrxName());
 			pstmt.setInt(1, Env.getAD_Client_ID(getCtx()));
 			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				lines += move (new MStorage(getCtx(), rs, get_TrxName()));
-			} */
-			// Clean up allocations
-			allocationLines = cleanupAllocations();
+			}
  		}
 		catch (Exception e)
 		{
@@ -125,125 +114,13 @@ public class StorageCleanup extends SvrProcess
 		}
 		finally
 		{
-//			DB.close(rs, pstmt);
+			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
 		}
 		
-		return "#" + lines + ", # " + allocationLines + " cleared allocations.";
+		return "#" + lines;
 	}	//	doIt
 
-	/**
-	 * This method cleans up allocations in storages. Currently it only cleans up allocations
-	 * of products where no product is reserved. If there are storages with more than 0 items
-	 * allocated of a specific product and nothing is reserved then the storages' allocation
-	 * is set to zero.
-	 */
-	private int cleanupAllocations() throws Exception {
-		
-		// TODO: Fix this method. It must be able to both clean up allocations that should
-		//		 be zero and storages that are "over allocated".
-		
-		// Find all allocations that should be zero
-		
-		String query = "SELECT M_Product_ID, M_Warehouse_ID FROM M_Product_Stock_v WHERE " + 
-					   "(QtyAllocated>0 and " + 
-					   "(select sum(QtyReserved) from M_Product_Stock_v WHERE M_Product_ID=M_Product_ID and M_Warehouse_ID=M_Warehouse_ID)<=0) " +  
-					   "OR qtyAllocated<0";
-		Statement stmt = DB.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY, get_TrxName());
-		ResultSet rs = null;
-		List<MStorage> storages;
-		int productId, warehouseId;
-		MProduct product;
-		MStorage storage;
-		int adjustmentCounter = 0;
-/**		
-		rs = stmt.executeQuery(query);
-		
-		while(rs.next()) {
-			productId = rs.getInt(1);
-			warehouseId = rs.getInt(2);
-			product = new MProduct(getCtx(),productId,get_TrxName());
-			storages = new Query(getCtx(), MStorage.Table_Name, "M_Product_ID=? and (select M_Warehouse_ID from M_Locator where M_Storage.M_Locator_ID=M_Locator_ID) in (?) and QtyAllocated<>0", get_TrxName())
-											.setParameters(new Object[]{productId, warehouseId})
-											.list();
-			// Iterate through storages
-			for (Iterator<MStorage> it = storages.iterator(); it.hasNext();) {
-				storage = it.next();
-				storage.setQtyAllocated(Env.ZERO);
-				storage.saveEx(get_TrxName());
-				log.info("Ajusted allocation for product " + product.getValue() + " " + product.getName());
-				adjustmentCounter++;
-			}
-		}
-		
-		
-		stmt.close();
-		rs.close();
-*/		
-		BigDecimal allocatedStorage;
-		BigDecimal allocatedOrder;
-		BigDecimal diff;
-		BigDecimal tmpQty;
-//		stmt = DB.createStatement();
-		
-		// Find all storages that have more items allocated than what is allocated on order level
-		query = "SELECT M_Product_ID, M_Warehouse_ID, QtyAllocated, get_allocated_on_order(M_Product_ID, M_Warehouse_ID) FROM M_Product_Stock_v WHERE " + 
-			    "QtyAllocated>(select get_allocated_on_order(M_Product_ID, M_Warehouse_ID))";
-		
-		rs = stmt.executeQuery(query);
-		String where = "M_Product_ID=? and (select M_Warehouse_ID from M_Locator where M_Storage.M_Locator_ID=M_Locator_ID) in (?) and QtyAllocated<>0";
-		String q2 = "select * from M_Storage where " + where;
-		ResultSet rs2;
-		PreparedStatement ps;
-		while(rs.next()) {
-			productId = rs.getInt(1);
-			warehouseId = rs.getInt(2);
-			allocatedStorage = rs.getBigDecimal(3);
-			allocatedOrder = rs.getBigDecimal(4);
-			diff = allocatedStorage.subtract(allocatedOrder);
-			product = new MProduct(getCtx(),productId,get_TrxName());
-			
-			storages = new Query(getCtx(), MStorage.Table_Name, where , get_TrxName())
-											.setParameters(new Object[]{productId, warehouseId})
-											.list();
-			if (storages.size()==0) {
-				Connection conn = DB.getConnectionRO();
-				ps = conn.prepareStatement(q2);
-				ps.setInt(1, productId);
-				ps.setInt(2, warehouseId);
-				rs2 = ps.executeQuery();
-				storages = new Vector<MStorage>();
-				while(rs2.next()) {
-					storage = new MStorage(getCtx(), rs2, get_TrxName());
-					storages.add(storage);
-				}
-				rs2.close();
-				ps.close();
-				conn.close();
-			}
-			
-			// Iterate through storages
-			for (Iterator<MStorage> it = storages.iterator(); it.hasNext() && diff.signum()>0;) {
-				storage = it.next();
-				tmpQty = storage.getQtyAllocated();
-				tmpQty = tmpQty.min(diff);
-				if (tmpQty.signum()!=0) {
-					storage.setQtyAllocated(storage.getQtyAllocated().subtract(tmpQty));
-					storage.saveEx(get_TrxName());
-					// Decrease difference
-					diff = diff.subtract(tmpQty);
-					log.info("Ajusted allocation for product " + product.getValue() + " " + product.getName() + " Changed: " + tmpQty);
-					adjustmentCounter++;
-				}
-			}
-			
-		}
-		
-		DB.close(rs, stmt);
-		return(adjustmentCounter);
-	}
-	
-	
 	/**
 	 * 	Move stock to location
 	 *	@param target target storage
@@ -306,7 +183,6 @@ public class StorageCleanup extends SvrProcess
 
 	/**
 	 * 	Eliminate Reserved/Ordered
-	 *  Allocation is left untouched.
 	 *	@param target target Storage
 	 */
 	private void eliminateReservation(MStorage target)
@@ -341,12 +217,12 @@ public class StorageCleanup extends SvrProcess
 					if (MStorage.add(getCtx(), target.getM_Warehouse_ID(), target.getM_Locator_ID(), 
 						target.getM_Product_ID(), 
 						target.getM_AttributeSetInstance_ID(), target.getM_AttributeSetInstance_ID(),
-						Env.ZERO, reserved.negate(), ordered.negate(), Env.ZERO, get_TrxName()))
+						Env.ZERO, reserved.negate(), ordered.negate(), get_TrxName()))
 					{
 						if (MStorage.add(getCtx(), storage0.getM_Warehouse_ID(), storage0.getM_Locator_ID(), 
 							storage0.getM_Product_ID(), 
 							storage0.getM_AttributeSetInstance_ID(), storage0.getM_AttributeSetInstance_ID(),
-							Env.ZERO, reserved, ordered, Env.ZERO, get_TrxName()))
+							Env.ZERO, reserved, ordered, get_TrxName()))
 							log.info("Reserved=" + reserved + ",Ordered=" + ordered);
 						else
 							log.warning("Failed Storage0 Update");

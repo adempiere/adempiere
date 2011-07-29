@@ -431,7 +431,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 								line.getM_Locator_ID(),
 								line.getM_Product_ID(), 
 								ma.getM_AttributeSetInstance_ID(), 0, 
-								QtyMA.negate(), Env.ZERO, Env.ZERO, Env.ZERO, get_TrxName()))
+								QtyMA.negate(), Env.ZERO, Env.ZERO, get_TrxName()))
 						{
 							m_processMsg = "Cannot correct Inventory (MA)";
 							return DocAction.STATUS_Invalid;
@@ -489,7 +489,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 							line.getM_Locator_ID(),
 							line.getM_Product_ID(), 
 							line.getM_AttributeSetInstance_ID(), 0, 
-							qtyDiff, Env.ZERO, Env.ZERO, Env.ZERO, get_TrxName()))
+							qtyDiff, Env.ZERO, Env.ZERO, get_TrxName()))
 					{
 						m_processMsg = "Cannot correct Inventory (MA)";
 						return DocAction.STATUS_Invalid;

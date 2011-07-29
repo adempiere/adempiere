@@ -689,13 +689,17 @@ public class MDDOrder extends X_DD_Order implements DocAction
 	{
 		if (is_ValueChanged(columnName))
 		{
-			String sql = "UPDATE DD_OrderLine ol"
-				+ " SET " + columnName + " ="
-					+ "(SELECT " + columnName
-					+ " FROM DD_Order o WHERE ol.DD_Order_ID=o.DD_Order_ID) "
-				+ "WHERE DD_Order_ID=" + getDD_Order_ID();
-			int no = DB.executeUpdate(sql, get_TrxName());
-			log.fine(columnName + " Lines -> #" + no);
+		    	final String whereClause = I_DD_Order.COLUMNNAME_DD_Order_ID + "=?";
+		    	List<MDDOrderLine> lines = new Query (getCtx(), I_DD_OrderLine.Table_Name, whereClause, get_TrxName())
+		    	.setParameters(getDD_Order_ID())
+		    	.list();
+		    	
+		    	for (MDDOrderLine line : lines)
+		    	{
+		    	    line.set_ValueOfColumn(columnName, get_Value(columnName));
+		    	    line.saveEx();
+		    	    log.fine(columnName + " Lines -> #" + get_Value(columnName));
+		    	}		    	
 		}		
 	}	//	afterSaveSync
 	
@@ -839,8 +843,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 
 
 	/**
-	 * 	Reserve Inventory. 
-	 *  No allocation is done.
+	 * 	Reserve Inventory.
 	 * 	Counterpart: MMovement.completeIt()
 	 * 	@param lines distribution order lines (ordered by M_Product_ID for deadlock prevention)
 	 * 	@return true if (un) reserved
@@ -883,7 +886,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 					if (!MStorage.add(getCtx(), locator_to.getM_Warehouse_ID(), locator_to.getM_Locator_ID(), 
 						line.getM_Product_ID(), 
 						line.getM_AttributeSetInstance_ID(), line.getM_AttributeSetInstance_ID(),
-						Env.ZERO, Env.ZERO , reserved_ordered , Env.ZERO, get_TrxName()))
+						Env.ZERO, Env.ZERO , reserved_ordered , get_TrxName()))
 					{
 						throw new AdempiereException();
 					}
@@ -891,7 +894,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 					if (!MStorage.add(getCtx(), locator_from.getM_Warehouse_ID(), locator_from.getM_Locator_ID(), 
 						line.getM_Product_ID(), 
 						line.getM_AttributeSetInstanceTo_ID(), line.getM_AttributeSetInstance_ID(),
-						Env.ZERO, reserved_ordered, Env.ZERO , Env.ZERO, get_TrxName()))
+						Env.ZERO, reserved_ordered, Env.ZERO , get_TrxName()))
 					{
 						throw new AdempiereException();
 					}

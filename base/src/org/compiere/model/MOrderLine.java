@@ -27,7 +27,6 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.compiere.util.Trx;
 
 /**
  *  Order Line Model.
@@ -118,7 +117,6 @@ public class MOrderLine extends X_C_OrderLine
 			s_log.fine(retValue.toString());
 		return retValue;
 	}	//	getNotReserved
-	
 	
 	/**	Logger	*/
 	private static CLogger s_log = CLogger.getCLogger (MOrderLine.class);
@@ -575,97 +573,6 @@ public class MOrderLine extends X_C_OrderLine
 		//	We can change
 		return true;
 	}	//	canChangeWarehouse
-
-	/**
-	 * Allocates at most 'toAllocate' number of items.
-	 * If the toAllocate is a negative number material is unallocated.
-	 * 
-	 * @return	Number allocated
-	 */
-	public BigDecimal allocateOnHand(BigDecimal toAllocate, String trxName) {
-
-		if (BigDecimal.ZERO.equals(toAllocate))
-			return BigDecimal.ZERO;
-
-		boolean reverse = toAllocate.signum()<0;
-		
-		BigDecimal allocated = BigDecimal.ZERO;
-		MProduct product = getProduct();
-		boolean fifo = MClient.MMPOLICY_FiFo.equals(product.getMMPolicy());
-		// Find storages
-		MStorage[] storages = MStorage.getWarehouse(
-				getCtx(),
-				getM_Warehouse_ID(), 
-				getM_Product_ID(),
-				getM_AttributeSetInstance_ID(),
-				null,		// TODO: Min Guarantee date 
-				fifo,		// Material policy
-				!reverse,	// Return positive only unless this is a reverse allocation.
-				0,			// Optional Locator ID (check all locators)
-				trxName);
-
-		MStorage s;
-		BigDecimal unallocated;
-		BigDecimal allocate;
-		if (!reverse) {
-			// Normal allocation
-			// Iterate through the storages and allocate
-			for (int i = 0; i<storages.length; i++) {
-				s = storages[i];
-				if (s.getQtyOnHand().signum()<=0) break; // Nothing to allocate.
-				unallocated = s.getQtyOnHand().subtract(s.getQtyAllocated());
-				if (unallocated.signum()>0) {
-					allocate = toAllocate.min(unallocated);	// Allocate all unallocated or max of what we want to allocate.
-					allocated = allocated.add(allocate);
-					// Update storage
-					s.setQtyAllocated(s.getQtyAllocated().add(allocate));
-					s.saveEx(trxName);	// Save storage
-					// Update order line
-					setQtyAllocated(getQtyAllocated().add(allocate));
-					// Adjust toAllocate
-					toAllocate = toAllocate.subtract(allocate);
-					// If what we have allocated now is what we want to allocate then
-					// exit this loop.
-					if (toAllocate.signum()<=0) {
-						break;
-					}
-				}
-			}
-		} else {
-			// Reverse allocation
-			BigDecimal currentlyAllocated;
-			BigDecimal unallocate;
-			BigDecimal toUnallocate = toAllocate.abs();
-			unallocated = BigDecimal.ZERO;
-			for (int i = 0; i<storages.length; i++) {
-				s = storages[i];
-				currentlyAllocated = s.getQtyAllocated();
-				if (currentlyAllocated.signum()>0) {
-					unallocate = currentlyAllocated.min(toUnallocate);
-					unallocated = unallocated.add(unallocate);
-					// Update storage
-					s.setQtyAllocated(currentlyAllocated.subtract(unallocate));
-					s.saveEx(trxName);
-					// Update order line
-					setQtyAllocated(getQtyAllocated().subtract(unallocate));
-					// Adjust toUnallocate
-					toUnallocate = toUnallocate.subtract(unallocate);
-					// If we have unallocated all, exit this loop
-					if (toUnallocate.signum()<=0) {
-						break;
-					}
-				}
-			}
-			allocated = unallocated.negate();
-		}
-		if (allocated.signum()!=0) {
-			// Save order line
-			saveEx(trxName);
-		}
-		
-		return(allocated);
-	}
-	
 	
 	/**
 	 * 	Get C_Project_ID
@@ -1029,18 +936,9 @@ public class MOrderLine extends X_C_OrderLine
 		}
 		if (Env.ZERO.compareTo(getQtyReserved()) != 0)
 		{
-			// Unreserve
-			setQty(BigDecimal.ZERO);
-			((MOrder)getC_Order()).reserveStock(null, new MOrderLine[]{this});
 			//	For PO should be On Order
-			if (!getQtyReserved().equals(BigDecimal.ZERO)) {
-				log.saveError("DeleteError", Msg.translate(getCtx(), "QtyReserved") + "=" + getQtyReserved());
-				return false;
-			}
-		}
-		if (Env.ZERO.compareTo(getQtyAllocated()) != 0) {
-			// Unallocate
-			allocateOnHand(getQtyAllocated().negate(), get_TrxName());
+			log.saveError("DeleteError", Msg.translate(getCtx(), "QtyReserved") + "=" + getQtyReserved());
+			return false;
 		}
 		
 		// UnLink All Requisitions

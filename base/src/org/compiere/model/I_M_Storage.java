@@ -149,19 +149,6 @@ public interface I_M_Storage
 
 	public I_M_Product getM_Product() throws RuntimeException;
 
-    /** Column name QtyAllocated */
-    public static final String COLUMNNAME_QtyAllocated = "QtyAllocated";
-
-	/** Set Qty Allocated.
-	  * Allocated quantity
-	  */
-	public void setQtyAllocated (BigDecimal QtyAllocated);
-
-	/** Get Qty Allocated.
-	  * Allocated quantity
-	  */
-	public BigDecimal getQtyAllocated();
-
     /** Column name QtyOnHand */
     public static final String COLUMNNAME_QtyOnHand = "QtyOnHand";
 

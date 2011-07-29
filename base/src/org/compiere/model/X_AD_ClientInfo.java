@@ -29,7 +29,7 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100622L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_AD_ClientInfo (Properties ctx, int AD_ClientInfo_ID, String trxName)
@@ -433,34 +433,6 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_UOM getC_UOM_Weight() throws RuntimeException
-    {
-		return (I_C_UOM)MTable.get(getCtx(), I_C_UOM.Table_Name)
-			.getPO(getC_UOM_Weight_ID(), get_TrxName());	}
-
-	/** Set UOM for Weight.
-		@param C_UOM_Weight_ID 
-		Standard Unit of Measure for Weight
-	  */
-	public void setC_UOM_Weight_ID (int C_UOM_Weight_ID)
-	{
-		if (C_UOM_Weight_ID < 1) 
-			set_Value (COLUMNNAME_C_UOM_Weight_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_UOM_Weight_ID, Integer.valueOf(C_UOM_Weight_ID));
-	}
-
-	/** Get UOM for Weight.
-		@return Standard Unit of Measure for Weight
-	  */
-	public int getC_UOM_Weight_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_UOM_Weight_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_C_UOM getC_UOM_Volume() throws RuntimeException
     {
 		return (I_C_UOM)MTable.get(getCtx(), I_C_UOM.Table_Name)
@@ -489,28 +461,32 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	/** DeliveryPolicy AD_Reference_ID=53355 */
-	public static final int DELIVERYPOLICY_AD_Reference_ID=53355;
-	/** No Hold = N */
-	public static final String DELIVERYPOLICY_NoHold = "N";
-	/** Strict order = O */
-	public static final String DELIVERYPOLICY_StrictOrder = "O";
-	/** Set Delivery Policy.
-		@param DeliveryPolicy 
-		Delivery Policy
-	  */
-	public void setDeliveryPolicy (String DeliveryPolicy)
-	{
+	public I_C_UOM getC_UOM_Weight() throws RuntimeException
+    {
+		return (I_C_UOM)MTable.get(getCtx(), I_C_UOM.Table_Name)
+			.getPO(getC_UOM_Weight_ID(), get_TrxName());	}
 
-		set_Value (COLUMNNAME_DeliveryPolicy, DeliveryPolicy);
+	/** Set UOM for Weight.
+		@param C_UOM_Weight_ID 
+		Standard Unit of Measure for Weight
+	  */
+	public void setC_UOM_Weight_ID (int C_UOM_Weight_ID)
+	{
+		if (C_UOM_Weight_ID < 1) 
+			set_Value (COLUMNNAME_C_UOM_Weight_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_UOM_Weight_ID, Integer.valueOf(C_UOM_Weight_ID));
 	}
 
-	/** Get Delivery Policy.
-		@return Delivery Policy
+	/** Get UOM for Weight.
+		@return Standard Unit of Measure for Weight
 	  */
-	public String getDeliveryPolicy () 
+	public int getC_UOM_Weight_ID () 
 	{
-		return (String)get_Value(COLUMNNAME_DeliveryPolicy);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_UOM_Weight_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Discount calculated from Line Amounts.

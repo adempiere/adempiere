@@ -32,7 +32,7 @@ public class X_M_Storage extends PO implements I_M_Storage, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100622L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_M_Storage (Properties ctx, int M_Storage_ID, String trxName)
@@ -176,26 +176,6 @@ public class X_M_Storage extends PO implements I_M_Storage, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Qty Allocated.
-		@param QtyAllocated 
-		Allocated quantity
-	  */
-	public void setQtyAllocated (BigDecimal QtyAllocated)
-	{
-		set_Value (COLUMNNAME_QtyAllocated, QtyAllocated);
-	}
-
-	/** Get Qty Allocated.
-		@return Allocated quantity
-	  */
-	public BigDecimal getQtyAllocated () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyAllocated);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
 	}
 
 	/** Set On Hand Quantity.

@@ -160,7 +160,6 @@ public class M_Production_Run extends SvrProcess {
 								MovementQty,
 								Env.ZERO,
 								Env.ZERO,
-								Env.ZERO,
 								get_TrxName()))
 							{
 								raiseError("Cannot correct Inventory", "");
