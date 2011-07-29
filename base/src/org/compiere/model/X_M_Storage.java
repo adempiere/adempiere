@@ -178,26 +178,6 @@ public class X_M_Storage extends PO implements I_M_Storage, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Qty Allocated.
-		@param QtyAllocated 
-		Allocated quantity
-	  */
-	public void setQtyAllocated (BigDecimal QtyAllocated)
-	{
-		set_Value (COLUMNNAME_QtyAllocated, QtyAllocated);
-	}
-
-	/** Get Qty Allocated.
-		@return Allocated quantity
-	  */
-	public BigDecimal getQtyAllocated () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyAllocated);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	/** Set On Hand Quantity.
 		@param QtyOnHand 
 		On Hand Quantity

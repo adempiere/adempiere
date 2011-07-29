@@ -227,65 +227,7 @@ public interface I_AD_ClientInfo
 
 	public org.compiere.model.I_C_Calendar getC_Calendar() throws RuntimeException;
 
-    /** Column name C_UOM_Length_ID */
-    public static final String COLUMNNAME_C_UOM_Length_ID = "C_UOM_Length_ID";
 
-	/** Set UOM for Length.
-	  * Standard Unit of Measure for Length
-	  */
-	public void setC_UOM_Length_ID (int C_UOM_Length_ID);
-
-	/** Get UOM for Length.
-	  * Standard Unit of Measure for Length
-	  */
-	public int getC_UOM_Length_ID();
-
-	public org.compiere.model.I_C_UOM getC_UOM_Length() throws RuntimeException;
-
-    /** Column name C_UOM_Time_ID */
-    public static final String COLUMNNAME_C_UOM_Time_ID = "C_UOM_Time_ID";
-
-	/** Set UOM for Time.
-	  * Standard Unit of Measure for Time
-	  */
-	public void setC_UOM_Time_ID (int C_UOM_Time_ID);
-
-	/** Get UOM for Time.
-	  * Standard Unit of Measure for Time
-	  */
-	public int getC_UOM_Time_ID();
-
-	public org.compiere.model.I_C_UOM getC_UOM_Time() throws RuntimeException;
-
-    /** Column name C_UOM_Volume_ID */
-    public static final String COLUMNNAME_C_UOM_Volume_ID = "C_UOM_Volume_ID";
-
-	/** Set UOM for Volume.
-	  * Standard Unit of Measure for Volume
-	  */
-	public void setC_UOM_Volume_ID (int C_UOM_Volume_ID);
-
-	/** Get UOM for Volume.
-	  * Standard Unit of Measure for Volume
-	  */
-	public int getC_UOM_Volume_ID();
-
-	public org.compiere.model.I_C_UOM getC_UOM_Volume() throws RuntimeException;
-
-    /** Column name C_UOM_Weight_ID */
-    public static final String COLUMNNAME_C_UOM_Weight_ID = "C_UOM_Weight_ID";
-
-	/** Set UOM for Weight.
-	  * Standard Unit of Measure for Weight
-	  */
-	public void setC_UOM_Weight_ID (int C_UOM_Weight_ID);
-
-	/** Get UOM for Weight.
-	  * Standard Unit of Measure for Weight
-	  */
-	public int getC_UOM_Weight_ID();
-
-	public org.compiere.model.I_C_UOM getC_UOM_Weight() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -303,18 +245,65 @@ public interface I_AD_ClientInfo
 	  */
 	public int getCreatedBy();
 
-    /** Column name DeliveryPolicy */
-    public static final String COLUMNNAME_DeliveryPolicy = "DeliveryPolicy";
+    /** Column name C_UOM_Length_ID */
+    public static final String COLUMNNAME_C_UOM_Length_ID = "C_UOM_Length_ID";
 
-	/** Set Delivery Policy.
-	  * Delivery Policy
+	/** Set UOM for Length.
+	  * Standard Unit of Measure for Length
 	  */
-	public void setDeliveryPolicy (String DeliveryPolicy);
+	public void setC_UOM_Length_ID (int C_UOM_Length_ID);
 
-	/** Get Delivery Policy.
-	  * Delivery Policy
+	/** Get UOM for Length.
+	  * Standard Unit of Measure for Length
 	  */
-	public String getDeliveryPolicy();
+	public int getC_UOM_Length_ID();
+
+	public I_C_UOM getC_UOM_Length() throws RuntimeException;
+
+    /** Column name C_UOM_Time_ID */
+    public static final String COLUMNNAME_C_UOM_Time_ID = "C_UOM_Time_ID";
+
+	/** Set UOM for Time.
+	  * Standard Unit of Measure for Time
+	  */
+	public void setC_UOM_Time_ID (int C_UOM_Time_ID);
+
+	/** Get UOM for Time.
+	  * Standard Unit of Measure for Time
+	  */
+	public int getC_UOM_Time_ID();
+
+	public I_C_UOM getC_UOM_Time() throws RuntimeException;
+
+    /** Column name C_UOM_Volume_ID */
+    public static final String COLUMNNAME_C_UOM_Volume_ID = "C_UOM_Volume_ID";
+
+	/** Set UOM for Volume.
+	  * Standard Unit of Measure for Volume
+	  */
+	public void setC_UOM_Volume_ID (int C_UOM_Volume_ID);
+
+	/** Get UOM for Volume.
+	  * Standard Unit of Measure for Volume
+	  */
+	public int getC_UOM_Volume_ID();
+
+	public I_C_UOM getC_UOM_Volume() throws RuntimeException;
+
+    /** Column name C_UOM_Weight_ID */
+    public static final String COLUMNNAME_C_UOM_Weight_ID = "C_UOM_Weight_ID";
+
+	/** Set UOM for Weight.
+	  * Standard Unit of Measure for Weight
+	  */
+	public void setC_UOM_Weight_ID (int C_UOM_Weight_ID);
+
+	/** Get UOM for Weight.
+	  * Standard Unit of Measure for Weight
+	  */
+	public int getC_UOM_Weight_ID();
+
+	public I_C_UOM getC_UOM_Weight() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

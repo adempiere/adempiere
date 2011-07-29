@@ -434,9 +434,11 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 	}
 
 	public org.compiere.model.I_C_UOM getC_UOM_Volume() throws RuntimeException
+
     {
 		return (org.compiere.model.I_C_UOM)MTable.get(getCtx(), org.compiere.model.I_C_UOM.Table_Name)
-			.getPO(getC_UOM_Volume_ID(), get_TrxName());	}
+			.getPO(getC_UOM_Volume_ID(), get_TrxName());	
+	}
 
 	/** Set UOM for Volume.
 		@param C_UOM_Volume_ID 
@@ -464,12 +466,9 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 	public org.compiere.model.I_C_UOM getC_UOM_Weight() throws RuntimeException
     {
 		return (org.compiere.model.I_C_UOM)MTable.get(getCtx(), org.compiere.model.I_C_UOM.Table_Name)
-			.getPO(getC_UOM_Weight_ID(), get_TrxName());	}
+			.getPO(getC_UOM_Weight_ID(), get_TrxName());	
+	}
 
-	/** Set UOM for Weight.
-		@param C_UOM_Weight_ID 
-		Standard Unit of Measure for Weight
-	  */
 	public void setC_UOM_Weight_ID (int C_UOM_Weight_ID)
 	{
 		if (C_UOM_Weight_ID < 1) 
@@ -487,30 +486,6 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** DeliveryPolicy AD_Reference_ID=53355 */
-	public static final int DELIVERYPOLICY_AD_Reference_ID=53355;
-	/** No Hold = N */
-	public static final String DELIVERYPOLICY_NoHold = "N";
-	/** Strict order = O */
-	public static final String DELIVERYPOLICY_StrictOrder = "O";
-	/** Set Delivery Policy.
-		@param DeliveryPolicy 
-		Delivery Policy
-	  */
-	public void setDeliveryPolicy (String DeliveryPolicy)
-	{
-
-		set_Value (COLUMNNAME_DeliveryPolicy, DeliveryPolicy);
-	}
-
-	/** Get Delivery Policy.
-		@return Delivery Policy
-	  */
-	public String getDeliveryPolicy () 
-	{
-		return (String)get_Value(COLUMNNAME_DeliveryPolicy);
 	}
 
 	/** Set Discount calculated from Line Amounts.
