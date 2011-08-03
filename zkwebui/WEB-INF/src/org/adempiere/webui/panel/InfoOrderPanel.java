@@ -37,6 +37,7 @@ import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
 import org.adempiere.webui.event.WTableModelEvent;
+import org.compiere.apps.search.Info_Column;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MLookup;
@@ -92,6 +93,7 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
     private WSearchEditor editorBPartner;
     
     private Checkbox isSoTrx;
+    private Checkbox isDelivered;
 	private Borderlayout layout;
 	private Vbox southBody;
    
@@ -106,7 +108,8 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
         new ColumnInfo(Msg.translate(Env.getCtx(), "ConvertedAmount"), "currencyBase(o.GrandTotal,o.C_Currency_ID,o.DateAcct, o.AD_Client_ID,o.AD_Org_ID)", BigDecimal.class),
         new ColumnInfo(Msg.translate(Env.getCtx(), "IsSOTrx"), "o.IsSOTrx", Boolean.class),
         new ColumnInfo(Msg.translate(Env.getCtx(), "Description"), "o.Description", String.class),
-        new ColumnInfo(Msg.translate(Env.getCtx(), "POReference"), "o.POReference", String.class)
+        new ColumnInfo(Msg.translate(Env.getCtx(), "POReference"), "o.POReference", String.class),
+        new ColumnInfo(Msg.translate(Env.getCtx(), "IsDelivered"), "o.IsDelivered", Boolean.class),
     };
     
     protected InfoOrderPanel(int WindowNo, String value,
@@ -167,6 +170,11 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
         isSoTrx = new Checkbox();
         isSoTrx.setLabel(Msg.translate(Env.getCtx(), "IsSOTrx"));
         isSoTrx.setChecked(!"N".equals(Env.getContext(Env.getCtx(), p_WindowNo, "IsSOTrx")));
+        
+        isDelivered = new Checkbox();
+        isDelivered.setLabel(Msg.translate(Env.getCtx(), "IsDelivered"));
+        isDelivered.setChecked(!"N".equals(Env.getContext(Env.getCtx(), p_WindowNo, "IsDelivered")));
+        
         MLookup lookupBP = MLookupFactory.get(Env.getCtx(), p_WindowNo,
                 0, 3499, DisplayType.Search);
         editorBPartner = new WSearchEditor(lookupBP, Msg.translate(
@@ -208,7 +216,11 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
 		hbox.appendChild(dateFrom);
 		hbox.appendChild(new Label("-"));
 		hbox.appendChild(dateTo);
+		hbox.appendChild(isDelivered);
 		row.appendChild(hbox);
+		
+		
+		
 		
 		row = new Row();
 		row.setSpans("1, 1, 1, 2");
@@ -361,6 +373,7 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
               sql.append(" AND o.GrandTotal BETWEEN ? AND ?");
         }
         sql.append(" AND o.IsSOTrx=?");
+    	sql.append(" AND o.IsDelivered=?");
 
         log.finer(sql.toString());
         return sql.toString();
@@ -476,6 +489,7 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
         }
         
         pstmt.setString(index++, isSoTrx.isChecked() ? "Y" : "N");
+        pstmt.setString(index++, isDelivered.isSelected() ? "Y" : "N");
         
     }
 
