@@ -199,6 +199,7 @@ public class NumberBox extends Div
         Vbox vbox = new Vbox();
 
         char separatorChar = DisplayType.getNumberFormat(DisplayType.Number, Env.getLanguage(Env.getCtx())).getDecimalFormatSymbols().getDecimalSeparator();
+        String separator = Character.toString(separatorChar);
         
         txtCalc = new Textbox();
         txtCalc.setAction("onKeyPress : return calc.validate('" + 
@@ -281,8 +282,10 @@ public class NumberBox extends Div
         Button btnModulo = new Button();
         btnModulo.setWidth("40px");
         btnModulo.setLabel("%");
-        btnModulo.setAction("onClick : calc.append('" + txtCalcId + "', ' % ')");
-
+        btnModulo.setAction("onClick : calc.percentage('" + decimalBox.getId() + "','" 
+                + txtCalcId + "','" + separator + "')");
+        
+        
         Button btn1 = new Button();
         btn1.setWidth("30px");
         btn1.setLabel("1");
@@ -321,7 +324,7 @@ public class NumberBox extends Div
         btn0.setLabel("0");
         btn0.setAction("onClick : calc.append('" + txtCalcId + "', '0')");
 
-        String separator = Character.toString(separatorChar);
+       
         Button btnDot = new Button();
         btnDot.setWidth("30px");
         btnDot.setLabel(separator);
