@@ -19,7 +19,6 @@ package org.compiere.model;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -120,31 +119,6 @@ public class MOrderLine extends X_C_OrderLine
 		return retValue;
 	}	//	getNotReserved
 	
-	
-	/**
-	 * Finds not delivered order lines (ie order lines where not all ordered are delivered)
-	 * for a specific product bound for a specific warehouse.
-	 * 
-	 * @param bPartnerId
-	 * @param productId
-	 * @param isSOTrx
-	 * @return	A list of order lines sorted by Date Ordered (ASC)
-	 */
-	public static List<MOrderLine> findNotDelivered(int bPartnerId, int productId, boolean isSOTrx, String trxName) {
-
-		Query q = new Query(Env.getCtx(), 
-							MOrderLine.Table_Name, 
-							"C_BPartner_ID=? AND M_Product_ID=? AND QtyOrdered>QtyDelivered " + 
-							"AND (SELECT IsSOTrx FROM C_Order WHERE C_Order_ID=C_OrderLine.C_Order_ID)=" +
-							"'" + (isSOTrx ? "Y" : "N") + "'", 
-							trxName)
-								.setOrderBy("DateOrdered")
-								.setParameters(new Object[]{bPartnerId, productId});
-		
-		List<MOrderLine> result = q.list();
-		
-		return(result);
-	}
 	
 	/**	Logger	*/
 	private static CLogger s_log = CLogger.getCLogger (MOrderLine.class);
