@@ -1200,10 +1200,14 @@ public final class Env
 				sb.append(name).append("  ");
 			}
 		}
-		sb.append(getContext(ctx, "#AD_User_Name")).append("@")
+		sb.append(getContext(ctx, "#AD_User_Name")).append(" (")
+			.append(getContext(ctx, "#AD_Role_Name")).append(") @ ")
 			.append(getContext(ctx, "#AD_Client_Name")).append(".")
 			.append(getContext(ctx, "#AD_Org_Name"))
 			.append(" [").append(CConnection.get().toString()).append("]");
+		
+
+		
 		return sb.toString();
 	}	//	getHeader
 
