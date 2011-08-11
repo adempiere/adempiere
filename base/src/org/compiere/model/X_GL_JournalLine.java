@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for GL_JournalLine
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110727L;
+	private static final long serialVersionUID = 20110810L;
 
     /** Standard Constructor */
     public X_GL_JournalLine (Properties ctx, int GL_JournalLine_ID, String trxName)

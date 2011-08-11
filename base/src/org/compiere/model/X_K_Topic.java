@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for K_Topic
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_K_Topic extends PO implements I_K_Topic, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110727L;
+	private static final long serialVersionUID = 20110810L;
 
     /** Standard Constructor */
     public X_K_Topic (Properties ctx, int K_Topic_ID, String trxName)

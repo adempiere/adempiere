@@ -25,14 +25,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for R_RequestAction
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110727L;
+	private static final long serialVersionUID = 20110810L;
 
     /** Standard Constructor */
     public X_R_RequestAction (Properties ctx, int R_RequestAction_ID, String trxName)
@@ -106,7 +106,7 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getAD_User_ID(), get_TrxName());	}
 
-	/** Set User/Contact.
+	/** Set Usuario.
 		@param AD_User_ID 
 		User within the system - Internal or Business Partner Contact
 	  */
@@ -118,7 +118,7 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 			set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
-	/** Get User/Contact.
+	/** Get Usuario.
 		@return User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID () 

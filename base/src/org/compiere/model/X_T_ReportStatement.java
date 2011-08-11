@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for T_ReportStatement
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_T_ReportStatement extends PO implements I_T_ReportStatement, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110727L;
+	private static final long serialVersionUID = 20110810L;
 
     /** Standard Constructor */
     public X_T_ReportStatement (Properties ctx, int T_ReportStatement_ID, String trxName)

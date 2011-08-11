@@ -23,14 +23,14 @@ import java.util.Properties;
 
 /** Generated Model for C_OrgAssignment
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_C_OrgAssignment extends PO implements I_C_OrgAssignment, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110727L;
+	private static final long serialVersionUID = 20110810L;
 
     /** Standard Constructor */
     public X_C_OrgAssignment (Properties ctx, int C_OrgAssignment_ID, String trxName)
@@ -77,7 +77,7 @@ public class X_C_OrgAssignment extends PO implements I_C_OrgAssignment, I_Persis
 		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getAD_User_ID(), get_TrxName());	}
 
-	/** Set User/Contact.
+	/** Set Usuario.
 		@param AD_User_ID 
 		User within the system - Internal or Business Partner Contact
 	  */
@@ -89,7 +89,7 @@ public class X_C_OrgAssignment extends PO implements I_C_OrgAssignment, I_Persis
 			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
-	/** Get User/Contact.
+	/** Get Usuario.
 		@return User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID () 

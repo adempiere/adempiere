@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PP_Order_BOM
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_PP_Order_BOM extends PO implements I_PP_Order_BOM, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110810L;
 
     /** Standard Constructor */
     public X_PP_Order_BOM (Properties ctx, int PP_Order_BOM_ID, String trxName)

@@ -25,14 +25,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for T_BOMLine
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110810L;
 
     /** Standard Constructor */
     public X_T_BOMLine (Properties ctx, int T_BOMLine_ID, String trxName)

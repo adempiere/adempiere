@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for AD_ClientInfo
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110727L;
+	private static final long serialVersionUID = 20110810L;
 
     /** Standard Constructor */
     public X_AD_ClientInfo (Properties ctx, int AD_ClientInfo_ID, String trxName)
@@ -434,11 +434,9 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 	}
 
 	public org.compiere.model.I_C_UOM getC_UOM_Volume() throws RuntimeException
-
     {
 		return (org.compiere.model.I_C_UOM)MTable.get(getCtx(), org.compiere.model.I_C_UOM.Table_Name)
-			.getPO(getC_UOM_Volume_ID(), get_TrxName());	
-	}
+			.getPO(getC_UOM_Volume_ID(), get_TrxName());	}
 
 	/** Set UOM for Volume.
 		@param C_UOM_Volume_ID 
@@ -466,9 +464,12 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 	public org.compiere.model.I_C_UOM getC_UOM_Weight() throws RuntimeException
     {
 		return (org.compiere.model.I_C_UOM)MTable.get(getCtx(), org.compiere.model.I_C_UOM.Table_Name)
-			.getPO(getC_UOM_Weight_ID(), get_TrxName());	
-	}
+			.getPO(getC_UOM_Weight_ID(), get_TrxName());	}
 
+	/** Set UOM for Weight.
+		@param C_UOM_Weight_ID 
+		Standard Unit of Measure for Weight
+	  */
 	public void setC_UOM_Weight_ID (int C_UOM_Weight_ID)
 	{
 		if (C_UOM_Weight_ID < 1) 

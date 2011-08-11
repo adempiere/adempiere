@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for AD_TreeNodeMM
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_AD_TreeNodeMM extends PO implements I_AD_TreeNodeMM, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110727L;
+	private static final long serialVersionUID = 20110810L;
 
     /** Standard Constructor */
     public X_AD_TreeNodeMM (Properties ctx, int AD_TreeNodeMM_ID, String trxName)

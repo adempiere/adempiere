@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for EXP_FormatLine
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_EXP_FormatLine 
 {
@@ -62,7 +62,7 @@ public interface I_EXP_FormatLine
 	  */
 	public int getAD_Column_ID();
 
-	public I_AD_Column getAD_Column() throws RuntimeException;
+	public org.compiere.model.I_AD_Column getAD_Column() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -90,7 +90,7 @@ public interface I_EXP_FormatLine
 	  */
 	public int getAD_Reference_ID();
 
-	public I_AD_Reference getAD_Reference() throws RuntimeException;
+	public org.compiere.model.I_AD_Reference getAD_Reference() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -145,6 +145,15 @@ public interface I_EXP_FormatLine
 
 	public org.compiere.model.I_EXP_Format getEXP_EmbeddedFormat() throws RuntimeException;
 
+    /** Column name EXP_FormatLine_ID */
+    public static final String COLUMNNAME_EXP_FormatLine_ID = "EXP_FormatLine_ID";
+
+	/** Set Format Line	  */
+	public void setEXP_FormatLine_ID (int EXP_FormatLine_ID);
+
+	/** Get Format Line	  */
+	public int getEXP_FormatLine_ID();
+
     /** Column name EXP_Format_ID */
     public static final String COLUMNNAME_EXP_Format_ID = "EXP_Format_ID";
 
@@ -155,15 +164,6 @@ public interface I_EXP_FormatLine
 	public int getEXP_Format_ID();
 
 	public org.compiere.model.I_EXP_Format getEXP_Format() throws RuntimeException;
-
-    /** Column name EXP_FormatLine_ID */
-    public static final String COLUMNNAME_EXP_FormatLine_ID = "EXP_FormatLine_ID";
-
-	/** Set Format Line	  */
-	public void setEXP_FormatLine_ID (int EXP_FormatLine_ID);
-
-	/** Get Format Line	  */
-	public int getEXP_FormatLine_ID();
 
     /** Column name Help */
     public static final String COLUMNNAME_Help = "Help";

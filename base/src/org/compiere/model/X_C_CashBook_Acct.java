@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for C_CashBook_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_C_CashBook_Acct extends PO implements I_C_CashBook_Acct, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110727L;
+	private static final long serialVersionUID = 20110810L;
 
     /** Standard Constructor */
     public X_C_CashBook_Acct (Properties ctx, int C_CashBook_Acct_ID, String trxName)

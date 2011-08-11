@@ -22,15 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for AD_OrgInfo
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110727L;
-
+	private static final long serialVersionUID = 20110810L;
 
     /** Standard Constructor */
     public X_AD_OrgInfo (Properties ctx, int AD_OrgInfo_ID, String trxName)
@@ -171,8 +170,6 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_DUNS);
 	}
-
-	
 
 	public org.compiere.model.I_M_Warehouse getDropShip_Warehouse() throws RuntimeException
     {
