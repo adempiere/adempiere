@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_ElementValue
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC
+ *  @version 360LTS.013
  */
 public interface I_I_ElementValue 
 {
@@ -40,42 +40,6 @@ public interface I_I_ElementValue
     BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
-
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
-
-    /** Column name AD_Column_ID */
-    public static final String COLUMNNAME_AD_Column_ID = "AD_Column_ID";
-
-	/** Set Column.
-	  * Column in the table
-	  */
-	public void setAD_Column_ID (int AD_Column_ID);
-
-	/** Get Column.
-	  * Column in the table
-	  */
-	public int getAD_Column_ID();
-
-	public org.compiere.model.I_AD_Column getAD_Column() throws RuntimeException;
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
 
     /** Column name AccountSign */
     public static final String COLUMNNAME_AccountSign = "AccountSign";
@@ -103,20 +67,56 @@ public interface I_I_ElementValue
 	  */
 	public String getAccountType();
 
-    /** Column name C_ElementValue_ID */
-    public static final String COLUMNNAME_C_ElementValue_ID = "C_ElementValue_ID";
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
-	/** Set Account Element.
-	  * Account Element
+	/** Get Client.
+	  * Client/Tenant for this installation.
 	  */
-	public void setC_ElementValue_ID (int C_ElementValue_ID);
+	public int getAD_Client_ID();
 
-	/** Get Account Element.
-	  * Account Element
+    /** Column name AD_Column_ID */
+    public static final String COLUMNNAME_AD_Column_ID = "AD_Column_ID";
+
+	/** Set Column.
+	  * Column in the table
 	  */
-	public int getC_ElementValue_ID();
+	public void setAD_Column_ID (int AD_Column_ID);
 
-	public org.compiere.model.I_C_ElementValue getC_ElementValue() throws RuntimeException;
+	/** Get Column.
+	  * Column in the table
+	  */
+	public int getAD_Column_ID();
+
+	public I_AD_Column getAD_Column() throws RuntimeException;
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organisation.
+	  * Organisational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organisation.
+	  * Organisational entity within client
+	  */
+	public int getAD_Org_ID();
+
+    /** Column name C_Charge_ID */
+    public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
+
+	/** Set Charge.
+	  * Additional document charges
+	  */
+	public void setC_Charge_ID (int C_Charge_ID);
+
+	/** Get Charge.
+	  * Additional document charges
+	  */
+	public int getC_Charge_ID();
+
+	public I_C_Charge getC_Charge() throws RuntimeException;
 
     /** Column name C_Element_ID */
     public static final String COLUMNNAME_C_Element_ID = "C_Element_ID";
@@ -131,7 +131,22 @@ public interface I_I_ElementValue
 	  */
 	public int getC_Element_ID();
 
-	public org.compiere.model.I_C_Element getC_Element() throws RuntimeException;
+	public I_C_Element getC_Element() throws RuntimeException;
+
+    /** Column name C_ElementValue_ID */
+    public static final String COLUMNNAME_C_ElementValue_ID = "C_ElementValue_ID";
+
+	/** Set Account Element.
+	  * Account Element
+	  */
+	public void setC_ElementValue_ID (int C_ElementValue_ID);
+
+	/** Get Account Element.
+	  * Account Element
+	  */
+	public int getC_ElementValue_ID();
+
+	public I_C_ElementValue getC_ElementValue() throws RuntimeException;
 
     /** Column name ChargeName */
     public static final String COLUMNNAME_ChargeName = "ChargeName";
@@ -161,6 +176,21 @@ public interface I_I_ElementValue
 	  * User who created this records
 	  */
 	public int getCreatedBy();
+
+    /** Column name C_TaxCategory_ID */
+    public static final String COLUMNNAME_C_TaxCategory_ID = "C_TaxCategory_ID";
+
+	/** Set Tax Category.
+	  * Tax Category
+	  */
+	public void setC_TaxCategory_ID (int C_TaxCategory_ID);
+
+	/** Get Tax Category.
+	  * Tax Category
+	  */
+	public int getC_TaxCategory_ID();
+
+	public I_C_TaxCategory getC_TaxCategory() throws RuntimeException;
 
     /** Column name Default_Account */
     public static final String COLUMNNAME_Default_Account = "Default_Account";
@@ -305,7 +335,7 @@ public interface I_I_ElementValue
 	  */
 	public int getParentElementValue_ID();
 
-	public org.compiere.model.I_C_ElementValue getParentElementValue() throws RuntimeException;
+	public I_C_ElementValue getParentElementValue() throws RuntimeException;
 
     /** Column name ParentValue */
     public static final String COLUMNNAME_ParentValue = "ParentValue";
@@ -393,19 +423,6 @@ public interface I_I_ElementValue
 
 	/** Get Process Now	  */
 	public boolean isProcessing();
-
-    /** Column name TaxCategoryName */
-    public static final String COLUMNNAME_TaxCategoryName = "TaxCategoryName";
-
-	/** Set Tax Category Name.
-	  * Name of tax category
-	  */
-	public void setTaxCategoryName (String TaxCategoryName);
-
-	/** Get Tax Category Name.
-	  * Name of tax category
-	  */
-	public String getTaxCategoryName();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

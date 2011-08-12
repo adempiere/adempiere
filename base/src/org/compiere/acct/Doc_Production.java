@@ -292,7 +292,7 @@ public class Doc_Production extends Doc
 							as.get_ID()).getP_RateVariance_Acct();
 					MAccount base = MAccount.get(getCtx(), validCombination);
 					MAccount account = MAccount.get(getCtx(),as.getAD_Client_ID(),as.getAD_Org_ID(),
-							as.get_ID(), base.getAccount_ID(), 0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+							as.get_ID(), base.getAccount_ID(), 0,0,0,0,0,0,0,0,0,0,0,0,0,0, null);
 					// 
 					// only post variance if it's not zero 
 					if (variance.compareTo(new BigDecimal("0.00")) != 0) 

@@ -357,7 +357,7 @@ public class Charge
             defaultAccount.getUser1_ID(),
             defaultAccount.getUser2_ID(),
             defaultAccount.getUserElement1_ID(),
-            defaultAccount.getUserElement2_ID());
+            defaultAccount.getUserElement2_ID(), null);
 
         return account;
     }

@@ -228,7 +228,7 @@ public class AcctSchemaCopyAcct extends SvrProcess
 			M_Product_ID, C_BPartner_ID, AD_OrgTrx_ID,
 			C_LocFrom_ID, C_LocTo_ID, C_SalesRegion_ID, 
 			C_Project_ID, C_Campaign_ID, C_Activity_ID,
-			User1_ID, User2_ID, UserElement1_ID, UserElement2_ID);
+			User1_ID, User2_ID, UserElement1_ID, UserElement2_ID, null);
 	}	//	createAccount
 	
 	

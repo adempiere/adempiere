@@ -1027,7 +1027,7 @@ public final class VAccountDialog extends CDialog
 			M_Product_ID, C_BPartner_ID, AD_OrgTrx_ID,
 			C_LocFrom_ID, C_LocTo_ID, C_SRegion_ID, 
 			C_Project_ID, C_Campaign_ID, C_Activity_ID, 
-			User1_ID, User2_ID, 0, 0);
+			User1_ID, User2_ID, 0, 0, null);
 		if (acct != null && acct.get_ID() == 0)
 			acct.saveEx();
 
