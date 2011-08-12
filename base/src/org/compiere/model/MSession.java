@@ -362,9 +362,11 @@ public class MSession extends X_AD_Session
 		m_migration.setName(MSysConfig.getValue("DICTIONARY_ID_COMMENTS"));
 		boolean dict = Ini.isPropertyBool(Ini.P_ADEMPIERESYS);
 		m_migration.setEntityType( dict ? "D" : "U");
-		String sql = "SELECT max(SeqNo)+1 FROM AD_Migration";
+		String sql = "SELECT max(SeqNo)+10 FROM AD_Migration";
 		int seqNo = DB.getSQLValue(null, sql);
 		m_migration.setSeqNo(seqNo);
+		m_migration.setStatusCode(MMigration.STATUSCODE_Applied);
+		m_migration.setApply(MMigration.APPLY_Rollback);
 		m_migration.saveEx();
 	}
 

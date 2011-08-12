@@ -132,9 +132,14 @@ public class MMigration extends X_AD_Migration {
 	}
 	
 
+	public static boolean updated = false;
 	
 	public static int fromXmlNode(Properties ctx, Element element, String trx)
 	{
+		
+		if ( !updated )
+			update();
+		
 		if ( !"Migration".equals(element.getLocalName() ) )
 				return 0;
 		
@@ -178,6 +183,26 @@ public class MMigration extends X_AD_Migration {
 		return mmigration.getAD_Migration_ID();
 	}
 	
+	private static void update() {
+		
+		String sql = "UPDATE AD_Column SET FieldLength = 999999999 WHERE AD_Column_ID IN (57874, 57873) " +
+				"AND FieldLength = 2000";
+		int count = DB.executeUpdateEx(sql, null);
+		
+		if ( count > 0 )
+		{
+			MColumn col = new MColumn(Env.getCtx(), 57874, null);
+			col.syncDatabase();
+
+			col = new MColumn(Env.getCtx(), 57873, null);
+			col.syncDatabase();
+			
+			updated = true;
+		}
+			
+		
+	}
+
 	public Node toXmlNode(Document document) throws ParserConfigurationException, SAXException {
 
 		Element migration = document.createElement("Migration");
@@ -212,6 +237,8 @@ public class MMigration extends X_AD_Migration {
 		String updateSql = "UPDATE AD_MigrationStep SET AD_Migration_ID = ?, SeqNo = SeqNo + ? WHERE AD_Migration_ID = ? ";
 		Object[] params = new Object[] { getAD_Migration_ID(), lastSeq, from.getAD_Migration_ID() };
 		DB.executeUpdateEx(updateSql, params, get_TrxName());
+		
+		from.deleteEx(false, get_TrxName());
 	}
 	
 	private class StepRunner implements TrxRunnable {

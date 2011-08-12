@@ -98,6 +98,8 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		setAction(event);
 		setAD_Table_ID(po.get_Table_ID());
 		setRecord_ID(po.get_ID());
+		setStatusCode(MMigrationStep.STATUSCODE_Applied);
+		setApply(MMigrationStep.APPLY_Rollback);
 		
 		String sql = "SELECT COALESCE(max(SeqNo),0) + 10 FROM AD_MigrationStep"
 			+ " WHERE AD_Migration_ID = " + getAD_Migration_ID();
@@ -308,7 +310,6 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			if ( po == null && getAction().equals(ACTION_Insert) )
 			{
 				po = table.getPO(0, get_TrxName());
-				// TODO: only works for single key tables
 				po.set_ValueNoCheck(po.get_KeyColumns()[0], getRecord_ID() );
 				po.setIsAssignedID(true);
 			}
@@ -323,7 +324,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 				MColumn column = (MColumn) data.getAD_Column();
 
 				// backup existing value
-				if ( getAction().equals(ACTION_Delete) || getAction().equals(ACTION_Update))
+				if ( !po.is_new() )
 				{
 					Object backupValue = po.get_Value(column.getColumnName());
 					if ( backupValue == null )
@@ -453,11 +454,11 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		catch (Exception e) {
 			setErrorMsg(e.toString());
 			setStatusCode(MMigrationStep.STATUSCODE_Failed);
-			setApply(MMigrationStep.APPLY_Apply);
+			setApply(MMigrationStep.APPLY_Rollback);
 			throw new AdempiereException("Migration step failed.", e);
 		}
 		setStatusCode(MMigrationStep.STATUSCODE_Unapplied);
-		setApply(MMigrationStep.APPLY_Rollback);
+		setApply(MMigrationStep.APPLY_Apply);
 		setErrorMsg(null);
 		saveEx();
 		return "Rolled back";
@@ -473,11 +474,11 @@ public class MMigrationStep extends X_AD_MigrationStep {
 	
 	private List<MMigrationData> getKeyData() {
 		String where = "AD_MigrationStep_ID = " + getAD_MigrationStep_ID();
-		where += " AND EXIST (SELECT 1 FROM AD_Column c " +
+		where += " AND EXISTS (SELECT 1 FROM AD_Column c " +
 				" WHERE c.AD_Column_ID = AD_MigrationData.AD_Column_ID" +
-				" AND c.isKey = 'Y')";
+				" AND (c.isKey = 'Y' OR c.isParent = 'Y'))";
 		
-		return m_migrationData = MTable.get(getCtx(), MMigrationData.Table_ID)
+		return MTable.get(getCtx(), MMigrationData.Table_ID)
 		.createQuery(where, get_TrxName())
 		.setOnlyActiveRecords(true)
 		.list();
@@ -568,7 +569,9 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			if ( sql != null )
 				mstep.setRollbackStatement(sql.getTextContent());
 		}
+		
 		mstep.saveEx();
+
 	}
 
 }

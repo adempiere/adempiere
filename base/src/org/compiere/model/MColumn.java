@@ -579,6 +579,8 @@ public class MColumn extends X_AD_Column
 	{
 
 		MTable table = new MTable(getCtx(), getAD_Table_ID(), get_TrxName());
+		if (table.isView())
+			return "Cannot sync view";
 		table.set_TrxName(get_TrxName());  // otherwise table.getSQLCreate may miss current column
 		if (table.get_ID() == 0)
 			throw new AdempiereException("@NotFound@ @AD_Table_ID@ " + getAD_Table_ID());
