@@ -1,3 +1,6 @@
+SET SQLBLANKLINES ON
+SET DEFINE OFF
+
 -- Nov 15, 2010 10:51:28 PM CST
 -- Fix Typos in Account Names
 UPDATE C_ElementValue SET AD_Org_ID=0, Description='Tax to be reimbursed - before tax declaration',Updated=TO_DATE('2010-11-15 22:51:28','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=101 WHERE C_ElementValue_ID=534
