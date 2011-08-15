@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--Compiere(r) Release 2.5.3b_2005-12-30 - Smart ERP & CRM - (c) 1999-2005 Compiere (r); Implementation: Custom 20060601-1420 - Unsupported-->
-<!--<!DOCTYPE compiereTrl PUBLIC "-//ComPiere, Inc.//DTD Compiere Translation 1.0//EN" "http://www.compiere.org/dtd/compiereTrl.dtd">-->
-<compiereTrl language="es_MX" table="AD_FieldGroup">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--ADempiere(r) Release 3.7.0LTS_2011-10-15 -Smart Suite ERP,CRM and SCM- (c) 1999-2010 ADempiere(r); Implementation: ADempiere - Supported by ADempiere community-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="es_MX" table="AD_FieldGroup">
  <row id="101" trl="Y">
   <value column="Name" original="Status">Estado</value>
  </row>
@@ -21,7 +21,7 @@
   <value column="Name" original="Product">Producto</value>
  </row>
  <row id="107" trl="Y">
-  <value column="Name" original="Business Partner">Socio de Negocio</value>
+  <value column="Name" original="Business Partner">Socio del Negocio</value>
  </row>
  <row id="108" trl="Y">
   <value column="Name" original="Warehouse">Almacén</value>
@@ -30,7 +30,7 @@
   <value column="Name" original="Bank">Banco</value>
  </row>
  <row id="110" trl="Y">
-  <value column="Name" original="Cash Book">Libro de Efectivo</value>
+  <value column="Name" original="Cash Book">Caja Menor</value>
  </row>
  <row id="111" trl="Y">
   <value column="Name" original="Tax">Impuesto</value>
@@ -48,16 +48,16 @@
   <value column="Name" original="Standard Cost">Costo Estándar</value>
  </row>
  <row id="116" trl="Y">
-  <value column="Name" original="Actual Costs">Costo Actual</value>
+  <value column="Name" original="Actual Costs">Costos Actuales</value>
  </row>
  <row id="117" trl="Y">
-  <value column="Name" original="Statistics">Estadisticas</value>
+  <value column="Name" original="Statistics">Estadísticas</value>
  </row>
  <row id="118" trl="Y">
-  <value column="Name" original="Defaults">Predeterminado</value>
+  <value column="Name" original="Defaults">Predeterminados</value>
  </row>
  <row id="119" trl="Y">
-  <value column="Name" original="Request Management">Gestion de Solicitudes</value>
+  <value column="Name" original="Request Management">Gestión de Solicitudes</value>
  </row>
  <row id="120" trl="Y">
   <value column="Name" original="Web Store">Tienda Web</value>
@@ -78,7 +78,7 @@
   <value column="Name" original="Document">Documento</value>
  </row>
  <row id="126" trl="Y">
-  <value column="Name" original="Line">Linea</value>
+  <value column="Name" original="Line">Línea</value>
  </row>
  <row id="127" trl="Y">
   <value column="Name" original="Simulation">Simulación</value>
@@ -87,7 +87,7 @@
   <value column="Name" original="Calculations">Cálculos</value>
  </row>
  <row id="129" trl="Y">
-  <value column="Name" original="Proxy">Proxy</value>
+  <value column="Name" original="Proxy">Apoderado</value>
  </row>
  <row id="130" trl="Y">
   <value column="Name" original="Delivery">Entrega</value>
@@ -96,7 +96,7 @@
   <value column="Name" original="Invoicing">Facturación</value>
  </row>
  <row id="132" trl="Y">
-  <value column="Name" original="Only ..">Sólo ....</value>
+  <value column="Name" original="Only ..">Sólo ..</value>
  </row>
  <row id="133" trl="Y">
   <value column="Name" original="Selection">Selección</value>
@@ -107,16 +107,40 @@
  <row id="135" trl="Y">
   <value column="Name" original="Access">Acceso</value>
  </row>
- <row id="1000000" trl="Y">
-  <value column="Name" original="Times">Tiempos</value>
+ <row id="50000" trl="Y">
+  <value column="Name" original="Allow Info In Role">Permitir información en rol</value>
  </row>
- <row id="1000004" trl="Y">
-  <value column="Name" original="Package">Planning</value>
+ <row id="50001" trl="Y">
+  <value column="Name" original="Accounts">Cuentas</value>
  </row>
- <row id="1000005" trl="Y">
-  <value column="Name" original="Label">Label</value>
+ <row id="50002" trl="Y">
+  <value column="Name" original="Setup">Configuración</value>
  </row>
- <row id="1000006" trl="Y">
-  <value column="Name" original="Tarima">Tarima</value>
+ <row id="50003" trl="Y">
+  <value column="Name" original="Dates">Fechas</value>
  </row>
-</compiereTrl>
+ <row id="50004" trl="Y">
+  <value column="Name" original="Revaluation Accounts">Cuentas de Reevaluación</value>
+ </row>
+ <row id="50005" trl="Y">
+  <value column="Name" original="Contract">Contrato</value>
+ </row>
+ <row id="50006" trl="Y">
+  <value column="Name" original="Options">Opciones</value>
+ </row>
+ <row id="50007" trl="Y">
+  <value column="Name" original="General Ledger">Contabilidad General</value>
+ </row>
+ <row id="50008" trl="Y">
+  <value column="Name" original="Machines">Máquinas</value>
+ </row>
+ <row id="50009" trl="Y">
+  <value column="Name" original="Database">Base de Datos</value>
+ </row>
+ <row id="50010" trl="Y">
+  <value column="Name" original="Manufacturing">Manufactura</value>
+ </row>
+ <row id="50012" trl="Y">
+  <value column="Name" original="Logo">Logo</value>
+ </row>
+</adempiereTrl>

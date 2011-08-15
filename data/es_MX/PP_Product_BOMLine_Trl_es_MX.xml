@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--ADempiere(r) Release 3.7.0LTS_2011-10-15 -Smart Suite ERP,CRM and SCM- (c) 1999-2010 ADempiere(r); Implementation: ADempiere - Supported by ADempiere community-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="es_MX" table="PP_Product_BOMLine">
+ <row id="100" trl="Y">
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="101" trl="Y">
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="102" trl="Y">
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50000" trl="Y">
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50001" trl="Y">
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50002" trl="Y">
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50003" trl="Y">
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50004" trl="Y">
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50005" trl="Y">
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50006" trl="Y">
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50007" trl="Y">
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50008" trl="Y">
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50009" trl="Y">
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50010" trl="Y">
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50011" trl="Y">
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50012" trl="Y">
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50013" trl="Y">
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50014" trl="Y">
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50015" trl="Y">
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50016" trl="Y">
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50017" trl="Y">
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+</adempiereTrl>
