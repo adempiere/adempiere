@@ -1,4 +1,4 @@
--- May 27, 2011 6:41:09 PM CDT
+﻿-- May 27, 2011 6:41:09 PM CDT
 -- Fixed wrong field name
 UPDATE AD_Element SET ColumnName='QtyRequired', Name='Qty Required',Updated=TO_DATE('2011-05-27 18:41:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=53288
 ;
@@ -32,6 +32,7 @@ UPDATE AD_Field SET Name='Qty Required', Description=NULL, Help=NULL WHERE AD_Co
 -- Fixed wrong field name
 UPDATE AD_PrintFormatItem pi SET PrintName='Qty Required', Name='Qty Required' WHERE IsCentrallyMaintained='Y' AND EXISTS (SELECT * FROM AD_Column c WHERE c.AD_Column_ID=pi.AD_Column_ID AND c.AD_Element_ID=53288)
 ;
+
 
 -- May 27, 2011 7:45:25 PM CDT
 -- Fixed wrong field name
@@ -109,6 +110,16 @@ ALTER TABLE PP_Order_Node RENAME COLUMN qtyrequiered TO qtyrequired;
 ALTER TABLE PP_Order_Node RENAME COLUMN SetupTimeRequiered TO SetupTimeRequired;
 ALTER TABLE PP_Order_Node RENAME COLUMN DurationRequiered TO DurationRequired;
 
+
+DROP VIEW  PP_Order_BOMLine_v;	
+DROP VIEW PP_Order_BOMLine_vt;	
+DROP VIEW PP_Order_Node_v;
+DROP VIEW PP_Order_Node_vt;
+DROP VIEW rv_pp_order_bomline;
+DROP VIEW rv_pp_order_receipt_issue;
+DROP VIEW rv_pp_order_storage;
+DROP VIEW rv_pp_operation_activity;
+
 CREATE OR REPLACE VIEW PP_Order_BOMLine_v
 AS 
 SELECT obl.AD_Client_ID, obl.AD_Org_ID, obl.IsActive, obl.Created, obl.CreatedBy, obl.Updated, obl.UpdatedBy,
@@ -127,7 +138,6 @@ round(obl.qtybatch, 4) AS qtybatch,
 CASE WHEN o.qtybatchs = 0 THEN 1 ELSE round(obl.qtyrequired / o.qtybatchs, 4) END AS qtybatchsize  
 FROM PP_Order_BOMLine obl
 INNER JOIN PP_Order o ON (o.PP_Order_ID=obl.PP_Order_ID);
-
 
 CREATE OR REPLACE VIEW PP_Order_BOMLine_vt
 AS 
@@ -149,7 +159,7 @@ CASE WHEN o.qtybatchs = 0 THEN 1 ELSE round(obl.qtyrequired / o.qtybatchs, 4) EN
 FROM PP_Order_BOMLine obl
 INNER JOIN PP_Order o ON (o.PP_Order_ID=obl.PP_Order_ID)
 LEFT JOIN PP_Order_BOMLine_Trl oblt ON (oblt.PP_Order_BOMLine_ID=obl.PP_Order_BOMLine_ID);
-	
+
 
 CREATE OR REPLACE VIEW PP_Order_Node_v
 AS
@@ -159,9 +169,10 @@ cast('en_US' as varchar2(6)) AS AD_Language,
 name, c_bpartner_id, cost, datefinish, datefinishschedule, datestart, datestartschedule , 
 description, docaction, docstatus,duration, durationreal, durationrequired, help, ismilestone,
 issubcontracting, movingtime, overlapunits, 
-pp_order_id, pp_order_workflow_id, onode.pp_order_node_id,priority, qtydelivered, qtyrequired , 
+pp_order_id, pp_order_workflow_id, onode.pp_order_node_id,priority, qtydelivered, qtyrequired, 
 qtyscrap , queuingtime , s_resource_id , setuptime ,setuptimereal,  unitscycles ,  validfrom , validto , value , waitingtime , workingtime , yield 
 FROM PP_Order_Node onode;
+
 
 CREATE OR REPLACE VIEW PP_Order_Node_vt
 AS
@@ -175,6 +186,7 @@ pp_order_id, pp_order_workflow_id,onode.pp_order_node_id, priority, qtydelivered
 qtyscrap , queuingtime , s_resource_id , setuptime ,setuptimereal,  unitscycles ,  validfrom , validto , value , waitingtime , workingtime , yield 
 FROM PP_Order_Node onode
 LEFT JOIN PP_Order_Node_Trl ont ON (ont.PP_Order_Node_ID=onode.PP_Order_Node_ID);
+
 
 CREATE OR REPLACE VIEW rv_pp_operation_activity AS 
 SELECT n.ad_client_id,
@@ -197,7 +209,6 @@ n.qtyscrap,
 n.datestartschedule,
 n.datefinishschedule
 FROM pp_order_node n;
-
 
 CREATE OR REPLACE VIEW rv_pp_order_bomline AS 
 SELECT 
@@ -227,37 +238,6 @@ CASE WHEN o.qtybatchs = 0 THEN 1 ELSE round(obl.qtyrequired / o.qtybatchs, 4) EN
 FROM pp_order_bomline obl
 JOIN pp_order o ON o.pp_order_id = obl.pp_order_id;
 
-
-CREATE OR REPLACE VIEW rv_pp_order_receipt_issue AS 
-SELECT obl.pp_order_bomline_id,
-obl.iscritical,
-p.value,
-obl.m_product_id,
-mos.name AS productname,
-mos.m_attributesetinstance_id,
-asi.description AS instancename,
-mos.c_uom_id,
-u.name AS uomname,
-obl.qtyrequired,
-obl.qtyreserved AS qtyreserved_order,
-mos.qtyonhand,
-mos.qtyreserved AS qtyreserved_storage,
-mos.qtyavailable,
-mos.m_locator_id,
-mos.m_warehouse_id,
-w.name AS warehousename,
-mos.qtybom,
-mos.isqtypercentage,
-mos.qtybatch,
-obl.componenttype,
-mos.qtyrequired - obl.qtydelivered AS qtyopen,
-obl.pp_order_id
-FROM rv_pp_order_storage mos
-JOIN pp_order_bomline obl ON mos.pp_order_bomline_id = obl.pp_order_bomline_id
-JOIN m_attributesetinstance asi ON mos.m_attributesetinstance_id = asi.m_attributesetinstance_id
-JOIN c_uom u ON mos.c_uom_id = u.c_uom_id
-JOIN m_product p ON mos.m_product_id = p.m_product_id
-JOIN m_warehouse w ON mos.m_warehouse_id = w.m_warehouse_id;
 
 CREATE OR REPLACE VIEW rv_pp_order_storage AS 
 SELECT 
@@ -294,4 +274,38 @@ JOIN pp_order o ON o.pp_order_id = obl.pp_order_id
 LEFT JOIN m_storage s ON s.m_product_id = obl.m_product_id AND s.qtyonhand <> 0 AND obl.m_warehouse_id = (( SELECT ld.m_warehouse_id FROM m_locator ld WHERE s.m_locator_id = ld.m_locator_id))
 LEFT JOIN m_locator l ON l.m_locator_id = s.m_locator_id
 ORDER BY obl.m_product_id;
+
+
+
+CREATE OR REPLACE VIEW rv_pp_order_receipt_issue AS 
+SELECT obl.pp_order_bomline_id,
+obl.iscritical,
+p.value,
+obl.m_product_id,
+mos.name AS productname,
+mos.m_attributesetinstance_id,
+asi.description AS instancename,
+mos.c_uom_id,
+u.name AS uomname,
+obl.qtyrequired,
+obl.qtyreserved AS qtyreserved_order,
+mos.qtyonhand,
+mos.qtyreserved AS qtyreserved_storage,
+mos.qtyavailable,
+mos.m_locator_id,
+mos.m_warehouse_id,
+w.name AS warehousename,
+mos.qtybom,
+mos.isqtypercentage,
+mos.qtybatch,
+obl.componenttype,
+mos.qtyrequired - obl.qtydelivered AS qtyopen,
+obl.pp_order_id
+FROM rv_pp_order_storage mos
+JOIN pp_order_bomline obl ON mos.pp_order_bomline_id = obl.pp_order_bomline_id
+JOIN m_attributesetinstance asi ON mos.m_attributesetinstance_id = asi.m_attributesetinstance_id
+JOIN c_uom u ON mos.c_uom_id = u.c_uom_id
+JOIN m_product p ON mos.m_product_id = p.m_product_id
+JOIN m_warehouse w ON mos.m_warehouse_id = w.m_warehouse_id;
+
 
