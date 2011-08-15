@@ -5394,10 +5394,10 @@ Imprimiendo:
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
- <row id="53306" trl="N">
-  <value column="Name" original="Import Payroll Movement">Import Payroll Movement</value>
+ <row id="53306" trl="Y">
+  <value column="Name" original="Import Payroll Movement">Importar Movimientos de Nómina</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="Import Payroll Movement">Import Payroll Movement</value>
+  <value column="Description" original="Import Payroll Movement">Importar Movimientos de Nómina</value>
   <value column="Help" original=""/>
  </row>
  <row id="53307" trl="N">
@@ -5412,14 +5412,14 @@ Imprimiendo:
   <value column="Description" original="Key Sequence">Key Sequence</value>
   <value column="Help" original=""/>
  </row>
- <row id="53335" trl="N">
-  <value column="Name" original="Import Inventory Move">Import Inventory Move</value>
+ <row id="53335" trl="Y">
+  <value column="Name" original="Import Inventory Move">Importar Movimientos de Inventario</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
- <row id="53350" trl="N">
-  <value column="Name" original="Import Product BOM">Import Product BOM</value>
+ <row id="53350" trl="Y">
+  <value column="Name" original="Import Product BOM">Importar Lista de Materiales y Fórmulas</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original=""/>
   <value column="Help" original=""/>

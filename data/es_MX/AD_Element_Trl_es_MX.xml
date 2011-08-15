@@ -24393,10 +24393,10 @@ O - Parametro configurable de la organización.</value>
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="53248" trl="Y">
-  <value column="Name" original="Backflush Group">Grupo Autolimpieza</value>
-  <value column="PrintName" original="Backflush Group">Grupo Autolimpieza</value>
-  <value column="Description" original="The Grouping Components to the Backflush">Los componentes que se agrupan en la autolimpieza</value>
-  <value column="Help" original="When the components are deliver is possible to indicated The Backflush Group this way you only can deliver the components that are for this Backflush Group.">Cuando se va a despachar un componente es posible indicar el grupo de autolimpieza, de esta forma solamente despacha los componentes que son para este grupo de autolimpieza.</value>
+  <value column="Name" original="Backflush Group">Grupo Salida de Materiales</value>
+  <value column="PrintName" original="Backflush Group">Grupo Salida de Materiales</value>
+  <value column="Description" original="The Grouping Components to the Backflush">Los componentes que se agrupan en la Salida de Materiales</value>
+  <value column="Help" original="When the components are deliver is possible to indicated The Backflush Group this way you only can deliver the components that are for this Backflush Group.">Cuando se va a despachar un componente es posible indicar el grupo de  Salida de Materiales, de esta forma solamente despacha los componentes que son para este grupo de  Salida de Materiales.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -29521,9 +29521,9 @@ Product: used to quickly add products to POS order</value>
   <value column="PO_Name" original=""/>
   <value column="PO_PrintName" original=""/>
  </row>
- <row id="54239" trl="N">
-  <value column="Name" original="Locator To Key">Locator To Key</value>
-  <value column="PrintName" original="Locator To Key">Locator To Key</value>
+ <row id="54239" trl="Y">
+  <value column="Name" original="Locator To Key">Código Ubicación A</value>
+  <value column="PrintName" original="Locator To Key">Código Ubicación A</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
@@ -29531,9 +29531,9 @@ Product: used to quickly add products to POS order</value>
   <value column="PO_Name" original=""/>
   <value column="PO_PrintName" original=""/>
  </row>
- <row id="54240" trl="N">
-  <value column="Name" original="ShipperName">ShipperName</value>
-  <value column="PrintName" original="Shipper Name">Shipper Name</value>
+ <row id="54240" trl="Y">
+  <value column="Name" original="ShipperName">Nombre del Transportista</value>
+  <value column="PrintName" original="Shipper Name">Nombre del Transportista</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
@@ -29551,20 +29551,20 @@ Product: used to quickly add products to POS order</value>
   <value column="PO_Name" original=""/>
   <value column="PO_PrintName" original=""/>
  </row>
- <row id="54272" trl="N">
-  <value column="Name" original="Hide in list view">Hide in list view</value>
-  <value column="PrintName" original="Hide in list view">Hide in list view</value>
-  <value column="Description" original="When checked this field will be hidden by default in list view">When checked this field will be hidden by default in list view</value>
+ <row id="54272" trl="Y">
+  <value column="Name" original="Hide in list view">Ocultar en vista de lista</value>
+  <value column="PrintName" original="Hide in list view">Ocultar en vista de lista</value>
+  <value column="Description" original="When checked this field will be hidden by default in list view">Cuando se activa este campo se oculta de manera predeterminada en la vista de lista</value>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
   <value column="PO_PrintName" original=""/>
  </row>
- <row id="54273" trl="N">
-  <value column="Name" original="Preferred Width">Preferred Width</value>
-  <value column="PrintName" original="Preferred Width">Preferred Width</value>
-  <value column="Description" original="Preferred width in pixels">Preferred width in pixels</value>
+ <row id="54273" trl="Y">
+  <value column="Name" original="Preferred Width">Ancho preferido</value>
+  <value column="PrintName" original="Preferred Width">Ancho preferido</value>
+  <value column="Description" original="Preferred width in pixels">Ancho preferido en píxeles</value>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>

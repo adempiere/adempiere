@@ -283,8 +283,8 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="171" trl="Y">
-  <value column="MsgText" original="Change of the default Cashbook ignored.&#10;Please change Cashbook only after completion of transaction">Cambio de caja menor predeterminada fue ignorado.
-Por favor cambie la caja menor solo después de completar la transacción</value>
+  <value column="MsgText" original="Change of the default Cashbook ignored.&#10;Please change Cashbook only after completion of transaction">Cambio de caja chica predeterminada fue ignorado.
+Por favor cambie la caja chica solo después de completar la transacción</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="172" trl="Y">
@@ -2245,7 +2245,7 @@ Por favor deténgase y migre la base de datos inmediatamente.</value>
   <value column="MsgTip" original="Store Password for fast Login (security risk)">Guarda Contraseña para ingreso rápido al sistema (Esto representa un riesgo de seguridad)</value>
  </row>
  <row id="657" trl="Y">
-  <value column="MsgText" original="Cash Journal Info">Información de Caja Menor</value>
+  <value column="MsgText" original="Cash Journal Info">Información de Caja Chica</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="658" trl="Y">
@@ -3524,19 +3524,19 @@ Compruebe el registro de errores y el formato del archivo Accounting*.cvs - Ning
   <value column="MsgTip" original=" "/>
  </row>
  <row id="52080" trl="Y">
-  <value column="MsgText" original="Cash Book">Caja Menor</value>
+  <value column="MsgText" original="Cash Book">Caja Chica</value>
   <value column="MsgTip" original=" "/>
  </row>
  <row id="52081" trl="Y">
-  <value column="MsgText" original="The Cash Book has been adjusted.">La Caja Menor ha sido ajustada.</value>
+  <value column="MsgText" original="The Cash Book has been adjusted.">La Caja Chica ha sido ajustada.</value>
   <value column="MsgTip" original=" "/>
  </row>
  <row id="52082" trl="Y">
-  <value column="MsgText" original="The Cash Book has been adjusted">La Caja Menor ha sido ajustada.</value>
+  <value column="MsgText" original="The Cash Book has been adjusted">La Caja Chica ha sido ajustada.</value>
   <value column="MsgTip" original=" "/>
  </row>
  <row id="52083" trl="Y">
-  <value column="MsgText" original="Cash Book History">Historia de Caja Menor</value>
+  <value column="MsgText" original="Cash Book History">Historia de Caja Chica</value>
   <value column="MsgTip" original=" "/>
  </row>
  <row id="52084" trl="Y">
@@ -4533,7 +4533,7 @@ Compruebe el registro de errores y el formato del archivo Accounting*.cvs - Ning
   <value column="MsgTip" original=" "/>
  </row>
  <row id="52332" trl="Y">
-  <value column="MsgText" original="NOTE:-The Cash Payments would have effect only when the cash book is closed">NOTA: - Los pagos en efectivo tendrán efecto solo cuando la caja menor se cierre.</value>
+  <value column="MsgText" original="NOTE:-The Cash Payments would have effect only when the cash book is closed">NOTA: - Los pagos en efectivo tendrán efecto solo cuando la caja chica se cierre.</value>
   <value column="MsgTip" original=" "/>
  </row>
  <row id="52333" trl="Y">

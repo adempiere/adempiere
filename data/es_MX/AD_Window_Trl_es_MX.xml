@@ -1529,7 +1529,7 @@ y otros</value>
   <value column="Help" original=""/>
  </row>
  <row id="53028" trl="Y">
-  <value column="Name" original="Import Processor">Procesadorde Importación</value>
+  <value column="Name" original="Import Processor">Procesador de Importación</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
@@ -1779,24 +1779,24 @@ y otros</value>
   <value column="Description" original="Define Withholding">Define Retención</value>
   <value column="Help" original="The Withholding Window defines withholding information for business partners.">La ventana retención define la información de retenciones de los Socios del Negocio.</value>
  </row>
- <row id="53108" trl="N">
-  <value column="Name" original="Import Payroll Movement">Import Payroll Movement</value>
-  <value column="Description" original="Import Payroll Movement">Import Payroll Movement</value>
+ <row id="53108" trl="Y">
+  <value column="Name" original="Import Payroll Movement">Importar Movimientos de Nómina</value>
+  <value column="Description" original="Import Payroll Movement">Importar Movimientos de Nómina</value>
   <value column="Help" original=""/>
  </row>
  <row id="53109" trl="N">
-  <value column="Name" original="Import Product Planning">Importa Planificación de Producto</value>
+  <value column="Name" original="Import Product Planning">Importar Planificación de Producto</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
- <row id="53121" trl="N">
-  <value column="Name" original="Import Inventory Move">Import Inventory Move</value>
-  <value column="Description" original="This window allow import Inventory Move transaction">This window allow import Inventory Move transaction</value>
+ <row id="53121" trl="Y">
+  <value column="Name" original="Import Inventory Move">Importar Movimientos de Inventario</value>
+  <value column="Description" original="This window allow import Inventory Move transaction">Esta ventana permite importar transaciones de movimientos de Inventario</value>
   <value column="Help" original=""/>
  </row>
- <row id="53129" trl="N">
-  <value column="Name" original="Import Product BOM">Import Product BOM</value>
-  <value column="Description" original="Import Product BOM">Import Product BOM</value>
+ <row id="53129" trl="Y">
+  <value column="Name" original="Import Product BOM">Importar Lista de Materiales y Fórmulas</value>
+  <value column="Description" original="Import Product BOM">Importar Lista de Materiales y Fórmulas</value>
   <value column="Help" original=""/>
  </row>
 </adempiereTrl>

@@ -511,6 +511,11 @@ The Valid From and Valid To dates indicate the valid time period to use the BOM 
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
+ <row id="58973" trl="Y">
+  <value column="Name" original="Copy from product">Copiar desde otro Producto</value>
+  <value column="Description" original="Copy prices etc from other product">Copiar desde otro Producto</value>
+  <value column="Help" original=""/>
+ </row>
  <row id="59449" trl="N">
   <value column="Name" original="Import Inventory Move">Import Inventory Move</value>
   <value column="Description" original=""/>
