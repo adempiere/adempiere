@@ -3495,12 +3495,12 @@
   <value column="Description" original=""/>
  </row>
  <row id="53265" trl="Y">
-  <value column="Name" original="Issue">Emisión</value>
-  <value column="Description" original="Components issue manuality">Componentes que se emiten en forma manual</value>
+  <value column="Name" original="Issue">Manual</value>
+  <value column="Description" original="Components issue manuality">Componentes son emitidos en forma manual</value>
  </row>
  <row id="53266" trl="Y">
-  <value column="Name" original="Backflush">Autolimpieza</value>
-  <value column="Description" original="Components issue in Backflush">Componentes que se emiten en autolimpieza</value>
+  <value column="Name" original="Backflush">Automatica</value>
+  <value column="Description" original="Components issue in Backflush">Componentes que se emiten de manera automatica por grupos de salida</value>
  </row>
  <row id="53267" trl="Y">
   <value column="Name" original="Add">Añadir</value>
@@ -4191,8 +4191,8 @@
   <value column="Description" original=""/>
  </row>
  <row id="53449" trl="Y">
-  <value column="Name" original="Floor Stock">Existencia Piso</value>
-  <value column="Description" original="Components issue in Floor Stock">Componentes se emiten en control de piso</value>
+  <value column="Name" original="Floor Stock">Existencia en Piso</value>
+  <value column="Description" original="Components issue in Floor Stock">Componentes se emiten en piso</value>
  </row>
  <row id="53450" trl="Y">
   <value column="Name" original="Make-To-Kit">Hacer-un-kit</value>

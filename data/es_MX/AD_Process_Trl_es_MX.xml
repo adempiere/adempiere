@@ -1831,9 +1831,9 @@ Debe ser implementado cuando no haya usuarios conectados.</value>
   <value column="Description" original="Generate POS Keys from products.">Generate POS Keys from products.</value>
   <value column="Help" original=""/>
  </row>
- <row id="53206" trl="N">
-  <value column="Name" original="Copy from product">Copy from product</value>
-  <value column="Description" original="Copy prices etc from other product">Copy prices etc from other product</value>
+ <row id="53206" trl="Y">
+  <value column="Name" original="Copy from product">Copiar desde otro Producto</value>
+  <value column="Description" original="Copy prices etc from other product">Copia precios, etc desde otro product</value>
   <value column="Help" original=""/>
  </row>
  <row id="53216" trl="N">

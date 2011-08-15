@@ -4303,7 +4303,7 @@ La medida debe soportar la información, sino es ignorada.</value>
   <value column="Help" original="The information relative to every component that will be used in the BOM &amp; Formula of the finished product."><![CDATA[La información relativa a cada componente que será usado en la LDM & Fórmula del producto terminado.]]></value>
  </row>
  <row id="53030" trl="Y">
-  <value column="Name" original="Data Planning">Planificación Datos</value>
+  <value column="Name" original="Data Planning">Datos de Planificación</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
@@ -4417,7 +4417,7 @@ La medida debe soportar la información, sino es ignorada.</value>
   <value column="Help" original=""/>
  </row>
  <row id="53049" trl="Y">
-  <value column="Name" original="Activity Control">Control Actividad</value>
+  <value column="Name" original="Activity Control">Control de Actividad</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original=""/>
   <value column="Help" original=""/>

@@ -19618,9 +19618,9 @@ Si usted tiene multiples líneas, un activo es creado por línea.</value>
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="2777" trl="Y">
-  <value column="Name" original="Setup Time">Tiempo por lote</value>
-  <value column="PrintName" original="Setup Time">Tiempo por lote</value>
-  <value column="Description" original="Setup time before starting Production">Tiempo requerido para producir un lote en la operación</value>
+  <value column="Name" original="Setup Time">Tiempo de Preparación</value>
+  <value column="PrintName" original="Setup Time">Tiempo de Preparación</value>
+  <value column="Description" original="Setup time before starting Production">Tiempo de Preparación requerido para producir un lote en la operación</value>
   <value column="Help" original="Once per operation"/>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -24463,10 +24463,10 @@ Cuando el plan de materiales es calculado el MRP genera una orden de manufactura
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="53253" trl="Y">
-  <value column="Name" original="Issue Method">Método Emisión</value>
-  <value column="PrintName" original="Issue Method">Método Emisión</value>
+  <value column="Name" original="Issue Method">Método de Salida</value>
+  <value column="PrintName" original="Issue Method">Método de Salida</value>
   <value column="Description" original="There are two methods for issue the components to Manufacturing Order">Hay dos métodos para emitir los componentes de una orden de manufactura</value>
-  <value column="Help" original="Method Issue: The component are delivered one for one and is necessary indicate the delivered quantity for each component.&#10;&#10;Method BackFlush: The component are delivered based in BOM, The  delivered quantity for each component is based in BOM or Formula and Manufacturing Order Quantity.&#10;&#10;Use the field Backflush Group for grouping the component in a Backflush Method.">Método Emisión: Los componentes son despachados uno por uno y es necesario indicar la cantidad despachada para cada componente.
+  <value column="Help" original="Method Issue: The component are delivered one for one and is necessary indicate the delivered quantity for each component.&#10;&#10;Method BackFlush: The component are delivered based in BOM, The  delivered quantity for each component is based in BOM or Formula and Manufacturing Order Quantity.&#10;&#10;Use the field Backflush Group for grouping the component in a Backflush Method.">Método de Salida: Los componentes son despachados uno por uno y es necesario indicar la cantidad despachada para cada componente.
 
 Método Autolimpieza: Los componentes son despachados en LDM, la cantidad despachada para cada componente es basada en la LDM o Fórmula y la cantidad de la orden de manufactura.
 
@@ -24605,8 +24605,8 @@ Use el campo Grupo de Autolimpieza para agrupar los componentes en el método de
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="53269" trl="Y">
-  <value column="Name" original="Planner">Planeador</value>
-  <value column="PrintName" original="Planner">Planeador</value>
+  <value column="Name" original="Planner">Planificador</value>
+  <value column="PrintName" original="Planner">Planificador</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
@@ -24786,8 +24786,8 @@ Tenga cuidado al fijar el rendimiento en cualquier valor diferente a 100%, parti
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="53287" trl="Y">
-  <value column="Name" original="Qty Reject">Cantidad Rechazo</value>
-  <value column="PrintName" original="Qty Reject">Cantidad Rechazo</value>
+  <value column="Name" original="Qty Reject">Cantidad Rechazada</value>
+  <value column="PrintName" original="Qty Reject">Cantidad Rechazada</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
@@ -24816,8 +24816,8 @@ Tenga cuidado al fijar el rendimiento en cualquier valor diferente a 100%, parti
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="53290" trl="Y">
-  <value column="Name" original="Setup Time Real">Tiempo Real Configuración</value>
-  <value column="PrintName" original="Setup Time Real">Tiempo Real Configuración</value>
+  <value column="Name" original="Setup Time Real">Tiempo Real de Preparación</value>
+  <value column="PrintName" original="Setup Time Real">Tiempo Real de Preparación</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
@@ -24826,8 +24826,8 @@ Tenga cuidado al fijar el rendimiento en cualquier valor diferente a 100%, parti
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="53291" trl="Y">
-  <value column="Name" original="Setup Time Required">Tiempo Requerido Configuración</value>
-  <value column="PrintName" original="Setup Time Required">Tiempo Requerido Configuración</value>
+  <value column="Name" original="Setup Time Required">Tiempo Requerido de Preparación</value>
+  <value column="PrintName" original="Setup Time Required">Tiempo Requerido de Preparación</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
@@ -24876,10 +24876,10 @@ Tenga cuidado al fijar el rendimiento en cualquier valor diferente a 100%, parti
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="53296" trl="Y">
-  <value column="Name" original="Current Cost Price Lower Level">Costo Precio Actual Menor Nivel</value>
-  <value column="PrintName" original="Current Cost Price Lower Level">Costo Precio Actual Menor Nivel</value>
+  <value column="Name" original="Current Cost Price Lower Level">Costo Precio Actual de Niveles Inferiores</value>
+  <value column="PrintName" original="Current Cost Price Lower Level">Costo Precio Actual de Niveles Inferiores</value>
   <value column="Description" original="Current Price Lower Level Is the sum of the costs of the components of this product manufactured for this level.">Costo Precio Actual Menor Nivel es la suma de los costos de los componentes de este producto manufacturados para este nivel.</value>
-  <value column="Help" original="Current Price Lower Level is used for get the total costs for lower level the a product manufactured.&#10;&#10;The Current Price Lower Level always will be calculated.&#10;&#10;You can see the Current Cost Price and Current Cost Price Lower Level with Cost  Bill of Material &amp; Formula Detail Report.&#10; &#10;The sum the Current Cost Price + Current Cost Price Lower Level is the total cost to a product manufactured.&#10;"><![CDATA[Costo Precio Actual Menor Nivel es utilizado para obtener el costo total para el menor nivel de un producto manufacturado.
+  <value column="Help" original="Current Price Lower Level is used for get the total costs for lower level the a product manufactured.&#10;&#10;The Current Price Lower Level always will be calculated.&#10;&#10;You can see the Current Cost Price and Current Cost Price Lower Level with Cost  Bill of Material &amp; Formula Detail Report.&#10; &#10;The sum the Current Cost Price + Current Cost Price Lower Level is the total cost to a product manufactured.&#10;"><![CDATA[Costo Precio Actual de Niveles Inferiores es utilizado para obtener el costo total para el menor nivel de un producto manufacturado.
 
 El Costo Precio Actual Menor Nivel siempre será calculado.
 
@@ -28470,8 +28470,8 @@ Crédito Cuenta Trabajo en Proceso</value>
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="53763" trl="Y">
-  <value column="Name" original="Future Cost Price Lower Level">Costo Precio Futuro Menor Nivel</value>
-  <value column="PrintName" original="Future Cost price Lower Level">Costo Precio Futuro Menor Nivel</value>
+  <value column="Name" original="Future Cost Price Lower Level">Costo Precio Futuro de Niveles Inferiores</value>
+  <value column="PrintName" original="Future Cost price Lower Level">Costo Precio Futuro de Niveles Inferiores</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
