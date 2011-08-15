@@ -1569,18 +1569,18 @@ UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=53245
 
 -- Oct 25, 2010 7:25:08 PM CDT
 -- Import BOM
--- INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,60033,53245,0,19,53292,'PP_Product_BOM_ID',TO_DATE('2010-10-25 19:25:07','YYYY-MM-DD HH24:MI:SS'),0,'BOM & Formula','EE01',10,'Y','N','N','N','N','N','N','N','Y','N','N','BOM & Formula',TO_DATE('2010-10-25 19:25:07','YYYY-MM-DD HH24:MI:SS'),0,0)
---;
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,60033,53245,0,19,53292,'PP_Product_BOM_ID',TO_DATE('2010-10-25 19:25:07','YYYY-MM-DD HH24:MI:SS'),0,'BOM & Formula','EE01',10,'Y','N','N','N','N','N','N','N','Y','N','N','BOM & Formula',TO_DATE('2010-10-25 19:25:07','YYYY-MM-DD HH24:MI:SS'),0,0)
+;
 
 -- Oct 25, 2010 7:25:08 PM CDT
 -- Import BOM
--- INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=60033 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
---;
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=60033 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
+;
 
 -- Oct 25, 2010 7:25:08 PM CDT
 -- Import BOM
--- ALTER TABLE I_Product_BOM ADD PP_Product_BOM_ID NUMBER(10) DEFAULT NULL 
---;
+ALTER TABLE I_Product_BOM ADD PP_Product_BOM_ID NUMBER(10) DEFAULT NULL 
+;
 
 -- Oct 25, 2010 7:25:11 PM CDT
 -- Import BOM
