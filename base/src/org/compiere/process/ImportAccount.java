@@ -267,6 +267,15 @@ public class ImportAccount extends SvrProcess
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.fine("Set Charge=" + no);
 
+		//  update Tax Category
+		sql = new StringBuffer ("UPDATE I_ElementValue i "
+			+ "SET C_TaxCategory_ID = (SELECT C_TaxCategory_ID FROM C_TaxCategory c"
+			+ " WHERE i.TaxCategoryName=c.Name AND i.AD_Client_ID=c.AD_Client_ID)"
+			+ "WHERE C_TaxCategory_ID IS NULL"
+			+ " AND I_IsImported<>'Y'").append(clientCheck);
+		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		log.fine("Set Tax Category=" + no);
+		
 		commitEx();
 
 		//	-------------------------------------------------------------------
@@ -295,7 +304,8 @@ public class ImportAccount extends SvrProcess
 					if (ev.save())
 					{
 						noInsert++;
-						updateCharge(impEV, ev);
+						if ( !ev.isSummary() )
+							updateCharge(impEV, ev);
 						impEV.setC_ElementValue_ID(ev.getC_ElementValue_ID());
 						impEV.setI_IsImported(true);
 						impEV.saveEx();
@@ -319,7 +329,8 @@ public class ImportAccount extends SvrProcess
 					if (ev.save())
 					{
 						noUpdate++;
-						updateCharge(impEV, ev);
+						if (! ev.isSummary() )
+							updateCharge(impEV, ev);
 						impEV.setI_IsImported(true);
 						impEV.saveEx();
 					}
@@ -455,6 +466,7 @@ public class ImportAccount extends SvrProcess
 		if ( charge.get_ID() == 0 && !Util.isEmpty(impEV.getChargeName()) )
 		{					
 			charge.setName(impEV.getChargeName());
+			charge.setAD_Org_ID(0);
 			if ( impEV.getC_TaxCategory_ID() == 0 )
 			{
 				String sql = "SELECT C_TaxCategory_ID FROM C_TaxCategory WHERE AD_Client_ID = ? ORDER BY IsDefault DESC ";
