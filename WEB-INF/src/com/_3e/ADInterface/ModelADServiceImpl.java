@@ -317,15 +317,19 @@ public class ModelADServiceImpl implements ModelADService {
 				return "Error logging in - org not allowed for this role";
 
 			KeyNamePair[] warehouses = login.getWarehouses( new KeyNamePair(r.getOrgID(), "" ) );
-			boolean okwh = false;
-			for (KeyNamePair warehouse : warehouses) {
-				if (warehouse.getKey() == r.getWarehouseID()) {
-					okwh = true;
-					break;
+			
+			boolean okwh = false;		
+			if(warehouses != null)
+			{	
+				for (KeyNamePair warehouse : warehouses) {
+					if (warehouse.getKey() == r.getWarehouseID()) {
+						okwh = true;
+						break;
+					}
 				}
-			}
-			if (!okwh)
-				return "Error logging in - warehouse not allowed for this org";
+				if (!okwh)
+					return "Error logging in - warehouse not allowed for this org";
+			}	
 			
 			String error = login.validateLogin(orglogin);
 			if (error != null && error.length() > 0)
