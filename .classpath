@@ -99,7 +99,6 @@
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zml.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/bsh.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/commons-fileupload.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/groovy.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/jython.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/timelinez-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zcommon-sources.jar"/>
