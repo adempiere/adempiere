@@ -313,6 +313,9 @@ public class MColumn extends X_AD_Column
 	 */
 	public String getSQLAdd (MTable table)
 	{
+		if ( isVirtualColumn() )
+			return null;
+		
 		StringBuffer sql = new StringBuffer ("ALTER TABLE ")
 			.append(table.getTableName())
 			.append(" ADD ").append(getSQLDDL());

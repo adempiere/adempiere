@@ -62,10 +62,9 @@ public class MigrationLoader {
 
 				NodeList migrations = doc.getDocumentElement().getElementsByTagName("Migration");
 				for ( int i = 0; i < migrations.getLength(); i++ ) {
-					int migrationId = MMigration.fromXmlNode(ctx, (Element) migrations.item(i), null);  //TODO trx
-					if ( migrationId > 0 )
+					MMigration migration = MMigration.fromXmlNode(ctx, (Element) migrations.item(i), null);  //TODO trx
+					if ( migration != null )
 					{
-						MMigration migration = new MMigration(ctx, migrationId, null);
 						migration.setFailOnError(true);
 						migration.apply();
 					}

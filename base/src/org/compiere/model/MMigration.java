@@ -134,14 +134,14 @@ public class MMigration extends X_AD_Migration {
 
 	public static boolean updated = false;
 	
-	public static int fromXmlNode(Properties ctx, Element element, String trx)
+	public static MMigration fromXmlNode(Properties ctx, Element element, String trx)
 	{
 		
 		if ( !updated )
 			update();
 		
 		if ( !"Migration".equals(element.getLocalName() ) )
-				return 0;
+				return null;
 		
 		String name = element.getAttribute("Name");
 		String seqNo = element.getAttribute("SeqNo");
@@ -156,7 +156,7 @@ public class MMigration extends X_AD_Migration {
 		MMigration mmigration = new Query(ctx, MMigration.Table_Name, where, trx)
 		.setParameters(params).firstOnly();
 		if ( mmigration != null )
-			return 0;  // already exists (TODO: update?)
+			return null;  // already exists (TODO: update?)
 		
 		mmigration = new MMigration(ctx, 0, trx);
 		
@@ -180,7 +180,7 @@ public class MMigration extends X_AD_Migration {
 		
 		mmigration.saveEx();
 		
-		return mmigration.getAD_Migration_ID();
+		return mmigration;
 	}
 	
 	private static void update() {
@@ -197,9 +197,9 @@ public class MMigration extends X_AD_Migration {
 			col = new MColumn(Env.getCtx(), 57873, null);
 			col.syncDatabase();
 			
-			updated = true;
 		}
-			
+
+		updated = true;
 		
 	}
 
