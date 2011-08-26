@@ -1,3 +1,8 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+--define before apply this script: export NLS_LANG=SPANISH_MEXICO.AL32UTF8 
+ALTER SESSION SET NLS_LANGUAGE='SPANISH';
+ALTER SESSION SET NLS_TERRITORY='MEXICO';
 -- Aug 25, 2011 9:13:35 AM CDT
 -- Spanish Translation
 INSERT INTO AD_Column_Trl(AD_Language,IsTranslated, AD_Client_ID,AD_Org_ID, Created,Updated, Createdby,UpdatedBy, AD_Column_ID,Name) SELECT 'es_MX','N', AD_Client_ID,AD_Org_ID, SYSDATE, SYSDATE ,0,0, AD_Column_ID,Name FROM AD_Column WHERE AD_Column_ID NOT IN (SELECT AD_Column_ID FROM AD_Column_Trl WHERE AD_Language='es_MX')
