@@ -38,3 +38,34 @@ BEGIN
     RETURN addDays(day,(days * -1));
 END;
 $$ LANGUAGE plpgsql;
+
+-- Function: adddays(interval, numeric)
+
+-- DROP FUNCTION adddays(interval, numeric);
+
+CREATE OR REPLACE FUNCTION adddays(inter interval, days numeric)
+  RETURNS integer AS
+$BODY$
+BEGIN
+RETURN ( EXTRACT( EPOCH FROM ( inter ) ) / 86400 ) + days;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION adddays(interval, numeric) OWNER TO adempiere;
+
+-- Function: subtractdays(interval, numeric)
+
+-- DROP FUNCTION subtractdays(interval, numeric);
+
+CREATE OR REPLACE FUNCTION subtractdays(inter interval, days numeric)
+  RETURNS integer AS
+$BODY$
+BEGIN
+RETURN ( EXTRACT( EPOCH FROM ( inter ) ) / 86400 ) - days;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION subtractdays(interval, numeric) OWNER TO adempiere;
+
