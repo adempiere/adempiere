@@ -227,6 +227,12 @@ public class MMigrationStep extends X_AD_MigrationStep {
 				saveEx(null);
 			}
 		}
+		else
+		{
+			setApply( rollback ? MMigrationStep.APPLY_Apply : MMigrationStep.APPLY_Rollback);
+			setErrorMsg(null);
+			saveEx(null);
+		}
 		
 		return rollback ? " Rolled-back" : " Applied";
 	}
