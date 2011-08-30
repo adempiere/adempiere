@@ -51,6 +51,7 @@ import javax.swing.table.TableColumnModel;
 import org.adempiere.plaf.AdempiereLookAndFeel;
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.ADialog;
+import org.compiere.apps.AEnv;
 import org.compiere.apps.APanel;
 import org.compiere.apps.AppsAction;
 import org.compiere.grid.ed.VCellEditor;
@@ -69,6 +70,11 @@ import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.GridTable;
 import org.compiere.model.GridWindow;
+import org.compiere.model.Lookup;
+import org.compiere.model.MLookup;
+import org.compiere.model.MMemo;
+import org.compiere.model.MQuery;
+import org.compiere.model.MTable;
 import org.compiere.model.MTree;
 import org.compiere.model.MTreeNode;
 import org.compiere.swing.CPanel;
@@ -81,6 +87,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Evaluatee;
 import org.compiere.util.Trx;
+import org.compiere.util.Util;
 
 /**
  *  The Grid Controller is the panel for single and multi-row presentation
@@ -808,6 +815,29 @@ public class GridController extends CPanel
 			if (msg.length() > 0)
 				ADialog.error(m_WindowNo, this, msg);
 		}
+		
+		if ( mField != null && mField.isLookup() )
+		{
+			Lookup lookup = (Lookup) mField.getLookup();
+			if (lookup != null  && lookup instanceof MLookup )
+			{
+				MLookup mlookup = (MLookup) lookup;
+				Object value = mField.getValue();
+				if ( mlookup.isAlert() && value != null && value instanceof Integer )
+				{
+					String alert = MMemo.getAlerts(Env.getCtx(), mlookup.getTableName(), (Integer) value);
+					if ( !Util.isEmpty(alert) )
+					{
+						VAlert memo = new VAlert(Env.getWindow(m_WindowNo));
+						memo.setAlwaysOnTop(true);
+						memo.setText(alert);
+						AEnv.showCenterScreen( memo );
+						memo = null;
+					}
+				}
+			}
+		}
+
 		//if (col >= 0)
 		dynamicDisplay(col);
 	}   //  dataStatusChanged

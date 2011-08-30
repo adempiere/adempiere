@@ -30,6 +30,7 @@ import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
+import org.compiere.util.Util;
 
 /**
  *  Create MLookups
@@ -305,7 +306,7 @@ public class MLookupFactory
 			realSQL.append(" ORDER BY 3"); // sort by name/translated name - teo_sarca, [ 1672820 ]
 		//
 		return new MLookupInfo(realSQL.toString(), "AD_Ref_List", "AD_Ref_List.Value",
-			101,101, MQuery.getEqualQuery("AD_Reference_ID", AD_Reference_Value_ID));	//	Zoom Window+Query
+			101,101, MQuery.getEqualQuery("AD_Reference_ID", AD_Reference_Value_ID), false);	//	Zoom Window+Query
 	}	//	getLookup_List
 
 	/**
@@ -358,7 +359,7 @@ public class MLookupFactory
 			+ "cd.ColumnName AS DisplayColumn,rt.IsValueDisplayed,cd.IsTranslated,"	//	3..5
 			+ "rt.WhereClause,rt.OrderByClause,t.AD_Window_ID,t.PO_Window_ID, "		//	6..9
 			+ "t.AD_Table_ID, cd.ColumnSQL as DisplayColumnSQL, "					//	10..11
-			+ "rt.AD_Window_ID as RT_AD_Window_ID " // 12
+			+ "rt.AD_Window_ID as RT_AD_Window_ID, rt.IsAlert, rt.DisplaySQL, rt.IsDisplayIdentifier " // 12..15
 			+ "FROM AD_Ref_Table rt"
 			+ " INNER JOIN AD_Table t ON (rt.AD_Table_ID=t.AD_Table_ID)"
 			+ " INNER JOIN AD_Column ck ON (rt.AD_Key=ck.AD_Column_ID)"
@@ -367,8 +368,8 @@ public class MLookupFactory
 			+ " AND rt.IsActive='Y' AND t.IsActive='Y'";
 		//
 		String	KeyColumn = null, DisplayColumn = null, TableName = null, WhereClause = null, OrderByClause = null;
-		String displayColumnSQL = null;
-		boolean IsTranslated = false, isValueDisplayed = false;
+		String displayColumnSQL = null, displaySQL = null;
+		boolean IsTranslated = false, isValueDisplayed = false, isAlert = false, isDisplayIdentifier = false;
 		//boolean isSOTrx = !"N".equals(Env.getContext(ctx, WindowNo, "IsSOTrx"));
 		int ZoomWindow = 0;
 		int ZoomWindowPO = 0;
@@ -397,6 +398,9 @@ public class MLookupFactory
 				//AD_Table_ID = rs.getInt(10);
 				displayColumnSQL = rs.getString(11);
 				overrideZoomWindow = rs.getInt(12);
+				isAlert = "Y".equals(rs.getString(13));
+				displaySQL = rs.getString(14);
+				isDisplayIdentifier = "Y".equals(rs.getString(15));
 				loaded = true;
 			}
 		}
@@ -417,6 +421,11 @@ public class MLookupFactory
 			s_log.log(Level.SEVERE, "No Table Reference Table ID=" + AD_Reference_Value_ID);
 			return null;
 		}
+		
+		if ( isDisplayIdentifier )
+		{			
+			return getLookup_TableDir(ctx, language, WindowNo, KeyColumn);
+		}
 
 		StringBuffer realSQL = new StringBuffer("SELECT ");
 		if (!KeyColumn.endsWith("_ID"))
@@ -428,12 +437,17 @@ public class MLookupFactory
 			realSQL.append(TableName).append(".").append(KeyColumn).append(",");
 			if (KeyColumn.endsWith("_ID"))
 				realSQL.append("NULL,");
-			if (isValueDisplayed)
-				realSQL.append("NVL(").append(TableName).append(".Value,'-1') || '-' || ");
-			if (displayColumnSQL != null && displayColumnSQL.trim().length() > 0)
-				realSQL.append("NVL(").append(displayColumnSQL).append(",'-1')");
-			else
-				realSQL.append("NVL(").append(TableName).append("_Trl.").append(DisplayColumn).append(",'-1')");
+			if ( !Util.isEmpty( displaySQL ))
+				realSQL.append("NVL(").append(displaySQL).append(",'-1')");
+			else 
+			{
+				if (isValueDisplayed)
+					realSQL.append("NVL(").append(TableName).append(".Value,'-1') || '-' || ");
+				if (displayColumnSQL != null && displayColumnSQL.trim().length() > 0)
+					realSQL.append("NVL(").append(displayColumnSQL).append(",'-1')");
+				else
+					realSQL.append("NVL(").append(TableName).append("_Trl.").append(DisplayColumn).append(",'-1')");
+			}
 			realSQL.append(",").append(TableName).append(".IsActive");
 			realSQL.append(" FROM ").append(TableName)
 				.append(" INNER JOIN ").append(TableName).append("_TRL ON (")
@@ -448,12 +462,18 @@ public class MLookupFactory
 			realSQL.append(TableName).append(".").append(KeyColumn).append(",");
 			if (KeyColumn.endsWith("_ID"))
 				realSQL.append("NULL,");
-			if (isValueDisplayed)
-				realSQL.append("NVL(").append(TableName).append(".Value,'-1') || '-' || ");
-			if (displayColumnSQL != null && displayColumnSQL.trim().length() > 0)
-				realSQL.append("NVL(").append(displayColumnSQL).append(",'-1')");
-			else
-				realSQL.append("NVL(").append(TableName).append(".").append(DisplayColumn).append(",'-1')");
+			if ( !Util.isEmpty( displaySQL ))
+				realSQL.append("NVL(").append(displaySQL).append(",'-1')");
+			else 
+			{
+				if (isValueDisplayed)
+					realSQL.append("NVL(").append(TableName).append(".Value,'-1') || '-' || ");
+				
+				if (displayColumnSQL != null && displayColumnSQL.trim().length() > 0)
+					realSQL.append("NVL(").append(displayColumnSQL).append(",'-1')");
+				else
+					realSQL.append("NVL(").append(TableName).append(".").append(DisplayColumn).append(",'-1')");
+			}
 			realSQL.append(",").append(TableName).append(".IsActive");
 			realSQL.append(" FROM ").append(TableName);
 		}
@@ -492,13 +512,14 @@ public class MLookupFactory
 			realSQL.append(" ORDER BY 3");
 
 		s_log.finest("AD_Reference_Value_ID=" + AD_Reference_Value_ID + " - " + realSQL);
+		
 		if (overrideZoomWindow > 0)
 		{
 			ZoomWindow = overrideZoomWindow;
 			ZoomWindowPO = 0;
 		}
 		retValue = new MLookupInfo (realSQL.toString(), TableName,
-			TableName + "." + KeyColumn, ZoomWindow, ZoomWindowPO, zoomQuery);
+			TableName + "." + KeyColumn, ZoomWindow, ZoomWindowPO, zoomQuery, isAlert);
 		s_cacheRefTable.put(key, retValue.cloneIt());
 		return retValue;
 	}	//	getLookup_Table
@@ -515,7 +536,8 @@ public class MLookupFactory
 		String BaseColumn, String BaseTable, int AD_Reference_Value_ID)
 	{
 		String sql = "SELECT t.TableName,ck.ColumnName AS KeyColumn,"
-			+ "cd.ColumnName AS DisplayColumn,rt.isValueDisplayed,cd.IsTranslated "
+			+ "cd.ColumnName AS DisplayColumn,rt.isValueDisplayed,cd.IsTranslated,"
+			+ "rt.DisplaySQL "
 			+ "FROM AD_Ref_Table rt"
 			+ " INNER JOIN AD_Table t ON (rt.AD_Table_ID=t.AD_Table_ID)"
 			+ " INNER JOIN AD_Column ck ON (rt.AD_Key=ck.AD_Column_ID)"
@@ -523,7 +545,7 @@ public class MLookupFactory
 			+ "WHERE rt.AD_Reference_ID=?"
 			+ " AND rt.IsActive='Y' AND t.IsActive='Y'";
 		//
-		String	KeyColumn, DisplayColumn, TableName, TableNameAlias;
+		String	KeyColumn, DisplayColumn, TableName, TableNameAlias, displaySQL;
 		boolean IsTranslated, isValueDisplayed;
 
 		PreparedStatement pstmt = null;
@@ -545,6 +567,7 @@ public class MLookupFactory
 			DisplayColumn = rs.getString(3);
 			isValueDisplayed = rs.getString(4).equals("Y");
 			IsTranslated = rs.getString(5).equals("Y");
+			displaySQL = rs.getString(6);
 
 		}
 		catch (SQLException e)
@@ -777,7 +800,7 @@ public class MLookupFactory
 		if (CLogMgt.isLevelFinest())
 			s_log.fine("ColumnName=" + ColumnName + " - " + realSQL);
 		MLookupInfo lInfo = new MLookupInfo(realSQL.toString(), TableName,
-			TableName + "." + KeyColumn, ZoomWindow, ZoomWindowPO, zoomQuery);
+			TableName + "." + KeyColumn, ZoomWindow, ZoomWindowPO, zoomQuery, false);
 		s_cacheRefTable.put(cacheKey, lInfo.cloneIt());
 		return lInfo;
 	}	//	getLookup_TableDir
