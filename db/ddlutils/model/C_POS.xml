@@ -22,14 +22,34 @@
       <column name="ISMODIFYPRICE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="C_BPARTNERCASHTRX_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_DOCTYPE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="CASHDRAWER" primaryKey="false" required="false" type="VARCHAR" size="120" autoIncrement="false"/>
+      <column name="C_BANKACCOUNT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="OSK_KEYLAYOUT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="OSNP_KEYLAYOUT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AUTOLOGOUTDELAY" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
       <foreign-key foreignTable="AD_USER" name="ADUSER_CPOS" onDelete="none">
         <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BANKACCOUNT" name="CBANKACCOUNT_CPOS" onDelete="none">
+        <reference local="C_BANKACCOUNT_ID" foreign="C_BANKACCOUNT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNERCASHTRX_CPOS" onDelete="none">
+        <reference local="C_BPARTNERCASHTRX_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_CASHBOOK" name="CCASHBOOK_CPOS" onDelete="none">
         <reference local="C_CASHBOOK_ID" foreign="C_CASHBOOK_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_CPOS" onDelete="none">
+        <reference local="C_DOCTYPE_ID" foreign="C_DOCTYPE_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="C_POSKEYLAYOUT" name="CPOSKEYLAYOUT_CPOS" onDelete="none">
         <reference local="C_POSKEYLAYOUT_ID" foreign="C_POSKEYLAYOUT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_POSKEYLAYOUT" name="OSKKEYLAYOUT_CPOS" onDelete="none">
+        <reference local="OSK_KEYLAYOUT_ID" foreign="C_POSKEYLAYOUT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_POSKEYLAYOUT" name="OSNPKEYLAYOUT_CPOS" onDelete="none">
+        <reference local="OSNP_KEYLAYOUT_ID" foreign="C_POSKEYLAYOUT_ID"/>
       </foreign-key>
       <foreign-key foreignTable="M_PRICELIST" name="MPRICELIST_CPOS" onDelete="none">
         <reference local="M_PRICELIST_ID" foreign="M_PRICELIST_ID"/>

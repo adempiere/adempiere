@@ -24,6 +24,15 @@
       <column name="ISFINALCLOSE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="SEQNO" primaryKey="false" required="true" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
       <column name="R_STATUSCATEGORY_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <foreign-key foreignTable="R_STATUS" name="NEXTSTATUS_RSTATUS" onDelete="none">
+        <reference local="NEXT_STATUS_ID" foreign="R_STATUS_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="R_STATUS" name="UPDATESTATUS_RSTATUS" onDelete="none">
+        <reference local="UPDATE_STATUS_ID" foreign="R_STATUS_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="R_STATUSCATEGORY" name="RSTATUSCATEGORY_RSTATUS" onDelete="none">
+        <reference local="R_STATUSCATEGORY_ID" foreign="R_STATUSCATEGORY_ID"/>
+      </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
       </check>

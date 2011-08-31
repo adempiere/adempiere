@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="A_ASSET_INFO_OTH">
+      <column name="AD_CLIENT_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="A_ASSET_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="A_ASSET_INFO_OTH_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="A_USER1" primaryKey="false" required="false" type="VARCHAR" size="3" autoIncrement="false"/>
+      <column name="A_USER10" primaryKey="false" required="false" type="VARCHAR" size="3" autoIncrement="false"/>
+      <column name="A_USER11" primaryKey="false" required="false" type="VARCHAR" size="10" autoIncrement="false"/>
+      <column name="A_USER12" primaryKey="false" required="false" type="VARCHAR" size="10" autoIncrement="false"/>
+      <column name="A_USER13" primaryKey="false" required="false" type="VARCHAR" size="10" autoIncrement="false"/>
+      <column name="A_USER14" primaryKey="false" required="false" type="VARCHAR" size="10" autoIncrement="false"/>
+      <column name="A_USER15" primaryKey="false" required="false" type="VARCHAR" size="10" autoIncrement="false"/>
+      <column name="A_USER2" primaryKey="false" required="false" type="VARCHAR" size="3" autoIncrement="false"/>
+      <column name="A_USER3" primaryKey="false" required="false" type="VARCHAR" size="3" autoIncrement="false"/>
+      <column name="A_USER4" primaryKey="false" required="false" type="VARCHAR" size="3" autoIncrement="false"/>
+      <column name="A_USER5" primaryKey="false" required="false" type="VARCHAR" size="3" autoIncrement="false"/>
+      <column name="A_USER6" primaryKey="false" required="false" type="VARCHAR" size="3" autoIncrement="false"/>
+      <column name="A_USER7" primaryKey="false" required="false" type="VARCHAR" size="3" autoIncrement="false"/>
+      <column name="A_USER8" primaryKey="false" required="false" type="VARCHAR" size="3" autoIncrement="false"/>
+      <column name="A_USER9" primaryKey="false" required="false" type="VARCHAR" size="3" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="TEXT" primaryKey="false" required="false" type="VARCHAR" size="510" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <check>
+        <rule><![CDATA[IsActive IN ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<data>
+  <A_DEPRECIATION_METHOD A_DEPRECIATION_METHOD_ID="50000" NAME="Month - Current Period" AD_CLIENT_ID="11" CREATED="2008-05-30 17:05:51.0" DEPRECIATIONTYPE="MDI" ISACTIVE="Y" PROCESSED="N" UPDATED="2008-05-30 17:05:51.0" UPDATEDBY="100" TEXT="Test" DESCRIPTION="Books entire adjustment in current month" CREATEDBY="100" AD_ORG_ID="11" />
+  <A_DEPRECIATION_METHOD A_DEPRECIATION_METHOD_ID="50001" NAME="Life - Remainder of life" AD_CLIENT_ID="11" CREATED="2008-05-30 17:05:52.0" DEPRECIATIONTYPE="LDI" ISACTIVE="Y" PROCESSED="N" UPDATED="2008-05-30 17:05:52.0" UPDATEDBY="100" TEXT="Test" DESCRIPTION="Recalculates depreciation expense from Date of Service and spreads adjustment over remaining periods of the assets life." CREATEDBY="100" AD_ORG_ID="11" />
+  <A_DEPRECIATION_METHOD A_DEPRECIATION_METHOD_ID="50002" NAME="Year - Remainder of year" AD_CLIENT_ID="11" CREATED="2008-05-30 17:05:53.0" DEPRECIATIONTYPE="YDI" ISACTIVE="Y" PROCESSED="N" UPDATED="2008-05-30 17:05:53.0" UPDATEDBY="100" TEXT="Test" DESCRIPTION="Recalculates depreciation expense for current year.  Applies monthly spread percentage to determine period expense." CREATEDBY="100" AD_ORG_ID="11" />
+</data>

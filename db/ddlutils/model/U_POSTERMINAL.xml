@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="U_POSTERMINAL">
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AUTOLOCK" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="CARD_BANKACCOUNT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="CARDTRANSFERBANKACCOUNT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="CARDTRANSFERCASHBOOK_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="CARDTRANSFERTYPE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="CASHBOOKTRANSFERTYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="CASHTRANSFERBANKACCOUNT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="CASHTRANSFERCASHBOOK_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_CASHBOOK_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_CASHBPARTNER_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="CHECK_BANKACCOUNT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="CHECKTRANSFERBANKACCOUNT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="CHECKTRANSFERCASHBOOK_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="CHECKTRANSFERTYPE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_TEMPLATEBPARTNER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="LASTLOCKTIME" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="LOCKED" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="LOCKTIME" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="M_WAREHOUSE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="PO_PRICELIST_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="PRINTERNAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="SALESREP_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="SO_PRICELIST_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="UNLOCKINGTIME" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="U_POSTERMINAL_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="VALUE" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_USER" name="SALESREP_UPOSTERMINAL" onDelete="none">
+        <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BANKACCOUNT" name="CARDTRANSFERBANKACCOUNT_UPOSTE" onDelete="none">
+        <reference local="CARDTRANSFERBANKACCOUNT_ID" foreign="C_BANKACCOUNT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BANKACCOUNT" name="CARDBANKACCOUNT_UPOSTERMINAL" onDelete="none">
+        <reference local="CARD_BANKACCOUNT_ID" foreign="C_BANKACCOUNT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BANKACCOUNT" name="CHECKBANKACCOUNT_UPOSTERMINAL" onDelete="none">
+        <reference local="CHECK_BANKACCOUNT_ID" foreign="C_BANKACCOUNT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BANKACCOUNT" name="CASHTRANSFERBANKACCOUNT_UPOSTE" onDelete="none">
+        <reference local="CASHTRANSFERBANKACCOUNT_ID" foreign="C_BANKACCOUNT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BANKACCOUNT" name="CHECKTRANSFERBANKACCOUNT_UPOST" onDelete="none">
+        <reference local="CHECKTRANSFERBANKACCOUNT_ID" foreign="C_BANKACCOUNT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BPARTNER" name="CTEMPLATEBPARTNER_UPOSTERMINAL" onDelete="none">
+        <reference local="C_TEMPLATEBPARTNER_ID" foreign="C_BPARTNER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BPARTNER" name="CCASHBPARTNER_UPOSTERMINAL" onDelete="none">
+        <reference local="C_CASHBPARTNER_ID" foreign="C_BPARTNER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_CASHBOOK" name="CHECKTRANSFERCASHBOOK_UPOSTERM" onDelete="none">
+        <reference local="CHECKTRANSFERCASHBOOK_ID" foreign="C_CASHBOOK_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_CASHBOOK" name="CCASHBOOK_UPOSTERMINAL" onDelete="none">
+        <reference local="C_CASHBOOK_ID" foreign="C_CASHBOOK_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_CASHBOOK" name="CARDTRANSFERCASHBOOK_UPOSTERMI" onDelete="none">
+        <reference local="CARDTRANSFERCASHBOOK_ID" foreign="C_CASHBOOK_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_CASHBOOK" name="CASHTRANSFERCASHBOOK_UPOSTERMI" onDelete="none">
+        <reference local="CASHTRANSFERCASHBOOK_ID" foreign="C_CASHBOOK_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRICELIST" name="POPRICELIST_UPOSTERMINAL" onDelete="none">
+        <reference local="PO_PRICELIST_ID" foreign="M_PRICELIST_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRICELIST" name="SOPRICELIST_UPOSTERMINAL" onDelete="none">
+        <reference local="SO_PRICELIST_ID" foreign="M_PRICELIST_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_UPOSTERMINAL" onDelete="none">
+        <reference local="M_WAREHOUSE_ID" foreign="M_WAREHOUSE_ID"/>
+      </foreign-key>
+      <unique name="U_POSTERMINAL_VALUE">
+        <unique-column name="AD_CLIENT_ID"/>
+        <unique-column name="VALUE"/>
+      </unique>
+      <check>
+        <rule><![CDATA[AutoLock IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsActive IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[Locked IN ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

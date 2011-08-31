@@ -15,7 +15,10 @@
       <column name="AD_PROCESS_PARA_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="ATTRIBUTEVALUE" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
-      <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="4" default="D" autoIncrement="false"/>
+      <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="40" default="D" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_ENTITYTYPE" name="ENTITYT_ADWFNODEPARA" onDelete="none">
+        <reference local="ENTITYTYPE" foreign="ENTITYTYPE"/>
+      </foreign-key>
       <foreign-key foreignTable="AD_PROCESS_PARA" name="ADPROCESSPARA_ADWFNODEPARA" onDelete="cascade">
         <reference local="AD_PROCESS_PARA_ID" foreign="AD_PROCESS_PARA_ID"/>
       </foreign-key>

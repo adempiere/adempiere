@@ -29,17 +29,49 @@
       <column name="C_DOCTYPE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISAPPROVED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="APPROVALAMT" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="FREIGHTCOSTRULE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="M_SHIPPER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="PRIORITYRULE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="SALESREP_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_USER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_BPARTNER_LOCATION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_CHARGE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="CHARGEAMT" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="CREATEFROM" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="DD_ORDER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="DELIVERYRULE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="DELIVERYVIARULE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="FREIGHTAMT" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="REVERSAL_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="POREFERENCE" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="PROCESSEDON" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <foreign-key foreignTable="AD_ORG" name="ADORGTRX_MMOVEMENT" onDelete="none">
         <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_ORG" name="ADORG_MMOVEMENT" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="AD_USER" name="SALESREP_MMOVEMENT" onDelete="none">
+        <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_USER" name="ADUSER_MMOVEMENT" onDelete="none">
+        <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_MMOVEMENT" onDelete="none">
         <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_MMOVEMENT" onDelete="none">
+        <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_MMOVEMENT" onDelete="none">
         <reference local="C_CAMPAIGN_ID" foreign="C_CAMPAIGN_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_CHARGE" name="CCHARGE_MMOVEMENT" onDelete="none">
+        <reference local="C_CHARGE_ID" foreign="C_CHARGE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_MMOVEMENT" onDelete="none">
+        <reference local="C_DOCTYPE_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_MMOVE" onDelete="none">
         <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
@@ -47,8 +79,20 @@
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER2_MMOVE" onDelete="none">
         <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="C_LOCATION" name="CBPARTNERLOCATION_MMOVEMENT" onDelete="none">
+        <reference local="C_BPARTNER_LOCATION_ID" foreign="C_LOCATION_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="C_PROJECT" name="CPROJECT_MMOVEMENT" onDelete="none">
         <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="DD_ORDER" name="DDORDER_MMOVEMENT" onDelete="none">
+        <reference local="DD_ORDER_ID" foreign="DD_ORDER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_MOVEMENT" name="REVERSAL_MMOVEMENT" onDelete="none">
+        <reference local="REVERSAL_ID" foreign="M_MOVEMENT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_SHIPPER" name="MSHIPPER_MMOVEMENT" onDelete="none">
+        <reference local="M_SHIPPER_ID" foreign="M_SHIPPER_ID"/>
       </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>

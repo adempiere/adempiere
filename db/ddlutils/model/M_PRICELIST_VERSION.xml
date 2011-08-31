@@ -23,6 +23,9 @@
       <foreign-key foreignTable="M_PRICELIST" name="MPRICELIST_MPRICELISTVERSION" onDelete="cascade">
         <reference local="M_PRICELIST_ID" foreign="M_PRICELIST_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="M_PRICELIST_VERSION" name="MPRICELISTVERSIONBASE_MPRICELI" onDelete="none">
+        <reference local="M_PRICELIST_VERSION_BASE_ID" foreign="M_PRICELIST_VERSION_ID"/>
+      </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
       </check>

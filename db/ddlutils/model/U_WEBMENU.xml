@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="U_WEBMENU">
+      <column name="U_WEBMENU_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="120" autoIncrement="false"/>
+      <column name="MENULINK" primaryKey="false" required="true" type="VARCHAR" size="510" autoIncrement="false"/>
+      <column name="MODULE" primaryKey="false" required="true" type="VARCHAR" size="120" autoIncrement="false"/>
+      <column name="PARENTMENU_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="HASSUBMENU" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="200" autoIncrement="false"/>
+      <column name="IMAGELINK" primaryKey="false" required="false" type="VARCHAR" size="510" autoIncrement="false"/>
+      <column name="POSITION" primaryKey="false" required="false" type="VARCHAR" size="10" autoIncrement="false"/>
+      <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="CATEGORY" primaryKey="false" required="false" type="VARCHAR" size="120" autoIncrement="false"/>
+      <column name="SEQUENCE" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
+      <foreign-key foreignTable="U_WEBMENU" name="PARENTMENU_UWEBMENU" onDelete="none">
+        <reference local="PARENTMENU_ID" foreign="U_WEBMENU_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive IN ('Y', 'N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[HasSubMenu IN ('Y', 'N')]]></rule>
+      </check>
+    </table>
+  </database>

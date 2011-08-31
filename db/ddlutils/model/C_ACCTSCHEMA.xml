@@ -34,11 +34,16 @@
       <column name="COMMITMENTTYPE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="TAXCORRECTIONTYPE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISALLOWNEGATIVEPOSTING" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ISPOSTIFCLEARINGEQUAL" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <foreign-key foreignTable="AD_CLIENT" name="AD_CLIENT_C_ACCTSCHEMA" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_ORG" name="AD_ORG_C_ACCTSCHEMA" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="ADORGONLY_CACCTSCHEMA" onDelete="none">
+        <reference local="AD_ORGONLY_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_CURRENCY" name="C_CURRENCY_C_ACCTSCHEMA" onDelete="none">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
@@ -53,6 +58,15 @@
         <unique-column name="AD_CLIENT_ID"/>
         <unique-column name="NAME"/>
       </unique>
+      <check>
+        <rule><![CDATA[IsDiscountCorrectsTax in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[isallownegativeposting IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsPostIfClearingEqual IN ('Y','N')]]></rule>
+      </check>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
       </check>
@@ -70,9 +84,6 @@
       </check>
       <check>
         <rule><![CDATA[IsTradeDiscountPosted in ('Y','N')]]></rule>
-      </check>
-      <check>
-        <rule><![CDATA[IsDiscountCorrectsTax in ('Y','N')]]></rule>
       </check>
     </table>
   </database>

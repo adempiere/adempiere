@@ -38,6 +38,9 @@
       <column name="LIMIT_MAXAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="LIMIT_FIXED" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="C_CONVERSIONTYPE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="CLASSIFICATION" primaryKey="false" required="false" type="VARCHAR" size="12" autoIncrement="false"/>
+      <column name="GROUP2" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="GROUP1" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_MDISCOUNTSLINE" onDelete="none">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>

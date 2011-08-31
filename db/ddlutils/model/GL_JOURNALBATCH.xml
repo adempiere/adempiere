@@ -28,6 +28,7 @@
       <column name="DOCSTATUS" primaryKey="false" required="true" type="CHAR" size="2" autoIncrement="false"/>
       <column name="DOCACTION" primaryKey="false" required="true" type="CHAR" size="2" autoIncrement="false"/>
       <column name="ISAPPROVED" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="REVERSAL_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_GLJOURNALBATCH" onDelete="none">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
@@ -39,6 +40,9 @@
       </foreign-key>
       <foreign-key foreignTable="GL_CATEGORY" name="GLCATEGORY_GLJOURNALBATCH" onDelete="none">
         <reference local="GL_CATEGORY_ID" foreign="GL_CATEGORY_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="GL_JOURNALBATCH" name="REVERSAL_GLJOURNALBATCH" onDelete="none">
+        <reference local="REVERSAL_ID" foreign="GL_JOURNALBATCH_ID"/>
       </foreign-key>
       <unique name="GL_JOURNALBATCH_DOCNO">
         <unique-column name="AD_ORG_ID"/>

@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="A_ASSET_SPREAD">
+      <column name="A_ASSET_SPREAD_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="A_ASSET_SPREAD_TYPE" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="A_PERIOD_10" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
+      <column name="A_PERIOD_12" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
+      <column name="A_PERIOD_14" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
+      <column name="A_PERIOD_3" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
+      <column name="A_PERIOD_5" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
+      <column name="A_PERIOD_7" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="A_PERIOD_9" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
+      <column name="A_PERIOD_8" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
+      <column name="A_PERIOD_6" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
+      <column name="A_PERIOD_4" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
+      <column name="A_PERIOD_2" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
+      <column name="A_PERIOD_13" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
+      <column name="A_PERIOD_11" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
+      <column name="A_PERIOD_1" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <check>
+        <rule><![CDATA[IsActive IN ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

@@ -16,7 +16,7 @@
       <column name="TABLENAME" primaryKey="false" required="true" type="VARCHAR" size="40" autoIncrement="false"/>
       <column name="ISVIEW" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ACCESSLEVEL" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
-      <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="4" default="D" autoIncrement="false"/>
+      <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="40" default="D" autoIncrement="false"/>
       <column name="AD_WINDOW_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_VAL_RULE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="LOADSEQ" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
@@ -28,8 +28,12 @@
       <column name="REPLICATIONTYPE" primaryKey="false" required="true" type="CHAR" size="1" default="L" autoIncrement="false"/>
       <column name="PO_WINDOW_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="COPYCOLUMNSFROMTABLE" primaryKey="false" required="false" type="VARCHAR" size="1" autoIncrement="false"/>
+      <column name="ISCENTRALLYMAINTAINED" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <foreign-key foreignTable="AD_CLIENT" name="TABLECLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ENTITYTYPE" name="ENTITYT_ADTABLE" onDelete="none">
+        <reference local="ENTITYTYPE" foreign="ENTITYTYPE"/>
       </foreign-key>
       <foreign-key foreignTable="AD_ORG" name="TABLEORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
@@ -60,6 +64,9 @@
       </check>
       <check>
         <rule><![CDATA[IsHighVolume in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsCentrallyMaintained IN ('Y','N')]]></rule>
       </check>
     </table>
   </database>

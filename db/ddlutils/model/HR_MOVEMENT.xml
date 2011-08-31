@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="HR_MOVEMENT">
+      <column name="ISMANUAL" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="HR_CONCEPT_CATEGORY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="HR_PROCESS_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="HR_CONCEPT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="COLUMNTYPE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="HR_DEPARTMENT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="HR_JOB_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="HR_MOVEMENT_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISPRINTED" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="QTY" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="SERVICEDATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="TEXTMSG" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="VALIDFROM" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="VALIDTO" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_RULE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AMOUNT" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="C_ACTIVITY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_CAMPAIGN_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORGTRX_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_PROJECTPHASE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_PROJECTTASK_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_PROJECT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="USER1_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="USER2_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="PP_COST_COLLECTOR_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_BP_GROUP_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_BP_BANKACCOUNT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="ACCOUNTSIGN" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_HRMOVEMENT" onDelete="none">
+        <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_RULE" name="ADRULE_HRMOVEMENT" onDelete="none">
+        <reference local="AD_RULE_ID" foreign="AD_RULE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_HRMOVEMENT" onDelete="none">
+        <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_HRMOVEMENT" onDelete="none">
+        <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_HRMOVEMENT" onDelete="none">
+        <reference local="C_CAMPAIGN_ID" foreign="C_CAMPAIGN_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="USER1_HRMOVEMENT" onDelete="none">
+        <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="USER2_HRMOVEMENT" onDelete="none">
+        <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_HRMOVEMENT" onDelete="none">
+        <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_PROJECTPHASE" name="CPROJECTPHASE_HRMOVEMENT" onDelete="none">
+        <reference local="C_PROJECTPHASE_ID" foreign="C_PROJECTPHASE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_PROJECTTASK" name="CPROJECTTASK_HRMOVEMENT" onDelete="none">
+        <reference local="C_PROJECTTASK_ID" foreign="C_PROJECTTASK_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="HR_CONCEPT" name="HRCONCEPT_HRMOVEMENT" onDelete="none">
+        <reference local="HR_CONCEPT_ID" foreign="HR_CONCEPT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="HR_CONCEPT_CATEGORY" name="HRCONCEPTCATEGORY_HRMOVEMENT" onDelete="none">
+        <reference local="HR_CONCEPT_CATEGORY_ID" foreign="HR_CONCEPT_CATEGORY_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="HR_DEPARTMENT" name="HRDEPARTMENT_HRMOVEMENT" onDelete="none">
+        <reference local="HR_DEPARTMENT_ID" foreign="HR_DEPARTMENT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="HR_JOB" name="HRJOB_HRMOVEMENT" onDelete="none">
+        <reference local="HR_JOB_ID" foreign="HR_JOB_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="HR_PROCESS" name="HRPROCESS_HRMOVEMENT" onDelete="none">
+        <reference local="HR_PROCESS_ID" foreign="HR_PROCESS_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="PP_COST_COLLECTOR" name="PPCOSTCOLLECTOR_HRMOVEMENT" onDelete="none">
+        <reference local="PP_COST_COLLECTOR_ID" foreign="PP_COST_COLLECTOR_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[ISMANUAL='Y' OR ISMANUAL='N']]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsActive IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsPrinted IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[Processed IN ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

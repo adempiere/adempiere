@@ -75,41 +75,62 @@
       <column name="ISDROPSHIP" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="VOLUME" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="WEIGHT" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="ORDERTYPE" primaryKey="false" required="false" type="VARCHAR" size="510" autoIncrement="false"/>
+      <column name="C_POS_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AMOUNTTENDERED" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="AMOUNTREFUNDED" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="LINK_ORDER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="M_FREIGHTCATEGORY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="DROPSHIP_BPARTNER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="DROPSHIP_LOCATION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="DROPSHIP_USER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="PROMOTIONCODE" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"/>
+      <column name="C_ORDERSOURCE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="PROCESSEDON" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <foreign-key foreignTable="AD_ORG" name="ADORGTRX_CORDER" onDelete="none">
         <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_ORG" name="ADORG_CORDER" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="AD_USER" name="DROPSHIPUSER_CORDER" onDelete="none">
+        <reference local="DROPSHIP_USER_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="AD_USER" name="ADUSER_SR_CORDER" onDelete="none">
         <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSERBILL_CORDER" onDelete="none">
-        <reference local="BILL_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_USER" name="ADUSER_CORDER" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="AD_USER" name="ADUSERBILL_CORDER" onDelete="none">
+        <reference local="BILL_USER_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_CORDER" onDelete="none">
         <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNERPAY_CORDER" onDelete="none">
-        <reference local="PAY_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CORDER" onDelete="none">
-        <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_BPARTNER" name="CBPARTNERBILL_CORDER" onDelete="none">
         <reference local="BILL_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPLOCATIONPAY_CORDER" onDelete="none">
-        <reference local="PAY_LOCATION_ID" foreign="C_BPARTNER_LOCATION_ID"/>
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNERPAY_CORDER" onDelete="none">
+        <reference local="PAY_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BPARTNER" name="DROPSHIPBPARTNER_CORDER" onDelete="none">
+        <reference local="DROPSHIP_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CORDER" onDelete="none">
+        <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPARTNERLOCATION_CORDER" onDelete="none">
         <reference local="C_BPARTNER_LOCATION_ID" foreign="C_BPARTNER_LOCATION_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPLOCATIONBILL_CORDER" onDelete="none">
         <reference local="BILL_LOCATION_ID" foreign="C_BPARTNER_LOCATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPLOCATIONPAY_CORDER" onDelete="none">
+        <reference local="PAY_LOCATION_ID" foreign="C_BPARTNER_LOCATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="DROPSHIPLOCATION_CORDER" onDelete="none">
+        <reference local="DROPSHIP_LOCATION_ID" foreign="C_BPARTNER_LOCATION_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_CORDER" onDelete="none">
         <reference local="C_CAMPAIGN_ID" foreign="C_CAMPAIGN_ID"/>
@@ -126,20 +147,26 @@
       <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CORDER" onDelete="none">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPETARGET_CORDER" onDelete="none">
-        <reference local="C_DOCTYPETARGET_ID" foreign="C_DOCTYPE_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_DOCTYPE" name="C_DOCTYPE_CORDER" onDelete="none">
         <reference local="C_DOCTYPE_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENRVALUEUSER2_CORDER" onDelete="none">
-        <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
+      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPETARGET_CORDER" onDelete="none">
+        <reference local="C_DOCTYPETARGET_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_CORDER" onDelete="none">
         <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENRVALUEUSER2_CORDER" onDelete="none">
+        <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ORDER" name="LINKORDER_CORDER" onDelete="none">
+        <reference local="LINK_ORDER_ID" foreign="C_ORDER_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="C_ORDER" name="CORDER_REF" onDelete="none">
         <reference local="REF_ORDER_ID" foreign="C_ORDER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ORDERSOURCE" name="CORDERSOURCE_CORDER" onDelete="none">
+        <reference local="C_ORDERSOURCE_ID" foreign="C_ORDERSOURCE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_PAYMENT" name="CPAYMENT_CORDER" onDelete="none">
         <reference local="C_PAYMENT_ID" foreign="C_PAYMENT_ID"/>
@@ -147,8 +174,14 @@
       <foreign-key foreignTable="C_PAYMENTTERM" name="CPAYMENTTERM_SOHEADER" onDelete="none">
         <reference local="C_PAYMENTTERM_ID" foreign="C_PAYMENTTERM_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="C_POS" name="CPOS_CORDER" onDelete="none">
+        <reference local="C_POS_ID" foreign="C_POS_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="C_PROJECT" name="CPROJECT_CORDER" onDelete="none">
         <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_FREIGHTCATEGORY" name="MFREIGHTCATEGORY_ORDER" onDelete="none">
+        <reference local="M_FREIGHTCATEGORY_ID" foreign="M_FREIGHTCATEGORY_ID"/>
       </foreign-key>
       <foreign-key foreignTable="M_PRICELIST" name="MPRICELIST_SOHEADER" onDelete="none">
         <reference local="M_PRICELIST_ID" foreign="M_PRICELIST_ID"/>

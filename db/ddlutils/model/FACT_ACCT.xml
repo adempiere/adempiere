@@ -48,20 +48,20 @@
       <column name="USERELEMENT2_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_PROJECTPHASE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_PROJECTTASK_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <foreign-key foreignTable="A_ASSET" name="AASSET_FACTACCT" onDelete="none">
+        <reference local="A_ASSET_ID" foreign="A_ASSET_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="AD_CLIENT" name="AC_CLIENT_FACT_ACCT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="AD_ORG_FACT_ACCT" onDelete="none">
-        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_ORG" name="AD_ORGTRX_FACT_ACCT" onDelete="none">
         <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="AD_ORG_FACT_ACCT" onDelete="none">
+        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="AD_TABLE" name="ADTABLE_FACTACCT" onDelete="none">
         <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="A_ASSET" name="AASSET_FACTACCT" onDelete="none">
-        <reference local="A_ASSET_ID" foreign="A_ASSET_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_FACTACCT" onDelete="cascade">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
@@ -81,17 +81,17 @@
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUE_FACTACCT" onDelete="none">
         <reference local="ACCOUNT_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_FACTACCT" onDelete="none">
-        <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER2_FACTACCT" onDelete="none">
         <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_LOCATION" name="C_LOCATIONFROM_FACT_ACCT" onDelete="none">
-        <reference local="C_LOCFROM_ID" foreign="C_LOCATION_ID"/>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_FACTACCT" onDelete="none">
+        <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_LOCATION" name="C_LOCATIONTO_FACT_ACCT" onDelete="none">
         <reference local="C_LOCTO_ID" foreign="C_LOCATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_LOCATION" name="C_LOCATIONFROM_FACT_ACCT" onDelete="none">
+        <reference local="C_LOCFROM_ID" foreign="C_LOCATION_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_PERIOD" name="CPERIOD_FACTACCT" onDelete="none">
         <reference local="C_PERIOD_ID" foreign="C_PERIOD_ID"/>
@@ -107,6 +107,9 @@
       </foreign-key>
       <foreign-key foreignTable="C_SALESREGION" name="C_SALESREGION_FACTACCT" onDelete="none">
         <reference local="C_SALESREGION_ID" foreign="C_SALESREGION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_SUBACCT" name="CSUBACCT_FACTACCT" onDelete="none">
+        <reference local="C_SUBACCT_ID" foreign="C_SUBACCT_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_TAX" name="CTAX_FACTACCT" onDelete="none">
         <reference local="C_TAX_ID" foreign="C_TAX_ID"/>

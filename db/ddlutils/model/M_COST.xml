@@ -21,6 +21,9 @@
       <column name="FUTURECOSTPRICE" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="PERCENT" primaryKey="false" required="false" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
+      <column name="CURRENTCOSTPRICELL" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="FUTURECOSTPRICELL" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="ISCOSTFROZEN" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_MCOST" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
@@ -44,6 +47,9 @@
       </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsCostFrozen IN ('Y','N')]]></rule>
       </check>
     </table>
   </database>

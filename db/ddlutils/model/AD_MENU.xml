@@ -22,9 +22,13 @@
       <column name="AD_PROCESS_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_FORM_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_WORKBENCH_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="4" default="D" autoIncrement="false"/>
+      <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="40" default="D" autoIncrement="false"/>
+      <column name="ISCENTRALLYMAINTAINED" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_ADMENU" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ENTITYTYPE" name="ENTITYT_ADMENU" onDelete="none">
+        <reference local="ENTITYTYPE" foreign="ENTITYTYPE"/>
       </foreign-key>
       <foreign-key foreignTable="AD_FORM" name="ADFORM_ADMENU" onDelete="none">
         <reference local="AD_FORM_ID" foreign="AD_FORM_ID"/>
@@ -48,13 +52,16 @@
         <reference local="AD_WORKFLOW_ID" foreign="AD_WORKFLOW_ID"/>
       </foreign-key>
       <check>
+        <rule><![CDATA[IsReadOnly in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsCentrallyMaintained IN ('Y','N')]]></rule>
+      </check>
+      <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
       </check>
       <check>
         <rule><![CDATA[IsSOTrx in ('Y','N')]]></rule>
-      </check>
-      <check>
-        <rule><![CDATA[IsReadOnly in ('Y','N')]]></rule>
       </check>
     </table>
   </database>

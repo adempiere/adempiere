@@ -24,6 +24,9 @@
       <column name="THRESHOLDMAX" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="MINAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="MAXAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
+      <foreign-key foreignTable="C_BPARTNER" name="BENEFICI_CWITHHOLDING" onDelete="none">
+        <reference local="BENEFICIARY" foreign="C_BPARTNER_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="C_PAYMENTTERM" name="CPAYMENTTERM_CWITHHOLDING" onDelete="none">
         <reference local="C_PAYMENTTERM_ID" foreign="C_PAYMENTTERM_ID"/>
       </foreign-key>

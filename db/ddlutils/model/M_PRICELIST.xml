@@ -19,6 +19,8 @@
       <column name="C_CURRENCY_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ENFORCEPRICELIMIT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="PRICEPRECISION" primaryKey="false" required="true" type="DECIMAL" size="10" default="2" autoIncrement="false"/>
+      <column name="ISMANDATORY" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISPRESENTFORPRODUCT" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_MPRICELIST" onDelete="none">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>

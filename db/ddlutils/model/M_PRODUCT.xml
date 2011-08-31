@@ -10,8 +10,8 @@
       <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <column name="VALUE" primaryKey="false" required="true" type="VARCHAR" size="40" autoIncrement="false"/>
-      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="VALUE" primaryKey="false" required="true" type="VARCHAR" size="510" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="DOCUMENTNOTE" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
@@ -29,13 +29,13 @@
       <column name="ISVERIFIED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="C_REVENUERECOGNITION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="M_PRODUCT_CATEGORY_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <column name="CLASSIFICATION" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="CLASSIFICATION" primaryKey="false" required="false" type="VARCHAR" size="12" autoIncrement="false"/>
       <column name="VOLUME" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="WEIGHT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="SHELFWIDTH" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
-      <column name="SHELFHEIGHT" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="SHELFHEIGHT" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="SHELFDEPTH" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
-      <column name="UNITSPERPALLET" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="UNITSPERPALLET" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="C_TAXCATEGORY_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="S_RESOURCE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="DISCONTINUED" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
@@ -59,11 +59,21 @@
       <column name="C_SUBSCRIPTIONTYPE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISDROPSHIP" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISEXCLUDEAUTODELIVERY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="GROUP1" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="GROUP2" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="ISTOFORMULE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="LOWLEVEL" primaryKey="false" required="true" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
+      <column name="UNITSPERPACK" primaryKey="false" required="true" type="DECIMAL" size="10" default="1" autoIncrement="false"/>
+      <column name="DISCONTINUEDAT" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="COPYFROM" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_MPRODUCT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_ORG" name="AD_ORG_MPRODUCT" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_USER" name="SALESREP_MPRODUCT" onDelete="none">
+        <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_REVENUERECOGNITION" name="CREVRECOGNITION_MPRODUCT" onDelete="none">
         <reference local="C_REVENUERECOGNITION_ID" foreign="C_REVENUERECOGNITION_ID"/>
@@ -146,6 +156,9 @@
       </check>
       <check>
         <rule><![CDATA[Discontinued in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsToFormule IN ('Y','N')]]></rule>
       </check>
     </table>
   </database>

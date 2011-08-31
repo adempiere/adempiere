@@ -13,6 +13,9 @@
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="CODE" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="AD_LANGUAGE" primaryKey="false" required="false" type="VARCHAR" size="6" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_LANGUAGE" name="ADLANGU_ADERROR" onDelete="none">
+        <reference local="AD_LANGUAGE" foreign="AD_LANGUAGE"/>
+      </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
       </check>

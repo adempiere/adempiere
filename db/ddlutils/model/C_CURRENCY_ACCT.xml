@@ -15,10 +15,10 @@
       <column name="UNREALIZEDLOSS_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="REALIZEDGAIN_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="REALIZEDLOSS_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_CCURRENCYACCT" onDelete="none">
+      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_CCURRENCYACCT" onDelete="cascade">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CCURRENCYACCT" onDelete="none">
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CCURRENCYACCT" onDelete="cascade">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_UNREALIZEDGAIN_CCURRENCY" onDelete="none">

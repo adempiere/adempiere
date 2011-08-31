@@ -19,9 +19,9 @@
       <column name="PRICEEFFECTIVE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="PRICELASTPO" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="PRICELASTINV" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
-      <column name="VENDORPRODUCTNO" primaryKey="false" required="true" type="VARCHAR" size="30" autoIncrement="false"/>
+      <column name="VENDORPRODUCTNO" primaryKey="false" required="true" type="VARCHAR" size="40" autoIncrement="false"/>
       <column name="UPC" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
-      <column name="VENDORCATEGORY" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"/>
+      <column name="VENDORCATEGORY" primaryKey="false" required="false" type="CHAR" size="30" autoIncrement="false"/>
       <column name="DISCONTINUED" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="DISCONTINUEDBY" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="ORDER_MIN" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
@@ -31,7 +31,8 @@
       <column name="DELIVERYTIME_ACTUAL" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="QUALITYRATING" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="ROYALTYAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
-      <column name="MANUFACTURER" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"/>
+      <column name="MANUFACTURER" primaryKey="false" required="false" type="CHAR" size="30" autoIncrement="false"/>
+      <column name="DISCONTINUEDAT" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <foreign-key foreignTable="AD_CLIENT" name="M_PRODUCTPO_CLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>

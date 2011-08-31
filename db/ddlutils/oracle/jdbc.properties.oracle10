@@ -11,7 +11,7 @@ ddlutils.platform=Oracle10
 
 datasource.class=org.apache.commons.dbcp.BasicDataSource
 datasource.driverClassName=oracle.jdbc.driver.OracleDriver
-datasource.url=jdbc:oracle:thin:@localhost:1521:orcl
+datasource.url=jdbc:oracle:thin:@localhost:1521:xe
 datasource.username=adempiere
 datasource.password=adempiere
 

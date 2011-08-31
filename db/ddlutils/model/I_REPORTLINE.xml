@@ -29,6 +29,8 @@
       <column name="ELEMENTVALUE" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="PAAMOUNTTYPE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="PAPERIODTYPE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUE_IREPORTLINE" onDelete="setnull">
         <reference local="C_ELEMENTVALUE_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>

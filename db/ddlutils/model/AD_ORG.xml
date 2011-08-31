@@ -13,8 +13,12 @@
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="ISSUMMARY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="AD_REPLICATIONSTRATEGY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_ADORG" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_REPLICATIONSTRATEGY" name="AD_ORG__AD_REPLI_AD_REPLICA" onDelete="none">
+        <reference local="AD_REPLICATIONSTRATEGY_ID" foreign="AD_REPLICATIONSTRATEGY_ID"/>
       </foreign-key>
       <unique name="AD_ORG_VALUE">
         <unique-column name="AD_CLIENT_ID"/>

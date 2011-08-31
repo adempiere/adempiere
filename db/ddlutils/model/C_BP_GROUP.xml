@@ -24,11 +24,17 @@
       <column name="CREDITWATCHPERCENT" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="PRICEMATCHTOLERANCE" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="C_DUNNING_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="M_DISCOUNTSCHEMA" name="MDISCOUNTSCHEMAPO_CBPGROUP" onDelete="setnull">
-        <reference local="PO_DISCOUNTSCHEMA_ID" foreign="M_DISCOUNTSCHEMA_ID"/>
+      <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR_CBPGROUP" onDelete="none">
+        <reference local="AD_PRINTCOLOR_ID" foreign="AD_PRINTCOLOR_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_DUNNING" name="CDUNNING_CBPGROUP" onDelete="none">
+        <reference local="C_DUNNING_ID" foreign="C_DUNNING_ID"/>
       </foreign-key>
       <foreign-key foreignTable="M_DISCOUNTSCHEMA" name="MDISCOUNTSCHEMA_CBPGROUP" onDelete="setnull">
         <reference local="M_DISCOUNTSCHEMA_ID" foreign="M_DISCOUNTSCHEMA_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_DISCOUNTSCHEMA" name="MDISCOUNTSCHEMAPO_CBPGROUP" onDelete="setnull">
+        <reference local="PO_DISCOUNTSCHEMA_ID" foreign="M_DISCOUNTSCHEMA_ID"/>
       </foreign-key>
       <foreign-key foreignTable="M_PRICELIST" name="MPRICELISTPO_CBPGROUP" onDelete="setnull">
         <reference local="PO_PRICELIST_ID" foreign="M_PRICELIST_ID"/>

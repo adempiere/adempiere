@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="PP_ORDER_COST">
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_WORKFLOW_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_ACCTSCHEMA_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="COSTINGMETHOD" primaryKey="false" required="false" type="CHAR" size="1" default="x" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="CUMULATEDAMT" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="CUMULATEDAMTPOST" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="CUMULATEDQTY" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="CUMULATEDQTYPOST" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="CURRENTCOSTPRICE" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="CURRENTCOSTPRICELL" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="CURRENTQTY" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="M_ATTRIBUTESETINSTANCE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="M_COSTELEMENT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="M_COSTTYPE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="M_PRODUCT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="PP_ORDER_COST_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="PP_ORDER_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_WORKFLOW" name="ADWORKFLOW_PPORDERCOST" onDelete="none">
+        <reference local="AD_WORKFLOW_ID" foreign="AD_WORKFLOW_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_PPORDERCOST" onDelete="none">
+        <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_ATTRIBUTESETINSTANCE" name="MATTRIBUTESETINSTANCE_PPORDERC" onDelete="none">
+        <reference local="M_ATTRIBUTESETINSTANCE_ID" foreign="M_ATTRIBUTESETINSTANCE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_COSTELEMENT" name="MCOSTELEMENT_PPORDERCOST" onDelete="none">
+        <reference local="M_COSTELEMENT_ID" foreign="M_COSTELEMENT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_COSTTYPE" name="MCOSTTYPE_PPORDERCOST" onDelete="none">
+        <reference local="M_COSTTYPE_ID" foreign="M_COSTTYPE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_PPORDERCOST" onDelete="none">
+        <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="PP_ORDER" name="PPORDER_PPORDERCOST" onDelete="none">
+        <reference local="PP_ORDER_ID" foreign="PP_ORDER_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive IN ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

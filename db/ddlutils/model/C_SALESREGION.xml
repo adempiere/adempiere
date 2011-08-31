@@ -16,6 +16,9 @@
       <column name="ISSUMMARY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="SALESREP_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISDEFAULT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_USER" name="SALESREP_CSALESREGION" onDelete="none">
+        <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
       <unique name="C_SALESREGION_VALUE">
         <unique-column name="AD_CLIENT_ID"/>
         <unique-column name="VALUE"/>

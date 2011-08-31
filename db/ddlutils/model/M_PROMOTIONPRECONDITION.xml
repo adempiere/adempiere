@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="M_PROMOTIONPRECONDITION">
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_BP_GROUP_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="ENDDATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="M_PRICELIST_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="M_PROMOTIONPRECONDITION_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="M_PROMOTION_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="M_WAREHOUSE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="PROMOTIONCODE" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"/>
+      <column name="PROMOTIONCOUNTER" primaryKey="false" required="false" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
+      <column name="PROMOTIONUSAGELIMIT" primaryKey="false" required="false" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
+      <column name="SEQNO" primaryKey="false" required="true" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
+      <column name="STARTDATE" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_ACTIVITY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_MPROMOTIONPRECONDITI" onDelete="none">
+        <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_MPROMOTIONPRECONDITI" onDelete="none">
+        <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BP_GROUP" name="CBPGROUP_MPROMOTIONPRECONDITIO" onDelete="none">
+        <reference local="C_BP_GROUP_ID" foreign="C_BP_GROUP_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRICELIST" name="MPRICELIST_MPROMOTIONPRECONDIT" onDelete="none">
+        <reference local="M_PRICELIST_ID" foreign="M_PRICELIST_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PROMOTION" name="MPROMOTION_MPROMOTIONPRECONDIT" onDelete="none">
+        <reference local="M_PROMOTION_ID" foreign="M_PROMOTION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_MPROMOTIONPRECONDIT" onDelete="none">
+        <reference local="M_WAREHOUSE_ID" foreign="M_WAREHOUSE_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive IN ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

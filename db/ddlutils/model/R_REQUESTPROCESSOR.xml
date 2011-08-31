@@ -27,6 +27,9 @@
       <foreign-key foreignTable="AD_USER" name="ADUSER_RREQUESTPROCESSOR" onDelete="none">
         <reference local="SUPERVISOR_ID" foreign="AD_USER_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="R_REQUESTTYPE" name="RREQUESTTYPE_RREQUESTPROCESSOR" onDelete="none">
+        <reference local="R_REQUESTTYPE_ID" foreign="R_REQUESTTYPE_ID"/>
+      </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
       </check>

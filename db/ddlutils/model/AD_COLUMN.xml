@@ -14,8 +14,8 @@
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="VERSION" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
-      <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="4" default="D" autoIncrement="false"/>
-      <column name="COLUMNNAME" primaryKey="false" required="true" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="40" default="D" autoIncrement="false"/>
+      <column name="COLUMNNAME" primaryKey="false" required="true" type="VARCHAR" size="30" autoIncrement="false"/>
       <column name="AD_TABLE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_REFERENCE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_REFERENCE_VALUE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
@@ -41,11 +41,19 @@
       <column name="ISSYNCDATABASE" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISALWAYSUPDATEABLE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="COLUMNSQL" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="MANDATORYLOGIC" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="INFOFACTORYCLASS" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="ISAUTOCOMPLETE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISALLOWLOGGING" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="FORMATPATTERN" primaryKey="false" required="false" type="VARCHAR" size="22" autoIncrement="false"/>
       <foreign-key foreignTable="AD_CLIENT" name="COLUMNCLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_ELEMENT" name="AD_ELEMENT_AD_COLUMN" onDelete="none">
         <reference local="AD_ELEMENT_ID" foreign="AD_ELEMENT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ENTITYTYPE" name="ENTITYT_ADCOLUMN" onDelete="none">
+        <reference local="ENTITYTYPE" foreign="ENTITYTYPE"/>
       </foreign-key>
       <foreign-key foreignTable="AD_ORG" name="COLUMNORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
@@ -98,6 +106,12 @@
       </check>
       <check>
         <rule><![CDATA[IsSyncDatabase in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsAutocomplete IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsAllowLogging IN ('Y','N')]]></rule>
       </check>
     </table>
   </database>

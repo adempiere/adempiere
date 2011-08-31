@@ -20,11 +20,17 @@
       <column name="AD_PRINTFORMAT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="LISTSOURCES" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="LISTTRX" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="JASPERPROCESS_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="JASPERPROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="PA_REPORTCUBE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <foreign-key foreignTable="AD_ORG" name="ADORG_PAREPORT" onDelete="cascade">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_PAREPORT" onDelete="setnull">
         <reference local="AD_PRINTFORMAT_ID" foreign="AD_PRINTFORMAT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_PROCESS" name="JASPERPROCESS_PAREPORT" onDelete="none">
+        <reference local="JASPERPROCESS_ID" foreign="AD_PROCESS_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_PAREPORT" onDelete="none">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
@@ -34,6 +40,9 @@
       </foreign-key>
       <foreign-key foreignTable="PA_REPORTCOLUMNSET" name="PAREPORT_COLUMNSET" onDelete="none">
         <reference local="PA_REPORTCOLUMNSET_ID" foreign="PA_REPORTCOLUMNSET_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="PA_REPORTCUBE" name="PAREPORTCUBE_PAREPORT" onDelete="none">
+        <reference local="PA_REPORTCUBE_ID" foreign="PA_REPORTCUBE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="PA_REPORTLINESET" name="PAREPORT_LINESET" onDelete="none">
         <reference local="PA_REPORTLINESET_ID" foreign="PA_REPORTLINESET_ID"/>

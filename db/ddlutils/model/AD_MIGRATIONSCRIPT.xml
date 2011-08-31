@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="AD_MIGRATIONSCRIPT">
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_MIGRATIONSCRIPT_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="DEVELOPERNAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="PROJECTNAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="REFERENCE" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="RELEASENO" primaryKey="false" required="true" type="VARCHAR" size="10" autoIncrement="false"/>
+      <column name="SCRIPTROLL" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="STATUS" primaryKey="false" required="true" type="CHAR" size="2" autoIncrement="false"/>
+      <column name="URL" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="ISAPPLY" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="FILENAME" primaryKey="false" required="true" type="VARCHAR" size="500" autoIncrement="false"/>
+      <column name="SCRIPT" primaryKey="false" required="false" type="BLOB" size="4000" autoIncrement="false"/>
+      <check name="AD_MIGRATIONSCRIPT_ISAPPLY_CHK">
+        <rule><![CDATA[IsApply IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsActive IN ('Y','N')]]></rule>
+      </check>
+      <check name="AD_MIGRATIONSCRIPT_ISACT_CHK">
+        <rule><![CDATA[IsActive IN ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

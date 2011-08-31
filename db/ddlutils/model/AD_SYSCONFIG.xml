@@ -13,6 +13,11 @@
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="50" autoIncrement="false"/>
       <column name="VALUE" primaryKey="false" required="true" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="40" default="U" autoIncrement="false"/>
+      <column name="CONFIGURATIONLEVEL" primaryKey="false" required="false" type="CHAR" size="1" default="S" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_ENTITYTYPE" name="ENTITYT_ADSYSCONFIG" onDelete="none">
+        <reference local="ENTITYTYPE" foreign="ENTITYTYPE"/>
+      </foreign-key>
       <check>
         <rule><![CDATA[isactive IN ('Y','N')]]></rule>
       </check>

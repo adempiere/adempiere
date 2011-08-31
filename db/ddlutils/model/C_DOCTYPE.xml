@@ -36,20 +36,30 @@
       <column name="C_DOCTYPEDIFFERENCE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISCREATECOUNTER" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="ISINDEXED" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ISOVERWRITESEQONCOMPLETE" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="DEFINITESEQUENCE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="ISOVERWRITEDATEONCOMPLETE" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISPREPARESPLITDOCUMENT" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_CDOCTYPE" onDelete="none">
         <reference local="AD_PRINTFORMAT_ID" foreign="AD_PRINTFORMAT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_SEQUENCE" name="DEFINITESEQUENCE_CDOCTYPE" onDelete="none">
+        <reference local="DEFINITESEQUENCE_ID" foreign="AD_SEQUENCE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_SEQUENCE" name="AD_SEQUENCE_DOCTYPEDOC" onDelete="none">
         <reference local="DOCNOSEQUENCE_ID" foreign="AD_SEQUENCE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_PROFORMA" onDelete="none">
-        <reference local="C_DOCTYPEPROFORMA_ID" foreign="C_DOCTYPE_ID"/>
+      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPEDIFFERENCE_CDOCTYPE" onDelete="none">
+        <reference local="C_DOCTYPEDIFFERENCE_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_SHIPMENT" onDelete="none">
         <reference local="C_DOCTYPESHIPMENT_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_INVOICE" onDelete="none">
         <reference local="C_DOCTYPEINVOICE_ID" foreign="C_DOCTYPE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_PROFORMA" onDelete="none">
+        <reference local="C_DOCTYPEPROFORMA_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="GL_CATEGORY" name="GLCATEGORY_CDOCTYPE" onDelete="none">
         <reference local="GL_CATEGORY_ID" foreign="GL_CATEGORY_ID"/>
@@ -72,6 +82,15 @@
       </check>
       <check>
         <rule><![CDATA[HasCharges in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsOverwriteSeqOnComplete IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsOverwriteDateOnComplete IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsPrepareSplitDocument IN ('Y','N')]]></rule>
       </check>
     </table>
   </database>

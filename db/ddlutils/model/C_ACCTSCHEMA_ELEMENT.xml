@@ -30,6 +30,9 @@
       <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_CASCHEMAELEMENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_CACCTSCHEMAELEMENT" onDelete="none">
+        <reference local="AD_COLUMN_ID" foreign="AD_COLUMN_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="AD_ORG" name="ADORG_CASCHEMAELEMENT" onDelete="none">
         <reference local="ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>

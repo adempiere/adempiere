@@ -17,7 +17,7 @@
       <column name="ISDEPRECIATED" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="ISONEASSETPERUOM" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISCREATEASACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <column name="ISTRACKISSUES" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISTRACKISSUES" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
       </check>

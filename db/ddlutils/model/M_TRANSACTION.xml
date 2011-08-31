@@ -21,6 +21,7 @@
       <column name="M_PRODUCTIONLINE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_PROJECTISSUE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="M_ATTRIBUTESETINSTANCE_ID" primaryKey="false" required="true" type="ID" size="10" default="0" autoIncrement="false"/>
+      <column name="PP_COST_COLLECTOR_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <foreign-key foreignTable="C_PROJECTISSUE" name="CPROJECTISSUE_MTRANSACTION" onDelete="none">
         <reference local="C_PROJECTISSUE_ID" foreign="C_PROJECTISSUE_ID"/>
       </foreign-key>
@@ -44,6 +45,9 @@
       </foreign-key>
       <foreign-key foreignTable="M_PRODUCTIONLINE" name="MPRODUCTIONLINE_MTRANSACTION" onDelete="none">
         <reference local="M_PRODUCTIONLINE_ID" foreign="M_PRODUCTIONLINE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="PP_COST_COLLECTOR" name="PPCOSTCOLLECTOR_MTRANSACTION" onDelete="none">
+        <reference local="PP_COST_COLLECTOR_ID" foreign="PP_COST_COLLECTOR_ID"/>
       </foreign-key>
       <index name="M_TRANSSACTION_PRODUCT">
         <index-column name="M_PRODUCT_ID"/>

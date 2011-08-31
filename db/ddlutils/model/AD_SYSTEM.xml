@@ -14,7 +14,7 @@
       <column name="USERNAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="INFO" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="VERSION" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
-      <column name="RELEASENO" primaryKey="false" required="true" type="CHAR" size="4" autoIncrement="false"/>
+      <column name="RELEASENO" primaryKey="false" required="false" type="VARCHAR" size="10" autoIncrement="false"/>
       <column name="SUPPORTUNITS" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="PASSWORD" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
       <column name="REPLICATIONTYPE" primaryKey="false" required="true" type="CHAR" size="1" default="L" autoIncrement="false"/>
@@ -40,8 +40,17 @@
       <column name="OLDNAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="SYSTEMSTATUS" primaryKey="false" required="true" type="CHAR" size="1" default="E" autoIncrement="false"/>
+      <column name="ISFAILONMISSINGMODELVALIDATOR" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="LASTBUILDINFO" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="ISFAILONBUILDDIFFER" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsFailOnMissingModelValidator IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsFailOnBuildDiffer IN ('Y','N')]]></rule>
       </check>
     </table>
   </database>

@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="HR_LIST">
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="HR_DEPARTMENT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="HR_EMPLOYEE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="HR_LISTTYPE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="HR_LIST_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="HR_PAYROLL_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISEMPLOYEE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="VALIDFROM" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="VALUE" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
+      <foreign-key foreignTable="HR_DEPARTMENT" name="HRDEPARTMENT_HRLIST" onDelete="none">
+        <reference local="HR_DEPARTMENT_ID" foreign="HR_DEPARTMENT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="HR_EMPLOYEE" name="HREMPLOYEE_HRLIST" onDelete="none">
+        <reference local="HR_EMPLOYEE_ID" foreign="HR_EMPLOYEE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="HR_LISTTYPE" name="HRLISTTYPE_HRLIST" onDelete="none">
+        <reference local="HR_LISTTYPE_ID" foreign="HR_LISTTYPE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="HR_PAYROLL" name="HRPAYROLL_HRLIST" onDelete="none">
+        <reference local="HR_PAYROLL_ID" foreign="HR_PAYROLL_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsEmployee IN ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>
