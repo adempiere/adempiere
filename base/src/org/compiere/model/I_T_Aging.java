@@ -92,21 +92,6 @@ public interface I_T_Aging
 
 	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException;
 
-    /** Column name C_BP_Group_ID */
-    public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
-
-	/** Set Business Partner Group.
-	  * Business Partner Group
-	  */
-	public void setC_BP_Group_ID (int C_BP_Group_ID);
-
-	/** Get Business Partner Group.
-	  * Business Partner Group
-	  */
-	public int getC_BP_Group_ID();
-
-	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException;
-
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 
@@ -121,6 +106,21 @@ public interface I_T_Aging
 	public int getC_BPartner_ID();
 
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
+
+    /** Column name C_BP_Group_ID */
+    public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
+
+	/** Set Business Partner Group.
+	  * Business Partner Group
+	  */
+	public void setC_BP_Group_ID (int C_BP_Group_ID);
+
+	/** Get Business Partner Group.
+	  * Business Partner Group
+	  */
+	public int getC_BP_Group_ID();
+
+	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException;
 
     /** Column name C_Campaign_ID */
     public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
@@ -152,21 +152,6 @@ public interface I_T_Aging
 
 	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException;
 
-    /** Column name C_InvoicePaySchedule_ID */
-    public static final String COLUMNNAME_C_InvoicePaySchedule_ID = "C_InvoicePaySchedule_ID";
-
-	/** Set Invoice Payment Schedule.
-	  * Invoice Payment Schedule
-	  */
-	public void setC_InvoicePaySchedule_ID (int C_InvoicePaySchedule_ID);
-
-	/** Get Invoice Payment Schedule.
-	  * Invoice Payment Schedule
-	  */
-	public int getC_InvoicePaySchedule_ID();
-
-	public org.compiere.model.I_C_InvoicePaySchedule getC_InvoicePaySchedule() throws RuntimeException;
-
     /** Column name C_Invoice_ID */
     public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
 
@@ -181,6 +166,21 @@ public interface I_T_Aging
 	public int getC_Invoice_ID();
 
 	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException;
+
+    /** Column name C_InvoicePaySchedule_ID */
+    public static final String COLUMNNAME_C_InvoicePaySchedule_ID = "C_InvoicePaySchedule_ID";
+
+	/** Set Invoice Payment Schedule.
+	  * Invoice Payment Schedule
+	  */
+	public void setC_InvoicePaySchedule_ID (int C_InvoicePaySchedule_ID);
+
+	/** Get Invoice Payment Schedule.
+	  * Invoice Payment Schedule
+	  */
+	public int getC_InvoicePaySchedule_ID();
+
+	public org.compiere.model.I_C_InvoicePaySchedule getC_InvoicePaySchedule() throws RuntimeException;
 
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
@@ -239,6 +239,32 @@ public interface I_T_Aging
 	  */
 	public int getDaysDue();
 
+    /** Column name DueAmt */
+    public static final String COLUMNNAME_DueAmt = "DueAmt";
+
+	/** Set Amount due.
+	  * Amount of the payment due
+	  */
+	public void setDueAmt (BigDecimal DueAmt);
+
+	/** Get Amount due.
+	  * Amount of the payment due
+	  */
+	public BigDecimal getDueAmt();
+
+    /** Column name DueDate */
+    public static final String COLUMNNAME_DueDate = "DueDate";
+
+	/** Set Due Date.
+	  * Date when the payment is due
+	  */
+	public void setDueDate (Timestamp DueDate);
+
+	/** Get Due Date.
+	  * Date when the payment is due
+	  */
+	public Timestamp getDueDate();
+
     /** Column name Due0 */
     public static final String COLUMNNAME_Due0 = "Due0";
 
@@ -275,15 +301,6 @@ public interface I_T_Aging
 	/** Get Due 1-7	  */
 	public BigDecimal getDue1_7();
 
-    /** Column name Due31_60 */
-    public static final String COLUMNNAME_Due31_60 = "Due31_60";
-
-	/** Set Due 31-60	  */
-	public void setDue31_60 (BigDecimal Due31_60);
-
-	/** Get Due 31-60	  */
-	public BigDecimal getDue31_60();
-
     /** Column name Due31_Plus */
     public static final String COLUMNNAME_Due31_Plus = "Due31_Plus";
 
@@ -293,14 +310,14 @@ public interface I_T_Aging
 	/** Get Due > 31	  */
 	public BigDecimal getDue31_Plus();
 
-    /** Column name Due61_90 */
-    public static final String COLUMNNAME_Due61_90 = "Due61_90";
+    /** Column name Due31_60 */
+    public static final String COLUMNNAME_Due31_60 = "Due31_60";
 
-	/** Set Due 61-90	  */
-	public void setDue61_90 (BigDecimal Due61_90);
+	/** Set Due 31-60	  */
+	public void setDue31_60 (BigDecimal Due31_60);
 
-	/** Get Due 61-90	  */
-	public BigDecimal getDue61_90();
+	/** Get Due 31-60	  */
+	public BigDecimal getDue31_60();
 
     /** Column name Due61_Plus */
     public static final String COLUMNNAME_Due61_Plus = "Due61_Plus";
@@ -310,6 +327,15 @@ public interface I_T_Aging
 
 	/** Get Due > 61	  */
 	public BigDecimal getDue61_Plus();
+
+    /** Column name Due61_90 */
+    public static final String COLUMNNAME_Due61_90 = "Due61_90";
+
+	/** Set Due 61-90	  */
+	public void setDue61_90 (BigDecimal Due61_90);
+
+	/** Get Due 61-90	  */
+	public BigDecimal getDue61_90();
 
     /** Column name Due8_30 */
     public static final String COLUMNNAME_Due8_30 = "Due8_30";
@@ -328,32 +354,6 @@ public interface I_T_Aging
 
 	/** Get Due > 91	  */
 	public BigDecimal getDue91_Plus();
-
-    /** Column name DueAmt */
-    public static final String COLUMNNAME_DueAmt = "DueAmt";
-
-	/** Set Amount due.
-	  * Amount of the payment due
-	  */
-	public void setDueAmt (BigDecimal DueAmt);
-
-	/** Get Amount due.
-	  * Amount of the payment due
-	  */
-	public BigDecimal getDueAmt();
-
-    /** Column name DueDate */
-    public static final String COLUMNNAME_DueDate = "DueDate";
-
-	/** Set Due Date.
-	  * Date when the payment is due
-	  */
-	public void setDueDate (Timestamp DueDate);
-
-	/** Get Due Date.
-	  * Date when the payment is due
-	  */
-	public Timestamp getDueDate();
 
     /** Column name InvoicedAmt */
     public static final String COLUMNNAME_InvoicedAmt = "InvoicedAmt";
@@ -420,6 +420,15 @@ public interface I_T_Aging
 	  */
 	public BigDecimal getOpenAmt();
 
+    /** Column name PastDueAmt */
+    public static final String COLUMNNAME_PastDueAmt = "PastDueAmt";
+
+	/** Set Past Due	  */
+	public void setPastDueAmt (BigDecimal PastDueAmt);
+
+	/** Get Past Due	  */
+	public BigDecimal getPastDueAmt();
+
     /** Column name PastDue1_30 */
     public static final String COLUMNNAME_PastDue1_30 = "PastDue1_30";
 
@@ -438,15 +447,6 @@ public interface I_T_Aging
 	/** Get Past Due 1-7	  */
 	public BigDecimal getPastDue1_7();
 
-    /** Column name PastDue31_60 */
-    public static final String COLUMNNAME_PastDue31_60 = "PastDue31_60";
-
-	/** Set Past Due 31-60	  */
-	public void setPastDue31_60 (BigDecimal PastDue31_60);
-
-	/** Get Past Due 31-60	  */
-	public BigDecimal getPastDue31_60();
-
     /** Column name PastDue31_Plus */
     public static final String COLUMNNAME_PastDue31_Plus = "PastDue31_Plus";
 
@@ -456,14 +456,14 @@ public interface I_T_Aging
 	/** Get Past Due > 31	  */
 	public BigDecimal getPastDue31_Plus();
 
-    /** Column name PastDue61_90 */
-    public static final String COLUMNNAME_PastDue61_90 = "PastDue61_90";
+    /** Column name PastDue31_60 */
+    public static final String COLUMNNAME_PastDue31_60 = "PastDue31_60";
 
-	/** Set Past Due 61-90	  */
-	public void setPastDue61_90 (BigDecimal PastDue61_90);
+	/** Set Past Due 31-60	  */
+	public void setPastDue31_60 (BigDecimal PastDue31_60);
 
-	/** Get Past Due 61-90	  */
-	public BigDecimal getPastDue61_90();
+	/** Get Past Due 31-60	  */
+	public BigDecimal getPastDue31_60();
 
     /** Column name PastDue61_Plus */
     public static final String COLUMNNAME_PastDue61_Plus = "PastDue61_Plus";
@@ -473,6 +473,15 @@ public interface I_T_Aging
 
 	/** Get Past Due > 61	  */
 	public BigDecimal getPastDue61_Plus();
+
+    /** Column name PastDue61_90 */
+    public static final String COLUMNNAME_PastDue61_90 = "PastDue61_90";
+
+	/** Set Past Due 61-90	  */
+	public void setPastDue61_90 (BigDecimal PastDue61_90);
+
+	/** Get Past Due 61-90	  */
+	public BigDecimal getPastDue61_90();
 
     /** Column name PastDue8_30 */
     public static final String COLUMNNAME_PastDue8_30 = "PastDue8_30";
@@ -491,15 +500,6 @@ public interface I_T_Aging
 
 	/** Get Past Due > 91	  */
 	public BigDecimal getPastDue91_Plus();
-
-    /** Column name PastDueAmt */
-    public static final String COLUMNNAME_PastDueAmt = "PastDueAmt";
-
-	/** Set Past Due	  */
-	public void setPastDueAmt (BigDecimal PastDueAmt);
-
-	/** Get Past Due	  */
-	public BigDecimal getPastDueAmt();
 
     /** Column name StatementDate */
     public static final String COLUMNNAME_StatementDate = "StatementDate";

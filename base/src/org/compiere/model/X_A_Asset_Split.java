@@ -33,7 +33,7 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110810L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_A_Asset_Split (Properties ctx, int A_Asset_Split_ID, String trxName)

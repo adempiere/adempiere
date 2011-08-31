@@ -31,7 +31,7 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110810L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_K_Index (Properties ctx, int K_Index_ID, String trxName)
@@ -40,8 +40,8 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
       /** if (K_Index_ID == 0)
         {
 			setAD_Table_ID (0);
-			setK_INDEX_ID (0);
 			setKeyword (null);
+			setK_INDEX_ID (0);
 			setRecord_ID (0);
 			setSourceUpdated (new Timestamp( System.currentTimeMillis() ));
         } */
@@ -103,34 +103,6 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_CM_WebProject getCM_WebProject() throws RuntimeException
-    {
-		return (org.compiere.model.I_CM_WebProject)MTable.get(getCtx(), org.compiere.model.I_CM_WebProject.Table_Name)
-			.getPO(getCM_WebProject_ID(), get_TrxName());	}
-
-	/** Set Web Project.
-		@param CM_WebProject_ID 
-		A web project is the main data container for Containers, URLs, Ads, Media etc.
-	  */
-	public void setCM_WebProject_ID (int CM_WebProject_ID)
-	{
-		if (CM_WebProject_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_CM_WebProject_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_CM_WebProject_ID, Integer.valueOf(CM_WebProject_ID));
-	}
-
-	/** Get Web Project.
-		@return A web project is the main data container for Containers, URLs, Ads, Media etc.
-	  */
-	public int getCM_WebProject_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_CM_WebProject_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException
     {
 		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
@@ -159,6 +131,34 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_CM_WebProject getCM_WebProject() throws RuntimeException
+    {
+		return (org.compiere.model.I_CM_WebProject)MTable.get(getCtx(), org.compiere.model.I_CM_WebProject.Table_Name)
+			.getPO(getCM_WebProject_ID(), get_TrxName());	}
+
+	/** Set Web Project.
+		@param CM_WebProject_ID 
+		A web project is the main data container for Containers, URLs, Ads, Media etc.
+	  */
+	public void setCM_WebProject_ID (int CM_WebProject_ID)
+	{
+		if (CM_WebProject_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_WebProject_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_WebProject_ID, Integer.valueOf(CM_WebProject_ID));
+	}
+
+	/** Get Web Project.
+		@return A web project is the main data container for Containers, URLs, Ads, Media etc.
+	  */
+	public int getCM_WebProject_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CM_WebProject_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Excerpt.
 		@param Excerpt 
 		Surrounding text of the keyword
@@ -174,29 +174,6 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
 	public String getExcerpt () 
 	{
 		return (String)get_Value(COLUMNNAME_Excerpt);
-	}
-
-	/** Set Index.
-		@param K_INDEX_ID 
-		Text Search Index
-	  */
-	public void setK_INDEX_ID (int K_INDEX_ID)
-	{
-		if (K_INDEX_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_K_INDEX_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_K_INDEX_ID, Integer.valueOf(K_INDEX_ID));
-	}
-
-	/** Get Index.
-		@return Text Search Index
-	  */
-	public int getK_INDEX_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_K_INDEX_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set Keyword.
@@ -224,29 +201,24 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
         return new KeyNamePair(get_ID(), getKeyword());
     }
 
-	public org.compiere.model.I_R_RequestType getR_RequestType() throws RuntimeException
-    {
-		return (org.compiere.model.I_R_RequestType)MTable.get(getCtx(), org.compiere.model.I_R_RequestType.Table_Name)
-			.getPO(getR_RequestType_ID(), get_TrxName());	}
-
-	/** Set Request Type.
-		@param R_RequestType_ID 
-		Type of request (e.g. Inquiry, Complaint, ..)
+	/** Set Index.
+		@param K_INDEX_ID 
+		Text Search Index
 	  */
-	public void setR_RequestType_ID (int R_RequestType_ID)
+	public void setK_INDEX_ID (int K_INDEX_ID)
 	{
-		if (R_RequestType_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_R_RequestType_ID, null);
+		if (K_INDEX_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_K_INDEX_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_R_RequestType_ID, Integer.valueOf(R_RequestType_ID));
+			set_ValueNoCheck (COLUMNNAME_K_INDEX_ID, Integer.valueOf(K_INDEX_ID));
 	}
 
-	/** Get Request Type.
-		@return Type of request (e.g. Inquiry, Complaint, ..)
+	/** Get Index.
+		@return Text Search Index
 	  */
-	public int getR_RequestType_ID () 
+	public int getK_INDEX_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_R_RequestType_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_K_INDEX_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -270,6 +242,34 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
 	public int getRecord_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_Record_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_R_RequestType getR_RequestType() throws RuntimeException
+    {
+		return (org.compiere.model.I_R_RequestType)MTable.get(getCtx(), org.compiere.model.I_R_RequestType.Table_Name)
+			.getPO(getR_RequestType_ID(), get_TrxName());	}
+
+	/** Set Request Type.
+		@param R_RequestType_ID 
+		Type of request (e.g. Inquiry, Complaint, ..)
+	  */
+	public void setR_RequestType_ID (int R_RequestType_ID)
+	{
+		if (R_RequestType_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_R_RequestType_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_RequestType_ID, Integer.valueOf(R_RequestType_ID));
+	}
+
+	/** Get Request Type.
+		@return Type of request (e.g. Inquiry, Complaint, ..)
+	  */
+	public int getR_RequestType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_R_RequestType_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

@@ -30,7 +30,7 @@ public class X_W_Counter extends PO implements I_W_Counter, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110810L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_W_Counter (Properties ctx, int W_Counter_ID, String trxName)
@@ -74,6 +74,23 @@ public class X_W_Counter extends PO implements I_W_Counter, I_Persistent
       return sb.toString();
     }
 
+	/** Set Accept Language.
+		@param AcceptLanguage 
+		Language accepted based on browser information
+	  */
+	public void setAcceptLanguage (String AcceptLanguage)
+	{
+		set_Value (COLUMNNAME_AcceptLanguage, AcceptLanguage);
+	}
+
+	/** Get Accept Language.
+		@return Language accepted based on browser information
+	  */
+	public String getAcceptLanguage () 
+	{
+		return (String)get_Value(COLUMNNAME_AcceptLanguage);
+	}
+
 	/** Set Usuario.
 		@param AD_User_ID 
 		User within the system - Internal or Business Partner Contact
@@ -95,23 +112,6 @@ public class X_W_Counter extends PO implements I_W_Counter, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Accept Language.
-		@param AcceptLanguage 
-		Language accepted based on browser information
-	  */
-	public void setAcceptLanguage (String AcceptLanguage)
-	{
-		set_Value (COLUMNNAME_AcceptLanguage, AcceptLanguage);
-	}
-
-	/** Get Accept Language.
-		@return Language accepted based on browser information
-	  */
-	public String getAcceptLanguage () 
-	{
-		return (String)get_Value(COLUMNNAME_AcceptLanguage);
 	}
 
 	/** Set EMail Address.

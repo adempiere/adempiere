@@ -130,15 +130,6 @@ public interface I_S_ResourceUnAvailable
 	  */
 	public boolean isActive();
 
-    /** Column name S_ResourceUnAvailable_ID */
-    public static final String COLUMNNAME_S_ResourceUnAvailable_ID = "S_ResourceUnAvailable_ID";
-
-	/** Set Resource Unavailability	  */
-	public void setS_ResourceUnAvailable_ID (int S_ResourceUnAvailable_ID);
-
-	/** Get Resource Unavailability	  */
-	public int getS_ResourceUnAvailable_ID();
-
     /** Column name S_Resource_ID */
     public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";
 
@@ -153,6 +144,15 @@ public interface I_S_ResourceUnAvailable
 	public int getS_Resource_ID();
 
 	public org.compiere.model.I_S_Resource getS_Resource() throws RuntimeException;
+
+    /** Column name S_ResourceUnAvailable_ID */
+    public static final String COLUMNNAME_S_ResourceUnAvailable_ID = "S_ResourceUnAvailable_ID";
+
+	/** Set Resource Unavailability	  */
+	public void setS_ResourceUnAvailable_ID (int S_ResourceUnAvailable_ID);
+
+	/** Get Resource Unavailability	  */
+	public int getS_ResourceUnAvailable_ID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

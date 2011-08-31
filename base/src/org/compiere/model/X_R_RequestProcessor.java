@@ -31,7 +31,7 @@ public class X_R_RequestProcessor extends PO implements I_R_RequestProcessor, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110810L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_R_RequestProcessor (Properties ctx, int R_RequestProcessor_ID, String trxName)
@@ -51,9 +51,9 @@ public class X_R_RequestProcessor extends PO implements I_R_RequestProcessor, I_
 // 0
 			setOverdueAssignDays (0);
 // 0
-			setR_RequestProcessor_ID (0);
 			setRemindDays (0);
 // 0
+			setR_RequestProcessor_ID (0);
 			setSupervisor_ID (0);
         } */
     }
@@ -309,6 +309,26 @@ public class X_R_RequestProcessor extends PO implements I_R_RequestProcessor, I_
 		return false;
 	}
 
+	/** Set Reminder Days.
+		@param RemindDays 
+		Days between sending Reminder Emails for a due or inactive Document
+	  */
+	public void setRemindDays (int RemindDays)
+	{
+		set_Value (COLUMNNAME_RemindDays, Integer.valueOf(RemindDays));
+	}
+
+	/** Get Reminder Days.
+		@return Days between sending Reminder Emails for a due or inactive Document
+	  */
+	public int getRemindDays () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_RemindDays);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Request Processor.
 		@param R_RequestProcessor_ID 
 		Processor for Requests
@@ -355,26 +375,6 @@ public class X_R_RequestProcessor extends PO implements I_R_RequestProcessor, I_
 	public int getR_RequestType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_R_RequestType_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Reminder Days.
-		@param RemindDays 
-		Days between sending Reminder Emails for a due or inactive Document
-	  */
-	public void setRemindDays (int RemindDays)
-	{
-		set_Value (COLUMNNAME_RemindDays, Integer.valueOf(RemindDays));
-	}
-
-	/** Get Reminder Days.
-		@return Days between sending Reminder Emails for a due or inactive Document
-	  */
-	public int getRemindDays () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_RemindDays);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

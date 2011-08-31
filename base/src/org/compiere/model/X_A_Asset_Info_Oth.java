@@ -29,7 +29,7 @@ public class X_A_Asset_Info_Oth extends PO implements I_A_Asset_Info_Oth, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110810L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_A_Asset_Info_Oth (Properties ctx, int A_Asset_Info_Oth_ID, String trxName)

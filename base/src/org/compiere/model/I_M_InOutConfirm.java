@@ -90,19 +90,6 @@ public interface I_M_InOutConfirm
 
 	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException;
 
-    /** Column name ConfirmType */
-    public static final String COLUMNNAME_ConfirmType = "ConfirmType";
-
-	/** Set Confirmation Type.
-	  * Type of confirmation
-	  */
-	public void setConfirmType (String ConfirmType);
-
-	/** Get Confirmation Type.
-	  * Type of confirmation
-	  */
-	public String getConfirmType();
-
     /** Column name ConfirmationNo */
     public static final String COLUMNNAME_ConfirmationNo = "ConfirmationNo";
 
@@ -116,14 +103,18 @@ public interface I_M_InOutConfirm
 	  */
 	public String getConfirmationNo();
 
-    /** Column name CreatePackage */
-    public static final String COLUMNNAME_CreatePackage = "CreatePackage";
+    /** Column name ConfirmType */
+    public static final String COLUMNNAME_ConfirmType = "ConfirmType";
 
-	/** Set Create Package	  */
-	public void setCreatePackage (String CreatePackage);
+	/** Set Confirmation Type.
+	  * Type of confirmation
+	  */
+	public void setConfirmType (String ConfirmType);
 
-	/** Get Create Package	  */
-	public String getCreatePackage();
+	/** Get Confirmation Type.
+	  * Type of confirmation
+	  */
+	public String getConfirmType();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -140,6 +131,15 @@ public interface I_M_InOutConfirm
 	  * User who created this records
 	  */
 	public int getCreatedBy();
+
+    /** Column name CreatePackage */
+    public static final String COLUMNNAME_CreatePackage = "CreatePackage";
+
+	/** Set Create Package	  */
+	public void setCreatePackage (String CreatePackage);
+
+	/** Get Create Package	  */
+	public String getCreatePackage();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

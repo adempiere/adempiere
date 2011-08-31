@@ -41,6 +41,15 @@ public interface I_A_Asset_Reval_Index
 
     /** Load Meta Data */
 
+    /** Column name A_Asset_Reval_Index_ID */
+    public static final String COLUMNNAME_A_Asset_Reval_Index_ID = "A_Asset_Reval_Index_ID";
+
+	/** Set Asset Reval Index	  */
+	public void setA_Asset_Reval_Index_ID (int A_Asset_Reval_Index_ID);
+
+	/** Get Asset Reval Index	  */
+	public int getA_Asset_Reval_Index_ID();
+
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -61,15 +70,6 @@ public interface I_A_Asset_Reval_Index
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
-
-    /** Column name A_Asset_Reval_Index_ID */
-    public static final String COLUMNNAME_A_Asset_Reval_Index_ID = "A_Asset_Reval_Index_ID";
-
-	/** Set Asset Reval Index	  */
-	public void setA_Asset_Reval_Index_ID (int A_Asset_Reval_Index_ID);
-
-	/** Get Asset Reval Index	  */
-	public int getA_Asset_Reval_Index_ID();
 
     /** Column name A_Effective_Date */
     public static final String COLUMNNAME_A_Effective_Date = "A_Effective_Date";

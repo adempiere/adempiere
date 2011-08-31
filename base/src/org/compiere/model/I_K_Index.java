@@ -77,21 +77,6 @@ public interface I_K_Index
 
 	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
 
-    /** Column name CM_WebProject_ID */
-    public static final String COLUMNNAME_CM_WebProject_ID = "CM_WebProject_ID";
-
-	/** Set Web Project.
-	  * A web project is the main data container for Containers, URLs, Ads, Media etc.
-	  */
-	public void setCM_WebProject_ID (int CM_WebProject_ID);
-
-	/** Get Web Project.
-	  * A web project is the main data container for Containers, URLs, Ads, Media etc.
-	  */
-	public int getCM_WebProject_ID();
-
-	public org.compiere.model.I_CM_WebProject getCM_WebProject() throws RuntimeException;
-
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
 
@@ -106,6 +91,21 @@ public interface I_K_Index
 	public int getC_DocType_ID();
 
 	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
+
+    /** Column name CM_WebProject_ID */
+    public static final String COLUMNNAME_CM_WebProject_ID = "CM_WebProject_ID";
+
+	/** Set Web Project.
+	  * A web project is the main data container for Containers, URLs, Ads, Media etc.
+	  */
+	public void setCM_WebProject_ID (int CM_WebProject_ID);
+
+	/** Get Web Project.
+	  * A web project is the main data container for Containers, URLs, Ads, Media etc.
+	  */
+	public int getCM_WebProject_ID();
+
+	public org.compiere.model.I_CM_WebProject getCM_WebProject() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -149,6 +149,19 @@ public interface I_K_Index
 	  */
 	public boolean isActive();
 
+    /** Column name Keyword */
+    public static final String COLUMNNAME_Keyword = "Keyword";
+
+	/** Set Keyword.
+	  * Case insensitive keyword
+	  */
+	public void setKeyword (String Keyword);
+
+	/** Get Keyword.
+	  * Case insensitive keyword
+	  */
+	public String getKeyword();
+
     /** Column name K_INDEX_ID */
     public static final String COLUMNNAME_K_INDEX_ID = "K_INDEX_ID";
 
@@ -162,18 +175,18 @@ public interface I_K_Index
 	  */
 	public int getK_INDEX_ID();
 
-    /** Column name Keyword */
-    public static final String COLUMNNAME_Keyword = "Keyword";
+    /** Column name Record_ID */
+    public static final String COLUMNNAME_Record_ID = "Record_ID";
 
-	/** Set Keyword.
-	  * Case insensitive keyword
+	/** Set Record ID.
+	  * Direct internal record ID
 	  */
-	public void setKeyword (String Keyword);
+	public void setRecord_ID (int Record_ID);
 
-	/** Get Keyword.
-	  * Case insensitive keyword
+	/** Get Record ID.
+	  * Direct internal record ID
 	  */
-	public String getKeyword();
+	public int getRecord_ID();
 
     /** Column name R_RequestType_ID */
     public static final String COLUMNNAME_R_RequestType_ID = "R_RequestType_ID";
@@ -189,19 +202,6 @@ public interface I_K_Index
 	public int getR_RequestType_ID();
 
 	public org.compiere.model.I_R_RequestType getR_RequestType() throws RuntimeException;
-
-    /** Column name Record_ID */
-    public static final String COLUMNNAME_Record_ID = "Record_ID";
-
-	/** Set Record ID.
-	  * Direct internal record ID
-	  */
-	public void setRecord_ID (int Record_ID);
-
-	/** Get Record ID.
-	  * Direct internal record ID
-	  */
-	public int getRecord_ID();
 
     /** Column name SourceUpdated */
     public static final String COLUMNNAME_SourceUpdated = "SourceUpdated";

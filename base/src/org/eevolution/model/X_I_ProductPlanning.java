@@ -33,7 +33,7 @@ public class X_I_ProductPlanning extends PO implements I_I_ProductPlanning, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110810L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_I_ProductPlanning (Properties ctx, int I_ProductPlanning_ID, String trxName)
@@ -145,6 +145,23 @@ public class X_I_ProductPlanning extends PO implements I_I_ProductPlanning, I_Pe
 		return ii.intValue();
 	}
 
+	/** Set Date Promised.
+		@param DatePromised 
+		Date Order was promised
+	  */
+	public void setDatePromised (Timestamp DatePromised)
+	{
+		set_Value (COLUMNNAME_DatePromised, DatePromised);
+	}
+
+	/** Get Date Promised.
+		@return Date Order was promised
+	  */
+	public Timestamp getDatePromised () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_DatePromised);
+	}
+
 	/** Set Network Distribution.
 		@param DD_NetworkDistribution_ID Network Distribution	  */
 	public void setDD_NetworkDistribution_ID (int DD_NetworkDistribution_ID)
@@ -163,23 +180,6 @@ public class X_I_ProductPlanning extends PO implements I_I_ProductPlanning, I_Pe
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Date Promised.
-		@param DatePromised 
-		Date Order was promised
-	  */
-	public void setDatePromised (Timestamp DatePromised)
-	{
-		set_Value (COLUMNNAME_DatePromised, DatePromised);
-	}
-
-	/** Get Date Promised.
-		@return Date Order was promised
-	  */
-	public Timestamp getDatePromised () 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_DatePromised);
 	}
 
 	/** Set Promised Delivery Time.
@@ -349,34 +349,6 @@ public class X_I_ProductPlanning extends PO implements I_I_ProductPlanning, I_Pe
 		return false;
 	}
 
-	public org.compiere.model.I_M_ForecastLine getM_ForecastLine() throws RuntimeException
-    {
-		return (org.compiere.model.I_M_ForecastLine)MTable.get(getCtx(), org.compiere.model.I_M_ForecastLine.Table_Name)
-			.getPO(getM_ForecastLine_ID(), get_TrxName());	}
-
-	/** Set Forecast Line.
-		@param M_ForecastLine_ID 
-		Forecast Line
-	  */
-	public void setM_ForecastLine_ID (int M_ForecastLine_ID)
-	{
-		if (M_ForecastLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_ForecastLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_ForecastLine_ID, Integer.valueOf(M_ForecastLine_ID));
-	}
-
-	/** Get Forecast Line.
-		@return Forecast Line
-	  */
-	public int getM_ForecastLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_ForecastLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_M_Forecast getM_Forecast() throws RuntimeException
     {
 		return (org.compiere.model.I_M_Forecast)MTable.get(getCtx(), org.compiere.model.I_M_Forecast.Table_Name)
@@ -400,6 +372,34 @@ public class X_I_ProductPlanning extends PO implements I_I_ProductPlanning, I_Pe
 	public int getM_Forecast_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Forecast_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_ForecastLine getM_ForecastLine() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_ForecastLine)MTable.get(getCtx(), org.compiere.model.I_M_ForecastLine.Table_Name)
+			.getPO(getM_ForecastLine_ID(), get_TrxName());	}
+
+	/** Set Forecast Line.
+		@param M_ForecastLine_ID 
+		Forecast Line
+	  */
+	public void setM_ForecastLine_ID (int M_ForecastLine_ID)
+	{
+		if (M_ForecastLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_ForecastLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_ForecastLine_ID, Integer.valueOf(M_ForecastLine_ID));
+	}
+
+	/** Get Forecast Line.
+		@return Forecast Line
+	  */
+	public int getM_ForecastLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_ForecastLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -612,6 +612,48 @@ public class X_I_ProductPlanning extends PO implements I_I_ProductPlanning, I_Pe
 		return (String)get_Value(COLUMNNAME_OrgValue);
 	}
 
+	public org.compiere.model.I_AD_User getPlanner() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
+			.getPO(getPlanner_ID(), get_TrxName());	}
+
+	/** Set Planner.
+		@param Planner_ID Planner	  */
+	public void setPlanner_ID (int Planner_ID)
+	{
+		if (Planner_ID < 1) 
+			set_Value (COLUMNNAME_Planner_ID, null);
+		else 
+			set_Value (COLUMNNAME_Planner_ID, Integer.valueOf(Planner_ID));
+	}
+
+	/** Get Planner.
+		@return Planner	  */
+	public int getPlanner_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Planner_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Planner Key.
+		@param PlannerValue 
+		Search Key of the Planning
+	  */
+	public void setPlannerValue (String PlannerValue)
+	{
+		set_Value (COLUMNNAME_PlannerValue, PlannerValue);
+	}
+
+	/** Get Planner Key.
+		@return Search Key of the Planning
+	  */
+	public String getPlannerValue () 
+	{
+		return (String)get_Value(COLUMNNAME_PlannerValue);
+	}
+
 	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException
     {
 		return (org.eevolution.model.I_PP_Product_BOM)MTable.get(getCtx(), org.eevolution.model.I_PP_Product_BOM.Table_Name)
@@ -665,48 +707,6 @@ public class X_I_ProductPlanning extends PO implements I_I_ProductPlanning, I_Pe
 		return ii.intValue();
 	}
 
-	/** Set Planner Key.
-		@param PlannerValue 
-		Search Key of the Planning
-	  */
-	public void setPlannerValue (String PlannerValue)
-	{
-		set_Value (COLUMNNAME_PlannerValue, PlannerValue);
-	}
-
-	/** Get Planner Key.
-		@return Search Key of the Planning
-	  */
-	public String getPlannerValue () 
-	{
-		return (String)get_Value(COLUMNNAME_PlannerValue);
-	}
-
-	public org.compiere.model.I_AD_User getPlanner() throws RuntimeException
-    {
-		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
-			.getPO(getPlanner_ID(), get_TrxName());	}
-
-	/** Set Planner.
-		@param Planner_ID Planner	  */
-	public void setPlanner_ID (int Planner_ID)
-	{
-		if (Planner_ID < 1) 
-			set_Value (COLUMNNAME_Planner_ID, null);
-		else 
-			set_Value (COLUMNNAME_Planner_ID, Integer.valueOf(Planner_ID));
-	}
-
-	/** Get Planner.
-		@return Planner	  */
-	public int getPlanner_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Planner_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Processed.
 		@param Processed 
 		The document has been processed
@@ -752,23 +752,6 @@ public class X_I_ProductPlanning extends PO implements I_I_ProductPlanning, I_Pe
 		return false;
 	}
 
-	/** Set Product Key.
-		@param ProductValue 
-		Key of the Product
-	  */
-	public void setProductValue (String ProductValue)
-	{
-		set_Value (COLUMNNAME_ProductValue, ProductValue);
-	}
-
-	/** Get Product Key.
-		@return Key of the Product
-	  */
-	public String getProductValue () 
-	{
-		return (String)get_Value(COLUMNNAME_ProductValue);
-	}
-
 	/** Set Product BOM Key.
 		@param Product_BOM_Value 
 		Key of Product BOM
@@ -784,6 +767,23 @@ public class X_I_ProductPlanning extends PO implements I_I_ProductPlanning, I_Pe
 	public String getProduct_BOM_Value () 
 	{
 		return (String)get_Value(COLUMNNAME_Product_BOM_Value);
+	}
+
+	/** Set Product Key.
+		@param ProductValue 
+		Key of the Product
+	  */
+	public void setProductValue (String ProductValue)
+	{
+		set_Value (COLUMNNAME_ProductValue, ProductValue);
+	}
+
+	/** Get Product Key.
+		@return Key of the Product
+	  */
+	public String getProductValue () 
+	{
+		return (String)get_Value(COLUMNNAME_ProductValue);
 	}
 
 	/** Set Quantity.
@@ -821,34 +821,6 @@ public class X_I_ProductPlanning extends PO implements I_I_ProductPlanning, I_Pe
 	public String getResourceValue () 
 	{
 		return (String)get_Value(COLUMNNAME_ResourceValue);
-	}
-
-	public org.compiere.model.I_S_Resource getS_Resource() throws RuntimeException
-    {
-		return (org.compiere.model.I_S_Resource)MTable.get(getCtx(), org.compiere.model.I_S_Resource.Table_Name)
-			.getPO(getS_Resource_ID(), get_TrxName());	}
-
-	/** Set Resource.
-		@param S_Resource_ID 
-		Resource
-	  */
-	public void setS_Resource_ID (int S_Resource_ID)
-	{
-		if (S_Resource_ID < 1) 
-			set_Value (COLUMNNAME_S_Resource_ID, null);
-		else 
-			set_Value (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
-	}
-
-	/** Get Resource.
-		@return Resource
-	  */
-	public int getS_Resource_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_S_Resource_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set Safety Stock Qty.
@@ -889,6 +861,34 @@ public class X_I_ProductPlanning extends PO implements I_I_ProductPlanning, I_Pe
 	public int getSalesRep_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_SalesRep_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_S_Resource getS_Resource() throws RuntimeException
+    {
+		return (org.compiere.model.I_S_Resource)MTable.get(getCtx(), org.compiere.model.I_S_Resource.Table_Name)
+			.getPO(getS_Resource_ID(), get_TrxName());	}
+
+	/** Set Resource.
+		@param S_Resource_ID 
+		Resource
+	  */
+	public void setS_Resource_ID (int S_Resource_ID)
+	{
+		if (S_Resource_ID < 1) 
+			set_Value (COLUMNNAME_S_Resource_ID, null);
+		else 
+			set_Value (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
+	}
+
+	/** Get Resource.
+		@return Resource
+	  */
+	public int getS_Resource_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_S_Resource_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

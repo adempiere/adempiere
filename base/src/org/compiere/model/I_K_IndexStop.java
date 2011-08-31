@@ -62,21 +62,6 @@ public interface I_K_IndexStop
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name CM_WebProject_ID */
-    public static final String COLUMNNAME_CM_WebProject_ID = "CM_WebProject_ID";
-
-	/** Set Web Project.
-	  * A web project is the main data container for Containers, URLs, Ads, Media etc.
-	  */
-	public void setCM_WebProject_ID (int CM_WebProject_ID);
-
-	/** Get Web Project.
-	  * A web project is the main data container for Containers, URLs, Ads, Media etc.
-	  */
-	public int getCM_WebProject_ID();
-
-	public org.compiere.model.I_CM_WebProject getCM_WebProject() throws RuntimeException;
-
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
 
@@ -91,6 +76,21 @@ public interface I_K_IndexStop
 	public int getC_DocType_ID();
 
 	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
+
+    /** Column name CM_WebProject_ID */
+    public static final String COLUMNNAME_CM_WebProject_ID = "CM_WebProject_ID";
+
+	/** Set Web Project.
+	  * A web project is the main data container for Containers, URLs, Ads, Media etc.
+	  */
+	public void setCM_WebProject_ID (int CM_WebProject_ID);
+
+	/** Get Web Project.
+	  * A web project is the main data container for Containers, URLs, Ads, Media etc.
+	  */
+	public int getCM_WebProject_ID();
+
+	public org.compiere.model.I_CM_WebProject getCM_WebProject() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -134,19 +134,6 @@ public interface I_K_IndexStop
 	  */
 	public boolean isManual();
 
-    /** Column name K_IndexStop_ID */
-    public static final String COLUMNNAME_K_IndexStop_ID = "K_IndexStop_ID";
-
-	/** Set Index Stop.
-	  * Keyword not to be indexed
-	  */
-	public void setK_IndexStop_ID (int K_IndexStop_ID);
-
-	/** Get Index Stop.
-	  * Keyword not to be indexed
-	  */
-	public int getK_IndexStop_ID();
-
     /** Column name Keyword */
     public static final String COLUMNNAME_Keyword = "Keyword";
 
@@ -159,6 +146,19 @@ public interface I_K_IndexStop
 	  * Case insensitive keyword
 	  */
 	public String getKeyword();
+
+    /** Column name K_IndexStop_ID */
+    public static final String COLUMNNAME_K_IndexStop_ID = "K_IndexStop_ID";
+
+	/** Set Index Stop.
+	  * Keyword not to be indexed
+	  */
+	public void setK_IndexStop_ID (int K_IndexStop_ID);
+
+	/** Get Index Stop.
+	  * Keyword not to be indexed
+	  */
+	public int getK_IndexStop_ID();
 
     /** Column name R_RequestType_ID */
     public static final String COLUMNNAME_R_RequestType_ID = "R_RequestType_ID";

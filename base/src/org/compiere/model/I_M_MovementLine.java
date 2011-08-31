@@ -141,21 +141,6 @@ public interface I_M_MovementLine
 	  */
 	public int getLine();
 
-    /** Column name M_AttributeSetInstanceTo_ID */
-    public static final String COLUMNNAME_M_AttributeSetInstanceTo_ID = "M_AttributeSetInstanceTo_ID";
-
-	/** Set Attribute Set Instance To.
-	  * Target Product Attribute Set Instance
-	  */
-	public void setM_AttributeSetInstanceTo_ID (int M_AttributeSetInstanceTo_ID);
-
-	/** Get Attribute Set Instance To.
-	  * Target Product Attribute Set Instance
-	  */
-	public int getM_AttributeSetInstanceTo_ID();
-
-	public I_M_AttributeSetInstance getM_AttributeSetInstanceTo() throws RuntimeException;
-
     /** Column name M_AttributeSetInstance_ID */
     public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
 
@@ -171,20 +156,20 @@ public interface I_M_MovementLine
 
 	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
 
-    /** Column name M_LocatorTo_ID */
-    public static final String COLUMNNAME_M_LocatorTo_ID = "M_LocatorTo_ID";
+    /** Column name M_AttributeSetInstanceTo_ID */
+    public static final String COLUMNNAME_M_AttributeSetInstanceTo_ID = "M_AttributeSetInstanceTo_ID";
 
-	/** Set Locator To.
-	  * Location inventory is moved to
+	/** Set Attribute Set Instance To.
+	  * Target Product Attribute Set Instance
 	  */
-	public void setM_LocatorTo_ID (int M_LocatorTo_ID);
+	public void setM_AttributeSetInstanceTo_ID (int M_AttributeSetInstanceTo_ID);
 
-	/** Get Locator To.
-	  * Location inventory is moved to
+	/** Get Attribute Set Instance To.
+	  * Target Product Attribute Set Instance
 	  */
-	public int getM_LocatorTo_ID();
+	public int getM_AttributeSetInstanceTo_ID();
 
-	public I_M_Locator getM_LocatorTo() throws RuntimeException;
+	public I_M_AttributeSetInstance getM_AttributeSetInstanceTo() throws RuntimeException;
 
     /** Column name M_Locator_ID */
     public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
@@ -201,18 +186,20 @@ public interface I_M_MovementLine
 
 	public I_M_Locator getM_Locator() throws RuntimeException;
 
-    /** Column name M_MovementLine_ID */
-    public static final String COLUMNNAME_M_MovementLine_ID = "M_MovementLine_ID";
+    /** Column name M_LocatorTo_ID */
+    public static final String COLUMNNAME_M_LocatorTo_ID = "M_LocatorTo_ID";
 
-	/** Set Move Line.
-	  * Inventory Move document Line
+	/** Set Locator To.
+	  * Location inventory is moved to
 	  */
-	public void setM_MovementLine_ID (int M_MovementLine_ID);
+	public void setM_LocatorTo_ID (int M_LocatorTo_ID);
 
-	/** Get Move Line.
-	  * Inventory Move document Line
+	/** Get Locator To.
+	  * Location inventory is moved to
 	  */
-	public int getM_MovementLine_ID();
+	public int getM_LocatorTo_ID();
+
+	public I_M_Locator getM_LocatorTo() throws RuntimeException;
 
     /** Column name M_Movement_ID */
     public static final String COLUMNNAME_M_Movement_ID = "M_Movement_ID";
@@ -229,6 +216,32 @@ public interface I_M_MovementLine
 
 	public org.compiere.model.I_M_Movement getM_Movement() throws RuntimeException;
 
+    /** Column name M_MovementLine_ID */
+    public static final String COLUMNNAME_M_MovementLine_ID = "M_MovementLine_ID";
+
+	/** Set Move Line.
+	  * Inventory Move document Line
+	  */
+	public void setM_MovementLine_ID (int M_MovementLine_ID);
+
+	/** Get Move Line.
+	  * Inventory Move document Line
+	  */
+	public int getM_MovementLine_ID();
+
+    /** Column name MovementQty */
+    public static final String COLUMNNAME_MovementQty = "MovementQty";
+
+	/** Set Movement Quantity.
+	  * Quantity of a product moved.
+	  */
+	public void setMovementQty (BigDecimal MovementQty);
+
+	/** Get Movement Quantity.
+	  * Quantity of a product moved.
+	  */
+	public BigDecimal getMovementQty();
+
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -243,19 +256,6 @@ public interface I_M_MovementLine
 	public int getM_Product_ID();
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
-
-    /** Column name MovementQty */
-    public static final String COLUMNNAME_MovementQty = "MovementQty";
-
-	/** Set Movement Quantity.
-	  * Quantity of a product moved.
-	  */
-	public void setMovementQty (BigDecimal MovementQty);
-
-	/** Get Movement Quantity.
-	  * Quantity of a product moved.
-	  */
-	public BigDecimal getMovementQty();
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";

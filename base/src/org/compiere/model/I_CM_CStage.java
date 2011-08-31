@@ -62,6 +62,19 @@ public interface I_CM_CStage
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name CM_CStage_ID */
+    public static final String COLUMNNAME_CM_CStage_ID = "CM_CStage_ID";
+
+	/** Set Web Container Stage.
+	  * Web Container Stage contains the staging content like images, text etc.
+	  */
+	public void setCM_CStage_ID (int CM_CStage_ID);
+
+	/** Get Web Container Stage.
+	  * Web Container Stage contains the staging content like images, text etc.
+	  */
+	public int getCM_CStage_ID();
+
     /** Column name CM_CStageLink_ID */
     public static final String COLUMNNAME_CM_CStageLink_ID = "CM_CStageLink_ID";
 
@@ -76,19 +89,6 @@ public interface I_CM_CStage
 	public int getCM_CStageLink_ID();
 
 	public org.compiere.model.I_CM_CStage getCM_CStageLink() throws RuntimeException;
-
-    /** Column name CM_CStage_ID */
-    public static final String COLUMNNAME_CM_CStage_ID = "CM_CStage_ID";
-
-	/** Set Web Container Stage.
-	  * Web Container Stage contains the staging content like images, text etc.
-	  */
-	public void setCM_CStage_ID (int CM_CStage_ID);
-
-	/** Get Web Container Stage.
-	  * Web Container Stage contains the staging content like images, text etc.
-	  */
-	public int getCM_CStage_ID();
 
     /** Column name CM_Template_ID */
     public static final String COLUMNNAME_CM_Template_ID = "CM_Template_ID";

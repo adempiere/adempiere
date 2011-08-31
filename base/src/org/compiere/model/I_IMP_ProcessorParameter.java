@@ -104,15 +104,6 @@ public interface I_IMP_ProcessorParameter
 	  */
 	public String getHelp();
 
-    /** Column name IMP_ProcessorParameter_ID */
-    public static final String COLUMNNAME_IMP_ProcessorParameter_ID = "IMP_ProcessorParameter_ID";
-
-	/** Set Import Processor Parameter	  */
-	public void setIMP_ProcessorParameter_ID (int IMP_ProcessorParameter_ID);
-
-	/** Get Import Processor Parameter	  */
-	public int getIMP_ProcessorParameter_ID();
-
     /** Column name IMP_Processor_ID */
     public static final String COLUMNNAME_IMP_Processor_ID = "IMP_Processor_ID";
 
@@ -123,6 +114,15 @@ public interface I_IMP_ProcessorParameter
 	public int getIMP_Processor_ID();
 
 	public org.compiere.model.I_IMP_Processor getIMP_Processor() throws RuntimeException;
+
+    /** Column name IMP_ProcessorParameter_ID */
+    public static final String COLUMNNAME_IMP_ProcessorParameter_ID = "IMP_ProcessorParameter_ID";
+
+	/** Set Import Processor Parameter	  */
+	public void setIMP_ProcessorParameter_ID (int IMP_ProcessorParameter_ID);
+
+	/** Get Import Processor Parameter	  */
+	public int getIMP_ProcessorParameter_ID();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

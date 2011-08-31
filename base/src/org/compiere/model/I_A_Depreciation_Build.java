@@ -49,6 +49,15 @@ public interface I_A_Depreciation_Build
 	  */
 	public int getAD_Client_ID();
 
+    /** Column name A_Depreciation_Build_ID */
+    public static final String COLUMNNAME_A_Depreciation_Build_ID = "A_Depreciation_Build_ID";
+
+	/** Set Depreciation Build	  */
+	public void setA_Depreciation_Build_ID (int A_Depreciation_Build_ID);
+
+	/** Get Depreciation Build	  */
+	public int getA_Depreciation_Build_ID();
+
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -61,15 +70,6 @@ public interface I_A_Depreciation_Build
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
-
-    /** Column name A_Depreciation_Build_ID */
-    public static final String COLUMNNAME_A_Depreciation_Build_ID = "A_Depreciation_Build_ID";
-
-	/** Set Depreciation Build	  */
-	public void setA_Depreciation_Build_ID (int A_Depreciation_Build_ID);
-
-	/** Get Depreciation Build	  */
-	public int getA_Depreciation_Build_ID();
 
     /** Column name A_End_Asset_ID */
     public static final String COLUMNNAME_A_End_Asset_ID = "A_End_Asset_ID";

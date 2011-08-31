@@ -117,15 +117,6 @@ public interface I_IMP_ProcessorLog
 	  */
 	public String getHelp();
 
-    /** Column name IMP_ProcessorLog_ID */
-    public static final String COLUMNNAME_IMP_ProcessorLog_ID = "IMP_ProcessorLog_ID";
-
-	/** Set Import Processor Log	  */
-	public void setIMP_ProcessorLog_ID (int IMP_ProcessorLog_ID);
-
-	/** Get Import Processor Log	  */
-	public int getIMP_ProcessorLog_ID();
-
     /** Column name IMP_Processor_ID */
     public static final String COLUMNNAME_IMP_Processor_ID = "IMP_Processor_ID";
 
@@ -136,6 +127,15 @@ public interface I_IMP_ProcessorLog
 	public int getIMP_Processor_ID();
 
 	public org.compiere.model.I_IMP_Processor getIMP_Processor() throws RuntimeException;
+
+    /** Column name IMP_ProcessorLog_ID */
+    public static final String COLUMNNAME_IMP_ProcessorLog_ID = "IMP_ProcessorLog_ID";
+
+	/** Set Import Processor Log	  */
+	public void setIMP_ProcessorLog_ID (int IMP_ProcessorLog_ID);
+
+	/** Get Import Processor Log	  */
+	public int getIMP_ProcessorLog_ID();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

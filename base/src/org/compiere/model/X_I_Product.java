@@ -33,7 +33,7 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110810L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_I_Product (Properties ctx, int I_Product_ID, String trxName)
@@ -147,34 +147,6 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_UOM)MTable.get(getCtx(), org.compiere.model.I_C_UOM.Table_Name)
-			.getPO(getC_UOM_ID(), get_TrxName());	}
-
-	/** Set UOM.
-		@param C_UOM_ID 
-		Unit of Measure
-	  */
-	public void setC_UOM_ID (int C_UOM_ID)
-	{
-		if (C_UOM_ID < 1) 
-			set_Value (COLUMNNAME_C_UOM_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
-	}
-
-	/** Get UOM.
-		@return Unit of Measure
-	  */
-	public int getC_UOM_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_UOM_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Classification.
 		@param Classification 
 		Classification for grouping
@@ -210,6 +182,34 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_UOM)MTable.get(getCtx(), org.compiere.model.I_C_UOM.Table_Name)
+			.getPO(getC_UOM_ID(), get_TrxName());	}
+
+	/** Set UOM.
+		@param C_UOM_ID 
+		Unit of Measure
+	  */
+	public void setC_UOM_ID (int C_UOM_ID)
+	{
+		if (C_UOM_ID < 1) 
+			set_Value (COLUMNNAME_C_UOM_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
+	}
+
+	/** Get UOM.
+		@return Unit of Measure
+	  */
+	public int getC_UOM_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_UOM_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Promised Delivery Time.
@@ -341,23 +341,6 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 		return (String)get_Value(COLUMNNAME_Help);
 	}
 
-	/** Set ISO Currency Code.
-		@param ISO_Code 
-		Three letter ISO 4217 Code of the Currency
-	  */
-	public void setISO_Code (String ISO_Code)
-	{
-		set_Value (COLUMNNAME_ISO_Code, ISO_Code);
-	}
-
-	/** Get ISO Currency Code.
-		@return Three letter ISO 4217 Code of the Currency
-	  */
-	public String getISO_Code () 
-	{
-		return (String)get_Value(COLUMNNAME_ISO_Code);
-	}
-
 	/** Set Import Error Message.
 		@param I_ErrorMsg 
 		Messages generated from import process
@@ -399,6 +382,23 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 		return false;
 	}
 
+	/** Set Image URL.
+		@param ImageURL 
+		URL of  image
+	  */
+	public void setImageURL (String ImageURL)
+	{
+		set_Value (COLUMNNAME_ImageURL, ImageURL);
+	}
+
+	/** Get Image URL.
+		@return URL of  image
+	  */
+	public String getImageURL () 
+	{
+		return (String)get_Value(COLUMNNAME_ImageURL);
+	}
+
 	/** Set Import Product.
 		@param I_Product_ID 
 		Import Item or Service
@@ -422,21 +422,38 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Image URL.
-		@param ImageURL 
-		URL of  image
+	/** Set ISO Currency Code.
+		@param ISO_Code 
+		Three letter ISO 4217 Code of the Currency
 	  */
-	public void setImageURL (String ImageURL)
+	public void setISO_Code (String ISO_Code)
 	{
-		set_Value (COLUMNNAME_ImageURL, ImageURL);
+		set_Value (COLUMNNAME_ISO_Code, ISO_Code);
 	}
 
-	/** Get Image URL.
-		@return URL of  image
+	/** Get ISO Currency Code.
+		@return Three letter ISO 4217 Code of the Currency
 	  */
-	public String getImageURL () 
+	public String getISO_Code () 
 	{
-		return (String)get_Value(COLUMNNAME_ImageURL);
+		return (String)get_Value(COLUMNNAME_ISO_Code);
+	}
+
+	/** Set Manufacturer.
+		@param Manufacturer 
+		Manufacturer of the Product
+	  */
+	public void setManufacturer (String Manufacturer)
+	{
+		set_Value (COLUMNNAME_Manufacturer, Manufacturer);
+	}
+
+	/** Get Manufacturer.
+		@return Manufacturer of the Product
+	  */
+	public String getManufacturer () 
+	{
+		return (String)get_Value(COLUMNNAME_Manufacturer);
 	}
 
 	public org.compiere.model.I_M_Product_Category getM_Product_Category() throws RuntimeException
@@ -493,23 +510,6 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Manufacturer.
-		@param Manufacturer 
-		Manufacturer of the Product
-	  */
-	public void setManufacturer (String Manufacturer)
-	{
-		set_Value (COLUMNNAME_Manufacturer, Manufacturer);
-	}
-
-	/** Get Manufacturer.
-		@return Manufacturer of the Product
-	  */
-	public String getManufacturer () 
-	{
-		return (String)get_Value(COLUMNNAME_Manufacturer);
 	}
 
 	/** Set Name.
@@ -775,23 +775,6 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 		return bd;
 	}
 
-	/** Set SKU.
-		@param SKU 
-		Stock Keeping Unit
-	  */
-	public void setSKU (String SKU)
-	{
-		set_Value (COLUMNNAME_SKU, SKU);
-	}
-
-	/** Get SKU.
-		@return Stock Keeping Unit
-	  */
-	public String getSKU () 
-	{
-		return (String)get_Value(COLUMNNAME_SKU);
-	}
-
 	/** Set Shelf Depth.
 		@param ShelfDepth 
 		Shelf depth required
@@ -852,21 +835,21 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set UPC/EAN.
-		@param UPC 
-		Bar Code (Universal Product Code or its superset European Article Number)
+	/** Set SKU.
+		@param SKU 
+		Stock Keeping Unit
 	  */
-	public void setUPC (String UPC)
+	public void setSKU (String SKU)
 	{
-		set_Value (COLUMNNAME_UPC, UPC);
+		set_Value (COLUMNNAME_SKU, SKU);
 	}
 
-	/** Get UPC/EAN.
-		@return Bar Code (Universal Product Code or its superset European Article Number)
+	/** Get SKU.
+		@return Stock Keeping Unit
 	  */
-	public String getUPC () 
+	public String getSKU () 
 	{
-		return (String)get_Value(COLUMNNAME_UPC);
+		return (String)get_Value(COLUMNNAME_SKU);
 	}
 
 	/** Set Units Per Pallet.
@@ -887,6 +870,23 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set UPC/EAN.
+		@param UPC 
+		Bar Code (Universal Product Code or its superset European Article Number)
+	  */
+	public void setUPC (String UPC)
+	{
+		set_Value (COLUMNNAME_UPC, UPC);
+	}
+
+	/** Get UPC/EAN.
+		@return Bar Code (Universal Product Code or its superset European Article Number)
+	  */
+	public String getUPC () 
+	{
+		return (String)get_Value(COLUMNNAME_UPC);
 	}
 
 	/** Set Search Key.

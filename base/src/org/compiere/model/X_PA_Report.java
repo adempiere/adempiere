@@ -30,7 +30,7 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110810L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_PA_Report (Properties ctx, int PA_Report_ID, String trxName)
@@ -44,8 +44,8 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 			setListTrx (false);
 			setName (null);
 			setPA_ReportColumnSet_ID (0);
-			setPA_ReportLineSet_ID (0);
 			setPA_Report_ID (0);
+			setPA_ReportLineSet_ID (0);
 			setProcessing (false);
         } */
     }
@@ -350,6 +350,29 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Financial Report.
+		@param PA_Report_ID 
+		Financial Report
+	  */
+	public void setPA_Report_ID (int PA_Report_ID)
+	{
+		if (PA_Report_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_Report_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_Report_ID, Integer.valueOf(PA_Report_ID));
+	}
+
+	/** Get Financial Report.
+		@return Financial Report
+	  */
+	public int getPA_Report_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PA_Report_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_PA_ReportLineSet getPA_ReportLineSet() throws RuntimeException
     {
 		return (org.compiere.model.I_PA_ReportLineSet)MTable.get(getCtx(), org.compiere.model.I_PA_ReportLineSet.Table_Name)
@@ -370,29 +393,6 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 	public int getPA_ReportLineSet_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ReportLineSet_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Financial Report.
-		@param PA_Report_ID 
-		Financial Report
-	  */
-	public void setPA_Report_ID (int PA_Report_ID)
-	{
-		if (PA_Report_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_PA_Report_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_PA_Report_ID, Integer.valueOf(PA_Report_ID));
-	}
-
-	/** Get Financial Report.
-		@return Financial Report
-	  */
-	public int getPA_Report_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PA_Report_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

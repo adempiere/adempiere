@@ -30,7 +30,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110810L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_AD_Package_Exp_Common (Properties ctx, int AD_Package_Exp_Common_ID, String trxName)
@@ -439,6 +439,20 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 		return (String)get_Value(COLUMNNAME_Destination_Directory);
 	}
 
+	/** Set File_Directory.
+		@param File_Directory File_Directory	  */
+	public void setFile_Directory (String File_Directory)
+	{
+		set_Value (COLUMNNAME_File_Directory, File_Directory);
+	}
+
+	/** Get File_Directory.
+		@return File_Directory	  */
+	public String getFile_Directory () 
+	{
+		return (String)get_Value(COLUMNNAME_File_Directory);
+	}
+
 	/** Set File Name.
 		@param FileName 
 		Name of the local file or URL
@@ -454,20 +468,6 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 	public String getFileName () 
 	{
 		return (String)get_Value(COLUMNNAME_FileName);
-	}
-
-	/** Set File_Directory.
-		@param File_Directory File_Directory	  */
-	public void setFile_Directory (String File_Directory)
-	{
-		set_Value (COLUMNNAME_File_Directory, File_Directory);
-	}
-
-	/** Get File_Directory.
-		@return File_Directory	  */
-	public String getFile_Directory () 
-	{
-		return (String)get_Value(COLUMNNAME_File_Directory);
 	}
 
 	/** Set Line No.

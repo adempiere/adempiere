@@ -147,21 +147,6 @@ public interface I_M_Replenish
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
-    /** Column name M_WarehouseSource_ID */
-    public static final String COLUMNNAME_M_WarehouseSource_ID = "M_WarehouseSource_ID";
-
-	/** Set Source Warehouse.
-	  * Optional Warehouse to replenish from
-	  */
-	public void setM_WarehouseSource_ID (int M_WarehouseSource_ID);
-
-	/** Get Source Warehouse.
-	  * Optional Warehouse to replenish from
-	  */
-	public int getM_WarehouseSource_ID();
-
-	public org.compiere.model.I_M_Warehouse getM_WarehouseSource() throws RuntimeException;
-
     /** Column name M_Warehouse_ID */
     public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
 
@@ -176,6 +161,21 @@ public interface I_M_Replenish
 	public int getM_Warehouse_ID();
 
 	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
+
+    /** Column name M_WarehouseSource_ID */
+    public static final String COLUMNNAME_M_WarehouseSource_ID = "M_WarehouseSource_ID";
+
+	/** Set Source Warehouse.
+	  * Optional Warehouse to replenish from
+	  */
+	public void setM_WarehouseSource_ID (int M_WarehouseSource_ID);
+
+	/** Get Source Warehouse.
+	  * Optional Warehouse to replenish from
+	  */
+	public int getM_WarehouseSource_ID();
+
+	public org.compiere.model.I_M_Warehouse getM_WarehouseSource() throws RuntimeException;
 
     /** Column name ReplenishType */
     public static final String COLUMNNAME_ReplenishType = "ReplenishType";

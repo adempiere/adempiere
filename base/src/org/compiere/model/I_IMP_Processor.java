@@ -41,6 +41,15 @@ public interface I_IMP_Processor
 
     /** Load Meta Data */
 
+    /** Column name Account */
+    public static final String COLUMNNAME_Account = "Account";
+
+	/** Set Account	  */
+	public void setAccount (String Account);
+
+	/** Get Account	  */
+	public String getAccount();
+
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -61,15 +70,6 @@ public interface I_IMP_Processor
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
-
-    /** Column name Account */
-    public static final String COLUMNNAME_Account = "Account";
-
-	/** Set Account	  */
-	public void setAccount (String Account);
-
-	/** Get Account	  */
-	public String getAccount();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

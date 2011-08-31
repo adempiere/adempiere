@@ -31,7 +31,7 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110810L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_AD_User (Properties ctx, int AD_User_ID, String trxName)
@@ -465,23 +465,6 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		return false;
 	}
 
-	/** Set LDAP User Name.
-		@param LDAPUser 
-		User Name used for authorization via LDAP (directory) services
-	  */
-	public void setLDAPUser (String LDAPUser)
-	{
-		set_Value (COLUMNNAME_LDAPUser, LDAPUser);
-	}
-
-	/** Get LDAP User Name.
-		@return User Name used for authorization via LDAP (directory) services
-	  */
-	public String getLDAPUser () 
-	{
-		return (String)get_Value(COLUMNNAME_LDAPUser);
-	}
-
 	/** Set Last Contact.
 		@param LastContact 
 		Date this individual was last contacted
@@ -514,6 +497,23 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 	public String getLastResult () 
 	{
 		return (String)get_Value(COLUMNNAME_LastResult);
+	}
+
+	/** Set LDAP User Name.
+		@param LDAPUser 
+		User Name used for authorization via LDAP (directory) services
+	  */
+	public void setLDAPUser (String LDAPUser)
+	{
+		set_Value (COLUMNNAME_LDAPUser, LDAPUser);
+	}
+
+	/** Get LDAP User Name.
+		@return User Name used for authorization via LDAP (directory) services
+	  */
+	public String getLDAPUser () 
+	{
+		return (String)get_Value(COLUMNNAME_LDAPUser);
 	}
 
 	/** Set Name.

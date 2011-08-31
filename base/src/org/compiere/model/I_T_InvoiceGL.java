@@ -77,19 +77,6 @@ public interface I_T_InvoiceGL
 
 	public org.compiere.model.I_AD_PInstance getAD_PInstance() throws RuntimeException;
 
-    /** Column name APAR */
-    public static final String COLUMNNAME_APAR = "APAR";
-
-	/** Set AP - AR.
-	  * Include Receivables and/or Payables transactions
-	  */
-	public void setAPAR (String APAR);
-
-	/** Get AP - AR.
-	  * Include Receivables and/or Payables transactions
-	  */
-	public String getAPAR();
-
     /** Column name AmtAcctBalance */
     public static final String COLUMNNAME_AmtAcctBalance = "AmtAcctBalance";
 
@@ -167,6 +154,19 @@ public interface I_T_InvoiceGL
 	  * Source Balance Amount
 	  */
 	public BigDecimal getAmtSourceBalance();
+
+    /** Column name APAR */
+    public static final String COLUMNNAME_APAR = "APAR";
+
+	/** Set AP - AR.
+	  * Include Receivables and/or Payables transactions
+	  */
+	public void setAPAR (String APAR);
+
+	/** Get AP - AR.
+	  * Include Receivables and/or Payables transactions
+	  */
+	public String getAPAR();
 
     /** Column name C_ConversionTypeReval_ID */
     public static final String COLUMNNAME_C_ConversionTypeReval_ID = "C_ConversionTypeReval_ID";

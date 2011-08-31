@@ -62,6 +62,19 @@ public interface I_CM_Container_URL
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name Checked */
+    public static final String COLUMNNAME_Checked = "Checked";
+
+	/** Set Last Checked.
+	  * Info when we did the last check
+	  */
+	public void setChecked (Timestamp Checked);
+
+	/** Get Last Checked.
+	  * Info when we did the last check
+	  */
+	public Timestamp getChecked();
+
     /** Column name CM_Container_ID */
     public static final String COLUMNNAME_CM_Container_ID = "CM_Container_ID";
 
@@ -89,19 +102,6 @@ public interface I_CM_Container_URL
 	  * Contains info on used URLs
 	  */
 	public int getCM_Container_URL_ID();
-
-    /** Column name Checked */
-    public static final String COLUMNNAME_Checked = "Checked";
-
-	/** Set Last Checked.
-	  * Info when we did the last check
-	  */
-	public void setChecked (Timestamp Checked);
-
-	/** Get Last Checked.
-	  * Info when we did the last check
-	  */
-	public Timestamp getChecked();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

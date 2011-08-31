@@ -32,7 +32,7 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110810L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_AD_Role (Properties ctx, int AD_Role_ID, String trxName)
@@ -47,9 +47,9 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 // Y
 			setAllow_Info_BPartner (true);
 // Y
-			setAllow_Info_CRP (true);
-// Y
 			setAllow_Info_CashJournal (true);
+// Y
+			setAllow_Info_CRP (true);
 // Y
 			setAllow_Info_InOut (true);
 // Y
@@ -271,27 +271,6 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 		return false;
 	}
 
-	/** Set Allow Info CRP.
-		@param Allow_Info_CRP Allow Info CRP	  */
-	public void setAllow_Info_CRP (boolean Allow_Info_CRP)
-	{
-		set_Value (COLUMNNAME_Allow_Info_CRP, Boolean.valueOf(Allow_Info_CRP));
-	}
-
-	/** Get Allow Info CRP.
-		@return Allow Info CRP	  */
-	public boolean isAllow_Info_CRP () 
-	{
-		Object oo = get_Value(COLUMNNAME_Allow_Info_CRP);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** Set Allow Info CashJournal.
 		@param Allow_Info_CashJournal Allow Info CashJournal	  */
 	public void setAllow_Info_CashJournal (boolean Allow_Info_CashJournal)
@@ -304,6 +283,27 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 	public boolean isAllow_Info_CashJournal () 
 	{
 		Object oo = get_Value(COLUMNNAME_Allow_Info_CashJournal);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Allow Info CRP.
+		@param Allow_Info_CRP Allow Info CRP	  */
+	public void setAllow_Info_CRP (boolean Allow_Info_CRP)
+	{
+		set_Value (COLUMNNAME_Allow_Info_CRP, Boolean.valueOf(Allow_Info_CRP));
+	}
+
+	/** Get Allow Info CRP.
+		@return Allow Info CRP	  */
+	public boolean isAllow_Info_CRP () 
+	{
+		Object oo = get_Value(COLUMNNAME_Allow_Info_CRP);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

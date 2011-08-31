@@ -139,6 +139,15 @@ public interface I_AD_MigrationScript
 	  */
 	public boolean isActive();
 
+    /** Column name isApply */
+    public static final String COLUMNNAME_isApply = "isApply";
+
+	/** Set Apply Script	  */
+	public void setisApply (boolean isApply);
+
+	/** Get Apply Script	  */
+	public boolean isApply();
+
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
 
@@ -226,19 +235,6 @@ public interface I_AD_MigrationScript
 	  */
 	public String getStatus();
 
-    /** Column name URL */
-    public static final String COLUMNNAME_URL = "URL";
-
-	/** Set URL.
-	  * Full URL address - e.g. http://www.adempiere.org
-	  */
-	public void setURL (String URL);
-
-	/** Get URL.
-	  * Full URL address - e.g. http://www.adempiere.org
-	  */
-	public String getURL();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -255,12 +251,16 @@ public interface I_AD_MigrationScript
 	  */
 	public int getUpdatedBy();
 
-    /** Column name isApply */
-    public static final String COLUMNNAME_isApply = "isApply";
+    /** Column name URL */
+    public static final String COLUMNNAME_URL = "URL";
 
-	/** Set Apply Script	  */
-	public void setisApply (boolean isApply);
+	/** Set URL.
+	  * Full URL address - e.g. http://www.adempiere.org
+	  */
+	public void setURL (String URL);
 
-	/** Get Apply Script	  */
-	public boolean isApply();
+	/** Get URL.
+	  * Full URL address - e.g. http://www.adempiere.org
+	  */
+	public String getURL();
 }

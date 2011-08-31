@@ -30,7 +30,7 @@ public class X_AD_LabelPrinterFunction extends PO implements I_AD_LabelPrinterFu
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110810L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_AD_LabelPrinterFunction (Properties ctx, int AD_LabelPrinterFunction_ID, String trxName)

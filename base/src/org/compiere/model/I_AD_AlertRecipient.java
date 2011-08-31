@@ -41,19 +41,6 @@ public interface I_AD_AlertRecipient
 
     /** Load Meta Data */
 
-    /** Column name AD_AlertRecipient_ID */
-    public static final String COLUMNNAME_AD_AlertRecipient_ID = "AD_AlertRecipient_ID";
-
-	/** Set Alert Recipient.
-	  * Recipient of the Alert Notification
-	  */
-	public void setAD_AlertRecipient_ID (int AD_AlertRecipient_ID);
-
-	/** Get Alert Recipient.
-	  * Recipient of the Alert Notification
-	  */
-	public int getAD_AlertRecipient_ID();
-
     /** Column name AD_Alert_ID */
     public static final String COLUMNNAME_AD_Alert_ID = "AD_Alert_ID";
 
@@ -68,6 +55,19 @@ public interface I_AD_AlertRecipient
 	public int getAD_Alert_ID();
 
 	public org.compiere.model.I_AD_Alert getAD_Alert() throws RuntimeException;
+
+    /** Column name AD_AlertRecipient_ID */
+    public static final String COLUMNNAME_AD_AlertRecipient_ID = "AD_AlertRecipient_ID";
+
+	/** Set Alert Recipient.
+	  * Recipient of the Alert Notification
+	  */
+	public void setAD_AlertRecipient_ID (int AD_AlertRecipient_ID);
+
+	/** Get Alert Recipient.
+	  * Recipient of the Alert Notification
+	  */
+	public int getAD_AlertRecipient_ID();
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";

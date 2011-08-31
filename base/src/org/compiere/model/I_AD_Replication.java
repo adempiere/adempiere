@@ -62,6 +62,19 @@ public interface I_AD_Replication
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name AD_Replication_ID */
+    public static final String COLUMNNAME_AD_Replication_ID = "AD_Replication_ID";
+
+	/** Set Replication.
+	  * Data Replication Target
+	  */
+	public void setAD_Replication_ID (int AD_Replication_ID);
+
+	/** Get Replication.
+	  * Data Replication Target
+	  */
+	public int getAD_Replication_ID();
+
     /** Column name AD_ReplicationStrategy_ID */
     public static final String COLUMNNAME_AD_ReplicationStrategy_ID = "AD_ReplicationStrategy_ID";
 
@@ -76,19 +89,6 @@ public interface I_AD_Replication
 	public int getAD_ReplicationStrategy_ID();
 
 	public org.compiere.model.I_AD_ReplicationStrategy getAD_ReplicationStrategy() throws RuntimeException;
-
-    /** Column name AD_Replication_ID */
-    public static final String COLUMNNAME_AD_Replication_ID = "AD_Replication_ID";
-
-	/** Set Replication.
-	  * Data Replication Target
-	  */
-	public void setAD_Replication_ID (int AD_Replication_ID);
-
-	/** Get Replication.
-	  * Data Replication Target
-	  */
-	public int getAD_Replication_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

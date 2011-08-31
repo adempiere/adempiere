@@ -49,19 +49,6 @@ public interface I_AD_User
 	  */
 	public int getAD_Client_ID();
 
-    /** Column name AD_OrgTrx_ID */
-    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
-
-	/** Set Trx Organization.
-	  * Performing or initiating organization
-	  */
-	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
-
-	/** Get Trx Organization.
-	  * Performing or initiating organization
-	  */
-	public int getAD_OrgTrx_ID();
-
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -74,6 +61,19 @@ public interface I_AD_User
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name AD_OrgTrx_ID */
+    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
+
+	/** Set Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
+
+	/** Get Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID();
 
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
@@ -333,19 +333,6 @@ public interface I_AD_User
 	  */
 	public boolean isInPayroll();
 
-    /** Column name LDAPUser */
-    public static final String COLUMNNAME_LDAPUser = "LDAPUser";
-
-	/** Set LDAP User Name.
-	  * User Name used for authorization via LDAP (directory) services
-	  */
-	public void setLDAPUser (String LDAPUser);
-
-	/** Get LDAP User Name.
-	  * User Name used for authorization via LDAP (directory) services
-	  */
-	public String getLDAPUser();
-
     /** Column name LastContact */
     public static final String COLUMNNAME_LastContact = "LastContact";
 
@@ -371,6 +358,19 @@ public interface I_AD_User
 	  * Result of last contact
 	  */
 	public String getLastResult();
+
+    /** Column name LDAPUser */
+    public static final String COLUMNNAME_LDAPUser = "LDAPUser";
+
+	/** Set LDAP User Name.
+	  * User Name used for authorization via LDAP (directory) services
+	  */
+	public void setLDAPUser (String LDAPUser);
+
+	/** Get LDAP User Name.
+	  * User Name used for authorization via LDAP (directory) services
+	  */
+	public String getLDAPUser();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

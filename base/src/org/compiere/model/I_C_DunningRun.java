@@ -62,6 +62,21 @@ public interface I_C_DunningRun
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name C_Dunning_ID */
+    public static final String COLUMNNAME_C_Dunning_ID = "C_Dunning_ID";
+
+	/** Set Dunning.
+	  * Dunning Rules for overdue invoices
+	  */
+	public void setC_Dunning_ID (int C_Dunning_ID);
+
+	/** Get Dunning.
+	  * Dunning Rules for overdue invoices
+	  */
+	public int getC_Dunning_ID();
+
+	public org.compiere.model.I_C_Dunning getC_Dunning() throws RuntimeException;
+
     /** Column name C_DunningLevel_ID */
     public static final String COLUMNNAME_C_DunningLevel_ID = "C_DunningLevel_ID";
 
@@ -85,21 +100,6 @@ public interface I_C_DunningRun
 	  * Dunning Run
 	  */
 	public int getC_DunningRun_ID();
-
-    /** Column name C_Dunning_ID */
-    public static final String COLUMNNAME_C_Dunning_ID = "C_Dunning_ID";
-
-	/** Set Dunning.
-	  * Dunning Rules for overdue invoices
-	  */
-	public void setC_Dunning_ID (int C_Dunning_ID);
-
-	/** Get Dunning.
-	  * Dunning Rules for overdue invoices
-	  */
-	public int getC_Dunning_ID();
-
-	public org.compiere.model.I_C_Dunning getC_Dunning() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

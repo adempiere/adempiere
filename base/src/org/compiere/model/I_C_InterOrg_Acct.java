@@ -49,19 +49,6 @@ public interface I_C_InterOrg_Acct
 	  */
 	public int getAD_Client_ID();
 
-    /** Column name AD_OrgTo_ID */
-    public static final String COLUMNNAME_AD_OrgTo_ID = "AD_OrgTo_ID";
-
-	/** Set Inter-Organization.
-	  * Organization valid for intercompany documents
-	  */
-	public void setAD_OrgTo_ID (int AD_OrgTo_ID);
-
-	/** Get Inter-Organization.
-	  * Organization valid for intercompany documents
-	  */
-	public int getAD_OrgTo_ID();
-
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -74,6 +61,19 @@ public interface I_C_InterOrg_Acct
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name AD_OrgTo_ID */
+    public static final String COLUMNNAME_AD_OrgTo_ID = "AD_OrgTo_ID";
+
+	/** Set Inter-Organization.
+	  * Organization valid for intercompany documents
+	  */
+	public void setAD_OrgTo_ID (int AD_OrgTo_ID);
+
+	/** Get Inter-Organization.
+	  * Organization valid for intercompany documents
+	  */
+	public int getAD_OrgTo_ID();
 
     /** Column name C_AcctSchema_ID */
     public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";

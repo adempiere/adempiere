@@ -77,19 +77,6 @@ public interface I_CM_TemplateTable
 
 	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
 
-    /** Column name CM_TemplateTable_ID */
-    public static final String COLUMNNAME_CM_TemplateTable_ID = "CM_TemplateTable_ID";
-
-	/** Set Template Table.
-	  * CM Template Table Link
-	  */
-	public void setCM_TemplateTable_ID (int CM_TemplateTable_ID);
-
-	/** Get Template Table.
-	  * CM Template Table Link
-	  */
-	public int getCM_TemplateTable_ID();
-
     /** Column name CM_Template_ID */
     public static final String COLUMNNAME_CM_Template_ID = "CM_Template_ID";
 
@@ -104,6 +91,19 @@ public interface I_CM_TemplateTable
 	public int getCM_Template_ID();
 
 	public org.compiere.model.I_CM_Template getCM_Template() throws RuntimeException;
+
+    /** Column name CM_TemplateTable_ID */
+    public static final String COLUMNNAME_CM_TemplateTable_ID = "CM_TemplateTable_ID";
+
+	/** Set Template Table.
+	  * CM Template Table Link
+	  */
+	public void setCM_TemplateTable_ID (int CM_TemplateTable_ID);
+
+	/** Get Template Table.
+	  * CM Template Table Link
+	  */
+	public int getCM_TemplateTable_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

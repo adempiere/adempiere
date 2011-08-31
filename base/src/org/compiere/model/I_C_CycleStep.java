@@ -62,19 +62,6 @@ public interface I_C_CycleStep
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_CycleStep_ID */
-    public static final String COLUMNNAME_C_CycleStep_ID = "C_CycleStep_ID";
-
-	/** Set Cycle Step.
-	  * The step for this Cycle
-	  */
-	public void setC_CycleStep_ID (int C_CycleStep_ID);
-
-	/** Get Cycle Step.
-	  * The step for this Cycle
-	  */
-	public int getC_CycleStep_ID();
-
     /** Column name C_Cycle_ID */
     public static final String COLUMNNAME_C_Cycle_ID = "C_Cycle_ID";
 
@@ -89,6 +76,19 @@ public interface I_C_CycleStep
 	public int getC_Cycle_ID();
 
 	public org.compiere.model.I_C_Cycle getC_Cycle() throws RuntimeException;
+
+    /** Column name C_CycleStep_ID */
+    public static final String COLUMNNAME_C_CycleStep_ID = "C_CycleStep_ID";
+
+	/** Set Cycle Step.
+	  * The step for this Cycle
+	  */
+	public void setC_CycleStep_ID (int C_CycleStep_ID);
+
+	/** Get Cycle Step.
+	  * The step for this Cycle
+	  */
+	public int getC_CycleStep_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

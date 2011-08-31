@@ -106,15 +106,6 @@ public interface I_M_PromotionGroupLine
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
-    /** Column name M_PromotionGroupLine_ID */
-    public static final String COLUMNNAME_M_PromotionGroupLine_ID = "M_PromotionGroupLine_ID";
-
-	/** Set Promotion Group Line	  */
-	public void setM_PromotionGroupLine_ID (int M_PromotionGroupLine_ID);
-
-	/** Get Promotion Group Line	  */
-	public int getM_PromotionGroupLine_ID();
-
     /** Column name M_PromotionGroup_ID */
     public static final String COLUMNNAME_M_PromotionGroup_ID = "M_PromotionGroup_ID";
 
@@ -125,6 +116,15 @@ public interface I_M_PromotionGroupLine
 	public int getM_PromotionGroup_ID();
 
 	public org.compiere.model.I_M_PromotionGroup getM_PromotionGroup() throws RuntimeException;
+
+    /** Column name M_PromotionGroupLine_ID */
+    public static final String COLUMNNAME_M_PromotionGroupLine_ID = "M_PromotionGroupLine_ID";
+
+	/** Set Promotion Group Line	  */
+	public void setM_PromotionGroupLine_ID (int M_PromotionGroupLine_ID);
+
+	/** Get Promotion Group Line	  */
+	public int getM_PromotionGroupLine_ID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

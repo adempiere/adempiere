@@ -29,7 +29,7 @@ public class X_CM_AccessListBPGroup extends PO implements I_CM_AccessListBPGroup
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110810L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_CM_AccessListBPGroup (Properties ctx, int CM_AccessListBPGroup_ID, String trxName)
@@ -37,8 +37,8 @@ public class X_CM_AccessListBPGroup extends PO implements I_CM_AccessListBPGroup
       super (ctx, CM_AccessListBPGroup_ID, trxName);
       /** if (CM_AccessListBPGroup_ID == 0)
         {
-			setCM_AccessProfile_ID (0);
 			setC_BP_Group_ID (0);
+			setCM_AccessProfile_ID (0);
         } */
     }
 
@@ -70,34 +70,6 @@ public class X_CM_AccessListBPGroup extends PO implements I_CM_AccessListBPGroup
       return sb.toString();
     }
 
-	public org.compiere.model.I_CM_AccessProfile getCM_AccessProfile() throws RuntimeException
-    {
-		return (org.compiere.model.I_CM_AccessProfile)MTable.get(getCtx(), org.compiere.model.I_CM_AccessProfile.Table_Name)
-			.getPO(getCM_AccessProfile_ID(), get_TrxName());	}
-
-	/** Set Web Access Profile.
-		@param CM_AccessProfile_ID 
-		Web Access Profile
-	  */
-	public void setCM_AccessProfile_ID (int CM_AccessProfile_ID)
-	{
-		if (CM_AccessProfile_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_CM_AccessProfile_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_CM_AccessProfile_ID, Integer.valueOf(CM_AccessProfile_ID));
-	}
-
-	/** Get Web Access Profile.
-		@return Web Access Profile
-	  */
-	public int getCM_AccessProfile_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_CM_AccessProfile_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException
     {
 		return (org.compiere.model.I_C_BP_Group)MTable.get(getCtx(), org.compiere.model.I_C_BP_Group.Table_Name)
@@ -121,6 +93,34 @@ public class X_CM_AccessListBPGroup extends PO implements I_CM_AccessListBPGroup
 	public int getC_BP_Group_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Group_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_CM_AccessProfile getCM_AccessProfile() throws RuntimeException
+    {
+		return (org.compiere.model.I_CM_AccessProfile)MTable.get(getCtx(), org.compiere.model.I_CM_AccessProfile.Table_Name)
+			.getPO(getCM_AccessProfile_ID(), get_TrxName());	}
+
+	/** Set Web Access Profile.
+		@param CM_AccessProfile_ID 
+		Web Access Profile
+	  */
+	public void setCM_AccessProfile_ID (int CM_AccessProfile_ID)
+	{
+		if (CM_AccessProfile_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_AccessProfile_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_AccessProfile_ID, Integer.valueOf(CM_AccessProfile_ID));
+	}
+
+	/** Get Web Access Profile.
+		@return Web Access Profile
+	  */
+	public int getCM_AccessProfile_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CM_AccessProfile_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

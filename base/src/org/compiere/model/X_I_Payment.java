@@ -32,7 +32,7 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110810L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_I_Payment (Properties ctx, int I_Payment_ID, String trxName)
@@ -72,6 +72,23 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** Set Account No.
+		@param AccountNo 
+		Account Number
+	  */
+	public void setAccountNo (String AccountNo)
+	{
+		set_Value (COLUMNNAME_AccountNo, AccountNo);
+	}
+
+	/** Get Account No.
+		@return Account Number
+	  */
+	public String getAccountNo () 
+	{
+		return (String)get_Value(COLUMNNAME_AccountNo);
+	}
 
 	/** Set Account City.
 		@param A_City 
@@ -226,40 +243,6 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 		return (String)get_Value(COLUMNNAME_A_Zip);
 	}
 
-	/** Set Account No.
-		@param AccountNo 
-		Account Number
-	  */
-	public void setAccountNo (String AccountNo)
-	{
-		set_Value (COLUMNNAME_AccountNo, AccountNo);
-	}
-
-	/** Get Account No.
-		@return Account Number
-	  */
-	public String getAccountNo () 
-	{
-		return (String)get_Value(COLUMNNAME_AccountNo);
-	}
-
-	/** Set Business Partner Key.
-		@param BPartnerValue 
-		Key of the Business Partner
-	  */
-	public void setBPartnerValue (String BPartnerValue)
-	{
-		set_Value (COLUMNNAME_BPartnerValue, BPartnerValue);
-	}
-
-	/** Get Business Partner Key.
-		@return Key of the Business Partner
-	  */
-	public String getBPartnerValue () 
-	{
-		return (String)get_Value(COLUMNNAME_BPartnerValue);
-	}
-
 	/** Set Bank Account No.
 		@param BankAccountNo 
 		Bank Account Number
@@ -277,32 +260,21 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 		return (String)get_Value(COLUMNNAME_BankAccountNo);
 	}
 
-	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
-			.getPO(getC_BPartner_ID(), get_TrxName());	}
-
-	/** Set Business Partner .
-		@param C_BPartner_ID 
-		Identifies a Business Partner
+	/** Set Business Partner Key.
+		@param BPartnerValue 
+		Key of the Business Partner
 	  */
-	public void setC_BPartner_ID (int C_BPartner_ID)
+	public void setBPartnerValue (String BPartnerValue)
 	{
-		if (C_BPartner_ID < 1) 
-			set_Value (COLUMNNAME_C_BPartner_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		set_Value (COLUMNNAME_BPartnerValue, BPartnerValue);
 	}
 
-	/** Get Business Partner .
-		@return Identifies a Business Partner
+	/** Get Business Partner Key.
+		@return Key of the Business Partner
 	  */
-	public int getC_BPartner_ID () 
+	public String getBPartnerValue () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		return (String)get_Value(COLUMNNAME_BPartnerValue);
 	}
 
 	public org.compiere.model.I_C_BankAccount getC_BankAccount() throws RuntimeException
@@ -328,6 +300,34 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 	public int getC_BankAccount_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BankAccount_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
+			.getPO(getC_BPartner_ID(), get_TrxName());	}
+
+	/** Set Business Partner .
+		@param C_BPartner_ID 
+		Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID)
+	{
+		if (C_BPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+	}
+
+	/** Get Business Partner .
+		@return Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -417,6 +417,60 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Charge amount.
+		@param ChargeAmt 
+		Charge Amount
+	  */
+	public void setChargeAmt (BigDecimal ChargeAmt)
+	{
+		set_Value (COLUMNNAME_ChargeAmt, ChargeAmt);
+	}
+
+	/** Get Charge amount.
+		@return Charge Amount
+	  */
+	public BigDecimal getChargeAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ChargeAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Charge Name.
+		@param ChargeName 
+		Name of the Charge
+	  */
+	public void setChargeName (String ChargeName)
+	{
+		set_Value (COLUMNNAME_ChargeName, ChargeName);
+	}
+
+	/** Get Charge Name.
+		@return Name of the Charge
+	  */
+	public String getChargeName () 
+	{
+		return (String)get_Value(COLUMNNAME_ChargeName);
+	}
+
+	/** Set Check No.
+		@param CheckNo 
+		Check Number
+	  */
+	public void setCheckNo (String CheckNo)
+	{
+		set_Value (COLUMNNAME_CheckNo, CheckNo);
+	}
+
+	/** Get Check No.
+		@return Check Number
+	  */
+	public String getCheckNo () 
+	{
+		return (String)get_Value(COLUMNNAME_CheckNo);
+	}
+
 	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Invoice)MTable.get(getCtx(), org.compiere.model.I_C_Invoice.Table_Name)
@@ -471,60 +525,6 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Charge amount.
-		@param ChargeAmt 
-		Charge Amount
-	  */
-	public void setChargeAmt (BigDecimal ChargeAmt)
-	{
-		set_Value (COLUMNNAME_ChargeAmt, ChargeAmt);
-	}
-
-	/** Get Charge amount.
-		@return Charge Amount
-	  */
-	public BigDecimal getChargeAmt () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ChargeAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
-	/** Set Charge Name.
-		@param ChargeName 
-		Name of the Charge
-	  */
-	public void setChargeName (String ChargeName)
-	{
-		set_Value (COLUMNNAME_ChargeName, ChargeName);
-	}
-
-	/** Get Charge Name.
-		@return Name of the Charge
-	  */
-	public String getChargeName () 
-	{
-		return (String)get_Value(COLUMNNAME_ChargeName);
-	}
-
-	/** Set Check No.
-		@param CheckNo 
-		Check Number
-	  */
-	public void setCheckNo (String CheckNo)
-	{
-		set_Value (COLUMNNAME_CheckNo, CheckNo);
-	}
-
-	/** Get Check No.
-		@return Check Number
-	  */
-	public String getCheckNo () 
-	{
-		return (String)get_Value(COLUMNNAME_CheckNo);
 	}
 
 	/** Set Exp. Month.
@@ -723,23 +723,6 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 		return (String)get_Value(COLUMNNAME_DocumentNo);
 	}
 
-	/** Set ISO Currency Code.
-		@param ISO_Code 
-		Three letter ISO 4217 Code of the Currency
-	  */
-	public void setISO_Code (String ISO_Code)
-	{
-		set_Value (COLUMNNAME_ISO_Code, ISO_Code);
-	}
-
-	/** Get ISO Currency Code.
-		@return Three letter ISO 4217 Code of the Currency
-	  */
-	public String getISO_Code () 
-	{
-		return (String)get_Value(COLUMNNAME_ISO_Code);
-	}
-
 	/** Set Import Error Message.
 		@param I_ErrorMsg 
 		Messages generated from import process
@@ -781,6 +764,23 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 		return false;
 	}
 
+	/** Set Invoice Document No.
+		@param InvoiceDocumentNo 
+		Document Number of the Invoice
+	  */
+	public void setInvoiceDocumentNo (String InvoiceDocumentNo)
+	{
+		set_Value (COLUMNNAME_InvoiceDocumentNo, InvoiceDocumentNo);
+	}
+
+	/** Get Invoice Document No.
+		@return Document Number of the Invoice
+	  */
+	public String getInvoiceDocumentNo () 
+	{
+		return (String)get_Value(COLUMNNAME_InvoiceDocumentNo);
+	}
+
 	/** Set Import Payment.
 		@param I_Payment_ID 
 		Import Payment
@@ -802,23 +802,6 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Invoice Document No.
-		@param InvoiceDocumentNo 
-		Document Number of the Invoice
-	  */
-	public void setInvoiceDocumentNo (String InvoiceDocumentNo)
-	{
-		set_Value (COLUMNNAME_InvoiceDocumentNo, InvoiceDocumentNo);
-	}
-
-	/** Get Invoice Document No.
-		@return Document Number of the Invoice
-	  */
-	public String getInvoiceDocumentNo () 
-	{
-		return (String)get_Value(COLUMNNAME_InvoiceDocumentNo);
 	}
 
 	/** Set Approved.
@@ -867,6 +850,23 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Set ISO Currency Code.
+		@param ISO_Code 
+		Three letter ISO 4217 Code of the Currency
+	  */
+	public void setISO_Code (String ISO_Code)
+	{
+		set_Value (COLUMNNAME_ISO_Code, ISO_Code);
+	}
+
+	/** Get ISO Currency Code.
+		@return Three letter ISO 4217 Code of the Currency
+	  */
+	public String getISO_Code () 
+	{
+		return (String)get_Value(COLUMNNAME_ISO_Code);
 	}
 
 	/** Set Over/Under Payment.
@@ -995,23 +995,6 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 		return bd;
 	}
 
-	/** Set PO Number.
-		@param PONum 
-		Purchase Order Number
-	  */
-	public void setPONum (String PONum)
-	{
-		set_Value (COLUMNNAME_PONum, PONum);
-	}
-
-	/** Get PO Number.
-		@return Purchase Order Number
-	  */
-	public String getPONum () 
-	{
-		return (String)get_Value(COLUMNNAME_PONum);
-	}
-
 	/** Set Payment amount.
 		@param PayAmt 
 		Amount being paid
@@ -1030,6 +1013,23 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set PO Number.
+		@param PONum 
+		Purchase Order Number
+	  */
+	public void setPONum (String PONum)
+	{
+		set_Value (COLUMNNAME_PONum, PONum);
+	}
+
+	/** Get PO Number.
+		@return Purchase Order Number
+	  */
+	public String getPONum () 
+	{
+		return (String)get_Value(COLUMNNAME_PONum);
 	}
 
 	/** Set Processed.
@@ -1111,6 +1111,23 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 		return (String)get_Value(COLUMNNAME_R_Info);
 	}
 
+	/** Set Routing No.
+		@param RoutingNo 
+		Bank Routing Number
+	  */
+	public void setRoutingNo (String RoutingNo)
+	{
+		set_Value (COLUMNNAME_RoutingNo, RoutingNo);
+	}
+
+	/** Get Routing No.
+		@return Bank Routing Number
+	  */
+	public String getRoutingNo () 
+	{
+		return (String)get_Value(COLUMNNAME_RoutingNo);
+	}
+
 	/** Set Reference.
 		@param R_PnRef 
 		Payment reference
@@ -1160,23 +1177,6 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 	public String getR_Result () 
 	{
 		return (String)get_Value(COLUMNNAME_R_Result);
-	}
-
-	/** Set Routing No.
-		@param RoutingNo 
-		Bank Routing Number
-	  */
-	public void setRoutingNo (String RoutingNo)
-	{
-		set_Value (COLUMNNAME_RoutingNo, RoutingNo);
-	}
-
-	/** Get Routing No.
-		@return Bank Routing Number
-	  */
-	public String getRoutingNo () 
-	{
-		return (String)get_Value(COLUMNNAME_RoutingNo);
 	}
 
 	/** Set Swipe.

@@ -49,19 +49,6 @@ public interface I_AD_OrgType
 	  */
 	public int getAD_Client_ID();
 
-    /** Column name AD_OrgType_ID */
-    public static final String COLUMNNAME_AD_OrgType_ID = "AD_OrgType_ID";
-
-	/** Set Organization Type.
-	  * Organization Type
-	  */
-	public void setAD_OrgType_ID (int AD_OrgType_ID);
-
-	/** Get Organization Type.
-	  * Organization Type
-	  */
-	public int getAD_OrgType_ID();
-
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -74,6 +61,19 @@ public interface I_AD_OrgType
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name AD_OrgType_ID */
+    public static final String COLUMNNAME_AD_OrgType_ID = "AD_OrgType_ID";
+
+	/** Set Organization Type.
+	  * Organization Type
+	  */
+	public void setAD_OrgType_ID (int AD_OrgType_ID);
+
+	/** Get Organization Type.
+	  * Organization Type
+	  */
+	public int getAD_OrgType_ID();
 
     /** Column name AD_PrintColor_ID */
     public static final String COLUMNNAME_AD_PrintColor_ID = "AD_PrintColor_ID";

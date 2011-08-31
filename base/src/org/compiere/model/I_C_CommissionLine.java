@@ -88,21 +88,6 @@ public interface I_C_CommissionLine
 	  */
 	public BigDecimal getAmtSubtract();
 
-    /** Column name C_BP_Group_ID */
-    public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
-
-	/** Set Business Partner Group.
-	  * Business Partner Group
-	  */
-	public void setC_BP_Group_ID (int C_BP_Group_ID);
-
-	/** Get Business Partner Group.
-	  * Business Partner Group
-	  */
-	public int getC_BP_Group_ID();
-
-	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException;
-
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 
@@ -118,18 +103,20 @@ public interface I_C_CommissionLine
 
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
-    /** Column name C_CommissionLine_ID */
-    public static final String COLUMNNAME_C_CommissionLine_ID = "C_CommissionLine_ID";
+    /** Column name C_BP_Group_ID */
+    public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
 
-	/** Set Commission Line.
-	  * Commission Line
+	/** Set Business Partner Group.
+	  * Business Partner Group
 	  */
-	public void setC_CommissionLine_ID (int C_CommissionLine_ID);
+	public void setC_BP_Group_ID (int C_BP_Group_ID);
 
-	/** Get Commission Line.
-	  * Commission Line
+	/** Get Business Partner Group.
+	  * Business Partner Group
 	  */
-	public int getC_CommissionLine_ID();
+	public int getC_BP_Group_ID();
+
+	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException;
 
     /** Column name C_Commission_ID */
     public static final String COLUMNNAME_C_Commission_ID = "C_Commission_ID";
@@ -146,20 +133,18 @@ public interface I_C_CommissionLine
 
 	public org.compiere.model.I_C_Commission getC_Commission() throws RuntimeException;
 
-    /** Column name C_SalesRegion_ID */
-    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
+    /** Column name C_CommissionLine_ID */
+    public static final String COLUMNNAME_C_CommissionLine_ID = "C_CommissionLine_ID";
 
-	/** Set Sales Region.
-	  * Sales coverage region
+	/** Set Commission Line.
+	  * Commission Line
 	  */
-	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
+	public void setC_CommissionLine_ID (int C_CommissionLine_ID);
 
-	/** Get Sales Region.
-	  * Sales coverage region
+	/** Get Commission Line.
+	  * Commission Line
 	  */
-	public int getC_SalesRegion_ID();
-
-	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
+	public int getC_CommissionLine_ID();
 
     /** Column name CommissionOrders */
     public static final String COLUMNNAME_CommissionOrders = "CommissionOrders";
@@ -189,6 +174,21 @@ public interface I_C_CommissionLine
 	  * User who created this records
 	  */
 	public int getCreatedBy();
+
+    /** Column name C_SalesRegion_ID */
+    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
+
+	/** Set Sales Region.
+	  * Sales coverage region
+	  */
+	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
+
+	/** Get Sales Region.
+	  * Sales coverage region
+	  */
+	public int getC_SalesRegion_ID();
+
+	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

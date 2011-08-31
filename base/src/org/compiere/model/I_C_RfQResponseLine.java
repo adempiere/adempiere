@@ -62,6 +62,22 @@ public interface I_C_RfQResponseLine
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
+
+	/** Get Created.
+	  * Date this record was created
+	  */
+	public Timestamp getCreated();
+
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
+	  */
+	public int getCreatedBy();
+
     /** Column name C_RfQLine_ID */
     public static final String COLUMNNAME_C_RfQLine_ID = "C_RfQLine_ID";
 
@@ -76,19 +92,6 @@ public interface I_C_RfQResponseLine
 	public int getC_RfQLine_ID();
 
 	public org.compiere.model.I_C_RfQLine getC_RfQLine() throws RuntimeException;
-
-    /** Column name C_RfQResponseLine_ID */
-    public static final String COLUMNNAME_C_RfQResponseLine_ID = "C_RfQResponseLine_ID";
-
-	/** Set RfQ Response Line.
-	  * Request for Quotation Response Line
-	  */
-	public void setC_RfQResponseLine_ID (int C_RfQResponseLine_ID);
-
-	/** Get RfQ Response Line.
-	  * Request for Quotation Response Line
-	  */
-	public int getC_RfQResponseLine_ID();
 
     /** Column name C_RfQResponse_ID */
     public static final String COLUMNNAME_C_RfQResponse_ID = "C_RfQResponse_ID";
@@ -105,21 +108,18 @@ public interface I_C_RfQResponseLine
 
 	public org.compiere.model.I_C_RfQResponse getC_RfQResponse() throws RuntimeException;
 
-    /** Column name Created */
-    public static final String COLUMNNAME_Created = "Created";
+    /** Column name C_RfQResponseLine_ID */
+    public static final String COLUMNNAME_C_RfQResponseLine_ID = "C_RfQResponseLine_ID";
 
-	/** Get Created.
-	  * Date this record was created
+	/** Set RfQ Response Line.
+	  * Request for Quotation Response Line
 	  */
-	public Timestamp getCreated();
+	public void setC_RfQResponseLine_ID (int C_RfQResponseLine_ID);
 
-    /** Column name CreatedBy */
-    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
-
-	/** Get Created By.
-	  * User who created this records
+	/** Get RfQ Response Line.
+	  * Request for Quotation Response Line
 	  */
-	public int getCreatedBy();
+	public int getC_RfQResponseLine_ID();
 
     /** Column name DateWorkComplete */
     public static final String COLUMNNAME_DateWorkComplete = "DateWorkComplete";

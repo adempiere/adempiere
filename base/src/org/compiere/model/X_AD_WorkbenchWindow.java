@@ -30,7 +30,7 @@ public class X_AD_WorkbenchWindow extends PO implements I_AD_WorkbenchWindow, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110810L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_AD_WorkbenchWindow (Properties ctx, int AD_WorkbenchWindow_ID, String trxName)
@@ -38,8 +38,8 @@ public class X_AD_WorkbenchWindow extends PO implements I_AD_WorkbenchWindow, I_
       super (ctx, AD_WorkbenchWindow_ID, trxName);
       /** if (AD_WorkbenchWindow_ID == 0)
         {
-			setAD_WorkbenchWindow_ID (0);
 			setAD_Workbench_ID (0);
+			setAD_WorkbenchWindow_ID (0);
 			setEntityType (null);
 // U
 			setIsPrimary (false);
@@ -187,34 +187,6 @@ public class X_AD_WorkbenchWindow extends PO implements I_AD_WorkbenchWindow, I_
 		return ii.intValue();
 	}
 
-	/** Set Workbench Window.
-		@param AD_WorkbenchWindow_ID Workbench Window	  */
-	public void setAD_WorkbenchWindow_ID (int AD_WorkbenchWindow_ID)
-	{
-		if (AD_WorkbenchWindow_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_WorkbenchWindow_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_WorkbenchWindow_ID, Integer.valueOf(AD_WorkbenchWindow_ID));
-	}
-
-	/** Get Workbench Window.
-		@return Workbench Window	  */
-	public int getAD_WorkbenchWindow_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_WorkbenchWindow_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), String.valueOf(getAD_WorkbenchWindow_ID()));
-    }
-
 	public org.compiere.model.I_AD_Workbench getAD_Workbench() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_Workbench)MTable.get(getCtx(), org.compiere.model.I_AD_Workbench.Table_Name)
@@ -242,6 +214,34 @@ public class X_AD_WorkbenchWindow extends PO implements I_AD_WorkbenchWindow, I_
 			 return 0;
 		return ii.intValue();
 	}
+
+	/** Set Workbench Window.
+		@param AD_WorkbenchWindow_ID Workbench Window	  */
+	public void setAD_WorkbenchWindow_ID (int AD_WorkbenchWindow_ID)
+	{
+		if (AD_WorkbenchWindow_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_WorkbenchWindow_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_WorkbenchWindow_ID, Integer.valueOf(AD_WorkbenchWindow_ID));
+	}
+
+	/** Get Workbench Window.
+		@return Workbench Window	  */
+	public int getAD_WorkbenchWindow_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_WorkbenchWindow_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getAD_WorkbenchWindow_ID()));
+    }
 
 	/** EntityType AD_Reference_ID=389 */
 	public static final int ENTITYTYPE_AD_Reference_ID=389;

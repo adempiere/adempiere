@@ -33,7 +33,7 @@ public class X_C_ProjectPhase extends PO implements I_C_ProjectPhase, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110810L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_C_ProjectPhase (Properties ctx, int C_ProjectPhase_ID, String trxName)
@@ -41,9 +41,9 @@ public class X_C_ProjectPhase extends PO implements I_C_ProjectPhase, I_Persiste
       super (ctx, C_ProjectPhase_ID, trxName);
       /** if (C_ProjectPhase_ID == 0)
         {
-			setC_ProjectPhase_ID (0);
-			setC_Project_ID (0);
 			setCommittedAmt (Env.ZERO);
+			setC_Project_ID (0);
+			setC_ProjectPhase_ID (0);
 			setIsCommitCeiling (false);
 			setIsComplete (false);
 			setName (null);
@@ -82,6 +82,26 @@ public class X_C_ProjectPhase extends PO implements I_C_ProjectPhase, I_Persiste
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** Set Committed Amount.
+		@param CommittedAmt 
+		The (legal) commitment amount
+	  */
+	public void setCommittedAmt (BigDecimal CommittedAmt)
+	{
+		set_Value (COLUMNNAME_CommittedAmt, CommittedAmt);
+	}
+
+	/** Get Committed Amount.
+		@return The (legal) commitment amount
+	  */
+	public BigDecimal getCommittedAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CommittedAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
 
 	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException
     {
@@ -139,29 +159,6 @@ public class X_C_ProjectPhase extends PO implements I_C_ProjectPhase, I_Persiste
 		return ii.intValue();
 	}
 
-	/** Set Project Phase.
-		@param C_ProjectPhase_ID 
-		Phase of a Project
-	  */
-	public void setC_ProjectPhase_ID (int C_ProjectPhase_ID)
-	{
-		if (C_ProjectPhase_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_ProjectPhase_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_ProjectPhase_ID, Integer.valueOf(C_ProjectPhase_ID));
-	}
-
-	/** Get Project Phase.
-		@return Phase of a Project
-	  */
-	public int getC_ProjectPhase_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectPhase_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
@@ -190,24 +187,27 @@ public class X_C_ProjectPhase extends PO implements I_C_ProjectPhase, I_Persiste
 		return ii.intValue();
 	}
 
-	/** Set Committed Amount.
-		@param CommittedAmt 
-		The (legal) commitment amount
+	/** Set Project Phase.
+		@param C_ProjectPhase_ID 
+		Phase of a Project
 	  */
-	public void setCommittedAmt (BigDecimal CommittedAmt)
+	public void setC_ProjectPhase_ID (int C_ProjectPhase_ID)
 	{
-		set_Value (COLUMNNAME_CommittedAmt, CommittedAmt);
+		if (C_ProjectPhase_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_ProjectPhase_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_ProjectPhase_ID, Integer.valueOf(C_ProjectPhase_ID));
 	}
 
-	/** Get Committed Amount.
-		@return The (legal) commitment amount
+	/** Get Project Phase.
+		@return Phase of a Project
 	  */
-	public BigDecimal getCommittedAmt () 
+	public int getC_ProjectPhase_ID () 
 	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CommittedAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectPhase_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Description.

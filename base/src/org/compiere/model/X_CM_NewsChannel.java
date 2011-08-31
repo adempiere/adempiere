@@ -30,7 +30,7 @@ public class X_CM_NewsChannel extends PO implements I_CM_NewsChannel, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110810L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_CM_NewsChannel (Properties ctx, int CM_NewsChannel_ID, String trxName)

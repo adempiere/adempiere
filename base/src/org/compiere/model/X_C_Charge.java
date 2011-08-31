@@ -32,7 +32,7 @@ public class X_C_Charge extends PO implements I_C_Charge, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110810L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_C_Charge (Properties ctx, int C_Charge_ID, String trxName)
@@ -41,8 +41,8 @@ public class X_C_Charge extends PO implements I_C_Charge, I_Persistent
       /** if (C_Charge_ID == 0)
         {
 			setC_Charge_ID (0);
-			setC_TaxCategory_ID (0);
 			setChargeAmt (Env.ZERO);
+			setC_TaxCategory_ID (0);
 			setIsSameCurrency (false);
 			setIsSameTax (false);
 			setIsTaxIncluded (false);
@@ -107,6 +107,29 @@ public class X_C_Charge extends PO implements I_C_Charge, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Charge.
+		@param C_Charge_ID 
+		Additional document charges
+	  */
+	public void setC_Charge_ID (int C_Charge_ID)
+	{
+		if (C_Charge_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Charge_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
+	}
+
+	/** Get Charge.
+		@return Additional document charges
+	  */
+	public int getC_Charge_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Charge_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_C_ChargeType getC_ChargeType() throws RuntimeException
     {
 		return (org.compiere.model.I_C_ChargeType)MTable.get(getCtx(), org.compiere.model.I_C_ChargeType.Table_Name)
@@ -132,27 +155,24 @@ public class X_C_Charge extends PO implements I_C_Charge, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Charge.
-		@param C_Charge_ID 
-		Additional document charges
+	/** Set Charge amount.
+		@param ChargeAmt 
+		Charge Amount
 	  */
-	public void setC_Charge_ID (int C_Charge_ID)
+	public void setChargeAmt (BigDecimal ChargeAmt)
 	{
-		if (C_Charge_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_Charge_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
+		set_Value (COLUMNNAME_ChargeAmt, ChargeAmt);
 	}
 
-	/** Get Charge.
-		@return Additional document charges
+	/** Get Charge amount.
+		@return Charge Amount
 	  */
-	public int getC_Charge_ID () 
+	public BigDecimal getChargeAmt () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Charge_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ChargeAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	public org.compiere.model.I_C_TaxCategory getC_TaxCategory() throws RuntimeException
@@ -181,26 +201,6 @@ public class X_C_Charge extends PO implements I_C_Charge, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Charge amount.
-		@param ChargeAmt 
-		Charge Amount
-	  */
-	public void setChargeAmt (BigDecimal ChargeAmt)
-	{
-		set_Value (COLUMNNAME_ChargeAmt, ChargeAmt);
-	}
-
-	/** Get Charge amount.
-		@return Charge Amount
-	  */
-	public BigDecimal getChargeAmt () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ChargeAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
 	}
 
 	/** Set Description.
