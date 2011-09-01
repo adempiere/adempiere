@@ -538,7 +538,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- 14/06/2009 1:07:19
 -- AD Migration
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,57873,53881,0,34,53218,'RollbackStatement',TO_TIMESTAMP('2009-06-14 01:07:18','YYYY-MM-DD HH24:MI:SS'),100,'SQL statement to rollback the current step.','D',2000,'Y','N','N','N','N','N','N','N','N','N','Y','Rollback Statement',0,TO_TIMESTAMP('2009-06-14 01:07:18','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,57873,53881,0,34,53218,'RollbackStatement',TO_TIMESTAMP('2009-06-14 01:07:18','YYYY-MM-DD HH24:MI:SS'),100,'SQL statement to rollback the current step.','D',999999999,'Y','N','N','N','N','N','N','N','N','N','Y','Rollback Statement',0,TO_TIMESTAMP('2009-06-14 01:07:18','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- 14/06/2009 1:07:19
@@ -548,7 +548,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- 14/06/2009 1:07:21
 -- AD Migration
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,57874,50028,0,34,53218,'SQLStatement',TO_TIMESTAMP('2009-06-14 01:07:19','YYYY-MM-DD HH24:MI:SS'),100,'D',2000,'Y','N','N','N','N','N','N','N','N','N','Y','SQLStatement',0,TO_TIMESTAMP('2009-06-14 01:07:19','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,57874,50028,0,34,53218,'SQLStatement',TO_TIMESTAMP('2009-06-14 01:07:19','YYYY-MM-DD HH24:MI:SS'),100,'D',999999999,'Y','N','N','N','N','N','N','N','N','N','Y','SQLStatement',0,TO_TIMESTAMP('2009-06-14 01:07:19','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- 14/06/2009 1:07:21
@@ -1822,7 +1822,7 @@ CREATE TABLE AD_MigrationData (AD_Client_ID NUMERIC(10) NOT NULL, AD_Column_ID N
 
 -- 14/06/2009 2:18:18
 -- AD Migration
-CREATE TABLE AD_MigrationStep (AD_Client_ID NUMERIC(10) NOT NULL, AD_MigrationStep_ID NUMERIC(10) NOT NULL, AD_Migration_ID NUMERIC(10) NOT NULL, AD_Org_ID NUMERIC(10) NOT NULL, AD_Table_ID NUMERIC(10) DEFAULT NULL , "action" CHAR(1) DEFAULT NULL , Apply CHAR(1) DEFAULT NULL , Comments VARCHAR(255) DEFAULT NULL , Created TIMESTAMP NOT NULL, CreatedBy NUMERIC(10) NOT NULL, DBType VARCHAR(22) DEFAULT 'ALL', ErrorMsg VARCHAR(2000) DEFAULT NULL , IsActive CHAR(1) DEFAULT 'Y' CHECK (IsActive IN ('Y','N')) NOT NULL, Record_ID NUMERIC(10) DEFAULT NULL , RollbackStatement VARCHAR(2000) DEFAULT NULL , SQLStatement VARCHAR(2000) DEFAULT NULL , SeqNo NUMERIC(10) NOT NULL, StatusCode CHAR(1) DEFAULT NULL , StepType VARCHAR(20) NOT NULL, Updated TIMESTAMP NOT NULL, UpdatedBy NUMERIC(10) NOT NULL, CONSTRAINT AD_MigrationStep_Key PRIMARY KEY (AD_MigrationStep_ID))
+CREATE TABLE AD_MigrationStep (AD_Client_ID NUMERIC(10) NOT NULL, AD_MigrationStep_ID NUMERIC(10) NOT NULL, AD_Migration_ID NUMERIC(10) NOT NULL, AD_Org_ID NUMERIC(10) NOT NULL, AD_Table_ID NUMERIC(10) DEFAULT NULL , "action" CHAR(1) DEFAULT NULL , Apply CHAR(1) DEFAULT NULL , Comments VARCHAR(255) DEFAULT NULL , Created TIMESTAMP NOT NULL, CreatedBy NUMERIC(10) NOT NULL, DBType VARCHAR(22) DEFAULT 'ALL', ErrorMsg VARCHAR(2000) DEFAULT NULL , IsActive CHAR(1) DEFAULT 'Y' CHECK (IsActive IN ('Y','N')) NOT NULL, Record_ID NUMERIC(10) DEFAULT NULL , RollbackStatement TEXT DEFAULT NULL , SQLStatement TEXT DEFAULT NULL , SeqNo NUMERIC(10) NOT NULL, StatusCode CHAR(1) DEFAULT NULL , StepType VARCHAR(20) NOT NULL, Updated TIMESTAMP NOT NULL, UpdatedBy NUMERIC(10) NOT NULL, CONSTRAINT AD_MigrationStep_Key PRIMARY KEY (AD_MigrationStep_ID))
 ;
 
 -- 14/06/2009 2:31:55
