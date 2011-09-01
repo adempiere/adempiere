@@ -109,15 +109,15 @@ public class Messagebox extends Window implements EventListener
 		Properties ctx = Env.getCtx();
 		lblMsg.setValue(msg);
 
-		btnOk.setLabel(Util.cleanAmp(Msg.getMsg(ctx, "OK")));
-		btnOk.setImage("/images/Ok16.png");
-		btnOk.addEventListener(Events.ON_CLICK, this);
-		LayoutUtils.addSclass("action-text-button", btnOk);
-
 		btnCancel.setLabel(Util.cleanAmp(Msg.getMsg(ctx, "Cancel")));
 		btnCancel.setImage("/images/Cancel16.png");
 		btnCancel.addEventListener(Events.ON_CLICK, this);
 		LayoutUtils.addSclass("action-text-button", btnCancel);
+		
+		btnOk.setLabel(Util.cleanAmp(Msg.getMsg(ctx, "OK")));
+		btnOk.setImage("/images/Ok16.png");
+		btnOk.addEventListener(Events.ON_CLICK, this);
+		LayoutUtils.addSclass("action-text-button", btnOk);
 
 		btnYes.setLabel(Util.cleanAmp(Msg.getMsg(ctx, "Yes")));
 		btnYes.setImage("/images/Ok16.png");
@@ -166,8 +166,8 @@ public class Messagebox extends Window implements EventListener
 		pnlButtons.setHeight("52px");
 		pnlButtons.setAlign("center");
 		pnlButtons.setPack("end");
+		pnlButtons.appendChild(btnCancel);		
 		pnlButtons.appendChild(btnOk);
-		pnlButtons.appendChild(btnCancel);
 		pnlButtons.appendChild(btnYes);
 		pnlButtons.appendChild(btnNo);
 		pnlButtons.appendChild(btnAbort);

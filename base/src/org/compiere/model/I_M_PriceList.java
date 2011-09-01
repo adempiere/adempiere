@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_PriceList
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_M_PriceList 
 {
@@ -173,6 +173,15 @@ public interface I_M_PriceList
 	  */
 	public boolean isMandatory();
 
+    /** Column name isPresentForProduct */
+    public static final String COLUMNNAME_isPresentForProduct = "isPresentForProduct";
+
+	/** Set isPresentForProduct	  */
+	public void setisPresentForProduct (boolean isPresentForProduct);
+
+	/** Get isPresentForProduct	  */
+	public boolean isPresentForProduct();
+
     /** Column name IsSOPriceList */
     public static final String COLUMNNAME_IsSOPriceList = "IsSOPriceList";
 
@@ -238,34 +247,6 @@ public interface I_M_PriceList
 	  */
 	public int getPricePrecision();
 
-    /** Column name RoundingCharge */
-    public static final String COLUMNNAME_RoundingCharge = "RoundingCharge";
-
-	/** Set Rounding Charge.
-	  * This charge specifies how rounding is accounted.
-	  */
-	public void setRoundingCharge (int RoundingCharge);
-
-	/** Get Rounding Charge.
-	  * This charge specifies how rounding is accounted.
-	  */
-	public int getRoundingCharge();
-
-	public org.compiere.model.I_C_Charge getRoundingCha() throws RuntimeException;
-
-    /** Column name RoundingRule */
-    public static final String COLUMNNAME_RoundingRule = "RoundingRule";
-
-	/** Set Rounding Rule.
-	  * Determines how and if an amount is rounded
-	  */
-	public void setRoundingRule (String RoundingRule);
-
-	/** Get Rounding Rule.
-	  * Determines how and if an amount is rounded
-	  */
-	public String getRoundingRule();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -281,13 +262,4 @@ public interface I_M_PriceList
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name isPresentForProduct */
-    public static final String COLUMNNAME_isPresentForProduct = "isPresentForProduct";
-
-	/** Set isPresentForProduct	  */
-	public void setisPresentForProduct (boolean isPresentForProduct);
-
-	/** Get isPresentForProduct	  */
-	public boolean isPresentForProduct();
 }

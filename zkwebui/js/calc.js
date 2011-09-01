@@ -6,6 +6,7 @@ function Calc()
 	this.clearAll = clearAll;
 	this.evaluate = evaluate;
 	this.append = append;
+	this.percentage = percentage
 
 	function validate(displayTextId, calcTextId, integral, separatorKey, e)
 	{
@@ -21,11 +22,16 @@ function Calc()
 	     	evaluate(displayTextId, calcTextId);
 	        return false;
 	     }
+	     
 	     else if (key == 0) // control, delete, ...
 	     {
 	     	return true;
 	     }
 	     else if (key == 8) // backspace
+	     {
+	     	return true;
+	     }
+	     else if (key == 37) // %
 	     {
 	     	return true;
 	     }
@@ -41,7 +47,7 @@ function Calc()
 	     {
 	     	return true;
 	     }
-	     else if (key == 42 || key == 43 || key == 45 || key == 47) // *, +, -, /
+	     else if (key == 42 || key == 43 || key == 45 || key == 47) //*, +, -, /
 	     {
 	     	return true;
 	     }
@@ -84,7 +90,39 @@ function Calc()
 		}
 
 	}
+	
+	function percentage(displayTextId, calcTextId, separator)
+	{
+		try
+		{
+			var calcText = document.getElementById(calcTextId);
+			var value = calcText.value + " / 100";
+			if (separator != '.')
+			{
+				var re = new RegExp("[" + separator + "]");
+				value = value.replace(re,'.');
+			}
+			var result = "" + eval(value);
+			if (separator != '.')
+			{
+				result = result.replace(/\./, separator);
+			}
+			calcText.value = result;
 
+			var displayText = document.getElementById(displayTextId);
+
+			if (!displayText.readOnly && calcText.value != 'undefined')
+			{
+				displayText.value = calcText.value;
+				setTimeout("document.getElementById('" + displayTextId + "').focus()", 100);
+			}
+		}
+	   	catch (err)
+	   	{
+	   	}
+	}
+	
+	
 	function evaluate(displayTextId, calcTextId, separator)
 	{
 		try

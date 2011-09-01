@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_User
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_AD_User extends PO implements I_AD_User, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_AD_User (Properties ctx, int AD_User_ID, String trxName)
@@ -101,7 +101,7 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set User/Contact.
+	/** Set Usuario.
 		@param AD_User_ID 
 		User within the system - Internal or Business Partner Contact
 	  */
@@ -113,7 +113,7 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 			set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
-	/** Get User/Contact.
+	/** Get Usuario.
 		@return User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID () 
@@ -465,23 +465,6 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		return false;
 	}
 
-	/** Set LDAP User Name.
-		@param LDAPUser 
-		User Name used for authorization via LDAP (directory) services
-	  */
-	public void setLDAPUser (String LDAPUser)
-	{
-		set_Value (COLUMNNAME_LDAPUser, LDAPUser);
-	}
-
-	/** Get LDAP User Name.
-		@return User Name used for authorization via LDAP (directory) services
-	  */
-	public String getLDAPUser () 
-	{
-		return (String)get_Value(COLUMNNAME_LDAPUser);
-	}
-
 	/** Set Last Contact.
 		@param LastContact 
 		Date this individual was last contacted
@@ -514,6 +497,23 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 	public String getLastResult () 
 	{
 		return (String)get_Value(COLUMNNAME_LastResult);
+	}
+
+	/** Set LDAP User Name.
+		@param LDAPUser 
+		User Name used for authorization via LDAP (directory) services
+	  */
+	public void setLDAPUser (String LDAPUser)
+	{
+		set_Value (COLUMNNAME_LDAPUser, LDAPUser);
+	}
+
+	/** Get LDAP User Name.
+		@return User Name used for authorization via LDAP (directory) services
+	  */
+	public String getLDAPUser () 
+	{
+		return (String)get_Value(COLUMNNAME_LDAPUser);
 	}
 
 	/** Set Name.

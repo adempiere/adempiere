@@ -71,8 +71,45 @@
       <column name="C_RECEIVABLE_SERVICES_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="P_INVENTORYCLEARING_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="P_COSTADJUSTMENT_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_WIP_ACCT" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_METHODCHANGEVARIANCE_ACCT" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_USAGEVARIANCE_ACCT" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_RATEVARIANCE_ACCT" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_MIXVARIANCE_ACCT" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_FLOORSTOCK_ACCT" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_COSTOFPRODUCTION_ACCT" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_LABOR_ACCT" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_BURDEN_ACCT" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_OUTSIDEPROCESSING_ACCT" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_OVERHEAD_ACCT" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_SCRAP_ACCT" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_AVERAGECOSTVARIANCE_ACCT" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_DEFAULT" onDelete="cascade">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_UNEARNEDREVENUE_CSCHEMADEFA" onDelete="none">
+        <reference local="UNEARNEDREVENUE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="PRATEVARIANCE_CACCTSCHEMADEFAU" onDelete="none">
+        <reference local="P_RATEVARIANCE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CBASSET_CSCHEMADEFAULT" onDelete="none">
+        <reference local="CB_ASSET_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="POVERHEAD_CACCTSCHEMADEFAULT" onDelete="none">
+        <reference local="P_OVERHEAD_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="PSCRAP_CACCTSCHEMADEFAULT" onDelete="none">
+        <reference local="P_SCRAP_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="PUSAGEVARIANCE_CACCTSCHEMADEFA" onDelete="none">
+        <reference local="P_USAGEVARIANCE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="PWIP_CACCTSCHEMADEFAULT" onDelete="none">
+        <reference local="P_WIP_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_WINVENTORY_CSCHEMADEFAULT" onDelete="none">
+        <reference local="W_INVENTORY_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_WITHHOLDING_CSCHEMADEFAULT" onDelete="none">
         <reference local="WITHHOLDING_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
@@ -118,9 +155,6 @@
       </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_BUNIDENTIFIED_CSCHEMADEFAUL" onDelete="none">
         <reference local="B_UNIDENTIFIED_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CBASSET_CSCHEMADEFAULT" onDelete="none">
-        <reference local="CB_ASSET_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CBCASHTRANSFER_CSCHEMADEFAU" onDelete="none">
         <reference local="CB_CASHTRANSFER_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
@@ -218,9 +252,6 @@
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TREC_CSCHEMADEFAULT" onDelete="none">
         <reference local="T_RECEIVABLES_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_UNEARNEDREVENUE_CSCHEMADEFA" onDelete="none">
-        <reference local="UNEARNEDREVENUE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_UNREALIZEDGAIN_CSCHEMADEFAU" onDelete="none">
         <reference local="UNREALIZEDGAIN_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
@@ -242,8 +273,38 @@
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_WINVACTUALADJUST_CSCHEMADEF" onDelete="none">
         <reference local="W_INVACTUALADJUST_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_WINVENTORY_CSCHEMADEFAULT" onDelete="none">
-        <reference local="W_INVENTORY_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="CRECEIVABLESERVICES_CACCTSCHEM" onDelete="none">
+        <reference local="C_RECEIVABLE_SERVICES_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="PAVERAGECOSTVARIANCE_CACCTSCHE" onDelete="none">
+        <reference local="P_AVERAGECOSTVARIANCE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="PBURDEN_CACCTSCHEMADEFAULT" onDelete="none">
+        <reference local="P_BURDEN_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="PCOSTADJUSTMENT_CACCTSCHEMADEF" onDelete="none">
+        <reference local="P_COSTADJUSTMENT_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="PCOSTOFPRODUCTION_CACCTSCHEMAD" onDelete="none">
+        <reference local="P_COSTOFPRODUCTION_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="PFLOORSTOCK_CACCTSCHEMADEFAULT" onDelete="none">
+        <reference local="P_FLOORSTOCK_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="PINVENTORYCLEARING_CACCTSCHEMA" onDelete="none">
+        <reference local="P_INVENTORYCLEARING_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="PLABOR_CACCTSCHEMADEFAULT" onDelete="none">
+        <reference local="P_LABOR_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="PMETHODCHANGEVARIANCE_CACCTSCH" onDelete="none">
+        <reference local="P_METHODCHANGEVARIANCE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="PMIXVARIANCE_CACCTSCHEMADEFAUL" onDelete="none">
+        <reference local="P_MIXVARIANCE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="POUTSIDEPROCESSING_CACCTSCHEMA" onDelete="none">
+        <reference local="P_OUTSIDEPROCESSING_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>

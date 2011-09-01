@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="M_PROMOTIONREWARD">
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AMOUNT" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="C_CHARGE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="DISTRIBUTIONSORTING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ISFORALLDISTRIBUTION" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISSAMEDISTRIBUTION" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="M_PROMOTIONDISTRIBUTION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="M_PROMOTIONREWARD_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="M_PROMOTION_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="M_TARGETDISTRIBUTION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="QTY" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="REWARDTYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="SEQNO" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <foreign-key foreignTable="C_CHARGE" name="CCHARGE_MPROMOTIONREWARD" onDelete="none">
+        <reference local="C_CHARGE_ID" foreign="C_CHARGE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PROMOTION" name="MPROMOTION_MPROMOTIONREWARD" onDelete="none">
+        <reference local="M_PROMOTION_ID" foreign="M_PROMOTION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PROMOTIONDISTRIBUTION" name="MPROMOTIONDISTRIBUTION_MPROMOT" onDelete="none">
+        <reference local="M_PROMOTIONDISTRIBUTION_ID" foreign="M_PROMOTIONDISTRIBUTION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PROMOTIONDISTRIBUTION" name="MTARGETDISTRIBUTION_MPROMOTION" onDelete="none">
+        <reference local="M_TARGETDISTRIBUTION_ID" foreign="M_PROMOTIONDISTRIBUTION_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsForAllDistribution IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsSameDistribution IN ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

@@ -23,11 +23,15 @@
       <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISINDISPUTE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="OPENAMT" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
+      <column name="C_INVOICEPAYSCHEDULE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <foreign-key foreignTable="C_DUNNINGRUNENTRY" name="CDUNNINGRUNENTRY_LINE" onDelete="cascade">
         <reference local="C_DUNNINGRUNENTRY_ID" foreign="C_DUNNINGRUNENTRY_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_INVOICE" name="CINVOICE_CDUNNINGRUNLINE" onDelete="setnull">
         <reference local="C_INVOICE_ID" foreign="C_INVOICE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_INVOICEPAYSCHEDULE" name="CINVOICEPAYSCHEDULE_CDUNNINGRU" onDelete="none">
+        <reference local="C_INVOICEPAYSCHEDULE_ID" foreign="C_INVOICEPAYSCHEDULE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_PAYMENT" name="CPAYMENT_CDUNNINGRUNLINE" onDelete="setnull">
         <reference local="C_PAYMENT_ID" foreign="C_PAYMENT_ID"/>

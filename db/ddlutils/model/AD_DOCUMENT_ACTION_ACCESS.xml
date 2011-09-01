@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="AD_DOCUMENT_ACTION_ACCESS">
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_DOCTYPE_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ROLE_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_REF_LIST_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_REF_LIST" name="ADREFLIST_ADDOCUMENTACTIONACCE" onDelete="none">
+        <reference local="AD_REF_LIST_ID" foreign="AD_REF_LIST_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ROLE" name="ADROLE_ADDOCUMENTACTIONACCESS" onDelete="none">
+        <reference local="AD_ROLE_ID" foreign="AD_ROLE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_ADDOCUMENTACTIONACCES" onDelete="none">
+        <reference local="C_DOCTYPE_ID" foreign="C_DOCTYPE_ID"/>
+      </foreign-key>
+    </table>
+  </database>

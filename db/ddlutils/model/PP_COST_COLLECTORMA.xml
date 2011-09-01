@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="PP_COST_COLLECTORMA">
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="M_ATTRIBUTESETINSTANCE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="MOVEMENTQTY" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
+      <column name="PP_COST_COLLECTORMA_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="PP_COST_COLLECTOR_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <foreign-key foreignTable="M_ATTRIBUTESETINSTANCE" name="MATTRIBUTESETINSTANCE_PPCOSTMA" onDelete="none">
+        <reference local="M_ATTRIBUTESETINSTANCE_ID" foreign="M_ATTRIBUTESETINSTANCE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="PP_COST_COLLECTOR" name="PPCOSTCOLLECTOR_PPCCMA" onDelete="none">
+        <reference local="PP_COST_COLLECTOR_ID" foreign="PP_COST_COLLECTOR_ID"/>
+      </foreign-key>
+      <unique name="PP_ORDER_BOMLINEMA_KEY">
+        <unique-column name="PP_COST_COLLECTORMA_ID"/>
+      </unique>
+      <check>
+        <rule><![CDATA[IsActive IN ('Y','N')]]></rule>
+      </check>
+      <check name="PP_CCMA_ISACTIVE_CHECK">
+        <rule><![CDATA[isactive IN('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

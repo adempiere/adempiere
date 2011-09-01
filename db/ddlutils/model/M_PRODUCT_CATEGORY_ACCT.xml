@@ -24,11 +24,27 @@
       <column name="COSTINGLEVEL" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="P_INVENTORYCLEARING_ACCT" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="P_COSTADJUSTMENT_ACCT" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_FLOORSTOCK_ACCT" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_WIP_ACCT" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_METHODCHANGEVARIANCE_ACCT" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_USAGEVARIANCE_ACCT" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_RATEVARIANCE_ACCT" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_MIXVARIANCE_ACCT" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_COSTOFPRODUCTION_ACCT" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_LABOR_ACCT" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_BURDEN_ACCT" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_OUTSIDEPROCESSING_ACCT" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_OVERHEAD_ACCT" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_SCRAP_ACCT" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_AVERAGECOSTVARIANCE_ACCT" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_MPRODCATACCT" onDelete="cascade">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PINVOICEPV_MPRODUCTCATEGORY" onDelete="none">
-        <reference local="P_INVOICEPRICEVARIANCE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="PSCRAP_MPRODUCTCATEGORYACCT" onDelete="none">
+        <reference local="P_SCRAP_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="PWIP_MPRODUCTCATEGORYACCT" onDelete="none">
+        <reference local="P_WIP_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PCOGS_MPRODUCTCATEGORY" onDelete="none">
         <reference local="P_COGS_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
@@ -36,8 +52,8 @@
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PEXPENSE_MPRODUCTCATEGORY" onDelete="none">
         <reference local="P_EXPENSE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PASSET_MPRODUCTCATEGORY" onDelete="none">
-        <reference local="P_ASSET_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PINVOICEPV_MPRODUCTCATEGORY" onDelete="none">
+        <reference local="P_INVOICEPRICEVARIANCE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PPURCHASEPV_MPRODUCTCATEGOR" onDelete="none">
         <reference local="P_PURCHASEPRICEVARIANCE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
@@ -50,6 +66,48 @@
       </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PTDISCOUNTREC_MPRODUCTCATEG" onDelete="none">
         <reference local="P_TRADEDISCOUNTREC_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PASSET_MPRODUCTCATEGORY" onDelete="none">
+        <reference local="P_ASSET_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="PAVERAGECOSTVARIANCE_MPRODUCTC" onDelete="none">
+        <reference local="P_AVERAGECOSTVARIANCE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="PBURDEN_MPRODUCTCATEGORYACCT" onDelete="none">
+        <reference local="P_BURDEN_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="PCOSTADJUSTMENT_MPRODUCTCATEGO" onDelete="none">
+        <reference local="P_COSTADJUSTMENT_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="PCOSTOFPRODUCTION_MPRODUCTCATE" onDelete="none">
+        <reference local="P_COSTOFPRODUCTION_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="PFLOORSTOCK_MPRODUCTCATEGORYAC" onDelete="none">
+        <reference local="P_FLOORSTOCK_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="PINVENTORYCLEARING_MPRODUCTCAT" onDelete="none">
+        <reference local="P_INVENTORYCLEARING_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="PLABOR_MPRODUCTCATEGORYACCT" onDelete="none">
+        <reference local="P_LABOR_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="PMETHODCHANGEVARIANCE_MPRODCAT" onDelete="none">
+        <reference local="P_METHODCHANGEVARIANCE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="PMIXVARIANCE_MPRODUCTCATEGORYA" onDelete="none">
+        <reference local="P_MIXVARIANCE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="POUTSIDEPROCESSING_MPRODUCTCAT" onDelete="none">
+        <reference local="P_OUTSIDEPROCESSING_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="POVERHEAD_MPRODUCTCATEGORYACCT" onDelete="none">
+        <reference local="P_OVERHEAD_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="PRATEVARIANCE_MPRODUCTCATEGORY" onDelete="none">
+        <reference local="P_RATEVARIANCE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="PUSAGEVARIANCE_MPRODUCTCATEGOR" onDelete="none">
+        <reference local="P_USAGEVARIANCE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <foreign-key foreignTable="M_PRODUCT_CATEGORY" name="MPRODCAT_MPRODCATACCT" onDelete="cascade">
         <reference local="M_PRODUCT_CATEGORY_ID" foreign="M_PRODUCT_CATEGORY_ID"/>

@@ -10,7 +10,6 @@
       <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <column name="M_BOM_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="M_CHANGENOTICE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="DOCUMENTNO" primaryKey="false" required="true" type="VARCHAR" size="30" autoIncrement="false"/>
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
@@ -20,11 +19,15 @@
       <column name="M_FIXCHANGENOTICE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISAPPROVED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="M_BOM" name="MBOM_MCHANGEREQUEST" onDelete="none">
-        <reference local="M_BOM_ID" foreign="M_BOM_ID"/>
+      <column name="PP_PRODUCT_BOM_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <foreign-key foreignTable="M_CHANGENOTICE" name="MFIXCHANGENOTICE_MCHANGEREQUES" onDelete="none">
+        <reference local="M_FIXCHANGENOTICE_ID" foreign="M_CHANGENOTICE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="M_CHANGENOTICE" name="MCN_MCR" onDelete="none">
         <reference local="M_CHANGENOTICE_ID" foreign="M_CHANGENOTICE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="PP_PRODUCT_BOM" name="PPPRODUCTBOM_MCHANGEREQUEST" onDelete="none">
+        <reference local="PP_PRODUCT_BOM_ID" foreign="PP_PRODUCT_BOM_ID"/>
       </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>

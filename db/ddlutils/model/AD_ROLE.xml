@@ -33,22 +33,30 @@
       <column name="CONFIRMQUERYRECORDS" primaryKey="false" required="true" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
       <column name="MAXQUERYRECORDS" primaryKey="false" required="true" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
       <column name="CONNECTIONPROFILE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <column name="ALLOW_INFO_ACCOUNT" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <column name="ALLOW_INFO_ASSET" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <column name="ALLOW_INFO_BPARTNER" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <column name="ALLOW_INFO_CASHJOURNAL" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <column name="ALLOW_INFO_INOUT" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <column name="ALLOW_INFO_INVOICE" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <column name="ALLOW_INFO_ORDER" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <column name="ALLOW_INFO_PAYMENT" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <column name="ALLOW_INFO_PRODUCT" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <column name="ALLOW_INFO_RESOURCE" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <column name="ALLOW_INFO_SCHEDULE" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ALLOW_INFO_ACCOUNT" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ALLOW_INFO_ASSET" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ALLOW_INFO_BPARTNER" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ALLOW_INFO_CASHJOURNAL" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ALLOW_INFO_INOUT" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ALLOW_INFO_INVOICE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ALLOW_INFO_ORDER" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ALLOW_INFO_PAYMENT" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ALLOW_INFO_PRODUCT" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ALLOW_INFO_RESOURCE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ALLOW_INFO_SCHEDULE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="USERDISCOUNT" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="ALLOW_INFO_MRP" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ALLOW_INFO_CRP" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ISDISCOUNTUPTOLIMITPRICE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISDISCOUNTALLOWEDONTOTAL" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <foreign-key foreignTable="AD_CLIENT" name="AD_ROLECLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_ORG" name="AD_ROLEORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_TREE" name="ADTREEORG_ADROLE" onDelete="none">
+        <reference local="AD_TREE_ORG_ID" foreign="AD_TREE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_TREE" name="ADTREE_ADROLE" onDelete="none">
         <reference local="AD_TREE_MENU_ID" foreign="AD_TREE_ID"/>
@@ -61,6 +69,12 @@
       </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[Allow_Info_MRP IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[Allow_Info_CRP IN ('Y','N')]]></rule>
       </check>
     </table>
   </database>

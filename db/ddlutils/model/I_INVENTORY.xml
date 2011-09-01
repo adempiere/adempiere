@@ -32,6 +32,7 @@
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="CURRENTCOSTPRICE" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <foreign-key foreignTable="M_INVENTORY" name="MINVENTORY_IINVENTORY" onDelete="setnull">
         <reference local="M_INVENTORY_ID" foreign="M_INVENTORY_ID"/>
       </foreign-key>

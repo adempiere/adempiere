@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PA_Goal
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_PA_Goal 
 {
@@ -80,12 +80,12 @@ public interface I_PA_Goal
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 
-	/** Set User/Contact.
+	/** Set Usuario.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public void setAD_User_ID (int AD_User_ID);
 
-	/** Get User/Contact.
+	/** Get Usuario.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID();
@@ -305,6 +305,19 @@ public interface I_PA_Goal
 
 	public org.compiere.model.I_PA_ColorSchema getPA_ColorSchema() throws RuntimeException;
 
+    /** Column name PA_Goal_ID */
+    public static final String COLUMNNAME_PA_Goal_ID = "PA_Goal_ID";
+
+	/** Set Goal.
+	  * Performance Goal
+	  */
+	public void setPA_Goal_ID (int PA_Goal_ID);
+
+	/** Get Goal.
+	  * Performance Goal
+	  */
+	public int getPA_Goal_ID();
+
     /** Column name PA_GoalParent_ID */
     public static final String COLUMNNAME_PA_GoalParent_ID = "PA_GoalParent_ID";
 
@@ -319,19 +332,6 @@ public interface I_PA_Goal
 	public int getPA_GoalParent_ID();
 
 	public org.compiere.model.I_PA_Goal getPA_GoalParent() throws RuntimeException;
-
-    /** Column name PA_Goal_ID */
-    public static final String COLUMNNAME_PA_Goal_ID = "PA_Goal_ID";
-
-	/** Set Goal.
-	  * Performance Goal
-	  */
-	public void setPA_Goal_ID (int PA_Goal_ID);
-
-	/** Get Goal.
-	  * Performance Goal
-	  */
-	public int getPA_Goal_ID();
 
     /** Column name PA_Measure_ID */
     public static final String COLUMNNAME_PA_Measure_ID = "PA_Measure_ID";

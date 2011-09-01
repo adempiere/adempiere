@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for R_RequestAction
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_R_RequestAction 
 {
@@ -40,6 +40,21 @@ public interface I_R_RequestAction
     BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
+
+    /** Column name A_Asset_ID */
+    public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
+
+	/** Set Asset.
+	  * Asset used internally or by customers
+	  */
+	public void setA_Asset_ID (int A_Asset_ID);
+
+	/** Get Asset.
+	  * Asset used internally or by customers
+	  */
+	public int getA_Asset_ID();
+
+	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException;
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -80,32 +95,17 @@ public interface I_R_RequestAction
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 
-	/** Set User/Contact.
+	/** Set Usuario.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public void setAD_User_ID (int AD_User_ID);
 
-	/** Get User/Contact.
+	/** Get Usuario.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID();
 
 	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
-
-    /** Column name A_Asset_ID */
-    public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
-
-	/** Set Asset.
-	  * Asset used internally or by customers
-	  */
-	public void setA_Asset_ID (int A_Asset_ID);
-
-	/** Get Asset.
-	  * Asset used internally or by customers
-	  */
-	public int getA_Asset_ID();
-
-	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException;
 
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
@@ -152,6 +152,19 @@ public interface I_R_RequestAction
 
 	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException;
 
+    /** Column name ConfidentialType */
+    public static final String COLUMNNAME_ConfidentialType = "ConfidentialType";
+
+	/** Set Confidentiality.
+	  * Type of Confidentiality
+	  */
+	public void setConfidentialType (String ConfidentialType);
+
+	/** Get Confidentiality.
+	  * Type of Confidentiality
+	  */
+	public String getConfidentialType();
+
     /** Column name C_Order_ID */
     public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
 
@@ -196,19 +209,6 @@ public interface I_R_RequestAction
 	public int getC_Project_ID();
 
 	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
-
-    /** Column name ConfidentialType */
-    public static final String COLUMNNAME_ConfidentialType = "ConfidentialType";
-
-	/** Set Confidentiality.
-	  * Type of Confidentiality
-	  */
-	public void setConfidentialType (String ConfidentialType);
-
-	/** Get Confidentiality.
-	  * Type of Confidentiality
-	  */
-	public String getConfidentialType();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -345,21 +345,6 @@ public interface I_R_RequestAction
 
 	public org.compiere.model.I_M_InOut getM_InOut() throws RuntimeException;
 
-    /** Column name M_ProductSpent_ID */
-    public static final String COLUMNNAME_M_ProductSpent_ID = "M_ProductSpent_ID";
-
-	/** Set Product Used.
-	  * Product/Resource/Service used in Request
-	  */
-	public void setM_ProductSpent_ID (int M_ProductSpent_ID);
-
-	/** Get Product Used.
-	  * Product/Resource/Service used in Request
-	  */
-	public int getM_ProductSpent_ID();
-
-	public org.compiere.model.I_M_Product getM_ProductSpent() throws RuntimeException;
-
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -374,6 +359,21 @@ public interface I_R_RequestAction
 	public int getM_Product_ID();
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
+
+    /** Column name M_ProductSpent_ID */
+    public static final String COLUMNNAME_M_ProductSpent_ID = "M_ProductSpent_ID";
+
+	/** Set Product Used.
+	  * Product/Resource/Service used in Request
+	  */
+	public void setM_ProductSpent_ID (int M_ProductSpent_ID);
+
+	/** Get Product Used.
+	  * Product/Resource/Service used in Request
+	  */
+	public int getM_ProductSpent_ID();
+
+	public org.compiere.model.I_M_Product getM_ProductSpent() throws RuntimeException;
 
     /** Column name M_RMA_ID */
     public static final String COLUMNNAME_M_RMA_ID = "M_RMA_ID";
@@ -511,21 +511,6 @@ public interface I_R_RequestAction
 	  */
 	public int getR_RequestAction_ID();
 
-    /** Column name R_RequestType_ID */
-    public static final String COLUMNNAME_R_RequestType_ID = "R_RequestType_ID";
-
-	/** Set Request Type.
-	  * Type of request (e.g. Inquiry, Complaint, ..)
-	  */
-	public void setR_RequestType_ID (int R_RequestType_ID);
-
-	/** Get Request Type.
-	  * Type of request (e.g. Inquiry, Complaint, ..)
-	  */
-	public int getR_RequestType_ID();
-
-	public org.compiere.model.I_R_RequestType getR_RequestType() throws RuntimeException;
-
     /** Column name R_Request_ID */
     public static final String COLUMNNAME_R_Request_ID = "R_Request_ID";
 
@@ -540,6 +525,21 @@ public interface I_R_RequestAction
 	public int getR_Request_ID();
 
 	public org.compiere.model.I_R_Request getR_Request() throws RuntimeException;
+
+    /** Column name R_RequestType_ID */
+    public static final String COLUMNNAME_R_RequestType_ID = "R_RequestType_ID";
+
+	/** Set Request Type.
+	  * Type of request (e.g. Inquiry, Complaint, ..)
+	  */
+	public void setR_RequestType_ID (int R_RequestType_ID);
+
+	/** Get Request Type.
+	  * Type of request (e.g. Inquiry, Complaint, ..)
+	  */
+	public int getR_RequestType_ID();
+
+	public org.compiere.model.I_R_RequestType getR_RequestType() throws RuntimeException;
 
     /** Column name R_Resolution_ID */
     public static final String COLUMNNAME_R_Resolution_ID = "R_Resolution_ID";

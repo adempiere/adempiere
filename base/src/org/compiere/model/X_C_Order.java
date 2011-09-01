@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Order
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_C_Order extends PO implements I_C_Order, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_C_Order (Properties ctx, int C_Order_ID, String trxName)
@@ -45,9 +45,9 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 			setC_BPartner_Location_ID (0);
 			setC_Currency_ID (0);
 // @C_Currency_ID@
-			setC_DocTypeTarget_ID (0);
 			setC_DocType_ID (0);
 // 0
+			setC_DocTypeTarget_ID (0);
 			setC_Order_ID (0);
 			setC_PaymentTerm_ID (0);
 			setDateAcct (new Timestamp( System.currentTimeMillis() ));
@@ -80,10 +80,10 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 // N
 			setIsInvoiced (false);
 			setIsPrinted (false);
-			setIsSOTrx (false);
-// @IsSOTrx@
 			setIsSelected (false);
 			setIsSelfService (false);
+			setIsSOTrx (false);
+// @IsSOTrx@
 			setIsTaxIncluded (false);
 			setIsTransferred (false);
 			setM_PriceList_ID (0);
@@ -157,7 +157,7 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getAD_User_ID(), get_TrxName());	}
 
-	/** Set User/Contact.
+	/** Set Usuario.
 		@param AD_User_ID 
 		User within the system - Internal or Business Partner Contact
 	  */
@@ -169,7 +169,7 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
-	/** Get User/Contact.
+	/** Get Usuario.
 		@return User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID () 
@@ -522,34 +522,6 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_DocType getC_DocTypeTarget() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
-			.getPO(getC_DocTypeTarget_ID(), get_TrxName());	}
-
-	/** Set Target Document Type.
-		@param C_DocTypeTarget_ID 
-		Target document type for conversing documents
-	  */
-	public void setC_DocTypeTarget_ID (int C_DocTypeTarget_ID)
-	{
-		if (C_DocTypeTarget_ID < 1) 
-			set_Value (COLUMNNAME_C_DocTypeTarget_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_DocTypeTarget_ID, Integer.valueOf(C_DocTypeTarget_ID));
-	}
-
-	/** Get Target Document Type.
-		@return Target document type for conversing documents
-	  */
-	public int getC_DocTypeTarget_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypeTarget_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException
     {
 		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
@@ -578,161 +550,29 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_OrderSource getC_OrderSource() throws RuntimeException
+	public org.compiere.model.I_C_DocType getC_DocTypeTarget() throws RuntimeException
     {
-		return (org.compiere.model.I_C_OrderSource)MTable.get(getCtx(), org.compiere.model.I_C_OrderSource.Table_Name)
-			.getPO(getC_OrderSource_ID(), get_TrxName());	}
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
+			.getPO(getC_DocTypeTarget_ID(), get_TrxName());	}
 
-	/** Set Order Source.
-		@param C_OrderSource_ID Order Source	  */
-	public void setC_OrderSource_ID (int C_OrderSource_ID)
+	/** Set Target Document Type.
+		@param C_DocTypeTarget_ID 
+		Target document type for conversing documents
+	  */
+	public void setC_DocTypeTarget_ID (int C_DocTypeTarget_ID)
 	{
-		if (C_OrderSource_ID < 1) 
-			set_Value (COLUMNNAME_C_OrderSource_ID, null);
+		if (C_DocTypeTarget_ID < 1) 
+			set_Value (COLUMNNAME_C_DocTypeTarget_ID, null);
 		else 
-			set_Value (COLUMNNAME_C_OrderSource_ID, Integer.valueOf(C_OrderSource_ID));
+			set_Value (COLUMNNAME_C_DocTypeTarget_ID, Integer.valueOf(C_DocTypeTarget_ID));
 	}
 
-	/** Get Order Source.
-		@return Order Source	  */
-	public int getC_OrderSource_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_OrderSource_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Order.
-		@param C_Order_ID 
-		Order
+	/** Get Target Document Type.
+		@return Target document type for conversing documents
 	  */
-	public void setC_Order_ID (int C_Order_ID)
+	public int getC_DocTypeTarget_ID () 
 	{
-		if (C_Order_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_Order_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
-	}
-
-	/** Get Order.
-		@return Order
-	  */
-	public int getC_Order_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Order_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.compiere.model.I_C_POS getC_POS() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_POS)MTable.get(getCtx(), org.compiere.model.I_C_POS.Table_Name)
-			.getPO(getC_POS_ID(), get_TrxName());	}
-
-	/** Set POS Terminal.
-		@param C_POS_ID 
-		Point of Sales Terminal
-	  */
-	public void setC_POS_ID (int C_POS_ID)
-	{
-		if (C_POS_ID < 1) 
-			set_Value (COLUMNNAME_C_POS_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_POS_ID, Integer.valueOf(C_POS_ID));
-	}
-
-	/** Get POS Terminal.
-		@return Point of Sales Terminal
-	  */
-	public int getC_POS_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_POS_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.compiere.model.I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_PaymentTerm)MTable.get(getCtx(), org.compiere.model.I_C_PaymentTerm.Table_Name)
-			.getPO(getC_PaymentTerm_ID(), get_TrxName());	}
-
-	/** Set Payment Term.
-		@param C_PaymentTerm_ID 
-		The terms of Payment (timing, discount)
-	  */
-	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
-	{
-		if (C_PaymentTerm_ID < 1) 
-			set_Value (COLUMNNAME_C_PaymentTerm_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_PaymentTerm_ID, Integer.valueOf(C_PaymentTerm_ID));
-	}
-
-	/** Get Payment Term.
-		@return The terms of Payment (timing, discount)
-	  */
-	public int getC_PaymentTerm_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaymentTerm_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.compiere.model.I_C_Payment getC_Payment() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_Payment)MTable.get(getCtx(), org.compiere.model.I_C_Payment.Table_Name)
-			.getPO(getC_Payment_ID(), get_TrxName());	}
-
-	/** Set Payment.
-		@param C_Payment_ID 
-		Payment identifier
-	  */
-	public void setC_Payment_ID (int C_Payment_ID)
-	{
-		if (C_Payment_ID < 1) 
-			set_Value (COLUMNNAME_C_Payment_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_Payment_ID, Integer.valueOf(C_Payment_ID));
-	}
-
-	/** Get Payment.
-		@return Payment identifier
-	  */
-	public int getC_Payment_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Payment_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
-			.getPO(getC_Project_ID(), get_TrxName());	}
-
-	/** Set Project.
-		@param C_Project_ID 
-		Financial Project
-	  */
-	public void setC_Project_ID (int C_Project_ID)
-	{
-		if (C_Project_ID < 1) 
-			set_Value (COLUMNNAME_C_Project_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
-	}
-
-	/** Get Project.
-		@return Financial Project
-	  */
-	public int getC_Project_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypeTarget_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -773,6 +613,166 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 	public String getCopyFrom () 
 	{
 		return (String)get_Value(COLUMNNAME_CopyFrom);
+	}
+
+	/** Set Order.
+		@param C_Order_ID 
+		Order
+	  */
+	public void setC_Order_ID (int C_Order_ID)
+	{
+		if (C_Order_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Order_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
+	}
+
+	/** Get Order.
+		@return Order
+	  */
+	public int getC_Order_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Order_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_OrderSource getC_OrderSource() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_OrderSource)MTable.get(getCtx(), org.compiere.model.I_C_OrderSource.Table_Name)
+			.getPO(getC_OrderSource_ID(), get_TrxName());	}
+
+	/** Set Order Source.
+		@param C_OrderSource_ID Order Source	  */
+	public void setC_OrderSource_ID (int C_OrderSource_ID)
+	{
+		if (C_OrderSource_ID < 1) 
+			set_Value (COLUMNNAME_C_OrderSource_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_OrderSource_ID, Integer.valueOf(C_OrderSource_ID));
+	}
+
+	/** Get Order Source.
+		@return Order Source	  */
+	public int getC_OrderSource_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_OrderSource_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Payment getC_Payment() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Payment)MTable.get(getCtx(), org.compiere.model.I_C_Payment.Table_Name)
+			.getPO(getC_Payment_ID(), get_TrxName());	}
+
+	/** Set Payment.
+		@param C_Payment_ID 
+		Payment identifier
+	  */
+	public void setC_Payment_ID (int C_Payment_ID)
+	{
+		if (C_Payment_ID < 1) 
+			set_Value (COLUMNNAME_C_Payment_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Payment_ID, Integer.valueOf(C_Payment_ID));
+	}
+
+	/** Get Payment.
+		@return Payment identifier
+	  */
+	public int getC_Payment_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Payment_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_PaymentTerm)MTable.get(getCtx(), org.compiere.model.I_C_PaymentTerm.Table_Name)
+			.getPO(getC_PaymentTerm_ID(), get_TrxName());	}
+
+	/** Set Payment Term.
+		@param C_PaymentTerm_ID 
+		The terms of Payment (timing, discount)
+	  */
+	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
+	{
+		if (C_PaymentTerm_ID < 1) 
+			set_Value (COLUMNNAME_C_PaymentTerm_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_PaymentTerm_ID, Integer.valueOf(C_PaymentTerm_ID));
+	}
+
+	/** Get Payment Term.
+		@return The terms of Payment (timing, discount)
+	  */
+	public int getC_PaymentTerm_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaymentTerm_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_POS getC_POS() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_POS)MTable.get(getCtx(), org.compiere.model.I_C_POS.Table_Name)
+			.getPO(getC_POS_ID(), get_TrxName());	}
+
+	/** Set POS Terminal.
+		@param C_POS_ID 
+		Point of Sales Terminal
+	  */
+	public void setC_POS_ID (int C_POS_ID)
+	{
+		if (C_POS_ID < 1) 
+			set_Value (COLUMNNAME_C_POS_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_POS_ID, Integer.valueOf(C_POS_ID));
+	}
+
+	/** Get POS Terminal.
+		@return Point of Sales Terminal
+	  */
+	public int getC_POS_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_POS_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
+			.getPO(getC_Project_ID(), get_TrxName());	}
+
+	/** Set Project.
+		@param C_Project_ID 
+		Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID)
+	{
+		if (C_Project_ID < 1) 
+			set_Value (COLUMNNAME_C_Project_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
+	}
+
+	/** Get Project.
+		@return Financial Project
+	  */
+	public int getC_Project_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Account Date.
@@ -1380,30 +1380,6 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 		return false;
 	}
 
-	/** Set Sales Transaction.
-		@param IsSOTrx 
-		This is a Sales Transaction
-	  */
-	public void setIsSOTrx (boolean IsSOTrx)
-	{
-		set_Value (COLUMNNAME_IsSOTrx, Boolean.valueOf(IsSOTrx));
-	}
-
-	/** Get Sales Transaction.
-		@return This is a Sales Transaction
-	  */
-	public boolean isSOTrx () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsSOTrx);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** Set Selected.
 		@param IsSelected Selected	  */
 	public void setIsSelected (boolean IsSelected)
@@ -1440,6 +1416,30 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 	public boolean isSelfService () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsSelfService);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Sales Transaction.
+		@param IsSOTrx 
+		This is a Sales Transaction
+	  */
+	public void setIsSOTrx (boolean IsSOTrx)
+	{
+		set_Value (COLUMNNAME_IsSOTrx, Boolean.valueOf(IsSOTrx));
+	}
+
+	/** Get Sales Transaction.
+		@return This is a Sales Transaction
+	  */
+	public boolean isSOTrx () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsSOTrx);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -1654,23 +1654,6 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 		return (String)get_Value(COLUMNNAME_OrderType);
 	}
 
-	/** Set Order Reference.
-		@param POReference 
-		Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
-	  */
-	public void setPOReference (String POReference)
-	{
-		set_Value (COLUMNNAME_POReference, POReference);
-	}
-
-	/** Get Order Reference.
-		@return Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
-	  */
-	public String getPOReference () 
-	{
-		return (String)get_Value(COLUMNNAME_POReference);
-	}
-
 	/** Set Payment BPartner.
 		@param Pay_BPartner_ID 
 		Business Partner responsible for the payment
@@ -1749,6 +1732,23 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 	public String getPaymentRule () 
 	{
 		return (String)get_Value(COLUMNNAME_PaymentRule);
+	}
+
+	/** Set Order Reference.
+		@param POReference 
+		Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
+	  */
+	public void setPOReference (String POReference)
+	{
+		set_Value (COLUMNNAME_POReference, POReference);
+	}
+
+	/** Get Order Reference.
+		@return Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
+	  */
+	public String getPOReference () 
+	{
+		return (String)get_Value(COLUMNNAME_POReference);
 	}
 
 	/** Set Posted.

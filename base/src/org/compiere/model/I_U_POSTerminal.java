@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for U_POSTerminal
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_U_POSTerminal 
 {
@@ -75,50 +75,20 @@ public interface I_U_POSTerminal
 	  */
 	public boolean isAutoLock();
 
-    /** Column name C_CashBPartner_ID */
-    public static final String COLUMNNAME_C_CashBPartner_ID = "C_CashBPartner_ID";
+    /** Column name Card_BankAccount_ID */
+    public static final String COLUMNNAME_Card_BankAccount_ID = "Card_BankAccount_ID";
 
-	/** Set Cash BPartner.
-	  * BPartner to be used for Cash transactions
+	/** Set Card Bank Account.
+	  * Bank Account on which card transactions will be processed
 	  */
-	public void setC_CashBPartner_ID (int C_CashBPartner_ID);
+	public void setCard_BankAccount_ID (int Card_BankAccount_ID);
 
-	/** Get Cash BPartner.
-	  * BPartner to be used for Cash transactions
+	/** Get Card Bank Account.
+	  * Bank Account on which card transactions will be processed
 	  */
-	public int getC_CashBPartner_ID();
+	public int getCard_BankAccount_ID();
 
-	public org.compiere.model.I_C_BPartner getC_CashBPartner() throws RuntimeException;
-
-    /** Column name C_CashBook_ID */
-    public static final String COLUMNNAME_C_CashBook_ID = "C_CashBook_ID";
-
-	/** Set Cash Book.
-	  * Cash Book for recording petty cash transactions
-	  */
-	public void setC_CashBook_ID (int C_CashBook_ID);
-
-	/** Get Cash Book.
-	  * Cash Book for recording petty cash transactions
-	  */
-	public int getC_CashBook_ID();
-
-	public org.compiere.model.I_C_CashBook getC_CashBook() throws RuntimeException;
-
-    /** Column name C_TemplateBPartner_ID */
-    public static final String COLUMNNAME_C_TemplateBPartner_ID = "C_TemplateBPartner_ID";
-
-	/** Set Template BPartner.
-	  * BPartner that is to be used as template when new customers are created
-	  */
-	public void setC_TemplateBPartner_ID (int C_TemplateBPartner_ID);
-
-	/** Get Template BPartner.
-	  * BPartner that is to be used as template when new customers are created
-	  */
-	public int getC_TemplateBPartner_ID();
-
-	public org.compiere.model.I_C_BPartner getC_TemplateBPartner() throws RuntimeException;
+	public org.compiere.model.I_C_BankAccount getCard_BankAccount() throws RuntimeException;
 
     /** Column name CardTransferBankAccount_ID */
     public static final String COLUMNNAME_CardTransferBankAccount_ID = "CardTransferBankAccount_ID";
@@ -158,21 +128,6 @@ public interface I_U_POSTerminal
 
 	/** Get Card Transfer Type	  */
 	public String getCardTransferType();
-
-    /** Column name Card_BankAccount_ID */
-    public static final String COLUMNNAME_Card_BankAccount_ID = "Card_BankAccount_ID";
-
-	/** Set Card Bank Account.
-	  * Bank Account on which card transactions will be processed
-	  */
-	public void setCard_BankAccount_ID (int Card_BankAccount_ID);
-
-	/** Get Card Bank Account.
-	  * Bank Account on which card transactions will be processed
-	  */
-	public int getCard_BankAccount_ID();
-
-	public org.compiere.model.I_C_BankAccount getCard_BankAccount() throws RuntimeException;
 
     /** Column name CashBookTransferType */
     public static final String COLUMNNAME_CashBookTransferType = "CashBookTransferType";
@@ -217,6 +172,51 @@ public interface I_U_POSTerminal
 
 	public org.compiere.model.I_C_CashBook getCashTransferCashBook() throws RuntimeException;
 
+    /** Column name C_CashBook_ID */
+    public static final String COLUMNNAME_C_CashBook_ID = "C_CashBook_ID";
+
+	/** Set Cash Book.
+	  * Cash Book for recording petty cash transactions
+	  */
+	public void setC_CashBook_ID (int C_CashBook_ID);
+
+	/** Get Cash Book.
+	  * Cash Book for recording petty cash transactions
+	  */
+	public int getC_CashBook_ID();
+
+	public org.compiere.model.I_C_CashBook getC_CashBook() throws RuntimeException;
+
+    /** Column name C_CashBPartner_ID */
+    public static final String COLUMNNAME_C_CashBPartner_ID = "C_CashBPartner_ID";
+
+	/** Set Cash BPartner.
+	  * BPartner to be used for Cash transactions
+	  */
+	public void setC_CashBPartner_ID (int C_CashBPartner_ID);
+
+	/** Get Cash BPartner.
+	  * BPartner to be used for Cash transactions
+	  */
+	public int getC_CashBPartner_ID();
+
+	public org.compiere.model.I_C_BPartner getC_CashBPartner() throws RuntimeException;
+
+    /** Column name Check_BankAccount_ID */
+    public static final String COLUMNNAME_Check_BankAccount_ID = "Check_BankAccount_ID";
+
+	/** Set Check Bank Account.
+	  * Bank Account to be used for processing Check transactions
+	  */
+	public void setCheck_BankAccount_ID (int Check_BankAccount_ID);
+
+	/** Get Check Bank Account.
+	  * Bank Account to be used for processing Check transactions
+	  */
+	public int getCheck_BankAccount_ID();
+
+	public org.compiere.model.I_C_BankAccount getCheck_BankAccount() throws RuntimeException;
+
     /** Column name CheckTransferBankAccount_ID */
     public static final String COLUMNNAME_CheckTransferBankAccount_ID = "CheckTransferBankAccount_ID";
 
@@ -256,21 +256,6 @@ public interface I_U_POSTerminal
 	/** Get Check Transfer Type	  */
 	public String getCheckTransferType();
 
-    /** Column name Check_BankAccount_ID */
-    public static final String COLUMNNAME_Check_BankAccount_ID = "Check_BankAccount_ID";
-
-	/** Set Check Bank Account.
-	  * Bank Account to be used for processing Check transactions
-	  */
-	public void setCheck_BankAccount_ID (int Check_BankAccount_ID);
-
-	/** Get Check Bank Account.
-	  * Bank Account to be used for processing Check transactions
-	  */
-	public int getCheck_BankAccount_ID();
-
-	public org.compiere.model.I_C_BankAccount getCheck_BankAccount() throws RuntimeException;
-
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -286,6 +271,21 @@ public interface I_U_POSTerminal
 	  * User who created this records
 	  */
 	public int getCreatedBy();
+
+    /** Column name C_TemplateBPartner_ID */
+    public static final String COLUMNNAME_C_TemplateBPartner_ID = "C_TemplateBPartner_ID";
+
+	/** Set Template BPartner.
+	  * BPartner that is to be used as template when new customers are created
+	  */
+	public void setC_TemplateBPartner_ID (int C_TemplateBPartner_ID);
+
+	/** Get Template BPartner.
+	  * BPartner that is to be used as template when new customers are created
+	  */
+	public int getC_TemplateBPartner_ID();
+
+	public org.compiere.model.I_C_BPartner getC_TemplateBPartner() throws RuntimeException;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -339,19 +339,6 @@ public interface I_U_POSTerminal
 	  */
 	public Timestamp getLastLockTime();
 
-    /** Column name LockTime */
-    public static final String COLUMNNAME_LockTime = "LockTime";
-
-	/** Set Lock Time.
-	  * Time in minutes the terminal should be kept in a locked state.
-	  */
-	public void setLockTime (int LockTime);
-
-	/** Get Lock Time.
-	  * Time in minutes the terminal should be kept in a locked state.
-	  */
-	public int getLockTime();
-
     /** Column name Locked */
     public static final String COLUMNNAME_Locked = "Locked";
 
@@ -364,6 +351,19 @@ public interface I_U_POSTerminal
 	  * Whether the terminal is locked
 	  */
 	public boolean isLocked();
+
+    /** Column name LockTime */
+    public static final String COLUMNNAME_LockTime = "LockTime";
+
+	/** Set Lock Time.
+	  * Time in minutes the terminal should be kept in a locked state.
+	  */
+	public void setLockTime (int LockTime);
+
+	/** Get Lock Time.
+	  * Time in minutes the terminal should be kept in a locked state.
+	  */
+	public int getLockTime();
 
     /** Column name M_Warehouse_ID */
     public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
@@ -421,17 +421,6 @@ public interface I_U_POSTerminal
 	  */
 	public String getPrinterName();
 
-    /** Column name SO_PriceList_ID */
-    public static final String COLUMNNAME_SO_PriceList_ID = "SO_PriceList_ID";
-
-	/** Set Sales Pricelist	  */
-	public void setSO_PriceList_ID (int SO_PriceList_ID);
-
-	/** Get Sales Pricelist	  */
-	public int getSO_PriceList_ID();
-
-	public org.compiere.model.I_M_PriceList getSO_PriceList() throws RuntimeException;
-
     /** Column name SalesRep_ID */
     public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";
 
@@ -447,14 +436,16 @@ public interface I_U_POSTerminal
 
 	public org.compiere.model.I_AD_User getSalesRep() throws RuntimeException;
 
-    /** Column name U_POSTerminal_ID */
-    public static final String COLUMNNAME_U_POSTerminal_ID = "U_POSTerminal_ID";
+    /** Column name SO_PriceList_ID */
+    public static final String COLUMNNAME_SO_PriceList_ID = "SO_PriceList_ID";
 
-	/** Set POS Terminal	  */
-	public void setU_POSTerminal_ID (int U_POSTerminal_ID);
+	/** Set Sales Pricelist	  */
+	public void setSO_PriceList_ID (int SO_PriceList_ID);
 
-	/** Get POS Terminal	  */
-	public int getU_POSTerminal_ID();
+	/** Get Sales Pricelist	  */
+	public int getSO_PriceList_ID();
+
+	public org.compiere.model.I_M_PriceList getSO_PriceList() throws RuntimeException;
 
     /** Column name UnlockingTime */
     public static final String COLUMNNAME_UnlockingTime = "UnlockingTime";
@@ -484,6 +475,15 @@ public interface I_U_POSTerminal
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name U_POSTerminal_ID */
+    public static final String COLUMNNAME_U_POSTerminal_ID = "U_POSTerminal_ID";
+
+	/** Set POS Terminal	  */
+	public void setU_POSTerminal_ID (int U_POSTerminal_ID);
+
+	/** Get POS Terminal	  */
+	public int getU_POSTerminal_ID();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

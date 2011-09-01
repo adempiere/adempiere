@@ -23,14 +23,14 @@ import java.util.Properties;
 
 /** Generated Model for M_PromotionPreCondition
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_M_PromotionPreCondition extends PO implements I_M_PromotionPreCondition, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_M_PromotionPreCondition (Properties ctx, int M_PromotionPreCondition_ID, String trxName)
@@ -38,8 +38,8 @@ public class X_M_PromotionPreCondition extends PO implements I_M_PromotionPreCon
       super (ctx, M_PromotionPreCondition_ID, trxName);
       /** if (M_PromotionPreCondition_ID == 0)
         {
-			setM_PromotionPreCondition_ID (0);
 			setM_Promotion_ID (0);
+			setM_PromotionPreCondition_ID (0);
 			setSeqNo (0);
 // 0
 			setStartDate (new Timestamp( System.currentTimeMillis() ));
@@ -102,34 +102,6 @@ public class X_M_PromotionPreCondition extends PO implements I_M_PromotionPreCon
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_BP_Group)MTable.get(getCtx(), org.compiere.model.I_C_BP_Group.Table_Name)
-			.getPO(getC_BP_Group_ID(), get_TrxName());	}
-
-	/** Set Business Partner Group.
-		@param C_BP_Group_ID 
-		Business Partner Group
-	  */
-	public void setC_BP_Group_ID (int C_BP_Group_ID)
-	{
-		if (C_BP_Group_ID < 1) 
-			set_Value (COLUMNNAME_C_BP_Group_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_BP_Group_ID, Integer.valueOf(C_BP_Group_ID));
-	}
-
-	/** Get Business Partner Group.
-		@return Business Partner Group
-	  */
-	public int getC_BP_Group_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Group_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
 		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
@@ -153,6 +125,34 @@ public class X_M_PromotionPreCondition extends PO implements I_M_PromotionPreCon
 	public int getC_BPartner_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_BP_Group)MTable.get(getCtx(), org.compiere.model.I_C_BP_Group.Table_Name)
+			.getPO(getC_BP_Group_ID(), get_TrxName());	}
+
+	/** Set Business Partner Group.
+		@param C_BP_Group_ID 
+		Business Partner Group
+	  */
+	public void setC_BP_Group_ID (int C_BP_Group_ID)
+	{
+		if (C_BP_Group_ID < 1) 
+			set_Value (COLUMNNAME_C_BP_Group_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BP_Group_ID, Integer.valueOf(C_BP_Group_ID));
+	}
+
+	/** Get Business Partner Group.
+		@return Business Partner Group
+	  */
+	public int getC_BP_Group_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Group_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -203,26 +203,6 @@ public class X_M_PromotionPreCondition extends PO implements I_M_PromotionPreCon
 		return ii.intValue();
 	}
 
-	/** Set Promotion Pre Condition.
-		@param M_PromotionPreCondition_ID Promotion Pre Condition	  */
-	public void setM_PromotionPreCondition_ID (int M_PromotionPreCondition_ID)
-	{
-		if (M_PromotionPreCondition_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_PromotionPreCondition_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_PromotionPreCondition_ID, Integer.valueOf(M_PromotionPreCondition_ID));
-	}
-
-	/** Get Promotion Pre Condition.
-		@return Promotion Pre Condition	  */
-	public int getM_PromotionPreCondition_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_PromotionPreCondition_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_M_Promotion getM_Promotion() throws RuntimeException
     {
 		return (org.compiere.model.I_M_Promotion)MTable.get(getCtx(), org.compiere.model.I_M_Promotion.Table_Name)
@@ -243,6 +223,26 @@ public class X_M_PromotionPreCondition extends PO implements I_M_PromotionPreCon
 	public int getM_Promotion_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Promotion_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Promotion Pre Condition.
+		@param M_PromotionPreCondition_ID Promotion Pre Condition	  */
+	public void setM_PromotionPreCondition_ID (int M_PromotionPreCondition_ID)
+	{
+		if (M_PromotionPreCondition_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_PromotionPreCondition_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_PromotionPreCondition_ID, Integer.valueOf(M_PromotionPreCondition_ID));
+	}
+
+	/** Get Promotion Pre Condition.
+		@return Promotion Pre Condition	  */
+	public int getM_PromotionPreCondition_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_PromotionPreCondition_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

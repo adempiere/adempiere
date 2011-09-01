@@ -14,5 +14,11 @@
       <column name="REMOTE_ADDR" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="REMOTE_HOST" primaryKey="false" required="false" type="VARCHAR" size="120" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="AD_ROLE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="LOGINDATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_ROLE" name="ADROLE_ADSESSION" onDelete="none">
+        <reference local="AD_ROLE_ID" foreign="AD_ROLE_ID"/>
+      </foreign-key>
     </table>
   </database>

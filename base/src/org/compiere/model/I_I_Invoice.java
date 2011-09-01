@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_Invoice
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_I_Invoice 
 {
@@ -41,55 +41,6 @@ public interface I_I_Invoice
 
     /** Load Meta Data */
 
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
-
-    /** Column name AD_OrgTrx_ID */
-    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
-
-	/** Set Trx Organization.
-	  * Performing or initiating organization
-	  */
-	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
-
-	/** Get Trx Organization.
-	  * Performing or initiating organization
-	  */
-	public int getAD_OrgTrx_ID();
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
-
-    /** Column name AD_User_ID */
-    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
-
-	/** Set User/Contact.
-	  * User within the system - Internal or Business Partner Contact
-	  */
-	public void setAD_User_ID (int AD_User_ID);
-
-	/** Get User/Contact.
-	  * User within the system - Internal or Business Partner Contact
-	  */
-	public int getAD_User_ID();
-
-	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
-
     /** Column name ActivityValue */
     public static final String COLUMNNAME_ActivityValue = "ActivityValue";
 
@@ -98,6 +49,14 @@ public interface I_I_Invoice
 
 	/** Get Activity Value	  */
 	public String getActivityValue();
+
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
 
     /** Column name Address1 */
     public static final String COLUMNNAME_Address1 = "Address1";
@@ -124,6 +83,47 @@ public interface I_I_Invoice
 	  * Address line 2 for this location
 	  */
 	public String getAddress2();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
+    /** Column name AD_OrgTrx_ID */
+    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
+
+	/** Set Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
+
+	/** Get Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID();
+
+    /** Column name AD_User_ID */
+    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
+
+	/** Set Usuario.
+	  * User within the system - Internal or Business Partner Contact
+	  */
+	public void setAD_User_ID (int AD_User_ID);
+
+	/** Get Usuario.
+	  * User within the system - Internal or Business Partner Contact
+	  */
+	public int getAD_User_ID();
+
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
 
     /** Column name BPartnerValue */
     public static final String COLUMNNAME_BPartnerValue = "BPartnerValue";
@@ -258,20 +258,18 @@ public interface I_I_Invoice
 
 	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
 
-    /** Column name C_InvoiceLine_ID */
-    public static final String COLUMNNAME_C_InvoiceLine_ID = "C_InvoiceLine_ID";
+    /** Column name ChargeName */
+    public static final String COLUMNNAME_ChargeName = "ChargeName";
 
-	/** Set Invoice Line.
-	  * Invoice Detail Line
+	/** Set Charge Name.
+	  * Name of the Charge
 	  */
-	public void setC_InvoiceLine_ID (int C_InvoiceLine_ID);
+	public void setChargeName (String ChargeName);
 
-	/** Get Invoice Line.
-	  * Invoice Detail Line
+	/** Get Charge Name.
+	  * Name of the Charge
 	  */
-	public int getC_InvoiceLine_ID();
-
-	public org.compiere.model.I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException;
+	public String getChargeName();
 
     /** Column name C_Invoice_ID */
     public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
@@ -288,6 +286,34 @@ public interface I_I_Invoice
 
 	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException;
 
+    /** Column name C_InvoiceLine_ID */
+    public static final String COLUMNNAME_C_InvoiceLine_ID = "C_InvoiceLine_ID";
+
+	/** Set Invoice Line.
+	  * Invoice Detail Line
+	  */
+	public void setC_InvoiceLine_ID (int C_InvoiceLine_ID);
+
+	/** Get Invoice Line.
+	  * Invoice Detail Line
+	  */
+	public int getC_InvoiceLine_ID();
+
+	public org.compiere.model.I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException;
+
+    /** Column name City */
+    public static final String COLUMNNAME_City = "City";
+
+	/** Set City.
+	  * Identifies a City
+	  */
+	public void setCity (String City);
+
+	/** Get City.
+	  * Identifies a City
+	  */
+	public String getCity();
+
     /** Column name C_Location_ID */
     public static final String COLUMNNAME_C_Location_ID = "C_Location_ID";
 
@@ -302,6 +328,32 @@ public interface I_I_Invoice
 	public int getC_Location_ID();
 
 	public org.compiere.model.I_C_Location getC_Location() throws RuntimeException;
+
+    /** Column name ContactName */
+    public static final String COLUMNNAME_ContactName = "ContactName";
+
+	/** Set Contact Name.
+	  * Business Partner Contact Name
+	  */
+	public void setContactName (String ContactName);
+
+	/** Get Contact Name.
+	  * Business Partner Contact Name
+	  */
+	public String getContactName();
+
+    /** Column name CountryCode */
+    public static final String COLUMNNAME_CountryCode = "CountryCode";
+
+	/** Set ISO Country Code.
+	  * Upper-case two-letter alphanumeric ISO Country code according to ISO 3166-1 - http://www.chemie.fu-berlin.de/diverse/doc/ISO_3166.html
+	  */
+	public void setCountryCode (boolean CountryCode);
+
+	/** Get ISO Country Code.
+	  * Upper-case two-letter alphanumeric ISO Country code according to ISO 3166-1 - http://www.chemie.fu-berlin.de/diverse/doc/ISO_3166.html
+	  */
+	public boolean isCountryCode();
 
     /** Column name C_PaymentTerm_ID */
     public static final String COLUMNNAME_C_PaymentTerm_ID = "C_PaymentTerm_ID";
@@ -333,6 +385,22 @@ public interface I_I_Invoice
 
 	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
 
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
+
+	/** Get Created.
+	  * Date this record was created
+	  */
+	public Timestamp getCreated();
+
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
+	  */
+	public int getCreatedBy();
+
     /** Column name C_Region_ID */
     public static final String COLUMNNAME_C_Region_ID = "C_Region_ID";
 
@@ -362,74 +430,6 @@ public interface I_I_Invoice
 	public int getC_Tax_ID();
 
 	public org.compiere.model.I_C_Tax getC_Tax() throws RuntimeException;
-
-    /** Column name ChargeName */
-    public static final String COLUMNNAME_ChargeName = "ChargeName";
-
-	/** Set Charge Name.
-	  * Name of the Charge
-	  */
-	public void setChargeName (String ChargeName);
-
-	/** Get Charge Name.
-	  * Name of the Charge
-	  */
-	public String getChargeName();
-
-    /** Column name City */
-    public static final String COLUMNNAME_City = "City";
-
-	/** Set City.
-	  * Identifies a City
-	  */
-	public void setCity (String City);
-
-	/** Get City.
-	  * Identifies a City
-	  */
-	public String getCity();
-
-    /** Column name ContactName */
-    public static final String COLUMNNAME_ContactName = "ContactName";
-
-	/** Set Contact Name.
-	  * Business Partner Contact Name
-	  */
-	public void setContactName (String ContactName);
-
-	/** Get Contact Name.
-	  * Business Partner Contact Name
-	  */
-	public String getContactName();
-
-    /** Column name CountryCode */
-    public static final String COLUMNNAME_CountryCode = "CountryCode";
-
-	/** Set ISO Country Code.
-	  * Upper-case two-letter alphanumeric ISO Country code according to ISO 3166-1 - http://www.chemie.fu-berlin.de/diverse/doc/ISO_3166.html
-	  */
-	public void setCountryCode (boolean CountryCode);
-
-	/** Get ISO Country Code.
-	  * Upper-case two-letter alphanumeric ISO Country code according to ISO 3166-1 - http://www.chemie.fu-berlin.de/diverse/doc/ISO_3166.html
-	  */
-	public boolean isCountryCode();
-
-    /** Column name Created */
-    public static final String COLUMNNAME_Created = "Created";
-
-	/** Get Created.
-	  * Date this record was created
-	  */
-	public Timestamp getCreated();
-
-    /** Column name CreatedBy */
-    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
-
-	/** Get Created By.
-	  * User who created this records
-	  */
-	public int getCreatedBy();
 
     /** Column name DateAcct */
     public static final String COLUMNNAME_DateAcct = "DateAcct";
@@ -756,19 +756,6 @@ public interface I_I_Invoice
 	  */
 	public String getRegionName();
 
-    /** Column name SKU */
-    public static final String COLUMNNAME_SKU = "SKU";
-
-	/** Set SKU.
-	  * Stock Keeping Unit
-	  */
-	public void setSKU (String SKU);
-
-	/** Get SKU.
-	  * Stock Keeping Unit
-	  */
-	public String getSKU();
-
     /** Column name SalesRep_ID */
     public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";
 
@@ -783,6 +770,19 @@ public interface I_I_Invoice
 	public int getSalesRep_ID();
 
 	public org.compiere.model.I_AD_User getSalesRep() throws RuntimeException;
+
+    /** Column name SKU */
+    public static final String COLUMNNAME_SKU = "SKU";
+
+	/** Set SKU.
+	  * Stock Keeping Unit
+	  */
+	public void setSKU (String SKU);
+
+	/** Get SKU.
+	  * Stock Keeping Unit
+	  */
+	public String getSKU();
 
     /** Column name TaxAmt */
     public static final String COLUMNNAME_TaxAmt = "TaxAmt";

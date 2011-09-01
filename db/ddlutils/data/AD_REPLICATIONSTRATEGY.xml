@@ -1,4 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <data>
-  <AD_REPLICATIONSTRATEGY AD_REPLICATIONSTRATEGY_ID="100" AD_CLIENT_ID="0" AD_ORG_ID="0" ISACTIVE="Y" CREATED="2003-06-19 17:52:23.0" CREATEDBY="0" UPDATED="2000-01-02 00:00:00.0" UPDATEDBY="0" NAME="POS" DESCRIPTION="Point-of-Sales Synchronization" HELP="Products are central, Business Partners, Orders, Shipments, Invoices, Cash Journal are local" ENTITYTYPE="D" />
+  <AD_REPLICATIONSTRATEGY AD_REPLICATIONSTRATEGY_ID="100" AD_CLIENT_ID="0" AD_ORG_ID="0" ISACTIVE="Y" CREATED="2003-06-19 17:52:23.0" CREATEDBY="0" UPDATED="2000-01-02 00:00:00.0" UPDATEDBY="0" NAME="POS" DESCRIPTION="Point-of-Sales Synchronization" HELP="Products are central, Business Partners, Orders, Shipments, Invoices, Cash Journal are local" ENTITYTYPE="D" VALUE="1000000" />
+  <AD_REPLICATIONSTRATEGY AD_REPLICATIONSTRATEGY_ID="50000" AD_CLIENT_ID="11" AD_ORG_ID="0" ISACTIVE="Y" CREATED="2009-04-19 09:14:55.0" CREATEDBY="100" UPDATED="2009-04-19 09:14:55.0" UPDATEDBY="100" NAME="Example POS Replication Strategy" DESCRIPTION="Example POS Replication Strategy - Description" HELP="Example POS Replication Strategy - Help" ENTITYTYPE="D" EXP_PROCESSOR_ID="50001" VALUE="Example POS" />
 </data>

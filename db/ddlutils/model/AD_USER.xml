@@ -18,7 +18,7 @@
       <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="EMAILUSER" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
-      <column name="EMAILUSERPW" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="EMAILUSERPW" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="C_BPARTNER_LOCATION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_GREETING_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="TITLE" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
@@ -38,14 +38,16 @@
       <column name="LDAPUSER" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="CONNECTIONPROFILE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="VALUE" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="USERPIN" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="ISINPAYROLL" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <foreign-key foreignTable="AD_CLIENT" name="AD_USER_CLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="AD_USER_ORG" onDelete="none">
-        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="AD_ORG" name="ADORGTRX_ADUSER" onDelete="none">
         <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="AD_USER_ORG" onDelete="none">
+        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_USER" name="ADUSER_SUPERVISOR" onDelete="none">
         <reference local="SUPERVISOR_ID" foreign="AD_USER_ID"/>
@@ -59,11 +61,17 @@
       <foreign-key foreignTable="C_GREETING" name="CGREETING_ADUSER" onDelete="none">
         <reference local="C_GREETING_ID" foreign="C_GREETING_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="C_JOB" name="CJOB_ADUSER" onDelete="none">
+        <reference local="C_JOB_ID" foreign="C_JOB_ID"/>
+      </foreign-key>
       <index name="AD_USER_EMAIL">
         <index-column name="EMAIL"/>
       </index>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsInPayroll IN ('Y','N')]]></rule>
       </check>
     </table>
   </database>

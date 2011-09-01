@@ -25,6 +25,9 @@
       <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADARCHIVE" onDelete="none">
         <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_ADARCHIVE" onDelete="none">
+        <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
+      </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
       </check>

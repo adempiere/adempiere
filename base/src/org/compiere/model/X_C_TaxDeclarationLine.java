@@ -25,14 +25,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for C_TaxDeclarationLine
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_C_TaxDeclarationLine (Properties ctx, int C_TaxDeclarationLine_ID, String trxName)
@@ -42,8 +42,8 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
         {
 			setC_BPartner_ID (0);
 			setC_Currency_ID (0);
-			setC_TaxDeclarationLine_ID (0);
 			setC_TaxDeclaration_ID (0);
+			setC_TaxDeclarationLine_ID (0);
 			setC_Tax_ID (0);
 			setDateAcct (new Timestamp( System.currentTimeMillis() ));
 			setIsManual (true);
@@ -166,34 +166,6 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_InvoiceLine)MTable.get(getCtx(), org.compiere.model.I_C_InvoiceLine.Table_Name)
-			.getPO(getC_InvoiceLine_ID(), get_TrxName());	}
-
-	/** Set Invoice Line.
-		@param C_InvoiceLine_ID 
-		Invoice Detail Line
-	  */
-	public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
-	{
-		if (C_InvoiceLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, Integer.valueOf(C_InvoiceLine_ID));
-	}
-
-	/** Get Invoice Line.
-		@return Invoice Detail Line
-	  */
-	public int getC_InvoiceLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_InvoiceLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Invoice)MTable.get(getCtx(), org.compiere.model.I_C_Invoice.Table_Name)
@@ -222,24 +194,29 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
 		return ii.intValue();
 	}
 
-	/** Set Tax Declaration Line.
-		@param C_TaxDeclarationLine_ID 
-		Tax Declaration Document Information
+	public org.compiere.model.I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_InvoiceLine)MTable.get(getCtx(), org.compiere.model.I_C_InvoiceLine.Table_Name)
+			.getPO(getC_InvoiceLine_ID(), get_TrxName());	}
+
+	/** Set Invoice Line.
+		@param C_InvoiceLine_ID 
+		Invoice Detail Line
 	  */
-	public void setC_TaxDeclarationLine_ID (int C_TaxDeclarationLine_ID)
+	public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
 	{
-		if (C_TaxDeclarationLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_TaxDeclarationLine_ID, null);
+		if (C_InvoiceLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_C_TaxDeclarationLine_ID, Integer.valueOf(C_TaxDeclarationLine_ID));
+			set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, Integer.valueOf(C_InvoiceLine_ID));
 	}
 
-	/** Get Tax Declaration Line.
-		@return Tax Declaration Document Information
+	/** Get Invoice Line.
+		@return Invoice Detail Line
 	  */
-	public int getC_TaxDeclarationLine_ID () 
+	public int getC_InvoiceLine_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_TaxDeclarationLine_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_InvoiceLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -268,6 +245,29 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
 	public int getC_TaxDeclaration_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_TaxDeclaration_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Tax Declaration Line.
+		@param C_TaxDeclarationLine_ID 
+		Tax Declaration Document Information
+	  */
+	public void setC_TaxDeclarationLine_ID (int C_TaxDeclarationLine_ID)
+	{
+		if (C_TaxDeclarationLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_TaxDeclarationLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_TaxDeclarationLine_ID, Integer.valueOf(C_TaxDeclarationLine_ID));
+	}
+
+	/** Get Tax Declaration Line.
+		@return Tax Declaration Document Information
+	  */
+	public int getC_TaxDeclarationLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_TaxDeclarationLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

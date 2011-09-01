@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="HR_CONCEPT">
+      <column name="ACCOUNTSIGN" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISSAVEINHISTORIC" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISRECEIPT" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISPAID" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="VALUE" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="HR_CONCEPT_CATEGORY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="HR_CONCEPT_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="HR_DEPARTMENT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="HR_JOB_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="HR_PAYROLL_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="ISEMPLOYEE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISPRINTED" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISMANUAL" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="TYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="VALIDFROM" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="VALIDTO" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="ISDEFAULT" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="COLUMNTYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="AD_REFERENCE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="SEQNO" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_REFERENCE" name="ADREFERENCE_HRCONCEPT" onDelete="none">
+        <reference local="AD_REFERENCE_ID" foreign="AD_REFERENCE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="HR_CONCEPT_CATEGORY" name="HRCONCEPTCATEGORY_HRCONCEPT" onDelete="none">
+        <reference local="HR_CONCEPT_CATEGORY_ID" foreign="HR_CONCEPT_CATEGORY_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="HR_DEPARTMENT" name="HRDEPARTMENT_HRCONCEPT" onDelete="none">
+        <reference local="HR_DEPARTMENT_ID" foreign="HR_DEPARTMENT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="HR_JOB" name="HRJOB_HRCONCEPT" onDelete="none">
+        <reference local="HR_JOB_ID" foreign="HR_JOB_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="HR_PAYROLL" name="HRPAYROLL_HRCONCEPT" onDelete="none">
+        <reference local="HR_PAYROLL_ID" foreign="HR_PAYROLL_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[ISSAVEINHISTORIC='Y' OR ISSAVEINHISTORIC='N']]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsReceipt IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsPaid IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsActive IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsEmployee IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsPrinted IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[ISMANUAL='Y' OR ISMANUAL='N']]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsDefault IN ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for T_DistributionRunDetail
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_T_DistributionRunDetail 
 {
@@ -121,21 +121,6 @@ public interface I_T_DistributionRunDetail
 	  */
 	public boolean isActive();
 
-    /** Column name M_DistributionListLine_ID */
-    public static final String COLUMNNAME_M_DistributionListLine_ID = "M_DistributionListLine_ID";
-
-	/** Set Distribution List Line.
-	  * Distribution List Line with Business Partner and Quantity/Percentage
-	  */
-	public void setM_DistributionListLine_ID (int M_DistributionListLine_ID);
-
-	/** Get Distribution List Line.
-	  * Distribution List Line with Business Partner and Quantity/Percentage
-	  */
-	public int getM_DistributionListLine_ID();
-
-	public org.compiere.model.I_M_DistributionListLine getM_DistributionListLine() throws RuntimeException;
-
     /** Column name M_DistributionList_ID */
     public static final String COLUMNNAME_M_DistributionList_ID = "M_DistributionList_ID";
 
@@ -151,20 +136,20 @@ public interface I_T_DistributionRunDetail
 
 	public org.compiere.model.I_M_DistributionList getM_DistributionList() throws RuntimeException;
 
-    /** Column name M_DistributionRunLine_ID */
-    public static final String COLUMNNAME_M_DistributionRunLine_ID = "M_DistributionRunLine_ID";
+    /** Column name M_DistributionListLine_ID */
+    public static final String COLUMNNAME_M_DistributionListLine_ID = "M_DistributionListLine_ID";
 
-	/** Set Distribution Run Line.
-	  * Distribution Run Lines define Distribution List, the Product and Quantities
+	/** Set Distribution List Line.
+	  * Distribution List Line with Business Partner and Quantity/Percentage
 	  */
-	public void setM_DistributionRunLine_ID (int M_DistributionRunLine_ID);
+	public void setM_DistributionListLine_ID (int M_DistributionListLine_ID);
 
-	/** Get Distribution Run Line.
-	  * Distribution Run Lines define Distribution List, the Product and Quantities
+	/** Get Distribution List Line.
+	  * Distribution List Line with Business Partner and Quantity/Percentage
 	  */
-	public int getM_DistributionRunLine_ID();
+	public int getM_DistributionListLine_ID();
 
-	public org.compiere.model.I_M_DistributionRunLine getM_DistributionRunLine() throws RuntimeException;
+	public org.compiere.model.I_M_DistributionListLine getM_DistributionListLine() throws RuntimeException;
 
     /** Column name M_DistributionRun_ID */
     public static final String COLUMNNAME_M_DistributionRun_ID = "M_DistributionRun_ID";
@@ -181,6 +166,34 @@ public interface I_T_DistributionRunDetail
 
 	public org.compiere.model.I_M_DistributionRun getM_DistributionRun() throws RuntimeException;
 
+    /** Column name M_DistributionRunLine_ID */
+    public static final String COLUMNNAME_M_DistributionRunLine_ID = "M_DistributionRunLine_ID";
+
+	/** Set Distribution Run Line.
+	  * Distribution Run Lines define Distribution List, the Product and Quantities
+	  */
+	public void setM_DistributionRunLine_ID (int M_DistributionRunLine_ID);
+
+	/** Get Distribution Run Line.
+	  * Distribution Run Lines define Distribution List, the Product and Quantities
+	  */
+	public int getM_DistributionRunLine_ID();
+
+	public org.compiere.model.I_M_DistributionRunLine getM_DistributionRunLine() throws RuntimeException;
+
+    /** Column name MinQty */
+    public static final String COLUMNNAME_MinQty = "MinQty";
+
+	/** Set Minimum Quantity.
+	  * Minimum quantity for the business partner
+	  */
+	public void setMinQty (BigDecimal MinQty);
+
+	/** Get Minimum Quantity.
+	  * Minimum quantity for the business partner
+	  */
+	public BigDecimal getMinQty();
+
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -195,19 +208,6 @@ public interface I_T_DistributionRunDetail
 	public int getM_Product_ID();
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
-
-    /** Column name MinQty */
-    public static final String COLUMNNAME_MinQty = "MinQty";
-
-	/** Set Minimum Quantity.
-	  * Minimum quantity for the business partner
-	  */
-	public void setMinQty (BigDecimal MinQty);
-
-	/** Get Minimum Quantity.
-	  * Minimum quantity for the business partner
-	  */
-	public BigDecimal getMinQty();
 
     /** Column name Qty */
     public static final String COLUMNNAME_Qty = "Qty";

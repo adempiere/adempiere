@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BankStatementLoader
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_C_BankStatementLoader extends PO implements I_C_BankStatementLoader, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_C_BankStatementLoader (Properties ctx, int C_BankStatementLoader_ID, String trxName)
@@ -305,23 +305,6 @@ public class X_C_BankStatementLoader extends PO implements I_C_BankStatementLoad
         return new KeyNamePair(get_ID(), getName());
     }
 
-	/** Set PIN.
-		@param PIN 
-		Personal Identification Number
-	  */
-	public void setPIN (String PIN)
-	{
-		set_Value (COLUMNNAME_PIN, PIN);
-	}
-
-	/** Get PIN.
-		@return Personal Identification Number
-	  */
-	public String getPIN () 
-	{
-		return (String)get_Value(COLUMNNAME_PIN);
-	}
-
 	/** Set Password.
 		@param Password 
 		Password of any length (case sensitive)
@@ -337,6 +320,23 @@ public class X_C_BankStatementLoader extends PO implements I_C_BankStatementLoad
 	public String getPassword () 
 	{
 		return (String)get_Value(COLUMNNAME_Password);
+	}
+
+	/** Set PIN.
+		@param PIN 
+		Personal Identification Number
+	  */
+	public void setPIN (String PIN)
+	{
+		set_Value (COLUMNNAME_PIN, PIN);
+	}
+
+	/** Get PIN.
+		@return Personal Identification Number
+	  */
+	public String getPIN () 
+	{
+		return (String)get_Value(COLUMNNAME_PIN);
 	}
 
 	/** Set Proxy address.

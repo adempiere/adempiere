@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for S_Resource
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_S_Resource extends PO implements I_S_Resource, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_S_Resource (Properties ctx, int S_Resource_ID, String trxName)
@@ -46,8 +46,8 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 			setName (null);
 			setPercentUtilization (Env.ZERO);
 // 100
-			setS_ResourceType_ID (0);
 			setS_Resource_ID (0);
+			setS_ResourceType_ID (0);
 			setValue (null);
         } */
     }
@@ -85,7 +85,7 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getAD_User_ID(), get_TrxName());	}
 
-	/** Set User/Contact.
+	/** Set Usuario.
 		@param AD_User_ID 
 		User within the system - Internal or Business Partner Contact
 	  */
@@ -97,7 +97,7 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
-	/** Get User/Contact.
+	/** Get Usuario.
 		@return User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID () 
@@ -204,6 +204,31 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 		return false;
 	}
 
+	/** ManufacturingResourceType AD_Reference_ID=53223 */
+	public static final int MANUFACTURINGRESOURCETYPE_AD_Reference_ID=53223;
+	/** Production Line = PL */
+	public static final String MANUFACTURINGRESOURCETYPE_ProductionLine = "PL";
+	/** Plant = PT */
+	public static final String MANUFACTURINGRESOURCETYPE_Plant = "PT";
+	/** Work Center = WC */
+	public static final String MANUFACTURINGRESOURCETYPE_WorkCenter = "WC";
+	/** Work Station = WS */
+	public static final String MANUFACTURINGRESOURCETYPE_WorkStation = "WS";
+	/** Set Manufacturing Resource Type.
+		@param ManufacturingResourceType Manufacturing Resource Type	  */
+	public void setManufacturingResourceType (String ManufacturingResourceType)
+	{
+
+		set_Value (COLUMNNAME_ManufacturingResourceType, ManufacturingResourceType);
+	}
+
+	/** Get Manufacturing Resource Type.
+		@return Manufacturing Resource Type	  */
+	public String getManufacturingResourceType () 
+	{
+		return (String)get_Value(COLUMNNAME_ManufacturingResourceType);
+	}
+
 	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException
     {
 		return (org.compiere.model.I_M_Warehouse)MTable.get(getCtx(), org.compiere.model.I_M_Warehouse.Table_Name)
@@ -230,31 +255,6 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** ManufacturingResourceType AD_Reference_ID=53223 */
-	public static final int MANUFACTURINGRESOURCETYPE_AD_Reference_ID=53223;
-	/** Production Line = PL */
-	public static final String MANUFACTURINGRESOURCETYPE_ProductionLine = "PL";
-	/** Plant = PT */
-	public static final String MANUFACTURINGRESOURCETYPE_Plant = "PT";
-	/** Work Center = WC */
-	public static final String MANUFACTURINGRESOURCETYPE_WorkCenter = "WC";
-	/** Work Station = WS */
-	public static final String MANUFACTURINGRESOURCETYPE_WorkStation = "WS";
-	/** Set Manufacturing Resource Type.
-		@param ManufacturingResourceType Manufacturing Resource Type	  */
-	public void setManufacturingResourceType (String ManufacturingResourceType)
-	{
-
-		set_Value (COLUMNNAME_ManufacturingResourceType, ManufacturingResourceType);
-	}
-
-	/** Get Manufacturing Resource Type.
-		@return Manufacturing Resource Type	  */
-	public String getManufacturingResourceType () 
-	{
-		return (String)get_Value(COLUMNNAME_ManufacturingResourceType);
 	}
 
 	/** Set Name.
@@ -339,6 +339,29 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 		return bd;
 	}
 
+	/** Set Resource.
+		@param S_Resource_ID 
+		Resource
+	  */
+	public void setS_Resource_ID (int S_Resource_ID)
+	{
+		if (S_Resource_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_S_Resource_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
+	}
+
+	/** Get Resource.
+		@return Resource
+	  */
+	public int getS_Resource_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_S_Resource_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_S_ResourceType getS_ResourceType() throws RuntimeException
     {
 		return (org.compiere.model.I_S_ResourceType)MTable.get(getCtx(), org.compiere.model.I_S_ResourceType.Table_Name)
@@ -359,29 +382,6 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 	public int getS_ResourceType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_S_ResourceType_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Resource.
-		@param S_Resource_ID 
-		Resource
-	  */
-	public void setS_Resource_ID (int S_Resource_ID)
-	{
-		if (S_Resource_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_S_Resource_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
-	}
-
-	/** Get Resource.
-		@return Resource
-	  */
-	public int getS_Resource_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_S_Resource_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

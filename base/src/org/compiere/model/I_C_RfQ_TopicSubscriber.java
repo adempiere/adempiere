@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_RfQ_TopicSubscriber
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_C_RfQ_TopicSubscriber 
 {
@@ -65,12 +65,12 @@ public interface I_C_RfQ_TopicSubscriber
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 
-	/** Set User/Contact.
+	/** Set Usuario.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public void setAD_User_ID (int AD_User_ID);
 
-	/** Get User/Contact.
+	/** Get Usuario.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID();
@@ -107,18 +107,21 @@ public interface I_C_RfQ_TopicSubscriber
 
 	public org.compiere.model.I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException;
 
-    /** Column name C_RfQ_TopicSubscriber_ID */
-    public static final String COLUMNNAME_C_RfQ_TopicSubscriber_ID = "C_RfQ_TopicSubscriber_ID";
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
 
-	/** Set RfQ Subscriber.
-	  * Request for Quotation Topic Subscriber
+	/** Get Created.
+	  * Date this record was created
 	  */
-	public void setC_RfQ_TopicSubscriber_ID (int C_RfQ_TopicSubscriber_ID);
+	public Timestamp getCreated();
 
-	/** Get RfQ Subscriber.
-	  * Request for Quotation Topic Subscriber
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
 	  */
-	public int getC_RfQ_TopicSubscriber_ID();
+	public int getCreatedBy();
 
     /** Column name C_RfQ_Topic_ID */
     public static final String COLUMNNAME_C_RfQ_Topic_ID = "C_RfQ_Topic_ID";
@@ -135,21 +138,18 @@ public interface I_C_RfQ_TopicSubscriber
 
 	public org.compiere.model.I_C_RfQ_Topic getC_RfQ_Topic() throws RuntimeException;
 
-    /** Column name Created */
-    public static final String COLUMNNAME_Created = "Created";
+    /** Column name C_RfQ_TopicSubscriber_ID */
+    public static final String COLUMNNAME_C_RfQ_TopicSubscriber_ID = "C_RfQ_TopicSubscriber_ID";
 
-	/** Get Created.
-	  * Date this record was created
+	/** Set RfQ Subscriber.
+	  * Request for Quotation Topic Subscriber
 	  */
-	public Timestamp getCreated();
+	public void setC_RfQ_TopicSubscriber_ID (int C_RfQ_TopicSubscriber_ID);
 
-    /** Column name CreatedBy */
-    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
-
-	/** Get Created By.
-	  * User who created this records
+	/** Get RfQ Subscriber.
+	  * Request for Quotation Topic Subscriber
 	  */
-	public int getCreatedBy();
+	public int getC_RfQ_TopicSubscriber_ID();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

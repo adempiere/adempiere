@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for EXP_ProcessorParameter
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_EXP_ProcessorParameter extends PO implements I_EXP_ProcessorParameter, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_EXP_ProcessorParameter (Properties ctx, int EXP_ProcessorParameter_ID, String trxName)

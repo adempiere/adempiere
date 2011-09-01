@@ -21,7 +21,6 @@
       <column name="AMOUNT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="DISCOUNTAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="WRITEOFFAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
-      <column name="POSTED" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="OVERUNDERAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="C_ALLOCATIONHDR_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <foreign-key foreignTable="C_ALLOCATIONHDR" name="CALLOCATION_CALLOCATIONLINE" onDelete="none">

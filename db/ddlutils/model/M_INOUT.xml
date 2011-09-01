@@ -63,17 +63,27 @@
       <column name="ISINDISPUTE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="VOLUME" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="WEIGHT" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ORG" name="ADORG_MINOUT" onDelete="none">
-        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
-      </foreign-key>
+      <column name="M_RMA_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="REVERSAL_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="ISDROPSHIP" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="DROPSHIP_BPARTNER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="DROPSHIP_LOCATION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="DROPSHIP_USER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="PROCESSEDON" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <foreign-key foreignTable="AD_ORG" name="ADORGTRX_MINOUT" onDelete="none">
         <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_SR_MINOUT" onDelete="none">
-        <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
+      <foreign-key foreignTable="AD_ORG" name="ADORG_MINOUT" onDelete="none">
+        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_USER" name="DROPSHIPUSER_MINOUT" onDelete="none">
+        <reference local="DROPSHIP_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_USER" name="ADUSER_MINOUT" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_USER" name="ADUSER_SR_MINOUT" onDelete="none">
+        <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_MINOUT" onDelete="none">
         <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
@@ -81,8 +91,14 @@
       <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_MINOUT" onDelete="none">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="C_BPARTNER" name="DROPSHIPBPARTNER_MINOUT" onDelete="none">
+        <reference local="DROPSHIP_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="C_BPARTNER_LOCATION" name="VBPLOCATION_MINOUT" onDelete="none">
         <reference local="C_BPARTNER_LOCATION_ID" foreign="C_BPARTNER_LOCATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="DROPSHIPLOCATION_MINOUT" onDelete="none">
+        <reference local="DROPSHIP_LOCATION_ID" foreign="C_BPARTNER_LOCATION_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_MINOUT" onDelete="none">
         <reference local="C_CAMPAIGN_ID" foreign="C_CAMPAIGN_ID"/>
@@ -93,11 +109,14 @@
       <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_MINOUT" onDelete="none">
         <reference local="C_DOCTYPE_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_MINOUT" onDelete="none">
+        <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER2_MINOUT" onDelete="none">
         <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_MINOUT" onDelete="none">
-        <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
+      <foreign-key foreignTable="C_INVOICE" name="CINVOICE_MINOUT" onDelete="none">
+        <reference local="C_INVOICE_ID" foreign="C_INVOICE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ORDER" name="CORDER_MINOUT" onDelete="none">
         <reference local="C_ORDER_ID" foreign="C_ORDER_ID"/>
@@ -108,20 +127,26 @@
       <foreign-key foreignTable="M_INOUT" name="MINOUT_REF" onDelete="none">
         <reference local="REF_INOUT_ID" foreign="M_INOUT_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="M_INOUT" name="REVERSAL_MINOUT" onDelete="none">
+        <reference local="REVERSAL_ID" foreign="M_INOUT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_RMA" name="MRMA_MINOUT" onDelete="none">
+        <reference local="M_RMA_ID" foreign="M_RMA_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="M_SHIPPER" name="MSHIPPER_MINOUT" onDelete="none">
         <reference local="M_SHIPPER_ID" foreign="M_SHIPPER_ID"/>
       </foreign-key>
       <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_MINOUT" onDelete="none">
         <reference local="M_WAREHOUSE_ID" foreign="M_WAREHOUSE_ID"/>
       </foreign-key>
-      <index name="M_INOUT_DOCUMENTNO">
-        <index-column name="DOCUMENTNO"/>
-      </index>
       <index name="M_INOUT_ORDER">
         <index-column name="C_ORDER_ID"/>
       </index>
       <index name="M_INOUT_BPARTNER">
         <index-column name="C_BPARTNER_ID"/>
+      </index>
+      <index name="M_INOUT_DOCUMENTNO">
+        <index-column name="DOCUMENTNO"/>
       </index>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
@@ -140,6 +165,9 @@
       </check>
       <check>
         <rule><![CDATA[GenerateTo in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsDropShip IN ('Y','N')]]></rule>
       </check>
     </table>
   </database>

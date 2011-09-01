@@ -15,9 +15,12 @@
       <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="ACCESSLEVEL" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="CLASSNAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
-      <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="4" default="D" autoIncrement="false"/>
+      <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="40" default="D" autoIncrement="false"/>
       <column name="ISBETAFUNCTIONALITY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="JSPURL" primaryKey="false" required="false" type="VARCHAR" size="120" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_ENTITYTYPE" name="ENTITYT_ADFORM" onDelete="none">
+        <reference local="ENTITYTYPE" foreign="ENTITYTYPE"/>
+      </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
       </check>

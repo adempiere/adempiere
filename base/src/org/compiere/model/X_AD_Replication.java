@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Replication
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_AD_Replication extends PO implements I_AD_Replication, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_AD_Replication (Properties ctx, int AD_Replication_ID, String trxName)
@@ -41,8 +41,8 @@ public class X_AD_Replication extends PO implements I_AD_Replication, I_Persiste
       super (ctx, AD_Replication_ID, trxName);
       /** if (AD_Replication_ID == 0)
         {
-			setAD_ReplicationStrategy_ID (0);
 			setAD_Replication_ID (0);
+			setAD_ReplicationStrategy_ID (0);
 			setHostAddress (null);
 			setHostPort (0);
 // 80
@@ -82,6 +82,29 @@ public class X_AD_Replication extends PO implements I_AD_Replication, I_Persiste
       return sb.toString();
     }
 
+	/** Set Replication.
+		@param AD_Replication_ID 
+		Data Replication Target
+	  */
+	public void setAD_Replication_ID (int AD_Replication_ID)
+	{
+		if (AD_Replication_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Replication_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Replication_ID, Integer.valueOf(AD_Replication_ID));
+	}
+
+	/** Get Replication.
+		@return Data Replication Target
+	  */
+	public int getAD_Replication_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Replication_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_AD_ReplicationStrategy getAD_ReplicationStrategy() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_ReplicationStrategy)MTable.get(getCtx(), org.compiere.model.I_AD_ReplicationStrategy.Table_Name)
@@ -105,29 +128,6 @@ public class X_AD_Replication extends PO implements I_AD_Replication, I_Persiste
 	public int getAD_ReplicationStrategy_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_ReplicationStrategy_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Replication.
-		@param AD_Replication_ID 
-		Data Replication Target
-	  */
-	public void setAD_Replication_ID (int AD_Replication_ID)
-	{
-		if (AD_Replication_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_Replication_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_Replication_ID, Integer.valueOf(AD_Replication_ID));
-	}
-
-	/** Get Replication.
-		@return Data Replication Target
-	  */
-	public int getAD_Replication_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Replication_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

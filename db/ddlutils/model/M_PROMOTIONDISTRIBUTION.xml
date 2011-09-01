@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="M_PROMOTIONDISTRIBUTION">
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="DISTRIBUTIONSORTING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="DISTRIBUTIONTYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="M_PROMOTIONDISTRIBUTION_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="M_PROMOTIONLINE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="M_PROMOTION_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="OPERATION" primaryKey="false" required="true" type="VARCHAR" size="2" autoIncrement="false"/>
+      <column name="QTY" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="SEQNO" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <foreign-key foreignTable="M_PROMOTION" name="MPROMOTION_MPROMOTIONDISTRIBUT" onDelete="none">
+        <reference local="M_PROMOTION_ID" foreign="M_PROMOTION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PROMOTIONLINE" name="MPROMOTIONLINE_MPROMOTIONDISTR" onDelete="none">
+        <reference local="M_PROMOTIONLINE_ID" foreign="M_PROMOTIONLINE_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive IN ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

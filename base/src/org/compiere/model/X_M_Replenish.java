@@ -24,14 +24,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for M_Replenish
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_M_Replenish extends PO implements I_M_Replenish, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_M_Replenish (Properties ctx, int M_Replenish_ID, String trxName)
@@ -171,34 +171,6 @@ public class X_M_Replenish extends PO implements I_M_Replenish, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_M_Warehouse getM_WarehouseSource() throws RuntimeException
-    {
-		return (org.compiere.model.I_M_Warehouse)MTable.get(getCtx(), org.compiere.model.I_M_Warehouse.Table_Name)
-			.getPO(getM_WarehouseSource_ID(), get_TrxName());	}
-
-	/** Set Source Warehouse.
-		@param M_WarehouseSource_ID 
-		Optional Warehouse to replenish from
-	  */
-	public void setM_WarehouseSource_ID (int M_WarehouseSource_ID)
-	{
-		if (M_WarehouseSource_ID < 1) 
-			set_Value (COLUMNNAME_M_WarehouseSource_ID, null);
-		else 
-			set_Value (COLUMNNAME_M_WarehouseSource_ID, Integer.valueOf(M_WarehouseSource_ID));
-	}
-
-	/** Get Source Warehouse.
-		@return Optional Warehouse to replenish from
-	  */
-	public int getM_WarehouseSource_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_WarehouseSource_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException
     {
 		return (org.compiere.model.I_M_Warehouse)MTable.get(getCtx(), org.compiere.model.I_M_Warehouse.Table_Name)
@@ -222,6 +194,34 @@ public class X_M_Replenish extends PO implements I_M_Replenish, I_Persistent
 	public int getM_Warehouse_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Warehouse_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_Warehouse getM_WarehouseSource() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_Warehouse)MTable.get(getCtx(), org.compiere.model.I_M_Warehouse.Table_Name)
+			.getPO(getM_WarehouseSource_ID(), get_TrxName());	}
+
+	/** Set Source Warehouse.
+		@param M_WarehouseSource_ID 
+		Optional Warehouse to replenish from
+	  */
+	public void setM_WarehouseSource_ID (int M_WarehouseSource_ID)
+	{
+		if (M_WarehouseSource_ID < 1) 
+			set_Value (COLUMNNAME_M_WarehouseSource_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_WarehouseSource_ID, Integer.valueOf(M_WarehouseSource_ID));
+	}
+
+	/** Get Source Warehouse.
+		@return Optional Warehouse to replenish from
+	  */
+	public int getM_WarehouseSource_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_WarehouseSource_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

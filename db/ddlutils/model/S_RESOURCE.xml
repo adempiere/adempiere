@@ -18,6 +18,13 @@
       <column name="ISAVAILABLE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="AD_USER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="CHARGEABLEQTY" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="PERCENTUTILIZATION" primaryKey="false" required="true" type="DECIMAL" default="100" autoIncrement="false"/>
+      <column name="DAILYCAPACITY" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="ISMANUFACTURINGRESOURCE" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="WAITINGTIME" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="MANUFACTURINGRESOURCETYPE" primaryKey="false" required="false" type="CHAR" size="2" autoIncrement="false"/>
+      <column name="QUEUINGTIME" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="PLANNINGHORIZON" primaryKey="false" required="false" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
       <foreign-key foreignTable="AD_USER" name="ADUSER_SRESOURCE" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
@@ -32,6 +39,12 @@
       </check>
       <check>
         <rule><![CDATA[IsAvailable in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsManufacturingResource IN ('Y','N')]]></rule>
+      </check>
+      <check name="CHK_COL_53272">
+        <rule><![CDATA[PercentUtilization>=0]]></rule>
       </check>
     </table>
   </database>

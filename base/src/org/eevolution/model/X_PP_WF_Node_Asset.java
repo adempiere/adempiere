@@ -23,14 +23,14 @@ import org.compiere.model.*;
 
 /** Generated Model for PP_WF_Node_Asset
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_PP_WF_Node_Asset extends PO implements I_PP_WF_Node_Asset, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_PP_WF_Node_Asset (Properties ctx, int PP_WF_Node_Asset_ID, String trxName)
@@ -38,8 +38,8 @@ public class X_PP_WF_Node_Asset extends PO implements I_PP_WF_Node_Asset, I_Pers
       super (ctx, PP_WF_Node_Asset_ID, trxName);
       /** if (PP_WF_Node_Asset_ID == 0)
         {
-			setAD_WF_Node_ID (0);
 			setA_Asset_ID (0);
+			setAD_WF_Node_ID (0);
 			setPP_WF_Node_Asset_ID (0);
 			setSeqNo (0);
         } */
@@ -73,34 +73,6 @@ public class X_PP_WF_Node_Asset extends PO implements I_PP_WF_Node_Asset, I_Pers
       return sb.toString();
     }
 
-	public org.compiere.model.I_AD_WF_Node getAD_WF_Node() throws RuntimeException
-    {
-		return (org.compiere.model.I_AD_WF_Node)MTable.get(getCtx(), org.compiere.model.I_AD_WF_Node.Table_Name)
-			.getPO(getAD_WF_Node_ID(), get_TrxName());	}
-
-	/** Set Node.
-		@param AD_WF_Node_ID 
-		Workflow Node (activity), step or process
-	  */
-	public void setAD_WF_Node_ID (int AD_WF_Node_ID)
-	{
-		if (AD_WF_Node_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_WF_Node_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_WF_Node_ID, Integer.valueOf(AD_WF_Node_ID));
-	}
-
-	/** Get Node.
-		@return Workflow Node (activity), step or process
-	  */
-	public int getAD_WF_Node_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_WF_Node_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException
     {
 		return (org.compiere.model.I_A_Asset)MTable.get(getCtx(), org.compiere.model.I_A_Asset.Table_Name)
@@ -124,6 +96,34 @@ public class X_PP_WF_Node_Asset extends PO implements I_PP_WF_Node_Asset, I_Pers
 	public int getA_Asset_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_AD_WF_Node getAD_WF_Node() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_WF_Node)MTable.get(getCtx(), org.compiere.model.I_AD_WF_Node.Table_Name)
+			.getPO(getAD_WF_Node_ID(), get_TrxName());	}
+
+	/** Set Node.
+		@param AD_WF_Node_ID 
+		Workflow Node (activity), step or process
+	  */
+	public void setAD_WF_Node_ID (int AD_WF_Node_ID)
+	{
+		if (AD_WF_Node_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_WF_Node_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_WF_Node_ID, Integer.valueOf(AD_WF_Node_ID));
+	}
+
+	/** Get Node.
+		@return Workflow Node (activity), step or process
+	  */
+	public int getAD_WF_Node_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_WF_Node_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

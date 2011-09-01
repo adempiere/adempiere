@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="PP_PRODUCT_BOMLINE">
+      <column name="FEATURE" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="ASSAY" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="BACKFLUSHGROUP" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="C_UOM_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="COMPONENTTYPE" primaryKey="false" required="false" type="CHAR" size="2" default="CO" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="FORECAST" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISCRITICAL" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISQTYPERCENTAGE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISSUEMETHOD" primaryKey="false" required="true" type="CHAR" size="1" default="1" autoIncrement="false"/>
+      <column name="LEADTIMEOFFSET" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="LINE" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="M_ATTRIBUTESETINSTANCE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="M_CHANGENOTICE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="M_PRODUCT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="PP_PRODUCT_BOMLINE_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="PP_PRODUCT_BOM_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="QTYBOM" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="QTYBATCH" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="SCRAP" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="VALIDFROM" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="VALIDTO" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="COSTALLOCATIONPERC" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
+      <foreign-key foreignTable="C_UOM" name="CUOM_PPPRODUCTBOMLINE" onDelete="none">
+        <reference local="C_UOM_ID" foreign="C_UOM_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_ATTRIBUTESETINSTANCE" name="MATTRIBUTESETINSTANCE_PPPRODBL" onDelete="none">
+        <reference local="M_ATTRIBUTESETINSTANCE_ID" foreign="M_ATTRIBUTESETINSTANCE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_CHANGENOTICE" name="MCHANGENOTICE_PPPRODUCTBOMLINE" onDelete="none">
+        <reference local="M_CHANGENOTICE_ID" foreign="M_CHANGENOTICE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_PPPRODUCTBOMLINE" onDelete="none">
+        <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="PP_PRODUCT_BOM" name="PPPRODUCTBOM_PPPRODUCTBOMLINE" onDelete="none">
+        <reference local="PP_PRODUCT_BOM_ID" foreign="PP_PRODUCT_BOM_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsCritical IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsQtyPercentage IN ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

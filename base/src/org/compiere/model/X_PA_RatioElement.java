@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_RatioElement
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_PA_RatioElement (Properties ctx, int PA_RatioElement_ID, String trxName)
@@ -211,34 +211,6 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_PA_Ratio getPA_RatioUsed() throws RuntimeException
-    {
-		return (org.compiere.model.I_PA_Ratio)MTable.get(getCtx(), org.compiere.model.I_PA_Ratio.Table_Name)
-			.getPO(getPA_RatioUsed_ID(), get_TrxName());	}
-
-	/** Set Ratio Used.
-		@param PA_RatioUsed_ID 
-		Performance Ratio Used
-	  */
-	public void setPA_RatioUsed_ID (int PA_RatioUsed_ID)
-	{
-		if (PA_RatioUsed_ID < 1) 
-			set_Value (COLUMNNAME_PA_RatioUsed_ID, null);
-		else 
-			set_Value (COLUMNNAME_PA_RatioUsed_ID, Integer.valueOf(PA_RatioUsed_ID));
-	}
-
-	/** Get Ratio Used.
-		@return Performance Ratio Used
-	  */
-	public int getPA_RatioUsed_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PA_RatioUsed_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_PA_Ratio getPA_Ratio() throws RuntimeException
     {
 		return (org.compiere.model.I_PA_Ratio)MTable.get(getCtx(), org.compiere.model.I_PA_Ratio.Table_Name)
@@ -262,6 +234,34 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
 	public int getPA_Ratio_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PA_Ratio_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_PA_Ratio getPA_RatioUsed() throws RuntimeException
+    {
+		return (org.compiere.model.I_PA_Ratio)MTable.get(getCtx(), org.compiere.model.I_PA_Ratio.Table_Name)
+			.getPO(getPA_RatioUsed_ID(), get_TrxName());	}
+
+	/** Set Ratio Used.
+		@param PA_RatioUsed_ID 
+		Performance Ratio Used
+	  */
+	public void setPA_RatioUsed_ID (int PA_RatioUsed_ID)
+	{
+		if (PA_RatioUsed_ID < 1) 
+			set_Value (COLUMNNAME_PA_RatioUsed_ID, null);
+		else 
+			set_Value (COLUMNNAME_PA_RatioUsed_ID, Integer.valueOf(PA_RatioUsed_ID));
+	}
+
+	/** Get Ratio Used.
+		@return Performance Ratio Used
+	  */
+	public int getPA_RatioUsed_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PA_RatioUsed_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for AD_ClientInfo
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_AD_ClientInfo (Properties ctx, int AD_ClientInfo_ID, String trxName)
@@ -489,30 +489,6 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	/** DeliveryPolicy AD_Reference_ID=53355 */
-	public static final int DELIVERYPOLICY_AD_Reference_ID=53355;
-	/** No Hold = N */
-	public static final String DELIVERYPOLICY_NoHold = "N";
-	/** Strict order = O */
-	public static final String DELIVERYPOLICY_StrictOrder = "O";
-	/** Set Delivery Policy.
-		@param DeliveryPolicy 
-		Delivery Policy
-	  */
-	public void setDeliveryPolicy (String DeliveryPolicy)
-	{
-
-		set_Value (COLUMNNAME_DeliveryPolicy, DeliveryPolicy);
-	}
-
-	/** Get Delivery Policy.
-		@return Delivery Policy
-	  */
-	public String getDeliveryPolicy () 
-	{
-		return (String)get_Value(COLUMNNAME_DeliveryPolicy);
-	}
-
 	/** Set Discount calculated from Line Amounts.
 		@param IsDiscountLineAmt 
 		Payment Discount calculation does not include Taxes and Charges
@@ -557,6 +533,26 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Logo.
+		@param Logo_ID Logo	  */
+	public void setLogo_ID (int Logo_ID)
+	{
+		if (Logo_ID < 1) 
+			set_Value (COLUMNNAME_Logo_ID, null);
+		else 
+			set_Value (COLUMNNAME_Logo_ID, Integer.valueOf(Logo_ID));
+	}
+
+	/** Get Logo.
+		@return Logo	  */
+	public int getLogo_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Logo_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Logo Report.
 		@param LogoReport_ID Logo Report	  */
 	public void setLogoReport_ID (int LogoReport_ID)
@@ -592,26 +588,6 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 	public int getLogoWeb_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_LogoWeb_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Logo.
-		@param Logo_ID Logo	  */
-	public void setLogo_ID (int Logo_ID)
-	{
-		if (Logo_ID < 1) 
-			set_Value (COLUMNNAME_Logo_ID, null);
-		else 
-			set_Value (COLUMNNAME_Logo_ID, Integer.valueOf(Logo_ID));
-	}
-
-	/** Get Logo.
-		@return Logo	  */
-	public int getLogo_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Logo_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

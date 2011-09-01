@@ -23,6 +23,10 @@
       <foreign-key foreignTable="AD_USER" name="ADUSER_USERROLES" onDelete="cascade">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
+      <unique name="AD_USER_ROLE_KEY">
+        <unique-column name="AD_ROLE_ID"/>
+        <unique-column name="AD_USER_ID"/>
+      </unique>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
       </check>

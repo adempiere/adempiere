@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="PA_DASHBOARDCONTENT">
+      <column name="PA_DASHBOARDCONTENT_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="120" autoIncrement="false"/>
+      <column name="AD_WINDOW_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="HTML" primaryKey="false" required="false" type="CLOB" size="4000" autoIncrement="false"/>
+      <column name="LINE" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="PA_GOAL_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="COLUMNNO" primaryKey="false" required="false" type="DECIMAL" size="10" default="1" autoIncrement="false"/>
+      <column name="ZULFILEPATH" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="ISCOLLAPSIBLE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="GOALDISPLAY" primaryKey="false" required="false" type="CHAR" size="1" default="T" autoIncrement="false"/>
+      <column name="ISOPENBYDEFAULT" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_WINDOW" name="ADWINDOW_PADASHBOARDCONTENT" onDelete="none">
+        <reference local="AD_WINDOW_ID" foreign="AD_WINDOW_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="PA_GOAL" name="PAGOAL_PADASHBOARDCONTENT" onDelete="none">
+        <reference local="PA_GOAL_ID" foreign="PA_GOAL_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[isactive IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsCollapsible IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsOpenByDefault IN ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

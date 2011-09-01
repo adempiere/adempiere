@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for B_SellerFunds
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_B_SellerFunds 
 {
@@ -65,12 +65,12 @@ public interface I_B_SellerFunds
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 
-	/** Set User/Contact.
+	/** Set Usuario.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public void setAD_User_ID (int AD_User_ID);
 
-	/** Get User/Contact.
+	/** Get Usuario.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID();
@@ -89,6 +89,19 @@ public interface I_B_SellerFunds
 	  * Seller Funds from Offers on Topics
 	  */
 	public int getB_SellerFunds_ID();
+
+    /** Column name CommittedAmt */
+    public static final String COLUMNNAME_CommittedAmt = "CommittedAmt";
+
+	/** Set Committed Amount.
+	  * The (legal) commitment amount
+	  */
+	public void setCommittedAmt (BigDecimal CommittedAmt);
+
+	/** Get Committed Amount.
+	  * The (legal) commitment amount
+	  */
+	public BigDecimal getCommittedAmt();
 
     /** Column name C_Order_ID */
     public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
@@ -119,19 +132,6 @@ public interface I_B_SellerFunds
 	public int getC_Payment_ID();
 
 	public org.compiere.model.I_C_Payment getC_Payment() throws RuntimeException;
-
-    /** Column name CommittedAmt */
-    public static final String COLUMNNAME_CommittedAmt = "CommittedAmt";
-
-	/** Set Committed Amount.
-	  * The (legal) commitment amount
-	  */
-	public void setCommittedAmt (BigDecimal CommittedAmt);
-
-	/** Get Committed Amount.
-	  * The (legal) commitment amount
-	  */
-	public BigDecimal getCommittedAmt();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

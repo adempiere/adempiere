@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_Ad
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_CM_Ad (Properties ctx, int CM_Ad_ID, String trxName)
@@ -420,23 +420,6 @@ public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Target URL.
-		@param TargetURL 
-		URL for the Target
-	  */
-	public void setTargetURL (String TargetURL)
-	{
-		set_Value (COLUMNNAME_TargetURL, TargetURL);
-	}
-
-	/** Get Target URL.
-		@return URL for the Target
-	  */
-	public String getTargetURL () 
-	{
-		return (String)get_Value(COLUMNNAME_TargetURL);
-	}
-
 	/** Set Target Frame.
 		@param Target_Frame 
 		Which target should be used if user clicks?
@@ -452,5 +435,22 @@ public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent
 	public String getTarget_Frame () 
 	{
 		return (String)get_Value(COLUMNNAME_Target_Frame);
+	}
+
+	/** Set Target URL.
+		@param TargetURL 
+		URL for the Target
+	  */
+	public void setTargetURL (String TargetURL)
+	{
+		set_Value (COLUMNNAME_TargetURL, TargetURL);
+	}
+
+	/** Get Target URL.
+		@return URL for the Target
+	  */
+	public String getTargetURL () 
+	{
+		return (String)get_Value(COLUMNNAME_TargetURL);
 	}
 }

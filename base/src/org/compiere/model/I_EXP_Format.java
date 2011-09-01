@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for EXP_Format
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_EXP_Format 
 {
@@ -75,7 +75,7 @@ public interface I_EXP_Format
 	  */
 	public int getAD_Table_ID();
 
-	public I_AD_Table getAD_Table() throws RuntimeException;
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

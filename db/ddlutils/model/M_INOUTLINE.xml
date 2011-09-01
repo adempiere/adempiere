@@ -37,6 +37,8 @@
       <column name="USER1_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="USER2_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_ORGTRX_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="M_RMALINE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="REVERSALLINE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <foreign-key foreignTable="AD_ORG" name="ADORG_MINOUTLINE" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
@@ -52,11 +54,11 @@
       <foreign-key foreignTable="C_CHARGE" name="CCHARGE_MINOUTLINE" onDelete="none">
         <reference local="C_CHARGE_ID" foreign="C_CHARGE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENRVALUEUSER1_MINOUTLINE" onDelete="none">
-        <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENRVALUEUSER2_MINOUTLINE" onDelete="none">
         <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENRVALUEUSER1_MINOUTLINE" onDelete="none">
+        <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ORDERLINE" name="CORDERLINE_MINOUT" onDelete="none">
         <reference local="C_ORDERLINE_ID" foreign="C_ORDERLINE_ID"/>
@@ -82,11 +84,17 @@
       <foreign-key foreignTable="M_INOUTLINE" name="MINOUTLINE_REF" onDelete="none">
         <reference local="REF_INOUTLINE_ID" foreign="M_INOUTLINE_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="M_INOUTLINE" name="REVERSALLINE_MINOUTLINE" onDelete="none">
+        <reference local="REVERSALLINE_ID" foreign="M_INOUTLINE_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="M_LOCATOR" name="MLOCATOR_MINOUTLINE" onDelete="none">
         <reference local="M_LOCATOR_ID" foreign="M_LOCATOR_ID"/>
       </foreign-key>
       <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MINOUTLINE" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_RMALINE" name="MRMALINE_MINOUTLINE" onDelete="none">
+        <reference local="M_RMALINE_ID" foreign="M_RMALINE_ID"/>
       </foreign-key>
       <index name="M_INOUTLINE_INOUT">
         <index-column name="M_INOUT_ID"/>

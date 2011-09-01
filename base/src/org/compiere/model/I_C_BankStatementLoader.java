@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_BankStatementLoader
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_C_BankStatementLoader 
 {
@@ -40,6 +40,19 @@ public interface I_C_BankStatementLoader
     BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
+
+    /** Column name AccountNo */
+    public static final String COLUMNNAME_AccountNo = "AccountNo";
+
+	/** Set Account No.
+	  * Account Number
+	  */
+	public void setAccountNo (String AccountNo);
+
+	/** Get Account No.
+	  * Account Number
+	  */
+	public String getAccountNo();
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -61,19 +74,6 @@ public interface I_C_BankStatementLoader
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
-
-    /** Column name AccountNo */
-    public static final String COLUMNNAME_AccountNo = "AccountNo";
-
-	/** Set Account No.
-	  * Account Number
-	  */
-	public void setAccountNo (String AccountNo);
-
-	/** Get Account No.
-	  * Account Number
-	  */
-	public String getAccountNo();
 
     /** Column name BranchID */
     public static final String COLUMNNAME_BranchID = "BranchID";
@@ -249,19 +249,6 @@ public interface I_C_BankStatementLoader
 	  */
 	public String getName();
 
-    /** Column name PIN */
-    public static final String COLUMNNAME_PIN = "PIN";
-
-	/** Set PIN.
-	  * Personal Identification Number
-	  */
-	public void setPIN (String PIN);
-
-	/** Get PIN.
-	  * Personal Identification Number
-	  */
-	public String getPIN();
-
     /** Column name Password */
     public static final String COLUMNNAME_Password = "Password";
 
@@ -274,6 +261,19 @@ public interface I_C_BankStatementLoader
 	  * Password of any length (case sensitive)
 	  */
 	public String getPassword();
+
+    /** Column name PIN */
+    public static final String COLUMNNAME_PIN = "PIN";
+
+	/** Set PIN.
+	  * Personal Identification Number
+	  */
+	public void setPIN (String PIN);
+
+	/** Get PIN.
+	  * Personal Identification Number
+	  */
+	public String getPIN();
 
     /** Column name ProxyAddress */
     public static final String COLUMNNAME_ProxyAddress = "ProxyAddress";

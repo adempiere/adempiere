@@ -15,12 +15,12 @@
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="ACCESSLEVEL" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
-      <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="4" default="D" autoIncrement="false"/>
+      <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="40" default="D" autoIncrement="false"/>
       <column name="PROCEDURENAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="ISREPORT" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="ISDIRECTPRINT" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="AD_REPORTVIEW_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <column name="CLASSNAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="CLASSNAME" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="STATISTIC_COUNT" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="STATISTIC_SECONDS" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="AD_PRINTFORMAT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
@@ -30,11 +30,22 @@
       <column name="ISSERVERPROCESS" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="SHOWHELP" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="JASPERREPORT" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="AD_FORM_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="COPYFROMPROCESS" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_ENTITYTYPE" name="ENTITYT_ADPROCESS" onDelete="none">
+        <reference local="ENTITYTYPE" foreign="ENTITYTYPE"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_FORM" name="ADFORM_ADPROCESS" onDelete="none">
+        <reference local="AD_FORM_ID" foreign="AD_FORM_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_ADPROCESS" onDelete="none">
         <reference local="AD_PRINTFORMAT_ID" foreign="AD_PRINTFORMAT_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_REPORTVIEW" name="ADREPORTVIEW_ADPROCESS" onDelete="none">
         <reference local="AD_REPORTVIEW_ID" foreign="AD_REPORTVIEW_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_WORKFLOW" name="ADWORKFLOW_ADPROCESS" onDelete="none">
+        <reference local="AD_WORKFLOW_ID" foreign="AD_WORKFLOW_ID"/>
       </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="A_DEPRECIATION_FORECAST">
+      <column name="A_DEPRECIATION_FORECAST_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="A_END_ASSET_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="DATEDOC" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="POSTINGTYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="PROCESSED" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="A_START_ASSET_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <foreign-key foreignTable="A_ASSET" name="ASTARTASSET_ADEPRECIATIONFOREC" onDelete="none">
+        <reference local="A_START_ASSET_ID" foreign="A_ASSET_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="A_ASSET" name="AENDASSET_ADEPRECIATIONFORECAS" onDelete="none">
+        <reference local="A_END_ASSET_ID" foreign="A_ASSET_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[Processed IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsActive IN ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

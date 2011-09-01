@@ -17,6 +17,7 @@
       <column name="SEPARATOR" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="M_WAREHOUSESOURCE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="REPLENISHMENTCLASS" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="ISINTRANSIT" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <foreign-key foreignTable="AD_CLIENT" name="M_WAREHOUSE_CLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
@@ -26,12 +27,18 @@
       <foreign-key foreignTable="C_LOCATION" name="C_LOCATION_WAREHOUSE" onDelete="none">
         <reference local="C_LOCATION_ID" foreign="C_LOCATION_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSESOURCE_MWAREHOUSE" onDelete="none">
+        <reference local="M_WAREHOUSESOURCE_ID" foreign="M_WAREHOUSE_ID"/>
+      </foreign-key>
       <unique name="M_WAREHOUSE_NAME">
         <unique-column name="AD_CLIENT_ID"/>
         <unique-column name="NAME"/>
       </unique>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsInTransit IN ('Y','N')]]></rule>
       </check>
     </table>
   </database>

@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--Compiere(r) Release 2.5.3b_2005-12-30 - Smart ERP & CRM - (c) 1999-2005 Compiere (r); Implementation: Custom 20060601-1420 - Unsupported-->
-<!--<!DOCTYPE compiereTrl PUBLIC "-//ComPiere, Inc.//DTD Compiere Translation 1.0//EN" "http://www.compiere.org/dtd/compiereTrl.dtd">-->
-<compiereTrl language="es_MX" table="M_Product">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--ADempiere(r) Release 3.7.0LTS_2011-10-15 -Smart Suite ERP,CRM and SCM- (c) 1999-2010 ADempiere(r); Implementation: ADempiere - Supported by ADempiere community-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="es_MX" table="M_Product">
  <row id="122" trl="N">
   <value column="Name" original="Standard">Standard</value>
   <value column="Description" original=""/>
@@ -137,189 +137,134 @@
   <value column="Description" original=""/>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="149" trl="N">
-  <value column="Name" original="Line Chair">Line Chair</value>
-  <value column="Description" original="Line Chair">Line Chair</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="150" trl="N">
-  <value column="Name" original="Line Fertilaizer">Line Fertilaizer</value>
-  <value column="Description" original="Line Fertilaizer">Line Fertilaizer</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000001" trl="N">
-  <value column="Name" original="Endorsement">Endorsement</value>
+ <row id="50000" trl="N">
+  <value column="Name" original="Assembly Back Leg">Assembly Back Leg</value>
   <value column="Description" original=""/>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="1000002" trl="N">
+ <row id="50001" trl="Y">
+  <value column="Name" original="Assembly Front Leg">Assembly Front Leg</value>
+  <value column="Description" original=""/>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="50002" trl="Y">
+  <value column="Name" original="#6-32 x 3/8 Socket Head Cap Screw">#6-32 x 3/8 Socket Head Cap Screw</value>
+  <value column="Description" original=""/>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="50003" trl="N">
+  <value column="Name" original="Ultra Glue">Ultra Glue</value>
+  <value column="Description" original=""/>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="50004" trl="N">
   <value column="Name" original="Seat">Seat</value>
   <value column="Description" original=""/>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="1000003" trl="N">
+ <row id="50005" trl="N">
+  <value column="Name" original="Back Support">Back Support</value>
+  <value column="Description" original=""/>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="50007" trl="Y">
+  <value column="Name" original="Fertilizer #70">Fertilizer #70</value>
+  <value column="Description" original="70 # Bag of Lawn Fertilizer">70 # Bag of Lawn Fertilizer</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="50008" trl="N">
+  <value column="Name" original="Lawn Fertilizer">Lawn Fertilizer</value>
+  <value column="Description" original=""/>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="50009" trl="N">
+  <value column="Name" original="Nitrogen">Nitrogen</value>
+  <value column="Description" original=""/>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="50010" trl="N">
+  <value column="Name" original="Phosphorus">Phosphorus</value>
+  <value column="Description" original=""/>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="50012" trl="N">
+  <value column="Name" original="Potassium">Potassium</value>
+  <value column="Description" original=""/>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="50013" trl="N">
+  <value column="Name" original="Bag 50 Kg">Bag 50 Kg</value>
+  <value column="Description" original=""/>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="50014" trl="N">
+  <value column="Name" original="Bag 70 Kg">Bag 70 Kg</value>
+  <value column="Description" original=""/>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="50015" trl="N">
   <value column="Name" original="Front Leg">Front Leg</value>
   <value column="Description" original=""/>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="1000004" trl="N">
-  <value column="Name" original="N">N</value>
-  <value column="Description" original=""/>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000005" trl="N">
-  <value column="Name" original="Screw">Screw</value>
-  <value column="Description" original=""/>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000006" trl="N">
-  <value column="Name" original="RR">RR</value>
-  <value column="Description" original=""/>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000007" trl="N">
+ <row id="50016" trl="N">
   <value column="Name" original="Back Leg">Back Leg</value>
   <value column="Description" original=""/>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="1000008" trl="N">
-  <value column="Name" original="Total Nitrogen">Total Nitrogen</value>
-  <value column="Description" original="Total Nitrogen">Total Nitrogen</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000022" trl="N">
-  <value column="Name" original="M">M</value>
+ <row id="50017" trl="N">
+  <value column="Name" original="Water">Whater</value>
   <value column="Description" original=""/>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="1000023" trl="N">
-  <value column="Name" original="K">K</value>
+ <row id="50018" trl="N">
+  <value column="Name" original="Fertilizer Plant">Fertilizer Plant</value>
   <value column="Description" original=""/>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="1000024" trl="N">
-  <value column="Name" original="Z">Z</value>
+ <row id="50019" trl="N">
+  <value column="Name" original="Assembly Area">Assembly Area</value>
   <value column="Description" original=""/>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="1000025" trl="N">
-  <value column="Name" original="L">L</value>
+ <row id="50020" trl="N">
+  <value column="Name" original="Paint Area">Paint Area</value>
   <value column="Description" original=""/>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="1000026" trl="N">
-  <value column="Name" original="F">F</value>
+ <row id="50021" trl="N">
+  <value column="Name" original="Chrome Subcontract Area">Chrome Subcontract Area</value>
   <value column="Description" original=""/>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="1000027" trl="N">
-  <value column="Name" original="Nitric Nitrogen">Nitric Nitrogen</value>
+ <row id="50022" trl="N">
+  <value column="Name" original="Inspection Area">Inspection Area</value>
   <value column="Description" original=""/>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="1000028" trl="N">
-  <value column="Name" original="X">X</value>
+ <row id="50023" trl="N">
+  <value column="Name" original="Furniture Plant">Furniture Plant</value>
   <value column="Description" original=""/>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="1000029" trl="N">
-  <value column="Name" original="W">W</value>
+ <row id="50024" trl="N">
+  <value column="Name" original="Packing Production Line">Packing Production Line</value>
   <value column="Description" original=""/>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="1000030" trl="N">
-  <value column="Name" original="Q">Q</value>
+ <row id="50025" trl="N">
+  <value column="Name" original="Mixed Area">Mixed Area</value>
   <value column="Description" original=""/>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="1000031" trl="N">
-  <value column="Name" original="Y">Y</value>
+ <row id="50026" trl="N">
+  <value column="Name" original="Dry Area">Dry Area</value>
   <value column="Description" original=""/>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="1000032" trl="N">
-  <value column="Name" original="Elementary Calcium">Elementary Calcium</value>
+ <row id="50027" trl="N">
+  <value column="Name" original="Fertilizer Inspection Area">Fertilizer Inspection Area</value>
   <value column="Description" original=""/>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="1000033" trl="N">
-  <value column="Name" original="U">U</value>
-  <value column="Description" original=""/>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000034" trl="N">
-  <value column="Name" original="P">P</value>
-  <value column="Description" original=""/>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000035" trl="N">
-  <value column="Name" original="T">T</value>
-  <value column="Description" original=""/>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000036" trl="N">
-  <value column="Name" original="O">O</value>
-  <value column="Description" original=""/>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000037" trl="N">
-  <value column="Name" original="Water">Water</value>
-  <value column="Description" original=""/>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000038" trl="N">
-  <value column="Name" original="V">V</value>
-  <value column="Description" original=""/>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000039" trl="N">
-  <value column="Name" original="Oxidize of Calcium">Oxidize of Calcium</value>
-  <value column="Description" original="Oxidize of Calcium">Oxidize of Calcium</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000040" trl="N">
-  <value column="Name" original="S">S</value>
-  <value column="Description" original=""/>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000041" trl="N">
-  <value column="Name" original="R">R</value>
-  <value column="Description" original=""/>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1003831" trl="N">
-  <value column="Name" original="Patio Set">Patio Set</value>
-  <value column="Description" original=""/>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1003832" trl="N">
-  <value column="Name" original="HQ Plant">HQ Plant</value>
-  <value column="Description" original=""/>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1003833" trl="N">
-  <value column="Name" original="Estándar">Estándar</value>
-  <value column="Description" original=""/>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1007440" trl="N">
-  <value column="Name" original="Prod1">Prod1</value>
-  <value column="Description" original="Producto 1">Producto 1</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1007441" trl="N">
-  <value column="Name" original="prod1">prod1</value>
-  <value column="Description" original=""/>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1007442" trl="N">
-  <value column="Name" original="Douglas Fir">Douglas Fir</value>
-  <value column="Description" original="Producto Douglas Fir">Producto Douglas Fir</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1007443" trl="N">
-  <value column="Name" original="John Consultores">John Consultores</value>
-  <value column="Description" original=""/>
-  <value column="DocumentNote" original=""/>
- </row>
-</compiereTrl>
+</adempiereTrl>

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for S_Resource
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_S_Resource 
 {
@@ -65,12 +65,12 @@ public interface I_S_Resource
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 
-	/** Set User/Contact.
+	/** Set Usuario.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public void setAD_User_ID (int AD_User_ID);
 
-	/** Get User/Contact.
+	/** Get Usuario.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID();
@@ -159,6 +159,15 @@ public interface I_S_Resource
 	/** Get Manufacturing Resource	  */
 	public boolean isManufacturingResource();
 
+    /** Column name ManufacturingResourceType */
+    public static final String COLUMNNAME_ManufacturingResourceType = "ManufacturingResourceType";
+
+	/** Set Manufacturing Resource Type	  */
+	public void setManufacturingResourceType (String ManufacturingResourceType);
+
+	/** Get Manufacturing Resource Type	  */
+	public String getManufacturingResourceType();
+
     /** Column name M_Warehouse_ID */
     public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
 
@@ -173,15 +182,6 @@ public interface I_S_Resource
 	public int getM_Warehouse_ID();
 
 	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
-
-    /** Column name ManufacturingResourceType */
-    public static final String COLUMNNAME_ManufacturingResourceType = "ManufacturingResourceType";
-
-	/** Set Manufacturing Resource Type	  */
-	public void setManufacturingResourceType (String ManufacturingResourceType);
-
-	/** Get Manufacturing Resource Type	  */
-	public String getManufacturingResourceType();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -231,17 +231,6 @@ public interface I_S_Resource
 	  */
 	public BigDecimal getQueuingTime();
 
-    /** Column name S_ResourceType_ID */
-    public static final String COLUMNNAME_S_ResourceType_ID = "S_ResourceType_ID";
-
-	/** Set Resource Type	  */
-	public void setS_ResourceType_ID (int S_ResourceType_ID);
-
-	/** Get Resource Type	  */
-	public int getS_ResourceType_ID();
-
-	public org.compiere.model.I_S_ResourceType getS_ResourceType() throws RuntimeException;
-
     /** Column name S_Resource_ID */
     public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";
 
@@ -254,6 +243,17 @@ public interface I_S_Resource
 	  * Resource
 	  */
 	public int getS_Resource_ID();
+
+    /** Column name S_ResourceType_ID */
+    public static final String COLUMNNAME_S_ResourceType_ID = "S_ResourceType_ID";
+
+	/** Set Resource Type	  */
+	public void setS_ResourceType_ID (int S_ResourceType_ID);
+
+	/** Get Resource Type	  */
+	public int getS_ResourceType_ID();
+
+	public org.compiere.model.I_S_ResourceType getS_ResourceType() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

@@ -27,15 +27,25 @@
       <column name="ISHEADING" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISFIELDONLY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISENCRYPTED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="4" default="D" autoIncrement="false"/>
+      <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="40" default="D" autoIncrement="false"/>
       <column name="OBSCURETYPE" primaryKey="false" required="false" type="CHAR" size="3" autoIncrement="false"/>
       <column name="AD_REFERENCE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISMANDATORY" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="INCLUDED_TAB_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="DEFAULTVALUE" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="AD_REFERENCE_VALUE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_VAL_RULE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="INFOFACTORYCLASS" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="HIDEINLISTVIEW" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="PREFERREDWIDTH" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
       <foreign-key foreignTable="AD_CLIENT" name="FIELDCLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_COLUMN" name="AD_COLUMN_FIELD" onDelete="none">
         <reference local="AD_COLUMN_ID" foreign="AD_COLUMN_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ENTITYTYPE" name="ENTITYT_ADFIELD" onDelete="none">
+        <reference local="ENTITYTYPE" foreign="ENTITYTYPE"/>
       </foreign-key>
       <foreign-key foreignTable="AD_FIELDGROUP" name="ADFIELDGROUP_ADFIELD" onDelete="none">
         <reference local="AD_FIELDGROUP_ID" foreign="AD_FIELDGROUP_ID"/>
@@ -43,8 +53,20 @@
       <foreign-key foreignTable="AD_ORG" name="FIELDORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="AD_REFERENCE" name="ADREFERENCE_ADFIELD" onDelete="none">
+        <reference local="AD_REFERENCE_ID" foreign="AD_REFERENCE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_REFERENCE" name="ADREFERENCEVALUE_ADFIELD" onDelete="none">
+        <reference local="AD_REFERENCE_VALUE_ID" foreign="AD_REFERENCE_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="AD_TAB" name="AD_TAB_FIELD" onDelete="cascade">
         <reference local="AD_TAB_ID" foreign="AD_TAB_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_TAB" name="INCLUDEDTAB_ADFIELD" onDelete="none">
+        <reference local="INCLUDED_TAB_ID" foreign="AD_TAB_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_VAL_RULE" name="ADVALRULE_ADFIELD" onDelete="none">
+        <reference local="AD_VAL_RULE_ID" foreign="AD_VAL_RULE_ID"/>
       </foreign-key>
       <unique name="AD_FIELD_COLUMN">
         <unique-column name="AD_TAB_ID"/>
@@ -73,6 +95,9 @@
       </check>
       <check>
         <rule><![CDATA[IsEncrypted in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[HideInListView IN ('Y','N')]]></rule>
       </check>
     </table>
   </database>

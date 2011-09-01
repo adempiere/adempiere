@@ -67,17 +67,25 @@
       <column name="AD_ORGBP_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="FLATDISCOUNT" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="TOTALOPENBALANCE" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="DUNNINGGRACE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="C_TAXGROUP_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="LOGO_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="ISPOTAXEXEMPT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISMANUFACTURER" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_CBPARTNER" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_IMAGE" name="LOGO_CBPARTNER" onDelete="none">
+        <reference local="LOGO_ID" foreign="AD_IMAGE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_LANGUAGE" name="AD_LANGUAGE_C_BUSPARTNER" onDelete="none">
         <reference local="AD_LANGUAGE" foreign="AD_LANGUAGE"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="ADORG_CBPARTNERORG" onDelete="none">
-        <reference local="AD_ORGBP_ID" foreign="AD_ORG_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="AD_ORG" name="ADORG_CBPARTNER" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="ADORG_CBPARTNERORG" onDelete="none">
+        <reference local="AD_ORGBP_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMATINV_CBPARTNER" onDelete="none">
         <reference local="INVOICE_PRINTFORMAT_ID" foreign="AD_PRINTFORMAT_ID"/>
@@ -100,11 +108,14 @@
       <foreign-key foreignTable="C_INVOICESCHEDULE" name="CINVOICESCHEDULE_CBPARTNER" onDelete="none">
         <reference local="C_INVOICESCHEDULE_ID" foreign="C_INVOICESCHEDULE_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="C_PAYMENTTERM" name="CPAYMENTTERM_CBPARTNER" onDelete="none">
+        <reference local="C_PAYMENTTERM_ID" foreign="C_PAYMENTTERM_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="C_PAYMENTTERM" name="CPOPAYMENTTERM_CBPARTNER" onDelete="none">
         <reference local="PO_PAYMENTTERM_ID" foreign="C_PAYMENTTERM_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PAYMENTTERM" name="CPAYMENTTERM_CBPARTNER" onDelete="none">
-        <reference local="C_PAYMENTTERM_ID" foreign="C_PAYMENTTERM_ID"/>
+      <foreign-key foreignTable="C_TAXGROUP" name="CTAXGROUP_CBPARTNER" onDelete="none">
+        <reference local="C_TAXGROUP_ID" foreign="C_TAXGROUP_ID"/>
       </foreign-key>
       <foreign-key foreignTable="M_DISCOUNTSCHEMA" name="MDISCOUNTS_CBPARTNER" onDelete="none">
         <reference local="M_DISCOUNTSCHEMA_ID" foreign="M_DISCOUNTSCHEMA_ID"/>
@@ -112,11 +123,11 @@
       <foreign-key foreignTable="M_DISCOUNTSCHEMA" name="MDISCOUNTSPO_CBPARTNER" onDelete="none">
         <reference local="PO_DISCOUNTSCHEMA_ID" foreign="M_DISCOUNTSCHEMA_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRICELIST" name="MPRICELISTPO_CBUSPARTNER" onDelete="setnull">
-        <reference local="PO_PRICELIST_ID" foreign="M_PRICELIST_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="M_PRICELIST" name="MPRICELIST_CBPARTNER" onDelete="setnull">
         <reference local="M_PRICELIST_ID" foreign="M_PRICELIST_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRICELIST" name="MPRICELISTPO_CBUSPARTNER" onDelete="setnull">
+        <reference local="PO_PRICELIST_ID" foreign="M_PRICELIST_ID"/>
       </foreign-key>
       <unique name="C_BPARTNER_VALUE">
         <unique-column name="AD_CLIENT_ID"/>
@@ -128,18 +139,6 @@
       <index name="C_BPARTNER_BPORG">
         <index-column name="AD_ORGBP_ID"/>
       </index>
-      <check>
-        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
-      </check>
-      <check>
-        <rule><![CDATA[IsSummary in ('Y','N')]]></rule>
-      </check>
-      <check>
-        <rule><![CDATA[IsOneTime in ('Y','N')]]></rule>
-      </check>
-      <check>
-        <rule><![CDATA[IsProspect in ('Y','N')]]></rule>
-      </check>
       <check>
         <rule><![CDATA[IsVendor in ('Y','N')]]></rule>
       </check>
@@ -157,6 +156,24 @@
       </check>
       <check>
         <rule><![CDATA[IsDiscountPrinted in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsPOTaxExempt IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsManufacturer IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsSummary in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsOneTime in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsProspect in ('Y','N')]]></rule>
       </check>
     </table>
   </database>

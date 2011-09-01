@@ -31,7 +31,6 @@ import java.util.regex.Pattern;
 import org.adempiere.exceptions.BPartnerNoBillToAddressException;
 import org.adempiere.exceptions.BPartnerNoShipToAddressException;
 import org.adempiere.exceptions.FillMandatoryException;
-import org.adempiere.process.AllocateSalesOrders;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
@@ -1232,17 +1231,9 @@ public class MOrder extends X_C_Order implements DocAction
 			m_processMsg = "Cannot reserve Stock";
 			return DocAction.STATUS_Invalid;
 		}
-		
 		if (!calculateTaxTotal())
 		{
 			m_processMsg = "Error calculating tax";
-			return DocAction.STATUS_Invalid;
-		}
-		
-		// Check / do rounding
-		String roundMsg = round();
-		if (roundMsg.length()>0) {
-			m_processMsg = roundMsg;
 			return DocAction.STATUS_Invalid;
 		}
 		
@@ -1283,18 +1274,6 @@ public class MOrder extends X_C_Order implements DocAction
 						+ ", @SO_CreditLimit@=" + bp.getSO_CreditLimit();
 					return DocAction.STATUS_Invalid;
 				}
-			}
-		}
-
-		// Check if allocation should be made 
-		if (isSOTrx() && MDocType.DOCSUBTYPESO_StandardOrder.equals(dt.getDocSubTypeSO())) {
-
-			// Run allocation
-			try {
-				AllocateSalesOrders.runSalesOrderAllocation(log, Env.getCtx(), getM_Warehouse_ID(), get_ID(), get_TrxName());
-			} catch (Exception ee) {
-				m_processMsg = "Cannot allocate Stock: " + ee.getMessage();
-				return DocAction.STATUS_Invalid;
 			}
 		}
 		
@@ -1414,7 +1393,7 @@ public class MOrder extends X_C_Order implements DocAction
 	 * 	@param lines order lines (ordered by M_Product_ID for deadlock prevention)
 	 * 	@return true if (un) reserved
 	 */
-	public boolean reserveStock (MDocType dt, MOrderLine[] lines)
+	private boolean reserveStock (MDocType dt, MOrderLine[] lines)
 	{
 		if (dt == null)
 			dt = MDocType.get(getCtx(), getC_DocType_ID());
@@ -1438,7 +1417,6 @@ public class MOrder extends X_C_Order implements DocAction
 		
 		BigDecimal Volume = Env.ZERO;
 		BigDecimal Weight = Env.ZERO;
-		BigDecimal diffQtyAllocated = Env.ZERO;
 		
 		//	Always check and (un) Reserve Inventory		
 		for (int i = 0; i < lines.length; i++)
@@ -1504,28 +1482,15 @@ public class MOrder extends X_C_Order implements DocAction
 							M_Locator_ID = wh.getDefaultLocator().getM_Locator_ID();
 						}
 					}
-					//	== Update Storage  
-					//  reserve but don't allocate now if quantity is increased.
-					//  If quantity is decreased, release allocation.
-					if (reserved.signum()<0) {
-						// Decreasing reservation, check if allocation should be released
-						diffQtyAllocated = target.subtract(line.getQtyAllocated());
-						diffQtyAllocated = diffQtyAllocated.min(BigDecimal.ZERO);
-					} else {
-						diffQtyAllocated = BigDecimal.ZERO;
-					}
+					//	Update Storage
 					if (!MStorage.add(getCtx(), line.getM_Warehouse_ID(), M_Locator_ID, 
 						line.getM_Product_ID(), 
 						line.getM_AttributeSetInstance_ID(), line.getM_AttributeSetInstance_ID(),
-						Env.ZERO, reserved, ordered, diffQtyAllocated, get_TrxName()))
+						Env.ZERO, reserved, ordered, get_TrxName()))
 						return false;
-					// == End of update storage
 				}	//	stockec
 				//	update line
 				line.setQtyReserved(line.getQtyReserved().add(difference));
-				if (diffQtyAllocated.signum()!=0) {
-					line.setQtyAllocated(line.getQtyAllocated().add(diffQtyAllocated));
-				}
 				if (!line.save(get_TrxName()))
 					return false;
 				//
@@ -1536,63 +1501,9 @@ public class MOrder extends X_C_Order implements DocAction
 		
 		setVolume(Volume);
 		setWeight(Weight);
-		
 		return true;
 	}	//	reserveStock
 
-	/**
-	 * Rounds the order according to given rounding rule one the order's price list
-	 * @return	True if rounding succeeds.
-	 */
-	public String round() {
-		
-		I_M_PriceList priceList = this.getM_PriceList();
-		String roundingRule = priceList.getRoundingRule();
-		if (roundingRule!=null) {
-			BigDecimal grandTotal = this.getGrandTotal();
-			BigDecimal roundedTotal;
-			if (X_M_PriceList.ROUNDINGRULE_CurrencyPrecision.equals(roundingRule)) {
-				roundedTotal = BaseUtil.roundToPrecision(grandTotal, priceList.getPricePrecision());
-			} else {
-				roundedTotal = BaseUtil.round(grandTotal, roundingRule);
-			}
-			BigDecimal difference = grandTotal.subtract(roundedTotal);
-			BigDecimal existingRound = Env.ZERO;
-			BigDecimal roundTo = Env.ZERO;
-			if (difference.signum()!=0) {
-				// Check if an order line with the rounding charge already exists
-				MOrderLine roundLine = new Query(getCtx(), MOrderLine.Table_Name, "C_Order_ID=? AND C_Charge_ID=?", get_TrxName())
-											.setParameters(new Object[]{this.get_ID(), priceList.getRoundingCharge()})
-											.first();
-				if (roundLine!=null) {
-					existingRound = roundLine.getPriceActual();
-					roundTo = existingRound.add(difference.negate());
-					if (roundTo.signum()==0) {
-						// No rounding necessary
-						roundLine.deleteEx(false, get_TrxName());
-					}
-				} else {
-					// Create a new line with given charge
-					roundLine = new MOrderLine(getCtx(), 0, get_TrxName());
-					roundTo = difference.negate();
-				}
-				if (roundTo.signum()!=0) {
-					roundLine.setOrder(this);
-					roundLine.setC_Order_ID(this.get_ID());
-					roundLine.setQty(Env.ONE);
-					roundLine.setC_Charge_ID(priceList.getRoundingCharge());
-					roundLine.setPrice(roundTo);
-					roundLine.setPriceList(roundTo);
-					roundLine.saveEx(get_TrxName());
-				}
-				setTotalLines(getTotalLines());
-				setGrandTotal(grandTotal.subtract(difference));
-			}
-		}
-		return("");
-		
-	}
-	
 	/**
 	 * 	Calculate Tax and Total
 	 * 	@return true if tax total calculated

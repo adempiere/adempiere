@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_RfQResponse
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_C_RfQResponse 
 {
@@ -65,12 +65,12 @@ public interface I_C_RfQResponse
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 
-	/** Set User/Contact.
+	/** Set Usuario.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public void setAD_User_ID (int AD_User_ID);
 
-	/** Get User/Contact.
+	/** Get Usuario.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID();
@@ -122,6 +122,15 @@ public interface I_C_RfQResponse
 
 	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException;
 
+    /** Column name CheckComplete */
+    public static final String COLUMNNAME_CheckComplete = "CheckComplete";
+
+	/** Set Check Complete	  */
+	public void setCheckComplete (String CheckComplete);
+
+	/** Get Check Complete	  */
+	public String getCheckComplete();
+
     /** Column name C_Order_ID */
     public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
 
@@ -136,43 +145,6 @@ public interface I_C_RfQResponse
 	public int getC_Order_ID();
 
 	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException;
-
-    /** Column name C_RfQResponse_ID */
-    public static final String COLUMNNAME_C_RfQResponse_ID = "C_RfQResponse_ID";
-
-	/** Set RfQ Response.
-	  * Request for Quotation Response from a potential Vendor
-	  */
-	public void setC_RfQResponse_ID (int C_RfQResponse_ID);
-
-	/** Get RfQ Response.
-	  * Request for Quotation Response from a potential Vendor
-	  */
-	public int getC_RfQResponse_ID();
-
-    /** Column name C_RfQ_ID */
-    public static final String COLUMNNAME_C_RfQ_ID = "C_RfQ_ID";
-
-	/** Set RfQ.
-	  * Request for Quotation
-	  */
-	public void setC_RfQ_ID (int C_RfQ_ID);
-
-	/** Get RfQ.
-	  * Request for Quotation
-	  */
-	public int getC_RfQ_ID();
-
-	public org.compiere.model.I_C_RfQ getC_RfQ() throws RuntimeException;
-
-    /** Column name CheckComplete */
-    public static final String COLUMNNAME_CheckComplete = "CheckComplete";
-
-	/** Set Check Complete	  */
-	public void setCheckComplete (String CheckComplete);
-
-	/** Get Check Complete	  */
-	public String getCheckComplete();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -189,6 +161,34 @@ public interface I_C_RfQResponse
 	  * User who created this records
 	  */
 	public int getCreatedBy();
+
+    /** Column name C_RfQ_ID */
+    public static final String COLUMNNAME_C_RfQ_ID = "C_RfQ_ID";
+
+	/** Set RfQ.
+	  * Request for Quotation
+	  */
+	public void setC_RfQ_ID (int C_RfQ_ID);
+
+	/** Get RfQ.
+	  * Request for Quotation
+	  */
+	public int getC_RfQ_ID();
+
+	public org.compiere.model.I_C_RfQ getC_RfQ() throws RuntimeException;
+
+    /** Column name C_RfQResponse_ID */
+    public static final String COLUMNNAME_C_RfQResponse_ID = "C_RfQResponse_ID";
+
+	/** Set RfQ Response.
+	  * Request for Quotation Response from a potential Vendor
+	  */
+	public void setC_RfQResponse_ID (int C_RfQResponse_ID);
+
+	/** Get RfQ Response.
+	  * Request for Quotation Response from a potential Vendor
+	  */
+	public int getC_RfQResponse_ID();
 
     /** Column name DateInvited */
     public static final String COLUMNNAME_DateInvited = "DateInvited";

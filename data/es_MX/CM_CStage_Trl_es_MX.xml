@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--ADempiere(r) Release 3.7.0LTS_2011-10-15 -Smart Suite ERP,CRM and SCM- (c) 1999-2010 ADempiere(r); Implementation: ADempiere - Supported by ADempiere community-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="es_MX" table="CM_CStage">
+ <row id="100" trl="Y">
+  <value column="Meta_Description" original=""/>
+  <value column="Meta_Keywords" original=""/>
+  <value column="Name" original="Products">Productos</value>
+  <value column="ContainerXML" original=""/>
+  <value column="StructureXML" original=""/>
+  <value column="Title" original=""/>
+ </row>
+ <row id="101" trl="Y">
+  <value column="Meta_Description" original="This is the homesite of GardenWorld, it would be a good idea to place some real content in here">Este es el sitio de GardenWorld, seria una buena idea agregar un verdadero contenido aqui.</value>
+  <value column="Meta_Keywords" original="GardenWorld, Adempiere">GardenWorld, Adempiere</value>
+  <value column="Name" original="Home of Gardenworld">Hogar de Gardenworld</value>
+  <value column="ContainerXML" original=""/>
+  <value column="StructureXML" original=""/>
+  <value column="Title" original="Home of Gardenworld">Hogar de Gardenworld</value>
+ </row>
+ <row id="102" trl="Y">
+  <value column="Meta_Description" original="Our plum trees are the best in the world">Nuestros arboles de ciruelo son los mejores en el mundo</value>
+  <value column="Meta_Keywords" original="plum tree gardenworld">Arboles de ciruelo gardenworld</value>
+  <value column="Name" original="Plum Tree">Arboles de ciruelo</value>
+  <value column="ContainerXML" original=""/>
+  <value column="StructureXML" original=""/>
+  <value column="Title" original="Powerfull Plum Tree">Arboles de ciruelo poderoso</value>
+ </row>
+ <row id="103" trl="Y">
+  <value column="Meta_Description" original="This is  short summary of the advantages of our wonderfull oak tree">Este es un corto resumen de las ventajas de un marravilloso roble</value>
+  <value column="Meta_Keywords" original="oak tree gardenworld">Roble gardenworld</value>
+  <value column="Name" original="Oak Tree">Roble</value>
+  <value column="ContainerXML" original=""/>
+  <value column="StructureXML" original=""/>
+  <value column="Title" original=""/>
+ </row>
+ <row id="104" trl="Y">
+  <value column="Meta_Description" original="Error 404">Error 404</value>
+  <value column="Meta_Keywords" original="Gardenadmin, Error 404">Gardenadmin, Error 404</value>
+  <value column="Name" original="Page not found">Página no encontrada</value>
+  <value column="ContainerXML" original=""/>
+  <value column="StructureXML" original=""/>
+  <value column="Title" original=""/>
+ </row>
+</adempiereTrl>

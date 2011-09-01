@@ -15,6 +15,9 @@
       <column name="C_PAYMENT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="COMMITTEDAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="NONCOMMITTEDAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_USER" name="ADUSER_BSELLERFUNDS" onDelete="none">
+        <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="B_SELLER" name="BSELLER_BSELLERFUNDS" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>

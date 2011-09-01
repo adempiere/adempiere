@@ -31,6 +31,8 @@
       <column name="DOCACTION" primaryKey="false" required="true" type="CHAR" size="2" autoIncrement="false"/>
       <column name="APPROVALAMT" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="C_DOCTYPE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="REVERSAL_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="PROCESSEDON" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <foreign-key foreignTable="AD_ORG" name="ADORGTRX_MINVENTORY" onDelete="none">
         <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
@@ -43,14 +45,20 @@
       <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_MINVENTORY" onDelete="none">
         <reference local="C_CAMPAIGN_ID" foreign="C_CAMPAIGN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_MINVENT" onDelete="none">
-        <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
+      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_MINVENTORY" onDelete="none">
+        <reference local="C_DOCTYPE_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER2_MINVENT" onDelete="none">
         <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_MINVENT" onDelete="none">
+        <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="C_PROJECT" name="CPROJECT_MINVENTORY" onDelete="none">
         <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_INVENTORY" name="REVERSAL_MINVENTORY" onDelete="none">
+        <reference local="REVERSAL_ID" foreign="M_INVENTORY_ID"/>
       </foreign-key>
       <foreign-key foreignTable="M_PERPETUALINV" name="MPERPETUALINV_MINVENTORY" onDelete="none">
         <reference local="M_PERPETUALINV_ID" foreign="M_PERPETUALINV_ID"/>

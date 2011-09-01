@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="A_DEPRECIATION_CONVENTION">
+      <column name="A_DEPRECIATION_CONVENTION_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="510" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="CONVENTIONTYPE" primaryKey="false" required="false" type="VARCHAR" size="10" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="TEXTMSG" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="false" type="VARCHAR" size="120" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <check>
+        <rule><![CDATA[IsActive IN ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

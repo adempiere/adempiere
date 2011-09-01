@@ -28,6 +28,13 @@
       <column name="EXPRESSIONBANKROUTINGNO" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
       <column name="EXPRESSIONBANKACCOUNTNO" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
       <column name="MEDIASIZE" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="ISPOSTCODELOOKUP" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="LOOKUPCLASSNAME" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="LOOKUPCLIENTID" primaryKey="false" required="false" type="VARCHAR" size="50" autoIncrement="false"/>
+      <column name="LOOKUPPASSWORD" primaryKey="false" required="false" type="VARCHAR" size="50" autoIncrement="false"/>
+      <column name="LOOKUPURL" primaryKey="false" required="false" type="VARCHAR" size="100" autoIncrement="false"/>
+      <column name="ALLOWCITIESOUTOFLIST" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CAPTURESEQUENCE" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <foreign-key foreignTable="AD_CLIENT" name="C_COUNTRYCLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
@@ -36,6 +43,9 @@
       </foreign-key>
       <foreign-key foreignTable="AD_ORG" name="C_COUNTRYORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_COUNTRY" name="CCOUNTRY_CCOUNTRY" onDelete="none">
+        <reference local="C_COUNTRY_ID" foreign="C_COUNTRY_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CCOUNTRY" onDelete="none">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
@@ -51,6 +61,12 @@
       </check>
       <check>
         <rule><![CDATA[HasPostal_Add in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsPostcodeLookup IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[AllowCitiesOutOfList IN ('Y','N')]]></rule>
       </check>
     </table>
   </database>

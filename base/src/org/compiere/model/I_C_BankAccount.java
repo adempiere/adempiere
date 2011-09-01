@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_BankAccount
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_C_BankAccount 
 {
@@ -40,6 +40,19 @@ public interface I_C_BankAccount
     BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
+
+    /** Column name AccountNo */
+    public static final String COLUMNNAME_AccountNo = "AccountNo";
+
+	/** Set Account No.
+	  * Account Number
+	  */
+	public void setAccountNo (String AccountNo);
+
+	/** Get Account No.
+	  * Account Number
+	  */
+	public String getAccountNo();
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -62,18 +75,18 @@ public interface I_C_BankAccount
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name AccountNo */
-    public static final String COLUMNNAME_AccountNo = "AccountNo";
+    /** Column name BankAccountType */
+    public static final String COLUMNNAME_BankAccountType = "BankAccountType";
 
-	/** Set Account No.
-	  * Account Number
+	/** Set Bank Account Type.
+	  * Bank Account Type
 	  */
-	public void setAccountNo (String AccountNo);
+	public void setBankAccountType (String BankAccountType);
 
-	/** Get Account No.
-	  * Account Number
+	/** Get Bank Account Type.
+	  * Bank Account Type
 	  */
-	public String getAccountNo();
+	public String getBankAccountType();
 
     /** Column name BBAN */
     public static final String COLUMNNAME_BBAN = "BBAN";
@@ -87,19 +100,6 @@ public interface I_C_BankAccount
 	  * Basic Bank Account Number
 	  */
 	public String getBBAN();
-
-    /** Column name BankAccountType */
-    public static final String COLUMNNAME_BankAccountType = "BankAccountType";
-
-	/** Set Bank Account Type.
-	  * Bank Account Type
-	  */
-	public void setBankAccountType (String BankAccountType);
-
-	/** Get Bank Account Type.
-	  * Bank Account Type
-	  */
-	public String getBankAccountType();
 
     /** Column name C_BankAccount_ID */
     public static final String COLUMNNAME_C_BankAccount_ID = "C_BankAccount_ID";

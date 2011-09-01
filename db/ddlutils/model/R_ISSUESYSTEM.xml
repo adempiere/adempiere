@@ -15,6 +15,9 @@
       <column name="PROFILEINFO" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="SYSTEMSTATUS" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="A_ASSET_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <foreign-key foreignTable="A_ASSET" name="AASSET_RISSUESYSTEM" onDelete="none">
+        <reference local="A_ASSET_ID" foreign="A_ASSET_ID"/>
+      </foreign-key>
       <unique name="R_ISSUESYSTEM_ADDRESS">
         <unique-column name="DBADDRESS"/>
       </unique>

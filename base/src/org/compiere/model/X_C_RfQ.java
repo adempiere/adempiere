@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_RfQ
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_C_RfQ (Properties ctx, int C_RfQ_ID, String trxName)
@@ -95,7 +95,7 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getAD_User_ID(), get_TrxName());	}
 
-	/** Set User/Contact.
+	/** Set Usuario.
 		@param AD_User_ID 
 		User within the system - Internal or Business Partner Contact
 	  */
@@ -107,7 +107,7 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
-	/** Get User/Contact.
+	/** Get Usuario.
 		@return User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID () 
@@ -202,6 +202,20 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Copy Lines.
+		@param CopyLines Copy Lines	  */
+	public void setCopyLines (String CopyLines)
+	{
+		set_Value (COLUMNNAME_CopyLines, CopyLines);
+	}
+
+	/** Get Copy Lines.
+		@return Copy Lines	  */
+	public String getCopyLines () 
+	{
+		return (String)get_Value(COLUMNNAME_CopyLines);
+	}
+
 	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Order)MTable.get(getCtx(), org.compiere.model.I_C_Order.Table_Name)
@@ -228,6 +242,37 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Create PO.
+		@param CreatePO 
+		Create Purchase Order
+	  */
+	public void setCreatePO (String CreatePO)
+	{
+		set_Value (COLUMNNAME_CreatePO, CreatePO);
+	}
+
+	/** Get Create PO.
+		@return Create Purchase Order
+	  */
+	public String getCreatePO () 
+	{
+		return (String)get_Value(COLUMNNAME_CreatePO);
+	}
+
+	/** Set Create SO.
+		@param CreateSO Create SO	  */
+	public void setCreateSO (String CreateSO)
+	{
+		set_Value (COLUMNNAME_CreateSO, CreateSO);
+	}
+
+	/** Get Create SO.
+		@return Create SO	  */
+	public String getCreateSO () 
+	{
+		return (String)get_Value(COLUMNNAME_CreateSO);
 	}
 
 	/** Set RfQ.
@@ -279,51 +324,6 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Copy Lines.
-		@param CopyLines Copy Lines	  */
-	public void setCopyLines (String CopyLines)
-	{
-		set_Value (COLUMNNAME_CopyLines, CopyLines);
-	}
-
-	/** Get Copy Lines.
-		@return Copy Lines	  */
-	public String getCopyLines () 
-	{
-		return (String)get_Value(COLUMNNAME_CopyLines);
-	}
-
-	/** Set Create PO.
-		@param CreatePO 
-		Create Purchase Order
-	  */
-	public void setCreatePO (String CreatePO)
-	{
-		set_Value (COLUMNNAME_CreatePO, CreatePO);
-	}
-
-	/** Get Create PO.
-		@return Create Purchase Order
-	  */
-	public String getCreatePO () 
-	{
-		return (String)get_Value(COLUMNNAME_CreatePO);
-	}
-
-	/** Set Create SO.
-		@param CreateSO Create SO	  */
-	public void setCreateSO (String CreateSO)
-	{
-		set_Value (COLUMNNAME_CreateSO, CreateSO);
-	}
-
-	/** Get Create SO.
-		@return Create SO	  */
-	public String getCreateSO () 
-	{
-		return (String)get_Value(COLUMNNAME_CreateSO);
 	}
 
 	/** Set Response Date.

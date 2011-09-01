@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BPartner_Location
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_C_BPartner_Location (Properties ctx, int C_BPartner_Location_ID, String trxName)
@@ -206,23 +206,6 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 		return (String)get_Value(COLUMNNAME_Fax);
 	}
 
-	/** Set ISDN.
-		@param ISDN 
-		ISDN or modem line
-	  */
-	public void setISDN (String ISDN)
-	{
-		set_Value (COLUMNNAME_ISDN, ISDN);
-	}
-
-	/** Get ISDN.
-		@return ISDN or modem line
-	  */
-	public String getISDN () 
-	{
-		return (String)get_Value(COLUMNNAME_ISDN);
-	}
-
 	/** Set Invoice Address.
 		@param IsBillTo 
 		Business Partner Invoice/Bill Address
@@ -245,6 +228,23 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Set ISDN.
+		@param ISDN 
+		ISDN or modem line
+	  */
+	public void setISDN (String ISDN)
+	{
+		set_Value (COLUMNNAME_ISDN, ISDN);
+	}
+
+	/** Get ISDN.
+		@return ISDN or modem line
+	  */
+	public String getISDN () 
+	{
+		return (String)get_Value(COLUMNNAME_ISDN);
 	}
 
 	/** Set Pay-From Address.

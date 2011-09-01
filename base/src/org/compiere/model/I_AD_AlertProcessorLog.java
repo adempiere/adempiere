@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_AlertProcessorLog
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_AD_AlertProcessorLog 
 {
@@ -41,19 +41,6 @@ public interface I_AD_AlertProcessorLog
 
     /** Load Meta Data */
 
-    /** Column name AD_AlertProcessorLog_ID */
-    public static final String COLUMNNAME_AD_AlertProcessorLog_ID = "AD_AlertProcessorLog_ID";
-
-	/** Set Alert Processor Log.
-	  * Result of the execution of the Alert Processor
-	  */
-	public void setAD_AlertProcessorLog_ID (int AD_AlertProcessorLog_ID);
-
-	/** Get Alert Processor Log.
-	  * Result of the execution of the Alert Processor
-	  */
-	public int getAD_AlertProcessorLog_ID();
-
     /** Column name AD_AlertProcessor_ID */
     public static final String COLUMNNAME_AD_AlertProcessor_ID = "AD_AlertProcessor_ID";
 
@@ -68,6 +55,19 @@ public interface I_AD_AlertProcessorLog
 	public int getAD_AlertProcessor_ID();
 
 	public org.compiere.model.I_AD_AlertProcessor getAD_AlertProcessor() throws RuntimeException;
+
+    /** Column name AD_AlertProcessorLog_ID */
+    public static final String COLUMNNAME_AD_AlertProcessorLog_ID = "AD_AlertProcessorLog_ID";
+
+	/** Set Alert Processor Log.
+	  * Result of the execution of the Alert Processor
+	  */
+	public void setAD_AlertProcessorLog_ID (int AD_AlertProcessorLog_ID);
+
+	/** Get Alert Processor Log.
+	  * Result of the execution of the Alert Processor
+	  */
+	public int getAD_AlertProcessorLog_ID();
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";

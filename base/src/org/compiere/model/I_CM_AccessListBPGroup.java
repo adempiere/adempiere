@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for CM_AccessListBPGroup
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_CM_AccessListBPGroup 
 {
@@ -62,21 +62,6 @@ public interface I_CM_AccessListBPGroup
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name CM_AccessProfile_ID */
-    public static final String COLUMNNAME_CM_AccessProfile_ID = "CM_AccessProfile_ID";
-
-	/** Set Web Access Profile.
-	  * Web Access Profile
-	  */
-	public void setCM_AccessProfile_ID (int CM_AccessProfile_ID);
-
-	/** Get Web Access Profile.
-	  * Web Access Profile
-	  */
-	public int getCM_AccessProfile_ID();
-
-	public org.compiere.model.I_CM_AccessProfile getCM_AccessProfile() throws RuntimeException;
-
     /** Column name C_BP_Group_ID */
     public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
 
@@ -91,6 +76,21 @@ public interface I_CM_AccessListBPGroup
 	public int getC_BP_Group_ID();
 
 	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException;
+
+    /** Column name CM_AccessProfile_ID */
+    public static final String COLUMNNAME_CM_AccessProfile_ID = "CM_AccessProfile_ID";
+
+	/** Set Web Access Profile.
+	  * Web Access Profile
+	  */
+	public void setCM_AccessProfile_ID (int CM_AccessProfile_ID);
+
+	/** Get Web Access Profile.
+	  * Web Access Profile
+	  */
+	public int getCM_AccessProfile_ID();
+
+	public org.compiere.model.I_CM_AccessProfile getCM_AccessProfile() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="IMP_PROCESSORLOG">
+      <column name="IMP_PROCESSORLOG_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="IMP_PROCESSOR_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="BINARYDATA" primaryKey="false" required="false" type="BLOB" size="4000" autoIncrement="false"/>
+      <column name="ISERROR" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="SUMMARY" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="TEXTMSG" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="REFERENCE" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <foreign-key foreignTable="IMP_PROCESSOR" name="IMPPROCESSOR_IMPPROCESSORLOG" onDelete="none">
+        <reference local="IMP_PROCESSOR_ID" foreign="IMP_PROCESSOR_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsError IN ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

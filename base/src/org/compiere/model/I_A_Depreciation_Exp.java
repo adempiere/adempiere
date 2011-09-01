@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Depreciation_Exp
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_A_Depreciation_Exp 
 {
@@ -40,27 +40,6 @@ public interface I_A_Depreciation_Exp
     BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
-
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
 
     /** Column name A_Account_Number */
     public static final String COLUMNNAME_A_Account_Number = "A_Account_Number";
@@ -86,6 +65,14 @@ public interface I_A_Depreciation_Exp
 	  */
 	public int getA_Asset_ID();
 
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
+
     /** Column name A_Depreciation_Exp_ID */
     public static final String COLUMNNAME_A_Depreciation_Exp_ID = "A_Depreciation_Exp_ID";
 
@@ -94,6 +81,19 @@ public interface I_A_Depreciation_Exp
 
 	/** Get Depreciation Exp.	  */
 	public int getA_Depreciation_Exp_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
 
     /** Column name A_Entry_Type */
     public static final String COLUMNNAME_A_Entry_Type = "A_Entry_Type";

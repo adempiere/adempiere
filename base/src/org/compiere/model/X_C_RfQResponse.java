@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_RfQResponse
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_C_RfQResponse extends PO implements I_C_RfQResponse, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_C_RfQResponse (Properties ctx, int C_RfQResponse_ID, String trxName)
@@ -45,8 +45,8 @@ public class X_C_RfQResponse extends PO implements I_C_RfQResponse, I_Persistent
 			setC_BPartner_Location_ID (0);
 			setC_Currency_ID (0);
 // @C_Currency_ID@
-			setC_RfQResponse_ID (0);
 			setC_RfQ_ID (0);
+			setC_RfQResponse_ID (0);
 			setIsComplete (false);
 			setIsSelectedWinner (false);
 			setIsSelfService (false);
@@ -89,7 +89,7 @@ public class X_C_RfQResponse extends PO implements I_C_RfQResponse, I_Persistent
 		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getAD_User_ID(), get_TrxName());	}
 
-	/** Set User/Contact.
+	/** Set Usuario.
 		@param AD_User_ID 
 		User within the system - Internal or Business Partner Contact
 	  */
@@ -101,7 +101,7 @@ public class X_C_RfQResponse extends PO implements I_C_RfQResponse, I_Persistent
 			set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
-	/** Get User/Contact.
+	/** Get Usuario.
 		@return User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID () 
@@ -196,6 +196,20 @@ public class X_C_RfQResponse extends PO implements I_C_RfQResponse, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Check Complete.
+		@param CheckComplete Check Complete	  */
+	public void setCheckComplete (String CheckComplete)
+	{
+		set_Value (COLUMNNAME_CheckComplete, CheckComplete);
+	}
+
+	/** Get Check Complete.
+		@return Check Complete	  */
+	public String getCheckComplete () 
+	{
+		return (String)get_Value(COLUMNNAME_CheckComplete);
+	}
+
 	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Order)MTable.get(getCtx(), org.compiere.model.I_C_Order.Table_Name)
@@ -219,29 +233,6 @@ public class X_C_RfQResponse extends PO implements I_C_RfQResponse, I_Persistent
 	public int getC_Order_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Order_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set RfQ Response.
-		@param C_RfQResponse_ID 
-		Request for Quotation Response from a potential Vendor
-	  */
-	public void setC_RfQResponse_ID (int C_RfQResponse_ID)
-	{
-		if (C_RfQResponse_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_RfQResponse_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_RfQResponse_ID, Integer.valueOf(C_RfQResponse_ID));
-	}
-
-	/** Get RfQ Response.
-		@return Request for Quotation Response from a potential Vendor
-	  */
-	public int getC_RfQResponse_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_RfQResponse_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -275,18 +266,27 @@ public class X_C_RfQResponse extends PO implements I_C_RfQResponse, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Check Complete.
-		@param CheckComplete Check Complete	  */
-	public void setCheckComplete (String CheckComplete)
+	/** Set RfQ Response.
+		@param C_RfQResponse_ID 
+		Request for Quotation Response from a potential Vendor
+	  */
+	public void setC_RfQResponse_ID (int C_RfQResponse_ID)
 	{
-		set_Value (COLUMNNAME_CheckComplete, CheckComplete);
+		if (C_RfQResponse_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_RfQResponse_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_RfQResponse_ID, Integer.valueOf(C_RfQResponse_ID));
 	}
 
-	/** Get Check Complete.
-		@return Check Complete	  */
-	public String getCheckComplete () 
+	/** Get RfQ Response.
+		@return Request for Quotation Response from a potential Vendor
+	  */
+	public int getC_RfQResponse_ID () 
 	{
-		return (String)get_Value(COLUMNNAME_CheckComplete);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_RfQResponse_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Invited.

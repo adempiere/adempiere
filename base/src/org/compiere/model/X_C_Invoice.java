@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Invoice
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_C_Invoice (Properties ctx, int C_Invoice_ID, String trxName)
@@ -45,9 +45,9 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 			setC_BPartner_Location_ID (0);
 			setC_Currency_ID (0);
 // @C_Currency_ID@
-			setC_DocTypeTarget_ID (0);
 			setC_DocType_ID (0);
 // 0
+			setC_DocTypeTarget_ID (0);
 			setC_Invoice_ID (0);
 			setC_PaymentTerm_ID (0);
 			setDateAcct (new Timestamp( System.currentTimeMillis() ));
@@ -68,9 +68,9 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 			setIsPaid (false);
 			setIsPayScheduleValid (false);
 			setIsPrinted (false);
+			setIsSelfService (false);
 			setIsSOTrx (false);
 // @IsSOTrx@
-			setIsSelfService (false);
 			setIsTaxIncluded (false);
 			setIsTransferred (false);
 			setM_PriceList_ID (0);
@@ -140,7 +140,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getAD_User_ID(), get_TrxName());	}
 
-	/** Set User/Contact.
+	/** Set Usuario.
 		@param AD_User_ID 
 		User within the system - Internal or Business Partner Contact
 	  */
@@ -152,7 +152,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
-	/** Get User/Contact.
+	/** Get Usuario.
 		@return User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID () 
@@ -387,34 +387,6 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_DocType getC_DocTypeTarget() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
-			.getPO(getC_DocTypeTarget_ID(), get_TrxName());	}
-
-	/** Set Target Document Type.
-		@param C_DocTypeTarget_ID 
-		Target document type for conversing documents
-	  */
-	public void setC_DocTypeTarget_ID (int C_DocTypeTarget_ID)
-	{
-		if (C_DocTypeTarget_ID < 1) 
-			set_Value (COLUMNNAME_C_DocTypeTarget_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_DocTypeTarget_ID, Integer.valueOf(C_DocTypeTarget_ID));
-	}
-
-	/** Get Target Document Type.
-		@return Target document type for conversing documents
-	  */
-	public int getC_DocTypeTarget_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypeTarget_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException
     {
 		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
@@ -438,6 +410,34 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	public int getC_DocType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_DocType getC_DocTypeTarget() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
+			.getPO(getC_DocTypeTarget_ID(), get_TrxName());	}
+
+	/** Set Target Document Type.
+		@param C_DocTypeTarget_ID 
+		Target document type for conversing documents
+	  */
+	public void setC_DocTypeTarget_ID (int C_DocTypeTarget_ID)
+	{
+		if (C_DocTypeTarget_ID < 1) 
+			set_Value (COLUMNNAME_C_DocTypeTarget_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_DocTypeTarget_ID, Integer.valueOf(C_DocTypeTarget_ID));
+	}
+
+	/** Get Target Document Type.
+		@return Target document type for conversing documents
+	  */
+	public int getC_DocTypeTarget_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypeTarget_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -468,6 +468,26 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Charge amount.
+		@param ChargeAmt 
+		Charge Amount
+	  */
+	public void setChargeAmt (BigDecimal ChargeAmt)
+	{
+		set_Value (COLUMNNAME_ChargeAmt, ChargeAmt);
+	}
+
+	/** Get Charge amount.
+		@return Charge Amount
+	  */
+	public BigDecimal getChargeAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ChargeAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	/** Set Invoice.
 		@param C_Invoice_ID 
 		Invoice Identifier
@@ -489,6 +509,23 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Copy From.
+		@param CopyFrom 
+		Copy From Record
+	  */
+	public void setCopyFrom (String CopyFrom)
+	{
+		set_Value (COLUMNNAME_CopyFrom, CopyFrom);
+	}
+
+	/** Get Copy From.
+		@return Copy From Record
+	  */
+	public String getCopyFrom () 
+	{
+		return (String)get_Value(COLUMNNAME_CopyFrom);
 	}
 
 	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException
@@ -514,34 +551,6 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	public int getC_Order_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Order_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.compiere.model.I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_PaymentTerm)MTable.get(getCtx(), org.compiere.model.I_C_PaymentTerm.Table_Name)
-			.getPO(getC_PaymentTerm_ID(), get_TrxName());	}
-
-	/** Set Payment Term.
-		@param C_PaymentTerm_ID 
-		The terms of Payment (timing, discount)
-	  */
-	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
-	{
-		if (C_PaymentTerm_ID < 1) 
-			set_Value (COLUMNNAME_C_PaymentTerm_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_PaymentTerm_ID, Integer.valueOf(C_PaymentTerm_ID));
-	}
-
-	/** Get Payment Term.
-		@return The terms of Payment (timing, discount)
-	  */
-	public int getC_PaymentTerm_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaymentTerm_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -575,6 +584,34 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_PaymentTerm)MTable.get(getCtx(), org.compiere.model.I_C_PaymentTerm.Table_Name)
+			.getPO(getC_PaymentTerm_ID(), get_TrxName());	}
+
+	/** Set Payment Term.
+		@param C_PaymentTerm_ID 
+		The terms of Payment (timing, discount)
+	  */
+	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
+	{
+		if (C_PaymentTerm_ID < 1) 
+			set_Value (COLUMNNAME_C_PaymentTerm_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_PaymentTerm_ID, Integer.valueOf(C_PaymentTerm_ID));
+	}
+
+	/** Get Payment Term.
+		@return The terms of Payment (timing, discount)
+	  */
+	public int getC_PaymentTerm_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaymentTerm_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
@@ -601,43 +638,6 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Charge amount.
-		@param ChargeAmt 
-		Charge Amount
-	  */
-	public void setChargeAmt (BigDecimal ChargeAmt)
-	{
-		set_Value (COLUMNNAME_ChargeAmt, ChargeAmt);
-	}
-
-	/** Get Charge amount.
-		@return Charge Amount
-	  */
-	public BigDecimal getChargeAmt () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ChargeAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
-	/** Set Copy From.
-		@param CopyFrom 
-		Copy From Record
-	  */
-	public void setCopyFrom (String CopyFrom)
-	{
-		set_Value (COLUMNNAME_CopyFrom, CopyFrom);
-	}
-
-	/** Get Copy From.
-		@return Copy From Record
-	  */
-	public String getCopyFrom () 
-	{
-		return (String)get_Value(COLUMNNAME_CopyFrom);
 	}
 
 	/** Set Create lines from.
@@ -1082,30 +1082,6 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 		return false;
 	}
 
-	/** Set Sales Transaction.
-		@param IsSOTrx 
-		This is a Sales Transaction
-	  */
-	public void setIsSOTrx (boolean IsSOTrx)
-	{
-		set_ValueNoCheck (COLUMNNAME_IsSOTrx, Boolean.valueOf(IsSOTrx));
-	}
-
-	/** Get Sales Transaction.
-		@return This is a Sales Transaction
-	  */
-	public boolean isSOTrx () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsSOTrx);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** Set Self-Service.
 		@param IsSelfService 
 		This is a Self-Service entry or this entry can be changed via Self-Service
@@ -1121,6 +1097,30 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	public boolean isSelfService () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsSelfService);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Sales Transaction.
+		@param IsSOTrx 
+		This is a Sales Transaction
+	  */
+	public void setIsSOTrx (boolean IsSOTrx)
+	{
+		set_ValueNoCheck (COLUMNNAME_IsSOTrx, Boolean.valueOf(IsSOTrx));
+	}
+
+	/** Get Sales Transaction.
+		@return This is a Sales Transaction
+	  */
+	public boolean isSOTrx () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsSOTrx);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -1234,23 +1234,6 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Order Reference.
-		@param POReference 
-		Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
-	  */
-	public void setPOReference (String POReference)
-	{
-		set_Value (COLUMNNAME_POReference, POReference);
-	}
-
-	/** Get Order Reference.
-		@return Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
-	  */
-	public String getPOReference () 
-	{
-		return (String)get_Value(COLUMNNAME_POReference);
-	}
-
 	/** PaymentRule AD_Reference_ID=195 */
 	public static final int PAYMENTRULE_AD_Reference_ID=195;
 	/** Cash = B */
@@ -1283,6 +1266,23 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	public String getPaymentRule () 
 	{
 		return (String)get_Value(COLUMNNAME_PaymentRule);
+	}
+
+	/** Set Order Reference.
+		@param POReference 
+		Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
+	  */
+	public void setPOReference (String POReference)
+	{
+		set_Value (COLUMNNAME_POReference, POReference);
+	}
+
+	/** Get Order Reference.
+		@return Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
+	  */
+	public String getPOReference () 
+	{
+		return (String)get_Value(COLUMNNAME_POReference);
 	}
 
 	/** Set Posted.

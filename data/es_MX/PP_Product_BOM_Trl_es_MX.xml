@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--ADempiere(r) Release 3.7.0LTS_2011-10-15 -Smart Suite ERP,CRM and SCM- (c) 1999-2010 ADempiere(r); Implementation: ADempiere - Supported by ADempiere community-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="es_MX" table="PP_Product_BOM">
+ <row id="145" trl="Y">
+  <value column="Name" original="Patio Furniture Set">Juego de Muebles de oatio</value>
+  <value column="Description" original="1 table, 4 Chairs and 1 Sun Screen">1 mesa, 4 sillas y 1 parasol</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50000" trl="Y">
+  <value column="Name" original="Patio Chair">Silla para patio</value>
+  <value column="Description" original="Nice Chair for outdoors">Bonita silla para exteriores</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50001" trl="Y">
+  <value column="Name" original="Assembly Back Leg">Pata Trasera para Ensamble</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50003" trl="Y">
+  <value column="Name" original="Assembly Front Leg">Pata Delantera para Ensamble</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50004" trl="Y">
+  <value column="Name" original="Fertilizer #50">Fertilizante #50</value>
+  <value column="Description" original="50 # Bag of Lawn Fertilizer">50 # Bolsa de fertilizante para césped</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50005" trl="Y">
+  <value column="Name" original="Fertilizer #70">Fertilizante #70</value>
+  <value column="Description" original="70 # Bag of Lawn Fertilizer">70 # Bolsa de fertilizante para césped</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50006" trl="Y">
+  <value column="Name" original="Lawn Fertilizer">Fertilizante para Césped</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+</adempiereTrl>

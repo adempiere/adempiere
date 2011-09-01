@@ -19,5 +19,11 @@
       <column name="AD_PACKAGE_IMP_ORG_DIR" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="COLVALUE" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="UNINSTALL" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_ADPACKAGEIMPBACKUP" onDelete="none">
+        <reference local="AD_COLUMN_ID" foreign="AD_COLUMN_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_REFERENCE" name="ADREFERENCE_ADPACKAGEIMPBACKUP" onDelete="none">
+        <reference local="AD_REFERENCE_ID" foreign="AD_REFERENCE_ID"/>
+      </foreign-key>
     </table>
   </database>

@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_POSKeyLayout
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_C_POSKeyLayout extends PO implements I_C_POSKeyLayout, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_C_POSKeyLayout (Properties ctx, int C_POSKeyLayout_ID, String trxName)
@@ -127,6 +127,26 @@ public class X_C_POSKeyLayout extends PO implements I_C_POSKeyLayout, I_Persiste
 		return ii.intValue();
 	}
 
+	/** Set Columns.
+		@param Columns 
+		Number of columns
+	  */
+	public void setColumns (int Columns)
+	{
+		set_Value (COLUMNNAME_Columns, Integer.valueOf(Columns));
+	}
+
+	/** Get Columns.
+		@return Number of columns
+	  */
+	public int getColumns () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Columns);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set POS Key Layout.
 		@param C_POSKeyLayout_ID 
 		POS Function Key Layout
@@ -145,26 +165,6 @@ public class X_C_POSKeyLayout extends PO implements I_C_POSKeyLayout, I_Persiste
 	public int getC_POSKeyLayout_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_POSKeyLayout_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Columns.
-		@param Columns 
-		Number of columns
-	  */
-	public void setColumns (int Columns)
-	{
-		set_Value (COLUMNNAME_Columns, Integer.valueOf(Columns));
-	}
-
-	/** Get Columns.
-		@return Number of columns
-	  */
-	public int getColumns () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Columns);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_UserQuery
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_AD_UserQuery 
 {
@@ -92,6 +92,21 @@ public interface I_AD_UserQuery
 
 	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
 
+    /** Column name AD_User_ID */
+    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
+
+	/** Set Usuario.
+	  * User within the system - Internal or Business Partner Contact
+	  */
+	public void setAD_User_ID (int AD_User_ID);
+
+	/** Get Usuario.
+	  * User within the system - Internal or Business Partner Contact
+	  */
+	public int getAD_User_ID();
+
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
+
     /** Column name AD_UserQuery_ID */
     public static final String COLUMNNAME_AD_UserQuery_ID = "AD_UserQuery_ID";
 
@@ -104,21 +119,6 @@ public interface I_AD_UserQuery
 	  * Saved User Query
 	  */
 	public int getAD_UserQuery_ID();
-
-    /** Column name AD_User_ID */
-    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
-
-	/** Set User/Contact.
-	  * User within the system - Internal or Business Partner Contact
-	  */
-	public void setAD_User_ID (int AD_User_ID);
-
-	/** Get User/Contact.
-	  * User within the system - Internal or Business Partner Contact
-	  */
-	public int getAD_User_ID();
-
-	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
 
     /** Column name Code */
     public static final String COLUMNNAME_Code = "Code";

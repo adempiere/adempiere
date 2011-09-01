@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="A_ASSET_REVAL_ENTRY">
+      <column name="A_ASSET_REVAL_ENTRY_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="A_EFFECTIVE_DATE" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="A_REVAL_CAL_METHOD" primaryKey="false" required="true" type="VARCHAR" size="3" autoIncrement="false"/>
+      <column name="A_REVAL_MULTIPLIER" primaryKey="false" required="true" type="VARCHAR" size="3" autoIncrement="false"/>
+      <column name="C_CURRENCY_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_PERIOD_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="DATEDOC" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="PROCESSING" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="POSTINGTYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="GL_CATEGORY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="DOCUMENTNO" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="true" type="VARCHAR" size="510" autoIncrement="false"/>
+      <column name="DATEACCT" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="C_DOCTYPE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_ACCTSCHEMA_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="A_REVAL_EFFECTIVE_DATE" primaryKey="false" required="true" type="VARCHAR" size="2" autoIncrement="false"/>
+      <column name="A_REV_CODE" primaryKey="false" required="true" type="VARCHAR" size="3" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_AASSETREVALENTRY" onDelete="none">
+        <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_AASSETREVALENTRY" onDelete="none">
+        <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_AASSETREVALENTRY" onDelete="none">
+        <reference local="C_DOCTYPE_ID" foreign="C_DOCTYPE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_PERIOD" name="CPERIOD_AASSETREVALENTRY" onDelete="none">
+        <reference local="C_PERIOD_ID" foreign="C_PERIOD_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="GL_CATEGORY" name="GLCATEGORY_AASSETREVALENTRY" onDelete="none">
+        <reference local="GL_CATEGORY_ID" foreign="GL_CATEGORY_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[Processed IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsActive IN ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

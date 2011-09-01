@@ -27,17 +27,20 @@
       <column name="KEEPLOGDAYS" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="AD_TREE_ACTIVITY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_TREE_CAMPAIGN_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="LOGO_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="LOGOREPORT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="LOGOWEB_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_ADCLIENTINFO" onDelete="cascade">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_TREE" name="ADTREEPROJECT_ADCLIENTINFO" onDelete="none">
-        <reference local="AD_TREE_PROJECT_ID" foreign="AD_TREE_ID"/>
+      <foreign-key foreignTable="AD_IMAGE" name="LOGOWEB_ADCLIENTINFO" onDelete="none">
+        <reference local="LOGOWEB_ID" foreign="AD_IMAGE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_TREE" name="ADTREESALESREG_ADCLIENTINFO" onDelete="none">
-        <reference local="AD_TREE_SALESREGION_ID" foreign="AD_TREE_ID"/>
+      <foreign-key foreignTable="AD_IMAGE" name="LOGO_ADCLIENTINFO" onDelete="none">
+        <reference local="LOGO_ID" foreign="AD_IMAGE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_TREE" name="ADTREEPRODUCT_ADCLIENTINFO" onDelete="none">
-        <reference local="AD_TREE_PRODUCT_ID" foreign="AD_TREE_ID"/>
+      <foreign-key foreignTable="AD_IMAGE" name="LOGOREPORT_ADCLIENTINFO" onDelete="none">
+        <reference local="LOGOREPORT_ID" foreign="AD_IMAGE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_TREE" name="ADTREEORG_ADCLIENTINFO" onDelete="none">
         <reference local="AD_TREE_ORG_ID" foreign="AD_TREE_ID"/>
@@ -48,23 +51,44 @@
       <foreign-key foreignTable="AD_TREE" name="ADTREEBPARTNER_ADCLIENTINFO" onDelete="none">
         <reference local="AD_TREE_BPARTNER_ID" foreign="AD_TREE_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="AD_TREE" name="ADTREECAMPAIGN_ADCLIENTINFO" onDelete="none">
+        <reference local="AD_TREE_CAMPAIGN_ID" foreign="AD_TREE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_TREE" name="ADTREEACTIVITY_ADCLIENTINFO" onDelete="none">
+        <reference local="AD_TREE_ACTIVITY_ID" foreign="AD_TREE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_TREE" name="ADTREEPRODUCT_ADCLIENTINFO" onDelete="none">
+        <reference local="AD_TREE_PRODUCT_ID" foreign="AD_TREE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_TREE" name="ADTREESALESREG_ADCLIENTINFO" onDelete="none">
+        <reference local="AD_TREE_SALESREGION_ID" foreign="AD_TREE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_TREE" name="ADTREEPROJECT_ADCLIENTINFO" onDelete="none">
+        <reference local="AD_TREE_PROJECT_ID" foreign="AD_TREE_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA1_ADCLIENTINFO" onDelete="none">
         <reference local="C_ACCTSCHEMA1_ID" foreign="C_ACCTSCHEMA_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNERCASHTRX_ADCLIENTINFO" onDelete="none">
+        <reference local="C_BPARTNERCASHTRX_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_CALENDAR" name="CCALENDAR_ADCLIENTINFO" onDelete="none">
         <reference local="C_CALENDAR_ID" foreign="C_CALENDAR_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_UOM" name="C_UOM_VOLUME_AD_CLIENTINFO" onDelete="none">
-        <reference local="C_UOM_VOLUME_ID" foreign="C_UOM_ID"/>
+      <foreign-key foreignTable="C_UOM" name="C_UOM_LENGTH_AD_CLIENTINFO" onDelete="none">
+        <reference local="C_UOM_LENGTH_ID" foreign="C_UOM_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_UOM" name="C_UOM_TIME_AD_CLIENTINFO" onDelete="none">
         <reference local="C_UOM_TIME_ID" foreign="C_UOM_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_UOM" name="C_UOM_LENGTH_AD_CLIENTINFO" onDelete="none">
-        <reference local="C_UOM_LENGTH_ID" foreign="C_UOM_ID"/>
+      <foreign-key foreignTable="C_UOM" name="C_UOM_VOLUME_AD_CLIENTINFO" onDelete="none">
+        <reference local="C_UOM_VOLUME_ID" foreign="C_UOM_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_UOM" name="C_UOM_WEIGHT_AD_CLIENTINFO" onDelete="none">
         <reference local="C_UOM_WEIGHT_ID" foreign="C_UOM_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCTFREIGHT_ADCLIENTINFO" onDelete="none">
+        <reference local="M_PRODUCTFREIGHT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>

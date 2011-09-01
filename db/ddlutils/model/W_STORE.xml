@@ -47,18 +47,21 @@
       <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_WSTORE" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="AD_USER" name="SALESREP_WSTORE" onDelete="none">
+        <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_PAYMENTTERM" name="CPAYMENTTERM_WSTORE" onDelete="none">
+        <reference local="C_PAYMENTTERM_ID" foreign="C_PAYMENTTERM_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRICELIST" name="MPRICELIST_WSTORE" onDelete="none">
+        <reference local="M_PRICELIST_ID" foreign="M_PRICELIST_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_WSTORE" onDelete="none">
+        <reference local="M_WAREHOUSE_ID" foreign="M_WAREHOUSE_ID"/>
+      </foreign-key>
       <unique name="W_STORE_WEBCONTEXT">
         <unique-column name="WEBCONTEXT"/>
       </unique>
-      <check>
-        <rule><![CDATA[IsMenuInterests in ('Y','N')]]></rule>
-      </check>
-      <check>
-        <rule><![CDATA[IsMenuRegistrations in ('Y','N')]]></rule>
-      </check>
-      <check>
-        <rule><![CDATA[IsMenuContact in ('Y','N')]]></rule>
-      </check>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
       </check>
@@ -82,6 +85,15 @@
       </check>
       <check>
         <rule><![CDATA[IsMenuRequests in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsMenuInterests in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsMenuRegistrations in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsMenuContact in ('Y','N')]]></rule>
       </check>
     </table>
   </database>

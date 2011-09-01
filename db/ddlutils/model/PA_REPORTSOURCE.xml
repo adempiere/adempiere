@@ -22,6 +22,24 @@
       <column name="C_LOCATION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_SALESREGION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_ACTIVITY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="USERELEMENT1_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="USERELEMENT2_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="ISINCLUDENULLSORG" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISINCLUDENULLSELEMENTVALUE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISINCLUDENULLSBPARTNER" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISINCLUDENULLSPRODUCT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISINCLUDENULLSLOCATION" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISINCLUDENULLSPROJECT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISINCLUDENULLSSALESREGION" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISINCLUDENULLSACTIVITY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISINCLUDENULLSCAMPAIGN" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISINCLUDENULLSUSERELEMENT1" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISINCLUDENULLSUSERELEMENT2" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISINCLUDENULLSORGTRX" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="AD_ORGTRX_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_PAREPORTSOURCE" onDelete="none">
+        <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="AD_ORG" name="ADORG_PAREPORTSOURCE" onDelete="none">
         <reference local="ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
@@ -54,6 +72,42 @@
       </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsIncludeNullsOrg IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsIncludeNullsElementValue IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsIncludeNullsBPartner IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsIncludeNullsProduct IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsIncludeNullsLocation IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsIncludeNullsProject IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsIncludeNullsSalesRegion IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsIncludeNullsActivity IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsIncludeNullsCampaign IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsIncludeNullsUserElement1 IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsIncludeNullsUserElement2 IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsIncludeNullsOrgTrx IN ('Y','N')]]></rule>
       </check>
     </table>
   </database>

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_ElementValue
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_I_ElementValue 
 {
@@ -40,6 +40,32 @@ public interface I_I_ElementValue
     BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
+
+    /** Column name AccountSign */
+    public static final String COLUMNNAME_AccountSign = "AccountSign";
+
+	/** Set Account Sign.
+	  * Indicates the Natural Sign of the Account as a Debit or Credit
+	  */
+	public void setAccountSign (String AccountSign);
+
+	/** Get Account Sign.
+	  * Indicates the Natural Sign of the Account as a Debit or Credit
+	  */
+	public String getAccountSign();
+
+    /** Column name AccountType */
+    public static final String COLUMNNAME_AccountType = "AccountType";
+
+	/** Set Account Type.
+	  * Indicates the type of account
+	  */
+	public void setAccountType (String AccountType);
+
+	/** Get Account Type.
+	  * Indicates the type of account
+	  */
+	public String getAccountType();
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -77,31 +103,20 @@ public interface I_I_ElementValue
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name AccountSign */
-    public static final String COLUMNNAME_AccountSign = "AccountSign";
+    /** Column name C_Element_ID */
+    public static final String COLUMNNAME_C_Element_ID = "C_Element_ID";
 
-	/** Set Account Sign.
-	  * Indicates the Natural Sign of the Account as a Debit or Credit
+	/** Set Element.
+	  * Accounting Element
 	  */
-	public void setAccountSign (String AccountSign);
+	public void setC_Element_ID (int C_Element_ID);
 
-	/** Get Account Sign.
-	  * Indicates the Natural Sign of the Account as a Debit or Credit
+	/** Get Element.
+	  * Accounting Element
 	  */
-	public String getAccountSign();
+	public int getC_Element_ID();
 
-    /** Column name AccountType */
-    public static final String COLUMNNAME_AccountType = "AccountType";
-
-	/** Set Account Type.
-	  * Indicates the type of account
-	  */
-	public void setAccountType (String AccountType);
-
-	/** Get Account Type.
-	  * Indicates the type of account
-	  */
-	public String getAccountType();
+	public org.compiere.model.I_C_Element getC_Element() throws RuntimeException;
 
     /** Column name C_ElementValue_ID */
     public static final String COLUMNNAME_C_ElementValue_ID = "C_ElementValue_ID";
@@ -117,21 +132,6 @@ public interface I_I_ElementValue
 	public int getC_ElementValue_ID();
 
 	public org.compiere.model.I_C_ElementValue getC_ElementValue() throws RuntimeException;
-
-    /** Column name C_Element_ID */
-    public static final String COLUMNNAME_C_Element_ID = "C_Element_ID";
-
-	/** Set Element.
-	  * Accounting Element
-	  */
-	public void setC_Element_ID (int C_Element_ID);
-
-	/** Get Element.
-	  * Accounting Element
-	  */
-	public int getC_Element_ID();
-
-	public org.compiere.model.I_C_Element getC_Element() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

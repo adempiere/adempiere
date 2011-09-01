@@ -61,6 +61,8 @@
       <column name="ISCENTRALLYMAINTAINED" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="ISIMAGEFIELD" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="BARCODETYPE" primaryKey="false" required="false" type="CHAR" size="3" autoIncrement="false"/>
+      <column name="FORMATPATTERN" primaryKey="false" required="false" type="VARCHAR" size="22" autoIncrement="false"/>
+      <column name="ISSUPPRESSREPEATS" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_ADPRINTFORMATITEM" onDelete="cascade">
         <reference local="AD_COLUMN_ID" foreign="AD_COLUMN_ID"/>
       </foreign-key>
@@ -108,6 +110,9 @@
       </check>
       <check>
         <rule><![CDATA[IsSummarized in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsSuppressRepeats IN ('Y','N')]]></rule>
       </check>
     </table>
   </database>

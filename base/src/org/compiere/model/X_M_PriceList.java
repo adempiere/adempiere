@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_PriceList
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_M_PriceList extends PO implements I_M_PriceList, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_M_PriceList (Properties ctx, int M_PriceList_ID, String trxName)
@@ -223,6 +223,27 @@ public class X_M_PriceList extends PO implements I_M_PriceList, I_Persistent
 		return false;
 	}
 
+	/** Set isPresentForProduct.
+		@param isPresentForProduct isPresentForProduct	  */
+	public void setisPresentForProduct (boolean isPresentForProduct)
+	{
+		set_Value (COLUMNNAME_isPresentForProduct, Boolean.valueOf(isPresentForProduct));
+	}
+
+	/** Get isPresentForProduct.
+		@return isPresentForProduct	  */
+	public boolean isPresentForProduct () 
+	{
+		Object oo = get_Value(COLUMNNAME_isPresentForProduct);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Sales Price list.
 		@param IsSOPriceList 
 		This is a Sales Price List
@@ -337,87 +358,5 @@ public class X_M_PriceList extends PO implements I_M_PriceList, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	public org.compiere.model.I_C_Charge getRoundingCha() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_Charge)MTable.get(getCtx(), org.compiere.model.I_C_Charge.Table_Name)
-			.getPO(getRoundingCharge(), get_TrxName());	}
-
-	/** Set Rounding Charge.
-		@param RoundingCharge 
-		This charge specifies how rounding is accounted.
-	  */
-	public void setRoundingCharge (int RoundingCharge)
-	{
-		set_Value (COLUMNNAME_RoundingCharge, Integer.valueOf(RoundingCharge));
-	}
-
-	/** Get Rounding Charge.
-		@return This charge specifies how rounding is accounted.
-	  */
-	public int getRoundingCharge () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_RoundingCharge);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** RoundingRule AD_Reference_ID=155 */
-	public static final int ROUNDINGRULE_AD_Reference_ID=155;
-	/** Whole Number .00 = 0 */
-	public static final String ROUNDINGRULE_WholeNumber00 = "0";
-	/** No Rounding = N */
-	public static final String ROUNDINGRULE_NoRounding = "N";
-	/** Quarter .25 .50 .75 = Q */
-	public static final String ROUNDINGRULE_Quarter255075 = "Q";
-	/** Dime .10, .20, .30, ... = D */
-	public static final String ROUNDINGRULE_Dime102030 = "D";
-	/** Nickel .05, .10, .15, ... = 5 */
-	public static final String ROUNDINGRULE_Nickel051015 = "5";
-	/** Ten 10.00, 20.00, .. = T */
-	public static final String ROUNDINGRULE_Ten10002000 = "T";
-	/** Currency Precision = C */
-	public static final String ROUNDINGRULE_CurrencyPrecision = "C";
-	/** Ending in 9/5 = 9 */
-	public static final String ROUNDINGRULE_EndingIn95 = "9";
-	/** Set Rounding Rule.
-		@param RoundingRule 
-		Determines how and if an amount is rounded
-	  */
-	public void setRoundingRule (String RoundingRule)
-	{
-
-		set_Value (COLUMNNAME_RoundingRule, RoundingRule);
-	}
-
-	/** Get Rounding Rule.
-		@return Determines how and if an amount is rounded
-	  */
-	public String getRoundingRule () 
-	{
-		return (String)get_Value(COLUMNNAME_RoundingRule);
-	}
-
-	/** Set isPresentForProduct.
-		@param isPresentForProduct isPresentForProduct	  */
-	public void setisPresentForProduct (boolean isPresentForProduct)
-	{
-		set_Value (COLUMNNAME_isPresentForProduct, Boolean.valueOf(isPresentForProduct));
-	}
-
-	/** Get isPresentForProduct.
-		@return isPresentForProduct	  */
-	public boolean isPresentForProduct () 
-	{
-		Object oo = get_Value(COLUMNNAME_isPresentForProduct);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
 	}
 }

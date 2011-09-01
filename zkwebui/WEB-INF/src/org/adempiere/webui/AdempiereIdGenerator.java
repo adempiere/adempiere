@@ -1,6 +1,6 @@
 /******************************************************************************
- * Copyright (C) 2010 Carlos Ruiz                                             *
- * Copyright (C) 2009 Quality Systems & Solutions - globalqss                 *
+ * Copyright (C) 2011 victor.perez@e-evolution.com                            *
+ * Copyright (C) 2009 www.e-evolution.com, e-Evolution	 	                  *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -19,34 +19,30 @@ import org.zkoss.zk.ui.Desktop;
 import org.zkoss.zk.ui.Page;
 import org.zkoss.zk.ui.sys.IdGenerator;
 
+/**
+ * PP Product BOM Model.
+ *
+ * @author Victor Perez www.e-evolution.com 
+ * http://docs.zkoss.org/wiki/How_to_Test_ZK_Application_with_Selenium
+ * */
+
 public class AdempiereIdGenerator implements IdGenerator {
-
-	@Override
 	public String nextComponentUuid(Desktop desktop, Component comp) {
-		String id = (String) comp.getAttribute("zk_component_ID");
-		if (id != null && id.length() > 0)
-			return id;
-		String prefix = (String) comp.getAttribute("zk_component_prefix");
-		if (prefix == null || prefix.length() == 0)
-			prefix = "zk_comp_";
-		int     i = Integer.parseInt(desktop.getAttribute("Id_Num").toString());
-		i++;// Start from 1
-		desktop.setAttribute("Id_Num", String.valueOf(i));
-		return prefix + i;
-	}
-
-	@Override
-	public String nextDesktopId(Desktop desktop) {
-		if (desktop.getAttribute("Id_Num") == null) {
-			String number = "0";
-			desktop.setAttribute("Id_Num", number);
-		}
-		return null;
-	}
-
-	@Override
-	public String nextPageUuid(Page page) {
-		return null;
-	}
-
+        int i = Integer.parseInt(desktop.getAttribute("Id_Num").toString());
+        i++;// Start from 1
+        desktop.setAttribute("Id_Num", String.valueOf(i));
+        return "zk_comp_" + i;
+    }
+ 
+    public String nextDesktopId(Desktop desktop) {
+        if (desktop.getAttribute("Id_Num") == null) {
+            String number = "0";
+            desktop.setAttribute("Id_Num", number);
+        }
+        return null;
+    }
+ 
+    public String nextPageUuid(Page page) {
+        return null;
+    }
 }

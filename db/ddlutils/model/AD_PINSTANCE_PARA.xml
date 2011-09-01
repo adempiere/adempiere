@@ -5,8 +5,8 @@
       <column name="AD_PINSTANCE_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="SEQNO" primaryKey="true" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="PARAMETERNAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
-      <column name="P_STRING" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
-      <column name="P_STRING_TO" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="P_STRING" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="P_STRING_TO" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="P_NUMBER" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="P_NUMBER_TO" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="P_DATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>

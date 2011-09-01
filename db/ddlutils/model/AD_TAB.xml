@@ -33,23 +33,30 @@
       <column name="AD_COLUMNSORTORDER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_COLUMNSORTYESNO_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISSORTTAB" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="4" default="D" autoIncrement="false"/>
+      <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="40" default="D" autoIncrement="false"/>
       <column name="INCLUDED_TAB_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="READONLYLOGIC" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="DISPLAYLOGIC" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="ISINSERTRECORD" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="ISADVANCEDTAB" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="PARENT_COLUMN_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <foreign-key foreignTable="AD_CLIENT" name="TABCLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_ADTABSORTYESNO" onDelete="none">
-        <reference local="AD_COLUMNSORTYESNO_ID" foreign="AD_COLUMN_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_COLUMN" name="AD_COLUMN_AD_TAB" onDelete="none">
         <reference local="AD_COLUMN_ID" foreign="AD_COLUMN_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_ADTABSORTORDER" onDelete="none">
         <reference local="AD_COLUMNSORTORDER_ID" foreign="AD_COLUMN_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_ADTABSORTYESNO" onDelete="none">
+        <reference local="AD_COLUMNSORTYESNO_ID" foreign="AD_COLUMN_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_COLUMN" name="PARENTCOLUMN_ADTAB" onDelete="none">
+        <reference local="PARENT_COLUMN_ID" foreign="AD_COLUMN_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ENTITYTYPE" name="ENTITYT_ADTAB" onDelete="none">
+        <reference local="ENTITYTYPE" foreign="ENTITYTYPE"/>
       </foreign-key>
       <foreign-key foreignTable="AD_IMAGE" name="ADIMAGE_ADTAB" onDelete="none">
         <reference local="AD_IMAGE_ID" foreign="AD_IMAGE_ID"/>

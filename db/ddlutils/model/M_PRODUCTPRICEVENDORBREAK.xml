@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="M_PRODUCTPRICEVENDORBREAK">
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="BREAKVALUE" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
+      <column name="C_BPARTNER_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="M_PRICELIST_VERSION_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="M_PRODUCT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="PRICELIMIT" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
+      <column name="PRICELIST" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
+      <column name="PRICESTD" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="M_PRODUCTPRICEVENDORBREAK_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_MPRODUCTPRICEVENDORB" onDelete="none">
+        <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRICELIST_VERSION" name="MPRICELISTVERSION_MPRODUCTPRIC" onDelete="none">
+        <reference local="M_PRICELIST_VERSION_ID" foreign="M_PRICELIST_VERSION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MPRODUCTPRICEVENDORBR" onDelete="none">
+        <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive IN ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

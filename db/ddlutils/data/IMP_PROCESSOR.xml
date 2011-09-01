@@ -1,0 +1,5 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<data>
+  <IMP_PROCESSOR IMP_PROCESSOR_ID="50000" IMP_PROCESSOR_TYPE_ID="50000" AD_CLIENT_ID="11" AD_ORG_ID="0" ISACTIVE="N" CREATED="2009-04-19 09:12:09.0" CREATEDBY="100" UPDATED="2009-07-13 21:11:01.0" UPDATEDBY="100" VALUE="HDD Import Processor" NAME="HDD Import Processor" DESCRIPTION="HDD Import Processor Description" HELP="HDD Import Processor Help" FREQUENCYTYPE="M" FREQUENCY="10" KEEPLOGDAYS="7" PROCESSING="N" HOST="www.example.com" ACCOUNT="exampleAccount" PASSWORDINFO="examplePassword" />
+  <IMP_PROCESSOR IMP_PROCESSOR_ID="50001" IMP_PROCESSOR_TYPE_ID="50001" AD_CLIENT_ID="11" AD_ORG_ID="0" ISACTIVE="N" CREATED="2009-04-19 09:12:18.0" CREATEDBY="100" UPDATED="2009-07-13 21:11:05.0" UPDATEDBY="100" VALUE="JMS Topic Import Processor" NAME="Human Readable name for - JMS Topic Import Processor" DESCRIPTION="JMS Topic Import Processor Description" HELP="JMS Topic Import Processor Help" FREQUENCYTYPE="M" FREQUENCY="10" KEEPLOGDAYS="7" PROCESSING="N" HOST="www.example.com" PORT="61616" ACCOUNT="exampleAccount" PASSWORDINFO="examplePassword" />
+</data>

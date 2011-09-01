@@ -20,9 +20,11 @@
       <column name="CURRENTNEXTSYS" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="ISAUDITED" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISTABLEID" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <column name="PREFIX" primaryKey="false" required="false" type="VARCHAR" size="10" autoIncrement="false"/>
-      <column name="SUFFIX" primaryKey="false" required="false" type="VARCHAR" size="10" autoIncrement="false"/>
+      <column name="PREFIX" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="SUFFIX" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="STARTNEWYEAR" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="DATECOLUMN" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="DECIMALPATTERN" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
       <foreign-key foreignTable="AD_CLIENT" name="SEQUENCECLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>

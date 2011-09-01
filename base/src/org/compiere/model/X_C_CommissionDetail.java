@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_CommissionDetail
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_C_CommissionDetail extends PO implements I_C_CommissionDetail, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110528L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_C_CommissionDetail (Properties ctx, int C_CommissionDetail_ID, String trxName)
@@ -224,6 +224,26 @@ public class X_C_CommissionDetail extends PO implements I_C_CommissionDetail, I_
 		return ii.intValue();
 	}
 
+	/** Set Converted Amount.
+		@param ConvertedAmt 
+		Converted Amount
+	  */
+	public void setConvertedAmt (BigDecimal ConvertedAmt)
+	{
+		set_Value (COLUMNNAME_ConvertedAmt, ConvertedAmt);
+	}
+
+	/** Get Converted Amount.
+		@return Converted Amount
+	  */
+	public BigDecimal getConvertedAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ConvertedAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	public org.compiere.model.I_C_OrderLine getC_OrderLine() throws RuntimeException
     {
 		return (org.compiere.model.I_C_OrderLine)MTable.get(getCtx(), org.compiere.model.I_C_OrderLine.Table_Name)
@@ -250,26 +270,6 @@ public class X_C_CommissionDetail extends PO implements I_C_CommissionDetail, I_
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Converted Amount.
-		@param ConvertedAmt 
-		Converted Amount
-	  */
-	public void setConvertedAmt (BigDecimal ConvertedAmt)
-	{
-		set_Value (COLUMNNAME_ConvertedAmt, ConvertedAmt);
-	}
-
-	/** Get Converted Amount.
-		@return Converted Amount
-	  */
-	public BigDecimal getConvertedAmt () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ConvertedAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
 	}
 
 	/** Set Info.

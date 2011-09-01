@@ -31,9 +31,12 @@
         <reference local="AD_SYSTEM_ID" foreign="AD_SYSTEM_ID"/>
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <check>
-        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
-      </check>
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_ADREGISTRATION" onDelete="none">
+        <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_LOCATION" name="CLOCATION_ADREGISTRATION" onDelete="none">
+        <reference local="C_LOCATION_ID" foreign="C_LOCATION_ID"/>
+      </foreign-key>
       <check>
         <rule><![CDATA[IsRegistered in ('Y','N')]]></rule>
       </check>
@@ -45,6 +48,9 @@
       </check>
       <check>
         <rule><![CDATA[IsAllowStatistics in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
       </check>
     </table>
   </database>

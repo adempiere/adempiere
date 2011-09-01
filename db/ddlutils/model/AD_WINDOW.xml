@@ -15,7 +15,7 @@
       <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="WINDOWTYPE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="ISSOTRX" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="4" default="D" autoIncrement="false"/>
+      <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="40" default="D" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="AD_IMAGE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_COLOR_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
@@ -28,6 +28,9 @@
       </foreign-key>
       <foreign-key foreignTable="AD_COLOR" name="ADCOLOR_ADWINDOW" onDelete="none">
         <reference local="AD_COLOR_ID" foreign="AD_COLOR_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ENTITYTYPE" name="ENTITYT_ADWINDOW" onDelete="none">
+        <reference local="ENTITYTYPE" foreign="ENTITYTYPE"/>
       </foreign-key>
       <foreign-key foreignTable="AD_IMAGE" name="ADIMAGE_ADWINDOW" onDelete="none">
         <reference local="AD_IMAGE_ID" foreign="AD_IMAGE_ID"/>
