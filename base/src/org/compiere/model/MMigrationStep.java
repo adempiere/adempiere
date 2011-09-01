@@ -229,6 +229,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		}
 		else
 		{
+			setStatusCode( rollback ? MMigrationStep.STATUSCODE_Unapplied :MMigrationStep.STATUSCODE_Applied);
 			setApply( rollback ? MMigrationStep.APPLY_Apply : MMigrationStep.APPLY_Rollback);
 			setErrorMsg(null);
 			saveEx(null);
@@ -263,6 +264,12 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		else if (DisplayType.YesNo == column.getAD_Reference_ID() ) {
 			return "true".equalsIgnoreCase(value);
 		}
+		else if (DisplayType.Button == column.getAD_Reference_ID() && column.getAD_Reference_Value_ID() == 0) {
+			return "true".equalsIgnoreCase(value) ? "Y" : "N";
+		}
+		else if (DisplayType.Button == column.getAD_Reference_ID() && column.getAD_Reference_Value_ID() != 0) {
+			return value;
+		}
 		else if (DisplayType.isDate(column.getAD_Reference_ID())) {
 			return Timestamp.valueOf(value);
 		}
@@ -285,7 +292,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		try {
 			MTable table = MTable.get( getCtx(), getAD_Table_ID() );
 			PO po = null;
-			if ( getRecord_ID() > 0 )
+			if ( table.isSingleKey() && getRecord_ID() > 0 )
 				po = table.getPO( getRecord_ID(), get_TrxName() );
 			else 
 			{
@@ -317,7 +324,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			{
 				po = table.getPO(0, get_TrxName());
 				po.set_ValueNoCheck(po.get_KeyColumns()[0], getRecord_ID() );
-				po.setIsAssignedID(true);
+				po.setIsDirectLoad(true);
 			}
 
 			for (MMigrationData data : m_migrationData )
@@ -428,7 +435,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 				po = table.getPO(0, get_TrxName());
 				// TODO: only works for single key tables
 				po.set_ValueNoCheck(po.get_KeyColumns()[0], getRecord_ID() );
-				po.setIsAssignedID(true);
+				po.setIsDirectLoad(true);
 			}
 
 			if ( getAction().equals(ACTION_Insert) && po != null) 
@@ -578,6 +585,10 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		
 		mstep.saveEx();
 
+	}
+
+	public MMigration getParent() {
+		return (MMigration) getAD_Migration();
 	}
 
 }

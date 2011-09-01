@@ -69,7 +69,7 @@ public class MMigration extends X_AD_Migration {
 				// else continue processing
 			}
 		}
-		updateStatus();
+		updateStatus(null);
 	}
 	
 	public void rollback() throws SQLException {
@@ -85,7 +85,7 @@ public class MMigration extends X_AD_Migration {
 		}
 	}
 	
-	private void updateStatus() {
+	public void updateStatus(String trxName) {
 		
 		String base = "SELECT count(1) " +
 		" FROM AD_MigrationStep " +
@@ -94,10 +94,10 @@ public class MMigration extends X_AD_Migration {
 		int total = DB.getSQLValue(null, base);
 
 		String sql = base + " AND StatusCode = 'A'";
-		int applied = DB.getSQLValue(null, sql);
+		int applied = DB.getSQLValue(trxName, sql);
 		
 		sql = base + " AND StatusCode = 'U'";
-		int unapplied = DB.getSQLValue(null, sql);
+		int unapplied = DB.getSQLValue(trxName, sql);
 
 		if ( applied == total && applied > 0 )
 		{

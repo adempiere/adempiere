@@ -245,15 +245,15 @@ public abstract class PO
 	/** Trifon - Indicates that this record is created by replication functionality.*/
 	private boolean m_isReplication = false;
 	
-	/** Do not overwrite assigned ID with generated one */
-	private boolean isAssignedID = false;
+	/** Direct load, e.g. from migration. Do not overwrite assigned ID with generated one, or fire triggers */
+	private boolean isDirectLoad = false;
 
-	public boolean isAssignedID() {
-		return isAssignedID;
+	public boolean isDirectLoad() {
+		return isDirectLoad;
 	}
 
-	public void setIsAssignedID(boolean assignedID) {
-		isAssignedID = assignedID;
+	public void setIsDirectLoad(boolean directLoad) {
+		isDirectLoad = directLoad;
 	}
 
 	/** Access Level S__ 100	4	System info			*/
@@ -1348,7 +1348,7 @@ public abstract class PO
 			}
 			else
 			{
-				log.log(Level.SEVERE, "NO Data found for " + get_WhereClause(true), new Exception());
+				log.log(Level.WARNING, "NO Data found for " + get_WhereClause(true));
 				m_IDs = new Object[] {I_ZERO};
 				success = false;
 			//	throw new DBException("NO Data found for " + get_WhereClause(true));
@@ -2196,20 +2196,23 @@ public abstract class PO
 			else
 				updateTranslations();
 		}
-		//
-		try
+		if (!isDirectLoad)
 		{
-			success = afterSave (newRecord, success);
-		}
-		catch (Exception e)
-		{
-			log.log(Level.WARNING, "afterSave", e);
-			log.saveError("Error", e, false);
-			success = false;
-		//	throw new DBException(e);
+			//
+			try
+			{
+				success = afterSave (newRecord, success);
+			}
+			catch (Exception e)
+			{
+				log.log(Level.WARNING, "afterSave", e);
+				log.saveError("Error", e, false);
+				success = false;
+				//	throw new DBException(e);
+			}
 		}
 		// Call ModelValidators TYPE_AFTER_NEW/TYPE_AFTER_CHANGE - teo_sarca [ 1675490 ]
-		if (success) {
+		if (success && !isDirectLoad) {
 			String errorMsg = ModelValidationEngine.get().fireModelChange
 				(this, newRecord ?
 							(isReplication() ? ModelValidator.TYPE_AFTER_NEW_REPLICATION : ModelValidator.TYPE_AFTER_NEW)
@@ -2223,7 +2226,7 @@ public abstract class PO
 			}
 		}
 		//	OK
-		if (success)
+		if (success && !isDirectLoad)
 		{
 			if (s_docWFMgr == null)
 			{
@@ -2238,6 +2241,10 @@ public abstract class PO
 			if (s_docWFMgr != null)
 				s_docWFMgr.process (this, p_info.getAD_Table_ID());
 
+		}
+		
+		if (success)
+		{
 			//	Copy to Old values
 			int size = p_info.getColumnCount();
 			for (int i = 0; i < size; i++)
@@ -2552,7 +2559,7 @@ public abstract class PO
 		//  Set ID for single key - Multi-Key values need explicitly be set previously
 		if (m_IDs.length == 1 && p_info.hasKeyColumn()
 			&& m_KeyColumns[0].endsWith("_ID")
-			&& !isAssignedID )	//	AD_Language, EntityType
+			&& !isDirectLoad )	//	AD_Language, EntityType
 		{
 			int no = saveNew_getID();
 			if (no <= 0)

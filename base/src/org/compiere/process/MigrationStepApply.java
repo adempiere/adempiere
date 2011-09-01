@@ -1,6 +1,6 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Copyright (C) 2011 Adaxa Pty Ltd. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -17,6 +17,7 @@
 
 package org.compiere.process;
 
+import org.compiere.model.MMigration;
 import org.compiere.model.MMigrationStep;
 import org.compiere.process.SvrProcess;
 
@@ -34,12 +35,19 @@ public class MigrationStepApply extends SvrProcess {
 	@Override
 	protected String doIt() throws Exception {
 
+		String retval = migrationstep.toString();
 		if ( migrationstep == null || migrationstep.is_new() )
 			return "No migration step";
 		else if ( MMigrationStep.STATUSCODE_Applied.equals(migrationstep.getStatusCode()) )
-			return migrationstep + migrationstep.rollback();
+			retval +=migrationstep.rollback();
 		else
-			return migrationstep + migrationstep.apply();
+			retval += migrationstep.apply();
+		
+		MMigration migration = migrationstep.getParent();
+		migration.updateStatus(get_TrxName());
+		migration.saveEx();
+		
+		return retval;
 	}
 	
 	@Override
