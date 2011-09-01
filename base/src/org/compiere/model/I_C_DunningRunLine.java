@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_DunningRunLine
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_C_DunningRunLine 
 {
@@ -88,7 +88,7 @@ public interface I_C_DunningRunLine
 	  */
 	public int getC_DunningRunEntry_ID();
 
-	public I_C_DunningRunEntry getC_DunningRunEntry() throws RuntimeException;
+	public org.compiere.model.I_C_DunningRunEntry getC_DunningRunEntry() throws RuntimeException;
 
     /** Column name C_DunningRunLine_ID */
     public static final String COLUMNNAME_C_DunningRunLine_ID = "C_DunningRunLine_ID";
@@ -116,7 +116,7 @@ public interface I_C_DunningRunLine
 	  */
 	public int getC_Invoice_ID();
 
-	public I_C_Invoice getC_Invoice() throws RuntimeException;
+	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException;
 
     /** Column name C_InvoicePaySchedule_ID */
     public static final String COLUMNNAME_C_InvoicePaySchedule_ID = "C_InvoicePaySchedule_ID";
@@ -131,7 +131,7 @@ public interface I_C_DunningRunLine
 	  */
 	public int getC_InvoicePaySchedule_ID();
 
-	public I_C_InvoicePaySchedule getC_InvoicePaySchedule() throws RuntimeException;
+	public org.compiere.model.I_C_InvoicePaySchedule getC_InvoicePaySchedule() throws RuntimeException;
 
     /** Column name ConvertedAmt */
     public static final String COLUMNNAME_ConvertedAmt = "ConvertedAmt";
@@ -159,7 +159,7 @@ public interface I_C_DunningRunLine
 	  */
 	public int getC_Payment_ID();
 
-	public I_C_Payment getC_Payment() throws RuntimeException;
+	public org.compiere.model.I_C_Payment getC_Payment() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_CommissionRun
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_C_CommissionRun extends PO implements I_C_CommissionRun, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_C_CommissionRun (Properties ctx, int C_CommissionRun_ID, String trxName)
@@ -78,9 +78,9 @@ public class X_C_CommissionRun extends PO implements I_C_CommissionRun, I_Persis
       return sb.toString();
     }
 
-	public I_C_Commission getC_Commission() throws RuntimeException
+	public org.compiere.model.I_C_Commission getC_Commission() throws RuntimeException
     {
-		return (I_C_Commission)MTable.get(getCtx(), I_C_Commission.Table_Name)
+		return (org.compiere.model.I_C_Commission)MTable.get(getCtx(), org.compiere.model.I_C_Commission.Table_Name)
 			.getPO(getC_Commission_ID(), get_TrxName());	}
 
 	/** Set Commission.

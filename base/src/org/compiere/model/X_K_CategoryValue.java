@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for K_CategoryValue
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_K_CategoryValue extends PO implements I_K_CategoryValue, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_K_CategoryValue (Properties ctx, int K_CategoryValue_ID, String trxName)
@@ -89,9 +89,9 @@ public class X_K_CategoryValue extends PO implements I_K_CategoryValue, I_Persis
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public I_K_Category getK_Category() throws RuntimeException
+	public org.compiere.model.I_K_Category getK_Category() throws RuntimeException
     {
-		return (I_K_Category)MTable.get(getCtx(), I_K_Category.Table_Name)
+		return (org.compiere.model.I_K_Category)MTable.get(getCtx(), org.compiere.model.I_K_Category.Table_Name)
 			.getPO(getK_Category_ID(), get_TrxName());	}
 
 	/** Set Knowledge Category.

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_WorkflowProcessorLog
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_AD_WorkflowProcessorLog 
 {
@@ -75,7 +75,7 @@ public interface I_AD_WorkflowProcessorLog
 	  */
 	public int getAD_WorkflowProcessor_ID();
 
-	public I_AD_WorkflowProcessor getAD_WorkflowProcessor() throws RuntimeException;
+	public org.compiere.model.I_AD_WorkflowProcessor getAD_WorkflowProcessor() throws RuntimeException;
 
     /** Column name AD_WorkflowProcessorLog_ID */
     public static final String COLUMNNAME_AD_WorkflowProcessorLog_ID = "AD_WorkflowProcessorLog_ID";

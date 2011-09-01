@@ -10,7 +10,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * Copyright (C) 2003-2007 e-Evolution,SC. All Rights Reserved.               *
+ * Copyright (C) 2003-2010 e-Evolution,SC. All Rights Reserved.               *
  * Contributor(s): Victor Perez www.e-evolution.com                           *
  *                 Teo Sarca, www.arhipac.ro                                  *
  *****************************************************************************/
@@ -23,6 +23,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Properties;
 
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -31,6 +32,7 @@ import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DBException;
 import org.compiere.model.MProduct;
 import org.compiere.model.MUOM;
+import org.compiere.model.Query;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 
@@ -48,11 +50,26 @@ import org.compiere.util.Env;
  */
 public class MPPProductBOMLine extends X_PP_Product_BOMLine
 {
+
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -6729103151164195906L;
+	private static final long serialVersionUID = -5792418944606756221L;
 	MPPProductBOM m_bom = null;
+	
+	/**
+	 * Get all the Product BOM line for a Component
+	 * @param product Product
+	 * @return list of MPPProductBOMLine
+	 */
+	public static List<MPPProductBOMLine> getByProduct(MProduct product) 
+	{		
+		final String whereClause = MPPProductBOMLine.COLUMNNAME_M_Product_ID+"=?";
+		return new Query(product.getCtx(), MPPProductBOMLine.Table_Name, whereClause, product.get_TrxName())
+						.setParameters(product.getM_Product_ID())
+						.list();
+	}
 	
 	/**
 	 *  Default Constructor

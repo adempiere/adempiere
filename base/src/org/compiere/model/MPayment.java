@@ -141,7 +141,7 @@ public final class MPayment extends X_C_Payment
 			setDiscountAmt(Env.ZERO);
 			setTaxAmt(Env.ZERO);
 			setWriteOffAmt(Env.ZERO);
-			setIsOverUnderPayment (false);
+			setIsOverUnderPayment (true);
 			setOverUnderAmt(Env.ZERO);
 			//
 			setDateTrx (new Timestamp(System.currentTimeMillis()));
@@ -271,6 +271,7 @@ public final class MPayment extends X_C_Payment
 		MBPBankAccount ba = new MBPBankAccount (preparedPayment.getCtx(), C_BP_BankAccount_ID, null);
 		setRoutingNo(ba.getRoutingNo());
 		setAccountNo(ba.getAccountNo());
+		setDescription(preparedPayment.getC_PaySelection().getName());
 		setIsReceipt (X_C_Order.PAYMENTRULE_DirectDebit.equals	//	AR only
 				(preparedPayment.getPaymentRule()));
 		if ( MPaySelectionCheck.PAYMENTRULE_DirectDebit.equals(preparedPayment.getPaymentRule()) )
@@ -1014,7 +1015,8 @@ public final class MPayment extends X_C_Payment
 	 */
 	public void setRoutingNo(String RoutingNo)
 	{
-		super.setRoutingNo (MPaymentValidate.checkNumeric(RoutingNo));
+		// super.setRoutingNo (MPaymentValidate.checkNumeric(RoutingNo));
+		super.setRoutingNo (RoutingNo);
 	}	//	setBankRoutingNo
 
 
@@ -1789,7 +1791,7 @@ public final class MPayment extends X_C_Payment
 		//	MProject project = new MProject(getCtx(), getC_Project_ID());
 		}
 		//	Update BP for Prepayments
-		if (getC_BPartner_ID() != 0 && getC_Invoice_ID() == 0 && getC_Charge_ID() == 0)
+		if (getC_BPartner_ID() != 0 && getC_Invoice_ID() == 0 && getC_Charge_ID() == 0 && MPaymentAllocate.get(this).length == 0)
 		{
 			MBPartner bp = new MBPartner (getCtx(), getC_BPartner_ID(), get_TrxName());
 			//	Update total balance to include this payment 
@@ -2072,6 +2074,7 @@ public final class MPayment extends X_C_Payment
 			getDateTrx(), getC_Currency_ID(),
 			Msg.translate(getCtx(), "C_Payment_ID") + ": " + getDocumentNo() + " [1]", get_TrxName());
 		alloc.setAD_Org_ID(getAD_Org_ID());
+		alloc.setDateAcct(getDateAcct()); // in case date acct is different from datetrx in payment
 		alloc.saveEx();
 		MAllocationLine aLine = null;
 		if (isReceipt())
@@ -2109,7 +2112,8 @@ public final class MPayment extends X_C_Payment
 			getDateTrx(), getC_Currency_ID(),
 			Msg.translate(getCtx(), "C_Payment_ID")	+ ": " + getDocumentNo() + " [n]", get_TrxName());
 		alloc.setAD_Org_ID(getAD_Org_ID());
-
+		alloc.setDateAcct(getDateAcct()); // in case date acct is different from datetrx in payment
+		
 		String sql = "SELECT psc.C_BPartner_ID, psl.C_Invoice_ID, psl.IsSOTrx, "	//	1..3
 			+ " psl.PayAmt, psl.DiscountAmt, psl.DifferenceAmt, psl.OpenAmt "
 			+ "FROM C_PaySelectionLine psl"

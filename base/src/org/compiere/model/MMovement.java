@@ -539,7 +539,7 @@ public class MMovement extends X_M_Movement implements DocAction
 	 */
 	private void checkMaterialPolicy(MMovementLine line)
 	{
-		int no = MMovementLineMA.deleteMovementMA(getM_Movement_ID(), get_TrxName());
+		int no = MMovementLineMA.deleteMovementLineMA(line.getM_MovementLine_ID(), get_TrxName());
 		if (no > 0)
 			log.config("Delete old #" + no);
 		

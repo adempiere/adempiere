@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_AttributeSet
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_M_AttributeSet 
 {
@@ -273,7 +273,7 @@ public interface I_M_AttributeSet
 	  */
 	public int getM_LotCtl_ID();
 
-	public I_M_LotCtl getM_LotCtl() throws RuntimeException;
+	public org.compiere.model.I_M_LotCtl getM_LotCtl() throws RuntimeException;
 
     /** Column name M_SerNoCtl_ID */
     public static final String COLUMNNAME_M_SerNoCtl_ID = "M_SerNoCtl_ID";
@@ -288,7 +288,7 @@ public interface I_M_AttributeSet
 	  */
 	public int getM_SerNoCtl_ID();
 
-	public I_M_SerNoCtl getM_SerNoCtl() throws RuntimeException;
+	public org.compiere.model.I_M_SerNoCtl getM_SerNoCtl() throws RuntimeException;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

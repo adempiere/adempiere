@@ -23,6 +23,9 @@
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CRECEIVABLE_CBPCUSTOMER" onDelete="none">
         <reference local="C_RECEIVABLE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="CRECEIVABLESERVICES_CBPCUSTOME" onDelete="none">
+        <reference local="C_RECEIVABLE_SERVICES_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CPREPAYMENT_CBPCUSTOMER" onDelete="none">
         <reference local="C_PREPAYMENT_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>

@@ -396,11 +396,16 @@ public class MInventory extends X_M_Inventory implements DocAction
 
 			MProduct product = line.getProduct();	
 
-			//Get Quantity to Inventory Inernal Use
+			//Get Quantity Internal Use
 			BigDecimal qtyDiff = line.getQtyInternalUse().negate();
-			//If Quantity to Inventory Internal Use = Zero Then is Physical Inventory  Else is  Inventory Internal Use 
+			//If Quantity Internal Use = Zero Then Physical Inventory  Else Internal Use Inventory
 			if (qtyDiff.signum() == 0)
+			{
 				qtyDiff = line.getQtyCount().subtract(line.getQtyBook());
+				//If Quantity Count minus Quantity Book = Zero, then no change in Inventory
+				if (qtyDiff.signum() == 0)
+					continue;
+			}
 
 			//Ignore the Material Policy when is Reverse Correction
 			if(!isReversal())

@@ -1,0 +1,135 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="PP_ORDER_NODE">
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="AD_COLUMN_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_FORM_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_IMAGE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_PROCESS_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_TASK_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_WF_BLOCK_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_WF_NODE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_WF_RESPONSIBLE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_WINDOW_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_WORKFLOW_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="ACTION" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ATTRIBUTENAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="ATTRIBUTEVALUE" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="COST" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="DATEFINISH" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="DATEFINISHSCHEDULE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="DATESTART" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="DATESTARTSCHEDULE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="DOCACTION" primaryKey="false" required="false" type="CHAR" size="2" autoIncrement="false"/>
+      <column name="DOCSTATUS" primaryKey="false" required="false" type="CHAR" size="2" autoIncrement="false"/>
+      <column name="DURATION" primaryKey="false" required="false" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
+      <column name="DURATIONREAL" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="DURATIONREQUIRED" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="40" default="U" autoIncrement="false"/>
+      <column name="FINISHMODE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISCENTRALLYMAINTAINED" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISMILESTONE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISSUBCONTRACTING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="JOINELEMENT" primaryKey="false" required="true" type="CHAR" size="1" default="X" autoIncrement="false"/>
+      <column name="LIMIT" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="MOVINGTIME" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="OVERLAPUNITS" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="PP_ORDER_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="PP_ORDER_NODE_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="PP_ORDER_WORKFLOW_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="PRIORITY" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="QTYDELIVERED" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="QTYREJECT" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="QTYREQUIRED" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="QTYSCRAP" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="QUEUINGTIME" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="S_RESOURCE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="SETUPTIME" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="SETUPTIMEREAL" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="SETUPTIMEREQUIRED" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="SPLITELEMENT" primaryKey="false" required="true" type="CHAR" size="1" default="X" autoIncrement="false"/>
+      <column name="STARTMODE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="SUBFLOWEXECUTION" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="UNITSCYCLES" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="VALIDFROM" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="VALIDTO" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="VALUE" primaryKey="false" required="true" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="WAITINGTIME" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="WORKFLOW_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="WORKINGTIME" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="XPOSITION" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="YPOSITION" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="YIELD" primaryKey="false" required="false" type="DECIMAL" size="10" default="100" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_PPORDERNODE" onDelete="none">
+        <reference local="AD_COLUMN_ID" foreign="AD_COLUMN_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ENTITYTYPE" name="ENTITYT_PPORDERNODE" onDelete="none">
+        <reference local="ENTITYTYPE" foreign="ENTITYTYPE"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_FORM" name="ADFORM_PPORDERNODE" onDelete="none">
+        <reference local="AD_FORM_ID" foreign="AD_FORM_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_IMAGE" name="ADIMAGE_PPORDERNODE" onDelete="none">
+        <reference local="AD_IMAGE_ID" foreign="AD_IMAGE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_PROCESS" name="ADPROCESS_PPORDERNODE" onDelete="none">
+        <reference local="AD_PROCESS_ID" foreign="AD_PROCESS_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_TASK" name="ADTASK_PPORDERNODE" onDelete="none">
+        <reference local="AD_TASK_ID" foreign="AD_TASK_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_WF_BLOCK" name="ADWFBLOCK_PPORDERNODE" onDelete="none">
+        <reference local="AD_WF_BLOCK_ID" foreign="AD_WF_BLOCK_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_WF_NODE" name="ADWFNODE_PPORDERNODE" onDelete="none">
+        <reference local="AD_WF_NODE_ID" foreign="AD_WF_NODE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_WF_RESPONSIBLE" name="ADWFRESPONSIBLE_PPORDERNODE" onDelete="none">
+        <reference local="AD_WF_RESPONSIBLE_ID" foreign="AD_WF_RESPONSIBLE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_WINDOW" name="ADWINDOW_PPORDERNODE" onDelete="none">
+        <reference local="AD_WINDOW_ID" foreign="AD_WINDOW_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_WORKFLOW" name="ADWORKFLOW_PPORDERNODE" onDelete="none">
+        <reference local="AD_WORKFLOW_ID" foreign="AD_WORKFLOW_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_WORKFLOW" name="WORKFLOW_PPORDERNODE" onDelete="none">
+        <reference local="WORKFLOW_ID" foreign="AD_WORKFLOW_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_PPORDERNODE" onDelete="none">
+        <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="PP_ORDER" name="PPORDER_PPORDERNODE" onDelete="none">
+        <reference local="PP_ORDER_ID" foreign="PP_ORDER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="PP_ORDER_WORKFLOW" name="PPORDERWORKFLOW_PPORDERNODE" onDelete="none">
+        <reference local="PP_ORDER_WORKFLOW_ID" foreign="PP_ORDER_WORKFLOW_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="S_RESOURCE" name="SRESOURCE_PPORDERNODE" onDelete="none">
+        <reference local="S_RESOURCE_ID" foreign="S_RESOURCE_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsCentrallyMaintained IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsMilestone IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsSubcontracting IN ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Issue
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_AD_Issue (Properties ctx, int AD_Issue_ID, String trxName)
@@ -83,9 +83,9 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
       return sb.toString();
     }
 
-	public I_A_Asset getA_Asset() throws RuntimeException
+	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException
     {
-		return (I_A_Asset)MTable.get(getCtx(), I_A_Asset.Table_Name)
+		return (org.compiere.model.I_A_Asset)MTable.get(getCtx(), org.compiere.model.I_A_Asset.Table_Name)
 			.getPO(getA_Asset_ID(), get_TrxName());	}
 
 	/** Set Asset.
@@ -111,9 +111,9 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Form getAD_Form() throws RuntimeException
+	public org.compiere.model.I_AD_Form getAD_Form() throws RuntimeException
     {
-		return (I_AD_Form)MTable.get(getCtx(), I_AD_Form.Table_Name)
+		return (org.compiere.model.I_AD_Form)MTable.get(getCtx(), org.compiere.model.I_AD_Form.Table_Name)
 			.getPO(getAD_Form_ID(), get_TrxName());	}
 
 	/** Set Special Form.
@@ -162,9 +162,9 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Process getAD_Process() throws RuntimeException
+	public org.compiere.model.I_AD_Process getAD_Process() throws RuntimeException
     {
-		return (I_AD_Process)MTable.get(getCtx(), I_AD_Process.Table_Name)
+		return (org.compiere.model.I_AD_Process)MTable.get(getCtx(), org.compiere.model.I_AD_Process.Table_Name)
 			.getPO(getAD_Process_ID(), get_TrxName());	}
 
 	/** Set Process.
@@ -190,9 +190,9 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Window getAD_Window() throws RuntimeException
+	public org.compiere.model.I_AD_Window getAD_Window() throws RuntimeException
     {
-		return (I_AD_Window)MTable.get(getCtx(), I_AD_Window.Table_Name)
+		return (org.compiere.model.I_AD_Window)MTable.get(getCtx(), org.compiere.model.I_AD_Window.Table_Name)
 			.getPO(getAD_Window_ID(), get_TrxName());	}
 
 	/** Set Window.
@@ -685,9 +685,9 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 		return (String)get_Value(COLUMNNAME_ResponseText);
 	}
 
-	public I_R_IssueKnown getR_IssueKnown() throws RuntimeException
+	public org.compiere.model.I_R_IssueKnown getR_IssueKnown() throws RuntimeException
     {
-		return (I_R_IssueKnown)MTable.get(getCtx(), I_R_IssueKnown.Table_Name)
+		return (org.compiere.model.I_R_IssueKnown)MTable.get(getCtx(), org.compiere.model.I_R_IssueKnown.Table_Name)
 			.getPO(getR_IssueKnown_ID(), get_TrxName());	}
 
 	/** Set Known Issue.
@@ -713,9 +713,9 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_R_IssueProject getR_IssueProject() throws RuntimeException
+	public org.compiere.model.I_R_IssueProject getR_IssueProject() throws RuntimeException
     {
-		return (I_R_IssueProject)MTable.get(getCtx(), I_R_IssueProject.Table_Name)
+		return (org.compiere.model.I_R_IssueProject)MTable.get(getCtx(), org.compiere.model.I_R_IssueProject.Table_Name)
 			.getPO(getR_IssueProject_ID(), get_TrxName());	}
 
 	/** Set Issue Project.
@@ -741,9 +741,9 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_R_IssueSystem getR_IssueSystem() throws RuntimeException
+	public org.compiere.model.I_R_IssueSystem getR_IssueSystem() throws RuntimeException
     {
-		return (I_R_IssueSystem)MTable.get(getCtx(), I_R_IssueSystem.Table_Name)
+		return (org.compiere.model.I_R_IssueSystem)MTable.get(getCtx(), org.compiere.model.I_R_IssueSystem.Table_Name)
 			.getPO(getR_IssueSystem_ID(), get_TrxName());	}
 
 	/** Set Issue System.
@@ -769,9 +769,9 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_R_IssueUser getR_IssueUser() throws RuntimeException
+	public org.compiere.model.I_R_IssueUser getR_IssueUser() throws RuntimeException
     {
-		return (I_R_IssueUser)MTable.get(getCtx(), I_R_IssueUser.Table_Name)
+		return (org.compiere.model.I_R_IssueUser)MTable.get(getCtx(), org.compiere.model.I_R_IssueUser.Table_Name)
 			.getPO(getR_IssueUser_ID(), get_TrxName());	}
 
 	/** Set IssueUser.
@@ -797,9 +797,9 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_R_Request getR_Request() throws RuntimeException
+	public org.compiere.model.I_R_Request getR_Request() throws RuntimeException
     {
-		return (I_R_Request)MTable.get(getCtx(), I_R_Request.Table_Name)
+		return (org.compiere.model.I_R_Request)MTable.get(getCtx(), org.compiere.model.I_R_Request.Table_Name)
 			.getPO(getR_Request_ID(), get_TrxName());	}
 
 	/** Set Request.

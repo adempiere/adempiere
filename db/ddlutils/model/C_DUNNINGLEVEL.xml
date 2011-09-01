@@ -27,6 +27,8 @@
       <column name="ISSETCREDITSTOP" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISSETPAYMENTTERM" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="C_PAYMENTTERM_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="INVOICECOLLECTIONTYPE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISSTATEMENT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_CDUNNINGLEVEL" onDelete="none">
         <reference local="DUNNING_PRINTFORMAT_ID" foreign="AD_PRINTFORMAT_ID"/>
       </foreign-key>
@@ -44,6 +46,9 @@
       </check>
       <check>
         <rule><![CDATA[ChargeFee in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsStatement IN ('Y','N')]]></rule>
       </check>
     </table>
   </database>

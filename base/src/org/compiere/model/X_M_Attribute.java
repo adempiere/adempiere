@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Attribute
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_M_Attribute extends PO implements I_M_Attribute, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_M_Attribute (Properties ctx, int M_Attribute_ID, String trxName)
@@ -189,9 +189,9 @@ public class X_M_Attribute extends PO implements I_M_Attribute, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_AttributeSearch getM_AttributeSearch() throws RuntimeException
+	public org.compiere.model.I_M_AttributeSearch getM_AttributeSearch() throws RuntimeException
     {
-		return (I_M_AttributeSearch)MTable.get(getCtx(), I_M_AttributeSearch.Table_Name)
+		return (org.compiere.model.I_M_AttributeSearch)MTable.get(getCtx(), org.compiere.model.I_M_AttributeSearch.Table_Name)
 			.getPO(getM_AttributeSearch_ID(), get_TrxName());	}
 
 	/** Set Attribute Search.

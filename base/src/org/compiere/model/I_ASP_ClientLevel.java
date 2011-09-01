@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for ASP_ClientLevel
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_ASP_ClientLevel 
 {
@@ -80,7 +80,7 @@ public interface I_ASP_ClientLevel
 	/** Get ASP Level	  */
 	public int getASP_Level_ID();
 
-	public I_ASP_Level getASP_Level() throws RuntimeException;
+	public org.compiere.model.I_ASP_Level getASP_Level() throws RuntimeException;
 
     /** Column name ASP_Module_ID */
     public static final String COLUMNNAME_ASP_Module_ID = "ASP_Module_ID";
@@ -91,7 +91,7 @@ public interface I_ASP_ClientLevel
 	/** Get ASP Module	  */
 	public int getASP_Module_ID();
 
-	public I_ASP_Module getASP_Module() throws RuntimeException;
+	public org.compiere.model.I_ASP_Module getASP_Module() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

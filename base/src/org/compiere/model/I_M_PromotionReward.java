@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_PromotionReward
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_M_PromotionReward 
 {
@@ -88,7 +88,7 @@ public interface I_M_PromotionReward
 	  */
 	public int getC_Charge_ID();
 
-	public I_C_Charge getC_Charge() throws RuntimeException;
+	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -167,7 +167,7 @@ public interface I_M_PromotionReward
 	/** Get Promotion Distribution	  */
 	public int getM_PromotionDistribution_ID();
 
-	public I_M_PromotionDistribution getM_PromotionDistribution() throws RuntimeException;
+	public org.compiere.model.I_M_PromotionDistribution getM_PromotionDistribution() throws RuntimeException;
 
     /** Column name M_Promotion_ID */
     public static final String COLUMNNAME_M_Promotion_ID = "M_Promotion_ID";
@@ -178,7 +178,7 @@ public interface I_M_PromotionReward
 	/** Get Promotion	  */
 	public int getM_Promotion_ID();
 
-	public I_M_Promotion getM_Promotion() throws RuntimeException;
+	public org.compiere.model.I_M_Promotion getM_Promotion() throws RuntimeException;
 
     /** Column name M_PromotionReward_ID */
     public static final String COLUMNNAME_M_PromotionReward_ID = "M_PromotionReward_ID";
@@ -202,7 +202,7 @@ public interface I_M_PromotionReward
 	  */
 	public int getM_TargetDistribution_ID();
 
-	public I_M_PromotionDistribution getM_TargetDistribution() throws RuntimeException;
+	public org.compiere.model.I_M_PromotionDistribution getM_TargetDistribution() throws RuntimeException;
 
     /** Column name Qty */
     public static final String COLUMNNAME_Qty = "Qty";

@@ -48,6 +48,7 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Page;
 import org.zkoss.zk.ui.Session;
+import org.zkoss.zk.ui.UiException;
 import org.zkoss.zk.ui.event.ClientInfoEvent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -70,11 +71,11 @@ import org.zkoss.zul.Window;
  * @author hengsin
  */
 public class AdempiereWebUI extends Window implements EventListener, IWebClient
-{    
+{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 5759422592670132576L;
+	private static final long serialVersionUID = 3744725245132180915L;
 
 	public static final String APP_NAME = "Adempiere";
 
@@ -181,6 +182,9 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 		Env.setContext(ctx, "#ShowAcct", MRole.getDefault().isShowAcct());
 		Env.setContext(ctx, "#ShowAdvanced", true);
 
+		// to reload preferences when the user refresh the browser
+		userPreference = loadUserPreference(Env.getAD_User_ID(ctx));
+		
 		//auto commit user preference
 		String autoCommit = userPreference.getProperty(UserPreference.P_AUTO_COMMIT);
 		Env.setAutoCommit(ctx, "true".equalsIgnoreCase(autoCommit) || "y".equalsIgnoreCase(autoCommit));
@@ -232,7 +236,13 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 					if (appDesktop != null) {
 						//re-attach root components
 						for (Component component : rootComponents) {
-							component.setPage(this.getPage());
+							try {
+								component.setPage(this.getPage());
+							} catch (UiException e) {
+								// e.printStackTrace();
+								// an exception is thrown here when refreshing the page, it seems is harmless to catch and ignore it
+								// i.e.: org.zkoss.zk.ui.UiException: Not unique in the ID space of [Page z_kg_0]: zk_comp_2
+							}
 						}
 						appDesktop.setPage(this.getPage());
 						currSess.setAttribute(EXECUTION_CARRYOVER_SESSION_KEY, current);

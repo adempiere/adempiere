@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_AttributeInstance
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_M_AttributeInstance 
 {
@@ -104,7 +104,7 @@ public interface I_M_AttributeInstance
 	  */
 	public int getM_Attribute_ID();
 
-	public I_M_Attribute getM_Attribute() throws RuntimeException;
+	public org.compiere.model.I_M_Attribute getM_Attribute() throws RuntimeException;
 
     /** Column name M_AttributeSetInstance_ID */
     public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
@@ -134,7 +134,7 @@ public interface I_M_AttributeInstance
 	  */
 	public int getM_AttributeValue_ID();
 
-	public I_M_AttributeValue getM_AttributeValue() throws RuntimeException;
+	public org.compiere.model.I_M_AttributeValue getM_AttributeValue() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

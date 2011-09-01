@@ -124,9 +124,12 @@ public class MField extends X_AD_Field
 			&& isCentrallyMaintained())
 		{
 			M_Element element = M_Element.getOfColumn(getCtx(), getAD_Column_ID(), get_TrxName());
+			if(element != null)
+			{
 			setName (element.getName ());
 			setDescription (element.getDescription ());
 			setHelp (element.getHelp());
+			}
 		}
 
 		return true;

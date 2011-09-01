@@ -30,8 +30,14 @@
       <foreign-key foreignTable="AD_ORG" name="WF_INSTANCEORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADWFPROCESS" onDelete="none">
+        <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="AD_USER" name="ADUSER_ADWFPROCESS" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_WF_PROCESS" name="ADWFPROCESS_ADWFPROCESS" onDelete="none">
+        <reference local="AD_WF_PROCESS_ID" foreign="AD_WF_PROCESS_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_WF_RESPONSIBLE" name="ADWFRESPONSIBLE_ADWFPROCESS" onDelete="none">
         <reference local="AD_WF_RESPONSIBLE_ID" foreign="AD_WF_RESPONSIBLE_ID"/>

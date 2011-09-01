@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_Withholding_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_C_Withholding_Acct 
 {
@@ -75,7 +75,7 @@ public interface I_C_Withholding_Acct
 	  */
 	public int getC_AcctSchema_ID();
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
+	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -106,7 +106,7 @@ public interface I_C_Withholding_Acct
 	  */
 	public int getC_Withholding_ID();
 
-	public I_C_Withholding getC_Withholding() throws RuntimeException;
+	public org.compiere.model.I_C_Withholding getC_Withholding() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

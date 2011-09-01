@@ -23,14 +23,14 @@ import java.util.Properties;
 
 /** Generated Model for CM_MediaDeploy
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_CM_MediaDeploy extends PO implements I_CM_MediaDeploy, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_CM_MediaDeploy (Properties ctx, int CM_MediaDeploy_ID, String trxName)
@@ -96,9 +96,9 @@ public class X_CM_MediaDeploy extends PO implements I_CM_MediaDeploy, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_CM_Media getCM_Media() throws RuntimeException
+	public org.compiere.model.I_CM_Media getCM_Media() throws RuntimeException
     {
-		return (I_CM_Media)MTable.get(getCtx(), I_CM_Media.Table_Name)
+		return (org.compiere.model.I_CM_Media)MTable.get(getCtx(), org.compiere.model.I_CM_Media.Table_Name)
 			.getPO(getCM_Media_ID(), get_TrxName());	}
 
 	/** Set Media Item.
@@ -124,9 +124,9 @@ public class X_CM_MediaDeploy extends PO implements I_CM_MediaDeploy, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_CM_Media_Server getCM_Media_Server() throws RuntimeException
+	public org.compiere.model.I_CM_Media_Server getCM_Media_Server() throws RuntimeException
     {
-		return (I_CM_Media_Server)MTable.get(getCtx(), I_CM_Media_Server.Table_Name)
+		return (org.compiere.model.I_CM_Media_Server)MTable.get(getCtx(), org.compiere.model.I_CM_Media_Server.Table_Name)
 			.getPO(getCM_Media_Server_ID(), get_TrxName());	}
 
 	/** Set Media Server.

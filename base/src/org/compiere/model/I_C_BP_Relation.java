@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_BP_Relation
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_C_BP_Relation 
 {
@@ -75,7 +75,7 @@ public interface I_C_BP_Relation
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_BPartner_Location_ID */
     public static final String COLUMNNAME_C_BPartner_Location_ID = "C_BPartner_Location_ID";
@@ -90,7 +90,7 @@ public interface I_C_BP_Relation
 	  */
 	public int getC_BPartner_Location_ID();
 
-	public I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException;
 
     /** Column name C_BPartnerRelation_ID */
     public static final String COLUMNNAME_C_BPartnerRelation_ID = "C_BPartnerRelation_ID";
@@ -105,7 +105,7 @@ public interface I_C_BP_Relation
 	  */
 	public int getC_BPartnerRelation_ID();
 
-	public I_C_BPartner getC_BPartnerRelation() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getC_BPartnerRelation() throws RuntimeException;
 
     /** Column name C_BPartnerRelation_Location_ID */
     public static final String COLUMNNAME_C_BPartnerRelation_Location_ID = "C_BPartnerRelation_Location_ID";
@@ -120,7 +120,7 @@ public interface I_C_BP_Relation
 	  */
 	public int getC_BPartnerRelation_Location_ID();
 
-	public I_C_BPartner_Location getC_BPartnerRelation_Location() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner_Location getC_BPartnerRelation_Location() throws RuntimeException;
 
     /** Column name C_BP_Relation_ID */
     public static final String COLUMNNAME_C_BP_Relation_ID = "C_BP_Relation_ID";

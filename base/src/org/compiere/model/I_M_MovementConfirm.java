@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_MovementConfirm
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_M_MovementConfirm 
 {
@@ -182,7 +182,7 @@ public interface I_M_MovementConfirm
 	  */
 	public int getM_Inventory_ID();
 
-	public I_M_Inventory getM_Inventory() throws RuntimeException;
+	public org.compiere.model.I_M_Inventory getM_Inventory() throws RuntimeException;
 
     /** Column name M_MovementConfirm_ID */
     public static final String COLUMNNAME_M_MovementConfirm_ID = "M_MovementConfirm_ID";
@@ -210,7 +210,7 @@ public interface I_M_MovementConfirm
 	  */
 	public int getM_Movement_ID();
 
-	public I_M_Movement getM_Movement() throws RuntimeException;
+	public org.compiere.model.I_M_Movement getM_Movement() throws RuntimeException;
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";

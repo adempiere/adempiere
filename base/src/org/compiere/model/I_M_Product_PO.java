@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_Product_PO
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_M_Product_PO 
 {
@@ -75,7 +75,7 @@ public interface I_M_Product_PO
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
@@ -90,7 +90,7 @@ public interface I_M_Product_PO
 	  */
 	public int getC_Currency_ID();
 
-	public I_C_Currency getC_Currency() throws RuntimeException;
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException;
 
     /** Column name CostPerOrder */
     public static final String COLUMNNAME_CostPerOrder = "CostPerOrder";
@@ -134,7 +134,7 @@ public interface I_M_Product_PO
 	  */
 	public int getC_UOM_ID();
 
-	public I_C_UOM getC_UOM() throws RuntimeException;
+	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException;
 
     /** Column name DeliveryTime_Actual */
     public static final String COLUMNNAME_DeliveryTime_Actual = "DeliveryTime_Actual";
@@ -240,7 +240,7 @@ public interface I_M_Product_PO
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Order_Min */
     public static final String COLUMNNAME_Order_Min = "Order_Min";

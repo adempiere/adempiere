@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for CM_ChatEntry
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_CM_ChatEntry 
 {
@@ -65,17 +65,17 @@ public interface I_CM_ChatEntry
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 
-	/** Set User/Contact.
+	/** Set Usuario.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public void setAD_User_ID (int AD_User_ID);
 
-	/** Get User/Contact.
+	/** Get Usuario.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getAD_User() throws RuntimeException;
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
 
     /** Column name CharacterData */
     public static final String COLUMNNAME_CharacterData = "CharacterData";
@@ -116,7 +116,7 @@ public interface I_CM_ChatEntry
 	  */
 	public int getCM_ChatEntryGrandParent_ID();
 
-	public I_CM_ChatEntry getCM_ChatEntryGrandParent() throws RuntimeException;
+	public org.compiere.model.I_CM_ChatEntry getCM_ChatEntryGrandParent() throws RuntimeException;
 
     /** Column name CM_ChatEntry_ID */
     public static final String COLUMNNAME_CM_ChatEntry_ID = "CM_ChatEntry_ID";
@@ -144,7 +144,7 @@ public interface I_CM_ChatEntry
 	  */
 	public int getCM_ChatEntryParent_ID();
 
-	public I_CM_ChatEntry getCM_ChatEntryParent() throws RuntimeException;
+	public org.compiere.model.I_CM_ChatEntry getCM_ChatEntryParent() throws RuntimeException;
 
     /** Column name CM_Chat_ID */
     public static final String COLUMNNAME_CM_Chat_ID = "CM_Chat_ID";
@@ -159,7 +159,7 @@ public interface I_CM_ChatEntry
 	  */
 	public int getCM_Chat_ID();
 
-	public I_CM_Chat getCM_Chat() throws RuntimeException;
+	public org.compiere.model.I_CM_Chat getCM_Chat() throws RuntimeException;
 
     /** Column name ConfidentialType */
     public static final String COLUMNNAME_ConfidentialType = "ConfidentialType";

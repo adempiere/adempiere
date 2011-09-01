@@ -100,19 +100,19 @@ public class MProductPricing
 		
 		if (m_useVendorBreak) {
 			//	Price List Version known - vendor break
-			if (!m_calculated &&  !m_isSOTrx) {
+			if (!m_calculated) {
 				m_calculated = calculatePLV_VB ();
 				if (m_calculated)
 					m_vendorbreak = true;
 			}
 			//	Price List known - vendor break
-			if (!m_calculated &&  !m_isSOTrx) {
+			if (!m_calculated) {
 				m_calculated = calculatePL_VB();
 				if (m_calculated)
 					m_vendorbreak = true;
 			}
 			//	Base Price List used - vendor break
-			if (!m_calculated &&  !m_isSOTrx) {
+			if (!m_calculated) {
 				m_calculated = calculateBPL_VB();
 				if (m_calculated)
 					m_vendorbreak = true;

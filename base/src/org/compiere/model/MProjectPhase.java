@@ -20,6 +20,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -37,7 +38,7 @@ public class MProjectPhase extends X_C_ProjectPhase
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 3445836323245259566L;
+	private static final long serialVersionUID = 5824045445920353065L;
 
 	/**
 	 * 	Standard Constructor
@@ -142,9 +143,40 @@ public class MProjectPhase extends X_C_ProjectPhase
 		return retValue;
 	}	//	getTasks
 
+	/**
+	 * 	Copy Lines from other Phase
+	 * 	BF 3067850 - monhate
+	 *	@param fromPhase from phase
+	 *	@return number of tasks copied
+	 */
+	public int copyLinesFrom (MProjectPhase fromPhase)
+	{
+		if (fromPhase == null)
+			return 0;
+		int count = 0;
+		//
+		MProjectLine[] fromLines = fromPhase.getLines();
+		//	Copy Project Lines
+		for (int i = 0; i < fromLines.length; i++)
+		{
+				if(fromLines[i].getC_ProjectTask_ID() != 0) continue;
+				MProjectLine toLine = new MProjectLine(getCtx (), 0, get_TrxName());
+				PO.copyValues (fromLines[i], toLine, getAD_Client_ID (), getAD_Org_ID ());
+				toLine.setC_Project_ID(getC_Project_ID ());
+				toLine.setC_ProjectPhase_ID (getC_ProjectPhase_ID ());
+				if (toLine.save ())
+					count++;
+		}
+		if (fromLines.length != count)
+			log.warning("Count difference - ProjectLine=" + fromLines.length + " <> Saved=" + count);
 
+		return count;		
+	}
+	
+	
 	/**
 	 * 	Copy Tasks from other Phase
+	 *  BF 3067850 - monhate
 	 *	@param fromPhase from phase
 	 *	@return number of tasks copied
 	 */
@@ -152,7 +184,7 @@ public class MProjectPhase extends X_C_ProjectPhase
 	{
 		if (fromPhase == null)
 			return 0;
-		int count = 0;
+		int count = 0, countLine = 0;
 		//
 		MProjectTask[] myTasks = getTasks();
 		MProjectTask[] fromTasks = fromPhase.getTasks();
@@ -183,14 +215,17 @@ public class MProjectPhase extends X_C_ProjectPhase
 				MProjectTask toTask = new MProjectTask (getCtx (), 0, get_TrxName());
 				PO.copyValues (fromTasks[i], toTask, getAD_Client_ID (), getAD_Org_ID ());
 				toTask.setC_ProjectPhase_ID (getC_ProjectPhase_ID ());
-				if (toTask.save ())
+				if (toTask.save ()){
 					count++;
+					//BF 3067850 - monhate
+					countLine += toTask.copyLinesFrom(fromTasks[i]);
+				}
 			}
 		}
 		if (fromTasks.length != count)
 			log.warning("Count difference - ProjectPhase=" + fromTasks.length + " <> Saved=" + count);
 
-		return count;
+		return count + countLine;
 	}	//	copyTasksFrom
 
 	/**
@@ -217,6 +252,23 @@ public class MProjectPhase extends X_C_ProjectPhase
 
 		return count;
 	}	//	copyTasksFrom
+	
+	/**************************************************************************
+	 * 	Get Project Lines
+	 * 	BF 3067850 - monhate
+	 *	@return Array of lines
+	 */	public MProjectLine[] getLines()
+	{
+		final String whereClause = "C_Project_ID=? and C_ProjectPhase_ID=?";
+		List <MProjectLine> list = new Query(getCtx(), I_C_ProjectLine.Table_Name, whereClause, get_TrxName())
+			.setParameters(getC_Project_ID(), getC_ProjectPhase_ID())
+			.setOrderBy("Line")
+			.list();
+		//
+		MProjectLine[] retValue = new MProjectLine[list.size()];
+		list.toArray(retValue);
+		return retValue;
+	}
 
 	/**
 	 * 	String Representation

@@ -197,7 +197,7 @@ public class CommissionCalc extends SvrProcess
 			//	CommissionOrders/Invoices
 			if (lines[i].isCommissionOrders())
 			{
-				MUser[] users = MUser.getOfBPartner(getCtx(), m_com.getC_BPartner_ID());
+				MUser[] users = MUser.getOfBPartner(getCtx(), m_com.getC_BPartner_ID(), get_TrxName());
 				if (users == null || users.length == 0)
 					throw new AdempiereUserError ("Commission Business Partner has no Users/Contact");
 				if (users.length == 1)
@@ -236,8 +236,7 @@ public class CommissionCalc extends SvrProcess
 					+ "(SELECT M_Product_ID FROM M_Product WHERE M_Product_Category_ID=").append(lines[i].getM_Product_Category_ID()).append(")");
 			//	Payment Rule
 			if (lines[i].getPaymentRule() != null)
-				sql.append(" AND h.PaymentRule IN "
-					+ "(SELECT AD_Ref_List_ID FROM AD_Ref_List WHERE AD_Reference_ID=195 and value = '").append(lines[i].getPaymentRule()).append("')");
+				sql.append(" AND h.PaymentRule='").append(lines[i].getPaymentRule()).append("'");
 			//	Grouping
 			if (!m_com.isListDetails())
 				sql.append(" GROUP BY h.C_Currency_ID");
@@ -339,17 +338,19 @@ public class CommissionCalc extends SvrProcess
 	 * 	Create Commission Detail
 	 *	@param sql sql statement
 	 *	@param comAmt parent
+	 * @throws Exception 
 	 */
-	private void createDetail (String sql, MCommissionAmt comAmt)
+	private void createDetail (String sql, MCommissionAmt comAmt) throws Exception
 	{
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, get_TrxName());
 			pstmt.setInt(1, m_com.getAD_Client_ID());
 			pstmt.setTimestamp(2, p_StartDate);
 			pstmt.setTimestamp(3, m_EndDate);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				//	CommissionAmount, C_Currency_ID, Amt, Qty,
@@ -372,26 +373,19 @@ public class CommissionCalc extends SvrProcess
 				cd.setConvertedAmt(date);
 				
 				//
-				if (!cd.save())		//	creates memory leak
+				if (!cd.save())
 					throw new IllegalArgumentException ("CommissionCalc - Detail Not saved");
 			}
-			rs.close();
-			pstmt.close();
 			pstmt = null;
 		}
 		catch (Exception e)
 		{
-			log.log(Level.SEVERE, "createDetail", e);
+			throw new AdempiereSystemError("System Error: " + e.getLocalizedMessage(), e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 	}	//	createDetail
 

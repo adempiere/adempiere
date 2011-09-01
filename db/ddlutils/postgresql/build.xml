@@ -13,7 +13,7 @@
 		</classpath>
 	</taskdef>
 
-	<target name="create" depends="init,create-database,load-functions,create-schema,load-data,load-others">
+	<target name="create" depends="init,create-database,create-schema,load-functions,load-data,load-others">
 	</target>
 	<target name="init">
 		<echo message="============================================================" />
@@ -30,6 +30,9 @@
 		<echo message="----- Creating tables -----" />
 		<ant antfile="build-ddl.xml" target="writeSchemaSqlToFile" />
 		<echo file="log/psql.log" append="true" message="${line.separator}#Create Tables:${line.separator}${line.separator}" />
+		<antcall target="load">
+			<param name="file.name" value="${basedir}/create-schema.sql" />
+		</antcall>
 		<antcall target="load">
 			<param name="file.name" value="${basedir}/adempiere-schema.sql" />
 		</antcall>
@@ -70,6 +73,9 @@
 	</target>
 
 	<target name="load-others">
+		<antcall target="load">
+			<param name="file.name" value="${basedir}/operators.sql"/>
+		</antcall>
 		<echo message="----- Loading other database objects -----" />
 		<echo file="log/psql.log" append="true" message="${line.separator}#Create Views [1st Pass]:${line.separator}${line.separator}" />
 		<foreach param="file.name" target="load">

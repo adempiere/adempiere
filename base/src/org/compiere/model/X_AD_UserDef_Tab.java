@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_UserDef_Tab
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_AD_UserDef_Tab extends PO implements I_AD_UserDef_Tab, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_AD_UserDef_Tab (Properties ctx, int AD_UserDef_Tab_ID, String trxName)
@@ -76,9 +76,9 @@ public class X_AD_UserDef_Tab extends PO implements I_AD_UserDef_Tab, I_Persiste
       return sb.toString();
     }
 
-	public I_AD_Tab getAD_Tab() throws RuntimeException
+	public org.compiere.model.I_AD_Tab getAD_Tab() throws RuntimeException
     {
-		return (I_AD_Tab)MTable.get(getCtx(), I_AD_Tab.Table_Name)
+		return (org.compiere.model.I_AD_Tab)MTable.get(getCtx(), org.compiere.model.I_AD_Tab.Table_Name)
 			.getPO(getAD_Tab_ID(), get_TrxName());	}
 
 	/** Set Tab.
@@ -124,9 +124,9 @@ public class X_AD_UserDef_Tab extends PO implements I_AD_UserDef_Tab, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_AD_UserDef_Win getAD_UserDef_Win() throws RuntimeException
+	public org.compiere.model.I_AD_UserDef_Win getAD_UserDef_Win() throws RuntimeException
     {
-		return (I_AD_UserDef_Win)MTable.get(getCtx(), I_AD_UserDef_Win.Table_Name)
+		return (org.compiere.model.I_AD_UserDef_Win)MTable.get(getCtx(), org.compiere.model.I_AD_UserDef_Win.Table_Name)
 			.getPO(getAD_UserDef_Win_ID(), get_TrxName());	}
 
 	/** Set User defined Window.

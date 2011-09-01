@@ -21,6 +21,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.compiere.model.MClient;
 import org.compiere.model.MLocator;
 import org.compiere.model.MProduct;
 import org.compiere.model.MStorage;
@@ -191,6 +192,12 @@ public class M_Production_Run extends SvrProcess {
 		{
 			 production.setProcessed(true);
 			 production.saveEx();	
+			 
+			 /* Immediate accounting */
+			 if (MClient.isClientAccountingImmediate()) {
+				 String ignoreError = DocumentEngine.postImmediate(getCtx(), getAD_Client_ID(), production.get_Table_ID(), production.get_ID(), true, get_TrxName());						
+			 }
+			 
 		}
 		
 		return "@OK@";

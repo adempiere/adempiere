@@ -15,7 +15,10 @@
       <column name="RESPONSIBLETYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="AD_USER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_ROLE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="4" default="D" autoIncrement="false"/>
+      <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="40" default="D" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_ENTITYTYPE" name="ENTITYT_ADWFRESPONSIBLE" onDelete="none">
+        <reference local="ENTITYTYPE" foreign="ENTITYTYPE"/>
+      </foreign-key>
       <foreign-key foreignTable="AD_ORG" name="ADORG_ADWFRESPONSIBLE" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Client
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_AD_Client 
 {
@@ -88,7 +88,7 @@ public interface I_AD_Client
 	  */
 	public int getAD_ReplicationStrategy_ID();
 
-	public I_AD_ReplicationStrategy getAD_ReplicationStrategy() throws RuntimeException;
+	public org.compiere.model.I_AD_ReplicationStrategy getAD_ReplicationStrategy() throws RuntimeException;
 
     /** Column name AutoArchive */
     public static final String COLUMNNAME_AutoArchive = "AutoArchive";

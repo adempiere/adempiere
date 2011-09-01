@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_PayrollConcept
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_HR_PayrollConcept extends PO implements I_HR_PayrollConcept, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_HR_PayrollConcept (Properties ctx, int HR_PayrollConcept_ID, String trxName)
@@ -75,9 +75,9 @@ public class X_HR_PayrollConcept extends PO implements I_HR_PayrollConcept, I_Pe
       return sb.toString();
     }
 
-	public I_AD_Rule getAD_Rule() throws RuntimeException
+	public org.compiere.model.I_AD_Rule getAD_Rule() throws RuntimeException
     {
-		return (I_AD_Rule)MTable.get(getCtx(), I_AD_Rule.Table_Name)
+		return (org.compiere.model.I_AD_Rule)MTable.get(getCtx(), org.compiere.model.I_AD_Rule.Table_Name)
 			.getPO(getAD_Rule_ID(), get_TrxName());	}
 
 	/** Set Rule.

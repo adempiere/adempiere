@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_ReportView_Col
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_AD_ReportView_Col extends PO implements I_AD_ReportView_Col, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_AD_ReportView_Col (Properties ctx, int AD_ReportView_Col_ID, String trxName)
@@ -73,9 +73,9 @@ public class X_AD_ReportView_Col extends PO implements I_AD_ReportView_Col, I_Pe
       return sb.toString();
     }
 
-	public I_AD_Column getAD_Column() throws RuntimeException
+	public org.compiere.model.I_AD_Column getAD_Column() throws RuntimeException
     {
-		return (I_AD_Column)MTable.get(getCtx(), I_AD_Column.Table_Name)
+		return (org.compiere.model.I_AD_Column)MTable.get(getCtx(), org.compiere.model.I_AD_Column.Table_Name)
 			.getPO(getAD_Column_ID(), get_TrxName());	}
 
 	/** Set Column.
@@ -121,9 +121,9 @@ public class X_AD_ReportView_Col extends PO implements I_AD_ReportView_Col, I_Pe
 		return ii.intValue();
 	}
 
-	public I_AD_ReportView getAD_ReportView() throws RuntimeException
+	public org.compiere.model.I_AD_ReportView getAD_ReportView() throws RuntimeException
     {
-		return (I_AD_ReportView)MTable.get(getCtx(), I_AD_ReportView.Table_Name)
+		return (org.compiere.model.I_AD_ReportView)MTable.get(getCtx(), org.compiere.model.I_AD_ReportView.Table_Name)
 			.getPO(getAD_ReportView_ID(), get_TrxName());	}
 
 	/** Set Report View.

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_DistributionRunLine
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_M_DistributionRunLine 
 {
@@ -130,7 +130,7 @@ public interface I_M_DistributionRunLine
 	  */
 	public int getM_DistributionList_ID();
 
-	public I_M_DistributionList getM_DistributionList() throws RuntimeException;
+	public org.compiere.model.I_M_DistributionList getM_DistributionList() throws RuntimeException;
 
     /** Column name M_DistributionRun_ID */
     public static final String COLUMNNAME_M_DistributionRun_ID = "M_DistributionRun_ID";
@@ -145,7 +145,7 @@ public interface I_M_DistributionRunLine
 	  */
 	public int getM_DistributionRun_ID();
 
-	public I_M_DistributionRun getM_DistributionRun() throws RuntimeException;
+	public org.compiere.model.I_M_DistributionRun getM_DistributionRun() throws RuntimeException;
 
     /** Column name M_DistributionRunLine_ID */
     public static final String COLUMNNAME_M_DistributionRunLine_ID = "M_DistributionRunLine_ID";
@@ -186,7 +186,7 @@ public interface I_M_DistributionRunLine
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name TotalQty */
     public static final String COLUMNNAME_TotalQty = "TotalQty";

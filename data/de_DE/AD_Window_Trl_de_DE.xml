@@ -308,8 +308,7 @@
   <value column="Help" original="The Revenue Recognition Window defines the intervals at which revenue will be recognized. Alternatively, the revenue recognition may be linked to service levels provided.">Das Fenster "Umsatzrealisierung" definiert, in welchen Intervallen Umsätze realisiert werden. Alternativ zum Zeitbezug kann die Umsatzrealisierung auch auf einen Fertigstellungsgrad bezogen sein.</value>
  </row>
  <row id="175" trl="Y">
-  <value column="Name" original="Perpetual Inventory">Permanente Stichtagsinventur
-</value>
+  <value column="Name" original="Perpetual Inventory">Permanente Stichtagsinventur</value>
   <value column="Description" original="Maintain Perpetual Inventory Rules">Verwalten von Einstellungen für die wiederholte Inventur</value>
   <value column="Help" original="The Perpetual Inventory defines the rules to be applied when generating Physical Inventory counts.">Das Fenster "Permanente Stichtagsinventur
 " definiert die Einstellungen für die Abfolge von Bestandskontrollen.</value>

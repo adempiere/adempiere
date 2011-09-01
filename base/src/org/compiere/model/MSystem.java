@@ -166,14 +166,26 @@ public class MSystem extends X_AD_System
 		String s = super.getStatisticsInfo ();
 		if (s == null || recalc)
 		{
-			String sql = "SELECT 'C'||(SELECT " + DB.TO_CHAR("COUNT(*)", DisplayType.Number, Env.getAD_Language(Env.getCtx())) + " FROM AD_Client)"
-				+ "||'U'|| (SELECT " + DB.TO_CHAR("COUNT(*)", DisplayType.Number, Env.getAD_Language(Env.getCtx())) + " FROM AD_User)"
-				+ "||'B'|| (SELECT " + DB.TO_CHAR("COUNT(*)", DisplayType.Number, Env.getAD_Language(Env.getCtx())) + " FROM C_BPartner)"
-				+ "||'P'|| (SELECT " + DB.TO_CHAR("COUNT(*)", DisplayType.Number, Env.getAD_Language(Env.getCtx())) + " FROM M_Product)"
-				+ "||'I'|| (SELECT " + DB.TO_CHAR("COUNT(*)", DisplayType.Number, Env.getAD_Language(Env.getCtx())) + " FROM C_Invoice)"
-				+ "||'L'|| (SELECT " + DB.TO_CHAR("COUNT(*)", DisplayType.Number, Env.getAD_Language(Env.getCtx())) + " FROM C_InvoiceLine)"
-				+ "||'M'|| (SELECT " + DB.TO_CHAR("COUNT(*)", DisplayType.Number, Env.getAD_Language(Env.getCtx())) + " FROM M_Transaction)"
-				+ " FROM AD_System";
+			String sql;
+			if ( DB.isMySQL() ) {
+				sql = "SELECT CONCAT('C', (SELECT CAST(COUNT(*) AS char(3)) FROM AD_Client),"+
+					" 'U', (SELECT CAST(COUNT(*) AS char(3)) FROM AD_User),"+
+					" 'B', (SELECT CAST(COUNT(*) AS char(3)) FROM C_BPartner),"+
+					" 'P', (SELECT CAST(COUNT(*) AS char(3)) FROM M_Product),"+
+					" 'I', (SELECT CAST(COUNT(*) AS char(3)) FROM C_Invoice),"+
+					" 'L', (SELECT CAST(COUNT(*) AS char(3)) FROM C_InvoiceLine),"+
+					" 'M', (SELECT CAST(COUNT(*) AS char(3)) FROM M_Transaction))"+
+				"FROM AD_System";
+			} else {
+				sql = "SELECT 'C'||(SELECT " + DB.TO_CHAR("COUNT(*)", DisplayType.Number, Env.getAD_Language(Env.getCtx())) + " FROM AD_Client)"
+					+ "||'U'|| (SELECT " + DB.TO_CHAR("COUNT(*)", DisplayType.Number, Env.getAD_Language(Env.getCtx())) + " FROM AD_User)"
+					+ "||'B'|| (SELECT " + DB.TO_CHAR("COUNT(*)", DisplayType.Number, Env.getAD_Language(Env.getCtx())) + " FROM C_BPartner)"
+					+ "||'P'|| (SELECT " + DB.TO_CHAR("COUNT(*)", DisplayType.Number, Env.getAD_Language(Env.getCtx())) + " FROM M_Product)"
+					+ "||'I'|| (SELECT " + DB.TO_CHAR("COUNT(*)", DisplayType.Number, Env.getAD_Language(Env.getCtx())) + " FROM C_Invoice)"
+					+ "||'L'|| (SELECT " + DB.TO_CHAR("COUNT(*)", DisplayType.Number, Env.getAD_Language(Env.getCtx())) + " FROM C_InvoiceLine)"
+					+ "||'M'|| (SELECT " + DB.TO_CHAR("COUNT(*)", DisplayType.Number, Env.getAD_Language(Env.getCtx())) + " FROM M_Transaction)"
+					+ " FROM AD_System";
+			}
 			s = DB.getSQLValueString(null, sql);
 		}
 		return s;

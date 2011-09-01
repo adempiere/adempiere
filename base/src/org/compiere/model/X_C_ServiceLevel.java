@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_ServiceLevel
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_C_ServiceLevel extends PO implements I_C_ServiceLevel, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_C_ServiceLevel (Properties ctx, int C_ServiceLevel_ID, String trxName)
@@ -76,9 +76,9 @@ public class X_C_ServiceLevel extends PO implements I_C_ServiceLevel, I_Persiste
       return sb.toString();
     }
 
-	public I_C_RevenueRecognition_Plan getC_RevenueRecognition_Plan() throws RuntimeException
+	public org.compiere.model.I_C_RevenueRecognition_Plan getC_RevenueRecognition_Plan() throws RuntimeException
     {
-		return (I_C_RevenueRecognition_Plan)MTable.get(getCtx(), I_C_RevenueRecognition_Plan.Table_Name)
+		return (org.compiere.model.I_C_RevenueRecognition_Plan)MTable.get(getCtx(), org.compiere.model.I_C_RevenueRecognition_Plan.Table_Name)
 			.getPO(getC_RevenueRecognition_Plan_ID(), get_TrxName());	}
 
 	/** Set Revenue Recognition Plan.
@@ -152,9 +152,9 @@ public class X_C_ServiceLevel extends PO implements I_C_ServiceLevel, I_Persiste
         return new KeyNamePair(get_ID(), getDescription());
     }
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.

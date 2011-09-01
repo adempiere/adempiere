@@ -22,8 +22,12 @@
       <column name="DISCOUNTAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="ISRECEIPT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="C_BP_BANKACCOUNT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="ISGENERATEDDRAFT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CPAYSELECTIONCHECK" onDelete="none">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BP_BANKACCOUNT" name="CBPBANKACCOUNT_CPAYSELECTIONCH" onDelete="none">
+        <reference local="C_BP_BANKACCOUNT_ID" foreign="C_BP_BANKACCOUNT_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_PAYMENT" name="CPAYMENT_CPAYSELECTIONCHECK" onDelete="none">
         <reference local="C_PAYMENT_ID" foreign="C_PAYMENT_ID"/>
@@ -33,6 +37,9 @@
       </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsGeneratedDraft IN ('Y','N')]]></rule>
       </check>
     </table>
   </database>

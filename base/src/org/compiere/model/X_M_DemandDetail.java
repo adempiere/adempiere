@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_DemandDetail
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_M_DemandDetail extends PO implements I_M_DemandDetail, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_M_DemandDetail (Properties ctx, int M_DemandDetail_ID, String trxName)
@@ -71,9 +71,9 @@ public class X_M_DemandDetail extends PO implements I_M_DemandDetail, I_Persiste
       return sb.toString();
     }
 
-	public I_C_OrderLine getC_OrderLine() throws RuntimeException
+	public org.compiere.model.I_C_OrderLine getC_OrderLine() throws RuntimeException
     {
-		return (I_C_OrderLine)MTable.get(getCtx(), I_C_OrderLine.Table_Name)
+		return (org.compiere.model.I_C_OrderLine)MTable.get(getCtx(), org.compiere.model.I_C_OrderLine.Table_Name)
 			.getPO(getC_OrderLine_ID(), get_TrxName());	}
 
 	/** Set Sales Order Line.
@@ -130,9 +130,9 @@ public class X_M_DemandDetail extends PO implements I_M_DemandDetail, I_Persiste
         return new KeyNamePair(get_ID(), String.valueOf(getM_DemandDetail_ID()));
     }
 
-	public I_M_DemandLine getM_DemandLine() throws RuntimeException
+	public org.compiere.model.I_M_DemandLine getM_DemandLine() throws RuntimeException
     {
-		return (I_M_DemandLine)MTable.get(getCtx(), I_M_DemandLine.Table_Name)
+		return (org.compiere.model.I_M_DemandLine)MTable.get(getCtx(), org.compiere.model.I_M_DemandLine.Table_Name)
 			.getPO(getM_DemandLine_ID(), get_TrxName());	}
 
 	/** Set Demand Line.
@@ -158,9 +158,9 @@ public class X_M_DemandDetail extends PO implements I_M_DemandDetail, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_M_ForecastLine getM_ForecastLine() throws RuntimeException
+	public org.compiere.model.I_M_ForecastLine getM_ForecastLine() throws RuntimeException
     {
-		return (I_M_ForecastLine)MTable.get(getCtx(), I_M_ForecastLine.Table_Name)
+		return (org.compiere.model.I_M_ForecastLine)MTable.get(getCtx(), org.compiere.model.I_M_ForecastLine.Table_Name)
 			.getPO(getM_ForecastLine_ID(), get_TrxName());	}
 
 	/** Set Forecast Line.
@@ -186,9 +186,9 @@ public class X_M_DemandDetail extends PO implements I_M_DemandDetail, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_M_RequisitionLine getM_RequisitionLine() throws RuntimeException
+	public org.compiere.model.I_M_RequisitionLine getM_RequisitionLine() throws RuntimeException
     {
-		return (I_M_RequisitionLine)MTable.get(getCtx(), I_M_RequisitionLine.Table_Name)
+		return (org.compiere.model.I_M_RequisitionLine)MTable.get(getCtx(), org.compiere.model.I_M_RequisitionLine.Table_Name)
 			.getPO(getM_RequisitionLine_ID(), get_TrxName());	}
 
 	/** Set Requisition Line.

@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for T_DistributionRunDetail
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRunDetail, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_T_DistributionRunDetail (Properties ctx, int T_DistributionRunDetail_ID, String trxName)
@@ -81,9 +81,9 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
       return sb.toString();
     }
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -109,9 +109,9 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
 		return ii.intValue();
 	}
 
-	public I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException
+	public org.compiere.model.I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException
     {
-		return (I_C_BPartner_Location)MTable.get(getCtx(), I_C_BPartner_Location.Table_Name)
+		return (org.compiere.model.I_C_BPartner_Location)MTable.get(getCtx(), org.compiere.model.I_C_BPartner_Location.Table_Name)
 			.getPO(getC_BPartner_Location_ID(), get_TrxName());	}
 
 	/** Set Partner Location.
@@ -137,9 +137,9 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
 		return ii.intValue();
 	}
 
-	public I_M_DistributionList getM_DistributionList() throws RuntimeException
+	public org.compiere.model.I_M_DistributionList getM_DistributionList() throws RuntimeException
     {
-		return (I_M_DistributionList)MTable.get(getCtx(), I_M_DistributionList.Table_Name)
+		return (org.compiere.model.I_M_DistributionList)MTable.get(getCtx(), org.compiere.model.I_M_DistributionList.Table_Name)
 			.getPO(getM_DistributionList_ID(), get_TrxName());	}
 
 	/** Set Distribution List.
@@ -165,9 +165,9 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
 		return ii.intValue();
 	}
 
-	public I_M_DistributionListLine getM_DistributionListLine() throws RuntimeException
+	public org.compiere.model.I_M_DistributionListLine getM_DistributionListLine() throws RuntimeException
     {
-		return (I_M_DistributionListLine)MTable.get(getCtx(), I_M_DistributionListLine.Table_Name)
+		return (org.compiere.model.I_M_DistributionListLine)MTable.get(getCtx(), org.compiere.model.I_M_DistributionListLine.Table_Name)
 			.getPO(getM_DistributionListLine_ID(), get_TrxName());	}
 
 	/** Set Distribution List Line.
@@ -193,9 +193,9 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
 		return ii.intValue();
 	}
 
-	public I_M_DistributionRun getM_DistributionRun() throws RuntimeException
+	public org.compiere.model.I_M_DistributionRun getM_DistributionRun() throws RuntimeException
     {
-		return (I_M_DistributionRun)MTable.get(getCtx(), I_M_DistributionRun.Table_Name)
+		return (org.compiere.model.I_M_DistributionRun)MTable.get(getCtx(), org.compiere.model.I_M_DistributionRun.Table_Name)
 			.getPO(getM_DistributionRun_ID(), get_TrxName());	}
 
 	/** Set Distribution Run.
@@ -229,9 +229,9 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
         return new KeyNamePair(get_ID(), String.valueOf(getM_DistributionRun_ID()));
     }
 
-	public I_M_DistributionRunLine getM_DistributionRunLine() throws RuntimeException
+	public org.compiere.model.I_M_DistributionRunLine getM_DistributionRunLine() throws RuntimeException
     {
-		return (I_M_DistributionRunLine)MTable.get(getCtx(), I_M_DistributionRunLine.Table_Name)
+		return (org.compiere.model.I_M_DistributionRunLine)MTable.get(getCtx(), org.compiere.model.I_M_DistributionRunLine.Table_Name)
 			.getPO(getM_DistributionRunLine_ID(), get_TrxName());	}
 
 	/** Set Distribution Run Line.
@@ -277,9 +277,9 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
 		return bd;
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.

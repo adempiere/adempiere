@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_InOutLineConfirm
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_I_InOutLineConfirm extends PO implements I_I_InOutLineConfirm, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_I_InOutLineConfirm (Properties ctx, int I_InOutLineConfirm_ID, String trxName)
@@ -224,9 +224,9 @@ public class X_I_InOutLineConfirm extends PO implements I_I_InOutLineConfirm, I_
 		return false;
 	}
 
-	public I_M_InOutLineConfirm getM_InOutLineConfirm() throws RuntimeException
+	public org.compiere.model.I_M_InOutLineConfirm getM_InOutLineConfirm() throws RuntimeException
     {
-		return (I_M_InOutLineConfirm)MTable.get(getCtx(), I_M_InOutLineConfirm.Table_Name)
+		return (org.compiere.model.I_M_InOutLineConfirm)MTable.get(getCtx(), org.compiere.model.I_M_InOutLineConfirm.Table_Name)
 			.getPO(getM_InOutLineConfirm_ID(), get_TrxName());	}
 
 	/** Set Ship/Receipt Confirmation Line.

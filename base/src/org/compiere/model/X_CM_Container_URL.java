@@ -23,14 +23,14 @@ import java.util.Properties;
 
 /** Generated Model for CM_Container_URL
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_CM_Container_URL extends PO implements I_CM_Container_URL, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_CM_Container_URL (Properties ctx, int CM_Container_URL_ID, String trxName)
@@ -91,9 +91,9 @@ public class X_CM_Container_URL extends PO implements I_CM_Container_URL, I_Pers
 		return (Timestamp)get_Value(COLUMNNAME_Checked);
 	}
 
-	public I_CM_Container getCM_Container() throws RuntimeException
+	public org.compiere.model.I_CM_Container getCM_Container() throws RuntimeException
     {
-		return (I_CM_Container)MTable.get(getCtx(), I_CM_Container.Table_Name)
+		return (org.compiere.model.I_CM_Container)MTable.get(getCtx(), org.compiere.model.I_CM_Container.Table_Name)
 			.getPO(getCM_Container_ID(), get_TrxName());	}
 
 	/** Set Web Container.

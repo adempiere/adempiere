@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for K_Entry
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_K_Entry extends PO implements I_K_Entry, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_K_Entry (Properties ctx, int K_Entry_ID, String trxName)
@@ -77,9 +77,9 @@ public class X_K_Entry extends PO implements I_K_Entry, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Session getAD_Session() throws RuntimeException
+	public org.compiere.model.I_AD_Session getAD_Session() throws RuntimeException
     {
-		return (I_AD_Session)MTable.get(getCtx(), I_AD_Session.Table_Name)
+		return (org.compiere.model.I_AD_Session)MTable.get(getCtx(), org.compiere.model.I_AD_Session.Table_Name)
 			.getPO(getAD_Session_ID(), get_TrxName());	}
 
 	/** Set Session.
@@ -186,9 +186,9 @@ public class X_K_Entry extends PO implements I_K_Entry, I_Persistent
 		return (String)get_Value(COLUMNNAME_Keywords);
 	}
 
-	public I_K_Source getK_Source() throws RuntimeException
+	public org.compiere.model.I_K_Source getK_Source() throws RuntimeException
     {
-		return (I_K_Source)MTable.get(getCtx(), I_K_Source.Table_Name)
+		return (org.compiere.model.I_K_Source)MTable.get(getCtx(), org.compiere.model.I_K_Source.Table_Name)
 			.getPO(getK_Source_ID(), get_TrxName());	}
 
 	/** Set Knowledge Source.
@@ -214,9 +214,9 @@ public class X_K_Entry extends PO implements I_K_Entry, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_K_Topic getK_Topic() throws RuntimeException
+	public org.compiere.model.I_K_Topic getK_Topic() throws RuntimeException
     {
-		return (I_K_Topic)MTable.get(getCtx(), I_K_Topic.Table_Name)
+		return (org.compiere.model.I_K_Topic)MTable.get(getCtx(), org.compiere.model.I_K_Topic.Table_Name)
 			.getPO(getK_Topic_ID(), get_TrxName());	}
 
 	/** Set Knowledge Topic.

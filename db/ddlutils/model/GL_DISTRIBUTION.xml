@@ -45,6 +45,7 @@
       <column name="PERCENTTOTAL" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
       <column name="ISVALID" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISCREATEREVERSAL" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <foreign-key foreignTable="AD_ORG" name="ADORG_GLDIST" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
@@ -69,20 +70,20 @@
       <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_GLDISTRIBUTION" onDelete="none">
         <reference local="C_DOCTYPE_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CEVALUEUSER2_GLDIST" onDelete="none">
-        <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CEVALUEACCT_GLDIST" onDelete="none">
+        <reference local="ACCOUNT_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CEVALUEUSER1_GLDIST" onDelete="none">
         <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CEVALUEACCT_GLDIST" onDelete="none">
-        <reference local="ACCOUNT_ID" foreign="C_ELEMENTVALUE_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="C_LOCATION" name="CLOCTO_GLDIST" onDelete="none">
-        <reference local="C_LOCTO_ID" foreign="C_LOCATION_ID"/>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CEVALUEUSER2_GLDIST" onDelete="none">
+        <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_LOCATION" name="CLOCFROM_GLDIST" onDelete="none">
         <reference local="C_LOCFROM_ID" foreign="C_LOCATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_LOCATION" name="CLOCTO_GLDIST" onDelete="none">
+        <reference local="C_LOCTO_ID" foreign="C_LOCATION_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_PROJECT" name="CPROJECT_GLDIST" onDelete="none">
         <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>
@@ -137,6 +138,9 @@
       </check>
       <check>
         <rule><![CDATA[IsValid in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsCreateReversal IN ('Y','N')]]></rule>
       </check>
     </table>
   </database>

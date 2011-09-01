@@ -21,6 +21,7 @@
       <column name="ISCUSTOMIZATION" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="TRXNAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="EVENTCHANGELOG" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_ADCHANGELOG" onDelete="cascade">
         <reference local="AD_COLUMN_ID" foreign="AD_COLUMN_ID"/>
       </foreign-key>
@@ -30,6 +31,10 @@
       <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADCHANGELOG" onDelete="cascade">
         <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
       </foreign-key>
+      <index name="AD_CHANGELOG_SPEED">
+        <index-column name="AD_TABLE_ID"/>
+        <index-column name="RECORD_ID"/>
+      </index>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
       </check>

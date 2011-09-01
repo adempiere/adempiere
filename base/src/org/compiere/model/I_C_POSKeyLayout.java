@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_POSKeyLayout
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_C_POSKeyLayout 
 {
@@ -75,7 +75,7 @@ public interface I_C_POSKeyLayout
 	  */
 	public int getAD_PrintColor_ID();
 
-	public I_AD_PrintColor getAD_PrintColor() throws RuntimeException;
+	public org.compiere.model.I_AD_PrintColor getAD_PrintColor() throws RuntimeException;
 
     /** Column name AD_PrintFont_ID */
     public static final String COLUMNNAME_AD_PrintFont_ID = "AD_PrintFont_ID";
@@ -90,7 +90,7 @@ public interface I_C_POSKeyLayout
 	  */
 	public int getAD_PrintFont_ID();
 
-	public I_AD_PrintFont getAD_PrintFont() throws RuntimeException;
+	public org.compiere.model.I_AD_PrintFont getAD_PrintFont() throws RuntimeException;
 
     /** Column name Columns */
     public static final String COLUMNNAME_Columns = "Columns";

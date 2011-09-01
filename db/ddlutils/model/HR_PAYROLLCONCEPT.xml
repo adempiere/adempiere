@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="HR_PAYROLLCONCEPT">
+      <column name="NAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_RULE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="HR_CONCEPT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="HR_PAYROLLCONCEPT_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="HR_PAYROLL_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISDISPLAYED" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ISINCLUDE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISPRINTED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="SEQNO" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_RULE" name="ADRULE_HRPAYROLLCONCEPT" onDelete="none">
+        <reference local="AD_RULE_ID" foreign="AD_RULE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="HR_CONCEPT" name="HRCONCEPT_HRPAYROLLCONCEPT" onDelete="none">
+        <reference local="HR_CONCEPT_ID" foreign="HR_CONCEPT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="HR_PAYROLL" name="HRPAYROLL_HRPAYROLLCONCEPT" onDelete="none">
+        <reference local="HR_PAYROLL_ID" foreign="HR_PAYROLL_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsDisplayed IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsInclude IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsPrinted IN ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

@@ -178,6 +178,11 @@ public class GridFieldVO implements Serializable
 //				Feature Request FR [ 2003044 ]
 				else if (columnName.equalsIgnoreCase("IsAutocomplete"))
 					vo.IsAutocomplete  = "Y".equals(rs.getString(i));
+				// FR 3051618 - Grid View improvements
+				else if (columnName.equalsIgnoreCase("HideInListView"))
+					vo.HideInListView = "Y".equals(rs.getString(i));
+				else if (columnName.equalsIgnoreCase("PreferredWidth"))
+					vo.PreferredWidth = rs.getInt(i);
 			}
 			if (vo.Header == null)
 				vo.Header = vo.ColumnName;
@@ -381,6 +386,10 @@ public class GridFieldVO implements Serializable
 	public boolean      IsSameLine = false;
 	/**	Displayed		*/
 	public boolean      IsDisplayed = false;
+	/** Hide in list view */
+	public boolean		HideInListView = false;
+	/** Preferred size in list view */
+	public int			PreferredWidth = 0;
 	/**	Dislay Logic	*/
 	public String       DisplayLogic = "";
 	/**	Default Value	*/
@@ -542,6 +551,8 @@ public class GridFieldVO implements Serializable
 		clone.DisplayLength = DisplayLength;
 		clone.IsSameLine = IsSameLine;
 		clone.IsDisplayed = IsDisplayed;
+		clone.HideInListView = HideInListView;
+		clone.PreferredWidth = PreferredWidth;
 		clone.DisplayLogic = DisplayLogic;
 		clone.DefaultValue = DefaultValue;
 		clone.IsMandatory = IsMandatory;

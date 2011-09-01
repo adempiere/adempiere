@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="PP_WF_NODE_PRODUCT">
+      <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="40" default="U" autoIncrement="false"/>
+      <column name="CONFIGURATIONLEVEL" primaryKey="false" required="false" type="CHAR" size="1" default="S" autoIncrement="false"/>
+      <column name="AD_WF_NODE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="M_PRODUCT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="PP_WF_NODE_PRODUCT_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="QTY" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="SEQNO" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="ISSUBCONTRACTING" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="YIELD" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_ENTITYTYPE" name="ENTITYT_PPWFNODEPRODUCT" onDelete="none">
+        <reference local="ENTITYTYPE" foreign="ENTITYTYPE"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_WF_NODE" name="ADWFNODE_PPWFNODEPRODUCT" onDelete="none">
+        <reference local="AD_WF_NODE_ID" foreign="AD_WF_NODE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_PPWFNODEPRODUCT" onDelete="none">
+        <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsSubcontracting IN ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

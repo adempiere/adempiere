@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Tab
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_AD_Tab 
 {
@@ -62,7 +62,7 @@ public interface I_AD_Tab
 	  */
 	public int getAD_Column_ID();
 
-	public I_AD_Column getAD_Column() throws RuntimeException;
+	public org.compiere.model.I_AD_Column getAD_Column() throws RuntimeException;
 
     /** Column name AD_ColumnSortOrder_ID */
     public static final String COLUMNNAME_AD_ColumnSortOrder_ID = "AD_ColumnSortOrder_ID";
@@ -77,7 +77,7 @@ public interface I_AD_Tab
 	  */
 	public int getAD_ColumnSortOrder_ID();
 
-	public I_AD_Column getAD_ColumnSortOrder() throws RuntimeException;
+	public org.compiere.model.I_AD_Column getAD_ColumnSortOrder() throws RuntimeException;
 
     /** Column name AD_ColumnSortYesNo_ID */
     public static final String COLUMNNAME_AD_ColumnSortYesNo_ID = "AD_ColumnSortYesNo_ID";
@@ -92,7 +92,7 @@ public interface I_AD_Tab
 	  */
 	public int getAD_ColumnSortYesNo_ID();
 
-	public I_AD_Column getAD_ColumnSortYesNo() throws RuntimeException;
+	public org.compiere.model.I_AD_Column getAD_ColumnSortYesNo() throws RuntimeException;
 
     /** Column name AD_Image_ID */
     public static final String COLUMNNAME_AD_Image_ID = "AD_Image_ID";
@@ -107,7 +107,7 @@ public interface I_AD_Tab
 	  */
 	public int getAD_Image_ID();
 
-	public I_AD_Image getAD_Image() throws RuntimeException;
+	public org.compiere.model.I_AD_Image getAD_Image() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -135,7 +135,7 @@ public interface I_AD_Tab
 	  */
 	public int getAD_Process_ID();
 
-	public I_AD_Process getAD_Process() throws RuntimeException;
+	public org.compiere.model.I_AD_Process getAD_Process() throws RuntimeException;
 
     /** Column name AD_Tab_ID */
     public static final String COLUMNNAME_AD_Tab_ID = "AD_Tab_ID";
@@ -163,7 +163,7 @@ public interface I_AD_Tab
 	  */
 	public int getAD_Table_ID();
 
-	public I_AD_Table getAD_Table() throws RuntimeException;
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
 
     /** Column name AD_Window_ID */
     public static final String COLUMNNAME_AD_Window_ID = "AD_Window_ID";
@@ -178,7 +178,7 @@ public interface I_AD_Tab
 	  */
 	public int getAD_Window_ID();
 
-	public I_AD_Window getAD_Window() throws RuntimeException;
+	public org.compiere.model.I_AD_Window getAD_Window() throws RuntimeException;
 
     /** Column name CommitWarning */
     public static final String COLUMNNAME_CommitWarning = "CommitWarning";
@@ -302,7 +302,7 @@ public interface I_AD_Tab
 	  */
 	public int getIncluded_Tab_ID();
 
-	public I_AD_Tab getIncluded_Tab() throws RuntimeException;
+	public org.compiere.model.I_AD_Tab getIncluded_Tab() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -447,7 +447,7 @@ public interface I_AD_Tab
 	  */
 	public int getParent_Column_ID();
 
-	public I_AD_Column getParent_Column() throws RuntimeException;
+	public org.compiere.model.I_AD_Column getParent_Column() throws RuntimeException;
 
     /** Column name Processing */
     public static final String COLUMNNAME_Processing = "Processing";

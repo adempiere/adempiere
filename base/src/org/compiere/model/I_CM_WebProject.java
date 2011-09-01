@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for CM_WebProject
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_CM_WebProject 
 {
@@ -75,7 +75,7 @@ public interface I_CM_WebProject
 	  */
 	public int getAD_TreeCMC_ID();
 
-	public I_AD_Tree getAD_TreeCMC() throws RuntimeException;
+	public org.compiere.model.I_AD_Tree getAD_TreeCMC() throws RuntimeException;
 
     /** Column name AD_TreeCMM_ID */
     public static final String COLUMNNAME_AD_TreeCMM_ID = "AD_TreeCMM_ID";
@@ -90,7 +90,7 @@ public interface I_CM_WebProject
 	  */
 	public int getAD_TreeCMM_ID();
 
-	public I_AD_Tree getAD_TreeCMM() throws RuntimeException;
+	public org.compiere.model.I_AD_Tree getAD_TreeCMM() throws RuntimeException;
 
     /** Column name AD_TreeCMS_ID */
     public static final String COLUMNNAME_AD_TreeCMS_ID = "AD_TreeCMS_ID";
@@ -105,7 +105,7 @@ public interface I_CM_WebProject
 	  */
 	public int getAD_TreeCMS_ID();
 
-	public I_AD_Tree getAD_TreeCMS() throws RuntimeException;
+	public org.compiere.model.I_AD_Tree getAD_TreeCMS() throws RuntimeException;
 
     /** Column name AD_TreeCMT_ID */
     public static final String COLUMNNAME_AD_TreeCMT_ID = "AD_TreeCMT_ID";
@@ -120,7 +120,7 @@ public interface I_CM_WebProject
 	  */
 	public int getAD_TreeCMT_ID();
 
-	public I_AD_Tree getAD_TreeCMT() throws RuntimeException;
+	public org.compiere.model.I_AD_Tree getAD_TreeCMT() throws RuntimeException;
 
     /** Column name CM_WebProject_ID */
     public static final String COLUMNNAME_CM_WebProject_ID = "CM_WebProject_ID";

@@ -104,7 +104,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -8055500064230704903L;
+	private static final long serialVersionUID = -3825605601192688998L;
 
 	public static final String DEFAULT_STATUS_MESSAGE = "NavigateOrUpdate";
 	
@@ -193,6 +193,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	private volatile boolean    m_loadComplete = false;
 	/** Is Tab Included in other Tab  */
 	private boolean    			m_included = false;
+	private boolean    			m_includedAlreadyCalc = false;
 
 	/**	Logger			*/
 	protected CLogger	log = CLogger.getCLogger(getClass());
@@ -610,6 +611,10 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	{
 		if (!m_loadComplete) initTab(false);
 		
+		Env.clearTabContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo);
+		
+		Env.clearTabContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo);
+		
 		log.fine("#" + m_vo.TabNo
 			+ " - Only Current Rows=" + onlyCurrentRows
 			+ ", Days=" + onlyCurrentDays + ", Detail=" + isDetail());
@@ -962,7 +967,11 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		try
 		{
 			if (hasChangedCurrentTabAndParents())
-				return false;
+			{
+				// Fail only if it's a true change - teo_sarca [ 3017560 ]
+				if (manualCmd || m_mTable.hasChanged(m_currentRow))
+					return false;
+			}
 			
 			boolean retValue = (m_mTable.dataSave(manualCmd) == GridTable.SAVE_OK);
 			if (manualCmd)
@@ -1253,7 +1262,8 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	{
 		// set parent column name
 		String sql = "SELECT ColumnName FROM AD_Column WHERE AD_Column_ID=?";
-		m_parentColumnName = DB.getSQLValueString(null, sql, m_vo.Parent_Column_ID );
+		if (m_vo.Parent_Column_ID > 0)
+			m_parentColumnName = DB.getSQLValueString(null, sql, m_vo.Parent_Column_ID );
 		if ( m_parentColumnName == null )
 			m_parentColumnName = "";
 		
@@ -1334,12 +1344,25 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	 */
 	public boolean isIncluded()
 	{
+		if (! m_includedAlreadyCalc) {
+			m_included = false;
+			if (getParentTab() != null) {
+				for (GridTab tab : getParentTab().getIncludedTabs()) {
+					if (tab.equals(this)) {
+						m_included = true;
+						break;
+					}
+				}
+			}
+			m_includedAlreadyCalc = true;
+		}
 		return m_included;
 	}   //  isIncluded
 
 	/**
 	 *  Is Tab Included in other Tab
 	 *  @param isIncluded true if included
+	 *  @deprecated The method getIncluded now validate against the structure, this method is called nowhere
 	 */
 	public void setIncluded(boolean isIncluded)
 	{
@@ -1567,6 +1590,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	/**
 	 *	Get Included Tab ID
 	 *  @return Included_Tab_ID
+	 *  @deprecated the functionality related to AD_Tab.Included_Tab_ID was not developed
 	 */
 	public int getIncluded_Tab_ID()
 	{
@@ -2485,10 +2509,12 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		}
 		
 		//  inform APanel/..    -> dataStatus with row updated
-		if (m_DataStatusEvent == null)
+		if (m_DataStatusEvent == null) {
 			m_DataStatusEvent = new DataStatusEvent(this, getRowCount(),
 				m_mTable.isInserting(),		//	changed
 				Env.isAutoCommit(Env.getCtx(), m_vo.WindowNo), m_mTable.isInserting());
+			m_DataStatusEvent.AD_Table_ID = m_vo.AD_Table_ID;
+		}
 		//
 		m_DataStatusEvent.setCurrentRow(m_currentRow);
 		String status = m_DataStatusEvent.getAD_Message();

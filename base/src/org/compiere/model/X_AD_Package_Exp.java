@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Package_Exp
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_AD_Package_Exp (Properties ctx, int AD_Package_Exp_ID, String trxName)
@@ -85,9 +85,9 @@ public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persiste
 	public void setAD_Package_Exp_ID (int AD_Package_Exp_ID)
 	{
 		if (AD_Package_Exp_ID < 1) 
-			set_Value (COLUMNNAME_AD_Package_Exp_ID, null);
+			set_ValueNoCheck (COLUMNNAME_AD_Package_Exp_ID, null);
 		else 
-			set_Value (COLUMNNAME_AD_Package_Exp_ID, Integer.valueOf(AD_Package_Exp_ID));
+			set_ValueNoCheck (COLUMNNAME_AD_Package_Exp_ID, Integer.valueOf(AD_Package_Exp_ID));
 	}
 
 	/** Get Package Exp..
@@ -99,14 +99,6 @@ public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persiste
 			 return 0;
 		return ii.intValue();
 	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), String.valueOf(getAD_Package_Exp_ID()));
-    }
 
 	/** AD_Package_Type AD_Reference_ID=50001 */
 	public static final int AD_PACKAGE_TYPE_AD_Reference_ID=50001;
@@ -209,6 +201,14 @@ public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persiste
 	{
 		return (String)get_Value(COLUMNNAME_Name);
 	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), getName());
+    }
 
 	/** Set Package Version.
 		@param PK_Version Package Version	  */

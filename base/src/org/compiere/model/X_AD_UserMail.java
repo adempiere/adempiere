@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_UserMail
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_AD_UserMail extends PO implements I_AD_UserMail, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_AD_UserMail (Properties ctx, int AD_UserMail_ID, String trxName)
@@ -71,12 +71,12 @@ public class X_AD_UserMail extends PO implements I_AD_UserMail, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_User getAD_User() throws RuntimeException
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
     {
-		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getAD_User_ID(), get_TrxName());	}
 
-	/** Set User/Contact.
+	/** Set Usuario.
 		@param AD_User_ID 
 		User within the system - Internal or Business Partner Contact
 	  */
@@ -88,7 +88,7 @@ public class X_AD_UserMail extends PO implements I_AD_UserMail, I_Persistent
 			set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
-	/** Get User/Contact.
+	/** Get Usuario.
 		@return User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID () 
@@ -202,9 +202,9 @@ public class X_AD_UserMail extends PO implements I_AD_UserMail, I_Persistent
 		return (String)get_Value(COLUMNNAME_MessageID);
 	}
 
-	public I_R_MailText getR_MailText() throws RuntimeException
+	public org.compiere.model.I_R_MailText getR_MailText() throws RuntimeException
     {
-		return (I_R_MailText)MTable.get(getCtx(), I_R_MailText.Table_Name)
+		return (org.compiere.model.I_R_MailText)MTable.get(getCtx(), org.compiere.model.I_R_MailText.Table_Name)
 			.getPO(getR_MailText_ID(), get_TrxName());	}
 
 	/** Set Mail Template.
@@ -247,9 +247,9 @@ public class X_AD_UserMail extends PO implements I_AD_UserMail, I_Persistent
 		return (String)get_Value(COLUMNNAME_Subject);
 	}
 
-	public I_W_MailMsg getW_MailMsg() throws RuntimeException
+	public org.compiere.model.I_W_MailMsg getW_MailMsg() throws RuntimeException
     {
-		return (I_W_MailMsg)MTable.get(getCtx(), I_W_MailMsg.Table_Name)
+		return (org.compiere.model.I_W_MailMsg)MTable.get(getCtx(), org.compiere.model.I_W_MailMsg.Table_Name)
 			.getPO(getW_MailMsg_ID(), get_TrxName());	}
 
 	/** Set Mail Message.

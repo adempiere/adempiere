@@ -17,6 +17,7 @@ import java.io.File;
 
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.window.FDialog;
+import org.compiere.model.MSysConfig;
 import org.compiere.util.Ini;
 import org.compiere.util.ValueNamePair;
 import org.zkoss.zk.ui.event.Event;
@@ -43,7 +44,8 @@ public class FolderBrowser extends Window implements EventListener
 	private Listbox listDir = new Listbox();
 	private ConfirmPanel confirmPanel = new ConfirmPanel(true);
 	
-	private final File root = new File(Ini.getAdempiereHome());
+	// Carlos Ruiz - globalqss - implement system configurator parameter to indicate the root for zk folder browser
+	private final File root = new File(MSysConfig.getValue("ZK_ROOT_FOLDER_BROWSER", Ini.getAdempiereHome()));
 	
 	private boolean showDirOnly = false;
 	private String path;

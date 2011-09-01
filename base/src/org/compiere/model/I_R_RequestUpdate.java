@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for R_RequestUpdate
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_R_RequestUpdate 
 {
@@ -130,7 +130,7 @@ public interface I_R_RequestUpdate
 	  */
 	public int getM_ProductSpent_ID();
 
-	public I_M_Product getM_ProductSpent() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_ProductSpent() throws RuntimeException;
 
     /** Column name QtyInvoiced */
     public static final String COLUMNNAME_QtyInvoiced = "QtyInvoiced";
@@ -184,7 +184,7 @@ public interface I_R_RequestUpdate
 	  */
 	public int getR_Request_ID();
 
-	public I_R_Request getR_Request() throws RuntimeException;
+	public org.compiere.model.I_R_Request getR_Request() throws RuntimeException;
 
     /** Column name R_RequestUpdate_ID */
     public static final String COLUMNNAME_R_RequestUpdate_ID = "R_RequestUpdate_ID";

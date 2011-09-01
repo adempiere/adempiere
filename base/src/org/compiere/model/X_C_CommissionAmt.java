@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_CommissionAmt
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_C_CommissionAmt extends PO implements I_C_CommissionAmt, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_C_CommissionAmt (Properties ctx, int C_CommissionAmt_ID, String trxName)
@@ -120,9 +120,9 @@ public class X_C_CommissionAmt extends PO implements I_C_CommissionAmt, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_CommissionLine getC_CommissionLine() throws RuntimeException
+	public org.compiere.model.I_C_CommissionLine getC_CommissionLine() throws RuntimeException
     {
-		return (I_C_CommissionLine)MTable.get(getCtx(), I_C_CommissionLine.Table_Name)
+		return (org.compiere.model.I_C_CommissionLine)MTable.get(getCtx(), org.compiere.model.I_C_CommissionLine.Table_Name)
 			.getPO(getC_CommissionLine_ID(), get_TrxName());	}
 
 	/** Set Commission Line.
@@ -148,9 +148,9 @@ public class X_C_CommissionAmt extends PO implements I_C_CommissionAmt, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_CommissionRun getC_CommissionRun() throws RuntimeException
+	public org.compiere.model.I_C_CommissionRun getC_CommissionRun() throws RuntimeException
     {
-		return (I_C_CommissionRun)MTable.get(getCtx(), I_C_CommissionRun.Table_Name)
+		return (org.compiere.model.I_C_CommissionRun)MTable.get(getCtx(), org.compiere.model.I_C_CommissionRun.Table_Name)
 			.getPO(getC_CommissionRun_ID(), get_TrxName());	}
 
 	/** Set Commission Run.

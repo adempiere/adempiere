@@ -184,9 +184,9 @@ public class WFActivity extends CPanel
 	 */
 	private void dynInit(int WindowNo)
 	{
-		loadActivities();
 		//	Forward
 		fForward = VLookup.createUser(WindowNo);
+		loadActivities();
 	}	//	dynInit
 
 	/**
@@ -434,6 +434,7 @@ public class WFActivity extends CPanel
 	 */
 	public int loadActivities()
 	{
+		resetDisplay(null);
 		while (selTableModel.getRowCount() > 0)
 			selTableModel.removeRow(0);	
 		long start = System.currentTimeMillis();
@@ -591,7 +592,8 @@ public class WFActivity extends CPanel
 		m_activity = null;
 		m_column = null;
 
-		m_activity = new MWFActivity(Env.getCtx(),id.getRecord_ID(),null);
+		if (id != null)
+			m_activity = new MWFActivity(Env.getCtx(),id.getRecord_ID(),null);
 
 		if (m_activity == null)
 		{
@@ -632,8 +634,11 @@ public class WFActivity extends CPanel
 		//
 		if (e.getSource() == bZoom)
 			cmd_zoom();
-		else if (e.getSource() == bOK)
+		else if (e.getSource() == bOK) {
+			bOK.setEnabled(false);
 			cmd_OK();
+			bOK.setEnabled(true);
+		}
 		else if (e.getSource() == fAnswerButton)
 			cmd_button();
 		//

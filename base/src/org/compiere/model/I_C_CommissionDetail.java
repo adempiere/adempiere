@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_CommissionDetail
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_C_CommissionDetail 
 {
@@ -101,7 +101,7 @@ public interface I_C_CommissionDetail
 	  */
 	public int getC_CommissionAmt_ID();
 
-	public I_C_CommissionAmt getC_CommissionAmt() throws RuntimeException;
+	public org.compiere.model.I_C_CommissionAmt getC_CommissionAmt() throws RuntimeException;
 
     /** Column name C_CommissionDetail_ID */
     public static final String COLUMNNAME_C_CommissionDetail_ID = "C_CommissionDetail_ID";
@@ -129,7 +129,7 @@ public interface I_C_CommissionDetail
 	  */
 	public int getC_Currency_ID();
 
-	public I_C_Currency getC_Currency() throws RuntimeException;
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException;
 
     /** Column name C_InvoiceLine_ID */
     public static final String COLUMNNAME_C_InvoiceLine_ID = "C_InvoiceLine_ID";
@@ -144,7 +144,7 @@ public interface I_C_CommissionDetail
 	  */
 	public int getC_InvoiceLine_ID();
 
-	public I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException;
+	public org.compiere.model.I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException;
 
     /** Column name ConvertedAmt */
     public static final String COLUMNNAME_ConvertedAmt = "ConvertedAmt";
@@ -172,7 +172,7 @@ public interface I_C_CommissionDetail
 	  */
 	public int getC_OrderLine_ID();
 
-	public I_C_OrderLine getC_OrderLine() throws RuntimeException;
+	public org.compiere.model.I_C_OrderLine getC_OrderLine() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

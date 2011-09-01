@@ -14,13 +14,13 @@
       <column name="I_ERRORMSG" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="M_PRODUCT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="VALUE" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
-      <column name="NAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="DOCUMENTNOTE" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="UPC" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"/>
       <column name="SKU" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"/>
-      <column name="X12DE355" primaryKey="false" required="false" type="CHAR" size="2" autoIncrement="false"/>
+      <column name="X12DE355" primaryKey="false" required="false" type="VARCHAR" size="4" autoIncrement="false"/>
       <column name="C_UOM_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="PRODUCTCATEGORY_VALUE" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
       <column name="M_PRODUCT_CATEGORY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
@@ -44,7 +44,7 @@
       <column name="PRICEPO" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="ROYALTYAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="PRICEEFFECTIVE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <column name="VENDORPRODUCTNO" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"/>
+      <column name="VENDORPRODUCTNO" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
       <column name="VENDORCATEGORY" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"/>
       <column name="MANUFACTURER" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"/>
       <column name="ORDER_MIN" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
@@ -55,6 +55,7 @@
       <column name="PROCESSED" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="PRICESTD" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="PRICELIMIT" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="DISCONTINUEDAT" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_IPRODUCT" onDelete="setnull">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>

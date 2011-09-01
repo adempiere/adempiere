@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="HR_PROCESS">
+      <column name="HR_JOB_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_DOCTYPE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_PAYSELECTION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="HR_PROCESS_ID" primaryKey="true" required="true" type="ID" size="10" default="-1" autoIncrement="false"/>
+      <column name="HR_EMPLOYEE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="C_DOCTYPETARGET_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="COLUMNSQL" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="DATEACCT" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="DOCACTION" primaryKey="false" required="true" type="CHAR" size="2" default="CO" autoIncrement="false"/>
+      <column name="DOCSTATUS" primaryKey="false" required="true" type="VARCHAR" size="2" default="DR" autoIncrement="false"/>
+      <column name="DOCUMENTNO" primaryKey="false" required="false" type="VARCHAR" size="90" autoIncrement="false"/>
+      <column name="HR_DEPARTMENT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="HR_PAYROLL_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="HR_PERIOD_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="POSTED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_PRINTFORMAT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_WORKFLOW_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_CHARGE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="REVERSAL_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="PROCESSEDON" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_HRPROCESS" onDelete="none">
+        <reference local="AD_PRINTFORMAT_ID" foreign="AD_PRINTFORMAT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_WORKFLOW" name="ADWORKFLOW_HRPROCESS" onDelete="none">
+        <reference local="AD_WORKFLOW_ID" foreign="AD_WORKFLOW_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_HRPROCESS" onDelete="none">
+        <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_CHARGE" name="CCHARGE_HRPROCESS" onDelete="none">
+        <reference local="C_CHARGE_ID" foreign="C_CHARGE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_HRPROCESS" onDelete="none">
+        <reference local="C_DOCTYPE_ID" foreign="C_DOCTYPE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPETARGET_HRPROCESS" onDelete="none">
+        <reference local="C_DOCTYPETARGET_ID" foreign="C_DOCTYPE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_PAYSELECTION" name="CPAYSELECTION_HRPROCESS" onDelete="none">
+        <reference local="C_PAYSELECTION_ID" foreign="C_PAYSELECTION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="HR_DEPARTMENT" name="HRDEPARTMENT_HRPROCESS" onDelete="none">
+        <reference local="HR_DEPARTMENT_ID" foreign="HR_DEPARTMENT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="HR_EMPLOYEE" name="HREMPLOYEE_HRPROCESS" onDelete="none">
+        <reference local="HR_EMPLOYEE_ID" foreign="HR_EMPLOYEE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="HR_JOB" name="HRJOB_HRPROCESS" onDelete="none">
+        <reference local="HR_JOB_ID" foreign="HR_JOB_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="HR_PAYROLL" name="HRPAYROLL_HRPROCESS" onDelete="none">
+        <reference local="HR_PAYROLL_ID" foreign="HR_PAYROLL_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="HR_PERIOD" name="HRPERIOD_HRPROCESS" onDelete="none">
+        <reference local="HR_PERIOD_ID" foreign="HR_PERIOD_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="HR_PROCESS" name="REVERSAL_HRPROCESS" onDelete="none">
+        <reference local="REVERSAL_ID" foreign="HR_PROCESS_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[Processed IN ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

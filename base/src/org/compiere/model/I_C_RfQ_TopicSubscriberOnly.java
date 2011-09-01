@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_RfQ_TopicSubscriberOnly
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_C_RfQ_TopicSubscriberOnly 
 {
@@ -91,7 +91,7 @@ public interface I_C_RfQ_TopicSubscriberOnly
 	  */
 	public int getC_RfQ_TopicSubscriber_ID();
 
-	public I_C_RfQ_TopicSubscriber getC_RfQ_TopicSubscriber() throws RuntimeException;
+	public org.compiere.model.I_C_RfQ_TopicSubscriber getC_RfQ_TopicSubscriber() throws RuntimeException;
 
     /** Column name C_RfQ_TopicSubscriberOnly_ID */
     public static final String COLUMNNAME_C_RfQ_TopicSubscriberOnly_ID = "C_RfQ_TopicSubscriberOnly_ID";
@@ -145,7 +145,7 @@ public interface I_C_RfQ_TopicSubscriberOnly
 	  */
 	public int getM_Product_Category_ID();
 
-	public I_M_Product_Category getM_Product_Category() throws RuntimeException;
+	public org.compiere.model.I_M_Product_Category getM_Product_Category() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -160,7 +160,7 @@ public interface I_C_RfQ_TopicSubscriberOnly
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

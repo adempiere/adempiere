@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_Freight
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_M_Freight 
 {
@@ -75,7 +75,7 @@ public interface I_M_Freight
 	  */
 	public int getC_Country_ID();
 
-	public I_C_Country getC_Country() throws RuntimeException;
+	public org.compiere.model.I_C_Country getC_Country() throws RuntimeException;
 
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
@@ -90,7 +90,7 @@ public interface I_M_Freight
 	  */
 	public int getC_Currency_ID();
 
-	public I_C_Currency getC_Currency() throws RuntimeException;
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -121,7 +121,7 @@ public interface I_M_Freight
 	  */
 	public int getC_Region_ID();
 
-	public I_C_Region getC_Region() throws RuntimeException;
+	public org.compiere.model.I_C_Region getC_Region() throws RuntimeException;
 
     /** Column name FreightAmt */
     public static final String COLUMNNAME_FreightAmt = "FreightAmt";
@@ -162,7 +162,7 @@ public interface I_M_Freight
 	  */
 	public int getM_FreightCategory_ID();
 
-	public I_M_FreightCategory getM_FreightCategory() throws RuntimeException;
+	public org.compiere.model.I_M_FreightCategory getM_FreightCategory() throws RuntimeException;
 
     /** Column name M_Freight_ID */
     public static final String COLUMNNAME_M_Freight_ID = "M_Freight_ID";
@@ -190,7 +190,7 @@ public interface I_M_Freight
 	  */
 	public int getM_Shipper_ID();
 
-	public I_M_Shipper getM_Shipper() throws RuntimeException;
+	public org.compiere.model.I_M_Shipper getM_Shipper() throws RuntimeException;
 
     /** Column name To_Country_ID */
     public static final String COLUMNNAME_To_Country_ID = "To_Country_ID";
@@ -218,7 +218,7 @@ public interface I_M_Freight
 	  */
 	public int getTo_Region_ID();
 
-	public I_C_Region getTo_Region() throws RuntimeException;
+	public org.compiere.model.I_C_Region getTo_Region() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

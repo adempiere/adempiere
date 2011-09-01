@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for ASP_Workflow
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_ASP_Workflow 
 {
@@ -75,7 +75,7 @@ public interface I_ASP_Workflow
 	  */
 	public int getAD_Workflow_ID();
 
-	public I_AD_Workflow getAD_Workflow() throws RuntimeException;
+	public org.compiere.model.I_AD_Workflow getAD_Workflow() throws RuntimeException;
 
     /** Column name ASP_Level_ID */
     public static final String COLUMNNAME_ASP_Level_ID = "ASP_Level_ID";
@@ -86,7 +86,7 @@ public interface I_ASP_Workflow
 	/** Get ASP Level	  */
 	public int getASP_Level_ID();
 
-	public I_ASP_Level getASP_Level() throws RuntimeException;
+	public org.compiere.model.I_ASP_Level getASP_Level() throws RuntimeException;
 
     /** Column name ASP_Status */
     public static final String COLUMNNAME_ASP_Status = "ASP_Status";

@@ -77,6 +77,8 @@ public class CWindowToolbar extends FToolbar implements EventListener
 
     private ToolBarButton btnZoomAcross, btnActiveWorkflows, btnRequests, btnProductInfo;
 
+    private ToolBarButton btnChat;
+    
     private HashMap<String, ToolBarButton> buttons = new HashMap<String, ToolBarButton>();
 
 //    private ToolBarButton btnExit;
@@ -133,6 +135,7 @@ public class CWindowToolbar extends FToolbar implements EventListener
         btnRefresh = createButton("Refresh", "Refresh", "Refresh");
         btnFind = createButton("Find", "Find", "Find");
         btnAttachment = createButton("Attachment", "Attachment", "Attachment");
+        btnChat = createButton("Chat", "Chat", "Chat");
         btnGridToggle = createButton("Toggle", "Multi", "Multi");
         btnHistoryRecords = createButton("HistoryRecords", "HistoryX", "History");
         addSeparator();
@@ -465,6 +468,11 @@ public class CWindowToolbar extends FToolbar implements EventListener
         this.btnAttachment.setDisabled(!enabled);
     }
 
+    public void enableChat(boolean enabled)
+    {
+        this.btnChat.setDisabled(!enabled);
+    }
+    
     public void enablePrint(boolean enabled)
     {
     	this.btnPrint.setDisabled(!enabled);

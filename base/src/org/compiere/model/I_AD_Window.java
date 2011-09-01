@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Window
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_AD_Window 
 {
@@ -62,7 +62,7 @@ public interface I_AD_Window
 	  */
 	public int getAD_Color_ID();
 
-	public I_AD_Color getAD_Color() throws RuntimeException;
+	public org.compiere.model.I_AD_Color getAD_Color() throws RuntimeException;
 
     /** Column name AD_Image_ID */
     public static final String COLUMNNAME_AD_Image_ID = "AD_Image_ID";
@@ -77,7 +77,7 @@ public interface I_AD_Window
 	  */
 	public int getAD_Image_ID();
 
-	public I_AD_Image getAD_Image() throws RuntimeException;
+	public org.compiere.model.I_AD_Image getAD_Image() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";

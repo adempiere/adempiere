@@ -50,8 +50,8 @@ public class MResourceUnAvailable extends X_S_ResourceUnAvailable
 	{
 		Timestamp date = TimeUtil.trunc(dateTime, TimeUtil.TRUNC_DAY);
 		final String whereClause = COLUMNNAME_S_Resource_ID+"=? AND AD_Client_ID=?"
-									+" AND TRUNC("+COLUMNNAME_DateFrom+") <= ?"
-									+" AND TRUNC("+COLUMNNAME_DateTo+") >= ?";
+									+" AND TRUNC("+COLUMNNAME_DateFrom+", 'DD') <= ?"
+									+" AND TRUNC("+COLUMNNAME_DateTo+", 'DD') >= ?";
 		Properties ctx = r instanceof PO ? ((PO)r).getCtx() : Env.getCtx();
 		return new Query(ctx, I_S_ResourceUnAvailable.Table_Name, whereClause, null)
 						.setParameters(r.getS_Resource_ID(), r.getAD_Client_ID(), date, date)

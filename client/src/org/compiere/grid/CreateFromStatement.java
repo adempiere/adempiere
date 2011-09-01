@@ -96,11 +96,11 @@ public class CreateFromStatement extends CreateFrom
 			Timestamp from = (Timestamp) DateFrom;
 			Timestamp to = (Timestamp) DateTo;
 			if (from == null && to != null)
-				sql.append(" AND TRUNC(p.DateTrx) <= ?");
+				sql.append(" AND TRUNC(p.DateTrx, 'DD') <= ?");
 			else if (from != null && to == null)
-				sql.append(" AND TRUNC(p.DateTrx) >= ?");
+				sql.append(" AND TRUNC(p.DateTrx, 'DD') >= ?");
 			else if (from != null && to != null)
-				sql.append(" AND TRUNC(p.DateTrx) BETWEEN ? AND ?");
+				sql.append(" AND TRUNC(p.DateTrx, 'DD') BETWEEN ? AND ?");
 		}
 		//
 		if (AmtFrom != null || AmtTo != null)

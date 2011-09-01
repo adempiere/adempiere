@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_CStage_Element
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_CM_CStage_Element extends PO implements I_CM_CStage_Element, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_CM_CStage_Element (Properties ctx, int CM_CStage_Element_ID, String trxName)
@@ -95,9 +95,9 @@ public class X_CM_CStage_Element extends PO implements I_CM_CStage_Element, I_Pe
 		return ii.intValue();
 	}
 
-	public I_CM_CStage getCM_CStage() throws RuntimeException
+	public org.compiere.model.I_CM_CStage getCM_CStage() throws RuntimeException
     {
-		return (I_CM_CStage)MTable.get(getCtx(), I_CM_CStage.Table_Name)
+		return (org.compiere.model.I_CM_CStage)MTable.get(getCtx(), org.compiere.model.I_CM_CStage.Table_Name)
 			.getPO(getCM_CStage_ID(), get_TrxName());	}
 
 	/** Set Web Container Stage.

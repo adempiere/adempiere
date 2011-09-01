@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BankAccount
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_C_BankAccount (Properties ctx, int C_BankAccount_ID, String trxName)
@@ -160,9 +160,9 @@ public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Bank getC_Bank() throws RuntimeException
+	public org.compiere.model.I_C_Bank getC_Bank() throws RuntimeException
     {
-		return (I_C_Bank)MTable.get(getCtx(), I_C_Bank.Table_Name)
+		return (org.compiere.model.I_C_Bank)MTable.get(getCtx(), org.compiere.model.I_C_Bank.Table_Name)
 			.getPO(getC_Bank_ID(), get_TrxName());	}
 
 	/** Set Bank.
@@ -196,9 +196,9 @@ public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent
         return new KeyNamePair(get_ID(), String.valueOf(getC_Bank_ID()));
     }
 
-	public I_C_Currency getC_Currency() throws RuntimeException
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException
     {
-		return (I_C_Currency)MTable.get(getCtx(), I_C_Currency.Table_Name)
+		return (org.compiere.model.I_C_Currency)MTable.get(getCtx(), org.compiere.model.I_C_Currency.Table_Name)
 			.getPO(getC_Currency_ID(), get_TrxName());	}
 
 	/** Set Currency.
@@ -320,5 +320,19 @@ public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Set Payment Export Class.
+		@param PaymentExportClass Payment Export Class	  */
+	public void setPaymentExportClass (String PaymentExportClass)
+	{
+		set_Value (COLUMNNAME_PaymentExportClass, PaymentExportClass);
+	}
+
+	/** Get Payment Export Class.
+		@return Payment Export Class	  */
+	public String getPaymentExportClass () 
+	{
+		return (String)get_Value(COLUMNNAME_PaymentExportClass);
 	}
 }

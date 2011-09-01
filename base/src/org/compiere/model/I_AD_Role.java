@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Role
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_AD_Role 
 {
@@ -88,7 +88,7 @@ public interface I_AD_Role
 	  */
 	public int getAD_Tree_Menu_ID();
 
-	public I_AD_Tree getAD_Tree_Menu() throws RuntimeException;
+	public org.compiere.model.I_AD_Tree getAD_Tree_Menu() throws RuntimeException;
 
     /** Column name AD_Tree_Org_ID */
     public static final String COLUMNNAME_AD_Tree_Org_ID = "AD_Tree_Org_ID";
@@ -103,7 +103,7 @@ public interface I_AD_Role
 	  */
 	public int getAD_Tree_Org_ID();
 
-	public I_AD_Tree getAD_Tree_Org() throws RuntimeException;
+	public org.compiere.model.I_AD_Tree getAD_Tree_Org() throws RuntimeException;
 
     /** Column name Allow_Info_Account */
     public static final String COLUMNNAME_Allow_Info_Account = "Allow_Info_Account";
@@ -248,7 +248,7 @@ public interface I_AD_Role
 	  */
 	public int getC_Currency_ID();
 
-	public I_C_Currency getC_Currency() throws RuntimeException;
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException;
 
     /** Column name ConfirmQueryRecords */
     public static final String COLUMNNAME_ConfirmQueryRecords = "ConfirmQueryRecords";
@@ -531,7 +531,7 @@ public interface I_AD_Role
 	  */
 	public int getSupervisor_ID();
 
-	public I_AD_User getSupervisor() throws RuntimeException;
+	public org.compiere.model.I_AD_User getSupervisor() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

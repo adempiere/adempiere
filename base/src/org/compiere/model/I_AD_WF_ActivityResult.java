@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_WF_ActivityResult
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_AD_WF_ActivityResult 
 {
@@ -75,7 +75,7 @@ public interface I_AD_WF_ActivityResult
 	  */
 	public int getAD_WF_Activity_ID();
 
-	public I_AD_WF_Activity getAD_WF_Activity() throws RuntimeException;
+	public org.compiere.model.I_AD_WF_Activity getAD_WF_Activity() throws RuntimeException;
 
     /** Column name AD_WF_ActivityResult_ID */
     public static final String COLUMNNAME_AD_WF_ActivityResult_ID = "AD_WF_ActivityResult_ID";

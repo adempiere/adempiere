@@ -1,0 +1,124 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="PP_COST_COLLECTOR">
+      <column name="M_PRODUCT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORGTRX_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_USER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_ACTIVITY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_CAMPAIGN_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_DOCTYPETARGET_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_DOCTYPE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_PROJECT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_UOM_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="DATEACCT" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="DOCACTION" primaryKey="false" required="false" type="CHAR" size="2" default="CO" autoIncrement="false"/>
+      <column name="DOCSTATUS" primaryKey="false" required="false" type="CHAR" size="2" default="DR" autoIncrement="false"/>
+      <column name="DURATIONREAL" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISBATCHTIME" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="M_ATTRIBUTESETINSTANCE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="M_LOCATOR_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="M_WAREHOUSE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="MOVEMENTDATE" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="MOVEMENTQTY" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="PP_COST_COLLECTOR_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="PP_ORDER_BOMLINE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="PP_ORDER_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="PP_ORDER_NODE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="PP_ORDER_WORKFLOW_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="POSTED" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="QTYREJECT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="S_RESOURCE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="SCRAPPEDQTY" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="SETUPTIMEREAL" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="USER1_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="USER2_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="REVERSAL_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="COSTCOLLECTORTYPE" primaryKey="false" required="true" type="VARCHAR" size="3" autoIncrement="false"/>
+      <column name="ISSUBCONTRACTING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="DOCUMENTNO" primaryKey="false" required="true" type="VARCHAR" size="30" autoIncrement="false"/>
+      <column name="PROCESSEDON" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_PPCOSTCOLLECTOR" onDelete="none">
+        <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_USER" name="USER2_PPCOSTCOLLECTOR" onDelete="none">
+        <reference local="USER2_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_USER" name="USER1_PPCOSTCOLLECTOR" onDelete="none">
+        <reference local="USER1_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_USER" name="ADUSER_PPCOSTCOLLECTOR" onDelete="none">
+        <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_PPCOSTCOLLECTOR" onDelete="none">
+        <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_PPCOSTCOLLECTOR" onDelete="none">
+        <reference local="C_CAMPAIGN_ID" foreign="C_CAMPAIGN_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_PPCOSTCOLLECTOR" onDelete="none">
+        <reference local="C_DOCTYPE_ID" foreign="C_DOCTYPE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPETARGET_PPCOSTCOLLECTOR" onDelete="none">
+        <reference local="C_DOCTYPETARGET_ID" foreign="C_DOCTYPE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_PPCOSTCOLLECTOR" onDelete="none">
+        <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_UOM" name="CUOM_PPCOSTCOLLECTOR" onDelete="none">
+        <reference local="C_UOM_ID" foreign="C_UOM_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_ATTRIBUTESETINSTANCE" name="MATTRIBUTESETINSTANCE_PPCOSTCO" onDelete="none">
+        <reference local="M_ATTRIBUTESETINSTANCE_ID" foreign="M_ATTRIBUTESETINSTANCE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_LOCATOR" name="MLOCATOR_PPCOSTCOLLECTOR" onDelete="none">
+        <reference local="M_LOCATOR_ID" foreign="M_LOCATOR_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_PPCOSTCOLLECTOR" onDelete="none">
+        <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_PPCOSTCOLLECTOR" onDelete="none">
+        <reference local="M_WAREHOUSE_ID" foreign="M_WAREHOUSE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="PP_COST_COLLECTOR" name="REVERSAL_PPCOSTCOLLECTOR" onDelete="none">
+        <reference local="REVERSAL_ID" foreign="PP_COST_COLLECTOR_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="PP_ORDER" name="PPORDER_PPCOSTCOLLECTOR" onDelete="none">
+        <reference local="PP_ORDER_ID" foreign="PP_ORDER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="PP_ORDER_BOMLINE" name="PPORDERBOMLINE_PPCOSTCOLLECTOR" onDelete="none">
+        <reference local="PP_ORDER_BOMLINE_ID" foreign="PP_ORDER_BOMLINE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="PP_ORDER_NODE" name="PPORDERNODE_PPCOSTCOLLECTOR" onDelete="none">
+        <reference local="PP_ORDER_NODE_ID" foreign="PP_ORDER_NODE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="PP_ORDER_WORKFLOW" name="PPORDERWORKFLOW_PPCOSTCOLLECTO" onDelete="none">
+        <reference local="PP_ORDER_WORKFLOW_ID" foreign="PP_ORDER_WORKFLOW_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="S_RESOURCE" name="SRESOURCE_PPCOSTCOLLECTOR" onDelete="none">
+        <reference local="S_RESOURCE_ID" foreign="S_RESOURCE_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsBatchTime IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[Processed IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsSubcontracting IN ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

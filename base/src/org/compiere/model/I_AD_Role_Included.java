@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Role_Included
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_AD_Role_Included 
 {
@@ -75,7 +75,7 @@ public interface I_AD_Role_Included
 	  */
 	public int getAD_Role_ID();
 
-	public I_AD_Role getAD_Role() throws RuntimeException;
+	public org.compiere.model.I_AD_Role getAD_Role() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -102,7 +102,7 @@ public interface I_AD_Role_Included
 	/** Get Included Role	  */
 	public int getIncluded_Role_ID();
 
-	public I_AD_Role getIncluded_Role() throws RuntimeException;
+	public org.compiere.model.I_AD_Role getIncluded_Role() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

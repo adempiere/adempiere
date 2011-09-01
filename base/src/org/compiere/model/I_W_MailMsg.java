@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for W_MailMsg
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_W_MailMsg 
 {
@@ -224,5 +224,5 @@ public interface I_W_MailMsg
 	  */
 	public int getW_Store_ID();
 
-	public I_W_Store getW_Store() throws RuntimeException;
+	public org.compiere.model.I_W_Store getW_Store() throws RuntimeException;
 }

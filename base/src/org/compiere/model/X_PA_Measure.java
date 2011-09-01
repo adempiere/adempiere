@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_Measure
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_PA_Measure (Properties ctx, int PA_Measure_ID, String trxName)
@@ -94,9 +94,9 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
 		return (String)get_Value(COLUMNNAME_CalculationClass);
 	}
 
-	public I_C_ProjectType getC_ProjectType() throws RuntimeException
+	public org.compiere.model.I_C_ProjectType getC_ProjectType() throws RuntimeException
     {
-		return (I_C_ProjectType)MTable.get(getCtx(), I_C_ProjectType.Table_Name)
+		return (org.compiere.model.I_C_ProjectType)MTable.get(getCtx(), org.compiere.model.I_C_ProjectType.Table_Name)
 			.getPO(getC_ProjectType_ID(), get_TrxName());	}
 
 	/** Set Project Type.
@@ -259,9 +259,9 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
-	public I_PA_Benchmark getPA_Benchmark() throws RuntimeException
+	public org.compiere.model.I_PA_Benchmark getPA_Benchmark() throws RuntimeException
     {
-		return (I_PA_Benchmark)MTable.get(getCtx(), I_PA_Benchmark.Table_Name)
+		return (org.compiere.model.I_PA_Benchmark)MTable.get(getCtx(), org.compiere.model.I_PA_Benchmark.Table_Name)
 			.getPO(getPA_Benchmark_ID(), get_TrxName());	}
 
 	/** Set Benchmark.
@@ -287,9 +287,9 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_PA_Hierarchy getPA_Hierarchy() throws RuntimeException
+	public org.compiere.model.I_PA_Hierarchy getPA_Hierarchy() throws RuntimeException
     {
-		return (I_PA_Hierarchy)MTable.get(getCtx(), I_PA_Hierarchy.Table_Name)
+		return (org.compiere.model.I_PA_Hierarchy)MTable.get(getCtx(), org.compiere.model.I_PA_Hierarchy.Table_Name)
 			.getPO(getPA_Hierarchy_ID(), get_TrxName());	}
 
 	/** Set Reporting Hierarchy.
@@ -315,9 +315,9 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_PA_MeasureCalc getPA_MeasureCalc() throws RuntimeException
+	public org.compiere.model.I_PA_MeasureCalc getPA_MeasureCalc() throws RuntimeException
     {
-		return (I_PA_MeasureCalc)MTable.get(getCtx(), I_PA_MeasureCalc.Table_Name)
+		return (org.compiere.model.I_PA_MeasureCalc)MTable.get(getCtx(), org.compiere.model.I_PA_MeasureCalc.Table_Name)
 			.getPO(getPA_MeasureCalc_ID(), get_TrxName());	}
 
 	/** Set Measure Calculation.
@@ -366,9 +366,9 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_PA_Ratio getPA_Ratio() throws RuntimeException
+	public org.compiere.model.I_PA_Ratio getPA_Ratio() throws RuntimeException
     {
-		return (I_PA_Ratio)MTable.get(getCtx(), I_PA_Ratio.Table_Name)
+		return (org.compiere.model.I_PA_Ratio)MTable.get(getCtx(), org.compiere.model.I_PA_Ratio.Table_Name)
 			.getPO(getPA_Ratio_ID(), get_TrxName());	}
 
 	/** Set Ratio.
@@ -394,9 +394,9 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_R_RequestType getR_RequestType() throws RuntimeException
+	public org.compiere.model.I_R_RequestType getR_RequestType() throws RuntimeException
     {
-		return (I_R_RequestType)MTable.get(getCtx(), I_R_RequestType.Table_Name)
+		return (org.compiere.model.I_R_RequestType)MTable.get(getCtx(), org.compiere.model.I_R_RequestType.Table_Name)
 			.getPO(getR_RequestType_ID(), get_TrxName());	}
 
 	/** Set Request Type.

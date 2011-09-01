@@ -38,9 +38,12 @@ import org.compiere.util.WebEnv;
  * @author Yves Sandfort
  * @version $Id$
  */
-@SuppressWarnings("serial")
 public class Broadcast extends HttpServletCM
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3662473686525400593L;
 
 	/**
 	 * 	Process Get Request

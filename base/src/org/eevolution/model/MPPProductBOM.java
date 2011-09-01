@@ -37,15 +37,30 @@ import org.compiere.util.Env;
  */
 public class MPPProductBOM extends X_PP_Product_BOM
 {
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -5770988975738210823L;
+	private static final long serialVersionUID = 1561124355655122911L;
 	/**	Cache						*/
 	private static CCache<Integer,MPPProductBOM> s_cache = new CCache<Integer,MPPProductBOM>(Table_Name, 40, 5);
 	/** BOM Lines					*/
 	private List<MPPProductBOMLine> m_lines = null;
 	
+	/**
+	 * get the Product BOM for a product
+	 * @param product
+	 * @return return List with <MPPProductBOM
+	 */
+	public static List<MPPProductBOM> getProductBOMs(MProduct product)
+	{
+		String whereClause = MPPProductBOM.COLUMNNAME_Value+"=? AND M_Product_ID=?";
+		return new Query (product.getCtx(), X_PP_Product_BOM.Table_Name, whereClause, product.get_TrxName())
+					.setClient_ID()
+					.setParameters(product.getValue(), product.getM_Product_ID())
+					.list();
+		
+	}
 	/**
 	 * Get Product BOM by ID (cached) 
 	 * @param ctx

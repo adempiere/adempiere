@@ -71,6 +71,9 @@ import org.compiere.util.Env;
  * 				<li>--
  * 				<li>FR [ 2848449 ] ModelClassGenerator: Implement model getters
  *					https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2848449&group_id=176962
+ * @author Teo Sarca, teo.sarca@gmail.com
+ * 				<li>FR [ 3020635 ] Model Generator should use FQ class names
+ * 					https://sourceforge.net/tracker/?func=detail&aid=3020635&group_id=176962&atid=879335
  * @author Victor Perez, e-Evolution
  * 				<li>FR [ 1785001 ] Using ModelPackage of EntityType to Generate Model Class 
  */
@@ -601,7 +604,7 @@ public class ModelInterfaceGenerator
 	public static String getModelPackage(String entityType)
 	{
 		if ("D".equals(entityType))
-			return null;
+			return "org.compiere.model";
 
 		for (MEntityType entity : MEntityType.getEntityTypes(Env.getCtx()))
 		{

@@ -486,6 +486,10 @@ public class WAllocation extends Allocation
 	 */
 	public void saveData()
 	{
+		if (m_AD_Org_ID > 0)
+			Env.setContext(Env.getCtx(), form.getWindowNo(), "AD_Org_ID", m_AD_Org_ID);
+		else
+			Env.setContext(Env.getCtx(), form.getWindowNo(), "AD_Org_ID", "");
 		Trx trx = Trx.get(Trx.createTrxName("AL"), true);
 		statusBar.setStatusLine(saveData(form.getWindowNo(), dateField.getValue(), paymentTable, invoiceTable, trx.getTrxName()));
 		trx.commit();

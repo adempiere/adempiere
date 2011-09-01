@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_RequestUpdate
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_R_RequestUpdate extends PO implements I_R_RequestUpdate, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_R_RequestUpdate (Properties ctx, int R_RequestUpdate_ID, String trxName)
@@ -120,9 +120,9 @@ public class X_R_RequestUpdate extends PO implements I_R_RequestUpdate, I_Persis
 		return (Timestamp)get_Value(COLUMNNAME_EndTime);
 	}
 
-	public I_M_Product getM_ProductSpent() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_ProductSpent() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_ProductSpent_ID(), get_TrxName());	}
 
 	/** Set Product Used.
@@ -205,9 +205,9 @@ public class X_R_RequestUpdate extends PO implements I_R_RequestUpdate, I_Persis
 		return (String)get_Value(COLUMNNAME_Result);
 	}
 
-	public I_R_Request getR_Request() throws RuntimeException
+	public org.compiere.model.I_R_Request getR_Request() throws RuntimeException
     {
-		return (I_R_Request)MTable.get(getCtx(), I_R_Request.Table_Name)
+		return (org.compiere.model.I_R_Request)MTable.get(getCtx(), org.compiere.model.I_R_Request.Table_Name)
 			.getPO(getR_Request_ID(), get_TrxName());	}
 
 	/** Set Request.

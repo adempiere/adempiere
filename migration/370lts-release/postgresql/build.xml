@@ -1,0 +1,51 @@
+<project name="migrate-db-postgre" default="run-scripts" basedir=".">
+	<property file="../../postgresql.properties" />
+	<path id="lib.path">
+		<fileset dir="../../../tools/lib">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+	<taskdef resource="net/sf/antcontrib/antlib.xml">
+		<classpath>
+			<fileset dir="../../../tools/lib">
+				<include name="**/*.jar" />
+			</fileset>
+		</classpath>
+	</taskdef>
+
+	<target name="init">
+		<echo message="============================================================" />
+		<echo message="     PostgreSQL database update tool for Adempiere ERP" />
+		<echo message="	  	Adempiere License is GNU GPL License" />
+		<echo message="============================================================" />
+		<echo message="" file="psql.log" append="false" />
+		<echo append="false" file="build.log" message="#Build log:${line.separator}${line.separator}" />
+	</target>
+        
+	<target name="run-scripts" depends="init">
+		<echo message="----- Running migration SQL scripts -----" />
+		<echo file="psql.log" append="true" message="${line.separator}#Run Scripts:${line.separator}${line.separator}" />
+		<foreach param="file.name" target="load">
+			<path>
+				<fileset dir=".">
+					<include name="*.sql" />
+				</fileset>
+			</path>
+		</foreach>
+	</target>
+
+	<target name="load">
+		<echo message="Loading file ${file.name}" />
+		<exec dir="${postgresql.home}/bin" executable="${postgresql.home}/bin/psql" resultproperty="psql.result" output="psql.log" append="true">
+			<arg line="-h ${postgresql.host}" />
+			<arg line="-d ${postgresql.database} -q" />
+			<arg line="-U ${postgresql.user}" /> 
+			<arg line="-p ${postgresql.port}"/>
+			<arg line='-f "${file.name}"' />
+			<env key="PGPASSWORD" value="${postgresql.password}" />
+		</exec>
+		<echo message="File ${file.name} status ${psql.result}" />
+		<echo append="true" file="build.log">File ${file.name} status ${psql.result}</echo>
+		<echo append="true" file="build.log" message="${line.separator}" />
+	</target>
+</project>

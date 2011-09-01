@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_MovementLineConfirm
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_M_MovementLineConfirm extends PO implements I_M_MovementLineConfirm, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_M_MovementLineConfirm (Properties ctx, int M_MovementLineConfirm_ID, String trxName)
@@ -136,9 +136,9 @@ public class X_M_MovementLineConfirm extends PO implements I_M_MovementLineConfi
 		return bd;
 	}
 
-	public I_M_InventoryLine getM_InventoryLine() throws RuntimeException
+	public org.compiere.model.I_M_InventoryLine getM_InventoryLine() throws RuntimeException
     {
-		return (I_M_InventoryLine)MTable.get(getCtx(), I_M_InventoryLine.Table_Name)
+		return (org.compiere.model.I_M_InventoryLine)MTable.get(getCtx(), org.compiere.model.I_M_InventoryLine.Table_Name)
 			.getPO(getM_InventoryLine_ID(), get_TrxName());	}
 
 	/** Set Phys.Inventory Line.
@@ -164,9 +164,9 @@ public class X_M_MovementLineConfirm extends PO implements I_M_MovementLineConfi
 		return ii.intValue();
 	}
 
-	public I_M_MovementConfirm getM_MovementConfirm() throws RuntimeException
+	public org.compiere.model.I_M_MovementConfirm getM_MovementConfirm() throws RuntimeException
     {
-		return (I_M_MovementConfirm)MTable.get(getCtx(), I_M_MovementConfirm.Table_Name)
+		return (org.compiere.model.I_M_MovementConfirm)MTable.get(getCtx(), org.compiere.model.I_M_MovementConfirm.Table_Name)
 			.getPO(getM_MovementConfirm_ID(), get_TrxName());	}
 
 	/** Set Move Confirm.
@@ -223,9 +223,9 @@ public class X_M_MovementLineConfirm extends PO implements I_M_MovementLineConfi
 		return ii.intValue();
 	}
 
-	public I_M_MovementLine getM_MovementLine() throws RuntimeException
+	public org.compiere.model.I_M_MovementLine getM_MovementLine() throws RuntimeException
     {
-		return (I_M_MovementLine)MTable.get(getCtx(), I_M_MovementLine.Table_Name)
+		return (org.compiere.model.I_M_MovementLine)MTable.get(getCtx(), org.compiere.model.I_M_MovementLine.Table_Name)
 			.getPO(getM_MovementLine_ID(), get_TrxName());	}
 
 	/** Set Move Line.

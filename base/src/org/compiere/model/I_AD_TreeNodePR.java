@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_TreeNodePR
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_AD_TreeNodePR 
 {
@@ -75,7 +75,7 @@ public interface I_AD_TreeNodePR
 	  */
 	public int getAD_Tree_ID();
 
-	public I_AD_Tree getAD_Tree() throws RuntimeException;
+	public org.compiere.model.I_AD_Tree getAD_Tree() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

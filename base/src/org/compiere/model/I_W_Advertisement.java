@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for W_Advertisement
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_W_Advertisement 
 {
@@ -78,17 +78,17 @@ public interface I_W_Advertisement
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 
-	/** Set User/Contact.
+	/** Set Usuario.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public void setAD_User_ID (int AD_User_ID);
 
-	/** Get User/Contact.
+	/** Get Usuario.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getAD_User() throws RuntimeException;
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -103,7 +103,7 @@ public interface I_W_Advertisement
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -302,7 +302,7 @@ public interface I_W_Advertisement
 	  */
 	public int getW_ClickCount_ID();
 
-	public I_W_ClickCount getW_ClickCount() throws RuntimeException;
+	public org.compiere.model.I_W_ClickCount getW_ClickCount() throws RuntimeException;
 
     /** Column name W_CounterCount_ID */
     public static final String COLUMNNAME_W_CounterCount_ID = "W_CounterCount_ID";
@@ -317,7 +317,7 @@ public interface I_W_Advertisement
 	  */
 	public int getW_CounterCount_ID();
 
-	public I_W_CounterCount getW_CounterCount() throws RuntimeException;
+	public org.compiere.model.I_W_CounterCount getW_CounterCount() throws RuntimeException;
 
     /** Column name WebParam1 */
     public static final String COLUMNNAME_WebParam1 = "WebParam1";

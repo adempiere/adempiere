@@ -80,6 +80,9 @@ public class MRfQResponseLine extends X_C_RfQResponseLine
 		setC_RfQResponse_ID (response.getC_RfQResponse_ID());
 		//
 		setC_RfQLine_ID (line.getC_RfQLine_ID());
+		setDeliveryDays(line.getDeliveryDays());
+		setDescription(line.getDescription());
+		setHelp(line.getHelp());
 		//
 		setIsSelectedWinner (false);
 		setIsSelfService (false);

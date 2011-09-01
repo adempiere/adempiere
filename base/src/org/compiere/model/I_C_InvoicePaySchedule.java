@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_InvoicePaySchedule
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_C_InvoicePaySchedule 
 {
@@ -75,7 +75,7 @@ public interface I_C_InvoicePaySchedule
 	  */
 	public int getC_Invoice_ID();
 
-	public I_C_Invoice getC_Invoice() throws RuntimeException;
+	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException;
 
     /** Column name C_InvoicePaySchedule_ID */
     public static final String COLUMNNAME_C_InvoicePaySchedule_ID = "C_InvoicePaySchedule_ID";
@@ -103,7 +103,7 @@ public interface I_C_InvoicePaySchedule
 	  */
 	public int getC_PaySchedule_ID();
 
-	public I_C_PaySchedule getC_PaySchedule() throws RuntimeException;
+	public org.compiere.model.I_C_PaySchedule getC_PaySchedule() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

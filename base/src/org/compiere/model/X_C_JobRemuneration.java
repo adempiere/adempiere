@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_JobRemuneration
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_C_JobRemuneration extends PO implements I_C_JobRemuneration, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_C_JobRemuneration (Properties ctx, int C_JobRemuneration_ID, String trxName)
@@ -74,9 +74,9 @@ public class X_C_JobRemuneration extends PO implements I_C_JobRemuneration, I_Pe
       return sb.toString();
     }
 
-	public I_C_Job getC_Job() throws RuntimeException
+	public org.compiere.model.I_C_Job getC_Job() throws RuntimeException
     {
-		return (I_C_Job)MTable.get(getCtx(), I_C_Job.Table_Name)
+		return (org.compiere.model.I_C_Job)MTable.get(getCtx(), org.compiere.model.I_C_Job.Table_Name)
 			.getPO(getC_Job_ID(), get_TrxName());	}
 
 	/** Set Position.
@@ -133,9 +133,9 @@ public class X_C_JobRemuneration extends PO implements I_C_JobRemuneration, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_Remuneration getC_Remuneration() throws RuntimeException
+	public org.compiere.model.I_C_Remuneration getC_Remuneration() throws RuntimeException
     {
-		return (I_C_Remuneration)MTable.get(getCtx(), I_C_Remuneration.Table_Name)
+		return (org.compiere.model.I_C_Remuneration)MTable.get(getCtx(), org.compiere.model.I_C_Remuneration.Table_Name)
 			.getPO(getC_Remuneration_ID(), get_TrxName());	}
 
 	/** Set Remuneration.

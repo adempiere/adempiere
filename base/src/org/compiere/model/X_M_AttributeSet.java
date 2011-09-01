@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_AttributeSet
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_M_AttributeSet (Properties ctx, int M_AttributeSet_ID, String trxName)
@@ -320,8 +320,8 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 
 	/** MandatoryType AD_Reference_ID=324 */
 	public static final int MANDATORYTYPE_AD_Reference_ID=324;
-	/** Not Mandatary = N */
-	public static final String MANDATORYTYPE_NotMandatary = "N";
+	/** Not Mandatory = N */
+	public static final String MANDATORYTYPE_NotMandatory = "N";
 	/** Always Mandatory = Y */
 	public static final String MANDATORYTYPE_AlwaysMandatory = "Y";
 	/** When Shipping = S */
@@ -367,9 +367,9 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_M_LotCtl getM_LotCtl() throws RuntimeException
+	public org.compiere.model.I_M_LotCtl getM_LotCtl() throws RuntimeException
     {
-		return (I_M_LotCtl)MTable.get(getCtx(), I_M_LotCtl.Table_Name)
+		return (org.compiere.model.I_M_LotCtl)MTable.get(getCtx(), org.compiere.model.I_M_LotCtl.Table_Name)
 			.getPO(getM_LotCtl_ID(), get_TrxName());	}
 
 	/** Set Lot Control.
@@ -395,9 +395,9 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_M_SerNoCtl getM_SerNoCtl() throws RuntimeException
+	public org.compiere.model.I_M_SerNoCtl getM_SerNoCtl() throws RuntimeException
     {
-		return (I_M_SerNoCtl)MTable.get(getCtx(), I_M_SerNoCtl.Table_Name)
+		return (org.compiere.model.I_M_SerNoCtl)MTable.get(getCtx(), org.compiere.model.I_M_SerNoCtl.Table_Name)
 			.getPO(getM_SerNoCtl_ID(), get_TrxName());	}
 
 	/** Set Serial No Control.

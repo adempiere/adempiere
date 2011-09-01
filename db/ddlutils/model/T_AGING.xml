@@ -45,6 +45,7 @@
       <column name="C_PROJECT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_CAMPAIGN_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_ACTIVITY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="DATEACCT" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <foreign-key foreignTable="AD_PINSTANCE" name="ADPINSTANCE_TAGING" onDelete="cascade">
         <reference local="AD_PINSTANCE_ID" foreign="AD_PINSTANCE_ID"/>
       </foreign-key>
@@ -74,6 +75,9 @@
       </check>
       <check>
         <rule><![CDATA[IsSOTrx in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[DateAcct IN ('Y','N')]]></rule>
       </check>
     </table>
   </database>

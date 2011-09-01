@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_JobRemuneration
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_C_JobRemuneration 
 {
@@ -75,7 +75,7 @@ public interface I_C_JobRemuneration
 	  */
 	public int getC_Job_ID();
 
-	public I_C_Job getC_Job() throws RuntimeException;
+	public org.compiere.model.I_C_Job getC_Job() throws RuntimeException;
 
     /** Column name C_JobRemuneration_ID */
     public static final String COLUMNNAME_C_JobRemuneration_ID = "C_JobRemuneration_ID";
@@ -119,7 +119,7 @@ public interface I_C_JobRemuneration
 	  */
 	public int getC_Remuneration_ID();
 
-	public I_C_Remuneration getC_Remuneration() throws RuntimeException;
+	public org.compiere.model.I_C_Remuneration getC_Remuneration() throws RuntimeException;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

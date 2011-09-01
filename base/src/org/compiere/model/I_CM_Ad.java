@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for CM_Ad
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_CM_Ad 
 {
@@ -101,7 +101,7 @@ public interface I_CM_Ad
 	  */
 	public int getCM_Ad_Cat_ID();
 
-	public I_CM_Ad_Cat getCM_Ad_Cat() throws RuntimeException;
+	public org.compiere.model.I_CM_Ad_Cat getCM_Ad_Cat() throws RuntimeException;
 
     /** Column name CM_Ad_ID */
     public static final String COLUMNNAME_CM_Ad_ID = "CM_Ad_ID";
@@ -129,7 +129,7 @@ public interface I_CM_Ad
 	  */
 	public int getCM_Media_ID();
 
-	public I_CM_Media getCM_Media() throws RuntimeException;
+	public org.compiere.model.I_CM_Media getCM_Media() throws RuntimeException;
 
     /** Column name ContentHTML */
     public static final String COLUMNNAME_ContentHTML = "ContentHTML";

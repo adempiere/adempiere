@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="PP_MRP">
+      <column name="NAME" primaryKey="false" required="false" type="VARCHAR" size="120" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_ORDERLINE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_ORDER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="DATECONFIRM" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="DATEFINISHSCHEDULE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="DATEORDERED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="DATEPROMISED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="DATESIMULATION" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="DATESTART" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="DATESTARTSCHEDULE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="1020" autoIncrement="false"/>
+      <column name="DOCSTATUS" primaryKey="false" required="false" type="VARCHAR" size="2" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISAVAILABLE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="M_FORECASTLINE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="M_FORECAST_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="M_PRODUCT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="M_REQUISITIONLINE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="M_REQUISITION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="M_WAREHOUSE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="PP_MRP_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="PP_ORDER_BOMLINE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="PP_ORDER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="PLANNER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="PRIORITY" primaryKey="false" required="false" type="VARCHAR" size="10" autoIncrement="false"/>
+      <column name="QTY" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="S_RESOURCE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="ORDERTYPE" primaryKey="false" required="false" type="VARCHAR" size="3" autoIncrement="false"/>
+      <column name="TYPEMRP" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="VALUE" primaryKey="false" required="true" type="VARCHAR" size="80" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="VERSION" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="DD_ORDER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="DD_ORDERLINE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_USER" name="PLANNER_PPMRP" onDelete="none">
+        <reference local="PLANNER_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_PPMRP" onDelete="none">
+        <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ORDER" name="CORDER_PPMRP" onDelete="none">
+        <reference local="C_ORDER_ID" foreign="C_ORDER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ORDERLINE" name="CORDERLINE_PPMRP" onDelete="none">
+        <reference local="C_ORDERLINE_ID" foreign="C_ORDERLINE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="DD_ORDER" name="DDORDER_PPMRP" onDelete="none">
+        <reference local="DD_ORDER_ID" foreign="DD_ORDER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="DD_ORDERLINE" name="DDORDERLINE_PPMRP" onDelete="none">
+        <reference local="DD_ORDERLINE_ID" foreign="DD_ORDERLINE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_FORECAST" name="MFORECAST_PPMRP" onDelete="none">
+        <reference local="M_FORECAST_ID" foreign="M_FORECAST_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_FORECASTLINE" name="MFORECASTLINE_PPMRP" onDelete="none">
+        <reference local="M_FORECASTLINE_ID" foreign="M_FORECASTLINE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_PPMRP" onDelete="none">
+        <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_REQUISITION" name="MREQUISITION_PPMRP" onDelete="none">
+        <reference local="M_REQUISITION_ID" foreign="M_REQUISITION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_REQUISITIONLINE" name="MREQUISITIONLINE_PPMRP" onDelete="none">
+        <reference local="M_REQUISITIONLINE_ID" foreign="M_REQUISITIONLINE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_PPMRP" onDelete="none">
+        <reference local="M_WAREHOUSE_ID" foreign="M_WAREHOUSE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="PP_ORDER" name="PPORDER_PPMRP" onDelete="none">
+        <reference local="PP_ORDER_ID" foreign="PP_ORDER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="PP_ORDER_BOMLINE" name="PPORDERBOMLINE_PPMRP" onDelete="none">
+        <reference local="PP_ORDER_BOMLINE_ID" foreign="PP_ORDER_BOMLINE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="S_RESOURCE" name="SRESOURCE_PPMRP" onDelete="none">
+        <reference local="S_RESOURCE_ID" foreign="S_RESOURCE_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsAvailable IN ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

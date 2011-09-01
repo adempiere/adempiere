@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_RfQLine
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_C_RfQLine extends PO implements I_C_RfQLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_C_RfQLine (Properties ctx, int C_RfQLine_ID, String trxName)
@@ -75,9 +75,9 @@ public class X_C_RfQLine extends PO implements I_C_RfQLine, I_Persistent
       return sb.toString();
     }
 
-	public I_C_RfQ getC_RfQ() throws RuntimeException
+	public org.compiere.model.I_C_RfQ getC_RfQ() throws RuntimeException
     {
-		return (I_C_RfQ)MTable.get(getCtx(), I_C_RfQ.Table_Name)
+		return (org.compiere.model.I_C_RfQ)MTable.get(getCtx(), org.compiere.model.I_C_RfQ.Table_Name)
 			.getPO(getC_RfQ_ID(), get_TrxName());	}
 
 	/** Set RfQ.
@@ -270,9 +270,9 @@ public class X_C_RfQLine extends PO implements I_C_RfQLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.

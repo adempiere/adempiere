@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Depreciation_Forecast
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_A_Depreciation_Forecast extends PO implements I_A_Depreciation_Forecast, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_A_Depreciation_Forecast (Properties ctx, int A_Depreciation_Forecast_ID, String trxName)
@@ -103,9 +103,9 @@ public class X_A_Depreciation_Forecast extends PO implements I_A_Depreciation_Fo
         return new KeyNamePair(get_ID(), String.valueOf(getA_Depreciation_Forecast_ID()));
     }
 
-	public I_A_Asset getA_End_Asset() throws RuntimeException
+	public org.compiere.model.I_A_Asset getA_End_Asset() throws RuntimeException
     {
-		return (I_A_Asset)MTable.get(getCtx(), I_A_Asset.Table_Name)
+		return (org.compiere.model.I_A_Asset)MTable.get(getCtx(), org.compiere.model.I_A_Asset.Table_Name)
 			.getPO(getA_End_Asset_ID(), get_TrxName());	}
 
 	/** Set End Aset ID.
@@ -128,9 +128,9 @@ public class X_A_Depreciation_Forecast extends PO implements I_A_Depreciation_Fo
 		return ii.intValue();
 	}
 
-	public I_A_Asset getA_Start_Asset() throws RuntimeException
+	public org.compiere.model.I_A_Asset getA_Start_Asset() throws RuntimeException
     {
-		return (I_A_Asset)MTable.get(getCtx(), I_A_Asset.Table_Name)
+		return (org.compiere.model.I_A_Asset)MTable.get(getCtx(), org.compiere.model.I_A_Asset.Table_Name)
 			.getPO(getA_Start_Asset_ID(), get_TrxName());	}
 
 	/** Set Start Asset.

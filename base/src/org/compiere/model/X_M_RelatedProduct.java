@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for M_RelatedProduct
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_M_RelatedProduct extends PO implements I_M_RelatedProduct, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_M_RelatedProduct (Properties ctx, int M_RelatedProduct_ID, String trxName)
@@ -89,9 +89,9 @@ public class X_M_RelatedProduct extends PO implements I_M_RelatedProduct, I_Pers
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.
@@ -134,9 +134,9 @@ public class X_M_RelatedProduct extends PO implements I_M_RelatedProduct, I_Pers
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
-	public I_M_Product getRelatedProduct() throws RuntimeException
+	public org.compiere.model.I_M_Product getRelatedProduct() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getRelatedProduct_ID(), get_TrxName());	}
 
 	/** Set Related Product.

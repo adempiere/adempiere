@@ -29,6 +29,10 @@
       <column name="GOALPERFORMANCE" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="DATELASTRUN" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="AD_ROLE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="CHARTTYPE" primaryKey="false" required="true" type="VARCHAR" size="2" default="BC" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_ROLE" name="ADROLE_PAGOAL" onDelete="none">
+        <reference local="AD_ROLE_ID" foreign="AD_ROLE_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="AD_USER" name="ADUSER_PAGOAL" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>

@@ -242,7 +242,7 @@ public class AssetServlet extends HttpServlet
 
 		
 		//	Send File
-		MAssetDelivery ad = asset.confirmDelivery(request, wu.getAD_User_ID());
+		MAssetDelivery ad = confirmDelivery(asset , request, wu.getAD_User_ID());
 		if (M_ProductDownload_ID != 0)
 			ad.setM_ProductDownload_ID(M_ProductDownload_ID);
 		ad.setDescription(dl_name);
@@ -331,5 +331,20 @@ public class AssetServlet extends HttpServlet
 		//
 		return null;
 	}	//	streamAsset
+	
+	/**
+	 * 	Confirm Asset Download Delivery
+	 *  @param MAsset asset
+	 *	@param request request
+	 * 	@param AD_User_ID recipient
+	 * 	@return asset delivery
+	 */
+	public MAssetDelivery confirmDelivery (MAsset asset, HttpServletRequest request, int AD_User_ID)
+	{
+		asset.setVersionNo(asset.getProductVersionNo());
+		asset.setLifeUseUnits(asset.getLifeUseUnits()+1);
+		MAssetDelivery ad = new MAssetDelivery (asset, request, AD_User_ID);
+		return ad;
+	}	//	confirmDelivery
 
 }	//	AssetServlet

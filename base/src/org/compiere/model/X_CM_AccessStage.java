@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for CM_AccessStage
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_CM_AccessStage extends PO implements I_CM_AccessStage, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_CM_AccessStage (Properties ctx, int CM_AccessStage_ID, String trxName)
@@ -70,9 +70,9 @@ public class X_CM_AccessStage extends PO implements I_CM_AccessStage, I_Persiste
       return sb.toString();
     }
 
-	public I_CM_AccessProfile getCM_AccessProfile() throws RuntimeException
+	public org.compiere.model.I_CM_AccessProfile getCM_AccessProfile() throws RuntimeException
     {
-		return (I_CM_AccessProfile)MTable.get(getCtx(), I_CM_AccessProfile.Table_Name)
+		return (org.compiere.model.I_CM_AccessProfile)MTable.get(getCtx(), org.compiere.model.I_CM_AccessProfile.Table_Name)
 			.getPO(getCM_AccessProfile_ID(), get_TrxName());	}
 
 	/** Set Web Access Profile.
@@ -98,9 +98,9 @@ public class X_CM_AccessStage extends PO implements I_CM_AccessStage, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_CM_CStage getCM_CStage() throws RuntimeException
+	public org.compiere.model.I_CM_CStage getCM_CStage() throws RuntimeException
     {
-		return (I_CM_CStage)MTable.get(getCtx(), I_CM_CStage.Table_Name)
+		return (org.compiere.model.I_CM_CStage)MTable.get(getCtx(), org.compiere.model.I_CM_CStage.Table_Name)
 			.getPO(getCM_CStage_ID(), get_TrxName());	}
 
 	/** Set Web Container Stage.

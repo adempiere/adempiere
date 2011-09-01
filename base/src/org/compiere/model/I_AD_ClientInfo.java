@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_ClientInfo
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_AD_ClientInfo 
 {
@@ -75,7 +75,7 @@ public interface I_AD_ClientInfo
 	  */
 	public int getAD_Tree_Activity_ID();
 
-	public I_AD_Tree getAD_Tree_Activity() throws RuntimeException;
+	public org.compiere.model.I_AD_Tree getAD_Tree_Activity() throws RuntimeException;
 
     /** Column name AD_Tree_BPartner_ID */
     public static final String COLUMNNAME_AD_Tree_BPartner_ID = "AD_Tree_BPartner_ID";
@@ -90,7 +90,7 @@ public interface I_AD_ClientInfo
 	  */
 	public int getAD_Tree_BPartner_ID();
 
-	public I_AD_Tree getAD_Tree_BPartner() throws RuntimeException;
+	public org.compiere.model.I_AD_Tree getAD_Tree_BPartner() throws RuntimeException;
 
     /** Column name AD_Tree_Campaign_ID */
     public static final String COLUMNNAME_AD_Tree_Campaign_ID = "AD_Tree_Campaign_ID";
@@ -105,7 +105,7 @@ public interface I_AD_ClientInfo
 	  */
 	public int getAD_Tree_Campaign_ID();
 
-	public I_AD_Tree getAD_Tree_Campaign() throws RuntimeException;
+	public org.compiere.model.I_AD_Tree getAD_Tree_Campaign() throws RuntimeException;
 
     /** Column name AD_Tree_Menu_ID */
     public static final String COLUMNNAME_AD_Tree_Menu_ID = "AD_Tree_Menu_ID";
@@ -120,7 +120,7 @@ public interface I_AD_ClientInfo
 	  */
 	public int getAD_Tree_Menu_ID();
 
-	public I_AD_Tree getAD_Tree_Menu() throws RuntimeException;
+	public org.compiere.model.I_AD_Tree getAD_Tree_Menu() throws RuntimeException;
 
     /** Column name AD_Tree_Org_ID */
     public static final String COLUMNNAME_AD_Tree_Org_ID = "AD_Tree_Org_ID";
@@ -135,7 +135,7 @@ public interface I_AD_ClientInfo
 	  */
 	public int getAD_Tree_Org_ID();
 
-	public I_AD_Tree getAD_Tree_Org() throws RuntimeException;
+	public org.compiere.model.I_AD_Tree getAD_Tree_Org() throws RuntimeException;
 
     /** Column name AD_Tree_Product_ID */
     public static final String COLUMNNAME_AD_Tree_Product_ID = "AD_Tree_Product_ID";
@@ -150,7 +150,7 @@ public interface I_AD_ClientInfo
 	  */
 	public int getAD_Tree_Product_ID();
 
-	public I_AD_Tree getAD_Tree_Product() throws RuntimeException;
+	public org.compiere.model.I_AD_Tree getAD_Tree_Product() throws RuntimeException;
 
     /** Column name AD_Tree_Project_ID */
     public static final String COLUMNNAME_AD_Tree_Project_ID = "AD_Tree_Project_ID";
@@ -165,7 +165,7 @@ public interface I_AD_ClientInfo
 	  */
 	public int getAD_Tree_Project_ID();
 
-	public I_AD_Tree getAD_Tree_Project() throws RuntimeException;
+	public org.compiere.model.I_AD_Tree getAD_Tree_Project() throws RuntimeException;
 
     /** Column name AD_Tree_SalesRegion_ID */
     public static final String COLUMNNAME_AD_Tree_SalesRegion_ID = "AD_Tree_SalesRegion_ID";
@@ -180,7 +180,7 @@ public interface I_AD_ClientInfo
 	  */
 	public int getAD_Tree_SalesRegion_ID();
 
-	public I_AD_Tree getAD_Tree_SalesRegion() throws RuntimeException;
+	public org.compiere.model.I_AD_Tree getAD_Tree_SalesRegion() throws RuntimeException;
 
     /** Column name C_AcctSchema1_ID */
     public static final String COLUMNNAME_C_AcctSchema1_ID = "C_AcctSchema1_ID";
@@ -195,7 +195,7 @@ public interface I_AD_ClientInfo
 	  */
 	public int getC_AcctSchema1_ID();
 
-	public I_C_AcctSchema getC_AcctSchema1() throws RuntimeException;
+	public org.compiere.model.I_C_AcctSchema getC_AcctSchema1() throws RuntimeException;
 
     /** Column name C_BPartnerCashTrx_ID */
     public static final String COLUMNNAME_C_BPartnerCashTrx_ID = "C_BPartnerCashTrx_ID";
@@ -210,7 +210,7 @@ public interface I_AD_ClientInfo
 	  */
 	public int getC_BPartnerCashTrx_ID();
 
-	public I_C_BPartner getC_BPartnerCashTrx() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getC_BPartnerCashTrx() throws RuntimeException;
 
     /** Column name C_Calendar_ID */
     public static final String COLUMNNAME_C_Calendar_ID = "C_Calendar_ID";
@@ -225,7 +225,7 @@ public interface I_AD_ClientInfo
 	  */
 	public int getC_Calendar_ID();
 
-	public I_C_Calendar getC_Calendar() throws RuntimeException;
+	public org.compiere.model.I_C_Calendar getC_Calendar() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -256,7 +256,7 @@ public interface I_AD_ClientInfo
 	  */
 	public int getC_UOM_Length_ID();
 
-	public I_C_UOM getC_UOM_Length() throws RuntimeException;
+	public org.compiere.model.I_C_UOM getC_UOM_Length() throws RuntimeException;
 
     /** Column name C_UOM_Time_ID */
     public static final String COLUMNNAME_C_UOM_Time_ID = "C_UOM_Time_ID";
@@ -271,7 +271,7 @@ public interface I_AD_ClientInfo
 	  */
 	public int getC_UOM_Time_ID();
 
-	public I_C_UOM getC_UOM_Time() throws RuntimeException;
+	public org.compiere.model.I_C_UOM getC_UOM_Time() throws RuntimeException;
 
     /** Column name C_UOM_Volume_ID */
     public static final String COLUMNNAME_C_UOM_Volume_ID = "C_UOM_Volume_ID";
@@ -286,7 +286,7 @@ public interface I_AD_ClientInfo
 	  */
 	public int getC_UOM_Volume_ID();
 
-	public I_C_UOM getC_UOM_Volume() throws RuntimeException;
+	public org.compiere.model.I_C_UOM getC_UOM_Volume() throws RuntimeException;
 
     /** Column name C_UOM_Weight_ID */
     public static final String COLUMNNAME_C_UOM_Weight_ID = "C_UOM_Weight_ID";
@@ -301,7 +301,7 @@ public interface I_AD_ClientInfo
 	  */
 	public int getC_UOM_Weight_ID();
 
-	public I_C_UOM getC_UOM_Weight() throws RuntimeException;
+	public org.compiere.model.I_C_UOM getC_UOM_Weight() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -378,7 +378,7 @@ public interface I_AD_ClientInfo
 	/** Get Product for Freight	  */
 	public int getM_ProductFreight_ID();
 
-	public I_M_Product getM_ProductFreight() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_ProductFreight() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

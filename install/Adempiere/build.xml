@@ -251,7 +251,10 @@
 			<zipfileset src="lib/postgresql.jar" >
 				<patternset refid="manifest.exclude"/>
 			</zipfileset>
-
+			<zipfileset src="lib/mysql-connector-java-5.1.13-bin.jar" >
+				<patternset refid="manifest.exclude"/>
+			</zipfileset>
+			
 			<manifest>
 				<attribute name="Specification-Title" value="Adempiere Client Library" />
 				<attribute name="Specification-Version" value="${ADEMPIERE_MAIN_VERSION}" />
@@ -293,6 +296,9 @@
 				<patternset refid="manifest.exclude"/>
 			</zipfileset>
 			<zipfileset src="lib/CompiereJasperReqs.jar" >
+				<patternset refid="manifest.exclude"/>
+			</zipfileset>
+			<zipfileset src="lib/mysql-connector-java-5.1.13-bin.jar" >
 				<patternset refid="manifest.exclude"/>
 			</zipfileset>
 			<manifest>

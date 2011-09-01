@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_OperationResource
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_M_OperationResource 
 {
@@ -54,7 +54,7 @@ public interface I_M_OperationResource
 	  */
 	public int getA_Asset_ID();
 
-	public I_A_Asset getA_Asset() throws RuntimeException;
+	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException;
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -90,7 +90,7 @@ public interface I_M_OperationResource
 	  */
 	public int getC_Job_ID();
 
-	public I_C_Job getC_Job() throws RuntimeException;
+	public org.compiere.model.I_C_Job getC_Job() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -173,7 +173,7 @@ public interface I_M_OperationResource
 	  */
 	public int getM_ProductOperation_ID();
 
-	public I_M_ProductOperation getM_ProductOperation() throws RuntimeException;
+	public org.compiere.model.I_M_ProductOperation getM_ProductOperation() throws RuntimeException;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for K_EntryRelated
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_K_EntryRelated 
 {
@@ -104,7 +104,7 @@ public interface I_K_EntryRelated
 	  */
 	public int getK_Entry_ID();
 
-	public I_K_Entry getK_Entry() throws RuntimeException;
+	public org.compiere.model.I_K_Entry getK_Entry() throws RuntimeException;
 
     /** Column name K_EntryRelated_ID */
     public static final String COLUMNNAME_K_EntryRelated_ID = "K_EntryRelated_ID";

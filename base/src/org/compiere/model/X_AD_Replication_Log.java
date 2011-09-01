@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Replication_Log
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_AD_Replication_Log extends PO implements I_AD_Replication_Log, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_AD_Replication_Log (Properties ctx, int AD_Replication_Log_ID, String trxName)
@@ -96,9 +96,9 @@ public class X_AD_Replication_Log extends PO implements I_AD_Replication_Log, I_
 		return ii.intValue();
 	}
 
-	public I_AD_Replication_Run getAD_Replication_Run() throws RuntimeException
+	public org.compiere.model.I_AD_Replication_Run getAD_Replication_Run() throws RuntimeException
     {
-		return (I_AD_Replication_Run)MTable.get(getCtx(), I_AD_Replication_Run.Table_Name)
+		return (org.compiere.model.I_AD_Replication_Run)MTable.get(getCtx(), org.compiere.model.I_AD_Replication_Run.Table_Name)
 			.getPO(getAD_Replication_Run_ID(), get_TrxName());	}
 
 	/** Set Replication Run.
@@ -132,9 +132,9 @@ public class X_AD_Replication_Log extends PO implements I_AD_Replication_Log, I_
         return new KeyNamePair(get_ID(), String.valueOf(getAD_Replication_Run_ID()));
     }
 
-	public I_AD_ReplicationTable getAD_ReplicationTable() throws RuntimeException
+	public org.compiere.model.I_AD_ReplicationTable getAD_ReplicationTable() throws RuntimeException
     {
-		return (I_AD_ReplicationTable)MTable.get(getCtx(), I_AD_ReplicationTable.Table_Name)
+		return (org.compiere.model.I_AD_ReplicationTable)MTable.get(getCtx(), org.compiere.model.I_AD_ReplicationTable.Table_Name)
 			.getPO(getAD_ReplicationTable_ID(), get_TrxName());	}
 
 	/** Set Replication Table.

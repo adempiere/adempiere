@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for AD_Document_Action_Access
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_AD_Document_Action_Access extends PO implements I_AD_Document_Action_Access, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_AD_Document_Action_Access (Properties ctx, int AD_Document_Action_Access_ID, String trxName)
@@ -71,9 +71,9 @@ public class X_AD_Document_Action_Access extends PO implements I_AD_Document_Act
       return sb.toString();
     }
 
-	public I_AD_Ref_List getAD_Ref_List() throws RuntimeException
+	public org.compiere.model.I_AD_Ref_List getAD_Ref_List() throws RuntimeException
     {
-		return (I_AD_Ref_List)MTable.get(getCtx(), I_AD_Ref_List.Table_Name)
+		return (org.compiere.model.I_AD_Ref_List)MTable.get(getCtx(), org.compiere.model.I_AD_Ref_List.Table_Name)
 			.getPO(getAD_Ref_List_ID(), get_TrxName());	}
 
 	/** Set Reference List.
@@ -99,9 +99,9 @@ public class X_AD_Document_Action_Access extends PO implements I_AD_Document_Act
 		return ii.intValue();
 	}
 
-	public I_AD_Role getAD_Role() throws RuntimeException
+	public org.compiere.model.I_AD_Role getAD_Role() throws RuntimeException
     {
-		return (I_AD_Role)MTable.get(getCtx(), I_AD_Role.Table_Name)
+		return (org.compiere.model.I_AD_Role)MTable.get(getCtx(), org.compiere.model.I_AD_Role.Table_Name)
 			.getPO(getAD_Role_ID(), get_TrxName());	}
 
 	/** Set Role.
@@ -127,9 +127,9 @@ public class X_AD_Document_Action_Access extends PO implements I_AD_Document_Act
 		return ii.intValue();
 	}
 
-	public I_C_DocType getC_DocType() throws RuntimeException
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException
     {
-		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
 			.getPO(getC_DocType_ID(), get_TrxName());	}
 
 	/** Set Document Type.

@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for AD_ClientInfo
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_AD_ClientInfo (Properties ctx, int AD_ClientInfo_ID, String trxName)
@@ -69,9 +69,9 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Tree getAD_Tree_Activity() throws RuntimeException
+	public org.compiere.model.I_AD_Tree getAD_Tree_Activity() throws RuntimeException
     {
-		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+		return (org.compiere.model.I_AD_Tree)MTable.get(getCtx(), org.compiere.model.I_AD_Tree.Table_Name)
 			.getPO(getAD_Tree_Activity_ID(), get_TrxName());	}
 
 	/** Set Activity Tree.
@@ -97,9 +97,9 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Tree getAD_Tree_BPartner() throws RuntimeException
+	public org.compiere.model.I_AD_Tree getAD_Tree_BPartner() throws RuntimeException
     {
-		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+		return (org.compiere.model.I_AD_Tree)MTable.get(getCtx(), org.compiere.model.I_AD_Tree.Table_Name)
 			.getPO(getAD_Tree_BPartner_ID(), get_TrxName());	}
 
 	/** Set BPartner Tree.
@@ -125,9 +125,9 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Tree getAD_Tree_Campaign() throws RuntimeException
+	public org.compiere.model.I_AD_Tree getAD_Tree_Campaign() throws RuntimeException
     {
-		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+		return (org.compiere.model.I_AD_Tree)MTable.get(getCtx(), org.compiere.model.I_AD_Tree.Table_Name)
 			.getPO(getAD_Tree_Campaign_ID(), get_TrxName());	}
 
 	/** Set Campaign Tree.
@@ -153,9 +153,9 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Tree getAD_Tree_Menu() throws RuntimeException
+	public org.compiere.model.I_AD_Tree getAD_Tree_Menu() throws RuntimeException
     {
-		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+		return (org.compiere.model.I_AD_Tree)MTable.get(getCtx(), org.compiere.model.I_AD_Tree.Table_Name)
 			.getPO(getAD_Tree_Menu_ID(), get_TrxName());	}
 
 	/** Set Menu Tree.
@@ -181,9 +181,9 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Tree getAD_Tree_Org() throws RuntimeException
+	public org.compiere.model.I_AD_Tree getAD_Tree_Org() throws RuntimeException
     {
-		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+		return (org.compiere.model.I_AD_Tree)MTable.get(getCtx(), org.compiere.model.I_AD_Tree.Table_Name)
 			.getPO(getAD_Tree_Org_ID(), get_TrxName());	}
 
 	/** Set Organization Tree.
@@ -209,9 +209,9 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Tree getAD_Tree_Product() throws RuntimeException
+	public org.compiere.model.I_AD_Tree getAD_Tree_Product() throws RuntimeException
     {
-		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+		return (org.compiere.model.I_AD_Tree)MTable.get(getCtx(), org.compiere.model.I_AD_Tree.Table_Name)
 			.getPO(getAD_Tree_Product_ID(), get_TrxName());	}
 
 	/** Set Product Tree.
@@ -237,9 +237,9 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Tree getAD_Tree_Project() throws RuntimeException
+	public org.compiere.model.I_AD_Tree getAD_Tree_Project() throws RuntimeException
     {
-		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+		return (org.compiere.model.I_AD_Tree)MTable.get(getCtx(), org.compiere.model.I_AD_Tree.Table_Name)
 			.getPO(getAD_Tree_Project_ID(), get_TrxName());	}
 
 	/** Set Project Tree.
@@ -265,9 +265,9 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Tree getAD_Tree_SalesRegion() throws RuntimeException
+	public org.compiere.model.I_AD_Tree getAD_Tree_SalesRegion() throws RuntimeException
     {
-		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+		return (org.compiere.model.I_AD_Tree)MTable.get(getCtx(), org.compiere.model.I_AD_Tree.Table_Name)
 			.getPO(getAD_Tree_SalesRegion_ID(), get_TrxName());	}
 
 	/** Set Sales Region Tree.
@@ -293,9 +293,9 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_AcctSchema getC_AcctSchema1() throws RuntimeException
+	public org.compiere.model.I_C_AcctSchema getC_AcctSchema1() throws RuntimeException
     {
-		return (I_C_AcctSchema)MTable.get(getCtx(), I_C_AcctSchema.Table_Name)
+		return (org.compiere.model.I_C_AcctSchema)MTable.get(getCtx(), org.compiere.model.I_C_AcctSchema.Table_Name)
 			.getPO(getC_AcctSchema1_ID(), get_TrxName());	}
 
 	/** Set Primary Accounting Schema.
@@ -321,9 +321,9 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartnerCashTrx() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getC_BPartnerCashTrx() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartnerCashTrx_ID(), get_TrxName());	}
 
 	/** Set Template B.Partner.
@@ -349,9 +349,9 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Calendar getC_Calendar() throws RuntimeException
+	public org.compiere.model.I_C_Calendar getC_Calendar() throws RuntimeException
     {
-		return (I_C_Calendar)MTable.get(getCtx(), I_C_Calendar.Table_Name)
+		return (org.compiere.model.I_C_Calendar)MTable.get(getCtx(), org.compiere.model.I_C_Calendar.Table_Name)
 			.getPO(getC_Calendar_ID(), get_TrxName());	}
 
 	/** Set Calendar.
@@ -377,9 +377,9 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_UOM getC_UOM_Length() throws RuntimeException
+	public org.compiere.model.I_C_UOM getC_UOM_Length() throws RuntimeException
     {
-		return (I_C_UOM)MTable.get(getCtx(), I_C_UOM.Table_Name)
+		return (org.compiere.model.I_C_UOM)MTable.get(getCtx(), org.compiere.model.I_C_UOM.Table_Name)
 			.getPO(getC_UOM_Length_ID(), get_TrxName());	}
 
 	/** Set UOM for Length.
@@ -405,9 +405,9 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_UOM getC_UOM_Time() throws RuntimeException
+	public org.compiere.model.I_C_UOM getC_UOM_Time() throws RuntimeException
     {
-		return (I_C_UOM)MTable.get(getCtx(), I_C_UOM.Table_Name)
+		return (org.compiere.model.I_C_UOM)MTable.get(getCtx(), org.compiere.model.I_C_UOM.Table_Name)
 			.getPO(getC_UOM_Time_ID(), get_TrxName());	}
 
 	/** Set UOM for Time.
@@ -433,9 +433,9 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_UOM getC_UOM_Volume() throws RuntimeException
+	public org.compiere.model.I_C_UOM getC_UOM_Volume() throws RuntimeException
     {
-		return (I_C_UOM)MTable.get(getCtx(), I_C_UOM.Table_Name)
+		return (org.compiere.model.I_C_UOM)MTable.get(getCtx(), org.compiere.model.I_C_UOM.Table_Name)
 			.getPO(getC_UOM_Volume_ID(), get_TrxName());	}
 
 	/** Set UOM for Volume.
@@ -461,9 +461,9 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_UOM getC_UOM_Weight() throws RuntimeException
+	public org.compiere.model.I_C_UOM getC_UOM_Weight() throws RuntimeException
     {
-		return (I_C_UOM)MTable.get(getCtx(), I_C_UOM.Table_Name)
+		return (org.compiere.model.I_C_UOM)MTable.get(getCtx(), org.compiere.model.I_C_UOM.Table_Name)
 			.getPO(getC_UOM_Weight_ID(), get_TrxName());	}
 
 	/** Set UOM for Weight.
@@ -593,9 +593,9 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_ProductFreight() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_ProductFreight() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_ProductFreight_ID(), get_TrxName());	}
 
 	/** Set Product for Freight.

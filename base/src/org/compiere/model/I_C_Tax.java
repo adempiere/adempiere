@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_Tax
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_C_Tax 
 {
@@ -71,7 +71,7 @@ public interface I_C_Tax
 	/** Get Rule	  */
 	public int getAD_Rule_ID();
 
-	public I_AD_Rule getAD_Rule() throws RuntimeException;
+	public org.compiere.model.I_AD_Rule getAD_Rule() throws RuntimeException;
 
     /** Column name C_Country_ID */
     public static final String COLUMNNAME_C_Country_ID = "C_Country_ID";
@@ -115,7 +115,7 @@ public interface I_C_Tax
 	  */
 	public int getC_Region_ID();
 
-	public I_C_Region getC_Region() throws RuntimeException;
+	public org.compiere.model.I_C_Region getC_Region() throws RuntimeException;
 
     /** Column name C_TaxCategory_ID */
     public static final String COLUMNNAME_C_TaxCategory_ID = "C_TaxCategory_ID";
@@ -130,7 +130,7 @@ public interface I_C_Tax
 	  */
 	public int getC_TaxCategory_ID();
 
-	public I_C_TaxCategory getC_TaxCategory() throws RuntimeException;
+	public org.compiere.model.I_C_TaxCategory getC_TaxCategory() throws RuntimeException;
 
     /** Column name C_Tax_ID */
     public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";
@@ -262,7 +262,7 @@ public interface I_C_Tax
 	  */
 	public int getParent_Tax_ID();
 
-	public I_C_Tax getParent_Tax() throws RuntimeException;
+	public org.compiere.model.I_C_Tax getParent_Tax() throws RuntimeException;
 
     /** Column name Rate */
     public static final String COLUMNNAME_Rate = "Rate";
@@ -342,7 +342,7 @@ public interface I_C_Tax
 	  */
 	public int getTo_Region_ID();
 
-	public I_C_Region getTo_Region() throws RuntimeException;
+	public org.compiere.model.I_C_Region getTo_Region() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

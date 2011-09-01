@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for K_EntryCategory
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_K_EntryCategory extends PO implements I_K_EntryCategory, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_K_EntryCategory (Properties ctx, int K_EntryCategory_ID, String trxName)
@@ -72,9 +72,9 @@ public class X_K_EntryCategory extends PO implements I_K_EntryCategory, I_Persis
       return sb.toString();
     }
 
-	public I_K_Category getK_Category() throws RuntimeException
+	public org.compiere.model.I_K_Category getK_Category() throws RuntimeException
     {
-		return (I_K_Category)MTable.get(getCtx(), I_K_Category.Table_Name)
+		return (org.compiere.model.I_K_Category)MTable.get(getCtx(), org.compiere.model.I_K_Category.Table_Name)
 			.getPO(getK_Category_ID(), get_TrxName());	}
 
 	/** Set Knowledge Category.
@@ -100,9 +100,9 @@ public class X_K_EntryCategory extends PO implements I_K_EntryCategory, I_Persis
 		return ii.intValue();
 	}
 
-	public I_K_CategoryValue getK_CategoryValue() throws RuntimeException
+	public org.compiere.model.I_K_CategoryValue getK_CategoryValue() throws RuntimeException
     {
-		return (I_K_CategoryValue)MTable.get(getCtx(), I_K_CategoryValue.Table_Name)
+		return (org.compiere.model.I_K_CategoryValue)MTable.get(getCtx(), org.compiere.model.I_K_CategoryValue.Table_Name)
 			.getPO(getK_CategoryValue_ID(), get_TrxName());	}
 
 	/** Set Category Value.
@@ -136,9 +136,9 @@ public class X_K_EntryCategory extends PO implements I_K_EntryCategory, I_Persis
         return new KeyNamePair(get_ID(), String.valueOf(getK_CategoryValue_ID()));
     }
 
-	public I_K_Entry getK_Entry() throws RuntimeException
+	public org.compiere.model.I_K_Entry getK_Entry() throws RuntimeException
     {
-		return (I_K_Entry)MTable.get(getCtx(), I_K_Entry.Table_Name)
+		return (org.compiere.model.I_K_Entry)MTable.get(getCtx(), org.compiere.model.I_K_Entry.Table_Name)
 			.getPO(getK_Entry_ID(), get_TrxName());	}
 
 	/** Set Entry.

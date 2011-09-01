@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for B_TopicCategory
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_B_TopicCategory 
 {
@@ -88,7 +88,7 @@ public interface I_B_TopicCategory
 	  */
 	public int getB_TopicType_ID();
 
-	public I_B_TopicType getB_TopicType() throws RuntimeException;
+	public org.compiere.model.I_B_TopicType getB_TopicType() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

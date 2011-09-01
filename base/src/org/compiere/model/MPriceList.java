@@ -243,7 +243,7 @@ public class MPriceList extends X_M_PriceList
 		if (m_plv != null && m_plv.getValidFrom().before(valid))
 			return m_plv;
 
-		final String whereClause = "M_PriceList_ID=? AND TRUNC(ValidFrom)<=?";
+		final String whereClause = "M_PriceList_ID=? AND TRUNC(ValidFrom, 'DD')<=?";
 		m_plv = new Query(getCtx(), I_M_PriceList_Version.Table_Name, whereClause, get_TrxName())
 					.setParameters(getM_PriceList_ID(), valid)
 					.setOnlyActiveRecords(true)

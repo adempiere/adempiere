@@ -16,8 +16,6 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import org.apache.tools.ant.taskdefs.Length;
-import org.python.modules.math;
 
 
 /**
@@ -250,7 +248,7 @@ public class AmtInWords_VI implements AmtInWords
 			number /= 1000;
 		}
 		while (number > 1000);
-		long m = number % 1000; //see Note 2, this rule does not apply for biggest major name 
+		long m = number % 1000000; //see Note 2, this rule does not apply for biggest major name 
 		if (m != 0)
 		{
 			String t = convertLessThanOneThousand ((int)m);
@@ -332,7 +330,7 @@ public class AmtInWords_VI implements AmtInWords
 			dollars = Long.parseLong(amount.substring(0,amount.length()));
 			sb.append (convert(dollars));
 		}
-	return sb.toString ().replaceAll("  ", " ").replaceAll("linh nghìn", "nghìn").replaceAll("linh triệu","triệu").replaceAll("linh tỉ","tỉ");
+	return sb.toString ().replaceAll("  ", " ").replaceAll("linh nghìn", "nghìn").replaceAll("linh triệu","triệu").replaceAll("linh tỉ","tỉ").replaceAll("phẩy không","").replaceAll("mười trăm","một nghìn").replaceAll("nghìn nghìn","triệu").replaceAll("nghìn triệu","tỉ");
 	}	//	getAmtInWords
 
 	/**
@@ -361,25 +359,25 @@ public class AmtInWords_VI implements AmtInWords
 	//	aiw.print (".23");	Error
 		aiw.print ("0.23");
 		aiw.print ("1.23");
-		aiw.print ("12,345");
-		aiw.print ("103.45");
-		aiw.print ("114,45");
-		aiw.print ("123.45");
-		aiw.print ("500000000");
-		aiw.print ("1234.56");
-		aiw.print ("12345.78");
+		aiw.print ("100");
+		aiw.print ("1000");
+		aiw.print ("10000");
+		aiw.print ("100000");
+		aiw.print ("1000000");
+		aiw.print ("10000000");
+		aiw.print ("100000000");
 		aiw.print ("100457.89");
 		aiw.print ("100,234,578.90");
 		aiw.print ("12,034,578.90");
 		aiw.print ("103,004,008.90");
 		aiw.print ("1,201,034,578.90");
-		aiw.print ("12,201,034,578.90");
+		aiw.print ("12,201,034,578.00");
 		aiw.print ("10220134578");
 		aiw.print ("1.093.201.034.578");
 		aiw.print ("100,932,010,345,780");
 		aiw.print ("109.320.103,48");
-	}	//	main
+		aiw.print ("5.000.000.000,00");
+		aiw.print ("1");
+	}
 	
-}	//	AmtInWords_VI
-
- 	  	 
+}

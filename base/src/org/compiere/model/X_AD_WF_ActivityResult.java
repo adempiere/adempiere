@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_WF_ActivityResult
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_AD_WF_ActivityResult extends PO implements I_AD_WF_ActivityResult, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_AD_WF_ActivityResult (Properties ctx, int AD_WF_ActivityResult_ID, String trxName)
@@ -72,9 +72,9 @@ public class X_AD_WF_ActivityResult extends PO implements I_AD_WF_ActivityResult
       return sb.toString();
     }
 
-	public I_AD_WF_Activity getAD_WF_Activity() throws RuntimeException
+	public org.compiere.model.I_AD_WF_Activity getAD_WF_Activity() throws RuntimeException
     {
-		return (I_AD_WF_Activity)MTable.get(getCtx(), I_AD_WF_Activity.Table_Name)
+		return (org.compiere.model.I_AD_WF_Activity)MTable.get(getCtx(), org.compiere.model.I_AD_WF_Activity.Table_Name)
 			.getPO(getAD_WF_Activity_ID(), get_TrxName());	}
 
 	/** Set Workflow Activity.

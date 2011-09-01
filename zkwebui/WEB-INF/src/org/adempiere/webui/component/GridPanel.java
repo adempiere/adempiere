@@ -262,6 +262,7 @@ public class GridPanel extends Borderlayout implements EventListener
 		int index = 0;
 		for (int i = 0; i < numColumns; i++)
 		{
+			
 			if (gridField[i].isDisplayed())
 			{
 				colnames.put(index, gridField[i].getHeader());
@@ -270,13 +271,18 @@ public class GridPanel extends Borderlayout implements EventListener
 				column.setSortAscending(new SortComparator(i, true, Env.getLanguage(Env.getCtx())));
 				column.setSortDescending(new SortComparator(i, false, Env.getLanguage(Env.getCtx())));
 				column.setLabel(gridField[i].getHeader());
+				
+				int displayLength = gridField[i].getPreferredWidthInListView() > 0 ? gridField[i].getPreferredWidthInListView() : gridField[i].getDisplayLength() * 9 ;
+					
+					
 				int l = DisplayType.isNumeric(gridField[i].getDisplayType())
-					? 120 : gridField[i].getDisplayLength() * 9;
+					? 120 : displayLength ;
+				
 				if (gridField[i].getHeader().length() * 9 > l)
 					l = gridField[i].getHeader().length() * 9;
 				if (l > MAX_COLUMN_WIDTH)
 					l = MAX_COLUMN_WIDTH;
-				else if ( l < MIN_COLUMN_WIDTH)
+				else if ( l < MIN_COLUMN_WIDTH && gridField[i].getPreferredWidthInListView() <= 0)
 					l = MIN_COLUMN_WIDTH;
 				if (gridField[i].getDisplayType() == DisplayType.Table || gridField[i].getDisplayType() == DisplayType.TableDir)
 				{
@@ -287,8 +293,14 @@ public class GridPanel extends Borderlayout implements EventListener
 				{
 					if (l < MIN_NUMERIC_COL_WIDTH)
 						l = MIN_NUMERIC_COL_WIDTH;
-				}
+				}				
 				column.setWidth(Integer.toString(l) + "px");
+				
+				// FR 3051618 - Hide in list view
+				if (gridField[i].isHideInListView()) {
+					column.setVisible(false);
+				}
+				
 				columns.appendChild(column);
 			}
 		}

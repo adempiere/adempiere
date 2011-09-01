@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_DunningRunEntry
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_C_DunningRunEntry 
 {
@@ -65,17 +65,17 @@ public interface I_C_DunningRunEntry
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 
-	/** Set User/Contact.
+	/** Set Usuario.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public void setAD_User_ID (int AD_User_ID);
 
-	/** Get User/Contact.
+	/** Get Usuario.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getAD_User() throws RuntimeException;
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
 
     /** Column name Amt */
     public static final String COLUMNNAME_Amt = "Amt";
@@ -103,7 +103,7 @@ public interface I_C_DunningRunEntry
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_BPartner_Location_ID */
     public static final String COLUMNNAME_C_BPartner_Location_ID = "C_BPartner_Location_ID";
@@ -118,7 +118,7 @@ public interface I_C_DunningRunEntry
 	  */
 	public int getC_BPartner_Location_ID();
 
-	public I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException;
 
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
@@ -133,7 +133,7 @@ public interface I_C_DunningRunEntry
 	  */
 	public int getC_Currency_ID();
 
-	public I_C_Currency getC_Currency() throws RuntimeException;
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException;
 
     /** Column name C_DunningLevel_ID */
     public static final String COLUMNNAME_C_DunningLevel_ID = "C_DunningLevel_ID";
@@ -144,7 +144,7 @@ public interface I_C_DunningRunEntry
 	/** Get Dunning Level	  */
 	public int getC_DunningLevel_ID();
 
-	public I_C_DunningLevel getC_DunningLevel() throws RuntimeException;
+	public org.compiere.model.I_C_DunningLevel getC_DunningLevel() throws RuntimeException;
 
     /** Column name C_DunningRunEntry_ID */
     public static final String COLUMNNAME_C_DunningRunEntry_ID = "C_DunningRunEntry_ID";
@@ -172,7 +172,7 @@ public interface I_C_DunningRunEntry
 	  */
 	public int getC_DunningRun_ID();
 
-	public I_C_DunningRun getC_DunningRun() throws RuntimeException;
+	public org.compiere.model.I_C_DunningRun getC_DunningRun() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -255,7 +255,7 @@ public interface I_C_DunningRunEntry
 	  */
 	public int getSalesRep_ID();
 
-	public I_AD_User getSalesRep() throws RuntimeException;
+	public org.compiere.model.I_AD_User getSalesRep() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

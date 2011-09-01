@@ -18,6 +18,7 @@
       <column name="VENDORPRODUCTNO" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"/>
       <column name="VENDORCATEGORY" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"/>
       <column name="MANUFACTURER" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"/>
+      <column name="ISMANUFACTURER" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CBPPRODUCT" onDelete="cascade">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
@@ -26,6 +27,9 @@
       </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsManufacturer IN ('Y','N')]]></rule>
       </check>
     </table>
   </database>

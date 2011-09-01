@@ -24,6 +24,7 @@
 package org.adempiere.webui.panel;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
@@ -45,6 +46,7 @@ import org.adempiere.webui.util.BrowserToken;
 import org.adempiere.webui.util.UserPreference;
 import org.adempiere.webui.window.LoginWindow;
 import org.compiere.Adempiere;
+import org.compiere.model.MClient;
 import org.compiere.model.MSession;
 import org.compiere.model.MSystem;
 import org.compiere.model.MUser;
@@ -85,11 +87,11 @@ import org.zkoss.zul.Image;
  * @date    July 18, 2007
  */
 public class LoginPanel extends Window implements EventListener
-{	
+{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 3992171368813030624L;
+	private static final long serialVersionUID = -3168413471330471782L;
 	private static final String RESOURCE = "org.compiere.apps.ALoginRes";
     private ResourceBundle res = ResourceBundle.getBundle(RESOURCE);
     private static CLogger logger = CLogger.getCLogger(LoginPanel.class);
@@ -114,7 +116,7 @@ public class LoginPanel extends Window implements EventListener
 
         AuFocus auf = new AuFocus(txtUserId);
         Clients.response(auf);
-        
+
         BrowserToken.load(this.getUuid());
     }
 
@@ -194,7 +196,7 @@ public class LoginPanel extends Window implements EventListener
         	tr.appendChild(td);
         	td.appendChild(chkRememberMe);
     	}
-    	
+
     	div = new Div();
     	div.setSclass(ITheme.LOGIN_BOX_FOOTER_CLASS);
         ConfirmPanel pnlButtons = new ConfirmPanel(false);
@@ -204,13 +206,13 @@ public class LoginPanel extends Window implements EventListener
         pnlButtons.getButton(ConfirmPanel.A_OK).setSclass(ITheme.LOGIN_BUTTON_CLASS);
         div.appendChild(pnlButtons);
         this.appendChild(div);
-        
+
         this.addEventListener(TokenEvent.ON_USER_TOKEN, new EventListener() {
-			
+
 			@Override
 			public void onEvent(Event event) throws Exception {
 				String[] data = (String[]) event.getData();
-				try 
+				try
 				{
 					int AD_Session_ID = Integer.parseInt(data[0]);
 					MSession session = new MSession(Env.getCtx(), AD_Session_ID, null);
@@ -281,20 +283,25 @@ public class LoginPanel extends Window implements EventListener
 
         // Update Language List
         lstLanguage.getItems().clear();
+        ArrayList<String> supported = Env.getSupportedLanguages();
         String[] availableLanguages = Language.getNames();
         for (String langName : availableLanguages) {
     		Language language = Language.getLanguage(langName);
+    		if (!language.isBaseLanguage()) {
+    			if (!supported.contains(language.getAD_Language()))
+    				continue;
+    		}
 			lstLanguage.appendItem(langName, language.getAD_Language());
 		}
 
         chkRememberMe = new Checkbox(Msg.getMsg(Language.getBaseAD_Language(), "RememberMe"));
 
-        //set base language
-        String baseLanguage = Language.getBaseLanguage().getName();
+        // Make the default language the language of client System
+        String defaultLanguage = MClient.get(ctx, 0).getAD_Language();
         for(int i = 0; i < lstLanguage.getItemCount(); i++)
         {
         	Comboitem li = lstLanguage.getItemAtIndex(i);
-        	if(li.getLabel().equals(baseLanguage))
+        	if (li.getValue().equals(defaultLanguage))
         	{
         		lstLanguage.setSelectedIndex(i);
         		languageChanged(li.getLabel());
@@ -361,7 +368,7 @@ public class LoginPanel extends Window implements EventListener
 		Locale loc = language.getLocale();
 		Locale.setDefault(loc);
 		res = ResourceBundle.getBundle(RESOURCE, loc);
-		
+
     	lblUserId.setValue(res.getString("User"));
     	lblPassword.setValue(res.getString("Password"));
     	lblLanguage.setValue(res.getString("Language"));
@@ -386,7 +393,7 @@ public class LoginPanel extends Window implements EventListener
         Login login = new Login(ctx);
         String userId = txtUserId.getValue();
         String userPassword = txtPassword.getValue();
-        
+
         //check is token
         String token = (String) txtPassword.getAttribute("user.token.hash");
         if (token != null && token.equals(userPassword))
@@ -403,7 +410,7 @@ public class LoginPanel extends Window implements EventListener
         		}
         	}
         }
-        
+
         KeyNamePair rolesKNPairs[] = login.getRoles(userId, userPassword);
         if(rolesKNPairs == null || rolesKNPairs.length == 0)
             throw new WrongValueException("User Id or Password invalid!!!");
@@ -435,7 +442,7 @@ public class LoginPanel extends Window implements EventListener
         Session currSess = Executions.getCurrent().getDesktop().getSession();
         currSess.setAttribute("Check_AD_User_ID", Env.getAD_User_ID(ctx));
 		// End of temporary code for [ adempiere-ZK Web Client-2832968 ] User context lost?
-        
+
         Env.setContext(ctx, BrowserToken.REMEMBER_ME, chkRememberMe.isChecked());
 
         /* Check DB version */

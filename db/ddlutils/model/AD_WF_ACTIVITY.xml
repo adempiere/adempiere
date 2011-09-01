@@ -29,6 +29,9 @@
       <foreign-key foreignTable="AD_MESSAGE" name="ADMESSAGE_ADWFACTIVITY" onDelete="none">
         <reference local="AD_MESSAGE_ID" foreign="AD_MESSAGE_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADWFACTIVITY" onDelete="none">
+        <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="AD_USER" name="ADUSER_ADWFACTIVITY" onDelete="setnull">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
@@ -41,6 +44,9 @@
       <foreign-key foreignTable="AD_WF_RESPONSIBLE" name="ADWFRESPONSIBLE_ADWFACTIVITY" onDelete="setnull">
         <reference local="AD_WF_RESPONSIBLE_ID" foreign="AD_WF_RESPONSIBLE_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="AD_WORKFLOW" name="ADWORKFLOW_ADWFACTIVITY" onDelete="none">
+        <reference local="AD_WORKFLOW_ID" foreign="AD_WORKFLOW_ID"/>
+      </foreign-key>
       <index name="AD_WF_ACTIVITY_WHO">
         <index-column name="AD_WF_RESPONSIBLE_ID"/>
         <index-column name="AD_USER_ID"/>
@@ -50,8 +56,8 @@
         <index-column name="AD_WF_NODE_ID"/>
       </index>
       <index name="AD_WF_ACTIVITY_STATUS">
-        <index-column name="PROCESSED"/>
         <index-column name="WFSTATE"/>
+        <index-column name="PROCESSED"/>
       </index>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>

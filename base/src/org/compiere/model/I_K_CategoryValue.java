@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for K_CategoryValue
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_K_CategoryValue 
 {
@@ -117,7 +117,7 @@ public interface I_K_CategoryValue
 	  */
 	public int getK_Category_ID();
 
-	public I_K_Category getK_Category() throws RuntimeException;
+	public org.compiere.model.I_K_Category getK_Category() throws RuntimeException;
 
     /** Column name K_CategoryValue_ID */
     public static final String COLUMNNAME_K_CategoryValue_ID = "K_CategoryValue_ID";

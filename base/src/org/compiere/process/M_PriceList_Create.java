@@ -64,10 +64,14 @@ public class M_PriceList_Create extends SvrProcess {
 				;
 			else if (name.equals("DeleteOld"))
 				p_DeleteOld = (String) para[i].getParameter();
+			else if (name.equals("PriceList_Version_ID"))
+				p_PriceList_Version_ID = para[i].getParameterAsInt();			
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 		}
-		p_PriceList_Version_ID = getRecord_ID();
+		if (p_PriceList_Version_ID==0) {
+			p_PriceList_Version_ID = getRecord_ID();
+		}
 		m_AD_PInstance_ID = getAD_PInstance_ID();
 	} //*prepare*/
 
@@ -745,16 +749,16 @@ public class M_PriceList_Create extends SvrProcess {
 	}
 
 	/**
-	 * Recursive search for subcategories with loop detection.
+	 * Recursive search for sub-categories with loop detection.
 	 * @param productCategoryId
 	 * @param categories
 	 * @param loopIndicatorId
-	 * @return comma seperated list of category ids
+	 * @return comma separated list of category ids
 	 * @throws AdempiereSystemError if a loop is detected
 	 */
 	private String getSubCategoriesString(int productCategoryId, Vector<SimpleTreeNode> categories, int loopIndicatorId) throws AdempiereSystemError {
 		String ret = "";
-		final Iterator iter = categories.iterator();
+		final Iterator<SimpleTreeNode> iter = categories.iterator();
 		while (iter.hasNext()) {
 			SimpleTreeNode node = (SimpleTreeNode) iter.next();
 			if (node.getParentId() == productCategoryId) {

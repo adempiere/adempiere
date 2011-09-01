@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_Job
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_C_Job 
 {
@@ -75,7 +75,7 @@ public interface I_C_Job
 	  */
 	public int getC_JobCategory_ID();
 
-	public I_C_JobCategory getC_JobCategory() throws RuntimeException;
+	public org.compiere.model.I_C_JobCategory getC_JobCategory() throws RuntimeException;
 
     /** Column name C_Job_ID */
     public static final String COLUMNNAME_C_Job_ID = "C_Job_ID";

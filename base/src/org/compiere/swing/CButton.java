@@ -27,6 +27,7 @@ package org.compiere.swing;
 
 import java.awt.Color;
 import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 
 import javax.swing.Action;
 import javax.swing.Icon;
@@ -275,7 +276,8 @@ public class CButton extends JButton implements CEditor {
 	 */
 	public void setToolTipText(String text) {
 		if (text == null) {
-			super.setText(text);
+			//super.setText(text); Angelo Dabala' (genied) fixed, was calling the wrong method
+			super.setToolTipText(text);
 			return;
 		}
 		int pos = text.indexOf('&');
@@ -315,6 +317,11 @@ public class CButton extends JButton implements CEditor {
 	public void setMnemonic(int mnemonic) {
 		super.setMnemonic(mnemonic);
 
+		// Angelo Dabala' (genied) avoid to register Ctrl+Alt modifier mask without mnemonic
+		if (mnemonic==KeyEvent.VK_UNDEFINED) {
+			return;
+		}
+		
 		InputMap map = SwingUtilities.getUIInputMap(this,
 				JComponent.WHEN_IN_FOCUSED_WINDOW);
 

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PA_Goal
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_PA_Goal 
 {
@@ -75,22 +75,22 @@ public interface I_PA_Goal
 	  */
 	public int getAD_Role_ID();
 
-	public I_AD_Role getAD_Role() throws RuntimeException;
+	public org.compiere.model.I_AD_Role getAD_Role() throws RuntimeException;
 
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 
-	/** Set User/Contact.
+	/** Set Usuario.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public void setAD_User_ID (int AD_User_ID);
 
-	/** Get User/Contact.
+	/** Get Usuario.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getAD_User() throws RuntimeException;
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
 
     /** Column name ChartType */
     public static final String COLUMNNAME_ChartType = "ChartType";
@@ -303,7 +303,7 @@ public interface I_PA_Goal
 	  */
 	public int getPA_ColorSchema_ID();
 
-	public I_PA_ColorSchema getPA_ColorSchema() throws RuntimeException;
+	public org.compiere.model.I_PA_ColorSchema getPA_ColorSchema() throws RuntimeException;
 
     /** Column name PA_Goal_ID */
     public static final String COLUMNNAME_PA_Goal_ID = "PA_Goal_ID";
@@ -331,7 +331,7 @@ public interface I_PA_Goal
 	  */
 	public int getPA_GoalParent_ID();
 
-	public I_PA_Goal getPA_GoalParent() throws RuntimeException;
+	public org.compiere.model.I_PA_Goal getPA_GoalParent() throws RuntimeException;
 
     /** Column name PA_Measure_ID */
     public static final String COLUMNNAME_PA_Measure_ID = "PA_Measure_ID";
@@ -346,7 +346,7 @@ public interface I_PA_Goal
 	  */
 	public int getPA_Measure_ID();
 
-	public I_PA_Measure getPA_Measure() throws RuntimeException;
+	public org.compiere.model.I_PA_Measure getPA_Measure() throws RuntimeException;
 
     /** Column name RelativeWeight */
     public static final String COLUMNNAME_RelativeWeight = "RelativeWeight";

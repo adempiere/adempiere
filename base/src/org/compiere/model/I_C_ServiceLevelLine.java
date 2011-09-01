@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_ServiceLevelLine
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_C_ServiceLevelLine 
 {
@@ -91,7 +91,7 @@ public interface I_C_ServiceLevelLine
 	  */
 	public int getC_ServiceLevel_ID();
 
-	public I_C_ServiceLevel getC_ServiceLevel() throws RuntimeException;
+	public org.compiere.model.I_C_ServiceLevel getC_ServiceLevel() throws RuntimeException;
 
     /** Column name C_ServiceLevelLine_ID */
     public static final String COLUMNNAME_C_ServiceLevelLine_ID = "C_ServiceLevelLine_ID";

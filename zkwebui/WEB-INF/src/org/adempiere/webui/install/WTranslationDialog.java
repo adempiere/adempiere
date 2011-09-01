@@ -215,14 +215,15 @@ public class WTranslationDialog extends TranslationController implements IFormCo
 		//	All Tables
 		if (AD_Table.getValue().equals(""))
 		{
-			msg = null;
+			msg = "";
 			
 			for (int i = 1; i < cbTable.getItemCount(); i++)
 			{
 				AD_Table = (ValueNamePair)cbTable.getItemAtIndex(i).toValueNamePair();
-				msg += imp
+				// Carlos Ruiz - globalqss - improve output message from translation import process
+				msg += AD_Table.getValue() + " " + (imp
 					? t.importTrl (directory, AD_Client_ID, AD_Language.getValue(), AD_Table.getValue())
-					: t.exportTrl (directory, AD_Client_ID, AD_Language.getValue(), AD_Table.getValue());
+					: t.exportTrl (directory, AD_Client_ID, AD_Language.getValue(), AD_Table.getValue())) + " ";
 			}
 			
 			if(msg == null || msg.length() == 0)

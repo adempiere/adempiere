@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_ReportLine
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_I_ReportLine 
 {
@@ -84,7 +84,7 @@ public interface I_I_ReportLine
 	  */
 	public int getC_ElementValue_ID();
 
-	public I_C_ElementValue getC_ElementValue() throws RuntimeException;
+	public org.compiere.model.I_C_ElementValue getC_ElementValue() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -263,7 +263,7 @@ public interface I_I_ReportLine
 	/** Get Report Line	  */
 	public int getPA_ReportLine_ID();
 
-	public I_PA_ReportLine getPA_ReportLine() throws RuntimeException;
+	public org.compiere.model.I_PA_ReportLine getPA_ReportLine() throws RuntimeException;
 
     /** Column name PA_ReportLineSet_ID */
     public static final String COLUMNNAME_PA_ReportLineSet_ID = "PA_ReportLineSet_ID";
@@ -274,7 +274,7 @@ public interface I_I_ReportLine
 	/** Get Report Line Set	  */
 	public int getPA_ReportLineSet_ID();
 
-	public I_PA_ReportLineSet getPA_ReportLineSet() throws RuntimeException;
+	public org.compiere.model.I_PA_ReportLineSet getPA_ReportLineSet() throws RuntimeException;
 
     /** Column name PA_ReportSource_ID */
     public static final String COLUMNNAME_PA_ReportSource_ID = "PA_ReportSource_ID";
@@ -289,7 +289,7 @@ public interface I_I_ReportLine
 	  */
 	public int getPA_ReportSource_ID();
 
-	public I_PA_ReportSource getPA_ReportSource() throws RuntimeException;
+	public org.compiere.model.I_PA_ReportSource getPA_ReportSource() throws RuntimeException;
 
     /** Column name PostingType */
     public static final String COLUMNNAME_PostingType = "PostingType";

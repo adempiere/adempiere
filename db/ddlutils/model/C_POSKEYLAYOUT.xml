@@ -13,6 +13,16 @@
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="COLUMNS" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="POSKEYLAYOUTTYPE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="AD_PRINTCOLOR_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_PRINTFONT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR_CPOSKEYLAYOUT" onDelete="none">
+        <reference local="AD_PRINTCOLOR_ID" foreign="AD_PRINTCOLOR_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_PRINTFONT" name="ADPRINTFONT_CPOSKEYLAYOUT" onDelete="none">
+        <reference local="AD_PRINTFONT_ID" foreign="AD_PRINTFONT_ID"/>
+      </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
       </check>

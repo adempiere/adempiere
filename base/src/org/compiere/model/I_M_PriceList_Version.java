@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_PriceList_Version
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_M_PriceList_Version 
 {
@@ -117,7 +117,7 @@ public interface I_M_PriceList_Version
 	  */
 	public int getM_DiscountSchema_ID();
 
-	public I_M_DiscountSchema getM_DiscountSchema() throws RuntimeException;
+	public org.compiere.model.I_M_DiscountSchema getM_DiscountSchema() throws RuntimeException;
 
     /** Column name M_PriceList_ID */
     public static final String COLUMNNAME_M_PriceList_ID = "M_PriceList_ID";
@@ -132,7 +132,7 @@ public interface I_M_PriceList_Version
 	  */
 	public int getM_PriceList_ID();
 
-	public I_M_PriceList getM_PriceList() throws RuntimeException;
+	public org.compiere.model.I_M_PriceList getM_PriceList() throws RuntimeException;
 
     /** Column name M_Pricelist_Version_Base_ID */
     public static final String COLUMNNAME_M_Pricelist_Version_Base_ID = "M_Pricelist_Version_Base_ID";
@@ -147,7 +147,7 @@ public interface I_M_PriceList_Version
 	  */
 	public int getM_Pricelist_Version_Base_ID();
 
-	public I_M_PriceList_Version getM_Pricelist_Version_Base() throws RuntimeException;
+	public org.compiere.model.I_M_PriceList_Version getM_Pricelist_Version_Base() throws RuntimeException;
 
     /** Column name M_PriceList_Version_ID */
     public static final String COLUMNNAME_M_PriceList_Version_ID = "M_PriceList_Version_ID";

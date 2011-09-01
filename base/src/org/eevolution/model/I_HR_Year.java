@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_Year
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_HR_Year 
 {
@@ -92,7 +92,7 @@ public interface I_HR_Year
 	  */
 	public int getC_Year_ID();
 
-	public I_C_Year getC_Year() throws RuntimeException;
+	public org.compiere.model.I_C_Year getC_Year() throws RuntimeException;
 
     /** Column name HR_Payroll_ID */
     public static final String COLUMNNAME_HR_Payroll_ID = "HR_Payroll_ID";

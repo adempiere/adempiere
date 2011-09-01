@@ -28,10 +28,14 @@ import org.compiere.util.Language;
  * @date    Feb 25, 2007
  * @version $Revision: 0.10 $
  */
-@SuppressWarnings("serial")
 public final class ServerContext extends Properties
 {
-    private ServerContext()
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4686544952076576992L;
+
+	private ServerContext()
     {
         super();
         /**

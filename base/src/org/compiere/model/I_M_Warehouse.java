@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_Warehouse
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_M_Warehouse 
 {
@@ -158,7 +158,7 @@ public interface I_M_Warehouse
 	  */
 	public int getM_WarehouseSource_ID();
 
-	public I_M_Warehouse getM_WarehouseSource() throws RuntimeException;
+	public org.compiere.model.I_M_Warehouse getM_WarehouseSource() throws RuntimeException;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_ProductPlanning
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_I_ProductPlanning 
 {
@@ -102,7 +102,7 @@ public interface I_I_ProductPlanning
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -264,7 +264,7 @@ public interface I_I_ProductPlanning
 	  */
 	public int getM_Forecast_ID();
 
-	public I_M_Forecast getM_Forecast() throws RuntimeException;
+	public org.compiere.model.I_M_Forecast getM_Forecast() throws RuntimeException;
 
     /** Column name M_ForecastLine_ID */
     public static final String COLUMNNAME_M_ForecastLine_ID = "M_ForecastLine_ID";
@@ -279,7 +279,7 @@ public interface I_I_ProductPlanning
 	  */
 	public int getM_ForecastLine_ID();
 
-	public I_M_ForecastLine getM_ForecastLine() throws RuntimeException;
+	public org.compiere.model.I_M_ForecastLine getM_ForecastLine() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -294,7 +294,7 @@ public interface I_I_ProductPlanning
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name M_Warehouse_ID */
     public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
@@ -309,7 +309,7 @@ public interface I_I_ProductPlanning
 	  */
 	public int getM_Warehouse_ID();
 
-	public I_M_Warehouse getM_Warehouse() throws RuntimeException;
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
 
     /** Column name NetworkDistributionValue */
     public static final String COLUMNNAME_NetworkDistributionValue = "NetworkDistributionValue";
@@ -412,7 +412,7 @@ public interface I_I_ProductPlanning
 	/** Get Planner	  */
 	public int getPlanner_ID();
 
-	public I_AD_User getPlanner() throws RuntimeException;
+	public org.compiere.model.I_AD_User getPlanner() throws RuntimeException;
 
     /** Column name PlannerValue */
     public static final String COLUMNNAME_PlannerValue = "PlannerValue";
@@ -566,7 +566,7 @@ public interface I_I_ProductPlanning
 	  */
 	public int getS_Resource_ID();
 
-	public I_S_Resource getS_Resource() throws RuntimeException;
+	public org.compiere.model.I_S_Resource getS_Resource() throws RuntimeException;
 
     /** Column name TimeFence */
     public static final String COLUMNNAME_TimeFence = "TimeFence";

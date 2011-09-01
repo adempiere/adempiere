@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Job
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_C_Job extends PO implements I_C_Job, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_C_Job (Properties ctx, int C_Job_ID, String trxName)
@@ -74,9 +74,9 @@ public class X_C_Job extends PO implements I_C_Job, I_Persistent
       return sb.toString();
     }
 
-	public I_C_JobCategory getC_JobCategory() throws RuntimeException
+	public org.compiere.model.I_C_JobCategory getC_JobCategory() throws RuntimeException
     {
-		return (I_C_JobCategory)MTable.get(getCtx(), I_C_JobCategory.Table_Name)
+		return (org.compiere.model.I_C_JobCategory)MTable.get(getCtx(), org.compiere.model.I_C_JobCategory.Table_Name)
 			.getPO(getC_JobCategory_ID(), get_TrxName());	}
 
 	/** Set Position Category.

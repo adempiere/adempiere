@@ -203,12 +203,17 @@ public class MDiscountSchema extends X_M_DiscountSchema
 		int M_Product_ID, int M_Product_Category_ID,  
 		BigDecimal BPartnerFlatDiscount)
 	{
-		log.fine("Price=" + Price + ",Qty=" + Qty);
+		log.fine("Price=" + Price + ",Qty=" + Qty +
+		         ",M_Product_ID=" + M_Product_ID +
+				 ",M_Product_Category_ID=" + M_Product_Category_ID +
+				 ",BPartnerFlatDiscount=" + BPartnerFlatDiscount.doubleValue() );
+		
 		if (Price == null || Env.ZERO.compareTo(Price) == 0)
 			return Price;
 		//
 		BigDecimal discount = calculateDiscount(Qty, Price, 
 			M_Product_ID, M_Product_Category_ID, BPartnerFlatDiscount);
+		log.fine("Discount=" + discount.doubleValue());
 		//	nothing to calculate
 		if (discount == null || discount.signum() == 0)
 			return Price;

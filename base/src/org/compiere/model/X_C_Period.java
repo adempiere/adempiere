@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Period
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_C_Period extends PO implements I_C_Period, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_C_Period (Properties ctx, int C_Period_ID, String trxName)
@@ -100,9 +100,9 @@ public class X_C_Period extends PO implements I_C_Period, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Year getC_Year() throws RuntimeException
+	public org.compiere.model.I_C_Year getC_Year() throws RuntimeException
     {
-		return (I_C_Year)MTable.get(getCtx(), I_C_Year.Table_Name)
+		return (org.compiere.model.I_C_Year)MTable.get(getCtx(), org.compiere.model.I_C_Year.Table_Name)
 			.getPO(getC_Year_ID(), get_TrxName());	}
 
 	/** Set Year.

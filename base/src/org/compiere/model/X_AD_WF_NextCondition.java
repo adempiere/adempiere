@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_WF_NextCondition
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_AD_WF_NextCondition extends PO implements I_AD_WF_NextCondition, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_AD_WF_NextCondition (Properties ctx, int AD_WF_NextCondition_ID, String trxName)
@@ -80,9 +80,9 @@ public class X_AD_WF_NextCondition extends PO implements I_AD_WF_NextCondition, 
       return sb.toString();
     }
 
-	public I_AD_Column getAD_Column() throws RuntimeException
+	public org.compiere.model.I_AD_Column getAD_Column() throws RuntimeException
     {
-		return (I_AD_Column)MTable.get(getCtx(), I_AD_Column.Table_Name)
+		return (org.compiere.model.I_AD_Column)MTable.get(getCtx(), org.compiere.model.I_AD_Column.Table_Name)
 			.getPO(getAD_Column_ID(), get_TrxName());	}
 
 	/** Set Column.
@@ -131,9 +131,9 @@ public class X_AD_WF_NextCondition extends PO implements I_AD_WF_NextCondition, 
 		return ii.intValue();
 	}
 
-	public I_AD_WF_NodeNext getAD_WF_NodeNext() throws RuntimeException
+	public org.compiere.model.I_AD_WF_NodeNext getAD_WF_NodeNext() throws RuntimeException
     {
-		return (I_AD_WF_NodeNext)MTable.get(getCtx(), I_AD_WF_NodeNext.Table_Name)
+		return (org.compiere.model.I_AD_WF_NodeNext)MTable.get(getCtx(), org.compiere.model.I_AD_WF_NodeNext.Table_Name)
 			.getPO(getAD_WF_NodeNext_ID(), get_TrxName());	}
 
 	/** Set Node Transition.

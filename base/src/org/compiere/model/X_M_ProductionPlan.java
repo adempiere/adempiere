@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_ProductionPlan
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_M_ProductionPlan extends PO implements I_M_ProductionPlan, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_M_ProductionPlan (Properties ctx, int M_ProductionPlan_ID, String trxName)
@@ -154,9 +154,9 @@ public class X_M_ProductionPlan extends PO implements I_M_ProductionPlan, I_Pers
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.
@@ -182,9 +182,9 @@ public class X_M_ProductionPlan extends PO implements I_M_ProductionPlan, I_Pers
 		return ii.intValue();
 	}
 
-	public I_M_Production getM_Production() throws RuntimeException
+	public org.compiere.model.I_M_Production getM_Production() throws RuntimeException
     {
-		return (I_M_Production)MTable.get(getCtx(), I_M_Production.Table_Name)
+		return (org.compiere.model.I_M_Production)MTable.get(getCtx(), org.compiere.model.I_M_Production.Table_Name)
 			.getPO(getM_Production_ID(), get_TrxName());	}
 
 	/** Set Production.

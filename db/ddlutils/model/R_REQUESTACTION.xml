@@ -47,6 +47,9 @@
       <column name="DATESTARTPLAN" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="QTYINVOICED" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="M_PRODUCTSPENT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <foreign-key foreignTable="A_ASSET" name="AASSET_RREQUESTACTION" onDelete="none">
+        <reference local="A_ASSET_ID" foreign="A_ASSET_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="AD_ROLE" name="ADROLE_RREQUESTACTION" onDelete="none">
         <reference local="AD_ROLE_ID" foreign="AD_ROLE_ID"/>
       </foreign-key>
@@ -55,9 +58,6 @@
       </foreign-key>
       <foreign-key foreignTable="AD_USER" name="ADUSER_RREQUESTACTION" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="A_ASSET" name="AASSET_RREQUESTACTION" onDelete="none">
-        <reference local="A_ASSET_ID" foreign="A_ASSET_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_RREQUESTACTION" onDelete="none">
         <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
@@ -82,6 +82,9 @@
       </foreign-key>
       <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_RREQUESTACTION" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCTSPENT_RREQUESTACTION" onDelete="none">
+        <reference local="M_PRODUCTSPENT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
       <foreign-key foreignTable="M_RMA" name="MRMA_RREQUESTACTION" onDelete="none">
         <reference local="M_RMA_ID" foreign="M_RMA_ID"/>

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for R_IssueKnown
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_R_IssueKnown 
 {
@@ -204,7 +204,7 @@ public interface I_R_IssueKnown
 	  */
 	public int getR_IssueRecommendation_ID();
 
-	public I_R_IssueRecommendation getR_IssueRecommendation() throws RuntimeException;
+	public org.compiere.model.I_R_IssueRecommendation getR_IssueRecommendation() throws RuntimeException;
 
     /** Column name R_IssueStatus_ID */
     public static final String COLUMNNAME_R_IssueStatus_ID = "R_IssueStatus_ID";
@@ -219,7 +219,7 @@ public interface I_R_IssueKnown
 	  */
 	public int getR_IssueStatus_ID();
 
-	public I_R_IssueStatus getR_IssueStatus() throws RuntimeException;
+	public org.compiere.model.I_R_IssueStatus getR_IssueStatus() throws RuntimeException;
 
     /** Column name R_Request_ID */
     public static final String COLUMNNAME_R_Request_ID = "R_Request_ID";
@@ -234,7 +234,7 @@ public interface I_R_IssueKnown
 	  */
 	public int getR_Request_ID();
 
-	public I_R_Request getR_Request() throws RuntimeException;
+	public org.compiere.model.I_R_Request getR_Request() throws RuntimeException;
 
     /** Column name SourceClassName */
     public static final String COLUMNNAME_SourceClassName = "SourceClassName";

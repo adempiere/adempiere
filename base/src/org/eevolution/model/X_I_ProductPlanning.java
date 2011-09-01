@@ -26,14 +26,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for I_ProductPlanning
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_I_ProductPlanning extends PO implements I_I_ProductPlanning, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_I_ProductPlanning (Properties ctx, int I_ProductPlanning_ID, String trxName)
@@ -117,9 +117,9 @@ public class X_I_ProductPlanning extends PO implements I_I_ProductPlanning, I_Pe
 		return (String)get_Value(COLUMNNAME_BPartner_Value);
 	}
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -349,9 +349,9 @@ public class X_I_ProductPlanning extends PO implements I_I_ProductPlanning, I_Pe
 		return false;
 	}
 
-	public I_M_Forecast getM_Forecast() throws RuntimeException
+	public org.compiere.model.I_M_Forecast getM_Forecast() throws RuntimeException
     {
-		return (I_M_Forecast)MTable.get(getCtx(), I_M_Forecast.Table_Name)
+		return (org.compiere.model.I_M_Forecast)MTable.get(getCtx(), org.compiere.model.I_M_Forecast.Table_Name)
 			.getPO(getM_Forecast_ID(), get_TrxName());	}
 
 	/** Set Forecast.
@@ -377,9 +377,9 @@ public class X_I_ProductPlanning extends PO implements I_I_ProductPlanning, I_Pe
 		return ii.intValue();
 	}
 
-	public I_M_ForecastLine getM_ForecastLine() throws RuntimeException
+	public org.compiere.model.I_M_ForecastLine getM_ForecastLine() throws RuntimeException
     {
-		return (I_M_ForecastLine)MTable.get(getCtx(), I_M_ForecastLine.Table_Name)
+		return (org.compiere.model.I_M_ForecastLine)MTable.get(getCtx(), org.compiere.model.I_M_ForecastLine.Table_Name)
 			.getPO(getM_ForecastLine_ID(), get_TrxName());	}
 
 	/** Set Forecast Line.
@@ -405,9 +405,9 @@ public class X_I_ProductPlanning extends PO implements I_I_ProductPlanning, I_Pe
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.
@@ -433,9 +433,9 @@ public class X_I_ProductPlanning extends PO implements I_I_ProductPlanning, I_Pe
 		return ii.intValue();
 	}
 
-	public I_M_Warehouse getM_Warehouse() throws RuntimeException
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException
     {
-		return (I_M_Warehouse)MTable.get(getCtx(), I_M_Warehouse.Table_Name)
+		return (org.compiere.model.I_M_Warehouse)MTable.get(getCtx(), org.compiere.model.I_M_Warehouse.Table_Name)
 			.getPO(getM_Warehouse_ID(), get_TrxName());	}
 
 	/** Set Warehouse.
@@ -612,9 +612,9 @@ public class X_I_ProductPlanning extends PO implements I_I_ProductPlanning, I_Pe
 		return (String)get_Value(COLUMNNAME_OrgValue);
 	}
 
-	public I_AD_User getPlanner() throws RuntimeException
+	public org.compiere.model.I_AD_User getPlanner() throws RuntimeException
     {
-		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getPlanner_ID(), get_TrxName());	}
 
 	/** Set Planner.
@@ -866,9 +866,9 @@ public class X_I_ProductPlanning extends PO implements I_I_ProductPlanning, I_Pe
 		return ii.intValue();
 	}
 
-	public I_S_Resource getS_Resource() throws RuntimeException
+	public org.compiere.model.I_S_Resource getS_Resource() throws RuntimeException
     {
-		return (I_S_Resource)MTable.get(getCtx(), I_S_Resource.Table_Name)
+		return (org.compiere.model.I_S_Resource)MTable.get(getCtx(), org.compiere.model.I_S_Resource.Table_Name)
 			.getPO(getS_Resource_ID(), get_TrxName());	}
 
 	/** Set Resource.

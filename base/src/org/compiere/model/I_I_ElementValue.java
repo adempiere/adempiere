@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_ElementValue
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_I_ElementValue 
 {
@@ -88,7 +88,7 @@ public interface I_I_ElementValue
 	  */
 	public int getAD_Column_ID();
 
-	public I_AD_Column getAD_Column() throws RuntimeException;
+	public org.compiere.model.I_AD_Column getAD_Column() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -116,7 +116,7 @@ public interface I_I_ElementValue
 	  */
 	public int getC_Element_ID();
 
-	public I_C_Element getC_Element() throws RuntimeException;
+	public org.compiere.model.I_C_Element getC_Element() throws RuntimeException;
 
     /** Column name C_ElementValue_ID */
     public static final String COLUMNNAME_C_ElementValue_ID = "C_ElementValue_ID";
@@ -131,7 +131,7 @@ public interface I_I_ElementValue
 	  */
 	public int getC_ElementValue_ID();
 
-	public I_C_ElementValue getC_ElementValue() throws RuntimeException;
+	public org.compiere.model.I_C_ElementValue getC_ElementValue() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -292,7 +292,7 @@ public interface I_I_ElementValue
 	  */
 	public int getParentElementValue_ID();
 
-	public I_C_ElementValue getParentElementValue() throws RuntimeException;
+	public org.compiere.model.I_C_ElementValue getParentElementValue() throws RuntimeException;
 
     /** Column name ParentValue */
     public static final String COLUMNNAME_ParentValue = "ParentValue";

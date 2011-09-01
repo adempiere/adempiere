@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--ADempiere(r) Release 3.7.0LTS_2011-10-15 -Smart Suite ERP,CRM and SCM- (c) 1999-2010 ADempiere(r); Implementation: ADempiere - Supported by ADempiere community-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="es_MX" table="PA_DashboardContent">
+ <row id="50000" trl="Y">
+  <value column="Name" original="Activities">Actividades</value>
+  <value column="Description" original="Workflow activities, notices and requests">Actividades de flujo de trabajo, avisos y solicitudes</value>
+ </row>
+ <row id="50001" trl="Y">
+  <value column="Name" original="Favourites">Favoritos</value>
+  <value column="Description" original="User favourities">Favoritos de usuario</value>
+ </row>
+ <row id="50002" trl="Y">
+  <value column="Name" original="Views">Vistas</value>
+  <value column="Description" original="Info views">Vistas de Información</value>
+ </row>
+ <row id="50003" trl="Y">
+  <value column="Name" original="Performance">Desempeño</value>
+  <value column="Description" original="Performance meters">Indicadores de Desempeño</value>
+ </row>
+ <row id="50004" trl="Y">
+  <value column="Name" original="Calendar">Calendario</value>
+  <value column="Description" original="Google Calendar">Calendario de Google</value>
+ </row>
+</adempiereTrl>

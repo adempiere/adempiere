@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for W_BasketLine
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_W_BasketLine 
 {
@@ -130,7 +130,7 @@ public interface I_W_BasketLine
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Price */
     public static final String COLUMNNAME_Price = "Price";
@@ -196,7 +196,7 @@ public interface I_W_BasketLine
 	  */
 	public int getW_Basket_ID();
 
-	public I_W_Basket getW_Basket() throws RuntimeException;
+	public org.compiere.model.I_W_Basket getW_Basket() throws RuntimeException;
 
     /** Column name W_BasketLine_ID */
     public static final String COLUMNNAME_W_BasketLine_ID = "W_BasketLine_ID";

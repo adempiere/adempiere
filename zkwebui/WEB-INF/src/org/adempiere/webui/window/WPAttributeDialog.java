@@ -568,7 +568,9 @@ public class WPAttributeDialog extends Window implements EventListener
 			{
 				ListItem item = new ListItem(pp.getName(), pp.getKey());
 				fieldLot.appendChild(item);
-				fieldLot.setSelectedItem(item);				
+				fieldLot.setSelectedItem(item);
+				fieldLotString.setText (m_masi.getLot());
+				fieldLotString.setReadonly(true);
 			}
 		}
 		//	Create New SerNo

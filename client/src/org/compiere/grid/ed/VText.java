@@ -54,9 +54,7 @@ public class VText extends CTextArea
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -2873467246871800195L;
-
-	/*****************************************************************************/
+	private static final long serialVersionUID = 437954563775941704L;
 
 	/**
 	 *	Mouse Listener
@@ -249,6 +247,11 @@ public class VText extends CTextArea
 			FieldRecordInfo.addMenu(this, popupMenu);
 	}   //  setField
 
+	@Override
+	public GridField getField() {
+		return m_mField;
+	}
+	
 	@Override
 	public void focusGained(FocusEvent e) {
 	}

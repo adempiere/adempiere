@@ -122,18 +122,24 @@ public class MAttribute extends X_M_Attribute
 		if (m_values == null && ATTRIBUTEVALUETYPE_List.equals(getAttributeValueType()))
 		{
 			final String whereClause = I_M_AttributeValue.COLUMNNAME_M_Attribute_ID+"=?";
-			List<MAttributeValue> list = new ArrayList<MAttributeValue>();
-			if (!isMandatory())
+			List<PO> list = new ArrayList<PO>();
+			
+			if (!isMandatory()) {
 				list.add (null);
-			list = new Query(getCtx(),I_M_AttributeValue.Table_Name,whereClause,null)
-			.setParameters(getM_Attribute_ID())
-			.setOrderBy("Value")
-			.list();
+			}
+			list.addAll( new Query(getCtx(), I_M_AttributeValue.Table_Name, whereClause, null)
+				.setParameters(getM_Attribute_ID())
+				.setOrderBy("Value")
+				.setOnlyActiveRecords( true )
+				.list()
+			);
+			
 			m_values = new MAttributeValue[list.size()];
 			list.toArray(m_values);
 		}
 		return m_values;
 	}	//	getValues
+
 
 	
 	/**************************************************************************

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_InventoryLine
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_M_InventoryLine 
 {
@@ -75,7 +75,7 @@ public interface I_M_InventoryLine
 	  */
 	public int getC_Charge_ID();
 
-	public I_C_Charge getC_Charge() throws RuntimeException;
+	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -173,7 +173,7 @@ public interface I_M_InventoryLine
 	  */
 	public int getM_Inventory_ID();
 
-	public I_M_Inventory getM_Inventory() throws RuntimeException;
+	public org.compiere.model.I_M_Inventory getM_Inventory() throws RuntimeException;
 
     /** Column name M_InventoryLine_ID */
     public static final String COLUMNNAME_M_InventoryLine_ID = "M_InventoryLine_ID";
@@ -216,7 +216,7 @@ public interface I_M_InventoryLine
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
@@ -292,7 +292,7 @@ public interface I_M_InventoryLine
 	  */
 	public int getReversalLine_ID();
 
-	public I_M_InventoryLine getReversalLine() throws RuntimeException;
+	public org.compiere.model.I_M_InventoryLine getReversalLine() throws RuntimeException;
 
     /** Column name UPC */
     public static final String COLUMNNAME_UPC = "UPC";

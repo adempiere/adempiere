@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Window
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_AD_Window extends PO implements I_AD_Window, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_AD_Window (Properties ctx, int AD_Window_ID, String trxName)
@@ -79,9 +79,9 @@ public class X_AD_Window extends PO implements I_AD_Window, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Color getAD_Color() throws RuntimeException
+	public org.compiere.model.I_AD_Color getAD_Color() throws RuntimeException
     {
-		return (I_AD_Color)MTable.get(getCtx(), I_AD_Color.Table_Name)
+		return (org.compiere.model.I_AD_Color)MTable.get(getCtx(), org.compiere.model.I_AD_Color.Table_Name)
 			.getPO(getAD_Color_ID(), get_TrxName());	}
 
 	/** Set System Color.
@@ -107,9 +107,9 @@ public class X_AD_Window extends PO implements I_AD_Window, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Image getAD_Image() throws RuntimeException
+	public org.compiere.model.I_AD_Image getAD_Image() throws RuntimeException
     {
-		return (I_AD_Image)MTable.get(getCtx(), I_AD_Image.Table_Name)
+		return (org.compiere.model.I_AD_Image)MTable.get(getCtx(), org.compiere.model.I_AD_Image.Table_Name)
 			.getPO(getAD_Image_ID(), get_TrxName());	}
 
 	/** Set Image.

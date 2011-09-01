@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Depreciation_Build
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_A_Depreciation_Build 
 {
@@ -80,7 +80,7 @@ public interface I_A_Depreciation_Build
 	/** Get End Aset ID	  */
 	public int getA_End_Asset_ID();
 
-	public I_A_Asset getA_End_Asset() throws RuntimeException;
+	public org.compiere.model.I_A_Asset getA_End_Asset() throws RuntimeException;
 
     /** Column name A_Start_Asset_ID */
     public static final String COLUMNNAME_A_Start_Asset_ID = "A_Start_Asset_ID";
@@ -91,7 +91,7 @@ public interface I_A_Depreciation_Build
 	/** Get Start Asset	  */
 	public int getA_Start_Asset_ID();
 
-	public I_A_Asset getA_Start_Asset() throws RuntimeException;
+	public org.compiere.model.I_A_Asset getA_Start_Asset() throws RuntimeException;
 
     /** Column name C_Period_ID */
     public static final String COLUMNNAME_C_Period_ID = "C_Period_ID";
@@ -106,7 +106,7 @@ public interface I_A_Depreciation_Build
 	  */
 	public int getC_Period_ID();
 
-	public I_C_Period getC_Period() throws RuntimeException;
+	public org.compiere.model.I_C_Period getC_Period() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

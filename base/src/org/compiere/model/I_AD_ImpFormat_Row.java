@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_ImpFormat_Row
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_AD_ImpFormat_Row 
 {
@@ -62,7 +62,7 @@ public interface I_AD_ImpFormat_Row
 	  */
 	public int getAD_Column_ID();
 
-	public I_AD_Column getAD_Column() throws RuntimeException;
+	public org.compiere.model.I_AD_Column getAD_Column() throws RuntimeException;
 
     /** Column name AD_ImpFormat_ID */
     public static final String COLUMNNAME_AD_ImpFormat_ID = "AD_ImpFormat_ID";
@@ -73,7 +73,7 @@ public interface I_AD_ImpFormat_Row
 	/** Get Import Format	  */
 	public int getAD_ImpFormat_ID();
 
-	public I_AD_ImpFormat getAD_ImpFormat() throws RuntimeException;
+	public org.compiere.model.I_AD_ImpFormat getAD_ImpFormat() throws RuntimeException;
 
     /** Column name AD_ImpFormat_Row_ID */
     public static final String COLUMNNAME_AD_ImpFormat_Row_ID = "AD_ImpFormat_Row_ID";

@@ -25,14 +25,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for C_TaxDeclarationAcct
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_C_TaxDeclarationAcct extends PO implements I_C_TaxDeclarationAcct, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_C_TaxDeclarationAcct (Properties ctx, int C_TaxDeclarationAcct_ID, String trxName)
@@ -75,9 +75,9 @@ public class X_C_TaxDeclarationAcct extends PO implements I_C_TaxDeclarationAcct
       return sb.toString();
     }
 
-	public I_C_ElementValue getAccount() throws RuntimeException
+	public org.compiere.model.I_C_ElementValue getAccount() throws RuntimeException
     {
-		return (I_C_ElementValue)MTable.get(getCtx(), I_C_ElementValue.Table_Name)
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
 			.getPO(getAccount_ID(), get_TrxName());	}
 
 	/** Set Account.
@@ -175,9 +175,9 @@ public class X_C_TaxDeclarationAcct extends PO implements I_C_TaxDeclarationAcct
 		return bd;
 	}
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException
+	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException
     {
-		return (I_C_AcctSchema)MTable.get(getCtx(), I_C_AcctSchema.Table_Name)
+		return (org.compiere.model.I_C_AcctSchema)MTable.get(getCtx(), org.compiere.model.I_C_AcctSchema.Table_Name)
 			.getPO(getC_AcctSchema_ID(), get_TrxName());	}
 
 	/** Set Accounting Schema.
@@ -203,9 +203,9 @@ public class X_C_TaxDeclarationAcct extends PO implements I_C_TaxDeclarationAcct
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -227,9 +227,9 @@ public class X_C_TaxDeclarationAcct extends PO implements I_C_TaxDeclarationAcct
 		return ii.intValue();
 	}
 
-	public I_C_Currency getC_Currency() throws RuntimeException
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException
     {
-		return (I_C_Currency)MTable.get(getCtx(), I_C_Currency.Table_Name)
+		return (org.compiere.model.I_C_Currency)MTable.get(getCtx(), org.compiere.model.I_C_Currency.Table_Name)
 			.getPO(getC_Currency_ID(), get_TrxName());	}
 
 	/** Set Currency.
@@ -274,9 +274,9 @@ public class X_C_TaxDeclarationAcct extends PO implements I_C_TaxDeclarationAcct
 		return ii.intValue();
 	}
 
-	public I_C_TaxDeclaration getC_TaxDeclaration() throws RuntimeException
+	public org.compiere.model.I_C_TaxDeclaration getC_TaxDeclaration() throws RuntimeException
     {
-		return (I_C_TaxDeclaration)MTable.get(getCtx(), I_C_TaxDeclaration.Table_Name)
+		return (org.compiere.model.I_C_TaxDeclaration)MTable.get(getCtx(), org.compiere.model.I_C_TaxDeclaration.Table_Name)
 			.getPO(getC_TaxDeclaration_ID(), get_TrxName());	}
 
 	/** Set Tax Declaration.
@@ -302,9 +302,9 @@ public class X_C_TaxDeclarationAcct extends PO implements I_C_TaxDeclarationAcct
 		return ii.intValue();
 	}
 
-	public I_C_Tax getC_Tax() throws RuntimeException
+	public org.compiere.model.I_C_Tax getC_Tax() throws RuntimeException
     {
-		return (I_C_Tax)MTable.get(getCtx(), I_C_Tax.Table_Name)
+		return (org.compiere.model.I_C_Tax)MTable.get(getCtx(), org.compiere.model.I_C_Tax.Table_Name)
 			.getPO(getC_Tax_ID(), get_TrxName());	}
 
 	/** Set Tax.
@@ -359,9 +359,9 @@ public class X_C_TaxDeclarationAcct extends PO implements I_C_TaxDeclarationAcct
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public I_Fact_Acct getFact_Acct() throws RuntimeException
+	public org.compiere.model.I_Fact_Acct getFact_Acct() throws RuntimeException
     {
-		return (I_Fact_Acct)MTable.get(getCtx(), I_Fact_Acct.Table_Name)
+		return (org.compiere.model.I_Fact_Acct)MTable.get(getCtx(), org.compiere.model.I_Fact_Acct.Table_Name)
 			.getPO(getFact_Acct_ID(), get_TrxName());	}
 
 	/** Set Accounting Fact.

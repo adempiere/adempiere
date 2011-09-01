@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_DunningRun
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_C_DunningRun 
 {
@@ -75,7 +75,7 @@ public interface I_C_DunningRun
 	  */
 	public int getC_Dunning_ID();
 
-	public I_C_Dunning getC_Dunning() throws RuntimeException;
+	public org.compiere.model.I_C_Dunning getC_Dunning() throws RuntimeException;
 
     /** Column name C_DunningLevel_ID */
     public static final String COLUMNNAME_C_DunningLevel_ID = "C_DunningLevel_ID";
@@ -86,7 +86,7 @@ public interface I_C_DunningRun
 	/** Get Dunning Level	  */
 	public int getC_DunningLevel_ID();
 
-	public I_C_DunningLevel getC_DunningLevel() throws RuntimeException;
+	public org.compiere.model.I_C_DunningLevel getC_DunningLevel() throws RuntimeException;
 
     /** Column name C_DunningRun_ID */
     public static final String COLUMNNAME_C_DunningRun_ID = "C_DunningRun_ID";

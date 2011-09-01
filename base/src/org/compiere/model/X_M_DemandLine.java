@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_DemandLine
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_M_DemandLine extends PO implements I_M_DemandLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_M_DemandLine (Properties ctx, int M_DemandLine_ID, String trxName)
@@ -77,9 +77,9 @@ public class X_M_DemandLine extends PO implements I_M_DemandLine, I_Persistent
       return sb.toString();
     }
 
-	public I_C_Period getC_Period() throws RuntimeException
+	public org.compiere.model.I_C_Period getC_Period() throws RuntimeException
     {
-		return (I_C_Period)MTable.get(getCtx(), I_C_Period.Table_Name)
+		return (org.compiere.model.I_C_Period)MTable.get(getCtx(), org.compiere.model.I_C_Period.Table_Name)
 			.getPO(getC_Period_ID(), get_TrxName());	}
 
 	/** Set Period.
@@ -113,9 +113,9 @@ public class X_M_DemandLine extends PO implements I_M_DemandLine, I_Persistent
         return new KeyNamePair(get_ID(), String.valueOf(getC_Period_ID()));
     }
 
-	public I_M_Demand getM_Demand() throws RuntimeException
+	public org.compiere.model.I_M_Demand getM_Demand() throws RuntimeException
     {
-		return (I_M_Demand)MTable.get(getCtx(), I_M_Demand.Table_Name)
+		return (org.compiere.model.I_M_Demand)MTable.get(getCtx(), org.compiere.model.I_M_Demand.Table_Name)
 			.getPO(getM_Demand_ID(), get_TrxName());	}
 
 	/** Set Demand.
@@ -164,9 +164,9 @@ public class X_M_DemandLine extends PO implements I_M_DemandLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.

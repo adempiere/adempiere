@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Replication_Log
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_AD_Replication_Log 
 {
@@ -88,7 +88,7 @@ public interface I_AD_Replication_Log
 	  */
 	public int getAD_Replication_Run_ID();
 
-	public I_AD_Replication_Run getAD_Replication_Run() throws RuntimeException;
+	public org.compiere.model.I_AD_Replication_Run getAD_Replication_Run() throws RuntimeException;
 
     /** Column name AD_ReplicationTable_ID */
     public static final String COLUMNNAME_AD_ReplicationTable_ID = "AD_ReplicationTable_ID";
@@ -103,7 +103,7 @@ public interface I_AD_Replication_Log
 	  */
 	public int getAD_ReplicationTable_ID();
 
-	public I_AD_ReplicationTable getAD_ReplicationTable() throws RuntimeException;
+	public org.compiere.model.I_AD_ReplicationTable getAD_ReplicationTable() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

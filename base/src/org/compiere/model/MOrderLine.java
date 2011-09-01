@@ -118,6 +118,7 @@ public class MOrderLine extends X_C_OrderLine
 		return retValue;
 	}	//	getNotReserved
 	
+	
 	/**	Logger	*/
 	private static CLogger s_log = CLogger.getCLogger (MOrderLine.class);
 	

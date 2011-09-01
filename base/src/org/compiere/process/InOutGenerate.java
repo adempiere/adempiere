@@ -165,7 +165,7 @@ public class InOutGenerate extends SvrProcess
 				+ " AND EXISTS (SELECT * FROM C_OrderLine ol "
 					+ "WHERE ol.M_Warehouse_ID=?";					//	#1
 			if (p_DatePromised != null)
-				m_sql += " AND TRUNC(ol.DatePromised)<=?";		//	#2
+				m_sql += " AND TRUNC(ol.DatePromised, 'DD')<=?";		//	#2
 			m_sql += " AND o.C_Order_ID=ol.C_Order_ID AND ol.QtyOrdered<>ol.QtyDelivered)";
 			//
 			if (p_C_BPartner_ID != 0)
@@ -227,8 +227,9 @@ public class InOutGenerate extends SvrProcess
 				//	OrderLine WHERE
 				String where = " AND M_Warehouse_ID=" + p_M_Warehouse_ID;
 				if (p_DatePromised != null)
+
 					where += " AND (TRUNC(DatePromised)<=" + DB.TO_DATE(p_DatePromised, true)
-						+ " OR DatePromised IS NULL)";		
+						+ " OR DatePromised IS NULL)";
 				//	Exclude Auto Delivery if not Force
 				if (!MOrder.DELIVERYRULE_Force.equals(order.getDeliveryRule()))
 					where += " AND (C_OrderLine.M_Product_ID IS NULL"

@@ -23,11 +23,8 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
-import org.compiere.util.EMail;
 import org.compiere.util.Env;
 import org.compiere.util.TimeUtil;
 
@@ -733,31 +730,5 @@ public class MAsset extends X_A_Asset
 
 	}	//	afterSave
 	
-	/*************************************************************************
-	 * 	Confirm Asset EMail Delivery
-	 *	@param email email sent
-	 * 	@param AD_User_ID recipient
-	 * 	@return asset delivery
-	 */
-	public MAssetDelivery confirmDelivery (EMail email, int AD_User_ID)
-	{
-		setVersionNo(getProductVersionNo());
-		MAssetDelivery ad = new MAssetDelivery (this, email, AD_User_ID);
-		return ad;
-	}	//	confirmDelivery
 
-	/**
-	 * 	Confirm Asset Download Delivery
-	 *	@param request request
-	 * 	@param AD_User_ID recipient
-	 * 	@return asset delivery
-	 */
-	public MAssetDelivery confirmDelivery (HttpServletRequest request, int AD_User_ID)
-	{
-		setVersionNo(getProductVersionNo());
-		setLifeUseUnits(getLifeUseUnits()+1);
-		MAssetDelivery ad = new MAssetDelivery (this, request, AD_User_ID);
-		return ad;
-	}	//	confirmDelivery
-	
 }	//	MAsset

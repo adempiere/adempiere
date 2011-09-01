@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Disposed
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_A_Asset_Disposed 
 {
@@ -72,7 +72,7 @@ public interface I_A_Asset_Disposed
 	/** Get Asset Trade	  */
 	public int getA_Asset_Trade_ID();
 
-	public I_A_Asset getA_Asset_Trade() throws RuntimeException;
+	public org.compiere.model.I_A_Asset getA_Asset_Trade() throws RuntimeException;
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -144,7 +144,7 @@ public interface I_A_Asset_Disposed
 	  */
 	public int getC_Period_ID();
 
-	public I_C_Period getC_Period() throws RuntimeException;
+	public org.compiere.model.I_C_Period getC_Period() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

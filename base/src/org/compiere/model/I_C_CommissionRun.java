@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_CommissionRun
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_C_CommissionRun 
 {
@@ -75,7 +75,7 @@ public interface I_C_CommissionRun
 	  */
 	public int getC_Commission_ID();
 
-	public I_C_Commission getC_Commission() throws RuntimeException;
+	public org.compiere.model.I_C_Commission getC_Commission() throws RuntimeException;
 
     /** Column name C_CommissionRun_ID */
     public static final String COLUMNNAME_C_CommissionRun_ID = "C_CommissionRun_ID";

@@ -84,6 +84,7 @@
     <pathelement path="../adempiere/Adempiere/lib/jboss.jar" />
     <pathelement path="../adempiere/Adempiere/lib/oracle.jar" />
     <pathelement path="../adempiere/Adempiere/lib/postgresql.jar" />
+	<pathelement path="../adempiere/Adempiere/lib/mysql-connector-java-5.1.13-bin.jar" />
     <pathelement path="./Extend.jar" />
     <!-- pathelement path="/root/RmiJdbc/dist/lib/RmiJdbc.jar" / -->
   </path>

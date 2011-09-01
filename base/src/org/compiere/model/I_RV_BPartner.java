@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for RV_BPartner
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_RV_BPartner 
 {
@@ -169,17 +169,17 @@ public interface I_RV_BPartner
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 
-	/** Set User/Contact.
+	/** Set Usuario.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public void setAD_User_ID (int AD_User_ID);
 
-	/** Get User/Contact.
+	/** Get Usuario.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getAD_User() throws RuntimeException;
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
 
     /** Column name Birthday */
     public static final String COLUMNNAME_Birthday = "Birthday";
@@ -207,7 +207,7 @@ public interface I_RV_BPartner
 	  */
 	public int getBPartner_Parent_ID();
 
-	public I_C_BPartner getBPartner_Parent() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getBPartner_Parent() throws RuntimeException;
 
     /** Column name BPContactGreeting */
     public static final String COLUMNNAME_BPContactGreeting = "BPContactGreeting";
@@ -222,7 +222,7 @@ public interface I_RV_BPartner
 	  */
 	public int getBPContactGreeting();
 
-	public I_C_Greeting getBPContactGreet() throws RuntimeException;
+	public org.compiere.model.I_C_Greeting getBPContactGreet() throws RuntimeException;
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -250,7 +250,7 @@ public interface I_RV_BPartner
 	  */
 	public int getC_BPartner_Location_ID();
 
-	public I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException;
 
     /** Column name C_BP_Group_ID */
     public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
@@ -265,7 +265,7 @@ public interface I_RV_BPartner
 	  */
 	public int getC_BP_Group_ID();
 
-	public I_C_BP_Group getC_BP_Group() throws RuntimeException;
+	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException;
 
     /** Column name C_Country_ID */
     public static final String COLUMNNAME_C_Country_ID = "C_Country_ID";
@@ -280,7 +280,7 @@ public interface I_RV_BPartner
 	  */
 	public int getC_Country_ID();
 
-	public I_C_Country getC_Country() throws RuntimeException;
+	public org.compiere.model.I_C_Country getC_Country() throws RuntimeException;
 
     /** Column name C_Dunning_ID */
     public static final String COLUMNNAME_C_Dunning_ID = "C_Dunning_ID";
@@ -295,7 +295,7 @@ public interface I_RV_BPartner
 	  */
 	public int getC_Dunning_ID();
 
-	public I_C_Dunning getC_Dunning() throws RuntimeException;
+	public org.compiere.model.I_C_Dunning getC_Dunning() throws RuntimeException;
 
     /** Column name C_Greeting_ID */
     public static final String COLUMNNAME_C_Greeting_ID = "C_Greeting_ID";
@@ -310,7 +310,7 @@ public interface I_RV_BPartner
 	  */
 	public int getC_Greeting_ID();
 
-	public I_C_Greeting getC_Greeting() throws RuntimeException;
+	public org.compiere.model.I_C_Greeting getC_Greeting() throws RuntimeException;
 
     /** Column name C_InvoiceSchedule_ID */
     public static final String COLUMNNAME_C_InvoiceSchedule_ID = "C_InvoiceSchedule_ID";
@@ -325,7 +325,7 @@ public interface I_RV_BPartner
 	  */
 	public int getC_InvoiceSchedule_ID();
 
-	public I_C_InvoiceSchedule getC_InvoiceSchedule() throws RuntimeException;
+	public org.compiere.model.I_C_InvoiceSchedule getC_InvoiceSchedule() throws RuntimeException;
 
     /** Column name City */
     public static final String COLUMNNAME_City = "City";
@@ -405,7 +405,7 @@ public interface I_RV_BPartner
 	  */
 	public int getC_PaymentTerm_ID();
 
-	public I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException;
+	public org.compiere.model.I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -436,7 +436,7 @@ public interface I_RV_BPartner
 	  */
 	public int getC_Region_ID();
 
-	public I_C_Region getC_Region() throws RuntimeException;
+	public org.compiere.model.I_C_Region getC_Region() throws RuntimeException;
 
     /** Column name DeliveryRule */
     public static final String COLUMNNAME_DeliveryRule = "DeliveryRule";
@@ -620,7 +620,7 @@ public interface I_RV_BPartner
 	  */
 	public int getInvoice_PrintFormat_ID();
 
-	public I_AD_PrintFormat getInvoice_PrintFormat() throws RuntimeException;
+	public org.compiere.model.I_AD_PrintFormat getInvoice_PrintFormat() throws RuntimeException;
 
     /** Column name InvoiceRule */
     public static final String COLUMNNAME_InvoiceRule = "InvoiceRule";
@@ -813,7 +813,7 @@ public interface I_RV_BPartner
 	  */
 	public int getM_DiscountSchema_ID();
 
-	public I_M_DiscountSchema getM_DiscountSchema() throws RuntimeException;
+	public org.compiere.model.I_M_DiscountSchema getM_DiscountSchema() throws RuntimeException;
 
     /** Column name M_PriceList_ID */
     public static final String COLUMNNAME_M_PriceList_ID = "M_PriceList_ID";
@@ -828,7 +828,7 @@ public interface I_RV_BPartner
 	  */
 	public int getM_PriceList_ID();
 
-	public I_M_PriceList getM_PriceList() throws RuntimeException;
+	public org.compiere.model.I_M_PriceList getM_PriceList() throws RuntimeException;
 
     /** Column name NAICS */
     public static final String COLUMNNAME_NAICS = "NAICS";
@@ -960,7 +960,7 @@ public interface I_RV_BPartner
 	  */
 	public int getPO_DiscountSchema_ID();
 
-	public I_M_DiscountSchema getPO_DiscountSchema() throws RuntimeException;
+	public org.compiere.model.I_M_DiscountSchema getPO_DiscountSchema() throws RuntimeException;
 
     /** Column name PO_PaymentTerm_ID */
     public static final String COLUMNNAME_PO_PaymentTerm_ID = "PO_PaymentTerm_ID";
@@ -975,7 +975,7 @@ public interface I_RV_BPartner
 	  */
 	public int getPO_PaymentTerm_ID();
 
-	public I_C_PaymentTerm getPO_PaymentTerm() throws RuntimeException;
+	public org.compiere.model.I_C_PaymentTerm getPO_PaymentTerm() throws RuntimeException;
 
     /** Column name PO_PriceList_ID */
     public static final String COLUMNNAME_PO_PriceList_ID = "PO_PriceList_ID";
@@ -990,7 +990,7 @@ public interface I_RV_BPartner
 	  */
 	public int getPO_PriceList_ID();
 
-	public I_M_PriceList getPO_PriceList() throws RuntimeException;
+	public org.compiere.model.I_M_PriceList getPO_PriceList() throws RuntimeException;
 
     /** Column name POReference */
     public static final String COLUMNNAME_POReference = "POReference";
@@ -1083,7 +1083,7 @@ public interface I_RV_BPartner
 	  */
 	public int getSalesRep_ID();
 
-	public I_AD_User getSalesRep() throws RuntimeException;
+	public org.compiere.model.I_AD_User getSalesRep() throws RuntimeException;
 
     /** Column name SalesVolume */
     public static final String COLUMNNAME_SalesVolume = "SalesVolume";
@@ -1215,7 +1215,7 @@ public interface I_RV_BPartner
 	  */
 	public int getSupervisor_ID();
 
-	public I_AD_User getSupervisor() throws RuntimeException;
+	public org.compiere.model.I_AD_User getSupervisor() throws RuntimeException;
 
     /** Column name TaxID */
     public static final String COLUMNNAME_TaxID = "TaxID";

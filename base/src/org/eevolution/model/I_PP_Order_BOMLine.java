@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_Order_BOMLine
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_PP_Order_BOMLine 
 {
@@ -66,17 +66,17 @@ public interface I_PP_Order_BOMLine
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 
-	/** Set User/Contact.
+	/** Set Usuario.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public void setAD_User_ID (int AD_User_ID);
 
-	/** Get User/Contact.
+	/** Get Usuario.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getAD_User() throws RuntimeException;
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
 
     /** Column name Assay */
     public static final String COLUMNNAME_Assay = "Assay";
@@ -159,7 +159,7 @@ public interface I_PP_Order_BOMLine
 	  */
 	public int getC_UOM_ID();
 
-	public I_C_UOM getC_UOM() throws RuntimeException;
+	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException;
 
     /** Column name DateDelivered */
     public static final String COLUMNNAME_DateDelivered = "DateDelivered";
@@ -332,7 +332,7 @@ public interface I_PP_Order_BOMLine
 	  */
 	public int getM_ChangeNotice_ID();
 
-	public I_M_ChangeNotice getM_ChangeNotice() throws RuntimeException;
+	public org.compiere.model.I_M_ChangeNotice getM_ChangeNotice() throws RuntimeException;
 
     /** Column name M_Locator_ID */
     public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
@@ -362,7 +362,7 @@ public interface I_PP_Order_BOMLine
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name M_Warehouse_ID */
     public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
@@ -377,7 +377,7 @@ public interface I_PP_Order_BOMLine
 	  */
 	public int getM_Warehouse_ID();
 
-	public I_M_Warehouse getM_Warehouse() throws RuntimeException;
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
 
     /** Column name PP_Order_BOM_ID */
     public static final String COLUMNNAME_PP_Order_BOM_ID = "PP_Order_BOM_ID";
@@ -484,14 +484,14 @@ public interface I_PP_Order_BOMLine
 	/** Get Qty Reject	  */
 	public BigDecimal getQtyReject();
 
-    /** Column name QtyRequiered */
-    public static final String COLUMNNAME_QtyRequiered = "QtyRequiered";
+    /** Column name QtyRequired */
+    public static final String COLUMNNAME_QtyRequired = "QtyRequired";
 
-	/** Set Qty Requiered	  */
-	public void setQtyRequiered (BigDecimal QtyRequiered);
+	/** Set Qty Required	  */
+	public void setQtyRequired (BigDecimal QtyRequired);
 
-	/** Get Qty Requiered	  */
-	public BigDecimal getQtyRequiered();
+	/** Get Qty Required	  */
+	public BigDecimal getQtyRequired();
 
     /** Column name QtyReserved */
     public static final String COLUMNNAME_QtyReserved = "QtyReserved";

@@ -24,14 +24,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for M_PromotionReward
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_M_PromotionReward extends PO implements I_M_PromotionReward, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_M_PromotionReward (Properties ctx, int M_PromotionReward_ID, String trxName)
@@ -98,9 +98,9 @@ public class X_M_PromotionReward extends PO implements I_M_PromotionReward, I_Pe
 		return bd;
 	}
 
-	public I_C_Charge getC_Charge() throws RuntimeException
+	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException
     {
-		return (I_C_Charge)MTable.get(getCtx(), I_C_Charge.Table_Name)
+		return (org.compiere.model.I_C_Charge)MTable.get(getCtx(), org.compiere.model.I_C_Charge.Table_Name)
 			.getPO(getC_Charge_ID(), get_TrxName());	}
 
 	/** Set Charge.
@@ -198,9 +198,9 @@ public class X_M_PromotionReward extends PO implements I_M_PromotionReward, I_Pe
 		return false;
 	}
 
-	public I_M_PromotionDistribution getM_PromotionDistribution() throws RuntimeException
+	public org.compiere.model.I_M_PromotionDistribution getM_PromotionDistribution() throws RuntimeException
     {
-		return (I_M_PromotionDistribution)MTable.get(getCtx(), I_M_PromotionDistribution.Table_Name)
+		return (org.compiere.model.I_M_PromotionDistribution)MTable.get(getCtx(), org.compiere.model.I_M_PromotionDistribution.Table_Name)
 			.getPO(getM_PromotionDistribution_ID(), get_TrxName());	}
 
 	/** Set Promotion Distribution.
@@ -223,9 +223,9 @@ public class X_M_PromotionReward extends PO implements I_M_PromotionReward, I_Pe
 		return ii.intValue();
 	}
 
-	public I_M_Promotion getM_Promotion() throws RuntimeException
+	public org.compiere.model.I_M_Promotion getM_Promotion() throws RuntimeException
     {
-		return (I_M_Promotion)MTable.get(getCtx(), I_M_Promotion.Table_Name)
+		return (org.compiere.model.I_M_Promotion)MTable.get(getCtx(), org.compiere.model.I_M_Promotion.Table_Name)
 			.getPO(getM_Promotion_ID(), get_TrxName());	}
 
 	/** Set Promotion.
@@ -268,9 +268,9 @@ public class X_M_PromotionReward extends PO implements I_M_PromotionReward, I_Pe
 		return ii.intValue();
 	}
 
-	public I_M_PromotionDistribution getM_TargetDistribution() throws RuntimeException
+	public org.compiere.model.I_M_PromotionDistribution getM_TargetDistribution() throws RuntimeException
     {
-		return (I_M_PromotionDistribution)MTable.get(getCtx(), I_M_PromotionDistribution.Table_Name)
+		return (org.compiere.model.I_M_PromotionDistribution)MTable.get(getCtx(), org.compiere.model.I_M_PromotionDistribution.Table_Name)
 			.getPO(getM_TargetDistribution_ID(), get_TrxName());	}
 
 	/** Set Target distribution.

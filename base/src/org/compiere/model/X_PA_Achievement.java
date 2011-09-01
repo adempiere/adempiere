@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_Achievement
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_PA_Achievement extends PO implements I_PA_Achievement, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_PA_Achievement (Properties ctx, int PA_Achievement_ID, String trxName)
@@ -221,9 +221,9 @@ public class X_PA_Achievement extends PO implements I_PA_Achievement, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_PA_Measure getPA_Measure() throws RuntimeException
+	public org.compiere.model.I_PA_Measure getPA_Measure() throws RuntimeException
     {
-		return (I_PA_Measure)MTable.get(getCtx(), I_PA_Measure.Table_Name)
+		return (org.compiere.model.I_PA_Measure)MTable.get(getCtx(), org.compiere.model.I_PA_Measure.Table_Name)
 			.getPO(getPA_Measure_ID(), get_TrxName());	}
 
 	/** Set Measure.

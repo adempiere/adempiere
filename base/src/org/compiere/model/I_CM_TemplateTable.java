@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for CM_TemplateTable
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_CM_TemplateTable 
 {
@@ -75,7 +75,7 @@ public interface I_CM_TemplateTable
 	  */
 	public int getAD_Table_ID();
 
-	public I_AD_Table getAD_Table() throws RuntimeException;
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
 
     /** Column name CM_Template_ID */
     public static final String COLUMNNAME_CM_Template_ID = "CM_Template_ID";
@@ -90,7 +90,7 @@ public interface I_CM_TemplateTable
 	  */
 	public int getCM_Template_ID();
 
-	public I_CM_Template getCM_Template() throws RuntimeException;
+	public org.compiere.model.I_CM_Template getCM_Template() throws RuntimeException;
 
     /** Column name CM_TemplateTable_ID */
     public static final String COLUMNNAME_CM_TemplateTable_ID = "CM_TemplateTable_ID";

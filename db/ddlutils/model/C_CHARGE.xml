@@ -18,6 +18,13 @@
       <column name="C_TAXCATEGORY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISTAXINCLUDED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_CHARGETYPE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CCHARGE" onDelete="none">
+        <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_CHARGETYPE" name="CCHARGETYPE_CCHARGE" onDelete="none">
+        <reference local="C_CHARGETYPE_ID" foreign="C_CHARGETYPE_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="C_TAXCATEGORY" name="CTAXCATEGORY_CCHARGE" onDelete="none">
         <reference local="C_TAXCATEGORY_ID" foreign="C_TAXCATEGORY_ID"/>
       </foreign-key>

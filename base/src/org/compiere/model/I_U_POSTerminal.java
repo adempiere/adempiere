@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for U_POSTerminal
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_U_POSTerminal 
 {
@@ -88,7 +88,7 @@ public interface I_U_POSTerminal
 	  */
 	public int getCard_BankAccount_ID();
 
-	public I_C_BankAccount getCard_BankAccount() throws RuntimeException;
+	public org.compiere.model.I_C_BankAccount getCard_BankAccount() throws RuntimeException;
 
     /** Column name CardTransferBankAccount_ID */
     public static final String COLUMNNAME_CardTransferBankAccount_ID = "CardTransferBankAccount_ID";
@@ -103,7 +103,7 @@ public interface I_U_POSTerminal
 	  */
 	public int getCardTransferBankAccount_ID();
 
-	public I_C_BankAccount getCardTransferBankAccount() throws RuntimeException;
+	public org.compiere.model.I_C_BankAccount getCardTransferBankAccount() throws RuntimeException;
 
     /** Column name CardTransferCashBook_ID */
     public static final String COLUMNNAME_CardTransferCashBook_ID = "CardTransferCashBook_ID";
@@ -118,7 +118,7 @@ public interface I_U_POSTerminal
 	  */
 	public int getCardTransferCashBook_ID();
 
-	public I_C_CashBook getCardTransferCashBook() throws RuntimeException;
+	public org.compiere.model.I_C_CashBook getCardTransferCashBook() throws RuntimeException;
 
     /** Column name CardTransferType */
     public static final String COLUMNNAME_CardTransferType = "CardTransferType";
@@ -155,7 +155,7 @@ public interface I_U_POSTerminal
 	  */
 	public int getCashTransferBankAccount_ID();
 
-	public I_C_BankAccount getCashTransferBankAccount() throws RuntimeException;
+	public org.compiere.model.I_C_BankAccount getCashTransferBankAccount() throws RuntimeException;
 
     /** Column name CashTransferCashBook_ID */
     public static final String COLUMNNAME_CashTransferCashBook_ID = "CashTransferCashBook_ID";
@@ -170,7 +170,7 @@ public interface I_U_POSTerminal
 	  */
 	public int getCashTransferCashBook_ID();
 
-	public I_C_CashBook getCashTransferCashBook() throws RuntimeException;
+	public org.compiere.model.I_C_CashBook getCashTransferCashBook() throws RuntimeException;
 
     /** Column name C_CashBook_ID */
     public static final String COLUMNNAME_C_CashBook_ID = "C_CashBook_ID";
@@ -185,7 +185,7 @@ public interface I_U_POSTerminal
 	  */
 	public int getC_CashBook_ID();
 
-	public I_C_CashBook getC_CashBook() throws RuntimeException;
+	public org.compiere.model.I_C_CashBook getC_CashBook() throws RuntimeException;
 
     /** Column name C_CashBPartner_ID */
     public static final String COLUMNNAME_C_CashBPartner_ID = "C_CashBPartner_ID";
@@ -200,7 +200,7 @@ public interface I_U_POSTerminal
 	  */
 	public int getC_CashBPartner_ID();
 
-	public I_C_BPartner getC_CashBPartner() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getC_CashBPartner() throws RuntimeException;
 
     /** Column name Check_BankAccount_ID */
     public static final String COLUMNNAME_Check_BankAccount_ID = "Check_BankAccount_ID";
@@ -215,7 +215,7 @@ public interface I_U_POSTerminal
 	  */
 	public int getCheck_BankAccount_ID();
 
-	public I_C_BankAccount getCheck_BankAccount() throws RuntimeException;
+	public org.compiere.model.I_C_BankAccount getCheck_BankAccount() throws RuntimeException;
 
     /** Column name CheckTransferBankAccount_ID */
     public static final String COLUMNNAME_CheckTransferBankAccount_ID = "CheckTransferBankAccount_ID";
@@ -230,7 +230,7 @@ public interface I_U_POSTerminal
 	  */
 	public int getCheckTransferBankAccount_ID();
 
-	public I_C_BankAccount getCheckTransferBankAccount() throws RuntimeException;
+	public org.compiere.model.I_C_BankAccount getCheckTransferBankAccount() throws RuntimeException;
 
     /** Column name CheckTransferCashBook_ID */
     public static final String COLUMNNAME_CheckTransferCashBook_ID = "CheckTransferCashBook_ID";
@@ -245,7 +245,7 @@ public interface I_U_POSTerminal
 	  */
 	public int getCheckTransferCashBook_ID();
 
-	public I_C_CashBook getCheckTransferCashBook() throws RuntimeException;
+	public org.compiere.model.I_C_CashBook getCheckTransferCashBook() throws RuntimeException;
 
     /** Column name CheckTransferType */
     public static final String COLUMNNAME_CheckTransferType = "CheckTransferType";
@@ -285,7 +285,7 @@ public interface I_U_POSTerminal
 	  */
 	public int getC_TemplateBPartner_ID();
 
-	public I_C_BPartner getC_TemplateBPartner() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getC_TemplateBPartner() throws RuntimeException;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -378,7 +378,7 @@ public interface I_U_POSTerminal
 	  */
 	public int getM_Warehouse_ID();
 
-	public I_M_Warehouse getM_Warehouse() throws RuntimeException;
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -406,7 +406,7 @@ public interface I_U_POSTerminal
 	  */
 	public int getPO_PriceList_ID();
 
-	public I_M_PriceList getPO_PriceList() throws RuntimeException;
+	public org.compiere.model.I_M_PriceList getPO_PriceList() throws RuntimeException;
 
     /** Column name PrinterName */
     public static final String COLUMNNAME_PrinterName = "PrinterName";
@@ -434,7 +434,7 @@ public interface I_U_POSTerminal
 	  */
 	public int getSalesRep_ID();
 
-	public I_AD_User getSalesRep() throws RuntimeException;
+	public org.compiere.model.I_AD_User getSalesRep() throws RuntimeException;
 
     /** Column name SO_PriceList_ID */
     public static final String COLUMNNAME_SO_PriceList_ID = "SO_PriceList_ID";
@@ -445,7 +445,7 @@ public interface I_U_POSTerminal
 	/** Get Sales Pricelist	  */
 	public int getSO_PriceList_ID();
 
-	public I_M_PriceList getSO_PriceList() throws RuntimeException;
+	public org.compiere.model.I_M_PriceList getSO_PriceList() throws RuntimeException;
 
     /** Column name UnlockingTime */
     public static final String COLUMNNAME_UnlockingTime = "UnlockingTime";

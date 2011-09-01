@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_RegistrationProduct
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_A_RegistrationProduct 
 {
@@ -75,7 +75,7 @@ public interface I_A_RegistrationProduct
 	  */
 	public int getA_RegistrationAttribute_ID();
 
-	public I_A_RegistrationAttribute getA_RegistrationAttribute() throws RuntimeException;
+	public org.compiere.model.I_A_RegistrationAttribute getA_RegistrationAttribute() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -132,7 +132,7 @@ public interface I_A_RegistrationProduct
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

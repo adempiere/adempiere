@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PA_ReportCube
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_PA_ReportCube 
 {
@@ -75,7 +75,7 @@ public interface I_PA_ReportCube
 	  */
 	public int getC_Calendar_ID();
 
-	public I_C_Calendar getC_Calendar() throws RuntimeException;
+	public org.compiere.model.I_C_Calendar getC_Calendar() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -288,32 +288,6 @@ public interface I_PA_ReportCube
 	  */
 	public boolean isSubAcctDim();
 
-    /** Column name IsUser1Dim */
-    public static final String COLUMNNAME_IsUser1Dim = "IsUser1Dim";
-
-	/** Set User 1 Dimension.
-	  * Include User 1 as a cube dimension
-	  */
-	public void setIsUser1Dim (boolean IsUser1Dim);
-
-	/** Get User 1 Dimension.
-	  * Include User 1 as a cube dimension
-	  */
-	public boolean isUser1Dim();
-
-    /** Column name IsUser2Dim */
-    public static final String COLUMNNAME_IsUser2Dim = "IsUser2Dim";
-
-	/** Set User 2 Dimension.
-	  * Include User 2 as a cube dimension
-	  */
-	public void setIsUser2Dim (boolean IsUser2Dim);
-
-	/** Get User 2 Dimension.
-	  * Include User 2 as a cube dimension
-	  */
-	public boolean isUser2Dim();
-
     /** Column name IsUserElement1Dim */
     public static final String COLUMNNAME_IsUserElement1Dim = "IsUserElement1Dim";
 
@@ -339,6 +313,32 @@ public interface I_PA_ReportCube
 	  * Include User Element 2 as a cube dimension
 	  */
 	public boolean isUserElement2Dim();
+
+    /** Column name IsUser1Dim */
+    public static final String COLUMNNAME_IsUser1Dim = "IsUser1Dim";
+
+	/** Set User 1 Dimension.
+	  * Include User 1 as a cube dimension
+	  */
+	public void setIsUser1Dim (boolean IsUser1Dim);
+
+	/** Get User 1 Dimension.
+	  * Include User 1 as a cube dimension
+	  */
+	public boolean isUser1Dim();
+
+    /** Column name IsUser2Dim */
+    public static final String COLUMNNAME_IsUser2Dim = "IsUser2Dim";
+
+	/** Set User 2 Dimension.
+	  * Include User 2 as a cube dimension
+	  */
+	public void setIsUser2Dim (boolean IsUser2Dim);
+
+	/** Get User 2 Dimension.
+	  * Include User 2 as a cube dimension
+	  */
+	public boolean isUser2Dim();
 
     /** Column name LastRecalculated */
     public static final String COLUMNNAME_LastRecalculated = "LastRecalculated";

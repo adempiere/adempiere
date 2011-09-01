@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for CM_Template
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_CM_Template 
 {
@@ -88,7 +88,7 @@ public interface I_CM_Template
 	  */
 	public int getCM_WebProject_ID();
 
-	public I_CM_WebProject getCM_WebProject() throws RuntimeException;
+	public org.compiere.model.I_CM_WebProject getCM_WebProject() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

@@ -20,6 +20,7 @@
       <column name="IBAN" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="BBAN" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="PAYMENTEXPORTCLASS" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <foreign-key foreignTable="C_BANK" name="CBANK_CBANKACCOUNT" onDelete="cascade">
         <reference local="C_BANK_ID" foreign="C_BANK_ID"/>
       </foreign-key>

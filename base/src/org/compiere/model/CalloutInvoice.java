@@ -527,22 +527,25 @@ public class CalloutInvoice extends CalloutEngine
 			// else ignore
 			if (mField.getColumnName().equals("PriceActual"))
 			{
+				PriceEntered = (BigDecimal) value;
 				mTab.setValue("PriceEntered", value);
 			}
 			else if (mField.getColumnName().equals("PriceEntered"))
 			{
+				PriceActual = (BigDecimal) value;
 				mTab.setValue("PriceActual", value);
 			}
 		}
 		//	Product Qty changed - recalc price
 		else if ((mField.getColumnName().equals("QtyInvoiced") 
 			|| mField.getColumnName().equals("QtyEntered")
+			|| mField.getColumnName().equals("C_UOM_ID")
 			|| mField.getColumnName().equals("M_Product_ID")) 
 			&& !"N".equals(Env.getContext(ctx, WindowNo, "DiscountSchema")))
 		{
 			int C_BPartner_ID = Env.getContextAsInt(ctx, WindowNo, "C_BPartner_ID");
 			if (mField.getColumnName().equals("QtyEntered"))
-				QtyInvoiced = MUOMConversion.convertProductTo (ctx, M_Product_ID, 
+				QtyInvoiced = MUOMConversion.convertProductFrom (ctx, M_Product_ID, 
 					C_UOM_To_ID, QtyEntered);
 			if (QtyInvoiced == null)
 				QtyInvoiced = QtyEntered;
@@ -561,6 +564,8 @@ public class CalloutInvoice extends CalloutEngine
 			//
 			log.fine("amt - QtyChanged -> PriceActual=" + pp.getPriceStd() 
 				+ ", PriceEntered=" + PriceEntered + ", Discount=" + pp.getDiscount());
+			
+			PriceActual = pp.getPriceStd();
 			mTab.setValue("PriceActual", pp.getPriceStd());
 		//	mTab.setValue("Discount", pp.getDiscount());
 			mTab.setValue("PriceEntered", PriceEntered);

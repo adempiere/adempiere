@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for R_RequestProcessorLog
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_R_RequestProcessorLog extends PO implements I_R_RequestProcessorLog, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_R_RequestProcessorLog (Properties ctx, int R_RequestProcessorLog_ID, String trxName)
@@ -146,9 +146,9 @@ public class X_R_RequestProcessorLog extends PO implements I_R_RequestProcessorL
 		return (String)get_Value(COLUMNNAME_Reference);
 	}
 
-	public I_R_RequestProcessor getR_RequestProcessor() throws RuntimeException
+	public org.compiere.model.I_R_RequestProcessor getR_RequestProcessor() throws RuntimeException
     {
-		return (I_R_RequestProcessor)MTable.get(getCtx(), I_R_RequestProcessor.Table_Name)
+		return (org.compiere.model.I_R_RequestProcessor)MTable.get(getCtx(), org.compiere.model.I_R_RequestProcessor.Table_Name)
 			.getPO(getR_RequestProcessor_ID(), get_TrxName());	}
 
 	/** Set Request Processor.

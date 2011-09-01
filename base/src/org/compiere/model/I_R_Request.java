@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for R_Request
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_R_Request 
 {
@@ -54,7 +54,7 @@ public interface I_R_Request
 	  */
 	public int getA_Asset_ID();
 
-	public I_A_Asset getA_Asset() throws RuntimeException;
+	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException;
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -90,7 +90,7 @@ public interface I_R_Request
 	  */
 	public int getAD_Role_ID();
 
-	public I_AD_Role getAD_Role() throws RuntimeException;
+	public org.compiere.model.I_AD_Role getAD_Role() throws RuntimeException;
 
     /** Column name AD_Table_ID */
     public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
@@ -105,22 +105,22 @@ public interface I_R_Request
 	  */
 	public int getAD_Table_ID();
 
-	public I_AD_Table getAD_Table() throws RuntimeException;
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
 
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 
-	/** Set User/Contact.
+	/** Set Usuario.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public void setAD_User_ID (int AD_User_ID);
 
-	/** Get User/Contact.
+	/** Get Usuario.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getAD_User() throws RuntimeException;
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
 
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
@@ -135,7 +135,7 @@ public interface I_R_Request
 	  */
 	public int getC_Activity_ID();
 
-	public I_C_Activity getC_Activity() throws RuntimeException;
+	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException;
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -150,7 +150,7 @@ public interface I_R_Request
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_Campaign_ID */
     public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
@@ -165,7 +165,7 @@ public interface I_R_Request
 	  */
 	public int getC_Campaign_ID();
 
-	public I_C_Campaign getC_Campaign() throws RuntimeException;
+	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException;
 
     /** Column name C_Invoice_ID */
     public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
@@ -180,7 +180,7 @@ public interface I_R_Request
 	  */
 	public int getC_Invoice_ID();
 
-	public I_C_Invoice getC_Invoice() throws RuntimeException;
+	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException;
 
     /** Column name C_InvoiceRequest_ID */
     public static final String COLUMNNAME_C_InvoiceRequest_ID = "C_InvoiceRequest_ID";
@@ -195,7 +195,7 @@ public interface I_R_Request
 	  */
 	public int getC_InvoiceRequest_ID();
 
-	public I_C_Invoice getC_InvoiceRequest() throws RuntimeException;
+	public org.compiere.model.I_C_Invoice getC_InvoiceRequest() throws RuntimeException;
 
     /** Column name CloseDate */
     public static final String COLUMNNAME_CloseDate = "CloseDate";
@@ -249,7 +249,7 @@ public interface I_R_Request
 	  */
 	public int getC_Order_ID();
 
-	public I_C_Order getC_Order() throws RuntimeException;
+	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException;
 
     /** Column name C_Payment_ID */
     public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
@@ -264,7 +264,7 @@ public interface I_R_Request
 	  */
 	public int getC_Payment_ID();
 
-	public I_C_Payment getC_Payment() throws RuntimeException;
+	public org.compiere.model.I_C_Payment getC_Payment() throws RuntimeException;
 
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
@@ -279,7 +279,7 @@ public interface I_R_Request
 	  */
 	public int getC_Project_ID();
 
-	public I_C_Project getC_Project() throws RuntimeException;
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -479,7 +479,7 @@ public interface I_R_Request
 	  */
 	public int getM_ChangeRequest_ID();
 
-	public I_M_ChangeRequest getM_ChangeRequest() throws RuntimeException;
+	public org.compiere.model.I_M_ChangeRequest getM_ChangeRequest() throws RuntimeException;
 
     /** Column name M_FixChangeNotice_ID */
     public static final String COLUMNNAME_M_FixChangeNotice_ID = "M_FixChangeNotice_ID";
@@ -494,7 +494,7 @@ public interface I_R_Request
 	  */
 	public int getM_FixChangeNotice_ID();
 
-	public I_M_ChangeNotice getM_FixChangeNotice() throws RuntimeException;
+	public org.compiere.model.I_M_ChangeNotice getM_FixChangeNotice() throws RuntimeException;
 
     /** Column name M_InOut_ID */
     public static final String COLUMNNAME_M_InOut_ID = "M_InOut_ID";
@@ -509,7 +509,7 @@ public interface I_R_Request
 	  */
 	public int getM_InOut_ID();
 
-	public I_M_InOut getM_InOut() throws RuntimeException;
+	public org.compiere.model.I_M_InOut getM_InOut() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -524,7 +524,7 @@ public interface I_R_Request
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name M_ProductSpent_ID */
     public static final String COLUMNNAME_M_ProductSpent_ID = "M_ProductSpent_ID";
@@ -539,7 +539,7 @@ public interface I_R_Request
 	  */
 	public int getM_ProductSpent_ID();
 
-	public I_M_Product getM_ProductSpent() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_ProductSpent() throws RuntimeException;
 
     /** Column name M_RMA_ID */
     public static final String COLUMNNAME_M_RMA_ID = "M_RMA_ID";
@@ -554,7 +554,7 @@ public interface I_R_Request
 	  */
 	public int getM_RMA_ID();
 
-	public I_M_RMA getM_RMA() throws RuntimeException;
+	public org.compiere.model.I_M_RMA getM_RMA() throws RuntimeException;
 
     /** Column name NextAction */
     public static final String COLUMNNAME_NextAction = "NextAction";
@@ -660,7 +660,7 @@ public interface I_R_Request
 	  */
 	public int getR_Category_ID();
 
-	public I_R_Category getR_Category() throws RuntimeException;
+	public org.compiere.model.I_R_Category getR_Category() throws RuntimeException;
 
     /** Column name Record_ID */
     public static final String COLUMNNAME_Record_ID = "Record_ID";
@@ -714,7 +714,7 @@ public interface I_R_Request
 	  */
 	public int getR_Group_ID();
 
-	public I_R_Group getR_Group() throws RuntimeException;
+	public org.compiere.model.I_R_Group getR_Group() throws RuntimeException;
 
     /** Column name R_MailText_ID */
     public static final String COLUMNNAME_R_MailText_ID = "R_MailText_ID";
@@ -729,7 +729,7 @@ public interface I_R_Request
 	  */
 	public int getR_MailText_ID();
 
-	public I_R_MailText getR_MailText() throws RuntimeException;
+	public org.compiere.model.I_R_MailText getR_MailText() throws RuntimeException;
 
     /** Column name R_Request_ID */
     public static final String COLUMNNAME_R_Request_ID = "R_Request_ID";
@@ -757,7 +757,7 @@ public interface I_R_Request
 	  */
 	public int getR_RequestRelated_ID();
 
-	public I_R_Request getR_RequestRelated() throws RuntimeException;
+	public org.compiere.model.I_R_Request getR_RequestRelated() throws RuntimeException;
 
     /** Column name R_RequestType_ID */
     public static final String COLUMNNAME_R_RequestType_ID = "R_RequestType_ID";
@@ -772,7 +772,7 @@ public interface I_R_Request
 	  */
 	public int getR_RequestType_ID();
 
-	public I_R_RequestType getR_RequestType() throws RuntimeException;
+	public org.compiere.model.I_R_RequestType getR_RequestType() throws RuntimeException;
 
     /** Column name R_Resolution_ID */
     public static final String COLUMNNAME_R_Resolution_ID = "R_Resolution_ID";
@@ -787,7 +787,7 @@ public interface I_R_Request
 	  */
 	public int getR_Resolution_ID();
 
-	public I_R_Resolution getR_Resolution() throws RuntimeException;
+	public org.compiere.model.I_R_Resolution getR_Resolution() throws RuntimeException;
 
     /** Column name R_StandardResponse_ID */
     public static final String COLUMNNAME_R_StandardResponse_ID = "R_StandardResponse_ID";
@@ -802,7 +802,7 @@ public interface I_R_Request
 	  */
 	public int getR_StandardResponse_ID();
 
-	public I_R_StandardResponse getR_StandardResponse() throws RuntimeException;
+	public org.compiere.model.I_R_StandardResponse getR_StandardResponse() throws RuntimeException;
 
     /** Column name R_Status_ID */
     public static final String COLUMNNAME_R_Status_ID = "R_Status_ID";
@@ -817,7 +817,7 @@ public interface I_R_Request
 	  */
 	public int getR_Status_ID();
 
-	public I_R_Status getR_Status() throws RuntimeException;
+	public org.compiere.model.I_R_Status getR_Status() throws RuntimeException;
 
     /** Column name SalesRep_ID */
     public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";
@@ -832,7 +832,7 @@ public interface I_R_Request
 	  */
 	public int getSalesRep_ID();
 
-	public I_AD_User getSalesRep() throws RuntimeException;
+	public org.compiere.model.I_AD_User getSalesRep() throws RuntimeException;
 
     /** Column name StartDate */
     public static final String COLUMNNAME_StartDate = "StartDate";

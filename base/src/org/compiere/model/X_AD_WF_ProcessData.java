@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_WF_ProcessData
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_AD_WF_ProcessData extends PO implements I_AD_WF_ProcessData, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_AD_WF_ProcessData (Properties ctx, int AD_WF_ProcessData_ID, String trxName)
@@ -95,9 +95,9 @@ public class X_AD_WF_ProcessData extends PO implements I_AD_WF_ProcessData, I_Pe
 		return ii.intValue();
 	}
 
-	public I_AD_WF_Process getAD_WF_Process() throws RuntimeException
+	public org.compiere.model.I_AD_WF_Process getAD_WF_Process() throws RuntimeException
     {
-		return (I_AD_WF_Process)MTable.get(getCtx(), I_AD_WF_Process.Table_Name)
+		return (org.compiere.model.I_AD_WF_Process)MTable.get(getCtx(), org.compiere.model.I_AD_WF_Process.Table_Name)
 			.getPO(getAD_WF_Process_ID(), get_TrxName());	}
 
 	/** Set Workflow Process.

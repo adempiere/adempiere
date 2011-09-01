@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="IMP_PROCESSOR">
+      <column name="IMP_PROCESSOR_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="IMP_PROCESSOR_TYPE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="VALUE" primaryKey="false" required="true" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="FREQUENCYTYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="FREQUENCY" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="DATELASTRUN" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="DATENEXTRUN" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="KEEPLOGDAYS" primaryKey="false" required="true" type="DECIMAL" size="10" default="7" autoIncrement="false"/>
+      <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="HOST" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="PORT" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="ACCOUNT" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="PASSWORDINFO" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <foreign-key foreignTable="IMP_PROCESSOR_TYPE" name="IMPPROCESSORTYPE_IMPPROCESSOR" onDelete="none">
+        <reference local="IMP_PROCESSOR_TYPE_ID" foreign="IMP_PROCESSOR_TYPE_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive IN ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_DunningLevel
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_C_DunningLevel (Properties ctx, int C_DunningLevel_ID, String trxName)
@@ -85,9 +85,9 @@ public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persiste
       return sb.toString();
     }
 
-	public I_C_Dunning getC_Dunning() throws RuntimeException
+	public org.compiere.model.I_C_Dunning getC_Dunning() throws RuntimeException
     {
-		return (I_C_Dunning)MTable.get(getCtx(), I_C_Dunning.Table_Name)
+		return (org.compiere.model.I_C_Dunning)MTable.get(getCtx(), org.compiere.model.I_C_Dunning.Table_Name)
 			.getPO(getC_Dunning_ID(), get_TrxName());	}
 
 	/** Set Dunning.
@@ -181,9 +181,9 @@ public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persiste
 		return false;
 	}
 
-	public I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException
+	public org.compiere.model.I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException
     {
-		return (I_C_PaymentTerm)MTable.get(getCtx(), I_C_PaymentTerm.Table_Name)
+		return (org.compiere.model.I_C_PaymentTerm)MTable.get(getCtx(), org.compiere.model.I_C_PaymentTerm.Table_Name)
 			.getPO(getC_PaymentTerm_ID(), get_TrxName());	}
 
 	/** Set Payment Term.
@@ -266,9 +266,9 @@ public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persiste
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public I_AD_PrintFormat getDunning_PrintFormat() throws RuntimeException
+	public org.compiere.model.I_AD_PrintFormat getDunning_PrintFormat() throws RuntimeException
     {
-		return (I_AD_PrintFormat)MTable.get(getCtx(), I_AD_PrintFormat.Table_Name)
+		return (org.compiere.model.I_AD_PrintFormat)MTable.get(getCtx(), org.compiere.model.I_AD_PrintFormat.Table_Name)
 			.getPO(getDunning_PrintFormat_ID(), get_TrxName());	}
 
 	/** Set Dunning Print Format.

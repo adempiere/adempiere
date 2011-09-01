@@ -152,7 +152,7 @@ public class InvoicePrint extends SvrProcess
 			{
 				if (needAnd)
 					sql.append(" AND ");
-				sql.append("TRUNC(i.DateInvoiced) BETWEEN ")
+				sql.append("TRUNC(i.DateInvoiced, 'DD') BETWEEN ")
 					.append(DB.TO_DATE(m_dateInvoiced_From, true)).append(" AND ")
 					.append(DB.TO_DATE(m_dateInvoiced_To, true));
 				needAnd = true;
@@ -161,7 +161,7 @@ public class InvoicePrint extends SvrProcess
 			{
 				if (needAnd)
 					sql.append(" AND ");
-				sql.append("TRUNC(i.DateInvoiced) >= ")
+				sql.append("TRUNC(i.DateInvoiced, 'DD') >= ")
 					.append(DB.TO_DATE(m_dateInvoiced_From, true));
 				needAnd = true;
 			}
@@ -169,7 +169,7 @@ public class InvoicePrint extends SvrProcess
 			{
 				if (needAnd)
 					sql.append(" AND ");
-				sql.append("TRUNC(i.DateInvoiced) <= ")
+				sql.append("TRUNC(i.DateInvoiced, 'DD') <= ")
 					.append(DB.TO_DATE(m_dateInvoiced_To, true));
 				needAnd = true;
 			}

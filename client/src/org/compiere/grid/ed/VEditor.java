@@ -93,6 +93,12 @@ public interface VEditor extends CEditor, PropertyChangeListener
 	public void setField (GridField mField);
 
 	/**
+	 *  Get Field/WindowNo for ValuePreference
+	 *  @return mField
+	 */
+	public GridField getField ();
+
+	/**
 	 *  Dispose
 	 */
 	public void dispose();

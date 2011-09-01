@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for CM_CStageTTable
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_CM_CStageTTable 
 {
@@ -75,7 +75,7 @@ public interface I_CM_CStageTTable
 	  */
 	public int getCM_CStage_ID();
 
-	public I_CM_CStage getCM_CStage() throws RuntimeException;
+	public org.compiere.model.I_CM_CStage getCM_CStage() throws RuntimeException;
 
     /** Column name CM_CStageTTable_ID */
     public static final String COLUMNNAME_CM_CStageTTable_ID = "CM_CStageTTable_ID";
@@ -103,7 +103,7 @@ public interface I_CM_CStageTTable
 	  */
 	public int getCM_TemplateTable_ID();
 
-	public I_CM_TemplateTable getCM_TemplateTable() throws RuntimeException;
+	public org.compiere.model.I_CM_TemplateTable getCM_TemplateTable() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

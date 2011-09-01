@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PP_Order_Node
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_PP_Order_Node (Properties ctx, int PP_Order_Node_ID, String trxName)
@@ -140,9 +140,9 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return (String)get_Value(COLUMNNAME_Action);
 	}
 
-	public I_AD_Column getAD_Column() throws RuntimeException
+	public org.compiere.model.I_AD_Column getAD_Column() throws RuntimeException
     {
-		return (I_AD_Column)MTable.get(getCtx(), I_AD_Column.Table_Name)
+		return (org.compiere.model.I_AD_Column)MTable.get(getCtx(), org.compiere.model.I_AD_Column.Table_Name)
 			.getPO(getAD_Column_ID(), get_TrxName());	}
 
 	/** Set Column.
@@ -168,9 +168,9 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Form getAD_Form() throws RuntimeException
+	public org.compiere.model.I_AD_Form getAD_Form() throws RuntimeException
     {
-		return (I_AD_Form)MTable.get(getCtx(), I_AD_Form.Table_Name)
+		return (org.compiere.model.I_AD_Form)MTable.get(getCtx(), org.compiere.model.I_AD_Form.Table_Name)
 			.getPO(getAD_Form_ID(), get_TrxName());	}
 
 	/** Set Special Form.
@@ -196,9 +196,9 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Image getAD_Image() throws RuntimeException
+	public org.compiere.model.I_AD_Image getAD_Image() throws RuntimeException
     {
-		return (I_AD_Image)MTable.get(getCtx(), I_AD_Image.Table_Name)
+		return (org.compiere.model.I_AD_Image)MTable.get(getCtx(), org.compiere.model.I_AD_Image.Table_Name)
 			.getPO(getAD_Image_ID(), get_TrxName());	}
 
 	/** Set Image.
@@ -224,9 +224,9 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Process getAD_Process() throws RuntimeException
+	public org.compiere.model.I_AD_Process getAD_Process() throws RuntimeException
     {
-		return (I_AD_Process)MTable.get(getCtx(), I_AD_Process.Table_Name)
+		return (org.compiere.model.I_AD_Process)MTable.get(getCtx(), org.compiere.model.I_AD_Process.Table_Name)
 			.getPO(getAD_Process_ID(), get_TrxName());	}
 
 	/** Set Process.
@@ -252,9 +252,9 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Task getAD_Task() throws RuntimeException
+	public org.compiere.model.I_AD_Task getAD_Task() throws RuntimeException
     {
-		return (I_AD_Task)MTable.get(getCtx(), I_AD_Task.Table_Name)
+		return (org.compiere.model.I_AD_Task)MTable.get(getCtx(), org.compiere.model.I_AD_Task.Table_Name)
 			.getPO(getAD_Task_ID(), get_TrxName());	}
 
 	/** Set OS Task.
@@ -280,9 +280,9 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_WF_Block getAD_WF_Block() throws RuntimeException
+	public org.compiere.model.I_AD_WF_Block getAD_WF_Block() throws RuntimeException
     {
-		return (I_AD_WF_Block)MTable.get(getCtx(), I_AD_WF_Block.Table_Name)
+		return (org.compiere.model.I_AD_WF_Block)MTable.get(getCtx(), org.compiere.model.I_AD_WF_Block.Table_Name)
 			.getPO(getAD_WF_Block_ID(), get_TrxName());	}
 
 	/** Set Workflow Block.
@@ -308,9 +308,9 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_WF_Node getAD_WF_Node() throws RuntimeException
+	public org.compiere.model.I_AD_WF_Node getAD_WF_Node() throws RuntimeException
     {
-		return (I_AD_WF_Node)MTable.get(getCtx(), I_AD_WF_Node.Table_Name)
+		return (org.compiere.model.I_AD_WF_Node)MTable.get(getCtx(), org.compiere.model.I_AD_WF_Node.Table_Name)
 			.getPO(getAD_WF_Node_ID(), get_TrxName());	}
 
 	/** Set Node.
@@ -336,9 +336,9 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_WF_Responsible getAD_WF_Responsible() throws RuntimeException
+	public org.compiere.model.I_AD_WF_Responsible getAD_WF_Responsible() throws RuntimeException
     {
-		return (I_AD_WF_Responsible)MTable.get(getCtx(), I_AD_WF_Responsible.Table_Name)
+		return (org.compiere.model.I_AD_WF_Responsible)MTable.get(getCtx(), org.compiere.model.I_AD_WF_Responsible.Table_Name)
 			.getPO(getAD_WF_Responsible_ID(), get_TrxName());	}
 
 	/** Set Workflow Responsible.
@@ -364,9 +364,9 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Window getAD_Window() throws RuntimeException
+	public org.compiere.model.I_AD_Window getAD_Window() throws RuntimeException
     {
-		return (I_AD_Window)MTable.get(getCtx(), I_AD_Window.Table_Name)
+		return (org.compiere.model.I_AD_Window)MTable.get(getCtx(), org.compiere.model.I_AD_Window.Table_Name)
 			.getPO(getAD_Window_ID(), get_TrxName());	}
 
 	/** Set Window.
@@ -392,9 +392,9 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Workflow getAD_Workflow() throws RuntimeException
+	public org.compiere.model.I_AD_Workflow getAD_Workflow() throws RuntimeException
     {
-		return (I_AD_Workflow)MTable.get(getCtx(), I_AD_Workflow.Table_Name)
+		return (org.compiere.model.I_AD_Workflow)MTable.get(getCtx(), org.compiere.model.I_AD_Workflow.Table_Name)
 			.getPO(getAD_Workflow_ID(), get_TrxName());	}
 
 	/** Set Workflow.
@@ -454,9 +454,9 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return (String)get_Value(COLUMNNAME_AttributeValue);
 	}
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -716,18 +716,18 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Duration Requiered.
-		@param DurationRequiered Duration Requiered	  */
-	public void setDurationRequiered (int DurationRequiered)
+	/** Set Duration Required.
+		@param DurationRequired Duration Required	  */
+	public void setDurationRequired (int DurationRequired)
 	{
-		set_Value (COLUMNNAME_DurationRequiered, Integer.valueOf(DurationRequiered));
+		set_Value (COLUMNNAME_DurationRequired, Integer.valueOf(DurationRequired));
 	}
 
-	/** Get Duration Requiered.
-		@return Duration Requiered	  */
-	public int getDurationRequiered () 
+	/** Get Duration Required.
+		@return Duration Required	  */
+	public int getDurationRequired () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DurationRequiered);
+		Integer ii = (Integer)get_Value(COLUMNNAME_DurationRequired);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -1099,18 +1099,18 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return bd;
 	}
 
-	/** Set Qty Requiered.
-		@param QtyRequiered Qty Requiered	  */
-	public void setQtyRequiered (BigDecimal QtyRequiered)
+	/** Set Qty Required.
+		@param QtyRequired Qty Required	  */
+	public void setQtyRequired (BigDecimal QtyRequired)
 	{
-		set_Value (COLUMNNAME_QtyRequiered, QtyRequiered);
+		set_Value (COLUMNNAME_QtyRequired, QtyRequired);
 	}
 
-	/** Get Qty Requiered.
-		@return Qty Requiered	  */
-	public BigDecimal getQtyRequiered () 
+	/** Get Qty Required.
+		@return Qty Required	  */
+	public BigDecimal getQtyRequired () 
 	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyRequiered);
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyRequired);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
@@ -1193,18 +1193,18 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Setup Time Requiered.
-		@param SetupTimeRequiered Setup Time Requiered	  */
-	public void setSetupTimeRequiered (int SetupTimeRequiered)
+	/** Set Setup Time Required.
+		@param SetupTimeRequired Setup Time Required	  */
+	public void setSetupTimeRequired (int SetupTimeRequired)
 	{
-		set_Value (COLUMNNAME_SetupTimeRequiered, Integer.valueOf(SetupTimeRequiered));
+		set_Value (COLUMNNAME_SetupTimeRequired, Integer.valueOf(SetupTimeRequired));
 	}
 
-	/** Get Setup Time Requiered.
-		@return Setup Time Requiered	  */
-	public int getSetupTimeRequiered () 
+	/** Get Setup Time Required.
+		@return Setup Time Required	  */
+	public int getSetupTimeRequired () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_SetupTimeRequiered);
+		Integer ii = (Integer)get_Value(COLUMNNAME_SetupTimeRequired);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -1234,9 +1234,9 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return (String)get_Value(COLUMNNAME_SplitElement);
 	}
 
-	public I_S_Resource getS_Resource() throws RuntimeException
+	public org.compiere.model.I_S_Resource getS_Resource() throws RuntimeException
     {
-		return (I_S_Resource)MTable.get(getCtx(), I_S_Resource.Table_Name)
+		return (org.compiere.model.I_S_Resource)MTable.get(getCtx(), org.compiere.model.I_S_Resource.Table_Name)
 			.getPO(getS_Resource_ID(), get_TrxName());	}
 
 	/** Set Resource.
@@ -1401,9 +1401,9 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Workflow getWorkflow() throws RuntimeException
+	public org.compiere.model.I_AD_Workflow getWorkflow() throws RuntimeException
     {
-		return (I_AD_Workflow)MTable.get(getCtx(), I_AD_Workflow.Table_Name)
+		return (org.compiere.model.I_AD_Workflow)MTable.get(getCtx(), org.compiere.model.I_AD_Workflow.Table_Name)
 			.getPO(getWorkflow_ID(), get_TrxName());	}
 
 	/** Set Workflow.

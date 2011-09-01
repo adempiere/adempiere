@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_DashboardContent
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_PA_DashboardContent (Properties ctx, int PA_DashboardContent_ID, String trxName)
@@ -75,9 +75,9 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
       return sb.toString();
     }
 
-	public I_AD_Window getAD_Window() throws RuntimeException
+	public org.compiere.model.I_AD_Window getAD_Window() throws RuntimeException
     {
-		return (I_AD_Window)MTable.get(getCtx(), I_AD_Window.Table_Name)
+		return (org.compiere.model.I_AD_Window)MTable.get(getCtx(), org.compiere.model.I_AD_Window.Table_Name)
 			.getPO(getAD_Window_ID(), get_TrxName());	}
 
 	/** Set Window.
@@ -202,6 +202,27 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
 		return false;
 	}
 
+	/** Set Open By Default.
+		@param IsOpenByDefault Open By Default	  */
+	public void setIsOpenByDefault (boolean IsOpenByDefault)
+	{
+		set_Value (COLUMNNAME_IsOpenByDefault, Boolean.valueOf(IsOpenByDefault));
+	}
+
+	/** Get Open By Default.
+		@return Open By Default	  */
+	public boolean isOpenByDefault () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsOpenByDefault);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Line No.
 		@param Line 
 		Unique line for this document
@@ -247,8 +268,8 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
         return new KeyNamePair(get_ID(), getName());
     }
 
-	/** Set PA_DashboardContent_ID.
-		@param PA_DashboardContent_ID PA_DashboardContent_ID	  */
+	/** Set Dashboard Content.
+		@param PA_DashboardContent_ID Dashboard Content	  */
 	public void setPA_DashboardContent_ID (int PA_DashboardContent_ID)
 	{
 		if (PA_DashboardContent_ID < 1) 
@@ -257,8 +278,8 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
 			set_ValueNoCheck (COLUMNNAME_PA_DashboardContent_ID, Integer.valueOf(PA_DashboardContent_ID));
 	}
 
-	/** Get PA_DashboardContent_ID.
-		@return PA_DashboardContent_ID	  */
+	/** Get Dashboard Content.
+		@return Dashboard Content	  */
 	public int getPA_DashboardContent_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PA_DashboardContent_ID);
@@ -267,9 +288,9 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
 		return ii.intValue();
 	}
 
-	public I_PA_Goal getPA_Goal() throws RuntimeException
+	public org.compiere.model.I_PA_Goal getPA_Goal() throws RuntimeException
     {
-		return (I_PA_Goal)MTable.get(getCtx(), I_PA_Goal.Table_Name)
+		return (org.compiere.model.I_PA_Goal)MTable.get(getCtx(), org.compiere.model.I_PA_Goal.Table_Name)
 			.getPO(getPA_Goal_ID(), get_TrxName());	}
 
 	/** Set Goal.

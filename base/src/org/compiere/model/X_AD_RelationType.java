@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_RelationType
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_AD_RelationType extends PO implements I_AD_RelationType, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_AD_RelationType (Properties ctx, int AD_RelationType_ID, String trxName)
@@ -75,9 +75,9 @@ public class X_AD_RelationType extends PO implements I_AD_RelationType, I_Persis
       return sb.toString();
     }
 
-	public I_AD_Reference getAD_Reference_Source() throws RuntimeException
+	public org.compiere.model.I_AD_Reference getAD_Reference_Source() throws RuntimeException
     {
-		return (I_AD_Reference)MTable.get(getCtx(), I_AD_Reference.Table_Name)
+		return (org.compiere.model.I_AD_Reference)MTable.get(getCtx(), org.compiere.model.I_AD_Reference.Table_Name)
 			.getPO(getAD_Reference_Source_ID(), get_TrxName());	}
 
 	/** Set Source Reference.
@@ -100,9 +100,9 @@ public class X_AD_RelationType extends PO implements I_AD_RelationType, I_Persis
 		return ii.intValue();
 	}
 
-	public I_AD_Reference getAD_Reference_Target() throws RuntimeException
+	public org.compiere.model.I_AD_Reference getAD_Reference_Target() throws RuntimeException
     {
-		return (I_AD_Reference)MTable.get(getCtx(), I_AD_Reference.Table_Name)
+		return (org.compiere.model.I_AD_Reference)MTable.get(getCtx(), org.compiere.model.I_AD_Reference.Table_Name)
 			.getPO(getAD_Reference_Target_ID(), get_TrxName());	}
 
 	/** Set Target Reference.

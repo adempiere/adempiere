@@ -1,4 +1,4 @@
-UPDATE AD_Process 
+﻿UPDATE AD_Process 
 SET Classname='org.compiere.process.AD_PrintPaper_Default', 
     ProcedureName=NULL
 WHERE value = 'AD_PrintPaper_Default';
@@ -46,3 +46,16 @@ WHERE value = 'M_PriceList Create';
 UPDATE AD_Process 
 SET Classname = 'org.compiere.process.SynchronizeTerminology', ProcedureName = NULL
 where procedurename = 'AD_Synchronize';
+
+
+CREATE INDEX fact_acct_trunc_dateacct
+  ON fact_acct
+  USING btree
+  ((dateacct::date));
+
+-- DROP INDEX ad_element_uppercolumnname;
+
+CREATE UNIQUE INDEX ad_element_uppercolumnname
+  ON ad_element
+  USING btree
+  (upper(columnname::text));

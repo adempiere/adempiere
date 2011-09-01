@@ -55,7 +55,7 @@
       <column name="UPC" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"/>
       <column name="SKU" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"/>
       <column name="C_TAX_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <column name="TAXINDICATOR" primaryKey="false" required="false" type="VARCHAR" size="5" autoIncrement="false"/>
+      <column name="TAXINDICATOR" primaryKey="false" required="false" type="VARCHAR" size="10" autoIncrement="false"/>
       <column name="TAXAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="C_ORDERLINE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="LINEDESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
@@ -64,17 +64,22 @@
       <column name="PRICEACTUAL" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="FREIGHTAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="C_CAMPAIGN_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_CHARGE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="CHARGENAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="C_ORDERSOURCE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_ORDERSOURCEVALUE" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="DELIVERYRULE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <foreign-key foreignTable="AD_ORG" name="ADORGTRX_IORDER" onDelete="setnull">
         <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_ORG" name="ADORG_IORDER" onDelete="setnull">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_IORDER" onDelete="setnull">
-        <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="AD_USER" name="ADUSERSALESREP_IORDER" onDelete="setnull">
         <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_USER" name="ADUSER_IORDER" onDelete="setnull">
+        <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_IORDER" onDelete="setnull">
         <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
@@ -90,6 +95,9 @@
       </foreign-key>
       <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_IORDER" onDelete="setnull">
         <reference local="C_CAMPAIGN_ID" foreign="C_CAMPAIGN_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_CHARGE" name="CCHARGE_IORDER" onDelete="none">
+        <reference local="C_CHARGE_ID" foreign="C_CHARGE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_COUNTRY" name="CCOUNTRY_IORDER" onDelete="setnull">
         <reference local="C_COUNTRY_ID" foreign="C_COUNTRY_ID"/>
@@ -108,6 +116,9 @@
       </foreign-key>
       <foreign-key foreignTable="C_ORDERLINE" name="CORDERLINE_IORDER" onDelete="setnull">
         <reference local="C_ORDERLINE_ID" foreign="C_ORDERLINE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ORDERSOURCE" name="CORDERSOURCE_IORDER" onDelete="none">
+        <reference local="C_ORDERSOURCE_ID" foreign="C_ORDERSOURCE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_PAYMENTTERM" name="CPAYMENTTERM_IORDER" onDelete="setnull">
         <reference local="C_PAYMENTTERM_ID" foreign="C_PAYMENTTERM_ID"/>

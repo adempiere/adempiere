@@ -273,7 +273,41 @@ public class MProjectLine extends X_C_ProjectLine
 			+ "WHERE C_Project_ID=" + getC_Project_ID();
 		int no = DB.executeUpdate(sql, get_TrxName());
 		if (no != 1)
-			log.log(Level.SEVERE, "updateHeader - #" + no);
-	}	//	updateHeader
-	
-}	//	MProjectLine
+			log.log(Level.SEVERE, "updateHeader project - #" + no);
+		/*onhate + globalqss BF 3060367*/
+		if (getC_ProjectPhase_ID() != 0) {
+			sql ="UPDATE C_ProjectPhase x SET " +
+				"	(PlannedAmt, CommittedAmt) = " +
+				"(SELECT " +
+				"	COALESCE(SUM(l.PlannedAmt),0), " +
+				"	COALESCE(SUM(l.CommittedAmt),0) " +
+				"FROM C_ProjectLine l " +
+				"WHERE l.C_Project_ID=x.C_Project_ID " +
+				"  AND l.C_ProjectPhase_ID=x.C_ProjectPhase_ID " +
+				"  AND l.IsActive='Y') " +
+				"WHERE x.C_Project_ID=" + getC_Project_ID() +
+				"  AND x.C_ProjectPhase_ID=" + getC_ProjectPhase_ID();
+			no = DB.executeUpdate(sql, get_TrxName());
+			if (no != 1)
+				log.log(Level.SEVERE, "updateHeader project phase - #" + no);
+		}
+		if (getC_ProjectTask_ID() != 0) {
+			sql = "UPDATE C_ProjectTask x SET " +
+					"	(PlannedAmt, CommittedAmt) = " +
+					"(SELECT " +
+					"	COALESCE(SUM(l.PlannedAmt),0), " +
+					"	COALESCE(SUM(l.CommittedAmt),0) " +
+					"FROM C_ProjectLine l " +
+					"WHERE l.C_ProjectPhase_ID=x.C_ProjectPhase_ID " +
+					"  AND l.C_ProjectTask_ID=x.C_ProjectTask_ID " +
+					"  AND l.IsActive='Y') " +
+					"WHERE x.C_ProjectPhase_ID=" + getC_ProjectPhase_ID() + 
+					"  AND x.C_ProjectTask_ID=" + getC_ProjectTask_ID();
+			no = DB.executeUpdate(sql, get_TrxName());
+			if (no != 1)
+				log.log(Level.SEVERE, "updateHeader project task - #" + no);
+		}
+		/*onhate + globalqss BF 3060367*/		
+	} // updateHeader
+
+} // MProjectLine

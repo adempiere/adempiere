@@ -36,9 +36,14 @@ import org.compiere.util.WebEnv;
  *  @author $Author$
  *  @version  $Id$
  */
-@SuppressWarnings("serial")
 public class MediaBroadcast extends HttpServletCM
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3661975657127324522L;
+
+
 	/**
 	 * Process the HTTP Get request
 	 * @param request 

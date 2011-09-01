@@ -32,9 +32,14 @@ import org.compiere.util.DB;
  * @author Yves Sandfort
  * @version $Id: MTemplate.java,v 1.12 2006/08/08 18:56:05 comdivision Exp $
  */
-@SuppressWarnings("serial")
 public class MTemplate extends X_CM_Template
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2349891937695644752L;
+
+
 	/**
      * Get MTemplate from Cache
      * 

@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_Period
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_HR_Period 
 {
@@ -76,7 +76,7 @@ public interface I_HR_Period
 	  */
 	public int getC_Period_ID();
 
-	public I_C_Period getC_Period() throws RuntimeException;
+	public org.compiere.model.I_C_Period getC_Period() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -107,7 +107,7 @@ public interface I_HR_Period
 	  */
 	public int getC_Year_ID();
 
-	public I_C_Year getC_Year() throws RuntimeException;
+	public org.compiere.model.I_C_Year getC_Year() throws RuntimeException;
 
     /** Column name DateAcct */
     public static final String COLUMNNAME_DateAcct = "DateAcct";

@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_CStage
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_CM_CStage (Properties ctx, int CM_CStage_ID, String trxName)
@@ -107,9 +107,9 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_CM_CStage getCM_CStageLink() throws RuntimeException
+	public org.compiere.model.I_CM_CStage getCM_CStageLink() throws RuntimeException
     {
-		return (I_CM_CStage)MTable.get(getCtx(), I_CM_CStage.Table_Name)
+		return (org.compiere.model.I_CM_CStage)MTable.get(getCtx(), org.compiere.model.I_CM_CStage.Table_Name)
 			.getPO(getCM_CStageLink_ID(), get_TrxName());	}
 
 	/** Set Container Link.
@@ -135,9 +135,9 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_CM_Template getCM_Template() throws RuntimeException
+	public org.compiere.model.I_CM_Template getCM_Template() throws RuntimeException
     {
-		return (I_CM_Template)MTable.get(getCtx(), I_CM_Template.Table_Name)
+		return (org.compiere.model.I_CM_Template)MTable.get(getCtx(), org.compiere.model.I_CM_Template.Table_Name)
 			.getPO(getCM_Template_ID(), get_TrxName());	}
 
 	/** Set Template.
@@ -163,9 +163,9 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_CM_WebProject getCM_WebProject() throws RuntimeException
+	public org.compiere.model.I_CM_WebProject getCM_WebProject() throws RuntimeException
     {
-		return (I_CM_WebProject)MTable.get(getCtx(), I_CM_WebProject.Table_Name)
+		return (org.compiere.model.I_CM_WebProject)MTable.get(getCtx(), org.compiere.model.I_CM_WebProject.Table_Name)
 			.getPO(getCM_WebProject_ID(), get_TrxName());	}
 
 	/** Set Web Project.

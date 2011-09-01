@@ -16,6 +16,8 @@ import java.io.InputStream;
 
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.session.SessionManager;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.zkoss.util.media.AMedia;
 import org.zkoss.zul.Iframe;
 
@@ -46,7 +48,10 @@ public class SimplePDFViewer extends Window {
 		this.setBorder("normal");
 		this.appendChild(iframe);
 		this.setClosable(true);
-		this.setTitle(title);
+		if (title != null && title.trim().length() > 0)
+			this.setTitle(title);
+		else
+			this.setTitle(Msg.translate(Env.getCtx(), "PDF"));
 		
 		int width = Double.valueOf(SessionManager.getAppDesktop().getClientInfo().desktopWidth * 0.80).intValue();
 		this.setWidth(width + "px");

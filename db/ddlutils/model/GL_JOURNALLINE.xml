@@ -26,6 +26,16 @@
       <column name="C_VALIDCOMBINATION_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="C_CONVERSIONTYPE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="A_ASSET_GROUP_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="A_ASSET_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="A_CREATEASSET" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="A_PROCESSED" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <foreign-key foreignTable="A_ASSET" name="AASSET_GLJOURNALLINE" onDelete="none">
+        <reference local="A_ASSET_ID" foreign="A_ASSET_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="A_ASSET_GROUP" name="AASSETGROUP_GLJOURNALLINE" onDelete="none">
+        <reference local="A_ASSET_GROUP_ID" foreign="A_ASSET_GROUP_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_GLJOURNALLINE" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
@@ -55,6 +65,12 @@
       </check>
       <check>
         <rule><![CDATA[IsGenerated in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[A_CreateAsset IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[A_Processed IN ('Y','N')]]></rule>
       </check>
     </table>
   </database>

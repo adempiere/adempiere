@@ -15,10 +15,13 @@ package org.adempiere.webui.dashboard;
 
 import java.util.Enumeration;
 
+import org.adempiere.exceptions.DBException;
 import org.adempiere.webui.component.ToolBarButton;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MTree;
 import org.compiere.model.MTreeNode;
+import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.zkoss.zk.ui.Component;
@@ -101,11 +104,11 @@ public class DPFavourites extends DashboardPanel implements EventListener {
 		
 		MTree vTree = new MTree(Env.getCtx(), AD_Tree_ID, false, true, null);
 		MTreeNode m_root = vTree.getRoot();
-		Enumeration enTop = m_root.children();
+		Enumeration<?> enTop = m_root.children();
 		while(enTop.hasMoreElements())
 		{
 			MTreeNode ndTop = (MTreeNode)enTop.nextElement();
-			Enumeration en = ndTop.preorderEnumeration();
+			Enumeration<?> en = ndTop.preorderEnumeration();
 			while (en.hasMoreElements())
 			{
 				MTreeNode nd = (MTreeNode)en.nextElement();
@@ -247,6 +250,9 @@ public class DPFavourites extends DashboardPanel implements EventListener {
 				bxFav.appendChild(btnFavItem);
 				bxFav.removeChild(lblMsg);        					
 				bxFav.invalidate();
+			} else {
+				if (DBException.isUniqueContraintError(CLogger.retrieveException()))
+					FDialog.error(0, this, "BookmarkExist", null);
 			}
 		}
 	}

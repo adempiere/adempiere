@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_PaymentBatch
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_C_PaymentBatch 
 {
@@ -88,7 +88,7 @@ public interface I_C_PaymentBatch
 	  */
 	public int getC_PaymentProcessor_ID();
 
-	public I_C_PaymentProcessor getC_PaymentProcessor() throws RuntimeException;
+	public org.compiere.model.I_C_PaymentProcessor getC_PaymentProcessor() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

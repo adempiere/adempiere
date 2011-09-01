@@ -268,11 +268,11 @@ public class InfoCashLine extends Info
 			Timestamp from = (Timestamp)fDateFrom.getValue();
 			Timestamp to = (Timestamp)fDateTo.getValue();
 			if (from == null && to != null)
-				sql.append(" AND TRUNC(c.StatementDate) <= ?");
+				sql.append(" AND TRUNC(c.StatementDate, 'DD') <= ?");
 			else if (from != null && to == null)
-				sql.append(" AND TRUNC(c.StatementDate) >= ?");
+				sql.append(" AND TRUNC(c.StatementDate, 'DD') >= ?");
 			else if (from != null && to != null)
-				sql.append(" AND TRUNC(c.StatementDate) BETWEEN ? AND ?");
+				sql.append(" AND TRUNC(c.StatementDate, 'DD') BETWEEN ? AND ?");
 		}
 		//
 		if (fAmtFrom.getValue() != null || fAmtTo.getValue() != null)

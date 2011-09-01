@@ -68,7 +68,7 @@ public class VDate extends JComponent
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -9090302458969544529L;
+	private static final long serialVersionUID = 5265412413586160999L;
 
 	/*****************************************************************************
 	 *	Mouse Listener for Popup Menu
@@ -569,6 +569,11 @@ public class VDate extends JComponent
 			FieldRecordInfo.addMenu(this, popupMenu);
 	}	//  setField
 
+	@Override
+	public GridField getField() {
+		return m_mField;
+	}
+	
 	/**
 	 * 	Set Enabled
 	 *	@param enabled enabled
@@ -626,4 +631,10 @@ public class VDate extends JComponent
 		}
 	}	//	fireActionPerformed
 	/**/
+	
+	@Override
+	public void setBackground(Color bg)
+	{
+		m_text.setBackground(bg);
+	}
 }	//	VDate

@@ -433,7 +433,7 @@ public class MPrintFormatItem extends X_AD_PrintFormatItem
 		pfi.setAD_Column_ID(AD_Column_ID);
 		pfi.setPrintFormatType(PRINTFORMATTYPE_Field);
 
-		//	translation is dome by trigger
+		//	translation is done by trigger
 		String sql = "SELECT c.ColumnName,e.Name,e.PrintName, "		//	1..3
 			+ "c.AD_Reference_ID,c.IsKey,c.SeqNo "					//	4..6
 			+ "FROM AD_Column c, AD_Element e "

@@ -131,7 +131,7 @@ public class InvoiceGenerate extends SvrProcess
 				+ "WHERE C_Order.DocStatus='CO' AND C_Order.IsSOTrx='Y' "
 				+ "AND C_Order.C_Order_ID = T_Selection.T_Selection_ID "
 				+ "AND T_Selection.AD_PInstance_ID=? "
-				+ "ORDER BY C_Order.M_Warehouse_ID, C_Order.PriorityRule, C_Order.C_BPartner_ID, C_Order.C_Order_ID";
+				+ "ORDER BY C_Order.M_Warehouse_ID, C_Order.PriorityRule, C_Order.C_BPartner_ID, C_Order.Bill_Location_ID, C_Order.C_Order_ID";
 		}
 		else
 		{
@@ -148,7 +148,7 @@ public class InvoiceGenerate extends SvrProcess
 					+ "WHERE o.C_Order_ID=ol.C_Order_ID AND ol.QtyOrdered<>ol.QtyInvoiced) "
 				+ "AND o.C_DocType_ID IN (SELECT C_DocType_ID FROM C_DocType "
 					+ "WHERE DocBaseType='SOO' AND DocSubTypeSO NOT IN ('ON','OB','WR')) "
-				+ "ORDER BY M_Warehouse_ID, PriorityRule, C_BPartner_ID, C_Order_ID";
+				+ "ORDER BY M_Warehouse_ID, PriorityRule, C_BPartner_ID, Bill_Location_ID, C_Order_ID";
 		}
 	//	sql += " FOR UPDATE";
 		

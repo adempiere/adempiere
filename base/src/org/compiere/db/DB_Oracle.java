@@ -347,7 +347,7 @@ public class DB_Oracle implements AdempiereDatabase
      */
     public String convertStatement (String oraStatement)
     {
-    	Convert.logMigrationScript(oraStatement, null);
+    	Convert.logMigrationScript(oraStatement, null, null);
         return oraStatement;
     }   //  convertStatement
 

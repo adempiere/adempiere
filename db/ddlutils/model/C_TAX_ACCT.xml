@@ -25,17 +25,17 @@
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TEXPENSE_CTAX" onDelete="none">
         <reference local="T_EXPENSE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TLIABILITY_CTAX" onDelete="none">
-        <reference local="T_LIABILITY_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TREC_CTAX" onDelete="none">
         <reference local="T_RECEIVABLES_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TDUE_CTAX" onDelete="none">
+        <reference local="T_DUE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TCREDIT_CTAX" onDelete="none">
         <reference local="T_CREDIT_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TDUE_CTAX" onDelete="none">
-        <reference local="T_DUE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TLIABILITY_CTAX" onDelete="none">
+        <reference local="T_LIABILITY_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_LabelPrinterFunction
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_AD_LabelPrinterFunction 
 {
@@ -75,7 +75,7 @@ public interface I_AD_LabelPrinterFunction
 	  */
 	public int getAD_LabelPrinter_ID();
 
-	public I_AD_LabelPrinter getAD_LabelPrinter() throws RuntimeException;
+	public org.compiere.model.I_AD_LabelPrinter getAD_LabelPrinter() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";

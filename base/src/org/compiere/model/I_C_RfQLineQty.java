@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_RfQLineQty
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_C_RfQLineQty 
 {
@@ -117,7 +117,7 @@ public interface I_C_RfQLineQty
 	  */
 	public int getC_RfQLine_ID();
 
-	public I_C_RfQLine getC_RfQLine() throws RuntimeException;
+	public org.compiere.model.I_C_RfQLine getC_RfQLine() throws RuntimeException;
 
     /** Column name C_RfQLineQty_ID */
     public static final String COLUMNNAME_C_RfQLineQty_ID = "C_RfQLineQty_ID";
@@ -145,7 +145,7 @@ public interface I_C_RfQLineQty
 	  */
 	public int getC_UOM_ID();
 
-	public I_C_UOM getC_UOM() throws RuntimeException;
+	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

@@ -56,7 +56,7 @@ public class MInvoiceTax extends X_C_InvoiceTax
 		boolean oldTax, String trxName)
 	{
 		MInvoiceTax retValue = null;
-		if (line == null || line.getC_Invoice_ID() == 0)
+		if (line == null || line.getC_Invoice_ID() == 0 || line.isDescription())
 			return null;
 		int C_Tax_ID = line.getC_Tax_ID();
 		boolean isOldTax = oldTax && line.is_ValueChanged(MInvoiceLine.COLUMNNAME_C_Tax_ID); 

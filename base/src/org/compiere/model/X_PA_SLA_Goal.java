@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_SLA_Goal
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_PA_SLA_Goal extends PO implements I_PA_SLA_Goal, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_PA_SLA_Goal (Properties ctx, int PA_SLA_Goal_ID, String trxName)
@@ -79,9 +79,9 @@ public class X_PA_SLA_Goal extends PO implements I_PA_SLA_Goal, I_Persistent
       return sb.toString();
     }
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -223,9 +223,9 @@ public class X_PA_SLA_Goal extends PO implements I_PA_SLA_Goal, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
-	public I_PA_SLA_Criteria getPA_SLA_Criteria() throws RuntimeException
+	public org.compiere.model.I_PA_SLA_Criteria getPA_SLA_Criteria() throws RuntimeException
     {
-		return (I_PA_SLA_Criteria)MTable.get(getCtx(), I_PA_SLA_Criteria.Table_Name)
+		return (org.compiere.model.I_PA_SLA_Criteria)MTable.get(getCtx(), org.compiere.model.I_PA_SLA_Criteria.Table_Name)
 			.getPO(getPA_SLA_Criteria_ID(), get_TrxName());	}
 
 	/** Set SLA Criteria.

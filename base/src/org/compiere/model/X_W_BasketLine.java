@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for W_BasketLine
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_W_BasketLine extends PO implements I_W_BasketLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_W_BasketLine (Properties ctx, int W_BasketLine_ID, String trxName)
@@ -123,9 +123,9 @@ public class X_W_BasketLine extends PO implements I_W_BasketLine, I_Persistent
         return new KeyNamePair(get_ID(), String.valueOf(getLine()));
     }
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.
@@ -205,9 +205,9 @@ public class X_W_BasketLine extends PO implements I_W_BasketLine, I_Persistent
 		return bd;
 	}
 
-	public I_W_Basket getW_Basket() throws RuntimeException
+	public org.compiere.model.I_W_Basket getW_Basket() throws RuntimeException
     {
-		return (I_W_Basket)MTable.get(getCtx(), I_W_Basket.Table_Name)
+		return (org.compiere.model.I_W_Basket)MTable.get(getCtx(), org.compiere.model.I_W_Basket.Table_Name)
 			.getPO(getW_Basket_ID(), get_TrxName());	}
 
 	/** Set Basket.

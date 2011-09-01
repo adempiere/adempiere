@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="PA_REPORTCUBE">
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_CALENDAR_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISACTIVITYDIM" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISBPARTNERDIM" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISCAMPAIGNDIM" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISGLBUDGETDIM" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISLOCFROMDIM" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISLOCTODIM" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISORGTRXDIM" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISPRODUCTDIM" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISPROJECTDIM" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISPROJECTPHASEDIM" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISPROJECTTASKDIM" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISSALESREGIONDIM" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISSUBACCTDIM" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISUSER1DIM" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISUSER2DIM" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="PA_REPORTCUBE_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="PROCESSING" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="LASTRECALCULATED" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="ISUSERELEMENT2DIM" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISUSERELEMENT1DIM" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <foreign-key foreignTable="C_CALENDAR" name="CCALENDAR_PAREPORTCUBE" onDelete="none">
+        <reference local="C_CALENDAR_ID" foreign="C_CALENDAR_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsActivityDim IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsBPartnerDim IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsCampaignDim IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsGLBudgetDim IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsLocFromDim IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsLocToDim IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsOrgTrxDim IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsProductDim IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsProjectDim IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsProjectPhaseDim IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsProjectTaskDim IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsSalesRegionDim IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsSubAcctDim IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsUser1Dim IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsUser2Dim IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[Processing IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsUserElement2Dim IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsUserElement1Dim IN ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

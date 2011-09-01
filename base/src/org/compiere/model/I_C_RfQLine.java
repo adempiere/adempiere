@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_RfQLine
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_C_RfQLine 
 {
@@ -91,7 +91,7 @@ public interface I_C_RfQLine
 	  */
 	public int getC_RfQ_ID();
 
-	public I_C_RfQ getC_RfQ() throws RuntimeException;
+	public org.compiere.model.I_C_RfQ getC_RfQ() throws RuntimeException;
 
     /** Column name C_RfQLine_ID */
     public static final String COLUMNNAME_C_RfQLine_ID = "C_RfQLine_ID";
@@ -225,7 +225,7 @@ public interface I_C_RfQLine
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

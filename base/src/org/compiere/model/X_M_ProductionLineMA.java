@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_ProductionLineMA
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_M_ProductionLineMA extends PO implements I_M_ProductionLineMA, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_M_ProductionLineMA (Properties ctx, int M_ProductionLineMA_ID, String trxName)
@@ -122,9 +122,9 @@ public class X_M_ProductionLineMA extends PO implements I_M_ProductionLineMA, I_
 		return bd;
 	}
 
-	public I_M_ProductionLine getM_ProductionLine() throws RuntimeException
+	public org.compiere.model.I_M_ProductionLine getM_ProductionLine() throws RuntimeException
     {
-		return (I_M_ProductionLine)MTable.get(getCtx(), I_M_ProductionLine.Table_Name)
+		return (org.compiere.model.I_M_ProductionLine)MTable.get(getCtx(), org.compiere.model.I_M_ProductionLine.Table_Name)
 			.getPO(getM_ProductionLine_ID(), get_TrxName());	}
 
 	/** Set Production Line.

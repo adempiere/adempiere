@@ -69,7 +69,7 @@ public class VLocator extends JComponent
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 6173109396306219205L;
+	private static final long serialVersionUID = 1953277256988665242L;
 
 	/**
 	 *	Mouse Listener for Popup Menu
@@ -550,6 +550,10 @@ public class VLocator extends JComponent
 			FieldRecordInfo.addMenu(this, popupMenu);
 	}   //  setField
 
+	@Override
+	public GridField getField() {
+		return m_mField;
+	}
 
 	/**
 	 * 	Get Warehouse restriction if any.

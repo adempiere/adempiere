@@ -321,6 +321,8 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		if (component instanceof Button) {
 			Button element = (Button)component;
 			if ("Ok".equalsIgnoreCase(element.getId())) {
+				if (!parameterPanel.validateParameters())
+					return;
 				if (element.getLabel().length() > 0)
 					this.startProcess();
 				else

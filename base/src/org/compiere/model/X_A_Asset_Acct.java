@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_A_Asset_Acct (Properties ctx, int A_Asset_Acct_ID, String trxName)
@@ -176,9 +176,9 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_A_Asset_Spread getA_Asset_Spread() throws RuntimeException
+	public org.compiere.model.I_A_Asset_Spread getA_Asset_Spread() throws RuntimeException
     {
-		return (I_A_Asset_Spread)MTable.get(getCtx(), I_A_Asset_Spread.Table_Name)
+		return (org.compiere.model.I_A_Asset_Spread)MTable.get(getCtx(), org.compiere.model.I_A_Asset_Spread.Table_Name)
 			.getPO(getA_Asset_Spread_ID(), get_TrxName());	}
 
 	/** Set Asset Spread.
@@ -223,9 +223,9 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_A_Depreciation_Convention getA_Depreciation_Conv() throws RuntimeException
+	public org.compiere.model.I_A_Depreciation_Convention getA_Depreciation_Conv() throws RuntimeException
     {
-		return (I_A_Depreciation_Convention)MTable.get(getCtx(), I_A_Depreciation_Convention.Table_Name)
+		return (org.compiere.model.I_A_Depreciation_Convention)MTable.get(getCtx(), org.compiere.model.I_A_Depreciation_Convention.Table_Name)
 			.getPO(getA_Depreciation_Conv_ID(), get_TrxName());	}
 
 	/** Set Convention Type.
@@ -248,9 +248,9 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_A_Depreciation getA_Depreciation() throws RuntimeException
+	public org.compiere.model.I_A_Depreciation getA_Depreciation() throws RuntimeException
     {
-		return (I_A_Depreciation)MTable.get(getCtx(), I_A_Depreciation.Table_Name)
+		return (org.compiere.model.I_A_Depreciation)MTable.get(getCtx(), org.compiere.model.I_A_Depreciation.Table_Name)
 			.getPO(getA_Depreciation_ID(), get_TrxName());	}
 
 	/** Set Depreciation Type.
@@ -311,9 +311,9 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 		return (String)get_Value(COLUMNNAME_A_Depreciation_Manual_Period);
 	}
 
-	public I_A_Depreciation_Method getA_Depreciation_Method() throws RuntimeException
+	public org.compiere.model.I_A_Depreciation_Method getA_Depreciation_Method() throws RuntimeException
     {
-		return (I_A_Depreciation_Method)MTable.get(getCtx(), I_A_Depreciation_Method.Table_Name)
+		return (org.compiere.model.I_A_Depreciation_Method)MTable.get(getCtx(), org.compiere.model.I_A_Depreciation_Method.Table_Name)
 			.getPO(getA_Depreciation_Method_ID(), get_TrxName());	}
 
 	/** Set Depreciation Calculation Type.
@@ -336,9 +336,9 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_A_Depreciation_Table_Header getA_Depreciation_Table_Header() throws RuntimeException
+	public org.compiere.model.I_A_Depreciation_Table_Header getA_Depreciation_Table_Header() throws RuntimeException
     {
-		return (I_A_Depreciation_Table_Header)MTable.get(getCtx(), I_A_Depreciation_Table_Header.Table_Name)
+		return (org.compiere.model.I_A_Depreciation_Table_Header)MTable.get(getCtx(), org.compiere.model.I_A_Depreciation_Table_Header.Table_Name)
 			.getPO(getA_Depreciation_Table_Header_ID(), get_TrxName());	}
 
 	/** Set Depreciation Table Header.
@@ -645,9 +645,9 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 		return bd;
 	}
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException
+	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException
     {
-		return (I_C_AcctSchema)MTable.get(getCtx(), I_C_AcctSchema.Table_Name)
+		return (org.compiere.model.I_C_AcctSchema)MTable.get(getCtx(), org.compiere.model.I_C_AcctSchema.Table_Name)
 			.getPO(getC_AcctSchema_ID(), get_TrxName());	}
 
 	/** Set Accounting Schema.

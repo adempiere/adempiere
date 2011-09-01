@@ -197,7 +197,7 @@ ContextMenuListener, IZoomableEditor
                 //still not in list, reset to zero
                 if (!getComponent().isSelected(value))
                 {
-                	if (value instanceof Integer && (Integer)value == 0)
+                	if (value instanceof Integer && gridField.getDisplayType() != DisplayType.ID) // for IDs is ok to be out of the list
                 	{
                 		getComponent().setValue(null);
                 		if (curValue == null)

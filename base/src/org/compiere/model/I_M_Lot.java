@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_Lot
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_M_Lot 
 {
@@ -156,7 +156,7 @@ public interface I_M_Lot
 	  */
 	public int getM_LotCtl_ID();
 
-	public I_M_LotCtl getM_LotCtl() throws RuntimeException;
+	public org.compiere.model.I_M_LotCtl getM_LotCtl() throws RuntimeException;
 
     /** Column name M_Lot_ID */
     public static final String COLUMNNAME_M_Lot_ID = "M_Lot_ID";
@@ -184,7 +184,7 @@ public interface I_M_Lot
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

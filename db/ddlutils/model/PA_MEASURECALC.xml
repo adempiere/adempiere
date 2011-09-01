@@ -20,7 +20,13 @@
       <column name="PRODUCTCOLUMN" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="AD_TABLE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="KEYCOLUMN" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
-      <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="4" autoIncrement="false"/>
+      <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="40" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_ENTITYTYPE" name="ENTITYT_PAMEASURECALC" onDelete="none">
+        <reference local="ENTITYTYPE" foreign="ENTITYTYPE"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_PAMEASURECALC" onDelete="none">
+        <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
+      </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
       </check>

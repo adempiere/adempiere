@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_ElementValue
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_I_ElementValue extends PO implements I_I_ElementValue, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_I_ElementValue (Properties ctx, int I_ElementValue_ID, String trxName)
@@ -129,9 +129,9 @@ public class X_I_ElementValue extends PO implements I_I_ElementValue, I_Persiste
 		return (String)get_Value(COLUMNNAME_AccountType);
 	}
 
-	public I_AD_Column getAD_Column() throws RuntimeException
+	public org.compiere.model.I_AD_Column getAD_Column() throws RuntimeException
     {
-		return (I_AD_Column)MTable.get(getCtx(), I_AD_Column.Table_Name)
+		return (org.compiere.model.I_AD_Column)MTable.get(getCtx(), org.compiere.model.I_AD_Column.Table_Name)
 			.getPO(getAD_Column_ID(), get_TrxName());	}
 
 	/** Set Column.
@@ -157,9 +157,9 @@ public class X_I_ElementValue extends PO implements I_I_ElementValue, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_C_Element getC_Element() throws RuntimeException
+	public org.compiere.model.I_C_Element getC_Element() throws RuntimeException
     {
-		return (I_C_Element)MTable.get(getCtx(), I_C_Element.Table_Name)
+		return (org.compiere.model.I_C_Element)MTable.get(getCtx(), org.compiere.model.I_C_Element.Table_Name)
 			.getPO(getC_Element_ID(), get_TrxName());	}
 
 	/** Set Element.
@@ -185,9 +185,9 @@ public class X_I_ElementValue extends PO implements I_I_ElementValue, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_C_ElementValue getC_ElementValue() throws RuntimeException
+	public org.compiere.model.I_C_ElementValue getC_ElementValue() throws RuntimeException
     {
-		return (I_C_ElementValue)MTable.get(getCtx(), I_C_ElementValue.Table_Name)
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
 			.getPO(getC_ElementValue_ID(), get_TrxName());	}
 
 	/** Set Account Element.
@@ -393,9 +393,9 @@ public class X_I_ElementValue extends PO implements I_I_ElementValue, I_Persiste
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
-	public I_C_ElementValue getParentElementValue() throws RuntimeException
+	public org.compiere.model.I_C_ElementValue getParentElementValue() throws RuntimeException
     {
-		return (I_C_ElementValue)MTable.get(getCtx(), I_C_ElementValue.Table_Name)
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
 			.getPO(getParentElementValue_ID(), get_TrxName());	}
 
 	/** Set Parent Account.

@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for AD_LdapProcessorLog
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_AD_LdapProcessorLog extends PO implements I_AD_LdapProcessorLog, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_AD_LdapProcessorLog (Properties ctx, int AD_LdapProcessorLog_ID, String trxName)
@@ -71,9 +71,9 @@ public class X_AD_LdapProcessorLog extends PO implements I_AD_LdapProcessorLog, 
       return sb.toString();
     }
 
-	public I_AD_LdapProcessor getAD_LdapProcessor() throws RuntimeException
+	public org.compiere.model.I_AD_LdapProcessor getAD_LdapProcessor() throws RuntimeException
     {
-		return (I_AD_LdapProcessor)MTable.get(getCtx(), I_AD_LdapProcessor.Table_Name)
+		return (org.compiere.model.I_AD_LdapProcessor)MTable.get(getCtx(), org.compiere.model.I_AD_LdapProcessor.Table_Name)
 			.getPO(getAD_LdapProcessor_ID(), get_TrxName());	}
 
 	/** Set Ldap Processor.

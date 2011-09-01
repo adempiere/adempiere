@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_AcctSchema_GL
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_C_AcctSchema_GL 
 {
@@ -75,7 +75,7 @@ public interface I_C_AcctSchema_GL
 	  */
 	public int getC_AcctSchema_ID();
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
+	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
 
     /** Column name CommitmentOffset_Acct */
     public static final String COLUMNNAME_CommitmentOffset_Acct = "CommitmentOffset_Acct";

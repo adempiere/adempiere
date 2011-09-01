@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_Subscription_Delivery
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_C_Subscription_Delivery 
 {
@@ -104,7 +104,7 @@ public interface I_C_Subscription_Delivery
 	  */
 	public int getC_Subscription_ID();
 
-	public I_C_Subscription getC_Subscription() throws RuntimeException;
+	public org.compiere.model.I_C_Subscription getC_Subscription() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

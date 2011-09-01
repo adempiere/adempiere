@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for CM_MediaDeploy
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_CM_MediaDeploy 
 {
@@ -88,7 +88,7 @@ public interface I_CM_MediaDeploy
 	  */
 	public int getCM_Media_ID();
 
-	public I_CM_Media getCM_Media() throws RuntimeException;
+	public org.compiere.model.I_CM_Media getCM_Media() throws RuntimeException;
 
     /** Column name CM_Media_Server_ID */
     public static final String COLUMNNAME_CM_Media_Server_ID = "CM_Media_Server_ID";
@@ -103,7 +103,7 @@ public interface I_CM_MediaDeploy
 	  */
 	public int getCM_Media_Server_ID();
 
-	public I_CM_Media_Server getCM_Media_Server() throws RuntimeException;
+	public org.compiere.model.I_CM_Media_Server getCM_Media_Server() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

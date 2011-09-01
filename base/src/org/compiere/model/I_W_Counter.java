@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for W_Counter
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_W_Counter 
 {
@@ -78,12 +78,12 @@ public interface I_W_Counter
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 
-	/** Set User/Contact.
+	/** Set Usuario.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public void setAD_User_ID (int AD_User_ID);
 
-	/** Get User/Contact.
+	/** Get Usuario.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID();
@@ -233,7 +233,7 @@ public interface I_W_Counter
 	  */
 	public int getW_CounterCount_ID();
 
-	public I_W_CounterCount getW_CounterCount() throws RuntimeException;
+	public org.compiere.model.I_W_CounterCount getW_CounterCount() throws RuntimeException;
 
     /** Column name W_Counter_ID */
     public static final String COLUMNNAME_W_Counter_ID = "W_Counter_ID";

@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="T_BOMLINE">
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_PINSTANCE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="LEVELNO" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="LEVELS" primaryKey="false" required="false" type="VARCHAR" size="250" autoIncrement="false"/>
+      <column name="M_PRODUCT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="PP_PRODUCT_BOMLINE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="PP_PRODUCT_BOM_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="SEQNO" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="T_BOMLINE_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="SEL_PRODUCT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="IMPLOSION" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="M_COSTELEMENT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="CURRENTCOSTPRICE" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="CURRENTCOSTPRICELL" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="QTYBOM" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="COST" primaryKey="false" required="false" type="VARCHAR" size="22" autoIncrement="false"/>
+      <column name="C_ACCTSCHEMA_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="COSTINGMETHOD" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="M_COSTTYPE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="FUTURECOSTPRICE" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="FUTURECOSTPRICELL" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="ISCOSTFROZEN" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="COSTSTANDARD" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <check>
+        <rule><![CDATA[IsActive IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[Implosion IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsCostFrozen IN ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

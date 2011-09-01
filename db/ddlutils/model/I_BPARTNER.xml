@@ -49,6 +49,9 @@
       <column name="AD_USER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="R_INTERESTAREA_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="INTERESTAREANAME" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="ISCUSTOMER" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISEMPLOYEE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISVENDOR" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <foreign-key foreignTable="AD_USER" name="ADUSER_IBPARTNER" onDelete="setnull">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
@@ -70,11 +73,23 @@
       <foreign-key foreignTable="C_REGION" name="CREGION_IBPARTNER" onDelete="setnull">
         <reference local="C_REGION_ID" foreign="C_REGION_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="R_INTERESTAREA" name="RINTERESTAREA_IBPARTNER" onDelete="none">
+        <reference local="R_INTERESTAREA_ID" foreign="R_INTERESTAREA_ID"/>
+      </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
       </check>
       <check>
         <rule><![CDATA[Processed in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsCustomer IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsEmployee IN ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsVendor IN ('Y','N')]]></rule>
       </check>
     </table>
   </database>

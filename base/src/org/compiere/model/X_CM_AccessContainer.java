@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for CM_AccessContainer
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_CM_AccessContainer extends PO implements I_CM_AccessContainer, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_CM_AccessContainer (Properties ctx, int CM_AccessContainer_ID, String trxName)
@@ -70,9 +70,9 @@ public class X_CM_AccessContainer extends PO implements I_CM_AccessContainer, I_
       return sb.toString();
     }
 
-	public I_CM_AccessProfile getCM_AccessProfile() throws RuntimeException
+	public org.compiere.model.I_CM_AccessProfile getCM_AccessProfile() throws RuntimeException
     {
-		return (I_CM_AccessProfile)MTable.get(getCtx(), I_CM_AccessProfile.Table_Name)
+		return (org.compiere.model.I_CM_AccessProfile)MTable.get(getCtx(), org.compiere.model.I_CM_AccessProfile.Table_Name)
 			.getPO(getCM_AccessProfile_ID(), get_TrxName());	}
 
 	/** Set Web Access Profile.
@@ -98,9 +98,9 @@ public class X_CM_AccessContainer extends PO implements I_CM_AccessContainer, I_
 		return ii.intValue();
 	}
 
-	public I_CM_Container getCM_Container() throws RuntimeException
+	public org.compiere.model.I_CM_Container getCM_Container() throws RuntimeException
     {
-		return (I_CM_Container)MTable.get(getCtx(), I_CM_Container.Table_Name)
+		return (org.compiere.model.I_CM_Container)MTable.get(getCtx(), org.compiere.model.I_CM_Container.Table_Name)
 			.getPO(getCM_Container_ID(), get_TrxName());	}
 
 	/** Set Web Container.

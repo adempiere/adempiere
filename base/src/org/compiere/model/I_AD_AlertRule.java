@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_AlertRule
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_AD_AlertRule 
 {
@@ -54,7 +54,7 @@ public interface I_AD_AlertRule
 	  */
 	public int getAD_Alert_ID();
 
-	public I_AD_Alert getAD_Alert() throws RuntimeException;
+	public org.compiere.model.I_AD_Alert getAD_Alert() throws RuntimeException;
 
     /** Column name AD_AlertRule_ID */
     public static final String COLUMNNAME_AD_AlertRule_ID = "AD_AlertRule_ID";
@@ -103,7 +103,7 @@ public interface I_AD_AlertRule
 	  */
 	public int getAD_Table_ID();
 
-	public I_AD_Table getAD_Table() throws RuntimeException;
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

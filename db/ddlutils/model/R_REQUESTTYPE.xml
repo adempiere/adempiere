@@ -24,6 +24,9 @@
       <column name="ISCONFIDENTIALINFO" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="R_STATUSCATEGORY_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISINDEXED" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <foreign-key foreignTable="R_STATUSCATEGORY" name="RSTATUSCATEGORY_RREQUESTTYPE" onDelete="none">
+        <reference local="R_STATUSCATEGORY_ID" foreign="R_STATUSCATEGORY_ID"/>
+      </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
       </check>

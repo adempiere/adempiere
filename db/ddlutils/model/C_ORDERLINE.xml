@@ -55,11 +55,14 @@
       <column name="USER1_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="USER2_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_ORGTRX_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ORG" name="ADORG_CORDERLINE" onDelete="none">
-        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
-      </foreign-key>
+      <column name="LINK_ORDERLINE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="PP_COST_COLLECTOR_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="M_PROMOTION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <foreign-key foreignTable="AD_ORG" name="ADORGTRX_CORDERLINE" onDelete="none">
         <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="ADORG_CORDERLINE" onDelete="none">
+        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_CORDERLINE" onDelete="none">
         <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
@@ -79,14 +82,17 @@
       <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CORDERLINE" onDelete="none">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENRVALUEUSER2_CORDERLINE" onDelete="none">
-        <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENRVALUEUSER1_CORDERLINE" onDelete="none">
         <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENRVALUEUSER2_CORDERLINE" onDelete="none">
+        <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="C_ORDER" name="CORDER_CORDERLINE" onDelete="cascade">
         <reference local="C_ORDER_ID" foreign="C_ORDER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ORDERLINE" name="LINKORDERLINE_CORDERLINE" onDelete="cascade">
+        <reference local="LINK_ORDERLINE_ID" foreign="C_ORDERLINE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ORDERLINE" name="CORDERLINE_REF" onDelete="none">
         <reference local="REF_ORDERLINE_ID" foreign="C_ORDERLINE_ID"/>
@@ -112,11 +118,17 @@
       <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_CORDERLINE" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="M_PROMOTION" name="MPROMOTION_CORDERLINE" onDelete="none">
+        <reference local="M_PROMOTION_ID" foreign="M_PROMOTION_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="M_SHIPPER" name="MSHIPPER_CORDERLINE" onDelete="none">
         <reference local="M_SHIPPER_ID" foreign="M_SHIPPER_ID"/>
       </foreign-key>
       <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_CORDERLINE" onDelete="none">
         <reference local="M_WAREHOUSE_ID" foreign="M_WAREHOUSE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="PP_COST_COLLECTOR" name="PPCOSTCOLLECTOR_CORDERLINE" onDelete="none">
+        <reference local="PP_COST_COLLECTOR_ID" foreign="PP_COST_COLLECTOR_ID"/>
       </foreign-key>
       <foreign-key foreignTable="S_RESOURCEASSIGNMENT" name="SRESOURCEASSIGN_CORDERLINE" onDelete="none">
         <reference local="S_RESOURCEASSIGNMENT_ID" foreign="S_RESOURCEASSIGNMENT_ID"/>

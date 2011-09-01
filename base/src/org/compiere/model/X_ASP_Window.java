@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for ASP_Window
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_ASP_Window extends PO implements I_ASP_Window, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_ASP_Window (Properties ctx, int ASP_Window_ID, String trxName)
@@ -73,9 +73,9 @@ public class X_ASP_Window extends PO implements I_ASP_Window, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Window getAD_Window() throws RuntimeException
+	public org.compiere.model.I_AD_Window getAD_Window() throws RuntimeException
     {
-		return (I_AD_Window)MTable.get(getCtx(), I_AD_Window.Table_Name)
+		return (org.compiere.model.I_AD_Window)MTable.get(getCtx(), org.compiere.model.I_AD_Window.Table_Name)
 			.getPO(getAD_Window_ID(), get_TrxName());	}
 
 	/** Set Window.
@@ -101,9 +101,9 @@ public class X_ASP_Window extends PO implements I_ASP_Window, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_ASP_Level getASP_Level() throws RuntimeException
+	public org.compiere.model.I_ASP_Level getASP_Level() throws RuntimeException
     {
-		return (I_ASP_Level)MTable.get(getCtx(), I_ASP_Level.Table_Name)
+		return (org.compiere.model.I_ASP_Level)MTable.get(getCtx(), org.compiere.model.I_ASP_Level.Table_Name)
 			.getPO(getASP_Level_ID(), get_TrxName());	}
 
 	/** Set ASP Level.

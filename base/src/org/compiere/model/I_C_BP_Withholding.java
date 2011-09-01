@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_BP_Withholding
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_C_BP_Withholding 
 {
@@ -75,7 +75,7 @@ public interface I_C_BP_Withholding
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -106,7 +106,7 @@ public interface I_C_BP_Withholding
 	  */
 	public int getC_Withholding_ID();
 
-	public I_C_Withholding getC_Withholding() throws RuntimeException;
+	public org.compiere.model.I_C_Withholding getC_Withholding() throws RuntimeException;
 
     /** Column name ExemptReason */
     public static final String COLUMNNAME_ExemptReason = "ExemptReason";

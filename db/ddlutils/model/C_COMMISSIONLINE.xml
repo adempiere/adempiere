@@ -25,6 +25,7 @@
       <column name="C_BP_GROUP_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_SALESREGION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="PAYMENTRULE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <foreign-key foreignTable="AD_ORG" name="ADORGTRX_CCOMMISSIONLINE" onDelete="none">
         <reference local="ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>

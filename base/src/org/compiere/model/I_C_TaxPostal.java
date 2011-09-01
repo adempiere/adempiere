@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_TaxPostal
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_C_TaxPostal 
 {
@@ -91,7 +91,7 @@ public interface I_C_TaxPostal
 	  */
 	public int getC_Tax_ID();
 
-	public I_C_Tax getC_Tax() throws RuntimeException;
+	public org.compiere.model.I_C_Tax getC_Tax() throws RuntimeException;
 
     /** Column name C_TaxPostal_ID */
     public static final String COLUMNNAME_C_TaxPostal_ID = "C_TaxPostal_ID";

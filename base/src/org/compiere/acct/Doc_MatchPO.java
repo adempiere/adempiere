@@ -86,7 +86,7 @@ public class Doc_MatchPO extends Doc
 		m_oLine = new MOrderLine (getCtx(), m_C_OrderLine_ID, getTrxName());
 		//
 		m_M_InOutLine_ID = matchPO.getM_InOutLine_ID();
-		m_ioLine = new MInOutLine (getCtx(), m_M_InOutLine_ID, null);	
+		m_ioLine = new MInOutLine (getCtx(), m_M_InOutLine_ID, getTrxName());	
 		
 		m_C_InvoiceLine_ID = matchPO.getC_InvoiceLine_ID();
 		

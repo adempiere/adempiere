@@ -90,12 +90,12 @@ import org.w3c.dom.Element;
  *			<li>https://sourceforge.net/tracker/?func=detail&aid=2947622&group_id=176962&atid=879332
  */
 public abstract class PO
-	implements Serializable, Comparator, Evaluatee
+	implements Serializable, Comparator, Evaluatee, Cloneable
 {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 6604764467216189092L;
+	private static final long serialVersionUID = -4708137979682082002L;
 
 	private static final String USE_TIMEOUT_FOR_UPDATE = "org.adempiere.po.useTimeoutForUpdate";
 
@@ -1307,18 +1307,11 @@ public abstract class PO
 	{
 		m_trxName = trxName;
 		boolean success = true;
-		StringBuffer sql = new StringBuffer("SELECT ");
+		StringBuffer sql = p_info.buildSelect();
+		sql.append(" WHERE ")
+			.append(get_WhereClause(false))
+		;
 		int size = get_ColumnCount();
-		for (int i = 0; i < size; i++)
-		{
-			if (i != 0)
-				sql.append(",");
-			sql.append(p_info.getColumnSQL(i));	//	Normal and Virtual Column
-		}
-		sql.append(" FROM ").append(p_info.getTableName())
-			.append(" WHERE ")
-			.append(get_WhereClause(false));
-
 		//
 	//	int index = -1;
 		if (CLogMgt.isLevelFinest())
@@ -1420,6 +1413,7 @@ public abstract class PO
 			}
 			catch (SQLException e)
 			{
+				e.printStackTrace(); // @Trifon - MySQL Port
 				if (p_info.isVirtualColumn(index))	//	if rs constructor used
 					log.log(Level.FINER, "Virtual Column not loaded: " + columnName);
 				else
@@ -1980,6 +1974,7 @@ public abstract class PO
 			{
 				reset = get_AccessLevel() == ACCESSLEVEL_CLIENT
 					|| get_AccessLevel() == ACCESSLEVEL_SYSTEMCLIENT
+					|| get_AccessLevel() == ACCESSLEVEL_ALL
 					|| get_AccessLevel() == ACCESSLEVEL_CLIENTORG;
 			}
 			if (reset)
@@ -3996,5 +3991,47 @@ public abstract class PO
 		}
 		return false;
 	}
+
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		PO clone = (PO) super.clone();
+		clone.m_trxName = null;
+		if (m_custom != null)
+		{
+			clone.m_custom = new HashMap<String, String>();
+			clone.m_custom.putAll(m_custom);
+		}
+		if (m_newValues != null)
+		{
+			clone.m_newValues = new Object[m_newValues.length];
+			for(int i = 0; i < m_newValues.length; i++)
+			{
+				clone.m_newValues[i] = m_newValues[i];
+			}
+		}
+		if (m_oldValues != null)
+		{
+			clone.m_oldValues = new Object[m_oldValues.length];
+			for(int i = 0; i < m_oldValues.length; i++)
+			{
+				clone.m_oldValues[i] = m_oldValues[i];
+			}
+		}
+		if (m_IDs != null)
+		{
+			clone.m_IDs = new Object[m_IDs.length];
+			for(int i = 0; i < m_IDs.length; i++)
+			{
+				clone.m_IDs[i] = m_IDs[i];
+			}
+		}
+		clone.p_ctx = Env.getCtx();
+		clone.m_doc = null;
+		clone.m_lobInfo = null;
+		clone.m_attachment = null;
+		clone.m_isReplication = false;
+		return clone;
+	}
+
 
 }   //  PO

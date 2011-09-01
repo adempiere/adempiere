@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_CycleStep
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_C_CycleStep extends PO implements I_C_CycleStep, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_C_CycleStep (Properties ctx, int C_CycleStep_ID, String trxName)
@@ -78,9 +78,9 @@ public class X_C_CycleStep extends PO implements I_C_CycleStep, I_Persistent
       return sb.toString();
     }
 
-	public I_C_Cycle getC_Cycle() throws RuntimeException
+	public org.compiere.model.I_C_Cycle getC_Cycle() throws RuntimeException
     {
-		return (I_C_Cycle)MTable.get(getCtx(), I_C_Cycle.Table_Name)
+		return (org.compiere.model.I_C_Cycle)MTable.get(getCtx(), org.compiere.model.I_C_Cycle.Table_Name)
 			.getPO(getC_Cycle_ID(), get_TrxName());	}
 
 	/** Set Project Cycle.

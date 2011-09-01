@@ -26,6 +26,7 @@ import java.beans.PropertyVetoException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
+import org.compiere.model.GridField;
 import org.compiere.model.MImage;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
@@ -42,7 +43,7 @@ public class VImage extends JButton
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -176278573866019572L;
+	private static final long serialVersionUID = 368261613546756534L;
 
 	/**
 	 *  Image Editor
@@ -233,12 +234,20 @@ public class VImage extends JButton
 		catch (PropertyVetoException pve)	{}
 	}   //  actionPerformed
 
+	//	Field for Value Preference
+	private GridField          m_mField = null;
 	/**
 	 *  Set Field/WindowNo for ValuePreference (NOP)
 	 *  @param mField
 	 */
-	public void setField (org.compiere.model.GridField mField)
+	public void setField (GridField mField)
 	{
+		m_mField = mField;
 	}   //  setField
 
+	@Override
+	public GridField getField() {
+		return m_mField;
+	}
+	
 }   //  VImage

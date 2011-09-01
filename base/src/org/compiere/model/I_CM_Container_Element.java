@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for CM_Container_Element
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_CM_Container_Element 
 {
@@ -88,7 +88,7 @@ public interface I_CM_Container_Element
 	  */
 	public int getCM_Container_ID();
 
-	public I_CM_Container getCM_Container() throws RuntimeException;
+	public org.compiere.model.I_CM_Container getCM_Container() throws RuntimeException;
 
     /** Column name ContentHTML */
     public static final String COLUMNNAME_ContentHTML = "ContentHTML";

@@ -47,6 +47,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
+import org.compiere.util.PaymentExport;
 import org.compiere.util.ValueNamePair;
 
 /**
@@ -54,6 +55,9 @@ import org.compiere.util.ValueNamePair;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: VPayPrint.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ * 
+ *  Contributors:
+ *    Carlos Ruiz - GlobalQSS - FR 3132033 - Make payment export class configurable per bank
  */
 public class VPayPrint extends PayPrint implements FormPanel, ActionListener
 {
@@ -344,16 +348,44 @@ public class VPayPrint extends PayPrint implements FormPanel, ActionListener
 			return;
 
 		//  Create File
-		int no = MPaySelectionCheck.exportToFile(m_checks, fc.getSelectedFile());
-		ADialog.info(m_WindowNo, panel, "Saved",
-			fc.getSelectedFile().getAbsolutePath() + "\n"
-			+ Msg.getMsg(Env.getCtx(), "NoOfLines") + "=" + no);
-
-		if (ADialog.ask(m_WindowNo, panel, "VPayPrintSuccess?"))
+		int no = 0;
+		StringBuffer err = new StringBuffer("");
+		if (m_PaymentExportClass == null || m_PaymentExportClass.trim().length() == 0) {
+			m_PaymentExportClass = "org.compiere.util.GenericPaymentExport";
+		}
+		//	Get Payment Export Class
+		PaymentExport custom = null;
+		try
 		{
-		//	int lastDocumentNo = 
-			MPaySelectionCheck.confirmPrint (m_checks, m_batch);
-			//	document No not updated
+			Class<?> clazz = Class.forName(m_PaymentExportClass);
+			custom = (PaymentExport)clazz.newInstance();
+			no = custom.exportToFile(m_checks, fc.getSelectedFile(), err);
+		}
+		catch (ClassNotFoundException e)
+		{
+			no = -1;
+			err.append("No custom PaymentExport class " + m_PaymentExportClass + " - " + e.toString());
+			log.log(Level.SEVERE, err.toString(), e);
+		}
+		catch (Exception e)
+		{
+			no = -1;
+			err.append("Error in " + m_PaymentExportClass + " check log, " + e.toString());
+			log.log(Level.SEVERE, err.toString(), e);
+		}
+		if (no >= 0) {
+			ADialog.info(m_WindowNo, panel, "Saved",
+					fc.getSelectedFile().getAbsolutePath() + "\n"
+					+ Msg.getMsg(Env.getCtx(), "NoOfLines") + "=" + no);
+
+			if (ADialog.ask(m_WindowNo, panel, "VPayPrintSuccess?"))
+			{
+				//	int lastDocumentNo = 
+				MPaySelectionCheck.confirmPrint (m_checks, m_batch);
+				//	document No not updated
+			}
+		} else {
+			ADialog.error(m_WindowNo, panel, "Error", err.toString());
 		}
 		dispose();
 	}   //  cmd_export

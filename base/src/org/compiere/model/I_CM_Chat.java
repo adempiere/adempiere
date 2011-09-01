@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for CM_Chat
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_CM_Chat 
 {
@@ -75,7 +75,7 @@ public interface I_CM_Chat
 	  */
 	public int getAD_Table_ID();
 
-	public I_AD_Table getAD_Table() throws RuntimeException;
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
 
     /** Column name CM_Chat_ID */
     public static final String COLUMNNAME_CM_Chat_ID = "CM_Chat_ID";
@@ -103,7 +103,7 @@ public interface I_CM_Chat
 	  */
 	public int getCM_ChatType_ID();
 
-	public I_CM_ChatType getCM_ChatType() throws RuntimeException;
+	public org.compiere.model.I_CM_ChatType getCM_ChatType() throws RuntimeException;
 
     /** Column name ConfidentialType */
     public static final String COLUMNNAME_ConfidentialType = "ConfidentialType";

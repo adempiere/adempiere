@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_PrintGraph
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_AD_PrintGraph 
 {
@@ -75,7 +75,7 @@ public interface I_AD_PrintGraph
 	  */
 	public int getAD_PrintFormat_ID();
 
-	public I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException;
+	public org.compiere.model.I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException;
 
     /** Column name AD_PrintGraph_ID */
     public static final String COLUMNNAME_AD_PrintGraph_ID = "AD_PrintGraph_ID";
@@ -106,6 +106,21 @@ public interface I_AD_PrintGraph
 	  */
 	public int getCreatedBy();
 
+    /** Column name Data_PrintFormatItem_ID */
+    public static final String COLUMNNAME_Data_PrintFormatItem_ID = "Data_PrintFormatItem_ID";
+
+	/** Set Data Column.
+	  * Data Column for Pie and Line Charts
+	  */
+	public void setData_PrintFormatItem_ID (int Data_PrintFormatItem_ID);
+
+	/** Get Data Column.
+	  * Data Column for Pie and Line Charts
+	  */
+	public int getData_PrintFormatItem_ID();
+
+	public org.compiere.model.I_AD_PrintFormatItem getData_PrintFormatItem() throws RuntimeException;
+
     /** Column name Data1_PrintFormatItem_ID */
     public static final String COLUMNNAME_Data1_PrintFormatItem_ID = "Data1_PrintFormatItem_ID";
 
@@ -119,7 +134,7 @@ public interface I_AD_PrintGraph
 	  */
 	public int getData1_PrintFormatItem_ID();
 
-	public I_AD_PrintFormatItem getData1_PrintFormatItem() throws RuntimeException;
+	public org.compiere.model.I_AD_PrintFormatItem getData1_PrintFormatItem() throws RuntimeException;
 
     /** Column name Data2_PrintFormatItem_ID */
     public static final String COLUMNNAME_Data2_PrintFormatItem_ID = "Data2_PrintFormatItem_ID";
@@ -134,7 +149,7 @@ public interface I_AD_PrintGraph
 	  */
 	public int getData2_PrintFormatItem_ID();
 
-	public I_AD_PrintFormatItem getData2_PrintFormatItem() throws RuntimeException;
+	public org.compiere.model.I_AD_PrintFormatItem getData2_PrintFormatItem() throws RuntimeException;
 
     /** Column name Data3_PrintFormatItem_ID */
     public static final String COLUMNNAME_Data3_PrintFormatItem_ID = "Data3_PrintFormatItem_ID";
@@ -149,7 +164,7 @@ public interface I_AD_PrintGraph
 	  */
 	public int getData3_PrintFormatItem_ID();
 
-	public I_AD_PrintFormatItem getData3_PrintFormatItem() throws RuntimeException;
+	public org.compiere.model.I_AD_PrintFormatItem getData3_PrintFormatItem() throws RuntimeException;
 
     /** Column name Data4_PrintFormatItem_ID */
     public static final String COLUMNNAME_Data4_PrintFormatItem_ID = "Data4_PrintFormatItem_ID";
@@ -164,22 +179,7 @@ public interface I_AD_PrintGraph
 	  */
 	public int getData4_PrintFormatItem_ID();
 
-	public I_AD_PrintFormatItem getData4_PrintFormatItem() throws RuntimeException;
-
-    /** Column name Data_PrintFormatItem_ID */
-    public static final String COLUMNNAME_Data_PrintFormatItem_ID = "Data_PrintFormatItem_ID";
-
-	/** Set Data Column.
-	  * Data Column for Pie and Line Charts
-	  */
-	public void setData_PrintFormatItem_ID (int Data_PrintFormatItem_ID);
-
-	/** Get Data Column.
-	  * Data Column for Pie and Line Charts
-	  */
-	public int getData_PrintFormatItem_ID();
-
-	public I_AD_PrintFormatItem getData_PrintFormatItem() throws RuntimeException;
+	public org.compiere.model.I_AD_PrintFormatItem getData4_PrintFormatItem() throws RuntimeException;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -207,7 +207,7 @@ public interface I_AD_PrintGraph
 	  */
 	public int getDescription_PrintFormatItem_ID();
 
-	public I_AD_PrintFormatItem getDescription_PrintFormatItem() throws RuntimeException;
+	public org.compiere.model.I_AD_PrintFormatItem getDescription_PrintFormatItem() throws RuntimeException;
 
     /** Column name GraphType */
     public static final String COLUMNNAME_GraphType = "GraphType";

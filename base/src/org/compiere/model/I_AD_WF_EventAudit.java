@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_WF_EventAudit
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_AD_WF_EventAudit 
 {
@@ -75,22 +75,22 @@ public interface I_AD_WF_EventAudit
 	  */
 	public int getAD_Table_ID();
 
-	public I_AD_Table getAD_Table() throws RuntimeException;
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
 
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 
-	/** Set User/Contact.
+	/** Set Usuario.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public void setAD_User_ID (int AD_User_ID);
 
-	/** Get User/Contact.
+	/** Get Usuario.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getAD_User() throws RuntimeException;
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
 
     /** Column name AD_WF_EventAudit_ID */
     public static final String COLUMNNAME_AD_WF_EventAudit_ID = "AD_WF_EventAudit_ID";
@@ -118,7 +118,7 @@ public interface I_AD_WF_EventAudit
 	  */
 	public int getAD_WF_Node_ID();
 
-	public I_AD_WF_Node getAD_WF_Node() throws RuntimeException;
+	public org.compiere.model.I_AD_WF_Node getAD_WF_Node() throws RuntimeException;
 
     /** Column name AD_WF_Process_ID */
     public static final String COLUMNNAME_AD_WF_Process_ID = "AD_WF_Process_ID";
@@ -133,7 +133,7 @@ public interface I_AD_WF_EventAudit
 	  */
 	public int getAD_WF_Process_ID();
 
-	public I_AD_WF_Process getAD_WF_Process() throws RuntimeException;
+	public org.compiere.model.I_AD_WF_Process getAD_WF_Process() throws RuntimeException;
 
     /** Column name AD_WF_Responsible_ID */
     public static final String COLUMNNAME_AD_WF_Responsible_ID = "AD_WF_Responsible_ID";
@@ -148,7 +148,7 @@ public interface I_AD_WF_EventAudit
 	  */
 	public int getAD_WF_Responsible_ID();
 
-	public I_AD_WF_Responsible getAD_WF_Responsible() throws RuntimeException;
+	public org.compiere.model.I_AD_WF_Responsible getAD_WF_Responsible() throws RuntimeException;
 
     /** Column name AttributeName */
     public static final String COLUMNNAME_AttributeName = "AttributeName";

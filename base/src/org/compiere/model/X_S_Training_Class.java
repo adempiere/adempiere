@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for S_Training_Class
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_S_Training_Class extends PO implements I_S_Training_Class, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_S_Training_Class (Properties ctx, int S_Training_Class_ID, String trxName)
@@ -92,9 +92,9 @@ public class X_S_Training_Class extends PO implements I_S_Training_Class, I_Pers
 		return (Timestamp)get_Value(COLUMNNAME_EndDate);
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.
@@ -168,9 +168,9 @@ public class X_S_Training_Class extends PO implements I_S_Training_Class, I_Pers
 		return ii.intValue();
 	}
 
-	public I_S_Training getS_Training() throws RuntimeException
+	public org.compiere.model.I_S_Training getS_Training() throws RuntimeException
     {
-		return (I_S_Training)MTable.get(getCtx(), I_S_Training.Table_Name)
+		return (org.compiere.model.I_S_Training)MTable.get(getCtx(), org.compiere.model.I_S_Training.Table_Name)
 			.getPO(getS_Training_ID(), get_TrxName());	}
 
 	/** Set Training.

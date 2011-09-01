@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for CM_CStage
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_CM_CStage 
 {
@@ -88,7 +88,7 @@ public interface I_CM_CStage
 	  */
 	public int getCM_CStageLink_ID();
 
-	public I_CM_CStage getCM_CStageLink() throws RuntimeException;
+	public org.compiere.model.I_CM_CStage getCM_CStageLink() throws RuntimeException;
 
     /** Column name CM_Template_ID */
     public static final String COLUMNNAME_CM_Template_ID = "CM_Template_ID";
@@ -103,7 +103,7 @@ public interface I_CM_CStage
 	  */
 	public int getCM_Template_ID();
 
-	public I_CM_Template getCM_Template() throws RuntimeException;
+	public org.compiere.model.I_CM_Template getCM_Template() throws RuntimeException;
 
     /** Column name CM_WebProject_ID */
     public static final String COLUMNNAME_CM_WebProject_ID = "CM_WebProject_ID";
@@ -118,7 +118,7 @@ public interface I_CM_CStage
 	  */
 	public int getCM_WebProject_ID();
 
-	public I_CM_WebProject getCM_WebProject() throws RuntimeException;
+	public org.compiere.model.I_CM_WebProject getCM_WebProject() throws RuntimeException;
 
     /** Column name ContainerLinkURL */
     public static final String COLUMNNAME_ContainerLinkURL = "ContainerLinkURL";

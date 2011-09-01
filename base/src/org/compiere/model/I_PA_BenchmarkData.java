@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PA_BenchmarkData
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_PA_BenchmarkData 
 {
@@ -169,7 +169,7 @@ public interface I_PA_BenchmarkData
 	  */
 	public int getPA_Benchmark_ID();
 
-	public I_PA_Benchmark getPA_Benchmark() throws RuntimeException;
+	public org.compiere.model.I_PA_Benchmark getPA_Benchmark() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

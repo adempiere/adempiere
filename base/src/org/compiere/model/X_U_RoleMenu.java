@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for U_RoleMenu
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_U_RoleMenu extends PO implements I_U_RoleMenu, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_U_RoleMenu (Properties ctx, int U_RoleMenu_ID, String trxName)
@@ -71,9 +71,9 @@ public class X_U_RoleMenu extends PO implements I_U_RoleMenu, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Role getAD_Role() throws RuntimeException
+	public org.compiere.model.I_AD_Role getAD_Role() throws RuntimeException
     {
-		return (I_AD_Role)MTable.get(getCtx(), I_AD_Role.Table_Name)
+		return (org.compiere.model.I_AD_Role)MTable.get(getCtx(), org.compiere.model.I_AD_Role.Table_Name)
 			.getPO(getAD_Role_ID(), get_TrxName());	}
 
 	/** Set Role.
@@ -119,9 +119,9 @@ public class X_U_RoleMenu extends PO implements I_U_RoleMenu, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_U_WebMenu getU_WebMenu() throws RuntimeException
+	public org.compiere.model.I_U_WebMenu getU_WebMenu() throws RuntimeException
     {
-		return (I_U_WebMenu)MTable.get(getCtx(), I_U_WebMenu.Table_Name)
+		return (org.compiere.model.I_U_WebMenu)MTable.get(getCtx(), org.compiere.model.I_U_WebMenu.Table_Name)
 			.getPO(getU_WebMenu_ID(), get_TrxName());	}
 
 	/** Set Web Menu.

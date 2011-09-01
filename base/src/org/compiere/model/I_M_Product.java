@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_Product
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_M_Product 
 {
@@ -75,6 +75,19 @@ public interface I_M_Product
 	  */
 	public String getClassification();
 
+    /** Column name CopyFrom */
+    public static final String COLUMNNAME_CopyFrom = "CopyFrom";
+
+	/** Set Copy From.
+	  * Copy From Record
+	  */
+	public void setCopyFrom (String CopyFrom);
+
+	/** Get Copy From.
+	  * Copy From Record
+	  */
+	public String getCopyFrom();
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -104,7 +117,7 @@ public interface I_M_Product
 	  */
 	public int getC_RevenueRecognition_ID();
 
-	public I_C_RevenueRecognition getC_RevenueRecognition() throws RuntimeException;
+	public org.compiere.model.I_C_RevenueRecognition getC_RevenueRecognition() throws RuntimeException;
 
     /** Column name C_SubscriptionType_ID */
     public static final String COLUMNNAME_C_SubscriptionType_ID = "C_SubscriptionType_ID";
@@ -119,7 +132,7 @@ public interface I_M_Product
 	  */
 	public int getC_SubscriptionType_ID();
 
-	public I_C_SubscriptionType getC_SubscriptionType() throws RuntimeException;
+	public org.compiere.model.I_C_SubscriptionType getC_SubscriptionType() throws RuntimeException;
 
     /** Column name C_TaxCategory_ID */
     public static final String COLUMNNAME_C_TaxCategory_ID = "C_TaxCategory_ID";
@@ -134,7 +147,7 @@ public interface I_M_Product
 	  */
 	public int getC_TaxCategory_ID();
 
-	public I_C_TaxCategory getC_TaxCategory() throws RuntimeException;
+	public org.compiere.model.I_C_TaxCategory getC_TaxCategory() throws RuntimeException;
 
     /** Column name C_UOM_ID */
     public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
@@ -149,7 +162,7 @@ public interface I_M_Product
 	  */
 	public int getC_UOM_ID();
 
-	public I_C_UOM getC_UOM() throws RuntimeException;
+	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -481,7 +494,7 @@ public interface I_M_Product
 	  */
 	public int getM_AttributeSet_ID();
 
-	public I_M_AttributeSet getM_AttributeSet() throws RuntimeException;
+	public org.compiere.model.I_M_AttributeSet getM_AttributeSet() throws RuntimeException;
 
     /** Column name M_AttributeSetInstance_ID */
     public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
@@ -511,7 +524,7 @@ public interface I_M_Product
 	  */
 	public int getM_FreightCategory_ID();
 
-	public I_M_FreightCategory getM_FreightCategory() throws RuntimeException;
+	public org.compiere.model.I_M_FreightCategory getM_FreightCategory() throws RuntimeException;
 
     /** Column name M_Locator_ID */
     public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
@@ -541,7 +554,7 @@ public interface I_M_Product
 	  */
 	public int getM_Product_Category_ID();
 
-	public I_M_Product_Category getM_Product_Category() throws RuntimeException;
+	public org.compiere.model.I_M_Product_Category getM_Product_Category() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -604,7 +617,7 @@ public interface I_M_Product
 	  */
 	public int getR_MailText_ID();
 
-	public I_R_MailText getR_MailText() throws RuntimeException;
+	public org.compiere.model.I_R_MailText getR_MailText() throws RuntimeException;
 
     /** Column name SalesRep_ID */
     public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";
@@ -619,7 +632,7 @@ public interface I_M_Product
 	  */
 	public int getSalesRep_ID();
 
-	public I_AD_User getSalesRep() throws RuntimeException;
+	public org.compiere.model.I_AD_User getSalesRep() throws RuntimeException;
 
     /** Column name S_ExpenseType_ID */
     public static final String COLUMNNAME_S_ExpenseType_ID = "S_ExpenseType_ID";
@@ -634,7 +647,7 @@ public interface I_M_Product
 	  */
 	public int getS_ExpenseType_ID();
 
-	public I_S_ExpenseType getS_ExpenseType() throws RuntimeException;
+	public org.compiere.model.I_S_ExpenseType getS_ExpenseType() throws RuntimeException;
 
     /** Column name ShelfDepth */
     public static final String COLUMNNAME_ShelfDepth = "ShelfDepth";
@@ -701,7 +714,7 @@ public interface I_M_Product
 	  */
 	public int getS_Resource_ID();
 
-	public I_S_Resource getS_Resource() throws RuntimeException;
+	public org.compiere.model.I_S_Resource getS_Resource() throws RuntimeException;
 
     /** Column name UnitsPerPack */
     public static final String COLUMNNAME_UnitsPerPack = "UnitsPerPack";

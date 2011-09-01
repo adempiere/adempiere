@@ -55,7 +55,7 @@ public class WorkflowProcessor extends AdempiereServer
 	 */
 	public WorkflowProcessor (MWorkflowProcessor model)
 	{
-		super (model, 120);		//	2 minute dalay
+		super (model, 120);		//	2 minute delay
 		m_model = model;
 		m_client = MClient.get(model.getCtx(), model.getAD_Client_ID());
 	}	//	WorkflowProcessor
@@ -136,7 +136,7 @@ public class WorkflowProcessor extends AdempiereServer
 	 */
 	private void dynamicPriority()
 	{
-		//	suspened activities with dynamic priority node
+		//	suspend activities with dynamic priority node
 		String sql = "SELECT * "
 			+ "FROM AD_WF_Activity a "
 			+ "WHERE Processed='N' AND WFState='OS'"	//	suspended

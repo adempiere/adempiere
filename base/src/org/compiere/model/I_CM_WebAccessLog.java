@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for CM_WebAccessLog
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_CM_WebAccessLog 
 {
@@ -78,17 +78,17 @@ public interface I_CM_WebAccessLog
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 
-	/** Set User/Contact.
+	/** Set Usuario.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public void setAD_User_ID (int AD_User_ID);
 
-	/** Get User/Contact.
+	/** Get Usuario.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getAD_User() throws RuntimeException;
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
 
     /** Column name CM_BroadcastServer_ID */
     public static final String COLUMNNAME_CM_BroadcastServer_ID = "CM_BroadcastServer_ID";
@@ -103,7 +103,7 @@ public interface I_CM_WebAccessLog
 	  */
 	public int getCM_BroadcastServer_ID();
 
-	public I_CM_BroadcastServer getCM_BroadcastServer() throws RuntimeException;
+	public org.compiere.model.I_CM_BroadcastServer getCM_BroadcastServer() throws RuntimeException;
 
     /** Column name CM_Media_ID */
     public static final String COLUMNNAME_CM_Media_ID = "CM_Media_ID";
@@ -118,7 +118,7 @@ public interface I_CM_WebAccessLog
 	  */
 	public int getCM_Media_ID();
 
-	public I_CM_Media getCM_Media() throws RuntimeException;
+	public org.compiere.model.I_CM_Media getCM_Media() throws RuntimeException;
 
     /** Column name CM_WebAccessLog_ID */
     public static final String COLUMNNAME_CM_WebAccessLog_ID = "CM_WebAccessLog_ID";
@@ -146,7 +146,7 @@ public interface I_CM_WebAccessLog
 	  */
 	public int getCM_WebProject_ID();
 
-	public I_CM_WebProject getCM_WebProject() throws RuntimeException;
+	public org.compiere.model.I_CM_WebProject getCM_WebProject() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

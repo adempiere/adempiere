@@ -332,11 +332,11 @@ public class InfoCashLinePanel extends InfoPanel implements ValueChangeListener,
 			Timestamp to = new Timestamp(t.getTime());
 
 			if (from == null && to != null)
-				sql.append(" AND TRUNC(c.StatementDate) <= ?");
+				sql.append(" AND TRUNC(c.StatementDate, 'DD') <= ?");
 			else if (from != null && to == null)
-				sql.append(" AND TRUNC(c.StatementDate) >= ?");
+				sql.append(" AND TRUNC(c.StatementDate, 'DD') >= ?");
 			else if (from != null && to != null)
-				sql.append(" AND TRUNC(c.StatementDate) BETWEEN ? AND ?");
+				sql.append(" AND TRUNC(c.StatementDate, 'DD') BETWEEN ? AND ?");
 		}
 
 		if (!isEmpty(fAmtFrom.getValue()) || !isEmpty(fAmtTo.getValue()))

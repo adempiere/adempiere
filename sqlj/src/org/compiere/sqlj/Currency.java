@@ -189,8 +189,8 @@ public class Currency
 			+ "FROM C_Conversion_Rate "
 			+ "WHERE C_Currency_ID=? AND C_Currency_ID_To=?"	//	from/to
 			+ " AND C_ConversionType_ID=?"
-			+ " AND TRUNC(ValidFrom) <= ?"
-			+ " AND TRUNC(ValidTo) >= ?"
+			+ " AND TRUNC(ValidFrom, 'DD') <= ?"
+			+ " AND TRUNC(ValidTo, 'DD') >= ?"
 			+ " AND AD_Client_ID IN (0,?) AND AD_Org_ID IN (0,?) "
 			+ "ORDER BY AD_Client_ID DESC, AD_Org_ID DESC, ValidFrom DESC";
 		PreparedStatement pstmt = Adempiere.prepareStatement(sql);

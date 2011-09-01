@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_LdapProcessorLog
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_AD_LdapProcessorLog 
 {
@@ -62,7 +62,7 @@ public interface I_AD_LdapProcessorLog
 	  */
 	public int getAD_LdapProcessor_ID();
 
-	public I_AD_LdapProcessor getAD_LdapProcessor() throws RuntimeException;
+	public org.compiere.model.I_AD_LdapProcessor getAD_LdapProcessor() throws RuntimeException;
 
     /** Column name AD_LdapProcessorLog_ID */
     public static final String COLUMNNAME_AD_LdapProcessorLog_ID = "AD_LdapProcessorLog_ID";

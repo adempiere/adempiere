@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_InfoColumn
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_AD_InfoColumn extends PO implements I_AD_InfoColumn, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_AD_InfoColumn (Properties ctx, int AD_InfoColumn_ID, String trxName)
@@ -79,9 +79,9 @@ public class X_AD_InfoColumn extends PO implements I_AD_InfoColumn, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Element getAD_Element() throws RuntimeException
+	public org.compiere.model.I_AD_Element getAD_Element() throws RuntimeException
     {
-		return (I_AD_Element)MTable.get(getCtx(), I_AD_Element.Table_Name)
+		return (org.compiere.model.I_AD_Element)MTable.get(getCtx(), org.compiere.model.I_AD_Element.Table_Name)
 			.getPO(getAD_Element_ID(), get_TrxName());	}
 
 	/** Set System Element.
@@ -130,9 +130,9 @@ public class X_AD_InfoColumn extends PO implements I_AD_InfoColumn, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_InfoWindow getAD_InfoWindow() throws RuntimeException
+	public org.compiere.model.I_AD_InfoWindow getAD_InfoWindow() throws RuntimeException
     {
-		return (I_AD_InfoWindow)MTable.get(getCtx(), I_AD_InfoWindow.Table_Name)
+		return (org.compiere.model.I_AD_InfoWindow)MTable.get(getCtx(), org.compiere.model.I_AD_InfoWindow.Table_Name)
 			.getPO(getAD_InfoWindow_ID(), get_TrxName());	}
 
 	/** Set Info Window.
@@ -158,9 +158,9 @@ public class X_AD_InfoColumn extends PO implements I_AD_InfoColumn, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Reference getAD_Reference() throws RuntimeException
+	public org.compiere.model.I_AD_Reference getAD_Reference() throws RuntimeException
     {
-		return (I_AD_Reference)MTable.get(getCtx(), I_AD_Reference.Table_Name)
+		return (org.compiere.model.I_AD_Reference)MTable.get(getCtx(), org.compiere.model.I_AD_Reference.Table_Name)
 			.getPO(getAD_Reference_ID(), get_TrxName());	}
 
 	/** Set Reference.

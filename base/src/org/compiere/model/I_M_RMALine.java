@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_RMALine
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_M_RMALine 
 {
@@ -88,7 +88,7 @@ public interface I_M_RMALine
 	  */
 	public int getC_Charge_ID();
 
-	public I_C_Charge getC_Charge() throws RuntimeException;
+	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -171,7 +171,7 @@ public interface I_M_RMALine
 	  */
 	public int getM_InOutLine_ID();
 
-	public I_M_InOutLine getM_InOutLine() throws RuntimeException;
+	public org.compiere.model.I_M_InOutLine getM_InOutLine() throws RuntimeException;
 
     /** Column name M_RMA_ID */
     public static final String COLUMNNAME_M_RMA_ID = "M_RMA_ID";
@@ -186,7 +186,7 @@ public interface I_M_RMALine
 	  */
 	public int getM_RMA_ID();
 
-	public I_M_RMA getM_RMA() throws RuntimeException;
+	public org.compiere.model.I_M_RMA getM_RMA() throws RuntimeException;
 
     /** Column name M_RMALine_ID */
     public static final String COLUMNNAME_M_RMALine_ID = "M_RMALine_ID";
@@ -262,7 +262,7 @@ public interface I_M_RMALine
 	/** Get Referenced RMA Line	  */
 	public int getRef_RMALine_ID();
 
-	public I_M_RMALine getRef_RMALine() throws RuntimeException;
+	public org.compiere.model.I_M_RMALine getRef_RMALine() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

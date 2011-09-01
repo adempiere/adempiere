@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_Container_Element
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_CM_Container_Element extends PO implements I_CM_Container_Element, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_CM_Container_Element (Properties ctx, int CM_Container_Element_ID, String trxName)
@@ -95,9 +95,9 @@ public class X_CM_Container_Element extends PO implements I_CM_Container_Element
 		return ii.intValue();
 	}
 
-	public I_CM_Container getCM_Container() throws RuntimeException
+	public org.compiere.model.I_CM_Container getCM_Container() throws RuntimeException
     {
-		return (I_CM_Container)MTable.get(getCtx(), I_CM_Container.Table_Name)
+		return (org.compiere.model.I_CM_Container)MTable.get(getCtx(), org.compiere.model.I_CM_Container.Table_Name)
 			.getPO(getCM_Container_ID(), get_TrxName());	}
 
 	/** Set Web Container.

@@ -472,4 +472,22 @@ public final class Convert_PostgreSQLTest extends TestCase{
 		r = convert.convert(sql);
 		assertEquals(sqe, r[0]);
 	}
+	
+	/**
+	 * Test BF [3137355 ] PG query not valid when contains quotes and backslashes.
+	 * https://sourceforge.net/tracker/?func=detail&aid=3137355&group_id=176962&atid=879332
+	 */
+	public void test3137355()
+	{
+		sql = "INSERT INTO MyTable (a, b, c, d, xml) VALUES ('val1', 'val2', 'this ''is'' a string with ''quotes'' and backslashes ''\\''', 'val4')";
+		sqe = "INSERT INTO MyTable (a, b, c, d, xml) VALUES ('val1', 'val2', E'this ''is'' a string with ''quotes'' and backslashes ''\\\\''', 'val4')";
+		r = convert.convert(sql);
+		assertEquals(sqe, r[0]);
+		
+		sql = "SELECT AD_Tab.AD_Tab_ID,NULL,COALESCE(AD_Tab.Name,'-1') ||'_'|| COALESCE((SELECT COALESCE(AD_Window.Name,'') FROM AD_Window WHERE AD_Tab.AD_Window_ID=AD_Window.AD_Window_ID),'-1'),AD_Tab.IsActive"
+			+" FROM AD_Tab WHERE AD_Tab.AD_Tab_ID=?";
+		sqe = sql;
+		r = convert.convert(sql);
+		assertEquals(sqe, r[0]);
+	}
 }

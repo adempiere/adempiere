@@ -57,7 +57,7 @@ public final class VButton extends CButton
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -5979521568246908136L;
+	private static final long serialVersionUID = 567682963060073664L;
 
 	/**
 	 *	Constructor
@@ -337,6 +337,8 @@ public final class VButton extends CButton
 		return m_values;
 	}	//	getValues
 
+	//	Field for Value Preference
+	private GridField          m_mField = null;
 	/**
 	 *  Set Field/WindowNo for ValuePreference
 	 *  @param mField field model
@@ -354,8 +356,14 @@ public final class VButton extends CButton
 			m_lookup = MLookupFactory.get(Env.getCtx(), mField.getWindowNo(), 0,
 				mField.getAD_Column_ID(), DisplayType.List);
 		}
+		m_mField = mField;
 	}   //  setField
 
+	@Override
+	public GridField getField() {
+		return m_mField;
+	}
+	
 	/**
 	 * @return Returns the savedMnemonic.
 	 */

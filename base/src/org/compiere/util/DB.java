@@ -51,6 +51,7 @@ import org.compiere.model.MRole;
 import org.compiere.model.MSequence;
 import org.compiere.model.MSysConfig;
 import org.compiere.model.MSystem;
+import org.compiere.model.MTable;
 import org.compiere.model.PO;
 import org.compiere.model.POResultSet;
 import org.compiere.process.SequenceCheck;
@@ -522,6 +523,14 @@ public final class DB
 		return false;
 	}	//	isPostgreSQL
     //begin vpj-cd e-evolution 02/07/2005 PostgreSQL
+
+	public static boolean isMySQL()
+	{
+		if (s_cc != null)
+			return s_cc.isMySQL();
+		log.severe("No Database Connection");
+		return false;
+	}
 
 	/**
 	 * 	Get Database Info
@@ -1231,7 +1240,13 @@ public final class DB
 	public static RowSet getRowSet (String sql)
 	{
 		// Bugfix Gunther Hoppe, 02.09.2005, vpj-cd e-evolution
-		CStatementVO info = new CStatementVO (RowSet.TYPE_SCROLL_INSENSITIVE, RowSet.CONCUR_READ_ONLY, DB.getDatabase().convertStatement(sql));
+		// praneet - giving issues with mysql, doing a quick fix for now
+		CStatementVO info ;
+		if (DB.isOracle() || DB.isPostgreSQL())
+			info = new CStatementVO (RowSet.TYPE_SCROLL_INSENSITIVE, RowSet.CONCUR_READ_ONLY, DB.getDatabase().convertStatement(sql));
+		else
+			info = new CStatementVO (RowSet.TYPE_SCROLL_INSENSITIVE, RowSet.CONCUR_READ_ONLY, sql);
+		//dete fix convert statement
 		CPreparedStatement stmt = ProxyFactory.newCPreparedStatement(info);
 		RowSet retValue = stmt.getRowSet();
 		close(stmt);
@@ -1259,7 +1274,7 @@ public final class DB
     		if (rs.next())
     			retValue = rs.getInt(1);
     		else
-    			log.info("No Value " + sql);
+    			log.fine("No Value " + sql);
     	}
     	catch (SQLException e)
     	{
@@ -1340,7 +1355,7 @@ public final class DB
     		if (rs.next())
     			retValue = rs.getString(1);
     		else
-    			log.info("No Value " + sql);
+    			log.fine("No Value " + sql);
     	}
     	catch (SQLException e)
     	{
@@ -1421,7 +1436,7 @@ public final class DB
     		if (rs.next())
     			retValue = rs.getBigDecimal(1);
     		else
-    			log.info("No Value " + sql);
+    			log.fine("No Value " + sql);
     	}
     	catch (SQLException e)
     	{
@@ -1504,7 +1519,7 @@ public final class DB
     		if (rs.next())
     			retValue = rs.getTimestamp(1);
     		else
-    			log.info("No Value " + sql);
+    			log.fine("No Value " + sql);
     	}
     	catch (SQLException e)
     	{
@@ -1651,59 +1666,65 @@ public final class DB
         }
         //
         boolean isSOTrx = true;
-        String sql = "SELECT IsSOTrx FROM " + TableName
-            + " WHERE " + whereClause;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        try
-        {
-            pstmt = DB.prepareStatement (sql, null);
-            rs = pstmt.executeQuery ();
-            if (rs.next ())
-                isSOTrx = "Y".equals(rs.getString(1));
-        }
-        catch (Exception e)
-        {
-            if (TableName.endsWith("Line"))
+    	boolean noIsSOTrxColumn = false;
+        if (MTable.get(Env.getCtx(), TableName).getColumn("IsSOTrx") == null) {
+        	noIsSOTrxColumn = true;
+        } else {
+        	String sql = "SELECT IsSOTrx FROM " + TableName
+        	+ " WHERE " + whereClause;
+        	PreparedStatement pstmt = null;
+        	ResultSet rs = null;
+        	try
+        	{
+        		pstmt = DB.prepareStatement (sql, null);
+        		rs = pstmt.executeQuery ();
+        		if (rs.next ())
+        			isSOTrx = "Y".equals(rs.getString(1));
+        	}
+        	catch (Exception e)
+        	{
+        		noIsSOTrxColumn = true;
+        	}
+            finally
             {
-                String hdr = TableName.substring(0, TableName.indexOf("Line"));
-                // use IN instead of EXISTS as the subquery should be highly selective
-                sql = "SELECT IsSOTrx FROM " + hdr
-                    + " h WHERE h." + hdr + "_ID IN (SELECT l." + hdr + "_ID FROM " + TableName
-                    + " l WHERE " + whereClause + ")";
-                PreparedStatement pstmt2 = null;
-                ResultSet rs2 = null;
-                try
-                {
-                    pstmt2 = DB.prepareStatement (sql, null);
-                    rs2 = pstmt2.executeQuery ();
-                    if (rs2.next ())
-                        isSOTrx = "Y".equals(rs2.getString(1));
-                }
-                catch (Exception ee)
-                {
-                	ee = getSQLException(ee);
-                    log.log(Level.FINEST, sql + " - " + e.getMessage(), ee);
-                }
-                finally
-                {
-                    close(rs2, pstmt2);
-                    rs= null;
-                    pstmt = null;
-                }
-            }
-            else
-            {
-                log.log(Level.FINEST, TableName + " - No SOTrx", e);
+            	close(rs, pstmt);
+                rs= null;
+                pstmt = null;
             }
         }
-        finally
-        {
-            close(rs);
-            close(pstmt);
-            rs= null;
-            pstmt = null;
+        if (noIsSOTrxColumn && TableName.endsWith("Line")) {
+        	noIsSOTrxColumn = false;
+        	String hdr = TableName.substring(0, TableName.indexOf("Line"));
+        	if (MTable.get(Env.getCtx(), hdr).getColumn("IsSOTrx") == null) {
+        		noIsSOTrxColumn = true;
+        	} else {
+        		// use IN instead of EXISTS as the subquery should be highly selective
+        		String sql = "SELECT IsSOTrx FROM " + hdr
+        		+ " h WHERE h." + hdr + "_ID IN (SELECT l." + hdr + "_ID FROM " + TableName
+        		+ " l WHERE " + whereClause + ")";
+        		PreparedStatement pstmt2 = null;
+        		ResultSet rs2 = null;
+        		try
+        		{
+        			pstmt2 = DB.prepareStatement (sql, null);
+        			rs2 = pstmt2.executeQuery ();
+        			if (rs2.next ())
+        				isSOTrx = "Y".equals(rs2.getString(1));
+        		}
+        		catch (Exception ee)
+        		{
+        			noIsSOTrxColumn = true;
+        		}
+        		finally
+        		{
+        			close(rs2, pstmt2);
+        			rs2= null;
+        			pstmt2 = null;
+        		}
+        	}
         }
+        if (noIsSOTrxColumn)
+        	log.log(Level.FINEST, TableName + " - No SOTrx");
         return isSOTrx;
 	}	//	isSOTrx
 

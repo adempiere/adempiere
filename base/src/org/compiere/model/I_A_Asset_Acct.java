@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_A_Asset_Acct 
 {
@@ -94,7 +94,7 @@ public interface I_A_Asset_Acct
 	/** Get Asset Spread	  */
 	public int getA_Asset_Spread_ID();
 
-	public I_A_Asset_Spread getA_Asset_Spread() throws RuntimeException;
+	public org.compiere.model.I_A_Asset_Spread getA_Asset_Spread() throws RuntimeException;
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -124,7 +124,7 @@ public interface I_A_Asset_Acct
 	/** Get Convention Type	  */
 	public int getA_Depreciation_Conv_ID();
 
-	public I_A_Depreciation_Convention getA_Depreciation_Conv() throws RuntimeException;
+	public org.compiere.model.I_A_Depreciation_Convention getA_Depreciation_Conv() throws RuntimeException;
 
     /** Column name A_Depreciation_ID */
     public static final String COLUMNNAME_A_Depreciation_ID = "A_Depreciation_ID";
@@ -135,7 +135,7 @@ public interface I_A_Asset_Acct
 	/** Get Depreciation Type	  */
 	public int getA_Depreciation_ID();
 
-	public I_A_Depreciation getA_Depreciation() throws RuntimeException;
+	public org.compiere.model.I_A_Depreciation getA_Depreciation() throws RuntimeException;
 
     /** Column name A_Depreciation_Manual_Amount */
     public static final String COLUMNNAME_A_Depreciation_Manual_Amount = "A_Depreciation_Manual_Amount";
@@ -164,7 +164,7 @@ public interface I_A_Asset_Acct
 	/** Get Depreciation Calculation Type	  */
 	public int getA_Depreciation_Method_ID();
 
-	public I_A_Depreciation_Method getA_Depreciation_Method() throws RuntimeException;
+	public org.compiere.model.I_A_Depreciation_Method getA_Depreciation_Method() throws RuntimeException;
 
     /** Column name A_Depreciation_Table_Header_ID */
     public static final String COLUMNNAME_A_Depreciation_Table_Header_ID = "A_Depreciation_Table_Header_ID";
@@ -175,7 +175,7 @@ public interface I_A_Asset_Acct
 	/** Get Depreciation Table Header	  */
 	public int getA_Depreciation_Table_Header_ID();
 
-	public I_A_Depreciation_Table_Header getA_Depreciation_Table_Header() throws RuntimeException;
+	public org.compiere.model.I_A_Depreciation_Table_Header getA_Depreciation_Table_Header() throws RuntimeException;
 
     /** Column name A_Depreciation_Variable_Perc */
     public static final String COLUMNNAME_A_Depreciation_Variable_Perc = "A_Depreciation_Variable_Perc";
@@ -345,7 +345,7 @@ public interface I_A_Asset_Acct
 	  */
 	public int getC_AcctSchema_ID();
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
+	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for B_Bid
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_B_Bid 
 {
@@ -65,17 +65,17 @@ public interface I_B_Bid
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 
-	/** Set User/Contact.
+	/** Set Usuario.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public void setAD_User_ID (int AD_User_ID);
 
-	/** Get User/Contact.
+	/** Get Usuario.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getAD_User() throws RuntimeException;
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
 
     /** Column name B_Bid_ID */
     public static final String COLUMNNAME_B_Bid_ID = "B_Bid_ID";
@@ -103,7 +103,7 @@ public interface I_B_Bid
 	  */
 	public int getB_BuyerFunds_ID();
 
-	public I_B_BuyerFunds getB_BuyerFunds() throws RuntimeException;
+	public org.compiere.model.I_B_BuyerFunds getB_BuyerFunds() throws RuntimeException;
 
     /** Column name B_Topic_ID */
     public static final String COLUMNNAME_B_Topic_ID = "B_Topic_ID";
@@ -118,7 +118,7 @@ public interface I_B_Bid
 	  */
 	public int getB_Topic_ID();
 
-	public I_B_Topic getB_Topic() throws RuntimeException;
+	public org.compiere.model.I_B_Topic getB_Topic() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

@@ -119,11 +119,11 @@ public class OrderPOCreate extends SvrProcess
 					+ " INNER JOIN M_Product_PO po ON (ol.M_Product_ID=po.M_Product_ID) "
 						+ "WHERE o.C_Order_ID=ol.C_Order_ID AND po.C_BPartner_ID=?)"; 
 			if (p_DateOrdered_From != null && p_DateOrdered_To != null)
-				sql += "AND TRUNC(o.DateOrdered) BETWEEN ? AND ?";
+				sql += "AND TRUNC(o.DateOrdered, 'DD') BETWEEN ? AND ?";
 			else if (p_DateOrdered_From != null && p_DateOrdered_To == null)
-				sql += "AND TRUNC(o.DateOrdered) >= ?";
+				sql += "AND TRUNC(o.DateOrdered, 'DD') >= ?";
 			else if (p_DateOrdered_From == null && p_DateOrdered_To != null)
-				sql += "AND TRUNC(o.DateOrdered) <= ?";
+				sql += "AND TRUNC(o.DateOrdered, 'DD') <= ?";
 		}
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;

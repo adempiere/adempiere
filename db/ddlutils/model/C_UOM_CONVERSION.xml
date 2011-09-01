@@ -27,6 +27,9 @@
       <foreign-key foreignTable="C_UOM" name="CUOM_CUOMCONVERSION" onDelete="none">
         <reference local="C_UOM_ID" foreign="C_UOM_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_CUOMCONVERSION" onDelete="none">
+        <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
+      </foreign-key>
       <unique name="C_UOM_CONVERSION_PRODUCT">
         <unique-column name="C_UOM_ID"/>
         <unique-column name="C_UOM_TO_ID"/>

@@ -26,9 +26,12 @@ import javax.servlet.http.HttpServletRequest;
  * @author Yves Sandfort
  * @version $Id$
  */
-@SuppressWarnings("serial")
 public class MAd extends X_CM_Ad
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7016174881466935574L;
 
 	/**
 	 * Standard constructor for AD

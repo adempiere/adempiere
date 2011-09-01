@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_RfQResponseLineQty
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_C_RfQResponseLineQty extends PO implements I_C_RfQResponseLineQty, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_C_RfQResponseLineQty (Properties ctx, int C_RfQResponseLineQty_ID, String trxName)
@@ -75,9 +75,9 @@ public class X_C_RfQResponseLineQty extends PO implements I_C_RfQResponseLineQty
       return sb.toString();
     }
 
-	public I_C_RfQLineQty getC_RfQLineQty() throws RuntimeException
+	public org.compiere.model.I_C_RfQLineQty getC_RfQLineQty() throws RuntimeException
     {
-		return (I_C_RfQLineQty)MTable.get(getCtx(), I_C_RfQLineQty.Table_Name)
+		return (org.compiere.model.I_C_RfQLineQty)MTable.get(getCtx(), org.compiere.model.I_C_RfQLineQty.Table_Name)
 			.getPO(getC_RfQLineQty_ID(), get_TrxName());	}
 
 	/** Set RfQ Line Quantity.
@@ -103,9 +103,9 @@ public class X_C_RfQResponseLineQty extends PO implements I_C_RfQResponseLineQty
 		return ii.intValue();
 	}
 
-	public I_C_RfQResponseLine getC_RfQResponseLine() throws RuntimeException
+	public org.compiere.model.I_C_RfQResponseLine getC_RfQResponseLine() throws RuntimeException
     {
-		return (I_C_RfQResponseLine)MTable.get(getCtx(), I_C_RfQResponseLine.Table_Name)
+		return (org.compiere.model.I_C_RfQResponseLine)MTable.get(getCtx(), org.compiere.model.I_C_RfQResponseLine.Table_Name)
 			.getPO(getC_RfQResponseLine_ID(), get_TrxName());	}
 
 	/** Set RfQ Response Line.

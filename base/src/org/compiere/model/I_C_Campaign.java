@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_Campaign
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_C_Campaign 
 {
@@ -88,7 +88,7 @@ public interface I_C_Campaign
 	  */
 	public int getC_Channel_ID();
 
-	public I_C_Channel getC_Channel() throws RuntimeException;
+	public org.compiere.model.I_C_Channel getC_Channel() throws RuntimeException;
 
     /** Column name Costs */
     public static final String COLUMNNAME_Costs = "Costs";

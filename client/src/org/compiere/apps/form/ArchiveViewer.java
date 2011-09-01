@@ -204,7 +204,7 @@ public class ArchiveViewer extends Archive
 			1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5,0,0,0), 0, 0));
 		queryPanel.add(createdQTo, new GridBagConstraints(2, line, 
 			1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5,0,0,0), 0, 0));
-		panel.add(queryPanel, "Query");
+		panel.add(queryPanel, Msg.getMsg(Env.getCtx(), "ViewerQuery"));
 		//
 		//
 		line = 0;
@@ -256,7 +256,7 @@ public class ArchiveViewer extends Archive
 		viewEnterPanel.setPreferredSize(new Dimension(220,500));
 		updateArchive.addActionListener(this);
 		viewPanelSplit.setRightComponent(viewEnterPanel);
-		panel.add(viewPanel, "View");
+		panel.add(viewPanel, Msg.getMsg(Env.getCtx(), "ViewerResult"));
 		//
 		confirmPanel.addActionListener(this);
 		updateQDisplay();
@@ -360,7 +360,7 @@ public class ArchiveViewer extends Archive
 			return;
 		}
 		//
-		positionInfo.setText(m_index+1 + " of " + m_archives.length);
+		positionInfo.setText(m_index+1 + " " + Msg.getMsg(Env.getCtx(), "of") + " " + m_archives.length);
 		MArchive ar = m_archives[m_index];
 		createdByField.setText(ar.getCreatedByName());
 		createdField.setValue(ar.getCreated());

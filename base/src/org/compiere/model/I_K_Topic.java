@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for K_Topic
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_K_Topic 
 {
@@ -169,7 +169,7 @@ public interface I_K_Topic
 	  */
 	public int getK_Type_ID();
 
-	public I_K_Type getK_Type() throws RuntimeException;
+	public org.compiere.model.I_K_Type getK_Type() throws RuntimeException;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_Task
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_C_Task 
 {
@@ -75,7 +75,7 @@ public interface I_C_Task
 	  */
 	public int getC_Phase_ID();
 
-	public I_C_Phase getC_Phase() throws RuntimeException;
+	public org.compiere.model.I_C_Phase getC_Phase() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -158,7 +158,7 @@ public interface I_C_Task
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

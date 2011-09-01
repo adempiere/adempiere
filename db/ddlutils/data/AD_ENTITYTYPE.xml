@@ -7,4 +7,33 @@
   <AD_ENTITYTYPE ENTITYTYPE="EXT" AD_CLIENT_ID="0" AD_ORG_ID="0" AD_ENTITYTYPE_ID="210" ISACTIVE="Y" CREATED="2006-06-11 12:18:45.0" CREATEDBY="100" UPDATED="2006-06-11 12:18:45.0" UPDATEDBY="100" NAME="Extensions" DESCRIPTION="Application Extensions" HELP="Alternative to User maintained entity type.  Will be preserved during version migration." PROCESSING="N" />
   <AD_ENTITYTYPE ENTITYTYPE="XX" AD_CLIENT_ID="0" AD_ORG_ID="0" AD_ENTITYTYPE_ID="220" ISACTIVE="Y" CREATED="2006-06-11 12:19:35.0" CREATEDBY="100" UPDATED="2006-06-11 12:19:35.0" UPDATEDBY="100" NAME="Other Extensions" DESCRIPTION="Other Application Extensions" HELP="Alternative to User maintained entity type.  Will be preserved during version migration." PROCESSING="N" />
   <AD_ENTITYTYPE ENTITYTYPE="CUST" AD_CLIENT_ID="0" AD_ORG_ID="0" AD_ENTITYTYPE_ID="110" ISACTIVE="Y" CREATED="2006-06-11 12:20:10.0" CREATEDBY="100" UPDATED="2006-06-11 12:20:10.0" UPDATEDBY="100" NAME="Other Customizations" DESCRIPTION="Other Application Customizations" HELP="Alternative to User maintained entity type.  Will be preserved during version migration." PROCESSING="N" />
+  <AD_ENTITYTYPE ENTITYTYPE="EE01" AD_CLIENT_ID="0" AD_ORG_ID="0" AD_ENTITYTYPE_ID="50000" ISACTIVE="Y" CREATED="2007-12-16 22:20:19.0" CREATEDBY="0" UPDATED="2007-12-16 22:20:19.0" UPDATEDBY="0" NAME="e-Evolution Libero Manufacturing Management" DESCRIPTION="Libero Manufacturing covers all manufacturing activity within the various types of production environments" VERSION="1.00" MODELPACKAGE="org.eevolution.model" PROCESSING="N">
+    <HELP><![CDATA[Concept and Foundation
+
+Manufacturing Resource Planning
+
+Towards Operations Management
+Planning, Execution to Control
+The Planning, Execution and Control of Manufacturing covers the aspects of priority planning, capacity planning, priority control and capacity control.
+
+Priority Planning: It responds the questions of which products, in which amounts and when the material is required (if this does not work any of the other functions work well).
+Which Material I need and when I need to receive it.
+Tools: MRP.
+Capacity Planning: It responds the questions of whichever time is needed and in where.
+What time I need and when I need it.
+Tools: CRP.
+
+Control of Priorities: It verifies the execution of the planning of priorities.
+shows the status of all the operations in each facility.
+Tools: Shop Floor Control (Dispatch List).
+
+Control of Capacities: It verifies that the capacities in each center of work stay in the planned levels.
+planned Capacity Present VERSUS.
+Tools: Control of floor (Input/output Control).
+
+Sponsored Development www.e-evolution.com]]></HELP>
+  </AD_ENTITYTYPE>
+  <AD_ENTITYTYPE ENTITYTYPE="EE04" AD_CLIENT_ID="0" AD_ORG_ID="0" AD_ENTITYTYPE_ID="50001" ISACTIVE="Y" CREATED="2008-03-03 22:09:57.0" CREATEDBY="0" UPDATED="2008-03-03 22:09:57.0" UPDATEDBY="0" NAME="e-Evolution Libero Global Tax Management" DESCRIPTION="e-Evolution Libero Global Tax Management" VERSION="1.00" MODELPACKAGE="org.eevolution.model" PROCESSING="N" />
+  <AD_ENTITYTYPE ENTITYTYPE="EE05" AD_CLIENT_ID="0" AD_ORG_ID="0" AD_ENTITYTYPE_ID="50003" ISACTIVE="Y" CREATED="2008-03-05 00:50:30.0" CREATEDBY="0" UPDATED="2009-04-18 23:38:16.0" UPDATEDBY="100" NAME="e-Evolution Replication Data" DESCRIPTION="Replication Data" HELP="License GPL2, Developer Trifon Trifonov, Coordinator Victor Perez, Sponsor e-Evolution" VERSION="1" MODELPACKAGE="org.compiere.model" PROCESSING="N" />
+  <AD_ENTITYTYPE ENTITYTYPE="EE02" AD_CLIENT_ID="0" AD_ORG_ID="0" AD_ENTITYTYPE_ID="50005" ISACTIVE="Y" CREATED="2008-03-23 20:42:22.0" CREATEDBY="100" UPDATED="2008-03-23 20:42:22.0" UPDATEDBY="100" NAME="e-Evolution Libero Human Resource &amp; Payroll" DESCRIPTION="Libero Human Resource &amp; Payroll" HELP="Project&#xa;http://www.adempiere.com/wiki/index.php/Sponsored_Development:_Libero_HR_%26_Payroll&#xa;Overview&#xa;http://www.adempiere.com/wiki/images/3/32/Payroll.pdf&#xa;&#xa;Sponsored Development www.e-evolution.com" VERSION="1.00" MODELPACKAGE="org.eevolution.model" PROCESSING="N" />
 </data>

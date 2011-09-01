@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for CM_Container_URL
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_CM_Container_URL 
 {
@@ -88,7 +88,7 @@ public interface I_CM_Container_URL
 	  */
 	public int getCM_Container_ID();
 
-	public I_CM_Container getCM_Container() throws RuntimeException;
+	public org.compiere.model.I_CM_Container getCM_Container() throws RuntimeException;
 
     /** Column name CM_Container_URL_ID */
     public static final String COLUMNNAME_CM_Container_URL_ID = "CM_Container_URL_ID";

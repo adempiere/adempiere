@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Note
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_AD_Note 
 {
@@ -62,7 +62,7 @@ public interface I_AD_Note
 	  */
 	public int getAD_Message_ID();
 
-	public I_AD_Message getAD_Message() throws RuntimeException;
+	public org.compiere.model.I_AD_Message getAD_Message() throws RuntimeException;
 
     /** Column name AD_Note_ID */
     public static final String COLUMNNAME_AD_Note_ID = "AD_Note_ID";
@@ -103,22 +103,22 @@ public interface I_AD_Note
 	  */
 	public int getAD_Table_ID();
 
-	public I_AD_Table getAD_Table() throws RuntimeException;
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
 
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 
-	/** Set User/Contact.
+	/** Set Usuario.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public void setAD_User_ID (int AD_User_ID);
 
-	/** Get User/Contact.
+	/** Get Usuario.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getAD_User() throws RuntimeException;
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
 
     /** Column name AD_WF_Activity_ID */
     public static final String COLUMNNAME_AD_WF_Activity_ID = "AD_WF_Activity_ID";
@@ -133,7 +133,7 @@ public interface I_AD_Note
 	  */
 	public int getAD_WF_Activity_ID();
 
-	public I_AD_WF_Activity getAD_WF_Activity() throws RuntimeException;
+	public org.compiere.model.I_AD_WF_Activity getAD_WF_Activity() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

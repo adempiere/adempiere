@@ -38,8 +38,10 @@
       <column name="HDRSTROKETYPE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="LINESTROKETYPE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="ISPAINTHEADERLINES" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR_TABLEFUNCTBG" onDelete="none">
-        <reference local="FUNCTBG_PRINTCOLOR_ID" foreign="AD_PRINTCOLOR_ID"/>
+      <column name="AD_IMAGE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="ISMULTILINEHEADER" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_IMAGE" name="ADIMAGE_ADPRINTTABLEFORMAT" onDelete="none">
+        <reference local="AD_IMAGE_ID" foreign="AD_IMAGE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR_TABLEFUNCTFG" onDelete="none">
         <reference local="FUNCTFG_PRINTCOLOR_ID" foreign="AD_PRINTCOLOR_ID"/>
@@ -53,17 +55,23 @@
       <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR_TABLELINE" onDelete="none">
         <reference local="LINE_PRINTCOLOR_ID" foreign="AD_PRINTCOLOR_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR_TABLEFUNCTBG" onDelete="none">
+        <reference local="FUNCTBG_PRINTCOLOR_ID" foreign="AD_PRINTCOLOR_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR_TABLEHDRTEXTFG" onDelete="none">
         <reference local="HDRTEXTFG_PRINTCOLOR_ID" foreign="AD_PRINTCOLOR_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="AD_PRINTFONT" name="ADPRINTFONT_TABLEFORMATFUNC" onDelete="none">
-        <reference local="FUNCT_PRINTFONT_ID" foreign="AD_PRINTFONT_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_PRINTFONT" name="ADPRINTFONT_TABLEHDR" onDelete="none">
         <reference local="HDR_PRINTFONT_ID" foreign="AD_PRINTFONT_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="AD_PRINTFONT" name="ADPRINTFONT_TABLEFORMATFUNC" onDelete="none">
+        <reference local="FUNCT_PRINTFONT_ID" foreign="AD_PRINTFONT_ID"/>
+      </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsMultiLineHeader IN ('Y','N')]]></rule>
       </check>
     </table>
   </database>

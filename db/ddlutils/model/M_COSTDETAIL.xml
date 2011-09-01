@@ -28,6 +28,11 @@
       <column name="DELTAQTY" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="PP_COST_COLLECTOR_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="CURRENTCOSTPRICE" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="CURRENTQTY" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="CUMULATEDAMT" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="CUMULATEDQTY" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_MCOSTDETAIL" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
@@ -67,9 +72,14 @@
       <foreign-key foreignTable="M_PRODUCTIONLINE" name="MPRODUCTIONLINE_MCOSTDETAIL" onDelete="none">
         <reference local="M_PRODUCTIONLINE_ID" foreign="M_PRODUCTIONLINE_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="PP_COST_COLLECTOR" name="PPCOSTCOLLECTOR_MCOSTDETAIL" onDelete="none">
+        <reference local="PP_COST_COLLECTOR_ID" foreign="PP_COST_COLLECTOR_ID"/>
+      </foreign-key>
       <index name="M_COSTDETAIL_PRODUCT">
-        <index-column name="AD_ORG_ID"/>
         <index-column name="M_PRODUCT_ID"/>
+        <index-column name="PROCESSED"/>
+      </index>
+      <index name="M_COSTDETAIL_ASI">
         <index-column name="M_ATTRIBUTESETINSTANCE_ID"/>
       </index>
       <check>

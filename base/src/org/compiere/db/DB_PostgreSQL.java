@@ -324,7 +324,7 @@ public class DB_PostgreSQL implements AdempiereDatabase
 		}
 		    //end vpj-cd 24/06/2005 e-evolution
 		//
-    	Convert.logMigrationScript(oraStatement, retValue[0]);
+    	Convert.logMigrationScript(oraStatement, retValue[0], null);
 		return retValue[0];
 	}   //  convertStatement
 

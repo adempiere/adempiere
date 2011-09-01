@@ -24,14 +24,14 @@ import org.compiere.model.*;
 
 /** Generated Model for QM_SpecificationLine
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_QM_SpecificationLine extends PO implements I_QM_SpecificationLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_QM_SpecificationLine (Properties ctx, int QM_SpecificationLine_ID, String trxName)
@@ -98,9 +98,9 @@ public class X_QM_SpecificationLine extends PO implements I_QM_SpecificationLine
 		return (String)get_Value(COLUMNNAME_AndOr);
 	}
 
-	public I_M_Attribute getM_Attribute() throws RuntimeException
+	public org.compiere.model.I_M_Attribute getM_Attribute() throws RuntimeException
     {
-		return (I_M_Attribute)MTable.get(getCtx(), I_M_Attribute.Table_Name)
+		return (org.compiere.model.I_M_Attribute)MTable.get(getCtx(), org.compiere.model.I_M_Attribute.Table_Name)
 			.getPO(getM_Attribute_ID(), get_TrxName());	}
 
 	/** Set Attribute.

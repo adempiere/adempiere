@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_PromotionGroupLine
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_M_PromotionGroupLine 
 {
@@ -104,7 +104,7 @@ public interface I_M_PromotionGroupLine
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name M_PromotionGroup_ID */
     public static final String COLUMNNAME_M_PromotionGroup_ID = "M_PromotionGroup_ID";
@@ -115,7 +115,7 @@ public interface I_M_PromotionGroupLine
 	/** Get Promotion Group	  */
 	public int getM_PromotionGroup_ID();
 
-	public I_M_PromotionGroup getM_PromotionGroup() throws RuntimeException;
+	public org.compiere.model.I_M_PromotionGroup getM_PromotionGroup() throws RuntimeException;
 
     /** Column name M_PromotionGroupLine_ID */
     public static final String COLUMNNAME_M_PromotionGroupLine_ID = "M_PromotionGroupLine_ID";

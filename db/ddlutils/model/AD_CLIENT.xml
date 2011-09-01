@@ -33,11 +33,25 @@
       <column name="STOREATTACHMENTSONFILESYSTEM" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="WINDOWSATTACHMENTPATH" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="UNIXATTACHMENTPATH" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="STOREARCHIVEONFILESYSTEM" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="WINDOWSARCHIVEPATH" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="UNIXARCHIVEPATH" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="ISUSEASP" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="AD_REPLICATIONSTRATEGY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_LANGUAGE" name="ADLANGU_ADCLIENT" onDelete="none">
+        <reference local="AD_LANGUAGE" foreign="AD_LANGUAGE"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_REPLICATIONSTRATEGY" name="ADREPLICATIONSTRATEGY_ADCLIENT" onDelete="none">
+        <reference local="AD_REPLICATIONSTRATEGY_ID" foreign="AD_REPLICATIONSTRATEGY_ID"/>
+      </foreign-key>
       <unique name="AD_CLIENT_NAME">
         <unique-column name="NAME"/>
       </unique>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsUseASP IN ('Y','N')]]></rule>
       </check>
     </table>
   </database>

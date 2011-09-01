@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_AttributeInstance
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_M_AttributeInstance extends PO implements I_M_AttributeInstance, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_M_AttributeInstance (Properties ctx, int M_AttributeInstance_ID, String trxName)
@@ -73,9 +73,9 @@ public class X_M_AttributeInstance extends PO implements I_M_AttributeInstance, 
       return sb.toString();
     }
 
-	public I_M_Attribute getM_Attribute() throws RuntimeException
+	public org.compiere.model.I_M_Attribute getM_Attribute() throws RuntimeException
     {
-		return (I_M_Attribute)MTable.get(getCtx(), I_M_Attribute.Table_Name)
+		return (org.compiere.model.I_M_Attribute)MTable.get(getCtx(), org.compiere.model.I_M_Attribute.Table_Name)
 			.getPO(getM_Attribute_ID(), get_TrxName());	}
 
 	/** Set Attribute.
@@ -129,9 +129,9 @@ public class X_M_AttributeInstance extends PO implements I_M_AttributeInstance, 
 		return ii.intValue();
 	}
 
-	public I_M_AttributeValue getM_AttributeValue() throws RuntimeException
+	public org.compiere.model.I_M_AttributeValue getM_AttributeValue() throws RuntimeException
     {
-		return (I_M_AttributeValue)MTable.get(getCtx(), I_M_AttributeValue.Table_Name)
+		return (org.compiere.model.I_M_AttributeValue)MTable.get(getCtx(), org.compiere.model.I_M_AttributeValue.Table_Name)
 			.getPO(getM_AttributeValue_ID(), get_TrxName());	}
 
 	/** Set Attribute Value.

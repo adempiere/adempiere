@@ -1,4 +1,4 @@
-@Echo	Adempiere Full Database Export 	$Revision: 1.6 $
+@Echo	ADempiere Full Database Export 	$Revision: 1.6 $
 
 @Rem $Id: DBExportFull.bat,v 1.6 2005/04/27 17:45:01 jjanke Exp $
 

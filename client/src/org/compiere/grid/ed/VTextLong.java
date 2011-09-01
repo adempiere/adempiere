@@ -53,12 +53,12 @@ import org.compiere.util.Msg;
 public class VTextLong extends CTextPane
 	implements VEditor, KeyListener, ActionListener, FocusListener
 {
+	/*****************************************************************************/
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2293022820407789036L;
-
-	/*****************************************************************************/
+	private static final long serialVersionUID = 6484690202241390248L;
 
 	/**
 	 *	Mouse Listener
@@ -254,6 +254,11 @@ public class VTextLong extends CTextPane
 		if (m_mField != null)
 			FieldRecordInfo.addMenu(this, popupMenu);
 	}   //  setField
+
+	@Override
+	public GridField getField() {
+		return m_mField;
+	}
 
 	@Override
 	public void focusGained(FocusEvent e) {

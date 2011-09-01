@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for R_RequestType
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_R_RequestType 
 {
@@ -286,7 +286,7 @@ public interface I_R_RequestType
 	  */
 	public int getR_StatusCategory_ID();
 
-	public I_R_StatusCategory getR_StatusCategory() throws RuntimeException;
+	public org.compiere.model.I_R_StatusCategory getR_StatusCategory() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

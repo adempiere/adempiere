@@ -37,6 +37,7 @@ import org.adempiere.webui.apps.ProcessModalDialog;
 import org.adempiere.webui.apps.WReport;
 import org.adempiere.webui.apps.form.WCreateFromFactory;
 import org.adempiere.webui.apps.form.WPayment;
+import org.adempiere.webui.component.AbstractADTab;
 import org.adempiere.webui.component.CWindowToolbar;
 import org.adempiere.webui.component.IADTab;
 import org.adempiere.webui.component.IADTabList;
@@ -51,6 +52,7 @@ import org.adempiere.webui.part.AbstractUIPart;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
 import org.adempiere.webui.window.FindWindow;
+import org.adempiere.webui.window.WChat;
 import org.adempiere.webui.window.WRecordAccessDialog;
 import org.compiere.grid.ICreateFrom;
 import org.compiere.model.DataStatusEvent;
@@ -74,6 +76,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
 import org.compiere.util.WebDoc;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
@@ -208,6 +211,10 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 		adTab = createADTab();
 		adTab.addSelectionEventListener(this);
+		if (adTab instanceof AbstractADTab)
+		{
+			((AbstractADTab)adTab).setADWindowPanel(this);
+		}
 
         return super.createPart(parent);
     }
@@ -756,8 +763,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	{
 		if (!toolbar.isPersonalLock)
 			return;
-		final int record_ID = curTab.getRecord_ID();
-		if (record_ID == -1)	//	No Key
+		if (curTab.getRecord_ID() == -1)	//	No Key
 			return;
 
 		if(m_popup == null)
@@ -770,7 +776,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			{
 				public void onEvent(Event event) throws Exception
 				{
-					curTab.lock(Env.getCtx(), record_ID, !toolbar.getButton("Lock").isPressed());
+					curTab.lock(Env.getCtx(), curTab.getRecord_ID(), !toolbar.getButton("Lock").isPressed());
 					curTab.loadAttachments();			//	reload
 
 					toolbar.lock(curTab.isLocked());
@@ -783,7 +789,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			{
 				public void onEvent(Event event) throws Exception
 				{
-					new WRecordAccessDialog(null, curTab.getAD_Table_ID(), record_ID);
+					new WRecordAccessDialog(null, curTab.getAD_Table_ID(), curTab.getRecord_ID());
 
 					toolbar.lock(curTab.isLocked());
 				}
@@ -860,6 +866,38 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		focusToActivePanel();
 	}
 
+    public void onChat()
+    {
+    	int recordId = curTab.getRecord_ID();
+    	logger.info("Record_ID=" + recordId);
+
+		if (recordId== -1)	//	No Key
+		{
+			return;
+		}
+
+		//	Find display
+		String infoName = null;
+		String infoDisplay = null;
+		for (int i = 0; i < curTab.getFieldCount(); i++)
+		{
+			GridField field = curTab.getField(i);
+			if (field.isKey())
+				infoName = field.getHeader();
+			if ((field.getColumnName().equals("Name") || field.getColumnName().equals("DocumentNo") )
+				&& field.getValue() != null)
+				infoDisplay = field.getValue().toString();
+			if (infoName != null && infoDisplay != null)
+				break;
+		}
+		String description = infoName + ": " + infoDisplay;
+		
+    	new WChat(curWindowNo, curTab.getCM_ChatID(), curTab.getAD_Table_ID(), recordId, description, null);
+    	curTab.loadChats();
+		toolbar.getButton("Chat").setPressed(curTab.hasChat());
+		focusToActivePanel();
+    }
+    
     /**
      * @see ToolbarListener#onToggle()
      */
@@ -874,7 +912,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
      */
     public boolean onExit()
     {
-    	String message = "Please save changes before closing";
+    	String message = Msg.getMsg(ctx, "SaveBeforeClose");
 
     	if (!boolChanges)
     	{
@@ -1066,6 +1104,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		        curTabIndex < (adTab.getTabCount() - 1));
 
 		toolbar.getButton("Attachment").setPressed(curTab.hasAttachment());
+		toolbar.getButton("Chat").setPressed(curTab.hasChat());
 		if (isFirstTab())
         {
             toolbar.getButton("HistoryRecords").setPressed(!curTab.isOnlyCurrentRows());
@@ -1232,6 +1271,27 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
             toolbar.enableAttachment(false);
         }
 
+        // Check Chat
+        boolean canHaveChat = true;
+        if (e.isLoading() &&
+                curTab.getCurrentRow() > e.getLoadedRows())
+        {
+            canHaveChat = false;
+        }
+        if (canHaveChat && curTab.getRecord_ID() == -1)    //   No Key
+        {
+            canHaveChat = false;
+        }
+        if (canHaveChat)
+        {
+            toolbar.enableChat(true);
+            toolbar.getButton("Chat").setPressed(curTab.hasChat());
+        }
+        else
+        {
+        	toolbar.enableChat(false);
+        }
+        
         toolbar.getButton("Find").setPressed(curTab.isQueryActive());
 
         // Elaine 2008/12/05
@@ -1588,7 +1648,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		div.appendChild(hbox);
 
 		Button btnOk = new Button();
-		btnOk.setLabel("OK");
+		btnOk.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "OK")));
 		btnOk.setImage("/images/Ok16.png");
 		btnOk.addEventListener(Events.ON_CLICK, new EventListener()
 		{
@@ -1631,7 +1691,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		hbox.appendChild(btnOk);
 
 		Button btnCancel = new Button();
-		btnCancel.setLabel("Cancel");
+		btnCancel.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "Cancel")));
 		btnCancel.setImage("/images/Cancel16.png");
 		btnCancel.addEventListener(Events.ON_CLICK, new EventListener()
 		{

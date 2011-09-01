@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_POSKey
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_C_POSKey 
 {
@@ -62,8 +62,6 @@ public interface I_C_POSKey
 	  */
 	public int getAD_Image_ID();
 
-	public I_AD_Image getAD_Image() throws RuntimeException;
-
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -90,7 +88,7 @@ public interface I_C_POSKey
 	  */
 	public int getAD_PrintColor_ID();
 
-	public I_AD_PrintColor getAD_PrintColor() throws RuntimeException;
+	public org.compiere.model.I_AD_PrintColor getAD_PrintColor() throws RuntimeException;
 
     /** Column name AD_PrintFont_ID */
     public static final String COLUMNNAME_AD_PrintFont_ID = "AD_PrintFont_ID";
@@ -105,7 +103,7 @@ public interface I_C_POSKey
 	  */
 	public int getAD_PrintFont_ID();
 
-	public I_AD_PrintFont getAD_PrintFont() throws RuntimeException;
+	public org.compiere.model.I_AD_PrintFont getAD_PrintFont() throws RuntimeException;
 
     /** Column name C_POSKey_ID */
     public static final String COLUMNNAME_C_POSKey_ID = "C_POSKey_ID";
@@ -133,7 +131,7 @@ public interface I_C_POSKey
 	  */
 	public int getC_POSKeyLayout_ID();
 
-	public I_C_POSKeyLayout getC_POSKeyLayout() throws RuntimeException;
+	public org.compiere.model.I_C_POSKeyLayout getC_POSKeyLayout() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -190,7 +188,7 @@ public interface I_C_POSKey
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -272,7 +270,7 @@ public interface I_C_POSKey
 	  */
 	public int getSubKeyLayout_ID();
 
-	public I_C_POSKeyLayout getSubKeyLayout() throws RuntimeException;
+	public org.compiere.model.I_C_POSKeyLayout getSubKeyLayout() throws RuntimeException;
 
     /** Column name Text */
     public static final String COLUMNNAME_Text = "Text";

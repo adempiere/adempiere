@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_CycleStep
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_C_CycleStep 
 {
@@ -75,7 +75,7 @@ public interface I_C_CycleStep
 	  */
 	public int getC_Cycle_ID();
 
-	public I_C_Cycle getC_Cycle() throws RuntimeException;
+	public org.compiere.model.I_C_Cycle getC_Cycle() throws RuntimeException;
 
     /** Column name C_CycleStep_ID */
     public static final String COLUMNNAME_C_CycleStep_ID = "C_CycleStep_ID";

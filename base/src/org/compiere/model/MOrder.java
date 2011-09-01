@@ -18,7 +18,9 @@ package org.compiere.model;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -1908,7 +1910,7 @@ public class MOrder extends X_C_Order implements DocAction
 		if (counterAD_Org_ID == 0)
 			return null;
 		
-		MBPartner counterBP = new MBPartner (getCtx(), counterC_BPartner_ID, null);
+		MBPartner counterBP = new MBPartner (getCtx(), counterC_BPartner_ID, get_TrxName());
 		MOrgInfo counterOrgInfo = MOrgInfo.get(getCtx(), counterAD_Org_ID, get_TrxName());
 		log.info("Counter BP=" + counterBP.getName());
 
@@ -2413,5 +2415,31 @@ public class MOrder extends X_C_Order implements DocAction
 			|| DOCSTATUS_Closed.equals(ds)
 			|| DOCSTATUS_Reversed.equals(ds);
 	}	//	isComplete
+	
+	/**
+	 * Checks if the order is fully delivered and if it is
+	 * the IsDelivered flag will be updated.
+	 * 
+	 * @param C_Order_ID
+	 */
+	public void updateIsDelivered() throws SQLException {
+		
+		if (isDelivered()) return;
+		
+		String query = "SELECT SUM(QtyOrdered-QtyDelivered) FROM C_OrderLine WHERE C_Order_ID=?";
+		PreparedStatement ps = DB.prepareStatement(query, get_TrxName());
+		ps.setInt(1, get_ID());
+		ResultSet rs = ps.executeQuery();
+		if (rs.next()) {
+			int delta = rs.getInt(1);
+			if (delta==0) {
+				setIsDelivered(true);
+			}
+		}
+		rs.close();
+		ps.close();
+		
+	}
+	
 	
 }	//	MOrder

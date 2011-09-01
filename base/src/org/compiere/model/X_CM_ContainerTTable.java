@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_ContainerTTable
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_CM_ContainerTTable extends PO implements I_CM_ContainerTTable, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_CM_ContainerTTable (Properties ctx, int CM_ContainerTTable_ID, String trxName)
@@ -73,9 +73,9 @@ public class X_CM_ContainerTTable extends PO implements I_CM_ContainerTTable, I_
       return sb.toString();
     }
 
-	public I_CM_Container getCM_Container() throws RuntimeException
+	public org.compiere.model.I_CM_Container getCM_Container() throws RuntimeException
     {
-		return (I_CM_Container)MTable.get(getCtx(), I_CM_Container.Table_Name)
+		return (org.compiere.model.I_CM_Container)MTable.get(getCtx(), org.compiere.model.I_CM_Container.Table_Name)
 			.getPO(getCM_Container_ID(), get_TrxName());	}
 
 	/** Set Web Container.
@@ -124,9 +124,9 @@ public class X_CM_ContainerTTable extends PO implements I_CM_ContainerTTable, I_
 		return ii.intValue();
 	}
 
-	public I_CM_TemplateTable getCM_TemplateTable() throws RuntimeException
+	public org.compiere.model.I_CM_TemplateTable getCM_TemplateTable() throws RuntimeException
     {
-		return (I_CM_TemplateTable)MTable.get(getCtx(), I_CM_TemplateTable.Table_Name)
+		return (org.compiere.model.I_CM_TemplateTable)MTable.get(getCtx(), org.compiere.model.I_CM_TemplateTable.Table_Name)
 			.getPO(getCM_TemplateTable_ID(), get_TrxName());	}
 
 	/** Set Template Table.

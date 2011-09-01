@@ -42,6 +42,7 @@ mrp.ordertype,
 mrp.typemrp,
 p.LowLevel,
 mrp.C_BPartner_ID,
+mrp.version,
 documentNo(mrp.pp_mrp_id) AS documentNo
 FROM pp_mrp mrp
 INNER JOIN M_Product p ON (mrp.M_Product_ID = p.M_Product_ID)
@@ -90,6 +91,7 @@ CAST('STK' AS nvarchar2(3)), --mrp.ordertype,
 'D' , --mrp.typemrp,
 p.LowLevel,
 null, --C_BPartner_ID
+null,
 CAST('Safety Stock' AS nvarchar2(80))   --documentNo(mrp.pp_mrp_id) AS documentNo
 FROM pp_product_planning pp 
 INNER JOIN M_Product p ON (pp.M_Product_ID = p.M_Product_ID)

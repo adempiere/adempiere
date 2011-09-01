@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_OrgInfo
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_AD_OrgInfo 
 {
@@ -75,7 +75,7 @@ public interface I_AD_OrgInfo
 	  */
 	public int getAD_OrgType_ID();
 
-	public I_AD_OrgType getAD_OrgType() throws RuntimeException;
+	public org.compiere.model.I_AD_OrgType getAD_OrgType() throws RuntimeException;
 
     /** Column name C_Calendar_ID */
     public static final String COLUMNNAME_C_Calendar_ID = "C_Calendar_ID";
@@ -90,7 +90,7 @@ public interface I_AD_OrgInfo
 	  */
 	public int getC_Calendar_ID();
 
-	public I_C_Calendar getC_Calendar() throws RuntimeException;
+	public org.compiere.model.I_C_Calendar getC_Calendar() throws RuntimeException;
 
     /** Column name C_Location_ID */
     public static final String COLUMNNAME_C_Location_ID = "C_Location_ID";
@@ -136,7 +136,7 @@ public interface I_AD_OrgInfo
 	  */
 	public int getDropShip_Warehouse_ID();
 
-	public I_M_Warehouse getDropShip_Warehouse() throws RuntimeException;
+	public org.compiere.model.I_M_Warehouse getDropShip_Warehouse() throws RuntimeException;
 
     /** Column name DUNS */
     public static final String COLUMNNAME_DUNS = "DUNS";
@@ -212,7 +212,7 @@ public interface I_AD_OrgInfo
 	  */
 	public int getM_Warehouse_ID();
 
-	public I_M_Warehouse getM_Warehouse() throws RuntimeException;
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
 
     /** Column name Parent_Org_ID */
     public static final String COLUMNNAME_Parent_Org_ID = "Parent_Org_ID";
@@ -279,7 +279,7 @@ public interface I_AD_OrgInfo
 	  */
 	public int getSupervisor_ID();
 
-	public I_AD_User getSupervisor() throws RuntimeException;
+	public org.compiere.model.I_AD_User getSupervisor() throws RuntimeException;
 
     /** Column name TaxID */
     public static final String COLUMNNAME_TaxID = "TaxID";
@@ -307,7 +307,7 @@ public interface I_AD_OrgInfo
 	  */
 	public int getTransferBank_ID();
 
-	public I_C_Bank getTransferBank() throws RuntimeException;
+	public org.compiere.model.I_C_Bank getTransferBank() throws RuntimeException;
 
     /** Column name TransferCashBook_ID */
     public static final String COLUMNNAME_TransferCashBook_ID = "TransferCashBook_ID";
@@ -318,7 +318,7 @@ public interface I_AD_OrgInfo
 	/** Get CashBook for transfers	  */
 	public int getTransferCashBook_ID();
 
-	public I_C_CashBook getTransferCashBook() throws RuntimeException;
+	public org.compiere.model.I_C_CashBook getTransferCashBook() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

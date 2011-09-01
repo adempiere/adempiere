@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_CStageTTable
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_CM_CStageTTable extends PO implements I_CM_CStageTTable, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
     public X_CM_CStageTTable (Properties ctx, int CM_CStageTTable_ID, String trxName)
@@ -73,9 +73,9 @@ public class X_CM_CStageTTable extends PO implements I_CM_CStageTTable, I_Persis
       return sb.toString();
     }
 
-	public I_CM_CStage getCM_CStage() throws RuntimeException
+	public org.compiere.model.I_CM_CStage getCM_CStage() throws RuntimeException
     {
-		return (I_CM_CStage)MTable.get(getCtx(), I_CM_CStage.Table_Name)
+		return (org.compiere.model.I_CM_CStage)MTable.get(getCtx(), org.compiere.model.I_CM_CStage.Table_Name)
 			.getPO(getCM_CStage_ID(), get_TrxName());	}
 
 	/** Set Web Container Stage.
@@ -124,9 +124,9 @@ public class X_CM_CStageTTable extends PO implements I_CM_CStageTTable, I_Persis
 		return ii.intValue();
 	}
 
-	public I_CM_TemplateTable getCM_TemplateTable() throws RuntimeException
+	public org.compiere.model.I_CM_TemplateTable getCM_TemplateTable() throws RuntimeException
     {
-		return (I_CM_TemplateTable)MTable.get(getCtx(), I_CM_TemplateTable.Table_Name)
+		return (org.compiere.model.I_CM_TemplateTable)MTable.get(getCtx(), org.compiere.model.I_CM_TemplateTable.Table_Name)
 			.getPO(getCM_TemplateTable_ID(), get_TrxName());	}
 
 	/** Set Template Table.

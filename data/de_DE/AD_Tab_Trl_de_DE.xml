@@ -832,8 +832,7 @@ Please note that the Print Format is only used for Document Print when you want 
   <value column="Help" original=""/>
  </row>
  <row id="275" trl="Y">
-  <value column="Name" original="Perpetual Inventory">Permanente Stichtagsinventur
-</value>
+  <value column="Name" original="Perpetual Inventory">Permanente Stichtagsinventur</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original=""/>
   <value column="Help" original=""/>

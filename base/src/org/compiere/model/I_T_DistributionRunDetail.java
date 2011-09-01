@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for T_DistributionRunDetail
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_T_DistributionRunDetail 
 {
@@ -75,7 +75,7 @@ public interface I_T_DistributionRunDetail
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_BPartner_Location_ID */
     public static final String COLUMNNAME_C_BPartner_Location_ID = "C_BPartner_Location_ID";
@@ -90,7 +90,7 @@ public interface I_T_DistributionRunDetail
 	  */
 	public int getC_BPartner_Location_ID();
 
-	public I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -134,7 +134,7 @@ public interface I_T_DistributionRunDetail
 	  */
 	public int getM_DistributionList_ID();
 
-	public I_M_DistributionList getM_DistributionList() throws RuntimeException;
+	public org.compiere.model.I_M_DistributionList getM_DistributionList() throws RuntimeException;
 
     /** Column name M_DistributionListLine_ID */
     public static final String COLUMNNAME_M_DistributionListLine_ID = "M_DistributionListLine_ID";
@@ -149,7 +149,7 @@ public interface I_T_DistributionRunDetail
 	  */
 	public int getM_DistributionListLine_ID();
 
-	public I_M_DistributionListLine getM_DistributionListLine() throws RuntimeException;
+	public org.compiere.model.I_M_DistributionListLine getM_DistributionListLine() throws RuntimeException;
 
     /** Column name M_DistributionRun_ID */
     public static final String COLUMNNAME_M_DistributionRun_ID = "M_DistributionRun_ID";
@@ -164,7 +164,7 @@ public interface I_T_DistributionRunDetail
 	  */
 	public int getM_DistributionRun_ID();
 
-	public I_M_DistributionRun getM_DistributionRun() throws RuntimeException;
+	public org.compiere.model.I_M_DistributionRun getM_DistributionRun() throws RuntimeException;
 
     /** Column name M_DistributionRunLine_ID */
     public static final String COLUMNNAME_M_DistributionRunLine_ID = "M_DistributionRunLine_ID";
@@ -179,7 +179,7 @@ public interface I_T_DistributionRunDetail
 	  */
 	public int getM_DistributionRunLine_ID();
 
-	public I_M_DistributionRunLine getM_DistributionRunLine() throws RuntimeException;
+	public org.compiere.model.I_M_DistributionRunLine getM_DistributionRunLine() throws RuntimeException;
 
     /** Column name MinQty */
     public static final String COLUMNNAME_MinQty = "MinQty";
@@ -207,7 +207,7 @@ public interface I_T_DistributionRunDetail
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Qty */
     public static final String COLUMNNAME_Qty = "Qty";

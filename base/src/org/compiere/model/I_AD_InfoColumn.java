@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_InfoColumn
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_AD_InfoColumn 
 {
@@ -62,7 +62,7 @@ public interface I_AD_InfoColumn
 	  */
 	public int getAD_Element_ID();
 
-	public I_AD_Element getAD_Element() throws RuntimeException;
+	public org.compiere.model.I_AD_Element getAD_Element() throws RuntimeException;
 
     /** Column name AD_InfoColumn_ID */
     public static final String COLUMNNAME_AD_InfoColumn_ID = "AD_InfoColumn_ID";
@@ -90,7 +90,7 @@ public interface I_AD_InfoColumn
 	  */
 	public int getAD_InfoWindow_ID();
 
-	public I_AD_InfoWindow getAD_InfoWindow() throws RuntimeException;
+	public org.compiere.model.I_AD_InfoWindow getAD_InfoWindow() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -118,7 +118,7 @@ public interface I_AD_InfoColumn
 	  */
 	public int getAD_Reference_ID();
 
-	public I_AD_Reference getAD_Reference() throws RuntimeException;
+	public org.compiere.model.I_AD_Reference getAD_Reference() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
