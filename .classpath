@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/adempiereLiberoSB"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/contribution_eevolution_smart_browser"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/adempiereLibero"/>
 	<classpathentry kind="src" path="extension/eevolution/warehousemanagement/src/main/java"/>
+	<classpathentry kind="src" path="extension/eevolution/warehousemanagement/src/main/scripts"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/adempiereTrunk"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
