@@ -62,9 +62,6 @@ public class SignDatabaseBuild
 		} finally {
 			DB.close(updateStmt);
 		}
-
-		MigrationLoader loader = new MigrationLoader();
-		loader.load(Env.getCtx());
 	}
 
 }	//	SignDatabaseBuild
