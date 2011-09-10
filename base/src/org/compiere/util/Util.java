@@ -34,6 +34,8 @@ import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 
+import org.adempiere.exceptions.AdempiereException;
+
 /**
  *  General Utilities
  *
@@ -41,6 +43,7 @@ import javax.swing.KeyStroke;
  *  @version    $Id: Util.java,v 1.3 2006/07/30 00:52:23 jjanke Exp $
  *  
  *  @author     Teo Sarca, SC ARHIPAC SERVICE SRL - BF [ 1748346 ]
+ *  @author     t.schoeneberg@metas.de - FR [ 3407104 ] Explicit Assumptions
  */
 public class Util
 {
@@ -683,4 +686,25 @@ public class Util
 		/* */
 	}
 
+	/**
+	 * Little method that throws an {@link AdempiereException} if the given boolean condition is false. It might be a
+	 * good idea to use "assume" over the assert keyword, because
+	 * <ul>
+	 * <li>assert is globally switched on and off and you never know what else libs are using assert</li>
+	 * <li>there are critical assumptions that should always be validated. Not only during development time or when
+	 * someone minds to use the -ea cmdline parameter</li>
+	 * </ul>
+	 * 
+	 * @param cond
+	 * @param errMsg
+	 *            the error message to pass to the adempiere exception, if the condition is <code>false</code>
+	 */
+	public static void assume(final boolean cond, final String errMsg)
+	{
+		if (!cond)
+		{
+			throw new AdempiereException("Assumtion failure: " + errMsg);
+		}
+	}
+	
 }   //  Util
