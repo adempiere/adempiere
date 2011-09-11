@@ -29,6 +29,7 @@ import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Util;
 
 /**
  * 	Inventory Storage Model
@@ -463,11 +464,18 @@ public class MStorage extends X_M_Storage
 		if (diffQtyReserved != null && diffQtyReserved.signum() != 0)
 		{
 			if (storage0 == null)
-				storage.setQtyReserved (storage.getQtyReserved().add (diffQtyReserved));
+			{
+				storage.setQtyReserved(storage.getQtyReserved().add(diffQtyReserved));
+				Util.assume(storage.getQtyReserved().signum() >= 0, "QtyReserved should be >=0 for " + storage);
+			}
 			else
-				storage0.setQtyReserved (storage0.getQtyReserved().add (diffQtyReserved));
+			{
+				storage0.setQtyReserved(storage0.getQtyReserved().add(diffQtyReserved));
+				Util.assume(storage0.getQtyReserved().signum() >= 0, "QtyReserved should be >=0 for " + storage0);
+			}
 			diffText.append(" Reserved=").append(diffQtyReserved);
 			changed = true;
+			
 		}
 		if (diffQtyOrdered != null && diffQtyOrdered.signum() != 0)
 		{
