@@ -415,14 +415,9 @@ public class MRP extends SvrProcess
 						if (m_product_planning == null)
 							continue;	  
 							
-						//first DatePromised.compareTo for ORDER_POLICY_PeriodOrderQuantity
 						if (X_PP_Product_Planning.ORDER_POLICY_PeriodOrderQuantity.equals(m_product_planning.getOrder_Policy()))
 						{
-							DatePromisedFrom = DatePromised;
-							DatePromisedTo = TimeUtil.addDays(DatePromised , m_product_planning.getOrder_Period().intValueExact());                                       
-							//set the POQDateStartSchedule && POQDateStartSchedule to first period
-							//POQDateStartSchedule = (level == 0 ? DatePromised : DateStartSchedule);
-							POQDateStartSchedule = DatePromised;
+							POQDateStartSchedule =null;
 						}
 					} // new product
 					
@@ -430,6 +425,24 @@ public class MRP extends SvrProcess
 					if (m_product_planning == null)
 						continue;
 					
+					int daysPOQ = m_product_planning.getOrder_Period().intValueExact() - 1;
+					//first DatePromised.compareTo for ORDER_POLICY_PeriodOrderQuantity
+					if (X_PP_Product_Planning.ORDER_POLICY_PeriodOrderQuantity.equals(m_product_planning.getOrder_Policy()) 
+							&& (DatePromisedTo !=null && DatePromised.compareTo(DatePromisedTo) > 0))
+					{
+						calculatePlan(AD_Client_ID,AD_Org_ID,M_Warehouse_ID,PP_MRP_ID,product ,DatePromisedFrom);						
+						DatePromisedFrom = DatePromised;
+						DatePromisedTo = TimeUtil.addDays(DatePromised, daysPOQ<0 ? 0 : daysPOQ);                                     
+						POQDateStartSchedule = DatePromised;
+						
+					}
+					else if(POQDateStartSchedule==null)
+					{
+						DatePromisedFrom = DatePromised;
+						DatePromisedTo = TimeUtil.addDays(DatePromised, daysPOQ<0 ? 0 : daysPOQ);                                     
+						POQDateStartSchedule = DatePromised;
+					}
+									
 					//MRP-150
 					//Past Due Demand
 					//Indicates that a demand order is past due.
@@ -446,24 +459,14 @@ public class MRP extends SvrProcess
 					if (X_PP_Product_Planning.ORDER_POLICY_PeriodOrderQuantity.equals(m_product_planning.getOrder_Policy()))
 					{
 						// Verify if is DatePromised < DatePromisedTo then Accumulation QtyGrossReqs 
-						if (DatePromisedTo != null && DatePromised.compareTo(DatePromisedTo) < 0)
+						if (DatePromisedTo != null && DatePromised.compareTo(DatePromisedTo) <= 0)
 						{
 							QtyGrossReqs = QtyGrossReqs.add(Qty);
 							log.info("Accumulation   QtyGrossReqs:" + QtyGrossReqs);
 							log.info("DatePromised:" + DatePromised);
 							log.info("DatePromisedTo:" + DatePromisedTo);
 							continue;
-						}
-						else
-						{ // if not then create new range for next period
-							BeforeDateStartSchedule =  POQDateStartSchedule; 
-							QtyGrossReqs = QtyGrossReqs.add(Qty); 
-							calculatePlan(AD_Client_ID,AD_Org_ID,M_Warehouse_ID,PP_MRP_ID,product ,BeforeDateStartSchedule);																	
-							DatePromisedFrom = DatePromised;
-							DatePromisedTo = TimeUtil.addDays(DatePromised, m_product_planning.getOrder_Period().intValueExact());         
-							POQDateStartSchedule = (level == 0 ? DatePromised : DateStartSchedule);
-							continue;
-						}
+						}						
 					}
 					// If  Order_Policy = LoteForLote then always create new range for next period and put QtyGrossReqs          
 					else if (X_PP_Product_Planning.ORDER_POLICY_Lot_For_Lot.equals(m_product_planning.getOrder_Policy()))
