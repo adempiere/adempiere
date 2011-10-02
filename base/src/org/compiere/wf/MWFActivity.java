@@ -1150,6 +1150,8 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			dbValue = new Boolean("Y".equals(value));
 		else if (DisplayType.isNumeric(displayType))
 			dbValue = new BigDecimal (value);
+		else if (DisplayType.isID(displayType)) // Fix[3409739]DocValueWorkflow_cannot_set_var_ID_Column
+			dbValue = new Integer (value);
 		else
 			dbValue = value;
 		m_po.set_ValueOfColumn(getNode().getAD_Column_ID(), dbValue);
