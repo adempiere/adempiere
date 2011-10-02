@@ -563,7 +563,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
             try {
             	conn = getConnection();
                 jasperPrint = JasperFillManager.fillReport( jasperReport, params, conn);
-                if (reportData.isDirectPrint() || !processInfo.isPrintPreview())
+                if (reportData.isDirectPrint() && !processInfo.isPrintPreview())
                 {
                     log.info( "ReportStarter.startProcess print report -" + jasperPrint.getName());
                     //RF 1906632
