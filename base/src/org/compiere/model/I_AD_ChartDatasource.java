@@ -72,13 +72,13 @@ public interface I_AD_ChartDatasource
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
-	/** Set Organization.
-	  * Organizational entity within client
+	/** Set Organisation.
+	  * Organisational entity within client
 	  */
 	public void setAD_Org_ID (int AD_Org_ID);
 
-	/** Get Organization.
-	  * Organizational entity within client
+	/** Get Organisation.
+	  * Organisational entity within client
 	  */
 	public int getAD_Org_ID();
 
@@ -218,6 +218,15 @@ public interface I_AD_ChartDatasource
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
+
+    /** Column name SeriesColumn */
+    public static final String COLUMNNAME_SeriesColumn = "SeriesColumn";
+
+	/** Set Series Column	  */
+	public void setSeriesColumn (String SeriesColumn);
+
+	/** Get Series Column	  */
+	public String getSeriesColumn();
 
     /** Column name TimeOffset */
     public static final String COLUMNNAME_TimeOffset = "TimeOffset";

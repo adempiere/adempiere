@@ -993,7 +993,7 @@ public class GridController extends CPanel
 			Component comp = comps[i];
 			String columnName = comp.getName();
 			
-			if ( comp instanceof VChart )
+			if ( comp instanceof VChart && isSingleRow())
 			{
 				((VChart) comp).createChart();
 			}

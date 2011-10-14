@@ -30,7 +30,7 @@ public class X_AD_ChartDatasource extends PO implements I_AD_ChartDatasource, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20101006L;
+	private static final long serialVersionUID = 20110908L;
 
     /** Standard Constructor */
     public X_AD_ChartDatasource (Properties ctx, int AD_ChartDatasource_ID, String trxName)
@@ -281,6 +281,20 @@ public class X_AD_ChartDatasource extends PO implements I_AD_ChartDatasource, I_
     {
         return new KeyNamePair(get_ID(), getName());
     }
+
+	/** Set Series Column.
+		@param SeriesColumn Series Column	  */
+	public void setSeriesColumn (String SeriesColumn)
+	{
+		set_Value (COLUMNNAME_SeriesColumn, SeriesColumn);
+	}
+
+	/** Get Series Column.
+		@return Series Column	  */
+	public String getSeriesColumn () 
+	{
+		return (String)get_Value(COLUMNNAME_SeriesColumn);
+	}
 
 	/** Set Time Offset.
 		@param TimeOffset 

@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import org.adempiere.exceptions.DBException;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
@@ -57,7 +58,14 @@ public class MChartDatasource extends X_AD_ChartDatasource {
 		}
 		
 		boolean hasWhere = false;
-		String sql = "SELECT " + value + ", " + category 
+		String series = DB.TO_STRING(getName());
+		boolean hasSeries = false;
+		if (getSeriesColumn() != null)
+		{
+			series = getSeriesColumn();
+			hasSeries = true;
+		}
+		String sql = "SELECT " + value + ", " + category  + ", " + series
 		+ " FROM " + getFromClause();
 		if ( !Util.isEmpty(where))
 		{
@@ -86,17 +94,16 @@ public class MChartDatasource extends X_AD_ChartDatasource {
 			sql += category + "<=TRUNC(" + DB.TO_DATE(new Timestamp(endDate.getTime())) + ", '" + unit + "') ";
 		}
 		
-		
-		sql += " GROUP BY " + category + " ORDER BY " + category;
+		if (hasSeries)
+			sql += " GROUP BY " + series + ", " + category + " ORDER BY " + series + ", "  + category;
+		else
+			sql += " GROUP BY " + category + " ORDER BY " + category;
 		
 		log.log(Level.FINE, sql);
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		Date lastDate = null;
-		
-
-		
+		Date lastDate = startDate;
 		try
 		{
 		     pstmt = DB.prepareStatement(sql, null);
@@ -105,6 +112,7 @@ public class MChartDatasource extends X_AD_ChartDatasource {
 		     {
 
 		    	 String key = rs.getString(2);
+		    	 String seriesName = rs.getString(3);
 		    	 if ( parent.isTimeSeries() )
 		    	 {
 		    		 Date date = rs.getDate(2);
@@ -112,9 +120,10 @@ public class MChartDatasource extends X_AD_ChartDatasource {
 		    		 Date expected = increment(lastDate, parent.getTimeUnit());
 		    		 
 		    		 // generate empty data for missing periods
-		    		 while ( lastDate != null && !formatDate(date, parent.getTimeUnit()).equals(formatDate(expected, parent.getTimeUnit()) ) )
+		    		 while ( lastDate != null && date.compareTo(expected) > 0 
+		    				 && !formatDate(expected, parent.getTimeUnit()).equals(formatDate(date, parent.getTimeUnit())))
 		    		 {
-				         ((DefaultCategoryDataset)parent.getCategoryDataset()).addValue(Env.ZERO, getName(), formatDate(expected, parent.getTimeUnit()));
+				         ((DefaultCategoryDataset)parent.getCategoryDataset()).addValue(Env.ZERO, Msg.getMsg(getCtx(), "NoData"), formatDate(expected, parent.getTimeUnit()));
 				         expected = increment(expected, parent.getTimeUnit());
 		    		 }
 		    		 
@@ -122,7 +131,7 @@ public class MChartDatasource extends X_AD_ChartDatasource {
 		    		lastDate = date;
 		    	 }
 		    		 
-		         ((DefaultCategoryDataset)parent.getCategoryDataset()).addValue(rs.getBigDecimal(1), getName(), key);
+		         ((DefaultCategoryDataset)parent.getCategoryDataset()).addValue(rs.getBigDecimal(1), seriesName, key);
 		         ((DefaultPieDataset) parent.getPieDataset()).setValue(key, rs.getBigDecimal(1));
 		     }
 		}
@@ -140,7 +149,7 @@ public class MChartDatasource extends X_AD_ChartDatasource {
 		 {
 
 	         lastDate = increment(lastDate, parent.getTimeUnit());
-	         ((DefaultCategoryDataset)parent.getCategoryDataset()).addValue(Env.ZERO, getName(), formatDate(lastDate, parent.getTimeUnit()));
+	         ((DefaultCategoryDataset)parent.getCategoryDataset()).addValue(Env.ZERO,  Msg.getMsg(getCtx(), "NoData"), formatDate(lastDate, parent.getTimeUnit()));
 		 }
 		
 	}
@@ -234,7 +243,11 @@ public class MChartDatasource extends X_AD_ChartDatasource {
 			where = Env.parseContext(Env.getCtx(), parent.getWindowNo(), where, true);
 		}
 		
-		String sql = "SELECT " + getKeyColumn() + "," + category
+		String series = DB.TO_STRING(getName());
+		if (getSeriesColumn() != null)
+			series = getSeriesColumn();
+		
+		String sql = "SELECT " + getKeyColumn() + "," + category + "," + series
 		+ " FROM " + getFromClause();
 		
 		if ( !Util.isEmpty(where))
@@ -243,7 +256,8 @@ public class MChartDatasource extends X_AD_ChartDatasource {
 		}
 		
 
-		sql += " GROUP BY " + category + "," + getKeyColumn();
+		sql += " GROUP BY " + series + ", " + category + "," + getKeyColumn()
+		+ " ORDER BY " + series + ", " + category + "," + getKeyColumn();
 		
 		StringBuffer includedIds = new StringBuffer();
 		//	Execute
