@@ -35,8 +35,6 @@ import org.compiere.apps.ConfirmPanel;
 import org.compiere.apps.form.FormFrame;
 import org.compiere.apps.form.FormPanel;
 import org.compiere.grid.ed.VNumber;
-import org.compiere.model.MPaySelectionCheck;
-import org.compiere.model.MPaymentBatch;
 import org.compiere.plaf.CompiereColor;
 import org.compiere.print.ReportCtl;
 import org.compiere.print.ReportEngine;
@@ -60,11 +58,6 @@ import org.eevolution.model.MHRPaySelectionCheck;
  */
 public class VHRPayPrint extends HRPayPrint implements FormPanel, ActionListener
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6359854263967310497L;
-	
 	private CPanel panel = new CPanel();
 
 	/**
@@ -463,7 +456,7 @@ public class VHRPayPrint extends HRPayPrint implements FormPanel, ActionListener
 				"(" + Msg.translate(Env.getCtx(), "HR_PaySelectionLine_ID") + " #0");
 			return false;
 		}
-		m_batch = MPaymentBatch.getForPaySelection (Env.getCtx(), HR_PaySelection_ID, null);
+
 		return true;
 	}   //  getChecks
 
