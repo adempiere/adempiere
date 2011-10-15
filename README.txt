@@ -20,7 +20,7 @@ http://sourceforge.net/projects/adempiere/files/Adempiere%20Packages/Libero%20Hu
 5.- Copy the liberoHR.jar file to packages directory
     #cp liberoHR.jar $ADEMPIERE_HOME/packages/liberoHR/lib
 6.- Copy the liberozkHR.jar file to packages directory
-    #cp liberoHR.jar $ADEMPIERE_HOME/zkpackages/liberoHR/lib    
+    #cp liberozkHR.jar $ADEMPIERE_HOME/zkpackages/liberoHR/lib    
 7.- Copy the patches.jar file to lib directory
     #cp patches.jar $ADEMPIERE_HOME/lib
 8.- Run ADempiere setup
