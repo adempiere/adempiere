@@ -88,7 +88,7 @@ public class MPPProductBOMLine extends X_PP_Product_BOMLine
 	 */
 	public MPPProductBOMLine(MPPProductBOM bom)
 	{
-		super(bom.getCtx(), 0, bom.get_TableName());
+		super(bom.getCtx(), 0, bom.get_TrxName());
 		if (bom.get_ID() <= 0)
 			throw new IllegalArgumentException("Header not saved");
 		setPP_Product_BOM_ID(bom.getPP_Product_BOM_ID()); //	parent
