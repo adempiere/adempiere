@@ -35,6 +35,9 @@ import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.editor.WNumberEditor;
+import org.adempiere.webui.editor.WSearchEditor;
+import org.adempiere.webui.event.ValueChangeEvent;
+import org.adempiere.webui.event.ValueChangeListener;
 import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.CustomForm;
 import org.adempiere.webui.panel.IFormController;
@@ -42,12 +45,14 @@ import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
 import org.adempiere.webui.window.SimplePDFViewer;
 import org.compiere.apps.form.PayPrint;
+import org.compiere.model.MLookup;
+import org.compiere.model.MLookupFactory;
 import org.compiere.model.MPaySelectionCheck;
 import org.compiere.model.MPaymentBatch;
 import org.compiere.print.ReportEngine;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
-import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.PaymentExport;
 import org.compiere.util.ValueNamePair;
@@ -67,7 +72,7 @@ import org.zkoss.zul.Filedownload;
  *  Contributors:
  *    Carlos Ruiz - GlobalQSS - FR 3132033 - Make payment export class configurable per bank
  */
-public class WPayPrint extends PayPrint implements IFormController, EventListener
+public class WPayPrint extends PayPrint implements IFormController, EventListener, ValueChangeListener
 {
 	private CustomForm form = new CustomForm();
 
@@ -78,8 +83,8 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 	{
 		try
 		{
-			zkInit();
 			dynInit();
+			zkInit();
 			Borderlayout contentLayout = new Borderlayout();
 			contentLayout.setWidth("100%");
 			contentLayout.setHeight("100%");
@@ -107,7 +112,7 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 	private Button bCancel = southPanel.getButton(ConfirmPanel.A_CANCEL);
 	private Button bProcess = southPanel.createButton(ConfirmPanel.A_PROCESS);
 	private Label lPaySelect = new Label();
-	private Listbox fPaySelect = ListboxFactory.newDropdownListbox();
+	private WSearchEditor paySelectSearch = null;
 	private Label lBank = new Label();
 	private Label fBank = new Label();
 	private Label lPaymentRule = new Label();
@@ -138,7 +143,6 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 		bProcess.addActionListener(this);
 		//
 		lPaySelect.setText(Msg.translate(Env.getCtx(), "C_PaySelection_ID"));
-		fPaySelect.addActionListener(this);
 		//
 		lBank.setText(Msg.translate(Env.getCtx(), "C_BankAccount_ID"));
 		//
@@ -161,8 +165,8 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 		Rows rows = centerLayout.newRows();
 		Row row = rows.newRow();
 		row.appendChild(lPaySelect.rightAlign());
-		row.appendChild(fPaySelect);
-		
+		row.appendChild(paySelectSearch.getComponent());
+
 		row = rows.newRow();
 		row.appendChild(lBank.rightAlign());
 		row.appendChild(fBank);
@@ -189,17 +193,12 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 	 */
 	private void dynInit()
 	{
-		ArrayList<KeyNamePair> data = getPaySelectionData();
-		for(KeyNamePair pp : data)
-			fPaySelect.addItem(pp);
-		
-		if (fPaySelect.getItemCount() == 0)
-			FDialog.info(m_WindowNo, form, "VPayPrintNoRecords");
-		else
-		{
-			fPaySelect.setSelectedIndex(0);
-			loadPaySelectInfo();
-		}
+		//  C_PaySelection_ID
+		int AD_Column_ID = 7670;        //  C_PaySelectionCheck.C_PaySelection_ID
+		MLookup lookupPS = MLookupFactory.get (Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.Search);
+		paySelectSearch = new WSearchEditor("C_PaySelection_ID", true, false, true, lookupPS);
+		paySelectSearch.addValueChangeListener(this);
+
 	}   //  dynInit
 
 	/**
@@ -219,16 +218,9 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 		if (C_PaySelection_ID == 0)
 			return;
 		//
-		for (int i = 0; i < fPaySelect.getItemCount(); i++)
-		{
-			KeyNamePair pp = fPaySelect.getItemAtIndex(i).toKeyNamePair();
-			if (pp.getKey() == C_PaySelection_ID)
-			{
-				fPaySelect.setSelectedIndex(i);
-				loadPaySelectInfo();
-				return;
-			}
-		}
+		m_C_PaySelection_ID = C_PaySelection_ID;
+		paySelectSearch.setValue(new Integer(m_C_PaySelection_ID));
+		loadPaySelectInfo();
 	}	//	setsetPaySelection
 
 	
@@ -239,13 +231,13 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 	public void onEvent(Event e)
 	{
 	//	log.config( "VPayPrint.actionPerformed" + e.toString());
-		if (e.getTarget() == fPaySelect)
-			loadPaySelectInfo();
+		if (e.getTarget() == bCancel)
+			dispose();
+		else if (m_C_PaySelection_ID <= 0)
+			return;
 		else if (e.getTarget() == fPaymentRule)
 			loadPaymentRuleInfo();
 		//
-		else if (e.getTarget() == bCancel)
-			dispose();
 		else if (e.getTarget() == bExport)
 			cmd_export();
 		else if (e.getTarget() == bProcess)
@@ -260,12 +252,11 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 	private void loadPaySelectInfo()
 	{
 		log.info( "VPayPrint.loadPaySelectInfo");
-		if (fPaySelect.getSelectedIndex() == -1)
+		if (m_C_PaySelection_ID <= 0)
 			return;
 		
 		//  load Banks from PaySelectLine
-		int C_PaySelection_ID = fPaySelect.getSelectedItem().toKeyNamePair().getKey();
-		loadPaySelectInfo(C_PaySelection_ID);
+		loadPaySelectInfo(m_C_PaySelection_ID);
 		
 		fBank.setText(bank);
 		fCurrency.setText(currency);
@@ -286,8 +277,7 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 		fPaymentRule.removeAllItems();
 		
 		// load PaymentRule for Bank
-		int C_PaySelection_ID = fPaySelect.getSelectedItem().toKeyNamePair().getKey();
-		ArrayList<ValueNamePair> data = loadPaymentRule(C_PaySelection_ID);
+		ArrayList<ValueNamePair> data = loadPaymentRule(m_C_PaySelection_ID);
 		for(ValueNamePair pp : data)
 			fPaymentRule.addItem(pp);
 		
@@ -303,6 +293,8 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 	 */
 	private void loadPaymentRuleInfo()
 	{
+		if (fPaymentRule.getSelectedItem() == null)
+			return;
 		ValueNamePair pp = fPaymentRule.getSelectedItem().toValueNamePair();
 		if (pp == null)
 			return;
@@ -311,8 +303,7 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 		log.info("PaymentRule=" + PaymentRule);
 		fNoPayments.setText(" ");
 		
-		int C_PaySelection_ID = fPaySelect.getSelectedItem().toKeyNamePair().getKey();
-		String msg = loadPaymentRuleInfo(C_PaySelection_ID, PaymentRule);
+		String msg = loadPaymentRuleInfo(m_C_PaySelection_ID, PaymentRule);
 		
 		if(noPayments != null)
 			fNoPayments.setText(noPayments);
@@ -332,6 +323,8 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 	 */
 	private void cmd_export()
 	{
+		if (fPaymentRule.getSelectedItem() == null)
+			return;
 		String PaymentRule = fPaymentRule.getSelectedItem().toValueNamePair().getValue();
 		log.info(PaymentRule);
 		if (!getChecks(PaymentRule))
@@ -395,6 +388,8 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 	 */
 	private void cmd_EFT()
 	{
+		if (fPaymentRule.getSelectedItem() == null)
+			return;
 		String PaymentRule = fPaymentRule.getSelectedItem().toValueNamePair().getValue();
 		log.info(PaymentRule);
 		if (!getChecks(PaymentRule))
@@ -407,6 +402,8 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 	 */
 	private void cmd_print()
 	{
+		if (fPaymentRule.getSelectedItem() == null)
+			return;
 		String PaymentRule = fPaymentRule.getSelectedItem().toValueNamePair().getValue();
 		log.info(PaymentRule);
 		if (!getChecks(PaymentRule))
@@ -511,7 +508,7 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 	private boolean getChecks(String PaymentRule)
 	{
 		//  do we have values
-		if (fPaySelect.getSelectedIndex() == -1 || m_C_BankAccount_ID == -1
+		if (m_C_PaySelection_ID <= 0 || m_C_BankAccount_ID == -1
 			|| fPaymentRule.getSelectedIndex() == -1 || fDocumentNo.getValue() == null)
 		{
 			FDialog.error(m_WindowNo, form, "VPayPrintNoRecords",
@@ -520,13 +517,12 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 		}
 
 		//  get data
-		int C_PaySelection_ID = fPaySelect.getSelectedItem().toKeyNamePair().getKey();
 		int startDocumentNo = ((Number)fDocumentNo.getValue()).intValue();
 
-		log.config("C_PaySelection_ID=" + C_PaySelection_ID + ", PaymentRule=" +  PaymentRule + ", DocumentNo=" + startDocumentNo);
+		log.config("C_PaySelection_ID=" + m_C_PaySelection_ID + ", PaymentRule=" +  PaymentRule + ", DocumentNo=" + startDocumentNo);
 		//
-		//	get Slecetions
-		m_checks = MPaySelectionCheck.get(C_PaySelection_ID, PaymentRule, startDocumentNo, null);
+		//	get Selections
+		m_checks = MPaySelectionCheck.get(m_C_PaySelection_ID, PaymentRule, startDocumentNo, null);
 
 		//
 		if (m_checks == null || m_checks.length == 0)
@@ -535,12 +531,34 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 				"(" + Msg.translate(Env.getCtx(), "C_PaySelectionLine_ID") + " #0");
 			return false;
 		}
-		m_batch = MPaymentBatch.getForPaySelection (Env.getCtx(), C_PaySelection_ID, null);
+		m_batch = MPaymentBatch.getForPaySelection (Env.getCtx(), m_C_PaySelection_ID, null);
 		return true;
 	}   //  getChecks
 	
 	public ADForm getForm() {
 		return form;
+	}
+
+	/**
+	 *  Vetoable Change Listener.
+	 *  - Payment Selection
+	 *  @param e event
+	 */
+	@Override
+	public void valueChange(ValueChangeEvent e) {
+		String name = e.getPropertyName();
+		Object value = e.getNewValue();
+		log.config(name + "=" + value);
+		if (value == null)
+			return;
+		
+		// Payment Selection
+		if (name.equals("C_PaySelection_ID"))
+		{
+			paySelectSearch.setValue(value);
+			m_C_PaySelection_ID = ((Integer)value).intValue();
+			loadPaySelectInfo();
+		}
 	}
 
 }   //  PayPrint
