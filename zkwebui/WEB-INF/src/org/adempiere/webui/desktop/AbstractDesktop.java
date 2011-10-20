@@ -28,6 +28,9 @@ import org.zkoss.zk.ui.event.Events;
 /**
  * Base class for desktop implementation
  * @author hengsin
+ * @author victor.perez@e-evoluton.com, www.e-evolution.com 
+ * 	<li>FR [ 3426137 ] Smart Browser
+ *  https://sourceforge.net/tracker/?func=detail&aid=3426137&group_id=176962&atid=879335
  *
  */
 public abstract class AbstractDesktop extends AbstractUIPart implements IDesktop {
@@ -81,6 +84,10 @@ public abstract class AbstractDesktop extends AbstractUIPart implements IDesktop
         else if(menu.getAction().equals(MMenu.ACTION_Task))
         {
         	openTask(menu.getAD_Task_ID());
+        }
+        else if(menu.getAction().equals("S"))
+        {
+        	openSmartBrowser((Integer)menu.get_Value("AD_Browse_ID"));
         }
         else
         {

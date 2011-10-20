@@ -30,7 +30,7 @@ public class X_AD_Menu extends PO implements I_AD_Menu, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20111019L;
 
     /** Standard Constructor */
     public X_AD_Menu (Properties ctx, int AD_Menu_ID, String trxName)
@@ -77,38 +77,29 @@ public class X_AD_Menu extends PO implements I_AD_Menu, I_Persistent
       return sb.toString();
     }
 
-	/** Action AD_Reference_ID=104 */
-	public static final int ACTION_AD_Reference_ID=104;
-	/** Window = W */
-	public static final String ACTION_Window = "W";
-	/** Task = T */
-	public static final String ACTION_Task = "T";
-	/** WorkFlow = F */
-	public static final String ACTION_WorkFlow = "F";
-	/** Process = P */
-	public static final String ACTION_Process = "P";
-	/** Report = R */
-	public static final String ACTION_Report = "R";
-	/** Form = X */
-	public static final String ACTION_Form = "X";
-	/** Workbench = B */
-	public static final String ACTION_Workbench = "B";
-	/** Set Action.
-		@param Action 
-		Indicates the Action to be performed
-	  */
-	public void setAction (String Action)
-	{
+	public org.adempiere.model.I_AD_Browse getAD_Browse() throws RuntimeException
+    {
+		return (org.adempiere.model.I_AD_Browse)MTable.get(getCtx(), org.adempiere.model.I_AD_Browse.Table_Name)
+			.getPO(getAD_Browse_ID(), get_TrxName());	}
 
-		set_Value (COLUMNNAME_Action, Action);
+	/** Set Smart Browse.
+		@param AD_Browse_ID Smart Browse	  */
+	public void setAD_Browse_ID (int AD_Browse_ID)
+	{
+		if (AD_Browse_ID < 1) 
+			set_Value (COLUMNNAME_AD_Browse_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Browse_ID, Integer.valueOf(AD_Browse_ID));
 	}
 
-	/** Get Action.
-		@return Indicates the Action to be performed
-	  */
-	public String getAction () 
+	/** Get Smart Browse.
+		@return Smart Browse	  */
+	public int getAD_Browse_ID () 
 	{
-		return (String)get_Value(COLUMNNAME_Action);
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Browse_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	public org.compiere.model.I_AD_Form getAD_Form() throws RuntimeException
@@ -300,6 +291,42 @@ public class X_AD_Menu extends PO implements I_AD_Menu, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Action AD_Reference_ID=104 */
+	public static final int ACTION_AD_Reference_ID=104;
+	/** Window = W */
+	public static final String ACTION_Window = "W";
+	/** Task = T */
+	public static final String ACTION_Task = "T";
+	/** WorkFlow = F */
+	public static final String ACTION_WorkFlow = "F";
+	/** Process = P */
+	public static final String ACTION_Process = "P";
+	/** Report = R */
+	public static final String ACTION_Report = "R";
+	/** Form = X */
+	public static final String ACTION_Form = "X";
+	/** Workbench = B */
+	public static final String ACTION_Workbench = "B";
+	/** Smart Browse = S */
+	public static final String ACTION_SmartBrowse = "S";
+	/** Set Action.
+		@param Action 
+		Indicates the Action to be performed
+	  */
+	public void setAction (String Action)
+	{
+
+		set_Value (COLUMNNAME_Action, Action);
+	}
+
+	/** Get Action.
+		@return Indicates the Action to be performed
+	  */
+	public String getAction () 
+	{
+		return (String)get_Value(COLUMNNAME_Action);
 	}
 
 	/** Set Description.

@@ -14,23 +14,24 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
-package org.compiere.model;
+package org.adempiere.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for AD_Menu
+/** Generated Interface for AD_Browse
  *  @author Adempiere (generated) 
  *  @version Release 3.7.0LTS
  */
-public interface I_AD_Menu 
+public interface I_AD_Browse 
 {
 
-    /** TableName=AD_Menu */
-    public static final String Table_Name = "AD_Menu";
+    /** TableName=AD_Browse */
+    public static final String Table_Name = "AD_Browse";
 
-    /** AD_Table_ID=116 */
+    /** AD_Table_ID=53224 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -50,8 +51,6 @@ public interface I_AD_Menu
 	/** Get Smart Browse	  */
 	public int getAD_Browse_ID();
 
-	public org.adempiere.model.I_AD_Browse getAD_Browse() throws RuntimeException;
-
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -59,34 +58,6 @@ public interface I_AD_Menu
 	  * Client/Tenant for this installation.
 	  */
 	public int getAD_Client_ID();
-
-    /** Column name AD_Form_ID */
-    public static final String COLUMNNAME_AD_Form_ID = "AD_Form_ID";
-
-	/** Set Special Form.
-	  * Special Form
-	  */
-	public void setAD_Form_ID (int AD_Form_ID);
-
-	/** Get Special Form.
-	  * Special Form
-	  */
-	public int getAD_Form_ID();
-
-	public org.compiere.model.I_AD_Form getAD_Form() throws RuntimeException;
-
-    /** Column name AD_Menu_ID */
-    public static final String COLUMNNAME_AD_Menu_ID = "AD_Menu_ID";
-
-	/** Set Menu.
-	  * Identifies a Menu
-	  */
-	public void setAD_Menu_ID (int AD_Menu_ID);
-
-	/** Get Menu.
-	  * Identifies a Menu
-	  */
-	public int getAD_Menu_ID();
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -116,78 +87,33 @@ public interface I_AD_Menu
 
 	public org.compiere.model.I_AD_Process getAD_Process() throws RuntimeException;
 
-    /** Column name AD_Task_ID */
-    public static final String COLUMNNAME_AD_Task_ID = "AD_Task_ID";
+    /** Column name AD_View_ID */
+    public static final String COLUMNNAME_AD_View_ID = "AD_View_ID";
 
-	/** Set OS Task.
-	  * Operation System Task
+	/** Set View.
+	  * View allows you to create dynamic views of information from the dictionary application
 	  */
-	public void setAD_Task_ID (int AD_Task_ID);
+	public void setAD_View_ID (int AD_View_ID);
 
-	/** Get OS Task.
-	  * Operation System Task
+	/** Get View.
+	  * View allows you to create dynamic views of information from the dictionary application
 	  */
-	public int getAD_Task_ID();
+	public int getAD_View_ID();
 
-	public org.compiere.model.I_AD_Task getAD_Task() throws RuntimeException;
+	public org.adempiere.model.I_AD_View getAD_View() throws RuntimeException;
 
-    /** Column name AD_Window_ID */
-    public static final String COLUMNNAME_AD_Window_ID = "AD_Window_ID";
+    /** Column name AccessLevel */
+    public static final String COLUMNNAME_AccessLevel = "AccessLevel";
 
-	/** Set Window.
-	  * Data entry or display window
+	/** Set Data Access Level.
+	  * Access Level required
 	  */
-	public void setAD_Window_ID (int AD_Window_ID);
+	public void setAccessLevel (String AccessLevel);
 
-	/** Get Window.
-	  * Data entry or display window
+	/** Get Data Access Level.
+	  * Access Level required
 	  */
-	public int getAD_Window_ID();
-
-	public org.compiere.model.I_AD_Window getAD_Window() throws RuntimeException;
-
-    /** Column name AD_Workbench_ID */
-    public static final String COLUMNNAME_AD_Workbench_ID = "AD_Workbench_ID";
-
-	/** Set Workbench.
-	  * Collection of windows, reports
-	  */
-	public void setAD_Workbench_ID (int AD_Workbench_ID);
-
-	/** Get Workbench.
-	  * Collection of windows, reports
-	  */
-	public int getAD_Workbench_ID();
-
-	public org.compiere.model.I_AD_Workbench getAD_Workbench() throws RuntimeException;
-
-    /** Column name AD_Workflow_ID */
-    public static final String COLUMNNAME_AD_Workflow_ID = "AD_Workflow_ID";
-
-	/** Set Workflow.
-	  * Workflow or combination of tasks
-	  */
-	public void setAD_Workflow_ID (int AD_Workflow_ID);
-
-	/** Get Workflow.
-	  * Workflow or combination of tasks
-	  */
-	public int getAD_Workflow_ID();
-
-	public org.compiere.model.I_AD_Workflow getAD_Workflow() throws RuntimeException;
-
-    /** Column name Action */
-    public static final String COLUMNNAME_Action = "Action";
-
-	/** Set Action.
-	  * Indicates the Action to be performed
-	  */
-	public void setAction (String Action);
-
-	/** Get Action.
-	  * Indicates the Action to be performed
-	  */
-	public String getAction();
+	public String getAccessLevel();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -233,6 +159,19 @@ public interface I_AD_Menu
 	  */
 	public String getEntityType();
 
+    /** Column name Help */
+    public static final String COLUMNNAME_Help = "Help";
+
+	/** Set Comment/Help.
+	  * Comment or Hint
+	  */
+	public void setHelp (String Help);
+
+	/** Get Comment/Help.
+	  * Comment or Hint
+	  */
+	public String getHelp();
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -246,57 +185,18 @@ public interface I_AD_Menu
 	  */
 	public boolean isActive();
 
-    /** Column name IsCentrallyMaintained */
-    public static final String COLUMNNAME_IsCentrallyMaintained = "IsCentrallyMaintained";
+    /** Column name IsBetaFunctionality */
+    public static final String COLUMNNAME_IsBetaFunctionality = "IsBetaFunctionality";
 
-	/** Set Centrally maintained.
-	  * Information maintained in System Element table
+	/** Set Beta Functionality.
+	  * This functionality is considered Beta
 	  */
-	public void setIsCentrallyMaintained (boolean IsCentrallyMaintained);
+	public void setIsBetaFunctionality (boolean IsBetaFunctionality);
 
-	/** Get Centrally maintained.
-	  * Information maintained in System Element table
+	/** Get Beta Functionality.
+	  * This functionality is considered Beta
 	  */
-	public boolean isCentrallyMaintained();
-
-    /** Column name IsReadOnly */
-    public static final String COLUMNNAME_IsReadOnly = "IsReadOnly";
-
-	/** Set Read Only.
-	  * Field is read only
-	  */
-	public void setIsReadOnly (boolean IsReadOnly);
-
-	/** Get Read Only.
-	  * Field is read only
-	  */
-	public boolean isReadOnly();
-
-    /** Column name IsSOTrx */
-    public static final String COLUMNNAME_IsSOTrx = "IsSOTrx";
-
-	/** Set Sales Transaction.
-	  * This is a Sales Transaction
-	  */
-	public void setIsSOTrx (boolean IsSOTrx);
-
-	/** Get Sales Transaction.
-	  * This is a Sales Transaction
-	  */
-	public boolean isSOTrx();
-
-    /** Column name IsSummary */
-    public static final String COLUMNNAME_IsSummary = "IsSummary";
-
-	/** Set Summary Level.
-	  * This is a summary entity
-	  */
-	public void setIsSummary (boolean IsSummary);
-
-	/** Get Summary Level.
-	  * This is a summary entity
-	  */
-	public boolean isSummary();
+	public boolean isBetaFunctionality();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -310,6 +210,15 @@ public interface I_AD_Menu
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
+
+    /** Column name Processing */
+    public static final String COLUMNNAME_Processing = "Processing";
+
+	/** Set Process Now	  */
+	public void setProcessing (boolean Processing);
+
+	/** Get Process Now	  */
+	public boolean isProcessing();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -326,4 +235,30 @@ public interface I_AD_Menu
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name Value */
+    public static final String COLUMNNAME_Value = "Value";
+
+	/** Set Search Key.
+	  * Search key for the record in the format required - must be unique
+	  */
+	public void setValue (String Value);
+
+	/** Get Search Key.
+	  * Search key for the record in the format required - must be unique
+	  */
+	public String getValue();
+
+    /** Column name WhereClause */
+    public static final String COLUMNNAME_WhereClause = "WhereClause";
+
+	/** Set Sql WHERE.
+	  * Fully qualified SQL WHERE clause
+	  */
+	public void setWhereClause (String WhereClause);
+
+	/** Get Sql WHERE.
+	  * Fully qualified SQL WHERE clause
+	  */
+	public String getWhereClause();
 }
