@@ -26,6 +26,8 @@ import org.compiere.util.AdempiereSystemError;
  *	Copy columns from one table to other
  *	
  *  @author Carlos Ruiz - globalqss
+ *  @author victor.perez@e-evolution.com - e-Evolution
+ *  <li>[FR1784588] Allow copy columns into table was created http://sourceforge.net/tracker/index.php?func=detail&aid=2814124&group_id=176962&atid=879335
  *  @version $Id: CopyColumnsFromTable
  */
 public class CopyColumnsFromTable extends SvrProcess
@@ -82,8 +84,31 @@ public class CopyColumnsFromTable extends SvrProcess
 		MColumn[] sourceColumns = sourceTable.getColumns(true);
 		
 		for (int i = 0; i < sourceColumns.length; i++)
-		{
+		{	
+			//[FR1784588] logic to validate exist columns
+			boolean foundColumn = false;
 			MColumn colTarget = new MColumn(targetTable);
+			for(MColumn col:targetColumns)
+			{
+				String columnName = null;
+				if (sourceColumns[i].getColumnName().equals(sourceTable.getTableName()+"_ID")) 
+				{
+					columnName = new String(targetTable.getTableName()+"_ID");	
+				}
+				else
+				{
+					columnName = sourceColumns[i].getColumnName();
+				}
+				
+				if(col.getColumnName().equals(columnName))
+				{
+					foundColumn = true;
+					break;
+				}
+			}
+			if(foundColumn)
+				continue;
+			
 			// special case the key -> sourceTable_ID
 			if (sourceColumns[i].getColumnName().equals(sourceTable.getTableName()+"_ID")) {
 				String targetColumnName = new String(targetTable.getTableName()+"_ID");
