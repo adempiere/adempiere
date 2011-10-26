@@ -21,11 +21,14 @@ import org.jfree.data.general.PieDataset;
 import org.jfree.data.time.Month;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
+import org.jfree.data.xy.IntervalXYDataset;
+import org.jfree.data.xy.XYDataset;
 
 public class MChart extends X_AD_Chart {
 
 	private int windowNo=0;
-	private DefaultCategoryDataset categoryData = new DefaultCategoryDataset();
+	private IntervalXYDataset xyData;
+	private DefaultCategoryDataset categoryData;
 	private DefaultPieDataset pieData;
 
 	public MChart(Properties ctx, int AD_Chart_ID, String trxName) {
@@ -39,6 +42,7 @@ public class MChart extends X_AD_Chart {
 	public void loadData() {
 		categoryData = new DefaultCategoryDataset();
 		pieData = new DefaultPieDataset();
+		xyData = new TimeSeriesCollection();
 		for ( MChartDatasource ds : getDatasources() )
 		{
 			ds.addData(this);
@@ -47,6 +51,10 @@ public class MChart extends X_AD_Chart {
 
 	public CategoryDataset getCategoryDataset() {
 		return categoryData;
+	}
+	
+	public IntervalXYDataset getXYDataset() {
+		return xyData;
 	}
 
 	private List<MChartDatasource> getDatasources() {
@@ -83,28 +91,6 @@ public class MChart extends X_AD_Chart {
 		return null;
 	}
 
-	public JFreeChart XYBarChartDemo() {
-	
-		 	TimeSeries series = new TimeSeries("Test");
-		 	series.add(new Month(9, 2011),10);
-		 	series.add(new Month(12, 2011), 20);
-		 	series.add(new Month(1, 2012), 25);
-	        final TimeSeriesCollection data = new TimeSeriesCollection(series);
-	        //data.setDomainIsPointsInTime(false);
-	         JFreeChart chart = ChartFactory.createXYBarChart(
-	            "test",
-	            "X",
-	            true,
-	            "Y",
-	            data,
-	            PlotOrientation.VERTICAL,
-	            true,
-	            false,
-	            false
-	        );
-	         return chart;
-	 }
-
 	/**
 	 *
 	 * @param type
@@ -116,6 +102,8 @@ public class MChart extends X_AD_Chart {
 		
 		if(MChart.CHARTTYPE_BarChart.equals(type))
 		{
+			if ( isTimeSeries())
+				return createXYBarChart();
 			return createBarChart();
 		}
 		else if (MChart.CHARTTYPE_3DBarChart.equals(type))
@@ -124,12 +112,15 @@ public class MChart extends X_AD_Chart {
 		}
 		else if (MChart.CHARTTYPE_StackedBarChart.equals(type))
 		{
+
+			if ( isTimeSeries())
+				return createXYBarChart();
+			
 			return createStackedBarChart();
 		}
 		else if (MChart.CHARTTYPE_3DStackedBarChart.equals(type))
 		{
 			return create3DStackedBarChart();
-			//return XYBarChartDemo();
 		}
 		else if (MChart.CHARTTYPE_3DPieChart.equals(type))
 		{
@@ -153,6 +144,8 @@ public class MChart extends X_AD_Chart {
 		}
 		else if (MChart.CHARTTYPE_LineChart.equals(type))
 		{
+			if ( isTimeSeries() )
+				return createTimeSeriesChart();
 			return createLineChart();
 		}
 		else if (MChart.CHARTTYPE_RingChart.equals(type))
@@ -169,6 +162,39 @@ public class MChart extends X_AD_Chart {
 		}
 	}
 
+	private JFreeChart createXYBarChart() {
+		JFreeChart chart = ChartFactory.createXYBarChart(
+				getName(),         // chart title
+				getDomainLabel(),               // domain axis label
+				true,
+				getRangeLabel(),                  // range axis label
+				getXYDataset(),                  // data
+				X_AD_Chart.CHARTORIENTATION_Horizontal.equals(getChartOrientation()) 
+				? PlotOrientation.HORIZONTAL : PlotOrientation.VERTICAL, // orientation
+				isDisplayLegend(),                     // include legend
+				true,                     // tooltips?
+				true                     // URLs?
+		);
+	
+		
+		return chart;
+	}
+	
+	private JFreeChart createTimeSeriesChart() {
+		JFreeChart chart = ChartFactory.createTimeSeriesChart(
+				getName(),         // chart title
+				getDomainLabel(),               // domain axis label
+				getRangeLabel(),                  // range axis label
+				getXYDataset(),                  // data
+				isDisplayLegend(),                     // include legend
+				true,                     // tooltips?
+				true                     // URLs?
+		);
+	
+		
+		return chart;
+	}
+	
 	private JFreeChart createWaterfallChart() {
 		JFreeChart chart = ChartFactory.createWaterfallChart(
 				getName(),         // chart title

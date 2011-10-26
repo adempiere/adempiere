@@ -13,12 +13,23 @@ import java.util.logging.Level;
 import org.adempiere.exceptions.DBException;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.time.Day;
+import org.jfree.data.time.Month;
+import org.jfree.data.time.Quarter;
+import org.jfree.data.time.TimeSeries;
+import org.jfree.data.time.TimeSeriesCollection;
+import org.jfree.data.time.Week;
+import org.jfree.data.time.Year;
 
 public class MChartDatasource extends X_AD_ChartDatasource {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5108909995064477463L;
 
 	public MChartDatasource(Properties ctx, int AD_ChartDatasource_ID,
 			String trxName) {
@@ -40,13 +51,21 @@ public class MChartDatasource extends X_AD_ChartDatasource {
 		else 
 		{
 			if ( parent.getTimeUnit().equals(MChart.TIMEUNIT_Week))
+			{
 				unit = "W";
+			}
 			else if ( parent.getTimeUnit().equals(MChart.TIMEUNIT_Month))
+			{
 				unit = "MM";
+			}
 			else if ( parent.getTimeUnit().equals(MChart.TIMEUNIT_Quarter))
+			{
 					unit = "Q";
+			}
 			else if ( parent.getTimeUnit().equals(MChart.TIMEUNIT_Year))
+			{
 						unit = "Y";
+			}
 			
 			category = " TRUNC(" + getDateColumn() + ", '" + unit + "') ";
 		}
@@ -103,7 +122,8 @@ public class MChartDatasource extends X_AD_ChartDatasource {
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		Date lastDate = startDate;
+		TimeSeries tseries = null;
+		
 		try
 		{
 		     pstmt = DB.prepareStatement(sql, null);
@@ -113,24 +133,41 @@ public class MChartDatasource extends X_AD_ChartDatasource {
 
 		    	 String key = rs.getString(2);
 		    	 String seriesName = rs.getString(3);
-		    	 if ( parent.isTimeSeries() )
+		    	 if ( parent.isTimeSeries() && (tseries == null || !tseries.getKey().equals(seriesName)))
+		    	 {
+		    		 if (tseries != null)
+		    			 ((TimeSeriesCollection) parent.getXYDataset()).addSeries(tseries);
+		    		 
+		    		 tseries = new TimeSeries(seriesName);
+		    	 }
+		    	 
+		    	 if ( parent.isTimeSeries())
 		    	 {
 		    		 Date date = rs.getDate(2);
-				    		
-		    		 Date expected = increment(lastDate, parent.getTimeUnit());
-		    		 
-		    		 // generate empty data for missing periods
-		    		 while ( lastDate != null && date.compareTo(expected) > 0 
-		    				 && !formatDate(expected, parent.getTimeUnit()).equals(formatDate(date, parent.getTimeUnit())))
+		    		 if ( parent.getTimeUnit().equals(MChart.TIMEUNIT_Day))
 		    		 {
-				         ((DefaultCategoryDataset)parent.getCategoryDataset()).addValue(Env.ZERO, Msg.getMsg(getCtx(), "NoData"), formatDate(expected, parent.getTimeUnit()));
-				         expected = increment(expected, parent.getTimeUnit());
+		    			 tseries.add(new Day(date), rs.getBigDecimal(1));
 		    		 }
-		    		 
-		    		key = formatDate(date, parent.getTimeUnit());
-		    		lastDate = date;
+		    		 else if ( parent.getTimeUnit().equals(MChart.TIMEUNIT_Week))
+		    		 {
+		    			 tseries.add(new Week(date), rs.getBigDecimal(1));
+		 			}
+		 			else if ( parent.getTimeUnit().equals(MChart.TIMEUNIT_Month))
+		 			{
+		    			 tseries.add(new Month(date), rs.getBigDecimal(1));
+		 			}
+		 			else if ( parent.getTimeUnit().equals(MChart.TIMEUNIT_Quarter))
+		 			{
+		    			 tseries.add(new Quarter(date), rs.getBigDecimal(1));
+		 			}
+		 			else if ( parent.getTimeUnit().equals(MChart.TIMEUNIT_Year))
+		 			{
+		    			 tseries.add(new Year(date), rs.getBigDecimal(1));
+		 			}
+		    		
+		    		 key = formatDate(date, parent.getTimeUnit());
 		    	 }
-		    		 
+		    	 
 		         ((DefaultCategoryDataset)parent.getCategoryDataset()).addValue(rs.getBigDecimal(1), seriesName, key);
 		         ((DefaultPieDataset) parent.getPieDataset()).setValue(key, rs.getBigDecimal(1));
 		     }
@@ -145,12 +182,8 @@ public class MChartDatasource extends X_AD_ChartDatasource {
 		     rs = null; pstmt = null;
 		}
 		
-		while ( parent.isTimeSeries() && lastDate != null && endDate != null && endDate.compareTo(increment(lastDate, parent.getTimeUnit())) > 0 )
-		 {
-
-	         lastDate = increment(lastDate, parent.getTimeUnit());
-	         ((DefaultCategoryDataset)parent.getCategoryDataset()).addValue(Env.ZERO,  Msg.getMsg(getCtx(), "NoData"), formatDate(lastDate, parent.getTimeUnit()));
-		 }
+		 if (tseries != null)
+			 ((TimeSeriesCollection) parent.getXYDataset()).addSeries(tseries);
 		
 	}
 
@@ -174,10 +207,6 @@ public class MChartDatasource extends X_AD_ChartDatasource {
 			cal.add(Calendar.YEAR, qty);
 		
 		return cal.getTime();
-	}
-	
-	private Date increment(Date lastDate, String timeUnit) {
-		return increment(lastDate, timeUnit, 1);
 	}
 
 	private String formatDate(Date date, String timeUnit)
