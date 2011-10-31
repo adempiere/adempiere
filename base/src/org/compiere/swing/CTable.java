@@ -687,7 +687,7 @@ public class CTable extends JTable
 		else 
 		{
 			if (!isColumnVisible(column)) return;
-			
+
 			ColumnAttributes attributes = new ColumnAttributes();
 			attributes.cellEditor = column.getCellEditor();
 			attributes.cellRenderer = column.getCellRenderer();
@@ -696,14 +696,16 @@ public class CTable extends JTable
 			attributes.preferredWidth = column.getPreferredWidth();
 			columnAttributesMap.put(column, attributes);
 			
-			TableCellNone h = new TableCellNone(column.getIdentifier() != null ?
-        			column.getIdentifier().toString() : column.getHeaderValue().toString());
-        	column.setCellEditor(h);
-        	column.setCellRenderer(h);
-        	column.setMinWidth(0);
-        	column.setMaxWidth(0);            	
-        	column.setPreferredWidth(0);
-        	
+			if ( !(column.getCellEditor() instanceof TableCellNone) )
+			{
+				TableCellNone h = new TableCellNone(column.getIdentifier() != null ?
+						column.getIdentifier().toString() : column.getHeaderValue().toString());
+				column.setCellEditor(h);
+				column.setCellRenderer(h);
+				column.setMinWidth(0);
+				column.setMaxWidth(0);            	
+				column.setPreferredWidth(0);
+			}
         	hiddenColumns.add(column);
 		}
 	}

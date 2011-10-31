@@ -44,6 +44,8 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 // Y
 			setIsInPayroll (false);
 // N
+			setIsSalesLead (false);
+// N
 			setName (null);
 			setNotificationType (null);
 // E
@@ -78,9 +80,9 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
       return sb.toString();
     }
 
-	/** Set Trx Organization.
+	/** Set Trx Organisation.
 		@param AD_OrgTrx_ID 
-		Performing or initiating organization
+		Performing or initiating organisation
 	  */
 	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
 	{
@@ -90,8 +92,8 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 			set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
 	}
 
-	/** Get Trx Organization.
-		@return Performing or initiating organization
+	/** Get Trx Organisation.
+		@return Performing or initiating organisation
 	  */
 	public int getAD_OrgTrx_ID () 
 	{
