@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -15,10 +16,12 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Util;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.Dataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.time.Day;
 import org.jfree.data.time.Month;
 import org.jfree.data.time.Quarter;
+import org.jfree.data.time.RegularTimePeriod;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.time.Week;
@@ -70,13 +73,6 @@ public class MChartDatasource extends X_AD_ChartDatasource {
 			category = " TRUNC(" + getDateColumn() + ", '" + unit + "') ";
 		}
 		
-		String where = getWhereClause();
-		if ( !Util.isEmpty(where))
-		{
-			where = Env.parseContext(Env.getCtx(), parent.getWindowNo(), where, true);
-		}
-		
-		boolean hasWhere = false;
 		String series = DB.TO_STRING(getName());
 		boolean hasSeries = false;
 		if (getSeriesColumn() != null)
@@ -84,6 +80,15 @@ public class MChartDatasource extends X_AD_ChartDatasource {
 			series = getSeriesColumn();
 			hasSeries = true;
 		}
+		
+		String where = getWhereClause();
+		if ( !Util.isEmpty(where))
+		{
+			where = Env.parseContext(getCtx(), parent.getWindowNo(), where, true);
+		}
+		
+		boolean hasWhere = false;
+		
 		String sql = "SELECT " + value + ", " + category  + ", " + series
 		+ " FROM " + getFromClause();
 		if ( !Util.isEmpty(where))
@@ -113,6 +118,9 @@ public class MChartDatasource extends X_AD_ChartDatasource {
 			sql += category + "<=TRUNC(" + DB.TO_DATE(new Timestamp(endDate.getTime())) + ", '" + unit + "') ";
 		}
 		
+		MRole role = MRole.getDefault(getCtx(), false);
+		sql = role.addAccessSQL(sql, null, true, false);
+		
 		if (hasSeries)
 			sql += " GROUP BY " + series + ", " + category + " ORDER BY " + series + ", "  + category;
 		else
@@ -123,68 +131,94 @@ public class MChartDatasource extends X_AD_ChartDatasource {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		TimeSeries tseries = null;
-		
+		Dataset dataset = parent.getDataset();
+
 		try
 		{
-		     pstmt = DB.prepareStatement(sql, null);
-		     rs = pstmt.executeQuery();
-		     while(rs.next())
-		     {
+			pstmt = DB.prepareStatement(sql, null);
+			rs = pstmt.executeQuery();
+			while(rs.next())
+			{
 
-		    	 String key = rs.getString(2);
-		    	 String seriesName = rs.getString(3);
-		    	 if ( parent.isTimeSeries() && (tseries == null || !tseries.getKey().equals(seriesName)))
-		    	 {
-		    		 if (tseries != null)
-		    			 ((TimeSeriesCollection) parent.getXYDataset()).addSeries(tseries);
-		    		 
-		    		 tseries = new TimeSeries(seriesName);
-		    	 }
-		    	 
-		    	 if ( parent.isTimeSeries())
-		    	 {
-		    		 Date date = rs.getDate(2);
-		    		 if ( parent.getTimeUnit().equals(MChart.TIMEUNIT_Day))
-		    		 {
-		    			 tseries.add(new Day(date), rs.getBigDecimal(1));
-		    		 }
-		    		 else if ( parent.getTimeUnit().equals(MChart.TIMEUNIT_Week))
-		    		 {
-		    			 tseries.add(new Week(date), rs.getBigDecimal(1));
-		 			}
-		 			else if ( parent.getTimeUnit().equals(MChart.TIMEUNIT_Month))
-		 			{
-		    			 tseries.add(new Month(date), rs.getBigDecimal(1));
-		 			}
-		 			else if ( parent.getTimeUnit().equals(MChart.TIMEUNIT_Quarter))
-		 			{
-		    			 tseries.add(new Quarter(date), rs.getBigDecimal(1));
-		 			}
-		 			else if ( parent.getTimeUnit().equals(MChart.TIMEUNIT_Year))
-		 			{
-		    			 tseries.add(new Year(date), rs.getBigDecimal(1));
-		 			}
-		    		
-		    		 key = formatDate(date, parent.getTimeUnit());
-		    	 }
-		    	 
-		         ((DefaultCategoryDataset)parent.getCategoryDataset()).addValue(rs.getBigDecimal(1), seriesName, key);
-		         ((DefaultPieDataset) parent.getPieDataset()).setValue(key, rs.getBigDecimal(1));
-		     }
+				String key = rs.getString(2);
+				String seriesName = rs.getString(3);
+				if (seriesName == null)
+					seriesName = getName();
+				String queryWhere = "";
+				if ( hasWhere )
+					queryWhere += where + " AND ";
+
+				queryWhere += series + " = " + DB.TO_STRING(seriesName) + " AND " + category + " = " ;
+
+				if ( parent.isTimeSeries() && dataset instanceof TimeSeriesCollection )
+				{
+
+					if ( tseries == null || !tseries.getKey().equals(seriesName))
+					{
+						if (tseries != null)
+							((TimeSeriesCollection) dataset).addSeries(tseries);
+
+						tseries = new TimeSeries(seriesName);
+					}
+
+					Date date = rs.getDate(2);
+					RegularTimePeriod period = null;
+
+					if ( parent.getTimeUnit().equals(MChart.TIMEUNIT_Day))
+						period = new Day(date);
+					else if ( parent.getTimeUnit().equals(MChart.TIMEUNIT_Week))
+						period = new Week(date);
+					else if ( parent.getTimeUnit().equals(MChart.TIMEUNIT_Month))
+						period = new Month(date);
+					else if ( parent.getTimeUnit().equals(MChart.TIMEUNIT_Quarter))
+						period = new Quarter(date);
+					else if ( parent.getTimeUnit().equals(MChart.TIMEUNIT_Year))
+						period = new Year(date);
+
+					tseries.add(period, rs.getBigDecimal(1));
+					key = period.toString();
+					queryWhere += DB.TO_DATE(new Timestamp(date.getTime()));
+				}
+				else {
+					queryWhere += DB.TO_STRING(key);
+				}
+
+				MQuery query = new MQuery(getAD_Table_ID());
+				String keyCol = MTable.get(getCtx(), getAD_Table_ID()).getKeyColumns()[0];
+				String whereClause = keyCol  + " IN (SELECT " + getKeyColumn() + " FROM " 
+						+ getFromClause() + " WHERE " + queryWhere + " )";
+				query.addRestriction(whereClause.toString());
+				query.setRecordCount(1);
+
+				HashMap<String, MQuery> map = parent.getQueries();
+
+				if ( dataset instanceof DefaultPieDataset) {
+					((DefaultPieDataset) dataset).setValue(key, rs.getBigDecimal(1));
+					map.put(key, query);
+				}
+				else if ( dataset instanceof DefaultCategoryDataset ) {
+				((DefaultCategoryDataset) dataset).addValue(rs.getBigDecimal(1), seriesName, key);
+					map.put(seriesName + "__" + key, query);
+				}
+				else if (dataset instanceof TimeSeriesCollection )
+				{
+					map.put(seriesName + "__" + key, query);
+				}
+			}
 		}
 		catch (SQLException e)
 		{
-		     throw new DBException(e, sql);
+			throw new DBException(e, sql);
 		}
 		finally
 		{
-		     DB.close(rs, pstmt);
-		     rs = null; pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
-		
-		 if (tseries != null)
-			 ((TimeSeriesCollection) parent.getXYDataset()).addSeries(tseries);
-		
+
+		if (tseries != null)
+			((TimeSeriesCollection) dataset).addSeries(tseries);
+
 	}
 
 	private Date increment(Date lastDate, String timeUnit, int qty) {
@@ -244,7 +278,7 @@ public class MChartDatasource extends X_AD_ChartDatasource {
 		
 	}
 
-	public MQuery getZoomQuery(MChart parent, String value) {
+	public MQuery getZoomQuery(MChart parent, String value, String category2) {
 		MQuery query = new MQuery(getAD_Table_ID());
 		
 		String category;
@@ -339,11 +373,7 @@ public class MChartDatasource extends X_AD_ChartDatasource {
 		if (includedIds.length() == 0)
 			return MQuery.getNoRecordQuery(query.getTableName(), false);
 
-		String keyCol = MTable.get(getCtx(), getAD_Table_ID()).getKeyColumns()[0];
-		StringBuffer whereClause = new StringBuffer (keyCol)
-		.append(" IN (").append(includedIds).append(")");
-		query.addRestriction(whereClause.toString());
-		query.setRecordCount(1);
+
 		return query;
 	}
 

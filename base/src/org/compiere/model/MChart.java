@@ -2,6 +2,7 @@ package org.compiere.model;
 
 import java.awt.Color;
 import java.sql.ResultSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
@@ -16,20 +17,22 @@ import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.Dataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
-import org.jfree.data.time.Month;
-import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.IntervalXYDataset;
-import org.jfree.data.xy.XYDataset;
 
 public class MChart extends X_AD_Chart {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8851465915516536910L;
+	
 	private int windowNo=0;
-	private IntervalXYDataset xyData;
-	private DefaultCategoryDataset categoryData;
-	private DefaultPieDataset pieData;
+	private Dataset dataset;
+	private HashMap<String,MQuery> queries;
 
 	public MChart(Properties ctx, int AD_Chart_ID, String trxName) {
 		super(ctx, AD_Chart_ID, trxName);
@@ -40,9 +43,7 @@ public class MChart extends X_AD_Chart {
 	}
 	
 	public void loadData() {
-		categoryData = new DefaultCategoryDataset();
-		pieData = new DefaultPieDataset();
-		xyData = new TimeSeriesCollection();
+		queries = new HashMap<String,MQuery>();
 		for ( MChartDatasource ds : getDatasources() )
 		{
 			ds.addData(this);
@@ -50,28 +51,35 @@ public class MChart extends X_AD_Chart {
 	}
 
 	public CategoryDataset getCategoryDataset() {
-		return categoryData;
+		dataset = new DefaultCategoryDataset();
+		loadData();
+		return (CategoryDataset) dataset;
 	}
 	
 	public IntervalXYDataset getXYDataset() {
-		return xyData;
+		dataset = new TimeSeriesCollection();
+		loadData();
+		return (IntervalXYDataset) dataset;
 	}
 
+	public PieDataset getPieDataset() {
+		dataset = new DefaultPieDataset();
+		loadData();
+		return (PieDataset) dataset;
+	}
+	
+	public Dataset getDataset() {
+		return dataset;
+	}
+	
 	private List<MChartDatasource> getDatasources() {
 		
 		return new Query(getCtx(), MChartDatasource.Table_Name, MChart.COLUMNNAME_AD_Chart_ID + "=?", null)
 		.setParameters(getAD_Chart_ID()).setOnlyActiveRecords(true).list();
 	}
 	
-	private MChartDatasource getDatasourceByName(String name) {
-		
-		return new Query(getCtx(), MChartDatasource.Table_Name,
-				MChart.COLUMNNAME_AD_Chart_ID + "=? AND " + MChart.COLUMNNAME_Name + "=?", null)
-		.setParameters(getAD_Chart_ID(), name).setOnlyActiveRecords(true).first();
-	}
-
-	public PieDataset getPieDataset() {
-		return pieData;
+	public HashMap<String, MQuery> getQueries() {
+		return queries;
 	}
 
 	public void setWindowNo(int windowNo) {
@@ -82,12 +90,14 @@ public class MChart extends X_AD_Chart {
 		return windowNo;
 	}
 
-	public MQuery getQuery(String key, String category) {
-		for ( MChartDatasource ds : getDatasources() )
+	public MQuery getQuery(String key) {
+		
+
+		if ( queries.containsKey(key) )
 		{
-			if ( category == null || ds.getName().equals(category));
-			return ds.getZoomQuery(this, key);
+			return queries.get(key);
 		}
+		
 		return null;
 	}
 
@@ -103,7 +113,9 @@ public class MChart extends X_AD_Chart {
 		if(MChart.CHARTTYPE_BarChart.equals(type))
 		{
 			if ( isTimeSeries())
+			{
 				return createXYBarChart();
+			}
 			return createBarChart();
 		}
 		else if (MChart.CHARTTYPE_3DBarChart.equals(type))
