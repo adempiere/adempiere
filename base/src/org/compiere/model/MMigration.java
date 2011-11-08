@@ -73,7 +73,7 @@ public class MMigration extends X_AD_Migration {
 	}
 	
 	public void rollback() throws SQLException {
-		for ( MMigrationStep step : getSteps(false) )
+		for ( MMigrationStep step : getSteps(true) )
 		{
 			try {
 				Trx.run(new StepRunner(step, true));
