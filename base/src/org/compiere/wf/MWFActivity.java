@@ -13,6 +13,10 @@
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
+ *                                                                            *
+ * @author: Jorg Janke                                                        *
+ * @author: Kitti U. Fix[3409739]DocValueWorkflow_cannot_set_var_ID_Column    *
+ *                                                                            *               
  *****************************************************************************/
 package org.compiere.wf;
 
@@ -66,9 +70,9 @@ import org.compiere.util.Util;
  *	Workflow Activity Model.
  *	Controlled by WF Process: 
  *		set Node - startWork 
- *	
- *  @author Jorg Janke
- *  @version $Id: MWFActivity.java,v 1.4 2006/07/30 00:51:05 jjanke Exp $
+ * 
+ * @author Jorg Janke
+ * @author Kitti U. Fix[3409739]DocValueWorkflow_cannot_set_var_ID_Column
  */
 public class MWFActivity extends X_AD_WF_Activity implements Runnable
 {
@@ -1150,6 +1154,8 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			dbValue = new Boolean("Y".equals(value));
 		else if (DisplayType.isNumeric(displayType))
 			dbValue = new BigDecimal (value);
+		else if (DisplayType.isID(displayType)) // Fix[3409739]DocValueWorkflow_cannot_set_var_ID_Column
+			dbValue = new Integer (value);
 		else
 			dbValue = value;
 		m_po.set_ValueOfColumn(getNode().getAD_Column_ID(), dbValue);
