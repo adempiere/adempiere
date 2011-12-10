@@ -283,8 +283,16 @@
 	<classpathentry exported="true" kind="lib" path="posterita/posterita/web/WEB-INF/lib/displaytag-export-poi-1.1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="posterita/posterita/web/WEB-INF/lib/log4j-1.2.13.jar"/>
 	<classpathentry exported="true" kind="lib" path="posterita/posterita/web/WEB-INF/lib/servlet.jar"/>
-	<classpathentry exported="true" kind="lib" path="packages/liberoHR.jar" sourcepath="/adempiereLiberoHR"/>
-	<classpathentry exported="true" kind="lib" path="packages/liberoMFG.jar" sourcepath="/adempiereLibero"/>
+	<classpathentry exported="true" kind="lib" path="packages/liberoHR.jar" sourcepath="/adempiereLiberoHR">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="packages/liberoMFG.jar" sourcepath="/adempiereLibero">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="tools/lib/iText-2.1.7.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
