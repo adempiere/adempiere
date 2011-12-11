@@ -32,6 +32,7 @@ public class PaymentTermValidate extends SvrProcess
 	/**
 	 *  Prepare - e.g., get Parameters.
 	 */
+	@Override
 	protected void prepare()
 	{
 		ProcessInfoParameter[] para = getParameter();
@@ -50,6 +51,7 @@ public class PaymentTermValidate extends SvrProcess
 	 *  @return Message
 	 *  @throws Exception if not successful
 	 */
+	@Override
 	protected String doIt() throws Exception
 	{
 		log.info ("C_PaymentTerm_ID=" + getRecord_ID());
