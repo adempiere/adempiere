@@ -226,11 +226,13 @@ public class PaySelect
 			//	WHERE
 			"i.IsSOTrx=? AND IsPaid='N'"
 			//	Different Payment Selection
+			//  BR3450248 - Partially paid invoice does not appear in payment selection
 			+ " AND NOT EXISTS (SELECT * FROM C_PaySelectionLine psl"
 			+                 " INNER JOIN C_PaySelectionCheck psc ON (psl.C_PaySelectionCheck_ID=psc.C_PaySelectionCheck_ID)"
 			+                 " LEFT OUTER JOIN C_Payment pmt ON (pmt.C_Payment_ID=psc.C_Payment_ID)"
 			+                 " WHERE i.C_Invoice_ID=psl.C_Invoice_ID AND psl.IsActive='Y'"
-			+				  " AND (pmt.DocStatus IS NULL OR pmt.DocStatus NOT IN ('VO','RE')) )"
+			+				  " AND (pmt.DocStatus IS NULL OR pmt.DocStatus NOT IN ('VO','RE'))"
+			+				  " AND psl.differenceamt = 0.0 )"
 			+ " AND i.DocStatus IN ('CO','CL')"
 			+ " AND i.AD_Client_ID=?",	//	additional where & order in loadTableInfo()
 			true, "i");
