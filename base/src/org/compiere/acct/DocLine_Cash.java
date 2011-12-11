@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 
 import org.compiere.model.MCashLine;
 import org.compiere.model.MInvoice;
+import org.compiere.model.MPayment;
 import org.compiere.util.Env;
 
 /**
@@ -41,11 +42,20 @@ public class DocLine_Cash extends DocLine
 		m_CashType = line.getCashType();
 		m_C_BankAccount_ID = line.getC_BankAccount_ID();
 		m_C_Invoice_ID = line.getC_Invoice_ID();
+		m_C_Payment_ID = line.getC_Payment_ID();
+
 		//
 		if (m_C_Invoice_ID != 0)
 		{
 			MInvoice invoice = MInvoice.get(line.getCtx(), m_C_Invoice_ID);
 			setC_BPartner_ID(invoice.getC_BPartner_ID());
+		}
+
+		//
+		if (m_C_Payment_ID != 0)
+		{
+			MPayment payment = new MPayment(line.getCtx(),m_C_Payment_ID,null);
+			setC_BPartner_ID(payment.getC_BPartner_ID());
 		}
 
 		//
@@ -77,6 +87,7 @@ public class DocLine_Cash extends DocLine
 	//  References
 	private int     m_C_BankAccount_ID = 0;
 	private int     m_C_Invoice_ID = 0;
+	private int     m_C_Payment_ID = 0;
 
 	//  Amounts
 	private BigDecimal      m_Amount = Env.ZERO;
