@@ -288,6 +288,7 @@ public class MPaymentTerm extends X_C_PaymentTerm
 	 * 	String Representation
 	 *	@return info
 	 */
+	@Override
 	public String toString ()
 	{
 		StringBuffer sb = new StringBuffer ("MPaymentTerm[");
@@ -302,6 +303,7 @@ public class MPaymentTerm extends X_C_PaymentTerm
 	 *	@param newRecord new
 	 *	@return true
 	 */
+	@Override
 	protected boolean beforeSave (boolean newRecord)
 	{
 		if (isDueFixed())
@@ -331,16 +333,14 @@ public class MPaymentTerm extends X_C_PaymentTerm
 		return true;
 	}	//	beforeSave
 	
-	/**
-	 * 	Before Delete
-	 *	@return true if it can be deleted
-	 */
+	@Override
 	protected boolean beforeDelete ()
 	{
-		for (MPaySchedule line : getSchedule(true)) {
+		for (MPaySchedule line : getSchedule(true))
+		{
 			line.deleteEx(true);
 		}
 		return true;
-	}	//	beforeDelete
+	}
 	
 }	//	MPaymentTerm
