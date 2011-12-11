@@ -28,6 +28,9 @@ import org.compiere.util.Env;
  *
  *  @author Jorg Janke
  *  @version  $Id: DocLine_Cash.java,v 1.3 2006/07/30 00:53:33 jjanke Exp $
+ *  
+ *  @author Michael McKey
+ *  	<li>BF3441324 Cash Lines from Payments don't add BPartner dimension
  */
 public class DocLine_Cash extends DocLine
 {
