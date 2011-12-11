@@ -87,8 +87,6 @@ public class WLocationEditor extends WEditor implements EventListener, PropertyC
 
     private void init()
     {
-    	//getComponent().setButtonImage("/images/Online10.png");
-    	
     	popupMenu = new WEditorPopupMenu(false, false, true);
     	popupMenu.addMenuListener(this);
     	if (gridField != null && gridField.getGridTab() != null)
