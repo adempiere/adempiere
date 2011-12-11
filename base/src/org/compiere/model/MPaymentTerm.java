@@ -24,6 +24,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.MPaySchedule;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -329,5 +330,17 @@ public class MPaymentTerm extends X_C_PaymentTerm
 			validate();
 		return true;
 	}	//	beforeSave
+	
+	/**
+	 * 	Before Delete
+	 *	@return true if it can be deleted
+	 */
+	protected boolean beforeDelete ()
+	{
+		for (MPaySchedule line : getSchedule(true)) {
+			line.deleteEx(true);
+		}
+		return true;
+	}	//	beforeDelete
 	
 }	//	MPaymentTerm
