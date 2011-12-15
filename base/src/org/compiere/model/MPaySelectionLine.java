@@ -13,6 +13,10 @@
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
+ *                                                                            *
+ *  @author Michael McKay                                                     * 
+ *  	<li>BF3441324  - Partially paid invoice does not appear in payment    *
+ *                       selection                                            *
  *****************************************************************************/
 package org.compiere.model;
 
@@ -92,15 +96,17 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 	/**
 	 * 	Set Invoice Info
 	 *	@param C_Invoice_ID invoice
+	 *  @param C_InvoicePaySchedule_ID invoice pay schedule
 	 *	@param isSOTrx sales trx
 	 *	@param PayAmt payment
 	 *	@param OpenAmt open
 	 *	@param DiscountAmt discount
 	 */
-	public void setInvoice (int C_Invoice_ID, boolean isSOTrx, BigDecimal OpenAmt, 
-		BigDecimal PayAmt, BigDecimal DiscountAmt)
+	public void setInvoice (int C_Invoice_ID, int C_InvoicePaySchedule_ID, boolean isSOTrx, 
+		BigDecimal OpenAmt, BigDecimal PayAmt, BigDecimal DiscountAmt)
 	{
 		setC_Invoice_ID (C_Invoice_ID);
+		set_ValueOfColumn("C_InvoicePaySchedule_ID",C_InvoicePaySchedule_ID);
 		setIsSOTrx(isSOTrx);
 		setOpenAmt(OpenAmt);
 		setPayAmt (PayAmt);
