@@ -206,13 +206,12 @@ public class CalloutDistributionOrder extends CalloutEngine
 	public String qtyConfirmed (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value)
 	{
 		I_DD_OrderLine line = GridTabWrapper.create(mTab, I_DD_OrderLine.class);		
-		MDDOrderLine orderLine = new MDDOrderLine(ctx, line.getDD_OrderLine_ID(), null);
-		
-		if (line.getConfirmedQty().compareTo(orderLine.getQtyToDeliver()) > 0)
+			
+		if (line.getConfirmedQty().compareTo(line.getQtyOrdered().subtract(line.getQtyInTransit()).subtract(line.getQtyDelivered())) > 0)
 		{
-			String info =Msg.parseTranslation(ctx, "@ConfirmedQty@ : "+line.getConfirmedQty()+" > @QtyInTransit@ "+line.getQtyInTransit()+" @QtyToDeliver@ : " +  orderLine.getQtyToDeliver());
+			String info =Msg.parseTranslation(ctx, "@ConfirmedQty@ : "+line.getConfirmedQty()+" > @QtyToDeliver@ : " +  line.getQtyOrdered().subtract(line.getQtyInTransit()).subtract(line.getQtyDelivered()));
 			mTab.fireDataStatusEEvent ("", info, false);
-			line.setConfirmedQty(orderLine.getQtyToDeliver());
+			line.setConfirmedQty(line.getQtyOrdered().subtract(line.getQtyInTransit()).subtract(line.getQtyDelivered()));
 		}
 		return "";		
 	}	
