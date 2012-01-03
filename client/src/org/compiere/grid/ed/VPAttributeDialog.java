@@ -77,6 +77,9 @@ import org.compiere.util.Msg;
  *
  *  @author Jorg Janke
  *  @version $Id: VPAttributeDialog.java,v 1.4 2006/07/30 00:51:27 jjanke Exp $
+ *  
+ *  @author Michael McKay (mjmckay)
+ *  		<li>BF3468823 - Attribute Set Instance editor does not display
  */
 public class VPAttributeDialog extends CDialog
 	implements ActionListener
@@ -266,15 +269,16 @@ public class VPAttributeDialog extends CDialog
 			ADialog.error(m_WindowNo, this, "PAttributeNoAttributeSet");
 			return false;
 		}
+		//  BF3468823 Attribute Set Instance editor does not display
 		//	Product has no Instance Attributes
-		if (!m_productWindow && !as.isInstanceAttribute())
-		{
-			ADialog.error(m_WindowNo, this, "PAttributeNoInstanceAttribute");
-			return false;
-		}
+		//if (!m_productWindow && !as.isInstanceAttribute())
+		//{
+		//	ADialog.error(m_WindowNo, this, "PAttributeNoInstanceAttribute");
+		//	return false;
+		//}
 
-		//	Show Product Attributes
-		if (m_productWindow)
+		//	BF3468823 Show Product Attributes
+		if (m_productWindow || !as.isInstanceAttribute())
 		{
 			MAttribute[] attributes = as.getMAttributes (false);
 			log.fine ("Product Attributes=" + attributes.length);
@@ -465,7 +469,7 @@ public class VPAttributeDialog extends CDialog
 		else if (MAttribute.ATTRIBUTEVALUETYPE_Number.equals(attribute.getAttributeValueType()))
 		{
 			VNumber editor = new VNumber(attribute.getName(), attribute.isMandatory(), 
-				false, true, DisplayType.Number, attribute.getName());
+				readOnly, !readOnly, DisplayType.Number, attribute.getName());
 			if (instance != null)
 				editor.setValue(instance.getValueNumber());
 			else
