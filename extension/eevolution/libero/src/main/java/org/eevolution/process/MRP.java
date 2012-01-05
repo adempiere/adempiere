@@ -367,7 +367,7 @@ public class MRP extends SvrProcess
 					final Timestamp DateStartSchedule = rs.getTimestamp(MPPMRP.COLUMNNAME_DateStartSchedule);
 					final BigDecimal Qty = rs.getBigDecimal(MPPMRP.COLUMNNAME_Qty);
 					final int M_Product_ID = rs.getInt(MPPMRP.COLUMNNAME_M_Product_ID); 
-				
+
 					// if demand is forecast and promised date less than or equal to today, ignore this QtyGrossReq
 					if (MPPMRP.TYPEMRP_Demand.equals(TypeMRP)
 							&& MPPMRP.ORDERTYPE_Forecast.equals(OrderType)
@@ -415,7 +415,6 @@ public class MRP extends SvrProcess
 						if (m_product_planning == null)
 							continue;	  
 							
-
 						if (X_PP_Product_Planning.ORDER_POLICY_PeriodOrderQuantity.equals(m_product_planning.getOrder_Policy()))
 						{
 							POQDateStartSchedule =null;
@@ -426,24 +425,24 @@ public class MRP extends SvrProcess
 					if (m_product_planning == null)
 						continue;
 					
-					int daysAdded = m_product_planning.getOrder_Period().intValueExact() - 1;
+					int daysPOQ = m_product_planning.getOrder_Period().intValueExact() - 1;
 					//first DatePromised.compareTo for ORDER_POLICY_PeriodOrderQuantity
 					if (X_PP_Product_Planning.ORDER_POLICY_PeriodOrderQuantity.equals(m_product_planning.getOrder_Policy()) 
 							&& (DatePromisedTo !=null && DatePromised.compareTo(DatePromisedTo) > 0))
 					{
 						calculatePlan(AD_Client_ID,AD_Org_ID,M_Warehouse_ID,PP_MRP_ID,product ,DatePromisedFrom);						
 						DatePromisedFrom = DatePromised;
-						DatePromisedTo = TimeUtil.addDays(DatePromised, daysAdded<0 ? 0 : daysAdded);                                     
+						DatePromisedTo = TimeUtil.addDays(DatePromised, daysPOQ<0 ? 0 : daysPOQ);                                     
 						POQDateStartSchedule = DatePromised;
 						
 					}
 					else if(POQDateStartSchedule==null)
 					{
 						DatePromisedFrom = DatePromised;
-						DatePromisedTo = TimeUtil.addDays(DatePromised, daysAdded<0 ? 0 : daysAdded);                                     
+						DatePromisedTo = TimeUtil.addDays(DatePromised, daysPOQ<0 ? 0 : daysPOQ);                                     
 						POQDateStartSchedule = DatePromised;
 					}
-					
+									
 					//MRP-150
 					//Past Due Demand
 					//Indicates that a demand order is past due.
@@ -467,7 +466,7 @@ public class MRP extends SvrProcess
 							log.info("DatePromised:" + DatePromised);
 							log.info("DatePromisedTo:" + DatePromisedTo);
 							continue;
-						}
+						}						
 					}
 					// If  Order_Policy = LoteForLote then always create new range for next period and put QtyGrossReqs          
 					else if (X_PP_Product_Planning.ORDER_POLICY_Lot_For_Lot.equals(m_product_planning.getOrder_Policy()))
