@@ -477,9 +477,9 @@ public class MPPMRP extends X_PP_MRP
 		setTypeMRP(MPPMRP.TYPEMRP_Supply);
 		//
 		//setAD_Org_ID(r.getAD_Org_ID());
-		setDateOrdered(r.getDateRequired());
+		setDateOrdered(r.getDateDoc());
 		setDatePromised(r.getDateRequired());
-		setDateStartSchedule(r.getDateRequired());
+		setDateStartSchedule(r.getDateDoc());
 		setDateFinishSchedule(r.getDateRequired());
 		setM_Warehouse_ID(r.getM_Warehouse_ID());
 	}

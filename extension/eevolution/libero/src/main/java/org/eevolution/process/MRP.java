@@ -363,8 +363,7 @@ public class MRP extends SvrProcess
 					final int PP_MRP_ID = rs.getInt(MPPMRP.COLUMNNAME_PP_MRP_ID);
 					final String TypeMRP = rs.getString(MPPMRP.COLUMNNAME_TypeMRP);
 					final String OrderType = rs.getString(MPPMRP.COLUMNNAME_OrderType);
-					final Timestamp DatePromised = rs.getTimestamp(MPPMRP.COLUMNNAME_DatePromised);
-					final Timestamp DateStartSchedule = rs.getTimestamp(MPPMRP.COLUMNNAME_DateStartSchedule);
+					final Timestamp DatePromised = rs.getTimestamp(MPPMRP.COLUMNNAME_DateStartSchedule);
 					final BigDecimal Qty = rs.getBigDecimal(MPPMRP.COLUMNNAME_Qty);
 					final int M_Product_ID = rs.getInt(MPPMRP.COLUMNNAME_M_Product_ID); 
 
@@ -934,7 +933,7 @@ public class MRP extends SvrProcess
 					order.setC_DocType_ID(docTypeDO_ID);  
 					order.setM_Warehouse_ID(wsts[0].get_ID());
 					order.setDocAction(MDDOrder.DOCACTION_Complete);
-					order.setDateOrdered(getToday());                       
+					order.setDateOrdered(TimeUtil.addDays(DemandDateStartSchedule , (m_product_planning.getDeliveryTime_Promised().add(transfertTime)).negate().intValueExact()));                       
 					order.setDatePromised(DemandDateStartSchedule);
 					order.setM_Shipper_ID(network_line.getM_Shipper_ID());	    	                
 					order.setIsInDispute(false);
@@ -962,7 +961,7 @@ public class MRP extends SvrProcess
 			oline.setM_Locator_ID(locator.getM_Locator_ID());
 			oline.setM_LocatorTo_ID(locator_to.getM_Locator_ID());
 			oline.setM_Product_ID(m_product_planning.getM_Product_ID()); 
-			oline.setDateOrdered(getToday());                       
+			oline.setDateOrdered(order.getDateOrdered());                       
 			oline.setDatePromised(DemandDateStartSchedule);
 			oline.setQtyEntered(QtyOrdered);
 			oline.setQtyOrdered(QtyOrdered);
@@ -981,7 +980,9 @@ public class MRP extends SvrProcess
 			{
 				mrp.setDateOrdered(getToday());               
 				mrp.setS_Resource_ID(m_product_planning.getS_Resource_ID());
-				mrp.setDatePromised(TimeUtil.addDays(DemandDateStartSchedule , (m_product_planning.getDeliveryTime_Promised().add(transfertTime)).negate().intValueExact()));                                                            
+				mrp.setDateOrdered(mrp.getDD_Order().getDateOrdered());  
+				mrp.setDateStartSchedule(mrp.getDateOrdered());
+				mrp.setDatePromised(DemandDateStartSchedule);
 				mrp.setDateFinishSchedule(DemandDateStartSchedule);
 				mrp.saveEx();
 			}
@@ -1012,7 +1013,8 @@ public class MRP extends SvrProcess
 		MRequisition req = new  MRequisition(getCtx(),0, get_TrxName()); 
 		req.setAD_Org_ID(AD_Org_ID);
 		req.setAD_User_ID(m_product_planning.getPlanner_ID());                                                        
-		req.setDateRequired(TimeUtil.addDays(DemandDateStartSchedule, 0 - duration));
+		req.setDateDoc(TimeUtil.addDays(DemandDateStartSchedule, 0 - duration));
+		req.setDateRequired(DemandDateStartSchedule);
 		req.setDescription("Generate from MRP"); // TODO: add translation
 		req.setM_Warehouse_ID(m_product_planning.getM_Warehouse_ID());
 		req.setC_DocType_ID(docTypeReq_ID);
@@ -1042,7 +1044,7 @@ public class MRP extends SvrProcess
 			mrp.setDateOrdered(getToday());
 			mrp.setS_Resource_ID(m_product_planning.getS_Resource_ID());
 			mrp.setDatePromised(req.getDateRequired());                                                            
-			mrp.setDateStartSchedule(req.getDateRequired());                                                            
+			mrp.setDateStartSchedule(req.getDateDoc());                                                            
 			mrp.setDateFinishSchedule(DemandDateStartSchedule);
 			mrp.saveEx();
 
