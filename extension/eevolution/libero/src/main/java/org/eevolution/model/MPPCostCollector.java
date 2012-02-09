@@ -440,7 +440,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 				obomline.setQtyScrap(obomline.getQtyScrap().add(getScrappedQty()));
 				obomline.setQtyReject(obomline.getQtyReject().add(getQtyReject()));  
 				obomline.setDateDelivered(getMovementDate());	//	overwrite=last	
-				obomline.setM_AttributeSetInstance_ID(getM_AttributeSetInstance_ID());
+
 				log.fine("OrderLine - Reserved=" + obomline.getQtyReserved() + ", Delivered=" + obomline.getQtyDelivered());				
 				obomline.saveEx();
 				log.fine("OrderLine -> Reserved="+obomline.getQtyReserved()+", Delivered="+obomline.getQtyDelivered());
@@ -528,7 +528,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 			obomline.setQtyScrap(obomline.getQtyScrap().add(getScrappedQty()));
 			obomline.setQtyReject(obomline.getQtyReject().add(getQtyReject()));  
 			//obomline.setDateDelivered(getMovementDate());	//	overwrite=last	
-			obomline.setM_AttributeSetInstance_ID(getM_AttributeSetInstance_ID());
+
 			log.fine("OrderLine - Reserved=" + obomline.getQtyReserved() + ", Delivered=" + obomline.getQtyDelivered());				
 			obomline.saveEx();
 			log.fine("OrderLine -> Reserved="+obomline.getQtyReserved()+", Delivered="+obomline.getQtyDelivered());
