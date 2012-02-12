@@ -305,10 +305,11 @@ public class DefaultRoutingServiceImpl implements RoutingService
 		double fromMult = getDurationBaseSec(fromDurationUnit);
 		double toDiv = getDurationBaseSec(toUOM);
 		BigDecimal convertedDuration = BigDecimal.valueOf(duration.doubleValue() * fromMult / toDiv);
+		//https://adempiere.atlassian.net/browse/MFG-4
 		// Adjust scale to UOM precision
-		int precision = toUOM.getStdPrecision();
+		/*int precision = toUOM.getStdPrecision();
 		if (convertedDuration.scale() > precision)
-			convertedDuration = convertedDuration.setScale(precision, RoundingMode.HALF_UP);
+			convertedDuration = convertedDuration.setScale(precision, RoundingMode.HALF_UP);*/
 		//
 		return convertedDuration;
 	}
