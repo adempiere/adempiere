@@ -214,10 +214,21 @@ public class Doc_PPCostCollector extends Doc
 		
 		final MProduct product = m_cc.getM_Product();
 		final MAccount credit = m_line.getAccount(ProductCost.ACCTTYPE_P_WorkInProcess, as);
+		final MAccount burden = m_line.getAccount(ProductCost.ACCTTYPE_P_Burden, as);
 		
 		for (MCostDetail cd : getCostDetails())
 		{
 			MCostElement element = MCostElement.get(getCtx(), cd.getM_CostElement_ID());
+			if (MCostElement.COSTELEMENTTYPE_BurdenMOverhead.equals(element.getCostElementType()))
+			{
+				MAccount debit = m_line.getAccount(ProductCost.ACCTTYPE_P_Asset, as);
+				MCost c = MCost.get(product, 0, as, cd.getAD_Org_ID(), cd.getM_CostElement_ID());
+				BigDecimal cost = cd.getAmt().add(c.getCurrentCostPriceLL());
+				if (cost.scale() > as.getStdPrecision())
+					cost = cost.setScale(as.getStdPrecision(), RoundingMode.HALF_UP);
+				createLines(element, as, fact, product, debit, burden, cost, m_cc.getMovementQty());
+				continue;
+			}			
 			if (m_cc.getMovementQty().signum() != 0)
 			{
 				MAccount debit = m_line.getAccount(ProductCost.ACCTTYPE_P_Asset, as);
@@ -311,7 +322,7 @@ public class Doc_PPCostCollector extends Doc
 
 		MAccount debit = m_line.getAccount(ProductCost.ACCTTYPE_P_WorkInProcess, as);
 		
-		for (MCostDetail cd : getCostDetails())
+		for (MCostDetail cd : getCostDetailsActivityControl())
 		{
 			MCost c = MCost.get(product, 0, as, cd.getAD_Org_ID(), cd.getM_CostElement_ID());
 			BigDecimal costs = cd.getAmt().add(c.getCurrentCostPriceLL()).negate();
@@ -368,7 +379,7 @@ public class Doc_PPCostCollector extends Doc
 	{
 		if (m_costDetails == null)
 		{
-			String whereClause = MCostDetail.COLUMNNAME_PP_Cost_Collector_ID+"=?";
+			String whereClause = MCostDetail.COLUMNNAME_PP_Cost_Collector_ID+"=? ";
 			m_costDetails = new Query(getCtx(), MCostDetail.Table_Name, whereClause, getTrxName())
 			.setParameters(new Object[]{m_cc.getPP_Cost_Collector_ID()})
 			.setOrderBy(MCostDetail.COLUMNNAME_M_CostDetail_ID)
@@ -376,5 +387,20 @@ public class Doc_PPCostCollector extends Doc
 		}
 		return m_costDetails;
 	}
+	
+	private List<MCostDetail> getCostDetailsActivityControl()
+	{
+		if (m_costDetails == null)
+		{
+			String whereClause = MCostDetail.COLUMNNAME_PP_Cost_Collector_ID+"=? AND EXISTS(SELECT 1 FROM M_CostElement ce " +
+								 "WHERE ce.M_CostElement_ID = M_CostDetail.M_CostElement_ID AND ce.CostElementType IN('R','O'))";
+			m_costDetails = new Query(getCtx(), MCostDetail.Table_Name, whereClause, getTrxName())
+			.setParameters(new Object[]{m_cc.getPP_Cost_Collector_ID()})
+			.setOrderBy(MCostDetail.COLUMNNAME_M_CostDetail_ID)
+			.list();
+		}
+		return m_costDetails;
+	}
+	
 	private List<MCostDetail> m_costDetails = null;
 }   //  Doc Cost Collector

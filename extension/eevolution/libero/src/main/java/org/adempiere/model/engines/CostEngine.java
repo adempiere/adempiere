@@ -288,8 +288,7 @@ public class CostEngine
 	{
 		String costElementType = element.getCostElementType();
 		return MCostElement.COSTELEMENTTYPE_Resource.equals(costElementType)
-		|| MCostElement.COSTELEMENTTYPE_Overhead.equals(costElementType)
-		|| MCostElement.COSTELEMENTTYPE_BurdenMOverhead.equals(costElementType);
+		|| MCostElement.COSTELEMENTTYPE_Overhead.equals(costElementType);
 	}
 
 	private Collection<MCostElement> getCostElements(Properties ctx)
