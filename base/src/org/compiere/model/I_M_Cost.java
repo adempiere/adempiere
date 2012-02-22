@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_Cost
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.6.0LTS
  */
 public interface I_M_Cost 
 {
@@ -119,6 +119,19 @@ public interface I_M_Cost
 	  */
 	public BigDecimal getCumulatedAmt();
 
+    /** Column name CumulatedAmtLL */
+    public static final String COLUMNNAME_CumulatedAmtLL = "CumulatedAmtLL";
+
+	/** Set Accumulated Amt LL.
+	  * Total Amount
+	  */
+	public void setCumulatedAmtLL (BigDecimal CumulatedAmtLL);
+
+	/** Get Accumulated Amt LL.
+	  * Total Amount
+	  */
+	public BigDecimal getCumulatedAmtLL();
+
     /** Column name CumulatedQty */
     public static final String COLUMNNAME_CumulatedQty = "CumulatedQty";
 
@@ -148,12 +161,12 @@ public interface I_M_Cost
     /** Column name CurrentCostPriceLL */
     public static final String COLUMNNAME_CurrentCostPriceLL = "CurrentCostPriceLL";
 
-	/** Set Current Cost Price Lower Level.
+	/** Set Current Cost Price LL.
 	  * Current Price Lower Level Is the sum of the costs of the components of this product manufactured for this level.
 	  */
 	public void setCurrentCostPriceLL (BigDecimal CurrentCostPriceLL);
 
-	/** Get Current Cost Price Lower Level.
+	/** Get Current Cost Price LL.
 	  * Current Price Lower Level Is the sum of the costs of the components of this product manufactured for this level.
 	  */
 	public BigDecimal getCurrentCostPriceLL();
@@ -196,10 +209,10 @@ public interface I_M_Cost
     /** Column name FutureCostPriceLL */
     public static final String COLUMNNAME_FutureCostPriceLL = "FutureCostPriceLL";
 
-	/** Set Future Cost Price Lower Level	  */
+	/** Set Future Cost Price LL	  */
 	public void setFutureCostPriceLL (BigDecimal FutureCostPriceLL);
 
-	/** Get Future Cost Price Lower Level	  */
+	/** Get Future Cost Price LL	  */
 	public BigDecimal getFutureCostPriceLL();
 
     /** Column name IsActive */

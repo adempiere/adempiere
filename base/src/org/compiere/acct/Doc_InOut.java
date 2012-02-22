@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
+// * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -15,20 +15,16 @@
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
 package org.compiere.acct;
-
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
-import org.compiere.model.MTax;
-import org.compiere.model.MCurrency;
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCostDetail;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInOutLine;
-import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
 import org.compiere.model.ProductCost;
 import org.compiere.util.DB;
@@ -161,16 +157,79 @@ public class Doc_InOut extends Doc
 		//  *** Sales - Shipment
 		if (getDocumentType().equals(DOCTYPE_MatShipment) && isSOTrx())
 		{
+			BigDecimal total = Env.ZERO;
 			for (int i = 0; i < p_lines.length; i++)
 			{
 				DocLine line = p_lines[i];
-				// MZ Goodwill
-				// if Shipment CostDetail exist then get Cost from Cost Detail 
-				BigDecimal costs = line.getProductCosts(as, line.getAD_Org_ID(), true, "M_InOutLine_ID=?");
-				// end MZ
-				if (costs == null || costs.signum() == 0)	//	zero costs OK
+				BigDecimal costs = null;			
+				MProduct product = line.getProduct();
+				
+				for (MCostDetail cost :  line.getCostDetail(as))
+				{	
+					if (cost.getCostAmt().add(cost.getCostAmtLL()).signum() == 0)
+						continue;
+					//get costing method for product
+					String description = cost.getM_CostElement().getName() +" "+ cost.getM_CostType().getName();
+					costs = cost.getCostAmt().add(cost.getCostAmtLL()).setScale(as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+					total = total.add(costs);
+					
+					//  CoGS            DR
+					dr = fact.createLine(line,
+							line.getAccount(ProductCost.ACCTTYPE_P_Cogs, as),
+							as.getC_Currency_ID(), costs, null);
+					if (dr == null)
+					{
+						p_Error = "FactLine DR not created: " + line;
+						log.log(Level.WARNING, p_Error);
+						return null;
+					}
+					dr.setM_Locator_ID(line.getM_Locator_ID());
+					dr.setLocationFromLocator(line.getM_Locator_ID(), true);    //  from Loc
+					dr.setLocationFromBPartner(getC_BPartner_Location_ID(), false);  //  to Loc
+					dr.setAD_Org_ID(line.getOrder_Org_ID());		//	Revenue X-Org
+					dr.setQty(cost.getQty().negate());
+					dr.addDescription(description);
+					if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) 
+							&& m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
+					{
+						//	Set AmtAcctDr from Original Shipment/Receipt
+						if (!dr.updateReverseLine (MInOut.Table_ID, 
+								m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
+						{
+							p_Error = "Original Shipment/Receipt not posted yet";
+							return null;
+						}
+					}
+				
+					//  Inventory               CR
+					cr = fact.createLine(line,
+							line.getAccount(ProductCost.ACCTTYPE_P_Asset, as),
+							as.getC_Currency_ID(), null, costs);
+					if (cr == null)
+					{
+						p_Error = "FactLine CR not created: " + line;
+						log.log(Level.WARNING, p_Error);
+						return null;
+					}
+					cr.setM_Locator_ID(line.getM_Locator_ID());
+					cr.setLocationFromLocator(line.getM_Locator_ID(), true);    // from Loc
+					cr.setLocationFromBPartner(getC_BPartner_Location_ID(), false);  // to Loc
+					cr.addDescription(description);
+					if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) 
+							&& m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
+					{
+						//	Set AmtAcctCr from Original Shipment/Receipt
+						if (!cr.updateReverseLine (MInOut.Table_ID, 
+								m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
+						{
+							p_Error = "Original Shipment/Receipt not posted yet";
+							return null;
+						}
+						costs = cr.getAcctBalance(); //get original cost
+					}
+				} // costing elements
+				if (total == null || total.signum() == 0)	//	zero costs OK
 				{
-					MProduct product = line.getProduct();
 					if (product.isStocked())
 					{
 						p_Error = "No Costs for " + line.getProduct().getName();
@@ -180,69 +239,8 @@ public class Doc_InOut extends Doc
 					else	//	ignore service
 						continue;
 				}
-				//  CoGS            DR
-				dr = fact.createLine(line,
-					line.getAccount(ProductCost.ACCTTYPE_P_Cogs, as),
-					as.getC_Currency_ID(), costs, null);
-				if (dr == null)
-				{
-					p_Error = "FactLine DR not created: " + line;
-					log.log(Level.WARNING, p_Error);
-					return null;
-				}
-				dr.setM_Locator_ID(line.getM_Locator_ID());
-				dr.setLocationFromLocator(line.getM_Locator_ID(), true);    //  from Loc
-				dr.setLocationFromBPartner(getC_BPartner_Location_ID(), false);  //  to Loc
-				dr.setAD_Org_ID(line.getOrder_Org_ID());		//	Revenue X-Org
-				dr.setQty(line.getQty().negate());
-				if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) 
-						&& m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
-				{
-					//	Set AmtAcctDr from Original Shipment/Receipt
-					if (!dr.updateReverseLine (MInOut.Table_ID, 
-							m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
-					{
-						p_Error = "Original Shipment/Receipt not posted yet";
-						return null;
-					}
-				}
-				
-				//  Inventory               CR
-				cr = fact.createLine(line,
-					line.getAccount(ProductCost.ACCTTYPE_P_Asset, as),
-					as.getC_Currency_ID(), null, costs);
-				if (cr == null)
-				{
-					p_Error = "FactLine CR not created: " + line;
-					log.log(Level.WARNING, p_Error);
-					return null;
-				}
-				cr.setM_Locator_ID(line.getM_Locator_ID());
-				cr.setLocationFromLocator(line.getM_Locator_ID(), true);    // from Loc
-				cr.setLocationFromBPartner(getC_BPartner_Location_ID(), false);  // to Loc
-				if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) 
-						&& m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
-				{
-					//	Set AmtAcctCr from Original Shipment/Receipt
-					if (!cr.updateReverseLine (MInOut.Table_ID, 
-							m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
-					{
-						p_Error = "Original Shipment/Receipt not posted yet";
-						return null;
-					}
-					costs = cr.getAcctBalance(); //get original cost
-				}
-				//
-				if (line.getM_Product_ID() != 0)
-				{
-					MCostDetail.createShipment(as, line.getAD_Org_ID(), 
-						line.getM_Product_ID(), line.getM_AttributeSetInstance_ID(),
-						line.get_ID(), 0,
-						costs, line.getQty(),
-						line.getDescription(), true, getTrxName());
-				}
-			}	//	for all lines
-			updateProductInfo(as.getC_AcctSchema_ID());     //  only for SO!
+			}	//	for all linesQty
+
 
 			/** Commitment release										****/
 			if (as.isAccrual() && as.isCreateSOCommitment())
@@ -261,17 +259,77 @@ public class Doc_InOut extends Doc
         //	  *** Sales - Return
 		else if ( getDocumentType().equals(DOCTYPE_MatReceipt) && isSOTrx() )
 		{
+			BigDecimal total = Env.ZERO;
 			for (int i = 0; i < p_lines.length; i++)
 			{
 				DocLine line = p_lines[i];
-				// MZ Goodwill
-				// if Shipment CostDetail exist then get Cost from Cost Detail 
-				BigDecimal costs = line.getProductCosts(as, line.getAD_Org_ID(), true, "M_InOutLine_ID=?");
-				// end MZ
+				BigDecimal costs = null;				
+				MProduct product = line.getProduct();
+				for (MCostDetail cost : line.getCostDetail(as))
+				{	
+					if (cost.getCostAmt().add(cost.getCostAmtLL()).signum() == 0)
+						continue;
+					costs = cost.getCostAmt().add(cost.getCostAmtLL()).setScale(as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+					total = total.add(costs);
+					String description = cost.getM_CostElement().getName() +" "+ cost.getM_CostType().getName();
+										
+					//  Inventory               DR
+					dr = fact.createLine(line,
+						line.getAccount(ProductCost.ACCTTYPE_P_Asset, as),
+						as.getC_Currency_ID(), costs, null);
+					if (dr == null)
+					{
+						p_Error = "FactLine DR not created: " + line;
+						log.log(Level.WARNING, p_Error);
+						return null;
+					}
+					dr.setM_Locator_ID(line.getM_Locator_ID());
+					dr.setLocationFromLocator(line.getM_Locator_ID(), true);    // from Loc
+					dr.setLocationFromBPartner(getC_BPartner_Location_ID(), false);  // to Loc
+					dr.addDescription(description);
+					if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) 
+							&& m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
+					{
+						//	Set AmtAcctDr from Original Shipment/Receipt
+						if (!dr.updateReverseLine (MInOut.Table_ID, 
+								m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
+						{
+							p_Error = "Original Shipment/Receipt not posted yet";
+							return null;
+						}
+						costs = dr.getAcctBalance(); //get original cost
+					}			
+					//  CoGS            CR
+					cr = fact.createLine(line,
+						line.getAccount(ProductCost.ACCTTYPE_P_Cogs, as),
+						as.getC_Currency_ID(), null, costs);
+					if (cr == null)
+					{
+						p_Error = "FactLine CR not created: " + line;
+						log.log(Level.WARNING, p_Error);
+						return null;
+					}
+					cr.setM_Locator_ID(line.getM_Locator_ID());
+					cr.setLocationFromLocator(line.getM_Locator_ID(), true);    //  from Loc
+					cr.setLocationFromBPartner(getC_BPartner_Location_ID(), false);  //  to Loc
+					cr.setAD_Org_ID(line.getOrder_Org_ID());		//	Revenue X-Org
+					cr.setQty(cost.getQty().negate());
+					cr.addDescription(description);
+					if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) 
+							&& m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
+					{
+						//	Set AmtAcctCr from Original Shipment/Receipt
+						if (!cr.updateReverseLine (MInOut.Table_ID, 
+								m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
+						{
+							p_Error = "Original Shipment/Receipt not posted yet";
+							return null;
+						}					
+					}
+				}
 				
-				if (costs == null || costs.signum() == 0)	//	zero costs OK
+				if (total == null || total.signum() == 0)	//	zero costs OK
 				{
-					MProduct product = line.getProduct();
 					if (product.isStocked())
 					{
 						p_Error = "No Costs for " + line.getProduct().getName();
@@ -281,299 +339,181 @@ public class Doc_InOut extends Doc
 					else	//	ignore service
 						continue;
 				}
-				//  Inventory               DR
-				dr = fact.createLine(line,
-					line.getAccount(ProductCost.ACCTTYPE_P_Asset, as),
-					as.getC_Currency_ID(), costs, null);
-				if (dr == null)
-				{
-					p_Error = "FactLine DR not created: " + line;
-					log.log(Level.WARNING, p_Error);
-					return null;
-				}
-				dr.setM_Locator_ID(line.getM_Locator_ID());
-				dr.setLocationFromLocator(line.getM_Locator_ID(), true);    // from Loc
-				dr.setLocationFromBPartner(getC_BPartner_Location_ID(), false);  // to Loc
-				if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) 
-						&& m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
-				{
-					//	Set AmtAcctDr from Original Shipment/Receipt
-					if (!dr.updateReverseLine (MInOut.Table_ID, 
-							m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
-					{
-						p_Error = "Original Shipment/Receipt not posted yet";
-						return null;
-					}
-					costs = dr.getAcctBalance(); //get original cost
-				}
-				//
-				if (line.getM_Product_ID() != 0)
-				{
-					MCostDetail.createShipment(as, line.getAD_Org_ID(), 
-						line.getM_Product_ID(), line.getM_AttributeSetInstance_ID(),
-						line.get_ID(), 0,
-						costs, line.getQty(),
-						line.getDescription(), true, getTrxName());
-				}
-				
-				//  CoGS            CR
-				cr = fact.createLine(line,
-					line.getAccount(ProductCost.ACCTTYPE_P_Cogs, as),
-					as.getC_Currency_ID(), null, costs);
-				if (cr == null)
-				{
-					p_Error = "FactLine CR not created: " + line;
-					log.log(Level.WARNING, p_Error);
-					return null;
-				}
-				cr.setM_Locator_ID(line.getM_Locator_ID());
-				cr.setLocationFromLocator(line.getM_Locator_ID(), true);    //  from Loc
-				cr.setLocationFromBPartner(getC_BPartner_Location_ID(), false);  //  to Loc
-				cr.setAD_Org_ID(line.getOrder_Org_ID());		//	Revenue X-Org
-				cr.setQty(line.getQty().negate());
-				if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) 
-						&& m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
-				{
-					//	Set AmtAcctCr from Original Shipment/Receipt
-					if (!cr.updateReverseLine (MInOut.Table_ID, 
-							m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
-					{
-						p_Error = "Original Shipment/Receipt not posted yet";
-						return null;
-					}					
-				}
 			}	//	for all lines
-			updateProductInfo(as.getC_AcctSchema_ID());     //  only for SO!
 		}	//	Sales Return
 		
 		//  *** Purchasing - Receipt
 		else if (getDocumentType().equals(DOCTYPE_MatReceipt) && !isSOTrx())
 		{
+			BigDecimal total = Env.ZERO;
 			for (int i = 0; i < p_lines.length; i++)
 			{
-				// Elaine 2008/06/26
 				int C_Currency_ID = as.getC_Currency_ID();
 				//
 				DocLine line = p_lines[i];
 				BigDecimal costs = null;
 				MProduct product = line.getProduct();
-				//get costing method for product
-				String costingMethod = product.getCostingMethod(as);
-				if (MAcctSchema.COSTINGMETHOD_AveragePO.equals(costingMethod) ||
-					MAcctSchema.COSTINGMETHOD_LastPOPrice.equals(costingMethod) )
-				{
-					int C_OrderLine_ID = line.getC_OrderLine_ID();
-					// Low - check if c_orderline_id is valid
-					if (C_OrderLine_ID > 0) 
-					{
-					    MOrderLine orderLine = new MOrderLine (getCtx(), C_OrderLine_ID, getTrxName());
-					    // Elaine 2008/06/26 
-					    C_Currency_ID = orderLine.getC_Currency_ID();
-					    //
-					    costs = orderLine.getPriceCost();
-					    if (costs == null || costs.signum() == 0)
-					    {
-					    	costs = orderLine.getPriceActual();
-							//	Goodwill: Correct included Tax
-					    	int C_Tax_ID = orderLine.getC_Tax_ID();
-							if (orderLine.isTaxIncluded() && C_Tax_ID != 0)
-							{
-								MTax tax = MTax.get(getCtx(), C_Tax_ID);
-								if (!tax.isZeroTax())
-								{
-									int stdPrecision = MCurrency.getStdPrecision(getCtx(), C_Currency_ID);
-									BigDecimal costTax = tax.calculateTax(costs, true, stdPrecision);
-									log.fine("Costs=" + costs + " - Tax=" + costTax);
-									costs = costs.subtract(costTax);
-								}
-							}	//	correct included Tax					    	
-					    }
-					    costs = costs.multiply(line.getQty());
-                    }
-                    else
-                    {
-                        costs = line.getProductCosts(as, line.getAD_Org_ID(), false);	//	current costs
-                    }
-                    //
-				}
-				else
-				{
-					costs = line.getProductCosts(as, line.getAD_Org_ID(), false);	//	current costs
-				}
-				if (costs == null || costs.signum() == 0)
-				{
-					p_Error = "Resubmit - No Costs for " + product.getName();
-					log.log(Level.WARNING, p_Error);
-					return null;
-				}
-				//  Inventory/Asset			DR
-				MAccount assets = line.getAccount(ProductCost.ACCTTYPE_P_Asset, as);
-				if (product.isService())
+				for (MCostDetail cost : line.getCostDetail(as))
 				{	
-					//if the line is a Outside Processing then DR WIP
-					if(line.getPP_Cost_Collector_ID() > 0)
-						assets = line.getAccount(ProductCost.ACCTTYPE_P_WorkInProcess, as);	
-					else	
-						assets = line.getAccount(ProductCost.ACCTTYPE_P_Expense, as);
+						if (cost.getCostAmt().add(cost.getCostAmtLL()).signum() == 0)
+						continue;
+						//get costing method for product
+						costs = cost.getCostAmt().add(cost.getCostAmtLL()).setScale(as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+						total = total.add(costs);
+						
+						String description = cost.getM_CostElement().getName() +" "+ cost.getM_CostType().getName();						
+						//  Inventory/Asset			DR
+						MAccount assets = line.getAccount(ProductCost.ACCTTYPE_P_Asset, as);
+						if (product.isService())
+						{	
+							//if the line is a Outside Processing then DR WIP
+							if(line.getPP_Cost_Collector_ID() > 0)
+								assets = line.getAccount(ProductCost.ACCTTYPE_P_WorkInProcess, as);	
+							else	
+								assets = line.getAccount(ProductCost.ACCTTYPE_P_Expense, as);
+							
+						}
+						dr = fact.createLine(line, assets,
+							C_Currency_ID, costs, null);
+						dr.addDescription(description);
+						//
+						if (dr == null)
+						{
+							p_Error = "DR not created: " + line;
+							log.log(Level.WARNING, p_Error);
+							return null;
+						}
+						dr.setM_Locator_ID(line.getM_Locator_ID());
+						dr.setLocationFromBPartner(getC_BPartner_Location_ID(), true);   // from Loc
+						dr.setLocationFromLocator(line.getM_Locator_ID(), false);   // to Loc
+						if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
+						{
+							//	Set AmtAcctDr from Original Shipment/Receipt
+							if (!dr.updateReverseLine (MInOut.Table_ID, 
+									m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
+							{
+								p_Error = "Original Receipt not posted yet";
+								return null;
+							}
+						}
+						
+						cr = fact.createLine(line,
+							getAccount(Doc.ACCTTYPE_NotInvoicedReceipts, as),
+							C_Currency_ID, null, costs);
+						cr.addDescription(description);
+						//
+						if (cr == null)
+						{
+							p_Error = "CR not created: " + line;
+							log.log(Level.WARNING, p_Error);
+							return null;
+						}
+						cr.setM_Locator_ID(line.getM_Locator_ID());
+						cr.setLocationFromBPartner(getC_BPartner_Location_ID(), true);   //  from Loc
+						cr.setLocationFromLocator(line.getM_Locator_ID(), false);   //  to Loc
+						cr.setQty(cost.getQty().negate());
+						if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
+						{
+							//	Set AmtAcctCr from Original Shipment/Receipt
+							if (!cr.updateReverseLine (MInOut.Table_ID, 
+									m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
+							{
+								p_Error = "Original Receipt not posted yet";
+								return null;
+							}
+						}
+						cost.setProcessed(true);
+						cost.saveEx();
+					}
 					
-				}
-
-				
-				// Elaine 2008/06/26
-				/*dr = fact.createLine(line, assets,
-					as.getC_Currency_ID(), costs, null);*/
-				dr = fact.createLine(line, assets,
-					C_Currency_ID, costs, null);
-				//
-				if (dr == null)
-				{
-					p_Error = "DR not created: " + line;
-					log.log(Level.WARNING, p_Error);
-					return null;
-				}
-				dr.setM_Locator_ID(line.getM_Locator_ID());
-				dr.setLocationFromBPartner(getC_BPartner_Location_ID(), true);   // from Loc
-				dr.setLocationFromLocator(line.getM_Locator_ID(), false);   // to Loc
-				if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
-				{
-					//	Set AmtAcctDr from Original Shipment/Receipt
-					if (!dr.updateReverseLine (MInOut.Table_ID, 
-							m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
+					if (total == null || total.signum() == 0)
 					{
-						p_Error = "Original Receipt not posted yet";
+						p_Error = "Resubmit - No Costs for " + product.getName();
+						log.log(Level.WARNING, p_Error);
 						return null;
 					}
 				}
-				
-				//  NotInvoicedReceipt				CR
-				// Elaine 2008/06/26
-				/*cr = fact.createLine(line,
-					getAccount(Doc.ACCTTYPE_NotInvoicedReceipts, as),
-					as.getC_Currency_ID(), null, costs);*/
-				cr = fact.createLine(line,
-					getAccount(Doc.ACCTTYPE_NotInvoicedReceipts, as),
-					C_Currency_ID, null, costs);
-				//
-				if (cr == null)
-				{
-					p_Error = "CR not created: " + line;
-					log.log(Level.WARNING, p_Error);
-					return null;
-				}
-				cr.setM_Locator_ID(line.getM_Locator_ID());
-				cr.setLocationFromBPartner(getC_BPartner_Location_ID(), true);   //  from Loc
-				cr.setLocationFromLocator(line.getM_Locator_ID(), false);   //  to Loc
-				cr.setQty(line.getQty().negate());
-				if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
-				{
-					//	Set AmtAcctCr from Original Shipment/Receipt
-					if (!cr.updateReverseLine (MInOut.Table_ID, 
-							m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
-					{
-						p_Error = "Original Receipt not posted yet";
-						return null;
-					}
-				}
-			}
 		}	//	Receipt
-         //	  *** Purchasing - return
+				//	  *** Purchasing - return
 		else if (getDocumentType().equals(DOCTYPE_MatShipment) && !isSOTrx())
 		{
+			BigDecimal total = Env.ZERO;
 			for (int i = 0; i < p_lines.length; i++)
 			{
-				// Elaine 2008/06/26
+
 				int C_Currency_ID = as.getC_Currency_ID();
 				//
 				DocLine line = p_lines[i];
 				BigDecimal costs = null;
+				
 				MProduct product = line.getProduct();
-				/*
-				 * BF: [ 2048984 ] Purchase Return costing logic
-				//get costing method for product
-				String costingMethod = product.getCostingMethod(as);
-				if (MAcctSchema.COSTINGMETHOD_AveragePO.equals(costingMethod) ||
-					MAcctSchema.COSTINGMETHOD_LastPOPrice.equals(costingMethod) )
-				{
-					int C_OrderLine_ID = line.getC_OrderLine_ID();
-					MOrderLine orderLine = new MOrderLine (getCtx(), C_OrderLine_ID, getTrxName());
-					costs = orderLine.getPriceCost();
-					if (costs == null || costs.signum() == 0)
-						costs = orderLine.getPriceActual();
-					costs = costs.multiply(line.getQty());
-					// Elaine 2008/06/26
-					C_Currency_ID = orderLine.getC_Currency_ID();
-					//
-				}
-				else
-				{
-					costs = line.getProductCosts(as, line.getAD_Org_ID(), false);	//	current costs
-				}
-				*/
-				costs = line.getProductCosts(as, line.getAD_Org_ID(), false);	//	current costs
-				if (costs == null || costs.signum() == 0)
+				for(MCostDetail cost : line.getCostDetail(as))
+				{	
+						if (cost.getCostAmt().add(cost.getCostAmtLL()).signum() == 0)
+						continue;
+						costs = cost.getCostAmt().add(cost.getCostAmtLL()).setScale(as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);	//	current costs
+						total = total.add(costs);
+						String description = cost.getM_CostElement().getName() +" "+ cost.getM_CostType().getName();
+						
+						dr = fact.createLine(line,
+							getAccount(Doc.ACCTTYPE_NotInvoicedReceipts, as),
+							C_Currency_ID, costs , null);
+						dr.addDescription(description);
+						//
+						if (dr == null)
+						{
+							p_Error = "CR not created: " + line;
+							log.log(Level.WARNING, p_Error);
+							return null;
+						}
+						dr.setM_Locator_ID(line.getM_Locator_ID());
+						dr.setLocationFromBPartner(getC_BPartner_Location_ID(), true);   //  from Loc
+						dr.setLocationFromLocator(line.getM_Locator_ID(), false);   //  to Loc
+						dr.setQty(cost.getQty().negate());
+						if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
+						{
+							//	Set AmtAcctDr from Original Shipment/Receipt
+							if (!dr.updateReverseLine (MInOut.Table_ID, 
+									m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
+							{
+								p_Error = "Original Receipt not posted yet";
+								return null;
+							}
+						}
+						
+						//  Inventory/Asset			CR
+						MAccount assets = line.getAccount(ProductCost.ACCTTYPE_P_Asset, as);
+						if (product.isService())
+							assets = line.getAccount(ProductCost.ACCTTYPE_P_Expense, as);
+						cr = fact.createLine(line, assets,
+							C_Currency_ID, null, costs);
+						//
+						if (cr == null)
+						{
+							p_Error = "DR not created: " + line;
+							log.log(Level.WARNING, p_Error);
+							return null;
+						}
+						cr.setM_Locator_ID(line.getM_Locator_ID());
+						cr.setLocationFromBPartner(getC_BPartner_Location_ID(), true);   // from Loc
+						cr.setLocationFromLocator(line.getM_Locator_ID(), false);   // to Loc
+						cr.addDescription(description);
+						if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
+						{
+							//	Set AmtAcctCr from Original Shipment/Receipt
+							if (!cr.updateReverseLine (MInOut.Table_ID, 
+									m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
+							{
+								p_Error = "Original Receipt not posted yet";
+								return null;
+							}
+						}
+				}		
+				if (total == null || total.signum() == 0)
 				{
 					p_Error = "Resubmit - No Costs for " + product.getName();
 					log.log(Level.WARNING, p_Error);
 					return null;
-				}
-				//  NotInvoicedReceipt				DR
-				// Elaine 2008/06/26
-				/*dr = fact.createLine(line,
-					getAccount(Doc.ACCTTYPE_NotInvoicedReceipts, as),
-					as.getC_Currency_ID(), costs , null);*/
-				dr = fact.createLine(line,
-					getAccount(Doc.ACCTTYPE_NotInvoicedReceipts, as),
-					C_Currency_ID, costs , null);
-				//
-				if (dr == null)
-				{
-					p_Error = "CR not created: " + line;
-					log.log(Level.WARNING, p_Error);
-					return null;
-				}
-				dr.setM_Locator_ID(line.getM_Locator_ID());
-				dr.setLocationFromBPartner(getC_BPartner_Location_ID(), true);   //  from Loc
-				dr.setLocationFromLocator(line.getM_Locator_ID(), false);   //  to Loc
-				dr.setQty(line.getQty().negate());
-				if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
-				{
-					//	Set AmtAcctDr from Original Shipment/Receipt
-					if (!dr.updateReverseLine (MInOut.Table_ID, 
-							m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
-					{
-						p_Error = "Original Receipt not posted yet";
-						return null;
-					}
-				}
-				
-				//  Inventory/Asset			CR
-				MAccount assets = line.getAccount(ProductCost.ACCTTYPE_P_Asset, as);
-				if (product.isService())
-					assets = line.getAccount(ProductCost.ACCTTYPE_P_Expense, as);
-				// Elaine 2008/06/26
-				/*cr = fact.createLine(line, assets,
-					as.getC_Currency_ID(), null, costs);*/
-				cr = fact.createLine(line, assets,
-					C_Currency_ID, null, costs);
-				//
-				if (cr == null)
-				{
-					p_Error = "DR not created: " + line;
-					log.log(Level.WARNING, p_Error);
-					return null;
-				}
-				cr.setM_Locator_ID(line.getM_Locator_ID());
-				cr.setLocationFromBPartner(getC_BPartner_Location_ID(), true);   // from Loc
-				cr.setLocationFromLocator(line.getM_Locator_ID(), false);   // to Loc
-				if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
-				{
-					//	Set AmtAcctCr from Original Shipment/Receipt
-					if (!cr.updateReverseLine (MInOut.Table_ID, 
-							m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
-					{
-						p_Error = "Original Receipt not posted yet";
-						return null;
-					}
 				}
 			}
 		}	//	Purchasing Return
@@ -587,36 +527,4 @@ public class Doc_InOut extends Doc
 		facts.add(fact);
 		return facts;
 	}   //  createFact
-
-
-	/**
-	 *  Update Sales Order Costing Product Info (old).
-	 *  Purchase side handled in Invoice Matching.
-	 *  <br>
-	 *  decrease average cumulatives
-	 *  @param C_AcctSchema_ID accounting schema
-	 *  @deprecated old costing
-	 */
-	private void updateProductInfo (int C_AcctSchema_ID)
-	{
-		log.fine("M_InOut_ID=" + get_ID());
-		//	Old Model
-		StringBuffer sql = new StringBuffer(
-				//FYRACLE add pc. everywhere
-			"UPDATE M_Product_Costing pc "
-			+ "SET (CostAverageCumQty, CostAverageCumAmt)="
-			+ "(SELECT pc.CostAverageCumQty - SUM(il.MovementQty),"
-			+ " pc.CostAverageCumAmt - SUM(il.MovementQty*pc.CurrentCostPrice) "
-			+ "FROM M_InOutLine il "
-			+ "WHERE pc.M_Product_ID=il.M_Product_ID"
-			+ " AND il.M_InOut_ID=").append(get_ID()).append(") ")
-			.append("WHERE EXISTS (SELECT * "
-			+ "FROM M_InOutLine il "
-			+ "WHERE pc.M_Product_ID=il.M_Product_ID"
-			+ " AND il.M_InOut_ID=").append(get_ID()).append(")");
-		int no = DB.executeUpdate(sql.toString(), getTrxName());
-		log.fine("M_Product_Costing - Updated=" + no);
-		//
-	}   //  updateProductInfo
-
 }   //  Doc_InOut

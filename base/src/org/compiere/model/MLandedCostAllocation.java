@@ -19,10 +19,12 @@ package org.compiere.model;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.engine.IDocumentLine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -32,7 +34,7 @@ import org.compiere.util.Env;
  *  @author Jorg Janke
  *  @version $Id: MLandedCostAllocation.java,v 1.3 2006/07/30 00:51:05 jjanke Exp $
  */
-public class MLandedCostAllocation extends X_C_LandedCostAllocation
+public class MLandedCostAllocation extends X_C_LandedCostAllocation implements IDocumentLine
 {	
 	/**
 	 * 
@@ -151,6 +153,74 @@ public class MLandedCostAllocation extends X_C_LandedCostAllocation
 	{
 		super.setQty (Qty);
 	}	//	setQty
+
+	@Override
+	public String getDescription() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getM_Locator_ID() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override //ancabradau
+	public BigDecimal getMovementQty()
+	{
+		
+		return this.getQty();
+	}
+
+	@Override //ancabradau
+	public BigDecimal getPriceActual()
+	{	
+		return getAmt().divide(getQty(), BigDecimal.ROUND_HALF_UP);
+	}
+
+	@Override
+	public int getReversalLine_ID() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean isSOTrx() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void setM_Locator_ID(int M_Locator_ID) {
+		// TODO Auto-generated method stub
+		
+	}
 	
+	public Timestamp getDateAcct() {
+		return getC_InvoiceLine().getC_Invoice().getDateAcct();
+	}
+	
+
+	public IDocumentLine getReversalDocumentLine() {
+		return null;
+	}
+
+	@Override
+	public int getM_AttributeSetInstanceTo_ID() {
+		// TODO Auto-generated method stub
+		return -1;
+	}
+
+	@Override
+	public int getM_LocatorTo_ID() {
+		// TODO Auto-generated method stub
+		return -1;
+	}
+	
+	@Override
+	public int getC_DocType_ID() {
+		return -1;
+	}
 	
 }	//	MLandedCostAllocation

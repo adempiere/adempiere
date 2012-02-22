@@ -3,6 +3,7 @@
 	<wb-module deploy-name="Adempiere_trunk">
 		<wb-resource deploy-path="/" source-path="/zkwebui"/>
 		<wb-resource deploy-path="/WEB-INF/classes" source-path="/JasperReports/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/extend/CostingEngine/src/test/java"/>
 		<property name="java-output-path" value="build/classes"/>
 		<property name="context-root" value="webui"/>
 	</wb-module>

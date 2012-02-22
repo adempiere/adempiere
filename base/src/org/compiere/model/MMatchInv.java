@@ -22,6 +22,8 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.engine.CostEngineFactory;
+import org.adempiere.engine.IDocumentLine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -44,7 +46,7 @@ import org.compiere.util.Env;
  * 			<li>BF [ 2240484 ] Re MatchingPO, MMatchPO doesn't contains Invoice info
  * 
  */
-public class MMatchInv extends X_M_MatchInv
+public class MMatchInv extends X_M_MatchInv implements IDocumentLine
 {
 	/**
 	 * 
@@ -232,12 +234,10 @@ public class MMatchInv extends X_M_MatchInv
 	{
 		if (newRecord && success)
 		{				
-			// Elaine 2008/6/20	
-			String err = createMatchInvCostDetail();
-			if(err != null && err.length() > 0) 
+			MInOutLine inout_line = (MInOutLine) getM_InOutLine();
+			for (MTransaction trx: MTransaction.getByInOutLine(inout_line))
 			{
-				s_log.warning(err);
-				return false;
+				CostEngineFactory.getCostEngine(getAD_Client_ID()).createCostDetail(trx, this);
 			}
 		}
 		//
@@ -331,7 +331,7 @@ public class MMatchInv extends X_M_MatchInv
 	
 
 	// Elaine 2008/6/20	
-	private String createMatchInvCostDetail()
+	/*private String createMatchInvCostDetail()
 	{
 		MInvoiceLine invoiceLine = new MInvoiceLine (getCtx(), getC_InvoiceLine_ID(), get_TrxName());
 		
@@ -403,7 +403,7 @@ public class MMatchInv extends X_M_MatchInv
 		}
 		
 		return "";
-	}
+	}*/
 	//
 	//AZ Goodwill
 	private String deleteMatchInvCostDetail()
@@ -440,12 +440,12 @@ public class MMatchInv extends X_M_MatchInv
 				//
 				cd.setAmt(price.multiply(cd.getQty().subtract(qty)));
 				cd.setQty(cd.getQty().subtract(qty));
-				if (!cd.isProcessed())
+				/*if (!cd.isProcessed())
 				{
 					MClient client = MClient.get(getCtx(), getAD_Client_ID());
 					if (client.isCostImmediate())
 						cd.process();
-				}
+				}*/
 				if (cd.getQty().compareTo(Env.ZERO) == 0)
 				{
 					cd.setProcessed(false);
@@ -480,6 +480,60 @@ public class MMatchInv extends X_M_MatchInv
 		return list.toArray (new MMatchInv[list.size()]);
 	}	//	getInOutLine
 	// end Bayu
+
+	@Override
+	public int getM_Locator_ID() {
+		return -1;
+	}
+
+	@Override
+	public BigDecimal getMovementQty() {
+		return getQty();
+	}
+
+	@Override
+	public BigDecimal getPriceActual() {
+
+		MInvoiceLine il = (MInvoiceLine) getC_InvoiceLine();
+		return MConversionRate.convertBase(getCtx(), il.getPriceActual(), il.getParent().getC_Currency_ID(),
+				 il.getParent().getDateAcct(), il.getParent().getC_ConversionType_ID(),
+				getAD_Client_ID(), getAD_Org_ID());	
+	}
+
+	@Override
+	public int getReversalLine_ID() {
+		return -1;
+	}
+
+	@Override
+	public boolean isSOTrx() {
+		return false;
+	}
+
+	@Override
+	public void setM_Locator_ID(int M_Locator_ID) {
+	;
+	}
 	
+
+	public IDocumentLine getReversalDocumentLine() {
+		return null;
+	}
+
+	@Override
+	public int getM_AttributeSetInstanceTo_ID() {
+		// TODO Auto-generated method stub
+		return -1;
+	}
+
+	@Override
+	public int getM_LocatorTo_ID() {
+		// TODO Auto-generated method stub
+		return -1;
+	}
 	
+	@Override
+	public int getC_DocType_ID() {
+		return -1;
+	}
 }	//	MMatchInv

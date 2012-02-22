@@ -18,9 +18,11 @@ package org.compiere.model;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.engine.IDocumentLine;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -33,7 +35,7 @@ import org.eevolution.model.MDDOrderLine;
  *  @author Jorg Janke
  *  @version $Id: MMovementLine.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
  */
-public class MMovementLine extends X_M_MovementLine
+public class MMovementLine extends X_M_MovementLine implements IDocumentLine
 {
 	/**
 	 * 
@@ -211,7 +213,7 @@ public class MMovementLine extends X_M_MovementLine
 		//      Mandatory Instance
 		MProduct product = getProduct();
 		if (getM_AttributeSetInstance_ID() == 0) {
-			if (product != null && product.isASIMandatory(false)) {
+			if (product != null && product.isASIMandatory(false,getAD_Org_ID())) {
 				log.saveError("FillMandatory", Msg.getElement(getCtx(), COLUMNNAME_M_AttributeSetInstance_ID));
 				return false;
 			}
@@ -225,7 +227,7 @@ public class MMovementLine extends X_M_MovementLine
 					setM_AttributeSetInstanceTo_ID(getM_AttributeSetInstance_ID());
 			}
 			
-			if (product != null && product.isASIMandatory(true) && getM_AttributeSetInstanceTo_ID() == 0)
+			if (product != null && product.isASIMandatory(true,getAD_Org_ID()) && getM_AttributeSetInstanceTo_ID() == 0)
 			{
 				log.saveError("FillMandatory", Msg.getElement(getCtx(), COLUMNNAME_M_AttributeSetInstanceTo_ID));
 				return false;
@@ -344,11 +346,48 @@ public class MMovementLine extends X_M_MovementLine
 	{
 		return Table_Name + "[" + get_ID() 
 			+ ", M_Product_ID=" + getM_Product_ID()
+			+ ", MovementQty=" + getMovementQty()
 			+ ", M_ASI_ID=" + getM_AttributeSetInstance_ID()
 			+ ", M_ASITo_ID=" + getM_AttributeSetInstanceTo_ID()
 			+ ", M_Locator_ID=" + getM_Locator_ID()
 			+ ", M_LocatorTo_ID=" + getM_LocatorTo_ID()
 			+ "]"
 		;
+	}
+
+	/**
+	 * get price actual
+	 * @return null
+	 */
+	public BigDecimal getPriceActual() {
+		return Env.ZERO;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isSOTrx() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Timestamp getDateAcct() {
+		return getParent().getMovementDate();
+	}
+	
+
+	public IDocumentLine getReversalDocumentLine() {
+		return (IDocumentLine) getReversalLine();
+	}
+	public int getM_LocatorTo_ID ()
+	{
+		return super.getM_LocatorTo_ID();
 	}	
+	
+	@Override
+	public int getC_DocType_ID() {
+		return getParent().getC_DocType_ID();
+	}
 }	//	MMovementLine

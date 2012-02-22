@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.engine.CostEngineFactory;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.BPartnerNoAddressException;
 import org.adempiere.exceptions.DBException;
@@ -73,8 +74,8 @@ public class MInvoice extends X_C_Invoice implements DocAction
 	public static MInvoice[] getOfBPartner (Properties ctx, int C_BPartner_ID, String trxName)
 	{
 		List<MInvoice> list = new Query(ctx, Table_Name, COLUMNNAME_C_BPartner_ID+"=?", trxName)
-									.setParameters(C_BPartner_ID)
-									.list();
+		.setParameters(C_BPartner_ID)
+		.list();
 		return list.toArray(new MInvoice[list.size()]);
 	}	//	getOfBPartner
 
@@ -634,9 +635,9 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		if (whereClause != null)
 			whereClauseFinal += whereClause;
 		List<MInvoiceLine> list = new Query(getCtx(), I_C_InvoiceLine.Table_Name, whereClauseFinal, get_TrxName())
-										.setParameters(getC_Invoice_ID())
-										.setOrderBy(I_C_InvoiceLine.COLUMNNAME_Line)
-										.list();
+		.setParameters(getC_Invoice_ID())
+		.setOrderBy(I_C_InvoiceLine.COLUMNNAME_Line)
+		.list();
 		return list.toArray(new MInvoiceLine[list.size()]);
 	}	//	getLines
 
@@ -788,8 +789,8 @@ public class MInvoice extends X_C_Invoice implements DocAction
 
 		final String whereClause = MInvoiceTax.COLUMNNAME_C_Invoice_ID+"=?";
 		List<MInvoiceTax> list = new Query(getCtx(), I_C_InvoiceTax.Table_Name, whereClause, get_TrxName())
-										.setParameters(get_ID())
-										.list();
+		.setParameters(get_ID())
+		.list();
 		m_taxes = list.toArray(new MInvoiceTax[list.size()]);
 		return m_taxes;
 	}	//	getTaxes
@@ -1122,8 +1123,8 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		}
 
 		POResultSet<MInvoice> rs = new Query(ctx, MInvoice.Table_Name, whereClause.toString(), trxName)
-										.setParameters(params)
-										.scroll();
+		.setParameters(params)
+		.scroll();
 		int counter = 0;
 		try {
 			while(rs.hasNext()) {
@@ -1742,6 +1743,23 @@ public class MInvoice extends X_C_Invoice implements DocAction
 					addDocsPostProcess(inv);
 			}
 		}	//	for all lines
+
+		//create cost detail for landed cost add by ancabradau
+		for (int i = 0; i < lines.length; i++)
+		{
+			MInvoiceLine line = lines[i];
+			MLandedCostAllocation[] lcas = MLandedCostAllocation.getOfInvoiceLine(
+					getCtx(), line.getC_InvoiceLine_ID(), get_TrxName());
+			for (int j = 0; j < lcas.length; j++)
+			{
+				MLandedCostAllocation allocation = lcas[j];
+				MInOutLine ioLine = (MInOutLine) allocation.getM_InOutLine();
+				for (MTransaction trx: MTransaction.getByInOutLine(ioLine))
+				{
+						CostEngineFactory.getCostEngine(getAD_Client_ID()).createCostDetail(trx, ioLine);
+				}		
+			}
+		}
 		if (matchInv > 0)
 			info.append(" @M_MatchInv_ID@#").append(matchInv).append(" ");
 		if (matchPO > 0)

@@ -19,9 +19,11 @@ package org.compiere.model;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.engine.IDocumentLine;
 import org.adempiere.exceptions.ProductNotOnPriceListException;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -50,7 +52,7 @@ import org.compiere.util.Msg;
  * 				invoice line for a product on a price list that includes tax, the net amount is
  * 				incorrectly calculated.
  */
-public class MOrderLine extends X_C_OrderLine
+public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 {
 	/**
 	 * 
@@ -117,7 +119,6 @@ public class MOrderLine extends X_C_OrderLine
 			s_log.fine(retValue.toString());
 		return retValue;
 	}	//	getNotReserved
-	
 	
 	/**	Logger	*/
 	private static CLogger s_log = CLogger.getCLogger (MOrderLine.class);
@@ -1045,5 +1046,61 @@ public class MOrderLine extends X_C_OrderLine
 		m_parent = null;
 		return no == 1;
 	}	//	updateHeaderTax
+
+	@Override
+	public int getM_Locator_ID() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public BigDecimal getMovementQty() 
+	{
+		return this.getQtyEntered();
+	}
+
+	@Override
+	public int getReversalLine_ID() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean isSOTrx() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void setM_Locator_ID(int M_Locator_ID) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Timestamp getDateAcct() {
+		return getParent().getDateAcct();
+	}
 	
+
+	public IDocumentLine getReversalDocumentLine() {
+		return null;
+	}
+
+	@Override
+	public int getM_AttributeSetInstanceTo_ID() {
+		// TODO Auto-generated method stub
+		return -1;
+	}
+
+	@Override
+	public int getM_LocatorTo_ID() {
+		// TODO Auto-generated method stub
+		return -1;
+	}
+	
+	@Override
+	public int getC_DocType_ID() {
+		return getParent().getC_DocType_ID();
+	}
 }	//	MOrderLine

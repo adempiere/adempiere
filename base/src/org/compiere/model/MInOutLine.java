@@ -18,11 +18,14 @@ package org.compiere.model;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.engine.IDocumentLine;
 import org.adempiere.exceptions.FillMandatoryException;
 import org.adempiere.exceptions.WarehouseLocatorConflictException;
+import org.compiere.util.CCache;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -37,8 +40,11 @@ import org.compiere.util.Util;
  *  @author Teo Sarca, www.arhipac.ro
  *  		<li>BF [ 2784194 ] Check Warehouse-Locator conflict
  *  			https://sourceforge.net/tracker/?func=detail&aid=2784194&group_id=176962&atid=879332
+ *  		<li>BF [ 2797938 ] Receipt should not allow lines with Qty=0
+ *  			https://sourceforge.net/tracker/?func=detail&atid=879332&aid=2797938&group_id=176962
  */
 public class MInOutLine extends X_M_InOutLine
+implements IDocumentLine
 {
 	/**
 	 *
@@ -92,8 +98,27 @@ public class MInOutLine extends X_M_InOutLine
 	{
 		return getOfOrderLine(ctx, C_OrderLine_ID, null, trxName);
 	}	//	get
-
-
+	private static CCache<Integer,MInOutLine> s_cache	= new CCache<Integer,MInOutLine>(Table_Name, 40, 5);
+	
+	public static MInOutLine get (Properties ctx, int M_InOutLine_ID)
+	{
+		if (M_InOutLine_ID <= 0)
+		{
+			return null;
+		}
+		Integer key = new Integer (M_InOutLine_ID);
+		MInOutLine retValue = (MInOutLine) s_cache.get (key);
+		if (retValue != null)
+		{
+			return retValue;
+		}
+		retValue = new MInOutLine (ctx, M_InOutLine_ID, null);
+		if (retValue.get_ID () != 0)
+		{
+			s_cache.put (key, retValue);
+		}
+		return retValue;
+	}	//	get
 	/**************************************************************************
 	 * 	Standard Constructor
 	 *	@param ctx context
@@ -685,6 +710,74 @@ public class MInOutLine extends X_M_InOutLine
 
 		// inout has orderline and both has the same UOM
 		return true;
+	}
+
+	/**
+	 * get the Price Actual 
+	 * @return BigDecimal with the Price Actual
+	 */
+	public BigDecimal getPriceActual()
+	{
+			// FIXME: ancabradau: we need to implement a real solution that will cover all cases
+			BigDecimal price = null;
+			if (getC_OrderLine_ID() > 0)
+			{	
+				price = DB.getSQLValueBDEx(get_TrxName(),
+						"SELECT currencyBase(ol.PriceActual,o.C_Currency_ID,o.DateAcct,o.AD_Client_ID,o.AD_Org_ID) AS price " +
+						" FROM C_OrderLine ol INNER JOIN C_Order o ON (o.C_Order_ID=ol.C_Order_ID) " +
+						" WHERE "+MOrderLine.COLUMNNAME_C_OrderLine_ID+"=?",
+						getC_OrderLine_ID());
+				
+			}
+			if (getM_RMALine_ID() > 0)
+			{
+				price = DB.getSQLValueBDEx(get_TrxName(),
+						"SELECT "+MRMALine.COLUMNNAME_Amt+" FROM "+MRMALine.Table_Name
+						+" WHERE "+MRMALine.COLUMNNAME_M_RMALine_ID+"=?",
+						getM_RMALine_ID());
+			}	
+			if (price == null)
+			{
+				//throw new AdempiereException("Shipment: PriceActual not found");
+				price = Env.ZERO;
+			}
+			return price;
+		}
+	
+	/**
+	 * get if this document line is the Sales transaction
+	 * @return boolean
+	 */
+	public boolean isSOTrx()
+	{
+		return getParent().isSOTrx();
+	}
+
+	@Override
+	public Timestamp getDateAcct() {
+		return getParent().getDateAcct();
+	}
+
+
+	public IDocumentLine getReversalDocumentLine() {
+		return (IDocumentLine) getReversalLine();
+	}
+
+	@Override
+	public int getM_AttributeSetInstanceTo_ID() {
+		// TODO Auto-generated method stub
+		return -1;
+	}
+
+	@Override
+	public int getM_LocatorTo_ID() {
+		// TODO Auto-generated method stub
+		return -1;
+	}
+
+	@Override
+	public int getC_DocType_ID() {
+		return getParent().getC_DocType_ID();
 	}
 
 }	//	MInOutLine

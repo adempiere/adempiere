@@ -1,0 +1,125 @@
+<project name="adempiereLiberoCE" default="dist" basedir=".">
+    <description>
+        Building Libero CostEngine.jar
+        by
+        Victor Perez 
+        http://www.e-evolution.com
+    </description>
+  <!-- set global properties for this build -->
+  <property file="build.properties"/>
+  <property name="src" location="../../base/src"/>
+  <!--property name="patchSrc" location="patch/base/src"/-->
+  <!--property name="liberoPatchSrc" location="patch/libero/src"/-->
+  <property name="build" location="build"/>
+  <!--property name="buildPatch" location="buildPatch"/-->
+  <property name="dist"  location="./dist"/>
+
+  <path id="patch.class.path">	
+     <fileset dir="${adempiere.home}/lib">
+        <include name="*.jar"/>
+     </fileset>
+    <fileset dir="${adempiere.trunk}/packages">
+           <include name="*.jar"/>
+    </fileset>
+  </path>
+  
+  <path id="lib.class.path"> 
+  	<!--fileset dir="${dist}/lib">
+  	           <include name="*.jar"/>
+  	</fileset-->
+    <fileset dir="${adempiere.home}/lib">
+           <include name="Adempiere.jar"/>
+   </fileset>
+    <fileset dir="${adempiere.trunk}/packages">
+           <include name="*.jar"/>
+    </fileset>
+  </path>
+
+  <target name="init" depends="clean">
+    <echo message="Trunk location: ${adempiere.trunk}"/>
+    <echo message="ADempiere home: ${adempiere.home}"/>
+    <!-- Create the time stamp -->
+    <tstamp/>
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${build}"/>
+  	<!--mkdir dir="${buildPatch}"/-->
+  </target>
+
+  <target name="compile"
+        description="compile the source " >
+    <!-- Compile the java code from ${src} into ${build} -->
+    <javac debug="false" srcdir="${src}" destdir="${build}">    
+      <!--include name="**/org/adempiere/engine/*.java"/>
+      <include name="**/org/adempiere/exceptions/*.java"/>
+      <include name="**/org/eevolution/process/*.java"/-->
+      <classpath refid="lib.class.path"/>
+    </javac>
+  	<!--javac srcdir="${liberoPatchSrc}" destdir="${build}">
+  	      <include name="**/org/eevolution/model/MPPCostCollector.java"/>
+  	      <classpath refid="lib.class.path"/>
+  	</javac-->
+  </target>
+
+  <target name="dist"  depends="init, compile, clean"
+        description="generate the distribution" >
+    <!-- Create the distribution directory -->
+    <mkdir dir="${dist}/lib"/>
+
+    <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
+    <jar jarfile="${dist}/lib/liberoCE.jar" basedir="${build}" />
+
+    <!-- Create target Libero deployment -->
+    <mkdir dir="${adempiere.home}/packages/liberoCE/lib"/>
+
+    <!-- Transfer liberoWM.jar -->
+    <copy file="${dist}/lib/liberoCE.jar" todir="${adempiere.home}/packages/liberoCE/lib" filtering="true" />
+    <copy file="${dist}/lib/liberoCE.jar" todir="${adempiere.trunk}/packages/"/>
+
+  </target>
+  
+  <target name="patchDist" depends="patchCompile"
+          description="generate the distribution" >
+      <!-- Create the distribution directory -->
+      <mkdir dir="${dist}/lib"/>
+
+      <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
+      <jar jarfile="${dist}/lib/patches.jar" basedir="${buildPatch}"/>
+
+      <!-- Create target Libero deployment -->
+      <mkdir dir="${adempiere.home}/lib"/>
+
+      <!-- Transfer patchs.jar -->
+      <copy file="${dist}/lib/patches.jar" todir="${adempiere.home}/lib"/>
+
+  </target>
+  
+  <target name="patchCompile" depends="init"
+        description="compile the source " >
+  	
+    <!--javac debug="false" srcdir="${patchSrc}:${src}" destdir="${buildPatch}"-->
+ 	<javac debug="false" srcdir="${src}" destdir="${build}">
+      <include name="**/org/adempiere/engine/CostComponent.java"/>
+      <include name="**/org/adempiere/engine/CostEngineFactory.java"/>
+      <include name="**/org/compiere/acct/*.java"/>
+      <include name="**/org/compiere/model/*.java"/>
+      <include name="**/org/compiere/process/*.java"/>
+      <include name="**/org/eevolution/model/*.java"/>	
+      <include name="**/org/adempiere/engine/*.java"/>	
+      <classpath refid="patch.class.path"/>
+    </javac>
+  	
+  	<!--javac debug="true" srcdir="${liberoPatchSrc}" destdir="${build}">
+  	      <include name="**/org/eevolution/model/*.java"/>
+  	      <classpath refid="patch.class.path"/>
+  	</javac-->
+
+  </target>  
+
+  <target name="clean"
+        description="clean up" >
+    <!-- Delete the ${build} and ${dist} directory trees -->
+    <delete dir="${build}"/>
+  	<!--delete dir="${buildPatch}"/-->
+    <delete dir="${dist}"/>
+  </target>
+</project>

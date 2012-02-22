@@ -25,6 +25,7 @@ import java.util.logging.Level;
 
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCostDetail;
+import org.compiere.model.MProduct;
 import org.compiere.model.ProductCost;
 import org.compiere.model.X_M_Production;
 import org.compiere.model.X_M_ProductionLine;
@@ -169,70 +170,83 @@ public class Doc_Production extends Doc
 
 		//  Line pointer
 		FactLine fl = null;
+		BigDecimal total = Env.ZERO;
 		for (int i = 0; i < p_lines.length; i++)
 		{
 			DocLine line = p_lines[i];
-			//	Calculate Costs
-			BigDecimal costs = null;
-			
-			// MZ Goodwill
-			// if Production CostDetail exist then get Cost from Cost Detail 
-			MCostDetail cd = MCostDetail.get (as.getCtx(), "M_ProductionLine_ID=?", 
-					line.get_ID(), line.getM_AttributeSetInstance_ID(), as.getC_AcctSchema_ID(), getTrxName());
-			if (cd != null)
-				costs = cd.getAmt();
-			else
-			{	
-				if (line.isProductionBOM())
-				{
-					//	Get BOM Cost - Sum of individual lines
-					BigDecimal bomCost = Env.ZERO;
-					for (int ii = 0; ii < p_lines.length; ii++)
-					{
-						DocLine line0 = p_lines[ii];
-						if (line0.getM_ProductionPlan_ID() != line.getM_ProductionPlan_ID())
-							continue;
-						if (!line0.isProductionBOM())
-							bomCost = bomCost.add(line0.getProductCosts(as, line.getAD_Org_ID(), false));
-					}
-					costs = bomCost.negate();
-					// [ 1965015 ] Posting not balanced when is producing more than 1 product - Globalqss 2008/06/26
-					X_M_ProductionPlan mpp = new X_M_ProductionPlan(getCtx(), line.getM_ProductionPlan_ID(), getTrxName());
-				    if (line.getQty() != mpp.getProductionQty()) {
-				    	// if the line doesn't correspond with the whole qty produced then apply prorate
-				    	// costs = costs * line_qty / production_qty
-				    	costs = costs.multiply(line.getQty());
-				    	costs = costs.divide(mpp.getProductionQty(), as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
-				    }
-				}
-				else
-					costs = line.getProductCosts(as, line.getAD_Org_ID(), false);
-			}
-			// end MZ
-			
-			//  Inventory       DR      CR
-			fl = fact.createLine(line,
-				line.getAccount(ProductCost.ACCTTYPE_P_Asset, as),
-				as.getC_Currency_ID(), costs);
-			if (fl == null)
+			MProduct product = line.getProduct();
+			BigDecimal costs = Env.ZERO;			
+			for (MCostDetail cost : line.getCostDetail(as))
 			{
-				p_Error = "No Costs for Line " + line.getLine() + " - " + line;
-				return null;
+				costs = cost.getCostAmt().add(cost.getCostAmtLL()).setScale(as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+				if(costs.signum() == 0)
+					continue;	 
+				//get costing method for product
+				String description = cost.getM_CostElement().getName() +" "+ cost.getM_CostType().getName();
+				if(cost.getQty().signum() > 0)
+					costs = costs;
+				else
+					costs = costs.negate();	
+				if (cost != null)
+				{	
+					total = total.add(costs.abs());
+				}	
+				else
+				{	
+					if (line.isProductionBOM())
+					{
+						//	Get BOM Cost - Sum of individual lines
+						BigDecimal bomCost = Env.ZERO;						
+						for (int ii = 0; ii < p_lines.length; ii++)
+						{
+							DocLine line0 = p_lines[ii];
+							if (line0.getM_ProductionPlan_ID() != line.getM_ProductionPlan_ID())
+								continue;
+							if (!line0.isProductionBOM())
+							{	
+									bomCost = bomCost.add(cost.getCostAmt().add(cost.getCostAmtLL()));
+							}	
+						}
+						costs = bomCost.negate();
+						// [ 1965015 ] Posting not balanced when is producing more than 1 product - Globalqss 2008/06/26
+						X_M_ProductionPlan mpp = new X_M_ProductionPlan(getCtx(), line.getM_ProductionPlan_ID(), getTrxName());
+					    if (line.getQty() != mpp.getProductionQty()) {
+					    	// if the line doesn't correspond with the whole qty produced then apply prorate
+					    	// costs = costs * line_qty / production_qty
+					    	costs = costs.multiply(cost.getQty());
+					    	costs = costs.divide(mpp.getProductionQty(), as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+					    }
+					}
+					else
+						costs = Env.ZERO;
+				}
+				
+				//  Inventory       DR      CR
+				fl = fact.createLine(line,
+					line.getAccount(ProductCost.ACCTTYPE_P_Asset,as),
+					as.getC_Currency_ID(), costs);
+				if (fl == null)
+				{
+					p_Error = "No Costs for Line " + line.getLine() + " - " + line;
+					return null;
+				}
+				fl.setM_Locator_ID(line.getM_Locator_ID());
+				fl.setQty(cost.getQty());
+				
+				//	Cost Detail
+				//String description = line.getDescription();
+				description = description + " " +line.getDescription();
+				if (description == null)
+					description = "";
+				if (line.isProductionBOM())
+					description += "(*)";
 			}
-			fl.setM_Locator_ID(line.getM_Locator_ID());
-			fl.setQty(line.getQty());
-			
-			//	Cost Detail
-			String description = line.getDescription();
-			if (description == null)
-				description = "";
-			if (line.isProductionBOM())
-				description += "(*)";
-			MCostDetail.createProduction(as, line.getAD_Org_ID(), 
-				line.getM_Product_ID(), line.getM_AttributeSetInstance_ID(), 
-				line.get_ID(), 0, 
-				costs, line.getQty(), 
-				description, getTrxName());
+		}
+		if (total == null || total.signum() == 0)
+		{
+			p_Error = "Resubmit - No Costs for " + getDescription();
+			log.log(Level.WARNING, p_Error);
+			return null;
 		}
 		//
 		ArrayList<Fact> facts = new ArrayList<Fact>();
