@@ -13,6 +13,10 @@
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
+ *                                                                            *
+ *  @author Michael McKay                                                     * 
+ *  	<li>BF3441324  - Partially paid invoice does not appear in payment    *
+ *                       selection                                            *
  *****************************************************************************/
 package org.compiere.process;
 
@@ -113,23 +117,34 @@ public class PaySelectionCreateFrom extends SvrProcess
 		
 	//	psel.getPayDate();
 
-		String sql = "SELECT C_Invoice_ID,"
+		String sql = "SELECT i.C_Invoice_ID, i.C_InvoicePaySchedule_ID,"
 			//	Open
-			+ " currencyConvert(invoiceOpen(i.C_Invoice_ID, 0)"
-				+ ",i.C_Currency_ID, ?,?, i.C_ConversionType_ID,i.AD_Client_ID,i.AD_Org_ID),"	//	##1/2 Currency_To,PayDate
+			+ " currencyConvert(invoiceOpen(i.C_Invoice_ID, i.C_InvoicePaySchedule_ID)"
+			+ ",i.C_Currency_ID, ?,?, i.C_ConversionType_ID,i.AD_Client_ID,i.AD_Org_ID),"	//	##1/2 Currency_To,PayDate
 			//	Discount
 			+ " currencyConvert(paymentTermDiscount(i.GrandTotal,i.C_Currency_ID,i.C_PaymentTerm_ID,i.DateInvoiced, ?)"	//	##3 PayDate
-				+ ",i.C_Currency_ID, ?,?,i.C_ConversionType_ID,i.AD_Client_ID,i.AD_Org_ID),"	//	##4/5 Currency_To,PayDate
+			+ ",i.C_Currency_ID, ?,?,i.C_ConversionType_ID,i.AD_Client_ID,i.AD_Org_ID),"	//	##4/5 Currency_To,PayDate
 			+ " PaymentRule, IsSOTrx "		//	4..6
-			+ "FROM C_Invoice i "
+			+ "FROM C_Invoice_v i "
+			+ "LEFT OUTER JOIN C_InvoicePaySchedule ips ON (i.C_InvoicePaySchedule_ID = ips.C_InvoicePaySchedule_ID) "
 			+ "WHERE IsSOTrx='N' AND IsPaid='N' AND DocStatus IN ('CO','CL')"
-			+ " AND AD_Client_ID=?"				//	##6
+			+ " AND i.AD_Client_ID=?"				//	##6
+			// And a payment is needed  ##7
+			+ " AND invoiceOpen(i.C_Invoice_ID,i.C_InvoicePaySchedule_ID)-paymentTermDiscount(i.GrandTotal,i.C_Currency_ID,i.C_PaymentTerm_ID,i.DateInvoiced, ?) != 0.0"
 			//	Existing Payments - Will reselect Invoice if prepared but not paid 
+			//  BR3450248 - Partially paid invoice does not appear in payment selection
 			+ " AND NOT EXISTS (SELECT * FROM C_PaySelectionLine psl"
 			+                 " INNER JOIN C_PaySelectionCheck psc ON (psl.C_PaySelectionCheck_ID=psc.C_PaySelectionCheck_ID)"
 			+                 " LEFT OUTER JOIN C_Payment pmt ON (pmt.C_Payment_ID=psc.C_Payment_ID)"
+			+                 " WHERE i.C_Invoice_ID=psl.C_Invoice_ID"
+			+				  " AND i.C_InvoicePaySchedule_ID is null"  // include all InvoicePaySchedules - these are handled by invoiceOpen()
+			+				  " AND psl.IsActive='Y'"
+			+				  " AND (pmt.DocStatus IS NULL OR pmt.DocStatus NOT IN ('VO','RE'))"
+			+				  " AND psl.differenceamt = 0.0) " 
+			// Avoid repeats in current PaySelection which can happen if the button is clicked more than once
+			+ " AND NOT EXISTS (SELECT * FROM C_PaySelectionLine psl" 
 			+                 " WHERE i.C_Invoice_ID=psl.C_Invoice_ID AND psl.IsActive='Y'"
-			+				  " AND (pmt.DocStatus IS NULL OR pmt.DocStatus NOT IN ('VO','RE')) )";
+			+				  " AND psl.C_PaySelection_ID = ?)"; // ##8 Current selection
 		//	Disputed
 		if (!p_IncludeInDispute)
 			sql += " AND i.IsInDispute='N'";
@@ -143,7 +158,7 @@ public class PaySelectionCreateFrom extends SvrProcess
 				sql += " AND (";
 			else
 				sql += " AND ";
-			sql += "paymentTermDiscount(invoiceOpen(C_Invoice_ID, 0), C_Currency_ID, C_PaymentTerm_ID, DateInvoiced, ?) > 0";	//	##
+			sql += "paymentTermDiscount(invoiceOpen(i.C_Invoice_ID, i.C_InvoicePaySchedule_ID), C_Currency_ID, C_PaymentTerm_ID, DateInvoiced, ?) > 0";	//	##
 		}
 		//	OnlyDue
 		if (p_OnlyDue)
@@ -152,7 +167,7 @@ public class PaySelectionCreateFrom extends SvrProcess
 				sql += " OR ";
 			else
 				sql += " AND ";
-			sql += "paymentTermDueDays(C_PaymentTerm_ID, DateInvoiced, ?) >= 0";	//	##
+			sql += "COALESCE(ips.duedate,paymentTermDueDate(i.C_PaymentTerm_ID, i.DateInvoiced)) <= ?";	//	##
 			if (p_OnlyDiscount)
 				sql += ")";
 		}
@@ -196,6 +211,9 @@ public class PaySelectionCreateFrom extends SvrProcess
 			pstmt.setTimestamp(index++, psel.getPayDate());
 			//
 			pstmt.setInt(index++, psel.getAD_Client_ID());
+			pstmt.setTimestamp(index++, psel.getPayDate());
+			pstmt.setInt(index++, psel.getC_PaySelection_ID());
+			
 			if (p_PaymentRule != null)
 				pstmt.setString(index++, p_PaymentRule);
 			if (p_OnlyDiscount)
@@ -211,16 +229,17 @@ public class PaySelectionCreateFrom extends SvrProcess
 			while (rs.next ())
 			{
 				int C_Invoice_ID = rs.getInt(1);
-				BigDecimal PayAmt = rs.getBigDecimal(2);
+				int C_InvoicePaySchedule_ID = rs.getInt(2);
+				BigDecimal PayAmt = rs.getBigDecimal(3);
 				if (C_Invoice_ID == 0 || Env.ZERO.compareTo(PayAmt) == 0)
 					continue;
-				BigDecimal DiscountAmt = rs.getBigDecimal(3);
-				String PaymentRule  = rs.getString(4);
-				boolean isSOTrx = "Y".equals(rs.getString(5));
+				BigDecimal DiscountAmt = rs.getBigDecimal(4);
+				String PaymentRule  = rs.getString(5);
+				boolean isSOTrx = "Y".equals(rs.getString(6));
 				//
 				lines++;
 				MPaySelectionLine pselLine = new MPaySelectionLine (psel, lines*10, PaymentRule);
-				pselLine.setInvoice (C_Invoice_ID, isSOTrx,
+				pselLine.setInvoice (C_Invoice_ID, C_InvoicePaySchedule_ID, isSOTrx,
 					PayAmt, PayAmt.subtract(DiscountAmt), DiscountAmt);
 				if (!pselLine.save())
 				{
