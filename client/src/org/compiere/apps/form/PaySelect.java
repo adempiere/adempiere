@@ -215,7 +215,7 @@ public class PaySelect
 			new ColumnInfo(Msg.translate(ctx, "DueDate"), "COALESCE(ips.duedate,paymentTermDueDate(i.C_PaymentTerm_ID, i.DateInvoiced)) AS DateDue", Timestamp.class, true, true, null),
 			new ColumnInfo(Msg.translate(ctx, "C_BPartner_ID"), "bp.Name", KeyNamePair.class, true, false, "i.C_BPartner_ID"),
 			new ColumnInfo(Msg.translate(ctx, "DocumentNo"), "i.DocumentNo", String.class),
-			new ColumnInfo("PaySchedule", "np.numpaymts", KeyNamePair.class, true, false, "np.C_InvoicePaySchedule_ID"),
+			new ColumnInfo(Msg.getMsg(ctx, "Payment #"), "np.numpaymts", KeyNamePair.class, true, false, "np.C_InvoicePaySchedule_ID"),
 			new ColumnInfo(Msg.translate(ctx, "C_Currency_ID"), "c.ISO_Code", KeyNamePair.class, true, false, "i.C_Currency_ID"),
 			// 6..11
 			new ColumnInfo(Msg.translate(ctx, "GrandTotal"), "i.GrandTotal", BigDecimal.class),
@@ -223,7 +223,7 @@ public class PaySelect
 			new ColumnInfo(Msg.getMsg(ctx, "DiscountDate"), "SysDate-paymentTermDueDays(i.C_PaymentTerm_ID,i.DateInvoiced,SysDate)", Timestamp.class),
 			new ColumnInfo(Msg.getMsg(ctx, "AmountDue"), "currencyConvert(invoiceOpen(i.C_Invoice_ID,i.C_InvoicePaySchedule_ID),i.C_Currency_ID, ?,?,i.C_ConversionType_ID, i.AD_Client_ID,i.AD_Org_ID)", BigDecimal.class),
 			new ColumnInfo(Msg.getMsg(ctx, "AmountPay"), "currencyConvert(invoiceOpen(i.C_Invoice_ID,i.C_InvoicePaySchedule_ID)-paymentTermDiscount(i.GrandTotal,i.C_Currency_ID,i.C_PaymentTerm_ID,i.DateInvoiced, ?),i.C_Currency_ID, ?,?,i.C_ConversionType_ID, i.AD_Client_ID,i.AD_Org_ID)", BigDecimal.class),
-			new ColumnInfo("PaySched_ID", "np.C_InvoicePaySchedule_ID", Integer.class)
+			new ColumnInfo(Msg.translate(ctx, "PaySched_ID"), "np.C_InvoicePaySchedule_ID", Integer.class)
 			},
 			//	FROM
 			"C_Invoice_v i"
