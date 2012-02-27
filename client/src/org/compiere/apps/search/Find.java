@@ -154,6 +154,8 @@ public final class Find extends CDialog
 		m_tableName = tableName;
 		m_whereExtended = whereExtended;
 		m_findFields = findFields;
+		m_sLast = "** ".concat(Msg.getMsg(Env.getCtx(), "Last Query")).concat(" **");
+		m_sNew = "** ".concat(Msg.getMsg(Env.getCtx(), "New Query")).concat(" **");
 		//
 		m_query = new MQuery (tableName);
 		m_query.addRestriction(Env.parseContext(Env.getCtx(), m_targetWindowNo, whereExtended, false));
@@ -220,6 +222,10 @@ public final class Find extends CDialog
 	public static final int		FIELDLENGTH = 20;
 	/** Reference ID for Yes/No	*/
 	public static final int		AD_REFERENCE_ID_YESNO = 319;
+	
+	/** Search messages using translation */
+	private String				m_sLast;
+	private String				m_sNew;
 	
 	
 	//
@@ -1259,9 +1265,10 @@ public final class Find extends CDialog
 			}
 		}
 		Object selected = fQueryName.getSelectedItem();
+		
 		if (selected != null) {
 			String name = selected.toString();
-			if ((fQueryName.getSelectedIndex() == 0 || name.equals("** Last **") || Util.isEmpty(name, true)) && saveQuery){ // New query - needs a name
+			if ((fQueryName.getSelectedIndex() == 0 || name.equals(m_sLast) || Util.isEmpty(name, true)) && saveQuery){ // New query - needs a name
 
 				ADialog.warn(m_targetWindowNo, this, "FillMandatory", Msg.translate(Env.getCtx(), "Name"));
 				return;
@@ -1299,12 +1306,12 @@ public final class Find extends CDialog
 					ADialog.warn (m_targetWindowNo, this, "SaveError", name);
 			}
 			//
-			MUserQuery last = MUserQuery.get(Env.getCtx(), m_AD_Tab_ID, "** Last **");
+			MUserQuery last = MUserQuery.get(Env.getCtx(), m_AD_Tab_ID, m_sLast);
 			if (code.length() > 0) { // New or update				
 				if (last == null) // Create a new record
 				{
 					last = new MUserQuery (Env.getCtx(), 0, null);
-					last.setName ("** Last **");
+					last.setName (m_sLast);
 					last.setAD_Table_ID (m_AD_Table_ID);
 					last.setAD_Tab_ID(m_AD_Tab_ID);
 					last.setAD_User_ID(Env.getAD_User_ID(Env.getCtx())); 
@@ -1324,14 +1331,14 @@ public final class Find extends CDialog
 
 	private void refreshUserQueries() 
 	{
-		String value = "** Last **"; //TODO - replace with translated Msg
+		String value = m_sLast; 
 		if (fQueryName.getItemCount()>0){ // The list is initialized
 			value = fQueryName.getValue().toString();
 		}
 		userQueries = MUserQuery.get(Env.getCtx(), m_AD_Tab_ID);
 		fQueryName.removeAllItems();
 		boolean selected = false;
-		fQueryName.addItem("** New **");  //TODO - replace with translated Msg
+		fQueryName.addItem(m_sNew);  // "** New **"
 		for (int i = 0; i < userQueries.length; i++)
 		{
 			fQueryName.addItem(userQueries[i].getName());
