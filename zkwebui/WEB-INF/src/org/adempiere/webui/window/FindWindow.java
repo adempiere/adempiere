@@ -197,6 +197,10 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 	/** Index RightBracket = 6		*/
 	public static final int		INDEX_RIGHTBRACKET = 6;
 
+	/** Search messages using translation */
+	private String				m_sLast;
+	private String				m_sNew;
+	
 	private static final String FIELD_SEPARATOR = "<^>";
 	private static final String SEGMENT_SEPARATOR = "<~>";
 
@@ -220,6 +224,8 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
         m_tableName = tableName;
         m_whereExtended = whereExtended;
         m_findFields = findFields;
+		m_sLast = "** ".concat(Msg.getMsg(Env.getCtx(), "Last Query")).concat(" **");
+		m_sNew = "** ".concat(Msg.getMsg(Env.getCtx(), "New Query")).concat(" **");
         m_AD_Tab_ID = adTabId;
         //
         m_query = new MQuery (m_tableName);
@@ -1271,7 +1277,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 		String selected = fQueryName.getValue();
 		if (selected != null) {
 			String name = selected;
-			if ((fQueryName.getSelectedIndex() == 0 || name.equals("** Last **")) && saveQuery){ // New query - needs a name
+			if ((fQueryName.getSelectedIndex() == 0 || name.equals(m_sLast)) && saveQuery){ // New query - needs a name
 
 				FDialog.warn (m_targetWindowNo, this, "NeedsName", name);
 				return;
@@ -1309,12 +1315,12 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 					FDialog.warn (m_targetWindowNo, this, "SaveError", name);
 			}
 			//
-			MUserQuery last = MUserQuery.get(Env.getCtx(), m_AD_Tab_ID, "** Last **");
+			MUserQuery last = MUserQuery.get(Env.getCtx(), m_AD_Tab_ID, m_sLast);
 			if (code.length() > 0) { // New or update				
 				if (last == null) // Create a new record
 				{
 					last = new MUserQuery (Env.getCtx(), 0, null);
-					last.setName ("** Last **");
+					last.setName (m_sLast);
 					last.setAD_Table_ID (m_AD_Table_ID);
 					last.setAD_Tab_ID(m_AD_Tab_ID); 
 					last.setAD_User_ID(Env.getAD_User_ID(Env.getCtx())); 
@@ -1333,14 +1339,14 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 
 	private void refreshUserQueries()
 	{
-		String value = "** Last **";
+		String value = m_sLast;
 		if (fQueryName.getItemCount()>0){ // The list is initialized
 			value = fQueryName.getValue();
 		}
 		userQueries = MUserQuery.get(Env.getCtx(), m_AD_Tab_ID);
 		fQueryName.getItems().clear();
 		boolean selected = false;
-		fQueryName.appendItem("** New **");  //TODO - replace with translated Msg
+		fQueryName.appendItem(m_sNew);  
 		for (int i = 0; i < userQueries.length; i++)
 		{
 			Comboitem ci = fQueryName.appendItem(userQueries[i].getName());
