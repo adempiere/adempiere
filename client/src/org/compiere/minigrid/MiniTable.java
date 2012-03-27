@@ -72,6 +72,12 @@ import org.compiere.util.Util;
  * @author Teo Sarca, teo.sarca@gmail.com
  * 				<li>BF [ 2876895 ] MiniTable.loadTable: NPE if column is null
  * 					https://sourceforge.net/tracker/?func=detail&aid=2876895&group_id=176962&atid=879332
+ * 
+ * @author Michael McKay, 
+ * 				<li>ADEMPIERE-71 MiniTable causes exception when adding totals
+ * 					to tables with no text fields in the first or second column
+ * 					https://adempiere.atlassian.net/browse/ADEMPIERE-71
+ * 
  */
 public class MiniTable extends CTable implements IMiniTable
 {
@@ -808,6 +814,7 @@ public class MiniTable extends CTable implements IMiniTable
 		//adding total row
 
 		int row = getRowCount() + 1;
+		boolean markerSet = false;
 		setRowCount(row);
 		for (int col = 0; col < layout.length; col++)
 		{
@@ -820,11 +827,12 @@ public class MiniTable extends CTable implements IMiniTable
 			{
 				setValueAt(total[col] , row -1 , col);
 			}
-			else
+			else 
 			{	
-				if(col == 0 )
+				if(c == String.class && !markerSet)
 				{	
 					setValueAt(" Σ  " , row -1 , col);
+					markerSet = true;
 				}	
 				else
 					setValueAt(null , row - 1, col );	
@@ -883,6 +891,7 @@ public class MiniTable extends CTable implements IMiniTable
 		//adding total row
 
 		int row = getRowCount() + 1;
+		boolean markerSet = false;
 		setRowCount(row);
 		for (int col = 0; col < layout.length; col++)
 		{
@@ -897,9 +906,10 @@ public class MiniTable extends CTable implements IMiniTable
 			}
 			else
 			{	
-				if(col == 1 )
+				if(c == String.class && !markerSet)
 				{	
-					setValueAt(" Σ  " , row -1 , col );
+					setValueAt(" Σ  " , row -1 , col);
+					markerSet = true;
 				}	
 				else
 					setValueAt(null , row - 1, col );	
