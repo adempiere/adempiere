@@ -240,9 +240,8 @@ public class GenerateCostDetail extends SvrProcess
 		    			
 				    	for (MTransaction trx : trxs)
 				    	{				    						    		
-				    		CostEngineFactory.getCostEngine(getAD_Client_ID()).createCostDetail(as, trx, trx.getDocumentLine(), ct, ce);
-				    		
-				    		if(MTransaction.MOVEMENTTYPE_VendorReceipts.equals(trx.getMovementType()))
+				    						    		
+				    		if(MTransaction.MOVEMENTTYPE_VendorReceipts.equals(trx.getMovementType()) && MCostElement.COSTELEMENTTYPE_Material.equals(ce.getCostElementType()))
 				    		{
 				    			MInOutLine line = (MInOutLine) trx.getDocumentLine();
 				    			MMatchPO[] orderMatches = MMatchPO.getOrderLine(getCtx(), line.getC_OrderLine_ID(), get_TrxName());
@@ -255,32 +254,37 @@ public class GenerateCostDetail extends SvrProcess
 				    			MMatchInv[] invoiceMatches = MMatchInv.getInOutLine(getCtx(), line.getM_InOutLine_ID(), get_TrxName());
 				    			for (MMatchInv match: invoiceMatches)
 				    			{
-				    				if(match.getC_InvoiceLine_ID()==match.getC_InvoiceLine_ID())
+				    				//if(match.getC_InvoiceLine_ID()==match.getC_InvoiceLine_ID())
 				    				CostEngineFactory.getCostEngine(getAD_Client_ID()).createCostDetail(as , trx, match , ct , ce);
 				    			}
 				    			
-				    			if(MCostElement.COSTELEMENTTYPE_LandedCost.equals(ce.getCostElementType()))
-				    			{	
-					    			List<MLandedCost> landedCosts = MLandedCost.getLandedCosts(line.getParent());
-					    			for(MLandedCost landedCost : landedCosts)
-					    			{
-					    				MLandedCostAllocation[] allocations = MLandedCostAllocation
-					    				.getOfInvoiceLine(landedCost.getCtx(), landedCost.getC_InvoiceLine_ID(), landedCost.get_TrxName()); 
-					    				for (MLandedCostAllocation allocation : allocations)
-					    				{
-					    					if(allocation.getM_InOutLine_ID() == 0)
-					    					{
-					    						MInvoiceLine iLine = (MInvoiceLine) landedCost.getC_InvoiceLine();
-					    						iLine.setProcessed(false);
-					    						iLine.allocateLandedCosts();
-					    						iLine.setProcessed(true);
-					    					}
-					    					
-					    					CostEngineFactory.getCostEngine(getAD_Client_ID()).createCostDetail(as, trx , allocation , ct , ce);
-					    				}
-					    			}
+				    			
+				    		}
+				    		if (MTransaction.MOVEMENTTYPE_VendorReceipts.equals(trx.getMovementType()) && MCostElement.COSTELEMENTTYPE_LandedCost.equals(ce.getCostElementType()))
+			    			{	
+				    			MInOutLine line = (MInOutLine) trx.getDocumentLine();
+				    			List<MLandedCost> landedCosts = MLandedCost.getLandedCosts(line.getParent());
+				    			for(MLandedCost landedCost : landedCosts)
+				    			{
+				    				MLandedCostAllocation allocation = MLandedCostAllocation.getOfInOulineAndInvoiceLine(
+				    						landedCost.getCtx(), line.getM_InOutLine_ID(),
+				    						landedCost.getC_InvoiceLine_ID(), 
+				    						landedCost.get_TrxName()); 	
+				    				
+				    				/*if(allocation.getM_InOutLine_ID() == 0)
+			    					{
+			    						MInvoiceLine iLine = (MInvoiceLine) landedCost.getC_InvoiceLine();
+			    						iLine.setProcessed(false);
+			    						iLine.allocateLandedCosts();
+			    						iLine.setProcessed(true);
+			    					}*/
+				    				
+				    				CostEngineFactory.getCostEngine(getAD_Client_ID()).createCostDetail(as, trx , allocation , ct , ce);		
+				    				
 				    			}
-				    		}   	
+			    			}
+				    		else  	
+				    		CostEngineFactory.getCostEngine(getAD_Client_ID()).createCostDetail(as, trx, trx.getDocumentLine(), ct, ce);
 				    	}
 				    	
 				    	MProduct product = null;

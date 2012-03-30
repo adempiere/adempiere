@@ -413,17 +413,19 @@ public class CostEngine
 		
 		
 		final ICostingMethod method = CostingMethodFactory.get().getCostingMethod(ce, ct.getCostingMethod());
-		method.setCostingMethod(as, mtrx, cost, costThisLevel , costLowLevel, model.isSOTrx());
+		method.setCostingMethod(as, model, mtrx, cost, costThisLevel , costLowLevel, model.isSOTrx());
 		MCostDetail cd = method.process();	
-		final String idColumnName = CostEngine.getIDColumnName(model);		
-		cd.set_ValueOfColumn(idColumnName,CostEngine.getIDColumn(model));
-		if (model instanceof MLandedCostAllocation && MCostElement.COSTELEMENTTYPE_LandedCost.equals(ce.getCostElementType()))
+		//final String idColumnName = CostEngine.getIDColumnName(model);		
+		//cd.set_ValueOfColumn(idColumnName,CostEngine.getIDColumn(model));
+		/*if (model instanceof MLandedCostAllocation && MCostElement.COSTELEMENTTYPE_LandedCost.equals(ce.getCostElementType()))
 		{
-			 cd.setM_Transaction_ID(mtrx.getM_Transaction_ID());
+			 MLandedCostAllocation allocation = (MLandedCostAllocation)model;
+			 //cd.setM_Transaction_ID(mtrx.getM_Transaction_ID());
+			 cd.setC_LandedCostAllocation_ID(allocation.get_ID());
 			 cd.setM_InOutLine_ID(mtrx.getM_InOutLine_ID());
 			 cd.setProcessed(false);
 		}
-		cd.saveEx();
+		cd.saveEx();*/
 	}
 	
 	public MCost validateCostForCostType(MAcctSchema as, MCostType ct , MCostElement ce,int M_Product_ID ,int AD_Org_ID , int M_AttributeSetInstance_ID)
@@ -512,7 +514,7 @@ public class CostEngine
 			}
 		
 			final ICostingMethod method = CostingMethodFactory.get().getCostingMethod(ce, cost.getCostingMethod());
-			method.setCostingMethod(as, null, cost, model.getPriceActual(), Env.ZERO, isSOTrx);
+			method.setCostingMethod(as, model, null, cost, model.getPriceActual(), Env.ZERO, isSOTrx);
 			method.process();
 		}
 	}
@@ -1052,7 +1054,7 @@ public class CostEngine
 	public BigDecimal getCostThisLevel(MTransaction mtrx, MAcctSchema as, MCostType ct, MCostElement ce,IDocumentLine model , String costingLevel)
 	{
 		BigDecimal costThisLevel = Env.ZERO;
-		MCostDetail m_last_costdetail =  MCostDetail.getLastTransaction(mtrx, as.getC_AcctSchema_ID(), ct.getM_CostType_ID(), ce.getM_CostElement_ID(), model.getDateAcct(), costingLevel);
+		MCostDetail m_last_costdetail =  MCostDetail.getLastTransaction(model,mtrx, as.getC_AcctSchema_ID(), ct.getM_CostType_ID(), ce.getM_CostElement_ID(), model.getDateAcct(), costingLevel);
 		if(m_last_costdetail != null)
 		{	
 			BigDecimal qty = m_last_costdetail.getCumulatedQty().add(m_last_costdetail.getQty());

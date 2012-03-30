@@ -238,7 +238,7 @@ public class MTransaction extends X_M_Transaction
 	    if(getM_ProductionLine_ID() > 0)
 		return (IDocumentLine) getM_ProductionLine();
 	    if(getPP_Cost_Collector_ID() > 0)
-			return (IDocumentLine) getPP_Cost_Collector();
+		return (IDocumentLine) getPP_Cost_Collector();
 	    
 	    return null;	
 	}

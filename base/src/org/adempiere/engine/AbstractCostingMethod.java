@@ -46,6 +46,7 @@ public abstract class AbstractCostingMethod implements ICostingMethod
 	BigDecimal m_costLowLevel;
 	BigDecimal m_cost;
 	MCostDetail m_costdetail = null;
+	BigDecimal m_movementQty = Env.ZERO;
 	BigDecimal m_CumulatedAmt = Env.ZERO;
 	BigDecimal m_CumulatedAmtLL = Env.ZERO;
 	BigDecimal m_CumulatedQty = Env.ZERO;
@@ -167,7 +168,7 @@ public abstract class AbstractCostingMethod implements ICostingMethod
 				String idColumnName = model.get_TableName()+"_ID";											
 				
 				//Qty Transaction								
-				MCostDetail original_cd = MCostDetail.getByTransaction(original_trx,m_as.getC_AcctSchema_ID(), m_dimension.getM_CostType_ID(), m_dimension.getM_CostElement_ID());
+				MCostDetail original_cd = MCostDetail.getByTransaction(model, original_trx,m_as.getC_AcctSchema_ID(), m_dimension.getM_CostType_ID(), m_dimension.getM_CostElement_ID());
 				if(original_cd == null)
 					throw new AdempiereException("Can not found the original cost detail");
 				

@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.engine.CostEngine;
+import org.adempiere.engine.IDocumentLine;
 import org.compiere.acct.DocLine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -52,6 +54,7 @@ public class MCostDetail extends X_M_CostDetail
 	 * 
 	 */
 	private static final long serialVersionUID = -7882724307127281675L;
+	private static final Object COLUMNNAME_M_InOutLine_ID_ID = null;
 
 	/**
 	 * get the last entry for a Cost Detail based on the Material Transaction and Cost Dimension
@@ -64,6 +67,7 @@ public class MCostDetail extends X_M_CostDetail
 	 * @return
 	 */
 	public static MCostDetail getLastTransaction (
+			IDocumentLine model,
 			MTransaction mtrx,
 			int C_AcctSchema_ID ,
 			int M_CostType_ID,
@@ -71,9 +75,31 @@ public class MCostDetail extends X_M_CostDetail
 			Timestamp dateAcct, String costingLevel)
 	{
 		ArrayList<Object> params = new ArrayList();
-		final StringBuffer whereClause = new StringBuffer(MCostDetail.COLUMNNAME_M_Transaction_ID + " <> ? AND ");
-		params.add(mtrx.getM_Transaction_ID());
-		whereClause.append("(to_char(DateAcct, 'yyyymmdd') || M_Transaction_ID ) < (to_char("+DB.TO_DATE(dateAcct)+", 'yyyymmdd') || "+mtrx.getM_Transaction_ID()+" )  AND ");
+		StringBuffer whereClause = new StringBuffer();
+		StringBuffer uniqueKey = new StringBuffer();
+		StringBuffer orderBy = new StringBuffer();
+		
+		//final StringBuffer whereClause = new StringBuffer(MCostDetail.COLUMNNAME_M_Transaction_ID + " <> ? AND ");
+		if(model instanceof MLandedCostAllocation)
+		{
+			uniqueKey.append(MCostDetail.COLUMNNAME_M_Transaction_ID)
+					 .append("||'-'||")
+					 .append(MCostDetail.COLUMNNAME_C_LandedCostAllocation_ID)
+					 .append(" <> ? AND ");
+			String value = String.valueOf(mtrx.getM_Transaction_ID()) +  "-" +  String.valueOf(((MLandedCostAllocation) model).getC_LandedCostAllocation_ID());
+			whereClause.append(uniqueKey);
+			params.add(value);
+			orderBy.append("(to_char(DateAcct, 'yyyymmdd') || M_Transaction_ID || '-' || C_LandedCostAllocation_ID ) DESC");
+		}
+		else
+		{
+			whereClause.append(MCostDetail.COLUMNNAME_M_Transaction_ID + " <> ? AND ");
+			params.add(mtrx.getM_Transaction_ID());
+			whereClause.append("(to_char(DateAcct, 'yyyymmdd') || M_Transaction_ID ) < (to_char("+DB.TO_DATE(dateAcct)+", 'yyyymmdd') || "+mtrx.getM_Transaction_ID()+" )  AND ");
+			orderBy.append("(to_char(DateAcct, 'yyyymmdd') || M_Transaction_ID ) DESC");
+		}
+
+		
 		
 		whereClause.append(MCostDetail.COLUMNNAME_AD_Client_ID + "=? AND ");
 		params.add(mtrx.getAD_Client_ID());
@@ -104,9 +130,16 @@ public class MCostDetail extends X_M_CostDetail
 		//warehouse
 		whereClause.append("AND EXISTS ( SELECT 1 FROM M_Transaction t INNER JOIN M_Locator l ON (t.M_Locator_ID=l.M_Locator_ID ) WHERE t.M_Transaction_ID=M_CostDetail.M_Transaction_ID AND l.M_Warehouse_ID=?) ");
 		params.add(mtrx.getM_Warehouse_ID());
+		
+		
+		List<MCostDetail> cost = new Query(mtrx.getCtx(), Table_Name, whereClause.toString(), mtrx.get_TrxName())
+		.setParameters(params)	
+		.setOrderBy(orderBy.toString())
+		.list();
+		
 		return  new Query(mtrx.getCtx(), Table_Name, whereClause.toString(), mtrx.get_TrxName())
 		.setParameters(params)	
-		.setOrderBy("(to_char(DateAcct, 'yyyymmdd') || M_Transaction_ID ) DESC")
+		.setOrderBy(orderBy.toString())
 		.first();
 	}
 	
@@ -188,7 +221,7 @@ public class MCostDetail extends X_M_CostDetail
 	 * @param M_CostElement_ID Cost Element ID
 	 * @return MCostDetail cost detail
 	 */
-	public static MCostDetail getByTransaction(MTransaction mtrx, int C_AcctSchema_ID, int M_CostType_ID,int M_CostElement_ID)
+	public static MCostDetail getByTransaction(IDocumentLine model, MTransaction mtrx, int C_AcctSchema_ID, int M_CostType_ID,int M_CostElement_ID)
 	{			
 		ArrayList<Object> params = new ArrayList();
 		final StringBuffer whereClause = new StringBuffer(MCostDetail.COLUMNNAME_AD_Client_ID + "=? AND ");
@@ -210,6 +243,16 @@ public class MCostDetail extends X_M_CostDetail
 		params.add(M_CostType_ID);
 		whereClause.append(MCostDetail.COLUMNNAME_M_Transaction_ID ).append( "=? ");
 		params.add(mtrx.getM_Transaction_ID());
+		if(mtrx.getM_InOutLine_ID() > 0)
+		{
+			whereClause.append(" AND ");
+			whereClause.append(MCostDetail.COLUMNNAME_M_InOutLine_ID).append( "=? AND ");
+			whereClause.append(MCostDetail.COLUMNNAME_Qty).append(">0");
+			params.add(mtrx.getM_InOutLine_ID());
+		}
+		/*String idColumnName = CostEngine.getIDColumnName(model);
+		whereClause.append(idColumnName).append("=?");
+		params.add(CostEngine.getIDColumn(model));*/
 		return new Query (mtrx.getCtx(), I_M_CostDetail.Table_Name, whereClause.toString() , mtrx.get_TrxName())
 		.setParameters(params)
 		.firstOnly();
@@ -957,6 +1000,16 @@ public class MCostDetail extends X_M_CostDetail
 		setAmt(amt);
 		setAmtLL(amtLL);
 		setQty(qty);
+		setCostAdjustment(Env.ZERO);
+		setCostAdjustmentLL(Env.ZERO);
+		setCumulatedQty(Env.ZERO);
+		setCumulatedAmt(Env.ZERO);
+		setCumulatedAmtLL(Env.ZERO);
+		setCurrentQty(Env.ZERO);
+		setCurrentCostPrice(Env.ZERO);
+		setCurrentCostPriceLL(Env.ZERO);
+		setCumulatedQty(Env.ZERO);
+		
 	}
 	
 	/**
@@ -995,8 +1048,6 @@ public class MCostDetail extends X_M_CostDetail
 	 */
 	public void setAmt (BigDecimal Amt)
 	{
-		if (isProcessed())
-			throw new IllegalStateException("Cannot change Amt - processed");
 		if (Amt == null)
 			super.setAmt (Env.ZERO);
 		else
@@ -1009,8 +1060,6 @@ public class MCostDetail extends X_M_CostDetail
 	 */
 	public void setQty (BigDecimal Qty)
 	{
-		if (isProcessed())
-			throw new IllegalStateException("Cannot change Qty - processed");
 		if (Qty == null)
 			super.setQty (Env.ZERO);
 		else
@@ -1098,7 +1147,10 @@ public class MCostDetail extends X_M_CostDetail
 			sb.append (",M_InventoryLine_ID=").append (getM_InventoryLine_ID());
 		if (getM_ProductionLine_ID() != 0)
 			sb.append (",M_ProductionLine_ID=").append (getM_ProductionLine_ID());
-		sb.append(",Amt=").append(getAmt())
+		if (getC_LandedCostAllocation_ID() != 0)
+			sb.append (",C_LandedCostAllocation_ID=").append (getC_LandedCostAllocation_ID());
+		sb.append(",Amt=").append(getAmt());
+		sb.append(",Amt Cost=").append(getCostAmt())
 			.append(",Qty=").append(getQty());
 		if (isDelta())
 			sb.append(",DeltaAmt=").append(getDeltaAmt())

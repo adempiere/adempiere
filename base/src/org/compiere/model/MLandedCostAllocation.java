@@ -17,6 +17,7 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
@@ -85,6 +86,24 @@ public class MLandedCostAllocation extends X_C_LandedCostAllocation implements I
 		return retValue;
 	}	//	getOfInvliceLine
 	
+	/**
+	 * 	Get Cost Allocations for invoice Line
+	 *	@param ctx context
+	 *	@param M_InOutLine_ID Receipt Line
+	 *	@param C_InvoiceLine_ID invoice line
+	 *	@param trxName trx
+	 *	@return landed cost alloc
+	 */
+	public static MLandedCostAllocation getOfInOulineAndInvoiceLine (Properties ctx, 
+		int M_InOutLine_ID, int C_InvoiceLine_ID, String trxName)
+	{
+		final String where = I_C_LandedCostAllocation.COLUMNNAME_M_InOutLine_ID + "=? AND "
+						   +  I_C_LandedCostAllocation.COLUMNNAME_C_InvoiceLine_ID +  "=? ";
+		return new Query(ctx,I_C_LandedCostAllocation.Table_Name, where ,trxName)
+		.setClient_ID()
+		.setParameters(M_InOutLine_ID,C_InvoiceLine_ID)
+		.firstOnly();
+	}	//	getOfInvliceLine
 	/**	Logger	*/
 	private static CLogger s_log = CLogger.getCLogger (MLandedCostAllocation.class);
 	
@@ -176,8 +195,15 @@ public class MLandedCostAllocation extends X_C_LandedCostAllocation implements I
 	@Override //ancabradau
 	public BigDecimal getPriceActual()
 	{	
-		return getAmt().divide(getQty(), BigDecimal.ROUND_HALF_UP);
+		final String where = "EXISTS (SELECT 1 FROM C_Invoice i INNER JOIN C_InvoiceLine il ON (i.C_Invoice_ID=il.C_Invoice_ID) WHERE C_Currency.C_Currency_ID=i.C_Currency_ID AND il.C_InvoiceLine_ID=?)";
+		MCurrency currency = new Query (getCtx(), I_C_Currency.Table_Name, where , get_TrxName())
+		.setParameters(getC_InvoiceLine_ID())
+		.firstOnly();
+		BigDecimal price = getAmt().divide(getQty(), currency.getCostingPrecision() ,  RoundingMode.HALF_UP);
+		return price;
 	}
+
+	
 
 	@Override
 	public int getReversalLine_ID() {

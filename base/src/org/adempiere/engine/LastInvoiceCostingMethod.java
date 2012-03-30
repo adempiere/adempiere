@@ -21,7 +21,7 @@ public class LastInvoiceCostingMethod extends AbstractCostingMethod implements I
 
 
 	
-	public void setCostingMethod (MAcctSchema as,MTransaction mtrx,
+	public void setCostingMethod (MAcctSchema as,IDocumentLine model, MTransaction mtrx,
 			MCost dimension,BigDecimal costThisLevel, BigDecimal costLowLevel, Boolean isSOTrx)
 	{
 		m_as = as;

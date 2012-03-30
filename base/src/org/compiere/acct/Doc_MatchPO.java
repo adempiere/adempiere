@@ -184,7 +184,7 @@ public class Doc_MatchPO extends Doc
 		{
 		    String costingLevel = MProduct.get(getCtx(), trx.getM_Product_ID()).getCostingLevel(as, trx.getAD_Org_ID());
 		    MCostElement element = MCostElement.getByMaterialCostElementType(trx);
-		    MCostDetail cd = MCostDetail.getByTransaction(trx, as.getC_AcctSchema_ID(), ct.getM_CostType_ID(), element.getM_CostElement_ID());
+		    MCostDetail cd = MCostDetail.getByTransaction(ioLine, trx, as.getC_AcctSchema_ID(), ct.getM_CostType_ID(), element.getM_CostElement_ID());
 		    if(cd != null)
 		    {
 			costs =costs.add(cd.getCostAmt().add(cd.getCostAmtLL()));

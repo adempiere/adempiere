@@ -22,7 +22,7 @@ import org.compiere.util.Util;
  */
 public class StandardCostingMethod extends AbstractCostingMethod implements ICostingMethod {
 	
-	public void setCostingMethod (MAcctSchema as,MTransaction mtrx, MCost dimension,
+	public void setCostingMethod (MAcctSchema as,IDocumentLine model, MTransaction mtrx, MCost dimension,
 			BigDecimal costThisLevel, BigDecimal costLowLevel, Boolean isSOTrx)
 	{
 		m_as = as;
@@ -33,7 +33,7 @@ public class StandardCostingMethod extends AbstractCostingMethod implements ICos
 		m_isSOTrx = isSOTrx;
 		m_model = mtrx.getDocumentLine();
 		costingLevel = MProduct.get(mtrx.getCtx(), mtrx.getM_Product_ID()).getCostingLevel(as, mtrx.getAD_Org_ID());
-		m_costdetail = MCostDetail.getByTransaction(mtrx,  m_as.getC_AcctSchema_ID() ,m_dimension.getM_CostType_ID(), m_dimension.getM_CostElement_ID());
+		m_costdetail = MCostDetail.getByTransaction(model, mtrx,  m_as.getC_AcctSchema_ID() ,m_dimension.getM_CostType_ID(), m_dimension.getM_CostElement_ID());
 	}
 
 	private void calculate()

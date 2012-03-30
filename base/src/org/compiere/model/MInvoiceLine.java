@@ -1155,6 +1155,7 @@ public class MInvoiceLine extends X_C_InvoiceLine implements IDocumentLine
 			// MZ Goodwill
 			// add set Qty from InOutLine
 			lca.setQty(iol.getMovementQty());
+			lca.setM_InOutLine_ID(iol.getM_InOutLine_ID());
 			// end MZ
 			if (base.signum() != 0)
 			{

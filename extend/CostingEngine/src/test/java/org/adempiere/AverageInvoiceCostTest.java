@@ -97,8 +97,8 @@ public class AverageInvoiceCostTest extends AdempiereTestCase
 		super.setUp();
 		int currencyId = 0;
 	
-		CLogMgt.setLevel(Level.OFF);
-		//CLogMgt.setLevel(Level.ALL);
+		//(CLogMgt.setLevel(Level.OFF);
+		CLogMgt.setLevel(Level.ALL);
 		currencyId = Integer.parseInt( testProperties.getProperty("$C_Currency_ID", "100") );	
 		Env.setContext(Env.getCtx(), "$C_AcctSchema_ID", 101);
 		Env.setContext(Env.getCtx(), "$C_Currency_ID", currencyId);
@@ -240,8 +240,8 @@ public class AverageInvoiceCostTest extends AdempiereTestCase
 				 new BigDecimal("44.2827"), //currentCostPrice
 				 new BigDecimal("25"), 		// cumulateQty
 				 new BigDecimal("1107.0688"),//cumulateAmt
-				 new BigDecimal("380"),//cdAmt
-				 new BigDecimal("20"), //cdAdjutment
+				 new BigDecimal("380.0000"),//cdAmt
+				 new BigDecimal("20.0000"), //cdAdjutment
 				 new BigDecimal("10"),//cdQty
 				 new BigDecimal("53.5937"), //cdCurrentCostPrice
 				 new BigDecimal("20"), //cdCumulateQty
@@ -279,8 +279,8 @@ public class AverageInvoiceCostTest extends AdempiereTestCase
 					 new BigDecimal("44.2827"), //currentCostPrice
 					 new BigDecimal("25"), 		// cumulateQty
 					 new BigDecimal("1107.0688"),//cumulateAmt
-					 new BigDecimal("380"),//cdAmt
-					 new BigDecimal("20"), //cdAdjutment
+					 new BigDecimal("380.0000"),//cdAmt
+					 new BigDecimal("20.0000"), //cdAdjutment
 					 new BigDecimal("10"),//cdQty
 					 new BigDecimal("53.5937"), //cdCurrentCostPrice
 					 new BigDecimal("20"), //cdCumulateQty

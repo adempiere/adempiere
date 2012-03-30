@@ -1756,7 +1756,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 				MInOutLine ioLine = (MInOutLine) allocation.getM_InOutLine();
 				for (MTransaction trx: MTransaction.getByInOutLine(ioLine))
 				{
-						CostEngineFactory.getCostEngine(getAD_Client_ID()).createCostDetail(trx, ioLine);
+						CostEngineFactory.getCostEngine(getAD_Client_ID()).createCostDetail(trx, allocation);
 				}		
 			}
 		}
