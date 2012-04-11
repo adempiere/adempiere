@@ -403,6 +403,7 @@ public class OrderReceiptIssue extends GenForm {
 					// the product should be selected
 					id.setSelected(qtyOnHand.signum() > 0
 							&& qtyRequired.signum() > 0);
+					issue.setValueAt(id, row, 0); // PP_OrderBOMLine_ID
 
 					if (isQtyPercentage) {
 						// If the quantity of product is calculated as a
@@ -462,6 +463,8 @@ public class OrderReceiptIssue extends GenForm {
 								issue.setValueAt(componentScrapQty, row, 9); // QtyScrap
 							}
 						}
+						else
+							issue.setValueAt(componentScrapQty, row, 9); // QtyScrap
 					} else { // Absolute Qtys (not Percentage)
 						if (isBackflush()) { // Is Backflush - Calculate
 												// Component from Qty To Deliver
@@ -493,6 +496,8 @@ public class OrderReceiptIssue extends GenForm {
 								issue.setValueAt(componentScrapQty, row, 9); // ScrapQty
 							}
 						}
+						else 
+							issue.setValueAt(componentScrapQty, row, 9); // ScrapQty
 
 					}
 				} else if (componentType
@@ -506,7 +511,7 @@ public class OrderReceiptIssue extends GenForm {
 					}
 				} else {
 					issue.setValueAt(Env.ZERO, row, 6); // QtyRequired
-					issue.setValueAt(Env.ZERO, row, 8); // QtyToDelivery
+					//issue.setValueAt(Env.ZERO, row, 8); // QtyToDelivery
 				}
 
 				row++;
@@ -727,7 +732,7 @@ public class OrderReceiptIssue extends GenForm {
 	 * 
 	 * @return
 	 */
-	private boolean isOnlyIssue() {
+	protected boolean isOnlyIssue() {
 		return m_OnlyIssue;
 	}
 
@@ -736,7 +741,7 @@ public class OrderReceiptIssue extends GenForm {
 	 * 
 	 * @return
 	 */
-	private boolean isOnlyReceipt() {
+	protected boolean isOnlyReceipt() {
 		return m_isOnlyReceipt;
 	}
 
@@ -796,6 +801,9 @@ public class OrderReceiptIssue extends GenForm {
 				KeyNamePair m_warehousekey = new KeyNamePair(rs.getInt(8),
 						rs.getString(7));
 				issue.setValueAt(m_warehousekey, row, 14);
+				issue.setValueAt(Env.ZERO, row, 6); // QtyRequired
+				issue.setValueAt(Env.ZERO, row, 8); // QtyToDelivery
+				issue.setValueAt(Env.ZERO, row, 9); // Srcap
 				// Qty Required:
 				if (qtyRequiredActual.compareTo(qtyOnHand) < 0) {
 					issue.setValueAt(
@@ -855,11 +863,11 @@ public class OrderReceiptIssue extends GenForm {
 		m_IsBackflush = IsBackflush;
 	}
 
-	private void setIsOnlyIssue(boolean onlyIssue) {
+	protected void setIsOnlyIssue(boolean onlyIssue) {
 		m_OnlyIssue = onlyIssue;
 	}
 
-	private void setIsOnlyReceipt(boolean isOnlyReceipt) {
+	protected void setIsOnlyReceipt(boolean isOnlyReceipt) {
 		m_isOnlyReceipt = isOnlyReceipt;
 	}
 

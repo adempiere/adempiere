@@ -240,9 +240,11 @@ ValueChangeListener,Serializable,WTableModelListener
 		
 		//  Tab, Window
 		int m_Window = MWindow.getWindow_ID("Manufacturing Order");
-		GridFieldVO vo = GridFieldVO.createStdField(ctx, m_WindowNo, 0,m_Window, MTab.getTab_ID(m_Window, "Order"), 
+		GridFieldVO vo = GridFieldVO.createStdField(ctx, m_WindowNo, 0,m_Window, MTab.getTab_ID(m_Window, "Manufacturing Order"), 
 													false, false, false);
 		vo.AD_Column_ID = MColumn.getColumn_ID(MPPOrder.Table_Name, MPPOrder.COLUMNNAME_M_AttributeSetInstance_ID);
+		vo.ColumnName = MPPOrder.COLUMNNAME_M_AttributeSetInstance_ID;
+		vo.displayType = DisplayType.PAttribute;  
 
 		GridField field = new GridField(vo);
 		// M_AttributeSetInstance_ID
@@ -387,7 +389,8 @@ ValueChangeListener,Serializable,WTableModelListener
 		
 		Process.setLabel(Msg.translate(Env.getCtx(), "OK"));
 		PanelBottom.appendChild(Process);
-		
+		PanelBottom.setWidth("100%");
+		PanelBottom.setStyle("text-align:center");
 		
 		Tabs tabs = new Tabs(); 
 		Tab tab1 =new Tab();
@@ -509,15 +512,7 @@ ValueChangeListener,Serializable,WTableModelListener
 				Clients.showBusy(null, false);
 			}
 			TabsReceiptsIssue.setSelectedIndex(0);
-		}
-
-		if (e.getTarget().equals(toDeliverQty) || e.getTarget().equals(scrapQtyField))
-		{
-			if (getPP_Order_ID() > 0 && isBackflush())
-			{
-				executeQuery();
-			}
-		}
+		}	
 
 		if (e.getTarget().equals(pickcombo))
 		{
@@ -630,6 +625,14 @@ ValueChangeListener,Serializable,WTableModelListener
 				}
 			}
 		} //  PP_Order_ID
+		
+		if (name.equals(toDeliverQty.getColumnName()) || name.equals(scrapQtyField.getColumnName()))
+		{
+			if (getPP_Order_ID() > 0 && isBackflush())
+			{
+				executeQuery();
+			}
+		}
 	}
 	
 	@Override
@@ -671,18 +674,20 @@ ValueChangeListener,Serializable,WTableModelListener
 	 * Determines whether the Delivery Rule is set to 'OnlyReciept'
 	 * @return	
 	 */
-	private boolean isOnlyReceipt() 
+	protected boolean isOnlyReceipt() 
 	{
-		return (pickcombo.getText().equals("OnlyReceipt"));
+		super.setIsOnlyReceipt(pickcombo.getText().equals("OnlyReceipt"));
+		return super.isOnlyReceipt();
 	}
 	
 	/**
 	 * Determines whether the Delivery Rule is set to 'OnlyIssue'
 	 * @return	
 	 */
-	private boolean isOnlyIssue() 
+	protected boolean isOnlyIssue() 
 	{
-		return (pickcombo.getText().equals("OnlyIssue"));
+		super.setIsOnlyIssue(pickcombo.getText().equals("OnlyIssue"));
+		return super.isOnlyIssue();
 	}
 
 	/**
@@ -691,7 +696,8 @@ ValueChangeListener,Serializable,WTableModelListener
 	 */
 	protected boolean isBackflush()
 	{
-		return (pickcombo.getText().equals("IsBackflush"));
+		super.setIsBackflush(pickcombo.getText().equals("IsBackflush"));
+		return super.isBackflush();
 	}
 
 	protected Timestamp getMovementDate()
