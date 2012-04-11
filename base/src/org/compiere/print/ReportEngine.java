@@ -65,6 +65,7 @@ import org.compiere.model.MPaySelectionCheck;
 import org.compiere.model.MProject;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRfQResponse;
+import org.compiere.model.MTable;
 import org.compiere.model.PrintInfo;
 import org.compiere.print.layout.LayoutEngine;
 import org.compiere.process.ProcessInfo;
@@ -1109,7 +1110,14 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		if (IsForm && pi.getRecord_ID() != 0		//	Form = one record
 				&& !TableName.startsWith("T_") )	//	Not temporary table - teo_sarca, BF [ 2828886 ]
 		{
-			query = MQuery.getEqualQuery(TableName + "_ID", pi.getRecord_ID());
+			MTable table = MTable.get(ctx, AD_Table_ID);
+			String columnKey = null;
+			if(table.isSingleKey())
+				 columnKey = table.getKeyColumns()[0];
+			else 
+				columnKey = TableName + "_ID";
+			
+			query = MQuery.getEqualQuery(columnKey, pi.getRecord_ID());
 		}
 		else
 		{
