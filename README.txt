@@ -1,12 +1,12 @@
 Wiki page
 http://adempiere.com/index.php/Libero_Manufacturing_Official_Extension
 Source code
-http://adempiere.svn.sourceforge.net/viewvc/adempiere/branches/libero/
+http://github.com/adempiere/extension_libero_manufacturing
 Tracker to report bug
-https://sourceforge.net/tracker/?group_id=176962&atid=934929
+https://adempiere.atlassian.net/browse/MFG
 
 How to Install?
-1.- Install ADempiere 360LTS 
+1.- Install ADempiere 370LTS 
 1.- Download the binary liberoMFG.jar and liberozkMFG.jar files 
 http://sourceforge.net/projects/adempiere/files/Adempiere%20Packages/Libero%20Manufacturing/liberoMFG.jar/download 
 http://sourceforge.net/projects/adempiere/files/Adempiere%20Packages/Libero%20Manufacturing/liberozkMFG.jar/download
