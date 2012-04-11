@@ -255,6 +255,16 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 	public void setValueAt(Object value, int row, int column)
 	{
 		getModel().setDataAt(value, row, convertColumnIndexToModel(column));
+		if(value instanceof IDColumn)
+		{
+			IDColumn id = (IDColumn) value;
+			boolean selected = id.isSelected();
+			ListItem listItem = this.getItemAtIndex(row);
+			
+			if (listItem != null && !listItem.isSelected() && selected) {
+				listItem.setSelected(true);
+			}
+		}
 	}
 
     /**
