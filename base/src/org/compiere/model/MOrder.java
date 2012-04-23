@@ -67,10 +67,12 @@ import org.eevolution.model.MPPProductBOMLine;
  */
 public class MOrder extends X_C_Order implements DocAction
 {
+
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -1575104995897726572L;
+	private static final long serialVersionUID = 6238231989649199067L;
 
 	/**
 	 * 	Create new Order by copying
