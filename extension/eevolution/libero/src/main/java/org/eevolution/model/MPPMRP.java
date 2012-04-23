@@ -74,82 +74,105 @@ public class MPPMRP extends X_PP_MRP
 		MPPOrder order = MPPOrder.forC_OrderLine_ID(ol.getCtx(), ol.get_ID(), ol.get_TrxName());
 		if (order == null)
 		{
+			final MProduct product = MProduct.get(ol.getCtx(), ol.getM_Product_ID());
+			
 			final String whereClause = MPPProductBOM.COLUMNNAME_BOMType+" IN (?,?)"
 						   +" AND "+MPPProductBOM.COLUMNNAME_BOMUse+"=?"
-						   +" AND "+MPPProductBOM.COLUMNNAME_M_Product_ID+"=?";
+						   +" AND "+MPPProductBOM.COLUMNNAME_Value+"=?";
+			
+			//Search standard BOM
 			MPPProductBOM bom = new Query(ol.getCtx(), MPPProductBOM.Table_Name, whereClause,ol.get_TrxName())
+						.setClient_ID()
 						.setParameters(new Object[]{
 								MPPProductBOM.BOMTYPE_Make_To_Order, 
 								MPPProductBOM.BOMTYPE_Make_To_Kit, 
 								MPPProductBOM.BOMUSE_Manufacturing,
-								ol.getM_Product_ID()})
-						.firstOnly();	
+								product.getValue()})
+						.firstOnly();
+			
+			//Search workflow standard
+			MWorkflow workflow = null;
+			int workflow_id =  MWorkflow.getWorkflowSearchKey(product);
+			if(workflow_id > 0)
+				workflow = MWorkflow.get(ol.getCtx(), workflow_id);
+			
+			//Search Plant for this Warehouse
+			int plant_id = 0;
 			
 			MPPProductPlanning pp = null;
-			//Validate the BOM based in planning data 
-			if(bom == null)
+			//Search planning data if no exist BOM or Workflow Standard
+			if(bom == null || workflow == null)
 			{
-				pp = MPPProductPlanning.find(ol.getCtx(), ol.getAD_Org_ID(), 0, 0, ol.getM_Product_ID(), null); 
-				if(pp != null)
-				{	
-					bom = (MPPProductBOM) pp.getPP_Product_BOM();
-					if( bom != null
-						&& !MPPProductBOM.BOMTYPE_Make_To_Order.equals(bom.getBOMType())
-						&& !MPPProductBOM.BOMTYPE_Make_To_Kit.equals(bom.getBOMType()) )
-					{
-						bom = null;
-					}
-				}
-			}
-			if (bom != null) 
-			{		
-				final MProduct product = MProduct.get(ol.getCtx(), ol.getM_Product_ID());   
-				final int plant_id = MPPProductPlanning.getPlantForWarehouse(ol.getM_Warehouse_ID());
+				plant_id = MPPProductPlanning.getPlantForWarehouse(ol.getM_Warehouse_ID());
+
 				if(plant_id <= 0)
 				{
 					throw new NoPlantForWarehouseException(ol.getM_Warehouse_ID());
 				}
-				MWorkflow workflow = MWorkflow.get(ol.getCtx(), MWorkflow.getWorkflowSearchKey(product));
+				
+				pp = MPPProductPlanning.find(ol.getCtx(), ol.getAD_Org_ID(), ol.getM_Warehouse_ID() , plant_id , ol.getM_Product_ID(), ol.get_TrxName()); 	
+				if(pp == null)
+					throw new AdempiereException("@NotFound@ @PP_Product_Planning_ID@");
+			}
+			
+			//Validate BOM
+			if(bom == null && pp != null)
+			{
+					bom = new MPPProductBOM(ol.getCtx(), pp.getPP_Product_BOM_ID(), ol.get_TrxName());
+					if( bom != null
+						&& !MPPProductBOM.BOMTYPE_Make_To_Order.equals(bom.getBOMType())
+						&& !MPPProductBOM.BOMTYPE_Make_To_Kit.equals(bom.getBOMType()) )
+					{
+						throw new AdempiereException("@NotFound@ @PP_ProductBOM_ID@");
+					}
+			}
+			
+			if (workflow == null && pp != null) 
+			{		
 				//Validate the workflow based in planning data 						
-				if(workflow == null && pp != null)
+				workflow = new MWorkflow( ol.getCtx() , pp.getAD_Workflow_ID(), ol.get_TrxName());
+				
+				if(workflow == null)
 				{
-					workflow = pp.getAD_Workflow();
+					throw new AdempiereException("@NotFound@ @AD_Workflow_ID@");
 				}
 				
-				if (plant_id > 0 && workflow != null)
-				{
-					String description = Msg.translate(ol.getCtx(),MRefList.getListName(ol.getCtx(), MPPOrderBOM.BOMTYPE_AD_Reference_ID, bom.getBOMType())) 
-					+ " "
-					+ Msg.translate(ol.getCtx(), MOrder.COLUMNNAME_C_Order_ID) 
-					+ " : "
-					+ ol.getParent().getDocumentNo();					
-					// Create temporary data planning to create Manufacturing Order
-					pp = new MPPProductPlanning(ol.getCtx(), 0 , ol.get_TrxName());
-					pp.setAD_Org_ID(ol.getAD_Org_ID());
-					pp.setM_Product_ID(product.getM_Product_ID());
-					pp.setPlanner_ID(ol.getParent().getSalesRep_ID());
-					pp.setPP_Product_BOM_ID(bom.getPP_Product_BOM_ID());
-					pp.setAD_Workflow_ID(workflow.getAD_Workflow_ID());
-					pp.setM_Warehouse_ID(ol.getM_Warehouse_ID());
-					pp.setS_Resource_ID(plant_id);
-					
-					order = MPPMRP.createMO(pp, ol.getC_OrderLine_ID(),ol.getM_AttributeSetInstance_ID(), 
-											qty, ol.getDateOrdered(), ol.getDatePromised(), description);
-					
-					description = "";
-					if(ol.getDescription() != null)
-						description = ol.getDescription();
-					
-					description = description + " " + Msg.translate(ol.getCtx(),MRefList.getListName(ol.getCtx(), MPPOrderBOM.BOMTYPE_AD_Reference_ID, bom.getBOMType())) 
-								+ " "
-								+ Msg.translate(ol.getCtx(), MPPOrder.COLUMNNAME_PP_Order_ID) 
-								+ " : "
-								+ order.getDocumentNo();
-					
-					ol.setDescription(description);
-					ol.saveEx();
-				}
-			}    
+				
+			} 
+			
+			if (plant_id > 0 && workflow != null)
+			{
+				String description = Msg.translate(ol.getCtx(),MRefList.getListName(ol.getCtx(), MPPOrderBOM.BOMTYPE_AD_Reference_ID, bom.getBOMType())) 
+				+ " "
+				+ Msg.translate(ol.getCtx(), MOrder.COLUMNNAME_C_Order_ID) 
+				+ " : "
+				+ ol.getParent().getDocumentNo();					
+				// Create temporary data planning to create Manufacturing Order
+				pp = new MPPProductPlanning(ol.getCtx(), 0 , ol.get_TrxName());
+				pp.setAD_Org_ID(ol.getAD_Org_ID());
+				pp.setM_Product_ID(product.getM_Product_ID());
+				pp.setPlanner_ID(ol.getParent().getSalesRep_ID());
+				pp.setPP_Product_BOM_ID(bom.getPP_Product_BOM_ID());
+				pp.setAD_Workflow_ID(workflow.getAD_Workflow_ID());
+				pp.setM_Warehouse_ID(ol.getM_Warehouse_ID());
+				pp.setS_Resource_ID(plant_id);
+				
+				order = MPPMRP.createMO(pp, ol.getC_OrderLine_ID(),ol.getM_AttributeSetInstance_ID(), 
+										qty, ol.getDateOrdered(), ol.getDatePromised(), description);
+				
+				description = "";
+				if(ol.getDescription() != null)
+					description = ol.getDescription();
+				
+				description = description + " " + Msg.translate(ol.getCtx(),MRefList.getListName(ol.getCtx(), MPPOrderBOM.BOMTYPE_AD_Reference_ID, bom.getBOMType())) 
+							+ " "
+							+ Msg.translate(ol.getCtx(), MPPOrder.COLUMNNAME_PP_Order_ID) 
+							+ " : "
+							+ order.getDocumentNo();
+				
+				ol.setDescription(description);
+				ol.saveEx();
+			}
 		}
 		else
 		{    
