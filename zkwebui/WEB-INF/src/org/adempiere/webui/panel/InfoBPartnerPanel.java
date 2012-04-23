@@ -32,6 +32,7 @@ import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
+import org.compiere.apps.search.Info_Column;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MQuery;
@@ -67,6 +68,7 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 	 * 
 	 */
 	private static final long serialVersionUID = 5677624151607188344L;
+	private int fieldID = 0; 
 	private Label lblValue ;
 	private Textbox fieldValue ;
 	private Label lblName;
@@ -87,6 +89,7 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 		
 	/** SalesOrder Trx          */
 	private boolean 		m_isSOTrx;
+	private boolean			m_isSOMatch;
 		
 	/**	Logger			*/
 	protected CLogger log = CLogger.getCLogger(getClass());
@@ -104,51 +107,63 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 		new ColumnInfo(" ", "C_BPartner.C_BPartner_ID", IDColumn.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "Value"), "C_BPartner.Value", String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "Name"), "C_BPartner.Name", String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "Contact"), "c.Name AS Contact", KeyNamePair.class, "c.AD_User_ID"),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "TotalOpenBalance"), "C_BPartner.TotalOpenBalance", BigDecimal.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "SO_CreditAvailable"), "C_BPartner.SO_CreditLimit-C_BPartner.SO_CreditUsed AS SO_CreditAvailable", BigDecimal.class, true, true, null),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "SO_CreditUsed"), "C_BPartner.SO_CreditUsed", BigDecimal.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "Revenue"), "C_BPartner.ActualLifetimeValue", BigDecimal.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "Contact"), "c.Name AS Contact", KeyNamePair.class, "c.AD_User_ID"),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "Email"), "c.Email", String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "Phone"), "c.Phone", String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "Postal"), "a.Postal", KeyNamePair.class, "l.C_BPartner_Location_ID"),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "City"), "a.City", String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "TotalOpenBalance"), "C_BPartner.TotalOpenBalance", BigDecimal.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "Revenue"), "C_BPartner.ActualLifetimeValue", BigDecimal.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "Address1"), "a.Address1", String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "IsShipTo"), "l.IsShipTo", Boolean.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "IsBillTo"), "l.IsBillTo", Boolean.class)
 	};
 
+	
 	/**
 	 *	Standard Constructor
-	 *  @param  queryvalue   Query value Name or Value if contains numbers
+	 *  @param record_id 	ID of current record, if known.  0 otherwise.
+	 *  @param queryvalue   Query value Name or Value if contains only numbers
 	 *  @param isSOTrx  if false, query vendors only
+	 *  @param isSOMatch	Should the customer/vendor only checkbox be checked?
 	 *  @param whereClause where clause
 	 */
-	public InfoBPartnerPanel(String queryValue,int windowNo, boolean isSOTrx,boolean multipleSelection, String whereClause)
-	{		
-		this(queryValue, windowNo, isSOTrx, multipleSelection, whereClause, true);
+	public InfoBPartnerPanel(int record_id, String queryValue,int windowNo, boolean isSOTrx, boolean isSOMatch, boolean multipleSelection, 
+			String whereClause)
+	{
+		this(record_id, queryValue, windowNo, isSOTrx, isSOMatch, multipleSelection, 
+				whereClause, true);
+
 	}
 
 	/**
-	 *	Standard Constructor
-	 *  @param  queryvalue   Query value Name or Value if contains numbers
+	 *	Detail Constructor
+	 *  @param record_id 	ID of current record, if known.  0 otherwise.
+	 *  @param queryvalue   Query value Name or Value if contains only numbers
 	 *  @param isSOTrx  if false, query vendors only
+	 *  @param isSOMatch	Should the customer/vendor only checkbox be checked?
 	 *  @param whereClause where clause
+	 *  @param lookup
 	 */
-	public InfoBPartnerPanel(String queryValue,int windowNo, boolean isSOTrx,boolean multipleSelection, String whereClause, boolean lookup)
+	public InfoBPartnerPanel(int record_id, String queryValue,int windowNo, boolean isSOTrx, boolean isSOMatch, boolean multipleSelection, 
+			String whereClause, boolean lookup)
 	{
 
-		super (windowNo, "C_BPartner", "C_BPartner_ID",multipleSelection, whereClause, lookup);
+		super (windowNo, "C_BPartner", "C_BPartner_ID",multipleSelection, whereClause);
 		setTitle(Msg.getMsg(Env.getCtx(), "InfoBPartner"));
 		m_isSOTrx = isSOTrx;
-        initComponents();
+		m_isSOMatch = isSOMatch;
+		initComponents();
         init();
-		initInfo(queryValue, whereClause);
+		initInfo(record_id, queryValue, whereClause);
         
         int no = contentPanel.getRowCount();
         setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
         setStatusDB(Integer.toString(no));
         //
-		if (queryValue != null && queryValue.length()>0)
+		if (record_id != 0 || (queryValue != null && queryValue.length()>0))
 		{
 			 executeQuery();
              renderItems();
@@ -172,6 +187,7 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 		lblPhone = new Label();
 		lblPhone.setValue(Msg.translate(Env.getCtx(), "Phone"));
 		
+		fieldID = 0; //Record_ID
 		fieldValue = new Textbox();
 		fieldValue.setMaxlength(40);
 		fieldName = new Textbox();
@@ -276,7 +292,7 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 	 *  @param whereClause where clause
 	 */
 		
-	private void initInfo(String value, String whereClause)
+	private void initInfo(int record_id, String value, String whereClause)
 	{
 			/**	From
 				C_BPartner
@@ -290,7 +306,7 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 			where.append("C_BPartner.IsSummary='N' AND C_BPartner.IsActive='Y'");
 			if (whereClause != null && whereClause.length() > 0)
 				where.append(" AND ").append(whereClause);
-			//
+			
                           
 			prepareTable(s_partnerLayout, s_partnerFROM, where.toString(), "C_BPartner.Value");
 			
@@ -304,27 +320,19 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
                 if (p_layout[i].getKeyPairColSQL().indexOf("C_BPartner_Location_ID") != -1)
                     m_C_BPartner_Location_ID_index = i;
             }
-            //  Set Value
-			if (value == null)
-				value = "%";
-			if (!value.endsWith("%"))
-				value += "%";
-
-			//	Put query string in Name if not numeric
-			if (value.equals("%"))
-				fieldName.setText(value);
-			//	No Numbers entered
-			else if ((value.indexOf('0')+value.indexOf('1')+value.indexOf('2')+value.indexOf('3')+value.indexOf('4') +value.indexOf('5')
-				+value.indexOf('6')+value.indexOf('7')+value.indexOf('8')+value.indexOf('9')) == -10)
-			{
-				if (value.startsWith("%"))
-					fieldName.setText(value);
-				else
-					fieldName.setText("%" + value);
-			}
-			//	Number entered
-			else
-				fieldValue.setText(value);
+            
+            if (!(record_id == 0))  // A record is defined
+            {
+            	fieldID = record_id;
+            }
+            else // use the value
+            {
+	            //	Put query string in Name if not fully numeric
+	    		if (!value.matches(".*\\D+.*")) // If value has no non-digit [0-9] characters, use the Value
+	    			fieldValue.setText(value);
+	    		else
+	    			fieldName.setText(value);  // A few non-digit characters might be in the name. E.g. 451Group, 1st Choice, ...
+            }
 	}	//	initInfo
 
 	/**
@@ -337,10 +345,18 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 	public void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
 	{
 		int index = 1;
+		//  => ID
+		if (!(fieldID==0))
+		{
+			pstmt.setInt(index++, fieldID);
+			log.fine("Reoord ID: " + fieldID);
+		}
 		//	=> Value
 		String value = fieldValue.getText().toUpperCase();
 		if (!(value.equals("") || value.equals("%")))
 		{
+			//if (!value.startsWith("%"))
+			//	value = "%" + value;
 			if (!value.endsWith("%"))
 				value += "%";
 			pstmt.setString(index++, value);
@@ -350,6 +366,8 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 		String name = fieldName.getText().toUpperCase();
 		if (!(name.equals("") || name.equals("%")))
 		{
+			//if (!name.startsWith("%"))
+			//	name = "%" + name;
 			if (!name.endsWith("%"))
 				name += "%";
 			pstmt.setString(index++, name);
@@ -359,6 +377,8 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 		String contact = fieldContact.getText().toUpperCase();
 		if (!(contact.equals("") || contact.equals("%")))
 		{
+			//if (!contact.startsWith("%"))
+			//	contact = "%" + contact;
 			if (!contact.endsWith("%"))
 				contact += "%";
 			pstmt.setString(index++, contact);
@@ -368,6 +388,8 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 		String email = fieldEMail.getText().toUpperCase();
 		if (!(email.equals("") || email.equals("%")))
 		{
+			//if (!email.startsWith("%"))
+			//	email = "%" + email;
 			if (!email.endsWith("%"))
 				email += "%";
 			pstmt.setString(index++, email);
@@ -377,6 +399,8 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 		String phone = fieldPhone.getText().toUpperCase();
 		if (!(phone.equals("") || phone.equals("%")))
 		{
+			//if (!phone.startsWith("%"))
+			//	phone = "%" + phone;
 			if (!phone.endsWith("%"))
 				phone += "%";
 			pstmt.setString(index++, phone);
@@ -386,6 +410,8 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 		String postal = fieldPostal.getText().toUpperCase();
 		if (!(postal.equals("") || postal.equals("%")))
 		{
+			//if (!postal.startsWith("%"))
+			//	postal = "%" + postal;
 			if (!postal.endsWith("%"))
 				postal += "%";
 			pstmt.setString(index++, postal);
@@ -404,6 +430,11 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 	public String getSQLWhere()
 	{
 		ArrayList<String> list = new ArrayList<String>();
+		//  => ID
+		if(isResetRecordID())
+			fieldID = 0;
+		if (!(fieldID == 0))
+			list.add("C_BPartner.C_BPartner_ID = ?");
 		//	=> Value
 		String value = fieldValue.getText().toUpperCase();
 		if (!(value.equals("") || value.equals("%")))

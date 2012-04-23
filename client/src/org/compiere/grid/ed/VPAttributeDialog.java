@@ -80,6 +80,8 @@ import org.compiere.util.Msg;
  *  
  *  @author Michael McKay (mjmckay)
  *  		<li>BF3468823 - Attribute Set Instance editor does not display
+ * 			<li>ADEMPIERE-72 VLookup and Info Window improvements
+ * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
  */
 public class VPAttributeDialog extends CDialog
 	implements ActionListener
@@ -118,6 +120,8 @@ public class VPAttributeDialog extends CDialog
 		}	//	mouse Clicked
 
 	}	//	VPAttributeDialog_mouseAdapter	
+
+	private boolean m_readWrite;
 	
 	/**
 	 *	Product Attribute Instance Dialog
@@ -131,7 +135,7 @@ public class VPAttributeDialog extends CDialog
 	 */
 	public VPAttributeDialog (Frame frame, int M_AttributeSetInstance_ID, 
 		int M_Product_ID, int C_BPartner_ID, 
-		boolean productWindow, int AD_Column_ID, int WindowNo)
+		boolean productWindow, int AD_Column_ID, int WindowNo, boolean readWrite)
 	{
 		super (frame, Msg.translate(Env.getCtx(), "M_AttributeSetInstance_ID") , true);
 		log.config("M_AttributeSetInstance_ID=" + M_AttributeSetInstance_ID 
@@ -145,6 +149,7 @@ public class VPAttributeDialog extends CDialog
 		m_productWindow = productWindow;
 		m_AD_Column_ID = AD_Column_ID;
 		m_WindowNoParent = WindowNo;
+		m_readWrite = readWrite;
 
 		//get columnName from ad_column
  	 	m_columnName = DB.getSQLValueString(null, "SELECT ColumnName FROM AD_Column WHERE AD_Column_ID = ?", m_AD_Column_ID);
@@ -278,9 +283,9 @@ public class VPAttributeDialog extends CDialog
 		//}
 
 		//	BF3468823 Show Product Attributes
-		if (m_productWindow || !as.isInstanceAttribute())
+		if (m_productWindow || as.isInstanceAttribute())
 		{
-			MAttribute[] attributes = as.getMAttributes (false);
+			MAttribute[] attributes = as.getMAttributes (true);
 			log.fine ("Product Attributes=" + attributes.length);
 			for (int i = 0; i < attributes.length; i++)
 				addAttributeLine (attributes[i], true, !m_productWindow);
@@ -341,7 +346,7 @@ public class VPAttributeDialog extends CDialog
 			}
 			fieldLot.addActionListener(this);
 			//	New Lot Button
-			if (m_masi.getMAttributeSet().getM_LotCtl_ID() != 0)
+			if (m_masi.getMAttributeSet().getM_LotCtl_ID() != 0 && m_readWrite)
 			{
 				if (MRole.getDefault().isTableAccess(MLot.Table_ID, false)
 					&& MRole.getDefault().isTableAccess(MLotCtl.Table_ID, false)
@@ -367,7 +372,7 @@ public class VPAttributeDialog extends CDialog
 			centerPanel.add(label, new ALayoutConstraint(m_row++,0));
 			centerPanel.add(fieldSerNo, null);
 			//	New SerNo Button
-			if (m_masi.getMAttributeSet().getM_SerNoCtl_ID() != 0)
+			if (m_masi.getMAttributeSet().getM_SerNoCtl_ID() != 0 && m_readWrite)
 			{
 				if (MRole.getDefault().isTableAccess(MSerNoCtl.Table_ID, false)
 					&& !m_masi.isExcludeSerNo(m_AD_Column_ID, Env.isSOTrx(Env.getCtx(), m_WindowNoParent)))
@@ -398,7 +403,7 @@ public class VPAttributeDialog extends CDialog
 		}
 
 		//	New/Edit Window
-		if (!m_productWindow)
+		if (!m_productWindow && m_AD_Column_ID != 0 && m_readWrite)
 		{
 			cbNewEdit.setSelected(m_M_AttributeSetInstance_ID == 0);
 			cmd_newEdit();
@@ -708,6 +713,9 @@ public class VPAttributeDialog extends CDialog
 	 */
 	private boolean saveSelection()
 	{
+		if(!m_readWrite)
+			return true;
+		
 		log.info("");
 		MAttributeSet as = m_masi.getMAttributeSet();
 		if (as == null)
@@ -753,7 +761,7 @@ public class VPAttributeDialog extends CDialog
 		}
 
 		//	Save Instance Attributes
-		MAttribute[] attributes = as.getMAttributes(!m_productWindow);
+		MAttribute[] attributes = as.getMAttributes(m_M_AttributeSetInstance_ID > 0 && m_readWrite);
 		for (int i = 0; i < attributes.length; i++)
 		{
 			if (MAttribute.ATTRIBUTEVALUETYPE_List.equals(attributes[i].getAttributeValueType()))

@@ -22,6 +22,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -781,6 +782,15 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 	}   //  setRowCount
 
 	/**
+	 *  Determine if a totals row is added to the data model.
+	 *  @return true if a totals row is displayed
+	 */
+	public boolean getShowTotals ()
+	{
+		return false;
+	}   //  getShowTotals
+
+	/**
 	 *  Get Layout.
 	 *
 	 *  @return Array of ColumnInfo
@@ -1060,6 +1070,48 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 	
 	public int getKeyColumnIndex() {
 		return m_keyColumnIndex;
+	}
+
+	@Override
+	public int getRowKey(int row) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public ArrayList<Integer> getSelectedKeys() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isRowChecked(int row) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void setKeyColumnIndex(int keyColumnIndex) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int convertColumnIndexToView(int modelColumnIndex) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int convertRowIndexToModel(int row) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setRowChecked(int row, boolean value) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

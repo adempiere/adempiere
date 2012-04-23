@@ -60,6 +60,8 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
 	 * 
 	 */
 	private static final long serialVersionUID = -665127800885078238L;
+	
+	private int fieldID = 0;
 	private Textbox txt1;
 	private Textbox txt2;
 	private Textbox txt3;
@@ -81,7 +83,7 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
 	private Borderlayout layout;
 	private Vbox southBody;
 	
-	public InfoGeneralPanel(String queryValue, int windowNo,String tableName,String keyColumn, boolean isSOTrx, String whereClause) 
+	public InfoGeneralPanel(int record_id, String value, int windowNo,String tableName,String keyColumn, boolean isSOTrx, String whereClause) 
 	{
 		super(windowNo, tableName, keyColumn, false,whereClause);
 				
@@ -92,12 +94,7 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
 			init();
 			initComponents();
 			
-			if (queryValue != null && queryValue.length() > 0)
-			{
-				txt1.setValue(queryValue);
-			}
-
-			p_loadedOK = initInfo ();
+			p_loadedOK = initInfo (record_id, value);
 		}
 		catch (Exception e)
 		{
@@ -110,7 +107,7 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
 		setStatusDB(Integer.toString(no));
 		//
 		
-		if (queryValue != null && queryValue.length() > 0)
+		if (record_id !=0 || (value != null && value.length() > 0))
         {
             executeQuery();
             renderItems();
@@ -185,7 +182,7 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
 		lbl4 = new Label();
 	}
 	
-	private boolean initInfo ()
+	private boolean initInfo (int record_id, String value)
 	{
 		if (!initInfoTable())
 			return false;
@@ -231,6 +228,20 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
 			lbl4.setVisible(false);
 			txt4.setVisible(false);
 		}
+		
+		//  Set values
+		if (record_id != 0)
+		{
+			fieldID = record_id;
+		}
+		else
+		{
+			if (value != null && value.length() > 0)
+			{
+				txt1.setValue(value);
+			}
+		}
+
 		return true;
 	}
 
@@ -410,6 +421,12 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
 	public String getSQLWhere() 
 	{
 		StringBuffer sql = new StringBuffer();
+		if(isResetRecordID())  // Set in Info.java.
+			fieldID = 0;
+		if(!(fieldID==0))
+		{
+			sql.append(" AND ").append(getTableName()).append(".").append(getKeyColumn()).append(" = ?");
+		}
 		addSQLWhere (sql, 0, txt1.getText().toUpperCase());
 		addSQLWhere (sql, 1, txt2.getText().toUpperCase());
 		addSQLWhere (sql, 2, txt3.getText().toUpperCase());
@@ -450,6 +467,8 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
 	protected void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
 	{
 		int index = 1;
+		if (!(fieldID == 0))
+			pstmt.setInt(index++, fieldID);
 		if (txt1.getText().length() > 0)
 			pstmt.setString(index++, getSQLText(txt1));
 		if (txt2.getText().length() > 0)

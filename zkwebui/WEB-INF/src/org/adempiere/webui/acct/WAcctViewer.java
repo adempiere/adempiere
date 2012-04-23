@@ -1153,7 +1153,7 @@ public class WAcctViewer extends Window implements EventListener
 		String tableName = lookupColumn.substring(0, lookupColumn.length()-3);
 		whereClause = tableName + ".IsSummary='N'" + whereClause; // Elaine 2008/07/28
 
-		InfoPanel info = InfoPanel.create(m_data.WindowNo, tableName, lookupColumn, "", false, whereClause);
+		InfoPanel info = InfoPanel.create(m_data.WindowNo, tableName, lookupColumn, 0, "", false, whereClause);
 
 		if (!info.loadedOK())
 		{

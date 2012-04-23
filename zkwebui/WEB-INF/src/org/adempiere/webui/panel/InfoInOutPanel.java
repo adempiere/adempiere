@@ -73,6 +73,8 @@ public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, Ev
 	 */
 	private static final long serialVersionUID = -3927370377224858985L;
 
+	private int fieldID = 0;
+	
 	private Textbox fDocumentNo = new Textbox();
 
 	private WEditor fBPartner_ID;
@@ -115,10 +117,10 @@ public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, Ev
 	 *  @param multiSelection multiple selections
 	 *  @param whereClause where clause
 	 */
-	protected InfoInOutPanel(	int WindowNo, String value,
+	protected InfoInOutPanel(	int WindowNo, int record_id, String value,
 								boolean multiSelection, String whereClause)
 	{
-		this(WindowNo, value, multiSelection, whereClause, true);
+		this(WindowNo, record_id, value, multiSelection, whereClause, true);
 	}
 	
 	/**
@@ -129,7 +131,7 @@ public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, Ev
 	 *  @param multiSelection multiple selections
 	 *  @param whereClause where clause
 	 */
-	protected InfoInOutPanel(	int WindowNo, String value,
+	protected InfoInOutPanel(	int WindowNo, int record_id, String value,
 								boolean multiSelection, String whereClause, boolean lookup)
 	{
 		super (WindowNo, "i", "M_InOut_ID", multiSelection, whereClause, lookup);
@@ -139,7 +141,7 @@ public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, Ev
 		try
 		{
 			statInit();
-			p_loadedOK = initInfo ();
+			p_loadedOK = initInfo (record_id, value);
 		}
 		catch (Exception e)
 		{
@@ -150,9 +152,8 @@ public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, Ev
 		setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
 		setStatusDB(Integer.toString(no));
 		
-		if (value != null && value.length() > 0)
+		if (record_id != 0 || (value != null && value.length() > 0))
 		{
-			fDocumentNo.setValue(value);
 			executeQuery();
 		}
 	} // InfoInOutPanel
@@ -256,7 +257,7 @@ public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, Ev
 	 *	@return true, if success
 	 */
 	
-	private boolean initInfo ()
+	private boolean initInfo (int record_id, String value)
 	{
 		//  Set Defaults
 		String bp = Env.getContext(Env.getCtx(), p_WindowNo, "C_BPartner_ID");
@@ -272,6 +273,19 @@ public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, Ev
 			where.append(" AND ").append(Util.replace(p_whereClause, "M_InOut.", "i."));
 		
 		prepareTable(s_invoiceLayout, " M_InOut i", where.toString(), "2,3,4");
+
+		//  Set values
+        if (!(record_id == 0))  // A record is defined
+        {
+        	fieldID = record_id;
+        } 
+        else
+        {
+			if (value != null && value.length() > 0)
+			{
+				fDocumentNo.setValue(value);
+			}
+        }
 
 		return true;
 	} // initInfo
@@ -289,18 +303,24 @@ public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, Ev
 	{
 		StringBuffer sql = new StringBuffer();
 		
+		//  => ID
+		if(isResetRecordID())
+			fieldID = 0;
+		if(!(fieldID == 0))
+			sql.append(" AND i.M_InOut_ID = ?");
+		//
 		if (fDocumentNo.getText().length() > 0)
 			sql.append(" AND UPPER(i.DocumentNo) LIKE ?");
-		
+		//
 		if (fDescription.getText().length() > 0)
 			sql.append(" AND UPPER(i.Description) LIKE ?");
-		
+		//
 		if (fPOReference.getText().length() > 0)
 			sql.append(" AND UPPER(i.POReference) LIKE ?");
-
+		//
 		if (fBPartner_ID.getDisplay() != "")
 			sql.append(" AND i.C_BPartner_ID=?");
-
+		//
 		if (fDateFrom.getValue() != null || fDateTo.getValue() != null)
 		{
 			Date f = fDateFrom.getValue();
@@ -333,22 +353,26 @@ public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, Ev
 	{
 		int index = 1;
 	
+		//  => ID
+		if (!(fieldID == 0))
+			pstmt.setInt(index++, fieldID);
+		//
 		if (fDocumentNo.getText().length() > 0)
 			pstmt.setString(index++, getSQLText(fDocumentNo));
-		
+		//
 		if (fDescription.getText().length() > 0)
 			pstmt.setString(index++, getSQLText(fDescription));
-		
+		//
 		if (fPOReference.getText().length() > 0)
 			pstmt.setString(index++, getSQLText(fPOReference));
-
+		//
 		if (fBPartner_ID.getDisplay() != "")
 		{
 			Integer bp = (Integer)fBPartner_ID.getValue();
 			pstmt.setInt(index++, bp.intValue());
 			log.fine("BPartner=" + bp);
 		}
-
+		//
 		if (fDateFrom.getValue() != null || fDateTo.getValue() != null)
 		{
 			Date f = fDateFrom.getValue();

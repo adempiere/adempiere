@@ -61,6 +61,10 @@ import org.compiere.util.Env;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: VDate.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ * 
+ *  @author Michael McKay, 
+ * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
+ * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
  */
 public class VDate extends JComponent
 	implements VEditor, ActionListener, KeyListener, FocusListener
@@ -603,6 +607,7 @@ public class VDate extends JComponent
 	public void addActionListener(ActionListener l)
 	{
 		listenerList.add(ActionListener.class, l);
+		m_text.addActionListener(l);
 	}	//	addActionListener
 
 	/**

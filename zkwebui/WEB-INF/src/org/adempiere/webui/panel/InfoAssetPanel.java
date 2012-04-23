@@ -87,6 +87,7 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 		new ColumnInfo(Msg.translate(Env.getCtx(), "VersionNo"), "a.VersionNo", String.class)
 	};
 
+	private int fieldID = 0;
 	private Textbox fieldValue = new Textbox();
 	private Textbox fieldName = new Textbox();
 	
@@ -108,10 +109,10 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 	 * @param multiSelection multiple selections
 	 * @param whereClause where clause
 	 */
-	public InfoAssetPanel(	int WindowNo, int A_Asset_ID, String value,
+	public InfoAssetPanel(	int WindowNo, int record_id, String value,
 							boolean multiSelection, String whereClause)
 	{
-		this(WindowNo, A_Asset_ID, value, multiSelection, whereClause, true);
+		this(WindowNo, record_id, value, multiSelection, whereClause, true);
 	}
 
 	/**
@@ -123,23 +124,23 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 	 * @param whereClause where clause
 	 */
 	
-	public InfoAssetPanel(	int WindowNo, int A_Asset_ID, String value,
+	public InfoAssetPanel(	int WindowNo, int record_id, String value,
 							boolean multiSelection, String whereClause, boolean lookup)
 	{
 		super (WindowNo, "a", "A_Asset_ID", multiSelection, whereClause, lookup);
 		
-		log.info(value + ", ID=" + A_Asset_ID + ", WHERE=" + whereClause);
+		log.info(value + ", ID=" + record_id + ", WHERE=" + whereClause);
 		setTitle(Msg.getMsg(Env.getCtx(), "InfoAsset"));
 
 		statInit();
-		initInfo(value, A_Asset_ID, whereClause);
+		initInfo(record_id, value, whereClause);
 
 		int no = contentPanel.getRowCount();
 		setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
 		setStatusDB(Integer.toString(no));
 		
 		//	AutoQuery
-		if (value != null && value.length() > 0)
+		if (record_id != 0 || (value != null && value.length() > 0))
 			executeQuery();
 		
 		p_loadedOK = true;
@@ -231,7 +232,7 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 	 *  @param whereClause where clause
 	 */
 	
-	private void initInfo (String value, int A_Asset_ID, String whereClause)
+	private void initInfo (int record_id, String value, String whereClause)
 	{
 		//	Create Grid
 		StringBuffer where = new StringBuffer();
@@ -243,11 +244,12 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 		prepareTable(s_assetLayout, s_assetFROM, where.toString(), "a.Value");
 
 		//  Set Value
-		if (value == null)
-			value = "%";
-		
-		if (!value.endsWith("%"))
-			value += "%";
+		fieldID = record_id;
+		if (value != null && value.length() > 0)
+		{
+			fieldValue.setText(value);
+		}
+
 	} // initInfo
 	
 	/*************************************************************************/
@@ -262,28 +264,28 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 	{
 		StringBuffer sql = new StringBuffer();
 	
+		//  => ID
+		if(isResetRecordID())
+			fieldID = 0;
+		if (!(fieldID == 0))
+			sql.append(" AND a.A_Asset_ID = ?");
+
 		//	=> Value
-		
 		String value = fieldValue.getText().toUpperCase();
-		
 		if (!(value.equals("") || value.equals("%")))
 			sql.append(" AND UPPER(a.Value) LIKE ?");
 		
 		//	=> Name
-		
 		String name = fieldName.getText().toUpperCase();
-		
 		if (!(name.equals("") || name.equals("%")))
 			sql.append (" AND UPPER(a.Name) LIKE ?");
 		
 		//	C_BPartner_ID
 		
 		Integer C_BPartner_ID = null;
-		
 		if (fBPartner_ID.getDisplay() != "")
 			C_BPartner_ID = (Integer)fBPartner_ID.getValue();
-		
-		if (C_BPartner_ID != null)
+		if (C_BPartner_ID != null && C_BPartner_ID > 0)
 			sql.append (" AND a.C_BPartner_ID=").append(C_BPartner_ID);
 
 		//	M_Product_ID
@@ -312,10 +314,15 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 	{
 		int index = 1;
 		
+		//  => ID
+		if(!(fieldID ==0))
+		{
+			pstmt.setInt(index++, fieldID);
+			log.fine("Record_ID: " + fieldID);
+		}
+		
 		//	=> Value
-		
 		String value = fieldValue.getText().toUpperCase();
-		
 		if (!(value.equals("") || value.equals("%")))
 		{
 			if (!value.endsWith("%"))
@@ -326,9 +333,7 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 		}
 		
 		//	=> Name
-		
 		String name = fieldName.getText().toUpperCase();
-		
 		if (!(name.equals("") || name.equals("%")))
 		{
 			if (!name.endsWith("%"))

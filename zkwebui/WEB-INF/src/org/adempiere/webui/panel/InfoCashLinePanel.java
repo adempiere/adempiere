@@ -72,6 +72,9 @@ public class InfoCashLinePanel extends InfoPanel implements ValueChangeListener,
 	 * 
 	 */
 	private static final long serialVersionUID = 3042929765363185887L;
+	
+	private int fieldID = 0;
+	
 	private Textbox fName = new Textbox();
 	private Textbox fAmtTo = new Textbox();
 	private Textbox fAmtFrom = new Textbox();
@@ -130,10 +133,10 @@ public class InfoCashLinePanel extends InfoPanel implements ValueChangeListener,
 	 *  @param multiSelection multiple selections
 	 *  @param whereClause where clause
 	 */
-	protected InfoCashLinePanel(	int WindowNo, String value,
+	protected InfoCashLinePanel(	int WindowNo, int record_id, String value,
 									boolean multiSelection, String whereClause)
 	{
-		this(WindowNo, value, multiSelection, whereClause, true);
+		this(WindowNo, record_id, value, multiSelection, whereClause, true);
 	}
 	
 	/**
@@ -144,7 +147,7 @@ public class InfoCashLinePanel extends InfoPanel implements ValueChangeListener,
 	 *  @param multiSelection multiple selections
 	 *  @param whereClause where clause
 	 */
-	protected InfoCashLinePanel(	int WindowNo, String value,
+	protected InfoCashLinePanel(	int WindowNo, int record_id, String value,
 									boolean multiSelection, String whereClause, boolean lookup)
 	{
 		super (WindowNo, "cl", "C_CashLine_ID", multiSelection, whereClause, lookup);
@@ -154,7 +157,7 @@ public class InfoCashLinePanel extends InfoPanel implements ValueChangeListener,
 		try
 		{
 			statInit();
-			p_loadedOK = initInfo ();
+			p_loadedOK = initInfo (record_id, value);
 		}
 		catch (Exception e)
 		{
@@ -165,9 +168,8 @@ public class InfoCashLinePanel extends InfoPanel implements ValueChangeListener,
 		setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
 		setStatusDB(Integer.toString(no));
 		
-		if (value != null && value.length() > 0)
+		if (record_id != 0 || (value != null && value.length() > 0))
 		{
-			fName .setValue(value);
 			executeQuery();
 		}
 	} // InfoCashLinePanel
@@ -288,7 +290,7 @@ public class InfoCashLinePanel extends InfoPanel implements ValueChangeListener,
 	 *	General Init
 	 *	@return true, if success
 	 */
-	private boolean initInfo ()
+	private boolean initInfo (int record_id, String value)
 	{
 		// Prepare table
 		StringBuffer where = new StringBuffer("cl.IsActive='Y'");
@@ -299,6 +301,19 @@ public class InfoCashLinePanel extends InfoPanel implements ValueChangeListener,
 		prepareTable (	s_cashLayout,	"C_CashLine cl INNER JOIN C_Cash c ON (cl.C_Cash_ID=c.C_Cash_ID)",
 						where.toString(), "2,3,cl.Line");
 
+		//  Set values
+        if (!(record_id == 0))  // A record is defined
+        {
+        	fieldID = record_id;
+        } 
+        else
+        {
+			if (value != null && value.length() > 0)
+			{
+				fName.setValue(value);
+			}
+        }
+        
 		return true;
 	} // initInfo
 
@@ -313,16 +328,21 @@ public class InfoCashLinePanel extends InfoPanel implements ValueChangeListener,
 	protected String getSQLWhere()
 	{
 		StringBuffer sql = new StringBuffer();
-	
+		//
+		if(isResetRecordID())
+			fieldID = 0;
+		if (!(fieldID ==0))
+			sql.append(" AND cl.C_CashLine_ID = ?");
+		//	
 		if (fName.getText().length() > 0)
 			sql.append(" AND UPPER(c.Name) LIKE ?");
-
+		//
 		if (fCashBook_ID.getDisplay() != "")
 			sql.append(" AND c.C_CashBook_ID=?");
-		
+		//
 		if (fInvoice_ID.getDisplay() != "")
 			sql.append(" AND cl.C_Invoice_ID=?");
-		
+		//
 		if (fDateFrom.getValue() != null || fDateTo.getValue() != null)
 		{
 			Date f = fDateFrom.getValue();
@@ -338,7 +358,7 @@ public class InfoCashLinePanel extends InfoPanel implements ValueChangeListener,
 			else if (from != null && to != null)
 				sql.append(" AND TRUNC(c.StatementDate, 'DD') BETWEEN ? AND ?");
 		}
-
+		//
 		if (!isEmpty(fAmtFrom.getValue()) || !isEmpty(fAmtTo.getValue()))
 		{
 			BigDecimal from = isEmpty(fAmtFrom.getValue()) ? null : new BigDecimal(fAmtFrom.getValue());
@@ -381,23 +401,26 @@ public class InfoCashLinePanel extends InfoPanel implements ValueChangeListener,
 	protected void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
 	{
 		int index = 1;
+		if (!(fieldID == 0))
+			pstmt.setInt(index++, fieldID);
+		//
 		if (fName.getText().length() > 0)
 			pstmt.setString(index++, getSQLText(fName));
-
+		//
 		if (fCashBook_ID.getValue() != null)
 		{
 			Integer cb = (Integer)fCashBook_ID.getValue();
 			pstmt.setInt(index++, cb.intValue());
 			log.fine("CashBook=" + cb);
 		}
-
+		//
 		if (fInvoice_ID.getValue() != null)
 		{
 			Integer i = (Integer)fInvoice_ID.getValue();
 			pstmt.setInt(index++, i.intValue());
 			log.fine("Invoice=" + i);
 		}
-
+		//
 		if (fDateFrom.getValue() != null || fDateTo.getValue() != null)
 		{
 			Date f = fDateFrom.getValue();
@@ -418,7 +441,7 @@ public class InfoCashLinePanel extends InfoPanel implements ValueChangeListener,
 				pstmt.setTimestamp(index++, to);
 			}
 		}
-
+		//
 		if (!isEmpty(fAmtFrom.getValue()) || !isEmpty(fAmtTo.getValue()))
 		{
 			BigDecimal from = isEmpty(fAmtFrom.getValue()) ? null : new BigDecimal(fAmtFrom.getValue());

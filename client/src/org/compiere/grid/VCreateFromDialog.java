@@ -37,6 +37,12 @@ import org.compiere.util.Env;
 import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
 
+/**
+ * 
+ *  @author Michael McKay, 
+ * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
+ *
+ */
 public class VCreateFromDialog extends CDialog implements ActionListener, TableModelListener
 {
 	private static final long serialVersionUID = 1L;
@@ -94,6 +100,8 @@ public class VCreateFromDialog extends CDialog implements ActionListener, TableM
     	southPanel.setLayout(southLayout);
     	southPanel.add(confirmPanel, BorderLayout.CENTER);
     	southPanel.add(statusBar, BorderLayout.SOUTH);
+    	
+    	dataTable.setMultiSelection(true);
 	}
 	
 	public void actionPerformed(ActionEvent e)
@@ -127,12 +135,8 @@ public class VCreateFromDialog extends CDialog implements ActionListener, TableM
 		// Trifon
 		else if (e.getActionCommand().equals(SELECT_ALL))
 		{
-			TableModel model = dataTable.getModel();
-			int rows = model.getRowCount();
-			for (int i = 0; i < rows; i++)
-			{
-				model.setValueAt(new Boolean(true), i, 0);
-			}
+			dataTable.selectAll();
+			dataTable.matchCheckWithSelectedRows();
 			info();
 		}
 	}
@@ -166,12 +170,7 @@ public class VCreateFromDialog extends CDialog implements ActionListener, TableM
 	{
 		TableModel model = dataTable.getModel();
 		int rows = model.getRowCount();
-		int count = 0;
-		for (int i = 0; i < rows; i++)
-		{
-			if (((Boolean)model.getValueAt(i, 0)).booleanValue())
-				count++;
-		}
+		int count = dataTable.getSelectedRowCount();
 		setStatusLine(count, null);
 		
 		createFrom.info();

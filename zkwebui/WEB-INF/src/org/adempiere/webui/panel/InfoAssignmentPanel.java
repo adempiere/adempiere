@@ -72,6 +72,9 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 	 * 
 	 */
 	private static final long serialVersionUID = -935642651768066799L;
+	
+	private int fieldID = 0;
+	
 	private WEditor fieldResourceType;
 	private WEditor fieldResource;
 	
@@ -113,10 +116,10 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 	 *  @param multiSelection multiple selection
 	 *  @param whereClause where clause
 	 */
-	public InfoAssignmentPanel (int WindowNo,
+	public InfoAssignmentPanel (int WindowNo, int record_id, 
 		String value, boolean multiSelection, String whereClause)
 	{
-		this(WindowNo, value, multiSelection, whereClause, true);
+		this(WindowNo, record_id, value, multiSelection, whereClause, true);
 	}
 	
 	/**
@@ -127,7 +130,7 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 	 *  @param multiSelection multiple selection
 	 *  @param whereClause where clause
 	 */
-	public InfoAssignmentPanel (int WindowNo,
+	public InfoAssignmentPanel (int WindowNo,int record_id, 
 		String value, boolean multiSelection, String whereClause, boolean lookup)
 	{
 		super (WindowNo, "ra", "S_ResourceAssignment_ID",
@@ -139,12 +142,14 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 			return;
 		
 		statInit();
-		initInfo (value, whereClause);
+		initInfo (record_id, value, whereClause);
 
 		int no = contentPanel.getRowCount();
 		setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
 		setStatusDB(Integer.toString(no));
-		
+		//	AutoQuery
+		if (record_id !=0 || (value != null && value.length() > 0))
+			executeQuery();
 		p_loadedOK = true;
 	} // InfoAssignmentPanel
 	
@@ -263,7 +268,7 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 	 *  @param whereClause where clause
 	 */
 	
-	private void initInfo(String value, String whereClause)
+	private void initInfo(int record_id, String value, String whereClause)
 	{
 		//  C_BPartner bp, AD_User c, C_BPartner_Location l, C_Location a
 
@@ -276,6 +281,8 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 		
 		prepareTable(s_assignmentLayout, s_assignmentFROM,
 			where.toString(), "rt.Name,r.Name,ra.AssignDateFrom");
+
+		fieldID = record_id;
 	} // initInfo
 	
 	/*************************************************************************/
@@ -304,26 +311,27 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 	protected String getSQLWhere()
 	{
 		StringBuffer sql = new StringBuffer();
-
+		//  => ID
+		if(isResetRecordID())
+			fieldID = 0;
+		if(!(fieldID == 0))
+			sql.append(" AND ra.S_ResourceAssignment_ID=").append(fieldID);
+		//
 		Integer S_ResourceType_ID = (Integer)fieldResourceType.getValue();
-		
 		if (S_ResourceType_ID != null)
 			sql.append(" AND rt.S_ResourceType_ID=").append(S_ResourceType_ID.intValue());
-
+		//
 		Integer S_Resource_ID = (Integer)fieldResource.getValue();
-		
 		if (S_Resource_ID != null)
 			sql.append(" AND r.S_Resource_ID=").append(S_Resource_ID.intValue());
-
+		//
 		Date f = fieldFrom.getValue();
 		Timestamp ts = f != null ? new Timestamp(f.getTime()) : null;
-		
 		if (ts != null)
 			sql.append(" AND TRUNC(ra.AssignDateFrom, 'DD')>=").append(DB.TO_DATE(ts,false));
-
+		//
 		Date t = fieldTo.getValue();
 		ts = t != null ? new Timestamp(t.getTime()) : null;
-
 		if (ts != null)
 			sql.append(" AND TRUNC(ra.AssignDateTo, 'DD')<=").append(DB.TO_DATE(ts,false));
 		

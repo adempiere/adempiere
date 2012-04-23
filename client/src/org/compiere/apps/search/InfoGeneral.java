@@ -49,6 +49,10 @@ import org.compiere.util.Msg;
  * 
  * 	@author 	Jorg Janke
  * 	@version 	$Id: InfoGeneral.java,v 1.3 2006/10/06 00:42:38 jjanke Exp $
+ *
+ * @author Michael McKay, 
+ * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
+ * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
  */
 public class InfoGeneral extends Info
 {
@@ -63,32 +67,36 @@ public class InfoGeneral extends Info
 	 * 	@param frame parent
 	 * 	@param modal modal
 	 * 	@param WindowNo window no
-	 * 	@param value QueryValue
+	 *  @param record_id The record ID to find
+	 *  @param value query value to find, exclusive of record_id
 	 * 	@param tableName table name
 	 * 	@param keyColumn key column (ignored)
 	 * 	@param multiSelection multiple selections
 	 * 	@param whereClause where clause
 	 */
-	protected InfoGeneral (Frame frame, boolean modal, int WindowNo, String value,
+	protected InfoGeneral (Frame frame, boolean modal, int WindowNo, int record_id, String value,
 		String tableName, String keyColumn,
-		boolean multiSelection, String whereClause)
+		boolean multiSelection, boolean saveResults, String whereClause)
 	{
-		super (frame, modal, WindowNo, tableName, keyColumn, multiSelection, whereClause);
+		super (frame, modal, WindowNo, tableName, keyColumn, multiSelection, saveResults, whereClause);
 		log.info(tableName + " - " + keyColumn + " - " + whereClause);
 		setTitle(Msg.getMsg(Env.getCtx(), "Info"));
 		//
 		statInit();
-		p_loadedOK = initInfo ();
+		p_loadedOK = initInfo (record_id, value);
 		//
 		int no = p_table.getRowCount();
 		setStatusLine(Integer.toString(no) + " " 
 			+ Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
 		setStatusDB(Integer.toString(no));
-		//	Focus
-		textField1.setValue(value);
-		textField1.requestFocus();
-		if (value != null && value.length() > 0)
+
+		// Auto query
+		if(autoQuery() || record_id != 0 || (value != null && value.length() > 0 && value != "%"))
 			executeQuery();
+
+		//	Focus
+		textField1.requestFocus();
+
 	}	//	InfoGeneral
 
 	/**  String Array of Column Info    */
@@ -99,6 +107,7 @@ public class InfoGeneral extends Info
 	private ArrayList<String>	m_queryColumnsSql = new ArrayList<String>();
 
 	//  Static data
+	private int fieldID = 0;
 	private CLabel label1 = new CLabel();
 	private CTextField textField1 = new CTextField(10);
 	private CLabel label2 = new CLabel();
@@ -146,7 +155,7 @@ public class InfoGeneral extends Info
 	 *	General Init
 	 *	@return true, if success
 	 */
-	private boolean initInfo ()
+	private boolean initInfo (int record_id, String value)
 	{
 		if (!initInfoTable())
 			return false;
@@ -193,6 +202,20 @@ public class InfoGeneral extends Info
 			label4.setVisible(false);
 			textField4.setVisible(false);
 		}
+		
+		//  Set values
+		if (record_id != 0)
+		{
+			fieldID = record_id;
+		}
+		else
+		{
+			if (value != null && value.length() > 0)
+			{
+				textField1.setValue(value);
+			}
+		}
+
 		return true;
 	}	//	initInfo
 
@@ -385,10 +408,16 @@ public class InfoGeneral extends Info
 	protected String getSQLWhere()
 	{
 		StringBuffer sql = new StringBuffer();
-		addSQLWhere (sql, 0, textField1.getText().toUpperCase());
-		addSQLWhere (sql, 1, textField2.getText().toUpperCase());
-		addSQLWhere (sql, 2, textField3.getText().toUpperCase());
-		addSQLWhere (sql, 3, textField4.getText().toUpperCase());
+		if(isResetRecordID())  // Set in Info.java.
+			fieldID = 0;
+		if(!(fieldID==0))
+		{
+			sql.append(" AND ").append(getTableName()).append(".").append(getKeyColumn()).append(" = ?");
+		}
+		addSQLWhere (sql, 0, textField1.getText());
+		addSQLWhere (sql, 1, textField2.getText());
+		addSQLWhere (sql, 2, textField3.getText());
+		addSQLWhere (sql, 3, textField4.getText());
 		return sql.toString();
 	}	//	getSQLWhere
 
@@ -400,26 +429,13 @@ public class InfoGeneral extends Info
 	 */
 	private void addSQLWhere(StringBuffer sql, int index, String value)
 	{
-		if (!(value.equals("") || value.equals("%")) && index < m_queryColumns.size())
+		if (isValidSQLText(value) && index < m_queryColumns.size())
 		{
 			// Angelo Dabala' (genied) nectosoft: [2893220] avoid to append string parameters directly because of special chars like quote(s)
 			sql.append(" AND UPPER(").append(m_queryColumnsSql.get(index).toString()).append(") LIKE ?");
 		}
 	}	//	addSQLWhere
 
-	/**
-	 *  Get SQL WHERE parameter
-	 *  @param f field
-	 *  @return sql part
-	 */
-	private String getSQLText (CTextField f)
-	{
-		String s = f.getText().toUpperCase();
-		if (!s.endsWith("%"))
-			s += "%";
-		log.fine( "String=" + s);
-		return s;
-	}   //  getSQLText
 
 	/**
 	 *  Set Parameters for Query.
@@ -431,13 +447,15 @@ public class InfoGeneral extends Info
 	protected void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
 	{
 		int index = 1;
-		if (textField1.getText().length() > 0)
+		if (!(fieldID == 0))
+			pstmt.setInt(index++, fieldID);
+		if (isValidSQLText(textField1))
 			pstmt.setString(index++, getSQLText(textField1));
-		if (textField2.getText().length() > 0)
+		if (isValidSQLText(textField2))
 			pstmt.setString(index++, getSQLText(textField2));
-		if (textField3.getText().length() > 0)
+		if (isValidSQLText(textField3))
 			pstmt.setString(index++, getSQLText(textField3));
-		if (textField4.getText().length() > 0)
+		if (isValidSQLText(textField4))
 			pstmt.setString(index++, getSQLText(textField4));
 	}   //  setParameters
 

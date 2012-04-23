@@ -98,6 +98,7 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 	 * 
 	 */
 	private static final long serialVersionUID = 6804975825156657866L;
+	private int fieldID = 0;
 	private Label lblValue = new Label();
 	private Textbox fieldValue = new Textbox();
 	private Label lblName = new Label();
@@ -170,10 +171,10 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 	 * 	@param whereClause where clause
 	 */
 	public InfoProductPanel(int windowNo,
-		int M_Warehouse_ID, int M_PriceList_ID, boolean multipleSelection,String value,
+		int M_Warehouse_ID, int M_PriceList_ID, boolean multipleSelection,int record_id, String value,
 		 String whereClause)
 	{
-		this(windowNo, M_Warehouse_ID, M_PriceList_ID, multipleSelection, value, whereClause, true);
+		this(windowNo, M_Warehouse_ID, M_PriceList_ID, multipleSelection, record_id, value, whereClause, true);
 	}
 
 	/**
@@ -185,7 +186,7 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 	 * 	@param whereClause where clause
 	 */
 	public InfoProductPanel(int windowNo,
-		int M_Warehouse_ID, int M_PriceList_ID, boolean multipleSelection,String value,
+		int M_Warehouse_ID, int M_PriceList_ID, boolean multipleSelection, int record_id, String value,
 		 String whereClause, boolean lookup)
 	{
 		super (windowNo, "p", "M_Product_ID",multipleSelection, whereClause, lookup);
@@ -194,19 +195,16 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 		//
 		initComponents();
 		init();
-		initInfo (value, M_Warehouse_ID, M_PriceList_ID);
+		initInfo (record_id, value, M_Warehouse_ID, M_PriceList_ID);
 		m_C_BPartner_ID = Env.getContextAsInt(Env.getCtx(), windowNo, "C_BPartner_ID");
 
         int no = contentPanel.getRowCount();
         setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
         setStatusDB(Integer.toString(no));
 		//	AutoQuery
-		if (value != null && value.length() > 0)
-        {
-			executeQuery();
-            renderItems();
-        }
-
+		executeQuery();
+        renderItems();
+        
 		tabbedPane.setSelectedIndex(0);
 
 		p_loadedOK = true;
@@ -595,15 +593,18 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 	/**
 	 *	Dynamic Init
 	 *
+	 * @param record_id   M_Product_ID if known, otherwise, 0
 	 * @param value value
 	 * @param M_Warehouse_ID warehouse
 	 * @param M_PriceList_ID price list
 	 */
-	private void initInfo (String value, int M_Warehouse_ID, int M_PriceList_ID)
+	private void initInfo (int record_id, String value, int M_Warehouse_ID, int M_PriceList_ID)
 	{
 		//	Pick init
 		fillPicks(M_PriceList_ID);
 		int M_PriceList_Version_ID = findPLV (M_PriceList_ID);
+		// Set the ID field.
+		fieldID = record_id;
 		//	Set Value or Name
 		if (value.startsWith("@") && value.endsWith("@"))
 			fieldName.setText(value.substring(1,value.length()-1));
@@ -845,7 +846,13 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 			where.append(m_pAttributeWhere);
 			return where.toString();
 		}
-
+		
+		//  => ID
+		if(isResetRecordID())
+			fieldID = 0;
+		if(!(fieldID == 0))
+			where.append(" AND p.M_Product_ID = ?");
+		
 		//  => Value
 		String value = fieldValue.getText().toUpperCase();
 		if (!(value.equals("") || value.equals("%")))
@@ -926,6 +933,12 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 		if (m_pAttributeWhere != null)
 			return;
 
+		//  => ID
+		if(!(fieldID == 0))
+		{
+			pstmt.setInt(index++, fieldID);
+			log.fine("Record ID: " + fieldID);
+		}
 		//  => Value
 		String value = fieldValue.getText().toUpperCase();
 		if (!(value.equals("") || value.equals("%")))

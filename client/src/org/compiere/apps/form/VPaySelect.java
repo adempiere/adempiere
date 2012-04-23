@@ -25,6 +25,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -32,8 +33,6 @@ import java.util.logging.Level;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
@@ -64,8 +63,12 @@ import org.compiere.util.ValueNamePair;
  *
  *  @author Jorg Janke
  *  @version $Id: VPaySelect.java,v 1.2 2008/07/11 08:20:12 cruiz Exp $
+ *  
+ *  @author Michael McKay, 
+ * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
+ * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
  */
-public class VPaySelect extends PaySelect implements FormPanel, ActionListener, TableModelListener, ASyncProcess
+public class VPaySelect extends PaySelect implements FormPanel, ActionListener, ASyncProcess
 {
 	/** @todo withholding */
 	private CPanel panel = new CPanel();
@@ -234,7 +237,6 @@ public class VPaySelect extends PaySelect implements FormPanel, ActionListener, 
 		
 		prepareTable(miniTable);
 		
-		miniTable.getModel().addTableModelListener(this);
 		//
 		fieldPayDate.setMandatory(true);
 		fieldPayDate.setValue(new Timestamp(System.currentTimeMillis()));
@@ -318,12 +320,15 @@ public class VPaySelect extends PaySelect implements FormPanel, ActionListener, 
 	}   //  actionPerformed
 
 	/**
-	 *  Table Model Listener
-	 *  @param e event
+	 * Property Change Listener
+	 * @param e event
 	 */
-	public void tableChanged(TableModelEvent e)
+	public void propertyChange(PropertyChangeEvent e)
 	{
-		if (e.getColumn() == 0)
+		// Handle actions if possible or pass the event to the parent class
+						
+		// Respond to updates to the table
+		if (e.getPropertyName() == "p_table_update")
 			calculateSelection();
 	}   //  valueChanged
 

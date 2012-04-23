@@ -73,6 +73,9 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 	 * 
 	 */
 	private static final long serialVersionUID = -7346527589727807179L;
+	
+	private int fieldID = 0;
+	
 	private Textbox fDocumentNo = new Textbox();
 	private Textbox fAmtTo = new Textbox();
 	private Textbox fAmtFrom = new Textbox();
@@ -128,10 +131,10 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 	 *  @param multiSelection multiple selections
 	 *  @param whereClause where clause
 	 */
-	protected InfoPaymentPanel(int WindowNo, String value,
+	protected InfoPaymentPanel(int WindowNo, int record_id, String value,
 			boolean multiSelection, String whereClause)
 	{
-		this(WindowNo, value, multiSelection, whereClause, true);
+		this(WindowNo, record_id, value, multiSelection, whereClause, true);
 	}
 	
 	/**
@@ -143,7 +146,7 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 	 *  @param multiSelection multiple selections
 	 *  @param whereClause where clause
 	 */
-	protected InfoPaymentPanel(int WindowNo, String value,
+	protected InfoPaymentPanel(int WindowNo, int record_id, String value,
 			boolean multiSelection, String whereClause, boolean lookup)
 	{
 		super(WindowNo, "p", "C_Payment_ID", multiSelection, whereClause, lookup);
@@ -154,7 +157,7 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 		try
 		{
 			statInit();
-			p_loadedOK = initInfo();
+			p_loadedOK = initInfo(record_id, value);
 		}
 		catch (Exception e)
 		{
@@ -166,9 +169,8 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 		setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
 		setStatusDB(Integer.toString(no));
 		
-		if (value != null && value.length() > 0)
+		if (record_id != 0 || (value != null && value.length() > 0))
 		{
-			fDocumentNo .setValue(value);
 			executeQuery();
 		}
 	} // InfoPaymentPanel
@@ -271,7 +273,7 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 	 *	@return true, if success
 	 */
 	
-	private boolean initInfo ()
+	private boolean initInfo (int record_id, String value)
 	{
 		//  Set Defaults
 		String bp = Env.getContext(Env.getCtx(), p_WindowNo, "C_BPartner_ID");
@@ -286,7 +288,20 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 			where.append(" AND ").append(Util.replace(p_whereClause, "C_Payment.", "p."));
 		
 		prepareTable(s_paymentLayout, " C_Payment_v p", where.toString(), "2,3,4");
-		
+
+		//  Set values
+        if (!(record_id == 0))  // A record is defined
+        {
+        	fieldID = record_id;
+        } 
+        else
+        {
+			if (value != null && value.length() > 0)
+			{
+				fDocumentNo.setValue(value);
+			}
+        }
+		//
 		return true;
 	} // initInfo
 	
@@ -301,7 +316,13 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 	protected String getSQLWhere()
 	{
 		StringBuffer sql = new StringBuffer();
-		
+
+		//  => ID
+		if(isResetRecordID())
+			fieldID = 0;
+		if(!(fieldID == 0))
+			sql.append(" AND p.C_Payment_ID = ?");
+		//		
 		if (fDocumentNo.getText().length() > 0)
 			sql.append(" AND UPPER(p.DocumentNo) LIKE ?");
 
@@ -354,17 +375,20 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 	protected void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
 	{
 		int index = 1;
-	
+		//  => ID
+		if (!(fieldID == 0))
+			pstmt.setInt(index++, fieldID);
+		//	
 		if (fDocumentNo.getText().length() > 0)
 			pstmt.setString(index++, getSQLText(fDocumentNo));
-
+		//
 		if (fBPartner_ID.getDisplay() != "")
 		{
 			Integer bp = (Integer)fBPartner_ID.getValue();
 			pstmt.setInt(index++, bp.intValue());
 			log.fine("BPartner=" + bp);
 		}
-
+		//
 		if (fDateFrom.getValue() != null || fDateTo.getValue() != null)
 		{
 			Date f = fDateFrom.getValue();
@@ -385,7 +409,7 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 				pstmt.setTimestamp(index++, to);
 			}
 		}
-
+		//
 		if (fAmtFrom.getText() != "" || fAmtTo.getText() != "")
 		{
 			BigDecimal from = new BigDecimal(fAmtFrom.getValue());

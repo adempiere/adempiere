@@ -46,8 +46,11 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
+import javax.swing.border.Border;
+import javax.swing.border.MatteBorder;
 import javax.swing.text.Document;
 
+import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.FieldRecordInfo;
 import org.compiere.model.GridField;
@@ -68,6 +71,10 @@ import org.compiere.util.Env;
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>BF [ 1739516 ] Warning on numeric field with range set
  * 			<li>BF [ 1834393 ] VNumber.setFocusable not working
+ * 
+ *  @author Michael McKay, 
+ * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
+ * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
  */
 public final class VNumber extends JComponent
 	implements VEditor, ActionListener, KeyListener, FocusListener, VManagedEditor
@@ -372,6 +379,15 @@ public final class VNumber extends JComponent
 		m_text.setForeground(fg);
 	}   //  setForeground
 
+	/**
+	 *	Set Border
+	 *  @param error error
+	 */
+	public void setBorder (Border border)
+	{
+		m_text.setBorder(border);
+		m_button.setBorder(border);
+	}	//	setBackground
 	/**
 	 *	Set Editor to value
 	 *  @param value value

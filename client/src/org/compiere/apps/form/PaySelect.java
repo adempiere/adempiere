@@ -15,6 +15,8 @@
  *  @author Michael McKay                                                     * 
  *  	<li>BF3441324  - Partially paid invoice does not appear in payment    *
  *                       selection                                            *
+ * 		<li>ADEMPIERE-72 VLookup and Info Window improvements				  *
+ * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72		  *
  *****************************************************************************/
 package org.compiere.apps.form;
 
@@ -31,6 +33,7 @@ import java.util.logging.Level;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.IMiniTable;
+import org.compiere.minigrid.MiniTable;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MLookupInfo;
 import org.compiere.model.MPaySelection;
@@ -211,7 +214,7 @@ public class PaySelect
 
 		m_sql = miniTable.prepareTable(new ColumnInfo[] {
 			//  0..5
-			new ColumnInfo(" ", "i.C_Invoice_ID", IDColumn.class, false, false, null),
+			new ColumnInfo(" ", "i.C_Invoice_ID", IDColumn.class, true, false, null),
 			new ColumnInfo(Msg.translate(ctx, "DueDate"), "COALESCE(ips.duedate,paymentTermDueDate(i.C_PaymentTerm_ID, i.DateInvoiced)) AS DateDue", Timestamp.class, true, true, null),
 			new ColumnInfo(Msg.translate(ctx, "C_BPartner_ID"), "bp.Name", KeyNamePair.class, true, false, "i.C_BPartner_ID"),
 			new ColumnInfo(Msg.translate(ctx, "DocumentNo"), "i.DocumentNo", String.class),
@@ -378,6 +381,8 @@ public class PaySelect
 		BigDecimal invoiceAmt = new BigDecimal(0.0);
 
 		int rows = miniTable.getRowCount();
+		if (miniTable.getShowTotals())
+			rows = rows - 1;
 		for (int i = 0; i < rows; i++)
 		{
 			IDColumn id = (IDColumn)miniTable.getValueAt(i, 0);

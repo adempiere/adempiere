@@ -82,10 +82,10 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
      * @param whereClause where clause
     *
      */
-    protected InfoInvoicePanel(int WindowNo, String value,
+    protected InfoInvoicePanel(int WindowNo, int record_id, String value,
             boolean multiSelection, String whereClause)
     {
-    	this(WindowNo, value, multiSelection, whereClause, true);
+    	this(WindowNo, record_id, value, multiSelection, whereClause, true);
     }
     
 	/**
@@ -96,7 +96,7 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
      * @param whereClause where clause
     *
      */
-    protected InfoInvoicePanel(int WindowNo, String value,
+    protected InfoInvoicePanel(int WindowNo, int record_id, String value,
             boolean multiSelection, String whereClause, boolean lookup)
     {
         super ( WindowNo, "i", "C_Invoice_ID", multiSelection, whereClause, lookup);
@@ -106,19 +106,18 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
         initComponents();
         init();
            
-       p_loadedOK = initInfo ();
+       p_loadedOK = initInfo (record_id, value);
        int no = contentPanel.getRowCount();
        setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
        setStatusDB(Integer.toString(no));
-       if (value != null && value.length() > 0)
+       if (record_id != 0 || (value != null && value.length() > 0))
        {
-           String values[] = value.split("_");
-           txtDocumentNo.setText(values[0]);
            executeQuery();
            renderItems();
        }
     }
-
+    
+    private int fieldID = 0;
     private Label lblDocumentNo;
     private Label lblDescription;
     private Label lblDateInvoiced;
@@ -283,7 +282,7 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
      *  General Init
      *  @return true, if success
      */
-    private boolean initInfo ()
+    private boolean initInfo (int record_id, String value)
     {
         //  Set Defaults
         String bp = Env.getContext(Env.getCtx(), p_WindowNo, "C_BPartner_ID");
@@ -298,17 +297,38 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
             " C_Invoice_v i",   //  corrected for CM
             where.toString(),
             "2,3,4,5");
-        //
+        
+		//  Set values
+        if (!(record_id == 0))  // A record is defined
+        {
+        	fieldID = record_id;
+        }
+		if (value != null && value.length() > 0)
+		{
+	        String values[] = value.split("_");
+	        txtDocumentNo.setText(values[0]);
+		}
+
         return true;
            
     }   //  initInfo
+
     @Override
     public String getSQLWhere()
     {
         StringBuffer sql = new StringBuffer();
-        if (txtDocumentNo.getText().length() > 0)
+		//  => ID
+		if(isResetRecordID())
+			fieldID = 0;
+		if(!(fieldID == 0))
+			sql.append("i.C_Invoice_ID = ?");
+
+		//  => DocumentNo
+		if (txtDocumentNo.getText().length() > 0)
             sql.append(" AND UPPER(i.DocumentNo) LIKE ?");
-        if (txtDescription.getText().length() > 0)
+
+		//  => Description
+		if (txtDescription.getText().length() > 0)
             sql.append(" AND UPPER(i.Description) LIKE ?");
         //
         if (editorBPartner.getValue() != null)
@@ -393,6 +413,9 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
     protected void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
     {
         int index = 1;
+		//  => ID
+		if (!(fieldID == 0))
+			pstmt.setInt(index++, fieldID);
         if (txtDocumentNo.getText().length() > 0)
             pstmt.setString(index++, getSQLText(txtDocumentNo));
         if (txtDescription.getText().length() > 0)

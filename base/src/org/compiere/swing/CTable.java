@@ -60,6 +60,10 @@ import org.jdesktop.swingx.icon.ColumnControlIcon;
  * @version	$Id: CTable.java,v 1.2 2006/07/30 00:52:24 jjanke Exp $
  * 
  * @author	Teo Sarca, SC ARHIPAC SERVICE SRL - BF [ 1585369 ], FR [ 1753943 ]
+ * 
+ * @author Michael McKay, 
+ * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
+ * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
  */
 public class CTable extends JTable
 {
@@ -138,7 +142,6 @@ public class CTable extends JTable
     
 	/**
 	 * 	Set Model index of Key Column.
-	 *  Used for identifying previous selected row after fort complete to set as selected row.
 	 *  If not set, column 0 is used.
 	 * 	@param keyColumnIndex model index
 	 */
@@ -153,6 +156,8 @@ public class CTable extends JTable
 	 */
 	public int getKeyColumnIndex()
 	{
+		if (p_keyColumnIndex == -1)  // Not set
+			return 0;
 		return p_keyColumnIndex;
 	}	//	getKeyColumnIndex
 

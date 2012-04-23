@@ -22,7 +22,10 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,14 +34,19 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.KeyStroke;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.*;
 
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
@@ -47,6 +55,9 @@ import org.compiere.apps.ConfirmPanel;
 import org.compiere.apps.PrintScreenPainter;
 import org.compiere.apps.StatusBar;
 import org.compiere.grid.ed.Calculator;
+import org.compiere.grid.ed.VCheckBox;
+import org.compiere.grid.ed.VLookup;
+import org.compiere.grid.ed.VPAttribute;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.MiniTable;
 import org.compiere.model.MQuery;
@@ -55,6 +66,7 @@ import org.compiere.model.MSysConfig;
 import org.compiere.swing.CDialog;
 import org.compiere.swing.CMenuItem;
 import org.compiere.swing.CPanel;
+import org.compiere.swing.CTextField;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -83,18 +95,19 @@ import org.compiere.util.Msg;
  * 				https://sourceforge.net/tracker/?func=detail&aid=2847305&group_id=176962&atid=879335
  * 			<li>BF [ 2860556 ] Info class throws false error
  * 				https://sourceforge.net/tracker/?func=detail&aid=2860556&group_id=176962&atid=879332
+ *
+ * @author Michael McKay, 
+ * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
+ * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
  */
 public abstract class Info extends CDialog
-	implements ListSelectionListener
+	implements ListSelectionListener, PropertyChangeListener
 {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -5606614040914295869L;
 	
-	public static final String SYSCONFIG_INFO_DEFAULTSELECTED = "INFO_DEFAULTSELECTED";
-	public static final String SYSCONFIG_INFO_DOUBLECLICKTOGGLESSELECTION = "INFO_DOUBLECLICKTOGGLESSELECTION";
-
 
 	/**
 	 *  Factory Constructor
@@ -103,48 +116,49 @@ public abstract class Info extends CDialog
 	 *  @param  WindowNo	window no
 	 *  @param  tableName   table name of the search
 	 *  @param  keyColumn   key column of the search
-	 *  @param	value		query value
+	 *  @param record_id The record ID to find
+	 *  @param value query value to find, exclusive of record_id
 	 *  @param  multiSelection  allow to select more than one row
 	 *  @param  whereClause fully qualified where clause for the search
 	 *  @return special or general Info Window
 	 */
-	public static Info create (Frame frame, boolean modal, int WindowNo,
-		String tableName, String keyColumn, String value,
-		boolean multiSelection, String whereClause)
+	public static Info create (Frame frame, boolean modal, int windowNo,
+		String tableName, String keyColumn, int record_id, String value,
+		boolean multiSelection, boolean saveResult, String whereClause)
 	{
 		Info info = null;
 
 		if (tableName.equals("C_BPartner"))
-			info = new InfoBPartner (frame, modal, WindowNo,  value, !Env.getContext(Env.getCtx(),"IsSOTrx").equals("N"),
-					multiSelection, whereClause);
+			info = new InfoBPartner (frame, modal, windowNo, record_id, value, !Env.getContext(Env.getCtx(),"IsSOTrx").equals("N"),
+					false, multiSelection, saveResult, whereClause);
 		else if (tableName.equals("M_Product"))
-			info = new InfoProduct (frame, modal, WindowNo,  0,0, value,
-					multiSelection, whereClause);
+			info = new InfoProduct (frame, modal, windowNo, 0, 0, record_id, value,
+					multiSelection, saveResult, whereClause);
 		else if (tableName.equals("C_Invoice"))
-			info = new InfoInvoice (frame, modal, WindowNo, value,
-					multiSelection, whereClause);
+			info = new InfoInvoice (frame, modal, windowNo, record_id, value,
+					multiSelection, saveResult, whereClause);
 		else if (tableName.equals("A_Asset"))
-			info = new InfoAsset (frame, modal, WindowNo, 0, value,
-					multiSelection, whereClause);
+			info = new InfoAsset (frame, modal, windowNo, record_id, value,
+					multiSelection, saveResult, whereClause);
 		else if (tableName.equals("C_Order"))
-			info = new InfoOrder (frame, modal, WindowNo, value,
-					multiSelection, whereClause);
+			info = new InfoOrder (frame, modal, windowNo, record_id, value,
+					multiSelection, saveResult, whereClause);
 		else if (tableName.equals("M_InOut"))
-			info = new InfoInOut (frame, modal, WindowNo, value,
-					multiSelection, whereClause);
+			info = new InfoInOut (frame, modal, windowNo, record_id, value,
+					multiSelection, saveResult, whereClause);
 		else if (tableName.equals("C_Payment"))
-			info = new InfoPayment (frame, modal, WindowNo, value,
-					multiSelection, whereClause);
+			info = new InfoPayment (frame, modal, windowNo, record_id, value,
+					multiSelection, saveResult, whereClause);
 		else if (tableName.equals("C_CashLine"))
-			info = new InfoCashLine (frame, modal, WindowNo, value,
-					multiSelection, whereClause);
+			info = new InfoCashLine (frame, modal, windowNo, record_id, value,
+					multiSelection, saveResult, whereClause);
 		else if (tableName.equals("S_ResourceAssigment"))
-			info = new InfoAssignment (frame, modal, WindowNo, value,
-					multiSelection, whereClause);
+			info = new InfoAssignment (frame, modal, windowNo, record_id, value,
+					multiSelection, saveResult, whereClause);
 		else
-			info = new InfoGeneral (frame, modal, WindowNo, value, 
+			info = new InfoGeneral (frame, modal, windowNo, record_id, value, 
 				tableName, keyColumn, 
-				multiSelection, whereClause);
+				multiSelection, saveResult, whereClause);
 		//
 		AEnv.positionCenterWindow(frame, info);
 		return info;
@@ -157,8 +171,8 @@ public abstract class Info extends CDialog
 	 */
 	public static void showBPartner (Frame frame, int WindowNo)
 	{
-		Info info = new InfoBPartner (frame, false, WindowNo,  "",
-			!Env.getContext(Env.getCtx(),"IsSOTrx").equals("N"), false, "");
+		Info info = new InfoBPartner (frame, false, WindowNo,  0, "",
+			!Env.getContext(Env.getCtx(),"IsSOTrx").equals("N"), false, false, false, "");
 		AEnv.showCenterWindow(frame, info);
 	}   //  showBPartner
 
@@ -169,8 +183,7 @@ public abstract class Info extends CDialog
 	 */
 	public static void showAsset (Frame frame, int WindowNo)
 	{
-		Info info = new InfoAsset (frame, false, WindowNo,  
-			0, "", false, "");
+		Info info = new InfoAsset (frame, false, WindowNo, 0, "", false, false, "");
 		AEnv.showCenterWindow(frame, info);
 	}   //  showBPartner
 
@@ -181,11 +194,12 @@ public abstract class Info extends CDialog
 	 */
 	public static void showProduct (Frame frame, int WindowNo)
 	{
-		Info info = new InfoProduct (frame, false, WindowNo,
+		Info info = new InfoProduct (frame, false, WindowNo, 
 			Env.getContextAsInt(Env.getCtx(), WindowNo, "M_Warehouse_ID"),
 			Env.getContextAsInt(Env.getCtx(), WindowNo, "M_PriceList_ID"), 
+			0,		// Record ID
 			"",		//	value 
-			false, "");
+			false, false, "");
 		AEnv.showCenterWindow(frame, info);
 	}   //  showProduct
 
@@ -197,8 +211,8 @@ public abstract class Info extends CDialog
 	 */
 	public static void showOrder (Frame frame, int WindowNo, String value)
 	{
-		Info info = new InfoOrder (frame, false, WindowNo, value,
-			false, "");
+		Info info = new InfoOrder (frame, false, WindowNo, 0, value,
+			false, false, "");
 		AEnv.showCenterWindow(frame, info);
 	}   //  showOrder
 
@@ -210,8 +224,8 @@ public abstract class Info extends CDialog
 	 */
 	public static void showInvoice (Frame frame, int WindowNo, String value)
 	{
-		Info info = new InfoInvoice (frame, false, WindowNo, value,
-			false, "");
+		Info info = new InfoInvoice (frame, false, WindowNo, 0, value,
+			false, false, "");
 		AEnv.showCenterWindow(frame, info);
 	}   //  showInvoice
 
@@ -223,8 +237,8 @@ public abstract class Info extends CDialog
 	 */
 	public static void showInOut (Frame frame, int WindowNo, String value)
 	{
-		Info info = new InfoInOut (frame, false, WindowNo, value,
-			false, "");
+		Info info = new InfoInOut (frame, false, WindowNo, 0, value,
+			false, false, "");
 		AEnv.showCenterWindow(frame, info);
 	}   //  showInOut
 
@@ -236,8 +250,8 @@ public abstract class Info extends CDialog
 	 */
 	public static void showPayment (Frame frame, int WindowNo, String value)
 	{
-		Info info = new InfoPayment (frame, false, WindowNo, value,
-			false, "");
+		Info info = new InfoPayment (frame, false, WindowNo, 0, value,
+			false, false, "");
 		AEnv.showCenterWindow(frame, info);
 	}   //  showPayment
 
@@ -249,8 +263,8 @@ public abstract class Info extends CDialog
 	 */
 	public static void showCashLine (Frame frame, int WindowNo, String value)
 	{
-		Info info = new InfoCashLine (frame, false, WindowNo, value,
-			false, "");
+		Info info = new InfoCashLine (frame, false, WindowNo, 0, value,
+			false, false, "");
 		AEnv.showCenterWindow(frame, info);
 	}   //  showCashLine
 
@@ -262,8 +276,8 @@ public abstract class Info extends CDialog
 	 */
 	public static void showAssignment (Frame frame, int WindowNo, String value)
 	{
-		Info info = new InfoAssignment (frame, false, WindowNo, value,
-			false, "");
+		Info info = new InfoAssignment (frame, false, WindowNo, 0, value,
+			false, false, "");
 		AEnv.showCenterWindow(frame, info);
 	}   //  showAssignment
 
@@ -273,6 +287,7 @@ public abstract class Info extends CDialog
 
 	protected final int        INFO_WIDTH = screensize.width > 1500 ? 1500 : screensize.width - 100;
 	protected final int        SCREEN_HEIGHT = screensize.height;
+
 	
 	/**************************************************************************
 	 *	Detail Constructor
@@ -286,14 +301,24 @@ public abstract class Info extends CDialog
 	 */
 	protected Info (Frame frame, boolean modal, int WindowNo,
 		String tableName, String keyColumn,
-		boolean multiSelection, String whereClause)
+		boolean multiSelection, boolean saveResults, String whereClause)
 	{
+
 		super (frame, modal);
 		log.info("WinNo=" + p_WindowNo + " " + whereClause);
-		p_WindowNo = WindowNo;
+		p_saveResults = saveResults;
 		p_tableName = tableName;
 		p_keyColumn = keyColumn;
-		p_multiSelection = multiSelection;
+		p_table.setMultiSelection(multiSelection);
+		p_WindowNo = WindowNo;
+		//
+		Class<?> frameClass = frame.getClass();
+		if (frameClass == AWindow.class)
+		{
+			//  Activated from a window - find the active tab to limit the context
+			p_TabNo = ((AWindow) frame).getAPanel().getCurrentTab().getTabNo();
+		}
+		//
 		if (whereClause == null || whereClause.indexOf('@') == -1)
 			p_whereClause = whereClause;
 		else
@@ -313,30 +338,38 @@ public abstract class Info extends CDialog
 		}
 	}	//	Info
 
+	private static String SYSCONFIG_INFO_AUTO_WILDCARD = "INFO_AUTO_WILDCARD";
+	private static String SYSCONFIG_INFO_AUTO_QUERY = "INFO_AUTO_QUERY";
 
 	/** Master (owning) Window  */
 	protected int				p_WindowNo;
+	/** Tab No to limit context */
+	protected int				p_TabNo;
 	/** Table Name              */
 	protected String            p_tableName;
 	/** Key Column Name         */
 	protected String            p_keyColumn;
-	/** Enable more than one selection  */
-	protected boolean			p_multiSelection;
-	/** Specify if the records should be checked(selected) by default (multi selection mode only) */
-	private boolean				p_isDefaultSelected = MSysConfig.getBooleanValue(SYSCONFIG_INFO_DEFAULTSELECTED, false, Env.getAD_Client_ID(Env.getCtx()));
-	/** True if double click on a row toggles if row is selected (multi selection mode only) */
-	private boolean				p_doubleClickTogglesSelection = MSysConfig.getBooleanValue(SYSCONFIG_INFO_DOUBLECLICKTOGGLESSELECTION, false, Env.getAD_Client_ID(Env.getCtx()));
 	/** Initial WHERE Clause    */
 	protected String			p_whereClause = "";
+	/** Concrete WHERE Clause - used by concrete classes  */
+	protected String			p_concreteWhereClause = "";
+	/** Will the results of the search be saved?	*/
+	protected boolean 			p_saveResults = true;
+	/** Does the layout use dynamic columns? False by default				*/
+	protected boolean			p_resetColumns = false;
 
 	/** Table                   */
-	protected MiniTable         p_table = new MiniTable();
-	/** Model Index of Key Column   */
-	private int                 m_keyColumnIndex = -1;
+	protected MiniTable         p_table = new MiniTable(); //  p_table
+	/** Tracking for previously selected record				*/
+	protected int 				p_selectedRecordKey = 0;
+	protected boolean 			p_refreshRequired = false;
+
 	/** OK pressed                  */
 	private boolean			    m_ok = false;
 	/** Cancel pressed - need to differentiate between OK - Cancel - Exit	*/
 	private boolean			    m_cancel = false;
+	/** Reset the record ID - false on load, reset by any action that reruns the query   */
+	protected boolean				m_resetRecordID = false;
 	/** Result IDs              */
 	private ArrayList<Integer>	m_results = new ArrayList<Integer>(3);
 
@@ -363,6 +396,7 @@ public abstract class Info extends CDialog
 	protected CLogger log = CLogger.getCLogger(getClass());
 
 	/** Static Layout           */
+	private VCheckBox checkAutoQuery = new VCheckBox();
 	private CPanel southPanel = new CPanel();
 	private BorderLayout southLayout = new BorderLayout();
 	ConfirmPanel confirmPanel = new ConfirmPanel(true, true, true, true, true, true, true);
@@ -375,6 +409,11 @@ public abstract class Info extends CDialog
 	//
 	private JPopupMenu popup = new JPopupMenu();
 	private CMenuItem calcMenu = new CMenuItem();
+	private CMenuItem zoomMenu = new CMenuItem();
+
+	protected int m_leadSelection;
+	private int m_popupRow = -1;
+	private int m_popupColumn = -1;
 
 	/**
 	 *	Static Init
@@ -399,17 +438,48 @@ public abstract class Info extends CDialog
 		confirmPanel.getCustomizeButton().setVisible(hasCustomize());
 		confirmPanel.getHistoryButton().setVisible(hasHistory());
 		confirmPanel.getZoomButton().setVisible(hasZoom());
+		confirmPanel.setOKVisible(p_saveResults);  //  Only show the OK button if we intend to save
 		//
 		JButton print = ConfirmPanel.createPrintButton(true);
 		print.addActionListener(this);
 		confirmPanel.addButton(print);
+		//
+		checkAutoQuery.setText(Msg.getMsg(Env.getCtx(), "AutoRefresh"));
+		checkAutoQuery.setToolTipText(Msg.getMsg(Env.getCtx(), "AutoRefresh"));
+		checkAutoQuery.setName("AutoQuery");
+		checkAutoQuery.setSelected(MSysConfig.getValue(SYSCONFIG_INFO_AUTO_QUERY,"Y",Env.getAD_Client_ID(Env.getCtx())).equals("Y"));  
+		checkAutoQuery.addActionListener(this);
+		CPanel leftButtons = (CPanel) confirmPanel.getComponent(1);  // Index 0 is OK-Cancel on the right
+		leftButtons.add(checkAutoQuery, 0); // Add the check box on the very left before the refresh icon
+		//
+		popup.add(zoomMenu);
+		zoomMenu.setText(Msg.getMsg(Env.getCtx(), "Zoom"));
+		zoomMenu.setIcon(new ImageIcon(org.compiere.Adempiere.class.getResource("images/Zoom16.gif")));
+		zoomMenu.addActionListener(this);
 		//
 		popup.add(calcMenu);
 		calcMenu.setText(Msg.getMsg(Env.getCtx(), "Calculator"));
 		calcMenu.setIcon(new ImageIcon(org.compiere.Adempiere.class.getResource("images/Calculator16.gif")));
 		calcMenu.addActionListener(this);
 		//
-		p_table.getSelectionModel().addListSelectionListener(this);
+		//  Table Selection (Invoked before setting column class so that row selection is enabled)
+		p_table.setKeyColumnIndex(-1);
+		p_table.setCellSelectionEnabled(false);
+		p_table.setColumnSelectionAllowed(false);
+		p_table.setRowSelectionAllowed(true);
+		//  Override the Enter key input and action map
+		if(p_saveResults)
+		{
+			p_table.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "doDispose");
+		}
+		else
+		{
+			p_table.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "doNothing");
+		}
+		p_table.getActionMap().put("doDispose", doDispose);
+		((ListSelectionModel) p_table.getSelectionModel()).addListSelectionListener(this); // To enable buttons
+		p_table.addMouseListener(this);
+		
 		enableButtons();
 	}	//	jbInit
 
@@ -454,7 +524,33 @@ public abstract class Info extends CDialog
 	 */
 	protected void prepareTable (Info_Column[] layout, String from, String staticWhere, String orderBy)
 	{
+		if (p_table == null)
+			return;
+		
 		p_layout = layout;
+		
+		//  For dynamic columns, we need to wipe the table.
+		if (p_resetColumns)
+		{
+			//  First, stop auto-updates
+			boolean flag = p_table.getAutoCreateColumnsFromModel();
+			p_table.setAutoCreateColumnsFromModel(false);
+			p_table.setRowCount(0);
+			//  Wipe the columns
+			DefaultTableColumnModel tc = new DefaultTableColumnModel();
+			p_table.setColumnModel(tc);
+			//  Wipe the table data
+			DefaultTableModel tm = new DefaultTableModel();
+			p_table.setModel(tm);
+			//  Zero out the indexes
+			p_table.setColorColumn(0);
+			//  Re-establish the auto-updates
+			p_table.setAutoCreateColumnsFromModel(flag);
+			
+			//  Prevent repeats
+			p_resetColumns = false;
+		}
+		
 		StringBuffer sql = new StringBuffer ("SELECT ");
 		//  add columns & sql
 		for (int i = 0; i < layout.length; i++)
@@ -470,15 +566,9 @@ public abstract class Info extends CDialog
 			if (layout[i].isColorColumn())
 				p_table.setColorColumn(i);
 			if (layout[i].getColClass() == IDColumn.class)
-				m_keyColumnIndex = i;
+				p_table.setKeyColumnIndex(i);
 		}
-		
-		//  Table Selection (Invoked before setting column class so that row selection is enabled)
-		p_table.setRowSelectionAllowed(true);
-		p_table.addMouseListener(this);
-		p_table.setMultiSelection(p_multiSelection);
-		p_table.setShowTotals(true);
-		
+				
 		//  set editors (two steps)
 		for (int i = 0; i < layout.length; i++)
 			p_table.setColumnClass(i, layout[i].getColClass(), layout[i].isReadOnly(), layout[i].getColHeader());
@@ -493,7 +583,7 @@ public abstract class Info extends CDialog
 		if (orderBy != null && orderBy.length() > 0)
 			m_sqlOrder = " ORDER BY " + orderBy;
 
-		if (m_keyColumnIndex == -1)
+		if (p_table.getKeyColumnIndex() == -1)
 			log.log(Level.SEVERE, "No KeyColumn - " + sql);
 		
 		//  Window Sizing
@@ -512,6 +602,11 @@ public abstract class Info extends CDialog
 		//  ignore when running
 		if (m_worker != null && m_worker.isAlive())
 			return;
+
+		//  ignore if we`re about to be closed
+		if (m_ok)
+			return;
+		
 		//
 		if (!testCount())
 			return;
@@ -585,7 +680,7 @@ public abstract class Info extends CDialog
 		}
 
 		//	Multi Selection
-		if (p_multiSelection)
+		if (p_table.isMultiSelection())
 		{
 			m_results.addAll(getSelectedRowKeys());
 		}
@@ -603,6 +698,7 @@ public abstract class Info extends CDialog
 		p_table.removeAll();
 		p_table = null;
 	}	//	saveSelection
+
 
 	/**
 	 *  Get the key of currently selected row
@@ -630,12 +726,12 @@ public abstract class Info extends CDialog
     {
         ArrayList<Integer> selectedDataList = new ArrayList<Integer>();
         
-        if (m_keyColumnIndex == -1)
+        if (p_table.getKeyColumnIndex() == -1)
         {
             return selectedDataList;
         }
         
-        if (p_multiSelection)
+        if (p_table.isMultiSelection())
         {
         	int rows = p_table.getRowCount();
             for (int row = 0; row < rows; row++)
@@ -645,7 +741,7 @@ public abstract class Info extends CDialog
                 {
                 	continue;
                 }
-                Object data = p_table.getModel().getValueAt(row, m_keyColumnIndex);
+                Object data = p_table.getModel().getValueAt(row, p_table.getKeyColumnIndex());
                 if (data instanceof IDColumn)
                 {
                     IDColumn dataColumn = (IDColumn)data;
@@ -663,10 +759,14 @@ public abstract class Info extends CDialog
         
         if (selectedDataList.size() == 0)
         {
-        	int row = p_table.getSelectedRow();
-    		if (row != -1 && m_keyColumnIndex != -1)
+        	int row;
+        	if (p_table == null || p_table.getRowCount() <= 0) //  Trap NPE
+        		row = -1;
+    		else
+    			row = p_table.getSelectedRow();
+    		if (row != -1 && p_table.getKeyColumnIndex() != -1)
     		{
-    			Object data = p_table.getModel().getValueAt(row, m_keyColumnIndex);
+    			Object data = p_table.getModel().getValueAt(row, p_table.getKeyColumnIndex());
     			if (data instanceof IDColumn)
     				selectedDataList.add(((IDColumn)data).getRecord_ID());
     			if (data instanceof Integer)
@@ -700,7 +800,85 @@ public abstract class Info extends CDialog
 			return null;
 		return m_results.get(0);
 	}	//	getSelectedKey
+	
+	/**
+     *  Set the selected row to a particular key if found
+     *  @returns true if successful
+     */
+    protected boolean setSelectedRow(int record_id)
+    {
+    	// Is there a key column?
+        if (p_table.getKeyColumnIndex() == -1)
+        {
+            return false;
+        }
+        
+        if (p_table == null)
+        {
+        	return false;
+        }
+    	// If the query is empty, return
+        if (p_table.getRowCount() == 0)
+        {
+            return false;
+        }
 
+		if (p_table.isMultiSelection() && p_table.isDefaultSelected()) // Select all by default
+		{
+			return false; // All rows will be selected by default
+		}
+
+        if (record_id <= 0)
+        {
+        	//  Select the first record
+        	p_table.changeSelection(0,p_table.getKeyColumnIndex(), false, false);
+        	log.fine("Selected the first record shown");
+        	return true;
+        }
+        
+        //  Is the record already selected?
+        Integer selectedKey = (Integer) getSelectedKey();
+        if(selectedKey != null && selectedKey.intValue() == record_id)  //  We're already there
+        	return true;
+        
+        //  Nothing or the wrong row selected - try to find the record in the table
+    	int rows = p_table.getRowCount();
+    	
+    	//  Ignore the total row
+        if (p_table.getShowTotals())
+        	rows = rows - 1;
+
+    	for (int row = 0; row < rows; row++)
+        {
+            Object data = p_table.getModel().getValueAt(row, p_table.getKeyColumnIndex());
+            if (data instanceof IDColumn)
+            {
+                IDColumn dataColumn = (IDColumn)data;
+                if (dataColumn.getRecord_ID() == record_id)
+                {
+                	p_table.changeSelection(row,p_table.getKeyColumnIndex(), false, false);
+                	log.fine("Record_ID = " + record_id + " found at row " + row);
+                	return true;
+                }
+            }
+        }
+    	
+    	//  record_id not found in the current list.  Select the first shown.
+    	p_table.changeSelection(0,p_table.getKeyColumnIndex(), false, false);
+    	log.fine("Record_ID = " + record_id + " not found in the current table. Selecting the first record.");
+        return true;
+        
+    }   //  setSelectedRow
+
+	/**
+	 *	autoQuery?
+	 *	- yes if true
+	 *  @return true for automatic queries, else must refresh
+	 */
+	public boolean autoQuery()
+	{
+		return checkAutoQuery.isSelected();
+	}	//	autoQuery
 	/**
 	 *	Is cancelled?
 	 *	- if pressed Cancel = true
@@ -748,6 +926,86 @@ public abstract class Info extends CDialog
 		return sb.toString();
 	}	//	getSelectedSQL;
 
+	/**
+	 *  Test SQL WHERE parameter for validity
+	 *  @param f CText field
+	 *  @return Upper case text with wild cards as configured
+	 */
+	public static boolean isValidSQLText (CTextField f)
+	{
+		if (f != null && f.getText() != null)
+			return isValidSQLText(f.getText());
+		return false;
+	}   //  isValidSQLText
+
+	/**
+	 *  Test SQL WHERE parameter for validity
+	 *  @param s string
+	 *  @return Upper case text with wild cards as configured
+	 */
+	public static boolean isValidSQLText (String s)
+	{
+		// Don't trap single "%".  These can be used to find
+		// all non-null values.
+		if (s.length() > 0)
+			return true;
+		return false;
+	}   //  isValidSQLText
+
+	/**
+	 *  Get SQL WHERE parameter
+	 *  @param f CText field
+	 *  @return Upper case text with wild cards as configured
+	 */
+	public static String getSQLText (CTextField f)
+	{
+		String s = f.getText();
+		return getSQLText(s);
+	}   //  getSQLText
+
+	/**
+	 *  Get SQL WHERE parameter
+	 *  @param s string
+	 *  @return Upper case text with wild cards as configured
+	 */
+	public static String getSQLText (String s)
+	{
+		s = s.toUpperCase();
+		
+		//  Check the configuration for the wild card pattern to apply
+		//  It can be "%*" for first-only, "*%" for last-only, "%*%" for both or "*" for none.
+		//  The pattern string must start and/or end with a "%" symbol.  The "*" symbol can be any string.
+		//  The default is last-only.  "%" or "%%" are valid and will be interpreted as both.
+		String wildCardPattern = MSysConfig.getValue(SYSCONFIG_INFO_AUTO_WILDCARD,"*%",Env.getAD_Client_ID(Env.getCtx()));
+		
+		if (wildCardPattern.startsWith("%"))
+		{
+			if (!s.startsWith("%"))
+				s = "%" + s;
+		}
+
+		if (wildCardPattern.endsWith("%"))
+		{
+			if (!s.endsWith("%"))
+				s += "%";
+		}
+		
+		// Need static logger
+		CLogger mlog = CLogger.get();
+		mlog.fine("String with wild cards: " + s);
+
+		return s;
+	}   //  getSQLText
+
+	/**
+	 * Property Change Listener for lookup fields
+	 * @param e event
+	 */
+	public void propertyChange(PropertyChangeEvent e)
+	{
+		m_resetRecordID = true;
+		executeQuery();
+	}
 	
 	/**************************************************************************
 	 *	(Button) Action Listener & Popup Menu
@@ -759,28 +1017,42 @@ public abstract class Info extends CDialog
 		if (e.getSource().equals(calcMenu))
 		{
 			BigDecimal number = null;
-			Object data = p_table.getSelectedValue();
-			try
+			if (m_popupRow >= 0 && m_popupColumn >= 0)
 			{
-				if (data != null)
+				Object data = p_table.getValueAt(m_popupRow, m_popupColumn);
+				try
 				{
-					if (data instanceof BigDecimal)
-						number = (BigDecimal)data;
-					else
-						number = new BigDecimal(data.toString());
+					if (data != null)
+					{
+						if (data instanceof BigDecimal)
+							number = (BigDecimal)data;
+						else
+							number = new BigDecimal(data.toString());
+					}
 				}
+				catch (Exception ex) {}
+				Calculator c = new Calculator(null, number);
+				c.setVisible(true);
 			}
-			catch (Exception ex) {}
-			Calculator c = new Calculator(null, number);
-			c.setVisible(true);
 			return;
-		}   //  popup
+		} 
 
+		//  Popup => zoom
+		if (e.getSource().equals(zoomMenu))
+		{
+			if (m_popupRow >= 0 && m_popupColumn >= 0)
+			{
+				zoom(p_table.getRowKey(m_popupRow));
+			}
+			return;
+		}   //  zoom
+
+		
 		//  Confirm Panel
 		String cmd = e.getActionCommand();
 		if (cmd.equals(ConfirmPanel.A_OK))
 		{
-			dispose(true);
+			dispose(p_saveResults);
 		}
 		else if (cmd.equals(ConfirmPanel.A_CANCEL))
 		{
@@ -789,19 +1061,35 @@ public abstract class Info extends CDialog
 		}
 		//
 		else if (cmd.equals(ConfirmPanel.A_HISTORY))
-			showHistory();
+			showHistory(p_table.getLeadRowKey());
 		else if (cmd.equals(ConfirmPanel.A_CUSTOMIZE))
 			customize();
 		else if (cmd.equals(ConfirmPanel.A_ZOOM))
-			zoom();
+			zoom(p_table.getLeadRowKey());
 		else if (cmd.equals(ConfirmPanel.A_RESET))
+		{
+			m_resetRecordID = true;
 			doReset();
+		}
 		else if (cmd.equals(ConfirmPanel.A_PRINT))
 			PrintScreenPainter.printScreen(this);
-		//	Default
-		else
+		else if (cmd.equals(ConfirmPanel.A_REFRESH) || autoQuery())
+		{
+			m_resetRecordID = true;
 			executeQuery();
+		}
 	}	//	actionPerformed
+
+	/**************************************************************************
+	 *  Table Selection Changed
+	 *  @param e event
+	 */
+	public void valueChanged(ListSelectionEvent e)
+	{
+		if (e.getValueIsAdjusting())
+			return;
+		enableButtons();
+	}   //  ValueChanged
 
 	/**
 	 *	Zoom to target
@@ -868,6 +1156,7 @@ public abstract class Info extends CDialog
 		}
 		m_worker = null;
 		//
+		p_loadedOK = false; // In case there are other events in the queue.
 		saveSelection();
 		removeAll();
 		super.dispose();
@@ -892,17 +1181,6 @@ public abstract class Info extends CDialog
 	}   //  getKeyColumn
 
 	
-	/**************************************************************************
-	 *  Table Selection Changed
-	 *  @param e event
-	 */
-	public void valueChanged(ListSelectionEvent e)
-	{
-		if (e.getValueIsAdjusting())
-			return;
-		enableButtons();
-	}   //  calueChanged
-
 	/**
 	 *  Enable OK, History, Zoom if row/s selected
      *  ---
@@ -911,13 +1189,22 @@ public abstract class Info extends CDialog
 	 */
 	protected void enableButtons ()
 	{
-		boolean enable = (p_table.getSelectedRowCount() == 1);
-		confirmPanel.getOKButton().setEnabled(p_table.getSelectedRowCount() > 0);
+		boolean enable = false;
+		try
+		{
+			enable = (p_table.getLeadRowKey()>0);
+		}
+		catch (Exception e) {}
+		
+		confirmPanel.getOKButton().setEnabled(p_saveResults && p_table.getSelectedRowCount() > 0);
 		
 		if (hasHistory())
 			confirmPanel.getHistoryButton().setEnabled(enable);
 		if (hasZoom())
+		{
 			confirmPanel.getZoomButton().setEnabled(enable);
+			zoomMenu.setEnabled(enable);
+		}	
 	}   //  enableButtons
 
 	
@@ -953,7 +1240,7 @@ public abstract class Info extends CDialog
 	 *  History dialog
 	 *	To be overwritten by concrete classes
 	 */
-	protected void showHistory()					{}
+	protected void showHistory(int record_id)					{}
 	/**
 	 *  Has History (false)
 	 *	To be overwritten by concrete classes
@@ -974,14 +1261,16 @@ public abstract class Info extends CDialog
 	/**
 	 *  Zoom action
 	 *	To be overwritten by concrete classes
+	 *  @param record ID to zoom to
 	 */
-	protected void zoom()							{}
+	protected void zoom(int record_id)							{}
 	/**
 	 *  Has Zoom (false)
 	 *	To be overwritten by concrete classes
 	 *  @return true if it has zoom (default false)
 	 */
 	protected boolean hasZoom()					{return false;}
+	
 	/**
 	 *  Save Selection Details
 	 *	To be overwritten by concrete classes
@@ -1029,68 +1318,51 @@ public abstract class Info extends CDialog
 		return m_SO_Window_ID;
 	}	//	getAD_Window_ID
 	
-	/**
-	 * 
-	 * @return Index of Key Column
-	 */
-	protected int getKeyColumnIndex()
-	{
-		return m_keyColumnIndex;
-	}
 	
 	/**
 	 * 
 	 * @return true if OK button was pressed
 	 */
-	public boolean isOkPressed()
+	public boolean isOk()
 	{
 		return m_ok;
 	}
+		
 	
 	/**
-	 * 
-	 * @return true if Cancel button was pressed
+	 * Reset the record id
 	 */
-	public boolean isCancelPressed()
+	public boolean isResetRecordID()
 	{
-		return m_cancel;
+		return m_resetRecordID;
 	}
 	
 	/**
-	 * Specify if the records should be checked(selected) by default.
-	 * (for multi-selection only)
-	 * @param value
+	 * Test the object for existence and valid data 
+	 * @param o - one of a VLookup, VAttributeInstance
+	 * @return
 	 */
-	public void setDefaultSelected(boolean value)
+	public boolean isValidVObject(Object o)
 	{
-		p_isDefaultSelected = value;
-	}
-	
-	/**
-	 * (for multi-selection only)
-	 * @return true if records are selected by default
-	 */
-	public boolean isDefaultSelected()
-	{
-		return p_isDefaultSelected;
-	}
-	
-	/**
-	 * (for multi-selection only)
-	 * @param value true if double click should toggle record selection
-	 */
-	public void setDoubleClickTogglesSelection(boolean value)
-	{
-		p_doubleClickTogglesSelection = value;
-	}
-	
-	/**
-	 * (for multi-selection only)
-	 * @return true if double click should toggle record selection
-	 */
-	public boolean isDoubleClickTogglesSelection()
-	{
-		return p_doubleClickTogglesSelection;
+		if (o != null)
+		{
+			try 
+			{
+				if (o instanceof VLookup)
+				{
+					return 	(((VLookup) o).getValue() != null && ((Integer)((VLookup) o).getValue()).intValue() != 0);
+				}
+				else if (o instanceof VPAttribute)
+				{
+					return 	(((VPAttribute) o).getValue() != null && ((Integer)((VPAttribute) o).getValue()).intValue() != 0);
+				}
+			}
+			catch(ClassCastException e)
+			{
+				return false;
+			}
+		}
+		return false;
 	}
 
 
@@ -1099,39 +1371,59 @@ public abstract class Info extends CDialog
 	 *  @param e event
 	 */
 	public void mouseClicked(MouseEvent e)
-	{
-	//	log.fine( "Info.mouseClicked",
-	//		"ClickCount=" + e.getClickCount() + ", Right=" + SwingUtilities.isRightMouseButton(e)
-	//		+ ", r=" + m_table.getSelectedRow() + ", c=" + m_table.getSelectedColumn());
+	{		
+		//  If we want to save results, double click in a row will cause save and exit
+		//  The miniTable class will trap double clicks when multiselection is enabled
+		//  and the configuration is set to toggle the selection on double clicks
+		if (p_saveResults && e.getID() == MouseEvent.MOUSE_CLICKED && e.getClickCount() > 1 && p_table.getSelectedRow() != -1)
+		{
+			dispose(p_saveResults);
+		}
 
-		//  Double click with selected row => exit/zoom
-		if (e.getClickCount() > 1 && p_table.getSelectedRow() != -1)
-		{
-			if (p_multiSelection && isDoubleClickTogglesSelection())
-			{
-				if (m_keyColumnIndex >= 0)
-				{
-					Object data = p_table.getValueAt(p_table.getSelectedRow(), m_keyColumnIndex);
-					if (data instanceof IDColumn)
-					{
-						IDColumn id = (IDColumn)data;
-						id.setSelected(!id.isSelected());
-						p_table.setValueAt(data, p_table.getSelectedRow(), m_keyColumnIndex);
-					}
-				}
-			}
-			else
-				dispose(true);
-		}
-		//  Right Click => start Calculator
-		else if (SwingUtilities.isRightMouseButton(e))
-		{
-			popup.show(e.getComponent(), e.getX(), e.getY());
-		}
 	}   //  mouseClicked
 
-
 	/**
+	 *  Mouse Pressed
+	 *  @param e event
+	 */
+	public void mousePressed(MouseEvent e)
+	{		
+		//  Has a popup trigger occurred? Need to test both pressed and released for cross-platform
+		//  compatibility
+		if (e.isPopupTrigger())
+		{
+			m_popupRow = p_table.rowAtPoint(e.getPoint());
+			m_popupColumn = p_table.columnAtPoint(e.getPoint());
+			popup.show(e.getComponent(), e.getX(), e.getY());
+			return;
+		}
+	}
+	
+	/**
+	 *  Mouse Released
+	 *  @param e event
+	 */
+	public void mouseReleased(MouseEvent e)
+	{		
+		//  Has a popup trigger occurred? Need to test both pressed and released for cross-platform
+		//  compatibility
+		if (e.isPopupTrigger())
+		{
+			m_popupRow = p_table.rowAtPoint(e.getPoint());
+			m_popupColumn = p_table.columnAtPoint(e.getPoint());
+			popup.show(e.getComponent(), e.getX(), e.getY());
+			return;
+		}
+	}
+
+    private Action doDispose = new AbstractAction() {
+        public void actionPerformed(ActionEvent e) {
+			dispose(p_saveResults);
+        }
+    };
+
+
+    /**
 	 *  Worker
 	 */
 	class Worker extends Thread
@@ -1139,14 +1431,22 @@ public abstract class Info extends CDialog
 		private PreparedStatement m_pstmt = null;
 		private ResultSet m_rs = null;
 		
+		public Worker()
+		{
+			// Basic constructor
+		}
+		
 		/**
 		 *  Do Work (load data)
 		 */
 		public void run()
 		{
+			if(p_table == null)
+				return;
+
 		//	setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		//	setStatusLine(Msg.getMsg(Env.getCtx(), "StartSearch"), false);
-			long start = System.currentTimeMillis();
+			long start = System.currentTimeMillis();			
 
 			//  Clear Table
 			p_table.setRowCount(0);
@@ -1186,8 +1486,21 @@ public abstract class Info extends CDialog
 						if (c == IDColumn.class)
 						{
 							data = new IDColumn(m_rs.getInt(colIndex));
-							if (p_multiSelection)
-								((IDColumn)data).setSelected(isDefaultSelected());
+							
+							//  Selection
+							((IDColumn)data).setSelected(false); // Default
+							if (p_table.isMultiSelection())  // Multiple rows can be selected
+							{
+								if (p_table.isDefaultSelected()) // Select all by default
+								{
+									p_table.changeSelection(row, 0, false, (row != 0));  // Anchor at the first row, extend to all others
+								}
+								else
+								{
+									//  Default to no selection
+									p_table.clearSelection();
+								}
+							}
 						}
 						else if (c == Boolean.class)
 							data = new Boolean("Y".equals(m_rs.getString(colIndex)));
@@ -1209,9 +1522,17 @@ public abstract class Info extends CDialog
 						else
 							data = m_rs.getString(colIndex);
 						//  store
-						p_table.setValueAt(data, row, col);
-					//	log.fine( "r=" + row + ", c=" + col + " " + m_layout[col].getColHeader(),
-					//  	"data=" + data.toString() + " " + data.getClass().getName() + " * " + m_table.getCellRenderer(row, col));
+						/*
+					 	if (data != null)
+						 
+							log.fine( "r=" + row + ", c=" + col + " " + p_layout[col].getColHeader() + 
+									" data=" + data.toString() + " " + data.getClass().getName() + " * " + p_table.getCellRenderer(row, col));
+						else
+							log.fine( "r=" + row + ", c=" + col + " " + p_layout[col].getColHeader() + 
+									" data=" + null + " String * " + p_table.getCellRenderer(row, col));
+						*/
+							
+						p_table.setValueAt(data, p_table.convertRowIndexToView(row), p_table.convertColumnIndexToView(col));
 					}
 				}
 			}
@@ -1234,9 +1555,15 @@ public abstract class Info extends CDialog
 				log.fine(dataSql);
 			else
 			{
-				p_table.getSelectionModel().setSelectionInterval(0, 0);
+				if(!p_table.isMultiSelection())
+					p_table.getSelectionModel().setSelectionInterval(0, 0); // Select the first row only.
 				p_table.requestFocus();
 			}
+			p_table.matchCheckWithSelectedRows();
+			p_table.clearSelection();
+			p_table.getSelectionModel().setSelectionInterval(0, 0);
+			p_table.getSelectionModel().setLeadSelectionIndex(0);
+			p_table.firePropertyChange("p_table_update", 0, 1);  // Inform the subclass of the change
 		}   //  run
 		
 		/**

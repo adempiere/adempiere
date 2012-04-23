@@ -21,11 +21,6 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-
-import javax.swing.JPanel;
-
-import net.miginfocom.swing.MigLayout;
 
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.ALayout;
@@ -37,11 +32,14 @@ import org.compiere.grid.ed.VNumber;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MQuery;
+import org.compiere.model.MOrder;
 import org.compiere.swing.CLabel;
+import org.compiere.swing.CPanel;
 import org.compiere.swing.CTextField;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.Trx;
 import org.compiere.util.Util;
 
 /**
@@ -49,6 +47,10 @@ import org.compiere.util.Util;
  *
  *  @author Jorg Janke
  *  @version  $Id: InfoOrder.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
+ *
+ * @author Michael McKay, 
+ * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
+ * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
  */
 public class InfoOrder extends Info
 {
@@ -58,25 +60,26 @@ public class InfoOrder extends Info
 	private static final long serialVersionUID = 2246871771555208114L;
 
 	/**
-	 *  Detail Protected Contructor
+	 *  Detail Protected Constructor
 	 *  @param frame parent frame
 	 *  @param modal modal
 	 *  @param WindowNo window no
-	 *  @param value query value
+	 *  @param record_id The record ID to find
+	 *  @param value query value to find, exclusive of record_id
 	 *  @param multiSelection multiple selections
 	 *  @param whereClause where clause
 	 */
-	protected InfoOrder(Frame frame, boolean modal, int WindowNo, String value,
-		boolean multiSelection, String whereClause)
+	protected InfoOrder(Frame frame, boolean modal, int WindowNo, int record_id, String value,
+		boolean multiSelection, boolean saveResults, String whereClause)
 	{
-		super (frame, modal, WindowNo, "o", "C_Order_ID", multiSelection, whereClause);
+		super (frame, modal, WindowNo, "o", "C_Order_ID", multiSelection, saveResults, whereClause);
 		log.info( "InfoOrder");
 		setTitle(Msg.getMsg(Env.getCtx(), "InfoOrder"));
 		//
 		try
 		{
 			statInit();
-			p_loadedOK = initInfo ();
+			p_loadedOK = initInfo (record_id, value);
 		}
 		catch (Exception e)
 		{
@@ -86,27 +89,18 @@ public class InfoOrder extends Info
 		int no = p_table.getRowCount();
 		setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
 		setStatusDB(Integer.toString(no));
-		if (value != null && value.length() > 0)
-		{
-			fDocumentNo.setValue(value);
+		
+		//  Auto query
+		if(autoQuery() || record_id != 0 || (value != null && value.length() > 0 && value != "%"))
 			executeQuery();
-		}
 		//
 		pack();
 		//	Focus
 		fDocumentNo.requestFocus();
 	}   //  InfoOrder
 
-	/**  String Array of Column Info    */
-	private Info_Column[] m_generalLayout;
-	/** list of query columns           */
-	private ArrayList 	m_queryColumns = new ArrayList();
-	/** Table Name              */
-	private String      m_tableName;
-	/** Key Column Name         */
-	private String      m_keyColumn;
-
 	//  Static Info
+	private int fieldID = 0;
 	private CLabel lDocumentNo = new CLabel(Msg.translate(Env.getCtx(), "DocumentNo"));
 	private CTextField fDocumentNo = new CTextField(10);
 	private CLabel lDescription = new CLabel(Msg.translate(Env.getCtx(), "Description"));
@@ -114,18 +108,16 @@ public class InfoOrder extends Info
 	private CLabel lPOReference = new CLabel(Msg.translate(Env.getCtx(), "POReference"));
 	private CTextField fPOReference = new CTextField(10);
 	//
-//	private CLabel lOrg_ID = new CLabel(Msg.translate(Env.getCtx(), "AD_Org_ID"));
-//	private VLookup fOrg_ID;
 	private CLabel lBPartner_ID = new CLabel(Msg.translate(Env.getCtx(), "BPartner"));
 	private VLookup fBPartner_ID;
 	//
 	private CLabel lDateFrom = new CLabel(Msg.translate(Env.getCtx(), "DateOrdered"));
 	private VDate fDateFrom = new VDate("DateFrom", false, false, true, DisplayType.Date, Msg.translate(Env.getCtx(), "DateFrom"));
-	private CLabel lDateTo = new CLabel("-");
+	private CLabel lDateTo = new CLabel("- ");
 	private VDate fDateTo = new VDate("DateTo", false, false, true, DisplayType.Date, Msg.translate(Env.getCtx(), "DateTo"));
 	private CLabel lAmtFrom = new CLabel(Msg.translate(Env.getCtx(), "GrandTotal"));
 	private VNumber fAmtFrom = new VNumber("AmtFrom", false, false, true, DisplayType.Amount, Msg.translate(Env.getCtx(), "AmtFrom"));
-	private CLabel lAmtTo = new CLabel("-");
+	private CLabel lAmtTo = new CLabel("- ");
 	private VNumber fAmtTo = new VNumber("AmtTo", false, false, true, DisplayType.Amount, Msg.translate(Env.getCtx(), "AmtTo"));
 	private VCheckBox fIsSOTrx = new VCheckBox ("IsSOTrx", false, false, true, Msg.translate(Env.getCtx(), "IsSOTrx"), "", false);
 	private VCheckBox fIsDelivered = new VCheckBox("IsDelivered", false, false, true, Msg.translate(Env.getCtx(), "IsDelivered"), "", false);
@@ -165,15 +157,11 @@ public class InfoOrder extends Info
 		fIsDelivered.setSelected(false);
 		fIsDelivered.addActionListener(this);
 		//
-	//	fOrg_ID = new VLookup("AD_Org_ID", false, false, true,
-	//		MLookupFactory.create(Env.getCtx(), 3486, m_WindowNo, DisplayType.TableDir, false),
-	//		DisplayType.TableDir, m_WindowNo);
-	//	lOrg_ID.setLabelFor(fOrg_ID);
-	//	fOrg_ID.setBackground(AdempierePLAF.getInfoBackground());
 		fBPartner_ID = new VLookup("C_BPartner_ID", false, false, true,
 			MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 3499, DisplayType.Search));
 		lBPartner_ID.setLabelFor(fBPartner_ID);
 		fBPartner_ID.setBackground(AdempierePLAF.getInfoBackground());
+		fBPartner_ID.addPropertyChangeListener(this);
 		//
 		lDateFrom.setLabelFor(fDateFrom);
 		fDateFrom.setBackground(AdempierePLAF.getInfoBackground());
@@ -188,50 +176,47 @@ public class InfoOrder extends Info
 		fAmtTo.setBackground(AdempierePLAF.getInfoBackground());
 		fAmtTo.setToolTipText(Msg.translate(Env.getCtx(), "AmtTo"));
 		//
-		parameterPanel.setLayout(new MigLayout("", "[100][140][120][250][100]"));
+		CPanel amtPanel = new CPanel();
+		CPanel datePanel = new CPanel();
+		
+		amtPanel.setLayout(new ALayout(0, 0, true));
+		amtPanel.add(fAmtFrom, new ALayoutConstraint(0,0));
+		amtPanel.add(lAmtTo, null);
+		amtPanel.add(fAmtTo, null);
+
+		datePanel.setLayout(new ALayout(0, 0, true));
+		datePanel.add(fDateFrom, new ALayoutConstraint(0,0));
+		datePanel.add(lDateTo, null);
+		datePanel.add(fDateTo, null);
+
+		parameterPanel.setLayout(new ALayout());
 		//  First Row
-		parameterPanel.add(lDocumentNo, "align right");
-		parameterPanel.add(fDocumentNo, "growx");
-		parameterPanel.add(lBPartner_ID, "align right");
-		parameterPanel.add(fBPartner_ID, "growx");
-		parameterPanel.add(fIsSOTrx, "gapleft 15,wrap");
+		parameterPanel.add(lDocumentNo, new ALayoutConstraint(0,0));
+		parameterPanel.add(fDocumentNo, null);
+		parameterPanel.add(lDescription, null);
+		parameterPanel.add(fDescription, null);
+		parameterPanel.add(fIsSOTrx, new ALayoutConstraint(0,4));
 
 		//  2nd Row
-		parameterPanel.add(lDescription, "align right");
-		parameterPanel.add(fDescription, "growx");
-		parameterPanel.add(lDateFrom, "align right");
-		
-		JPanel datePanel = new JPanel();
-		datePanel.setLayout(new MigLayout("insets 0","[120][min!][120]"));
-		datePanel.add(fDateFrom, "growx");
-		datePanel.add(lDateTo);
-		datePanel.add(fDateTo, "growx");
-		parameterPanel.add(datePanel);
-		parameterPanel.add(fIsDelivered, "gapleft 15,wrap");
+		parameterPanel.add(lBPartner_ID, new ALayoutConstraint(1,0));
+		parameterPanel.add(fBPartner_ID, null);
+		parameterPanel.add(lDateFrom, null);
+		parameterPanel.add(datePanel, null);
+		parameterPanel.add(fIsDelivered, new ALayoutConstraint(1,4));
 
 		//  3rd Row
-		parameterPanel.add(lPOReference, "align right");
-		parameterPanel.add(fPOReference, "growx");
-		parameterPanel.add(lAmtFrom, "align right");
-		
-		JPanel amountPanel = new JPanel();
-		amountPanel.setLayout(new MigLayout("insets 0","[120][min!][120]"));
-		amountPanel.add(fAmtFrom, "growx");
-		amountPanel.add(lAmtTo);
-		amountPanel.add(fAmtTo, "growx");
-		parameterPanel.add(amountPanel);
+		parameterPanel.add(lPOReference, new ALayoutConstraint(2,0));
+		parameterPanel.add(fPOReference, null);
+		parameterPanel.add(lAmtFrom, null);
+		parameterPanel.add(amtPanel, null);
 	}	//	statInit
 
 	/**
 	 *	General Init
 	 *	@return true, if success
 	 */
-	private boolean initInfo ()
+	private boolean initInfo (int record_id, String value)
 	{
-		//  Set Defaults
-		String bp = Env.getContext(Env.getCtx(), p_WindowNo, "C_BPartner_ID");
-		if (bp != null && bp.length() != 0)
-			fBPartner_ID.setValue(new Integer(bp));
 
 		//  prepare table
 		StringBuffer where = new StringBuffer("o.IsActive='Y'");
@@ -241,7 +226,57 @@ public class InfoOrder extends Info
 			" C_Order o",
 			where.toString(),
 			"2,3,4");
+		
+		if (!(record_id == 0) && value != null && value.length() > 0)
+		{
+			log.severe("Received both a record_id and a value: " + record_id + " - " + value);
+		}
 
+		if (record_id != 0)
+		{
+			fieldID = record_id;
+			
+			// Have to set boolean fields in query
+			String trxName = Trx.createTrxName();
+			MOrder o = new MOrder(Env.getCtx(),record_id,trxName);
+			fIsSOTrx.setValue(o.isSOTrx());
+			fIsDelivered.setValue(o.isDelivered());
+			o = null;
+			Trx.get(trxName, false).close();	
+		}
+		else  // Try to find other criteria in the context
+		{
+			String id;
+			
+			//  C_BPartner_ID - restrict the search to the current BPartner
+			id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "C_BPartner_ID", true);
+			if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
+				fBPartner_ID.setValue(new Integer(id));
+
+			//  The value passed in from the field
+			if (value != null && value.length() > 0)
+			{
+				fDocumentNo.setValue(value);
+			}
+			else
+			{
+				//  C_Order_ID
+				id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "C_Order_ID", true);
+				if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
+				{
+					fieldID = new Integer(id).intValue();
+
+					// Have to set boolean fields in query
+					String trxName = Trx.createTrxName();
+					MOrder o = new MOrder(Env.getCtx(),record_id,trxName);
+					fIsSOTrx.setValue(o.isSOTrx());
+					fIsDelivered.setValue(o.isDelivered());
+					o = null;
+					Trx.get(trxName, false).close();	
+				}
+			}
+		}
+		
 		return true;
 	}	//	initInfo
 
@@ -255,11 +290,19 @@ public class InfoOrder extends Info
 	protected String getSQLWhere()
 	{
 		StringBuffer sql = new StringBuffer();
-		if (fDocumentNo.getText().length() > 0)
+		//  => ID
+		if(isResetRecordID())
+			fieldID = 0;
+		if(!(fieldID == 0))
+			sql.append(" AND o.C_Order_ID = ?");
+		//
+		if (isValidSQLText(fDocumentNo))
 			sql.append(" AND UPPER(o.DocumentNo) LIKE ?");
-		if (fDescription.getText().length() > 0)
+		//
+		if (isValidSQLText(fDescription))
 			sql.append(" AND UPPER(o.Description) LIKE ?");
-		if (fPOReference.getText().length() > 0)
+		//
+		if (isValidSQLText(fPOReference))
 			sql.append(" AND UPPER(o.POReference) LIKE ?");
 		//
 		if (fBPartner_ID.getValue() != null)
@@ -305,11 +348,14 @@ public class InfoOrder extends Info
 	protected void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
 	{
 		int index = 1;
-		if (fDocumentNo.getText().length() > 0)
+		//  => ID
+		if (!(fieldID == 0))
+			pstmt.setInt(index++, fieldID);
+		if (isValidSQLText(fDocumentNo))
 			pstmt.setString(index++, getSQLText(fDocumentNo));
-		if (fDescription.getText().length() > 0)
+		if (isValidSQLText(fDescription))
 			pstmt.setString(index++, getSQLText(fDescription));
-		if (fPOReference.getText().length() > 0)
+		if (isValidSQLText(fPOReference))
 			pstmt.setString(index++, getSQLText(fPOReference));
 		//
 		if (fBPartner_ID.getValue() != null)
@@ -359,15 +405,7 @@ public class InfoOrder extends Info
 	 *  @param f field
 	 *  @return sql
 	 */
-	private String getSQLText (CTextField f)
-	{
-		String s = f.getText().toUpperCase();
-		if (!s.endsWith("%"))
-			s += "%";
-		log.fine("String=" + s);
-		return s;
-	}   //  getSQLText
-	
+
 
 	/**
 	 *	Zoom

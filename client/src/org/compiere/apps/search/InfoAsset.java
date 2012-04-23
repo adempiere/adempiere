@@ -40,6 +40,10 @@ import org.compiere.util.Msg;
  *	
  *  @author Jorg Janke
  *  @version $Id: InfoAsset.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
+ *
+ * @author Michael McKay, 
+ * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
+ * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
  */
 public class InfoAsset extends Info
 {
@@ -54,28 +58,30 @@ public class InfoAsset extends Info
 	 * @param frame frame
 	 * @param modal modal
 	 * @param WindowNo window no
-	 * @param A_Asset_ID asset
-	 * @param value    Query Value or Name if enclosed in @
+	 * @param record_id The record ID to find
+	 * @param value query value to find, exclusive of record_id
 	 * @param multiSelection multiple selections
 	 * @param whereClause where clause
 	 */
 	public InfoAsset (Frame frame, boolean modal, int WindowNo,
-		int A_Asset_ID, String value,
-		boolean multiSelection, String whereClause)
+		int record_id, String value,
+		boolean multiSelection, boolean saveResults, String whereClause)
 	{
-		super (frame, modal, WindowNo, "a", "A_Asset_ID", multiSelection, whereClause);
-		log.info(value + ", ID=" + A_Asset_ID + ", WHERE=" + whereClause);
+		super (frame, modal, WindowNo, "a", "A_Asset_ID", multiSelection, saveResults, whereClause);
+		log.info(value + ", ID=" + record_id + ", WHERE=" + whereClause);
 		setTitle(Msg.getMsg(Env.getCtx(), "InfoAsset"));
 		//
 		statInit();
-		initInfo (value, A_Asset_ID, whereClause);
+		initInfo (record_id, value, whereClause);
 		//
 		int no = p_table.getRowCount();
 		setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
 		setStatusDB(Integer.toString(no));
+		
 		//	AutoQuery
-		if (value != null && value.length() > 0)
+		if(autoQuery() || record_id != 0 || (value != null && value.length() > 0 && value != "%"))
 			executeQuery();
+		
 		p_loadedOK = true;
 		//	Focus
 	//	fieldValue.requestFocus();
@@ -103,6 +109,7 @@ public class InfoAsset extends Info
 	};
 	
 	//
+	private int fieldID = 0;
 	private CLabel labelValue = new CLabel();
 	private CTextField fieldValue = new CTextField(10);
 	private CLabel labelName = new CLabel();
@@ -152,7 +159,7 @@ public class InfoAsset extends Info
 	 *  @param value value
 	 *  @param whereClause where clause
 	 */
-	private void initInfo (String value, int A_Asset_ID, String whereClause)
+	private void initInfo (int record_id, String value, String whereClause)
 	{
 		//	Create Grid
 		StringBuffer where = new StringBuffer();
@@ -164,12 +171,45 @@ public class InfoAsset extends Info
 			where.toString(),
 			"a.Value");
 
-		//  Set Value
-		if (value == null)
-			value = "%";
-		if (!value.endsWith("%"))
-			value += "%";
-		fieldValue.setText(value);
+		if (!(record_id == 0) && value != null && value.length() > 0)
+		{
+			log.severe("Received both a record_id and a value: " + record_id + " - " + value);
+		}
+
+		//  Set Value and boolean criteria (if any)
+		if (!(record_id == 0))
+		{
+			fieldID = record_id;
+		}
+		else
+		{	
+			// Use the value if any
+			if (value != null && value.length() > 0)
+			{
+				fieldValue.setText(value);
+			}
+			else
+			{
+				//  Try to find the context - A_Asset_ID
+	        	String aid = Env.getContext(Env.getCtx(), p_WindowNo, "A_Asset_ID");
+				if (aid != null && aid.length() != 0)
+				{
+					fieldID = new Integer(aid).intValue();
+				}
+				//  C_BPartner_ID
+				String bp = Env.getContext(Env.getCtx(), p_WindowNo, "C_BPartner_ID");
+				if (bp != null && bp.length() != 0)
+				{
+					fBPartner_ID.setValue(new Integer(bp).intValue());
+				}
+				//  M_Product_ID
+				String pid = Env.getContext(Env.getCtx(), p_WindowNo, "M_Product_ID");
+				if (pid != null && pid.length() != 0)
+				{
+					fProduct_ID.setValue(new Integer(pid).intValue());
+				}
+			}
+		}
 	}	//	initInfo
 
 	/*************************************************************************/
@@ -183,13 +223,16 @@ public class InfoAsset extends Info
 	protected String getSQLWhere()
 	{
 		StringBuffer sql = new StringBuffer();
+		//  => ID
+		if(isResetRecordID())
+			fieldID = 0;
+		if (!(fieldID == 0))
+			sql.append(" AND a.A_Asset_ID = ?");
 		//	=> Value
-		String value = fieldValue.getText().toUpperCase();
-		if (!(value.equals("") || value.equals("%")))
+		if (isValidSQLText(fieldValue))
 			sql.append(" AND UPPER(a.Value) LIKE ?");
 		//	=> Name
-		String name = fieldName.getText().toUpperCase();
-		if (!(name.equals("") || name.equals("%")))
+		if (isValidSQLText(fieldName))
 			sql.append (" AND UPPER(a.Name) LIKE ?");
 		//	C_BPartner_ID
 		Integer C_BPartner_ID = (Integer)fBPartner_ID.getValue();
@@ -214,23 +257,23 @@ public class InfoAsset extends Info
 	protected void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
 	{
 		int index = 1;
-		//	=> Value
-		String value = fieldValue.getText().toUpperCase();
-		if (!(value.equals("") || value.equals("%")))
+		//  => ID
+		if(!(fieldID ==0))
 		{
-			if (!value.endsWith("%"))
-				value += "%";
-			pstmt.setString(index++, value);
-			log.fine("Value: " + value);
+			pstmt.setInt(index++, fieldID);
+			log.fine("Record_ID: " + fieldID);
+		}
+		//	=> Value
+		if (isValidSQLText(fieldValue))
+		{
+			pstmt.setString(index++, getSQLText(fieldValue));
+			log.fine("Value: " + fieldValue.getText());
 		}
 		//	=> Name
-		String name = fieldName.getText().toUpperCase();
-		if (!(name.equals("") || name.equals("%")))
+		if (isValidSQLText(fieldName))
 		{
-			if (!name.endsWith("%"))
-				name += "%";
-			pstmt.setString(index++, name);
-			log.fine("Name: " + name);
+			pstmt.setString(index++, getSQLText(fieldName));
+			log.fine("Name: " + fieldName.getText());
 		}
 	}	//	setParameters
 

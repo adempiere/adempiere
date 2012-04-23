@@ -74,6 +74,9 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
 	 * 
 	 */
 	private static final long serialVersionUID = 8725276769956103867L;
+
+	private int fieldID = 0;
+	
 	private Label lblDocumentNo;
     private Label lblDescription;
     private Label lblDateOrdered;
@@ -112,13 +115,13 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
         new ColumnInfo(Msg.translate(Env.getCtx(), "IsDelivered"), "o.IsDelivered", Boolean.class),
     };
     
-    protected InfoOrderPanel(int WindowNo, String value,
+    protected InfoOrderPanel(int WindowNo, int record_id, String value,
             boolean multiSelection, String whereClause)
     {
-    	this(WindowNo, value, multiSelection, whereClause, true);
+    	this(WindowNo, record_id, value, multiSelection, whereClause, true);
     }
 
-    protected InfoOrderPanel(int WindowNo, String value,
+    protected InfoOrderPanel(int WindowNo, int record_id, String value,
             boolean multiSelection, String whereClause, boolean lookup)
     {
         super ( WindowNo, "o", "C_Order_ID", multiSelection, whereClause, lookup);
@@ -130,7 +133,7 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
 		{
 	        initComponents();
 	        init();
-	        p_loadedOK = initInfo ();
+	        p_loadedOK = initInfo (record_id, value);
 		}
 		catch (Exception e)
 		{
@@ -141,10 +144,8 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
         setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
         setStatusDB(Integer.toString(no));
         //
-        if (value != null && value.length() > 0)
+        if (record_id !=0 || (value != null && value.length() > 0))
         {
-            String values[] = value.split("_");
-            txtDocumentNo.setText(values[0]);
             executeQuery();
             renderItems();
         }
@@ -274,13 +275,8 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
      *  General Init
      *  @return true, if success
      */
-    private boolean initInfo ()
+    private boolean initInfo (int record_id, String value)
     {
-        //  Set Defaults
-        String bp = Env.getContext(Env.getCtx(), p_WindowNo, "C_BPartner_ID");
-        if (bp != null && bp.length() != 0)
-            editorBPartner.setValue(new Integer(bp));
-
         //  prepare table
         StringBuffer where = new StringBuffer("o.IsActive='Y'");
         if (p_whereClause.length() > 0)
@@ -288,18 +284,47 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
        prepareTable(s_invoiceLayout,
             " C_Order o",
             where.toString(),"2,3,4");
-
+		
+       if (record_id != 0)
+		{
+			fieldID = record_id;
+		}
+		else
+		{
+			//  Set Defaults
+			if (value != null && value.length() > 0)
+			{
+				txtDocumentNo.setValue(value);
+			}
+			else
+			{
+				String bp = Env.getContext(Env.getCtx(), p_WindowNo, "C_BPartner_ID");
+				if (bp != null && bp.length() != 0)
+				{
+					editorBPartner.setValue(new Integer(bp));
+				}
+			}
+		}
+       
         return true;
     }   //  initInfo
     @Override
     public String getSQLWhere()
     {
         StringBuffer sql = new StringBuffer();
-        if (txtDocumentNo.getText().length() > 0)
+		//  => ID
+		if(isResetRecordID())
+			fieldID = 0;
+		if(!(fieldID == 0))
+			sql.append(" AND o.C_Order_ID = ?");
+		//
+		if (txtDocumentNo.getText().length() > 0)
             sql.append(" AND UPPER(o.DocumentNo) LIKE ?");
-        if (txtDescription.getText().length() > 0)
+        //
+		if (txtDescription.getText().length() > 0)
             sql.append(" AND UPPER(o.Description) LIKE ?");
-        if (txtOrderRef.getText().length() > 0)
+        //
+		if (txtOrderRef.getText().length() > 0)
             sql.append(" AND UPPER(o.POReference) LIKE ?");
         //
         if (editorBPartner.getValue() != null)
@@ -383,7 +408,10 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
     protected void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
     {
         int index = 1;
-        if (txtDocumentNo.getText().length() > 0)
+		//  => ID
+		if (!(fieldID == 0))
+			pstmt.setInt(index++, fieldID);
+		if (txtDocumentNo.getText().length() > 0)
             pstmt.setString(index++, getSQLText(txtDocumentNo));
         if (txtDescription.getText().length() > 0)
             pstmt.setString(index++, getSQLText(txtDescription));

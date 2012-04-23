@@ -37,14 +37,17 @@ import org.adempiere.webui.panel.InfoProductPanel;
 import org.adempiere.webui.window.WFieldRecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.model.Lookup;
+import org.compiere.model.MBPartner;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
+import org.compiere.model.MProduct;
 import org.compiere.model.MRole;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.Trx;
 import org.compiere.util.Util;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
@@ -66,6 +69,10 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 	private WEditorPopupMenu	popupMenu;
     private Object              value;
     private InfoPanel			infoPanel = null;
+    private Boolean				m_settingValue = false;
+    private Boolean				m_needsUpdate = false;
+    private String				m_lastDisplay = null;
+    
 
 	private static CLogger log = CLogger.getCLogger(WSearchEditor.class);
 
@@ -199,6 +206,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		{
 			getComponent().setText("");
 		}
+		m_lastDisplay = getDisplay();
 	}
 
 	@Override
@@ -215,23 +223,16 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 
 	public void onEvent(Event e)
 	{
+		if(m_settingValue) // Ignore events if in the middle of setting the value
+		{
+			return;
+		}
 		if (Events.ON_CHANGE.equals(e.getName()) || Events.ON_OK.equals(e.getName()))
 		{
-			if (infoPanel != null)
-		 	{
-				infoPanel.detach();
-		 	 	infoPanel = null;
-		 	}
 			actionText(getComponent().getText());
-
 		}
 		else if (Events.ON_CLICK.equals(e.getName()))
 		{
-			if (infoPanel != null)
-			{
-				infoPanel.detach();
-				infoPanel = null;
-			}
 			actionButton("");
 		}
 	}
@@ -312,12 +313,33 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 
 	private void actionText(String text)
 	{
+
+		if (infoPanel != null) // An info panel is open
+	 	{
+			if(!m_needsUpdate) // If no changes are in progress, close the panel
+			{
+				infoPanel.detach();
+				infoPanel = null;
+			}
+	 	}
+
+		// Nothing entered, just pressing enter again => ignore - teo_sarca BF [ 1834399 ]
+		if (text != null && text.length() > 0 && text.equals(m_lastDisplay))
+		{
+			log.finest("Nothing entered [SKIP]");
+			m_needsUpdate = false;
+			return;
+		}
+
+		m_needsUpdate = true;  //Something changed
 		//	Nothing entered
 		if (text == null || text.length() == 0 || text.equals("%"))
 		{
 			actionButton(text);
 			return;
 		}
+		
+
 		text = text.toUpperCase();
 		log.config(getColumnName() + " - " + text);
 
@@ -346,9 +368,16 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		}
 
 		//	Try like
-		if (id == -3 && !text.endsWith("%"))
+		if (id == -3)
 		{
-			text += "%";
+			if(!text.startsWith("%"))
+			{
+				text = "%" + text;
+			}
+			if(!text.endsWith("%"))
+			{
+				text += "%";
+			}
 			finalSQL = Msg.parseTranslation(Env.getCtx(), getDirectAccessSQL(text));
 
 			try
@@ -403,6 +432,8 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 	{
 		log.fine("Value=" + value);
 
+		m_settingValue = true;
+		
 		ValueChangeEvent evt = new ValueChangeEvent(this, this.getColumnName(), getValue(), value);
 		// -> ADTabpanel - valuechange
 		fireValueChange(evt);
@@ -416,12 +447,15 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		
 		if (value == null && getValue() == null)
 			updated = true;
-		else if (value != null && value.equals(getValue()))
+		else if (value != null && value.equals(getValue()) && !m_needsUpdate)
 			updated = true;
 		if (!updated)
 		{
 			setValue(value);
 		}
+		
+		m_settingValue = false;  // last in the chain of changes.
+		m_needsUpdate = false;
 	}	//	actionCombo
 
 	/**
@@ -469,6 +503,13 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		if (lookup == null)
 			return;		//	leave button disabled
 		
+		// If an infoPanel is already open, close it.
+		if (infoPanel != null)
+		{
+			infoPanel.detach();
+			infoPanel = null;
+		}
+
 		/**
 		 *  Three return options:
 		 *  - Value Selected & OK pressed   => store result => result has value
@@ -476,8 +517,11 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		 *  - Window closed                 -> ignore       => result == null && !cancalled
 		 */
 
+		m_settingValue = true;  // We're changing something - ignore other events;
+		
 		Object result[] = null;			
-		boolean cancelled = false;	
+		boolean cancelled = false;
+		int record_id = 0;
 
 		String col = lookup.getColumnName();		//	fully qualified name
 
@@ -498,16 +542,19 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 			Env.setContext(Env.getCtx(), lookup.getWindowNo(), Env.TAB_INFO, "M_AttributeSetInstance_ID", "0");
 			Env.setContext(Env.getCtx(), lookup.getWindowNo(), Env.TAB_INFO, "M_Lookup_ID", "0");
 
-			//  Replace Value with name if no value exists
-			if (queryValue.length() == 0 && getComponent().getText().length() > 0)
-				queryValue = "@" + getComponent().getText() + "@";   //  Name indicator - otherwise Value
+			//  If the record has a value (ID) find the name.  The displayed text could be different.
+			if (queryValue.length() == 0 && getValue() != null)
+			{
+				Object currentValue = getValue();
+				record_id = ((Number)currentValue).intValue();
+			}
 
 			int M_Warehouse_ID = Env.getContextAsInt(Env.getCtx(), lookup.getWindowNo(), "M_Warehouse_ID");
 			int M_PriceList_ID = Env.getContextAsInt(Env.getCtx(), lookup.getWindowNo(), "M_PriceList_ID");
 
 			//	Show Info
-			InfoProductPanel ip = new InfoProductPanel (lookup.getWindowNo(),
-					M_Warehouse_ID, M_PriceList_ID, true, queryValue, whereClause);
+			InfoProductPanel ip = new InfoProductPanel(lookup.getWindowNo(),
+					M_Warehouse_ID, M_PriceList_ID, true, record_id, queryValue, whereClause);
 
 			ip.setVisible(true);
 			ip.setTitle(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "InfoProduct")));
@@ -523,16 +570,20 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		}
 		else if (col.equals("C_BPartner_ID"))
 		{
-			//  Replace Value with name if no value exists
-			if (queryValue.length() == 0 && getComponent().getText().length() > 0)
-				queryValue = getComponent().getText();
-
 			boolean isSOTrx = true;     //  default
+			boolean isSOMatch = true;
 
 			if (Env.getContext(Env.getCtx(), lookup.getWindowNo(), "IsSOTrx").equals("N"))
 				isSOTrx = false;
 
-			InfoBPartnerPanel ip = new InfoBPartnerPanel(queryValue, lookup.getWindowNo(), isSOTrx,false, whereClause);
+			//  Find record_id if no queryValue exists
+			if (queryValue.length() == 0 && getValue() != null)
+			{
+				Object currentValue = getValue(); 
+				record_id = ((Number)currentValue).intValue();
+			}
+
+			InfoBPartnerPanel ip = new InfoBPartnerPanel(record_id, queryValue, lookup.getWindowNo(), isSOTrx, isSOMatch, false, whereClause);
 
 			ip.setVisible(true);
 			ip.setTitle(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "InfoBPartner")));
@@ -551,10 +602,13 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 			if (m_tableName == null)	//	sets table name & key column
 				getDirectAccessSQL("*");
 
-            if (queryValue.length() == 0 && getComponent().getText().length() > 0)
-                queryValue = getComponent().getText();
+			if (queryValue.length() == 0 && getValue() != null)
+			{
+				Object currentValue = getValue();
+				record_id = ((Number)currentValue).intValue();
+			}
 
-			InfoPanel ig = InfoPanel.create(lookup.getWindowNo(), m_tableName,m_keyColumnName,queryValue, false, whereClause);
+			InfoPanel ig = InfoPanel.create(lookup.getWindowNo(), m_tableName,m_keyColumnName, record_id, queryValue, false, whereClause);
 			ig.setVisible(true);
 			ig.setStyle("border: 2px");
 			ig.setClosable(true);
@@ -586,6 +640,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		else
 		{
 			log.config(getColumnName() + " - Result = null (not cancelled)");
+			actionCombo(getValue());  //Reset the combo box to the current value
 		}
 		
 	}

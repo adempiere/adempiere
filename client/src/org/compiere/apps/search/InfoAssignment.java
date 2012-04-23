@@ -40,10 +40,14 @@ import org.compiere.util.Msg;
 
 
 /**
- *  View Assignments and optionally create Resource Assigments
+ *  View Assignments and optionally create Resource Assignments
  *
  *  @author     Jorg Janke
  *  @version    $Id: InfoAssignment.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
+ *
+ * @author Michael McKay, 
+ * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
+ * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
  */
 public class InfoAssignment extends Info
 {
@@ -57,35 +61,39 @@ public class InfoAssignment extends Info
 	 *  @param frame frame
 	 *  @param modal modal
 	 *  @param WindowNo WindowNo
-	 *  @param  value   Query value Name or Value if contains numbers
+	 *  @param record_id The record ID to find
+	 *  @param value query value to find, exclusive of record_id
 	 *  @param multiSelection multiple selection
 	 *  @param whereClause where clause
 	 */
-	public InfoAssignment (Frame frame, boolean modal, int WindowNo,
-		String value, boolean multiSelection, String whereClause)
+	public InfoAssignment (Frame frame, boolean modal, int WindowNo, int record_id,
+		String value, boolean multiSelection, boolean saveResults, String whereClause)
 	{
 		super (frame, modal, WindowNo, "ra", "S_ResourceAssigment_ID",
-			multiSelection, whereClause);
+			multiSelection, saveResults, whereClause);
 		log.info(value);
 		setTitle(Msg.getMsg(Env.getCtx(), "InfoAssignment"));
 		//
 		if (!initLookups())
 			return;
 		statInit();
-		initInfo (value, whereClause);
+		initInfo (record_id, value, whereClause);
 		//
 		int no = p_table.getRowCount();
 		setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
 		setStatusDB(Integer.toString(no));
+
 		//	AutoQuery
-	//	if (value != null && value.length() > 0)
-	//		executeQuery();
+		if(autoQuery() || record_id != 0 || (value != null && value.length() > 0 && value != "%"))
+			executeQuery();
+		
 		p_loadedOK = true;
 
 		AEnv.positionCenterWindow(frame, this);
 	}   //  InfoAssignment
 
 	//
+	private int fieldID = 0;
 	private CLabel	labelResourceType = new CLabel(Msg.translate(Env.getCtx(), "S_ResourceType_ID"));
 	private VLookup	fieldResourceType;
 	private CLabel	labelResource = new CLabel(Msg.translate(Env.getCtx(), "S_Resource_ID"));
@@ -179,7 +187,7 @@ AND rt.C_UOM_ID=uom.C_UOM_ID
 	 *  @param value value
 	 *  @param whereClause where clause
 	 */
-	private void initInfo(String value, String whereClause)
+	private void initInfo(int record_id, String value, String whereClause)
 	{
 		//  C_BPartner bp, AD_User c, C_BPartner_Location l, C_Location a
 
@@ -191,6 +199,47 @@ AND rt.C_UOM_ID=uom.C_UOM_ID
 		prepareTable(s_assignmentLayout, s_assignmentFROM,
 			where.toString(),
 			"rt.Name,r.Name,ra.AssignDateFrom");
+		
+		if (!(record_id == 0) && value != null && value.length() > 0)
+		{
+			log.severe("Received both a record_id and a value: " + record_id + " - " + value);
+		}
+
+		if (!(record_id == 0))  // A record is defined
+        {
+        	fieldID = record_id;
+        }
+        else
+        {
+			if (value != null && value.length() > 0)
+			{
+				//	Nowhere to use the value in this info dialog
+			}
+			else
+			{
+				//  Try to find the fieldID from the context
+	        	String sra = Env.getContext(Env.getCtx(), p_WindowNo, "S_ResourceAssignment_ID");
+				if (sra != null && sra.length() != 0)
+				{
+					fieldID = new Integer(sra).intValue();
+				}
+				//  Find the criteria in the context
+				//  S_Resource_Type_ID
+	        	String srt = Env.getContext(Env.getCtx(), p_WindowNo, "S_ResourceType_ID");
+				if (srt != null && srt.length() > 0)
+				{
+		    			fieldResourceType.setValue(new Integer(srt));
+				}
+				//  S_Resource_ID
+	        	String sr = Env.getContext(Env.getCtx(), p_WindowNo, "S_Resource_ID");
+				if (sr != null && sr.length() > 0)
+				{
+		    			fieldResource.setValue(new Integer(sr));
+				}
+			}
+        }
+
+		
 	}	//	initInfo
 
 	/*************************************************************************/
@@ -218,6 +267,11 @@ AND rt.C_UOM_ID=uom.C_UOM_ID
 	protected String getSQLWhere()
 	{
 		StringBuffer sql = new StringBuffer();
+		//  => ID
+		if(isResetRecordID())
+			fieldID = 0;
+		if(!(fieldID == 0))
+			sql.append(" AND ra.S_ResourceAssignment_ID=").append(fieldID);
 		//
 		Integer S_ResourceType_ID = (Integer)fieldResourceType.getValue();
 		if (S_ResourceType_ID != null)
