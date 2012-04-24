@@ -348,10 +348,10 @@ public class InfoCashLine extends Info
 	/**
 	 *	Zoom
 	 */
-	protected void zoom()
+	protected void zoom(int record_ID)
 	{
 		log.info( "InfoCashLine.zoom");
-		Integer C_CashLine_ID = getSelectedRowKey();
+		Integer C_CashLine_ID = record_ID;
 		if (C_CashLine_ID == null)
 			return;
 		MQuery query = new MQuery("C_CashLine");

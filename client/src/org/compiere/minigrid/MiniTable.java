@@ -130,19 +130,6 @@ public class MiniTable extends CTable implements IMiniTable
 		}
 	}
 
-	public class TablePropertyListener implements PropertyChangeListener {
-		public void propertyChange(PropertyChangeEvent e)
-		{
-			String propertyName = e.getPropertyName();
-			if (propertyName == "model")
-			{
-				//  Reset
-				((MiniTable) e.getSource()).setShowGrid(false);
-				((MiniTable) e.getSource()).setIntercellSpacing(new Dimension(0, 0));
-			}
-		}
-	}
-
 	/**
 	 *  Default Constructor
 	 */
@@ -1130,25 +1117,6 @@ public class MiniTable extends CTable implements IMiniTable
 	{
 		m_colorDataCompare = dataCompare;
 	}   //
-
-	/**
-	 * Specify if the records should be checked(selected) by default.
-	 * (for multi-selection only)
-	 * @param value
-	 */
-	public void setDefaultSelected(boolean value)
-	{
-		p_isDefaultSelected = value;
-	}
-	
-	/**
-	 * (for multi-selection only)
-	 * @return true if records are selected by default
-	 */
-	public boolean isDefaultSelected()
-	{
-		return p_isDefaultSelected;
-	}
 
 	/**
 	 *	Get ColorCode for Row.

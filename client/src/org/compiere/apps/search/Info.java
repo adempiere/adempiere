@@ -1075,6 +1075,7 @@ public abstract class Info extends CDialog
 			PrintScreenPainter.printScreen(this);
 		else if (cmd.equals(ConfirmPanel.A_REFRESH) || autoQuery())
 		{
+			super.actionPerformed(e);
 			m_resetRecordID = true;
 			executeQuery();
 		}

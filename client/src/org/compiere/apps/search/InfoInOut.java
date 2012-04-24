@@ -361,10 +361,10 @@ public class InfoInOut extends Info
 	/**
 	 *	Zoom
 	 */
-	protected void zoom()
+	protected void zoom(int record_ID)
 	{
 		log.info( "InfoInOut.zoom");
-		Integer M_InOut_ID = getSelectedRowKey();
+		Integer M_InOut_ID = record_ID;
 		if (M_InOut_ID == null)
 			return;
 		MQuery query = new MQuery("M_InOut");

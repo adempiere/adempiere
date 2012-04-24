@@ -439,10 +439,11 @@ public class InfoInvoice extends Info
 	/**
 	 *	Zoom
 	 */
-	protected void zoom()
+	protected void zoom(int record_ID)
 	{
 		log.info( "InfoInvoice.zoom");
-		Integer C_Invoice_ID = getSelectedRowKey();
+		// Integer C_Invoice_ID = getSelectedRowKey();
+		Integer C_Invoice_ID = record_ID;
 		if (C_Invoice_ID == null)
 			return;
 		MQuery query = new MQuery("C_Invoice");

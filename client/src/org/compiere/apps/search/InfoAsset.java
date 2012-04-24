@@ -315,10 +315,10 @@ public class InfoAsset extends Info
 	/**
 	 *	Zoom
 	 */
-	protected void zoom()
+	protected void zoom(int record_ID)
 	{
 		log.info( "InfoAsset.zoom");
-		Integer A_Asset_ID = getSelectedRowKey();
+		Integer A_Asset_ID = record_ID;
 		if (A_Asset_ID == null)
 			return;
 		MQuery query = new MQuery("A_Asset");

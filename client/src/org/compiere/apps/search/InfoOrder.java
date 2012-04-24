@@ -410,10 +410,10 @@ public class InfoOrder extends Info
 	/**
 	 *	Zoom
 	 */
-	protected void zoom()
+	protected void zoom(int record_ID)
 	{
 		log.info("");
-		Integer C_Order_ID = getSelectedRowKey();
+		Integer C_Order_ID = record_ID;
 		if (C_Order_ID == null)
 			return;
 		MQuery query = new MQuery("C_Order");

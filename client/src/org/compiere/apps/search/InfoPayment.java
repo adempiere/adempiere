@@ -18,6 +18,7 @@ package org.compiere.apps.search;
 
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -161,8 +162,10 @@ public class InfoPayment extends Info
 		fDocumentNo.setBackground(AdempierePLAF.getInfoBackground());
 		fDocumentNo.addActionListener(this);
 		fcheckReceipt.setSelected(true);  
+		fcheckReceipt.setActionCommand("OnlyReceipt");
 		fcheckReceipt.addActionListener(this);
 		fcheckPayment.setSelected(false);
+		fcheckPayment.setActionCommand("OnlyPayment");
 		fcheckPayment.addActionListener(this);
 		//
 		fBankAccount_ID = new VLookup("C_BankAccount_ID", false, false, true,
@@ -427,7 +430,7 @@ public class InfoPayment extends Info
 	 *	(Button) Action Listener & Popup Menu
 	 *  @param e event
 	 */
-	protected void actionPerfromed(ActionEvent e)
+	public void actionPerformed (ActionEvent e)
 	{
 		// Make the checkboxes exclusive
 		if(e.getActionCommand() == "OnlyReceipt")
@@ -446,10 +449,10 @@ public class InfoPayment extends Info
 	/**
 	 *	Zoom
 	 */
-	protected void zoom()
+	protected void zoom(int record_ID)
 	{
 		log.info( "InfoPayment.zoom");
-		Integer C_Payment_ID = getSelectedRowKey();
+		Integer C_Payment_ID = record_ID;
 		if (C_Payment_ID == null)
 			return;
 		MQuery query = new MQuery("C_Payment");

@@ -727,10 +727,10 @@ public class InfoBPartner extends Info implements ChangeListener, PropertyChange
 	/**
 	 *	Zoom
 	 */
-	protected void zoom()
+	protected void zoom(int record_ID)
 	{
 		log.info( "InfoBPartner.zoom");
-		Integer C_BPartner_ID = getSelectedRowKey();
+		Integer C_BPartner_ID = record_ID;
 		if (C_BPartner_ID == null)
 			return;
 	//	AEnv.zoom(MBPartner.Table_ID, C_BPartner_ID.intValue(), true);	//	SO
