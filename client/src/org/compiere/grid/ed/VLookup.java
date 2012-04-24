@@ -1271,17 +1271,31 @@ public class VLookup extends JComponent
 			//	Reset
 			resetTabInfo();
 			//
-			sql.append("SELECT M_Product_ID FROM M_Product WHERE (UPPER(Value) LIKE ")
-				.append(DB.TO_STRING(text))
-				.append(" OR UPPER(Name) LIKE ").append(DB.TO_STRING(text))
-				.append(" OR SKU LIKE ").append(DB.TO_STRING(text))
-				.append(" OR UPC LIKE ").append(DB.TO_STRING(text)).append(")");
+			sql.append("SELECT M_Product_ID FROM M_Product WHERE (");
+			if (text.startsWith("@") && text.endsWith("@"))
+			{
+				sql.append("UPPER(Name) LIKE  ")
+					.append(DB.TO_STRING(text.substring(1,text.length()-1))).append(")");
+			}
+			else
+			{
+				sql.append("UPPER(Value) LIKE ").append(DB.TO_STRING(text))
+					.append(" OR UPPER(Name) LIKE ").append(DB.TO_STRING(text))
+					.append(" OR UPPER(SKU) LIKE ").append(DB.TO_STRING(text))
+					.append(" OR UPPER(UPC) LIKE ").append(DB.TO_STRING(text)).append(")");
+			}
 		}
 		else if (m_columnName.equals("C_BPartner_ID"))
 		{
-			sql.append("SELECT C_BPartner_ID FROM C_BPartner WHERE (UPPER(Value) LIKE ")
-				.append(DB.TO_STRING(text))
-				.append(" OR UPPER(Name) LIKE ").append(DB.TO_STRING(text)).append(")");
+			sql.append("SELECT C_BPartner_ID FROM C_BPartner WHERE (");
+			//	Put query string in Name if not fully numeric
+    		if (!text.matches(".*\\D+.*")) // If text has no non-digit characters ...
+    			//  search against the Value field
+				sql.append("UPPER(Value) LIKE ").append(DB.TO_STRING(text));
+    		else
+    			// A few non-digit characters might be in the name. E.g. 451Group, 1st Choice, ...
+    			sql.append("UPPER(Name) LIKE ").append(DB.TO_STRING(text)); 
+			sql.append(")");
 		}
 		else if (m_columnName.equals("C_Order_ID"))
 		{
