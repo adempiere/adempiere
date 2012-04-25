@@ -174,6 +174,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 	//Begin - fer_luck @ centuryon
 	private CTextArea fieldDescription = new CTextArea();
 	private JXTaskPane warehouseStockPanel = new JXTaskPane();
+	private CPanel checkPanel = new CPanel();  // Holder for the show detail checkbox
 	private CPanel tablePanel = new CPanel();
 	private MiniTable warehouseTbl = new MiniTable();
 	private String m_sqlWarehouse;
@@ -423,13 +424,16 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 		jTab.addTab (Msg.getMsg(Env.getCtx(), "ATP"), new JScrollPane(m_tableAtp));
 		jTab.addChangeListener(this);
         tablePanel.setPreferredSize(new Dimension(INFO_WIDTH, SCREEN_HEIGHT > 600 ? 255 : 110));
-        tablePanel.add(jTab);        
+        tablePanel.setLayout(new BorderLayout());
+        tablePanel.add(jTab, BorderLayout.CENTER);        
 
+        checkPanel.add(checkShowDetail);
         warehouseStockPanel.setCollapsed(true);
-        warehouseStockPanel.add(checkShowDetail);
-        warehouseStockPanel.add(tablePanel);
-        this.addonPanel.add(warehouseStockPanel);
-        
+        warehouseStockPanel.setLayout(new BorderLayout());
+        warehouseStockPanel.add(checkShowDetail, BorderLayout.NORTH);
+        warehouseStockPanel.add(tablePanel, BorderLayout.CENTER);
+        this.addonPanel.setLayout(new BorderLayout());
+        this.addonPanel.add(warehouseStockPanel, BorderLayout.CENTER); // Allow auto resizing of the panel
 	}	//	statInit
 
 	//Begin - fer_luck @ centuryon

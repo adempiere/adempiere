@@ -16,6 +16,7 @@
  *****************************************************************************/
 package org.compiere.apps.search;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
@@ -313,11 +314,14 @@ public class InfoBPartner extends Info implements ChangeListener, PropertyChange
         jTab.setPreferredSize(new Dimension(INFO_WIDTH, SCREEN_HEIGHT > 600 ? 250 : 105));
 		jTab.addChangeListener(this);  // needed if other tabs are added
         tablePanel.setPreferredSize(new Dimension(INFO_WIDTH, SCREEN_HEIGHT > 600 ? 255 : 110));
-        tablePanel.add(jTab);
+        tablePanel.setLayout(new BorderLayout());
+        tablePanel.add(jTab, BorderLayout.CENTER);
         
         detailPanel.setCollapsed(true);
-        detailPanel.add(Msg.translate(Env.getCtx(), "Contact"), tablePanel);
-        this.addonPanel.add(detailPanel);
+        detailPanel.setLayout(new BorderLayout());
+        detailPanel.add(tablePanel, BorderLayout.CENTER);
+        this.addonPanel.setLayout(new BorderLayout());
+        this.addonPanel.add(detailPanel, BorderLayout.CENTER);
         
         this.p_table.getSelectionModel().addListSelectionListener(this);
 	}	//	statInit
