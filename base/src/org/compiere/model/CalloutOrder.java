@@ -695,7 +695,18 @@ public class CalloutOrder extends CalloutEngine
 	{
 		Integer M_Product_ID = (Integer)value;
 		if (M_Product_ID == null || M_Product_ID.intValue() == 0)
+		{
+			//  If the product information is deleted, zero the other items as well
+			mTab.setValue("M_AttributeSetInstance_ID", null);
+			mTab.setValue("PriceList", new BigDecimal(0));
+			mTab.setValue("PriceLimit", new BigDecimal(0));
+			mTab.setValue("PriceActual", new BigDecimal(0));
+			mTab.setValue("PriceEntered", new BigDecimal(0));
+			mTab.setValue("C_Currency_ID", null);
+			mTab.setValue("Discount", new BigDecimal(0));
+			mTab.setValue("C_UOM_ID", null);
 			return "";
+		}
 		if (steps) log.warning("init");
 		//
 		mTab.setValue("C_Charge_ID", null);

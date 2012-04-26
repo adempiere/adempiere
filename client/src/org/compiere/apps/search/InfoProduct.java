@@ -1059,12 +1059,37 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 			}
 			else if (cmd.equals(ConfirmPanel.A_PATTRIBUTE))
 			{
+				//  Find the ASI used by the product on the lead row
 				MProduct mp = MProduct.get(Env.getCtx(), m_M_Product_ID);
-				m_M_AttributeSetInstance_ID = mp.getM_AttributeSetInstance_ID();
-				VPAttributeDialog vad = new VPAttributeDialog (Env.getFrame (this), 
-						m_M_AttributeSetInstance_ID, m_M_Product_ID, 0,
-						false, 0, p_WindowNo, false);
-				return;
+				m_M_AttributeSetInstance_ID = mp.getM_AttributeSetInstance_ID();				
+				//  Set title and parameters for the PattributeInstance window  
+				String title = fWarehouse_ID.getDisplay() + " - " + mp.getName();
+				int wh_id = ((Integer) (fWarehouse_ID.getValue())).intValue();
+				//  Get the business partner from the context - it may be different than the Vendor
+				int bp_id = 0;
+				String s_bp_id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "C_BPartner_ID", false);
+				if (s_bp_id != null && s_bp_id.length() != 0 && (new Integer(s_bp_id).intValue() > 0))
+					bp_id = new Integer(s_bp_id).intValue();
+				//  Display the window
+				PAttributeInstance pai = new PAttributeInstance (this, title, 
+						wh_id, 0, p_table.getLeadRowKey(), bp_id);
+				//  Get the results
+				m_M_AttributeSetInstance_ID = pai.getM_AttributeSetInstance_ID();
+				m_M_Locator_ID = pai.getM_Locator_ID();
+				
+				if (m_M_AttributeSetInstance_ID != -1)
+					fASI_ID.setValue(m_M_AttributeSetInstance_ID);
+				else
+					fASI_ID.setValue(0); //  No instance
+				
+				//  Saving here is confusing with multi-selection
+				if (p_saveResults)  //  If the results are saved, we can save now - an ASI is product specific
+				{
+				//	dispose(p_saveResults);
+				//	return;
+				}
+				
+				triggerRefresh = true;
 			}
 			else if (source instanceof VComboBox)
 			{
@@ -1251,15 +1276,19 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 	 */
 	protected void enableButtons ()
 	{
-		m_M_AttributeSetInstance_ID = -1;
 		if (m_PAttributeButton != null)
 		{
 			if (p_table == null)
 				return;
 			
-			int row = p_table.getSelectedRow();
+			int row = p_table.getSelectionModel().getLeadSelectionIndex();
+			int rows = p_table.getRowCount();
+			if (p_table.getShowTotals())
+				rows = rows-1;
+			
+			int selectedRows = p_table.getSelectedRowCount();
 			boolean enabled = false;
-			if (row >= 0)
+			if (row >= 0 && row < rows && selectedRows == 1)
 			{
 				try
 				{
@@ -1288,7 +1317,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 			return;
 		int M_Warehouse_ID = ((Integer) fWarehouse_ID.getValue()).intValue();
 		int M_AttributeSetInstance_ID = m_M_AttributeSetInstance_ID;
-		if (m_M_AttributeSetInstance_ID < -1)	//	not selected
+		if (m_M_AttributeSetInstance_ID < 0)	//	not selected
 			M_AttributeSetInstance_ID = 0;
 		//
 		InvoiceHistory ih = new InvoiceHistory (this, 0, 
@@ -1537,7 +1566,6 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 
 		boolean showDetail = checkShowDetail.isSelected();
 		
-    	m_M_Product_ID = getSelectedRowKey();
 		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
 
 		int M_Warehouse_ID = 0;

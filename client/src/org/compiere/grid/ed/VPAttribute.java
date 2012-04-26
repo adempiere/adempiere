@@ -342,7 +342,9 @@ public class VPAttribute extends JComponent
 		log.fine("Value=" + value);
 		m_value = value;
 		m_text.setText(m_mPAttribute.getDisplay(value));	//	loads value
-		m_pAttributeWhere = "";
+		m_pAttributeWhere = "EXISTS (SELECT * FROM M_Storage s "
+				+ "WHERE s.M_AttributeSetInstance_ID=" + value
+				+ " AND s.M_Product_ID=p.M_Product_ID)";
 	}	//	setValue
 
 	/**
