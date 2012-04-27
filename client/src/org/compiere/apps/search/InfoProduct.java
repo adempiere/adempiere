@@ -1062,9 +1062,14 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 				//  Find the ASI used by the product on the lead row
 				MProduct mp = MProduct.get(Env.getCtx(), m_M_Product_ID);
 				m_M_AttributeSetInstance_ID = mp.getM_AttributeSetInstance_ID();				
-				//  Set title and parameters for the PattributeInstance window  
-				String title = fWarehouse_ID.getDisplay() + " - " + mp.getName();
-				int wh_id = ((Integer) (fWarehouse_ID.getValue())).intValue();
+				//  Set title and parameters for the PattributeInstance window
+				String title = "";
+				int wh_id = 0;
+				if (isValidVObject(fWarehouse_ID))
+				{
+					title = fWarehouse_ID.getDisplay() + " - " + mp.getName();
+					wh_id = ((Integer) (fWarehouse_ID.getValue())).intValue();
+				}
 				//  Get the business partner from the context - it may be different than the Vendor
 				int bp_id = 0;
 				String s_bp_id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "C_BPartner_ID", false);
