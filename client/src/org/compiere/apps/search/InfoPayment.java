@@ -66,9 +66,27 @@ public class InfoPayment extends Info
 	 *  @param frame parent frame
 	 *  @param modal modal
 	 *  @param WindowNo window no
+	 *  @param value query value
+	 *  @param multiSelection multiple selections
+	 *  @param whereClause whwre clause
+	 */
+	@Deprecated
+	protected InfoPayment(Frame frame, boolean modal, int WindowNo, String value,
+		boolean multiSelection, String whereClause)
+	{
+		this(frame, modal, WindowNo, 0, value, 
+				multiSelection, true, whereClause);
+	}
+	
+	/**
+	 *  Detail Protected Constructor
+	 *  @param frame parent frame
+	 *  @param modal modal
+	 *  @param WindowNo window no
 	 *  @param record_id The record ID to find
 	 *  @param value query value to find, exclusive of record_id
 	 *  @param multiSelection multiple selections
+	 *  @param saveResults  True if results will be saved, false for info only
 	 *  @param whereClause where clause
 	 */
 	protected InfoPayment(Frame frame, boolean modal, int WindowNo, int record_id, String value, 

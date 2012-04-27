@@ -11,6 +11,23 @@ public interface InfoFactory {
 	 *  @param  WindowNo	window no
 	 *  @param  tableName   table name of the search
 	 *  @param  keyColumn   key column of the search
+	 *  @param	value		query value
+	 *  @param  multiSelection  allow to select more than one row
+	 *  @param  whereClause fully qualified where clause for the search
+	 *  @return special or general Info Window
+	 */
+	@Deprecated
+	public Info create (Frame frame, boolean modal, int WindowNo,
+		String tableName, String keyColumn, String value,
+		boolean multiSelection, String whereClause);
+	
+	/**
+	 *  Factory Constructor
+	 *  @param  frame   parent frame
+	 *  @param  modal   new window is modal
+	 *  @param  WindowNo	window no
+	 *  @param  tableName   table name of the search
+	 *  @param  keyColumn   key column of the search
 	 *  @param  record_id The record ID to find
 	 *  @param  value query value to find, exclusive of record_id
 	 *  @param  multiSelection  allow to select more than one row

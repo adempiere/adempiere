@@ -58,9 +58,31 @@ public class InfoAsset extends Info
 	 * @param frame frame
 	 * @param modal modal
 	 * @param WindowNo window no
+	 * @param A_Asset_ID asset
+	 * @param value    Query Value or Name if enclosed in @
+	 * @param multiSelection multiple selections
+	 * @param whereClause where clause
+	 */
+	@Deprecated
+	public InfoAsset (Frame frame, boolean modal, int WindowNo,
+		int A_Asset_ID, String value,
+		boolean multiSelection, String whereClause)
+	{
+		this(frame, modal, WindowNo,
+				0, value,
+				multiSelection, true, whereClause);
+	}
+	
+	/**
+	 *	Standard Constructor
+
+	 * @param frame frame
+	 * @param modal modal
+	 * @param WindowNo window no
 	 * @param record_id The record ID to find
 	 * @param value query value to find, exclusive of record_id
 	 * @param multiSelection multiple selections
+	 * @param saveResults  True if results will be saved, false for info only
 	 * @param whereClause where clause
 	 */
 	public InfoAsset (Frame frame, boolean modal, int WindowNo,

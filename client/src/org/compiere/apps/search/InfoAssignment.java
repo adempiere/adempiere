@@ -61,9 +61,26 @@ public class InfoAssignment extends Info
 	 *  @param frame frame
 	 *  @param modal modal
 	 *  @param WindowNo WindowNo
+	 *  @param  value   Query value Name or Value if contains numbers
+	 *  @param multiSelection multiple selection
+	 *  @param whereClause where clause
+	 */
+	public InfoAssignment (Frame frame, boolean modal, int WindowNo,
+		String value, boolean multiSelection, String whereClause)
+	{
+		this(frame, modal, WindowNo, 0,
+				value, multiSelection, true, whereClause);
+	}
+
+	/**
+	 *  Constructor
+	 *  @param frame frame
+	 *  @param modal modal
+	 *  @param WindowNo WindowNo
 	 *  @param record_id The record ID to find
 	 *  @param value query value to find, exclusive of record_id
 	 *  @param multiSelection multiple selection
+	 *  @param saveResults  True if results will be saved, false for info only
 	 *  @param whereClause where clause
 	 */
 	public InfoAssignment (Frame frame, boolean modal, int WindowNo, int record_id,

@@ -102,9 +102,31 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 	 * 	@param WindowNo window no
 	 * 	@param M_Warehouse_ID warehouse
 	 * 	@param M_PriceList_ID price list
+	 * 	@param value    Query Value or Name if enclosed in @
+	 * 	@param multiSelection multiple selections
+	 * 	@param whereClause where clause
+	 */
+	@Deprecated
+	public InfoProduct(Frame frame, boolean modal, int WindowNo,
+		int M_Warehouse_ID, int M_PriceList_ID, String value,
+		boolean multiSelection, String whereClause)
+	{
+		this(frame, modal, WindowNo,
+				M_Warehouse_ID, M_PriceList_ID, 0, value,
+				multiSelection, true, whereClause);
+	}
+	
+	/**
+	 *	Standard Constructor
+	 * 	@param frame frame
+	 * 	@param modal modal
+	 * 	@param WindowNo window no
+	 * 	@param M_Warehouse_ID warehouse
+	 * 	@param M_PriceList_ID price list
 	 *  @param record_id The record ID to find
 	 *  @param value Query Value or Name if enclosed in @
 	 * 	@param multiSelection multiple selections
+	 *  @param saveResults  True if results will be saved, false for info only
 	 * 	@param whereClause where clause
 	 */
 	public InfoProduct(Frame frame, boolean modal, int WindowNo,

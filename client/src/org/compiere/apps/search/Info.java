@@ -108,7 +108,28 @@ public abstract class Info extends CDialog
 	 */
 	private static final long serialVersionUID = -5606614040914295869L;
 	
-
+	/**
+	 *  Factory Constructor (Depreciated)
+	 *  @param  frame   parent frame
+	 *  @param  modal   new window is modal
+	 *  @param  WindowNo	window no
+	 *  @param  tableName   table name of the search
+	 *  @param  keyColumn   key column of the search
+	 *  @param value query value to find, exclusive of record_id
+	 *  @param  multiSelection  allow to select more than one row
+	 *  @param  whereClause fully qualified where clause for the search
+	 *  @return special or general Info Window
+	 */
+	@Deprecated
+	public static Info create (Frame frame, boolean modal, int WindowNo,
+		String tableName, String keyColumn, String value,
+		boolean multiSelection, String whereClause)	
+	{
+		return create (frame, modal, WindowNo,
+				tableName, keyColumn, 0, value,
+				multiSelection, true, whereClause);
+	}
+	
 	/**
 	 *  Factory Constructor
 	 *  @param  frame   parent frame
@@ -119,6 +140,7 @@ public abstract class Info extends CDialog
 	 *  @param record_id The record ID to find
 	 *  @param value query value to find, exclusive of record_id
 	 *  @param  multiSelection  allow to select more than one row
+	 *  @param  saveResults  True if results will be saved, false for info only
 	 *  @param  whereClause fully qualified where clause for the search
 	 *  @return special or general Info Window
 	 */

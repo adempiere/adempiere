@@ -85,7 +85,26 @@ public class InfoBPartner extends Info implements ChangeListener, PropertyChange
 	 */
 	private static final long serialVersionUID = 5550733934685665946L;
 
-
+	/**
+	 *	Standard Constructor
+	 *  @param frame frame
+	 *  @param modal modal
+	 *  @param WindowNo WindowNo
+	 *  @param  value   Query value Name or Value if contains numbers
+	 *  @param isSOTrx  if false, query vendors only
+	 *  @param multiSelection multiple selection
+	 *  @param whereClause where clause
+	 */
+	@Deprecated
+	public InfoBPartner(Frame frame, boolean modal, int WindowNo,
+		String value, boolean isSOTrx,
+		boolean multiSelection, String whereClause)
+	{
+		this(frame, modal, WindowNo, 0,
+				value, isSOTrx, true,
+				multiSelection, true, whereClause);
+	}
+	
 	/**
 	 *	Standard Constructor
 	 *  @param frame frame
@@ -96,6 +115,7 @@ public class InfoBPartner extends Info implements ChangeListener, PropertyChange
 	 *  @param isSOTrx  if false, query vendors only
 	 *  @param isSOMatch true if the record_id status matches isSOTrx
 	 *  @param multiSelection multiple selection
+	 *  @param saveResults  True if results will be saved, false for info only
 	 *  @param whereClause where clause
 	 */
 	public InfoBPartner(Frame frame, boolean modal, int WindowNo, int record_id,

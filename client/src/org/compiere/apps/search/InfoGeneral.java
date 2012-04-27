@@ -67,11 +67,34 @@ public class InfoGeneral extends Info
 	 * 	@param frame parent
 	 * 	@param modal modal
 	 * 	@param WindowNo window no
+	 * 	@param value QueryValue
+	 * 	@param tableName table name
+	 * 	@param keyColumn key column (ignored)
+	 * 	@param multiSelection multiple selections
+	 * 	@param whereClause where clause
+	 */
+	@Deprecated
+	protected InfoGeneral (Frame frame, boolean modal, int WindowNo, String value,
+		String tableName, String keyColumn,
+		boolean multiSelection, String whereClause)
+	{
+		this(frame, modal, WindowNo, 0, value,
+		tableName, keyColumn,
+		multiSelection, true, whereClause);
+	}
+	
+	/**
+	 *	Detail Protected Constructor.
+	 *
+	 * 	@param frame parent
+	 * 	@param modal modal
+	 * 	@param WindowNo window no
 	 *  @param record_id The record ID to find
 	 *  @param value query value to find, exclusive of record_id
 	 * 	@param tableName table name
 	 * 	@param keyColumn key column (ignored)
 	 * 	@param multiSelection multiple selections
+	 *  @param saveResults  True if results will be saved, false for info only
 	 * 	@param whereClause where clause
 	 */
 	protected InfoGeneral (Frame frame, boolean modal, int WindowNo, int record_id, String value,
