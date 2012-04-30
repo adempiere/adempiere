@@ -47,6 +47,7 @@ import org.compiere.apps.StatusBar;
 import org.compiere.apps.form.FormFrame;
 import org.compiere.apps.form.FormPanel;
 import org.compiere.grid.ed.VLookup;
+import org.compiere.grid.ed.VNumber;
 import org.compiere.minigrid.MiniTable;
 import org.compiere.model.MColumn;
 import org.compiere.model.MLookup;
@@ -57,6 +58,7 @@ import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
 import org.compiere.util.Msg;
@@ -95,6 +97,10 @@ public class VTreeBOM extends TreeBOM implements FormPanel, ActionListener,
 	private FormFrame 		m_frame;
 	/**	Active Tree				*/
 	private JTree		 	m_tree;
+	/** Level	**/
+	private int m_level = 0;
+	/** Level	Limit **/
+	private int m_level_limit = 0;
 
 
 	private static CLogger log = CLogger.getCLogger(VTreeBOM.class);
@@ -103,7 +109,10 @@ public class VTreeBOM extends TreeBOM implements FormPanel, ActionListener,
 
 	private FlowLayout		northLayout	= new FlowLayout ();
 	private CLabel			labelProduct	= new CLabel ();
-	private VLookup fieldProduct;
+	private VLookup 		fieldProduct;
+	private CLabel labelLevel = new CLabel();
+	private VNumber fieldLevel = new VNumber("LevelNo", false,
+			false, true, DisplayType.Integer, "LevelNo");
 	//private CButton			bAddAll		= new CButton (Env.getImageIcon("FastBack24.gif"));
 	//private CButton			bAdd		= new CButton (Env.getImageIcon("StepBack24.gif"));
 	//private CButton			bDelete		= new CButton (Env.getImageIcon("StepForward24.gif"));
@@ -290,6 +299,10 @@ public class VTreeBOM extends TreeBOM implements FormPanel, ActionListener,
 		//END AJC
 		northPanel.add (labelProduct, null);
 		northPanel.add (fieldProduct, null);
+		labelLevel.setText(Msg.translate(Env.getCtx(), "LevelNo"));
+		northPanel.add (labelLevel, null);
+		northPanel.add (fieldLevel, null);
+
 		northPanel.add (implosion, null);
 		//northPanel.add (cbAllNodes, null);
 		northPanel.add (treeInfo, null);
@@ -390,6 +403,7 @@ public class VTreeBOM extends TreeBOM implements FormPanel, ActionListener,
 		DefaultMutableTreeNode parent = new DefaultMutableTreeNode(productSummary(product, false));
 
 		dataBOM.clear();
+		m_level = 0;
 
 		if (isImplosion())
 		{
@@ -466,7 +480,12 @@ public class VTreeBOM extends TreeBOM implements FormPanel, ActionListener,
 
 		//vparent.setValue(m_product_id);
 		DefaultMutableTreeNode parent = new DefaultMutableTreeNode(productSummary(bom)); 
-
+		if(m_level == getLevelNo())
+		{
+			m_level --;
+			return parent;
+		}	
+			
 		for (MPPProductBOMLine bomline : bom.getLines())
 		{
 			MProduct component = MProduct.get(getCtx(), bomline.getM_Product_ID());
@@ -492,11 +511,10 @@ public class VTreeBOM extends TreeBOM implements FormPanel, ActionListener,
 			line.add( (String) bomline.getIssueMethod()); // 14 IssueMethod
 			line.add( (String) bomline.getBackflushGroup());  // 15 BackflushGroup
 			line.add( (BigDecimal) bomline.getForecast()); // 16 Forecast
-			//line.add(this.);
-			dataBOM.add(line);
-			parent.add(component(component));
-
+			dataBOM.add(line);	
+			parent.add(component(component));			
 		}
+		m_level --;
 		return parent;
 	}
 
@@ -513,11 +531,12 @@ public class VTreeBOM extends TreeBOM implements FormPanel, ActionListener,
 			return parent;  
 		}
 		else
-		{
+		{				
 			for (MPPProductBOM bom : MPPProductBOM.getProductBOMs(product))
 			{
-				return parent(bom);
-			}  
+				m_level ++;
+				return parent(bom);	
+			}
 			return new DefaultMutableTreeNode(productSummary(product, true));
 		}
 	}
@@ -636,6 +655,15 @@ public class VTreeBOM extends TreeBOM implements FormPanel, ActionListener,
 		if (Product == null)
 			return 0;
 		return Product.intValue(); 
+	}
+	
+	protected int getLevelNo() {
+		Integer l =  fieldLevel.getValue() != null ? (Integer) fieldLevel.getValue() : 0;
+		return l;
+	}
+
+	protected void setLevelNo(int level) {
+		fieldLevel.setValue(level);
 	}
 
 }	//	VTreeMaintenance
