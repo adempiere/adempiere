@@ -19,11 +19,15 @@ package org.compiere.model;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
 import org.compiere.Adempiere;
 import org.compiere.util.CCache;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.TimeUtil;
@@ -188,6 +192,7 @@ public class MSession extends X_AD_Session
 
 	/**	Web Store Session		*/
 	private boolean		m_webStoreSession = false;
+	private MMigration m_migration = null;
 	
 	/**
 	 * 	Is it a Web Store Session
@@ -314,6 +319,54 @@ public class MSession extends X_AD_Session
 			+ ", AD_Table_ID=" + AD_Table_ID + ", AD_Column_ID=" + AD_Column_ID);
 		return null;
 	}	//	changeLog
+	
+	public void logMigration(PO po, POInfo pinfo, String event) {
+		
+		String [] exceptionTables = new String[] {
+				"AD_ACCESSLOG",			"AD_ALERTPROCESSORLOG",		"AD_CHANGELOG",
+				"AD_ISSUE",				"AD_LDAPPROCESSORLOG",		"AD_PACKAGE_IMP",
+				"AD_PACKAGE_IMP_BACKUP","AD_PACKAGE_IMP_DETAIL",	"AD_PACKAGE_IMP_INST",
+				"AD_PACKAGE_IMP_PROC",	"AD_PINSTANCE",				"AD_PINSTANCE_LOG",
+				"AD_PINSTANCE_PARA",	"AD_REPLICATION_LOG",		"AD_SCHEDULERLOG",
+				"AD_SESSION",			"AD_WORKFLOWPROCESSORLOG",	"CM_WEBACCESSLOG",
+				"C_ACCTPROCESSORLOG",	"K_INDEXLOG",				"R_REQUESTPROCESSORLOG",
+				"T_AGING",				"T_ALTER_COLUMN",			"T_DISTRIBUTIONRUNDETAIL",
+				"T_INVENTORYVALUE",		"T_INVOICEGL",				"T_REPLENISH",
+				"T_REPORT",				"T_REPORTSTATEMENT",		"T_SELECTION",
+				"T_SELECTION2",			"T_SPOOL",					"T_TRANSACTION",
+				"T_TRIALBALANCE",		"AD_PROCESS_ACCESS",		"AD_WINDOW_ACCESS",
+				"AD_WORKFLOW_ACCESS",	"AD_FORM_ACCESS",			
+				"AD_MIGRATION",			"AD_MIGRATIONSTEP",			"AD_MIGRATIONDATA"
+				//
+			};
+		
+		List<String> list = Arrays.asList(exceptionTables);
+		if ( list.contains(pinfo.getTableName().toUpperCase()) )
+				return;
+		
+		// ignore statistic updates
+		if ( pinfo.getTableName().equalsIgnoreCase("AD_Process") && !po.is_new() && po.is_ValueChanged("Statistic_Count") )
+			return;
+		
+		if ( m_migration == null )
+			createMigration(po.getCtx());
+		
+		MMigrationStep step = new MMigrationStep(m_migration, po, pinfo, event);
+		step.saveEx();
+		
+	}
+
+	private void createMigration(Properties ctx) {
+		
+		m_migration = new MMigration(ctx, 0, null);
+		m_migration.setName(MSysConfig.getValue("DICTIONARY_ID_COMMENTS"));
+		boolean dict = Ini.isPropertyBool(Ini.P_ADEMPIERESYS);
+		m_migration.setEntityType( dict ? "D" : "U");
+		String sql = "SELECT max(SeqNo)+1 FROM AD_Migration";
+		int seqNo = DB.getSQLValue(null, sql);
+		m_migration.setSeqNo(seqNo);
+		m_migration.saveEx();
+	}
 
 }	//	MSession
 

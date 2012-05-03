@@ -16,12 +16,15 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -568,6 +571,91 @@ public class MColumn extends X_AD_Column
 		return DB.getSQLValue(trxName, sqlStmt, AD_Column_ID);
 	}
 
+/**
+	 * Sync this column with the database
+	 * @return
+	 */
+	public String syncDatabase()
+	{
+
+		MTable table = new MTable(getCtx(), getAD_Table_ID(), get_TrxName());
+		table.set_TrxName(get_TrxName());  // otherwise table.getSQLCreate may miss current column
+		if (table.get_ID() == 0)
+			throw new AdempiereException("@NotFound@ @AD_Table_ID@ " + getAD_Table_ID());
+
+		//	Find Column in Database
+		Connection conn = null;
+		try {
+			conn = DB.getConnectionRO();
+			DatabaseMetaData md = conn.getMetaData();
+			String catalog = DB.getDatabase().getCatalog();
+			String schema = DB.getDatabase().getSchema();
+			String tableName = table.getTableName();
+			if (md.storesUpperCaseIdentifiers())
+			{
+				tableName = tableName.toUpperCase();
+			}
+			else if (md.storesLowerCaseIdentifiers())
+			{
+				tableName = tableName.toLowerCase();
+			}
+			int noColumns = 0;
+			String sql = null;
+			//
+			ResultSet rs = md.getColumns(catalog, schema, tableName, null);
+			while (rs.next())
+			{
+				noColumns++;
+				String columnName = rs.getString ("COLUMN_NAME");
+				if (!columnName.equalsIgnoreCase(getColumnName()))
+					continue;
+
+				//	update existing column
+				boolean notNull = DatabaseMetaData.columnNoNulls == rs.getInt("NULLABLE");
+				sql = getSQLModify(table, isMandatory() != notNull);
+				break;
+			}
+			rs.close();
+			rs = null;
+
+			//	No Table
+			if (noColumns == 0)
+				sql = table.getSQLCreate ();
+			//	No existing column
+			else if (sql == null)
+				sql = getSQLAdd(table);
+			
+			if ( sql == null )
+				return "No sql";
+			
+			int no = 0;
+			if (sql.indexOf(DB.SQLSTATEMENT_SEPARATOR) == -1)
+			{
+				DB.executeUpdateEx(sql, get_TrxName());
+			}
+			else
+			{
+				String statements[] = sql.split(DB.SQLSTATEMENT_SEPARATOR);
+				for (int i = 0; i < statements.length; i++)
+				{
+					DB.executeUpdateEx(statements[i], get_TrxName());
+				}
+			}
+			
+			return sql;
+
+		} 
+		catch (SQLException e) {
+			throw new AdempiereException(e);
+		}
+		finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (Exception e) {}
+			}
+		}
+	}
 
 	public static boolean isSuggestSelectionColumn(String columnName, boolean caseSensitive)
 	{

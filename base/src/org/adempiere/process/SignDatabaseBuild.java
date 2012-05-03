@@ -23,6 +23,7 @@ import org.compiere.Adempiere;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *	Sign Database Build
@@ -62,6 +63,8 @@ public class SignDatabaseBuild
 			DB.close(updateStmt);
 		}
 
+		MigrationLoader loader = new MigrationLoader();
+		loader.load(Env.getCtx());
 	}
 
 }	//	SignDatabaseBuild
