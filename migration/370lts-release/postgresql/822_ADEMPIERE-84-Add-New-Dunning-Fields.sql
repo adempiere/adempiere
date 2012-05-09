@@ -490,7 +490,7 @@ UPDATE AD_Process_Para SET SeqNo=26,Updated=TO_TIMESTAMP('2012-05-04 10:42:58','
 
 -- May 4, 2012 10:46:06 AM CDT
 -- ADEMPIERE-84-Add-New-Dunning-Fields
-UPDATE AD_Process_Para SET DisplayLogic='@IsSimulation@=''N'' & @CreatePayment@=''Y''',Updated=TO_TIMESTAMP('2012-05-04 10:46:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Process_Para_ID=221
+UPDATE AD_Process_Para SET DisplayLogic='@IsSimulation@=''N''',Updated=TO_TIMESTAMP('2012-05-04 10:46:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Process_Para_ID=221
 ;
 
 -- May 4, 2012 11:30:33 AM CDT
