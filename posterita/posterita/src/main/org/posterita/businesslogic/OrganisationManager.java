@@ -178,7 +178,7 @@ public class OrganisationManager
         
         mOrg.setIsActive(false);
         
-        mOrg.save();
+        mOrg.saveEx();
         
     }
        

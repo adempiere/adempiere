@@ -373,7 +373,7 @@ public class DistributionRun extends SvrProcess
 						&& detail.isCanAdjust())
 					{
 						detail.adjustQty(difference);
-						detail.save();
+						detail.saveEx();
 						return;
 					}
 				}
@@ -411,7 +411,7 @@ public class DistributionRun extends SvrProcess
 							+ ", Allocation=" + detail.getActualAllocation()
 							+ ", DiffRatio=" + diffRatio);
 						detail.adjustQty(diffRatio);
-						detail.save();
+						detail.saveEx();
 					}
 				}
 			}
@@ -639,7 +639,7 @@ public class DistributionRun extends SvrProcess
 					log.info("Qty Total Demand:" +  totalration);			
 					BigDecimal factor = ration.divide(totalration, 12 , BigDecimal.ROUND_HALF_UP);
 					record.setQty(drl.getTotalQty().multiply(factor));
-					record.save();
+					record.saveEx();
 			}			
 		log.fine("inserted #" + no);
 		return no;
@@ -739,7 +739,7 @@ public class DistributionRun extends SvrProcess
 					BigDecimal ration = record.getRatio();
 					BigDecimal factor = ration.divide(total_ration,BigDecimal.ROUND_HALF_UP);
 					record.setQty(factor.multiply(drl.getTotalQty()));
-					record.save();
+					record.saveEx();
 			}			
 		log.fine("inserted #" + no);
 		return no;
@@ -798,7 +798,7 @@ public class DistributionRun extends SvrProcess
 			 	   			line.setDescription(Msg.translate(getCtx(), "PlannedQty"));
 			 	   			else 
 			 	   			line.setDescription(m_run.getName());
-			 	   			line.save();
+			 	   			line.saveEx();
 			 	   			break;
 			 	   			//addLog(0,null, detail.getActualAllocation(), order.getDocumentNo() 
 			 	   			//	+ ": " + bp.getName() + " - " + product.getName());

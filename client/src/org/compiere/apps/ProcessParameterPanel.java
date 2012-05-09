@@ -18,6 +18,7 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Window;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyVetoException;
 import java.beans.VetoableChangeListener;
@@ -31,6 +32,7 @@ import java.util.logging.Level;
 
 import javax.swing.Box;
 import javax.swing.JLabel;
+import javax.swing.SwingUtilities;
 
 import org.adempiere.exceptions.DBException;
 import org.compiere.grid.ed.VEditor;
@@ -41,7 +43,6 @@ import org.compiere.model.MClient;
 import org.compiere.model.MLookup;
 import org.compiere.model.MPInstancePara;
 import org.compiere.process.ProcessInfo;
-import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -57,6 +58,9 @@ import org.compiere.util.Env;
  *         Parameter: add display and readonly logic
  * @author Teo Sarca, www.arhipac.ro
  * 			<li>BF [ 2548216 ] Process Param Panel is not showing any parameter if error 
+ * @author victor.perez@e-evolution.com, www.e-evolution.com
+ * 			<li> https://adempiere.atlassian.net/browse/ADEMPIERE-97
+ * 			<li> The parameters is not show when use display logic, the parameters dialog window is not automatically resize.
  * @version 	2006-12-01
  * @author Michael McKay (mjmckay)
  * 			<li>BF3423098 - Labels for process parameters with display logic false are still displayed
@@ -468,7 +472,12 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 									m_separators.get(index).setText("");
 							}
 						}
-					}
+						Window win = SwingUtilities.getWindowAncestor(comp);
+					      if (win != null) {
+					         win.pack();
+					         win.setLocationRelativeTo(null);
+					      }
+					}					
 				}
 			}
 		} // Dynamic Display.
@@ -614,7 +623,7 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 				if (editor2 != null)
 					para.setInfo_To (editor2.getDisplay());
 				//
-				para.save();
+				para.saveEx();
 				log.fine(para.toString());
 			}	//	for every parameter
 

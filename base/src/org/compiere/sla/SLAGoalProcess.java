@@ -76,7 +76,7 @@ public class SLAGoalProcess extends SvrProcess
 		//
 		goal.setMeasureActual(pgm.calculateMeasure(goal));
 		goal.setDateLastRun(new Timestamp(System.currentTimeMillis()));
-		goal.save();
+		goal.saveEx();
 		//
 		return "@Created@ " + no + " - @MeasureActual@=" + goal.getMeasureActual();
 	}	//	doIt

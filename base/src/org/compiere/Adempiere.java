@@ -543,7 +543,7 @@ public final class Adempiere
 				{
 					SecureEngine.init(className);	//	test it
 					system.setEncryptionKey(className);
-					system.save();
+					system.saveEx();
 				}
 			}
 			SecureEngine.init(className);

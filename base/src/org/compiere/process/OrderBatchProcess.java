@@ -174,7 +174,7 @@ public class OrderBatchProcess extends SvrProcess
 		order.setDocAction(p_DocAction);
 		if (order.processIt(p_DocAction))
 		{
-			order.save();
+			order.saveEx();
 			addLog(0, null, null, order.getDocumentNo() + ": OK");
 			return true;
 		}

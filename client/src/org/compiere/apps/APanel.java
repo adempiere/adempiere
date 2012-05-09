@@ -2425,7 +2425,7 @@ public final class APanel extends CPanel
 		//
 		MWindow win = new MWindow(m_ctx, m_curTab.getAD_Window_ID(), null);
 		win.setWindowSize(size);
-		win.save();
+		win.saveEx();
 	}	//	cmdWinSize
 
 	private void cmd_export()

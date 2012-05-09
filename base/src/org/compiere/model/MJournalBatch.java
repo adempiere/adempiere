@@ -351,12 +351,12 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 				if (!DocAction.STATUS_InProgress.equals(status))
 				{
 					journal.setDocStatus(status);
-					journal.save();
+					journal.saveEx();
 					m_processMsg = journal.getProcessMsg();
 					return status;
 				}
 				journal.setDocStatus(DOCSTATUS_InProgress);
-				journal.save();
+				journal.saveEx();
 			}
 			//
 			TotalDr = TotalDr.add(journal.getTotalDr());
@@ -384,7 +384,7 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 				{
 					MJournalLine line = lines[j];
 					line.setCurrencyRate(journal.getCurrencyRate());
-					line.save();
+					line.saveEx();
 				}
 			}
 			if (journal.getC_ConversionType_ID() > 0)
@@ -393,7 +393,7 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 				{
 					MJournalLine line = lines[j];
 					line.setC_ConversionType_ID(journal.getC_ConversionType_ID());
-					line.save();
+					line.saveEx();
 				}
 			}
 		}
@@ -463,7 +463,7 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 				journal.setProcessed(true);
 				journal.setDocStatus(DOCSTATUS_Voided);
 				journal.setDocAction(DOCACTION_None);
-				journal.save();
+				journal.saveEx();
 				continue;
 			}
 			//	Complete if not closed
@@ -560,7 +560,7 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 				journal.setProcessed(true);
 				journal.setDocStatus(DOCSTATUS_Voided);
 				journal.setDocAction(DOCACTION_None);
-				journal.save();
+				journal.saveEx();
 				continue;
 			}
 			if (DOCSTATUS_Drafted.equals(journal.getDocStatus())
@@ -583,7 +583,7 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 					m_processMsg = "Cannot close: " + journal.getSummary();
 					return false;
 				}
-				journal.save();
+				journal.saveEx();
 			}
 		}
 		// After Close
@@ -652,7 +652,7 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 				m_processMsg = "Could not reverse " + journal;
 				return false;
 			}
-			journal.save();
+			journal.saveEx();
 		}
 		
 		//[ 1948157  ]
@@ -707,7 +707,7 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 		else
 			description += " ** " + getDocumentNo() + " **";
 		reverse.setDescription(description);
-		reverse.save();
+		reverse.saveEx();
 		
 		//	Reverse Journals
 		for (int i = 0; i < journals.length; i++)
@@ -720,7 +720,7 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 				m_processMsg = "Could not reverse " + journal;
 				return false;
 			}
-			journal.save();
+			journal.saveEx();
 		}
 		// After reverseAccrual
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSEACCRUAL);

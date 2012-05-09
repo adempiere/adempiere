@@ -217,7 +217,7 @@ public class AssetDelivery extends SvrProcess
 			email.setMessageText (message);
 		}
 		String msg = email.send();
-		new MUserMail(m_MailText, asset.getAD_User_ID(), email).save();
+		new MUserMail(m_MailText, asset.getAD_User_ID(), email).saveEx();
 		if (!EMail.SENT_OK.equals(msg))
 			return "** Not delivered: " + user.getEMail() + " - " + msg;
 		//
@@ -284,13 +284,13 @@ public class AssetDelivery extends SvrProcess
 				log.warning("No DowloadURL for A_Asset_ID=" + A_Asset_ID);
 		}
 		String msg = email.send();
-		new MUserMail(m_MailText, asset.getAD_User_ID(), email).save();
+		new MUserMail(m_MailText, asset.getAD_User_ID(), email).saveEx();
 		if (!EMail.SENT_OK.equals(msg))
 			return "** Not delivered: " + user.getEMail() + " - " + msg;
 
 		MAssetDelivery ad = confirmDelivery(asset, email, user.getAD_User_ID());
-		ad.save();
-		asset.save();
+		ad.saveEx();
+		asset.saveEx();
 		//
 		log.fine((System.currentTimeMillis()-start) + " ms");
 		//	success

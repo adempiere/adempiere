@@ -286,7 +286,7 @@ public class InvoiceNGL extends SvrProcess
 			line.setAmtAcctDr (dr);
 			line.setAmtSourceCr (cr);
 			line.setAmtAcctCr (cr);
-			line.save();
+			line.saveEx();
 			//
 			if (AD_Org_ID == 0)		//	invoice org id
 				AD_Org_ID = gl.getAD_Org_ID();
@@ -336,7 +336,7 @@ public class InvoiceNGL extends SvrProcess
 			line.setC_ValidCombination_ID(acct.getC_ValidCombination_ID());
 			line.setAmtSourceCr (drTotal);
 			line.setAmtAcctCr (drTotal);
-			line.save();
+			line.saveEx();
 		}
 		//	DR Entry = Loss
 		if (crTotal.signum() != 0)
@@ -354,7 +354,7 @@ public class InvoiceNGL extends SvrProcess
 			line.setC_ValidCombination_ID(acct.getC_ValidCombination_ID());
 			line.setAmtSourceDr (crTotal);
 			line.setAmtAcctDr (crTotal);
-			line.save();
+			line.saveEx();
 		}
 	}	//	createBalancing
 

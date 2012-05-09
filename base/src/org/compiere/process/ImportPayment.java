@@ -496,14 +496,14 @@ public class ImportPayment extends SvrProcess
 					imp.setC_Payment_ID(payment.getC_Payment_ID());
 					imp.setI_IsImported(true);
 					imp.setProcessed(true);
-					imp.save();
+					imp.saveEx();
 					noInsert++;
 
 					if (payment != null && m_docAction != null && m_docAction.length() > 0)
 					{
 						payment.setDocAction(m_docAction);
 						payment.processIt (m_docAction);
-						payment.save();
+						payment.saveEx();
 					}
 				}
 				

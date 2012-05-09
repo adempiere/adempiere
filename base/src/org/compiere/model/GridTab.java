@@ -98,6 +98,8 @@ import org.compiere.util.ValueNamePair;
  *  @see  https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2870645&group_id=176962
  *  @author Paul Bowden, phib BF 2900767 Zoom to child tab - inefficient queries
  *  @see https://sourceforge.net/tracker/?func=detail&aid=2900767&group_id=176962&atid=879332
+ *  @author Michael McKay  ADEMPIERE-55 Query not reset when moving to sub tab
+ *  @see https://adempiere.atlassian.net/browse/ADEMPIERE-55
  */
 public class GridTab implements DataStatusListener, Evaluatee, Serializable
 {
@@ -613,12 +615,12 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		
 		Env.clearTabContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo);
 		
-		Env.clearTabContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo);
+		//Env.clearTabContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo);
 		
 		log.fine("#" + m_vo.TabNo
 			+ " - Only Current Rows=" + onlyCurrentRows
 			+ ", Days=" + onlyCurrentDays + ", Detail=" + isDetail());
-		//	is it same query?
+		// Is it same query?
 		boolean refresh = m_oldQuery.equals(m_query.getWhereClause())
 			&& m_vo.onlyCurrentRows == onlyCurrentRows && m_vo.onlyCurrentDays == onlyCurrentDays;
 		m_oldQuery = m_query.getWhereClause();
@@ -662,6 +664,9 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 				}	
 				
 				//	Same link value?
+				if (!m_linkValue.equals(value)){ // We have a new parent tab.  Wipe the query.
+					m_query = new MQuery();
+				}
 				if (refresh)
 					refresh = m_linkValue.equals(value);
 				m_linkValue = value;
@@ -680,14 +685,16 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 				}
 				else
 				{
-					//	we have column and value
-					if (where.length() != 0)
-						where.append(" AND ");
-					where.append(getTableName()).append(".").append(lc).append("=");
-					if (lc.endsWith("_ID"))
-						where.append(DB.TO_NUMBER(new BigDecimal(value), DisplayType.ID));
-					else
-						where.append(DB.TO_STRING(value));
+					if (!m_query.isActive()){ // create a where criteria - otherwise, use the query.
+						//	we have column and value
+						if (where.length() != 0)
+							where.append(" AND ");
+						where.append(getTableName()).append(".").append(lc).append("=");
+						if (lc.endsWith("_ID"))
+							where.append(DB.TO_NUMBER(new BigDecimal(value), DisplayType.ID));
+						else
+							where.append(DB.TO_STRING(value));
+					}
 				}
 			}
 		}	//	isDetail
@@ -2219,7 +2226,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		if (access == null)
 			access = new MPrivateAccess (ctx, AD_User_ID, m_vo.AD_Table_ID, Record_ID);
 		access.setIsActive(lock);
-		access.save();
+		access.saveEx();
 		//
 		loadLocks();
 	}	//	lock

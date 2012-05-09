@@ -85,7 +85,7 @@ public class MPrintPaper extends X_AD_PrintPaper
 		MPrintPaper pp = new MPrintPaper (Env.getCtx(), 0, null);
 		pp.setName(name);
 		pp.setIsLandscape(landscape);
-		pp.save();
+		pp.saveEx();
 		return pp;
 	}	//	create
 

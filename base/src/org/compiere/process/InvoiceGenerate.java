@@ -209,7 +209,7 @@ public class InvoiceGenerate extends SvrProcess
 					{
 						log.warning("BPartner has no Schedule - set to After Delivery");
 						order.setInvoiceRule(MOrder.INVOICERULE_AfterDelivery);
-						order.save();
+						order.saveEx();
 					}
 					else
 					{
@@ -449,8 +449,8 @@ public class InvoiceGenerate extends SvrProcess
 				log.warning("completeInvoice - failed: " + m_invoice);
 				addLog("completeInvoice - failed: " + m_invoice); // Elaine 2008/11/25
 			}
-			m_invoice.save();
-			//
+			m_invoice.saveEx();
+
 			addLog(m_invoice.getC_Invoice_ID(), m_invoice.getDateInvoiced(), null, m_invoice.getDocumentNo());
 			m_created++;
 		}

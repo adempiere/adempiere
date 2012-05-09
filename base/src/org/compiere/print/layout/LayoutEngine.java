@@ -1587,7 +1587,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 					if (!item.isSuppressNull())
 					{
 						item.setIsSuppressNull(true);	//	display size will be set to 0 in TableElement
-						item.save();
+						item.saveEx();
 					}
 				}
 				columnHeader[col] = new ValueNamePair(item.getColumnName(),

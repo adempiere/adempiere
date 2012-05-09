@@ -123,10 +123,10 @@ public class WChat extends HttpServlet
 		{		
 			if (CM_ChatID == 0){		
 				m_chat = new MChat (wsc.ctx, AD_Table_ID, record_ID, description, null);
-				m_chat.save();
+				m_chat.saveEx();
 			}			
 			MChatEntry entry = new MChatEntry(m_chat, data);
-			entry.save();
+			entry.saveEx();
 						
 		}	//	data to be saved
 		

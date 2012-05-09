@@ -188,7 +188,7 @@ public class BuildDepWorkFile extends SvrProcess
 							//depexp.setIsDepreciated(true);
 							//depexp.setDateAcct(assetwk.getAssetDepreciationDate());
 							//depexp.setA_Entry_Type("DEP");
-							//depexp.save();
+							//depexp.saveEx();
 						}
 						else
 						{
@@ -205,7 +205,7 @@ public class BuildDepWorkFile extends SvrProcess
 						cal.setTime(ts);
 						assetwk.setDateAcct(ts);
 						assetwk.setA_Period_Forecast(new BigDecimal(assetwk.getA_Period_Posted()));
-						assetwk.save();				
+						assetwk.saveEx();				
 						
 					
 					//Calculate life to date depreciation
@@ -229,7 +229,7 @@ public class BuildDepWorkFile extends SvrProcess
 						assetwk.setDateAcct(ts);
 						v_current_adj = v_current_adj.add((v_HalfYearConv_Adj));
 						assetwk.setA_Period_Forecast(v_current_adj);
-						assetwk.save();
+						assetwk.saveEx();
 					    v_Dep_Exp_Inception = v_Dep_Exp_Inception .add(v_Dep_Exp_Inception2.multiply(v_HalfYearConv_Adj));    
 					    v_current = v_current + 1;
 					}
@@ -266,7 +266,7 @@ public class BuildDepWorkFile extends SvrProcess
 					depexp1.setA_Period(rs.getInt("C_Period_ID"));
 					depexp1.setIsDepreciated(true);
 					depexp1.setDateAcct(rs.getTimestamp("DateAcct"));
-					depexp1.save();
+					depexp1.saveEx();
 					
 					X_A_Depreciation_Exp depexp2 = new X_A_Depreciation_Exp (getCtx(), 0, null);					
 					depexp2.setA_Asset_ID(rs.getInt("A_ASSET_ID"));					
@@ -278,7 +278,7 @@ public class BuildDepWorkFile extends SvrProcess
 					depexp2.setIsDepreciated(false);
 					depexp2.setDateAcct(rs.getTimestamp("DateAcct"));
 					depexp2.setA_Entry_Type("DEP");
-					depexp2.save();
+					depexp2.saveEx();
 					
 					v_total_adjustment = v_total_adjustment.setScale(5, BigDecimal.ROUND_HALF_UP).subtract(v_Dep_Exp_Adjustment.setScale(5, BigDecimal.ROUND_HALF_UP));
 					}					
@@ -323,7 +323,7 @@ public class BuildDepWorkFile extends SvrProcess
 						//depexp1.setA_Period((int)v_current);
 						//depexp1.setIsDepreciated(true);
 						//depexp1.setDateAcct(ts);
-						//depexp1.save();						
+						//depexp1.saveEx();						
 						
 						
 						v_total_adjustment = v_total_adjustment.setScale(5, BigDecimal.ROUND_HALF_UP).subtract(v_Dep_Exp_Adjustment.setScale(5, BigDecimal.ROUND_HALF_UP));
@@ -339,7 +339,7 @@ public class BuildDepWorkFile extends SvrProcess
 						depexp2.setIsDepreciated(true);
 						depexp2.setDateAcct(rs.getTimestamp("DateAcct"));
 						depexp2.setA_Entry_Type("DEP");
-						depexp2.save();
+						depexp2.saveEx();
 						
 						X_A_Depreciation_Exp depexp3 = new X_A_Depreciation_Exp (getCtx(), 0, null);						
 						depexp3.setA_Asset_ID(rs.getInt("A_ASSET_ID"));
@@ -351,7 +351,7 @@ public class BuildDepWorkFile extends SvrProcess
 						depexp3.setIsDepreciated(false);
 						depexp3.setDateAcct(rs.getTimestamp("DateAcct"));
 						depexp3.setA_Entry_Type("DEP");
-						depexp3.save();
+						depexp3.saveEx();
 						
 						v_Dep_Exp_Inception = v_Dep_Exp_Inception.add((v_Dep_Exp_Monthly.setScale(2, BigDecimal.ROUND_HALF_UP))).setScale(2, BigDecimal.ROUND_HALF_UP);
 					}
@@ -367,7 +367,7 @@ public class BuildDepWorkFile extends SvrProcess
 						depexp2.setIsDepreciated(true);
 						depexp2.setDateAcct(rs.getTimestamp("DateAcct"));
 						depexp2.setA_Entry_Type("DEP");
-						depexp2.save();
+						depexp2.saveEx();
 						
 						X_A_Depreciation_Exp depexp3 = new X_A_Depreciation_Exp (getCtx(), 0, null);						
 						depexp3.setA_Asset_ID(rs.getInt("A_ASSET_ID"));
@@ -379,7 +379,7 @@ public class BuildDepWorkFile extends SvrProcess
 						depexp3.setIsDepreciated(false);
 						depexp3.setDateAcct(rs.getTimestamp("DateAcct"));
 						depexp3.setA_Entry_Type("DEP");
-						depexp3.save();
+						depexp3.saveEx();
 						
 						
 						v_Dep_Exp_Inception = v_Dep_Exp_Inception.add(v_Dep_Exp_Monthly).setScale(2, BigDecimal.ROUND_HALF_UP);						
@@ -397,7 +397,7 @@ public class BuildDepWorkFile extends SvrProcess
 					assetwk.setA_Period_Forecast(v_current_adj);
 					assetwk.setDateAcct(ts);
 					assetwk.setA_Current_Period((int)v_current);
-					assetwk.save();					
+					assetwk.saveEx();					
 					
 					asset_id_current = rs2.getInt("A_ASSET_ID");					
 					log.info(""+asset_id_current);

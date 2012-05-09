@@ -99,7 +99,7 @@ public class MAssetAcct extends X_A_Asset_Acct {
 			change.setA_Depreciation_Manual_Period(getA_Depreciation_Manual_Period());
 			change.setA_Depreciation_Table_Header_ID(getA_Depreciation_Table_Header_ID());
 			change.setA_Depreciation_Variable_Perc(getA_Depreciation_Variable_Perc());
-			change.save();
+			change.saveEx();
 
 			String sql = "SELECT * FROM A_Depreciation_Workfile WHERE A_Asset_ID=? AND IsActive='Y'";
 			PreparedStatement pstmt = null;
@@ -114,7 +114,7 @@ public class MAssetAcct extends X_A_Asset_Acct {
 					X_A_Depreciation_Workfile assetwk = new X_A_Depreciation_Workfile(
 							getCtx(), rs, null);
 					assetwk.setA_Salvage_Value(getA_Salvage_Value());
-					assetwk.save();
+					assetwk.saveEx();
 				}
 				rs.close();
 				pstmt.close();
@@ -159,7 +159,7 @@ public class MAssetAcct extends X_A_Asset_Acct {
 			assetacct.setA_Depreciation_Table_Header_ID(getA_Depreciation_Table_Header_ID());
 			assetacct.setA_Depreciation_Variable_Perc(getA_Depreciation_Variable_Perc());
 			assetacct.setProcessing(true);
-			assetacct.save();
+			assetacct.saveEx();
 
 		}
 		return true;

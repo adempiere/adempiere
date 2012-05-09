@@ -1173,7 +1173,7 @@ public class WPayment extends Window
 				log.fine("Old Payment(1) - " + m_mPaymentOriginal);
 				m_mPaymentOriginal.setDocAction(DocAction.ACTION_Reverse_Correct);
 				boolean ok = m_mPaymentOriginal.processIt(DocAction.ACTION_Reverse_Correct);
-				m_mPaymentOriginal.save();
+				m_mPaymentOriginal.saveEx();
 				if (ok)
 					log.info( "Payment Canecelled - " + m_mPaymentOriginal);
 				else
@@ -1188,7 +1188,7 @@ public class WPayment extends Window
 				{
 					m_mPaymentOriginal.setDocAction(DocAction.ACTION_Reverse_Correct);
 					boolean ok = m_mPaymentOriginal.processIt(DocAction.ACTION_Reverse_Correct);
-					m_mPaymentOriginal.save();
+					m_mPaymentOriginal.saveEx();
 					if (ok)        //  Cancel Payment
 					{
 						log.fine("PaymentCancelled " + m_mPayment.getDocumentNo ());
@@ -1591,12 +1591,12 @@ public class WPayment extends Window
 				approved = m_mPayment.processOnline();
 				info = m_mPayment.getR_RespMsg() + " (" + m_mPayment.getR_AuthCode()
 					+ ") ID=" + m_mPayment.getR_PnRef();
-				m_mPayment.save();
+				m_mPayment.saveEx();
 
 				if (approved)
 				{
 					boolean ok = m_mPayment.processIt(DocAction.ACTION_Complete);
-					m_mPayment.save();
+					m_mPayment.saveEx();
 					if (ok)
 						FDialog.info(m_WindowNo, this, "PaymentProcessed", info + "\n" + m_mPayment.getDocumentNo());
 					else

@@ -645,7 +645,7 @@ public class ImportInvoice extends SvrProcess
 					if (invoice != null)
 					{
 						invoice.processIt(m_docAction);
-						invoice.save();
+						invoice.saveEx();
 					}
 					//	Group Change
 					oldC_BPartner_ID = imp.getC_BPartner_ID();
@@ -690,7 +690,7 @@ public class ImportInvoice extends SvrProcess
 					if (imp.getDateAcct() != null)
 						invoice.setDateAcct(imp.getDateAcct());
 					//
-					invoice.save();
+					invoice.saveEx();
 					noInsert++;
 					lineNo = 10;
 				}
@@ -729,7 +729,7 @@ public class ImportInvoice extends SvrProcess
 				BigDecimal taxAmt = imp.getTaxAmt();
 				if (taxAmt != null && Env.ZERO.compareTo(taxAmt) != 0)
 					line.setTaxAmt(taxAmt);
-				line.save();
+				line.saveEx();
 				//
 				imp.setC_InvoiceLine_ID(line.getC_InvoiceLine_ID());
 				imp.setI_IsImported(true);
@@ -741,7 +741,7 @@ public class ImportInvoice extends SvrProcess
 			if (invoice != null)
 			{
 				invoice.processIt (m_docAction);
-				invoice.save();
+				invoice.saveEx();
 			}
 			rs.close();
 			pstmt.close();

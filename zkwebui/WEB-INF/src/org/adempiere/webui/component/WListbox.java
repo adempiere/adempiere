@@ -255,6 +255,16 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 	public void setValueAt(Object value, int row, int column)
 	{
 		getModel().setDataAt(value, row, convertColumnIndexToModel(column));
+		if(value instanceof IDColumn)
+		{
+			IDColumn id = (IDColumn) value;
+			boolean selected = id.isSelected();
+			ListItem listItem = this.getItemAtIndex(row);
+			
+			if (listItem != null && !listItem.isSelected() && selected) {
+				listItem.setSelected(true);
+			}
+		}
 	}
 
     /**
@@ -1031,17 +1041,31 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
         else if ((event.getType() == WTableModelEvent.CONTENTS_CHANGED)
         		&& event.getFirstRow() != WTableModelEvent.ALL_ROWS
         		&& !m_readWriteColumn.isEmpty())
-        {
-        	int[] indices = this.getSelectedIndices();
+        {        	
         	ListModelTable model = this.getModel();
         	if (event.getLastRow() > event.getFirstRow())
-        		model.updateComponent(event.getFirstRow(), event.getLastRow());
-        	else
-        		model.updateComponent(event.getFirstRow());
-        	if (indices != null && indices.length > 0)
         	{
-        		this.setSelectedIndices(indices);
+        		int[] indices = this.getSelectedIndices();
+        		model.updateComponent(event.getFirstRow(), event.getLastRow());
+        		if (indices != null && indices.length > 0)
+            	{
+            		this.setSelectedIndices(indices);
+            	}
         	}
+        	else
+        	{
+        		boolean selected = false;
+        		ListItem listItem = this.getItemAtIndex(event.getFirstRow());
+        		if (listItem != null && listItem.isSelected()) {
+        			selected = true;
+        		}
+        		model.updateComponent(event.getFirstRow());
+        		listItem = this.getItemAtIndex(event.getFirstRow());
+        		if (listItem != null && !listItem.isSelected() && selected) {
+        			listItem.setSelected(true);
+        		}
+        	}
+        	
         }
 
         return;

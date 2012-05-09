@@ -198,7 +198,7 @@ public class PaymentServlet  extends HttpServlet
 		//	BP Info
 		p.setBP_BankAccount(wu.getBankAccount());
 		//
-	//	p.save();
+	//	p.saveEx();
 		session.setAttribute (ATTR_PAYMENT, p);
 
 		String url = "/paymentInfo.jsp";
@@ -277,7 +277,7 @@ public class PaymentServlet  extends HttpServlet
 					log.warning("No Order");
 				//	
 				payment.processIt(DocAction.ACTION_Complete);
-				payment.save();
+				payment.saveEx();
 				sendThanksEMail (request, ctx, payment, wu, wo);
 			}
 			else

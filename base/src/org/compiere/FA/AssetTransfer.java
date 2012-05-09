@@ -123,7 +123,7 @@ public class AssetTransfer extends SvrProcess
 			depexp0.setIsDepreciated(false);
 			depexp0.setA_Period(AssetTransfer.getC_Period_ID());
 			depexp0.setA_Entry_Type("TRN");
-			depexp0.save();
+			depexp0.saveEx();
 			
 			X_A_Depreciation_Exp depexp1 = new X_A_Depreciation_Exp (getCtx(), 0, null);
 			depexp1.setPostingType(AssetTransfer.getPostingType());
@@ -135,7 +135,7 @@ public class AssetTransfer extends SvrProcess
 			depexp1.setIsDepreciated(false);
 			depexp1.setA_Period(AssetTransfer.getC_Period_ID());			
 			depexp1.setA_Entry_Type("TRN");
-			depexp1.save();
+			depexp1.saveEx();
 				}
 			}
 			catch (Exception e)
@@ -176,7 +176,7 @@ public class AssetTransfer extends SvrProcess
 				depexp2.setIsDepreciated(false);
 				depexp2.setA_Period(AssetTransfer.getC_Period_ID());
 				depexp2.setA_Entry_Type("TRN");
-				depexp2.save();			
+				depexp2.saveEx();			
 				
 				X_A_Depreciation_Exp depexp3 = new X_A_Depreciation_Exp (getCtx(), 0, null);
 				depexp3.setPostingType(AssetTransfer.getPostingType());
@@ -188,7 +188,7 @@ public class AssetTransfer extends SvrProcess
 				depexp3.setIsDepreciated(false);
 				depexp3.setA_Period(AssetTransfer.getC_Period_ID());			
 				depexp3.setA_Entry_Type("TRN");
-				depexp3.save();
+				depexp3.saveEx();
 				
 				X_A_Depreciation_Exp depexp4 = new X_A_Depreciation_Exp (getCtx(), 0, null);
 //				 Create JV for the Cost of the asset 			
@@ -201,7 +201,7 @@ public class AssetTransfer extends SvrProcess
 				depexp4.setIsDepreciated(false);
 				depexp4.setA_Period(AssetTransfer.getC_Period_ID());
 				depexp4.setA_Entry_Type("TRN");
-				depexp4.save();			
+				depexp4.saveEx();			
 			
 				X_A_Depreciation_Exp depexp5 = new X_A_Depreciation_Exp (getCtx(), 0, null);
 				depexp5.setPostingType(AssetTransfer.getPostingType());
@@ -213,7 +213,7 @@ public class AssetTransfer extends SvrProcess
 				depexp5.setIsDepreciated(false);
 				depexp5.setA_Period(AssetTransfer.getC_Period_ID());			
 				depexp5.setA_Entry_Type("TRN");
-				depexp5.save();
+				depexp5.saveEx();
 				
 			
 				 // Update Asset Setup for New Accounts
@@ -248,12 +248,12 @@ public class AssetTransfer extends SvrProcess
 				change.setAssetAccumDepreciationAmt(rs.getBigDecimal("A_ACCUMULATED_DEPR"));
 				change.setAssetBookValueAmt(rs.getBigDecimal("A_Asset_Cost"));
 				change.setChangeAmt(v_Balance);
-				change.save();
+				change.saveEx();
 				
 				DB.executeUpdate(sql,null);
 				
 				AssetTransfer.setIsActive(false);
-				AssetTransfer.save();
+				AssetTransfer.saveEx();
 
 				//  Remove Entry from Processing file
 				

@@ -488,7 +488,7 @@ implements ValueChangeListener, IProcessParameter
 				if (editor2 != null)
 					para.setInfo_To (editor2.getDisplay());
 				//
-				para.save();
+				para.saveEx();
 				log.fine(para.toString());
 			}	//	for every parameter
 
