@@ -98,6 +98,8 @@ public class ImportWorkflow extends SvrProcess {
 				}
 			}
 
+			if (importWorkflow.getDocumentNo() == null)
+				errorMsg += "@DocumentNo@ @NotFound@, ";
 			if (importWorkflow.getName() == null)
 				errorMsg += "@Name@ @NotFound@, ";
 			if (importWorkflow.getAccessLevel() == null)
