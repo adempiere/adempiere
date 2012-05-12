@@ -1,0 +1,7 @@
+1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31
+"Organization Name","Workflow Search Key","Workflow Name","Workflow Type","Publication Status","DocumentNo","Version","Author","Process Type","Batch Size","Duration Unit","Node Search Key","Node Next Key","Node Name","Node Description","Node Help","Resource","Overlap Units","UnitsCycles","Is Milestone","Is Subcontract","Valid From","Valid To","Priority","Setup Time","Duration","Wait Time","Moving Time","Queuing Time","% Yield","Entity Type"
+,"EL","LIGHTING ASSEMBLY","Manufacturing","Under Revision",1000000,1,"victor.perez@e-evolution.com","CF",250,"h",10,,"LIGHTING ASSEMBLY",,,"ASSEMBLY",0,250,"No","No",,,,0,8,0,0,0,100,"U"
+,"IP1","PLASTIC INJECTION IP1","Manufacturing","Under Revision",1000000,1,"victor.perez@e-evolution.com","CF",0,"s",10,,"PLASTIC INJECTION IP1",,,"PLASTIC INJECTION",0,8,"No","No",,,,0,18,0,0,0,100,"U"
+,"IP2","PLASTIC INJECTION IP1","Manufacturing","Under Revision",1000000,1,"victor.perez@e-evolution.com","CF",0,"s",10,20,"PLASTIC INJECTION IP1",,,"PLASTIC INJECTION",0,2,"No","No",,,,0,16,0,0,0,100,"U"
+,"IP2","PLASTIC INJECTION IP2","Manufacturing","Under Revision",1000000,1,"victor.perez@e-evolution.com","CF",0,"s",20,30,"PLASTIC INJECTION IP2",,,"PLASTIC INJECTION",0,2,"No","No",,,,0,16,0,0,0,100,"U"
+,"IP2","PLASTIC INJECTION IP3","Manufacturing","Under Revision",1000000,1,"victor.perez@e-evolution.com","CF",0,"s",30,,"PLASTIC INJECTION IP3",,,"PLASTIC INJECTION",0,2,"No","No",,,,0,16,0,0,0,100,"U"
