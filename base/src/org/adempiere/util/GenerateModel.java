@@ -76,7 +76,8 @@ public class GenerateModel
 		log.info("Generate Model   $Revision: 1.42 $");
 		log.info("----------------------------------");
 		//	first parameter
-		String directory = "C:\\Compiere\\compiere-all\\extend\\src\\compiere\\model\\";
+		//String directory = "C:\\Compiere\\compiere-all\\extend\\src\\compiere\\model\\";
+		String directory = "/Users/eEvolution/Develop/adempiere/base/src/org/eevolution/model/";
 		if (args.length > 0)
 			directory = args[0];
 		if (directory == null || directory.length() == 0)
@@ -87,7 +88,8 @@ public class GenerateModel
 		log.info("Directory: " + directory);
 		
 		//	second parameter
-		String packageName = "compiere.model";
+		//String packageName = "compiere.model";
+		String packageName = "org.eevolution.model";
 		if (args.length > 1)
 			packageName = args[1]; 
 		if (packageName == null || packageName.length() == 0)
@@ -98,7 +100,8 @@ public class GenerateModel
 		log.info("Package:   " + packageName);
 		
 		//	third parameter
-		String entityType = "'U','A'";	//	User, Application
+		//String entityType = "'U','A'";	//	User, Application
+		String entityType = "'EE01'";	//	User, Application
 		if (args.length > 2)
 			entityType = args[2]; 
 		if (entityType == null || entityType.length() == 0)
@@ -112,7 +115,7 @@ public class GenerateModel
 		log.info("----------------------------------");
 		
 		String tableLike = null;
-		tableLike = "'%'";	//	All tables
+		tableLike = "'I_Workflow'";	//	All tables
 		// tableLike = "'AD_OrgInfo', 'AD_Role', 'C_CashLine', 'C_Currency', 'C_Invoice', 'C_Order', 'C_Payment', 'M_InventoryLine', 'M_PriceList', 'M_Product', 'U_POSTerminal'";	//	Only specific tables
 		if (args.length > 3)
 			tableLike = args[3];
