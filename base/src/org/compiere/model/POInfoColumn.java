@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 import java.util.logging.Level;
 
 import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 
 /**
  *	PO Info Column Info Value Object
@@ -29,10 +30,12 @@ import org.compiere.util.CLogger;
  *  @version $Id: POInfoColumn.java,v 1.3 2006/07/30 00:58:04 jjanke Exp $
  */
 public class POInfoColumn implements Serializable
-{
-	/** Used by Remote FinReport			*/
-	static final long serialVersionUID = -3983585608504631958L;
-	
+{	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3014044674086599223L;
+
 	/**
 	 *  Constructor
 	 *	@param ad_Column_ID Column ID
@@ -85,6 +88,21 @@ public class POInfoColumn implements Serializable
 		}
 		else
 			ColumnClass = org.compiere.util.DisplayType.getClass(displayType, true);
+		//ADEMPIERE-101
+		if(org.compiere.util.DisplayType.Table==DisplayType && ad_Reference_Value_ID>0)
+		{
+			//Get the key ID
+			String sqlKey ="Select AD_Key FROM AD_Ref_Table WHERE AD_Reference_ID=?";
+			final int key_id = DB.getSQLValueEx(null, sqlKey,ad_Reference_Value_ID);
+			//Get Reference ID
+			String sqlRef ="Select AD_Reference_ID FROM AD_Column WHERE AD_Column_ID=?";
+			final int ref_id = DB.getSQLValueEx(null, sqlRef,key_id);
+			if (org.compiere.util.DisplayType.String==ref_id)
+			{
+				DisplayType = org.compiere.util.DisplayType.String;
+				ColumnClass = String.class;
+			}
+		}
 		IsMandatory = isMandatory;
 		IsUpdateable = isUpdateable;
 		DefaultLogic = defaultLogic;
