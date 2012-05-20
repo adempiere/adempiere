@@ -492,8 +492,12 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		}
 		
 		// Un-Order Stock
-		setQtyOrdered(Env.ZERO);
-		orderStock();
+		if(MPPOrder.DOCSTATUS_InProgress.equals(getDocStatus()) || 
+				   MPPOrder.DOCSTATUS_Completed.equals(getDocStatus()))
+		{	
+			setQtyOrdered(Env.ZERO);
+			orderStock();
+		}	
 
 		return true;
 	} //	beforeDelete
