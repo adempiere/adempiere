@@ -749,6 +749,7 @@ public class MPPMRP extends X_PP_MRP
 			mrp.setDescription(ol.getDescription());                            
 			mrp.setDatePromised(ol.getDatePromised());
 			mrp.setDateOrdered(ol.getDateOrdered());
+			mrp.setDateStartSchedule(ol.getDateOrdered());
 			mrp.setM_Warehouse_ID(source.getM_Warehouse_ID()); 
 			mrp.setM_Product_ID(ol.getM_Product_ID());                           
 			mrp.setQty(ol.getQtyOrdered().subtract(ol.getQtyDelivered()));
@@ -765,6 +766,7 @@ public class MPPMRP extends X_PP_MRP
 			mrp.setDD_OrderLine_ID(ol.getDD_OrderLine_ID());
 			mrp.setDatePromised(ol.getDatePromised());
 			mrp.setDateOrdered(ol.getDateOrdered());
+			mrp.setDateStartSchedule(ol.getDateOrdered());
 			mrp.setM_Warehouse_ID(source.getM_Warehouse_ID());
 			mrp.setM_Product_ID(ol.getM_Product_ID());
 			mrp.setQty(ol.getQtyOrdered().subtract(ol.getQtyDelivered()));
