@@ -172,7 +172,7 @@ public class MRPUpdate extends SvrProcess
 	 */       
 	private void deleteRecords(int AD_Client_ID, int AD_Org_ID,int S_Resource_ID, int M_Warehouse_ID) throws SQLException
 	{						               
-		// Delete MRP records (Orders (SO,PO), Forecasts, Material Requisitions):
+		// Delete MRP records (Orders (SO,PO), Forecasts, Material Requisitions, Distribution Order):
 		{
 			List<Object> params = new ArrayList<Object>();
 			params.add(AD_Client_ID);
@@ -185,7 +185,10 @@ public class MRPUpdate extends SvrProcess
 			whereClause = "DocStatus IN ('DR','CL') AND AD_Client_ID=? AND AD_Org_ID=? AND M_Warehouse_ID=?";
 			deletePO(MRequisition.Table_Name, whereClause, params);
 			
-			whereClause = "DocStatus IN ('DR') AND AD_Client_ID=? AND AD_Org_ID=? AND M_Warehouse_ID=?";
+			params = new ArrayList<Object>();
+			params.add(AD_Client_ID);
+			params.add(AD_Org_ID);
+			whereClause = "DocStatus IN ('DR') AND AD_Client_ID=? AND AD_Org_ID=? ";		
 			// Delete Distribution Orders:
 			deletePO(MDDOrder.Table_Name, whereClause, params);
 
@@ -197,12 +200,20 @@ public class MRPUpdate extends SvrProcess
 			params.add(AD_Org_ID);
 			params.add(S_Resource_ID);
 			params.add(M_Warehouse_ID);
-			String whereClause = "OrderType IN ('MOP','DOO') AND AD_Client_ID=? AND AD_Org_ID=? AND S_Resource_ID= ? AND M_Warehouse_ID=?";
+			String whereClause = "OrderType IN ('MOP') AND AD_Client_ID=? AND AD_Org_ID=? AND S_Resource_ID= ? AND M_Warehouse_ID=?";
 			executeUpdate("DELETE FROM PP_MRP WHERE "+whereClause, params);
-
+			
 			// Delete Mfg. Orders:
 			whereClause = "DocStatus='DR' AND AD_Client_ID=? AND AD_Org_ID=? AND S_Resource_ID= ? AND M_Warehouse_ID=?";
-			deletePO(MPPOrder.Table_Name, whereClause, params);				
+			deletePO(MPPOrder.Table_Name, whereClause, params);		
+			
+			params = new ArrayList<Object>();
+			params.add(AD_Client_ID);
+			params.add(AD_Org_ID);
+			whereClause = "OrderType IN ('DOO') AND AD_Client_ID=? AND AD_Org_ID=? ";
+			executeUpdate("DELETE FROM PP_MRP WHERE "+whereClause, params);
+
+		
 		}
 
 		// Delete notes:
@@ -228,6 +239,7 @@ public class MRPUpdate extends SvrProcess
 			+"m_forecastline_id, m_forecast_id,"
 			+"pp_order_id, pp_order_bomline_id,"
 			+"c_order_id, c_orderline_id,"
+			+"dd_order_id, dd_orderline_id,"
 			+"m_requisition_id, m_requisitionline_id,"
 			+"m_product_id, m_warehouse_id, "
 			+"pp_mrp_id, planner_id, "
@@ -250,6 +262,7 @@ public class MRPUpdate extends SvrProcess
 			+ "null, null,"
 			+ "null, null,"
 			+ "null, null,"
+			+ "null, null,"
 			+"t.m_product_id, t.m_warehouse_id,"  
 			+ "nextidfunc(53040,'N'), null ,"
 			+"t.qty,  'D', 'FCT', t.updated, t.updatedby, f.Name," 
@@ -263,11 +276,12 @@ public class MRPUpdate extends SvrProcess
 		// Insert from C_OrderLine
 		sql_insert = " SELECT t.ad_org_id,"
 			+"t.created, t.createdby , t.datepromised,"
-			+"t.datepromised, t.datepromised, t.datepromised, o.DocumentNo," 
+			+"t.datepromised, t.datepromised, t.dateordered, o.DocumentNo," 
 			+"o.DocStatus, o.isactive , "
 			+" null, null, "
 			+" null, null, "
 			+" t.c_order_id, t.c_orderline_id, "
+			+ "null, null,"
 			+" null, null, "
 			+"t.m_product_id, t.m_warehouse_id," 
 			+ "nextidfunc(53040,'N'), null ,"
@@ -283,11 +297,12 @@ public class MRPUpdate extends SvrProcess
 		// Insert from M_RequisitionLine
 		sql_insert = " SELECT rl.ad_org_id,"
 			+"rl.created, rl.createdby , t.daterequired,"
-			+" t.daterequired,  t.daterequired,  t.daterequired, t.DocumentNo," 
+			+" t.daterequired,  t.daterequired,  t.datedoc, t.DocumentNo," 
 			+"t.DocStatus, t.isactive , "
 			+" null, null, "
 			+" null, null, "
 			+" null, null, "
+			+ "null, null,"
 			+"rl.m_requisition_id, rl.m_requisitionline_id, "
 			+"rl.m_product_id, t.m_warehouse_id," 
 			+ "nextidfunc(53040,'N'), null ,"
@@ -307,11 +322,12 @@ public class MRPUpdate extends SvrProcess
 		params.add(M_Warehouse_ID);
 		sql_insert = " SELECT t.ad_org_id,"
 			+"t.created, t.createdby , t.datepromised,"
-			+"t.datepromised, t.datepromised, t.datepromised, t.DocumentNo," 
+			+"t.datepromised, t.datepromised, t.datestartschedule , t.DocumentNo," 
 			+"t.DocStatus, t.isactive , "
 			+" null, null, "
 			+"t.pp_order_id, null,"
 			+" null, null, "
+			+ "null, null,"
 			+" null, null, "
 			+"t.m_product_id, t.m_warehouse_id," 
 			+ "nextidfunc(53040,'N'), null ,"
@@ -326,11 +342,12 @@ public class MRPUpdate extends SvrProcess
 		//Insert from PP_Order_BOMLine
 		sql_insert = " SELECT t.ad_org_id,"
 			+"t.created, t.createdby , o.datepromised,"
-			+"o.datepromised, o.datepromised, o.datepromised, o.DocumentNo," 
+			+"o.datepromised, o.datepromised, o.datestartschedule, o.DocumentNo," 
 			+"o.DocStatus, o.isactive , "
 			+" null, null, "
 			+"t.pp_order_id, t.pp_order_bomline_id,"
 			+" null, null, "
+			+ "null, null,"
 			+" null, null, "
 			+"t.m_product_id, t.m_warehouse_id," 
 			+ "nextidfunc(53040,'N'), null ,"
@@ -341,6 +358,53 @@ public class MRPUpdate extends SvrProcess
 			+" WHERE  (t.QtyRequired-t.QtyDelivered) <> 0 AND o.DocStatus IN ('DR','IP','CO') AND "
 			+"t.AD_Client_ID=? AND t.AD_Org_ID=? AND o.S_Resource_ID=? AND t.M_Warehouse_ID= ?";
 		executeUpdate(sql + sql_insert , params);
+		
+		//// Insert from DD_OrderLine Demand
+		sql_insert = " SELECT t.ad_org_id,"
+				+"t.created, t.createdby , t.datepromised,"
+				+"t.datepromised, t.datepromised, t.dateordered, o.DocumentNo," 
+				+"o.DocStatus, o.isactive , "
+				+" null, null, "
+				+" null, null, "
+				+ "null, null,"
+				+" t.dd_order_id, t.dd_orderline_id, "
+				+" null, null, "
+				+"t.m_product_id, l.m_warehouse_id," 
+				+ "nextidfunc(53040,'N'), null ,"
+				+"t.QtyOrdered-t.QtyDelivered, 'D', 'DOO', t.updated, t.updatedby, o.DocumentNo," 
+				+"t.ad_client_id , null as S_Resource_ID, o.C_BPartner_ID"
+				+" FROM DD_OrderLine t"
+				+" INNER JOIN DD_Order o  ON (o.dd_order_id=t.dd_order_id)"
+				+" INNER JOIN M_Locator l ON (l.M_Locator_ID=t.M_Locator_ID)"
+				+" WHERE  (t.QtyOrdered - t.QtyDelivered) <> 0 AND o.DocStatus IN ('IP','CO') AND "
+				+"t.AD_Client_ID=? AND t.AD_Org_ID=? ";
+		
+		params = new ArrayList<Object>();
+		params.add(AD_Client_ID);
+		params.add(AD_Org_ID);
+		executeUpdate(sql + sql_insert, params);
+
+		//// Insert from DD_OrderLine Supply
+		sql_insert = " SELECT t.ad_org_id,"
+				+"t.created, t.createdby , t.datepromised,"
+				+"t.datepromised, t.datepromised, t.dateordered, o.DocumentNo," 
+				+"o.DocStatus, o.isactive , "
+				+" null, null, "
+				+" null, null, "
+				+ "null, null,"
+				+" t.dd_order_id, t.dd_orderline_id, "
+				+" null, null, "
+				+"t.m_product_id, l.m_warehouse_id," 
+				+ "nextidfunc(53040,'N'), null ,"
+				+"t.QtyOrdered-t.QtyDelivered, 'S', 'DOO', t.updated, t.updatedby, o.DocumentNo," 
+				+"t.ad_client_id , null as S_Resource_ID, o.C_BPartner_ID"
+				+" FROM DD_OrderLine t"
+				+" INNER JOIN DD_Order o  ON (o.dd_order_id=t.dd_order_id)"
+				+" INNER JOIN M_Locator l ON (l.M_Locator_ID=t.M_LocatorTo_ID)"
+				+" WHERE  (t.QtyOrdered - t.QtyDelivered) <> 0 AND o.DocStatus IN ('IP','CO') AND "
+				+"o.AD_Client_ID=? AND o.AD_Org_ID=? ";
+		executeUpdate(sql + sql_insert, params);
+	
 	}
 
 
