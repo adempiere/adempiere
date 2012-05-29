@@ -329,6 +329,7 @@ public class MPPMRP extends X_PP_MRP
 				MPPOrderBOMLine.COLUMNNAME_M_Warehouse_ID,
 				MPPOrderBOMLine.COLUMNNAME_QtyEntered,
 				MPPOrderBOMLine.COLUMNNAME_QtyDelivered,
+				MPPOrderBOMLine.COLUMNNAME_QtyRequired,
 		});
 	}
 

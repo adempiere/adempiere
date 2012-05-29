@@ -166,6 +166,9 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 				|| is_ValueChanged(COLUMNNAME_QtyRequired)
 			)
 		{
+			if(getQtyRequired().compareTo(getQtyDelivered())<0)
+				throw new AdempiereException("@QtyRequired@ < @QtyDelivered@");
+			
 			int precision = MUOM.getPrecision(getCtx(), getC_UOM_ID());
 			setQtyEntered(getQtyEntered().setScale(precision, RoundingMode.UP));
 			setQtyRequired(getQtyRequired().setScale(precision, RoundingMode.UP));
