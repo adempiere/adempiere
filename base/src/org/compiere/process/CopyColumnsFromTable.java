@@ -76,9 +76,9 @@ public class CopyColumnsFromTable extends SvrProcess
 		
 		MTable targetTable = new MTable(getCtx(), p_target_AD_Table_ID, get_TrxName());
 		MColumn[] targetColumns = targetTable.getColumns(true);
-		if (targetColumns.length > 0)
-			// TODO: dictionary message
-			throw new AdempiereSystemError("Target table must not have columns");
+		//if (targetColumns.length > 0)
+		//	// TODO: dictionary message
+		//	throw new AdempiereSystemError("Target table must not have columns");
 		
 		MTable sourceTable = new MTable(getCtx(), p_source_AD_Table_ID, get_TrxName());
 		MColumn[] sourceColumns = sourceTable.getColumns(true);
