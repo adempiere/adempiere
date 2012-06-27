@@ -24,20 +24,27 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.model.I_AD_View_Column;
 import org.adempiere.model.MBrowse;
 import org.adempiere.model.MBrowseField;
 import org.adempiere.model.MView;
 import org.adempiere.model.MViewColumn;
 import org.compiere.apps.search.Info_Column;
 import org.compiere.minigrid.IDColumn;
+import org.compiere.model.MColumn;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MProcess;
+import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
+import org.compiere.model.MTable;
 import org.compiere.model.M_Element;
+import org.compiere.model.Query;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -68,6 +75,8 @@ public abstract class Browser {
 	/** list of query columns (SQL) */
 	public ArrayList<String> m_queryColumnsSql = new ArrayList<String>();
 
+	/** Parameters */
+	LinkedHashMap<String,Object> m_search= new LinkedHashMap<String,Object>();
 	/** Parameters */
 	public ArrayList<String> m_parameters;
 	/** Parameters Values */
@@ -160,6 +169,16 @@ public abstract class Browser {
 			int displayType = field.getAD_Reference_ID();
 			boolean isKey = field.isKey();
 			boolean isDisplayed = field.isDisplayed();
+			// Defines Field as Y-Axis
+			if(field.getAxis_Column_ID() > 0)
+			{
+					ArrayList<Info_Column> vlist = getInfoColumnForAxisField(field);
+					for (Info_Column infoCol : vlist){
+						list.add(infoCol);
+					}
+					continue;	
+			}
+			
 			// teo_sarca
 			String columnSql = vcol.getColumnSQL() + " AS "
 					+ vcol.getColumnName();
@@ -271,8 +290,19 @@ public abstract class Browser {
 		if (value != null && value.toString().length() > 0) {
 			m_parameters.add(name);
 			m_values.add(value);
+			m_search.put(name, value);
 		}
 	}
+	
+	/**
+	 * get parameter based on key
+	 * @param key
+	 * @return Object Value for parameter
+	 */
+	public Object getParameter(String key) {
+			return m_search.get(key);
+	}
+
 
 	public void addSQLWhere(StringBuffer sql, int index, String value) {
 		if (!(value.equals("") || value.equals("%"))
@@ -386,5 +416,87 @@ public abstract class Browser {
 
 	public int getAD_Browse_ID() {
 		return m_Browse.getAD_Browse_ID();
+	}
+	/**
+	 * Get Info_Column for Axis Field
+	 * @param field defined as Axis
+	 * @return Info_Column with Axis Field
+	 */
+	public ArrayList<Info_Column> getInfoColumnForAxisField(MBrowseField field) 
+	{
+		ArrayList<Info_Column> list = new ArrayList<Info_Column>();
+		try {
+			Class colClass = String.class;
+			I_AD_View_Column xcol, pcol, ycol;
+
+			xcol = field.getAD_View_Column();
+			pcol = field.getAxis_Parent_Column();
+			ycol = field.getAxis_Column();
+
+			String columnName = xcol.getAD_Column().getColumnName();
+			Language language = Language.getLanguage(Env
+					.getAD_Language(m_Browse.getCtx()));
+			MTable xTable = (MTable) xcol.getAD_Column().getAD_Table();
+			String xTableName = xTable.getTableName();
+
+			MBrowseField fieldKey = field.getFieldKey();
+
+			String keyColumn = MQuery.getZoomColumnName(columnName);
+			String tableName = MQuery.getZoomTableName(columnName);
+
+			MTable parentTable = MTable.get(field.getCtx(), tableName);
+			MColumn parentColumn = getParentColumn(parentTable.getAD_Table_ID());
+			if (parentColumn == null)
+				throw new AdempiereException("@NotFound@ @IsParent@");
+
+			String whereClause = parentColumn.getColumnName() + "="
+					+ getParameter(pcol.getColumnName());
+
+			MLookup lookup = MLookupFactory.get(Env.getCtx(), 0,
+					xcol.getAD_Column_ID(), field.getAD_Reference_ID(),
+					language, keyColumn, 0, false, whereClause);
+
+			for (int id : MTable.getAllIDs(tableName, whereClause, null)) {
+				String colName = lookup.getDisplay(id)
+						+ "/"
+						+ Msg.translate(language, ycol.getAD_Column()
+								.getColumnName());
+				StringBuffer select = new StringBuffer("(SELECT ")
+						.append(ycol.getAD_Column().getColumnName())
+						.append(" FROM  ")
+						.append(xTableName)
+						.append(" WHERE ")
+						.append(xTableName)
+						.append(".")
+						.append(fieldKey.getAD_View_Column().getAD_Column()
+								.getColumnName()).append("=")
+						.append(fieldKey.getAD_View_Column().getColumnSQL())
+						.append(" AND ").append(xTableName).append(".")
+						.append(xcol.getAD_Column().getColumnName())
+						.append("=").append(id).append(") AS ");
+				select.append("\"").append(colName).append("\"");
+				Info_Column infocol = new Info_Column(colName,
+						select.toString(), colClass);
+				list.add(infocol);
+				log.finest("Added Column=" + colName);
+			}
+			
+		} catch (Exception e) {
+			throw new AdempiereException(e);
+		}	
+		return list;
+	}
+	
+	/**
+	 * Get Parent Column for Table
+	 * @param AD_Table_ID Table ID
+	 * @return MColumn
+	 */
+	private MColumn getParentColumn(int AD_Table_ID)
+	{
+		String whereClause = MColumn.COLUMNNAME_AD_Table_ID + "=? AND "
+				+ MColumn.COLUMNNAME_IsParent + "=? ";
+		return new Query(Env.getCtx(), MColumn.Table_Name, whereClause, null)
+				.setParameters(AD_Table_ID, true).first();
 	}
 }

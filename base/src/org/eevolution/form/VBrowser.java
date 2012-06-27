@@ -131,7 +131,7 @@ public class VBrowser extends Browser implements ActionListener,
 
 		initComponents();
 		statInit();
-		p_loadedOK = initBrowser();
+		//p_loadedOK = initBrowser();
 		m_frame.setPreferredSize(getPreferredSize());
 
 		//
@@ -371,6 +371,8 @@ public class VBrowser extends Browser implements ActionListener,
 		}
 		log.finest("Browse Fields #" + list.size());
 
+		detail = new MiniTable();
+		centerPanel.setViewportView(detail);
 		// Convert ArrayList to Array
 		m_generalLayout = new Info_Column[list.size()];
 		list.toArray(m_generalLayout);
@@ -469,8 +471,8 @@ public class VBrowser extends Browser implements ActionListener,
 	 */
 	protected void executeQuery() {
 
-		if (!setParameters())
-			;// return;
+		//if (!setParameters())
+		//	;// return;
 		// ignore when running
 		if (m_worker != null && m_worker.isAlive())
 			return;
@@ -512,7 +514,7 @@ public class VBrowser extends Browser implements ActionListener,
 	protected void prepareTable(Info_Column[] layout, String from,
 			String staticWhere, String orderBy) {
 		p_layout = layout;
-		StringBuffer sql = new StringBuffer("SELECT ");
+		StringBuffer sql = new StringBuffer("SELECT DISTINCT ");
 		// add columns & sql
 		for (int i = 0; i < layout.length; i++) {
 			if (i > 0)
@@ -930,6 +932,9 @@ public class VBrowser extends Browser implements ActionListener,
 
 	private void bSearchActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bSearchActionPerformed
 		// TODO add your handling code here:
+		if (!setParameters())
+			;// return;
+		p_loadedOK = initBrowser();
 		executeQuery();
 	}// GEN-LAST:event_bSearchActionPerformed
 

@@ -125,7 +125,7 @@ public class WBrowser extends Browser implements IFormController,
 
 		initComponents();
 		statInit();
-		p_loadedOK = initBrowser();
+		//p_loadedOK = initBrowser();
 		detail.setMultiSelection(true);
 		int no = detail.getRowCount();
 		setStatusLine(
@@ -271,7 +271,17 @@ public class WBrowser extends Browser implements IFormController,
 			return false;
 		}
 		log.finest("Browse Fields #" + list.size());
-
+		
+		detail = new WListbox();
+		Center dCenter = new Center();
+		dCenter.appendChild(detail);
+		dCenter.setBorder("none");
+		detail.setVflex(true);
+		detail.setFixedLayout(true);
+		dCenter.setFlex(true);
+		dCenter.setAutoscroll(true);
+		footPanel.appendCenter(detail);
+		
 		// Convert ArrayList to Array
 		m_generalLayout = new Info_Column[list.size()];
 		list.toArray(m_generalLayout);
@@ -329,7 +339,7 @@ public class WBrowser extends Browser implements IFormController,
 	}
 
 	protected void executeQuery() {
-		setParameters();
+		//setParameters();
 
 		if (!testCount())
 			return;
@@ -351,7 +361,7 @@ public class WBrowser extends Browser implements IFormController,
 			String staticWhere, String orderBy) {
 		p_layout = layout;
 		m_sqlMain = detail.prepareTable(layout, from, staticWhere, false, from);
-		StringBuffer sql = new StringBuffer("SELECT ");
+		StringBuffer sql = new StringBuffer("SELECT DISTINCT ");
 		for (int i = 0; i < layout.length; i++) {
 			if (i > 0)
 				sql.append(", ");
@@ -764,6 +774,8 @@ public class WBrowser extends Browser implements IFormController,
 	}
 
 	private void bSearchActionPerformed(Event evt) {
+		setParameters();
+		p_loadedOK = initBrowser();
 		executeQuery();
 	}
 

@@ -143,6 +143,36 @@ public interface I_AD_Browse_Field
 
 	public org.adempiere.model.I_AD_View_Column getAD_View_Column() throws RuntimeException;
 
+    /** Column name Axis_Column_ID */
+    public static final String COLUMNNAME_Axis_Column_ID = "Axis_Column_ID";
+
+	/** Set Axis Column.
+	  * Axis the link column.
+	  */
+	public void setAxis_Column_ID (int Axis_Column_ID);
+
+	/** Get Axis Column.
+	  * Axis the link column.
+	  */
+	public int getAxis_Column_ID();
+
+	public org.adempiere.model.I_AD_View_Column getAxis_Column() throws RuntimeException;
+
+    /** Column name Axis_Parent_Column_ID */
+    public static final String COLUMNNAME_Axis_Parent_Column_ID = "Axis_Parent_Column_ID";
+
+	/** Set Axis Parent Column.
+	  * The link Axis column view on the parent key
+	  */
+	public void setAxis_Parent_Column_ID (int Axis_Parent_Column_ID);
+
+	/** Get Axis Parent Column.
+	  * The link Axis column view on the parent key
+	  */
+	public int getAxis_Parent_Column_ID();
+
+	public org.adempiere.model.I_AD_View_Column getAxis_Parent_Column() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 

@@ -35,6 +35,11 @@ import org.compiere.util.CLogger;
 public class MBrowseField extends X_AD_Browse_Field {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3076943543303710639L;
+
+	/**
 	 * get Browse Field based on View Column
 	 * 
 	 * @param browse
@@ -51,10 +56,6 @@ public class MBrowseField extends X_AD_Browse_Field {
 						column.getAD_View_Column_ID()).first();
 	}
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -740931492029914957L;
 	/** Logger */
 	private static CLogger s_log = CLogger.getCLogger(MBrowseField.class);
 	/** Element */
@@ -124,6 +125,7 @@ public class MBrowseField extends X_AD_Browse_Field {
 		setIsRange(false);
 		setIsQueryCriteria(false);
 		setAD_Reference_ID(column.getAD_Reference_ID());
+		setAD_Reference_Value_ID(column.getAD_Column().getAD_Reference_Value_ID());
 		setIsKey(false);
 		setIsDisplayed(true);
 	}

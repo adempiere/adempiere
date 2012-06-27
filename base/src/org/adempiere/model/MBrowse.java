@@ -34,10 +34,11 @@ import org.compiere.util.CLogger;
  */
 public class MBrowse extends X_AD_Browse {
 
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 3097647999717804581L;
+	private static final long serialVersionUID = -7723306980903810620L;
 	/** Logger */
 	private static CLogger s_log = CLogger.getCLogger(MBrowse.class);
 	private MView m_view = null;
@@ -138,6 +139,22 @@ public class MBrowse extends X_AD_Browse {
 	public MBrowseField getField(String name) {
 		for (MBrowseField field : getFields()) {
 			if (field.getName().equals(name)) {
+				return field;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * get field Key
+	 * 
+	 * @param name
+	 *            field
+	 * @return field
+	 */
+	public MBrowseField getFieldKey() {
+		for (MBrowseField field : getFields()) {
+			if (field.isKey()) {
 				return field;
 			}
 		}

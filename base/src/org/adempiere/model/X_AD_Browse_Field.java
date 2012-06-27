@@ -31,7 +31,7 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20111019L;
+	private static final long serialVersionUID = 20120621L;
 
     /** Standard Constructor */
     public X_AD_Browse_Field (Properties ctx, int AD_Browse_Field_ID, String trxName)
@@ -228,6 +228,62 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 	public int getAD_View_Column_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_View_Column_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.model.I_AD_View_Column getAxis_Column() throws RuntimeException
+    {
+		return (org.adempiere.model.I_AD_View_Column)MTable.get(getCtx(), org.adempiere.model.I_AD_View_Column.Table_Name)
+			.getPO(getAxis_Column_ID(), get_TrxName());	}
+
+	/** Set Axis Column.
+		@param Axis_Column_ID 
+		Axis the link column.
+	  */
+	public void setAxis_Column_ID (int Axis_Column_ID)
+	{
+		if (Axis_Column_ID < 1) 
+			set_Value (COLUMNNAME_Axis_Column_ID, null);
+		else 
+			set_Value (COLUMNNAME_Axis_Column_ID, Integer.valueOf(Axis_Column_ID));
+	}
+
+	/** Get Axis Column.
+		@return Axis the link column.
+	  */
+	public int getAxis_Column_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Axis_Column_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.model.I_AD_View_Column getAxis_Parent_Column() throws RuntimeException
+    {
+		return (org.adempiere.model.I_AD_View_Column)MTable.get(getCtx(), org.adempiere.model.I_AD_View_Column.Table_Name)
+			.getPO(getAxis_Parent_Column_ID(), get_TrxName());	}
+
+	/** Set Axis Parent Column.
+		@param Axis_Parent_Column_ID 
+		The link Axis column view on the parent key
+	  */
+	public void setAxis_Parent_Column_ID (int Axis_Parent_Column_ID)
+	{
+		if (Axis_Parent_Column_ID < 1) 
+			set_Value (COLUMNNAME_Axis_Parent_Column_ID, null);
+		else 
+			set_Value (COLUMNNAME_Axis_Parent_Column_ID, Integer.valueOf(Axis_Parent_Column_ID));
+	}
+
+	/** Get Axis Parent Column.
+		@return The link Axis column view on the parent key
+	  */
+	public int getAxis_Parent_Column_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Axis_Parent_Column_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
