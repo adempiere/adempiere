@@ -84,25 +84,30 @@ public class ConfigVMMac extends Config
 		System.setProperty(ConfigurationData.JAVA_HOME, javaHome.getAbsolutePath());
 		
 		//	Java Version
-		final String VERSION = "1.5.0";
-		final String VERSION2 = "1.6.0";
+		final String VERSION15 = "1.5.0";
+		final String VERSION16 = "1.6.0";
+		final String VERSION17 = "1.7.0";
 		pass = false;
 		String jh = javaHome.getAbsolutePath();
-		if (jh.indexOf(VERSION) != -1)	//	file name has version = assuming OK
+		if (jh.indexOf(VERSION15) != -1)	//	file name has version = assuming OK
 			pass = true;
-		if (!pass && jh.indexOf(VERSION2) != -1)	//
+		if (!pass && jh.indexOf(VERSION16) != -1)	//
+			pass = true;
+		if (!pass && jh.indexOf(VERSION17) != -1)	//
 			pass = true;
 		String thisJH = System.getProperty("java.home");
 		if (thisJH.indexOf(jh) != -1)	//	we are running the version currently
 		{
 			String thisJV = System.getProperty("java.version");
-			pass = thisJV.indexOf(VERSION) != -1;
-			if (!pass && thisJV.indexOf(VERSION2) != -1)
+			pass = thisJV.indexOf(VERSION15) != -1;
+			if (!pass && thisJV.indexOf(VERSION16) != -1)
+				pass = true;
+			if (!pass && thisJV.indexOf(VERSION17) != -1)
 				pass = true;
 			if (pass)
 			  log.info("OK: Version=" + thisJV);
 		}
-		error = "Wrong Java Version: Should be " + VERSION2;
+		error = "Wrong Java Version: Should be " + VERSION16;
 		if (getPanel() != null)
 			signalOK(getPanel().okJavaHome, "ErrorJavaHome",
 					pass, true, error);
