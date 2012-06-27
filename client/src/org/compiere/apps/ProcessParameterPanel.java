@@ -61,6 +61,8 @@ import org.compiere.util.Env;
  * 			<li>FR [ 3426137 ] Smart Browser
  * 			 https://sourceforge.net/tracker/?func=detail&aid=3426137&group_id=176962&atid=879335
  * @version 	2006-12-01
+ * @author Michael McKay (mjmckay)
+ * 			<li>BF3423098 - Labels for process parameters with display logic false are still displayed
  */
 public class ProcessParameterPanel extends CPanel implements VetoableChangeListener, IProcessParameter {
 	/**
@@ -530,8 +532,9 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 			Component[] comps = centerPanel.getComponents();
 			for (int i = 0; i < comps.length; i++) {
 				Component comp = comps[i];
-				if (comp instanceof CLabel)
-					continue;
+				// BF3423098 - Labels for process parameters with display logic false are still shown 
+				//if (comp instanceof CLabel)
+				//	continue;
 				String columnName = comp.getName();
 
 				if (columnName != null && columnName.length() > 0) {

@@ -10,6 +10,11 @@
  * You should have received a copy of the GNU General Public License along    *
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ *                                                                            *
+ *                                                                            *
+ *  @author Michael McKay                                                     * 
+ *  	<li>BF3441324  - Partially paid invoice does not appear in payment    *
+ *                       selection                                            *
  *****************************************************************************/
 package org.compiere.apps.form;
 
@@ -188,14 +193,14 @@ public class PaySelect
 		Properties ctx = Env.getCtx();
 		/**  prepare MiniTable
 		 *
-		SELECT i.C_Invoice_ID, i.DateInvoiced+p.NetDays AS DateDue,
+		SELECT i.C_Invoice_ID, i.C_InvoicePaySchedule_ID, i.DateInvoiced+p.NetDays AS DateDue,
 		bp.Name, i.DocumentNo, c.ISO_Code, i.GrandTotal,
 		paymentTermDiscount(i.GrandTotal, i.C_PaymentTerm_ID, i.DateInvoiced, SysDate) AS Discount,
 		SysDate-paymentTermDueDays(i.C_PaymentTerm_ID,i.DateInvoiced) AS DiscountDate,
 		i.GrandTotal-paymentTermDiscount(i.GrandTotal,i.C_PaymentTerm_ID,i.DateInvoiced,SysDate) AS DueAmount,
 		currencyConvert(i.GrandTotal-paymentTermDiscount(i.GrandTotal,i.C_PaymentTerm_ID,i.DateInvoiced,SysDate,null),
 			i.C_Currency_ID,xx100,SysDate) AS PayAmt
-		FROM C_Invoice i, C_BPartner bp, C_Currency c, C_PaymentTerm p
+		FROM C_Invoice_v i, C_BPartner bp, C_Currency c, C_PaymentTerm p
 		WHERE i.IsSOTrx='N'
 		AND i.C_BPartner_ID=bp.C_BPartner_ID
 		AND i.C_Currency_ID=c.C_Currency_ID
@@ -205,32 +210,53 @@ public class PaySelect
 		 */
 
 		m_sql = miniTable.prepareTable(new ColumnInfo[] {
-			//  0..4
+			//  0..5
 			new ColumnInfo(" ", "i.C_Invoice_ID", IDColumn.class, false, false, null),
-			new ColumnInfo(Msg.translate(ctx, "DueDate"), "paymentTermDueDate(i.C_PaymentTerm_ID, i.DateInvoiced) AS DateDue", Timestamp.class, true, true, null),
+			new ColumnInfo(Msg.translate(ctx, "DueDate"), "COALESCE(ips.duedate,paymentTermDueDate(i.C_PaymentTerm_ID, i.DateInvoiced)) AS DateDue", Timestamp.class, true, true, null),
 			new ColumnInfo(Msg.translate(ctx, "C_BPartner_ID"), "bp.Name", KeyNamePair.class, true, false, "i.C_BPartner_ID"),
 			new ColumnInfo(Msg.translate(ctx, "DocumentNo"), "i.DocumentNo", String.class),
+			new ColumnInfo(Msg.getMsg(ctx, "Payment #"), "np.numpaymts", KeyNamePair.class, true, false, "np.C_InvoicePaySchedule_ID"),
 			new ColumnInfo(Msg.translate(ctx, "C_Currency_ID"), "c.ISO_Code", KeyNamePair.class, true, false, "i.C_Currency_ID"),
-			// 5..9
+			// 6..11
 			new ColumnInfo(Msg.translate(ctx, "GrandTotal"), "i.GrandTotal", BigDecimal.class),
 			new ColumnInfo(Msg.translate(ctx, "DiscountAmt"), "paymentTermDiscount(i.GrandTotal,i.C_Currency_ID,i.C_PaymentTerm_ID,i.DateInvoiced, ?)", BigDecimal.class),
 			new ColumnInfo(Msg.getMsg(ctx, "DiscountDate"), "SysDate-paymentTermDueDays(i.C_PaymentTerm_ID,i.DateInvoiced,SysDate)", Timestamp.class),
 			new ColumnInfo(Msg.getMsg(ctx, "AmountDue"), "currencyConvert(invoiceOpen(i.C_Invoice_ID,i.C_InvoicePaySchedule_ID),i.C_Currency_ID, ?,?,i.C_ConversionType_ID, i.AD_Client_ID,i.AD_Org_ID)", BigDecimal.class),
-			new ColumnInfo(Msg.getMsg(ctx, "AmountPay"), "currencyConvert(invoiceOpen(i.C_Invoice_ID,i.C_InvoicePaySchedule_ID)-paymentTermDiscount(i.GrandTotal,i.C_Currency_ID,i.C_PaymentTerm_ID,i.DateInvoiced, ?),i.C_Currency_ID, ?,?,i.C_ConversionType_ID, i.AD_Client_ID,i.AD_Org_ID)", BigDecimal.class)
+			new ColumnInfo(Msg.getMsg(ctx, "AmountPay"), "currencyConvert(invoiceOpen(i.C_Invoice_ID,i.C_InvoicePaySchedule_ID)-paymentTermDiscount(i.GrandTotal,i.C_Currency_ID,i.C_PaymentTerm_ID,i.DateInvoiced, ?),i.C_Currency_ID, ?,?,i.C_ConversionType_ID, i.AD_Client_ID,i.AD_Org_ID)", BigDecimal.class),
+			new ColumnInfo(Msg.translate(ctx, "PaySched_ID"), "np.C_InvoicePaySchedule_ID", Integer.class)
 			},
 			//	FROM
 			"C_Invoice_v i"
 			+ " INNER JOIN C_BPartner bp ON (i.C_BPartner_ID=bp.C_BPartner_ID)"
 			+ " INNER JOIN C_Currency c ON (i.C_Currency_ID=c.C_Currency_ID)"
-			+ " INNER JOIN C_PaymentTerm p ON (i.C_PaymentTerm_ID=p.C_PaymentTerm_ID)",
+			+ " INNER JOIN C_PaymentTerm p ON (i.C_PaymentTerm_ID=p.C_PaymentTerm_ID)"
+			+ " INNER JOIN (SELECT civ.c_invoice_id, civ.c_invoicepayschedule_id, civ.duedate," 
+			+ 			   " (SELECT COUNT(C_Invoice_ID) AS payno"
+			+			   " FROM C_Invoice_V"
+			+			   " WHERE C_Invoice_ID = civ.C_Invoice_ID"
+			+			   " AND duedate <= civ.duedate"
+			+			   " GROUP BY C_Invoice_ID) || ' / ' ||"
+			+			   " (SELECT COUNT(C_Invoice_ID) as numpmts"
+			+			   " FROM C_Invoice_V"
+			+			   " WHERE C_Invoice_ID = civ.C_Invoice_ID"
+			+			   " GROUP BY C_Invoice_ID) as numpaymts"
+			+			   " FROM C_Invoice_v civ) np ON (i.C_Invoice_ID=np.C_Invoice_ID"
+			+														" AND (i.C_InvoicePaySchedule_ID IS NULL"
+			+														" OR i.C_InvoicePaySchedule_ID = np.C_InvoicePaySchedule_ID))"
+			+ " LEFT OUTER JOIN C_InvoicePaySchedule ips ON (i.C_InvoicePaySchedule_ID = ips.C_InvoicePaySchedule_ID)",
 			//	WHERE
 			"i.IsSOTrx=? AND IsPaid='N'"
+			// And a payment is needed
+			+ " AND invoiceOpen(i.C_Invoice_ID,i.C_InvoicePaySchedule_ID)-paymentTermDiscount(i.GrandTotal,i.C_Currency_ID,i.C_PaymentTerm_ID,i.DateInvoiced, ?) != 0.0"
 			//	Different Payment Selection
+			//  BR3450248 - Partially paid invoice does not appear in payment selection
 			+ " AND NOT EXISTS (SELECT * FROM C_PaySelectionLine psl"
 			+                 " INNER JOIN C_PaySelectionCheck psc ON (psl.C_PaySelectionCheck_ID=psc.C_PaySelectionCheck_ID)"
 			+                 " LEFT OUTER JOIN C_Payment pmt ON (pmt.C_Payment_ID=psc.C_Payment_ID)"
-			+                 " WHERE i.C_Invoice_ID=psl.C_Invoice_ID AND psl.IsActive='Y'"
-			+				  " AND (pmt.DocStatus IS NULL OR pmt.DocStatus NOT IN ('VO','RE')) )"
+			+                 " WHERE i.C_Invoice_ID=psl.C_Invoice_ID AND (i.C_InvoicePaySchedule_ID IS NULL OR i.C_InvoicePaySchedule_ID=0)" 
+			+				  " AND psl.IsActive='Y'"
+			+				  " AND (pmt.DocStatus IS NULL OR pmt.DocStatus NOT IN ('VO','RE'))"
+			+				  " AND psl.differenceamt = 0.0)"
 			+ " AND i.DocStatus IN ('CO','CL')"
 			+ " AND i.AD_Client_ID=?",	//	additional where & order in loadTableInfo()
 			true, "i");
@@ -307,7 +333,7 @@ public class PaySelect
 		int c_doctype_id  = dt.getKey();
 		if (c_doctype_id   != 0)
 			sql += " AND i.c_doctype_id =?";
-		sql += " ORDER BY 2,3";
+		sql += " ORDER BY DateDue, bp.Name, i.DocumentNo";
 
 		log.finest(sql + " - C_Currency_ID=" + bi.C_Currency_ID + ", C_BPartner_ID=" + C_BPartner_ID + ", C_doctype_id=" + c_doctype_id  );
 		//  Get Open Invoices
@@ -322,6 +348,7 @@ public class PaySelect
 			pstmt.setInt(index++, bi.C_Currency_ID);
 			pstmt.setTimestamp(index++, payDate);
 			pstmt.setString(index++, isSOTrx);			//	IsSOTrx
+			pstmt.setTimestamp(index++, payDate);
 			pstmt.setInt(index++, m_AD_Client_ID);		//	Client
 			if (onlyDue)
 				pstmt.setTimestamp(index++, payDate);
@@ -356,7 +383,7 @@ public class PaySelect
 			IDColumn id = (IDColumn)miniTable.getValueAt(i, 0);
 			if (id.isSelected())
 			{
-				BigDecimal amt = (BigDecimal)miniTable.getValueAt(i, 9);
+				BigDecimal amt = (BigDecimal)miniTable.getValueAt(i, 10);
 				if (amt != null)
 					invoiceAmt = invoiceAmt.add(amt);
 				m_noSelected++;
@@ -408,16 +435,18 @@ public class PaySelect
 		for (int i = 0; i < rows; i++)
 		{
 			IDColumn id = (IDColumn)miniTable.getValueAt(i, 0);
+			Object ips_id = miniTable.getValueAt(i,11);
 			if (id.isSelected())
 			{
 				line += 10;
 				MPaySelectionLine psl = new MPaySelectionLine (m_ps, line, PaymentRule);
 				int C_Invoice_ID = id.getRecord_ID().intValue();
-				BigDecimal OpenAmt = (BigDecimal)miniTable.getValueAt(i, 8);
-				BigDecimal PayAmt = (BigDecimal)miniTable.getValueAt(i, 9);
+				int C_InvoicePaySchedule_ID = Integer.parseInt(ips_id.toString());
+				BigDecimal OpenAmt = (BigDecimal)miniTable.getValueAt(i, 9);
+				BigDecimal PayAmt = (BigDecimal)miniTable.getValueAt(i, 10);
 				boolean isSOTrx = false;
 				//
-				psl.setInvoice(C_Invoice_ID, isSOTrx,
+				psl.setInvoice(C_Invoice_ID, C_InvoicePaySchedule_ID, isSOTrx,
 					OpenAmt, PayAmt, OpenAmt.subtract(PayAmt));
 				if (!psl.save(trxName))
 				{
