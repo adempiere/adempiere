@@ -265,7 +265,7 @@ public abstract class AdempiereServer extends Thread
 			//
 			p_model.setDateLastRun(lastRun);
 			p_model.setDateNextRun(new Timestamp(m_nextWork));
-			p_model.save();
+			p_model.saveEx();
 			//
 			log.fine(getName() + ": " + getStatistics());
 			if (!sleep())

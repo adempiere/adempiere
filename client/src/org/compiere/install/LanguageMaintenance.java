@@ -105,7 +105,7 @@ public class LanguageMaintenance extends SvrProcess
 			if (m_language.isSystemLanguage())
 			{
 				m_language.setIsSystemLanguage(false);
-				m_language.save();
+				m_language.saveEx();
 			}
 		}
 		

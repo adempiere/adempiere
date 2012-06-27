@@ -161,7 +161,7 @@ public class AssetSplit extends SvrProcess
 				AssetNew.setC_BPartner_Location_ID(Asset.getC_BPartner_Location_ID());
 				AssetNew.setA_QTY_Current(v_QTY_New);
 				AssetNew.setA_QTY_Original(v_QTY_New);				
-				AssetNew.save();				
+				AssetNew.saveEx();				
 				
 				
 			    v_AssetNumber = AssetNew.getA_Asset_ID();
@@ -176,7 +176,7 @@ public class AssetSplit extends SvrProcess
 				assetadd.setA_QTY_Current(v_QTY_New);
 				assetadd.setPostingType(AssetSplit.getPostingType());
 				assetadd.setM_InOutLine_ID(1);				
-				assetadd.save();
+				assetadd.saveEx();
 				
 				
 				String sql2 = "SELECT A_Asset_Acct_ID "
@@ -212,7 +212,7 @@ public class AssetSplit extends SvrProcess
 					assetacctnew.setA_Depreciation_Manual_Period(" ");
 				else	
 					assetacctnew.setA_Depreciation_Manual_Period(assetacct.getA_Depreciation_Manual_Period());				
-				assetacctnew.save();
+				assetacctnew.saveEx();
 				
 				
 				sql2 = null;
@@ -239,7 +239,7 @@ public class AssetSplit extends SvrProcess
 				assetwknew.setIsDepreciated(assetwk.isDepreciated());				
 				assetwknew.setA_Asset_Life_Current_Year(assetwk.getA_Asset_Life_Current_Year());								
 				assetwknew.setA_Curr_Dep_Exp(new BigDecimal (0.0));				
-				assetwknew.save();
+				assetwknew.saveEx();
 				
 				
 				//Record transaction in Asset History				
@@ -299,7 +299,7 @@ public class AssetSplit extends SvrProcess
 			    change.setC_BPartner_ID(AssetNew.getC_BPartner_ID());		    
 			    change.setA_QTY_Current(AssetNew.getA_QTY_Current());
 			    change.setA_QTY_Original(AssetNew.getA_QTY_Original());				
-			    change.save();
+			    change.saveEx();
 				
 			    
 			    //Record Account Numbers for JE's
@@ -315,7 +315,7 @@ public class AssetSplit extends SvrProcess
 			    MAsset AssetNew = new MAsset (getCtx(), v_AssetNumber, null);
 			    AssetNew.setA_QTY_Current(AssetNew.getA_QTY_Current().add(v_QTY_New));
 				AssetNew.setA_QTY_Original(AssetNew.getA_QTY_Original().add(v_QTY_New));
-				AssetNew.save();
+				AssetNew.saveEx();
 				
 			     //Create Asset Addition Record
 				MAssetAddition assetadd = new MAssetAddition (getCtx(), 0, null);	
@@ -327,7 +327,7 @@ public class AssetSplit extends SvrProcess
 				assetadd.setA_QTY_Current(v_QTY_New);
 				assetadd.setPostingType(AssetSplit.getPostingType());
 				assetadd.setM_InOutLine_ID(1);				
-				assetadd.save();
+				assetadd.saveEx();
 				
 				
 				String sql2 = "SELECT A_Asset_Acct_ID "
@@ -342,7 +342,7 @@ public class AssetSplit extends SvrProcess
 				MAssetAcct assetacctnew = new MAssetAcct (getCtx(), v_NewAssetAcctID, null);			  
 				assetacctnew.setA_Salvage_Value(assetacctnew.getA_Salvage_Value().add(v_SalvageValue_New));
 				assetacctnew.setA_Depreciation_Manual_Amount(assetacctnew.getA_Depreciation_Manual_Amount().add(v_ManDep_New));				
-				assetacctnew.save();
+				assetacctnew.saveEx();
 				
 			    
 				sql2 = null;
@@ -361,7 +361,7 @@ public class AssetSplit extends SvrProcess
 				assetwknew.setA_Accumulated_Depr(assetwknew.getA_Accumulated_Depr().add(v_AccumBalance_New));				
 				assetwknew.setA_Salvage_Value(assetwknew.getA_Salvage_Value().add(v_SalvageValue_New));				
 				assetwknew.setA_QTY_Current(assetwknew.getA_QTY_Current().add(v_QTY_New));				
-				assetwknew.save();
+				assetwknew.saveEx();
 				
 				
 				//Record transaction in Asset History
@@ -422,7 +422,7 @@ public class AssetSplit extends SvrProcess
 			    change.setC_BPartner_ID(AssetNew.getC_BPartner_ID());		    
 			    change.setA_QTY_Current(AssetNew.getA_QTY_Current());
 			    change.setA_QTY_Original(AssetNew.getA_QTY_Original());				
-			    change.save();
+			    change.saveEx();
 				
 				
 			    //Record Account Numbers for JE's
@@ -434,7 +434,7 @@ public class AssetSplit extends SvrProcess
 		    		    
 		    //	Update original Asset
 			Asset.setA_QTY_Current(v_QTY_Org);			
-			Asset.save();		    
+			Asset.saveEx();		    
 		    
 			//	Update original asset for the split
 			MAssetAddition assetaddold = new MAssetAddition (getCtx(), 0, null);	
@@ -446,19 +446,19 @@ public class AssetSplit extends SvrProcess
 			assetaddold.setA_QTY_Current(v_QTY_New.multiply( new BigDecimal(-1)));
 			assetaddold.setPostingType(AssetSplit.getPostingType());
 			assetaddold.setM_InOutLine_ID(1);
-			assetaddold.save();			
+			assetaddold.saveEx();			
 			
 			//Update the Original Asset in the Account File
 			assetacct.setA_Salvage_Value(v_SalvageValue_Org);
 			assetacct.setA_Depreciation_Manual_Amount(v_ManDep_Org);
-			assetacct.save();		
+			assetacct.saveEx();		
 			
 			//Update the Original Asset in the Deprecation Workfile			
 			assetwk.setA_Asset_Cost(v_CostBalance_Org);
 			assetwk.setA_Accumulated_Depr(v_AccumBalance_Org);
 			assetwk.setA_Salvage_Value(v_SalvageValue_Org);
 			assetwk.setA_QTY_Current(v_QTY_Org);
-			assetwk.save();			
+			assetwk.saveEx();			
 			
 			MAssetChange change1 = new MAssetChange (getCtx(), 0, null);
 			change1.setChangeType("SPL");
@@ -477,7 +477,7 @@ public class AssetSplit extends SvrProcess
 			change1.setAssetAccumDepreciationAmt(v_AccumBalance_New.multiply(new BigDecimal(-1)));
 			change1.setA_Salvage_Value(v_SalvageValue_New.multiply(new BigDecimal(-1)));
 			change1.setA_QTY_Current(v_QTY_New.multiply(new BigDecimal(-1)));
-			change1.save();
+			change1.saveEx();
 			
 	//Create Journal Entries for the split
 			X_A_Depreciation_Exp depexp2 = new X_A_Depreciation_Exp (getCtx(), 0, null);
@@ -491,7 +491,7 @@ public class AssetSplit extends SvrProcess
 			depexp2.setIsDepreciated(false);
 			depexp2.setA_Period(AssetSplit.getC_Period_ID());
 			depexp2.setA_Entry_Type("SPL");			
-			depexp2.save();			
+			depexp2.saveEx();			
 
 			
 			X_A_Depreciation_Exp depexp3 = new X_A_Depreciation_Exp (getCtx(), 0, null);
@@ -504,7 +504,7 @@ public class AssetSplit extends SvrProcess
 			depexp3.setIsDepreciated(false);
 			depexp3.setA_Period(AssetSplit.getC_Period_ID());			
 			depexp3.setA_Entry_Type("SPL");
-			depexp3.save();
+			depexp3.saveEx();
 			
 			X_A_Depreciation_Exp depexp4 = new X_A_Depreciation_Exp (getCtx(), 0, null);
 		//Create JV for the Cost of the asset 			
@@ -517,7 +517,7 @@ public class AssetSplit extends SvrProcess
 			depexp4.setIsDepreciated(false);
 			depexp4.setA_Period(AssetSplit.getC_Period_ID());
 			depexp4.setA_Entry_Type("SPL");
-			depexp4.save();			
+			depexp4.saveEx();			
 		
 			X_A_Depreciation_Exp depexp5 = new X_A_Depreciation_Exp (getCtx(), 0, null);
 			depexp5.setPostingType(AssetSplit.getPostingType());
@@ -529,7 +529,7 @@ public class AssetSplit extends SvrProcess
 			depexp5.setIsDepreciated(false);
 			depexp5.setA_Period(AssetSplit.getC_Period_ID());			
 			depexp5.setA_Entry_Type("SPL");
-			depexp5.save();
+			depexp5.saveEx();
 			
 			
 			String sql = null;
@@ -567,7 +567,7 @@ public class AssetSplit extends SvrProcess
 				depexp0.setIsDepreciated(false);
 				depexp0.setA_Period(AssetSplit.getC_Period_ID());
 				depexp0.setA_Entry_Type("SPL");
-				depexp0.save();
+				depexp0.saveEx();
 				
 				X_A_Depreciation_Exp depexp1 = new X_A_Depreciation_Exp (getCtx(), 0, null);
 				depexp1.setPostingType(AssetSplit.getPostingType());
@@ -579,7 +579,7 @@ public class AssetSplit extends SvrProcess
 				depexp1.setIsDepreciated(false);
 				depexp1.setA_Period(AssetSplit.getC_Period_ID());			
 				depexp1.setA_Entry_Type("SPL");
-				depexp1.save();
+				depexp1.saveEx();
 			}
 				
 				rs.close();

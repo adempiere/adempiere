@@ -918,7 +918,7 @@ public class MCostDetail extends X_M_CostDetail
 				MCostQueue cq = MCostQueue.get(product, getM_AttributeSetInstance_ID(), 
 					as, Org_ID, ce.getM_CostElement_ID(), get_TrxName());
 				cq.setCosts(amt, qty, precision);
-				cq.save();
+				cq.saveEx();
 				//	Get Costs - costing level Org/ASI
 				MCostQueue[] cQueue = MCostQueue.getQueue(product, M_ASI_ID, 
 					as, Org_ID, ce, get_TrxName());
@@ -1051,7 +1051,7 @@ public class MCostDetail extends X_M_CostDetail
 					MCostQueue cq = MCostQueue.get(product, getM_AttributeSetInstance_ID(), 
 						as, Org_ID, ce.getM_CostElement_ID(), get_TrxName());
 					cq.setCosts(amt, qty, precision);
-					cq.save();
+					cq.saveEx();
 				}
 				else
 				{

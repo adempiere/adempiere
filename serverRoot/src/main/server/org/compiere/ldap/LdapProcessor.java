@@ -106,7 +106,7 @@ public class LdapProcessor extends AdempiereServer
 		MLdapProcessorLog pLog = new MLdapProcessorLog(m_model, m_summary.toString());
 		pLog.setReference("#" + String.valueOf(p_runCount) 
 			+ " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
-		pLog.save();
+		pLog.saveEx();
 
 	}	//	doWork
 

@@ -712,7 +712,7 @@ public class BPartnerManager
 		bplocation.setAD_Org_ID(orgId);
 		
 		//UDIMBPartnerLocation udiBpLocation = new UDIMBPartnerLocation(bplocation);
-		//udiBpLocation.save();
+		//udiBpLocation.saveEx();
 		
 		PoManager.save(bplocation);
 		
@@ -721,7 +721,7 @@ public class BPartnerManager
 		bPartner.setPrimaryC_BPartner_Location_ID(bplocation.get_ID());
 		
 		//UDIMBPartner udiBPartner_defaultLocation = new UDIMBPartner(bPartner);
-		//udiBPartner_defaultLocation.save();
+		//udiBPartner_defaultLocation.saveEx();
 		PoManager.save(bPartner);
 		
 		return bPartner;

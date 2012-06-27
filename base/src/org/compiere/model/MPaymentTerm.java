@@ -139,12 +139,13 @@ public class MPaymentTerm extends X_C_PaymentTerm
 	 */
 	public String validate()
 	{
+		String validMsg = Msg.parseTranslation(getCtx(), "@OK@");
 		getSchedule(true);
 		if (m_schedule.length == 0)
 		{
 			if (! isValid())
 				setIsValid(true);
-			return "@OK@";
+			return validMsg;
 		}
 		if (m_schedule.length == 1)
 		{
@@ -153,7 +154,7 @@ public class MPaymentTerm extends X_C_PaymentTerm
 			if (m_schedule[0].isValid())
 			{
 				m_schedule[0].setIsValid(false);
-				m_schedule[0].save();
+				m_schedule[0].saveEx();
 			}
 			return "@Invalid@ @Count@ # = 1 (@C_PaySchedule_ID@)";
 		}
@@ -174,7 +175,7 @@ public class MPaymentTerm extends X_C_PaymentTerm
 			if (m_schedule[i].isValid() != valid)
 			{
 				m_schedule[i].setIsValid(valid);
-				m_schedule[i].save();
+				m_schedule[i].saveEx();
 			}
 		}
 		String msg = "@OK@";

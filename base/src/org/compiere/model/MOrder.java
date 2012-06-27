@@ -28,6 +28,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.BPartnerNoBillToAddressException;
 import org.adempiere.exceptions.BPartnerNoShipToAddressException;
 import org.adempiere.exceptions.FillMandatoryException;
@@ -53,6 +54,8 @@ import org.eevolution.model.MPPProductBOMLine;
  *  @author victor.perez@e-evolution.com, e-Evolution http://www.e-evolution.com
  * 			<li> FR [ 2520591 ] Support multiples calendar for Org 
  *			@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962
+ *			<li> BF ADEMPIERE-79 The Sales Order / Purchase Order ignore the excluded tables for an Attribute Set defined as always mandatory
+ *				https://adempiere.atlassian.net/browse/ADEMPIERE-79
  *  @version $Id: MOrder.java,v 1.5 2006/10/06 00:42:24 jjanke Exp $
  * 
  * @author Teo Sarca, www.arhipac.ro
@@ -64,10 +67,12 @@ import org.eevolution.model.MPPProductBOMLine;
  */
 public class MOrder extends X_C_Order implements DocAction
 {
+
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -1575104995897726572L;
+	private static final long serialVersionUID = 6238231989649199067L;
 
 	/**
 	 * 	Create new Order by copying
@@ -1208,20 +1213,7 @@ public class MOrder extends X_C_Order implements DocAction
 		}	//	convert DocType
 
 		//	Mandatory Product Attribute Set Instance
-		String mandatoryType = "='Y'";	//	IN ('Y','S')
-		String sql = "SELECT COUNT(*) "
-			+ "FROM C_OrderLine ol"
-			+ " INNER JOIN M_Product p ON (ol.M_Product_ID=p.M_Product_ID)" 
-			+ " INNER JOIN M_AttributeSet pas ON (p.M_AttributeSet_ID=pas.M_AttributeSet_ID) "
-			+ "WHERE pas.MandatoryType" + mandatoryType		
-			+ " AND (ol.M_AttributeSetInstance_ID is NULL OR ol.M_AttributeSetInstance_ID = 0)"
-			+ " AND ol.C_Order_ID=?";
-		int no = DB.getSQLValue(get_TrxName(), sql, getC_Order_ID());
-		if (no != 0)
-		{
-			m_processMsg = "@LinesWithoutProductAttribute@ (" + no + ")";
-			return DocAction.STATUS_Invalid;
-		}
+		isASIMandatory();
 
 		//	Lines
 		if (explodeBOM())
@@ -2455,5 +2447,25 @@ public class MOrder extends X_C_Order implements DocAction
 		
 	}
 	
-	
+	//Mandatory Product Attribute Set Instance
+	private void isASIMandatory()
+	{
+		for(MOrderLine ol : getLines())
+		{
+			MProduct product = new MProduct(getCtx(), ol.getM_Product_ID(), get_TrxName());
+			if(product.getM_AttributeSet_ID() > 0)
+			{
+				if(product.isASIMandatory(isSOTrx()))
+				{
+					MAttributeSet mas = MAttributeSet.get(getCtx(), product.getM_AttributeSet_ID());
+					if(!mas.excludeEntry(MColumn.getColumn_ID(MOrderLine.Table_Name, MOrderLine.COLUMNNAME_C_OrderLine_ID), isSOTrx())
+						&& ol.getM_AttributeSetInstance_ID() == 0)
+					{
+							m_processMsg = "@LinesWithoutProductAttribute@ (" + ol.getLine()+ ")";
+							throw new AdempiereException(m_processMsg);
+					}	
+				}
+			}
+		}
+	}
 }	//	MOrder

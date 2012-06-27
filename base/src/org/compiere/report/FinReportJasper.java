@@ -70,7 +70,7 @@ public class FinReportJasper extends FinReport
 
 		MProcess proc = new MProcess(getCtx(), m_report.getJasperProcess_ID(), get_TrxName());
 	    MPInstance instance = new MPInstance(proc, getRecord_ID());
-	    instance.save();
+	    instance.saveEx();
 	    ProcessInfo poInfo = new ProcessInfo(proc.getName(), proc.getAD_Process_ID());
 	    poInfo.setParameter(pars);
 	    poInfo.setRecord_ID(getRecord_ID());

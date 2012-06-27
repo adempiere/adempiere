@@ -201,7 +201,7 @@ public class MCurrency extends X_C_Currency
 			int prec = Integer.parseInt(s_table[i][I_Precision]);
 			MCurrency cur = new MCurrency(Env.getCtx(), s_table[i][I_Currency],
 				s_table[i][I_Name], s_table[i][I_Symbol], prec, prec+2);
-			cur.save();
+			cur.saveEx();
 			System.out.println(cur);
 			**
 			String ISO = s_table[i][I_Currency];

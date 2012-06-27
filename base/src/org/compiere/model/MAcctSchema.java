@@ -479,7 +479,7 @@ public class MAcctSchema extends X_C_AcctSchema
 			MCostType ct = new MCostType (getCtx(), 0, get_TrxName());
 			ct.setClientOrg(getAD_Client_ID(), 0);
 			ct.setName(getName());
-			ct.save();
+			ct.saveEx();
 			setM_CostType_ID(ct.getM_CostType_ID());
 		}
 		

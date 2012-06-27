@@ -155,7 +155,7 @@ public class MRfQLine extends X_C_RfQLine
 		if (list.size() == 0)
 		{
 			MRfQLineQty qty = new MRfQLineQty(this);
-			qty.save();
+			qty.saveEx();
 			list.add(qty);
 		}
 		

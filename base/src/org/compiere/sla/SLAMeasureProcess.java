@@ -80,7 +80,7 @@ public class SLAMeasureProcess extends SvrProcess
 		//
 		goal.setMeasureActual(pgm.calculateMeasure(goal));
 		goal.setDateLastRun(new Timestamp(System.currentTimeMillis()));
-		goal.save();
+		goal.saveEx();
 		//
 		return "@MeasureActual@=" + goal.getMeasureActual();
 	}	//	doIt
