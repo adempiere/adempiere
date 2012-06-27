@@ -57,6 +57,9 @@ import org.compiere.util.Env;
  *         Parameter: add display and readonly logic
  * @author Teo Sarca, www.arhipac.ro
  * 			<li>BF [ 2548216 ] Process Param Panel is not showing any parameter if error 
+ * @author victor.perez@e-evoluton.com, www.e-evolution.com 
+ * 			<li>FR [ 3426137 ] Smart Browser
+ * 			 https://sourceforge.net/tracker/?func=detail&aid=3426137&group_id=176962&atid=879335
  * @version 	2006-12-01
  * @author Michael McKay (mjmckay)
  * 			<li>BF3423098 - Labels for process parameters with display logic false are still displayed
@@ -90,6 +93,10 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 
 		private int			m_WindowNo;
 		private ProcessInfo m_processInfo;
+		//Layout Mode
+		public static int MODE_HORIZONTAL = 1;
+		public static int MODE_VERTICAL = 0;
+		public static int MODE = MODE_VERTICAL;
 		/**	Logger			*/
 		private static CLogger log = CLogger.getCLogger(ProcessParameterPanel.class);
 		//
@@ -115,7 +122,8 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 		 *  @throws Exception
 		 */
 		void jbInit() throws Exception
-		{
+		{	
+			setMode(MODE_VERTICAL);
 			this.setLayout(mainLayout);
 			centerPanel.setLayout(centerLayout);
 			this.add(centerPanel, BorderLayout.CENTER);
@@ -140,19 +148,25 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 		 */
 		public boolean init()
 		{
-			log.config("");
-
-			//	Prepare panel
-			gbc.anchor = GridBagConstraints.NORTHWEST;
-			gbc.weightx = 0;
-			gbc.weighty = 0;
-			gbc.gridy = m_line++;
-			gbc.gridx = 0;
-			gbc.gridwidth = 1;
-			gbc.insets = nullInset;
-			gbc.fill = GridBagConstraints.HORIZONTAL;
-			centerPanel.add(Box.createVerticalStrut(10), gbc);    	//	top gap 10+2=12
-
+			if(MODE == MODE_HORIZONTAL)
+			{	
+				centerPanel.setLayout(new ALayout());
+			}
+			if(MODE == MODE_VERTICAL)
+			{
+				//	Prepare panel
+				gbc.anchor = GridBagConstraints.NORTHWEST;
+				gbc.weightx = 0;
+				gbc.weighty = 0;
+				gbc.gridy = m_line++;
+				gbc.gridx = 0;
+				gbc.gridwidth = 1;
+				gbc.insets = nullInset;
+				gbc.fill = GridBagConstraints.HORIZONTAL;
+				centerPanel.add(Box.createVerticalStrut(10), gbc);    	//	top gap 10+2=12
+			}
+			
+			log.config("");		
 			// ASP
 			MClient client = MClient.get(Env.getCtx());
 			String ASPFilter = "";
@@ -218,7 +232,12 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 					+ " AND t.AD_Language='" + Env.getAD_Language(Env.getCtx()) + "'"
 					+ " AND p.IsActive='Y' "
 					+ ASPFilter + " ORDER BY SeqNo";
-
+			
+			
+			int cols = 0;
+			int col = 2;
+			int row = 0;
+			
 			//	Create Fields
 			boolean hasFields = false;
 			PreparedStatement pstmt = null;
@@ -231,7 +250,20 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 				while (rs.next())
 				{
 					hasFields = true;
-					createField (rs);
+					if(MODE == MODE_HORIZONTAL)
+					{
+						createField (rs , row , cols);
+						cols = cols + col;
+						if(cols >= 4)
+						{
+							cols = 0;
+							row ++;
+						}
+					}	
+					if(MODE == MODE_VERTICAL)
+					{	
+						createField (rs);
+					}
 				}
 			}
 			catch(SQLException e)
@@ -254,10 +286,13 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 			//	clean up
 			if (hasFields)
 			{
-				gbc.gridy = m_line++;
-				centerPanel.add(Box.createVerticalStrut(10), gbc);    	//	bottom gap
-				gbc.gridx = 3;
-				centerPanel.add(Box.createHorizontalStrut(12), gbc);   	//	right gap
+				if(MODE == MODE_VERTICAL)
+				{
+					gbc.gridy = m_line++;
+					centerPanel.add(Box.createVerticalStrut(10), gbc);    	//	bottom gap
+					gbc.gridx = 3;
+					centerPanel.add(Box.createHorizontalStrut(12), gbc);   	//	right gap
+				}
 				dynamicDisplay();
 			}
 			else
@@ -265,6 +300,61 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 			return hasFields;
 		}	//	init
 
+		private void createField (ResultSet rs, int row,int col)
+		{			
+			//  Create Field
+			GridFieldVO voF = GridFieldVO.createParameter(Env.getCtx(), m_WindowNo, rs);
+			GridField mField = new GridField (voF);
+			m_mFields.add(mField);                      //  add to Fields
+			JLabel label = VEditorFactory.getLabel(mField);
+			if (label == null)
+			{
+				centerPanel.add(Box.createHorizontalStrut(12), new ALayoutConstraint(row,col));   	//	left gap
+			}
+			else
+			{
+				centerPanel.add(label,new ALayoutConstraint(row,col));
+			}
+		
+			//	The Editor
+			VEditor vEditor = VEditorFactory.getEditor(mField, false);
+			vEditor.addVetoableChangeListener(this);
+			//  MField => VEditor - New Field value to be updated to editor
+			mField.addPropertyChangeListener(vEditor);
+			//
+			centerPanel.add ((Component)vEditor, new ALayoutConstraint(row,col + 1));
+			m_vEditors.add (vEditor);                   //  add to Editors
+			//  Set Default
+			Object defaultObject = mField.getDefault();
+			mField.setValue (defaultObject, true);
+			//
+			if (voF.isRange)
+			{
+				JLabel dash = new JLabel(" - ");
+				centerPanel.add (dash, new ALayoutConstraint(row,col + 2));
+				m_separators.add(dash);
+				GridFieldVO voF2 = GridFieldVO.createParameter(voF);
+				GridField mField2 = new GridField (voF2);
+				m_mFields2.add (mField2);
+				//	The Editor
+				VEditor vEditor2 = VEditorFactory.getEditor(mField2, false);
+				//  New Field value to be updated to editor
+				mField2.addPropertyChangeListener(vEditor2);
+				//
+				centerPanel.add ((Component)vEditor2, new ALayoutConstraint(row,col + 3));
+				m_vEditors2.add (vEditor2);
+				//  Set Default
+				Object defaultObject2 = mField2.getDefault();
+				mField2.setValue (defaultObject2, true);
+			}
+			else
+			{
+				m_separators.add(null);
+				m_mFields2.add (null);
+				m_vEditors2.add (null);
+			}
+		}
+		
 		/**
 		 *	Create Field.
 		 *	- creates Fields and adds it to m_mFields list
@@ -635,5 +725,13 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 				if (f != null)
 					f.restoreValue();
 			}
+		}
+		/**
+		 * Define the mode to Display the parameters
+		 * @param mode
+		 */
+		public void setMode(int mode)
+		{
+			MODE = mode;
 		}
 	}	//	ProcessParameterPanel

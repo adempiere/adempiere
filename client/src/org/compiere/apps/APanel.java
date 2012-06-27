@@ -131,6 +131,8 @@ import org.compiere.util.Util;
  *  				https://sourceforge.net/tracker/?func=detail&aid=2876892&group_id=176962&atid=879332
  *  @author victor.perez@e-evolution.com
  *  @see FR [ 1966328 ] New Window Info to MRP and CRP into View http://sourceforge.net/tracker/index.php?func=detail&aid=1966328&group_id=176962&atid=879335
+ * 			<li>RF [ 2853359 ] Popup Menu for Lookup Record
+ * 			<li>http://sourceforge.net/tracker/?func=detail&aid=2853359&group_id=176962&atid=879335
  *  @autor tobi42, metas GmBH
  *  			<li>BF [ 2799362 ] You can press New button a lot of times
  *  @author Cristina Ghita, www.arhipac.ro
@@ -2239,23 +2241,7 @@ public final class APanel extends CPanel
 		if (m_curTab == null)
 			return;
 		cmd_save(false);
-		//	Gets Fields from AD_Field_v
-		GridField[] findFields = GridField.createFields(m_ctx, m_curWindowNo, 0, m_curTab.getAD_Tab_ID());
-		Find find = new Find (Env.getFrame(this), m_curWindowNo, m_curTab.getName(),
-			m_curTab.getAD_Tab_ID(), m_curTab.getAD_Table_ID(), m_curTab.getTableName(),
-			m_curTab.getWhereExtended(), findFields, 1);
-		MQuery query = find.getQuery();
-		find.dispose();
-		find = null;
-
-		//	Confirmed query
-		if (query != null)
-		{
-			m_onlyCurrentRows = false;      	//  search history too
-			m_curTab.setQuery(query);
-			m_curGC.query(m_onlyCurrentRows, m_onlyCurrentDays, 0);   //  autoSize
-		}
-		aFind.setPressed(m_curTab.isQueryActive());
+		new ASearch(aFind,Env.getFrame(this), m_curWindowNo,m_curGC, m_curTab, m_onlyCurrentDays);
 	}	//	cmd_find
 
 	/**

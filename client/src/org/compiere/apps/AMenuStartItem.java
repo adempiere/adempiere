@@ -25,13 +25,16 @@ import java.util.logging.Level;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
+import org.adempiere.model.MBrowse;
 import org.compiere.apps.form.FormFrame;
 import org.compiere.model.MTask;
+import org.compiere.swing.CFrame;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Msg;
+import org.eevolution.form.VBrowser;
 
 
 /**
@@ -39,6 +42,9 @@ import org.compiere.util.Msg;
  *  of a menu item ( ad_menu ) or workflow node ( ad_wf_node ).
  *
  * 	@author 	Jorg Janke
+ *  @author victor.perez@e-evoluton.com, www.e-evolution.com 
+ * 		<li>FR [ 3426137 ] Smart Browser
+ *  	https://sourceforge.net/tracker/?func=detail&aid=3426137&group_id=176962&atid=879335
  * 	@version 	$Id: AMenuStartItem.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
  */
 public class AMenuStartItem extends Thread implements ActionListener
@@ -174,6 +180,11 @@ public class AMenuStartItem extends Thread implements ActionListener
 				{
 					cmd = rs.getInt("AD_Form_ID");
 					startForm(cmd);
+				}
+				else if (Action.equals("S"))		//	Form
+				{
+					cmd = rs.getInt("AD_Browse_ID");
+					startSmartBrowse(cmd);
 				}
 				else
 					log.log(Level.SEVERE, "No valid Action in ID=" + m_ID);
@@ -340,6 +351,49 @@ public class AMenuStartItem extends Thread implements ActionListener
 			ff.dispose();
 			return;
 		}
+		m_menu.getWindowManager().add(ff);
+		SwingUtilities.invokeLater(m_updatePB);			//	2
+		
+		//	Center the window
+		SwingUtilities.invokeLater(m_updatePB);			//	3
+		if (Ini.isPropertyBool(Ini.P_OPEN_WINDOW_MAXIMIZED) ) {
+			AEnv.showMaximized(ff);
+		} else
+			AEnv.showCenterScreen(ff);
+	}	//	startForm
+	
+	/**
+	 *	Start SmartBrowse
+	 *  @param AD_SmartBrowse_ID form
+	 */
+	private void startSmartBrowse (int AD_Browse_ID)
+	{
+		CFrame ff = new CFrame();
+		if (Ini.isPropertyBool(Ini.P_SINGLE_INSTANCE_PER_WINDOW)) {
+			ff = m_menu.getWindowManager().findBrowse(AD_Browse_ID).getFrame();
+			if ( ff != null ) {
+				ff.toFront();
+				return;
+			}
+		}
+		//ff = new FormFrame();
+		SwingUtilities.invokeLater(m_updatePB);			//	1
+		MBrowse browse = new MBrowse(Env.getCtx(), AD_Browse_ID , null);
+		
+		boolean modal = true;
+		int WindowNo = 0;
+		String value = "";
+		String keyColumn = "";
+		boolean multiSelection = true;
+		String whereClause = "";
+		ff 	= new VBrowser(ff, modal , WindowNo, value, browse, keyColumn,multiSelection, whereClause).getFrame();
+		ff.setVisible(true);
+		ff.pack();
+		/**boolean ok = ff.openForm(AD_Form_ID);
+		if (!ok) {
+			ff.dispose();
+			return;
+		}*/
 		m_menu.getWindowManager().add(ff);
 		SwingUtilities.invokeLater(m_updatePB);			//	2
 		
