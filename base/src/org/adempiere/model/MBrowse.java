@@ -83,7 +83,7 @@ public class MBrowse extends X_AD_Browse {
 	 */
 	public MBrowse(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
-	} // MAsset
+	} //
 
 	/**
 	 * String representation
@@ -132,8 +132,7 @@ public class MBrowse extends X_AD_Browse {
 	/**
 	 * get field using name
 	 * 
-	 * @param name
-	 *            field
+	 * @param name field
 	 * @return field
 	 */
 	public MBrowseField getField(String name) {

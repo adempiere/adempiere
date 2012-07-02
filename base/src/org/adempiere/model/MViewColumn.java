@@ -29,8 +29,6 @@ import org.compiere.util.CLogger;
  * @author victor.perez@e-evoluton.com, www.e-evolution.com
  *  <li>FR [ 3426137 ] Smart Browser
  * 	https://sourceforge.net/tracker/?func=detail&aid=3426137&group_id=176962&atid=879335
- * 
- * 
  */
 public class MViewColumn extends X_AD_View_Column {
 
@@ -60,11 +58,8 @@ public class MViewColumn extends X_AD_View_Column {
 
 	/**
 	 * MViewColumn Constructor
-	 * 
-	 * @param ctx
-	 *            context
-	 * @param AD_ViewColumn_ID
-	 *            View Column ID
+	 * @param ctx context
+	 * @param AD_ViewColumn_ID View Column ID
 	 */
 	public MViewColumn(Properties ctx, int AD_ViewColumn_ID) {
 		this(ctx, AD_ViewColumn_ID, null);
@@ -72,7 +67,6 @@ public class MViewColumn extends X_AD_View_Column {
 
 	/**
 	 * get MViewColumn base on MColumn
-	 * 
 	 * @param column
 	 */
 	public MViewColumn(MColumn column) {
@@ -87,21 +81,16 @@ public class MViewColumn extends X_AD_View_Column {
 
 	/**
 	 * Load Constructor
-	 * 
-	 * @param ctx
-	 *            context
-	 * @param rs
-	 *            result set record
-	 * @param trxName
-	 *            transaction
+	 * @param ctx context
+	 * @param rs result set record
+	 * @param trxName transaction
 	 */
 	public MViewColumn(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
-	} // MAsset
+	} // MViewColumn
 
 	/**
 	 * String representation
-	 * 
 	 * @return info
 	 */
 	@Override
@@ -122,8 +111,7 @@ public class MViewColumn extends X_AD_View_Column {
 	}
 
 	/**
-	 * Is Key from MColumn
-	 * 
+	 * Is Key from MColumn 
 	 * @return
 	 */
 	public boolean isKey() {
@@ -132,7 +120,6 @@ public class MViewColumn extends X_AD_View_Column {
 
 	/**
 	 * Is Identifier
-	 * 
 	 * @return boolean
 	 */
 	public boolean isIdentifier() {
@@ -149,8 +136,7 @@ public class MViewColumn extends X_AD_View_Column {
 	}
 
 	/**
-	 * get AD Reference
-	 * 
+	 * get AD Reference 
 	 * @return AD_Reference_ID
 	 */
 	public int getAD_Reference_ID() {

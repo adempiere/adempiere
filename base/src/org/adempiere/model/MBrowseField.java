@@ -64,14 +64,11 @@ public class MBrowseField extends X_AD_Browse_Field {
 	private MViewColumn m_view_column = null;
 
 	/**************************************************************************
-	 * Asset Constructor
+	 * Browse Field Constructor
 	 * 
-	 * @param ctx
-	 *            context
-	 * @param AD_SmartBrowseField_ID
-	 *            InOutBound ID
-	 * @param trxName
-	 *            transaction name
+	 * @param ctx context
+	 * @param AD_SmartBrowseField_ID InOutBound ID
+	 * @param trxName transaction name
 	 */
 	public MBrowseField(Properties ctx, int AD_SmartBrowseField_ID,
 			String trxName) {
@@ -81,12 +78,10 @@ public class MBrowseField extends X_AD_Browse_Field {
 	}
 
 	/**
-	 * Discontinued Asset Constructor - DO NOT USE (but don't delete either)
+	 * Browse Field
 	 * 
-	 * @param ctx
-	 *            context
-	 * @param AD_SmartBrowseField_ID
-	 *            Cahs Flow ID
+	 * @param ctx context
+	 * @param AD_BrowseField_ID    Cahs Flow ID
 	 */
 	public MBrowseField(Properties ctx, int AD_SmartBrowseField_ID) {
 		this(ctx, AD_SmartBrowseField_ID, null);
@@ -94,21 +89,16 @@ public class MBrowseField extends X_AD_Browse_Field {
 
 	/**
 	 * Load Constructor
-	 * 
-	 * @param ctx
-	 *            context
-	 * @param rs
-	 *            result set record
-	 * @param trxName
-	 *            transaction
+	 * @param ctx context
+	 * @param rs result set record
+	 * @param trxName transaction
 	 */
 	public MBrowseField(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
 	}
-
+	
 	/**
 	 * get MViewColumn base on MColumn
-	 * 
 	 * @param column
 	 * @return
 	 */
@@ -132,9 +122,7 @@ public class MBrowseField extends X_AD_Browse_Field {
 
 	/**
 	 * Before Save
-	 * 
-	 * @param newRecord
-	 *            new
+	 * @param newRecord new
 	 * @return true
 	 */
 	protected boolean beforeSave(boolean newRecord) {
