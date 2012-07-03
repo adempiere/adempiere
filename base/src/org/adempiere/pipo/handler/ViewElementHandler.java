@@ -12,7 +12,10 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  *                                                                            *
  * Copyright (C) 2005 Robert Klein. robeklein@hotmail.com                     *
+ * Copyright (C) 2003-2012 e-Evolution Consultants. All Rights Reserved.      *
+ * Copyright (C) 2003-2012 Victor Pérez Juárez 								  * 
  * Contributor(s): Low Heng Sin hengsin@avantz.com                            *
+ *                 Victor Perez  victor.perez@e-evoluton.com				  *
  *****************************************************************************/
 package org.adempiere.pipo.handler;
 
@@ -39,10 +42,15 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
+/**
+ * 
+ * @author victor.perez@e-evoluton.com, www.e-evolution.com
+ * 
+ */
 public class ViewElementHandler extends AbstractElementHandler {
 
 	private ViewDefinitionElementHandler viewDefinitionHandler = new ViewDefinitionElementHandler();
-	
+
 	private List<Integer> views = new ArrayList<Integer>();
 
 	public void startElement(Properties ctx, Element element)
@@ -59,8 +67,11 @@ public class ViewElementHandler extends AbstractElementHandler {
 				return;
 			}
 			MView m_View = new MView(ctx, id, getTrxName(ctx));
-			if (id <= 0 && atts.getValue("AD_View_ID") != null && Integer.parseInt(atts.getValue("AD_View_ID")) <= PackOut.MAX_OFFICIAL_ID)
-				m_View.setAD_View_ID(Integer.parseInt(atts.getValue("AD_View_ID")));
+			if (id <= 0
+					&& atts.getValue("AD_View_ID") != null
+					&& Integer.parseInt(atts.getValue("AD_View_ID")) <= PackOut.MAX_OFFICIAL_ID)
+				m_View.setAD_View_ID(Integer.parseInt(atts
+						.getValue("AD_View_ID")));
 			String Object_Status = null;
 			int AD_Backup_ID = -1;
 			if (id > 0) {
@@ -73,22 +84,36 @@ public class ViewElementHandler extends AbstractElementHandler {
 
 			m_View.setValue(atts.getValue("Value"));
 			m_View.setName(atts.getValue("Name"));
-			m_View.setDescription(getStringValue(atts,"Description"));
-			m_View.setHelp(getStringValue(atts,"Help"));
+			m_View.setDescription(getStringValue(atts, "Description"));
+			m_View.setHelp(getStringValue(atts, "Help"));
 			m_View.setIsActive(atts.getValue("isActive") != null ? Boolean
 					.valueOf(atts.getValue("isActive")).booleanValue() : true);
 			m_View.setEntityType(atts.getValue("EntityType"));
-			
+
 			if (m_View.save(getTrxName(ctx)) == true) {
-				record_log(ctx, 1, m_View.getName(), "View", m_View
-						.get_ID(), AD_Backup_ID, Object_Status, "AD_View",
+				record_log(
+						ctx,
+						1,
+						m_View.getName(),
+						"View",
+						m_View.get_ID(),
+						AD_Backup_ID,
+						Object_Status,
+						"AD_View",
 						get_IDWithColumn(ctx, "AD_Table", "TableName",
 								"AD_View"));
 				element.recordId = m_View.getAD_View_ID();
 				views.add(m_View.getAD_View_ID());
 			} else {
-				record_log(ctx, 0, m_View.getName(), "View", m_View
-						.get_ID(), AD_Backup_ID, Object_Status, "AD_View",
+				record_log(
+						ctx,
+						0,
+						m_View.getName(),
+						"View",
+						m_View.get_ID(),
+						AD_Backup_ID,
+						Object_Status,
+						"AD_View",
 						get_IDWithColumn(ctx, "AD_Table", "TableName",
 								"AD_View"));
 				throw new POSaveFailedException("View");
@@ -111,14 +136,19 @@ public class ViewElementHandler extends AbstractElementHandler {
 		createViewBinding(atts, m_View);
 		document.startElement("", "", "view", atts);
 		// Tab Tag
-		StringBuilder whereClause = new StringBuilder(I_AD_View.COLUMNNAME_AD_View_ID).append("=?");
-		List<MViewDefinition> viewDefinitions = new Query(ctx, I_AD_View_Definition.Table_Name , whereClause.toString(), getTrxName(ctx))
-		.setParameters(m_View.getAD_View_ID())
-		.setOrderBy(X_AD_View_Definition.COLUMNNAME_SeqNo +","+X_AD_View_Definition.COLUMNNAME_AD_View_Definition_ID)
-		.list();
-		
-		for(MViewDefinition vd : viewDefinitions)
-		{
+		StringBuilder whereClause = new StringBuilder(
+				I_AD_View.COLUMNNAME_AD_View_ID).append("=?");
+		List<MViewDefinition> viewDefinitions = new Query(ctx,
+				I_AD_View_Definition.Table_Name, whereClause.toString(),
+				getTrxName(ctx))
+				.setParameters(m_View.getAD_View_ID())
+				.setOrderBy(
+						X_AD_View_Definition.COLUMNNAME_SeqNo
+								+ ","
+								+ X_AD_View_Definition.COLUMNNAME_AD_View_Definition_ID)
+				.list();
+
+		for (MViewDefinition vd : viewDefinitions) {
 			packOut.createTable(vd.getAD_Table_ID(), document);
 			createViewDefinition(ctx, document, vd.getAD_View_Definition_ID());
 		}
@@ -127,9 +157,12 @@ public class ViewElementHandler extends AbstractElementHandler {
 
 	}
 
-	private void createViewDefinition(Properties ctx, TransformerHandler document,
-			int AD_View_Definition_ID) throws SAXException {
-		Env.setContext(ctx, X_AD_View_Definition.COLUMNNAME_AD_View_Definition_ID, AD_View_Definition_ID);
+	private void createViewDefinition(Properties ctx,
+			TransformerHandler document, int AD_View_Definition_ID)
+			throws SAXException {
+		Env.setContext(ctx,
+				X_AD_View_Definition.COLUMNNAME_AD_View_Definition_ID,
+				AD_View_Definition_ID);
 		viewDefinitionHandler.create(ctx, document);
 		ctx.remove(X_AD_View_Definition.COLUMNNAME_AD_View_Definition_ID);
 	}
@@ -138,24 +171,28 @@ public class ViewElementHandler extends AbstractElementHandler {
 			X_AD_View m_View) {
 		atts.clear();
 		if (m_View.getAD_View_ID() <= PackOut.MAX_OFFICIAL_ID)
-			atts.addAttribute("", "", "AD_View_ID", "CDATA", Integer.toString(m_View.getAD_View_ID()));
+			atts.addAttribute("", "", "AD_View_ID", "CDATA",
+					Integer.toString(m_View.getAD_View_ID()));
 		String sql = "SELECT Name FROM AD_View WHERE AD_View_ID=?";
-		String name = DB.getSQLValueString(null, sql, m_View
-				.getAD_View_ID());
+		String name = DB.getSQLValueString(null, sql, m_View.getAD_View_ID());
 		atts.addAttribute("", "", "ADViewNameID", "CDATA", name);
 		atts.addAttribute("", "", "Value", "CDATA",
 				(m_View.getValue() != null ? m_View.getValue() : ""));
 		atts.addAttribute("", "", "Name", "CDATA",
 				(m_View.getName() != null ? m_View.getName() : ""));
-		atts.addAttribute("", "", "Description", "CDATA", (m_View
-				.getDescription() != null ? m_View.getDescription() : ""));
+		atts.addAttribute(
+				"",
+				"",
+				"Description",
+				"CDATA",
+				(m_View.getDescription() != null ? m_View.getDescription() : ""));
 		atts.addAttribute("", "", "Help", "CDATA",
 				(m_View.getHelp() != null ? m_View.getHelp() : ""));
-		atts.addAttribute("", "", "EntityType", "CDATA", (m_View
-				.getEntityType() != null ? m_View.getEntityType() : ""));
+		atts.addAttribute("", "", "EntityType", "CDATA",
+				(m_View.getEntityType() != null ? m_View.getEntityType() : ""));
 		atts.addAttribute("", "", "isActive", "CDATA",
 				(m_View.isActive() == true ? "true" : "false"));
-		
+
 		return atts;
 	}
 }

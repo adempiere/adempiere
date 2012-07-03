@@ -12,8 +12,11 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  *                                                                            *
  * Copyright (C) 2005 Robert Klein. robeklein@hotmail.com                     *
+ * Copyright (C) 2003-2011 e-Evolution Consultants. All Rights Reserved.      *
+ * Copyright (C) 2003-2011 Victor Pérez Juárez 								  * 
  * Contributor(s): Low Heng Sin hengsin@avantz.com                            *
  *                 Teo Sarca teo.sarca@gmail.com                              *
+ *                 Victor Perez  victor.perez@e-evoluton.com				  *
  *****************************************************************************/
 package org.adempiere.pipo.handler;
 
@@ -35,19 +38,24 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
-public class BrowseFieldElementHandler extends AbstractElementHandler
-{
-	public void startElement(Properties ctx, Element element) throws SAXException
-	{
-		
-		PackIn packIn = (PackIn)ctx.get("PackInProcess");
+/**
+ * 
+ * @author victor.perez@e-evoluton.com, www.e-evolution.com
+ * 
+ */
+public class BrowseFieldElementHandler extends AbstractElementHandler {
+	public void startElement(Properties ctx, Element element)
+			throws SAXException {
+
+		PackIn packIn = (PackIn) ctx.get("PackInProcess");
 		String elementValue = element.getElementValue();
 		Attributes atts = element.attributes;
 		log.info(elementValue + " " + atts.getValue("Name"));
 		String entitytype = atts.getValue("EntityType");
 		if (isProcessElement(ctx, entitytype)) {
-			if (element.parent != null && element.parent.getElementValue().equals("browse") &&
-				element.parent.defer) {
+			if (element.parent != null
+					&& element.parent.getElementValue().equals("browse")
+					&& element.parent.defer) {
 				element.defer = true;
 				return;
 			}
@@ -61,146 +69,193 @@ public class BrowseFieldElementHandler extends AbstractElementHandler
 				element.defer = true;
 				return;
 			}
-			
+
 			int viewcolumnid = get_IDWithMasterAndColumn(ctx, "AD_View_Column",
 					"ColumnName", colviewname, "AD_View", viewid);
 			if (viewcolumnid <= 0) {
 				element.defer = true;
 				return;
 			}
-			
+
 			int browseid = 0;
-			if (element.parent != null && element.parent.getElementValue().equals("browse") &&
-					element.parent.recordId > 0) {
+			if (element.parent != null
+					&& element.parent.getElementValue().equals("browse")
+					&& element.parent.recordId > 0) {
 				browseid = element.parent.recordId;
 			} else {
 				StringBuffer sqlB = new StringBuffer(
 						"SELECT AD_Browse_ID from AD_Browse WHERE AD_Browse_ID = "
-								+ browseid).append(" and Name = '" + browsename + "'")
-						.append(" and AD_View_ID = ?");
+								+ browseid).append(
+						" and Name = '" + browsename + "'").append(
+						" and AD_View_ID = ?");
 				browseid = DB.getSQLValue(getTrxName(ctx), sqlB.toString(),
 						viewid);
-				if (element.parent != null && element.parent.getElementValue().equals("browse") && browseid > 0) {
+				if (element.parent != null
+						&& element.parent.getElementValue().equals("browse")
+						&& browseid > 0) {
 					element.parent.recordId = browseid;
 				}
 			}
 			if (browseid > 0) {
 				StringBuffer sqlB = new StringBuffer(
 						"SELECT AD_Browse_Field_ID from AD_Browse_Field where AD_View_Column_ID = ")
-						.append(viewcolumnid)
-						.append(" and AD_Browse_ID = ?");
-				int id = DB.getSQLValue(getTrxName(ctx), sqlB.toString(), browseid);
-				final MBrowseField m_BrowseField = new MBrowseField(ctx, id, getTrxName(ctx));
-				if (id <= 0 && atts.getValue("AD_Browse_Field_ID") != null && Integer.parseInt(atts.getValue("AD_Browse_Field_ID")) <= PackOut.MAX_OFFICIAL_ID)
-					m_BrowseField.setAD_Browse_Field_ID(Integer.parseInt(atts.getValue("AD_Browse_Field_ID")));
+						.append(viewcolumnid).append(" and AD_Browse_ID = ?");
+				int id = DB.getSQLValue(getTrxName(ctx), sqlB.toString(),
+						browseid);
+				final MBrowseField m_BrowseField = new MBrowseField(ctx, id,
+						getTrxName(ctx));
+				if (id <= 0
+						&& atts.getValue("AD_Browse_Field_ID") != null
+						&& Integer
+								.parseInt(atts.getValue("AD_Browse_Field_ID")) <= PackOut.MAX_OFFICIAL_ID)
+					m_BrowseField.setAD_Browse_Field_ID(Integer.parseInt(atts
+							.getValue("AD_Browse_Field_ID")));
 				int AD_Backup_ID = -1;
 				String Object_Status = null;
 				if (id > 0) {
-					AD_Backup_ID = copyRecord(ctx, "AD_Browse_Field", m_BrowseField);
+					AD_Backup_ID = copyRecord(ctx, "AD_Browse_Field",
+							m_BrowseField);
 					Object_Status = "Update";
 				} else {
 					Object_Status = "New";
 					AD_Backup_ID = 0;
 				}
-			
+
 				m_BrowseField.setName(atts.getValue("Name"));
 				m_BrowseField.setAD_View_Column_ID(viewcolumnid);
 				m_BrowseField.setAD_Browse_ID(browseid);
 				m_BrowseField.setEntityType(atts.getValue("EntityType"));
 				m_BrowseField.setIsCentrallyMaintained(Boolean.valueOf(
-				atts.getValue("isCentrallyMaintained")).booleanValue());
+						atts.getValue("isCentrallyMaintained")).booleanValue());
 				m_BrowseField.setIsMandatory(Boolean.valueOf(
-				atts.getValue("isMandatory")).booleanValue());
+						atts.getValue("isMandatory")).booleanValue());
 				m_BrowseField.setIsDisplayed(Boolean.valueOf(
-				atts.getValue("Displayed")).booleanValue());
-				//m_BrowseField.setIsFieldOnly(Boolean.valueOf(
-				//		atts.getValue("isFieldOnly")).booleanValue());
-				//m_BrowseField.setIsReadOnly(Boolean.valueOf(
-				//		atts.getValue("isReadOnly")).booleanValue());
-				m_BrowseField.setSeqNo(Integer.parseInt(atts.getValue("SeqNo")));
-				m_BrowseField.setDescription(getStringValue(atts, "Description"));
+						atts.getValue("Displayed")).booleanValue());
+				// m_BrowseField.setIsFieldOnly(Boolean.valueOf(
+				// atts.getValue("isFieldOnly")).booleanValue());
+				// m_BrowseField.setIsReadOnly(Boolean.valueOf(
+				// atts.getValue("isReadOnly")).booleanValue());
+				m_BrowseField
+						.setSeqNo(Integer.parseInt(atts.getValue("SeqNo")));
+				m_BrowseField
+						.setDescription(getStringValue(atts, "Description"));
 				m_BrowseField.setHelp(getStringValue(atts, "Help"));
-				m_BrowseField.setIsActive(atts.getValue("isActive") != null ? Boolean
-						.valueOf(atts.getValue("isActive")).booleanValue()
-						: true);
-				
-				m_BrowseField.setIsRange(atts.getValue("isRange") != null ? Boolean
-						.valueOf(atts.getValue("isRange")).booleanValue()
-						: true);
-				
+				m_BrowseField
+						.setIsActive(atts.getValue("isActive") != null ? Boolean
+								.valueOf(atts.getValue("isActive"))
+								.booleanValue() : true);
+
+				m_BrowseField
+						.setIsRange(atts.getValue("isRange") != null ? Boolean
+								.valueOf(atts.getValue("isRange"))
+								.booleanValue() : true);
+
 				m_BrowseField.setIsKey(atts.getValue("isKey") != null ? Boolean
-						.valueOf(atts.getValue("isKey")).booleanValue()
-						: true);
-				
-				m_BrowseField.setIsQueryCriteria(atts.getValue("isQueryCriteria") != null ? Boolean
-						.valueOf(atts.getValue("isQueryCriteria")).booleanValue()
-						: true);
-				
-				m_BrowseField.setIsIdentifier(atts.getValue("isIdentifier") != null ? Boolean
-						.valueOf(atts.getValue("isIdentifier")).booleanValue()
-						: true);	
-				
+						.valueOf(atts.getValue("isKey")).booleanValue() : true);
+
+				m_BrowseField
+						.setIsQueryCriteria(atts.getValue("isQueryCriteria") != null ? Boolean
+								.valueOf(atts.getValue("isQueryCriteria"))
+								.booleanValue() : true);
+
+				m_BrowseField
+						.setIsIdentifier(atts.getValue("isIdentifier") != null ? Boolean
+								.valueOf(atts.getValue("isIdentifier"))
+								.booleanValue() : true);
+
 				String Name = atts.getValue("ADReferenceNameID");
 				id = get_IDWithColumn(ctx, "AD_Reference", "Name", Name);
 				m_BrowseField.setAD_Reference_ID(id);
-				
-				//Name = atts.getValue("ADValRuleNameID");
-				//id = get_IDWithColumn(ctx, "AD_Val_Rule", "Name", Name);
-				//m_BrowseField.setAD_Val_Rule_ID(id);
+
+				// Name = atts.getValue("ADValRuleNameID");
+				// id = get_IDWithColumn(ctx, "AD_Val_Rule", "Name", Name);
+				// m_BrowseField.setAD_Val_Rule_ID(id);
 				Name = atts.getValue("ADReferenceNameValueID");
 				id = get_IDWithColumn(ctx, "AD_Reference", "Name", Name);
 				m_BrowseField.setAD_Reference_Value_ID(id);
-				
+
 				Name = atts.getValue("ADAxisViewColumnNameID");
-				id = get_IDWithMasterAndColumn(ctx, "AD_View_Column", "ColumnName", Name, "AD_View", viewid);
+				id = get_IDWithMasterAndColumn(ctx, "AD_View_Column",
+						"ColumnName", Name, "AD_View", viewid);
 				m_BrowseField.setAxis_Column_ID(id);
-				
+
 				Name = atts.getValue("ADAxisParentViewColumnNameID");
-				id = get_IDWithMasterAndColumn(ctx, "AD_View_Column", "ColumnName", Name, "AD_View", viewid);
+				id = get_IDWithMasterAndColumn(ctx, "AD_View_Column",
+						"ColumnName", Name, "AD_View", viewid);
 				m_BrowseField.setAxis_Parent_Column_ID(id);
-				
+
 				// Setup Element.
 				Name = atts.getValue("ADElementNameID");
 				id = get_IDWithColumn(ctx, "AD_Element", "ColumnName", Name);
-				X_AD_Element adElement = new X_AD_Element(ctx, id, getTrxName(ctx));
+				X_AD_Element adElement = new X_AD_Element(ctx, id,
+						getTrxName(ctx));
 
 				String Object_Status_col = Object_Status;
 				if (adElement.getAD_Element_ID() == 0) {
 					// Object_Status = "New";
-					adElement.setColumnName(m_BrowseField.getAD_View_Column().getAD_Column().getColumnName());
+					adElement.setColumnName(m_BrowseField.getAD_View_Column()
+							.getAD_Column().getColumnName());
 					adElement.setEntityType(m_BrowseField.getEntityType());
 					adElement.setPrintName(m_BrowseField.getName());
 
 					adElement.setName(m_BrowseField.getName());
 					if (adElement.save(getTrxName(ctx)) == true) {
-						record_log(ctx, 1, m_BrowseField.getName(), "Element", adElement
-								.getAD_Element_ID(), AD_Backup_ID, "New",
-								"AD_Element", get_IDWithColumn(ctx, "AD_Table",
-										"TableName", "AD_Element"));
+						record_log(
+								ctx,
+								1,
+								m_BrowseField.getName(),
+								"Element",
+								adElement.getAD_Element_ID(),
+								AD_Backup_ID,
+								"New",
+								"AD_Element",
+								get_IDWithColumn(ctx, "AD_Table", "TableName",
+										"AD_Element"));
 					} else {
-						record_log(ctx, 0, m_BrowseField.getName(), "Element", adElement
-								.getAD_Element_ID(), AD_Backup_ID, "New",
-								"AD_Element", get_IDWithColumn(ctx, "AD_Table",
-										"TableName", "AD_Element"));
+						record_log(
+								ctx,
+								0,
+								m_BrowseField.getName(),
+								"Element",
+								adElement.getAD_Element_ID(),
+								AD_Backup_ID,
+								"New",
+								"AD_Element",
+								get_IDWithColumn(ctx, "AD_Table", "TableName",
+										"AD_Element"));
 					}
 				}
 
 				Object_Status = Object_Status_col;
 				m_BrowseField.setAD_Element_ID(adElement.getAD_Element_ID());
-				
-								
+
 				if (m_BrowseField.save(getTrxName(ctx)) == true) {
-					record_log(ctx, 1, m_BrowseField.getName(), "BrowseField", m_BrowseField
-							.get_ID(), AD_Backup_ID, Object_Status, "AD_Browse_Field",
+					record_log(
+							ctx,
+							1,
+							m_BrowseField.getName(),
+							"BrowseField",
+							m_BrowseField.get_ID(),
+							AD_Backup_ID,
+							Object_Status,
+							"AD_Browse_Field",
 							get_IDWithColumn(ctx, "AD_Table", "TableName",
 									"AD_Browse_Field"));
 					element.recordId = m_BrowseField.getAD_Browse_Field_ID();
 				} else {
-					record_log(ctx, 0, m_BrowseField.getName(), "BrowseField", m_BrowseField
-							.get_ID(), AD_Backup_ID, Object_Status, "AD_Browse_Field",
+					record_log(
+							ctx,
+							0,
+							m_BrowseField.getName(),
+							"BrowseField",
+							m_BrowseField.get_ID(),
+							AD_Backup_ID,
+							Object_Status,
+							"AD_Browse_Field",
 							get_IDWithColumn(ctx, "AD_Table", "TableName",
 									"AD_Browse_Field"));
-					throw new POSaveFailedException("Failed to save field definition.");
+					throw new POSaveFailedException(
+							"Failed to save field definition.");
 				}
 			} else {
 				element.defer = true;
@@ -218,24 +273,29 @@ public class BrowseFieldElementHandler extends AbstractElementHandler
 			throws SAXException {
 		int AD_Browse_Field_ID = Env.getContextAsInt(ctx,
 				X_AD_Browse_Field.COLUMNNAME_AD_Browse_Field_ID);
-		MBrowseField m_BrowseField = new MBrowseField(ctx, AD_Browse_Field_ID, null);
+		MBrowseField m_BrowseField = new MBrowseField(ctx, AD_Browse_Field_ID,
+				null);
 		AttributesImpl atts = new AttributesImpl();
 		createBrowseFieldBinding(atts, m_BrowseField);
-		
-		PackOut packOut = (PackOut)ctx.get("PackOutProcess");
-		
-		if(m_BrowseField.getAD_Reference_ID() > 0) {
-			packOut.createReference(m_BrowseField.getAD_Reference_ID(), document);
+
+		PackOut packOut = (PackOut) ctx.get("PackOutProcess");
+
+		if (m_BrowseField.getAD_Reference_ID() > 0) {
+			packOut.createReference(m_BrowseField.getAD_Reference_ID(),
+					document);
 		}
-		
+
 		if (m_BrowseField.getAD_Reference_Value_ID() > 0) {
-			packOut.createReference(m_BrowseField.getAD_Reference_Value_ID(), document);
+			packOut.createReference(m_BrowseField.getAD_Reference_Value_ID(),
+					document);
 		}
-		
-		/*if (m_BrowseField.getAD_Val_Rule_ID() > 0) {
-			packOut.createDynamicRuleValidation(m_BrowseField.getAD_Val_Rule_ID(), document);
-		}*/
-		
+
+		/*
+		 * if (m_BrowseField.getAD_Val_Rule_ID() > 0) {
+		 * packOut.createDynamicRuleValidation
+		 * (m_BrowseField.getAD_Val_Rule_ID(), document); }
+		 */
+
 		document.startElement("", "", "browsefield", atts);
 		document.endElement("", "", "browsefield");
 	}
@@ -246,17 +306,20 @@ public class BrowseFieldElementHandler extends AbstractElementHandler
 		String name = null;
 		atts.clear();
 		if (m_BrowseField.getAD_Browse_Field_ID() <= PackOut.MAX_OFFICIAL_ID)
-			atts.addAttribute("", "", "AD_Browse_Field_ID", "CDATA", Integer.toString(m_BrowseField.getAD_Browse_Field_ID()));
+			atts.addAttribute("", "", "AD_Browse_Field_ID", "CDATA",
+					Integer.toString(m_BrowseField.getAD_Browse_Field_ID()));
 		if (m_BrowseField.getAD_View_Column_ID() > 0) {
 			sql = "SELECT ColumnName FROM AD_View_Column WHERE AD_View_Column_ID=?";
-			name = DB.getSQLValueString(null, sql, m_BrowseField.getAD_View_Column_ID());
+			name = DB.getSQLValueString(null, sql,
+					m_BrowseField.getAD_View_Column_ID());
 			atts.addAttribute("", "", "ADViewColumnNameID", "CDATA", name);
 		} else
 			atts.addAttribute("", "", "ADViewColumnNameID", "CDATA", "");
 
 		if (m_BrowseField.getAD_View_Column_ID() > 0) {
 			sql = "SELECT AD_View_ID FROM AD_View_Column WHERE AD_View_Column_ID=?";
-			int idView = DB.getSQLValue(null, sql, m_BrowseField.getAD_View_Column_ID());
+			int idView = DB.getSQLValue(null, sql,
+					m_BrowseField.getAD_View_Column_ID());
 			sql = "SELECT Name FROM AD_View WHERE AD_View_ID=?";
 			name = DB.getSQLValueString(null, sql, idView);
 			atts.addAttribute("", "", "ADViewNameID", "CDATA", name);
@@ -265,27 +328,33 @@ public class BrowseFieldElementHandler extends AbstractElementHandler
 
 		if (m_BrowseField.getAD_Browse_Field_ID() > 0) {
 			sql = "SELECT Name FROM AD_Browse_Field WHERE AD_Browse_Field_ID=?";
-			name = DB.getSQLValueString(null, sql, m_BrowseField.getAD_Browse_Field_ID());
+			name = DB.getSQLValueString(null, sql,
+					m_BrowseField.getAD_Browse_Field_ID());
 			atts.addAttribute("", "", "ADBrowseFieldNameID", "CDATA", name);
 		} else
 			atts.addAttribute("", "", "ADBrowseFieldNameID", "CDATA", "");
 
 		if (m_BrowseField.getAD_Browse_ID() > 0) {
 			sql = "SELECT Name FROM AD_Browse WHERE AD_Browse_ID=?";
-			name = DB.getSQLValueString(null, sql, m_BrowseField.getAD_Browse_ID());
+			name = DB.getSQLValueString(null, sql,
+					m_BrowseField.getAD_Browse_ID());
 			atts.addAttribute("", "", "ADBrowseNameID", "CDATA", name);
 		} else
 			atts.addAttribute("", "", "ADBrowseNameID", "CDATA", "");
-		
 
 		atts.addAttribute("", "", "EntityType", "CDATA", (m_BrowseField
 				.getEntityType() != null ? m_BrowseField.getEntityType() : ""));
-		atts.addAttribute("", "", "Name", "CDATA",
+		atts.addAttribute(
+				"",
+				"",
+				"Name",
+				"CDATA",
 				(m_BrowseField.getName() != null ? m_BrowseField.getName() : ""));
-		atts.addAttribute("", "", "isCentrallyMaintained", "CDATA", (m_BrowseField
-				.isCentrallyMaintained() == true ? "true" : "false"));
-		atts.addAttribute("", "", "isMandatory", "CDATA", (m_BrowseField
-				.isMandatory() == true ? "true" : "false"));
+		atts.addAttribute("", "", "isCentrallyMaintained", "CDATA",
+				(m_BrowseField.isCentrallyMaintained() == true ? "true"
+						: "false"));
+		atts.addAttribute("", "", "isMandatory", "CDATA",
+				(m_BrowseField.isMandatory() == true ? "true" : "false"));
 		atts.addAttribute("", "", "Displayed", "CDATA",
 				(m_BrowseField.isDisplayed() == true ? "true" : "false"));
 		atts.addAttribute("", "", "isActive", "CDATA",
@@ -298,55 +367,69 @@ public class BrowseFieldElementHandler extends AbstractElementHandler
 				(m_BrowseField.isQueryCriteria() == true ? "true" : "false"));
 		atts.addAttribute("", "", "isIdentifier", "CDATA",
 				(m_BrowseField.isIdentifier() == true ? "true" : "false"));
-		//atts.addAttribute("", "", "isFieldOnly", "CDATA", (m_BrowseField
-		//		.isFieldOnly() == true ? "true" : "false"));
-		//atts.addAttribute("", "", "isReadOnly", "CDATA",
-		//		(m_BrowseField.isReadOnly() == true ? "true" : "false"));
-		atts.addAttribute("", "", "SeqNo", "CDATA", "" + (m_BrowseField.getSeqNo()));
-		atts.addAttribute("", "", "Description", "CDATA", (m_BrowseField
-				.getDescription() != null ? m_BrowseField.getDescription() : ""));
-		atts.addAttribute("", "", "Help", "CDATA",
+		// atts.addAttribute("", "", "isFieldOnly", "CDATA", (m_BrowseField
+		// .isFieldOnly() == true ? "true" : "false"));
+		// atts.addAttribute("", "", "isReadOnly", "CDATA",
+		// (m_BrowseField.isReadOnly() == true ? "true" : "false"));
+		atts.addAttribute("", "", "SeqNo", "CDATA",
+				"" + (m_BrowseField.getSeqNo()));
+		atts.addAttribute(
+				"",
+				"",
+				"Description",
+				"CDATA",
+				(m_BrowseField.getDescription() != null ? m_BrowseField
+						.getDescription() : ""));
+		atts.addAttribute(
+				"",
+				"",
+				"Help",
+				"CDATA",
 				(m_BrowseField.getHelp() != null ? m_BrowseField.getHelp() : ""));
-		
-		// Element - this info is not needed since we search for element based on ColumnName
-		if (m_BrowseField.getAD_Element_ID() > 0)
-		{
+
+		// Element - this info is not needed since we search for element based
+		// on ColumnName
+		if (m_BrowseField.getAD_Element_ID() > 0) {
 			sql = "SELECT ColumnName FROM AD_Element WHERE AD_Element_ID=?";
-			name = DB.getSQLValueStringEx(null, sql, m_BrowseField.getAD_Element_ID());
+			name = DB.getSQLValueStringEx(null, sql,
+					m_BrowseField.getAD_Element_ID());
 			atts.addAttribute("", "", "ADElementNameID", "CDATA", name);
-		}
-		else
+		} else
 			atts.addAttribute("", "", "ADElementNameID", "CDATA", "");
 
 		if (m_BrowseField.getAD_Reference_ID() > 0) {
 			sql = "SELECT Name FROM AD_Reference WHERE AD_Reference_ID=?";
-			name = DB.getSQLValueString(null, sql, m_BrowseField
-					.getAD_Reference_ID());
+			name = DB.getSQLValueString(null, sql,
+					m_BrowseField.getAD_Reference_ID());
 			atts.addAttribute("", "", "ADReferenceNameID", "CDATA", name);
 		} else
 			atts.addAttribute("", "", "ADReferenceNameID", "CDATA", "");
 		if (m_BrowseField.getAD_Reference_Value_ID() > 0) {
 			sql = "SELECT Name FROM AD_Reference WHERE AD_Reference_ID=?";
-			name = DB.getSQLValueString(null, sql, m_BrowseField
-					.getAD_Reference_Value_ID());
+			name = DB.getSQLValueString(null, sql,
+					m_BrowseField.getAD_Reference_Value_ID());
 			atts.addAttribute("", "", "ADReferenceNameValueID", "CDATA", name);
 		} else
 			atts.addAttribute("", "", "ADReferenceNameValueID", "CDATA", "");
-		
+
 		if (m_BrowseField.getAxis_Column_ID() > 0) {
 			sql = "SELECT ColumnName FROM AD_View_Column WHERE AD_View_Column_ID=?";
-			name = DB.getSQLValueString(null, sql, m_BrowseField.getAxis_Column_ID());
+			name = DB.getSQLValueString(null, sql,
+					m_BrowseField.getAxis_Column_ID());
 			atts.addAttribute("", "", "ADAxisViewColumnNameID", "CDATA", name);
 		} else
 			atts.addAttribute("", "", "ADAxisViewColumnNameID", "CDATA", "");
-		
+
 		if (m_BrowseField.getAxis_Parent_Column_ID() > 0) {
 			sql = "SELECT ColumnName FROM AD_View_Column WHERE AD_View_Column_ID=?";
-			name = DB.getSQLValueString(null, sql, m_BrowseField.getAxis_Parent_Column_ID());
-			atts.addAttribute("", "", "ADAxisParentViewColumnNameID", "CDATA", name);
+			name = DB.getSQLValueString(null, sql,
+					m_BrowseField.getAxis_Parent_Column_ID());
+			atts.addAttribute("", "", "ADAxisParentViewColumnNameID", "CDATA",
+					name);
 		} else
-			atts.addAttribute("", "", "ADAxisParentViewColumnNameID", "CDATA", "");
-		
+			atts.addAttribute("", "", "ADAxisParentViewColumnNameID", "CDATA",
+					"");
+
 		return atts;
 	}
 }
