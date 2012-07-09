@@ -322,6 +322,14 @@ public class WorkflowNodeElementHandler extends AbstractElementHandler {
 		} else
 			atts.addAttribute("", "", "ADFormNameID", "CDATA", "");
 		
+		if (m_WF_Node.getAD_Browse_ID() > 0) {
+			sql = "SELECT Name FROM AD_Browse WHERE AD_Browse_ID=?";
+			name = DB.getSQLValueString(null, sql, m_WF_Node.getAD_Browse_ID());
+			atts.addAttribute("", "", "ADBrowseNameID", "CDATA", 
+				(name != null ? name : ""));
+		} else
+			atts.addAttribute("", "", "ADBrowseNameID", "CDATA", "");
+		
 		if (m_WF_Node.getAD_WF_Block_ID() > 0) {
 			sql = "SELECT Name FROM AD_WF_Block WHERE AD_WF_Block_ID=?";
 			name = DB.getSQLValueString(null, sql, m_WF_Node
