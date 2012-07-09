@@ -23,6 +23,8 @@ import java.util.Properties;
 
 import org.compiere.model.Query;
 import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  * Class Model for Smart Browse
@@ -42,6 +44,7 @@ public class MBrowse extends X_AD_Browse {
 	/** Logger */
 	private static CLogger s_log = CLogger.getCLogger(MBrowse.class);
 	private MView m_view = null;
+	private String m_title = null;
 
 	/**************************************************************************
 	 * Asset Constructor
@@ -83,7 +86,7 @@ public class MBrowse extends X_AD_Browse {
 	 */
 	public MBrowse(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
-	} // MAsset
+	} //
 
 	/**
 	 * String representation
@@ -132,8 +135,7 @@ public class MBrowse extends X_AD_Browse {
 	/**
 	 * get field using name
 	 * 
-	 * @param name
-	 *            field
+	 * @param name field
 	 * @return field
 	 */
 	public MBrowseField getField(String name) {
@@ -169,5 +171,19 @@ public class MBrowse extends X_AD_Browse {
 			m_view = new MView(getCtx(), getAD_View_ID(), get_TrxName());
 		}
 		return m_view;
+	}
+	
+	public String getTitle()
+	{
+		if(m_title != null)
+			return m_title;
+		
+		final boolean baseLanguage = Env.isBaseLanguage(Env.getCtx(),
+				"AD_Browse");
+		final String sql = "SELECT Name FROM AD_Browse_Trl WHERE AD_Browse_ID=? AND AD_LANGUAGE=?";
+		m_title = baseLanguage ?getName() : DB.getSQLValueString(null,
+				sql, getAD_Browse_ID(),
+				Env.getAD_Language(Env.getCtx()));
+		return m_title;
 	}
 }

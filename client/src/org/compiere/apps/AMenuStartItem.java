@@ -25,7 +25,6 @@ import java.util.logging.Level;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
-import org.adempiere.model.MBrowse;
 import org.compiere.apps.form.FormFrame;
 import org.compiere.model.MTask;
 import org.compiere.swing.CFrame;
@@ -378,22 +377,9 @@ public class AMenuStartItem extends Thread implements ActionListener
 		}
 		//ff = new FormFrame();
 		SwingUtilities.invokeLater(m_updatePB);			//	1
-		MBrowse browse = new MBrowse(Env.getCtx(), AD_Browse_ID , null);
-		
-		boolean modal = true;
-		int WindowNo = 0;
-		String value = "";
-		String keyColumn = "";
-		boolean multiSelection = true;
-		String whereClause = "";
-		ff 	= new VBrowser(ff, modal , WindowNo, value, browse, keyColumn,multiSelection, whereClause).getFrame();
+		ff 	= VBrowser.openBrowse(AD_Browse_ID);
 		ff.setVisible(true);
 		ff.pack();
-		/**boolean ok = ff.openForm(AD_Form_ID);
-		if (!ok) {
-			ff.dispose();
-			return;
-		}*/
 		m_menu.getWindowManager().add(ff);
 		SwingUtilities.invokeLater(m_updatePB);			//	2
 		

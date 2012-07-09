@@ -29,6 +29,7 @@ import java.util.TreeMap;
 import java.util.Vector;
 import java.util.logging.Level;
 
+import org.adempiere.model.MBrowse;
 import org.adempiere.webui.WArchive;
 import org.adempiere.webui.WRequest;
 import org.adempiere.webui.WZoomAcross;
@@ -78,6 +79,8 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.compiere.util.WebDoc;
+import org.eevolution.form.Browser;
+import org.eevolution.form.WBrowser;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.HtmlBasedComponent;
@@ -2113,6 +2116,19 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			form.setAttribute(Window.MODE_KEY, Window.MODE_EMBEDDED);
 			form.setAttribute(Window.INSERT_POSITION_KEY, Window.INSERT_NEXT);
 			SessionManager.getAppDesktop().showWindow(form);
+			onRefresh(false);
+		}
+		int adBrowseID = pr.getAD_Browse_ID();
+		if (adBrowseID != 0 )
+		{
+			String title = wButton.getDescription();
+			if (title == null || title.length() == 0)
+				title = wButton.getDisplay();
+			ProcessInfo pi = new ProcessInfo (title, wButton.getProcess_ID(), table_ID, record_ID);
+			pi.setAD_User_ID (Env.getAD_User_ID(ctx));
+			pi.setAD_Client_ID (Env.getAD_Client_ID(ctx));
+			CustomForm ff =  WBrowser.openBrowse(adBrowseID);
+			SessionManager.getAppDesktop().showWindow(ff);
 			onRefresh(false);
 		}
 		else

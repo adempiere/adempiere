@@ -374,6 +374,14 @@ public final class MTreeNode extends DefaultMutableTreeNode
 	}	//	isForm
 
 	/**
+	 * 	Is Form
+	 *	@return true if Form
+	 */
+	public boolean isBrowse()
+	{
+		return X_AD_Menu.ACTION_SmartBrowse.equals(m_imageIndicator);
+	}
+	/**
 	 * 	Is Task
 	 *	@return true if Task
 	 */

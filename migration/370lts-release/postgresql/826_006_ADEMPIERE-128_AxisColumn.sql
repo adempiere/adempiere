@@ -116,3 +116,29 @@ UPDATE AD_Field SET DisplayLogic='@Axis_Column_ID@ ! 0',Updated=TO_TIMESTAMP('20
 UPDATE AD_Field SET IsSameLine='Y',Updated=TO_TIMESTAMP('2012-06-27 11:39:45','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=64394
 ;
 
+-- Jun 29, 2012 10:34:35 PM CDT
+-- https://adempiere.atlassian.net/browse/ADEMPIERE-128 New feature lets you define a field as column axis
+UPDATE AD_Column SET AD_Reference_Value_ID=53437,Updated=TO_TIMESTAMP('2012-06-29 22:34:35','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=63218
+;
+
+-- Jun 29, 2012 10:37:01 PM CDT
+-- https://adempiere.atlassian.net/browse/ADEMPIERE-128 New feature lets you define a field as column axis
+INSERT INTO AD_Val_Rule (AD_Client_ID,AD_Org_ID,AD_Val_Rule_ID,Code,Created,CreatedBy,Description,EntityType,IsActive,Name,Type,Updated,UpdatedBy) VALUES (0,0,52125,'AD_View_Column_ID IN (SELECT vc.AD_View_Column_ID FROM AD_Browse_Field bf INNER JOIN AD_View_Column vc ON (vc.AD_View_Column_ID=bf.AD_View_Column_ID) WHERE bf.AD_Browse_ID=@AD_Browse_ID@)',TO_TIMESTAMP('2012-06-29 22:37:01','YYYY-MM-DD HH24:MI:SS'),100,'View must be previously defined','EE07','Y','AD_View_Column in AD_Browse','S',TO_TIMESTAMP('2012-06-29 22:37:01','YYYY-MM-DD HH24:MI:SS'),100)
+;
+
+-- Jun 29, 2012 10:37:38 PM CDT
+-- https://adempiere.atlassian.net/browse/ADEMPIERE-128 New feature lets you define a field as column axis
+UPDATE AD_Column SET AD_Val_Rule_ID=52125,Updated=TO_TIMESTAMP('2012-06-29 22:37:38','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=63218
+;
+
+-- Jun 29, 2012 10:40:06 PM CDT
+-- https://adempiere.atlassian.net/browse/ADEMPIERE-128 New feature lets you define a field as column axis
+INSERT INTO AD_Val_Rule (AD_Client_ID,AD_Org_ID,AD_Val_Rule_ID,Code,Created,CreatedBy,Description,EntityType,IsActive,Name,Type,Updated,UpdatedBy) VALUES (0,0,52126,'AD_View_Column_ID IN (SELECT vc.AD_View_Column_ID FROM AD_Browse_Field bf INNER JOIN AD_View_Column vc ON (vc.AD_View_Column_ID=bf.AD_View_Column_ID) WHERE bf.AD_Browse_ID=@AD_Browse_ID@ AND bf.IsQueryCriteria=''Y'')',TO_TIMESTAMP('2012-06-29 22:40:05','YYYY-MM-DD HH24:MI:SS'),100,'View must be previously defined','EE07','Y','AD_View_Column IsQueryCriteria','S',TO_TIMESTAMP('2012-06-29 22:40:05','YYYY-MM-DD HH24:MI:SS'),100)
+;
+
+-- Jun 29, 2012 10:40:58 PM CDT
+-- https://adempiere.atlassian.net/browse/ADEMPIERE-128 New feature lets you define a field as column axis
+UPDATE AD_Column SET AD_Val_Rule_ID=52126,Updated=TO_TIMESTAMP('2012-06-29 22:40:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=63219
+;
+
+
