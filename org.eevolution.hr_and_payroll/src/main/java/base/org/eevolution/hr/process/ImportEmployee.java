@@ -280,9 +280,9 @@ public class ImportEmployee extends ImportEmployeeAbstract {
         // Set Shift Group
         MHRShiftGroup shiftGroup = null;
         if (importEmployee.getHR_ShiftGroup_ID() > 0)
-        	shiftGroup = MHRShiftGroup.getById(getCtx(), importEmployee.getHR_WorkGroup_ID(), trxName);
+        	shiftGroup = MHRShiftGroup.getById(getCtx(), importEmployee.getHR_ShiftGroup_ID(), trxName);
         if (shiftGroup == null && importEmployee.getShiftGroupValue() != null)
-        	shiftGroup = MHRShiftGroup.getByValue(getCtx(), importEmployee.getWorkGroupValue(), trxName);
+        	shiftGroup = MHRShiftGroup.getByValue(getCtx(), importEmployee.getShiftGroupValue(), trxName);
         if (shiftGroup != null && shiftGroup.getHR_ShiftGroup_ID() > 0)
             importEmployee.setHR_ShiftGroup_ID(shiftGroup.getHR_ShiftGroup_ID());
         
@@ -325,12 +325,12 @@ public class ImportEmployee extends ImportEmployeeAbstract {
             importEmployee.setHR_Designation_ID(designation.getHR_Designation_ID());
         //Set Salary Structure
         MHRSalaryStructure salaryStructure = null;
-        if (importEmployee.getHR_SalaryRange_ID() > 0)
+        if (importEmployee.getHR_SalaryStructure_ID() > 0)
             salaryStructure = MHRSalaryStructure.getById(getCtx(), importEmployee.getHR_SalaryStructure_ID(), trxName);
         if (salaryStructure == null && importEmployee.getSalaryStructureValue() != null)
             salaryStructure = MHRSalaryStructure.getByValue(getCtx(), importEmployee.getSalaryStructureValue());
         if (salaryStructure != null && salaryStructure.getHR_SalaryStructure_ID() > 0)
-            importEmployee.setHR_SalaryRange_ID(salaryStructure.getHR_SalaryStructure_ID());
+            importEmployee.setHR_SalaryStructure_ID(salaryStructure.getHR_SalaryStructure_ID());
         //Set Salary Range
         MHRSalaryRange salaryRange = null;
         if (importEmployee.getHR_SalaryRange_ID() > 0)
