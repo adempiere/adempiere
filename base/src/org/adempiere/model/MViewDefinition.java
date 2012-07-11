@@ -128,7 +128,7 @@ public class MViewDefinition extends X_AD_View_Definition {
 	 */
 	public MView getAD_View() {
 		if (m_view == null) {
-			m_view = (MView) getAD_View();
+			m_view = (MView) super.getAD_View();
 		}
 
 		return m_view;

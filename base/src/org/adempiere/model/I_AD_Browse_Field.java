@@ -334,6 +334,19 @@ public interface I_AD_Browse_Field
 	  */
 	public boolean isRange();
 
+    /** Column name IsReadOnly */
+    public static final String COLUMNNAME_IsReadOnly = "IsReadOnly";
+
+	/** Set Read Only.
+	  * Field is read only
+	  */
+	public void setIsReadOnly (boolean IsReadOnly);
+
+	/** Get Read Only.
+	  * Field is read only
+	  */
+	public boolean isReadOnly();
+
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
 

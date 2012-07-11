@@ -131,6 +131,23 @@ public class MBrowse extends X_AD_Browse {
 				.setOnlyActiveRecords(true)
 				.setOrderBy(MBrowseField.COLUMNNAME_SeqNo).list();
 	}
+	
+	/**
+	 * get Fields is not ReadOnly
+	 * 
+	 * @return List Fields Update
+	 */
+	public List<MBrowseField> getIsNotReadOnlyFields() {
+
+		String whereClause = MBrowseField.COLUMNNAME_AD_Browse_ID + "=? AND "
+						   + MBrowseField.COLUMNNAME_IsDisplayed + "=? AND "
+				           + MBrowseField.COLUMNNAME_IsReadOnly + "=? ";
+		return new Query(getCtx(), MBrowseField.Table_Name, whereClause,
+				get_TrxName()).setParameters(get_ID(), "Y", "N")
+				.setOnlyActiveRecords(true)
+				.setOrderBy(MBrowseField.COLUMNNAME_SeqNo)
+				.list();
+	}
 
 	/**
 	 * get field using name
@@ -172,6 +189,17 @@ public class MBrowse extends X_AD_Browse {
 		}
 		return m_view;
 	}
+	
+	/**
+	 * 	Before Delete
+	 *	@return true of it can be deleted
+	 */
+	protected boolean beforeDelete ()
+	{
+		DB.executeUpdate("DELETE FROM AD_Browse_Access WHERE AD_Browse_ID=? ", getAD_Browse_ID(),get_TrxName());
+		DB.executeUpdate("DELETE FROM AD_Browse_Trl WHERE AD_Browse_ID=? ", getAD_Browse_ID(),get_TrxName());
+		return true;
+	}	//	beforeDelete
 	
 	public String getTitle()
 	{

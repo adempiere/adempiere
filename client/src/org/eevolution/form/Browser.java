@@ -25,6 +25,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -99,6 +100,8 @@ public abstract class Browser {
 	public boolean m_cancel = false;
 	/** Result IDs */
 	public ArrayList<Integer> m_results = new ArrayList<Integer>(3);
+	/** Result Values */
+	public LinkedHashMap<Integer,LinkedHashMap<String, Object>> m_values = new LinkedHashMap<Integer,LinkedHashMap<String,Object>>();
 	/** Logger */
 	public CLogger log = CLogger.getCLogger(getClass());
 
@@ -159,11 +162,11 @@ public abstract class Browser {
 		for (MBrowseField field : fields) {
 			MViewColumn vcol = field.getAD_View_Column();
 
-			String title = m_Browse.getTitle();
+			//String title = m_Browse.getTitle();
 			String columnName = vcol.getAD_Column().getColumnName();
 			
 			if (field.isQueryCriteria()) {
-				m_queryColumns.add(title);
+				m_queryColumns.add(field.getName());
 			}
 			m_queryColumnsSql.add(vcol.getColumnSQL());
 
@@ -231,11 +234,12 @@ public abstract class Browser {
 				colClass = String.class;
 			}
 			if (colClass != null) {
-				Info_Column infocol = new Info_Column(title, colSql.toString(), colClass);
+				Info_Column infocol = new Info_Column(field.getName(), colSql.toString(), colClass);
+				infocol.setReadOnly(field.isReadOnly());
 				list.add(infocol);
-				log.finest("Added Column=" + columnName + " Name=" + title);
+				log.finest("Added Field=" + columnName + " Name=" + field.getName());
 			} else
-				log.finest("Not Added Column=" +  columnName + "Name=" + title);
+				log.finest("Not Added Field=" +  columnName + "Name=" + field.getName());
 		}
 
 		return list;
@@ -379,7 +383,7 @@ public abstract class Browser {
 		}
 	}
 
-	public List getSelectedKeys() {
+	public List<Integer> getSelectedKeys() {
 		if (!m_ok || m_results.size() == 0)
 			return null;
 		return m_results;
@@ -466,9 +470,10 @@ public abstract class Browser {
 						.append(" AND ").append(xTableName).append(".")
 						.append(xcol.getAD_Column().getColumnName())
 						.append("=").append(id).append(") AS ");
-				select.append("\"").append(colName).append("\"");
+				select.append(makePrefix(lookup.getDisplay(id))).append("_").append(ycol.getColumnName());
 				Info_Column infocol = new Info_Column(colName,
-						select.toString(), colClass);
+						select.toString(), DisplayType.getClass(ycol.getAD_Column().getAD_Reference_ID(), true));
+				infocol.setReadOnly(field.isReadOnly());
 				list.add(infocol);
 				log.finest("Added Column=" + colName);
 			}
@@ -575,6 +580,58 @@ public abstract class Browser {
 			}
 		}
 		return prefix.toString();
+	}
+	
+	/**
+	 * Insert result values
+	 * @param AD_PInstance_ID
+	 */
+	public void createT_Selection_Browse(int AD_PInstance_ID)
+	{
+		StringBuilder insert = new StringBuilder();
+		insert.append("INSERT INTO T_SELECTION_BROWSE (AD_PINSTANCE_ID, T_SELECTION_ID, COLUMNNAME , VALUE_STRING, VALUE_NUMBER , VALUE_DATE ) ");
+		for (Entry<Integer,LinkedHashMap<String, Object>> records : m_values.entrySet()) {
+			//set Record ID
+			
+				LinkedHashMap<String, Object> fields = records.getValue();
+				for(Entry<String, Object> field : fields.entrySet())
+				{
+					StringBuilder insertValues = new StringBuilder();
+					insertValues.append(" VALUES(").append(AD_PInstance_ID).append(",");
+					insertValues.append(records.getKey()).append(",");
+					//set Browse Field ID
+					insertValues.append("'").append(field.getKey()).append("',");
+					Object data = field.getValue();
+					// set Values
+					if (data instanceof String)
+					{
+						insertValues.append("'").	append(data).append("',");
+						insertValues.append("null").append(",");
+						insertValues.append("null").append(")");
+					}
+					else if (data instanceof BigDecimal || data instanceof Integer || data instanceof Double)
+					{
+						insertValues.append("null").append(",");
+						insertValues.append(data).append(",");
+						insertValues.append("null").append(")");
+					}
+					else if (data instanceof Timestamp || data instanceof Date)
+					{
+						insertValues.append("null").append(",");
+						insertValues.append("null").append(",");
+						insertValues.append(data).append(")");
+					}
+					else
+					{
+						insertValues.append("'").append(data).append("',");
+						insertValues.append("null").append(",");
+						insertValues.append("null").append(")");
+					}
+					
+					DB.executeUpdateEx(insert.toString() + insertValues.toString(), null);		
+						
+				}
+		}
 	}
 
 	/**

@@ -22,6 +22,7 @@ import java.util.Properties;
 
 import org.compiere.model.MColumn;
 import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 
 /**
  * Class Model Smart View Column
@@ -142,4 +143,14 @@ public class MViewColumn extends X_AD_View_Column {
 	public int getAD_Reference_ID() {
 		return getAD_Column().getAD_Reference_ID();
 	}
+	
+	/**
+	 * 	Before Delete
+	 *	@return true of it can be deleted
+	 */
+	protected boolean beforeDelete ()
+	{
+		DB.executeUpdate("DELETE FROM AD_View_Column_Trl WHERE AD_View_Column_ID=? ", getAD_View_Column_ID(),get_TrxName());
+		return true;
+	}	//	beforeDelete
 }

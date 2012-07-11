@@ -26,6 +26,7 @@ import java.util.Properties;
 import org.compiere.model.MTable;
 import org.compiere.model.Query;
 import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 /**
@@ -199,6 +200,16 @@ public class MView extends X_AD_View {
 	public String getParentEntityAliasName() {
 		return getParentViewDefinition().getTableAlias();
 	}
+	
+	/**
+	 * 	Before Delete
+	 *	@return true of it can be deleted
+	 */
+	protected boolean beforeDelete ()
+	{
+		DB.executeUpdate("DELETE FROM AD_View_Trl WHERE AD_View_ID=? ", getAD_View_ID(),get_TrxName());
+		return true;
+	}	//	beforeDelete
 
 	/**
 	 * get SQL from View

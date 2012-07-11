@@ -188,6 +188,6 @@ UPDATE AD_Element SET AD_Reference_ID=18,Updated=TO_DATE('2009-11-17 15:33:06','
 UPDATE AD_Column SET Callout='org.adempiere.model.CalloutColumn.element',Updated=TO_DATE('2009-11-17 15:37:38','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Column_ID=2608
 ;
 
-UPDATE AD_Element e SET AD_Reference_ID = (SELECT AD_Reference_ID FROM AD_COLUMN c WHERE c.ColumnName=e.ColumnName AND ROWNUM=1 ORDER BY AD_Column_ID );
-UPDATE AD_Element e SET FieldLength = (SELECT FieldLength FROM AD_COLUMN c WHERE c.ColumnName=e.ColumnName   AND ROWNUM=1 ORDER BY AD_Column_ID);
-UPDATE AD_Element e SET AD_Reference_Value_ID = (SELECT AD_Reference_Value_ID FROM AD_COLUMN c WHERE c.ColumnName=e.ColumnName AND ROWNUM=1 ORDER BY AD_Column_ID);
+UPDATE AD_Element e SET AD_Reference_ID = (SELECT AD_Reference_ID FROM AD_COLUMN c WHERE c.ColumnName=e.ColumnName AND ROWNUM=1);
+UPDATE AD_Element e SET FieldLength = (SELECT FieldLength FROM AD_COLUMN c WHERE c.ColumnName=e.ColumnName   AND ROWNUM=1 );
+UPDATE AD_Element e SET AD_Reference_Value_ID = (SELECT AD_Reference_Value_ID FROM AD_COLUMN c WHERE c.ColumnName=e.ColumnName AND ROWNUM=1);

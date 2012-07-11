@@ -35,6 +35,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -185,7 +186,7 @@ public class VBrowser extends Browser implements ActionListener,
 		for (MBrowseField field : m_Browse.getCriteriaFields()) {
 
 			String name = field.getAD_View_Column().getColumnName();
-			String title = m_Browse.getTitle();
+			String title = field.getName();
 			addComponent(field, row, cols, name , title);
 			cols = cols + col;
 
@@ -528,6 +529,49 @@ public class VBrowser extends Browser implements ActionListener,
 
 		return selectedDataList;
 	} // getSelectedRowKeys
+	
+	
+	/**
+	 * save result values
+	 */
+	protected void saveResultSelection() {
+		if (m_keyColumnIndex == -1) {
+			return;
+		}
+
+		if (p_multiSelection) {
+			int rows = detail.getRowCount();
+			m_values = new LinkedHashMap<Integer,LinkedHashMap<String,Object>>();
+			for (int row = 0; row < rows; row++) {
+				//Find the IDColumn Key
+				Object data = detail.getModel().getValueAt(row,
+						m_keyColumnIndex);
+				if (data instanceof IDColumn) {
+					IDColumn dataColumn = (IDColumn) data;
+					if (dataColumn.isSelected()) {
+						//selectedDataList.add(dataColumn.getRecord_ID());
+						LinkedHashMap<String, Object> values = new LinkedHashMap<String, Object>();
+						int col = 0;
+						for (Info_Column column : m_generalLayout)
+						{	
+							if(!column.isReadOnly())
+							{
+								String columnName = column.getColSQL().substring(column.getColSQL().indexOf("AS ") + 3);
+								Object value = detail.getModel().getValueAt(row,col);
+								values.put(columnName, value);
+								continue;
+							}
+							col ++;
+						}
+						if(values.size() > 0)
+						{
+							m_values.put(dataColumn.getRecord_ID(), values);
+						}
+					}
+				}
+			}
+		}
+	}
 
 	/**
 	 * Dispose and save Selection
@@ -547,11 +591,16 @@ public class VBrowser extends Browser implements ActionListener,
 			log.config("Worker alive=" + m_worker.isAlive());
 		}
 		m_worker = null;
-		//
+		
+		saveResultSelection();
 		saveSelection();
+		
+		
 		m_frame.removeAll();
 		m_frame.dispose();
 
+		
+				
 		if (m_Browse.getAD_Process_ID() <= 0)
 			return;
 
@@ -561,6 +610,9 @@ public class VBrowser extends Browser implements ActionListener,
 
 		DB.createT_Selection(instance.getAD_PInstance_ID(), getSelectedKeys(),
 				null);
+		//Save Values Browse Field Update
+		createT_Selection_Browse(instance.getAD_PInstance_ID());
+		
 		// call process
 		m_pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
 		parameterPanel.saveParameters();
@@ -568,7 +620,6 @@ public class VBrowser extends Browser implements ActionListener,
 		ProcessCtl worker = new ProcessCtl(this, Env.getWindowNo(m_frame),
 				m_pi, null);
 		worker.start(); // complete tasks in unlockUI /
-						// generateShipments_complete
 	} // dispose
 
 	private void setupToolBar() {

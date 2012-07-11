@@ -23,6 +23,8 @@ import java.util.Properties;
 import org.compiere.model.M_Element;
 import org.compiere.model.Query;
 import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  * Class Model for Browse Field
@@ -153,6 +155,16 @@ public class MBrowseField extends X_AD_Browse_Field {
 
 		return success;
 	}
+	
+	/**
+	 * 	Before Delete
+	 *	@return true of it can be deleted
+	 */
+	protected boolean beforeDelete ()
+	{
+		DB.executeUpdate("DELETE FROM AD_Browse_Field_Trl WHERE AD_Browse_Field_ID=? ", getAD_Browse_Field_ID(),get_TrxName());
+		return true;
+	}	//	beforeDelete
 
 	/**
 	 * get Element
@@ -203,4 +215,34 @@ public class MBrowseField extends X_AD_Browse_Field {
 				.append(get_ID()).append("-").append(getName()).append("]");
 		return sb.toString();
 	} // toString
+	
+	public String getName()
+	{
+		final boolean baseLanguage = Env.isBaseLanguage(Env.getCtx(),
+				"AD_Browse");
+		final String sql = "SELECT Name FROM AD_Browse_Field_Trl WHERE AD_Browse_Field_ID=? AND AD_LANGUAGE=?";
+		return  baseLanguage ? super.getName() : DB.getSQLValueString(get_TrxName(),
+				sql, getAD_Browse_Field_ID(),
+				Env.getAD_Language(Env.getCtx()));
+	}
+	
+	public String getDescription()
+	{
+		final boolean baseLanguage = Env.isBaseLanguage(Env.getCtx(),
+				"AD_Browse");
+		final String sql = "SELECT Description FROM AD_Browse_Field_Trl WHERE AD_Browse_Field_ID=? AND AD_LANGUAGE=?";
+		return  baseLanguage ? super.getDescription() : DB.getSQLValueString(get_TrxName(),
+				sql, getAD_Browse_Field_ID(),
+				Env.getAD_Language(Env.getCtx()));
+	}
+	
+	public String getHelp()
+	{
+		final boolean baseLanguage = Env.isBaseLanguage(Env.getCtx(),
+				"AD_Browse");
+		final String sql = "SELECT Help FROM AD_Browse_Field_Trl WHERE AD_Browse_Field_ID=? AND AD_LANGUAGE=?";
+		return  baseLanguage ? super.getHelp() : DB.getSQLValueString(get_TrxName(),
+				sql, getAD_Browse_Field_ID(),
+				Env.getAD_Language(Env.getCtx()));
+	}
 }

@@ -17,11 +17,13 @@
  *****************************************************************************/
 package org.eevolution.form;
 
+import java.awt.Component;
 import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 
@@ -51,10 +53,14 @@ import org.adempiere.webui.event.WTableModelListener;
 import org.adempiere.webui.panel.CustomForm;
 import org.adempiere.webui.panel.IFormController;
 import org.adempiere.webui.panel.StatusBarPanel;
+import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.apps.AEnv;
+import org.compiere.apps.ALayoutConstraint;
 import org.compiere.apps.ProcessCtl;
 import org.compiere.apps.search.Info_Column;
+import org.compiere.grid.ed.VEditor;
+import org.compiere.grid.ed.VEditorFactory;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.GridField;
 import org.compiere.model.GridFieldVO;
@@ -62,6 +68,7 @@ import org.compiere.model.MPInstance;
 import org.compiere.model.MProcess;
 import org.compiere.model.MRole;
 import org.compiere.process.ProcessInfo;
+import org.compiere.swing.CLabel;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -114,7 +121,6 @@ public class WBrowser extends Browser implements IFormController,
 	private Tabbox tabsPanel;
 	private ToolBar toolsBar;
 	private Hbox topPanel;
-	private Iframe iframe;
 
 	public static CustomForm openBrowse(int AD_Browse_ID) {
 		MBrowse browse = new MBrowse(Env.getCtx(), AD_Browse_ID , null);
@@ -158,9 +164,8 @@ public class WBrowser extends Browser implements IFormController,
 		Row row = rows.newRow();
 
 		for (MBrowseField field : m_Browse.getCriteriaFields()) {
-			String title = m_Browse.getTitle();
-			String name = field.getAD_View_Column().getAD_Column()
-					.getColumnName();
+			String title = field.getName();
+			String name = field.getAD_View_Column().getColumnName();
 			addComponent(field, row, name, title);
 
 			cols++;
@@ -195,7 +200,6 @@ public class WBrowser extends Browser implements IFormController,
 		voBase.IsUpdateable = true;
 		voBase.IsDisplayed = true;
 		voBase.Description = field.getDescription();
-		voBase.ColumnSQL = field.getAD_View_Column().getColumnSQL();
 		voBase.Header = title;
 				
 		GridField gField = new GridField (GridFieldVO.createParameter(voBase));
@@ -212,7 +216,6 @@ public class WBrowser extends Browser implements IFormController,
         row.appendChild(div);
 		row.appendChild(editor.getComponent());
 		setParameter(name, editor);
-
 	}
 
 	private boolean initBrowser() {
@@ -373,6 +376,48 @@ public class WBrowser extends Browser implements IFormController,
 		detail.clearTable();
 		detail = null;
 	}
+	
+	/**
+	 * save result values
+	 */
+	protected void saveResultSelection() {
+		if (m_keyColumnIndex == -1) {
+			return;
+		}
+
+		if (p_multiSelection) {
+			int rows = detail.getRowCount();
+			m_values = new LinkedHashMap<Integer,LinkedHashMap<String,Object>>();
+			for (int row = 0; row < rows; row++) {
+				//Find the IDColumn Key
+				Object data = detail.getModel().getValueAt(row,
+						m_keyColumnIndex);
+				if (data instanceof IDColumn) {
+					IDColumn dataColumn = (IDColumn) data;
+					if (dataColumn.isSelected()) {
+						//selectedDataList.add(dataColumn.getRecord_ID());
+						LinkedHashMap<String, Object> values = new LinkedHashMap<String, Object>();
+						int col = 0;
+						for (Info_Column column : m_generalLayout)
+						{	
+							if(!column.isReadOnly())
+							{
+								String columnName = column.getColSQL().substring(column.getColSQL().indexOf("AS ") + 3);
+								Object value = detail.getModel().getValueAt(row,col);
+								values.put(columnName, value);
+								continue;
+							}
+							col ++;
+						}
+						if(values.size() > 0)
+						{
+							m_values.put(dataColumn.getRecord_ID(), values);
+						}
+					}
+				}
+			}
+		}
+	}
 
 	public ArrayList<Integer> getSelectedRowKeys() {
 		ArrayList<Integer> selectedDataList = new ArrayList<Integer>();
@@ -411,8 +456,8 @@ public class WBrowser extends Browser implements IFormController,
 	}
 
 	public void dispose(boolean ok) {
+		saveResultSelection();
 		saveSelection();
-		m_frame.dispose();
 		if (m_Browse.getAD_Process_ID() <= 0)
 			return;
 
@@ -422,12 +467,15 @@ public class WBrowser extends Browser implements IFormController,
 
 		DB.createT_Selection(instance.getAD_PInstance_ID(), getSelectedKeys(),
 				null);
+		//Save Values Browse Field Update
+				createT_Selection_Browse(instance.getAD_PInstance_ID());
 		// call process
 		m_pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
 		parameterPanel.saveParameters();
 		// Execute Process
 		ProcessCtl worker = new ProcessCtl(this, 0, m_pi, null);
 		worker.start();
+		SessionManager.getAppDesktop().closeActiveWindow();
 	}
 
 	private void setupToolBar() {
@@ -710,7 +758,7 @@ public class WBrowser extends Browser implements IFormController,
 	}
 
 	private void bCancelActionPerformed(Event evt) {
-		m_frame.dispose();
+		  SessionManager.getAppDesktop().closeActiveWindow();
 	}
 
 	private void bSearchActionPerformed(Event evt) {
