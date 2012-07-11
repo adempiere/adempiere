@@ -419,9 +419,7 @@ public abstract class Browser {
 	{	
 		ArrayList<Info_Column> list = new ArrayList<Info_Column>();
 		try {
-			Class colClass = String.class;
 			I_AD_View_Column xcol, pcol, ycol;
-	
 			xcol = field.getAD_View_Column();
 			pcol = field.getAxis_Parent_Column();
 			ycol = field.getAxis_Column();

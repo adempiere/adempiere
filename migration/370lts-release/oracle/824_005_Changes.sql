@@ -21,8 +21,8 @@ UPDATE AD_Tab SET TabLevel=3,Updated=TO_DATE('2009-09-29 00:34:12','YYYY-MM-DD H
 
 -- Sep 11, 2009 1:26:11 PM ECT
 -- Warehouse Management
-ALTER TABLE AD_Browse MODIFY AccessLevel NOT NULL
-;
+--ALTER TABLE AD_Browse MODIFY AccessLevel NOT NULL
+--;
 -- Sep 29, 2009 12:10:23 AM ECT
 -- Warehouse Management
 ALTER TABLE AD_View_Column MODIFY ColumnName NVARCHAR2(255) DEFAULT NULL 
