@@ -14,23 +14,24 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
-package org.compiere.model;
+package org.eevolution.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for M_Forecast
+/** Generated Interface for PP_ForecastRun
  *  @author Adempiere (generated) 
  *  @version Release 3.7.1RC
  */
-public interface I_M_Forecast 
+public interface I_PP_ForecastRun 
 {
 
-    /** TableName=M_Forecast */
-    public static final String Table_Name = "M_Forecast";
+    /** TableName=PP_ForecastRun */
+    public static final String Table_Name = "PP_ForecastRun";
 
-    /** AD_Table_ID=720 */
+    /** AD_Table_ID=1000009 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -62,36 +63,6 @@ public interface I_M_Forecast
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_Calendar_ID */
-    public static final String COLUMNNAME_C_Calendar_ID = "C_Calendar_ID";
-
-	/** Set Calendar.
-	  * Accounting Calendar Name
-	  */
-	public void setC_Calendar_ID (int C_Calendar_ID);
-
-	/** Get Calendar.
-	  * Accounting Calendar Name
-	  */
-	public int getC_Calendar_ID();
-
-	public org.compiere.model.I_C_Calendar getC_Calendar() throws RuntimeException;
-
-    /** Column name C_Year_ID */
-    public static final String COLUMNNAME_C_Year_ID = "C_Year_ID";
-
-	/** Set Year.
-	  * Calendar Year
-	  */
-	public void setC_Year_ID (int C_Year_ID);
-
-	/** Get Year.
-	  * Calendar Year
-	  */
-	public int getC_Year_ID();
-
-	public org.compiere.model.I_C_Year getC_Year() throws RuntimeException;
-
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -121,18 +92,18 @@ public interface I_M_Forecast
 	  */
 	public String getDescription();
 
-    /** Column name Help */
-    public static final String COLUMNNAME_Help = "Help";
+    /** Column name DocumentNo */
+    public static final String COLUMNNAME_DocumentNo = "DocumentNo";
 
-	/** Set Comment/Help.
-	  * Comment or Hint
+	/** Set Document No.
+	  * Document sequence number of the document
 	  */
-	public void setHelp (String Help);
+	public void setDocumentNo (String DocumentNo);
 
-	/** Get Comment/Help.
-	  * Comment or Hint
+	/** Get Document No.
+	  * Document sequence number of the document
 	  */
-	public String getHelp();
+	public String getDocumentNo();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -147,59 +118,35 @@ public interface I_M_Forecast
 	  */
 	public boolean isActive();
 
-    /** Column name IsDefault */
-    public static final String COLUMNNAME_IsDefault = "IsDefault";
+    /** Column name M_WarehouseSource_ID */
+    public static final String COLUMNNAME_M_WarehouseSource_ID = "M_WarehouseSource_ID";
 
-	/** Set Default.
-	  * Default value
+	/** Set Source Warehouse.
+	  * Optional Warehouse to replenish from
 	  */
-	public void setIsDefault (boolean IsDefault);
+	public void setM_WarehouseSource_ID (int M_WarehouseSource_ID);
 
-	/** Get Default.
-	  * Default value
+	/** Get Source Warehouse.
+	  * Optional Warehouse to replenish from
 	  */
-	public boolean isDefault();
+	public int getM_WarehouseSource_ID();
 
-    /** Column name M_Forecast_ID */
-    public static final String COLUMNNAME_M_Forecast_ID = "M_Forecast_ID";
+	public org.compiere.model.I_M_Warehouse getM_WarehouseSource() throws RuntimeException;
 
-	/** Set Forecast.
-	  * Material Forecast
+    /** Column name M_Warehouse_ID */
+    public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
+
+	/** Set Warehouse.
+	  * Storage Warehouse and Service Point
 	  */
-	public void setM_Forecast_ID (int M_Forecast_ID);
+	public void setM_Warehouse_ID (int M_Warehouse_ID);
 
-	/** Get Forecast.
-	  * Material Forecast
+	/** Get Warehouse.
+	  * Storage Warehouse and Service Point
 	  */
-	public int getM_Forecast_ID();
+	public int getM_Warehouse_ID();
 
-    /** Column name M_PriceList_ID */
-    public static final String COLUMNNAME_M_PriceList_ID = "M_PriceList_ID";
-
-	/** Set Price List.
-	  * Unique identifier of a Price List
-	  */
-	public void setM_PriceList_ID (int M_PriceList_ID);
-
-	/** Get Price List.
-	  * Unique identifier of a Price List
-	  */
-	public int getM_PriceList_ID();
-
-	public org.compiere.model.I_M_PriceList getM_PriceList() throws RuntimeException;
-
-    /** Column name Name */
-    public static final String COLUMNNAME_Name = "Name";
-
-	/** Set Name.
-	  * Alphanumeric identifier of the entity
-	  */
-	public void setName (String Name);
-
-	/** Get Name.
-	  * Alphanumeric identifier of the entity
-	  */
-	public String getName();
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
 
     /** Column name PP_Calendar_ID */
     public static final String COLUMNNAME_PP_Calendar_ID = "PP_Calendar_ID";
@@ -216,6 +163,45 @@ public interface I_M_Forecast
 
 	public org.eevolution.model.I_PP_Calendar getPP_Calendar() throws RuntimeException;
 
+    /** Column name PP_ForecastDefinition_ID */
+    public static final String COLUMNNAME_PP_ForecastDefinition_ID = "PP_ForecastDefinition_ID";
+
+	/** Set Forecast Definition	  */
+	public void setPP_ForecastDefinition_ID (int PP_ForecastDefinition_ID);
+
+	/** Get Forecast Definition	  */
+	public int getPP_ForecastDefinition_ID();
+
+	public org.eevolution.model.I_PP_ForecastDefinition getPP_ForecastDefinition() throws RuntimeException;
+
+    /** Column name PP_ForecastRule_ID */
+    public static final String COLUMNNAME_PP_ForecastRule_ID = "PP_ForecastRule_ID";
+
+	/** Set Forecast Rule.
+	  * Forecast Rules define the business logic according to a previously implemented algorithm.
+	  */
+	public void setPP_ForecastRule_ID (int PP_ForecastRule_ID);
+
+	/** Get Forecast Rule.
+	  * Forecast Rules define the business logic according to a previously implemented algorithm.
+	  */
+	public int getPP_ForecastRule_ID();
+
+	public org.eevolution.model.I_PP_ForecastRule getPP_ForecastRule() throws RuntimeException;
+
+    /** Column name PP_ForecastRun_ID */
+    public static final String COLUMNNAME_PP_ForecastRun_ID = "PP_ForecastRun_ID";
+
+	/** Set Forecast Run.
+	  * Create the forecast simulation based on the forecast definition
+	  */
+	public void setPP_ForecastRun_ID (int PP_ForecastRun_ID);
+
+	/** Get Forecast Run.
+	  * Create the forecast simulation based on the forecast definition
+	  */
+	public int getPP_ForecastRun_ID();
+
     /** Column name PP_PeriodDefinition_ID */
     public static final String COLUMNNAME_PP_PeriodDefinition_ID = "PP_PeriodDefinition_ID";
 
@@ -231,6 +217,19 @@ public interface I_M_Forecast
 
 	public org.eevolution.model.I_PP_PeriodDefinition getPP_PeriodDefinition() throws RuntimeException;
 
+    /** Column name PeriodHistory */
+    public static final String COLUMNNAME_PeriodHistory = "PeriodHistory";
+
+	/** Set Periods of History.
+	  * Number Period of History
+	  */
+	public void setPeriodHistory (int PeriodHistory);
+
+	/** Get Periods of History.
+	  * Number Period of History
+	  */
+	public int getPeriodHistory();
+
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
 
@@ -244,19 +243,6 @@ public interface I_M_Forecast
 	  */
 	public boolean isProcessed();
 
-    /** Column name ProcessedOn */
-    public static final String COLUMNNAME_ProcessedOn = "ProcessedOn";
-
-	/** Set Processed On.
-	  * The date+time (expressed in decimal format) when the document has been processed
-	  */
-	public void setProcessedOn (BigDecimal ProcessedOn);
-
-	/** Get Processed On.
-	  * The date+time (expressed in decimal format) when the document has been processed
-	  */
-	public BigDecimal getProcessedOn();
-
     /** Column name Processing */
     public static final String COLUMNNAME_Processing = "Processing";
 
@@ -265,6 +251,21 @@ public interface I_M_Forecast
 
 	/** Get Process Now	  */
 	public boolean isProcessing();
+
+    /** Column name Ref_DefinitionPeriod_ID */
+    public static final String COLUMNNAME_Ref_DefinitionPeriod_ID = "Ref_DefinitionPeriod_ID";
+
+	/** Set Period Definition.
+	  * Period Definition, allows to define time cycles for the Operational Calendar
+	  */
+	public void setRef_DefinitionPeriod_ID (int Ref_DefinitionPeriod_ID);
+
+	/** Get Period Definition.
+	  * Period Definition, allows to define time cycles for the Operational Calendar
+	  */
+	public int getRef_DefinitionPeriod_ID();
+
+	public org.eevolution.model.I_PP_PeriodDefinition getRef_DefinitionPeriod() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

@@ -14,23 +14,24 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
-package org.compiere.model;
+package org.eevolution.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for M_Forecast
+/** Generated Interface for PP_Calendar
  *  @author Adempiere (generated) 
  *  @version Release 3.7.1RC
  */
-public interface I_M_Forecast 
+public interface I_PP_Calendar 
 {
 
-    /** TableName=M_Forecast */
-    public static final String Table_Name = "M_Forecast";
+    /** TableName=PP_Calendar */
+    public static final String Table_Name = "PP_Calendar";
 
-    /** AD_Table_ID=720 */
+    /** AD_Table_ID=1000002 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -62,36 +63,6 @@ public interface I_M_Forecast
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_Calendar_ID */
-    public static final String COLUMNNAME_C_Calendar_ID = "C_Calendar_ID";
-
-	/** Set Calendar.
-	  * Accounting Calendar Name
-	  */
-	public void setC_Calendar_ID (int C_Calendar_ID);
-
-	/** Get Calendar.
-	  * Accounting Calendar Name
-	  */
-	public int getC_Calendar_ID();
-
-	public org.compiere.model.I_C_Calendar getC_Calendar() throws RuntimeException;
-
-    /** Column name C_Year_ID */
-    public static final String COLUMNNAME_C_Year_ID = "C_Year_ID";
-
-	/** Set Year.
-	  * Calendar Year
-	  */
-	public void setC_Year_ID (int C_Year_ID);
-
-	/** Get Year.
-	  * Calendar Year
-	  */
-	public int getC_Year_ID();
-
-	public org.compiere.model.I_C_Year getC_Year() throws RuntimeException;
-
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -121,19 +92,6 @@ public interface I_M_Forecast
 	  */
 	public String getDescription();
 
-    /** Column name Help */
-    public static final String COLUMNNAME_Help = "Help";
-
-	/** Set Comment/Help.
-	  * Comment or Hint
-	  */
-	public void setHelp (String Help);
-
-	/** Get Comment/Help.
-	  * Comment or Hint
-	  */
-	public String getHelp();
-
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -146,47 +104,6 @@ public interface I_M_Forecast
 	  * The record is active in the system
 	  */
 	public boolean isActive();
-
-    /** Column name IsDefault */
-    public static final String COLUMNNAME_IsDefault = "IsDefault";
-
-	/** Set Default.
-	  * Default value
-	  */
-	public void setIsDefault (boolean IsDefault);
-
-	/** Get Default.
-	  * Default value
-	  */
-	public boolean isDefault();
-
-    /** Column name M_Forecast_ID */
-    public static final String COLUMNNAME_M_Forecast_ID = "M_Forecast_ID";
-
-	/** Set Forecast.
-	  * Material Forecast
-	  */
-	public void setM_Forecast_ID (int M_Forecast_ID);
-
-	/** Get Forecast.
-	  * Material Forecast
-	  */
-	public int getM_Forecast_ID();
-
-    /** Column name M_PriceList_ID */
-    public static final String COLUMNNAME_M_PriceList_ID = "M_PriceList_ID";
-
-	/** Set Price List.
-	  * Unique identifier of a Price List
-	  */
-	public void setM_PriceList_ID (int M_PriceList_ID);
-
-	/** Get Price List.
-	  * Unique identifier of a Price List
-	  */
-	public int getM_PriceList_ID();
-
-	public org.compiere.model.I_M_PriceList getM_PriceList() throws RuntimeException;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -213,58 +130,6 @@ public interface I_M_Forecast
 	  * Operational Period, allows to define the periods for the Operational Calendar
 	  */
 	public int getPP_Calendar_ID();
-
-	public org.eevolution.model.I_PP_Calendar getPP_Calendar() throws RuntimeException;
-
-    /** Column name PP_PeriodDefinition_ID */
-    public static final String COLUMNNAME_PP_PeriodDefinition_ID = "PP_PeriodDefinition_ID";
-
-	/** Set Period Definition.
-	  * Period Definition, allows to define time cycles for the Operational Calendar
-	  */
-	public void setPP_PeriodDefinition_ID (int PP_PeriodDefinition_ID);
-
-	/** Get Period Definition.
-	  * Period Definition, allows to define time cycles for the Operational Calendar
-	  */
-	public int getPP_PeriodDefinition_ID();
-
-	public org.eevolution.model.I_PP_PeriodDefinition getPP_PeriodDefinition() throws RuntimeException;
-
-    /** Column name Processed */
-    public static final String COLUMNNAME_Processed = "Processed";
-
-	/** Set Processed.
-	  * The document has been processed
-	  */
-	public void setProcessed (boolean Processed);
-
-	/** Get Processed.
-	  * The document has been processed
-	  */
-	public boolean isProcessed();
-
-    /** Column name ProcessedOn */
-    public static final String COLUMNNAME_ProcessedOn = "ProcessedOn";
-
-	/** Set Processed On.
-	  * The date+time (expressed in decimal format) when the document has been processed
-	  */
-	public void setProcessedOn (BigDecimal ProcessedOn);
-
-	/** Get Processed On.
-	  * The date+time (expressed in decimal format) when the document has been processed
-	  */
-	public BigDecimal getProcessedOn();
-
-    /** Column name Processing */
-    public static final String COLUMNNAME_Processing = "Processing";
-
-	/** Set Process Now	  */
-	public void setProcessing (boolean Processing);
-
-	/** Get Process Now	  */
-	public boolean isProcessing();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

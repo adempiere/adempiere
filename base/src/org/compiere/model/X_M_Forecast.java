@@ -17,20 +17,22 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
+import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Forecast
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.7.1RC - $Id$ */
 public class X_M_Forecast extends PO implements I_M_Forecast, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20120627L;
 
     /** Standard Constructor */
     public X_M_Forecast (Properties ctx, int M_Forecast_ID, String trxName)
@@ -38,11 +40,11 @@ public class X_M_Forecast extends PO implements I_M_Forecast, I_Persistent
       super (ctx, M_Forecast_ID, trxName);
       /** if (M_Forecast_ID == 0)
         {
-			setC_Calendar_ID (0);
-			setC_Year_ID (0);
 			setIsDefault (false);
 			setM_Forecast_ID (0);
 			setName (null);
+			setPP_Calendar_ID (0);
+			setPP_PeriodDefinition_ID (0);
         } */
     }
 
@@ -263,6 +265,106 @@ public class X_M_Forecast extends PO implements I_M_Forecast, I_Persistent
     {
         return new KeyNamePair(get_ID(), getName());
     }
+
+	public org.eevolution.model.I_PP_Calendar getPP_Calendar() throws RuntimeException
+    {
+		return (org.eevolution.model.I_PP_Calendar)MTable.get(getCtx(), org.eevolution.model.I_PP_Calendar.Table_Name)
+			.getPO(getPP_Calendar_ID(), get_TrxName());	}
+
+	/** Set Operational Calendar.
+		@param PP_Calendar_ID 
+		Operational Period, allows to define the periods for the Operational Calendar
+	  */
+	public void setPP_Calendar_ID (int PP_Calendar_ID)
+	{
+		if (PP_Calendar_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PP_Calendar_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PP_Calendar_ID, Integer.valueOf(PP_Calendar_ID));
+	}
+
+	/** Get Operational Calendar.
+		@return Operational Period, allows to define the periods for the Operational Calendar
+	  */
+	public int getPP_Calendar_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Calendar_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.eevolution.model.I_PP_PeriodDefinition getPP_PeriodDefinition() throws RuntimeException
+    {
+		return (org.eevolution.model.I_PP_PeriodDefinition)MTable.get(getCtx(), org.eevolution.model.I_PP_PeriodDefinition.Table_Name)
+			.getPO(getPP_PeriodDefinition_ID(), get_TrxName());	}
+
+	/** Set Period Definition.
+		@param PP_PeriodDefinition_ID 
+		Period Definition, allows to define time cycles for the Operational Calendar
+	  */
+	public void setPP_PeriodDefinition_ID (int PP_PeriodDefinition_ID)
+	{
+		if (PP_PeriodDefinition_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PP_PeriodDefinition_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PP_PeriodDefinition_ID, Integer.valueOf(PP_PeriodDefinition_ID));
+	}
+
+	/** Get Period Definition.
+		@return Period Definition, allows to define time cycles for the Operational Calendar
+	  */
+	public int getPP_PeriodDefinition_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PP_PeriodDefinition_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Processed.
+		@param Processed 
+		The document has been processed
+	  */
+	public void setProcessed (boolean Processed)
+	{
+		set_Value (COLUMNNAME_Processed, Boolean.valueOf(Processed));
+	}
+
+	/** Get Processed.
+		@return The document has been processed
+	  */
+	public boolean isProcessed () 
+	{
+		Object oo = get_Value(COLUMNNAME_Processed);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Processed On.
+		@param ProcessedOn 
+		The date+time (expressed in decimal format) when the document has been processed
+	  */
+	public void setProcessedOn (BigDecimal ProcessedOn)
+	{
+		set_Value (COLUMNNAME_ProcessedOn, ProcessedOn);
+	}
+
+	/** Get Processed On.
+		@return The date+time (expressed in decimal format) when the document has been processed
+	  */
+	public BigDecimal getProcessedOn () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ProcessedOn);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
 
 	/** Set Process Now.
 		@param Processing Process Now	  */

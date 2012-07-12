@@ -14,23 +14,24 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
-package org.compiere.model;
+package org.eevolution.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for M_ForecastLine
+/** Generated Interface for PP_ForecastRunLine
  *  @author Adempiere (generated) 
  *  @version Release 3.7.1RC
  */
-public interface I_M_ForecastLine 
+public interface I_PP_ForecastRunLine 
 {
 
-    /** TableName=M_ForecastLine */
-    public static final String Table_Name = "M_ForecastLine";
+    /** TableName=PP_ForecastRunLine */
+    public static final String Table_Name = "PP_ForecastRunLine";
 
-    /** AD_Table_ID=722 */
+    /** AD_Table_ID=1000011 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -62,20 +63,20 @@ public interface I_M_ForecastLine
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_Period_ID */
-    public static final String COLUMNNAME_C_Period_ID = "C_Period_ID";
+    /** Column name C_SalesHistory_ID */
+    public static final String COLUMNNAME_C_SalesHistory_ID = "C_SalesHistory_ID";
 
-	/** Set Period.
-	  * Period of the Calendar
+	/** Set Sales History.
+	  * Sales History for statistics and forecast
 	  */
-	public void setC_Period_ID (int C_Period_ID);
+	public void setC_SalesHistory_ID (int C_SalesHistory_ID);
 
-	/** Get Period.
-	  * Period of the Calendar
+	/** Get Sales History.
+	  * Sales History for statistics and forecast
 	  */
-	public int getC_Period_ID();
+	public int getC_SalesHistory_ID();
 
-	public org.compiere.model.I_C_Period getC_Period() throws RuntimeException;
+	public org.eevolution.model.I_C_SalesHistory getC_SalesHistory() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -93,19 +94,6 @@ public interface I_M_ForecastLine
 	  */
 	public int getCreatedBy();
 
-    /** Column name DatePromised */
-    public static final String COLUMNNAME_DatePromised = "DatePromised";
-
-	/** Set Date Promised.
-	  * Date Order was promised
-	  */
-	public void setDatePromised (Timestamp DatePromised);
-
-	/** Get Date Promised.
-	  * Date Order was promised
-	  */
-	public Timestamp getDatePromised();
-
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -119,63 +107,48 @@ public interface I_M_ForecastLine
 	  */
 	public boolean isActive();
 
-    /** Column name M_ForecastLine_ID */
-    public static final String COLUMNNAME_M_ForecastLine_ID = "M_ForecastLine_ID";
+    /** Column name PP_ForecastRunDetail_ID */
+    public static final String COLUMNNAME_PP_ForecastRunDetail_ID = "PP_ForecastRunDetail_ID";
 
-	/** Set Forecast Line.
-	  * Forecast Line
+	/** Set Forecast Run Detail.
+	  * Contains the forecasting calculation results based on forecast definition.
 	  */
-	public void setM_ForecastLine_ID (int M_ForecastLine_ID);
+	public void setPP_ForecastRunDetail_ID (int PP_ForecastRunDetail_ID);
 
-	/** Get Forecast Line.
-	  * Forecast Line
+	/** Get Forecast Run Detail.
+	  * Contains the forecasting calculation results based on forecast definition.
 	  */
-	public int getM_ForecastLine_ID();
+	public int getPP_ForecastRunDetail_ID();
 
-    /** Column name M_Forecast_ID */
-    public static final String COLUMNNAME_M_Forecast_ID = "M_Forecast_ID";
+	public org.eevolution.model.I_PP_ForecastRunDetail getPP_ForecastRunDetail() throws RuntimeException;
 
-	/** Set Forecast.
-	  * Material Forecast
+    /** Column name PP_ForecastRunLine_ID */
+    public static final String COLUMNNAME_PP_ForecastRunLine_ID = "PP_ForecastRunLine_ID";
+
+	/** Set Forecast Run Line.
+	  * Contains the forecasting calculation results based on forecast definition.
 	  */
-	public void setM_Forecast_ID (int M_Forecast_ID);
+	public void setPP_ForecastRunLine_ID (int PP_ForecastRunLine_ID);
 
-	/** Get Forecast.
-	  * Material Forecast
+	/** Get Forecast Run Line.
+	  * Contains the forecasting calculation results based on forecast definition.
 	  */
-	public int getM_Forecast_ID();
+	public int getPP_ForecastRunLine_ID();
 
-	public org.compiere.model.I_M_Forecast getM_Forecast() throws RuntimeException;
+    /** Column name PP_ForecastRun_ID */
+    public static final String COLUMNNAME_PP_ForecastRun_ID = "PP_ForecastRun_ID";
 
-    /** Column name M_Product_ID */
-    public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
-
-	/** Set Product.
-	  * Product, Service, Item
+	/** Set Forecast Run.
+	  * Create the forecast simulation based on the forecast definition
 	  */
-	public void setM_Product_ID (int M_Product_ID);
+	public void setPP_ForecastRun_ID (int PP_ForecastRun_ID);
 
-	/** Get Product.
-	  * Product, Service, Item
+	/** Get Forecast Run.
+	  * Create the forecast simulation based on the forecast definition
 	  */
-	public int getM_Product_ID();
+	public int getPP_ForecastRun_ID();
 
-	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
-
-    /** Column name M_Warehouse_ID */
-    public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
-
-	/** Set Warehouse.
-	  * Storage Warehouse and Service Point
-	  */
-	public void setM_Warehouse_ID (int M_Warehouse_ID);
-
-	/** Get Warehouse.
-	  * Storage Warehouse and Service Point
-	  */
-	public int getM_Warehouse_ID();
-
-	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
+	public org.eevolution.model.I_PP_ForecastRun getPP_ForecastRun() throws RuntimeException;
 
     /** Column name PP_Period_ID */
     public static final String COLUMNNAME_PP_Period_ID = "PP_Period_ID";
@@ -192,44 +165,18 @@ public interface I_M_ForecastLine
 
 	public org.eevolution.model.I_PP_Period getPP_Period() throws RuntimeException;
 
-    /** Column name Qty */
-    public static final String COLUMNNAME_Qty = "Qty";
+    /** Column name QtyInvoiced */
+    public static final String COLUMNNAME_QtyInvoiced = "QtyInvoiced";
 
-	/** Set Quantity.
-	  * Quantity
+	/** Set Quantity Invoiced.
+	  * Invoiced Quantity
 	  */
-	public void setQty (BigDecimal Qty);
+	public void setQtyInvoiced (BigDecimal QtyInvoiced);
 
-	/** Get Quantity.
-	  * Quantity
+	/** Get Quantity Invoiced.
+	  * Invoiced Quantity
 	  */
-	public BigDecimal getQty();
-
-    /** Column name QtyCalculated */
-    public static final String COLUMNNAME_QtyCalculated = "QtyCalculated";
-
-	/** Set Calculated Quantity.
-	  * Calculated Quantity
-	  */
-	public void setQtyCalculated (BigDecimal QtyCalculated);
-
-	/** Get Calculated Quantity.
-	  * Calculated Quantity
-	  */
-	public BigDecimal getQtyCalculated();
-
-    /** Column name SalesRep_ID */
-    public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";
-
-	/** Set Sales Representative.
-	  * Sales Representative or Company Agent
-	  */
-	public void setSalesRep_ID (int SalesRep_ID);
-
-	/** Get Sales Representative.
-	  * Sales Representative or Company Agent
-	  */
-	public int getSalesRep_ID();
+	public BigDecimal getQtyInvoiced();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

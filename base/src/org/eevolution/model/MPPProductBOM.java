@@ -218,6 +218,7 @@ public class MPPProductBOM extends X_PP_Product_BOM
 			final String whereClause = MPPProductBOMLine.COLUMNNAME_PP_Product_BOM_ID+"=?";
 			this.m_lines = new Query(getCtx(), MPPProductBOMLine.Table_Name, whereClause, get_TrxName())
 											.setParameters(new Object[]{getPP_Product_BOM_ID()})
+											.setClient_ID()
 											.setOnlyActiveRecords(true)
 											.setOrderBy(MPPProductBOMLine.COLUMNNAME_Line)
 											.list();
@@ -264,6 +265,7 @@ public class MPPProductBOM extends X_PP_Product_BOM
 	{
 		int count = new Query(getCtx(), Table_Name, COLUMNNAME_M_Product_ID+"=?", get_TrxName())
 							.setParameters(new Object[]{getM_Product_ID()})
+							.setClient_ID()
 							.setOnlyActiveRecords(true)
 							.count();
 		MProduct product = new MProduct(getCtx(), getM_Product_ID(), get_TrxName());

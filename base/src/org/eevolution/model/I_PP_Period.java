@@ -14,23 +14,24 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
-package org.compiere.model;
+package org.eevolution.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for M_Forecast
+/** Generated Interface for PP_Period
  *  @author Adempiere (generated) 
  *  @version Release 3.7.1RC
  */
-public interface I_M_Forecast 
+public interface I_PP_Period 
 {
 
-    /** TableName=M_Forecast */
-    public static final String Table_Name = "M_Forecast";
+    /** TableName=PP_Period */
+    public static final String Table_Name = "PP_Period";
 
-    /** AD_Table_ID=720 */
+    /** AD_Table_ID=1000004 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -62,36 +63,6 @@ public interface I_M_Forecast
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_Calendar_ID */
-    public static final String COLUMNNAME_C_Calendar_ID = "C_Calendar_ID";
-
-	/** Set Calendar.
-	  * Accounting Calendar Name
-	  */
-	public void setC_Calendar_ID (int C_Calendar_ID);
-
-	/** Get Calendar.
-	  * Accounting Calendar Name
-	  */
-	public int getC_Calendar_ID();
-
-	public org.compiere.model.I_C_Calendar getC_Calendar() throws RuntimeException;
-
-    /** Column name C_Year_ID */
-    public static final String COLUMNNAME_C_Year_ID = "C_Year_ID";
-
-	/** Set Year.
-	  * Calendar Year
-	  */
-	public void setC_Year_ID (int C_Year_ID);
-
-	/** Get Year.
-	  * Calendar Year
-	  */
-	public int getC_Year_ID();
-
-	public org.compiere.model.I_C_Year getC_Year() throws RuntimeException;
-
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -108,31 +79,18 @@ public interface I_M_Forecast
 	  */
 	public int getCreatedBy();
 
-    /** Column name Description */
-    public static final String COLUMNNAME_Description = "Description";
+    /** Column name EndDate */
+    public static final String COLUMNNAME_EndDate = "EndDate";
 
-	/** Set Description.
-	  * Optional short description of the record
+	/** Set End Date.
+	  * Last effective date (inclusive)
 	  */
-	public void setDescription (String Description);
+	public void setEndDate (Timestamp EndDate);
 
-	/** Get Description.
-	  * Optional short description of the record
+	/** Get End Date.
+	  * Last effective date (inclusive)
 	  */
-	public String getDescription();
-
-    /** Column name Help */
-    public static final String COLUMNNAME_Help = "Help";
-
-	/** Set Comment/Help.
-	  * Comment or Hint
-	  */
-	public void setHelp (String Help);
-
-	/** Get Comment/Help.
-	  * Comment or Hint
-	  */
-	public String getHelp();
+	public Timestamp getEndDate();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -147,47 +105,6 @@ public interface I_M_Forecast
 	  */
 	public boolean isActive();
 
-    /** Column name IsDefault */
-    public static final String COLUMNNAME_IsDefault = "IsDefault";
-
-	/** Set Default.
-	  * Default value
-	  */
-	public void setIsDefault (boolean IsDefault);
-
-	/** Get Default.
-	  * Default value
-	  */
-	public boolean isDefault();
-
-    /** Column name M_Forecast_ID */
-    public static final String COLUMNNAME_M_Forecast_ID = "M_Forecast_ID";
-
-	/** Set Forecast.
-	  * Material Forecast
-	  */
-	public void setM_Forecast_ID (int M_Forecast_ID);
-
-	/** Get Forecast.
-	  * Material Forecast
-	  */
-	public int getM_Forecast_ID();
-
-    /** Column name M_PriceList_ID */
-    public static final String COLUMNNAME_M_PriceList_ID = "M_PriceList_ID";
-
-	/** Set Price List.
-	  * Unique identifier of a Price List
-	  */
-	public void setM_PriceList_ID (int M_PriceList_ID);
-
-	/** Get Price List.
-	  * Unique identifier of a Price List
-	  */
-	public int getM_PriceList_ID();
-
-	public org.compiere.model.I_M_PriceList getM_PriceList() throws RuntimeException;
-
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
 
@@ -200,21 +117,6 @@ public interface I_M_Forecast
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
-
-    /** Column name PP_Calendar_ID */
-    public static final String COLUMNNAME_PP_Calendar_ID = "PP_Calendar_ID";
-
-	/** Set Operational Calendar.
-	  * Operational Period, allows to define the periods for the Operational Calendar
-	  */
-	public void setPP_Calendar_ID (int PP_Calendar_ID);
-
-	/** Get Operational Calendar.
-	  * Operational Period, allows to define the periods for the Operational Calendar
-	  */
-	public int getPP_Calendar_ID();
-
-	public org.eevolution.model.I_PP_Calendar getPP_Calendar() throws RuntimeException;
 
     /** Column name PP_PeriodDefinition_ID */
     public static final String COLUMNNAME_PP_PeriodDefinition_ID = "PP_PeriodDefinition_ID";
@@ -231,40 +133,44 @@ public interface I_M_Forecast
 
 	public org.eevolution.model.I_PP_PeriodDefinition getPP_PeriodDefinition() throws RuntimeException;
 
-    /** Column name Processed */
-    public static final String COLUMNNAME_Processed = "Processed";
+    /** Column name PP_Period_ID */
+    public static final String COLUMNNAME_PP_Period_ID = "PP_Period_ID";
 
-	/** Set Processed.
-	  * The document has been processed
+	/** Set Operational Period.
+	  * Forecast Definition Periods.
 	  */
-	public void setProcessed (boolean Processed);
+	public void setPP_Period_ID (int PP_Period_ID);
 
-	/** Get Processed.
-	  * The document has been processed
+	/** Get Operational Period.
+	  * Forecast Definition Periods.
 	  */
-	public boolean isProcessed();
+	public int getPP_Period_ID();
 
-    /** Column name ProcessedOn */
-    public static final String COLUMNNAME_ProcessedOn = "ProcessedOn";
+    /** Column name PeriodNo */
+    public static final String COLUMNNAME_PeriodNo = "PeriodNo";
 
-	/** Set Processed On.
-	  * The date+time (expressed in decimal format) when the document has been processed
+	/** Set Period No.
+	  * Unique Period Number
 	  */
-	public void setProcessedOn (BigDecimal ProcessedOn);
+	public void setPeriodNo (int PeriodNo);
 
-	/** Get Processed On.
-	  * The date+time (expressed in decimal format) when the document has been processed
+	/** Get Period No.
+	  * Unique Period Number
 	  */
-	public BigDecimal getProcessedOn();
+	public int getPeriodNo();
 
-    /** Column name Processing */
-    public static final String COLUMNNAME_Processing = "Processing";
+    /** Column name StartDate */
+    public static final String COLUMNNAME_StartDate = "StartDate";
 
-	/** Set Process Now	  */
-	public void setProcessing (boolean Processing);
+	/** Set Start Date.
+	  * First effective day (inclusive)
+	  */
+	public void setStartDate (Timestamp StartDate);
 
-	/** Get Process Now	  */
-	public boolean isProcessing();
+	/** Get Start Date.
+	  * First effective day (inclusive)
+	  */
+	public Timestamp getStartDate();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

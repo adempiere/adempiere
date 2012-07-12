@@ -1,3 +1,5 @@
+DROP  VIEW RV_M_Forecast_Period ;
+DROP  VIEW RV_M_Forecast;
 CREATE OR REPLACE VIEW RV_M_Forecast AS
 SELECT
 f.AD_Client_ID ,
@@ -29,3 +31,19 @@ fl.QtyCalculated,
 	INNER JOIN M_ForecastLine fl ON (f.M_Forecast_ID = fl.M_Forecast_ID)
 	INNER JOIN M_Product p ON (p.M_Product_ID=fl.M_Product_ID)
 	INNER JOIN M_PriceList pl ON (pl.M_PriceList_ID=f.M_PriceList_ID);
+
+CREATE OR REPLACE VIEW RV_M_Forecast_Period AS
+SELECT AD_Client_ID ,
+AD_Org_ID,
+M_Forecast_ID ,
+MAX(Name) AS Name,
+PP_Calendar_ID ,
+PP_PeriodDefinition_ID ,
+PP_Period_ID,
+M_Product_ID ,
+C_UOM_ID,
+SUM(Qty) AS Qty,
+SUM(QtyCalculated) AS QtyCalculated,
+SUM(TotalAmt) AS TotalAmt
+FROM RV_M_Forecast f GROUP BY AD_Client_ID , AD_Org_ID , M_Forecast_ID , M_Product_ID , C_UOM_ID, PP_Calendar_ID , PP_PeriodDefinition_ID  , PP_Period_ID
+;
