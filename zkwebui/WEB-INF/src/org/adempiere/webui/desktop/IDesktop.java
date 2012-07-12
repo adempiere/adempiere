@@ -22,6 +22,7 @@ import org.adempiere.webui.util.ServerPushTemplate;
 import org.adempiere.webui.window.ADWindow;
 import org.compiere.model.MQuery;
 import org.compiere.util.WebDoc;
+import org.eevolution.form.Browser;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Page;
 
@@ -141,7 +142,11 @@ public interface IDesktop extends UIPart {
      */
 	public ADForm openForm(int formId);
 
-	public void openSmartBrowser(int AD_Browse_ID);
+	/**
+	 * 
+	 * @param AD_Browse_ID
+	 */
+	public void openBrowse(int AD_Browse_ID);
 	
 	/**
 	 *

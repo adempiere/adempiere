@@ -28,16 +28,18 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyVetoException;
 import java.beans.VetoableChangeListener;
+import java.io.File;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ChangeEvent;
@@ -46,7 +48,9 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.TableModel;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.model.MBrowse;
 import org.adempiere.model.MBrowseField;
 import org.compiere.Adempiere;
@@ -60,24 +64,20 @@ import org.compiere.apps.ProcessCtl;
 import org.compiere.apps.ProcessParameterPanel;
 import org.compiere.apps.StatusBar;
 import org.compiere.apps.search.Info_Column;
-import org.compiere.grid.ed.VCheckBox;
-import org.compiere.grid.ed.VDate;
-import org.compiere.grid.ed.VLookup;
-import org.compiere.grid.ed.VNumber;
-import org.compiere.grid.ed.VString;
+import org.compiere.grid.ed.VEditor;
+import org.compiere.grid.ed.VEditorFactory;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.MiniTable;
-import org.compiere.model.MLookup;
+import org.compiere.model.GridField;
+import org.compiere.model.GridFieldVO;
 import org.compiere.model.MPInstance;
 import org.compiere.model.MProcess;
 import org.compiere.model.MRole;
-import org.compiere.model.M_Element;
 import org.compiere.process.ProcessInfo;
 import org.compiere.swing.CFrame;
 import org.compiere.swing.CLabel;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.DB;
-import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.KeyNamePair;
@@ -100,6 +100,24 @@ public class VBrowser extends Browser implements ActionListener,
 	 * 
 	 */
 	private static final long serialVersionUID = -1022167449752851083L;
+	/**
+	 * get Browse
+	 * @param browse_ID
+	 */
+	public static CFrame openBrowse(int browse_ID) {
+		
+		MBrowse browse = new MBrowse(Env.getCtx(), browse_ID , null);
+		boolean modal = true;
+		int WindowNo = 0;
+		String value = "";
+		String keyColumn = "";
+		boolean multiSelection = true;
+		String whereClause = "";
+		CFrame ff = new CFrame();		
+		return new VBrowser(ff, modal , WindowNo, value, browse, keyColumn,multiSelection, whereClause)
+		.getFrame();
+		
+	}
 
 	/**
 	 * Detail Protected Constructor.
@@ -126,9 +144,8 @@ public class VBrowser extends Browser implements ActionListener,
 			String whereClause) {
 		super(modal, WindowNo, value, browse, keyColumn, multiSelection,
 				whereClause);
-
-		m_frame.setTitle(m_Browse.getName());
-
+		
+		m_frame.setTitle(browse.getTitle());
 		initComponents();
 		statInit();
 		//p_loadedOK = initBrowser();
@@ -150,65 +167,6 @@ public class VBrowser extends Browser implements ActionListener,
 
 	} // InfoGeneral
 
-	/** Smart Browse */
-	// private MBrowse m_Browse = null;
-	/** Smart View */
-	// private MView m_View = null;
-
-	// private static final int WINDOW_WIDTH = 1024; // width of the window
-
-	/** Table */
-	// protected MiniTable detail = new MiniTable();
-
-	/** String Array of Column Info */
-	// private Info_Column[] m_generalLayout;
-	/** list of query columns */
-	// private ArrayList<String> m_queryColumns = new ArrayList<String>();
-	/** list of query columns (SQL) */
-	// private ArrayList<String> m_queryColumnsSql = new ArrayList<String>();
-
-	/** Parameters */
-	// private ArrayList <String> m_parameters;
-	/** Parameters Values */
-	// private ArrayList <Object> m_values;
-	/** MProcess process */
-	// private MProcess m_process = null;
-	/** ProcessInfo */
-	// ProcessInfo m_pi = null;
-
-	/** Loading success indicator */
-	// protected boolean p_loadedOK = false;
-	/** Model Index of Key Column */
-	// private int m_keyColumnIndex = -1;
-	/** OK pressed */
-	// private boolean m_ok = false;
-	/** Cancel pressed - need to differentiate between OK - Cancel - Exit */
-	// private boolean m_cancel = false;
-	/** Result IDs */
-	// private ArrayList<Integer> m_results = new ArrayList<Integer>(3);
-	/** Logger */
-	// protected CLogger log = CLogger.getCLogger(getClass());
-	/** Layout of Grid */
-	// protected Info_Column[] p_layout;
-	// private String m_sqlMain;
-	/** Count SQL Statement */
-	// private String m_sqlCount;
-	/** Order By Clause */
-	// private String m_sqlOrder;
-
-	/** Master (owning) Window */
-	// protected int p_WindowNo;
-	/** Table Name */
-	// protected String p_FromClause;
-	/** Key Column Name */
-	// protected String p_keyColumn;
-	/** Enable more than one selection */
-	// protected boolean p_multiSelection;
-	/** Initial WHERE Clause */
-	// protected String p_whereClause = "";
-	/** Window Width */
-	// protected static final int INFO_WIDTH = 800;
-
 	/** Process Parameters Panel */
 	private ProcessParameterPanel parameterPanel;
 	/** StatusBar **/
@@ -226,17 +184,15 @@ public class VBrowser extends Browser implements ActionListener,
 		int col = 2;
 		int row = 0;
 		for (MBrowseField field : m_Browse.getCriteriaFields()) {
-			M_Element element = new M_Element(m_Browse.getCtx(),
-					field.getAD_Element_ID(), null);
-			String title = Msg.translate(Env.getCtx(), element.getColumnName());
-			String name = field.getAD_View_Column().getAD_Column()
-					.getColumnName();
-			addComponent(field, row, cols, field.getName(), title);
+
+			String name = field.getAD_View_Column().getColumnName();
+			String title = field.getName();
+			addComponent(field, row, cols, name , title);
 			cols = cols + col;
 
 			if (field.isRange()) {
 				title = Msg.getMsg(Env.getCtx(), "To");
-				addComponent(field, row, cols, field.getName() + "_To", title);
+				addComponent(field, row, cols, name + "_To", title);
 				cols = cols + col;
 			}
 
@@ -249,73 +205,34 @@ public class VBrowser extends Browser implements ActionListener,
 
 	private void addComponent(MBrowseField field, int row, int col,
 			String name, String title) {
-		Component data = null;
+		
+		GridFieldVO voBase = GridFieldVO.createStdField(field.getCtx(), p_WindowNo, 0, 0, 0, false, false, false);
+		
+		voBase.AD_Column_ID = field.getAD_View_Column().getAD_Column_ID();
+		voBase.AD_Table_ID = field.getAD_View_Column().getAD_Column().getAD_Table_ID();
+		voBase.ColumnName = field.getAD_View_Column().getAD_Column().getColumnName();
+		voBase.displayType = field.getAD_Reference_ID();
+		voBase.AD_Reference_Value_ID = field.getAD_Reference_Value_ID();
+		voBase.IsMandatory = field.isMandatory();
+		voBase.IsAlwaysUpdateable = false;
+		voBase.IsKey = field.isKey();
+		voBase.isRange = field.isRange();
+		voBase.IsReadOnly = false;
+		voBase.IsUpdateable = true;
+		voBase.IsDisplayed = true;
+		voBase.Description = field.getDescription();
+		voBase.Header = title;
+				
+		GridField gField = new GridField (GridFieldVO.createParameter(voBase));
+		gField.lookupLoadComplete();
+		
+		VEditor editor = VEditorFactory.getEditor(gField, false);
+		editor.addVetoableChangeListener(this);
 		CLabel label = new CLabel(title);
 		label.setName("L_" + name);
-
-		if (DisplayType.YesNo == field.getAD_Reference_ID()) {
-			data = new VCheckBox();
-			data.setName(name);
-			label.setLabelFor(data);
-		} else if (DisplayType.String == field.getAD_Reference_ID()) {
-			data = new VString(name, field.isMandatory(), false, true, 30, 30,
-					"", null);
-			data.setName(name);
-			label.setLabelFor(data);
-		} else if (DisplayType.Number == field.getAD_Reference_ID()
-				|| DisplayType.Quantity == field.getAD_Reference_ID()
-				|| DisplayType.CostPrice == field.getAD_Reference_ID()
-				|| DisplayType.Integer == field.getAD_Reference_ID()
-				|| DisplayType.Amount == field.getAD_Reference_ID()) {
-			data = new VNumber(name, field.isMandatory(), false, true,
-					field.getAD_Reference_ID(), title);
-			data.setName(name);
-			label.setLabelFor(data);
-		} else if (DisplayType.Date == field.getAD_Reference_ID()
-				|| DisplayType.DateTime == field.getAD_Reference_ID()) {
-			data = new VDate();
-			data.setName(name);
-			label.setLabelFor(data);
-		} else if (DisplayType.TableDir == field.getAD_Reference_ID()
-				|| DisplayType.Table == field.getAD_Reference_ID()
-				|| DisplayType.ID == field.getAD_Reference_ID()
-				|| DisplayType.List == field.getAD_Reference_ID()
-				|| DisplayType.Search == field.getAD_Reference_ID()) {
-			data = (Component) getLookup(field);
-			label.setLabelFor(data);
-		}
-
 		searchPanel.add(label, new ALayoutConstraint(row, col));
-		searchPanel.add(data, new ALayoutConstraint(row, col + 1));
-
-	}
-
-	private Component getLookup(MBrowseField field) {
-		try {
-
-			/*
-			 * MViewColumn column = field.getAD_View_Column(); //String name =
-			 * field.getName()//column.getAD_Column().getColumnName();
-			 * 
-			 * Language language = Language.getLoginLanguage();
-			 * 
-			 * 
-			 * MLookup dataL = MLookupFactory.get(m_Browse.getCtx(),
-			 * p_WindowNo,column.getAD_Column_ID(), field.getAD_Reference_ID(),
-			 * language, column.getAD_Column().getColumnName() ,
-			 * field.getAD_Reference_Value_ID(), false,"");
-			 */
-
-			MLookup dataL = getMLookup(field);
-			VLookup data = new VLookup(field.getAD_View_Column().getAD_Column()
-					.getColumnName(), field.isMandatory(), false, true, dataL);
-			data.addVetoableChangeListener(this);
-			data.setName(field.getName());
-			return data;
-		} catch (Exception e) {
-			log.log(Level.SEVERE, "Browser.init", e);
-		}
-		return null;
+		searchPanel.add((Component)editor, new ALayoutConstraint(row, col + 1));
+		setParameter(name, editor);
 	}
 
 	/**
@@ -360,9 +277,7 @@ public class VBrowser extends Browser implements ActionListener,
 	 * @return true if success
 	 */
 	private boolean initBrowserTable() {
-		// Set Title
-		String title = Msg.translate(Env.getCtx(), m_Browse.getName());
-		m_frame.setTitle(m_frame.getTitle() + " " + title);
+		
 		ArrayList<Info_Column> list = initBrowserData();
 		if (list.size() == 0) {
 			ADialog.error(p_WindowNo, m_frame, "Error", "No Browse Fields");
@@ -379,70 +294,7 @@ public class VBrowser extends Browser implements ActionListener,
 		return true;
 	} // initInfoTable
 
-	/**
-	 * set Parameteres and Values
-	 */
-	private boolean setParameters() {
-		/** Parameters **/
-		m_parameters = new ArrayList();
-		m_values = new ArrayList();
-
-		StringBuffer sb = new StringBuffer("");
-
-		for (Component c : searchPanel.getComponents()) {
-			String name = c.getName();
-			if (name == null || name.startsWith("L_"))
-				continue;
-			MBrowseField field = m_Browse.getField(name);
-			if (name.endsWith("_To"))
-				field = m_Browse
-						.getField(name.substring(0, name.indexOf("_To")));
-			if (field == null)
-				continue;
-
-			M_Element element = new M_Element(m_Browse.getCtx(),
-					field.getAD_Element_ID(), null);
-			String title = Msg.translate(Env.getCtx(), element.getColumnName());
-
-			if (c instanceof VLookup) {
-				VLookup component = (VLookup) c;
-				addParameter(component.getName(), component.getValue());
-				if (field.isMandatory() && component.getValue() == null)
-					sb.append(title + ", ");
-
-				continue;
-			}
-			if (c instanceof VString) {
-				VString component = (VString) c;
-				addParameter(component.getName(), component.getValue());
-				if (field.isMandatory() && component.getValue() == null)
-					sb.append(title + ", ");
-				continue;
-			}
-			if (c instanceof VCheckBox) {
-				VCheckBox component = (VCheckBox) c;
-				addParameter(component.getName(), component.getValue());
-				if (field.isMandatory() && component.getValue() == null)
-					sb.append(title + ", ");
-				continue;
-			}
-			if (c instanceof VDate) {
-				VDate component = (VDate) c;
-				addParameter(component.getName(), component.getValue());
-				if (field.isMandatory() && component.getValue() == null)
-					sb.append(title + ", ");
-				continue;
-			}
-		}
-
-		if (sb.length() != 0) {
-			ADialog.error(p_WindowNo, m_frame.getContentPane(),
-					"FillMandatory", sb.toString());
-			return false;
-		}
-
-		return true;
-	}
+	
 	/**
 	 * Set Status Line
 	 * 
@@ -471,9 +323,6 @@ public class VBrowser extends Browser implements ActionListener,
 	 */
 	protected void executeQuery() {
 
-		//if (!setParameters())
-		//	;// return;
-		// ignore when running
 		if (m_worker != null && m_worker.isAlive())
 			return;
 		//
@@ -490,6 +339,7 @@ public class VBrowser extends Browser implements ActionListener,
 	 * Zoom
 	 */
 	private void cmd_zoom() {
+		
 		m_frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		Integer record_ID = getSelectedRowKey();
 
@@ -497,7 +347,25 @@ public class VBrowser extends Browser implements ActionListener,
 			return;
 		AEnv.zoom(m_View.getParentViewDefinition().getAD_Table_ID(), record_ID);
 		m_frame.setCursor(Cursor.getDefaultCursor());
+		bZoom.setSelected(false);
 	} // cmd_zoom
+	
+	/**
+	 * Show a list to select one or more items to delete.
+	 */
+	private void cmd_deleteSelection(){
+		m_frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		if (ADialog.ask(p_WindowNo, m_frame, "DeleteSelection"))
+		{	
+			int records = deleteSelection();
+			setStatusLine(Msg.getMsg(Env.getCtx(), "Deleted") + records, false);
+		}	
+		m_frame.setCursor(Cursor.getDefaultCursor());
+		bDelete.setSelected(false);
+		
+	}//cmd_deleteSelection
+
+
 
 	/**************************************************************************
 	 * Prepare Table, Construct SQL (m_m_sqlMain, m_sqlAdd) and size Window
@@ -625,7 +493,6 @@ public class VBrowser extends Browser implements ActionListener,
 	 * Get the keys of selected row/s based on layout defined in prepareTable
 	 * 
 	 * @return IDs if selection present
-	 * @author ashley
 	 */
 	public ArrayList<Integer> getSelectedRowKeys() {
 		ArrayList<Integer> selectedDataList = new ArrayList<Integer>();
@@ -662,6 +529,49 @@ public class VBrowser extends Browser implements ActionListener,
 
 		return selectedDataList;
 	} // getSelectedRowKeys
+	
+	
+	/**
+	 * save result values
+	 */
+	protected void saveResultSelection() {
+		if (m_keyColumnIndex == -1) {
+			return;
+		}
+
+		if (p_multiSelection) {
+			int rows = detail.getRowCount();
+			m_values = new LinkedHashMap<Integer,LinkedHashMap<String,Object>>();
+			for (int row = 0; row < rows; row++) {
+				//Find the IDColumn Key
+				Object data = detail.getModel().getValueAt(row,
+						m_keyColumnIndex);
+				if (data instanceof IDColumn) {
+					IDColumn dataColumn = (IDColumn) data;
+					if (dataColumn.isSelected()) {
+						//selectedDataList.add(dataColumn.getRecord_ID());
+						LinkedHashMap<String, Object> values = new LinkedHashMap<String, Object>();
+						int col = 0;
+						for (Info_Column column : m_generalLayout)
+						{	
+							if(!column.isReadOnly())
+							{
+								String columnName = column.getColSQL().substring(column.getColSQL().indexOf("AS ") + 3);
+								Object value = detail.getModel().getValueAt(row,col);
+								values.put(columnName, value);
+								continue;
+							}
+							col ++;
+						}
+						if(values.size() > 0)
+						{
+							m_values.put(dataColumn.getRecord_ID(), values);
+						}
+					}
+				}
+			}
+		}
+	}
 
 	/**
 	 * Dispose and save Selection
@@ -681,11 +591,16 @@ public class VBrowser extends Browser implements ActionListener,
 			log.config("Worker alive=" + m_worker.isAlive());
 		}
 		m_worker = null;
-		//
+		
+		saveResultSelection();
 		saveSelection();
+		
+		
 		m_frame.removeAll();
 		m_frame.dispose();
 
+		
+				
 		if (m_Browse.getAD_Process_ID() <= 0)
 			return;
 
@@ -695,6 +610,9 @@ public class VBrowser extends Browser implements ActionListener,
 
 		DB.createT_Selection(instance.getAD_PInstance_ID(), getSelectedKeys(),
 				null);
+		//Save Values Browse Field Update
+		createT_Selection_Browse(instance.getAD_PInstance_ID());
+		
 		// call process
 		m_pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
 		parameterPanel.saveParameters();
@@ -702,7 +620,6 @@ public class VBrowser extends Browser implements ActionListener,
 		ProcessCtl worker = new ProcessCtl(this, Env.getWindowNo(m_frame),
 				m_pi, null);
 		worker.start(); // complete tasks in unlockUI /
-						// generateShipments_complete
 	} // dispose
 
 	private void setupToolBar() {
@@ -722,7 +639,8 @@ public class VBrowser extends Browser implements ActionListener,
 		bDelete = new javax.swing.JButton(a);
 		a = new AppsAction("Find", null, "Find");
 		bFind = new javax.swing.JButton(a);
-
+		a = new AppsAction("SelectAll", null,Msg.getMsg(Env.getCtx(),"SelectAll"));
+		bSelectAll = new javax.swing.JButton(a);
 	}
 
 	/**
@@ -736,11 +654,11 @@ public class VBrowser extends Browser implements ActionListener,
 	private void initComponents() {
 
 		toolsBar = new javax.swing.JToolBar();
-		bPrint = new javax.swing.JButton();
+		//bPrint = new javax.swing.JButton();
 		bZoom = new javax.swing.JToggleButton();
 		bExport = new javax.swing.JButton();
 		bDelete = new javax.swing.JButton();
-		bFind = new javax.swing.JButton();
+		//bFind = new javax.swing.JButton();
 		tabsPanel = new javax.swing.JTabbedPane();
 		searchTab = new javax.swing.JPanel();
 		topPanel = new javax.swing.JPanel();
@@ -759,8 +677,56 @@ public class VBrowser extends Browser implements ActionListener,
 		setupToolBar();
 
 		toolsBar.setRollover(true);
+		
+		bSelectAll.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+		bSelectAll.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+		bSelectAll.setEnabled(false);
 
-		bPrint.setText("Print");
+		bSelectAll.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				
+				int topIndex = detail.getShowTotals() ? 2 : 1;
+
+				ListSelectionModel selectionModel = detail
+						.getSelectionModel();
+				selectionModel.setSelectionInterval(0, detail.getRowCount()
+						- topIndex);
+				
+				int rows = detail.getRowCount();
+				TableModel model =  detail.getModel();
+				
+				if (!isAllSelected) {
+					
+					for (int row = 0; row <= rows - topIndex; row++) {
+						Object data = model.getValueAt(row,
+								m_keyColumnIndex);
+						if (data instanceof IDColumn) {
+							IDColumn dataColumn = (IDColumn) data;
+							dataColumn.setSelected(true);
+							model.setValueAt(dataColumn, row,m_keyColumnIndex);
+						}
+					}
+
+				} else {
+					for (int row = 0; row <= rows - topIndex; row++) {
+						Object data = model.getValueAt(row,
+								m_keyColumnIndex);
+						if (data instanceof IDColumn) {
+							IDColumn dataColumn = (IDColumn) data;
+							dataColumn.setSelected(false);
+							model.setValueAt(dataColumn, row, m_keyColumnIndex);
+						}
+					}
+					detail.clearSelection();
+				}
+				isAllSelected = !isAllSelected;
+			}
+		});
+
+		toolsBar.add(bSelectAll);
+		
+		//TODO: victor.perez@e-evolution.com, Implement Print functionality
+		/*bPrint.setText("Print");
 		bPrint.setFocusable(false);
 		bPrint.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 		bPrint.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -769,12 +735,13 @@ public class VBrowser extends Browser implements ActionListener,
 				bPrintActionPerformed(evt);
 			}
 		});
-		toolsBar.add(bPrint);
+		toolsBar.add(bPrint);*/
 
-		bZoom.setText("Zoom");
+		bZoom.setText(Msg.getMsg(Env.getCtx(),"Zoom"));
 		bZoom.setFocusable(false);
 		bZoom.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 		bZoom.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+		bZoom.setEnabled(false);
 		bZoom.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				bZoomActionPerformed(evt);
@@ -782,10 +749,11 @@ public class VBrowser extends Browser implements ActionListener,
 		});
 		toolsBar.add(bZoom);
 
-		bExport.setText("Export");
+		bExport.setText(Msg.getMsg(Env.getCtx(),("Export")));
 		bExport.setFocusable(false);
 		bExport.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 		bExport.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+		bExport.setEnabled(false);
 		bExport.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				bExportActionPerformed(evt);
@@ -793,10 +761,11 @@ public class VBrowser extends Browser implements ActionListener,
 		});
 		toolsBar.add(bExport);
 
-		bDelete.setText("Delete");
+		bDelete.setText(Msg.getMsg(Env.getCtx(),"Delete").replaceAll("[&]",""));
 		bDelete.setFocusable(false);
 		bDelete.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 		bDelete.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+		bDelete.setEnabled(false);
 		bDelete.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				bDeleteActionPerformed(evt);
@@ -804,6 +773,8 @@ public class VBrowser extends Browser implements ActionListener,
 		});
 		toolsBar.add(bDelete);
 
+		//TODO: victor.perez@e-evolution.com, Implement Print functionality
+		/*
 		bFind.setText("Find");
 		bFind.setFocusable(false);
 		bFind.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -813,42 +784,9 @@ public class VBrowser extends Browser implements ActionListener,
 				bFindActionPerformed(evt);
 			}
 		});
-		toolsBar.add(bFind);
+		toolsBar.add(bFind);*/
 
-		AppsAction selectAllAction = new AppsAction("SelectAll", null,
-				"Select All");
-		JButton bSelectAll = new JButton(selectAllAction);
-		bSelectAll.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		bSelectAll.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
-		bSelectAll.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				if (!isAllSelected) {
-					int topIndex = detail.getShowTotals() ? 2 : 1;
-
-					ListSelectionModel selectionModel = detail
-							.getSelectionModel();
-					selectionModel.setSelectionInterval(0, detail.getRowCount()
-							- topIndex);
-
-					int rows = detail.getRowCount();
-					for (int row = 0; row <= rows - topIndex; row++) {
-						Object data = detail.getModel().getValueAt(row,
-								m_keyColumnIndex);
-						if (data instanceof IDColumn) {
-							IDColumn dataColumn = (IDColumn) data;
-							dataColumn.setSelected(true);
-						}
-					}
-
-				} else {
-					detail.clearSelection();
-				}
-				isAllSelected = !isAllSelected;
-			}
-		});
-
-		toolsBar.add(bSelectAll);
 
 		m_frame.getContentPane()
 				.add(toolsBar, java.awt.BorderLayout.PAGE_START);
@@ -860,7 +798,7 @@ public class VBrowser extends Browser implements ActionListener,
 		searchPanel.setLayout(new java.awt.GridBagLayout());
 		topPanel.add(searchPanel, java.awt.BorderLayout.NORTH);
 
-		bSearch.setText("Search");
+		bSearch.setText(Msg.getMsg(Env.getCtx(), "StartSearch"));
 		bSearch.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				bSearchActionPerformed(evt);
@@ -885,7 +823,7 @@ public class VBrowser extends Browser implements ActionListener,
 
 		footPanel.setLayout(new java.awt.BorderLayout());
 
-		bCancel.setText("Cancel");
+		bCancel.setText(Msg.getMsg(Env.getCtx(), "Cancel").replaceAll("[&]",""));
 		bCancel.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				bCancelActionPerformed(evt);
@@ -893,7 +831,7 @@ public class VBrowser extends Browser implements ActionListener,
 		});
 		footButtonPanel.add(bCancel);
 
-		bOk.setText("Ok");
+		bOk.setText(Msg.getMsg(Env.getCtx(), "Ok").replaceAll("[&]",""));
 		bOk.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				bOkActionPerformed(evt);
@@ -908,10 +846,11 @@ public class VBrowser extends Browser implements ActionListener,
 
 		searchTab.add(footPanel, java.awt.BorderLayout.SOUTH);
 
-		tabsPanel.addTab("Search", searchTab);
+		tabsPanel.addTab(Msg.getMsg(Env.getCtx(), "Search"), searchTab);
 
 		graphPanel.setLayout(new java.awt.BorderLayout());
-		tabsPanel.addTab("Graph", graphPanel);
+		//TODO: Create Graph implementation
+		//tabsPanel.addTab("Graph", graphPanel);
 
 		m_frame.getContentPane().add(tabsPanel, java.awt.BorderLayout.CENTER);
 	}// </editor-fold>//GEN-END:initComponents
@@ -931,9 +870,11 @@ public class VBrowser extends Browser implements ActionListener,
 	}
 
 	private void bSearchActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bSearchActionPerformed
-		// TODO add your handling code here:
-		if (!setParameters())
-			;// return;
+		bZoom.setEnabled(true);
+		bSelectAll.setEnabled(true);
+		bExport.setEnabled(true);
+		bDelete.setEnabled(true);
+		
 		p_loadedOK = initBrowser();
 		executeQuery();
 	}// GEN-LAST:event_bSearchActionPerformed
@@ -943,11 +884,19 @@ public class VBrowser extends Browser implements ActionListener,
 	}
 
 	private void bExportActionPerformed(java.awt.event.ActionEvent evt) {
-		// TODO add your handling code here:
+		m_frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		try 
+		{	File file = exportXLS();
+			Env.startBrowser(file.toURI().toString());
+		} catch (Exception e) {
+			throw new AdempiereException("Failed to render report", e);
+		}
+		m_frame.setCursor(Cursor.getDefaultCursor());
+		bExport.setSelected(false);
 	}
 
 	private void bDeleteActionPerformed(java.awt.event.ActionEvent evt) {
-		// TODO add your handling code here:
+		cmd_deleteSelection();
 	}
 
 	private void bPrintActionPerformed(java.awt.event.ActionEvent evt) {
@@ -962,6 +911,7 @@ public class VBrowser extends Browser implements ActionListener,
 	private javax.swing.JButton bOk;
 	private javax.swing.JButton bPrint;
 	private javax.swing.JButton bSearch;
+	private javax.swing.JButton bSelectAll;
 	private javax.swing.JToggleButton bZoom;
 	private javax.swing.JPanel buttonSearchPanel;
 	private javax.swing.JScrollPane centerPanel;
@@ -984,35 +934,19 @@ public class VBrowser extends Browser implements ActionListener,
 	class Worker extends Thread {
 		private PreparedStatement m_pstmt = null;
 		private ResultSet m_rs = null;
+		private String dataSql = null;
 
 		/**
 		 * Do Work (load data)
 		 */
-		public void run() {
-			// setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-			// setStatusLine(Msg.getMsg(Env.getCtx(), "StartSearch"), false);
+		public void run() {			
 			long start = System.currentTimeMillis();
-
+			int no = 0;
+			dataSql = getSQL();
 			// Clear Table
 			detail.setRowCount(0);
-			//
-			String dynWhere = getSQLWhere();
-			StringBuffer sql = new StringBuffer(m_sqlMain);
-			if (dynWhere.length() > 0)
-				sql.append(dynWhere); // includes first AND
-			sql.append(m_sqlOrder);
-			String dataSql = Msg.parseTranslation(Env.getCtx(), sql.toString()); // Variables
-			dataSql = MRole.getDefault().addAccessSQL(dataSql,
-					m_View.getParentEntityAliasName(),
-					MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO);
-			log.finer(dataSql);
-
 			try {
-				m_pstmt = DB.prepareStatement(dataSql, null);
-				if (getParametersValues().size() > 0)
-					DB.setParameters(m_pstmt, getParametersValues());
-
-				setParameters(m_pstmt, false); // no count
+				m_pstmt = getStatement();
 				log.fine("Start query - "
 						+ (System.currentTimeMillis() - start) + "ms");
 				m_rs = m_pstmt.executeQuery();
@@ -1065,7 +999,7 @@ public class VBrowser extends Browser implements ActionListener,
 			}
 			close();
 			//
-			int no = detail.getRowCount();
+			no = detail.getRowCount();
 			log.fine("#" + no + " - " + (System.currentTimeMillis() - start)
 					+ "ms");
 			if (detail.getShowTotals())
@@ -1192,5 +1126,24 @@ public class VBrowser extends Browser implements ActionListener,
 	public void unlockUI(ProcessInfo pi) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public Object getParamenterValue(Object key) {
+			VEditor editor = (VEditor) m_search.get(key);
+			if(editor != null)
+				return editor.getValue();
+			else
+				return null;
+	}
+
+	@Override
+	public ArrayList<Object> getParametersValues() {
+		ArrayList<Object> values = new ArrayList<Object>();
+		for (Entry<Object, Object> entry : m_search.entrySet()) {
+			VEditor editor = (VEditor) entry.getValue();
+			values.add(editor.getValue());
+		}
+		return values;
 	}
 }

@@ -79,11 +79,9 @@ public class MViewDefinition extends X_AD_View_Definition {
 	/**************************************************************************
 	 * MViewDefinition Constructor
 	 * 
-	 * @param ctx
-	 *            context
+	 * @param ctx context
 	 * @param AD_View_Definition_ID
-	 * @param trxName
-	 *            transaction name
+	 * @param trxName transaction name
 	 */
 	public MViewDefinition(Properties ctx, int AD_View_Definition_ID,
 			String trxName) {
@@ -95,8 +93,7 @@ public class MViewDefinition extends X_AD_View_Definition {
 	/**
 	 * MViewDefinition Constructor
 	 * 
-	 * @param ctx
-	 *            context
+	 * @param ctx context
 	 * @param AD_View_Definition_ID
 	 */
 	public MViewDefinition(Properties ctx, int AD_View_Definition_ID) {
@@ -106,20 +103,16 @@ public class MViewDefinition extends X_AD_View_Definition {
 	/**
 	 * Load Constructor
 	 * 
-	 * @param ctx
-	 *            context
-	 * @param rs
-	 *            result set record
-	 * @param trxName
-	 *            transaction
+	 * @param ctx context
+	 * @param rs result set record
+	 * @param trxName transaction
 	 */
 	public MViewDefinition(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
-	} // MAsset
+	} // MViewDefinition
 
 	/**
 	 * String representation
-	 * 
 	 * @return info
 	 */
 	@Override
@@ -131,12 +124,11 @@ public class MViewDefinition extends X_AD_View_Definition {
 
 	/**
 	 * Get Parent View
-	 * 
 	 * @return
 	 */
 	public MView getAD_View() {
 		if (m_view == null) {
-			m_view = (MView) getAD_View();
+			m_view = (MView) super.getAD_View();
 		}
 
 		return m_view;

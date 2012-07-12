@@ -85,9 +85,9 @@ public abstract class AbstractDesktop extends AbstractUIPart implements IDesktop
         {
         	openTask(menu.getAD_Task_ID());
         }
-        else if(menu.getAction().equals("S"))
+        else if(menu.getAction().equals(MMenu.ACTION_SmartBrowse))
         {
-        	openSmartBrowser((Integer)menu.get_Value("AD_Browse_ID"));
+        	openBrowse(menu.getAD_Browse_ID());
         }
         else
         {

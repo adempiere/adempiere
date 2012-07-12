@@ -93,23 +93,14 @@ public abstract class TabbedDesktop extends AbstractDesktop {
 		return form;
 	}
 	
-	public void openSmartBrowser(int AD_Browse_ID)
+	public void openBrowse(int AD_Browse_ID)
 	{
-		
-		MBrowse browse = new MBrowse(Env.getCtx(), AD_Browse_ID , null);
-		boolean modal = true;
-		int WindowNo = 0;
-		String value = "";
-		String keyColumn = "";
-		boolean multiSelection = true;
-		String whereClause = "";
-		
-		CustomForm ff = new WBrowser(modal, WindowNo, value, browse, keyColumn, multiSelection, whereClause).getForm();
-		
+		MBrowse browse = new MBrowse(Env.getCtx() ,AD_Browse_ID, null);
+		CustomForm ff =  WBrowser.openBrowse(AD_Browse_ID);
 		DesktopTabpanel tabPanel = new DesktopTabpanel();
         ff.setParent(tabPanel);
         preOpenNewTab();
-        windowContainer.addWindow(tabPanel, "Browse", true);
+        windowContainer.addWindow(tabPanel, browse.getTitle(), true);
 		
 	}
 

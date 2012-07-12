@@ -93,6 +93,7 @@ import org.compiere.print.AReport;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoUtil;
+import org.compiere.swing.CFrame;
 import org.compiere.swing.CPanel;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogMgt;
@@ -102,6 +103,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Language;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
+import org.eevolution.form.VBrowser;
 
 /**
  *	Main Panel of application window.
@@ -2631,6 +2633,26 @@ public final class APanel extends CPanel
 			pi.setAD_Client_ID (Env.getAD_Client_ID(m_ctx));
 			ff.setProcessInfo(pi);
 			ff.openForm(form_ID);
+			ff.pack();
+			AEnv.showCenterScreen(ff);
+			return;
+		}
+		int browse_ID = pr.getAD_Browse_ID();
+		if (browse_ID != 0 )
+		{
+
+			if (m_curTab.needSave(true, false))
+				if (!cmd_save(true))
+					return;
+
+			String title = vButton.getDescription();
+			if (title == null || title.length() == 0)
+				title = vButton.getName();
+			ProcessInfo pi = new ProcessInfo (title, vButton.getProcess_ID(), table_ID, record_ID);
+			pi.setAD_User_ID (Env.getAD_User_ID(m_ctx));
+			pi.setAD_Client_ID (Env.getAD_Client_ID(m_ctx));
+			CFrame ff = VBrowser.openBrowse(browse_ID);
+			ff.setVisible(true);
 			ff.pack();
 			AEnv.showCenterScreen(ff);
 			return;

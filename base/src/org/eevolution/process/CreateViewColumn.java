@@ -73,6 +73,7 @@ public class CreateViewColumn extends SvrProcess {
 			column.setColumnSQL(join.getTableAlias() + "."
 					+ attr.getColumnName());
 			column.setColumnName(join.getTableAlias().toUpperCase() + "_" + attr.getColumnName());
+			column.setEntityType(join.getAD_View().getEntityType());
 			column.setAD_View_ID(join.getAD_View_ID());
 			column.saveEx();
 			addLog(attr.getColumnName());

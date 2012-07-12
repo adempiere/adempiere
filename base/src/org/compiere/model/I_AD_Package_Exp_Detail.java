@@ -41,6 +41,17 @@ public interface I_AD_Package_Exp_Detail
 
     /** Load Meta Data */
 
+    /** Column name AD_Browse_ID */
+    public static final String COLUMNNAME_AD_Browse_ID = "AD_Browse_ID";
+
+	/** Set Smart Browse	  */
+	public void setAD_Browse_ID (int AD_Browse_ID);
+
+	/** Get Smart Browse	  */
+	public int getAD_Browse_ID();
+
+	public org.adempiere.model.I_AD_Browse getAD_Browse() throws RuntimeException;
+
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -285,6 +296,21 @@ public interface I_AD_Package_Exp_Detail
 	  */
 	public int getAD_Val_Rule_ID();
 
+    /** Column name AD_View_ID */
+    public static final String COLUMNNAME_AD_View_ID = "AD_View_ID";
+
+	/** Set View.
+	  * View allows you to create dynamic views of information from the dictionary application
+	  */
+	public void setAD_View_ID (int AD_View_ID);
+
+	/** Get View.
+	  * View allows you to create dynamic views of information from the dictionary application
+	  */
+	public int getAD_View_ID();
+
+	public org.adempiere.model.I_AD_View getAD_View() throws RuntimeException;
+
     /** Column name AD_Window_ID */
     public static final String COLUMNNAME_AD_Window_ID = "AD_Window_ID";
 
@@ -386,15 +412,6 @@ public interface I_AD_Package_Exp_Detail
 	/** Get Destination_FileName	  */
 	public String getDestination_FileName();
 
-    /** Column name File_Directory */
-    public static final String COLUMNNAME_File_Directory = "File_Directory";
-
-	/** Set File_Directory	  */
-	public void setFile_Directory (String File_Directory);
-
-	/** Get File_Directory	  */
-	public String getFile_Directory();
-
     /** Column name FileName */
     public static final String COLUMNNAME_FileName = "FileName";
 
@@ -407,6 +424,15 @@ public interface I_AD_Package_Exp_Detail
 	  * Name of the local file or URL
 	  */
 	public String getFileName();
+
+    /** Column name File_Directory */
+    public static final String COLUMNNAME_File_Directory = "File_Directory";
+
+	/** Set File_Directory	  */
+	public void setFile_Directory (String File_Directory);
+
+	/** Get File_Directory	  */
+	public String getFile_Directory();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

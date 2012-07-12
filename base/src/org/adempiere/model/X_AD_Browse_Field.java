@@ -31,7 +31,7 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20120621L;
+	private static final long serialVersionUID = 20120710L;
 
     /** Standard Constructor */
     public X_AD_Browse_Field (Properties ctx, int AD_Browse_Field_ID, String trxName)
@@ -232,6 +232,14 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 			 return 0;
 		return ii.intValue();
 	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getAD_View_Column_ID()));
+    }
 
 	public org.adempiere.model.I_AD_View_Column getAxis_Column() throws RuntimeException
     {
@@ -511,6 +519,30 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 		return false;
 	}
 
+	/** Set Read Only.
+		@param IsReadOnly 
+		Field is read only
+	  */
+	public void setIsReadOnly (boolean IsReadOnly)
+	{
+		set_Value (COLUMNNAME_IsReadOnly, Boolean.valueOf(IsReadOnly));
+	}
+
+	/** Get Read Only.
+		@return Field is read only
+	  */
+	public boolean isReadOnly () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsReadOnly);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Name.
 		@param Name 
 		Alphanumeric identifier of the entity
@@ -527,14 +559,6 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 	{
 		return (String)get_Value(COLUMNNAME_Name);
 	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), getName());
-    }
 
 	/** Set Sequence.
 		@param SeqNo 

@@ -41,6 +41,17 @@ public interface I_ASP_ClientException
 
     /** Load Meta Data */
 
+    /** Column name AD_Browse_ID */
+    public static final String COLUMNNAME_AD_Browse_ID = "AD_Browse_ID";
+
+	/** Set Smart Browse	  */
+	public void setAD_Browse_ID (int AD_Browse_ID);
+
+	/** Get Smart Browse	  */
+	public int getAD_Browse_ID();
+
+	public org.adempiere.model.I_AD_Browse getAD_Browse() throws RuntimeException;
+
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 

@@ -26,6 +26,7 @@ import java.util.Properties;
 import org.compiere.model.MTable;
 import org.compiere.model.Query;
 import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 /**
@@ -44,13 +45,10 @@ public class MView extends X_AD_View {
 	private static CLogger s_log = CLogger.getCLogger(MView.class);
 
 	/**************************************************************************
-	 * Asset Constructor
-	 * 
-	 * @param ctx
-	 *            context
+	 * Smart View
+	 * @param ctx context
 	 * @param AD_SmartView_ID
-	 * @param trxName
-	 *            transaction name
+	 * @param trxName transaction name
 	 */
 	public MView(Properties ctx, int AD_SmartView_ID, String trxName) {
 		super(ctx, AD_SmartView_ID, trxName);
@@ -59,10 +57,8 @@ public class MView extends X_AD_View {
 	}
 
 	/**
-	 * @param ctx
-	 *            context
-	 * @param AD_SmartView_ID
-	 *            Cahs Flow ID
+	 * @param ctx context
+	 * @param AD_View_ID View ID
 	 */
 	public MView(Properties ctx, int AD_SmartView_ID) {
 		this(ctx, AD_SmartView_ID, null);
@@ -70,17 +66,13 @@ public class MView extends X_AD_View {
 
 	/**
 	 * Load Constructor
-	 * 
-	 * @param ctx
-	 *            context
-	 * @param rs
-	 *            result set record
-	 * @param trxName
-	 *            transaction
+	 * @param ctx context
+	 * @param rs result set record
+	 * @param trxName transaction
 	 */
 	public MView(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
-	} // MAsset
+	} // MView
 
 	/**
 	 * String representation
@@ -109,7 +101,6 @@ public class MView extends X_AD_View {
 
 	/**
 	 * Get the Smart View Joins
-	 * 
 	 * @return String View Joins
 	 */
 	public String getJoinsTables() {
@@ -186,7 +177,7 @@ public class MView extends X_AD_View {
 
 		MViewDefinition definition = new Query(getCtx(),
 				MViewDefinition.Table_Name, whereClause, get_TrxName())
-				.setParameters(new Object[] { getAD_View_ID() })
+				.setParameters(getAD_View_ID())
 				.setOnlyActiveRecords(true)
 				.setOrderBy(MViewDefinition.COLUMNNAME_SeqNo).firstOnly();
 
@@ -195,7 +186,6 @@ public class MView extends X_AD_View {
 
 	/**
 	 * Parent Entity Name
-	 * 
 	 * @return String Table Name
 	 */
 	public String getParentEntityName() {
@@ -205,12 +195,21 @@ public class MView extends X_AD_View {
 
 	/**
 	 * get Parent Entity Alias
-	 * 
 	 * @return
 	 */
 	public String getParentEntityAliasName() {
 		return getParentViewDefinition().getTableAlias();
 	}
+	
+	/**
+	 * 	Before Delete
+	 *	@return true of it can be deleted
+	 */
+	protected boolean beforeDelete ()
+	{
+		DB.executeUpdate("DELETE FROM AD_View_Trl WHERE AD_View_ID=? ", getAD_View_ID(),get_TrxName());
+		return true;
+	}	//	beforeDelete
 
 	/**
 	 * get SQL from View
@@ -271,8 +270,8 @@ public class MView extends X_AD_View {
 	public static boolean isValidValue(int AD_View_ID, String ColumnName,
 			Object Value) {
 		boolean valid = false;
-		String whereClause = "name = ? and ad_view_definition_id in "
-				+ "(select ad_view_definition_id from ad_view_definition where ad_view_id = ?)";
+		String whereClause = "Name = ? and AD_View_Definition_ID IN "
+				+ "(SELECT AD_View_Definition_ID FROM AD_View_Definition WHERE AD_View_ID = ?)";
 		MViewColumn column = new Query(Env.getCtx(), MViewColumn.Table_Name,
 				whereClause, null).setParameters(ColumnName, AD_View_ID)
 				.first();

@@ -23,6 +23,8 @@ import java.util.Properties;
 import org.compiere.model.M_Element;
 import org.compiere.model.Query;
 import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  * Class Model for Browse Field
@@ -55,6 +57,15 @@ public class MBrowseField extends X_AD_Browse_Field {
 				.setParameters(browse.getAD_Browse_ID(),
 						column.getAD_View_Column_ID()).first();
 	}
+	
+
+	public static int getIdByColumnName(MBrowse browse, String columnName) {
+		String whereClause = MBrowseField.COLUMNNAME_AD_Browse_ID + "=? AND EXISTS (SELECT 1 FROM AD_View_Column vc WHERE vc.AD_View_Column_ID=AD_Browse_Field.AD_View_Column_ID AND vc.ColumnName=?)";
+		return new Query(browse.getCtx(), MBrowseField.Table_Name, whereClause,
+				browse.get_TrxName())
+				.setParameters(browse.getAD_Browse_ID(),columnName)
+				.firstIdOnly();
+	}
 
 	/** Logger */
 	private static CLogger s_log = CLogger.getCLogger(MBrowseField.class);
@@ -64,14 +75,11 @@ public class MBrowseField extends X_AD_Browse_Field {
 	private MViewColumn m_view_column = null;
 
 	/**************************************************************************
-	 * Asset Constructor
+	 * Browse Field Constructor
 	 * 
-	 * @param ctx
-	 *            context
-	 * @param AD_SmartBrowseField_ID
-	 *            InOutBound ID
-	 * @param trxName
-	 *            transaction name
+	 * @param ctx context
+	 * @param AD_SmartBrowseField_ID InOutBound ID
+	 * @param trxName transaction name
 	 */
 	public MBrowseField(Properties ctx, int AD_SmartBrowseField_ID,
 			String trxName) {
@@ -81,12 +89,10 @@ public class MBrowseField extends X_AD_Browse_Field {
 	}
 
 	/**
-	 * Discontinued Asset Constructor - DO NOT USE (but don't delete either)
+	 * Browse Field
 	 * 
-	 * @param ctx
-	 *            context
-	 * @param AD_SmartBrowseField_ID
-	 *            Cahs Flow ID
+	 * @param ctx context
+	 * @param AD_BrowseField_ID    Cahs Flow ID
 	 */
 	public MBrowseField(Properties ctx, int AD_SmartBrowseField_ID) {
 		this(ctx, AD_SmartBrowseField_ID, null);
@@ -94,21 +100,16 @@ public class MBrowseField extends X_AD_Browse_Field {
 
 	/**
 	 * Load Constructor
-	 * 
-	 * @param ctx
-	 *            context
-	 * @param rs
-	 *            result set record
-	 * @param trxName
-	 *            transaction
+	 * @param ctx context
+	 * @param rs result set record
+	 * @param trxName transaction
 	 */
 	public MBrowseField(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
 	}
-
+	
 	/**
 	 * get MViewColumn base on MColumn
-	 * 
 	 * @param column
 	 * @return
 	 */
@@ -116,7 +117,7 @@ public class MBrowseField extends X_AD_Browse_Field {
 		super(column.getCtx(), 0, column.get_TrxName());
 		setAD_Browse_ID(browse.getAD_Browse_ID());
 		setAD_Element_ID(column.getAD_Element_ID());
-		setName(column.getColumnName());
+		setName(column.getName());
 		setDescription(column.getDescription());
 		setHelp(column.getHelp());
 		setAD_View_Column_ID(column.get_ID());
@@ -132,9 +133,7 @@ public class MBrowseField extends X_AD_Browse_Field {
 
 	/**
 	 * Before Save
-	 * 
-	 * @param newRecord
-	 *            new
+	 * @param newRecord new
 	 * @return true
 	 */
 	protected boolean beforeSave(boolean newRecord) {
@@ -156,6 +155,16 @@ public class MBrowseField extends X_AD_Browse_Field {
 
 		return success;
 	}
+	
+	/**
+	 * 	Before Delete
+	 *	@return true of it can be deleted
+	 */
+	protected boolean beforeDelete ()
+	{
+		DB.executeUpdate("DELETE FROM AD_Browse_Field_Trl WHERE AD_Browse_Field_ID=? ", getAD_Browse_Field_ID(),get_TrxName());
+		return true;
+	}	//	beforeDelete
 
 	/**
 	 * get Element
@@ -206,4 +215,34 @@ public class MBrowseField extends X_AD_Browse_Field {
 				.append(get_ID()).append("-").append(getName()).append("]");
 		return sb.toString();
 	} // toString
+	
+	public String getName()
+	{
+		final boolean baseLanguage = Env.isBaseLanguage(Env.getCtx(),
+				"AD_Browse");
+		final String sql = "SELECT Name FROM AD_Browse_Field_Trl WHERE AD_Browse_Field_ID=? AND AD_LANGUAGE=?";
+		return  baseLanguage ? super.getName() : DB.getSQLValueString(get_TrxName(),
+				sql, getAD_Browse_Field_ID(),
+				Env.getAD_Language(Env.getCtx()));
+	}
+	
+	public String getDescription()
+	{
+		final boolean baseLanguage = Env.isBaseLanguage(Env.getCtx(),
+				"AD_Browse");
+		final String sql = "SELECT Description FROM AD_Browse_Field_Trl WHERE AD_Browse_Field_ID=? AND AD_LANGUAGE=?";
+		return  baseLanguage ? super.getDescription() : DB.getSQLValueString(get_TrxName(),
+				sql, getAD_Browse_Field_ID(),
+				Env.getAD_Language(Env.getCtx()));
+	}
+	
+	public String getHelp()
+	{
+		final boolean baseLanguage = Env.isBaseLanguage(Env.getCtx(),
+				"AD_Browse");
+		final String sql = "SELECT Help FROM AD_Browse_Field_Trl WHERE AD_Browse_Field_ID=? AND AD_LANGUAGE=?";
+		return  baseLanguage ? super.getHelp() : DB.getSQLValueString(get_TrxName(),
+				sql, getAD_Browse_Field_ID(),
+				Env.getAD_Language(Env.getCtx()));
+	}
 }
