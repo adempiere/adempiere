@@ -28,6 +28,7 @@ import org.compiere.model.MAllocationHdr;
 import org.compiere.model.MAllocationLine;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MPayment;
+import org.compiere.model.MRole;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -40,6 +41,8 @@ import org.compiere.util.Env;
  */
 public class InvoiceWriteOff extends SvrProcess
 {
+	/**	Organization				*/
+	private int			p_AD_Org_ID = 0;
 	/**	BPartner				*/
 	private int			p_C_BPartner_ID = 0;
 	/** BPartner Group			*/
@@ -86,6 +89,8 @@ public class InvoiceWriteOff extends SvrProcess
 			String name = para.getParameterName();
 			if (para.getParameter() == null)
 				;
+			else if (name.equals("AD_Org_ID"))
+				p_AD_Org_ID = para.getParameterAsInt();
 			else if (name.equals("C_BPartner_ID"))
 				p_C_BPartner_ID = para.getParameterAsInt();
 			else if (name.equals("C_BP_Group_ID"))
@@ -140,6 +145,7 @@ public class InvoiceWriteOff extends SvrProcess
 			+ "; CreatePayment=" + p_CreatePayment
 			+ ", C_BankAccount_ID=" + p_C_BankAccount_ID);
 		//
+		
 		if (p_C_BPartner_ID == 0 && p_C_Invoice_ID == 0 && p_C_BP_Group_ID == 0 && p_InvoiceCollectionType == null && p_C_DunningLevel_ID == 0)
 			throw new AdempiereUserError ("@FillMandatory@ @C_Invoice_ID@ / @C_BPartner_ID@ / @C_BP_Group_ID@ / @InvoiceCollectionType@ / @C_DunningLevel_ID@");
 		//
@@ -150,6 +156,13 @@ public class InvoiceWriteOff extends SvrProcess
 			"SELECT C_Invoice_ID,DocumentNo,DateInvoiced,"
 			+ " C_Currency_ID,GrandTotal, invoiceOpen(C_Invoice_ID, 0) AS OpenAmt "
 			+ "FROM C_Invoice WHERE ");
+		
+		if (p_AD_Org_ID != 0)
+		{	
+			sql.append("AD_Org_ID=? AND ");
+			parameters.add(p_AD_Org_ID);
+		}
+		
 		if (p_C_Invoice_ID != 0)
 		{	
 			sql.append("C_Invoice_ID=? AND ");
@@ -207,13 +220,15 @@ public class InvoiceWriteOff extends SvrProcess
 					.append(" AND ");
 		}
 		sql.append(" IsPaid='N' ORDER BY C_Currency_ID, C_BPartner_ID, DateInvoiced");
-		log.finer(sql.toString());
+		
+		final String finalSql = MRole.getDefault(getCtx(), false).addAccessSQL( sql.toString(), "C_Invoice", MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO );
+		log.finer(finalSql);
 		//
 		int counter = 0;
 		PreparedStatement pstmt = null;
 		try
 		{
-			pstmt = DB.prepareStatement (sql.toString(), get_TrxName());
+			pstmt = DB.prepareStatement (finalSql, get_TrxName());
 			DB.setParameters(pstmt, parameters);
 			
 			ResultSet rs = pstmt.executeQuery ();
