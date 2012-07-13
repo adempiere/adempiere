@@ -131,10 +131,9 @@ public class BrowseFieldElementHandler extends AbstractElementHandler {
 						atts.getValue("isMandatory")).booleanValue());
 				m_BrowseField.setIsDisplayed(Boolean.valueOf(
 						atts.getValue("Displayed")).booleanValue());
-				// m_BrowseField.setIsFieldOnly(Boolean.valueOf(
-				// atts.getValue("isFieldOnly")).booleanValue());
-				// m_BrowseField.setIsReadOnly(Boolean.valueOf(
-				// atts.getValue("isReadOnly")).booleanValue());
+				 m_BrowseField.setIsReadOnly(Boolean.valueOf(
+				 atts.getValue("isReadOnly")).booleanValue());
+				
 				m_BrowseField
 						.setSeqNo(Integer.parseInt(atts.getValue("SeqNo")));
 				m_BrowseField
@@ -367,10 +366,8 @@ public class BrowseFieldElementHandler extends AbstractElementHandler {
 				(m_BrowseField.isQueryCriteria() == true ? "true" : "false"));
 		atts.addAttribute("", "", "isIdentifier", "CDATA",
 				(m_BrowseField.isIdentifier() == true ? "true" : "false"));
-		// atts.addAttribute("", "", "isFieldOnly", "CDATA", (m_BrowseField
-		// .isFieldOnly() == true ? "true" : "false"));
-		// atts.addAttribute("", "", "isReadOnly", "CDATA",
-		// (m_BrowseField.isReadOnly() == true ? "true" : "false"));
+		atts.addAttribute("", "", "isReadOnly", "CDATA", 
+				(m_BrowseField.isReadOnly() == true ? "true" : "false"));
 		atts.addAttribute("", "", "SeqNo", "CDATA",
 				"" + (m_BrowseField.getSeqNo()));
 		atts.addAttribute(
