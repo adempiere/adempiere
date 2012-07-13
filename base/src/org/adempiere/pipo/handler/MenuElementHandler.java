@@ -379,7 +379,7 @@ public class MenuElementHandler extends AbstractElementHandler {
 		String sql = null;
 		// int x = 0;
 		sql = "SELECT A.Node_ID, B.AD_Menu_ID, B.Name, B.AD_WINDOW_ID, B.AD_WORKFLOW_ID, B.AD_TASK_ID, "
-				+ "B.AD_PROCESS_ID, B.AD_FORM_ID, B.AD_WORKBENCH_ID "
+				+ "B.AD_PROCESS_ID, B.AD_FORM_ID , B.AD_BROWSE_ID, B.AD_WORKBENCH_ID "
 				+ "FROM AD_TreeNoDemm A, AD_Menu B "
 				+ "WHERE A.Node_ID = "
 				+ AD_Menu_ID + " AND A.Node_ID = B.AD_Menu_ID";
@@ -401,6 +401,7 @@ public class MenuElementHandler extends AbstractElementHandler {
 						|| rs.getInt("AD_TASK_ID") > 0
 						|| rs.getInt("AD_PROCESS_ID") > 0
 						|| rs.getInt("AD_FORM_ID") > 0
+						|| rs.getInt("AD_BROWSE_ID") > 0
 						|| rs.getInt("AD_WORKBENCH_ID") > 0) {
 					// Call CreateWindow.
 					if (rs.getInt("AD_WINDOW_ID") > 0) {
@@ -417,6 +418,10 @@ public class MenuElementHandler extends AbstractElementHandler {
 					// Call CreateForm.
 					else if (rs.getInt("AD_FORM_ID") > 0) {
 						packOut.createForm(rs.getInt("AD_FORM_ID"), document);
+					}
+					// Call CreateBrowse.
+					else if (rs.getInt("AD_BROWSE_ID") > 0) {
+						packOut.createBrowse(rs.getInt("AD_BROWSE_ID"), document);
 					}
 					// Call CreateWorkflow
 					else if (rs.getInt("AD_Workflow_ID") > 0) {
