@@ -23,7 +23,7 @@ package org.eevolution.engine.forecast;
  */
 public interface ForecastRule {
 
-	public void setDataSet (DataSet data ,double  factorAlpha , double factorGamma, double factorMultiplier, double factorScale);
+	public void setDataSet (DataSet data ,double  factorAlpha , double factorGamma, double factorBeta, double factorMultiplier, double factorScale, double factorUser);
 	
 	public void setKey (String M_Product_ID);
 	
@@ -34,6 +34,14 @@ public interface ForecastRule {
 	public void setFactorAlpha(double factorAlpha);
 	
 	public double getFactorAlpha();
+	
+	public void setFactorBeta(double factorBeta);
+	
+	public double getFactorBeta();
+
+	public void setFactorUser(double factorUser);
+	
+	public double getFactorUser();
 	
 	public void setFactorGamma(double factorGamma);
 	

@@ -24,7 +24,9 @@ import net.sourceforge.openforecast.DataPoint;
 import net.sourceforge.openforecast.DataSet;
 import net.sourceforge.openforecast.ForecastingModel;
 import net.sourceforge.openforecast.Observation;
-import net.sourceforge.openforecast.models.DoubleExponentialSmoothingModel;
+import net.sourceforge.openforecast.models.PolynomialRegressionModel;
+import net.sourceforge.openforecast.models.RegressionModel;
+
 
 /**
  * DoubleExponentialSmoothing Implementation
@@ -32,17 +34,17 @@ import net.sourceforge.openforecast.models.DoubleExponentialSmoothingModel;
  * @author victor.perez@e-evolution.com, www.e-Evolution.com
  * 
  */
-public class DoubleExponentialSmoothing implements ForecastRule {
+public class PolynomialRegression implements ForecastRule {
 
 	private DataSet forecastData = null;
 	private org.eevolution.engine.forecast.DataSet forecastDataResult = null;
 	private String key = null;
 	private double factorAlpha = 0;
 	private double factorGamma = 0;
-	private double factorBeta = 0;
-	private double factor = 0;
 	private double factorMultiplier = 0;
 	private double factorScale = 0;
+	private double factorBeta = 0;
+	private double factorUser = 0;
 
 	@Override
 	public void setDataSet(org.eevolution.engine.forecast.DataSet series,
@@ -53,8 +55,7 @@ public class DoubleExponentialSmoothing implements ForecastRule {
 		this.factorBeta = factorBeta;
 		this.factorMultiplier = factorMultiplier;
 		this.factorScale = factorScale;
-		this.factor = factorUser;
-		
+		this.factorUser = factorUser;
 		DataSet observedData = new DataSet();
 		DataPoint dp;
 
@@ -68,11 +69,20 @@ public class DoubleExponentialSmoothing implements ForecastRule {
 					(double) element.getPeriodNo());
 			observedData.add(dp);
 		}
-		ForecastingModel forecaster = DoubleExponentialSmoothingModel
-				.getBestFitModel(observedData, getFactorAlpha(),
-						getFactorGamma());
-		forecaster.init(observedData);
-		forecastData = forecaster.forecast(observedData);
+		 String independentVariable[] = observedData.getIndependentVariables();
+		 ForecastingModel model = null;    
+	        // Try single variable models
+	    for ( int i=0; i<independentVariable.length; i++ )
+        {
+            // Try the Regression Model
+            int order = 10;
+            if ( observedData.size() < order*order )
+                order = (int)(Math.sqrt(observedData.size()))-1;
+            model = new PolynomialRegressionModel( independentVariable[i],
+                                                   order );
+            model.init( observedData );
+        }
+		forecastData = model.forecast(observedData);
 	}
 
 	@Override
@@ -135,12 +145,12 @@ public class DoubleExponentialSmoothing implements ForecastRule {
 
 	@Override
 	public void setFactorUser(double factorUser) {
-		this.factor =  factorUser;
+		this.factorUser =  factorUser;
 	}
 
 	@Override
 	public double getFactorUser() {
-		return this.factor;
+		return this.factorUser;
 	}
 	
 	@Override

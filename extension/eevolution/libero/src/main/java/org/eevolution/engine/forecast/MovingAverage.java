@@ -25,6 +25,7 @@ import net.sourceforge.openforecast.DataSet;
 import net.sourceforge.openforecast.ForecastingModel;
 import net.sourceforge.openforecast.Observation;
 import net.sourceforge.openforecast.models.DoubleExponentialSmoothingModel;
+import net.sourceforge.openforecast.models.MovingAverageModel;
 
 /**
  * DoubleExponentialSmoothing Implementation
@@ -32,29 +33,28 @@ import net.sourceforge.openforecast.models.DoubleExponentialSmoothingModel;
  * @author victor.perez@e-evolution.com, www.e-Evolution.com
  * 
  */
-public class DoubleExponentialSmoothing implements ForecastRule {
+public class MovingAverage implements ForecastRule {
 
 	private DataSet forecastData = null;
 	private org.eevolution.engine.forecast.DataSet forecastDataResult = null;
 	private String key = null;
 	private double factorAlpha = 0;
 	private double factorGamma = 0;
-	private double factorBeta = 0;
-	private double factor = 0;
 	private double factorMultiplier = 0;
 	private double factorScale = 0;
+	private double factorBeta;
+	private double factorUser;
 
 	@Override
 	public void setDataSet(org.eevolution.engine.forecast.DataSet series,
-			double factorAlpha, double factorGamma, double factorBeta, double factorMultiplier,
-			double factorScale,double factorUser) {
+			double factorAlpha, double factorGamma, double factorBeta,
+			double factorMultiplier, double factorScale, double factorUser) {
 		this.factorAlpha = factorAlpha;
 		this.factorGamma = factorGamma;
 		this.factorBeta = factorBeta;
 		this.factorMultiplier = factorMultiplier;
 		this.factorScale = factorScale;
-		this.factor = factorUser;
-		
+		this.factorUser = factorUser;
 		DataSet observedData = new DataSet();
 		DataPoint dp;
 
@@ -68,11 +68,20 @@ public class DoubleExponentialSmoothing implements ForecastRule {
 					(double) element.getPeriodNo());
 			observedData.add(dp);
 		}
-		ForecastingModel forecaster = DoubleExponentialSmoothingModel
-				.getBestFitModel(observedData, getFactorAlpha(),
-						getFactorGamma());
-		forecaster.init(observedData);
-		forecastData = forecaster.forecast(observedData);
+		// Try moving average model
+		ForecastingModel model = new MovingAverageModel();
+
+		if (observedData.getTimeVariable() != null) {
+
+			model.init(observedData);
+			// Try moving average model using periods per year if avail.
+			if (observedData.getPeriodsPerYear() > 0) {
+				model = new MovingAverageModel(
+						new Double(getFactorUser()).intValue());
+				model.init(observedData);
+			}
+		}
+		forecastData = model.forecast(observedData);
 	}
 
 	@Override
@@ -125,7 +134,7 @@ public class DoubleExponentialSmoothing implements ForecastRule {
 
 	@Override
 	public void setFactorBeta(double factorBeta) {
-	this.factorBeta = factorBeta;
+		this.factorBeta = factorBeta;
 	}
 
 	@Override
@@ -135,14 +144,14 @@ public class DoubleExponentialSmoothing implements ForecastRule {
 
 	@Override
 	public void setFactorUser(double factorUser) {
-		this.factor =  factorUser;
+		this.factorUser = factorUser;
 	}
 
 	@Override
 	public double getFactorUser() {
-		return this.factor;
+		return this.factorUser;
 	}
-	
+
 	@Override
 	public void setFactorMultiplier(double factorMultiplier) {
 		this.factorMultiplier = factorMultiplier;

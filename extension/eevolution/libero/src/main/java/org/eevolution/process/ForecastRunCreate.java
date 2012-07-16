@@ -175,8 +175,10 @@ public class ForecastRunCreate extends SvrProcess {
 			DataSet results = engine.getForecast(m_forecast_rule
 					.getCalculationClass(), master.get_ID(), series, master
 					.getFactorAlpha().doubleValue(), master.getFactorGamma()
-					.doubleValue(), master.getFactorMultiplier().doubleValue(),
-					master.getFactorScale().doubleValue());
+					.doubleValue(), master.getFactorBeta().doubleValue(),
+					master.getFactorMultiplier().doubleValue(), master
+							.getFactorScale().doubleValue(), master
+							.getFactorUser().doubleValue());
 
 			Enumeration<DataElement> elements = results.getDataElements();
 
@@ -282,8 +284,10 @@ public class ForecastRunCreate extends SvrProcess {
 					master.setM_Warehouse_ID(run.getM_WarehouseSource_ID());
 					master.setFactorAlpha(fdl.getFactorAlpha());
 					master.setFactorGamma(fdl.getFactorGamma());
+					master.setFactorBeta(fdl.getFactorBeta());
 					master.setFactorMultiplier(fdl.getFactorMultiplier());
 					master.setFactorScale(fdl.getFactorScale());
+					master.setFactorUser(fdl.getFactorUser());
 					master.saveEx();
 				}
 			} catch (Exception e) {

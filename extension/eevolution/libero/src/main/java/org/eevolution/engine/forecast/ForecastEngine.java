@@ -205,14 +205,14 @@ public final class ForecastEngine {
 
 	public DataSet getForecast(String implementationClass,
 			Integer M_Product_ID, DataSet series, double factorAlpha,
-			double factorGamma, double factorMultiplier, double factorSacle) {
+			double factorGamma, double factorBeta, double factorMultiplier, double factorSacle, double factor) {
 		ForecastRule implementation = getForecastRuleFactory(implementationClass);
 		if (implementation == null)
 			throw new AdempiereException("@PP_ForecastRule_ID@ "
 					+ implementationClass + " @NotFound@ ");
 
-		implementation.setDataSet(series, factorAlpha, factorGamma,
-				factorMultiplier, factorSacle);
+		implementation.setDataSet(series, factorAlpha, factorGamma,factorBeta,
+				factorMultiplier, factorSacle, factor);
 		implementation.setKey(M_Product_ID.toString());
 
 		return applyfactorScale(
