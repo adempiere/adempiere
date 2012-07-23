@@ -174,6 +174,19 @@ public interface I_T_BOMLine
 	  */
 	public BigDecimal getCurrentCostPriceLL();
 
+    /** Column name DateTrx */
+    public static final String COLUMNNAME_DateTrx = "DateTrx";
+
+	/** Set Transaction Date.
+	  * Transaction Date
+	  */
+	public void setDateTrx (Timestamp DateTrx);
+
+	/** Get Transaction Date.
+	  * Transaction Date
+	  */
+	public Timestamp getDateTrx();
+
     /** Column name FutureCostPrice */
     public static final String COLUMNNAME_FutureCostPrice = "FutureCostPrice";
 
@@ -294,6 +307,21 @@ public interface I_T_BOMLine
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
+    /** Column name M_Warehouse_ID */
+    public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
+
+	/** Set Warehouse.
+	  * Storage Warehouse and Service Point
+	  */
+	public void setM_Warehouse_ID (int M_Warehouse_ID);
+
+	/** Get Warehouse.
+	  * Storage Warehouse and Service Point
+	  */
+	public int getM_Warehouse_ID();
+
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
+
     /** Column name PP_Product_BOMLine_ID */
     public static final String COLUMNNAME_PP_Product_BOMLine_ID = "PP_Product_BOMLine_ID";
 
@@ -336,6 +364,15 @@ public interface I_T_BOMLine
 	  * Indicate the Quantity  use in this BOM
 	  */
 	public BigDecimal getQtyBOM();
+
+    /** Column name QtyRequired */
+    public static final String COLUMNNAME_QtyRequired = "QtyRequired";
+
+	/** Set Qty Required	  */
+	public void setQtyRequired (BigDecimal QtyRequired);
+
+	/** Get Qty Required	  */
+	public BigDecimal getQtyRequired();
 
     /** Column name Sel_Product_ID */
     public static final String COLUMNNAME_Sel_Product_ID = "Sel_Product_ID";

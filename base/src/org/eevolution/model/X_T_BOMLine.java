@@ -19,6 +19,7 @@ package org.eevolution.model;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.Properties;
 import org.compiere.model.*;
 import org.compiere.util.Env;
@@ -247,6 +248,23 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 		return bd;
 	}
 
+	/** Set Transaction Date.
+		@param DateTrx 
+		Transaction Date
+	  */
+	public void setDateTrx (Timestamp DateTrx)
+	{
+		set_Value (COLUMNNAME_DateTrx, DateTrx);
+	}
+
+	/** Get Transaction Date.
+		@return Transaction Date
+	  */
+	public Timestamp getDateTrx () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_DateTrx);
+	}
+
 	/** Set Future Cost Price.
 		@param FutureCostPrice Future Cost Price	  */
 	public void setFutureCostPrice (BigDecimal FutureCostPrice)
@@ -444,6 +462,34 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_Warehouse)MTable.get(getCtx(), org.compiere.model.I_M_Warehouse.Table_Name)
+			.getPO(getM_Warehouse_ID(), get_TrxName());	}
+
+	/** Set Warehouse.
+		@param M_Warehouse_ID 
+		Storage Warehouse and Service Point
+	  */
+	public void setM_Warehouse_ID (int M_Warehouse_ID)
+	{
+		if (M_Warehouse_ID < 1) 
+			set_Value (COLUMNNAME_M_Warehouse_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
+	}
+
+	/** Get Warehouse.
+		@return Storage Warehouse and Service Point
+	  */
+	public int getM_Warehouse_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Warehouse_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_PP_Product_BOMLine getPP_Product_BOMLine() throws RuntimeException
     {
 		return (org.eevolution.model.I_PP_Product_BOMLine)MTable.get(getCtx(), org.eevolution.model.I_PP_Product_BOMLine.Table_Name)
@@ -515,6 +561,23 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 	public BigDecimal getQtyBOM () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyBOM);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Qty Required.
+		@param QtyRequired Qty Required	  */
+	public void setQtyRequired (BigDecimal QtyRequired)
+	{
+		set_Value (COLUMNNAME_QtyRequired, QtyRequired);
+	}
+
+	/** Get Qty Required.
+		@return Qty Required	  */
+	public BigDecimal getQtyRequired () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyRequired);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
