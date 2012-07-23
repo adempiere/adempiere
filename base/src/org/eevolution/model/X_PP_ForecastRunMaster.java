@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PP_ForecastRunMaster
  *  @author Adempiere (generated) 
- *  @version Release 3.7.1RC - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_PP_ForecastRunMaster extends PO implements I_PP_ForecastRunMaster, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20120622L;
+	private static final long serialVersionUID = 20120716L;
 
     /** Standard Constructor */
     public X_PP_ForecastRunMaster (Properties ctx, int PP_ForecastRunMaster_ID, String trxName)
@@ -88,6 +88,26 @@ public class X_PP_ForecastRunMaster extends PO implements I_PP_ForecastRunMaster
 	public BigDecimal getFactorAlpha () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_FactorAlpha);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Factor Beta.
+		@param FactorBeta 
+		Identifies a Factor Beta
+	  */
+	public void setFactorBeta (BigDecimal FactorBeta)
+	{
+		set_Value (COLUMNNAME_FactorBeta, FactorBeta);
+	}
+
+	/** Get Factor Beta.
+		@return Identifies a Factor Beta
+	  */
+	public BigDecimal getFactorBeta () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_FactorBeta);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
@@ -148,6 +168,26 @@ public class X_PP_ForecastRunMaster extends PO implements I_PP_ForecastRunMaster
 	public BigDecimal getFactorScale () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_FactorScale);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set User Factor.
+		@param FactorUser 
+		Identifies a User Factor
+	  */
+	public void setFactorUser (BigDecimal FactorUser)
+	{
+		set_Value (COLUMNNAME_FactorUser, FactorUser);
+	}
+
+	/** Get User Factor.
+		@return Identifies a User Factor
+	  */
+	public BigDecimal getFactorUser () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_FactorUser);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;

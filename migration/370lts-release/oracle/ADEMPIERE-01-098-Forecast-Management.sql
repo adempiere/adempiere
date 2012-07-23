@@ -8375,7 +8375,7 @@ INSERT INTO AD_Process_Para_Trl (AD_Language,AD_Process_Para_ID, Description,Hel
 
 -- Jun 28, 2012 4:58:14 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-INSERT INTO AD_Table (AD_Client_ID,AD_Org_ID,AD_Table_ID,AccessLevel,Created,CreatedBy,EntityType,IsActive,IsChangeLog,IsDeleteable,IsHighVolume,IsSecurityEnabled,IsView,Name,ReplicationType,TableName,Updated,UpdatedBy) VALUES (0,0,53399,'3',TO_DATE('2012-06-28 16:58:14','YYYY-MM-DD HH24:MI:SS'),100,'U','Y','N','N','N','N','N','RV_PP_ForecastRun','L','RV_PP_ForecastRun',TO_DATE('2012-06-28 16:58:14','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Table (AD_Client_ID,AD_Org_ID,AD_Table_ID,AccessLevel,Created,CreatedBy,EntityType,IsActive,IsChangeLog,IsDeleteable,IsHighVolume,IsSecurityEnabled,IsView,Name,ReplicationType,TableName,Updated,UpdatedBy) VALUES (0,0,53399,'3',TO_DATE('2012-06-28 16:58:14','YYYY-MM-DD HH24:MI:SS'),100,'EE01','Y','N','N','N','N','N','RV_PP_ForecastRun','L','RV_PP_ForecastRun',TO_DATE('2012-06-28 16:58:14','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jun 28, 2012 4:58:14 PM CDT
@@ -8385,7 +8385,7 @@ INSERT INTO AD_Table_Trl (AD_Language,AD_Table_ID, Name, IsTranslated,AD_Client_
 
 -- Jun 28, 2012 4:58:14 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,AD_Val_Rule_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63476,102,0,19,53399,129,'AD_Client_ID',TO_DATE('2012-06-28 16:58:14','YYYY-MM-DD HH24:MI:SS'),100,'@#AD_Client_ID@','Client/Tenant for this installation.','U',22,'A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.','Y','Y','N','N','N','N','Y','N','N','N','Y','Client',TO_DATE('2012-06-28 16:58:14','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,AD_Val_Rule_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63476,102,0,19,53399,129,'AD_Client_ID',TO_DATE('2012-06-28 16:58:14','YYYY-MM-DD HH24:MI:SS'),100,'@#AD_Client_ID@','Client/Tenant for this installation.','EE01',22,'A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.','Y','Y','N','N','N','N','Y','N','N','N','Y','Client',TO_DATE('2012-06-28 16:58:14','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Jun 28, 2012 4:58:14 PM CDT
@@ -8395,7 +8395,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jun 28, 2012 4:58:15 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,AD_Val_Rule_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63477,113,0,19,53399,104,'AD_Org_ID',TO_DATE('2012-06-28 16:58:14','YYYY-MM-DD HH24:MI:SS'),100,'@#AD_Org_ID@','Organizational entity within client','U',22,'An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.','Y','Y','N','N','N','N','Y','N','N','N','Y','Organization',TO_DATE('2012-06-28 16:58:14','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,AD_Val_Rule_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63477,113,0,19,53399,104,'AD_Org_ID',TO_DATE('2012-06-28 16:58:14','YYYY-MM-DD HH24:MI:SS'),100,'@#AD_Org_ID@','Organizational entity within client','EE01',22,'An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.','Y','Y','N','N','N','N','Y','N','N','N','Y','Organization',TO_DATE('2012-06-28 16:58:14','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Jun 28, 2012 4:58:15 PM CDT
@@ -8405,7 +8405,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jun 28, 2012 4:58:16 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63478,348,0,20,53399,'IsActive',TO_DATE('2012-06-28 16:58:15','YYYY-MM-DD HH24:MI:SS'),100,'Y','The record is active in the system','U',1,'There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63478,348,0,20,53399,'IsActive',TO_DATE('2012-06-28 16:58:15','YYYY-MM-DD HH24:MI:SS'),100,'Y','The record is active in the system','EE01',1,'There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
 There are two reasons for de-activating and not deleting records:
 (1) The system requires the record for audit purposes.
 (2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','Y','Y','N','N','N','N','Y','N','N','N','Y','Active',TO_DATE('2012-06-28 16:58:15','YYYY-MM-DD HH24:MI:SS'),100,1)
@@ -8418,7 +8418,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jun 28, 2012 4:58:16 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63479,245,0,16,53399,'Created',TO_DATE('2012-06-28 16:58:16','YYYY-MM-DD HH24:MI:SS'),100,NULL,'Date this record was created','U',7,'The Created field indicates the date that this record was created.','Y','Y','N','N','N','N','Y','N','N','N','Y','Created',TO_DATE('2012-06-28 16:58:16','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63479,245,0,16,53399,'Created',TO_DATE('2012-06-28 16:58:16','YYYY-MM-DD HH24:MI:SS'),100,NULL,'Date this record was created','EE01',7,'The Created field indicates the date that this record was created.','Y','Y','N','N','N','N','Y','N','N','N','Y','Created',TO_DATE('2012-06-28 16:58:16','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Jun 28, 2012 4:58:16 PM CDT
@@ -8428,7 +8428,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jun 28, 2012 4:58:17 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63480,607,0,16,53399,'Updated',TO_DATE('2012-06-28 16:58:16','YYYY-MM-DD HH24:MI:SS'),100,NULL,'Date this record was updated','U',7,'The Updated field indicates the date that this record was updated.','Y','Y','N','N','N','N','Y','N','N','N','Y','Updated',TO_DATE('2012-06-28 16:58:16','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63480,607,0,16,53399,'Updated',TO_DATE('2012-06-28 16:58:16','YYYY-MM-DD HH24:MI:SS'),100,NULL,'Date this record was updated','EE01',7,'The Updated field indicates the date that this record was updated.','Y','Y','N','N','N','N','Y','N','N','N','Y','Updated',TO_DATE('2012-06-28 16:58:16','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Jun 28, 2012 4:58:17 PM CDT
@@ -8438,7 +8438,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jun 28, 2012 4:58:17 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63481,246,0,19,110,53399,'CreatedBy',TO_DATE('2012-06-28 16:58:17','YYYY-MM-DD HH24:MI:SS'),100,NULL,'User who created this records','U',22,'The Created By field indicates the user who created this record.','Y','Y','N','N','N','N','Y','N','N','N','Y','Created By',TO_DATE('2012-06-28 16:58:17','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63481,246,0,19,110,53399,'CreatedBy',TO_DATE('2012-06-28 16:58:17','YYYY-MM-DD HH24:MI:SS'),100,NULL,'User who created this records','EE01',22,'The Created By field indicates the user who created this record.','Y','Y','N','N','N','N','Y','N','N','N','Y','Created By',TO_DATE('2012-06-28 16:58:17','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Jun 28, 2012 4:58:17 PM CDT
@@ -8448,7 +8448,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jun 28, 2012 4:58:18 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63482,608,0,19,110,53399,'UpdatedBy',TO_DATE('2012-06-28 16:58:17','YYYY-MM-DD HH24:MI:SS'),100,NULL,'User who updated this records','U',22,'The Updated By field indicates the user who updated this record.','Y','Y','N','N','N','N','Y','N','N','N','Y','Updated By',TO_DATE('2012-06-28 16:58:17','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63482,608,0,19,110,53399,'UpdatedBy',TO_DATE('2012-06-28 16:58:17','YYYY-MM-DD HH24:MI:SS'),100,NULL,'User who updated this records','EE01',22,'The Updated By field indicates the user who updated this record.','Y','Y','N','N','N','N','Y','N','N','N','Y','Updated By',TO_DATE('2012-06-28 16:58:17','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Jun 28, 2012 4:58:18 PM CDT
@@ -8458,7 +8458,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jun 28, 2012 4:58:18 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,EntityType,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,55530,0,'RV_PP_ForecastRun_ID',TO_DATE('2012-06-28 16:58:18','YYYY-MM-DD HH24:MI:SS'),100,'U','Y','RV_PP_ForecastRun ID','RV_PP_ForecastRun ID',TO_DATE('2012-06-28 16:58:18','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,EntityType,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,55530,0,'RV_PP_ForecastRun_ID',TO_DATE('2012-06-28 16:58:18','YYYY-MM-DD HH24:MI:SS'),100,'EE01','Y','RV_PP_ForecastRun ID','RV_PP_ForecastRun ID',TO_DATE('2012-06-28 16:58:18','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jun 28, 2012 4:58:18 PM CDT
@@ -8468,7 +8468,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jun 28, 2012 4:58:18 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63483,55530,0,13,53399,'RV_PP_ForecastRun_ID',TO_DATE('2012-06-28 16:58:18','YYYY-MM-DD HH24:MI:SS'),100,NULL,'U',22,'Y','Y','N','N','N','Y','Y','N','N','N','N','RV_PP_ForecastRun ID',TO_DATE('2012-06-28 16:58:18','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63483,55530,0,13,53399,'RV_PP_ForecastRun_ID',TO_DATE('2012-06-28 16:58:18','YYYY-MM-DD HH24:MI:SS'),100,NULL,'EE01',22,'Y','Y','N','N','N','Y','Y','N','N','N','N','RV_PP_ForecastRun ID',TO_DATE('2012-06-28 16:58:18','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Jun 28, 2012 4:58:18 PM CDT
@@ -8944,5 +8944,236 @@ INSERT INTO AD_Menu_Trl (AD_Language,AD_Menu_ID, Description,Name, IsTranslated,
 -- Jun 28, 2012 4:58:40 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
 INSERT INTO AD_TREENODEMM(AD_Client_ID, AD_Org_ID, CreatedBy, UpdatedBy, Parent_ID, SeqNo, AD_Tree_ID, Node_ID)VALUES(0, 0, 0, 0, 53180,7, 10, 53428)
+;
+
+-- Jul 16, 2012 1:39:05 PM CDT
+-- MFG-25
+INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,55545,0,22,'FactorBeta',TO_DATE('2012-07-16 13:39:03','YYYY-MM-DD HH24:MI:SS'),100,'Identifies a Factor Beta','EE01',22,'Factor Beta is the second smoothing constant (beta) used in this Triple exponential smoothing model.
+
+<p>betaTolerance the required precision/accuracy - or tolerance of error - required in the estimate of the beta smoothing constant','Y','Factor Beta','Factor Beta',TO_DATE('2012-07-16 13:39:03','YYYY-MM-DD HH24:MI:SS'),100)
+;
+
+-- Jul 16, 2012 1:39:05 PM CDT
+-- MFG-25
+INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_Description,PO_Help,PO_Name,PO_PrintName,PrintName, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Element_ID, t.Description,t.Help,t.Name,t.PO_Description,t.PO_Help,t.PO_Name,t.PO_PrintName,t.PrintName, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Element t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Element_ID=55545 AND NOT EXISTS (SELECT * FROM AD_Element_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Element_ID=t.AD_Element_ID)
+;
+
+-- Jul 16, 2012 1:39:21 PM CDT
+-- MFG-25
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,63684,55545,0,22,53398,'FactorBeta',TO_DATE('2012-07-16 13:39:20','YYYY-MM-DD HH24:MI:SS'),100,'Identifies a Factor Beta','EE01',22,'Factor Beta is the second smoothing constant (beta) used in this Triple exponential smoothing model.
+
+<p>betaTolerance the required precision/accuracy - or tolerance of error - required in the estimate of the beta smoothing constant','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Factor Beta',0,TO_DATE('2012-07-16 13:39:20','YYYY-MM-DD HH24:MI:SS'),100,0)
+;
+
+-- Jul 16, 2012 1:39:21 PM CDT
+-- MFG-25
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=63684 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
+;
+
+-- Jul 16, 2012 1:39:24 PM CDT
+-- MFG-25
+ALTER TABLE PP_ForecastDefinitionLine ADD FactorBeta NUMBER DEFAULT NULL 
+;
+
+-- Jul 16, 2012 1:40:18 PM CDT
+-- MFG-25
+UPDATE AD_Element SET Description='Identifies a Factor Alpha',Updated=TO_DATE('2012-07-16 13:40:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55521
+;
+
+-- Jul 16, 2012 1:40:18 PM CDT
+-- MFG-25
+UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=55521
+;
+
+-- Jul 16, 2012 1:40:18 PM CDT
+-- MFG-25
+UPDATE AD_Column SET ColumnName='FactorAlpha', Name='Factor Alpha', Description='Identifies a Factor Alpha', Help='The Factor Alpha is smoothing constant used in this exponential smoothing model.' WHERE AD_Element_ID=55521
+;
+
+-- Jul 16, 2012 1:40:18 PM CDT
+-- MFG-25
+UPDATE AD_Process_Para SET ColumnName='FactorAlpha', Name='Factor Alpha', Description='Identifies a Factor Alpha', Help='The Factor Alpha is smoothing constant used in this exponential smoothing model.', AD_Element_ID=55521 WHERE UPPER(ColumnName)='FACTORALPHA' AND IsCentrallyMaintained='Y' AND AD_Element_ID IS NULL
+;
+
+-- Jul 16, 2012 1:40:18 PM CDT
+-- MFG-25
+UPDATE AD_Process_Para SET ColumnName='FactorAlpha', Name='Factor Alpha', Description='Identifies a Factor Alpha', Help='The Factor Alpha is smoothing constant used in this exponential smoothing model.' WHERE AD_Element_ID=55521 AND IsCentrallyMaintained='Y'
+;
+
+-- Jul 16, 2012 1:40:18 PM CDT
+-- MFG-25
+UPDATE AD_Field SET Name='Factor Alpha', Description='Identifies a Factor Alpha', Help='The Factor Alpha is smoothing constant used in this exponential smoothing model.' WHERE AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=55521) AND IsCentrallyMaintained='Y'
+;
+
+-- Jul 16, 2012 1:46:01 PM CDT
+-- MFG-25
+INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,55546,0,22,'FactorUser',TO_DATE('2012-07-16 13:46:00','YYYY-MM-DD HH24:MI:SS'),100,'Identifies a User Factor','EE01',22,'The User Factor used in some forecast rules.','Y','User Factor','User Factor',TO_DATE('2012-07-16 13:46:00','YYYY-MM-DD HH24:MI:SS'),100)
+;
+
+-- Jul 16, 2012 1:46:01 PM CDT
+-- MFG-25
+INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_Description,PO_Help,PO_Name,PO_PrintName,PrintName, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Element_ID, t.Description,t.Help,t.Name,t.PO_Description,t.PO_Help,t.PO_Name,t.PO_PrintName,t.PrintName, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Element t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Element_ID=55546 AND NOT EXISTS (SELECT * FROM AD_Element_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Element_ID=t.AD_Element_ID)
+;
+
+-- Jul 16, 2012 1:46:18 PM CDT
+-- MFG-25
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,63685,55546,0,22,53398,'FactorUser',TO_DATE('2012-07-16 13:46:17','YYYY-MM-DD HH24:MI:SS'),100,'Identifies a User Factor','EE01',22,'The User Factor used in some forecast rules.','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','User Factor',0,TO_DATE('2012-07-16 13:46:17','YYYY-MM-DD HH24:MI:SS'),100,0)
+;
+
+-- Jul 16, 2012 1:46:18 PM CDT
+-- MFG-25
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=63685 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
+;
+
+-- Jul 16, 2012 1:46:21 PM CDT
+-- MFG-25
+ALTER TABLE PP_ForecastDefinitionLine ADD FactorUser NUMBER DEFAULT NULL 
+;
+
+-- Jul 16, 2012 1:46:44 PM CDT
+-- MFG-25
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,63686,55545,0,22,53392,'FactorBeta',TO_DATE('2012-07-16 13:46:44','YYYY-MM-DD HH24:MI:SS'),100,'Identifies a Factor Beta','EE01',22,'Factor Beta is the second smoothing constant (beta) used in this Triple exponential smoothing model.
+
+<p>betaTolerance the required precision/accuracy - or tolerance of error - required in the estimate of the beta smoothing constant','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Factor Beta',0,TO_DATE('2012-07-16 13:46:44','YYYY-MM-DD HH24:MI:SS'),100,0)
+;
+
+-- Jul 16, 2012 1:46:44 PM CDT
+-- MFG-25
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=63686 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
+;
+
+-- Jul 16, 2012 1:46:47 PM CDT
+-- MFG-25
+ALTER TABLE PP_ForecastRunMaster ADD FactorBeta NUMBER DEFAULT NULL 
+;
+
+-- Jul 16, 2012 1:47:17 PM CDT
+-- MFG-25
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,63687,55546,0,22,53392,'FactorUser',TO_DATE('2012-07-16 13:47:15','YYYY-MM-DD HH24:MI:SS'),100,'Identifies a User Factor','EE01',22,'The User Factor used in some forecast rules.','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','User Factor',0,TO_DATE('2012-07-16 13:47:15','YYYY-MM-DD HH24:MI:SS'),100,0)
+;
+
+-- Jul 16, 2012 1:47:17 PM CDT
+-- MFG-25
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=63687 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
+;
+
+-- Jul 16, 2012 1:47:19 PM CDT
+-- MFG-25
+ALTER TABLE PP_ForecastRunMaster ADD FactorUser NUMBER DEFAULT NULL 
+;
+
+-- Jul 16, 2012 1:47:38 PM CDT
+-- MFG-25
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,63684,64724,0,53528,TO_DATE('2012-07-16 13:47:36','YYYY-MM-DD HH24:MI:SS'),100,'Identifies a Factor Beta',22,'EE01','Factor Beta is the second smoothing constant (beta) used in this Triple exponential smoothing model.
+
+<p>betaTolerance the required precision/accuracy - or tolerance of error - required in the estimate of the beta smoothing constant','Y','Y','Y','N','N','N','N','N','Factor Beta',TO_DATE('2012-07-16 13:47:36','YYYY-MM-DD HH24:MI:SS'),100)
+;
+
+-- Jul 16, 2012 1:47:38 PM CDT
+-- MFG-25
+INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Field_ID, t.Description,t.Help,t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Field t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Field_ID=64724 AND NOT EXISTS (SELECT * FROM AD_Field_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Field_ID=t.AD_Field_ID)
+;
+
+-- Jul 16, 2012 1:47:39 PM CDT
+-- MFG-25
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,63685,64725,0,53528,TO_DATE('2012-07-16 13:47:38','YYYY-MM-DD HH24:MI:SS'),100,'Identifies a User Factor',22,'EE01','The User Factor used in some forecast rules.','Y','Y','Y','N','N','N','N','N','User Factor',TO_DATE('2012-07-16 13:47:38','YYYY-MM-DD HH24:MI:SS'),100)
+;
+
+-- Jul 16, 2012 1:47:39 PM CDT
+-- MFG-25
+INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Field_ID, t.Description,t.Help,t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Field t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Field_ID=64725 AND NOT EXISTS (SELECT * FROM AD_Field_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Field_ID=t.AD_Field_ID)
+;
+
+-- Jul 16, 2012 1:47:57 PM CDT
+-- MFG-25
+UPDATE AD_Field SET SeqNo=140,IsDisplayed='Y' WHERE AD_Field_ID=64724
+;
+
+-- Jul 16, 2012 1:47:57 PM CDT
+-- MFG-25
+UPDATE AD_Field SET SeqNo=150,IsDisplayed='Y' WHERE AD_Field_ID=64725
+;
+
+-- Jul 16, 2012 1:47:57 PM CDT
+-- MFG-25
+UPDATE AD_Field SET SeqNo=160,IsDisplayed='Y' WHERE AD_Field_ID=64586
+;
+
+-- Jul 16, 2012 1:47:57 PM CDT
+-- MFG-25
+UPDATE AD_Field SET SeqNo=170,IsDisplayed='Y' WHERE AD_Field_ID=64587
+;
+
+-- Jul 16, 2012 1:47:57 PM CDT
+-- MFG-25
+UPDATE AD_Field SET SeqNo=180,IsDisplayed='Y' WHERE AD_Field_ID=64588
+;
+
+-- Jul 16, 2012 1:48:04 PM CDT
+-- MFG-25
+UPDATE AD_Field SET IsSameLine='Y',Updated=TO_DATE('2012-07-16 13:48:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=64725
+;
+
+-- Jul 16, 2012 1:48:24 PM CDT
+-- MFG-25
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,63686,64726,0,53522,TO_DATE('2012-07-16 13:48:23','YYYY-MM-DD HH24:MI:SS'),100,'Identifies a Factor Beta',22,'EE01','Factor Beta is the second smoothing constant (beta) used in this Triple exponential smoothing model.
+
+<p>betaTolerance the required precision/accuracy - or tolerance of error - required in the estimate of the beta smoothing constant','Y','Y','Y','N','N','N','N','N','Factor Beta',TO_DATE('2012-07-16 13:48:23','YYYY-MM-DD HH24:MI:SS'),100)
+;
+
+-- Jul 16, 2012 1:48:24 PM CDT
+-- MFG-25
+INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Field_ID, t.Description,t.Help,t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Field t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Field_ID=64726 AND NOT EXISTS (SELECT * FROM AD_Field_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Field_ID=t.AD_Field_ID)
+;
+
+-- Jul 16, 2012 1:48:25 PM CDT
+-- MFG-25
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,63687,64727,0,53522,TO_DATE('2012-07-16 13:48:24','YYYY-MM-DD HH24:MI:SS'),100,'Identifies a User Factor',22,'EE01','The User Factor used in some forecast rules.','Y','Y','Y','N','N','N','N','N','User Factor',TO_DATE('2012-07-16 13:48:24','YYYY-MM-DD HH24:MI:SS'),100)
+;
+
+-- Jul 16, 2012 1:48:25 PM CDT
+-- MFG-25
+INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Field_ID, t.Description,t.Help,t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Field t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Field_ID=64727 AND NOT EXISTS (SELECT * FROM AD_Field_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Field_ID=t.AD_Field_ID)
+;
+
+-- Jul 16, 2012 1:48:35 PM CDT
+-- MFG-25
+UPDATE AD_Field SET SeqNo=80,IsDisplayed='Y' WHERE AD_Field_ID=64726
+;
+
+-- Jul 16, 2012 1:48:35 PM CDT
+-- MFG-25
+UPDATE AD_Field SET SeqNo=90,IsDisplayed='Y' WHERE AD_Field_ID=64727
+;
+
+-- Jul 16, 2012 1:48:35 PM CDT
+-- MFG-25
+UPDATE AD_Field SET SeqNo=100,IsDisplayed='Y' WHERE AD_Field_ID=64526
+;
+
+-- Jul 16, 2012 1:48:35 PM CDT
+-- MFG-25
+UPDATE AD_Field SET SeqNo=110,IsDisplayed='Y' WHERE AD_Field_ID=64527
+;
+
+-- Jul 16, 2012 2:12:03 PM CDT
+-- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
+UPDATE AD_Field SET SeqNo=140,IsDisplayed='Y' WHERE AD_Field_ID=64586
+;
+
+-- Jul 16, 2012 2:12:03 PM CDT
+-- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
+UPDATE AD_Field SET SeqNo=150,IsDisplayed='Y' WHERE AD_Field_ID=64724
+;
+
+-- Jul 16, 2012 2:12:03 PM CDT
+-- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
+UPDATE AD_Field SET SeqNo=160,IsDisplayed='Y' WHERE AD_Field_ID=64725
+;
+
+
+-- Jul 16, 2012 1:48:44 PM CDT
+-- MFG-25
+UPDATE AD_Field SET IsSameLine='Y',Updated=TO_DATE('2012-07-16 13:48:44','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=64727
 ;
 

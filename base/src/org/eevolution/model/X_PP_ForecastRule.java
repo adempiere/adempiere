@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PP_ForecastRule
  *  @author Adempiere (generated) 
- *  @version Release 3.7.1RC - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_PP_ForecastRule extends PO implements I_PP_ForecastRule, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20120618L;
+	private static final long serialVersionUID = 20120716L;
 
     /** Standard Constructor */
     public X_PP_ForecastRule (Properties ctx, int PP_ForecastRule_ID, String trxName)
@@ -51,7 +51,7 @@ public class X_PP_ForecastRule extends PO implements I_PP_ForecastRule, I_Persis
     }
 
     /** AccessLevel
-      * @return 3 - Client - Org 
+      * @return 7 - System - Client - Org 
       */
     protected int get_AccessLevel()
     {
@@ -129,6 +129,23 @@ public class X_PP_ForecastRule extends PO implements I_PP_ForecastRule, I_Persis
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
+	}
+
+	/** Set Comment/Help.
+		@param Help 
+		Comment or Hint
+	  */
+	public void setHelp (String Help)
+	{
+		set_Value (COLUMNNAME_Help, Help);
+	}
+
+	/** Get Comment/Help.
+		@return Comment or Hint
+	  */
+	public String getHelp () 
+	{
+		return (String)get_Value(COLUMNNAME_Help);
 	}
 
 	/** Set Name.

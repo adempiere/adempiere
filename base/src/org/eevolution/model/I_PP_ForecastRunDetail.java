@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_ForecastRunDetail
  *  @author Adempiere (generated) 
- *  @version Release 3.7.1RC
+ *  @version Release 3.7.0LTS
  */
 public interface I_PP_ForecastRunDetail 
 {
@@ -31,7 +31,7 @@ public interface I_PP_ForecastRunDetail
     /** TableName=PP_ForecastRunDetail */
     public static final String Table_Name = "PP_ForecastRunDetail";
 
-    /** AD_Table_ID=1000012 */
+    /** AD_Table_ID=53393 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);

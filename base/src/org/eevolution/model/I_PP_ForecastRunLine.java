@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_ForecastRunLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.1RC
+ *  @version Release 3.7.0LTS
  */
 public interface I_PP_ForecastRunLine 
 {
@@ -31,7 +31,7 @@ public interface I_PP_ForecastRunLine
     /** TableName=PP_ForecastRunLine */
     public static final String Table_Name = "PP_ForecastRunLine";
 
-    /** AD_Table_ID=1000011 */
+    /** AD_Table_ID=53394 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -125,14 +125,10 @@ public interface I_PP_ForecastRunLine
     /** Column name PP_ForecastRunLine_ID */
     public static final String COLUMNNAME_PP_ForecastRunLine_ID = "PP_ForecastRunLine_ID";
 
-	/** Set Forecast Run Line.
-	  * Contains the forecasting calculation results based on forecast definition.
-	  */
+	/** Set Forecast Run Line ID	  */
 	public void setPP_ForecastRunLine_ID (int PP_ForecastRunLine_ID);
 
-	/** Get Forecast Run Line.
-	  * Contains the forecasting calculation results based on forecast definition.
-	  */
+	/** Get Forecast Run Line ID	  */
 	public int getPP_ForecastRunLine_ID();
 
     /** Column name PP_ForecastRun_ID */

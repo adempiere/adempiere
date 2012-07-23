@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PP_ForecastRunResult
  *  @author Adempiere (generated) 
- *  @version Release 3.7.1RC - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_PP_ForecastRunResult extends PO implements I_PP_ForecastRunResult, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20120622L;
+	private static final long serialVersionUID = 20120716L;
 
     /** Standard Constructor */
     public X_PP_ForecastRunResult (Properties ctx, int PP_ForecastRunResult_ID, String trxName)
@@ -89,6 +89,30 @@ public class X_PP_ForecastRunResult extends PO implements I_PP_ForecastRunResult
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
+	}
+
+	public org.eevolution.model.I_PP_ForecastRule getPP_ForecastRule() throws RuntimeException
+    {
+		return (org.eevolution.model.I_PP_ForecastRule)MTable.get(getCtx(), org.eevolution.model.I_PP_ForecastRule.Table_Name)
+			.getPO(getPP_ForecastRule_ID(), get_TrxName());	}
+
+	/** Set Forecast Rule.
+		@param PP_ForecastRule_ID 
+		Forecast Rules define the business logic according to a previously implemented algorithm.
+	  */
+	public void setPP_ForecastRule_ID (int PP_ForecastRule_ID)
+	{
+		throw new IllegalArgumentException ("PP_ForecastRule_ID is virtual column");	}
+
+	/** Get Forecast Rule.
+		@return Forecast Rules define the business logic according to a previously implemented algorithm.
+	  */
+	public int getPP_ForecastRule_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PP_ForecastRule_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	public org.eevolution.model.I_PP_ForecastRunMaster getPP_ForecastRunMaster() throws RuntimeException

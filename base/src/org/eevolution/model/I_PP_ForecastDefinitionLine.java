@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_ForecastDefinitionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.1RC
+ *  @version Release 3.7.0LTS
  */
 public interface I_PP_ForecastDefinitionLine 
 {
@@ -31,7 +31,7 @@ public interface I_PP_ForecastDefinitionLine
     /** TableName=PP_ForecastDefinitionLine */
     public static final String Table_Name = "PP_ForecastDefinitionLine";
 
-    /** AD_Table_ID=1000006 */
+    /** AD_Table_ID=53398 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -143,14 +143,27 @@ public interface I_PP_ForecastDefinitionLine
     public static final String COLUMNNAME_FactorAlpha = "FactorAlpha";
 
 	/** Set Factor Alpha.
-	  * Identifies an Factor Alpha
+	  * Identifies a Factor Alpha
 	  */
 	public void setFactorAlpha (BigDecimal FactorAlpha);
 
 	/** Get Factor Alpha.
-	  * Identifies an Factor Alpha
+	  * Identifies a Factor Alpha
 	  */
 	public BigDecimal getFactorAlpha();
+
+    /** Column name FactorBeta */
+    public static final String COLUMNNAME_FactorBeta = "FactorBeta";
+
+	/** Set Factor Beta.
+	  * Identifies a Factor Beta
+	  */
+	public void setFactorBeta (BigDecimal FactorBeta);
+
+	/** Get Factor Beta.
+	  * Identifies a Factor Beta
+	  */
+	public BigDecimal getFactorBeta();
 
     /** Column name FactorGamma */
     public static final String COLUMNNAME_FactorGamma = "FactorGamma";
@@ -190,6 +203,19 @@ public interface I_PP_ForecastDefinitionLine
 	  * Identifies a Factor Scale
 	  */
 	public BigDecimal getFactorScale();
+
+    /** Column name FactorUser */
+    public static final String COLUMNNAME_FactorUser = "FactorUser";
+
+	/** Set User Factor.
+	  * Identifies a User Factor
+	  */
+	public void setFactorUser (BigDecimal FactorUser);
+
+	/** Get User Factor.
+	  * Identifies a User Factor
+	  */
+	public BigDecimal getFactorUser();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

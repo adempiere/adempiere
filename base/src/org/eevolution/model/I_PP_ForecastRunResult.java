@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_ForecastRunResult
  *  @author Adempiere (generated) 
- *  @version Release 3.7.1RC
+ *  @version Release 3.7.0LTS
  */
 public interface I_PP_ForecastRunResult 
 {
@@ -31,7 +31,7 @@ public interface I_PP_ForecastRunResult
     /** TableName=PP_ForecastRunResult */
     public static final String Table_Name = "PP_ForecastRunResult";
 
-    /** AD_Table_ID=1000010 */
+    /** AD_Table_ID=53395 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -104,6 +104,21 @@ public interface I_PP_ForecastRunResult
 	  * The record is active in the system
 	  */
 	public boolean isActive();
+
+    /** Column name PP_ForecastRule_ID */
+    public static final String COLUMNNAME_PP_ForecastRule_ID = "PP_ForecastRule_ID";
+
+	/** Set Forecast Rule.
+	  * Forecast Rules define the business logic according to a previously implemented algorithm.
+	  */
+	public void setPP_ForecastRule_ID (int PP_ForecastRule_ID);
+
+	/** Get Forecast Rule.
+	  * Forecast Rules define the business logic according to a previously implemented algorithm.
+	  */
+	public int getPP_ForecastRule_ID();
+
+	public org.eevolution.model.I_PP_ForecastRule getPP_ForecastRule() throws RuntimeException;
 
     /** Column name PP_ForecastRunMaster_ID */
     public static final String COLUMNNAME_PP_ForecastRunMaster_ID = "PP_ForecastRunMaster_ID";

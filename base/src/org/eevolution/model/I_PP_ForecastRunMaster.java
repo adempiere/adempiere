@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_ForecastRunMaster
  *  @author Adempiere (generated) 
- *  @version Release 3.7.1RC
+ *  @version Release 3.7.0LTS
  */
 public interface I_PP_ForecastRunMaster 
 {
@@ -31,7 +31,7 @@ public interface I_PP_ForecastRunMaster
     /** TableName=PP_ForecastRunMaster */
     public static final String Table_Name = "PP_ForecastRunMaster";
 
-    /** AD_Table_ID=1000013 */
+    /** AD_Table_ID=53392 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -92,6 +92,19 @@ public interface I_PP_ForecastRunMaster
 	  */
 	public BigDecimal getFactorAlpha();
 
+    /** Column name FactorBeta */
+    public static final String COLUMNNAME_FactorBeta = "FactorBeta";
+
+	/** Set Factor Beta.
+	  * Identifies a Factor Beta
+	  */
+	public void setFactorBeta (BigDecimal FactorBeta);
+
+	/** Get Factor Beta.
+	  * Identifies a Factor Beta
+	  */
+	public BigDecimal getFactorBeta();
+
     /** Column name FactorGamma */
     public static final String COLUMNNAME_FactorGamma = "FactorGamma";
 
@@ -130,6 +143,19 @@ public interface I_PP_ForecastRunMaster
 	  * Identifies a Factor Scale
 	  */
 	public BigDecimal getFactorScale();
+
+    /** Column name FactorUser */
+    public static final String COLUMNNAME_FactorUser = "FactorUser";
+
+	/** Set User Factor.
+	  * Identifies a User Factor
+	  */
+	public void setFactorUser (BigDecimal FactorUser);
+
+	/** Get User Factor.
+	  * Identifies a User Factor
+	  */
+	public BigDecimal getFactorUser();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
