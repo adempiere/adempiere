@@ -59,6 +59,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.adempiere.model.MBrowse;
 import org.compiere.apps.form.FormFrame;
 import org.compiere.apps.search.Find;
 import org.compiere.grid.APanelTab;
@@ -2413,7 +2414,7 @@ public final class APanel extends CPanel
 		//
 		MWindow win = new MWindow(m_ctx, m_curTab.getAD_Window_ID(), null);
 		win.setWindowSize(size);
-		win.save();
+		win.saveEx();
 	}	//	cmdWinSize
 
 	private void cmd_export()
@@ -2651,7 +2652,11 @@ public final class APanel extends CPanel
 			ProcessInfo pi = new ProcessInfo (title, vButton.getProcess_ID(), table_ID, record_ID);
 			pi.setAD_User_ID (Env.getAD_User_ID(m_ctx));
 			pi.setAD_Client_ID (Env.getAD_Client_ID(m_ctx));
-			CFrame ff = VBrowser.openBrowse(browse_ID);
+			CFrame ff = new CFrame();
+			MBrowse browse = new MBrowse(Env.getCtx(), browse_ID , null);
+			VBrowser browser = new VBrowser(ff, true , m_curWindowNo, "" , browse , "" , true, "");
+			browser.setProcessInfo(pi);
+			ff = browser.getFrame();
 			ff.setVisible(true);
 			ff.pack();
 			AEnv.showCenterScreen(ff);

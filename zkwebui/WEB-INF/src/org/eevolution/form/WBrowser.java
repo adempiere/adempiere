@@ -200,6 +200,7 @@ public class WBrowser extends Browser implements IFormController,
 		voBase.IsUpdateable = true;
 		voBase.IsDisplayed = true;
 		voBase.Description = field.getDescription();
+		voBase.Help = field.getAD_View_Column().getColumnSQL();
 		voBase.Header = title;
 				
 		GridField gField = new GridField (GridFieldVO.createParameter(voBase));
@@ -573,7 +574,7 @@ public class WBrowser extends Browser implements IFormController,
 
 		toolsBar.appendChild(bPrint);*/
 
-		bZoom.setLabel(Msg.getMsg(Env.getCtx(),"Zoom"));
+		bZoom.setLabel(Msg.getMsg(Env.getCtx(),"Zoom").replaceAll("[&]",""));
 		bZoom.setEnabled(false);
 		bZoom.addActionListener(new EventListener() {
 			public void onEvent(Event evt) {
@@ -806,7 +807,7 @@ public class WBrowser extends Browser implements IFormController,
 		// Clear Table
 		detail.setRowCount(0);
 		try {
-			m_pstmt = getStatement();		
+			m_pstmt = getStatement(dataSql);	
 			log.fine("Start query - " + (System.currentTimeMillis() - start)
 					+ "ms");
 			m_rs = m_pstmt.executeQuery();
@@ -894,12 +895,43 @@ public class WBrowser extends Browser implements IFormController,
 				return null;
 	}
 	
-	public ArrayList<Object> getParametersValues() {
-		ArrayList<Object> values = new ArrayList<Object>();
+	public String getSQLWhere(boolean refresh) {
+		
+		if(!refresh)
+			return m_whereClause;
+		
+		m_parameters_values = new ArrayList<Object>();
+		m_parameters = new ArrayList<Object>();
+
+		boolean onRange = false;
+		StringBuilder sql = new StringBuilder(p_whereClause);
+
 		for (Entry<Object, Object> entry : m_search.entrySet()) {
 			WEditor editor = (WEditor) entry.getValue();
-			values.add(editor.getValue());
+			GridFieldVO field = editor.getGridField().getVO();
+			if (!onRange) {
+
+				if (editor.getValue() != null
+						&& !field.isRange) {
+					sql.append(" AND ");
+					sql.append(field.Help).append("=?");
+					m_parameters.add(field.Help);
+					m_parameters_values.add(editor.getValue());
+				} else if(field.isRange){
+					sql.append(" AND ");
+					sql.append(field.Help).append(" BETWEEN ?");
+					m_parameters.add(field.Help);
+					m_parameters_values.add(editor.getValue());
+					onRange = true;
+				} else continue;
+			} else {
+				sql.append(" AND ? ");
+				m_parameters.add(field.Help);
+				m_parameters_values.add(editor.getValue());
+				onRange = false;
+			}
 		}
-		return values;
+		m_whereClause = sql.toString();
+		return sql.toString();
 	}
 }

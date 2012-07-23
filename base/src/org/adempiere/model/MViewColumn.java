@@ -32,7 +32,7 @@ import org.compiere.util.DB;
  * 	https://sourceforge.net/tracker/?func=detail&aid=3426137&group_id=176962&atid=879335
  */
 public class MViewColumn extends X_AD_View_Column {
-
+	
 	/**
 	 * 
 	 */

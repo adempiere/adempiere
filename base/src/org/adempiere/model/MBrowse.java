@@ -108,15 +108,14 @@ public class MBrowse extends X_AD_Browse {
 	public List<MBrowseField> getCriteriaFields() {
 
 		String whereClause = MBrowseField.COLUMNNAME_AD_Browse_ID + "=? AND "
-				+ MBrowseField.COLUMNNAME_IsDisplayed + "=? AND "
 				+ MBrowseField.COLUMNNAME_IsQueryCriteria + "=?";
 
 		return new Query(getCtx(), MBrowseField.Table_Name, whereClause,
-				get_TrxName()).setParameters(get_ID(), "Y", "Y")
+				get_TrxName()).setParameters(get_ID(),"Y")
 				.setOnlyActiveRecords(true)
 				.setOrderBy(MBrowseField.COLUMNNAME_SeqNo).list();
 	}
-
+	
 	/**
 	 * get Criteria Fields
 	 * 
