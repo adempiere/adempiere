@@ -178,7 +178,9 @@ public class FieldElementHandler extends AbstractElementHandler
 				
 				m_Field.setDefaultValue(atts.getValue("DefaultValue"));
 				m_Field.setHideInListView(Boolean.valueOf(atts.getValue("HideInListView")).booleanValue());
-				m_Field.setPreferredWidth(Integer.parseInt(atts.getValue("PreferredWidth")));
+				String preferredWidth = atts.getValue("PreferredWidth");
+				if(preferredWidth != null )
+					m_Field.setPreferredWidth(Integer.parseInt(preferredWidth));
 				
 				setIncluded_Tab_ID(ctx, m_Field, include_tabname);
 				
