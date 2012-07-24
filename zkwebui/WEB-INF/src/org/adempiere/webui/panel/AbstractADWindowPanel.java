@@ -80,6 +80,7 @@ import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.compiere.util.WebDoc;
 import org.eevolution.form.Browser;
+import org.eevolution.form.VBrowser;
 import org.eevolution.form.WBrowser;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
@@ -2127,7 +2128,10 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			ProcessInfo pi = new ProcessInfo (title, wButton.getProcess_ID(), table_ID, record_ID);
 			pi.setAD_User_ID (Env.getAD_User_ID(ctx));
 			pi.setAD_Client_ID (Env.getAD_Client_ID(ctx));
-			CustomForm ff =  WBrowser.openBrowse(adBrowseID);
+			MBrowse browse = new MBrowse(Env.getCtx(), adBrowseID , null);
+			WBrowser browser = new WBrowser(true, curWindowNo, "" , browse, "", true, "");
+			browser.setProcessInfo(pi);
+			CustomForm ff =  browser.getForm();
 			SessionManager.getAppDesktop().showWindow(ff);
 			onRefresh(false);
 		}

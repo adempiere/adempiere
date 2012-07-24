@@ -39,6 +39,7 @@ import org.adempiere.model.MBrowseField;
 import org.adempiere.model.MView;
 import org.adempiere.model.MViewColumn;
 import org.compiere.apps.search.Info_Column;
+import org.compiere.grid.ed.VEditor;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MColumn;
 import org.compiere.model.MLookup;
@@ -82,13 +83,18 @@ public abstract class Browser {
 	/** Parameters */
 	LinkedHashMap<Object,Object> m_search= new LinkedHashMap<Object,Object>();
 	/** Parameters */
-	//public ArrayList<String> m_parameters;
-	/** Parameters Values */
-	//public ArrayList<Object> m_values;
+	protected ArrayList<Object> m_parameters;
+	/** Parameters */
+	protected ArrayList<Object> m_parameters_values;
+	/** Cache m_whereClause **/
+	protected String m_whereClause = ""; 
+	
 	/** MProcess process */
 	public MProcess m_process = null;
 	/** ProcessInfo */
 	public ProcessInfo m_pi = null;
+	/** Browse Process Info */
+	public ProcessInfo m_browse_pi = null;
 
 	/** Loading success indicator */
 	public boolean p_loadedOK = false;
@@ -131,11 +137,10 @@ public abstract class Browser {
 	private Language m_language = null;
 	/** Export rows **/
 	private ArrayList<ArrayList<Object>> m_rows = new ArrayList<ArrayList<Object>>();
-	/** Title **/
-	private String m_title = null;
+
 
 	public Browser(boolean modal, int WindowNo, String value, MBrowse browse,
-			String keyColumn, boolean multiSelection, String whereClause) {
+			String keyColumn, boolean multiSelection, String where) {
 		m_Browse = browse;
 		m_View = browse.getAD_View();
 		p_WindowNo = WindowNo;
@@ -143,7 +148,12 @@ public abstract class Browser {
 		p_multiSelection = multiSelection;
 		m_language = Language.getLanguage(Env
 				.getAD_Language(m_Browse.getCtx()));
-		
+
+		String whereClause = where != null ? where : "";
+
+		if(m_Browse.getWhereClause() != null )
+			   whereClause = whereClause + m_Browse.getWhereClause();
+			
 		if (whereClause == null || whereClause.indexOf('@') == -1)
 			p_whereClause = whereClause;
 		else {
@@ -245,33 +255,12 @@ public abstract class Browser {
 		return list;
 	}
 
-	public String getSQLWhere() {
-
-		StringBuffer sql = new StringBuffer(m_Browse.getWhereClause() == null ? "" : m_Browse.getWhereClause());
-		for (MBrowseField field : m_Browse.getCriteriaFields())
-		{
-				sql.append(" AND ");
-				if (field.isRange()) {
-					MViewColumn column = field.getAD_View_Column();
-					sql.append(column.getColumnSQL()).append(
-							" BETWEEN ? AND ? ");
-				} 
-				else 
-				{
-					MViewColumn column = field.getAD_View_Column();
-					sql.append(column.getColumnSQL()).append("=? ");
-				}
-		}
-		
-		return sql.toString();
-	}
-
 	public ArrayList<Object> getParameters() {
-		ArrayList<Object> parameters = new ArrayList<Object>();
-		for (Entry<Object, Object> entry : m_search.entrySet()) {
-			parameters.add(entry.getKey());
-		}
-		return parameters;
+		return m_parameters;
+	}
+	
+	public ArrayList<Object> getParametersValues() {
+		return m_parameters_values;
 	}
 
 	public void setParameter(Object name, Object value) {
@@ -302,7 +291,7 @@ public abstract class Browser {
 
 	public int getCount() {
 		long start = System.currentTimeMillis();
-		String dynWhere = getSQLWhere();
+		String dynWhere = getSQLWhere(true);
 		StringBuffer sql = new StringBuffer(m_sqlCount);
 		if (dynWhere.length() > 0)
 			sql.append(dynWhere); // includes first AND
@@ -365,8 +354,22 @@ public abstract class Browser {
 		return sb.toString();
 	} // getSelectedSQL;
 	
-	
+	public void setProcessInfo(ProcessInfo pi) {
+		m_pi = pi;
+	}
 
+	public ProcessInfo getProcessInfo() {
+		return m_pi;
+	}
+
+	public void setBrowseProcessInfo(ProcessInfo pi) {
+		m_browse_pi = pi;
+	}
+
+	public ProcessInfo getBrowseProcessInfo() {
+		return m_browse_pi;
+	}
+	
 	public String getKeyColumn() {
 		if(p_keyColumn == null || p_keyColumn.isEmpty())
 			p_keyColumn = m_Browse.getFieldKey().getAD_View_Column().getAD_Column().getColumnName();
@@ -502,14 +505,10 @@ public abstract class Browser {
 	 */
 	 public abstract Object getParamenterValue(Object key);
 	 
-	 /**
-	  * get Parameters Values
-	  * @return Object component
-	  */
-	 abstract public ArrayList<Object> getParametersValues();
+	 abstract public String  getSQLWhere(boolean refresh);
 	
 	protected String getSQL() {
-		String dynWhere = getSQLWhere();
+		String dynWhere = getSQLWhere(false);
 		StringBuffer sql = new StringBuffer(m_sqlMain);
 		if (dynWhere.length() > 0)
 			sql.append(dynWhere); // includes first AND
@@ -522,17 +521,16 @@ public abstract class Browser {
 		return dataSql;
 	}
 
-	protected PreparedStatement getStatement() {
+	protected PreparedStatement getStatement(String sql) {
 		PreparedStatement stmt = null;
-		String sqlData = getSQL();
 		try {
-			stmt = DB.prepareStatement(sqlData, null);
+			stmt = DB.prepareStatement(sql, null);
 			if (getParametersValues().size() > 0)
 				DB.setParameters(stmt, getParametersValues());
 			setParameters(stmt, false); // no count
 			return stmt;
 		} catch (SQLException e) {
-			log.log(Level.SEVERE, sqlData, e);
+			log.log(Level.SEVERE, sql, e);
 		}
 		return stmt;
 	}
@@ -647,7 +645,7 @@ public abstract class Browser {
 			long start = System.currentTimeMillis();
 			int no = 0;
 			dataSql = getSQL();
-			m_pstmt = getStatement();
+			m_pstmt = getStatement(dataSql);
 			m_rows = new ArrayList<ArrayList<Object>>();
 			try {
 				log.fine("Start query - "

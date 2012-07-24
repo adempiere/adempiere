@@ -53,6 +53,7 @@ import javax.swing.table.TableModel;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.model.MBrowse;
 import org.adempiere.model.MBrowseField;
+import org.adempiere.model.MViewColumn;
 import org.compiere.Adempiere;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
@@ -112,7 +113,7 @@ public class VBrowser extends Browser implements ActionListener,
 		String value = "";
 		String keyColumn = "";
 		boolean multiSelection = true;
-		String whereClause = "";
+		String whereClause = null;
 		CFrame ff = new CFrame();		
 		return new VBrowser(ff, modal , WindowNo, value, browse, keyColumn,multiSelection, whereClause)
 		.getFrame();
@@ -221,11 +222,11 @@ public class VBrowser extends Browser implements ActionListener,
 		voBase.IsUpdateable = true;
 		voBase.IsDisplayed = true;
 		voBase.Description = field.getDescription();
+		voBase.Help = field.getAD_View_Column().getColumnSQL();
 		voBase.Header = title;
 				
 		GridField gField = new GridField (GridFieldVO.createParameter(voBase));
 		gField.lookupLoadComplete();
-		
 		VEditor editor = VEditorFactory.getEditor(gField, false);
 		editor.addVetoableChangeListener(this);
 		CLabel label = new CLabel(title);
@@ -258,11 +259,16 @@ public class VBrowser extends Browser implements ActionListener,
 
 		if (m_Browse.getAD_Process_ID() > 0) {
 			m_process = MProcess.get(Env.getCtx(), m_Browse.getAD_Process_ID());
-			m_pi = new ProcessInfo(m_process.getName(),
+			ProcessInfo pi = new ProcessInfo(m_process.getName(),
 					m_Browse.getAD_Process_ID());
-			m_pi.setAD_User_ID(Env.getAD_User_ID(Env.getCtx()));
-			m_pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
-			parameterPanel = new ProcessParameterPanel(p_WindowNo, m_pi);
+			pi.setAD_User_ID(Env.getAD_User_ID(Env.getCtx()));
+			pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
+			int Record_ID = 0;
+			if(getProcessInfo() != null)
+				Record_ID = getProcessInfo().getRecord_ID();
+			pi.setRecord_ID(Record_ID);
+			setBrowseProcessInfo(pi);
+			parameterPanel = new ProcessParameterPanel(p_WindowNo, getBrowseProcessInfo());
 			parameterPanel.setMode(ProcessParameterPanel.MODE_HORIZONTAL);
 			parameterPanel.init();
 			processPanel.add(parameterPanel, BorderLayout.CENTER);
@@ -605,20 +611,23 @@ public class VBrowser extends Browser implements ActionListener,
 			return;
 
 		MPInstance instance = new MPInstance(Env.getCtx(),
-				m_Browse.getAD_Process_ID(), 0);
+				m_Browse.getAD_Process_ID(), getBrowseProcessInfo().getRecord_ID());
 		instance.saveEx();
 
 		DB.createT_Selection(instance.getAD_PInstance_ID(), getSelectedKeys(),
 				null);
+		
+		ProcessInfo pi = getBrowseProcessInfo();
+		pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
+		setBrowseProcessInfo(pi);
 		//Save Values Browse Field Update
 		createT_Selection_Browse(instance.getAD_PInstance_ID());
 		
-		// call process
-		m_pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
+		// call process 
 		parameterPanel.saveParameters();
 		// Execute Process
 		ProcessCtl worker = new ProcessCtl(this, Env.getWindowNo(m_frame),
-				m_pi, null);
+				getBrowseProcessInfo(), null);
 		worker.start(); // complete tasks in unlockUI /
 	} // dispose
 
@@ -737,7 +746,7 @@ public class VBrowser extends Browser implements ActionListener,
 		});
 		toolsBar.add(bPrint);*/
 
-		bZoom.setText(Msg.getMsg(Env.getCtx(),"Zoom"));
+		bZoom.setText(Msg.getMsg(Env.getCtx(),"Zoom").replaceAll("[&]",""));
 		bZoom.setFocusable(false);
 		bZoom.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 		bZoom.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -877,6 +886,7 @@ public class VBrowser extends Browser implements ActionListener,
 		
 		p_loadedOK = initBrowser();
 		executeQuery();
+		m_frame.pack();
 	}// GEN-LAST:event_bSearchActionPerformed
 
 	private void bFindActionPerformed(java.awt.event.ActionEvent evt) {
@@ -946,7 +956,7 @@ public class VBrowser extends Browser implements ActionListener,
 			// Clear Table
 			detail.setRowCount(0);
 			try {
-				m_pstmt = getStatement();
+				m_pstmt = getStatement(dataSql);
 				log.fine("Start query - "
 						+ (System.currentTimeMillis() - start) + "ms");
 				m_rs = m_pstmt.executeQuery();
@@ -1136,14 +1146,44 @@ public class VBrowser extends Browser implements ActionListener,
 			else
 				return null;
 	}
+	
+	public String getSQLWhere(boolean refresh) {
+		
+		if(!refresh)
+			return m_whereClause;
+		
+		m_parameters_values = new ArrayList<Object>();
+		m_parameters = new ArrayList<Object>();
 
-	@Override
-	public ArrayList<Object> getParametersValues() {
-		ArrayList<Object> values = new ArrayList<Object>();
+		boolean onRange = false;
+		StringBuilder sql = new StringBuilder(p_whereClause);
+
 		for (Entry<Object, Object> entry : m_search.entrySet()) {
 			VEditor editor = (VEditor) entry.getValue();
-			values.add(editor.getValue());
+			GridFieldVO field = editor.getField().getVO();
+			if (!onRange) {
+
+				if (editor.getValue() != null
+						&& !field.isRange) {
+					sql.append(" AND ");
+					sql.append(field.Help).append("=?");
+					m_parameters.add(field.Help);
+					m_parameters_values.add(editor.getValue());
+				} else if(field.isRange){
+					sql.append(" AND ");
+					sql.append(field.Help).append(" BETWEEN ?");
+					m_parameters.add(field.Help);
+					m_parameters_values.add(editor.getValue());
+					onRange = true;
+				} else continue;
+			} else {
+				sql.append(" AND ? ");
+				m_parameters.add(field.Help);
+				m_parameters_values.add(editor.getValue());
+				onRange = false;
+			}
 		}
-		return values;
+		m_whereClause = sql.toString();
+		return sql.toString();
 	}
 }
