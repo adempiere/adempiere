@@ -1362,7 +1362,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jun 28, 2012 4:52:10 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-ALTER TABLE I_SalesHistory ADD DateInvoiced DATE NOT NULL
+ALTER TABLE I_SalesHistory ADD DateInvoiced DATE DEFAULT NULL
 ;
 
 -- Jun 28, 2012 4:52:10 PM CDT
