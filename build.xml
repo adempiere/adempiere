@@ -20,6 +20,9 @@
     <fileset dir="${adempiere.trunk}/lib">
       <include name="*.jar"/>
     </fileset>
+  	 <fileset dir="${adempiere.trunk}/tools/lib">
+  	      <include name="OpenForecast-0.5.0.jar"/>
+  	 </fileset>
     <fileset dir="${adempiere.trunk}/zkwebui/WEB-INF/lib">
       <include name="*.jar"/>
     </fileset>

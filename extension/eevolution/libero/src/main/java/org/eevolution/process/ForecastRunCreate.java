@@ -329,7 +329,7 @@ public class ForecastRunCreate extends SvrProcess {
 				.append(",");
 		insertSQL.append(MPPForecastRunLine.COLUMNNAME_PP_Period_ID)
 				.append(",");
-		insertSQL.append(MPPForecastRunLine.COLUMNNAME_QtyInvoiced).append(",");
+		//insertSQL.append(MPPForecastRunLine.COLUMNNAME_QtyInvoiced).append(",");
 		insertSQL.append(MPPForecastRunLine.COLUMNNAME_Created).append(",");
 		insertSQL.append(MPPForecastRunLine.COLUMNNAME_CreatedBy).append(",");
 		insertSQL.append(MPPForecastRunLine.COLUMNNAME_Updated).append(",");
@@ -347,7 +347,7 @@ public class ForecastRunCreate extends SvrProcess {
 		insertSQL.append(MSalesHistory.COLUMNNAME_C_SalesHistory_ID)
 				.append(",");
 		insertSQL.append(period.getPP_Period_ID()).append(",");
-		insertSQL.append(MSalesHistory.COLUMNNAME_Qty).append(",");
+		//insertSQL.append(MSalesHistory.COLUMNNAME_Qty).append(",");
 		insertSQL.append("SYSDATE").append(",");
 		insertSQL.append(Env.getAD_User_ID(getCtx())).append(",");
 		insertSQL.append("SYSDATE").append(",");
