@@ -81,7 +81,7 @@ public abstract class Browser {
 	public ArrayList<String> m_queryColumnsSql = new ArrayList<String>();
 
 	/** Parameters */
-	LinkedHashMap<Object,Object> m_search= new LinkedHashMap<Object,Object>();
+	protected LinkedHashMap<Object,Object> m_search= new LinkedHashMap<Object,Object>();
 	/** Parameters */
 	protected ArrayList<Object> m_parameters;
 	/** Parameters */
