@@ -63,7 +63,7 @@ public class MForecast extends  X_M_Forecast
 	{
 		Boolean isActiveOld = (Boolean) get_ValueOld(COLUMNNAME_IsActive);			
 		
-		if(is_ValueChanged(MForecast.COLUMNNAME_IsActive))
+		if(isActiveOld != null && is_ValueChanged(MForecast.COLUMNNAME_IsActive))
 		{
 			for (MForecastLine line : getLines(isActiveOld))
 			{
