@@ -26,8 +26,8 @@ import java.util.List;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.adempiere.exceptions.NoUOMConversionException;
 import org.compiere.model.MDocType;
+import org.compiere.model.MForecast;
 import org.compiere.model.MForecastLine;
 import org.compiere.model.MLocator;
 import org.compiere.model.MOrder;
@@ -37,7 +37,6 @@ import org.compiere.model.MRefList;
 import org.compiere.model.MRequisition;
 import org.compiere.model.MRequisitionLine;
 import org.compiere.model.MResource;
-import org.compiere.model.MUOMConversion;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
 import org.compiere.model.X_M_Forecast;
@@ -287,7 +286,8 @@ public class MPPMRP extends X_PP_MRP
 				MRequisitionLine.COLUMNNAME_Qty,
 				MRequisitionLine.COLUMNNAME_C_OrderLine_ID, // QtyOrdered depends on that
 		});
-		s_sourceColumnNames.put(X_M_Forecast.Table_Name, new String[]{
+		s_sourceColumnNames.put(MForecast.Table_Name, new String[]{
+				MForecast.COLUMNNAME_Processed
 		});
 		s_sourceColumnNames.put(MForecastLine.Table_Name, new String[]{
 				"AD_Org_ID",

@@ -24,7 +24,6 @@ import net.sourceforge.openforecast.DataPoint;
 import net.sourceforge.openforecast.DataSet;
 import net.sourceforge.openforecast.ForecastingModel;
 import net.sourceforge.openforecast.Observation;
-import net.sourceforge.openforecast.models.DoubleExponentialSmoothingModel;
 import net.sourceforge.openforecast.models.MovingAverageModel;
 
 /**
@@ -56,7 +55,9 @@ public class MovingAverage implements ForecastRule {
 		this.factorScale = factorScale;
 		this.factorUser = factorUser;
 		DataSet observedData = new DataSet();
+		observedData.setPeriodsPerYear(series.getPeriods());
 		DataPoint dp;
+		String timeVariable = null;
 
 		Enumeration<DataElement> elements = series.getDataElements();
 
@@ -67,20 +68,14 @@ public class MovingAverage implements ForecastRule {
 			dp.setIndependentValue(element.getKey().toString(),
 					(double) element.getPeriodNo());
 			observedData.add(dp);
+			timeVariable = element.getKey().toString();
 		}
+		observedData.setTimeVariable(timeVariable);
+
 		// Try moving average model
-		ForecastingModel model = new MovingAverageModel();
-
-		if (observedData.getTimeVariable() != null) {
-
-			model.init(observedData);
-			// Try moving average model using periods per year if avail.
-			if (observedData.getPeriodsPerYear() > 0) {
-				model = new MovingAverageModel(
-						new Double(getFactorUser()).intValue());
-				model.init(observedData);
-			}
-		}
+		ForecastingModel model = new MovingAverageModel(new Double(
+				getFactorUser()).intValue());
+		model.init(observedData);
 		forecastData = model.forecast(observedData);
 	}
 

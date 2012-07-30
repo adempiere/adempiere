@@ -184,7 +184,7 @@ public class MRP extends SvrProcess
 		return this.p_Planner_ID;
 	}
 
-	protected String doIt() throws Exception                
+	protected String doIt() throws Exception
 	{
 		StringBuffer resultMsg = new StringBuffer();
 		dd_order_id_cache.clear();
@@ -796,7 +796,7 @@ public class MRP extends SvrProcess
 				catch (Exception e)
 				{
 					// MRP-160 - Cannot Create Document
-					// Indicates that there was an error durring document creation
+					// Indicates that there was an error during document creation
 					createMRPNote("MRP-160", AD_Org_ID, PP_MRP_ID, product, QtyPlanned, DemandDateStartSchedule, e);
 				}
 			} // end for oqf

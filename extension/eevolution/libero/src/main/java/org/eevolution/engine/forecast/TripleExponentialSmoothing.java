@@ -55,6 +55,7 @@ public class TripleExponentialSmoothing implements ForecastRule {
 		this.factorScale = factorScale;
 		this.factorUser = factorUser;
 		DataSet observedData = new DataSet();
+		observedData.setPeriodsPerYear(series.getPeriods());
 		DataPoint dp;
 
 		Enumeration<DataElement> elements = series.getDataElements();

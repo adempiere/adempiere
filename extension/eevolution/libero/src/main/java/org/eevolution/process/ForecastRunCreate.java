@@ -160,6 +160,7 @@ public class ForecastRunCreate extends SvrProcess {
 				getCtx(), p_PP_ForecastRun_ID, get_TrxName())) {
 
 			DataSet series = new DataSet();
+			series.setPeriods(m_run.getPeriodHistory());
 			MProduct product = MProduct.get(getCtx(), master.getM_Product_ID());
 
 			List<MPPForecastRunDetail> details = MPPForecastRunMaster
@@ -281,7 +282,7 @@ public class ForecastRunCreate extends SvrProcess {
 					master.setPP_ForecastDefinitionLine_ID(fdl
 							.getPP_ForecastDefinitionLine_ID());
 					master.setM_Product_ID(M_Product_ID);
-					master.setM_Warehouse_ID(run.getM_WarehouseSource_ID());
+					master.setM_Warehouse_ID(run.getM_Warehouse_ID());
 					master.setFactorAlpha(fdl.getFactorAlpha());
 					master.setFactorGamma(fdl.getFactorGamma());
 					master.setFactorBeta(fdl.getFactorBeta());
@@ -329,7 +330,6 @@ public class ForecastRunCreate extends SvrProcess {
 				.append(",");
 		insertSQL.append(MPPForecastRunLine.COLUMNNAME_PP_Period_ID)
 				.append(",");
-		//insertSQL.append(MPPForecastRunLine.COLUMNNAME_QtyInvoiced).append(",");
 		insertSQL.append(MPPForecastRunLine.COLUMNNAME_Created).append(",");
 		insertSQL.append(MPPForecastRunLine.COLUMNNAME_CreatedBy).append(",");
 		insertSQL.append(MPPForecastRunLine.COLUMNNAME_Updated).append(",");
@@ -347,7 +347,6 @@ public class ForecastRunCreate extends SvrProcess {
 		insertSQL.append(MSalesHistory.COLUMNNAME_C_SalesHistory_ID)
 				.append(",");
 		insertSQL.append(period.getPP_Period_ID()).append(",");
-		//insertSQL.append(MSalesHistory.COLUMNNAME_Qty).append(",");
 		insertSQL.append("SYSDATE").append(",");
 		insertSQL.append(Env.getAD_User_ID(getCtx())).append(",");
 		insertSQL.append("SYSDATE").append(",");
@@ -361,7 +360,7 @@ public class ForecastRunCreate extends SvrProcess {
 		insertSQL.append(MSalesHistory.COLUMNNAME_DateInvoiced).append(
 				" BETWEEN ? AND ? ");
 		parameters.add(frd.getPP_ForecastRunMaster().getM_Product_ID());
-		parameters.add(frd.getPP_ForecastRunMaster().getM_Warehouse_ID());
+		parameters.add(m_run.getM_WarehouseSource_ID());
 		parameters.add(period.getStartDate());
 		parameters.add(period.getEndDate());
 		return DB.executeUpdateEx(insertSQL.toString(), parameters.toArray(),

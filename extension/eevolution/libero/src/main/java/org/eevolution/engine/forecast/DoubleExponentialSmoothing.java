@@ -68,9 +68,9 @@ public class DoubleExponentialSmoothing implements ForecastRule {
 					(double) element.getPeriodNo());
 			observedData.add(dp);
 		}
-		ForecastingModel forecaster = DoubleExponentialSmoothingModel
-				.getBestFitModel(observedData, getFactorAlpha(),
-						getFactorGamma());
+		
+		ForecastingModel forecaster = new DoubleExponentialSmoothingModel(
+				factorAlpha, getFactorGamma());
 		forecaster.init(observedData);
 		forecastData = forecaster.forecast(observedData);
 	}

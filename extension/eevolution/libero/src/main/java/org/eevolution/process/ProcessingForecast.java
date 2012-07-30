@@ -17,7 +17,9 @@
 package org.eevolution.process;
 
 import org.compiere.model.MForecast;
+import org.compiere.model.MForecastLine;
 import org.compiere.process.SvrProcess;
+import org.eevolution.model.MPPMRP;
 
 /**
  * Forecast process generates demands for MRP, the demand can be deactivate.
@@ -43,9 +45,14 @@ public class ProcessingForecast extends SvrProcess
 	protected String doIt ()
 	{
 		MForecast forecast = new MForecast(getCtx(),p_M_Forecast_ID, get_TrxName());
-		forecast.setProcessing(true);
 		forecast.setProcessed(true);
 		forecast.saveEx();
+		
+		for (MForecastLine fl:forecast.getLines(true))
+		{
+			MPPMRP.M_ForecastLine(fl);
+		}
+		
 		return "@M_Forecast_ID@ : " + forecast.getName() + " @Processed@";
 	}	//	doIt
 	

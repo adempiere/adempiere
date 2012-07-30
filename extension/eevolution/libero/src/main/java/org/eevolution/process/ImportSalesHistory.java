@@ -101,9 +101,8 @@ public class ImportSalesHistory extends SvrProcess {
 	 * import records using I_SalesHistory table
 	 */
 	private void importRecords() {
-		isImported = false;
-
 		for (X_I_SalesHistory ish : getRecords(false, m_IsImportOnlyNoErrors)) {
+			isImported = false;
 			MSalesHistory sh = importMSalesHistory(ish);
 			if (sh == null)
 				isImported = false;
@@ -171,6 +170,7 @@ public class ImportSalesHistory extends SvrProcess {
 		sh.setUser1_ID(ish.getUser1_ID());
 		sh.setUser2_ID(ish.getUser2_ID());
 		sh.saveEx();
+		isImported = true;
 
 		return sh;
 	}

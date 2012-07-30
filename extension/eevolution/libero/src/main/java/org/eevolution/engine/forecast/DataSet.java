@@ -27,6 +27,7 @@ import java.util.Hashtable;
 public class DataSet {
 
 	Hashtable<Integer, DataElement> dataset = new Hashtable<Integer, DataElement>();
+	private int periods = 0;
 
 	public void addDataElement(DataElement data) {
 		dataset.put(data.getPeriodNo(), data);
@@ -42,5 +43,15 @@ public class DataSet {
 
 	public int size() {
 		return this.dataset.size();
+	}
+	
+	public void setPeriods(int periods)
+	{
+		this.periods = periods;
+	}
+	
+	public int getPeriods()
+	{
+		return this.periods;
 	}
 }

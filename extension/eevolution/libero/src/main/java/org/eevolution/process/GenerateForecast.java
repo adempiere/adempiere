@@ -146,6 +146,8 @@ public class GenerateForecast extends SvrProcess {
 		forecast.setDescription(forecast.getDescription() != null ? forecast
 				.getDescription() + " " + desc : desc);
 		forecast.saveEx();
+		fr.setProcessed(true);
+		fr.saveEx();
 
 		result.append("@M_Forecast_ID@ # @Deleted@ = ").append(deletedRecord)
 				.append(" @Updated@ = ").append(updatedRecord)
@@ -207,9 +209,9 @@ public class GenerateForecast extends SvrProcess {
 		insert.append(" INNER JOIN PP_Period fp ON (fp.PP_Period_ID=frr.PP_Period_ID) ");
 		insert.append(" INNER JOIN M_Product p ON (p.M_Product_ID=frm.M_Product_ID) ");
 		insert.append(" INNER JOIN M_Product_Category pc ON (pc.M_Product_Category_ID=p.M_Product_Category_ID)");
-		insert.append(" LEFT  JOIN M_Product_Classification pcl ON (pcl.value=p.Classification) ");
+		/*insert.append(" LEFT  JOIN M_Product_Classification pcl ON (pcl.value=p.Classification) ");
 		insert.append(" LEFT  JOIN M_Product_Class pclass ON (pclass.value=p.Group1) ");
-		insert.append(" LEFT  JOIN M_Product_Group pg ON (p.value=p.Group2) ");
+		insert.append(" LEFT  JOIN M_Product_Group pg ON (p.value=p.Group2) ");*/
 
 		StringBuilder whereClause = new StringBuilder(
 				" WHERE NOT EXISTS (SELECT 1 FROM M_ForecastLine fl WHERE fl.M_Forecast_ID=? AND ");
