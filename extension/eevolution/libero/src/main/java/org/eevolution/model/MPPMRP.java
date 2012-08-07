@@ -83,12 +83,13 @@ public class MPPMRP extends X_PP_MRP
 			//Search standard BOM
 			MPPProductBOM bom = new Query(ol.getCtx(), MPPProductBOM.Table_Name, whereClause,ol.get_TrxName())
 						.setClient_ID()
-						.setParameters(new Object[]{
+						.setParameters(
 								MPPProductBOM.BOMTYPE_Make_To_Order, 
 								MPPProductBOM.BOMTYPE_Make_To_Kit, 
 								MPPProductBOM.BOMUSE_Manufacturing,
-								product.getValue()})
+								product.getValue())
 						.firstOnly();
+
 			
 			//Search workflow standard
 			MWorkflow workflow = null;
@@ -633,11 +634,31 @@ public class MPPMRP extends X_PP_MRP
 		MOrder o = ol.getParent();
 		MDocType dt = MDocType.get(o.getCtx(), o.getC_DocTypeTarget_ID());
 		String DocSubTypeSO = dt.getDocSubTypeSO();
-		if(MDocType.DOCSUBTYPESO_StandardOrder.equals(DocSubTypeSO))
-		{
+		MProduct product = (MProduct) ol.getM_Product();
+		if (MDocType.DOCSUBTYPESO_StandardOrder.equals(DocSubTypeSO)
+				&& product.isBOM()
+				&& !product.isPurchased()
+				&& IsProductMakeToOrder(ol.getCtx(), ol.getM_Product_ID(),
+						ol.get_TrxName())) {
 			MPPMRP.createMOMakeTo(ol, ol.getQtyOrdered());
-		}	
+		}
+		
 		return;
+	}
+	
+	//TODO: move MPPProductBOM
+	public static boolean IsProductMakeToOrder(Properties ctx,int M_Product_ID , String trxName) {
+		final String whereClause = MPPProductBOM.COLUMNNAME_BOMType+" IN (?,?)"
+					   +" AND "+MPPProductBOM.COLUMNNAME_BOMUse+"=?"
+					   +" AND "+MPPProductBOM.COLUMNNAME_M_Product_ID+"=?";
+		return new Query(ctx, MPPProductBOM.Table_Name, whereClause,trxName)
+		.setClient_ID()
+		.setParameters(
+				MPPProductBOM.BOMTYPE_Make_To_Order, 
+				MPPProductBOM.BOMTYPE_Make_To_Kit, 
+				MPPProductBOM.BOMUSE_Manufacturing,
+				M_Product_ID)
+		.match();
 	}
 
 	/**
