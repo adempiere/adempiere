@@ -227,7 +227,7 @@ public class ImportSalesHistory extends SvrProcess {
 
 			if (SalesRep_ID <= 0 && ish.getSalesRep_Name() != null) {
 				SalesRep_ID = getID(MUser.Table_Name, "Name = ?",
-						ish.getRegionName());
+						ish.getSalesRep_Name());
 				ish.setSalesRep_ID(SalesRep_ID);
 			} else
 				ish.setSalesRep_ID(SalesRep_ID);
