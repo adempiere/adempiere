@@ -3,26 +3,15 @@ package org.eevolution.form;
 
 
 
-import java.awt.BorderLayout;
-import java.awt.Cursor;
-import java.awt.Dimension;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
 import java.util.logging.Level;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.ListSelectionModel;
-
-
-
 import org.adempiere.exceptions.DBException;
+import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Checkbox;
@@ -30,8 +19,6 @@ import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
-import org.adempiere.webui.component.ListModelTable;
-import org.adempiere.webui.component.NumberBox;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
@@ -42,22 +29,14 @@ import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.editor.WDateEditor;
 import org.adempiere.webui.editor.WNumberEditor;
 import org.adempiere.webui.editor.WSearchEditor;
-import org.adempiere.webui.event.ActionEvent;
-import org.adempiere.webui.event.ActionListener;
 import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
 import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.CustomForm;
 import org.adempiere.webui.panel.IFormController;
 import org.adempiere.webui.panel.StatusBarPanel;
-import org.adempiere.webui.panel.WSchedule;
 import org.adempiere.webui.window.WPAttributeInstance;
-import org.adempiere.webui.apps.AEnv;
-import org.compiere.apps.AWindow;
-import org.compiere.grid.ed.VCheckBox;
-import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
-import org.compiere.model.GridField;
 import org.compiere.model.MColumn;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
@@ -76,7 +55,6 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
 import org.compiere.util.Msg;
-import org.eevolution.form.VMRPDetailed.Worker;
 import org.eevolution.model.MPPMRP;
 import org.eevolution.model.MPPOrder;
 import org.eevolution.model.MPPProductPlanning;
@@ -906,8 +884,8 @@ public class WMRPDetailed extends MRPDetailed implements IFormController, EventL
 
 
 
-	protected Integer getSelectedRowKey()
-	 {
+	public Integer getSelectedRowKey()
+	{
 		 int row = p_table.getSelectedRow();
 		 if (row != -1 && m_keyColumnIndex != -1)
 		 {
@@ -923,7 +901,7 @@ public class WMRPDetailed extends MRPDetailed implements IFormController, EventL
 
 
 	@Override
-	void zoom(int AD_Window_ID, MQuery zoomQuery) {
+	public void zoom(int AD_Window_ID, MQuery zoomQuery) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -932,21 +910,22 @@ public class WMRPDetailed extends MRPDetailed implements IFormController, EventL
 		 public void work()
 		 {
 			 log.fine("Info.Worker.run");
-                     
-			 StringBuffer sql = new StringBuffer (m_sqlMain);
+      
+			 StringBuilder sql = new StringBuilder (m_sqlMain);
 
 			 String dynWhere = getSQLWhere();
 			 if (dynWhere.length() > 0)
 			 {   System.out.println("where" +dynWhere);
 			 sql.append(dynWhere);   //  includes first AND
 			 }
-			 String xSql = Msg.parseTranslation(getCtx(), sql.toString());
-			 xSql = MRole.getDefault().addAccessSQL(xSql, getTableName(), 
-					 MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO);
+			 StringBuilder sqlFinal = new StringBuilder (MRole.getDefault().addAccessSQL(Msg.parseTranslation(getCtx(), sql.toString()), getTableName(), 
+					 MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO));  
+			 sqlFinal.append(" ORDER BY DatePromised,ProductValue");
+			 
 			 try
 			 {
-				 PreparedStatement pstmt = DB.prepareStatement(xSql,null);
-				 log.fine("SQL=" + xSql);
+				 PreparedStatement pstmt = DB.prepareStatement(sqlFinal.toString(),null);
+				 log.fine("SQL=" + sqlFinal.toString());
 				 setParameters (pstmt, false);
 				 ResultSet rs = pstmt.executeQuery();
 				 p_table.loadTable(rs);
@@ -956,7 +935,7 @@ public class WMRPDetailed extends MRPDetailed implements IFormController, EventL
 			 }
 			 catch (SQLException e)
 			 {				
-				 log.log(Level.SEVERE, "Info.Worker.run - " + xSql, e);
+				 log.log(Level.SEVERE, "Info.Worker.run - " + sqlFinal.toString(), e);
 			 }
 			
 
