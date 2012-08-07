@@ -204,7 +204,7 @@ public abstract class MRPDetailed {
 		return Env.getCtx();
 	}
 
-	abstract Integer getSelectedRowKey();
+	public abstract Integer getSelectedRowKey();
 
 	/**
 	 * get where clause for Document with status Draft, In process , Complete
@@ -322,6 +322,6 @@ public abstract class MRPDetailed {
 		zoom(AD_Window_ID, query);
 	}
 
-	abstract void zoom(int AD_Window_ID, MQuery zoomQuery);
+	public abstract void zoom(int AD_Window_ID, MQuery zoomQuery);
 
 }

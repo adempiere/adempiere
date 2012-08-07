@@ -189,9 +189,7 @@ public class MRP extends SvrProcess
 		StringBuffer resultMsg = new StringBuffer();
 		dd_order_id_cache.clear();
 		partner_cache.clear(); 
-		
-		
-		
+	
 		ArrayList <Object> parameters = new ArrayList<Object>();
 		StringBuffer whereClause = new StringBuffer(MResource.COLUMNNAME_ManufacturingResourceType+"=? AND AD_Client_ID=?");
 		parameters.add(MResource.MANUFACTURINGRESOURCETYPE_Plant);
@@ -244,23 +242,24 @@ public class MRP extends SvrProcess
 				//
 				for(MWarehouse w : ws)
 				{
-					if(plant.getM_Warehouse_ID() == w.getM_Warehouse_ID() && isRequiredDRP())
-						continue;
+					// remove using DRP should be executed
+					//if(plant.getM_Warehouse_ID() == w.getM_Warehouse_ID() && isRequiredDRP())
+					//	continue;
 
 					log.info("Run MRP to Wharehouse: " + w.getName());
 					runMRP(getAD_Client_ID(), org.getAD_Org_ID(), plant.getS_Resource_ID(), w.getM_Warehouse_ID());
 					resultMsg.append("<br>finish MRP to Warehouse " +w.getName());
 				}
-				resultMsg.append("<br>finish MRP to Organization " +org.getName());
+				//resultMsg.append("<br>finish MRP to Organization " +org.getName());
 			}
 			resultMsg.append("<br> " +Msg.translate(getCtx(), "Created"));
-			resultMsg.append("<br> ");
 			resultMsg.append("<br> " +Msg.translate(getCtx(), "PP_Order_ID")+":"+count_MO);
 			resultMsg.append("<br> " +Msg.translate(getCtx(), "DD_Order_ID")+":"+count_DO);
 			resultMsg.append("<br> " +Msg.translate(getCtx(), "M_Requisition_ID")+":"+count_MR);
 			resultMsg.append("<br> " +Msg.translate(getCtx(), "AD_Note_ID")+":"+count_Msg);
-			resultMsg.append("<br>finish MRP to Plant " +plant.getName());
+			resultMsg.append("<br>finish MRP for Plant" +plant.getName());
 		}		
+		commitEx();
 		//
 		return resultMsg.toString();
 	} 
@@ -300,10 +299,10 @@ public class MRP extends SvrProcess
 		{
 			//Delete Distribution Order with Draft Status
 			whereClause = "DocStatus='DR' AND AD_Client_ID=? AND AD_Org_ID=?"
-						+" AND EXISTS (SELECT 1 FROM PP_MRP mrp WHERE  mrp.DD_Order_ID=DD_Order.DD_Order_ID AND mrp.S_Resource_ID=? )"
+						+" AND EXISTS (SELECT 1 FROM PP_MRP mrp WHERE  mrp.DD_Order_ID=DD_Order.DD_Order_ID)"
 						+" AND EXISTS (SELECT 1 FROM DD_OrderLine ol INNER JOIN  M_Locator l ON (l.M_Locator_ID=ol.M_LocatorTo_ID) "
 						+" WHERE ol.DD_Order_ID=DD_Order.DD_Order_ID AND l.M_Warehouse_ID=?)";
-			deletePO(MDDOrder.Table_Name, whereClause, new Object[]{AD_Client_ID, AD_Org_ID, S_Resource_ID, M_Warehouse_ID});
+			deletePO(MDDOrder.Table_Name, whereClause, new Object[]{AD_Client_ID, AD_Org_ID, M_Warehouse_ID});
 		}
 		
 		// Mark all supply MRP records as available
@@ -858,6 +857,8 @@ public class MRP extends SvrProcess
 			//Indicates that the Product Planning Data for this product does not specify a valid network distribution.
 			createMRPNote("DRP-060", AD_Org_ID, PP_MRP_ID, product , (String)null , null , null);
 		}
+		
+		//TODO: Create functionality for Valid form and Valid To for an Network Distribution
 		MDDNetworkDistribution network = MDDNetworkDistribution.get(getCtx(),m_product_planning.getDD_NetworkDistribution_ID());
 		MDDNetworkDistributionLine[] network_lines = network.getLines(m_product_planning.getM_Warehouse_ID());
 		int M_Shipper_ID = 0;
@@ -910,7 +911,7 @@ public class MRP extends SvrProcess
 			{	
 
 				//Org Must be linked to BPartner
-				MOrg org = MOrg.get(getCtx(), locator_to.getAD_Org_ID());
+				MOrg org = MOrg.get(getCtx(), locator.getAD_Org_ID());
 				int C_BPartner_ID = org.getLinkedC_BPartner_ID(get_TrxName()); 
 				if (C_BPartner_ID == 0)
 				{
@@ -980,7 +981,6 @@ public class MRP extends SvrProcess
 			for (MPPMRP mrp : mrpList)
 			{
 				mrp.setDateOrdered(getToday());               
-				mrp.setS_Resource_ID(m_product_planning.getS_Resource_ID());
 				mrp.setDateOrdered(mrp.getDD_Order().getDateOrdered());  
 				mrp.setDateStartSchedule(mrp.getDateOrdered());
 				mrp.setDatePromised(DemandDateStartSchedule);

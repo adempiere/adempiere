@@ -513,8 +513,8 @@ public class VMRPDetailed extends MRPDetailed implements FormPanel,
 	 *             if Lookups cannot be initialized
 	 */
 	private void fillPicks() throws Exception {
-		prepareTable(m_layout, getTableName(), getSQLWhere(),
-				"TypeMRP , ProductValue , DatePromised");
+		prepareTable(m_layout, getTableName(), getSQLWhere(),"DatePromised,ProductValue"
+				);
 	}
 
 	protected int getAD_Org_ID() {
@@ -573,7 +573,7 @@ public class VMRPDetailed extends MRPDetailed implements FormPanel,
 	 * @return selected key
 	 */
 	@Override
-	protected Integer getSelectedRowKey() {
+	public Integer getSelectedRowKey() {
 		int row = p_table.getSelectedRow();
 		if (row != -1 && m_keyColumnIndex != -1) {
 			Object data = p_table.getModel().getValueAt(row, m_keyColumnIndex);
@@ -727,9 +727,9 @@ public class VMRPDetailed extends MRPDetailed implements FormPanel,
 		confirmPanel.getHistoryButton().setVisible(hasHistory());
 		confirmPanel.getZoomButton().setVisible(hasZoom());
 		//
-		JButton print = ConfirmPanel.createPrintButton(true);
-		print.addActionListener(this);
-		confirmPanel.addButton(print);
+		//JButton print = ConfirmPanel.createPrintButton(true);
+		//print.addActionListener(this);
+		//confirmPanel.addButton(print);
 		//
 		popup.add(calcMenu);
 		calcMenu.setText(Msg.getMsg(getCtx(), "Calculator"));
@@ -984,7 +984,7 @@ public class VMRPDetailed extends MRPDetailed implements FormPanel,
 		lPlanner_ID.setLabelFor(fPlanner_ID);
 		fPlanner_ID.setBackground(AdempierePLAF.getInfoBackground());
 		// Wahrehouse Lookup
-		fWarehouse_ID = new VLookup(MPPMRP.COLUMNNAME_M_Warehouse_ID, false,
+		fWarehouse_ID = new VLookup(MPPMRP.COLUMNNAME_M_Warehouse_ID, true,
 				false, true, MLookupFactory.get(getCtx(), p_WindowNo, 0,
 						MColumn.getColumn_ID(MWarehouse.Table_Name,
 								MPPMRP.COLUMNNAME_M_Warehouse_ID),
@@ -1229,7 +1229,7 @@ public class VMRPDetailed extends MRPDetailed implements FormPanel,
 	 *            zoom query
 	 * @throws InterruptedException
 	 */
-	void zoom(int AD_Window_ID, MQuery zoomQuery) {
+	public void zoom(int AD_Window_ID, MQuery zoomQuery) {
 		panel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
 		final AWindow frame = new AWindow();
