@@ -2132,6 +2132,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			WBrowser browser = new WBrowser(true, curWindowNo, "" , browse, "", true, "");
 			browser.setProcessInfo(pi);
 			CustomForm ff =  browser.getForm();
+			ff.setAttribute(Window.MODE_KEY, Window.MODE_EMBEDDED);
+			ff.setAttribute(Window.INSERT_POSITION_KEY, Window.INSERT_NEXT);
+			ff.setTitle(title);
 			SessionManager.getAppDesktop().showWindow(ff);
 			onRefresh(false);
 		}

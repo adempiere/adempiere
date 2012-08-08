@@ -39,7 +39,6 @@ import org.adempiere.model.MBrowseField;
 import org.adempiere.model.MView;
 import org.adempiere.model.MViewColumn;
 import org.compiere.apps.search.Info_Column;
-import org.compiere.grid.ed.VEditor;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MColumn;
 import org.compiere.model.MLookup;

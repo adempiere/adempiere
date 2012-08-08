@@ -53,7 +53,6 @@ import javax.swing.table.TableModel;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.model.MBrowse;
 import org.adempiere.model.MBrowseField;
-import org.adempiere.model.MViewColumn;
 import org.compiere.Adempiere;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
@@ -202,6 +201,23 @@ public class VBrowser extends Browser implements ActionListener,
 				row++;
 			}
 		}
+		
+		if (m_Browse.getAD_Process_ID() > 0) {
+			m_process = MProcess.get(Env.getCtx(), m_Browse.getAD_Process_ID());
+			ProcessInfo pi = new ProcessInfo(m_process.getName(),
+					m_Browse.getAD_Process_ID());
+			pi.setAD_User_ID(Env.getAD_User_ID(Env.getCtx()));
+			pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
+			int Record_ID = 0;
+			if(getProcessInfo() != null)
+				Record_ID = getProcessInfo().getRecord_ID();
+			pi.setRecord_ID(Record_ID);
+			setBrowseProcessInfo(pi);
+			parameterPanel = new ProcessParameterPanel(p_WindowNo, getBrowseProcessInfo());
+			parameterPanel.setMode(ProcessParameterPanel.MODE_HORIZONTAL);
+			parameterPanel.init();
+			processPanel.add(parameterPanel, BorderLayout.CENTER);
+		}
 	}
 
 	private void addComponent(MBrowseField field, int row, int col,
@@ -246,33 +262,15 @@ public class VBrowser extends Browser implements ActionListener,
 			return false;
 
 		// prepare table
-		StringBuffer where = new StringBuffer(m_View.getParentEntityAliasName()
-				+ ".IsActive='Y'");
-		// StringBuffer where = new StringBuffer("");
+		//StringBuffer where = new StringBuffer(m_View.getParentEntityAliasName()
+		//		+ ".IsActive='Y' ");
+		StringBuilder where = new StringBuilder("");
 		if (p_whereClause.length() > 0) {
-			// where.append(" AND ").append(p_whereClause);
 			where.append(p_whereClause);
 		}
 
 		prepareTable(m_generalLayout, m_View.getFromClause(), where.toString(),
 				"2");
-
-		if (m_Browse.getAD_Process_ID() > 0) {
-			m_process = MProcess.get(Env.getCtx(), m_Browse.getAD_Process_ID());
-			ProcessInfo pi = new ProcessInfo(m_process.getName(),
-					m_Browse.getAD_Process_ID());
-			pi.setAD_User_ID(Env.getAD_User_ID(Env.getCtx()));
-			pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
-			int Record_ID = 0;
-			if(getProcessInfo() != null)
-				Record_ID = getProcessInfo().getRecord_ID();
-			pi.setRecord_ID(Record_ID);
-			setBrowseProcessInfo(pi);
-			parameterPanel = new ProcessParameterPanel(p_WindowNo, getBrowseProcessInfo());
-			parameterPanel.setMode(ProcessParameterPanel.MODE_HORIZONTAL);
-			parameterPanel.init();
-			processPanel.add(parameterPanel, BorderLayout.CENTER);
-		}
 		return true;
 	} // initInfo
 
@@ -418,10 +416,9 @@ public class VBrowser extends Browser implements ActionListener,
 					layout[i].isReadOnly(), layout[i].getColHeader());
 
 		sql.append(" FROM ").append(from);
-		//
-		sql.append(" WHERE ").append(staticWhere);
+		sql.append(" WHERE ");
 		m_sqlMain = sql.toString();
-		m_sqlCount = "SELECT COUNT(*) FROM " + from + " WHERE " + staticWhere;
+		m_sqlCount = "SELECT COUNT(*) FROM " + from + " WHERE ";
 		//
 		m_sqlOrder = "";
 		if (orderBy != null && orderBy.length() > 0)
@@ -1169,14 +1166,14 @@ public class VBrowser extends Browser implements ActionListener,
 					sql.append(field.Help).append("=?");
 					m_parameters.add(field.Help);
 					m_parameters_values.add(editor.getValue());
-				} else if(field.isRange){
+				} else if(editor.getValue() != null && field.isRange){
 					sql.append(" AND ");
 					sql.append(field.Help).append(" BETWEEN ?");
 					m_parameters.add(field.Help);
 					m_parameters_values.add(editor.getValue());
 					onRange = true;
 				} else continue;
-			} else {
+			} else if(editor.getValue() != null) {
 				sql.append(" AND ? ");
 				m_parameters.add(field.Help);
 				m_parameters_values.add(editor.getValue());
