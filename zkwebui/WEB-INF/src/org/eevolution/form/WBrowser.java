@@ -17,7 +17,6 @@
  *****************************************************************************/
 package org.eevolution.form;
 
-import java.awt.Component;
 import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -56,11 +55,8 @@ import org.adempiere.webui.panel.StatusBarPanel;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.apps.AEnv;
-import org.compiere.apps.ALayoutConstraint;
 import org.compiere.apps.ProcessCtl;
 import org.compiere.apps.search.Info_Column;
-import org.compiere.grid.ed.VEditor;
-import org.compiere.grid.ed.VEditorFactory;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.GridField;
 import org.compiere.model.GridFieldVO;
@@ -68,7 +64,6 @@ import org.compiere.model.MPInstance;
 import org.compiere.model.MProcess;
 import org.compiere.model.MRole;
 import org.compiere.process.ProcessInfo;
-import org.compiere.swing.CLabel;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -84,7 +79,6 @@ import org.zkoss.zul.Div;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Grid;
 import org.zkoss.zul.Hbox;
-import org.zkoss.zul.Iframe;
 import org.zkoss.zul.Row;
 import org.zkoss.zul.Vbox;
 
@@ -181,6 +175,33 @@ public class WBrowser extends Browser implements IFormController,
 				row = rows.newRow();
 			}
 		}
+		
+		if (m_Browse.getAD_Process_ID() > 0) {
+			
+			m_process = MProcess.get(Env.getCtx(), m_Browse.getAD_Process_ID());
+			ProcessInfo pi = new ProcessInfo(m_process.getName(),
+					m_Browse.getAD_Process_ID());
+			pi.setAD_User_ID(Env.getAD_User_ID(Env.getCtx()));
+			pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
+			int Record_ID = 0;
+			if(getProcessInfo() != null)
+				Record_ID = getProcessInfo().getRecord_ID();
+			pi.setRecord_ID(Record_ID);
+			setBrowseProcessInfo(pi);
+			parameterPanel = new ProcessParameterPanel(p_WindowNo, getBrowseProcessInfo() , "70%");
+			parameterPanel.setMode(ProcessParameterPanel.BROWSER_MODE);
+			parameterPanel.init();
+
+			South south = new South();
+			south.setAutoscroll(true);
+			south.setTitle(" ");
+			
+			Div div = new Div();
+			div.setWidth("100%");
+			div.appendChild(parameterPanel);
+			south.appendChild(div);		
+			footPanel.appendChild(south);
+		}	
 	}
 
 	public void addComponent(MBrowseField field, Row row, String name,
@@ -223,41 +244,14 @@ public class WBrowser extends Browser implements IFormController,
 		if (!initBrowserTable())
 			return false;
 
-		// prepare table
-		StringBuffer where = new StringBuffer(m_View.getParentEntityAliasName()
-				+ ".IsActive='Y'");
-
+		// prepare table	
+		StringBuilder where = new StringBuilder("");
 		if (p_whereClause.length() > 0) {
 			where.append(p_whereClause);
 		}
 
 		prepareTable(m_generalLayout, m_View.getFromClause(), where.toString(),
 				"2");
-
-		if (m_Browse.getAD_Process_ID() > 0) {
-			m_process = MProcess.get(Env.getCtx(), m_Browse.getAD_Process_ID());
-			m_pi = new ProcessInfo(m_process.getName(),
-					m_Browse.getAD_Process_ID());
-			m_pi.setAD_User_ID(Env.getAD_User_ID(Env.getCtx()));
-			m_pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
-			parameterPanel = new ProcessParameterPanel(p_WindowNo, m_pi);
-			parameterPanel.setMode(ProcessParameterPanel.BROWSER_MODE);
-			parameterPanel.init();
-
-			South south = new South();
-			south.appendChild(parameterPanel);
-			south.setCollapsible(true);
-			south.setTitle(" ");
-			
-			Div div = new Div();
-			div.setWidth("100%");
-			div.appendChild(parameterPanel);
-			south.appendChild(div);
-			
-			footPanel.appendChild(south);
-			
-			
-		}
 		return true;
 	}
 
@@ -319,16 +313,19 @@ public class WBrowser extends Browser implements IFormController,
 			if (i > 0)
 				sql.append(", ");
 			sql.append(layout[i].getColSQL());
-
+			// adding ID column
 			if (layout[i].isIDcol())
-				sql.append(",").append(layout[i].getIDcolSQL());
+				sql.append(",").append(layout[i].getIDcolSQL());			
+			if (layout[i].isColorColumn())
+				detail.setColorColumn(i);
+			if (layout[i].getColClass() == IDColumn.class)
+				m_keyColumnIndex = i;
 		}
-		sql.append(" FROM ").append(from);
-		//
-		sql.append(" WHERE ").append(staticWhere);
-		m_sqlMain = sql.toString();
 
-		m_sqlCount = "SELECT COUNT(*) FROM " + from + " WHERE " + staticWhere;
+		sql.append(" FROM ").append(from);
+		sql.append(" WHERE ");
+		m_sqlMain = sql.toString();
+		m_sqlCount = "SELECT COUNT(*) FROM " + from + " WHERE ";
 		m_sqlOrder = "";
 		if (orderBy != null && orderBy.length() > 0)
 			m_sqlOrder = " ORDER BY " + orderBy;
@@ -440,7 +437,7 @@ public class WBrowser extends Browser implements IFormController,
 				}
 			}
 		}
-
+		
 		if (selectedDataList.size() == 0) {
 			int row = detail.getSelectedRow();
 			if (row != -1 && m_keyColumnIndex != -1) {
@@ -457,24 +454,29 @@ public class WBrowser extends Browser implements IFormController,
 	}
 
 	public void dispose(boolean ok) {
+		log.config("OK=" + ok);
+		m_ok = ok;
+		
 		saveResultSelection();
 		saveSelection();
+		
 		if (m_Browse.getAD_Process_ID() <= 0)
 			return;
 
 		MPInstance instance = new MPInstance(Env.getCtx(),
-				m_Browse.getAD_Process_ID(), 0);
+				m_Browse.getAD_Process_ID(), getBrowseProcessInfo().getRecord_ID());
 		instance.saveEx();
 
 		DB.createT_Selection(instance.getAD_PInstance_ID(), getSelectedKeys(),
 				null);
+		ProcessInfo pi = getBrowseProcessInfo();
+		pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
+		setBrowseProcessInfo(pi);
 		//Save Values Browse Field Update
-				createT_Selection_Browse(instance.getAD_PInstance_ID());
-		// call process
-		m_pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
+		createT_Selection_Browse(instance.getAD_PInstance_ID());
 		parameterPanel.saveParameters();
 		// Execute Process
-		ProcessCtl worker = new ProcessCtl(this, 0, m_pi, null);
+		ProcessCtl worker = new ProcessCtl(this, 0, getBrowseProcessInfo(), null);
 		worker.start();
 		SessionManager.getAppDesktop().closeActiveWindow();
 	}
@@ -531,33 +533,42 @@ public class WBrowser extends Browser implements IFormController,
 
 		setupToolBar();
 		
-		bSelectAll.setLabel(Msg.getMsg(Env.getCtx(),"SelectAll"));
+		bSelectAll.setLabel(Msg.getMsg(Env.getCtx(),"SelectAll").replaceAll("[&]",""));
 		bSelectAll.setEnabled(false);
 		bSelectAll.addActionListener(new EventListener(){
-        	public void onEvent(Event evt){
-        		if(detail.getRowCount()>0)
-        		{
-        			if(!isAllSelected)
-        			{
-        				int size = detail.getRowCount();
-        			
-	        			int selectedList[] = new int[size];
-	        			
-		        		
-	        			for(int x = 0; x<= detail.getRowCount() -1; x++)
-		        		{
-		        			selectedList[x] = x;
-		        		}
-		        		detail.setSelectedIndices(selectedList);
-        			}
-        			else
-        			{
-        				detail.clearSelection();
-        			}
-        			
-        			isAllSelected = !isAllSelected;
-        		}
-        	}
+    	public void onEvent(Event evt)
+    	{
+    		int topIndex = 1 ; //detail.getShowTotals() ? 2 : 1;
+    		int rows = detail.getRowCount();
+			int selectedList[] = new int[rows];
+    		if(!isAllSelected)
+			{
+				for (int row = 0; row <= rows - topIndex; row++) {
+					Object data = detail.getModel().getValueAt(row,
+							m_keyColumnIndex);
+					if (data instanceof IDColumn) {
+						IDColumn dataColumn = (IDColumn) data;
+						dataColumn.setSelected(true);
+						detail.getModel().setValueAt(dataColumn, row,m_keyColumnIndex);
+					}
+					selectedList[row] = row;
+				}
+        		detail.setSelectedIndices(selectedList);
+			} else {
+				for (int row = 0; row <= rows - topIndex; row++) {
+					Object data = detail.getModel().getValueAt(row,
+							m_keyColumnIndex);
+					if (data instanceof IDColumn) {
+						IDColumn dataColumn = (IDColumn) data;
+						dataColumn.setSelected(false);
+						detail.getModel().setValueAt(dataColumn, row,m_keyColumnIndex);
+					}
+				}
+				detail.clearSelection();
+			}
+    			
+    			isAllSelected = !isAllSelected;
+    	}
         });
 
 		toolsBar.appendChild(bSelectAll);
@@ -917,14 +928,14 @@ public class WBrowser extends Browser implements IFormController,
 					sql.append(field.Help).append("=?");
 					m_parameters.add(field.Help);
 					m_parameters_values.add(editor.getValue());
-				} else if(field.isRange){
+				} else if(editor.getValue() != null && field.isRange){
 					sql.append(" AND ");
 					sql.append(field.Help).append(" BETWEEN ?");
 					m_parameters.add(field.Help);
 					m_parameters_values.add(editor.getValue());
 					onRange = true;
 				} else continue;
-			} else {
+			} else if(editor.getValue() != null) {
 				sql.append(" AND ? ");
 				m_parameters.add(field.Help);
 				m_parameters_values.add(editor.getValue());
