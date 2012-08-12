@@ -30,23 +30,34 @@ import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 
+import javax.swing.table.DefaultTableColumnModel;
+import javax.swing.table.DefaultTableModel;
+
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.apps.BusyDialog;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.ListModelTable;
+import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.WListItemRenderer;
 import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.component.Window;
+import org.adempiere.webui.editor.WSearchEditor;
+import org.adempiere.webui.editor.WTableDirEditor;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
 import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
 import org.adempiere.webui.part.ITabOnSelectHandler;
 import org.adempiere.webui.session.SessionManager;
+import org.compiere.apps.AWindow;
+import org.compiere.grid.ed.VLookup;
+import org.compiere.grid.ed.VPAttribute;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MRole;
+import org.compiere.model.MSysConfig;
 import org.compiere.model.MTable;
+import org.compiere.swing.CTextField;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -271,7 +282,17 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 		p_keyColumn = keyColumn;
         p_multipleSelection = multipleSelection;
         m_lookup = lookup;
-		
+		//
+        p_TabNo = 0;
+        /*
+		Class<?> frameClass = frame.getClass();
+		if (frameClass == AWindow.class)
+		{
+			//  Activated from a window - find the active tab to limit the context
+			p_TabNo = ((AWindow) frame).getAPanel().getCurrentTab().getTabNo();
+		}
+		*/
+		//
 		if (whereClause == null || whereClause.indexOf('@') == -1)
 			p_whereClause = whereClause;
 		else
@@ -332,9 +353,15 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 
         contentPanel.setOddRowSclass(null);
 	}  //  init
+	
+	private static String SYSCONFIG_INFO_AUTO_WILDCARD = "INFO_AUTO_WILDCARD";
+	private static String SYSCONFIG_INFO_AUTO_QUERY = "INFO_AUTO_QUERY";
+
 	protected ConfirmPanel confirmPanel;
 	/** Master (owning) Window  */
 	protected int				p_WindowNo;
+	/** Tab No to limit context */
+	protected int				p_TabNo;
 	/** Table Name              */
 	protected String            p_tableName;
 	/** Key Column Name         */
@@ -343,15 +370,22 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	protected boolean			p_multipleSelection;
 	/** Initial WHERE Clause    */
 	protected String			p_whereClause = "";
+	/** Concrete WHERE Clause - used by concrete classes  */
+	protected String			p_concreteWhereClause = "";
 	protected StatusBarPanel statusBar = new StatusBarPanel();
 	/**                    */
     private List<Object> line;
+	/** Tracking for previously selected record				*/
+	protected int 				p_selectedRecordKey = 0;
+    /** A refresh of the data is required */
+    protected boolean 			p_refreshRequired = false;
+	protected boolean 			p_resetColumns = false;
 
 	private boolean			    m_ok = false;
 	/** Cancel pressed - need to differentiate between OK - Cancel - Exit	*/
 	private boolean			    m_cancel = false;
 	/** Reset the record ID - false on load, reset by any action that reruns the query   */
-	private boolean				m_resetRecordID = false;
+	protected boolean				m_resetRecordID = false;
 	/** Result IDs              */
 	private ArrayList<Integer>	m_results = new ArrayList<Integer>(3);
     
@@ -421,6 +455,13 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
             String where, 
             String orderBy)
 	{
+	//  For dynamic columns, we need to wipe the table.
+		if (p_resetColumns)
+		{
+			contentPanel.clear();
+			//  Prevent repeats
+			p_resetColumns = false;
+		}
         String sql =contentPanel.prepareTable(layout, from,
                 where,p_multipleSelection && m_lookup,
                 getTableName(),false);
@@ -883,6 +924,76 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 		return sb.toString();
 	}	//	getSelectedSQL;
 
+	/**
+	 *  Test SQL WHERE parameter for validity
+	 *  @param f CText field
+	 *  @return Upper case text with wild cards as configured
+	 */
+	public static boolean isValidSQLText (Textbox f)
+	{
+		if (f != null && f.getText() != null)
+			return isValidSQLText(f.getText());
+		return false;
+	}   //  isValidSQLText
+
+	/**
+	 *  Test SQL WHERE parameter for validity
+	 *  @param s string
+	 *  @return Upper case text with wild cards as configured
+	 */
+	public static boolean isValidSQLText (String s)
+	{
+		// Don't trap single "%".  These can be used to find
+		// all non-null values.
+		if (s.length() > 0)
+			return true;
+		return false;
+	}   //  isValidSQLText
+
+	/**
+	 *  Get SQL WHERE parameter
+	 *  @param f CText field
+	 *  @return Upper case text with wild cards as configured
+	 */
+	public static String getSQLText (Textbox f)
+	{
+		String s = f.getText();
+		return getSQLText(s);
+	}   //  getSQLText
+
+	/**
+	 *  Get SQL WHERE parameter
+	 *  @param s string
+	 *  @return Upper case text with wild cards as configured
+	 */
+	public static String getSQLText (String s)
+	{
+		s = s.toUpperCase();
+		
+		//  Check the configuration for the wild card pattern to apply
+		//  It can be "%*" for first-only, "*%" for last-only, "%*%" for both or "*" for none.
+		//  The pattern string must start and/or end with a "%" symbol.  The "*" symbol can be any string.
+		//  The default is last-only.  "%" or "%%" are valid and will be interpreted as both.
+		String wildCardPattern = MSysConfig.getValue(SYSCONFIG_INFO_AUTO_WILDCARD,"*%",Env.getAD_Client_ID(Env.getCtx()));
+		
+		if (wildCardPattern.startsWith("%"))
+		{
+			if (!s.startsWith("%"))
+				s = "%" + s;
+		}
+
+		if (wildCardPattern.endsWith("%"))
+		{
+			if (!s.endsWith("%"))
+				s += "%";
+		}
+		
+		// Need static logger
+		CLogger mlog = CLogger.get();
+		mlog.fine("String with wild cards: " + s);
+
+		return s;
+	}   //  getSQLText
 		
 		
 	/**
@@ -1161,6 +1272,41 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	public boolean isResetRecordID()
 	{
 		return m_resetRecordID;
+	}
+
+	/**
+	 * Test the object for existence and valid data 
+	 * @param o - one of a WSearchEditor, VAttributeInstance
+	 * @return
+	 */
+	public boolean isValidVObject(Object o)
+	{
+		if (o != null)
+		{
+			try 
+			{
+				if (o instanceof WSearchEditor)
+				{
+					return 	(((WSearchEditor) o).getValue() != null && ((Integer)((WSearchEditor) o).getValue()).intValue() != 0);
+				}
+				else if (o instanceof WTableDirEditor)
+				{
+					return 	(((WTableDirEditor) o).getValue() != null && ((Integer)((WTableDirEditor) o).getValue()).intValue() != 0);
+				}
+				// TODO: use the right class for the attribute search
+				/*
+				else if (o instanceof VPAttribute)
+				{
+					return 	(((VPAttribute) o).getValue() != null && ((Integer)((VPAttribute) o).getValue()).intValue() != 0);
+				}
+				*/
+			}
+			catch(ClassCastException e)
+			{
+				return false;
+			}
+		}
+		return false;
 	}
 
     public void zoom()

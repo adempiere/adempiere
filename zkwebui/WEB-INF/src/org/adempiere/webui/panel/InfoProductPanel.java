@@ -44,6 +44,8 @@ import java.util.logging.Level;
 
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Button;
+import org.adempiere.webui.component.Checkbox;
+import org.adempiere.webui.component.Combobox;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
@@ -61,15 +63,28 @@ import org.adempiere.webui.component.Tabpanels;
 import org.adempiere.webui.component.Tabs;
 import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.WListbox;
+import org.adempiere.webui.editor.WSearchEditor;
+import org.adempiere.webui.editor.WTableDirEditor;
+import org.adempiere.webui.event.ValueChangeListener;
 import org.adempiere.webui.session.SessionManager;
+import org.compiere.apps.search.Info_Column;
+import org.compiere.apps.search.PAttributeInstance;
+import org.compiere.grid.ed.VCheckBox;
+import org.compiere.grid.ed.VComboBox;
+import org.compiere.grid.ed.VLookup;
+import org.compiere.grid.ed.VPAttribute;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MClient;
 import org.compiere.model.MDocType;
+import org.compiere.model.MLookupFactory;
+import org.compiere.model.MProduct;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
+import org.compiere.swing.CTextField;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
@@ -99,6 +114,7 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 	 */
 	private static final long serialVersionUID = 6804975825156657866L;
 	private int fieldID = 0;
+	private Label lblBlank = new Label();
 	private Label lblValue = new Label();
 	private Textbox fieldValue = new Textbox();
 	private Label lblName = new Label();
@@ -108,17 +124,20 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 	private Label lblSKU = new Label();
 	private Textbox fieldSKU = new Textbox();
 	private Label lblPriceList = new Label();
-	private Listbox pickPriceList = new Listbox();
+	private WTableDirEditor fPriceList_ID = null;
 	private Label lblWarehouse = new Label();
-	private Listbox pickWarehouse = new Listbox();
+	private WTableDirEditor fWarehouse_ID = null;
 	private Label lblVendor = new Label();
-	private Textbox fieldVendor = new Textbox();
+	private WSearchEditor fVendor_ID = WSearchEditor.createBPartner(0);
 	// Elaine 2008/11/21
 	private Label lblProductCategory = new Label();
-	private Listbox pickProductCategory = new Listbox();
+	private WTableDirEditor fProductCategory_ID = null;
 	//
 	private Label lblAS = new Label();
-	private Listbox pickAS = new Listbox();
+	private Listbox fAS_ID = new Listbox();
+	private Checkbox checkAND ;
+	private Checkbox checkOnlyStock;
+	private Checkbox checkShowDetail;
 
 	// Elaine 2008/11/25
 	private Borderlayout borderlayout = new Borderlayout();
@@ -133,23 +152,18 @@ public class InfoProductPanel extends InfoPanel implements EventListener
     //Available to Promise Tab
 	private WListbox 			m_tableAtp = ListboxFactory.newDataTable();
 	private int 				m_M_Product_ID = 0;
-    int mWindowNo = 0;
+	private int					m_M_Warehouse_ID = 0;
+	private int 				m_M_PriceList_ID = 0;
+	int mWindowNo = 0;
     //
 
 	/**	Search Button				*/
 	private Button	m_InfoPAttributeButton = new Button();
 	/** Instance Button				*/
 	private Button	m_PAttributeButton = null;
-	/** SQL From				*/
-	private static final String s_productFrom =
-		"M_Product p"
-		+ " LEFT OUTER JOIN M_ProductPrice pr ON (p.M_Product_ID=pr.M_Product_ID AND pr.IsActive='Y')"
-		+ " LEFT OUTER JOIN M_AttributeSet pa ON (p.M_AttributeSet_ID=pa.M_AttributeSet_ID)"
-		+ " LEFT OUTER JOIN M_Product_PO ppo ON (p.M_Product_ID=ppo.M_Product_ID)"
-		+ " LEFT OUTER JOIN C_BPartner bp ON (ppo.C_BPartner_ID=bp.C_BPartner_ID)";
 
 	/**  Array of Column Info    */
-	private static ColumnInfo[] s_productLayout = null;
+	private static Info_Column[] s_productLayout = null;
 	private static int INDEX_NAME = 0;
 	private static int INDEX_PATTRIBUTE = 0;
 
@@ -174,7 +188,7 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 		int M_Warehouse_ID, int M_PriceList_ID, boolean multipleSelection,int record_id, String value,
 		 String whereClause)
 	{
-		this(windowNo, M_Warehouse_ID, M_PriceList_ID, multipleSelection, record_id, value, whereClause, true);
+		this(windowNo, M_Warehouse_ID, M_PriceList_ID, multipleSelection, record_id, value, true, whereClause, true);
 	}
 
 	/**
@@ -183,19 +197,22 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 	 * 	@param M_Warehouse_ID warehouse
 	 * 	@param M_PriceList_ID price list
 	 * 	@param value    Query Value or Name if enclosed in @
+	 *  @param saveResults  True if results will be saved, false for info only
 	 * 	@param whereClause where clause
 	 */
 	public InfoProductPanel(int windowNo,
 		int M_Warehouse_ID, int M_PriceList_ID, boolean multipleSelection, int record_id, String value,
-		 String whereClause, boolean lookup)
+		 boolean saveResults, String whereClause, boolean lookup)
 	{
-		super (windowNo, "p", "M_Product_ID",multipleSelection, whereClause, lookup);
+		super (windowNo, "p", "M_Product_ID",multipleSelection, saveResults, whereClause, lookup);
 		log.info(value + ", Wh=" + M_Warehouse_ID + ", PL=" + M_PriceList_ID + ", WHERE=" + whereClause);
 		setTitle(Msg.getMsg(Env.getCtx(), "InfoProduct"));
+		m_M_Warehouse_ID = M_Warehouse_ID;
+		m_M_PriceList_ID = M_PriceList_ID;
 		//
 		initComponents();
 		init();
-		initInfo (record_id, value, M_Warehouse_ID, M_PriceList_ID);
+		initInfo (record_id, value, M_Warehouse_ID, M_PriceList_ID, false);
 		m_C_BPartner_ID = Env.getContextAsInt(Env.getCtx(), windowNo, "C_BPartner_ID");
 
         int no = contentPanel.getRowCount();
@@ -220,6 +237,7 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 	 */
 	private void initComponents()
 	{
+		lblBlank.setValue(" ");
 		lblValue = new Label();
 		lblValue.setValue(Util.cleanAmp(Msg.translate(Env.getCtx(), "Value")));
 		lblName = new Label();
@@ -241,6 +259,28 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 		lblVendor = new Label();
 		lblVendor.setValue(Msg.translate(Env.getCtx(), "Vendor"));
 
+		checkOnlyStock = new Checkbox();
+		checkOnlyStock.setText(Msg.getMsg(Env.getCtx(), "OnlyStock"));
+		checkOnlyStock.setName("OnlyStock");
+		checkOnlyStock.setTooltiptext(Msg.getMsg(Env.getCtx(), "OnlyStockTip"));
+		checkOnlyStock.setSelected(false); // Info may open when searching for non-stock as well.
+		checkOnlyStock.addActionListener(this);
+
+		checkShowDetail = new Checkbox();
+		checkShowDetail.setText(Msg.getMsg(Env.getCtx(), "ShowDetail"));
+		checkShowDetail.setName("ShowDetail");
+		checkShowDetail.setTooltiptext(Msg.getMsg(Env.getCtx(), "ShowAttributeDetails"));
+		checkShowDetail.setSelected(false);  
+		checkShowDetail.setEnabled(false);   
+		checkShowDetail.addActionListener(this);
+
+		checkAND = new Checkbox();
+		checkAND.setText(Msg.getMsg(Env.getCtx(), "SearchAND"));
+		checkAND.setName("SearchAND");
+		checkAND.setTooltiptext(Msg.getMsg(Env.getCtx(), "SearchANDInfo"));
+		checkAND.setSelected(true);
+		checkAND.addActionListener(this);
+		
 		m_InfoPAttributeButton.setImage("/images/PAttribute16.png");
 		m_InfoPAttributeButton.setTooltiptext(Msg.getMsg(Env.getCtx(), "PAttribute"));
 		m_InfoPAttributeButton.addEventListener(Events.ON_CLICK,this);
@@ -253,38 +293,46 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 		fieldUPC.setMaxlength(40);
 		fieldSKU = new Textbox();
 		fieldSKU.setMaxlength(40);
-		pickPriceList = new Listbox();
-		pickPriceList.setRows(0);
-		pickPriceList.setMultiple(false);
-		pickPriceList.setMold("select");
-		pickPriceList.setWidth("150px");
-		pickPriceList.addEventListener(Events.ON_SELECT, this);
-
+		fPriceList_ID = new WTableDirEditor("M_PriceList_Version_ID", false, false, true,
+				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 2987, DisplayType.TableDir));
+		fPriceList_ID.getComponent().addEventListener(Events.ON_CHANGE, this);
+		fPriceList_ID.getComponent().setAttribute("zk_component_ID", "Lookup_Criteria_M_PriceList_Version_ID");
+		fPriceList_ID.getComponent().setAttribute("zk_component_prefix", "Lookup_");
+		fPriceList_ID.getComponent().setAttribute("IsDynamic", "True");
+		fPriceList_ID.getComponent().setAttribute("fieldName", "fPriceList_ID");
+		
 		// Elaine 2008/11/21
-		pickProductCategory = new Listbox();
-		pickProductCategory.setRows(0);
-		pickProductCategory.setMultiple(false);
-		pickProductCategory.setMold("select");
-		pickProductCategory.setWidth("150px");
-		pickProductCategory.addEventListener(Events.ON_SELECT, this);
+		fProductCategory_ID = new WTableDirEditor("M_Product_Category_ID", false, false, true,
+				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 2020, DisplayType.TableDir));
+		fProductCategory_ID.getComponent().addEventListener(Events.ON_CHANGE, this);
+		fProductCategory_ID.getComponent().setAttribute("zk_component_ID", "Lookup_Criteria_M_ProductCategory_ID");
+		fProductCategory_ID.getComponent().setAttribute("zk_component_prefix", "Lookup_");
+		fProductCategory_ID.getComponent().setAttribute("IsDynamic", "True");
+		fProductCategory_ID.getComponent().setAttribute("fieldName", "fProductCategory_ID");
+		
 		//
-		pickAS = new Listbox();
-		pickAS.setRows(0);
-		pickAS.setMultiple(false);
-		pickAS.setMold("select");
-		pickAS.setWidth("150px");
-		pickAS.addEventListener(Events.ON_SELECT, this);
+		fAS_ID = new Listbox();
+		fAS_ID.setRows(0);
+		fAS_ID.setMultiple(false);
+		fAS_ID.setMold("select");
+		fAS_ID.setWidth("150px");
+		fAS_ID.addEventListener(Events.ON_SELECT, this);
 
-		pickWarehouse = new Listbox();
-		pickWarehouse.setRows(0);
-		pickWarehouse.setMultiple(false);
-		pickWarehouse.setMold("select");
-		pickWarehouse.setWidth("150px");
-		pickWarehouse.addEventListener(Events.ON_SELECT, this);
+		fWarehouse_ID = new WTableDirEditor("M_Warehouse_ID", false, false, true,
+				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 1151, DisplayType.TableDir));
+		fWarehouse_ID.getComponent().addEventListener(Events.ON_CHANGE, this);
+		fWarehouse_ID.getComponent().setAttribute("zk_component_ID", "Lookup_Criteria_M_Warehouse_ID");
+		fWarehouse_ID.getComponent().setAttribute("zk_component_prefix", "Lookup_");
+		fWarehouse_ID.getComponent().setAttribute("IsDynamic", "True");
+		fWarehouse_ID.getComponent().setAttribute("fieldName", "fWarehouse_ID");
 
-		fieldVendor = new Textbox();
-		fieldVendor.setMaxlength(40);
-
+		fVendor_ID.getComponent().getTextbox().setMaxlength(30);
+		fVendor_ID.getComponent().getTextbox().addEventListener(Events.ON_CHANGE, this);
+		fVendor_ID.getComponent().setAttribute("zk_component_ID", "Lookup_Criteria_C_BPartner_ID");
+		fVendor_ID.getComponent().setAttribute("zk_component_prefix", "Lookup_");
+		fVendor_ID.getComponent().setAttribute("IsDynamic", "False");
+		fVendor_ID.getComponent().setAttribute("fieldName", "fVendor_ID");
+		
         contentPanel.setVflex(true);
 	}	//	initComponents
 
@@ -297,33 +345,44 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 
 		Row row = new Row();
 		rows.appendChild(row);
+		row.setSpans("1, 1, 1, 1, 1, 1");
 		row.appendChild(lblValue.rightAlign());
 		row.appendChild(fieldValue);
-		row.appendChild(lblUPC.rightAlign());
-		row.appendChild(fieldUPC);
 		row.appendChild(lblWarehouse.rightAlign());
-		row.appendChild(pickWarehouse);
-		row.appendChild(m_InfoPAttributeButton);
+		row.appendChild(fWarehouse_ID.getComponent());
+		row.appendChild(lblBlank.rightAlign());
+		row.appendChild(checkOnlyStock);
 
 		row = new Row();
-		row.setSpans("1, 1, 1, 1, 1, 1, 1, 2");
 		rows.appendChild(row);
+		row.setSpans("1, 1, 1, 1, 1, 1");
 		row.appendChild(lblName.rightAlign());
 		row.appendChild(fieldName);
-		row.appendChild(lblSKU.rightAlign());
-		row.appendChild(fieldSKU);
-		row.appendChild(lblVendor.rightAlign());
-		row.appendChild(fieldVendor);
+		row.appendChild(lblPriceList.rightAlign());
+		row.appendChild(fPriceList_ID.getComponent());
+		row.appendChild(lblAS.rightAlign());
+		row.appendChild(fAS_ID);
 		//
 
 		row = new Row();
 		rows.appendChild(row);
-		row.appendChild(lblPriceList.rightAlign());
-		row.appendChild(pickPriceList);
+		row.setSpans("1, 1, 1, 1, 1, 1");
+		row.appendChild(lblUPC.rightAlign());
+		row.appendChild(fieldUPC);
 		row.appendChild(lblProductCategory.rightAlign());
-		row.appendChild(pickProductCategory);
-		row.appendChild(lblAS.rightAlign());
-		row.appendChild(pickAS);
+		row.appendChild(fProductCategory_ID.getComponent());
+		row.appendChild(lblBlank.rightAlign());
+		row.appendChild(m_InfoPAttributeButton);
+		
+		row = new Row();
+		rows.appendChild(row);
+		row.setSpans("1, 1, 1, 1, 1, 1");
+		row.appendChild(lblSKU.rightAlign());
+		row.appendChild(fieldSKU);
+		row.appendChild(lblVendor.rightAlign());
+		row.appendChild(fVendor_ID.getComponent());
+		row.appendChild(lblBlank.rightAlign());
+		row.appendChild(checkAND);
 		
 		row = new Row();
 		rows.appendChild(row);
@@ -493,14 +552,12 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 				int row = contentPanel.getSelectedRow();
 				if (row >= 0) {
 					int M_Warehouse_ID = 0;
-					ListItem listitem = pickWarehouse.getSelectedItem();
-					if (listitem != null)
-						M_Warehouse_ID = (Integer)listitem.getValue();
+					if (fWarehouse_ID.getValue() != null)
+						M_Warehouse_ID = (Integer)fWarehouse_ID.getValue();
 
 					int M_PriceList_Version_ID = 0;
-					listitem = pickPriceList.getSelectedItem();
-					if (listitem != null)
-						M_PriceList_Version_ID = (Integer)listitem.getValue();
+					if (fPriceList_ID.getValue() != null)
+						M_PriceList_Version_ID = (Integer)fPriceList_ID.getValue();
 
         			refresh(contentPanel.getValueAt(row,2), M_Warehouse_ID, M_PriceList_Version_ID);
         			borderlayout.getSouth().setOpen(true);
@@ -598,47 +655,131 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 	 * @param M_Warehouse_ID warehouse
 	 * @param M_PriceList_ID price list
 	 */
-	private void initInfo (int record_id, String value, int M_Warehouse_ID, int M_PriceList_ID)
+	private void initInfo (int record_id, String value, int M_Warehouse_ID, int M_PriceList_ID, boolean reset)
 	{
-		//	Pick init
-		fillPicks(M_PriceList_ID);
-		int M_PriceList_Version_ID = findPLV (M_PriceList_ID);
-		// Set the ID field.
-		fieldID = record_id;
-		//	Set Value or Name
-		if (value.startsWith("@") && value.endsWith("@"))
-			fieldName.setText(value.substring(1,value.length()-1));
-		else
-			fieldValue.setText(value);
-		//	Set Warehouse
-		if (M_Warehouse_ID == 0)
-			M_Warehouse_ID = Env.getContextAsInt(Env.getCtx(), "#M_Warehouse_ID");
-		if (M_Warehouse_ID != 0)
-			setWarehouse (M_Warehouse_ID);
-		// 	Set PriceList Version
-		if (M_PriceList_Version_ID != 0)
-			setPriceListVersion (M_PriceList_Version_ID);
+		if (!(record_id == 0) && value != null && value.length() > 0)
+		{
+			log.severe("Received both a record_id and a value: " + record_id + " - " + value);
+		}
 
-		//	Create Grid
-		StringBuffer where = new StringBuffer();
-		where.append("p.IsActive='Y'");
-		if (M_Warehouse_ID != 0)
-			where.append(" AND p.IsSummary='N'");
-		//  dynamic Where Clause
-		if (p_whereClause != null && p_whereClause.length() > 0)
-			where.append(" AND ")   //  replace fully qalified name with alias
-				.append(Util.replace(p_whereClause, "M_Product.", "p."));
+		//  In case of reset, clear all parameters to ensure we are at a known starting point.
+		if(reset)
+		{
+			clearParameters();
+			p_resetColumns = true;
+		}
+		//  Set values
+        if (!(record_id == 0))  // A record is defined
+        {
+        	fieldID = record_id;
+        	fWarehouse_ID.setValue(new Integer(M_Warehouse_ID).intValue());
+        	fPriceList_ID.setValue(findPLV(M_PriceList_ID));
+
+        } 
+        else
+        {
+        	fieldID = 0;
+        	
+        	String id;
+			if (value != null && value.length() > 0) //  The VLookup failed to find uniqueness across the direct access SQL fields
+			{
+				//  Match the query performed by the VLookup.  See getDirectAccessSQL().
+				if (value.startsWith("@") && value.endsWith("@"))
+				{
+					fieldName.setText(value.substring(1,value.length()-1));
+				}
+				else
+				{
+					fieldValue.setText(value);
+					fieldName.setText(value);
+					fieldUPC.setText(value);
+					fieldSKU.setText(value);
+				}
+				//
+				fWarehouse_ID.setValue(0);
+	        	//
+	        	fPriceList_ID.setValue(0);
+	        	//
+	        	checkAND.setSelected(false); //  Use OR
+	        	
+			}
+			else
+			{
+				//  No field or value - the general case
+				//  Try to find other criteria in the context
+				//  M_Product_ID - only if visible
+				id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "M_Product_ID", true);
+				if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
+				{
+					fieldID = new Integer(id).intValue();
+				}
+				
+				id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "M_PriceList_Version_ID", true);
+				if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
+				{
+					fPriceList_ID.setValue(new Integer(id).intValue());
+				}
+				else
+				{	
+						//  OK - make a good guess
+						fPriceList_ID.setValue(findPLV(M_PriceList_ID));
+				}
+
+				//  M_Warehouse_ID - general context
+				if(M_Warehouse_ID == 0)
+				{
+					id = Env.getContext(Env.getCtx(), "#M_Warehouse_ID");
+					if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
+					{
+						fWarehouse_ID.setValue(new Integer(id).intValue());
+					}
+					else 
+					{
+						id = Env.getContext(Env.getCtx(), p_WindowNo, "M_Warehouse_ID");
+						if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
+						{
+							fWarehouse_ID.setValue(new Integer(id).intValue());
+						}
+					}
+				}
+				else
+				{
+		        	fWarehouse_ID.setValue(new Integer(M_Warehouse_ID).intValue());
+				}
+				
+				id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "C_BPartner_ID", false);
+				boolean isSOTrx = "Y".equals(Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "IsSOTrx", false));
+				if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0) && !isSOTrx)
+				{
+					fVendor_ID.setValue(new Integer(id).intValue());
+				}			
+			}
+		}
+
+        if (!reset)
+        {
+        	//  Don't want to repeat this on reset or the query will grow
+			//	Create Grid
+			StringBuffer where = new StringBuffer();
+			where.append("p.IsActive='Y'");
+			//  dynamic Where Clause
+			if (p_whereClause != null && p_whereClause.length() > 0)
+				where.append(" AND ")   //  replace fully qualified name with alias
+					.append(Util.replace(p_whereClause, "M_Product.", "p."));
+			p_concreteWhereClause = where.toString();
+        }
 		//
 		prepareTable(getProductLayout(),
-			s_productFrom,
-			where.toString(),
-			"QtyAvailable DESC, Margin DESC");
-
+			getSQLFrom(),
+			p_concreteWhereClause,
+			getOrderClause());
+		//p_table.setShowTotals(false);
+		
 		//
-		pickWarehouse.addEventListener(Events.ON_SELECT,this);
-		pickPriceList.addEventListener(Events.ON_SELECT,this);
-		pickProductCategory.addEventListener(Events.ON_SELECT, this); // Elaine 2008/11/21
-		pickAS.addEventListener(Events.ON_SELECT, this);
+		//pickWarehouse.addValueChangeListener(Events.ON_SELECT,this);
+		//pickPriceList.addValueChangeListener(Events.ON_SELECT,this);
+		//pickProductCategory.addValueChangeListener(Events.ON_SELECT, this); // Elaine 2008/11/21
+		fAS_ID.addEventListener(Events.ON_SELECT, this);
 	}	//	initInfo
 
 	/**
@@ -649,6 +790,7 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 	private void fillPicks (int M_PriceList_ID)
 	{
 		//	Price List
+		/*
 		String SQL = "SELECT M_PriceList_Version.M_PriceList_Version_ID,"
 			+ " M_PriceList_Version.Name || ' (' || c.Iso_Code || ')' AS ValueName "
 			+ "FROM M_PriceList_Version, M_PriceList pl, C_Currency c "
@@ -690,7 +832,8 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 			}
 			rs.close();
 			pstmt.close();
-
+			
+		
 			// Elaine 2008/11/21
 			//	Product Category
 			SQL = MRole.getDefault().addAccessSQL (
@@ -715,6 +858,7 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 			log.log(Level.SEVERE, SQL, e);
 			setStatusLine(e.getLocalizedMessage(), true);
 		}
+		*/
 	}	//	fillPicks
 
 	/**
@@ -724,15 +868,7 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 	 */
 	private void setWarehouse(int M_Warehouse_ID)
 	{
-		for (int i = 0; i < pickWarehouse.getItemCount(); i++)
-		{
-			 Integer key = (Integer) pickWarehouse.getItemAtIndex(i).getValue();
-			if (key == M_Warehouse_ID)
-			{
-				pickWarehouse.setSelectedIndex(i);
-				return;
-			}
-		}
+		fWarehouse_ID.setValue(new Integer(M_Warehouse_ID));
 	}	//	setWarehouse
 
 	/**
@@ -743,16 +879,7 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 	private void setPriceListVersion(int M_PriceList_Version_ID)
 	{
 		log.config("M_PriceList_Version_ID=" + M_PriceList_Version_ID);
-		for (int i = 0; i < pickPriceList.getItemCount(); i++)
-		{
-			Integer key = (Integer) pickPriceList.getItemAtIndex(i).getValue();
-			if (key == M_PriceList_Version_ID)
-			{
-				pickPriceList.setSelectedIndex(i);
-				return;
-			}
-		}
-		log.fine("NOT found");
+		fPriceList_ID.setValue(new Integer(M_PriceList_Version_ID));
 	}	//	setPriceList
 
 	/**
@@ -809,7 +936,30 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 		return retValue;
 	}	//	findPLV
 
-
+	/**************************************************************************
+	 *	Construct SQL From Clause
+	 *  @return SQL From clause
+	 */
+	protected String getSQLFrom()
+	{
+		/** SQL From				*/
+		String s_productFrom = "M_Product p";
+		
+		if (isValidVObject(fPriceList_ID))
+		{
+			s_productFrom += " LEFT OUTER JOIN (SELECT mpp.M_Product_ID, mpp.M_PriceList_Version_id, mpp.IsActive, mpp.PriceList, mpp.PriceStd, mpp.PriceLimit" 
+			+					" FROM M_ProductPrice mpp, M_PriceList_Version mplv "
+			+					" WHERE mplv.M_PriceList_Version_ID = mpp.M_PriceList_Version_ID AND mplv.IsActive = 'Y') pr"
+			+ " ON (p.M_Product_ID=pr.M_Product_ID AND pr.IsActive='Y')";
+		}
+		s_productFrom += " LEFT OUTER JOIN M_AttributeSet pa ON (p.M_AttributeSet_ID=pa.M_AttributeSet_ID)"
+			+ " LEFT OUTER JOIN M_Product_PO ppo ON (p.M_Product_ID=ppo.M_Product_ID and ppo.IsCurrentVendor='Y' and ppo.IsActive='Y')"
+			+ " LEFT OUTER JOIN M_Product_Category pc ON (p.M_Product_Category_ID=pc.M_Product_Category_ID)"
+			+ " LEFT OUTER JOIN C_BPartner bp ON (ppo.C_BPartner_ID=bp.C_BPartner_ID)";
+		
+		return s_productFrom;
+	}
+	
 	/**************************************************************************
 	 *	Construct SQL Where Clause and define parameters
 	 *  (setParameters needs to set parameters)
@@ -818,66 +968,97 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 	 */
 	public String getSQLWhere()
 	{
-		StringBuffer where = new StringBuffer();
-
-		//	Optional PLV
-		int M_PriceList_Version_ID = 0;
-		ListItem listitem = pickPriceList.getSelectedItem();
-		if (listitem != null)
-			M_PriceList_Version_ID = (Integer)listitem.getValue();
-		if (M_PriceList_Version_ID != 0)
-			where.append(" AND pr.M_PriceList_Version_ID=?");
-
-		// Elaine 2008/11/29
-		//  Optional Product Category
-		if (getM_Product_Category_ID() > 0) {
-			where.append(" AND p.M_Product_Category_ID=?");
-		}
-		//
-
-		//  Optional Attribute Set
-		if (getM_AttributeSet_ID() > 0) {
-			where.append(" AND p.M_AttributeSet_ID=?");
-		}
-
-		//	Product Attribute Search
-		if (m_pAttributeWhere != null)
-		{
-			where.append(m_pAttributeWhere);
-			return where.toString();
-		}
+		ArrayList<String> list = new ArrayList<String>();
 		
 		//  => ID
 		if(isResetRecordID())
 			fieldID = 0;
 		if(!(fieldID == 0))
-			where.append(" AND p.M_Product_ID = ?");
+		{
+			list.add("p.M_Product_ID = ?");
+		}
 		
+		//  Warehouse - if defined, don't include summary products
+		if (fWarehouse_ID.getValue() != null && ((Integer) fWarehouse_ID.getValue()).intValue() != 0)
+			list.add("p.IsSummary='N'");
+
+		//  Only Stock items
+		if (checkOnlyStock.isSelected())
+			list.add("p.isStocked = ?");
+		
+		//	Optional Price List Version
+		if (fPriceList_ID.getValue() != null)
+			list.add("pr.M_PriceList_Version_ID=?");
+		
+		//  Optional Product Category
+		if (fProductCategory_ID.getValue() != null) {
+			list.add("(p.M_Product_Category_ID=? OR p.M_Product_Category_ID IN "
+			+ 		"(SELECT PPC.M_Product_Category_ID FROM M_Product_Category ppc WHERE "
+			+		" ppc.M_Product_Category_Parent_ID = ?))");
+		}
+		
+		/* TODO 
+		//  Optional Attribute Set
+		if (fAS_ID.getValue() != null) {
+			list.add("p.M_AttributeSet_ID=?");
+		}
+
+		
+		//	Product Attribute Search
+		if (fASI_ID.getAttributeWhere() != null)
+		{
+			String asiWhere = fASI_ID.getAttributeWhere();
+			if (asiWhere.length() > 0)
+			{
+				if (asiWhere.startsWith(" AND "))
+					asiWhere = asiWhere.substring(5);
+				list.add(asiWhere);
+			}
+		}
+		*/
+
 		//  => Value
-		String value = fieldValue.getText().toUpperCase();
-		if (!(value.equals("") || value.equals("%")))
-			where.append(" AND UPPER(p.Value) LIKE ?");
+		if(isValidSQLText(fieldValue))
+			list.add("UPPER(p.Value) LIKE ?");
 
 		//  => Name
-		String name = fieldName.getText().toUpperCase();
-		if (!(name.equals("") || name.equals("%")))
-			where.append(" AND UPPER(p.Name) LIKE ?");
+		if(isValidSQLText(fieldName))
+			list.add("UPPER(p.Name) LIKE ?");
 
 		//  => UPC
-		String upc = fieldUPC.getText().toUpperCase();
-		if (!(upc.equals("") || upc.equals("%")))
-			where.append(" AND UPPER(p.UPC) LIKE ?");
+		if(isValidSQLText(fieldUPC))
+			list.add("UPPER(p.UPC) LIKE ?");
 
 		//  => SKU
-		String sku = fieldSKU.getText().toUpperCase();
-		if (!(sku.equals("") || sku.equals("%")))
-			where.append(" AND UPPER(p.SKU) LIKE ?");
-		//	=> Vendor
-		String vendor = fieldVendor.getText().toUpperCase();
-		if (!(vendor.equals("") || vendor.equals("%")))
-			where.append(" AND UPPER(bp.Name) LIKE ? AND ppo.IsCurrentVendor='Y' AND ppo.IsActive='Y'"); // Elaine 2008/12/16
+		if(isValidSQLText(fieldSKU))
+			list.add("UPPER(p.SKU) LIKE ?");
 
-		return where.toString();
+		//	=> Vendor
+		if (fVendor_ID.getValue() != null)
+			list.add("ppo.C_BPartner_ID=?");
+		
+		StringBuffer sql = new StringBuffer();
+		int size = list.size();
+		//	Just one
+		if (size == 1)
+			sql.append(" AND ").append(list.get(0));
+		else if (size > 1)
+		{
+			boolean AND = checkAND.isSelected();
+			sql.append(" AND ");
+			if (!AND)
+				sql.append("(");
+			for (int i = 0; i < size; i++)
+			{
+				if (i > 0)
+					sql.append(AND ? " AND " : " OR ");
+				sql.append(list.get(i));
+			}
+			if (!AND)
+				sql.append(")");
+		}
+		
+		return sql.toString();
 	}	//	getSQLWhere
 
 	/**
@@ -892,46 +1073,20 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 		int index = 1;
 
 		//  => Warehouse
-		int M_Warehouse_ID = 0;
-		ListItem listitem = pickWarehouse.getSelectedItem();
-		if (listitem != null)
-			M_Warehouse_ID = (Integer)listitem.getValue();
+		Integer id;
+		if (fWarehouse_ID.getValue() != null)
+			id = ((Integer) fWarehouse_ID.getValue());
+		else
+			id = 0;
 		if (!forCount)	//	parameters in select
 		{
 			for (int i = 0; i < p_layout.length; i++)
 			{
 				if (p_layout[i].getColSQL().indexOf('?') != -1)
-					pstmt.setInt(index++, M_Warehouse_ID);
+					pstmt.setInt(index++, id.intValue());
 			}
 		}
-		log.fine("M_Warehouse_ID=" + M_Warehouse_ID + " (" + (index-1) + "*)");
-
-		//  => PriceList
-		int M_PriceList_Version_ID = 0;
-		ListItem lstitem = pickPriceList.getSelectedItem();
-		if (lstitem != null)
-			M_PriceList_Version_ID = (Integer)lstitem.getValue();
-		if (M_PriceList_Version_ID != 0)
-		{
-			pstmt.setInt(index++, M_PriceList_Version_ID);
-			log.fine("M_PriceList_Version_ID=" + M_PriceList_Version_ID);
-		}
-		// Elaine 2008/11/29
-		//  => Product Category
-		int M_Product_Category_ID = getM_Product_Category_ID();
-		if (M_Product_Category_ID > 0) {
-			pstmt.setInt(index++, M_Product_Category_ID);
-			log.fine("M_Product_Category_ID=" + M_Product_Category_ID);
-		}
-		//
-		int M_AttributeSet_ID = getM_AttributeSet_ID();
-		if (M_AttributeSet_ID > 0) {
-			pstmt.setInt(index++, M_AttributeSet_ID);
-			log.fine("M_AttributeSet_ID=" + M_AttributeSet_ID);
-		}
-		//	Rest of Parameter in Query for Attribute Search
-		if (m_pAttributeWhere != null)
-			return;
+		log.fine("M_Warehouse_ID=" + id + " (" + (index-1) + "*)");
 
 		//  => ID
 		if(!(fieldID == 0))
@@ -939,55 +1094,61 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 			pstmt.setInt(index++, fieldID);
 			log.fine("Record ID: " + fieldID);
 		}
+
+		//  => Only Stocked
+		if(checkOnlyStock.isSelected())
+		{
+			pstmt.setString(index++, "Y");
+			log.fine("Only Stocked: " + "Y");
+		}
+		
+		//  => PriceList
+		if (fPriceList_ID.getValue() != null)
+		{
+			id =  ((Integer) fPriceList_ID.getValue());
+			pstmt.setInt(index++, id.intValue());
+			log.fine("M_PriceList_Version_ID=" + id);
+		}
+		//  => Product Category
+		if (fProductCategory_ID.getValue() != null) {
+			id = ((Integer) fProductCategory_ID.getValue());
+			pstmt.setInt(index++, id.intValue());
+			pstmt.setInt(index++, id.intValue());  //  Done twice - see getWhere()
+			log.fine("M_Product_Category_ID=" + id);
+		}
+		//  => Attribute Set - @Trifon
+		/* TODO - fix this bit
+		if (fAS_ID.getValue() != null) {
+			id = ((Integer) fAS_ID.getValue());
+			pstmt.setInt(index++, id.intValue());
+			log.fine("M_AttributeSet_ID=" + id);
+		}
+		//	=> AttributeSetInstance where clause
+		if (fASI_ID.getAttributeWhere() != null)
+		{
+			// No parameter needs to be added
+		}
+		*/
 		//  => Value
-		String value = fieldValue.getText().toUpperCase();
-		if (!(value.equals("") || value.equals("%")))
-		{
-			if (!value.endsWith("%"))
-				value += "%";
-			pstmt.setString(index++, value);
-			log.fine("Value: " + value);
-		}
-
+		if (isValidSQLText(fieldValue))
+			pstmt.setString(index++, getSQLText(fieldValue));
 		//  => Name
-		String name = fieldName.getText().toUpperCase();
-		if (!(name.equals("") || name.equals("%")))
-		{
-			if (!name.endsWith("%"))
-				name += "%";
-			pstmt.setString(index++, name);
-			log.fine("Name: " + name);
-		}
-
+		if (isValidSQLText(fieldName))
+			pstmt.setString(index++, getSQLText(fieldName));
 		//  => UPC
-		String upc = fieldUPC.getText().toUpperCase();
-		if (!(upc.equals("") || upc.equals("%")))
-		{
-			if (!upc.endsWith("%"))
-				upc += "%";
-			pstmt.setString(index++, upc);
-			log.fine("UPC: " + upc);
-		}
-
+		if (isValidSQLText(fieldUPC))
+			pstmt.setString(index++, getSQLText(fieldUPC));
 		//  => SKU
-		String sku = fieldSKU.getText().toUpperCase();
-		if (!(sku.equals("") || sku.equals("%")))
+		if (isValidSQLText(fieldSKU))
+			pstmt.setString(index++, getSQLText(fieldSKU));
+		//  => Vendor
+		if (fVendor_ID.getValue() != null)
 		{
-			if (!sku.endsWith("%"))
-				sku += "%";
-			pstmt.setString(index++, sku);
-			log.fine("SKU: " + sku);
+			id = (Integer)fVendor_ID.getValue();
+			pstmt.setInt(index++, id.intValue());
+			log.fine("fVendor_ID=" + id);
 		}
 
-		//  => Vendor
-		String vendor = fieldVendor.getText().toUpperCase();
-		if (!(vendor.equals("") || vendor.equals("%")))
-		{
-			if (!vendor.endsWith("%"))
-				vendor += "%";
-			pstmt.setString(index++, vendor);
-			log.fine("Vendor: " + vendor);
-		}
 	}   //  setParameters
 
 	/**
@@ -1020,9 +1181,8 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 		if (M_Product_ID == null)
 			return;
 		int M_Warehouse_ID = 0;
-		ListItem listitem = pickWarehouse.getSelectedItem();
-		if (listitem != null)
-			M_Warehouse_ID = (Integer)listitem.getValue();
+		if (fWarehouse_ID.getValue() != null)
+			M_Warehouse_ID = (Integer)fWarehouse_ID.getValue();
 		int M_AttributeSetInstance_ID = m_M_AttributeSetInstance_ID;
 		if (m_M_AttributeSetInstance_ID < -1)	//	not selected
 			M_AttributeSetInstance_ID = 0;
@@ -1096,15 +1256,15 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 		//  publish for Callout to read
 		Integer ID = getSelectedRowKey();
 		Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "M_Product_ID", ID == null ? "0" : ID.toString());
-		ListItem pickPL = (ListItem)pickPriceList.getSelectedItem();
-		if (pickPL!=null)
+		if (fPriceList_ID.getValue()!=null)
 		{
-            Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "M_PriceList_Version_ID",pickPL.getValue().toString());
+			String pickPL = ((Integer) fPriceList_ID.getValue()).toString();
+            Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "M_PriceList_Version_ID",pickPL);
         }
-		ListItem pickWH = (ListItem)pickWarehouse.getSelectedItem();
-		if (pickWH != null)
+		if (fWarehouse_ID.getValue() != null)
         {
-            Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "M_Warehouse_ID",pickWH.getValue().toString());
+			String pickWH = ((Integer)fWarehouse_ID.getValue()).toString();
+            Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "M_Warehouse_ID",pickWH);
         }
 		//
 		if (m_M_AttributeSetInstance_ID == -1)	//	not selected
@@ -1120,73 +1280,94 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 				String.valueOf(m_M_Locator_ID));
 		}
 	}	//	saveSelectionDetail
-
+	
+	/**
+	 *	autoQuery?
+	 *	- yes if true
+	 *  @return true for automatic queries, else must refresh
+	 */
+	public boolean autoQuery()
+	{
+		return true; // TODO - checkAutoQuery.isSelected();
+	}	//	autoQuery
+	
 	/**
 	 *  Get Product Layout
 	 *
 	 * @return array of Column_Info
 	 */
-	protected ColumnInfo[] getProductLayout()
+	protected Info_Column[] getProductLayout()
 	{
-		if (s_productLayout != null)
-			return s_productLayout;
-		//  Euro 13
-		MClient client = MClient.get(Env.getCtx());
-		if ("FRIE".equals(client.getValue()))
+
+		ArrayList<Info_Column> list = new ArrayList<Info_Column>();
+		list.add(new Info_Column(" ", "p.M_Product_ID", IDColumn.class, false));
+		list.add(new Info_Column(Msg.translate(Env.getCtx(), "Discontinued").substring(0, 1), "p.Discontinued", Boolean.class));
+		//if (!isValidVObject(fProductCategory_ID) || (isValidVObject(fProductCategory_ID) && !checkAND.isSelected()))
+		//{
+			list.add(new Info_Column(Msg.translate(Env.getCtx(), "M_Product_Category_ID"), "pc.Name", String.class));
+		//}
+		list.add(new Info_Column(Msg.translate(Env.getCtx(), "Value"), "p.Value", String.class));
+		list.add(new Info_Column(Msg.translate(Env.getCtx(), "Name"), "p.Name", String.class));
+		list.add(new Info_Column(Msg.translate(Env.getCtx(), "UPC"), "p.UPC", String.class));
+		list.add(new Info_Column(Msg.translate(Env.getCtx(), "SKU"), "p.SKU", String.class));
+		if (isValidVObject(fPriceList_ID))
 		{
-			final ColumnInfo[] frieLayout = {
-				new ColumnInfo(" ", "p.M_Product_ID", IDColumn.class),
-				new ColumnInfo(Msg.translate(Env.getCtx(), "Name"), "p.Name", String.class),
-				new ColumnInfo(Msg.translate(Env.getCtx(), "QtyAvailable"), "bomQtyAvailable(p.M_Product_ID,?,0) AS QtyAvailable", Double.class, true, true, null),
-				new ColumnInfo(Msg.translate(Env.getCtx(), "PriceList"), "bomPriceList(p.M_Product_ID, pr.M_PriceList_Version_ID) AS PriceList",  BigDecimal.class),
-				new ColumnInfo(Msg.translate(Env.getCtx(), "PriceStd"), "bomPriceStd(p.M_Product_ID, pr.M_PriceList_Version_ID) AS PriceStd", BigDecimal.class),
-				new ColumnInfo("Einzel MWSt", "pr.PriceStd * 1.16", BigDecimal.class),
-				new ColumnInfo("Einzel kompl", "(pr.PriceStd+13) * 1.16", BigDecimal.class),
-				new ColumnInfo("Satz kompl", "((pr.PriceStd+13) * 1.16) * 4", BigDecimal.class),
-				new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOnHand"), "bomQtyOnHand(p.M_Product_ID,?,0) AS QtyOnHand", Double.class),
-				new ColumnInfo(Msg.translate(Env.getCtx(), "QtyReserved"), "bomQtyReserved(p.M_Product_ID,?,0) AS QtyReserved", Double.class),
-				new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOrdered"), "bomQtyOrdered(p.M_Product_ID,?,0) AS QtyOrdered", Double.class),
-				new ColumnInfo(Msg.translate(Env.getCtx(), "Discontinued").substring(0, 1), "p.Discontinued", Boolean.class),
-				new ColumnInfo(Msg.translate(Env.getCtx(), "Margin"), "bomPriceStd(p.M_Product_ID, pr.M_PriceList_Version_ID)-bomPriceLimit(p.M_Product_ID, pr.M_PriceList_Version_ID) AS Margin", BigDecimal.class),
-				new ColumnInfo(Msg.translate(Env.getCtx(), "PriceLimit"), "bomPriceLimit(p.M_Product_ID, pr.M_PriceList_Version_ID) AS PriceLimit", BigDecimal.class),
-				new ColumnInfo(Msg.translate(Env.getCtx(), "IsInstanceAttribute"), "pa.IsInstanceAttribute", Boolean.class)
-			};
-			INDEX_NAME = 2;
-			INDEX_PATTRIBUTE = frieLayout.length - 1;	//	last item
-			s_productLayout = frieLayout;
-			return s_productLayout;
+			list.add(new Info_Column(Msg.translate(Env.getCtx(), "PriceList"), "bomPriceList(p.M_Product_ID, pr.M_PriceList_Version_ID) AS PriceList",  BigDecimal.class));
+			list.add(new Info_Column(Msg.translate(Env.getCtx(), "PriceStd"), "bomPriceStd(p.M_Product_ID, pr.M_PriceList_Version_ID) AS PriceStd", BigDecimal.class));
+			list.add(new Info_Column(Msg.translate(Env.getCtx(), "PriceLimit"), "bomPriceLimit(p.M_Product_ID, pr.M_PriceList_Version_ID) AS PriceLimit", BigDecimal.class));
+			list.add(new Info_Column(Msg.translate(Env.getCtx(), "Margin"), "bomPriceStd(p.M_Product_ID, pr.M_PriceList_Version_ID)-bomPriceLimit(p.M_Product_ID, pr.M_PriceList_Version_ID) AS Margin", BigDecimal.class));
 		}
-		//
-		if (s_productLayout == null)
+		if (isValidVObject(fWarehouse_ID))
 		{
-			ArrayList<ColumnInfo> list = new ArrayList<ColumnInfo>();
-			list.add(new ColumnInfo(" ", "p.M_Product_ID", IDColumn.class));
-			list.add(new ColumnInfo(Msg.translate(Env.getCtx(), "Discontinued").substring(0, 1), "p.Discontinued", Boolean.class));
-			list.add(new ColumnInfo(Msg.translate(Env.getCtx(), "Value"), "p.Value", String.class));
-			list.add(new ColumnInfo(Msg.translate(Env.getCtx(), "Name"), "p.Name", String.class));
-			list.add(new ColumnInfo(Msg.translate(Env.getCtx(), "QtyAvailable"), "bomQtyAvailable(p.M_Product_ID,?,0) AS QtyAvailable", Double.class, true, true, null));
-			list.add(new ColumnInfo(Msg.translate(Env.getCtx(), "PriceList"), "bomPriceList(p.M_Product_ID, pr.M_PriceList_Version_ID) AS PriceList",  BigDecimal.class));
-			list.add(new ColumnInfo(Msg.translate(Env.getCtx(), "PriceStd"), "bomPriceStd(p.M_Product_ID, pr.M_PriceList_Version_ID) AS PriceStd", BigDecimal.class));
-			list.add(new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOnHand"), "bomQtyOnHand(p.M_Product_ID,?,0) AS QtyOnHand", Double.class));
-			list.add(new ColumnInfo(Msg.translate(Env.getCtx(), "QtyReserved"), "bomQtyReserved(p.M_Product_ID,?,0) AS QtyReserved", Double.class));
-			list.add(new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOrdered"), "bomQtyOrdered(p.M_Product_ID,?,0) AS QtyOrdered", Double.class));
+			list.add(new Info_Column(Msg.translate(Env.getCtx(), "IsStocked"), "p.isStocked", Boolean.class));
+			list.add(new Info_Column(Msg.translate(Env.getCtx(), "QtyAvailable"), "case when p.IsBOM='N' and (p.ProductType!='I' OR p.IsStocked='N') then to_number(get_Sysconfig('QTY_TO_SHOW_FOR_SERVICES', '99999', p.ad_client_id, 0), '99999999999') else bomQtyAvailable(p.M_Product_ID,?,0) end AS QtyAvailable", Double.class, true, true, null));
+			list.add(new Info_Column(Msg.translate(Env.getCtx(), "QtyOnHand"), "case when p.IsBOM='N' and (p.ProductType!='I' OR p.IsStocked='N') then to_number(get_Sysconfig('QTY_TO_SHOW_FOR_SERVICES', '99999', p.ad_client_id, 0), '99999999999') else bomQtyOnHand(p.M_Product_ID,?,0) end AS QtyOnHand", Double.class));
+			list.add(new Info_Column(Msg.translate(Env.getCtx(), "QtyReserved"), "bomQtyReserved(p.M_Product_ID,?,0) AS QtyReserved", Double.class));
+			list.add(new Info_Column(Msg.translate(Env.getCtx(), "QtyOrdered"), "bomQtyOrdered(p.M_Product_ID,?,0) AS QtyOrdered", Double.class));
 			if (isUnconfirmed())
 			{
-				list.add(new ColumnInfo(Msg.translate(Env.getCtx(), "QtyUnconfirmed"), "(SELECT SUM(c.TargetQty) FROM M_InOutLineConfirm c INNER JOIN M_InOutLine il ON (c.M_InOutLine_ID=il.M_InOutLine_ID) INNER JOIN M_InOut i ON (il.M_InOut_ID=i.M_InOut_ID) WHERE c.Processed='N' AND i.M_Warehouse_ID=? AND il.M_Product_ID=p.M_Product_ID) AS QtyUnconfirmed", Double.class));
-				list.add(new ColumnInfo(Msg.translate(Env.getCtx(), "QtyUnconfirmedMove"), "(SELECT SUM(c.TargetQty) FROM M_MovementLineConfirm c INNER JOIN M_MovementLine ml ON (c.M_MovementLine_ID=ml.M_MovementLine_ID) INNER JOIN M_Locator l ON (ml.M_LocatorTo_ID=l.M_Locator_ID) WHERE c.Processed='N' AND l.M_Warehouse_ID=? AND ml.M_Product_ID=p.M_Product_ID) AS QtyUnconfirmedMove", Double.class));
+				list.add(new Info_Column(Msg.translate(Env.getCtx(), "QtyUnconfirmed"), "(SELECT SUM(c.TargetQty) FROM M_InOutLineConfirm c INNER JOIN M_InOutLine il ON (c.M_InOutLine_ID=il.M_InOutLine_ID) INNER JOIN M_InOut i ON (il.M_InOut_ID=i.M_InOut_ID) WHERE c.Processed='N' AND i.M_Warehouse_ID=? AND il.M_Product_ID=p.M_Product_ID) AS QtyUnconfirmed", Double.class));
+				list.add(new Info_Column(Msg.translate(Env.getCtx(), "QtyUnconfirmedMove"), "(SELECT SUM(c.TargetQty) FROM M_MovementLineConfirm c INNER JOIN M_MovementLine ml ON (c.M_MovementLine_ID=ml.M_MovementLine_ID) INNER JOIN M_Locator l ON (ml.M_LocatorTo_ID=l.M_Locator_ID) WHERE c.Processed='N' AND l.M_Warehouse_ID=? AND ml.M_Product_ID=p.M_Product_ID) AS QtyUnconfirmedMove", Double.class));
 			}
-			list.add(new ColumnInfo(Msg.translate(Env.getCtx(), "Margin"), "bomPriceStd(p.M_Product_ID, pr.M_PriceList_Version_ID)-bomPriceLimit(p.M_Product_ID, pr.M_PriceList_Version_ID) AS Margin", BigDecimal.class));
-			list.add(new ColumnInfo(Msg.translate(Env.getCtx(), "Vendor"), "bp.Name", String.class));
-			list.add(new ColumnInfo(Msg.translate(Env.getCtx(), "PriceLimit"), "bomPriceLimit(p.M_Product_ID, pr.M_PriceList_Version_ID) AS PriceLimit", BigDecimal.class));
-			list.add(new ColumnInfo(Msg.translate(Env.getCtx(), "IsInstanceAttribute"), "pa.IsInstanceAttribute", Boolean.class));
-			s_productLayout = new ColumnInfo[list.size()];
-			list.toArray(s_productLayout);
-			INDEX_NAME = 3;
-			INDEX_PATTRIBUTE = s_productLayout.length - 1;	//	last item
 		}
+		list.add(new Info_Column(Msg.translate(Env.getCtx(), "Vendor"), "bp.Name", String.class));
+		list.add(new Info_Column(Msg.translate(Env.getCtx(), "IsInstanceAttribute"), "pa.IsInstanceAttribute", Boolean.class));
+		//
+		s_productLayout = new Info_Column[list.size()];
+		list.toArray(s_productLayout);
+		//
+		INDEX_PATTRIBUTE = s_productLayout.length - 1;	//	last item
+		//
 		return s_productLayout;
 	}   //  getProductLayout
-
+	/**
+	 *  Get Order Clause
+	 *
+	 * @return orderClause  "
+	 */
+	protected String getOrderClause()
+	{
+		String orderClause = "";
+		if (!isValidVObject(fProductCategory_ID))
+		{
+			orderClause += ", pc.Name";
+		}
+		
+		orderClause += ", Value";
+		
+		if (isValidVObject(fWarehouse_ID))
+		{
+			orderClause += ", QtyAvailable DESC";
+		}
+		if (isValidVObject(fPriceList_ID))
+		{
+			orderClause += ", Margin DESC";
+		}
+		if (orderClause.startsWith(", "))
+			orderClause = orderClause.substring(2);
+		
+		return orderClause;
+	}
 	/**
 	 * 	System has Unforfirmed records
 	 *	@return true if unconfirmed
@@ -1206,11 +1387,224 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 
     public void onEvent(Event e)
     {
-    	Component component = e.getTarget();
+		// Handle actions if possible or pass the event to the parent class
 
+		if(!p_loadedOK)
+			return;
+		
+		boolean triggerRefresh = false;
+
+    	Component component = e.getTarget();
+		
+		if(component != null)
+		{
+			
+			//  Keep the focus on the source field if the table updates
+			//  TODO m_heldLastFocus = this.getFocusOwner();
+
+			if (component.equals(confirmPanel.getButton(ConfirmPanel.A_OK)))
+			{
+				//  The enter key is mapped to the Ok button which will close the dialog.
+				//  Don't let this happen if there are outstanding changes to any of the 
+				//  VLookup fields in the criteria
+				if (hasOutstandingChanges())
+				{
+					return;
+				}
+				else
+				{
+					// We might close
+					triggerRefresh = false;
+				}
+			} 
+			else if (component.equals(confirmPanel.getButton(ConfirmPanel.A_RESET)))
+			{
+				//  Go back to the defaults
+				p_loadedOK = false;  // Prevent other actions
+				initInfo(0,"",m_M_Warehouse_ID, m_M_PriceList_ID, true);
+				p_loadedOK = true;
+				if (autoQuery())
+				{
+					executeQuery();
+				}
+				return;
+			}
+			else if (component.equals(confirmPanel.getButton(ConfirmPanel.A_REFRESH)))
+			{
+				//  Refresh always causes a requery in case there are
+				//  changes to the underlying tables - even if the 
+				//  criteria haven't changed.
+				p_resetColumns = true;
+				triggerRefresh = true;
+			}
+			else if (component.equals(confirmPanel.getButton(ConfirmPanel.A_PATTRIBUTE)))
+			{
+				// TODO
+				/*
+				//  Find the ASI used by the product on the lead row
+				MProduct mp = MProduct.get(Env.getCtx(), m_M_Product_ID);
+				m_M_AttributeSetInstance_ID = mp.getM_AttributeSetInstance_ID();				
+				//  Set title and parameters for the PattributeInstance window
+				String title = "";
+				int wh_id = 0;
+				if (isValidVObject(fWarehouse_ID))
+				{
+					title = fWarehouse_ID.getDisplay() + " - " + mp.getName();
+					wh_id = ((Integer) (fWarehouse_ID.getValue())).intValue();
+				}
+				//  Get the business partner from the context - it may be different than the Vendor
+				int bp_id = 0;
+				String s_bp_id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "C_BPartner_ID", false);
+				if (s_bp_id != null && s_bp_id.length() != 0 && (new Integer(s_bp_id).intValue() > 0))
+					bp_id = new Integer(s_bp_id).intValue();
+				//  Display the window
+				PAttributeInstance pai = new PAttributeInstance (this, title, 
+						wh_id, 0, p_table.getLeadRowKey(), bp_id);
+				//  Get the results
+				m_M_AttributeSetInstance_ID = pai.getM_AttributeSetInstance_ID();
+				m_M_Locator_ID = pai.getM_Locator_ID();
+				
+				if (m_M_AttributeSetInstance_ID != -1)
+					fASI_ID.setValue(m_M_AttributeSetInstance_ID);
+				else
+					fASI_ID.setValue(0); //  No instance
+				
+				//  Saving here is confusing with multi-selection
+				if (p_saveResults)  //  If the results are saved, we can save now - an ASI is product specific
+				{
+				//	dispose(p_saveResults);
+				//	return;
+				}
+				
+				triggerRefresh = true;
+				*/
+			}
+			
+			else if (component instanceof Combobox)
+			{
+				/*
+				if (((VComboBox) source).getParent() instanceof VLookup)
+				{
+					source = ((VComboBox) source).getParent();
+					VLookup vl = ((VLookup)source);
+					m_heldLastFocus = vl;
+				}
+				*/	
+				if(e.getName().equals("onChange"))
+					{
+						triggerRefresh = true;
+						
+						//  perform field-specific changes
+						if (component.equals(fWarehouse_ID.getComponent()))
+						{
+							if (!isValidVObject(fWarehouse_ID))
+							{
+								//  Disable the stock button
+								checkOnlyStock.setSelected(false);
+								checkOnlyStock.setEnabled(false);
+							}
+							else
+								checkOnlyStock.setEnabled(true);
+						}
+					}
+				}
+			
+			else if (component instanceof CTextField)
+			{
+				CTextField tf = ((CTextField) component);
+
+				/* 
+				if (tf.getParent() instanceof VLookup)
+				{
+					// Ignore it.  User typed into the VLookup text field.
+					return;
+				}
+				if (tf.getParent() instanceof VPAttribute)
+				{
+					source = tf.getParent();
+					VPAttribute vpa = ((VPAttribute) source);
+					m_heldLastFocus = fieldValue;  //  The VPAttribute field can't hold the focus effectively
+					
+					if (vpa.hasChanged())
+					{
+						triggerRefresh = true;
+						if (vpa.getValue() != null && ((Integer) vpa.getValue()) != null)
+							m_M_AttributeSetInstance_ID = ((Integer) vpa.getValue()).intValue();
+						else
+							m_M_AttributeSetInstance_ID = 0;
+					}
+				}
+				
+				else */ if (tf.hasChanged())
+				{
+					triggerRefresh = true;
+				}
+				else
+				{
+					// Special case where text fields don't change but cause an event
+					// Interpret this as a click of the OK button and close EXCEPT
+					// if the dialog was opened from a menu.
+					if (p_TabNo == 0)
+						return;
+					else
+						dispose(true);  //  Save the selection and close;
+				}
+			}
+			else if (component instanceof Checkbox)
+			{
+				//  Check box changes generally always cause a refresh
+				//  Capture changes that don't 
+				triggerRefresh = true;
+				
+				Checkbox cb = (Checkbox) component;
+				//  ShowDetail check box
+				if (cb.getName().equals("ShowDetail"))
+				{
+					// Refresh only the ATP tab 
+					// TODO refreshAtpTab();
+					return;
+				}
+				else if (cb.getName().equals("AutoQuery"))
+				{
+					//  Only trigger a refresh if the check box is selected
+					if(!cb.isSelected())
+					{
+						return;
+					}
+				}
+			}
+			
+			// Check if we need to reset the table.  The flag is reset when
+			// the table is reset.  The first change triggers the reset.
+			p_resetColumns = p_resetColumns || columnIsDynamic(component);
+
+
+		} //  e.getSource() is null
+		
+				
+		if (triggerRefresh)
+		{
+			//  A requery will be performed
+			prepForRequery(); 
+			m_resetRecordID = true;
+		}
+		
+		/*
+		//  Return focus to where it is expected to be
+		parameterPanel.requestFocus();
+		if (m_heldLastFocus instanceof CTextField)
+			((CTextField) m_heldLastFocus).requestFocus();
+		if (m_heldLastFocus instanceof VLookup)
+			((VLookup) m_heldLastFocus).requestFocus();
+		if (m_heldLastFocus instanceof VCheckBox)
+			((VCheckBox) m_heldLastFocus).requestFocus();
+		
+		*/
+		
+		/*
     	// Elaine 2008/12/16
 		//  don't requery if fieldValue and fieldName are empty
-		if ((e.getTarget() == pickWarehouse || e.getTarget() == pickPriceList)
+		if ((e.getTarget() == fWarehouse_ID || e.getTarget() == fPriceList_ID)
 			&& (fieldValue.getText().length() == 0 && fieldName.getText().length() == 0))
 			return;
 		//
@@ -1229,15 +1623,15 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 			Integer productInteger = getSelectedRowKey();
 			String productName = (String)contentPanel.getValueAt(row, INDEX_NAME);
 
-			ListItem warehouse = pickWarehouse.getSelectedItem();
+			Object warehouse = fWarehouse_ID.getValue();
 			if (productInteger == null || productInteger.intValue() == 0 || warehouse == null)
 				return;
 
 			int M_Warehouse_ID = 0;
-			if(warehouse.getValue() != null)
-				M_Warehouse_ID = ((Integer)warehouse.getValue()).intValue();
+			if(warehouse != null)
+				M_Warehouse_ID = ((Integer)warehouse).intValue();
 
-			String title = warehouse.getLabel() + " - " + productName;
+			String title = fWarehouse_ID.getDisplay() + " - " + productName;
 			InfoPAttributeInstancePanel pai = new InfoPAttributeInstancePanel(this, title,
 				M_Warehouse_ID, 0, productInteger.intValue(), m_C_BPartner_ID);
 			m_M_AttributeSetInstance_ID = pai.getM_AttributeSetInstance_ID();
@@ -1246,9 +1640,63 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 				dispose(true);
 			return;
 		}
+		*/ // end of old code.
 		//
 		super.onEvent(e);
     }
+	/**
+	 * Prepare for Requery of the table.  If dynamic changes are pending, prepare the table.
+	 */
+	protected void prepForRequery()
+	{
+		
+		//  A requery will be performed
+		this.p_refreshRequired = true;
+		
+		//  Find what is currently selected
+		//  Re-selection of the column happens in the propertyChange listener
+		Integer selectedKey = (Integer) getSelectedRowKey();
+        if(selectedKey != null && selectedKey.intValue() != 0)
+        	this.p_selectedRecordKey = selectedKey.intValue();  
+		
+		if (this.p_resetColumns)  //  Reset the table
+		{
+			prepareTable(getProductLayout(),
+					getSQLFrom(),
+					p_concreteWhereClause,
+					getOrderClause());
+			// TODO this.p_table.setShowTotals(false);
+		}
+	}
+
+	/**
+	 * Determine if the column causes dynamic changes in the table layout
+	 * @param o
+	 * @return true if changes result
+	 */
+	protected boolean columnIsDynamic(Object o)
+	{
+		// List of search fields that cause changes to the table layout
+		// See getProductLayout() and component attribute
+		if (o != null)
+		{
+			Component c = ((Component) o);
+			try {
+				if (c.getAttribute("IsDynamic") != null)
+				{
+					if (c.getAttribute("IsDynamic").equals("True"))
+					{
+						return true;
+					}
+				}			
+			}
+			catch(NullPointerException npe)
+			{
+				return false;
+			}
+		}
+		return false;
+	}
 
 	/**
 	 *  Enable PAttribute if row selected/changed
@@ -1442,9 +1890,8 @@ public class InfoProductPanel extends InfoPanel implements EventListener
     {
 		int M_Product_Category_ID = 0;
 
-		ListItem pickPC = (ListItem)pickProductCategory.getSelectedItem();
-		if (pickPC!=null)
-			M_Product_Category_ID = Integer.parseInt(pickPC.getValue().toString());
+		if (fProductCategory_ID.getValue()!=null)
+			M_Product_Category_ID = (Integer) fProductCategory_ID.getValue();
 
 		return M_Product_Category_ID;
 	}
@@ -1454,11 +1901,59 @@ public class InfoProductPanel extends InfoPanel implements EventListener
     {
 		int M_AttributeSet_ID = 0;
 
-		ListItem itemAS = (ListItem)pickAS.getSelectedItem();
+		ListItem itemAS = (ListItem)fAS_ID.getSelectedItem();
 		if (itemAS!=null)
 			M_AttributeSet_ID = Integer.parseInt(itemAS.getValue().toString());
 
 		return M_AttributeSet_ID;
 	}
-    
+	/**
+	 * Does the parameter panel have outstanding changes that have not been
+	 * used in a query?
+	 * @return true if there are outstanding changes.
+	 */
+	private boolean hasOutstandingChanges()
+	{
+		//  All the tracked fields
+		return( false
+			// TODO - add the hasChanged test to the component models
+			/*
+			fieldValue.hasChanged()	||
+			fieldName.hasChanged() ||
+			fieldUPC.hasChanged() ||
+			fieldSKU.hasChanged() ||
+			fPriceList_ID.hasChanged() ||
+			fWarehouse_ID.hasChanged() ||
+			fVendor_ID.hasChanged() ||
+			fProductCategory_ID.hasChanged() ||
+			fAS_ID.hasChanged() ||
+			fASI_ID.hasChanged() ||
+			checkOnlyStock.hasChanged() ||
+			checkAND.hasChanged()
+			*/
+			);
+			
+	}
+    /**
+	 *  Clear all fields and set default values in check boxes
+	 */
+	private void clearParameters()
+	{
+		//  Clear fields and set defaults
+		/*
+		fieldValue.setText("");
+		fieldName.setText("");
+		fieldUPC.setText("");
+		fieldSKU.setText("");
+    	fWarehouse_ID.setValue(null);
+    	fPriceList_ID.setValue(null);
+    	fProductCategory_ID.setValue(null);
+    	fVendor_ID.setValue(null);
+    	fAS_ID.setValue(null);
+    	fASI_ID.setValue(null);
+    	checkOnlyStock.setValue(false);  	//  Show everything
+		checkAND.setSelected(true); 		//  Use AND
+		*/
+	}
+
 }	//	InfoProduct

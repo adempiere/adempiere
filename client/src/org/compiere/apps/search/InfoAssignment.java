@@ -65,6 +65,7 @@ public class InfoAssignment extends Info
 	 *  @param multiSelection multiple selection
 	 *  @param whereClause where clause
 	 */
+	@Deprecated
 	public InfoAssignment (Frame frame, boolean modal, int WindowNo,
 		String value, boolean multiSelection, String whereClause)
 	{

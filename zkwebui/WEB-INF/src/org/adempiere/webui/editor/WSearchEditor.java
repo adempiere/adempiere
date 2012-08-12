@@ -17,6 +17,7 @@
 
 package org.adempiere.webui.editor;
 
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -220,6 +221,16 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 	{
 		return getComponent().getText();
 	}
+
+	/**
+	 *  Action Listener Interface
+	 *  @param listener listener
+	 */
+	public void addActionListener(ActionListener listener)
+	{
+		//m_combo.addActionListener(listener);
+		//m_text.addActionListener(listener);
+	}   //  addActionListener
 
 	public void onEvent(Event e)
 	{

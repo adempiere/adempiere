@@ -297,7 +297,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 		
 		// @Trifon
 		labelAS.setText(Msg.translate(Env.getCtx(), "M_AttributeSet_ID"));
-		fAS_ID = new VLookup("M_Product_Category_ID", false, false, true,
+		fAS_ID = new VLookup("M_AttributeSet_ID", false, false, true,
 				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 8490, DisplayType.TableDir));
 		fAS_ID.setBackground(AdempierePLAF.getInfoBackground());
 		fAS_ID.addActionListener(this);
@@ -1173,6 +1173,10 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 					if (vpa.hasChanged())
 					{
 						triggerRefresh = true;
+						if (vpa.getValue() != null && ((Integer) vpa.getValue()) != null)
+							m_M_AttributeSetInstance_ID = ((Integer) vpa.getValue()).intValue();
+						else
+							m_M_AttributeSetInstance_ID = 0;
 					}
 				}
 				else if (tf.hasChanged())
