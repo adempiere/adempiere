@@ -22,7 +22,6 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -40,7 +39,6 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import javax.swing.JFrame;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -56,6 +54,7 @@ import org.adempiere.model.MBrowseField;
 import org.compiere.Adempiere;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
+import org.compiere.apps.AGlassPane;
 import org.compiere.apps.ALayout;
 import org.compiere.apps.ALayoutConstraint;
 import org.compiere.apps.AppsAction;
@@ -63,6 +62,7 @@ import org.compiere.apps.ConfirmPanel;
 import org.compiere.apps.ProcessCtl;
 import org.compiere.apps.ProcessParameterPanel;
 import org.compiere.apps.StatusBar;
+import org.compiere.apps.Waiting;
 import org.compiere.apps.search.Info_Column;
 import org.compiere.grid.ed.VEditor;
 import org.compiere.grid.ed.VEditorFactory;
@@ -78,6 +78,7 @@ import org.compiere.swing.CFrame;
 import org.compiere.swing.CLabel;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.KeyNamePair;
@@ -139,18 +140,19 @@ public class VBrowser extends Browser implements ActionListener,
 	 * @param whereClause
 	 *            where clause
 	 */
-	public VBrowser(Frame frame, boolean modal, int WindowNo, String value,
+	public VBrowser(CFrame frame, boolean modal, int WindowNo, String value,
 			MBrowse browse, String keyColumn, boolean multiSelection,
 			String whereClause) {
 		super(modal, WindowNo, value, browse, keyColumn, multiSelection,
 				whereClause);
-		
+		m_frame = frame;
 		m_frame.setTitle(browse.getTitle());
+		m_frame.getContentPane().add(statusBar, BorderLayout.SOUTH);
 		initComponents();
 		statInit();
 		//p_loadedOK = initBrowser();
 		m_frame.setPreferredSize(getPreferredSize());
-
+;
 		//
 		int no = detail.getRowCount();
 		setStatusLine(
@@ -173,6 +175,8 @@ public class VBrowser extends Browser implements ActionListener,
 	protected StatusBar statusBar = new StatusBar();
 	/** Worker */
 	private Worker m_worker = null;
+	/** Waiting Dialog */
+	private Waiting m_waiting = null;
 
 	/**
 	 * Static Setup - add fields to parameterPanel (GridLayout)
@@ -208,10 +212,6 @@ public class VBrowser extends Browser implements ActionListener,
 					m_Browse.getAD_Process_ID());
 			pi.setAD_User_ID(Env.getAD_User_ID(Env.getCtx()));
 			pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
-			int Record_ID = 0;
-			if(getProcessInfo() != null)
-				Record_ID = getProcessInfo().getRecord_ID();
-			pi.setRecord_ID(Record_ID);
 			setBrowseProcessInfo(pi);
 			parameterPanel = new ProcessParameterPanel(p_WindowNo, getBrowseProcessInfo());
 			parameterPanel.setMode(ProcessParameterPanel.MODE_HORIZONTAL);
@@ -244,10 +244,14 @@ public class VBrowser extends Browser implements ActionListener,
 		GridField gField = new GridField (GridFieldVO.createParameter(voBase));
 		gField.lookupLoadComplete();
 		VEditor editor = VEditorFactory.getEditor(gField, false);
+		editor.setReadWrite(true);
 		editor.addVetoableChangeListener(this);
-		CLabel label = new CLabel(title);
-		label.setName("L_" + name);
-		searchPanel.add(label, new ALayoutConstraint(row, col));
+		if(DisplayType.YesNo != field.getAD_Reference_ID())
+		{	
+			CLabel label = new CLabel(title);
+			label.setName("L_" + name);
+			searchPanel.add(label, new ALayoutConstraint(row, col));
+		}
 		searchPanel.add((Component)editor, new ALayoutConstraint(row, col + 1));
 		setParameter(name, editor);
 	}
@@ -345,11 +349,7 @@ public class VBrowser extends Browser implements ActionListener,
 	private void cmd_zoom() {
 		
 		m_frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		Integer record_ID = getSelectedRowKey();
-
-		if (record_ID == null)
-			return;
-		AEnv.zoom(m_View.getParentViewDefinition().getAD_Table_ID(), record_ID);
+		AEnv.zoom(getMQuery());
 		m_frame.setCursor(Cursor.getDefaultCursor());
 		bZoom.setSelected(false);
 	} // cmd_zoom
@@ -421,8 +421,8 @@ public class VBrowser extends Browser implements ActionListener,
 		m_sqlCount = "SELECT COUNT(*) FROM " + from + " WHERE ";
 		//
 		m_sqlOrder = "";
-		if (orderBy != null && orderBy.length() > 0)
-			m_sqlOrder = " ORDER BY " + orderBy;
+		//if (orderBy != null && orderBy.length() > 0)
+		//	m_sqlOrder = " ORDER BY " + orderBy;
 
 		if (m_keyColumnIndex == -1)
 			log.log(Level.SEVERE, "No KeyColumn - " + sql);
@@ -470,6 +470,7 @@ public class VBrowser extends Browser implements ActionListener,
 
 		// Multi Selection
 		if (p_multiSelection) {
+			m_results.clear();
 			m_results.addAll(getSelectedRowKeys());
 		} else // singleSelection
 		{
@@ -552,7 +553,6 @@ public class VBrowser extends Browser implements ActionListener,
 				if (data instanceof IDColumn) {
 					IDColumn dataColumn = (IDColumn) data;
 					if (dataColumn.isSelected()) {
-						//selectedDataList.add(dataColumn.getRecord_ID());
 						LinkedHashMap<String, Object> values = new LinkedHashMap<String, Object>();
 						int col = 0;
 						for (Info_Column column : m_generalLayout)
@@ -562,7 +562,6 @@ public class VBrowser extends Browser implements ActionListener,
 								String columnName = column.getColSQL().substring(column.getColSQL().indexOf("AS ") + 3);
 								Object value = detail.getModel().getValueAt(row,col);
 								values.put(columnName, value);
-								continue;
 							}
 							col ++;
 						}
@@ -867,11 +866,57 @@ public class VBrowser extends Browser implements ActionListener,
 	}// GEN-LAST:event_bZoomActionPerformed
 
 	private void bOkActionPerformed(java.awt.event.ActionEvent evt) {
-		dispose(true);
+		m_frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		m_ok = true;
+		// End Worker
+		if (m_worker != null) {
+			// worker continues, but it does not block UI
+			if (m_worker.isAlive())
+				m_worker.interrupt();
+			log.config("Worker alive=" + m_worker.isAlive());
+		}
+		m_worker = null;
+		
+		saveResultSelection();
+		saveSelection();
+		
+		if (m_Browse.getAD_Process_ID() > 0 && getSelectedKeys() != null)
+		{
+
+			MPInstance instance = new MPInstance(Env.getCtx(),
+					m_Browse.getAD_Process_ID(), getBrowseProcessInfo().getRecord_ID());
+			instance.saveEx();
+	
+			DB.createT_Selection(instance.getAD_PInstance_ID(), getSelectedKeys(),
+					null);
+			
+			ProcessInfo pi = getBrowseProcessInfo();
+			pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
+			setBrowseProcessInfo(pi);
+			//Save Values Browse Field Update
+			createT_Selection_Browse(instance.getAD_PInstance_ID());
+			
+			// call process 
+			parameterPanel.saveParameters();
+			// Execute Process
+			ProcessCtl worker = new ProcessCtl(this, Env.getWindowNo(m_frame),
+					getBrowseProcessInfo() , null);
+			m_waiting = new Waiting (m_frame, Msg.getMsg(Env.getCtx(), "Processing"), false, getBrowseProcessInfo().getEstSeconds());
+			worker.run(); // complete tasks in unlockUI /
+			m_waiting.doNotWait();
+			setStatusLine(pi.getSummary(), pi.isError());
+			
+		}
+		m_frame.setCursor(Cursor.getDefaultCursor());
+		p_loadedOK = initBrowser();
+		//executeQuery();
+		//m_frame.pack();
+		
+		//dispose(true);
 	}
 
 	private void bCancelActionPerformed(java.awt.event.ActionEvent evt) {
-		// TODO add your handling code here:
+		m_frame.removeAll();
 		m_frame.dispose();
 	}
 
@@ -932,6 +977,8 @@ public class VBrowser extends Browser implements ActionListener,
 	private javax.swing.JTabbedPane tabsPanel;
 	private javax.swing.JToolBar toolsBar;
 	private javax.swing.JPanel topPanel;
+	/** The GlassPane           	*/
+	private AGlassPane  m_glassPane = new AGlassPane();
 
 	// End of variables declaration//GEN-END:variables
 
@@ -1055,7 +1102,7 @@ public class VBrowser extends Browser implements ActionListener,
 
 		Properties m_ctx = Env.getCtx();
 		MBrowse browse = new MBrowse(m_ctx, 1000002, null);
-		JFrame frame = new JFrame();
+		CFrame frame = new CFrame();
 		boolean modal = true;
 		int WindowNo = 0;
 		String value = "";
@@ -1161,19 +1208,24 @@ public class VBrowser extends Browser implements ActionListener,
 			if (!onRange) {
 
 				if (editor.getValue() != null
+						&& !editor.getValue().toString().isEmpty()
 						&& !field.isRange) {
 					sql.append(" AND ");
-					sql.append(field.Help).append("=?");
+					sql.append(field.Help).append("=? ");
 					m_parameters.add(field.Help);
 					m_parameters_values.add(editor.getValue());
-				} else if(editor.getValue() != null && field.isRange){
+				} else if (editor.getValue() != null
+						&& !editor.getValue().toString().isEmpty()
+						&& field.isRange) {
 					sql.append(" AND ");
 					sql.append(field.Help).append(" BETWEEN ?");
 					m_parameters.add(field.Help);
 					m_parameters_values.add(editor.getValue());
 					onRange = true;
-				} else continue;
-			} else if(editor.getValue() != null) {
+				} else
+					continue;
+			} else if (editor.getValue() != null
+					&& !editor.getValue().toString().isEmpty()) {
 				sql.append(" AND ? ");
 				m_parameters.add(field.Help);
 				m_parameters_values.add(editor.getValue());
@@ -1182,5 +1234,5 @@ public class VBrowser extends Browser implements ActionListener,
 		}
 		m_whereClause = sql.toString();
 		return sql.toString();
-	}
+	}	
 }

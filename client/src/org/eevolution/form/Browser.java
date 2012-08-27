@@ -32,6 +32,7 @@ import java.util.Map.Entry;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.exceptions.DBException;
 import org.adempiere.impexp.ArrayExcelExporter;
 import org.adempiere.model.I_AD_View_Column;
 import org.adempiere.model.MBrowse;
@@ -65,6 +66,58 @@ import org.compiere.util.Msg;
  */
 public abstract class Browser {
 
+	static public LinkedHashMap<String, Object> getBrowseValues(
+			int AD_PInstance_ID, String alias, int recordId, String trxName) {
+		LinkedHashMap<String, Object> values = new LinkedHashMap<String, Object>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<Object> parameters = new ArrayList<Object>();
+		try {
+			StringBuilder sql = new StringBuilder(
+					"SELECT ColumnName , Value_String, Value_Date , Value_Number FROM T_Selection_Browse "
+							+ "WHERE  AD_PInstance_ID=? AND T_Selection_ID=? ");
+			parameters.add(AD_PInstance_ID);
+			parameters.add(recordId);
+			
+			if(alias != null)
+			{	
+				sql.append("AND ColumnName LIKE ?");
+				parameters.add(alias.toUpperCase() + "_%");
+			}	
+			pstmt = DB.prepareStatement(sql.toString(), trxName);
+			DB.setParameters(pstmt, parameters);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				String columnName = rs.getString(1);
+				/*if (columnName.indexOf("_") > 0)
+					columnName = columnName
+							.substring(columnName.indexOf("_") + 1);*/
+				String valueString = rs.getString(2);
+				Timestamp valueDate = rs.getTimestamp(3);
+				BigDecimal valueBigDecimal = rs.getBigDecimal(4);
+				if (valueString != null) {
+					values.put(columnName, valueString);
+					continue;
+				} else if (valueDate != null) {
+					values.put(columnName, valueDate);
+					continue;
+				} else if (valueBigDecimal != null) {
+					values.put(columnName, valueBigDecimal);
+					continue;
+				}
+			}
+
+		} catch (SQLException ex) {
+			throw new DBException(ex);
+		} finally {
+			DB.close(rs, pstmt);
+			rs = null;
+			pstmt = null;
+		}
+
+		return values;
+	}
+	
 	/** Smart Browse */
 	public MBrowse m_Browse = null;
 	/** Smart View */
@@ -152,7 +205,8 @@ public abstract class Browser {
 
 		if(m_Browse.getWhereClause() != null )
 			   whereClause = whereClause + m_Browse.getWhereClause();
-			
+		else
+				whereClause = " 1=1 ";
 		if (whereClause == null || whereClause.indexOf('@') == -1)
 			p_whereClause = whereClause;
 		else {
@@ -355,6 +409,9 @@ public abstract class Browser {
 	
 	public void setProcessInfo(ProcessInfo pi) {
 		m_pi = pi;
+		if(m_pi != null)
+			if(	m_browse_pi !=null)
+				m_browse_pi.setRecord_ID(m_pi.getRecord_ID());
 	}
 
 	public ProcessInfo getProcessInfo() {
@@ -452,7 +509,7 @@ public abstract class Browser {
 					m_language, keyColumn, 0, false, whereClause);
 
 			for (int id : MTable.getAllIDs(tableName, whereClause, null)) {
-				String colName = lookup.getDisplay(id)
+				String colName = lookup.getDisplay(id).trim()
 						+ "/"
 						+ Msg.translate(m_language, ycol.getAD_Column()
 								.getColumnName());
@@ -462,15 +519,16 @@ public abstract class Browser {
 						.append(" FROM  ")
 						.append(xTableName)
 						.append(" WHERE ")
-						.append(xTableName)
-						.append(".")
-						.append(fieldKey.getAD_View_Column().getAD_Column()
-								.getColumnName()).append("=")
-						.append(fieldKey.getAD_View_Column().getColumnSQL())
-						.append(" AND ").append(xTableName).append(".")
+						//.append(xTableName)
+						//.append(".")
+						//.append(fieldKey.getAD_View_Column().getAD_Column()
+						//		.getColumnName()).append("=")
+						//.append(fieldKey.getAD_View_Column().getColumnSQL())
+						//.append(" AND ").append(xTableName).append(".")
+						.append(xTableName).append(".")
 						.append(xcol.getAD_Column().getColumnName())
 						.append("=").append(id).append(") AS ");
-				select.append(makePrefix(lookup.getDisplay(id))).append("_").append(ycol.getColumnName());
+				select.append("\"").append(makePrefix(lookup.getDisplay(id))).append("_").append(ycol.getColumnName()).append("\"");
 				Info_Column infocol = new Info_Column(colName,
 						select.toString(), DisplayType.getClass(ycol.getAD_Column().getAD_Reference_ID(), true));
 				infocol.setReadOnly(field.isReadOnly());
@@ -497,6 +555,32 @@ public abstract class Browser {
 				.setParameters(AD_Table_ID, true).first();
 	}
 	
+	public MBrowseField getFieldKey()
+	{
+	MBrowseField fieldKey = m_Browse.getFieldKey();
+	if(fieldKey == null)
+		throw new AdempiereException("@NotFound@ @IsKey@");
+	
+	return fieldKey;
+	}
+	
+	public MQuery getMQuery()
+	{
+		Integer record_ID = getSelectedRowKey();
+
+		if (record_ID == null)
+			throw new AdempiereException("@FindZeroRecords@");
+		
+		MBrowseField fieldKey = getFieldKey();
+		MColumn column = fieldKey.getAD_View_Column().getAD_Column();
+		String keyColumn = MQuery.getZoomColumnName(column.getColumnName());
+		String tableName = MQuery.getZoomTableName(column.getColumnName());
+		MQuery query = new MQuery(tableName);
+		query.addRestriction(keyColumn, MQuery.EQUAL, record_ID);
+		return query;
+	}
+	
+	
 	/**
 	 * get Parameter Value
 	 * @param key
@@ -508,7 +592,7 @@ public abstract class Browser {
 	
 	protected String getSQL() {
 		String dynWhere = getSQLWhere(false);
-		StringBuffer sql = new StringBuffer(m_sqlMain);
+		StringBuilder sql = new StringBuilder(m_sqlMain);
 		if (dynWhere.length() > 0)
 			sql.append(dynWhere); // includes first AND
 		sql.append(m_sqlOrder);
@@ -517,6 +601,7 @@ public abstract class Browser {
 				m_View.getParentEntityAliasName(), MRole.SQL_FULLYQUALIFIED,
 				MRole.SQL_RO);
 		log.finer(dataSql);
+		//dataSql += " ORDER BY " + m_Browse.getOrderByClause(); 
 		return dataSql;
 	}
 
@@ -584,46 +669,63 @@ public abstract class Browser {
 	public void createT_Selection_Browse(int AD_PInstance_ID)
 	{
 		StringBuilder insert = new StringBuilder();
-		insert.append("INSERT INTO T_SELECTION_BROWSE (AD_PINSTANCE_ID, T_SELECTION_ID, COLUMNNAME , VALUE_STRING, VALUE_NUMBER , VALUE_DATE ) ");
+		insert.append("INSERT INTO T_SELECTION_BROWSE (AD_PINSTANCE_ID, T_SELECTION_ID, COLUMNNAME , VALUE_STRING, VALUE_NUMBER , VALUE_DATE ) VALUES(?,?,?,?,?,?) ");
 		for (Entry<Integer,LinkedHashMap<String, Object>> records : m_values.entrySet()) {
 			//set Record ID
 			
 				LinkedHashMap<String, Object> fields = records.getValue();
 				for(Entry<String, Object> field : fields.entrySet())
 				{
-					StringBuilder insertValues = new StringBuilder();
-					insertValues.append(" VALUES(").append(AD_PInstance_ID).append(",");
-					insertValues.append(records.getKey()).append(",");
-					//set Browse Field ID
-					insertValues.append("'").append(field.getKey()).append("',");
+					List<Object> parameters = new ArrayList<Object>();
+					parameters.add(AD_PInstance_ID);
+					parameters.add(records.getKey());
+					parameters.add(field.getKey());
+					
 					Object data = field.getValue();
 					// set Values
 					if (data instanceof String)
 					{
-						insertValues.append("'").	append(data).append("',");
-						insertValues.append("null").append(",");
-						insertValues.append("null").append(")");
+						parameters.add(data);
+						parameters.add(null);
+						parameters.add(null);
 					}
 					else if (data instanceof BigDecimal || data instanceof Integer || data instanceof Double)
 					{
-						insertValues.append("null").append(",");
-						insertValues.append(data).append(",");
-						insertValues.append("null").append(")");
+						parameters.add(null);
+						if(data instanceof Double)
+						{	
+							BigDecimal value = BigDecimal.valueOf((Double)data);
+							parameters.add(value);
+						}	
+						else	
+							parameters.add(data);
+						parameters.add(null);
+					}
+					else if (data instanceof Integer)
+					{
+						parameters.add(null);
+						parameters.add((Integer)data);
+						parameters.add(null);
 					}
 					else if (data instanceof Timestamp || data instanceof Date)
 					{
-						insertValues.append("null").append(",");
-						insertValues.append("null").append(",");
-						insertValues.append(data).append(")");
+						parameters.add(null);
+						parameters.add(null);
+						if(data instanceof Date)
+						{
+							Timestamp value = new Timestamp(((Date)data).getTime());
+							parameters.add(value);
+						}
+						else 
+						parameters.add(data);
 					}
 					else
 					{
-						insertValues.append("'").append(data).append("',");
-						insertValues.append("null").append(",");
-						insertValues.append("null").append(")");
+						parameters.add(data);
+						parameters.add(null);
+						parameters.add(null);
 					}
-					
-					DB.executeUpdateEx(insert.toString() + insertValues.toString(), null);		
+					DB.executeUpdateEx(insert.toString(),parameters.toArray() , null);		
 						
 				}
 		}
