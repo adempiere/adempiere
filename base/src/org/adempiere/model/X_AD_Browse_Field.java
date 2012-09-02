@@ -31,7 +31,7 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20120710L;
+	private static final long serialVersionUID = 20120831L;
 
     /** Standard Constructor */
     public X_AD_Browse_Field (Properties ctx, int AD_Browse_Field_ID, String trxName)
@@ -40,6 +40,7 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
       /** if (AD_Browse_Field_ID == 0)
         {
 			setAD_Browse_Field_ID (0);
+			setAD_Browse_ID (0);
 			setAD_Element_ID (0);
 			setAD_Reference_ID (0);
 			setAD_View_Column_ID (0);
@@ -471,6 +472,30 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 		return false;
 	}
 
+	/** Set Order by.
+		@param IsOrderBy 
+		Include in sort order
+	  */
+	public void setIsOrderBy (boolean IsOrderBy)
+	{
+		set_Value (COLUMNNAME_IsOrderBy, Boolean.valueOf(IsOrderBy));
+	}
+
+	/** Get Order by.
+		@return Include in sort order
+	  */
+	public boolean isOrderBy () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsOrderBy);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Query Criteria.
 		@param IsQueryCriteria 
 		The column is also used as a query criteria
@@ -575,6 +600,26 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 	public int getSeqNo () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_SeqNo);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Record Sort No.
+		@param SortNo 
+		Determines in what order the records are displayed
+	  */
+	public void setSortNo (int SortNo)
+	{
+		set_Value (COLUMNNAME_SortNo, Integer.valueOf(SortNo));
+	}
+
+	/** Get Record Sort No.
+		@return Determines in what order the records are displayed
+	  */
+	public int getSortNo () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_SortNo);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

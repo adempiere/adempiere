@@ -308,6 +308,19 @@ public interface I_AD_Browse_Field
 	  */
 	public boolean isMandatory();
 
+    /** Column name IsOrderBy */
+    public static final String COLUMNNAME_IsOrderBy = "IsOrderBy";
+
+	/** Set Order by.
+	  * Include in sort order
+	  */
+	public void setIsOrderBy (boolean IsOrderBy);
+
+	/** Get Order by.
+	  * Include in sort order
+	  */
+	public boolean isOrderBy();
+
     /** Column name IsQueryCriteria */
     public static final String COLUMNNAME_IsQueryCriteria = "IsQueryCriteria";
 
@@ -374,6 +387,19 @@ public interface I_AD_Browse_Field
  lowest number comes first
 	  */
 	public int getSeqNo();
+
+    /** Column name SortNo */
+    public static final String COLUMNNAME_SortNo = "SortNo";
+
+	/** Set Record Sort No.
+	  * Determines in what order the records are displayed
+	  */
+	public void setSortNo (int SortNo);
+
+	/** Get Record Sort No.
+	  * Determines in what order the records are displayed
+	  */
+	public int getSortNo();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

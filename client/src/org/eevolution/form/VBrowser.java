@@ -72,10 +72,12 @@ import org.compiere.model.GridField;
 import org.compiere.model.GridFieldVO;
 import org.compiere.model.MPInstance;
 import org.compiere.model.MProcess;
+import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.process.ProcessInfo;
 import org.compiere.swing.CFrame;
 import org.compiere.swing.CLabel;
+import org.compiere.swing.CollapsiblePanel;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
@@ -150,9 +152,7 @@ public class VBrowser extends Browser implements ActionListener,
 		m_frame.getContentPane().add(statusBar, BorderLayout.SOUTH);
 		initComponents();
 		statInit();
-		//p_loadedOK = initBrowser();
 		m_frame.setPreferredSize(getPreferredSize());
-;
 		//
 		int no = detail.getRowCount();
 		setStatusLine(
@@ -160,13 +160,6 @@ public class VBrowser extends Browser implements ActionListener,
 						+ Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"),
 				false);
 		setStatusDB(Integer.toString(no));
-		// Focus
-		/*
-		 * textField1.setValue(value); textField1.requestFocus();
-		 */
-		// if (value != null && value.length() > 0)
-		// executeQuery();
-
 	} // InfoGeneral
 
 	/** Process Parameters Panel */
@@ -264,10 +257,7 @@ public class VBrowser extends Browser implements ActionListener,
 	private boolean initBrowser() {
 		if (!initBrowserTable())
 			return false;
-
-		// prepare table
-		//StringBuffer where = new StringBuffer(m_View.getParentEntityAliasName()
-		//		+ ".IsActive='Y' ");
+		
 		StringBuilder where = new StringBuilder("");
 		if (p_whereClause.length() > 0) {
 			where.append(p_whereClause);
@@ -349,7 +339,11 @@ public class VBrowser extends Browser implements ActionListener,
 	private void cmd_zoom() {
 		
 		m_frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		AEnv.zoom(getMQuery());
+		
+		MQuery query = getMQuery();
+		if(query != null)
+			AEnv.zoom(getMQuery());
+		
 		m_frame.setCursor(Cursor.getDefaultCursor());
 		bZoom.setSelected(false);
 	} // cmd_zoom
@@ -419,18 +413,9 @@ public class VBrowser extends Browser implements ActionListener,
 		sql.append(" WHERE ");
 		m_sqlMain = sql.toString();
 		m_sqlCount = "SELECT COUNT(*) FROM " + from + " WHERE ";
-		//
-		m_sqlOrder = "";
-		//if (orderBy != null && orderBy.length() > 0)
-		//	m_sqlOrder = " ORDER BY " + orderBy;
 
 		if (m_keyColumnIndex == -1)
 			log.log(Level.SEVERE, "No KeyColumn - " + sql);
-
-		// Window Sizing
-		// parameterPanel.setPreferredSize(new Dimension (INFO_WIDTH,
-		// parameterPanel.getPreferredSize().height));
-		// scrollPane.setPreferredSize(new Dimension(INFO_WIDTH, 300));
 	} // prepareTable
 
 	/**
@@ -801,7 +786,10 @@ public class VBrowser extends Browser implements ActionListener,
 		topPanel.setLayout(new java.awt.BorderLayout());
 
 		searchPanel.setLayout(new java.awt.GridBagLayout());
-		topPanel.add(searchPanel, java.awt.BorderLayout.NORTH);
+		
+		collapsibleSeach = new CollapsiblePanel(Msg.getMsg(Env.getCtx(),("SearchCriteria")));
+		collapsibleSeach.add(searchPanel);
+		topPanel.add(collapsibleSeach, java.awt.BorderLayout.NORTH);
 
 		bSearch.setText(Msg.getMsg(Env.getCtx(), "StartSearch"));
 		bSearch.addActionListener(new java.awt.event.ActionListener() {
@@ -811,8 +799,7 @@ public class VBrowser extends Browser implements ActionListener,
 		});
 
 		buttonSearchPanel.add(bSearch);
-
-		topPanel.add(buttonSearchPanel, java.awt.BorderLayout.CENTER);
+		collapsibleSeach.add(buttonSearchPanel);
 
 		searchTab.add(topPanel, java.awt.BorderLayout.NORTH);
 
@@ -909,10 +896,7 @@ public class VBrowser extends Browser implements ActionListener,
 		}
 		m_frame.setCursor(Cursor.getDefaultCursor());
 		p_loadedOK = initBrowser();
-		//executeQuery();
-		//m_frame.pack();
-		
-		//dispose(true);
+		collapsibleSeach.setCollapsed(false);
 	}
 
 	private void bCancelActionPerformed(java.awt.event.ActionEvent evt) {
@@ -925,10 +909,9 @@ public class VBrowser extends Browser implements ActionListener,
 		bSelectAll.setEnabled(true);
 		bExport.setEnabled(true);
 		bDelete.setEnabled(true);
-		
 		p_loadedOK = initBrowser();
+		collapsibleSeach.setCollapsed(true);
 		executeQuery();
-		m_frame.pack();
 	}// GEN-LAST:event_bSearchActionPerformed
 
 	private void bFindActionPerformed(java.awt.event.ActionEvent evt) {
@@ -979,6 +962,7 @@ public class VBrowser extends Browser implements ActionListener,
 	private javax.swing.JPanel topPanel;
 	/** The GlassPane           	*/
 	private AGlassPane  m_glassPane = new AGlassPane();
+	private CollapsiblePanel collapsibleSeach;
 
 	// End of variables declaration//GEN-END:variables
 

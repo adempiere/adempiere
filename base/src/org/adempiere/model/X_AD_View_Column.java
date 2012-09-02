@@ -31,7 +31,7 @@ public class X_AD_View_Column extends PO implements I_AD_View_Column, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20111019L;
+	private static final long serialVersionUID = 20120831L;
 
     /** Standard Constructor */
     public X_AD_View_Column (Properties ctx, int AD_View_Column_ID, String trxName)
@@ -40,6 +40,7 @@ public class X_AD_View_Column extends PO implements I_AD_View_Column, I_Persiste
       /** if (AD_View_Column_ID == 0)
         {
 			setAD_View_Column_ID (0);
+			setAD_View_Definition_ID (0);
 			setEntityType (null);
 			setName (null);
         } */
@@ -197,6 +198,14 @@ public class X_AD_View_Column extends PO implements I_AD_View_Column, I_Persiste
 		return (String)get_Value(COLUMNNAME_ColumnName);
 	}
 
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), getColumnName());
+    }
+
 	/** Set Column SQL.
 		@param ColumnSQL 
 		Virtual Column (r/o)
@@ -284,12 +293,4 @@ public class X_AD_View_Column extends PO implements I_AD_View_Column, I_Persiste
 	{
 		return (String)get_Value(COLUMNNAME_Name);
 	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), getName());
-    }
 }

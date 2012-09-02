@@ -169,7 +169,7 @@ public abstract class Browser {
 	/** Count SQL Statement */
 	public String m_sqlCount;
 	/** Order By Clause */
-	public String m_sqlOrder;
+	public String m_sqlOrderBy;
 	/** Master (owning) Window */
 	public int p_WindowNo;
 	/** Table Name */
@@ -201,6 +201,7 @@ public abstract class Browser {
 		m_language = Language.getLanguage(Env
 				.getAD_Language(m_Browse.getCtx()));
 
+		m_sqlOrderBy = getSQLOrderBy();
 		String whereClause = where != null ? where : "";
 
 		if(m_Browse.getWhereClause() != null )
@@ -220,7 +221,7 @@ public abstract class Browser {
 	}
 
 	public ArrayList<Info_Column> initBrowserData() {
-		List<MBrowseField> fields = m_Browse.getFields();
+		List<MBrowseField> fields = m_Browse.getDisplayFields();
 		ArrayList<Info_Column> list = new ArrayList<Info_Column>();
 		for (MBrowseField field : fields) {
 			MViewColumn vcol = field.getAD_View_Column();
@@ -569,12 +570,12 @@ public abstract class Browser {
 		Integer record_ID = getSelectedRowKey();
 
 		if (record_ID == null)
-			throw new AdempiereException("@FindZeroRecords@");
+			return null;
 		
 		MBrowseField fieldKey = getFieldKey();
 		MColumn column = fieldKey.getAD_View_Column().getAD_Column();
 		String keyColumn = MQuery.getZoomColumnName(column.getColumnName());
-		String tableName = MQuery.getZoomTableName(column.getColumnName());
+		String tableName = column.getAD_Table().getTableName();
 		MQuery query = new MQuery(tableName);
 		query.addRestriction(keyColumn, MQuery.EQUAL, record_ID);
 		return query;
@@ -595,7 +596,7 @@ public abstract class Browser {
 		StringBuilder sql = new StringBuilder(m_sqlMain);
 		if (dynWhere.length() > 0)
 			sql.append(dynWhere); // includes first AND
-		sql.append(m_sqlOrder);
+		sql.append(m_sqlOrderBy);
 		String dataSql = Msg.parseTranslation(Env.getCtx(), sql.toString()); // Variables
 		dataSql = MRole.getDefault().addAccessSQL(dataSql,
 				m_View.getParentEntityAliasName(), MRole.SQL_FULLYQUALIFIED,
@@ -603,6 +604,23 @@ public abstract class Browser {
 		log.finer(dataSql);
 		//dataSql += " ORDER BY " + m_Browse.getOrderByClause(); 
 		return dataSql;
+	}
+	
+	private String getSQLOrderBy() {
+		StringBuilder sqlOrderBy = new StringBuilder();
+		int sortBySqlNo = 1;
+		
+		for(MBrowseField field : m_Browse.getDisplayFields())
+		{
+			if(sqlOrderBy.length() > 0 && field.isOrderBy())
+				sqlOrderBy.append(",");
+			
+			if (field.isOrderBy())
+				sqlOrderBy.append(sortBySqlNo);
+			
+			sortBySqlNo++;
+		}
+		return sqlOrderBy.length() > 0 ? "ORDER BY " + sqlOrderBy.toString() : "";
 	}
 
 	protected PreparedStatement getStatement(String sql) {

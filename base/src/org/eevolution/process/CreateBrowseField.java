@@ -72,6 +72,8 @@ public class CreateBrowseField extends SvrProcess {
 			field = new MBrowseField(browse, column);
 			field.setAD_Browse_ID(browse.get_ID());
 			field.setEntityType(browse.getEntityType());
+			field.setIsDisplayed(false);
+			field.setIsMandatory(false);
 			field.setSeqNo(seq);
 			field.saveEx();
 			seq++;

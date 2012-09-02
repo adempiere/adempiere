@@ -134,6 +134,14 @@ public class BrowseFieldElementHandler extends AbstractElementHandler {
 				 m_BrowseField.setIsReadOnly(Boolean.valueOf(
 				 atts.getValue("isReadOnly")).booleanValue());
 				
+				 m_BrowseField
+				 .setSeqNo(Integer.parseInt(atts.getValue("SeqNo")));
+				 m_BrowseField
+				 .setSortNo(Integer.parseInt(atts.getValue("SortNo")));				
+				 m_BrowseField
+				 .setIsOrderBy(Boolean.valueOf(
+						 atts.getValue("IsOrderBy")).booleanValue());
+				
 				m_BrowseField
 						.setSeqNo(Integer.parseInt(atts.getValue("SeqNo")));
 				m_BrowseField
@@ -370,6 +378,11 @@ public class BrowseFieldElementHandler extends AbstractElementHandler {
 				(m_BrowseField.isReadOnly() == true ? "true" : "false"));
 		atts.addAttribute("", "", "SeqNo", "CDATA",
 				"" + (m_BrowseField.getSeqNo()));
+		atts.addAttribute("", "", "SortNo", "CDATA",
+				"" + (m_BrowseField.getSortNo()));
+		atts.addAttribute("", "", "isOrderBy", "CDATA",
+				(m_BrowseField.isOrderBy() == true ? "true" : "false"));
+		
 		atts.addAttribute(
 				"",
 				"",
