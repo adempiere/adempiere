@@ -35,7 +35,6 @@ import org.adempiere.webui.apps.ProcessParameterPanel;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.ConfirmPanel;
-import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Tab;
 import org.adempiere.webui.component.Tabbox;
@@ -47,7 +46,6 @@ import org.adempiere.webui.component.VerticalBox;
 import org.adempiere.webui.component.WAppsAction;
 import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.editor.WEditor;
-import org.adempiere.webui.editor.WebEditorFactory;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
 import org.adempiere.webui.event.WTableModelEvent;
@@ -60,7 +58,6 @@ import org.adempiere.webui.window.FDialog;
 import org.compiere.apps.ProcessCtl;
 import org.compiere.apps.search.Info_Column;
 import org.compiere.minigrid.IDColumn;
-import org.compiere.model.GridField;
 import org.compiere.model.GridFieldVO;
 import org.compiere.model.MPInstance;
 import org.compiere.model.MProcess;
@@ -69,7 +66,6 @@ import org.compiere.model.MRole;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.DB;
-import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.util.media.AMedia;
@@ -81,7 +77,6 @@ import org.zkoss.zkex.zul.North;
 import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Filedownload;
-import org.zkoss.zul.Grid;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Row;
 import org.zkoss.zul.Separator;
@@ -113,7 +108,7 @@ public class WBrowser extends Browser implements IFormController,
 
 	private WListbox detail;
 	private Borderlayout graphPanel;
-	private Grid searchGrid = GridFactory.newGridLayout();
+	private WBrowserSearch searchGrid;
 	private Borderlayout searchTab;
 	private North collapsibleSeach;
 	private Borderlayout detailPanel;
@@ -163,13 +158,13 @@ public class WBrowser extends Browser implements IFormController,
 		for (MBrowseField field : m_Browse.getCriteriaFields()) {
 			String title = field.getName();
 			String name = field.getAD_View_Column().getColumnName();
-			addComponent(field, row, name, title);
+			searchGrid.addField(field, row, name, title);
 
 			cols++;
 
 			if (field.isRange()) {
 				title = Msg.getMsg(Env.getCtx(), "To");
-				addComponent(field, row, name + "_To", title);
+				searchGrid.addField(field, row, name + "_To", title);
 				cols++;
 			}
 
@@ -202,47 +197,6 @@ public class WBrowser extends Browser implements IFormController,
 			south.appendChild(div);	
 			detailPanel.appendChild(south);
 		}		
-	}
-
-	public void addComponent(MBrowseField field, Row row, String name,
-			String title) {
-		GridFieldVO voBase = GridFieldVO.createStdField(field.getCtx(), p_WindowNo, 0, 0, 0, false, false, false);
-	
-		voBase.AD_Column_ID = field.getAD_View_Column().getAD_Column_ID();
-		voBase.AD_Table_ID = field.getAD_View_Column().getAD_Column().getAD_Table_ID();
-		voBase.ColumnName = field.getAD_View_Column().getAD_Column().getColumnName();
-		voBase.displayType = field.getAD_Reference_ID();
-		voBase.AD_Reference_Value_ID = field.getAD_Reference_Value_ID();
-		voBase.IsMandatory = field.isMandatory();
-		voBase.IsAlwaysUpdateable = false;
-		voBase.IsKey = field.isKey();
-		voBase.isRange = field.isRange();
-		voBase.IsReadOnly = false;
-		voBase.IsUpdateable = true;
-		voBase.IsDisplayed = true;
-		voBase.Description = field.getDescription();
-		voBase.Help = field.getAD_View_Column().getColumnSQL();
-		voBase.Header = title;
-				
-		GridField gField = new GridField (GridFieldVO.createParameter(voBase));
-		gField.lookupLoadComplete();
-		WEditor editor = WebEditorFactory.getEditor(gField, false);
-		editor.setReadWrite(true);
-		editor.addValueChangeListener(this);
-		editor.dynamicDisplay();
-		if(DisplayType.YesNo != field.getAD_Reference_ID())
-		{	
-			Div div = new Div();
-	        div.setAlign("right");
-			org.adempiere.webui.component.Label label = editor.getLabel();
-	        div.appendChild(label);
-	        if (label.getDecorator() != null)
-	        	div.appendChild(label.getDecorator());
-	        row.appendChild(div);
-		}
-
-		row.appendChild(editor.getComponent());
-		setParameter(name, editor);
 	}
 
 	private boolean initBrowser() {
@@ -452,6 +406,7 @@ public class WBrowser extends Browser implements IFormController,
 
 	public void dispose(boolean ok) {
 		log.config("OK=" + ok);
+		searchGrid.dispose();
 		m_ok = ok;
 		
 		saveResultSelection();
@@ -517,7 +472,7 @@ public class WBrowser extends Browser implements IFormController,
 		searchTab = new Borderlayout();
 		collapsibleSeach = new North();
 		topPanel = new Hbox();
-		searchGrid = GridFactory.newGridLayout();
+		searchGrid = new WBrowserSearch(p_WindowNo);
 		bSearch = new Button();
 		detail = new WListbox();
 		bCancel = new Button();
@@ -942,7 +897,7 @@ public class WBrowser extends Browser implements IFormController,
 	@Override
 	public Object getParamenterValue(Object key)
 	{
-			WEditor editor = (WEditor) m_search.get(key);
+			WEditor editor = (WEditor)  searchGrid.getParamenters().get(key);
 			if(editor != null)
 				return editor.getValue();
 			else
@@ -960,7 +915,7 @@ public class WBrowser extends Browser implements IFormController,
 		boolean onRange = false;
 		StringBuilder sql = new StringBuilder(p_whereClause);
 
-		for (Entry<Object, Object> entry : m_search.entrySet()) {
+		for (Entry<Object, Object> entry : searchGrid.getParamenters().entrySet()) {
 			WEditor editor = (WEditor) entry.getValue();
 			GridFieldVO field = editor.getGridField().getVO();
 			if (!onRange) {

@@ -134,6 +134,21 @@ public class BrowseFieldElementHandler extends AbstractElementHandler {
 				 m_BrowseField.setIsReadOnly(Boolean.valueOf(
 				 atts.getValue("isReadOnly")).booleanValue());
 				
+				m_BrowseField.setDefaultValue(atts.getValue("DefaultValue"));
+				m_BrowseField.setDefaultValue2(atts.getValue("DefaultValue2"));
+				m_BrowseField.setReadOnlyLogic(atts.getValue("ReadOnlyLogic"));
+				m_BrowseField.setDisplayLogic(atts.getValue("DisplayLogic"));
+				m_BrowseField.setVFormat(atts.getValue("VFormat"));
+				m_BrowseField.setFieldLength(Integer.parseInt(atts
+						.getValue("FieldLength")));
+
+				m_BrowseField.setValueMin(atts.getValue("ValueMin"));
+				m_BrowseField.setValueMin(atts.getValue("ValueMax"));
+
+				String Name = atts.getValue("ADValRuleNameID");
+				id = get_IDWithColumn(ctx, "AD_Val_Rule", "Name", Name);
+				m_BrowseField.setAD_Val_Rule_ID(id);
+
 				 m_BrowseField
 				 .setSeqNo(Integer.parseInt(atts.getValue("SeqNo")));
 				 m_BrowseField
@@ -142,8 +157,6 @@ public class BrowseFieldElementHandler extends AbstractElementHandler {
 				 .setIsOrderBy(Boolean.valueOf(
 						 atts.getValue("IsOrderBy")).booleanValue());
 				
-				m_BrowseField
-						.setSeqNo(Integer.parseInt(atts.getValue("SeqNo")));
 				m_BrowseField
 						.setDescription(getStringValue(atts, "Description"));
 				m_BrowseField.setHelp(getStringValue(atts, "Help"));
@@ -170,7 +183,7 @@ public class BrowseFieldElementHandler extends AbstractElementHandler {
 								.valueOf(atts.getValue("isIdentifier"))
 								.booleanValue() : true);
 
-				String Name = atts.getValue("ADReferenceNameID");
+				Name = atts.getValue("ADReferenceNameID");
 				id = get_IDWithColumn(ctx, "AD_Reference", "Name", Name);
 				m_BrowseField.setAD_Reference_ID(id);
 
@@ -297,11 +310,10 @@ public class BrowseFieldElementHandler extends AbstractElementHandler {
 					document);
 		}
 
-		/*
-		 * if (m_BrowseField.getAD_Val_Rule_ID() > 0) {
-		 * packOut.createDynamicRuleValidation
-		 * (m_BrowseField.getAD_Val_Rule_ID(), document); }
-		 */
+		if (m_BrowseField.getAD_Val_Rule_ID() > 0) {
+			packOut.createDynamicRuleValidation(m_BrowseField.getAD_Val_Rule_ID(), document);
+		}
+		
 
 		document.startElement("", "", "browsefield", atts);
 		document.endElement("", "", "browsefield");
@@ -383,6 +395,23 @@ public class BrowseFieldElementHandler extends AbstractElementHandler {
 		atts.addAttribute("", "", "isOrderBy", "CDATA",
 				(m_BrowseField.isOrderBy() == true ? "true" : "false"));
 		
+		atts.addAttribute("", "", "DisplayLogic", "CDATA", (m_BrowseField.
+				getDisplayLogic() != null ? m_BrowseField.getDisplayLogic() : ""));
+		atts.addAttribute("", "", "ReadOnlyLogic", "CDATA", (m_BrowseField.
+				getReadOnlyLogic() != null ? m_BrowseField.getReadOnlyLogic() : ""));
+		atts.addAttribute("", "", "DefaultValue", "CDATA", (m_BrowseField
+				.getDefaultValue() != null ? m_BrowseField.getDefaultValue() : ""));
+		atts.addAttribute("", "", "DefaultValue2", "CDATA", (m_BrowseField
+				.getDefaultValue2() != null ? m_BrowseField.getDefaultValue2() : ""));
+		atts.addAttribute("", "", "ValueMin", "CDATA", (m_BrowseField
+				.getValueMin() != null ? m_BrowseField.getValueMin() : ""));
+		atts.addAttribute("", "", "ValueMax", "CDATA", (m_BrowseField
+				.getValueMax() != null ? m_BrowseField.getValueMax() : ""));	
+		atts.addAttribute("", "", "FieldLength", "CDATA",
+				"" + (m_BrowseField.getFieldLength()));
+		atts.addAttribute("", "", "VFormat", "CDATA", (m_BrowseField
+				.getVFormat() != null ? m_BrowseField.getVFormat() : ""));
+		
 		atts.addAttribute(
 				"",
 				"",
@@ -421,6 +450,14 @@ public class BrowseFieldElementHandler extends AbstractElementHandler {
 			atts.addAttribute("", "", "ADReferenceNameValueID", "CDATA", name);
 		} else
 			atts.addAttribute("", "", "ADReferenceNameValueID", "CDATA", "");
+		
+		if (m_BrowseField.getAD_Val_Rule_ID() > 0) {
+			sql = "SELECT Name FROM AD_Val_Rule WHERE AD_Val_Rule_ID=?";
+			name = DB
+					.getSQLValueString(null, sql, m_BrowseField.getAD_Val_Rule_ID());
+			atts.addAttribute("", "", "ADValRuleNameID", "CDATA", name);
+		} else			
+			atts.addAttribute("", "", "ADValRuleNameID", "CDATA", "");
 
 		if (m_BrowseField.getAxis_Column_ID() > 0) {
 			sql = "SELECT ColumnName FROM AD_View_Column WHERE AD_View_Column_ID=?";

@@ -133,8 +133,6 @@ public abstract class Browser {
 	public ArrayList<String> m_queryColumnsSql = new ArrayList<String>();
 
 	/** Parameters */
-	protected LinkedHashMap<Object,Object> m_search= new LinkedHashMap<Object,Object>();
-	/** Parameters */
 	protected ArrayList<Object> m_parameters;
 	/** Parameters */
 	protected ArrayList<Object> m_parameters_values;
@@ -227,7 +225,8 @@ public abstract class Browser {
 			MViewColumn vcol = field.getAD_View_Column();
 
 			//String title = m_Browse.getTitle();
-			String columnName = vcol.getAD_Column().getColumnName();
+			MColumn column =  vcol.getAD_Column();
+			String columnName = column.getColumnName();
 			
 			if (field.isQueryCriteria()) {
 				m_queryColumns.add(field.getName());
@@ -253,12 +252,17 @@ public abstract class Browser {
 			if (columnSql == null || columnSql.length() == 0)
 				columnSql = columnName;
 			// Default
-			StringBuffer colSql = new StringBuffer(columnSql);
+			StringBuilder colSql = new StringBuilder(columnSql);
 			Class colClass = null;
 			if (isKey) {
 				colClass = IDColumn.class;
 			} else if (!isDisplayed)
 				;
+			else if (column.isVirtualColumn())
+			{
+				colSql = new StringBuilder("(" + column.getColumnSQL() + ")");
+				colClass = String.class;
+			}
 			else if (DisplayType.YesNo == displayType)
 				colClass = Boolean.class;
 			else if (DisplayType.Amount == displayType)
@@ -271,14 +275,14 @@ public abstract class Browser {
 			else if (DisplayType.TableDir == displayType
 					|| DisplayType.Search == displayType) {
 				String alias = vcol.getAD_View_Definition().getTableAlias();
-				colSql = new StringBuffer("("
+				colSql = new StringBuilder("("
 						+ MLookupFactory.getLookup_TableDirEmbed(m_language,
 								columnName, alias) + ") AS "
 						+ vcol.getColumnName());
 				colClass = String.class;
 			} else if (DisplayType.Table == displayType) {
 				String alias = vcol.getAD_View_Definition().getTableAlias();
-				colSql = new StringBuffer("("
+				colSql = new StringBuilder("("
 						+ MLookupFactory.getLookup_TableEmbed(m_language,
 								columnName, alias,
 								field.getAD_Reference_Value_ID()) + ") AS "
@@ -291,7 +295,7 @@ public abstract class Browser {
 			else if (DisplayType.isDate(displayType))
 				colClass = Timestamp.class;
 			else if (DisplayType.List == displayType) {
-				colSql = new StringBuffer("("
+				colSql = new StringBuilder("("
 						+ MLookupFactory.getLookup_ListEmbed(m_language,
 								field.getAD_Reference_Value_ID(),
 								vcol.getColumnSQL()) + ")");
@@ -315,12 +319,6 @@ public abstract class Browser {
 	
 	public ArrayList<Object> getParametersValues() {
 		return m_parameters_values;
-	}
-
-	public void setParameter(Object name, Object value) {
-		if (value != null) {
-			m_search.put(name, value);
-		}
 	}
 	
 	public void addSQLWhere(StringBuffer sql, int index, String value) {
@@ -502,14 +500,22 @@ public abstract class Browser {
 			if(pcol.getColumnName() == null)
 				throw new AdempiereException("@NotFound@ @ColumnName@");
 	
-			String whereClause = parentColumn.getColumnName() + "="
+			String whereClause =  "";
+			
+			if(field.getAD_Val_Rule_ID() > 0)
+				whereClause = Env.parseContext(Env.getCtx(), p_WindowNo, field.getAD_Val_Rule().getCode(), false);
+			
+			if(whereClause.length() > 0 )
+				whereClause += " AND ";
+			
+			whereClause += parentColumn.getColumnName() + "="
 					+ getParamenterValue(pcol.getColumnName());
 
 			MLookup lookup = MLookupFactory.get(Env.getCtx(), 0,
 					xcol.getAD_Column_ID(), field.getAD_Reference_ID(),
-					m_language, keyColumn, 0, false, whereClause);
+					m_language, keyColumn, field.getAD_Reference_Value_ID(), false, whereClause);
 
-			for (int id : MTable.getAllIDs(tableName, whereClause, null)) {
+			for (int id : MTable.getAllIDs(tableName, whereClause , null)) {
 				String colName = lookup.getDisplay(id).trim()
 						+ "/"
 						+ Msg.translate(m_language, ycol.getAD_Column()

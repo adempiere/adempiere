@@ -282,11 +282,16 @@ public class GridFieldVO implements Serializable
 		voT.IsMandatory = voF.IsMandatory;
 		voT.FieldLength = voF.FieldLength;
 		voT.DisplayLength = voF.FieldLength;
-		voT.DefaultValue = voF.DefaultValue2;
+		voT.DefaultValue = voF.DefaultValue;
+		voT.DefaultValue2 = voF.DefaultValue2;
 		voT.VFormat = voF.VFormat;
 		voT.ValueMin = voF.ValueMin;
 		voT.ValueMax = voF.ValueMax;
 		voT.isRange = voF.isRange;
+		voT.DisplayLogic = voF.DisplayLogic;
+		voT.ReadOnlyLogic = voF.ReadOnlyLogic;
+		voT.ValidationCode = voF.ValidationCode;
+		
 		//
 		// Genied: For a range parameter the second field 
 		// lookup behaviour should match the first one.

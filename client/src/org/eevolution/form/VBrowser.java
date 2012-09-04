@@ -19,7 +19,6 @@
 package org.eevolution.form;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -56,7 +55,6 @@ import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.AGlassPane;
 import org.compiere.apps.ALayout;
-import org.compiere.apps.ALayoutConstraint;
 import org.compiere.apps.AppsAction;
 import org.compiere.apps.ConfirmPanel;
 import org.compiere.apps.ProcessCtl;
@@ -65,10 +63,8 @@ import org.compiere.apps.StatusBar;
 import org.compiere.apps.Waiting;
 import org.compiere.apps.search.Info_Column;
 import org.compiere.grid.ed.VEditor;
-import org.compiere.grid.ed.VEditorFactory;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.MiniTable;
-import org.compiere.model.GridField;
 import org.compiere.model.GridFieldVO;
 import org.compiere.model.MPInstance;
 import org.compiere.model.MProcess;
@@ -76,11 +72,9 @@ import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.process.ProcessInfo;
 import org.compiere.swing.CFrame;
-import org.compiere.swing.CLabel;
 import org.compiere.swing.CollapsiblePanel;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.DB;
-import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.KeyNamePair;
@@ -184,12 +178,12 @@ public class VBrowser extends Browser implements ActionListener,
 
 			String name = field.getAD_View_Column().getColumnName();
 			String title = field.getName();
-			addComponent(field, row, cols, name , title);
+			searchPanel.addField(field, row, cols, name, title);
 			cols = cols + col;
 
 			if (field.isRange()) {
-				title = Msg.getMsg(Env.getCtx(), "To");
-				addComponent(field, row, cols, name + "_To", title);
+				title = Msg.getMsg(Env.getCtx(), "To");				
+				searchPanel.addField(field, row, cols, name + "_To", title);
 				cols = cols + col;
 			}
 
@@ -211,42 +205,6 @@ public class VBrowser extends Browser implements ActionListener,
 			parameterPanel.init();
 			processPanel.add(parameterPanel, BorderLayout.CENTER);
 		}
-	}
-
-	private void addComponent(MBrowseField field, int row, int col,
-			String name, String title) {
-		
-		GridFieldVO voBase = GridFieldVO.createStdField(field.getCtx(), p_WindowNo, 0, 0, 0, false, false, false);
-		
-		voBase.AD_Column_ID = field.getAD_View_Column().getAD_Column_ID();
-		voBase.AD_Table_ID = field.getAD_View_Column().getAD_Column().getAD_Table_ID();
-		voBase.ColumnName = field.getAD_View_Column().getAD_Column().getColumnName();
-		voBase.displayType = field.getAD_Reference_ID();
-		voBase.AD_Reference_Value_ID = field.getAD_Reference_Value_ID();
-		voBase.IsMandatory = field.isMandatory();
-		voBase.IsAlwaysUpdateable = false;
-		voBase.IsKey = field.isKey();
-		voBase.isRange = field.isRange();
-		voBase.IsReadOnly = false;
-		voBase.IsUpdateable = true;
-		voBase.IsDisplayed = true;
-		voBase.Description = field.getDescription();
-		voBase.Help = field.getAD_View_Column().getColumnSQL();
-		voBase.Header = title;
-				
-		GridField gField = new GridField (GridFieldVO.createParameter(voBase));
-		gField.lookupLoadComplete();
-		VEditor editor = VEditorFactory.getEditor(gField, false);
-		editor.setReadWrite(true);
-		editor.addVetoableChangeListener(this);
-		if(DisplayType.YesNo != field.getAD_Reference_ID())
-		{	
-			CLabel label = new CLabel(title);
-			label.setName("L_" + name);
-			searchPanel.add(label, new ALayoutConstraint(row, col));
-		}
-		searchPanel.add((Component)editor, new ALayoutConstraint(row, col + 1));
-		setParameter(name, editor);
 	}
 
 	/**
@@ -342,7 +300,7 @@ public class VBrowser extends Browser implements ActionListener,
 		
 		MQuery query = getMQuery();
 		if(query != null)
-			AEnv.zoom(getMQuery());
+			AEnv.zoom(query);
 		
 		m_frame.setCursor(Cursor.getDefaultCursor());
 		bZoom.setSelected(false);
@@ -652,7 +610,7 @@ public class VBrowser extends Browser implements ActionListener,
 		tabsPanel = new javax.swing.JTabbedPane();
 		searchTab = new javax.swing.JPanel();
 		topPanel = new javax.swing.JPanel();
-		searchPanel = new javax.swing.JPanel();
+		searchPanel = new VBrowserSearch(p_WindowNo);
 		buttonSearchPanel = new javax.swing.JPanel();
 		bSearch = new javax.swing.JButton();
 		centerPanel = new javax.swing.JScrollPane();
@@ -900,6 +858,7 @@ public class VBrowser extends Browser implements ActionListener,
 	}
 
 	private void bCancelActionPerformed(java.awt.event.ActionEvent evt) {
+		searchPanel.dispose();
 		m_frame.removeAll();
 		m_frame.dispose();
 	}
@@ -955,7 +914,6 @@ public class VBrowser extends Browser implements ActionListener,
 	private javax.swing.JPanel footPanel;
 	private javax.swing.JPanel graphPanel;
 	private javax.swing.JPanel processPanel;
-	private javax.swing.JPanel searchPanel;
 	private javax.swing.JPanel searchTab;
 	private javax.swing.JTabbedPane tabsPanel;
 	private javax.swing.JToolBar toolsBar;
@@ -963,6 +921,7 @@ public class VBrowser extends Browser implements ActionListener,
 	/** The GlassPane           	*/
 	private AGlassPane  m_glassPane = new AGlassPane();
 	private CollapsiblePanel collapsibleSeach;
+	private VBrowserSearch  searchPanel;
 
 	// End of variables declaration//GEN-END:variables
 
@@ -1168,7 +1127,7 @@ public class VBrowser extends Browser implements ActionListener,
 
 	@Override
 	public Object getParamenterValue(Object key) {
-			VEditor editor = (VEditor) m_search.get(key);
+			VEditor editor = (VEditor) searchPanel.getParamenters().get(key);
 			if(editor != null)
 				return editor.getValue();
 			else
@@ -1186,7 +1145,7 @@ public class VBrowser extends Browser implements ActionListener,
 		boolean onRange = false;
 		StringBuilder sql = new StringBuilder(p_whereClause);
 
-		for (Entry<Object, Object> entry : m_search.entrySet()) {
+		for (Entry<Object, Object> entry : searchPanel.getParamenters().entrySet()) {
 			VEditor editor = (VEditor) entry.getValue();
 			GridFieldVO field = editor.getField().getVO();
 			if (!onRange) {

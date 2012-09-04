@@ -45,10 +45,10 @@ public interface I_AD_Browse_Field
     /** Column name AD_Browse_Field_ID */
     public static final String COLUMNNAME_AD_Browse_Field_ID = "AD_Browse_Field_ID";
 
-	/** Set Smart Browse Fields ID	  */
+	/** Set Browse Field	  */
 	public void setAD_Browse_Field_ID (int AD_Browse_Field_ID);
 
-	/** Get Smart Browse Fields ID	  */
+	/** Get Browse Field	  */
 	public int getAD_Browse_Field_ID();
 
     /** Column name AD_Browse_ID */
@@ -128,6 +128,21 @@ public interface I_AD_Browse_Field
 
 	public org.compiere.model.I_AD_Reference getAD_Reference_Value() throws RuntimeException;
 
+    /** Column name AD_Val_Rule_ID */
+    public static final String COLUMNNAME_AD_Val_Rule_ID = "AD_Val_Rule_ID";
+
+	/** Set Dynamic Validation.
+	  * Dynamic Validation Rule
+	  */
+	public void setAD_Val_Rule_ID (int AD_Val_Rule_ID);
+
+	/** Get Dynamic Validation.
+	  * Dynamic Validation Rule
+	  */
+	public int getAD_Val_Rule_ID();
+
+	public org.compiere.model.I_AD_Val_Rule getAD_Val_Rule() throws RuntimeException;
+
     /** Column name AD_View_Column_ID */
     public static final String COLUMNNAME_AD_View_Column_ID = "AD_View_Column_ID";
 
@@ -189,6 +204,36 @@ public interface I_AD_Browse_Field
 	  */
 	public int getCreatedBy();
 
+    /** Column name DefaultValue */
+    public static final String COLUMNNAME_DefaultValue = "DefaultValue";
+
+	/** Set Default Logic.
+	  * Default value hierarchy, separated by ;
+
+	  */
+	public void setDefaultValue (String DefaultValue);
+
+	/** Get Default Logic.
+	  * Default value hierarchy, separated by ;
+
+	  */
+	public String getDefaultValue();
+
+    /** Column name DefaultValue2 */
+    public static final String COLUMNNAME_DefaultValue2 = "DefaultValue2";
+
+	/** Set Default Logic 2.
+	  * Default value hierarchy, separated by ;
+
+	  */
+	public void setDefaultValue2 (String DefaultValue2);
+
+	/** Get Default Logic 2.
+	  * Default value hierarchy, separated by ;
+
+	  */
+	public String getDefaultValue2();
+
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
 
@@ -201,6 +246,19 @@ public interface I_AD_Browse_Field
 	  * Optional short description of the record
 	  */
 	public String getDescription();
+
+    /** Column name DisplayLogic */
+    public static final String COLUMNNAME_DisplayLogic = "DisplayLogic";
+
+	/** Set Display Logic.
+	  * If the Field is displayed, the result determines if the field is actually displayed
+	  */
+	public void setDisplayLogic (String DisplayLogic);
+
+	/** Get Display Logic.
+	  * If the Field is displayed, the result determines if the field is actually displayed
+	  */
+	public String getDisplayLogic();
 
     /** Column name EntityType */
     public static final String COLUMNNAME_EntityType = "EntityType";
@@ -216,6 +274,19 @@ public interface I_AD_Browse_Field
  Determines ownership and synchronization
 	  */
 	public String getEntityType();
+
+    /** Column name FieldLength */
+    public static final String COLUMNNAME_FieldLength = "FieldLength";
+
+	/** Set Length.
+	  * Length of the column in the database
+	  */
+	public void setFieldLength (int FieldLength);
+
+	/** Get Length.
+	  * Length of the column in the database
+	  */
+	public int getFieldLength();
 
     /** Column name Help */
     public static final String COLUMNNAME_Help = "Help";
@@ -373,6 +444,19 @@ public interface I_AD_Browse_Field
 	  */
 	public String getName();
 
+    /** Column name ReadOnlyLogic */
+    public static final String COLUMNNAME_ReadOnlyLogic = "ReadOnlyLogic";
+
+	/** Set Read Only Logic.
+	  * Logic to determine if field is read only (applies only when field is read-write)
+	  */
+	public void setReadOnlyLogic (String ReadOnlyLogic);
+
+	/** Get Read Only Logic.
+	  * Logic to determine if field is read only (applies only when field is read-write)
+	  */
+	public String getReadOnlyLogic();
+
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";
 
@@ -416,4 +500,45 @@ public interface I_AD_Browse_Field
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name VFormat */
+    public static final String COLUMNNAME_VFormat = "VFormat";
+
+	/** Set Value Format.
+	  * Format of the value;
+ Can contain fixed format elements, Variables: "_lLoOaAcCa09"
+	  */
+	public void setVFormat (String VFormat);
+
+	/** Get Value Format.
+	  * Format of the value;
+ Can contain fixed format elements, Variables: "_lLoOaAcCa09"
+	  */
+	public String getVFormat();
+
+    /** Column name ValueMax */
+    public static final String COLUMNNAME_ValueMax = "ValueMax";
+
+	/** Set Max. Value.
+	  * Maximum Value for a field
+	  */
+	public void setValueMax (String ValueMax);
+
+	/** Get Max. Value.
+	  * Maximum Value for a field
+	  */
+	public String getValueMax();
+
+    /** Column name ValueMin */
+    public static final String COLUMNNAME_ValueMin = "ValueMin";
+
+	/** Set Min. Value.
+	  * Minimum Value for a field
+	  */
+	public void setValueMin (String ValueMin);
+
+	/** Get Min. Value.
+	  * Minimum Value for a field
+	  */
+	public String getValueMin();
 }

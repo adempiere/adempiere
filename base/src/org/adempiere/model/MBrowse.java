@@ -36,7 +36,6 @@ import org.compiere.util.Env;
  */
 public class MBrowse extends X_AD_Browse {
 
-
 	/**
 	 * 
 	 */
@@ -175,7 +174,8 @@ public class MBrowse extends X_AD_Browse {
 	/**
 	 * get field using name
 	 * 
-	 * @param name field
+	 * @param name
+	 *            field
 	 * @return field
 	 */
 	public MBrowseField getField(String name) {
