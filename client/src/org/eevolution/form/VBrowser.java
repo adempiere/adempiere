@@ -94,10 +94,6 @@ public class VBrowser extends Browser implements ActionListener,
 		TableModelListener, ASyncProcess {
 	CFrame m_frame = new CFrame();
 	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1022167449752851083L;
-	/**
 	 * get Browse
 	 * @param browse_ID
 	 */
@@ -371,6 +367,7 @@ public class VBrowser extends Browser implements ActionListener,
 		sql.append(" WHERE ");
 		m_sqlMain = sql.toString();
 		m_sqlCount = "SELECT COUNT(*) FROM " + from + " WHERE ";
+		m_sqlOrderBy = getSQLOrderBy();
 
 		if (m_keyColumnIndex == -1)
 			log.log(Level.SEVERE, "No KeyColumn - " + sql);
@@ -500,13 +497,21 @@ public class VBrowser extends Browser implements ActionListener,
 						int col = 0;
 						for (Info_Column column : m_generalLayout)
 						{	
-							if(!column.isReadOnly())
-							{
-								String columnName = column.getColSQL().substring(column.getColSQL().indexOf("AS ") + 3);
-								Object value = detail.getModel().getValueAt(row,col);
-								values.put(columnName, value);
+							String columnName = column.getColSQL().substring(
+									column.getColSQL().indexOf("AS ") + 3);
+							if (!column.isReadOnly()
+									|| IsIdentifierSelection(columnName)) {
+								if (!column.isKeyPairCol()) {
+									Object value = detail.getModel()
+											.getValueAt(row, col);
+									values.put(columnName, value);
+								} else {
+									KeyNamePair value = (KeyNamePair) detail
+											.getModel().getValueAt(row, col);
+									values.put(columnName, value.getID());
+								}
 							}
-							col ++;
+							col++;
 						}
 						if(values.size() > 0)
 						{
@@ -959,36 +964,31 @@ public class VBrowser extends Browser implements ActionListener,
 					detail.setRowCount(row + 1);
 					int colOffset = 1; // columns start with 1
 					for (int col = 0; col < p_layout.length; col++) {
-						Object data = null;
+						Object value = null;
 						Class<?> c = p_layout[col].getColClass();
-						int colIndex = col + colOffset;
+						int colIndex = col + colOffset;						
 						if (c == IDColumn.class)
-							data = new IDColumn(m_rs.getInt(colIndex));
+							value = new IDColumn(m_rs.getInt(colIndex));
 						else if (c == Boolean.class)
-							data = new Boolean("Y".equals(m_rs
+							value = new Boolean("Y".equals(m_rs
 									.getString(colIndex)));
 						else if (c == Timestamp.class)
-							data = m_rs.getTimestamp(colIndex);
+							value = m_rs.getTimestamp(colIndex);
 						else if (c == BigDecimal.class)
-							data = m_rs.getBigDecimal(colIndex);
+							value = m_rs.getBigDecimal(colIndex);
 						else if (c == Double.class)
-							data = new Double(m_rs.getDouble(colIndex));
+							value = new Double(m_rs.getDouble(colIndex));
 						else if (c == Integer.class)
-							data = new Integer(m_rs.getInt(colIndex));
+							value = new Integer(m_rs.getInt(colIndex));
 						else if (c == KeyNamePair.class) {
 							String display = m_rs.getString(colIndex);
 							int key = m_rs.getInt(colIndex + 1);
-							data = new KeyNamePair(key, display);
+							value = new KeyNamePair(key, display);
 							colOffset++;
 						} else
-							data = m_rs.getString(colIndex);
+							value = m_rs.getString(colIndex);
 						// store
-						detail.setValueAt(data, row, col);
-						// log.fine( "r=" + row + ", c=" + col + " " +
-						// m_layout[col].getColHeader(),
-						// "data=" + data.toString() + " " +
-						// data.getClass().getName() + " * " +
-						// m_table.getCellRenderer(row, col));
+						detail.setValueAt(value, row, col);
 					}
 				}
 			} catch (SQLException e) {

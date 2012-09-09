@@ -199,7 +199,6 @@ public abstract class Browser {
 		m_language = Language.getLanguage(Env
 				.getAD_Language(m_Browse.getCtx()));
 
-		m_sqlOrderBy = getSQLOrderBy();
 		String whereClause = where != null ? where : "";
 
 		if(m_Browse.getWhereClause() != null )
@@ -246,7 +245,7 @@ public abstract class Browser {
 					continue;	
 			}
 			
-			// teo_sarca
+			String IDcolSQL = "";
 			String columnSql = vcol.getColumnSQL() + " AS "
 					+ vcol.getColumnName();
 			if (columnSql == null || columnSql.length() == 0)
@@ -279,7 +278,8 @@ public abstract class Browser {
 						+ MLookupFactory.getLookup_TableDirEmbed(m_language,
 								columnName, alias) + ") AS "
 						+ vcol.getColumnName());
-				colClass = String.class;
+				IDcolSQL = vcol.getColumnSQL();
+				colClass = KeyNamePair.class;
 			} else if (DisplayType.Table == displayType) {
 				String alias = vcol.getAD_View_Definition().getTableAlias();
 				colSql = new StringBuilder("("
@@ -287,7 +287,8 @@ public abstract class Browser {
 								columnName, alias,
 								field.getAD_Reference_Value_ID()) + ") AS "
 						+ vcol.getColumnName());
-				colClass = String.class;
+				IDcolSQL = vcol.getColumnSQL();
+				colClass = KeyNamePair.class;
 			} else if (DisplayType.String == displayType
 					|| DisplayType.Text == displayType
 					|| DisplayType.Memo == displayType)
@@ -298,11 +299,12 @@ public abstract class Browser {
 				colSql = new StringBuilder("("
 						+ MLookupFactory.getLookup_ListEmbed(m_language,
 								field.getAD_Reference_Value_ID(),
-								vcol.getColumnSQL()) + ")");
-				colClass = String.class;
+								vcol.getColumnSQL()) + ") AS "
+						+ vcol.getColumnName());
+				colClass = String.class;;
 			}
 			if (colClass != null) {
-				Info_Column infocol = new Info_Column(field.getName(), colSql.toString(), colClass);
+				Info_Column infocol = new Info_Column(field.getName(), colSql.toString(), colClass , IDcolSQL );
 				infocol.setReadOnly(field.isReadOnly());
 				list.add(infocol);
 				log.finest("Added Field=" + columnName + " Name=" + field.getName());
@@ -571,6 +573,15 @@ public abstract class Browser {
 	return fieldKey;
 	}
 	
+	public boolean IsIdentifierSelection(String columnName)
+	{	
+		for (MBrowseField field : m_Browse.getIdentifierFields()) {
+			if (field.getAD_View_Column().getColumnName().equals(columnName))
+				return true;
+		}
+		return false;
+	}
+	
 	public MQuery getMQuery()
 	{
 		Integer record_ID = getSelectedRowKey();
@@ -612,23 +623,41 @@ public abstract class Browser {
 		return dataSql;
 	}
 	
-	private String getSQLOrderBy() {
+	public String getSQLOrderBy() {
 		StringBuilder sqlOrderBy = new StringBuilder();
-		int sortBySqlNo = 1;
-		
-		for(MBrowseField field : m_Browse.getDisplayFields())
-		{
-			if(sqlOrderBy.length() > 0 && field.isOrderBy())
+		for (MBrowseField field : m_Browse.getOrderByFields()) {
+			if (sqlOrderBy.length() > 0 && field.isOrderBy())
 				sqlOrderBy.append(",");
-			
-			if (field.isOrderBy())
-				sqlOrderBy.append(sortBySqlNo);
-			
-			sortBySqlNo++;
-		}
-		return sqlOrderBy.length() > 0 ? "ORDER BY " + sqlOrderBy.toString() : "";
-	}
 
+			if (field.isOrderBy()) {
+				int orderByPosition = getOrderByPosition(field
+						.getAD_View_Column().getColumnName());
+				if (orderByPosition > 0)
+					sqlOrderBy.append(orderByPosition);
+			}
+		}
+		return sqlOrderBy.length() > 0 ? "ORDER BY " + sqlOrderBy.toString()
+				: "";
+	}
+	
+	private int getOrderByPosition(String name)
+	{
+		int colOffset = 1; // columns start with 1
+		for (int col = 0; col < p_layout.length; col++) {
+			Info_Column column = p_layout[col];
+			String columnName = column.getColSQL().substring(
+					column.getColSQL().indexOf("AS ") + 3);
+
+			Class<?> c = column.getColClass();
+			int sortBySqlNo = col + colOffset;
+			if (c == KeyNamePair.class)
+				colOffset++;
+			if(name.equals(columnName))
+				return sortBySqlNo;
+		}
+		return 0;
+	}
+	
 	protected PreparedStatement getStatement(String sql) {
 		PreparedStatement stmt = null;
 		try {

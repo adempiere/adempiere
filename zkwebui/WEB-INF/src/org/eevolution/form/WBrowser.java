@@ -67,6 +67,7 @@ import org.compiere.process.ProcessInfo;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.event.Event;
@@ -284,6 +285,7 @@ public class WBrowser extends Browser implements IFormController,
 		sql.append(" WHERE ");
 		m_sqlMain = sql.toString();
 		m_sqlCount = "SELECT COUNT(*) FROM " + from + " WHERE ";
+		m_sqlOrderBy = getSQLOrderBy();
 	}
 
 	private boolean testCount() {
@@ -349,14 +351,21 @@ public class WBrowser extends Browser implements IFormController,
 						int col = 0;
 						for (Info_Column column : m_generalLayout)
 						{	
-							if(!column.isReadOnly())
-							{
-								String columnName = column.getColSQL().substring(column.getColSQL().indexOf("AS ") + 3);
-								Object value = detail.getModel().getValueAt(row,col);
-								values.put(columnName, value);
-								continue;
+							String columnName = column.getColSQL().substring(
+									column.getColSQL().indexOf("AS ") + 3);
+							if (!column.isReadOnly()
+									|| IsIdentifierSelection(columnName)) {
+								if (!column.isKeyPairCol()) {
+									Object value = detail.getModel()
+											.getValueAt(row, col);
+									values.put(columnName, value);
+								} else {
+									KeyNamePair value = (KeyNamePair) detail
+											.getModel().getValueAt(row, col);
+									values.put(columnName, value.getID());
+								}
 							}
-							col ++;
+							col++;
 						}
 						if(values.size() > 0)
 						{

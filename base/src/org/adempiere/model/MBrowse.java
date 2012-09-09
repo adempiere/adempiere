@@ -47,6 +47,8 @@ public class MBrowse extends X_AD_Browse {
 	private List<MBrowseField> m_Fields = null;
 	private List<MBrowseField> m_DisplayFields = null;
 	private List<MBrowseField> m_CriterialFields = null;
+	private List<MBrowseField> m_IdentifierFields = null;
+	private List<MBrowseField> m_OrderByFields = null;
 
 	/**************************************************************************
 	 * Asset Constructor
@@ -97,7 +99,7 @@ public class MBrowse extends X_AD_Browse {
 	 */
 	@Override
 	public String toString() {
-		StringBuffer sb = new StringBuffer(" MSmartBrowse[").append(get_ID())
+		StringBuilder sb = new StringBuilder(" MSmartBrowse[").append(get_ID())
 				.append("-").append(getName()).append("]");
 		return sb.toString();
 	} // toString
@@ -109,65 +111,110 @@ public class MBrowse extends X_AD_Browse {
 	 */
 	public List<MBrowseField> getCriteriaFields() {
 		if (m_CriterialFields == null) {
-			String whereClause = MBrowseField.COLUMNNAME_AD_Browse_ID
-					+ "=? AND " + MBrowseField.COLUMNNAME_IsQueryCriteria
-					+ "=?";
+			final StringBuilder whereClause = new StringBuilder(
+					MBrowseField.COLUMNNAME_AD_Browse_ID);
+			whereClause.append("=? AND ")
+					.append(MBrowseField.COLUMNNAME_IsQueryCriteria)
+					.append("=?");
 
-			return new Query(getCtx(), MBrowseField.Table_Name, whereClause,
-					get_TrxName()).setParameters(get_ID(), "Y")
-					.setOnlyActiveRecords(true)
+			return new Query(getCtx(), MBrowseField.Table_Name,
+					whereClause.toString(), get_TrxName())
+					.setParameters(get_ID(), "Y").setOnlyActiveRecords(true)
 					.setOrderBy(MBrowseField.COLUMNNAME_SeqNo).list();
 		}
 		return m_CriterialFields;
 	}
 
 	/**
-	 * get Criteria Fields
+	 * get Fields
 	 * 
 	 * @return List Fields
 	 */
 	public List<MBrowseField> getFields() {
 		if (m_Fields == null) {
-			String whereClause = MBrowseField.COLUMNNAME_AD_Browse_ID + "=?";
+			final StringBuilder whereClause = new StringBuilder(
+					MBrowseField.COLUMNNAME_AD_Browse_ID).append("=?");
 			m_Fields = new Query(getCtx(), MBrowseField.Table_Name,
-					whereClause, get_TrxName()).setParameters(get_ID())
-					.setOnlyActiveRecords(true)
+					whereClause.toString(), get_TrxName())
+					.setParameters(get_ID()).setOnlyActiveRecords(true)
 					.setOrderBy(MBrowseField.COLUMNNAME_SeqNo).list();
 		}
 		return m_Fields;
 	}
 
 	/**
-	 * get Criteria Fields
+	 * get Identifier Fields
+	 * 
+	 * @return List Fields
+	 */
+	public List<MBrowseField> getIdentifierFields() {
+		if (m_IdentifierFields == null) {
+			final StringBuilder whereClause = new StringBuilder(
+					MBrowseField.COLUMNNAME_AD_Browse_ID);
+			whereClause.append("=? AND ")
+					.append(MBrowseField.COLUMNNAME_IsIdentifier).append("=?");
+			m_IdentifierFields = new Query(getCtx(), MBrowseField.Table_Name,
+					whereClause.toString(), get_TrxName())
+					.setParameters(get_ID()).setOnlyActiveRecords(true)
+					.setParameters(getAD_Browse_ID(), true)
+					.setOrderBy(MBrowseField.COLUMNNAME_SeqNo).list();
+		}
+		return m_IdentifierFields;
+	}
+
+	/**
+	 * get Display Fields
 	 * 
 	 * @return List Fields
 	 */
 	public List<MBrowseField> getDisplayFields() {
-
 		if (m_DisplayFields == null) {
-			final String whereClause = MBrowseField.COLUMNNAME_AD_Browse_ID
-					+ "=? AND " + MBrowseField.COLUMNNAME_IsDisplayed + "=? ";
+			final StringBuilder whereClause = new StringBuilder(
+					MBrowseField.COLUMNNAME_AD_Browse_ID);
+			whereClause.append("=? AND ")
+					.append(MBrowseField.COLUMNNAME_IsDisplayed).append("=? ");
 			m_DisplayFields = new Query(getCtx(), MBrowseField.Table_Name,
-					whereClause, get_TrxName()).setParameters(get_ID(), "Y")
-					.setOnlyActiveRecords(true)
+					whereClause.toString(), get_TrxName())
+					.setParameters(get_ID(), "Y").setOnlyActiveRecords(true)
 					.setOrderBy(MBrowseField.COLUMNNAME_SeqNo).list();
 		}
 		return m_DisplayFields;
 	}
 
 	/**
+	 * get Display Fields
+	 * 
+	 * @return List Fields
+	 */
+	public List<MBrowseField> getOrderByFields() {
+		if (m_OrderByFields == null) {
+			final StringBuilder whereClause = new StringBuilder(
+					MBrowseField.COLUMNNAME_AD_Browse_ID);
+			whereClause.append("=? AND ")
+			.append(MBrowseField.COLUMNNAME_IsOrderBy)
+			.append("=? AND ")
+			.append(MBrowseField.COLUMNNAME_IsDisplayed).append("=? ");
+			m_OrderByFields = new Query(getCtx(), MBrowseField.Table_Name,
+					whereClause.toString(), get_TrxName())
+			.setParameters(get_ID(), true, true ).setOnlyActiveRecords(true)
+			.setOrderBy(MBrowseField.COLUMNNAME_SortNo).list();
+		}
+		return m_OrderByFields;
+	}
+	/**
 	 * get Fields is not ReadOnly
 	 * 
 	 * @return List Fields Update
 	 */
 	public List<MBrowseField> getNotReadOnlyFields() {
-
-		final String whereClause = MBrowseField.COLUMNNAME_AD_Browse_ID
-				+ "=? AND " + MBrowseField.COLUMNNAME_IsDisplayed + "=? AND "
-				+ MBrowseField.COLUMNNAME_IsReadOnly + "=? ";
-		return new Query(getCtx(), MBrowseField.Table_Name, whereClause,
-				get_TrxName()).setParameters(get_ID(), "Y", "N")
-				.setOnlyActiveRecords(true)
+		final StringBuilder whereClause = new StringBuilder(
+				MBrowseField.COLUMNNAME_AD_Browse_ID);
+		whereClause.append("=? AND ")
+				.append(MBrowseField.COLUMNNAME_IsDisplayed).append("=? AND ")
+				.append(MBrowseField.COLUMNNAME_IsReadOnly).append("=? ");
+		return new Query(getCtx(), MBrowseField.Table_Name,
+				whereClause.toString(), get_TrxName())
+				.setParameters(get_ID(), "Y", "N").setOnlyActiveRecords(true)
 				.setOrderBy(MBrowseField.COLUMNNAME_SeqNo).list();
 	}
 
