@@ -52,6 +52,9 @@ import org.compiere.util.Trace;
  *  @author Karsten Thiemann FR [ 1782412 ]
  *  @author Carlos Ruiz - globalqss - FR [ 1846929 ] - implement ASP
  *  @contributor KittiU - FR [ 3062553 ] - Duplicated action in DocAction list for Multiple Role Users
+ *  @author victor.perez@e-evoluton.com, www.e-evolution.com
+ *  	<li>FR [ 3426137 ] Smart Browser
+ * 		https://sourceforge.net/tracker/?func=detail&aid=3426137&group_id=176962&atid=879335 
  *  @version $Id: MRole.java,v 1.5 2006/08/09 16:38:47 jjanke Exp $
  */
 public final class MRole extends X_AD_Role
@@ -437,6 +440,13 @@ public final class MRole extends X_AD_Role
 			+ "SELECT f.AD_Form_ID, " + roleClientOrgUser
 			+ "FROM AD_Form f "
 			+ "WHERE AccessLevel IN ";
+		
+		String sqlBrowse = "INSERT INTO AD_Browse_Access "
+			+ "(AD_Browse_ID, AD_Role_ID," 
+			+ " AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy,IsReadWrite) "
+			+ "SELECT b.AD_Browse_ID, " + roleClientOrgUser
+			+ "FROM AD_Browse b "
+			+ "WHERE AccessLevel IN ";
 
 		String sqlWorkflow = "INSERT INTO AD_WorkFlow_Access "
 			+ "(AD_WorkFlow_ID, AD_Role_ID,"
@@ -499,6 +509,8 @@ public final class MRole extends X_AD_Role
 		int proc = DB.executeUpdate(sqlProcess + roleAccessLevel, get_TrxName());
 		int formDel = DB.executeUpdate("DELETE FROM AD_Form_Access" + whereDel, get_TrxName());
 		int form = DB.executeUpdate(sqlForm + roleAccessLevel, get_TrxName());
+		int browseDel = DB.executeUpdate("DELETE FROM AD_Browse_Access" + whereDel, get_TrxName());
+		int browse = DB.executeUpdate(sqlBrowse + roleAccessLevel, get_TrxName());
 		int wfDel = DB.executeUpdate("DELETE FROM AD_WorkFlow_Access" + whereDel, get_TrxName());
 		int wf = DB.executeUpdate(sqlWorkflow + roleAccessLevel, get_TrxName());
 		int docactDel = DB.executeUpdate("DELETE FROM AD_Document_Action_Access" + whereDel, get_TrxName());
@@ -507,6 +519,7 @@ public final class MRole extends X_AD_Role
 		log.fine("AD_Window_ID=" + winDel + "+" + win 
 			+ ", AD_Process_ID=" + procDel + "+" + proc
 			+ ", AD_Form_ID=" + formDel + "+" + form
+			+ ", AD_Browse_ID=" + browseDel + "+" + browse
 			+ ", AD_Workflow_ID=" + wfDel + "+" + wf
 			+ ", AD_Document_Action_Access=" + docactDel + "+" + docact);
 		
@@ -514,6 +527,7 @@ public final class MRole extends X_AD_Role
 		return "@AD_Window_ID@ #" + win 
 			+ " -  @AD_Process_ID@ #" + proc
 			+ " -  @AD_Form_ID@ #" + form
+			+ " -  @AD_Browse_ID@ #"+ browse
 			+ " -  @AD_Workflow_ID@ #" + wf
 			+ " -  @DocAction@ #" + docact;
 		
@@ -528,6 +542,7 @@ public final class MRole extends X_AD_Role
 		int winDel = DB.executeUpdate("DELETE FROM AD_Window_Access" + whereDel, get_TrxName());
 		int procDel = DB.executeUpdate("DELETE FROM AD_Process_Access" + whereDel, get_TrxName());
 		int formDel = DB.executeUpdate("DELETE FROM AD_Form_Access" + whereDel, get_TrxName());
+		int browseDel = DB.executeUpdate("DELETE FROM AD_Browse_Access" + whereDel, get_TrxName());
 		int wfDel = DB.executeUpdate("DELETE FROM AD_WorkFlow_Access" + whereDel, get_TrxName());
 		int docactDel = DB.executeUpdate("DELETE FROM AD_Document_Action_Access" + whereDel, get_TrxName());
 		
@@ -535,6 +550,7 @@ public final class MRole extends X_AD_Role
 		log.fine("AD_Window_Access=" + winDel
 			+ ", AD_Process_Access=" + procDel
 			+ ", AD_Form_Access=" + formDel
+			+ ", AD_Browse_Access=" + browseDel
 			+ ", AD_Workflow_Access=" + wfDel
 			+ ", AD_Document_Action_Access=" + docactDel);
 	}
@@ -628,6 +644,8 @@ public final class MRole extends X_AD_Role
 	private HashMap<Integer,Boolean>	m_workflowAccess = null;
 	/**	Form Access				*/
 	private HashMap<Integer,Boolean>	m_formAccess = null;
+	/**	Smart Browse Access				*/
+	private HashMap<Integer,Boolean>	m_browseAccess = null;
 
 	/**
 	 * 	Set Logged in user
@@ -666,6 +684,7 @@ public final class MRole extends X_AD_Role
 			m_taskAccess = null;
 			m_workflowAccess = null;
 			m_formAccess = null;
+			m_browseAccess = null;
 		}
 		loadIncludedRoles(reload); // Load/Reload included roles - metas-2009_0021_AP1_G94
 	}	//	loadAccess
@@ -1748,6 +1767,84 @@ public final class MRole extends X_AD_Role
 		return retValue;
 	}	//	getTaskAccess
 
+	/**
+	 * 	Get Browse Access
+	 *	@param AD_Browse_ID browse
+	 *	@return null in no access, TRUE if r/w and FALSE if r/o
+	 */
+	public Boolean getBrowseAccess (int AD_Browse_ID)
+	{
+		if (m_browseAccess == null)
+		{
+			m_browseAccess = new HashMap<Integer,Boolean>(20);
+
+			MClient client = MClient.get(getCtx(), getAD_Client_ID());
+			String ASPFilter = "";
+			if (client.isUseASP())
+				ASPFilter =
+					  "   AND (   AD_Browse_ID IN ( "
+					// Just ASP subscribed forms for client "
+					+ "              SELECT b.AD_Browse_ID "
+					+ "                FROM ASP_Browse b, ASP_Level l, ASP_ClientLevel cl "
+					+ "               WHERE b.ASP_Level_ID = l.ASP_Level_ID "
+					+ "                 AND cl.AD_Client_ID = " + client.getAD_Client_ID()
+					+ "                 AND cl.ASP_Level_ID = l.ASP_Level_ID "
+					+ "                 AND b.IsActive = 'Y' "
+					+ "                 AND l.IsActive = 'Y' "
+					+ "                 AND cl.IsActive = 'Y' "
+					+ "                 AND b.ASP_Status = 'S') " // Show
+					+ "        OR AD_Browse_ID IN ( "
+					// + show ASP exceptions for client
+					+ "              SELECT AD_Browse_ID "
+					+ "                FROM ASP_ClientException ce "
+					+ "               WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
+					+ "                 AND ce.IsActive = 'Y' "
+					+ "                 AND ce.AD_Browse_ID IS NOT NULL "
+					+ "                 AND ce.ASP_Status = 'S') " // Show
+					+ "       ) "
+					+ "   AND AD_Browse_ID NOT IN ( "
+					// minus hide ASP exceptions for client
+					+ "          SELECT AD_Browse_ID "
+					+ "            FROM ASP_ClientException ce "
+					+ "           WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
+					+ "             AND ce.IsActive = 'Y' "
+					+ "             AND ce.AD_Browse_ID IS NOT NULL "
+					+ "             AND ce.ASP_Status = 'H')"; // Hide
+			String sql = "SELECT AD_Browse_ID, IsReadWrite FROM AD_Browse_Access WHERE AD_Role_ID=? AND IsActive='Y'" + ASPFilter;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			try
+			{
+				pstmt = DB.prepareStatement(sql, get_TrxName());
+				pstmt.setInt(1, getAD_Role_ID());
+				rs = pstmt.executeQuery();
+				while (rs.next())
+					m_browseAccess.put(new Integer(rs.getInt(1)), new Boolean("Y".equals(rs.getString(2))));
+			}
+			catch (Exception e)
+			{
+				log.log(Level.SEVERE, sql, e);
+			}
+			finally
+			{
+				DB.close(rs, pstmt);
+			}
+		}	//	reload
+		
+		Boolean retValue = m_browseAccess.get(AD_Browse_ID);
+		//
+		if (retValue == null)
+		{
+			for (MRole includedRole : getIncludedRoles(false))
+			{
+				retValue = includedRole.getBrowseAccess(AD_Browse_ID);
+				if (retValue != null)
+					break;
+			}
+		}
+		//
+		return retValue;
+	}	//	getBrowseAccess
 	/**
 	 * 	Get Workflow Access
 	 *	@param AD_Workflow_ID workflow

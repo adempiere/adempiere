@@ -39,6 +39,9 @@ import org.compiere.util.Env;
  *  Creates tree structure - maintained in VTreePanel
  *
  *  @author     Jorg Janke
+ *  @author victor.perez@e-evoluton.com, www.e-evolution.com
+ *  	<li>FR [ 3426137 ] Smart Browser
+ * 		https://sourceforge.net/tracker/?func=detail&aid=3426137&group_id=176962&atid=879335 
  *  @version    $Id: MTree.java,v 1.2 2006/07/30 00:51:02 jjanke Exp $
  */
 public class MTree extends MTree_Base
@@ -387,10 +390,12 @@ public class MTree extends MTree_Base
 			if (base)
 				sqlNode.append("SELECT m.AD_Menu_ID, m.Name,m.Description,m.IsSummary,m.Action, "
 					+ "m.AD_Window_ID, m.AD_Process_ID, m.AD_Form_ID, m.AD_Workflow_ID, m.AD_Task_ID, m.AD_Workbench_ID "
+					+ ", m.AD_Browse_ID "
 					+ "FROM AD_Menu m");
 			else
 				sqlNode.append("SELECT m.AD_Menu_ID,  t.Name,t.Description,m.IsSummary,m.Action, "
 					+ "m.AD_Window_ID, m.AD_Process_ID, m.AD_Form_ID, m.AD_Workflow_ID, m.AD_Task_ID, m.AD_Workbench_ID "
+					+ ", m.AD_Browse_ID "
 					+ "FROM AD_Menu m, AD_Menu_Trl t");
 			if (!base)
 				sqlNode.append(" WHERE m.AD_Menu_ID=t.AD_Menu_ID AND t.AD_Language='")
@@ -408,7 +413,8 @@ public class MTree extends MTree_Base
 				sqlNode.append("(m.AD_Window_ID IS NULL OR EXISTS (SELECT * FROM AD_Window w WHERE m.AD_Window_ID=w.AD_Window_ID AND w.IsBetaFunctionality='N'))")
 					.append(" AND (m.AD_Process_ID IS NULL OR EXISTS (SELECT * FROM AD_Process p WHERE m.AD_Process_ID=p.AD_Process_ID AND p.IsBetaFunctionality='N'))")
 					.append(" AND (m.AD_Workflow_ID IS NULL OR EXISTS (SELECT * FROM AD_Workflow wf WHERE m.AD_Workflow_ID=wf.AD_Workflow_ID AND wf.IsBetaFunctionality='N'))")
-					.append(" AND (m.AD_Form_ID IS NULL OR EXISTS (SELECT * FROM AD_Form f WHERE m.AD_Form_ID=f.AD_Form_ID AND f.IsBetaFunctionality='N'))");
+					.append(" AND (m.AD_Form_ID IS NULL OR EXISTS (SELECT * FROM AD_Form f WHERE m.AD_Form_ID=f.AD_Form_ID AND f.IsBetaFunctionality='N'))")
+					.append(" AND (m.AD_Browse_ID IS NULL OR EXISTS (SELECT * FROM AD_Browse b WHERE m.AD_Browse_ID=b.AD_Browse_ID AND b.IsBetaFunctionality='N'))");
 			}
 			//	In R/O Menu - Show only defined Forms
 			if (!m_editable)
@@ -505,6 +511,7 @@ public class MTree extends MTree_Base
 					int AD_Workflow_ID = m_nodeRowSet.getInt(index++);
 					int AD_Task_ID = m_nodeRowSet.getInt(index++);
 					int AD_Workbench_ID = m_nodeRowSet.getInt(index++);
+					int AD_Browse_ID = m_nodeRowSet.getInt(index++);
 					//
 					MRole role = MRole.getDefault(getCtx(), false);
 					Boolean access = null;
@@ -515,6 +522,8 @@ public class MTree extends MTree_Base
 						access = role.getProcessAccess(AD_Process_ID);
 					else if (X_AD_Menu.ACTION_Form.equals(actionColor))
 						access = role.getFormAccess(AD_Form_ID);
+					else if (X_AD_Menu.ACTION_SmartBrowse.equals(actionColor))
+						access = role.getBrowseAccess(AD_Browse_ID);
 					else if (X_AD_Menu.ACTION_WorkFlow.equals(actionColor))
 						access = role.getWorkflowAccess(AD_Workflow_ID);
 					else if (X_AD_Menu.ACTION_Task.equals(actionColor))

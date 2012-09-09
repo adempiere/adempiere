@@ -34,6 +34,9 @@ import org.compiere.util.Util;
  *	Persistent Column Model
  *	
  *  @author Jorg Janke
+ *  @author victor.perez@e-evolution.com, www.e-evolution.com
+ *  	<li>FR [ 3426134 ] Add the Reference ,FieldLength, Reference Value
+ * 		https://sourceforge.net/tracker/?func=detail&aid=3426134&group_id=176962&atid=879335
  *  @version $Id: MColumn.java,v 1.6 2006/08/09 05:23:49 jjanke Exp $
  */
 public class MColumn extends X_AD_Column
@@ -44,6 +47,54 @@ public class MColumn extends X_AD_Column
 	 */
 	private static final long serialVersionUID = 6543789555737635129L;
 
+	/**
+	 * Set default base on AD_Element FR [ 3426134 ]
+	 * @param ctx context
+	 * @param column AD Column
+	 * @param trxName transaction Name
+	 * @return I_AD_Column
+	 */
+	public static I_AD_Column setAD_Column(Properties ctx ,I_AD_Column column , String trxName)
+	{
+		MTable table = (MTable) column.getAD_Table();
+		M_Element element =  new M_Element(ctx, column.getAD_Element_ID() , trxName);
+		if(element.getAD_Reference_ID() == DisplayType.ID)
+		{
+			String columnName = table.get_TableName()+"_ID";
+			if(!columnName.equals(element.getColumnName()) )
+			{
+				column.setAD_Reference_ID(DisplayType.TableDir);
+			}
+		}
+
+		String entityType = column.getAD_Table().getEntityType();
+		if(!MTable.ENTITYTYPE_Dictionary.equals(entityType))
+			column.setEntityType(entityType);
+		
+		if(column.getColumnName() == null || column.getColumnName().length() <= 0)
+			column.setColumnName(element.getColumnName());	
+		if(column.getFieldLength() <= 0 )
+			column.setFieldLength(element.getFieldLength());
+		if(column.getAD_Reference_ID() <= 0)	
+			column.setAD_Reference_ID(element.getAD_Reference_ID());
+		if(column.getAD_Reference_Value_ID() <= 0)
+			column.setAD_Reference_Value_ID(element.getAD_Reference_Value_ID());
+		if(column.getName() == null || column.getName().length() <= 0)
+			column.setName(element.getName());
+		if(column.getDescription() == null || column.getDescription().length() <= 0)
+			column.setDescription(element.getDescription());
+		if(column.getHelp() == null || column.getHelp().length() <= 0)
+			column.setHelp(element.getHelp());
+		if(column.getColumnName().equals("Name") || column.getColumnName().equals("Value"))
+		{	
+			column.setIsIdentifier(true);
+			int seqNo = DB.getSQLValue(trxName,"SELECT MAX(SeqNo) FROM AD_Column "+
+					"WHERE AD_Table_ID=?"+
+					" AND IsIdentifier='Y'",column.getAD_Table_ID());
+			column.setSeqNo(seqNo + 1);
+		}
+		return column;	
+	}
 	/**
 	 * 	Get MColumn from Cache
 	 *	@param ctx context
@@ -134,6 +185,38 @@ public class MColumn extends X_AD_Column
 		setEntityType(parent.getEntityType());
 	}	//	MColumn
 	
+
+	/**
+	 * create new column FR [ 3426134 ]
+	 * @param parent
+	 * @param columnName
+	 * @param AD_Element_ID
+	 * @param length
+	 * @param AD_Reference
+	 * @param defaultValue
+	 */
+	public MColumn (MTable parent, String columnName, int length , int AD_Reference , String defaultValue)
+	{
+		this (parent.getCtx(), 0, parent.get_TrxName());
+		setClientOrg(parent);
+		setAD_Table_ID (parent.getAD_Table_ID());
+		setEntityType(parent.getEntityType());
+		setColumnName(columnName);	
+		M_Element AD_Element = M_Element.get(getCtx(),columnName);
+		if(AD_Element != null )
+		{	
+			setAD_Element_ID(AD_Element.get_ID());
+		}	
+		setName(columnName);
+		setIsActive(true);
+		setVersion(Env.ONE);
+		setIsMandatory(true);
+		setIsAllowLogging(true);
+		setFieldLength(length);
+		setAD_Reference_ID(AD_Reference);
+		setDefaultValue(defaultValue);
+		setUpdateable(false);
+	}	//	MColumn
 	
 	/**
 	 * 	Is Standard Column
@@ -188,6 +271,10 @@ public class MColumn extends X_AD_Column
 	 */
 	protected boolean beforeSave (boolean newRecord)
 	{
+		//set column default based in element when is a new column FR [ 3426134 ]
+		if(newRecord)
+			setAD_Column(getCtx(), this, get_TrxName());
+
 		int displayType = getAD_Reference_ID();
 		if (DisplayType.isLOB(displayType))	//	LOBs are 0
 		{

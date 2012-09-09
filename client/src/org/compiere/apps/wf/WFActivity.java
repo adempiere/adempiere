@@ -58,6 +58,7 @@ import org.compiere.model.MRole;
 import org.compiere.model.MSysConfig;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CComboBox;
+import org.compiere.swing.CFrame;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
 import org.compiere.swing.CScrollPane;
@@ -73,6 +74,7 @@ import org.compiere.util.Trx;
 import org.compiere.util.ValueNamePair;
 import org.compiere.wf.MWFActivity;
 import org.compiere.wf.MWFNode;
+import org.eevolution.form.VBrowser;
 
 /**
  *	WorkFlow Activities Panel
@@ -689,6 +691,13 @@ public class WFActivity extends CPanel
 			int AD_Form_ID = node.getAD_Form_ID();
 			FormFrame ff = new FormFrame();
 			ff.openForm(AD_Form_ID);
+			ff.pack();
+			AEnv.addToWindowManager(ff);
+			AEnv.showCenterScreen(ff);
+		}
+		else if (MWFNode.ACTION_SmartBrowse.equals(node.getAction()))
+		{
+			CFrame ff =  VBrowser.openBrowse(node.getAD_Browse_ID());
 			ff.pack();
 			AEnv.addToWindowManager(ff);
 			AEnv.showCenterScreen(ff);

@@ -1121,6 +1121,11 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			log.fine("Form:AD_Form_ID=" + m_node.getAD_Form_ID());
 			return false;
 		}
+		else if (MWFNode.ACTION_SmartBrowse.equals(action))
+		{
+			log.fine("Form:AD_Browse_ID=" + m_node.getAD_Browse_ID());
+			return false;
+		}
 		/******	User Window					******/
 		else if (MWFNode.ACTION_UserWindow.equals(action))
 		{
