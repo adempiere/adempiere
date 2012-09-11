@@ -18,6 +18,10 @@ import org.adempiere.exceptions.AdempiereException;
 import org.compiere.Adempiere;
 import org.compiere.model.MMigration;
 import org.compiere.model.MTable;
+import org.compiere.process.ProcessInfo;
+import org.compiere.process.RoleAccessUpdate;
+import org.compiere.process.SequenceCheck;
+import org.compiere.process.SynchronizeTerminology;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -58,7 +62,7 @@ public class MigrationLoader {
 			}
 			else
 			{
-				log.log(Level.FINE, "Processing migration files in directory: " + home.getAbsolutePath() );
+				log.log(Level.CONFIG, "Processing migration files in directory: " + home.getAbsolutePath() );
 			}
 			
 			File[] migrationFiles = home.listFiles(new FilenameFilter() {
@@ -73,7 +77,7 @@ public class MigrationLoader {
 			for (File file : migrationFiles )
 			{
 
-				log.log(Level.FINE, "Loading file: " + file);
+				log.log(Level.CONFIG, "Loading file: " + file);
 				
 				Document doc = builder.parse(file);
 
@@ -103,7 +107,7 @@ public class MigrationLoader {
 		
 		for (MMigration migration : migrations )
 		{
-			log.log(Level.FINE, "Applying migration: " + migration);
+			log.log(Level.CONFIG, "Applying migration: " + migration);
 			migration.setFailOnError(true);
 			try {
 				Trx trx = Trx.get("Migration", true);
@@ -119,11 +123,38 @@ public class MigrationLoader {
 	
 	public static void main(String[] args) {
 		Adempiere.startupEnvironment(false);
-		CLogMgt.setLevel(Level.FINE);
+		CLogMgt.setLevel(Level.CONFIG);
 		
 		MigrationLoader loader = new MigrationLoader();
 		loader.load(Env.getCtx());
-		loader.applyMigrations();
+		loader.applyMigrations();	
 		
+		ProcessInfo pi = new ProcessInfo("Synchronize Terminology", 172);
+		pi.setAD_Client_ID(0);
+		pi.setAD_User_ID(100);
+		
+		SynchronizeTerminology sc = new SynchronizeTerminology();
+		sc.startProcess(Env.getCtx(), pi, null);
+		
+		System.out.println("Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());
+		
+		pi = new ProcessInfo("Role Access Update", 295);
+		pi.setAD_Client_ID(0);
+		pi.setAD_User_ID(100);
+		
+		RoleAccessUpdate rau = new RoleAccessUpdate();
+		rau.startProcess(Env.getCtx(), pi, null);
+		
+
+		System.out.println("Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());
+		
+		pi = new ProcessInfo("Sequence Check", 258);
+		pi.setAD_Client_ID(0);
+		pi.setAD_User_ID(100);
+		
+		SequenceCheck scheck = new SequenceCheck();
+		scheck.startProcess(Env.getCtx(), pi, null);
+
+		System.out.println("Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());		
 	}
 }
