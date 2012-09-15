@@ -27,6 +27,8 @@ import javax.xml.transform.sax.TransformerHandler;
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
 import org.adempiere.pipo.PackOut;
+import org.compiere.model.MTree;
+import org.compiere.model.MTree_NodeMM;
 import org.compiere.model.X_AD_Menu;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -255,21 +257,20 @@ public class MenuElementHandler extends AbstractElementHandler {
 			} catch (Exception e) {
 				log.info("get_IDWithMasterID:" + e);
 			}
-
-			sqlB = new StringBuffer("UPDATE AD_TREENODEMM ").append(
-					"SET Parent_ID = " + id).append(
-					" , SeqNo = " + atts.getValue("ADParentSeqno")).append(
-					" WHERE AD_Tree_ID = 10").append(
-					" AND Node_ID = " + m_Menu.getAD_Menu_ID());
+			MTree tree = new MTree(ctx , 10 , getTrxName(ctx));
+			MTree_NodeMM treeNode = MTree_NodeMM.get(tree, m_Menu.getAD_Menu_ID());
+			treeNode.setSeqNo(Integer.valueOf(atts.getValue("ADParentSeqno")));
+			treeNode.set_CustomColumn("Parent_ID", id);
+			treeNode.saveEx();
+			
 		} else {
-			sqlB = new StringBuffer("INSERT INTO AD_TREENODEMM").append(
-					"(AD_Client_ID, AD_Org_ID, CreatedBy, UpdatedBy, ").append(
-					"Parent_ID, SeqNo, AD_Tree_ID, Node_ID)").append(
-					"VALUES(0, 0, 0, 0, ").append(
-					id + "," + atts.getValue("ADParentSeqno") + ", 10, "
-							+ m_Menu.getAD_Menu_ID() + ")");
+			MTree tree = new MTree(ctx , 10 , getTrxName(ctx));
+			MTree_NodeMM treeNode = new MTree_NodeMM(tree,m_Menu.getAD_Menu_ID());
+			treeNode.setSeqNo(Integer.valueOf(atts.getValue("ADParentSeqno")));
+			treeNode.set_CustomColumn("Parent_ID", id);
+			treeNode.setNode_ID(m_Menu.getAD_Menu_ID());
+			treeNode.saveEx();
 		}
-		DB.executeUpdate(sqlB.toString(), getTrxName(ctx));
 	}
 
 	public void endElement(Properties ctx, Element element) throws SAXException {
