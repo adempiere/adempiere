@@ -3394,30 +3394,29 @@ public abstract class PO
 	 *	@return true if inserted
 	 */
 	protected boolean insert_Tree (String treeType, int C_Element_ID)
-	{
-		StringBuffer sb = new StringBuffer ("INSERT INTO ")
-			.append(MTree_Base.getNodeTableName(treeType))
-			.append(" (AD_Client_ID,AD_Org_ID, IsActive,Created,CreatedBy,Updated,UpdatedBy, "
-				+ "AD_Tree_ID, Node_ID, Parent_ID, SeqNo) "
-				+ "SELECT t.AD_Client_ID, 0, 'Y', SysDate, "+getUpdatedBy()+", SysDate, "+getUpdatedBy()+","
-				+ "t.AD_Tree_ID, ").append(get_ID()).append(", 0, 999 "
-				+ "FROM AD_Tree t "
-				+ "WHERE t.AD_Client_ID=").append(getAD_Client_ID()).append(" AND t.IsActive='Y'");
-		//	Account Element Value handling
+	{		
+		String tableName = MTree_Base.getNodeTableName(treeType);
+		final StringBuilder select = new StringBuilder("SELECT t.AD_Tree_ID FROM AD_Tree t WHERE t.AD_Client_ID=").append(getAD_Client_ID()).append(" AND t.IsActive='Y'"); 
 		if (C_Element_ID != 0)
-			sb.append(" AND EXISTS (SELECT * FROM C_Element ae WHERE ae.C_Element_ID=")
+			select.append(" AND EXISTS (SELECT * FROM C_Element ae WHERE ae.C_Element_ID=")
 				.append(C_Element_ID).append(" AND t.AD_Tree_ID=ae.AD_Tree_ID)");
 		else	//	std trees
-			sb.append(" AND t.IsAllNodes='Y' AND t.TreeType='").append(treeType).append("'");
+			select.append(" AND t.IsAllNodes='Y' AND t.TreeType='").append(treeType).append("'");
 		//	Duplicate Check
-		sb.append(" AND NOT EXISTS (SELECT * FROM " + MTree_Base.getNodeTableName(treeType) + " e "
+		select.append(" AND NOT EXISTS (SELECT * FROM " + MTree_Base.getNodeTableName(treeType) + " e "
 				+ "WHERE e.AD_Tree_ID=t.AD_Tree_ID AND Node_ID=").append(get_ID()).append(")");
-		int no = DB.executeUpdate(sb.toString(), get_TrxName());
-		if (no > 0)
-			log.fine("#" + no + " - TreeType=" + treeType);
-		else
-			log.warning("#" + no + " - TreeType=" + treeType);
-		return no > 0;
+		int AD_Tree_ID = DB.getSQLValue(get_TrxName(), select.toString());
+		
+		PO tree = MTable.get(getCtx(), tableName).getPO(0, get_TrxName());
+		tree.setAD_Client_ID(getAD_Client_ID());
+		tree.setAD_Org_ID(0);
+		tree.setIsActive(true);
+		tree.set_CustomColumn("AD_Tree_ID",AD_Tree_ID);
+		tree.set_CustomColumn("Node_ID", get_ID());
+		tree.set_CustomColumn("Parent_ID", 0);
+		tree.set_CustomColumn("SeqNo", 999);
+		tree.saveEx();
+		return true;
 	}	//	insert_Tree
 
 	/**
@@ -3430,18 +3429,14 @@ public abstract class PO
 		int id = get_ID();
 		if (id == 0)
 			id = get_IDOld();
-		StringBuffer sb = new StringBuffer ("DELETE FROM ")
-			.append(MTree_Base.getNodeTableName(treeType))
-			.append(" n WHERE Node_ID=").append(id)
-			.append(" AND EXISTS (SELECT * FROM AD_Tree t "
-				+ "WHERE t.AD_Tree_ID=n.AD_Tree_ID AND t.TreeType='")
-			.append(treeType).append("')");
-		int no = DB.executeUpdate(sb.toString(), get_TrxName());
-		if (no > 0)
-			log.fine("#" + no + " - TreeType=" + treeType);
-		else
-			log.warning("#" + no + " - TreeType=" + treeType);
-		return no > 0;
+		
+		String tableName = MTree_Base.getNodeTableName(treeType);
+		String whereClause = "Node_ID="+id+ " AND EXISTS (SELECT * FROM AD_Tree t "
+				+ "WHERE t.AD_Tree_ID=AD_Tree_ID AND t.TreeType='" + treeType + "')";
+		
+		PO tree = MTable.get(getCtx(), tableName).getPO(whereClause, get_TrxName());
+		tree.deleteEx(true);
+		return true;
 	}	//	delete_Tree
 
 	/**************************************************************************

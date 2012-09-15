@@ -21,10 +21,12 @@ import java.util.logging.Level;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 
+import org.compiere.model.MTable;
 import org.compiere.model.MTree;
 import org.compiere.model.MTreeNode;
+import org.compiere.model.PO;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
+import org.compiere.util.Env;
 import org.compiere.util.Trx;
 
 /**
@@ -67,28 +69,21 @@ public class AdempiereTreeModel extends DefaultTreeModel {
 			for (int i = 0; i < from.getChildCount(); i++)
 			{
 				MTreeNode nd = (MTreeNode)from.getChildAt(i);
-				StringBuffer sql = new StringBuffer("UPDATE ");
-				sql.append(m_MTree.getNodeTableName())
-					.append(" SET Parent_ID=").append(from.getNode_ID())
-					.append(", SeqNo=").append(i)
-					.append(", Updated=SysDate")
-					.append(" WHERE AD_Tree_ID=").append(AD_Tree_ID)
-					.append(" AND Node_ID=").append(nd.getNode_ID());
-				no = DB.executeUpdate(sql.toString(),trx.getTrxName());
+				String whereClause = "AD_Tree_ID="+AD_Tree_ID+ " AND Node_ID=" + nd.getNode_ID();
+				PO tree = MTable.get(Env.getCtx(), m_MTree.getNodeTableName()).getPO(whereClause, trx.getTrxName());
+				tree.set_CustomColumn("Parent_ID", from.getNode_ID());
+				tree.set_CustomColumn("SeqNo", i);
+				tree.saveEx();
 			}
 			if (from != to)
 				for (int i = 0; i < to.getChildCount(); i++)
 				{
 					MTreeNode nd = (MTreeNode)to.getChildAt(i);
-					StringBuffer sql = new StringBuffer("UPDATE ");
-					sql.append(m_MTree.getNodeTableName())
-						.append(" SET Parent_ID=").append(to.getNode_ID())
-						.append(", SeqNo=").append(i)
-						.append(", Updated=SysDate")
-						.append(" WHERE AD_Tree_ID=").append(AD_Tree_ID)
-						.append(" AND Node_ID=").append(nd.getNode_ID());
-					log.fine(sql.toString());
-					no = DB.executeUpdate(sql.toString(),trx.getTrxName());
+					String whereClause = "AD_Tree_ID="+AD_Tree_ID+ " AND Node_ID=" + nd.getNode_ID();
+					PO tree = MTable.get(Env.getCtx(), m_MTree.getNodeTableName()).getPO(whereClause, trx.getTrxName());
+					tree.set_CustomColumn("Parent_ID", to.getNode_ID());
+					tree.set_CustomColumn("SeqNo", i);
+					tree.saveEx();
 				}
 			trx.commit(true);
 		}
