@@ -55,6 +55,7 @@ import org.compiere.apps.APanel;
 import org.compiere.apps.AppsAction;
 import org.compiere.grid.ed.VCellEditor;
 import org.compiere.grid.ed.VCellRenderer;
+import org.compiere.grid.ed.VChart;
 import org.compiere.grid.ed.VEditor;
 import org.compiere.grid.ed.VEditorFactory;
 import org.compiere.grid.ed.VHeaderRenderer;
@@ -991,6 +992,11 @@ public class GridController extends CPanel
 		{
 			Component comp = comps[i];
 			String columnName = comp.getName();
+			
+			if ( comp instanceof VChart && isSingleRow())
+			{
+				((VChart) comp).createChart();
+			}
 
 			if (columnName != null && columnName.length() > 0)
 			{

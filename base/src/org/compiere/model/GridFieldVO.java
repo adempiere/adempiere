@@ -153,6 +153,8 @@ public class GridFieldVO implements Serializable
 					vo.Callout = rs.getString (i);
 				else if (columnName.equalsIgnoreCase("AD_Process_ID"))
 					vo.AD_Process_ID = rs.getInt (i);
+				else if (columnName.equalsIgnoreCase("AD_Chart_ID"))
+					vo.AD_Chart_ID = rs.getInt (i);
 				else if (columnName.equalsIgnoreCase("ReadOnlyLogic"))
 					vo.ReadOnlyLogic = rs.getString (i);
 				else if (columnName.equalsIgnoreCase("MandatoryLogic"))
@@ -439,6 +441,8 @@ public class GridFieldVO implements Serializable
 	public String       Callout = "";
 	/**	Process			*/
 	public int          AD_Process_ID = 0;
+	/** Chart			*/
+	public int			AD_Chart_ID = 0;
 	/**	Description		*/
 	public String       Description = "";
 	/**	Help			*/
@@ -581,6 +585,7 @@ public class GridFieldVO implements Serializable
 		clone.IsParent = IsParent;
 		clone.Callout = Callout;
 		clone.AD_Process_ID = AD_Process_ID;
+		clone.AD_Chart_ID = AD_Chart_ID;
 		clone.Description = Description;
 		clone.Help = Help;
 		clone.ReadOnlyLogic = ReadOnlyLogic;

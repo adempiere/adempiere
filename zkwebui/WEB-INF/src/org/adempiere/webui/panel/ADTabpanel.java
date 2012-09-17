@@ -41,12 +41,14 @@ import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.SimpleTreeModel;
 import org.adempiere.webui.editor.IZoomableEditor;
 import org.adempiere.webui.editor.WButtonEditor;
+import org.adempiere.webui.editor.WChartEditor;
 import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WEditorPopupMenu;
 import org.adempiere.webui.editor.WebEditorFactory;
 import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.util.GridTabDataBinder;
 import org.adempiere.webui.window.FDialog;
+import org.compiere.grid.ed.VChart;
 import org.compiere.model.DataStatusEvent;
 import org.compiere.model.DataStatusListener;
 import org.compiere.model.GridField;
@@ -565,6 +567,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
             GridField mField = comp.getGridField();
             if (mField != null && mField.getIncluded_Tab_ID() <= 0)
             {
+            	
                 if (mField.isDisplayed(true))       //  check context
                 {
                     if (!comp.isVisible())
