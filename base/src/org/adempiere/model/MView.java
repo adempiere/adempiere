@@ -149,11 +149,9 @@ public class MView extends X_AD_View {
 	 * @return MViewColumn
 	 */
 	public List<MViewColumn> getViewColumns() {
-		m_ViewColumn = new ArrayList<MViewColumn>();
-		
 		if(m_ViewColumn != null)
 			return m_ViewColumn;
-		
+		m_ViewColumn = new ArrayList<MViewColumn>();
 		MView view = new MView(Env.getCtx(), getAD_View_ID(), get_TrxName());
 
 		for (MViewDefinition def : view.getViewDefinitions()) {
