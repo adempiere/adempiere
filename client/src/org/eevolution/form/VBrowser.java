@@ -418,7 +418,6 @@ public class VBrowser extends Browser implements ActionListener,
 			if (data != null)
 				m_results.add(data);
 		}
-		log.config(getSelectedSQL());
 
 		// Save Settings of detail info screens
 		// saveSelectionDetail();
@@ -508,7 +507,7 @@ public class VBrowser extends Browser implements ActionListener,
 								} else {
 									KeyNamePair value = (KeyNamePair) detail
 											.getModel().getValueAt(row, col);
-									values.put(columnName, value.getID());
+									values.put(columnName, value.getKey());
 								}
 							}
 							col++;

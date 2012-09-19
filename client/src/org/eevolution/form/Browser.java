@@ -379,34 +379,6 @@ public abstract class Browser {
 	}
 
 	public abstract ArrayList<Integer> getSelectedRowKeys();
-
-	public String getSelectedSQL() {
-		// No results
-		List<Integer> keys = getSelectedKeys();
-		if (keys == null || keys.size() == 0) {
-			log.config("No Results - OK=" + m_ok + ", Cancel=" + m_cancel);
-			return "";
-		}
-		//
-		StringBuffer sb = new StringBuffer(getKeyColumn());
-		if (keys.size() > 1)
-			sb.append(" IN (");
-		else
-			sb.append("=");
-
-		// Add elements
-		for (Integer key : keys) {
-			if (getKeyColumn().endsWith("_ID"))
-				sb.append(key.toString()).append(",");
-			else
-				sb.append("'").append(key.toString()).append("',");
-		}
-
-		sb.replace(sb.length() - 1, sb.length(), "");
-		if (keys.size() > 1)
-			sb.append(")");
-		return sb.toString();
-	} // getSelectedSQL;
 	
 	public void setProcessInfo(ProcessInfo pi) {
 		m_pi = pi;
@@ -537,7 +509,7 @@ public abstract class Browser {
 						.append(xTableName).append(".")
 						.append(xcol.getAD_Column().getColumnName())
 						.append("=").append(id).append(") AS ");
-				select.append("\"").append(makePrefix(lookup.getDisplay(id))).append("_").append(ycol.getColumnName()).append("\"");
+				select.append("\"").append(colName).append("\"");
 				Info_Column infocol = new Info_Column(colName,
 						select.toString(), DisplayType.getClass(ycol.getAD_Column().getAD_Reference_ID(), true));
 				infocol.setReadOnly(field.isReadOnly());
@@ -735,8 +707,15 @@ public abstract class Browser {
 					parameters.add(field.getKey());
 					
 					Object data = field.getValue();
-					// set Values
-					if (data instanceof String)
+					// set Values					
+					if (data instanceof IDColumn)
+					{
+						IDColumn id = (IDColumn) data;
+						parameters.add(null);
+						parameters.add(id.getRecord_ID());
+						parameters.add(null);
+					}
+					else if (data instanceof String)
 					{
 						parameters.add(data);
 						parameters.add(null);
