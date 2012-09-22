@@ -100,6 +100,8 @@ public final class DisplayType
 	public static final int URL  = 40;
 	/** Display Type 42	PrinterName	*/
 	public static final int PrinterName  = 42;
+	/** Display Type 53370 Chart */
+	public static final int Chart = 53370;
 	//	Candidates: 
 	
 	/**

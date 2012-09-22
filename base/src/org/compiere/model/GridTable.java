@@ -3534,6 +3534,11 @@ public class GridTable extends AbstractTableModel
 				// no columns updated or processed to commpare
 				return false;
 			}
+			
+			
+			// todo: temporary fix for carlos assumption that all windows have _id column
+			if ( findColumn(m_tableName + "_ID") == -1)
+				return false;
 
 	    	Timestamp dbUpdated = null;
 	    	String dbProcessedS = null;
