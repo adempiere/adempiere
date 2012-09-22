@@ -278,17 +278,17 @@ public class CalloutDistributionOrder extends CalloutEngine
 	
 	public String bPartner (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value)
 	{
-		I_M_Movement m_movement = GridTabWrapper.create(mTab, I_M_Movement.class);		
-		MOrg org = MOrg.get(ctx,m_movement.getAD_Org_ID());
+		I_DD_Order order = GridTabWrapper.create(mTab, I_DD_Order.class);		
+		MOrg org = MOrg.get(ctx,order.getAD_Org_ID());
 		int C_BPartner_ID = org.getLinkedC_BPartner_ID(null);
 		
 		if(C_BPartner_ID > 0)
 		{
 			MBPartnerLocation[] locations = MBPartnerLocation.getForBPartner(ctx, C_BPartner_ID, null);		
-			m_movement.setC_BPartner_ID(C_BPartner_ID);
+			order.setC_BPartner_ID(C_BPartner_ID);
 			if(locations.length > 0)
 			{
-				m_movement.setC_BPartner_Location_ID(locations[0].getC_BPartner_Location_ID());
+				order.setC_BPartner_Location_ID(locations[0].getC_BPartner_Location_ID());
 			}
 		}
 		return "";

@@ -96,7 +96,7 @@ class TestableMRP extends org.eevolution.process.MRP
 		return this.planning.getAD_Org_ID();
 	}
 	@Override
-	public int getM_Warehouse_ID()
+	public Integer getM_Warehouse_ID()
 	{
 		return this.planning.getM_Warehouse_ID();
 	}
@@ -106,7 +106,7 @@ class TestableMRP extends org.eevolution.process.MRP
 		return this.planning.getS_Resource_ID();
 	}
 	@Override
-	public boolean isRequiredDRP()
+	public Boolean isDRP()
 	{
 		return this.planning.isRequiredDRP();
 	}
@@ -175,7 +175,7 @@ class TestableMRP extends org.eevolution.process.MRP
 		return super.doIt();
 	}
 	@Override
-	protected void deleteMRP(int AD_Client_ID, int AD_Org_ID, int S_Resource_ID, int M_Warehouse_ID) throws SQLException
+	protected void deleteMRP(int AD_Client_ID, int AD_Org_ID, int S_Resource_ID, int M_Warehouse_ID, int M_Product_ID) throws SQLException
 	{
 		// Delete all MRP records for our testing product
 		String sql = "DELETE FROM PP_MRP"
@@ -188,7 +188,7 @@ class TestableMRP extends org.eevolution.process.MRP
 				get_TrxName());
 		log.info("[DEBUG] clean up MRP #"+no);
 		//
-		super.deleteMRP(AD_Client_ID, AD_Org_ID, S_Resource_ID, M_Warehouse_ID);
+		super.deleteMRP(AD_Client_ID, AD_Org_ID, S_Resource_ID, M_Warehouse_ID, M_Product_ID);
 	}
 
 	public void dumpStatus()

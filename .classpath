@@ -4,6 +4,6 @@
 	<classpathentry kind="src" path="extension/eevolution/libero/src/test/java"/>
 	<classpathentry kind="src" output="WEB-INF/classes" path="zkwebui/WEB-INF/src"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/adempiere"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/adempiereBrowse"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
