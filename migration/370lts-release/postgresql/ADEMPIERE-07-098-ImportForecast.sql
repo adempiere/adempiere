@@ -1343,3 +1343,233 @@ ALTER TABLE I_Forecast ADD CONSTRAINT MProduct_IForecast FOREIGN KEY (M_Product_
 
 ALTER TABLE I_Forecast ADD CONSTRAINT MWarehouse_IForecast FOREIGN KEY (M_Warehouse_ID) REFERENCES M_Warehouse DEFERRABLE INITIALLY DEFERRED;
 
+-- Aug 20, 2012 9:37:06 AM CDT
+-- ADEMPIERE-098
+UPDATE AD_Column SET AD_Val_Rule_ID=52124,Updated=TO_TIMESTAMP('2012-08-20 09:37:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=63274
+;
+
+-- Aug 20, 2012 10:00:19 AM CDT
+-- ADEMPIERE-098
+INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,55619,0,20,'IsConsumesForecast',TO_TIMESTAMP('2012-08-20 10:00:17','YYYY-MM-DD HH24:MI:SS'),100,'Indicates if the sales order line will generate or not a demand for MPS','EE01',1,'Y','Is Consumes Forecast','Is Consumes Forecast',TO_TIMESTAMP('2012-08-20 10:00:17','YYYY-MM-DD HH24:MI:SS'),100)
+;
+
+-- Aug 20, 2012 10:00:20 AM CDT
+-- ADEMPIERE-098
+INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_Description,PO_Help,PO_Name,PO_PrintName,PrintName, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Element_ID, t.Description,t.Help,t.Name,t.PO_Description,t.PO_Help,t.PO_Name,t.PO_PrintName,t.PrintName, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Element t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Element_ID=55619 AND NOT EXISTS (SELECT * FROM AD_Element_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Element_ID=t.AD_Element_ID)
+;
+
+-- Aug 20, 2012 10:01:00 AM CDT
+-- ADEMPIERE-098
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,64175,55619,0,20,260,'IsConsumesForecast',TO_TIMESTAMP('2012-08-20 10:00:59','YYYY-MM-DD HH24:MI:SS'),100,'Indicates if the sales order line will generate or not a demand for MPS','EE01',1,'Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Is Consumes Forecast',0,TO_TIMESTAMP('2012-08-20 10:00:59','YYYY-MM-DD HH24:MI:SS'),100,0)
+;
+
+-- Aug 20, 2012 10:01:00 AM CDT
+-- ADEMPIERE-098
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=64175 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
+;
+
+-- Aug 20, 2012 10:01:05 AM CDT
+-- ADEMPIERE-098
+ALTER TABLE C_OrderLine ADD COLUMN IsConsumesForecast CHAR(1) DEFAULT NULL CHECK (IsConsumesForecast IN ('Y','N'))
+;
+
+-- Aug 20, 2012 10:01:43 AM CDT
+-- ADEMPIERE-098
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,64175,65080,0,187,TO_TIMESTAMP('2012-08-20 10:01:41','YYYY-MM-DD HH24:MI:SS'),100,'Indicates if the sales order line will generate or not a demand for MPS',1,'EE01','Y','Y','Y','N','N','N','N','N','Is Consumes Forecast',TO_TIMESTAMP('2012-08-20 10:01:41','YYYY-MM-DD HH24:MI:SS'),100)
+;
+
+-- Aug 20, 2012 10:01:43 AM CDT
+-- ADEMPIERE-098
+INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Field_ID, t.Description,t.Help,t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Field t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Field_ID=65080 AND NOT EXISTS (SELECT * FROM AD_Field_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Field_ID=t.AD_Field_ID)
+;
+
+-- Aug 20, 2012 10:01:45 AM CDT
+-- ADEMPIERE-098
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,55323,65081,0,187,TO_TIMESTAMP('2012-08-20 10:01:43','YYYY-MM-DD HH24:MI:SS'),100,'This field links a sales order line to the purchase order line that is generated from it.',22,'D','Y','Y','Y','N','N','N','N','N','Linked Order Line',TO_TIMESTAMP('2012-08-20 10:01:43','YYYY-MM-DD HH24:MI:SS'),100)
+;
+
+-- Aug 20, 2012 10:01:45 AM CDT
+-- ADEMPIERE-098
+INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Field_ID, t.Description,t.Help,t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Field t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Field_ID=65081 AND NOT EXISTS (SELECT * FROM AD_Field_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Field_ID=t.AD_Field_ID)
+;
+
+-- Aug 20, 2012 10:01:46 AM CDT
+-- ADEMPIERE-098
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,56532,65082,0,187,TO_TIMESTAMP('2012-08-20 10:01:45','YYYY-MM-DD HH24:MI:SS'),100,22,'EE01','Y','Y','Y','N','N','N','N','N','Manufacturing Cost Collector',TO_TIMESTAMP('2012-08-20 10:01:45','YYYY-MM-DD HH24:MI:SS'),100)
+;
+
+-- Aug 20, 2012 10:01:46 AM CDT
+-- ADEMPIERE-098
+INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Field_ID, t.Description,t.Help,t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Field t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Field_ID=65082 AND NOT EXISTS (SELECT * FROM AD_Field_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Field_ID=t.AD_Field_ID)
+;
+
+-- Aug 20, 2012 10:01:47 AM CDT
+-- ADEMPIERE-098
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,57128,65083,0,187,TO_TIMESTAMP('2012-08-20 10:01:46','YYYY-MM-DD HH24:MI:SS'),100,22,'D','Y','Y','Y','N','N','N','N','N','Promotion',TO_TIMESTAMP('2012-08-20 10:01:46','YYYY-MM-DD HH24:MI:SS'),100)
+;
+
+-- Aug 20, 2012 10:01:47 AM CDT
+-- ADEMPIERE-098
+INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Field_ID, t.Description,t.Help,t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Field t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Field_ID=65083 AND NOT EXISTS (SELECT * FROM AD_Field_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Field_ID=t.AD_Field_ID)
+;
+
+-- Aug 20, 2012 10:02:41 AM CDT
+-- ADEMPIERE-098
+UPDATE AD_Field SET SeqNo=0,IsDisplayed='N' WHERE AD_Field_ID=65081
+;
+
+-- Aug 20, 2012 10:02:41 AM CDT
+-- ADEMPIERE-098
+UPDATE AD_Field SET SeqNo=0,IsDisplayed='N' WHERE AD_Field_ID=65082
+;
+
+-- Aug 20, 2012 10:02:41 AM CDT
+-- ADEMPIERE-098
+UPDATE AD_Field SET SeqNo=0,IsDisplayed='N' WHERE AD_Field_ID=65083
+;
+
+-- Aug 20, 2012 10:02:41 AM CDT
+-- ADEMPIERE-098
+UPDATE AD_Field SET SeqNo=370,IsDisplayed='Y' WHERE AD_Field_ID=65080
+;
+
+-- Aug 20, 2012 10:04:38 AM CDT
+-- ADEMPIERE-098
+UPDATE AD_Field SET SeqNo=190,IsDisplayed='Y' WHERE AD_Field_ID=65080
+;
+
+-- Aug 20, 2012 10:04:38 AM CDT
+-- ADEMPIERE-098
+UPDATE AD_Field SET SeqNo=200,IsDisplayed='Y' WHERE AD_Field_ID=1131
+;
+
+-- Aug 20, 2012 10:04:38 AM CDT
+-- ADEMPIERE-098
+UPDATE AD_Field SET SeqNo=210,IsDisplayed='Y' WHERE AD_Field_ID=1133
+;
+
+-- Aug 20, 2012 10:04:38 AM CDT
+-- ADEMPIERE-098
+UPDATE AD_Field SET SeqNo=220,IsDisplayed='Y' WHERE AD_Field_ID=1135
+;
+
+-- Aug 20, 2012 10:04:38 AM CDT
+-- ADEMPIERE-098
+UPDATE AD_Field SET SeqNo=230,IsDisplayed='Y' WHERE AD_Field_ID=10829
+;
+
+-- Aug 20, 2012 10:04:38 AM CDT
+-- ADEMPIERE-098
+UPDATE AD_Field SET SeqNo=240,IsDisplayed='Y' WHERE AD_Field_ID=1138
+;
+
+-- Aug 20, 2012 10:04:38 AM CDT
+-- ADEMPIERE-098
+UPDATE AD_Field SET SeqNo=250,IsDisplayed='Y' WHERE AD_Field_ID=1137
+;
+
+-- Aug 20, 2012 10:04:38 AM CDT
+-- ADEMPIERE-098
+UPDATE AD_Field SET SeqNo=260,IsDisplayed='Y' WHERE AD_Field_ID=2115
+;
+
+-- Aug 20, 2012 10:04:38 AM CDT
+-- ADEMPIERE-098
+UPDATE AD_Field SET SeqNo=270,IsDisplayed='Y' WHERE AD_Field_ID=1141
+;
+
+-- Aug 20, 2012 10:04:38 AM CDT
+-- ADEMPIERE-098
+UPDATE AD_Field SET SeqNo=280,IsDisplayed='Y' WHERE AD_Field_ID=3124
+;
+
+-- Aug 20, 2012 10:04:38 AM CDT
+-- ADEMPIERE-098
+UPDATE AD_Field SET SeqNo=290,IsDisplayed='Y' WHERE AD_Field_ID=12745
+;
+
+-- Aug 20, 2012 10:04:38 AM CDT
+-- ADEMPIERE-098
+UPDATE AD_Field SET SeqNo=300,IsDisplayed='Y' WHERE AD_Field_ID=13644
+;
+
+-- Aug 20, 2012 10:04:38 AM CDT
+-- ADEMPIERE-098
+UPDATE AD_Field SET SeqNo=310,IsDisplayed='Y' WHERE AD_Field_ID=13645
+;
+
+-- Aug 20, 2012 10:04:38 AM CDT
+-- ADEMPIERE-098
+UPDATE AD_Field SET SeqNo=320,IsDisplayed='Y' WHERE AD_Field_ID=13691
+;
+
+-- Aug 20, 2012 10:04:38 AM CDT
+-- ADEMPIERE-098
+UPDATE AD_Field SET SeqNo=330,IsDisplayed='Y' WHERE AD_Field_ID=13650
+;
+
+-- Aug 20, 2012 10:04:38 AM CDT
+-- ADEMPIERE-098
+UPDATE AD_Field SET SeqNo=340,IsDisplayed='Y' WHERE AD_Field_ID=13651
+;
+
+-- Aug 20, 2012 10:04:38 AM CDT
+-- ADEMPIERE-098
+UPDATE AD_Field SET SeqNo=350,IsDisplayed='Y' WHERE AD_Field_ID=2880
+;
+
+-- Aug 20, 2012 10:04:38 AM CDT
+-- ADEMPIERE-098
+UPDATE AD_Field SET SeqNo=360,IsDisplayed='Y' WHERE AD_Field_ID=12744
+;
+
+-- Aug 20, 2012 10:04:38 AM CDT
+-- ADEMPIERE-098
+UPDATE AD_Field SET SeqNo=370,IsDisplayed='Y' WHERE AD_Field_ID=10332
+;
+
+-- Aug 20, 2012 10:04:53 AM CDT
+-- ADEMPIERE-098
+UPDATE AD_Field SET IsSameLine='Y',Updated=TO_TIMESTAMP('2012-08-20 10:04:53','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=65080
+;
+
+-- Aug 20, 2012 10:05:34 AM CDT
+-- ADEMPIERE-098
+UPDATE AD_Element SET Description='Is Consumes Forecast', Help='Indicates if the sales order line will generate or not a demand for MPS',Updated=TO_TIMESTAMP('2012-08-20 10:05:34','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55619
+;
+
+-- Aug 20, 2012 10:05:34 AM CDT
+-- ADEMPIERE-098
+UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=55619
+;
+
+-- Aug 20, 2012 10:05:34 AM CDT
+-- ADEMPIERE-098
+UPDATE AD_Column SET ColumnName='IsConsumesForecast', Name='Is Consumes Forecast', Description='Is Consumes Forecast', Help='Indicates if the sales order line will generate or not a demand for MPS' WHERE AD_Element_ID=55619
+;
+
+-- Aug 20, 2012 10:05:35 AM CDT
+-- ADEMPIERE-098
+UPDATE AD_Process_Para SET ColumnName='IsConsumesForecast', Name='Is Consumes Forecast', Description='Is Consumes Forecast', Help='Indicates if the sales order line will generate or not a demand for MPS', AD_Element_ID=55619 WHERE UPPER(ColumnName)='ISCONSUMESFORECAST' AND IsCentrallyMaintained='Y' AND AD_Element_ID IS NULL
+;
+
+-- Aug 20, 2012 10:05:35 AM CDT
+-- ADEMPIERE-098
+UPDATE AD_Process_Para SET ColumnName='IsConsumesForecast', Name='Is Consumes Forecast', Description='Is Consumes Forecast', Help='Indicates if the sales order line will generate or not a demand for MPS' WHERE AD_Element_ID=55619 AND IsCentrallyMaintained='Y'
+;
+
+-- Aug 20, 2012 10:05:35 AM CDT
+-- ADEMPIERE-098
+UPDATE AD_Field SET Name='Is Consumes Forecast', Description='Is Consumes Forecast', Help='Indicates if the sales order line will generate or not a demand for MPS' WHERE AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=55619) AND IsCentrallyMaintained='Y'
+;
+
+-- Aug 20, 2012 10:06:09 AM CDT
+-- ADEMPIERE-098
+UPDATE AD_Column SET DefaultValue='Y',Updated=TO_TIMESTAMP('2012-08-20 10:06:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=64175
+;
+
+-- Aug 20, 2012 10:06:11 AM CDT
+-- ADEMPIERE-098
+INSERT INTO t_alter_column values('c_orderline','IsConsumesForecast','CHAR(1)',null,'Y')
+;
+

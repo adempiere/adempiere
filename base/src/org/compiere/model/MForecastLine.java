@@ -16,6 +16,7 @@
 package org.compiere.model;
 
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -78,11 +79,22 @@ public class MForecastLine extends  X_M_ForecastLine
 		}
 		if (newRecord || is_ValueChanged(COLUMNNAME_DatePromised))
 		{
-			I_PP_Period period = getPP_Period();
-			if(!getDatePromised().before(period.getStartDate()) && !getDatePromised().before(period.getEndDate()))
+			if(!isValid(getDatePromised()))
 				throw new AdempiereException("@DatePromised@ @Invalid@");	
 		}
 		
+		return true;
+	}
+	
+	public boolean isValid(Timestamp DatePromised)
+	{
+		I_PP_Period period = getPP_Period();
+		Timestamp validFrom = period.getStartDate();
+		
+		if (DatePromised.before(period.getStartDate()))
+			return false;
+		if (DatePromised.after(period.getEndDate()))
+			return false;
 		return true;
 	}
 	
