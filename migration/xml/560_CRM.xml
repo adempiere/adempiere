@@ -12157,6 +12157,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
       </PO>
     </Step>
+	<!--  Ignore not include this fuctionality in 3.7
     <Step SeqNo="4780" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="62307" Table="AD_Field">
         <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
@@ -12195,6 +12196,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
       </PO>
     </Step>
+    -->>
     <Step SeqNo="4790" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="62308" Table="AD_Field">
         <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
@@ -12385,6 +12387,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
       </PO>
     </Step>
+    <!-- 
     <Step SeqNo="4840" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="62313" Table="AD_Field">
         <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
@@ -12423,6 +12426,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
       </PO>
     </Step>
+     -->
     <Step SeqNo="4850" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="62314" Table="AD_Field">
         <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
@@ -12732,12 +12736,14 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
       </PO>
     </Step>
+    <!-- Ignore field not include this fuctionality in 3.7
     <Step SeqNo="4940" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="62313" Table="AD_Field">
         <Data AD_Column_ID="176" Column="IsDisplayed" oldValue="true">false</Data>
         <Data AD_Column_ID="181" Column="SeqNo" oldValue="550">0</Data>
       </PO>
     </Step>
+    -->
     <Step SeqNo="4950" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="62317" Table="AD_Field">
         <Data AD_Column_ID="176" Column="IsDisplayed" oldValue="true">false</Data>
@@ -28680,11 +28686,13 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid" oldValue="true">false</Data>
       </PO>
     </Step>
+    <!--  Ignore not include this fuctionality in 3.7
     <Step SeqNo="11820" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="62307" Table="AD_Field">
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid" oldValue="true">false</Data>
       </PO>
     </Step>
+     -->>
     <Step SeqNo="11830" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="62308" Table="AD_Field">
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid" oldValue="true">false</Data>
@@ -36544,7 +36552,7 @@ INNER JOIN AD_Ref_List l ON (l.AD_Reference_ID=154 AND l.Value=r.Priority)</Data
         <Data AD_Column_ID="53255" Column="Created">2011-11-04 16:01:25.664</Data>
         <Data AD_Column_ID="53256" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="53261" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="53263" Column="EntityType">com.adaxa.quickstart</Data>
+        <Data AD_Column_ID="53263" Column="EntityType">D</Data>
         <Data AD_Column_ID="53262" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="53259" Column="IsActive">true</Data>
         <Data AD_Column_ID="53264" Column="ModelValidationClass">org.compiere.model.SalesMgmtValidator</Data>
