@@ -368,7 +368,8 @@ public class MMigrationStep extends X_AD_MigrationStep {
 				if ( po instanceof MColumn )
 				{
 					MColumn col = (MColumn) po;
-					col.syncDatabase();
+					if (!col.isVirtualColumn())
+						col.syncDatabase();
 				}
 			}
 		}
