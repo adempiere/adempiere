@@ -269,7 +269,7 @@ public class WBrowser extends Browser implements IFormController,
 		detail.prepareTable(layout, "" , "" , true, "");
 		StringBuffer sql = new StringBuffer("SELECT DISTINCT ");
 		for (int i = 0; i < layout.length; i++) {
-			if (i > 0)
+			if (i > 0 && layout[i].getColSQL().length() > 0)
 				sql.append(", ");
 			sql.append(layout[i].getColSQL());
 			// adding ID column
@@ -286,6 +286,9 @@ public class WBrowser extends Browser implements IFormController,
 		m_sqlMain = sql.toString();
 		m_sqlCount = "SELECT COUNT(*) FROM " + from + " WHERE ";
 		m_sqlOrderBy = getSQLOrderBy();
+		
+		if (m_keyColumnIndex == -1)
+			log.log(Level.WARNING, "No KeyColumn - " + sql);
 	}
 
 	private boolean testCount() {

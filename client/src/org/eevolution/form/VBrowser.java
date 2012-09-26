@@ -337,7 +337,7 @@ public class VBrowser extends Browser implements ActionListener,
 		StringBuffer sql = new StringBuffer("SELECT DISTINCT ");
 		// add columns & sql
 		for (int i = 0; i < layout.length; i++) {
-			if (i > 0)
+			if (i > 0 && layout[i].getColSQL().length() > 0)
 				sql.append(", ");
 			sql.append(layout[i].getColSQL());
 			// adding ID column
@@ -370,7 +370,7 @@ public class VBrowser extends Browser implements ActionListener,
 		m_sqlOrderBy = getSQLOrderBy();
 
 		if (m_keyColumnIndex == -1)
-			log.log(Level.SEVERE, "No KeyColumn - " + sql);
+			log.log(Level.WARNING, "No KeyColumn - " + sql);
 	} // prepareTable
 
 	/**
@@ -959,6 +959,7 @@ public class VBrowser extends Browser implements ActionListener,
 						close();
 						return;
 					}
+					no++;
 					int row = detail.getRowCount();
 					detail.setRowCount(row + 1);
 					int colOffset = 1; // columns start with 1
@@ -966,8 +967,10 @@ public class VBrowser extends Browser implements ActionListener,
 						Object value = null;
 						Class<?> c = p_layout[col].getColClass();
 						int colIndex = col + colOffset;						
-						if (c == IDColumn.class)
+						if (c == IDColumn.class && !p_layout[col].getColSQL().equals("'Row' AS Row"))
 							value = new IDColumn(m_rs.getInt(colIndex));
+						else if (c == IDColumn.class && p_layout[col].getColSQL().equals("'Row' AS Row"))
+							value = new IDColumn(no);
 						else if (c == Boolean.class)
 							value = new Boolean("Y".equals(m_rs
 									.getString(colIndex)));
@@ -995,7 +998,7 @@ public class VBrowser extends Browser implements ActionListener,
 			}
 			close();
 			//
-			no = detail.getRowCount();
+			//no = detail.getRowCount();
 			log.fine("#" + no + " - " + (System.currentTimeMillis() - start)
 					+ "ms");
 			if (detail.getShowTotals())

@@ -220,6 +220,23 @@ public abstract class Browser {
 	public ArrayList<Info_Column> initBrowserData() {
 		List<MBrowseField> fields = m_Browse.getDisplayFields();
 		ArrayList<Info_Column> list = new ArrayList<Info_Column>();
+		
+		MBrowseField fieldKey =  m_Browse.getFieldKey();
+		if(fieldKey != null)
+		{
+			String columnSql = fieldKey.getAD_View_Column().getColumnSQL() + " AS "+ fieldKey.getAD_View_Column().getColumnName();
+			Info_Column infoCol = new Info_Column(fieldKey.getName(), columnSql , IDColumn.class , "" );
+			infoCol.setReadOnly(false);
+			list.add(infoCol);
+		}
+		else
+		{
+			Info_Column infoCol = new Info_Column("Row", "'Row' AS Row", IDColumn.class  , "" );
+			infoCol.setReadOnly(false);
+			list.add(infoCol);
+		}
+			
+
 		for (MBrowseField field : fields) {
 			MViewColumn vcol = field.getAD_View_Column();
 
@@ -233,7 +250,8 @@ public abstract class Browser {
 			m_queryColumnsSql.add(vcol.getColumnSQL());
 
 			int displayType = field.getAD_Reference_ID();
-			boolean isKey = field.isKey();
+			if(field.isKey())
+				continue;
 			boolean isDisplayed = field.isDisplayed();
 			// Defines Field as Y-Axis
 			if(field.getAxis_Column_ID() > 0)
@@ -253,9 +271,7 @@ public abstract class Browser {
 			// Default
 			StringBuilder colSql = new StringBuilder(columnSql);
 			Class colClass = null;
-			if (isKey) {
-				colClass = IDColumn.class;
-			} else if (!isDisplayed)
+			if (!isDisplayed)
 				;
 			else if (column.isVirtualColumn())
 			{
@@ -310,8 +326,7 @@ public abstract class Browser {
 				log.finest("Added Field=" + columnName + " Name=" + field.getName());
 			} else
 				log.finest("Not Added Field=" +  columnName + "Name=" + field.getName());
-		}
-
+		}		
 		return list;
 	}
 
@@ -460,9 +475,9 @@ public abstract class Browser {
 			MTable xTable = (MTable) xcol.getAD_Column().getAD_Table();
 			String xTableName = xTable.getTableName();
 	
-			MBrowseField fieldKey = field.getFieldKey();
-			if(fieldKey == null)
-				throw new AdempiereException("@NotFound@ @IsKey@");
+			//MBrowseField fieldKey = field.getFieldKey();
+			//if(fieldKey == null)
+			//	throw new AdempiereException("@NotFound@ @IsKey@");
 	
 			String keyColumn = MQuery.getZoomColumnName(columnName);
 			String tableName = MQuery.getZoomTableName(columnName);
@@ -539,9 +554,6 @@ public abstract class Browser {
 	public MBrowseField getFieldKey()
 	{
 	MBrowseField fieldKey = m_Browse.getFieldKey();
-	if(fieldKey == null)
-		throw new AdempiereException("@NotFound@ @IsKey@");
-	
 	return fieldKey;
 	}
 	
@@ -562,6 +574,9 @@ public abstract class Browser {
 			return null;
 		
 		MBrowseField fieldKey = getFieldKey();
+		if(fieldKey == null)
+			return null;
+		
 		MColumn column = fieldKey.getAD_View_Column().getAD_Column();
 		String keyColumn = MQuery.getZoomColumnName(column.getColumnName());
 		String tableName = column.getAD_Table().getTableName();
@@ -807,8 +822,10 @@ public abstract class Browser {
 						Object data = null;
 						Class<?> c = p_layout[col].getColClass();
 						int colIndex = col + colOffset;
-						if (c == IDColumn.class)
+						if (c == IDColumn.class && !p_layout[col].getColSQL().equals("'Row' AS Row"))
 							data = new IDColumn(m_rs.getInt(colIndex));
+						else if (c == IDColumn.class && p_layout[col].getColSQL().equals("'Row' AS Row"))
+							data = new IDColumn(no);
 						else if (c == Boolean.class)
 							data = new Boolean("Y".equals(m_rs
 									.getString(colIndex)));
