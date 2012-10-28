@@ -177,17 +177,16 @@ public class VBrowser extends Browser implements ActionListener,
 			searchPanel.addField(field, row, cols, name, title);
 			cols = cols + col;
 
-			if (field.isRange()) {
-				title = Msg.getMsg(Env.getCtx(), "To");				
-				searchPanel.addField(field, row, cols, name + "_To", title);
+			if (field.isRange())
 				cols = cols + col;
-			}
 
 			if (cols >= 4) {
 				cols = 0;
 				row++;
 			}
 		}
+		
+		searchPanel.dynamicDisplay();
 		
 		if (m_Browse.getAD_Process_ID() > 0) {
 			m_process = MProcess.get(Env.getCtx(), m_Browse.getAD_Process_ID());
@@ -967,9 +966,9 @@ public class VBrowser extends Browser implements ActionListener,
 						Object value = null;
 						Class<?> c = p_layout[col].getColClass();
 						int colIndex = col + colOffset;						
-						if (c == IDColumn.class && !p_layout[col].getColSQL().equals("'Row' AS Row"))
+						if (c == IDColumn.class && !p_layout[col].getColSQL().equals("'Row' AS \"Row\""))
 							value = new IDColumn(m_rs.getInt(colIndex));
-						else if (c == IDColumn.class && p_layout[col].getColSQL().equals("'Row' AS Row"))
+						else if (c == IDColumn.class && p_layout[col].getColSQL().equals("'Row' AS \"Row\""))
 							value = new IDColumn(no);
 						else if (c == Boolean.class)
 							value = new Boolean("Y".equals(m_rs

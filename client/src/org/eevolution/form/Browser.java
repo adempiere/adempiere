@@ -231,7 +231,7 @@ public abstract class Browser {
 		}
 		else
 		{
-			Info_Column infoCol = new Info_Column("Row", "'Row' AS Row", IDColumn.class  , "" );
+			Info_Column infoCol = new Info_Column("Row", "'Row' AS \"Row\"", IDColumn.class  , "" );
 			infoCol.setReadOnly(false);
 			list.add(infoCol);
 		}
@@ -822,9 +822,9 @@ public abstract class Browser {
 						Object data = null;
 						Class<?> c = p_layout[col].getColClass();
 						int colIndex = col + colOffset;
-						if (c == IDColumn.class && !p_layout[col].getColSQL().equals("'Row' AS Row"))
+						if (c == IDColumn.class && !p_layout[col].getColSQL().equals("'Row' AS \"Row\""))
 							data = new IDColumn(m_rs.getInt(colIndex));
-						else if (c == IDColumn.class && p_layout[col].getColSQL().equals("'Row' AS Row"))
+						else if (c == IDColumn.class && p_layout[col].getColSQL().equals("'Row' AS \"Row\""))
 							data = new IDColumn(no);
 						else if (c == Boolean.class)
 							data = new Boolean("Y".equals(m_rs

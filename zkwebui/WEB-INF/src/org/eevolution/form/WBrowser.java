@@ -163,17 +163,16 @@ public class WBrowser extends Browser implements IFormController,
 
 			cols++;
 
-			if (field.isRange()) {
-				title = Msg.getMsg(Env.getCtx(), "To");
-				searchGrid.addField(field, row, name + "_To", title);
+			if (field.isRange())
 				cols++;
-			}
 
 			if (cols >= 2) {
 				cols = 0;
 				row = rows.newRow();
 			}
 		}
+		
+		searchGrid.dynamicDisplay();
 		
 		if (m_Browse.getAD_Process_ID() > 0) {
 			

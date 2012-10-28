@@ -572,11 +572,11 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 								+ " was expected.");
 					}
 					
-					if (columnClass == IDColumn.class && !m_layout[col].getColSQL().equals("'Row' AS Row"))
+					if (columnClass == IDColumn.class && !m_layout[col].getColSQL().equals("'Row' AS \"Row\""))
 					{
 						data = new IDColumn(rs.getInt(rsColIndex));
 					}
-					else if (columnClass == IDColumn.class && m_layout[col].getColSQL().equals("'Row' AS Row"))
+					else if (columnClass == IDColumn.class && m_layout[col].getColSQL().equals("'Row' AS \"Row\""))
 					{	
 						data = new IDColumn(no);
 					}	
