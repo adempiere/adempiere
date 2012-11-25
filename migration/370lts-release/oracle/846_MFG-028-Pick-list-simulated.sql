@@ -131,139 +131,6 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 INSERT INTO AD_Sequence (AD_Client_ID,AD_Org_ID,AD_Sequence_ID,Created,CreatedBy,CurrentNext,CurrentNextSys,Description,IncrementNo,IsActive,IsAudited,IsAutoSequence,IsTableID,Name,StartNewYear,StartNo,Updated,UpdatedBy) VALUES (0,0,53560,TO_DATE('2012-07-23 08:58:06','YYYY-MM-DD HH24:MI:SS'),100,1000000,50000,'Table RV_PP_Product_BOMLine_Storage',1,'Y','N','Y','Y','RV_PP_Product_BOMLine_Storage','N',1000000,TO_DATE('2012-07-23 08:58:06','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
--- Jul 23, 2012 8:58:07 AM CDT
--- MFG-28
-UPDATE AD_Element SET ColumnName='AD_Client_ID', Description='Client/Tenant for this installation.', EntityType='D', Help='A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.', IsActive='Y', Name='Client', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Client',Updated=TO_DATE('2012-07-23 08:58:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=102
-;
-
--- Jul 23, 2012 8:58:07 AM CDT
--- MFG-28
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=102
-;
-
--- Jul 23, 2012 8:58:07 AM CDT
--- MFG-28
-UPDATE AD_Reference SET Description='Direct Table Access', EntityType='D', Help=NULL, IsActive='Y', Name='Table Direct', ValidationType='D',Updated=TO_DATE('2012-07-23 08:58:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=19
-;
-
--- Jul 23, 2012 8:58:07 AM CDT
--- MFG-28
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=19
-;
-
--- Jul 23, 2012 8:58:07 AM CDT
--- MFG-28
-UPDATE AD_Val_Rule SET Code='AD_Client.AD_Client_ID <> 0', Description=NULL, EntityType='D', IsActive='Y', Name='AD_Client Trx Security validation', Type='S',Updated=TO_DATE('2012-07-23 08:58:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Val_Rule_ID=129
-;
-
--- Jul 23, 2012 8:58:08 AM CDT
--- MFG-28
-UPDATE AD_Element SET ColumnName='AD_Org_ID', Description='Organizational entity within client', EntityType='D', Help='An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.', IsActive='Y', Name='Organization', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Organization',Updated=TO_DATE('2012-07-23 08:58:08','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=113
-;
-
--- Jul 23, 2012 8:58:08 AM CDT
--- MFG-28
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=113
-;
-
--- Jul 23, 2012 8:58:09 AM CDT
--- MFG-28
-UPDATE AD_Element SET ColumnName='IsActive', Description='The record is active in the system', EntityType='D', Help='There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
-There are two reasons for de-activating and not deleting records:
-(1) The system requires the record for audit purposes.
-(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.', IsActive='Y', Name='Active', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Active',Updated=TO_DATE('2012-07-23 08:58:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=348
-;
-
--- Jul 23, 2012 8:58:09 AM CDT
--- MFG-28
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=348
-;
-
--- Jul 23, 2012 8:58:09 AM CDT
--- MFG-28
-UPDATE AD_Reference SET Description='CheckBox', EntityType='D', Help=NULL, IsActive='Y', Name='Yes-No', ValidationType='D',Updated=TO_DATE('2012-07-23 08:58:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=20
-;
-
--- Jul 23, 2012 8:58:09 AM CDT
--- MFG-28
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=20
-;
-
--- Jul 23, 2012 8:58:09 AM CDT
--- MFG-28
-UPDATE AD_Element SET ColumnName='Created', Description='Date this record was created', EntityType='D', Help='The Created field indicates the date that this record was created.', IsActive='Y', Name='Created', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Created',Updated=TO_DATE('2012-07-23 08:58:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=245
-;
-
--- Jul 23, 2012 8:58:09 AM CDT
--- MFG-28
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=245
-;
-
--- Jul 23, 2012 8:58:09 AM CDT
--- MFG-28
-UPDATE AD_Reference SET Description='Date with time', EntityType='D', Help=NULL, IsActive='Y', Name='Date+Time', ValidationType='D',Updated=TO_DATE('2012-07-23 08:58:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=16
-;
-
--- Jul 23, 2012 8:58:09 AM CDT
--- MFG-28
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=16
-;
-
--- Jul 23, 2012 8:58:10 AM CDT
--- MFG-28
-UPDATE AD_Element SET ColumnName='Updated', Description='Date this record was updated', EntityType='D', Help='The Updated field indicates the date that this record was updated.', IsActive='Y', Name='Updated', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Updated',Updated=TO_DATE('2012-07-23 08:58:10','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=607
-;
-
--- Jul 23, 2012 8:58:10 AM CDT
--- MFG-28
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=607
-;
-
--- Jul 23, 2012 8:58:10 AM CDT
--- MFG-28
-UPDATE AD_Element SET ColumnName='CreatedBy', Description='User who created this records', EntityType='D', Help='The Created By field indicates the user who created this record.', IsActive='Y', Name='Created By', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Created By',Updated=TO_DATE('2012-07-23 08:58:10','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=246
-;
-
--- Jul 23, 2012 8:58:10 AM CDT
--- MFG-28
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=246
-;
-
--- Jul 23, 2012 8:58:10 AM CDT
--- MFG-28
-UPDATE AD_Reference SET Description='User selection', EntityType='D', Help=NULL, IsActive='Y', Name='AD_User', ValidationType='T',Updated=TO_DATE('2012-07-23 08:58:10','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=110
-;
-
--- Jul 23, 2012 8:58:10 AM CDT
--- MFG-28
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=110
-;
-
--- Jul 23, 2012 8:58:10 AM CDT
--- MFG-28
-UPDATE AD_Ref_Table SET AD_Table_ID = 114, AD_Display = 213, AD_Key = 212, isValueDisplayed = 'N', OrderByClause = 'AD_User.Name', EntityType ='D', WhereClause = '' WHERE AD_Reference_ID = 110
-;
-
--- Jul 23, 2012 8:58:10 AM CDT
--- MFG-28
-UPDATE AD_Element SET ColumnName='UpdatedBy', Description='User who updated this records', EntityType='D', Help='The Updated By field indicates the user who updated this record.', IsActive='Y', Name='Updated By', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Updated By',Updated=TO_DATE('2012-07-23 08:58:10','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=608
-;
-
--- Jul 23, 2012 8:58:10 AM CDT
--- MFG-28
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=608
-;
-
--- Jul 23, 2012 8:58:11 AM CDT
--- MFG-28
-UPDATE AD_Element SET ColumnName='AD_PInstance_ID', Description='Instance of the process', EntityType='D', Help=NULL, IsActive='Y', Name='Process Instance', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Process Instance',Updated=TO_DATE('2012-07-23 08:58:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=114
-;
-
--- Jul 23, 2012 8:58:11 AM CDT
--- MFG-28
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=114
-;
-
 -- Jul 23, 2012 8:58:11 AM CDT
 -- MFG-28
 INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63746,114,0,19,53411,'AD_PInstance_ID',TO_DATE('2012-07-23 08:58:11','YYYY-MM-DD HH24:MI:SS'),100,'Instance of the process','EE01',10,'Y','N','N','N','N','N','N','N','Y','N','Y','Process Instance',TO_DATE('2012-07-23 08:58:11','YYYY-MM-DD HH24:MI:SS'),100,0)
@@ -272,26 +139,6 @@ INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Refe
 -- Jul 23, 2012 8:58:11 AM CDT
 -- MFG-28
 INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=63746 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
-;
-
--- Jul 23, 2012 8:58:11 AM CDT
--- MFG-28
-UPDATE AD_Element SET ColumnName='SeqNo', Description='Method of ordering records; lowest number comes first', EntityType='D', Help='The Sequence indicates the order of records', IsActive='Y', Name='Sequence', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Sequence',Updated=TO_DATE('2012-07-23 08:58:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=566
-;
-
--- Jul 23, 2012 8:58:11 AM CDT
--- MFG-28
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=566
-;
-
--- Jul 23, 2012 8:58:11 AM CDT
--- MFG-28
-UPDATE AD_Reference SET Description='10 Digit numeric', EntityType='D', Help=NULL, IsActive='Y', Name='Integer', ValidationType='D',Updated=TO_DATE('2012-07-23 08:58:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=11
-;
-
--- Jul 23, 2012 8:58:11 AM CDT
--- MFG-28
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=11
 ;
 
 -- Jul 23, 2012 8:58:12 AM CDT
@@ -306,42 +153,12 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 23, 2012 8:58:12 AM CDT
 -- MFG-28
-UPDATE AD_Element SET ColumnName='LevelNo', Description=NULL, EntityType='D', Help=NULL, IsActive='Y', Name='Level no', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Level no',Updated=TO_DATE('2012-07-23 08:58:12','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=1982
-;
-
--- Jul 23, 2012 8:58:12 AM CDT
--- MFG-28
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=1982
-;
-
--- Jul 23, 2012 8:58:12 AM CDT
--- MFG-28
 INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63748,1982,0,11,53411,'LevelNo',TO_DATE('2012-07-23 08:58:12','YYYY-MM-DD HH24:MI:SS'),100,'EE01',10,'Y','N','N','N','N','N','N','N','Y','N','Y','Level no',TO_DATE('2012-07-23 08:58:12','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 23, 2012 8:58:12 AM CDT
 -- MFG-28
 INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=63748 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
-;
-
--- Jul 23, 2012 8:58:12 AM CDT
--- MFG-28
-UPDATE AD_Element SET ColumnName='Levels', Description=NULL, EntityType='EE01', Help=NULL, IsActive='Y', Name='Levels', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Levels',Updated=TO_DATE('2012-07-23 08:58:12','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=53318
-;
-
--- Jul 23, 2012 8:58:12 AM CDT
--- MFG-28
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=53318
-;
-
--- Jul 23, 2012 8:58:12 AM CDT
--- MFG-28
-UPDATE AD_Reference SET Description='Character String', EntityType='D', Help=NULL, IsActive='Y', Name='String', ValidationType='D',Updated=TO_DATE('2012-07-23 08:58:12','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=10
-;
-
--- Jul 23, 2012 8:58:12 AM CDT
--- MFG-28
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=10
 ;
 
 -- Jul 23, 2012 8:58:13 AM CDT
@@ -356,41 +173,6 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 23, 2012 8:58:13 AM CDT
 -- MFG-28
-UPDATE AD_Element SET ColumnName='TM_Product_ID', Description=NULL, EntityType='EE01', Help=NULL, IsActive='Y', Name='Product', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Product',Updated=TO_DATE('2012-07-23 08:58:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=53465
-;
-
--- Jul 23, 2012 8:58:13 AM CDT
--- MFG-28
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=53465
-;
-
--- Jul 23, 2012 8:58:13 AM CDT
--- MFG-28
-UPDATE AD_Reference SET Description='Table List', EntityType='D', Help=NULL, IsActive='Y', Name='Table', ValidationType='D',Updated=TO_DATE('2012-07-23 08:58:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=18
-;
-
--- Jul 23, 2012 8:58:13 AM CDT
--- MFG-28
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=18
-;
-
--- Jul 23, 2012 8:58:13 AM CDT
--- MFG-28
-UPDATE AD_Reference SET Description=NULL, EntityType='D', Help=NULL, IsActive='Y', Name='M_Product (stocked)', ValidationType='T',Updated=TO_DATE('2012-07-23 08:58:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=171
-;
-
--- Jul 23, 2012 8:58:13 AM CDT
--- MFG-28
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=171
-;
-
--- Jul 23, 2012 8:58:13 AM CDT
--- MFG-28
-UPDATE AD_Ref_Table SET AD_Table_ID = 208, AD_Display = 1410, AD_Key = 1402, isValueDisplayed = 'N', OrderByClause = 'M_Product.Value', EntityType ='D', WhereClause = 'M_Product.IsStocked=''Y'' AND M_Product.IsSummary=''N''' WHERE AD_Reference_ID = 171
-;
-
--- Jul 23, 2012 8:58:13 AM CDT
--- MFG-28
 INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63750,53465,0,18,171,53411,'TM_Product_ID',TO_DATE('2012-07-23 08:58:13','YYYY-MM-DD HH24:MI:SS'),100,'EE01',10,'Y','N','N','N','N','N','N','N','Y','N','Y','Product',TO_DATE('2012-07-23 08:58:13','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
@@ -401,46 +183,12 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 23, 2012 8:58:14 AM CDT
 -- MFG-28
-UPDATE AD_Element SET ColumnName='M_Product_ID', Description='Product, Service, Item', EntityType='D', Help='Identifies an item which is either purchased or sold in this organization.', IsActive='Y', Name='Product', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Product',Updated=TO_DATE('2012-07-23 08:58:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=454
-;
-
--- Jul 23, 2012 8:58:14 AM CDT
--- MFG-28
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=454
-;
-
--- Jul 23, 2012 8:58:14 AM CDT
--- MFG-28
 INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,63751,454,0,19,53411,'M_Product_ID',TO_DATE('2012-07-23 08:58:14','YYYY-MM-DD HH24:MI:SS'),100,'Product, Service, Item','EE01',10,'Identifies an item which is either purchased or sold in this organization.','Y','N','N','Y','N','N','N','N','Y','N','Y','Product',1,TO_DATE('2012-07-23 08:58:14','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 23, 2012 8:58:14 AM CDT
 -- MFG-28
 INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=63751 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
-;
-
--- Jul 23, 2012 8:58:14 AM CDT
--- MFG-28
-UPDATE AD_Element SET ColumnName='QtyBOM', Description='Indicate the Quantity  use in this BOM', EntityType='EE01', Help='Exist two way the add a compenent to a BOM or Formula:
-
-1.- Adding a Component based in quantity to use in this BOM
-2.- Adding a Component based in % to use the Order Quantity of Manufacturing Order in this Formula.
-', IsActive='Y', Name='Quantity', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Quantity',Updated=TO_DATE('2012-07-23 08:58:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=53255
-;
-
--- Jul 23, 2012 8:58:14 AM CDT
--- MFG-28
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=53255
-;
-
--- Jul 23, 2012 8:58:14 AM CDT
--- MFG-28
-UPDATE AD_Reference SET Description='Quantity data type', EntityType='D', Help=NULL, IsActive='Y', Name='Quantity', ValidationType='D',Updated=TO_DATE('2012-07-23 08:58:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=29
-;
-
--- Jul 23, 2012 8:58:14 AM CDT
--- MFG-28
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=29
 ;
 
 -- Jul 23, 2012 8:58:15 AM CDT
@@ -459,32 +207,12 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 23, 2012 8:58:15 AM CDT
 -- MFG-28
-UPDATE AD_Element SET ColumnName='DateTrx', Description='Transaction Date', EntityType='D', Help='The Transaction Date indicates the date of the transaction.', IsActive='Y', Name='Transaction Date', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Trx Date',Updated=TO_DATE('2012-07-23 08:58:15','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=1297
-;
-
--- Jul 23, 2012 8:58:15 AM CDT
--- MFG-28
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=1297
-;
-
--- Jul 23, 2012 8:58:15 AM CDT
--- MFG-28
 INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63753,1297,0,16,53411,'DateTrx',TO_DATE('2012-07-23 08:58:15','YYYY-MM-DD HH24:MI:SS'),100,'Transaction Date','EE01',29,'The Transaction Date indicates the date of the transaction.','Y','N','N','N','N','N','N','N','Y','N','Y','Transaction Date',TO_DATE('2012-07-23 08:58:15','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 23, 2012 8:58:15 AM CDT
 -- MFG-28
 INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=63753 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
-;
-
--- Jul 23, 2012 8:58:15 AM CDT
--- MFG-28
-UPDATE AD_Element SET ColumnName='PP_Product_BOM_ID', Description='BOM & Formula', EntityType='EE01', Help=NULL, IsActive='Y', Name='BOM & Formula', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='BOM & Formula',Updated=TO_DATE('2012-07-23 08:58:15','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=53245
-;
-
--- Jul 23, 2012 8:58:15 AM CDT
--- MFG-28
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=53245
 ;
 
 -- Jul 23, 2012 8:58:16 AM CDT
@@ -499,32 +227,12 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 23, 2012 8:58:16 AM CDT
 -- MFG-28
-UPDATE AD_Element SET ColumnName='PP_Product_BOMLine_ID', Description='BOM Line', EntityType='EE01', Help='The BOM Line is a unique identifier for a BOM line in an BOM.', IsActive='Y', Name='BOM Line', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='BOM Line',Updated=TO_DATE('2012-07-23 08:58:16','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=53254
-;
-
--- Jul 23, 2012 8:58:16 AM CDT
--- MFG-28
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=53254
-;
-
--- Jul 23, 2012 8:58:16 AM CDT
--- MFG-28
 INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63755,53254,0,19,53411,'PP_Product_BOMLine_ID',TO_DATE('2012-07-23 08:58:16','YYYY-MM-DD HH24:MI:SS'),100,'BOM Line','EE01',10,'The BOM Line is a unique identifier for a BOM line in an BOM.','Y','N','N','N','N','N','N','N','Y','N','Y','BOM Line',TO_DATE('2012-07-23 08:58:16','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 23, 2012 8:58:16 AM CDT
 -- MFG-28
 INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=63755 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
-;
-
--- Jul 23, 2012 8:58:16 AM CDT
--- MFG-28
-UPDATE AD_Element SET ColumnName='Description', Description='Optional short description of the record', EntityType='D', Help='A description is limited to 255 characters.', IsActive='Y', Name='Description', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Description',Updated=TO_DATE('2012-07-23 08:58:16','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=275
-;
-
--- Jul 23, 2012 8:58:16 AM CDT
--- MFG-28
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=275
 ;
 
 -- Jul 23, 2012 8:58:17 AM CDT
@@ -539,151 +247,12 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 23, 2012 8:58:17 AM CDT
 -- MFG-28
-UPDATE AD_Element SET ColumnName='IsCritical', Description='Indicate that a Manufacturing Order can not begin without have this component', EntityType='EE01', Help='Indicate that a Manufacturing Order can not begin without have this component', IsActive='Y', Name='Is Critical Component', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Is Critical Component',Updated=TO_DATE('2012-07-23 08:58:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=53251
-;
-
--- Jul 23, 2012 8:58:17 AM CDT
--- MFG-28
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=53251
-;
-
--- Jul 23, 2012 8:58:17 AM CDT
--- MFG-28
 INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63757,53251,0,20,53411,'IsCritical',TO_DATE('2012-07-23 08:58:17','YYYY-MM-DD HH24:MI:SS'),100,'Indicate that a Manufacturing Order can not begin without have this component','EE01',1,'Indicate that a Manufacturing Order can not begin without have this component','Y','N','N','N','N','N','N','N','Y','N','Y','Is Critical Component',TO_DATE('2012-07-23 08:58:17','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 23, 2012 8:58:17 AM CDT
 -- MFG-28
 INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=63757 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
-;
-
--- Jul 23, 2012 8:58:17 AM CDT
--- MFG-28
-UPDATE AD_Element SET ColumnName='ComponentType', Description='Component Type for a Bill of Material or Formula', EntityType='EE01', Help='The Component Type can be:
-
-1.- By Product: Define a By Product as Component into BOM
-2.- Component: Define a normal Component into BOM
-3.- Option: Define an Option for Product Configure BOM
-4.- Phantom: Define a Phantom as Component into BOM
-5.- Packing: Define a Packing as Component into BOM
-6.- Planning : Define Planning as Component into BOM
-7.- Tools: Define Tools as Component into BOM
-8.- Variant: Define Variant  for Product Configure BOM', IsActive='Y', Name='Component Type', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Component Type',Updated=TO_DATE('2012-07-23 08:58:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=53249
-;
-
--- Jul 23, 2012 8:58:17 AM CDT
--- MFG-28
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=53249
-;
-
--- Jul 23, 2012 8:58:17 AM CDT
--- MFG-28
-UPDATE AD_Reference SET Description='Reference List', EntityType='D', Help=NULL, IsActive='Y', Name='List', ValidationType='D',Updated=TO_DATE('2012-07-23 08:58:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=17
-;
-
--- Jul 23, 2012 8:58:17 AM CDT
--- MFG-28
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=17
-;
-
--- Jul 23, 2012 8:58:17 AM CDT
--- MFG-28
-UPDATE AD_Reference SET Description=NULL, EntityType='EE01', Help=NULL, IsActive='Y', Name='PP_ComponentType', ValidationType='L',Updated=TO_DATE('2012-07-23 08:58:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=53225
-;
-
--- Jul 23, 2012 8:58:17 AM CDT
--- MFG-28
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=53225
-;
-
--- Jul 23, 2012 8:58:18 AM CDT
--- MFG-28
-UPDATE AD_Ref_List SET AD_Reference_ID=53225, Description=NULL, EntityType='EE01', IsActive='Y', Name='By-Product', Value='BY',Updated=TO_DATE('2012-07-23 08:58:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=53257
-;
-
--- Jul 23, 2012 8:58:18 AM CDT
--- MFG-28
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=53257
-;
-
--- Jul 23, 2012 8:58:18 AM CDT
--- MFG-28
-UPDATE AD_Ref_List SET AD_Reference_ID=53225, Description=NULL, EntityType='EE01', IsActive='Y', Name='Component', Value='CO',Updated=TO_DATE('2012-07-23 08:58:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=53258
-;
-
--- Jul 23, 2012 8:58:18 AM CDT
--- MFG-28
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=53258
-;
-
--- Jul 23, 2012 8:58:18 AM CDT
--- MFG-28
-UPDATE AD_Ref_List SET AD_Reference_ID=53225, Description=NULL, EntityType='EE01', IsActive='Y', Name='Co-Product', Value='CP',Updated=TO_DATE('2012-07-23 08:58:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=53481
-;
-
--- Jul 23, 2012 8:58:18 AM CDT
--- MFG-28
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=53481
-;
-
--- Jul 23, 2012 8:58:18 AM CDT
--- MFG-28
-UPDATE AD_Ref_List SET AD_Reference_ID=53225, Description=NULL, EntityType='EE01', IsActive='Y', Name='Option', Value='OP',Updated=TO_DATE('2012-07-23 08:58:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=53263
-;
-
--- Jul 23, 2012 8:58:18 AM CDT
--- MFG-28
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=53263
-;
-
--- Jul 23, 2012 8:58:18 AM CDT
--- MFG-28
-UPDATE AD_Ref_List SET AD_Reference_ID=53225, Description=NULL, EntityType='EE01', IsActive='Y', Name='Phantom', Value='PH',Updated=TO_DATE('2012-07-23 08:58:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=53259
-;
-
--- Jul 23, 2012 8:58:18 AM CDT
--- MFG-28
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=53259
-;
-
--- Jul 23, 2012 8:58:18 AM CDT
--- MFG-28
-UPDATE AD_Ref_List SET AD_Reference_ID=53225, Description=NULL, EntityType='EE01', IsActive='Y', Name='Packing', Value='PK',Updated=TO_DATE('2012-07-23 08:58:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=53260
-;
-
--- Jul 23, 2012 8:58:18 AM CDT
--- MFG-28
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=53260
-;
-
--- Jul 23, 2012 8:58:18 AM CDT
--- MFG-28
-UPDATE AD_Ref_List SET AD_Reference_ID=53225, Description=NULL, EntityType='EE01', IsActive='Y', Name='Planning', Value='PL',Updated=TO_DATE('2012-07-23 08:58:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=53261
-;
-
--- Jul 23, 2012 8:58:18 AM CDT
--- MFG-28
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=53261
-;
-
--- Jul 23, 2012 8:58:18 AM CDT
--- MFG-28
-UPDATE AD_Ref_List SET AD_Reference_ID=53225, Description=NULL, EntityType='EE01', IsActive='Y', Name='Tools', Value='TL',Updated=TO_DATE('2012-07-23 08:58:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=53262
-;
-
--- Jul 23, 2012 8:58:18 AM CDT
--- MFG-28
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=53262
-;
-
--- Jul 23, 2012 8:58:18 AM CDT
--- MFG-28
-UPDATE AD_Ref_List SET AD_Reference_ID=53225, Description=NULL, EntityType='EE01', IsActive='Y', Name='Variant', Value='VA',Updated=TO_DATE('2012-07-23 08:58:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=53264
-;
-
--- Jul 23, 2012 8:58:18 AM CDT
--- MFG-28
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=53264
 ;
 
 -- Jul 23, 2012 8:58:19 AM CDT
@@ -707,46 +276,12 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 23, 2012 8:58:19 AM CDT
 -- MFG-28
-UPDATE AD_Element SET ColumnName='C_UOM_ID', Description='Unit of Measure', EntityType='D', Help='The UOM defines a unique non monetary Unit of Measure', IsActive='Y', Name='UOM', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='UOM',Updated=TO_DATE('2012-07-23 08:58:19','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=215
-;
-
--- Jul 23, 2012 8:58:19 AM CDT
--- MFG-28
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=215
-;
-
--- Jul 23, 2012 8:58:19 AM CDT
--- MFG-28
 INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63759,215,0,19,53411,'C_UOM_ID',TO_DATE('2012-07-23 08:58:19','YYYY-MM-DD HH24:MI:SS'),100,'Unit of Measure','EE01',10,'The UOM defines a unique non monetary Unit of Measure','Y','N','N','N','N','N','N','N','Y','N','Y','UOM',TO_DATE('2012-07-23 08:58:19','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 23, 2012 8:58:19 AM CDT
 -- MFG-28
 INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=63759 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
-;
-
--- Jul 23, 2012 8:58:19 AM CDT
--- MFG-28
-UPDATE AD_Element SET ColumnName='IssueMethod', Description='There are two methods for issue the components to Manufacturing Order', EntityType='EE01', Help='Method Issue: The component are delivered one for one and is necessary indicate the delivered quantity for each component.
-
-Method BackFlush: The component are delivered based in BOM, The  delivered quantity for each component is based in BOM or Formula and Manufacturing Order Quantity.
-
-Use the field Backflush Group for grouping the component in a Backflush Method.', IsActive='Y', Name='Issue Method', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Issue Method',Updated=TO_DATE('2012-07-23 08:58:19','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=53253
-;
-
--- Jul 23, 2012 8:58:19 AM CDT
--- MFG-28
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=53253
-;
-
--- Jul 23, 2012 8:58:19 AM CDT
--- MFG-28
-UPDATE AD_Reference SET Description='Issue Method', EntityType='EE01', Help=NULL, IsActive='Y', Name='PP_Product_BOM IssueMethod', ValidationType='L',Updated=TO_DATE('2012-07-23 08:58:19','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=53226
-;
-
--- Jul 23, 2012 8:58:19 AM CDT
--- MFG-28
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=53226
 ;
 
 -- Jul 23, 2012 8:58:20 AM CDT
@@ -765,16 +300,6 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 23, 2012 8:58:20 AM CDT
 -- MFG-28
-UPDATE AD_Element SET ColumnName='Line', Description='Unique line for this document', EntityType='D', Help='Indicates the unique line for a document.  It will also control the display order of the lines within a document.', IsActive='Y', Name='Line No', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Line No',Updated=TO_DATE('2012-07-23 08:58:20','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=439
-;
-
--- Jul 23, 2012 8:58:20 AM CDT
--- MFG-28
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=439
-;
-
--- Jul 23, 2012 8:58:20 AM CDT
--- MFG-28
 INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63761,439,0,11,53411,'Line',TO_DATE('2012-07-23 08:58:20','YYYY-MM-DD HH24:MI:SS'),100,'Unique line for this document','EE01',10,'Indicates the unique line for a document.  It will also control the display order of the lines within a document.','Y','N','N','N','N','N','N','N','Y','N','Y','Line No',TO_DATE('2012-07-23 08:58:20','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
@@ -785,52 +310,12 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 23, 2012 8:58:21 AM CDT
 -- MFG-28
-UPDATE AD_Element SET ColumnName='M_AttributeSetInstance_ID', Description='Product Attribute Set Instance', EntityType='D', Help='The values of the actual Product Attribute Instances.  The product level attributes are defined on Product level.', IsActive='Y', Name='Attribute Set Instance', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Attribute Set Instance',Updated=TO_DATE('2012-07-23 08:58:21','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=2019
-;
-
--- Jul 23, 2012 8:58:21 AM CDT
--- MFG-28
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=2019
-;
-
--- Jul 23, 2012 8:58:21 AM CDT
--- MFG-28
-UPDATE AD_Reference SET Description='Product Attribute', EntityType='D', Help=NULL, IsActive='Y', Name='Product Attribute', ValidationType='D',Updated=TO_DATE('2012-07-23 08:58:21','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=35
-;
-
--- Jul 23, 2012 8:58:21 AM CDT
--- MFG-28
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=35
-;
-
--- Jul 23, 2012 8:58:21 AM CDT
--- MFG-28
 INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63762,2019,0,35,53411,'M_AttributeSetInstance_ID',TO_DATE('2012-07-23 08:58:21','YYYY-MM-DD HH24:MI:SS'),100,'Product Attribute Set Instance','EE01',10,'The values of the actual Product Attribute Instances.  The product level attributes are defined on Product level.','Y','N','N','N','N','N','N','N','Y','N','Y','Attribute Set Instance',TO_DATE('2012-07-23 08:58:21','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 23, 2012 8:58:21 AM CDT
 -- MFG-28
 INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=63762 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
-;
-
--- Jul 23, 2012 8:58:21 AM CDT
--- MFG-28
-UPDATE AD_Element SET ColumnName='Scrap', Description='Indicate the Scrap %  for calculate the Scrap Quantity', EntityType='EE01', Help='Scrap is useful to determinate a rigth Standard Cost and management a good supply.', IsActive='Y', Name='Scrap %', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Scrap %',Updated=TO_DATE('2012-07-23 08:58:21','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=53257
-;
-
--- Jul 23, 2012 8:58:21 AM CDT
--- MFG-28
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=53257
-;
-
--- Jul 23, 2012 8:58:21 AM CDT
--- MFG-28
-UPDATE AD_Reference SET Description='Float Number', EntityType='D', Help=NULL, IsActive='Y', Name='Number', ValidationType='D',Updated=TO_DATE('2012-07-23 08:58:21','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=22
-;
-
--- Jul 23, 2012 8:58:21 AM CDT
--- MFG-28
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=22
 ;
 
 -- Jul 23, 2012 8:58:22 AM CDT
@@ -845,32 +330,12 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 23, 2012 8:58:22 AM CDT
 -- MFG-28
-UPDATE AD_Element SET ColumnName='ValidFrom', Description='Valid from including this date (first day)', EntityType='D', Help='The Valid From date indicates the first day of a date range', IsActive='Y', Name='Valid from', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Valid from',Updated=TO_DATE('2012-07-23 08:58:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=617
-;
-
--- Jul 23, 2012 8:58:22 AM CDT
--- MFG-28
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=617
-;
-
--- Jul 23, 2012 8:58:22 AM CDT
--- MFG-28
 INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63764,617,0,16,53411,'ValidFrom',TO_DATE('2012-07-23 08:58:22','YYYY-MM-DD HH24:MI:SS'),100,'Valid from including this date (first day)','EE01',29,'The Valid From date indicates the first day of a date range','Y','N','N','N','N','N','N','N','Y','N','Y','Valid from',TO_DATE('2012-07-23 08:58:22','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 23, 2012 8:58:22 AM CDT
 -- MFG-28
 INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=63764 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
-;
-
--- Jul 23, 2012 8:58:22 AM CDT
--- MFG-28
-UPDATE AD_Element SET ColumnName='ValidTo', Description='Valid to including this date (last day)', EntityType='D', Help='The Valid To date indicates the last day of a date range', IsActive='Y', Name='Valid to', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Valid to',Updated=TO_DATE('2012-07-23 08:58:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=618
-;
-
--- Jul 23, 2012 8:58:22 AM CDT
--- MFG-28
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=618
 ;
 
 -- Jul 23, 2012 8:58:23 AM CDT
@@ -885,32 +350,12 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 23, 2012 8:58:23 AM CDT
 -- MFG-28
-UPDATE AD_Element SET ColumnName='IsQtyPercentage', Description='Indicate that this component is based in % Quantity', EntityType='EE01', Help='Indicate that this component is based in % Quantity', IsActive='Y', Name='Is Qty Percentage', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Is Qty Percentage',Updated=TO_DATE('2012-07-23 08:58:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=53252
-;
-
--- Jul 23, 2012 8:58:23 AM CDT
--- MFG-28
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=53252
-;
-
--- Jul 23, 2012 8:58:23 AM CDT
--- MFG-28
 INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63766,53252,0,29,53411,'IsQtyPercentage',TO_DATE('2012-07-23 08:58:23','YYYY-MM-DD HH24:MI:SS'),100,'Indicate that this component is based in % Quantity','EE01',1,'Indicate that this component is based in % Quantity','Y','N','N','N','N','N','N','N','Y','N','Y','Is Qty Percentage',TO_DATE('2012-07-23 08:58:23','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 23, 2012 8:58:23 AM CDT
 -- MFG-28
 INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=63766 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
-;
-
--- Jul 23, 2012 8:58:23 AM CDT
--- MFG-28
-UPDATE AD_Element SET ColumnName='QtyOnHand', Description='On Hand Quantity', EntityType='D', Help='The On Hand Quantity indicates the quantity of a product that is on hand in a warehouse.', IsActive='Y', Name='On Hand Quantity', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='On Hand Qty',Updated=TO_DATE('2012-07-23 08:58:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=530
-;
-
--- Jul 23, 2012 8:58:23 AM CDT
--- MFG-28
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=530
 ;
 
 -- Jul 23, 2012 8:58:24 AM CDT
@@ -921,16 +366,6 @@ INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Refe
 -- Jul 23, 2012 8:58:24 AM CDT
 -- MFG-28
 INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=63767 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
-;
-
--- Jul 23, 2012 8:58:24 AM CDT
--- MFG-28
-UPDATE AD_Element SET ColumnName='QtyRequired', Description=NULL, EntityType='EE01', Help=NULL, IsActive='Y', Name='Qty Required', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Qty Required',Updated=TO_DATE('2012-07-23 08:58:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=53288
-;
-
--- Jul 23, 2012 8:58:24 AM CDT
--- MFG-28
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=53288
 ;
 
 -- Jul 23, 2012 8:58:24 AM CDT
@@ -955,32 +390,12 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 23, 2012 8:58:25 AM CDT
 -- MFG-28
-UPDATE AD_Element SET ColumnName='QtyAvailable', Description='Available Quantity (On Hand - Reserved)', EntityType='D', Help='Quantity available to promise = On Hand minus Reserved Quantity', IsActive='Y', Name='Available Quantity', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Qty Available',Updated=TO_DATE('2012-07-23 08:58:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=2238
-;
-
--- Jul 23, 2012 8:58:25 AM CDT
--- MFG-28
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=2238
-;
-
--- Jul 23, 2012 8:58:25 AM CDT
--- MFG-28
 INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63770,2238,0,29,53411,'QtyAvailable',TO_DATE('2012-07-23 08:58:25','YYYY-MM-DD HH24:MI:SS'),100,'Available Quantity (On Hand - Reserved)','EE01',22,'Quantity available to promise = On Hand minus Reserved Quantity','Y','N','N','N','N','N','N','N','Y','N','Y','Available Quantity',TO_DATE('2012-07-23 08:58:25','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 23, 2012 8:58:25 AM CDT
 -- MFG-28
 INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=63770 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
-;
-
--- Jul 23, 2012 8:58:25 AM CDT
--- MFG-28
-UPDATE AD_Element SET ColumnName='M_Warehouse_ID', Description='Storage Warehouse and Service Point', EntityType='D', Help='The Warehouse identifies a unique Warehouse where products are stored or Services are provided.', IsActive='Y', Name='Warehouse', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Warehouse',Updated=TO_DATE('2012-07-23 08:58:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=459
-;
-
--- Jul 23, 2012 8:58:25 AM CDT
--- MFG-28
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=459
 ;
 
 -- Jul 23, 2012 8:58:26 AM CDT
@@ -991,16 +406,6 @@ INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Refe
 -- Jul 23, 2012 8:58:26 AM CDT
 -- MFG-28
 INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=63771 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
-;
-
--- Jul 23, 2012 8:58:26 AM CDT
--- MFG-28
-UPDATE AD_Element SET ColumnName='M_Locator_ID', Description='Warehouse Locator', EntityType='D', Help='The Locator indicates where in a Warehouse a product is located.', IsActive='Y', Name='Locator', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Locator',Updated=TO_DATE('2012-07-23 08:58:26','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=448
-;
-
--- Jul 23, 2012 8:58:26 AM CDT
--- MFG-28
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=448
 ;
 
 -- Jul 23, 2012 8:58:27 AM CDT
@@ -1015,32 +420,12 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 23, 2012 8:58:27 AM CDT
 -- MFG-28
-UPDATE AD_Element SET ColumnName='X', Description='X dimension, e.g., Aisle', EntityType='D', Help='The X dimension indicates the Aisle a product is located in.', IsActive='Y', Name='Aisle (X)', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='X',Updated=TO_DATE('2012-07-23 08:58:27','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=633
-;
-
--- Jul 23, 2012 8:58:27 AM CDT
--- MFG-28
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=633
-;
-
--- Jul 23, 2012 8:58:27 AM CDT
--- MFG-28
 INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63773,633,0,10,53411,'X',TO_DATE('2012-07-23 08:58:27','YYYY-MM-DD HH24:MI:SS'),100,'X dimension, e.g., Aisle','EE01',60,'The X dimension indicates the Aisle a product is located in.','Y','N','N','N','N','N','N','N','Y','N','Y','Aisle (X)',TO_DATE('2012-07-23 08:58:27','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 23, 2012 8:58:27 AM CDT
 -- MFG-28
 INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=63773 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
-;
-
--- Jul 23, 2012 8:58:27 AM CDT
--- MFG-28
-UPDATE AD_Element SET ColumnName='Y', Description='Y dimension, e.g., Bin', EntityType='D', Help='The Y dimension indicates the Bin a product is located in', IsActive='Y', Name='Bin (Y)', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Y',Updated=TO_DATE('2012-07-23 08:58:27','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=635
-;
-
--- Jul 23, 2012 8:58:27 AM CDT
--- MFG-28
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=635
 ;
 
 -- Jul 23, 2012 8:58:28 AM CDT
@@ -1055,32 +440,12 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 23, 2012 8:58:28 AM CDT
 -- MFG-28
-UPDATE AD_Element SET ColumnName='Z', Description='Z dimension, e.g., Level', EntityType='D', Help='The Z dimension indicates the Level a product is located in.', IsActive='Y', Name='Level (Z)', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Z',Updated=TO_DATE('2012-07-23 08:58:28','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=637
-;
-
--- Jul 23, 2012 8:58:28 AM CDT
--- MFG-28
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=637
-;
-
--- Jul 23, 2012 8:58:28 AM CDT
--- MFG-28
 INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63775,637,0,10,53411,'Z',TO_DATE('2012-07-23 08:58:28','YYYY-MM-DD HH24:MI:SS'),100,'Z dimension, e.g., Level','EE01',60,'The Z dimension indicates the Level a product is located in.','Y','N','N','N','N','N','N','N','Y','N','Y','Level (Z)',TO_DATE('2012-07-23 08:58:28','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 23, 2012 8:58:28 AM CDT
 -- MFG-28
 INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=63775 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
-;
-
--- Jul 23, 2012 8:58:28 AM CDT
--- MFG-28
-UPDATE AD_Element SET ColumnName='BackflushGroup', Description='The Grouping Components to the Backflush', EntityType='EE01', Help='When the components are deliver is possible to indicated The Backflush Group this way you only can deliver the components that are for this Backflush Group.', IsActive='Y', Name='Backflush Group', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Backflush Group',Updated=TO_DATE('2012-07-23 08:58:28','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=53248
-;
-
--- Jul 23, 2012 8:58:28 AM CDT
--- MFG-28
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=53248
 ;
 
 -- Jul 23, 2012 8:58:29 AM CDT
@@ -1091,16 +456,6 @@ INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Refe
 -- Jul 23, 2012 8:58:29 AM CDT
 -- MFG-28
 INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=63776 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
-;
-
--- Jul 23, 2012 8:58:29 AM CDT
--- MFG-28
-UPDATE AD_Element SET ColumnName='LeadTimeOffset', Description='Optional Lead Time offset before starting production', EntityType='D', Help='Optional Lead Time offset before starting production', IsActive='Y', Name='Lead Time Offset', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Lead Time Offset',Updated=TO_DATE('2012-07-23 08:58:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=2789
-;
-
--- Jul 23, 2012 8:58:29 AM CDT
--- MFG-28
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=2789
 ;
 
 -- Jul 23, 2012 8:58:29 AM CDT
@@ -1528,16 +883,6 @@ INSERT INTO AD_Process (AD_Client_ID,AD_Org_ID,AD_Process_ID,AccessLevel,Classna
 INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Process_ID, t.Description,t.Help,t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Process t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Process_ID=53307 AND NOT EXISTS (SELECT * FROM AD_Process_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Process_ID=t.AD_Process_ID)
 ;
 
--- Jul 23, 2012 8:58:48 AM CDT
--- MFG-28
-UPDATE AD_Reference SET Description='Search Field', EntityType='D', Help=NULL, IsActive='Y', Name='Search', ValidationType='D',Updated=TO_DATE('2012-07-23 08:58:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=30
-;
-
--- Jul 23, 2012 8:58:48 AM CDT
--- MFG-28
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=30
-;
-
 -- Jul 23, 2012 8:58:49 AM CDT
 -- MFG-28
 INSERT INTO AD_Process_Para (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Process_ID,AD_Process_Para_ID,AD_Reference_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsCentrallyMaintained,IsMandatory,IsRange,Name,SeqNo,Updated,UpdatedBy) VALUES (0,454,0,53307,53719,30,'M_Product_ID',TO_DATE('2012-07-23 08:58:49','YYYY-MM-DD HH24:MI:SS'),100,'Product, Service, Item','EE01',22,'Identifies an item which is either purchased or sold in this organization.','Y','Y','Y','N','Product',10,TO_DATE('2012-07-23 08:58:49','YYYY-MM-DD HH24:MI:SS'),100)
@@ -1556,16 +901,6 @@ INSERT INTO AD_Process_Para (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Process_ID,
 -- Jul 23, 2012 8:58:49 AM CDT
 -- MFG-28
 INSERT INTO AD_Process_Para_Trl (AD_Language,AD_Process_Para_ID, Description,Help,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Process_Para_ID, t.Description,t.Help,t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Process_Para t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Process_Para_ID=53720 AND NOT EXISTS (SELECT * FROM AD_Process_Para_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Process_Para_ID=t.AD_Process_Para_ID)
-;
-
--- Jul 23, 2012 8:58:49 AM CDT
--- MFG-28
-UPDATE AD_Reference SET Description='Date mm/dd/yyyy', EntityType='D', Help=NULL, IsActive='Y', Name='Date', ValidationType='D',Updated=TO_DATE('2012-07-23 08:58:49','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=15
-;
-
--- Jul 23, 2012 8:58:49 AM CDT
--- MFG-28
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=15
 ;
 
 -- Jul 23, 2012 8:58:50 AM CDT
