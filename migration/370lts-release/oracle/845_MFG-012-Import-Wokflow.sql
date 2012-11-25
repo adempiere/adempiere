@@ -1,3 +1,5 @@
+SET SQLBLANKLINES ON
+SET DEFINE OFF
 -- May 12, 2012 12:39:42 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
 INSERT INTO AD_Window (AD_Client_ID,AD_Org_ID,AD_Window_ID,Created,CreatedBy,Description,EntityType,Help,IsActive,IsBetaFunctionality,IsDefault,IsSOTrx,Name,Processing,Updated,UpdatedBy,WindowType) VALUES (0,0,53175,TO_DATE('2012-05-12 12:39:40','YYYY-MM-DD HH24:MI:SS'),0,'Import Workflow','EE01','The Import Workflow Window is an interim table which is used when importing external data into the system.  Selecting the ''Process'' button will either add or modify the appropriate records.','Y','N','N','Y','Import Workflow','N',TO_DATE('2012-05-12 12:39:40','YYYY-MM-DD HH24:MI:SS'),0,'M')
@@ -33,16 +35,6 @@ INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,
 INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_Description,PO_Help,PO_Name,PO_PrintName,PrintName, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Element_ID, t.Description,t.Help,t.Name,t.PO_Description,t.PO_Help,t.PO_Name,t.PO_PrintName,t.PrintName, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Element t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Element_ID=55484 AND NOT EXISTS (SELECT * FROM AD_Element_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Element_ID=t.AD_Element_ID)
 ;
 
--- May 12, 2012 12:39:43 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference SET Description='10 Digit Identifier', EntityType='D', Help=NULL, IsActive='Y', Name='ID', ValidationType='D',Updated=TO_DATE('2012-05-12 12:39:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Reference_ID=13
-;
-
--- May 12, 2012 12:39:43 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=13
-;
-
 -- May 12, 2012 12:39:44 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
 INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63045,55484,0,13,53380,'I_Workflow_ID',TO_DATE('2012-05-12 12:39:43','YYYY-MM-DD HH24:MI:SS'),0,'EE01',10,'Y','N','N','N','Y','Y','N','N','Y','N','N','I_Workflow_ID',TO_DATE('2012-05-12 12:39:43','YYYY-MM-DD HH24:MI:SS'),0,0)
@@ -55,27 +47,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:39:44 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-CREATE TABLE I_Workflow (I_Workflow_ID DECIMAL(10) NOT NULL, CONSTRAINT I_Workflow_Key PRIMARY KEY (I_Workflow_ID)) ENGINE=InnoDB
-;
-
--- May 12, 2012 12:39:44 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='AD_Client_ID', Description='Client/Tenant for this installation.', EntityType='D', Help='A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.', IsActive='Y', Name='Client', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Client',Updated=TO_DATE('2012-05-12 12:39:44','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=102
-;
-
--- May 12, 2012 12:39:44 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=102
-;
-
--- May 12, 2012 12:39:44 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference SET Description='Direct Table Access', EntityType='D', Help=NULL, IsActive='Y', Name='Table Direct', ValidationType='D',Updated=TO_DATE('2012-05-12 12:39:44','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Reference_ID=19
-;
-
--- May 12, 2012 12:39:44 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=19
+CREATE TABLE I_Workflow (I_Workflow_ID NUMBER(10) NOT NULL, CONSTRAINT I_Workflow_Key PRIMARY KEY (I_Workflow_ID))
 ;
 
 -- May 12, 2012 12:39:45 PM CDT
@@ -90,17 +62,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:39:45 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN AD_Client_ID DECIMAL(10) NOT NULL
-;
-
--- May 12, 2012 12:39:45 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='AD_Org_ID', Description='Organizational entity within client', EntityType='D', Help='An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.', IsActive='Y', Name='Organization', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Organization',Updated=TO_DATE('2012-05-12 12:39:45','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=113
-;
-
--- May 12, 2012 12:39:45 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=113
+ALTER TABLE I_Workflow ADD AD_Client_ID NUMBER(10) NOT NULL
 ;
 
 -- May 12, 2012 12:39:45 PM CDT
@@ -115,27 +77,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:39:45 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN AD_Org_ID DECIMAL(10) NOT NULL
-;
-
--- May 12, 2012 12:39:45 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='Created', Description='Date this record was created', EntityType='D', Help='The Created field indicates the date that this record was created.', IsActive='Y', Name='Created', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Created',Updated=TO_DATE('2012-05-12 12:39:45','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=245
-;
-
--- May 12, 2012 12:39:45 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=245
-;
-
--- May 12, 2012 12:39:45 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference SET Description='Date with time', EntityType='D', Help=NULL, IsActive='Y', Name='Date+Time', ValidationType='D',Updated=TO_DATE('2012-05-12 12:39:45','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Reference_ID=16
-;
-
--- May 12, 2012 12:39:45 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=16
+ALTER TABLE I_Workflow ADD AD_Org_ID NUMBER(10) NOT NULL
 ;
 
 -- May 12, 2012 12:39:46 PM CDT
@@ -150,42 +92,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:39:46 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN Created DATE NOT NULL
-;
-
--- May 12, 2012 12:39:46 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='CreatedBy', Description='User who created this records', EntityType='D', Help='The Created By field indicates the user who created this record.', IsActive='Y', Name='Created By', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Created By',Updated=TO_DATE('2012-05-12 12:39:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=246
-;
-
--- May 12, 2012 12:39:46 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=246
-;
-
--- May 12, 2012 12:39:46 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference SET Description='Table List', EntityType='D', Help=NULL, IsActive='Y', Name='Table', ValidationType='D',Updated=TO_DATE('2012-05-12 12:39:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Reference_ID=18
-;
-
--- May 12, 2012 12:39:46 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=18
-;
-
--- May 12, 2012 12:39:46 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference SET Description='User selection', EntityType='D', Help=NULL, IsActive='Y', Name='AD_User', ValidationType='T',Updated=TO_DATE('2012-05-12 12:39:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Reference_ID=110
-;
-
--- May 12, 2012 12:39:46 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=110
-;
-
--- May 12, 2012 12:39:46 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_Table SET AD_Table_ID = 114, AD_Display = 213, AD_Key = 212, isValueDisplayed = 'N', OrderByClause = 'AD_User.Name', EntityType ='D', WhereClause = '' WHERE AD_Reference_ID = 110
+ALTER TABLE I_Workflow ADD Created DATE NOT NULL
 ;
 
 -- May 12, 2012 12:39:47 PM CDT
@@ -200,30 +107,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:39:47 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN CreatedBy DECIMAL(10) DEFAULT NULL 
-;
-
--- May 12, 2012 12:39:47 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='IsActive', Description='The record is active in the system', EntityType='D', Help='There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
-There are two reasons for de-activating and not deleting records:
-(1) The system requires the record for audit purposes.
-(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.', IsActive='Y', Name='Active', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Active',Updated=TO_DATE('2012-05-12 12:39:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=348
-;
-
--- May 12, 2012 12:39:47 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=348
-;
-
--- May 12, 2012 12:39:47 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference SET Description='CheckBox', EntityType='D', Help=NULL, IsActive='Y', Name='Yes-No', ValidationType='D',Updated=TO_DATE('2012-05-12 12:39:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Reference_ID=20
-;
-
--- May 12, 2012 12:39:47 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=20
+ALTER TABLE I_Workflow ADD CreatedBy NUMBER(10) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:39:47 PM CDT
@@ -241,17 +125,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:39:47 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN IsActive CHAR(1) DEFAULT 'Y' CHECK (IsActive IN ('Y','N')) NOT NULL
-;
-
--- May 12, 2012 12:39:48 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='Updated', Description='Date this record was updated', EntityType='D', Help='The Updated field indicates the date that this record was updated.', IsActive='Y', Name='Updated', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Updated',Updated=TO_DATE('2012-05-12 12:39:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=607
-;
-
--- May 12, 2012 12:39:48 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=607
+ALTER TABLE I_Workflow ADD IsActive CHAR(1) DEFAULT 'Y' CHECK (IsActive IN ('Y','N')) NOT NULL
 ;
 
 -- May 12, 2012 12:39:48 PM CDT
@@ -266,17 +140,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:39:48 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN Updated DATE NOT NULL
-;
-
--- May 12, 2012 12:39:48 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='UpdatedBy', Description='User who updated this records', EntityType='D', Help='The Updated By field indicates the user who updated this record.', IsActive='Y', Name='Updated By', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Updated By',Updated=TO_DATE('2012-05-12 12:39:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=608
-;
-
--- May 12, 2012 12:39:48 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=608
+ALTER TABLE I_Workflow ADD Updated DATE NOT NULL
 ;
 
 -- May 12, 2012 12:39:49 PM CDT
@@ -291,27 +155,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:39:49 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN UpdatedBy DECIMAL(10) NOT NULL
-;
-
--- May 12, 2012 12:39:49 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='I_ErrorMsg', Description='Messages generated from import process', EntityType='D', Help='The Import Error Message displays any error messages generated during the import process.', IsActive='Y', Name='Import Error Message', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Import Error Message',Updated=TO_DATE('2012-05-12 12:39:49','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=912
-;
-
--- May 12, 2012 12:39:49 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=912
-;
-
--- May 12, 2012 12:39:49 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference SET Description='Character String', EntityType='D', Help=NULL, IsActive='Y', Name='String', ValidationType='D',Updated=TO_DATE('2012-05-12 12:39:49','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Reference_ID=10
-;
-
--- May 12, 2012 12:39:49 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=10
+ALTER TABLE I_Workflow ADD UpdatedBy NUMBER(10) NOT NULL
 ;
 
 -- May 12, 2012 12:39:49 PM CDT
@@ -326,17 +170,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:39:49 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN I_ErrorMsg VARCHAR(2000) DEFAULT NULL 
-;
-
--- May 12, 2012 12:39:49 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='I_IsImported', Description='Has this import been processed', EntityType='D', Help='The Imported check box indicates if this import has been processed.', IsActive='Y', Name='Imported', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Imported',Updated=TO_DATE('2012-05-12 12:39:49','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=913
-;
-
--- May 12, 2012 12:39:49 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=913
+ALTER TABLE I_Workflow ADD I_ErrorMsg NVARCHAR2(2000) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:39:50 PM CDT
@@ -351,17 +185,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:39:50 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN I_IsImported CHAR(1) DEFAULT 'N' CHECK (I_IsImported IN ('Y','N')) NOT NULL
-;
-
--- May 12, 2012 12:39:50 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='Processed', Description='The document has been processed', EntityType='D', Help='The Processed checkbox indicates that a document has been processed.', IsActive='Y', Name='Processed', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Processed',Updated=TO_DATE('2012-05-12 12:39:50','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=1047
-;
-
--- May 12, 2012 12:39:50 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=1047
+ALTER TABLE I_Workflow ADD I_IsImported CHAR(1) DEFAULT 'N' CHECK (I_IsImported IN ('Y','N')) NOT NULL
 ;
 
 -- May 12, 2012 12:39:52 PM CDT
@@ -376,27 +200,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:39:52 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN Processed CHAR(1) DEFAULT 'N' CHECK (Processed IN ('Y','N'))
-;
-
--- May 12, 2012 12:39:52 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='Processing', Description=NULL, EntityType='D', Help=NULL, IsActive='Y', Name='Process Now', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Process Now',Updated=TO_DATE('2012-05-12 12:39:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=524
-;
-
--- May 12, 2012 12:39:52 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=524
-;
-
--- May 12, 2012 12:39:52 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference SET Description='Command Button - starts a process', EntityType='D', Help=NULL, IsActive='Y', Name='Button', ValidationType='D',Updated=TO_DATE('2012-05-12 12:39:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Reference_ID=28
-;
-
--- May 12, 2012 12:39:52 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=28
+ALTER TABLE I_Workflow ADD Processed CHAR(1) DEFAULT 'N' CHECK (Processed IN ('Y','N'))
 ;
 
 -- May 12, 2012 12:39:52 PM CDT
@@ -441,17 +245,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:39:54 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN Processing CHAR(1) DEFAULT 'N' 
-;
-
--- May 12, 2012 12:39:54 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='OrgValue', Description='Key of the Organization', EntityType='D', Help=NULL, IsActive='Y', Name='Org Key', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Org Key',Updated=TO_DATE('2012-05-12 12:39:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=2115
-;
-
--- May 12, 2012 12:39:54 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=2115
+ALTER TABLE I_Workflow ADD Processing CHAR(1) DEFAULT 'N'
 ;
 
 -- May 12, 2012 12:39:54 PM CDT
@@ -466,18 +260,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:39:54 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN OrgValue VARCHAR(40) DEFAULT NULL 
-;
-
--- May 12, 2012 12:39:55 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='Value', Description='Search key for the record in the format required - must be unique', EntityType='D', Help='A search key allows you a fast method of finding a particular record.
-If you leave the search key empty, the system automatically creates a numeric number.  The document sequence used for this fallback number is defined in the "Maintain Sequence" window with the name "DocumentNo_<TableName>", where TableName is the actual name of the table (e.g. C_Order).', IsActive='Y', Name='Search Key', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Search Key',Updated=TO_DATE('2012-05-12 12:39:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=620
-;
-
--- May 12, 2012 12:39:55 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=620
+ALTER TABLE I_Workflow ADD OrgValue NVARCHAR2(40) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:39:55 PM CDT
@@ -493,17 +276,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:39:55 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN Value VARCHAR(40) DEFAULT NULL 
-;
-
--- May 12, 2012 12:39:55 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='Name', Description='Alphanumeric identifier of the entity', EntityType='D', Help='The name of an entity (record) is used as an default search option in addition to the search key. The name is up to 60 characters in length.', IsActive='Y', Name='Name', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Name',Updated=TO_DATE('2012-05-12 12:39:55','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=469
-;
-
--- May 12, 2012 12:39:55 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=469
+ALTER TABLE I_Workflow ADD Value NVARCHAR2(40) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:39:56 PM CDT
@@ -518,17 +291,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:39:56 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN Name VARCHAR(60) DEFAULT NULL 
-;
-
--- May 12, 2012 12:39:56 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='Description', Description='Optional short description of the record', EntityType='D', Help='A description is limited to 255 characters.', IsActive='Y', Name='Description', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Description',Updated=TO_DATE('2012-05-12 12:39:56','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=275
-;
-
--- May 12, 2012 12:39:56 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=275
+ALTER TABLE I_Workflow ADD Name NVARCHAR2(60) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:39:56 PM CDT
@@ -543,17 +306,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:39:56 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN Description VARCHAR(255) DEFAULT NULL 
-;
-
--- May 12, 2012 12:39:56 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='IsBetaFunctionality', Description='This functionality is considered Beta', EntityType='D', Help='Beta functionality is not fully tested or completed.', IsActive='Y', Name='Beta Functionality', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Beta Functionality',Updated=TO_DATE('2012-05-12 12:39:56','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=2554
-;
-
--- May 12, 2012 12:39:56 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=2554
+ALTER TABLE I_Workflow ADD Description NVARCHAR2(255) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:39:57 PM CDT
@@ -568,77 +321,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:39:57 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN IsBetaFunctionality CHAR(1) DEFAULT NULL CHECK (IsBetaFunctionality IN ('Y','N'))
-;
-
--- May 12, 2012 12:39:57 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='WorkflowType', Description='Type of Workflow', EntityType='D', Help='The type of workflow determines how the workflow is started.', IsActive='Y', Name='Workflow Type', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Workflow Type',Updated=TO_DATE('2012-05-12 12:39:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=2626
-;
-
--- May 12, 2012 12:39:57 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=2626
-;
-
--- May 12, 2012 12:39:57 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference SET Description='Reference List', EntityType='D', Help=NULL, IsActive='Y', Name='List', ValidationType='D',Updated=TO_DATE('2012-05-12 12:39:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Reference_ID=17
-;
-
--- May 12, 2012 12:39:57 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=17
-;
-
--- May 12, 2012 12:39:57 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference SET Description='Workflow Type', EntityType='D', Help=NULL, IsActive='Y', Name='AD_Workflow Type', ValidationType='L',Updated=TO_DATE('2012-05-12 12:39:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Reference_ID=328
-;
-
--- May 12, 2012 12:39:57 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=328
-;
-
--- May 12, 2012 12:39:57 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=328, Description=NULL, EntityType='D', IsActive='Y', Name='Manufacturing', Value='M',Updated=TO_DATE('2012-05-12 12:39:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=53249
-;
-
--- May 12, 2012 12:39:57 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=53249
-;
-
--- May 12, 2012 12:39:57 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=328, Description=NULL, EntityType='D', IsActive='Y', Name='Document Process', Value='P',Updated=TO_DATE('2012-05-12 12:39:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=689
-;
-
--- May 12, 2012 12:39:57 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=689
-;
-
--- May 12, 2012 12:39:57 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=328, Description=NULL, EntityType='D', IsActive='Y', Name='Quality', Value='Q',Updated=TO_DATE('2012-05-12 12:39:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=53250
-;
-
--- May 12, 2012 12:39:57 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=53250
-;
-
--- May 12, 2012 12:39:57 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=328, Description=NULL, EntityType='D', IsActive='Y', Name='Document Value', Value='V',Updated=TO_DATE('2012-05-12 12:39:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=690
-;
-
--- May 12, 2012 12:39:57 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=690
+ALTER TABLE I_Workflow ADD IsBetaFunctionality CHAR(1) DEFAULT NULL  CHECK (IsBetaFunctionality IN ('Y','N'))
 ;
 
 -- May 12, 2012 12:39:58 PM CDT
@@ -653,87 +336,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:39:58 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN WorkflowType CHAR(1) DEFAULT NULL 
-;
-
--- May 12, 2012 12:39:58 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='AccessLevel', Description='Access Level required', EntityType='D', Help='Indicates the access level required for this record or process.', IsActive='Y', Name='Data Access Level', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Data Access Level',Updated=TO_DATE('2012-05-12 12:39:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=145
-;
-
--- May 12, 2012 12:39:58 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=145
-;
-
--- May 12, 2012 12:39:58 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference SET Description='Table Access and Sharing Level list', EntityType='D', Help=NULL, IsActive='Y', Name='AD_Table Access Levels', ValidationType='L',Updated=TO_DATE('2012-05-12 12:39:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Reference_ID=5
-;
-
--- May 12, 2012 12:39:58 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=5
-;
-
--- May 12, 2012 12:39:58 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=5, Description=NULL, EntityType='D', IsActive='Y', Name='Organization', Value='1',Updated=TO_DATE('2012-05-12 12:39:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=51
-;
-
--- May 12, 2012 12:39:58 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=51
-;
-
--- May 12, 2012 12:39:58 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=5, Description=NULL, EntityType='D', IsActive='Y', Name='Client only', Value='2',Updated=TO_DATE('2012-05-12 12:39:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=594
-;
-
--- May 12, 2012 12:39:58 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=594
-;
-
--- May 12, 2012 12:39:59 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=5, Description=NULL, EntityType='D', IsActive='Y', Name='Client+Organization', Value='3',Updated=TO_DATE('2012-05-12 12:39:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=53
-;
-
--- May 12, 2012 12:39:59 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=53
-;
-
--- May 12, 2012 12:39:59 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=5, Description=NULL, EntityType='D', IsActive='Y', Name='System only', Value='4',Updated=TO_DATE('2012-05-12 12:39:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=54
-;
-
--- May 12, 2012 12:39:59 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=54
-;
-
--- May 12, 2012 12:39:59 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=5, Description=NULL, EntityType='D', IsActive='Y', Name='System+Client', Value='6',Updated=TO_DATE('2012-05-12 12:39:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=194
-;
-
--- May 12, 2012 12:39:59 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=194
-;
-
--- May 12, 2012 12:39:59 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=5, Description=NULL, EntityType='D', IsActive='Y', Name='All', Value='7',Updated=TO_DATE('2012-05-12 12:39:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=57
-;
-
--- May 12, 2012 12:39:59 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=57
+ALTER TABLE I_Workflow ADD WorkflowType CHAR(1) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:00 PM CDT
@@ -748,17 +351,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:00 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN AccessLevel CHAR(1) DEFAULT '1' 
-;
-
--- May 12, 2012 12:40:00 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='AD_WF_Responsible_ID', Description='Responsible for Workflow Execution', EntityType='D', Help='The ultimate responsibility for a workflow is with an actual user. The Workflow Responsible allows to define ways to find that actual User.', IsActive='Y', Name='Workflow Responsible', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Wf Responsible',Updated=TO_DATE('2012-05-12 12:40:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=2314
-;
-
--- May 12, 2012 12:40:00 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=2314
+ALTER TABLE I_Workflow ADD AccessLevel CHAR(1) DEFAULT '1'
 ;
 
 -- May 12, 2012 12:40:01 PM CDT
@@ -773,27 +366,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:01 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN AD_WF_Responsible_ID DECIMAL(10) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:01 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='Priority', Description='Indicates if this request is of a high, medium or low priority.', EntityType='D', Help='The Priority indicates the importance of this request.', IsActive='Y', Name='Priority', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Priority',Updated=TO_DATE('2012-05-12 12:40:01','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=1514
-;
-
--- May 12, 2012 12:40:01 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=1514
-;
-
--- May 12, 2012 12:40:01 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference SET Description='10 Digit numeric', EntityType='D', Help=NULL, IsActive='Y', Name='Integer', ValidationType='D',Updated=TO_DATE('2012-05-12 12:40:01','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Reference_ID=11
-;
-
--- May 12, 2012 12:40:01 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=11
+ALTER TABLE I_Workflow ADD AD_WF_Responsible_ID NUMBER(10) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:01 PM CDT
@@ -808,27 +381,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:02 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN Priority DECIMAL(10) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:02 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='ValidFrom', Description='Valid from including this date (first day)', EntityType='D', Help='The Valid From date indicates the first day of a date range', IsActive='Y', Name='Valid from', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Valid from',Updated=TO_DATE('2012-05-12 12:40:02','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=617
-;
-
--- May 12, 2012 12:40:02 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=617
-;
-
--- May 12, 2012 12:40:02 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference SET Description='Date mm/dd/yyyy', EntityType='D', Help=NULL, IsActive='Y', Name='Date', ValidationType='D',Updated=TO_DATE('2012-05-12 12:40:02','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Reference_ID=15
-;
-
--- May 12, 2012 12:40:02 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=15
+ALTER TABLE I_Workflow ADD Priority NUMBER(10) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:02 PM CDT
@@ -843,17 +396,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:02 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN ValidFrom DATE DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:03 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='ValidTo', Description='Valid to including this date (last day)', EntityType='D', Help='The Valid To date indicates the last day of a date range', IsActive='Y', Name='Valid to', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Valid to',Updated=TO_DATE('2012-05-12 12:40:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=618
-;
-
--- May 12, 2012 12:40:03 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=618
+ALTER TABLE I_Workflow ADD ValidFrom DATE DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:03 PM CDT
@@ -868,67 +411,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:03 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN ValidTo DATE DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:03 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='PublishStatus', Description='Status of Publication', EntityType='D', Help='Used for internal documentation', IsActive='Y', Name='Publication Status', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Publication Status',Updated=TO_DATE('2012-05-12 12:40:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=2338
-;
-
--- May 12, 2012 12:40:03 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=2338
-;
-
--- May 12, 2012 12:40:03 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference SET Description='Publication Status', EntityType='D', Help=NULL, IsActive='Y', Name='_PublishStatus', ValidationType='L',Updated=TO_DATE('2012-05-12 12:40:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Reference_ID=310
-;
-
--- May 12, 2012 12:40:03 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=310
-;
-
--- May 12, 2012 12:40:03 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=310, Description=NULL, EntityType='D', IsActive='Y', Name='Released', Value='R',Updated=TO_DATE('2012-05-12 12:40:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=644
-;
-
--- May 12, 2012 12:40:03 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=644
-;
-
--- May 12, 2012 12:40:03 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=310, Description=NULL, EntityType='D', IsActive='Y', Name='Test', Value='T',Updated=TO_DATE('2012-05-12 12:40:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=645
-;
-
--- May 12, 2012 12:40:03 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=645
-;
-
--- May 12, 2012 12:40:03 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=310, Description=NULL, EntityType='D', IsActive='Y', Name='Under Revision', Value='U',Updated=TO_DATE('2012-05-12 12:40:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=646
-;
-
--- May 12, 2012 12:40:03 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=646
-;
-
--- May 12, 2012 12:40:03 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=310, Description=NULL, EntityType='D', IsActive='Y', Name='Void', Value='V',Updated=TO_DATE('2012-05-12 12:40:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=647
-;
-
--- May 12, 2012 12:40:03 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=647
+ALTER TABLE I_Workflow ADD ValidTo DATE DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:04 PM CDT
@@ -943,17 +426,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:04 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN PublishStatus CHAR(1) DEFAULT 'U' 
-;
-
--- May 12, 2012 12:40:04 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='Version', Description='Version of the table definition', EntityType='D', Help='The Version indicates the version of this table definition.', IsActive='Y', Name='Version', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Version',Updated=TO_DATE('2012-05-12 12:40:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=624
-;
-
--- May 12, 2012 12:40:04 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=624
+ALTER TABLE I_Workflow ADD PublishStatus CHAR(1) DEFAULT 'U'
 ;
 
 -- May 12, 2012 12:40:05 PM CDT
@@ -968,17 +441,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:05 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN Version DECIMAL(10) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:05 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='Author', Description='Author/Creator of the Entity', EntityType='D', Help=NULL, IsActive='Y', Name='Author', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Author',Updated=TO_DATE('2012-05-12 12:40:05','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=2318
-;
-
--- May 12, 2012 12:40:05 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=2318
+ALTER TABLE I_Workflow ADD Version NUMBER(10) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:05 PM CDT
@@ -993,17 +456,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:05 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN Author VARCHAR(22) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:05 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='IsDefault', Description='Default value', EntityType='D', Help='The Default Checkbox indicates if this record will be used as a default value.', IsActive='Y', Name='Default', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Default',Updated=TO_DATE('2012-05-12 12:40:05','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=1103
-;
-
--- May 12, 2012 12:40:05 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=1103
+ALTER TABLE I_Workflow ADD Author NVARCHAR2(22) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:06 PM CDT
@@ -1018,17 +471,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:06 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN IsDefault CHAR(1) DEFAULT NULL CHECK (IsDefault IN ('Y','N'))
-;
-
--- May 12, 2012 12:40:06 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='AD_WF_Node_ID', Description='Workflow Node (activity), step or process', EntityType='D', Help='The Workflow Node indicates a unique step or process in a Workflow.', IsActive='Y', Name='Node', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Node',Updated=TO_DATE('2012-05-12 12:40:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=142
-;
-
--- May 12, 2012 12:40:06 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=142
+ALTER TABLE I_Workflow ADD IsDefault CHAR(1) DEFAULT NULL  CHECK (IsDefault IN ('Y','N'))
 ;
 
 -- May 12, 2012 12:40:07 PM CDT
@@ -1043,17 +486,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:07 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN AD_WF_Node_ID DECIMAL(10) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:07 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='AD_WorkflowProcessor_ID', Description='Workflow Processor Server', EntityType='D', Help='Workflow Processor Server', IsActive='Y', Name='Workflow Processor', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Workflow Processor',Updated=TO_DATE('2012-05-12 12:40:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=2358
-;
-
--- May 12, 2012 12:40:07 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=2358
+ALTER TABLE I_Workflow ADD AD_WF_Node_ID NUMBER(10) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:09 PM CDT
@@ -1068,87 +501,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:09 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN AD_WorkflowProcessor_ID DECIMAL(10) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:09 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='DurationUnit', Description='Unit of Duration', EntityType='D', Help='Unit to define the length of time for the execution', IsActive='Y', Name='Duration Unit', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Duration Unit',Updated=TO_DATE('2012-05-12 12:40:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=2321
-;
-
--- May 12, 2012 12:40:09 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=2321
-;
-
--- May 12, 2012 12:40:09 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference SET Description=NULL, EntityType='D', Help=NULL, IsActive='Y', Name='WF_DurationUnit', ValidationType='L',Updated=TO_DATE('2012-05-12 12:40:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Reference_ID=299
-;
-
--- May 12, 2012 12:40:09 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=299
-;
-
--- May 12, 2012 12:40:09 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=299, Description=NULL, EntityType='D', IsActive='Y', Name='Day', Value='D',Updated=TO_DATE('2012-05-12 12:40:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=600
-;
-
--- May 12, 2012 12:40:09 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=600
-;
-
--- May 12, 2012 12:40:09 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=299, Description=NULL, EntityType='D', IsActive='Y', Name='Month', Value='M',Updated=TO_DATE('2012-05-12 12:40:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=599
-;
-
--- May 12, 2012 12:40:09 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=599
-;
-
--- May 12, 2012 12:40:09 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=299, Description=NULL, EntityType='D', IsActive='Y', Name='Year', Value='Y',Updated=TO_DATE('2012-05-12 12:40:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=598
-;
-
--- May 12, 2012 12:40:09 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=598
-;
-
--- May 12, 2012 12:40:09 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=299, Description=NULL, EntityType='D', IsActive='Y', Name='hour', Value='h',Updated=TO_DATE('2012-05-12 12:40:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=601
-;
-
--- May 12, 2012 12:40:09 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=601
-;
-
--- May 12, 2012 12:40:09 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=299, Description=NULL, EntityType='D', IsActive='Y', Name='minute', Value='m',Updated=TO_DATE('2012-05-12 12:40:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=602
-;
-
--- May 12, 2012 12:40:09 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=602
-;
-
--- May 12, 2012 12:40:09 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=299, Description=NULL, EntityType='D', IsActive='Y', Name='second', Value='s',Updated=TO_DATE('2012-05-12 12:40:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=603
-;
-
--- May 12, 2012 12:40:09 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=603
+ALTER TABLE I_Workflow ADD AD_WorkflowProcessor_ID NUMBER(10) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:10 PM CDT
@@ -1163,17 +516,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:10 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN DurationUnit CHAR(1) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:10 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='Limit', Description='Maximum Duration in Duration Unit', EntityType='D', Help='Maximum (critical) Duration for time management purposes (e.g. starting an escalation procedure, etc.) in Duration Units.', IsActive='Y', Name='Duration Limit', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Limit',Updated=TO_DATE('2012-05-12 12:40:10','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=2323
-;
-
--- May 12, 2012 12:40:10 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=2323
+ALTER TABLE I_Workflow ADD DurationUnit CHAR(1) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:10 PM CDT
@@ -1188,17 +531,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:10 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN `limit` DECIMAL(10) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:10 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='Duration', Description='Normal Duration in Duration Unit', EntityType='D', Help='Expected (normal) Length of time for the execution', IsActive='Y', Name='Duration', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Duration',Updated=TO_DATE('2012-05-12 12:40:10','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=2320
-;
-
--- May 12, 2012 12:40:10 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=2320
+ALTER TABLE I_Workflow ADD Limit NUMBER(10) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:11 PM CDT
@@ -1213,27 +546,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:11 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN Duration DECIMAL(10) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:11 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='Cost', Description='Cost information', EntityType='D', Help=NULL, IsActive='Y', Name='Cost', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Cost',Updated=TO_DATE('2012-05-12 12:40:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=2319
-;
-
--- May 12, 2012 12:40:11 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=2319
-;
-
--- May 12, 2012 12:40:11 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference SET Description='Costs + Prices (minimum currency precision but if exists more)', EntityType='D', Help=NULL, IsActive='Y', Name='Costs+Prices', ValidationType='D',Updated=TO_DATE('2012-05-12 12:40:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Reference_ID=37
-;
-
--- May 12, 2012 12:40:11 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=37
+ALTER TABLE I_Workflow ADD Duration NUMBER(10) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:12 PM CDT
@@ -1248,17 +561,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:12 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN Cost DECIMAL(22, 10) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:12 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='WorkingTime', Description='Workflow Simulation Execution Time', EntityType='D', Help='Amount of time the performer of the activity needs to perform the task in Duration Unit', IsActive='Y', Name='Working Time', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Working Time',Updated=TO_DATE('2012-05-12 12:40:12','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=2333
-;
-
--- May 12, 2012 12:40:12 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=2333
+ALTER TABLE I_Workflow ADD Cost NUMBER DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:13 PM CDT
@@ -1273,17 +576,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:13 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN WorkingTime DECIMAL(10) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:13 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='WaitingTime', Description='Workflow Simulation Waiting time', EntityType='D', Help='Amount of time needed to prepare the performance of the task on Duration Units', IsActive='Y', Name='Waiting Time', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Waiting Time',Updated=TO_DATE('2012-05-12 12:40:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=2331
-;
-
--- May 12, 2012 12:40:13 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=2331
+ALTER TABLE I_Workflow ADD WorkingTime NUMBER(10) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:13 PM CDT
@@ -1298,17 +591,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:13 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN WaitingTime DECIMAL(10) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:13 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='AD_Table_ID', Description='Database Table information', EntityType='D', Help='The Database Table provides the information of the table definition', IsActive='Y', Name='Table', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Table',Updated=TO_DATE('2012-05-12 12:40:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=126
-;
-
--- May 12, 2012 12:40:13 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=126
+ALTER TABLE I_Workflow ADD WaitingTime NUMBER(10) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:14 PM CDT
@@ -1323,18 +606,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:14 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN AD_Table_ID DECIMAL(10) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:14 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='DocValueLogic', Description='Logic to determine Workflow Start - If true, a workflow process is started for the document', EntityType='D', Help='You can enter simple logic using variables like @Created@=@Updated@, which fires, when a record is created. If you need to evaluate also values of other records, you need to use SQL logic and need to prefix this logic with "SQL=". Example: start a Order verify workflow, when a business partner ordered something and is over the credit limit  "SQL=EXISTS (SELECT * FROM C_BPartner bp WHERE C_Order. C_BPartner_ID=bp. C_BPartner_ID AND SO_CreditUsed > SO_CreditLimit)".
-Note that the SQL based logic checks for duplicate workflows (i.e. a workflow is started only once per record).', IsActive='Y', Name='Document Value Logic', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Doc Value Logic',Updated=TO_DATE('2012-05-12 12:40:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=2624
-;
-
--- May 12, 2012 12:40:14 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=2624
+ALTER TABLE I_Workflow ADD AD_Table_ID NUMBER(10) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:14 PM CDT
@@ -1350,34 +622,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:14 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN DocValueLogic VARCHAR(2000) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:14 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='EntityType', Description='Dictionary Entity Type; Determines ownership and synchronization', EntityType='D', Help='The Entity Types "Dictionary", "Adempiere" and "Application" might be automatically synchronized and customizations deleted or overwritten.  
-
-For customizations, copy the entity and select "User"!', IsActive='Y', Name='Entity Type', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Entity Type',Updated=TO_DATE('2012-05-12 12:40:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=1682
-;
-
--- May 12, 2012 12:40:14 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=1682
-;
-
--- May 12, 2012 12:40:14 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference SET Description=NULL, EntityType='D', Help=NULL, IsActive='Y', Name='_EntityTypeNew', ValidationType='T',Updated=TO_DATE('2012-05-12 12:40:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Reference_ID=389
-;
-
--- May 12, 2012 12:40:14 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=389
-;
-
--- May 12, 2012 12:40:14 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_Table SET AD_Table_ID = 882, AD_Display = 15601, AD_Key = 15592, isValueDisplayed = 'N', OrderByClause = '', EntityType ='D', WhereClause = '' WHERE AD_Reference_ID = 389
+ALTER TABLE I_Workflow ADD DocValueLogic NVARCHAR2(2000) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:15 PM CDT
@@ -1394,7 +639,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:15 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN EntityType VARCHAR(40) DEFAULT NULL 
+ALTER TABLE I_Workflow ADD EntityType VARCHAR2(40) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:16 PM CDT
@@ -1419,7 +664,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:16 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN ResponsibleName VARCHAR(60) DEFAULT NULL 
+ALTER TABLE I_Workflow ADD ResponsibleName NVARCHAR2(60) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:16 PM CDT
@@ -1444,7 +689,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:17 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN NodeValue VARCHAR(40) DEFAULT NULL 
+ALTER TABLE I_Workflow ADD NodeValue NVARCHAR2(40) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:18 PM CDT
@@ -1469,17 +714,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:18 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN WFProcessorName VARCHAR(60) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:18 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='TableName', Description='Name of the table in the database', EntityType='D', Help='The DB Table Name indicates the name of the table in database.', IsActive='Y', Name='DB Table Name', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='DB Table Name',Updated=TO_DATE('2012-05-12 12:40:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=587
-;
-
--- May 12, 2012 12:40:18 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=587
+ALTER TABLE I_Workflow ADD WFProcessorName NVARCHAR2(60) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:19 PM CDT
@@ -1494,7 +729,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:19 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN TableName VARCHAR(60) DEFAULT NULL 
+ALTER TABLE I_Workflow ADD TableName NVARCHAR2(60) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:19 PM CDT
@@ -1519,17 +754,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:19 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN NodeName VARCHAR(60) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:20 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='IsCentrallyMaintained', Description='Information maintained in System Element table', EntityType='D', Help='The Centrally Maintained checkbox indicates if the Name, Description and Help maintained in ''System Element'' table  or ''Window'' table.', IsActive='Y', Name='Centrally maintained', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Centrally maintained',Updated=TO_DATE('2012-05-12 12:40:20','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=362
-;
-
--- May 12, 2012 12:40:20 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=362
+ALTER TABLE I_Workflow ADD NodeName NVARCHAR2(60) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:20 PM CDT
@@ -1544,47 +769,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:20 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN IsCentrallyMaintained CHAR(1) DEFAULT NULL CHECK (IsCentrallyMaintained IN ('Y','N'))
-;
-
--- May 12, 2012 12:40:20 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='StartMode', Description='Workflow Activity Start Mode ', EntityType='D', Help='How is the execution of an activity triggered. Automatic are triggered implicitly by the system, Manual explicitly by the User.', IsActive='Y', Name='Start Mode', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Start Mode',Updated=TO_DATE('2012-05-12 12:40:20','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=2327
-;
-
--- May 12, 2012 12:40:20 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=2327
-;
-
--- May 12, 2012 12:40:20 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference SET Description=NULL, EntityType='D', Help=NULL, IsActive='Y', Name='WF_Start-Finish Mode', ValidationType='L',Updated=TO_DATE('2012-05-12 12:40:20','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Reference_ID=303
-;
-
--- May 12, 2012 12:40:20 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=303
-;
-
--- May 12, 2012 12:40:20 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=303, Description=NULL, EntityType='D', IsActive='Y', Name='Automatic', Value='A',Updated=TO_DATE('2012-05-12 12:40:20','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=613
-;
-
--- May 12, 2012 12:40:20 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=613
-;
-
--- May 12, 2012 12:40:20 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=303, Description=NULL, EntityType='D', IsActive='Y', Name='Manual', Value='M',Updated=TO_DATE('2012-05-12 12:40:20','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=614
-;
-
--- May 12, 2012 12:40:20 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=614
+ALTER TABLE I_Workflow ADD IsCentrallyMaintained CHAR(1) DEFAULT NULL  CHECK (IsCentrallyMaintained IN ('Y','N'))
 ;
 
 -- May 12, 2012 12:40:21 PM CDT
@@ -1599,17 +784,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:21 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN StartMode CHAR(1) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:21 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='FinishMode', Description='Workflow Activity Finish Mode', EntityType='D', Help='How the system operated at the end of an activity. Automatic  implies return when the invoked applications finished control - Manual the user has to explicitly terminate the activity.', IsActive='Y', Name='Finish Mode', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Finish Mode',Updated=TO_DATE('2012-05-12 12:40:21','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=2322
-;
-
--- May 12, 2012 12:40:21 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=2322
+ALTER TABLE I_Workflow ADD StartMode CHAR(1) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:21 PM CDT
@@ -1624,47 +799,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:22 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN FinishMode CHAR(1) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:22 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='JoinElement', Description='Semantics for multiple incoming Transitions', EntityType='D', Help='Semantics for multiple incoming Transitions for a Node/Activity. AND joins all concurrent threads - XOR requires one thread (no synchronization).', IsActive='Y', Name='Join Element', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Join Element',Updated=TO_DATE('2012-05-12 12:40:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=2336
-;
-
--- May 12, 2012 12:40:22 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=2336
-;
-
--- May 12, 2012 12:40:22 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference SET Description=NULL, EntityType='D', Help=NULL, IsActive='Y', Name='WF_Join_Split', ValidationType='L',Updated=TO_DATE('2012-05-12 12:40:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Reference_ID=301
-;
-
--- May 12, 2012 12:40:22 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=301
-;
-
--- May 12, 2012 12:40:22 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=301, Description=NULL, EntityType='D', IsActive='Y', Name='AND', Value='A',Updated=TO_DATE('2012-05-12 12:40:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=607
-;
-
--- May 12, 2012 12:40:22 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=607
-;
-
--- May 12, 2012 12:40:22 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=301, Description=NULL, EntityType='D', IsActive='Y', Name='XOR', Value='X',Updated=TO_DATE('2012-05-12 12:40:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=608
-;
-
--- May 12, 2012 12:40:22 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=608
+ALTER TABLE I_Workflow ADD FinishMode CHAR(1) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:22 PM CDT
@@ -1679,17 +814,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:22 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN JoinElement CHAR(1) DEFAULT 'X' 
-;
-
--- May 12, 2012 12:40:22 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='SplitElement', Description='Semantics for multiple outgoing Transitions', EntityType='D', Help='Semantics for multiple outgoing Transitions for a Node/Activity.  AND represents multiple concurrent threads - XOR represents the first transition with a true Transition condition.', IsActive='Y', Name='Split Element', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Split Element',Updated=TO_DATE('2012-05-12 12:40:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=2337
-;
-
--- May 12, 2012 12:40:22 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=2337
+ALTER TABLE I_Workflow ADD JoinElement CHAR(1) DEFAULT 'X'
 ;
 
 -- May 12, 2012 12:40:23 PM CDT
@@ -1704,147 +829,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:23 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN SplitElement CHAR(1) DEFAULT 'X' 
-;
-
--- May 12, 2012 12:40:23 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='Action', Description='Indicates the Action to be performed', EntityType='D', Help='The Action field is a drop down list box which indicates the Action to be performed for this Item.', IsActive='Y', Name='Action', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Action',Updated=TO_DATE('2012-05-12 12:40:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=152
-;
-
--- May 12, 2012 12:40:23 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=152
-;
-
--- May 12, 2012 12:40:23 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference SET Description='Superset of Menu Action', EntityType='D', Help=NULL, IsActive='Y', Name='WF_Action', ValidationType='L',Updated=TO_DATE('2012-05-12 12:40:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Reference_ID=302
-;
-
--- May 12, 2012 12:40:23 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=302
-;
-
--- May 12, 2012 12:40:23 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=302, Description=NULL, EntityType='D', IsActive='N', Name='User Workbench', Value='B',Updated=TO_DATE('2012-05-12 12:40:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=53248
-;
-
--- May 12, 2012 12:40:23 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=53248
-;
-
--- May 12, 2012 12:40:23 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=302, Description=NULL, EntityType='D', IsActive='Y', Name='User Choice', Value='C',Updated=TO_DATE('2012-05-12 12:40:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=610
-;
-
--- May 12, 2012 12:40:23 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=610
-;
-
--- May 12, 2012 12:40:23 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=302, Description=NULL, EntityType='D', IsActive='Y', Name='Document Action', Value='D',Updated=TO_DATE('2012-05-12 12:40:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=669
-;
-
--- May 12, 2012 12:40:23 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=669
-;
-
--- May 12, 2012 12:40:23 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=302, Description=NULL, EntityType='D', IsActive='Y', Name='Sub Workflow', Value='F',Updated=TO_DATE('2012-05-12 12:40:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=611
-;
-
--- May 12, 2012 12:40:23 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=611
-;
-
--- May 12, 2012 12:40:23 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=302, Description=NULL, EntityType='D', IsActive='Y', Name='EMail', Value='M',Updated=TO_DATE('2012-05-12 12:40:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=798
-;
-
--- May 12, 2012 12:40:23 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=798
-;
-
--- May 12, 2012 12:40:23 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=302, Description=NULL, EntityType='D', IsActive='Y', Name='Apps Process', Value='P',Updated=TO_DATE('2012-05-12 12:40:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=637
-;
-
--- May 12, 2012 12:40:23 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=637
-;
-
--- May 12, 2012 12:40:23 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=302, Description=NULL, EntityType='D', IsActive='Y', Name='Apps Report', Value='R',Updated=TO_DATE('2012-05-12 12:40:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=636
-;
-
--- May 12, 2012 12:40:23 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=636
-;
-
--- May 12, 2012 12:40:24 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=302, Description=NULL, EntityType='D', IsActive='Y', Name='Apps Task', Value='T',Updated=TO_DATE('2012-05-12 12:40:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=634
-;
-
--- May 12, 2012 12:40:24 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=634
-;
-
--- May 12, 2012 12:40:24 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=302, Description=NULL, EntityType='D', IsActive='Y', Name='Set Variable', Value='V',Updated=TO_DATE('2012-05-12 12:40:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=612
-;
-
--- May 12, 2012 12:40:24 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=612
-;
-
--- May 12, 2012 12:40:24 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=302, Description=NULL, EntityType='D', IsActive='Y', Name='User Window', Value='W',Updated=TO_DATE('2012-05-12 12:40:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=615
-;
-
--- May 12, 2012 12:40:24 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=615
-;
-
--- May 12, 2012 12:40:24 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=302, Description=NULL, EntityType='D', IsActive='Y', Name='User Form', Value='X',Updated=TO_DATE('2012-05-12 12:40:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=633
-;
-
--- May 12, 2012 12:40:24 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=633
-;
-
--- May 12, 2012 12:40:24 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=302, Description=NULL, EntityType='D', IsActive='Y', Name='Wait (Sleep)', Value='Z',Updated=TO_DATE('2012-05-12 12:40:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=609
-;
-
--- May 12, 2012 12:40:24 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=609
+ALTER TABLE I_Workflow ADD SplitElement CHAR(1) DEFAULT 'X'
 ;
 
 -- May 12, 2012 12:40:24 PM CDT
@@ -1859,18 +844,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:24 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN Action CHAR(1) DEFAULT 'W' 
-;
-
--- May 12, 2012 12:40:24 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='AD_Image_ID', Description='Image or Icon', EntityType='D', Help='Images and Icon can be used to display supported graphic formats (gif, jpg, png).
-You can either load the image (in the database) or point to a graphic via a URI (i.e. it can point to a resource, http address)', IsActive='Y', Name='Image', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Image',Updated=TO_DATE('2012-05-12 12:40:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=1639
-;
-
--- May 12, 2012 12:40:24 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=1639
+ALTER TABLE I_Workflow ADD Action CHAR(1) DEFAULT 'W'
 ;
 
 -- May 12, 2012 12:40:25 PM CDT
@@ -1886,57 +860,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:25 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN AD_Image_ID DECIMAL(10) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:25 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='DynPriorityUnit', Description='Change of priority when Activity is suspended waiting for user', EntityType='D', Help='Starting with the Process / Node priority level, the priority of the suspended activity can be changed dynamically. Example +5 every 10 minutes', IsActive='Y', Name='Dynamic Priority Unit', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Dyn Priority Unit',Updated=TO_DATE('2012-05-12 12:40:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=2638
-;
-
--- May 12, 2012 12:40:25 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=2638
-;
-
--- May 12, 2012 12:40:25 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference SET Description='Processor Frequency Type', EntityType='D', Help=NULL, IsActive='Y', Name='_Frequency Type', ValidationType='L',Updated=TO_DATE('2012-05-12 12:40:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Reference_ID=221
-;
-
--- May 12, 2012 12:40:25 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=221
-;
-
--- May 12, 2012 12:40:25 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=221, Description=NULL, EntityType='D', IsActive='Y', Name='Day', Value='D',Updated=TO_DATE('2012-05-12 12:40:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=441
-;
-
--- May 12, 2012 12:40:25 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=441
-;
-
--- May 12, 2012 12:40:25 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=221, Description=NULL, EntityType='D', IsActive='Y', Name='Hour', Value='H',Updated=TO_DATE('2012-05-12 12:40:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=440
-;
-
--- May 12, 2012 12:40:25 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=440
-;
-
--- May 12, 2012 12:40:25 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=221, Description=NULL, EntityType='D', IsActive='Y', Name='Minute', Value='M',Updated=TO_DATE('2012-05-12 12:40:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=439
-;
-
--- May 12, 2012 12:40:25 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=439
+ALTER TABLE I_Workflow ADD AD_Image_ID NUMBER(10) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:26 PM CDT
@@ -1951,27 +875,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:26 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN DynPriorityUnit CHAR(1) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:26 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='DynPriorityChange', Description='Change of priority when Activity is suspended waiting for user', EntityType='D', Help='Starting with the Process / Node priority level, the priority of the suspended activity can be changed dynamically. Example +5 every 10 minutes', IsActive='Y', Name='Dynamic Priority Change', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Dyn Priority Change',Updated=TO_DATE('2012-05-12 12:40:26','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=2636
-;
-
--- May 12, 2012 12:40:26 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=2636
-;
-
--- May 12, 2012 12:40:26 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference SET Description='Float Number', EntityType='D', Help=NULL, IsActive='Y', Name='Number', ValidationType='D',Updated=TO_DATE('2012-05-12 12:40:26','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Reference_ID=22
-;
-
--- May 12, 2012 12:40:26 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=22
+ALTER TABLE I_Workflow ADD DynPriorityUnit CHAR(1) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:27 PM CDT
@@ -1986,27 +890,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:27 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN DynPriorityChange DECIMAL(22, 10) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:27 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='DocAction', Description='The targeted status of the document', EntityType='D', Help='You find the current status in the Document Status field. The options are listed in a popup', IsActive='Y', Name='Document Action', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Doc Action',Updated=TO_DATE('2012-05-12 12:40:27','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=287
-;
-
--- May 12, 2012 12:40:27 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=287
-;
-
--- May 12, 2012 12:40:27 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference SET Description='Document action list', EntityType='D', Help=NULL, IsActive='Y', Name='_Document Action', ValidationType='L',Updated=TO_DATE('2012-05-12 12:40:27','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Reference_ID=135
-;
-
--- May 12, 2012 12:40:27 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=135
+ALTER TABLE I_Workflow ADD DynPriorityChange NUMBER DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:28 PM CDT
@@ -2021,17 +905,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:28 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN DocAction VARCHAR(2) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:28 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='AD_Window_ID', Description='Data entry or display window', EntityType='D', Help='The Window field identifies a unique Window in the system.', IsActive='Y', Name='Window', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Window',Updated=TO_DATE('2012-05-12 12:40:28','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=143
-;
-
--- May 12, 2012 12:40:28 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=143
+ALTER TABLE I_Workflow ADD DocAction NVARCHAR2(2) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:28 PM CDT
@@ -2046,17 +920,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:28 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN AD_Window_ID DECIMAL(10) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:29 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='AD_Form_ID', Description='Special Form', EntityType='D', Help='The Special Form field identifies a unique Special Form in the system.', IsActive='Y', Name='Special Form', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Special Form',Updated=TO_DATE('2012-05-12 12:40:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=1298
-;
-
--- May 12, 2012 12:40:29 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=1298
+ALTER TABLE I_Workflow ADD AD_Window_ID NUMBER(10) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:29 PM CDT
@@ -2071,17 +935,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:29 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN AD_Form_ID DECIMAL(10) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:29 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='AD_Column_ID', Description='Column in the table', EntityType='D', Help='Link to the database column of the table', IsActive='Y', Name='Column', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Column',Updated=TO_DATE('2012-05-12 12:40:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=104
-;
-
--- May 12, 2012 12:40:29 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=104
+ALTER TABLE I_Workflow ADD AD_Form_ID NUMBER(10) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:30 PM CDT
@@ -2096,17 +950,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:30 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN AD_Column_ID DECIMAL(10) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:30 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='ColumnName', Description='Name of the column in the database', EntityType='D', Help='The Column Name indicates the name of a column on a table as defined in the database.', IsActive='Y', Name='DB Column Name', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='DB Column Name',Updated=TO_DATE('2012-05-12 12:40:30','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=228
-;
-
--- May 12, 2012 12:40:30 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=228
+ALTER TABLE I_Workflow ADD AD_Column_ID NUMBER(10) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:30 PM CDT
@@ -2121,17 +965,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:30 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN ColumnName VARCHAR(60) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:30 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='AttributeName', Description='Name of the Attribute', EntityType='D', Help='Identifier of the attribute', IsActive='Y', Name='Attribute Name', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Attribute Name',Updated=TO_DATE('2012-05-12 12:40:30','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=2315
-;
-
--- May 12, 2012 12:40:30 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=2315
+ALTER TABLE I_Workflow ADD ColumnName NVARCHAR2(60) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:31 PM CDT
@@ -2146,17 +980,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:31 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN AttributeName VARCHAR(60) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:31 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='AttributeValue', Description='Value of the Attribute', EntityType='D', Help='Adempiere converts the (string) field values to the attribute data type.  Booleans (Yes-No) may have the values "true" and "false", the date format is YYYY-MM-DD', IsActive='Y', Name='Attribute Value', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Attribute Value',Updated=TO_DATE('2012-05-12 12:40:31','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=2317
-;
-
--- May 12, 2012 12:40:31 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=2317
+ALTER TABLE I_Workflow ADD AttributeName NVARCHAR2(60) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:32 PM CDT
@@ -2171,57 +995,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:32 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN AttributeValue VARCHAR(60) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:32 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='EMailRecipient', Description='Recipient of the EMail', EntityType='D', Help=NULL, IsActive='Y', Name='EMail Recipient', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='EMail Recipient',Updated=TO_DATE('2012-05-12 12:40:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=2879
-;
-
--- May 12, 2012 12:40:32 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=2879
-;
-
--- May 12, 2012 12:40:33 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference SET Description=NULL, EntityType='D', Help=NULL, IsActive='Y', Name='AD_WF_Node EMailRecipient', ValidationType='L',Updated=TO_DATE('2012-05-12 12:40:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Reference_ID=363
-;
-
--- May 12, 2012 12:40:33 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=363
-;
-
--- May 12, 2012 12:40:33 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=363, Description=NULL, EntityType='D', IsActive='Y', Name='Document Business Partner', Value='B',Updated=TO_DATE('2012-05-12 12:40:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=800
-;
-
--- May 12, 2012 12:40:33 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=800
-;
-
--- May 12, 2012 12:40:33 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=363, Description=NULL, EntityType='D', IsActive='Y', Name='Document Owner', Value='D',Updated=TO_DATE('2012-05-12 12:40:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=799
-;
-
--- May 12, 2012 12:40:33 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=799
-;
-
--- May 12, 2012 12:40:33 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List SET AD_Reference_ID=363, Description=NULL, EntityType='D', IsActive='Y', Name='WF Responsible', Value='R',Updated=TO_DATE('2012-05-12 12:40:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Ref_List_ID=801
-;
-
--- May 12, 2012 12:40:33 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=801
+ALTER TABLE I_Workflow ADD AttributeValue NVARCHAR2(60) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:33 PM CDT
@@ -2236,17 +1010,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:33 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN EMailRecipient CHAR(1) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:33 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='EMail', Description='Electronic Mail Address', EntityType='D', Help='The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.', IsActive='Y', Name='EMail Address', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='EMail',Updated=TO_DATE('2012-05-12 12:40:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=881
-;
-
--- May 12, 2012 12:40:33 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=881
+ALTER TABLE I_Workflow ADD EMailRecipient CHAR(1) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:34 PM CDT
@@ -2261,19 +1025,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:34 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN EMail VARCHAR(60) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:34 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='R_MailText_ID', Description='Text templates for mailings', EntityType='D', Help='The Mail Template indicates the mail template for return messages. Mail text can include variables.  The priority of parsing is User/Contact, Business Partner and then the underlying business object (like Request, Dunning, Workflow object).<br>
-So, @Name@ would resolve into the User name (if user is defined defined), then Business Partner name (if business partner is defined) and then the Name of the business object if it has a Name.<br>
-For Multi-Lingual systems, the template is translated based on the Business Partner''s language selection.', IsActive='Y', Name='Mail Template', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Mail Template',Updated=TO_DATE('2012-05-12 12:40:34','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=1515
-;
-
--- May 12, 2012 12:40:34 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=1515
+ALTER TABLE I_Workflow ADD EMail NVARCHAR2(60) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:34 PM CDT
@@ -2290,17 +1042,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:34 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN R_MailText_ID DECIMAL(10) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:34 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='AD_Task_ID', Description='Operation System Task', EntityType='D', Help='The Task field identifies a Operation System Task in the system.', IsActive='Y', Name='OS Task', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='OS Task',Updated=TO_DATE('2012-05-12 12:40:34','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=128
-;
-
--- May 12, 2012 12:40:34 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=128
+ALTER TABLE I_Workflow ADD R_MailText_ID NUMBER(10) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:35 PM CDT
@@ -2315,27 +1057,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:35 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN AD_Task_ID DECIMAL(10) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:35 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='SubflowExecution', Description='Mode how the sub-workflow is executed', EntityType='D', Help=NULL, IsActive='Y', Name='Subflow Execution', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Subflow Execution',Updated=TO_DATE('2012-05-12 12:40:35','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=2328
-;
-
--- May 12, 2012 12:40:35 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=2328
-;
-
--- May 12, 2012 12:40:35 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference SET Description=NULL, EntityType='D', Help=NULL, IsActive='Y', Name='WF_SubFlow Execution', ValidationType='L',Updated=TO_DATE('2012-05-12 12:40:35','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Reference_ID=307
-;
-
--- May 12, 2012 12:40:35 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=307
+ALTER TABLE I_Workflow ADD AD_Task_ID NUMBER(10) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:36 PM CDT
@@ -2350,17 +1072,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:36 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN SubflowExecution CHAR(1) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:36 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='AD_Process_ID', Description='Process or Report', EntityType='D', Help='The Process field identifies a unique Process or Report in the system.', IsActive='Y', Name='Process', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Process',Updated=TO_DATE('2012-05-12 12:40:36','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=117
-;
-
--- May 12, 2012 12:40:36 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=117
+ALTER TABLE I_Workflow ADD SubflowExecution CHAR(1) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:36 PM CDT
@@ -2375,17 +1087,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:36 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN AD_Process_ID DECIMAL(10) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:37 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='WaitTime', Description='Time in minutes to wait (sleep)', EntityType='D', Help='Time in minutes to be suspended (sleep)', IsActive='Y', Name='Wait Time', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Wait Time',Updated=TO_DATE('2012-05-12 12:40:37','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=2464
-;
-
--- May 12, 2012 12:40:37 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=2464
+ALTER TABLE I_Workflow ADD AD_Process_ID NUMBER(10) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:37 PM CDT
@@ -2400,17 +1102,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:37 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN WaitTime DECIMAL(10) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:37 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='AD_Workflow_ID', Description='Workflow or combination of tasks', EntityType='D', Help='The Workflow field identifies a unique Workflow in the system.', IsActive='Y', Name='Workflow', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Workflow',Updated=TO_DATE('2012-05-12 12:40:37','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=144
-;
-
--- May 12, 2012 12:40:37 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=144
+ALTER TABLE I_Workflow ADD WaitTime NUMBER(10) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:38 PM CDT
@@ -2425,19 +1117,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:38 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN AD_Workflow_ID DECIMAL(10) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:38 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='DocumentNo', Description='Document sequence number of the document', EntityType='D', Help='The document number is usually automatically generated by the system and determined by the document type of the document. If the document is not saved, the preliminary number is displayed in "<>".
-
-If the document type of your document has no automatic document sequence defined, the field is empty if you create a new document. This is for documents which usually have an external number (like vendor invoice).  If you leave the field empty, the system will generate a document number for you. The document sequence used for this fallback number is defined in the "Maintain Sequence" window with the name "DocumentNo_<TableName>", where TableName is the actual name of the table (e.g. C_Order).', IsActive='Y', Name='Document No', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Document No',Updated=TO_DATE('2012-05-12 12:40:38','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=290
-;
-
--- May 12, 2012 12:40:38 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=290
+ALTER TABLE I_Workflow ADD AD_Workflow_ID NUMBER(10) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:38 PM CDT
@@ -2454,17 +1134,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:38 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN DocumentNo VARCHAR(30) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:38 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='UnitsCycles', Description='The Units by Cycles are defined for process type  Flow Repetitive Dedicated and  indicated the product to be manufactured on a production line for duration unit.', EntityType='EE01', Help='When Units by Cycles are defined the duration time is the total of time to manufactured the units', IsActive='Y', Name='Units by Cycles', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Units by Cycles',Updated=TO_DATE('2012-05-12 12:40:38','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=53239
-;
-
--- May 12, 2012 12:40:38 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=53239
+ALTER TABLE I_Workflow ADD DocumentNo NVARCHAR2(30) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:39 PM CDT
@@ -2479,17 +1149,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:39 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN UnitsCycles DECIMAL(22, 10) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:39 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='OverlapUnits', Description='Overlap Units are number of units that must be completed before they are moved the next activity', EntityType='EE01', Help='When there are two consecutive avtivity, you can sometimes save time by moving partial quantites from one activity to the next before the first activity as been completed.', IsActive='Y', Name='Overlap Units', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Overlap Units',Updated=TO_DATE('2012-05-12 12:40:39','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=53241
-;
-
--- May 12, 2012 12:40:39 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=53241
+ALTER TABLE I_Workflow ADD UnitsCycles NUMBER DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:39 PM CDT
@@ -2504,17 +1164,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:39 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN OverlapUnits DECIMAL(10) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:39 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='IsMilestone', Description=NULL, EntityType='EE01', Help=NULL, IsActive='Y', Name='Is Milestone', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Is Milestone',Updated=TO_DATE('2012-05-12 12:40:39','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=53237
-;
-
--- May 12, 2012 12:40:39 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=53237
+ALTER TABLE I_Workflow ADD OverlapUnits NUMBER(10) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:40 PM CDT
@@ -2529,17 +1179,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:40 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN IsMilestone CHAR(1) DEFAULT NULL CHECK (IsMilestone IN ('Y','N'))
-;
-
--- May 12, 2012 12:40:40 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='IsSubcontracting', Description=NULL, EntityType='EE01', Help=NULL, IsActive='Y', Name='Is Subcontracting', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Is Subcontracting',Updated=TO_DATE('2012-05-12 12:40:40','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=53238
-;
-
--- May 12, 2012 12:40:40 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=53238
+ALTER TABLE I_Workflow ADD IsMilestone CHAR(1) DEFAULT NULL  CHECK (IsMilestone IN ('Y','N'))
 ;
 
 -- May 12, 2012 12:40:40 PM CDT
@@ -2554,27 +1194,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:41 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN IsSubcontracting CHAR(1) DEFAULT NULL CHECK (IsSubcontracting IN ('Y','N'))
-;
-
--- May 12, 2012 12:40:41 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='QtyBatchSize', Description=NULL, EntityType='EE01', Help=NULL, IsActive='Y', Name='Qty Batch Size', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Qty Batch Size',Updated=TO_DATE('2012-05-12 12:40:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=53243
-;
-
--- May 12, 2012 12:40:41 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=53243
-;
-
--- May 12, 2012 12:40:41 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference SET Description='Quantity data type', EntityType='D', Help=NULL, IsActive='Y', Name='Quantity', ValidationType='D',Updated=TO_DATE('2012-05-12 12:40:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Reference_ID=29
-;
-
--- May 12, 2012 12:40:41 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=29
+ALTER TABLE I_Workflow ADD IsSubcontracting CHAR(1) DEFAULT NULL  CHECK (IsSubcontracting IN ('Y','N'))
 ;
 
 -- May 12, 2012 12:40:41 PM CDT
@@ -2589,27 +1209,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:41 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN QtyBatchSize DECIMAL(22, 10) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:41 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='ProcessType', Description=NULL, EntityType='EE01', Help=NULL, IsActive='Y', Name='Process Type', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Process Type',Updated=TO_DATE('2012-05-12 12:40:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=53242
-;
-
--- May 12, 2012 12:40:41 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=53242
-;
-
--- May 12, 2012 12:40:41 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference SET Description='Process Type', EntityType='EE01', Help=NULL, IsActive='Y', Name='PP_Process Type', ValidationType='L',Updated=TO_DATE('2012-05-12 12:40:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Reference_ID=53224
-;
-
--- May 12, 2012 12:40:41 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=53224
+ALTER TABLE I_Workflow ADD QtyBatchSize NUMBER DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:42 PM CDT
@@ -2624,27 +1224,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:42 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN ProcessType VARCHAR(2) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:43 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='Help', Description='Comment or Hint', EntityType='D', Help='The Help field contains a hint, comment or help about the use of this item.', IsActive='Y', Name='Comment/Help', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Comment',Updated=TO_DATE('2012-05-12 12:40:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=326
-;
-
--- May 12, 2012 12:40:43 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=326
-;
-
--- May 12, 2012 12:40:43 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference SET Description='Character String up to 2000 characters', EntityType='D', Help=NULL, IsActive='Y', Name='Text', ValidationType='D',Updated=TO_DATE('2012-05-12 12:40:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Reference_ID=14
-;
-
--- May 12, 2012 12:40:43 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=14
+ALTER TABLE I_Workflow ADD ProcessType NVARCHAR2(2) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:43 PM CDT
@@ -2659,17 +1239,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:43 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN Help VARCHAR(2000) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:43 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='S_Resource_ID', Description='Resource', EntityType='D', Help=NULL, IsActive='Y', Name='Resource', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Resource',Updated=TO_DATE('2012-05-12 12:40:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=1777
-;
-
--- May 12, 2012 12:40:43 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=1777
+ALTER TABLE I_Workflow ADD Help NVARCHAR2(2000) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:44 PM CDT
@@ -2684,17 +1254,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:44 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN S_Resource_ID DECIMAL(10) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:44 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='MovingTime', Description=NULL, EntityType='EE01', Help=NULL, IsActive='Y', Name='Moving Time', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Moving Time',Updated=TO_DATE('2012-05-12 12:40:44','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=53240
-;
-
--- May 12, 2012 12:40:44 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=53240
+ALTER TABLE I_Workflow ADD S_Resource_ID NUMBER(10) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:44 PM CDT
@@ -2709,17 +1269,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:44 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN MovingTime DECIMAL(10) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:44 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='QueuingTime', Description='Queue time is the time a job waits at a work center before begin handled.', EntityType='EE01', Help='Queuing time has no implication on costs, but on Capacity Requirement Planning (CRP) to calculate the total time needed to manufacture a product.', IsActive='Y', Name='Queuing Time', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Queuing Time',Updated=TO_DATE('2012-05-12 12:40:44','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=53234
-;
-
--- May 12, 2012 12:40:44 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=53234
+ALTER TABLE I_Workflow ADD MovingTime NUMBER(10) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:45 PM CDT
@@ -2734,17 +1284,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:45 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN QueuingTime DECIMAL(10) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:45 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='SetupTime', Description='Setup time before starting Production', EntityType='D', Help='Once per operation', IsActive='Y', Name='Setup Time', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Setup Time',Updated=TO_DATE('2012-05-12 12:40:45','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=2777
-;
-
--- May 12, 2012 12:40:45 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=2777
+ALTER TABLE I_Workflow ADD QueuingTime NUMBER(10) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:45 PM CDT
@@ -2759,27 +1299,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:45 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN SetupTime DECIMAL(10) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:46 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='Yield', Description='The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent', EntityType='EE01', Help='ADempiere Calculate the total yield for a product from the yield for each activity when the process Workflow Cost Roll-Up is executed.
-
-The expected yield for an Activity can be expressed as:
-
-Yield = Acceptable Units at Activity End x 100
-
-The Total manufacturing yield for a product is determined by multiplying the yied percentage for each activity.
-
-Manufacturing Yield = Yield % for Activity 10 x Yied % for Activity 20 , etc
-
-Take care when setting yield to anything but 100% particularly when yied is used for multiples activities', IsActive='Y', Name='Yield %', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Yield %',Updated=TO_DATE('2012-05-12 12:40:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=53272
-;
-
--- May 12, 2012 12:40:46 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=53272
+ALTER TABLE I_Workflow ADD SetupTime NUMBER(10) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:46 PM CDT
@@ -2804,17 +1324,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:46 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN Yield DECIMAL(10) DEFAULT NULL 
-;
-
--- May 12, 2012 12:40:46 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element SET ColumnName='ResourceValue', Description='Key of the Resource', EntityType='EE01', Help=NULL, IsActive='Y', Name='Resource Key', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Resource Key',Updated=TO_DATE('2012-05-12 12:40:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Element_ID=54121
-;
-
--- May 12, 2012 12:40:46 PM CDT
--- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=54121
+ALTER TABLE I_Workflow ADD Yield NUMBER(10) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:47 PM CDT
@@ -2829,7 +1339,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:47 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN ResourceValue VARCHAR(40) DEFAULT NULL 
+ALTER TABLE I_Workflow ADD ResourceValue NVARCHAR2(40) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:47 PM CDT
@@ -2854,7 +1364,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- May 12, 2012 12:40:48 PM CDT
 -- Import Workflow http://adempiere.atlassian.net/browse/MFG-12
-ALTER TABLE I_Workflow ADD COLUMN NodeNextValue VARCHAR(22) DEFAULT NULL 
+ALTER TABLE I_Workflow ADD NodeNextValue NVARCHAR2(22) DEFAULT NULL 
 ;
 
 -- May 12, 2012 12:40:48 PM CDT
