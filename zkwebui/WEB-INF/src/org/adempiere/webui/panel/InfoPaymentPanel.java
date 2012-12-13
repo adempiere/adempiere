@@ -149,7 +149,7 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 	protected InfoPaymentPanel(int WindowNo, int record_id, String value,
 			boolean multiSelection, String whereClause, boolean lookup)
 	{
-		super(WindowNo, "p", "C_Payment_ID", multiSelection, whereClause, lookup);
+		super(WindowNo, "p", "C_Payment_ID", multiSelection, true, whereClause, lookup);
 		
 		log.info( "InfoPaymentPanel");
 		setTitle(Msg.getMsg(Env.getCtx(), "InfoPayment"));
@@ -429,24 +429,6 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 		
 		pstmt.setString(index++, fIsReceipt.isChecked() ? "Y" : "N");
 	} // setParameters
-
-	/**
-	 *  Get SQL WHERE parameter
-	 *  @param f field
-	 *  @return Upper case text with % at the end
-	 */
-	
-	private String getSQLText (Textbox f)
-	{
-		String s = f.getText().toUpperCase();
-		
-		if (!s.endsWith("%"))
-			s += "%";
-		
-		log.fine( "String=" + s);
-		
-		return s;
-	} // getSQLText
 
 	// Elaine 2008/12/16
 	/**

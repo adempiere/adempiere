@@ -124,7 +124,7 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
     protected InfoOrderPanel(int WindowNo, int record_id, String value,
             boolean multiSelection, String whereClause, boolean lookup)
     {
-        super ( WindowNo, "o", "C_Order_ID", multiSelection, whereClause, lookup);
+        super ( WindowNo, "o", "C_Order_ID", multiSelection, true, whereClause, lookup);
         log.info( "InfoOrder");
         setTitle(Msg.getMsg(Env.getCtx(), "InfoOrder"));
         //
@@ -521,20 +521,6 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
         
     }
 
-    /**
-     *  Get SQL WHERE parameter
-     *  @param f field
-     *  @return sql
-     */
-    private String getSQLText (Textbox f)
-    {
-        String s = f.getText().toUpperCase();
-        if (!s.endsWith("%"))
-            s += "%";
-        log.fine("String=" + s);
-        return s;
-    }   //  getSQLText
-    
     // Elaine 2008/12/16
 	/**
 	 *	Zoom

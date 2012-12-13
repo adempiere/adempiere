@@ -318,6 +318,7 @@ public abstract class Info extends CDialog
 	 *  @param WindowNo window no
 	 *  @param tableName table name
 	 *  @param keyColumn key column name
+	 *  @param saveResults flag if the results will be saved in context
 	 *  @param multiSelection multiple selection
 	 *  @param whereClause where clause
 	 */

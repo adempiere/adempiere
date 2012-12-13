@@ -444,20 +444,6 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
 	}
 
 	/**
-	 *  Get SQL WHERE parameter
-	 *  @param f field
-	 *  @return sql part
-	 */
-	private String getSQLText (Textbox f)
-	{
-		String s = f.getText().toUpperCase();
-		if (!s.endsWith("%"))
-			s += "%";
-		log.fine( "String=" + s);
-		return s;
-	}   //  getSQLText
-
-	/**
 	 *  Set Parameters for Query.
 	 *  (as defined in getSQLWhere)
 	 * 	@param pstmt statement

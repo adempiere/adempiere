@@ -109,8 +109,7 @@ public class VPAttribute extends JComponent
 		}	//	mouse Clicked
 
 	}	//	VPAttribute_mouseAdapter
-	private boolean m_searchOnly;
-
+	
 	/**
 	 *	IDE Constructor
 	 */
@@ -141,6 +140,7 @@ public class VPAttribute extends JComponent
 	 *  @param isUpdateable updateable
 	 * 	@param WindowNo WindowNo
 	 * 	@param lookup Model Product Attribute
+	 *  @param searchOnly True if only used to search instances
 	 */
 	public VPAttribute (GridTab gridTab, boolean mandatory, boolean isReadOnly, boolean isUpdateable, 
 		int WindowNo, MPAttributeLookup lookup, boolean searchOnly)
@@ -215,6 +215,7 @@ public class VPAttribute extends JComponent
 	private boolean				m_mandatory;
 	private int					m_WindowNo;
 	private int					m_C_BPartner_ID;
+	private boolean 			m_searchOnly;
 	/** The Grid Tab * */
 	private GridTab m_GridTab; // added for processCallout
 	/** The Grid Field * */
@@ -222,7 +223,6 @@ public class VPAttribute extends JComponent
 	
 	/**	Calling Window Info				*/
 	private int					m_AD_Column_ID = 0;
-	private GridField m_mField;
 	/** record the value for comparison at a point in the future */
 	private Object m_oldValue;
 	private Object m_oldText;
@@ -356,7 +356,7 @@ public class VPAttribute extends JComponent
 		return m_value;
 	}	//	getValue
 
-/**
+	/**
 	 * Get Attribute Where clause
 	 * @return String
 	 */
@@ -381,18 +381,17 @@ public class VPAttribute extends JComponent
 	 */
 	public void setField(GridField mField)
 	{
-		//	To determine behavior
+		//	To determine behaviour
 		m_AD_Column_ID = mField.getAD_Column_ID();
 		m_GridField = mField;
 		
-		m_mField = mField;
-		if (m_mField != null)
+		if (m_GridField != null)
 			FieldRecordInfo.addMenu(this, popupMenu);
 	}	//	setField
 	
 	@Override
 	public GridField getField() {
-		return m_mField;
+		return m_GridField;
 	}
 
 	/**
@@ -412,7 +411,7 @@ public class VPAttribute extends JComponent
 	{
 		if (e.getActionCommand().equals(FieldRecordInfo.CHANGE_LOG_COMMAND))
 		{
-			FieldRecordInfo.start(m_mField);
+			FieldRecordInfo.start(m_GridField);
 			return;
 		}
 		

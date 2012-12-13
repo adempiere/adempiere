@@ -30,17 +30,16 @@ import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 
-import javax.swing.table.DefaultTableColumnModel;
-import javax.swing.table.DefaultTableModel;
-
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.apps.BusyDialog;
+import org.adempiere.webui.component.Checkbox;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.ListModelTable;
 import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.WListItemRenderer;
 import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.component.Window;
+import org.adempiere.webui.editor.WPAttributeEditor;
 import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.editor.WTableDirEditor;
 import org.adempiere.webui.event.ValueChangeEvent;
@@ -49,15 +48,12 @@ import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
 import org.adempiere.webui.part.ITabOnSelectHandler;
 import org.adempiere.webui.session.SessionManager;
-import org.compiere.apps.AWindow;
-import org.compiere.grid.ed.VLookup;
-import org.compiere.grid.ed.VPAttribute;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MRole;
 import org.compiere.model.MSysConfig;
 import org.compiere.model.MTable;
-import org.compiere.swing.CTextField;
+import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -104,7 +100,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
                         false, multiSelection, whereClause);
             else if (tableName.equals("M_Product"))
                 info = new InfoProductPanel ( WindowNo,  0,0, 
-                        multiSelection, record_id, value,whereClause);
+                        record_id, value, multiSelection, whereClause);
             else if (tableName.equals("C_Invoice"))
                 info = new InfoInvoicePanel ( WindowNo, record_id, value,
                         multiSelection, whereClause);
@@ -166,7 +162,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 		InfoPanel info = new InfoProductPanel(WindowNo, 
 				Env.getContextAsInt(Env.getCtx(), WindowNo, "M_Warehouse_ID"),
 				Env.getContextAsInt(Env.getCtx(), WindowNo, "M_PriceList_ID"),
-				false, 0, "", "", false);
+				0, "", false, false, "", false);
 		AEnv.showWindow(info);
 	}   //  showProduct
 	
@@ -261,7 +257,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 		String tableName, String keyColumn,boolean multipleSelection,
 		 String whereClause)
 	{
-		this(WindowNo, tableName, keyColumn, multipleSelection, whereClause, true);
+		this(WindowNo, tableName, keyColumn, multipleSelection, true, whereClause, true);
 	}
 		
 	/**************************************************
@@ -269,10 +265,12 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
      * @param WindowNo  WindowNo
      * @param tableName tableName
      * @param keyColumn keyColumn
+	 * @param saveResults flag if the results will be saved in context
      * @param whereClause   whereClause
+     * @param lookup
 	 */
 	protected InfoPanel (int WindowNo,
-		String tableName, String keyColumn,boolean multipleSelection,
+		String tableName, String keyColumn,boolean multipleSelection, boolean saveResults,
 		 String whereClause, boolean lookup)
 	{
 
@@ -345,18 +343,28 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 		{
 			confirmPanel.getButton(ConfirmPanel.A_OK).setVisible(false);
 		}
-		
+		checkAutoQuery.setText(Msg.getMsg(Env.getCtx(), "AutoRefresh"));
+		checkAutoQuery.setTooltip(Msg.getMsg(Env.getCtx(), "AutoRefresh"));
+		checkAutoQuery.setName("AutoQuery");
+		checkAutoQuery.setSelected(MSysConfig.getValue(SYSCONFIG_INFO_AUTO_QUERY,"Y",Env.getAD_Client_ID(Env.getCtx())).equals("Y"));  
+		//checkAutoQuery.addActionListener(this);
+		confirmPanel.getButton(ConfirmPanel.A_REFRESH).getParent().insertBefore(checkAutoQuery, confirmPanel.getButton(ConfirmPanel.A_REFRESH));
+		//
+
         this.setSizable(true);      
         this.setMaximizable(true);
         
         this.addEventListener(Events.ON_OK, this);
 
         contentPanel.setOddRowSclass(null);
+        contentPanel.setAttribute("zk_component_ID", "Lookup_Data_SearchResults");
+        
+        statusBar.setAttribute("zk_component_ID", "info_statusBar");
 	}  //  init
 	
 	private static String SYSCONFIG_INFO_AUTO_WILDCARD = "INFO_AUTO_WILDCARD";
 	private static String SYSCONFIG_INFO_AUTO_QUERY = "INFO_AUTO_QUERY";
-
+	
 	protected ConfirmPanel confirmPanel;
 	/** Master (owning) Window  */
 	protected int				p_WindowNo;
@@ -379,6 +387,11 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	protected int 				p_selectedRecordKey = 0;
     /** A refresh of the data is required */
     protected boolean 			p_refreshRequired = false;
+    /** Perform a refresh now */
+    protected boolean 			p_refreshNow = false;
+	/** Will the results of the search be saved?	*/
+	protected boolean 			p_saveResults = true;
+	/** Does the layout use dynamic columns? False by default				*/
 	protected boolean 			p_resetColumns = false;
 
 	private boolean			    m_ok = false;
@@ -412,6 +425,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	protected CLogger log = CLogger.getCLogger(getClass());
 	
 	protected WListbox contentPanel = new WListbox();
+	protected Checkbox checkAutoQuery = new Checkbox();
 	protected Paging paging;
 	protected int pageNo;
 	private int m_count;
@@ -475,6 +489,84 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 			m_sqlOrder = " ORDER BY " + orderBy;			
 	}   //  prepareTable
 
+	/**
+     *  Set the selected row to a particular key if found
+     *  @returns true if successful
+     */
+    protected boolean setSelectedRow(int record_id)
+    {
+    	// Is there a key column?
+        if (contentPanel.getKeyColumnIndex() == -1)
+        {
+            return false;
+        }
+        
+        if (contentPanel == null)
+        {
+        	return false;
+        }
+    	// If the query is empty, return
+        if (contentPanel.getRowCount() == 0)
+        {
+            return false;
+        }
+
+		if (contentPanel.isMultiSelection() && contentPanel.isDefaultSelected()) // Select all by default
+		{
+			return false; // All rows will be selected by default
+		}
+
+        if (record_id <= 0)
+        {
+        	//  Select the first record
+        	contentPanel.addItemToSelection(contentPanel.getItemAtIndex(0));
+        	log.fine("Selected the first record shown");
+        	return true;
+        }
+        
+        //  Is the record already selected?
+        Integer selectedKey = (Integer) getSelectedKey();
+        if(selectedKey != null && selectedKey.intValue() == record_id)  //  We're already there
+        	return true;
+        
+        //  Nothing or the wrong row selected - try to find the record in the table
+    	int rows = contentPanel.getRowCount();
+    	
+    	//  Ignore the total row
+        if (contentPanel.getShowTotals())
+        	rows = rows - 1;
+
+    	for (int row = 0; row < rows; row++)
+        {
+            Object data = contentPanel.getModel().getValueAt(row, contentPanel.getKeyColumnIndex());
+            if (data instanceof IDColumn)
+            {
+                IDColumn dataColumn = (IDColumn)data;
+                if (dataColumn.getRecord_ID() == record_id)
+                {
+                	contentPanel.addItemToSelection(contentPanel.getItemAtIndex(row));
+                	log.fine("Record_ID = " + record_id + " found at row " + row);
+                	return true;
+                }
+            }
+        }
+    	
+    	//  record_id not found in the current list.  Select the first shown.
+    	contentPanel.addItemToSelection(contentPanel.getItemAtIndex(0));
+    	log.fine("Record_ID = " + record_id + " not found in the current table. Selecting the first record.");
+        return true;
+        
+    }   //  setSelectedRow
+
+	/**
+	 *	autoQuery?
+	 *	- yes if true
+	 *  @return true for automatic queries, else must refresh
+	 */
+	public boolean autoQuery()
+	{
+		return checkAutoQuery.isSelected();
+	}	//	autoQuery
 	
 	/**************************************************************************
 	 *  Execute Query
@@ -1144,7 +1236,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
     {
         if  (event!=null)
         {
-            if (event.getTarget().equals(confirmPanel.getButton(ConfirmPanel.A_OK)))
+        	if (event.getTarget().equals(confirmPanel.getButton(ConfirmPanel.A_OK)))
             {
                 onOk();
             }
@@ -1208,15 +1300,16 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
     			}
             }
             //default
-            else
+            else if( autoQuery() || p_refreshNow)
             {
             	showBusyDialog();
             	Clients.response(new AuEcho(this, "onQueryCallback", null));
+            	p_refreshNow = false;
             }
         }
     }  //  onEvent
 
-	private void showBusyDialog() {
+	protected void showBusyDialog() {
 		progressWindow = new BusyDialog();
 		progressWindow.setPage(this.getPage());
 		progressWindow.doHighlighted();
@@ -1231,11 +1324,14 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
     {
     	try
     	{
-            	executeQuery();
-                renderItems();
-            }
+            executeQuery();
+            renderItems();
+        }
     	finally
     	{
+    		reselectRecord();
+    		refresh();
+    		enableButtons();
     		hideBusyDialog();
     	}
     }
@@ -1263,7 +1359,16 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 
     public void tableChanged(WTableModelEvent event)
     {
-    	enableButtons();
+    	//reselectRecord();
+    	//enableButtons();    	
+    }
+    
+    /**
+     * Reselect the record
+     */
+    public void reselectRecord()
+    {
+    	//  Reselect the Record - Override
     }
     
 	/**
@@ -1274,6 +1379,14 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 		return m_resetRecordID;
 	}
 
+	/**
+	 * Refresh the panel following a query
+	 */
+	protected void refresh()
+	{
+		//  Refresh the panel - override.
+	}
+	
 	/**
 	 * Test the object for existence and valid data 
 	 * @param o - one of a WSearchEditor, VAttributeInstance
@@ -1293,13 +1406,10 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 				{
 					return 	(((WTableDirEditor) o).getValue() != null && ((Integer)((WTableDirEditor) o).getValue()).intValue() != 0);
 				}
-				// TODO: use the right class for the attribute search
-				/*
-				else if (o instanceof VPAttribute)
+				else if (o instanceof WPAttributeEditor)
 				{
-					return 	(((VPAttribute) o).getValue() != null && ((Integer)((VPAttribute) o).getValue()).intValue() != 0);
+					return 	(((WPAttributeEditor) o).getValue() != null && ((Integer)((WPAttributeEditor) o).getValue()).intValue() != 0);
 				}
-				*/
 			}
 			catch(ClassCastException e)
 			{

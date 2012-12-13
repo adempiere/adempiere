@@ -24,6 +24,7 @@ import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
+import org.adempiere.webui.session.SessionManager;
 import org.compiere.apps.search.PAttributeInstance;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
@@ -66,6 +67,8 @@ public class InfoPAttributeInstancePanel extends Window implements EventListener
 		int M_Warehouse_ID, int M_Locator_ID, int M_Product_ID, int C_BPartner_ID)
 	{
 		super();
+		m_parent = parent;
+		
 		setTitle(Msg.getMsg(Env.getCtx(), "PAttributeInstance"));
 		
 		init (M_Warehouse_ID, M_Locator_ID, M_Product_ID, C_BPartner_ID);
@@ -110,6 +113,7 @@ public class InfoPAttributeInstancePanel extends Window implements EventListener
 	private int					m_M_AttributeSetInstance_ID = -1;
 	private String				m_M_AttributeSetInstanceName = null;
 	private String				m_sql;
+	private Window				m_parent; 
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(PAttributeInstance.class);
 
@@ -120,10 +124,18 @@ public class InfoPAttributeInstancePanel extends Window implements EventListener
 	private void jbInit() throws Exception
 	{
         showAll.setText(Msg.getMsg(Env.getCtx(), "ShowAll"));
+        showAll.addActionListener(this);
         
 		Borderlayout borderlayout = new Borderlayout();
-        borderlayout.setWidth("700px");
-        borderlayout.setHeight("400px");
+		
+		//
+		int height = SessionManager.getAppDesktop().getClientInfo().desktopHeight;
+		int width = SessionManager.getAppDesktop().getClientInfo().desktopWidth;
+		height = height > 600 ? 250 : 105;
+		width = width > 1500 ? 1500 : width - 150;
+	
+        borderlayout.setWidth(width + "px");
+        borderlayout.setHeight(height + "px");
         borderlayout.setStyle("border: none; position: relative");
         this.appendChild(borderlayout);
         
@@ -151,12 +163,14 @@ public class InfoPAttributeInstancePanel extends Window implements EventListener
 	/**	Table Column Layout Info			*/
 	private static ColumnInfo[] s_layout = new ColumnInfo[] 
 	{
-		new ColumnInfo(" ", "s.M_AttributeSetInstance_ID", IDColumn.class),
+		new ColumnInfo(" ", "asi.M_AttributeSetInstance_ID", IDColumn.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "Description"), "asi.Description", String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "Lot"), "asi.Lot", String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "SerNo"), "asi.SerNo", String.class), 
 		new ColumnInfo(Msg.translate(Env.getCtx(), "GuaranteeDate"), "asi.GuaranteeDate", Timestamp.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "M_Locator_ID"), "l.Value", KeyNamePair.class, "s.M_Locator_ID"),
+//		new ColumnInfo(Msg.translate(Env.getCtx(), "M_Product_ID"), "p.Value", KeyNamePair.class, "p.M_Product_ID"), // @Trifon - Not sure if this need to be shown
+//		new ColumnInfo(Msg.translate(Env.getCtx(), "M_AttributeSet_ID"), "st.Name", KeyNamePair.class, "st.M_AttributeSet_ID"), // @Trifon - Not sure if this need to be shown
 		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOnHand"), "s.QtyOnHand", Double.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyReserved"), "s.QtyReserved", Double.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOrdered"), "s.QtyOrdered", Double.class),
@@ -166,13 +180,16 @@ public class InfoPAttributeInstancePanel extends Window implements EventListener
 		new ColumnInfo(Msg.translate(Env.getCtx(), "ShelfLifeRemainingPct"), "CASE WHEN p.GuaranteeDays > 0 THEN TRUNC(((daysbetween(asi.GuaranteeDate, SYSDATE))/p.GuaranteeDays)*100) ELSE 0 END", Integer.class),
 	};
 	/**	From Clause							*/
-	private static String s_sqlFrom = "M_Storage s"
-		+ " INNER JOIN M_Locator l ON (s.M_Locator_ID=l.M_Locator_ID)"
-		+ " INNER JOIN M_Product p ON (s.M_Product_ID=p.M_Product_ID)"
-		+ " LEFT OUTER JOIN M_AttributeSetInstance asi ON (s.M_AttributeSetInstance_ID=asi.M_AttributeSetInstance_ID)";
-	/** Where Clause						*/
-	private static String s_sqlWhere = "s.M_Product_ID=? AND l.M_Warehouse_ID=?"; 
-	private static String s_sqlWhereWithoutWarehouse = " s.M_Product_ID=?"; 
+	private static String s_sqlFrom = "M_AttributeSetInstance asi"
+		+ " INNER JOIN M_AttributeSet st ON (st.M_AttributeSet_ID=asi.M_AttributeSet_ID )"
+		+ " LEFT OUTER JOIN M_Storage s ON (s.M_AttributeSetInstance_ID=asi.M_AttributeSetInstance_ID)"
+		+ " LEFT OUTER JOIN M_Locator l ON (s.M_Locator_ID=l.M_Locator_ID)"
+		+ " LEFT OUTER JOIN M_Product p ON (s.M_Product_ID=p.M_Product_ID OR "
+		+                                  " asi.M_AttributeSet_ID = p.M_AttributeSet_ID)"
+	;
+	/** Where Clause						*/ 
+	private static String s_sqlWhereWithoutWarehouse = " p.M_Product_ID=?";
+	private static String s_sqlWhereSameWarehouse = " AND (l.M_Warehouse_ID=? OR 0=?)";
 
 	private String	m_sqlNonZero = " AND (s.QtyOnHand<>0 OR s.QtyReserved<>0 OR s.QtyOrdered<>0)";
 	private String	m_sqlMinLife = "";
@@ -230,9 +247,8 @@ public class InfoPAttributeInstancePanel extends Window implements EventListener
 			}
 		}	//	BPartner != 0
 
-		m_sql = m_table.prepareTable (s_layout, s_sqlFrom, 
-					m_M_Warehouse_ID == 0 ? s_sqlWhereWithoutWarehouse : s_sqlWhere, false, "s")
-				+ " ORDER BY asi.GuaranteeDate, s.QtyOnHand";	//	oldest, smallest first
+		m_sql = m_table.prepareTable (s_layout, s_sqlFrom, s_sqlWhereWithoutWarehouse, false, "asi")
+		+ " ORDER BY asi.GuaranteeDate, s.QtyOnHand";	//	oldest, smallest first
 		//
 		m_table.setMultiSelection(false);
 		m_table.getModel().addTableModelListener(this);
@@ -250,7 +266,7 @@ public class InfoPAttributeInstancePanel extends Window implements EventListener
 		if (!showAll.isSelected())
 		{
 			sql = m_sql.substring(0, pos) 
-				+ m_sqlNonZero;
+				+ m_sqlNonZero + s_sqlWhereSameWarehouse;
 			if (m_sqlMinLife.length() > 0)
 				sql += m_sqlMinLife;
 			sql += m_sql.substring(pos);
@@ -263,8 +279,11 @@ public class InfoPAttributeInstancePanel extends Window implements EventListener
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, m_M_Product_ID);
-			if (m_M_Warehouse_ID != 0)
+			if ( !showAll.isSelected() ) {
 				pstmt.setInt(2, m_M_Warehouse_ID);
+				pstmt.setInt(3, m_M_Warehouse_ID);
+			}
+
 			rs = pstmt.executeQuery();
 			m_table.loadTable(rs);
 		}

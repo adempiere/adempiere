@@ -168,6 +168,8 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 			listcell = getCellComponent(table, field, rowIndex, colIndex);
 			listcell.setParent(item);
 			listcell.addEventListener(Events.ON_DOUBLE_CLICK, cellListener);
+			listcell.setAttribute("zk_component_ID", "ListItem_R" + rowIndex + "_C" + colIndex);
+
 			colIndex++;
 		}
 
@@ -296,6 +298,8 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 			listcell.setLabel("");
 			listcell.setValue("");
 		}
+
+		listcell.setAttribute("zk_component_ID", "ListItem_Cell_" + rowIndex + "_" + columnIndex);
 
 		return listcell;
 	}
@@ -428,6 +432,8 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
                 header.setLabel(headerText);
             }
         }
+
+        header.setAttribute("zk_component_ID", "ListItem_Header_C" + headerIndex);
 
 		return header;
 	}

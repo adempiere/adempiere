@@ -475,9 +475,13 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 	    	String sql;
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
-	    	
-	    	if (jTab.getSelectedIndex() == 0 || jTab.getSelectedIndex() == 4)
+			
+			int leadRowKey = p_table.getLeadRowKey();
+			
+	    	if (jTab.getSelectedIndex() == 0 || m_M_Product_ID != leadRowKey)
 			{
+	    		m_M_Product_ID = leadRowKey;
+	    		
 	    		//  Warehouse tab
 				sql = m_sqlWarehouse;
 		
@@ -569,12 +573,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 	    	
 	    	if(jTab.getSelectedIndex() == 4)		
 			{
-	    		if (warehouseTbl.getRowCount() > 0)
 	    			refreshAtpTab();
-	    		else
-	    		{
-	    			clearAtpTab();
-	    		}
 			}
 		}});
 	}	//	refresh
@@ -629,8 +628,8 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 				}
 				//
 				fWarehouse_ID.setValue(0);
-	        	//
-	        	fPriceList_ID.setValue(0);
+				//
+		    	fPriceList_ID.setValue(0);
 	        	//
 	        	checkAND.setSelected(false); //  Use OR
 	        	
@@ -688,6 +687,15 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 			}
 		}
 
+        if (!isValidVObject(fWarehouse_ID))
+		{
+			//  Disable the stock button
+			checkOnlyStock.setSelected(false);
+			checkOnlyStock.setEnabled(false);
+		}
+		else
+			checkOnlyStock.setEnabled(true);
+        
         if (!reset)
         {
         	//  Don't want to repeat this on reset or the query will grow
@@ -1251,10 +1259,8 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 	 */
 	public void valueChanged(ListSelectionEvent lse)
 	{
-    	int leadRowKey = p_table.getLeadRowKey();
-    	if (m_M_Product_ID != leadRowKey)
+    	if (m_M_Product_ID != p_table.getLeadRowKey())
     	{
-    		m_M_Product_ID = leadRowKey;  //  From the main table
     		refresh();  		//  Update the warehouseStockPanel with the current selected record
     		enableButtons();	//  Set the buttons accordingly
     	}
@@ -1546,12 +1552,12 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 				if(tab.getSelectedIndex() == 4)
 				{	
 					checkShowDetail.setEnabled(true);
-					refreshAtpTab();
 				}
 				else
 				{
 					checkShowDetail.setEnabled(false);				
 				}
+				refresh();
 			}
 			
 	}	//	stateChanged
@@ -1574,14 +1580,14 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 		list.add(new Info_Column(" ", "M_Product_ID", IDColumn.class));
 		list.add(new Info_Column(Msg.translate(Env.getCtx(), "M_Warehouse_ID"), "Warehouse", String.class));
 		list.add(new Info_Column(Msg.translate(Env.getCtx(), "M_Locator_ID"), "Locator", String.class));
-		list.add(new Info_Column(Msg.translate(Env.getCtx(), "Date"), "Date", Timestamp.class));
-		list.add(new Info_Column(Msg.translate(Env.getCtx(), "QtyAvailable"), "QtyAvailable", Double.class));
-		list.add(new Info_Column(Msg.translate(Env.getCtx(), "ExpectedChange"), "DeltaQty", Double.class));
+		list.add(new Info_Column(Msg.getMsg(Env.getCtx(), "Date", true), "Date", Timestamp.class));
+		list.add(new Info_Column(Msg.getMsg(Env.getCtx(), "QtyAvailable", true), "QtyAvailable", Double.class));
+		list.add(new Info_Column(Msg.getMsg(Env.getCtx(), "ExpectedChange", true), "DeltaQty", Double.class));
 		list.add(new Info_Column(Msg.translate(Env.getCtx(), "C_BPartner_ID"), "BP_Name", String.class));
-		list.add(new Info_Column(Msg.translate(Env.getCtx(), "QtyOrdered"), "QtyOrdered", Double.class));
-		list.add(new Info_Column(Msg.translate(Env.getCtx(), "QtyReserved"), "QtyReserved", Double.class));
+		list.add(new Info_Column(Msg.getMsg(Env.getCtx(), "QtyOrdered", true), "QtyOrdered", Double.class));
+		list.add(new Info_Column(Msg.getMsg(Env.getCtx(), "QtyReserved", true), "QtyReserved", Double.class));
 		list.add(new Info_Column(Msg.translate(Env.getCtx(), "M_AttributeSetInstance_ID"), "PASI", String.class));
-		list.add(new Info_Column(Msg.translate(Env.getCtx(), "DocumentNo"), "DocumentNo", String.class));
+		list.add(new Info_Column(Msg.getMsg(Env.getCtx(), "DocumentNo", true), "DocumentNo", String.class));
 
 		m_layoutATP = new Info_Column[list.size()];
 		list.toArray(m_layoutATP);
@@ -1615,11 +1621,15 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
             }
 		} 
 		else
-			M_Warehouse_ID = m_M_Warehouse_ID;
-
+		{
+    		M_Warehouse_ID = m_M_Warehouse_ID;
+		}
+	
 		if (M_Warehouse_ID == 0)
 		{
-			// Do nothing and pass blank data to the table
+			// Can't find a warehouse to load.  Clear the table
+			clearAtpTab();
+			return;
 		}
 		else  // Update the table
 		{

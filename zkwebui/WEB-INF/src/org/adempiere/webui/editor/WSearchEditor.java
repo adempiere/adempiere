@@ -69,6 +69,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 	private String 				columnName;
 	private WEditorPopupMenu	popupMenu;
     private Object              value;
+    private Object				m_oldValue;
     private InfoPanel			infoPanel = null;
     private Boolean				m_settingValue = false;
     private Boolean				m_needsUpdate = false;
@@ -554,10 +555,14 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 			Env.setContext(Env.getCtx(), lookup.getWindowNo(), Env.TAB_INFO, "M_Lookup_ID", "0");
 
 			//  If the record has a value (ID) find the name.  The displayed text could be different.
-			if (queryValue.length() == 0 && getValue() != null)
+			if (queryValue.length() == 0 && getValue() != null && !getValue().equals(""))
 			{
 				Object currentValue = getValue();
-				record_id = ((Number)currentValue).intValue();
+				try{
+					record_id = ((Number)currentValue).intValue();					
+				} catch (Exception e) {
+					//  Can't cast the string "" to a number.
+				}
 			}
 
 			int M_Warehouse_ID = Env.getContextAsInt(Env.getCtx(), lookup.getWindowNo(), "M_Warehouse_ID");
@@ -565,7 +570,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 
 			//	Show Info
 			InfoProductPanel ip = new InfoProductPanel(lookup.getWindowNo(),
-					M_Warehouse_ID, M_PriceList_ID, true, record_id, queryValue, whereClause);
+					M_Warehouse_ID, M_PriceList_ID, record_id, queryValue, true, whereClause);
 
 			ip.setVisible(true);
 			ip.setTitle(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "InfoProduct")));
@@ -984,4 +989,38 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		}
 		return null;
 	}
+	
+	/**
+	 * Set the old value of the field.  For use in future comparisons.
+	 * The old value must be explicitly set though this call.
+	 * @param m_oldValue
+	 */
+	public void set_oldValue() {
+		this.m_oldValue = getValue();
+	}
+	/**
+	 * Get the old value of the field explicitly set in the past
+	 * @return
+	 */
+	public Object get_oldValue() {
+		return m_oldValue;
+	}
+	/**
+	 * Has the field changed over time?
+	 * @return true if the old value is different than the current.
+	 */
+	public boolean hasChanged() {
+		// Both or either could be null
+		if(getValue() != null)
+			if(m_oldValue != null)
+				return !m_oldValue.equals(getValue());
+			else
+				return true;
+		else  // getValue() is null
+			if(m_oldValue != null)
+				return true;
+			else
+				return false;
+	}
+
 }

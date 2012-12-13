@@ -134,7 +134,7 @@ public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, Ev
 	protected InfoInOutPanel(	int WindowNo, int record_id, String value,
 								boolean multiSelection, String whereClause, boolean lookup)
 	{
-		super (WindowNo, "i", "M_InOut_ID", multiSelection, whereClause, lookup);
+		super (WindowNo, "i", "M_InOut_ID", multiSelection, true, whereClause, lookup);
 		log.info( "InfoInOut");
 		setTitle(Msg.getMsg(Env.getCtx(), "InfoInOut"));
 
@@ -395,23 +395,6 @@ public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, Ev
 		}
 		pstmt.setString(index++, fIsSOTrx .isChecked() ? "Y" : "N");
 	} // setParameters
-
-	/**
-	 *  Get SQL WHERE parameter
-	 *  @param f field
-	 *  @return sql part
-	 */
-	
-	private String getSQLText (Textbox f)
-	{
-		String s = f.getText().toUpperCase();
-	
-		if (!s.endsWith("%"))
-			s += "%";
-		
-		log.fine( "String=" + s);
-		return s;
-	} // getSQLText
 
 	// Elaine 2008/12/16
 	/**

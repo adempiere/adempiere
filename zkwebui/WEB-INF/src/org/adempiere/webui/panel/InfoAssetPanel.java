@@ -127,7 +127,8 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 	public InfoAssetPanel(	int WindowNo, int record_id, String value,
 							boolean multiSelection, String whereClause, boolean lookup)
 	{
-		super (WindowNo, "a", "A_Asset_ID", multiSelection, whereClause, lookup);
+		// TODO check save results flag
+		super (WindowNo, "a", "A_Asset_ID", multiSelection, true, whereClause, lookup);
 		
 		log.info(value + ", ID=" + record_id + ", WHERE=" + whereClause);
 		setTitle(Msg.getMsg(Env.getCtx(), "InfoAsset"));

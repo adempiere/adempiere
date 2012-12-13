@@ -134,7 +134,7 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 		String value, boolean multiSelection, String whereClause, boolean lookup)
 	{
 		super (WindowNo, "ra", "S_ResourceAssignment_ID",
-			multiSelection, whereClause, lookup);
+			multiSelection, true, whereClause, lookup);
 		log.info(value);
 		setTitle(Msg.getMsg(Env.getCtx(), "InfoAssignment"));
 

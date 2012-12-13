@@ -150,7 +150,7 @@ public class InfoCashLinePanel extends InfoPanel implements ValueChangeListener,
 	protected InfoCashLinePanel(	int WindowNo, int record_id, String value,
 									boolean multiSelection, String whereClause, boolean lookup)
 	{
-		super (WindowNo, "cl", "C_CashLine_ID", multiSelection, whereClause, lookup);
+		super (WindowNo, "cl", "C_CashLine_ID", multiSelection, true, whereClause, lookup);
 		log.info( "InfoCashLine");
 		setTitle(Msg.getMsg(Env.getCtx(), "InfoCashLine"));
 
@@ -473,24 +473,6 @@ public class InfoCashLinePanel extends InfoPanel implements ValueChangeListener,
 			}
 		}
 	} // setParameters
-
-	/**
-	 *  Get SQL WHERE parameter
-	 *  @param f field
-	 *  @return Upper case text with % at the end
-	 */
-	
-	private String getSQLText (Textbox f)
-	{
-		String s = f.getText().toUpperCase();
-		
-		if (!s.endsWith("%"))
-			s += "%";
-		
-		log.fine( "String=" + s);
-		
-		return s;
-	} // getSQLText
 
 	public void valueChange(ValueChangeEvent evt) 
 	{

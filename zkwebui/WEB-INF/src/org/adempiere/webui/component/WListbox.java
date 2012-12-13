@@ -31,11 +31,13 @@ import org.adempiere.webui.event.TableValueChangeListener;
 import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
 import org.adempiere.webui.exception.ApplicationException;
+import org.compiere.apps.search.Info_Column;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.IMiniTable;
 import org.compiere.minigrid.MiniTable;
 import org.compiere.model.MRole;
+import org.compiere.model.MSysConfig;
 import org.compiere.model.PO;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
@@ -63,6 +65,9 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 	 */
 	private static final long serialVersionUID = 8717707799347994189L;
 
+	public static final String SYSCONFIG_INFO_DEFAULTSELECTED = "INFO_DEFAULTSELECTED";
+	public static final String SYSCONFIG_INFO_DOUBLECLICKTOGGLESSELECTION = "INFO_DOUBLECLICKTOGGLESSELECTION";
+
 	/**	Logger. */
 	private static CLogger logger = CLogger.getCLogger(MiniTable.class);
 
@@ -80,6 +85,11 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 	private int m_colorColumnIndex = -1;
 	/** Color Column compare data.       */
 	private Object m_colorDataCompare = Env.ZERO;
+
+	/** Specify if the records should be checked(selected) by default (multi selection mode only) */
+	private boolean				p_isDefaultSelected = MSysConfig.getBooleanValue(SYSCONFIG_INFO_DEFAULTSELECTED, false, Env.getAD_Client_ID(Env.getCtx()));
+	/** Is Total Show */
+	private boolean showTotals = false;
 
 	/**
 	 * Default constructor.
@@ -376,7 +386,7 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
             }
             if (layout[columnIndex].getColClass() == IDColumn.class)
             {
-                m_keyColumnIndex = columnIndex;
+                setKeyColumnIndex(columnIndex);
             }
         }
 
@@ -782,15 +792,6 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 	}   //  setRowCount
 
 	/**
-	 *  Determine if a totals row is added to the data model.
-	 *  @return true if a totals row is displayed
-	 */
-	public boolean getShowTotals ()
-	{
-		return false;
-	}   //  getShowTotals
-
-	/**
 	 *  Get Layout.
 	 *
 	 *  @return Array of ColumnInfo
@@ -860,6 +861,15 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 	{
 		return this.isMultiple();
 	}   //  isMultiSelection
+
+	/**
+	 * (for multi-selection only)
+	 * @return true if records are selected by default
+	 */
+	public boolean isDefaultSelected()
+	{
+		return p_isDefaultSelected;
+	}
 
 	/**
 	 *  Set ColorColumn comparison criteria.
@@ -950,6 +960,187 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 		return valOtherwise;
 	}   //  getColorCode
 
+	/**
+	 *  Set if Totals is Show
+	 *  @param boolean Show
+	 */
+	public void setShowTotals(boolean show)
+	{
+		showTotals = show;
+	}
+	/**
+	 *  get if Totals is Show
+	 *  @param boolean Show
+	 */
+	public boolean getShowTotals()
+	{
+		return showTotals;
+	}
+	
+	/**
+	 *  Adding a new row with the totals
+	 */
+	public void addTotals(ColumnInfo[] layout)
+	{
+		if (getRowCount() == 0 || layout.length == 0)
+			return;
+		
+		Object[] total = new Object[layout.length];
+		
+		for (int row = 0 ; row < getRowCount(); row ++)
+		{
+
+				for (int col = 0; col < layout.length; col++)
+				{
+					int viewRow = row;
+					int viewCol = convertColumnIndexToView(col);
+					int modelRow = convertRowIndexToModel(row);
+					int modelCol = convertColumnIndexToModel(col);
+					Object data = getModel().getValueAt(modelRow, modelCol);
+					Class<?> c = layout[modelCol].getColClass();
+					if (c == BigDecimal.class)
+					{	
+						BigDecimal subtotal = Env.ZERO;
+						if(total[col]!= null)
+							subtotal = (BigDecimal)(total[col]);
+							
+						BigDecimal amt =  (BigDecimal) data;
+						if(subtotal == null)
+							subtotal = Env.ZERO;
+						if(amt == null )
+							amt = Env.ZERO;
+						total[col] = subtotal.add(amt);
+					}
+					else if (c == Double.class)
+					{
+						Double subtotal = new Double(0);
+						if(total[col] != null)
+							subtotal = (Double)(total[col]);
+						
+						Double amt =  (Double) data;
+						if(subtotal == null)
+							subtotal = new Double(0);
+						if(amt == null )
+							subtotal = new Double(0);
+						total[col] = subtotal + amt;
+						
+					}		
+				}	
+		}
+		
+		//adding total row
+
+		int row = getRowCount() + 1;
+		boolean markerSet = false;
+		setRowCount(row);
+		for (int col = 0; col < layout.length; col++)
+		{
+			int modelCol = convertColumnIndexToModel(col);
+			Class<?> c = layout[modelCol].getColClass();
+			if (c == BigDecimal.class)
+			{	
+				setValueAt(total[col] , row - 1, col);
+			}
+			else if (c == Double.class)
+			{
+				setValueAt(total[col] , row -1 , col);
+			}
+			else 
+			{	
+				if(c == String.class && !markerSet)
+				{	
+					setValueAt(" Σ  " , row -1 , col);
+					markerSet = true;
+				}	
+				else
+					setValueAt(null , row - 1, col );	
+			}	
+			
+		}
+	}
+
+	/**
+	 *  Adding a new row with the totals
+	 */
+	public void addTotals(Info_Column[] layout)
+	{
+		if (getRowCount() == 0 || layout.length == 0)
+			return;
+		
+		Object[] total = new Object[layout.length];
+		
+		for (int row = 0 ; row < getRowCount(); row ++)
+		{
+
+				for (int col = 0; col < layout.length; col++)
+				{
+					int viewRow = row;
+					int viewCol = convertColumnIndexToView(col);
+					int modelRow = convertRowIndexToModel(row);
+					int modelCol = convertColumnIndexToModel(col);
+					Object data = getModel().getValueAt(modelRow, modelCol);
+					Class<?> c = layout[modelCol].getColClass();
+					if (c == BigDecimal.class)
+					{	
+						BigDecimal subtotal = Env.ZERO;
+						if(total[col]!= null)
+							subtotal = (BigDecimal)(total[col]);
+							
+						BigDecimal amt =  (BigDecimal) data;
+						if(subtotal == null)
+							subtotal = Env.ZERO;
+						if(amt == null )
+							amt = Env.ZERO;
+						total[col] = subtotal.add(amt);
+					}
+					else if (c == Double.class)
+					{
+						Double subtotal = new Double(0);
+						if(total[col] != null)
+							subtotal = (Double)(total[col]);
+						
+						Double amt =  (Double) data;
+						if(subtotal == null)
+							subtotal = new Double(0);
+						if(amt == null )
+							subtotal = new Double(0);
+						total[col] = subtotal + amt;
+						
+					}		
+				}	
+		}
+		
+		//adding total row
+
+		int row = getRowCount() + 1;
+		boolean markerSet = false;
+		setRowCount(row);
+		for (int col = 0; col < layout.length; col++)
+		{
+			int modelCol = convertColumnIndexToModel(col);
+			Class<?> c = layout[modelCol].getColClass();
+			if (c == BigDecimal.class)
+			{	
+				setValueAt(total[col] , row - 1, col);
+			}
+			else if (c == Double.class)
+			{
+				setValueAt(total[col] , row -1 , col);
+			}
+			else
+			{	
+				if(c == String.class && !markerSet)
+				{	
+					setValueAt(" Σ  " , row -1 , col);
+					markerSet = true;
+				}	
+				else
+					setValueAt(null , row - 1, col );	
+			}	
+			
+		}
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.adempiere.webui.event.TableValueChangeListener#tableValueChange
 	 * 		(org.adempiere.webui.event.TableValueChangeEvent)
@@ -997,6 +1188,19 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 
 		return;
 	}
+
+	/**
+	 *  Get the record id of the lead (highlighted) row
+	 *  @return selected key
+	 */
+	public int getLeadRowKey()
+	{
+		Integer rowKey = getSelectedRowKey();
+		if (rowKey != null)
+			return rowKey.intValue();
+		else
+			return 0;
+	}   //  getLeadRowKey
 
     /**
      * Get the table layout.
@@ -1092,8 +1296,9 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 
 	@Override
 	public void setKeyColumnIndex(int keyColumnIndex) {
-		// TODO Auto-generated method stub
-		
+
+		m_keyColumnIndex = keyColumnIndex;
+
 	}
 
 	@Override

@@ -201,12 +201,12 @@ public class PAttributeInstance extends CDialog
 		+ " INNER JOIN M_AttributeSet st ON (st.M_AttributeSet_ID=asi.M_AttributeSet_ID )"
 		+ " LEFT OUTER JOIN M_Storage s ON (s.M_AttributeSetInstance_ID=asi.M_AttributeSetInstance_ID)"
 		+ " LEFT OUTER JOIN M_Locator l ON (s.M_Locator_ID=l.M_Locator_ID)"
-		+ " LEFT OUTER JOIN M_Product p ON (s.M_Product_ID=p.M_Product_ID)"
-		+ " LEFT OUTER JOIN M_Product pr ON (asi.M_AttributeSet_ID = pr.M_AttributeSet_ID)"
+		+ " LEFT OUTER JOIN M_Product p ON (s.M_Product_ID=p.M_Product_ID OR"
+		+                                   " asi.M_AttributeSet_ID = p.M_AttributeSet_ID)"
 	;
 	/** Where Clause						*/ 
-	private static String s_sqlWhereWithoutWarehouse = " (pr.M_Product_ID=? OR p.M_Product_ID=?)";
-	private static String s_sqlWhereSameWarehouse = " AND (l.M_Warehouse_ID=? OR 0=?)";
+	private static String s_sqlWhereWithoutWarehouse = " p.M_Product_ID=?";
+	private static String s_sqlWhereSameWarehouse = " AND (? in (0, l.M_Warehouse_ID)";
 
 	private String	m_sqlNonZero = " AND (s.QtyOnHand<>0 OR s.QtyReserved<>0 OR s.QtyOrdered<>0)";
 	private String	m_sqlMinLife = "";
@@ -303,10 +303,8 @@ public class PAttributeInstance extends CDialog
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, m_M_Product_ID);
-			pstmt.setInt(2, m_M_Product_ID);
 			if ( !showAll.isSelected() ) {
-				pstmt.setInt(3, m_M_Warehouse_ID);
-				pstmt.setInt(4, m_M_Warehouse_ID);
+				pstmt.setInt(2, m_M_Warehouse_ID);
 			}
 
 			rs = pstmt.executeQuery();
