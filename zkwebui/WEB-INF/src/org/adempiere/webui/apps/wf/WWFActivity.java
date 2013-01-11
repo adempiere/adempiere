@@ -60,10 +60,10 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.util.Clients;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.North;
+import org.zkoss.zul.South;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Html;
@@ -276,7 +276,7 @@ public class WWFActivity extends ADForm implements EventListener
     			cmd_zoom();
     		else if (comp == bOK)
     		{
-    			Clients.showBusy(Msg.getMsg(Env.getCtx(), "Processing"), true);
+    			Clients.showBusy(Msg.getMsg(Env.getCtx(), "Processing"));
     			Events.echoEvent("onOK", this, null);
     		}
     		else if (comp == fAnswerButton)
@@ -605,7 +605,7 @@ public class WWFActivity extends ADForm implements EventListener
 		log.config("Activity=" + m_activity);
 		if (m_activity == null)
 		{
-			Clients.showBusy(null, false);
+			Clients.clearBusy();
 			return;
 		}
 		int AD_User_ID = Env.getAD_User_ID(Env.getCtx());
@@ -699,7 +699,7 @@ public class WWFActivity extends ADForm implements EventListener
 		}
 		finally
 		{
-			Clients.showBusy(null, false);
+			Clients.clearBusy();
 			if (trx != null)
 				trx.close();
 		}

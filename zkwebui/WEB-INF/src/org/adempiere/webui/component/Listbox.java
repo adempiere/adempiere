@@ -100,9 +100,9 @@ public class Listbox extends org.zkoss.zul.Listbox implements EventListener
     }
     
     @SuppressWarnings("unchecked")
-    public List<ListItem> getItems()
+    public List<Listitem> getItems()
     {
-        return (List<ListItem>)super.getItems();
+        return (List<Listitem>)super.getItems();
     }
     
     /** 
@@ -120,8 +120,8 @@ public class Listbox extends org.zkoss.zul.Listbox implements EventListener
             return ;
         }
         
-        List<ListItem> items = getItems();
-        for (ListItem item : items)
+        List<Listitem> items = getItems();
+        for (Listitem item : items)
         {
         	if (value.getClass() != item.getValue().getClass()) {
         		// if the classes of value and item are different convert both to String
@@ -331,7 +331,7 @@ public class Listbox extends org.zkoss.zul.Listbox implements EventListener
 	@Override
 	public String toString() {
 		StringBuffer items = new StringBuffer("[");
-		for (ListItem item : getItems()) {
+		for (Listitem item : getItems()) {
 			if (items.length() > 1)
 				items.append(", ");
 			items.append(item.toString());

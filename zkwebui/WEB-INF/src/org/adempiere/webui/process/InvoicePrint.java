@@ -359,7 +359,7 @@ public class InvoicePrint extends SvrProcess
 				File outFile = File.createTempFile("InvoicePrint", ".pdf");					
 				AEnv.mergePdf(pdfList, outFile);
 
-				Clients.showBusy(null, false);
+				Clients.clearBusy();
 				Window win = new SimplePDFViewer(this.getName(), new FileInputStream(outFile));
 				win.setAttribute(Window.MODE_KEY, Window.MODE_HIGHLIGHTED);
 				SessionManager.getAppDesktop().showWindow(win, "center");
@@ -367,7 +367,7 @@ public class InvoicePrint extends SvrProcess
 				log.log(Level.SEVERE, e.getLocalizedMessage(), e);
 			}
 		} else if (pdfList.size() > 0) {
-			Clients.showBusy(null, false);
+			Clients.clearBusy();
 			try {
 				Window win = new SimplePDFViewer(this.getName(), new FileInputStream(pdfList.get(0)));
 				win.setAttribute(Window.MODE_KEY, Window.MODE_HIGHLIGHTED);

@@ -76,7 +76,7 @@ public class GridTabListItemRenderer implements ListitemRenderer, ListitemRender
 	 * @param data
 	 * @see ListitemRenderer#render(Listitem, Object)
 	 */
-	public void render(Listitem listitem, Object data) throws Exception {
+	public void render(Listitem listitem, Object data, int arg2) throws Exception {
 		//don't render if not visible
 		for(Component c = listitem.getParent(); c != null; c = c.getParent()) {
 			if (!c.isVisible())
@@ -373,4 +373,5 @@ public class GridTabListItemRenderer implements ListitemRenderer, ListitemRender
 	public void doTry() {
 		lookupCache = new HashMap<Integer, Map<Object,String>>();
 	}
+
 }

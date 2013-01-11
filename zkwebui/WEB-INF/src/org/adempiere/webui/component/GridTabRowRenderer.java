@@ -63,7 +63,7 @@ import org.zkoss.zhtml.Text;
  * 		<li>BF [ 2996608 ] GridPanel is not displaying time
  * 			https://sourceforge.net/tracker/?func=detail&aid=2996608&group_id=176962&atid=955896
  */
-public class GridTabRowRenderer implements RowRenderer, RowRendererExt, RendererCtrl {
+public class GridTabRowRenderer implements RowRenderer<Object[]>, RowRendererExt, RendererCtrl {
 
 	private static final String CURRENT_ROW_STYLE = "border-top: 2px solid #6f97d2; border-bottom: 2px solid #6f97d2";
 	private static final int MAX_TEXT_LENGTH = 60;
@@ -324,7 +324,7 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 	 * @param data
 	 * @see RowRenderer#render(Row, Object)
 	 */
-	public void render(Row row, Object data) throws Exception {
+	public void render(Row row, Object[] data, int index) throws Exception {
 		//don't render if not visible
 		if (gridPanel != null && !gridPanel.isVisible()) {
 			return;
@@ -336,7 +336,7 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 		if (rowListener == null)
 			rowListener = new RowListener((Grid)row.getParent().getParent());
 
-		currentValues = (Object[])data;
+		currentValues = data;
 		int columnCount = gridTab.getTableModel().getColumnCount();
 		GridField[] gridField = gridTab.getFields();
 		Grid grid = (Grid) row.getParent().getParent();
@@ -348,7 +348,6 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 		}
 
 		int colIndex = -1;
-		int compCount = 0;
 		for (int i = 0; i < columnCount; i++) {
 			if (!gridField[i].isDisplayed()) {
 				continue;
@@ -359,7 +358,6 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 			String divStyle = "border: none; width: 100%; height: 100%;";
 			org.zkoss.zul.Column column = (org.zkoss.zul.Column) columns.getChildren().get(colIndex);
 			if (column.isVisible()) {
-				compCount++;
 				Component component = getDisplayComponent(currentValues[i], gridField[i]);
 				div.appendChild(component);
 //				if (compCount == 1) {
@@ -570,7 +568,7 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 		this.gridPanel = gridPanel;
 	}
 
-	class RowListener implements EventListener {
+	class RowListener implements EventListener<Event> {
 
 		private Grid _grid;
 
@@ -607,4 +605,5 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 	public void setADWindowPanel(AbstractADWindowPanel windowPanel) {
 		this.m_windowPanel = windowPanel;
 	}
+
 }

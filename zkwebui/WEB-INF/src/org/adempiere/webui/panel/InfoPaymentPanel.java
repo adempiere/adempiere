@@ -45,15 +45,16 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
+import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
+import org.zkoss.zul.North;
 import org.zkoss.zul.Separator;
+import org.zkoss.zul.South;
 import org.zkoss.zul.Vbox;
 
 /**
@@ -67,7 +68,7 @@ import org.zkoss.zul.Vbox;
 * @version	InfoPayment.java Adempiere Swing UI 3.4.1
 */
 
-public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, EventListener
+public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, EventListener<Event>
 {
 	/**
 	 * 

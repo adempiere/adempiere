@@ -121,18 +121,10 @@ public class WFilenameEditor extends WEditor
 		//  Show File Open Dialog
 		Media file = null;
 
-		try
-		{
-			file = Fileupload.get(true);
+		file = Fileupload.get(true);
 
-			if (file == null)
-				return;
-		}
-		catch (InterruptedException e)
-		{
-			log.warning(e.getLocalizedMessage());
+		if (file == null)
 			return;
-		}
 
 		// String fileName = System.getProperty("java.io.tmpdir") + System.getProperty("file.separator") + ;
 		// File tempFile = new File(fileName);

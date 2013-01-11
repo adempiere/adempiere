@@ -87,4 +87,11 @@ public class ADTabListModel extends AbstractListModel implements ListitemRendere
 		return item;
 	}
 
+	@Override
+	public void render(Listitem arg0, Object arg1, int arg2) throws Exception {
+		// TODO Auto-generated method stub
+		/* TODO-evenos: find out what should happen here */
+		
+	}
+
 }

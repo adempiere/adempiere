@@ -36,21 +36,21 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.util.media.AMedia;
 import org.zkoss.util.media.Media;
-import org.zkoss.zk.au.AuScript;
 import org.zkoss.zk.au.out.AuEcho;
+import org.zkoss.zk.au.out.AuScript;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.util.Clients;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Fileupload;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Iframe;
+import org.zkoss.zul.North;
+import org.zkoss.zul.South;
 import org.zkoss.zul.Timer;
 
 /**
@@ -452,25 +452,18 @@ public class WAttachment extends Window implements EventListener
 		
 		Media media = null;
 		
-		try 
+		media = Fileupload.get(true); 
+		
+		if (media != null)
 		{
-			media = Fileupload.get(true); 
-			
-			if (media != null)
-			{
 //				pdfViewer.setContent(media);
-				;
-			}
-			else 
-			{
-				preview.setVisible(true);
-				preview.invalidate();
-				return;
-			}
+			;
 		}
-		catch (InterruptedException e) 
+		else 
 		{
-			log.log(Level.WARNING, e.getLocalizedMessage(), e);
+			preview.setVisible(true);
+			preview.invalidate();
+			return;
 		}
 	
 		String fileName = media.getName(); 

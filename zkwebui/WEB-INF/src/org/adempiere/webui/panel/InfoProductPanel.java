@@ -78,10 +78,10 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.North;
+import org.zkoss.zul.South;
 
 /**
  * Search Product and return selection
@@ -92,7 +92,7 @@ import org.zkoss.zkex.zul.South;
  * @author Elaine
  * @version	InfoPayment.java Adempiere Swing UI 3.4.1
  */
-public class InfoProductPanel extends InfoPanel implements EventListener
+public class InfoProductPanel extends InfoPanel implements EventListener<Event>
 {
 	/**
 	 * 

@@ -13,7 +13,7 @@
  *****************************************************************************/
 package org.adempiere.webui.util;
 
-import org.zkoss.zul.SimpleTreeNode;
+import org.zkoss.zul.DefaultTreeNode;
 
 /**
  * 
@@ -26,5 +26,5 @@ public interface TreeNodeAction {
 	 * 
 	 * @param treeNode
 	 */
-	public void run(SimpleTreeNode treeNode);
+	public void run(DefaultTreeNode treeNode);
 }

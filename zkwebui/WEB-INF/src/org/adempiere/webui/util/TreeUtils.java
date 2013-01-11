@@ -15,7 +15,7 @@ package org.adempiere.webui.util;
 
 import java.util.List;
 
-import org.zkoss.zul.SimpleTreeNode;
+import org.zkoss.zul.DefaultTreeNode;
 import org.zkoss.zul.Tree;
 import org.zkoss.zul.TreeModel;
 import org.zkoss.zul.Treechildren;
@@ -120,8 +120,8 @@ public class TreeUtils {
 		int count = model.getChildCount(parent);
 		for(int i = 0; i < count; i++) {
 			Object child = model.getChild(parent, i);
-			if (child instanceof SimpleTreeNode) {
-				action.run((SimpleTreeNode) child);
+			if (child instanceof DefaultTreeNode) {
+				action.run((DefaultTreeNode) child);
 			}
 			traverse(model, child, action);
 		}

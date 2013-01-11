@@ -17,7 +17,7 @@ import org.zkoss.zk.au.out.AuScript;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.HtmlBasedComponent;
 import org.zkoss.zk.ui.util.Clients;
-import org.zkoss.zkex.zul.Borderlayout;
+import org.zkoss.zul.Borderlayout;
 import org.zkoss.zul.Div;
 
 /**

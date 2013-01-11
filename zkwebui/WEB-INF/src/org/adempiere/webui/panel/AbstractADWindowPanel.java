@@ -1737,12 +1737,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 				AD_Process_ID,table_ID, record_ID, true);
 		if (dialog.isValid()) {
 			dialog.setPosition("center");
-			try {
-				dialog.setPage(this.getComponent().getPage());
-				dialog.doModal();
-			}
-			catch (InterruptedException e) {
-			}
+			dialog.setPage(this.getComponent().getPage());
+			dialog.doModal();
 		}
 	}
 
@@ -2221,14 +2217,14 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		m_uiLocked = true;
 
 		if (Executions.getCurrent() != null)
-			Clients.showBusy(null, true);
+			Clients.showBusy(null);
 		else
 		{
 			try {
 				//get full control of desktop
 				Executions.activate(getComponent().getDesktop(), 500);
 				try {
-					Clients.showBusy(null, true);
+					Clients.showBusy(null);
                 } catch(Error ex){
                 	throw ex;
                 } finally{
@@ -2260,7 +2256,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			{
 				updateUI(pi);
 			}
-			Clients.showBusy(null, false);
+			Clients.clearBusy();
 		}
 		else
 		{
@@ -2272,7 +2268,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 					{
 						updateUI(pi);
 					}
-                	Clients.showBusy(null, false);
+                	Clients.clearBusy();
                 } catch(Error ex){
                 	throw ex;
                 } finally{

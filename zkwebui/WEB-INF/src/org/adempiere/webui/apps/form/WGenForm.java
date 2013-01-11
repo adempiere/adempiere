@@ -57,10 +57,10 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.util.Clients;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.North;
+import org.zkoss.zul.South;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Html;
 
@@ -206,7 +206,7 @@ public class WGenForm extends ADForm implements EventListener, WTableModelListen
 
 	public void postQueryEvent() 
     {
-		Clients.showBusy(Msg.getMsg(Env.getCtx(), "Processing"), true);
+		Clients.showBusy(Msg.getMsg(Env.getCtx(), "Processing"));
     	Events.echoEvent("onExecuteQuery", this, null);
     }
     
@@ -221,7 +221,7 @@ public class WGenForm extends ADForm implements EventListener, WTableModelListen
     	}
     	finally
     	{
-    		Clients.showBusy(null, false);
+    		Clients.clearBusy();
     	}
     }
     
@@ -341,7 +341,7 @@ public class WGenForm extends ADForm implements EventListener, WTableModelListen
 		//	OK to print
 		if (FDialog.ask(getWindowNo(), this, genForm.getAskPrintMsg()))
 		{
-			Clients.showBusy("Processing...", true);
+			Clients.showBusy("Processing...");
 			Clients.response(new AuEcho(this, "onPrint", null));			
 		}	//	OK to print
 	}
@@ -378,14 +378,14 @@ public class WGenForm extends ADForm implements EventListener, WTableModelListen
 				File outFile = File.createTempFile(genForm.getClass().getName(), ".pdf");					
 				AEnv.mergePdf(pdfList, outFile);
 
-				Clients.showBusy(null, false);
+				Clients.clearBusy();
 				Window win = new SimplePDFViewer(getFormName(), new FileInputStream(outFile));
 				SessionManager.getAppDesktop().showWindow(win, "center");
 			} catch (Exception e) {
 				log.log(Level.SEVERE, e.getLocalizedMessage(), e);
 			}
 		} else if (pdfList.size() > 0) {
-			Clients.showBusy(null, false);
+			Clients.clearBusy();
 			try {
 				Window win = new SimplePDFViewer(getFormName(), new FileInputStream(pdfList.get(0)));
 				SessionManager.getAppDesktop().showWindow(win, "center");

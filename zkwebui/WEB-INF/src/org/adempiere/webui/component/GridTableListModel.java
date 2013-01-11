@@ -224,4 +224,9 @@ public class GridTableListModel extends AbstractListModel implements TableModelL
 		editing = b;
 	}
 
+	@Override
+	public String getSortDirection(Comparator arg0) {
+		return "natural";
+	}
+
 }
