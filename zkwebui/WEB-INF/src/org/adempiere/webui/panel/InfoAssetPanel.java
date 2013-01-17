@@ -142,7 +142,7 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 		
 		//	AutoQuery
 		if (record_id != 0 || (value != null && value.length() > 0))
-			executeQuery();
+			prepareAndExecuteQuery();
 		
 		p_loadedOK = true;
 	} // InfoProduct

@@ -384,7 +384,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
         	if (classType != null && classType.isAssignableFrom(IDColumn.class))
         	{
         		header = new ListHeader("");
-        		header.setWidth("20px");
+        		header.setWidth("35px");
         	}
         	else
         	{

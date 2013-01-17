@@ -146,8 +146,7 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
         //
         if (record_id !=0 || (value != null && value.length() > 0))
         {
-            executeQuery();
-            renderItems();
+        	prepareAndExecuteQuery();
         }
     }
     public void initComponents()

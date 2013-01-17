@@ -149,7 +149,7 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 		setStatusDB(Integer.toString(no));
 		//	AutoQuery
 		if (record_id !=0 || (value != null && value.length() > 0))
-			executeQuery();
+			prepareAndExecuteQuery();
 		p_loadedOK = true;
 	} // InfoAssignmentPanel
 	

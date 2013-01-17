@@ -149,6 +149,7 @@ public class VPAttribute extends JComponent
 		super.setName(m_columnName);
 		m_text.setName("VPAttribute Text - " + m_columnName);
 		m_button.setName("VPAttribute Button - " + m_columnName);
+		m_value = 0;
 		m_GridTab = gridTab; // added for processCallout
 		m_WindowNo = WindowNo;
 		m_mPAttribute = lookup;
@@ -224,9 +225,9 @@ public class VPAttribute extends JComponent
 	/**	Calling Window Info				*/
 	private int					m_AD_Column_ID = 0;
 	/** record the value for comparison at a point in the future */
-	private Object m_oldValue;
-	private Object m_oldText;
-	private String m_oldWhere;
+	private Integer m_oldValue = 0;
+	private String m_oldText = "";
+	private String m_oldWhere = "";
 	/**	No Instance Key					*/
 	private static Integer		NO_INSTANCE = new Integer(0);
 	/**	Logger			*/
@@ -342,6 +343,8 @@ public class VPAttribute extends JComponent
 		log.fine("Value=" + value);
 		m_value = value;
 		m_text.setText(m_mPAttribute.getDisplay(value));	//	loads value
+		// The text can be long.  Use the tooltip to help display the info.
+		m_text.setToolTipText(m_text.getText());
 		m_pAttributeWhere = "EXISTS (SELECT * FROM M_Storage s "
 				+ "WHERE s.M_AttributeSetInstance_ID=" + value
 				+ " AND s.M_Product_ID=p.M_Product_ID)";
@@ -353,7 +356,17 @@ public class VPAttribute extends JComponent
 	 */
 	public Object getValue()
 	{
-		return m_value;
+		Integer temp = null;
+		if (m_value != null || NO_INSTANCE.equals(m_value)) {
+			try {
+				temp = (Integer) m_value;
+			}
+			catch (ClassCastException cce)
+			{
+				temp = null;
+			}
+		}
+		return temp;
 	}	//	getValue
 
 	/**
@@ -424,7 +437,7 @@ public class VPAttribute extends JComponent
 		{
 			oldValue = (Integer)getValue ();			
 		}
-		catch(Exception npe)
+		catch(ClassCastException cce)
 		{
 			// Possible Invalid Cast exception if getValue() return new instance of Object.
 		}
@@ -482,6 +495,9 @@ public class VPAttribute extends JComponent
 			m_pAttributeWhere = ia.getWhereClause();
 			String oldText = m_text.getText();
 			m_text.setText(ia.getDisplay());
+			// The text can be long.  Use the tooltip to help display the info.
+			m_text.setToolTipText(m_text.getText());
+
 			
 			ActionEvent ae = new ActionEvent(m_text, 1001, "updated");
 			//  TODO not the generally correct way to fire an event
@@ -502,6 +518,8 @@ public class VPAttribute extends JComponent
 				if (vad.isChanged())
 				{
 					m_text.setText(vad.getM_AttributeSetInstanceName());
+					// The text can be long.  Use the tooltip to help display the info.
+					m_text.setToolTipText(vad.getM_AttributeSetInstanceName());
 					M_AttributeSetInstance_ID = vad.getM_AttributeSetInstance_ID();
 					if (!productWindow && vad.getM_Locator_ID() > 0)
 					{
@@ -562,11 +580,23 @@ public class VPAttribute extends JComponent
 	/**
 	 * Set the old value of the field.  For use in future comparisons.
 	 * The old value must be explicitly set though this call.
-	 * @param m_oldValue
 	 */
 	public void set_oldValue() {
-		this.m_oldValue = getValue();
-		this.m_oldText = m_text;
+		if (getValue() != null) {
+			try {
+				this.m_oldValue = ((Integer) getValue());
+			} 
+			catch (ClassCastException e)
+			{
+				this.m_oldValue = null;
+			}
+		}
+		else
+			this.m_oldValue = null;
+		if (m_text != null)
+			this.m_oldText = m_text.getDisplay();
+		else
+			m_oldText = "";
 		this.m_oldWhere = m_pAttributeWhere;
 	}
 	/**
@@ -582,18 +612,20 @@ public class VPAttribute extends JComponent
 	 */
 	public boolean hasChanged() {
 		// Both or either could be null
-		if(getValue() != null)
-			if(m_oldValue != null)
-				return !m_oldValue.equals(getValue());
-			else
-				return true;
-		else  // getValue() is null
-			if(m_oldValue != null)
-				return true;
+		
+		// Don't think a test of Value is needed - the value is never set in this field internally
+		//if(getValue() != null)
+		//	if(m_oldValue != null)
+		//		return !m_oldValue.equals(getValue());
+		//	else
+		//		return true;
+		//else  // getValue() is null
+		//	if(m_oldValue != null)
+		//		return true;
 
 		if(m_text != null)
 			if(m_oldText != null)
-				return !m_oldText.equals(m_text);
+				return !m_oldText.equals(m_text.getDisplay());
 			else
 				return true;
 		else  // m_text is null

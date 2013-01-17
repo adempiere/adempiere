@@ -20,10 +20,12 @@ package org.adempiere.webui.panel;
 import java.util.Properties;
 
 import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Messagebox;
 import org.adempiere.webui.component.ToolBarButton;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.window.WContext;
 import org.adempiere.webui.window.WPreference;
 import org.compiere.model.MClient;
 import org.compiere.model.MOrg;
@@ -43,6 +45,9 @@ import org.zkoss.zul.Vbox;
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
  * @date    Feb 25, 2007
  * @version $Revision: 0.10 $
+ * 
+ * @author Michael Mckay
+ * Add context viewer.  Configurable.
  */
 public class UserPanel extends Vbox  implements EventListener
 {
@@ -54,9 +59,11 @@ public class UserPanel extends Vbox  implements EventListener
     private ToolBarButton logout = new ToolBarButton();
     private ToolBarButton role = new ToolBarButton();
     private ToolBarButton preference = new ToolBarButton();
+    private ToolBarButton context = new ToolBarButton();
 
     private Label lblUserNameValue = new Label();
 	private WPreference preferencePopup;
+	private WContext contextPopup;
 
     public UserPanel()
     {
@@ -79,6 +86,13 @@ public class UserPanel extends Vbox  implements EventListener
     	this.appendChild(lblUserNameValue);
 
     	Hbox hbox = new Hbox();
+    	
+    	// TODO - make configurable
+    	context.setLabel(Msg.getMsg(Env.getCtx(), "Context"));
+    	context.addEventListener(Events.ON_CLICK, this);
+    	context.setStyle("text-align:right");
+    	LayoutUtils.addSclass("desktop-header-font", context);
+    	context.setParent(hbox);    	
 
     	preference.setLabel(Msg.getMsg(Env.getCtx(), "Preference"));
     	preference.addEventListener(Events.ON_CLICK, this);
@@ -164,6 +178,15 @@ public class UserPanel extends Vbox  implements EventListener
 			preferencePopup = new WPreference();
 			preferencePopup.setPage(this.getPage());
 			preferencePopup.open(preference);
+		}
+		else if (context == event.getTarget())
+		{
+			if (contextPopup != null)
+			{
+				contextPopup.detach();
+			}
+			contextPopup = new WContext();
+			AEnv.showWindow(contextPopup);
 		}
 
 	}

@@ -897,7 +897,7 @@ public class VLookup extends JComponent
 		 *  Three return options:
 		 *  - Value Selected & OK pressed   => store result => result has value
 		 *  - Cancel pressed                => store null   => result == null && cancelled
-		 *  - Window closed                 -> ignore       => result == null && !cancalled
+		 *  - Window closed                 -> ignore       => result == null && !cancelled
 		 */
 
 		Object result[] = null;
@@ -915,6 +915,18 @@ public class VLookup extends JComponent
 			+ ", Zoom=" + m_lookup.getZoom()
 			+ " (" + whereClause + ")");
 		//
+		//  If the record has a value (ID) find the name.  The displayed text could be different.
+		if (queryValue.length() == 0 && getValue() != null && !getValue().equals(""))
+		{
+			Object currentValue = getValue();
+			try{
+				record_id = ((Number)currentValue).intValue();
+				queryValue = "";
+			} catch (Exception e) {
+				//  Can't cast the string "" to a number.
+			}
+		}
+		//
 		boolean resetValue = false;	//	reset value so that is always treated as new entry
 		String infoFactoryClass = m_lookup.getInfoFactoryClass();
 		if (infoFactoryClass != null && infoFactoryClass.trim().length() > 0)
@@ -930,8 +942,9 @@ public class VLookup extends JComponent
 						return;
 					}
 				}
+				// multipleSelection assumed false for custom info windows
 				Info ig = factory.create (frame, true, m_lookup.getWindowNo(),
-					m_tableName, m_keyColumnName, record_id, queryValue, false, whereClause);
+					m_tableName, m_keyColumnName, record_id, queryValue, multipleSelection, whereClause);
 				ig.setVisible(true);
 				cancelled = ig.isCancelled();
 				result = ig.getSelectedKeys();
@@ -943,22 +956,18 @@ public class VLookup extends JComponent
 		{
 			//	Reset
 			resetTabInfo();
-			//  If the record has a value (ID) find use that
-			if (queryValue.length() == 0 && getValue() != null)
-			{
-				Object currentValue = getValue();
-				record_id = ((Number)currentValue).intValue();
-				queryValue = "";
-			}
-
+			//
 			int M_Warehouse_ID = Env.getContextAsInt(Env.getCtx(), m_lookup.getWindowNo(), "M_Warehouse_ID");
 			int M_PriceList_ID = Env.getContextAsInt(Env.getCtx(), m_lookup.getWindowNo(), "M_PriceList_ID");
-
+			//
 			if(m_mField != null)
 			{
-			int AD_Table_ID = MColumn.getTable_ID(Env.getCtx(), m_mField.getAD_Column_ID(), null);
-
-			multipleSelection = (MOrderLine.Table_ID ==  AD_Table_ID) || (MInvoiceLine.Table_ID == AD_Table_ID) || (I_PP_Product_BOMLine.Table_ID == AD_Table_ID) || (MProductPrice.Table_ID == AD_Table_ID);
+				int AD_Table_ID = MColumn.getTable_ID(Env.getCtx(), m_mField.getAD_Column_ID(), null);
+				// TODO hard-coded - add to AD_Column?
+				multipleSelection = (MOrderLine.Table_ID ==  AD_Table_ID) || 
+									(MInvoiceLine.Table_ID == AD_Table_ID) || 
+									(I_PP_Product_BOMLine.Table_ID == AD_Table_ID) || 
+									(MProductPrice.Table_ID == AD_Table_ID);
 			}
 			//	Show Info
 			InfoProduct ip = new InfoProduct (frame, true, m_lookup.getWindowNo(),
@@ -970,22 +979,22 @@ public class VLookup extends JComponent
 		}
 		else if (col.equals("C_BPartner_ID"))
 		{
+			resetTabInfo();
+			//
 			boolean isSOTrx = true;     //  default
 			boolean isSOMatch = true;
 			if (Env.getContext(Env.getCtx(), m_lookup.getWindowNo(), "IsSOTrx").equals("N"))
 				isSOTrx = false;				
-
-			//  If the record has a value, set the ID and isSOMatch
-			if (queryValue.length() == 0 && getValue() != null)
+			//
+			//  If we have a record id, set isSOMatch
+			if (record_id > 0)
 			{
-				Object currentValue = getValue();
-				record_id = ((Number)currentValue).intValue();
 				String trxName = Trx.createTrxName();
 				MBPartner bp = new MBPartner(Env.getCtx(), record_id, trxName);
 				isSOMatch = (isSOTrx && bp.isCustomer()) || (!isSOTrx && bp.isVendor());
 				Trx.get(trxName, false).close();
 			}
-			
+			//
 			InfoBPartner ip = new InfoBPartner (frame, true, m_lookup.getWindowNo(), record_id,
 				queryValue, isSOTrx, isSOMatch, multipleSelection, true, whereClause);
 			ip.setVisible(true);
@@ -1003,11 +1012,7 @@ public class VLookup extends JComponent
 					return;
 				}
 			}
-			if (queryValue.length() == 0 && getValue() != null)
-			{
-				Object currentValue = getValue();
-				record_id = ((Number)currentValue).intValue();
-			}
+			//
 			Info ig = Info.create (frame, true, m_lookup.getWindowNo(), m_tableName, 
 					m_keyColumnName, record_id, queryValue, multipleSelection, true, whereClause);
 			ig.setVisible(true);
@@ -1268,9 +1273,6 @@ public class VLookup extends JComponent
 		//
 		if (m_columnName.equals("M_Product_ID"))
 		{
-			//	Reset
-			resetTabInfo();
-			//
 			sql.append("SELECT M_Product_ID FROM M_Product WHERE (");
 			if (text.startsWith("@") && text.endsWith("@"))
 			{
@@ -1397,7 +1399,7 @@ public class VLookup extends JComponent
 			}	//	Table Reference
 		}	//	MLookup
 
-		/** Check Well Known Columns of Table - assumes TableDir	**/
+		// Check Well Known Columns of Table - assumes TableDir
 		String query = "SELECT t.TableName, c.ColumnName "
 			+ "FROM AD_Column c "
 			+ " INNER JOIN AD_Table t ON (c.AD_Table_ID=t.AD_Table_ID AND t.IsView='N') "
@@ -1768,13 +1770,19 @@ public class VLookup extends JComponent
 	{
 		if (this.m_lookup == null)
 			return;
-		String columnName = m_columnName;
 		//
-		// TODO : hardcoded
+		String col = m_lookup.getColumnName();		//	fully qualified name
+		if (col.indexOf('.') != -1)
+			col = col.substring(col.indexOf('.')+1);
+		// TODO : hard-coded
 		final String[] infoNames;
-		if ("M_Product_ID".equals(columnName))
+		if (col.equals("M_Product_ID"))
 		{
 			infoNames = new String[]{"M_Product_ID","M_AttributeSetInstance_ID","M_Locator_ID","M_Lookup_ID"};
+		}
+		else if (col.equals("C_BPartner_ID"))
+		{
+			infoNames = new String[]{"C_BPartner_ID","AD_User_ID","C_BPartner_Location_ID"};
 		}
 		else
 		{

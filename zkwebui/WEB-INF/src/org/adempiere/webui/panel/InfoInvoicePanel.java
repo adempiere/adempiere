@@ -112,8 +112,7 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
        setStatusDB(Integer.toString(no));
        if (record_id != 0 || (value != null && value.length() > 0))
        {
-           executeQuery();
-           renderItems();
+    	   prepareAndExecuteQuery();
        }
     }
     

@@ -414,6 +414,8 @@ public abstract class Info extends CDialog
 
 	/** Worker                  */
 	private Worker              m_worker = null;
+	/** Ignore events                  */
+	protected Boolean   		m_ignoreEvents = false;
 	
 	/**	Logger			*/
 	protected CLogger log = CLogger.getCLogger(getClass());
@@ -1208,7 +1210,7 @@ public abstract class Info extends CDialog
 	/**
 	 *  Enable OK, History, Zoom if row/s selected
      *  ---
-     *  Changes: Changed the logic for accomodating multiple selection
+     *  Changes: Changed the logic for accommodating multiple selection
      *  @author ashley
 	 */
 	protected void enableButtons ()
@@ -1471,7 +1473,9 @@ public abstract class Info extends CDialog
 		//	setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		//	setStatusLine(Msg.getMsg(Env.getCtx(), "StartSearch"), false);
 			long start = System.currentTimeMillis();			
-
+			
+			// Try to prevent unnecessary activity.
+			m_ignoreEvents = true;
 			//  Clear Table
 			p_table.setRowCount(0);
 			//
@@ -1587,6 +1591,7 @@ public abstract class Info extends CDialog
 			p_table.clearSelection();
 			p_table.getSelectionModel().setSelectionInterval(0, 0);
 			p_table.getSelectionModel().setLeadSelectionIndex(0);
+			m_ignoreEvents = false;
 			p_table.firePropertyChange("p_table_update", 0, 1);  // Inform the subclass of the change
 		}   //  run
 		

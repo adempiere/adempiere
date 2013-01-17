@@ -17,6 +17,7 @@
 package org.compiere.apps.search;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Frame;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Level;
 
+import javax.swing.Box;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
@@ -50,17 +52,26 @@ import org.compiere.apps.AppsAction;
 import org.compiere.apps.ConfirmPanel;
 import org.compiere.grid.ed.VCheckBox;
 import org.compiere.grid.ed.VComboBox;
+import org.compiere.grid.ed.VLine;
 import org.compiere.grid.ed.VLookup;
+import org.compiere.grid.ed.VNumber;
 import org.compiere.grid.ed.VPAttribute;
 import org.compiere.grid.ed.VPAttributeDialog;
+import org.compiere.grid.ed.VString;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.MiniTable;
 import org.compiere.model.GridTab;
+import org.compiere.model.MAttribute;
+import org.compiere.model.MAttributeInstance;
+import org.compiere.model.MAttributeSet;
+import org.compiere.model.MAttributeSetInstance;
+import org.compiere.model.MAttributeValue;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MPAttributeLookup;
 import org.compiere.model.MProduct;
 import org.compiere.model.MQuery;
+import org.compiere.model.MRole;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
@@ -195,6 +206,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 	
 	//Begin - fer_luck @ centuryon
 	private CTextArea fieldDescription = new CTextArea();
+	private CTextArea fieldPAttributes = new CTextArea();
 	private JXTaskPane warehouseStockPanel = new JXTaskPane();
 	private CPanel checkPanel = new CPanel();  // Holder for the show detail checkbox
 	private CPanel tablePanel = new CPanel();
@@ -222,6 +234,11 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 	private int			m_M_Locator_ID = 0;
 	private CPanel 		ppButtonPanel;
 	private CPanel 		ppSubPanel;
+	
+	/** 
+	 *  Tracking the last list selection event
+	 */
+	ListSelectionEvent m_lse = new ListSelectionEvent(this, 0, 0, true);
 
 	/**
 	 *	Static Setup - add fields to parameterPanel
@@ -369,7 +386,11 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 		fieldDescription.setEditable(false);
 		fieldDescription.setPreferredSize(new Dimension(INFO_WIDTH - 100, 100));
 
-        warehouseStockPanel.setTitle(Msg.translate(Env.getCtx(), "WarehouseStock"));
+		fieldPAttributes.setBackground(AdempierePLAF.getInfoBackground());
+		fieldPAttributes.setEditable(false);
+		fieldPAttributes.setPreferredSize(new Dimension(INFO_WIDTH - 100, 100));
+
+		warehouseStockPanel.setTitle(Msg.translate(Env.getCtx(), "WarehouseStock"));
         warehouseStockPanel.setUI(new AdempiereTaskPaneUI());
         warehouseStockPanel.getContentPane().setBackground(new ColorUIResource(251,248,241));
         warehouseStockPanel.getContentPane().setForeground(new ColorUIResource(251,0,0));
@@ -384,7 +405,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
         /**	From Clause							*/
         String s_sqlFrom = " M_PRODUCT_STOCK_V ";
         /** Where Clause						*/
-        String s_sqlWhere = "M_Product_ID = ?";
+        String s_sqlWhere = "QtyOnHand <> 0 AND M_Product_ID = ?";
         m_sqlWarehouse = warehouseTbl.prepareTable(s_layoutWarehouse, s_sqlFrom, s_sqlWhere, false, "M_PRODUCT_STOCK_V");
 		m_sqlWarehouse += " Group By M_Warehouse_ID, Warehouse, documentnote ";
 		warehouseTbl.setRowSelectionAllowed(true);
@@ -441,6 +462,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
         jTab.addTab(Msg.translate(Env.getCtx(), "Warehouse"), new JScrollPane(warehouseTbl));
         jTab.setPreferredSize(new Dimension(INFO_WIDTH, SCREEN_HEIGHT > 600 ? 250 : 105));
         jTab.addTab(Msg.translate(Env.getCtx(), "Description"), new JScrollPane(fieldDescription));
+        jTab.addTab(Msg.translate(Env.getCtx(), "ProductAttribute"), new JScrollPane(fieldPAttributes));
         jTab.addTab(Msg.translate(Env.getCtx(), "Substitute_ID"), new JScrollPane(substituteTbl));
         jTab.addTab(Msg.translate(Env.getCtx(), "RelatedProduct_ID"), new JScrollPane(relatedTbl));
 		jTab.addTab (Msg.getMsg(Env.getCtx(), "ATP"), new JScrollPane(m_tableAtp));
@@ -475,6 +497,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 	    	String sql;
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
+			String eol = System.getProperty("line.separator"); 
 			
 			int leadRowKey = p_table.getLeadRowKey();
 			
@@ -482,6 +505,10 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 			{
 	    		m_M_Product_ID = leadRowKey;
 	    		
+				//  Find the ASI used by the product on the lead row
+				MProduct mp = MProduct.get(Env.getCtx(), m_M_Product_ID);
+				m_M_AttributeSetInstance_ID = mp.getM_AttributeSetInstance_ID();				
+
 	    		//  Warehouse tab
 				sql = m_sqlWarehouse;
 		
@@ -511,7 +538,6 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 				//  Description tab
 				if(m_M_Product_ID != 0)
 				{
-					String eol = System.getProperty("line.separator"); 
 					MProduct p = MProduct.get(Env.getCtx(), m_M_Product_ID);
 					if (p.getDescription() != null && p.getDescription().length() > 0)
 						fieldDescription.setText(p.getDescription());
@@ -526,8 +552,137 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 				else
 					fieldDescription.setText("");
 			}
-			
+
 	    	if(jTab.getSelectedIndex() == 2)
+			{
+	    		fieldPAttributes.setText("");
+	    		StringBuffer paText = new StringBuffer();
+	    		
+				//  Product Attributes tab
+				if(m_M_Product_ID != 0)
+				{
+					MProduct p = MProduct.get(Env.getCtx(), m_M_Product_ID);
+					
+					if (p.getM_AttributeSet_ID() == 0 || p.getM_AttributeSetInstance_ID() == 0){
+						// There is no attribute set or attribute set instance associated with the product
+						return;
+					}
+					
+					int M_AttributeSet_ID = p.getM_AttributeSetInstance_ID();
+
+			        sql = 	"SELECT asi.Lot, asi.SerNo, asi.GuaranteeDate,"
+			        	+ 		" COALESCE(a.SerNoCharSOverwrite, '#'::CHAR(1)),"
+			        	+		" COALESCE(a.SerNoCharEOverwrite, ''::CHAR(1)),"
+			        	+		" COALESCE(a.LotCharSOverwrite, '«'::CHAR(1)),"
+			        	+		" COALESCE(a.LotCharEOverwrite, '»'::CHAR(1))"
+			            +	" FROM M_AttributeSetInstance asi"
+			            +	" INNER JOIN M_AttributeSet a ON (asi.M_AttributeSet_ID=a.M_AttributeSet_ID)"
+			            + 	" WHERE asi.M_AttributeSetInstance_ID=?";
+			            
+					log.finest(sql);
+					try
+					{
+						pstmt = DB.prepareStatement(sql, null);
+						pstmt.setInt(1, M_AttributeSet_ID);
+						rs = pstmt.executeQuery();
+						while (rs.next())
+						{
+							if (rs.getString(1).length() > 0)
+								paText
+									.append(Msg.translate(Env.getCtx(), "Lot")).append(": ")
+									.append(rs.getString(6)).append(rs.getString(1)).append(rs.getString(7)).append(eol);
+							if (rs.getString(1).length() > 0)
+								paText
+									.append(Msg.translate(Env.getCtx(), "SerialNumber")).append(": ")
+									.append(rs.getString(4)).append(rs.getString(2)).append(rs.getString(5)).append(eol);
+							if (rs.getDate(3) != null)
+								paText
+									.append(Msg.translate(Env.getCtx(), "GuaranteeDate")).append(": ").append(rs.getDate(3)).append(eol);
+						}
+						rs.close();
+					}
+					catch (Exception e)
+					{
+						log.log(Level.WARNING, sql, e);
+					}
+					finally
+					{
+						DB.close(rs, pstmt);
+						rs = null; pstmt = null;
+					}
+					//  Instance Attributes - if any
+					sql = 	"SELECT ai.Value, a.Name"
+						+	" FROM M_AttributeInstance ai"
+						+	" INNER JOIN M_Attribute a ON (ai.M_Attribute_ID=a.M_Attribute_ID AND a.IsInstanceAttribute='Y')"
+						+	" WHERE ai.M_AttributeSetInstance_ID=?";
+	
+					log.finest(sql);
+					try
+					{
+						pstmt = DB.prepareStatement(sql, null);
+						pstmt.setInt(1, M_AttributeSet_ID);
+						rs = pstmt.executeQuery();
+						Boolean labeled = false;
+						while (rs.next())
+						{
+							if (!labeled)
+							{
+								paText.append("***  ").append(Msg.translate(Env.getCtx(), "InstanceAttribute")).append("  ***").append(eol);
+								labeled = true;
+							}
+							paText.append("  ").append(rs.getString(2)).append(": ").append(rs.getString(1)).append(eol);
+						}
+						rs.close();
+					}
+					catch (Exception e)
+					{
+						log.log(Level.WARNING, sql, e);
+					}
+					finally
+					{
+						DB.close(rs, pstmt);
+						rs = null; pstmt = null;
+					}
+					//  Product attributes - if any
+					sql = 	"SELECT ai.Value, a.Name"
+						+	" FROM M_AttributeInstance ai"
+						+	" INNER JOIN M_Attribute a ON (ai.M_Attribute_ID=a.M_Attribute_ID AND a.IsInstanceAttribute='N')"
+						+	" WHERE ai.M_AttributeSetInstance_ID=?";
+	
+					log.finest(sql);
+					try
+					{
+						pstmt = DB.prepareStatement(sql, null);
+						pstmt.setInt(1, M_AttributeSet_ID);
+						rs = pstmt.executeQuery();
+						Boolean labeled = false;
+						while (rs.next())
+						{
+							if (!labeled)
+							{
+								paText.append("***  ").append(Msg.translate(Env.getCtx(), "ProductAttribute")).append("  ***").append(eol);
+								labeled = true;
+							}
+							paText.append("  ").append(rs.getString(2)).append(": ").append(rs.getString(1)).append(eol);
+						}
+						rs.close();
+					}
+					catch (Exception e)
+					{
+						log.log(Level.WARNING, sql, e);
+					}
+					finally
+					{
+						DB.close(rs, pstmt);
+						rs = null; pstmt = null;
+					}
+					
+					if (paText.length() > 0)
+						fieldPAttributes.setText(paText.toString());
+				}
+			}
+
+	    	if(jTab.getSelectedIndex() == 3)
 			{
 				//  Substitute tab
 				sql = m_sqlSubstitute;
@@ -549,7 +704,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 				}
 			}
 			
-	    	if(jTab.getSelectedIndex() == 3)
+	    	if(jTab.getSelectedIndex() == 4)
 			{
 				//  Related tab
 				sql = m_sqlRelated;
@@ -571,7 +726,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 				}
 			}
 	    	
-	    	if(jTab.getSelectedIndex() == 4)		
+	    	if(jTab.getSelectedIndex() == 5)		
 			{
 	    			refreshAtpTab();
 			}
@@ -1007,8 +1162,8 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 			}
 			else  //  Found and selected the same record or selected the first record
 			{
-				m_M_Product_ID = getSelectedRowKey();
-				refresh();
+	    		log.fine("Calling refresh(): " + e.toString());
+	    		refresh();
 				warehouseStockPanel.setCollapsed(false);
 			}
 
@@ -1026,6 +1181,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 			if (m_heldLastFocus instanceof VCheckBox)
 				((VCheckBox) m_heldLastFocus).requestFocus();
 	
+			enableButtons();
 		}
 	}
 	
@@ -1089,9 +1245,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 			}
 			else if (cmd.equals(ConfirmPanel.A_PATTRIBUTE))
 			{
-				//  Find the ASI used by the product on the lead row
 				MProduct mp = MProduct.get(Env.getCtx(), m_M_Product_ID);
-				m_M_AttributeSetInstance_ID = mp.getM_AttributeSetInstance_ID();				
 				//  Set title and parameters for the PattributeInstance window
 				String title = "";
 				int wh_id = 0;
@@ -1117,11 +1271,12 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 				else
 					fASI_ID.setValue(0); //  No instance
 				
-				//  Saving here is confusing with multi-selection
+				//  Saving here is confusing with multi-selection.  The button shouldn't be enabled
+				//  if multi-selection is enabled.
 				if (p_saveResults)  //  If the results are saved, we can save now - an ASI is product specific
 				{
-				//	dispose(p_saveResults);
-				//	return;
+					dispose(p_saveResults);
+					return;
 				}
 				
 				triggerRefresh = true;
@@ -1181,10 +1336,10 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 					if (vpa.hasChanged())
 					{
 						triggerRefresh = true;
-						if (vpa.getValue() != null && ((Integer) vpa.getValue()) != null)
-							m_M_AttributeSetInstance_ID = ((Integer) vpa.getValue()).intValue();
-						else
-							m_M_AttributeSetInstance_ID = 0;
+						//if (vpa.getValue() != null && ((Integer) vpa.getValue()) != null)
+						//	m_M_AttributeSetInstance_ID = ((Integer) vpa.getValue()).intValue();
+						//else
+						//	m_M_AttributeSetInstance_ID = 0;
 					}
 				}
 				else if (tf.hasChanged())
@@ -1259,8 +1414,19 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 	 */
 	public void valueChanged(ListSelectionEvent lse)
 	{
+		// ValueChanged triggered by count can be ignored.  Event is fired in the info worker run()
+		// when the table is cleared.
+		if (m_ignoreEvents || p_table.getRowCount() == 0)
+			return;
+		
+		//  Mouse events cause duplicate firings of the valueChanged event.  Trap the duplicate.
+		if (m_lse.equals(lse))
+			return;
+		m_lse = lse;
+		
     	if (m_M_Product_ID != p_table.getLeadRowKey())
     	{
+    		log.fine("Calling refresh(): " + lse.toString());
     		refresh();  		//  Update the warehouseStockPanel with the current selected record
     		enableButtons();	//  Set the buttons accordingly
     	}
@@ -1330,7 +1496,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 				try
 				{
 					Object value = p_table.getValueAt(row, INDEX_PATTRIBUTE);
-					enabled = Boolean.TRUE.equals(value);
+					enabled = Boolean.TRUE.equals(value) && !p_table.isMultiSelection();
 				}
 				catch(Exception e)
 				{
@@ -1549,7 +1715,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 			{
 				CTabbedPane tab = (CTabbedPane) e.getSource();
 				
-				if(tab.getSelectedIndex() == 4)
+				if(tab.getSelectedIndex() == 5)
 				{	
 					checkShowDetail.setEnabled(true);
 				}
@@ -1557,6 +1723,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 				{
 					checkShowDetail.setEnabled(false);				
 				}
+	    		log.fine("Calling refresh(): " + e.toString());
 				refresh();
 			}
 			
@@ -1582,6 +1749,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 		list.add(new Info_Column(Msg.translate(Env.getCtx(), "M_Locator_ID"), "Locator", String.class));
 		list.add(new Info_Column(Msg.getMsg(Env.getCtx(), "Date", true), "Date", Timestamp.class));
 		list.add(new Info_Column(Msg.getMsg(Env.getCtx(), "QtyAvailable", true), "QtyAvailable", Double.class));
+		list.add(new Info_Column(Msg.getMsg(Env.getCtx(), "QtyOnHand", true), "QtyOnHand", Double.class));
 		list.add(new Info_Column(Msg.getMsg(Env.getCtx(), "ExpectedChange", true), "DeltaQty", Double.class));
 		list.add(new Info_Column(Msg.translate(Env.getCtx(), "C_BPartner_ID"), "BP_Name", String.class));
 		list.add(new Info_Column(Msg.getMsg(Env.getCtx(), "QtyOrdered", true), "QtyOrdered", Double.class));
@@ -1639,30 +1807,32 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 			if (!showDetail)
 				sql = "(SELECT s.M_Product_ID, w.Name as warehouse, l.value as locator, 0 as ID, now() as Date,"
 					+ " sum(s.QtyOnHand) as AvailQty, null as DeltaQty, null as QtyOrdered, null as QtyReserved,"
-					+ " s.PASI," 
-					+ " null as ASI,"
+					+ " null as sumPASI," // " s.PASI," 
+					+ " 0 as ASI,"
 					+ " null as BP_Name, null as DocumentNo, 10 as SeqNo";
 			else
 				sql = "(SELECT s.M_Product_ID, w.Name as warehouse, l.value as locator, s.M_AttributeSetInstance_ID as ID, now() as Date,"
 					+ " s.QtyOnHand as AvailQty, null as DeltaQty, null as QtyOrdered, null as QtyReserved,"
-					+ " CASE WHEN PASI  = '' THEN '{' || COALESCE(s.M_AttributeSetInstance_ID,0) || '}' ELSE PASI END as PASI," 
+					+ " CASE WHEN s.PASI  = '' THEN '{' || COALESCE(s.M_AttributeSetInstance_ID,0) || '}' ELSE s.PASI END as sumPASI," 
 					+ " COALESCE(M_AttributeSetInstance_ID,0) as ASI," 
 					+ " null as BP_Name, null as DocumentNo,  10 as SeqNo";
-			sql += " FROM (SELECT M_Product_ID, M_Locator_ID, QtyOnHand, QtyReserved, QtyOrdered, COALESCE(productAttribute(M_AttributeSetInstance_ID)::varchar, '') as PASI, COALESCE(M_AttributeSetInstance_ID,0) as M_AttributeSetInstance_ID FROM M_Storage) s "
+			sql += " FROM (SELECT M_Product_ID, M_Locator_ID, QtyOnHand, QtyReserved, QtyOrdered,"
+				+ 		 " COALESCE(productAttribute(M_AttributeSetInstance_ID)::varchar, '') as PASI,"
+				+		 " COALESCE(M_AttributeSetInstance_ID,0) as M_AttributeSetInstance_ID FROM M_Storage) s "
 				+ " INNER JOIN M_Locator l ON (s.M_Locator_ID=l.M_Locator_ID)"
 				+ " INNER JOIN M_Warehouse w ON (l.M_Warehouse_ID=w.M_Warehouse_ID)"
 				+ " WHERE s.M_Product_ID=?";
 			if (M_Warehouse_ID != 0)
 				sql += " AND l.M_Warehouse_ID=?";
-			if (m_M_AttributeSetInstance_ID > 0)
-				sql += " AND s.M_AttributeSetInstance_ID=?";
+			//if (m_M_AttributeSetInstance_ID > 0)
+			//	sql += " AND s.M_AttributeSetInstance_ID=?";
 			if (!showDetail)
 			{
 				sql += " AND (s.QtyOnHand<>0)";
-				sql += " GROUP BY s.M_Product_ID, w.Name, l.value, s.M_Locator_ID, PASI ";
+				sql += " GROUP BY s.M_Product_ID, w.Name, l.value, s.M_Locator_ID, sumPASI, ASI, BP_Name, DocumentNo, SeqNo ";
 			}
 			else
-			    sql += " AND (s.QtyOnHand<>0 OR s.QtyReserved<>0 OR s.QtyOrdered<>0) ";
+			    sql += " AND (s.QtyOnHand<>0) ";
 
 			
 			sql += "UNION ALL ";
@@ -1673,7 +1843,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 				+ " CASE WHEN dt.DocBaseType = 'POO' THEN ol.QtyOrdered ELSE -ol.QtyReserved END as DeltaQty,"
 				+ " CASE WHEN dt.DocBaseType = 'POO' THEN ol.QtyOrdered ELSE null END as QtyOrdered,"
 				+ " CASE WHEN dt.DocBaseType = 'POO' THEN null ELSE ol.QtyReserved END as QtyReserved,"
-				+ " productAttribute(ol.M_AttributeSetInstance_ID) as PASI," 
+				+ " productAttribute(ol.M_AttributeSetInstance_ID) as sumPASI," 
 				+ " ol.M_AttributeSetInstance_ID as ASI,"
 				+ " bp.Name as BP_Name, dt.PrintName || ' ' || o.DocumentNo As DocumentNo, 20 as SeqNo "
 				+ "FROM C_Order o"
@@ -1685,8 +1855,8 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 				+ " AND ol.M_Product_ID=?";
 			if (M_Warehouse_ID != 0)
 				sql += " AND ol.M_Warehouse_ID=?";
-			if (m_M_AttributeSetInstance_ID > 0)
-				sql += " AND ol.M_AttributeSetInstance_ID=?";
+			//if (m_M_AttributeSetInstance_ID > 0)
+			//	sql += " AND ol.M_AttributeSetInstance_ID=?";
 			sql += " ORDER BY M_Product_ID, SeqNo, ID, date, locator)";
 	
 			double qty = 0;
@@ -1700,29 +1870,30 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 				//  Two queries in union - parameters repeat
 				if (M_Warehouse_ID != 0)
 					pstmt.setInt(index++, M_Warehouse_ID);
-				if (m_M_AttributeSetInstance_ID > 0)
-					pstmt.setInt(index++, m_M_AttributeSetInstance_ID);
+				//if (m_M_AttributeSetInstance_ID > 0)
+				//	pstmt.setInt(index++, m_M_AttributeSetInstance_ID);
 				pstmt.setInt(index++, m_M_Product_ID);
 				if (M_Warehouse_ID != 0)
 					pstmt.setInt(index++, M_Warehouse_ID);
-				if (m_M_AttributeSetInstance_ID > 0)
-					pstmt.setInt(index++, m_M_AttributeSetInstance_ID);
+				//if (m_M_AttributeSetInstance_ID > 0)
+				//	pstmt.setInt(index++, m_M_AttributeSetInstance_ID);
 				rs = pstmt.executeQuery();
 				while (rs.next())
 				{
 					//  The order of data matches the layout, not the query
-					//  M_Product_ID, warehouse, locator, ID, Date, AvailQty, DelataQty, (1..7) 
+					//  M_Product_ID, warehouse, locator, ID, Date, AvailQty, DeltaQty, (1..7) 
 					//  QtyOrdered, QtyReserved, (8..9)
-					//  PASI, ASI, (10..11)
+					//  sumPASI, ASI, (10..11)
 					//  BP_Name, DocumentNo,  SeqNo (12..14)
-					Vector<Object> line = new Vector<Object>(9);
+					Vector<Object> line = new Vector<Object>(10);
 					line.add(rs.getInt(1));							//  M_Product_ID
 					line.add(rs.getString(2));						//  warehouse
 					line.add(rs.getString(3));      				//  Locator
 					line.add(rs.getTimestamp(5));					//  Date
 					double deltaQty = rs.getDouble(7);
 					qty += +rs.getDouble(6) + deltaQty;
-					line.add(new Double(qty));  					//  Qty Available
+					line.add(new Double(qty));  					//  Qty Available (running sum)
+					line.add(new Double(rs.getDouble(6)));			//  Qty on hand (this line)
 					line.add(new Double(rs.getDouble(7)));			//  Delta Qty
 					line.add(rs.getString(12));						//  BPartner
 					line.add(new Double(rs.getDouble(8)));  		//  QtyOrdered

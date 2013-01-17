@@ -60,6 +60,7 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.zkoss.zk.au.out.AuEcho;
+import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -137,7 +138,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	public static void showBPartner (int WindowNo)
 	{
 		InfoBPartnerPanel info = new InfoBPartnerPanel (0, "", WindowNo,
-			!Env.getContext(Env.getCtx(),"IsSOTrx").equals("N"), true, false, "", false);
+			true, false, true, false, "", false);
 		AEnv.showWindow(info);
 	}   //  showBPartner
 
@@ -495,16 +496,17 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
      */
     protected boolean setSelectedRow(int record_id)
     {
-    	// Is there a key column?
+        if (contentPanel == null)
+        {
+        	return false;
+        }
+
+        // Is there a key column?
         if (contentPanel.getKeyColumnIndex() == -1)
         {
             return false;
         }
         
-        if (contentPanel == null)
-        {
-        	return false;
-        }
     	// If the query is empty, return
         if (contentPanel.getRowCount() == 0)
         {
@@ -567,11 +569,19 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	{
 		return checkAutoQuery.isSelected();
 	}	//	autoQuery
-	
+
+	/**
+	 *  Prepare and Execute the query
+	 */
+	protected void prepareAndExecuteQuery()
+	{
+    	showBusyDialog();
+    	Clients.response(new AuEcho(this, "onQueryCallback", null));
+	}
 	/**************************************************************************
 	 *  Execute Query
 	 */
-	protected void executeQuery()
+	private void executeQuery()
 	{
 		line = new ArrayList<Object>();
 		cacheStart = -1;
@@ -1302,8 +1312,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
             //default
             else if( autoQuery() || p_refreshNow)
             {
-            	showBusyDialog();
-            	Clients.response(new AuEcho(this, "onQueryCallback", null));
+            	prepareAndExecuteQuery();
             	p_refreshNow = false;
             }
         }
@@ -1324,6 +1333,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
     {
     	try
     	{
+    		setFieldOldValues();
             executeQuery();
             renderItems();
         }
@@ -1552,4 +1562,45 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
     		}
     	}
     }
+    
+	/**
+	 * Determine if the column causes dynamic changes in the table layout
+	 * @param o
+	 * @return true if changes result
+	 */
+	protected boolean columnIsDynamic(Object o)
+	{
+		// List of search fields that cause changes to the table layout
+		// See getProductLayout() and component attribute
+		if (o != null)
+		{
+			Component c = ((Component) o);
+			try {
+				if (c.getAttribute("IsDynamic") != null)
+				{
+					if (c.getAttribute("IsDynamic").equals("True"))
+					{
+						return true;
+					}
+				}			
+			}
+			catch(NullPointerException npe)
+			{
+				return false;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Record outstanding changes by copying the current
+	 * value to the oldValue on all fields
+	 */
+	protected void setFieldOldValues()
+	{
+		//  fieldValue.set_oldValue();
+		return;
+	}
+
+
 }	//	Info

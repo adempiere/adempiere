@@ -109,7 +109,7 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
 		
 		if (record_id !=0 || (value != null && value.length() > 0))
         {
-            executeQuery();
+			prepareAndExecuteQuery();
             renderItems();
         }
 		

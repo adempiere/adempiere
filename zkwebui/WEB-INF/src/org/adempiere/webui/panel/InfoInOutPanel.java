@@ -154,7 +154,7 @@ public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, Ev
 		
 		if (record_id != 0 || (value != null && value.length() > 0))
 		{
-			executeQuery();
+			prepareAndExecuteQuery();
 		}
 	} // InfoInOutPanel
 

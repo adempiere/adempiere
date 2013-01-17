@@ -202,11 +202,12 @@ public class PAttributeInstance extends CDialog
 		+ " LEFT OUTER JOIN M_Storage s ON (s.M_AttributeSetInstance_ID=asi.M_AttributeSetInstance_ID)"
 		+ " LEFT OUTER JOIN M_Locator l ON (s.M_Locator_ID=l.M_Locator_ID)"
 		+ " LEFT OUTER JOIN M_Product p ON (s.M_Product_ID=p.M_Product_ID OR"
-		+                                   " asi.M_AttributeSet_ID = p.M_AttributeSet_ID)"
+		+                                   "(asi.M_AttributeSet_ID = p.M_AttributeSet_ID AND p.M_AttributeSetInstance_ID = 0) "
+		+		")" 
 	;
 	/** Where Clause						*/ 
 	private static String s_sqlWhereWithoutWarehouse = " p.M_Product_ID=?";
-	private static String s_sqlWhereSameWarehouse = " AND (? in (0, l.M_Warehouse_ID)";
+	private static String s_sqlWhereSameWarehouse = " AND (? in (0, l.M_Warehouse_ID))";
 
 	private String	m_sqlNonZero = " AND (s.QtyOnHand<>0 OR s.QtyReserved<>0 OR s.QtyOrdered<>0)";
 	private String	m_sqlMinLife = "";
