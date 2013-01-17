@@ -34,7 +34,7 @@ import org.zkoss.zul.Treerow;
  * @author Low Heng Sin
  *
  */
-public class ADTreeOnDropListener implements EventListener {
+public class ADTreeOnDropListener implements EventListener<Event> {
 	
 	private SimpleTreeModel treeModel;
 	private MTree mTree;

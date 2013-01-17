@@ -48,7 +48,7 @@ import org.zkoss.zul.Space;
  * @author Cristina Ghita, www.arhipac.ro
  * 				<li>FR [ 2076330 ] Add new methods in CWindowToolbar class
  */
-public class CWindowToolbar extends FToolbar implements EventListener
+public class CWindowToolbar extends FToolbar implements EventListener<Event>
 {
     /**
 	 *

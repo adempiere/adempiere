@@ -25,8 +25,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Map.Entry;
+import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.webui.LayoutUtils;
@@ -46,6 +46,7 @@ import org.adempiere.webui.editor.WEditorPopupMenu;
 import org.adempiere.webui.editor.WebEditorFactory;
 import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.util.GridTabDataBinder;
+import org.adempiere.webui.util.TreeUtils;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.DataStatusEvent;
 import org.compiere.model.DataStatusListener;
@@ -69,14 +70,15 @@ import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Borderlayout;
 import org.zkoss.zul.Center;
-import org.zkoss.zul.West;
+import org.zkoss.zul.DefaultTreeNode;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Group;
 import org.zkoss.zul.Groupfoot;
 import org.zkoss.zul.Separator;
-import org.zkoss.zul.DefaultTreeNode;
 import org.zkoss.zul.Space;
+import org.zkoss.zul.TreeModel;
 import org.zkoss.zul.Treeitem;
+import org.zkoss.zul.West;
 
 /**
  *
@@ -91,7 +93,7 @@ import org.zkoss.zul.Treeitem;
  *
  * @author Low Heng Sin
  */
-public class ADTabpanel extends Div implements Evaluatee, EventListener,
+public class ADTabpanel extends Div implements Evaluatee, EventListener<Event>,
 DataStatusListener, IADTabpanel, VetoableChangeListener
 {
 	/**
@@ -147,6 +149,9 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 	private Group currentGroup;
 
 	private boolean m_vetoActive = false;
+	
+	
+	private static final String ON_DEFER_SET_SELECTED_NODE = "onDeferSetSelectedNode";
 
 	public ADTabpanel()
 	{
@@ -156,6 +161,8 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
     private void init()
     {
         initComponents();
+        
+        addEventListener(ON_DEFER_SET_SELECTED_NODE, this);
     }
 
     private void initComponents()
@@ -803,13 +810,20 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
     	{
     		this.switchRowPresentation();
     	}
-    	else if (event.getTarget() == treePanel.getTree()) {
+    	else if (treePanel != null && event.getTarget() == treePanel.getTree()) 
+    	{
     		Treeitem item =  treePanel.getTree().getSelectedItem();
-    		navigateTo((DefaultTreeNode)item.getValue());
+    		navigateTo((DefaultTreeNode<MTreeNode>)item.getValue());
+    	} 
+    	else if (ON_DEFER_SET_SELECTED_NODE.equals(event.getName())) 
+    	{
+    		if (gridTab.getRecord_ID() > 0 && gridTab.isTreeTab() && treePanel != null) {
+            	setSelectedNode(gridTab.getRecord_ID());
+            }
     	}
     }
 
-    private void navigateTo(DefaultTreeNode value) {
+    private void navigateTo(DefaultTreeNode<MTreeNode> value) {
     	MTreeNode treeNode = (MTreeNode) value.getData();
     	//  We Have a TreeNode
 		int nodeID = treeNode.getNode_ID();
@@ -914,7 +928,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
     private void deleteNode(int recordId) {
 		if (recordId <= 0) return;
 
-		SimpleTreeModel model = (SimpleTreeModel) treePanel.getTree().getModel();
+		SimpleTreeModel model = (SimpleTreeModel)(TreeModel<?>) treePanel.getTree().getModel();
 
 		if (treePanel.getTree().getSelectedItem() != null) {
 			DefaultTreeNode treeNode = (DefaultTreeNode) treePanel.getTree().getSelectedItem().getValue();
@@ -938,7 +952,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 			boolean summary = gridTab.getValueAsBoolean("IsSummary");
 			String imageIndicator = (String)gridTab.getValue("Action");  //  Menu - Action
 			//
-			SimpleTreeModel model = (SimpleTreeModel) treePanel.getTree().getModel();
+			SimpleTreeModel model = (SimpleTreeModel)(TreeModel<?>) treePanel.getTree().getModel();
 			DefaultTreeNode treeNode = model.getRoot();
 			MTreeNode root = (MTreeNode) treeNode.getData();
 			MTreeNode node = new MTreeNode (gridTab.getRecord_ID(), 0, name, description,
@@ -953,15 +967,29 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 
 	private void setSelectedNode(int recordId) {
 		if (recordId <= 0) return;
-
-		if (treePanel.getTree().getSelectedItem() != null) {
-			DefaultTreeNode treeNode = (DefaultTreeNode) treePanel.getTree().getSelectedItem().getValue();
-			MTreeNode data = (MTreeNode) treeNode.getData();
-			if (data.getNode_ID() == recordId) return;
+		
+		if (TreeUtils.isOnInitRenderPosted(treePanel.getTree()) || treePanel.getTree().getTreechildren() == null) {
+			treePanel.getTree().onInitRender();
 		}
 
-		SimpleTreeModel model = (SimpleTreeModel) treePanel.getTree().getModel();
-		DefaultTreeNode treeNode = model.find(null, recordId);
+		
+		SimpleTreeModel model = (SimpleTreeModel)(TreeModel<?>) treePanel.getTree().getModel();
+		
+		
+		if (treePanel.getTree().getSelectedItem() != null) {
+			DefaultTreeNode<Object> treeNode = treePanel.getTree().getSelectedItem().getValue();
+			MTreeNode data = (MTreeNode) treeNode.getData();
+			if (data.getNode_ID() == recordId){
+				int[] path = model.getPath(treeNode);
+				Treeitem ti = treePanel.getTree().renderItemByPath(path);
+				if (ti.getPage() == null) {
+					Events.echoEvent(ON_DEFER_SET_SELECTED_NODE, this, null);
+				}
+				 return;
+			}
+		}
+
+		DefaultTreeNode<Object> treeNode = model.find(null, recordId);
 		if (treeNode != null) {
 			int[] path = model.getPath(treeNode);
 			Treeitem ti = treePanel.getTree().renderItemByPath(path);

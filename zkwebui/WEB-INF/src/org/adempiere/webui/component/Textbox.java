@@ -29,7 +29,7 @@ import org.zkoss.zk.ui.event.Events;
  * @date    Feb 25, 2007
  * @version $Revision: 0.10 $
  */
-public class Textbox extends org.zkoss.zul.Textbox implements EventListener
+public class Textbox extends org.zkoss.zul.Textbox implements EventListener<Event>
 {
     /**
 	 * 
@@ -75,7 +75,7 @@ public class Textbox extends org.zkoss.zul.Textbox implements EventListener
      * method to ease porting of swing form
      * @param listener
      */
-	public void addFocusListener(EventListener listener) {
+	public void addFocusListener(EventListener<Event> listener) {
 		addEventListener(Events.ON_FOCUS, listener);
 		addEventListener(Events.ON_BLUR, listener);
 	}

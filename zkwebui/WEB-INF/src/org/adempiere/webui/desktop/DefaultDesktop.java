@@ -24,6 +24,7 @@ import java.io.Serializable;
 import java.net.URL;
 import java.util.logging.Level;
 
+import org.adempiere.webui.apps.BusyDialog;
 import org.adempiere.webui.apps.graph.WGraph;
 import org.adempiere.webui.apps.graph.WPerformanceDetail;
 import org.adempiere.webui.component.Tabpanel;
@@ -74,7 +75,7 @@ import org.zkoss.zul.Toolbarbutton;
  * @date Mar 2, 2007
  * @version $Revision: 0.10 $
  */
-public class DefaultDesktop extends TabbedDesktop implements MenuListener, Serializable, EventListener, IServerPushCallback
+public class DefaultDesktop extends TabbedDesktop implements MenuListener, Serializable, EventListener<Event>, IServerPushCallback
 {
 	/**
 	 * generated serial version ID 
@@ -104,11 +105,12 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 
     protected Component doCreatePart(Component parent)
     {
-    	SidePanel pnlSide = new SidePanel();
     	HeaderPanel pnlHead = new HeaderPanel();
 
-        pnlSide.getMenuPanel().addMenuListener(this);
-
+    	SidePanel pnlSide = new SidePanel();
+    	pnlSide.getMenuPanel().addMenuListener(this);
+    	
+    	
         layout = new Borderlayout();
         if (parent != null)
         {
@@ -116,25 +118,36 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
         	layout.setWidth("100%");
         	layout.setHeight("100%");
         	layout.setStyle("position: absolute");
+        	layout.setSclass("desktop-layout");
+        	
         }
         else
         	layout.setPage(page);
 
         dashboardRunnable = new DashboardRunnable(layout.getDesktop(), this);
 
+        
         North n = new North();
         layout.appendChild(n);
         n.setCollapsible(false);
+        n.setSclass("desktop-north");
         pnlHead.setParent(n);
+        
+       
 
+        
+        
+        
         West w = new West();
+        w.setId("desktop-left-column");
         layout.appendChild(w);
+        w.setSclass("desktop-left-column");
         w.setWidth("300px");
         w.setCollapsible(true);
         w.setSplittable(true);
         w.setTitle(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "Menu")));
-        w.setFlex(true);
-        w.addEventListener(Events.ON_OPEN, new EventListener() {			
+        w.setHflex("1");
+        w.addEventListener(Events.ON_OPEN, new EventListener<Event>() {			
 			@Override
 			public void onEvent(Event event) throws Exception {
 				OpenEvent oe = (OpenEvent) event;
@@ -150,8 +163,9 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 
         windowArea = new Center();
         windowArea.setParent(layout);
-        windowArea.setFlex(true);
+        windowArea.setSclass("desktop-center");
 
+        
         windowContainer.createPart(windowArea);
 
         createHomeTab();
@@ -164,11 +178,16 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
         Tabpanel homeTab = new Tabpanel();
         windowContainer.addWindow(homeTab, Msg.getMsg(Env.getCtx(), "Home").replaceAll("&", ""), false);
 
+
         Portallayout portalLayout = new Portallayout();
         portalLayout.setWidth("100%");
         portalLayout.setHeight("100%");
-        portalLayout.setStyle("position: absolute; overflow: auto");
+        portalLayout.setVflex("1");
+        portalLayout.setHflex("1");
+        portalLayout.setStyle("position: absolute; overflow: auto;");
+        
         homeTab.appendChild(portalLayout);
+        
 
         // Dashboard content
         Portalchildren portalchildren = null;
@@ -187,15 +206,18 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 	        	if(portalchildren == null || currentColumnNo != columnNo)
 	        	{
 	        		portalchildren = new Portalchildren();
-	                portalLayout.appendChild(portalchildren);
+	        		portalchildren.setHflex("1");
+	        		portalchildren.setVflex("1");
+	        		portalLayout.appendChild(portalchildren);
 	                portalchildren.setWidth(width + "%");
-	                portalchildren.setStyle("padding: 5px");
-
+	                portalchildren.setStyle("padding: 5px; overflow: auto;");
+	        
 	                currentColumnNo = columnNo;
 	        	}
 
 	        	Panel panel = new Panel();
-	        	panel.setStyle("margin-bottom:10px");
+	        	panel.setVflex("1");       	
+	        	panel.setStyle("margin-bottom:10px; overflow: auto;");
 	        	panel.setTitle(dp.get_Translation(MDashboardContent.COLUMNNAME_Name));
 
 	        	String description = dp.get_Translation(MDashboardContent.COLUMNNAME_Description);
@@ -204,10 +226,11 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 
             	panel.setCollapsible(dp.isCollapsible());
             	panel.setOpen( dp.isOpenByDefault() );
-            	
-	        	panel.setBorder("normal");
+            	panel.setBorder("normal");
 	        	portalchildren.appendChild(panel);
+	        	
 	            Panelchildren content = new Panelchildren();
+	            content.setStyle("overflow: auto;");	//zk 6 -> makes each Portalchildren scrollable
 	            panel.appendChild(content);
 
 	            boolean panelEmpty = true;
@@ -264,7 +287,7 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 	        		Toolbarbutton link = new Toolbarbutton();
 		            link.setImage("/images/Zoom16.png");
 		            link.setAttribute("PA_Goal_ID", PA_Goal_ID);
-		            link.addEventListener(Events.ON_CLICK, new EventListener() {
+		            link.addEventListener(Events.ON_CLICK, new EventListener<Event>() {
 
 						public void onEvent(Event event) throws Exception {
 							int PA_Goal_ID = (Integer)event.getTarget().getAttribute("PA_Goal_ID");
@@ -420,13 +443,12 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 	private void autoHideMenu() {
 		if (layout.getWest().isCollapsible() && !layout.getWest().isOpen())
 		{
-			//using undocumented js api, need to be retested after every version upgrade
-			String id = layout.getWest().getUuid() + "!real";
-			String btn = layout.getWest().getUuid() + "!btn";
-			String script = "zk.show('" + id + "', false);";
-			script += "$e('"+id+"')._isSlide = false;";
-			script += "$e('"+id+"')._lastSize = null;";
-			script += "$e('"+btn+"').style.display = '';";
+				
+			/* TODO-evenos: zk 6 */
+			String id = layout.getWest().getUuid();
+			//$n('colled') is not documented api so this might break in release after 6.0.0
+			String script = "jq(zk.Widget.$('"+id+"').$n('colled')).click();";
+			
 			AuScript aus = new AuScript(layout.getWest(), script);
 			Clients.response("autoHideWest", aus);
 		}

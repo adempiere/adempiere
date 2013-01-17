@@ -52,8 +52,8 @@ import org.zkoss.zul.Center;
 import org.zkoss.zul.East;
 import org.zkoss.zul.North;
 import org.zkoss.zul.South;
-import org.zkoss.zul.West;
 import org.zkoss.zul.Tab;
+import org.zkoss.zul.West;
 
 /**
  *
@@ -172,6 +172,8 @@ public class ADWindowPanel extends AbstractADWindowPanel
         	((Tabpanel)parent).setOnCloseHandler(handler);
         }
 
+        
+    
         if (!isEmbedded()) {
         	if (keyListener != null)
         		keyListener.detach();

@@ -121,7 +121,7 @@ import org.zkoss.zul.Menupopup;
  *  		https://sourceforge.net/tracker/?func=detail&aid=2985892&group_id=176962&atid=955896
  */
 public abstract class AbstractADWindowPanel extends AbstractUIPart implements ToolbarListener,
-        EventListener, DataStatusListener, ActionListener, ASyncProcess
+        EventListener<Event>, DataStatusListener, ActionListener, ASyncProcess
 {
     private static final CLogger logger;
 

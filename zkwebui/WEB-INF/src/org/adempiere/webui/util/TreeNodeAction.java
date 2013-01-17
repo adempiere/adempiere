@@ -26,5 +26,5 @@ public interface TreeNodeAction {
 	 * 
 	 * @param treeNode
 	 */
-	public void run(DefaultTreeNode treeNode);
+	public void run(DefaultTreeNode<?> treeNode);
 }

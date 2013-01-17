@@ -44,7 +44,7 @@ import org.zkoss.zul.Vbox;
  * @author Elaine
  * @date November 20, 2008
  */
-public class DPFavourites extends DashboardPanel implements EventListener {
+public class DPFavourites extends DashboardPanel implements EventListener<Event> {
 
 	/**
 	 * 
@@ -66,6 +66,7 @@ public class DPFavourites extends DashboardPanel implements EventListener {
 		super();
 		
 		Panel panel = new Panel();
+		panel.setVflex("1"); 
 		this.appendChild(panel);
 		
 		Panelchildren favContent = new Panelchildren();
@@ -78,7 +79,7 @@ public class DPFavourites extends DashboardPanel implements EventListener {
 		// Elaine 2008/07/24
 		Image img = new Image("/images/Delete24.png");
 		favToolbar.appendChild(img);
-		img.setAlign("right");
+		img.setStyle("text-align: right");
 		img.setDroppable(DELETE_FAV_DROPPABLE);
 		img.addEventListener(Events.ON_DROP, this);
 		//
@@ -115,6 +116,9 @@ public class DPFavourites extends DashboardPanel implements EventListener {
 				if (nd.isOnBar()) {
 					String label = nd.toString().trim();
 					ToolBarButton btnFavItem = new ToolBarButton(String.valueOf(nd.getNode_ID()));
+					
+					System.out.println("Neuer Button in DPFavourites: "+nd.toString().trim()+ " - "+String.valueOf(nd.getNode_ID()));
+					
 					btnFavItem.setLabel(label);
 					btnFavItem.setImage(getIconFile(nd));
 					btnFavItem.setDraggable(DELETE_FAV_DROPPABLE);

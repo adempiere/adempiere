@@ -10,7 +10,7 @@ fi
 echo	Import Adempiere Translation - $ADEMPIERE_HOME \($ADEMPIERE_DB_NAME\)
 
 # need to change this to reflect your language
-export  AD_LANGUAGE=ca_ES
+export  AD_LANGUAGE=de_DE
 
 export  DIRECTORY=$ADEMPIERE_HOME/data/$AD_LANGUAGE
 

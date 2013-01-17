@@ -22,6 +22,16 @@ Copyright (C) 2007 Ashley G Ramdass (ADempiere WebUI).
 		<version-uid>3.5</version-uid>
 	</version>
 
+	<component>
+		<component-name>keylistener</component-name>
+		<component-class>org.zkforge.keylistener.Keylistener</component-class>
+		<widget-class>zkforge.KeyListener</widget-class>
+		<mold>
+			<mold-name>default</mold-name>
+			<mold-uri>mold/key-listener.js</mold-uri>
+		</mold>
+	</component>
+	
 	<javascript src="/js/calc.js" charset="UTF-8"/>
 	<javascript src="/js/layout.js" charset="UTF-8"/>
 	<javascript src="/js/report.js" charset="UTF-8"/>	

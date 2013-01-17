@@ -143,8 +143,11 @@ public class WAttachment extends Window implements EventListener
 			setAttribute(Window.MODE_KEY, Window.MODE_HIGHLIGHTED);			
 			AEnv.showWindow(this);
 			displayData(0, true);
-			String script = "setTimeout(\"$e('"+ preview.getUuid() + "').src = $e('" +
-			preview.getUuid() + "').src\", 1000)";
+			
+			/* TODO-evenos: zk 6 */
+			
+			String script = "setTimeout(\"zk.Widget.$('"+ preview.getUuid() + "').$n().src = zk.Widget.$('" +
+					preview.getUuid() + "').$n().src\", 1000)";
 			Clients.response(new AuScript(null, script));
 			
 			//enter modal

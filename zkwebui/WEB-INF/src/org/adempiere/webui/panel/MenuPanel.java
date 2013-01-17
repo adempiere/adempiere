@@ -51,7 +51,7 @@ import org.zkoss.zul.Treerow;
  * @date    Feb 25, 2007
  * @version $Revision: 0.10 $
  */
-public class MenuPanel extends Panel implements EventListener
+public class MenuPanel extends Panel implements EventListener<Event>
 {
     /**
 	 * 
@@ -64,42 +64,46 @@ public class MenuPanel extends Panel implements EventListener
     
     private Checkbox chkExpand; // Elaine 2009/02/27 - expand tree
     
-    public MenuPanel()
+    public MenuPanel(Component parent)
     {
-        ctx = Env.getCtx();
-        int adRoleId = Env.getAD_Role_ID(ctx);
-        int adTreeId = getTreeId(ctx, adRoleId);
-        MTree mTree = new MTree(ctx, adTreeId, false, true, null);
-        
-        if(mTree == null)
-        {
-            throw new ApplicationException("Could not load menu tree");
-        }
-        
-        MTreeNode rootNode = mTree.getRoot();
-        init();
-        initMenu(rootNode);
-        pnlSearch.initialise();
+    	if (parent != null)
+    		this.setParent(parent);
+        init();        
     }
     
     private void init()
     {
+
+        ctx = Env.getCtx();
+        int adRoleId = Env.getAD_Role_ID(ctx);
+        int adTreeId = getTreeId(ctx, adRoleId);
+        MTree mTree = new MTree(ctx, adTreeId, false, true, null);    	
+        MTreeNode rootNode = mTree.getRoot();
+       	initComponents();
+        initMenu(rootNode);
+        pnlSearch.initialise();	
+        
+    }
+    
+    private void initComponents(){
+    	
     	this.setWidth("100%");
     	this.setHeight("100%");
+    	this.setStyle("position: relative");
     	
         menuTree = new Tree();
         menuTree.setMultiple(false);
         menuTree.setId("mnuMain");
         menuTree.setWidth("100%");
         menuTree.setVflex(true);
-        menuTree.setFixedLayout(false);
+        menuTree.setSizedByContent(false);
         menuTree.setPageSize(-1); // Due to bug in the new paging functionality
-        
         menuTree.setStyle("border: none");
         
         pnlSearch = new TreeSearchPanel(menuTree);
         
         Toolbar toolbar = new Toolbar();
+        toolbar.setMold("panel");
         toolbar.appendChild(pnlSearch);
         this.appendChild(toolbar);
         
@@ -109,10 +113,13 @@ public class MenuPanel extends Panel implements EventListener
         
         // Elaine 2009/02/27 - expand tree
         toolbar = new Toolbar();
+        toolbar.setStyle("verticle-align: middle; padding: 2px");
+        
         chkExpand = new Checkbox();
         chkExpand.setText(Msg.getMsg(Env.getCtx(), "ExpandTree"));
         chkExpand.addEventListener(Events.ON_CHECK, this);
         toolbar.appendChild(chkExpand);
+        toolbar.setMold("panel");
         this.appendChild(toolbar);
     }
     
@@ -122,11 +129,12 @@ public class MenuPanel extends Panel implements EventListener
         Treecol treeCol = new Treecol();
         
         Treechildren rootTreeChildren = new Treechildren();
-        generateMenu(rootTreeChildren, rootNode);
         
         treeCols.appendChild(treeCol);
         menuTree.appendChild(treeCols);
         menuTree.appendChild(rootTreeChildren);
+        
+        generateMenu(rootTreeChildren, rootNode);
     }
     
     private int getTreeId(Properties ctx, int adRoleId)
