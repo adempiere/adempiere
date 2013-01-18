@@ -446,7 +446,6 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 				
 			/* TODO-evenos: zk 6 */
 			String id = layout.getWest().getUuid();
-			//$n('colled') is not documented api so this might break in release after 6.0.0
 			String script = "jq(zk.Widget.$('"+id+"').$n('colled')).click();";
 			
 			AuScript aus = new AuScript(layout.getWest(), script);

@@ -65,7 +65,6 @@ import org.zkoss.zhtml.Td;
 import org.zkoss.zhtml.Tr;
 import org.zkoss.zk.au.out.AuFocus;
 import org.zkoss.zk.au.out.AuScript;
-import org.zkoss.zk.fn.ZkFns;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
@@ -86,7 +85,7 @@ import org.zkoss.zul.Image;
  * @author <a href="mailto:sendy.yagambrum@posterita.org">Sendy Yagambrum</a>
  * @date    July 18, 2007
  */
-public class LoginPanel extends Window implements EventListener
+public class LoginPanel extends Window implements EventListener<Event>
 {
 	/**
 	 * 
@@ -113,6 +112,7 @@ public class LoginPanel extends Window implements EventListener
         initComponents();
         init();
         this.setId("loginPanel");
+        this.setSclass("login-box");
 
         AuFocus auf = new AuFocus(txtUserId);
         Clients.response(auf);
@@ -201,13 +201,14 @@ public class LoginPanel extends Window implements EventListener
     	div.setSclass(ITheme.LOGIN_BOX_FOOTER_CLASS);
         ConfirmPanel pnlButtons = new ConfirmPanel(false);
         pnlButtons.addActionListener(this);
+        
         LayoutUtils.addSclass(ITheme.LOGIN_BOX_FOOTER_PANEL_CLASS, pnlButtons);
         pnlButtons.setWidth(null);
         pnlButtons.getButton(ConfirmPanel.A_OK).setSclass(ITheme.LOGIN_BUTTON_CLASS);
         div.appendChild(pnlButtons);
         this.appendChild(div);
 
-        this.addEventListener(TokenEvent.ON_USER_TOKEN, new EventListener() {
+        this.addEventListener(TokenEvent.ON_USER_TOKEN, new EventListener<Event>() {
 
 			@Override
 			public void onEvent(Event event) throws Exception {
@@ -271,7 +272,6 @@ public class LoginPanel extends Window implements EventListener
         txtPassword.setId("txtPassword");
         txtPassword.setType("password");
         txtPassword.setCols(25);
-//        txtPassword.setMaxlength(40);
         txtPassword.setWidth("220px");
 
         lstLanguage = new Combobox();
@@ -295,7 +295,8 @@ public class LoginPanel extends Window implements EventListener
 		}
 
         chkRememberMe = new Checkbox(Msg.getMsg(Language.getBaseAD_Language(), "RememberMe"));
-
+        chkRememberMe.setId("chkRememberMe");
+        
         // Make the default language the language of client System
         String defaultLanguage = MClient.get(ctx, 0).getAD_Language();
         for(int i = 0; i < lstLanguage.getItemCount(); i++)
@@ -429,8 +430,6 @@ public class LoginPanel extends Window implements EventListener
 
             Locales.setThreadLocal(language.getLocale());
 
-/* TODO-evenos: do we need to replace this line with something other? what is it used for?*/
-//            Clients.response("zkLocaleJavaScript", new AuScript(null, ZkFns.outLocaleJavaScript()));
             String timeoutText = getUpdateTimeoutTextScript();
             if (!Strings.isEmpty(timeoutText))
             	Clients.response("zkLocaleJavaScript2", new AuScript(null, timeoutText));

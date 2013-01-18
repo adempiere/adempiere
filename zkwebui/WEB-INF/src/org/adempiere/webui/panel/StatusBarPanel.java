@@ -36,11 +36,10 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.Cell;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Vbox;
-
-import com.sun.xml.internal.bind.v2.TODO;
 
 /**
  * This class is based on org.compiere.apps.StatusBar written by Jorg Janke.
@@ -50,7 +49,7 @@ import com.sun.xml.internal.bind.v2.TODO;
  * @date    Mar 12, 2007
  * @version $Revision: 0.10 $
  */
-public class StatusBarPanel extends Panel implements EventListener, IStatusBar
+public class StatusBarPanel extends Panel implements EventListener<Event>, IStatusBar
 {
 	/**
 	 * 
@@ -105,10 +104,31 @@ public class StatusBarPanel extends Panel implements EventListener, IStatusBar
         Hbox hbox = new Hbox();
         hbox.setWidth("100%");
         hbox.setHeight("100%");
-        if (embedded)
-        	hbox.setWidths("90%,10%");
-        else
-        	hbox.setWidths("50%,50%");
+        hbox.setHflex("1");
+        
+        /* TODO-evenos: zk6 */
+//        if (embedded)
+//        	hbox.setWidths("90%,10%");
+//        hbox.setWi
+//        else
+//        	hbox.setWidths("50%,50%");
+        
+        
+        Cell leftCell = new Cell();
+        hbox.appendChild(leftCell);
+        Cell rightCell = new Cell();
+        hbox.appendChild(rightCell);
+        
+        if (embedded){
+        	leftCell.setWidth("90%");
+            rightCell.setWidth("10%");
+        }else{
+        	leftCell.setWidth("50%");
+            rightCell.setWidth("50%");
+        }
+        
+        
+                
         west = new Div();
         west.setStyle("text-align: left; ");
         west.appendChild(statusLine);
@@ -116,7 +136,7 @@ public class StatusBarPanel extends Panel implements EventListener, IStatusBar
         vbox.setPack("center");
         LayoutUtils.addSclass("status", vbox);
         vbox.appendChild(west);
-        hbox.appendChild(vbox);
+        leftCell.appendChild(vbox);
 
         east = new Div();
         east.setWidth("100%");
@@ -133,10 +153,11 @@ public class StatusBarPanel extends Panel implements EventListener, IStatusBar
         if (!embedded)
         	LayoutUtils.addSclass("status-info", infoLine);
         vbox = new Vbox();
+        vbox.setAlign("stretch");
         vbox.setPack("center");
         LayoutUtils.addSclass("status", vbox);
         vbox.appendChild(east);
-        hbox.appendChild(vbox);
+        rightCell.appendChild(vbox);
 
         this.appendChild(hbox);
 

@@ -31,7 +31,7 @@ public final class LayoutUtils {
 	 * @param layout
 	 */
 	public static void sendDeferLayoutEvent(Borderlayout layout, int timeout) {
-		StringBuffer content = new StringBuffer();		
+		StringBuilder content = new StringBuilder();		
 		content.append("ad_deferRenderBorderLayout('")
 			   .append(layout.getUuid())
 			   .append("',").append(timeout).append(");");

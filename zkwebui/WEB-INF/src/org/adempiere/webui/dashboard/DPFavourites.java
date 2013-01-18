@@ -117,7 +117,6 @@ public class DPFavourites extends DashboardPanel implements EventListener<Event>
 					String label = nd.toString().trim();
 					ToolBarButton btnFavItem = new ToolBarButton(String.valueOf(nd.getNode_ID()));
 					
-					System.out.println("Neuer Button in DPFavourites: "+nd.toString().trim()+ " - "+String.valueOf(nd.getNode_ID()));
 					
 					btnFavItem.setLabel(label);
 					btnFavItem.setImage(getIconFile(nd));
