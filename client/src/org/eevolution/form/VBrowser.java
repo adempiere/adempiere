@@ -359,7 +359,7 @@ public class VBrowser extends Browser implements ActionListener,
 
 		// set editors (two steps)
 		for (int i = 0; i < layout.length; i++)
-			detail.setColumnClass(i, layout[i].getColClass(),
+			detail.setColumnClass(i, layout[i].getColClass(), layout[i].getDisplayType() ,
 					layout[i].isReadOnly(), layout[i].getColHeader());
 
 		sql.append(" FROM ").append(from);

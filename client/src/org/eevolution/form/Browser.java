@@ -320,7 +320,7 @@ public abstract class Browser {
 				colClass = String.class;;
 			}
 			if (colClass != null) {
-				Info_Column infocol = new Info_Column(field.getName(), colSql.toString(), colClass , IDcolSQL );
+				Info_Column infocol = new Info_Column(field.getName(), colSql.toString(), colClass , displayType , IDcolSQL );
 				infocol.setReadOnly(field.isReadOnly());
 				list.add(infocol);
 				log.finest("Added Field=" + columnName + " Name=" + field.getName());
