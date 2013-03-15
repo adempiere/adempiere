@@ -62,12 +62,30 @@ public class ColumnInfo
 	public ColumnInfo (String colHeader, String colSQL, Class<?> colClass, 
 		boolean readOnly, boolean colorColumn, String keyPairColSQL)
 	{
+		this(colHeader, colSQL, colClass, 0 ,
+				readOnly,  colorColumn, keyPairColSQL);
+	}
+	
+	/**
+	 *  Create Info Column
+	 *
+	 *  @param colHeader Column Header
+	 *  @param colSQL    SQL select code for column
+	 *  @param colClass  class of column - determines display
+	 *  @param readOnly  column is read only
+	 *  @param colorColumn   if true, value of column determines foreground color
+	 *  @param keyPairColSQL  SQL select for the ID of the for the displayed column
+	 */
+	public ColumnInfo (String colHeader, String colSQL, Class<?> colClass, int displayType,
+		boolean readOnly, boolean colorColumn, String keyPairColSQL)
+	{
 		setColHeader(colHeader);
 		setColSQL(colSQL);
 		setColClass(colClass);
 		setReadOnly(readOnly);
 		setColorColumn(colorColumn);
 		setKeyPairColSQL(keyPairColSQL);
+		setDisplayType(displayType);
 	}   //  ColumnInfo
 
 
@@ -77,6 +95,7 @@ public class ColumnInfo
 	private boolean     m_readOnly;
 	private boolean     m_colorColumn;
 	private String      m_keyPairColSQL = "";
+	private int      m_DisplayType;
 
 	/**
 	 * 	Get Col Class
@@ -190,5 +209,22 @@ public class ColumnInfo
 	public boolean isKeyPairCol()
 	{
 		return m_keyPairColSQL.length() > 0;
+	}
+	
+	/**
+	 * 	Set Display Type
+	 *	@param display Type
+	 */
+	public void setDisplayType(int displayType)
+	{
+		m_DisplayType = displayType;
+	}
+	/**
+	 * 	Display Type
+	 *	@return display Type
+	 */
+	public int getDisplayType()
+	{
+		return m_DisplayType;
 	}
 }   //  infoColumn

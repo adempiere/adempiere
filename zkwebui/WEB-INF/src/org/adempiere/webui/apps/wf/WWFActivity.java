@@ -54,6 +54,7 @@ import org.compiere.util.Trx;
 import org.compiere.util.ValueNamePair;
 import org.compiere.wf.MWFActivity;
 import org.compiere.wf.MWFNode;
+import org.eevolution.form.WBrowser;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -583,6 +584,13 @@ public class WWFActivity extends ADForm implements EventListener
 
 			Window form = ADForm.openForm(AD_Form_ID);
 			AEnv.showWindow(form);
+		}
+		else if (MWFNode.ACTION_SmartBrowse.equals(node.getAction()))
+		{
+			int AD_Browse_ID = node.getAD_Browse_ID();
+
+			Window browse = WBrowser.openBrowse(AD_Browse_ID);
+			AEnv.showWindow(browse);
 		}
 		else
 			log.log(Level.SEVERE, "No User Action:" + node.getAction());

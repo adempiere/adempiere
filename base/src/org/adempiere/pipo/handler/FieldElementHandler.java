@@ -170,6 +170,18 @@ public class FieldElementHandler extends AbstractElementHandler
 				id = get_IDWithColumn(ctx, "AD_Reference", "Name", Name);
 				m_Field.setAD_Reference_Value_ID(id);
 				m_Field.setInfoFactoryClass(getStringValue(atts, "InfoFactoryClass"));
+				
+				if ("Y".equals(atts.getValue("isMandatory")))
+					m_Field.setIsMandatory(atts.getValue("isMandatory"));
+				else if ("N".equals(atts.getValue("isMandatory")))
+					m_Field.setIsMandatory(atts.getValue("isMandatory"));
+				
+				m_Field.setDefaultValue(atts.getValue("DefaultValue"));
+				m_Field.setHideInListView(Boolean.valueOf(atts.getValue("HideInListView")).booleanValue());
+				String preferredWidth = atts.getValue("PreferredWidth");
+				if(preferredWidth != null )
+					m_Field.setPreferredWidth(Integer.parseInt(preferredWidth));
+				
 				setIncluded_Tab_ID(ctx, m_Field, include_tabname);
 				
 				if (m_Field.save(getTrxName(ctx)) == true) {
@@ -326,6 +338,18 @@ public class FieldElementHandler extends AbstractElementHandler
 		
 		atts.addAttribute("", "", "InfoFactoryClass", "CDATA", (m_Field.getInfoFactoryClass() != null 
 				? m_Field.getInfoFactoryClass() : ""));
+
+		atts.addAttribute("", "", "isMandatory", "CDATA", "Y".equals(m_Field.getIsMandatory()) ? "Y" 
+				: "N".equals(m_Field.getIsMandatory()) ? "N" : "");
+		atts.addAttribute("", "", "DefaultValue", "CDATA", (m_Field
+				.getDefaultValue() != null ? m_Field.getDefaultValue() : ""));
+		
+		atts.addAttribute("", "", "PreferredWidth", "CDATA",
+				(m_Field.getPreferredWidth() > 0 ? ""
+						+ m_Field.getPreferredWidth() : "0"));
+		
+		atts.addAttribute("", "", "HideInListView", "CDATA", m_Field.isHideInListView() == true ? "true" : "false");
+		
 		
 		if (m_Field.getAD_Reference_ID() > 0) {
 			sql = "SELECT Name FROM AD_Reference WHERE AD_Reference_ID=?";

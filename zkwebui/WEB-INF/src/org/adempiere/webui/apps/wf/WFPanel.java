@@ -248,6 +248,8 @@ public class WFPanel extends Borderlayout implements EventListener
 			SessionManager.getAppDesktop().openWindow(wfn.getAD_Window_ID());
 		} else if (wfn.getAD_Form_ID() > 0) {
 			SessionManager.getAppDesktop().openForm(wfn.getAD_Form_ID());
+		} else if (wfn.getAD_Browse_ID() > 0) {
+			SessionManager.getAppDesktop().openBrowse(wfn.getAD_Browse_ID());
 		} else if (wfn.getAD_Process_ID() > 0) {
 			SessionManager.getAppDesktop().openProcessDialog(wfn.getAD_Process_ID(), false);
 		} else if (wfn.getAD_Task_ID() > 0) {

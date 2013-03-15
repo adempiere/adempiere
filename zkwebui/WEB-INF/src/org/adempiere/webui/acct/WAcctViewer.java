@@ -17,6 +17,7 @@
 
 package org.adempiere.webui.acct;
 
+import java.io.File;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -45,12 +46,15 @@ import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAcctSchemaElement;
 import org.compiere.model.X_C_AcctSchema_Element;
 import org.compiere.report.core.RModel;
+import org.compiere.report.core.RModelExcelExporter;
+import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
+import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -58,6 +62,7 @@ import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Caption;
+import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Groupbox;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Listhead;
@@ -74,6 +79,9 @@ import org.zkoss.zul.Separator;
  *
  *  @author Elaine Tan
  *  @author Low Heng Sin
+ *  @author victor.perez@e-evolution.com, www.e-evolution.com
+ * 			<li>FR[3435028] Add Export Icon in Account Viewer for ZK
+ * 			<li>http://sourceforge.net/tracker/?func=detail&aid=3435028&group_id=176962&atid=879335
  */
 
 public class WAcctViewer extends Window implements EventListener
@@ -102,6 +110,8 @@ public class WAcctViewer extends Window implements EventListener
 	private Button bQuery = new Button();
 	private Button bRePost = new Button();
 	private Button bPrint = new Button();
+	//FR[3435028]
+	private Button bExport = new Button();
 	private Button sel1 = new Button();
 	private Button sel2 = new Button();
 	private Button sel3 = new Button();
@@ -490,15 +500,22 @@ public class WAcctViewer extends Window implements EventListener
 		bQuery.setTooltiptext(Msg.getMsg(Env.getCtx(), "Refresh"));
 		bQuery.addEventListener(Events.ON_CLICK, this);
 
+		//FR[3435028]
+		bExport.setImage("/images/Export16.png");
+		bExport.setTooltiptext(Msg.getMsg(Env.getCtx(), "Export"));
+		bExport.addEventListener(Events.ON_CLICK, this);
+		
 		bPrint.setImage("/images/Print16.png");
 		bPrint.setTooltiptext(Msg.getMsg(Env.getCtx(), "Print"));
 		bPrint.addEventListener(Events.ON_CLICK, this);
-
+		
 		southPanel.setWidth("100%");
 		southPanel.setWidths("2%, 12%, 82%, 2%, 2%");
 		southPanel.appendChild(bRePost);
 		southPanel.appendChild(forcePost);
 		southPanel.appendChild(statusLine);
+		//FR[3435028]
+		southPanel.appendChild(bExport);
 		southPanel.appendChild(bPrint);
 		southPanel.appendChild(bQuery);
 
@@ -734,6 +751,8 @@ public class WAcctViewer extends Window implements EventListener
 			actionTable();
 		else if (source == bRePost)
 			actionRePost();
+		else if  (source == bExport) //FR[3435028]
+			actionExportExcel();
 		else if  (source == bPrint)
 			;//PrintScreenPainter.printScreen(this);
 		//  InfoButtons
@@ -1213,4 +1232,46 @@ public class WAcctViewer extends Window implements EventListener
 			actionQuery();
 		}
 	} // actionRePost
+	
+	//FR[3435028]
+	/**
+	 * Export to Excel
+	 */
+	private void actionExportExcel() {
+		RModel model = m_data.query();
+		if (model == null) {
+			return;
+		}
+		try {
+			String path = System.getProperty("java.io.tmpdir");
+			String prefix = makePrefix(this.getTitle());
+			if (log.isLoggable(Level.FINE))
+			{
+				log.log(Level.FINE, "Path="+path + " Prefix="+prefix);
+			}
+			File file = File.createTempFile(prefix, ".pdf", new File(path));
+			
+			RModelExcelExporter exporter = new RModelExcelExporter((RModel)model);
+			exporter.export(file, null);
+			AMedia media = new AMedia(getTitle(), "xls", "application/msexcel", file, true);
+			Filedownload.save(media, getTitle() + "." + "xls");
+		}
+		catch (Exception e) {
+			FDialog.error(0, this, "LoadError", e.getLocalizedMessage());
+			if (CLogMgt.isLevelFinest()) e.printStackTrace();
+		}
+	}
+	//FR[3435028]
+	private String makePrefix(String name) {
+		StringBuffer prefix = new StringBuffer();
+		char[] nameArray = name.toCharArray();
+		for (char ch : nameArray) {
+			if (Character.isLetterOrDigit(ch)) {
+				prefix.append(ch);
+			} else {
+				prefix.append("_");
+			}
+		}
+		return prefix.toString();
+	}
 }

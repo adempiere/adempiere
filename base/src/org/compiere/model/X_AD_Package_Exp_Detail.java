@@ -30,7 +30,7 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20120629L;
 
     /** Standard Constructor */
     public X_AD_Package_Exp_Detail (Properties ctx, int AD_Package_Exp_Detail_ID, String trxName)
@@ -73,6 +73,31 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	public org.adempiere.model.I_AD_Browse getAD_Browse() throws RuntimeException
+    {
+		return (org.adempiere.model.I_AD_Browse)MTable.get(getCtx(), org.adempiere.model.I_AD_Browse.Table_Name)
+			.getPO(getAD_Browse_ID(), get_TrxName());	}
+
+	/** Set Smart Browse.
+		@param AD_Browse_ID Smart Browse	  */
+	public void setAD_Browse_ID (int AD_Browse_ID)
+	{
+		if (AD_Browse_ID < 1) 
+			set_Value (COLUMNNAME_AD_Browse_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Browse_ID, Integer.valueOf(AD_Browse_ID));
+	}
+
+	/** Get Smart Browse.
+		@return Smart Browse	  */
+	public int getAD_Browse_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Browse_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	public org.compiere.model.I_AD_EntityType getAD_EntityType() throws RuntimeException
     {
@@ -508,6 +533,34 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 		return ii.intValue();
 	}
 
+	public org.adempiere.model.I_AD_View getAD_View() throws RuntimeException
+    {
+		return (org.adempiere.model.I_AD_View)MTable.get(getCtx(), org.adempiere.model.I_AD_View.Table_Name)
+			.getPO(getAD_View_ID(), get_TrxName());	}
+
+	/** Set View.
+		@param AD_View_ID 
+		View allows you to create dynamic views of information from the dictionary application
+	  */
+	public void setAD_View_ID (int AD_View_ID)
+	{
+		if (AD_View_ID < 1) 
+			set_Value (COLUMNNAME_AD_View_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_View_ID, Integer.valueOf(AD_View_ID));
+	}
+
+	/** Get View.
+		@return View allows you to create dynamic views of information from the dictionary application
+	  */
+	public int getAD_View_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_View_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_AD_Window getAD_Window() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_Window)MTable.get(getCtx(), org.compiere.model.I_AD_Window.Table_Name)
@@ -670,20 +723,6 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 		return (String)get_Value(COLUMNNAME_Destination_FileName);
 	}
 
-	/** Set File_Directory.
-		@param File_Directory File_Directory	  */
-	public void setFile_Directory (String File_Directory)
-	{
-		set_Value (COLUMNNAME_File_Directory, File_Directory);
-	}
-
-	/** Get File_Directory.
-		@return File_Directory	  */
-	public String getFile_Directory () 
-	{
-		return (String)get_Value(COLUMNNAME_File_Directory);
-	}
-
 	/** Set File Name.
 		@param FileName 
 		Name of the local file or URL
@@ -699,6 +738,20 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	public String getFileName () 
 	{
 		return (String)get_Value(COLUMNNAME_FileName);
+	}
+
+	/** Set File_Directory.
+		@param File_Directory File_Directory	  */
+	public void setFile_Directory (String File_Directory)
+	{
+		set_Value (COLUMNNAME_File_Directory, File_Directory);
+	}
+
+	/** Get File_Directory.
+		@return File_Directory	  */
+	public String getFile_Directory () 
+	{
+		return (String)get_Value(COLUMNNAME_File_Directory);
 	}
 
 	/** Set Line No.
@@ -895,6 +948,10 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	public static final String TYPE_ModelValidator = "MV";
 	/** Entity Type = ET */
 	public static final String TYPE_EntityType = "ET";
+	/** Smart Browse = SB */
+	public static final String TYPE_SmartBrowse = "SB";
+	/** Smart View = SV */
+	public static final String TYPE_SmartView = "SV";
 	/** Set Type.
 		@param Type 
 		Type of Validation (SQL, Java Script, Java Language)

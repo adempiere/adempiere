@@ -546,6 +546,11 @@ public class WMenu extends HttpServlet
 				cssClassName = "menuWindow";
 				servletName = "WForm";
 			}
+			else if (node.isBrowse())
+			{
+				cssClassName = "menuWindow";
+				servletName = "WBrowse";
+			}
 			else if (node.isReport())
 			{
 				cssClassName = "menuReport";

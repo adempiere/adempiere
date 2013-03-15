@@ -66,13 +66,13 @@ import org.adempiere.pdf.Document;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.AMenu;
+import org.compiere.apps.ASearch;
 import org.compiere.apps.AWindow;
 import org.compiere.apps.AWindowListener;
 import org.compiere.apps.AppsAction;
 import org.compiere.apps.EMailDialog;
 import org.compiere.apps.StatusBar;
 import org.compiere.apps.WindowMenu;
-import org.compiere.apps.search.Find;
 import org.compiere.model.GridField;
 import org.compiere.model.MArchive;
 import org.compiere.model.MClient;
@@ -460,7 +460,7 @@ public class Viewer extends CFrame
 	/**
 	 * 	Revalidate settings after change of environment
 	 */
-	private void revalidate()
+	public void revalidate()
 	{
 		m_pageMax = m_viewPanel.getPageCount();
 		spinnerModel.setMaximum(new Integer(m_pageMax));
@@ -1170,11 +1170,8 @@ public class Viewer extends CFrame
 			bFind.setEnabled(false);
 		else
 		{
-			Find find = new Find (this, m_reportEngine.getWindowNo(), title,
-					AD_Tab_ID, AD_Table_ID, tableName, m_reportEngine.getWhereExtended(), findFields, 1);
-			m_reportEngine.setQuery(find.getQuery());
-			find.dispose();
-			find = null;
+			ASearch search = new ASearch (bFind,this, title,AD_Tab_ID, AD_Table_ID, tableName, m_reportEngine ,findFields, 1);
+			search = null;
 			revalidate();
 		}
 		cmd_drill();	//	setCursor

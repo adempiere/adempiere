@@ -22,12 +22,16 @@ import org.adempiere.webui.util.ServerPushTemplate;
 import org.adempiere.webui.window.ADWindow;
 import org.compiere.model.MQuery;
 import org.compiere.util.WebDoc;
+import org.eevolution.form.Browser;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Page;
 
 /**
  * Desktop interface
  * @author hengsin
+ * @author victor.perez@e-evoluton.com, www.e-evolution.com 
+ * 	<li>FR [ 3426137 ] Smart Browser
+ *  https://sourceforge.net/tracker/?func=detail&aid=3426137&group_id=176962&atid=879335 
  *
  */
 public interface IDesktop extends UIPart {
@@ -138,6 +142,12 @@ public interface IDesktop extends UIPart {
      */
 	public ADForm openForm(int formId);
 
+	/**
+	 * 
+	 * @param AD_Browse_ID
+	 */
+	public void openBrowse(int AD_Browse_ID);
+	
 	/**
 	 *
 	 * @param windowId

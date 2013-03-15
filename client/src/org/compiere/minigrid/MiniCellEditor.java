@@ -47,6 +47,29 @@ public class MiniCellEditor extends AbstractCellEditor implements TableCellEdito
 	 *  Default Constructor
 	 *  @param c Class
 	 */
+	public MiniCellEditor(Class c, int displayType)
+	{
+		super();		
+		if(DisplayType.Date == displayType)
+			m_editor = new VDate();
+		else if(DisplayType.DateTime == displayType)	
+			m_editor = new VDate(DisplayType.DateTime);
+		else if(DisplayType.Amount == displayType)
+			m_editor = new VNumber("Amount", false, false, true, DisplayType.Amount, "Amount");
+		else if(DisplayType.Number == displayType)
+			m_editor = new VNumber("Number", false, false, true, DisplayType.Number, "Number");
+		else if (DisplayType.Integer == displayType)
+			m_editor = new VNumber("Integer", false, false, true, DisplayType.Integer, "Integer");
+		else if(DisplayType.String == displayType)
+			m_editor = new VString();
+		else
+			m_editor = new VString();
+	}
+	
+	/**
+	 *  Default Constructor
+	 *  @param c Class
+	 */
 	public MiniCellEditor(Class c)
 	{
 		super();

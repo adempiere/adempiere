@@ -58,6 +58,9 @@ import org.zkoss.zul.Label;
  *	- checks, if parameters exist and inquires and saves them
  *
  * 	@author 	Low Heng Sin
+ * 	@author victor.perez@e-evoluton.com, www.e-evolution.com 
+ * 		<li>FR [ 3426137 ] Smart Browser
+ *  	https://sourceforge.net/tracker/?func=detail&aid=3426137&group_id=176962&atid=879335
  * 	@version 	2006-12-01
  */
 public class ProcessParameterPanel extends Panel 
@@ -126,6 +129,15 @@ implements ValueChangeListener, IProcessParameter
 		private ArrayList<Label> m_separators = new ArrayList<Label>();
 		//
 		private Grid centerPanel = null;
+		
+		public static final int DEFAULT_MODE = 1;
+		public static final int BROWSER_MODE = 2;
+		private int mode=1;
+		
+		public void setMode(int mode)
+		{
+			this.mode = mode;
+		}
 
 		/**
 		 *  Dispose
@@ -223,10 +235,20 @@ implements ValueChangeListener, IProcessParameter
 				PreparedStatement pstmt = DB.prepareStatement(sql, null);
 				pstmt.setInt(1, m_processInfo.getAD_Process_ID());
 				ResultSet rs = pstmt.executeQuery();
+				int field = 0;
+				Row row = null;
 				while (rs.next())
 				{
 					hasFields = true;
-					createField (rs, rows);
+					field++;
+					if(field % 2 ==0 && mode==BROWSER_MODE)
+					{
+						row = createField (rs, rows, row);
+					}
+					else
+					{
+						row = createField (rs, rows, null);
+					}
 				}
 				rs.close();
 				pstmt.close();
@@ -265,14 +287,19 @@ implements ValueChangeListener, IProcessParameter
 		 *
 		 * @param rs result set
 		 */
-		private void createField (ResultSet rs, Rows rows)
+		private Row createField (ResultSet rs, Rows rows, Row rw)
 		{
 			//  Create Field
 			GridFieldVO voF = GridFieldVO.createParameter(Env.getCtx(), m_WindowNo, rs);
 			GridField mField = new GridField (voF);
 			m_mFields.add(mField);                      //  add to Fields
 
-			Row row = new Row();
+			Row row;
+			
+			if(rw==null)
+				row = new Row();
+			else
+				row = rw;
 			
 			//	The Editor
 			WEditor editor = WebEditorFactory.getEditor(mField, false);
@@ -284,7 +311,8 @@ implements ValueChangeListener, IProcessParameter
 			Object defaultObject = mField.getDefault();
 			mField.setValue (defaultObject, true);
 			//streach component to fill grid cell
-            editor.fillHorizontal();
+			if(mode==DEFAULT_MODE)
+				editor.fillHorizontal();
             //setup editor context menu
             WEditorPopupMenu popupMenu = editor.getPopupMenu();                    
             if (popupMenu != null)
@@ -343,7 +371,11 @@ implements ValueChangeListener, IProcessParameter
 				m_wEditors2.add (null);
 				m_separators.add(null);
 			}
-			rows.appendChild(row);
+			
+			if(rw==null)
+				rows.appendChild(row);
+			
+			return row;
 		}	//	createField
 
 		

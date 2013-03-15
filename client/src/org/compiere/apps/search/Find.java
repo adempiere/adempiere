@@ -13,6 +13,12 @@
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
+ *                                                                            *
+ * @Author Michael McKay (mjmckay)                                            *
+ *		<li>BF3431195 Advanced Lookup not working in ZK                       *
+ *      See https://sourceforge.net/tracker/                                  *
+ *      ?func=detail&aid=3431195&group_id=176962&atid=955896                  *
+ *                                                                            *
  *****************************************************************************/
 package org.compiere.apps.search;
 
@@ -68,7 +74,6 @@ import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.ConfirmPanel;
 import org.compiere.apps.StatusBar;
-import org.compiere.grid.ed.AutoCompletion;
 import org.compiere.grid.ed.VEditor;
 import org.compiere.grid.ed.VEditorFactory;
 import org.compiere.grid.ed.VLookup;
@@ -110,6 +115,11 @@ import org.compiere.util.ValueNamePair;
  * 
  * @author Teo Sarca, www.arhipac.ro
  * 			<li>BF [ 2564070 ] Saving user queries can produce unnecessary db errors
+ *
+ * @Author Michael McKay (mjmckay)                                            
+ * @date	December 21, 2011                                            
+ *		<li>BF3431195 Advanced Lookup not working in ZK                       
+ *      See https://sourceforge.net/tracker/?func=detail&aid=3431195&group_id=176962&atid=955896                  
  */
 public final class Find extends CDialog
 		implements ActionListener, ChangeListener, DataStatusListener
@@ -144,6 +154,8 @@ public final class Find extends CDialog
 		m_tableName = tableName;
 		m_whereExtended = whereExtended;
 		m_findFields = findFields;
+		m_sLast = "** ".concat(Msg.getMsg(Env.getCtx(), "Last Query")).concat(" **");
+		m_sNew = "** ".concat(Msg.getMsg(Env.getCtx(), "New Query")).concat(" **");
 		//
 		m_query = new MQuery (tableName);
 		m_query.addRestriction(Env.parseContext(Env.getCtx(), m_targetWindowNo, whereExtended, false));
@@ -210,6 +222,10 @@ public final class Find extends CDialog
 	public static final int		FIELDLENGTH = 20;
 	/** Reference ID for Yes/No	*/
 	public static final int		AD_REFERENCE_ID_YESNO = 319;
+	
+	/** Search messages using translation */
+	private String				m_sLast;
+	private String				m_sNew;
 	
 	
 	//
@@ -467,7 +483,6 @@ public final class Find extends CDialog
 		for (int i = 0; i < m_findFields.length; i++)
 		{
 			GridField mField = m_findFields[i];
-			String columnName = mField.getColumnName();
 			
 			// Make Yes-No searchable as list
 			if (mField.getVO().displayType == DisplayType.YesNo)
@@ -765,15 +780,8 @@ public final class Find extends CDialog
 		//AutoCompletion.enable(operators);
 		
 		//user query
-		userQueries = MUserQuery.get(Env.getCtx(), m_AD_Tab_ID);
-		String[] queries = new String[userQueries.length];
-		for (int i = 0; i < userQueries.length; i++)
-			queries[i] = userQueries[i].getName();
-		fQueryName.setModel(new DefaultComboBoxModel(queries));
-		fQueryName.setValue("");
-
-		//	No Row - Create one
-		cmd_new();
+		refreshUserQueries();
+		
 	}   //  initFindAdvanced
 
 	/**
@@ -866,19 +874,20 @@ public final class Find extends CDialog
 		}
 		else if (e.getSource() == fQueryName) 
 		{
-			Object o = fQueryName.getSelectedItem();
-			if (userQueries != null && o != null)
-			{
-				String selected = o.toString();
-				for (int i = 0; i < userQueries.length; i++) 
-				{
-					if (userQueries[i].getName().equals(selected))
-					{
-						parseUserQuery(userQueries[i]);
-						return;
-					}
+			int index = fQueryName.getSelectedIndex();
+			if(index < 0) return;
+			if(index == 0) { // no query - wipe and start over.
+				advancedTable.stopEditor(false);
+				DefaultTableModel model = (DefaultTableModel)advancedTable.getModel();
+				int cnt = model.getRowCount();
+				if (cnt > 0){
+					for (int i = cnt - 1; i >=0; i--)
+						model.removeRow(i);
+					cmd_new();  // No row - create one.
 				}
+				advancedTable.requestFocusInWindow();
 			}
+			else parseUserQuery(userQueries[index-1]);
 		}
 		else    // ConfirmPanel.A_OK and enter in fields
 		{
@@ -1204,110 +1213,146 @@ public final class Find extends CDialog
 			}
 			else 
 			{
-			Object parsedValue = parseValue(field, value);
-			if (parsedValue == null)
-				continue;
-			String infoDisplay = value.toString();
-			if (field.isLookup())
-				infoDisplay = field.getLookup().getDisplay(value);
-			else if (field.getDisplayType() == DisplayType.YesNo)
-				infoDisplay = Msg.getMsg(Env.getCtx(), infoDisplay);
-			//	Value2	******
-			Object value2 = null;
-			if (MQuery.OPERATORS[MQuery.BETWEEN_INDEX].equals(op))
-			{
-				value2 = advancedTable.getValueAt(row, INDEX_VALUE2);
-				if (value2 == null)
+				Object parsedValue = parseValue(field, value);
+				if (parsedValue == null)
 					continue;
-				Object parsedValue2 = parseValue(field, value2);
-				String infoDisplay_to = value2.toString();
-				if (parsedValue2 == null)
-					continue;
-				m_query.addRangeRestriction(ColumnSQL, parsedValue, parsedValue2,
-							infoName, infoDisplay, infoDisplay_to, and, openBrackets);
-			}
-			else if (isProductCategoryField && MQuery.OPERATORS[MQuery.EQUAL_INDEX].equals(op)) {
-				if (!(parsedValue instanceof Integer)) {
-					continue;
+				String infoDisplay = value.toString();
+				if (field.isLookup())
+					infoDisplay = field.getLookup().getDisplay(value);
+				else if (field.getDisplayType() == DisplayType.YesNo)
+					infoDisplay = Msg.getMsg(Env.getCtx(), infoDisplay);
+				//	Value2	******
+				Object value2 = null;
+				if (MQuery.OPERATORS[MQuery.BETWEEN_INDEX].equals(op))
+				{
+					value2 = advancedTable.getValueAt(row, INDEX_VALUE2);
+					if (value2 == null)
+						continue;
+					Object parsedValue2 = parseValue(field, value2);
+					String infoDisplay_to = value2.toString();
+					if (parsedValue2 == null)
+						continue;
+					m_query.addRangeRestriction(ColumnSQL, parsedValue, parsedValue2,
+								infoName, infoDisplay, infoDisplay_to, and, openBrackets);
 				}
-					m_query
-
-					.addRestriction(getSubCategoryWhereClause(((Integer) parsedValue).intValue()), and, openBrackets);
-			}
-			else
-				m_query.addRestriction(ColumnSQL, Operator, parsedValue,
-							infoName, infoDisplay, and, openBrackets);
-			
-			if (code.length() > 0)
-				code.append(SEGMENT_SEPARATOR);
-			code.append(ColumnName)
-				.append(FIELD_SEPARATOR)
-				.append(Operator)
-				.append(FIELD_SEPARATOR)
-				.append(value.toString())
-				.append(FIELD_SEPARATOR)
-				.append(value2 != null ? value2.toString() : "")
-				.append(FIELD_SEPARATOR)
-				.append( and ? "AND" : "OR")
-				.append(FIELD_SEPARATOR)
-				.append(lBrackets != null ? lBrackets : "")
-				.append(FIELD_SEPARATOR)
-				.append(rBrackets != null ? rBrackets : "");
-			
+				else if (isProductCategoryField && MQuery.OPERATORS[MQuery.EQUAL_INDEX].equals(op)) {
+					if (!(parsedValue instanceof Integer)) {
+						continue;
+					}
+					m_query.addRestriction(getSubCategoryWhereClause(((Integer) parsedValue).intValue()), 
+							and, openBrackets);
+				}
+				else
+					m_query.addRestriction(ColumnSQL, Operator, parsedValue,
+								infoName, infoDisplay, and, openBrackets);
+				
+				if (code.length() > 0)
+					code.append(SEGMENT_SEPARATOR);
+				code.append(ColumnName)
+					.append(FIELD_SEPARATOR)
+					.append(Operator)
+					.append(FIELD_SEPARATOR)
+					.append(value.toString())
+					.append(FIELD_SEPARATOR)
+					.append(value2 != null ? value2.toString() : "")
+					.append(FIELD_SEPARATOR)
+					.append( and ? "AND" : "OR")
+					.append(FIELD_SEPARATOR)
+					.append(lBrackets != null ? lBrackets : "")
+					.append(FIELD_SEPARATOR)
+					.append(rBrackets != null ? rBrackets : "");
+				
 			}
 		}
 		Object selected = fQueryName.getSelectedItem();
-		if (selected != null && saveQuery) {
+		
+		if (selected != null) {
 			String name = selected.toString();
-			if (Util.isEmpty(name, true))
-			{
+			if ((fQueryName.getSelectedIndex() == 0 || name.equals(m_sLast) || Util.isEmpty(name, true)) && saveQuery){ // New query - needs a name
+
 				ADialog.warn(m_targetWindowNo, this, "FillMandatory", Msg.translate(Env.getCtx(), "Name"));
 				return;
 			}
-			MUserQuery uq = MUserQuery.get(Env.getCtx(), m_AD_Tab_ID, name);
-			if (uq == null && code.length() > 0)
-			{				
-				uq = new MUserQuery (Env.getCtx(), 0, null);
-				uq.setName (name);
-				uq.setAD_Tab_ID(m_AD_Tab_ID); //red1 UserQuery [ 1798539 ] taking in new field from Compiere
-				uq.setAD_User_ID(Env.getAD_User_ID(Env.getCtx())); //red1 - [ 1798539 ] missing in Compiere delayed source :-)
-			}			
-			else if (uq != null && code.length() == 0) 
-			{
-				if (uq.delete(true))
+			if (saveQuery){
+				MUserQuery uq = MUserQuery.get(Env.getCtx(), m_AD_Tab_ID, name);
+				if (code.length() > 0) { // New or updated
+					if (uq == null) // Create a new record
+					{				
+						uq = new MUserQuery (Env.getCtx(), 0, null);
+						uq.setName (name);
+						uq.setAD_Table_ID(m_AD_Table_ID);
+						uq.setAD_Tab_ID(m_AD_Tab_ID); //red1 UserQuery [ 1798539 ] taking in new field from Compiere
+						uq.setAD_User_ID(Env.getAD_User_ID(Env.getCtx())); //red1 - [ 1798539 ] missing in Compiere delayed source :-)
+					}			
+					uq.setCode (code.toString());  // Update the query code
+					
+				} else	if (code.length() <= 0){ // Delete the query
+					if (uq.delete(true))
+					{
+						ADialog.info (m_targetWindowNo, this, "Deleted", name);
+						refreshUserQueries();
+					}
+					else
+						ADialog.warn (m_targetWindowNo, this, "DeleteError", name);
+					return;
+				}
+				//
+				if (uq.save())
 				{
-					ADialog.info (m_targetWindowNo, this, "Deleted", name);
+					ADialog.info (m_targetWindowNo, this, "Saved", name);
 					refreshUserQueries();
 				}
 				else
+					ADialog.warn (m_targetWindowNo, this, "SaveError", name);
+			}
+			//
+			MUserQuery last = MUserQuery.get(Env.getCtx(), m_AD_Tab_ID, m_sLast);
+			if (code.length() > 0) { // New or update				
+				if (last == null) // Create a new record
+				{
+					last = new MUserQuery (Env.getCtx(), 0, null);
+					last.setName (m_sLast);
+					last.setAD_Table_ID (m_AD_Table_ID);
+					last.setAD_Tab_ID(m_AD_Tab_ID);
+					last.setAD_User_ID(Env.getAD_User_ID(Env.getCtx())); 
+				}
+				last.setCode (code.toString());  // Update the query code
+			} else	if (code.length() <= 0){ // Delete the query
+				if (!last.delete(true))
 					ADialog.warn (m_targetWindowNo, this, "DeleteError", name);
 				return;
 			}
-			
-			uq.setCode (code.toString());
-			uq.setAD_Table_ID (m_AD_Table_ID);
-			//
-			if (uq.save())
-			{
-				ADialog.info (m_targetWindowNo, this, "Saved", name);
-				refreshUserQueries();
-			}
-			else
+
+			if (!last.save())
 				ADialog.warn (m_targetWindowNo, this, "SaveError", name);
+
 		}
 	}	//	cmd_save
 
 	private void refreshUserQueries() 
 	{
-		Object selected = fQueryName.getSelectedItem();
+		String value = m_sLast; 
+		if (fQueryName.getItemCount()>0){ // The list is initialized
+			value = fQueryName.getValue().toString();
+		}
 		userQueries = MUserQuery.get(Env.getCtx(), m_AD_Tab_ID);
-		String[] queries = new String[userQueries.length];
+		fQueryName.removeAllItems();
+		boolean selected = false;
+		fQueryName.addItem(m_sNew);  // "** New **"
 		for (int i = 0; i < userQueries.length; i++)
-			queries[i] = userQueries[i].getName();
-		fQueryName.setModel(new DefaultComboBoxModel(queries));
-		fQueryName.setSelectedItem(selected);
-		if (fQueryName.getSelectedIndex() < 0)
-			fQueryName.setValue("");
+		{
+			fQueryName.addItem(userQueries[i].getName());
+			if(value.equals(userQueries[i].getName()))
+			{
+				fQueryName.setSelectedItem(userQueries[i].getName());
+				parseUserQuery(userQueries[i]);
+				selected = true;
+			}
+		}
+
+		if(!selected) fQueryName.setSelectedIndex(0);
+
+		
 	}
 	
 	/**
