@@ -64,6 +64,7 @@ import org.compiere.model.MProcess;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.process.ProcessInfo;
+import org.compiere.process.ProcessInfoUtil;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -433,10 +434,11 @@ public class WBrowser extends Browser implements IFormController,
 				null);
 		ProcessInfo pi = getBrowseProcessInfo();
 		pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
+		parameterPanel.saveParameters();
+		ProcessInfoUtil.setParameterFromDB(pi);
 		setBrowseProcessInfo(pi);
 		//Save Values Browse Field Update
 		createT_Selection_Browse(instance.getAD_PInstance_ID());
-		parameterPanel.saveParameters();
 		// Execute Process
 		ProcessCtl worker = new ProcessCtl(this, 0, getBrowseProcessInfo(), null);
 		worker.start();
@@ -748,12 +750,15 @@ public class WBrowser extends Browser implements IFormController,
 	
 			DB.createT_Selection(instance.getAD_PInstance_ID(), getSelectedKeys(),
 					null);
+			
 			ProcessInfo pi = getBrowseProcessInfo();
 			pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
-			setBrowseProcessInfo(pi);
 			//Save Values Browse Field Update
 			createT_Selection_Browse(instance.getAD_PInstance_ID());
 			parameterPanel.saveParameters();
+			ProcessInfoUtil.setParameterFromDB(pi);
+			setBrowseProcessInfo(pi);
+						
 			// Execute Process
 			ProcessCtl worker = new ProcessCtl(this, 0, getBrowseProcessInfo(), null);
 			showBusyDialog();

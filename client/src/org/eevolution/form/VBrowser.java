@@ -71,6 +71,7 @@ import org.compiere.model.MProcess;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.process.ProcessInfo;
+import org.compiere.process.ProcessInfoUtil;
 import org.compiere.swing.CFrame;
 import org.compiere.swing.CollapsiblePanel;
 import org.compiere.util.ASyncProcess;
@@ -561,12 +562,13 @@ public class VBrowser extends Browser implements ActionListener,
 		
 		ProcessInfo pi = getBrowseProcessInfo();
 		pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
+		parameterPanel.saveParameters();
+		ProcessInfoUtil.setParameterFromDB(pi);
 		setBrowseProcessInfo(pi);
 		//Save Values Browse Field Update
 		createT_Selection_Browse(instance.getAD_PInstance_ID());
 		
 		// call process 
-		parameterPanel.saveParameters();
 		// Execute Process
 		ProcessCtl worker = new ProcessCtl(this, Env.getWindowNo(m_frame),
 				getBrowseProcessInfo(), null);
@@ -840,12 +842,12 @@ public class VBrowser extends Browser implements ActionListener,
 			
 			ProcessInfo pi = getBrowseProcessInfo();
 			pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
+			// call process 
+			parameterPanel.saveParameters();
+			ProcessInfoUtil.setParameterFromDB(pi);
 			setBrowseProcessInfo(pi);
 			//Save Values Browse Field Update
 			createT_Selection_Browse(instance.getAD_PInstance_ID());
-			
-			// call process 
-			parameterPanel.saveParameters();
 			// Execute Process
 			ProcessCtl worker = new ProcessCtl(this, Env.getWindowNo(m_frame),
 					getBrowseProcessInfo() , null);
