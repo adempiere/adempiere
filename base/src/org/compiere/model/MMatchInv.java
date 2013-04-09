@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Properties;
 
 import org.adempiere.engine.CostEngineFactory;
+import org.adempiere.engine.CostingMethodFactory;
+import org.adempiere.engine.ICostingMethod;
 import org.adempiere.engine.IDocumentLine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -409,6 +411,7 @@ public class MMatchInv extends X_M_MatchInv implements IDocumentLine
 	private String deleteMatchInvCostDetail()
 	{
 		// Get Account Schemas to delete MCostDetail
+		
 		MAcctSchema[] acctschemas = MAcctSchema.getClientAcctSchema(getCtx(), getAD_Client_ID());
 		for(int asn = 0; asn < acctschemas.length; asn++)
 		{
@@ -419,8 +422,59 @@ public class MMatchInv extends X_M_MatchInv implements IDocumentLine
 				continue;
 			}
 			
+			MProduct product = new MProduct(getCtx(), getM_Product_ID(), get_TrxName());
+			String CostingLevel = product.getCostingLevel(as);
+
+			int Org_ID = getAD_Org_ID();
+			int M_ASI_ID = getM_AttributeSetInstance_ID();
+			if (MAcctSchema.COSTINGLEVEL_Client.equals(CostingLevel))
+			{
+				Org_ID = 0;
+				M_ASI_ID = 0;
+			}
+			else if (MAcctSchema.COSTINGLEVEL_Organization.equals(CostingLevel))
+				M_ASI_ID = 0;
+			else if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(CostingLevel))
+				Org_ID = 0;
+			
+			List<MCostElement> ces = MCostElement.getCostElement(getCtx(), get_TrxName());
+			List<MCostType> cts = MCostType.get(getCtx(), get_TrxName());
+			for (MCostType ct : cts)
+			{	
+				if (!ct.isActive())
+					continue;
+				for (MCostElement ce : ces)
+					
+				{	
+					String whereClause = "c_invoiceline_id =? and m_costtype_id=? and m_costelement_ID=?";
+					List<MCostDetail> cds = new Query(getCtx(), MCostDetail.Table_Name, whereClause, get_TrxName())
+					.setParameters(getC_InvoiceLine_ID(), ct.getM_CostType_ID(), ce.getM_CostElement_ID())
+					.list();
+					for (MCostDetail cd:cds)
+					{
+						//cd.setDeltaAmt(cd.getAmt().negate());
+						cd.setCostAdjustment(Env.ZERO);
+						cd.setCostAdjustmentLL(Env.ZERO);
+						cd.saveEx();
+					//	cd.setProcessed(false);
+						//
+
+						MInOutLine inout_line = (MInOutLine) getM_InOutLine();
+						MCost dimension = new MCost (product, M_ASI_ID,
+								as.getC_AcctSchema_ID(), Org_ID, cd.getM_CostType_ID(), cd.getM_CostElement_ID());
+						
+						for (MTransaction trx: MTransaction.getByInOutLine(inout_line))
+						{
+							final ICostingMethod method = CostingMethodFactory.get().getCostingMethod(ce, ct.getCostingMethod());
+							method.setCostingMethod(as, this, trx, dimension, Env.ZERO, Env.ZERO, false);
+							method.processCostDetail(cd);
+						}
+					}
+				}
+			}	
+			
 			// update/delete Cost Detail and recalculate Current Cost
-			MCostDetail cd = MCostDetail.get (getCtx(), "C_InvoiceLine_ID=?", 
+			/*MCostDetail cd = MCostDetail.get (getCtx(), "C_InvoiceLine_ID=?", 
 					getC_InvoiceLine_ID(), getM_AttributeSetInstance_ID(), as.getC_AcctSchema_ID(), get_TrxName());
 			if (cd != null)
 			{
@@ -440,18 +494,17 @@ public class MMatchInv extends X_M_MatchInv implements IDocumentLine
 				//
 				cd.setAmt(price.multiply(cd.getQty().subtract(qty)));
 				cd.setQty(cd.getQty().subtract(qty));
-				/*if (!cd.isProcessed())
+				if (!cd.isProcessed())
 				{
 					MClient client = MClient.get(getCtx(), getAD_Client_ID());
 					if (client.isCostImmediate())
 						cd.process();
-				}*/
+				}
 				if (cd.getQty().compareTo(Env.ZERO) == 0)
 				{
 					cd.setProcessed(false);
 					cd.delete(true);
-				}
-			}
+				}*/
 		}
 		
 		return "";

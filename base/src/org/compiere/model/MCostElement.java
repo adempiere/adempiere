@@ -45,7 +45,7 @@ public class MCostElement extends X_M_CostElement
 	 * 
 	 */
 	private static final long serialVersionUID = 3196322266971717530L;
-
+	
 	/**
 	 * get or create Cost Element 
 	 * @param po Persistence Object

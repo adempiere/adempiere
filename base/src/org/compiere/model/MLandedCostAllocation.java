@@ -22,6 +22,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -87,22 +88,20 @@ public class MLandedCostAllocation extends X_C_LandedCostAllocation implements I
 	}	//	getOfInvliceLine
 	
 	/**
-	 * 	Get Cost Allocations for invoice Line
-	 *	@param ctx context
-	 *	@param M_InOutLine_ID Receipt Line
-	 *	@param C_InvoiceLine_ID invoice line
-	 *	@param trxName trx
-	 *	@return landed cost alloc
+	 * Get Landed Cost Allocation
+	 * @param MInOutLine ioLine
+	 * @param M_CostElement_ID
+	 * @return List MLandedCostAllocation
 	 */
-	public static MLandedCostAllocation getOfInOulineAndInvoiceLine (Properties ctx, 
-		int M_InOutLine_ID, int C_InvoiceLine_ID, String trxName)
+	public static List<MLandedCostAllocation> getOfInOuline (MInOutLine ioLine, int M_CostElement_ID)
 	{
-		final String where = I_C_LandedCostAllocation.COLUMNNAME_M_InOutLine_ID + "=? AND "
-						   +  I_C_LandedCostAllocation.COLUMNNAME_C_InvoiceLine_ID +  "=? ";
-		return new Query(ctx,I_C_LandedCostAllocation.Table_Name, where ,trxName)
+		StringBuilder whereClause = new StringBuilder();
+		whereClause.append(I_C_LandedCostAllocation.COLUMNNAME_M_InOutLine_ID).append("=? AND ");
+		whereClause.append(I_C_LandedCostAllocation.COLUMNNAME_M_CostElement_ID).append("=? ");
+		return new Query(ioLine.getCtx(),I_C_LandedCostAllocation.Table_Name, whereClause.toString() , ioLine.get_TrxName())
 		.setClient_ID()
-		.setParameters(M_InOutLine_ID,C_InvoiceLine_ID)
-		.firstOnly();
+		.setParameters(ioLine.getM_InOutLine_ID(), M_CostElement_ID)
+		.list();
 	}	//	getOfInvliceLine
 	/**	Logger	*/
 	private static CLogger s_log = CLogger.getCLogger (MLandedCostAllocation.class);
@@ -224,7 +223,7 @@ public class MLandedCostAllocation extends X_C_LandedCostAllocation implements I
 	}
 	
 	public Timestamp getDateAcct() {
-		return getC_InvoiceLine().getC_Invoice().getDateAcct();
+		return getM_InOutLine().getM_InOut().getDateAcct();
 	}
 	
 
