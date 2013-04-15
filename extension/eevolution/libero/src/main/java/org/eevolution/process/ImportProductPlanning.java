@@ -17,27 +17,22 @@
  *****************************************************************************/
 package org.eevolution.process;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.logging.Level;
 
-import org.compiere.model.I_AD_Org;
 import org.compiere.model.I_C_BPartner;
-import org.compiere.model.I_M_Forecast;
-import org.compiere.model.I_M_Product;
-import org.compiere.model.I_M_Warehouse;
 import org.compiere.model.I_S_Resource;
 import org.compiere.model.MColumn;
-import org.compiere.model.MForecast;
-import org.compiere.model.MPeriod;
+import org.compiere.model.MOrg;
 import org.compiere.model.MProduct;
 import org.compiere.model.MProductPO;
 import org.compiere.model.MTable;
+import org.compiere.model.MWarehouse;
 import org.compiere.model.Query;
-import org.compiere.model.X_M_ForecastLine;
+import org.compiere.model.X_S_Resource;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
-import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.eevolution.model.I_DD_NetworkDistribution;
 import org.eevolution.model.I_PP_Product_BOM;
@@ -45,31 +40,32 @@ import org.eevolution.model.MPPProductPlanning;
 import org.eevolution.model.X_I_ProductPlanning;
 
 /**
- *	Import Product Planning
- *
- * 	@author victor.perez@e-evolution.com, www.e-evolution.com
- * 	@author alberto.juarez@e-evolution.com, www.e-evolution.com
- *  <li>Create new importer for Planning Data and Forecast
- *  <li>http://sourceforge.net/support/tracker.php?aid=2952245
- * 	@version 	
+ * Import Product Planning
+ * 
+ * @author victor.perez@e-evolution.com, www.e-evolution.com
+ * @author alberto.juarez@e-evolution.com, www.e-evolution.com <li>Create new
+ *         importer for Planning Data <li>
+ *         http://sourceforge.net/support/tracker.php?aid=2952245
+ * @version
  */
-public class ImportProductPlanning extends SvrProcess
-{
-	/** Is Imported                     */
-	private boolean 		isImported = false;
-	/**	Delete old Imported				*/
-	private boolean			p_DeleteOldImported = false;
-	/** Import if no Errors				*/
-	private boolean			p_IsImportOnlyNoErrors = true;
+public class ImportProductPlanning extends SvrProcess {
+	/** Is Imported */
+	private boolean isImported = false;
+	/** Delete old Imported */
+	private boolean p_DeleteOldImported = false;
+	/** Import if no Errors */
+	private boolean p_IsImportOnlyNoErrors = true;
+	/** Record Import **/
+	private int imported = 0;
+	/** No import records */
+	private int notimported = 0;
 
 	/**
-	 *  Prepare - e.g., get Parameters.
+	 * Prepare - e.g., get Parameters.
 	 */
-	protected void prepare()
-	{
+	protected void prepare() {
 		ProcessInfoParameter[] paramaters = getParameter();
-		for (ProcessInfoParameter  para: paramaters)
-		{
+		for (ProcessInfoParameter para : paramaters) {
 			String name = para.getParameterName();
 			if (para.getParameter() == null)
 				;
@@ -78,393 +74,360 @@ public class ImportProductPlanning extends SvrProcess
 			else if (name.equals("DeleteOldImported"))
 				p_DeleteOldImported = "Y".equals(para.getParameter());
 			else
-				log.log(Level.SEVERE, "Unknown Parameter: " + name);			
+				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 		}
-	}	//	prepare
-
+	} // prepare
 
 	/**
-	 *  Perform process.
-	 *  @return Message
-	 *  @throws Exception
+	 * Perform process.
+	 * 
+	 * @return Message
+	 * @throws Exception
 	 */
-	protected String doIt() throws java.lang.Exception
-	{
-		// delete imported records
-		deleteImportedRecords();
+	protected String doIt() throws java.lang.Exception {
+
+		if (p_DeleteOldImported) {
+			int no = 0;
+			for (X_I_ProductPlanning ipp : getRecords(true, false)) {
+				ipp.deleteEx(true);
+				no++;
+			}
+			log.fine("Delete Old Impored =" + no);
+		}
+
 		// fill IDs using Search Key
 		fillIDValues();
-		// import record 
-		importRecords();		
-		return "";
-		// 
-	}	//	doIt
-	
+		// import record
+		importRecords();
+		return "Imported: " + imported + ", Not imported: " + notimported;
+		//
+	} // doIt
+
 	/**
-	 * import record using X_I_ProductPlanning table 
+	 * import record using X_I_ProductPlanning table
 	 */
-	private void importRecords()
-	{
-		for(X_I_ProductPlanning ipp:getRecords(false, p_IsImportOnlyNoErrors))
-		{
-			if(ipp.getM_Product_ID()>0 && ipp.getS_Resource_ID()>0 && ipp.getM_Warehouse_ID()>0)
-			{
-				importProductPlanning(ipp);
-			}
-			else if(ipp.getForecastValue()==null || ipp.getM_Forecast_ID()==0)
-			{
-				String error="";
-				if(ipp.getM_Product_ID()==0)
-				{
-					error = error + " @M_Product_ID@ @NotFound@ ,";
-				}
-				if(ipp.getS_Resource_ID()==0)
-				{
-					error = error + " @S_Resource_ID@ @NotFound@ ,";
-				}
-				if(ipp.getM_Warehouse_ID()==0)
-				{
-					error = error + " @M_Waehouse_ID@ @NotFound@";
-				}
-				ipp.setI_ErrorMsg(Msg.parseTranslation(getCtx(), error));
-				isImported=false;
-				ipp.saveEx();
-				return;
-			}
-			
-			if(ipp.getForecastValue()==null)
-			{
-				isImported = true;
-				
-			}
-			else if(ipp.getM_Forecast_ID()>0 && ipp.getM_Warehouse_ID()>0 && ipp.getM_Product_ID()>0 && ipp.getQty().signum()>0)
-			{
-				importForecast(ipp);
-			}
-			else
-			{
-				String error = "";
-				if(ipp.getM_Forecast_ID()==0)
-				{
-					error = error + " @M_Forecast_ID@ @NotFound@ ,";	
-				}
-				if(ipp.getM_Warehouse_ID()==0)
-				{
-					error = error + " @M_Warehouse_ID@ @NotFound@ ,";
-				}
-				if(ipp.getQty().signum()<=0)
-				{
-					error = error + " @Qty@ @Error@";
-				}
-				ipp.setI_ErrorMsg(Msg.parseTranslation(getCtx(), error));
-				isImported=false;
-				ipp.saveEx();
-				return;
-			}
-				
-			
-			if(isImported)
-			{
+	private void importRecords() {
+		for (X_I_ProductPlanning ipp : getRecords(false, p_IsImportOnlyNoErrors)) {
+			isImported = false;
+			MPPProductPlanning pp = importProductPlanning(ipp);
+			if (pp == null)
+				isImported = false;
+
+			if (isImported) {
+				ipp.setPP_Product_Planning_ID(pp.getPP_Product_Planning_ID());
 				ipp.setI_IsImported(true);
 				ipp.setProcessed(true);
+				ipp.setI_ErrorMsg("");
 				ipp.saveEx();
+				imported++;
+			} else {
+				ipp.setI_IsImported(false);
+				ipp.setProcessed(true);
+				ipp.saveEx();
+				notimported++;
 			}
 		}
 	}
-	
+
 	/**
-	 * import record using X_I_ProductPlanning table 
-	 * @param ipp X_I_ProductPlanning
+	 * import record using X_I_ProductPlanning table
+	 * 
+	 * @param ipp
+	 *            X_I_ProductPlanning
 	 */
-	private void importProductPlanning(X_I_ProductPlanning ipp)
-	{
-		MPPProductPlanning pp = null;
-		if(ipp.getPP_Product_Planning_ID()>0)
-		{
-			pp = new 	MPPProductPlanning(getCtx(),ipp.getPP_Product_Planning_ID(), get_TrxName());
-		}
-		else
-		{
-			pp = getProductPlanning(ipp);
-		}
-			
-			
-		if(pp==null)
-		{
-			pp = new MPPProductPlanning(getCtx(), 0, get_TrxName());
-			
-		}
-		fillValue(pp,ipp);
-		if(ipp.getC_BPartner_ID()>0 && ipp.getVendorProductNo()!=null)
-		{
-			importPurchaseProductPlanning(ipp);
+	private MPPProductPlanning importProductPlanning(X_I_ProductPlanning ipp) {
+		try {
+
+			MPPProductPlanning pp = null;
+
+			if (ipp.getPP_Product_Planning_ID() > 0)
+				pp = new MPPProductPlanning(getCtx(),
+						ipp.getPP_Product_Planning_ID(), get_TrxName());
+			else {
+				pp = MPPProductPlanning.get(getCtx(), ipp.getAD_Client_ID(),
+						ipp.getAD_Org_ID(), ipp.getM_Warehouse_ID(),
+						ipp.getS_Resource_ID(), ipp.getM_Product_ID(),
+						get_TrxName());
+			}
+
+			if (pp == null || pp.get_ID() <= 0) {
+				pp = new MPPProductPlanning(Env.getCtx(), 0, get_TrxName());
+				pp.setAD_Org_ID(ipp.getAD_Org_ID());
+				pp.setM_Product_ID(ipp.getM_Product_ID());
+				pp.setS_Resource_ID(ipp.getS_Resource_ID());
+				pp.setM_Warehouse_ID(ipp.getM_Warehouse_ID());
+				pp.setIsRequiredDRP(false);
+				pp.setIsRequiredMRP(false);
+			}
+
+			fillValue(pp, ipp);
+
+			if (ipp.getC_BPartner_ID() > 0 && ipp.getVendorProductNo() != null) {
+				importPurchaseProductPlanning(ipp);
+			}
+
+			pp.saveEx();
+			isImported = true;
+			return pp;
+		} catch (Exception e) {
+			ipp.setI_ErrorMsg(e.getMessage());
+			isImported = false;
+			return null;
 		}
 	}
-	
+
 	/**
-	 *  Import record using X_I_ProductPlanning table
-	 * @param ipp X_I_ProductPlanning
+	 * Import record using X_I_ProductPlanning table
+	 * 
+	 * @param ipp
+	 *            X_I_ProductPlanning
 	 */
-	private void importPurchaseProductPlanning(X_I_ProductPlanning ipp) 
-	{
+	private void importPurchaseProductPlanning(X_I_ProductPlanning ipp) {
 		MProduct product = MProduct.get(getCtx(), ipp.getM_Product_ID());
-		if(product.isPurchased())
-		{
+		if (product.isPurchased()) {
 			final StringBuffer whereClause = new StringBuffer();
-			whereClause.append(MProductPO.COLUMNNAME_M_Product_ID).append("=? AND ");
-			whereClause.append(MProductPO.COLUMNNAME_C_BPartner_ID).append("=?");
-			MProductPO productPO = new Query(getCtx(),MProductPO.Table_Name,whereClause.toString(), get_TrxName())
-			.setClient_ID()
-			.setParameters(new Object[]{ipp.getM_Product_ID(),ipp.getC_BPartner_ID()})
-			.first();
-			
-			if(productPO==null)
-			{
-				productPO = new MProductPO(getCtx(),0,get_TrxName());
+			whereClause.append(MProductPO.COLUMNNAME_M_Product_ID).append(
+					"=? AND ");
+			whereClause.append(MProductPO.COLUMNNAME_C_BPartner_ID)
+					.append("=?");
+			MProductPO productPO = new Query(getCtx(), MProductPO.Table_Name,
+					whereClause.toString(), get_TrxName())
+					.setClient_ID()
+					.setParameters(ipp.getM_Product_ID(),
+							ipp.getC_BPartner_ID()).first();
+
+			if (productPO == null) {
+				productPO = new MProductPO(getCtx(), 0, get_TrxName());
+				productPO.setM_Product_ID(ipp.getM_Product_ID());
+				productPO.setC_BPartner_ID(ipp.getC_BPartner_ID());
+
 			}
-			
+
 			productPO.setAD_Org_ID(ipp.getAD_Org_ID());
-			productPO.setM_Product_ID(ipp.getM_Product_ID());
-			productPO.setC_BPartner_ID(ipp.getC_BPartner_ID());
 			productPO.setOrder_Min(ipp.getOrder_Min());
 			productPO.setOrder_Pack(ipp.getOrder_Pack());
-			productPO.setDeliveryTime_Promised(ipp.getDeliveryTime_Promised().intValue());
+			productPO.setDeliveryTime_Promised(ipp.getDeliveryTime_Promised()
+					.intValue());
 			productPO.setVendorProductNo(ipp.getVendorProductNo());
 			productPO.saveEx();
 		}
-		
-	}
 
-	/**
-	 * Import Forecast Record using X_I_ProductPlanning table
-	 * @param ipp X_I_ProductPlanning
-	 */
-	private void importForecast(X_I_ProductPlanning ipp)
-	{
-		
-		if(ipp.getForecastValue()==null && ipp.getM_Forecast_ID()==0)
-		{
-			ipp.setI_ErrorMsg(Msg.getMsg(getCtx(),"@M_Forecast_ID@ @NotFound@"));
-			ipp.saveEx();
-			isImported=false;
-			return;
-		}
-				
-		MForecast forecast = new MForecast(getCtx(), ipp.getM_Forecast_ID(), get_TrxName());
-		
-		final StringBuffer whereClause=new StringBuffer();
-		whereClause.append(X_M_ForecastLine.COLUMNNAME_M_Forecast_ID).append("=? AND ")
-				   .append(X_M_ForecastLine.COLUMNNAME_M_Product_ID).append("=? AND ")
-				    .append(X_M_ForecastLine.COLUMNNAME_M_Warehouse_ID).append("=? AND ")
-				   .append(X_M_ForecastLine.COLUMNNAME_DatePromised).append("=? AND ")
-				   .append(X_M_ForecastLine.COLUMNNAME_SalesRep_ID).append("=?");
-		
-		X_M_ForecastLine forecastLine = null;
-		if(ipp.getM_ForecastLine_ID()>0)
-		{
-			forecastLine = new X_M_ForecastLine(getCtx(),ipp.getM_ForecastLine_ID(),get_TrxName());
-		}
-		else
-		{
-			forecastLine = new Query(getCtx(), X_M_ForecastLine.Table_Name,whereClause.toString(), get_TrxName())
-							.setClient_ID().setParameters(new Object[]{ipp.getM_Forecast_ID(),ipp.getM_Product_ID(),ipp.getM_Warehouse_ID()
-							,ipp.getDatePromised(), ipp.getSalesRep_ID()}).first();
-		}
-		
-		if(forecastLine==null)
-		{
-			forecastLine = new X_M_ForecastLine (getCtx(),0,get_TrxName());
-		}
-		
-		forecastLine.setM_Forecast_ID(ipp.getM_Forecast_ID());
-		forecastLine.setAD_Org_ID(ipp.getAD_Org_ID());
-		forecastLine.setM_Product_ID(ipp.getM_Product_ID());
-		forecastLine.setM_Warehouse_ID(ipp.getM_Warehouse_ID());
-		forecastLine.setC_Period_ID(MPeriod.getC_Period_ID(getCtx(), ipp.getDatePromised(), ipp.getAD_Org_ID()));
-		forecastLine.setDatePromised(ipp.getDatePromised());
-		forecastLine.setSalesRep_ID(ipp.getSalesRep_ID());
-		forecastLine.setQty(ipp.getQty());
-		forecastLine.saveEx();
-		ipp.setM_ForecastLine_ID(forecastLine.getM_ForecastLine_ID());
-		ipp.saveEx();
-		isImported=true;
 	}
 
 	/**
 	 * fill MPPProductPlanning using I_ProductPlanning's values
-	 * @param pp MPPProductPlanning
-	 * @param ipp I_ProductPlanning
+	 * 
+	 * @param pp
+	 *            MPPProductPlanning
+	 * @param ipp
+	 *            I_ProductPlanning
 	 */
-	private void fillValue(MPPProductPlanning pp, X_I_ProductPlanning ipp) 
-	{
-		
-		for(MColumn col: getProductPlanningColumns())
-		{
-			//if(!col.isUpdateable())
-				//continue;
-			
-			
-			if(MPPProductPlanning.COLUMNNAME_IsRequiredDRP.equals(col.getColumnName()) 
-			|| MPPProductPlanning.COLUMNNAME_IsRequiredMRP.equals(col.getColumnName())
-			|| MPPProductPlanning.COLUMNNAME_PP_Product_Planning_ID.equals(col.getColumnName())
-			|| MPPProductPlanning.COLUMNNAME_Updated.equals(col.getColumnName())
-			|| col.getAD_Reference_ID() ==DisplayType.ID)	
-					continue;
-			
-			if(ipp.get_Value(col.getColumnName()) !=null 
-			&& pp.get_Value(col.getColumnName()).equals(ipp.get_Value(col.getColumnName())))
-			{
+	private void fillValue(MPPProductPlanning pp, X_I_ProductPlanning ipp) {
+
+		for (MColumn col : getProductPlanningColumns()) {
+			if (!pp.is_new() && !col.isUpdateable()
+					&& ipp.get_ColumnIndex(col.getColumnName()) > 0)
 				continue;
-			}
 			
-			pp.set_ValueOfColumn(col.getColumnName(), ipp.get_Value(col.getColumnName()));
+			if(MPPProductPlanning.COLUMNNAME_IsRequiredDRP.equals(col.getColumnName()) || 
+			   MPPProductPlanning.COLUMNNAME_IsRequiredMRP.equals(col.getColumnName()) ||
+			   MPPProductPlanning.COLUMNNAME_PP_Product_Planning_ID.equals(col.getColumnName()))
+				continue;
+
+			if (ipp.get_Value(col.getColumnName()) != null
+					&& pp.get_Value(col.getColumnName()) != null
+					&& pp.get_Value(col.getColumnName()).equals(
+							ipp.get_Value(col.getColumnName())))
+				continue;
+
+			pp.set_ValueOfColumn(col.getColumnName(),
+					ipp.get_Value(col.getColumnName()));
 
 		}
-		pp.setIsRequiredDRP(false);
-		pp.setIsRequiredMRP(false);
-		String error=null;
-		try
-		{
-		pp.saveEx();
-		ipp.setPP_Product_Planning_ID(pp.getPP_Product_Planning_ID());	
-		ipp.saveEx();
-		}
-		catch(Exception e)
-		{
-			error = e.getMessage();
-			ipp.setI_ErrorMsg(error);
-			isImported = false;
-			return;
-		}
-		
-		isImported=true;
+		isImported = true;
+		return;
 	}
 
 	/**
 	 * get Product Planning Columns
+	 * 
 	 * @return array MColumn
 	 */
 	private MColumn[] getProductPlanningColumns() {
-		return MTable.get(getCtx(),MPPProductPlanning.Table_Name).getColumns(false);
+		return MTable.get(getCtx(), MPPProductPlanning.Table_Name).getColumns(
+				false);
 	}
 
 	/**
-	 * get MPPProductPlanning unique instance based on  X_I_ProductPlanning data
-	 * @param ipp X_I_ProductPlanning
-	 * @return  unique instance of MPPProductPlanning
+	 * fill IDs values based on Search Key
 	 */
-	private MPPProductPlanning getProductPlanning(X_I_ProductPlanning ipp) {
-		
-		final StringBuffer whereClause = new StringBuffer();
-		ArrayList<Object> parameters = new ArrayList();
-		
-		MColumn[] cols = getProductPlanningColumns();
-		
-		int count = 0;
-		
-		for(MColumn col: cols)
-		{
-			//column primary key for MPPProductPlanning 
-			if(MPPProductPlanning.COLUMNNAME_AD_Org_ID.equals(col.getColumnName())
-			|| MPPProductPlanning.COLUMNNAME_S_Resource_ID.equals(col.getColumnName())
-			|| MPPProductPlanning.COLUMNNAME_M_Warehouse_ID.equals(col.getColumnName())
-			|| MPPProductPlanning.COLUMNNAME_M_Product_ID.equals(col.getColumnName()))
-			{
-				whereClause.append(col.getColumnName()).append("=?");
-				parameters.add(ipp.get_Value(col.getColumnName()));
-				if(count < 3)
-				{
-					whereClause.append(" AND ");
-					count++;
-				}
-			}
-		
-		}
-		
-		return new Query(getCtx(), MPPProductPlanning.Table_Name, whereClause.toString(), get_TrxName())
-		.setClient_ID()
-		.setParameters(parameters).firstOnly();
+	private void fillIDValues() {
+		for (X_I_ProductPlanning ppi : getRecords(false, p_IsImportOnlyNoErrors)) {
 
-	}
+			int AD_Org_ID = 0;
+			if (ppi.getAD_Org_ID() > 0)
+				AD_Org_ID = getID(MOrg.Table_Name, "AD_Org_ID = ?",
+						ppi.getAD_Org_ID());
 
-	/**
-	 * fill IDs values based on Search Key 
-	 */
-	private void fillIDValues()
-	{
-		for(X_I_ProductPlanning ppi : getRecords(false, p_IsImportOnlyNoErrors))
-		{
-			if(ppi.getC_BPartner_ID()==0)
-				ppi.setC_BPartner_ID(getID(I_C_BPartner.Table_Name,I_C_BPartner.COLUMNNAME_Value +  "=?", new Object[]{ppi.getBPartner_Value()}));
-			if(ppi.getM_Product_ID()==0)	
-				ppi.setM_Product_ID(getID(I_M_Product.Table_Name,I_M_Product.COLUMNNAME_Value +  "=?", new Object[]{ppi.getProductValue()}));
-			if(ppi.getM_Warehouse_ID()==0)
-				ppi.setM_Warehouse_ID(getID(I_M_Warehouse.Table_Name,I_M_Warehouse.COLUMNNAME_Value + "=?", new Object[]{ppi.getWarehouseValue()}));
-			if(ppi.getAD_Org_ID()==0)
-				ppi.setAD_Org_ID(getID(I_AD_Org.Table_Name,I_AD_Org.COLUMNNAME_Value +  "=?", new Object[]{ppi.getOrgValue()}));
-			if(ppi.getDD_NetworkDistribution_ID()==0)
-				ppi.setDD_NetworkDistribution_ID(getID(I_DD_NetworkDistribution.Table_Name,I_DD_NetworkDistribution.COLUMNNAME_Value 
-						+  "=?", new Object[]{ppi.getNetworkDistributionValue()}));
-			if(ppi.getPP_Product_BOM_ID()==0)
-				ppi.setPP_Product_BOM_ID(getID(I_PP_Product_BOM.Table_Name,I_PP_Product_BOM.COLUMNNAME_Value +  "=?", new Object[]{ppi.getProduct_BOM_Value()}));
-			if(ppi.getM_Forecast_ID()==0)
-				ppi.setM_Forecast_ID(getID(I_M_Forecast.Table_Name,I_M_Forecast.COLUMNNAME_Name + "=?" , new Object[]{ppi.getForecastValue()}));
-			if(ppi.getS_Resource_ID()==0)
-				ppi.setS_Resource_ID(getID(I_S_Resource.Table_Name, I_S_Resource.COLUMNNAME_Value +  "=? AND " 
-						+ I_S_Resource.COLUMNNAME_ManufacturingResourceType + "=?", new Object[]{ppi.getResourceValue(), "PT"}));
-			
+			if (AD_Org_ID <= 0 && ppi.getOrgValue() != null) {
+				AD_Org_ID = getID(MOrg.Table_Name, "Value = ?",
+						ppi.getOrgValue());
+				ppi.setAD_Org_ID(AD_Org_ID);
+			} else
+				ppi.setAD_Org_ID(AD_Org_ID);
+
+			int C_BPartner_ID = 0;
+			if (ppi.getC_BPartner_ID() == 0)
+				C_BPartner_ID = getID(I_C_BPartner.Table_Name,
+						I_C_BPartner.COLUMNNAME_C_BPartner_ID + "=?",
+						ppi.getC_BPartner_ID());
+
+			if (C_BPartner_ID <= 0 && ppi.getBPartner_Value() != null) {
+				C_BPartner_ID = getID(I_C_BPartner.Table_Name,
+						I_C_BPartner.COLUMNNAME_Value + "=?",
+						ppi.getBPartner_Value());
+				ppi.setC_BPartner_ID(C_BPartner_ID);
+			} else
+				ppi.setC_BPartner_ID(C_BPartner_ID);
+
+			// Product
+			int M_Product_ID = 0;
+			if (ppi.getM_Product_ID() > 0)
+				M_Product_ID = getID(MProduct.Table_Name, "M_Product_ID = ?",
+						ppi.getM_Product_ID());
+
+			if (M_Product_ID <= 0 && ppi.getProductValue() != null) {
+				M_Product_ID = getID(MProduct.Table_Name, "Value = ?",
+						ppi.getProductValue());
+				ppi.setM_Product_ID(M_Product_ID);
+			} else
+				ppi.setM_Product_ID(M_Product_ID);
+
+			// Warehouse
+			int M_Warehouse_ID = 0;
+			if (ppi.getM_Warehouse_ID() > 0)
+				M_Warehouse_ID = getID(MWarehouse.Table_Name,
+						"M_Warehouse_ID = ?", ppi.getM_Warehouse_ID());
+
+			if (M_Warehouse_ID <= 0 && ppi.getWarehouseValue() != null) {
+				M_Warehouse_ID = getID(MWarehouse.Table_Name, "Value = ?",
+						ppi.getWarehouseValue());
+				ppi.setM_Warehouse_ID(M_Warehouse_ID);
+			} else
+				ppi.setM_Warehouse_ID(M_Warehouse_ID);
+
+			int DD_NetworkDistribution_ID = 0;
+			if (ppi.getDD_NetworkDistribution_ID() > 0)
+				DD_NetworkDistribution_ID = getID(
+						I_DD_NetworkDistribution.Table_Name,
+						I_DD_NetworkDistribution.COLUMNNAME_DD_NetworkDistribution_ID
+								+ " = ?", ppi.getDD_NetworkDistribution_ID());
+
+			if (DD_NetworkDistribution_ID <= 0
+					&& ppi.getNetworkDistributionValue() != null) {
+				DD_NetworkDistribution_ID = getID(
+						I_DD_NetworkDistribution.Table_Name,
+						I_DD_NetworkDistribution.COLUMNNAME_Value + "= ?",
+						ppi.getNetworkDistributionValue());
+				ppi.setDD_NetworkDistribution_ID(DD_NetworkDistribution_ID);
+			} else
+				ppi.setDD_NetworkDistribution_ID(DD_NetworkDistribution_ID);
+
+			int PP_Product_BOM_ID = 0;
+			if (ppi.getPP_Product_BOM_ID() > 0)
+				PP_Product_BOM_ID = getID(I_PP_Product_BOM.Table_Name,
+						I_PP_Product_BOM.COLUMNNAME_PP_Product_BOM_ID + "= ?",
+						ppi.getPP_Product_BOM_ID());
+
+			if (PP_Product_BOM_ID <= 0 && ppi.getProduct_BOM_Value() != null) {
+				PP_Product_BOM_ID = getID(I_PP_Product_BOM.Table_Name,
+						I_PP_Product_BOM.COLUMNNAME_Value + "= ?",
+						ppi.getProduct_BOM_Value());
+				ppi.setPP_Product_BOM_ID(PP_Product_BOM_ID);
+			} else
+				ppi.setPP_Product_BOM_ID(PP_Product_BOM_ID);
+
+			int S_Resource_ID = 0;
+			if (ppi.getS_Resource_ID() > 0)
+				S_Resource_ID = getID(I_S_Resource.Table_Name,
+						I_S_Resource.COLUMNNAME_S_Resource_ID + "= ?",
+						ppi.getS_Resource_ID());
+
+			if (S_Resource_ID <= 0 && ppi.getResourceValue() != null) {
+				S_Resource_ID = getID(
+						I_S_Resource.Table_Name,
+						I_S_Resource.COLUMNNAME_Value
+								+ "=? AND "
+								+ I_S_Resource.COLUMNNAME_ManufacturingResourceType
+								+ "=?", ppi.getResourceValue(),
+						X_S_Resource.MANUFACTURINGRESOURCETYPE_Plant);
+				ppi.setS_Resource_ID(S_Resource_ID);
+			} else
+				ppi.setS_Resource_ID(S_Resource_ID);
+
+			ppi.saveEx();
+
+			StringBuffer err = new StringBuffer("");
+			if (ppi.getAD_Org_ID() <= 0)
+				err.append(" @AD_Org_ID@ @NotFound@,");
+
+			if (ppi.getM_Product_ID() <= 0)
+				err.append(" @M_Product_ID@ @NotFound@,");
+
+			// if (ppi.getM_Warehouse_ID() <= 0)
+			// err.append(" @M_Warehouse_ID@ @NotFound@,");
+
+			// if (ppi.getC_BPartner_ID() <= 0)
+			// err.append(" @S_Resource_ID@ @NotFound@,");
+
+			if (err.toString() != null && err.toString().length() > 0) {
+				notimported++;
+				ppi.setI_ErrorMsg(Msg.parseTranslation(getCtx(), err.toString()));
 				ppi.saveEx();
-			
+			}
+
 		}
 	}
-	
+
 	/**
-	 * get a record's ID 
-	 * @param tableName String
-	 * @param whereClause String
-	 * @param values Object[]
-	 * @return unique record's ID in the table   
+	 * get a record's ID
+	 * 
+	 * @param tableName
+	 *            String
+	 * @param whereClause
+	 *            String
+	 * @param values
+	 *            Object[]
+	 * @return unique record's ID in the table
 	 */
-	private int getID(String tableName, String whereClause, Object[] values)
-	{
-		
-		return new Query(getCtx(),tableName,whereClause,get_TrxName())
-		.setClient_ID()
-		.setParameters(values).firstId();
-	}  
-	
+	private int getID(String tableName, String whereClause,
+			Object... parameters) {
+		return new Query(getCtx(), tableName, whereClause, get_TrxName())
+				.setParameters(parameters).firstId();
+	}
+
 	/**
 	 * get all records in X_I_ProductPlanning table
-	 * @param imported boolean
-	 * @param isWithError boolean
-	 * @return collection of X_I_ProductPlanning records
+	 * 
+	 * @param imported
+	 *            boolean
+	 * @param isWithError
+	 *            boolean
+	 * @return List of X_I_ProductPlanning records
 	 */
-	private Collection<X_I_ProductPlanning> getRecords(boolean imported, boolean isWithError)
-	{
-		final StringBuffer whereClause = new StringBuffer(X_I_ProductPlanning.COLUMNNAME_I_IsImported)
-		.append("=?"); 
-		if(isWithError)
-		{
-			whereClause.append(" AND ").append(X_I_ProductPlanning.COLUMNNAME_I_ErrorMsg).append(" IS NULL");
+	private List<X_I_ProductPlanning> getRecords(boolean imported,
+			boolean isWithError) {
+		final StringBuffer whereClause = new StringBuffer(
+				X_I_ProductPlanning.COLUMNNAME_I_IsImported).append("=?");
+
+		if (isWithError) {
+			whereClause.append(" AND ")
+					.append(X_I_ProductPlanning.COLUMNNAME_I_ErrorMsg)
+					.append(" IS NULL");
 		}
 
-		return new Query(getCtx(),X_I_ProductPlanning.Table_Name,whereClause.toString(),get_TrxName())
-		.setClient_ID()
-		.setParameters(new Object[]{imported})
-		.list();
+		return new Query(getCtx(), X_I_ProductPlanning.Table_Name,
+				whereClause.toString(), get_TrxName()).setClient_ID()
+				.setParameters(imported).list();
 	}
-	
-	/**
-	 * delete all imported records
-	 */
-	private void deleteImportedRecords()
-	{
-		if(p_DeleteOldImported)
-		{
-			for(X_I_ProductPlanning ipp:getRecords(false, p_IsImportOnlyNoErrors))
-			{
-				ipp.deleteEx(true);
-			}
-		}
-	}
-}	//	ImportGLJournal
+} // Import Product Planning
