@@ -291,6 +291,7 @@ public class GridFieldVO implements Serializable
 		voT.DisplayLogic = voF.DisplayLogic;
 		voT.ReadOnlyLogic = voF.ReadOnlyLogic;
 		voT.ValidationCode = voF.ValidationCode;
+		voT.InfoFactoryClass = voF.InfoFactoryClass;
 		
 		//
 		// Genied: For a range parameter the second field 

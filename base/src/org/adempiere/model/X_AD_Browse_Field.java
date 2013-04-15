@@ -31,7 +31,7 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20120903L;
+	private static final long serialVersionUID = 20130410L;
 
     /** Standard Constructor */
     public X_AD_Browse_Field (Properties ctx, int AD_Browse_Field_ID, String trxName)
@@ -77,8 +77,8 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
       return sb.toString();
     }
 
-	/** Set Browse Field.
-		@param AD_Browse_Field_ID Browse Field	  */
+	/** Set Smart Browse Fields ID.
+		@param AD_Browse_Field_ID Smart Browse Fields ID	  */
 	public void setAD_Browse_Field_ID (int AD_Browse_Field_ID)
 	{
 		if (AD_Browse_Field_ID < 1) 
@@ -87,8 +87,8 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 			set_ValueNoCheck (COLUMNNAME_AD_Browse_Field_ID, Integer.valueOf(AD_Browse_Field_ID));
 	}
 
-	/** Get Browse Field.
-		@return Browse Field	  */
+	/** Get Smart Browse Fields ID.
+		@return Smart Browse Fields ID	  */
 	public int getAD_Browse_Field_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Browse_Field_ID);
@@ -449,6 +449,23 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 	public String getHelp () 
 	{
 		return (String)get_Value(COLUMNNAME_Help);
+	}
+
+	/** Set Info Factory Class.
+		@param InfoFactoryClass 
+		Fully qualified class name that implements the InfoFactory interface
+	  */
+	public void setInfoFactoryClass (String InfoFactoryClass)
+	{
+		set_Value (COLUMNNAME_InfoFactoryClass, InfoFactoryClass);
+	}
+
+	/** Get Info Factory Class.
+		@return Fully qualified class name that implements the InfoFactory interface
+	  */
+	public String getInfoFactoryClass () 
+	{
+		return (String)get_Value(COLUMNNAME_InfoFactoryClass);
 	}
 
 	/** Set Centrally maintained.

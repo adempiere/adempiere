@@ -30,7 +30,7 @@ public class X_AD_Browse_Access extends PO implements I_AD_Browse_Access, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20120831L;
+	private static final long serialVersionUID = 20130410L;
 
     /** Standard Constructor */
     public X_AD_Browse_Access (Properties ctx, int AD_Browse_Access_ID, String trxName)

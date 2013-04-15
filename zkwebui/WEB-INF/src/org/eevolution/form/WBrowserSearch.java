@@ -100,6 +100,7 @@ public class WBrowserSearch extends  Grid implements ValueChangeListener {
 
 		voBase.DefaultValue = field.getDefaultValue();
 		voBase.DefaultValue2 = field.getDefaultValue2();
+		voBase.InfoFactoryClass = field.getInfoFactoryClass();
 		voBase.FieldLength = field.getFieldLength();
 		voBase.ReadOnlyLogic = field.getReadOnlyLogic();
 		voBase.DisplayLogic = field.getDisplayLogic();
