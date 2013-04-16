@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_SalesHistory
  *  @author Adempiere (generated) 
- *  @version Release 3.7.1RC - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_I_SalesHistory extends PO implements I_I_SalesHistory, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20120619L;
+	private static final long serialVersionUID = 20130415L;
 
     /** Standard Constructor */
     public X_I_SalesHistory (Properties ctx, int I_SalesHistory_ID, String trxName)
@@ -462,6 +462,23 @@ public class X_I_SalesHistory extends PO implements I_I_SalesHistory, I_Persiste
 		return (Timestamp)get_Value(COLUMNNAME_DateInvoiced);
 	}
 
+	/** Set Document No.
+		@param DocumentNo 
+		Document sequence number of the document
+	  */
+	public void setDocumentNo (String DocumentNo)
+	{
+		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
+	}
+
+	/** Get Document No.
+		@return Document sequence number of the document
+	  */
+	public String getDocumentNo () 
+	{
+		return (String)get_Value(COLUMNNAME_DocumentNo);
+	}
+
 	/** Set Group Key.
 		@param GroupValue 
 		Business Partner Group Key
@@ -770,14 +787,17 @@ public class X_I_SalesHistory extends PO implements I_I_SalesHistory, I_Persiste
 	}
 
 	/** Set Process Now.
-		@param Processing Process Now	  */
+		@param Processing 
+		This process allows to import the sales statistics by using a predefined import format,  inside the application.
+	  */
 	public void setProcessing (boolean Processing)
 	{
 		set_Value (COLUMNNAME_Processing, Boolean.valueOf(Processing));
 	}
 
 	/** Get Process Now.
-		@return Process Now	  */
+		@return This process allows to import the sales statistics by using a predefined import format,  inside the application.
+	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);

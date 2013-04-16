@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_SalesHistory
  *  @author Adempiere (generated) 
- *  @version Release 3.7.1RC - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_C_SalesHistory extends PO implements I_C_SalesHistory, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20120619L;
+	private static final long serialVersionUID = 20130415L;
 
     /** Standard Constructor */
     public X_C_SalesHistory (Properties ctx, int C_SalesHistory_ID, String trxName)
@@ -45,7 +45,6 @@ public class X_C_SalesHistory extends PO implements I_C_SalesHistory, I_Persiste
 			setC_BPartner_ID (0);
 			setC_SalesHistory_ID (0);
 			setM_Product_ID (0);
-			setM_Warehouse_ID (0);
         } */
     }
 
@@ -423,6 +422,23 @@ public class X_C_SalesHistory extends PO implements I_C_SalesHistory, I_Persiste
 	public Timestamp getDateInvoiced () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DateInvoiced);
+	}
+
+	/** Set Document No.
+		@param DocumentNo 
+		Document sequence number of the document
+	  */
+	public void setDocumentNo (String DocumentNo)
+	{
+		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
+	}
+
+	/** Get Document No.
+		@return Document sequence number of the document
+	  */
+	public String getDocumentNo () 
+	{
+		return (String)get_Value(COLUMNNAME_DocumentNo);
 	}
 
 	public org.compiere.model.I_M_Product_Category getM_Product_Category() throws RuntimeException

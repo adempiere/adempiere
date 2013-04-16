@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_SalesHistory
  *  @author Adempiere (generated) 
- *  @version Release 3.7.1RC
+ *  @version Release 3.7.0LTS
  */
 public interface I_I_SalesHistory 
 {
@@ -31,7 +31,7 @@ public interface I_I_SalesHistory
     /** TableName=I_SalesHistory */
     public static final String Table_Name = "I_SalesHistory";
 
-    /** AD_Table_ID=1000005 */
+    /** AD_Table_ID=53386 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -299,6 +299,19 @@ public interface I_I_SalesHistory
 	  */
 	public Timestamp getDateInvoiced();
 
+    /** Column name DocumentNo */
+    public static final String COLUMNNAME_DocumentNo = "DocumentNo";
+
+	/** Set Document No.
+	  * Document sequence number of the document
+	  */
+	public void setDocumentNo (String DocumentNo);
+
+	/** Get Document No.
+	  * Document sequence number of the document
+	  */
+	public String getDocumentNo();
+
     /** Column name GroupValue */
     public static final String COLUMNNAME_GroupValue = "GroupValue";
 
@@ -492,10 +505,14 @@ public interface I_I_SalesHistory
     /** Column name Processing */
     public static final String COLUMNNAME_Processing = "Processing";
 
-	/** Set Process Now	  */
+	/** Set Process Now.
+	  * This process allows to import the sales statistics by using a predefined import format,  inside the application.
+	  */
 	public void setProcessing (boolean Processing);
 
-	/** Get Process Now	  */
+	/** Get Process Now.
+	  * This process allows to import the sales statistics by using a predefined import format,  inside the application.
+	  */
 	public boolean isProcessing();
 
     /** Column name ProductValue */

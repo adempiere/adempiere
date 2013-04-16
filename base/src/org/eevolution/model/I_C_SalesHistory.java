@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_SalesHistory
  *  @author Adempiere (generated) 
- *  @version Release 3.7.1RC
+ *  @version Release 3.7.0LTS
  */
 public interface I_C_SalesHistory 
 {
@@ -31,7 +31,7 @@ public interface I_C_SalesHistory
     /** TableName=C_SalesHistory */
     public static final String Table_Name = "C_SalesHistory";
 
-    /** AD_Table_ID=1000001 */
+    /** AD_Table_ID=53390 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -267,6 +267,19 @@ public interface I_C_SalesHistory
 	  * Date printed on Invoice
 	  */
 	public Timestamp getDateInvoiced();
+
+    /** Column name DocumentNo */
+    public static final String COLUMNNAME_DocumentNo = "DocumentNo";
+
+	/** Set Document No.
+	  * Document sequence number of the document
+	  */
+	public void setDocumentNo (String DocumentNo);
+
+	/** Get Document No.
+	  * Document sequence number of the document
+	  */
+	public String getDocumentNo();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
