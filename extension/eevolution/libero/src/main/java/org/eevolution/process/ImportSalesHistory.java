@@ -160,6 +160,7 @@ public class ImportSalesHistory extends SvrProcess {
 		sh.setCostAmt(ish.getCostAmt());
 		sh.setTotalInvCost(ish.getTotalInvCost());
 		sh.setPriceInvoiced(ish.getPriceInvoiced());
+		sh.setDocumentNo(ish.getDocumentNo());
 		sh.setTotalInvAmt(ish.getTotalInvAmt());
 
 		sh.setC_Project_ID(ish.getC_Project_ID());
