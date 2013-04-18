@@ -21,6 +21,7 @@ import java.sql.ResultSet;
 import java.util.Properties;
 
 import org.compiere.model.MColumn;
+import org.compiere.model.Query;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 
@@ -41,6 +42,22 @@ public class MViewColumn extends X_AD_View_Column {
 	private static CLogger s_log = CLogger.getCLogger(MViewColumn.class);
 	/** MColumn **/
 	private MColumn m_column = null;
+	
+	/**
+	 * Get View column based on Column
+	 * @param view
+	 * @param column
+	 * @return View Column
+	 */
+	public static MViewColumn get(MViewDefinition viewDefinition, MColumn column) {
+		String whereClause = MViewColumn.COLUMNNAME_AD_View_Definition_ID+ "=? AND "
+				+ MViewColumn.COLUMNNAME_AD_Column_ID + "=?";
+		return new Query(column.getCtx(), MViewColumn.Table_Name, whereClause,
+				column.get_TrxName())
+				.setOnlyActiveRecords(true)
+				.setParameters(viewDefinition.getAD_View_Definition_ID(),
+						column.getAD_Column_ID()).first();
+	}
 
 	/**************************************************************************
 	 * MViewColumn Constructor

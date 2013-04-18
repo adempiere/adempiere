@@ -23,7 +23,6 @@ import java.util.logging.Level;
 import org.adempiere.model.MViewColumn;
 import org.adempiere.model.MViewDefinition;
 import org.compiere.model.MColumn;
-import org.compiere.model.MTable;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 
@@ -63,12 +62,13 @@ public class CreateViewColumn extends SvrProcess {
 		MViewDefinition join = new MViewDefinition(getCtx(), p_Record_ID,
 				get_TrxName());
 
-		for (MViewColumn vcol : join.getADViewColunms()) {
-			vcol.deleteEx(true);
-		}
-
 		for (MColumn attr : join.getEntityAttributes()) {
-			MViewColumn column = new MViewColumn(attr);
+			
+			MViewColumn column = MViewColumn.get(join , attr);
+			if (column != null)
+				continue;
+			
+			column = new MViewColumn(attr);
 			column.setAD_View_Definition_ID(join.getAD_View_Definition_ID());
 			column.setColumnSQL(join.getTableAlias() + "."
 					+ attr.getColumnName());
