@@ -136,6 +136,8 @@ public class WBrowser extends Browser implements IFormController,
 		
 		super(modal, WindowNo, value, browse, keyColumn, multiSelection,
 				whereClause);
+		Env.clearWinContext(WindowNo);
+		setContextWhere(browse, whereClause);
 		
 		m_frame = new CustomForm();
 		initComponents();
@@ -206,6 +208,7 @@ public class WBrowser extends Browser implements IFormController,
 
 		// prepare table	
 		StringBuilder where = new StringBuilder("");
+		setContextWhere(m_Browse , null);
 		if (p_whereClause.length() > 0) {
 			where.append(p_whereClause);
 		}

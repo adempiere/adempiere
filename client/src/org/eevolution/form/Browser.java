@@ -198,7 +198,13 @@ public abstract class Browser {
 		p_multiSelection = multiSelection;
 		m_language = Language.getLanguage(Env
 				.getAD_Language(m_Browse.getCtx()));
-
+		log.info(m_Browse.getName() + " - " + keyColumn + " - " + p_whereClause);
+	}
+	
+	public void setContextWhere(MBrowse browse, String where)
+	{
+		p_whereClause = null;
+		
 		String whereClause = where != null ? where : "";
 
 		if(m_Browse.getWhereClause() != null )
@@ -209,12 +215,12 @@ public abstract class Browser {
 			p_whereClause = whereClause;
 		else {
 			p_whereClause = Env.parseContext(Env.getCtx(), p_WindowNo,
-					whereClause, false, false);
+					whereClause, true, true);
 			if (p_whereClause.length() == 0)
 				log.log(Level.SEVERE, "Cannot parse context= " + whereClause);
 		}
 
-		log.info(m_Browse.getName() + " - " + keyColumn + " - " + whereClause);
+		log.info(m_Browse.getName() + " - " + p_whereClause);
 	}
 
 	public ArrayList<Info_Column> initBrowserData() {

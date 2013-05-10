@@ -138,9 +138,12 @@ public class VBrowser extends Browser implements ActionListener,
 			String whereClause) {
 		super(modal, WindowNo, value, browse, keyColumn, multiSelection,
 				whereClause);
+		Env.clearWinContext(WindowNo);
+		setContextWhere(browse, whereClause);
 		m_frame = frame;
 		m_frame.setTitle(browse.getTitle());
 		m_frame.getContentPane().add(statusBar, BorderLayout.SOUTH);
+		
 		initComponents();
 		statInit();
 		m_frame.setPreferredSize(getPreferredSize());
@@ -213,6 +216,7 @@ public class VBrowser extends Browser implements ActionListener,
 			return false;
 		
 		StringBuilder where = new StringBuilder("");
+		setContextWhere(m_Browse , null);
 		if (p_whereClause.length() > 0) {
 			where.append(p_whereClause);
 		}
