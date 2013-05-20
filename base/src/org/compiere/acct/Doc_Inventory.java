@@ -153,7 +153,7 @@ public class Doc_Inventory extends Doc
 			for (MCostDetail cost : line.getCostDetail(as))
 			{
 
-				if (MCostDetail.existsCost(cost))
+				if (!MCostDetail.existsCost(cost))
 					continue;
 				
 				//get costing method for product

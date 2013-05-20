@@ -136,7 +136,7 @@ public class Doc_Movement extends Doc
 			BigDecimal costs = Env.ZERO;			
 			for (MCostDetail cost : line.getCostDetail(as))
 			{
-				if(MCostDetail.existsCost(cost))
+				if(!MCostDetail.existsCost(cost))
 					continue;
 				//get costing method for product
 				String description = cost.getM_CostElement().getName() +" "+ cost.getM_CostType().getName();

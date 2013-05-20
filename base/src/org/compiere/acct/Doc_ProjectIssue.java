@@ -140,7 +140,7 @@ public class Doc_ProjectIssue extends Doc
 		{	
 			for(MCostDetail cost : m_line.getCostDetail(as))
 			{	
-				if(MCostDetail.existsCost(cost))
+				if(!MCostDetail.existsCost(cost))
 					continue;
 				
 				costs = MCostDetail.getTotalCost(cost, as);

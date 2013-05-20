@@ -166,7 +166,7 @@ public class Doc_InOut extends Doc
 				
 				for (MCostDetail cost :  line.getCostDetail(as))
 				{	 
-					if (MCostDetail.existsCost(cost))
+					if (!MCostDetail.existsCost(cost))
 						continue;
 					
 					costs = MCostDetail.getTotalCost(cost, as);
@@ -271,7 +271,7 @@ public class Doc_InOut extends Doc
 				MProduct product = line.getProduct();
 				for (MCostDetail cost : line.getCostDetail(as))
 				{	
-					if (MCostDetail.existsCost(cost))
+					if (!MCostDetail.existsCost(cost))
 						continue;
 					
 					costs = MCostDetail.getTotalCost(cost, as);
@@ -363,7 +363,7 @@ public class Doc_InOut extends Doc
 				MProduct product = line.getProduct();
 				for (MCostDetail cost : line.getCostDetail(as))
 				{	
-						if (MCostDetail.existsCost(cost))
+						if (!MCostDetail.existsCost(cost))
 							continue;
 						
 						costs = MCostDetail.getTotalCost(cost, as);
@@ -458,7 +458,7 @@ public class Doc_InOut extends Doc
 				MProduct product = line.getProduct();
 				for(MCostDetail cost : line.getCostDetail(as))
 				{	
-					if (MCostDetail.existsCost(cost))
+					if (!MCostDetail.existsCost(cost))
 						continue;
 					
 					costs = MCostDetail.getTotalCost(cost, as);
