@@ -207,7 +207,7 @@ public class AveragePOCostingMethod extends  AbstractCostingMethod implements IC
 				{
 					cd.setProcessing(true);
 					cd.saveEx();				
-					adjustCostDetail(cd,ct,ce);
+					adjustCostDetail(cd);
 					cd.setProcessing(false);
 					cd.saveEx();
 				}

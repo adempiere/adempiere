@@ -63,32 +63,16 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 		// If model is reversal then no calculate cost
 		if (m_model.getReversalLine_ID() > 0 && m_costdetail == null)
 			return;
-
-		if (m_last_costdetail == null) { // created a new instance cost detail
-											// to process calculated cost
+		// created a new instance cost detail to process calculated cost
+		if (m_last_costdetail == null) { 
 			m_last_costdetail = new MCostDetail(m_trx,
 					m_as.getC_AcctSchema_ID(), m_dimension.getM_CostType_ID(),
 					m_dimension.getM_CostElement_ID(), Env.ZERO, Env.ZERO,
 					Env.ZERO, m_trx.get_TrxName());
 			m_last_costdetail.setDateAcct(m_model.getDateAcct());
 		}
-
-		// Use the last current cost price for out transaction
-		if (m_trx.getMovementType().endsWith("-")) {
-			m_CurrentCostPrice = getNewCurrentCostPrice(m_last_costdetail,
-					m_as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
-			m_CurrentCostPriceLL = getNewCurrentCostPriceLL(m_last_costdetail,
-					m_as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
-			m_Amount = m_trx.getMovementQty().multiply(m_CurrentCostPrice);
-			m_AmountLL = m_trx.getMovementQty().multiply(m_CurrentCostPriceLL);
-			m_CumulatedQty = getNewCumulatedQty(m_last_costdetail).add(
-					m_trx.getMovementQty());
-			m_CumulatedAmt = getNewCumulatedAmt(m_last_costdetail)
-					.add(m_Amount);
-			m_CumulatedAmtLL = getNewCumulatedAmtLL(m_last_costdetail).add(
-					m_AmountLL);
-		}
-		// The cost detail was created before and is necessary to update cost by
+		
+		// The cost detail was created before then is necessary to update cost by
 		// generate adjustment
 		if (m_trx.getM_Transaction_ID() == m_last_costdetail
 				.getM_Transaction_ID()) {
@@ -144,49 +128,58 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 
 			return;
 		}
+		
+		
 		// calculated costing
-		m_Amount = m_trx.getMovementQty().multiply(m_costThisLevel);
-		m_AmountLL = m_trx.getMovementQty().multiply(m_costLowLevel);
-		m_CumulatedAmt = getNewCumulatedAmt(m_last_costdetail).add(m_Amount);
-		m_CumulatedAmtLL = getNewCumulatedAmtLL(m_last_costdetail).add(
-				m_AmountLL);
+		if (m_trx.getMovementType().endsWith("+"))
+		{
+			m_Amount = m_trx.getMovementQty().multiply(m_costThisLevel);
+			m_AmountLL = m_trx.getMovementQty().multiply(m_costLowLevel);
+			m_CumulatedAmt = getNewCumulatedAmt(m_last_costdetail).add(m_Amount);
+			m_CumulatedAmtLL = getNewCumulatedAmtLL(m_last_costdetail).add(
+					m_AmountLL);
 
-		m_CumulatedQty = getNewCumulatedQty(m_last_costdetail).add(
-				m_trx.getMovementQty());
+			m_CumulatedQty = getNewCumulatedQty(m_last_costdetail).add(
+					m_trx.getMovementQty());
 
-		if (m_CumulatedAmt.signum() != 0)
-			m_CurrentCostPrice = m_CumulatedAmt.divide(
-					m_CumulatedQty.signum() != 0 ? m_CumulatedQty
-							: BigDecimal.ONE, m_as.getCostingPrecision(),
-					BigDecimal.ROUND_HALF_UP);
-		else
-			m_CurrentCostPrice = Env.ZERO;
-		if (m_CumulatedAmtLL.signum() != 0)
-			m_CurrentCostPriceLL = m_CumulatedAmtLL.divide(m_CumulatedQty
-					.signum() != 0 ? m_CumulatedQty : BigDecimal.ONE, m_as
-					.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
-		else
-			m_CurrentCostPriceLL = Env.ZERO;
 
+			m_CurrentCostPrice = m_costThisLevel;
+			m_CurrentCostPriceLL = m_costLowLevel;
+			
+		}
+		else if (m_trx.getMovementType().endsWith("-")) {
+
+			// Use the last current cost price for out transaction
+			//Calculate based on last average cost.
+			m_CurrentCostPrice = getNewCurrentCostPrice(m_last_costdetail,
+					m_as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+			m_CurrentCostPriceLL = getNewCurrentCostPriceLL(m_last_costdetail,
+					m_as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+
+			m_CumulatedAmt = getNewCumulatedAmt(m_last_costdetail)
+					.add(m_Amount);
+			m_CumulatedAmtLL = getNewCumulatedAmtLL(m_last_costdetail).add(
+					m_AmountLL);
+			
+			m_CumulatedQty = getNewCumulatedQty(m_last_costdetail).add(
+					m_trx.getMovementQty());
+						m_Amount = m_trx.getMovementQty().multiply(m_CurrentCostPrice);
+			m_AmountLL = m_trx.getMovementQty().multiply(m_CurrentCostPriceLL);
+		
+			if(m_costdetail != null)
+			{	
+					m_costdetail.setAmt(m_CurrentCostPrice.multiply(m_model
+							.getMovementQty()));
+					m_costdetail.setAmtLL(m_CurrentCostPriceLL.multiply(m_model
+							.getMovementQty()));
+			}
+		}
+		
+		//create new cost
 		if (m_costdetail == null)
 			return;
-
-		if (m_trx.getMovementType().endsWith("-")) {
-			m_costdetail.setAmt(m_CurrentCostPrice.multiply(m_trx
-					.getMovementQty()));
-			m_costdetail.setAmtLL(m_CurrentCostPriceLL.multiply(m_trx
-					.getMovementQty()));
-		}
-
+		
 		updateAmtCost();
-
-		m_costdetail.setCumulatedAmt(getNewCumulatedAmt(m_last_costdetail));
-		m_costdetail.setCumulatedQty(getNewCumulatedQty(m_last_costdetail));
-		m_costdetail.setCurrentCostPrice(m_CurrentCostPrice);
-		m_costdetail.setCurrentCostPriceLL(m_CurrentCostPriceLL);
-		m_costdetail.saveEx();
-		// Trx.get(m_costdetail.get_TrxName(), false).commit();
-
 	}
 
 	private void createCostDetail() {
@@ -197,11 +190,6 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 			createReversalCostDetail();
 			return;
 		}
-
-		// skip when re processing cost
-		// if (m_costdetail != null && m_last_costdetail != null &&
-		// m_costdetail.get_ID() == m_last_costdetail.get_ID())
-		// return ;
 
 		int seqNo = m_last_costdetail.getSeqNo() + 10;
 		// create a new cost detail or is necessary create a new cost detail for
@@ -227,10 +215,6 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 			// set account date for this cost detail
 			m_costdetail.setDateAcct(m_model.getDateAcct());
 			m_costdetail.setSeqNo(seqNo);
-			// set the id for model
-			final String idColumnName = CostEngine.getIDColumnName(m_model);
-			m_costdetail.set_ValueOfColumn(idColumnName,
-					CostEngine.getIDColumn(m_model));
 
 			// set transaction id
 			if (m_trx != null)
@@ -297,6 +281,7 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 				costingLevel);
 		if (cds == null || cds.size() == 0)
 			return;
+		
 		MCostDetail last_cd = m_costdetail;
 		m_costdetail = null;
 		/*
@@ -306,7 +291,7 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 		 * "----------------------------------------------------------------------------------------------------"
 		 * );
 		 */
-
+		//Renumber sequence
 		for (MCostDetail cd : cds) {
 			cd.setSeqNo(last_cd.getSeqNo() + 10); // remunerate sequence
 			cd.setProcessing(true);
@@ -320,7 +305,7 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 			adjustCostDetail(cd);
 			cd.setProcessing(false);
 			cd.saveEx();
-			clearAccounting(cd);
+ 			clearAccounting(cd);
 			// Only uncomment to debug
 			// Trx.get(cd.get_TrxName(), false).commit();
 		}
@@ -444,6 +429,26 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 					m_AdjustCostLL));
 		}
 
+		// set the id for model
+		final String idColumnName = CostEngine.getIDColumnName(m_model);
+		m_costdetail.set_ValueOfColumn(idColumnName,
+				CostEngine.getIDColumn(m_model));
+		
+		if (m_model instanceof MInOutLine)
+		{	
+			MInOutLine ioLine =  (MInOutLine) m_model;
+			m_costdetail.setC_OrderLine_ID(ioLine.getC_OrderLine_ID());
+		}
+		if (m_model instanceof MMatchInv && m_costdetail.getM_InOutLine_ID() == 0)
+		{	
+			MMatchInv iMatch =  (MMatchInv) m_model;
+			m_costdetail.setM_InOutLine_ID(iMatch.getM_InOutLine_ID());
+		}
+		if(m_model instanceof MMatchPO && m_costdetail.getM_InOutLine_ID() == 0)
+		{
+			MMatchPO poMatch =  (MMatchPO) m_model;
+			m_costdetail.setM_InOutLine_ID(poMatch.getM_InOutLine_ID());
+		}
 		m_costdetail.setCumulatedAmt(getNewCumulatedAmt(m_last_costdetail));
 		m_costdetail.setCumulatedQty(getNewCumulatedQty(m_last_costdetail));
 		m_costdetail.setCurrentCostPrice(m_CurrentCostPrice);
@@ -506,14 +511,11 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 		if (MCostElement.COSTELEMENTTYPE_LandedCost.equals(ce
 				.getCostElementType())) {
 			if (MTransaction.MOVEMENTTYPE_VendorReceipts.equals(trx
-					.getMovementType())) {
-				MInOutLine line = (MInOutLine) trx.getDocumentLine();
-				for (MLandedCostAllocation allocation : MLandedCostAllocation
-						.getOfInOuline(line, ce.getM_CostElement_ID())) {
+					.getMovementType())
+					&& cd.getC_LandedCostAllocation_ID() > 0) {
 					CostEngineFactory
-							.getCostEngine(cd.getAD_Client_ID())
-							.createCostDetailForLandedCostAllocation(allocation);
-				}
+					.getCostEngine(cd.getAD_Client_ID())
+					.createCostDetailForLandedCostAllocation((MLandedCostAllocation) cd.getC_LandedCostAllocation());
 			}
 			return;
 		}

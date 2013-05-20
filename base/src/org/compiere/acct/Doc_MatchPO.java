@@ -186,9 +186,8 @@ public class Doc_MatchPO extends Doc
 		    MCostElement element = MCostElement.getByMaterialCostElementType(trx);
 		    MCostDetail cd = MCostDetail.getByTransaction(ioLine, trx, as.getC_AcctSchema_ID(), ct.getM_CostType_ID(), element.getM_CostElement_ID());
 		    if(cd != null)
-		    {
-			costs =costs.add(cd.getCostAmt().add(cd.getCostAmtLL()));
-		    }
+		    	costs =costs.add(MCostDetail.getTotalCost(cd, as));
+
 		}
 		
 		if (MCostType.COSTINGMETHOD_StandardCosting.equals(costingMethod))

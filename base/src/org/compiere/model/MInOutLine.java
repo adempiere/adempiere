@@ -576,7 +576,12 @@ implements IDocumentLine
 				return false;
 			}
 		}
-
+		//RMA Line set C_OrderLine_ID
+		if(getM_RMALine_ID() > 0)
+		{
+			setC_OrderLine_ID(getM_RMALine().getM_InOutLine().getC_OrderLine_ID());
+		}
+		
 		// Validate Locator/Warehouse - teo_sarca, BF [ 2784194 ]
 		if (getM_Locator_ID() > 0)
 		{
@@ -662,6 +667,19 @@ implements IDocumentLine
 		if (MLandedCost.LANDEDCOSTDISTRIBUTION_Costs.equals(CostDistribution))
 		{
 			MInvoiceLine m_il = MInvoiceLine.getOfInOutLine(this);
+			
+			if(m_il == null)
+			{	
+				StringBuilder whereClause = new StringBuilder(I_M_MatchPO.COLUMNNAME_C_OrderLine_ID).append("=? AND ");
+				whereClause.append(I_M_MatchPO.COLUMNNAME_M_Product_ID).append("=? AND ");
+				whereClause.append(I_M_MatchPO.COLUMNNAME_C_InvoiceLine_ID).append("<> 0");
+				MMatchPO matchPO = new Query(this.getCtx(),I_M_MatchPO.Table_Name,whereClause.toString(),this.get_TrxName())
+				.setParameters(this.getC_OrderLine_ID() , this.getM_Product_ID())
+				.first();
+				if(matchPO != null)
+					m_il = matchPO.getInvoiceLine();
+			}	
+			
 			if (m_il == null)
 			{
 				log.severe("No Invoice Line for: " + this.toString());
@@ -722,12 +740,25 @@ implements IDocumentLine
 			BigDecimal price = null;
 			if (getC_OrderLine_ID() > 0)
 			{	
-				price = DB.getSQLValueBDEx(get_TrxName(),
-						"SELECT currencyBase(ol.PriceActual,o.C_Currency_ID,o.DateAcct,o.AD_Client_ID,o.AD_Org_ID) AS price " +
-						" FROM C_OrderLine ol INNER JOIN C_Order o ON (o.C_Order_ID=ol.C_Order_ID) " +
-						" WHERE "+MOrderLine.COLUMNNAME_C_OrderLine_ID+"=?",
+						price = DB.getSQLValueBDEx(get_TrxName(),
+							"SELECT currencyBase(ol.PriceActual,o.C_Currency_ID,o.DateAcct,o.AD_Client_ID,o.AD_Org_ID) AS price " +
+						    " FROM C_OrderLine ol INNER JOIN C_Order o ON (o.C_Order_ID=ol.C_Order_ID) " +
+						    " WHERE "+MOrderLine.COLUMNNAME_C_OrderLine_ID+"=?",
 						getC_OrderLine_ID());
 				
+					if (price.signum() == 0)
+						price = DB.getSQLValueBDEx(get_TrxName(),
+							" SELECT currencyBase(ol.PriceActual,o.C_Currency_ID,o.DateAcct,o.AD_Client_ID,o.AD_Org_ID) AS price" + 
+							" FROM M_MatchPO mpo LEFT JOIN C_OrderLine ol ON ( mpo.C_OrderLine_ID=ol.C_OrderLine_ID) " +
+							" INNER JOIN C_Order o ON (o.C_Order_ID=ol.C_Order_ID) " + 		
+							" WHERE  mpo."+MMatchPO.COLUMNNAME_M_InOutLine_ID+"=?", getM_InOutLine_ID());					
+				
+					if (price.signum() == 0)				
+						price = DB.getSQLValueBDEx(get_TrxName(), 
+							" SELECT currencyBase(il.PriceActual,i.C_Currency_ID,i.DateAcct,i.AD_Client_ID,i.AD_Org_ID) AS price " +
+							" FROM M_MatchInv mi LEFT JOIN C_InvoiceLine il ON (il.C_InvoiceLine_ID=mi.C_InvoiceLine_ID) " +
+							" INNER JOIN C_Invoice i ON (i.C_Invoice_ID=il.C_Invoice_ID) " +
+							" WHERE  mi."+MMatchInv.COLUMNNAME_M_InOutLine_ID+"=?", getM_InOutLine_ID());		
 			}
 			if (getM_RMALine_ID() > 0)
 			{

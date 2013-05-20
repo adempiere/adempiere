@@ -592,6 +592,7 @@ public class CostEngine {
 	public void createCostDetailForLandedCostAllocation(
 			MLandedCostAllocation allocation) {
 		MInOutLine ioLine = (MInOutLine) allocation.getM_InOutLine();
+		
 		for (MTransaction trx : MTransaction.getByInOutLine(ioLine)) {
 			for (MAcctSchema as : MAcctSchema.getClientAcctSchema(
 					allocation.getCtx(), allocation.getAD_Client_ID())) {

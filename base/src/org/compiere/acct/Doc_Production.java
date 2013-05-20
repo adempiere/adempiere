@@ -178,15 +178,19 @@ public class Doc_Production extends Doc
 			BigDecimal costs = Env.ZERO;			
 			for (MCostDetail cost : line.getCostDetail(as))
 			{
-				costs = cost.getCostAmt().add(cost.getCostAmtLL()).setScale(as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
-				if(costs.signum() == 0)
+				
+				if(cost.existsCost(cost))
 					continue;	 
+				
+				costs = MCostDetail.getTotalCost(cost, as);
+				
 				//get costing method for product
 				String description = cost.getM_CostElement().getName() +" "+ cost.getM_CostType().getName();
 				if(cost.getQty().signum() > 0)
 					costs = costs;
 				else
 					costs = costs.negate();	
+				
 				if (cost != null)
 				{	
 					total = total.add(costs.abs());
@@ -204,7 +208,7 @@ public class Doc_Production extends Doc
 								continue;
 							if (!line0.isProductionBOM())
 							{	
-									bomCost = bomCost.add(cost.getCostAmt().add(cost.getCostAmtLL()));
+									bomCost = bomCost.add(MCostDetail.getTotalCost(cost, as));
 							}	
 						}
 						costs = bomCost.negate();
@@ -225,11 +229,11 @@ public class Doc_Production extends Doc
 				fl = fact.createLine(line,
 					line.getAccount(ProductCost.ACCTTYPE_P_Asset,as),
 					as.getC_Currency_ID(), costs);
-				if (fl == null)
+				/*if (fl == null)
 				{
 					p_Error = "No Costs for Line " + line.getLine() + " - " + line;
 					return null;
-				}
+				}*/
 				fl.setM_Locator_ID(line.getM_Locator_ID());
 				fl.setQty(cost.getQty());
 				

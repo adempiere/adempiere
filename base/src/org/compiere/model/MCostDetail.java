@@ -54,8 +54,37 @@ public class MCostDetail extends X_M_CostDetail
 	 * 
 	 */
 	private static final long serialVersionUID = -7882724307127281675L;
-	private static final Object COLUMNNAME_M_InOutLine_ID_ID = null;
 
+	/**
+	 * get true if cost is different of zero
+	 * @param cost
+	 * @return
+	 */
+	public static boolean existsCost(MCostDetail cost)
+	{
+		if (cost.getCostAmt().add(cost.getCostAdjustment()).add(cost.getCostAmtLL()).add(cost.getCostAdjustmentLL()).signum() == 0)
+			return false;
+		else
+			return true;
+	}
+	
+	/**
+	 * get Total Cost
+	 * @param cost
+	 * @param as
+	 * @return
+	 */
+	public static BigDecimal getTotalCost(MCostDetail cost , MAcctSchema as)
+	{
+		return cost
+		.getCostAmt()
+		.add(cost.getCostAdjustment())
+		.add(cost.getCostAmtLL())
+		.add(cost.getCostAdjustmentLL())
+		.setScale(as.getCostingPrecision(),
+				BigDecimal.ROUND_HALF_UP); 
+	}
+	
 	public static List<MCostDetail> getByCollectorCost(MPPCostCollector cc)
 	{
 		StringBuffer whereClause = new StringBuffer();

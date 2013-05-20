@@ -152,16 +152,19 @@ public class Doc_Inventory extends Doc
 			BigDecimal costs=Env.ZERO;			
 			for (MCostDetail cost : line.getCostDetail(as))
 			{
-					if(cost.getCostAmt().add(cost.getCostAmtLL()).signum() == 0)
-						continue;
-					//get costing method for product
-					String description = cost.getM_CostElement().getName() +" "+ cost.getM_CostType().getName();
-					if(line.getQty().signum() < 0 )
-						costs = cost.getCostAmt().add(cost.getCostAmtLL()).negate().setScale(as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
-					else 
-						costs = cost.getCostAmt().add(cost.getCostAmtLL()).setScale(as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
-					
-					total = total.add(costs);	
+
+				if (MCostDetail.existsCost(cost))
+					continue;
+				
+				//get costing method for product
+				String description = cost.getM_CostElement().getName() +" "+ cost.getM_CostType().getName();
+
+				if (line.getQty().signum() < 0)
+					costs = MCostDetail.getTotalCost(cost, as).negate();
+				else
+					costs = MCostDetail.getTotalCost(cost, as);
+			
+					total = total.add(costs);
 					
 					//  Inventory       DR      CR
 					dr = fact.createLine(line,
@@ -219,11 +222,11 @@ public class Doc_Inventory extends Doc
 						costs = cr.getAcctBalance(); //get original cost
 					}
 					
-				if (total == null || total.signum() == 0)
+				/*if (total == null || total.signum() == 0)
 				{
 					p_Error = "No Costs for " + line.getProduct().getName();
 					return null;
-				}
+				}*/
 			}
 		}
 		

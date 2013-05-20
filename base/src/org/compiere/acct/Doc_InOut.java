@@ -165,13 +165,16 @@ public class Doc_InOut extends Doc
 				MProduct product = line.getProduct();
 				
 				for (MCostDetail cost :  line.getCostDetail(as))
-				{	
-					if (cost.getCostAmt().add(cost.getCostAmtLL()).signum() == 0)
+				{	 
+					if (MCostDetail.existsCost(cost))
 						continue;
-					//get costing method for product
-					String description = cost.getM_CostElement().getName() +" "+ cost.getM_CostType().getName();
-					costs = cost.getCostAmt().add(cost.getCostAmtLL()).setScale(as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+					
+					costs = MCostDetail.getTotalCost(cost, as);
 					total = total.add(costs);
+					
+					//get costing method for product
+					String description = cost.getM_CostElement().getName()
+							+ " " + cost.getM_CostType().getName();
 					
 					//  CoGS            DR
 					dr = fact.createLine(line,
@@ -230,7 +233,7 @@ public class Doc_InOut extends Doc
 				} // costing elements
 				if (total == null || total.signum() == 0)	//	zero costs OK
 				{
-					if (product.isStocked())
+					/*if (product.isStocked())
 					{
 						p_Error = "No Costs for " + line.getProduct().getName();
 						log.log(Level.WARNING, p_Error);
@@ -238,6 +241,7 @@ public class Doc_InOut extends Doc
 					}
 					else	//	ignore service
 						continue;
+					*/	
 				}
 			}	//	for all linesQty
 
@@ -267,10 +271,13 @@ public class Doc_InOut extends Doc
 				MProduct product = line.getProduct();
 				for (MCostDetail cost : line.getCostDetail(as))
 				{	
-					if (cost.getCostAmt().add(cost.getCostAmtLL()).signum() == 0)
+					if (MCostDetail.existsCost(cost))
 						continue;
-					costs = cost.getCostAmt().add(cost.getCostAmtLL()).setScale(as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+					
+					costs = MCostDetail.getTotalCost(cost, as);
+					
 					total = total.add(costs);
+					
 					String description = cost.getM_CostElement().getName() +" "+ cost.getM_CostType().getName();
 										
 					//  Inventory               DR
@@ -330,7 +337,7 @@ public class Doc_InOut extends Doc
 				
 				if (total == null || total.signum() == 0)	//	zero costs OK
 				{
-					if (product.isStocked())
+					/*if (product.isStocked())
 					{
 						p_Error = "No Costs for " + line.getProduct().getName();
 						log.log(Level.WARNING, p_Error);
@@ -338,6 +345,7 @@ public class Doc_InOut extends Doc
 					}
 					else	//	ignore service
 						continue;
+					*/	
 				}
 			}	//	for all lines
 		}	//	Sales Return
@@ -355,10 +363,11 @@ public class Doc_InOut extends Doc
 				MProduct product = line.getProduct();
 				for (MCostDetail cost : line.getCostDetail(as))
 				{	
-						if (cost.getCostAmt().add(cost.getCostAmtLL()).signum() == 0)
-						continue;
-						//get costing method for product
-						costs = cost.getCostAmt().add(cost.getCostAmtLL()).setScale(as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+						if (MCostDetail.existsCost(cost))
+							continue;
+						
+						costs = MCostDetail.getTotalCost(cost, as);
+						
 						total = total.add(costs);
 						
 						String description = cost.getM_CostElement().getName() +" "+ cost.getM_CostType().getName();						
@@ -426,12 +435,12 @@ public class Doc_InOut extends Doc
 						cost.saveEx();
 					}
 					
-					if (total == null || total.signum() == 0)
+					/*if (total == null || total.signum() == 0)
 					{
 						p_Error = "Resubmit - No Costs for " + product.getName();
 						log.log(Level.WARNING, p_Error);
 						return null;
-					}
+					}*/
 				}
 		}	//	Receipt
 				//	  *** Purchasing - return
@@ -449,11 +458,14 @@ public class Doc_InOut extends Doc
 				MProduct product = line.getProduct();
 				for(MCostDetail cost : line.getCostDetail(as))
 				{	
-						if (cost.getCostAmt().add(cost.getCostAmtLL()).signum() == 0)
+					if (MCostDetail.existsCost(cost))
 						continue;
-						costs = cost.getCostAmt().add(cost.getCostAmtLL()).setScale(as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);	//	current costs
-						total = total.add(costs);
-						String description = cost.getM_CostElement().getName() +" "+ cost.getM_CostType().getName();
+					
+					costs = MCostDetail.getTotalCost(cost, as);
+					
+					total = total.add(costs);
+					
+					String description = cost.getM_CostElement().getName() +" "+ cost.getM_CostType().getName();
 						
 						dr = fact.createLine(line,
 							getAccount(Doc.ACCTTYPE_NotInvoicedReceipts, as),
@@ -509,12 +521,12 @@ public class Doc_InOut extends Doc
 							}
 						}
 				}		
-				if (total == null || total.signum() == 0)
+				/*if (total == null || total.signum() == 0)
 				{
 					p_Error = "Resubmit - No Costs for " + product.getName();
 					log.log(Level.WARNING, p_Error);
 					return null;
-				}
+				}*/
 			}
 		}	//	Purchasing Return
 		else
