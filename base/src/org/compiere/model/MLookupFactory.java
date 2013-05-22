@@ -896,8 +896,13 @@ public class MLookupFactory
 			//	Table - teo_sarca [ 1714261 ]
 			else if (ldc.DisplayType == DisplayType.Table && ldc.AD_Reference_ID != 0)
 			{
-				String embeddedSQL = getLookup_TableEmbed (language, ldc.ColumnName, TableName, ldc.AD_Reference_ID);
-				embedSQL.append("NVL((").append(embeddedSQL).append("),'')");
+				String embeddedSQL;
+				if (ldc.IsVirtual)
+					embeddedSQL = getLookup_TableEmbed (language, ldc.ColumnSQL, TableName, ldc.AD_Reference_ID);
+				else
+					embeddedSQL = getLookup_TableEmbed (language, ldc.ColumnName, TableName, ldc.AD_Reference_ID);
+				if (embeddedSQL != null)
+					embedSQL.append("(").append(embeddedSQL).append(")");				
 			}
 			//	ID
 			else if (DisplayType.isID(ldc.DisplayType))
