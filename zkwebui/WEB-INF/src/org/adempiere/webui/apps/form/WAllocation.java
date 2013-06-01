@@ -51,6 +51,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
+import org.compiere.util.TrxRunnable;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zkex.zul.Borderlayout;
@@ -490,10 +491,22 @@ public class WAllocation extends Allocation
 			Env.setContext(Env.getCtx(), form.getWindowNo(), "AD_Org_ID", m_AD_Org_ID);
 		else
 			Env.setContext(Env.getCtx(), form.getWindowNo(), "AD_Org_ID", "");
-		Trx trx = Trx.get(Trx.createTrxName("AL"), true);
-		statusBar.setStatusLine(saveData(form.getWindowNo(), dateField.getValue(), paymentTable, invoiceTable, trx.getTrxName()));
-		trx.commit();
-		trx.close();
+		
+		try
+		{
+			Trx.run(new TrxRunnable() 
+			{
+				public void run(String trxName)
+				{
+					statusBar.setStatusLine(saveData(form.getWindowNo(), dateField.getValue(), paymentTable, invoiceTable, trxName));
+				}
+			});
+		}
+		catch (Exception e)
+		{
+			FDialog.error(form.getWindowNo(), form , "Error", e.getLocalizedMessage());
+			return;
+		}
 	}   //  saveData
 	
 	/**
