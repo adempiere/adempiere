@@ -193,7 +193,6 @@ public abstract class Browser {
 			String keyColumn, boolean multiSelection, String where) {
 		m_Browse = browse;
 		m_View = browse.getAD_View();
-		p_WindowNo = WindowNo;
 		p_keyColumn = keyColumn;
 		p_multiSelection = multiSelection;
 		m_language = Language.getLanguage(Env

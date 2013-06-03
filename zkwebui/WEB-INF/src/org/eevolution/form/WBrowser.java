@@ -136,10 +136,12 @@ public class WBrowser extends Browser implements IFormController,
 		
 		super(modal, WindowNo, value, browse, keyColumn, multiSelection,
 				whereClause);
-		Env.clearWinContext(WindowNo);
-		setContextWhere(browse, whereClause);
 		
 		m_frame = new CustomForm();
+		p_WindowNo = SessionManager.getAppDesktop().registerWindow(this);
+		Env.clearWinContext(p_WindowNo);
+		setContextWhere(browse, whereClause);	
+		
 		initComponents();
 		statInit();
 		detail.setMultiSelection(true);

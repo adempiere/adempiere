@@ -107,7 +107,7 @@ public class VBrowser extends Browser implements ActionListener,
 		String keyColumn = "";
 		boolean multiSelection = true;
 		String whereClause = null;
-		CFrame ff = new CFrame();		
+		CFrame ff = new CFrame();
 		return new VBrowser(ff, modal , WindowNo, value, browse, keyColumn,multiSelection, whereClause)
 		.getFrame();
 		
@@ -138,12 +138,12 @@ public class VBrowser extends Browser implements ActionListener,
 			String whereClause) {
 		super(modal, WindowNo, value, browse, keyColumn, multiSelection,
 				whereClause);
-		Env.clearWinContext(WindowNo);
-		setContextWhere(browse, whereClause);
 		m_frame = frame;
 		m_frame.setTitle(browse.getTitle());
 		m_frame.getContentPane().add(statusBar, BorderLayout.SOUTH);
-		
+		p_WindowNo = Env.createWindowNo(m_frame);
+		Env.clearWinContext(p_WindowNo);
+		setContextWhere(browse, whereClause);		
 		initComponents();
 		statInit();
 		m_frame.setPreferredSize(getPreferredSize());
