@@ -71,6 +71,7 @@ import org.compiere.model.MProcess;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.process.ProcessInfo;
+import org.compiere.process.ProcessInfoUtil;
 import org.compiere.swing.CFrame;
 import org.compiere.swing.CollapsiblePanel;
 import org.compiere.util.ASyncProcess;
@@ -106,7 +107,7 @@ public class VBrowser extends Browser implements ActionListener,
 		String keyColumn = "";
 		boolean multiSelection = true;
 		String whereClause = null;
-		CFrame ff = new CFrame();		
+		CFrame ff = new CFrame();
 		return new VBrowser(ff, modal , WindowNo, value, browse, keyColumn,multiSelection, whereClause)
 		.getFrame();
 		
@@ -140,6 +141,9 @@ public class VBrowser extends Browser implements ActionListener,
 		m_frame = frame;
 		m_frame.setTitle(browse.getTitle());
 		m_frame.getContentPane().add(statusBar, BorderLayout.SOUTH);
+		p_WindowNo = Env.createWindowNo(m_frame);
+		Env.clearWinContext(p_WindowNo);
+		setContextWhere(browse, whereClause);		
 		initComponents();
 		statInit();
 		m_frame.setPreferredSize(getPreferredSize());
@@ -177,17 +181,16 @@ public class VBrowser extends Browser implements ActionListener,
 			searchPanel.addField(field, row, cols, name, title);
 			cols = cols + col;
 
-			if (field.isRange()) {
-				title = Msg.getMsg(Env.getCtx(), "To");				
-				searchPanel.addField(field, row, cols, name + "_To", title);
+			if (field.isRange())
 				cols = cols + col;
-			}
 
 			if (cols >= 4) {
 				cols = 0;
 				row++;
 			}
 		}
+		
+		searchPanel.dynamicDisplay();
 		
 		if (m_Browse.getAD_Process_ID() > 0) {
 			m_process = MProcess.get(Env.getCtx(), m_Browse.getAD_Process_ID());
@@ -213,6 +216,7 @@ public class VBrowser extends Browser implements ActionListener,
 			return false;
 		
 		StringBuilder where = new StringBuilder("");
+		setContextWhere(m_Browse , null);
 		if (p_whereClause.length() > 0) {
 			where.append(p_whereClause);
 		}
@@ -337,7 +341,7 @@ public class VBrowser extends Browser implements ActionListener,
 		StringBuffer sql = new StringBuffer("SELECT DISTINCT ");
 		// add columns & sql
 		for (int i = 0; i < layout.length; i++) {
-			if (i > 0)
+			if (i > 0 && layout[i].getColSQL().length() > 0)
 				sql.append(", ");
 			sql.append(layout[i].getColSQL());
 			// adding ID column
@@ -360,7 +364,7 @@ public class VBrowser extends Browser implements ActionListener,
 
 		// set editors (two steps)
 		for (int i = 0; i < layout.length; i++)
-			detail.setColumnClass(i, layout[i].getColClass(),
+			detail.setColumnClass(i, layout[i].getColClass(), layout[i].getDisplayType() ,
 					layout[i].isReadOnly(), layout[i].getColHeader());
 
 		sql.append(" FROM ").append(from);
@@ -370,7 +374,7 @@ public class VBrowser extends Browser implements ActionListener,
 		m_sqlOrderBy = getSQLOrderBy();
 
 		if (m_keyColumnIndex == -1)
-			log.log(Level.SEVERE, "No KeyColumn - " + sql);
+			log.log(Level.WARNING, "No KeyColumn - " + sql);
 	} // prepareTable
 
 	/**
@@ -418,7 +422,6 @@ public class VBrowser extends Browser implements ActionListener,
 			if (data != null)
 				m_results.add(data);
 		}
-		log.config(getSelectedSQL());
 
 		// Save Settings of detail info screens
 		// saveSelectionDetail();
@@ -508,7 +511,7 @@ public class VBrowser extends Browser implements ActionListener,
 								} else {
 									KeyNamePair value = (KeyNamePair) detail
 											.getModel().getValueAt(row, col);
-									values.put(columnName, value.getID());
+									values.put(columnName, value.getKey());
 								}
 							}
 							col++;
@@ -563,12 +566,13 @@ public class VBrowser extends Browser implements ActionListener,
 		
 		ProcessInfo pi = getBrowseProcessInfo();
 		pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
+		parameterPanel.saveParameters();
+		ProcessInfoUtil.setParameterFromDB(pi);
 		setBrowseProcessInfo(pi);
 		//Save Values Browse Field Update
 		createT_Selection_Browse(instance.getAD_PInstance_ID());
 		
 		// call process 
-		parameterPanel.saveParameters();
 		// Execute Process
 		ProcessCtl worker = new ProcessCtl(this, Env.getWindowNo(m_frame),
 				getBrowseProcessInfo(), null);
@@ -842,12 +846,12 @@ public class VBrowser extends Browser implements ActionListener,
 			
 			ProcessInfo pi = getBrowseProcessInfo();
 			pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
+			// call process 
+			parameterPanel.saveParameters();
+			ProcessInfoUtil.setParameterFromDB(pi);
 			setBrowseProcessInfo(pi);
 			//Save Values Browse Field Update
 			createT_Selection_Browse(instance.getAD_PInstance_ID());
-			
-			// call process 
-			parameterPanel.saveParameters();
 			// Execute Process
 			ProcessCtl worker = new ProcessCtl(this, Env.getWindowNo(m_frame),
 					getBrowseProcessInfo() , null);
@@ -960,6 +964,7 @@ public class VBrowser extends Browser implements ActionListener,
 						close();
 						return;
 					}
+					no++;
 					int row = detail.getRowCount();
 					detail.setRowCount(row + 1);
 					int colOffset = 1; // columns start with 1
@@ -967,8 +972,10 @@ public class VBrowser extends Browser implements ActionListener,
 						Object value = null;
 						Class<?> c = p_layout[col].getColClass();
 						int colIndex = col + colOffset;						
-						if (c == IDColumn.class)
+						if (c == IDColumn.class && !p_layout[col].getColSQL().equals("'Row' AS \"Row\""))
 							value = new IDColumn(m_rs.getInt(colIndex));
+						else if (c == IDColumn.class && p_layout[col].getColSQL().equals("'Row' AS \"Row\""))
+							value = new IDColumn(no);
 						else if (c == Boolean.class)
 							value = new Boolean("Y".equals(m_rs
 									.getString(colIndex)));
@@ -996,7 +1003,7 @@ public class VBrowser extends Browser implements ActionListener,
 			}
 			close();
 			//
-			no = detail.getRowCount();
+			//no = detail.getRowCount();
 			log.fine("#" + no + " - " + (System.currentTimeMillis() - start)
 					+ "ms");
 			if (detail.getShowTotals())

@@ -45,10 +45,10 @@ public interface I_AD_Browse_Field
     /** Column name AD_Browse_Field_ID */
     public static final String COLUMNNAME_AD_Browse_Field_ID = "AD_Browse_Field_ID";
 
-	/** Set Browse Field	  */
+	/** Set Smart Browse Fields ID	  */
 	public void setAD_Browse_Field_ID (int AD_Browse_Field_ID);
 
-	/** Get Browse Field	  */
+	/** Get Smart Browse Fields ID	  */
 	public int getAD_Browse_Field_ID();
 
     /** Column name AD_Browse_ID */
@@ -300,6 +300,19 @@ public interface I_AD_Browse_Field
 	  * Comment or Hint
 	  */
 	public String getHelp();
+
+    /** Column name InfoFactoryClass */
+    public static final String COLUMNNAME_InfoFactoryClass = "InfoFactoryClass";
+
+	/** Set Info Factory Class.
+	  * Fully qualified class name that implements the InfoFactory interface
+	  */
+	public void setInfoFactoryClass (String InfoFactoryClass);
+
+	/** Get Info Factory Class.
+	  * Fully qualified class name that implements the InfoFactory interface
+	  */
+	public String getInfoFactoryClass();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

@@ -135,6 +135,7 @@ public class BrowseFieldElementHandler extends AbstractElementHandler {
 				 atts.getValue("isReadOnly")).booleanValue());
 				
 				m_BrowseField.setDefaultValue(atts.getValue("DefaultValue"));
+				m_BrowseField.setInfoFactoryClass(getStringValue(atts, "InfoFactoryClass"));
 				m_BrowseField.setDefaultValue2(atts.getValue("DefaultValue2"));
 				m_BrowseField.setReadOnlyLogic(atts.getValue("ReadOnlyLogic"));
 				m_BrowseField.setDisplayLogic(atts.getValue("DisplayLogic"));
@@ -403,6 +404,9 @@ public class BrowseFieldElementHandler extends AbstractElementHandler {
 				.getDefaultValue() != null ? m_BrowseField.getDefaultValue() : ""));
 		atts.addAttribute("", "", "DefaultValue2", "CDATA", (m_BrowseField
 				.getDefaultValue2() != null ? m_BrowseField.getDefaultValue2() : ""));
+		
+		atts.addAttribute("", "", "InfoFactoryClass", "CDATA", (m_BrowseField.getInfoFactoryClass() != null 
+				? m_BrowseField.getInfoFactoryClass() : ""));
 		atts.addAttribute("", "", "ValueMin", "CDATA", (m_BrowseField
 				.getValueMin() != null ? m_BrowseField.getValueMin() : ""));
 		atts.addAttribute("", "", "ValueMax", "CDATA", (m_BrowseField

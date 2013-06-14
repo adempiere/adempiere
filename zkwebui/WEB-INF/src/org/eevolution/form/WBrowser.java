@@ -64,6 +64,7 @@ import org.compiere.model.MProcess;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.process.ProcessInfo;
+import org.compiere.process.ProcessInfoUtil;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -137,6 +138,10 @@ public class WBrowser extends Browser implements IFormController,
 				whereClause);
 		
 		m_frame = new CustomForm();
+		p_WindowNo = SessionManager.getAppDesktop().registerWindow(this);
+		Env.clearWinContext(p_WindowNo);
+		setContextWhere(browse, whereClause);	
+		
 		initComponents();
 		statInit();
 		detail.setMultiSelection(true);
@@ -163,17 +168,16 @@ public class WBrowser extends Browser implements IFormController,
 
 			cols++;
 
-			if (field.isRange()) {
-				title = Msg.getMsg(Env.getCtx(), "To");
-				searchGrid.addField(field, row, name + "_To", title);
+			if (field.isRange())
 				cols++;
-			}
 
 			if (cols >= 2) {
 				cols = 0;
 				row = rows.newRow();
 			}
 		}
+		
+		searchGrid.dynamicDisplay();
 		
 		if (m_Browse.getAD_Process_ID() > 0) {
 			
@@ -206,6 +210,7 @@ public class WBrowser extends Browser implements IFormController,
 
 		// prepare table	
 		StringBuilder where = new StringBuilder("");
+		setContextWhere(m_Browse , null);
 		if (p_whereClause.length() > 0) {
 			where.append(p_whereClause);
 		}
@@ -269,7 +274,7 @@ public class WBrowser extends Browser implements IFormController,
 		detail.prepareTable(layout, "" , "" , true, "");
 		StringBuffer sql = new StringBuffer("SELECT DISTINCT ");
 		for (int i = 0; i < layout.length; i++) {
-			if (i > 0)
+			if (i > 0 && layout[i].getColSQL().length() > 0)
 				sql.append(", ");
 			sql.append(layout[i].getColSQL());
 			// adding ID column
@@ -286,6 +291,9 @@ public class WBrowser extends Browser implements IFormController,
 		m_sqlMain = sql.toString();
 		m_sqlCount = "SELECT COUNT(*) FROM " + from + " WHERE ";
 		m_sqlOrderBy = getSQLOrderBy();
+		
+		if (m_keyColumnIndex == -1)
+			log.log(Level.WARNING, "No KeyColumn - " + sql);
 	}
 
 	private boolean testCount() {
@@ -321,7 +329,6 @@ public class WBrowser extends Browser implements IFormController,
 			if (data != null)
 				m_results.add(data);
 		}
-		log.config(getSelectedSQL());
 
 		// Save Settings of detail info screens
 		// saveSelectionDetail();
@@ -362,7 +369,7 @@ public class WBrowser extends Browser implements IFormController,
 								} else {
 									KeyNamePair value = (KeyNamePair) detail
 											.getModel().getValueAt(row, col);
-									values.put(columnName, value.getID());
+									values.put(columnName, value.getKey());
 								}
 							}
 							col++;
@@ -432,10 +439,11 @@ public class WBrowser extends Browser implements IFormController,
 				null);
 		ProcessInfo pi = getBrowseProcessInfo();
 		pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
+		parameterPanel.saveParameters();
+		ProcessInfoUtil.setParameterFromDB(pi);
 		setBrowseProcessInfo(pi);
 		//Save Values Browse Field Update
 		createT_Selection_Browse(instance.getAD_PInstance_ID());
-		parameterPanel.saveParameters();
 		// Execute Process
 		ProcessCtl worker = new ProcessCtl(this, 0, getBrowseProcessInfo(), null);
 		worker.start();
@@ -747,12 +755,15 @@ public class WBrowser extends Browser implements IFormController,
 	
 			DB.createT_Selection(instance.getAD_PInstance_ID(), getSelectedKeys(),
 					null);
+			
 			ProcessInfo pi = getBrowseProcessInfo();
 			pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
-			setBrowseProcessInfo(pi);
 			//Save Values Browse Field Update
 			createT_Selection_Browse(instance.getAD_PInstance_ID());
 			parameterPanel.saveParameters();
+			ProcessInfoUtil.setParameterFromDB(pi);
+			setBrowseProcessInfo(pi);
+						
 			// Execute Process
 			ProcessCtl worker = new ProcessCtl(this, 0, getBrowseProcessInfo(), null);
 			showBusyDialog();

@@ -49,6 +49,7 @@ public class MBrowse extends X_AD_Browse {
 	private List<MBrowseField> m_CriterialFields = null;
 	private List<MBrowseField> m_IdentifierFields = null;
 	private List<MBrowseField> m_OrderByFields = null;
+	private	MBrowseField m_fieldKey = null;
 
 	/**************************************************************************
 	 * Asset Constructor
@@ -242,12 +243,16 @@ public class MBrowse extends X_AD_Browse {
 	 * @return field
 	 */
 	public MBrowseField getFieldKey() {
-		for (MBrowseField field : getFields()) {
-			if (field.isKey()) {
-				return field;
-			}
-		}
-		return null;
+		if (m_fieldKey != null)
+				return m_fieldKey;
+		
+		final String whereClause = MBrowse.COLUMNNAME_AD_Browse_ID + "=? AND "
+				+ MBrowseField.COLUMNNAME_IsKey + "=? AND "
+				+ MBrowseField.COLUMNNAME_Name + "!=? ";
+		m_fieldKey = new Query(getCtx(), MBrowseField.Table_Name, whereClause,
+				get_TrxName()).setParameters(this.getAD_Browse_ID(), "Y",
+				getName()).firstOnly();
+		return m_fieldKey;
 	}
 
 	/**

@@ -1,7 +1,7 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2003-2011 e-Evolution Consultants. All Rights Reserved.      *
- * Copyright (C) 2003-2011 Victor Pérez Juárez 								  * 
+ * Copyright (C) 2003-2013 e-Evolution Consultants. All Rights Reserved.      *
+ * Copyright (C) 2003-2013 Victor Pérez Juárez 								  * 
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -20,21 +20,20 @@ package org.eevolution.process;
 
 import java.util.logging.Level;
 
-import org.adempiere.model.MViewColumn;
-import org.adempiere.model.MViewDefinition;
-import org.compiere.model.MColumn;
+import org.adempiere.model.MBrowse;
+import org.adempiere.model.MBrowseField;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 
 /**
- * Create Column View
- * @author victor.perez@e-evoluton.com, www.e-evolution.com 
- * 	<li>FR [ 3426137 ] Smart Browser
- *  https://sourceforge.net/tracker/?func=detail&aid=3426137&group_id=176962&atid=879335
+ * Copy Browse from other Browse
+ * 
+ * @author victor.perez@e-evoluton.com, www.e-evolution.com
  */
-public class CreateViewColumn extends SvrProcess {
+public class BrowseCopyFrom extends SvrProcess {
 	/** Record ID */
 	protected int p_Record_ID = 0;
+	protected int p_AD_Browse_ID = 0;
 
 	/**
 	 * Get Parameters
@@ -47,36 +46,31 @@ public class CreateViewColumn extends SvrProcess {
 			String name = para.getParameterName();
 			if (para.getParameter() == null)
 				;
+			if (MBrowse.COLUMNNAME_AD_Browse_ID.equals(para.getParameterName()))
+				p_AD_Browse_ID = para.getParameterAsInt();
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 		}
 	}
 
 	/**
-	 * Process - Generate Export Format
+	 * Copy Browse
 	 * 
 	 * @return info
 	 */
 	@SuppressWarnings("unchecked")
 	protected String doIt() throws Exception {
-		MViewDefinition join = new MViewDefinition(getCtx(), p_Record_ID,
-				get_TrxName());
 
-		for (MColumn attr : join.getEntityAttributes()) {
-			
-			MViewColumn column = MViewColumn.get(join , attr);
-			if (column != null)
-				continue;
-			
-			column = new MViewColumn(attr);
-			column.setAD_View_Definition_ID(join.getAD_View_Definition_ID());
-			column.setColumnSQL(join.getTableAlias() + "."
-					+ attr.getColumnName());
-			column.setColumnName(join.getTableAlias().toUpperCase() + "_" + attr.getColumnName());
-			column.setEntityType(join.getAD_View().getEntityType());
-			column.setAD_View_ID(join.getAD_View_ID());
-			column.saveEx();
-			addLog(attr.getColumnName());
+		MBrowse browseFrom = new MBrowse(getCtx(), p_AD_Browse_ID,
+				get_TrxName());
+		MBrowse browseTo = new MBrowse(getCtx(), p_Record_ID, get_TrxName());
+		browseFrom.copyValues(browseFrom, browseTo);
+		browseTo.saveEx();
+
+		for (MBrowseField fieldFrom : browseFrom.getFields()) {
+			MBrowseField fieldTo = new MBrowseField(getCtx(), 0, get_TrxName());
+			fieldFrom.copyValues(fieldFrom, fieldTo);
+			fieldTo.saveEx();
 		}
 		return "@Ok@";
 	}

@@ -1,7 +1,7 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2003-2011 e-Evolution Consultants. All Rights Reserved.      *
- * Copyright (C) 2003-2011 Victor Pérez Juárez 								  * 
+ * Copyright (C) 2003-2013 e-Evolution Consultants. All Rights Reserved.      *
+ * Copyright (C) 2003-2013 Victor Pérez Juárez 								  * 
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -20,21 +20,22 @@ package org.eevolution.process;
 
 import java.util.logging.Level;
 
+import org.adempiere.model.MView;
 import org.adempiere.model.MViewColumn;
 import org.adempiere.model.MViewDefinition;
-import org.compiere.model.MColumn;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 
 /**
- * Create Column View
- * @author victor.perez@e-evoluton.com, www.e-evolution.com 
- * 	<li>FR [ 3426137 ] Smart Browser
- *  https://sourceforge.net/tracker/?func=detail&aid=3426137&group_id=176962&atid=879335
+ * Copy View from other View
+ * 
+ * @author victor.perez@e-evoluton.com, www.e-evolution.com
+ * 
  */
-public class CreateViewColumn extends SvrProcess {
+public class ViewCopyFrom extends SvrProcess {
 	/** Record ID */
 	protected int p_Record_ID = 0;
+	protected int p_AD_View_ID = 0;
 
 	/**
 	 * Get Parameters
@@ -47,36 +48,40 @@ public class CreateViewColumn extends SvrProcess {
 			String name = para.getParameterName();
 			if (para.getParameter() == null)
 				;
+			if (MView.COLUMNNAME_AD_View_ID.equals(para.getParameterName()))
+				p_AD_View_ID = para.getParameterAsInt();
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 		}
 	}
 
 	/**
-	 * Process - Generate Export Format
+	 * Copy view from other view
 	 * 
-	 * @return info
+	 * @return result string
 	 */
 	@SuppressWarnings("unchecked")
 	protected String doIt() throws Exception {
-		MViewDefinition join = new MViewDefinition(getCtx(), p_Record_ID,
-				get_TrxName());
+		MView viewFrom = new MView(getCtx(), p_AD_View_ID, get_TrxName());
+		MView viewTo = new MView(getCtx(), p_Record_ID, get_TrxName());
 
-		for (MColumn attr : join.getEntityAttributes()) {
-			
-			MViewColumn column = MViewColumn.get(join , attr);
-			if (column != null)
-				continue;
-			
-			column = new MViewColumn(attr);
-			column.setAD_View_Definition_ID(join.getAD_View_Definition_ID());
-			column.setColumnSQL(join.getTableAlias() + "."
-					+ attr.getColumnName());
-			column.setColumnName(join.getTableAlias().toUpperCase() + "_" + attr.getColumnName());
-			column.setEntityType(join.getAD_View().getEntityType());
-			column.setAD_View_ID(join.getAD_View_ID());
-			column.saveEx();
-			addLog(attr.getColumnName());
+		viewFrom.copyValues(viewFrom, viewTo);
+		viewTo.saveEx();
+
+		for (MViewDefinition viewDefinitionFrom : viewFrom.getViewDefinitions()) {
+			MViewDefinition viewDefinitionTo = new MViewDefinition(getCtx(), 0,
+					get_TrxName());
+			viewDefinitionFrom.copyValues(viewDefinitionFrom, viewDefinitionTo);
+			viewDefinitionTo.saveEx();
+
+			for (MViewColumn viewColumnFrom : viewDefinitionFrom
+					.getADViewColunms()) {
+				MViewColumn viewColumnTo = new MViewColumn(getCtx(), 0,
+						get_TrxName());
+				viewColumnFrom.copyValues(viewColumnFrom, viewColumnTo);
+				viewColumnTo.saveEx();
+			}
+
 		}
 		return "@Ok@";
 	}

@@ -44,6 +44,7 @@ import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  * @author victor.perez@e-evolution.com , eEvolution Consultants
@@ -134,6 +135,7 @@ public class VBrowserSearch extends CPanel implements
 
 		voBase.DefaultValue = field.getDefaultValue();
 		voBase.DefaultValue2 = field.getDefaultValue2();
+		voBase.InfoFactoryClass = field.getInfoFactoryClass();
 		voBase.FieldLength = field.getFieldLength();
 		voBase.ReadOnlyLogic = field.getReadOnlyLogic();
 		voBase.DisplayLogic =  field.getDisplayLogic();
@@ -152,22 +154,13 @@ public class VBrowserSearch extends CPanel implements
 		Object defaultObject = gField.getDefault();
 		gField.setValue (defaultObject, true);
 		gField.lookupLoadComplete();
-		
-
-		if(!field.isRange())
-			m_mFields.add(gField);
-		else
-			m_mFields2.add(gField);
-		
+		m_mFields.add(gField);
 
 		VEditor editor = VEditorFactory.getEditor(gField, false);
 		editor.setReadWrite(true);
 		editor.addVetoableChangeListener(this);
-		if(!field.isRange())
-			m_vEditors.add (editor); //  add to Editors
-		else
-			m_vEditors2.add (editor); //  add to Editors
-
+		m_vEditors.add (editor); //  add to Editors
+		
 		if (DisplayType.YesNo != field.getAD_Reference_ID()) {
 			JLabel label = VEditorFactory.getLabel(gField);
 			label.setName(uniqueName);
@@ -175,7 +168,39 @@ public class VBrowserSearch extends CPanel implements
 		}
 		add((Component) editor, new ALayoutConstraint(row, col + 1));
 		setParameter(name, editor);
-		dynamicDisplay();
+		
+		if (field.isRange())
+		{		
+			col++;
+			title = Msg.getMsg(Env.getCtx(), "To");
+			name = name + "_To";
+			voBase.Header = title;
+			voBase.DefaultValue = field.getDefaultValue2();
+			GridField gField2 = new GridField(GridFieldVO.createParameter(voBase));
+			//  Set Default
+			Object defaultObject2 = gField2.getDefault();
+			gField2.setValue (defaultObject2, true);
+			gField2.lookupLoadComplete();
+			m_mFields2.add(gField2);
+			
+			VEditor editor2 = VEditorFactory.getEditor(gField2, false);
+			editor2.setReadWrite(true);
+			editor2.addVetoableChangeListener(this);
+			m_vEditors2.add (editor2); //  add to Editors
+			
+			JLabel label = VEditorFactory.getLabel(gField2);
+			label.setName(uniqueName);
+			col++;
+			add(label, new ALayoutConstraint(row, col));
+			col++;
+			add((Component) editor2, new ALayoutConstraint(row, col));
+			setParameter(name, editor2);
+		}
+		else
+		{	
+			m_mFields2.add (null);
+			m_vEditors2.add (null);
+		}
 	}
 
 

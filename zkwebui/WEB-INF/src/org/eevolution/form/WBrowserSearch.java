@@ -35,6 +35,7 @@ import org.compiere.model.MLookup;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Row;
 
@@ -99,6 +100,7 @@ public class WBrowserSearch extends  Grid implements ValueChangeListener {
 
 		voBase.DefaultValue = field.getDefaultValue();
 		voBase.DefaultValue2 = field.getDefaultValue2();
+		voBase.InfoFactoryClass = field.getInfoFactoryClass();
 		voBase.FieldLength = field.getFieldLength();
 		voBase.ReadOnlyLogic = field.getReadOnlyLogic();
 		voBase.DisplayLogic = field.getDisplayLogic();
@@ -117,20 +119,13 @@ public class WBrowserSearch extends  Grid implements ValueChangeListener {
 		Object defaultObject = gField.getDefault();
 		gField.setValue (defaultObject, true);
 		gField.lookupLoadComplete();
-		
-		if(!field.isRange())
-			m_mFields.add(gField);
-		else
-			m_mFields2.add(gField);
+		m_mFields.add(gField);
 		
 		WEditor editor = WebEditorFactory.getEditor(gField, false);
 		editor.setReadWrite(true);
 		editor.addValueChangeListener(this);
 		editor.dynamicDisplay();
-		if(!field.isRange())
-			m_wEditors.add (editor);    
-		else
-			m_wEditors2.add (editor);
+		m_wEditors.add (editor);
 		
 		if (DisplayType.YesNo != field.getAD_Reference_ID()) {
 			Div div = new Div();
@@ -144,7 +139,43 @@ public class WBrowserSearch extends  Grid implements ValueChangeListener {
 		}
 		row.appendChild(editor.getComponent());
 		setParameter(name, editor);
-		dynamicDisplay();
+		
+		if (field.isRange())
+		{		
+			title = Msg.getMsg(Env.getCtx(), "To");
+			name = name + "_To";
+			voBase.Header = title;
+			voBase.DefaultValue = field.getDefaultValue2();
+			GridField gField2 = new GridField(GridFieldVO.createParameter(voBase));
+			//  Set Default
+			Object defaultObject2 = gField2.getDefault();
+			gField2.setValue (defaultObject2, true);
+			gField2.lookupLoadComplete();
+			m_mFields2.add(gField2);
+
+			WEditor editor2 = WebEditorFactory.getEditor(gField2, false);
+			editor.setReadWrite(true);
+			editor.addValueChangeListener(this);
+			editor.dynamicDisplay();
+			m_wEditors2.add (editor2);
+			
+			Div div = new Div();
+			div.setAlign("right");
+			org.adempiere.webui.component.Label label = editor2.getLabel();
+			label.setValue(title);
+			div.appendChild(label);
+			if (label.getDecorator() != null)
+				div.appendChild(label.getDecorator());
+			row.appendChild(div);
+			
+			row.appendChild(editor2.getComponent());
+			setParameter(name, editor2);
+		}
+		else
+		{
+			m_mFields2.add(null);
+			m_wEditors2.add (null);
+		}
 	}
 
 	/**
@@ -254,7 +285,7 @@ public class WBrowserSearch extends  Grid implements ValueChangeListener {
 	 * Dynamic Display.
 	 * 
 	 **/
-	private void dynamicDisplay() {
+	public void dynamicDisplay() {
 		for (int i = 0; i < m_wEditors.size(); i++) {
 			WEditor editor = m_wEditors.get(i);
 			GridField mField = editor.getGridField();

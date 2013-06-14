@@ -1,3 +1,5 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
 -- Sep 3, 2012 12:54:04 PM CDT
 -- Smart Browse
 INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,64353,139,0,19,53223,'AD_Val_Rule_ID',TO_DATE('2012-09-03 12:54:03','YYYY-MM-DD HH24:MI:SS'),100,'Dynamic Validation Rule','EE07',22,'These rules define how an entry is determined to valid. You can use variables for dynamic (context sensitive) validation.','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Dynamic Validation',0,TO_DATE('2012-09-03 12:54:03','YYYY-MM-DD HH24:MI:SS'),100,0)

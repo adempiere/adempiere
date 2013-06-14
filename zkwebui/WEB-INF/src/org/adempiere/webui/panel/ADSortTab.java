@@ -38,6 +38,8 @@ import org.compiere.model.GridTab;
 import org.compiere.model.MColumn;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MRole;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
@@ -659,7 +661,7 @@ public class ADSortTab extends Panel implements IADTabpanel
 		log.fine("");
 		boolean ok = true;
 		StringBuffer info = new StringBuffer();
-		StringBuffer sql = null;
+		MTable table = MTable.get(Env.getCtx(), m_AD_Table_ID);
 		//	noList - Set SortColumn to null and optional YesNo Column to 'N'
 		for (int i = 0; i < noModel.getSize(); i++)
 		{
@@ -669,13 +671,12 @@ public class ADSortTab extends Panel implements IADTabpanel
 			if(pp.getSortNo() == 0 && (m_ColumnYesNoName == null || !pp.isYes()))
 				continue; // no changes
 			//
-			sql = new StringBuffer();
-			sql.append("UPDATE ").append(m_TableName)
-			.append(" SET ").append(m_ColumnSortName).append("=0");
-			if (m_ColumnYesNoName != null)
-				sql.append(",").append(m_ColumnYesNoName).append("='N'");
-			sql.append(" WHERE ").append(m_KeyColumnName).append("=").append(pp.getKey());
-			if (DB.executeUpdate(sql.toString(), null) == 1) {
+			
+			PO po = table.getPO(pp.getKey(), null);
+			po.set_ValueOfColumn(m_ColumnSortName, 0);
+			po.set_ValueOfColumn(m_ColumnYesNoName, false);
+			
+			if (po.save()) {
 				pp.setSortNo(0);
 				pp.setIsYes(false);
 			}
@@ -698,13 +699,12 @@ public class ADSortTab extends Panel implements IADTabpanel
 			if(pp.getSortNo() == index && (m_ColumnYesNoName == null || pp.isYes()))
 				continue; // no changes
 			//
-			sql = new StringBuffer();
-			sql.append("UPDATE ").append(m_TableName)
-			.append(" SET ").append(m_ColumnSortName).append("=").append(index);
-			if (m_ColumnYesNoName != null)
-				sql.append(",").append(m_ColumnYesNoName).append("='Y'");
-			sql.append(" WHERE ").append(m_KeyColumnName).append("=").append(pp.getKey());
-			if (DB.executeUpdate(sql.toString(), null) == 1) {
+
+			PO po = table.getPO(pp.getKey(), null);
+			po.set_ValueOfColumn(m_ColumnSortName, index);
+			po.set_ValueOfColumn(m_ColumnYesNoName, true);
+			
+			if (po.save()) {
 				pp.setSortNo(index);
 				pp.setIsYes(true);
 			}

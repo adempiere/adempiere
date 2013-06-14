@@ -193,12 +193,17 @@ public abstract class Browser {
 			String keyColumn, boolean multiSelection, String where) {
 		m_Browse = browse;
 		m_View = browse.getAD_View();
-		p_WindowNo = WindowNo;
 		p_keyColumn = keyColumn;
 		p_multiSelection = multiSelection;
 		m_language = Language.getLanguage(Env
 				.getAD_Language(m_Browse.getCtx()));
-
+		log.info(m_Browse.getName() + " - " + keyColumn + " - " + p_whereClause);
+	}
+	
+	public void setContextWhere(MBrowse browse, String where)
+	{
+		p_whereClause = null;
+		
 		String whereClause = where != null ? where : "";
 
 		if(m_Browse.getWhereClause() != null )
@@ -209,17 +214,34 @@ public abstract class Browser {
 			p_whereClause = whereClause;
 		else {
 			p_whereClause = Env.parseContext(Env.getCtx(), p_WindowNo,
-					whereClause, false, false);
+					whereClause, true, true);
 			if (p_whereClause.length() == 0)
 				log.log(Level.SEVERE, "Cannot parse context= " + whereClause);
 		}
 
-		log.info(m_Browse.getName() + " - " + keyColumn + " - " + whereClause);
+		log.info(m_Browse.getName() + " - " + p_whereClause);
 	}
 
 	public ArrayList<Info_Column> initBrowserData() {
 		List<MBrowseField> fields = m_Browse.getDisplayFields();
 		ArrayList<Info_Column> list = new ArrayList<Info_Column>();
+		
+		MBrowseField fieldKey =  m_Browse.getFieldKey();
+		if(fieldKey != null)
+		{
+			String columnSql = fieldKey.getAD_View_Column().getColumnSQL() + " AS "+ fieldKey.getAD_View_Column().getColumnName();
+			Info_Column infoCol = new Info_Column(fieldKey.getName(), columnSql , IDColumn.class , "" );
+			infoCol.setReadOnly(false);
+			list.add(infoCol);
+		}
+		else
+		{
+			Info_Column infoCol = new Info_Column("Row", "'Row' AS \"Row\"", IDColumn.class  , "" );
+			infoCol.setReadOnly(false);
+			list.add(infoCol);
+		}
+			
+
 		for (MBrowseField field : fields) {
 			MViewColumn vcol = field.getAD_View_Column();
 
@@ -233,7 +255,8 @@ public abstract class Browser {
 			m_queryColumnsSql.add(vcol.getColumnSQL());
 
 			int displayType = field.getAD_Reference_ID();
-			boolean isKey = field.isKey();
+			if(field.isKey())
+				continue;
 			boolean isDisplayed = field.isDisplayed();
 			// Defines Field as Y-Axis
 			if(field.getAxis_Column_ID() > 0)
@@ -253,9 +276,7 @@ public abstract class Browser {
 			// Default
 			StringBuilder colSql = new StringBuilder(columnSql);
 			Class colClass = null;
-			if (isKey) {
-				colClass = IDColumn.class;
-			} else if (!isDisplayed)
+			if (!isDisplayed)
 				;
 			else if (column.isVirtualColumn())
 			{
@@ -304,14 +325,13 @@ public abstract class Browser {
 				colClass = String.class;;
 			}
 			if (colClass != null) {
-				Info_Column infocol = new Info_Column(field.getName(), colSql.toString(), colClass , IDcolSQL );
+				Info_Column infocol = new Info_Column(field.getName(), colSql.toString(), colClass , displayType , IDcolSQL );
 				infocol.setReadOnly(field.isReadOnly());
 				list.add(infocol);
 				log.finest("Added Field=" + columnName + " Name=" + field.getName());
 			} else
 				log.finest("Not Added Field=" +  columnName + "Name=" + field.getName());
-		}
-
+		}		
 		return list;
 	}
 
@@ -379,34 +399,6 @@ public abstract class Browser {
 	}
 
 	public abstract ArrayList<Integer> getSelectedRowKeys();
-
-	public String getSelectedSQL() {
-		// No results
-		List<Integer> keys = getSelectedKeys();
-		if (keys == null || keys.size() == 0) {
-			log.config("No Results - OK=" + m_ok + ", Cancel=" + m_cancel);
-			return "";
-		}
-		//
-		StringBuffer sb = new StringBuffer(getKeyColumn());
-		if (keys.size() > 1)
-			sb.append(" IN (");
-		else
-			sb.append("=");
-
-		// Add elements
-		for (Integer key : keys) {
-			if (getKeyColumn().endsWith("_ID"))
-				sb.append(key.toString()).append(",");
-			else
-				sb.append("'").append(key.toString()).append("',");
-		}
-
-		sb.replace(sb.length() - 1, sb.length(), "");
-		if (keys.size() > 1)
-			sb.append(")");
-		return sb.toString();
-	} // getSelectedSQL;
 	
 	public void setProcessInfo(ProcessInfo pi) {
 		m_pi = pi;
@@ -488,9 +480,9 @@ public abstract class Browser {
 			MTable xTable = (MTable) xcol.getAD_Column().getAD_Table();
 			String xTableName = xTable.getTableName();
 	
-			MBrowseField fieldKey = field.getFieldKey();
-			if(fieldKey == null)
-				throw new AdempiereException("@NotFound@ @IsKey@");
+			//MBrowseField fieldKey = field.getFieldKey();
+			//if(fieldKey == null)
+			//	throw new AdempiereException("@NotFound@ @IsKey@");
 	
 			String keyColumn = MQuery.getZoomColumnName(columnName);
 			String tableName = MQuery.getZoomTableName(columnName);
@@ -537,7 +529,7 @@ public abstract class Browser {
 						.append(xTableName).append(".")
 						.append(xcol.getAD_Column().getColumnName())
 						.append("=").append(id).append(") AS ");
-				select.append("\"").append(makePrefix(lookup.getDisplay(id))).append("_").append(ycol.getColumnName()).append("\"");
+				select.append("\"").append(colName).append("\"");
 				Info_Column infocol = new Info_Column(colName,
 						select.toString(), DisplayType.getClass(ycol.getAD_Column().getAD_Reference_ID(), true));
 				infocol.setReadOnly(field.isReadOnly());
@@ -567,9 +559,6 @@ public abstract class Browser {
 	public MBrowseField getFieldKey()
 	{
 	MBrowseField fieldKey = m_Browse.getFieldKey();
-	if(fieldKey == null)
-		throw new AdempiereException("@NotFound@ @IsKey@");
-	
 	return fieldKey;
 	}
 	
@@ -590,6 +579,9 @@ public abstract class Browser {
 			return null;
 		
 		MBrowseField fieldKey = getFieldKey();
+		if(fieldKey == null)
+			return null;
+		
 		MColumn column = fieldKey.getAD_View_Column().getAD_Column();
 		String keyColumn = MQuery.getZoomColumnName(column.getColumnName());
 		String tableName = column.getAD_Table().getTableName();
@@ -735,8 +727,15 @@ public abstract class Browser {
 					parameters.add(field.getKey());
 					
 					Object data = field.getValue();
-					// set Values
-					if (data instanceof String)
+					// set Values					
+					if (data instanceof IDColumn)
+					{
+						IDColumn id = (IDColumn) data;
+						parameters.add(null);
+						parameters.add(id.getRecord_ID());
+						parameters.add(null);
+					}
+					else if (data instanceof String)
 					{
 						parameters.add(data);
 						parameters.add(null);
@@ -828,8 +827,10 @@ public abstract class Browser {
 						Object data = null;
 						Class<?> c = p_layout[col].getColClass();
 						int colIndex = col + colOffset;
-						if (c == IDColumn.class)
+						if (c == IDColumn.class && !p_layout[col].getColSQL().equals("'Row' AS \"Row\""))
 							data = new IDColumn(m_rs.getInt(colIndex));
+						else if (c == IDColumn.class && p_layout[col].getColSQL().equals("'Row' AS \"Row\""))
+							data = new IDColumn(no);
 						else if (c == Boolean.class)
 							data = new Boolean("Y".equals(m_rs
 									.getString(colIndex)));
