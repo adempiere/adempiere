@@ -38,6 +38,7 @@ import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
+import org.compiere.util.Util;
 
 /**
  *  Generate Model Classes extending PO.
@@ -156,17 +157,19 @@ public class ModelClassGenerator
 
 		addImportClass(java.util.Properties.class);
 		addImportClass(java.sql.ResultSet.class);
-		if (!packageName.equals("org.compiere.model"))
-			addImportClass("org.compiere.model.*");
+//		if (!packageName.equals("org.compiere.model"))
+//			addImportClass("org.compiere.model.*");
 		createImports(start);
 		//	Class
 		start.append("/** Generated Model for ").append(tableName).append(NL)
 			 .append(" *  @author Adempiere (generated) ").append(NL)
-			 .append(" *  @version ").append(Adempiere.MAIN_VERSION).append(" - $Id$ */").append(NL)
+			 //.append(" *  @version ").append(Adempiere.MAIN_VERSION).append(" - $Id$ */").append(NL) // metas: don't generate it because it is changing on each rollout
+			 .append(" */").append(NL)
+			 .append("@SuppressWarnings(\"javadoc\")").append(NL) // metas
 			 .append("public class ").append(className)
-			 	.append(" extends PO")
+			 	.append(" extends org.compiere.model.PO")
 			 	.append(" implements I_").append(tableName)
-			 	.append(", I_Persistent ")
+			 	.append(", org.compiere.model.I_Persistent ")
 			 	.append(NL)
 			 .append("{").append(NL)
 
@@ -176,7 +179,8 @@ public class ModelClassGenerator
 			 .append("\t *").append(NL)
 			 .append("\t */").append(NL)
 			 .append("\tprivate static final long serialVersionUID = ")
-			 .append(String.format("%1$tY%1$tm%1$td", new Timestamp(System.currentTimeMillis())))
+			 .append(PLACEHOLDER_serialVersionUID)// metas: generate serialVersionUID on save
+			 //.append(String.format("%1$tY%1$tm%1$td", new Timestamp(System.currentTimeMillis()))) // metas: commented
 		 	 .append("L;").append(NL)
 			 //.append("\tprivate static final long serialVersionUID = 1L;").append(NL)
 
@@ -220,26 +224,34 @@ public class ModelClassGenerator
 //			 .append(NL)
 //			 .append("    protected BigDecimal accessLevel = BigDecimal.valueOf(").append(accessLevel).append(");").append(NL)
 			 .append(NL)
+			 ;
+		 if(ModelInterfaceGenerator.isGenerateLegacy()) // metas
+		 {
+			 start
 			 .append("    /** AccessLevel").append(NL)
 			 .append("      * @return ").append(accessLevelInfo).append(NL)
 			 .append("      */").append(NL)
+			 .append("    @Override").append(NL) // metas
 			 .append("    protected int get_AccessLevel()").append(NL)
 			 .append("    {").append(NL)
 			 .append("      return accessLevel.intValue();").append(NL)
-			 .append("    }").append(NL)
+			 .append("    }").append(NL);
+		 }
 
 			 // initPO
-			 .append(NL)
+		 start.append(NL)
 			 .append("    /** Load Meta Data */").append(NL)
-			 .append("    protected POInfo initPO (Properties ctx)").append(NL)
+			 .append("    @Override").append(NL) // metas
+			 .append("    protected org.compiere.model.POInfo initPO (Properties ctx)").append(NL)
 			 .append("    {").append(NL)
-			 .append("      POInfo poi = POInfo.getPOInfo (ctx, Table_ID, get_TrxName());").append(NL)
+			 .append("      org.compiere.model.POInfo poi = org.compiere.model.POInfo.getPOInfo (ctx, " + (ModelInterfaceGenerator.isGenerateLegacy() ? "Table_ID" : "Table_Name") + ", get_TrxName());").append(NL)
 			 .append("      return poi;").append(NL)
 			 .append("    }").append(NL)
 			// initPO
 
 			// toString()
 			 .append(NL)
+			 .append("    @Override").append(NL) // metas
 			 .append("    public String toString()").append(NL)
 			 .append("    {").append(NL)
 			 .append("      StringBuffer sb = new StringBuffer (\"").append(className).append("[\")").append(NL)
@@ -273,6 +285,7 @@ public class ModelClassGenerator
 			+ "WHERE c.AD_Table_ID=?"
 			+ " AND c.ColumnName NOT IN ('AD_Client_ID', 'AD_Org_ID', 'IsActive', 'Created', 'CreatedBy', 'Updated', 'UpdatedBy')"
 			+ " AND c.IsActive='Y'"
+			+ ModelInterfaceGenerator.getColumnsEntityTypeWhereClause(AD_Table_ID)
 			+ " ORDER BY c.ColumnName";
 		boolean isKeyNamePairCreated = false; // true if the method "getKeyNamePair" is already generated
 		PreparedStatement pstmt = null;
@@ -396,15 +409,26 @@ public class ModelClassGenerator
 			if (fieldName != null && referenceClassName != null)
 			{
 				sb.append(NL)
+				.append("\t@Override").append(NL) // metas
 				.append("\tpublic "+referenceClassName+" get").append(fieldName).append("() throws RuntimeException").append(NL)
-				.append("    {").append(NL)
-				.append("\t\treturn ("+referenceClassName+")MTable.get(getCtx(), "+referenceClassName+".Table_Name)").append(NL)
-				.append("\t\t\t.getPO(get"+columnName+"(), get_TrxName());")
+				.append("\t{").append(NL)
+//				.append("\t\treturn ("+referenceClassName+")MTable.get(getCtx(), "+referenceClassName+".Table_Name)").append(NL)
+//				.append("\t\t\t.getPO(get"+columnName+"(), get_TrxName());")
+				.append("\t\treturn get_ValueAsPO(COLUMNNAME_" + columnName + ", " + referenceClassName + ".class);").append(NL) // metas: new model getter
 				/**/
 				.append("\t}").append(NL)
 				;
+				
+				// metas: begin: model setter
+				sb.append(NL)
+						.append("\t@Override").append(NL) // metas
+						.append("\tpublic void set" + fieldName + "(" + referenceClassName + " " + fieldName + ")").append(NL)
+						.append("\t{").append(NL)
+						.append("\t\tset_ValueFromPO(COLUMNNAME_" + columnName + ", " + referenceClassName + ".class, " + fieldName + ");").append(NL)
+						.append("\t}").append(NL);
+				// metas: end
 				// Add imports:
-				addImportClass(clazz);
+				//addImportClass(clazz);
 			}
 		}
 
@@ -412,6 +436,7 @@ public class ModelClassGenerator
 		generateJavaSetComment(columnName, Name, Description, sb);
 
 		//	public void setColumn (xxx variable)
+		sb.append("\t@Override").append(NL); // metas
 		sb.append("\tpublic void set").append(columnName).append(" (").append(dataType).append(" ").append(columnName).append(")").append(NL)
 			.append("\t{").append(NL)
 		;
@@ -488,6 +513,7 @@ public class ModelClassGenerator
 		if (IsEncrypted)
 			getValue = "get_ValueE";
 
+		sb.append("\t@Override").append(NL); // metas
 		sb.append("\tpublic ").append(dataType);
 		if (clazz.equals(Boolean.class))
 		{
@@ -533,7 +559,7 @@ public class ModelClassGenerator
 		else {
 			sb.append("return (").append(dataType).append(")").append(getValue)
 				.append("(").append ("COLUMNNAME_").append(columnName).append(");").append(NL);
-			addImportClass(clazz);
+			//addImportClass(clazz);
 		}
 		sb.append("\t}").append(NL);
 		//
@@ -587,8 +613,13 @@ public class ModelClassGenerator
 	private String addListValidation (StringBuffer sb, int AD_Reference_ID,
 		String columnName)
 	{
+		final String referenceName = DB.getSQLValueStringEx(null, "SELECT Name FROM AD_Reference WHERE AD_Reference_ID=?", AD_Reference_ID); // metas
+		
 		StringBuffer retValue = new StringBuffer();
-		retValue.append("\n\t/** ").append(columnName).append(" AD_Reference_ID=").append(AD_Reference_ID) .append(" */")
+		retValue.append("\n\t/** ")
+			.append("\n\t * ").append(columnName).append(" AD_Reference_ID=").append(AD_Reference_ID)
+			.append("\n\t * Reference name: ").append(referenceName)
+			.append("\n\t */")
 			.append("\n\tpublic static final int ").append(columnName.toUpperCase())
 			.append("_AD_Reference_ID=").append(AD_Reference_ID).append(";");
 		//
@@ -597,7 +628,7 @@ public class ModelClassGenerator
 			.append(AD_Reference_ID);
 		StringBuffer statement = new StringBuffer();
 		//
-		String sql = "SELECT Value, Name FROM AD_Ref_List WHERE AD_Reference_ID=? ORDER BY AD_Ref_List_ID";
+		String sql = "SELECT Value, Name, ValueName FROM AD_Ref_List WHERE AD_Reference_ID=? ORDER BY AD_Ref_List_ID"; // metas: mo73_02827: added ValueName 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
@@ -624,12 +655,58 @@ public class ModelClassGenerator
 
 				//	Name (SmallTalkNotation)
 				String name = rs.getString(2);
+				// metas: mo73_02827: begin
+				final String valueName = rs.getString(3);
+				if (!Util.isEmpty(valueName, true))
+				{
+					name = valueName;
+				}
+				// metas: mo73_02827: end
 				char[] nameArray = name.toCharArray();
 				StringBuffer nameClean = new StringBuffer();
 				boolean initCap = true;
 				for (int i = 0; i < nameArray.length; i++)
 				{
 					char c = nameArray[i];
+					// metas: teo_sarca: begin
+					// replacing german umlauts with equivalent ascii
+					if (c == '\u00c4')
+					{
+						nameClean.append("Ae");
+						initCap = false;
+					}					
+					else if (c == '\u00dc')
+					{
+						nameClean.append("Ue");
+						initCap = false;
+					}					
+					else if (c == '\u00d6')
+					{
+							nameClean.append("Oe");
+							initCap = false;
+					}					
+					else if (c == '\u00e4')
+					{
+						nameClean.append("ae");
+						initCap = false;
+					}					
+					else if (c == '\u00fc')
+					{
+						nameClean.append("ue");
+						initCap = false;
+					}					
+					else if (c == '\u00f6')
+					{
+						nameClean.append("oe");
+						initCap = false;
+					}					
+					else if (c == '\u00df')
+					{
+						nameClean.append("ss");
+						initCap = false;
+					}					
+					else
+					// metas: teo_sarca: end
 					if (Character.isJavaIdentifierPart(c))
 					{
 						if (initCap)
@@ -699,6 +776,11 @@ public class ModelClassGenerator
 	 */
 	private StringBuffer createKeyNamePair (String columnName, int displayType)
 	{
+		if (!ModelInterfaceGenerator.isGenerateLegacy())
+		{
+			return new StringBuffer();
+		}
+		
 		String method = "get" + columnName + "()";
 		if (displayType != DisplayType.String)
 			method = "String.valueOf(" + method + ")";
@@ -707,12 +789,12 @@ public class ModelClassGenerator
 			.append("    /** Get Record ID/ColumnName").append(NL)
 			.append("        @return ID/ColumnName pair").append(NL)
 			.append("      */").append(NL)
-			.append("    public KeyNamePair getKeyNamePair() ").append(NL)
+			.append("    public org.compiere.util.KeyNamePair getKeyNamePair() ").append(NL)
 			.append("    {").append(NL)
-			.append("        return new KeyNamePair(get_ID(), ").append(method).append(");").append(NL)
+			.append("        return new org.compiere.util.KeyNamePair(get_ID(), ").append(method).append(");").append(NL)
 			.append("    }").append(NL)
 		;
-		addImportClass(org.compiere.util.KeyNamePair.class);
+		//addImportClass(org.compiere.util.KeyNamePair.class);
 		return sb;
 	}	//	createKeyNamePair
 
@@ -724,6 +806,15 @@ public class ModelClassGenerator
 	 */
 	private void writeToFile (StringBuffer sb, String fileName)
 	{
+		// metas: begin: generate serial number
+		{
+			String s = sb.toString();
+			int hash = s.hashCode();
+			s = s.replace(PLACEHOLDER_serialVersionUID, String.valueOf(hash));
+			sb = new StringBuffer(s);
+			System.out.println(""+fileName+": hash="+hash);
+		}
+		// metas: end
 		try
 		{
 			File out = new File (fileName);
@@ -808,6 +899,7 @@ public class ModelClassGenerator
 	 * 	String representation
 	 * 	@return string representation
 	 */
+	@Override
 	public String toString()
 	{
 		StringBuffer sb = new StringBuffer ("GenerateModel[").append("]");
@@ -913,4 +1005,6 @@ public class ModelClassGenerator
 		log.info("Generated = " + count);
 	}
 
+	// metas
+	private static final String PLACEHOLDER_serialVersionUID = "[*serialVersionUID*]";
 }
