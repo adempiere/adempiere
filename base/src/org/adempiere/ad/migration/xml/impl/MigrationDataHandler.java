@@ -105,6 +105,12 @@ class MigrationDataHandler implements IXMLHandler<I_AD_MigrationData>
 
 		final Properties ctx = InterfaceWrapperHelper.getCtx(data);
 		final MTable table = MTable.get(ctx, tableId);
+		if (table == null || table.getAD_Table_ID() != tableId)
+		{
+			data.setAD_Column_ID(-1);
+			return;
+		}
+
 		final MColumn column = table.getColumn(data.getColumnName());
 		if (column == null)
 		{

@@ -198,7 +198,7 @@ class MigrationStepHandler implements IXMLHandler<I_AD_MigrationStep>
 		}
 
 		final I_AD_Table table = MTable.get(getCtx(), tableId);
-		if (table == null)
+		if (table == null || table.getAD_Table_ID() != tableId)
 		{
 			return getAD_Table_ID(tableName);
 		}
