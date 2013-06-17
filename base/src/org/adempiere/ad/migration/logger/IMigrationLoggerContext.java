@@ -1,6 +1,6 @@
 package org.adempiere.ad.migration.logger;
 
-import org.compiere.model.I_AD_Migration;
+import org.adempiere.ad.migration.model.I_AD_Migration;
 
 public interface IMigrationLoggerContext
 {

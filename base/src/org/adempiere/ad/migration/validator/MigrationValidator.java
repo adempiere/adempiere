@@ -1,10 +1,10 @@
 package org.adempiere.ad.migration.validator;
 
+import org.adempiere.ad.migration.model.I_AD_Migration;
+import org.adempiere.ad.migration.model.I_AD_MigrationStep;
 import org.adempiere.ad.migration.service.IMigrationBL;
 import org.adempiere.model.POWrapper;
 import org.adempiere.util.Services;
-import org.compiere.model.I_AD_Migration;
-import org.compiere.model.I_AD_MigrationStep;
 import org.compiere.model.MClient;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;

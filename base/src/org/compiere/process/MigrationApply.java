@@ -16,81 +16,50 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import org.compiere.model.MMigration;
-import org.compiere.model.MMigrationStep;
-import org.compiere.model.MTable;
-import org.compiere.process.SvrProcess;
-import org.compiere.util.DB;
+import java.util.List;
 
-public class MigrationApply extends SvrProcess {
+import org.adempiere.ad.migration.executor.IMigrationExecutor;
+import org.adempiere.ad.migration.executor.IMigrationExecutorContext;
+import org.adempiere.ad.migration.executor.IMigrationExecutorProvider;
+import org.adempiere.util.Services;
 
-	private MMigration migration;
-	private boolean failOnError = false;
+public class MigrationApply extends SvrProcess
+{
+	private int p_AD_Migration_ID = -1;
+	private boolean failOnError = true;
 
 	@Override
-	protected String doIt() throws Exception {
+	protected void prepare()
+	{
+		p_AD_Migration_ID = getRecord_ID();
 
-		if ( migration == null || migration.is_new() )
+		for (ProcessInfoParameter p : getParameter())
 		{
-			addLog("No migration");
-			return "@Error@";
+			final String name = p.getParameterName();
+			if ("FailOnError".equals(name))
+			{
+				failOnError = p.getParameterAsBoolean();
+			}
 		}
-		
-		boolean apply = true;
-		if ( MMigration.APPLY_Rollback.equals(migration.getApply()))
-			apply = false;
-		
-		migration.setFailOnError(failOnError);
-		
-		if ( apply )
-		{
-			migration.apply();
-			
-			if ( migration.getStatusCode().equals(MMigration.STATUSCODE_Applied) )
-			{
-				addLog("Migration successful");
-			}
-			else if ( migration.getStatusCode().equals(MMigration.STATUSCODE_PartiallyApplied) )
-			{
-				addLog("Migration partially applied. Please review migration steps for errors.");
-			}
-			else if (  migration.getStatusCode().equals(MMigration.STATUSCODE_Failed) )
-			{
-				addLog("Migration failed. Please review migration steps for errors.");
-			}
-			
-		}
-		else 
-		{
-			migration.rollback();
-
-			if ( migration.getStatusCode().equals(MMigration.STATUSCODE_Unapplied) )
-			{
-				addLog("Rollback successful.");
-			}
-			else
-			{
-				addLog("Rollback failed. Please review migration steps for errors.");
-			}
-			
-		}
-
-		return "@OK@";
 	}
 
 	@Override
-	protected void prepare() {
+	protected String doIt() throws Exception
+	{
+		final IMigrationExecutorProvider executorProvider = Services.get(IMigrationExecutorProvider.class);
+		final IMigrationExecutorContext context = executorProvider.createContext(getCtx());
+		context.setFailOnFirstError(failOnError);
 		
-		migration = new MMigration(getCtx(), getRecord_ID(), get_TrxName());
-		
-		ProcessInfoParameter[] params = getParameter();
-		for ( ProcessInfoParameter p : params)
+		final IMigrationExecutor executor = executorProvider.newMigrationExecutor(context, p_AD_Migration_ID);
+
+		executor.execute();
+
+		final List<Exception> errors = executor.getExecutionErrors();
+		for (final Exception error : errors)
 		{
-			String para = p.getParameterName();
-			if ( para.equals("FailOnError") )
-				failOnError  = "Y".equals((String)p.getParameter());
+			addLog("Error: " + error.getLocalizedMessage());
 		}
 
+		return executor.getStatusDescription();
 	}
-
 }

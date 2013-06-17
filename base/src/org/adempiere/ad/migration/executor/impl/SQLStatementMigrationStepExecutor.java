@@ -4,10 +4,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import org.adempiere.ad.migration.executor.IMigrationExecutorContext;
+import org.adempiere.ad.migration.model.I_AD_MigrationStep;
+import org.adempiere.ad.migration.model.X_AD_MigrationStep;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.db.CConnection;
-import org.compiere.model.I_AD_MigrationStep;
-import org.compiere.model.X_AD_MigrationStep;
 import org.compiere.util.DB;
 import org.compiere.util.Trx;
 import org.compiere.util.Util;

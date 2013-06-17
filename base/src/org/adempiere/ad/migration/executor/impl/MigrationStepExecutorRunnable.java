@@ -5,9 +5,9 @@ import java.util.logging.Level;
 import org.adempiere.ad.migration.executor.IMigrationExecutor.Action;
 import org.adempiere.ad.migration.executor.IMigrationExecutorContext;
 import org.adempiere.ad.migration.executor.impl.AbstractMigrationStepExecutor.ExecutionResult;
+import org.adempiere.ad.migration.model.I_AD_MigrationStep;
+import org.adempiere.ad.migration.model.X_AD_MigrationStep;
 import org.adempiere.model.InterfaceWrapperHelper;
-import org.compiere.model.I_AD_MigrationStep;
-import org.compiere.model.X_AD_MigrationStep;
 import org.compiere.util.CLogger;
 import org.compiere.util.TrxRunnable2;
 

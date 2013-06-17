@@ -3,8 +3,8 @@ package org.adempiere.ad.migration.executor.impl;
 import org.adempiere.ad.migration.executor.IMigrationExecutorContext;
 import org.adempiere.ad.migration.executor.IMigrationExecutorProvider;
 import org.adempiere.ad.migration.executor.IMigrationStepExecutor;
-import org.compiere.model.I_AD_MigrationStep;
-import org.compiere.model.X_AD_MigrationStep;
+import org.adempiere.ad.migration.model.I_AD_MigrationStep;
+import org.adempiere.ad.migration.model.X_AD_MigrationStep;
 
 public class CompositeMigrationStepExecutor extends AbstractMigrationStepExecutor
 {

@@ -3,10 +3,10 @@ package org.adempiere.ad.migration.service;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.ad.migration.model.I_AD_Migration;
+import org.adempiere.ad.migration.model.I_AD_MigrationData;
+import org.adempiere.ad.migration.model.I_AD_MigrationStep;
 import org.adempiere.util.ISingletonService;
-import org.compiere.model.I_AD_Migration;
-import org.compiere.model.I_AD_MigrationData;
-import org.compiere.model.I_AD_MigrationStep;
 
 public interface IMigrationDAO extends ISingletonService
 {

@@ -1,8 +1,8 @@
 package org.adempiere.ad.migration.service;
 
+import org.adempiere.ad.migration.model.I_AD_Migration;
+import org.adempiere.ad.migration.model.I_AD_MigrationStep;
 import org.adempiere.util.ISingletonService;
-import org.compiere.model.I_AD_Migration;
-import org.compiere.model.I_AD_MigrationStep;
 
 public interface IMigrationBL extends ISingletonService
 {

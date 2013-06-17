@@ -4,13 +4,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.adempiere.ad.migration.model.I_AD_Migration;
+import org.adempiere.ad.migration.model.I_AD_MigrationStep;
+import org.adempiere.ad.migration.model.X_AD_Migration;
 import org.adempiere.ad.migration.service.IMigrationBL;
 import org.adempiere.ad.migration.service.IMigrationDAO;
 import org.adempiere.model.InterfaceWrapperHelper;
 import org.adempiere.util.Services;
-import org.compiere.model.I_AD_Migration;
-import org.compiere.model.I_AD_MigrationStep;
-import org.compiere.model.X_AD_Migration;
 
 public class MigrationBL implements IMigrationBL
 {

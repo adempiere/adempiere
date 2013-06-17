@@ -2,8 +2,8 @@ package org.adempiere.ad.migration.executor;
 
 import java.util.List;
 
-import org.compiere.model.I_AD_Migration;
-import org.compiere.model.I_AD_MigrationStep;
+import org.adempiere.ad.migration.model.I_AD_Migration;
+import org.adempiere.ad.migration.model.I_AD_MigrationStep;
 
 public interface IMigrationExecutor
 {

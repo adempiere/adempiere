@@ -5,10 +5,10 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.adempiere.ad.migration.logger.IMigrationLoggerContext;
+import org.adempiere.ad.migration.model.I_AD_Migration;
 import org.adempiere.ad.migration.service.IMigrationDAO;
 import org.adempiere.service.ISysConfigBL;
 import org.adempiere.util.Services;
-import org.compiere.model.I_AD_Migration;
 import org.compiere.util.CCache;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;

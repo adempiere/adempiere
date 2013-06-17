@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.ad.migration.model.I_AD_Migration;
+import org.adempiere.ad.migration.model.I_AD_MigrationData;
+import org.adempiere.ad.migration.model.I_AD_MigrationStep;
 import org.adempiere.ad.migration.service.IMigrationDAO;
 import org.adempiere.model.InterfaceWrapperHelper;
 import org.adempiere.model.POWrapper;
-import org.compiere.model.I_AD_Migration;
-import org.compiere.model.I_AD_MigrationData;
-import org.compiere.model.I_AD_MigrationStep;
 import org.compiere.model.Query;
 import org.compiere.util.DB;
 import org.compiere.util.Trx;

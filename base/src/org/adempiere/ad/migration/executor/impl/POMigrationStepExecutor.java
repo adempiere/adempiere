@@ -5,6 +5,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.adempiere.ad.migration.executor.IMigrationExecutorContext;
+import org.adempiere.ad.migration.model.I_AD_MigrationData;
+import org.adempiere.ad.migration.model.I_AD_MigrationStep;
+import org.adempiere.ad.migration.model.X_AD_MigrationStep;
 import org.adempiere.ad.migration.service.IMigrationDAO;
 import org.adempiere.ad.migration.util.DefaultDataConverter;
 import org.adempiere.ad.migration.util.IDataConverter;
@@ -12,13 +15,10 @@ import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.model.InterfaceWrapperHelper;
 import org.adempiere.util.Services;
 import org.compiere.model.I_AD_Column;
-import org.compiere.model.I_AD_MigrationData;
-import org.compiere.model.I_AD_MigrationStep;
 import org.compiere.model.MColumn;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
-import org.compiere.model.X_AD_MigrationStep;
 
 public class POMigrationStepExecutor extends AbstractMigrationStepExecutor
 {

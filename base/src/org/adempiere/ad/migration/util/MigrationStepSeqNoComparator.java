@@ -2,7 +2,7 @@ package org.adempiere.ad.migration.util;
 
 import java.util.Comparator;
 
-import org.compiere.model.I_AD_MigrationStep;
+import org.adempiere.ad.migration.model.I_AD_MigrationStep;
 
 /**
  * Comparator which compares steps by SeqNo.

@@ -8,9 +8,9 @@ import org.adempiere.ad.migration.executor.IMigrationExecutor;
 import org.adempiere.ad.migration.executor.IMigrationExecutorContext;
 import org.adempiere.ad.migration.executor.IMigrationExecutorProvider;
 import org.adempiere.ad.migration.executor.IMigrationStepExecutor;
+import org.adempiere.ad.migration.model.I_AD_MigrationStep;
+import org.adempiere.ad.migration.model.X_AD_MigrationStep;
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.I_AD_MigrationStep;
-import org.compiere.model.X_AD_MigrationStep;
 
 public class MigrationExecutorProvider implements IMigrationExecutorProvider
 {

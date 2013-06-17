@@ -15,10 +15,15 @@
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
-package org.compiere.model;
+package org.adempiere.ad.migration.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
+
+import org.compiere.model.I_AD_Table;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 
 /** Generated Model for AD_MigrationStep
  *  @author Adempiere (generated) 
@@ -108,15 +113,15 @@ public class X_AD_MigrationStep extends org.compiere.model.PO implements I_AD_Mi
 	}
 
 	@Override
-	public org.compiere.model.I_AD_Migration getAD_Migration() throws RuntimeException
+	public org.adempiere.ad.migration.model.I_AD_Migration getAD_Migration() throws RuntimeException
 	{
-		return get_ValueAsPO(COLUMNNAME_AD_Migration_ID, org.compiere.model.I_AD_Migration.class);
+		return get_ValueAsPO(COLUMNNAME_AD_Migration_ID, org.adempiere.ad.migration.model.I_AD_Migration.class);
 	}
 
 	@Override
-	public void setAD_Migration(org.compiere.model.I_AD_Migration AD_Migration)
+	public void setAD_Migration(org.adempiere.ad.migration.model.I_AD_Migration AD_Migration)
 	{
-		set_ValueFromPO(COLUMNNAME_AD_Migration_ID, org.compiere.model.I_AD_Migration.class, AD_Migration);
+		set_ValueFromPO(COLUMNNAME_AD_Migration_ID, org.adempiere.ad.migration.model.I_AD_Migration.class, AD_Migration);
 	}
 
 	/** Set Migration.

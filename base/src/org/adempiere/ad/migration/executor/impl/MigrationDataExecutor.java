@@ -1,12 +1,12 @@
 package org.adempiere.ad.migration.executor.impl;
 
+import org.adempiere.ad.migration.model.I_AD_MigrationData;
+import org.adempiere.ad.migration.model.I_AD_MigrationStep;
+import org.adempiere.ad.migration.model.X_AD_MigrationStep;
 import org.adempiere.ad.migration.util.IDataConverter;
 import org.adempiere.model.InterfaceWrapperHelper;
 import org.compiere.model.I_AD_Column;
-import org.compiere.model.I_AD_MigrationData;
-import org.compiere.model.I_AD_MigrationStep;
 import org.compiere.model.PO;
-import org.compiere.model.X_AD_MigrationStep;
 
 public class MigrationDataExecutor
 {

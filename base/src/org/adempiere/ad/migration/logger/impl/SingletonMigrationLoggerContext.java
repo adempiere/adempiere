@@ -1,8 +1,8 @@
 package org.adempiere.ad.migration.logger.impl;
 
 import org.adempiere.ad.migration.logger.IMigrationLoggerContext;
+import org.adempiere.ad.migration.model.I_AD_Migration;
 import org.adempiere.util.Check;
-import org.compiere.model.I_AD_Migration;
 
 public class SingletonMigrationLoggerContext implements IMigrationLoggerContext
 {

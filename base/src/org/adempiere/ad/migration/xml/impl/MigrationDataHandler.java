@@ -2,14 +2,14 @@ package org.adempiere.ad.migration.xml.impl;
 
 import java.util.Properties;
 
+import org.adempiere.ad.migration.model.I_AD_MigrationData;
+import org.adempiere.ad.migration.model.I_AD_MigrationStep;
+import org.adempiere.ad.migration.model.X_AD_MigrationStep;
 import org.adempiere.ad.migration.xml.IXMLHandler;
 import org.adempiere.model.InterfaceWrapperHelper;
 import org.compiere.model.I_AD_Column;
-import org.compiere.model.I_AD_MigrationData;
-import org.compiere.model.I_AD_MigrationStep;
 import org.compiere.model.MColumn;
 import org.compiere.model.MTable;
-import org.compiere.model.X_AD_MigrationStep;
 import org.compiere.util.CLogger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

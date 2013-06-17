@@ -14,20 +14,25 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
-package org.compiere.model;
+package org.adempiere.ad.migration.model;
+
+import org.compiere.model.I_AD_Client;
+import org.compiere.model.I_AD_Org;
+import org.compiere.model.I_AD_Table;
+import org.compiere.model.MTable;
 
 
-/** Generated Interface for AD_Migration
+/** Generated Interface for AD_MigrationStep
  *  @author Adempiere (generated) 
  */
 @SuppressWarnings("javadoc")
-public interface I_AD_Migration 
+public interface I_AD_MigrationStep 
 {
 
-    /** TableName=AD_Migration */
-    public static final String Table_Name = "AD_Migration";
+    /** TableName=AD_MigrationStep */
+    public static final String Table_Name = "AD_MigrationStep";
 
-    /** AD_Table_ID=53217 */
+    /** AD_Table_ID=53218 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     org.compiere.util.KeyNamePair Model = new org.compiere.util.KeyNamePair(Table_ID, Table_Name);
@@ -37,6 +42,19 @@ public interface I_AD_Migration
     java.math.BigDecimal accessLevel = java.math.BigDecimal.valueOf(4);
 
     /** Load Meta Data */
+
+    /** Column name Action */
+    public static final String COLUMNNAME_Action = "Action";
+
+	/** Set Action.
+	  * Indicates the Action to be performed
+	  */
+	public void setAction (java.lang.String Action);
+
+	/** Get Action.
+	  * Indicates the Action to be performed
+	  */
+	public java.lang.String getAction();
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -61,6 +79,23 @@ public interface I_AD_Migration
 	  */
 	public int getAD_Migration_ID();
 
+	public org.adempiere.ad.migration.model.I_AD_Migration getAD_Migration() throws RuntimeException;
+
+	public void setAD_Migration(org.adempiere.ad.migration.model.I_AD_Migration AD_Migration);
+
+    /** Column name AD_MigrationStep_ID */
+    public static final String COLUMNNAME_AD_MigrationStep_ID = "AD_MigrationStep_ID";
+
+	/** Set Migration step.
+	  * A single step in the migration process
+	  */
+	public void setAD_MigrationStep_ID (int AD_MigrationStep_ID);
+
+	/** Get Migration step.
+	  * A single step in the migration process
+	  */
+	public int getAD_MigrationStep_ID();
+
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -77,6 +112,23 @@ public interface I_AD_Migration
 	public org.compiere.model.I_AD_Org getAD_Org() throws RuntimeException;
 
 	public void setAD_Org(org.compiere.model.I_AD_Org AD_Org);
+
+    /** Column name AD_Table_ID */
+    public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
+
+	/** Set Table.
+	  * Database Table information
+	  */
+	public void setAD_Table_ID (int AD_Table_ID);
+
+	/** Get Table.
+	  * Database Table information
+	  */
+	public int getAD_Table_ID();
+
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
+
+	public void setAD_Table(org.compiere.model.I_AD_Table AD_Table);
 
     /** Column name Apply */
     public static final String COLUMNNAME_Apply = "Apply";
@@ -120,33 +172,23 @@ public interface I_AD_Migration
 	  */
 	public int getCreatedBy();
 
-    /** Column name EntityType */
-    public static final String COLUMNNAME_EntityType = "EntityType";
+    /** Column name DBType */
+    public static final String COLUMNNAME_DBType = "DBType";
 
-	/** Set Entity Type.
-	  * Dictionary Entity Type;
- Determines ownership and synchronization
-	  */
-	public void setEntityType (java.lang.String EntityType);
+	/** Set DBType	  */
+	public void setDBType (java.lang.String DBType);
 
-	/** Get Entity Type.
-	  * Dictionary Entity Type;
- Determines ownership and synchronization
-	  */
-	public java.lang.String getEntityType();
+	/** Get DBType	  */
+	public java.lang.String getDBType();
 
-    /** Column name ExportXML */
-    public static final String COLUMNNAME_ExportXML = "ExportXML";
+    /** Column name ErrorMsg */
+    public static final String COLUMNNAME_ErrorMsg = "ErrorMsg";
 
-	/** Set Export to XML.
-	  * Export this record to XML
-	  */
-	public void setExportXML (java.lang.String ExportXML);
+	/** Set Error Msg	  */
+	public void setErrorMsg (java.lang.String ErrorMsg);
 
-	/** Get Export to XML.
-	  * Export this record to XML
-	  */
-	public java.lang.String getExportXML();
+	/** Get Error Msg	  */
+	public java.lang.String getErrorMsg();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -161,40 +203,31 @@ public interface I_AD_Migration
 	  */
 	public boolean isActive();
 
-    /** Column name IsDeferredConstraints */
-    public static final String COLUMNNAME_IsDeferredConstraints = "IsDeferredConstraints";
+    /** Column name Record_ID */
+    public static final String COLUMNNAME_Record_ID = "Record_ID";
 
-	/** Set Defer Constraints	  */
-	public void setIsDeferredConstraints (boolean IsDeferredConstraints);
-
-	/** Get Defer Constraints	  */
-	public boolean isDeferredConstraints();
-
-    /** Column name Name */
-    public static final String COLUMNNAME_Name = "Name";
-
-	/** Set Name.
-	  * Alphanumeric identifier of the entity
+	/** Set Record ID.
+	  * Direct internal record ID
 	  */
-	public void setName (java.lang.String Name);
+	public void setRecord_ID (int Record_ID);
 
-	/** Get Name.
-	  * Alphanumeric identifier of the entity
+	/** Get Record ID.
+	  * Direct internal record ID
 	  */
-	public java.lang.String getName();
+	public int getRecord_ID();
 
-    /** Column name ReleaseNo */
-    public static final String COLUMNNAME_ReleaseNo = "ReleaseNo";
+    /** Column name RollbackStatement */
+    public static final String COLUMNNAME_RollbackStatement = "RollbackStatement";
 
-	/** Set Release No.
-	  * Internal Release Number
+	/** Set Rollback Statement.
+	  * SQL statement to rollback the current step.
 	  */
-	public void setReleaseNo (java.lang.String ReleaseNo);
+	public void setRollbackStatement (java.lang.String RollbackStatement);
 
-	/** Get Release No.
-	  * Internal Release Number
+	/** Get Rollback Statement.
+	  * SQL statement to rollback the current step.
 	  */
-	public java.lang.String getReleaseNo();
+	public java.lang.String getRollbackStatement();
 
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";
@@ -211,6 +244,15 @@ public interface I_AD_Migration
 	  */
 	public int getSeqNo();
 
+    /** Column name SQLStatement */
+    public static final String COLUMNNAME_SQLStatement = "SQLStatement";
+
+	/** Set SQLStatement	  */
+	public void setSQLStatement (java.lang.String SQLStatement);
+
+	/** Get SQLStatement	  */
+	public java.lang.String getSQLStatement();
+
     /** Column name StatusCode */
     public static final String COLUMNNAME_StatusCode = "StatusCode";
 
@@ -219,6 +261,28 @@ public interface I_AD_Migration
 
 	/** Get Status Code	  */
 	public java.lang.String getStatusCode();
+
+    /** Column name StepType */
+    public static final String COLUMNNAME_StepType = "StepType";
+
+	/** Set Step type.
+	  * Migration step type
+	  */
+	public void setStepType (java.lang.String StepType);
+
+	/** Get Step type.
+	  * Migration step type
+	  */
+	public java.lang.String getStepType();
+
+    /** Column name TableName */
+    public static final String COLUMNNAME_TableName = "TableName";
+
+	/** Set Name der DB-Tabelle	  */
+	public void setTableName (java.lang.String TableName);
+
+	/** Get Name der DB-Tabelle	  */
+	public java.lang.String getTableName();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

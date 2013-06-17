@@ -14,7 +14,12 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
-package org.compiere.model;
+package org.adempiere.ad.migration.model;
+
+import org.compiere.model.I_AD_Client;
+import org.compiere.model.I_AD_Column;
+import org.compiere.model.I_AD_Org;
+import org.compiere.model.MTable;
 
 
 /** Generated Interface for AD_MigrationData
@@ -87,9 +92,9 @@ public interface I_AD_MigrationData
 	  */
 	public int getAD_MigrationStep_ID();
 
-	public org.compiere.model.I_AD_MigrationStep getAD_MigrationStep() throws RuntimeException;
+	public org.adempiere.ad.migration.model.I_AD_MigrationStep getAD_MigrationStep() throws RuntimeException;
 
-	public void setAD_MigrationStep(org.compiere.model.I_AD_MigrationStep AD_MigrationStep);
+	public void setAD_MigrationStep(org.adempiere.ad.migration.model.I_AD_MigrationStep AD_MigrationStep);
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";

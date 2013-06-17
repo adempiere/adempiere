@@ -2,6 +2,8 @@ package org.adempiere.ad.migration.xml.impl;
 
 import java.util.Properties;
 
+import org.adempiere.ad.migration.model.I_AD_Migration;
+import org.adempiere.ad.migration.model.I_AD_MigrationStep;
 import org.adempiere.ad.migration.service.IMigrationBL;
 import org.adempiere.ad.migration.service.IMigrationDAO;
 import org.adempiere.ad.migration.xml.IXMLHandler;
@@ -9,8 +11,6 @@ import org.adempiere.ad.migration.xml.IXMLHandlerFactory;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.model.POWrapper;
 import org.adempiere.util.Services;
-import org.compiere.model.I_AD_Migration;
-import org.compiere.model.I_AD_MigrationStep;
 import org.compiere.util.CLogger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

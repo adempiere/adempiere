@@ -3,12 +3,12 @@ package org.adempiere.ad.migration.xml.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.adempiere.ad.migration.model.I_AD_Migration;
+import org.adempiere.ad.migration.model.I_AD_MigrationData;
+import org.adempiere.ad.migration.model.I_AD_MigrationStep;
 import org.adempiere.ad.migration.xml.IXMLHandler;
 import org.adempiere.ad.migration.xml.IXMLHandlerFactory;
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.I_AD_Migration;
-import org.compiere.model.I_AD_MigrationData;
-import org.compiere.model.I_AD_MigrationStep;
 
 public class XMLHandlerFactory implements IXMLHandlerFactory
 {

@@ -16,11 +16,11 @@
  *****************************************************************************/
 package org.adempiere.ad.migration.process;
 
+import org.adempiere.ad.migration.model.I_AD_Migration;
 import org.adempiere.ad.migration.service.IMigrationBL;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.model.InterfaceWrapperHelper;
 import org.adempiere.util.Services;
-import org.compiere.model.I_AD_Migration;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 

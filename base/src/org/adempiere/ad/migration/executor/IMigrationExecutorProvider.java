@@ -2,8 +2,8 @@ package org.adempiere.ad.migration.executor;
 
 import java.util.Properties;
 
+import org.adempiere.ad.migration.model.I_AD_MigrationStep;
 import org.adempiere.util.ISingletonService;
-import org.compiere.model.I_AD_MigrationStep;
 
 public interface IMigrationExecutorProvider extends ISingletonService
 {

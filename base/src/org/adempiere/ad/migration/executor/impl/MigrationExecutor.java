@@ -8,15 +8,15 @@ import java.util.logging.Level;
 
 import org.adempiere.ad.migration.executor.IMigrationExecutor;
 import org.adempiere.ad.migration.executor.IMigrationExecutorContext;
+import org.adempiere.ad.migration.model.I_AD_Migration;
+import org.adempiere.ad.migration.model.I_AD_MigrationStep;
+import org.adempiere.ad.migration.model.X_AD_Migration;
 import org.adempiere.ad.migration.service.IMigrationBL;
 import org.adempiere.ad.migration.service.IMigrationDAO;
 import org.adempiere.ad.migration.util.MigrationStepSeqNoComparator;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.model.InterfaceWrapperHelper;
 import org.adempiere.util.Services;
-import org.compiere.model.I_AD_Migration;
-import org.compiere.model.I_AD_MigrationStep;
-import org.compiere.model.X_AD_Migration;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Trx;
