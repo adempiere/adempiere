@@ -16,14 +16,11 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Migration
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
  */
+@SuppressWarnings("javadoc")
 public interface I_AD_Migration 
 {
 
@@ -33,11 +30,11 @@ public interface I_AD_Migration
     /** AD_Table_ID=53217 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
-    KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
+    org.compiere.util.KeyNamePair Model = new org.compiere.util.KeyNamePair(Table_ID, Table_Name);
 
     /** AccessLevel = 4 - System 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(4);
+    java.math.BigDecimal accessLevel = java.math.BigDecimal.valueOf(4);
 
     /** Load Meta Data */
 
@@ -48,6 +45,8 @@ public interface I_AD_Migration
 	  * Client/Tenant for this installation.
 	  */
 	public int getAD_Client_ID();
+
+	public org.compiere.model.I_AD_Client getAD_Client() throws RuntimeException;
 
     /** Column name AD_Migration_ID */
     public static final String COLUMNNAME_AD_Migration_ID = "AD_Migration_ID";
@@ -75,18 +74,22 @@ public interface I_AD_Migration
 	  */
 	public int getAD_Org_ID();
 
+	public org.compiere.model.I_AD_Org getAD_Org() throws RuntimeException;
+
+	public void setAD_Org(org.compiere.model.I_AD_Org AD_Org);
+
     /** Column name Apply */
     public static final String COLUMNNAME_Apply = "Apply";
 
 	/** Set Apply.
 	  * Apply migration
 	  */
-	public void setApply (String Apply);
+	public void setApply (java.lang.String Apply);
 
 	/** Get Apply.
 	  * Apply migration
 	  */
-	public String getApply();
+	public java.lang.String getApply();
 
     /** Column name Comments */
     public static final String COLUMNNAME_Comments = "Comments";
@@ -94,12 +97,12 @@ public interface I_AD_Migration
 	/** Set Comments.
 	  * Comments or additional information
 	  */
-	public void setComments (String Comments);
+	public void setComments (java.lang.String Comments);
 
 	/** Get Comments.
 	  * Comments or additional information
 	  */
-	public String getComments();
+	public java.lang.String getComments();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -107,7 +110,7 @@ public interface I_AD_Migration
 	/** Get Created.
 	  * Date this record was created
 	  */
-	public Timestamp getCreated();
+	public java.sql.Timestamp getCreated();
 
     /** Column name CreatedBy */
     public static final String COLUMNNAME_CreatedBy = "CreatedBy";
@@ -124,13 +127,13 @@ public interface I_AD_Migration
 	  * Dictionary Entity Type;
  Determines ownership and synchronization
 	  */
-	public void setEntityType (String EntityType);
+	public void setEntityType (java.lang.String EntityType);
 
 	/** Get Entity Type.
 	  * Dictionary Entity Type;
  Determines ownership and synchronization
 	  */
-	public String getEntityType();
+	public java.lang.String getEntityType();
 
     /** Column name ExportXML */
     public static final String COLUMNNAME_ExportXML = "ExportXML";
@@ -138,12 +141,12 @@ public interface I_AD_Migration
 	/** Set Export to XML.
 	  * Export this record to XML
 	  */
-	public void setExportXML (String ExportXML);
+	public void setExportXML (java.lang.String ExportXML);
 
 	/** Get Export to XML.
 	  * Export this record to XML
 	  */
-	public String getExportXML();
+	public java.lang.String getExportXML();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -158,18 +161,27 @@ public interface I_AD_Migration
 	  */
 	public boolean isActive();
 
+    /** Column name IsDeferredConstraints */
+    public static final String COLUMNNAME_IsDeferredConstraints = "IsDeferredConstraints";
+
+	/** Set Defer Constraints	  */
+	public void setIsDeferredConstraints (boolean IsDeferredConstraints);
+
+	/** Get Defer Constraints	  */
+	public boolean isDeferredConstraints();
+
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
 
 	/** Set Name.
 	  * Alphanumeric identifier of the entity
 	  */
-	public void setName (String Name);
+	public void setName (java.lang.String Name);
 
 	/** Get Name.
 	  * Alphanumeric identifier of the entity
 	  */
-	public String getName();
+	public java.lang.String getName();
 
     /** Column name ReleaseNo */
     public static final String COLUMNNAME_ReleaseNo = "ReleaseNo";
@@ -177,12 +189,12 @@ public interface I_AD_Migration
 	/** Set Release No.
 	  * Internal Release Number
 	  */
-	public void setReleaseNo (String ReleaseNo);
+	public void setReleaseNo (java.lang.String ReleaseNo);
 
 	/** Get Release No.
 	  * Internal Release Number
 	  */
-	public String getReleaseNo();
+	public java.lang.String getReleaseNo();
 
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";
@@ -203,10 +215,10 @@ public interface I_AD_Migration
     public static final String COLUMNNAME_StatusCode = "StatusCode";
 
 	/** Set Status Code	  */
-	public void setStatusCode (String StatusCode);
+	public void setStatusCode (java.lang.String StatusCode);
 
 	/** Get Status Code	  */
-	public String getStatusCode();
+	public java.lang.String getStatusCode();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -214,7 +226,7 @@ public interface I_AD_Migration
 	/** Get Updated.
 	  * Date this record was updated
 	  */
-	public Timestamp getUpdated();
+	public java.sql.Timestamp getUpdated();
 
     /** Column name UpdatedBy */
     public static final String COLUMNNAME_UpdatedBy = "UpdatedBy";

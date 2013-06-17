@@ -16,14 +16,11 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_MigrationStep
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
  */
+@SuppressWarnings("javadoc")
 public interface I_AD_MigrationStep 
 {
 
@@ -33,13 +30,26 @@ public interface I_AD_MigrationStep
     /** AD_Table_ID=53218 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
-    KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
+    org.compiere.util.KeyNamePair Model = new org.compiere.util.KeyNamePair(Table_ID, Table_Name);
 
     /** AccessLevel = 4 - System 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(4);
+    java.math.BigDecimal accessLevel = java.math.BigDecimal.valueOf(4);
 
     /** Load Meta Data */
+
+    /** Column name Action */
+    public static final String COLUMNNAME_Action = "Action";
+
+	/** Set Action.
+	  * Indicates the Action to be performed
+	  */
+	public void setAction (java.lang.String Action);
+
+	/** Get Action.
+	  * Indicates the Action to be performed
+	  */
+	public java.lang.String getAction();
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -49,18 +59,7 @@ public interface I_AD_MigrationStep
 	  */
 	public int getAD_Client_ID();
 
-    /** Column name AD_MigrationStep_ID */
-    public static final String COLUMNNAME_AD_MigrationStep_ID = "AD_MigrationStep_ID";
-
-	/** Set Migration step.
-	  * A single step in the migration process
-	  */
-	public void setAD_MigrationStep_ID (int AD_MigrationStep_ID);
-
-	/** Get Migration step.
-	  * A single step in the migration process
-	  */
-	public int getAD_MigrationStep_ID();
+	public org.compiere.model.I_AD_Client getAD_Client() throws RuntimeException;
 
     /** Column name AD_Migration_ID */
     public static final String COLUMNNAME_AD_Migration_ID = "AD_Migration_ID";
@@ -75,7 +74,22 @@ public interface I_AD_MigrationStep
 	  */
 	public int getAD_Migration_ID();
 
-	public I_AD_Migration getAD_Migration() throws RuntimeException;
+	public org.compiere.model.I_AD_Migration getAD_Migration() throws RuntimeException;
+
+	public void setAD_Migration(org.compiere.model.I_AD_Migration AD_Migration);
+
+    /** Column name AD_MigrationStep_ID */
+    public static final String COLUMNNAME_AD_MigrationStep_ID = "AD_MigrationStep_ID";
+
+	/** Set Migration step.
+	  * A single step in the migration process
+	  */
+	public void setAD_MigrationStep_ID (int AD_MigrationStep_ID);
+
+	/** Get Migration step.
+	  * A single step in the migration process
+	  */
+	public int getAD_MigrationStep_ID();
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -90,6 +104,10 @@ public interface I_AD_MigrationStep
 	  */
 	public int getAD_Org_ID();
 
+	public org.compiere.model.I_AD_Org getAD_Org() throws RuntimeException;
+
+	public void setAD_Org(org.compiere.model.I_AD_Org AD_Org);
+
     /** Column name AD_Table_ID */
     public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
 
@@ -103,20 +121,9 @@ public interface I_AD_MigrationStep
 	  */
 	public int getAD_Table_ID();
 
-	public I_AD_Table getAD_Table() throws RuntimeException;
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
 
-    /** Column name Action */
-    public static final String COLUMNNAME_Action = "Action";
-
-	/** Set Action.
-	  * Indicates the Action to be performed
-	  */
-	public void setAction (String Action);
-
-	/** Get Action.
-	  * Indicates the Action to be performed
-	  */
-	public String getAction();
+	public void setAD_Table(org.compiere.model.I_AD_Table AD_Table);
 
     /** Column name Apply */
     public static final String COLUMNNAME_Apply = "Apply";
@@ -124,12 +131,12 @@ public interface I_AD_MigrationStep
 	/** Set Apply.
 	  * Apply migration
 	  */
-	public void setApply (String Apply);
+	public void setApply (java.lang.String Apply);
 
 	/** Get Apply.
 	  * Apply migration
 	  */
-	public String getApply();
+	public java.lang.String getApply();
 
     /** Column name Comments */
     public static final String COLUMNNAME_Comments = "Comments";
@@ -137,12 +144,12 @@ public interface I_AD_MigrationStep
 	/** Set Comments.
 	  * Comments or additional information
 	  */
-	public void setComments (String Comments);
+	public void setComments (java.lang.String Comments);
 
 	/** Get Comments.
 	  * Comments or additional information
 	  */
-	public String getComments();
+	public java.lang.String getComments();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -150,7 +157,7 @@ public interface I_AD_MigrationStep
 	/** Get Created.
 	  * Date this record was created
 	  */
-	public Timestamp getCreated();
+	public java.sql.Timestamp getCreated();
 
     /** Column name CreatedBy */
     public static final String COLUMNNAME_CreatedBy = "CreatedBy";
@@ -164,19 +171,19 @@ public interface I_AD_MigrationStep
     public static final String COLUMNNAME_DBType = "DBType";
 
 	/** Set DBType	  */
-	public void setDBType (String DBType);
+	public void setDBType (java.lang.String DBType);
 
 	/** Get DBType	  */
-	public String getDBType();
+	public java.lang.String getDBType();
 
     /** Column name ErrorMsg */
     public static final String COLUMNNAME_ErrorMsg = "ErrorMsg";
 
 	/** Set Error Msg	  */
-	public void setErrorMsg (String ErrorMsg);
+	public void setErrorMsg (java.lang.String ErrorMsg);
 
 	/** Get Error Msg	  */
-	public String getErrorMsg();
+	public java.lang.String getErrorMsg();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -210,21 +217,12 @@ public interface I_AD_MigrationStep
 	/** Set Rollback Statement.
 	  * SQL statement to rollback the current step.
 	  */
-	public void setRollbackStatement (String RollbackStatement);
+	public void setRollbackStatement (java.lang.String RollbackStatement);
 
 	/** Get Rollback Statement.
 	  * SQL statement to rollback the current step.
 	  */
-	public String getRollbackStatement();
-
-    /** Column name SQLStatement */
-    public static final String COLUMNNAME_SQLStatement = "SQLStatement";
-
-	/** Set SQLStatement	  */
-	public void setSQLStatement (String SQLStatement);
-
-	/** Get SQLStatement	  */
-	public String getSQLStatement();
+	public java.lang.String getRollbackStatement();
 
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";
@@ -241,14 +239,23 @@ public interface I_AD_MigrationStep
 	  */
 	public int getSeqNo();
 
+    /** Column name SQLStatement */
+    public static final String COLUMNNAME_SQLStatement = "SQLStatement";
+
+	/** Set SQLStatement	  */
+	public void setSQLStatement (java.lang.String SQLStatement);
+
+	/** Get SQLStatement	  */
+	public java.lang.String getSQLStatement();
+
     /** Column name StatusCode */
     public static final String COLUMNNAME_StatusCode = "StatusCode";
 
 	/** Set Status Code	  */
-	public void setStatusCode (String StatusCode);
+	public void setStatusCode (java.lang.String StatusCode);
 
 	/** Get Status Code	  */
-	public String getStatusCode();
+	public java.lang.String getStatusCode();
 
     /** Column name StepType */
     public static final String COLUMNNAME_StepType = "StepType";
@@ -256,12 +263,21 @@ public interface I_AD_MigrationStep
 	/** Set Step type.
 	  * Migration step type
 	  */
-	public void setStepType (String StepType);
+	public void setStepType (java.lang.String StepType);
 
 	/** Get Step type.
 	  * Migration step type
 	  */
-	public String getStepType();
+	public java.lang.String getStepType();
+
+    /** Column name TableName */
+    public static final String COLUMNNAME_TableName = "TableName";
+
+	/** Set Name der DB-Tabelle	  */
+	public void setTableName (java.lang.String TableName);
+
+	/** Get Name der DB-Tabelle	  */
+	public java.lang.String getTableName();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -269,7 +285,7 @@ public interface I_AD_MigrationStep
 	/** Get Updated.
 	  * Date this record was updated
 	  */
-	public Timestamp getUpdated();
+	public java.sql.Timestamp getUpdated();
 
     /** Column name UpdatedBy */
     public static final String COLUMNNAME_UpdatedBy = "UpdatedBy";

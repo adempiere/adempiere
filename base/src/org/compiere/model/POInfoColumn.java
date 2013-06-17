@@ -128,6 +128,8 @@ public class POInfoColumn implements Serializable
 	public String       ColumnName;
 	/** Virtual Column 	*/
 	public String       ColumnSQL;
+	/** Is Lazy Loading */
+	public boolean		IsLazyLoading;
 	/** Display Type	*/
 	public int          DisplayType;
 	/**	Data Type		*/
@@ -168,6 +170,8 @@ public class POInfoColumn implements Serializable
 	public BigDecimal	ValueMin_BD = null;
 	/**	Max Value		*/
 	public BigDecimal	ValueMax_BD = null;
+	
+	public boolean		IsCalculated = false; // metas: pr50_us215
 
 	/**
 	 * 	String representation

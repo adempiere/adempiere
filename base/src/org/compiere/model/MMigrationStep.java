@@ -324,7 +324,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			{
 				po = table.getPO(0, get_TrxName());
 				po.set_ValueNoCheck(po.get_KeyColumns()[0], getRecord_ID() );
-				po.setIsDirectLoad(true);
+				po.setIsAssignedID(true);
 			}
 
 			for (MMigrationData data : m_migrationData )
@@ -436,7 +436,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 				po = table.getPO(0, get_TrxName());
 				// TODO: only works for single key tables
 				po.set_ValueNoCheck(po.get_KeyColumns()[0], getRecord_ID() );
-				po.setIsDirectLoad(true);
+				po.setIsAssignedID(true);
 			}
 
 			if ( getAction().equals(ACTION_Insert) && po != null) 

@@ -16,14 +16,11 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_MigrationData
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
  */
+@SuppressWarnings("javadoc")
 public interface I_AD_MigrationData 
 {
 
@@ -33,11 +30,11 @@ public interface I_AD_MigrationData
     /** AD_Table_ID=53219 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
-    KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
+    org.compiere.util.KeyNamePair Model = new org.compiere.util.KeyNamePair(Table_ID, Table_Name);
 
     /** AccessLevel = 4 - System 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(4);
+    java.math.BigDecimal accessLevel = java.math.BigDecimal.valueOf(4);
 
     /** Load Meta Data */
 
@@ -48,6 +45,8 @@ public interface I_AD_MigrationData
 	  * Client/Tenant for this installation.
 	  */
 	public int getAD_Client_ID();
+
+	public org.compiere.model.I_AD_Client getAD_Client() throws RuntimeException;
 
     /** Column name AD_Column_ID */
     public static final String COLUMNNAME_AD_Column_ID = "AD_Column_ID";
@@ -62,7 +61,9 @@ public interface I_AD_MigrationData
 	  */
 	public int getAD_Column_ID();
 
-	public I_AD_Column getAD_Column() throws RuntimeException;
+	public org.compiere.model.I_AD_Column getAD_Column() throws RuntimeException;
+
+	public void setAD_Column(org.compiere.model.I_AD_Column AD_Column);
 
     /** Column name AD_MigrationData_ID */
     public static final String COLUMNNAME_AD_MigrationData_ID = "AD_MigrationData_ID";
@@ -86,7 +87,9 @@ public interface I_AD_MigrationData
 	  */
 	public int getAD_MigrationStep_ID();
 
-	public I_AD_MigrationStep getAD_MigrationStep() throws RuntimeException;
+	public org.compiere.model.I_AD_MigrationStep getAD_MigrationStep() throws RuntimeException;
+
+	public void setAD_MigrationStep(org.compiere.model.I_AD_MigrationStep AD_MigrationStep);
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -101,18 +104,35 @@ public interface I_AD_MigrationData
 	  */
 	public int getAD_Org_ID();
 
+	public org.compiere.model.I_AD_Org getAD_Org() throws RuntimeException;
+
+	public void setAD_Org(org.compiere.model.I_AD_Org AD_Org);
+
     /** Column name BackupValue */
     public static final String COLUMNNAME_BackupValue = "BackupValue";
 
 	/** Set Backup Value.
 	  * The value of the column prior to migration.
 	  */
-	public void setBackupValue (String BackupValue);
+	public void setBackupValue (java.lang.String BackupValue);
 
 	/** Get Backup Value.
 	  * The value of the column prior to migration.
 	  */
-	public String getBackupValue();
+	public java.lang.String getBackupValue();
+
+    /** Column name ColumnName */
+    public static final String COLUMNNAME_ColumnName = "ColumnName";
+
+	/** Set Spaltenname.
+	  * Name der Spalte in der Datenbank
+	  */
+	public void setColumnName (java.lang.String ColumnName);
+
+	/** Get Spaltenname.
+	  * Name der Spalte in der Datenbank
+	  */
+	public java.lang.String getColumnName();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -120,7 +140,7 @@ public interface I_AD_MigrationData
 	/** Get Created.
 	  * Date this record was created
 	  */
-	public Timestamp getCreated();
+	public java.sql.Timestamp getCreated();
 
     /** Column name CreatedBy */
     public static final String COLUMNNAME_CreatedBy = "CreatedBy";
@@ -188,12 +208,12 @@ public interface I_AD_MigrationData
 	/** Set New Value.
 	  * New field value
 	  */
-	public void setNewValue (String NewValue);
+	public void setNewValue (java.lang.String NewValue);
 
 	/** Get New Value.
 	  * New field value
 	  */
-	public String getNewValue();
+	public java.lang.String getNewValue();
 
     /** Column name OldValue */
     public static final String COLUMNNAME_OldValue = "OldValue";
@@ -201,12 +221,12 @@ public interface I_AD_MigrationData
 	/** Set Old Value.
 	  * The old file data
 	  */
-	public void setOldValue (String OldValue);
+	public void setOldValue (java.lang.String OldValue);
 
 	/** Get Old Value.
 	  * The old file data
 	  */
-	public String getOldValue();
+	public java.lang.String getOldValue();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -214,7 +234,7 @@ public interface I_AD_MigrationData
 	/** Get Updated.
 	  * Date this record was updated
 	  */
-	public Timestamp getUpdated();
+	public java.sql.Timestamp getUpdated();
 
     /** Column name UpdatedBy */
     public static final String COLUMNNAME_UpdatedBy = "UpdatedBy";

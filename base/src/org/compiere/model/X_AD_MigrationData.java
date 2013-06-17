@@ -17,21 +17,20 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 
 /** Generated Model for AD_MigrationData
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
-public class X_AD_MigrationData extends PO implements I_AD_MigrationData, I_Persistent 
+ */
+@SuppressWarnings("javadoc")
+public class X_AD_MigrationData extends org.compiere.model.PO implements I_AD_MigrationData, org.compiere.model.I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 647594048L;
 
     /** Standard Constructor */
     public X_AD_MigrationData (Properties ctx, int AD_MigrationData_ID, String trxName)
@@ -54,18 +53,21 @@ public class X_AD_MigrationData extends PO implements I_AD_MigrationData, I_Pers
     /** AccessLevel
       * @return 4 - System 
       */
+    @Override
     protected int get_AccessLevel()
     {
       return accessLevel.intValue();
     }
 
     /** Load Meta Data */
-    protected POInfo initPO (Properties ctx)
+    @Override
+    protected org.compiere.model.POInfo initPO (Properties ctx)
     {
-      POInfo poi = POInfo.getPOInfo (ctx, Table_ID, get_TrxName());
+      org.compiere.model.POInfo poi = org.compiere.model.POInfo.getPOInfo (ctx, Table_ID, get_TrxName());
       return poi;
     }
 
+    @Override
     public String toString()
     {
       StringBuffer sb = new StringBuffer ("X_AD_MigrationData[")
@@ -73,26 +75,23 @@ public class X_AD_MigrationData extends PO implements I_AD_MigrationData, I_Pers
       return sb.toString();
     }
 
-	public I_AD_Column getAD_Column() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_AD_Column.Table_Name);
-        I_AD_Column result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Column)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Column_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+	@Override
+	public org.compiere.model.I_AD_Column getAD_Column() throws RuntimeException
+	{
+		return get_ValueAsPO(COLUMNNAME_AD_Column_ID, org.compiere.model.I_AD_Column.class);
+	}
+
+	@Override
+	public void setAD_Column(org.compiere.model.I_AD_Column AD_Column)
+	{
+		set_ValueFromPO(COLUMNNAME_AD_Column_ID, org.compiere.model.I_AD_Column.class, AD_Column);
+	}
 
 	/** Set Column.
 		@param AD_Column_ID 
 		Column in the table
 	  */
+	@Override
 	public void setAD_Column_ID (int AD_Column_ID)
 	{
 		if (AD_Column_ID < 1) 
@@ -104,6 +103,7 @@ public class X_AD_MigrationData extends PO implements I_AD_MigrationData, I_Pers
 	/** Get Column.
 		@return Column in the table
 	  */
+	@Override
 	public int getAD_Column_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Column_ID);
@@ -114,6 +114,7 @@ public class X_AD_MigrationData extends PO implements I_AD_MigrationData, I_Pers
 
 	/** Set Migration data.
 		@param AD_MigrationData_ID Migration data	  */
+	@Override
 	public void setAD_MigrationData_ID (int AD_MigrationData_ID)
 	{
 		if (AD_MigrationData_ID < 1) 
@@ -124,6 +125,7 @@ public class X_AD_MigrationData extends PO implements I_AD_MigrationData, I_Pers
 
 	/** Get Migration data.
 		@return Migration data	  */
+	@Override
 	public int getAD_MigrationData_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_MigrationData_ID);
@@ -132,26 +134,23 @@ public class X_AD_MigrationData extends PO implements I_AD_MigrationData, I_Pers
 		return ii.intValue();
 	}
 
-	public I_AD_MigrationStep getAD_MigrationStep() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_AD_MigrationStep.Table_Name);
-        I_AD_MigrationStep result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_MigrationStep)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_MigrationStep_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+	@Override
+	public org.compiere.model.I_AD_MigrationStep getAD_MigrationStep() throws RuntimeException
+	{
+		return get_ValueAsPO(COLUMNNAME_AD_MigrationStep_ID, org.compiere.model.I_AD_MigrationStep.class);
+	}
+
+	@Override
+	public void setAD_MigrationStep(org.compiere.model.I_AD_MigrationStep AD_MigrationStep)
+	{
+		set_ValueFromPO(COLUMNNAME_AD_MigrationStep_ID, org.compiere.model.I_AD_MigrationStep.class, AD_MigrationStep);
+	}
 
 	/** Set Migration step.
 		@param AD_MigrationStep_ID 
 		A single step in the migration process
 	  */
+	@Override
 	public void setAD_MigrationStep_ID (int AD_MigrationStep_ID)
 	{
 		if (AD_MigrationStep_ID < 1) 
@@ -163,6 +162,7 @@ public class X_AD_MigrationData extends PO implements I_AD_MigrationData, I_Pers
 	/** Get Migration step.
 		@return A single step in the migration process
 	  */
+	@Override
 	public int getAD_MigrationStep_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_MigrationStep_ID);
@@ -175,7 +175,8 @@ public class X_AD_MigrationData extends PO implements I_AD_MigrationData, I_Pers
 		@param BackupValue 
 		The value of the column prior to migration.
 	  */
-	public void setBackupValue (String BackupValue)
+	@Override
+	public void setBackupValue (java.lang.String BackupValue)
 	{
 		set_Value (COLUMNNAME_BackupValue, BackupValue);
 	}
@@ -183,15 +184,36 @@ public class X_AD_MigrationData extends PO implements I_AD_MigrationData, I_Pers
 	/** Get Backup Value.
 		@return The value of the column prior to migration.
 	  */
-	public String getBackupValue () 
+	@Override
+	public java.lang.String getBackupValue () 
 	{
-		return (String)get_Value(COLUMNNAME_BackupValue);
+		return (java.lang.String)get_Value(COLUMNNAME_BackupValue);
+	}
+
+	/** Set Spaltenname.
+		@param ColumnName 
+		Name der Spalte in der Datenbank
+	  */
+	@Override
+	public void setColumnName (java.lang.String ColumnName)
+	{
+		set_Value (COLUMNNAME_ColumnName, ColumnName);
+	}
+
+	/** Get Spaltenname.
+		@return Name der Spalte in der Datenbank
+	  */
+	@Override
+	public java.lang.String getColumnName () 
+	{
+		return (java.lang.String)get_Value(COLUMNNAME_ColumnName);
 	}
 
 	/** Set Backup value null.
 		@param IsBackupNull 
 		The backup value is null.
 	  */
+	@Override
 	public void setIsBackupNull (boolean IsBackupNull)
 	{
 		set_Value (COLUMNNAME_IsBackupNull, Boolean.valueOf(IsBackupNull));
@@ -200,6 +222,7 @@ public class X_AD_MigrationData extends PO implements I_AD_MigrationData, I_Pers
 	/** Get Backup value null.
 		@return The backup value is null.
 	  */
+	@Override
 	public boolean isBackupNull () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsBackupNull);
@@ -216,6 +239,7 @@ public class X_AD_MigrationData extends PO implements I_AD_MigrationData, I_Pers
 		@param IsNewNull 
 		The new value is null.
 	  */
+	@Override
 	public void setIsNewNull (boolean IsNewNull)
 	{
 		set_Value (COLUMNNAME_IsNewNull, Boolean.valueOf(IsNewNull));
@@ -224,6 +248,7 @@ public class X_AD_MigrationData extends PO implements I_AD_MigrationData, I_Pers
 	/** Get New value null.
 		@return The new value is null.
 	  */
+	@Override
 	public boolean isNewNull () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsNewNull);
@@ -240,6 +265,7 @@ public class X_AD_MigrationData extends PO implements I_AD_MigrationData, I_Pers
 		@param IsOldNull 
 		The old value was null.
 	  */
+	@Override
 	public void setIsOldNull (boolean IsOldNull)
 	{
 		set_Value (COLUMNNAME_IsOldNull, Boolean.valueOf(IsOldNull));
@@ -248,6 +274,7 @@ public class X_AD_MigrationData extends PO implements I_AD_MigrationData, I_Pers
 	/** Get Old value null.
 		@return The old value was null.
 	  */
+	@Override
 	public boolean isOldNull () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsOldNull);
@@ -264,7 +291,8 @@ public class X_AD_MigrationData extends PO implements I_AD_MigrationData, I_Pers
 		@param NewValue 
 		New field value
 	  */
-	public void setNewValue (String NewValue)
+	@Override
+	public void setNewValue (java.lang.String NewValue)
 	{
 		set_Value (COLUMNNAME_NewValue, NewValue);
 	}
@@ -272,16 +300,18 @@ public class X_AD_MigrationData extends PO implements I_AD_MigrationData, I_Pers
 	/** Get New Value.
 		@return New field value
 	  */
-	public String getNewValue () 
+	@Override
+	public java.lang.String getNewValue () 
 	{
-		return (String)get_Value(COLUMNNAME_NewValue);
+		return (java.lang.String)get_Value(COLUMNNAME_NewValue);
 	}
 
 	/** Set Old Value.
 		@param OldValue 
 		The old file data
 	  */
-	public void setOldValue (String OldValue)
+	@Override
+	public void setOldValue (java.lang.String OldValue)
 	{
 		set_Value (COLUMNNAME_OldValue, OldValue);
 	}
@@ -289,8 +319,9 @@ public class X_AD_MigrationData extends PO implements I_AD_MigrationData, I_Pers
 	/** Get Old Value.
 		@return The old file data
 	  */
-	public String getOldValue () 
+	@Override
+	public java.lang.String getOldValue () 
 	{
-		return (String)get_Value(COLUMNNAME_OldValue);
+		return (java.lang.String)get_Value(COLUMNNAME_OldValue);
 	}
 }

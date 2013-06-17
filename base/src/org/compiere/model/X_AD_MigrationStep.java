@@ -17,21 +17,20 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 
 /** Generated Model for AD_MigrationStep
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
-public class X_AD_MigrationStep extends PO implements I_AD_MigrationStep, I_Persistent 
+ */
+@SuppressWarnings("javadoc")
+public class X_AD_MigrationStep extends org.compiere.model.PO implements I_AD_MigrationStep, org.compiere.model.I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = -847380183L;
 
     /** Standard Constructor */
     public X_AD_MigrationStep (Properties ctx, int AD_MigrationStep_ID, String trxName)
@@ -39,8 +38,8 @@ public class X_AD_MigrationStep extends PO implements I_AD_MigrationStep, I_Pers
       super (ctx, AD_MigrationStep_ID, trxName);
       /** if (AD_MigrationStep_ID == 0)
         {
-			setAD_MigrationStep_ID (0);
 			setAD_Migration_ID (0);
+			setAD_MigrationStep_ID (0);
 			setSeqNo (0);
 			setStepType (null);
         } */
@@ -55,18 +54,21 @@ public class X_AD_MigrationStep extends PO implements I_AD_MigrationStep, I_Pers
     /** AccessLevel
       * @return 4 - System 
       */
+    @Override
     protected int get_AccessLevel()
     {
       return accessLevel.intValue();
     }
 
     /** Load Meta Data */
-    protected POInfo initPO (Properties ctx)
+    @Override
+    protected org.compiere.model.POInfo initPO (Properties ctx)
     {
-      POInfo poi = POInfo.getPOInfo (ctx, Table_ID, get_TrxName());
+      org.compiere.model.POInfo poi = org.compiere.model.POInfo.getPOInfo (ctx, Table_ID, get_TrxName());
       return poi;
     }
 
+    @Override
     public String toString()
     {
       StringBuffer sb = new StringBuffer ("X_AD_MigrationStep[")
@@ -74,108 +76,10 @@ public class X_AD_MigrationStep extends PO implements I_AD_MigrationStep, I_Pers
       return sb.toString();
     }
 
-	/** Set Migration step.
-		@param AD_MigrationStep_ID 
-		A single step in the migration process
-	  */
-	public void setAD_MigrationStep_ID (int AD_MigrationStep_ID)
-	{
-		if (AD_MigrationStep_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_MigrationStep_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_MigrationStep_ID, Integer.valueOf(AD_MigrationStep_ID));
-	}
-
-	/** Get Migration step.
-		@return A single step in the migration process
-	  */
-	public int getAD_MigrationStep_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_MigrationStep_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_AD_Migration getAD_Migration() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_AD_Migration.Table_Name);
-        I_AD_Migration result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Migration)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Migration_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set Migration.
-		@param AD_Migration_ID 
-		Migration change management.
-	  */
-	public void setAD_Migration_ID (int AD_Migration_ID)
-	{
-		if (AD_Migration_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_Migration_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_Migration_ID, Integer.valueOf(AD_Migration_ID));
-	}
-
-	/** Get Migration.
-		@return Migration change management.
-	  */
-	public int getAD_Migration_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Migration_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_AD_Table getAD_Table() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
-        I_AD_Table result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Table)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Table_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set Table.
-		@param AD_Table_ID 
-		Database Table information
-	  */
-	public void setAD_Table_ID (int AD_Table_ID)
-	{
-		if (AD_Table_ID < 1) 
-			set_Value (COLUMNNAME_AD_Table_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
-	}
-
-	/** Get Table.
-		@return Database Table information
-	  */
-	public int getAD_Table_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Table_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Action AD_Reference_ID=53238 */
+	/** 
+	 * Action AD_Reference_ID=53238
+	 * Reference name: EventChangeLog
+	 */
 	public static final int ACTION_AD_Reference_ID=53238;
 	/** Insert = I */
 	public static final String ACTION_Insert = "I";
@@ -187,7 +91,8 @@ public class X_AD_MigrationStep extends PO implements I_AD_MigrationStep, I_Pers
 		@param Action 
 		Indicates the Action to be performed
 	  */
-	public void setAction (String Action)
+	@Override
+	public void setAction (java.lang.String Action)
 	{
 
 		set_Value (COLUMNNAME_Action, Action);
@@ -196,12 +101,115 @@ public class X_AD_MigrationStep extends PO implements I_AD_MigrationStep, I_Pers
 	/** Get Action.
 		@return Indicates the Action to be performed
 	  */
-	public String getAction () 
+	@Override
+	public java.lang.String getAction () 
 	{
-		return (String)get_Value(COLUMNNAME_Action);
+		return (java.lang.String)get_Value(COLUMNNAME_Action);
 	}
 
-	/** Apply AD_Reference_ID=53312 */
+	@Override
+	public org.compiere.model.I_AD_Migration getAD_Migration() throws RuntimeException
+	{
+		return get_ValueAsPO(COLUMNNAME_AD_Migration_ID, org.compiere.model.I_AD_Migration.class);
+	}
+
+	@Override
+	public void setAD_Migration(org.compiere.model.I_AD_Migration AD_Migration)
+	{
+		set_ValueFromPO(COLUMNNAME_AD_Migration_ID, org.compiere.model.I_AD_Migration.class, AD_Migration);
+	}
+
+	/** Set Migration.
+		@param AD_Migration_ID 
+		Migration change management.
+	  */
+	@Override
+	public void setAD_Migration_ID (int AD_Migration_ID)
+	{
+		if (AD_Migration_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Migration_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Migration_ID, Integer.valueOf(AD_Migration_ID));
+	}
+
+	/** Get Migration.
+		@return Migration change management.
+	  */
+	@Override
+	public int getAD_Migration_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Migration_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Migration step.
+		@param AD_MigrationStep_ID 
+		A single step in the migration process
+	  */
+	@Override
+	public void setAD_MigrationStep_ID (int AD_MigrationStep_ID)
+	{
+		if (AD_MigrationStep_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_MigrationStep_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_MigrationStep_ID, Integer.valueOf(AD_MigrationStep_ID));
+	}
+
+	/** Get Migration step.
+		@return A single step in the migration process
+	  */
+	@Override
+	public int getAD_MigrationStep_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_MigrationStep_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	@Override
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException
+	{
+		return get_ValueAsPO(COLUMNNAME_AD_Table_ID, org.compiere.model.I_AD_Table.class);
+	}
+
+	@Override
+	public void setAD_Table(org.compiere.model.I_AD_Table AD_Table)
+	{
+		set_ValueFromPO(COLUMNNAME_AD_Table_ID, org.compiere.model.I_AD_Table.class, AD_Table);
+	}
+
+	/** Set Table.
+		@param AD_Table_ID 
+		Database Table information
+	  */
+	@Override
+	public void setAD_Table_ID (int AD_Table_ID)
+	{
+		if (AD_Table_ID < 1) 
+			set_Value (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+	}
+
+	/** Get Table.
+		@return Database Table information
+	  */
+	@Override
+	public int getAD_Table_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Table_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** 
+	 * Apply AD_Reference_ID=53312
+	 * Reference name: AD_Migration Apply/Rollback
+	 */
 	public static final int APPLY_AD_Reference_ID=53312;
 	/** Apply = A */
 	public static final String APPLY_Apply = "A";
@@ -211,7 +219,8 @@ public class X_AD_MigrationStep extends PO implements I_AD_MigrationStep, I_Pers
 		@param Apply 
 		Apply migration
 	  */
-	public void setApply (String Apply)
+	@Override
+	public void setApply (java.lang.String Apply)
 	{
 
 		set_Value (COLUMNNAME_Apply, Apply);
@@ -220,16 +229,18 @@ public class X_AD_MigrationStep extends PO implements I_AD_MigrationStep, I_Pers
 	/** Get Apply.
 		@return Apply migration
 	  */
-	public String getApply () 
+	@Override
+	public java.lang.String getApply () 
 	{
-		return (String)get_Value(COLUMNNAME_Apply);
+		return (java.lang.String)get_Value(COLUMNNAME_Apply);
 	}
 
 	/** Set Comments.
 		@param Comments 
 		Comments or additional information
 	  */
-	public void setComments (String Comments)
+	@Override
+	public void setComments (java.lang.String Comments)
 	{
 		set_Value (COLUMNNAME_Comments, Comments);
 	}
@@ -237,12 +248,16 @@ public class X_AD_MigrationStep extends PO implements I_AD_MigrationStep, I_Pers
 	/** Get Comments.
 		@return Comments or additional information
 	  */
-	public String getComments () 
+	@Override
+	public java.lang.String getComments () 
 	{
-		return (String)get_Value(COLUMNNAME_Comments);
+		return (java.lang.String)get_Value(COLUMNNAME_Comments);
 	}
 
-	/** DBType AD_Reference_ID=50003 */
+	/** 
+	 * DBType AD_Reference_ID=50003
+	 * Reference name: AD_Package_Exp_DB
+	 */
 	public static final int DBTYPE_AD_Reference_ID=50003;
 	/** All Database Types = ALL */
 	public static final String DBTYPE_AllDatabaseTypes = "ALL";
@@ -262,7 +277,8 @@ public class X_AD_MigrationStep extends PO implements I_AD_MigrationStep, I_Pers
 	public static final String DBTYPE_Sybase = "Sybase";
 	/** Set DBType.
 		@param DBType DBType	  */
-	public void setDBType (String DBType)
+	@Override
+	public void setDBType (java.lang.String DBType)
 	{
 
 		set_Value (COLUMNNAME_DBType, DBType);
@@ -270,29 +286,33 @@ public class X_AD_MigrationStep extends PO implements I_AD_MigrationStep, I_Pers
 
 	/** Get DBType.
 		@return DBType	  */
-	public String getDBType () 
+	@Override
+	public java.lang.String getDBType () 
 	{
-		return (String)get_Value(COLUMNNAME_DBType);
+		return (java.lang.String)get_Value(COLUMNNAME_DBType);
 	}
 
 	/** Set Error Msg.
 		@param ErrorMsg Error Msg	  */
-	public void setErrorMsg (String ErrorMsg)
+	@Override
+	public void setErrorMsg (java.lang.String ErrorMsg)
 	{
 		set_ValueNoCheck (COLUMNNAME_ErrorMsg, ErrorMsg);
 	}
 
 	/** Get Error Msg.
 		@return Error Msg	  */
-	public String getErrorMsg () 
+	@Override
+	public java.lang.String getErrorMsg () 
 	{
-		return (String)get_Value(COLUMNNAME_ErrorMsg);
+		return (java.lang.String)get_Value(COLUMNNAME_ErrorMsg);
 	}
 
 	/** Set Record ID.
 		@param Record_ID 
 		Direct internal record ID
 	  */
+	@Override
 	public void setRecord_ID (int Record_ID)
 	{
 		if (Record_ID < 0) 
@@ -304,6 +324,7 @@ public class X_AD_MigrationStep extends PO implements I_AD_MigrationStep, I_Pers
 	/** Get Record ID.
 		@return Direct internal record ID
 	  */
+	@Override
 	public int getRecord_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_Record_ID);
@@ -316,7 +337,8 @@ public class X_AD_MigrationStep extends PO implements I_AD_MigrationStep, I_Pers
 		@param RollbackStatement 
 		SQL statement to rollback the current step.
 	  */
-	public void setRollbackStatement (String RollbackStatement)
+	@Override
+	public void setRollbackStatement (java.lang.String RollbackStatement)
 	{
 		set_Value (COLUMNNAME_RollbackStatement, RollbackStatement);
 	}
@@ -324,29 +346,17 @@ public class X_AD_MigrationStep extends PO implements I_AD_MigrationStep, I_Pers
 	/** Get Rollback Statement.
 		@return SQL statement to rollback the current step.
 	  */
-	public String getRollbackStatement () 
+	@Override
+	public java.lang.String getRollbackStatement () 
 	{
-		return (String)get_Value(COLUMNNAME_RollbackStatement);
-	}
-
-	/** Set SQLStatement.
-		@param SQLStatement SQLStatement	  */
-	public void setSQLStatement (String SQLStatement)
-	{
-		set_Value (COLUMNNAME_SQLStatement, SQLStatement);
-	}
-
-	/** Get SQLStatement.
-		@return SQLStatement	  */
-	public String getSQLStatement () 
-	{
-		return (String)get_Value(COLUMNNAME_SQLStatement);
+		return (java.lang.String)get_Value(COLUMNNAME_RollbackStatement);
 	}
 
 	/** Set Sequence.
 		@param SeqNo 
 		Method of ordering records; lowest number comes first
 	  */
+	@Override
 	public void setSeqNo (int SeqNo)
 	{
 		set_Value (COLUMNNAME_SeqNo, Integer.valueOf(SeqNo));
@@ -355,6 +365,7 @@ public class X_AD_MigrationStep extends PO implements I_AD_MigrationStep, I_Pers
 	/** Get Sequence.
 		@return Method of ordering records; lowest number comes first
 	  */
+	@Override
 	public int getSeqNo () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_SeqNo);
@@ -363,7 +374,26 @@ public class X_AD_MigrationStep extends PO implements I_AD_MigrationStep, I_Pers
 		return ii.intValue();
 	}
 
-	/** StatusCode AD_Reference_ID=53311 */
+	/** Set SQLStatement.
+		@param SQLStatement SQLStatement	  */
+	@Override
+	public void setSQLStatement (java.lang.String SQLStatement)
+	{
+		set_Value (COLUMNNAME_SQLStatement, SQLStatement);
+	}
+
+	/** Get SQLStatement.
+		@return SQLStatement	  */
+	@Override
+	public java.lang.String getSQLStatement () 
+	{
+		return (java.lang.String)get_Value(COLUMNNAME_SQLStatement);
+	}
+
+	/** 
+	 * StatusCode AD_Reference_ID=53311
+	 * Reference name: AD_Migration Status
+	 */
 	public static final int STATUSCODE_AD_Reference_ID=53311;
 	/** Applied = A */
 	public static final String STATUSCODE_Applied = "A";
@@ -375,7 +405,8 @@ public class X_AD_MigrationStep extends PO implements I_AD_MigrationStep, I_Pers
 	public static final String STATUSCODE_PartiallyApplied = "P";
 	/** Set Status Code.
 		@param StatusCode Status Code	  */
-	public void setStatusCode (String StatusCode)
+	@Override
+	public void setStatusCode (java.lang.String StatusCode)
 	{
 
 		set_ValueNoCheck (COLUMNNAME_StatusCode, StatusCode);
@@ -383,12 +414,16 @@ public class X_AD_MigrationStep extends PO implements I_AD_MigrationStep, I_Pers
 
 	/** Get Status Code.
 		@return Status Code	  */
-	public String getStatusCode () 
+	@Override
+	public java.lang.String getStatusCode () 
 	{
-		return (String)get_Value(COLUMNNAME_StatusCode);
+		return (java.lang.String)get_Value(COLUMNNAME_StatusCode);
 	}
 
-	/** StepType AD_Reference_ID=53313 */
+	/** 
+	 * StepType AD_Reference_ID=53313
+	 * Reference name: Migration step type
+	 */
 	public static final int STEPTYPE_AD_Reference_ID=53313;
 	/** Application Dictionary = AD */
 	public static final String STEPTYPE_ApplicationDictionary = "AD";
@@ -398,7 +433,8 @@ public class X_AD_MigrationStep extends PO implements I_AD_MigrationStep, I_Pers
 		@param StepType 
 		Migration step type
 	  */
-	public void setStepType (String StepType)
+	@Override
+	public void setStepType (java.lang.String StepType)
 	{
 
 		set_ValueNoCheck (COLUMNNAME_StepType, StepType);
@@ -407,8 +443,25 @@ public class X_AD_MigrationStep extends PO implements I_AD_MigrationStep, I_Pers
 	/** Get Step type.
 		@return Migration step type
 	  */
-	public String getStepType () 
+	@Override
+	public java.lang.String getStepType () 
 	{
-		return (String)get_Value(COLUMNNAME_StepType);
+		return (java.lang.String)get_Value(COLUMNNAME_StepType);
+	}
+
+	/** Set Name der DB-Tabelle.
+		@param TableName Name der DB-Tabelle	  */
+	@Override
+	public void setTableName (java.lang.String TableName)
+	{
+		set_Value (COLUMNNAME_TableName, TableName);
+	}
+
+	/** Get Name der DB-Tabelle.
+		@return Name der DB-Tabelle	  */
+	@Override
+	public java.lang.String getTableName () 
+	{
+		return (java.lang.String)get_Value(COLUMNNAME_TableName);
 	}
 }

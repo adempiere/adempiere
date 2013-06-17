@@ -22,14 +22,15 @@ import java.util.Properties;
 
 /** Generated Model for AD_Migration
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
-public class X_AD_Migration extends PO implements I_AD_Migration, I_Persistent 
+ */
+@SuppressWarnings("javadoc")
+public class X_AD_Migration extends org.compiere.model.PO implements I_AD_Migration, org.compiere.model.I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = -1668603529L;
 
     /** Standard Constructor */
     public X_AD_Migration (Properties ctx, int AD_Migration_ID, String trxName)
@@ -40,6 +41,8 @@ public class X_AD_Migration extends PO implements I_AD_Migration, I_Persistent
 			setAD_Migration_ID (0);
 			setEntityType (null);
 // 'U'
+			setIsDeferredConstraints (false);
+// N
 			setName (null);
 			setSeqNo (0);
         } */
@@ -54,18 +57,21 @@ public class X_AD_Migration extends PO implements I_AD_Migration, I_Persistent
     /** AccessLevel
       * @return 4 - System 
       */
+    @Override
     protected int get_AccessLevel()
     {
       return accessLevel.intValue();
     }
 
     /** Load Meta Data */
-    protected POInfo initPO (Properties ctx)
+    @Override
+    protected org.compiere.model.POInfo initPO (Properties ctx)
     {
-      POInfo poi = POInfo.getPOInfo (ctx, Table_ID, get_TrxName());
+      org.compiere.model.POInfo poi = org.compiere.model.POInfo.getPOInfo (ctx, Table_ID, get_TrxName());
       return poi;
     }
 
+    @Override
     public String toString()
     {
       StringBuffer sb = new StringBuffer ("X_AD_Migration[")
@@ -77,6 +83,7 @@ public class X_AD_Migration extends PO implements I_AD_Migration, I_Persistent
 		@param AD_Migration_ID 
 		Migration change management.
 	  */
+	@Override
 	public void setAD_Migration_ID (int AD_Migration_ID)
 	{
 		if (AD_Migration_ID < 1) 
@@ -88,6 +95,7 @@ public class X_AD_Migration extends PO implements I_AD_Migration, I_Persistent
 	/** Get Migration.
 		@return Migration change management.
 	  */
+	@Override
 	public int getAD_Migration_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Migration_ID);
@@ -96,7 +104,10 @@ public class X_AD_Migration extends PO implements I_AD_Migration, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Apply AD_Reference_ID=53312 */
+	/** 
+	 * Apply AD_Reference_ID=53312
+	 * Reference name: AD_Migration Apply/Rollback
+	 */
 	public static final int APPLY_AD_Reference_ID=53312;
 	/** Apply = A */
 	public static final String APPLY_Apply = "A";
@@ -106,7 +117,8 @@ public class X_AD_Migration extends PO implements I_AD_Migration, I_Persistent
 		@param Apply 
 		Apply migration
 	  */
-	public void setApply (String Apply)
+	@Override
+	public void setApply (java.lang.String Apply)
 	{
 
 		set_Value (COLUMNNAME_Apply, Apply);
@@ -115,16 +127,18 @@ public class X_AD_Migration extends PO implements I_AD_Migration, I_Persistent
 	/** Get Apply.
 		@return Apply migration
 	  */
-	public String getApply () 
+	@Override
+	public java.lang.String getApply () 
 	{
-		return (String)get_Value(COLUMNNAME_Apply);
+		return (java.lang.String)get_Value(COLUMNNAME_Apply);
 	}
 
 	/** Set Comments.
 		@param Comments 
 		Comments or additional information
 	  */
-	public void setComments (String Comments)
+	@Override
+	public void setComments (java.lang.String Comments)
 	{
 		set_Value (COLUMNNAME_Comments, Comments);
 	}
@@ -132,18 +146,23 @@ public class X_AD_Migration extends PO implements I_AD_Migration, I_Persistent
 	/** Get Comments.
 		@return Comments or additional information
 	  */
-	public String getComments () 
+	@Override
+	public java.lang.String getComments () 
 	{
-		return (String)get_Value(COLUMNNAME_Comments);
+		return (java.lang.String)get_Value(COLUMNNAME_Comments);
 	}
 
-	/** EntityType AD_Reference_ID=389 */
+	/** 
+	 * EntityType AD_Reference_ID=389
+	 * Reference name: _EntityTypeNew
+	 */
 	public static final int ENTITYTYPE_AD_Reference_ID=389;
 	/** Set Entity Type.
 		@param EntityType 
 		Dictionary Entity Type; Determines ownership and synchronization
 	  */
-	public void setEntityType (String EntityType)
+	@Override
+	public void setEntityType (java.lang.String EntityType)
 	{
 
 		set_Value (COLUMNNAME_EntityType, EntityType);
@@ -152,16 +171,18 @@ public class X_AD_Migration extends PO implements I_AD_Migration, I_Persistent
 	/** Get Entity Type.
 		@return Dictionary Entity Type; Determines ownership and synchronization
 	  */
-	public String getEntityType () 
+	@Override
+	public java.lang.String getEntityType () 
 	{
-		return (String)get_Value(COLUMNNAME_EntityType);
+		return (java.lang.String)get_Value(COLUMNNAME_EntityType);
 	}
 
 	/** Set Export to XML.
 		@param ExportXML 
 		Export this record to XML
 	  */
-	public void setExportXML (String ExportXML)
+	@Override
+	public void setExportXML (java.lang.String ExportXML)
 	{
 		set_Value (COLUMNNAME_ExportXML, ExportXML);
 	}
@@ -169,16 +190,41 @@ public class X_AD_Migration extends PO implements I_AD_Migration, I_Persistent
 	/** Get Export to XML.
 		@return Export this record to XML
 	  */
-	public String getExportXML () 
+	@Override
+	public java.lang.String getExportXML () 
 	{
-		return (String)get_Value(COLUMNNAME_ExportXML);
+		return (java.lang.String)get_Value(COLUMNNAME_ExportXML);
+	}
+
+	/** Set Defer Constraints.
+		@param IsDeferredConstraints Defer Constraints	  */
+	@Override
+	public void setIsDeferredConstraints (boolean IsDeferredConstraints)
+	{
+		set_Value (COLUMNNAME_IsDeferredConstraints, Boolean.valueOf(IsDeferredConstraints));
+	}
+
+	/** Get Defer Constraints.
+		@return Defer Constraints	  */
+	@Override
+	public boolean isDeferredConstraints () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsDeferredConstraints);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Name.
 		@param Name 
 		Alphanumeric identifier of the entity
 	  */
-	public void setName (String Name)
+	@Override
+	public void setName (java.lang.String Name)
 	{
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -186,16 +232,26 @@ public class X_AD_Migration extends PO implements I_AD_Migration, I_Persistent
 	/** Get Name.
 		@return Alphanumeric identifier of the entity
 	  */
-	public String getName () 
+	@Override
+	public java.lang.String getName () 
 	{
-		return (String)get_Value(COLUMNNAME_Name);
+		return (java.lang.String)get_Value(COLUMNNAME_Name);
 	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public org.compiere.util.KeyNamePair getKeyNamePair() 
+    {
+        return new org.compiere.util.KeyNamePair(get_ID(), getName());
+    }
 
 	/** Set Release No.
 		@param ReleaseNo 
 		Internal Release Number
 	  */
-	public void setReleaseNo (String ReleaseNo)
+	@Override
+	public void setReleaseNo (java.lang.String ReleaseNo)
 	{
 		set_Value (COLUMNNAME_ReleaseNo, ReleaseNo);
 	}
@@ -203,23 +259,26 @@ public class X_AD_Migration extends PO implements I_AD_Migration, I_Persistent
 	/** Get Release No.
 		@return Internal Release Number
 	  */
-	public String getReleaseNo () 
+	@Override
+	public java.lang.String getReleaseNo () 
 	{
-		return (String)get_Value(COLUMNNAME_ReleaseNo);
+		return (java.lang.String)get_Value(COLUMNNAME_ReleaseNo);
 	}
 
 	/** Set Sequence.
 		@param SeqNo 
 		Method of ordering records; lowest number comes first
 	  */
+	@Override
 	public void setSeqNo (int SeqNo)
 	{
-		set_ValueNoCheck (COLUMNNAME_SeqNo, Integer.valueOf(SeqNo));
+		set_Value (COLUMNNAME_SeqNo, Integer.valueOf(SeqNo));
 	}
 
 	/** Get Sequence.
 		@return Method of ordering records; lowest number comes first
 	  */
+	@Override
 	public int getSeqNo () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_SeqNo);
@@ -228,7 +287,10 @@ public class X_AD_Migration extends PO implements I_AD_Migration, I_Persistent
 		return ii.intValue();
 	}
 
-	/** StatusCode AD_Reference_ID=53311 */
+	/** 
+	 * StatusCode AD_Reference_ID=53311
+	 * Reference name: AD_Migration Status
+	 */
 	public static final int STATUSCODE_AD_Reference_ID=53311;
 	/** Applied = A */
 	public static final String STATUSCODE_Applied = "A";
@@ -240,7 +302,8 @@ public class X_AD_Migration extends PO implements I_AD_Migration, I_Persistent
 	public static final String STATUSCODE_PartiallyApplied = "P";
 	/** Set Status Code.
 		@param StatusCode Status Code	  */
-	public void setStatusCode (String StatusCode)
+	@Override
+	public void setStatusCode (java.lang.String StatusCode)
 	{
 
 		set_Value (COLUMNNAME_StatusCode, StatusCode);
@@ -248,8 +311,9 @@ public class X_AD_Migration extends PO implements I_AD_Migration, I_Persistent
 
 	/** Get Status Code.
 		@return Status Code	  */
-	public String getStatusCode () 
+	@Override
+	public java.lang.String getStatusCode () 
 	{
-		return (String)get_Value(COLUMNNAME_StatusCode);
+		return (java.lang.String)get_Value(COLUMNNAME_StatusCode);
 	}
 }
