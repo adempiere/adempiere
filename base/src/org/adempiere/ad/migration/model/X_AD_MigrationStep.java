@@ -20,11 +20,6 @@ package org.adempiere.ad.migration.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
-import org.compiere.model.I_AD_Table;
-import org.compiere.model.I_Persistent;
-import org.compiere.model.PO;
-import org.compiere.model.POInfo;
-
 /** Generated Model for AD_MigrationStep
  *  @author Adempiere (generated) 
  */
@@ -35,7 +30,7 @@ public class X_AD_MigrationStep extends org.compiere.model.PO implements I_AD_Mi
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = -847380183L;
+	private static final long serialVersionUID = -253829267L;
 
     /** Standard Constructor */
     public X_AD_MigrationStep (Properties ctx, int AD_MigrationStep_ID, String trxName)
@@ -56,20 +51,12 @@ public class X_AD_MigrationStep extends org.compiere.model.PO implements I_AD_Mi
       super (ctx, rs, trxName);
     }
 
-    /** AccessLevel
-      * @return 4 - System 
-      */
-    @Override
-    protected int get_AccessLevel()
-    {
-      return accessLevel.intValue();
-    }
 
     /** Load Meta Data */
     @Override
     protected org.compiere.model.POInfo initPO (Properties ctx)
     {
-      org.compiere.model.POInfo poi = org.compiere.model.POInfo.getPOInfo (ctx, Table_ID, get_TrxName());
+      org.compiere.model.POInfo poi = org.compiere.model.POInfo.getPOInfo (ctx, Table_Name, get_TrxName());
       return poi;
     }
 

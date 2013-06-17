@@ -20,10 +20,6 @@ package org.adempiere.ad.migration.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
-import org.compiere.model.I_Persistent;
-import org.compiere.model.PO;
-import org.compiere.model.POInfo;
-
 /** Generated Model for AD_Migration
  *  @author Adempiere (generated) 
  */
@@ -34,7 +30,7 @@ public class X_AD_Migration extends org.compiere.model.PO implements I_AD_Migrat
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = -1668603529L;
+	private static final long serialVersionUID = 283394035L;
 
     /** Standard Constructor */
     public X_AD_Migration (Properties ctx, int AD_Migration_ID, String trxName)
@@ -58,20 +54,12 @@ public class X_AD_Migration extends org.compiere.model.PO implements I_AD_Migrat
       super (ctx, rs, trxName);
     }
 
-    /** AccessLevel
-      * @return 4 - System 
-      */
-    @Override
-    protected int get_AccessLevel()
-    {
-      return accessLevel.intValue();
-    }
 
     /** Load Meta Data */
     @Override
     protected org.compiere.model.POInfo initPO (Properties ctx)
     {
-      org.compiere.model.POInfo poi = org.compiere.model.POInfo.getPOInfo (ctx, Table_ID, get_TrxName());
+      org.compiere.model.POInfo poi = org.compiere.model.POInfo.getPOInfo (ctx, Table_Name, get_TrxName());
       return poi;
     }
 
@@ -241,14 +229,6 @@ public class X_AD_Migration extends org.compiere.model.PO implements I_AD_Migrat
 	{
 		return (java.lang.String)get_Value(COLUMNNAME_Name);
 	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public org.compiere.util.KeyNamePair getKeyNamePair() 
-    {
-        return new org.compiere.util.KeyNamePair(get_ID(), getName());
-    }
 
 	/** Set Release No.
 		@param ReleaseNo 

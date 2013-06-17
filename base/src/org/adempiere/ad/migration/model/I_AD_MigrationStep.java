@@ -16,11 +16,6 @@
  *****************************************************************************/
 package org.adempiere.ad.migration.model;
 
-import org.compiere.model.I_AD_Client;
-import org.compiere.model.I_AD_Org;
-import org.compiere.model.I_AD_Table;
-import org.compiere.model.MTable;
-
 
 /** Generated Interface for AD_MigrationStep
  *  @author Adempiere (generated) 
@@ -33,13 +28,13 @@ public interface I_AD_MigrationStep
     public static final String Table_Name = "AD_MigrationStep";
 
     /** AD_Table_ID=53218 */
-    public static final int Table_ID = MTable.getTable_ID(Table_Name);
+//    public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
-    org.compiere.util.KeyNamePair Model = new org.compiere.util.KeyNamePair(Table_ID, Table_Name);
+//    org.compiere.util.KeyNamePair Model = new org.compiere.util.KeyNamePair(Table_ID, Table_Name);
 
     /** AccessLevel = 4 - System 
      */
-    java.math.BigDecimal accessLevel = java.math.BigDecimal.valueOf(4);
+//    java.math.BigDecimal accessLevel = java.math.BigDecimal.valueOf(4);
 
     /** Load Meta Data */
 
