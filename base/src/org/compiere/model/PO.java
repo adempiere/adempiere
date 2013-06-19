@@ -2200,21 +2200,24 @@ public abstract class PO
 			if (localTrx == null)
 				savepoint = trx.setSavepoint(null);
 			
-			if (!beforeSave(newRecord))
+			if (!isAssignedID)
 			{
-				log.warning("beforeSave failed - " + toString());
-				if (localTrx != null)
+				if (!beforeSave(newRecord))
 				{
-					localTrx.rollback();
-					localTrx.close();
-					m_trxName = null;
+					log.warning("beforeSave failed - " + toString());
+					if (localTrx != null)
+					{
+						localTrx.rollback();
+						localTrx.close();
+						m_trxName = null;
+					}
+					else
+					{
+						trx.rollback(savepoint);
+						savepoint = null;
+					}
+					return false;
 				}
-				else
-				{
-					trx.rollback(savepoint);
-					savepoint = null;
-				}
-				return false;
 			}
 		}
 		catch (Exception e)
@@ -4241,6 +4244,12 @@ public abstract class PO
 	 */
 	private final String fireModelChange(int type)
 	{
+		// Don't trigger model validators for Direct Imports
+		if (isAssignedID)
+		{
+			return null;
+		}
+
 		if (type == -1)
 		{
 			throw new IllegalArgumentException("Invalid type "+type+" ("+this+")");

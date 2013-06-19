@@ -18,6 +18,7 @@ import org.adempiere.ad.migration.util.DefaultDataConverter;
 import org.adempiere.ad.migration.util.IDataConverter;
 import org.adempiere.model.InterfaceWrapperHelper;
 import org.adempiere.model.POWrapper;
+import org.adempiere.util.Check;
 import org.adempiere.util.Services;
 import org.compiere.model.I_AD_Column;
 import org.compiere.model.I_AD_Field;
@@ -36,7 +37,6 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
-import org.compiere.util.Util;
 
 public class MigrationLogger implements IMigrationLogger
 {
@@ -239,7 +239,7 @@ public class MigrationLogger implements IMigrationLogger
 	{
 		final boolean isDeleted = X_AD_MigrationStep.ACTION_Delete.equals(migrationStep.getAction());
 		final String poStr = getSummary(po, isDeleted);
-		if (Util.isEmpty(poStr))
+		if (Check.isEmpty(poStr))
 		{
 			return;
 		}
@@ -259,7 +259,7 @@ public class MigrationLogger implements IMigrationLogger
 			for (I_AD_MigrationData data : stepDataList)
 			{
 				final String dataStr = getSummary(data);
-				if (Util.isEmpty(dataStr, true))
+				if (Check.isEmpty(dataStr, true))
 				{
 					continue;
 				}
@@ -372,7 +372,7 @@ public class MigrationLogger implements IMigrationLogger
 				{
 					final Object value = isDeleted ? po.get_ValueOld(i) : po.get_Value(i);
 					final String valueStr = String.valueOf(value);
-					if (Util.isEmpty(valueStr, true))
+					if (Check.isEmpty(valueStr, true))
 					{
 						continue;
 					}

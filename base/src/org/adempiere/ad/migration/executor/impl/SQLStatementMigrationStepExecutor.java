@@ -7,10 +7,10 @@ import org.adempiere.ad.migration.executor.IMigrationExecutorContext;
 import org.adempiere.ad.migration.model.I_AD_MigrationStep;
 import org.adempiere.ad.migration.model.X_AD_MigrationStep;
 import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.util.Check;
 import org.compiere.db.CConnection;
 import org.compiere.util.DB;
 import org.compiere.util.Trx;
-import org.compiere.util.Util;
 
 public class SQLStatementMigrationStepExecutor extends AbstractMigrationStepExecutor
 {
@@ -51,7 +51,7 @@ public class SQLStatementMigrationStepExecutor extends AbstractMigrationStepExec
 		//
 		// Fetch SQL Statement
 		String sql = rollback ? step.getRollbackStatement() : step.getSQLStatement();
-		if (Util.isEmpty(sql, true) || sql.trim().equals(";"))
+		if (Check.isEmpty(sql, true) || sql.trim().equals(";"))
 		{
 			log("No " + (rollback ? "Rollback" : "SQL") + " found", "SKIP", true);
 			if (rollback)

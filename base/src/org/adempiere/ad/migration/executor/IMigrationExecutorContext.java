@@ -4,13 +4,28 @@ import java.util.Properties;
 
 public interface IMigrationExecutorContext
 {
+	public static enum MigrationOperation
+	{
+		BOTH,
+		DDL,
+		DML,
+	};
 
 	Properties getCtx();
+
+	IMigrationExecutorProvider getMigrationExecutorProvider();
 
 	boolean isFailOnFirstError();
 
 	void setFailOnFirstError(boolean failOnFirstError);
 
-	IMigrationExecutorProvider getMigrationExecutorProvider();
+	void setMigrationOperation(MigrationOperation operation);
 
+	boolean isApplyDML();
+
+	boolean isApplyDDL();
+
+	boolean isSkipMissingColumns();
+
+	boolean isSkipMissingTables();
 }

@@ -16,6 +16,7 @@ import org.adempiere.ad.migration.service.IMigrationDAO;
 import org.adempiere.ad.migration.util.MigrationStepSeqNoComparator;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.model.InterfaceWrapperHelper;
+import org.adempiere.util.Check;
 import org.adempiere.util.Services;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -202,6 +203,13 @@ class MigrationExecutor implements IMigrationExecutor
 					continue;
 				}
 
+				//
+				// Make sure our step is in the right transaction
+				if (!Util.equals(trxName, InterfaceWrapperHelper.getTrxName(step)))
+				{
+					InterfaceWrapperHelper.refresh(step, trxName);
+				}
+
 				try
 				{
 					final MigrationStepExecutorRunnable executorRunnable = new MigrationStepExecutorRunnable(migrationCtx, step, action);
@@ -243,7 +251,7 @@ class MigrationExecutor implements IMigrationExecutor
 	{
 		final String sql = "SET CONSTRAINTS ALL DEFERRED";
 		DB.executeUpdateEx(sql, trxName);
-		
+
 		logger.log(Level.INFO, "Constraints deferred");
 	}
 
@@ -318,7 +326,7 @@ class MigrationExecutor implements IMigrationExecutor
 		final StringBuffer sb = new StringBuffer();
 		sb.append(Services.get(IMigrationBL.class).getSummary(migration));
 
-		if (!Util.isEmpty(msg, true))
+		if (!Check.isEmpty(msg, true))
 		{
 			sb.append(": ").append(msg.trim());
 		}
@@ -330,5 +338,4 @@ class MigrationExecutor implements IMigrationExecutor
 
 		logger.log(level, sb.toString());
 	}
-
 }

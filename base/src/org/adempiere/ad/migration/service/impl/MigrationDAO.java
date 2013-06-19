@@ -106,11 +106,11 @@ public class MigrationDAO implements IMigrationDAO
 	@Override
 	public int getMigrationStepLastSeqNo(final I_AD_MigrationStep step)
 	{
-		final Properties ctx = POWrapper.getCtx(step);
-		final String trxName = POWrapper.getTrxName(step);
+		final Properties ctx = InterfaceWrapperHelper.getCtx(step);
+		final String trxName = InterfaceWrapperHelper.getTrxName(step);
 		final String whereClause = I_AD_MigrationStep.COLUMNNAME_AD_Migration_ID + "=?";
 		final BigDecimal maxSeqNo = new Query(ctx, I_AD_MigrationStep.Table_Name, whereClause, trxName)
-				.setParameters(step.getAD_MigrationStep_ID())
+				.setParameters(step.getAD_Migration_ID())
 				.aggregate(I_AD_MigrationStep.COLUMNNAME_SeqNo, Query.AGGREGATE_MAX);
 		return maxSeqNo.intValue();
 	}
@@ -123,8 +123,8 @@ public class MigrationDAO implements IMigrationDAO
 			return new ArrayList<I_AD_MigrationData>();
 		}
 
-		final Properties ctx = POWrapper.getCtx(step);
-		final String trxName = POWrapper.getTrxName(step);
+		final Properties ctx = InterfaceWrapperHelper.getCtx(step);
+		final String trxName = InterfaceWrapperHelper.getTrxName(step);
 		final String where = I_AD_MigrationData.COLUMNNAME_AD_MigrationStep_ID + "=?";
 		final List<I_AD_MigrationData> result = new Query(ctx, I_AD_MigrationData.Table_Name, where, trxName)
 				.setParameters(step.getAD_MigrationStep_ID())

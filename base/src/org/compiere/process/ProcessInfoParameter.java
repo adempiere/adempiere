@@ -107,6 +107,15 @@ public class ProcessInfoParameter implements Serializable
 		return m_Parameter;
 	}
 	
+	public String getParameterAsString()
+	{
+		if (m_Parameter == null)
+		{
+			return null;
+		}
+		return m_Parameter.toString();
+	}
+	
 	/**
 	 * Method getParameter as Int
 	 * @return Object

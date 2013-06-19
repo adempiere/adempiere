@@ -100,7 +100,7 @@ public class MigrationBL implements IMigrationBL
 	public void setSeqNo(final I_AD_Migration migration)
 	{
 		final int maxSeqNo = Services.get(IMigrationDAO.class).getMigrationLastSeqNo(migration);
-		final int nextSeqNo = maxSeqNo + 1;
+		final int nextSeqNo = maxSeqNo + 10;
 		migration.setSeqNo(nextSeqNo);
 	}
 

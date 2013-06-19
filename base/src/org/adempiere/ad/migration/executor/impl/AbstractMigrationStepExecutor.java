@@ -6,8 +6,8 @@ import java.util.logging.Level;
 import org.adempiere.ad.migration.executor.IMigrationExecutorContext;
 import org.adempiere.ad.migration.executor.IMigrationStepExecutor;
 import org.adempiere.ad.migration.model.I_AD_MigrationStep;
+import org.adempiere.util.Check;
 import org.compiere.util.CLogger;
-import org.compiere.util.Util;
 
 public abstract class AbstractMigrationStepExecutor implements IMigrationStepExecutor
 {
@@ -56,7 +56,7 @@ public abstract class AbstractMigrationStepExecutor implements IMigrationStepExe
 		final StringBuffer sb = new StringBuffer();
 		sb.append("Step ").append(step.getSeqNo());
 
-		if (!Util.isEmpty(msg, true))
+		if (!Check.isEmpty(msg, true))
 		{
 			sb.append(": ").append(msg.trim());
 		}

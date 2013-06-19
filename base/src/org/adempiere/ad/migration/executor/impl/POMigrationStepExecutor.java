@@ -39,36 +39,59 @@ public class POMigrationStepExecutor extends AbstractMigrationStepExecutor
 
 		if (step.getAD_Table_ID() <= 0)
 		{
-			throw new AdempiereException("@NotFound@ @AD_Table_ID@");
+			if (getMigrationExecutorContext().isSkipMissingTables())
+			{
+				return ExecutionResult.Skipped;
+			}
+			else
+			{
+				throw new AdempiereException("@NotFound@ @AD_Table_ID@=" + step.getAD_Table_ID() + " (@TableName@: " + step.getTableName() + ") on step " + step);
+			}
 		}
 
 		//
 		// Fetch PO, create if not exist and action is Insert
-		final boolean createPOIfNotExists = X_AD_MigrationStep.ACTION_Insert.equals(step.getAction());
+		final boolean createPOIfNotExists = X_AD_MigrationStep.ACTION_Insert.equals(step.getAction())
+				&& getMigrationExecutorContext().isApplyDML();
 		final PO po = fetchPO(createPOIfNotExists, trxName);
 
 		//
-		// Apply migration data
-		for (I_AD_MigrationData data : getMigrationData())
+		// DML: Apply migration data
+		if (getMigrationExecutorContext().isApplyDML())
 		{
-			final MigrationDataExecutor dataExecutor = new MigrationDataExecutor(step, data, po, converter);
-			dataExecutor.apply();
+			for (I_AD_MigrationData data : getMigrationData())
+			{
+				final MigrationDataExecutor dataExecutor = new MigrationDataExecutor(getMigrationExecutorContext(), step, data, po, converter);
+				dataExecutor.apply();
+			}
 		}
 
+		//
+		// DDL: Synchronize with database
 		if (X_AD_MigrationStep.ACTION_Delete.equals(step.getAction()))
 		{
-			if (I_AD_Column.Table_Name.equals(po.get_TableName()))
+			if (getMigrationExecutorContext().isApplyDDL() && po != null)
 			{
-				syncDBColumn(InterfaceWrapperHelper.create(po, I_AD_Column.class), true);
+				if (I_AD_Column.Table_Name.equals(po.get_TableName()))
+				{
+					syncDBColumn(InterfaceWrapperHelper.create(po, I_AD_Column.class), true);
+				}
 			}
 
-			po.deleteEx(false);
+			if (getMigrationExecutorContext().isApplyDML())
+			{
+				po.deleteEx(false);
+			}
 		}
 		else
 		{
-			po.saveEx();
+			if (getMigrationExecutorContext().isApplyDML())
+			{
+				po.saveEx();
+			}
 
-			if (I_AD_Column.Table_Name.equals(po.get_TableName()))
+			if (I_AD_Column.Table_Name.equals(po.get_TableName())
+					&& getMigrationExecutorContext().isApplyDDL())
 			{
 				syncDBColumn(InterfaceWrapperHelper.create(po, I_AD_Column.class), false);
 			}
@@ -115,7 +138,7 @@ public class POMigrationStepExecutor extends AbstractMigrationStepExecutor
 		{
 			for (final I_AD_MigrationData data : getMigrationData())
 			{
-				final MigrationDataExecutor dataExecutor = new MigrationDataExecutor(step, data, po, converter);
+				final MigrationDataExecutor dataExecutor = new MigrationDataExecutor(getMigrationExecutorContext(), step, data, po, converter);
 				dataExecutor.rollback();
 			}
 
@@ -167,7 +190,9 @@ public class POMigrationStepExecutor extends AbstractMigrationStepExecutor
 			for (I_AD_MigrationData key : keys)
 			{
 				if (whereClause.length() > 0)
+				{
 					whereClause.append(" AND ");
+				}
 
 				final I_AD_Column column = key.getAD_Column();
 				final String columnName = column.getColumnName();

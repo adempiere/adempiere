@@ -20,14 +20,20 @@ import java.util.List;
 
 import org.adempiere.ad.migration.executor.IMigrationExecutor;
 import org.adempiere.ad.migration.executor.IMigrationExecutorContext;
+import org.adempiere.ad.migration.executor.IMigrationExecutorContext.MigrationOperation;
 import org.adempiere.ad.migration.executor.IMigrationExecutorProvider;
 import org.adempiere.util.Services;
 
 public class MigrationApply extends SvrProcess
 {
 	private int p_AD_Migration_ID = -1;
-	private boolean failOnError = true;
-
+	
+	private static final String PARAM_FailOnError = "FailOnError";
+	private boolean p_FailOnError = true;
+	
+	private static final String PARAM_AD_Migration_Operation = "AD_Migration_Operation";
+	private MigrationOperation p_MigrationOperation = MigrationOperation.BOTH;
+	
 	@Override
 	protected void prepare()
 	{
@@ -36,9 +42,13 @@ public class MigrationApply extends SvrProcess
 		for (ProcessInfoParameter p : getParameter())
 		{
 			final String name = p.getParameterName();
-			if ("FailOnError".equals(name))
+			if (PARAM_FailOnError.equals(name))
 			{
-				failOnError = p.getParameterAsBoolean();
+				p_FailOnError = p.getParameterAsBoolean();
+			}
+			else if (PARAM_AD_Migration_Operation.equals(name))
+			{
+				p_MigrationOperation = MigrationOperation.valueOf(p.getParameterAsString());
 			}
 		}
 	}
@@ -48,7 +58,8 @@ public class MigrationApply extends SvrProcess
 	{
 		final IMigrationExecutorProvider executorProvider = Services.get(IMigrationExecutorProvider.class);
 		final IMigrationExecutorContext context = executorProvider.createContext(getCtx());
-		context.setFailOnFirstError(failOnError);
+		context.setFailOnFirstError(p_FailOnError);
+		context.setMigrationOperation(p_MigrationOperation);
 		
 		final IMigrationExecutor executor = executorProvider.newMigrationExecutor(context, p_AD_Migration_ID);
 

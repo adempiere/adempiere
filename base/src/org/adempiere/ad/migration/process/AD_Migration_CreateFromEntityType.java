@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.adempiere.ad.migration.logger.IMigrationLogger;
+import org.adempiere.ad.migration.logger.IMigrationLoggerContext;
 import org.adempiere.ad.migration.logger.impl.SingletonMigrationLoggerContext;
 import org.adempiere.ad.migration.model.I_AD_Migration;
 import org.adempiere.ad.migration.model.X_AD_MigrationStep;
@@ -12,13 +13,17 @@ import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.model.InterfaceWrapperHelper;
 import org.adempiere.util.Services;
 import org.adempiere.util.collections.IteratorUtils;
+import org.compiere.model.I_AD_Column;
+import org.compiere.model.I_AD_Element;
 import org.compiere.model.I_AD_Table;
 import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.model.Query;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Trx;
+import org.compiere.util.Util;
 
 public class AD_Migration_CreateFromEntityType extends SvrProcess
 {
@@ -65,6 +70,7 @@ public class AD_Migration_CreateFromEntityType extends SvrProcess
 				try
 				{
 					migrationLogger.logMigration(migrationCtx, record, record.getPOInfo(), X_AD_MigrationStep.ACTION_Insert);
+					logDependents(migrationCtx, migrationLogger, record);
 				}
 				finally
 				{
@@ -77,6 +83,25 @@ public class AD_Migration_CreateFromEntityType extends SvrProcess
 		InterfaceWrapperHelper.save(migration);
 
 		return "OK";
+	}
+
+	private void logDependents(final IMigrationLoggerContext migrationCtx, final IMigrationLogger migrationLogger, final PO record)
+	{
+		if (I_AD_Column.Table_Name.equals(InterfaceWrapperHelper.getModelTableName(record)))
+		{
+			final I_AD_Column adColumn = InterfaceWrapperHelper.create(record, I_AD_Column.class);
+
+			final I_AD_Element adElement = adColumn.getAD_Element();
+			if (!Util.equals(adElement.getEntityType(), entityType))
+			{
+				adElement.setEntityType("D"); // do NOT save, NEVER save!
+
+				final PO adElementPO = InterfaceWrapperHelper.getPO(adElement);
+				final POInfo adElementPOInfo = adElementPO.getPOInfo();
+
+				migrationLogger.logMigration(migrationCtx, adElementPO, adElementPOInfo, X_AD_MigrationStep.ACTION_Insert);
+			}
+		}
 	}
 
 	private Iterator<I_AD_Table> retrieveTablesWithEntityType()
