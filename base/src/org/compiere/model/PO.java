@@ -3090,10 +3090,13 @@ public abstract class PO
 
 		try
 		{
-			if (!beforeDelete())
+			if (!isAssignedID)
 			{
-				log.warning("beforeDelete failed");
-				return false;
+				if (!beforeDelete())
+				{
+					log.warning("beforeDelete failed");
+					return false;
+				}
 			}
 		}
 		catch (Exception e)
@@ -3200,16 +3203,19 @@ public abstract class PO
 			}
 		}
 
-		try
+		if (!isAssignedID)
 		{
-			success = afterDelete (success);
-		}
-		catch (Exception e)
-		{
-			log.log(Level.WARNING, "afterDelete", e);
-			log.saveError("Error", e, false);
-			success = false;
-		//	throw new DBException(e);
+			try
+			{
+				success = afterDelete(success);
+			}
+			catch (Exception e)
+			{
+				log.log(Level.WARNING, "afterDelete", e);
+				log.saveError("Error", e, false);
+				success = false;
+				// throw new DBException(e);
+			}
 		}
 
 		// Call ModelValidators TYPE_AFTER_DELETE - teo_sarca [ 1675490 ]
