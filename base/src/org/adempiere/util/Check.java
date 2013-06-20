@@ -12,11 +12,11 @@ import org.adempiere.util.api.IMsgBL;
  */
 public final class Check
 {
-
 	private static Class<? extends RuntimeException> defaultExClazz = RuntimeException.class;
-	
+
 	private Check()
 	{
+		super();
 	}
 
 	/**
@@ -57,7 +57,7 @@ public final class Check
 		if (!cond)
 		{
 			final String errMsgFormated = Services.get(IMsgBL.class).formatMessage(errMsg, params);
-			throw mkEx(defaultExClazz, "Assumtion failure: " + errMsgFormated);
+			throw mkEx(defaultExClazz, "Assumption failure: " + errMsgFormated);
 		}
 	}
 
@@ -74,7 +74,7 @@ public final class Check
 		final boolean cond = object != null;
 		assume(cond, assumptionMessage, params);
 	}
-	
+
 	/**
 	 * Assumes that given <code>object</code> is null
 	 * 
@@ -88,7 +88,6 @@ public final class Check
 		final boolean cond = object == null;
 		assume(cond, assumptionMessage, params);
 	}
-
 
 	/**
 	 * This method similar to {@link #assume(boolean, String, Object...)}, but the message should be formulated in terms of an error message instead of an assumption.

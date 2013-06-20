@@ -7,7 +7,7 @@ import org.adempiere.util.ISingletonService;
 
 public interface IMigrationExecutorProvider extends ISingletonService
 {
-	IMigrationExecutorContext createContext(Properties ctx);
+	IMigrationExecutorContext createInitialContext(Properties ctx);
 
 	void registerMigrationStepExecutor(String stepType, Class<? extends IMigrationStepExecutor> executorClass);
 

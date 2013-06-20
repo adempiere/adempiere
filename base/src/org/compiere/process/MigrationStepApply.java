@@ -76,7 +76,7 @@ public class MigrationStepApply extends SvrProcess
 		}
 
 		final IMigrationExecutorProvider executorProvider = Services.get(IMigrationExecutorProvider.class);
-		final IMigrationExecutorContext migrationCtx = executorProvider.createContext(getCtx());
+		final IMigrationExecutorContext migrationCtx = executorProvider.createInitialContext(getCtx());
 
 		final IMigrationExecutor executor = executorProvider.newMigrationExecutor(migrationCtx, migrationStep.getAD_Migration_ID());
 		executor.setMigrationSteps(Arrays.asList(migrationStep));

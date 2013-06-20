@@ -1,15 +1,11 @@
 package org.adempiere.ad.migration.xml.impl;
 
-import java.util.Properties;
-
 import org.adempiere.ad.migration.model.I_AD_MigrationData;
 import org.adempiere.ad.migration.model.I_AD_MigrationStep;
 import org.adempiere.ad.migration.model.X_AD_MigrationStep;
 import org.adempiere.ad.migration.xml.IXMLHandler;
 import org.adempiere.model.InterfaceWrapperHelper;
 import org.compiere.model.I_AD_Column;
-import org.compiere.model.MColumn;
-import org.compiere.model.MTable;
 import org.compiere.util.CLogger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -66,65 +62,17 @@ class MigrationDataHandler implements IXMLHandler<I_AD_MigrationData>
 	@Override
 	public boolean fromXmlNode(I_AD_MigrationData data, Element element)
 	{
+		data.setColumnName(element.getAttribute(NODE_Column));
+		data.setAD_Column_ID(Integer.parseInt(element.getAttribute(NODE_AD_Column_ID)));
+
 		data.setIsOldNull("true".equals(element.getAttribute(NODE_isOldNull)));
 		data.setOldValue(element.getAttribute(NODE_oldValue));
-		data.setColumnName(element.getAttribute(NODE_Column));
 
 		data.setIsNewNull("true".equals(element.getAttribute(NODE_isNewNull)));
 		data.setNewValue(element.getTextContent());
-
-		setAD_Column_ID(data, element.getAttribute(NODE_AD_Column_ID));
 
 		InterfaceWrapperHelper.save(data);
 		logger.info("Imported data: " + data);
 		return true;
 	}
-
-	private void setAD_Column_ID(final I_AD_MigrationData data, final String columnIdStr)
-	{
-		if (columnIdStr == null || columnIdStr.trim().isEmpty())
-		{
-			data.setAD_Column_ID(-1);
-			return;
-		}
-
-		final int columnId = Integer.parseInt(columnIdStr.trim());
-		if (columnId <= 0)
-		{
-			data.setAD_Column_ID(-1);
-			return;
-		}
-
-		final I_AD_MigrationStep step = data.getAD_MigrationStep();
-		final int tableId = step.getAD_Table_ID();
-		if (tableId <= 0)
-		{
-			data.setAD_Column_ID(-1);
-			return;
-		}
-
-		final Properties ctx = InterfaceWrapperHelper.getCtx(data);
-		final MTable table = MTable.get(ctx, tableId);
-		if (table == null || table.getAD_Table_ID() != tableId)
-		{
-			data.setAD_Column_ID(-1);
-			return;
-		}
-
-		final MColumn column = table.getColumn(data.getColumnName());
-		if (column == null)
-		{
-			data.setAD_Column_ID(-1);
-			return;
-		}
-
-		if (column.getAD_Column_ID() != columnId)
-		{
-			data.setAD_Column_ID(column.getAD_Column_ID());
-			return;
-		}
-
-		data.setAD_Column_ID(columnId);
-	}
-
 }

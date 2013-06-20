@@ -3,8 +3,11 @@ package org.adempiere.ad.migration.executor.impl;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Properties;
+import java.util.logging.Level;
 
 import org.adempiere.ad.migration.executor.IMigrationExecutorContext;
+import org.adempiere.ad.migration.executor.MigrationExecutorException;
 import org.adempiere.ad.migration.model.I_AD_MigrationData;
 import org.adempiere.ad.migration.model.I_AD_MigrationStep;
 import org.adempiere.ad.migration.model.X_AD_MigrationStep;
@@ -15,13 +18,16 @@ import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.model.InterfaceWrapperHelper;
 import org.adempiere.util.Services;
 import org.compiere.model.I_AD_Column;
-import org.compiere.model.MColumn;
+import org.compiere.model.I_AD_Table;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
+import org.compiere.util.CLogger;
 
 public class POMigrationStepExecutor extends AbstractMigrationStepExecutor
 {
+	private final transient CLogger logger = CLogger.getCLogger(getClass());
+
 	private final IDataConverter converter = new DefaultDataConverter();
 
 	private List<I_AD_MigrationData> m_migrationData;
@@ -37,16 +43,10 @@ public class POMigrationStepExecutor extends AbstractMigrationStepExecutor
 	{
 		final I_AD_MigrationStep step = getAD_MigrationStep();
 
-		if (step.getAD_Table_ID() <= 0)
+		if (getAD_Table(trxName) == null)
 		{
-			if (getMigrationExecutorContext().isSkipMissingTables())
-			{
-				return ExecutionResult.Skipped;
-			}
-			else
-			{
-				throw new AdempiereException("@NotFound@ @AD_Table_ID@=" + step.getAD_Table_ID() + " (@TableName@: " + step.getTableName() + ") on step " + step);
-			}
+			final boolean fatal = !getMigrationExecutorContext().isSkipMissingTables();
+			throw new MigrationExecutorException("@NotFound@ @AD_Table_ID@=" + step.getAD_Table_ID() + " (@TableName@: " + step.getTableName() + ") on step " + step, fatal);
 		}
 
 		//
@@ -59,17 +59,28 @@ public class POMigrationStepExecutor extends AbstractMigrationStepExecutor
 		// DML: Apply migration data
 		if (getMigrationExecutorContext().isApplyDML())
 		{
-			for (I_AD_MigrationData data : getMigrationData())
+			for (final I_AD_MigrationData data : getMigrationData())
 			{
-				final MigrationDataExecutor dataExecutor = new MigrationDataExecutor(getMigrationExecutorContext(), step, data, po, converter);
-				dataExecutor.apply();
+				try
+				{
+					final MigrationDataExecutor dataExecutor = new MigrationDataExecutor(getMigrationExecutorContext(), step, data, po, converter);
+					dataExecutor.apply();
+				}
+				catch (MigrationExecutorException e)
+				{
+					if (e.isFatal())
+					{
+						throw e;
+					}
+					logger.log(Level.INFO, e.getLocalizedMessage(), e);
+				}
 			}
 		}
 
-		//
-		// DDL: Synchronize with database
 		if (X_AD_MigrationStep.ACTION_Delete.equals(step.getAction()))
 		{
+			//
+			// DDL: Synchronize with database
 			if (getMigrationExecutorContext().isApplyDDL() && po != null)
 			{
 				if (I_AD_Column.Table_Name.equals(po.get_TableName()))
@@ -78,6 +89,8 @@ public class POMigrationStepExecutor extends AbstractMigrationStepExecutor
 				}
 			}
 
+			//
+			// DML: Apply migration data
 			if (getMigrationExecutorContext().isApplyDML())
 			{
 				po.deleteEx(false);
@@ -85,11 +98,15 @@ public class POMigrationStepExecutor extends AbstractMigrationStepExecutor
 		}
 		else
 		{
+			//
+			// DML: Apply migration data
 			if (getMigrationExecutorContext().isApplyDML())
 			{
 				po.saveEx();
 			}
 
+			//
+			// DDL: Synchronize with database
 			if (I_AD_Column.Table_Name.equals(po.get_TableName())
 					&& getMigrationExecutorContext().isApplyDDL())
 			{
@@ -106,9 +123,10 @@ public class POMigrationStepExecutor extends AbstractMigrationStepExecutor
 	{
 		final I_AD_MigrationStep step = getAD_MigrationStep();
 
-		if (step.getAD_Table_ID() <= 0)
+		if (getAD_Table(trxName) == null)
 		{
-			throw new AdempiereException("@NotFound@ @AD_Table_ID@");
+			final boolean fatal = !getMigrationExecutorContext().isSkipMissingTables();
+			throw new MigrationExecutorException("@NotFound@ @AD_Table_ID@=" + step.getAD_Table_ID() + " (@TableName@: " + step.getTableName() + ") on step " + step, fatal);
 		}
 
 		final boolean createPOIfNotExists = X_AD_MigrationStep.ACTION_Delete.equals(step.getAction()); // create if not exist and action is Delete
@@ -162,7 +180,9 @@ public class POMigrationStepExecutor extends AbstractMigrationStepExecutor
 	{
 		final I_AD_MigrationStep step = getAD_MigrationStep();
 
-		final MTable table = MTable.get(getCtx(), step.getAD_Table_ID());
+		final I_AD_Table table = getAD_Table(trxName);
+		final MTable tablePO = (MTable)InterfaceWrapperHelper.getPO(table);
+
 		final StringBuffer whereClause = new StringBuffer();
 		final LinkedHashMap<String, Object> params = new LinkedHashMap<String, Object>();
 
@@ -170,10 +190,10 @@ public class POMigrationStepExecutor extends AbstractMigrationStepExecutor
 		// Single Key Record
 		if (step.getRecord_ID() > 0)
 		{
-			final String[] keyColumns = table.getKeyColumns();
+			final String[] keyColumns = tablePO.getKeyColumns();
 			if (keyColumns == null || keyColumns.length != 1)
 			{
-				logger.warning("Table " + table + " has none or more then one key columns: " + keyColumns);
+				logger.warning("Table " + tablePO + " has none or more then one key columns: " + keyColumns);
 			}
 			else
 			{
@@ -206,7 +226,7 @@ public class POMigrationStepExecutor extends AbstractMigrationStepExecutor
 
 		//
 		// Query PO
-		PO po = new Query(getCtx(), table, whereClause.toString(), trxName)
+		PO po = new Query(getCtx(), tablePO, whereClause.toString(), trxName)
 				.setParameters(params.values().toArray())
 				.firstOnly();
 
@@ -214,7 +234,7 @@ public class POMigrationStepExecutor extends AbstractMigrationStepExecutor
 		// Create new PO
 		if (po == null && createIfNotExists)
 		{
-			po = table.getPO(0, trxName);
+			po = tablePO.getPO(0, trxName);
 
 			for (String columnName : po.get_KeyColumns())
 			{
@@ -229,6 +249,31 @@ public class POMigrationStepExecutor extends AbstractMigrationStepExecutor
 		}
 
 		return po;
+	}
+
+	private I_AD_Table getAD_Table(final String trxName)
+	{
+		final I_AD_MigrationStep step = getAD_MigrationStep();
+
+		I_AD_Table table = step.getAD_Table();
+
+		if (table != null && !step.getTableName().equalsIgnoreCase(table.getTableName()))
+		{
+			logger.log(Level.WARNING, "Table ID collision '" + step.getTableName() + "' with existing '" + table.getTableName()
+					+ "' (ID=" + step.getAD_Table_ID() + "). Attempting to retrieve table by name.");
+			table = null;
+		}
+
+		if (table == null)
+		{
+			final Properties ctx = InterfaceWrapperHelper.getCtx(step);
+			final String whereClause = I_AD_Table.COLUMNNAME_TableName + "=?";
+			table = new Query(ctx, I_AD_Table.Table_Name, whereClause, trxName)
+					.setParameters(step.getTableName())
+					.firstOnly(I_AD_Table.class);
+		}
+
+		return table;
 	}
 
 	private List<I_AD_MigrationData> getMigrationData()
@@ -274,35 +319,8 @@ public class POMigrationStepExecutor extends AbstractMigrationStepExecutor
 
 	private void syncDBColumn(final I_AD_Column column, final boolean drop)
 	{
-		//
-		// Get MColumn object
-		final PO po = InterfaceWrapperHelper.getPO(column);
-		if (po == null)
-		{
-			throw new IllegalArgumentException("Invalid column " + column);
-		}
-		final MColumn columnPO;
-		if (po instanceof MColumn)
-		{
-			columnPO = (MColumn)column;
-		}
-		else
-		{
-			// TODO: This case shall not happen
-			columnPO = new MColumn(po.getCtx(), column.getAD_Column_ID(), po.get_TrxName());
-			logger.warning("Loaded " + columnPO + " from " + column + ". Please consider optimizing it");
-		}
-
-		//
-		if (drop)
-		{
-			// TODO unsync column?
-			logger.warning("Please manualy drop column " + column.getColumnName() + "(" + column.getAD_Table() + ")");
-		}
-		else
-		{
-			columnPO.syncDatabase();
-		}
+		final IMigrationExecutorContext migrationCtx = getMigrationExecutorContext();
+		final ColumnSyncDDLExecutable ddlExecutable = new ColumnSyncDDLExecutable(migrationCtx, column.getAD_Column_ID(), drop);
+		migrationCtx.addPostponedExecutable(ddlExecutable);
 	}
-
 }

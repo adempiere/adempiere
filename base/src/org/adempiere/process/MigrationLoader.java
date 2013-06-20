@@ -93,7 +93,7 @@ public class MigrationLoader
 		final int migrationId = migration.getAD_Migration_ID();
 
 		final IMigrationExecutorProvider executorProvider = Services.get(IMigrationExecutorProvider.class);
-		final IMigrationExecutorContext migrationCtx = executorProvider.createContext(ctx);
+		final IMigrationExecutorContext migrationCtx = executorProvider.createInitialContext(ctx);
 		migrationCtx.setFailOnFirstError(true);
 
 		final IMigrationExecutor executor = executorProvider.newMigrationExecutor(migrationCtx, migrationId);

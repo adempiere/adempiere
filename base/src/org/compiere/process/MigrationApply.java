@@ -57,7 +57,7 @@ public class MigrationApply extends SvrProcess
 	protected String doIt() throws Exception
 	{
 		final IMigrationExecutorProvider executorProvider = Services.get(IMigrationExecutorProvider.class);
-		final IMigrationExecutorContext context = executorProvider.createContext(getCtx());
+		final IMigrationExecutorContext context = executorProvider.createInitialContext(getCtx());
 		context.setFailOnFirstError(p_FailOnError);
 		context.setMigrationOperation(p_MigrationOperation);
 		

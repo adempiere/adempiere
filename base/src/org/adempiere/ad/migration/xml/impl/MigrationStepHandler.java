@@ -13,9 +13,7 @@ import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.model.InterfaceWrapperHelper;
 import org.adempiere.util.Services;
 import org.compiere.model.I_AD_Table;
-import org.compiere.model.MTable;
 import org.compiere.util.CLogger;
-import org.compiere.util.Env;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -42,11 +40,6 @@ class MigrationStepHandler implements IXMLHandler<I_AD_MigrationStep>
 	private static final String NODE_PO = "PO";
 	private static final String NODE_Action = "Action";
 	private static final String NODE_Data = "Data";
-
-	private Properties getCtx()
-	{
-		return Env.getCtx();
-	}
 
 	@Override
 	public Node toXmlNode(Document document, I_AD_MigrationStep step)
@@ -136,8 +129,7 @@ class MigrationStepHandler implements IXMLHandler<I_AD_MigrationStep>
 				step.setAction(poNode.getAttribute(NODE_Action));
 				step.setTableName(poNode.getAttribute(NODE_Table));
 
-				final int tableId = getAD_Table_ID(step.getTableName(), poNode.getAttribute(NODE_AD_Table_ID));
-				step.setAD_Table_ID(tableId);
+				step.setAD_Table_ID(Integer.parseInt(poNode.getAttribute(NODE_AD_Table_ID)));
 				step.setRecord_ID(Integer.parseInt(poNode.getAttribute(NODE_Record_ID)));
 
 				InterfaceWrapperHelper.save(step);
@@ -182,39 +174,5 @@ class MigrationStepHandler implements IXMLHandler<I_AD_MigrationStep>
 		InterfaceWrapperHelper.save(step);
 		logger.info("Imported step: " + Services.get(IMigrationBL.class).getSummary(step));
 		return true;
-	}
-
-	private int getAD_Table_ID(final String tableName, final String tableIdStr)
-	{
-		if (tableIdStr == null || tableIdStr.trim().length() == 0)
-		{
-			return getAD_Table_ID(tableName);
-		}
-
-		final int tableId = Integer.parseInt(tableIdStr.trim());
-		if (tableId <= 0)
-		{
-			return getAD_Table_ID(tableName);
-		}
-
-		final I_AD_Table table = MTable.get(getCtx(), tableId);
-		if (table == null || table.getAD_Table_ID() != tableId)
-		{
-			return getAD_Table_ID(tableName);
-		}
-
-		final String tableNameFound = table.getTableName();
-		if (!tableNameFound.equalsIgnoreCase(tableName))
-		{
-			// table name mismatch => tableId not valid, we will use only tableName
-			return getAD_Table_ID(tableName);
-		}
-
-		return tableId;
-	}
-
-	private int getAD_Table_ID(final String tableName)
-	{
-		return MTable.getTable_ID(tableName);
 	}
 }

@@ -1,9 +1,12 @@
 package org.adempiere.ad.migration.executor.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import org.adempiere.ad.migration.executor.IMigrationExecutorContext;
 import org.adempiere.ad.migration.executor.IMigrationExecutorProvider;
+import org.adempiere.ad.migration.executor.IPostponedExecutable;
 import org.adempiere.util.Check;
 
 public class MigrationExecutorContext implements IMigrationExecutorContext
@@ -14,6 +17,7 @@ public class MigrationExecutorContext implements IMigrationExecutorContext
 
 	private boolean failOnFirstError = true;
 	private MigrationOperation migrationOperation = MigrationOperation.BOTH;
+	private final List<IPostponedExecutable> postponedExecutables = new ArrayList<IPostponedExecutable>();
 
 	public MigrationExecutorContext(final Properties ctx, final IMigrationExecutorProvider factory)
 	{
@@ -76,5 +80,21 @@ public class MigrationExecutorContext implements IMigrationExecutorContext
 	{
 		// TODO configuration to be implemented
 		return true;
+	}
+
+	@Override
+	public void addPostponedExecutable(IPostponedExecutable executable)
+	{
+		Check.assumeNotNull(executable, "executable not null");
+		postponedExecutables.add(executable);
+	}
+
+	@Override
+	public List<IPostponedExecutable> popPostponedExecutables()
+	{
+		final List<IPostponedExecutable> result = new ArrayList<IPostponedExecutable>(postponedExecutables);
+		postponedExecutables.clear();
+
+		return result;
 	}
 }

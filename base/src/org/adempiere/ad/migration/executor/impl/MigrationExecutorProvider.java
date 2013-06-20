@@ -23,7 +23,7 @@ public class MigrationExecutorProvider implements IMigrationExecutorProvider
 	}
 
 	@Override
-	public IMigrationExecutorContext createContext(final Properties ctx)
+	public IMigrationExecutorContext createInitialContext(final Properties ctx)
 	{
 		return new MigrationExecutorContext(ctx, this);
 	}

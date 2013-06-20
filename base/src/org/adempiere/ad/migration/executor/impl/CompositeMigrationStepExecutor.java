@@ -22,7 +22,7 @@ public class CompositeMigrationStepExecutor extends AbstractMigrationStepExecuto
 		if (X_AD_MigrationStep.STATUSCODE_Applied.equals(step.getStatusCode()))
 		{
 			log("Already applied", "SKIP", false);
-			return ExecutionResult.Skipped;
+			return ExecutionResult.Ignored;
 		}
 
 		final IMigrationStepExecutor executor = createDelegatedMigrationStepExecutor(step);
@@ -38,7 +38,7 @@ public class CompositeMigrationStepExecutor extends AbstractMigrationStepExecuto
 		if (!X_AD_MigrationStep.STATUSCODE_Applied.equals(step.getStatusCode()))
 		{
 			log("Not applied. Nothing to rollback", "SKIP", false);
-			return ExecutionResult.Skipped;
+			return ExecutionResult.Ignored;
 		}
 
 		final IMigrationStepExecutor executor = createDelegatedMigrationStepExecutor(step);

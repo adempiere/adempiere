@@ -1,5 +1,6 @@
 package org.adempiere.ad.migration.executor;
 
+import java.util.List;
 import java.util.Properties;
 
 public interface IMigrationExecutorContext
@@ -28,4 +29,8 @@ public interface IMigrationExecutorContext
 	boolean isSkipMissingColumns();
 
 	boolean isSkipMissingTables();
+
+	void addPostponedExecutable(IPostponedExecutable ddlExecutable);
+
+	List<IPostponedExecutable> popPostponedExecutables();
 }

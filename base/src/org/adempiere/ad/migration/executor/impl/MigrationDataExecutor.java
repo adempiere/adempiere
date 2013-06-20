@@ -1,16 +1,18 @@
 package org.adempiere.ad.migration.executor.impl;
 
+import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.ad.migration.executor.IMigrationExecutorContext;
+import org.adempiere.ad.migration.executor.MigrationExecutorException;
 import org.adempiere.ad.migration.model.I_AD_MigrationData;
 import org.adempiere.ad.migration.model.I_AD_MigrationStep;
 import org.adempiere.ad.migration.model.X_AD_MigrationStep;
 import org.adempiere.ad.migration.util.IDataConverter;
-import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.model.InterfaceWrapperHelper;
 import org.compiere.model.I_AD_Column;
 import org.compiere.model.PO;
+import org.compiere.model.Query;
 import org.compiere.util.CLogger;
 
 public class MigrationDataExecutor
@@ -23,6 +25,8 @@ public class MigrationDataExecutor
 	private final PO po;
 	private final IDataConverter converter;
 
+	private final int adTableId;
+
 	public MigrationDataExecutor(final IMigrationExecutorContext migrationCtx, final I_AD_MigrationStep step, final I_AD_MigrationData data, final PO po, final IDataConverter converter)
 	{
 		this.migrationCtx = migrationCtx;
@@ -30,10 +34,27 @@ public class MigrationDataExecutor
 		this.data = data;
 		this.po = po;
 		this.converter = converter;
+
+		this.adTableId = po.get_Table_ID();
 	}
 
 	public void apply()
 	{
+		final I_AD_Column column = getAD_Column();
+		if (column == null)
+		{
+			final boolean fatal = !migrationCtx.isSkipMissingColumns();
+			final MigrationExecutorException ex = new MigrationExecutorException("Column name '" + data.getColumnName() + " not found for " + data, fatal);
+
+			if (fatal)
+			{
+				throw ex;
+			}
+
+			logger.log(Level.INFO, ex.getLocalizedMessage(), ex);
+			return;
+		}
+
 		// TODO: option to apply only when existing value equals reference value
 
 		final String value;
@@ -44,20 +65,6 @@ public class MigrationDataExecutor
 		else
 		{
 			value = data.getNewValue();
-		}
-
-		final I_AD_Column column = data.getAD_Column();
-		if (column == null)
-		{
-			if (migrationCtx.isSkipMissingColumns())
-			{
-				logger.log(Level.INFO, "Skipped data for missing column name " + data.getColumnName());
-				return;
-			}
-			else
-			{
-				throw new AdempiereException("Column name '" + data.getColumnName() + " not found for " + data);
-			}
 		}
 
 		// backup existing value
@@ -92,7 +99,7 @@ public class MigrationDataExecutor
 
 	public void rollback()
 	{
-		final I_AD_Column column = data.getAD_Column();
+		final I_AD_Column column = getAD_Column();
 
 		final Object value;
 		if (data.isBackupNull())
@@ -113,4 +120,36 @@ public class MigrationDataExecutor
 		po.set_ValueNoCheck(column.getColumnName(), value);
 	}
 
+	private I_AD_Column getAD_Column()
+	{
+		I_AD_Column column = data.getAD_Column();
+
+		if (column != null && column.getAD_Table_ID() != adTableId)
+		{
+			logger.log(Level.WARNING, "Column '" + column.getColumnName()
+					+ "' (ID=" + column.getAD_Column_ID() + ") does not match AD_Table_ID from parent. Attempting to retrieve column by name and tableId.");
+			column = null;
+		}
+
+		final String dataColumnName = data.getColumnName();
+		if (column != null && !dataColumnName.equalsIgnoreCase(column.getColumnName()))
+		{
+			logger.log(Level.WARNING, "Column ID collision '" + dataColumnName + "' with existing '" + column.getColumnName()
+					+ "' (ID=" + column.getAD_Column_ID() + "). Attempting to retrieve column by name and tableId.");
+			column = null;
+		}
+
+		if (column == null)
+		{
+			final Properties ctx = InterfaceWrapperHelper.getCtx(data);
+			final String trxName = InterfaceWrapperHelper.getTrxName(data);
+			final String whereClause = I_AD_Column.COLUMNNAME_AD_Table_ID + "=?"
+					+ " AND " + I_AD_Column.COLUMNNAME_ColumnName + "=?";
+			column = new Query(ctx, I_AD_Column.Table_Name, whereClause, trxName)
+					.setParameters(adTableId, dataColumnName)
+					.firstOnly(I_AD_Column.class);
+		}
+
+		return column;
+	}
 }

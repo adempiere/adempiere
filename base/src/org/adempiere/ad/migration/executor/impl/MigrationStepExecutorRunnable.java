@@ -4,10 +4,13 @@ import java.util.logging.Level;
 
 import org.adempiere.ad.migration.executor.IMigrationExecutor.Action;
 import org.adempiere.ad.migration.executor.IMigrationExecutorContext;
+import org.adempiere.ad.migration.executor.MigrationExecutorException;
 import org.adempiere.ad.migration.executor.impl.AbstractMigrationStepExecutor.ExecutionResult;
 import org.adempiere.ad.migration.model.I_AD_MigrationStep;
 import org.adempiere.ad.migration.model.X_AD_MigrationStep;
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.model.InterfaceWrapperHelper;
+import org.adempiere.util.Check;
 import org.compiere.util.CLogger;
 import org.compiere.util.TrxRunnable2;
 
@@ -41,7 +44,19 @@ class MigrationStepExecutorRunnable implements TrxRunnable2
 
 		if (action == Action.Apply)
 		{
-			executionResult = executor.apply(trxName);
+			try
+			{
+				executionResult = executor.apply(trxName);
+			}
+			catch (MigrationExecutorException e)
+			{
+				if (e.isFatal())
+				{
+					throw e;
+				}
+				executionResult = ExecutionResult.Skipped;
+				logger.log(Level.INFO, e.getLocalizedMessage(), e);
+			}
 		}
 		else if (action == Action.Rollback)
 		{
@@ -63,11 +78,14 @@ class MigrationStepExecutorRunnable implements TrxRunnable2
 	@Override
 	public void doFinally()
 	{
-		if (executionResult != null)
+		if (ExecutionResult.Ignored == executionResult)
 		{
-			setExecutionStatus();
-			InterfaceWrapperHelper.save(step);
+			// do nothing
+			return;
 		}
+
+		setExecutionStatus();
+		InterfaceWrapperHelper.save(step);
 	}
 
 	/**
@@ -78,21 +96,34 @@ class MigrationStepExecutorRunnable implements TrxRunnable2
 		// Success
 		if (exception == null)
 		{
+			Check.assumeNotNull(executionResult, "executionResult not null");
+
 			step.setErrorMsg(null);
-			if (action == Action.Apply && executionResult == ExecutionResult.Executed)
+			if (executionResult == ExecutionResult.Executed)
 			{
-				step.setStatusCode(X_AD_MigrationStep.STATUSCODE_Applied);
+				if (action == Action.Apply)
+				{
+					step.setStatusCode(X_AD_MigrationStep.STATUSCODE_Applied);
+				}
+				else if (action == Action.Rollback)
+				{
+					step.setStatusCode(X_AD_MigrationStep.STATUSCODE_Unapplied);
+				}
+				else
+				{
+					throw new AdempiereException("Unknown action: " + action);
+				}
 			}
-			else if (action == Action.Rollback && executionResult == ExecutionResult.Executed)
+			else if (executionResult == ExecutionResult.Skipped)
 			{
 				step.setStatusCode(X_AD_MigrationStep.STATUSCODE_Unapplied);
 			}
 			else
 			{
-				// leave the StatusCode as is
+				throw new AdempiereException("Unknown execution result: " + executionResult);
 			}
 		}
-		// Error
+		// Error / Warning
 		else
 		{
 			logger.log(Level.SEVERE, "Action " + action + " of " + step + " failed.", exception);

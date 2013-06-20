@@ -15,6 +15,7 @@ public abstract class AbstractMigrationStepExecutor implements IMigrationStepExe
 	{
 		Executed,
 		Skipped,
+		Ignored,
 	};
 
 	protected final transient CLogger logger = CLogger.getCLogger(getClass());
@@ -68,5 +69,4 @@ public abstract class AbstractMigrationStepExecutor implements IMigrationStepExe
 
 		logger.log(level, sb.toString());
 	}
-
 }

@@ -8,6 +8,8 @@ import java.util.logging.Level;
 
 import org.adempiere.ad.migration.executor.IMigrationExecutor;
 import org.adempiere.ad.migration.executor.IMigrationExecutorContext;
+import org.adempiere.ad.migration.executor.IPostponedExecutable;
+import org.adempiere.ad.migration.executor.MigrationExecutorException;
 import org.adempiere.ad.migration.model.I_AD_Migration;
 import org.adempiere.ad.migration.model.I_AD_MigrationStep;
 import org.adempiere.ad.migration.model.X_AD_Migration;
@@ -129,6 +131,8 @@ class MigrationExecutor implements IMigrationExecutor
 		}
 
 		execute(action);
+
+		executePostponedRequests();
 	}
 
 	@Override
@@ -218,10 +222,12 @@ class MigrationExecutor implements IMigrationExecutor
 				catch (Exception e)
 				{
 					executionErrors.add(e);
+
 					// Abort on first error
-					if (migrationCtx.isFailOnFirstError())
+					final boolean fatal = MigrationExecutorException.isFatal(e);
+					if (fatal && migrationCtx.isFailOnFirstError())
 					{
-						throw e instanceof AdempiereException ? (AdempiereException)e : new AdempiereException(e);
+						throw e instanceof MigrationExecutorException ? (MigrationExecutorException)e : new MigrationExecutorException(e);
 					}
 				}
 			}
@@ -244,6 +250,15 @@ class MigrationExecutor implements IMigrationExecutor
 
 			// Make sure we have updated migration status before throwing further
 			updateMigrationStatus();
+		}
+	}
+
+	private void executePostponedRequests()
+	{
+		final List<IPostponedExecutable> executables = migrationCtx.popPostponedExecutables();
+		for (IPostponedExecutable executable : executables)
+		{
+			executable.execute();
 		}
 	}
 
@@ -306,7 +321,7 @@ class MigrationExecutor implements IMigrationExecutor
 	{
 		if (executionErrors == null)
 		{
-			return new ArrayList<Exception>();
+			return Collections.emptyList();
 		}
 		else
 		{
