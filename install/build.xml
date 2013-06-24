@@ -267,7 +267,8 @@
 	  	compression="gzip" >
   		<tarfileset dir="${build.dir}" includes="Adempiere/**" excludes="Adempiere/**/*.sh" >
   		    </tarfileset>
-  		<tarfileset dir="${build.dir}" includes="Adempiere/**/*.sh" filemode="755">
+  		<!-- <tarfileset dir="${build.dir}" includes="Adempiere/**/*.sh" filemode="755"> -->
+  		<tarfileset dir="${build.dir}" includes="Adempiere/**/*.sh">
   		   </tarfileset>
 	</tar>
 
