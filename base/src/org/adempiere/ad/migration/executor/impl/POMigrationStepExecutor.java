@@ -204,10 +204,10 @@ public class POMigrationStepExecutor extends AbstractMigrationStepExecutor
 
 		//
 		// Trying to identify the key columns from our records
-		final List<I_AD_MigrationData> keys = getKeyData();
-		if (whereClause.length() == 0 && keys != null && !keys.isEmpty())
+		if (whereClause.length() == 0)
 		{
-			for (final I_AD_MigrationData key : keys)
+			final List<I_AD_MigrationData> keys = getKeyData();
+			for (I_AD_MigrationData key : keys)
 			{
 				if (whereClause.length() > 0)
 				{
