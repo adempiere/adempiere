@@ -97,6 +97,7 @@ public class MCostDetail extends X_M_CostDetail
 	
 	/**
 	 * get the last entry for a Cost Detail based on the Material Transaction and Cost Dimension
+	 * @param model
 	 * @param mtrx Transaction Material
 	 * @param C_AcctSchema_ID
 	 * @param M_CostType_ID
@@ -121,18 +122,19 @@ public class MCostDetail extends X_M_CostDetail
 		{
 			;
 		}	
-		else if (model instanceof MMatchInv)
+		/*else if (model instanceof MMatchInv)
 		{	
-				whereClause.append(MCostDetail.COLUMNNAME_M_Transaction_ID).append(" <= ? AND ");
+				whereClause.append(MCostDetail.COLUMNNAME_M_Transaction_ID).append("= ? AND ");
 				params.add(mtrx.getM_Transaction_ID());
 				whereClause.append(MCostDetail.COLUMNNAME_C_LandedCostAllocation_ID).append(" IS NULL AND ");
-				whereClause.append(MCostDetail.COLUMNNAME_C_InvoiceLine_ID).append(" IS NULL AND ");
+				whereClause.append(MCostDetail.COLUMNNAME_M_InOutLine_ID).append("=? AND ");
+				params.add(((MMatchInv) model).getM_InOutLine_ID());
 		}
 		else
 		{	
-			whereClause.append(MCostDetail.COLUMNNAME_M_Transaction_ID).append(" <> ? AND ");
+			whereClause.append(MCostDetail.COLUMNNAME_M_Transaction_ID).append("<> ? AND ");
 			params.add(mtrx.getM_Transaction_ID());
-		}
+		}*/
 		
 		whereClause.append("DateAcct <= " +DB.TO_DATE(dateAcct) + " AND ");
 		orderBy.append(MCostDetail.COLUMNNAME_SeqNo).append(" DESC");			
@@ -166,20 +168,20 @@ public class MCostDetail extends X_M_CostDetail
 
 		
 		
-		//List<MCostDetail> costs = new Query(mtrx.getCtx(), Table_Name, whereClause.toString(), mtrx.get_TrxName())
-		//.setParameters(params)	
-		//.setOrderBy(orderBy.toString())
-		//.list();
-		
-		//System.out.println("---------------------- Transaccion -------------------------------------------------------");
-		//System.out.println(mtrx.toString());	
-		//System.out.println("------------------------------------------------------------------------------------------");
-		//for (MCostDetail cost : costs)
-		//{
-		//	System.out.println(cost.toString());
-		//}
-		//System.out.println("---------------------- FIN BUSCANDO LA ULTIMA TRANSACCIONES ------------------------------");
-		//System.out.println("");
+		/*List<MCostDetail> costs = new Query(mtrx.getCtx(), Table_Name, whereClause.toString(), mtrx.get_TrxName())
+		.setParameters(params)	
+		.setOrderBy(orderBy.toString())
+		.list();
+
+		System.out.println("---------------------- Transaccion -------------------------------------------------------");
+		System.out.println(mtrx.toString());	
+		System.out.println("------------------------------------------------------------------------------------------");
+		for (MCostDetail cost : costs)
+		{
+			System.out.println(cost.toString());
+		}
+		System.out.println("---------------------- FIN BUSCANDO LA ULTIMA TRANSACCIONES ------------------------------");
+		System.out.println("");*/
 		
 		return  new Query(mtrx.getCtx(), Table_Name, whereClause.toString(), mtrx.get_TrxName())
 		.setParameters(params)	
@@ -285,16 +287,19 @@ public class MCostDetail extends X_M_CostDetail
 		params.add(M_CostType_ID);
 		whereClause.append(MCostDetail.COLUMNNAME_M_Transaction_ID ).append( "=? ");
 		params.add(mtrx.getM_Transaction_ID());
+		//Find adjustment cost 
 		if(model instanceof MMatchInv)
 		{	
 			MMatchInv matchInv = (MMatchInv) model;
-			whereClause.append(" AND ").append(MCostDetail.COLUMNNAME_C_InvoiceLine_ID).append( "=? ");
+			whereClause.append(" AND ").append(MCostDetail.COLUMNNAME_C_InvoiceLine_ID).append( "=? AND ");
 			params.add(matchInv.getC_InvoiceLine_ID());
+			whereClause.append(MCostDetail.COLUMNNAME_Qty).append("=0 ");
 		}	
 		else if (model.getReversalLine_ID() == 0)
 		{	
-			whereClause.append(" AND ").append(model.get_TableName()).append( "_ID=? ");
+			whereClause.append(" AND ").append(model.get_TableName()).append( "_ID=? AND ");
 			params.add(model.get_ID());
+			whereClause.append(MCostDetail.COLUMNNAME_Qty).append("<>0 ");
 		}
 
 		return new Query (mtrx.getCtx(), I_M_CostDetail.Table_Name, whereClause.toString() , mtrx.get_TrxName())
@@ -363,6 +368,10 @@ public class MCostDetail extends X_M_CostDetail
 
 		whereClause.append( MCostDetail.COLUMNNAME_M_CostDetail_ID).append("<>? AND ");
 		params.add(cd.getM_CostDetail_ID());
+		
+		/*whereClause.append( MCostDetail.COLUMNNAME_M_Transaction_ID).append("<>? AND ");
+		params.add(cd.getM_Transaction_ID());*/
+		
 		whereClause.append(MCostDetail.COLUMNNAME_SeqNo).append(">=? AND ");
 		params.add(cd.getSeqNo());
 		whereClause.append(MCostDetail.COLUMNNAME_Processing).append("=? ");

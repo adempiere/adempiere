@@ -281,6 +281,7 @@ public class StorageEngine
 		
 		final String whereClause = IDColumnName+"=?";
 		List<PO> list = new Query(ctx, tableName, whereClause, trxName)
+											.setClient_ID()
 											.setParameters(new Object[]{model.get_ID()})
 											.setOrderBy(IDColumnName)
 											.list();

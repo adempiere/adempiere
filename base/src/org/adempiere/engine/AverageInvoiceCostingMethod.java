@@ -63,6 +63,7 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 		// If model is reversal then no calculate cost
 		if (m_model.getReversalLine_ID() > 0 && m_costdetail == null)
 			return;
+		
 		// created a new instance cost detail to process calculated cost
 		if (m_last_costdetail == null) { 
 			m_last_costdetail = new MCostDetail(m_trx,
@@ -71,11 +72,11 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 					Env.ZERO, m_trx.get_TrxName());
 			m_last_costdetail.setDateAcct(m_model.getDateAcct());
 		}
-		
+			
+				
 		// The cost detail was created before then is necessary to update cost by
-		// generate adjustment
-		if (m_trx.getM_Transaction_ID() == m_last_costdetail
-				.getM_Transaction_ID()) {
+		// generate adjustment	
+		if (m_trx.getM_Transaction_ID() == m_last_costdetail.getM_Transaction_ID()) {
 			m_Amount = m_model.getMovementQty().multiply(m_costThisLevel); // total
 																			// adjustment
 																			// this
@@ -92,7 +93,7 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 			m_AdjustCost = m_Amount.subtract(m_last_costdetail.getCostAmt());
 			m_AdjustCostLL = m_AmountLL.subtract(m_last_costdetail
 					.getCostAmtLL());
-
+				
 			m_CumulatedAmt = getNewCumulatedAmt(m_last_costdetail).add(
 					m_AdjustCost);
 			m_CumulatedAmtLL = getNewCumulatedAmtLL(m_last_costdetail)
@@ -106,16 +107,12 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 					.signum() != 0 ? m_CumulatedQty : BigDecimal.ONE, m_as
 					.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
 
+			if(m_AdjustCost.add(m_AdjustCostLL).signum() == 0)
+				return;
 			// validation when the cost detail is reprocess
 			if (m_costdetail == null)
 				return;
-
-			// if not exist some adjustment and cost detail exist then delete
-			if (m_AdjustCost.add(m_AdjustCostLL).signum() == 0) {
-				m_costdetail.deleteEx(true);
-				m_costdetail = null;
-				return;
-			}
+			
 			// reset with the current values
 			m_costdetail.setCostAdjustment(m_AdjustCost);
 			m_costdetail.setAmt(m_costdetail.getCostAmt().add(
@@ -156,6 +153,9 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 			m_CurrentCostPriceLL = getNewCurrentCostPriceLL(m_last_costdetail,
 					m_as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
 
+			m_Amount = m_trx.getMovementQty().multiply(m_CurrentCostPrice);
+			m_AmountLL = m_trx.getMovementQty().multiply(m_CurrentCostPriceLL);
+
 			m_CumulatedAmt = getNewCumulatedAmt(m_last_costdetail)
 					.add(m_Amount);
 			m_CumulatedAmtLL = getNewCumulatedAmtLL(m_last_costdetail).add(
@@ -163,8 +163,6 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 			
 			m_CumulatedQty = getNewCumulatedQty(m_last_costdetail).add(
 					m_trx.getMovementQty());
-						m_Amount = m_trx.getMovementQty().multiply(m_CurrentCostPrice);
-			m_AmountLL = m_trx.getMovementQty().multiply(m_CurrentCostPriceLL);
 		
 			if(m_costdetail != null)
 			{	
@@ -284,13 +282,13 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 		
 		MCostDetail last_cd = m_costdetail;
 		m_costdetail = null;
-		/*
-		 * System.out.println(
-		 * "-----------------------------------ADJUSTMENT COST -------------------------------------------------"
-		 * ); System.out.println(last_cd); System.out.println(
-		 * "----------------------------------------------------------------------------------------------------"
-		 * );
-		 */
+		
+		 /*System.out.println(
+		 "-----------------------------------ADJUSTMENT COST -------------------------------------------------"
+		 ); System.out.println(last_cd); System.out.println(
+		 "----------------------------------------------------------------------------------------------------"
+		 );*/
+		 
 		//Renumber sequence
 		for (MCostDetail cd : cds) {
 			cd.setSeqNo(last_cd.getSeqNo() + 10); // remunerate sequence

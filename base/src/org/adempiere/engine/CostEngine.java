@@ -42,6 +42,7 @@ import org.compiere.model.MMatchInv;
 import org.compiere.model.MMatchPO;
 import org.compiere.model.MMovementLine;
 import org.compiere.model.MProduct;
+import org.compiere.model.MProductPO;
 import org.compiere.model.MProductionLine;
 import org.compiere.model.MTransaction;
 import org.compiere.model.PO;
@@ -68,6 +69,26 @@ public class CostEngine {
 	/** Logger */
 	protected transient CLogger log = CLogger.getCLogger(getClass());
 
+	public static BigDecimal getSeedCost(Properties ctx , int  M_Product_ID ,  String trxName)
+	{
+		BigDecimal costThisLevel = Env.ZERO;
+		for (MProductPO productPO : MProductPO.getOfProduct(ctx,M_Product_ID, trxName))
+		 {
+			 if (productPO.isCurrentVendor())
+			 { 
+				 if (productPO.getPriceLastInv().signum() != 0)
+					 costThisLevel = productPO.getPriceLastInv();
+				 else if (productPO.getPriceLastPO().signum() != 0) 
+					 costThisLevel = productPO.getPriceLastPO();
+				 else if  (productPO.getPricePO().signum() != 0) 
+					 costThisLevel = productPO.getPricePO();
+				 else 
+					 costThisLevel = productPO.getPriceList();
+				 return costThisLevel;
+			 } 
+		 }
+		return costThisLevel;
+	}
 	/**
 	 * Get Actual Cost of Parent Product Based on Cost Type
 	 * 
@@ -141,21 +162,22 @@ public class CostEngine {
 				.append(" IN (SELECT M_ProductionLine_ID FROM M_ProductionLine pl WHERE pl.M_ProductionPlan_ID=? AND ");
 		whereClause.append(" pl.M_Product_ID <> ? )");
 
-		BigDecimal actualCost = new Query(line.getCtx(),
+		BigDecimal actualCostTotal = new Query(line.getCtx(),
 				I_M_CostDetail.Table_Name, whereClause.toString(),
 				line.get_TrxName())
 				.setClient_ID()
 				.setParameters(M_CostType_ID, M_CostElement_ID,
 						line.getM_ProductionPlan_ID(), line.getM_Product_ID())
 				.sum("(" + MCostDetail.COLUMNNAME_Amt + "+"
-						+ MCostDetail.COLUMNNAME_CostAmtLL + ")");
+						+ MCostDetail.COLUMNNAME_AmtLL + ")");
 
-		if (actualCost == null)
-			actualCost = Env.ZERO;
+		if (actualCostTotal == null)
+			actualCostTotal = Env.ZERO;
 
-		if (line.getMovementQty().signum() > 0)
-			actualCost = actualCost.divide(line.getMovementQty(),
-					as.getCostingPrecision(), BigDecimal.ROUND_HALF_DOWN);
+		BigDecimal actualCost = Env.ZERO;
+		if (line.getMovementQty().signum() != 0)
+			actualCost = actualCostTotal.divide(line.getMovementQty().abs(),
+					as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
 
 		return actualCost;
 	}
@@ -277,7 +299,7 @@ public class CostEngine {
 				// as.getM_CostType_ID(),
 				M_CostElement_ID, };
 		return new Query(mtrx.getCtx(), MCostDetail.Table_Name, whereClause,
-				mtrx.get_TrxName()).setParameters(params).firstOnly();
+				mtrx.get_TrxName()).setClient_ID().setParameters(params).firstOnly();
 	}
 
 	public void createCostDetail(MTransaction mtrx) {
@@ -354,7 +376,10 @@ public class CostEngine {
 
 		BigDecimal costThisLevel = Env.ZERO;
 		BigDecimal costLowLevel = Env.ZERO;
-
+		String costingLevel = MProduct.get(mtrx.getCtx(),
+				mtrx.getM_Product_ID()).getCostingLevel(as,
+				mtrx.getAD_Org_ID());
+		
 		// The Change of price in the Invoice Line is not generated cost
 		// adjustment for Average PO Consting method
 		if (model instanceof MMatchInv
@@ -392,10 +417,9 @@ public class CostEngine {
 			if (model instanceof MMovementLine
 					|| model instanceof MInventoryLine
 					|| (model instanceof MInOutLine && MTransaction.MOVEMENTTYPE_CustomerReturns
-							.equals(mtrx.getMovementType()))) {
-				String costingLevel = MProduct.get(mtrx.getCtx(),
-						mtrx.getM_Product_ID()).getCostingLevel(as,
-						mtrx.getAD_Org_ID());
+							.equals(mtrx.getMovementType()))
+					) {
+
 				costThisLevel = getCostThisLevel(mtrx, as, ct, ce, model,
 						costingLevel);
 				// If cost this level is zero and is a physical inventory then
@@ -460,13 +484,29 @@ public class CostEngine {
 			}
 			if (model instanceof MProductionLine) {
 				MProductionLine productionLine = (MProductionLine) model;
+				costThisLevel = CostEngine.getParentActualCostByCostType(
+						productionLine, as, ct.getM_CostType_ID(),
+						ce.getM_CostElement_ID());
+				
+				if(costThisLevel.signum() == 0)
+					costThisLevel = cost.getCurrentCostPrice();
+					if(costThisLevel.signum() == 0)
+						costThisLevel = getSeedCost(
+								mtrx.getCtx(), 
+								mtrx.getM_Product_ID(), 
+								mtrx.get_TableName());
+						
 				// Material Receipt for Production light
 				if (productionLine.isParent()) {
 					// get Actual Cost for Cost Type and Cost Element
-					costLowLevel = CostEngine.getParentActualCostByCostType(
-							productionLine, as, ct.getM_CostType_ID(),
-							ce.getM_CostElement_ID());
-				}
+					// if the product is purchase then no use low level 
+					if (!productionLine.getM_Product().isPurchased())
+					{	
+						costLowLevel  = costThisLevel;
+						costThisLevel = Env.ZERO;
+					} 
+				} else if ( productionLine.getMovementQty().signum() < 0)
+					costThisLevel= Env.ZERO;
 			}
 		}
 
@@ -687,7 +727,7 @@ public class CostEngine {
 			params.add(isSOTrx);
 		}
 		MCostDetail retValue = new Query(cost.getCtx(), MCostDetail.Table_Name,
-				whereClauseFinal, cost.get_TrxName()).setParameters(params)
+				whereClauseFinal, cost.get_TrxName()).setClient_ID().setParameters(params)
 				.first();
 		return retValue;
 	}
@@ -839,6 +879,7 @@ public class CostEngine {
 				+ "=?";
 		MCostDetail cd = new Query(cc.getCtx(), MCostDetail.Table_Name,
 				whereClause, cc.get_TrxName())
+				.setClient_ID()
 				.setParameters(
 						new Object[] { cc.getPP_Cost_Collector_ID(),
 								M_CostElement_ID }).firstOnly();
