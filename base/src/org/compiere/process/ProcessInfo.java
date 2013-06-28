@@ -123,7 +123,13 @@ public class ProcessInfo implements Serializable
 	private boolean				m_reportingProcess = false;
 	//FR 1906632
 	private File 			    m_pdf_report = null;
-
+	
+	/**
+	 * If the process fails with an Throwable, the Throwable is caught and stored here
+	 */
+	// mo73_03152: motivation to add this is that now in ait we can assert that a certain exception was thrown.
+	private Throwable			m_throwable = null;
+	
 	/**
 	 *  String representation
 	 *  @return String representation
@@ -675,5 +681,91 @@ public class ProcessInfo implements Serializable
 		return m_pdf_report;
 	}	
 		
+// metas: begin
+	/** Org_ID        				*/
+	private Integer 			m_AD_Org_ID = -1; //metas: c.ghita@metas.ro
+	/**
+	 * Method getAD_Org_ID
+	 * @return Integer
+	 */
+	//metas: c.ghita@metas.ro
+	public Integer getAD_Org_ID()
+	{
+		if (m_AD_Org_ID == -1)
+			return Env.getAD_Org_ID(Env.getCtx());
+		return m_AD_Org_ID;
+	}
+
+	/**
+	 * Method setAD_Org_ID
+	 * @param AD_Org_ID int
+	 */
+	//metas: c.ghita@metas.ro
+	public void setAD_Org_ID (int AD_Org_ID)
+	{
+		m_AD_Org_ID = new Integer (AD_Org_ID);
+	}
+// metas: end
+
+	//metas: t.schoeneberg@metas.de
+	//mo73_03152
+	/**
+	 * If the process has failed with a Throwable, that Throwable can be retrieved using this getter.
+	 * 
+	 * @return
+	 */
+	public Throwable getThrowable()
+	{
+		return m_throwable;
+	}
+
+	public void setThrowable(Throwable t)
+	{
+		this.m_throwable = t;
+	}
+	// metas: end
 	
+	//metas: cg
+	//mo73_03040
+	/**
+	 * @return the m_windowNo
+	 */
+	public int getWindowNo()
+	{
+		return m_windowNo;
+	}
+
+	/**
+	 * @param m_windowNo the m_windowNo to set
+	 */
+	public void setWindowNo(int m_windowNo)
+	{
+		this.m_windowNo = m_windowNo;
+	}
+
+	private int          		m_windowNo = 0;
+	// metas end
+	
+	
+	// metas: cg
+	// mo73_03685
+	/**
+	 * @return the m_whereClause
+	 */
+	public String getWhereClause()
+	{
+		return m_whereClause;
+	}
+
+	/**
+	 * @param m_whereClause
+	 *            the m_whereClause to set
+	 */
+	public void setWhereClause(String m_whereClause)
+	{
+		this.m_whereClause = m_whereClause;
+	}
+
+	private String m_whereClause = "";
+	// metas end
 }   //  ProcessInfo

@@ -26,6 +26,7 @@ import java.util.logging.Level;
 
 import javax.script.ScriptEngine;
 
+import org.adempiere.ad.modelvalidator.AnnotatedModelValidatorFactory;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.ModelValidatorException;
 import org.adempiere.model.ImportValidator;
@@ -966,6 +967,30 @@ public class ModelValidationEngine
 			if(mve.isPassOn())
 			{
 				throw mve;
+			}
+		}
+	}
+	
+	public void addModelValidator(Object validator, MClient client)
+	{
+		if (validator == null)
+		{
+			throw new IllegalArgumentException("validator can not be null");
+		}
+		else if (validator instanceof ModelValidator)
+		{
+			initialize((ModelValidator)validator, client);
+		}
+		else
+		{
+			final ModelValidator annotatedValidator = AnnotatedModelValidatorFactory.get().createModelValidator(validator);
+			if (annotatedValidator == null)
+			{
+				log.warning("No pointcuts found for model validator: "+validator+" [SKIP]");
+			}
+			else
+			{
+				initialize(annotatedValidator, client);
 			}
 		}
 	}

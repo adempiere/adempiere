@@ -18,6 +18,7 @@ package org.compiere.process;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 
 /**
@@ -240,4 +241,15 @@ public class ProcessInfoParameter implements Serializable
 		m_ParameterName = ParameterName;
 	}
 
+	// metas
+	public Timestamp getParameterAsTimestamp()
+	{
+		return (Timestamp)getParameter();
+	}
+
+	// metas
+	public Timestamp getParameter_ToAsTimestamp()
+	{
+		return (Timestamp)getParameter_To();
+	}
 }   //  ProcessInfoParameter
