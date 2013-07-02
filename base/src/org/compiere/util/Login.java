@@ -121,7 +121,7 @@ public class Login
 		msg.append(System.getProperty("java.vm.name")).append(" - ").append(jVersion);
 		if (ok)
 			msg.append("(untested)");
-		msg.append("  <>  1.5.0");
+		msg.append(" <> 1.5.0, 1.6.0, 1.7.0");
 		//
 		if (isClient)
 			JOptionPane.showMessageDialog(null, msg.toString(),

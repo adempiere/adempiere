@@ -738,7 +738,8 @@ public class Allocation
 		//	Should start WF
 		if (alloc.get_ID() != 0)
 		{
-			alloc.processIt(DocAction.ACTION_Complete);
+			if (!alloc.processIt(DocAction.ACTION_Complete)) //@Trifon
+				throw new AdempiereException("Cannot complete allocation: " + alloc.getProcessMsg()); //@Trifon
 			alloc.saveEx();
 		}
 		

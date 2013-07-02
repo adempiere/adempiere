@@ -29,7 +29,7 @@
          This connector uses the JSSE configuration, when using APR, the 
          connector should be using the OpenSSL style configuration
          described in the APR documentation -->
-    <Connector port="@ADEMPIERE_SSL_PORT@" protocol="HTTP/1.1" SSLEnabled="true"
+    <Connector port="@ADEMPIERE_SSL_PORT@" address="${jboss.bind.address}" protocol="HTTP/1.1" SSLEnabled="true"
                maxThreads="150" scheme="https" secure="true"
                clientAuth="false"
                keystoreFile="@ADEMPIERE_KEYSTORE@"

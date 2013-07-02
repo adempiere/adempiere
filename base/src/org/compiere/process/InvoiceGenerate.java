@@ -65,7 +65,7 @@ public class InvoiceGenerate extends SvrProcess
 	private MInvoice 	m_invoice = null;
 	/**	The current Shipment	*/
 	private MInOut	 	m_ship = null;
-	/** Numner of Invoices		*/
+	/** Number of Invoices		*/
 	private int			m_created = 0;
 	/**	Line Number				*/
 	private int			m_line = 0;
@@ -426,6 +426,17 @@ public class InvoiceGenerate extends SvrProcess
 			line.setQtyEntered(sLine.getMovementQty());
 		line.setQtyInvoiced(sLine.getMovementQty());
 		line.setLine(m_line + sLine.getLine());
+		//@Trifon - special handling when ShipLine.ToBeInvoiced='N'
+		String toBeInvoiced = sLine.get_ValueAsString( "ToBeInvoiced" );
+		if ("N".equals( toBeInvoiced )) {
+			line.setPriceEntered( Env.ZERO );
+			line.setPriceActual( Env.ZERO );
+			line.setPriceLimit( Env.ZERO );
+			line.setPriceList( Env.ZERO);
+			//setC_Tax_ID(oLine.getC_Tax_ID());
+			line.setLineNetAmt( Env.ZERO );
+			line.setIsDescription( true );
+		}
 		if (!line.save())
 			throw new IllegalStateException("Could not create Invoice Line (s)");
 		//	Link

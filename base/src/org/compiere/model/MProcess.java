@@ -205,6 +205,7 @@ public class MProcess extends X_AD_Process
 
 		ProcessInfo processInfo = new ProcessInfo("", this.getAD_Process_ID());
 		processInfo.setAD_PInstance_ID(pInstance.getAD_PInstance_ID());
+		processInfo.setRecord_ID( Record_ID ); //@Trifon - pass Record_Id to ProcessInfo class
 		ok = processIt(processInfo, trx, managedTrx);
 
 		//	Unlock
