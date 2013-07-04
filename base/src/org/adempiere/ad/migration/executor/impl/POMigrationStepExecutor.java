@@ -295,9 +295,16 @@ public class POMigrationStepExecutor extends AbstractMigrationStepExecutor
 
 		final List<I_AD_MigrationData> dataKeys = new ArrayList<I_AD_MigrationData>();
 		final List<I_AD_MigrationData> dataParents = new ArrayList<I_AD_MigrationData>();
-		for (I_AD_MigrationData data : getMigrationData())
+		for (final I_AD_MigrationData data : getMigrationData())
 		{
 			final I_AD_Column column = data.getAD_Column();
+
+			if (column == null)
+			{
+				logger.log(Level.WARNING, "Column is null for data: {0}", new Object[] { data });
+				continue;
+			}
+
 			if (column.isKey())
 			{
 				dataKeys.add(data);
