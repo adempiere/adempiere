@@ -3,6 +3,7 @@ package org.adempiere.ad.migration.process;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 
 import org.adempiere.ad.migration.logger.IMigrationLogger;
 import org.adempiere.ad.migration.logger.IMigrationLoggerContext;
@@ -15,7 +16,9 @@ import org.adempiere.util.Services;
 import org.adempiere.util.collections.IteratorUtils;
 import org.compiere.model.I_AD_Column;
 import org.compiere.model.I_AD_Element;
+import org.compiere.model.I_AD_Menu;
 import org.compiere.model.I_AD_Table;
+import org.compiere.model.I_AD_TreeNodeMM;
 import org.compiere.model.PO;
 import org.compiere.model.POInfo;
 import org.compiere.model.Query;
@@ -87,7 +90,8 @@ public class AD_Migration_CreateFromEntityType extends SvrProcess
 
 	private void logDependents(final IMigrationLoggerContext migrationCtx, final IMigrationLogger migrationLogger, final PO record)
 	{
-		if (I_AD_Column.Table_Name.equals(InterfaceWrapperHelper.getModelTableName(record)))
+		final String tableName = InterfaceWrapperHelper.getModelTableName(record);
+		if (I_AD_Column.Table_Name.equals(tableName))
 		{
 			final I_AD_Column adColumn = InterfaceWrapperHelper.create(record, I_AD_Column.class);
 
@@ -102,6 +106,32 @@ public class AD_Migration_CreateFromEntityType extends SvrProcess
 				migrationLogger.logMigration(migrationCtx, adElementPO, adElementPOInfo, X_AD_MigrationStep.ACTION_Insert);
 			}
 		}
+		else if (I_AD_Menu.Table_Name.equals(tableName))
+		{
+			final I_AD_Menu menu = InterfaceWrapperHelper.create(record, I_AD_Menu.class);
+			final POInfo poInfo = POInfo.getPOInfo(getCtx(), I_AD_TreeNodeMM.Table_Name);
+			for (final I_AD_TreeNodeMM nodeMM : retrieveADTreeNodeMM(menu))
+			{
+				final PO po = InterfaceWrapperHelper.getPO(nodeMM);
+				migrationLogger.logMigration(migrationCtx, po, poInfo, X_AD_MigrationStep.ACTION_Insert);
+			}
+		}
+	}
+
+	private List<I_AD_TreeNodeMM> retrieveADTreeNodeMM(final I_AD_Menu menu)
+	{
+		final Properties ctx = InterfaceWrapperHelper.getCtx(menu);
+		final String trxName = InterfaceWrapperHelper.getTrxName(menu);
+
+		final StringBuilder whereClause = new StringBuilder();
+		final List<Object> params = new ArrayList<Object>();
+
+		whereClause.append(I_AD_TreeNodeMM.COLUMNNAME_Node_ID).append("=?");
+		params.add(menu.getAD_Menu_ID());
+
+		return new Query(ctx, I_AD_TreeNodeMM.Table_Name, whereClause.toString(), trxName)
+				.setParameters(params)
+				.list(I_AD_TreeNodeMM.class);
 	}
 
 	private Iterator<I_AD_Table> retrieveTablesWithEntityType()
