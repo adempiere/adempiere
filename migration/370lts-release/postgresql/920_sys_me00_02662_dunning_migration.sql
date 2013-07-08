@@ -45,7 +45,7 @@ INSERT INTO AD_Table_Trl (AD_Language,AD_Table_ID, Name, IsTranslated,AD_Client_
 
 -- Jul 5, 2013 3:27:20 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66240,113,0,19,53529,'AD_Org_ID',TO_TIMESTAMP('2012-10-22 17:34:15','YYYY-MM-DD HH24:MI:SS'),100,'Organisatorische Einheit des Mandanten','de.metas.dunning',10,'Eine Organisation ist ein Bereich ihres Mandanten - z.B. Laden oder Abteilung. Sie können Daten über Organisationen hinweg gemeinsam verwenden.','Y','Y','N','N','N','N','N','Y','N','N','Y','N','N','Sektion',0,TO_TIMESTAMP('2012-10-22 17:34:15','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66240,113,0,19,53529,'AD_Org_ID',TO_TIMESTAMP('2012-10-22 17:34:15','YYYY-MM-DD HH24:MI:SS'),100,'Organisatorische Einheit des Mandanten','de.metas.dunning',10,'Eine Organisation ist ein Bereich ihres Mandanten - z.B. Laden oder Abteilung. Sie kÃ¶nnen Daten Ã¼ber Organisationen hinweg gemeinsam verwenden.','Y','Y','N','N','N','N','N','Y','N','N','Y','N','N','Sektion',0,TO_TIMESTAMP('2012-10-22 17:34:15','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 5, 2013 3:27:20 PM EEST
@@ -55,7 +55,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 5, 2013 3:27:20 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Element SET AD_Client_ID=0, AD_Element_ID=113, AD_Org_ID=0, ColumnName='AD_Org_ID', Created=TO_TIMESTAMP('1999-11-19 11:07:43','YYYY-MM-DD HH24:MI:SS'), CreatedBy=0, Description='Organisatorische Einheit des Mandanten', EntityType='D', Help='Eine Organisation ist ein Bereich ihres Mandanten - z.B. Laden oder Abteilung. Sie können Daten über Organisationen hinweg gemeinsam verwenden.', IsActive='Y', Name='Sektion', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Organisation', Updated=TO_TIMESTAMP('2012-03-22 10:48:27','YYYY-MM-DD HH24:MI:SS'), UpdatedBy=1000027 WHERE AD_Element_ID=113
+UPDATE AD_Element SET AD_Client_ID=0, AD_Element_ID=113, AD_Org_ID=0, ColumnName='AD_Org_ID', Created=TO_TIMESTAMP('1999-11-19 11:07:43','YYYY-MM-DD HH24:MI:SS'), CreatedBy=0, Description='Organisatorische Einheit des Mandanten', EntityType='D', Help='Eine Organisation ist ein Bereich ihres Mandanten - z.B. Laden oder Abteilung. Sie kÃ¶nnen Daten Ã¼ber Organisationen hinweg gemeinsam verwenden.', IsActive='Y', Name='Sektion', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Organisation', Updated=TO_TIMESTAMP('2012-03-22 10:48:27','YYYY-MM-DD HH24:MI:SS'), UpdatedBy=1000027 WHERE AD_Element_ID=113
 ;
 
 -- Jul 5, 2013 3:27:20 PM EEST
@@ -65,22 +65,22 @@ UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=113
 
 -- Jul 5, 2013 3:27:20 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Column SET ColumnName='AD_Org_ID', Name='Sektion', Description='Organisatorische Einheit des Mandanten', Help='Eine Organisation ist ein Bereich ihres Mandanten - z.B. Laden oder Abteilung. Sie können Daten über Organisationen hinweg gemeinsam verwenden.' WHERE AD_Element_ID=113
+UPDATE AD_Column SET ColumnName='AD_Org_ID', Name='Sektion', Description='Organisatorische Einheit des Mandanten', Help='Eine Organisation ist ein Bereich ihres Mandanten - z.B. Laden oder Abteilung. Sie kÃ¶nnen Daten Ã¼ber Organisationen hinweg gemeinsam verwenden.' WHERE AD_Element_ID=113
 ;
 
 -- Jul 5, 2013 3:27:20 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Process_Para SET ColumnName='AD_Org_ID', Name='Sektion', Description='Organisatorische Einheit des Mandanten', Help='Eine Organisation ist ein Bereich ihres Mandanten - z.B. Laden oder Abteilung. Sie können Daten über Organisationen hinweg gemeinsam verwenden.', AD_Element_ID=113 WHERE UPPER(ColumnName)='AD_ORG_ID' AND IsCentrallyMaintained='Y' AND AD_Element_ID IS NULL
+UPDATE AD_Process_Para SET ColumnName='AD_Org_ID', Name='Sektion', Description='Organisatorische Einheit des Mandanten', Help='Eine Organisation ist ein Bereich ihres Mandanten - z.B. Laden oder Abteilung. Sie kÃ¶nnen Daten Ã¼ber Organisationen hinweg gemeinsam verwenden.', AD_Element_ID=113 WHERE UPPER(ColumnName)='AD_ORG_ID' AND IsCentrallyMaintained='Y' AND AD_Element_ID IS NULL
 ;
 
 -- Jul 5, 2013 3:27:20 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Process_Para SET ColumnName='AD_Org_ID', Name='Sektion', Description='Organisatorische Einheit des Mandanten', Help='Eine Organisation ist ein Bereich ihres Mandanten - z.B. Laden oder Abteilung. Sie können Daten über Organisationen hinweg gemeinsam verwenden.' WHERE AD_Element_ID=113 AND IsCentrallyMaintained='Y'
+UPDATE AD_Process_Para SET ColumnName='AD_Org_ID', Name='Sektion', Description='Organisatorische Einheit des Mandanten', Help='Eine Organisation ist ein Bereich ihres Mandanten - z.B. Laden oder Abteilung. Sie kÃ¶nnen Daten Ã¼ber Organisationen hinweg gemeinsam verwenden.' WHERE AD_Element_ID=113 AND IsCentrallyMaintained='Y'
 ;
 
 -- Jul 5, 2013 3:27:20 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Field SET Name='Sektion', Description='Organisatorische Einheit des Mandanten', Help='Eine Organisation ist ein Bereich ihres Mandanten - z.B. Laden oder Abteilung. Sie können Daten über Organisationen hinweg gemeinsam verwenden.' WHERE AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=113) AND IsCentrallyMaintained='Y'
+UPDATE AD_Field SET Name='Sektion', Description='Organisatorische Einheit des Mandanten', Help='Eine Organisation ist ein Bereich ihres Mandanten - z.B. Laden oder Abteilung. Sie kÃ¶nnen Daten Ã¼ber Organisationen hinweg gemeinsam verwenden.' WHERE AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=113) AND IsCentrallyMaintained='Y'
 ;
 
 -- Jul 5, 2013 3:27:20 PM EEST
@@ -135,7 +135,7 @@ UPDATE AD_PrintFormatItem SET PrintName='Erstellt', Name='Erstellt' WHERE IsCent
 
 -- Jul 5, 2013 3:27:21 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,AD_Val_Rule_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66239,102,0,19,53529,129,'AD_Client_ID',TO_TIMESTAMP('2012-10-22 17:34:15','YYYY-MM-DD HH24:MI:SS'),100,'Mandant für diese Installation.','de.metas.dunning',10,'Ein Mandant ist eine Firma oder eine juristische Person. Sie können keine Daten über Mandanten hinweg verwenden. .','Y','Y','N','N','N','N','N','Y','N','N','Y','N','N','Mandant',0,TO_TIMESTAMP('2012-10-22 17:34:15','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,AD_Val_Rule_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66239,102,0,19,53529,129,'AD_Client_ID',TO_TIMESTAMP('2012-10-22 17:34:15','YYYY-MM-DD HH24:MI:SS'),100,'Mandant fÃ¼r diese Installation.','de.metas.dunning',10,'Ein Mandant ist eine Firma oder eine juristische Person. Sie kÃ¶nnen keine Daten Ã¼ber Mandanten hinweg verwenden. .','Y','Y','N','N','N','N','N','Y','N','N','Y','N','N','Mandant',0,TO_TIMESTAMP('2012-10-22 17:34:15','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 5, 2013 3:27:21 PM EEST
@@ -145,7 +145,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 5, 2013 3:27:21 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Element SET AD_Client_ID=0, AD_Element_ID=102, AD_Org_ID=0, ColumnName='AD_Client_ID', Created=TO_TIMESTAMP('1999-11-19 11:07:43','YYYY-MM-DD HH24:MI:SS'), CreatedBy=0, Description='Mandant für diese Installation.', EntityType='D', Help='Ein Mandant ist eine Firma oder eine juristische Person. Sie können keine Daten über Mandanten hinweg verwenden. .', IsActive='Y', Name='Mandant', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Mandant', Updated=TO_TIMESTAMP('2008-10-30 16:25:11','YYYY-MM-DD HH24:MI:SS'), UpdatedBy=100 WHERE AD_Element_ID=102
+UPDATE AD_Element SET AD_Client_ID=0, AD_Element_ID=102, AD_Org_ID=0, ColumnName='AD_Client_ID', Created=TO_TIMESTAMP('1999-11-19 11:07:43','YYYY-MM-DD HH24:MI:SS'), CreatedBy=0, Description='Mandant fÃ¼r diese Installation.', EntityType='D', Help='Ein Mandant ist eine Firma oder eine juristische Person. Sie kÃ¶nnen keine Daten Ã¼ber Mandanten hinweg verwenden. .', IsActive='Y', Name='Mandant', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Mandant', Updated=TO_TIMESTAMP('2008-10-30 16:25:11','YYYY-MM-DD HH24:MI:SS'), UpdatedBy=100 WHERE AD_Element_ID=102
 ;
 
 -- Jul 5, 2013 3:27:21 PM EEST
@@ -155,22 +155,22 @@ UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=102
 
 -- Jul 5, 2013 3:27:21 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Column SET ColumnName='AD_Client_ID', Name='Mandant', Description='Mandant für diese Installation.', Help='Ein Mandant ist eine Firma oder eine juristische Person. Sie können keine Daten über Mandanten hinweg verwenden. .' WHERE AD_Element_ID=102
+UPDATE AD_Column SET ColumnName='AD_Client_ID', Name='Mandant', Description='Mandant fÃ¼r diese Installation.', Help='Ein Mandant ist eine Firma oder eine juristische Person. Sie kÃ¶nnen keine Daten Ã¼ber Mandanten hinweg verwenden. .' WHERE AD_Element_ID=102
 ;
 
 -- Jul 5, 2013 3:27:21 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Process_Para SET ColumnName='AD_Client_ID', Name='Mandant', Description='Mandant für diese Installation.', Help='Ein Mandant ist eine Firma oder eine juristische Person. Sie können keine Daten über Mandanten hinweg verwenden. .', AD_Element_ID=102 WHERE UPPER(ColumnName)='AD_CLIENT_ID' AND IsCentrallyMaintained='Y' AND AD_Element_ID IS NULL
+UPDATE AD_Process_Para SET ColumnName='AD_Client_ID', Name='Mandant', Description='Mandant fÃ¼r diese Installation.', Help='Ein Mandant ist eine Firma oder eine juristische Person. Sie kÃ¶nnen keine Daten Ã¼ber Mandanten hinweg verwenden. .', AD_Element_ID=102 WHERE UPPER(ColumnName)='AD_CLIENT_ID' AND IsCentrallyMaintained='Y' AND AD_Element_ID IS NULL
 ;
 
 -- Jul 5, 2013 3:27:21 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Process_Para SET ColumnName='AD_Client_ID', Name='Mandant', Description='Mandant für diese Installation.', Help='Ein Mandant ist eine Firma oder eine juristische Person. Sie können keine Daten über Mandanten hinweg verwenden. .' WHERE AD_Element_ID=102 AND IsCentrallyMaintained='Y'
+UPDATE AD_Process_Para SET ColumnName='AD_Client_ID', Name='Mandant', Description='Mandant fÃ¼r diese Installation.', Help='Ein Mandant ist eine Firma oder eine juristische Person. Sie kÃ¶nnen keine Daten Ã¼ber Mandanten hinweg verwenden. .' WHERE AD_Element_ID=102 AND IsCentrallyMaintained='Y'
 ;
 
 -- Jul 5, 2013 3:27:21 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Field SET Name='Mandant', Description='Mandant für diese Installation.', Help='Ein Mandant ist eine Firma oder eine juristische Person. Sie können keine Daten über Mandanten hinweg verwenden. .' WHERE AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=102) AND IsCentrallyMaintained='Y'
+UPDATE AD_Field SET Name='Mandant', Description='Mandant fÃ¼r diese Installation.', Help='Ein Mandant ist eine Firma oder eine juristische Person. Sie kÃ¶nnen keine Daten Ã¼ber Mandanten hinweg verwenden. .' WHERE AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=102) AND IsCentrallyMaintained='Y'
 ;
 
 -- Jul 5, 2013 3:27:21 PM EEST
@@ -225,7 +225,7 @@ UPDATE AD_PrintFormatItem SET PrintName='Aktualisiert durch', Name='Aktualisiert
 
 -- Jul 5, 2013 3:27:21 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66249,348,0,20,53529,'IsActive',TO_TIMESTAMP('2012-10-22 17:34:16','YYYY-MM-DD HH24:MI:SS'),100,'Der Eintrag ist im System aktiv','de.metas.dunning',1,'Es gibt zwei Möglichkeiten, einen Datensatz nicht mehr verfügbar zu machen: einer ist, ihn zu löschen; der andere, ihn zu deaktivieren. Ein deaktivierter Eintrag ist nicht mehr für eine Auswahl verfügbar, aber verfügbar für die Verwendung in Berichten. Es gibt zwei Gründe, Datensätze zu deaktivieren und nicht zu löschen: (1) Das System braucht den Datensatz für Revisionszwecke. (2) Der Datensatz wird von anderen Datensätzen referenziert. Z.B. können Sie keinen Geschäftspartner löschen, wenn es Rechnungen für diesen Geschäftspartner gibt. Sie deaktivieren den Geschäftspartner und verhindern, dass dieser Eintrag in zukünftigen Vorgängen verwendet wird.','Y','Y','N','N','N','N','N','Y','N','N','Y','N','Y','Aktiv',0,TO_TIMESTAMP('2012-10-22 17:34:16','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66249,348,0,20,53529,'IsActive',TO_TIMESTAMP('2012-10-22 17:34:16','YYYY-MM-DD HH24:MI:SS'),100,'Der Eintrag ist im System aktiv','de.metas.dunning',1,'Es gibt zwei MÃ¶glichkeiten, einen Datensatz nicht mehr verfÃ¼gbar zu machen: einer ist, ihn zu lÃ¶schen; der andere, ihn zu deaktivieren. Ein deaktivierter Eintrag ist nicht mehr fÃ¼r eine Auswahl verfÃ¼gbar, aber verfÃ¼gbar fÃ¼r die Verwendung in Berichten. Es gibt zwei GrÃ¼nde, DatensÃ¤tze zu deaktivieren und nicht zu lÃ¶schen: (1) Das System braucht den Datensatz fÃ¼r Revisionszwecke. (2) Der Datensatz wird von anderen DatensÃ¤tzen referenziert. Z.B. kÃ¶nnen Sie keinen GeschÃ¤ftspartner lÃ¶schen, wenn es Rechnungen fÃ¼r diesen GeschÃ¤ftspartner gibt. Sie deaktivieren den GeschÃ¤ftspartner und verhindern, dass dieser Eintrag in zukÃ¼nftigen VorgÃ¤ngen verwendet wird.','Y','Y','N','N','N','N','N','Y','N','N','Y','N','Y','Aktiv',0,TO_TIMESTAMP('2012-10-22 17:34:16','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 5, 2013 3:27:21 PM EEST
@@ -235,7 +235,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 5, 2013 3:27:22 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Element SET AD_Client_ID=0, AD_Element_ID=348, AD_Org_ID=0, ColumnName='IsActive', Created=TO_TIMESTAMP('1999-11-19 11:07:43','YYYY-MM-DD HH24:MI:SS'), CreatedBy=0, Description='Der Eintrag ist im System aktiv', EntityType='D', Help='Es gibt zwei Möglichkeiten, einen Datensatz nicht mehr verfügbar zu machen: einer ist, ihn zu löschen; der andere, ihn zu deaktivieren. Ein deaktivierter Eintrag ist nicht mehr für eine Auswahl verfügbar, aber verfügbar für die Verwendung in Berichten. Es gibt zwei Gründe, Datensätze zu deaktivieren und nicht zu löschen: (1) Das System braucht den Datensatz für Revisionszwecke. (2) Der Datensatz wird von anderen Datensätzen referenziert. Z.B. können Sie keinen Geschäftspartner löschen, wenn es Rechnungen für diesen Geschäftspartner gibt. Sie deaktivieren den Geschäftspartner und verhindern, dass dieser Eintrag in zukünftigen Vorgängen verwendet wird.', IsActive='Y', Name='Aktiv', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Aktiv', Updated=TO_TIMESTAMP('2008-10-30 16:25:17','YYYY-MM-DD HH24:MI:SS'), UpdatedBy=100 WHERE AD_Element_ID=348
+UPDATE AD_Element SET AD_Client_ID=0, AD_Element_ID=348, AD_Org_ID=0, ColumnName='IsActive', Created=TO_TIMESTAMP('1999-11-19 11:07:43','YYYY-MM-DD HH24:MI:SS'), CreatedBy=0, Description='Der Eintrag ist im System aktiv', EntityType='D', Help='Es gibt zwei MÃ¶glichkeiten, einen Datensatz nicht mehr verfÃ¼gbar zu machen: einer ist, ihn zu lÃ¶schen; der andere, ihn zu deaktivieren. Ein deaktivierter Eintrag ist nicht mehr fÃ¼r eine Auswahl verfÃ¼gbar, aber verfÃ¼gbar fÃ¼r die Verwendung in Berichten. Es gibt zwei GrÃ¼nde, DatensÃ¤tze zu deaktivieren und nicht zu lÃ¶schen: (1) Das System braucht den Datensatz fÃ¼r Revisionszwecke. (2) Der Datensatz wird von anderen DatensÃ¤tzen referenziert. Z.B. kÃ¶nnen Sie keinen GeschÃ¤ftspartner lÃ¶schen, wenn es Rechnungen fÃ¼r diesen GeschÃ¤ftspartner gibt. Sie deaktivieren den GeschÃ¤ftspartner und verhindern, dass dieser Eintrag in zukÃ¼nftigen VorgÃ¤ngen verwendet wird.', IsActive='Y', Name='Aktiv', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Aktiv', Updated=TO_TIMESTAMP('2008-10-30 16:25:17','YYYY-MM-DD HH24:MI:SS'), UpdatedBy=100 WHERE AD_Element_ID=348
 ;
 
 -- Jul 5, 2013 3:27:22 PM EEST
@@ -245,22 +245,22 @@ UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=348
 
 -- Jul 5, 2013 3:27:22 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Column SET ColumnName='IsActive', Name='Aktiv', Description='Der Eintrag ist im System aktiv', Help='Es gibt zwei Möglichkeiten, einen Datensatz nicht mehr verfügbar zu machen: einer ist, ihn zu löschen; der andere, ihn zu deaktivieren. Ein deaktivierter Eintrag ist nicht mehr für eine Auswahl verfügbar, aber verfügbar für die Verwendung in Berichten. Es gibt zwei Gründe, Datensätze zu deaktivieren und nicht zu löschen: (1) Das System braucht den Datensatz für Revisionszwecke. (2) Der Datensatz wird von anderen Datensätzen referenziert. Z.B. können Sie keinen Geschäftspartner löschen, wenn es Rechnungen für diesen Geschäftspartner gibt. Sie deaktivieren den Geschäftspartner und verhindern, dass dieser Eintrag in zukünftigen Vorgängen verwendet wird.' WHERE AD_Element_ID=348
+UPDATE AD_Column SET ColumnName='IsActive', Name='Aktiv', Description='Der Eintrag ist im System aktiv', Help='Es gibt zwei MÃ¶glichkeiten, einen Datensatz nicht mehr verfÃ¼gbar zu machen: einer ist, ihn zu lÃ¶schen; der andere, ihn zu deaktivieren. Ein deaktivierter Eintrag ist nicht mehr fÃ¼r eine Auswahl verfÃ¼gbar, aber verfÃ¼gbar fÃ¼r die Verwendung in Berichten. Es gibt zwei GrÃ¼nde, DatensÃ¤tze zu deaktivieren und nicht zu lÃ¶schen: (1) Das System braucht den Datensatz fÃ¼r Revisionszwecke. (2) Der Datensatz wird von anderen DatensÃ¤tzen referenziert. Z.B. kÃ¶nnen Sie keinen GeschÃ¤ftspartner lÃ¶schen, wenn es Rechnungen fÃ¼r diesen GeschÃ¤ftspartner gibt. Sie deaktivieren den GeschÃ¤ftspartner und verhindern, dass dieser Eintrag in zukÃ¼nftigen VorgÃ¤ngen verwendet wird.' WHERE AD_Element_ID=348
 ;
 
 -- Jul 5, 2013 3:27:22 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Process_Para SET ColumnName='IsActive', Name='Aktiv', Description='Der Eintrag ist im System aktiv', Help='Es gibt zwei Möglichkeiten, einen Datensatz nicht mehr verfügbar zu machen: einer ist, ihn zu löschen; der andere, ihn zu deaktivieren. Ein deaktivierter Eintrag ist nicht mehr für eine Auswahl verfügbar, aber verfügbar für die Verwendung in Berichten. Es gibt zwei Gründe, Datensätze zu deaktivieren und nicht zu löschen: (1) Das System braucht den Datensatz für Revisionszwecke. (2) Der Datensatz wird von anderen Datensätzen referenziert. Z.B. können Sie keinen Geschäftspartner löschen, wenn es Rechnungen für diesen Geschäftspartner gibt. Sie deaktivieren den Geschäftspartner und verhindern, dass dieser Eintrag in zukünftigen Vorgängen verwendet wird.', AD_Element_ID=348 WHERE UPPER(ColumnName)='ISACTIVE' AND IsCentrallyMaintained='Y' AND AD_Element_ID IS NULL
+UPDATE AD_Process_Para SET ColumnName='IsActive', Name='Aktiv', Description='Der Eintrag ist im System aktiv', Help='Es gibt zwei MÃ¶glichkeiten, einen Datensatz nicht mehr verfÃ¼gbar zu machen: einer ist, ihn zu lÃ¶schen; der andere, ihn zu deaktivieren. Ein deaktivierter Eintrag ist nicht mehr fÃ¼r eine Auswahl verfÃ¼gbar, aber verfÃ¼gbar fÃ¼r die Verwendung in Berichten. Es gibt zwei GrÃ¼nde, DatensÃ¤tze zu deaktivieren und nicht zu lÃ¶schen: (1) Das System braucht den Datensatz fÃ¼r Revisionszwecke. (2) Der Datensatz wird von anderen DatensÃ¤tzen referenziert. Z.B. kÃ¶nnen Sie keinen GeschÃ¤ftspartner lÃ¶schen, wenn es Rechnungen fÃ¼r diesen GeschÃ¤ftspartner gibt. Sie deaktivieren den GeschÃ¤ftspartner und verhindern, dass dieser Eintrag in zukÃ¼nftigen VorgÃ¤ngen verwendet wird.', AD_Element_ID=348 WHERE UPPER(ColumnName)='ISACTIVE' AND IsCentrallyMaintained='Y' AND AD_Element_ID IS NULL
 ;
 
 -- Jul 5, 2013 3:27:22 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Process_Para SET ColumnName='IsActive', Name='Aktiv', Description='Der Eintrag ist im System aktiv', Help='Es gibt zwei Möglichkeiten, einen Datensatz nicht mehr verfügbar zu machen: einer ist, ihn zu löschen; der andere, ihn zu deaktivieren. Ein deaktivierter Eintrag ist nicht mehr für eine Auswahl verfügbar, aber verfügbar für die Verwendung in Berichten. Es gibt zwei Gründe, Datensätze zu deaktivieren und nicht zu löschen: (1) Das System braucht den Datensatz für Revisionszwecke. (2) Der Datensatz wird von anderen Datensätzen referenziert. Z.B. können Sie keinen Geschäftspartner löschen, wenn es Rechnungen für diesen Geschäftspartner gibt. Sie deaktivieren den Geschäftspartner und verhindern, dass dieser Eintrag in zukünftigen Vorgängen verwendet wird.' WHERE AD_Element_ID=348 AND IsCentrallyMaintained='Y'
+UPDATE AD_Process_Para SET ColumnName='IsActive', Name='Aktiv', Description='Der Eintrag ist im System aktiv', Help='Es gibt zwei MÃ¶glichkeiten, einen Datensatz nicht mehr verfÃ¼gbar zu machen: einer ist, ihn zu lÃ¶schen; der andere, ihn zu deaktivieren. Ein deaktivierter Eintrag ist nicht mehr fÃ¼r eine Auswahl verfÃ¼gbar, aber verfÃ¼gbar fÃ¼r die Verwendung in Berichten. Es gibt zwei GrÃ¼nde, DatensÃ¤tze zu deaktivieren und nicht zu lÃ¶schen: (1) Das System braucht den Datensatz fÃ¼r Revisionszwecke. (2) Der Datensatz wird von anderen DatensÃ¤tzen referenziert. Z.B. kÃ¶nnen Sie keinen GeschÃ¤ftspartner lÃ¶schen, wenn es Rechnungen fÃ¼r diesen GeschÃ¤ftspartner gibt. Sie deaktivieren den GeschÃ¤ftspartner und verhindern, dass dieser Eintrag in zukÃ¼nftigen VorgÃ¤ngen verwendet wird.' WHERE AD_Element_ID=348 AND IsCentrallyMaintained='Y'
 ;
 
 -- Jul 5, 2013 3:27:22 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Field SET Name='Aktiv', Description='Der Eintrag ist im System aktiv', Help='Es gibt zwei Möglichkeiten, einen Datensatz nicht mehr verfügbar zu machen: einer ist, ihn zu löschen; der andere, ihn zu deaktivieren. Ein deaktivierter Eintrag ist nicht mehr für eine Auswahl verfügbar, aber verfügbar für die Verwendung in Berichten. Es gibt zwei Gründe, Datensätze zu deaktivieren und nicht zu löschen: (1) Das System braucht den Datensatz für Revisionszwecke. (2) Der Datensatz wird von anderen Datensätzen referenziert. Z.B. können Sie keinen Geschäftspartner löschen, wenn es Rechnungen für diesen Geschäftspartner gibt. Sie deaktivieren den Geschäftspartner und verhindern, dass dieser Eintrag in zukünftigen Vorgängen verwendet wird.' WHERE AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=348) AND IsCentrallyMaintained='Y'
+UPDATE AD_Field SET Name='Aktiv', Description='Der Eintrag ist im System aktiv', Help='Es gibt zwei MÃ¶glichkeiten, einen Datensatz nicht mehr verfÃ¼gbar zu machen: einer ist, ihn zu lÃ¶schen; der andere, ihn zu deaktivieren. Ein deaktivierter Eintrag ist nicht mehr fÃ¼r eine Auswahl verfÃ¼gbar, aber verfÃ¼gbar fÃ¼r die Verwendung in Berichten. Es gibt zwei GrÃ¼nde, DatensÃ¤tze zu deaktivieren und nicht zu lÃ¶schen: (1) Das System braucht den Datensatz fÃ¼r Revisionszwecke. (2) Der Datensatz wird von anderen DatensÃ¤tzen referenziert. Z.B. kÃ¶nnen Sie keinen GeschÃ¤ftspartner lÃ¶schen, wenn es Rechnungen fÃ¼r diesen GeschÃ¤ftspartner gibt. Sie deaktivieren den GeschÃ¤ftspartner und verhindern, dass dieser Eintrag in zukÃ¼nftigen VorgÃ¤ngen verwendet wird.' WHERE AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=348) AND IsCentrallyMaintained='Y'
 ;
 
 -- Jul 5, 2013 3:27:22 PM EEST
@@ -460,7 +460,7 @@ UPDATE AD_PrintFormatItem SET PrintName='Datensatz-ID', Name='Datensatz-ID' WHER
 
 -- Jul 5, 2013 3:27:23 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66305,187,0,30,173,53529,'C_BPartner_ID',TO_TIMESTAMP('2012-10-22 17:35:53','YYYY-MM-DD HH24:MI:SS'),100,'Bezeichnet einen Geschäftspartner','de.metas.dunning',10,'Ein Geschäftspartner ist jemand, mit dem Sie interagieren. Dies kann Lieferanten, Kunden, Mitarbeiter oder Handelsvertreter umfassen.','Y','Y','N','N','N','N','N','Y','N','Y','N','N','Y','Geschäftspartner',0,TO_TIMESTAMP('2013-03-24 15:24:44','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66305,187,0,30,173,53529,'C_BPartner_ID',TO_TIMESTAMP('2012-10-22 17:35:53','YYYY-MM-DD HH24:MI:SS'),100,'Bezeichnet einen GeschÃ¤ftspartner','de.metas.dunning',10,'Ein GeschÃ¤ftspartner ist jemand, mit dem Sie interagieren. Dies kann Lieferanten, Kunden, Mitarbeiter oder Handelsvertreter umfassen.','Y','Y','N','N','N','N','N','Y','N','Y','N','N','Y','GeschÃ¤ftspartner',0,TO_TIMESTAMP('2013-03-24 15:24:44','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 5, 2013 3:27:23 PM EEST
@@ -470,7 +470,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 5, 2013 3:27:23 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Element SET AD_Client_ID=0, AD_Element_ID=187, AD_Org_ID=0, ColumnName='C_BPartner_ID', Created=TO_TIMESTAMP('1999-11-19 11:07:43','YYYY-MM-DD HH24:MI:SS'), CreatedBy=0, Description='Bezeichnet einen Geschäftspartner', EntityType='D', Help='Ein Geschäftspartner ist jemand, mit dem Sie interagieren. Dies kann Lieferanten, Kunden, Mitarbeiter oder Handelsvertreter umfassen.', IsActive='Y', Name='Geschäftspartner', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Geschäftspartner', Updated=TO_TIMESTAMP('2012-03-22 10:48:27','YYYY-MM-DD HH24:MI:SS'), UpdatedBy=1000027 WHERE AD_Element_ID=187
+UPDATE AD_Element SET AD_Client_ID=0, AD_Element_ID=187, AD_Org_ID=0, ColumnName='C_BPartner_ID', Created=TO_TIMESTAMP('1999-11-19 11:07:43','YYYY-MM-DD HH24:MI:SS'), CreatedBy=0, Description='Bezeichnet einen GeschÃ¤ftspartner', EntityType='D', Help='Ein GeschÃ¤ftspartner ist jemand, mit dem Sie interagieren. Dies kann Lieferanten, Kunden, Mitarbeiter oder Handelsvertreter umfassen.', IsActive='Y', Name='GeschÃ¤ftspartner', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='GeschÃ¤ftspartner', Updated=TO_TIMESTAMP('2012-03-22 10:48:27','YYYY-MM-DD HH24:MI:SS'), UpdatedBy=1000027 WHERE AD_Element_ID=187
 ;
 
 -- Jul 5, 2013 3:27:23 PM EEST
@@ -480,32 +480,32 @@ UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=187
 
 -- Jul 5, 2013 3:27:23 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Column SET ColumnName='C_BPartner_ID', Name='Geschäftspartner', Description='Bezeichnet einen Geschäftspartner', Help='Ein Geschäftspartner ist jemand, mit dem Sie interagieren. Dies kann Lieferanten, Kunden, Mitarbeiter oder Handelsvertreter umfassen.' WHERE AD_Element_ID=187
+UPDATE AD_Column SET ColumnName='C_BPartner_ID', Name='GeschÃ¤ftspartner', Description='Bezeichnet einen GeschÃ¤ftspartner', Help='Ein GeschÃ¤ftspartner ist jemand, mit dem Sie interagieren. Dies kann Lieferanten, Kunden, Mitarbeiter oder Handelsvertreter umfassen.' WHERE AD_Element_ID=187
 ;
 
 -- Jul 5, 2013 3:27:23 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Process_Para SET ColumnName='C_BPartner_ID', Name='Geschäftspartner', Description='Bezeichnet einen Geschäftspartner', Help='Ein Geschäftspartner ist jemand, mit dem Sie interagieren. Dies kann Lieferanten, Kunden, Mitarbeiter oder Handelsvertreter umfassen.', AD_Element_ID=187 WHERE UPPER(ColumnName)='C_BPARTNER_ID' AND IsCentrallyMaintained='Y' AND AD_Element_ID IS NULL
+UPDATE AD_Process_Para SET ColumnName='C_BPartner_ID', Name='GeschÃ¤ftspartner', Description='Bezeichnet einen GeschÃ¤ftspartner', Help='Ein GeschÃ¤ftspartner ist jemand, mit dem Sie interagieren. Dies kann Lieferanten, Kunden, Mitarbeiter oder Handelsvertreter umfassen.', AD_Element_ID=187 WHERE UPPER(ColumnName)='C_BPARTNER_ID' AND IsCentrallyMaintained='Y' AND AD_Element_ID IS NULL
 ;
 
 -- Jul 5, 2013 3:27:23 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Process_Para SET ColumnName='C_BPartner_ID', Name='Geschäftspartner', Description='Bezeichnet einen Geschäftspartner', Help='Ein Geschäftspartner ist jemand, mit dem Sie interagieren. Dies kann Lieferanten, Kunden, Mitarbeiter oder Handelsvertreter umfassen.' WHERE AD_Element_ID=187 AND IsCentrallyMaintained='Y'
+UPDATE AD_Process_Para SET ColumnName='C_BPartner_ID', Name='GeschÃ¤ftspartner', Description='Bezeichnet einen GeschÃ¤ftspartner', Help='Ein GeschÃ¤ftspartner ist jemand, mit dem Sie interagieren. Dies kann Lieferanten, Kunden, Mitarbeiter oder Handelsvertreter umfassen.' WHERE AD_Element_ID=187 AND IsCentrallyMaintained='Y'
 ;
 
 -- Jul 5, 2013 3:27:23 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Field SET Name='Geschäftspartner', Description='Bezeichnet einen Geschäftspartner', Help='Ein Geschäftspartner ist jemand, mit dem Sie interagieren. Dies kann Lieferanten, Kunden, Mitarbeiter oder Handelsvertreter umfassen.' WHERE AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=187) AND IsCentrallyMaintained='Y'
+UPDATE AD_Field SET Name='GeschÃ¤ftspartner', Description='Bezeichnet einen GeschÃ¤ftspartner', Help='Ein GeschÃ¤ftspartner ist jemand, mit dem Sie interagieren. Dies kann Lieferanten, Kunden, Mitarbeiter oder Handelsvertreter umfassen.' WHERE AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=187) AND IsCentrallyMaintained='Y'
 ;
 
 -- Jul 5, 2013 3:27:23 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_PrintFormatItem SET PrintName='Geschäftspartner', Name='Geschäftspartner' WHERE IsCentrallyMaintained='Y' AND EXISTS (SELECT * FROM AD_Column c WHERE c.AD_Column_ID=AD_PrintFormatItem.AD_Column_ID AND c.AD_Element_ID=187)
+UPDATE AD_PrintFormatItem SET PrintName='GeschÃ¤ftspartner', Name='GeschÃ¤ftspartner' WHERE IsCentrallyMaintained='Y' AND EXISTS (SELECT * FROM AD_Column c WHERE c.AD_Column_ID=AD_PrintFormatItem.AD_Column_ID AND c.AD_Element_ID=187)
 ;
 
 -- Jul 5, 2013 3:27:24 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66254,1496,0,11,53529,'DaysDue',TO_TIMESTAMP('2012-10-22 17:36:58','YYYY-MM-DD HH24:MI:SS'),100,'Anzahl der Tage der Fälligkeit (negativ: Fällig in Anzahl Tagen)','de.metas.dunning',14,'Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Tage fällig',0,TO_TIMESTAMP('2012-10-22 17:36:58','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66254,1496,0,11,53529,'DaysDue',TO_TIMESTAMP('2012-10-22 17:36:58','YYYY-MM-DD HH24:MI:SS'),100,'Anzahl der Tage der FÃ¤lligkeit (negativ: FÃ¤llig in Anzahl Tagen)','de.metas.dunning',14,'Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Tage fÃ¤llig',0,TO_TIMESTAMP('2012-10-22 17:36:58','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 5, 2013 3:27:24 PM EEST
@@ -515,7 +515,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 5, 2013 3:27:24 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Element SET AD_Client_ID=0, AD_Element_ID=1496, AD_Org_ID=0, ColumnName='DaysDue', Created=TO_TIMESTAMP('2001-01-03 23:29:46','YYYY-MM-DD HH24:MI:SS'), CreatedBy=0, Description='Anzahl der Tage der Fälligkeit (negativ: Fällig in Anzahl Tagen)', EntityType='D', Help=NULL, IsActive='Y', Name='Tage fällig', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Tage fällig', Updated=TO_TIMESTAMP('2000-01-02 01:00:00','YYYY-MM-DD HH24:MI:SS'), UpdatedBy=0 WHERE AD_Element_ID=1496
+UPDATE AD_Element SET AD_Client_ID=0, AD_Element_ID=1496, AD_Org_ID=0, ColumnName='DaysDue', Created=TO_TIMESTAMP('2001-01-03 23:29:46','YYYY-MM-DD HH24:MI:SS'), CreatedBy=0, Description='Anzahl der Tage der FÃ¤lligkeit (negativ: FÃ¤llig in Anzahl Tagen)', EntityType='D', Help=NULL, IsActive='Y', Name='Tage fÃ¤llig', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Tage fÃ¤llig', Updated=TO_TIMESTAMP('2000-01-02 01:00:00','YYYY-MM-DD HH24:MI:SS'), UpdatedBy=0 WHERE AD_Element_ID=1496
 ;
 
 -- Jul 5, 2013 3:27:24 PM EEST
@@ -525,27 +525,27 @@ UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=1496
 
 -- Jul 5, 2013 3:27:24 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Column SET ColumnName='DaysDue', Name='Tage fällig', Description='Anzahl der Tage der Fälligkeit (negativ: Fällig in Anzahl Tagen)', Help=NULL WHERE AD_Element_ID=1496
+UPDATE AD_Column SET ColumnName='DaysDue', Name='Tage fÃ¤llig', Description='Anzahl der Tage der FÃ¤lligkeit (negativ: FÃ¤llig in Anzahl Tagen)', Help=NULL WHERE AD_Element_ID=1496
 ;
 
 -- Jul 5, 2013 3:27:24 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Process_Para SET ColumnName='DaysDue', Name='Tage fällig', Description='Anzahl der Tage der Fälligkeit (negativ: Fällig in Anzahl Tagen)', Help=NULL, AD_Element_ID=1496 WHERE UPPER(ColumnName)='DAYSDUE' AND IsCentrallyMaintained='Y' AND AD_Element_ID IS NULL
+UPDATE AD_Process_Para SET ColumnName='DaysDue', Name='Tage fÃ¤llig', Description='Anzahl der Tage der FÃ¤lligkeit (negativ: FÃ¤llig in Anzahl Tagen)', Help=NULL, AD_Element_ID=1496 WHERE UPPER(ColumnName)='DAYSDUE' AND IsCentrallyMaintained='Y' AND AD_Element_ID IS NULL
 ;
 
 -- Jul 5, 2013 3:27:24 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Process_Para SET ColumnName='DaysDue', Name='Tage fällig', Description='Anzahl der Tage der Fälligkeit (negativ: Fällig in Anzahl Tagen)', Help=NULL WHERE AD_Element_ID=1496 AND IsCentrallyMaintained='Y'
+UPDATE AD_Process_Para SET ColumnName='DaysDue', Name='Tage fÃ¤llig', Description='Anzahl der Tage der FÃ¤lligkeit (negativ: FÃ¤llig in Anzahl Tagen)', Help=NULL WHERE AD_Element_ID=1496 AND IsCentrallyMaintained='Y'
 ;
 
 -- Jul 5, 2013 3:27:24 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Field SET Name='Tage fällig', Description='Anzahl der Tage der Fälligkeit (negativ: Fällig in Anzahl Tagen)', Help=NULL WHERE AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=1496) AND IsCentrallyMaintained='Y'
+UPDATE AD_Field SET Name='Tage fÃ¤llig', Description='Anzahl der Tage der FÃ¤lligkeit (negativ: FÃ¤llig in Anzahl Tagen)', Help=NULL WHERE AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=1496) AND IsCentrallyMaintained='Y'
 ;
 
 -- Jul 5, 2013 3:27:24 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_PrintFormatItem SET PrintName='Tage fällig', Name='Tage fällig' WHERE IsCentrallyMaintained='Y' AND EXISTS (SELECT * FROM AD_Column c WHERE c.AD_Column_ID=AD_PrintFormatItem.AD_Column_ID AND c.AD_Element_ID=1496)
+UPDATE AD_PrintFormatItem SET PrintName='Tage fÃ¤llig', Name='Tage fÃ¤llig' WHERE IsCentrallyMaintained='Y' AND EXISTS (SELECT * FROM AD_Column c WHERE c.AD_Column_ID=AD_PrintFormatItem.AD_Column_ID AND c.AD_Element_ID=1496)
 ;
 
 -- Jul 5, 2013 3:27:24 PM EEST
@@ -640,7 +640,7 @@ UPDATE AD_PrintFormatItem SET PrintName='Gesamtbetrag', Name='Gesamtbetrag' WHER
 
 -- Jul 5, 2013 3:27:25 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66257,889,0,12,53529,'FeeAmt',TO_TIMESTAMP('2012-10-22 17:37:28','YYYY-MM-DD HH24:MI:SS'),100,'Pauschale Mahngebühr','de.metas.dunning',14,'The Fee Amount indicates the charge amount on a dunning letter for overdue invoices.  This field will only display if the charge fee checkbox has been selected.','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Mahnpauschale',0,TO_TIMESTAMP('2012-10-22 17:37:28','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66257,889,0,12,53529,'FeeAmt',TO_TIMESTAMP('2012-10-22 17:37:28','YYYY-MM-DD HH24:MI:SS'),100,'Pauschale MahngebÃ¼hr','de.metas.dunning',14,'The Fee Amount indicates the charge amount on a dunning letter for overdue invoices.  This field will only display if the charge fee checkbox has been selected.','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Mahnpauschale',0,TO_TIMESTAMP('2012-10-22 17:37:28','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 5, 2013 3:27:25 PM EEST
@@ -650,7 +650,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 5, 2013 3:27:25 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Element SET AD_Client_ID=0, AD_Element_ID=889, AD_Org_ID=0, ColumnName='FeeAmt', Created=TO_TIMESTAMP('1999-12-05 14:42:17','YYYY-MM-DD HH24:MI:SS'), CreatedBy=0, Description='Pauschale Mahngebühr', EntityType='D', Help='The Fee Amount indicates the charge amount on a dunning letter for overdue invoices.  This field will only display if the charge fee checkbox has been selected.', IsActive='Y', Name='Mahnpauschale', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Mahnpauschale', Updated=TO_TIMESTAMP('2012-10-23 09:36:59','YYYY-MM-DD HH24:MI:SS'), UpdatedBy=100 WHERE AD_Element_ID=889
+UPDATE AD_Element SET AD_Client_ID=0, AD_Element_ID=889, AD_Org_ID=0, ColumnName='FeeAmt', Created=TO_TIMESTAMP('1999-12-05 14:42:17','YYYY-MM-DD HH24:MI:SS'), CreatedBy=0, Description='Pauschale MahngebÃ¼hr', EntityType='D', Help='The Fee Amount indicates the charge amount on a dunning letter for overdue invoices.  This field will only display if the charge fee checkbox has been selected.', IsActive='Y', Name='Mahnpauschale', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Mahnpauschale', Updated=TO_TIMESTAMP('2012-10-23 09:36:59','YYYY-MM-DD HH24:MI:SS'), UpdatedBy=100 WHERE AD_Element_ID=889
 ;
 
 -- Jul 5, 2013 3:27:25 PM EEST
@@ -660,22 +660,22 @@ UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=889
 
 -- Jul 5, 2013 3:27:25 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Column SET ColumnName='FeeAmt', Name='Mahnpauschale', Description='Pauschale Mahngebühr', Help='The Fee Amount indicates the charge amount on a dunning letter for overdue invoices.  This field will only display if the charge fee checkbox has been selected.' WHERE AD_Element_ID=889
+UPDATE AD_Column SET ColumnName='FeeAmt', Name='Mahnpauschale', Description='Pauschale MahngebÃ¼hr', Help='The Fee Amount indicates the charge amount on a dunning letter for overdue invoices.  This field will only display if the charge fee checkbox has been selected.' WHERE AD_Element_ID=889
 ;
 
 -- Jul 5, 2013 3:27:25 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Process_Para SET ColumnName='FeeAmt', Name='Mahnpauschale', Description='Pauschale Mahngebühr', Help='The Fee Amount indicates the charge amount on a dunning letter for overdue invoices.  This field will only display if the charge fee checkbox has been selected.', AD_Element_ID=889 WHERE UPPER(ColumnName)='FEEAMT' AND IsCentrallyMaintained='Y' AND AD_Element_ID IS NULL
+UPDATE AD_Process_Para SET ColumnName='FeeAmt', Name='Mahnpauschale', Description='Pauschale MahngebÃ¼hr', Help='The Fee Amount indicates the charge amount on a dunning letter for overdue invoices.  This field will only display if the charge fee checkbox has been selected.', AD_Element_ID=889 WHERE UPPER(ColumnName)='FEEAMT' AND IsCentrallyMaintained='Y' AND AD_Element_ID IS NULL
 ;
 
 -- Jul 5, 2013 3:27:25 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Process_Para SET ColumnName='FeeAmt', Name='Mahnpauschale', Description='Pauschale Mahngebühr', Help='The Fee Amount indicates the charge amount on a dunning letter for overdue invoices.  This field will only display if the charge fee checkbox has been selected.' WHERE AD_Element_ID=889 AND IsCentrallyMaintained='Y'
+UPDATE AD_Process_Para SET ColumnName='FeeAmt', Name='Mahnpauschale', Description='Pauschale MahngebÃ¼hr', Help='The Fee Amount indicates the charge amount on a dunning letter for overdue invoices.  This field will only display if the charge fee checkbox has been selected.' WHERE AD_Element_ID=889 AND IsCentrallyMaintained='Y'
 ;
 
 -- Jul 5, 2013 3:27:25 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Field SET Name='Mahnpauschale', Description='Pauschale Mahngebühr', Help='The Fee Amount indicates the charge amount on a dunning letter for overdue invoices.  This field will only display if the charge fee checkbox has been selected.' WHERE AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=889) AND IsCentrallyMaintained='Y'
+UPDATE AD_Field SET Name='Mahnpauschale', Description='Pauschale MahngebÃ¼hr', Help='The Fee Amount indicates the charge amount on a dunning letter for overdue invoices.  This field will only display if the charge fee checkbox has been selected.' WHERE AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=889) AND IsCentrallyMaintained='Y'
 ;
 
 -- Jul 5, 2013 3:27:25 PM EEST
@@ -685,7 +685,7 @@ UPDATE AD_PrintFormatItem SET PrintName='Mahnpauschale', Name='Mahnpauschale' WH
 
 -- Jul 5, 2013 3:27:25 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66258,56022,0,12,53529,'DunningInterestAmt',TO_TIMESTAMP('2012-10-22 17:37:46','YYYY-MM-DD HH24:MI:SS'),100,'Prozentualer Anteil der offenen Summe, der als zusätzliche Mahngebühr ausgewiesen wird.','de.metas.dunning',14,'Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Mahnzins',0,TO_TIMESTAMP('2012-10-23 09:49:32','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66258,56022,0,12,53529,'DunningInterestAmt',TO_TIMESTAMP('2012-10-22 17:37:46','YYYY-MM-DD HH24:MI:SS'),100,'Prozentualer Anteil der offenen Summe, der als zusÃ¤tzliche MahngebÃ¼hr ausgewiesen wird.','de.metas.dunning',14,'Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Mahnzins',0,TO_TIMESTAMP('2012-10-23 09:49:32','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 5, 2013 3:27:25 PM EEST
@@ -705,7 +705,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 5, 2013 3:27:25 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66308,1047,0,20,53529,'Processed',TO_TIMESTAMP('2012-10-22 17:45:33','YYYY-MM-DD HH24:MI:SS'),100,'N','Checkbox sagt aus, ob der Beleg verarbeitet wurde. ','de.metas.dunning',1,'Verarbeitete Belege dürfen in der Regel nich mehr geändert werden.','Y','Y','N','N','N','N','N','Y','N','Y','N','N','Y','Verarbeitet',0,TO_TIMESTAMP('2013-03-24 15:25:30','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66308,1047,0,20,53529,'Processed',TO_TIMESTAMP('2012-10-22 17:45:33','YYYY-MM-DD HH24:MI:SS'),100,'N','Checkbox sagt aus, ob der Beleg verarbeitet wurde. ','de.metas.dunning',1,'Verarbeitete Belege dÃ¼rfen in der Regel nich mehr geÃ¤ndert werden.','Y','Y','N','N','N','N','N','Y','N','Y','N','N','Y','Verarbeitet',0,TO_TIMESTAMP('2013-03-24 15:25:30','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 5, 2013 3:27:25 PM EEST
@@ -715,7 +715,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 5, 2013 3:27:25 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Element SET AD_Client_ID=0, AD_Element_ID=1047, AD_Org_ID=0, ColumnName='Processed', Created=TO_TIMESTAMP('1999-12-19 21:40:45','YYYY-MM-DD HH24:MI:SS'), CreatedBy=0, Description='Checkbox sagt aus, ob der Beleg verarbeitet wurde. ', EntityType='D', Help='Verarbeitete Belege dürfen in der Regel nich mehr geändert werden.', IsActive='Y', Name='Verarbeitet', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Verarbeitet', Updated=TO_TIMESTAMP('2011-08-25 17:54:29','YYYY-MM-DD HH24:MI:SS'), UpdatedBy=100 WHERE AD_Element_ID=1047
+UPDATE AD_Element SET AD_Client_ID=0, AD_Element_ID=1047, AD_Org_ID=0, ColumnName='Processed', Created=TO_TIMESTAMP('1999-12-19 21:40:45','YYYY-MM-DD HH24:MI:SS'), CreatedBy=0, Description='Checkbox sagt aus, ob der Beleg verarbeitet wurde. ', EntityType='D', Help='Verarbeitete Belege dÃ¼rfen in der Regel nich mehr geÃ¤ndert werden.', IsActive='Y', Name='Verarbeitet', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Verarbeitet', Updated=TO_TIMESTAMP('2011-08-25 17:54:29','YYYY-MM-DD HH24:MI:SS'), UpdatedBy=100 WHERE AD_Element_ID=1047
 ;
 
 -- Jul 5, 2013 3:27:25 PM EEST
@@ -725,22 +725,22 @@ UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=1047
 
 -- Jul 5, 2013 3:27:25 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Column SET ColumnName='Processed', Name='Verarbeitet', Description='Checkbox sagt aus, ob der Beleg verarbeitet wurde. ', Help='Verarbeitete Belege dürfen in der Regel nich mehr geändert werden.' WHERE AD_Element_ID=1047
+UPDATE AD_Column SET ColumnName='Processed', Name='Verarbeitet', Description='Checkbox sagt aus, ob der Beleg verarbeitet wurde. ', Help='Verarbeitete Belege dÃ¼rfen in der Regel nich mehr geÃ¤ndert werden.' WHERE AD_Element_ID=1047
 ;
 
 -- Jul 5, 2013 3:27:25 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Process_Para SET ColumnName='Processed', Name='Verarbeitet', Description='Checkbox sagt aus, ob der Beleg verarbeitet wurde. ', Help='Verarbeitete Belege dürfen in der Regel nich mehr geändert werden.', AD_Element_ID=1047 WHERE UPPER(ColumnName)='PROCESSED' AND IsCentrallyMaintained='Y' AND AD_Element_ID IS NULL
+UPDATE AD_Process_Para SET ColumnName='Processed', Name='Verarbeitet', Description='Checkbox sagt aus, ob der Beleg verarbeitet wurde. ', Help='Verarbeitete Belege dÃ¼rfen in der Regel nich mehr geÃ¤ndert werden.', AD_Element_ID=1047 WHERE UPPER(ColumnName)='PROCESSED' AND IsCentrallyMaintained='Y' AND AD_Element_ID IS NULL
 ;
 
 -- Jul 5, 2013 3:27:25 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Process_Para SET ColumnName='Processed', Name='Verarbeitet', Description='Checkbox sagt aus, ob der Beleg verarbeitet wurde. ', Help='Verarbeitete Belege dürfen in der Regel nich mehr geändert werden.' WHERE AD_Element_ID=1047 AND IsCentrallyMaintained='Y'
+UPDATE AD_Process_Para SET ColumnName='Processed', Name='Verarbeitet', Description='Checkbox sagt aus, ob der Beleg verarbeitet wurde. ', Help='Verarbeitete Belege dÃ¼rfen in der Regel nich mehr geÃ¤ndert werden.' WHERE AD_Element_ID=1047 AND IsCentrallyMaintained='Y'
 ;
 
 -- Jul 5, 2013 3:27:25 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Field SET Name='Verarbeitet', Description='Checkbox sagt aus, ob der Beleg verarbeitet wurde. ', Help='Verarbeitete Belege dürfen in der Regel nich mehr geändert werden.' WHERE AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=1047) AND IsCentrallyMaintained='Y'
+UPDATE AD_Field SET Name='Verarbeitet', Description='Checkbox sagt aus, ob der Beleg verarbeitet wurde. ', Help='Verarbeitete Belege dÃ¼rfen in der Regel nich mehr geÃ¤ndert werden.' WHERE AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=1047) AND IsCentrallyMaintained='Y'
 ;
 
 -- Jul 5, 2013 3:27:25 PM EEST
@@ -770,7 +770,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jul 5, 2013 3:27:26 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66256,193,0,19,301,'C_Currency_ID',TO_TIMESTAMP('2012-10-22 17:53:56','YYYY-MM-DD HH24:MI:SS'),100,'Die Währung für diesen Eintrag','de.metas.dunning',10,'Bezeichnet die auf Dokumenten oder Berichten verwendete Währung','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Währung',0,TO_TIMESTAMP('2012-10-22 17:53:56','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66256,193,0,19,301,'C_Currency_ID',TO_TIMESTAMP('2012-10-22 17:53:56','YYYY-MM-DD HH24:MI:SS'),100,'Die WÃ¤hrung fÃ¼r diesen Eintrag','de.metas.dunning',10,'Bezeichnet die auf Dokumenten oder Berichten verwendete WÃ¤hrung','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','WÃ¤hrung',0,TO_TIMESTAMP('2012-10-22 17:53:56','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 5, 2013 3:27:26 PM EEST
@@ -780,7 +780,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 5, 2013 3:27:26 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Element SET AD_Client_ID=0, AD_Element_ID=193, AD_Org_ID=0, ColumnName='C_Currency_ID', Created=TO_TIMESTAMP('1999-11-19 11:07:43','YYYY-MM-DD HH24:MI:SS'), CreatedBy=0, Description='Die Währung für diesen Eintrag', EntityType='D', Help='Bezeichnet die auf Dokumenten oder Berichten verwendete Währung', IsActive='Y', Name='Währung', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Währung', Updated=TO_TIMESTAMP('2000-01-02 01:00:00','YYYY-MM-DD HH24:MI:SS'), UpdatedBy=0 WHERE AD_Element_ID=193
+UPDATE AD_Element SET AD_Client_ID=0, AD_Element_ID=193, AD_Org_ID=0, ColumnName='C_Currency_ID', Created=TO_TIMESTAMP('1999-11-19 11:07:43','YYYY-MM-DD HH24:MI:SS'), CreatedBy=0, Description='Die WÃ¤hrung fÃ¼r diesen Eintrag', EntityType='D', Help='Bezeichnet die auf Dokumenten oder Berichten verwendete WÃ¤hrung', IsActive='Y', Name='WÃ¤hrung', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='WÃ¤hrung', Updated=TO_TIMESTAMP('2000-01-02 01:00:00','YYYY-MM-DD HH24:MI:SS'), UpdatedBy=0 WHERE AD_Element_ID=193
 ;
 
 -- Jul 5, 2013 3:27:26 PM EEST
@@ -790,27 +790,27 @@ UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=193
 
 -- Jul 5, 2013 3:27:26 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Column SET ColumnName='C_Currency_ID', Name='Währung', Description='Die Währung für diesen Eintrag', Help='Bezeichnet die auf Dokumenten oder Berichten verwendete Währung' WHERE AD_Element_ID=193
+UPDATE AD_Column SET ColumnName='C_Currency_ID', Name='WÃ¤hrung', Description='Die WÃ¤hrung fÃ¼r diesen Eintrag', Help='Bezeichnet die auf Dokumenten oder Berichten verwendete WÃ¤hrung' WHERE AD_Element_ID=193
 ;
 
 -- Jul 5, 2013 3:27:26 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Process_Para SET ColumnName='C_Currency_ID', Name='Währung', Description='Die Währung für diesen Eintrag', Help='Bezeichnet die auf Dokumenten oder Berichten verwendete Währung', AD_Element_ID=193 WHERE UPPER(ColumnName)='C_CURRENCY_ID' AND IsCentrallyMaintained='Y' AND AD_Element_ID IS NULL
+UPDATE AD_Process_Para SET ColumnName='C_Currency_ID', Name='WÃ¤hrung', Description='Die WÃ¤hrung fÃ¼r diesen Eintrag', Help='Bezeichnet die auf Dokumenten oder Berichten verwendete WÃ¤hrung', AD_Element_ID=193 WHERE UPPER(ColumnName)='C_CURRENCY_ID' AND IsCentrallyMaintained='Y' AND AD_Element_ID IS NULL
 ;
 
 -- Jul 5, 2013 3:27:26 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Process_Para SET ColumnName='C_Currency_ID', Name='Währung', Description='Die Währung für diesen Eintrag', Help='Bezeichnet die auf Dokumenten oder Berichten verwendete Währung' WHERE AD_Element_ID=193 AND IsCentrallyMaintained='Y'
+UPDATE AD_Process_Para SET ColumnName='C_Currency_ID', Name='WÃ¤hrung', Description='Die WÃ¤hrung fÃ¼r diesen Eintrag', Help='Bezeichnet die auf Dokumenten oder Berichten verwendete WÃ¤hrung' WHERE AD_Element_ID=193 AND IsCentrallyMaintained='Y'
 ;
 
 -- Jul 5, 2013 3:27:26 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Field SET Name='Währung', Description='Die Währung für diesen Eintrag', Help='Bezeichnet die auf Dokumenten oder Berichten verwendete Währung' WHERE AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=193) AND IsCentrallyMaintained='Y'
+UPDATE AD_Field SET Name='WÃ¤hrung', Description='Die WÃ¤hrung fÃ¼r diesen Eintrag', Help='Bezeichnet die auf Dokumenten oder Berichten verwendete WÃ¤hrung' WHERE AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=193) AND IsCentrallyMaintained='Y'
 ;
 
 -- Jul 5, 2013 3:27:26 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_PrintFormatItem SET PrintName='Währung', Name='Währung' WHERE IsCentrallyMaintained='Y' AND EXISTS (SELECT * FROM AD_Column c WHERE c.AD_Column_ID=AD_PrintFormatItem.AD_Column_ID AND c.AD_Element_ID=193)
+UPDATE AD_PrintFormatItem SET PrintName='WÃ¤hrung', Name='WÃ¤hrung' WHERE IsCentrallyMaintained='Y' AND EXISTS (SELECT * FROM AD_Column c WHERE c.AD_Column_ID=AD_PrintFormatItem.AD_Column_ID AND c.AD_Element_ID=193)
 ;
 
 -- Jul 5, 2013 3:27:26 PM EEST
@@ -875,7 +875,7 @@ UPDATE AD_Element SET AD_Client_ID=0, AD_Element_ID=1883, AD_Org_ID=0, ColumnNam
 
 -- Jul 5, 2013 3:27:27 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66259,2000,0,15,53529,'DueDate',TO_TIMESTAMP('2012-10-31 21:52:00','YYYY-MM-DD HH24:MI:SS'),100,'Datum, zu dem Zahlung fällig wird','de.metas.dunning',7,'Datum, zu dem Zahlung ohne Abzüge oder Rabattierung fällig wird.','Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','Datum Fälligkeit',0,TO_TIMESTAMP('2012-10-31 21:52:00','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66259,2000,0,15,53529,'DueDate',TO_TIMESTAMP('2012-10-31 21:52:00','YYYY-MM-DD HH24:MI:SS'),100,'Datum, zu dem Zahlung fÃ¤llig wird','de.metas.dunning',7,'Datum, zu dem Zahlung ohne AbzÃ¼ge oder Rabattierung fÃ¤llig wird.','Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','Datum FÃ¤lligkeit',0,TO_TIMESTAMP('2012-10-31 21:52:00','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 5, 2013 3:27:27 PM EEST
@@ -885,7 +885,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 5, 2013 3:27:27 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Element SET AD_Client_ID=0, AD_Element_ID=2000, AD_Org_ID=0, ColumnName='DueDate', Created=TO_TIMESTAMP('2003-05-04 01:31:52','YYYY-MM-DD HH24:MI:SS'), CreatedBy=0, Description='Datum, zu dem Zahlung fällig wird', EntityType='D', Help='Datum, zu dem Zahlung ohne Abzüge oder Rabattierung fällig wird.', IsActive='Y', Name='Datum Fälligkeit', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Datum Fälligkeit', Updated=TO_TIMESTAMP('2000-01-02 01:00:00','YYYY-MM-DD HH24:MI:SS'), UpdatedBy=0 WHERE AD_Element_ID=2000
+UPDATE AD_Element SET AD_Client_ID=0, AD_Element_ID=2000, AD_Org_ID=0, ColumnName='DueDate', Created=TO_TIMESTAMP('2003-05-04 01:31:52','YYYY-MM-DD HH24:MI:SS'), CreatedBy=0, Description='Datum, zu dem Zahlung fÃ¤llig wird', EntityType='D', Help='Datum, zu dem Zahlung ohne AbzÃ¼ge oder Rabattierung fÃ¤llig wird.', IsActive='Y', Name='Datum FÃ¤lligkeit', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Datum FÃ¤lligkeit', Updated=TO_TIMESTAMP('2000-01-02 01:00:00','YYYY-MM-DD HH24:MI:SS'), UpdatedBy=0 WHERE AD_Element_ID=2000
 ;
 
 -- Jul 5, 2013 3:27:27 PM EEST
@@ -895,32 +895,32 @@ UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=2000
 
 -- Jul 5, 2013 3:27:27 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Column SET ColumnName='DueDate', Name='Datum Fälligkeit', Description='Datum, zu dem Zahlung fällig wird', Help='Datum, zu dem Zahlung ohne Abzüge oder Rabattierung fällig wird.' WHERE AD_Element_ID=2000
+UPDATE AD_Column SET ColumnName='DueDate', Name='Datum FÃ¤lligkeit', Description='Datum, zu dem Zahlung fÃ¤llig wird', Help='Datum, zu dem Zahlung ohne AbzÃ¼ge oder Rabattierung fÃ¤llig wird.' WHERE AD_Element_ID=2000
 ;
 
 -- Jul 5, 2013 3:27:27 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Process_Para SET ColumnName='DueDate', Name='Datum Fälligkeit', Description='Datum, zu dem Zahlung fällig wird', Help='Datum, zu dem Zahlung ohne Abzüge oder Rabattierung fällig wird.', AD_Element_ID=2000 WHERE UPPER(ColumnName)='DUEDATE' AND IsCentrallyMaintained='Y' AND AD_Element_ID IS NULL
+UPDATE AD_Process_Para SET ColumnName='DueDate', Name='Datum FÃ¤lligkeit', Description='Datum, zu dem Zahlung fÃ¤llig wird', Help='Datum, zu dem Zahlung ohne AbzÃ¼ge oder Rabattierung fÃ¤llig wird.', AD_Element_ID=2000 WHERE UPPER(ColumnName)='DUEDATE' AND IsCentrallyMaintained='Y' AND AD_Element_ID IS NULL
 ;
 
 -- Jul 5, 2013 3:27:27 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Process_Para SET ColumnName='DueDate', Name='Datum Fälligkeit', Description='Datum, zu dem Zahlung fällig wird', Help='Datum, zu dem Zahlung ohne Abzüge oder Rabattierung fällig wird.' WHERE AD_Element_ID=2000 AND IsCentrallyMaintained='Y'
+UPDATE AD_Process_Para SET ColumnName='DueDate', Name='Datum FÃ¤lligkeit', Description='Datum, zu dem Zahlung fÃ¤llig wird', Help='Datum, zu dem Zahlung ohne AbzÃ¼ge oder Rabattierung fÃ¤llig wird.' WHERE AD_Element_ID=2000 AND IsCentrallyMaintained='Y'
 ;
 
 -- Jul 5, 2013 3:27:27 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Field SET Name='Datum Fälligkeit', Description='Datum, zu dem Zahlung fällig wird', Help='Datum, zu dem Zahlung ohne Abzüge oder Rabattierung fällig wird.' WHERE AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=2000) AND IsCentrallyMaintained='Y'
+UPDATE AD_Field SET Name='Datum FÃ¤lligkeit', Description='Datum, zu dem Zahlung fÃ¤llig wird', Help='Datum, zu dem Zahlung ohne AbzÃ¼ge oder Rabattierung fÃ¤llig wird.' WHERE AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=2000) AND IsCentrallyMaintained='Y'
 ;
 
 -- Jul 5, 2013 3:27:27 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_PrintFormatItem SET PrintName='Datum Fälligkeit', Name='Datum Fälligkeit' WHERE IsCentrallyMaintained='Y' AND EXISTS (SELECT * FROM AD_Column c WHERE c.AD_Column_ID=AD_PrintFormatItem.AD_Column_ID AND c.AD_Element_ID=2000)
+UPDATE AD_PrintFormatItem SET PrintName='Datum FÃ¤lligkeit', Name='Datum FÃ¤lligkeit' WHERE IsCentrallyMaintained='Y' AND EXISTS (SELECT * FROM AD_Column c WHERE c.AD_Column_ID=AD_PrintFormatItem.AD_Column_ID AND c.AD_Element_ID=2000)
 ;
 
 -- Jul 5, 2013 3:27:27 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,AD_Val_Rule_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66260,102,0,19,53530,129,'AD_Client_ID',TO_TIMESTAMP('2012-10-31 22:51:29','YYYY-MM-DD HH24:MI:SS'),100,'Mandant für diese Installation.','de.metas.dunning',10,'Ein Mandant ist eine Firma oder eine juristische Person. Sie können keine Daten über Mandanten hinweg verwenden. .','Y','Y','N','N','N','N','N','Y','N','N','Y','N','N','Mandant',0,TO_TIMESTAMP('2012-10-31 22:51:29','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,AD_Val_Rule_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66260,102,0,19,53530,129,'AD_Client_ID',TO_TIMESTAMP('2012-10-31 22:51:29','YYYY-MM-DD HH24:MI:SS'),100,'Mandant fÃ¼r diese Installation.','de.metas.dunning',10,'Ein Mandant ist eine Firma oder eine juristische Person. Sie kÃ¶nnen keine Daten Ã¼ber Mandanten hinweg verwenden. .','Y','Y','N','N','N','N','N','Y','N','N','Y','N','N','Mandant',0,TO_TIMESTAMP('2012-10-31 22:51:29','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 5, 2013 3:27:27 PM EEST
@@ -940,7 +940,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 5, 2013 3:27:28 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66261,113,0,19,53530,'AD_Org_ID',TO_TIMESTAMP('2012-10-31 22:51:30','YYYY-MM-DD HH24:MI:SS'),100,'Organisatorische Einheit des Mandanten','de.metas.dunning',10,'Eine Organisation ist ein Bereich ihres Mandanten - z.B. Laden oder Abteilung. Sie können Daten über Organisationen hinweg gemeinsam verwenden.','Y','Y','N','N','N','N','N','Y','N','N','Y','N','N','Sektion',0,TO_TIMESTAMP('2012-10-31 22:51:30','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66261,113,0,19,53530,'AD_Org_ID',TO_TIMESTAMP('2012-10-31 22:51:30','YYYY-MM-DD HH24:MI:SS'),100,'Organisatorische Einheit des Mandanten','de.metas.dunning',10,'Eine Organisation ist ein Bereich ihres Mandanten - z.B. Laden oder Abteilung. Sie kÃ¶nnen Daten Ã¼ber Organisationen hinweg gemeinsam verwenden.','Y','Y','N','N','N','N','N','Y','N','N','Y','N','N','Sektion',0,TO_TIMESTAMP('2012-10-31 22:51:30','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 5, 2013 3:27:28 PM EEST
@@ -950,7 +950,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 5, 2013 3:27:28 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66253,348,0,20,53530,'IsActive',TO_TIMESTAMP('2012-10-31 22:51:31','YYYY-MM-DD HH24:MI:SS'),100,'Der Eintrag ist im System aktiv','de.metas.dunning',1,'Es gibt zwei Möglichkeiten, einen Datensatz nicht mehr verfügbar zu machen: einer ist, ihn zu löschen; der andere, ihn zu deaktivieren. Ein deaktivierter Eintrag ist nicht mehr für eine Auswahl verfügbar, aber verfügbar für die Verwendung in Berichten. Es gibt zwei Gründe, Datensätze zu deaktivieren und nicht zu löschen: (1) Das System braucht den Datensatz für Revisionszwecke. (2) Der Datensatz wird von anderen Datensätzen referenziert. Z.B. können Sie keinen Geschäftspartner löschen, wenn es Rechnungen für diesen Geschäftspartner gibt. Sie deaktivieren den Geschäftspartner und verhindern, dass dieser Eintrag in zukünftigen Vorgängen verwendet wird.','Y','Y','N','N','N','N','N','Y','N','N','Y','N','Y','Aktiv',0,TO_TIMESTAMP('2012-10-31 22:51:31','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66253,348,0,20,53530,'IsActive',TO_TIMESTAMP('2012-10-31 22:51:31','YYYY-MM-DD HH24:MI:SS'),100,'Der Eintrag ist im System aktiv','de.metas.dunning',1,'Es gibt zwei MÃ¶glichkeiten, einen Datensatz nicht mehr verfÃ¼gbar zu machen: einer ist, ihn zu lÃ¶schen; der andere, ihn zu deaktivieren. Ein deaktivierter Eintrag ist nicht mehr fÃ¼r eine Auswahl verfÃ¼gbar, aber verfÃ¼gbar fÃ¼r die Verwendung in Berichten. Es gibt zwei GrÃ¼nde, DatensÃ¤tze zu deaktivieren und nicht zu lÃ¶schen: (1) Das System braucht den Datensatz fÃ¼r Revisionszwecke. (2) Der Datensatz wird von anderen DatensÃ¤tzen referenziert. Z.B. kÃ¶nnen Sie keinen GeschÃ¤ftspartner lÃ¶schen, wenn es Rechnungen fÃ¼r diesen GeschÃ¤ftspartner gibt. Sie deaktivieren den GeschÃ¤ftspartner und verhindern, dass dieser Eintrag in zukÃ¼nftigen VorgÃ¤ngen verwendet wird.','Y','Y','N','N','N','N','N','Y','N','N','Y','N','Y','Aktiv',0,TO_TIMESTAMP('2012-10-31 22:51:31','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 5, 2013 3:27:28 PM EEST
@@ -1039,7 +1039,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 5, 2013 3:27:29 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66247,1047,0,20,53530,'Processed',TO_TIMESTAMP('2012-10-31 22:53:52','YYYY-MM-DD HH24:MI:SS'),100,'N','Checkbox sagt aus, ob der Beleg verarbeitet wurde. ','de.metas.dunning',1,'Verarbeitete Belege dürfen in der Regel nich mehr geändert werden.','Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','Verarbeitet',0,TO_TIMESTAMP('2012-10-31 22:53:52','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66247,1047,0,20,53530,'Processed',TO_TIMESTAMP('2012-10-31 22:53:52','YYYY-MM-DD HH24:MI:SS'),100,'N','Checkbox sagt aus, ob der Beleg verarbeitet wurde. ','de.metas.dunning',1,'Verarbeitete Belege dÃ¼rfen in der Regel nich mehr geÃ¤ndert werden.','Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','Verarbeitet',0,TO_TIMESTAMP('2012-10-31 22:53:52','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 5, 2013 3:27:29 PM EEST
@@ -1094,7 +1094,7 @@ UPDATE AD_PrintFormatItem SET PrintName='Beschreibung', Name='Beschreibung' WHER
 
 -- Jul 5, 2013 3:27:30 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,AD_Val_Rule_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66265,102,0,19,53531,129,'AD_Client_ID',TO_TIMESTAMP('2012-10-31 22:56:26','YYYY-MM-DD HH24:MI:SS'),100,'@AD_Client_ID@','Mandant für diese Installation.','de.metas.dunning',22,'Ein Mandant ist eine Firma oder eine juristische Person. Sie können keine Daten über Mandanten hinweg verwenden. .','Y','Y','N','N','N','N','N','Y','N','N','N','N','N','Mandant',0,TO_TIMESTAMP('2012-10-31 22:56:26','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,AD_Val_Rule_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66265,102,0,19,53531,129,'AD_Client_ID',TO_TIMESTAMP('2012-10-31 22:56:26','YYYY-MM-DD HH24:MI:SS'),100,'@AD_Client_ID@','Mandant fÃ¼r diese Installation.','de.metas.dunning',22,'Ein Mandant ist eine Firma oder eine juristische Person. Sie kÃ¶nnen keine Daten Ã¼ber Mandanten hinweg verwenden. .','Y','Y','N','N','N','N','N','Y','N','N','N','N','N','Mandant',0,TO_TIMESTAMP('2012-10-31 22:56:26','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Jul 5, 2013 3:27:30 PM EEST
@@ -1104,7 +1104,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 5, 2013 3:27:30 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,AD_Val_Rule_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66266,113,0,19,53531,104,'AD_Org_ID',TO_TIMESTAMP('2012-10-31 22:56:27','YYYY-MM-DD HH24:MI:SS'),100,'@AD_Org_ID@','Organisatorische Einheit des Mandanten','de.metas.dunning',22,'Eine Organisation ist ein Bereich ihres Mandanten - z.B. Laden oder Abteilung. Sie können Daten über Organisationen hinweg gemeinsam verwenden.','Y','Y','N','N','N','N','N','Y','N','N','N','N','N','Sektion',0,TO_TIMESTAMP('2012-10-31 22:56:27','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,AD_Val_Rule_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66266,113,0,19,53531,104,'AD_Org_ID',TO_TIMESTAMP('2012-10-31 22:56:27','YYYY-MM-DD HH24:MI:SS'),100,'@AD_Org_ID@','Organisatorische Einheit des Mandanten','de.metas.dunning',22,'Eine Organisation ist ein Bereich ihres Mandanten - z.B. Laden oder Abteilung. Sie kÃ¶nnen Daten Ã¼ber Organisationen hinweg gemeinsam verwenden.','Y','Y','N','N','N','N','N','Y','N','N','N','N','N','Sektion',0,TO_TIMESTAMP('2012-10-31 22:56:27','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Jul 5, 2013 3:27:30 PM EEST
@@ -1159,7 +1159,7 @@ UPDATE AD_PrintFormatItem SET PrintName='Betrag', Name='Betrag' WHERE IsCentrall
 
 -- Jul 5, 2013 3:27:31 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,AD_Val_Rule_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66267,187,0,30,53531,230,'C_BPartner_ID',TO_TIMESTAMP('2012-10-31 22:56:28','YYYY-MM-DD HH24:MI:SS'),100,'Bezeichnet einen Geschäftspartner','de.metas.dunning',22,'Ein Geschäftspartner ist jemand, mit dem Sie interagieren. Dies kann Lieferanten, Kunden, Mitarbeiter oder Handelsvertreter umfassen.','Y','Y','N','N','N','Y','N','Y','N','N','N','N','Y','Geschäftspartner',2,TO_TIMESTAMP('2012-10-31 22:56:28','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,AD_Val_Rule_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66267,187,0,30,53531,230,'C_BPartner_ID',TO_TIMESTAMP('2012-10-31 22:56:28','YYYY-MM-DD HH24:MI:SS'),100,'Bezeichnet einen GeschÃ¤ftspartner','de.metas.dunning',22,'Ein GeschÃ¤ftspartner ist jemand, mit dem Sie interagieren. Dies kann Lieferanten, Kunden, Mitarbeiter oder Handelsvertreter umfassen.','Y','Y','N','N','N','Y','N','Y','N','N','N','N','Y','GeschÃ¤ftspartner',2,TO_TIMESTAMP('2012-10-31 22:56:28','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Jul 5, 2013 3:27:31 PM EEST
@@ -1169,7 +1169,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 5, 2013 3:27:31 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66268,193,0,30,53531,'C_Currency_ID',TO_TIMESTAMP('2012-10-31 22:56:29','YYYY-MM-DD HH24:MI:SS'),100,'Die Währung für diesen Eintrag','de.metas.dunning',22,'Bezeichnet die auf Dokumenten oder Berichten verwendete Währung','Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','Währung',0,TO_TIMESTAMP('2012-10-31 22:56:29','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66268,193,0,30,53531,'C_Currency_ID',TO_TIMESTAMP('2012-10-31 22:56:29','YYYY-MM-DD HH24:MI:SS'),100,'Die WÃ¤hrung fÃ¼r diesen Eintrag','de.metas.dunning',22,'Bezeichnet die auf Dokumenten oder Berichten verwendete WÃ¤hrung','Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','WÃ¤hrung',0,TO_TIMESTAMP('2012-10-31 22:56:29','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Jul 5, 2013 3:27:31 PM EEST
@@ -1229,7 +1229,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 5, 2013 3:27:32 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66273,348,0,20,53531,'IsActive',TO_TIMESTAMP('2012-10-31 22:56:33','YYYY-MM-DD HH24:MI:SS'),100,'Y','Der Eintrag ist im System aktiv','de.metas.dunning',1,'Es gibt zwei Möglichkeiten, einen Datensatz nicht mehr verfügbar zu machen: einer ist, ihn zu löschen; der andere, ihn zu deaktivieren. Ein deaktivierter Eintrag ist nicht mehr für eine Auswahl verfügbar, aber verfügbar für die Verwendung in Berichten. Es gibt zwei Gründe, Datensätze zu deaktivieren und nicht zu löschen: (1) Das System braucht den Datensatz für Revisionszwecke. (2) Der Datensatz wird von anderen Datensätzen referenziert. Z.B. können Sie keinen Geschäftspartner löschen, wenn es Rechnungen für diesen Geschäftspartner gibt. Sie deaktivieren den Geschäftspartner und verhindern, dass dieser Eintrag in zukünftigen Vorgängen verwendet wird.','Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','Aktiv',0,TO_TIMESTAMP('2012-10-31 22:56:33','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66273,348,0,20,53531,'IsActive',TO_TIMESTAMP('2012-10-31 22:56:33','YYYY-MM-DD HH24:MI:SS'),100,'Y','Der Eintrag ist im System aktiv','de.metas.dunning',1,'Es gibt zwei MÃ¶glichkeiten, einen Datensatz nicht mehr verfÃ¼gbar zu machen: einer ist, ihn zu lÃ¶schen; der andere, ihn zu deaktivieren. Ein deaktivierter Eintrag ist nicht mehr fÃ¼r eine Auswahl verfÃ¼gbar, aber verfÃ¼gbar fÃ¼r die Verwendung in Berichten. Es gibt zwei GrÃ¼nde, DatensÃ¤tze zu deaktivieren und nicht zu lÃ¶schen: (1) Das System braucht den Datensatz fÃ¼r Revisionszwecke. (2) Der Datensatz wird von anderen DatensÃ¤tzen referenziert. Z.B. kÃ¶nnen Sie keinen GeschÃ¤ftspartner lÃ¶schen, wenn es Rechnungen fÃ¼r diesen GeschÃ¤ftspartner gibt. Sie deaktivieren den GeschÃ¤ftspartner und verhindern, dass dieser Eintrag in zukÃ¼nftigen VorgÃ¤ngen verwendet wird.','Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','Aktiv',0,TO_TIMESTAMP('2012-10-31 22:56:33','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Jul 5, 2013 3:27:32 PM EEST
@@ -1239,7 +1239,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 5, 2013 3:27:33 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66274,1115,0,14,53531,'Note',TO_TIMESTAMP('2012-10-31 22:56:33','YYYY-MM-DD HH24:MI:SS'),100,'Optional weitere Information für ein Dokument','de.metas.dunning',2000,'Das Notiz-Feld erlaubt es, weitere Informationen zu diesem Eintrag anzugeben','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Notiz',0,TO_TIMESTAMP('2012-10-31 22:56:33','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66274,1115,0,14,53531,'Note',TO_TIMESTAMP('2012-10-31 22:56:33','YYYY-MM-DD HH24:MI:SS'),100,'Optional weitere Information fÃ¼r ein Dokument','de.metas.dunning',2000,'Das Notiz-Feld erlaubt es, weitere Informationen zu diesem Eintrag anzugeben','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Notiz',0,TO_TIMESTAMP('2012-10-31 22:56:33','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Jul 5, 2013 3:27:33 PM EEST
@@ -1249,7 +1249,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 5, 2013 3:27:33 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Element SET AD_Client_ID=0, AD_Element_ID=1115, AD_Org_ID=0, ColumnName='Note', Created=TO_TIMESTAMP('2000-01-24 19:04:25','YYYY-MM-DD HH24:MI:SS'), CreatedBy=0, Description='Optional weitere Information für ein Dokument', EntityType='D', Help='Das Notiz-Feld erlaubt es, weitere Informationen zu diesem Eintrag anzugeben', IsActive='Y', Name='Notiz', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Notiz', Updated=TO_TIMESTAMP('2000-01-02 01:00:00','YYYY-MM-DD HH24:MI:SS'), UpdatedBy=0 WHERE AD_Element_ID=1115
+UPDATE AD_Element SET AD_Client_ID=0, AD_Element_ID=1115, AD_Org_ID=0, ColumnName='Note', Created=TO_TIMESTAMP('2000-01-24 19:04:25','YYYY-MM-DD HH24:MI:SS'), CreatedBy=0, Description='Optional weitere Information fÃ¼r ein Dokument', EntityType='D', Help='Das Notiz-Feld erlaubt es, weitere Informationen zu diesem Eintrag anzugeben', IsActive='Y', Name='Notiz', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Notiz', Updated=TO_TIMESTAMP('2000-01-02 01:00:00','YYYY-MM-DD HH24:MI:SS'), UpdatedBy=0 WHERE AD_Element_ID=1115
 ;
 
 -- Jul 5, 2013 3:27:33 PM EEST
@@ -1259,22 +1259,22 @@ UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=1115
 
 -- Jul 5, 2013 3:27:33 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Column SET ColumnName='Note', Name='Notiz', Description='Optional weitere Information für ein Dokument', Help='Das Notiz-Feld erlaubt es, weitere Informationen zu diesem Eintrag anzugeben' WHERE AD_Element_ID=1115
+UPDATE AD_Column SET ColumnName='Note', Name='Notiz', Description='Optional weitere Information fÃ¼r ein Dokument', Help='Das Notiz-Feld erlaubt es, weitere Informationen zu diesem Eintrag anzugeben' WHERE AD_Element_ID=1115
 ;
 
 -- Jul 5, 2013 3:27:33 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Process_Para SET ColumnName='Note', Name='Notiz', Description='Optional weitere Information für ein Dokument', Help='Das Notiz-Feld erlaubt es, weitere Informationen zu diesem Eintrag anzugeben', AD_Element_ID=1115 WHERE UPPER(ColumnName)='NOTE' AND IsCentrallyMaintained='Y' AND AD_Element_ID IS NULL
+UPDATE AD_Process_Para SET ColumnName='Note', Name='Notiz', Description='Optional weitere Information fÃ¼r ein Dokument', Help='Das Notiz-Feld erlaubt es, weitere Informationen zu diesem Eintrag anzugeben', AD_Element_ID=1115 WHERE UPPER(ColumnName)='NOTE' AND IsCentrallyMaintained='Y' AND AD_Element_ID IS NULL
 ;
 
 -- Jul 5, 2013 3:27:33 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Process_Para SET ColumnName='Note', Name='Notiz', Description='Optional weitere Information für ein Dokument', Help='Das Notiz-Feld erlaubt es, weitere Informationen zu diesem Eintrag anzugeben' WHERE AD_Element_ID=1115 AND IsCentrallyMaintained='Y'
+UPDATE AD_Process_Para SET ColumnName='Note', Name='Notiz', Description='Optional weitere Information fÃ¼r ein Dokument', Help='Das Notiz-Feld erlaubt es, weitere Informationen zu diesem Eintrag anzugeben' WHERE AD_Element_ID=1115 AND IsCentrallyMaintained='Y'
 ;
 
 -- Jul 5, 2013 3:27:33 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Field SET Name='Notiz', Description='Optional weitere Information für ein Dokument', Help='Das Notiz-Feld erlaubt es, weitere Informationen zu diesem Eintrag anzugeben' WHERE AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=1115) AND IsCentrallyMaintained='Y'
+UPDATE AD_Field SET Name='Notiz', Description='Optional weitere Information fÃ¼r ein Dokument', Help='Das Notiz-Feld erlaubt es, weitere Informationen zu diesem Eintrag anzugeben' WHERE AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=1115) AND IsCentrallyMaintained='Y'
 ;
 
 -- Jul 5, 2013 3:27:33 PM EEST
@@ -1284,7 +1284,7 @@ UPDATE AD_PrintFormatItem SET PrintName='Notiz', Name='Notiz' WHERE IsCentrallyM
 
 -- Jul 5, 2013 3:27:33 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66275,1047,0,20,53531,'Processed',TO_TIMESTAMP('2012-10-31 22:56:33','YYYY-MM-DD HH24:MI:SS'),100,'Checkbox sagt aus, ob der Beleg verarbeitet wurde. ','de.metas.dunning',1,'Verarbeitete Belege dürfen in der Regel nich mehr geändert werden.','Y','Y','Y','N','N','N','N','Y','N','N','N','N','Y','Verarbeitet',0,TO_TIMESTAMP('2012-10-31 22:56:33','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66275,1047,0,20,53531,'Processed',TO_TIMESTAMP('2012-10-31 22:56:33','YYYY-MM-DD HH24:MI:SS'),100,'Checkbox sagt aus, ob der Beleg verarbeitet wurde. ','de.metas.dunning',1,'Verarbeitete Belege dÃ¼rfen in der Regel nich mehr geÃ¤ndert werden.','Y','Y','Y','N','N','N','N','Y','N','N','N','N','Y','Verarbeitet',0,TO_TIMESTAMP('2012-10-31 22:56:33','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Jul 5, 2013 3:27:33 PM EEST
@@ -1339,7 +1339,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 5, 2013 3:27:34 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66279,113,0,19,53532,'AD_Org_ID',TO_TIMESTAMP('2012-10-31 23:01:44','YYYY-MM-DD HH24:MI:SS'),100,'Organisatorische Einheit des Mandanten','de.metas.dunning',10,'Eine Organisation ist ein Bereich ihres Mandanten - z.B. Laden oder Abteilung. Sie können Daten über Organisationen hinweg gemeinsam verwenden.','Y','Y','N','N','N','N','N','Y','N','N','Y','N','N','Sektion',0,TO_TIMESTAMP('2012-10-31 23:01:44','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66279,113,0,19,53532,'AD_Org_ID',TO_TIMESTAMP('2012-10-31 23:01:44','YYYY-MM-DD HH24:MI:SS'),100,'Organisatorische Einheit des Mandanten','de.metas.dunning',10,'Eine Organisation ist ein Bereich ihres Mandanten - z.B. Laden oder Abteilung. Sie kÃ¶nnen Daten Ã¼ber Organisationen hinweg gemeinsam verwenden.','Y','Y','N','N','N','N','N','Y','N','N','Y','N','N','Sektion',0,TO_TIMESTAMP('2012-10-31 23:01:44','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 5, 2013 3:27:34 PM EEST
@@ -1349,7 +1349,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 5, 2013 3:27:34 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,AD_Val_Rule_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66278,102,0,19,53532,129,'AD_Client_ID',TO_TIMESTAMP('2012-10-31 23:01:44','YYYY-MM-DD HH24:MI:SS'),100,'Mandant für diese Installation.','de.metas.dunning',10,'Ein Mandant ist eine Firma oder eine juristische Person. Sie können keine Daten über Mandanten hinweg verwenden. .','Y','Y','N','N','N','N','N','Y','N','N','Y','N','N','Mandant',0,TO_TIMESTAMP('2012-10-31 23:01:44','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,AD_Val_Rule_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66278,102,0,19,53532,129,'AD_Client_ID',TO_TIMESTAMP('2012-10-31 23:01:44','YYYY-MM-DD HH24:MI:SS'),100,'Mandant fÃ¼r diese Installation.','de.metas.dunning',10,'Ein Mandant ist eine Firma oder eine juristische Person. Sie kÃ¶nnen keine Daten Ã¼ber Mandanten hinweg verwenden. .','Y','Y','N','N','N','N','N','Y','N','N','Y','N','N','Mandant',0,TO_TIMESTAMP('2012-10-31 23:01:44','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 5, 2013 3:27:34 PM EEST
@@ -1379,7 +1379,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 5, 2013 3:27:35 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66283,348,0,20,53532,'IsActive',TO_TIMESTAMP('2012-10-31 23:01:46','YYYY-MM-DD HH24:MI:SS'),100,'Der Eintrag ist im System aktiv','de.metas.dunning',1,'Es gibt zwei Möglichkeiten, einen Datensatz nicht mehr verfügbar zu machen: einer ist, ihn zu löschen; der andere, ihn zu deaktivieren. Ein deaktivierter Eintrag ist nicht mehr für eine Auswahl verfügbar, aber verfügbar für die Verwendung in Berichten. Es gibt zwei Gründe, Datensätze zu deaktivieren und nicht zu löschen: (1) Das System braucht den Datensatz für Revisionszwecke. (2) Der Datensatz wird von anderen Datensätzen referenziert. Z.B. können Sie keinen Geschäftspartner löschen, wenn es Rechnungen für diesen Geschäftspartner gibt. Sie deaktivieren den Geschäftspartner und verhindern, dass dieser Eintrag in zukünftigen Vorgängen verwendet wird.','Y','Y','N','N','N','N','N','Y','N','N','Y','N','Y','Aktiv',0,TO_TIMESTAMP('2012-10-31 23:01:46','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66283,348,0,20,53532,'IsActive',TO_TIMESTAMP('2012-10-31 23:01:46','YYYY-MM-DD HH24:MI:SS'),100,'Der Eintrag ist im System aktiv','de.metas.dunning',1,'Es gibt zwei MÃ¶glichkeiten, einen Datensatz nicht mehr verfÃ¼gbar zu machen: einer ist, ihn zu lÃ¶schen; der andere, ihn zu deaktivieren. Ein deaktivierter Eintrag ist nicht mehr fÃ¼r eine Auswahl verfÃ¼gbar, aber verfÃ¼gbar fÃ¼r die Verwendung in Berichten. Es gibt zwei GrÃ¼nde, DatensÃ¤tze zu deaktivieren und nicht zu lÃ¶schen: (1) Das System braucht den Datensatz fÃ¼r Revisionszwecke. (2) Der Datensatz wird von anderen DatensÃ¤tzen referenziert. Z.B. kÃ¶nnen Sie keinen GeschÃ¤ftspartner lÃ¶schen, wenn es Rechnungen fÃ¼r diesen GeschÃ¤ftspartner gibt. Sie deaktivieren den GeschÃ¤ftspartner und verhindern, dass dieser Eintrag in zukÃ¼nftigen VorgÃ¤ngen verwendet wird.','Y','Y','N','N','N','N','N','Y','N','N','Y','N','Y','Aktiv',0,TO_TIMESTAMP('2012-10-31 23:01:46','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 5, 2013 3:27:35 PM EEST
@@ -1439,7 +1439,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 5, 2013 3:27:36 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66291,193,0,30,53529,'C_Currency_ID',TO_TIMESTAMP('2012-11-01 00:04:53','YYYY-MM-DD HH24:MI:SS'),100,'Die Währung für diesen Eintrag','de.metas.dunning',10,'Bezeichnet die auf Dokumenten oder Berichten verwendete Währung','Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','Währung',0,TO_TIMESTAMP('2012-11-01 00:04:53','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66291,193,0,30,53529,'C_Currency_ID',TO_TIMESTAMP('2012-11-01 00:04:53','YYYY-MM-DD HH24:MI:SS'),100,'Die WÃ¤hrung fÃ¼r diesen Eintrag','de.metas.dunning',10,'Bezeichnet die auf Dokumenten oder Berichten verwendete WÃ¤hrung','Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','WÃ¤hrung',0,TO_TIMESTAMP('2012-11-01 00:04:53','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 5, 2013 3:27:36 PM EEST
@@ -1449,7 +1449,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 5, 2013 3:27:36 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66295,187,0,30,53530,'C_BPartner_ID',TO_TIMESTAMP('2012-11-14 14:51:32','YYYY-MM-DD HH24:MI:SS'),100,'Bezeichnet einen Geschäftspartner','de.metas.dunning',10,'Ein Geschäftspartner ist jemand, mit dem Sie interagieren. Dies kann Lieferanten, Kunden, Mitarbeiter oder Handelsvertreter umfassen.','Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','Geschäftspartner',0,TO_TIMESTAMP('2012-11-14 15:02:08','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66295,187,0,30,53530,'C_BPartner_ID',TO_TIMESTAMP('2012-11-14 14:51:32','YYYY-MM-DD HH24:MI:SS'),100,'Bezeichnet einen GeschÃ¤ftspartner','de.metas.dunning',10,'Ein GeschÃ¤ftspartner ist jemand, mit dem Sie interagieren. Dies kann Lieferanten, Kunden, Mitarbeiter oder Handelsvertreter umfassen.','Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','GeschÃ¤ftspartner',0,TO_TIMESTAMP('2012-11-14 15:02:08','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 5, 2013 3:27:36 PM EEST
@@ -1459,7 +1459,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 5, 2013 3:27:37 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,AD_Val_Rule_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66294,189,0,19,53530,131,'C_BPartner_Location_ID',TO_TIMESTAMP('2012-11-14 14:52:28','YYYY-MM-DD HH24:MI:SS'),100,'Identifiziert die (Liefer-) Adresse des Geschäftspartners','de.metas.dunning',10,'Identifiziert die Adresse des Geschäftspartners','Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','Standort',0,TO_TIMESTAMP('2012-11-14 15:03:32','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,AD_Val_Rule_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66294,189,0,19,53530,131,'C_BPartner_Location_ID',TO_TIMESTAMP('2012-11-14 14:52:28','YYYY-MM-DD HH24:MI:SS'),100,'Identifiziert die (Liefer-) Adresse des GeschÃ¤ftspartners','de.metas.dunning',10,'Identifiziert die Adresse des GeschÃ¤ftspartners','Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','Standort',0,TO_TIMESTAMP('2012-11-14 15:03:32','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 5, 2013 3:27:37 PM EEST
@@ -1469,7 +1469,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 5, 2013 3:27:37 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Element SET AD_Client_ID=0, AD_Element_ID=189, AD_Org_ID=0, ColumnName='C_BPartner_Location_ID', Created=TO_TIMESTAMP('1999-11-19 11:07:43','YYYY-MM-DD HH24:MI:SS'), CreatedBy=0, Description='Identifiziert die (Liefer-) Adresse des Geschäftspartners', EntityType='D', Help='Identifiziert die Adresse des Geschäftspartners', IsActive='Y', Name='Standort', PO_Description='Identifiziert die (Auslieferungs-) Adresse des Geschäftspartners', PO_Help='Identifiziert die Adresse des Geschäftspartners', PO_Name='Standort', PO_PrintName='Standort', PrintName='Standort', Updated=TO_TIMESTAMP('2000-01-02 01:00:00','YYYY-MM-DD HH24:MI:SS'), UpdatedBy=0 WHERE AD_Element_ID=189
+UPDATE AD_Element SET AD_Client_ID=0, AD_Element_ID=189, AD_Org_ID=0, ColumnName='C_BPartner_Location_ID', Created=TO_TIMESTAMP('1999-11-19 11:07:43','YYYY-MM-DD HH24:MI:SS'), CreatedBy=0, Description='Identifiziert die (Liefer-) Adresse des GeschÃ¤ftspartners', EntityType='D', Help='Identifiziert die Adresse des GeschÃ¤ftspartners', IsActive='Y', Name='Standort', PO_Description='Identifiziert die (Auslieferungs-) Adresse des GeschÃ¤ftspartners', PO_Help='Identifiziert die Adresse des GeschÃ¤ftspartners', PO_Name='Standort', PO_PrintName='Standort', PrintName='Standort', Updated=TO_TIMESTAMP('2000-01-02 01:00:00','YYYY-MM-DD HH24:MI:SS'), UpdatedBy=0 WHERE AD_Element_ID=189
 ;
 
 -- Jul 5, 2013 3:27:37 PM EEST
@@ -1479,22 +1479,22 @@ UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=189
 
 -- Jul 5, 2013 3:27:37 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Column SET ColumnName='C_BPartner_Location_ID', Name='Standort', Description='Identifiziert die (Liefer-) Adresse des Geschäftspartners', Help='Identifiziert die Adresse des Geschäftspartners' WHERE AD_Element_ID=189
+UPDATE AD_Column SET ColumnName='C_BPartner_Location_ID', Name='Standort', Description='Identifiziert die (Liefer-) Adresse des GeschÃ¤ftspartners', Help='Identifiziert die Adresse des GeschÃ¤ftspartners' WHERE AD_Element_ID=189
 ;
 
 -- Jul 5, 2013 3:27:37 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Process_Para SET ColumnName='C_BPartner_Location_ID', Name='Standort', Description='Identifiziert die (Liefer-) Adresse des Geschäftspartners', Help='Identifiziert die Adresse des Geschäftspartners', AD_Element_ID=189 WHERE UPPER(ColumnName)='C_BPARTNER_LOCATION_ID' AND IsCentrallyMaintained='Y' AND AD_Element_ID IS NULL
+UPDATE AD_Process_Para SET ColumnName='C_BPartner_Location_ID', Name='Standort', Description='Identifiziert die (Liefer-) Adresse des GeschÃ¤ftspartners', Help='Identifiziert die Adresse des GeschÃ¤ftspartners', AD_Element_ID=189 WHERE UPPER(ColumnName)='C_BPARTNER_LOCATION_ID' AND IsCentrallyMaintained='Y' AND AD_Element_ID IS NULL
 ;
 
 -- Jul 5, 2013 3:27:37 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Process_Para SET ColumnName='C_BPartner_Location_ID', Name='Standort', Description='Identifiziert die (Liefer-) Adresse des Geschäftspartners', Help='Identifiziert die Adresse des Geschäftspartners' WHERE AD_Element_ID=189 AND IsCentrallyMaintained='Y'
+UPDATE AD_Process_Para SET ColumnName='C_BPartner_Location_ID', Name='Standort', Description='Identifiziert die (Liefer-) Adresse des GeschÃ¤ftspartners', Help='Identifiziert die Adresse des GeschÃ¤ftspartners' WHERE AD_Element_ID=189 AND IsCentrallyMaintained='Y'
 ;
 
 -- Jul 5, 2013 3:27:37 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Field SET Name='Standort', Description='Identifiziert die (Liefer-) Adresse des Geschäftspartners', Help='Identifiziert die Adresse des Geschäftspartners' WHERE AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=189) AND IsCentrallyMaintained='Y'
+UPDATE AD_Field SET Name='Standort', Description='Identifiziert die (Liefer-) Adresse des GeschÃ¤ftspartners', Help='Identifiziert die Adresse des GeschÃ¤ftspartners' WHERE AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=189) AND IsCentrallyMaintained='Y'
 ;
 
 -- Jul 5, 2013 3:27:37 PM EEST
@@ -1534,7 +1534,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 5, 2013 3:27:37 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,AD_Val_Rule_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66304,189,0,19,53529,131,'C_BPartner_Location_ID',TO_TIMESTAMP('2012-11-14 16:20:22','YYYY-MM-DD HH24:MI:SS'),100,'Identifiziert die (Liefer-) Adresse des Geschäftspartners','de.metas.dunning',10,'Identifiziert die Adresse des Geschäftspartners','Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','Standort',0,TO_TIMESTAMP('2013-03-23 21:44:38','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,AD_Val_Rule_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66304,189,0,19,53529,131,'C_BPartner_Location_ID',TO_TIMESTAMP('2012-11-14 16:20:22','YYYY-MM-DD HH24:MI:SS'),100,'Identifiziert die (Liefer-) Adresse des GeschÃ¤ftspartners','de.metas.dunning',10,'Identifiziert die Adresse des GeschÃ¤ftspartners','Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','Standort',0,TO_TIMESTAMP('2013-03-23 21:44:38','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 5, 2013 3:27:37 PM EEST
@@ -1594,7 +1594,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jul 5, 2013 3:27:38 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66299,56026,0,17,53514,301,'DunningTimer',TO_TIMESTAMP('2013-02-18 17:25:01','YYYY-MM-DD HH24:MI:SS'),100,'S','de.metas.dunning',1,'Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','Mahnauslöser',0,TO_TIMESTAMP('2013-02-18 17:25:01','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66299,56026,0,17,53514,301,'DunningTimer',TO_TIMESTAMP('2013-02-18 17:25:01','YYYY-MM-DD HH24:MI:SS'),100,'S','de.metas.dunning',1,'Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','MahnauslÃ¶ser',0,TO_TIMESTAMP('2013-02-18 17:25:01','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 5, 2013 3:27:38 PM EEST
@@ -1604,7 +1604,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 5, 2013 3:27:39 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66300,895,0,11,301,'GraceDays',TO_TIMESTAMP('2013-02-18 17:28:23','YYYY-MM-DD HH24:MI:SS'),100,'Tage nach Fälligkeitstermin bevor erste Mahnung versandt wird','de.metas.dunning',10,'The Grace Days indicates the number of days after the due date to send the first dunning letter.  This field displays only if the send dunning letters checkbox has been selected.','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Tage Frist',0,TO_TIMESTAMP('2013-02-18 17:35:08','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66300,895,0,11,301,'GraceDays',TO_TIMESTAMP('2013-02-18 17:28:23','YYYY-MM-DD HH24:MI:SS'),100,'Tage nach FÃ¤lligkeitstermin bevor erste Mahnung versandt wird','de.metas.dunning',10,'The Grace Days indicates the number of days after the due date to send the first dunning letter.  This field displays only if the send dunning letters checkbox has been selected.','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Tage Frist',0,TO_TIMESTAMP('2013-02-18 17:35:08','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 5, 2013 3:27:39 PM EEST
@@ -1614,7 +1614,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 5, 2013 3:27:39 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Element SET AD_Client_ID=0, AD_Element_ID=895, AD_Org_ID=0, ColumnName='GraceDays', Created=TO_TIMESTAMP('1999-12-05 14:42:17','YYYY-MM-DD HH24:MI:SS'), CreatedBy=0, Description='Tage nach Fälligkeitstermin bevor erste Mahnung versandt wird', EntityType='D', Help='The Grace Days indicates the number of days after the due date to send the first dunning letter.  This field displays only if the send dunning letters checkbox has been selected.', IsActive='Y', Name='Tage Frist', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Tage Frist', Updated=TO_TIMESTAMP('2000-01-02 01:00:00','YYYY-MM-DD HH24:MI:SS'), UpdatedBy=0 WHERE AD_Element_ID=895
+UPDATE AD_Element SET AD_Client_ID=0, AD_Element_ID=895, AD_Org_ID=0, ColumnName='GraceDays', Created=TO_TIMESTAMP('1999-12-05 14:42:17','YYYY-MM-DD HH24:MI:SS'), CreatedBy=0, Description='Tage nach FÃ¤lligkeitstermin bevor erste Mahnung versandt wird', EntityType='D', Help='The Grace Days indicates the number of days after the due date to send the first dunning letter.  This field displays only if the send dunning letters checkbox has been selected.', IsActive='Y', Name='Tage Frist', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Tage Frist', Updated=TO_TIMESTAMP('2000-01-02 01:00:00','YYYY-MM-DD HH24:MI:SS'), UpdatedBy=0 WHERE AD_Element_ID=895
 ;
 
 -- Jul 5, 2013 3:27:39 PM EEST
@@ -1624,22 +1624,22 @@ UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=895
 
 -- Jul 5, 2013 3:27:39 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Column SET ColumnName='GraceDays', Name='Tage Frist', Description='Tage nach Fälligkeitstermin bevor erste Mahnung versandt wird', Help='The Grace Days indicates the number of days after the due date to send the first dunning letter.  This field displays only if the send dunning letters checkbox has been selected.' WHERE AD_Element_ID=895
+UPDATE AD_Column SET ColumnName='GraceDays', Name='Tage Frist', Description='Tage nach FÃ¤lligkeitstermin bevor erste Mahnung versandt wird', Help='The Grace Days indicates the number of days after the due date to send the first dunning letter.  This field displays only if the send dunning letters checkbox has been selected.' WHERE AD_Element_ID=895
 ;
 
 -- Jul 5, 2013 3:27:39 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Process_Para SET ColumnName='GraceDays', Name='Tage Frist', Description='Tage nach Fälligkeitstermin bevor erste Mahnung versandt wird', Help='The Grace Days indicates the number of days after the due date to send the first dunning letter.  This field displays only if the send dunning letters checkbox has been selected.', AD_Element_ID=895 WHERE UPPER(ColumnName)='GRACEDAYS' AND IsCentrallyMaintained='Y' AND AD_Element_ID IS NULL
+UPDATE AD_Process_Para SET ColumnName='GraceDays', Name='Tage Frist', Description='Tage nach FÃ¤lligkeitstermin bevor erste Mahnung versandt wird', Help='The Grace Days indicates the number of days after the due date to send the first dunning letter.  This field displays only if the send dunning letters checkbox has been selected.', AD_Element_ID=895 WHERE UPPER(ColumnName)='GRACEDAYS' AND IsCentrallyMaintained='Y' AND AD_Element_ID IS NULL
 ;
 
 -- Jul 5, 2013 3:27:39 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Process_Para SET ColumnName='GraceDays', Name='Tage Frist', Description='Tage nach Fälligkeitstermin bevor erste Mahnung versandt wird', Help='The Grace Days indicates the number of days after the due date to send the first dunning letter.  This field displays only if the send dunning letters checkbox has been selected.' WHERE AD_Element_ID=895 AND IsCentrallyMaintained='Y'
+UPDATE AD_Process_Para SET ColumnName='GraceDays', Name='Tage Frist', Description='Tage nach FÃ¤lligkeitstermin bevor erste Mahnung versandt wird', Help='The Grace Days indicates the number of days after the due date to send the first dunning letter.  This field displays only if the send dunning letters checkbox has been selected.' WHERE AD_Element_ID=895 AND IsCentrallyMaintained='Y'
 ;
 
 -- Jul 5, 2013 3:27:39 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Field SET Name='Tage Frist', Description='Tage nach Fälligkeitstermin bevor erste Mahnung versandt wird', Help='The Grace Days indicates the number of days after the due date to send the first dunning letter.  This field displays only if the send dunning letters checkbox has been selected.' WHERE AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=895) AND IsCentrallyMaintained='Y'
+UPDATE AD_Field SET Name='Tage Frist', Description='Tage nach FÃ¤lligkeitstermin bevor erste Mahnung versandt wird', Help='The Grace Days indicates the number of days after the due date to send the first dunning letter.  This field displays only if the send dunning letters checkbox has been selected.' WHERE AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=895) AND IsCentrallyMaintained='Y'
 ;
 
 -- Jul 5, 2013 3:27:39 PM EEST
@@ -1699,7 +1699,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 5, 2013 3:27:40 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66311,1047,0,20,53532,'Processed',TO_TIMESTAMP('2013-04-04 11:51:25','YYYY-MM-DD HH24:MI:SS'),100,'N','Checkbox sagt aus, ob der Beleg verarbeitet wurde. ','de.metas.dunning',1,'Verarbeitete Belege dürfen in der Regel nich mehr geändert werden.','Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','Verarbeitet',0,TO_TIMESTAMP('2013-04-04 11:51:25','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66311,1047,0,20,53532,'Processed',TO_TIMESTAMP('2013-04-04 11:51:25','YYYY-MM-DD HH24:MI:SS'),100,'N','Checkbox sagt aus, ob der Beleg verarbeitet wurde. ','de.metas.dunning',1,'Verarbeitete Belege dÃ¼rfen in der Regel nich mehr geÃ¤ndert werden.','Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','Verarbeitet',0,TO_TIMESTAMP('2013-04-04 11:51:25','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 5, 2013 3:27:40 PM EEST
@@ -1739,7 +1739,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 5, 2013 3:27:40 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Reference (AD_Client_ID,AD_Org_ID,AD_Reference_ID,Created,CreatedBy,Description,EntityType,IsActive,IsOrderByValue,Name,Updated,UpdatedBy,ValidationType) VALUES (0,0,53514,TO_TIMESTAMP('2013-02-18 16:47:38','YYYY-MM-DD HH24:MI:SS'),100,'Mahnauslöser','de.metas.dunning','Y','N','DunningTimer',TO_TIMESTAMP('2013-02-18 16:47:38','YYYY-MM-DD HH24:MI:SS'),100,'L')
+INSERT INTO AD_Reference (AD_Client_ID,AD_Org_ID,AD_Reference_ID,Created,CreatedBy,Description,EntityType,IsActive,IsOrderByValue,Name,Updated,UpdatedBy,ValidationType) VALUES (0,0,53514,TO_TIMESTAMP('2013-02-18 16:47:38','YYYY-MM-DD HH24:MI:SS'),100,'MahnauslÃ¶ser','de.metas.dunning','Y','N','DunningTimer',TO_TIMESTAMP('2013-02-18 16:47:38','YYYY-MM-DD HH24:MI:SS'),100,'L')
 ;
 
 -- Jul 5, 2013 3:27:40 PM EEST
@@ -1789,7 +1789,7 @@ INSERT INTO AD_Window_Trl (AD_Language,AD_Window_ID, Description,Help,Name, IsTr
 
 -- Jul 5, 2013 3:27:41 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Tab (AD_Client_ID,AD_Org_ID,AD_Tab_ID,AD_Table_ID,AD_Window_ID,Created,CreatedBy,EntityType,HasTree,IsActive,IsAdvancedTab,IsInfoTab,IsInsertRecord,IsReadOnly,IsSingleRow,IsSortTab,IsTranslationTab,Name,SeqNo,TabLevel,Updated,UpdatedBy) VALUES (0,0,53687,53529,53247,TO_TIMESTAMP('2012-10-23 09:33:14','YYYY-MM-DD HH24:MI:SS'),100,'de.metas.dunning','N','Y','N','N','Y','N','N','N','N','Mahndatensätze',10,0,TO_TIMESTAMP('2013-05-30 13:18:35','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Tab (AD_Client_ID,AD_Org_ID,AD_Tab_ID,AD_Table_ID,AD_Window_ID,Created,CreatedBy,EntityType,HasTree,IsActive,IsAdvancedTab,IsInfoTab,IsInsertRecord,IsReadOnly,IsSingleRow,IsSortTab,IsTranslationTab,Name,SeqNo,TabLevel,Updated,UpdatedBy) VALUES (0,0,53687,53529,53247,TO_TIMESTAMP('2012-10-23 09:33:14','YYYY-MM-DD HH24:MI:SS'),100,'de.metas.dunning','N','Y','N','N','Y','N','N','N','N','MahndatensÃ¤tze',10,0,TO_TIMESTAMP('2013-05-30 13:18:35','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 5, 2013 3:27:41 PM EEST
@@ -1839,7 +1839,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jul 5, 2013 3:27:42 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66249,67603,0,53687,TO_TIMESTAMP('2012-10-23 09:33:17','YYYY-MM-DD HH24:MI:SS'),100,'Der Eintrag ist im System aktiv',1,'de.metas.dunning','Es gibt zwei Möglichkeiten, einen Datensatz nicht mehr verfügbar zu machen: einer ist, ihn zu löschen; der andere, ihn zu deaktivieren. Ein deaktivierter Eintrag ist nicht mehr für eine Auswahl verfügbar, aber verfügbar für die Verwendung in Berichten. Es gibt zwei Gründe, Datensätze zu deaktivieren und nicht zu löschen: (1) Das System braucht den Datensatz für Revisionszwecke. (2) Der Datensatz wird von anderen Datensätzen referenziert. Z.B. können Sie keinen Geschäftspartner löschen, wenn es Rechnungen für diesen Geschäftspartner gibt. Sie deaktivieren den Geschäftspartner und verhindern, dass dieser Eintrag in zukünftigen Vorgängen verwendet wird.','Y','Y','N','N','N','N','N','N','Aktiv',TO_TIMESTAMP('2012-10-23 09:54:57','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66249,67603,0,53687,TO_TIMESTAMP('2012-10-23 09:33:17','YYYY-MM-DD HH24:MI:SS'),100,'Der Eintrag ist im System aktiv',1,'de.metas.dunning','Es gibt zwei MÃ¶glichkeiten, einen Datensatz nicht mehr verfÃ¼gbar zu machen: einer ist, ihn zu lÃ¶schen; der andere, ihn zu deaktivieren. Ein deaktivierter Eintrag ist nicht mehr fÃ¼r eine Auswahl verfÃ¼gbar, aber verfÃ¼gbar fÃ¼r die Verwendung in Berichten. Es gibt zwei GrÃ¼nde, DatensÃ¤tze zu deaktivieren und nicht zu lÃ¶schen: (1) Das System braucht den Datensatz fÃ¼r Revisionszwecke. (2) Der Datensatz wird von anderen DatensÃ¤tzen referenziert. Z.B. kÃ¶nnen Sie keinen GeschÃ¤ftspartner lÃ¶schen, wenn es Rechnungen fÃ¼r diesen GeschÃ¤ftspartner gibt. Sie deaktivieren den GeschÃ¤ftspartner und verhindern, dass dieser Eintrag in zukÃ¼nftigen VorgÃ¤ngen verwendet wird.','Y','Y','N','N','N','N','N','N','Aktiv',TO_TIMESTAMP('2012-10-23 09:54:57','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 5, 2013 3:27:42 PM EEST
@@ -1899,7 +1899,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jul 5, 2013 3:27:43 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66254,67608,0,53687,TO_TIMESTAMP('2012-10-23 09:33:18','YYYY-MM-DD HH24:MI:SS'),100,'Anzahl der Tage der Fälligkeit (negativ: Fällig in Anzahl Tagen)',14,'de.metas.dunning','Y','Y','Y','N','N','N','Y','Y','Tage fällig',120,TO_TIMESTAMP('2012-11-14 12:23:05','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66254,67608,0,53687,TO_TIMESTAMP('2012-10-23 09:33:18','YYYY-MM-DD HH24:MI:SS'),100,'Anzahl der Tage der FÃ¤lligkeit (negativ: FÃ¤llig in Anzahl Tagen)',14,'de.metas.dunning','Y','Y','Y','N','N','N','Y','Y','Tage fÃ¤llig',120,TO_TIMESTAMP('2012-11-14 12:23:05','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 5, 2013 3:27:43 PM EEST
@@ -1919,7 +1919,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jul 5, 2013 3:27:43 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66257,67610,0,53687,TO_TIMESTAMP('2012-10-23 09:33:18','YYYY-MM-DD HH24:MI:SS'),100,'Pauschale Mahngebühr',14,'de.metas.dunning','The Fee Amount indicates the charge amount on a dunning letter for overdue invoices.  This field will only display if the charge fee checkbox has been selected.','Y','Y','Y','N','N','N','Y','Y','Mahnpauschale',150,TO_TIMESTAMP('2013-03-11 12:34:22','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66257,67610,0,53687,TO_TIMESTAMP('2012-10-23 09:33:18','YYYY-MM-DD HH24:MI:SS'),100,'Pauschale MahngebÃ¼hr',14,'de.metas.dunning','The Fee Amount indicates the charge amount on a dunning letter for overdue invoices.  This field will only display if the charge fee checkbox has been selected.','Y','Y','Y','N','N','N','Y','Y','Mahnpauschale',150,TO_TIMESTAMP('2013-03-11 12:34:22','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 5, 2013 3:27:43 PM EEST
@@ -1929,7 +1929,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jul 5, 2013 3:27:43 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66258,67611,0,53687,TO_TIMESTAMP('2012-10-23 09:33:18','YYYY-MM-DD HH24:MI:SS'),100,'Prozentualer Anteil der offenen Summe, der als zusätzliche Mahngebühr ausgewiesen wird.',14,'de.metas.dunning','Y','Y','Y','N','N','N','Y','N','Mahnzins',140,TO_TIMESTAMP('2013-03-11 12:34:18','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66258,67611,0,53687,TO_TIMESTAMP('2012-10-23 09:33:18','YYYY-MM-DD HH24:MI:SS'),100,'Prozentualer Anteil der offenen Summe, der als zusÃ¤tzliche MahngebÃ¼hr ausgewiesen wird.',14,'de.metas.dunning','Y','Y','Y','N','N','N','Y','N','Mahnzins',140,TO_TIMESTAMP('2013-03-11 12:34:18','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 5, 2013 3:27:43 PM EEST
@@ -1939,7 +1939,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jul 5, 2013 3:27:43 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66308,67648,0,53687,TO_TIMESTAMP('2012-10-23 09:33:18','YYYY-MM-DD HH24:MI:SS'),100,'Checkbox sagt aus, ob der Beleg verarbeitet wurde. ',1,'de.metas.dunning','Verarbeitete Belege dürfen in der Regel nich mehr geändert werden.','Y','Y','Y','N','N','N','Y','N','Verarbeitet',200,TO_TIMESTAMP('2013-03-23 22:17:30','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66308,67648,0,53687,TO_TIMESTAMP('2012-10-23 09:33:18','YYYY-MM-DD HH24:MI:SS'),100,'Checkbox sagt aus, ob der Beleg verarbeitet wurde. ',1,'de.metas.dunning','Verarbeitete Belege dÃ¼rfen in der Regel nich mehr geÃ¤ndert werden.','Y','Y','Y','N','N','N','Y','N','Verarbeitet',200,TO_TIMESTAMP('2013-03-23 22:17:30','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 5, 2013 3:27:43 PM EEST
@@ -1979,7 +1979,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jul 5, 2013 3:27:44 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66239,67593,0,53687,TO_TIMESTAMP('2012-10-23 09:33:18','YYYY-MM-DD HH24:MI:SS'),100,'Mandant für diese Installation.',10,'de.metas.dunning','Ein Mandant ist eine Firma oder eine juristische Person. Sie können keine Daten über Mandanten hinweg verwenden. .','Y','Y','N','N','N','N','N','N','Mandant',TO_TIMESTAMP('2012-10-23 09:54:40','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66239,67593,0,53687,TO_TIMESTAMP('2012-10-23 09:33:18','YYYY-MM-DD HH24:MI:SS'),100,'Mandant fÃ¼r diese Installation.',10,'de.metas.dunning','Ein Mandant ist eine Firma oder eine juristische Person. Sie kÃ¶nnen keine Daten Ã¼ber Mandanten hinweg verwenden. .','Y','Y','N','N','N','N','N','N','Mandant',TO_TIMESTAMP('2012-10-23 09:54:40','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 5, 2013 3:27:44 PM EEST
@@ -1989,7 +1989,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jul 5, 2013 3:27:44 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66240,67594,0,53687,TO_TIMESTAMP('2012-10-23 09:33:18','YYYY-MM-DD HH24:MI:SS'),100,'Organisatorische Einheit des Mandanten',10,'de.metas.dunning','Eine Organisation ist ein Bereich ihres Mandanten - z.B. Laden oder Abteilung. Sie können Daten über Organisationen hinweg gemeinsam verwenden.','Y','Y','Y','N','N','N','Y','N','Sektion',10,TO_TIMESTAMP('2012-11-14 12:23:16','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66240,67594,0,53687,TO_TIMESTAMP('2012-10-23 09:33:18','YYYY-MM-DD HH24:MI:SS'),100,'Organisatorische Einheit des Mandanten',10,'de.metas.dunning','Eine Organisation ist ein Bereich ihres Mandanten - z.B. Laden oder Abteilung. Sie kÃ¶nnen Daten Ã¼ber Organisationen hinweg gemeinsam verwenden.','Y','Y','Y','N','N','N','Y','N','Sektion',10,TO_TIMESTAMP('2012-11-14 12:23:16','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 5, 2013 3:27:44 PM EEST
@@ -2009,7 +2009,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jul 5, 2013 3:27:44 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66305,67645,0,53687,TO_TIMESTAMP('2012-10-23 09:33:18','YYYY-MM-DD HH24:MI:SS'),100,'Bezeichnet einen Geschäftspartner',10,'de.metas.dunning','Ein Geschäftspartner ist jemand, mit dem Sie interagieren. Dies kann Lieferanten, Kunden, Mitarbeiter oder Handelsvertreter umfassen.','Y','Y','Y','N','N','N','Y','N','Geschäftspartner',80,TO_TIMESTAMP('2012-11-14 12:22:55','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66305,67645,0,53687,TO_TIMESTAMP('2012-10-23 09:33:18','YYYY-MM-DD HH24:MI:SS'),100,'Bezeichnet einen GeschÃ¤ftspartner',10,'de.metas.dunning','Ein GeschÃ¤ftspartner ist jemand, mit dem Sie interagieren. Dies kann Lieferanten, Kunden, Mitarbeiter oder Handelsvertreter umfassen.','Y','Y','Y','N','N','N','Y','N','GeschÃ¤ftspartner',80,TO_TIMESTAMP('2012-11-14 12:22:55','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 5, 2013 3:27:44 PM EEST
@@ -2039,7 +2039,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jul 5, 2013 3:27:45 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66259,67612,0,53687,TO_TIMESTAMP('2012-10-31 21:52:26','YYYY-MM-DD HH24:MI:SS'),100,'Datum, zu dem Zahlung fällig wird',7,'de.metas.dunning','Datum, zu dem Zahlung ohne Abzüge oder Rabattierung fällig wird.','Y','Y','Y','N','N','N','Y','N','Datum Fälligkeit',110,TO_TIMESTAMP('2012-11-14 12:23:02','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66259,67612,0,53687,TO_TIMESTAMP('2012-10-31 21:52:26','YYYY-MM-DD HH24:MI:SS'),100,'Datum, zu dem Zahlung fÃ¤llig wird',7,'de.metas.dunning','Datum, zu dem Zahlung ohne AbzÃ¼ge oder Rabattierung fÃ¤llig wird.','Y','Y','Y','N','N','N','Y','N','Datum FÃ¤lligkeit',110,TO_TIMESTAMP('2012-11-14 12:23:02','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 5, 2013 3:27:45 PM EEST
@@ -2059,7 +2059,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jul 5, 2013 3:27:45 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66253,67607,0,53690,TO_TIMESTAMP('2012-10-31 23:05:43','YYYY-MM-DD HH24:MI:SS'),100,'Der Eintrag ist im System aktiv',1,'de.metas.dunning','Es gibt zwei Möglichkeiten, einen Datensatz nicht mehr verfügbar zu machen: einer ist, ihn zu löschen; der andere, ihn zu deaktivieren. Ein deaktivierter Eintrag ist nicht mehr für eine Auswahl verfügbar, aber verfügbar für die Verwendung in Berichten. Es gibt zwei Gründe, Datensätze zu deaktivieren und nicht zu löschen: (1) Das System braucht den Datensatz für Revisionszwecke. (2) Der Datensatz wird von anderen Datensätzen referenziert. Z.B. können Sie keinen Geschäftspartner löschen, wenn es Rechnungen für diesen Geschäftspartner gibt. Sie deaktivieren den Geschäftspartner und verhindern, dass dieser Eintrag in zukünftigen Vorgängen verwendet wird.','Y','Y','N','N','N','N','N','N','Aktiv',0,TO_TIMESTAMP('2012-10-31 23:05:43','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66253,67607,0,53690,TO_TIMESTAMP('2012-10-31 23:05:43','YYYY-MM-DD HH24:MI:SS'),100,'Der Eintrag ist im System aktiv',1,'de.metas.dunning','Es gibt zwei MÃ¶glichkeiten, einen Datensatz nicht mehr verfÃ¼gbar zu machen: einer ist, ihn zu lÃ¶schen; der andere, ihn zu deaktivieren. Ein deaktivierter Eintrag ist nicht mehr fÃ¼r eine Auswahl verfÃ¼gbar, aber verfÃ¼gbar fÃ¼r die Verwendung in Berichten. Es gibt zwei GrÃ¼nde, DatensÃ¤tze zu deaktivieren und nicht zu lÃ¶schen: (1) Das System braucht den Datensatz fÃ¼r Revisionszwecke. (2) Der Datensatz wird von anderen DatensÃ¤tzen referenziert. Z.B. kÃ¶nnen Sie keinen GeschÃ¤ftspartner lÃ¶schen, wenn es Rechnungen fÃ¼r diesen GeschÃ¤ftspartner gibt. Sie deaktivieren den GeschÃ¤ftspartner und verhindern, dass dieser Eintrag in zukÃ¼nftigen VorgÃ¤ngen verwendet wird.','Y','Y','N','N','N','N','N','N','Aktiv',0,TO_TIMESTAMP('2012-10-31 23:05:43','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 5, 2013 3:27:45 PM EEST
@@ -2151,7 +2151,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jul 5, 2013 3:27:46 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66260,67613,0,53690,TO_TIMESTAMP('2012-10-31 23:05:46','YYYY-MM-DD HH24:MI:SS'),100,'Mandant für diese Installation.',10,'de.metas.dunning','Ein Mandant ist eine Firma oder eine juristische Person. Sie können keine Daten über Mandanten hinweg verwenden. .','Y','Y','N','N','N','N','N','N','Mandant',0,TO_TIMESTAMP('2012-10-31 23:05:46','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66260,67613,0,53690,TO_TIMESTAMP('2012-10-31 23:05:46','YYYY-MM-DD HH24:MI:SS'),100,'Mandant fÃ¼r diese Installation.',10,'de.metas.dunning','Ein Mandant ist eine Firma oder eine juristische Person. Sie kÃ¶nnen keine Daten Ã¼ber Mandanten hinweg verwenden. .','Y','Y','N','N','N','N','N','N','Mandant',0,TO_TIMESTAMP('2012-10-31 23:05:46','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 5, 2013 3:27:46 PM EEST
@@ -2161,7 +2161,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jul 5, 2013 3:27:46 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66261,67614,0,53690,TO_TIMESTAMP('2012-10-31 23:05:47','YYYY-MM-DD HH24:MI:SS'),100,'Organisatorische Einheit des Mandanten',10,'de.metas.dunning','Eine Organisation ist ein Bereich ihres Mandanten - z.B. Laden oder Abteilung. Sie können Daten über Organisationen hinweg gemeinsam verwenden.','Y','Y','Y','N','N','N','Y','N','Sektion',10,TO_TIMESTAMP('2013-04-08 16:19:31','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66261,67614,0,53690,TO_TIMESTAMP('2012-10-31 23:05:47','YYYY-MM-DD HH24:MI:SS'),100,'Organisatorische Einheit des Mandanten',10,'de.metas.dunning','Eine Organisation ist ein Bereich ihres Mandanten - z.B. Laden oder Abteilung. Sie kÃ¶nnen Daten Ã¼ber Organisationen hinweg gemeinsam verwenden.','Y','Y','Y','N','N','N','Y','N','Sektion',10,TO_TIMESTAMP('2013-04-08 16:19:31','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 5, 2013 3:27:46 PM EEST
@@ -2171,7 +2171,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jul 5, 2013 3:27:46 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66247,67601,0,53690,TO_TIMESTAMP('2012-10-31 23:05:47','YYYY-MM-DD HH24:MI:SS'),100,'Checkbox sagt aus, ob der Beleg verarbeitet wurde. ',1,'de.metas.dunning','Verarbeitete Belege dürfen in der Regel nich mehr geändert werden.','Y','Y','Y','N','N','N','Y','N','Verarbeitet',60,TO_TIMESTAMP('2012-11-19 18:23:24','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66247,67601,0,53690,TO_TIMESTAMP('2012-10-31 23:05:47','YYYY-MM-DD HH24:MI:SS'),100,'Checkbox sagt aus, ob der Beleg verarbeitet wurde. ',1,'de.metas.dunning','Verarbeitete Belege dÃ¼rfen in der Regel nich mehr geÃ¤ndert werden.','Y','Y','Y','N','N','N','Y','N','Verarbeitet',60,TO_TIMESTAMP('2012-11-19 18:23:24','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 5, 2013 3:27:46 PM EEST
@@ -2181,7 +2181,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jul 5, 2013 3:27:46 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66273,67626,0,53689,TO_TIMESTAMP('2012-10-31 23:07:24','YYYY-MM-DD HH24:MI:SS'),100,'Der Eintrag ist im System aktiv',1,'de.metas.dunning','Es gibt zwei Möglichkeiten, einen Datensatz nicht mehr verfügbar zu machen: einer ist, ihn zu löschen; der andere, ihn zu deaktivieren. Ein deaktivierter Eintrag ist nicht mehr für eine Auswahl verfügbar, aber verfügbar für die Verwendung in Berichten. Es gibt zwei Gründe, Datensätze zu deaktivieren und nicht zu löschen: (1) Das System braucht den Datensatz für Revisionszwecke. (2) Der Datensatz wird von anderen Datensätzen referenziert. Z.B. können Sie keinen Geschäftspartner löschen, wenn es Rechnungen für diesen Geschäftspartner gibt. Sie deaktivieren den Geschäftspartner und verhindern, dass dieser Eintrag in zukünftigen Vorgängen verwendet wird.','Y','Y','N','N','N','N','N','N','Aktiv',0,TO_TIMESTAMP('2012-10-31 23:07:24','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66273,67626,0,53689,TO_TIMESTAMP('2012-10-31 23:07:24','YYYY-MM-DD HH24:MI:SS'),100,'Der Eintrag ist im System aktiv',1,'de.metas.dunning','Es gibt zwei MÃ¶glichkeiten, einen Datensatz nicht mehr verfÃ¼gbar zu machen: einer ist, ihn zu lÃ¶schen; der andere, ihn zu deaktivieren. Ein deaktivierter Eintrag ist nicht mehr fÃ¼r eine Auswahl verfÃ¼gbar, aber verfÃ¼gbar fÃ¼r die Verwendung in Berichten. Es gibt zwei GrÃ¼nde, DatensÃ¤tze zu deaktivieren und nicht zu lÃ¶schen: (1) Das System braucht den Datensatz fÃ¼r Revisionszwecke. (2) Der Datensatz wird von anderen DatensÃ¤tzen referenziert. Z.B. kÃ¶nnen Sie keinen GeschÃ¤ftspartner lÃ¶schen, wenn es Rechnungen fÃ¼r diesen GeschÃ¤ftspartner gibt. Sie deaktivieren den GeschÃ¤ftspartner und verhindern, dass dieser Eintrag in zukÃ¼nftigen VorgÃ¤ngen verwendet wird.','Y','Y','N','N','N','N','N','N','Aktiv',0,TO_TIMESTAMP('2012-10-31 23:07:24','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 5, 2013 3:27:46 PM EEST
@@ -2271,7 +2271,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jul 5, 2013 3:27:48 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66267,67620,0,53689,TO_TIMESTAMP('2012-10-31 23:07:28','YYYY-MM-DD HH24:MI:SS'),100,'Bezeichnet einen Geschäftspartner',10,'de.metas.dunning','Ein Geschäftspartner ist jemand, mit dem Sie interagieren. Dies kann Lieferanten, Kunden, Mitarbeiter oder Handelsvertreter umfassen.','Y','Y','Y','N','N','N','Y','N','Geschäftspartner',10,TO_TIMESTAMP('2013-04-08 16:28:08','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66267,67620,0,53689,TO_TIMESTAMP('2012-10-31 23:07:28','YYYY-MM-DD HH24:MI:SS'),100,'Bezeichnet einen GeschÃ¤ftspartner',10,'de.metas.dunning','Ein GeschÃ¤ftspartner ist jemand, mit dem Sie interagieren. Dies kann Lieferanten, Kunden, Mitarbeiter oder Handelsvertreter umfassen.','Y','Y','Y','N','N','N','Y','N','GeschÃ¤ftspartner',10,TO_TIMESTAMP('2013-04-08 16:28:08','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 5, 2013 3:27:48 PM EEST
@@ -2291,7 +2291,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jul 5, 2013 3:27:48 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66274,67627,0,53689,TO_TIMESTAMP('2012-10-31 23:07:29','YYYY-MM-DD HH24:MI:SS'),100,'Optional weitere Information für ein Dokument',40,'de.metas.dunning','Das Notiz-Feld erlaubt es, weitere Informationen zu diesem Eintrag anzugeben','Y','Y','Y','N','N','N','Y','Y','Notiz',70,TO_TIMESTAMP('2013-04-08 16:28:14','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66274,67627,0,53689,TO_TIMESTAMP('2012-10-31 23:07:29','YYYY-MM-DD HH24:MI:SS'),100,'Optional weitere Information fÃ¼r ein Dokument',40,'de.metas.dunning','Das Notiz-Feld erlaubt es, weitere Informationen zu diesem Eintrag anzugeben','Y','Y','Y','N','N','N','Y','Y','Notiz',70,TO_TIMESTAMP('2013-04-08 16:28:14','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 5, 2013 3:27:48 PM EEST
@@ -2301,7 +2301,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jul 5, 2013 3:27:48 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66265,67618,0,53689,TO_TIMESTAMP('2012-10-31 23:07:29','YYYY-MM-DD HH24:MI:SS'),100,'Mandant für diese Installation.',22,'de.metas.dunning','Ein Mandant ist eine Firma oder eine juristische Person. Sie können keine Daten über Mandanten hinweg verwenden. .','Y','Y','N','N','N','N','N','N','Mandant',0,TO_TIMESTAMP('2012-10-31 23:07:29','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66265,67618,0,53689,TO_TIMESTAMP('2012-10-31 23:07:29','YYYY-MM-DD HH24:MI:SS'),100,'Mandant fÃ¼r diese Installation.',22,'de.metas.dunning','Ein Mandant ist eine Firma oder eine juristische Person. Sie kÃ¶nnen keine Daten Ã¼ber Mandanten hinweg verwenden. .','Y','Y','N','N','N','N','N','N','Mandant',0,TO_TIMESTAMP('2012-10-31 23:07:29','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 5, 2013 3:27:48 PM EEST
@@ -2311,7 +2311,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jul 5, 2013 3:27:48 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66266,67619,0,53689,TO_TIMESTAMP('2012-10-31 23:07:30','YYYY-MM-DD HH24:MI:SS'),100,'Organisatorische Einheit des Mandanten',22,'de.metas.dunning','Eine Organisation ist ein Bereich ihres Mandanten - z.B. Laden oder Abteilung. Sie können Daten über Organisationen hinweg gemeinsam verwenden.','Y','Y','N','N','N','N','N','N','Sektion',0,TO_TIMESTAMP('2012-10-31 23:07:30','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66266,67619,0,53689,TO_TIMESTAMP('2012-10-31 23:07:30','YYYY-MM-DD HH24:MI:SS'),100,'Organisatorische Einheit des Mandanten',22,'de.metas.dunning','Eine Organisation ist ein Bereich ihres Mandanten - z.B. Laden oder Abteilung. Sie kÃ¶nnen Daten Ã¼ber Organisationen hinweg gemeinsam verwenden.','Y','Y','N','N','N','N','N','N','Sektion',0,TO_TIMESTAMP('2012-10-31 23:07:30','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 5, 2013 3:27:48 PM EEST
@@ -2331,7 +2331,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jul 5, 2013 3:27:49 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66275,67628,0,53689,TO_TIMESTAMP('2012-10-31 23:07:30','YYYY-MM-DD HH24:MI:SS'),100,'Checkbox sagt aus, ob der Beleg verarbeitet wurde. ',1,'de.metas.dunning','Verarbeitete Belege dürfen in der Regel nich mehr geändert werden.','Y','Y','N','N','N','N','N','N','Verarbeitet',0,TO_TIMESTAMP('2012-10-31 23:07:30','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66275,67628,0,53689,TO_TIMESTAMP('2012-10-31 23:07:30','YYYY-MM-DD HH24:MI:SS'),100,'Checkbox sagt aus, ob der Beleg verarbeitet wurde. ',1,'de.metas.dunning','Verarbeitete Belege dÃ¼rfen in der Regel nich mehr geÃ¤ndert werden.','Y','Y','N','N','N','N','N','N','Verarbeitet',0,TO_TIMESTAMP('2012-10-31 23:07:30','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 5, 2013 3:27:49 PM EEST
@@ -2341,7 +2341,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jul 5, 2013 3:27:49 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66268,67621,0,53689,TO_TIMESTAMP('2012-10-31 23:07:31','YYYY-MM-DD HH24:MI:SS'),100,'Die Währung für diesen Eintrag',10,'de.metas.dunning','Bezeichnet die auf Dokumenten oder Berichten verwendete Währung','Y','Y','Y','N','N','N','Y','Y','Währung',50,TO_TIMESTAMP('2013-04-08 16:28:12','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66268,67621,0,53689,TO_TIMESTAMP('2012-10-31 23:07:31','YYYY-MM-DD HH24:MI:SS'),100,'Die WÃ¤hrung fÃ¼r diesen Eintrag',10,'de.metas.dunning','Bezeichnet die auf Dokumenten oder Berichten verwendete WÃ¤hrung','Y','Y','Y','N','N','N','Y','Y','WÃ¤hrung',50,TO_TIMESTAMP('2013-04-08 16:28:12','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 5, 2013 3:27:49 PM EEST
@@ -2351,7 +2351,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jul 5, 2013 3:27:49 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66283,67636,0,53688,TO_TIMESTAMP('2012-10-31 23:11:14','YYYY-MM-DD HH24:MI:SS'),100,'Der Eintrag ist im System aktiv',1,'de.metas.dunning','Es gibt zwei Möglichkeiten, einen Datensatz nicht mehr verfügbar zu machen: einer ist, ihn zu löschen; der andere, ihn zu deaktivieren. Ein deaktivierter Eintrag ist nicht mehr für eine Auswahl verfügbar, aber verfügbar für die Verwendung in Berichten. Es gibt zwei Gründe, Datensätze zu deaktivieren und nicht zu löschen: (1) Das System braucht den Datensatz für Revisionszwecke. (2) Der Datensatz wird von anderen Datensätzen referenziert. Z.B. können Sie keinen Geschäftspartner löschen, wenn es Rechnungen für diesen Geschäftspartner gibt. Sie deaktivieren den Geschäftspartner und verhindern, dass dieser Eintrag in zukünftigen Vorgängen verwendet wird.','Y','Y','N','N','N','N','N','N','Aktiv',0,TO_TIMESTAMP('2012-10-31 23:11:14','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66283,67636,0,53688,TO_TIMESTAMP('2012-10-31 23:11:14','YYYY-MM-DD HH24:MI:SS'),100,'Der Eintrag ist im System aktiv',1,'de.metas.dunning','Es gibt zwei MÃ¶glichkeiten, einen Datensatz nicht mehr verfÃ¼gbar zu machen: einer ist, ihn zu lÃ¶schen; der andere, ihn zu deaktivieren. Ein deaktivierter Eintrag ist nicht mehr fÃ¼r eine Auswahl verfÃ¼gbar, aber verfÃ¼gbar fÃ¼r die Verwendung in Berichten. Es gibt zwei GrÃ¼nde, DatensÃ¤tze zu deaktivieren und nicht zu lÃ¶schen: (1) Das System braucht den Datensatz fÃ¼r Revisionszwecke. (2) Der Datensatz wird von anderen DatensÃ¤tzen referenziert. Z.B. kÃ¶nnen Sie keinen GeschÃ¤ftspartner lÃ¶schen, wenn es Rechnungen fÃ¼r diesen GeschÃ¤ftspartner gibt. Sie deaktivieren den GeschÃ¤ftspartner und verhindern, dass dieser Eintrag in zukÃ¼nftigen VorgÃ¤ngen verwendet wird.','Y','Y','N','N','N','N','N','N','Aktiv',0,TO_TIMESTAMP('2012-10-31 23:11:14','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 5, 2013 3:27:49 PM EEST
@@ -2421,7 +2421,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jul 5, 2013 3:27:50 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66278,67631,0,53688,TO_TIMESTAMP('2012-10-31 23:11:17','YYYY-MM-DD HH24:MI:SS'),100,'Mandant für diese Installation.',10,'de.metas.dunning','Ein Mandant ist eine Firma oder eine juristische Person. Sie können keine Daten über Mandanten hinweg verwenden. .','Y','Y','N','N','N','N','N','N','Mandant',0,TO_TIMESTAMP('2012-10-31 23:11:17','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66278,67631,0,53688,TO_TIMESTAMP('2012-10-31 23:11:17','YYYY-MM-DD HH24:MI:SS'),100,'Mandant fÃ¼r diese Installation.',10,'de.metas.dunning','Ein Mandant ist eine Firma oder eine juristische Person. Sie kÃ¶nnen keine Daten Ã¼ber Mandanten hinweg verwenden. .','Y','Y','N','N','N','N','N','N','Mandant',0,TO_TIMESTAMP('2012-10-31 23:11:17','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 5, 2013 3:27:50 PM EEST
@@ -2441,7 +2441,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jul 5, 2013 3:27:50 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66279,67632,0,53688,TO_TIMESTAMP('2012-10-31 23:11:18','YYYY-MM-DD HH24:MI:SS'),100,'Organisatorische Einheit des Mandanten',10,'de.metas.dunning','Eine Organisation ist ein Bereich ihres Mandanten - z.B. Laden oder Abteilung. Sie können Daten über Organisationen hinweg gemeinsam verwenden.','Y','Y','N','N','N','N','N','N','Sektion',0,TO_TIMESTAMP('2012-10-31 23:11:18','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66279,67632,0,53688,TO_TIMESTAMP('2012-10-31 23:11:18','YYYY-MM-DD HH24:MI:SS'),100,'Organisatorische Einheit des Mandanten',10,'de.metas.dunning','Eine Organisation ist ein Bereich ihres Mandanten - z.B. Laden oder Abteilung. Sie kÃ¶nnen Daten Ã¼ber Organisationen hinweg gemeinsam verwenden.','Y','Y','N','N','N','N','N','N','Sektion',0,TO_TIMESTAMP('2012-10-31 23:11:18','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 5, 2013 3:27:50 PM EEST
@@ -2451,7 +2451,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jul 5, 2013 3:27:50 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66291,67584,0,53687,TO_TIMESTAMP('2012-11-01 00:05:17','YYYY-MM-DD HH24:MI:SS'),100,'Die Währung für diesen Eintrag',10,'de.metas.dunning','Bezeichnet die auf Dokumenten oder Berichten verwendete Währung','Y','Y','Y','N','N','N','Y','N','Währung',130,TO_TIMESTAMP('2012-11-14 12:23:00','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66291,67584,0,53687,TO_TIMESTAMP('2012-11-01 00:05:17','YYYY-MM-DD HH24:MI:SS'),100,'Die WÃ¤hrung fÃ¼r diesen Eintrag',10,'de.metas.dunning','Bezeichnet die auf Dokumenten oder Berichten verwendete WÃ¤hrung','Y','Y','Y','N','N','N','Y','N','WÃ¤hrung',130,TO_TIMESTAMP('2012-11-14 12:23:00','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 5, 2013 3:27:50 PM EEST
@@ -2471,7 +2471,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jul 5, 2013 3:27:50 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66294,67587,0,53690,TO_TIMESTAMP('2012-11-14 16:22:02','YYYY-MM-DD HH24:MI:SS'),100,'Identifiziert die (Liefer-) Adresse des Geschäftspartners',10,'de.metas.dunning','Identifiziert die Adresse des Geschäftspartners','Y','Y','Y','N','N','N','Y','N','Standort',90,TO_TIMESTAMP('2013-04-08 16:20:13','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66294,67587,0,53690,TO_TIMESTAMP('2012-11-14 16:22:02','YYYY-MM-DD HH24:MI:SS'),100,'Identifiziert die (Liefer-) Adresse des GeschÃ¤ftspartners',10,'de.metas.dunning','Identifiziert die Adresse des GeschÃ¤ftspartners','Y','Y','Y','N','N','N','Y','N','Standort',90,TO_TIMESTAMP('2013-04-08 16:20:13','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 5, 2013 3:27:51 PM EEST
@@ -2491,7 +2491,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jul 5, 2013 3:27:51 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66295,67638,0,53690,TO_TIMESTAMP('2012-11-14 16:22:02','YYYY-MM-DD HH24:MI:SS'),100,'Bezeichnet einen Geschäftspartner',10,'de.metas.dunning','Ein Geschäftspartner ist jemand, mit dem Sie interagieren. Dies kann Lieferanten, Kunden, Mitarbeiter oder Handelsvertreter umfassen.','Y','Y','Y','N','N','N','Y','N','Geschäftspartner',70,TO_TIMESTAMP('2013-04-08 16:20:06','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66295,67638,0,53690,TO_TIMESTAMP('2012-11-14 16:22:02','YYYY-MM-DD HH24:MI:SS'),100,'Bezeichnet einen GeschÃ¤ftspartner',10,'de.metas.dunning','Ein GeschÃ¤ftspartner ist jemand, mit dem Sie interagieren. Dies kann Lieferanten, Kunden, Mitarbeiter oder Handelsvertreter umfassen.','Y','Y','Y','N','N','N','Y','N','GeschÃ¤ftspartner',70,TO_TIMESTAMP('2013-04-08 16:20:06','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 5, 2013 3:27:51 PM EEST
@@ -2511,7 +2511,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jul 5, 2013 3:27:51 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66304,67644,0,53687,TO_TIMESTAMP('2012-11-14 18:01:16','YYYY-MM-DD HH24:MI:SS'),100,'Identifiziert die (Liefer-) Adresse des Geschäftspartners',10,'de.metas.dunning','Identifiziert die Adresse des Geschäftspartners','Y','Y','Y','N','N','N','N','N','Standort',90,TO_TIMESTAMP('2012-11-14 18:01:16','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66304,67644,0,53687,TO_TIMESTAMP('2012-11-14 18:01:16','YYYY-MM-DD HH24:MI:SS'),100,'Identifiziert die (Liefer-) Adresse des GeschÃ¤ftspartners',10,'de.metas.dunning','Identifiziert die Adresse des GeschÃ¤ftspartners','Y','Y','Y','N','N','N','N','N','Standort',90,TO_TIMESTAMP('2012-11-14 18:01:16','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 5, 2013 3:27:51 PM EEST
@@ -2571,7 +2571,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jul 5, 2013 3:27:52 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66311,67651,0,53688,TO_TIMESTAMP('2013-04-04 11:51:56','YYYY-MM-DD HH24:MI:SS'),100,'Checkbox sagt aus, ob der Beleg verarbeitet wurde. ',1,'de.metas.dunning','Verarbeitete Belege dürfen in der Regel nich mehr geändert werden.','Y','Y','Y','N','N','N','Y','N','Verarbeitet',20,TO_TIMESTAMP('2013-04-04 11:52:24','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66311,67651,0,53688,TO_TIMESTAMP('2013-04-04 11:51:56','YYYY-MM-DD HH24:MI:SS'),100,'Checkbox sagt aus, ob der Beleg verarbeitet wurde. ',1,'de.metas.dunning','Verarbeitete Belege dÃ¼rfen in der Regel nich mehr geÃ¤ndert werden.','Y','Y','Y','N','N','N','Y','N','Verarbeitet',20,TO_TIMESTAMP('2013-04-04 11:52:24','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 5, 2013 3:27:52 PM EEST
@@ -2756,7 +2756,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jul 5, 2013 3:27:54 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,Description,EntityType,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,56022,0,'DunningInterestAmt',TO_TIMESTAMP('2012-10-23 09:48:56','YYYY-MM-DD HH24:MI:SS'),100,'Prozentualer Anteil der offenen Summe, der als zusätzliche Mahngebühr ausgewiesen wird.','de.metas.dunning','Y','Mahnzins','Mahnzins',TO_TIMESTAMP('2012-10-23 09:50:30','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,Description,EntityType,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,56022,0,'DunningInterestAmt',TO_TIMESTAMP('2012-10-23 09:48:56','YYYY-MM-DD HH24:MI:SS'),100,'Prozentualer Anteil der offenen Summe, der als zusÃ¤tzliche MahngebÃ¼hr ausgewiesen wird.','de.metas.dunning','Y','Mahnzins','Mahnzins',TO_TIMESTAMP('2012-10-23 09:50:30','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 5, 2013 3:27:54 PM EEST
@@ -2796,7 +2796,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jul 5, 2013 3:27:54 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,EntityType,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,56026,0,'DunningTimer',TO_TIMESTAMP('2013-02-18 17:23:11','YYYY-MM-DD HH24:MI:SS'),100,'de.metas.dunning','Y','Mahnauslöser','Mahnauslöser',TO_TIMESTAMP('2013-02-18 17:23:11','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,EntityType,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,56026,0,'DunningTimer',TO_TIMESTAMP('2013-02-18 17:23:11','YYYY-MM-DD HH24:MI:SS'),100,'de.metas.dunning','Y','MahnauslÃ¶ser','MahnauslÃ¶ser',TO_TIMESTAMP('2013-02-18 17:23:11','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 5, 2013 3:27:54 PM EEST
@@ -2926,7 +2926,7 @@ INSERT INTO AD_Process_Para_Trl (AD_Language,AD_Process_Para_ID, Description,Hel
 
 -- Jul 5, 2013 3:27:55 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Process_Para (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Process_ID,AD_Process_Para_ID,AD_Reference_ID,AD_Val_Rule_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsCentrallyMaintained,IsMandatory,IsRange,Name,SeqNo,Updated,UpdatedBy) VALUES (0,113,0,53413,53926,18,130,'AD_Org_ID',TO_TIMESTAMP('2013-02-20 17:31:14','YYYY-MM-DD HH24:MI:SS'),100,'Organisatorische Einheit des Mandanten','de.metas.dunning',0,'Eine Organisation ist ein Bereich ihres Mandanten - z.B. Laden oder Abteilung. Sie können Daten über Organisationen hinweg gemeinsam verwenden.','Y','Y','Y','N','Sektion',10,TO_TIMESTAMP('2013-03-22 12:29:54','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Process_Para (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Process_ID,AD_Process_Para_ID,AD_Reference_ID,AD_Val_Rule_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsCentrallyMaintained,IsMandatory,IsRange,Name,SeqNo,Updated,UpdatedBy) VALUES (0,113,0,53413,53926,18,130,'AD_Org_ID',TO_TIMESTAMP('2013-02-20 17:31:14','YYYY-MM-DD HH24:MI:SS'),100,'Organisatorische Einheit des Mandanten','de.metas.dunning',0,'Eine Organisation ist ein Bereich ihres Mandanten - z.B. Laden oder Abteilung. Sie kÃ¶nnen Daten Ã¼ber Organisationen hinweg gemeinsam verwenden.','Y','Y','Y','N','Sektion',10,TO_TIMESTAMP('2013-03-22 12:29:54','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 5, 2013 3:27:55 PM EEST
