@@ -184,6 +184,10 @@ class MigrationExecutor implements IMigrationExecutor
 			{
 				disableConstraints(trxName);
 			}
+			else
+			{
+				enableConstraints(trxName);
+			}
 		}
 		else if (commitLevel == CommitLevel.Step)
 		{
@@ -268,6 +272,14 @@ class MigrationExecutor implements IMigrationExecutor
 		DB.executeUpdateEx(sql, trxName);
 
 		logger.log(Level.INFO, "Constraints deferred");
+	}
+
+	private void enableConstraints(final String trxName)
+	{
+		final String sql = "SET CONSTRAINTS ALL IMMEDIATE";
+		DB.executeUpdateEx(sql, trxName);
+
+		logger.log(Level.INFO, "Constraints immediate");
 	}
 
 	private void updateMigrationStatus()

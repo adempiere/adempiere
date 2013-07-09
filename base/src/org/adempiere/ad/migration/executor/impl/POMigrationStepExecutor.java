@@ -54,6 +54,13 @@ public class POMigrationStepExecutor extends AbstractMigrationStepExecutor
 		final boolean createPOIfNotExists = X_AD_MigrationStep.ACTION_Insert.equals(step.getAction())
 				&& getMigrationExecutorContext().isApplyDML();
 		final PO po = fetchPO(createPOIfNotExists, trxName);
+		if (po == null)
+		{
+			// No PO record found
+			final AdempiereException ex = new AdempiereException("PO record not found for AD_MigrationStep: " + step + ", SeqNo=" + step.getSeqNo());
+			logger.log(Level.WARNING, ex.getLocalizedMessage(), ex);
+			return ExecutionResult.Skipped;
+		}
 
 		//
 		// DML: Apply migration data
@@ -204,23 +211,27 @@ public class POMigrationStepExecutor extends AbstractMigrationStepExecutor
 
 		//
 		// Trying to identify the key columns from our records
-		final List<I_AD_MigrationData> keys = getKeyData();
-		if (whereClause.length() == 0 && keys != null && !keys.isEmpty())
+
+		if (whereClause.length() == 0)
 		{
-			for (final I_AD_MigrationData key : keys)
+			final List<I_AD_MigrationData> keys = getKeyData();
+			if (keys != null && !keys.isEmpty())
 			{
-				if (whereClause.length() > 0)
+				for (final I_AD_MigrationData key : keys)
 				{
-					whereClause.append(" AND ");
+					if (whereClause.length() > 0)
+					{
+						whereClause.append(" AND ");
+					}
+
+					final I_AD_Column column = key.getAD_Column();
+					final String columnName = column.getColumnName();
+					final String valueStr = key.getNewValue();
+					final Object value = converter.stringToObject(column, valueStr);
+
+					whereClause.append(columnName).append("=?");
+					params.put(columnName, value);
 				}
-
-				final I_AD_Column column = key.getAD_Column();
-				final String columnName = column.getColumnName();
-				final String valueStr = key.getNewValue();
-				final Object value = converter.stringToObject(column, valueStr);
-
-				whereClause.append(columnName).append("=?");
-				params.put(columnName, value);
 			}
 		}
 
