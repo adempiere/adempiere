@@ -11,12 +11,11 @@ import org.compiere.process.SvrProcess;
 /**
  * Sort migration steps by Created
  * 
- * @author tsa
+ * @author Teo Sarca
  * 
  */
 public class MigrationSortSteps extends SvrProcess
 {
-
 	private I_AD_Migration migration;
 
 	@Override

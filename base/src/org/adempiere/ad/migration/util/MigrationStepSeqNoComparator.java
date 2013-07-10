@@ -7,7 +7,7 @@ import org.adempiere.ad.migration.model.I_AD_MigrationStep;
 /**
  * Comparator which compares steps by SeqNo.
  * 
- * @author tsa
+ * @author Teo Sarca
  * 
  */
 public final class MigrationStepSeqNoComparator implements Comparator<I_AD_MigrationStep>
@@ -16,6 +16,7 @@ public final class MigrationStepSeqNoComparator implements Comparator<I_AD_Migra
 
 	private MigrationStepSeqNoComparator()
 	{
+		super();
 	}
 
 	@Override

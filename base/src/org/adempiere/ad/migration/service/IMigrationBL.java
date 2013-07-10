@@ -15,15 +15,44 @@ public interface IMigrationBL extends ISingletonService
 	 */
 	void updateStatus(I_AD_Migration migration);
 
+	/**
+	 * Sort steps by creation TIMESTAMP.
+	 * 
+	 * @param migration
+	 */
 	void sortStepsByCreated(I_AD_Migration migration);
 
+	/**
+	 * Merge {@link I_AD_Migration} from -> to.
+	 * 
+	 * @param to
+	 * @param from
+	 */
 	void mergeMigration(I_AD_Migration to, I_AD_Migration from);
 
+	/**
+	 * @param migration
+	 * @return String migration summary
+	 */
 	String getSummary(I_AD_Migration migration);
 
+	/**
+	 * @param step
+	 * @return String migration step summary
+	 */
 	String getSummary(I_AD_MigrationStep step);
 
+	/**
+	 * Increment migration {@link I_AD_Migration} sequence number.
+	 * 
+	 * @param migration
+	 */
 	void setSeqNo(I_AD_Migration migration);
 
+	/**
+	 * Increment migration step {@link I_AD_MigrationStep} sequence number.
+	 * 
+	 * @param step
+	 */
 	void setSeqNo(I_AD_MigrationStep step);
 }

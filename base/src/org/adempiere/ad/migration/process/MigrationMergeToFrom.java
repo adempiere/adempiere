@@ -34,7 +34,6 @@ import org.compiere.process.SvrProcess;
  */
 public class MigrationMergeToFrom extends SvrProcess
 {
-
 	private I_AD_Migration migrationFrom;
 	private I_AD_Migration migrationTo;
 	private boolean isDeleteFrom = false;
