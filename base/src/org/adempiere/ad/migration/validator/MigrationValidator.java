@@ -1,10 +1,5 @@
 package org.adempiere.ad.migration.validator;
 
-import org.adempiere.ad.migration.model.I_AD_Migration;
-import org.adempiere.ad.migration.model.I_AD_MigrationStep;
-import org.adempiere.ad.migration.service.IMigrationBL;
-import org.adempiere.model.InterfaceWrapperHelper;
-import org.adempiere.util.Services;
 import org.compiere.model.MClient;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
@@ -12,22 +7,24 @@ import org.compiere.model.PO;
 
 public class MigrationValidator implements ModelValidator
 {
-
-	private int clientId = -1;
+	private int adClientId = -1;
 
 	@Override
 	public void initialize(ModelValidationEngine engine, MClient client)
 	{
 		if (client != null)
 		{
-			clientId = client.getAD_Client_ID();
+			adClientId = client.getAD_Client_ID();
 		}
+
+		engine.addModelValidator(new AD_Migration(), client);
+		engine.addModelValidator(new AD_MigrationStep(), client);
 	}
 
 	@Override
 	public int getAD_Client_ID()
 	{
-		return clientId;
+		return adClientId;
 	}
 
 	@Override
@@ -39,31 +36,7 @@ public class MigrationValidator implements ModelValidator
 	@Override
 	public String modelChange(PO po, int type) throws Exception
 	{
-		if (I_AD_Migration.Table_Name.equals(po.get_TableName()))
-		{
-			modelChange(InterfaceWrapperHelper.create(po, I_AD_Migration.class), type);
-		}
-		else if (I_AD_MigrationStep.Table_Name.equals(po.get_TableName()))
-		{
-			modelChange(InterfaceWrapperHelper.create(po, I_AD_MigrationStep.class), type);
-		}
 		return null;
-	}
-
-	private void modelChange(I_AD_Migration migration, int type)
-	{
-		if ((type == TYPE_BEFORE_NEW || type == TYPE_BEFORE_CHANGE) && migration.getSeqNo() == 0)
-		{
-			Services.get(IMigrationBL.class).setSeqNo(migration);
-		}
-	}
-
-	private void modelChange(I_AD_MigrationStep step, int type)
-	{
-		if ((type == TYPE_BEFORE_NEW || type == TYPE_BEFORE_CHANGE) && step.getSeqNo() == 0)
-		{
-			Services.get(IMigrationBL.class).setSeqNo(step);
-		}
 	}
 
 	@Override
