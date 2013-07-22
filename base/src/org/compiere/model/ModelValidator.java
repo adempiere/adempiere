@@ -46,6 +46,8 @@ public interface ModelValidator
 	public static final int	TYPE_AFTER_DELETE = 6;			// teo_sarca [ 1675490 ]
 	public static final int	TYPE_BEFORE_DELETE_REPLICATION = 9; // @Trifon 
 	
+	public static final int TYPE_BEFORE_SAVE_TRX = 1000 + 1; // metas: tsa: ti54_02380
+
 	// Correlation between constant events and list of event script model validators
 	public static String[] tableEventValidators = new String[] {
 		"", // 0

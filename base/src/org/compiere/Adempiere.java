@@ -30,6 +30,10 @@ import javax.jnlp.ServiceManager;
 import javax.jnlp.UnavailableServiceException;
 import javax.swing.ImageIcon;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.util.Check;
+import org.adempiere.util.DefaultServiceNamePolicy;
+import org.adempiere.util.Services;
 import org.compiere.db.CConnection;
 import org.compiere.model.MClient;
 import org.compiere.model.MSystem;
@@ -472,6 +476,9 @@ public final class Adempiere
 		if (log != null)
 			return true;
 
+		Services.setServiceNameAutoDetectPolicy(new DefaultServiceNamePolicy());
+		Check.setDefaultExClass(AdempiereException.class);
+		
 		//	Check Version
 		if (isClient && !Login.isJavaOK(isClient))
 			System.exit(1);
@@ -526,7 +533,9 @@ public final class Adempiere
 			log.severe ("No Database");
 			return false;
 		}
+
 		MSystem system = MSystem.get(Env.getCtx());	//	Initializes Base Context too
+		
 		if (system == null)
 			return false;
 		
@@ -612,4 +621,21 @@ public final class Adempiere
 			e.printStackTrace();
 		}
 	}   //  main
+
+	/**
+	 * If enabled, everything will run database decoupled.
+	 * Supposed to be called before an interface like org.compiere.model.I_C_Order is to be used in a unit test.
+	 */
+	public static void enableUnitTestMode()
+	{
+		unitTestMode = true;
+	}
+
+	public static boolean isUnitTestMode()
+	{
+		return unitTestMode;
+	}
+
+	private static boolean unitTestMode = false;
+
 }	//	Adempiere

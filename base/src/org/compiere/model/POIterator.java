@@ -22,15 +22,18 @@ package org.compiere.model;
 import java.util.Iterator;
 import java.util.List;
 
+import org.adempiere.model.POWrapper;
+
 /**
  * 
  * Iterator implementation to fetch PO one at a time using a prefetch ID list.
  * @author Low Heng Sin
  *
  */
-public class POIterator<T extends PO> implements Iterator<T> {
+public class POIterator<T> implements Iterator<T> {
 
 	private MTable table;
+	private Class<T> clazz;
 	private List<Object[]> idList;
 	
 	private int iteratorIndex = -1;
@@ -43,10 +46,15 @@ public class POIterator<T extends PO> implements Iterator<T> {
 	 * @param idList
 	 * @param trxName
 	 */
-	public POIterator(MTable table, List<Object[]> idList, String trxName) {
+	public POIterator(MTable table, Class<T> clazz, List<Object[]> idList, String trxName) {
 		this.table = table;
+		this.clazz = clazz;
 		this.idList = idList;
 		this.trxName = trxName;
+	}
+	public POIterator(MTable table, List<Object[]> idList, String trxName)
+	{
+		this(table, null, idList, trxName);
 	}
 
 	/**
@@ -72,7 +80,7 @@ public class POIterator<T extends PO> implements Iterator<T> {
 	 * not supported.
 	 */
 	public void remove() {
-		throw new UnsupportedOperationException("Remove operatiotn not supported.");
+		throw new UnsupportedOperationException("Remove operation not supported.");
 	}
 	
 	/**
@@ -86,12 +94,20 @@ public class POIterator<T extends PO> implements Iterator<T> {
 	 * @param index
 	 * @return PO or null if index is invalid
 	 */
+	@SuppressWarnings("unchecked")
 	public T get(int index) {
 		if (index <= (idList.size() - 1)) {
 			Object[] ids = idList.get(index);
-			if (ids.length == 1 && (ids[0] instanceof Number)) {
-				return (T) table.getPO( ((Number)ids[0]).intValue(), trxName);
-			} else {
+			if (ids.length == 1 && (ids[0] instanceof Number))
+			{
+				PO o = table.getPO( ((Number)ids[0]).intValue(), trxName);
+				if (clazz != null && !o.getClass().isAssignableFrom(clazz))
+					return POWrapper.create(o, clazz);
+				else
+					return (T)o;
+			}
+			else
+			{
 				if (keyWhereClause == null) {
 					String[] keys = table.getKeyColumns();
 					StringBuffer sqlBuffer = new StringBuffer();
@@ -102,7 +118,11 @@ public class POIterator<T extends PO> implements Iterator<T> {
 					}
 					keyWhereClause = sqlBuffer.toString();
 				}				
-				return (T) table.getPO(keyWhereClause, ids, trxName);
+				PO o = table.getPO(keyWhereClause, ids, trxName);
+				if (clazz != null && !o.getClass().isAssignableFrom(clazz))
+					return POWrapper.create(o, clazz);
+				else
+					return (T)o;
 			}
 		} else {
 			return null;

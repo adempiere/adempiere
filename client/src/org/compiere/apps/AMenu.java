@@ -52,6 +52,7 @@ import javax.swing.event.ChangeListener;
 
 import org.adempiere.apps.graph.PAPanel;
 import org.adempiere.plaf.AdempierePLAF;
+import org.adempiere.util.Services;
 import org.compiere.Adempiere;
 import org.compiere.apps.wf.WFActivity;
 import org.compiere.apps.wf.WFPanel;
@@ -74,6 +75,9 @@ import org.compiere.util.Ini;
 import org.compiere.util.Language;
 import org.compiere.util.Msg;
 import org.compiere.util.Splash;
+
+import de.metas.adempiere.form.IClientUI;
+import de.metas.adempiere.form.swing.SwingClientUI;
 /**
  *	Application Menu Controller
  *
@@ -242,6 +246,9 @@ public final class AMenu extends CFrame
 	//	FocusManager.getCurrentManager().setDefaultFocusTraversalPolicy(AFocusTraversalPolicy.get());
 	//	this.setFocusTraversalPolicy(AFocusTraversalPolicy.get());
 
+		// Register Swing ClientUI service
+		Services.registerService(IClientUI.class, new SwingClientUI());
+		
 		/**
 		 *	Show Login Screen - if not successful - exit
 		 */

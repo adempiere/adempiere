@@ -19,7 +19,10 @@ package org.compiere.util;
 import java.sql.Timestamp;
 import java.util.BitSet;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
+
+import org.adempiere.util.time.SystemTime;
 
 
 /**
@@ -39,7 +42,11 @@ public class TimeUtil
 	{
 		if (time == 0)
 			time = System.currentTimeMillis();
-		GregorianCalendar cal = new GregorianCalendar(Language.getLoginLanguage().getLocale());
+			
+		// note-ts: not using a locale because this method may be used during early startup 
+		// (and I don't see what for we need a locale)
+		//GregorianCalendar cal = new GregorianCalendar(Language.getLoginLanguage().getLocale());
+		GregorianCalendar cal = new GregorianCalendar();
 		cal.setTimeInMillis(time);
 		cal.set(Calendar.HOUR_OF_DAY, 0);
 		cal.set(Calendar.MINUTE, 0);
@@ -53,7 +60,7 @@ public class TimeUtil
 	 *  @param dayTime day and time
 	 *  @return day with 00:00
 	 */
-	static public Timestamp getDay (Timestamp dayTime)
+	static public Timestamp getDay (java.util.Date dayTime)
 	{
 		if (dayTime == null)
 			return getDay(System.currentTimeMillis());
@@ -365,13 +372,13 @@ public class TimeUtil
 	 * 	@param end end date
 	 * 	@return number of days (0 = same)
 	 */
-	static public int getDaysBetween (Timestamp start, Timestamp end)
+	static public int getDaysBetween (Date start, Date end)
 	{
 		boolean negative = false;
 		if (end.before(start))
 		{
 			negative = true;
-			Timestamp temp = start;
+			Date temp = start;
 			start = end;
 			end = temp;
 		}
@@ -411,6 +418,91 @@ public class TimeUtil
 		return counter;
 	}	//	getDaysBetween
 
+	/**
+	 * 	Return Day + offset (truncates)
+	 * 	@param day Day
+	 * 	@param offset day offset
+	 * 	@return Day + offset at 00:00
+	 */
+	static public Timestamp addYears (Timestamp day, int offset)
+	{
+		if (offset == 0)
+		{
+			return day;
+		}
+		if (day == null)
+		{
+			day = SystemTime.asTimestamp();
+		}
+		//
+		final GregorianCalendar cal = new GregorianCalendar();
+		cal.setTime(day);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		
+		cal.add(Calendar.YEAR, offset);			//	may have a problem with negative (before 1/1)
+		return new Timestamp (cal.getTimeInMillis());
+	}	//	addMonths
+	
+	/**
+	 * 	Return Day + offset (truncates)
+	 * 	@param day Day
+	 * 	@param offset day offset
+	 * 	@return Day + offset at 00:00
+	 */
+	static public Timestamp addMonths (Timestamp day, int offset)
+	{
+		if (offset == 0)
+		{
+			return day;
+		}
+		if (day == null)
+		{
+			day = SystemTime.asTimestamp();
+		}
+		//
+		final GregorianCalendar cal = new GregorianCalendar();
+		cal.setTime(day);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		
+		cal.add(Calendar.MONTH, offset);			//	may have a problem with negative (before 1/1)
+		return new Timestamp (cal.getTimeInMillis());
+	}	//	addMonths
+	
+	/**
+	 * 	Return Day + offset (truncates)
+	 * 	@param day Day
+	 * 	@param offset day offset
+	 * 	@return Day + offset at 00:00
+	 */
+	static public Timestamp addWeeks (Timestamp day, int offset)
+	{
+		if (offset == 0)
+		{
+			return day;
+		}
+		if (day == null)
+		{
+			day = SystemTime.asTimestamp();
+		}
+		//
+		final GregorianCalendar cal = new GregorianCalendar();
+		cal.setTime(day);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		
+		cal.add(Calendar.WEEK_OF_YEAR, offset);			//	may have a problem with negative (before 1/1)
+		return new Timestamp (cal.getTimeInMillis());
+	}	//	addDays
+
+	
 	/**
 	 * 	Return Day + offset (truncates)
 	 * 	@param day Day
@@ -458,6 +550,25 @@ public class TimeUtil
 		cal.add(Calendar.MINUTE, offset);			//	may have a problem with negative
 		return new Timestamp (cal.getTimeInMillis());
 	}	//	addMinutes
+	
+	/**
+	 * 	Return DateTime + offset in hours
+	 * 	@param dateTime Date and Time
+	 * 	@param offset minute offset
+	 * 	@return dateTime + offset in hours
+	 */
+	static public Timestamp addHours (Timestamp dateTime, int offset)
+	{
+		if (dateTime == null)
+			dateTime = new Timestamp(System.currentTimeMillis());
+		if (offset == 0)
+			return dateTime;
+		//
+		GregorianCalendar cal = new GregorianCalendar();
+		cal.setTime(dateTime);
+		cal.add(Calendar.HOUR, offset);			//	may have a problem with negative
+		return new Timestamp (cal.getTimeInMillis());
+	}	//	addHours
 
 
 	/**************************************************************************
@@ -604,6 +715,12 @@ public class TimeUtil
 		return ts1;
 	}	//	max
 
+	/** Truncate Second - S			*/
+	public static final String	TRUNC_SECOND = "S";
+	/** Truncate Minute - M			*/
+	public static final String	TRUNC_MINUTE = "M";
+	/** Truncate Hour - H			*/
+	public static final String	TRUNC_HOUR = "H";
 	/** Truncate Day - D			*/
 	public static final String	TRUNC_DAY = "D";
 	/** Truncate Week - W			*/
@@ -621,17 +738,39 @@ public class TimeUtil
 	 *  @param trunc how to truncate TRUNC_*
 	 *  @return next day with 00:00
 	 */
-	static public Timestamp trunc (Timestamp dayTime, String trunc)
+	// metas: changed dayTime type from Timestamp to Date
+	static public Timestamp trunc (Date dayTime, String trunc)
 	{
 		if (dayTime == null)
 			dayTime = new Timestamp(System.currentTimeMillis());
-		GregorianCalendar cal = new GregorianCalendar(Language.getLoginLanguage().getLocale());
+		// note-ts: not using a locale because this method may be used during early startup 
+		// (and I don't see what for we need a locale)
+        // GregorianCalendar cal = new GregorianCalendar(Env.getLanguage(Env.getCtx()).getLocale());
+		GregorianCalendar cal = new GregorianCalendar(); 
 		cal.setTimeInMillis(dayTime.getTime());
 		cal.set(Calendar.MILLISECOND, 0);
+		
+		// S - Second
+		if (TRUNC_SECOND.equals(trunc))
+		{
+			return new Timestamp (cal.getTimeInMillis());
+		}
 		cal.set(Calendar.SECOND, 0);
+		
+		// M - Minute
+		if (TRUNC_MINUTE.equals(trunc))
+		{
+			return new Timestamp (cal.getTimeInMillis());
+		}
 		cal.set(Calendar.MINUTE, 0);
-		//	D
+
+		// H - Hour
+		if(TRUNC_HOUR.equals(trunc))
+		{
+			return new Timestamp (cal.getTimeInMillis());
+		}
 		cal.set(Calendar.HOUR_OF_DAY, 0);
+		//	D
 		if (trunc == null || trunc.equals(TRUNC_DAY))
 			return new Timestamp (cal.getTimeInMillis());
 		//	W
@@ -707,6 +846,12 @@ public class TimeUtil
 		return new Timestamp(gc.getTimeInMillis());
 	}
 
+	public static Timestamp asTimestamp(Date date)
+	{
+		if (date instanceof Timestamp)
+			return (Timestamp)date;
+		return date == null ? null : new Timestamp(date.getTime());
+	}
 	
 	/**
 	 * 	Test
@@ -726,6 +871,47 @@ public class TimeUtil
 		System.out.println(isSameDay(t1, t4) + " == true" );
 		System.out.println(isSameDay(t2, t5) + " == true");
 		System.out.println(isSameDay(t3, t5) + " == false");
+		
+		System.out.println(formatElapsed(1000).equals("01.0") + " ("+formatElapsed(1000)+")");
+		System.out.println(formatElapsed(1234).equals("01.234") + " ("+formatElapsed(1234)+")");
+		System.out.println(formatElapsed(3601234).equals("01:00:01.234") + " ("+formatElapsed(3601234)+")");
+		System.out.println(formatElapsed(7261234).equals("02:01:01.234") + " ("+formatElapsed(7261234)+")");
 	}	//	main
+
+	/**
+	 * 	Get last date in year
+	 *  @param day day
+	 *  @return year last day with 00:00
+	 */
+	// metas
+	static public Timestamp getYearLastDay (Date day)
+	{
+		if (day == null)
+			day = new Timestamp(System.currentTimeMillis());
+		GregorianCalendar cal = new GregorianCalendar(Env.getLanguage(Env.getCtx()).getLocale());
+		cal.setTimeInMillis(day.getTime());
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		//
+		cal.set(Calendar.MONTH, Calendar.DECEMBER);
+		cal.set(Calendar.DAY_OF_MONTH, 31);
+		return new Timestamp (cal.getTimeInMillis());
+	}	//	getYearLastDay
 	
+	/**
+	 * Extract the year from a given date.
+	 * 
+	 * @param date
+	 * @return the year as int
+	 */
+	static public int getYearFromTimestamp(final Timestamp date)
+	{
+		final Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		
+		final int year = calendar.get(Calendar.YEAR);
+		return year;
+	}
 }	//	TimeUtil
