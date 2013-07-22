@@ -22,7 +22,7 @@ CREATE OR REPLACE VIEW AD_FIELD_VT (AD_LANGUAGE, AD_WINDOW_ID, AD_TAB_ID, AD_FIE
    fgt.NAME AS FieldGroup, vr.Code AS ValidationCode,
    f.Included_Tab_ID, fg.FieldGroupType, fg.IsCollapsedByDefault,
    COALESCE(f.InfoFactoryClass, c.InfoFactoryClass) as InfoFactoryClass,
-   c.IsAutocomplete, f.PreferredWidth, c.AD_Chart_ID , IsDisplayedGrid, SeqNoGrid
+   c.IsAutocomplete, f.PreferredWidth, c.AD_Chart_ID 
   FROM AD_FIELD f 
    INNER JOIN AD_FIELD_TRL trl ON (f.AD_Field_ID = trl.AD_Field_ID)
     INNER JOIN AD_TAB t ON (f.AD_Tab_ID = t.AD_Tab_ID)
