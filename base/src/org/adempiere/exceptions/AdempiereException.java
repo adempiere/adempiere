@@ -44,11 +44,6 @@ public class AdempiereException extends RuntimeException {
 	public AdempiereException(String message) {
 		super(message);
 	}
-	
-	public AdempiereException(String language, String message, Object[] params)
-	{
-		super(Msg.getMsg(language, message, params));
-	}
 
 	/**
 	 * @param cause

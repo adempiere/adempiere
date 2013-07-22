@@ -7,8 +7,8 @@
 <listEntry value="1"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.ui.favoriteGroups">
-<listEntry value="org.eclipse.debug.ui.launchGroup.run"/>
 <listEntry value="org.eclipse.debug.ui.launchGroup.debug"/>
+<listEntry value="org.eclipse.debug.ui.launchGroup.run"/>
 </listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.compiere.Adempiere"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="contribution_eevolution_smart_browser"/>

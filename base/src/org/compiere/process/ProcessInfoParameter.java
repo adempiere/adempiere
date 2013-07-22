@@ -110,15 +110,6 @@ public class ProcessInfoParameter implements Serializable
 		return m_Parameter;
 	}
 	
-	public String getParameterAsString()
-	{
-		if (m_Parameter == null)
-		{
-			return null;
-		}
-		return m_Parameter.toString();
-	}
-	
 	/**
 	 * Method getParameter as Int
 	 * @return Object
@@ -317,15 +308,4 @@ public class ProcessInfoParameter implements Serializable
 		m_ParameterName = ParameterName;
 	}
 
-	// metas
-	public Timestamp getParameterAsTimestamp()
-	{
-		return (Timestamp)getParameter();
-	}
-
-	// metas
-	public Timestamp getParameter_ToAsTimestamp()
-	{
-		return (Timestamp)getParameter_To();
-	}
 }   //  ProcessInfoParameter

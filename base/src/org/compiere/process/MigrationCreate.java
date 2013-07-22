@@ -18,87 +18,87 @@ package org.compiere.process;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
-import org.adempiere.ad.migration.logger.IMigrationLogger;
-import org.adempiere.ad.migration.model.I_AD_Migration;
-import org.adempiere.ad.migration.model.X_AD_MigrationStep;
-import org.adempiere.model.POWrapper;
-import org.adempiere.util.Services;
-import org.compiere.model.MSession;
+import org.adempiere.model.GenericPO;
+import org.compiere.model.MMigration;
+import org.compiere.model.MMigrationStep;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
 import org.compiere.model.POInfo;
+import org.compiere.process.SvrProcess;
+import org.compiere.util.DB;
 
-public class MigrationCreate extends SvrProcess
-{
+public class MigrationCreate extends SvrProcess {
 
-	private I_AD_Migration migrationFrom;
-	private I_AD_Migration migrationTo;
-
+	private MMigration migrationFrom;
+	private MMigration migrationTo;
+	
 	private int tableId = 0;
 	private int recordId = 0;
 	private String entityId = null;
-
-	@Override
-	protected void prepare()
-	{
-		ProcessInfoParameter[] params = getParameter();
-		for (ProcessInfoParameter p : params)
-		{
-			String para = p.getParameterName();
-			if (para.equals("AD_Table_ID"))
-				tableId = p.getParameterAsInt();
-			else if (para.equals("Record_ID"))
-				recordId = p.getParameterAsInt();
-			else if (para.equals("EntityType"))
-				entityId = (String)p.getParameter();
-		}
-
-		if (tableId == 0)
-			tableId = getTable_ID();
-
-		if (recordId == 0)
-			recordId = getRecord_ID();
-
-	}
+	
 
 	/**
 	 * 
 	 * Process to create migration from selected records
 	 * 
 	 * @author Paul Bowden, Adaxa Pty Ltd
-	 * 
+	 *
 	 */
 	@Override
-	protected String doIt() throws Exception
-	{
+	protected String doIt() throws Exception {
 
-		I_AD_Migration migration = POWrapper.create(getCtx(), I_AD_Migration.class, get_TrxName());
-
+		MMigration migration = new MMigration(getCtx(),0,get_TrxName());
+		
 		MTable table = MTable.get(getCtx(), tableId);
-
+		
 		String whereClause;
-
+		
 		List<PO> pos;
-
-		if (recordId > 0)
+		
+		if ( recordId > 0 )
 		{
 			pos = new ArrayList<PO>(1);
 			pos.add(table.getPO(recordId, get_TrxName()));
-		}
+		}		
 		else
 		{
 			String where = "EntityType = ?";
 			pos = table.createQuery(where, get_TrxName()).list();
 		}
-
-		final MSession session = MSession.get(getCtx(), false);
-		final POInfo info = POInfo.getPOInfo(getCtx(), tableId, get_TrxName());
+		
 		for (PO po : pos)
 		{
-			Services.get(IMigrationLogger.class).logMigration(session, po, info, X_AD_MigrationStep.ACTION_Insert);
+			POInfo info =  POInfo.getPOInfo(getCtx(), tableId, get_TrxName());
+			MMigrationStep step = new MMigrationStep(migration, po, info, MMigrationStep.ACTION_Insert);
 		}
-
+		
 		return "@OK@";
 	}
+
+	@Override
+	protected void prepare() {
+		
+		
+		ProcessInfoParameter[] params = getParameter();
+		for ( ProcessInfoParameter p : params)
+		{
+			String para = p.getParameterName();
+			if ( para.equals("AD_Table_ID") )
+				tableId  = p.getParameterAsInt();
+			else if ( para.equals("Record_ID") )
+					recordId = p.getParameterAsInt();
+			else if ( para.equals("EntityType") )
+				entityId = (String) p.getParameter();
+		}
+		
+		if ( tableId == 0 )
+			tableId = getTable_ID();
+		
+		if ( recordId == 0 )
+			recordId = getRecord_ID();
+
+	}
+
 }

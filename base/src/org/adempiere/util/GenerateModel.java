@@ -19,7 +19,6 @@
  *****************************************************************************/
 package org.adempiere.util;
 
-import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.logging.Level;
@@ -28,8 +27,6 @@ import org.compiere.Adempiere;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
-import org.compiere.util.Ini;
-import org.compiere.util.Util;
 
 /**
  *  Generate Model Classes extending PO.
@@ -57,36 +54,6 @@ public class GenerateModel
 		StringBuffer sb = new StringBuffer ("GenerateModel[").append("]");
 		return sb.toString();
 	}
-	
-	public static final String getModelPackage(int AD_Table_ID)
-	{
-		String modelPackage = DB.getSQLValueStringEx(null, 
-				"SELECT et.ModelPackage FROM AD_Table t"
-				+" INNER JOIN AD_EntityType et ON (et.EntityType=t.EntityType)"
-				+" WHERE t.AD_Table_ID=?",
-				AD_Table_ID);
-		if (Util.isEmpty(modelPackage, true))
-		{
-			modelPackage = "org.compiere.model";
-		}
-		return modelPackage;
-	}
-	
-	public static final String getModelDirectory(String srcDirectory, String packageName)
-	{
-		File directoryFile = new File(srcDirectory);
-		if (!directoryFile.isDirectory() || !directoryFile.canWrite())
-		{
-			throw new RuntimeException("Directory not exists or is not writable: "+directoryFile);
-		}
-		String packagePart = packageName.replace(".", "/");
-		if (!directoryFile.getAbsolutePath().endsWith(packagePart))
-		{
-			directoryFile = new File(directoryFile, packageName.replace(".", "/"));
-		}
-//		directoryFile.mkdirs();
-		return directoryFile.getAbsolutePath()+File.separator;
-	}
 
 
 	/**************************************************************************
@@ -106,7 +73,6 @@ public class GenerateModel
 	{
 		Adempiere.startupEnvironment((args.length > 4 && args[4].equals("Client")));
 		CLogMgt.setLevel(Level.FINE);
-		Ini.setProperty(Ini.P_LOGMIGRATIONSCRIPT, false); // metas: don't log migration scripts
 		log.info("Generate Model   $Revision: 1.42 $");
 		log.info("----------------------------------");
 		//	first parameter
@@ -140,7 +106,8 @@ public class GenerateModel
 			System.err.println("No EntityType");
 			System.exit(1);
 		}
-		StringBuffer sql = new StringBuffer();
+		StringBuffer sql = new StringBuffer("EntityType IN (")
+			.append(entityType).append(")");
 		log.info(sql.toString());
 		log.info("----------------------------------");
 		
@@ -155,16 +122,8 @@ public class GenerateModel
 		sql.insert(0, "SELECT AD_Table_ID "
 			+ "FROM AD_Table "
 			+ "WHERE (TableName IN ('RV_WarehousePrice','RV_BPartner')"	//	special views
-			+ (packageName.equals("org.compiere.model") ? " OR IsView='N' ": " OR 1=1") // teo_sarca
-			+ ")" // teo_sarca
-			//+ " OR IsView='N')" // TODO: teo_sarca: commented
-			+ " AND IsActive = 'Y' AND TableName NOT LIKE '%_Trl' ");
-		//
-		if (entityType.indexOf("%") >= 0)
-			sql.append(" AND EntityType LIKE ").append(entityType);
-		else
-			sql.append(" AND EntityType IN (").append(entityType).append(")");
-		//
+			+ " OR IsView='N')"
+			+ " AND IsActive = 'Y' AND TableName NOT LIKE '%_Trl' AND ");
 		// Autodetect if we need to use IN or LIKE clause - teo_sarca [ 3020640 ]
 		if (tableLike.indexOf(",") == -1)
 			sql.append(" AND TableName LIKE ").append(tableLike);
@@ -183,20 +142,8 @@ public class GenerateModel
 			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
-				final String packageNameFinal;
-				final String directoryFinal;
-				if (packageName.equals("-"))
-				{
-					packageNameFinal = getModelPackage(rs.getInt(1));
-					directoryFinal = getModelDirectory(directory, packageNameFinal);
-				}
-				else
-				{
-					packageNameFinal = packageName;
-					directoryFinal = directory;
-				}
-				new ModelInterfaceGenerator(rs.getInt(1), directoryFinal, packageNameFinal);
-				new ModelClassGenerator(rs.getInt(1), directoryFinal, packageNameFinal);
+				new ModelInterfaceGenerator(rs.getInt(1), directory, packageName);
+				new ModelClassGenerator(rs.getInt(1), directory, packageName);
 				count++;
 			}
  		}

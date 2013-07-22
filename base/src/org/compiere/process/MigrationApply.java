@@ -16,61 +16,81 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.util.List;
+import org.compiere.model.MMigration;
+import org.compiere.model.MMigrationStep;
+import org.compiere.model.MTable;
+import org.compiere.process.SvrProcess;
+import org.compiere.util.DB;
 
-import org.adempiere.ad.migration.executor.IMigrationExecutor;
-import org.adempiere.ad.migration.executor.IMigrationExecutorContext;
-import org.adempiere.ad.migration.executor.IMigrationExecutorContext.MigrationOperation;
-import org.adempiere.ad.migration.executor.IMigrationExecutorProvider;
-import org.adempiere.util.Services;
+public class MigrationApply extends SvrProcess {
 
-public class MigrationApply extends SvrProcess
-{
-	private int p_AD_Migration_ID = -1;
-	
-	private static final String PARAM_FailOnError = "FailOnError";
-	private boolean p_FailOnError = true;
-	
-	private static final String PARAM_AD_Migration_Operation = "AD_Migration_Operation";
-	private MigrationOperation p_MigrationOperation = MigrationOperation.BOTH;
-	
+	private MMigration migration;
+	private boolean failOnError = false;
+
 	@Override
-	protected void prepare()
-	{
-		p_AD_Migration_ID = getRecord_ID();
+	protected String doIt() throws Exception {
 
-		for (ProcessInfoParameter p : getParameter())
+		if ( migration == null || migration.is_new() )
 		{
-			final String name = p.getParameterName();
-			if (PARAM_FailOnError.equals(name))
-			{
-				p_FailOnError = p.getParameterAsBoolean();
-			}
-			else if (PARAM_AD_Migration_Operation.equals(name))
-			{
-				p_MigrationOperation = MigrationOperation.valueOf(p.getParameterAsString());
-			}
+			addLog("No migration");
+			return "@Error@";
 		}
-	}
-
-	@Override
-	protected String doIt() throws Exception
-	{
-		final IMigrationExecutorProvider executorProvider = Services.get(IMigrationExecutorProvider.class);
-		final IMigrationExecutorContext context = executorProvider.createInitialContext(getCtx());
-		context.setFailOnFirstError(p_FailOnError);
-		context.setMigrationOperation(p_MigrationOperation);
 		
-		final IMigrationExecutor executor = executorProvider.newMigrationExecutor(context, p_AD_Migration_ID);
-
-		executor.execute();
-
-		final List<Exception> errors = executor.getExecutionErrors();
-		for (final Exception error : errors)
+		boolean apply = true;
+		if ( MMigration.APPLY_Rollback.equals(migration.getApply()))
+			apply = false;
+		
+		migration.setFailOnError(failOnError);
+		
+		if ( apply )
 		{
-			addLog("Error: " + error.getLocalizedMessage());
+			migration.apply();
+			
+			if ( migration.getStatusCode().equals(MMigration.STATUSCODE_Applied) )
+			{
+				addLog("Migration successful");
+			}
+			else if ( migration.getStatusCode().equals(MMigration.STATUSCODE_PartiallyApplied) )
+			{
+				addLog("Migration partially applied. Please review migration steps for errors.");
+			}
+			else if (  migration.getStatusCode().equals(MMigration.STATUSCODE_Failed) )
+			{
+				addLog("Migration failed. Please review migration steps for errors.");
+			}
+			
+		}
+		else 
+		{
+			migration.rollback();
+
+			if ( migration.getStatusCode().equals(MMigration.STATUSCODE_Unapplied) )
+			{
+				addLog("Rollback successful.");
+			}
+			else
+			{
+				addLog("Rollback failed. Please review migration steps for errors.");
+			}
+			
 		}
 
-		return executor.getStatusDescription();
+		return "@OK@";
 	}
+
+	@Override
+	protected void prepare() {
+		
+		migration = new MMigration(getCtx(), getRecord_ID(), get_TrxName());
+		
+		ProcessInfoParameter[] params = getParameter();
+		for ( ProcessInfoParameter p : params)
+		{
+			String para = p.getParameterName();
+			if ( para.equals("FailOnError") )
+				failOnError  = "Y".equals((String)p.getParameter());
+		}
+
+	}
+
 }

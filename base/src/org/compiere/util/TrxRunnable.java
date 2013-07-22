@@ -21,5 +21,5 @@ package org.compiere.util;
  */
 public interface TrxRunnable
 {
-	public void run(String localTrxName) throws Exception;
+	public void run(String trxName);
 }

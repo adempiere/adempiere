@@ -16,15 +16,16 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import org.adempiere.ad.migration.model.I_AD_Migration;
-import org.adempiere.ad.migration.service.IMigrationBL;
-import org.adempiere.model.POWrapper;
-import org.adempiere.util.Services;
+import org.compiere.model.MMigration;
+import org.compiere.model.MMigrationStep;
+import org.compiere.model.MTable;
+import org.compiere.process.SvrProcess;
+import org.compiere.util.DB;
 
 public class MigrationMerge extends SvrProcess {
 
-	private I_AD_Migration migrationFrom;
-	private I_AD_Migration migrationTo;
+	private MMigration migrationFrom;
+	private MMigration migrationTo;
 
 	/**
 	 * 
@@ -36,15 +37,15 @@ public class MigrationMerge extends SvrProcess {
 	@Override
 	protected String doIt() throws Exception {
 
-		if ( migrationFrom == null || migrationFrom.getAD_Migration_ID() <= 0 
-				|| migrationTo == null || migrationTo.getAD_Migration_ID() <= 0
+		if ( migrationFrom == null || migrationFrom.is_new() 
+				|| migrationTo == null || migrationTo.is_new() 
 				|| migrationFrom.getAD_Migration_ID() == migrationTo.getAD_Migration_ID() )
 		{
 			addLog("Two different existing migrations required for merge");
 			return "@Error@";
 		}
 		
-		Services.get(IMigrationBL.class).mergeMigration(migrationTo, migrationFrom);
+		migrationTo.mergeMigration(migrationFrom);
 		
 		return "@OK@";
 	}
@@ -58,7 +59,7 @@ public class MigrationMerge extends SvrProcess {
 		for ( ProcessInfoParameter p : params)
 		{
 			String para = p.getParameterName();
-			if ( para.equals("AD_MigrationFrom_ID") )
+			if ( para.equals("AD_Migration_ID") )
 				fromId  = p.getParameterAsInt();
 			else if ( para.equals("AD_MigrationTo_ID") )
 				toId = p.getParameterAsInt();
@@ -68,8 +69,8 @@ public class MigrationMerge extends SvrProcess {
 		if ( toId == 0 )
 			toId = getRecord_ID();
 		
-		migrationTo = POWrapper.create(getCtx(), toId, I_AD_Migration.class, get_TrxName());
-		migrationFrom = POWrapper.create(getCtx(), fromId, I_AD_Migration.class, get_TrxName());
+		migrationTo = new MMigration(getCtx(), toId, get_TrxName());
+		migrationFrom = new MMigration(getCtx(), fromId, get_TrxName());
 	}
 
 }

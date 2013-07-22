@@ -25,10 +25,9 @@ import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.adempiere.util.ILoggable;
 import org.compiere.model.MPInstance;
-import org.compiere.model.MTable;
 import org.compiere.model.PO;
+import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -50,7 +49,7 @@ import org.compiere.util.Trx;
  *			<li>FR [ 2788006 ] SvrProcess: change access to some methods
  *				https://sourceforge.net/tracker/?func=detail&aid=2788006&group_id=176962&atid=879335
  */
-public abstract class SvrProcess implements ProcessCall, ILoggable
+public abstract class SvrProcess implements ProcessCall
 {
 	/**
 	 *  Server Process.
@@ -156,9 +155,7 @@ public abstract class SvrProcess implements ProcessCall, ILoggable
 				log.log(Level.SEVERE, msg, e.getCause());
 			else 
 				log.log(Level.SEVERE, msg, e);
-			
 			success = false;
-			m_pi.setThrowable(e);  // mo73_03152
 		//	throw new RuntimeException(e);
 		}
 		
@@ -521,11 +518,5 @@ public abstract class SvrProcess implements ProcessCall, ILoggable
 			return m_trx.getTrxName();
 		return null;
 	}	//	get_TrxName
-
-// metas: begin
-	public String getTableName()
-	{
-		return MTable.getTableName(getCtx(), getTable_ID());
-	}
-// metas: end
+	
 }   //  SvrProcess

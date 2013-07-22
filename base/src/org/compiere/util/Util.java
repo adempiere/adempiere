@@ -18,24 +18,9 @@ package org.compiere.util;
 
 import java.awt.Color;
 import java.awt.font.TextAttribute;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.Closeable;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -43,7 +28,6 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.mail.internet.MimeUtility;
 import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
@@ -51,9 +35,6 @@ import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.adempiere.util.Check;
-import org.adempiere.util.Services;
-import org.adempiere.util.api.IMsgBL;
 
 /**
  *  General Utilities
@@ -62,6 +43,7 @@ import org.adempiere.util.api.IMsgBL;
  *  @version    $Id: Util.java,v 1.3 2006/07/30 00:52:23 jjanke Exp $
  *  
  *  @author     Teo Sarca, SC ARHIPAC SERVICE SRL - BF [ 1748346 ]
+ *  @author     t.schoeneberg@metas.de - FR [ 3407104 ] Explicit Assumptions
  */
 public class Util
 {
@@ -118,50 +100,6 @@ public class Util
 		return out.toString();
 	}	//	removeCRLF
 
-	
-	/**
-	 * Fetch the numbers from a string
-	 * @param text
-	 * @return string which contains all digits, or null if text is null 
-	 */
-	public static String getDigits(final String text)
-	{
-		if (text == null)
-		{
-			return null;
-		}
-	    StringBuilder sb = new StringBuilder();
-	    for(int i = 0; i < text.length(); i++)
-	    {
-	        if(Character.isDigit(text.charAt(i)))
-	            sb.append(text.charAt(i));
-	    }
-	    return sb.toString();
-	}
-	
-	/**
-	 * Fetch only the text from a given string <br>
-	 * E.g. text= '9000 St. Gallen'<br> This method will return test St. Gallen
-	 * @param text
-	 * @return string which contains all letters not digits, or null if text is null 
-	 */
-	public static String stripDigits(final String text)
-	{
-		if (text == null)
-		{
-			return null;
-		}
-		char[] inArray = text.toCharArray();
-		StringBuilder out = new StringBuilder(inArray.length);
-	    for(int i = 0; i < inArray.length; i++)
-	    {
-	    	char c = inArray[i];
-	        if(Character.isLetter(c) || !Character.isDigit(c))
-	            out.append(c);
-	    }
-	    return out.toString();
-	}
-
 
 	/**
 	 * Clean - Remove all white spaces
@@ -190,44 +128,8 @@ public class Util
 		}
 		return out.toString();
 	}	//	cleanWhitespace
-	
-	/**
-	 * remove white space from the begin
-	 * @param in
-	 * @return
-	 */
-	public static String cleanBeginWhitespace (String in)
-	{
-		int len = in.length();
-		int st = 0;
-		int off = 0;
-		char[] val = in.toCharArray();
-
-		while ((st < len) && (val[off + st] <= ' '))
-		{
-			st++;
-		}
-		return ((st > 0) || (len < in.length())) ? in.substring(st, len) : in;
-	}
 
 
-	public static String lpadZero(final String value, final int size, final String description)
-	{
-		if (value == null)
-		{
-			throw new IllegalArgumentException("value is null");
-		}
-
-		final String valueFixed = value.trim();
-
-		if (valueFixed.length() > size)
-		{
-			throw new AdempiereException("value='" + valueFixed + "' of '" + description + "' is bigger than " + size + " characters");
-		}
-		final String s = "0000000000000000000" + valueFixed;
-		return s.substring(s.length() - size);
-	}
-	
 	/**
 	 * Mask HTML content.
 	 * i.e. replace characters with &values;
@@ -317,10 +219,9 @@ public class Util
 	 * @param str string
 	 * @return true if >= 1 char
 	 */
-	@Deprecated
 	public static boolean isEmpty (String str)
 	{
-		return Check.isEmpty(str);
+		return isEmpty(str, false);
 	}	//	isEmpty
 	
 	/**
@@ -329,28 +230,15 @@ public class Util
 	 * @param trimWhitespaces trim whitespaces
 	 * @return true if >= 1 char
 	 */
-	@Deprecated
 	public static boolean isEmpty (String str, boolean trimWhitespaces)
 	{
-		return Check.isEmpty(str, trimWhitespaces);
+		if (str == null)
+			return true;
+		if (trimWhitespaces)
+			return str.trim().length() == 0;
+		else
+			return str.length() == 0;
 	}	//	isEmpty
-
-	/**
-	 * 
-	 * @param bd
-	 * @return true if bd is null or bd.signum() is zero
-	 */
-	@Deprecated
-	public static boolean isEmpty(BigDecimal bd)
-	{
-		return Check.isEmpty(bd);
-	}
-	
-	@Deprecated
-	public static <T> boolean isEmpty(T[] arr)
-	{
-		return Check.isEmpty(arr);
-	}
 	
 	/**************************************************************************
 	 * Find index of search character in str.
@@ -799,623 +687,24 @@ public class Util
 	}
 
 	/**
-	 * Create an instance of given className.
-	 * 
-	 * This method works exactly like {@link #getInstanceOrNull(Class, String)} but it also throws and {@link AdempiereException} if class was not found.
-	 * 
-	 * @param interfaceClazz interface class that needs to be implemented by class
-	 * @param className class name
-	 * @return instance
-	 * @throws AdempiereException if class does not implement given interface or if there is an error on instantiation or if class was not found
-	 */
-	public static <T> T getInstance(final Class<T> interfaceClazz, final String className)
-	{
-		Util.assume(className != null, "className is not null");
-		Util.assume(interfaceClazz != null, "interfaceClazz is not null");
-		try
-		{
-			ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-			if (classLoader == null)
-			{
-				classLoader = Util.class.getClassLoader();
-			}
-			final Class<?> clazz = classLoader.loadClass(className);
-	
-			if (!interfaceClazz.isAssignableFrom(clazz))
-			{
-				throw new AdempiereException("Class " + className + " doesn't implement " + interfaceClazz);
-			}
-			return clazz.asSubclass(interfaceClazz).newInstance();
-	
-		}
-		catch (ClassNotFoundException e)
-		{
-			throw new AdempiereException("Unable to instantiate '" + className + "'", e);
-		}
-		catch (InstantiationException e)
-		{
-			throw new AdempiereException("Unable to instantiate '" + className + "'", e);
-		}
-		catch (IllegalAccessException e)
-		{
-			throw new AdempiereException("Unable to instantiate '" + className + "'", e);
-		}
-	}
-	
-	/**
-	 * Create an instance of given className
-	 * 
-	 * @param interfaceClazz interface class that needs to be implemented by class
-	 * @param className class name
-	 * @return instance or null if class was not found
-	 * @throws AdempiereException if class does not implement given interface or if there is an error on instantiation
-	 */
-	public static <T> T getInstanceOrNull(final Class<T> interfaceClazz, final String className)
-	{
-		assert className != null : "className may not be null";
-		assert interfaceClazz != null : "interfaceClazz may not be null";
-		try
-		{
-			ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-			if (classLoader == null)
-			{
-				classLoader = Util.class.getClassLoader();
-			}
-			final Class<?> clazz = classLoader.loadClass(className);
-
-			if (!interfaceClazz.isAssignableFrom(clazz))
-			{
-				throw new AdempiereException("Class " + className + " doesn't implement " + interfaceClazz);
-			}
-			return clazz.asSubclass(interfaceClazz).newInstance();
-
-		}
-		catch (ClassNotFoundException e)
-		{
-			return null;
-		}
-		catch (InstantiationException e)
-		{
-			throw new AdempiereException("Unable to instantiate '" + className + "'", e);
-		}
-		catch (IllegalAccessException e)
-		{
-			throw new AdempiereException("Unable to instantiate '" + className + "'", e);
-		}
-	}
-
-
-	/**
-	 * Little method that throws an {@link AdempiereException} if the given boolean condition is false. It might be a good
-	 * idea to use "assume" instead of the assert keyword, because <li>assert is globally switched on and off and you never
-	 * know what else libs are using assert</li> <li>there are critical assumptions that should always be validated. Not
-	 * only during development time or when someone minds to use the -ea cmdline parameter</li>
-	 * 
-	 * @param cond
-	 * @param errMsg the error message to pass to the assertion error, if the condition is <code>false</code>
-	 * @param params message parameters (@see {@link MessageFormat})
-	 */
-	@Deprecated
-	public static void assume(final boolean cond, final String errMsg, Object... params)
-	{
-		Check.assume(cond, errMsg, params);
-	}
-
-	/**
-	 * Assumes that given <code>object</code> is not null
-	 * @param object
-	 * @param assumptionMessage message
-	 * @param params message parameters (@see {@link MessageFormat})
-	 * @see #assume(boolean, String, Object...)
-	 */
-	@Deprecated
-	public static void assumeNotNull(Object object, final String assumptionMessage, Object ... params)
-	{
-		Check.assumeNotNull(object, assumptionMessage, params);
-	}
-
-	/**
-	 * This method similar to {@link #assume(boolean, String, Object...)}, but the message should be formulated in terms of an error message instead of an assumption.
-	 * <p>
-	 * Example: instead of "parameter 'xy' is not null" (description of the assumption that was violated), one should write "parameter 'xy' is null" (description of the error).
+	 * Little method that throws an {@link AdempiereException} if the given boolean condition is false. It might be a
+	 * good idea to use "assume" over the assert keyword, because
+	 * <ul>
+	 * <li>assert is globally switched on and off and you never know what else libs are using assert</li>
+	 * <li>there are critical assumptions that should always be validated. Not only during development time or when
+	 * someone minds to use the -ea cmdline parameter</li>
+	 * </ul>
 	 * 
 	 * @param cond
 	 * @param errMsg
-	 * @param params
+	 *            the error message to pass to the adempiere exception, if the condition is <code>false</code>
 	 */
-	@Deprecated
-	public static void errorUnless(final boolean cond, final String errMsg, Object... params)
+	public static void assume(final boolean cond, final String errMsg)
 	{
-		Check.errorUnless(cond, errMsg, params);
-	}
-	
-	/**
-	 * This method similar to {@link #assume(boolean, String, Object...)}, the error is throw <b>if the condition is true</b> and the message should be formulated in terms of an error message instead
-	 * of an assumption.
-	 * <p>
-	 * Example: instead of "parameter 'xy' is not null" (description of the assumption that was violated), one should write "parameter 'xy' is null" (description of the error).
-	 * 
-	 * @param cond
-	 * @param errMsg
-	 * @param params
-	 */
-	@Deprecated
-	public static void errorIf(final boolean cond, final String errMsg, Object... params)
-	{
-		Check.errorIf(cond, errMsg, params);
-	}
-	
-	/**
-	 * 
-	 * @param message
-	 * @param params
-	 * @return
-	 * @deprecated use <code>Services.get(IMsgBL.class).formatMessage(message, params)</code> instead.
-	 */
-	@Deprecated
-	public static String formatMessage(final String message, Object... params)
-	{
-		return Services.get(IMsgBL.class).formatMessage(message, params);
-	}
-	
-	/**
-	 * Returns an instance of {@link ArrayKey} that can be used as a key in HashSets and HashMaps.
-	 * 
-	 * @param input
-	 * @return
-	 */
-	public static ArrayKey mkKey(final Object... input)
-	{
-		return new ArrayKey(input);
-	}
-
-	/**
-	 * Immutable wrapper for arrays that uses {@link Arrays#hashCode(Object[]))} and {@link Arrays#equals(Object)}.
-	 * Instances of this class are obtained by {@link Util#mkKey(Object...)} and can be used as keys in hashmaps
-	 * and hash sets.
-	 * 
-	 * Thanks to http://stackoverflow.com/questions/1595588/java-how-to-be-sure-to-store-unique-arrays-based-on
-	 * -its-values-on-a-list
-	 * 
-	 * @author ts
-	 * 
-	 */
-	public static class ArrayKey
-	{
-		private final Object[] array;
-
-		public ArrayKey(final Object... input)
+		if (!cond)
 		{
-			this.array = input;
-		}
-
-		public Object[] getArray()
-		{
-			Object[] newArray = new Object[array.length];
-			System.arraycopy(array, 0, newArray, 0, array.length);
-			return newArray;
-		}
-
-		@Override
-		public int hashCode()
-		{
-			return Arrays.hashCode(array);
-		}
-
-		@Override
-		public boolean equals(final Object other)
-		{
-			if (other instanceof ArrayKey)
-			{
-				return Arrays.equals(this.array, ((ArrayKey)other).getArray());
-			}
-			return false;
-		}
-		
-		@Override
-		public String toString()
-		{
-			StringBuilder sb = new StringBuilder();
-			for (Object k : array)
-			{
-				if(sb.length() > 0)
-				{
-					sb.append("#");
-				}
-				if (k == null)
-				{
-					sb.append("NULL");
-				}
-				else
-				{
-					sb.append(k.toString());
-				}
-			}
-			return sb.toString();
+			throw new AdempiereException("Assumtion failure: " + errMsg);
 		}
 	}
 	
-	/**
-	 * Tests whether two objects are equals.
-	 *
-	 * <p>It takes care of the null case. Thus, it is helpful to implement
-	 * Object.equals.
-	 *
-	 * <p>Notice: it uses compareTo if BigDecimal is found. So, in this case,
-	 * a.equals(b) might not be the same as Objects.equals(a, b).
-	 *
-	 * <p>If both a and b are Object[], they are compared item-by-item.
-	 * 
-	 * NOTE: this is a copy paste from org.zkoss.lang.Objects.equals(Object, Object)
-	 */
-	public static final boolean equals(Object a, Object b)
-	{
-		if (a == b || (a != null && b != null && a.equals(b)))
-			return true;
-		if ((a instanceof BigDecimal) && (b instanceof BigDecimal))
-			return ((BigDecimal)a).compareTo((BigDecimal)b) == 0;
-
-		if (a == null || !a.getClass().isArray())
-			return false;
-
-		if ((a instanceof Object[]) && (b instanceof Object[]))
-		{
-			final Object[] as = (Object[])a;
-			final Object[] bs = (Object[])b;
-			if (as.length != bs.length)
-				return false;
-			for (int j = as.length; --j >= 0;)
-				if (!equals(as[j], bs[j])) // recursive
-					return false;
-			return true;
-		}
-		if ((a instanceof int[]) && (b instanceof int[]))
-		{
-			final int[] as = (int[])a;
-			final int[] bs = (int[])b;
-			if (as.length != bs.length)
-				return false;
-			for (int j = as.length; --j >= 0;)
-				if (as[j] != bs[j])
-					return false;
-			return true;
-		}
-		if ((a instanceof byte[]) && (b instanceof byte[]))
-		{
-			final byte[] as = (byte[])a;
-			final byte[] bs = (byte[])b;
-			if (as.length != bs.length)
-				return false;
-			for (int j = as.length; --j >= 0;)
-				if (as[j] != bs[j])
-					return false;
-			return true;
-		}
-		if ((a instanceof char[]) && (b instanceof char[]))
-		{
-			final char[] as = (char[])a;
-			final char[] bs = (char[])b;
-			if (as.length != bs.length)
-				return false;
-			for (int j = as.length; --j >= 0;)
-				if (as[j] != bs[j])
-					return false;
-			return true;
-		}
-		if ((a instanceof long[]) && (b instanceof long[]))
-		{
-			final long[] as = (long[])a;
-			final long[] bs = (long[])b;
-			if (as.length != bs.length)
-				return false;
-			for (int j = as.length; --j >= 0;)
-				if (as[j] != bs[j])
-					return false;
-			return true;
-		}
-		if ((a instanceof short[]) && (b instanceof short[]))
-		{
-			final short[] as = (short[])a;
-			final short[] bs = (short[])b;
-			if (as.length != bs.length)
-				return false;
-			for (int j = as.length; --j >= 0;)
-				if (as[j] != bs[j])
-					return false;
-			return true;
-		}
-		if ((a instanceof double[]) && (b instanceof double[]))
-		{
-			final double[] as = (double[])a;
-			final double[] bs = (double[])b;
-			if (as.length != bs.length)
-				return false;
-			for (int j = as.length; --j >= 0;)
-				if (as[j] != bs[j])
-					return false;
-			return true;
-		}
-		if ((a instanceof float[]) && (b instanceof float[]))
-		{
-			final float[] as = (float[])a;
-			final float[] bs = (float[])b;
-			if (as.length != bs.length)
-				return false;
-			for (int j = as.length; --j >= 0;)
-				if (as[j] != bs[j])
-					return false;
-			return true;
-		}
-		if ((a instanceof boolean[]) && (b instanceof boolean[]))
-		{
-			final boolean[] as = (boolean[])a;
-			final boolean[] bs = (boolean[])b;
-			if (as.length != bs.length)
-				return false;
-			for (int j = as.length; --j >= 0;)
-				if (as[j] != bs[j])
-					return false;
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Tests whether two objects refer to the same object.
-	 * 
-	 * It's advisable to use this method instead of directly comparing those 2 objects by o1 == o2, because in this way you are telling to static analyser tool that comparing by referece was your
-	 * intention.
-	 * 
-	 * @param o1
-	 * @param o2
-	 * @return true if objects are the same (i.e. o1 == o2)
-	 */
-	public static final boolean same(Object o1, Object o2)
-	{
-		return o1 == o2;
-	}
-	
-	/**
-	 * Read given file and returns it as byte array
-	 * 
-	 * @param file
-	 * @return file contents as byte array
-	 * @throws AdempiereException on any {@link IOException}
-	 */
-	public static byte[] readBytes(File file)
-	{
-		FileInputStream in = null;
-		try
-		{
-			in = new FileInputStream(file);
-			byte[] data = readBytes(in);
-			in = null; // stream was closed by readBytes(InputStream)
-			
-			return data;
-		}
-		catch (Exception e)
-		{
-			throw new AdempiereException("Error reading file: " + file, e);
-		}
-		finally
-		{
-			if (in != null)
-			{
-				try
-				{
-					in.close();
-				}
-				catch (IOException e)
-				{
-					e.printStackTrace();
-				}
-				in = null;
-			}
-		}
-	}
-
-	/**
-	 * Read bytes from given InputStream. This method closes the stream.
-	 * 
-	 * @param in
-	 * @return stream contents as byte array
-	 * @throws AdempiereException on error
-	 */
-	public static byte[] readBytes(final InputStream in)
-	{
-		final ByteArrayOutputStream out = new ByteArrayOutputStream();
-		final byte[] buf = new byte[4096];
-
-		try
-		{
-			int len = -1;
-			while ((len = in.read(buf)) > 0)
-			{
-				out.write(buf, 0, len);
-			}
-		}
-		catch (IOException e)
-		{
-			throw new AdempiereException("Error reading stream", e);
-		}
-		finally
-		{
-			try
-			{
-				in.close();
-			}
-			catch (IOException e)
-			{
-				e.printStackTrace();
-			}
-		}
-
-		return out.toByteArray();
-	}
-	
-	/***
-	 * insert selection into DB
-	 * @deprecated Please use {@link DB#createT_Selection(int, java.util.Collection, String)}.
-	 */
-	@Deprecated
-	static public void insertSelection(final int[] selection, final int AD_PInstance_ID, final String trxName)
-	{
-		final ArrayList<Integer> results = new ArrayList<Integer>(selection.length);
-
-		for (int i = 0; i < selection.length; i++)
-		{
-			results.add(selection[i]);
-		}
-
-		if (results.size() == 0)
-			return;
-		log.config("Selected #" + results.size());
-
-		// insert selection
-		// use the same pinstance id as the process
-		DB.createT_Selection(AD_PInstance_ID, results, trxName);
-	}
-
-	/***
-	 * encode base64
-	 * 
-	 * @param b
-	 * @return
-	 * @throws Exception
-	 */
-	// metas: mo73_03749
-	public static byte[] encodeBase64(final byte[] b)
-	{
-		try
-		{
-			final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			final OutputStream b64os = MimeUtility.encode(baos, "base64");
-			b64os.write(b);
-			b64os.close();
-			return baos.toByteArray();
-		}
-		catch (Exception e)
-		{
-			throw new AdempiereException(e);
-		}
-	}
-
-	/***
-	 * decode base64
-	 * 
-	 * @param b
-	 * @return
-	 * @throws Exception
-	 */
-	// metas: mo73_03749
-	public static byte[] decodeBase64(byte[] b)
-	{
-		try
-		{
-			ByteArrayInputStream bais = new ByteArrayInputStream(b);
-			InputStream b64is = MimeUtility.decode(bais, "base64");
-			byte[] tmp = new byte[b.length];
-			int n = b64is.read(tmp);
-			byte[] res = new byte[n];
-			System.arraycopy(tmp, 0, res, 0, n);
-			return res;
-		}
-		catch (Exception e)
-		{
-			throw new AdempiereException(e);
-		}
-	}
-	
-	// mo73_03743
-	public static void writeBytes(File file, byte[] data)
-	{
-		FileOutputStream out = null;
-		try
-		{
-			out = new FileOutputStream(file, false);
-			out.write(data);
-		}
-		catch (IOException e)
-		{
-			throw new AdempiereException("Cannot write file " + file, e);
-		}
-		finally
-		{
-			if (out != null)
-			{
-				close(out);
-				out = null;
-			}
-		}
-	}
-	
-	public static final void close(Closeable c)
-	{
-		try
-		{
-			c.close();
-		}
-		catch (IOException e)
-		{
-			//e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Writes the given {@link Throwable}s stack trace into a string.
-	 * 
-	 * @param e
-	 * @return
-	 */
-	public static String dumpStackTraceToString(Throwable e)
-	{
-		final StringWriter sw = new StringWriter();
-		final PrintWriter pw = new PrintWriter(sw);
-		e.printStackTrace(pw);
-		return sw.toString();
-	}
-
-	/**
-	 * Smart converting given exception to string
-	 * 
-	 * @param e
-	 * @return
-	 */
-	public static String getErrorMsg(Throwable e)
-	{
-		// save the exception for displaying to user
-		String msg = e.getLocalizedMessage();
-		if (Util.isEmpty(msg, true))
-		{
-			msg = e.getMessage();
-		}
-		if (Util.isEmpty(msg, true))
-		{
-			// note that e.g. a NullPointerException doesn't have a nice message
-			msg = dumpStackTraceToString(e);
-		}
-		
-		return msg;
-	}
-
-	/**
-	 * 
-	 * @param values
-	 * @return first not null value from list
-	 */
-	public static final <T> T coalesce(T... values)
-	{
-		if (values == null || values.length == 0)
-		{
-			return null;
-		}
-		for (T value : values)
-		{
-			if (value != null)
-			{
-				return value;
-			}
-		}
-		return null;
-	}
 }   //  Util

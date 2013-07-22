@@ -2,9 +2,6 @@ syntax: glob
 build
 
 extend/test.properties
-data/seed/Adempiere_pg.dmp
-migration/postgresql.properties
-*.log
 syntax: regexp
 ^.DS_Store$
 ^tools/.DS_Store$

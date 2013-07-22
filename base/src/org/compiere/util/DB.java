@@ -40,10 +40,6 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 import org.adempiere.exceptions.DBException;
-import org.adempiere.util.Check;
-import org.adempiere.util.Services;
-import org.adempiere.util.trxConstraints.api.ITrxConstraints;
-import org.adempiere.util.trxConstraints.api.ITrxConstraintsBL;
 import org.compiere.Adempiere;
 import org.compiere.db.AdempiereDatabase;
 import org.compiere.db.CConnection;
@@ -847,8 +843,6 @@ public final class DB
 			pstmt.setBigDecimal(index, (BigDecimal)param);
 		else if (param instanceof Timestamp)
 			pstmt.setTimestamp(index, (Timestamp)param);
-		else if (param instanceof java.util.Date) // metas: support for java.util.Date
-			pstmt.setTimestamp(index, new Timestamp(((java.util.Date)param).getTime()));
 		else if (param instanceof Boolean)
 			pstmt.setString(index, ((Boolean)param).booleanValue() ? "Y" : "N");
 		else
@@ -1280,11 +1274,11 @@ public final class DB
     		if (rs.next())
     			retValue = rs.getInt(1);
     		else
-    			log.info("No Value " + sql);
+    			log.fine("No Value " + sql);
     	}
     	catch (SQLException e)
     	{
-			throw new DBException(e, sql, params); // metas: tsa
+    		throw new DBException(e, sql);
     	}
     	finally
     	{
@@ -1302,7 +1296,7 @@ public final class DB
      * @return first value or -1
      * @throws DBException if there is any SQLException
      */
-    public static int getSQLValueEx (String trxName, String sql, Collection<Object> params)
+    public static int getSQLValueEx (String trxName, String sql, List<Object> params)
     {
 		return getSQLValueEx(trxName, sql, params.toArray(new Object[params.size()]));
     }
@@ -1335,7 +1329,7 @@ public final class DB
      * @param params collection of parameters
      * @return first value or null
      */
-    public static int getSQLValue (String trxName, String sql, Collection<Object> params)
+    public static int getSQLValue (String trxName, String sql, List<Object> params)
     {
 		return getSQLValue(trxName, sql, params.toArray(new Object[params.size()]));
     }
@@ -1361,11 +1355,11 @@ public final class DB
     		if (rs.next())
     			retValue = rs.getString(1);
     		else
-    			log.info("No Value " + sql);
+    			log.fine("No Value " + sql);
     	}
     	catch (SQLException e)
     	{
-			throw new DBException(e, sql, params); // metas: tsa
+    		throw new DBException(e, sql);
     	}
     	finally
     	{
@@ -1383,7 +1377,7 @@ public final class DB
      * @return first value or null
      * @throws DBException if there is any SQLException
      */
-    public static String getSQLValueStringEx (String trxName, String sql, Collection<Object> params)
+    public static String getSQLValueStringEx (String trxName, String sql, List<Object> params)
     {
 		return getSQLValueStringEx(trxName, sql, params.toArray(new Object[params.size()]));
     }
@@ -1416,7 +1410,7 @@ public final class DB
      * @param params collection of parameters
      * @return first value or null
      */
-    public static String getSQLValueString (String trxName, String sql, Collection<Object> params)
+    public static String getSQLValueString (String trxName, String sql, List<Object> params)
     {
 		return getSQLValueString(trxName, sql, params.toArray(new Object[params.size()]));
     }
@@ -1442,12 +1436,12 @@ public final class DB
     		if (rs.next())
     			retValue = rs.getBigDecimal(1);
     		else
-    			log.info("No Value " + sql);
+    			log.fine("No Value " + sql);
     	}
     	catch (SQLException e)
     	{
     		//log.log(Level.SEVERE, sql, getSQLException(e));
-			throw new DBException(e, sql, params); // metas: tsa
+    		throw new DBException(e, sql);
     	}
     	finally
     	{
@@ -1465,7 +1459,7 @@ public final class DB
      * @return first value or null if not found
      * @throws DBException if there is any SQLException
      */
-    public static BigDecimal getSQLValueBDEx (String trxName, String sql, Collection<Object> params) throws DBException
+    public static BigDecimal getSQLValueBDEx (String trxName, String sql, List<Object> params) throws DBException
     {
 		return getSQLValueBDEx(trxName, sql, params.toArray(new Object[params.size()]));
     }
@@ -1499,7 +1493,7 @@ public final class DB
      * @param params collection of parameters
      * @return first value or null
      */
-    public static BigDecimal getSQLValueBD (String trxName, String sql, Collection<Object> params)
+    public static BigDecimal getSQLValueBD (String trxName, String sql, List<Object> params)
     {
 		return getSQLValueBD(trxName, sql, params.toArray(new Object[params.size()]));
     }
@@ -1525,11 +1519,11 @@ public final class DB
     		if (rs.next())
     			retValue = rs.getTimestamp(1);
     		else
-    			log.info("No Value " + sql);
+    			log.fine("No Value " + sql);
     	}
     	catch (SQLException e)
     	{
-			throw new DBException(e, sql, params); // metas: tsa
+    		throw new DBException(e, sql);
     	}
     	finally
     	{
@@ -1547,7 +1541,7 @@ public final class DB
      * @return first value or null if not found
      * @throws DBException if there is any SQLException
      */
-    public static Timestamp getSQLValueTSEx (String trxName, String sql, Collection<Object> params) throws DBException
+    public static Timestamp getSQLValueTSEx (String trxName, String sql, List<Object> params) throws DBException
     {
 		return getSQLValueTSEx(trxName, sql, params.toArray(new Object[params.size()]));
     }
@@ -1579,7 +1573,7 @@ public final class DB
      * @param params collection of parameters
      * @return first value or null
      */
-    public static Timestamp getSQLValueTS (String trxName, String sql, Collection<Object> params)
+    public static Timestamp getSQLValueTS (String trxName, String sql, List<Object> params)
     {
 		Object[] arr = new Object[params.size()];
 		params.toArray(arr);
@@ -1596,19 +1590,6 @@ public final class DB
 	public static KeyNamePair[] getKeyNamePairs(String sql, boolean optional)
 	{
 		return getKeyNamePairs(sql, optional, (Object[])null);
-	}
-
-	/**
-	 * Get Array of Key Name Pairs
-	 * @param sql select with id / name as first / second column
-	 * @param optional if true (-1,"") is added
-	 * @param params query parameters
-	 * @return array of {@link KeyNamePair}
-	 * @see #getKeyNamePairs(String, boolean, Object...)
-	 */
-	public static KeyNamePair[] getKeyNamePairs(String sql, boolean optional, Collection<Object> params)
-	{
-		return getKeyNamePairs(sql, optional, params.toArray(new Object[params.size()]));
 	}
 
 	/**
@@ -2183,7 +2164,7 @@ public final class DB
         }
         catch (SQLException e)
         {
-			throw new DBException(e, sql, params); // metas: tsa
+            throw new DBException(e, sql);
         }
         finally
         {
@@ -2226,7 +2207,7 @@ public final class DB
         }
         catch (SQLException e)
         {
-			throw new DBException(e, sql, params); // metas: tsa
+            throw new DBException(e, sql);
         }
         finally
         {
@@ -2280,91 +2261,5 @@ public final class DB
 		}
 	}
 
-	/**
-	 * Delete T_Selection
-	 * 
-	 * @param AD_PInstance_ID
-	 * @param trxName
-	 * @return number of records that were deleted
-	 */
-	public static int deleteT_Selection(final int AD_PInstance_ID, final String trxName)
-	{
-		final String sql = "DELETE FROM T_SELECTION WHERE AD_PInstance_ID=?";
-		int no = DB.executeUpdateEx(sql, new Object[] { AD_PInstance_ID }, trxName);
-		return no;
-	}
-
-	/**
-	 * Returns the current ITrxConstraints instance of the current thread. The instance is created on-the-fly the first
-	 * time this method is called from a given thread. It is destroyed when the calling thread finishes.
-	 * 
-	 * Note that there might be more than one instance per thread, but there is only one active instance at a time. See
-	 * {@link #saveConstraints()} and {@link #restoreConstraints()} for details.
-	 * 
-	 */
-	// metas me00_02367
-	public static ITrxConstraints getConstraints()
-	{
-		return Services.get(ITrxConstraintsBL.class).getConstraints();
-	}
-
-	/**
-	 * Saves the current constraints instance of the current thread to be restored later on.
-	 * 
-	 * More specifically, the current constraints are copied and the copy is pushed to a stack (i.e. on top of the
-	 * current instance). Therefore, the next invocation of {@link #getConstraints()} will return the copy. The calling
-	 * thread can modify the copy for its temporary needs (e.g. relax some constraint while calling a particular
-	 * method).
-	 * 
-	 * @see #restoreConstraints()
-	 */
-	// metas me00_02367
-	public static void saveConstraints()
-	{
-		Services.get(ITrxConstraintsBL.class).saveConstraints();
-	}
-
-	/**
-	 * Discards the currently active constraints instance and restores the one that has previously been saved.
-	 * 
-	 * @see #saveConstraints()
-	 */
-	// metas me00_02367
-	public static void restoreConstraints()
-	{
-		Services.get(ITrxConstraintsBL.class).restoreConstraints();
-	}
-
-	public static final String SQL_EmptyList = "(-1)";
-	
-	/**
-	 * Build an SQL list for given parameters. <br>
-	 * e.g. For paramsIn={1,2,3} it will return "(?,?,?)" and it will copy paramsIn to paramsOut
-	 * 
-	 * @param paramsIn
-	 * @param paramsOut
-	 * @return SQL list
-	 */
-	public static String buildSqlList(final List<? extends Object> paramsIn, final List<Object> paramsOut)
-	{
-		Check.assumeNotNull(paramsOut, "paramsOut not null");
-		
-		if (paramsIn == null || paramsIn.isEmpty())
-		{
-			return SQL_EmptyList;
-		}
-		
-		final StringBuilder sql = new StringBuilder("?");
-		final int len = paramsIn.size();
-		for (int i = 1; i < len; i++)
-		{
-			sql.append(",?");
-		}
-		
-		paramsOut.addAll(paramsIn);
-
-		return sql.insert(0, "(").append(")").toString();
-	}
-	
-} // DB
+}	//	DB
 

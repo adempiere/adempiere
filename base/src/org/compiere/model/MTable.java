@@ -21,13 +21,10 @@ import java.lang.reflect.Constructor;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.model.GenericPO;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
@@ -61,6 +58,7 @@ import org.compiere.util.Util;
  */
 public class MTable extends X_AD_Table
 {
+
 	/**
 	 * 
 	 */
@@ -74,59 +72,16 @@ public class MTable extends X_AD_Table
 	 */
 	public static MTable get (Properties ctx, int AD_Table_ID)
 	{
-		if (AD_Table_ID <= 0)
-		{
-			return null;
-		}
-		
-		synchronized (s_cache)
-		{
-			final Iterator<MTable> it = s_cache.values().iterator();
-			while (it.hasNext())
-			{
-				final MTable retValue = it.next();
-				if (AD_Table_ID == retValue.getAD_Table_ID() 
-						&& retValue.getCtx() == ctx) 
-				{
-					return retValue;
-				}
-			}
-			//
-			MTable retValue = null;
-			String sql = "SELECT * FROM AD_Table WHERE AD_Table_ID=?";
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			try
-			{
-				pstmt = DB.prepareStatement (sql, null);
-				pstmt.setInt(1, AD_Table_ID);
-				rs = pstmt.executeQuery ();
-				if (rs.next ())
-				{
-					retValue = new MTable (ctx, rs, null);
-				}
-			}
-			catch (Exception e)
-			{
-				s_log.log(Level.SEVERE, sql, e);
-			}
-			finally
-			{
-				DB.close(rs, pstmt);
-				rs = null; pstmt = null;
-			}
-
-			if (retValue != null)
-			{
-				s_cache.put (retValue.getAD_Table_ID(), retValue);
-				// metas
-				if (s_cacheTableName2Id != null)
-				{
-					s_cacheTableName2Id.put(retValue.getTableName(), retValue.getAD_Table_ID());
-				}
-			}
+		Integer key = new Integer (AD_Table_ID);
+		MTable retValue = s_cache.get (key);
+		if (retValue != null && retValue.getCtx() == ctx) {
 			return retValue;
 		}
+		retValue = new MTable (ctx, AD_Table_ID, null);
+		if (retValue.get_ID () != 0) {
+			s_cache.put (key, retValue);
+		}
+		return retValue;
 	}	//	get
 
 	/**
@@ -138,58 +93,54 @@ public class MTable extends X_AD_Table
 	public static MTable get (Properties ctx, String tableName)
 	{
 		if (tableName == null)
-		{
 			return null;
+		Iterator<MTable> it = s_cache.values().iterator();
+		while (it.hasNext())
+		{
+			MTable retValue = it.next();
+			if (tableName.equalsIgnoreCase(retValue.getTableName()) 
+					&& retValue.getCtx() == ctx 
+				) 
+			{
+				return retValue;
+		}
+		}
+		//
+		MTable retValue = null;
+		String sql = "SELECT * FROM AD_Table WHERE UPPER(TableName)=?";
+		PreparedStatement pstmt = null;
+		try
+		{
+			pstmt = DB.prepareStatement (sql, null);
+			pstmt.setString(1, tableName.toUpperCase());
+			ResultSet rs = pstmt.executeQuery ();
+			if (rs.next ())
+				retValue = new MTable (ctx, rs, null);
+			rs.close ();
+			pstmt.close ();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			s_log.log(Level.SEVERE, sql, e);
+		}
+		try
+		{
+			if (pstmt != null)
+				pstmt.close ();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			pstmt = null;
 		}
 		
-		synchronized (s_cache)
+		if (retValue != null)
 		{
-			final Iterator<MTable> it = s_cache.values().iterator();
-			while (it.hasNext())
-			{
-				final MTable retValue = it.next();
-				if (tableName.equalsIgnoreCase(retValue.getTableName()) 
-						&& retValue.getCtx() == ctx) 
-				{
-					return retValue;
-				}
-			}
-			//
-			MTable retValue = null;
-			String sql = "SELECT * FROM AD_Table WHERE UPPER(TableName)=?";
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			try
-			{
-				pstmt = DB.prepareStatement (sql, null);
-				pstmt.setString(1, tableName.toUpperCase());
-				rs = pstmt.executeQuery ();
-				if (rs.next ())
-				{
-					retValue = new MTable (ctx, rs, null);
-				}
-			}
-			catch (Exception e)
-			{
-				s_log.log(Level.SEVERE, sql, e);
-			}
-			finally
-			{
-				DB.close(rs, pstmt);
-				rs = null; pstmt = null;
-			}
-
-			if (retValue != null)
-			{
-				s_cache.put (retValue.getAD_Table_ID(), retValue);
-				// metas
-				if (s_cacheTableName2Id != null)
-				{
-					s_cacheTableName2Id.put(retValue.getTableName(), retValue.getAD_Table_ID());
-				}
-			}
-			return retValue;
+			Integer key = new Integer (retValue.getAD_Table_ID());
+			s_cache.put (key, retValue);
 		}
+		return retValue;
 	}	//	get
 	
 	/**
@@ -200,18 +151,6 @@ public class MTable extends X_AD_Table
 	 */
 	public static String getTableName (Properties ctx, int AD_Table_ID)
 	{
-		if (org.compiere.Adempiere.isUnitTestMode())
-		{
-			for (final Map.Entry<String, Integer> e : staticTableIds.entrySet())
-			{
-				if (e.getValue() == AD_Table_ID)
-				{
-					return e.getKey();
-				}
-			}
-			throw new AdempiereException("No TableName found for AD_Table_ID="+AD_Table_ID);
-		}
-
 		return MTable.get(ctx, AD_Table_ID).getTableName();
 	}	//	getTableName
 	
@@ -865,69 +804,24 @@ public class MTable extends X_AD_Table
 	 *	@return int retValue
 	 */
 	public static int getTable_ID(String tableName) {
-		
-		// metas-ts: adding a unit testing mode, where a table id is returned without DB access. 
-		// Note: this method is called from every model interface generated by the model generator class.
-		if (org.compiere.Adempiere.isUnitTestMode())
-		{
-			if (staticTableIds.containsKey(tableName))
-			{
-				return staticTableIds.get(tableName);
-			}
-			final int returnValue = ++nextTableId;
-			setStaticTableId(tableName, returnValue);
-			return returnValue;
-		}
-		//metas end
-		
-		Integer retValue = 0;
-		if (s_cacheTableName2Id != null)
-		{
-			// Can happen to have s_cacheTableName2Id null when for example we load I_AD_Table interface
-			retValue = s_cacheTableName2Id.get(tableName);
-		}
-		if (retValue != null && retValue > 0)
-		{
-			return retValue;
-		}
-		
+		int retValue = 0;
 		String SQL = "SELECT AD_Table_ID FROM AD_Table WHERE tablename = ?";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		try
 		{
-			pstmt = DB.prepareStatement(SQL, null);
+			PreparedStatement pstmt = DB.prepareStatement(SQL, null);
 			pstmt.setString(1, tableName);
-			rs = pstmt.executeQuery();
+			ResultSet rs = pstmt.executeQuery();
 			if (rs.next())
-			{
 				retValue = rs.getInt(1);
-			}
+			rs.close();
+			pstmt.close();
 		}
 		catch (Exception e)
 		{
 			s_log.log(Level.SEVERE, SQL, e);
 			retValue = -1;
 		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null;
-			pstmt = null;
-		}
-		
-		if (retValue != null && retValue > 0)
-		{
-			if (s_cacheTableName2Id != null)
-			{
-				s_cacheTableName2Id.put(tableName, retValue);
-			}
-			return retValue;
-		}
-		else
-		{
-			return -1;
-		}
+		return retValue;
 	}
 	
 	/**
@@ -1004,17 +898,5 @@ public class MTable extends X_AD_Table
 		sb.append (get_ID()).append ("-").append (getTableName()).append ("]");
 		return sb.toString ();
 	}	//	toString
-	
-	//
-	//metas-ts
-	private static final Map<String, Integer> staticTableIds = new HashMap<String, Integer>();
-	private static int nextTableId = 0;
-	private static final CCache<String, Integer> s_cacheTableName2Id = new CCache<String, Integer>(Table_Name + "#TableName2ID", 200, 0); // metas
-
-	public static void setStaticTableId(final String name, final int id)
-	{
-		staticTableIds.put(name, id);
-	}
-	//metas end
 	
 }	//	MTable
