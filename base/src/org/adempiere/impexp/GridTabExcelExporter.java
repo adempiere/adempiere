@@ -91,7 +91,7 @@ public class GridTabExcelExporter extends AbstractExcelExporter
 	{
 		GridField f = m_tab.getField(col);
 		// Hide not displayed fields
-		if (!f.isDisplayed())
+		if (!(f.isDisplayed() && f.isDisplayedGrid()) )
 			return false;
 		// Hide encrypted fields
 		if (f.isEncrypted())

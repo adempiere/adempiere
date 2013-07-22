@@ -567,7 +567,7 @@ public class GridController extends CPanel
 			tc.setMinWidth(30);
 
 			// FR 3051618 - Hide in list view
-			if (mField.isHideInListView()) {
+			if (!mField.isDisplayedGrid()) {
 				vTable.setColumnVisibility(tc, false);
 			}
 			
@@ -583,6 +583,7 @@ public class GridController extends CPanel
 					tc.setMinWidth (0);
 					tc.setMaxWidth (0);
 					tc.setPreferredWidth (0);
+					table.setColumnVisibility(tc, false);
 				}
 				else if (mField.getDisplayType () == DisplayType.RowID)
 				{
@@ -594,7 +595,7 @@ public class GridController extends CPanel
 				else
 				{
 					//  need to set CellEditor explicitly as default editor based on class causes problem (YesNo-> Boolean)
-					if (mField.isDisplayed ())
+					if (mField.isDisplayed() && mField.isDisplayedGrid () )
 					{
 						tc.setCellRenderer (new VCellRenderer (mField));
 						VCellEditor ce = new VCellEditor (mField);
@@ -618,6 +619,7 @@ public class GridController extends CPanel
 						tc.setMinWidth (0);
 						tc.setMaxWidth (0);
 						tc.setPreferredWidth (0);
+						table.setColumnVisibility(tc, false);
 					}
 				}
 
