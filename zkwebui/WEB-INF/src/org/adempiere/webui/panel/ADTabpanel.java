@@ -51,6 +51,7 @@ import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.util.GridTabDataBinder;
 import org.adempiere.webui.window.FDialog;
+import org.adempiere.webui.window.WAlertDialog;
 import org.compiere.grid.ed.VChart;
 import org.adempiere.webui.window.WTextEditorDialog;
 import org.compiere.apps.AEnv;
