@@ -684,7 +684,7 @@ public class DocLine
 	 */
 	public int setPP_Cost_Collector_ID(int PP_Cost_Collector_ID)
 	{
-		return m_PP_Cost_Collector_ID;
+		return m_PP_Cost_Collector_ID =  PP_Cost_Collector_ID;
 	}	//	getC_LocFrom_ID
 
 	/**

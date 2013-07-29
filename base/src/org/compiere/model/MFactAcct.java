@@ -131,7 +131,7 @@ public class MFactAcct extends X_Fact_Acct
 			getC_Project_ID(), getC_Campaign_ID(), getC_Activity_ID(),
 			getUser1_ID(), getUser2_ID(), getUserElement1_ID(), getUserElement2_ID());
 		if (acct != null && acct.get_ID() == 0)
-			acct.save();
+			acct.saveEx();
 		return acct;
 	}	//	getMAccount
 

@@ -219,7 +219,7 @@ public class ImportFAJournal2 extends SvrProcess
  		  	  	FAInsert.setIsDepreciated ( rs.getString("ISDEPRECIATED"));
 
  		  	  	v_ID_START = v_ID_START+10;
- 		  	  	FAInsert.save();
+ 		  	  	FAInsert.saveEx();
 
  		  	  	String sql4 = "UPDATE A_DEPRECIATION_EXP SET PROCESSED = 'Y' "
 			  		+ " WHERE A_DEPRECIATION_EXP_ID = " + rs.getInt("A_DEPRECIATION_EXP_ID");
@@ -818,12 +818,12 @@ public class ImportFAJournal2 extends SvrProcess
 						imp.getUser1_ID(), imp.getUser2_ID(),imp.getUserElement1_ID(),imp.getUserElement2_ID());					
 					    //imp.getUser1_ID(), imp.getUser2_ID());
 					if (acct != null && acct.get_ID() == 0)
-						acct.save();
+						acct.saveEx();
 					if (acct == null || acct.get_ID() == 0)
 					{
 						imp.setI_ErrorMsg("ERROR creating Account");
 						imp.setI_IsImported(false);
-						imp.save();
+						imp.saveEx();
 						continue;
 					}
 					else

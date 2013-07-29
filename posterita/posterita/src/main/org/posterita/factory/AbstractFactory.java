@@ -123,7 +123,7 @@ public abstract class AbstractFactory
         
     	if (idStr == null)
     	{
-    	    po.save();  // UDIPO
+    	    po.saveEx();  // UDIPO
     	    pm.put(ctx, key, ""+po.get_ID());
     	}
     	else
@@ -142,7 +142,7 @@ public abstract class AbstractFactory
                 args = new Object[]{ctx,Integer.valueOf(idStr),null};
                 loadedPO = (PO) constructor.newInstance(args);
                 setFields(ctx, po, loadedPO);
-                loadedPO.save();
+                loadedPO.saveEx();
             } 
             catch (ClassNotFoundException e) 
             {
@@ -176,7 +176,7 @@ public abstract class AbstractFactory
              
             if (loadedPO == null || loadedPO.get_ID() == 0)
             {
-                po.save();
+                po.saveEx();
                 pm.put(ctx, key, ""+po.get_ID());
             }
             else

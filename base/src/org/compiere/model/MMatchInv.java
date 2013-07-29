@@ -322,7 +322,7 @@ public class MMatchInv extends X_M_MatchInv
 				else
 				{
 					mPO[i].setC_InvoiceLine_ID(null);
-					mPO[i].save();
+					mPO[i].saveEx();
 				}
 			}
 		}

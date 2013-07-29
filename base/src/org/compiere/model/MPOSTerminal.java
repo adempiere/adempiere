@@ -107,7 +107,7 @@ public class MPOSTerminal extends X_U_POSTerminal
                     terminal.setLocked(false);
                 }
             }
-            terminal.save();
+            terminal.saveEx();
         }
     }
 

@@ -179,7 +179,7 @@ public class RequestInvoice extends SvrProcess
 			else
 			{
 				m_invoice.processIt(MInvoice.ACTION_Prepare);
-				m_invoice.save();
+				m_invoice.saveEx();
 				addLog(0, null, m_invoice.getGrandTotal(), m_invoice.getDocumentNo());
 			}
 		}
@@ -198,7 +198,7 @@ public class RequestInvoice extends SvrProcess
 		MBPartner partner = new MBPartner (getCtx(), request.getC_BPartner_ID(), null);
 		m_invoice.setBPartner(partner);
 		
-		m_invoice.save();
+		m_invoice.saveEx();
 		m_linecount = 0;
 	}	//	invoiceNew
 	
@@ -229,9 +229,9 @@ public class RequestInvoice extends SvrProcess
 			il.setM_Product_ID(M_Product_ID);
 			//
 			il.setPrice();
-			il.save();
+			il.saveEx();
 			// updates[i].setC_InvoiceLine_ID(il.getC_InvoiceLine_ID());
-			// updates[i].save();
+			// updates[i].saveEx();
 		}
 	}	//	invoiceLine
 	

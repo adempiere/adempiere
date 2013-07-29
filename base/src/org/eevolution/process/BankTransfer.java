@@ -158,7 +158,7 @@ public class BankTransfer extends SvrProcess
 		paymentBankFrom.setOverUnderAmt(Env.ZERO);
 		paymentBankFrom.setC_DocType_ID(false);
 		paymentBankFrom.setC_Charge_ID(p_C_Charge_ID);
-		paymentBankFrom.save();
+		paymentBankFrom.saveEx();
 		paymentBankFrom.processIt(MPayment.DOCACTION_Complete);
 		paymentBankFrom.saveEx();
 		
@@ -177,7 +177,7 @@ public class BankTransfer extends SvrProcess
 		paymentBankTo.setOverUnderAmt(Env.ZERO);
 		paymentBankTo.setC_DocType_ID(true);
 		paymentBankTo.setC_Charge_ID(p_C_Charge_ID);
-		paymentBankTo.save();
+		paymentBankTo.saveEx();
 		paymentBankTo.processIt(MPayment.DOCACTION_Complete);
 		paymentBankTo.saveEx();
 		m_created++;

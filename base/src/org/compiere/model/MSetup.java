@@ -337,10 +337,10 @@ public final class MSetup
 
 		//	Processors
 		MAcctProcessor ap = new MAcctProcessor(m_client, AD_User_ID);
-		ap.save();
+		ap.saveEx();
 		
 		MRequestProcessor rp = new MRequestProcessor (m_client, AD_User_ID);
-		rp.save();
+		rp.saveEx();
 		
 		log.info("fini");
 		return true;
@@ -1007,7 +1007,7 @@ public final class MSetup
 			log.log(Level.SEVERE, "BPartner NOT inserted");
 		//  Location for Standard BP
 		MLocation bpLoc = new MLocation(m_ctx, C_Country_ID, C_Region_ID, City, m_trx.getTrxName());
-		bpLoc.save();
+		bpLoc.saveEx();
 		MBPartnerLocation bpl = new MBPartnerLocation(bp);
 		bpl.setC_Location_ID(bpLoc.getC_Location_ID());
 		if (!bpl.save())
@@ -1096,7 +1096,7 @@ public final class MSetup
 		MLocation loc = new MLocation(m_ctx, C_Country_ID, C_Region_ID, City, m_trx.getTrxName());
 		loc.setAddress1(address1);
 		loc.setPostal(postal);
-		loc.save();
+		loc.saveEx();
 		sqlCmd = new StringBuffer ("UPDATE AD_OrgInfo SET C_Location_ID=");
 		sqlCmd.append(loc.getC_Location_ID()).append(" WHERE AD_Org_ID=").append(getAD_Org_ID());
 		no = DB.executeUpdate(sqlCmd.toString(), m_trx.getTrxName());
@@ -1178,7 +1178,7 @@ public final class MSetup
 			log.log(Level.SEVERE, "SalesRep (User) NOT inserted");
 		//  Location for Client-User
 		MLocation bpLocCU = new MLocation(m_ctx, C_Country_ID, C_Region_ID, City, m_trx.getTrxName());
-		bpLocCU.save();
+		bpLocCU.saveEx();
 		MBPartnerLocation bplCU = new MBPartnerLocation(bpCU);
 		bplCU.setC_Location_ID(bpLocCU.getC_Location_ID());
 		if (!bplCU.save())
@@ -1204,7 +1204,7 @@ public final class MSetup
 			log.log(Level.SEVERE, "SalesRep (Admin) NOT inserted");
 		//  Location for Client-Admin
 		MLocation bpLocCA = new MLocation(m_ctx, C_Country_ID, C_Region_ID, City, m_trx.getTrxName());
-		bpLocCA.save();
+		bpLocCA.saveEx();
 		MBPartnerLocation bplCA = new MBPartnerLocation(bpCA);
 		bplCA.setC_Location_ID(bpLocCA.getC_Location_ID());
 		if (!bplCA.save())

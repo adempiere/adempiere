@@ -34,6 +34,10 @@ import org.compiere.util.CLogger;
  * 			<li>BF [ 1964496 ] AccessSqlParser is not parsing well JOIN CLAUSE
  * 			<li>BF [ 2840157 ] AccessSqlParser is not parsing well ON keyword
  * 				https://sourceforge.net/tracker/?func=detail&aid=2840157&group_id=176962&atid=879332
+ * 
+ * @author Michael McKay
+ * 			<li>ADEMPIERE-70 AccessSqlParser confused by subordinate Select statements in From 
+ * 				when using joins to other tables.  https://adempiere.atlassian.net/browse/ADEMPIERE-70 
  */
 public class AccessSqlParser
 {
@@ -240,7 +244,9 @@ public class AccessSqlParser
 			index = from.indexOf(ON);
 			while (index != -1)
 			{
-				int indexClose = from.indexOf(')');		//	does not catch "IN (1,2)" in ON
+				//  ADEMPIERE-70: FROM clause can have subordinate queries in the form (##) so 
+				//  start the search from the index, not the beginning
+				int indexClose = from.indexOf(')', index+4);		//	does not catch "IN (1,2)" in ON
 				int indexNextOn = from.indexOf(ON, index+4);
 				if (indexNextOn != -1)
 					indexClose = from.lastIndexOf(')', indexNextOn);

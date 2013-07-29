@@ -142,7 +142,7 @@ public class ReplicationRemote extends SvrProcess
 		m_system.setIDRangeStart(IDRangeStart);
 		m_system.setIDRangeEnd(IDRangeEnd);
 		m_system.setReplicationType(MSystem.REPLICATIONTYPE_Merge);
-		m_system.save();
+		m_system.saveEx();
 	}	//	setupRemoteAD_System
 
 	/**

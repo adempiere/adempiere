@@ -222,7 +222,7 @@ public class MContactInterest extends X_R_ContactInterest
 		int AD_User_ID = 1000002;
 		MContactInterest ci = MContactInterest.get(Env.getCtx(), R_InterestArea_ID, AD_User_ID, false, null);
 		ci.subscribe();
-		ci.save();
+		ci.saveEx();
 		//
 		ci = MContactInterest.get(Env.getCtx(), R_InterestArea_ID, AD_User_ID, false, null);
 	}	//	main

@@ -76,12 +76,12 @@ public class MAssetAddition extends X_A_Asset_Addition
 			assetwk.setPostingType("A");
             assetwk.setA_QTY_Current(getA_QTY_Current());            
             assetwk.setA_Asset_Cost(getAssetValueAmt());            
-            assetwk.save();
+            assetwk.saveEx();
             
             MAsset asset = new MAsset (getCtx(), p_A_Asset_ID, null);
             asset.setA_QTY_Original(getA_QTY_Current().add(asset.getA_QTY_Original()));
             asset.setA_QTY_Current(getA_QTY_Current().add(asset.getA_QTY_Current()));
-            asset.save();
+            asset.saveEx();
             
             MAssetChange change = new MAssetChange (getCtx(), 0,null);
             change.setA_Asset_ID(p_A_Asset_ID);            
@@ -91,7 +91,7 @@ public class MAssetAddition extends X_A_Asset_Addition
             change.setPostingType("A");
             change.setAssetValueAmt(getAssetValueAmt());
             change.setA_QTY_Current(getA_QTY_Current());            
-            change.save();
+            change.saveEx();
             
             
         }
@@ -110,7 +110,7 @@ public class MAssetAddition extends X_A_Asset_Addition
 				X_A_Depreciation_Workfile assetwk = new X_A_Depreciation_Workfile (getCtx(), rs, null);
 				assetwk.setA_Asset_Cost(getAssetValueAmt().add(assetwk.getA_Asset_Cost()));
 				assetwk.setA_QTY_Current(getA_QTY_Current().add(assetwk.getA_QTY_Current()));				
-				assetwk.save();
+				assetwk.saveEx();
 				
 				MAssetChange change = new MAssetChange (getCtx(), 0, null);
 	            change.setA_Asset_ID(p_A_Asset_ID);            
@@ -120,13 +120,13 @@ public class MAssetAddition extends X_A_Asset_Addition
 	            change.setPostingType(rs.getString("PostingType"));
 	            change.setAssetValueAmt(getAssetValueAmt());
 	            change.setA_QTY_Current(getA_QTY_Current());	            
-	            change.save();
+	            change.saveEx();
 	            
 	            MAsset asset = new MAsset (getCtx(), p_A_Asset_ID, null);
 	            asset.setA_QTY_Original(getA_QTY_Current().add(asset.getA_QTY_Original()));
 	            asset.setA_QTY_Current(getA_QTY_Current().add(asset.getA_QTY_Current()));
 	            asset.setProcessing(false);
-	            asset.save();
+	            asset.saveEx();
 			}
 			rs.close();
 			pstmt.close();

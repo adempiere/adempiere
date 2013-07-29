@@ -245,15 +245,15 @@ public class CommissionCalc extends SvrProcess
 			//
 			createDetail(sql.toString(), comAmt);
 			comAmt.calculateCommission();
-			comAmt.save();
+			comAmt.saveEx();
 		}	//	for all commission lines
 		
 	//	comRun.updateFromAmt();
-	//	comRun.save();
+	//	comRun.saveEx();
 		
 		//	Save Last Run
 		m_com.setDateLastRun (p_StartDate);
-		m_com.save();
+		m_com.saveEx();
 		
 		return "@C_CommissionRun_ID@ = " + comRun.getDocumentNo() 
 			+ " - " + comRun.getDescription();

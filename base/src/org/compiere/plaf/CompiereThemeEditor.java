@@ -306,7 +306,7 @@ public class CompiereThemeEditor extends CDialog
 		//  Confirm
 		if (e.getSource() == bOK)
 		{
-			//CompiereTheme.save();
+			//CompiereTheme.saveEx();
 			dispose();
 			return;
 		}

@@ -237,7 +237,7 @@ public class WorkflowServlet extends HttpServlet
 					{
 						act.setUserChoice(wu.getAD_User_ID(), isApproved ? "Y" : "N", 
 							DisplayType.YesNo, textMsg);
-						act.save();
+						act.saveEx();
 					}
 					catch (Exception e)
 					{
@@ -246,12 +246,12 @@ public class WorkflowServlet extends HttpServlet
 				else if (act.isUserManual() && isConfirmed)
 				{
 					act.setUserConfirmation(wu.getAD_User_ID(), textMsg);
-					act.save();
+					act.saveEx();
 				}
 				else if (textMsg != null && textMsg.length() > 0)
 				{
 					act.setTextMsg (textMsg);
-					act.save();
+					act.saveEx();
 				}
 			}
 		}
