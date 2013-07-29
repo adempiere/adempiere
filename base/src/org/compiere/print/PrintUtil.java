@@ -467,23 +467,19 @@ public class PrintUtil
 		//
 		//	Order Template
 		int Order_PrintFormat_ID = MPrintFormat.copyToClient(ctx, 100, AD_Client_ID).get_ID();
-		int OrderLine_PrintFormat_ID = MPrintFormat.copyToClient(ctx, 101, AD_Client_ID).get_ID();
-		updatePrintFormatHeader(Order_PrintFormat_ID, OrderLine_PrintFormat_ID);
+		
 		//	Invoice
 		int Invoice_PrintFormat_ID = MPrintFormat.copyToClient(ctx, 102, AD_Client_ID).get_ID();
-		int InvoiceLine_PrintFormat_ID = MPrintFormat.copyToClient(ctx, 103, AD_Client_ID).get_ID();
-		updatePrintFormatHeader(Invoice_PrintFormat_ID, InvoiceLine_PrintFormat_ID);
+		
 		//	Shipment
 		int Shipment_PrintFormat_ID = MPrintFormat.copyToClient(ctx, 104, AD_Client_ID).get_ID();
-		int ShipmentLine_PrintFormat_ID = MPrintFormat.copyToClient(ctx, 105, AD_Client_ID).get_ID();
-		updatePrintFormatHeader(Shipment_PrintFormat_ID, ShipmentLine_PrintFormat_ID);
+		
 		//	Check
 		int Check_PrintFormat_ID = MPrintFormat.copyToClient(ctx, 106, AD_Client_ID).get_ID();
-		int RemittanceLine_PrintFormat_ID = MPrintFormat.copyToClient(ctx, 107, AD_Client_ID).get_ID();
-		updatePrintFormatHeader(Check_PrintFormat_ID, RemittanceLine_PrintFormat_ID);
+		
 		//	Remittance
 		int Remittance_PrintFormat_ID = MPrintFormat.copyToClient(ctx, 108, AD_Client_ID).get_ID();
-		updatePrintFormatHeader(Remittance_PrintFormat_ID, RemittanceLine_PrintFormat_ID);
+	
 
 	//	TODO: MPrintForm	
 	//	MPrintForm form = new MPrintForm(); 
@@ -502,21 +498,7 @@ public class PrintUtil
 		CLogMgt.enable(true);
 	}	//	createDocuments
 
-	/**
-	 * 	Update the PrintFormat Header lines with Reference to Child Print Format.
-	 * 	@param Header_ID AD_PrintFormat_ID for Header
-	 * 	@param Line_ID AD_PrintFormat_ID for Line
-	 */
-	static private void updatePrintFormatHeader (int Header_ID, int Line_ID)
-	{
-		StringBuffer sb = new StringBuffer();
-		sb.append("UPDATE AD_PrintFormatItem SET AD_PrintFormatChild_ID=")
-			.append(Line_ID)
-			.append(" WHERE AD_PrintFormatChild_ID IS NOT NULL AND AD_PrintFormat_ID=")
-			.append(Header_ID);
-		int no = DB.executeUpdate(sb.toString(), null);
-	}	//	updatePrintFormatHeader
-
+	
 	/*************************************************************************/
 
 	/**
