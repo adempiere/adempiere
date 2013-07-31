@@ -180,7 +180,7 @@ public class MPaymentTerm extends X_C_PaymentTerm
 		}
 		if (valid)
 			return validMsg;
-		return "@Total@ = " + total + " - @Difference@ = " + HUNDRED.subtract(total); 
+		String msg = "@Total@ = " + total + " - @Difference@ = " + HUNDRED.subtract(total); 
 		return Msg.parseTranslation(getCtx(), msg);
 	}	//	validate
 
