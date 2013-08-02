@@ -350,7 +350,7 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 		int colIndex = -1;
 		int compCount = 0;
 		for (int i = 0; i < columnCount; i++) {
-			if (!(gridField[i].isDisplayed() && gridField[i].isDisplayedGrid()) ) {
+			if (!(gridField[i].isDisplayed() || gridField[i].isDisplayedGrid()) ) {
 				continue;
 			}
 			colIndex ++;
