@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="org/eevolution/plugin/" kind="src" path="extension/eevolution/libero/src/main/java"/>
-	<classpathentry kind="src" path="extension/eevolution/libero/src/test/java"/>
-	<classpathentry kind="src" output="WEB-INF/classes" path="zkwebui/WEB-INF/src"/>
 	<classpathentry kind="src" path="org.eevolution.manufacturing/src/main/java/base"/>
 	<classpathentry kind="src" path="org.eevolution.manufacturing/src/main/java/ui/swing"/>
 	<classpathentry kind="src" path="org.eevolution.manufacturing/src/main/java/ui/zk"/>
