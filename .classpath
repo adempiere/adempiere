@@ -5,6 +5,6 @@
 	<classpathentry kind="src" path="org.eevolution.manufacturing/src/main/java/ui/zk"/>
 	<classpathentry kind="src" path="org.eevolution.manufacturing/src/main/java/test"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/adempiere"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/adempiereDevelop"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

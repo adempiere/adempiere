@@ -39,7 +39,7 @@ import org.eevolution.model.X_T_MRP_CRP;
 /**
  *	Re-Open Order Process (from Closed to Completed)
  *	
- *  @author Victor P�rez, e-Evolution, S.C.
+ *  @author victor.perez@e-evolution.com, e-Evolution, S.C.
  *  @version $Id: CreateCost.java,v 1.1 2004/06/22 05:24:03 vpj-cd Exp $
  */
 public class CRPSummary extends SvrProcess
