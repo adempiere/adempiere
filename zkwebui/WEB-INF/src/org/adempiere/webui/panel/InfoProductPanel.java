@@ -47,8 +47,6 @@ import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Checkbox;
 import org.adempiere.webui.component.Combobox;
 import org.adempiere.webui.component.ConfirmPanel;
-import org.adempiere.webui.component.Grid;
-import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.ListModelTable;
 import org.adempiere.webui.component.ListboxFactory;
@@ -64,16 +62,19 @@ import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.editor.WPAttributeEditor;
 import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.editor.WTableDirEditor;
-import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
-import org.adempiere.webui.session.SessionManager;
 import org.compiere.apps.search.Info_Column;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
+import org.compiere.model.MAttributeSet;
+import org.compiere.model.MColumn;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MPAttributeLookup;
+import org.compiere.model.MPriceListVersion;
 import org.compiere.model.MProduct;
+import org.compiere.model.MProductCategory;
 import org.compiere.model.MQuery;
+import org.compiere.model.MWarehouse;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
@@ -86,8 +87,6 @@ import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
-import org.zkoss.zkex.zul.West;
 
 /**
  * Search Product and return selection
@@ -97,6 +96,9 @@ import org.zkoss.zkex.zul.West;
  * Zk Port
  * @author Elaine
  * @version	InfoPayment.java Adempiere Swing UI 3.4.1
+ * 
+ * @author Michael McKay, ADEMPIERE-72 VLookup and Info Window improvements
+ * 	<li>https://adempiere.atlassian.net/browse/ADEMPIERE-72
  */
 public class InfoProductPanel extends InfoPanel implements EventListener, ValueChangeListener
 {
@@ -105,8 +107,6 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 	 */
 	private static final long serialVersionUID = 6804975825156657866L;
 	private int fieldID = 0;
-	private Button bReset;
-	private Label lblReset = new Label();
 	private Label lblBlank = new Label();
 	private Label lblValue = new Label();
 	private Textbox fieldValue = new Textbox();
@@ -135,16 +135,17 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 	private Checkbox checkShowDetail;
 
 	// Elaine 2008/11/25
-	private Borderlayout dataSubPanel = new Borderlayout();
-	private Borderlayout criteriaSubPanel = new Borderlayout();
 	private Textbox fieldDescription = new Textbox();
-	private Tabbox warehouseStockTabBox = new Tabbox();
+	private Textbox fieldPAttributes = new Textbox();
+	private Tabbox detailTabBox = new Tabbox();
 	private WListbox warehouseTbl = ListboxFactory.newDataTable();
 	private String m_sqlWarehouse;
 	private WListbox substituteTbl = ListboxFactory.newDataTable();
 	private String m_sqlSubstitute;
 	private WListbox relatedTbl = ListboxFactory.newDataTable();
 	private String m_sqlRelated;
+	private WListbox vendorTbl = ListboxFactory.newDataTable();
+	private String m_sqlVendor;
     //Available to Promise Tab
     private Info_Column[]		m_layoutATP = null;
 	private WListbox 			m_tableAtp = null;
@@ -161,7 +162,7 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 	private Button	m_PAttributeButton = null;
 
 	/**  Array of Column Info    */
-	private static Info_Column[] s_productLayout = null;
+	private static Info_Column[] s_Layout = null;
 	private static int INDEX_PATTRIBUTE = 0;
 
 
@@ -187,7 +188,7 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 		int M_Warehouse_ID, int M_PriceList_ID, int record_id, String value,
 		boolean multipleSelection, String whereClause)
 	{
-		this(windowNo, M_Warehouse_ID, M_PriceList_ID, record_id, value, multipleSelection, true, whereClause, true);
+		this(windowNo, true, M_Warehouse_ID, M_PriceList_ID, record_id, value, multipleSelection, true, whereClause);
 	}
 
 	/**
@@ -200,32 +201,36 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 	 * 	@param multiSelection multiple selections
 	 *  @param saveResults  True if results will be saved, false for info only
 	 * 	@param whereClause where clause
-	 *  @param lookup True if the column has a lookup
+	 *  @param modal True if the column has a lookup - open modal
 	 */
-	public InfoProductPanel(int windowNo,
+	public InfoProductPanel(int windowNo, boolean modal,
 		int M_Warehouse_ID, int M_PriceList_ID, int record_id, String value,
-		boolean multipleSelection, boolean saveResults, String whereClause, boolean lookup)
+		boolean multipleSelection, boolean saveResults, String whereClause)
 	{
-		super (windowNo, "p", "M_Product_ID",multipleSelection, saveResults, whereClause, lookup);
+		super (windowNo, modal, "p", "M_Product_ID",multipleSelection, saveResults, whereClause);
 		log.info(value + ", Wh=" + M_Warehouse_ID + ", PL=" + M_PriceList_ID + ", WHERE=" + whereClause);
 		setTitle(Msg.getMsg(Env.getCtx(), "InfoProduct"));
 		m_M_Warehouse_ID = M_Warehouse_ID;
 		m_M_PriceList_ID = M_PriceList_ID;
 		//
-		initComponents();
-		init();
+		//	Modify where clause to fit with column info definitions
+		StringBuffer where = new StringBuffer();
+		where.append("p.IsActive='Y'");
+		//  Modify Where Clause
+		if (whereClause != null && whereClause.length() > 0)
+			where.append(" AND ")   //  replace fully qualified name with alias
+				.append(Util.replace(whereClause, "M_Product.", "p."));
+		setWhereClause(where.toString());
+		//
+		statInit();
 		initInfo (record_id, value, M_Warehouse_ID, M_PriceList_ID, false);
-		p_loadedOK = true;
-
-        int no = contentPanel.getRowCount();
-        setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
-        setStatusDB(Integer.toString(no));
 
         if(autoQuery() || record_id != 0 || (value != null && value.length() > 0 && value != "%"))
         {
         	prepareAndExecuteQuery();
     	}
-        renderItems();
+        
+		p_loadedOK = true;
 		
 	}	//	InfoProductPanel
 
@@ -234,11 +239,6 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 	 */
 	private void initComponents()
 	{
-		// Reset button
-		bReset = confirmPanel.createButton(ConfirmPanel.A_RESET);
-		bReset.addActionListener(this);
-		lblReset = new Label();
-		lblReset.setValue(Util.cleanAmp(Msg.translate(Env.getCtx(), "Reset")));
 		
 		lblBlank.setValue(" ");
 		lblValue = new Label();
@@ -313,8 +313,15 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 		fieldSKU.setAttribute("zk_component_ID", "Lookup_Criteria_fieldSKU");
 		fieldSKU.addEventListener(Events.ON_CHANGE, this);
 		//
+        // Elaine 2008/11/25
+        fieldDescription.setMultiline(true);
+		fieldDescription.setReadonly(true);
+		fieldDescription.setAttribute("zk_component_ID", "Lookup_Field_Description");
+		//
 		fPriceList_ID = new WTableDirEditor("M_PriceList_Version_ID", false, false, true,
-				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 2987, DisplayType.TableDir));
+				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 
+						MColumn.getColumn_ID(MPriceListVersion.Table_Name, MPriceListVersion.COLUMNNAME_M_PriceList_Version_ID),
+				DisplayType.TableDir));
 		fPriceList_ID.getComponent().addEventListener(Events.ON_CHANGE, this);
 		fPriceList_ID.getComponent().setAttribute("zk_component_ID", "Lookup_Criteria_M_PriceList_Version_ID");
 		fPriceList_ID.getComponent().setAttribute("zk_component_prefix", "Lookup_");
@@ -323,7 +330,8 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 		
 		// Elaine 2008/11/21
 		fProductCategory_ID = new WTableDirEditor("M_Product_Category_ID", false, false, true,
-				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 2020, DisplayType.TableDir));
+				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 
+						MColumn.getColumn_ID(MProductCategory.Table_Name, MProductCategory.COLUMNNAME_M_Product_Category_ID), DisplayType.TableDir));
 		fProductCategory_ID.getComponent().addEventListener(Events.ON_CHANGE, this);
 		fProductCategory_ID.getComponent().setAttribute("zk_component_ID", "Lookup_Criteria_M_ProductCategory_ID");
 		fProductCategory_ID.getComponent().setAttribute("zk_component_prefix", "Lookup_");
@@ -332,7 +340,9 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 		
 		//
 		fAS_ID = new WTableDirEditor("M_AttributeSet_ID", false, false, true,
-				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 8490, DisplayType.TableDir));
+				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0,  
+						MColumn.getColumn_ID(MAttributeSet.Table_Name, MAttributeSet.COLUMNNAME_M_AttributeSet_ID), 
+				DisplayType.TableDir));
 		fAS_ID.getComponent().addEventListener(Events.ON_CHANGE, this);
 		fAS_ID.getComponent().setAttribute("zk_component_ID", "Lookup_Criteria_M_PAttributeSet_ID");
 		fAS_ID.getComponent().setAttribute("zk_component_prefix", "Lookup_");
@@ -351,7 +361,9 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 		fASI_ID.getComponent().setWidth("200px");
 
 		fWarehouse_ID = new WTableDirEditor("M_Warehouse_ID", false, false, true,
-				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 1151, DisplayType.TableDir));
+				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 
+						MColumn.getColumn_ID(MWarehouse.Table_Name, MWarehouse.COLUMNNAME_M_Warehouse_ID),
+				DisplayType.TableDir));
 		fWarehouse_ID.getComponent().addEventListener(Events.ON_CHANGE, this);
 		fWarehouse_ID.getComponent().setAttribute("zk_component_ID", "Lookup_Criteria_M_Warehouse_ID");
 		fWarehouse_ID.getComponent().setAttribute("zk_component_prefix", "Lookup_");
@@ -360,7 +372,7 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 
 		
 		fVendor_ID.getComponent().getTextbox().setMaxlength(30);
-		//fVendor_ID.getComponent().getTextbox().addEventListener(Events.ON_CHANGE, this);
+		fVendor_ID.setIsSOTrx(true, false); // Override the isSOTrx context, Vendors only
 		fVendor_ID.addValueChangeListener(this);
 		fVendor_ID.getComponent().setAttribute("zk_component_ID", "Lookup_Criteria_C_BPartner_ID");
 		fVendor_ID.getComponent().setAttribute("zk_component_prefix", "Lookup_");
@@ -368,19 +380,27 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 		fVendor_ID.getComponent().setAttribute("fieldName", "fVendor_ID");
 		fVendor_ID.getComponent().setWidth("200px");
 		
-        contentPanel.setVflex(true);
-        
+		// Product Attribute Instance
+		m_PAttributeButton = confirmPanel.createButton(ConfirmPanel.A_PATTRIBUTE);
+		confirmPanel.addComponentsLeft(m_PAttributeButton);
+		m_PAttributeButton.addActionListener(this);
+		m_PAttributeButton.setEnabled(false);
+
+        //
+		fieldPAttributes.setMultiline(true);
+		fieldPAttributes.setReadonly(true);
+		fieldPAttributes.setAttribute("zk_component_ID", "Lookup_Field_PAAttributes");
+
         initAtpTab();
         
 	}	//	initComponents
 
-	private void init()
+	private void statInit()
 	{
+		//  Fill the grid, setup the center data table & add the tabs
+		initComponents();
 		
-    	Grid grid = GridFactory.newGridLayout();
-
 		Rows rows = new Rows();
-		grid.appendChild(rows);
 
 		Row row = new Row();
 		rows.appendChild(row);
@@ -423,20 +443,6 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 		row.appendChild(lblBlank.rightAlign());
 		row.appendChild(checkAND);
 		
-		statusBar.setEastVisibility(false);
-
-		// Product Attribute Instance
-		m_PAttributeButton = confirmPanel.createButton(ConfirmPanel.A_PATTRIBUTE);
-		confirmPanel.addComponentsLeft(m_PAttributeButton);
-		m_PAttributeButton.addActionListener(this);
-		m_PAttributeButton.setEnabled(false);
-
-        // Elaine 2008/11/25
-        fieldDescription.setMultiline(true);
-		fieldDescription.setReadonly(true);
-		fieldDescription.setAttribute("zk_component_ID", "Lookup_Field_Description");
-		
-
 		//
         ColumnInfo[] s_layoutWarehouse = new ColumnInfo[]{
         		new ColumnInfo(" ", "M_Warehouse_ID", IDColumn.class),
@@ -453,16 +459,15 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
         m_sqlWarehouse += " Group By M_Warehouse_ID, Warehouse, documentnote ";
 		warehouseTbl.setMultiSelection(false);
         warehouseTbl.autoSize();
-        warehouseTbl.getModel().addTableModelListener(this);
+        warehouseTbl.setShowTotals(true);
+        //warehouseTbl.getModel().addTableModelListener(this);
         warehouseTbl.setAttribute("zk_component_ID", "Lookup_Data_Warehouse");
 		
 
         ColumnInfo[] s_layoutSubstitute = new ColumnInfo[]{
         		new ColumnInfo(Msg.translate(Env.getCtx(), "Warehouse"), "orgname", String.class),
-        		new ColumnInfo(
-    					Msg.translate(Env.getCtx(), "Value"),
-    					"(Select Value from M_Product p where p.M_Product_ID=M_PRODUCT_SUBSTITUTERELATED_V.Substitute_ID)",
-    					String.class), 
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "Description"), "description", String.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "Value"), "value", String.class),
     			new ColumnInfo(Msg.translate(Env.getCtx(), "Name"), "Name", String.class),
     			new ColumnInfo(Msg.translate(Env.getCtx(), "QtyAvailable"), "QtyAvailable", Double.class),
   	        	new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOnHand"), "QtyOnHand", Double.class),
@@ -478,10 +483,8 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 
         ColumnInfo[] s_layoutRelated = new ColumnInfo[]{
         		new ColumnInfo(Msg.translate(Env.getCtx(), "Warehouse"), "orgname", String.class),
-        		new ColumnInfo(
-    					Msg.translate(Env.getCtx(), "Value"),
-    					"(Select Value from M_Product p where p.M_Product_ID=M_PRODUCT_SUBSTITUTERELATED_V.Substitute_ID)",
-    					String.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "Description"), "description", String.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "Value"), "value", String.class),
     			new ColumnInfo(Msg.translate(Env.getCtx(), "Name"), "Name", String.class),
     			new ColumnInfo(Msg.translate(Env.getCtx(), "QtyAvailable"), "QtyAvailable", Double.class),
   	        	new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOnHand"), "QtyOnHand", Double.class),
@@ -498,13 +501,34 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
         //Available to Promise Tab
         m_tableAtp.setMultiSelection(false);
         m_tableAtp.autoSize();
+        m_tableAtp.setShowTotals(true);
         m_tableAtp.setAttribute("zk_component_ID", "Lookup_Data_ATP");
 
-        warehouseStockTabBox.setHeight("100%");
+        //Vendor tab
+        ColumnInfo[] s_layoutVendor = new ColumnInfo[]{
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "Vendor"), "(SELECT bp.Name FROM C_BPartner bp WHERE bp.C_BPartner_ID = M_PRODUCT_PO.C_BPartner_ID)", String.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "IsCurrentVendor"), "IsCurrentVendor", Boolean.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "C_UOM_ID"), "(SELECT Name FROM C_UOM WHERE C_UOM_ID = M_PRODUCT_PO.C_UOM_ID)", String.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "C_Currency_ID"), "(SELECT iso_code FROM C_Currency WHERE C_Currency_ID = M_PRODUCT_PO.C_Currency_ID)", String.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "PriceList"), "PriceList", BigDecimal.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "PricePO"), "PricePO", BigDecimal.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "VendorProductNo"), "VendorProductNo", String.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "Order_Min"), "Order_Min", Double.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "DeliveryTime_Promised"), "DeliveryTime_Promised", Double.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "DeliveryTime_Actual"), "DeliveryTime_Actual", Double.class)
+    		};
+        s_sqlFrom = "M_PRODUCT_PO";
+        s_sqlWhere = "M_Product_ID = ?";
+        m_sqlVendor = vendorTbl.prepareTable(s_layoutVendor, s_sqlFrom, s_sqlWhere, false, "M_PRODUCT_PO");
+        vendorTbl.setMultiSelection(false);
+        vendorTbl.autoSize();
+        vendorTbl.setAttribute("zk_component_ID", "Lookup_Data_Vendor");
+
+        detailTabBox.setHeight("100%");
         Tabpanels tabPanels = new Tabpanels();
-		warehouseStockTabBox.appendChild(tabPanels);
+		detailTabBox.appendChild(tabPanels);
 		Tabs tabs = new Tabs();
-		warehouseStockTabBox.appendChild(tabs);
+		detailTabBox.appendChild(tabs);
 
 		Tab tab = new Tab(Util.cleanAmp(Msg.translate(Env.getCtx(), "Warehouse")));
 		tab.addEventListener(Events.ON_SELECT, this);
@@ -524,6 +548,16 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 		desktopTabPanel.appendChild(fieldDescription);
 		tabPanels.appendChild(desktopTabPanel);
 
+		tab = new Tab(Msg.translate(Env.getCtx(), "ProductAttribute"));
+		tab.addEventListener(Events.ON_SELECT, this);
+		tabs.appendChild(tab);
+		desktopTabPanel = new Tabpanel();
+		desktopTabPanel.setHeight("100%");
+		fieldPAttributes.setWidth("99%");
+		fieldPAttributes.setHeight("99%");
+		desktopTabPanel.appendChild(fieldPAttributes);
+		tabPanels.appendChild(desktopTabPanel);
+		 
 		tab = new Tab(Msg.translate(Env.getCtx(), "Substitute_ID"));
 		tab.addEventListener(Events.ON_SELECT, this);
 		tabs.appendChild(tab);
@@ -545,112 +579,36 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 		tabs.appendChild(tab);
 		desktopTabPanel = new Tabpanel();
 		desktopTabPanel.setHeight("100%");
-		desktopTabPanel.appendChild(m_tableAtp);
-		
+		desktopTabPanel.appendChild(m_tableAtp);		
 		tabPanels.appendChild(desktopTabPanel);
-		tabs.setAttribute("zk_component_ID", "Warehouse_Tabs");
-		//
-		int height = SessionManager.getAppDesktop().getClientInfo().desktopHeight * 90 / 100;
-		int width = SessionManager.getAppDesktop().getClientInfo().desktopWidth * 80 / 100;
 
-        dataSubPanel.setWidth("100%");
-        dataSubPanel.setHeight("100%");
-        if (isLookup())
-        	dataSubPanel.setStyle("border: none; position: relative");
-        else
-        	dataSubPanel.setStyle("border: none; position: absolute");
-        Center center = new Center();
-        center.setAutoscroll(true);
-        center.setFlex(true);
-		dataSubPanel.appendChild(center);
-		center.appendChild(contentPanel);
-		
-		Borderlayout southSP = new Borderlayout();
-		center = new Center();
+		tab = new Tab(Util.cleanAmp(Msg.translate(Env.getCtx(), "Vendor")));
+		tab.addEventListener(Events.ON_SELECT, this);
+		tabs.appendChild(tab);
+		desktopTabPanel = new Tabpanel();
+		desktopTabPanel.setHeight("100%");
+		desktopTabPanel.appendChild(vendorTbl);
+		tabPanels.appendChild(desktopTabPanel);
+
+		tabs.setAttribute("zk_component_ID", "Subordinate_Tabs");
+
+		//  Add the tabs to the center south layout
+		Borderlayout tabLayout = new Borderlayout();
+		//  
 		North north = new North();
-		center.appendChild(warehouseStockTabBox);
+		tabLayout.appendChild(north);
 		north.appendChild(checkShowDetail);
-		southSP.appendChild(north);
-		southSP.appendChild(center);
-	
-		South south = new South();
-		int detailHeight = (height * 25 / 100);
-		south.setHeight(detailHeight + "px");
-		south.setCollapsible(true);
-		south.setSplittable(true);
-		south.setFlex(true);
-		south.setTitle(Msg.translate(Env.getCtx(), "WarehouseStock"));
-		south.setTooltiptext(Msg.translate(Env.getCtx(), "WarehouseStock"));
-		south.appendChild(southSP);
-		
-		dataSubPanel.appendChild(south);
+		//
+		Center center = new Center();
+		tabLayout.appendChild(center);
+		center.appendChild(detailTabBox);
 
-		West spWest = new West();
-		Center spCenter = new Center();
-		South spSouth = new South();
-
-		criteriaSubPanel.setWidth("");
-		spWest.setBorder("0");
-		spCenter.setBorder("0");
-		spSouth.setBorder("0");
-		criteriaSubPanel.appendChild(spWest);
-		criteriaSubPanel.appendChild(spCenter);
-		criteriaSubPanel.appendChild(spSouth);
-		
-		// spWest - the reset button
-		Grid bGrid = GridFactory.newGridLayout();
-		Rows bRows = new Rows();
-		Row bRow = new Row();
-		bGrid.appendChild(bRows);
-		bRows.appendChild(bRow);
-		bRow.appendChild(bReset);
-		bRow = new Row();
-		bRows.appendChild(bRow);
-		bRow.appendChild(lblReset);
-		spWest.appendChild(bGrid);
-		
-		// The criteria table and status bar
-		spCenter.appendChild(grid);
-		spSouth.appendChild(statusBar);
-		spSouth.setHeight("20px");
-		
-        Borderlayout mainPanel = new Borderlayout();
-        mainPanel.setWidth("100%");
-        mainPanel.setHeight("100%");
-        north = new North();
-        mainPanel.appendChild(north);
-        north.appendChild(criteriaSubPanel);
-        north.setHeight("120px"); // 20px per row in criteria grid plus the status bar.
-        center = new Center();
-        mainPanel.appendChild(center);
-        center.appendChild(dataSubPanel);
-        south = new South();
-        mainPanel.appendChild(south);
-        south.appendChild(confirmPanel);
-        if (!isLookup())
-        {
-        	mainPanel.setStyle("position: absolute");
-        }
-
-		this.appendChild(mainPanel);
-		if (isLookup())
-		{
-			this.setWidth(width + "px");
-			this.setHeight(height + "px");
-		}
-
-		contentPanel.addActionListener(new EventListener() {
-			public void onEvent(Event event) throws Exception {
-		    	int leadRowKey = contentPanel.getLeadRowKey();
-		    	if (m_M_Product_ID != leadRowKey)
-		    	{
-		    		//m_M_Product_ID = leadRowKey;  //  From the main table
-		    		refresh();  		//  Update the warehouseStockPanel with the current selected record
-		    		enableButtons();	//  Set the buttons accordingly
-		    	}
-		    	dataSubPanel.getSouth().setOpen(true);
-			}
-		});
+		//  Set main panel elements.  The other elements are handled by the info.java class
+		p_criteriaGrid.appendChild(rows);
+		p_centerSouth.appendChild(tabLayout);
+		p_centerSouth.setTitle(Msg.translate(Env.getCtx(), "WarehouseStock"));
+		p_centerSouth.setTooltiptext(Msg.translate(Env.getCtx(), "WarehouseStock"));
+		super.setSizes();
 
 		warehouseTbl.addActionListener(new EventListener() {
 			public void onEvent(Event event) throws Exception {
@@ -680,13 +638,6 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 
 	}
 
-	@Override
-	protected void insertPagingComponent() {
-		North north = new North();
-		north.appendChild(paging);
-		dataSubPanel.appendChild(north);
-	}
-
 	/**
 	 * 	Refresh Query
 	 */
@@ -703,24 +654,37 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 	    	String sql;
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
-	    	
+			String eol = System.getProperty("line.separator"); 
+
 			Boolean queryWarehouse = false;
 			int leadRowKey = 0;
 			
-			if (contentPanel != null || contentPanel.getRowCount() > 0)
-				leadRowKey = contentPanel.getLeadRowKey();
+			if (p_table != null || p_table.getRowCount() > 0)
+				leadRowKey = p_table.getLeadRowKey();
 	    	
 			if (m_M_Product_ID != leadRowKey)
 	    	{
 	    		m_M_Product_ID = leadRowKey;  //  From the main table
-				//  Find the ASI used by the product on the lead row
-				MProduct mp = MProduct.get(Env.getCtx(), m_M_Product_ID);
-				m_M_AttributeSetInstance_ID = mp.getM_AttributeSetInstance_ID();				
-
 	    		queryWarehouse = true;  //  The product has changed, change the warehouse table
 	    	}
 
-			if (warehouseStockTabBox.getSelectedIndex() == 0 || warehouseStockTabBox.getSelectedIndex() == 4)
+			if(m_M_Product_ID <= 0) 
+			{
+				p_centerLayout.getSouth().setOpen(false);
+				return;
+			}
+			else
+			{
+				p_centerLayout.getSouth().setOpen(true);
+				if (queryWarehouse) // Product has changed and is valid
+				{
+					//  Find the ASI used by the product on the lead row
+					MProduct mp = MProduct.get(Env.getCtx(), m_M_Product_ID);
+					m_M_AttributeSetInstance_ID = mp.getM_AttributeSetInstance_ID();				
+				}
+			}
+			
+			if (detailTabBox.getSelectedIndex() == 0 || detailTabBox.getSelectedIndex() == 5)
 			{
 				if (queryWarehouse)
 				{
@@ -775,13 +739,12 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 
 			}
 			
-	    	if(warehouseStockTabBox.getSelectedIndex() == 1)
+	    	if(detailTabBox.getSelectedIndex() == 1)
 			{
 	    		fieldDescription.setText("");
 				//  Description tab
 				if(m_M_Product_ID != 0)
 				{
-					String eol = System.getProperty("line.separator"); 
 					MProduct p = MProduct.get(Env.getCtx(), m_M_Product_ID);
 					if (p.getDescription() != null && p.getDescription().length() > 0)
 						fieldDescription.setText(p.getDescription());
@@ -797,7 +760,136 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 					fieldDescription.setText("");
 			}
 			
-	    	if(warehouseStockTabBox.getSelectedIndex() == 2)
+	    	if(detailTabBox.getSelectedIndex() == 2)
+			{
+	    		fieldPAttributes.setText("");
+	    		StringBuffer paText = new StringBuffer();
+	    		
+				//  Product Attributes tab
+				if(m_M_Product_ID != 0)
+				{
+					MProduct p = MProduct.get(Env.getCtx(), m_M_Product_ID);
+					
+					if (p.getM_AttributeSet_ID() == 0 || p.getM_AttributeSetInstance_ID() == 0){
+						// There is no attribute set or attribute set instance associated with the product
+						return;
+					}
+					
+					int M_AttributeSet_ID = p.getM_AttributeSetInstance_ID();
+	
+			        sql = 	"SELECT asi.Lot, asi.SerNo, asi.GuaranteeDate,"
+			        	+ 		" COALESCE(a.SerNoCharSOverwrite, '#'::CHAR(1)),"
+			        	+		" COALESCE(a.SerNoCharEOverwrite, ''::CHAR(1)),"
+			        	+		" COALESCE(a.LotCharSOverwrite, '«'::CHAR(1)),"
+			        	+		" COALESCE(a.LotCharEOverwrite, '»'::CHAR(1))"
+			            +	" FROM M_AttributeSetInstance asi"
+			            +	" INNER JOIN M_AttributeSet a ON (asi.M_AttributeSet_ID=a.M_AttributeSet_ID)"
+			            + 	" WHERE asi.M_AttributeSetInstance_ID=?";
+			            
+					log.finest(sql);
+					try
+					{
+						pstmt = DB.prepareStatement(sql, null);
+						pstmt.setInt(1, M_AttributeSet_ID);
+						rs = pstmt.executeQuery();
+						while (rs.next())
+						{
+							if (rs.getString(1).length() > 0)
+								paText
+									.append(Msg.translate(Env.getCtx(), "Lot")).append(": ")
+									.append(rs.getString(6)).append(rs.getString(1)).append(rs.getString(7)).append(eol);
+							if (rs.getString(1).length() > 0)
+								paText
+									.append(Msg.translate(Env.getCtx(), "SerialNumber")).append(": ")
+									.append(rs.getString(4)).append(rs.getString(2)).append(rs.getString(5)).append(eol);
+							if (rs.getDate(3) != null)
+								paText
+									.append(Msg.translate(Env.getCtx(), "GuaranteeDate")).append(": ").append(rs.getDate(3)).append(eol);
+						}
+						rs.close();
+					}
+					catch (Exception e)
+					{
+						log.log(Level.WARNING, sql, e);
+					}
+					finally
+					{
+						DB.close(rs, pstmt);
+						rs = null; pstmt = null;
+					}
+					//  Instance Attributes - if any
+					sql = 	"SELECT ai.Value, a.Name"
+						+	" FROM M_AttributeInstance ai"
+						+	" INNER JOIN M_Attribute a ON (ai.M_Attribute_ID=a.M_Attribute_ID AND a.IsInstanceAttribute='Y')"
+						+	" WHERE ai.M_AttributeSetInstance_ID=?";
+	
+					log.finest(sql);
+					try
+					{
+						pstmt = DB.prepareStatement(sql, null);
+						pstmt.setInt(1, M_AttributeSet_ID);
+						rs = pstmt.executeQuery();
+						Boolean labeled = false;
+						while (rs.next())
+						{
+							if (!labeled)
+							{
+								paText.append("***  ").append(Msg.translate(Env.getCtx(), "InstanceAttribute")).append("  ***").append(eol);
+								labeled = true;
+							}
+							paText.append("  ").append(rs.getString(2)).append(": ").append(rs.getString(1)).append(eol);
+						}
+						rs.close();
+					}
+					catch (Exception e)
+					{
+						log.log(Level.WARNING, sql, e);
+					}
+					finally
+					{
+						DB.close(rs, pstmt);
+						rs = null; pstmt = null;
+					}
+					//  Product attributes - if any
+					sql = 	"SELECT ai.Value, a.Name"
+						+	" FROM M_AttributeInstance ai"
+						+	" INNER JOIN M_Attribute a ON (ai.M_Attribute_ID=a.M_Attribute_ID AND a.IsInstanceAttribute='N')"
+						+	" WHERE ai.M_AttributeSetInstance_ID=?";
+	
+					log.finest(sql);
+					try
+					{
+						pstmt = DB.prepareStatement(sql, null);
+						pstmt.setInt(1, M_AttributeSet_ID);
+						rs = pstmt.executeQuery();
+						Boolean labeled = false;
+						while (rs.next())
+						{
+							if (!labeled)
+							{
+								paText.append("***  ").append(Msg.translate(Env.getCtx(), "ProductAttribute")).append("  ***").append(eol);
+								labeled = true;
+							}
+							paText.append("  ").append(rs.getString(2)).append(": ").append(rs.getString(1)).append(eol);
+						}
+						rs.close();
+					}
+					catch (Exception e)
+					{
+						log.log(Level.WARNING, sql, e);
+					}
+					finally
+					{
+						DB.close(rs, pstmt);
+						rs = null; pstmt = null;
+					}
+					
+					if (paText.length() > 0)
+						fieldPAttributes.setText(paText.toString());
+				}
+			}
+
+	    	if(detailTabBox.getSelectedIndex() == 3)
 			{
 				//  Substitute tab
 				sql = m_sqlSubstitute;
@@ -819,7 +911,7 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 				}
 			}
 			
-	    	if(warehouseStockTabBox.getSelectedIndex() == 3)
+	    	if(detailTabBox.getSelectedIndex() == 4)
 			{
 				//  Related tab
 				sql = m_sqlRelated;
@@ -841,7 +933,7 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 				}
 			}
 	    	
-	    	if(warehouseStockTabBox.getSelectedIndex() == 4)		
+	    	if(detailTabBox.getSelectedIndex() == 5)		
 			{
 	    		if (warehouseTbl.getRowCount() > 0)
 	    			refreshAtpTab();
@@ -850,6 +942,28 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 	    			clearAtpTab();
 	    		}
 			}
+	    	
+	    	if(detailTabBox.getSelectedIndex() == 6)
+			{
+				//  Vendor tab
+				sql = m_sqlVendor;
+				log.finest(sql);
+				try {
+					pstmt = DB.prepareStatement(sql, null);
+					pstmt.setInt(1, m_M_Product_ID);
+					rs = pstmt.executeQuery();
+					vendorTbl.loadTable(rs);
+					rs.close();
+				} catch (Exception e) {
+					log.log(Level.WARNING, sql, e);
+				}
+				finally
+				{
+					DB.close(rs, pstmt);
+					rs = null; pstmt = null;
+				}
+			}
+
 		//}});
 	}	//	refresh
 	//End - fer_luck @ centuryon
@@ -865,6 +979,14 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 
 	}  //  clearAtpTab
 	
+	/**
+	 * Generic init call used by inherited class
+	 */
+	protected void initInfo ()
+	{
+		initInfo(0,"",m_M_Warehouse_ID, m_M_PriceList_ID, true);
+	}
+
 	/**
 	 *	Dynamic Init
 	 *
@@ -982,27 +1104,6 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 		}
 		else
 			checkOnlyStock.setEnabled(true);
-
-        if (!reset)
-        {
-        	//  Don't want to repeat this on reset or the query will grow
-			//	Create Grid
-			StringBuffer where = new StringBuffer();
-			where.append("p.IsActive='Y'");
-			//  dynamic Where Clause
-			if (p_whereClause != null && p_whereClause.length() > 0)
-				where.append(" AND ")   //  replace fully qualified name with alias
-					.append(Util.replace(p_whereClause, "M_Product.", "p."));
-			p_concreteWhereClause = where.toString();
-        }
-		//
-		prepareTable(getProductLayout(),
-			getSQLFrom(),
-			p_concreteWhereClause,
-			getOrderClause());
-		//p_table.setShowTotals(false);
-		
-		
 	}	//	initInfo
 
 	/**
@@ -1063,7 +1164,7 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 	 *	Construct SQL From Clause
 	 *  @return SQL From clause
 	 */
-	protected String getSQLFrom()
+	protected String getFromClause()
 	{
 		/** SQL From				*/
 		String s_productFrom = "M_Product p";
@@ -1332,23 +1433,6 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 	}	//	hasZoom
 
 	/**
-	 *	Customize
-	 */
-	protected void customize()
-	{
-		log.info("");
-	}	//	customize
-
-	/**
-	 *	Has Customize
-	 *  @return false (no customize)
-	 */
-	protected boolean hasCustomize()
-	{
-		return false;	//	for now
-	}	//	hasCustomize
-
-	/**
 	 *	Save Selection Settings for PriceList
 	 */
 	protected void saveSelectionDetail()
@@ -1382,11 +1466,11 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 	}	//	saveSelectionDetail
 	
 	/**
-	 *  Get Product Layout
+	 *  Get Table Layout
 	 *
 	 * @return array of Column_Info
 	 */
-	protected Info_Column[] getProductLayout()
+	protected Info_Column[] getTableLayout()
 	{
 
 		ArrayList<Info_Column> list = new ArrayList<Info_Column>();
@@ -1423,13 +1507,13 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 		list.add(new Info_Column(Msg.translate(Env.getCtx(), "Vendor"), "bp.Name", String.class));
 		list.add(new Info_Column(Msg.translate(Env.getCtx(), "IsInstanceAttribute"), "pa.IsInstanceAttribute", Boolean.class));
 		//
-		s_productLayout = new Info_Column[list.size()];
-		list.toArray(s_productLayout);
+		s_Layout = new Info_Column[list.size()];
+		list.toArray(s_Layout);
 		//
-		INDEX_PATTRIBUTE = s_productLayout.length - 1;	//	last item
+		INDEX_PATTRIBUTE = s_Layout.length - 1;	//	last item
 		//
-		return s_productLayout;
-	}   //  getProductLayout
+		return s_Layout;
+	}   //  getTableLayout
 	/**
 	 *  Get Order Clause
 	 *
@@ -1475,65 +1559,20 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 		return no > 0;
 	}	//	isUnconfirmed
 
+	
     public void onEvent(Event e)
     {
-    	
-    	// Handle actions if possible or pass the event to the parent class
+    	// Handle specific actions if possible or pass the event to the parent class
 
 		if(!p_loadedOK)
 			return;
-		
-		boolean triggerRefresh = false;
 
-		if (e.getName().equals("onOK"))
-		{
-			//  The enter key was pressed in a criteria field.  Ignore it.
-			e.stopPropagation();
-			return;
-		}
-		
 		Component component = e.getTarget();
 		
 		if(component != null)
 		{
-			
-			//  Keep the focus on the source field if the table updates
-
-			if (component.equals(confirmPanel.getButton(ConfirmPanel.A_OK)))
-			{
-				//  The enter key is mapped to the Ok button which will close the dialog.
-				//  Don't let this happen if there are outstanding changes to any of the 
-				//  VLookup fields in the criteria
-				if (hasOutstandingChanges())
-				{
-					return;
-				}
-				else
-				{
-					// We might close
-					triggerRefresh = false;
-				}
-			} 
-			else if (component.equals(confirmPanel.getButton(ConfirmPanel.A_RESET)))
-			{
-				//  Go back to the defaults
-				p_loadedOK = false;  // Prevent other actions
-				initInfo(0,"",m_M_Warehouse_ID, m_M_PriceList_ID, true);
-				p_loadedOK = true;
-				
-				triggerRefresh = true;
-				p_refreshNow = true;  // Ignore the autoQuery value and refresh now.
-				
-			}
-			else if (component.equals(confirmPanel.getButton(ConfirmPanel.A_REFRESH)))
-			{
-				//  Refresh always causes a requery in case there are
-				//  changes to the underlying tables - even if the 
-				//  criteria haven't changed.
-				p_resetColumns = true;
-				triggerRefresh = true;
-			}
-			else if (component.equals(confirmPanel.getButton(ConfirmPanel.A_PATTRIBUTE)))
+			//  Handle product info specific fields here
+			if (component.equals(confirmPanel.getButton(ConfirmPanel.A_PATTRIBUTE)))
 			{
 				//  Find the ASI used by the product on the lead row
 				MProduct mp = MProduct.get(Env.getCtx(), m_M_Product_ID);
@@ -1542,7 +1581,7 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 				int wh_id = 0;
 				if (isValidVObject(fWarehouse_ID))
 				{
-					title = fWarehouse_ID.getDisplay() + " - " + mp.getName();
+					title = mp.getName() + " - " + fWarehouse_ID.getDisplay();
 					wh_id = ((Integer) (fWarehouse_ID.getValue())).intValue();
 				}
 				//  Get the business partner from the context - it may be different than the Vendor
@@ -1552,33 +1591,34 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 					bp_id = new Integer(s_bp_id).intValue();
 				//  Display the window
 				InfoPAttributeInstancePanel pai = new InfoPAttributeInstancePanel (this, title, 
-						wh_id, 0, contentPanel.getLeadRowKey(), bp_id);
-				//  Get the results
-				m_M_AttributeSetInstance_ID = pai.getM_AttributeSetInstance_ID();
-				m_M_Locator_ID = pai.getM_Locator_ID();
+						wh_id, 0, p_table.getLeadRowKey(), bp_id);
 				
-				if (m_M_AttributeSetInstance_ID != -1)
-					fASI_ID.setValue(m_M_AttributeSetInstance_ID);
-				else
-					fASI_ID.setValue(0); //  No instance
-				
-				//  Saving here is confusing with multi-selection
-				if (p_saveResults)  //  If the results are saved, we can save now - an ASI is product specific
+				if (!pai.wasCancelled())
 				{
-				//	dispose(p_saveResults);
-				//	return;
+					//  Get the results and update the fASI criteria field
+					m_M_AttributeSetInstance_ID = pai.getM_AttributeSetInstance_ID();
+					m_M_Locator_ID = pai.getM_Locator_ID();
+					if (m_M_AttributeSetInstance_ID > 0)
+						fASI_ID.setValue(m_M_AttributeSetInstance_ID);
+					else
+						fASI_ID.setValue(0); //  No instance
 				}
 				
-				triggerRefresh = true;
-				
-			}
-			
+				//  Saving here is confusing with multi-selection.  The Product Attribute button shouldn't be enabled
+				//  if multiple records are selected.  Also, don't close the info window if the
+				//  pai window was cancelled or nothing was selected.  Assume the user was just
+				//  looking around.
+				if (p_saveResults && m_M_AttributeSetInstance_ID != -1 && !pai.wasCancelled())  //  If the results are saved, we can save now - an ASI is product specific
+				{
+					dispose(p_saveResults);
+					return;
+				}
+				return;
+			}		
 			else if (component instanceof Combobox)
 			{
 				if(e.getName().equals("onChange"))
 					{
-						triggerRefresh = true;
-						
 						//  perform field-specific changes
 						if (component.equals(fWarehouse_ID.getComponent()))
 						{
@@ -1593,32 +1633,8 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 						}
 					}
 				}
-			
-			else if (component instanceof Textbox)
-			{
-				Textbox tb = ((Textbox) component);
-
-				if (tb.hasChanged())
-				{
-					triggerRefresh = true;
-				}
-				else
-				{
-					// Special case where text fields don't change but cause an event
-					// Interpret this as a click of the OK button and close EXCEPT
-					// if the dialog was opened from a menu.
-					if (p_TabNo == 0)
-						return;
-					else
-						dispose(true);  //  Save the selection and close;
-				}
-			}
 			else if (component instanceof Checkbox)
 			{
-				//  Check box changes generally always cause a refresh
-				//  Capture changes that don't 
-				triggerRefresh = true;
-				
 				Checkbox cb = (Checkbox) component;
 				//  ShowDetail check box
 				if (cb.getName() != null && cb.getName().equals("ShowDetail"))
@@ -1627,19 +1643,11 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 					refreshAtpTab();
 					return;
 				}
-				else if (cb.getName() != null && cb.getName().equals("AutoQuery"))
-				{
-					//  Only trigger a refresh if the check box is selected
-					if(!cb.isSelected())
-					{
-						return;
-					}
-				}
 			}
 			else if (component instanceof Tab) // a tab in the ATP panel is selected
 			{
 
-				if( warehouseStockTabBox.getSelectedIndex() == 4)
+				if( detailTabBox.getSelectedIndex() == 5)
 				{	
 					checkShowDetail.setEnabled(true);
 				}
@@ -1648,124 +1656,80 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 					checkShowDetail.setEnabled(false);				
 				}
 				
-				refresh();
-				
+				refresh();				
 				return;
 			}
-			
-			// Check if we need to reset the table.  The flag is reset when
-			// the table is reset.  The first change triggers the reset.
-			p_resetColumns = p_resetColumns || columnIsDynamic(component);
-
-
-		} //  e.getSource() is null
-		//
-		if (triggerRefresh)
-		{
-			//  A requery will be performed
-			setFieldOldValues();
-			prepForRequery(); 
-			m_resetRecordID = true;
-		}		
+		} 
 		//
 		super.onEvent(e);
     }
-
-	@Override
-	public void valueChange(ValueChangeEvent evt) {
-		
-		Object c = null;
-		
-		if (evt.getSource() instanceof WSearchEditor)
-			c = ((WSearchEditor) evt.getSource()).getComponent();
-		else if (evt.getSource() instanceof WPAttributeEditor)
-			c = ((WPAttributeEditor) evt.getSource()).getComponent();
-		
-		if (c == null)
-			return;
-		
-		// Check if we need to reset the table.  The flag is reset when
-		// the table is reset.  The first change triggers the reset.
-		p_resetColumns = p_resetColumns || columnIsDynamic(c);
-				
-		//  A requery will be performed
-		prepForRequery(); 
-		m_resetRecordID = true;
-		
-		// Pass it off to the InfoPanel to process.
-		Event e = new Event("onChange", (Component) c);
-		super.onEvent(e);
-		
-	}
-
-    public void reselectRecord()
-    {
-			//  Try to reselect the record
-			if(!setSelectedRow(p_selectedRecordKey))		
-			{
-				//  Nothing was selected, or the query is empty
-				//  - close the panel
-				m_M_Product_ID = 0;
-				dataSubPanel.getSouth().setOpen(false);
-			}
-			else  //  Found and selected the same record or selected the first record
-			{
-				m_M_Product_ID = getSelectedRowKey();
-				// refresh();
-				dataSubPanel.getSouth().setOpen(true);
-			}
-
-			setFieldOldValues();  //  Remember
-
-			p_selectedRecordKey = 0;
-			p_refreshRequired = false;
-    }
-
-    
-    /**
-	 * Prepare for Requery of the table.  If dynamic changes are pending, prepare the table.
-	 */
-	protected void prepForRequery()
-	{
-		
-		//  A requery will be performed
-		this.p_refreshRequired = true;
-		
-		//  Find what is currently selected
-		//  Re-selection of the column happens in the onQueryCallBack in InfoPanel
-		Integer selectedKey = (Integer) getSelectedRowKey();
-        if(selectedKey != null && selectedKey.intValue() != 0)
-        	this.p_selectedRecordKey = selectedKey.intValue();  
-		
-		if (this.p_resetColumns)  //  Reset the table
-		{
-			prepareTable(getProductLayout(),
-					getSQLFrom(),
-					p_concreteWhereClause,
-					getOrderClause());
-			this.contentPanel.setShowTotals(false);
-		}
-	}
 
 	/**
 	 *  Enable PAttribute if row selected/changed
 	 */
 	protected void enableButtons ()
 	{
-		m_M_AttributeSetInstance_ID = -1;
 		if (m_PAttributeButton != null)
 		{
-			int row = contentPanel.getSelectedRow();
-			boolean enabled = false;
-			if (row >= 0)
+			if (p_table == null)
+				return;
+
+			int row = p_table.getSelectedIndex();
+			int rows = p_table.getRowCount();
+			if (p_table.getShowTotals())
+				rows = rows-1;
+			
+			if (row < 0 || row > rows)
 			{
-				Object value = contentPanel.getValueAt(row, INDEX_PATTRIBUTE);
+				m_PAttributeButton.setEnabled(false);
+				super.enableButtons();
+				return;
+			}
+
+			boolean enabled = false;
+			
+			// Check the lead row - if it has no attribute instances, no button
+			try
+			{
+				Object value = p_table.getValueAt(row, INDEX_PATTRIBUTE);
 				enabled = Boolean.TRUE.equals(value);
+			}
+			catch(Exception e)
+			{
+				enabled = false;
+			}
+
+			if (enabled && p_table.isMultiSelection())
+			{
+				//  Only enable if a single row is selected.  Disable for multiple selections.
+				//  Multiple selections can be checked or just high-lighted.
+				//  If this is called from a selection event, the number of selected keys
+				//  may be different.  Check the event count.
+				//  int checkedRows = p_table.getSelectedKeys().size();
+				// int selectedRows = p_table.get;
+				int checkedRows = getNumRecordsSelected();
+				log.fine("Checked Rows: " + checkedRows);
+				if (checkedRows > 1)
+					enabled = false;
+				//else if (checkedRows == 1)  // SelectedRows could be zero so don't care
+				//{
+				//	//Check that the lead selection is checked
+				//	Object data = p_table.getValueAt(row, p_table.getKeyColumnIndex());
+				//	if (data instanceof IDColumn)
+				//	{
+				//		IDColumn record = (IDColumn)data;
+				//		if (!record.isSelected())
+				//		{
+				//			enabled = false;
+				//			log.fine("Lead selection is not checked!");
+				//		}
+				//	}   
+				//}
 			}
 			m_PAttributeButton.setEnabled(enabled);
 		}
-
 		super.enableButtons();
+
 	}   //  enableButtons
 
     // Elaine 2008/11/26
@@ -1788,13 +1752,14 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 		list.add(new Info_Column(Msg.translate(Env.getCtx(), "M_Warehouse_ID"), "Warehouse", String.class));
 		list.add(new Info_Column(Msg.translate(Env.getCtx(), "M_Locator_ID"), "Locator", String.class));
 		list.add(new Info_Column(Msg.getMsg(Env.getCtx(), "Date", true), "Date", Timestamp.class));
-		list.add(new Info_Column(Msg.getMsg(Env.getCtx(), "QtyAvailable", true), "QtyAvailable", Double.class));
+		list.add(new Info_Column(Msg.translate(Env.getCtx(), "QtyAvailable"), "QtyAvailable", Double.class));
+		list.add(new Info_Column(Msg.translate(Env.getCtx(), "QtyOnHand"), "QtyOnHand", Double.class));
 		list.add(new Info_Column(Msg.getMsg(Env.getCtx(), "ExpectedChange", true), "DeltaQty", Double.class));
 		list.add(new Info_Column(Msg.translate(Env.getCtx(), "C_BPartner_ID"), "BP_Name", String.class));
-		list.add(new Info_Column(Msg.getMsg(Env.getCtx(), "QtyOrdered", true), "QtyOrdered", Double.class));
-		list.add(new Info_Column(Msg.getMsg(Env.getCtx(), "QtyReserved", true), "QtyReserved", Double.class));
+		list.add(new Info_Column(Msg.translate(Env.getCtx(), "QtyOrdered"), "QtyOrdered", Double.class));
+		list.add(new Info_Column(Msg.translate(Env.getCtx(), "QtyReserved"), "QtyReserved", Double.class));
 		list.add(new Info_Column(Msg.translate(Env.getCtx(), "M_AttributeSetInstance_ID"), "PASI", String.class));
-		list.add(new Info_Column(Msg.getMsg(Env.getCtx(), "DocumentNo", true), "DocumentNo", String.class));
+		list.add(new Info_Column(Msg.translate(Env.getCtx(), "DocumentNo"), "DocumentNo", String.class));
 
 		m_layoutATP = new Info_Column[list.size()];
 		list.toArray(m_layoutATP);
@@ -1910,14 +1875,16 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 					//  QtyOrdered, QtyReserved, (8..9)
 					//  PASI, ASI, (10..11)
 					//  BP_Name, DocumentNo,  SeqNo (12..14)
+					IDColumn mpid = new IDColumn(rs.getInt(1));
 					Vector<Object> line = new Vector<Object>(9);
-					line.add(rs.getInt(1));							//  M_Product_ID
+					line.add(mpid);							//  M_Product_ID
 					line.add(rs.getString(2));						//  warehouse
 					line.add(rs.getString(3));      				//  Locator
 					line.add(rs.getTimestamp(5));					//  Date
 					double deltaQty = rs.getDouble(7);
 					qty += +rs.getDouble(6) + deltaQty;
 					line.add(new Double(qty));  					//  Qty Available
+					line.add(new Double(rs.getDouble(6)));			//  Qty on hand (this line)
 					line.add(new Double(rs.getDouble(7)));			//  Delta Qty
 					line.add(rs.getString(12));						//  BPartner
 					line.add(new Double(rs.getDouble(8)));  		//  QtyOrdered
@@ -1982,7 +1949,7 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 	 * used in a query?
 	 * @return true if there are outstanding changes.
 	 */
-	private boolean hasOutstandingChanges()
+	protected boolean hasOutstandingChanges()
 	{
 		//  All the tracked fields
 		return(
@@ -2042,5 +2009,29 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 		checkAND.setSelected(true); 		//  Use AND
 	}
 
+	/**
+	 * A record was selected - take action to sync subordinate tables if any
+	 */
+	protected void recordSelected(int key)
+	{
+		//  Found and selected the same record or selected the first record
+    	if (m_M_Product_ID != key)
+    	{
+    		refresh();
+    	}
+    	p_centerSouth.setOpen(p_table.getSelectedCount()>0);
+		return;
+	}
+	/**
+	 * No record was selected - take action to sync subordinate tables if any
+	 */
+	protected void noRecordSelected()
+	{
+		//  Nothing was selected, or the query is empty
+		//  - close the panel
+		m_M_Product_ID = 0;
+		p_centerLayout.getSouth().setOpen(false);
+		return;
+	}
 
 }	//	InfoProduct

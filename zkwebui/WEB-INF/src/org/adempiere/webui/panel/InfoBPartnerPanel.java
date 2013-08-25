@@ -17,7 +17,6 @@
 
 package org.adempiere.webui.panel;
 
-import java.awt.Dimension;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,17 +24,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
-import javax.swing.SwingUtilities;
-import javax.swing.plaf.ColorUIResource;
-
-import org.adempiere.plaf.AdempiereTaskPaneUI;
 import org.adempiere.webui.apps.AEnv;
-import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Checkbox;
-import org.adempiere.webui.component.Combobox;
-import org.adempiere.webui.component.ConfirmPanel;
-import org.adempiere.webui.component.Grid;
-import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.ListboxFactory;
 import org.adempiere.webui.component.Row;
@@ -47,36 +37,25 @@ import org.adempiere.webui.component.Tabpanels;
 import org.adempiere.webui.component.Tabs;
 import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.WListbox;
-import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
-import org.adempiere.webui.session.SessionManager;
 import org.compiere.apps.search.Info_Column;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MLocation;
-import org.compiere.model.MProduct;
 import org.compiere.model.MQuery;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.compiere.util.Util;
-import org.zkoss.zk.au.out.AuEcho;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
-import org.zkoss.zkex.zul.West;
-import org.zkoss.zul.Div;
-import org.zkoss.zul.Separator;
-import org.zkoss.zul.Vbox;
 
 /**
 *	Search Business Partner and return selection
@@ -86,9 +65,8 @@ import org.zkoss.zul.Vbox;
 * 	Zk Port
 * 	@author Elaine
 * 	
-* 	@author Michael McKay, 
-* 				<li>ADEMPIERE-72 VLookup and Info Window improvements
-* 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
+ * @author Michael McKay, ADEMPIERE-72 VLookup and Info Window improvements
+ * 	<li>https://adempiere.atlassian.net/browse/ADEMPIERE-72
 * 	@version	InfoBPartner.java Adempiere Swing UI 3.7.1 
 */
 
@@ -110,11 +88,13 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 	 *  @param whereClause where clause
 	 */
 	@Deprecated
-	public InfoBPartnerPanel(int record_id, String value,int windowNo, boolean isSOTrx, boolean isSOMatch, boolean multipleSelection, 
-			String whereClause)
+	public InfoBPartnerPanel(int record_id, String value,int windowNo, 
+				boolean isSOTrx, boolean isSOMatch, 
+				boolean multipleSelection, 
+				String whereClause)
 	{
-		this(record_id, value, windowNo, isSOTrx, isSOMatch, multipleSelection, 
-				false, whereClause, true);
+		this(windowNo, true, record_id, value, isSOTrx, isSOMatch, multipleSelection, 
+				false, whereClause);
 
 	}
 
@@ -126,38 +106,40 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 	 *  @param isSOMatch	Should the customer/vendor only checkbox be checked?
 	 *  @param saveResults  True if results will be saved, false for info only
 	 *  @param whereClause where clause
-	 *  @param lookup True if the column has a lookup
+	 *  @param modal True if window is opened in modal mode.
 	 */
-	public InfoBPartnerPanel(int record_id, String value,int windowNo, boolean isSOTrx, boolean isSOMatch, boolean multipleSelection, 
-			boolean saveResults, String whereClause, boolean lookup)
+	public InfoBPartnerPanel(int windowNo, boolean modal, int record_id, String value, 
+				boolean isSOTrx, boolean isSOMatch, boolean multipleSelection, 
+				boolean saveResults, String whereClause)
 	{
 
-		super (windowNo, "C_BPartner", "C_BPartner_ID", multipleSelection, saveResults, whereClause, lookup);
+		super (windowNo, modal, "C_BPartner", "C_BPartner_ID", multipleSelection, saveResults, whereClause);
 		log.info(value + ", WHERE=" + whereClause);
 		setTitle(Msg.getMsg(Env.getCtx(), "InfoBPartner"));
 		m_isSOTrx = isSOTrx;
 		m_isSOMatch = isSOMatch;
-		initComponents();
-        init();
+		//
+		StringBuffer where = new StringBuffer();
+		where.append("C_BPartner.IsSummary='N' AND C_BPartner.IsActive='Y'");
+		if (whereClause != null && whereClause.length() > 0)
+			where.append(" AND ").append(whereClause);
+		setWhereClause(where.toString());
+		setTableLayout(s_Layout);
+		setFromClause(s_From);
+		setOrderClause(s_Order);
+		//
+		setShowTotals(true);
+		//
+        statInit();
 		initInfo(record_id, value, false);
-		p_loadedOK = true; // Elaine 2008/07/28
-        
-        int no = contentPanel.getRowCount();
-        setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
-        setStatusDB(Integer.toString(no));
         //
         if(autoQuery() || record_id != 0 || (value != null && value.length() > 0 && value != "%"))
         {
         	prepareAndExecuteQuery();
         }
-        renderItems();
-	
-		//  To get the focus after the table update
-		m_heldLastFocus = fieldValue;
-
+        //
+        p_loadedOK = true;
 	}
-
-	private Object m_heldLastFocus = null;
 
 	/** SalesOrder Trx          */
 	private boolean 		m_isSOTrx = false;
@@ -167,10 +149,12 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
     private int m_C_BPartner_Location_ID = -1;
 
 	/** From Clause             */
-	private static String s_partnerFROM = "C_BPartner";
+	private static String s_From = "C_BPartner";
+	/** Order Clause             */
+	private static String s_Order = "C_BPartner.Value";
 
 	/**  Array of Column Info    */
-	private static Info_Column[] s_partnerLayout = {
+	private static Info_Column[] s_Layout = {
 		new Info_Column(" ", "C_BPartner.C_BPartner_ID", IDColumn.class),
 		new Info_Column(Msg.translate(Env.getCtx(), "Value"), "C_BPartner.Value", String.class),
 		new Info_Column(Msg.translate(Env.getCtx(), "Name"), "C_BPartner.Name", String.class),
@@ -182,8 +166,6 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 	};
 	
 	
-	private Button bReset;
-	private Label labelReset = new Label();
 	private int fieldID = 0; 
 	private Label labelValue ;
 	private Textbox fieldValue ;
@@ -203,10 +185,6 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 	/**	Logger			*/
 	protected CLogger log = CLogger.getCLogger(getClass());
 	
-	private Borderlayout layout;
-	private Vbox southBody;
-	private Borderlayout dataSubPanel = new Borderlayout();
-	private Borderlayout criteriaSubPanel = new Borderlayout();
 	private Tabbox detailTabBox = new Tabbox();
 	private WListbox contactTbl = ListboxFactory.newDataTable();
 	private String m_sqlContact;
@@ -220,12 +198,6 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 	 */
 	private void initComponents()
 	{
-		// Reset button
-		bReset = confirmPanel.createButton(ConfirmPanel.A_RESET);
-		bReset.addActionListener(this);
-		labelReset = new Label();
-		labelReset.setValue(Util.cleanAmp(Msg.translate(Env.getCtx(), "Reset")));
-
 		labelValue = new Label();
 		labelValue.setValue(Util.cleanAmp(Msg.translate(Env.getCtx(), "Value")));
 		labelName = new Label();
@@ -290,8 +262,10 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 		checkCustomer.setSelected(m_isSOMatch);
 	}
 	
-	private void init()
+	private void statInit()
 	{
+		initComponents();
+
 		fieldValue.setWidth("100%");
 		fieldContact.setWidth("100%");
 		fieldPhone.setWidth("100%");
@@ -299,10 +273,7 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 		fieldEMail.setWidth("100%");
 		fieldPostal.setWidth("100%");
 		
-		Grid grid = GridFactory.newGridLayout();
-		
 		Rows rows = new Rows();
-		grid.appendChild(rows);
 		
 		Row row = new Row();
 		rows.appendChild(row);
@@ -395,108 +366,21 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 		desktopTabPanel.appendChild(addressTbl);
 		tabPanels.appendChild(desktopTabPanel);
 		
-		tabs.setAttribute("zk_component_ID", "Contact_Tabs");
-		//
-		int height = SessionManager.getAppDesktop().getClientInfo().desktopHeight * 90 / 100;
-		int width = SessionManager.getAppDesktop().getClientInfo().desktopWidth * 80 / 100;
-
-        //dataSubPanel.setWidth("100%");
-        dataSubPanel.setHeight("100%");
-        if (isLookup())
-        	dataSubPanel.setStyle("border: none; position: relative");
-        else
-        	dataSubPanel.setStyle("border: none; position: absolute");
-        Center center = new Center();
-        center.setAutoscroll(true);
-        center.setFlex(true);
-		dataSubPanel.appendChild(center);
-		center.appendChild(contentPanel);
-		
+		tabs.setAttribute("zk_component_ID", "Subordinate_Tabs");
+	
 		Borderlayout southSP = new Borderlayout();
-		center = new Center();
+		Center center = new Center();
 		North north = new North();
 		center.appendChild(detailTabBox);
 		southSP.appendChild(north);
 		southSP.appendChild(center);
         
-		South south = new South();
-		int detailHeight = (height * 25 / 100);
-		south.setHeight(detailHeight + "px");
-		south.setCollapsible(true);
-		south.setSplittable(true);
-		south.setFlex(true);
-		south.setTitle(Msg.translate(Env.getCtx(), "ContactAndAddress"));
-		south.setTooltiptext(Msg.translate(Env.getCtx(), "ContactAndAddress"));
-		south.appendChild(southSP);
+		p_centerSouth.setTitle(Msg.translate(Env.getCtx(), "ContactAndAddress"));
+		p_centerSouth.setTooltiptext(Msg.translate(Env.getCtx(), "ContactAndAddress"));
+		p_centerSouth.appendChild(southSP);
+		p_criteriaGrid.appendChild(rows);
+		super.setSizes();
 		
-		dataSubPanel.appendChild(south);
-
-		West spWest = new West();
-		Center spCenter = new Center();
-		South spSouth = new South();
-
-		criteriaSubPanel.setWidth("");
-		spWest.setBorder("0");
-		spCenter.setBorder("0");
-		spSouth.setBorder("0");
-		criteriaSubPanel.appendChild(spWest);
-		criteriaSubPanel.appendChild(spCenter);
-		criteriaSubPanel.appendChild(spSouth);
-		
-		// spWest - the reset button
-		Grid bGrid = GridFactory.newGridLayout();
-		Rows bRows = new Rows();
-		Row bRow = new Row();
-		bGrid.appendChild(bRows);
-		bRows.appendChild(bRow);
-		bRow.appendChild(bReset);
-		bRow = new Row();
-		bRows.appendChild(bRow);
-		bRow.appendChild(labelReset);
-		spWest.appendChild(bGrid);
-		
-		// The criteria table and status bar
-		spCenter.appendChild(grid);
-		spSouth.appendChild(statusBar);
-		spSouth.setHeight("20px");
-		
-        Borderlayout mainPanel = new Borderlayout();
-        //mainPanel.setWidth("100%");
-        mainPanel.setHeight("100%");
-        north = new North();
-        mainPanel.appendChild(north);
-        north.appendChild(criteriaSubPanel);
-        north.setHeight("80px"); // 20px per row in criteria grid plus the status bar.
-        center = new Center();
-        mainPanel.appendChild(center);
-        center.appendChild(dataSubPanel);
-        south = new South();
-        mainPanel.appendChild(south);
-        south.appendChild(confirmPanel);
-        if (!isLookup())
-        {
-        	mainPanel.setStyle("position: absolute");
-        }
-
-		this.appendChild(mainPanel);
-		if (isLookup())
-		{
-			this.setWidth(width + "px");
-			this.setHeight(height + "px");
-		}
-
-		contentPanel.addActionListener(new EventListener() {
-			public void onEvent(Event event) throws Exception {
-		    	int leadRowKey = contentPanel.getLeadRowKey();
-		    	if (m_C_BPartner_ID != leadRowKey)
-		    	{
-		    		refresh();  		//  Update the sub Panels with the current selected record
-		    		enableButtons();	//  Set the buttons accordingly
-		    	}
-		    	dataSubPanel.getSouth().setOpen(true);
-			}
-		});
-
 		contactTbl.addActionListener(new EventListener() {
 			public void onEvent(Event event) throws Exception {
 				int leadRowKey = 0;
@@ -506,7 +390,7 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 		    	
 				if (m_AD_User_ID != leadRowKey)
 		    	{
-					m_AD_User_ID = leadRowKey;  //  From the main table
+					m_AD_User_ID = leadRowKey;  //  From the contact table
 		    	}
 			}
 		});
@@ -528,15 +412,23 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 	}	
 	
 	/**
+	 *	Reset the Criteria Info - init with blank data
+	 */		
+	protected void initInfo()
+	{
+		initInfo(0,"", true);
+	}
+
+	/**
 	 *	Dynamic Init
 	 *  @param value value
 	 *  @param whereClause where clause
 	 */
 		
 	private void initInfo(int record_id, String value, boolean reset)
-	{
-			
-		if (!(record_id == 0) && value != null && value.length() > 0)
+	{			
+	    //
+	    if (!(record_id == 0) && value != null && value.length() > 0)
 		{
 			log.severe("Received both a record_id and a value: " + record_id + " - " + value);
 		}
@@ -544,9 +436,8 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 		if(reset)
 		{
 			clearParameters();
-			p_resetColumns = true;
 		}
-
+		//
 	    if (!(record_id == 0))  // A record is defined
 	    {
 	    	fieldID = record_id;
@@ -571,174 +462,48 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 				}
 			}
 	    }
-	    
-	    if (!reset)
-        {
-        	//  Don't want to repeat this on reset or the query will grow
-			//	Create Grid
-			StringBuffer where = new StringBuffer();
-			where.append("C_BPartner.IsSummary='N' AND C_BPartner.IsActive='Y'");
-			if (p_whereClause != null && p_whereClause.length() > 0)
-				where.append(" AND ").append(p_whereClause);
-			p_concreteWhereClause = where.toString();
-
-			prepareTable(s_partnerLayout, s_partnerFROM,
-				p_concreteWhereClause,
-				"C_BPartner.Value");
-			contentPanel.setShowTotals(true);
-        }
-
 	}	//	initInfo
 
-    public void reselectRecord()
-    {
-		//  Try to reselect the record
-		if(!setSelectedRow(p_selectedRecordKey))		
-		{
-			//  Nothing was selected, or the query is empty
-			//  - close the panel
-			m_C_BPartner_ID = 0;
-			dataSubPanel.getSouth().setOpen(false);
-		}
-		else  //  Found and selected the same record or selected the first record
-		{
-			m_C_BPartner_ID = getSelectedRowKey();
-			// refresh();
-			dataSubPanel.getSouth().setOpen(true);
-		}
-
-		//setFieldOldValues();  //  Remember
-
-		p_selectedRecordKey = 0;
-		p_refreshRequired = false;
-    }
+	/**
+	 * A record was selected - take action to sync subordinate tables if any
+	 * @param key of the selected record
+	 */
+	protected void recordSelected(int key)
+	{
+		m_C_BPartner_ID = key;
+		refresh();
+		p_centerSouth.setOpen(true);
+		return;
+	}
+	/**
+	 * No record was selected - take action to sync subordinate tables if any
+	 */
+	protected void noRecordSelected()
+	{
+		//  Nothing was selected, or the query is empty
+		//  - close the panel
+		m_C_BPartner_ID = 0;
+    	p_centerSouth.setOpen(false);
+		return;
+	}
 
     public void onEvent(Event e)
     {
-    	
-    	// Handle actions if possible or pass the event to the parent class
+    	// Handle panel specific actions and pass the event to the parent class
 
 		if(!p_loadedOK)
 			return;
-		
-		boolean triggerRefresh = false;
-
-		if (e.getName().equals("onOK"))
-		{
-			//  The enter key was pressed in a criteria field.  Ignore it.
-			e.stopPropagation();
-			return;
-		}
-		
+				
 		Component component = e.getTarget();
 		
 		if(component != null)
 		{
-			
-			//  Keep the focus on the source field if the table updates
-			//  TODO m_heldLastFocus = this.getFocusOwner();
-
-			if (component.equals(confirmPanel.getButton(ConfirmPanel.A_OK)))
+			if (component instanceof Tab) // a tab in the subordinate panel is selected
 			{
-				//  The enter key is mapped to the Ok button which will close the dialog.
-				//  Don't let this happen if there are outstanding changes to any of the 
-				//  VLookup fields in the criteria
-				if (hasOutstandingChanges())
-				{
-					return;
-				}
-				else
-				{
-					// We might close
-					triggerRefresh = false;
-				}
-			} 
-			else if (component.equals(confirmPanel.getButton(ConfirmPanel.A_RESET)))
-			{
-				//  Go back to the defaults
-				p_loadedOK = false;  // Prevent other actions
-				initInfo(0,"", true);
-				p_loadedOK = true;
-				
-				triggerRefresh = true;
-				p_refreshNow = true;  // Ignore the autoQuery value and refresh now.
-				
-			}
-			else if (component.equals(confirmPanel.getButton(ConfirmPanel.A_REFRESH)))
-			{
-				//  Refresh always causes a requery in case there are
-				//  changes to the underlying tables - even if the 
-				//  criteria haven't changed.
-				p_resetColumns = true;
-				triggerRefresh = true;
-			}			
-			else if (component instanceof Combobox)
-			{
-				if(e.getName().equals("onChange"))
-					{
-						triggerRefresh = true;
-						
-						//  perform field-specific changes
-					}
-				}
-			
-			else if (component instanceof Textbox)
-			{
-				Textbox tb = ((Textbox) component);
-
-				if (tb.hasChanged())
-				{
-					triggerRefresh = true;
-				}
-				else
-				{
-					// Special case where text fields don't change but cause an event
-					// Interpret this as a click of the OK button and close EXCEPT
-					// if the dialog was opened from a menu.
-					if (p_TabNo == 0)
-						return;
-					else
-						dispose(true);  //  Save the selection and close;
-				}
-			}
-			else if (component instanceof Checkbox)
-			{
-				//  Check box changes generally always cause a refresh
-				//  Capture changes that don't 
-				triggerRefresh = true;
-				
-				Checkbox cb = (Checkbox) component;
-				if (cb.getName() != null && cb.getName().equals("AutoQuery"))
-				{
-					//  Only trigger a refresh if the check box is selected
-					if(!cb.isSelected())
-					{
-						return;
-					}
-				}
-			}
-			else if (component instanceof Tab) // a tab in the ATP panel is selected
-			{
-
 				refresh();
-				
 				return;
 			}
-			
-			// Check if we need to reset the table.  The flag is reset when
-			// the table is reset.  The first change triggers the reset.
-			p_resetColumns = p_resetColumns || columnIsDynamic(component);
-
-		} //  e.getSource() is null
-		
-				
-		if (triggerRefresh)
-		{
-			//  A requery will be performed
-			setFieldOldValues();
-			prepForRequery(); 
-			m_resetRecordID = true;
-		}
+		} 
 		
 		super.onEvent(e);
 
@@ -753,8 +518,8 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 
 		int leadRowKey = 0;
 
-		if (contentPanel != null || contentPanel.getRowCount() > 0)
-			leadRowKey = contentPanel.getLeadRowKey();
+		if (p_table != null || p_table.getRowCount() > 0)
+			leadRowKey = p_table.getLeadRowKey();
     	
 		if (m_C_BPartner_ID != leadRowKey)
     	{
@@ -823,31 +588,6 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 			addressTbl.autoSize();
 		}
 	}	//	refresh
-
-    /**
-	 * Prepare for Requery of the table.  If dynamic changes are pending, prepare the table.
-	 */
-	protected void prepForRequery()
-	{
-		
-		//  A requery will be performed
-		this.p_refreshRequired = true;
-		
-		//  Find what is currently selected
-		//  Re-selection of the column happens in the onQueryCallBack in InfoPanel
-		Integer selectedKey = (Integer) getSelectedRowKey();
-        if(selectedKey != null && selectedKey.intValue() != 0)
-        	this.p_selectedRecordKey = selectedKey.intValue();  
-		
-		if (this.p_resetColumns)  //  Reset the table
-		{
-			prepareTable(s_partnerLayout,
-					s_partnerFROM,
-					p_concreteWhereClause,
-					"C_BPartner.Value");
-			this.contentPanel.setShowTotals(true);
-		}
-	}
 
 	/**
 	 *	Construct SQL Where Clause and define parameters.
@@ -979,13 +719,10 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
      */
     public void saveSelectionDetail()
     {
-        int row = contentPanel.getSelectedRow();
+        int row = p_table.getSelectedRow();
         if (row == -1)
             return;
 
-        int AD_User_ID = 0;
-        int C_BPartner_Location_ID = 0;
-        
         // Elaine 2008/12/16
         if (m_AD_User_ID == -1)
         {
@@ -1070,35 +807,13 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 		return true;
 	}	//	hasZoom
 
-	/**
-	 *	Customize
-	 */
-	protected void customize()
-	{
-		log.info( "InfoBPartner.customize");
-	}	//	customize
-
-	/**
-	 *	Has Customize
-	 *  @return false
-	 */
-	protected boolean hasCustomize()
-	{
-		return false;	//	for now
-	}	//	hasCustomize
-	//
-	
-    public void tableChanged(WTableModelEvent event)
-    {
-        
-    }
-	
+		
 	/**
 	 * Does the parameter panel have outstanding changes that have not been
 	 * used in a query?
 	 * @return true if there are outstanding changes.
 	 */
-	private boolean hasOutstandingChanges()
+	protected boolean hasOutstandingChanges()
 	{
 		//  All the tracked fields
 		return(

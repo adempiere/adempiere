@@ -286,7 +286,7 @@ class AcctViewerData
 	}   //  getButtonText
 
 	/**
-	 *  Get Button Text
+	 *  Get Button Record ID
 	 *
 	 *  @param tableName table
 	 *  @param columnName column
@@ -299,7 +299,7 @@ class AcctViewerData
 		if (record_id == null || record_id.intValue() == 0)
 			return 0;
 		return record_id.intValue();
-	}   //  getButtonText
+	}   //  getButtonRecordID
 
 	/**************************************************************************
 

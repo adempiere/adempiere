@@ -16,29 +16,40 @@
  *****************************************************************************/
 package org.compiere.apps.search;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Frame;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.logging.Level;
+
+import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 
 import org.adempiere.plaf.AdempierePLAF;
+import org.compiere.apps.AEnv;
 import org.compiere.apps.ALayout;
 import org.compiere.apps.ALayoutConstraint;
 import org.compiere.grid.ed.VCheckBox;
 import org.compiere.grid.ed.VDate;
 import org.compiere.grid.ed.VLookup;
 import org.compiere.grid.ed.VNumber;
+import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
+import org.compiere.minigrid.MiniTable;
+import org.compiere.model.MColumn;
+import org.compiere.model.MInvoice;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MQuery;
-import org.compiere.model.MInvoice;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
 import org.compiere.swing.CTextField;
+import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
-import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.compiere.util.Util;
@@ -99,28 +110,29 @@ public class InfoInvoice extends Info
 		super (frame, modal, WindowNo, "i", "C_Invoice_ID", multiSelection, saveResults, whereClause);
 		setTitle(Msg.getMsg(Env.getCtx(), "InfoInvoice"));
 		//
-		try
-		{
-			statInit();
-			p_loadedOK = initInfo (record_id, value);
-		}
-		catch (Exception e)
-		{
-			return;
-		}
+		StringBuffer where = new StringBuffer("i.IsActive='Y'");
+		if (whereClause.length() > 0)
+			where.append(" AND ").append(Util.replace(whereClause, "C_Invoice.", "i."));
+		setWhereClause(where.toString());
+		setTableLayout(s_Layout);
+		setFromClause(s_From);
+		setOrderClause(s_Order);
 		//
-		int no = p_table.getRowCount();
-		setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
-		setStatusDB(Integer.toString(no));
+		setShowTotals(true);
+		//
+		statInit();
+		initInfo (record_id, value);
+
+		//  To get the focus after the table update
+		m_heldLastFocus = fDocumentNo;
 		
-		//  Auto query
+		//	AutoQuery
 		if(autoQuery() || record_id != 0 || (value != null && value.length() > 0 && value != "%"))
 			executeQuery();
-		//
-		pack();
-		//	Focus
-		fDocumentNo.requestFocus();
-	}   //  InfoInvoice
+		
+		p_loadedOK = true;
+
+		AEnv.positionCenterWindow(frame, this);	}   //  InfoInvoice
 
 	//  Static Info
 	private int fieldID = 0;
@@ -144,14 +156,44 @@ public class InfoInvoice extends Info
 	private CLabel lAmtTo = new CLabel("-  ");
 	private VNumber fAmtTo = new VNumber("AmtTo", false, false, true, DisplayType.Amount, Msg.translate(Env.getCtx(), "AmtTo"));
 
+	private int 				m_C_Invoice_ID = 0;
+
+	private MiniTable scheduleTbl = new MiniTable();
+	private String m_sqlSchedule;
+	private CPanel tablePanel = new CPanel();
+
+	/** From Clause             */
+	private static String s_From = " C_Invoice i";
+	/** Order Clause             */
+	private static String s_Order = "2,3";
+
 	/**  Array of Column Info    */
-	private static final Info_Column[] s_invoiceLayout = {
+	private static final Info_Column[] s_Layout = {
 		new Info_Column(" ", "i.C_Invoice_ID", IDColumn.class),
 		new Info_Column(Msg.translate(Env.getCtx(), "C_BPartner_ID"), "(SELECT Name FROM C_BPartner bp WHERE bp.C_BPartner_ID=i.C_BPartner_ID)", String.class),
 		new Info_Column(Msg.translate(Env.getCtx(), "DateInvoiced"), "i.DateInvoiced", Timestamp.class),
-		new Info_Column(Msg.translate(Env.getCtx(), "DueDate"), "i.DueDate", Timestamp.class),
 		new Info_Column(Msg.translate(Env.getCtx(), "DocumentNo"), "i.DocumentNo", String.class),
-		new Info_Column(Msg.getMsg(Env.getCtx(), "Payment #"), "(SELECT ((SELECT COUNT(C_Invoice_ID) AS payno"
+		new Info_Column(Msg.translate(Env.getCtx(), "C_Currency_ID"), "(SELECT ISO_Code FROM C_Currency c WHERE c.C_Currency_ID=i.C_Currency_ID)", String.class),
+		new Info_Column(Msg.translate(Env.getCtx(), "GrandTotal"), "i.GrandTotal",  BigDecimal.class),
+		new Info_Column(Msg.translate(Env.getCtx(), "ConvertedAmount"), "currencyBase(i.GrandTotal, i.C_Currency_ID, i.DateAcct, i.AD_Client_ID, i.AD_Org_ID)", BigDecimal.class),
+		new Info_Column(Msg.translate(Env.getCtx(), "OpenAmt"), "invoiceOpen(C_Invoice_ID,0)", BigDecimal.class, true, true, null),
+		new Info_Column(Msg.translate(Env.getCtx(), "C_PaymentTerm_ID"), "(SELECT pt.Name FROM C_PaymentTerm pt WHERE pt.C_PaymentTerm_ID = i.C_PaymentTerm_ID)", String.class),		
+		new Info_Column(Msg.translate(Env.getCtx(), "IsPaid"), "i.IsPaid", Boolean.class),
+		new Info_Column(Msg.translate(Env.getCtx(), "IsSOTrx"), "i.IsSOTrx", Boolean.class),
+		new Info_Column(Msg.translate(Env.getCtx(), "Description"), "i.Description", String.class),
+		new Info_Column(Msg.translate(Env.getCtx(), "POReference"), "i.POReference", String.class),
+		new Info_Column(Msg.translate(Env.getCtx(), "DocStatus"), "i.docstatus", String.class),
+	};
+
+	//  Invoice payment schedule info
+	/** From Clause             */
+	private static String s_subFrom = " C_Invoice_v i";
+    /** Where Clause						*/
+    private static String s_subWhere = "i.C_Invoice_ID = ?";
+	/**  Array of Column Info    */
+    private static ColumnInfo[] s_subLayout = new ColumnInfo[] {
+		new ColumnInfo(" ", "i.C_InvoicePaySchedule_ID", IDColumn.class),
+		new ColumnInfo(Msg.getMsg(Env.getCtx(), "Payment #"), "(SELECT ((SELECT COUNT(C_Invoice_ID) AS payno"
 				+			   " FROM C_Invoice_V"
 				+			   " WHERE C_Invoice_ID = civ.C_Invoice_ID"
 				+			   " AND duedate <= civ.duedate"
@@ -163,23 +205,18 @@ public class InfoInvoice extends Info
 				+			   " FROM C_Invoice_v civ WHERE i.C_Invoice_ID=civ.C_Invoice_ID"
 				+														" AND (i.C_InvoicePaySchedule_ID IS NULL"
 				+														" OR i.C_InvoicePaySchedule_ID = civ.C_InvoicePaySchedule_ID))", String.class),
-		new Info_Column(Msg.translate(Env.getCtx(), "C_Currency_ID"), "(SELECT ISO_Code FROM C_Currency c WHERE c.C_Currency_ID=i.C_Currency_ID)", String.class),
-		new Info_Column(Msg.translate(Env.getCtx(), "GrandTotal"), "i.GrandTotal",  BigDecimal.class),
-		new Info_Column(Msg.translate(Env.getCtx(), "ConvertedAmount"), "currencyBase(i.GrandTotal, i.C_Currency_ID, i.DateAcct, i.AD_Client_ID, i.AD_Org_ID)", BigDecimal.class),
-		new Info_Column(Msg.translate(Env.getCtx(), "OpenAmt"), "invoiceOpen(C_Invoice_ID,C_InvoicePaySchedule_ID)", BigDecimal.class, true, true, null),
-		new Info_Column(Msg.translate(Env.getCtx(), "IsPaid"), "i.IsPaid", Boolean.class),
-		new Info_Column(Msg.translate(Env.getCtx(), "IsSOTrx"), "i.IsSOTrx", Boolean.class),
-		new Info_Column(Msg.translate(Env.getCtx(), "Description"), "i.Description", String.class),
-		new Info_Column(Msg.translate(Env.getCtx(), "POReference"), "i.POReference", String.class),
-		new Info_Column("", "''", KeyNamePair.class, "i.C_InvoicePaySchedule_ID")
+		new ColumnInfo(Msg.translate(Env.getCtx(), "DueDate"), "i.DueDate", Timestamp.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "C_Currency_ID"), "(SELECT ISO_Code FROM C_Currency c WHERE c.C_Currency_ID=i.C_Currency_ID)", String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "GrandTotal"), "i.GrandTotal",  BigDecimal.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "ConvertedAmount"), "currencyBase(i.GrandTotal, i.C_Currency_ID, i.DateAcct, i.AD_Client_ID, i.AD_Org_ID)", BigDecimal.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "OpenAmt"), "invoiceOpen(C_Invoice_ID,C_InvoicePaySchedule_ID)", BigDecimal.class, true, true, null),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "IsPaid"), "CASE WHEN invoiceOpen(C_Invoice_ID,C_InvoicePaySchedule_ID) <= 0 THEN 'Y' ELSE 'N' END", Boolean.class)
 	};
-	private static int INDEX_PAYSCHEDULE = s_invoiceLayout.length - 1;	//	last item
 
 	/**
 	 *	Static Setup - add fields to parameterPanel
-	 *	@throws Exception
 	 */
-	private void statInit() throws Exception
+	private void statInit()
 	{
 		lDocumentNo.setLabelFor(fDocumentNo);
 		fDocumentNo.setBackground(AdempierePLAF.getInfoBackground());
@@ -194,13 +231,17 @@ public class InfoInvoice extends Info
 		//
 		//	C_Invoice.C_BPartner_ID
 		fBPartner_ID = new VLookup("C_BPartner_ID", false, false, true,
-			MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 3499, DisplayType.Search));
+				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0,  
+						MColumn.getColumn_ID(MInvoice.Table_Name, MInvoice.COLUMNNAME_C_BPartner_ID),
+						DisplayType.Search));
 		lBPartner_ID.setLabelFor(fBPartner_ID);
 		fBPartner_ID.setBackground(AdempierePLAF.getInfoBackground());
 		fBPartner_ID.addPropertyChangeListener(this);
 		//	C_Invoice.C_Order_ID
-		fOrder_ID = new VLookup("C_Order_ID", false, false, true,
-			MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 4247, DisplayType.Search));
+		fOrder_ID = new VLookup("C_Order_ID", false, false, true, 
+	        		MLookupFactory.get(Env.getCtx(), p_WindowNo,0, 
+	        				MColumn.getColumn_ID(MInvoice.Table_Name, MInvoice.COLUMNNAME_C_Order_ID), 
+	        				DisplayType.Search));
 		lOrder_ID.setLabelFor(fOrder_ID);
 		fOrder_ID.setBackground(AdempierePLAF.getInfoBackground());
 		fOrder_ID.addPropertyChangeListener(this);
@@ -232,43 +273,47 @@ public class InfoInvoice extends Info
 		datePanel.add(lDateTo, null);
 		datePanel.add(fDateTo, null);
 
-		//
-		parameterPanel.setLayout(new ALayout());
 		//  First Row
-		parameterPanel.add(lDocumentNo, new ALayoutConstraint(0,0));
-		parameterPanel.add(fDocumentNo, null);
-		parameterPanel.add(lBPartner_ID, null);
-		parameterPanel.add(fBPartner_ID, null);
-		parameterPanel.add(fIsSOTrx, new ALayoutConstraint(0,5));
+		p_criteriaGrid.add(lDocumentNo, new ALayoutConstraint(0,0));
+		p_criteriaGrid.add(fDocumentNo, null);
+		p_criteriaGrid.add(lBPartner_ID, null);
+		p_criteriaGrid.add(fBPartner_ID, null);
+		p_criteriaGrid.add(fIsSOTrx, new ALayoutConstraint(0,5));
 		//  2nd Row
-		parameterPanel.add(lDescription, new ALayoutConstraint(1,0));
-		parameterPanel.add(fDescription, null);
-		parameterPanel.add(lDateFrom, null);
-		parameterPanel.add(datePanel, null);
-		parameterPanel.add(fIsPaid, new ALayoutConstraint(1,5));
+		p_criteriaGrid.add(lDescription, new ALayoutConstraint(1,0));
+		p_criteriaGrid.add(fDescription, null);
+		p_criteriaGrid.add(lDateFrom, null);
+		p_criteriaGrid.add(datePanel, null);
+		p_criteriaGrid.add(fIsPaid, new ALayoutConstraint(1,5));
 		//  3rd Row
-		parameterPanel.add(lOrder_ID, new ALayoutConstraint(2,0));
-		parameterPanel.add(fOrder_ID, null);
-		parameterPanel.add(lAmtFrom, null);
-		parameterPanel.add(amtPanel, null);
+		p_criteriaGrid.add(lOrder_ID, new ALayoutConstraint(2,0));
+		p_criteriaGrid.add(fOrder_ID, null);
+		p_criteriaGrid.add(lAmtFrom, null);
+		p_criteriaGrid.add(amtPanel, null);
+		
+		m_sqlSchedule = scheduleTbl.prepareTable(s_subLayout, s_subFrom, s_subWhere, false, "i");
+		scheduleTbl.setRowSelectionAllowed(true);
+		scheduleTbl.setMultiSelection(false);
+		scheduleTbl.addMouseListener(this);
+		scheduleTbl.setShowTotals(true);
+		scheduleTbl.autoSize();
+
+        tablePanel.setPreferredSize(new Dimension(INFO_WIDTH, SCREEN_HEIGHT > 600 ? 255 : 110));
+        tablePanel.setLayout(new BorderLayout());
+        tablePanel.add(new JScrollPane(scheduleTbl), BorderLayout.CENTER);        
+
+        //  Add the details to the p_detailPanel
+		p_detailTaskPane.setTitle(Msg.translate(Env.getCtx(), "C_InvoicePaySchedule_ID"));        
+        p_detailTaskPane.add(tablePanel, BorderLayout.CENTER);
+        p_detailTaskPane.setVisible(true);
 	}	//	statInit
 
 	/**
 	 *	General Init
-	 *	@return true, if success
 	 */
-	private boolean initInfo (int record_id, String value)
+	protected void initInfo (int record_id, String value)
 	{
-
-		//  prepare table
-		StringBuffer where = new StringBuffer("i.IsActive='Y'");
-		if (p_whereClause.length() > 0)
-			where.append(" AND ").append(Util.replace(p_whereClause, "C_Invoice.", "i."));
-		prepareTable(s_invoiceLayout,
-			" C_Invoice_v i",   //  corrected for CM
-			where.toString(),
-			"2,3,4,5");
-
+		//
 		if (!(record_id == 0) && value != null && value.length() > 0)
 		{
 			log.severe("Received both a record_id and a value: " + record_id + " - " + value);
@@ -296,6 +341,18 @@ public class InfoInvoice extends Info
 			if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
 				fBPartner_ID.setValue(new Integer(id));
 			
+			//  C_Order_ID
+			id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "C_Order_ID", true);
+			if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
+				fOrder_ID.setValue(new Integer(id));
+
+			//  IsSOTrx - Window context
+			id = Env.getContext(Env.getCtx(), p_WindowNo, "IsSOTrx", true);
+			if (id != null && id.length() != 0 && (id == "Y" || id == "N"))
+			{
+				fIsSOTrx.setSelected(id == "Y");
+			}
+
 			//  The value passed in from the field
 			if (value != null && value.length() > 0)
 			{
@@ -317,16 +374,11 @@ public class InfoInvoice extends Info
 		        	mi = null;
 		        	Trx.get(trxName, false).close();
 				}
-
-				//  C_Order_ID
-				id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "C_Order_ID", true);
-				if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
-					fOrder_ID.setValue(new Integer(id));
 				
 			}
         }
         
-		return true;
+		return;
 	}	//	initInfo
 
 	
@@ -454,6 +506,75 @@ public class InfoInvoice extends Info
 			pstmt.setString(index++, fIsSOTrx.isSelected() ? "Y" : "N");
 	}   //  setParameters
 
+	/**
+	 * A record was selected - take action to sync subordinate tables if any
+	 */
+	protected void recordSelected(int key)
+	{
+		//  Found and selected the same record or selected the first record
+    	if (m_C_Invoice_ID != key)
+    	{
+    		refresh();
+    	}
+		p_detailTaskPane.setCollapsed(false);
+		return;
+	}
+	/**
+	 * No record was selected - take action to sync subordinate tables if any
+	 */
+	protected void noRecordSelected()
+	{
+		//  Nothing was selected, or the query is empty
+		//  - close the panel
+		m_C_Invoice_ID = 0;
+		p_detailTaskPane.setCollapsed(true);
+		return;
+	}
+
+	/**
+	 * 	Refresh Query
+	 */
+	private void refresh()
+	{
+		//  Invoke later to not delay events.
+		SwingUtilities.invokeLater(new Runnable(){public void run()
+		{
+	    	String sql;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+
+			int leadRowKey = p_table.getLeadRowKey();
+			
+	    	if (m_C_Invoice_ID != leadRowKey)
+			{
+	    		m_C_Invoice_ID = leadRowKey;
+	    		
+	    		//  Payment Schedule table
+				sql = m_sqlSchedule;
+		
+				log.finest(sql);
+				try
+				{
+					pstmt = DB.prepareStatement(sql, null);
+					pstmt.setInt(1, m_C_Invoice_ID);
+					rs = pstmt.executeQuery();
+					scheduleTbl.loadTable(rs);
+					rs.close();
+				}
+				catch (Exception e)
+				{
+					log.log(Level.WARNING, sql, e);
+				}
+				finally
+				{
+					DB.close(rs, pstmt);
+					rs = null; pstmt = null;
+				}
+			}
+			
+		}});
+	}	//	refresh
+
 
 	/**
 	 *	Zoom
@@ -490,19 +611,65 @@ public class InfoInvoice extends Info
 		Integer ID = getSelectedRowKey();
 		Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "C_Invoice_ID", ID == null ? "0" : ID.toString());
 		//
-		int C_InvoicePaySchedule_ID = 0;
-		int row = p_table.getSelectedRow();
-		if (row >= 0)
-		{
-			Object value = p_table.getValueAt(row, INDEX_PAYSCHEDULE);
-			if (value != null && value instanceof KeyNamePair)
-				C_InvoicePaySchedule_ID = ((KeyNamePair)value).getKey();
-		}
+		int C_InvoicePaySchedule_ID = scheduleTbl.getSelectedRowKey();
 		if (C_InvoicePaySchedule_ID <= 0)	//	not selected
 			Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "C_InvoicePaySchedule_ID", "0");
 		else
 			Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "C_InvoicePaySchedule_ID", String.valueOf(C_InvoicePaySchedule_ID));
 	}	//	saveSelectionDetail
 	
-	
+	/**
+	 * Does the parameter panel have outstanding changes that have not been
+	 * used in a query?
+	 * @return true if there are outstanding changes.
+	 */
+	protected boolean hasOutstandingChanges()
+	{
+		//  All the tracked fields
+		return(
+				fDocumentNo.hasChanged()	||
+				fDescription.hasChanged()	||
+				fIsPaid.hasChanged()	||
+				fIsSOTrx.hasChanged()	||
+				fBPartner_ID.hasChanged()	||
+				fOrder_ID.hasChanged()	||
+				fAmtFrom.hasChanged() ||
+				fAmtTo.hasChanged() ||
+				fDateFrom.hasChanged()	||
+				fDateTo.hasChanged());
+	}
+	/**
+	 * Record outstanding changes by copying the current
+	 * value to the oldValue on all fields
+	 */
+	protected void setFieldOldValues()
+	{
+		fAmtFrom.set_oldValue();
+		fAmtTo.set_oldValue();
+		fDocumentNo.set_oldValue();
+		fDescription.set_oldValue();
+		fIsPaid.set_oldValue();
+		fIsSOTrx.set_oldValue();
+		fBPartner_ID.set_oldValue();
+		fOrder_ID.set_oldValue();
+		fDateFrom.set_oldValue();
+		fDateTo.set_oldValue();
+		return;
+	}
+    /**
+	 *  Clear all fields and set default values in check boxes
+	 */
+	protected void clearParameters()
+	{
+		//  Clear fields and set defaults
+		Object nullObject = null;
+		fDocumentNo.setValue("");
+		fDescription.setValue("");
+		fIsPaid.setSelected(false);
+		fBPartner_ID.setValue(null);
+		fOrder_ID.setValue(null);
+		fDateFrom.setValue(nullObject);
+		fDateTo.setValue(nullObject);
+		fIsSOTrx.setSelected(!"N".equals(Env.getContext(Env.getCtx(), p_WindowNo, "IsSOTrx")));
+	}
 }   //  InfoInvoice

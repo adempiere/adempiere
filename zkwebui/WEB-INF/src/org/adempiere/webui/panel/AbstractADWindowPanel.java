@@ -2054,7 +2054,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			if (ps != null && ps.equals("Y"))
 			{
 				new org.adempiere.webui.acct.WAcctViewer(Env.getContextAsInt (ctx, curWindowNo, "AD_Client_ID"),
-						tableId, recordId);
+						tableId, recordId, true);  // Open as a modal window.
 			}
 			else
 			{

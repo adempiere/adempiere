@@ -17,12 +17,15 @@
 package org.compiere.apps.search;
 
 import java.awt.Frame;
+import java.awt.event.ActionEvent;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 import org.adempiere.plaf.AdempierePLAF;
+import org.compiere.apps.AEnv;
 import org.compiere.apps.ALayout;
 import org.compiere.apps.ALayoutConstraint;
 import org.compiere.grid.ed.VCheckBox;
@@ -30,9 +33,10 @@ import org.compiere.grid.ed.VDate;
 import org.compiere.grid.ed.VLookup;
 import org.compiere.grid.ed.VNumber;
 import org.compiere.minigrid.IDColumn;
+import org.compiere.model.MColumn;
 import org.compiere.model.MLookupFactory;
-import org.compiere.model.MQuery;
 import org.compiere.model.MOrder;
+import org.compiere.model.MQuery;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
 import org.compiere.swing.CTextField;
@@ -94,27 +98,30 @@ public class InfoOrder extends Info
 		log.info( "InfoOrder");
 		setTitle(Msg.getMsg(Env.getCtx(), "InfoOrder"));
 		//
-		try
-		{
-			statInit();
-			p_loadedOK = initInfo (record_id, value);
-		}
-		catch (Exception e)
-		{
-			return;
-		}
+		StringBuffer where = new StringBuffer("o.IsActive='Y'");
+		if (whereClause.length() > 0)
+			where.append(" AND ").append(Util.replace(whereClause, "C_Order.", "o."));
+		setWhereClause(where.toString());
+		setTableLayout(s_Layout);
+		setFromClause(s_From);
+		setOrderClause(s_Order);
 		//
-		int no = p_table.getRowCount();
-		setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
-		setStatusDB(Integer.toString(no));
+		setShowTotals(true);
+		//
+		statInit();
+		initInfo (record_id, value);
+
+		//  To get the focus after the table update
+		m_heldLastFocus = fDocumentNo;
 		
-		//  Auto query
+		//	AutoQuery
 		if(autoQuery() || record_id != 0 || (value != null && value.length() > 0 && value != "%"))
 			executeQuery();
-		//
-		pack();
-		//	Focus
-		fDocumentNo.requestFocus();
+		
+		p_loadedOK = true;
+
+		AEnv.positionCenterWindow(frame, this);	
+		
 	}   //  InfoOrder
 
 	//  Static Info
@@ -140,26 +147,17 @@ public class InfoOrder extends Info
 	private VCheckBox fIsSOTrx = new VCheckBox ("IsSOTrx", false, false, true, Msg.translate(Env.getCtx(), "IsSOTrx"), "", false);
 	private VCheckBox fIsDelivered = new VCheckBox("IsDelivered", false, false, true, Msg.translate(Env.getCtx(), "IsDelivered"), "", false);
 
+	/** From Clause             */
+	private static String s_From = " C_Order o";
+	/** Order Clause             */
+	private static String s_Order = "2,3,4";
 	/**  Array of Column Info    */
-	private static final Info_Column[] s_invoiceLayout = {
-		new Info_Column(" ", "o.C_Order_ID", IDColumn.class),
-		new Info_Column(Msg.translate(Env.getCtx(), "C_BPartner_ID"), "(SELECT Name FROM C_BPartner bp WHERE bp.C_BPartner_ID=o.C_BPartner_ID)", String.class),
-		new Info_Column(Msg.translate(Env.getCtx(), "DateOrdered"), "o.DateOrdered", Timestamp.class),
-		new Info_Column(Msg.translate(Env.getCtx(), "DocumentNo"), "o.DocumentNo", String.class),
-		new Info_Column(Msg.translate(Env.getCtx(), "C_Currency_ID"), "(SELECT ISO_Code FROM C_Currency c WHERE c.C_Currency_ID=o.C_Currency_ID)", String.class),
-		new Info_Column(Msg.translate(Env.getCtx(), "GrandTotal"), "o.GrandTotal",  BigDecimal.class),
-		new Info_Column(Msg.translate(Env.getCtx(), "ConvertedAmount"), "currencyBase(o.GrandTotal,o.C_Currency_ID,o.DateAcct, o.AD_Client_ID,o.AD_Org_ID)", BigDecimal.class),
-		new Info_Column(Msg.translate(Env.getCtx(), "IsSOTrx"), "o.IsSOTrx", Boolean.class),
-		new Info_Column(Msg.translate(Env.getCtx(), "Description"), "o.Description", String.class),
-		new Info_Column(Msg.translate(Env.getCtx(), "POReference"), "o.POReference", String.class),
-		new Info_Column(Msg.translate(Env.getCtx(), "IsDelivered"), "o.IsDelivered", Boolean.class),
-	};
+	private static Info_Column[] s_Layout = null;
 
 	/**
 	 *	Static Setup - add fields to parameterPanel
-	 *  @throws Exception if Lookups cannot be initialized
 	 */
-	private void statInit() throws Exception
+	private void statInit()
 	{
 		lDocumentNo.setLabelFor(fDocumentNo);
 		fDocumentNo.setBackground(AdempierePLAF.getInfoBackground());
@@ -176,23 +174,31 @@ public class InfoOrder extends Info
 		fIsDelivered.addActionListener(this);
 		//
 		fBPartner_ID = new VLookup("C_BPartner_ID", false, false, true,
-			MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 3499, DisplayType.Search));
+			MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 
+					MColumn.getColumn_ID(MOrder.Table_Name, MOrder.COLUMNNAME_C_BPartner_ID), 
+					DisplayType.Search));
 		lBPartner_ID.setLabelFor(fBPartner_ID);
 		fBPartner_ID.setBackground(AdempierePLAF.getInfoBackground());
-		fBPartner_ID.addPropertyChangeListener(this);
+		fBPartner_ID.addActionListener(this);
 		//
 		lDateFrom.setLabelFor(fDateFrom);
 		fDateFrom.setBackground(AdempierePLAF.getInfoBackground());
 		fDateFrom.setToolTipText(Msg.translate(Env.getCtx(), "DateFrom"));
+		fDateFrom.addActionListener(this);
 		lDateTo.setLabelFor(fDateTo);
 		fDateTo.setBackground(AdempierePLAF.getInfoBackground());
 		fDateTo.setToolTipText(Msg.translate(Env.getCtx(), "DateTo"));
+		fDateTo.addActionListener(this);
 		lAmtFrom.setLabelFor(fAmtFrom);
 		fAmtFrom.setBackground(AdempierePLAF.getInfoBackground());
 		fAmtFrom.setToolTipText(Msg.translate(Env.getCtx(), "AmtFrom"));
+		fAmtFrom.addActionListener(this);
+		fAmtFrom.setBorder(fDateFrom.getBorder());  // Not sure why this is necessary?  The border is not visible otherwise.
 		lAmtTo.setLabelFor(fAmtTo);
 		fAmtTo.setBackground(AdempierePLAF.getInfoBackground());
 		fAmtTo.setToolTipText(Msg.translate(Env.getCtx(), "AmtTo"));
+		fAmtTo.addActionListener(this);
+		fAmtTo.setBorder(fDateFrom.getBorder());  // Not sure why this is necessary?  The border is not visible otherwise.
 		//
 		CPanel amtPanel = new CPanel();
 		CPanel datePanel = new CPanel();
@@ -207,44 +213,34 @@ public class InfoOrder extends Info
 		datePanel.add(lDateTo, null);
 		datePanel.add(fDateTo, null);
 
-		parameterPanel.setLayout(new ALayout());
 		//  First Row
-		parameterPanel.add(lDocumentNo, new ALayoutConstraint(0,0));
-		parameterPanel.add(fDocumentNo, null);
-		parameterPanel.add(lDescription, null);
-		parameterPanel.add(fDescription, null);
-		parameterPanel.add(fIsSOTrx, new ALayoutConstraint(0,4));
+		p_criteriaGrid.add(lDocumentNo, new ALayoutConstraint(0,0));
+		p_criteriaGrid.add(fDocumentNo, null);
+		p_criteriaGrid.add(lDescription, null);
+		p_criteriaGrid.add(fDescription, null);
+		p_criteriaGrid.add(fIsSOTrx, new ALayoutConstraint(0,4));
 
 		//  2nd Row
-		parameterPanel.add(lBPartner_ID, new ALayoutConstraint(1,0));
-		parameterPanel.add(fBPartner_ID, null);
-		parameterPanel.add(lDateFrom, null);
-		parameterPanel.add(datePanel, null);
-		parameterPanel.add(fIsDelivered, new ALayoutConstraint(1,4));
+		p_criteriaGrid.add(lBPartner_ID, new ALayoutConstraint(1,0));
+		p_criteriaGrid.add(fBPartner_ID, null);
+		p_criteriaGrid.add(lDateFrom, null);
+		p_criteriaGrid.add(datePanel, null);
+		p_criteriaGrid.add(fIsDelivered, new ALayoutConstraint(1,4));
 
 		//  3rd Row
-		parameterPanel.add(lPOReference, new ALayoutConstraint(2,0));
-		parameterPanel.add(fPOReference, null);
-		parameterPanel.add(lAmtFrom, null);
-		parameterPanel.add(amtPanel, null);
+		p_criteriaGrid.add(lPOReference, new ALayoutConstraint(2,0));
+		p_criteriaGrid.add(fPOReference, null);
+		p_criteriaGrid.add(lAmtFrom, null);
+		p_criteriaGrid.add(amtPanel, null);
 	}	//	statInit
 
 	/**
 	 *	General Init
 	 *	@return true, if success
 	 */
-	private boolean initInfo (int record_id, String value)
+	protected void initInfo (int record_id, String value)
 	{
-
-		//  prepare table
-		StringBuffer where = new StringBuffer("o.IsActive='Y'");
-		if (p_whereClause.length() > 0)
-			where.append(" AND ").append(Util.replace(p_whereClause, "C_Order.", "o."));
-		prepareTable(s_invoiceLayout,
-			" C_Order o",
-			where.toString(),
-			"2,3,4");
-		
+		//
 		if (!(record_id == 0) && value != null && value.length() > 0)
 		{
 			log.severe("Received both a record_id and a value: " + record_id + " - " + value);
@@ -295,10 +291,81 @@ public class InfoOrder extends Info
 			}
 		}
 		
-		return true;
+		return;
 	}	//	initInfo
 
-	
+	/**
+	 *  Get Table Layout
+	 *
+	 * @return array of Column_Info
+	 */
+	protected Info_Column[] getTableLayout()
+	{
+
+		ArrayList<Info_Column> list = new ArrayList<Info_Column>();
+		list.add(new Info_Column(" ", "o.C_Order_ID", IDColumn.class));
+		list.add(new Info_Column(Msg.translate(Env.getCtx(), "C_BPartner_ID"), "(SELECT Name FROM C_BPartner bp WHERE bp.C_BPartner_ID=o.C_BPartner_ID)", String.class));
+		list.add(new Info_Column(Msg.translate(Env.getCtx(), "DateOrdered"), "o.DateOrdered", Timestamp.class));
+		list.add(new Info_Column(Msg.translate(Env.getCtx(), "DocumentNo"), "o.DocumentNo", String.class));
+		list.add(new Info_Column(Msg.translate(Env.getCtx(), "C_Currency_ID"), "(SELECT ISO_Code FROM C_Currency c WHERE c.C_Currency_ID=o.C_Currency_ID)", String.class));
+		list.add(new Info_Column(Msg.translate(Env.getCtx(), "GrandTotal"), "o.GrandTotal",  BigDecimal.class));
+		list.add(new Info_Column(Msg.translate(Env.getCtx(), "ConvertedAmount"), "currencyBase(o.GrandTotal,o.C_Currency_ID,o.DateAcct, o.AD_Client_ID,o.AD_Org_ID)", BigDecimal.class));
+		list.add(new Info_Column(Msg.translate(Env.getCtx(), "IsSOTrx"), "o.IsSOTrx", Boolean.class));
+		list.add(new Info_Column(Msg.translate(Env.getCtx(), "Description"), "o.Description", String.class));
+		list.add(new Info_Column(Msg.translate(Env.getCtx(), "POReference"), "o.POReference", String.class));
+		if (fIsSOTrx.isSelected())
+		{
+			list.add(new Info_Column(Msg.translate(Env.getCtx(), "IsDelivered"), "o.IsDelivered", Boolean.class));
+		}
+		else
+		{
+			list.add(new Info_Column(Msg.translate(Env.getCtx(), "Received"), "o.IsDelivered", Boolean.class));
+		}
+		list.add(new Info_Column(Msg.translate(Env.getCtx(), "DocStatus"), "o.docstatus", String.class));
+		//
+		s_Layout = new Info_Column[list.size()];
+		list.toArray(s_Layout);
+		//
+		return s_Layout;
+	}   //  getTableLayout
+
+	/**************************************************************************
+	 *  Action Listener
+	 *	@param e event
+	 */
+	public void actionPerformed (ActionEvent e)
+	{
+		// Handle actions if possible or pass the event to the parent class
+
+		if(!p_loadedOK)
+			return;
+		
+		if(e.getSource() != null)
+		{
+			if (e.getSource() instanceof VCheckBox)
+			{
+				//  Check box changes generally always cause a refresh
+				//  Capture changes that don't 	
+				VCheckBox cb = (VCheckBox) e.getSource();
+				//  ShowDetail check box
+				if (cb.getName().equals("IsSOTrx"))
+				{
+					if (cb.isSelected())
+					{
+				        fIsDelivered.setText(Msg.translate(Env.getCtx(), "IsDelivered"));
+					}
+					else
+					{
+				        fIsDelivered.setText(Msg.translate(Env.getCtx(), "Received"));
+					}
+				}
+			}
+		} //  e.getSource() is null
+
+		super.actionPerformed(e);  //  Let the info class decide what to do.
+				
+	}   //  actionPerformed
+
 	/**************************************************************************
 	 *	Construct SQL Where Clause and define parameters.
 	 *  (setParameters needs to set parameters)
@@ -418,12 +485,6 @@ public class InfoOrder extends Info
 		pstmt.setString(index++, fIsDelivered.isSelected() ? "Y" : "N");
 	}   //  setParameters
 
-	/**
-	 *  Get SQL WHERE parameter
-	 *  @param f field
-	 *  @return sql
-	 */
-
 
 	/**
 	 *	Zoom
@@ -449,5 +510,62 @@ public class InfoOrder extends Info
 	{
 		return true;
 	}	//	hasZoom
+	
+	/**
+	 * Determine if the column causes dynamic changes in the table layout
+	 * @param o
+	 * @return true if changes result
+	 */
+	protected boolean columnIsDynamic(Object o)
+	{
+		// List of search fields that cause changes to the table layout
+		// See getProductLayout()
+		if (o.equals(fIsSOTrx))
+		{
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Does the parameter panel have outstanding changes that have not been
+	 * used in a query?
+	 * @return true if there are outstanding changes.
+	 */
+	protected boolean hasOutstandingChanges()
+	{
+		//  All the tracked fields
+		return(
+			fAmtFrom.hasChanged()	||
+			fAmtTo.hasChanged() ||
+			fBPartner_ID.hasChanged() ||
+			fDescription.hasChanged() ||
+			fDocumentNo.hasChanged() ||
+			fDateFrom.hasChanged() ||
+			fDateTo.hasChanged() ||
+			fIsDelivered.hasChanged() ||
+			fIsSOTrx.hasChanged() ||
+			fPOReference.hasChanged()
+			);
+			
+	}
+	/**
+	 * Record outstanding changes by copying the current
+	 * value to the oldValue on all fields
+	 */
+	protected void setFieldOldValues()
+	{
+		fAmtFrom.set_oldValue();
+		fAmtTo.set_oldValue() ;
+		fBPartner_ID.set_oldValue() ;
+		fDescription.set_oldValue() ;
+		fDocumentNo.set_oldValue() ;
+		fDateFrom.set_oldValue() ;
+		fDateTo.set_oldValue() ;
+		fIsDelivered.set_oldValue() ;
+		fIsSOTrx.set_oldValue() ;
+		fPOReference.set_oldValue();
+		return;
+	}
 	
 }   //  InfoOrder

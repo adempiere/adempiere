@@ -32,10 +32,6 @@ import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.editor.WNumberEditor;
 import org.adempiere.webui.editor.WStringEditor;
-import org.compiere.apps.search.InfoPAttribute;
-import org.compiere.grid.ed.VComboBox;
-import org.compiere.grid.ed.VNumber;
-import org.compiere.grid.ed.VString;
 import org.compiere.model.MAttribute;
 import org.compiere.model.MAttributeSet;
 import org.compiere.model.MRole;
@@ -58,6 +54,8 @@ import org.zkoss.zul.Vbox;
  * This class is based on org.compiere.apps.search.InfoPAttribute written by Jorg Janke
  * @author Elaine
  *
+ * @author Michael McKay, ADEMPIERE-72 VLookup and Info Window improvements
+ * 	<li>https://adempiere.atlassian.net/browse/ADEMPIERE-72
  */
 public class InfoPAttributePanel extends Window implements EventListener
 {
@@ -244,6 +242,7 @@ public class InfoPAttributePanel extends Window implements EventListener
 			+ " ORDER BY IsInstanceAttribute, Name", 
 			"M_Attribute", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
 		boolean instanceLine = false;
+		boolean productLine = false;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
@@ -255,7 +254,27 @@ public class InfoPAttributePanel extends Window implements EventListener
 				String description = rs.getString(3);
 				String attributeValueType = rs.getString(4);
 				boolean isInstanceAttribute = "Y".equals(rs.getString(5)); 
-				//	Instance switch
+				// Add label for product attributes if there are any 
+				if (!productLine && !isInstanceAttribute)
+				{
+					Row row = new Row();
+					rows.appendChild(row);
+					row.setSpans("2");
+    				Label group = new Label(Msg.translate(Env.getCtx(), "IsProductAttribute")); 
+    				row.appendChild(group);
+    				rows.appendChild(row);
+    				
+    				row = new Row();
+					rows.appendChild(row);
+					row.setSpans("2");
+                    Separator separator = new Separator();
+                    separator.setBar(true);
+        			row.appendChild(separator);
+        			rows.appendChild(row);
+        			
+					productLine = true;
+				}
+				//	Add label for Instances attributes
 				if (!instanceLine && isInstanceAttribute)
 				{
 					Row row = new Row();
@@ -732,14 +751,38 @@ public class InfoPAttributePanel extends Window implements EventListener
 	{
 		StringBuffer display = new StringBuffer();
 		if (serNoField != null && serNoField.getValue().toString().length() > 0)
-			display.append(serNoField + "-");
+			display.append(serNoField.getValue().toString() + "-");
 		if (lotField != null && lotField.getValue().toString().length() > 0)
-			display.append(lotField + "-");
+			display.append(lotField.getValue().toString() + "-");
 		if (lotSelection != null && lotSelection.getSelectedItem().getValue().toString().length() > 0)
 			display.append(lotSelection.getSelectedItem().getValue().toString() + "-");
 		if (guaranteeDateField != null && guaranteeDateField.getValue() != null)
 			display.append(guaranteeDateSelection.getSelectedItem().getValue().toString() + guaranteeDateField.getValue().toString() + "-");
     
+		for (int i = 0; i < m_productEditors.size(); i++)
+		{
+			Component c = (Component)m_productEditors.get(i);
+			Component cTo = (Component)m_productEditorsTo.get(i);
+			if (c instanceof Listbox)
+			{
+				Listbox field = (Listbox)c;
+				display.append(field.getSelectedItem().getValue().toString() + "-");
+			}
+			else if (c instanceof NumberBox)
+			{
+				NumberBox field = (NumberBox)c;
+				display.append(field.getValue().toString() + "-");
+				NumberBox fieldTo = (NumberBox)cTo;
+				display.append(fieldTo.getValue().toString() + "-");
+				 
+			}
+			else
+			{
+				Textbox field = (Textbox)c;
+				display.append(field.getValue() + "-");
+			}
+		}
+
 		for (int i = 0; i < m_instanceEditors.size(); i++)
 		{
 			Component c = (Component)m_instanceEditors.get(i);
@@ -761,7 +804,6 @@ public class InfoPAttributePanel extends Window implements EventListener
 			{
 				Textbox field = (Textbox)c;
 				display.append(field.getValue() + "-");
-				
 			}
 		}
 		//  TODO - there is a more elegant way to do this.

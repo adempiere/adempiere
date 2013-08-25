@@ -17,6 +17,7 @@
 
 package org.adempiere.webui.component;
 
+import java.awt.Component;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,6 +26,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
+
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
 
 import org.adempiere.webui.event.TableValueChangeEvent;
 import org.adempiere.webui.event.TableValueChangeListener;
@@ -90,6 +96,15 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 	private boolean				p_isDefaultSelected = MSysConfig.getBooleanValue(SYSCONFIG_INFO_DEFAULTSELECTED, false, Env.getAD_Client_ID(Env.getCtx()));
 	/** Is Total Show */
 	private boolean showTotals = false;
+	private boolean autoResize = true;
+
+	public boolean isAutoResize() {
+		return autoResize;
+	}
+
+	public void setAutoResize(boolean autoResize) {
+		this.autoResize = autoResize;
+	}
 
 	/**
 	 * Default constructor.
@@ -139,6 +154,10 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 	    	}
 	    }
 
+	    autoSize();
+		if(getShowTotals())
+			addTotals(m_layout);
+		
 	    // re-render
 	    this.repaint();
 
@@ -635,9 +654,11 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 		{
 			logger.log(Level.SEVERE, "", exception);
 		}
-		// TODO implement this
-		//autoSize();
-
+		
+		autoSize();
+		if(getShowTotals())
+			addTotals(m_layout);
+		
 		// repaint the table
 		this.repaint();
 
@@ -712,8 +733,10 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 				getModel().setDataAt(data, row, col);
 			}
 		}
-		// TODO implement this
-		//autoSize();
+
+		autoSize();
+		if(getShowTotals())
+			addTotals(m_layout);
 
 		// repaint the table
 		this.repaint();
@@ -992,12 +1015,12 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 
 				for (int col = 0; col < layout.length; col++)
 				{
-					int viewRow = row;
-					int viewCol = convertColumnIndexToView(col);
-					int modelRow = convertRowIndexToModel(row);
-					int modelCol = convertColumnIndexToModel(col);
-					Object data = getModel().getValueAt(modelRow, modelCol);
-					Class<?> c = layout[modelCol].getColClass();
+					//int viewRow = row;
+					//int viewCol = convertColumnIndexToView(col);
+					//int modelRow = convertRowIndexToModel(row);
+					//int modelCol = convertColumnIndexToModel(col);
+					Object data = getModel().getValueAt(row, col);
+					Class<?> c = layout[col].getColClass();
 					if (c == BigDecimal.class)
 					{	
 						BigDecimal subtotal = Env.ZERO;
@@ -1064,81 +1087,7 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 	 */
 	public void addTotals(Info_Column[] layout)
 	{
-		if (getRowCount() == 0 || layout.length == 0)
-			return;
-		
-		Object[] total = new Object[layout.length];
-		
-		for (int row = 0 ; row < getRowCount(); row ++)
-		{
-
-				for (int col = 0; col < layout.length; col++)
-				{
-					int viewRow = row;
-					int viewCol = convertColumnIndexToView(col);
-					int modelRow = convertRowIndexToModel(row);
-					int modelCol = convertColumnIndexToModel(col);
-					Object data = getModel().getValueAt(modelRow, modelCol);
-					Class<?> c = layout[modelCol].getColClass();
-					if (c == BigDecimal.class)
-					{	
-						BigDecimal subtotal = Env.ZERO;
-						if(total[col]!= null)
-							subtotal = (BigDecimal)(total[col]);
-							
-						BigDecimal amt =  (BigDecimal) data;
-						if(subtotal == null)
-							subtotal = Env.ZERO;
-						if(amt == null )
-							amt = Env.ZERO;
-						total[col] = subtotal.add(amt);
-					}
-					else if (c == Double.class)
-					{
-						Double subtotal = new Double(0);
-						if(total[col] != null)
-							subtotal = (Double)(total[col]);
-						
-						Double amt =  (Double) data;
-						if(subtotal == null)
-							subtotal = new Double(0);
-						if(amt == null )
-							subtotal = new Double(0);
-						total[col] = subtotal + amt;
-						
-					}		
-				}	
-		}
-		
-		//adding total row
-
-		int row = getRowCount() + 1;
-		boolean markerSet = false;
-		setRowCount(row);
-		for (int col = 0; col < layout.length; col++)
-		{
-			int modelCol = convertColumnIndexToModel(col);
-			Class<?> c = layout[modelCol].getColClass();
-			if (c == BigDecimal.class)
-			{	
-				setValueAt(total[col] , row - 1, col);
-			}
-			else if (c == Double.class)
-			{
-				setValueAt(total[col] , row -1 , col);
-			}
-			else
-			{	
-				if(c == String.class && !markerSet)
-				{	
-					setValueAt(" Σ  " , row -1 , col);
-					markerSet = true;
-				}	
-				else
-					setValueAt(null , row - 1, col );	
-			}	
-			
-		}
+		addTotals((ColumnInfo[]) layout);
 	}
 	
 	/* (non-Javadoc)
@@ -1261,12 +1210,6 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
         return;
     }
 
-    /**
-     * no op, to ease porting of swing form
-     */
-	public void autoSize() {
-		//no op
-	}
 
 	public int getColumnCount() {
 		return getModel() != null ? getModel().getNoColumns() : 0;
@@ -1278,20 +1221,131 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 
 	@Override
 	public int getRowKey(int row) {
-		// TODO Auto-generated method stub
+		if (getKeyColumnIndex() < 0)
+			throw new UnsupportedOperationException("Key Column is not defined");
+		
+		int rows = this.getRowCount();
+		
+		if (this.getShowTotals())
+			rows = rows - 1;
+
+		if (row >= 0 && row < rows)
+		{
+	        Object data = getValueAt(row, convertColumnIndexToView(getKeyColumnIndex())); //  Test
+			if (data instanceof IDColumn)
+			{
+				IDColumn id = (IDColumn)data;
+				return id.getRecord_ID().intValue();
+			}
+		}
 		return 0;
 	}
 
 	@Override
 	public ArrayList<Integer> getSelectedKeys() {
-		// TODO Auto-generated method stub
-		return null;
+		if (getModel() == null)
+		{
+			throw new UnsupportedOperationException("Layout not defined");
+		}
+		if (getKeyColumnIndex() < 0)
+		{
+			throw new UnsupportedOperationException("Key Column is not defined");
+		}
+		//
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		for (int row = 0; row < getRowCount(); row++)
+		{
+			Object data = getModel().getValueAt(row, getKeyColumnIndex());
+			if (data instanceof IDColumn)
+			{
+				IDColumn record = (IDColumn)data;
+				if (record.isSelected())
+				{
+					list.add(record.getRecord_ID());
+				}
+			}
+		}
+		return list;
 	}
 
-	@Override
-	public boolean isRowChecked(int row) {
-		// TODO Auto-generated method stub
-		return false;
+	/**
+	 *	Size Columns.
+	 *  Uses Mimimum Column Size
+	 */
+	public void autoSize()
+	{
+//  TODO finish port from SWING
+		if ( !autoResize  )
+			return;
+/*
+		long start = System.currentTimeMillis();
+		//
+		final int SLACK = 8;		//	making sure it fits in a column
+		final int MAXSIZE = 300;    //	max size of a column
+		//
+		ListModelTable model = this.getModel();
+		int size = model.getNoColumns();
+		//	for all columns
+		for (int col = 0; col < size; col++)
+		{
+			//  Column & minimum width
+			ListColumn tc = model.get.getColumn(col);
+			int width = 0;
+			if (m_minWidth.size() > col)
+				width = ((Integer)m_minWidth.get(col)).intValue();
+		//  log.config( "Column=" + col + " " + column.getHeaderValue());
+
+			//	Header
+			TableCellRenderer renderer = tc.getHeaderRenderer();
+			if (renderer == null)
+				renderer = new DefaultTableCellRenderer();
+			Component comp = renderer.getTableCellRendererComponent
+				(this, tc.getHeaderValue(), false, false, 0, 0);
+		//	log.fine( "Hdr - preferred=" + comp.getPreferredSize().width + ", width=" + comp.getWidth());
+			width = Math.max(width, comp.getPreferredSize().width + SLACK);
+
+			//	Cells
+			int maxRow = Math.min(30, getRowCount());       //  first 30 rows
+			for (int row = 0; row < maxRow; row++)
+			{
+				renderer = getCellRenderer(row, col);
+				comp = renderer.getTableCellRendererComponent
+					(this, getValueAt(row, col), false, false, row, col);
+				if (comp != null) {
+					int rowWidth = comp.getPreferredSize().width + SLACK;
+					width = Math.max(width, rowWidth);
+				}
+			}
+			//	Width not greater ..
+			width = Math.min(MAXSIZE, width);
+			tc.setPreferredWidth(width);
+		//	log.fine( "width=" + width);
+		}	//	for all columns
+		log.finer("Cols=" + size + " - " + (System.currentTimeMillis()-start) + "ms");
+*/
+	}	//	autoSize
+
+	/**
+	 * Determines if the row is marked selected in the key column. The table 
+	 * selection status (highlight) is not considered.
+	 * @param row
+	 * @return true if the row is marked selected in the key column
+	 */
+	public boolean isRowChecked(int row)
+	{
+		int keyColumn = this.getKeyColumnIndex();
+		
+		if (keyColumn < 0)
+			return false;
+		
+		//  The selection can be indicated by an IDColumn or Boolean in the keyColumn position
+		Object data = getValueAt(row, convertColumnIndexToView(keyColumn)); 
+		if (data instanceof IDColumn)
+			return ((IDColumn) data).isSelected();
+		else if (data instanceof Boolean)
+			return (Boolean) data;
+
+		return	false;
 	}
 
 	@Override
@@ -1313,10 +1367,32 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 		return 0;
 	}
 
-	@Override
-	public void setRowChecked(int row, boolean value) {
-		// TODO Auto-generated method stub
+    /**
+     * If the table row has a IDColumn or a boolean checkbox in the KeyColumnIndex
+     * this function will set the checkbox according to the setValue parameter
+     * @param row - the view row
+     * @param setValue - the checkbox value to set 
+     */
+    public void setRowChecked(int row, boolean setValue)
+    {   	
+        //  The key column will be defined or zero by default.
+    	//  Check the class of the data in the cell to verify if 
+    	//  it is a selection column.  Selection columns can be
+    	//  of type IDColumn or Boolean.
+    	Object data = this.getValueAt(row, this.convertColumnIndexToView(getKeyColumnIndex()));
+		if (data instanceof IDColumn)
+		{
+			IDColumn id = (IDColumn)data;
+			id.setSelected(setValue);
+		}
+		else if (data instanceof Boolean)
+		{
+			data = setValue;
+		}
+		else return;
 		
-	}
+		this.setValueAt(data, row, this.convertColumnIndexToView(getKeyColumnIndex()));
+
+    }
 
 }

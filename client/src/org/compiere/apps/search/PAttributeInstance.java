@@ -143,6 +143,7 @@ public class PAttributeInstance extends CDialog
 	private int					m_M_AttributeSetInstance_ID = -1;
 	private String				m_M_AttributeSetInstanceName = null;
 	private String				m_sql;
+	private boolean 			m_wasCancelled;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(PAttributeInstance.class);
 
@@ -201,16 +202,17 @@ public class PAttributeInstance extends CDialog
 		+ " INNER JOIN M_AttributeSet st ON (st.M_AttributeSet_ID=asi.M_AttributeSet_ID )"
 		+ " LEFT OUTER JOIN M_Storage s ON (s.M_AttributeSetInstance_ID=asi.M_AttributeSetInstance_ID)"
 		+ " LEFT OUTER JOIN M_Locator l ON (s.M_Locator_ID=l.M_Locator_ID)"
-		+ " LEFT OUTER JOIN M_Product p ON (s.M_Product_ID=p.M_Product_ID OR"
-		+                                   "(asi.M_AttributeSet_ID = p.M_AttributeSet_ID AND p.M_AttributeSetInstance_ID = 0) "
-		+		")" 
-	;
+		+ " LEFT OUTER JOIN M_Product p ON (s.M_Product_ID=p.M_Product_ID) "
+		;
+		//  To see all related Attribute Sets, add OR "
+		//+                                   "(asi.M_AttributeSet_ID = p.M_AttributeSet_ID AND p.M_AttributeSetInstance_ID = 0)
+		//  to the last join clause
 	/** Where Clause						*/ 
 	private static String s_sqlWhereWithoutWarehouse = " p.M_Product_ID=?";
 	private static String s_sqlWhereSameWarehouse = " AND (? in (0, l.M_Warehouse_ID))";
 
-	private String	m_sqlNonZero = " AND (s.QtyOnHand<>0 OR s.QtyReserved<>0 OR s.QtyOrdered<>0)";
-	private String	m_sqlMinLife = "";
+	private static String	s_sqlNonZero = " AND (s.QtyOnHand<>0 OR s.QtyReserved<>0 OR s.QtyOrdered<>0)";
+	private static String	s_sqlMinLife = "";
 
 	/**
 	 * 	Dynamic Init
@@ -255,17 +257,17 @@ public class PAttributeInstance extends CDialog
 			}
 			if (ShelfLifeMinPct > 0)
 			{
-				m_sqlMinLife = " AND COALESCE(TRUNC(((daysbetween(asi.GuaranteeDate, SYSDATE))/p.GuaranteeDays)*100),0)>=" + ShelfLifeMinPct;
+				s_sqlMinLife = " AND COALESCE(TRUNC(((daysbetween(asi.GuaranteeDate, SYSDATE))/p.GuaranteeDays)*100),0)>=" + ShelfLifeMinPct;
 				log.config( "PAttributeInstance.dynInit - ShelfLifeMinPct=" + ShelfLifeMinPct);
 			}
 			if (ShelfLifeMinDays > 0)
 			{
-				m_sqlMinLife += " AND COALESCE((daysbetween(asi.GuaranteeDate, SYSDATE)),0)>=" + ShelfLifeMinDays;
+				s_sqlMinLife += " AND COALESCE((daysbetween(asi.GuaranteeDate, SYSDATE)),0)>=" + ShelfLifeMinDays;
 				log.config( "PAttributeInstance.dynInit - ShelfLifeMinDays=" + ShelfLifeMinDays);
 			}
 		}	//	BPartner != 0
 
-		m_sql = m_table.prepareTable (s_layout, s_sqlFrom, s_sqlWhereWithoutWarehouse, false, "asi")
+		m_sql = m_table.prepareTable (s_layout, s_sqlFrom, s_sqlWhereWithoutWarehouse + s_sqlNonZero, false, "asi")
 				+ " ORDER BY asi.GuaranteeDate, s.QtyOnHand";	//	oldest, smallest first
 		//
 		m_table.setRowSelectionAllowed(true);
@@ -291,9 +293,9 @@ public class PAttributeInstance extends CDialog
 		if (!showAll.isSelected())
 		{
 			sql = m_sql.substring(0, pos) 
-				+ m_sqlNonZero + s_sqlWhereSameWarehouse;
-			if (m_sqlMinLife.length() > 0)
-				sql += m_sqlMinLife;
+				+ s_sqlWhereSameWarehouse;
+			if (s_sqlMinLife.length() > 0)
+				sql += s_sqlMinLife;
 			sql += m_sql.substring(pos);
 		}
 		//
@@ -338,12 +340,16 @@ public class PAttributeInstance extends CDialog
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getActionCommand().equals(ConfirmPanel.A_OK))
+		{
 			dispose();
-		else if (e.getActionCommand().equals(ConfirmPanel.A_CANCEL))
+			m_wasCancelled = false; 
+		}
+		else if (e.getActionCommand().equals(ConfirmPanel.A_CANCEL))	
 		{
 			dispose();
 			m_M_AttributeSetInstance_ID = -1;
 			m_M_AttributeSetInstanceName = null;
+			m_wasCancelled = true; 
 		}
 		else if (e.getSource() == showAll)
 		{
@@ -434,6 +440,15 @@ public class PAttributeInstance extends CDialog
 	public int getM_Locator_ID()
 	{
 		return m_M_Locator_ID;
+	}
+
+	/**
+	 * 	Was Cancelled?
+	 *	@return true if cancelled
+	 */
+	public boolean wasCancelled()
+	{
+		return m_wasCancelled;
 	}
 
 }

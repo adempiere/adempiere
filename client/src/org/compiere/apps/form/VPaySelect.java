@@ -26,6 +26,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -54,6 +55,7 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
+import org.jboss.util.property.PropertyListener;
 
 /**
  *  Create Manual Payments From (AP) Invoices or (AR) Credit Memos.
@@ -68,7 +70,7 @@ import org.compiere.util.ValueNamePair;
  * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
  * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
  */
-public class VPaySelect extends PaySelect implements FormPanel, ActionListener, ASyncProcess
+public class VPaySelect extends PaySelect implements FormPanel, ActionListener, ASyncProcess, PropertyChangeListener
 {
 	/** @todo withholding */
 	private CPanel panel = new CPanel();
@@ -157,6 +159,8 @@ public class VPaySelect extends PaySelect implements FormPanel, ActionListener, 
 		//
 		bGenerate.addActionListener(this);
 		bCancel.addActionListener(this);
+		//
+		miniTable.addPropertyChangeListener(this);
 		//
 		mainPanel.add(parameterPanel, BorderLayout.NORTH);
 		parameterPanel.add(labelBankAccount,  new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
@@ -325,12 +329,10 @@ public class VPaySelect extends PaySelect implements FormPanel, ActionListener, 
 	 */
 	public void propertyChange(PropertyChangeEvent e)
 	{
-		// Handle actions if possible or pass the event to the parent class
-						
 		// Respond to updates to the table
 		if (e.getPropertyName() == "p_table_update")
 			calculateSelection();
-	}   //  valueChanged
+	}   
 
 	/**
 	 *  Calculate selected rows.

@@ -24,7 +24,6 @@ import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
-import org.adempiere.webui.session.SessionManager;
 import org.compiere.apps.search.PAttributeInstance;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
@@ -67,11 +66,9 @@ public class InfoPAttributeInstancePanel extends Window implements EventListener
 		int M_Warehouse_ID, int M_Locator_ID, int M_Product_ID, int C_BPartner_ID)
 	{
 		super();
-		m_parent = parent;
+		setTitle(Msg.getMsg(Env.getCtx(), "PAttributeInstance") + ": " + title);
 		
-		setTitle(Msg.getMsg(Env.getCtx(), "PAttributeInstance"));
-		
-		init (M_Warehouse_ID, M_Locator_ID, M_Product_ID, C_BPartner_ID);
+		init (M_Warehouse_ID, M_Locator_ID, M_Product_ID, C_BPartner_ID, parent);
 		AEnv.showCenterWindow(parent, this);
 	}	//	PAttributeInstance
 
@@ -82,7 +79,7 @@ public class InfoPAttributeInstancePanel extends Window implements EventListener
 	 *	@param M_Product_ID product
 	 *	@param C_BPartner_ID partner
 	 */
-	private void init (int M_Warehouse_ID, int M_Locator_ID, int M_Product_ID, int C_BPartner_ID)
+	private void init (int M_Warehouse_ID, int M_Locator_ID, int M_Product_ID, int C_BPartner_ID, Window window)
 	{
 		log.info("M_Warehouse_ID=" + M_Warehouse_ID 
 			+ ", M_Locator_ID=" + M_Locator_ID
@@ -90,6 +87,7 @@ public class InfoPAttributeInstancePanel extends Window implements EventListener
 		m_M_Warehouse_ID = M_Warehouse_ID;
 		m_M_Locator_ID = M_Locator_ID;
 		m_M_Product_ID = M_Product_ID;
+		m_window = window;
 		try
 		{
 			jbInit();
@@ -113,7 +111,9 @@ public class InfoPAttributeInstancePanel extends Window implements EventListener
 	private int					m_M_AttributeSetInstance_ID = -1;
 	private String				m_M_AttributeSetInstanceName = null;
 	private String				m_sql;
-	private Window				m_parent; 
+	private boolean 			m_wasCancelled;
+	private Window				m_window;
+
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(PAttributeInstance.class);
 
@@ -125,17 +125,29 @@ public class InfoPAttributeInstancePanel extends Window implements EventListener
 	{
         showAll.setText(Msg.getMsg(Env.getCtx(), "ShowAll"));
         showAll.addActionListener(this);
+        showAll.setAttribute("zk_component_ID", "Lookup_Criteria_showAll");        
+        m_table.setAttribute("zk_component_ID", "Lookup_Data_ASIResults");        
+
         
 		Borderlayout borderlayout = new Borderlayout();
 		
 		//
-		int height = SessionManager.getAppDesktop().getClientInfo().desktopHeight;
-		int width = SessionManager.getAppDesktop().getClientInfo().desktopWidth;
-		height = height > 600 ? 250 : 105;
-		width = width > 1500 ? 1500 : width - 150;
-	
-        borderlayout.setWidth(width + "px");
-        borderlayout.setHeight(height + "px");
+		//this.doModal();
+		setAttribute(Window.MODE_MODAL, Boolean.TRUE);
+		//setAttribute(Window.MODE_KEY, Window.MODE_MODAL);
+		setBorder("normal");
+		setClosable(true);
+		this.setContentStyle("overflow: auto");
+        this.setSizable(true);      
+        this.setMaximizable(true);
+		//
+        //  As a modal window, the panel can't extend past the parent
+ 		this.setWidth("100%");
+		this.setHeight("100%");
+		this.setMaximized(true);
+		//
+        borderlayout.setWidth("100%");
+        borderlayout.setHeight("100%");
         borderlayout.setStyle("border: none; position: relative");
         this.appendChild(borderlayout);
         
@@ -184,15 +196,18 @@ public class InfoPAttributeInstancePanel extends Window implements EventListener
 		+ " INNER JOIN M_AttributeSet st ON (st.M_AttributeSet_ID=asi.M_AttributeSet_ID )"
 		+ " LEFT OUTER JOIN M_Storage s ON (s.M_AttributeSetInstance_ID=asi.M_AttributeSetInstance_ID)"
 		+ " LEFT OUTER JOIN M_Locator l ON (s.M_Locator_ID=l.M_Locator_ID)"
-		+ " LEFT OUTER JOIN M_Product p ON (s.M_Product_ID=p.M_Product_ID OR "
-		+                                   "(asi.M_AttributeSet_ID = p.M_AttributeSet_ID AND p.M_AttributeSetInstance_ID = 0) "
+		+ " LEFT OUTER JOIN M_Product p ON (s.M_Product_ID=p.M_Product_ID) "
 	;
+	//  To see all related Attribute Sets, add OR "
+	//+                                   "(asi.M_AttributeSet_ID = p.M_AttributeSet_ID AND p.M_AttributeSetInstance_ID = 0)
+	//  to the last join clause
+
 	/** Where Clause						*/ 
 	private static String s_sqlWhereWithoutWarehouse = " p.M_Product_ID=?";
 	private static String s_sqlWhereSameWarehouse = " AND (l.M_Warehouse_ID=? OR 0=?)";
 
-	private String	m_sqlNonZero = " AND (s.QtyOnHand<>0 OR s.QtyReserved<>0 OR s.QtyOrdered<>0)";
-	private String	m_sqlMinLife = "";
+	private static String	s_sqlNonZero = " AND (s.QtyOnHand<>0 OR s.QtyReserved<>0 OR s.QtyOrdered<>0)";
+	private static String	s_sqlMinLife = "";
 
 	/**
 	 * 	Dynamic Init
@@ -237,17 +252,17 @@ public class InfoPAttributeInstancePanel extends Window implements EventListener
 			}
 			if (ShelfLifeMinPct > 0)
 			{
-				m_sqlMinLife = " AND COALESCE(TRUNC(((daysbetween(asi.GuaranteeDate, SYSDATE))/p.GuaranteeDays)*100),0)>=" + ShelfLifeMinPct;
+				s_sqlMinLife = " AND COALESCE(TRUNC(((daysbetween(asi.GuaranteeDate, SYSDATE))/p.GuaranteeDays)*100),0)>=" + ShelfLifeMinPct;
 				log.config( "PAttributeInstance.dynInit - ShelfLifeMinPct=" + ShelfLifeMinPct);
 			}
 			if (ShelfLifeMinDays > 0)
 			{
-				m_sqlMinLife += " AND COALESCE((daysbetween(asi.GuaranteeDate, SYSDATE)),0)>=" + ShelfLifeMinDays;
+				s_sqlMinLife += " AND COALESCE((daysbetween(asi.GuaranteeDate, SYSDATE)),0)>=" + ShelfLifeMinDays;
 				log.config( "PAttributeInstance.dynInit - ShelfLifeMinDays=" + ShelfLifeMinDays);
 			}
 		}	//	BPartner != 0
 
-		m_sql = m_table.prepareTable (s_layout, s_sqlFrom, s_sqlWhereWithoutWarehouse, false, "asi")
+		m_sql = m_table.prepareTable (s_layout, s_sqlFrom, s_sqlWhereWithoutWarehouse + s_sqlNonZero, false, "asi")
 		+ " ORDER BY asi.GuaranteeDate, s.QtyOnHand";	//	oldest, smallest first
 		//
 		m_table.setMultiSelection(false);
@@ -266,9 +281,9 @@ public class InfoPAttributeInstancePanel extends Window implements EventListener
 		if (!showAll.isSelected())
 		{
 			sql = m_sql.substring(0, pos) 
-				+ m_sqlNonZero + s_sqlWhereSameWarehouse;
-			if (m_sqlMinLife.length() > 0)
-				sql += m_sqlMinLife;
+				+ s_sqlWhereSameWarehouse;
+			if (s_sqlMinLife.length() > 0)
+				sql += s_sqlMinLife;
 			sql += m_sql.substring(pos);
 		}
 		//
@@ -307,12 +322,14 @@ public class InfoPAttributeInstancePanel extends Window implements EventListener
 		if (e.getTarget().getId().equals(ConfirmPanel.A_OK))
 		{
 			dispose();
+			m_wasCancelled = false;
 		}
 		else if (e.getTarget().getId().equals(ConfirmPanel.A_CANCEL))
 		{
 			dispose();
 			m_M_AttributeSetInstance_ID = -1;
 			m_M_AttributeSetInstanceName = null;
+			m_wasCancelled = true;
 		}
 		else if (e.getTarget() == showAll)
 		{
@@ -389,5 +406,14 @@ public class InfoPAttributeInstancePanel extends Window implements EventListener
 	{
 		return m_M_Locator_ID;
 	}	//	getM_Locator_ID
+
+	/**
+	 * 	Was Cancelled?
+	 *	@return true if cancelled
+	 */
+	public boolean wasCancelled()
+	{
+		return m_wasCancelled;
+	}
 
 }	//	PAttributeInstance

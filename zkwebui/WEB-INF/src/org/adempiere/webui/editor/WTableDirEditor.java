@@ -116,7 +116,7 @@ ContextMenuListener, IZoomableEditor
     	this.lookup = lookup;
     	init();
     }
-    
+
     private void init()
     {
         getComponent().setWidth("200px"); 
@@ -244,7 +244,7 @@ ContextMenuListener, IZoomableEditor
     		getComponent().removeAllItems();
 
     	if (isReadWrite())
-    	{
+    	{    		
 	        if (lookup != null)
 	        {
 	            int size = lookup.getSize();
@@ -449,16 +449,23 @@ ContextMenuListener, IZoomableEditor
 	 */
 	public boolean hasChanged() {
 		// Both or either could be null
+		// null and " " are equivalent
 		if(getValue() != null)
 			if(m_oldValue != null)
-				return !m_oldValue.equals(getValue());
+				return !m_oldValue.equals(getValue()); 
 			else
-				return true;
+				if (getValue() != " ")  // Equivalent to null
+					return true; 
+				else
+					return false; // m_oldValue == null, getValue() == " "
 		else  // getValue() is null
 			if(m_oldValue != null)
-				return true;
+				if (m_oldValue != " ")  // Equivalent to null
+					return true;
+				else
+					return false; // m_oldValue == " ", getValue() == null 
 			else
-				return false;
+				return false; // Both null
 	}
 
 }

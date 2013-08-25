@@ -17,6 +17,7 @@
 
 package org.adempiere.webui.acct;
 
+import java.io.File;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -41,25 +42,32 @@ import org.adempiere.webui.component.Window;
 import org.adempiere.webui.panel.InfoPanel;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
+import org.compiere.apps.ADialog;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAcctSchemaElement;
 import org.compiere.model.X_C_AcctSchema_Element;
 import org.compiere.report.core.RModel;
+import org.compiere.report.core.RModelExcelExporter;
+import org.compiere.swing.CButton;
+import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
+import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.South;
+import org.zkoss.zkex.zul.West;
 import org.zkoss.zul.Caption;
 import org.zkoss.zul.Groupbox;
 import org.zkoss.zul.Hbox;
+import org.zkoss.zul.Iframe;
 import org.zkoss.zul.Listhead;
 import org.zkoss.zul.Listheader;
 import org.zkoss.zul.Listitem;
@@ -74,6 +82,9 @@ import org.zkoss.zul.Separator;
  *
  *  @author Elaine Tan
  *  @author Low Heng Sin
+ *  @author Michael McKay, 
+ * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
+ * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
  */
 
 public class WAcctViewer extends Window implements EventListener
@@ -102,6 +113,7 @@ public class WAcctViewer extends Window implements EventListener
 	private Button bQuery = new Button();
 	private Button bRePost = new Button();
 	private Button bPrint = new Button();
+	private Button bExport = new Button();
 	private Button sel1 = new Button();
 	private Button sel2 = new Button();
 	private Button sel3 = new Button();
@@ -143,6 +155,7 @@ public class WAcctViewer extends Window implements EventListener
 	private Checkbox forcePost = new Checkbox();
 
 	private Tabbox tabbedPane = new Tabbox();
+	private Iframe iframe = new Iframe();
 
 	private Listbox table = new Listbox();
 	private Paging paging = new Paging();
@@ -160,6 +173,7 @@ public class WAcctViewer extends Window implements EventListener
 	private Hbox southPanel = new Hbox();
 
 	private int m_windowNo;
+	private boolean m_lookup;
 
 	private ArrayList<ArrayList<Object>> m_queryData;
 
@@ -189,6 +203,20 @@ public class WAcctViewer extends Window implements EventListener
 
 	public WAcctViewer(int AD_Client_ID, int AD_Table_ID, int Record_ID)
 	{
+		this (0, 0, 0, false);	
+	}
+	
+	/**
+	 *  Detail Constructor
+	 *
+	 *  @param AD_Client_ID Client
+	 *  @param AD_Table_ID Table
+	 *  @param Record_ID Record
+	 *  @param isLookup - a flag, modal if true, non-modal if false
+	 */
+
+	public WAcctViewer(int AD_Client_ID, int AD_Table_ID, int Record_ID, Boolean isLookup)
+	{
 		super ();
 
 		log.info("AD_Table_ID=" + AD_Table_ID + ", Record_ID=" + Record_ID);
@@ -196,6 +224,7 @@ public class WAcctViewer extends Window implements EventListener
 		//setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		m_windowNo = SessionManager.getAppDesktop().registerWindow(this);
 		m_data = new WAcctViewerData (Env.getCtx(), m_windowNo, AD_Client_ID, AD_Table_ID);
+		m_lookup = isLookup;
 
 		try
 		{
@@ -224,17 +253,46 @@ public class WAcctViewer extends Window implements EventListener
 
 	private void init() throws Exception
 	{
+		// Modal or non-modal
+		if (isLookup())
+		{
+			setTitle(Msg.getMsg(Env.getCtx(), "Posting"));
+			setAttribute(Window.MODE_KEY, Window.MODE_MODAL);
+			setBorder("normal");
+			setClosable(true);
+			int height = SessionManager.getAppDesktop().getClientInfo().desktopHeight * 85 / 100;
+    		int width = SessionManager.getAppDesktop().getClientInfo().desktopWidth * 80 / 100;
+    		setWidth(width + "px");
+    		setHeight(height + "px");
+    		setContentStyle("overflow: auto");
+			setSizable(true);
+			setMaximizable(true);
+		}
+		else
+		{
+			setTitle(Msg.getMsg(Env.getCtx(), "InfoAccount"));
+			setAttribute(Window.MODE_KEY, Window.MODE_EMBEDDED);
+			setBorder("none");
+			setWidth("100%");
+			setHeight("100%");
+			setStyle("position: absolute");
+		}
+
+		
 		// Selection Panel
 
-			// Accounting Schema
+		// Accounting Schema
 
 		Hbox boxAcctSchema = new Hbox();
 		boxAcctSchema.setWidth("100%");
 		boxAcctSchema.setWidths("30%, 70%");
 
 		lacctSchema.setValue(Msg.translate(Env.getCtx(), "C_AcctSchema_ID"));
+		lacctSchema.setAttribute("zk_component_ID", "Lookup_Criteria_Label_C_AcctSchema_ID");
+
 		selAcctSchema.setMold("select");
 		selAcctSchema.setRows(1);
+		selAcctSchema.setAttribute("zk_component_ID", "Lookup_Criteria_C_AcctSchema_ID");
 
 		boxAcctSchema.appendChild(lacctSchema);
 		boxAcctSchema.appendChild(selAcctSchema);
@@ -244,9 +302,13 @@ public class WAcctViewer extends Window implements EventListener
 		boxSelDoc.setWidths("30%, 50%, 20%");
 
 		selDocument.setLabel(Msg.getMsg(Env.getCtx(), "SelectDocument"));
+		selDocument.setAttribute("zk_component_ID", "Lookup_Criteria_selDocument");
 		selDocument.addEventListener(Events.ON_CHECK, this);
 		selTable.setMold("select");
 		selTable.setRows(1);
+		selTable.setAttribute("zk_component_ID", "Lookup_Criteria_selTable");
+		selRecord.setAttribute("zk_component_ID", "Lookup_Criteria_selRecord");
+
 
 		boxSelDoc.appendChild(selDocument);
 		boxSelDoc.appendChild(selTable);
@@ -262,6 +324,7 @@ public class WAcctViewer extends Window implements EventListener
 		selPostingType.setMold("select");
 		selPostingType.setRows(1);
 		selPostingType.addEventListener(Events.ON_CLICK, this);
+		selPostingType.setAttribute("zk_component_ID", "Lookup_Criteria_selPostingType");
 
 		boxPostingType.appendChild(lpostingType);
 		boxPostingType.appendChild(selPostingType);
@@ -273,6 +336,9 @@ public class WAcctViewer extends Window implements EventListener
 		boxDate.setWidths("30%, 35%, 35%");
 
 		lDate.setValue(Msg.translate(Env.getCtx(), "DateAcct"));
+		lDate.setAttribute("zk_component_ID", "Lookup_Criteria_Label_Date");
+		selDateFrom.setAttribute("zk_component_ID", "Lookup_Criteria_selDateFrom");
+		selDateTo.setAttribute("zk_component_ID", "Lookup_Criteria_selDateTo");
 
 		boxDate.appendChild(lDate);
 		boxDate.appendChild(selDateFrom);
@@ -288,6 +354,8 @@ public class WAcctViewer extends Window implements EventListener
 		selOrg.setMold("select");
 		selOrg.setRows(1);
 		selOrg.addEventListener(Events.ON_SELECT, this);
+		lOrg.setAttribute("zk_component_ID", "Lookup_Criteria_Label_Org");
+		selOrg.setAttribute("zk_component_ID", "Lookup_Criteria_selOrg");
 
 		boxOrg.appendChild(lOrg);
 		boxOrg.appendChild(selOrg);
@@ -299,6 +367,8 @@ public class WAcctViewer extends Window implements EventListener
 		boxAcct.setWidths("30%, 70%");
 
 		lAcct.setValue(Msg.translate(Env.getCtx(), "Account_ID"));
+		lAcct.setAttribute("zk_component_ID", "Lookup_Criteria_Label_Acct");
+		selAcct.setAttribute("zk_component_ID", "Lookup_Criteria_selAcct");
 
 		boxAcct.appendChild(lAcct);
 		boxAcct.appendChild(selAcct);
@@ -494,11 +564,16 @@ public class WAcctViewer extends Window implements EventListener
 		bPrint.setTooltiptext(Msg.getMsg(Env.getCtx(), "Print"));
 		bPrint.addEventListener(Events.ON_CLICK, this);
 
+		bExport.setImage("/images/Export16.png");
+		bExport.setTooltiptext(Msg.getMsg(Env.getCtx(), "Export"));
+		bExport.addEventListener(Events.ON_CLICK, this);
+
 		southPanel.setWidth("100%");
 		southPanel.setWidths("2%, 12%, 82%, 2%, 2%");
 		southPanel.appendChild(bRePost);
 		southPanel.appendChild(forcePost);
 		southPanel.appendChild(statusLine);
+		southPanel.appendChild(bExport);
 		southPanel.appendChild(bPrint);
 		southPanel.appendChild(bQuery);
 
@@ -511,13 +586,17 @@ public class WAcctViewer extends Window implements EventListener
 		result.appendChild(resultPanel);
 
 		Center resultCenter = new Center();
+		West resultWest = new West();
 		resultCenter.setFlex(true);
 		resultPanel.appendChild(resultCenter);
+		resultPanel.appendChild(resultWest);
 		table.setWidth("99%;");
 		table.setVflex(true);
 		table.setHeight("99%");
 		table.setStyle("position: absolute;");
 		resultCenter.appendChild(table);
+		resultWest.appendChild(iframe);
+		resultWest.setWidth("0%"); // Hide the iFrame - its only a trigger for display of xls files.
 
 		pagingPanel = new South();
 		resultPanel.appendChild(pagingPanel);
@@ -574,15 +653,6 @@ public class WAcctViewer extends Window implements EventListener
 		south.setStyle("background-color: transparent");
 		southPanel.setParent(south);
 
-		this.setAttribute("mode", "modal");
-		this.setTitle("Posting");
-		this.setBorder("normal");
-		this.setClosable(true);
-		this.setWidth("800px");
-		this.setHeight("500px");
-		this.setSizable(true);
-		this.setMaximizable(true);
-
 		//tabbedPane.addEventListener(Events.ON_SELECT, this);
 	}
 
@@ -632,6 +702,23 @@ public class WAcctViewer extends Window implements EventListener
 		boolean haveDoc = (AD_Table_ID != 0 && Record_ID != 0);
 		selDocument.setChecked(haveDoc);
 		actionDocument();
+		actionTable();
+		statusLine.setText(" " + Msg.getMsg(Env.getCtx(), "ViewerOptions"));
+
+		//  Initial Query
+		if (haveDoc)
+		{
+			m_data.AD_Table_ID = AD_Table_ID;
+			m_data.Record_ID = Record_ID;
+			actionQuery();
+			String keyColumn = selRecord.getName();
+			String tableName = keyColumn.substring(0, keyColumn.length()-3);
+			String selectSQL = keyColumn + "=" + Record_ID;
+			m_data.buttonRecordID.put(keyColumn,Record_ID);
+			selRecord.setLabel(m_data.getButtonText(tableName, keyColumn, selectSQL));
+		}
+
+/*
 		if (!haveDoc)
 		{
 			selTable.setSelectedIndex(0);
@@ -653,7 +740,7 @@ public class WAcctViewer extends Window implements EventListener
 				actionTable();
 			}
 		}
-
+*/
 		if (tabResult.isSelected())
 			stateChanged();
 	} // dynInit
@@ -701,6 +788,8 @@ public class WAcctViewer extends Window implements EventListener
 	public void stateChanged()
 	{
 	//	log.info( "AcctViewer.stateChanged");
+		iframe.setContent(null);
+		
 		boolean visible = m_data.documentQuery && tabResult.isSelected();
 
 		bRePost.setVisible(visible);
@@ -717,7 +806,8 @@ public class WAcctViewer extends Window implements EventListener
 	public void onEvent(Event e) throws Exception
 	{
 		// log.info(e.getActionCommand());
-
+		iframe.setContent(null);
+		
 		Object source = e.getTarget();
 
 		if (source == tabResult)
@@ -737,6 +827,8 @@ public class WAcctViewer extends Window implements EventListener
 		else if  (source == bPrint)
 			;//PrintScreenPainter.printScreen(this);
 		//  InfoButtons
+		else if  (source == bExport)
+			exportExcel(); // Export the table.
 		else if (source instanceof Button)
 			actionButton((Button)source);
 		else if (source == paging)
@@ -1117,8 +1209,10 @@ public class WAcctViewer extends Window implements EventListener
 	{
 		String keyColumn = button.getName();
 		log.info(keyColumn);
-		String whereClause = ""; // Elaine 2008/07/28
+		// String whereClause = ""; // Elaine 2008/07/28
+		String whereClause = "(IsSummary='N' OR IsSummary IS NULL)";
 		String lookupColumn = keyColumn;
+		int record_id = m_data.getButtonRecordID(keyColumn);
 
 		if ("Account_ID".equals(keyColumn))
 		{
@@ -1147,49 +1241,80 @@ public class WAcctViewer extends Window implements EventListener
 			if (ase != null)
 				whereClause += " AND C_Element_ID=" + ase.getC_Element_ID();
 		}
+		else if (keyColumn.equals("M_Product_ID"))
+		{
+			whereClause = "";
+		}
 		else if (selDocument.isChecked())
 			whereClause = "";
 
+		if (button == selRecord)                            //  Record_ID
+			record_id = m_data.Record_ID;
+		else
+			record_id = m_data.getButtonRecordID(keyColumn);
+		
 		String tableName = lookupColumn.substring(0, lookupColumn.length()-3);
-		whereClause = tableName + ".IsSummary='N'" + whereClause; // Elaine 2008/07/28
+		//whereClause = tableName + ".IsSummary='N'" + whereClause; // Elaine 2008/07/28
 
-		InfoPanel info = InfoPanel.create(m_data.WindowNo, tableName, lookupColumn, 0, "", false, whereClause);
+		//  Open modal
+		InfoPanel info = InfoPanel.create(m_data.WindowNo, tableName, lookupColumn, record_id, "", false, whereClause);
 
 		if (!info.loadedOK())
 		{
-			//info.dispose();
+			info.dispose();
 			info = null;
 			button.setLabel("");
 			m_data.whereInfo.put(keyColumn, "");
+			m_data.buttonRecordID.put(keyColumn, null);
 			return 0;
 		}
 
 		info.setVisible(true);
 		AEnv.showWindow(info);
 
-		String selectSQL = info.getSelectedSQL();       //  C_Project_ID=100 or ""
-		Integer key = (Integer)info.getSelectedKey();
-		info = null;
-
-		if (selectSQL == null || selectSQL.length() == 0 || key == null)
+   		boolean isCancelled = info.isCancelled();
+		boolean isOK = info.isOk();
+		Integer key = 0;
+		
+		if (isCancelled && !isOK) // Delete the saved info
 		{
+			key = 0;
+			if (button == selRecord)                            //  Record_ID
+				m_data.Record_ID = key.intValue();
+			else
+			{
+				m_data.whereInfo.put(keyColumn, "");    //  no query
+				m_data.buttonRecordID.put(keyColumn, key.intValue());
+			}
 			button.setLabel("");
-			m_data.whereInfo.put(keyColumn, "");    //  no query
-			return 0;
 		}
-
-		//  Save for query
-
-		log.config(keyColumn + " - " + key);
-		if (button == selRecord)                            //  Record_ID
-			m_data.Record_ID = key.intValue();
-		else
-			m_data.whereInfo.put(keyColumn, keyColumn + "=" + key.intValue());
-
-		//  Display Selection and resize
-		button.setLabel(m_data.getButtonText(tableName, lookupColumn, selectSQL));
-		//pack();
+		else if(!isCancelled && isOK)
+		{
+			//  Save for query
+			String selectSQL = info.getSelectedSQL();       //  C_Project_ID=100 or ""
+			key = (Integer)info.getSelectedKey();
+			log.config(keyColumn + " - " + key);
+			if (button == selRecord)                            //  Record_ID
+				m_data.Record_ID = key.intValue();
+			else
+			{
+				m_data.whereInfo.put(keyColumn, keyColumn + "=" + key.intValue());  //  Add to query
+				m_data.buttonRecordID.put(keyColumn, key.intValue());
+			}
+			//  Display Selection and resize
+			button.setLabel(m_data.getButtonText(tableName, lookupColumn, selectSQL));
+		}
+		else if(!(isCancelled ^ isOK)) // xor: window closed or error - no change
+		{
+			// m_data not changed
+			if (button == selRecord)                            //  Record_ID
+				key = m_data.Record_ID = key.intValue();
+			else
+				key = m_data.getButtonRecordID(keyColumn);
+		}
+		info = null;
 		return key.intValue();
+
 	} // actionButton
 
 	/**
@@ -1213,4 +1338,38 @@ public class WAcctViewer extends Window implements EventListener
 			actionQuery();
 		}
 	} // actionRePost
+
+	/**
+	 * Determine if the window is a lookup (modal) or not
+	 * @return boolean. True if modal.
+	 */
+	public boolean isLookup()
+	{
+		return m_lookup;
+	}
+
+	/**
+	 * Export to Excel
+	 */
+	private void exportExcel() {
+		AMedia media = null;
+		RModel model = m_data.query();
+		if (model == null) {
+			return;
+		}
+		try {
+			RModelExcelExporter exporter = new RModelExcelExporter((RModel)model);
+			//exporter.export(null, null);
+			File file = exporter.export();
+			media = new AMedia(getTitle(), "xls", "application/vnd.ms-excel", file, true);
+		}
+		catch (Exception e) {
+			//ADialog.error(0, this, "Error", e.getLocalizedMessage());
+			if (CLogMgt.isLevelFinest()) e.printStackTrace();
+		}
+		if (media != null)
+			iframe.setContent(media);
+	}
+
 }
+

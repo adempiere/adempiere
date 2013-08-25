@@ -906,4 +906,37 @@ public class MProduct extends X_M_Product
 		}
 		return costingMethod;
 	}
+	
+	/**
+	 * Get the Attribute Set Instance.  This is called by callouts to fill the M_AttributeSetInstance_ID
+	 * field.  The ASI should override the context if the product has a defined ASI or if the 
+	 * context ASI does not use the same attribute set.
+	 * @param context
+	 * @param window number
+	 */
+	public Integer getEnvAttributeSetInstance(Properties ctx, int WindowNo)
+	{
+		Integer M_AttributeSetInstance_ID = 0;
+
+		//	Set Attribute Instance from the context
+		M_AttributeSetInstance_ID = Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_AttributeSetInstance_ID");
+		//	Get Model and check if it has a product attribute instance
+		if (getM_AttributeSetInstance_ID() > 0)
+		{
+			//  If the product has a product instance associated with it. Use it regardless of the context.
+			//  Product Attributes and Instance Attributes are exclusive
+				M_AttributeSetInstance_ID = new Integer(getM_AttributeSetInstance_ID());
+		} 
+		else if (getM_AttributeSet_ID() > 0 && M_AttributeSetInstance_ID > 0)
+		{
+			// Check compatibility of the instance with the product - they have to use the same set.
+			MAttributeSetInstance masi = MAttributeSetInstance.get(Env.getCtx(),M_AttributeSetInstance_ID,this.getM_Product_ID());
+			if (masi.getMAttributeSet().get_ID() != this.getAttributeSet().get_ID())
+				M_AttributeSetInstance_ID = 0;  
+		}
+		if (M_AttributeSetInstance_ID != 0)
+			return M_AttributeSetInstance_ID;
+		else
+			return null;
+	}
 }	//	MProduct

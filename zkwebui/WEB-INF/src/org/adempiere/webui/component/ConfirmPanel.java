@@ -103,7 +103,8 @@ public final class ConfirmPanel extends Hbox
     {
         Button button = new Button();
         button.setName("btn"+name);
-        button.setId(name);
+        button.setId(name);  // Might get overwritten by renderer
+        button.setAttribute("zk_component_ID", "ConfirmPanel_btn"+name);
         String text = Msg.translate(Env.getCtx(), name);
         if (!name.equals(text))
         	text = text.replaceAll("[&]", "");

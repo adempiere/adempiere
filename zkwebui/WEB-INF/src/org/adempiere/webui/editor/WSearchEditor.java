@@ -83,6 +83,12 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
     private Boolean				m_settingValue = false;
     private Boolean				m_needsUpdate = false;
     private String				m_lastDisplay = null;
+	/** Override context for sales transactions */
+	private boolean				m_isSOTrxEnvOverride = false;
+	/** Context for sales transactions */
+	private boolean 			m_isSOTrx = true;     //  default
+	/** Does the selected record match the context? */
+	private boolean 			m_isSOMatch = true;
     
 	//	Field for Value Preference
 	private GridField              m_mField = null;
@@ -117,7 +123,10 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 
 	@Override
 	public void setReadWrite(boolean readWrite) {
-		getComponent().setEnabled(readWrite);
+		if (m_lookup != null && m_lookup.getDisplayType() == DisplayType.Search)
+			getComponent().setEnabled(readWrite, true);
+		else
+			getComponent().setEnabled(readWrite);
 	}
 
 
@@ -551,6 +560,9 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		Object result[] = null;			
 		boolean cancelled = false;
 		boolean multipleSelection = false;
+		boolean modal = true;
+		boolean saveResults = true;
+		
 		int record_id = 0;
 		//
 		String col = m_lookup.getColumnName();		//	fully qualified name
@@ -573,7 +585,6 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 			}
 		}
 		//
-		boolean resetValue = false;	// Reset value so that is always treated as new entry
 		String infoPanelFactoryClass = m_lookup.getInfoPanelFactoryClass();
 		if (infoPanelFactoryClass != null && infoPanelFactoryClass.trim().length() > 0)
 		{
@@ -589,20 +600,9 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 					}
 				}
 				// multipleSelection assumed false for custom info windows
-				InfoPanel ip = factory.create (m_lookup.getWindowNo(),
-						m_tableName, m_keyColumnName, record_id, queryValue, multipleSelection, true,
-						 whereClause, true);
-				ip.setVisible(true);
-				ip.setTitle(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "InfoProduct")));
-				ip.setStyle("border: 2px");
-				ip.setClosable(true);
-				ip.setAttribute("mode", "modal");
-				ip.addValueChangeListener(this);
-				infoPanel = ip;
-				AEnv.showWindow(ip);
-				//
-				cancelled = ip.isCancelled();
-				result = ip.getSelectedKeys();
+				infoPanel = factory.create (m_lookup.getWindowNo(), modal,
+						m_tableName, m_keyColumnName, record_id, queryValue, multipleSelection, saveResults,
+						 whereClause);
 				//
 			} catch (Exception e) {
 				log.log(Level.SEVERE, "Failed to load custom InfoFactory - " + e.getLocalizedMessage(), e);
@@ -626,93 +626,70 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 									(MProductPrice.Table_ID == AD_Table_ID);
 			}
 			//	Show Info
-			InfoProductPanel ip = new InfoProductPanel(m_lookup.getWindowNo(),
-					M_Warehouse_ID, M_PriceList_ID, record_id, queryValue, true, whereClause);
+			infoPanel = new InfoProductPanel(m_lookup.getWindowNo(), modal,
+					M_Warehouse_ID, M_PriceList_ID, record_id, queryValue, multipleSelection, saveResults, whereClause);
 
-			ip.setVisible(true);
-			ip.setTitle(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "InfoProduct")));
-			ip.setStyle("border: 2px");
-			ip.setClosable(true);
-			ip.setAttribute("mode", "modal");
-			ip.addValueChangeListener(this);
-			infoPanel = ip;
-			AEnv.showWindow(ip);
-			//
-			cancelled = ip.isCancelled();
-			result = ip.getSelectedKeys();
-			resetValue = true;
 		}
 		else if (col.equals("C_BPartner_ID"))
 		{
 			resetTabInfo();
 			//
-			boolean isSOTrx = true;     //  default
-			boolean isSOMatch = true;
-			if (Env.getContext(Env.getCtx(), m_lookup.getWindowNo(), "IsSOTrx").equals("N"))
-				isSOTrx = false;
-			//
+			setIsSOTrx(m_isSOTrxEnvOverride, false);
 			//  If the record has a value, set the ID and isSOMatch
+			//  If we have a record id, set isSOMatch
 			if (record_id > 0)
 			{
 				String trxName = Trx.createTrxName();
 				MBPartner bp = new MBPartner(Env.getCtx(), record_id, trxName);
-				isSOMatch = (isSOTrx && bp.isCustomer()) || (!isSOTrx && bp.isVendor());
+				m_isSOMatch = (m_isSOTrx && bp.isCustomer()) || (!m_isSOTrx && bp.isVendor());
 				Trx.get(trxName, false).close();
 			}
-
-			InfoBPartnerPanel ip = new InfoBPartnerPanel(record_id, queryValue, m_lookup.getWindowNo(), isSOTrx, isSOMatch, false, true, whereClause, true);
-			ip.setVisible(true);
-			ip.setTitle(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "InfoBPartner")));
-			ip.setStyle("border: 2px");
-			ip.setClosable(true);
-			ip.setAttribute("mode", "modal");
-			ip.addValueChangeListener(this);
-			infoPanel = ip;
-			AEnv.showWindow(ip);
 			//
-			cancelled = ip.isCancelled();
-			result = ip.getSelectedKeys();
+			infoPanel = new InfoBPartnerPanel(m_lookup.getWindowNo(), modal, record_id, queryValue, 
+												m_isSOTrx, m_isSOMatch, multipleSelection, saveResults, whereClause);
 		}
 		else	//	General Info
 		{
 			if (m_tableName == null)	//	sets table name & key column
 				getDirectAccessSQL("*");
 			//
-			InfoPanel ip = InfoPanel.create(m_lookup.getWindowNo(), m_tableName,m_keyColumnName, record_id, queryValue, false, whereClause);
-			ip.setVisible(true);
-			ip.setStyle("border: 2px");
-			ip.setClosable(true);
-			ip.setAttribute("mode", "modal");
-			ip.addValueChangeListener(this);
-			infoPanel = ip;
-			AEnv.showWindow(ip);
+			infoPanel = InfoPanel.create(m_lookup.getWindowNo(), modal, m_tableName, m_keyColumnName, 
+											record_id, queryValue, multipleSelection, saveResults, whereClause);
+		}
+		//
+		if (infoPanel != null){
+			infoPanel.addValueChangeListener(this);
+			AEnv.showWindow(infoPanel);
 			//
-			cancelled = ip.isCancelled();
-			result = ip.getSelectedKeys();
-
+			cancelled = infoPanel.isCancelled();
+			result = infoPanel.getSelectedKeys();
+			//
+			infoPanel = null;
 		}
-
-		infoPanel = null;
 		//  Result
-		if (result != null && result.length > 0)
+		if (isReadWrite())
 		{
-			//ensure data binding happen
-			if (result.length > 1)
-				actionCombo (result);
+			if (result != null && result.length > 0)
+			{
+				//ensure data binding happen
+				if (result.length > 1)
+					actionCombo (result);
+				else
+					actionCombo (result[0]);
+			}
+			else if (cancelled)
+			{
+				log.config(getColumnName() + " - Result = null (cancelled)");
+				actionCombo(null);
+			}
 			else
-				actionCombo (result[0]);
-		}
-		else if (cancelled)
-		{
-			log.config(getColumnName() + " - Result = null (cancelled)");
-			actionCombo(null);
+			{
+				log.config(getColumnName() + " - Result = null (not cancelled)");
+				actionCombo(getValue());  //Reset the combo box to the current value
+			}
 		}
 		else
-		{
-			log.config(getColumnName() + " - Result = null (not cancelled)");
-			actionCombo(getValue());  //Reset the combo box to the current value
-		}
-		
+			m_settingValue = false;
 	}
 
 	/**
@@ -1149,5 +1126,19 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		}
 	}
 
+	/**
+	 * @param override - true to override the environment, false to use environment
+	 * @param trx the m_isSOTrx to set
+	 */
+	public void setIsSOTrx(boolean override, boolean trx) {
+		m_isSOTrxEnvOverride = override;
+		if (m_isSOTrxEnvOverride)
+			m_isSOTrx = trx;
+		else
+			if (Env.getContext(Env.getCtx(), m_lookup.getWindowNo(), "IsSOTrx").equals("N"))
+				m_isSOTrx = false;
+			else
+				m_isSOTrx = true;
+	}
 
 }

@@ -1274,7 +1274,8 @@ public class MiniTable extends CTable implements IMiniTable
 	 */
 	public void addTotals(Info_Column[] layout)
 	{
-		if (getRowCount() == 0 || layout.length == 0)
+		addTotals((ColumnInfo[]) layout);
+/*		if (getRowCount() == 0 || layout.length == 0)
 			return;
 		
 		Object[] total = new Object[layout.length];
@@ -1349,6 +1350,7 @@ public class MiniTable extends CTable implements IMiniTable
 			}	
 			
 		}
+		*/
 	}
 	
 	private void config_table()

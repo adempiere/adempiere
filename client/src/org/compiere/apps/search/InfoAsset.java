@@ -23,10 +23,11 @@ import java.sql.Timestamp;
 
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.AEnv;
-import org.compiere.apps.ALayout;
 import org.compiere.apps.ALayoutConstraint;
 import org.compiere.grid.ed.VLookup;
 import org.compiere.minigrid.IDColumn;
+import org.compiere.model.MAsset;
+import org.compiere.model.MColumn;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MQuery;
 import org.compiere.swing.CLabel;
@@ -93,32 +94,38 @@ public class InfoAsset extends Info
 		log.info(value + ", ID=" + record_id + ", WHERE=" + whereClause);
 		setTitle(Msg.getMsg(Env.getCtx(), "InfoAsset"));
 		//
-		statInit();
-		initInfo (record_id, value, whereClause);
+		StringBuffer where = new StringBuffer();
+		where.append("a.IsActive='Y'");
+		if (whereClause != null && whereClause.length() > 0)
+			where.append(" AND ").append(whereClause);
+		setWhereClause(where.toString());
+		setTableLayout(s_Layout);
+		setFromClause(s_From);
+		setOrderClause("a.Value");
 		//
-		int no = p_table.getRowCount();
-		setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
-		setStatusDB(Integer.toString(no));
+		statInit();
+		initInfo (record_id, value);
+
+		//  To get the focus after the table update
+		m_heldLastFocus = fieldValue;
 		
 		//	AutoQuery
 		if(autoQuery() || record_id != 0 || (value != null && value.length() > 0 && value != "%"))
 			executeQuery();
 		
 		p_loadedOK = true;
-		//	Focus
-	//	fieldValue.requestFocus();
 
 		AEnv.positionCenterWindow(frame, this);
 	}	//	InfoProduct
 
 	/** From Clause             */
-	private static String s_assetFROM = "A_ASSET a"
+	private static String s_From = "A_ASSET a"
 		+ " LEFT OUTER JOIN M_Product p ON (a.M_Product_ID=p.M_Product_ID)"
 		+ " LEFT OUTER JOIN C_BPartner bp ON (a.C_BPartner_ID=bp.C_BPartner_ID)"
 		+ " LEFT OUTER JOIN AD_User u ON (a.AD_User_ID=u.AD_User_ID)";
 
 	/**  Array of Column Info    */
-	private static final Info_Column[] s_assetLayout = {
+	private static final Info_Column[] s_Layout = {
 		new Info_Column(" ", "a.A_Asset_ID", IDColumn.class),
 		new Info_Column(Msg.translate(Env.getCtx(), "Value"), "a.Value", String.class),
 		new Info_Column(Msg.translate(Env.getCtx(), "Name"), "a.Name", String.class),
@@ -155,44 +162,34 @@ public class InfoAsset extends Info
 		fieldName.addActionListener(this);
 		//	From A_Asset.
 		fBPartner_ID = new VLookup("C_BPartner_ID", false, false, true,
-			MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 8065, DisplayType.Search));
+			MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 
+					MColumn.getColumn_ID(MAsset.Table_Name, MAsset.COLUMNNAME_C_BPartner_ID), 
+					DisplayType.Search));
 		lBPartner_ID.setLabelFor(fBPartner_ID);
 		fBPartner_ID.setBackground(AdempierePLAF.getInfoBackground());
 		fProduct_ID = new VLookup("M_Product_ID", false, false, true,
-			MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 8047, DisplayType.Search));
+			MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 
+					MColumn.getColumn_ID(MAsset.Table_Name, MAsset.COLUMNNAME_M_Product_ID), 
+					DisplayType.Search));
 		lProduct_ID.setLabelFor(fProduct_ID);
 		fProduct_ID.setBackground(AdempierePLAF.getInfoBackground());
 		//
-		parameterPanel.setLayout(new ALayout());
-		//
-		parameterPanel.add(labelValue, new ALayoutConstraint(0,0));
-		parameterPanel.add(fieldValue, null);
-		parameterPanel.add(lBPartner_ID, null);
-		parameterPanel.add(fBPartner_ID, null);
+		p_criteriaGrid.add(labelValue, new ALayoutConstraint(0,0));
+		p_criteriaGrid.add(fieldValue, null);
+		p_criteriaGrid.add(lBPartner_ID, null);
+		p_criteriaGrid.add(fBPartner_ID, null);
 		//		
-		parameterPanel.add(labelName, new ALayoutConstraint(1,0));
-		parameterPanel.add(fieldName, null);
-		parameterPanel.add(lProduct_ID, null);
-		parameterPanel.add(fProduct_ID, null);
+		p_criteriaGrid.add(labelName, new ALayoutConstraint(1,0));
+		p_criteriaGrid.add(fieldName, null);
+		p_criteriaGrid.add(lProduct_ID, null);
+		p_criteriaGrid.add(fProduct_ID, null);
 	}	//	statInit
 
 	/**
 	 *	Dynamic Init
-	 *  @param value value
-	 *  @param whereClause where clause
 	 */
-	private void initInfo (int record_id, String value, String whereClause)
+	protected void initInfo (int record_id, String value)
 	{
-		//	Create Grid
-		StringBuffer where = new StringBuffer();
-		where.append("a.IsActive='Y'");
-		if (whereClause != null && whereClause.length() > 0)
-			where.append(" AND ").append(whereClause);
-		//
-		prepareTable(s_assetLayout, s_assetFROM,
-			where.toString(),
-			"a.Value");
-
 		if (!(record_id == 0) && value != null && value.length() > 0)
 		{
 			log.severe("Received both a record_id and a value: " + record_id + " - " + value);
@@ -375,5 +372,43 @@ public class InfoAsset extends Info
 	{
 		return false;	//	for now
 	}	//	hasCustomize
+
+	/**
+	 * Does the parameter panel have outstanding changes that have not been
+	 * used in a query?
+	 * @return true if there are outstanding changes.
+	 */
+	protected boolean hasOutstandingChanges()
+	{
+		//  All the tracked fields
+		return(
+				fieldValue.hasChanged()	||
+				fieldName.hasChanged()	||
+				fProduct_ID.hasChanged()	||
+				fBPartner_ID.hasChanged());
+	}
+	/**
+	 * Record outstanding changes by copying the current
+	 * value to the oldValue on all fields
+	 */
+	protected void setFieldOldValues()
+	{
+		fieldValue.set_oldValue();
+		fieldName.set_oldValue();
+		fProduct_ID.set_oldValue();
+		fBPartner_ID.set_oldValue();
+		return;
+	}
+	/**
+	 *  Clear all fields and set default values in check boxes
+	 */
+	protected void clearParameters()
+	{
+		//  Clear fields and set defaults
+		fieldValue.setText("");
+		fieldName.setText("");
+    	fProduct_ID.setValue(null);
+    	fBPartner_ID.setValue(null);
+	}
 
 }	//	InfoAsset

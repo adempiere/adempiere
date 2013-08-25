@@ -17,8 +17,10 @@
 package org.compiere.apps.search;
 
 import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -43,19 +45,23 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
-import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.plaf.ColorUIResource;
 import javax.swing.table.*;
 
+import org.adempiere.plaf.AdempiereTaskPaneUI;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
+import org.compiere.apps.ALayout;
 import org.compiere.apps.AWindow;
+import org.compiere.apps.AppsAction;
 import org.compiere.apps.ConfirmPanel;
 import org.compiere.apps.PrintScreenPainter;
 import org.compiere.apps.StatusBar;
 import org.compiere.grid.ed.Calculator;
 import org.compiere.grid.ed.VCheckBox;
+import org.compiere.grid.ed.VComboBox;
 import org.compiere.grid.ed.VLookup;
 import org.compiere.grid.ed.VPAttribute;
 import org.compiere.minigrid.IDColumn;
@@ -63,6 +69,7 @@ import org.compiere.minigrid.MiniTable;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.model.MSysConfig;
+import org.compiere.swing.CButton;
 import org.compiere.swing.CDialog;
 import org.compiere.swing.CMenuItem;
 import org.compiere.swing.CPanel;
@@ -72,6 +79,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
+import org.jdesktop.swingx.JXTaskPane;
 
 /**
  *	Search Information and return selection - Base Class.
@@ -343,12 +351,14 @@ public abstract class Info extends CDialog
 		}
 		//
 		if (whereClause == null || whereClause.indexOf('@') == -1)
-			p_whereClause = whereClause;
+			setWhereClause(whereClause);
 		else
 		{
-			p_whereClause = Env.parseContext(Env.getCtx(), p_WindowNo, whereClause, false, false);
-			if (p_whereClause.length() == 0)
+			String tempClause = "";
+			tempClause = Env.parseContext(Env.getCtx(), p_WindowNo, whereClause, false, false);
+			if (tempClause.length() == 0)
 				log.log(Level.SEVERE, "Cannot parse context= " + whereClause);
+			setWhereClause(tempClause);
 		}
 
 		try
@@ -374,18 +384,17 @@ public abstract class Info extends CDialog
 	protected String            p_keyColumn;
 	/** Initial WHERE Clause    */
 	protected String			p_whereClause = "";
-	/** Concrete WHERE Clause - used by concrete classes  */
-	protected String			p_concreteWhereClause = "";
 	/** Will the results of the search be saved?	*/
 	protected boolean 			p_saveResults = true;
-	/** Does the layout use dynamic columns? False by default				*/
-	protected boolean			p_resetColumns = false;
-
+	/** Does the layout need to be rebuilt. True by default (1st time always) */
+	protected boolean 			p_resetColumns = true;
+	boolean p_triggerRefresh = false;
+	boolean p_refreshNow = false;
+	
 	/** Table                   */
 	protected MiniTable         p_table = new MiniTable(); //  p_table
 	/** Tracking for previously selected record				*/
 	protected int 				p_selectedRecordKey = 0;
-	protected boolean 			p_refreshRequired = false;
 
 	/** OK pressed                  */
 	private boolean			    m_ok = false;
@@ -398,12 +407,22 @@ public abstract class Info extends CDialog
 
 	/** Layout of Grid          */
 	protected Info_Column[]     p_layout;
+	/** SQL FROM Clause          */
+	protected String		    p_sqlFrom;
+	/** SQL Where Clause          */
+	protected String		    p_sqlWhere;
+	/** SQL Where Clause          */
+	protected String		    p_sqlOrder;
 	/** Main SQL Statement      */
 	private String              m_sqlMain;
 	/** Count SQL Statement		*/
 	private String              m_sqlCount;
 	/** Order By Clause         */
 	private String              m_sqlOrder;
+	/** 
+	 *  Tracking the last list selection event
+	 */
+	ListSelectionEvent m_lse = new ListSelectionEvent(this, 0, 0, true);
 
 	/** Loading success indicator       */
 	protected boolean	        p_loadedOK = false;
@@ -421,13 +440,17 @@ public abstract class Info extends CDialog
 	protected CLogger log = CLogger.getCLogger(getClass());
 
 	/** Static Layout           */
+	private CButton bReset = new CButton();
 	private VCheckBox checkAutoQuery = new VCheckBox();
 	private CPanel southPanel = new CPanel();
 	private BorderLayout southLayout = new BorderLayout();
 	ConfirmPanel confirmPanel = new ConfirmPanel(true, true, true, true, true, true, true);
-	//Begin - [FR 1823612 ] Product Info Screen Improvements
+
+	private CPanel buttonPanel = new CPanel();
+	protected CPanel p_criteriaGrid = new CPanel();
+
+	protected JXTaskPane p_detailTaskPane = new JXTaskPane();
 	protected CPanel addonPanel = new CPanel();
-	//End - [FR 1823612 ] Product Info Screen Improvements
 	protected StatusBar statusBar = new StatusBar();
 	protected CPanel parameterPanel = new CPanel();
 	private JScrollPane scrollPane = new JScrollPane();
@@ -436,9 +459,11 @@ public abstract class Info extends CDialog
 	private CMenuItem calcMenu = new CMenuItem();
 	private CMenuItem zoomMenu = new CMenuItem();
 
+	protected Object m_heldLastFocus = null;
 	protected int m_leadSelection;
 	private int m_popupRow = -1;
 	private int m_popupColumn = -1;
+	protected Container m_parentPanel;
 
 	/**
 	 *	Static Init
@@ -446,16 +471,45 @@ public abstract class Info extends CDialog
 	 */
 	protected void jbInit() throws Exception
 	{
-		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		southPanel.setLayout(southLayout);
-		//Begin - [FR 1823612 ] Product Info Screen Improvements
-		southPanel.add(addonPanel, BorderLayout.NORTH);
-		//End - [FR 1823612 ] Product Info Screen Improvements
-		southPanel.add(confirmPanel, BorderLayout.CENTER);
-		southPanel.add(statusBar, BorderLayout.SOUTH);
-		getContentPane().add(southPanel, BorderLayout.SOUTH);
 		this.getContentPane().add(parameterPanel, BorderLayout.NORTH);
 		this.getContentPane().add(scrollPane, BorderLayout.CENTER);
+		this.getContentPane().add(southPanel, BorderLayout.SOUTH);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		//
+		AppsAction aa = new AppsAction (ConfirmPanel.A_RESET, null, "reset");
+		bReset = (CButton)aa.getButton();
+		bReset.setMargin(ConfirmPanel.s_insets);
+		bReset.setSize(bReset.getHeight(), bReset.getHeight());
+		Dimension bSize = bReset.getSize();
+		bSize.height = bReset.getHeight();
+		bSize.width = bReset.getHeight();
+		bReset.setMaximumSize(bSize);  // Make it square
+		bReset.addActionListener(this);
+		//
+		buttonPanel = new CPanel(new FlowLayout(FlowLayout.LEFT));
+		buttonPanel.add(bReset,FlowLayout.LEFT);
+		//
+		// p_criteriaGrid is filled by the subordinate class
+		p_criteriaGrid.setLayout(new ALayout());
+		//
+		parameterPanel.setLayout(new BorderLayout());
+		parameterPanel.add(buttonPanel, BorderLayout.WEST);
+		parameterPanel.add(p_criteriaGrid,BorderLayout.CENTER);
+		//
+		// Setup the detail panel if used
+		p_detailTaskPane.setVisible(false);
+        p_detailTaskPane.setCollapsed(true);
+        p_detailTaskPane.setLayout(new BorderLayout());
+        p_detailTaskPane.setUI(new AdempiereTaskPaneUI());
+        p_detailTaskPane.getContentPane().setBackground(new ColorUIResource(251,248,241));
+        p_detailTaskPane.getContentPane().setForeground(new ColorUIResource(251,0,0));
+        addonPanel.setLayout(new BorderLayout());
+        addonPanel.add(p_detailTaskPane, BorderLayout.CENTER); // Allow auto resizing of the panel
+
+		southPanel.setLayout(southLayout);
+		southPanel.add(addonPanel, BorderLayout.NORTH);
+		southPanel.add(confirmPanel, BorderLayout.CENTER);
+		southPanel.add(statusBar, BorderLayout.SOUTH);
 		scrollPane.getViewport().add(p_table, null);
 		//
 		confirmPanel.addActionListener(this);
@@ -504,7 +558,12 @@ public abstract class Info extends CDialog
 		p_table.getActionMap().put("doDispose", doDispose);
 		((ListSelectionModel) p_table.getSelectionModel()).addListSelectionListener(this); // To enable buttons
 		p_table.addMouseListener(this);
-		
+		// Listen to changes in the table
+		p_table.addPropertyChangeListener("p_table_update", this);
+		((ListSelectionModel) p_table.getSelectionModel()).addListSelectionListener(this);
+		//
+		m_parentPanel = p_criteriaGrid;  //  Set default location where focus will go. See property change listener.
+		//
 		enableButtons();
 	}	//	jbInit
 
@@ -632,6 +691,8 @@ public abstract class Info extends CDialog
 		if (m_ok)
 			return;
 		
+		//  Get ready
+		prepForRequery();
 		//
 		if (!testCount())
 			return;
@@ -1028,53 +1089,211 @@ public abstract class Info extends CDialog
 	 */
 	public void propertyChange(PropertyChangeEvent e)
 	{
-		m_resetRecordID = true;
-		executeQuery();
+		// Respond to updates to the table
+		if (e.getPropertyName() == "p_table_update")
+		{
+			//  One query has been performed.  From now on, ignore the record_id and use the search criteria.
+			m_resetRecordID = true; //  A new record ID will be selected
+
+			//  Try to reselect the record
+			if(!setSelectedRow(p_selectedRecordKey))		
+			{
+				//  Nothing was selected, or the query is empty
+				noRecordSelected();
+			}
+			else  //  Found and selected the same record or selected the first record
+			{
+				recordSelected(p_table.getLeadRowKey());
+			}
+			
+			p_selectedRecordKey = 0;
+
+			//
+			int no = p_table.getRowCount();
+			setStatusLine(Integer.toString(no) + " " 
+				+ Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
+			setStatusDB(Integer.toString(no));
+
+			//  Return focus to where it is expected to be
+			m_parentPanel.requestFocus();
+			if (m_heldLastFocus instanceof CTextField)
+				((CTextField) m_heldLastFocus).requestFocus();
+			if (m_heldLastFocus instanceof VLookup)
+				((VLookup) m_heldLastFocus).requestFocus();
+			if (m_heldLastFocus instanceof VCheckBox)
+				((VCheckBox) m_heldLastFocus).requestFocus();
+			
+			enableButtons();
+		}
 	}
 	
+	/**
+	 * A record was selected - take action to sync subordinate tables if any
+	 * @param key of the selected record
+	 */
+	protected void recordSelected(int key)
+	{
+		return;
+	}
+	/**
+	 * No record was selected - take action to sync subordinate tables if any
+	 */
+	protected void noRecordSelected()
+	{
+		return;
+	}
+
 	/**************************************************************************
 	 *	(Button) Action Listener & Popup Menu
 	 *  @param e event
 	 */
 	public void actionPerformed(ActionEvent e)
 	{
-		//  Popup => Calculator
-		if (e.getSource().equals(calcMenu))
+		if(!p_loadedOK)
+			return;
+
+		String cmd = e.getActionCommand();
+		if (cmd.equals("CausedFocusEvent"))
 		{
-			BigDecimal number = null;
-			if (m_popupRow >= 0 && m_popupColumn >= 0)
+			return;
+		}
+		
+		Object source = null;
+		
+		if(e.getSource() != null)
+		{
+			source = e.getSource();
+			
+			//  Keep the focus on the source field if the table updates
+			m_heldLastFocus = this.getFocusOwner();
+
+			//  Popup => Calculator
+			if (source.equals(calcMenu))
 			{
-				Object data = p_table.getValueAt(m_popupRow, m_popupColumn);
-				try
+				BigDecimal number = null;
+				if (m_popupRow >= 0 && m_popupColumn >= 0)
 				{
-					if (data != null)
+					Object data = p_table.getValueAt(m_popupRow, m_popupColumn);
+					try
 					{
-						if (data instanceof BigDecimal)
-							number = (BigDecimal)data;
+						if (data != null)
+						{
+							if (data instanceof BigDecimal)
+								number = (BigDecimal)data;
+							else
+								number = new BigDecimal(data.toString());
+						}
+					}
+					catch (Exception ex) {}
+					Calculator c = new Calculator(null, number);
+					c.setVisible(true);
+				}
+				return;
+			}
+			//  Popup => zoom
+			else if (e.getSource().equals(zoomMenu))
+			{
+				if (m_popupRow >= 0 && m_popupColumn >= 0)
+				{
+					zoom(p_table.getRowKey(m_popupRow));
+				}
+				return;
+			}   //  zoom
+
+			else if (cmd.equals(ConfirmPanel.A_OK))
+			{
+				//  The enter key is mapped to the Ok button which will close the dialog.
+				//  Don't let this happen if there are outstanding changes to any of the 
+				//  VLookup fields in the criteria
+				if (hasOutstandingChanges())
+				{
+					return;
+				}
+				else
+				{
+					// We might close
+					p_triggerRefresh = false;
+				}
+			} 
+			else if (source instanceof VComboBox)
+			{
+				if (((VComboBox) source).getParent() instanceof VLookup)
+				{
+					source = ((VComboBox) source).getParent();
+					VLookup vl = ((VLookup)source);
+					m_heldLastFocus = vl;
+					
+					//  Discard changes from mouse movements and keyboard entries
+					//  Respond only to the Enter key which causes "comboBoxEdited"
+					//  VLookups trigger multiple events in search mode. Reject 
+					//  events that don't have changes from the last action.
+					if(cmd.equals("comboBoxChanged"))		
+					{
+						if (!vl.hasChanged())
+							return;
 						else
-							number = new BigDecimal(data.toString());
+							p_triggerRefresh = true;
+					}
+					else if(cmd.equals("comboBoxEdited"))
+					{
+						if (!vl.hasChanged() && !hasOutstandingChanges())
+						{
+							vl.requestFocus();
+							return;
+						}
+						p_triggerRefresh = true;						
 					}
 				}
-				catch (Exception ex) {}
-				Calculator c = new Calculator(null, number);
-				c.setVisible(true);
 			}
-			return;
-		} 
-
-		//  Popup => zoom
-		if (e.getSource().equals(zoomMenu))
-		{
-			if (m_popupRow >= 0 && m_popupColumn >= 0)
+			else if (source instanceof CTextField)
 			{
-				zoom(p_table.getRowKey(m_popupRow));
-			}
-			return;
-		}   //  zoom
+				CTextField tf = ((CTextField) source);
 
-		
-		//  Confirm Panel
-		String cmd = e.getActionCommand();
+				if (tf.getParent() instanceof VLookup)
+				{
+					// Ignore it.  User typed into the VLookup text field.
+					// Look for events form the VLookup VComboBox component
+					// instead.
+					return;
+				}
+				else if (tf.hasChanged() || hasOutstandingChanges())  //  The change may have come from another field
+				{
+					p_triggerRefresh = true;
+				}
+				else
+				{
+					// Special case where text fields don't change but cause an event
+					// Interpret this as a click of the OK button and close EXCEPT
+					// if the dialog was opened from a menu.
+					if (p_TabNo == 0)
+						return;
+					else
+						dispose(true);  //  Save the selection and close;
+				}
+			}
+			else if (e.getSource() instanceof VCheckBox)
+			{
+				//  Check box changes generally always cause a refresh
+				//  Capture changes that don't 
+				p_triggerRefresh = true;
+				
+				VCheckBox cb = (VCheckBox) e.getSource();
+				if (cb.getName().equals("AutoQuery"))
+				{
+					//  Only trigger a refresh if the check box is selected
+					if(!cb.isSelected())
+					{
+						return;
+					}
+				}
+			}
+
+			// Check if we need to reset the table.  The flag is reset when
+			// the table is reset.  The first change triggers the reset.
+			p_resetColumns = p_resetColumns || columnIsDynamic(source);
+
+		} //  e.getSource() is null
+								
 		if (cmd.equals(ConfirmPanel.A_OK))
 		{
 			dispose(p_saveResults);
@@ -1084,7 +1303,15 @@ public abstract class Info extends CDialog
 			m_cancel = true;
 			dispose(false);
 		}
-		//
+		else if (cmd.equals(ConfirmPanel.A_REFRESH))
+		{
+			//  Refresh always causes a requery in case there are
+			//  changes to the underlying tables - even if the 
+			//  criteria haven't changed.
+			p_resetColumns = true;
+			p_triggerRefresh = true;
+			p_refreshNow = true;
+		}
 		else if (cmd.equals(ConfirmPanel.A_HISTORY))
 			showHistory(p_table.getLeadRowKey());
 		else if (cmd.equals(ConfirmPanel.A_CUSTOMIZE))
@@ -1093,28 +1320,72 @@ public abstract class Info extends CDialog
 			zoom(p_table.getLeadRowKey());
 		else if (cmd.equals(ConfirmPanel.A_RESET))
 		{
-			m_resetRecordID = true;
-			doReset();
+			//  Go back to the defaults
+			p_loadedOK = false;  // Prevent other actions
+			initInfo();
+			p_loadedOK = true;
+			//
+			p_resetColumns = true;
+			p_triggerRefresh = true;
 		}
 		else if (cmd.equals(ConfirmPanel.A_PRINT))
 			PrintScreenPainter.printScreen(this);
-		else if (cmd.equals(ConfirmPanel.A_REFRESH) || autoQuery())
+		
+        // Refresh if the autoquery feature is selected or the refresh button is clicked.
+		if (p_triggerRefresh && (p_refreshNow || autoQuery()))
 		{
-			super.actionPerformed(e);
-			m_resetRecordID = true;
+			//  Something changed so save the state and prepare for the query
 			executeQuery();
 		}
+		
+		//  Reset the flags
+		p_triggerRefresh = false;
+    	p_refreshNow = false;
+
 	}	//	actionPerformed
 
+	/**
+	 * Prepare for Requery of the table.  If dynamic changes are pending, prepare the table.
+	 */
+	protected void prepForRequery()
+	{
+		// Capture the state
+		setFieldOldValues();
+		//  Find what is currently selected
+		//  Re-selection of the column happens in the propertyChange listener
+		Integer selectedKey = (Integer) getSelectedRowKey();
+        if(selectedKey != null && selectedKey.intValue() != 0)
+        	this.p_selectedRecordKey = selectedKey.intValue();  
+		//
+		if (this.p_resetColumns)  //  Reset the table
+		{
+			prepareTable(getTableLayout(),
+					getFromClause(),
+					getWhereClause(),
+					getOrderClause());
+			this.p_table.setShowTotals(getShowTotals());
+			p_resetColumns = false;
+		}
+	}
+	
 	/**************************************************************************
 	 *  Table Selection Changed
 	 *  @param e event
 	 */
-	public void valueChanged(ListSelectionEvent e)
+	public void valueChanged(ListSelectionEvent lse)
 	{
-		if (e.getValueIsAdjusting())
+		// ValueChanged triggered by count can be ignored.  Event is fired in the info worker run()
+		// when the table is cleared.
+		if (m_ignoreEvents || p_table.getRowCount() == 0)
 			return;
-		enableButtons();
+		
+		//  Mouse events cause duplicate firings of the valueChanged event.  Trap the duplicate.
+		if (m_lse.equals(lse))
+			return;
+		m_lse = lse;
+		//
+		recordSelected(p_table.getLeadRowKey());
+		enableButtons();		
 	}   //  ValueChanged
 
 	/**
@@ -1122,6 +1393,7 @@ public abstract class Info extends CDialog
 	 *  @param AD_Window_ID window id
 	 *  @param zoomQuery zoom query
 	 */
+	@SuppressWarnings("deprecation")
 	protected void zoom (int AD_Window_ID, MQuery zoomQuery)
 	{
 		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -1251,6 +1523,7 @@ public abstract class Info extends CDialog
 	protected abstract void setParameters (PreparedStatement pstmt, boolean forCount) 
 		throws SQLException;
 
+	
 	/**
 	 *  Reset Parameters
 	 *	To be overwritten by concrete classes
@@ -1418,9 +1691,12 @@ public abstract class Info extends CDialog
 		//  compatibility
 		if (e.isPopupTrigger())
 		{
-			m_popupRow = p_table.rowAtPoint(e.getPoint());
-			m_popupColumn = p_table.columnAtPoint(e.getPoint());
-			popup.show(e.getComponent(), e.getX(), e.getY());
+			if (e.getSource().equals(p_table))
+			{
+				m_popupRow = p_table.rowAtPoint(e.getPoint());
+				m_popupColumn = p_table.columnAtPoint(e.getPoint());
+				popup.show(e.getComponent(), e.getX(), e.getY());
+			}
 			return;
 		}
 	}
@@ -1435,18 +1711,24 @@ public abstract class Info extends CDialog
 		//  compatibility
 		if (e.isPopupTrigger())
 		{
-			m_popupRow = p_table.rowAtPoint(e.getPoint());
-			m_popupColumn = p_table.columnAtPoint(e.getPoint());
-			popup.show(e.getComponent(), e.getX(), e.getY());
+			if (e.getSource().equals(p_table))
+			{
+				m_popupRow = p_table.rowAtPoint(e.getPoint());
+				m_popupColumn = p_table.columnAtPoint(e.getPoint());
+				popup.show(e.getComponent(), e.getX(), e.getY());
+			}
 			return;
 		}
 	}
 
     private Action doDispose = new AbstractAction() {
-        public void actionPerformed(ActionEvent e) {
+		private static final long serialVersionUID = 1L;
+
+		public void actionPerformed(ActionEvent e) {
 			dispose(p_saveResults);
         }
     };
+	private boolean m_showTotals;
 
 
     /**
@@ -1621,4 +1903,131 @@ public abstract class Info extends CDialog
 		}
 	}   //  Worker
 
+	/**
+	 * Record outstanding changes by copying the current
+	 * value to the oldValue on all fields
+	 */
+	protected void setFieldOldValues()
+	{
+		//  fieldValue.set_oldValue();
+		return;
+	}
+
+	/**
+	 * Does the parameter panel have outstanding changes that have not been
+	 * used in a query?  Override with specific tests.
+	 * @return true if there are outstanding changes.
+	 */
+	protected boolean hasOutstandingChanges()
+	{
+		return false;
+	}
+	
+	/**
+	 *  Clear all fields and set default values in check boxes
+	 */
+	protected void clearParameters()
+	{
+		return;
+	}
+
+	/**
+	 * Generic init call invoked by the event handler to reset the criteria panel.  
+	 * Used to call class specific initInfo function with reset parameters.
+	 */
+	protected void initInfo ()
+	{
+		clearParameters();
+		initInfo(0,"");
+	}
+
+	/**
+	 *	Dynamic Init
+	 *  @param record_id The ID of the record to display or zero
+	 *  @param value value 
+	 */
+	protected void initInfo(int record_id, String value)
+	{
+		return;
+	}
+
+	/**
+	 * Determine if the column causes dynamic changes in the table layout
+	 * @param o
+	 * @return true if changes result
+	 */
+	protected boolean columnIsDynamic(Object o)
+	{
+		return false;
+	}
+
+	protected void setShowTotals(boolean showTotals)
+	{
+		m_showTotals = showTotals;
+	}
+
+	protected boolean getShowTotals()
+	{
+		return m_showTotals;
+	}
+
+	/**
+	 * @return the p_layout
+	 */
+	protected Info_Column[] getTableLayout() {
+		return p_layout;
+	}
+
+	/**
+	 * @param p_layout the p_layout to set
+	 */
+	protected void setTableLayout(Info_Column[] p_layout) {
+		this.p_layout = p_layout;
+	}
+
+	/**
+	 * @return the p_sqlFrom
+	 */
+	protected String getFromClause() {
+		return p_sqlFrom;
+	}
+
+	/**
+	 * @param from the p_sqlFrom to set
+	 */
+	protected void setFromClause(String from) {
+		p_sqlFrom = from;
+	}
+
+	/**
+	 * @return the p_sqlWhere
+	 */
+	protected String getWhereClause() {
+		return p_whereClause;
+	}
+
+	/**
+	 * @param where the p_sqlWhere to set
+	 */
+	protected void setWhereClause(String where) {
+		p_whereClause = where;
+	}
+
+	/**
+	 * @return the p_sqlOrder
+	 */
+	protected String getOrderClause() {
+		return p_sqlOrder;
+	}
+
+	/**
+	 * @param order the p_sqlOrder to set
+	 */
+	protected void setOrderClause(String order) {
+		p_sqlOrder = order;
+	}
+	
+	protected boolean isMultipleResults() {
+		return m_results.size() > 1;
+	}
 }	//	Info

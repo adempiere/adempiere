@@ -702,6 +702,7 @@ public class AcctViewer extends CFrame
 		String whereClause = "(IsSummary='N' OR IsSummary IS NULL)";
 		String lookupColumn = keyColumn;
 		int record_id = m_data.getButtonRecordID(keyColumn);
+
 		if (keyColumn.equals("Account_ID"))
 		{
 			lookupColumn = "C_ElementValue_ID";
@@ -732,8 +733,14 @@ public class AcctViewer extends CFrame
 		}
 		else if (selDocument.isSelected())
 			whereClause = "";
+		
+		if (button == selRecord)                            //  Record_ID
+			record_id = m_data.Record_ID;
+		else
+			record_id = m_data.getButtonRecordID(keyColumn);
+
 		String tableName = lookupColumn.substring(0, lookupColumn.length()-3);
-		Info info = Info.create(this, true, m_data.WindowNo, tableName, lookupColumn, m_data.Record_ID, "", false, true, whereClause);
+		Info info = Info.create(this, true, m_data.WindowNo, tableName, lookupColumn, record_id, "", false, true, whereClause);
 		if (!info.loadedOK())
 		{
 			info.dispose();
@@ -751,10 +758,15 @@ public class AcctViewer extends CFrame
 		
 		if (isCancelled && !isOK) // Delete the saved info
 		{
-			button.setText("");
-			m_data.whereInfo.put(keyColumn, "");    //  no query
-			m_data.buttonRecordID.put(keyColumn, 0);
 			key = 0;
+			if (button == selRecord)                            //  Record_ID
+				m_data.Record_ID = key.intValue();
+			else
+			{
+				m_data.whereInfo.put(keyColumn, "");    //  no query
+				m_data.buttonRecordID.put(keyColumn, key.intValue());
+			}
+			button.setText("");
 		}
 		else if(!isCancelled && isOK)
 		{
@@ -765,8 +777,10 @@ public class AcctViewer extends CFrame
 			if (button == selRecord)                            //  Record_ID
 				m_data.Record_ID = key.intValue();
 			else
-				m_data.whereInfo.put(keyColumn, keyColumn + "=" + key.intValue());
+			{
+				m_data.whereInfo.put(keyColumn, keyColumn + "=" + key.intValue());  //  Add to query
 				m_data.buttonRecordID.put(keyColumn, key.intValue());
+			}
 			//  Display Selection and resize
 			button.setText(m_data.getButtonText(tableName, lookupColumn, selectSQL));
 			pack();

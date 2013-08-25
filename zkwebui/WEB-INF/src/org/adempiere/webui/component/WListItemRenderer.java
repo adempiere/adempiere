@@ -578,18 +578,21 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 				tableColumn = m_tableColumns.get(0);
 				for (int i = 0; i < cnt; i++) {
 					IDColumn idcolumn = (IDColumn) table.getValueAt(i, 0);
-					Listitem item = table.getItemAtIndex(i);
-
-					value = item.isSelected();
-					Boolean old = idcolumn.isSelected();
-
-					if (!old.equals(value)) {
-						vcEvent = new TableValueChangeEvent(source,
-								tableColumn.getHeaderValue().toString(),
-								i, 0,
-								old, value);
-
-						fireTableValueChange(vcEvent);
+					if (idcolumn != null)
+					{
+						Listitem item = table.getItemAtIndex(i);
+	
+						value = item.isSelected();
+						Boolean old = idcolumn.isSelected();
+	
+						if (!old.equals(value)) {
+							vcEvent = new TableValueChangeEvent(source,
+									tableColumn.getHeaderValue().toString(),
+									i, 0,
+									old, value);
+	
+							fireTableValueChange(vcEvent);
+						}
 					}
 				}
 			}

@@ -22,12 +22,15 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 
 import org.adempiere.plaf.AdempierePLAF;
+import org.compiere.apps.AEnv;
 import org.compiere.apps.ALayout;
 import org.compiere.apps.ALayoutConstraint;
 import org.compiere.grid.ed.VCheckBox;
 import org.compiere.grid.ed.VDate;
 import org.compiere.grid.ed.VLookup;
 import org.compiere.minigrid.IDColumn;
+import org.compiere.model.MColumn;
+import org.compiere.model.MInOut;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MQuery;
 import org.compiere.swing.CLabel;
@@ -91,28 +94,28 @@ public class InfoInOut extends Info
 		log.info( "InfoInOut");
 		setTitle(Msg.getMsg(Env.getCtx(), "InfoInOut"));
 		//
-		try
-		{
-			statInit();
-			p_loadedOK = initInfo (record_id, value);
-		}
-		catch (Exception e)
-		{
-			return;
-		}
+		StringBuffer where = new StringBuffer("i.IsActive='Y'");
+		if (whereClause.length() > 0)
+			where.append(" AND ").append(Util.replace(whereClause, "M_InOut.", "i."));
+		setWhereClause(where.toString());
+		setTableLayout(s_Layout);
+		setFromClause(s_From);
+		setOrderClause(s_Order);
 		//
-		int no = p_table.getRowCount();
-		setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
-		setStatusDB(Integer.toString(no));
+		statInit();
+		initInfo (record_id, value);
+
+		//  To get the focus after the table update
+		m_heldLastFocus = fDocumentNo;
 		
-		// Auto query
+		//	AutoQuery
 		if(autoQuery() || record_id != 0 || (value != null && value.length() > 0 && value != "%"))
 			executeQuery();
 		
-		//
-		pack();
-		//	Focus
-		fDocumentNo.requestFocus();
+		p_loadedOK = true;
+
+		AEnv.positionCenterWindow(frame, this);	
+		
 	}   //  InfoInOut
 
 
@@ -136,8 +139,13 @@ public class InfoInOut extends Info
 	private VDate fDateTo = new VDate("DateTo", false, false, true, DisplayType.Date, Msg.translate(Env.getCtx(), "DateTo"));
 	private VCheckBox fIsSOTrx = new VCheckBox ("IsSOTrx", false, false, true, Msg.translate(Env.getCtx(), "IsSOTrx"), "", false);
 
+	/** From Clause             */
+	private static String s_From = " M_InOut i";
+	/** Order Clause             */
+	private static String s_Order = "2,3,4";
+
 	/**  Array of Column Info    */
-	private static final Info_Column[] s_invoiceLayout = {
+	private static final Info_Column[] s_Layout = {
 		new Info_Column(" ", "i.M_InOut_ID", IDColumn.class),
 		new Info_Column(Msg.translate(Env.getCtx(), "C_BPartner_ID"), "(SELECT Name FROM C_BPartner bp WHERE bp.C_BPartner_ID=i.C_BPartner_ID)", String.class),
 		new Info_Column(Msg.translate(Env.getCtx(), "MovementDate"), "i.MovementDate", Timestamp.class),
@@ -148,14 +156,15 @@ public class InfoInOut extends Info
 		new Info_Column(Msg.translate(Env.getCtx(), "ShipDate"), "i.ShipDate", Timestamp.class),
 		new Info_Column(Msg.translate(Env.getCtx(), "TrackingNo"), "i.TrackingNo", String.class),
 		new Info_Column(Msg.translate(Env.getCtx(), "IsDropShip"), "i.IsDropShip", Boolean.class),
-		new Info_Column(Msg.translate(Env.getCtx(), "DropShip_BPartner_ID"), "(SELECT Name FROM C_BPartner bp WHERE bp.C_BPartner_ID=i.DropShip_BPartner_ID)", String.class)		
+		new Info_Column(Msg.translate(Env.getCtx(), "DropShip_BPartner_ID"), "(SELECT Name FROM C_BPartner bp WHERE bp.C_BPartner_ID=i.DropShip_BPartner_ID)", String.class),
+		new Info_Column(Msg.translate(Env.getCtx(), "DocStatus"), "i.docstatus", String.class),
+
 	};
 
 	/**
 	 *	Static Setup - add fields to parameterPanel
-	 *  @throws Exception if Lookups cannot be initialized
 	 */
-	private void statInit() throws Exception
+	private void statInit()
 	{
 		lDocumentNo.setLabelFor(fDocumentNo);
 		fDocumentNo.setBackground(AdempierePLAF.getInfoBackground());
@@ -170,13 +179,17 @@ public class InfoInOut extends Info
 		fIsSOTrx.addActionListener(this);
 		//
 		fBPartner_ID = new VLookup("C_BPartner_ID", false, false, true,
-			MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 3499, DisplayType.Search));
+			MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 
+					MColumn.getColumn_ID(MInOut.Table_Name, MInOut.COLUMNNAME_C_BPartner_ID),
+					DisplayType.Search));
 		lBPartner_ID.setLabelFor(fBPartner_ID);
 		fBPartner_ID.setBackground(AdempierePLAF.getInfoBackground());
 		fBPartner_ID.addActionListener(this);
 		//
 		fShipper_ID = new VLookup("M_Shipper_ID", false, false, true,
-				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 2077, DisplayType.TableDir));
+				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 
+						MColumn.getColumn_ID(MInOut.Table_Name, MInOut.COLUMNNAME_M_Shipper_ID),
+						DisplayType.TableDir));
 		lShipper_ID.setLabelFor(fShipper_ID);
 		fShipper_ID.setBackground(AdempierePLAF.getInfoBackground());
 		fShipper_ID.addActionListener(this);
@@ -195,41 +208,34 @@ public class InfoInOut extends Info
 		datePanel.add(fDateFrom, new ALayoutConstraint(0,0));
 		datePanel.add(lDateTo, null);
 		datePanel.add(fDateTo, null);
-		//
-		parameterPanel.setLayout(new ALayout());
 		//  First Row
-		parameterPanel.add(lDocumentNo, new ALayoutConstraint(0,0));
-		parameterPanel.add(fDocumentNo, null);
-		parameterPanel.add(lBPartner_ID, null);
-		parameterPanel.add(fBPartner_ID, null);
-		parameterPanel.add(fIsSOTrx, new ALayoutConstraint(0,5));
+		p_criteriaGrid.add(lDocumentNo, new ALayoutConstraint(0,0));
+		p_criteriaGrid.add(fDocumentNo, null);
+		p_criteriaGrid.add(lBPartner_ID, null);
+		p_criteriaGrid.add(fBPartner_ID, null);
+		p_criteriaGrid.add(fIsSOTrx, new ALayoutConstraint(0,5));
 		//  2nd Row
-		parameterPanel.add(lDescription, new ALayoutConstraint(1,0));
-		parameterPanel.add(fDescription, null);
-		parameterPanel.add(lDateFrom, null);
-		parameterPanel.add(datePanel, null);
+		p_criteriaGrid.add(lDescription, new ALayoutConstraint(1,0));
+		p_criteriaGrid.add(fDescription, null);
+		p_criteriaGrid.add(lDateFrom, null);
+		p_criteriaGrid.add(datePanel, null);
 		//  3rd Row
-		parameterPanel.add(lPOReference, new ALayoutConstraint(2,0));
-		parameterPanel.add(fPOReference, null);
-		parameterPanel.add(lShipper_ID, null);
-		parameterPanel.add(fShipper_ID, null);
+		p_criteriaGrid.add(lPOReference, new ALayoutConstraint(2,0));
+		p_criteriaGrid.add(fPOReference, null);
+		p_criteriaGrid.add(lShipper_ID, null);
+		p_criteriaGrid.add(fShipper_ID, null);
 	}	//	statInit
 
 	/**
 	 *	General Init
 	 *	@return true, if success
 	 */
-	private boolean initInfo (int record_id, String value)
+	protected void initInfo (int record_id, String value)
 	{
-		//  prepare table
-		StringBuffer where = new StringBuffer("i.IsActive='Y'");
-		if (p_whereClause.length() > 0)
-			where.append(" AND ").append(Util.replace(p_whereClause, "M_InOut.", "i."));
-		prepareTable(s_invoiceLayout,
-			" M_InOut i",
-			where.toString(),
-			"2,3,4");
-
+		if (!(record_id == 0) && value != null && value.length() > 0)
+		{
+			log.severe("Received both a record_id and a value: " + record_id + " - " + value);
+		}
 		//  Set values
         if (!(record_id == 0))  // A record is defined
         {
@@ -267,7 +273,7 @@ public class InfoInOut extends Info
 			}
         }
 
-        return true;
+        return;
 	}	//	initInfo
 
 	/*************************************************************************/
@@ -398,4 +404,55 @@ public class InfoInOut extends Info
 		return true;
 	}	//	hasZoom
 
+	/**
+	 * Does the parameter panel have outstanding changes that have not been
+	 * used in a query?
+	 * @return true if there are outstanding changes.
+	 */
+	protected boolean hasOutstandingChanges()
+	{
+		//  All the tracked fields
+		return(
+				fDocumentNo.hasChanged()	||
+				fDescription.hasChanged()	||
+				fPOReference.hasChanged()	||
+				fIsSOTrx.hasChanged()	||
+				fBPartner_ID.hasChanged()	||
+				fShipper_ID.hasChanged()	||
+				fDateFrom.hasChanged()	||
+				fDateTo.hasChanged());
+	}
+	/**
+	 * Record outstanding changes by copying the current
+	 * value to the oldValue on all fields
+	 */
+	protected void setFieldOldValues()
+	{
+		fDocumentNo.set_oldValue();
+		fDescription.set_oldValue();
+		fPOReference.set_oldValue();
+		fIsSOTrx.set_oldValue();
+		fBPartner_ID.set_oldValue();
+		fShipper_ID.set_oldValue();
+		fDateFrom.set_oldValue();
+		fDateTo.set_oldValue();
+		return;
+	}
+    /**
+	 *  Clear all fields and set default values in check boxes
+	 */
+	protected void clearParameters()
+	{
+		//  Clear fields and set defaults
+		Object nullObject = null;
+		fDocumentNo.setValue("");
+		fDescription.setValue("");
+		fPOReference.setValue("");
+		fBPartner_ID.setValue(null);
+		fShipper_ID.setValue(null);
+		fDateFrom.setValue(nullObject);
+		fDateTo.setValue(nullObject);
+		fIsSOTrx.setSelected(!"N".equals(Env.getContext(Env.getCtx(), p_WindowNo, "IsSOTrx")));
+	}
+	
 }   //  InfoInOut

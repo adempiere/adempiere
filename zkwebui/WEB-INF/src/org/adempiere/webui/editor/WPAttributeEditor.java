@@ -69,7 +69,7 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 	private static String		m_columnName = "M_AttributeSetInstance_ID";
 
 	private int 				m_WindowNo;
-	private Lookup 				m_mPAttribute;
+	private MPAttributeLookup	m_mPAttribute;
 	private int 				m_C_BPartner_ID;
 	private boolean 			m_searchOnly;
 	private boolean				m_mandatory;
@@ -97,7 +97,7 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 		super(new PAttributebox(), gridField);
 		m_GridTab = gridTab;
 		m_WindowNo = gridField.getWindowNo();
-		m_mPAttribute = gridField.getLookup();
+		m_mPAttribute = (MPAttributeLookup) gridField.getLookup();
 		m_readWrite = false;
 		initComponents();
 	}
@@ -150,7 +150,7 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 		}
 		
 		//getComponent().getTextbox().setReadonly(!m_readWrite);
-		
+		setValue(NO_INSTANCE);
 		set_oldValue();
 	}
 

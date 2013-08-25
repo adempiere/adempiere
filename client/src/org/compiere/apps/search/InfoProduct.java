@@ -17,13 +17,10 @@
 package org.compiere.apps.search;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -33,45 +30,34 @@ import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Level;
 
-import javax.swing.Box;
 import javax.swing.JScrollPane;
-import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.plaf.ColorUIResource;
 import javax.swing.table.DefaultTableModel;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.adempiere.plaf.AdempiereTaskPaneUI;
 import org.compiere.apps.AEnv;
-import org.compiere.apps.ALayout;
 import org.compiere.apps.ALayoutConstraint;
-import org.compiere.apps.AppsAction;
 import org.compiere.apps.ConfirmPanel;
 import org.compiere.grid.ed.VCheckBox;
 import org.compiere.grid.ed.VComboBox;
-import org.compiere.grid.ed.VLine;
 import org.compiere.grid.ed.VLookup;
-import org.compiere.grid.ed.VNumber;
 import org.compiere.grid.ed.VPAttribute;
-import org.compiere.grid.ed.VPAttributeDialog;
-import org.compiere.grid.ed.VString;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.MiniTable;
 import org.compiere.model.GridTab;
-import org.compiere.model.MAttribute;
-import org.compiere.model.MAttributeInstance;
 import org.compiere.model.MAttributeSet;
-import org.compiere.model.MAttributeSetInstance;
-import org.compiere.model.MAttributeValue;
+import org.compiere.model.MColumn;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MPAttributeLookup;
+import org.compiere.model.MPriceListVersion;
 import org.compiere.model.MProduct;
+import org.compiere.model.MProductCategory;
+import org.compiere.model.MProductPO;
 import org.compiere.model.MQuery;
-import org.compiere.model.MRole;
+import org.compiere.model.MWarehouse;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
@@ -83,7 +69,6 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
-import org.jdesktop.swingx.JXTaskPane;
 
 
 /**
@@ -150,35 +135,39 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 		m_M_Warehouse_ID = M_Warehouse_ID;
 		m_M_PriceList_ID = M_PriceList_ID;
 		//
-		statInit();
-		initInfo (record_id, value, M_Warehouse_ID, M_PriceList_ID, false);
-		p_loadedOK = true;
+		//	Modify where clause to fit with column info definitions
+		StringBuffer where = new StringBuffer();
+		where.append("p.IsActive='Y'");
+		//  Modify Where Clause
+		if (whereClause != null && whereClause.length() > 0)
+			where.append(" AND ")   //  replace fully qualified name with alias
+				.append(Util.replace(whereClause, "M_Product.", "p."));
+		setWhereClause(where.toString());
 		//
-		int no = this.p_table.getRowCount();
-		setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
-		setStatusDB(Integer.toString(no));
-		
-		if(autoQuery() || record_id != 0 || (value != null && value.length() > 0 && value != "%"))
-			executeQuery();
+		statInit();
+		initInfo (record_id, value, M_Warehouse_ID, M_PriceList_ID);
 
-		pack();
-		
-		AEnv.positionCenterWindow(frame, this);
-		
 		//  To get the focus after the table update
 		m_heldLastFocus = fieldValue;
+
+		//	AutoQuery
+		if(autoQuery() || record_id != 0 || (value != null && value.length() > 0 && value != "%"))
+		{
+			executeQuery();
+		}
+
+		p_loadedOK = true;
+
+		AEnv.positionCenterWindow(frame, this);
 		
 	}	//	InfoProduct
 
 	/**  Array of Column Info    */
-	private static Info_Column[] s_productLayout = null;
+	private static Info_Column[] s_Layout = null;
 	private static int INDEX_PATTRIBUTE = 0;
 	
-	private Object m_heldLastFocus = null;
-
 	//
 	private int fieldID=0;
-	private CButton bReset = new CButton();
 	private CLabel labelValue = new CLabel();
 	private CTextField fieldValue = new CTextField(10);
 	private CLabel labelName = new CLabel();
@@ -207,16 +196,16 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 	//Begin - fer_luck @ centuryon
 	private CTextArea fieldDescription = new CTextArea();
 	private CTextArea fieldPAttributes = new CTextArea();
-	private JXTaskPane warehouseStockPanel = new JXTaskPane();
-	private CPanel checkPanel = new CPanel();  // Holder for the show detail checkbox
 	private CPanel tablePanel = new CPanel();
 	private MiniTable warehouseTbl = new MiniTable();
 	private String m_sqlWarehouse;
 	private MiniTable substituteTbl = new MiniTable();
 	private String m_sqlSubstitute;
 	private MiniTable relatedTbl = new MiniTable();
-	private CTabbedPane jTab  = new CTabbedPane();
 	private String m_sqlRelated;
+	private MiniTable vendorTbl = new MiniTable();
+	private String m_sqlVendor;
+	private CTabbedPane jTab  = new CTabbedPane();
     //Available to Promise Tab
     private Info_Column[]		m_layoutATP = null;
 	private MiniTable 			m_tableAtp = null;
@@ -232,33 +221,12 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 	private int			m_M_AttributeSetInstance_ID = -1;
 	/** Locator						*/
 	private int			m_M_Locator_ID = 0;
-	private CPanel 		ppButtonPanel;
-	private CPanel 		ppSubPanel;
 	
-	/** 
-	 *  Tracking the last list selection event
-	 */
-	ListSelectionEvent m_lse = new ListSelectionEvent(this, 0, 0, true);
-
 	/**
 	 *	Static Setup - add fields to parameterPanel
 	 */
 	private void statInit()
 	{
-		// Listen to changes in the table
-		p_table.addPropertyChangeListener("p_table_update", this);
-		((ListSelectionModel) p_table.getSelectionModel()).addListSelectionListener(this);
-		
-		AppsAction aa = new AppsAction (ConfirmPanel.A_RESET, null, "reset");
-		bReset = (CButton)aa.getButton();
-		bReset.setMargin(ConfirmPanel.s_insets);
-		bReset.setSize(bReset.getHeight(), bReset.getHeight());
-		Dimension bSize = bReset.getSize();
-		bSize.height = bReset.getHeight();
-		bSize.width = bReset.getHeight();
-		bReset.setMaximumSize(bSize);  // Make it square
-		bReset.addActionListener(this);
-		
 		labelValue.setText(Msg.getMsg(Env.getCtx(), "Value"));
 		fieldValue.setBackground(AdempierePLAF.getInfoBackground());
 		fieldValue.addActionListener(this);
@@ -277,7 +245,9 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 		
 		labelWarehouse.setText(Msg.getMsg(Env.getCtx(), "Warehouse"));
 		fWarehouse_ID = new VLookup("M_Warehouse_ID", false, false, true,
-				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 1151, DisplayType.TableDir));
+				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 
+				MColumn.getColumn_ID(MWarehouse.Table_Name, MWarehouse.COLUMNNAME_M_Warehouse_ID),
+				DisplayType.TableDir));
 		fWarehouse_ID.setBackground(AdempierePLAF.getInfoBackground());
 		fWarehouse_ID.addActionListener(this);
 		
@@ -302,20 +272,26 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 
 		labelPriceList.setText(Msg.getMsg(Env.getCtx(), "PriceListVersion"));
 		fPriceList_ID = new VLookup("M_PriceList_Version_ID", false, false, true,
-				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 2987, DisplayType.TableDir));						
+				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 
+				MColumn.getColumn_ID(MPriceListVersion.Table_Name, MPriceListVersion.COLUMNNAME_M_PriceList_Version_ID),
+				DisplayType.TableDir));						
 		fPriceList_ID.setBackground(AdempierePLAF.getInfoBackground());
 		fPriceList_ID.addActionListener(this);
 
 		labelProductCategory.setText(Msg.translate(Env.getCtx(), "M_Product_Category_ID"));
 		fProductCategory_ID = new VLookup("M_Product_Category_ID", false, false, true,
-				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 2020, DisplayType.TableDir));
+				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 
+				MColumn.getColumn_ID(MProductCategory.Table_Name, MProductCategory.COLUMNNAME_M_Product_Category_ID),
+				DisplayType.TableDir));
 		fProductCategory_ID.setBackground(AdempierePLAF.getInfoBackground());
 		fProductCategory_ID.addActionListener(this);
 		
 		// @Trifon
 		labelAS.setText(Msg.translate(Env.getCtx(), "M_AttributeSet_ID"));
 		fAS_ID = new VLookup("M_AttributeSet_ID", false, false, true,
-				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 8490, DisplayType.TableDir));
+				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 
+				MColumn.getColumn_ID(MAttributeSet.Table_Name, MAttributeSet.COLUMNNAME_M_AttributeSet_ID),
+				DisplayType.TableDir));
 		fAS_ID.setBackground(AdempierePLAF.getInfoBackground());
 		fAS_ID.addActionListener(this);
 		//
@@ -327,52 +303,39 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 
 		labelVendor.setText(Msg.translate(Env.getCtx(), "Vendor"));
 		fVendor_ID = new VLookup("C_BPartner_ID", false, false, true,
-				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 2705, DisplayType.Search));
+				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 
+				MColumn.getColumn_ID(MProductPO.Table_Name, MProductPO.COLUMNNAME_C_BPartner_ID),
+				DisplayType.Search));
 		fVendor_ID.setBackground(AdempierePLAF.getInfoBackground());
 		fVendor_ID.addActionListener(this);
-		//
-		//m_InfoPAttributeButton.setMargin(new Insets(2,2,2,2));
-		//m_InfoPAttributeButton.setToolTipText(Msg.getMsg(Env.getCtx(), "InfoPAttribute"));
-		//m_InfoPAttributeButton.addActionListener(this);
-		
-		ppButtonPanel = new CPanel(new FlowLayout(FlowLayout.CENTER));
-		ppButtonPanel.add(bReset,BorderLayout.NORTH);
-		ppButtonPanel.setMaximumSize(new Dimension(30, 30));
-				
-		ppSubPanel = new CPanel();
+		fVendor_ID.setIsSOTrx(true, false); // Override the isSOTrx context, Vendors only
+		//  Setup the Grid
 		//	Line 1
-		ppSubPanel.setLayout(new ALayout());
-		ppSubPanel.add(labelValue, new ALayoutConstraint(0,0));
-		ppSubPanel.add(fieldValue, null);
-		ppSubPanel.add(labelWarehouse, null);
-		ppSubPanel.add(fWarehouse_ID, null);
-		ppSubPanel.add(checkOnlyStock, new ALayoutConstraint(0,5));
+		p_criteriaGrid.add(labelValue, new ALayoutConstraint(0,0));
+		p_criteriaGrid.add(fieldValue, null);
+		p_criteriaGrid.add(labelWarehouse, null);
+		p_criteriaGrid.add(fWarehouse_ID, null);
+		p_criteriaGrid.add(checkOnlyStock, new ALayoutConstraint(0,5));
 		//	Line 2
-		ppSubPanel.add(labelName, new ALayoutConstraint(1,0));
-		ppSubPanel.add(fieldName, null);
-		ppSubPanel.add(labelPriceList, null);
-		ppSubPanel.add(fPriceList_ID, null);
-		ppSubPanel.add(labelAS, null); // @Trifon
-		ppSubPanel.add(fAS_ID, null);  // @Trifon
+		p_criteriaGrid.add(labelName, new ALayoutConstraint(1,0));
+		p_criteriaGrid.add(fieldName, null);
+		p_criteriaGrid.add(labelPriceList, null);
+		p_criteriaGrid.add(fPriceList_ID, null);
+		p_criteriaGrid.add(labelAS, null); // @Trifon
+		p_criteriaGrid.add(fAS_ID, null);  // @Trifon
 		// Line 3
-		ppSubPanel.add(labelUPC, new ALayoutConstraint(2,0));
-		ppSubPanel.add(fieldUPC, null);
-		ppSubPanel.add(labelProductCategory, null);
-		ppSubPanel.add(fProductCategory_ID, null);
-		ppSubPanel.add(labelASI, null);
-		ppSubPanel.add(fASI_ID, null);
+		p_criteriaGrid.add(labelUPC, new ALayoutConstraint(2,0));
+		p_criteriaGrid.add(fieldUPC, null);
+		p_criteriaGrid.add(labelProductCategory, null);
+		p_criteriaGrid.add(fProductCategory_ID, null);
+		p_criteriaGrid.add(labelASI, null);
+		p_criteriaGrid.add(fASI_ID, null);
 		//  Line 4
-		ppSubPanel.add(labelSKU, new ALayoutConstraint(3,0));
-		ppSubPanel.add(fieldSKU, null);
-		ppSubPanel.add(labelVendor, null);
-		ppSubPanel.add(fVendor_ID, null);
-		ppSubPanel.add(checkAND, new ALayoutConstraint(3,5));
-
-		ppSubPanel.validate();
-		//
-		parameterPanel.setLayout(new BorderLayout());
-		parameterPanel.add(ppButtonPanel, BorderLayout.WEST);
-		parameterPanel.add(ppSubPanel,BorderLayout.CENTER);
+		p_criteriaGrid.add(labelSKU, new ALayoutConstraint(3,0));
+		p_criteriaGrid.add(fieldSKU, null);
+		p_criteriaGrid.add(labelVendor, null);
+		p_criteriaGrid.add(fVendor_ID, null);
+		p_criteriaGrid.add(checkAND, new ALayoutConstraint(3,5));
 
 		//	Product Attribute Instance
 		m_PAttributeButton = ConfirmPanel.createPAttributeButton(true);
@@ -390,11 +353,6 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 		fieldPAttributes.setEditable(false);
 		fieldPAttributes.setPreferredSize(new Dimension(INFO_WIDTH - 100, 100));
 
-		warehouseStockPanel.setTitle(Msg.translate(Env.getCtx(), "WarehouseStock"));
-        warehouseStockPanel.setUI(new AdempiereTaskPaneUI());
-        warehouseStockPanel.getContentPane().setBackground(new ColorUIResource(251,248,241));
-        warehouseStockPanel.getContentPane().setForeground(new ColorUIResource(251,0,0));
-        
         ColumnInfo[] s_layoutWarehouse = new ColumnInfo[]{
         		new ColumnInfo(" ", "M_Warehouse_ID", IDColumn.class),
         		new ColumnInfo(Msg.translate(Env.getCtx(), "Warehouse"), "Warehouse", String.class),
@@ -416,10 +374,8 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
         
         ColumnInfo[] s_layoutSubstitute = new ColumnInfo[]{
         		new ColumnInfo(Msg.translate(Env.getCtx(), "Warehouse"), "orgname", String.class),
-        		new ColumnInfo(
-    					Msg.translate(Env.getCtx(), "Value"),
-    					"(Select Value from M_Product p where p.M_Product_ID=M_PRODUCT_SUBSTITUTERELATED_V.Substitute_ID)",
-    					String.class), 
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "Description"), "description", String.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "Value"), "value", String.class),
     			new ColumnInfo(Msg.translate(Env.getCtx(), "Name"), "Name", String.class),
     			new ColumnInfo(Msg.translate(Env.getCtx(), "QtyAvailable"), "QtyAvailable", Double.class),
   	        	new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOnHand"), "QtyOnHand", Double.class),
@@ -436,10 +392,8 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
         
         ColumnInfo[] s_layoutRelated = new ColumnInfo[]{
         		new ColumnInfo(Msg.translate(Env.getCtx(), "Warehouse"), "orgname", String.class),
-        		new ColumnInfo(
-    					Msg.translate(Env.getCtx(), "Value"),
-    					"(Select Value from M_Product p where p.M_Product_ID=M_PRODUCT_SUBSTITUTERELATED_V.Substitute_ID)",
-    					String.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "Description"), "description", String.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "Value"), "value", String.class),
     			new ColumnInfo(Msg.translate(Env.getCtx(), "Name"), "Name", String.class),
     			new ColumnInfo(Msg.translate(Env.getCtx(), "QtyAvailable"), "QtyAvailable", Double.class),
   	        	new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOnHand"), "QtyOnHand", Double.class),
@@ -458,7 +412,29 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
         initAtpTab();
         m_tableAtp.setRowSelectionAllowed(false);
         m_tableAtp.setMultiSelection(false);
-              
+        
+        //Vendor tab
+        ColumnInfo[] s_layoutVendor = new ColumnInfo[]{
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "Vendor"), "(SELECT bp.Name FROM C_BPartner bp WHERE bp.C_BPartner_ID = M_PRODUCT_PO.C_BPartner_ID)", String.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "IsCurrentVendor"), "IsCurrentVendor", Boolean.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "C_UOM_ID"), "(SELECT Name FROM C_UOM WHERE C_UOM_ID = M_PRODUCT_PO.C_UOM_ID)", String.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "C_Currency_ID"), "(SELECT iso_code FROM C_Currency WHERE C_Currency_ID = M_PRODUCT_PO.C_Currency_ID)", String.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "PriceList"), "PriceList", Double.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "PricePO"), "PricePO", Double.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "VendorProductNo"), "VendorProductNo", String.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "Order_Min"), "Order_Min", Double.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "DeliveryTime_Promised"), "DeliveryTime_Promised", Double.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "DeliveryTime_Actual"), "DeliveryTime_Actual", Double.class)
+    		};
+        s_sqlFrom = "M_PRODUCT_PO";
+        s_sqlWhere = "M_Product_ID = ?";
+        m_sqlVendor = vendorTbl.prepareTable(s_layoutVendor, s_sqlFrom, s_sqlWhere, false, "M_PRODUCT_PO");
+        vendorTbl.setRowSelectionAllowed(false);
+        vendorTbl.setMultiSelection(false);
+        vendorTbl.addMouseListener(this);
+        vendorTbl.setShowTotals(false);
+        vendorTbl.autoSize();
+                      
         jTab.addTab(Msg.translate(Env.getCtx(), "Warehouse"), new JScrollPane(warehouseTbl));
         jTab.setPreferredSize(new Dimension(INFO_WIDTH, SCREEN_HEIGHT > 600 ? 250 : 105));
         jTab.addTab(Msg.translate(Env.getCtx(), "Description"), new JScrollPane(fieldDescription));
@@ -466,19 +442,18 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
         jTab.addTab(Msg.translate(Env.getCtx(), "Substitute_ID"), new JScrollPane(substituteTbl));
         jTab.addTab(Msg.translate(Env.getCtx(), "RelatedProduct_ID"), new JScrollPane(relatedTbl));
 		jTab.addTab (Msg.getMsg(Env.getCtx(), "ATP"), new JScrollPane(m_tableAtp));
+		jTab.addTab (Msg.translate(Env.getCtx(), "Vendor"), new JScrollPane(vendorTbl));
 		jTab.addChangeListener(this);
         tablePanel.setPreferredSize(new Dimension(INFO_WIDTH, SCREEN_HEIGHT > 600 ? 255 : 110));
         tablePanel.setLayout(new BorderLayout());
         tablePanel.add(jTab, BorderLayout.CENTER);        
 
-        checkPanel.add(checkShowDetail);
-        warehouseStockPanel.setCollapsed(true);
-        warehouseStockPanel.setLayout(new BorderLayout());
-        warehouseStockPanel.add(checkShowDetail, BorderLayout.NORTH);
-        warehouseStockPanel.add(tablePanel, BorderLayout.CENTER);
-        this.addonPanel.setLayout(new BorderLayout());
-        this.addonPanel.add(warehouseStockPanel, BorderLayout.CENTER); // Allow auto resizing of the panel
-	}	//	statInit
+        //  Add the details to the p_detailPanel
+		p_detailTaskPane.setTitle(Msg.translate(Env.getCtx(), "WarehouseStock"));        
+        p_detailTaskPane.add(checkShowDetail, BorderLayout.NORTH);
+        p_detailTaskPane.add(tablePanel, BorderLayout.CENTER);
+        p_detailTaskPane.setVisible(true);
+    }	//	statInit
 
 	//Begin - fer_luck @ centuryon
 	/**
@@ -730,9 +705,40 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 			{
 	    			refreshAtpTab();
 			}
+
+	    	if(jTab.getSelectedIndex() == 6)
+			{
+				//  Vendor tab
+				sql = m_sqlVendor;
+				log.finest(sql);
+				try {
+					pstmt = DB.prepareStatement(sql, null);
+					pstmt.setInt(1, m_M_Product_ID);
+					rs = pstmt.executeQuery();
+					vendorTbl.loadTable(rs);
+					rs.close();
+				} catch (Exception e) {
+					log.log(Level.WARNING, sql, e);
+				}
+				finally
+				{
+					DB.close(rs, pstmt);
+					rs = null; pstmt = null;
+				}
+			}
+
 		}});
 	}	//	refresh
 	//End - fer_luck @ centuryon
+	
+	/**
+	 * Reset the criteria panel
+	 */
+	protected void initInfo()
+	{
+		clearParameters();
+		initInfo(0,"",m_M_Warehouse_ID, m_M_PriceList_ID);
+	}
 	
 	/**
 	 *	Dynamic Init
@@ -741,18 +747,11 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 	 * @param M_Warehouse_ID warehouse
 	 * @param M_PriceList_ID price list
 	 */
-	private void initInfo (int record_id, String value, int M_Warehouse_ID, int M_PriceList_ID, boolean reset)
+	private void initInfo (int record_id, String value, int M_Warehouse_ID, int M_PriceList_ID)
 	{
 		if (!(record_id == 0) && value != null && value.length() > 0)
 		{
 			log.severe("Received both a record_id and a value: " + record_id + " - " + value);
-		}
-
-		//  In case of reset, clear all parameters to ensure we are at a known starting point.
-		if(reset)
-		{
-			clearParameters();
-			p_resetColumns = true;
 		}
 		//  Set values
         if (!(record_id == 0))  // A record is defined
@@ -760,7 +759,6 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
         	fieldID = record_id;
         	fWarehouse_ID.setValue(new Integer(M_Warehouse_ID).intValue());
         	fPriceList_ID.setValue(findPLV(M_PriceList_ID));
-
         } 
         else
         {
@@ -841,7 +839,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 				}			
 			}
 		}
-
+        //
         if (!isValidVObject(fWarehouse_ID))
 		{
 			//  Disable the stock button
@@ -849,27 +847,12 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 			checkOnlyStock.setEnabled(false);
 		}
 		else
-			checkOnlyStock.setEnabled(true);
-        
-        if (!reset)
-        {
-        	//  Don't want to repeat this on reset or the query will grow
-			//	Create Grid
-			StringBuffer where = new StringBuffer();
-			where.append("p.IsActive='Y'");
-			//  dynamic Where Clause
-			if (p_whereClause != null && p_whereClause.length() > 0)
-				where.append(" AND ")   //  replace fully qualified name with alias
-					.append(Util.replace(p_whereClause, "M_Product.", "p."));
-			p_concreteWhereClause = where.toString();
-        }
+			checkOnlyStock.setEnabled(true);        
 		//
-		prepareTable(getProductLayout(),
-			getSQLFrom(),
-			p_concreteWhereClause,
+		prepareTable(getTableLayout(),
+			getFromClause(),
+			getWhereClause(),
 			getOrderClause());
-		p_table.setShowTotals(false);
-		
 	}	//	initInfo
 	
 	/**
@@ -934,7 +917,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 	 *	Construct SQL From Clause
 	 *  @return SQL From clause
 	 */
-	protected String getSQLFrom()
+	protected String getFromClause()
 	{
 		/** SQL From				*/
 		String s_productFrom = "M_Product p";
@@ -1142,48 +1125,30 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 
 	
 	/**
-	 * Property Change Listener
-	 * @param e event
+	 * A record was selected - take action to sync subordinate tables if any
 	 */
-	public void propertyChange(PropertyChangeEvent e)
+	protected void recordSelected(int key)
 	{
-		// Handle actions if possible or pass the event to the parent class
-						
-		// Respond to updates to the table
-		if (e.getPropertyName() == "p_table_update")
-		{
-			//  Try to reselect the record
-			if(!setSelectedRow(p_selectedRecordKey))		
-			{
-				//  Nothing was selected, or the query is empty
-				//  - close the panel
-				m_M_Product_ID = 0;
-				warehouseStockPanel.setCollapsed(true);
-			}
-			else  //  Found and selected the same record or selected the first record
-			{
-	    		log.fine("Calling refresh(): " + e.toString());
-	    		refresh();
-				warehouseStockPanel.setCollapsed(false);
-			}
-
-			setFieldOldValues();  //  Remember
-
-			p_selectedRecordKey = 0;
-			p_refreshRequired = false;
-
-			//  Return focus to where it is expected to be
-			parameterPanel.requestFocus();
-			if (m_heldLastFocus instanceof CTextField)
-				((CTextField) m_heldLastFocus).requestFocus();
-			if (m_heldLastFocus instanceof VLookup)
-				((VLookup) m_heldLastFocus).requestFocus();
-			if (m_heldLastFocus instanceof VCheckBox)
-				((VCheckBox) m_heldLastFocus).requestFocus();
-	
-			enableButtons();
-		}
+		//  Found and selected the same record or selected the first record
+    	if (m_M_Product_ID != key)
+    	{
+    		refresh();
+    	}
+		p_detailTaskPane.setCollapsed(false);
+		return;
 	}
+	/**
+	 * No record was selected - take action to sync subordinate tables if any
+	 */
+	protected void noRecordSelected()
+	{
+		//  Nothing was selected, or the query is empty
+		//  - close the panel
+		m_M_Product_ID = 0;
+		p_detailTaskPane.setCollapsed(true);
+		return;
+	}
+			
 	
 	/**************************************************************************
 	 *  Action Listener
@@ -1196,8 +1161,6 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 		if(!p_loadedOK)
 			return;
 		
-		boolean triggerRefresh = false;
-		
 		String cmd = e.getActionCommand();
 		Object source = null;
 		
@@ -1205,46 +1168,17 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 		{
 			source = e.getSource();
 			
-			//  Keep the focus on the source field if the table updates
-			m_heldLastFocus = this.getFocusOwner();
-
-			if (cmd.equals(ConfirmPanel.A_OK))
+			if (cmd.equals(ConfirmPanel.A_PATTRIBUTE))
 			{
-				//  The enter key is mapped to the Ok button which will close the dialog.
-				//  Don't let this happen if there are outstanding changes to any of the 
-				//  VLookup fields in the criteria
-				if (hasOutstandingChanges())
+				// First, if the lead row is not selected, select it.  It could just be highlighted
+				// but leaving it unselected will prevent saving the state in multi-selection
+				// when the attribute window is closed.
+				if (p_table.isMultiSelection())
 				{
-					return;
+					int row = p_table.getSelectionModel().getLeadSelectionIndex();
+					p_table.setRowChecked(row, true);
 				}
-				else
-				{
-					// We might close
-					triggerRefresh = false;
-				}
-			} 
-			else if (cmd.equals(ConfirmPanel.A_RESET))
-			{
-				//  Go back to the defaults
-				p_loadedOK = false;  // Prevent other actions
-				initInfo(0,"",m_M_Warehouse_ID, m_M_PriceList_ID, true);
-				p_loadedOK = true;
-				if (autoQuery())
-				{
-					executeQuery();
-				}
-				return;
-			}
-			else if (cmd.equals(ConfirmPanel.A_REFRESH))
-			{
-				//  Refresh always causes a requery in case there are
-				//  changes to the underlying tables - even if the 
-				//  criteria haven't changed.
-				p_resetColumns = true;
-				triggerRefresh = true;
-			}
-			else if (cmd.equals(ConfirmPanel.A_PATTRIBUTE))
-			{
+				
 				MProduct mp = MProduct.get(Env.getCtx(), m_M_Product_ID);
 				//  Set title and parameters for the PattributeInstance window
 				String title = "";
@@ -1262,46 +1196,48 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 				//  Display the window
 				PAttributeInstance pai = new PAttributeInstance (this, title, 
 						wh_id, 0, p_table.getLeadRowKey(), bp_id);
-				//  Get the results
-				m_M_AttributeSetInstance_ID = pai.getM_AttributeSetInstance_ID();
-				m_M_Locator_ID = pai.getM_Locator_ID();
+
+				if (!pai.wasCancelled())
+				{
+					//  Get the results and update the fASI criteria field
+					m_M_AttributeSetInstance_ID = pai.getM_AttributeSetInstance_ID();
+					m_M_Locator_ID = pai.getM_Locator_ID();
+					if (m_M_AttributeSetInstance_ID > 0)
+						fASI_ID.setValue(m_M_AttributeSetInstance_ID);
+					else
+						fASI_ID.setValue(0); //  No instance
+				}
 				
-				if (m_M_AttributeSetInstance_ID != -1)
-					fASI_ID.setValue(m_M_AttributeSetInstance_ID);
-				else
-					fASI_ID.setValue(0); //  No instance
-				
-				//  Saving here is confusing with multi-selection.  The button shouldn't be enabled
-				//  if multi-selection is enabled.
-				if (p_saveResults)  //  If the results are saved, we can save now - an ASI is product specific
+				//  Saving here is confusing with multi-selection.  The Product Attribute button shouldn't be enabled
+				//  if multiple records are selected.  Also, don't close the info window if the
+				//  pai window was cancelled or nothing was selected.  Assume the user was just
+				//  looking around.
+				if (p_saveResults && m_M_AttributeSetInstance_ID != -1 && !pai.wasCancelled())  //  If the results are saved, we can save now - an ASI is product specific
 				{
 					dispose(p_saveResults);
 					return;
 				}
+				return;
 				
-				triggerRefresh = true;
 			}
 			else if (source instanceof VComboBox)
 			{
 				if (((VComboBox) source).getParent() instanceof VLookup)
 				{
+					// Works for VLookups using DisplayType.TableDir
 					source = ((VComboBox) source).getParent();
 					VLookup vl = ((VLookup)source);
 					m_heldLastFocus = vl;
 					
-					//  Discard changes from mouse movements and keyboard entries
-					//  Respond only to the Enter key which causes "comboBoxEdited"
-					if(cmd.equals("comboBoxChanged"))
-						return;
-					else if(cmd.equals("comboBoxEdited"))
+					if(cmd.equals("comboBoxEdited"))
 					{
-						if (!vl.hasChanged())
+						if (!vl.hasChanged() && !hasOutstandingChanges())
 						{
 							vl.requestFocus();
 							return;
 						}
 
-						triggerRefresh = true;
+						p_triggerRefresh = true;
 						
 						//  perform field-specific changes
 						if (vl == fWarehouse_ID)
@@ -1322,11 +1258,6 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 			{
 				CTextField tf = ((CTextField) source);
 
-				if (tf.getParent() instanceof VLookup)
-				{
-					// Ignore it.  User typed into the VLookup text field.
-					return;
-				}
 				if (tf.getParent() instanceof VPAttribute)
 				{
 					source = tf.getParent();
@@ -1335,34 +1266,14 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 					
 					if (vpa.hasChanged())
 					{
-						triggerRefresh = true;
-						//if (vpa.getValue() != null && ((Integer) vpa.getValue()) != null)
-						//	m_M_AttributeSetInstance_ID = ((Integer) vpa.getValue()).intValue();
-						//else
-						//	m_M_AttributeSetInstance_ID = 0;
+						p_triggerRefresh = true;
 					}
-				}
-				else if (tf.hasChanged())
-				{
-					triggerRefresh = true;
-				}
-				else
-				{
-					// Special case where text fields don't change but cause an event
-					// Interpret this as a click of the OK button and close EXCEPT
-					// if the dialog was opened from a menu.
-					if (p_TabNo == 0)
-						return;
-					else
-						dispose(true);  //  Save the selection and close;
 				}
 			}
 			else if (e.getSource() instanceof VCheckBox)
 			{
 				//  Check box changes generally always cause a refresh
-				//  Capture changes that don't 
-				triggerRefresh = true;
-				
+				//  Capture changes that don't 	
 				VCheckBox cb = (VCheckBox) e.getSource();
 				//  ShowDetail check box
 				if (cb.getName().equals("ShowDetail"))
@@ -1371,92 +1282,13 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 					refreshAtpTab();
 					return;
 				}
-				else if (cb.getName().equals("AutoQuery"))
-				{
-					//  Only trigger a refresh if the check box is selected
-					if(!cb.isSelected())
-					{
-						return;
-					}
-				}
 			}
-
-			// Check if we need to reset the table.  The flag is reset when
-			// the table is reset.  The first change triggers the reset.
-			p_resetColumns = p_resetColumns || columnIsDynamic(source);
-
 		} //  e.getSource() is null
-		
-				
-		if (triggerRefresh)
-		{
-			//  A requery will be performed
-			prepForRequery(); 
-			m_resetRecordID = true;
-		}
-		//  Pass anything left to the info class
-		//  May have to filter explicit action commands
+
 		super.actionPerformed(e);  //  Let the info class decide what to do.
-		
-		//  Return focus to where it is expected to be
-		parameterPanel.requestFocus();
-		if (m_heldLastFocus instanceof CTextField)
-			((CTextField) m_heldLastFocus).requestFocus();
-		if (m_heldLastFocus instanceof VLookup)
-			((VLookup) m_heldLastFocus).requestFocus();
-		if (m_heldLastFocus instanceof VCheckBox)
-			((VCheckBox) m_heldLastFocus).requestFocus();
-		
+				
 	}   //  actionPerformed
 
-	/**
-	 * Watch for changes in the selection of the main table and update the detail table accordingly.
-	 */
-	public void valueChanged(ListSelectionEvent lse)
-	{
-		// ValueChanged triggered by count can be ignored.  Event is fired in the info worker run()
-		// when the table is cleared.
-		if (m_ignoreEvents || p_table.getRowCount() == 0)
-			return;
-		
-		//  Mouse events cause duplicate firings of the valueChanged event.  Trap the duplicate.
-		if (m_lse.equals(lse))
-			return;
-		m_lse = lse;
-		
-    	if (m_M_Product_ID != p_table.getLeadRowKey())
-    	{
-    		log.fine("Calling refresh(): " + lse.toString());
-    		refresh();  		//  Update the warehouseStockPanel with the current selected record
-    		enableButtons();	//  Set the buttons accordingly
-    	}
-    	warehouseStockPanel.setCollapsed(false);
-	}
-
-	/**
-	 * Prepare for Requery of the table.  If dynamic changes are pending, prepare the table.
-	 */
-	protected void prepForRequery()
-	{
-		
-		//  A requery will be performed
-		this.p_refreshRequired = true;
-		
-		//  Find what is currently selected
-		//  Re-selection of the column happens in the propertyChange listener
-		Integer selectedKey = (Integer) getSelectedRowKey();
-        if(selectedKey != null && selectedKey.intValue() != 0)
-        	this.p_selectedRecordKey = selectedKey.intValue();  
-		
-		if (this.p_resetColumns)  //  Reset the table
-		{
-			prepareTable(getProductLayout(),
-					getSQLFrom(),
-					p_concreteWhereClause,
-					getOrderClause());
-			this.p_table.setShowTotals(false);
-		}
-	}
 	/**
 	 * Determine if the column causes dynamic changes in the table layout
 	 * @param o
@@ -1489,21 +1321,49 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 			if (p_table.getShowTotals())
 				rows = rows-1;
 			
-			int selectedRows = p_table.getSelectedRowCount();
-			boolean enabled = false;
-			if (row >= 0 && row < rows && selectedRows == 1)
+			if (row < 0 || row > rows)
 			{
-				try
-				{
-					Object value = p_table.getValueAt(row, INDEX_PATTRIBUTE);
-					enabled = Boolean.TRUE.equals(value) && !p_table.isMultiSelection();
-				}
-				catch(Exception e)
-				{
-					enabled = false;
-				}
+				super.enableButtons();
+				return;
 			}
 			
+			boolean enabled = false;
+			
+			// Check the lead row - if it has no attribute instances, no button
+			try
+			{
+				Object value = p_table.getValueAt(row, INDEX_PATTRIBUTE);
+				enabled = Boolean.TRUE.equals(value);
+			}
+			catch(Exception e)
+			{
+				enabled = false;
+			}
+
+			if (enabled && p_table.isMultiSelection())
+			{
+				//  Only enable if a single row is selected.  Disable for multiple selections.
+				//  Multiple selections can be checked or just high-lighted.
+				int checkedRows = p_table.getSelectedKeys().size();
+				int selectedRows = p_table.getSelectedRowCount();
+				log.fine("Checked Rows: " + checkedRows + " SelectedRows: " + selectedRows);
+				if (checkedRows > 1 || selectedRows > 1)
+					enabled = false;
+				else if (checkedRows == 1)  // SelectedRows could be zero so don't care
+				{
+					//Check that the lead selection is checked
+					Object data = p_table.getValueAt(row, p_table.getKeyColumnIndex());
+					if (data instanceof IDColumn)
+					{
+						IDColumn record = (IDColumn)data;
+						if (!record.isSelected())
+						{
+							enabled = false;
+							log.fine("Lead selection is not checked!");
+						}
+					}   
+				}
+			}
 			m_PAttributeButton.setEnabled(enabled);
 		}
 		super.enableButtons();
@@ -1595,8 +1455,9 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 		if (isValidVObject(fWarehouse_ID)) // Prevent NPEs
 			Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "M_Warehouse_ID", ((Integer) fWarehouse_ID.getValue()).toString());
 		//
-		if (m_M_AttributeSetInstance_ID == -1)	//	not selected
+		if (m_M_AttributeSetInstance_ID == -1 || isMultipleResults())	//	not selected or multiple items selected
 		{
+			//  In the case of multiple items, the attribute context and product context can be disconnected.
 			Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "M_AttributeSetInstance_ID", "0");
 			Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "M_Locator_ID", "0");
 		}
@@ -1610,11 +1471,11 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 	}	//	saveSelectionDetail
 
 	/**
-	 *  Get Product Layout
+	 *  Get Product Layout - Dynamic
 	 *
 	 * @return array of Column_Info
 	 */
-	protected Info_Column[] getProductLayout()
+	protected Info_Column[] getTableLayout()
 	{
 
 		ArrayList<Info_Column> list = new ArrayList<Info_Column>();
@@ -1651,16 +1512,16 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 		list.add(new Info_Column(Msg.translate(Env.getCtx(), "Vendor"), "bp.Name", String.class));
 		list.add(new Info_Column(Msg.translate(Env.getCtx(), "IsInstanceAttribute"), "pa.IsInstanceAttribute", Boolean.class));
 		//
-		s_productLayout = new Info_Column[list.size()];
-		list.toArray(s_productLayout);
+		s_Layout = new Info_Column[list.size()];
+		list.toArray(s_Layout);
 		//
-		INDEX_PATTRIBUTE = s_productLayout.length - 1;	//	last item
+		INDEX_PATTRIBUTE = s_Layout.length - 1;	//	last item
 		//
-		return s_productLayout;
+		return s_Layout;
 	}   //  getProductLayout
 	
 	/**
-	 *  Get Order Clause
+	 *  Get Order Clause - Dynamic
 	 *
 	 * @return orderClause  "
 	 */
@@ -1748,14 +1609,14 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 		list.add(new Info_Column(Msg.translate(Env.getCtx(), "M_Warehouse_ID"), "Warehouse", String.class));
 		list.add(new Info_Column(Msg.translate(Env.getCtx(), "M_Locator_ID"), "Locator", String.class));
 		list.add(new Info_Column(Msg.getMsg(Env.getCtx(), "Date", true), "Date", Timestamp.class));
-		list.add(new Info_Column(Msg.getMsg(Env.getCtx(), "QtyAvailable", true), "QtyAvailable", Double.class));
-		list.add(new Info_Column(Msg.getMsg(Env.getCtx(), "QtyOnHand", true), "QtyOnHand", Double.class));
+		list.add(new Info_Column(Msg.translate(Env.getCtx(), "QtyAvailable"), "QtyAvailable", Double.class));
+		list.add(new Info_Column(Msg.translate(Env.getCtx(), "QtyOnHand"), "QtyOnHand", Double.class));
 		list.add(new Info_Column(Msg.getMsg(Env.getCtx(), "ExpectedChange", true), "DeltaQty", Double.class));
 		list.add(new Info_Column(Msg.translate(Env.getCtx(), "C_BPartner_ID"), "BP_Name", String.class));
-		list.add(new Info_Column(Msg.getMsg(Env.getCtx(), "QtyOrdered", true), "QtyOrdered", Double.class));
-		list.add(new Info_Column(Msg.getMsg(Env.getCtx(), "QtyReserved", true), "QtyReserved", Double.class));
+		list.add(new Info_Column(Msg.translate(Env.getCtx(), "QtyOrdered"), "QtyOrdered", Double.class));
+		list.add(new Info_Column(Msg.translate(Env.getCtx(), "QtyReserved"), "QtyReserved", Double.class));
 		list.add(new Info_Column(Msg.translate(Env.getCtx(), "M_AttributeSetInstance_ID"), "PASI", String.class));
-		list.add(new Info_Column(Msg.getMsg(Env.getCtx(), "DocumentNo", true), "DocumentNo", String.class));
+		list.add(new Info_Column(Msg.translate(Env.getCtx(), "DocumentNo"), "DocumentNo", String.class));
 
 		m_layoutATP = new Info_Column[list.size()];
 		list.toArray(m_layoutATP);
@@ -1961,7 +1822,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 	 * used in a query?
 	 * @return true if there are outstanding changes.
 	 */
-	private boolean hasOutstandingChanges()
+	protected boolean hasOutstandingChanges()
 	{
 		//  All the tracked fields
 		return(
@@ -1982,7 +1843,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 	 * Record outstanding changes by copying the current
 	 * value to the oldValue on all fields
 	 */
-	private void setFieldOldValues()
+	protected void setFieldOldValues()
 	{
 		fieldValue.set_oldValue();
 		fieldName.set_oldValue();
@@ -2002,7 +1863,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 	/**
 	 *  Clear all fields and set default values in check boxes
 	 */
-	private void clearParameters()
+	protected void clearParameters()
 	{
 		//  Clear fields and set defaults
 		fieldValue.setText("");

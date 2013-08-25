@@ -29,6 +29,7 @@ import javax.swing.JLabel;
 
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.ADialog;
+import org.compiere.apps.AEnv;
 import org.compiere.apps.ALayout;
 import org.compiere.apps.ALayoutConstraint;
 import org.compiere.minigrid.IDColumn;
@@ -105,21 +106,31 @@ public class InfoGeneral extends Info
 		log.info(tableName + " - " + keyColumn + " - " + whereClause);
 		setTitle(Msg.getMsg(Env.getCtx(), "Info"));
 		//
-		statInit();
-		p_loadedOK = initInfo (record_id, value);
+		if (!initInfoTable())  // Populates m_generalLayout
+			return;
 		//
-		int no = p_table.getRowCount();
-		setStatusLine(Integer.toString(no) + " " 
-			+ Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
-		setStatusDB(Integer.toString(no));
+		setTableLayout(m_generalLayout);
+		setFromClause(tableName);
+		setOrderClause("2");
+		StringBuffer where = new StringBuffer("IsActive='Y'");
+		if (whereClause.length() > 0)
+			where.append(" AND ").append(p_whereClause);
+		setWhereClause(where.toString());
+		//
+		statInit();
+		initInfo (record_id, value);
 
-		// Auto query
+		//  To get the focus after the table update
+		m_heldLastFocus = textField1;
+		
+		//	AutoQuery
 		if(autoQuery() || record_id != 0 || (value != null && value.length() > 0 && value != "%"))
 			executeQuery();
+		
+		p_loadedOK = true;
 
-		//	Focus
-		textField1.requestFocus();
-
+		AEnv.positionCenterWindow(frame, this);
+		
 	}	//	InfoGeneral
 
 	/**  String Array of Column Info    */
@@ -162,36 +173,24 @@ public class InfoGeneral extends Info
 		label4.setHorizontalAlignment(JLabel.LEADING);
 		textField4.setBackground(AdempierePLAF.getInfoBackground());
 		//
-		parameterPanel.setLayout(new ALayout());
-		parameterPanel.add(label1, new ALayoutConstraint(0,0));
-		parameterPanel.add(label2, null);
-		parameterPanel.add(label3, null);
-		parameterPanel.add(label4, null);
+		p_criteriaGrid.setLayout(new ALayout());
+		p_criteriaGrid.add(label1, new ALayoutConstraint(0,0));
+		p_criteriaGrid.add(label2, null);
+		p_criteriaGrid.add(label3, null);
+		p_criteriaGrid.add(label4, null);
 		//
-		parameterPanel.add(textField1, new ALayoutConstraint(1,0));
-		parameterPanel.add(textField2, null);
-		parameterPanel.add(textField3, null);
-		parameterPanel.add(textField4, null);
+		p_criteriaGrid.add(textField1, new ALayoutConstraint(1,0));
+		p_criteriaGrid.add(textField2, null);
+		p_criteriaGrid.add(textField3, null);
+		p_criteriaGrid.add(textField4, null);
 	}	//	statInit
 
 	/**
 	 *	General Init
 	 *	@return true, if success
 	 */
-	private boolean initInfo (int record_id, String value)
+	protected void initInfo (int record_id, String value)
 	{
-		if (!initInfoTable())
-			return false;
-
-		//  prepare table
-		StringBuffer where = new StringBuffer("IsActive='Y'");
-		if (p_whereClause.length() > 0)
-			where.append(" AND ").append(p_whereClause);
-		prepareTable(m_generalLayout,
-			p_tableName,
-			where.toString(),
-			"2");
-
 		//	Set & enable Fields
 		label1.setText(Msg.translate(Env.getCtx(), m_queryColumns.get(0).toString()));
 		textField1.addActionListener(this);
@@ -239,7 +238,7 @@ public class InfoGeneral extends Info
 			}
 		}
 
-		return true;
+		return;
 	}	//	initInfo
 
 
@@ -418,6 +417,8 @@ public class InfoGeneral extends Info
 		//  Convert ArrayList to Array
 		m_generalLayout = new Info_Column[list.size()];
 		list.toArray(m_generalLayout);
+		
+		setTableLayout(m_generalLayout);
 		return true;
 	}	//	initInfoTable
 
@@ -482,4 +483,41 @@ public class InfoGeneral extends Info
 			pstmt.setString(index++, getSQLText(textField4));
 	}   //  setParameters
 
+	/**
+	 * Does the parameter panel have outstanding changes that have not been
+	 * used in a query?
+	 * @return true if there are outstanding changes.
+	 */
+	protected boolean hasOutstandingChanges()
+	{
+		//  All the tracked fields
+		return(
+				textField1.hasChanged()	||
+				textField2.hasChanged()	||
+				textField3.hasChanged()	||
+				textField4.hasChanged());
+	}
+	/**
+	 * Record outstanding changes by copying the current
+	 * value to the oldValue on all fields
+	 */
+	protected void setFieldOldValues()
+	{
+		textField1.set_oldValue();
+		textField2.set_oldValue();
+		textField3.set_oldValue();
+		textField4.set_oldValue();
+		return;
+	}
+    /**
+	 *  Clear all fields and set default values in check boxes
+	 */
+	protected void clearParameters()
+	{
+		//  Clear fields and set defaults
+		textField1.setValue("");
+		textField2.setValue("");
+		textField3.setValue("");
+		textField4.setValue("");
+	}
 }	//	InfoGeneral

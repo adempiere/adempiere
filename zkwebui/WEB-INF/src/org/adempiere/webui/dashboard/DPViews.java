@@ -20,6 +20,7 @@ import org.adempiere.webui.window.InfoSchedule;
 import org.compiere.model.MRole;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -53,7 +54,7 @@ public class DPViews extends DashboardPanel implements EventListener {
 		if (MRole.getDefault().isAllow_Info_Product())
 		{
 			ToolBarButton btnViewItem = new ToolBarButton("InfoProduct");
-			btnViewItem.setLabel(Msg.getMsg(Env.getCtx(), "InfoProduct"));
+			btnViewItem.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "InfoProduct")));
 			btnViewItem.setImage("/images/InfoProduct16.png");
 			btnViewItem.addEventListener(Events.ON_CLICK, this);
 			vbox.appendChild(btnViewItem);
@@ -61,7 +62,7 @@ public class DPViews extends DashboardPanel implements EventListener {
 		if (MRole.getDefault().isAllow_Info_BPartner())
 		{
 			ToolBarButton btnViewItem = new ToolBarButton("InfoBPartner");
-			btnViewItem.setLabel(Msg.getMsg(Env.getCtx(), "InfoBPartner"));
+			btnViewItem.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "InfoBPartner")));
 			btnViewItem.setImage("/images/InfoBPartner16.png");
 			btnViewItem.addEventListener(Events.ON_CLICK, this);
 			vbox.appendChild(btnViewItem);
@@ -69,7 +70,7 @@ public class DPViews extends DashboardPanel implements EventListener {
 		if (MRole.getDefault().isShowAcct() && MRole.getDefault().isAllow_Info_Account())
 		{
 			ToolBarButton btnViewItem = new ToolBarButton("InfoAccount");
-			btnViewItem.setLabel(Msg.getMsg(Env.getCtx(), "InfoAccount"));
+			btnViewItem.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "InfoAccount")));
 			btnViewItem.setImage("/images/InfoAccount16.png");
 			btnViewItem.addEventListener(Events.ON_CLICK, this);
 			vbox.appendChild(btnViewItem);
@@ -77,7 +78,7 @@ public class DPViews extends DashboardPanel implements EventListener {
 		if (MRole.getDefault().isAllow_Info_Schedule())
 		{
 			ToolBarButton btnViewItem = new ToolBarButton("InfoSchedule");
-			btnViewItem.setLabel(Msg.getMsg(Env.getCtx(), "InfoSchedule"));
+			btnViewItem.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "InfoSchedule")));
 			btnViewItem.setImage("/images/InfoSchedule16.png");
 			btnViewItem.addEventListener(Events.ON_CLICK, this);
 			vbox.appendChild(btnViewItem);
@@ -86,7 +87,7 @@ public class DPViews extends DashboardPanel implements EventListener {
 		if (MRole.getDefault().isAllow_Info_Order())
 		{
 			ToolBarButton btnViewItem = new ToolBarButton("InfoOrder");
-			btnViewItem.setLabel(Msg.getMsg(Env.getCtx(), "InfoOrder"));
+			btnViewItem.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "InfoOrder")));
 			btnViewItem.setImage("/images/Info16.png");
 			btnViewItem.addEventListener(Events.ON_CLICK, this);
 			vbox.appendChild(btnViewItem);
@@ -94,7 +95,7 @@ public class DPViews extends DashboardPanel implements EventListener {
 		if (MRole.getDefault().isAllow_Info_Invoice())
 		{
 			ToolBarButton btnViewItem = new ToolBarButton("InfoInvoice");
-			btnViewItem.setLabel(Msg.getMsg(Env.getCtx(), "InfoInvoice"));
+			btnViewItem.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "InfoInvoice")));
 			btnViewItem.setImage("/images/Info16.png");
 			btnViewItem.addEventListener(Events.ON_CLICK, this);
 			vbox.appendChild(btnViewItem);
@@ -102,7 +103,7 @@ public class DPViews extends DashboardPanel implements EventListener {
 		if (MRole.getDefault().isAllow_Info_InOut())
 		{
 			ToolBarButton btnViewItem = new ToolBarButton("InfoInOut");
-			btnViewItem.setLabel(Msg.getMsg(Env.getCtx(), "InfoInOut"));
+			btnViewItem.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "InfoInOut")));
 			btnViewItem.setImage("/images/Info16.png");
 			btnViewItem.addEventListener(Events.ON_CLICK, this);
 			vbox.appendChild(btnViewItem);
@@ -110,7 +111,7 @@ public class DPViews extends DashboardPanel implements EventListener {
 		if (MRole.getDefault().isAllow_Info_Payment())
 		{
 			ToolBarButton btnViewItem = new ToolBarButton("InfoPayment");
-			btnViewItem.setLabel(Msg.getMsg(Env.getCtx(), "InfoPayment"));
+			btnViewItem.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "InfoPayment")));
 			btnViewItem.setImage("/images/Info16.png");
 			btnViewItem.addEventListener(Events.ON_CLICK, this);
 			vbox.appendChild(btnViewItem);
@@ -118,7 +119,7 @@ public class DPViews extends DashboardPanel implements EventListener {
 		if (MRole.getDefault().isAllow_Info_CashJournal())
 		{
 			ToolBarButton btnViewItem = new ToolBarButton("InfoCashLine");
-			btnViewItem.setLabel(Msg.getMsg(Env.getCtx(), "InfoCashLine"));
+			btnViewItem.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "InfoCashLine")));
 			btnViewItem.setImage("/images/Info16.png");
 			btnViewItem.addEventListener(Events.ON_CLICK, this);
 			vbox.appendChild(btnViewItem);
@@ -126,7 +127,7 @@ public class DPViews extends DashboardPanel implements EventListener {
 		if (MRole.getDefault().isAllow_Info_Resource())
 		{
 			ToolBarButton btnViewItem = new ToolBarButton("InfoAssignment");
-			btnViewItem.setLabel(Msg.getMsg(Env.getCtx(), "InfoAssignment"));
+			btnViewItem.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "InfoAssignment")));
 			btnViewItem.setImage("/images/Info16.png");
 			btnViewItem.addEventListener(Events.ON_CLICK, this);
 			vbox.appendChild(btnViewItem);
@@ -134,7 +135,7 @@ public class DPViews extends DashboardPanel implements EventListener {
 		if (MRole.getDefault().isAllow_Info_Asset())
 		{
 			ToolBarButton btnViewItem = new ToolBarButton("InfoAsset");
-			btnViewItem.setLabel(Msg.getMsg(Env.getCtx(), "InfoAsset"));
+			btnViewItem.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "InfoAsset")));
 			btnViewItem.setImage("/images/Info16.png");
 			btnViewItem.addEventListener(Events.ON_CLICK, this);
 			vbox.appendChild(btnViewItem);

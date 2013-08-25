@@ -254,6 +254,8 @@ public class VLookup extends JComponent
 	{
 		super();
 		super.setName(columnName);
+		
+		int windowNo = 0;
 		m_text.setName("VLookup Text - " + columnName);
 		m_button.setName("VLookup Button - " + columnName);
 		m_combo.setName("VLookup Combo - " + columnName);
@@ -261,14 +263,18 @@ public class VLookup extends JComponent
 		setMandatory(mandatory);
 		m_lookup = lookup;
 		if (m_lookup != null)
+		{
 			m_lookup.setMandatory(mandatory);
+			windowNo = m_lookup.getWindowNo();
+		}
 		//
 		if(!hasSearchableColumns()) // No known searchable columns
 		{
 			m_enableInfo = false;
 		}
-
-
+		//  Set default m_isSOTrx from context
+		if (Env.getContext(Env.getCtx(), windowNo, "IsSOTrx").equals("N"))
+			m_isSOTrx = false;				
 		//
 		setLayout(new BorderLayout());
 		mouseAdapter = new VLookup_mouseAdapter(this);    //  popup
@@ -407,7 +413,13 @@ public class VLookup extends JComponent
 	private boolean				m_enableInfo = true;
 	/** Is a button displayed?					*/
 	private boolean				m_hasButton = false;
-	
+	/** Override context for sales transactions */
+	private boolean				m_isSOTrxEnvOverride = false;
+	/** Context for sales transactions */
+	private boolean 			m_isSOTrx = true;     //  default
+	/** Does the selected record match the context? */
+	private boolean 			m_isSOMatch = true;
+
 	private boolean 			m_stopediting = false;
 
 	//	Popup
@@ -446,15 +458,17 @@ public class VLookup extends JComponent
 		}
 
 		//	What to show
-		this.remove(m_combo);
+		this.remove(m_combo);  //  Need to attach m_combo to a parent for event processing in info panels.
 		this.remove(m_button);
 		this.remove(m_text);
 		
 		//
-		if (!isReadWrite())									//	r/o - show text & button only
+		if (!isReadWrite())									
 		{
+			//	r/o - show text & button only
 			LookAndFeel.installBorder(this, "TextField.border");
 			this.add(m_text, BorderLayout.CENTER);
+			this.add(m_combo, BorderLayout.SOUTH);  //  Need to attache m_combo to "this" so it has a parent
 			if (m_enableInfo && (m_lookup == null || m_lookup.getDisplayType() == DisplayType.Search))
 			{
 				this.add(m_button, BorderLayout.EAST);
@@ -462,12 +476,14 @@ public class VLookup extends JComponent
 			}
 			m_text.setReadWrite(false);
 			m_combo.setReadWrite(false);
+			m_combo.setVisible(false);
 			m_comboActive = false;
 		}
 		else if (m_lookup != null && m_lookup.getDisplayType() != DisplayType.Search)	    //	show combo if not Search
 		{
 			this.setBorder(null);
 			this.add(m_combo, BorderLayout.CENTER);
+			m_combo.setVisible(true);
 			m_comboActive = true;
 		}
 		else 												//	Search or unstable - show text & button
@@ -480,7 +496,9 @@ public class VLookup extends JComponent
 				m_hasButton = true;
 			}
 			m_text.setReadWrite (true);
+			m_combo.setVisible(false);
 			m_comboActive = false;
+			this.add(m_combo, BorderLayout.SOUTH);
 		}
 	}   //  setUI
 
@@ -981,22 +999,18 @@ public class VLookup extends JComponent
 		{
 			resetTabInfo();
 			//
-			boolean isSOTrx = true;     //  default
-			boolean isSOMatch = true;
-			if (Env.getContext(Env.getCtx(), m_lookup.getWindowNo(), "IsSOTrx").equals("N"))
-				isSOTrx = false;				
-			//
+			setIsSOTrx(m_isSOTrxEnvOverride, false);
 			//  If we have a record id, set isSOMatch
 			if (record_id > 0)
 			{
 				String trxName = Trx.createTrxName();
 				MBPartner bp = new MBPartner(Env.getCtx(), record_id, trxName);
-				isSOMatch = (isSOTrx && bp.isCustomer()) || (!isSOTrx && bp.isVendor());
+				m_isSOMatch = (m_isSOTrx && bp.isCustomer()) || (!m_isSOTrx && bp.isVendor());
 				Trx.get(trxName, false).close();
 			}
 			//
 			InfoBPartner ip = new InfoBPartner (frame, true, m_lookup.getWindowNo(), record_id,
-				queryValue, isSOTrx, isSOMatch, multipleSelection, true, whereClause);
+				queryValue, m_isSOTrx, m_isSOMatch, multipleSelection, true, whereClause);
 			ip.setVisible(true);
 			cancelled = ip.isCancelled();
 			result = ip.getSelectedKeys();
@@ -1850,6 +1864,21 @@ public class VLookup extends JComponent
 				return true;
 			else
 				return false;
+	}
+
+	/**
+	 * @param override - true to override the environment, false to use environment
+	 * @param trx the m_isSOTrx to set
+	 */
+	public void setIsSOTrx(boolean override, boolean trx) {
+		m_isSOTrxEnvOverride = override;
+		if (m_isSOTrxEnvOverride)
+			m_isSOTrx = trx;
+		else
+			if (Env.getContext(Env.getCtx(), m_lookup.getWindowNo(), "IsSOTrx").equals("N"))
+				m_isSOTrx = false;
+			else
+				m_isSOTrx = true;
 	}
 
 }	//	VLookup

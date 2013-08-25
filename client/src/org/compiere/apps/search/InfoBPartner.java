@@ -19,13 +19,7 @@ package org.compiere.apps.search;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Frame;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
@@ -34,24 +28,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.JScrollPane;
-import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.plaf.ColorUIResource;
 
-
 import org.adempiere.plaf.AdempierePLAF;
-import org.adempiere.plaf.AdempiereTaskPaneUI;
 import org.compiere.apps.AEnv;
-import org.compiere.apps.ALayout;
 import org.compiere.apps.ALayoutConstraint;
-import org.compiere.apps.ConfirmPanel;
 import org.compiere.grid.ed.VCheckBox;
-import org.compiere.grid.ed.VLookup;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.MiniTable;
@@ -66,7 +51,6 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
-import org.jdesktop.swingx.JXTaskPane;
 
 /**
  *	Search Business Partner and return selection
@@ -78,7 +62,7 @@ import org.jdesktop.swingx.JXTaskPane;
  * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
  * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
  */
-public class InfoBPartner extends Info implements ChangeListener, PropertyChangeListener, ActionListener, ListSelectionListener
+public class InfoBPartner extends Info implements PropertyChangeListener, ActionListener, ListSelectionListener
 {
 	/**
 	 * 
@@ -128,29 +112,30 @@ public class InfoBPartner extends Info implements ChangeListener, PropertyChange
 		m_isSOTrx = isSOTrx;
 		m_isSOMatch = isSOMatch;
 		//
-		statInit();
-		initInfo (record_id, value, whereClause);
+		StringBuffer where = new StringBuffer();
+		where.append("C_BPartner.IsSummary='N' AND C_BPartner.IsActive='Y'");
+		if (whereClause != null && whereClause.length() > 0)
+			where.append(" AND ").append(whereClause);
+		setWhereClause(where.toString());
+		setTableLayout(s_Layout);
+		setFromClause(s_From);
+		setOrderClause(s_Order);
 		//
-		int no = p_table.getRowCount();
-		setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
-		setStatusDB(Integer.toString(no));
+		setShowTotals(true);
+		//
+		statInit();
+		initInfo (record_id, value);
 
 		//	AutoQuery
 		if(autoQuery() || record_id != 0 || (value != null && value.length() > 0 && value != "%"))
 		{
 			executeQuery();
-			refresh();
 		}
 
 		p_loadedOK = true;
 
-		//  To get the focus after the table update
-		m_heldLastFocus = fieldValue;
-
 		AEnv.positionCenterWindow(frame, this);
 	}	//	InfoBPartner
-
-	private Object m_heldLastFocus = null;
 
 	/** SalesOrder Trx          */
 	private boolean 		m_isSOTrx = false;
@@ -160,10 +145,12 @@ public class InfoBPartner extends Info implements ChangeListener, PropertyChange
 	private int m_C_BPartner_Location_ID_index = -1;
 
 	/** From Clause             */
-	private static String s_partnerFROM = "C_BPartner";
-
+	private static String s_From = "C_BPartner";
+	/** Order Clause             */
+	private static String s_Order = "C_BPartner.Value";
+	
 	/**  Array of Column Info    */
-	private static Info_Column[] s_partnerLayout = {
+	private static Info_Column[] s_Layout = {
 		new Info_Column(" ", "C_BPartner.C_BPartner_ID", IDColumn.class),
 		new Info_Column(Msg.translate(Env.getCtx(), "Value"), "C_BPartner.Value", String.class),
 		new Info_Column(Msg.translate(Env.getCtx(), "Name"), "C_BPartner.Name", String.class),
@@ -191,7 +178,6 @@ public class InfoBPartner extends Info implements ChangeListener, PropertyChange
 	private VCheckBox checkAND = new VCheckBox();
 	private VCheckBox checkCustomer = new VCheckBox();
 	//
-	private JXTaskPane detailPanel = new JXTaskPane();
 	private CPanel tablePanel = new CPanel();
 	private CTabbedPane jTab  = new CTabbedPane();
 	private MiniTable contactTbl = new MiniTable();
@@ -207,10 +193,6 @@ public class InfoBPartner extends Info implements ChangeListener, PropertyChange
 	 */
 	private void statInit()
 	{
-		// Listen to changes in the table
-		p_table.addPropertyChangeListener("p_table_update", this);
-		((ListSelectionModel) p_table.getSelectionModel()).addListSelectionListener(this);
-
 		labelValue.setText(Msg.getMsg(Env.getCtx(), "Value"));
 		fieldValue.setBackground(AdempierePLAF.getInfoBackground());
 		fieldValue.addActionListener(this);
@@ -244,34 +226,24 @@ public class InfoBPartner extends Info implements ChangeListener, PropertyChange
 		else
 			checkCustomer.setText(Msg.getMsg(Env.getCtx(), "OnlyVendors"));
 		checkCustomer.setSelected(m_isSOMatch);
-		//checkCustomer.setFocusable(false);
-		//checkCustomer.setRequestFocusEnabled(false);
 		checkCustomer.addActionListener(this);
 		//
-		parameterPanel.setLayout(new ALayout());
-		//
-		parameterPanel.add(labelValue, new ALayoutConstraint(0,0));
-		parameterPanel.add(fieldValue, null);
-		parameterPanel.add(labelContact, null);
-		parameterPanel.add(fieldContact, null);
-		parameterPanel.add(labelPhone, null);
-		parameterPanel.add(fieldPhone, null);
-		parameterPanel.add(checkCustomer, null);
+		p_criteriaGrid.add(labelValue, new ALayoutConstraint(0,0));
+		p_criteriaGrid.add(fieldValue, null);
+		p_criteriaGrid.add(labelContact, null);
+		p_criteriaGrid.add(fieldContact, null);
+		p_criteriaGrid.add(labelPhone, null);
+		p_criteriaGrid.add(fieldPhone, null);
+		p_criteriaGrid.add(checkCustomer, null);
 		//		
-		parameterPanel.add(labelName, new ALayoutConstraint(1,0));
-		parameterPanel.add(fieldName, null);
-		parameterPanel.add(labelEMail, null);
-		parameterPanel.add(fieldEMail, null);
-		parameterPanel.add(labelPostal, null);
-		parameterPanel.add(fieldPostal, null);
-		parameterPanel.add(checkAND, null);
-		
-		//  Details Panel
-        detailPanel.setTitle(Msg.translate(Env.getCtx(), "ContactAndAddress"));
-        detailPanel.setUI(new AdempiereTaskPaneUI());
-        detailPanel.getContentPane().setBackground(new ColorUIResource(251,248,241));
-        detailPanel.getContentPane().setForeground(new ColorUIResource(251,0,0));
-        
+		p_criteriaGrid.add(labelName, new ALayoutConstraint(1,0));
+		p_criteriaGrid.add(fieldName, null);
+		p_criteriaGrid.add(labelEMail, null);
+		p_criteriaGrid.add(fieldEMail, null);
+		p_criteriaGrid.add(labelPostal, null);
+		p_criteriaGrid.add(fieldPostal, null);
+		p_criteriaGrid.add(checkAND, null);
+
         //  Contact Tab
         ColumnInfo[] s_layoutContact = new ColumnInfo[]{
         		new ColumnInfo(" ", "AD_User_ID", IDColumn.class),
@@ -332,48 +304,29 @@ public class InfoBPartner extends Info implements ChangeListener, PropertyChange
         jTab.addTab(Msg.translate(Env.getCtx(), "Contact"), new JScrollPane(contactTbl));
         jTab.addTab(Msg.translate(Env.getCtx(), "Location"), new JScrollPane(addressTbl));
         jTab.setPreferredSize(new Dimension(INFO_WIDTH, SCREEN_HEIGHT > 600 ? 250 : 105));
-		jTab.addChangeListener(this);  // needed if other tabs are added
         tablePanel.setPreferredSize(new Dimension(INFO_WIDTH, SCREEN_HEIGHT > 600 ? 255 : 110));
         tablePanel.setLayout(new BorderLayout());
         tablePanel.add(jTab, BorderLayout.CENTER);
         
-        detailPanel.setCollapsed(true);
-        detailPanel.setLayout(new BorderLayout());
-        detailPanel.add(tablePanel, BorderLayout.CENTER);
-        this.addonPanel.setLayout(new BorderLayout());
-        this.addonPanel.add(detailPanel, BorderLayout.CENTER);
-        
-        this.p_table.getSelectionModel().addListSelectionListener(this);
+		//  Details Panel
+        p_detailTaskPane.setTitle(Msg.translate(Env.getCtx(), "ContactAndAddress"));
+        p_detailTaskPane.add(tablePanel, BorderLayout.CENTER);
+		p_detailTaskPane.setVisible(true);
 	}	//	statInit
 
 	/**
 	 *	Dynamic Init
+	 *  @param record_id The ID of the record to display.
 	 *  @param value value
-	 *  @param whereClause where clause
 	 */
-	private void initInfo(int record_id, String value, String whereClause)
+	protected void initInfo(int record_id, String value)
 	{
-		/**	From
-			C_BPartner
-		**/
-
-		//	Create Grid
-		StringBuffer where = new StringBuffer();
-		where.append("C_BPartner.IsSummary='N' AND C_BPartner.IsActive='Y'");
-		if (whereClause != null && whereClause.length() > 0)
-			where.append(" AND ").append(whereClause);
-		
-		prepareTable(s_partnerLayout, s_partnerFROM,
-			where.toString(),
-			"C_BPartner.Value");
-		p_table.setShowTotals(true);
-
 		//  Get indexes
-		for (int i = 0; i < p_layout.length; i++)
+		for (int i = 0; i < s_Layout.length; i++)
 		{
-			if (p_layout[i].getIDcolSQL().indexOf("AD_User_ID") != -1)
+			if (s_Layout[i].getIDcolSQL().indexOf("AD_User_ID") != -1)
 				m_AD_User_ID_index = i;
-			if (p_layout[i].getIDcolSQL().indexOf("C_BPartner_Location_ID") != -1)
+			if (s_Layout[i].getIDcolSQL().indexOf("C_BPartner_Location_ID") != -1)
 				m_C_BPartner_Location_ID_index = i;
 		}
 
@@ -479,93 +432,29 @@ public class InfoBPartner extends Info implements ChangeListener, PropertyChange
 		}});
 		
 	}	//	refresh
-	/**************************************************************************
-	 *  Action Listener
-	 *	@param e event
-	 */
-	public void actionPerformed (ActionEvent e)
-	{
-		// Handle actions if possible or pass the event to the parent class
 
-		String cmd = e.getActionCommand();
-		
-		if(e.getSource() != null)
-			m_heldLastFocus = e.getSource();
-
-		if (cmd.equals(ConfirmPanel.A_REFRESH) || autoQuery())
-		{
-			//  A requery will be performed
-			//  Find what is currently selected
-			//  Re-selection of the column happens in the propertyChange listener
-			Integer selectedKey = (Integer) getSelectedRowKey();
-	        if(selectedKey != null && selectedKey.intValue() != 0)
-	        	p_selectedRecordKey = selectedKey.intValue();  
-		}
-		//
-		super.actionPerformed(e);  //  Info class executes the query.
-		
-	}   //  actionPerformed
 	/**
-	 * Property Change Listener for lookup fields
-	 * @param e event
+	 * A record was selected - take action to sync subordinate tables if any
 	 */
-	public void propertyChange(PropertyChangeEvent e)
-	{		
-		// Respond to updates to the table
-		if (e.getPropertyName() == "p_table_update")
-		{
-			//  Try to reselect the record
-			if(!setSelectedRow(p_selectedRecordKey))		
-			{
-				//  Nothing was selected, or the query is empty
-				//  - close the panel
-				m_C_BPartner_ID = 0;
-				detailPanel.setCollapsed(true);
-			}
-			else  //  Found and selected the same record or selected the first record
-			{
-				m_C_BPartner_ID = getSelectedRowKey();
-				refresh();
-				detailPanel.setCollapsed(false);
-				}
-			refresh(); 
-			detailPanel.setCollapsed(!(p_table.getRowCount() > 0));
-			p_selectedRecordKey = 0;
-			p_refreshRequired = false;
-			
-			//  Return focus to where it is expected to be
-			parameterPanel.requestFocus();
-			if (m_heldLastFocus instanceof CTextField)
-				((CTextField) m_heldLastFocus).requestFocus();
-			if (m_heldLastFocus instanceof VLookup)
-				((VLookup) m_heldLastFocus).requestFocus();
-			if (m_heldLastFocus instanceof VCheckBox)
-				((VCheckBox) m_heldLastFocus).requestFocus();
-		}
+	protected void recordSelected(int key)
+	{
+		m_C_BPartner_ID = getSelectedRowKey();
+		refresh();
+		p_detailTaskPane.setCollapsed(false);
+		return;
+	}
+	/**
+	 * No record was selected - take action to sync subordinate tables if any
+	 */
+	protected void noRecordSelected()
+	{
+		//  Nothing was selected, or the query is empty
+		//  - close the panel
+		m_C_BPartner_ID = 0;
+		p_detailTaskPane.setCollapsed(true);
+		return;
 	}
 
-	/**
-	 * 	Tab Changed
-	 * 	@param e event
-	 */
-	public void stateChanged(ChangeEvent e)
-	{		
-	}	//	stateChanged
-
-	/**
-	 * Watch for changes in the selection of the main table and update the detail table accordingly.
-	 */
-	public void valueChanged(ListSelectionEvent lse)
-	{
-    	int leadRowKey = p_table.getLeadRowKey();
-    	if (m_C_BPartner_ID != leadRowKey)
-    	{
-    		m_C_BPartner_ID = leadRowKey;
-    		refresh();  //  Update the detailPanel with the current selected record
-    		enableButtons();	//  Set the buttons according
-    	}
-		detailPanel.setCollapsed(false);
-	}
 	/*************************************************************************/
 
 	/**
@@ -776,20 +665,61 @@ public class InfoBPartner extends Info implements ChangeListener, PropertyChange
 	}	//	hasZoom
 
 	/**
-	 *	Customize
+	 * Override the context for isSOTrx
+	 * @param trx the m_isSOTrx to set
 	 */
-	protected void customize()
-	{
-		log.info( "InfoBPartner.customize");
-	}	//	customize
+	protected void set_isSOTrx(boolean trx) {
+		m_isSOTrx = trx;
+	}
 
 	/**
-	 *	Has Customize
-	 *  @return false
+	 * Does the parameter panel have outstanding changes that have not been
+	 * used in a query?
+	 * @return true if there are outstanding changes.
 	 */
-	protected boolean hasCustomize()
+	protected boolean hasOutstandingChanges()
 	{
-		return false;	//	for now
-	}	//	hasCustomize
-
+		//  All the tracked fields
+		return(
+				fieldValue.hasChanged()	||
+				fieldName.hasChanged()	||
+				fieldContact.hasChanged()	||
+				fieldEMail.hasChanged()	||
+				fieldPostal.hasChanged()	||
+				fieldPhone.hasChanged()	||
+				checkAND.hasChanged()	||
+				checkCustomer.hasChanged());
+	}
+	/**
+	 * Record outstanding changes by copying the current
+	 * value to the oldValue on all fields
+	 */
+	protected void setFieldOldValues()
+	{
+		fieldValue.set_oldValue();
+		fieldName.set_oldValue();
+		fieldContact.set_oldValue();
+		fieldEMail.set_oldValue();
+		fieldPostal.set_oldValue();
+		fieldPhone.set_oldValue();
+		checkAND.set_oldValue();
+		checkCustomer.set_oldValue();
+		return;
+	}
+	/**
+	 *  Clear all fields and set default values in check boxes
+	 */
+	protected void clearParameters()
+	{
+		fieldValue.setValue("");
+		fieldName.setValue("");
+		fieldContact.setValue("");
+		fieldEMail.setValue("");
+		fieldPostal.setValue("");
+		fieldPhone.setValue("");
+		checkCustomer.setSelected(m_isSOMatch);  	//  Customers Only
+		checkAND.setSelected(true); 		//  Use AND
+		return;
+	}
+	
 }	//	InfoBPartner

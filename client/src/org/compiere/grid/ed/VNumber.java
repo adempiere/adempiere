@@ -214,6 +214,9 @@ public final class VNumber extends JComponent
 	/** The Button                  */
 	private CButton		    m_button = new CButton();
 
+	/** A holder for the value at some point in the past.  Used for comparison. */
+	private Object m_oldValue = null;
+
 	private GridField          m_mField = null;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(VNumber.class);
@@ -379,15 +382,6 @@ public final class VNumber extends JComponent
 		m_text.setForeground(fg);
 	}   //  setForeground
 
-	/**
-	 *	Set Border
-	 *  @param error error
-	 */
-	public void setBorder (Border border)
-	{
-		m_text.setBorder(border);
-		m_button.setBorder(border);
-	}	//	setBackground
 	/**
 	 *	Set Editor to value
 	 *  @param value value
@@ -824,7 +818,7 @@ public final class VNumber extends JComponent
 		else if (currentEvent instanceof ActionEvent)
 			modifiers = ((ActionEvent)currentEvent).getModifiers();
 		ActionEvent ae = new ActionEvent (this, ActionEvent.ACTION_PERFORMED,
-			"VNumber", EventQueue.getMostRecentEventTime(), modifiers);
+			currentEvent.getClass().getSimpleName(), EventQueue.getMostRecentEventTime(), modifiers);
 
 		// Guaranteed to return a non-null array
 		Object[] listeners = listenerList.getListenerList();
@@ -847,6 +841,40 @@ public final class VNumber extends JComponent
 		m_text.setText (m_oldText);
 		m_initialText = m_oldText;
 		m_modified = false;
+	}
+
+	/**
+	 * Set the old value of the field.  For use in future comparisons.
+	 * The old value must be explicitly set though this call.
+	 * @param m_oldValue
+	 */
+	public void set_oldValue() {
+		this.m_oldValue = getValue();
+	}
+
+	/**
+	 * Get the old value of the field explicitly set in the past
+	 * @return
+	 */
+	public Object get_oldValue() {
+		return m_oldValue;
+	}
+	/**
+	 * Has the field changed over time?
+	 * @return true if the old value is different than the current.
+	 */
+	public boolean hasChanged() {
+		// Both or either could be null
+		if(getValue() != null)
+			if(m_oldValue != null)
+				return !m_oldValue.equals(getValue());
+			else
+				return true;
+		else  // getValue() is null
+			if(m_oldValue != null)
+				return true;
+			else
+				return false;
 	}
 
 }	//	VNumber

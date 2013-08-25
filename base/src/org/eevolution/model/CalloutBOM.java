@@ -63,10 +63,11 @@ public class CalloutBOM extends CalloutEngine
              throw new AdempiereException("@ValidComponent@ - Error Parent not be Component");				
         }
         // Set BOM Line defaults
-        I_M_Product product = MProduct.get(ctx, M_Product_ID);
+        I_M_Product product = MProduct.get(ctx, M_Product_ID);  // May be the parent;
         bomLine.setDescription(product.getDescription());
         bomLine.setHelp(product.getHelp());
         bomLine.setC_UOM_ID(product.getC_UOM_ID());
+        bomLine.setM_AttributeSetInstance_ID(product.getEnvAttributeSetInstance(ctx,WindowNo));
 		return "";
 	}
         
@@ -126,6 +127,7 @@ public class CalloutBOM extends CalloutEngine
         bom.setDescription(product.getDescription());
         bom.setHelp(product.getHelp());
         bom.setC_UOM_ID(product.getC_UOM_ID());
+        bom.setM_AttributeSetInstance_ID(product.getEnvAttributeSetInstance(ctx,WindowNo));
         
 		return "";
 	}	//	getdefaults
