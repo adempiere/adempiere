@@ -65,7 +65,6 @@ import org.compiere.model.MPaySelectionCheck;
 import org.compiere.model.MProject;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRfQResponse;
-import org.compiere.model.MTable;
 import org.compiere.model.PrintInfo;
 import org.compiere.print.layout.LayoutEngine;
 import org.compiere.process.ProcessInfo;
@@ -78,6 +77,7 @@ import org.compiere.util.Language;
 import org.compiere.util.Util;
 import org.eevolution.model.MDDOrder;
 import org.eevolution.model.X_PP_Order;  // to be changed by MPPOrder
+import org.eevolution.model.X_WM_InOutBound;
 
 /**
  *	Report Engine.
@@ -166,8 +166,6 @@ public class ReportEngine implements PrintServiceAttributeListener
 	/** Window */
 	private int m_windowNo = 0;
 	
-	private boolean m_summary = false;
-	
 	/**
 	 * 	Set PrintFormat.
 	 *  If Layout was created, re-create layout
@@ -224,7 +222,7 @@ public class ReportEngine implements PrintServiceAttributeListener
 			return;
 		
 		DataEngine de = new DataEngine(m_printFormat.getLanguage(),m_trxName);
-		setPrintData(de.getPrintData (m_ctx, m_printFormat, m_query, m_summary));
+		setPrintData(de.getPrintData (m_ctx, m_printFormat, m_query));
 	//	m_printData.dump();
 	}	//	setPrintData
 
@@ -1110,14 +1108,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		if (IsForm && pi.getRecord_ID() != 0		//	Form = one record
 				&& !TableName.startsWith("T_") )	//	Not temporary table - teo_sarca, BF [ 2828886 ]
 		{
-			MTable table = MTable.get(ctx, AD_Table_ID);
-			String columnKey = null;
-			if(table.isSingleKey())
-				 columnKey = table.getKeyColumns()[0];
-			else 
-				columnKey = TableName + "_ID";
-			
-			query = MQuery.getEqualQuery(columnKey, pi.getRecord_ID());
+			query = MQuery.getEqualQuery(TableName + "_ID", pi.getRecord_ID());
 		}
 		else
 		{
@@ -1156,9 +1147,9 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		PrintInfo info = new PrintInfo (pi);
 		info.setAD_Table_ID(AD_Table_ID);
 		
-		return new ReportEngine(ctx, format, query, info, pi.getTransactionName());
+		return new ReportEngine(ctx, format, query, info);
 	}	//	get
-	
+
 	/*************************************************************************/
 
 	/** Order = 0				*/
@@ -1181,7 +1172,8 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	public static final int		MANUFACTURING_ORDER = 8;
 	/** Distribution Order = 9  */
 	public static final int		DISTRIBUTION_ORDER = 9;
-	
+	/** Packing Order = 10	    */
+	public static final int		PICKING_ORDER = 10;
 
 //	private static final String[]	DOC_TABLES = new String[] {
 //		"C_Order_Header_v", "M_InOut_Header_v", "C_Invoice_Header_v", "C_Project_Header_v",
@@ -1192,17 +1184,17 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		"C_Order", "M_InOut", "C_Invoice", "C_Project",
 		"C_RfQResponse",
 		"C_PaySelectionCheck", "C_PaySelectionCheck", 
-		"C_DunningRunEntry","PP_Order", "DD_Order"};
+		"C_DunningRunEntry","PP_Order", "DD_Order", "WM_InOutBound_Header_v" };
 	private static final String[]	DOC_IDS = new String[] {
 		"C_Order_ID", "M_InOut_ID", "C_Invoice_ID", "C_Project_ID",
 		"C_RfQResponse_ID",
 		"C_PaySelectionCheck_ID", "C_PaySelectionCheck_ID", 
-		"C_DunningRunEntry_ID" , "PP_Order_ID" , "DD_Order_ID" };
+		"C_DunningRunEntry_ID" , "PP_Order_ID" , "DD_Order_ID" ,"WM_InOutBound"};
 	private static final int[]	DOC_TABLE_ID = new int[] {
 		MOrder.Table_ID, MInOut.Table_ID, MInvoice.Table_ID, MProject.Table_ID,
 		MRfQResponse.Table_ID,
 		MPaySelectionCheck.Table_ID, MPaySelectionCheck.Table_ID, 
-		MDunningRunEntry.Table_ID, X_PP_Order.Table_ID, MDDOrder.Table_ID };
+		MDunningRunEntry.Table_ID, X_PP_Order.Table_ID, MDDOrder.Table_ID , X_WM_InOutBound.Table_ID };
 
 	/**************************************************************************
 	 * 	Get Document Print Engine for Document Type.
@@ -1308,6 +1300,15 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 				+ " LEFT OUTER JOIN C_BPartner bp ON (d.C_BPartner_ID=bp.C_BPartner_ID) "
 				+ "WHERE d.DD_Order_ID=?"					//	info from PrintForm
 				+ " AND pf.AD_Org_ID IN (0,d.AD_Org_ID) ORDER BY pf.AD_Org_ID DESC";
+		else if (type == PICKING_ORDER)
+			sql = "SELECT pf.Picking_Order_PrintFormat_ID,"
+				+ " c.IsMultiLingualDocument,bp.AD_Language, bp.C_BPartner_ID , d.DocumentNo "
+				+ "FROM M_InOutBound d"
+				+ " INNER JOIN AD_Client c ON (d.AD_Client_ID=c.AD_Client_ID)"
+				+ " INNER JOIN AD_PrintForm pf ON (c.AD_Client_ID=pf.AD_Client_ID)"
+				+ " LEFT OUTER JOIN C_BPartner bp ON (d.C_BPartner_ID=bp.C_BPartner_ID) "
+				+ "WHERE d.M_InOutBoundOrder_ID=?"					//	info from PrintForm
+				+ " AND pf.AD_Org_ID IN (0,d.AD_Org_ID) ORDER BY pf.AD_Org_ID DESC";
 		else if (type == RFQ)
 			sql = "SELECT COALESCE(t.AD_PrintFormat_ID, pf.AD_PrintFormat_ID),"
 				+ " c.IsMultiLingualDocument,bp.AD_Language,bp.C_BPartner_ID,rr.Name "
@@ -1366,7 +1367,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 			if (rs.next())	//	first record only
 			{
 				if (type == CHECK || type == DUNNING || type == REMITTANCE 
-					|| type == PROJECT || type == RFQ || type == MANUFACTURING_ORDER || type == DISTRIBUTION_ORDER)
+					|| type == PROJECT || type == RFQ || type == MANUFACTURING_ORDER || type == DISTRIBUTION_ORDER ||  type == PICKING_ORDER)
 				{
 					AD_PrintFormat_ID = rs.getInt(1);
 					copies = 1;
@@ -1605,8 +1606,5 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		return m_windowNo;
 	}
 
-	public void setSummary(boolean summary)
-	{
-		m_summary = summary;
-	}
+ 	
 }	//	ReportEngine
