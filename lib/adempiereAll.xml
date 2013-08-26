@@ -43,4 +43,10 @@
 			<context-root>/webui</context-root>
 		</web>
 	</module>
+	<module>
+		<web>
+			<web-uri>mobile.war</web-uri>
+			<context-root>/mobile</context-root>
+		</web>
+	</module>
 </application>

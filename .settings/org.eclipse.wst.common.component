@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId" project-version="1.5.0">
 	<wb-module deploy-name="Adempiere_trunk">
 		<wb-resource deploy-path="/" source-path="/zkwebui"/>
 		<wb-resource deploy-path="/WEB-INF/classes" source-path="/JasperReports/src"/>
@@ -23,5 +25,10 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/org.eevolution.cashflow/src/main/java"/>
 		<property name="java-output-path" value="build/classes"/>
 		<property name="context-root" value="webui"/>
+</wb-module-->
+<wb-resource deploy-path="/" source-path="/mobile"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/mobile/WEB-INF/src"/>
+<property name="java-output-path" value="build/classes"/>
+<property name="context-root" value="mobile"/>
 	</wb-module>
 </project-modules>
