@@ -113,7 +113,7 @@ public class DunningManager
             };
             
             MPInstance instance = new MPInstance(ctx,DUNNING_PRINT_PROCESS_ID,dunningRunId);
-            instance.save();
+            instance.saveEx();
             ProcessInfo poInfo = new ProcessInfo("Print Dunning Letters",DUNNING_PRINT_PROCESS_ID);
             poInfo.setParameter(param);
             poInfo.setRecord_ID(dunningRunId);
@@ -167,7 +167,7 @@ public class DunningManager
         PoManager.save(dunningRun);
         
         MPInstance instance = new MPInstance(ctx,DUNNING_CREATE_PROCESS_ID,dunningRun.get_ID());
-        instance.save();
+        instance.saveEx();
         ProcessInfo poInfo = new ProcessInfo("Create Dunning Run",DUNNING_CREATE_PROCESS_ID);
         
         if(bean.getBpartnerId()!=null) 

@@ -43,13 +43,13 @@ public class DBPropertiesManager implements WebProperties
             MWebProperties webProperties = new MWebProperties(ctx,0,null);
             webProperties.setU_Key(key);
             webProperties.setU_Value(value);
-            webProperties.save();
+            webProperties.saveEx();
         }
         else
         {
             MWebProperties webProperties = new MWebProperties(ctx,propertieIds[0],null);
             webProperties.setU_Value(value);
-            webProperties.save();
+            webProperties.saveEx();
         }
     }
     

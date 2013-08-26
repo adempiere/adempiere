@@ -342,7 +342,7 @@ public class StockMovementAction extends BaseDispatchAction
             docStatus = mmovement2.getDocStatus();
             stockMovementBean.setDocumentNo(docNo);
             stockMovementBean.setMovementId(mmovement2.getM_Movement_ID());
-            mmovement2.save();
+            mmovement2.saveEx();
             
             MMovementManager.deleteMovementLines(ctx, mmovement2.getM_Movement_ID());
             
@@ -448,7 +448,7 @@ public class StockMovementAction extends BaseDispatchAction
                 stockMovementBean.setMovementId(mmovement.get_ID());
                 stockMovementBean.setDocumentNo(mmovement.getDocumentNo());
                 stockMovementBean.setDocStatus(mmovement.getDocStatus());
-                mmovement.save();
+                mmovement.saveEx();
                 
                 trx.start();
                 

@@ -255,7 +255,7 @@ public class MTimeExpenseLine extends X_S_TimeExpenseLine
 						ra.setQty(getQty());
 						if (getDescription() != null && getDescription().length() > 0)
 							ra.setDescription(getDescription());
-						ra.save();
+						ra.saveEx();
 					}
 				}
 			}

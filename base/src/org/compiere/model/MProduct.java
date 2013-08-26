@@ -696,7 +696,7 @@ public class MProduct extends X_M_Product
 			{
 				//	Old
 				MProductCosting pcOld = new MProductCosting(this, mass[i].getC_AcctSchema_ID());
-				pcOld.save();
+				pcOld.saveEx();
 			}
 		}
 		

@@ -296,6 +296,13 @@ public class VEditorFactory
 			bin.setField (mField);
 			editor = bin;
 		}
+		
+		// Chart
+		else if (displayType == DisplayType.Chart )
+		{
+			VChart chart = new VChart(mField.getAD_Chart_ID(), WindowNo);
+			editor = chart;
+		}
 
 		else
 			log.log(Level.WARNING, columnName + " - Unknown Type: " + displayType);
@@ -320,7 +327,8 @@ public class VEditorFactory
 		//	No Label for FieldOnly, CheckBox, Button
 		if (mField.isFieldOnly()
 				|| displayType == DisplayType.YesNo
-				|| displayType == DisplayType.Button)
+				|| displayType == DisplayType.Button
+				|| displayType == DisplayType.Chart)
 			return null;
 		//
 		CLabel label = new CLabel(mField.getHeader(), mField.getDescription());

@@ -106,7 +106,6 @@ public class WDateEditor extends WEditor implements ContextMenuListener
 
 	private void init()
 	{
-		getComponent().setFormat(DisplayType.getDateFormat(AEnv.getLanguage(Env.getCtx())).toPattern());
 		popupMenu = new WEditorPopupMenu(false, false, true);
 		popupMenu.addMenuListener(this);
 		if (gridField != null && gridField.getGridTab() != null)

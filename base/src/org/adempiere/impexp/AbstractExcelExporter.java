@@ -466,7 +466,7 @@ public abstract class AbstractExcelExporter
 			file = File.createTempFile("Report_", ".xls");
 		FileOutputStream out = new FileOutputStream(file);
 		export(out);
-		if (autoOpen && Ini.isClient())
+		if (autoOpen)
 			Env.startBrowser(file.toURI().toString());
 	}
 

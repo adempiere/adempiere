@@ -59,6 +59,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.adempiere.model.MBrowse;
 import org.compiere.apps.form.FormFrame;
 import org.compiere.apps.search.Find;
 import org.compiere.grid.APanelTab;
@@ -93,6 +94,7 @@ import org.compiere.print.AReport;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoUtil;
+import org.compiere.swing.CFrame;
 import org.compiere.swing.CPanel;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogMgt;
@@ -102,6 +104,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Language;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
+import org.eevolution.form.VBrowser;
 
 /**
  *	Main Panel of application window.
@@ -131,6 +134,8 @@ import org.compiere.util.Util;
  *  				https://sourceforge.net/tracker/?func=detail&aid=2876892&group_id=176962&atid=879332
  *  @author victor.perez@e-evolution.com
  *  @see FR [ 1966328 ] New Window Info to MRP and CRP into View http://sourceforge.net/tracker/index.php?func=detail&aid=1966328&group_id=176962&atid=879335
+ * 			<li>RF [ 2853359 ] Popup Menu for Lookup Record
+ * 			<li>http://sourceforge.net/tracker/?func=detail&aid=2853359&group_id=176962&atid=879335
  *  @autor tobi42, metas GmBH
  *  			<li>BF [ 2799362 ] You can press New button a lot of times
  *  @author Cristina Ghita, www.arhipac.ro
@@ -2239,23 +2244,7 @@ public final class APanel extends CPanel
 		if (m_curTab == null)
 			return;
 		cmd_save(false);
-		//	Gets Fields from AD_Field_v
-		GridField[] findFields = GridField.createFields(m_ctx, m_curWindowNo, 0, m_curTab.getAD_Tab_ID());
-		Find find = new Find (Env.getFrame(this), m_curWindowNo, m_curTab.getName(),
-			m_curTab.getAD_Tab_ID(), m_curTab.getAD_Table_ID(), m_curTab.getTableName(),
-			m_curTab.getWhereExtended(), findFields, 1);
-		MQuery query = find.getQuery();
-		find.dispose();
-		find = null;
-
-		//	Confirmed query
-		if (query != null)
-		{
-			m_onlyCurrentRows = false;      	//  search history too
-			m_curTab.setQuery(query);
-			m_curGC.query(m_onlyCurrentRows, m_onlyCurrentDays, 0);   //  autoSize
-		}
-		aFind.setPressed(m_curTab.isQueryActive());
+		new ASearch(aFind,Env.getFrame(this), m_curWindowNo,m_curGC, m_curTab, m_onlyCurrentDays);
 	}	//	cmd_find
 
 	/**
@@ -2425,7 +2414,7 @@ public final class APanel extends CPanel
 		//
 		MWindow win = new MWindow(m_ctx, m_curTab.getAD_Window_ID(), null);
 		win.setWindowSize(size);
-		win.save();
+		win.saveEx();
 	}	//	cmdWinSize
 
 	private void cmd_export()
@@ -2645,6 +2634,30 @@ public final class APanel extends CPanel
 			pi.setAD_Client_ID (Env.getAD_Client_ID(m_ctx));
 			ff.setProcessInfo(pi);
 			ff.openForm(form_ID);
+			ff.pack();
+			AEnv.showCenterScreen(ff);
+			return;
+		}
+		int browse_ID = pr.getAD_Browse_ID();
+		if (browse_ID != 0 )
+		{
+
+			if (m_curTab.needSave(true, false))
+				if (!cmd_save(true))
+					return;
+
+			String title = vButton.getDescription();
+			if (title == null || title.length() == 0)
+				title = vButton.getName();
+			ProcessInfo pi = new ProcessInfo (title, vButton.getProcess_ID(), table_ID, record_ID);
+			pi.setAD_User_ID (Env.getAD_User_ID(m_ctx));
+			pi.setAD_Client_ID (Env.getAD_Client_ID(m_ctx));
+			CFrame ff = new CFrame();
+			MBrowse browse = new MBrowse(Env.getCtx(), browse_ID , null);
+			VBrowser browser = new VBrowser(ff, true , m_curWindowNo, "" , browse , "" , true, "");
+			browser.setProcessInfo(pi);
+			ff = browser.getFrame();
+			ff.setVisible(true);
 			ff.pack();
 			AEnv.showCenterScreen(ff);
 			return;

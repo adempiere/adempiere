@@ -139,7 +139,7 @@ public class MCommissionDetail extends X_C_CommissionDetail
 	{
 		MCommissionAmt amt = new MCommissionAmt(getCtx(), getC_CommissionAmt_ID(), get_TrxName());
 		amt.calculateCommission();
-		amt.save();
+		amt.saveEx();
 	}	//	updateAmtHeader
 	
 }	//	MCommissionDetail

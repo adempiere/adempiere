@@ -285,6 +285,16 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 	public void setValueAt(Object value, int row, int column)
 	{
 		getModel().setDataAt(value, row, convertColumnIndexToModel(column));
+		if(value instanceof IDColumn)
+		{
+			IDColumn id = (IDColumn) value;
+			boolean selected = id.isSelected();
+			ListItem listItem = this.getItemAtIndex(row);
+			
+			if (listItem != null && !listItem.isSelected() && selected) {
+				listItem.setSelected(true);
+			}
+		}
 	}
 
     /**
@@ -564,6 +574,7 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 	 */
 	public void loadTable(ResultSet rs)
 	{
+		int no = 0;
 		int row = 0; // model row
 		int col = 0; // model column
 		Object data = null;
@@ -585,6 +596,7 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 				row = getItemCount();
 				setRowCount(row + 1);
 				rsColOffset = 1;
+				no++;
 				for (col = 0; col < m_layout.length; col++)
 				{
 					//reset the data value
@@ -599,11 +611,15 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 								"An object of type " + m_modelHeaderClass.get(col).getSimpleName()
 								+ " was expected.");
 					}
-
-					if (columnClass == IDColumn.class)
+					
+					if (columnClass == IDColumn.class && !m_layout[col].getColSQL().equals("'Row' AS \"Row\""))
 					{
 						data = new IDColumn(rs.getInt(rsColIndex));
 					}
+					else if (columnClass == IDColumn.class && m_layout[col].getColSQL().equals("'Row' AS \"Row\""))
+					{	
+						data = new IDColumn(no);
+					}	
 					else if (columnClass == Boolean.class)
 					{
 						data = new Boolean(rs.getString(rsColIndex).equals("Y"));
@@ -1194,17 +1210,31 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
         else if ((event.getType() == WTableModelEvent.CONTENTS_CHANGED)
         		&& event.getFirstRow() != WTableModelEvent.ALL_ROWS
         		&& !m_readWriteColumn.isEmpty())
-        {
-        	int[] indices = this.getSelectedIndices();
+        {        	
         	ListModelTable model = this.getModel();
         	if (event.getLastRow() > event.getFirstRow())
-        		model.updateComponent(event.getFirstRow(), event.getLastRow());
-        	else
-        		model.updateComponent(event.getFirstRow());
-        	if (indices != null && indices.length > 0)
         	{
-        		this.setSelectedIndices(indices);
+        		int[] indices = this.getSelectedIndices();
+        		model.updateComponent(event.getFirstRow(), event.getLastRow());
+        		if (indices != null && indices.length > 0)
+            	{
+            		this.setSelectedIndices(indices);
+            	}
         	}
+        	else
+        	{
+        		boolean selected = false;
+        		ListItem listItem = this.getItemAtIndex(event.getFirstRow());
+        		if (listItem != null && listItem.isSelected()) {
+        			selected = true;
+        		}
+        		model.updateComponent(event.getFirstRow());
+        		listItem = this.getItemAtIndex(event.getFirstRow());
+        		if (listItem != null && !listItem.isSelected() && selected) {
+        			listItem.setSelected(true);
+        		}
+        	}
+        	
         }
 
         return;

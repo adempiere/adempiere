@@ -246,6 +246,7 @@ public class AccessSqlParser
 			while (index != -1)
 			{
 				//  ADEMPIERE-70: FROM clause can have subordinate queries in the form (##) so 
+				//  ADEMPIERE-70: FROM clause can have subordinate queries in the form (##) so 
 				//  start the search from the index, not the beginning and search between "ON"
 				//  Assume the ON clause has multiple nested clauses like (a OR (b AND c))
 				int indexClose = -1;  

@@ -632,7 +632,7 @@ public class ImportProduct extends SvrProcess implements ImportProcess
 								p_M_PriceList_Version_ID, M_Product_ID, get_TrxName());
 						pp.setPrices(PriceList, PriceStd, PriceLimit);
 						ModelValidationEngine.get().fireImportValidate(this, imp, pp, ImportValidator.TIMING_AFTER_IMPORT);
-						pp.save();
+						pp.saveEx();
 					}
 				}
 				

@@ -564,7 +564,7 @@ public class MSequence extends X_AD_Sequence
 				s_log.warning ("(Table) - no record found - " + TableName);
 				MSequence seq = new MSequence (Env.getCtx(), AD_Client_ID, TableName, null);
 				next = seq.getNextID();
-				seq.save();
+				seq.saveEx();
 			}
 			//	Commit
 			if (trx == null)
@@ -1536,6 +1536,9 @@ public class MSequence extends X_AD_Sequence
 				"AD_CHANGELOG",
 				"AD_ISSUE",
 				"AD_LDAPPROCESSORLOG",
+				"AD_MIGRATION",
+				"AD_MIGRATIONSTEP",
+				"AD_MIGRATIONDATA",
 				"AD_PACKAGE_IMP",
 				"AD_PACKAGE_IMP_BACKUP",
 				"AD_PACKAGE_IMP_DETAIL",

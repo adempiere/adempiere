@@ -17,6 +17,10 @@
 
 package org.adempiere.webui.component;
 
+import org.adempiere.webui.apps.AEnv;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+
 /**
  *
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
@@ -33,6 +37,11 @@ public class Datebox extends org.zkoss.zul.Datebox
 	 * 
 	 */
 	private static final long serialVersionUID = -5890574778856946570L;
+
+	public Datebox() {
+		super();
+		setFormat(DisplayType.getDateFormat(AEnv.getLanguage(Env.getCtx())).toPattern());
+	}
 
 	public void setEnabled(boolean enabled)
     {

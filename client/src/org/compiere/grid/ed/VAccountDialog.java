@@ -1029,7 +1029,7 @@ public final class VAccountDialog extends CDialog
 			C_Project_ID, C_Campaign_ID, C_Activity_ID, 
 			User1_ID, User2_ID, 0, 0);
 		if (acct != null && acct.get_ID() == 0)
-			acct.save();
+			acct.saveEx();
 
 		//  Show Info
 		if (acct == null || acct.get_ID() == 0)
@@ -1040,7 +1040,7 @@ public final class VAccountDialog extends CDialog
 			if (Alias != null && Alias.length() > 0)
 			{
 				acct.setAlias(Alias);
-				acct.save();
+				acct.saveEx();
 			}
 			loadInfo (acct.get_ID(), s_AcctSchema.getC_AcctSchema_ID());
 		}

@@ -1244,7 +1244,7 @@ public class WebInfo
 				MBPartner bp = new MBPartner (m_ctx, getC_BPartner_ID(), null);
 				bp.setPrimaryAD_User_ID(getAD_User_ID());				
 				retValue = new MRfQResponse (rfq, bp);	//	may have no lines
-				retValue.save();
+				retValue.saveEx();
 			}
 		}
 		//

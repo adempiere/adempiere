@@ -333,7 +333,7 @@ public class InventoryCartAction extends POSDispatchAction
             docNo = inventory2.getDocumentNo();
             docStatus = inventory2.getDocStatus();
             docInfo = inventory2.getDocumentInfo();
-            inventory2.save();
+            inventory2.saveEx();
             
             InventoryCartManager.deleteInventoryLines(ctx, inventory2.getM_Inventory_ID());
         }
@@ -537,7 +537,7 @@ public class InventoryCartAction extends POSDispatchAction
                 bean.setInventoryId(inventory.get_ID());
                 bean.setDocumentNo(inventory.getDocumentNo());
                 bean.setDocStatus(inventory.getDocStatus());
-                inventory.save();
+                inventory.saveEx();
                 
                 trx.start();
                 

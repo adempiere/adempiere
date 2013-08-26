@@ -417,7 +417,7 @@ public class RequestServlet extends HttpServlet
 		{
 			String msg = Msg.parseTranslation(ctx, "@Added@: @AD_Attachment_ID@ " + fileName);
 			req.webUpdate(msg);
-			req.save();
+			req.saveEx();
 			WebUtil.createForwardPage(response, msg, "requests.jsp", 10);
 		}
 		else

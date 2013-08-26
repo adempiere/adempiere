@@ -302,6 +302,26 @@ public class ImportPayment extends SvrProcess
 		if (no != 0)
 			log.warning("No BPartner=" + no);
 		
+		// Charge - begin - https://adempiere.atlassian.net/browse/ADEMPIERE-170
+		sql = new StringBuffer ("UPDATE I_Payment i "
+			  + "SET C_Charge_ID=(SELECT MAX(C_Charge_ID) FROM C_Charge charge"
+			  + " WHERE i.ChargeName=charge.Name AND i.AD_Client_ID=charge.AD_Client_ID) "
+			  + "WHERE C_Charge_ID IS NULL AND ChargeName IS NOT NULL"
+			  + " AND I_IsImported<>'Y'").append (clientCheck);
+		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		if (no != 0)
+			log.fine("Set Charge from Name=" + no);
+		
+		sql = new StringBuffer ("UPDATE I_Payment "
+			+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=No Charge,' "
+			+ "WHERE C_Charge_ID IS NULL "
+			+ " AND I_IsImported<>'E' "
+			+ " AND ChargeName IS NOT NULL "
+			+ " AND I_IsImported<>'Y'").append(clientCheck);
+		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		if (no != 0)
+			log.warning("No ChargeName=" + no);
+		// Charge - end
 		
 		//	Check Payment<->Invoice combination
 		sql = new StringBuffer("UPDATE I_Payment "
@@ -496,14 +516,14 @@ public class ImportPayment extends SvrProcess
 					imp.setC_Payment_ID(payment.getC_Payment_ID());
 					imp.setI_IsImported(true);
 					imp.setProcessed(true);
-					imp.save();
+					imp.saveEx();
 					noInsert++;
 
 					if (payment != null && m_docAction != null && m_docAction.length() > 0)
 					{
 						payment.setDocAction(m_docAction);
 						payment.processIt (m_docAction);
-						payment.save();
+						payment.saveEx();
 					}
 				}
 				

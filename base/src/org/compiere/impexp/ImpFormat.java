@@ -34,9 +34,10 @@ import org.compiere.util.Env;
  *	Import Format a Row
  *
  *  @author Jorg Janke
- *  @author Trifon Trifonov, Catura AG (www.catura.de)
- *				<li>FR [ 3010957 ] Custom Separator Character, http://sourceforge.net/tracker/?func=detail&aid=3010957&group_id=176962&atid=879335 </li>
-
+ *  @author Trifon Trifonov
+ *				<li>FR [3010957] Custom Separator Character, http://sourceforge.net/tracker/?func=detail&aid=3010957&group_id=176962&atid=879335</li>
+ *				<li>BF [3381379] Import Loader should load IsActive column, https://sourceforge.net/tracker/?func=detail&aid=3381379&group_id=176962&atid=879332</li>
+ * 
  *  @version $Id: ImpFormat.java,v 1.3 2006/07/30 00:51:05 jjanke Exp $
  */
 public final class ImpFormat
@@ -277,8 +278,9 @@ public final class ImpFormat
 			{
 				retValue = new ImpFormat (name, rs.getInt("AD_Table_ID"), rs.getString("FormatType"));
 				ID = rs.getInt ("AD_ImpFormat_ID");
-				if (X_AD_ImpFormat.FORMATTYPE_CustomSeparatorChar.equals(rs.getString(I_AD_ImpFormat.COLUMNNAME_FormatType)))
+				if (X_AD_ImpFormat.FORMATTYPE_CustomSeparatorChar.equals(rs.getString(I_AD_ImpFormat.COLUMNNAME_FormatType))) {
 					retValue.setSeparatorChar(rs.getString(I_AD_ImpFormat.COLUMNNAME_SeparatorChar));
+				}
 			}
 			rs.close();
 			pstmt.close();
@@ -609,7 +611,9 @@ public final class ImpFormat
 			.append(m_tableName).append(" SET ");
 		for (int i = 0; i < nodes.length; i++)
 			sql.append(nodes[i]).append(",");		//	column=value
-		sql.append("IsActive='Y',Processed='N',I_IsImported='N',Updated=SysDate,UpdatedBy=").append(UpdatedBy);
+		// @Trifon - fixed (3381379) - Import Loader should load IsActive column
+		// - https://sourceforge.net/tracker/?func=detail&aid=3381379&group_id=176962&atid=879332
+		sql.append("Processed='N', I_IsImported='N', Updated=SysDate, UpdatedBy=").append(UpdatedBy);
 		sql.append(" WHERE ").append(m_tablePK).append("=").append(ID);
 		//  Update Cmd
 		int no = DB.executeUpdate(sql.toString(), trxName);

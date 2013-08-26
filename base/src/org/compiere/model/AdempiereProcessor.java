@@ -19,6 +19,8 @@ package org.compiere.model;
 import java.sql.Timestamp;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
+
 /**
  *	Processor Interface
  *	
@@ -101,6 +103,12 @@ public interface AdempiereProcessor
 	 */
 	public boolean save();
 
+	/**
+	 * 	Save throwing exception
+	 * @throws AdempiereException
+	 * @see #save()
+	 */
+	public void saveEx() throws AdempiereException;
 	
 	/**
 	 * 	Get Processor Logs

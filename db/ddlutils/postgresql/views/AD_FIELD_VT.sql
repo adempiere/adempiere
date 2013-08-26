@@ -7,7 +7,7 @@ CREATE OR REPLACE VIEW ad_field_vt AS
  COALESCE(f.ad_val_rule_id, c.ad_val_rule_id) AS ad_val_rule_id, c.ad_process_id, c.isalwaysupdateable, c.readonlylogic, c.mandatorylogic, c.isupdateable, 
  c.isencrypted AS isencryptedcolumn, c.isselectioncolumn, tbl.tablename, c.valuemin, c.valuemax, fgt.name AS fieldgroup, vr.code AS validationcode, 
  f.included_tab_id, fg.fieldgrouptype, fg.iscollapsedbydefault, COALESCE(f.infofactoryclass, c.infofactoryclass) AS infofactoryclass, c.isautocomplete, 
- f.hideinlistview, f.preferredwidth
+ f.preferredwidth, c.AD_Chart_ID
    FROM ad_field f
    JOIN ad_field_trl trl ON f.ad_field_id = trl.ad_field_id
    JOIN ad_tab t ON f.ad_tab_id = t.ad_tab_id

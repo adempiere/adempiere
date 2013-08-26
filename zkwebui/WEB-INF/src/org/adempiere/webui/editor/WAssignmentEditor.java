@@ -131,6 +131,14 @@ public class WAssignmentEditor extends WEditor {
 			Integer oldValue = (Integer)getValue();
 			int S_ResourceAssignment_ID = oldValue == null ? 0 : oldValue.intValue();
 			MResourceAssignment ma = new MResourceAssignment(Env.getCtx(), S_ResourceAssignment_ID, null);
+			if (S_ResourceAssignment_ID == 0) {
+				if (gridField != null && gridField.getGridTab() != null) {
+					// assign the resource of the document if any
+					Object org = gridField.getGridTab().getValue("AD_Org_ID");
+					if (org != null && org instanceof Integer)
+						ma.setAD_Org_ID((Integer) org);
+				}
+			}
 	
 			//	Start VAssignment Dialog
 			if (S_ResourceAssignment_ID != 0)
