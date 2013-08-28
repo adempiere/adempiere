@@ -19,6 +19,7 @@ package org.eevolution.model;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.Properties;
 import org.compiere.model.*;
 import org.compiere.util.Env;
@@ -32,7 +33,7 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20120723L;
 
     /** Standard Constructor */
     public X_T_BOMLine (Properties ctx, int T_BOMLine_ID, String trxName)
@@ -149,6 +150,26 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 		return bd;
 	}
 
+	/** Set Standard Cost.
+		@param CostStandard 
+		Standard Costs
+	  */
+	public void setCostStandard (BigDecimal CostStandard)
+	{
+		set_Value (COLUMNNAME_CostStandard, CostStandard);
+	}
+
+	/** Get Standard Cost.
+		@return Standard Costs
+	  */
+	public BigDecimal getCostStandard () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CostStandard);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	/** CostingMethod AD_Reference_ID=122 */
 	public static final int COSTINGMETHOD_AD_Reference_ID=122;
 	/** Standard Costing = S */
@@ -185,26 +206,6 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 	public String getCostingMethod () 
 	{
 		return (String)get_Value(COLUMNNAME_CostingMethod);
-	}
-
-	/** Set Standard Cost.
-		@param CostStandard 
-		Standard Costs
-	  */
-	public void setCostStandard (BigDecimal CostStandard)
-	{
-		set_Value (COLUMNNAME_CostStandard, CostStandard);
-	}
-
-	/** Get Standard Cost.
-		@return Standard Costs
-	  */
-	public BigDecimal getCostStandard () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CostStandard);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
 	}
 
 	/** Set Current Cost Price.
@@ -245,6 +246,23 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set Transaction Date.
+		@param DateTrx 
+		Transaction Date
+	  */
+	public void setDateTrx (Timestamp DateTrx)
+	{
+		set_Value (COLUMNNAME_DateTrx, DateTrx);
+	}
+
+	/** Get Transaction Date.
+		@return Transaction Date
+	  */
+	public Timestamp getDateTrx () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_DateTrx);
 	}
 
 	/** Set Future Cost Price.
@@ -444,29 +462,29 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException
     {
-		return (org.eevolution.model.I_PP_Product_BOM)MTable.get(getCtx(), org.eevolution.model.I_PP_Product_BOM.Table_Name)
-			.getPO(getPP_Product_BOM_ID(), get_TrxName());	}
+		return (org.compiere.model.I_M_Warehouse)MTable.get(getCtx(), org.compiere.model.I_M_Warehouse.Table_Name)
+			.getPO(getM_Warehouse_ID(), get_TrxName());	}
 
-	/** Set BOM & Formula.
-		@param PP_Product_BOM_ID 
-		BOM & Formula
+	/** Set Warehouse.
+		@param M_Warehouse_ID 
+		Storage Warehouse and Service Point
 	  */
-	public void setPP_Product_BOM_ID (int PP_Product_BOM_ID)
+	public void setM_Warehouse_ID (int M_Warehouse_ID)
 	{
-		if (PP_Product_BOM_ID < 1) 
-			set_Value (COLUMNNAME_PP_Product_BOM_ID, null);
+		if (M_Warehouse_ID < 1) 
+			set_Value (COLUMNNAME_M_Warehouse_ID, null);
 		else 
-			set_Value (COLUMNNAME_PP_Product_BOM_ID, Integer.valueOf(PP_Product_BOM_ID));
+			set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
 	}
 
-	/** Get BOM & Formula.
-		@return BOM & Formula
+	/** Get Warehouse.
+		@return Storage Warehouse and Service Point
 	  */
-	public int getPP_Product_BOM_ID () 
+	public int getM_Warehouse_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Product_BOM_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Warehouse_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -500,6 +518,34 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException
+    {
+		return (org.eevolution.model.I_PP_Product_BOM)MTable.get(getCtx(), org.eevolution.model.I_PP_Product_BOM.Table_Name)
+			.getPO(getPP_Product_BOM_ID(), get_TrxName());	}
+
+	/** Set BOM & Formula.
+		@param PP_Product_BOM_ID 
+		BOM & Formula
+	  */
+	public void setPP_Product_BOM_ID (int PP_Product_BOM_ID)
+	{
+		if (PP_Product_BOM_ID < 1) 
+			set_Value (COLUMNNAME_PP_Product_BOM_ID, null);
+		else 
+			set_Value (COLUMNNAME_PP_Product_BOM_ID, Integer.valueOf(PP_Product_BOM_ID));
+	}
+
+	/** Get BOM & Formula.
+		@return BOM & Formula
+	  */
+	public int getPP_Product_BOM_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Product_BOM_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Quantity.
 		@param QtyBOM 
 		Indicate the Quantity  use in this BOM
@@ -515,6 +561,23 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 	public BigDecimal getQtyBOM () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyBOM);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Qty Required.
+		@param QtyRequired Qty Required	  */
+	public void setQtyRequired (BigDecimal QtyRequired)
+	{
+		set_Value (COLUMNNAME_QtyRequired, QtyRequired);
+	}
+
+	/** Get Qty Required.
+		@return Qty Required	  */
+	public BigDecimal getQtyRequired () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyRequired);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
