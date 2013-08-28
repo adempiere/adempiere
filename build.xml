@@ -8,11 +8,12 @@
   <!-- set global properties for this build -->
   <property file="build.properties"/>
   <import file="${adempiere.trunk}/utils_dev/properties.xml"/>
-  <property name="src" location="${basedir}/extension/eevolution/libero/src/main"/>
+  <property name="src" location="${basedir}/src/main/java/base"/>
+  <property name="srcSwing" location="${basedir}/src/main/java/ui/swing"/>
   <property name="build" location="${basedir}/build"/>
   <property name="dist"  location="${basedir}/dist"/>
-  <property name="zksrc" value="${basedir}/zkwebui/WEB-INF/src"/>
-  <property name="zkclasses" value="${basedir}/WEB-INF/classes"/>
+  <property name="zksrc" value="${basedir}/src/main/java/ui/zk"/>
+  <property name="zkclasses" value="${basedir}/build/zkwebui/WEB-INF/classes"/>
 
   <path id="compile.classpath">
     <pathelement location="${basedir}/build"/>
@@ -20,6 +21,9 @@
     <fileset dir="${adempiere.trunk}/lib">
       <include name="*.jar"/>
     </fileset>
+  	 <fileset dir="${adempiere.trunk}/tools/lib">
+  	      <include name="OpenForecast-0.5.0.jar"/>
+  	 </fileset>
     <fileset dir="${adempiere.trunk}/zkwebui/WEB-INF/lib">
       <include name="*.jar"/>
     </fileset>
@@ -39,8 +43,7 @@
   <target name="compile" depends="init"
         description="compile the source " >
     <!-- Compile the java code from ${src} into ${build} -->
-    <javac debug="true" srcdir="${src}" destdir="${build}">
-      <exclude name="**/org/eevolution/plugin/*.java"/>
+    <javac debug="true" srcdir="${src}:${srcSwing}" destdir="${build}">
       <classpath refid="compile.classpath"/>
     </javac>
   </target>
