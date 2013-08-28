@@ -180,17 +180,22 @@ public class MRPUpdate extends SvrProcess
 			params.add(M_Warehouse_ID);
 			String whereClause = "OrderType IN ('FCT','POR', 'SOO', 'POO') AND AD_Client_ID=? AND AD_Org_ID=? AND M_Warehouse_ID=?";
 			executeUpdate("DELETE FROM PP_MRP WHERE "+whereClause, params);
+			commitEx();
 
 			//Delete Material Requisitions Document
 			whereClause = "DocStatus IN ('DR','CL') AND AD_Client_ID=? AND AD_Org_ID=? AND M_Warehouse_ID=?";
 			deletePO(MRequisition.Table_Name, whereClause, params);
+			commitEx();
 			
 			params = new ArrayList<Object>();
 			params.add(AD_Client_ID);
 			params.add(AD_Org_ID);
-			whereClause = "DocStatus IN ('DR') AND AD_Client_ID=? AND AD_Org_ID=? ";		
+			params.add(M_Warehouse_ID);
+			
+			whereClause = "DocStatus IN ('DR') AND AD_Client_ID=? AND AD_Org_ID=? AND M_Warehouse_ID=?";		
 			// Delete Distribution Orders:
 			deletePO(MDDOrder.Table_Name, whereClause, params);
+			commitEx();
 
 		}
 
@@ -202,16 +207,19 @@ public class MRPUpdate extends SvrProcess
 			params.add(M_Warehouse_ID);
 			String whereClause = "OrderType IN ('MOP') AND AD_Client_ID=? AND AD_Org_ID=? AND S_Resource_ID= ? AND M_Warehouse_ID=?";
 			executeUpdate("DELETE FROM PP_MRP WHERE "+whereClause, params);
+			commitEx();
 			
 			// Delete Mfg. Orders:
 			whereClause = "DocStatus='DR' AND AD_Client_ID=? AND AD_Org_ID=? AND S_Resource_ID= ? AND M_Warehouse_ID=?";
-			deletePO(MPPOrder.Table_Name, whereClause, params);		
+			deletePO(MPPOrder.Table_Name, whereClause, params);	
+			commitEx();
 			
 			params = new ArrayList<Object>();
 			params.add(AD_Client_ID);
 			params.add(AD_Org_ID);
 			whereClause = "OrderType IN ('DOO') AND AD_Client_ID=? AND AD_Org_ID=? ";
 			executeUpdate("DELETE FROM PP_MRP WHERE "+whereClause, params);
+			commitEx();
 
 		
 		}
@@ -223,6 +231,7 @@ public class MRPUpdate extends SvrProcess
 			params.add(AD_Org_ID);
 			String whereClause = "AD_Table_ID="+MPPMRP.Table_ID+" AND AD_Client_ID=? AND AD_Org_ID=?";
 			executeUpdate("DELETE FROM AD_Note WHERE "+whereClause, params);
+			commitEx();
 		}
 	}
 
@@ -272,8 +281,10 @@ public class MRPUpdate extends SvrProcess
 			+" WHERE t.Qty > 0 AND "
 			+"t.AD_Client_ID=? AND t.AD_Org_ID=? AND t.M_Warehouse_ID= ?";
 		executeUpdate(sql + sql_insert,  params);
-
-		// Insert from C_OrderLine
+		commitEx();
+		
+		
+		// Insert from C_OrderLine Sales Order Line
 		sql_insert = " SELECT t.ad_org_id,"
 			+"t.created, t.createdby , t.datepromised,"
 			+"t.datepromised, t.datepromised, t.dateordered, o.DocumentNo," 
@@ -285,13 +296,35 @@ public class MRPUpdate extends SvrProcess
 			+" null, null, "
 			+"t.m_product_id, t.m_warehouse_id," 
 			+ "nextidfunc(53040,'N'), null ,"
-			+"t.QtyOrdered-t.QtyDelivered,  (case when o.IsSOTrx='Y' then 'D' else 'S' end) , (case when o.IsSOTrx='Y' then 'SOO' else 'POO' end), t.updated, t.updatedby, o.DocumentNo," 
+			+"t.QtyOrdered-t.QtyDelivered, 'D', 'SOO', t.updated, t.updatedby, o.DocumentNo," 
 			+"t.ad_client_id , null as S_Resource_ID, o.C_BPartner_ID"
 			+" FROM C_OrderLine t"
 			+" INNER JOIN C_Order o  ON (o.c_order_id=t.c_order_id)"
 			+" WHERE  (t.QtyOrdered - t.QtyDelivered) <> 0 AND o.DocStatus IN ('IP','CO') AND "
-			+"t.AD_Client_ID=? AND t.AD_Org_ID=? AND t.M_Warehouse_ID= ?";
-		executeUpdate(sql + sql_insert, params);	
+			+"t.AD_Client_ID=? AND t.AD_Org_ID=? AND t.M_Warehouse_ID= ? AND o.IsSOTrx='Y' AND t.IsConsumesForecast='N'";
+		executeUpdate(sql + sql_insert, params);
+		commitEx();
+
+		// Insert from C_OrderLine Purchase Lines
+		sql_insert = " SELECT t.ad_org_id,"
+			+"t.created, t.createdby , t.datepromised,"
+			+"t.datepromised, t.datepromised, t.dateordered, o.DocumentNo," 
+			+"o.DocStatus, o.isactive , "
+			+" null, null, "
+			+" null, null, "
+			+" t.c_order_id, t.c_orderline_id, "
+			+ "null, null,"
+			+" null, null, "
+			+"t.m_product_id, t.m_warehouse_id," 
+			+ "nextidfunc(53040,'N'), null ,"
+			+"t.QtyOrdered-t.QtyDelivered,  'S' , 'POO', t.updated, t.updatedby, o.DocumentNo," 
+			+"t.ad_client_id , null as S_Resource_ID, o.C_BPartner_ID"
+			+" FROM C_OrderLine t"
+			+" INNER JOIN C_Order o  ON (o.c_order_id=t.c_order_id)"
+			+" WHERE  (t.QtyOrdered - t.QtyDelivered) <> 0 AND o.DocStatus IN ('IP','CO') AND "
+			+"t.AD_Client_ID=? AND t.AD_Org_ID=? AND t.M_Warehouse_ID= ? AND o.IsSOTrx='N'";
+		executeUpdate(sql + sql_insert, params);
+		commitEx();
 
 
 		// Insert from M_RequisitionLine
@@ -312,7 +345,8 @@ public class MRPUpdate extends SvrProcess
 			+" INNER JOIN M_Requisition t ON (rl.m_requisition_id=t.m_requisition_id)"
 			+" WHERE rl.Qty > 0 AND t.DocStatus IN ('DR','IN') AND "
 			+"t.AD_Client_ID=? AND t.AD_Org_ID=? AND t.M_Warehouse_ID= ?";		
-		executeUpdate(sql + sql_insert, params);		
+		executeUpdate(sql + sql_insert, params);
+		commitEx();
 
 		//Insert from PP_Order
 		params = new ArrayList<Object>();
@@ -337,6 +371,7 @@ public class MRPUpdate extends SvrProcess
 			+" WHERE (t.QtyOrdered - t.QtyDelivered) <> 0 AND t.DocStatus IN ('DR','IP','CO') AND "
 			+"t.AD_Client_ID=? AND t.AD_Org_ID=? AND t.S_Resource_ID=? AND t.M_Warehouse_ID= ?";
 		executeUpdate(sql + sql_insert, params);
+		commitEx();
 
 		//
 		//Insert from PP_Order_BOMLine
@@ -358,6 +393,7 @@ public class MRPUpdate extends SvrProcess
 			+" WHERE  (t.QtyRequired-t.QtyDelivered) <> 0 AND o.DocStatus IN ('DR','IP','CO') AND "
 			+"t.AD_Client_ID=? AND t.AD_Org_ID=? AND o.S_Resource_ID=? AND t.M_Warehouse_ID= ?";
 		executeUpdate(sql + sql_insert , params);
+		commitEx();
 		
 		//// Insert from DD_OrderLine Demand
 		sql_insert = " SELECT t.ad_org_id,"
@@ -383,6 +419,7 @@ public class MRPUpdate extends SvrProcess
 		params.add(AD_Client_ID);
 		params.add(AD_Org_ID);
 		executeUpdate(sql + sql_insert, params);
+		commitEx();
 
 		//// Insert from DD_OrderLine Supply
 		sql_insert = " SELECT t.ad_org_id,"
@@ -404,6 +441,7 @@ public class MRPUpdate extends SvrProcess
 				+" WHERE  (t.QtyOrdered - t.QtyDelivered) <> 0 AND o.DocStatus IN ('IP','CO') AND "
 				+"o.AD_Client_ID=? AND o.AD_Org_ID=? ";
 		executeUpdate(sql + sql_insert, params);
+		commitEx();
 	
 	}
 

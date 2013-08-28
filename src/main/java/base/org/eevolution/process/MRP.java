@@ -26,7 +26,10 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -63,6 +66,7 @@ import org.eevolution.model.MDDNetworkDistributionLine;
 import org.eevolution.model.MDDOrder;
 import org.eevolution.model.MDDOrderLine;
 import org.eevolution.model.MPPMRP;
+import org.eevolution.model.MPPMRPDetail;
 import org.eevolution.model.MPPOrder;
 import org.eevolution.model.MPPProductBOM;
 import org.eevolution.model.MPPProductPlanning;
@@ -75,16 +79,33 @@ import org.eevolution.model.X_PP_Product_Planning;
  */
 public class MRP extends SvrProcess
 {
-	private int     p_AD_Org_ID     = 0;
-	private int     p_S_Resource_ID = 0;
-	private int     p_M_Warehouse_ID= 0;
-	private boolean p_IsRequiredDRP = false;
-	private int     p_Planner_ID = 0;
-	@SuppressWarnings("unused")
-	private String  p_Version = "1";
-	/** Product ID - for testing purposes */
-	protected int	p_M_Product_ID = 0;
-
+	/** Parameters **/
+	protected Integer   p_AD_Org_ID     = 0;
+	protected Integer   p_M_Warehouse_ID= 0;
+	protected Integer   p_S_Resource_ID = 0;
+	protected Boolean p_IsSynchronize = false;
+	protected Boolean p_IsMPS =  null;
+	protected Boolean p_IsMRP =  null;
+	protected Boolean p_IsDRP =  null;
+	protected Boolean p_IsMfg =  null;
+	protected Boolean p_IsPur =  null;
+	protected Boolean p_IsLowLevel =  null;
+	protected Integer p_Planner_ID = null;
+	protected Integer p_C_BPartner_ID = null;
+	protected Integer p_M_Product_ID = null;
+	protected Integer p_M_Product_Category_ID = null;
+	protected String  p_Version = "1";
+	//MRP Execution Modes
+	protected static int MRP_Regenerative = 1;
+	protected static int MRP_Net_Change = 2;
+	protected static int MRP_Selective = 3;
+	protected static int MPR_DRP = 4;
+	protected int EXECUTION_MODE  = MRP_Regenerative;
+	
+	protected ArrayList <Object> parameters = new ArrayList<Object>();
+	protected LinkedHashMap <Integer,BigDecimal> demands = new LinkedHashMap<Integer,BigDecimal>();
+	protected LinkedHashMap <Integer,BigDecimal> supplies = new LinkedHashMap<Integer,BigDecimal>();
+	
 	// Global Variables
 	private MPPProductPlanning m_product_planning = null;
 	private BigDecimal QtyProjectOnHand = Env.ZERO;
@@ -112,35 +133,72 @@ public class MRP extends SvrProcess
 
 	protected void prepare()
 	{
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
+		for (ProcessInfoParameter para : getParameter())
 		{
-			String name = para[i].getParameterName();
-			if (para[i].getParameter() == null)
+			String name = para.getParameterName();
+			if (para.getParameter() == null)
 				;
 			else if (name.equals("AD_Org_ID"))
-			{    
-				p_AD_Org_ID = para[i].getParameterAsInt();
-			}                       
+				p_AD_Org_ID = para.getParameterAsInt();                      
+			else if (name.equals("M_Warehouse_ID")) 
+				p_M_Warehouse_ID = para.getParameterAsInt();                
 			else if (name.equals("S_Resource_ID"))
-			{    
-				p_S_Resource_ID = para[i].getParameterAsInt();    
-			}
-			else if (name.equals("M_Warehouse_ID"))
-			{    
-				p_M_Warehouse_ID = para[i].getParameterAsInt();                
-			}
+				p_S_Resource_ID = para.getParameterAsInt();    
+			else if (name.equals("Synchronize"))  
+				p_IsSynchronize = para.getParameterAsBoolean(); 
+			else if (name.equals("IsMPS")) 
+				p_IsMPS = para.getParameterAsBoolean(); 
+			else if (name.equals("IsRequiredMRP"))
+				p_IsMRP = para.getParameterAsBoolean();        
 			else if (name.equals("IsRequiredDRP"))
-			{    
-				p_IsRequiredDRP = para[i].getParameterAsBoolean();        
-			}
+				p_IsDRP = para.getParameterAsBoolean();        
+			else if (name.equals("IsBOM"))
+				p_IsMfg = para.getParameterAsBoolean();        
+			else if (name.equals("IsPurchased"))
+				p_IsPur = para.getParameterAsBoolean();        
+			else if (name.equals("LowLevel"))
+				p_IsLowLevel = para.getParameterAsBoolean();        
+			else if (name.equals("Planner_ID"))  
+				p_Planner_ID= para.getParameterAsInt();                
+			else if (name.equals("C_BPartner_ID"))
+				p_C_BPartner_ID= para.getParameterAsInt();                
+			else if (name.equals("M_Product_ID"))  
+				p_M_Product_ID = para.getParameterAsInt();                
+			else if (name.equals("M_Produc_Category_ID"))  
+				p_M_Product_Category_ID = para.getParameterAsInt();                
 			else if (name.equals("Version"))
-			{    
-				p_Version = (String)para[i].getParameter();        
-			}
+				p_Version = (String)para.getParameter();        
 			else
 				log.log(Level.SEVERE,"prepare - Unknown Parameter: " + name);
 		}
+		//Regenerative Material Plan process
+		int AD_Process_ID = getProcessInfo().getAD_Process_ID();
+		if(AD_Process_ID == 53016)
+		{	
+			EXECUTION_MODE = MRP_Regenerative;
+				p_IsMRP = false;
+			if(isSynchronize())
+				p_IsDRP = false;
+		}
+		//Net Change Material Plan
+		if(AD_Process_ID ==53320)
+		{	
+			EXECUTION_MODE = MRP_Net_Change;
+				p_IsMRP = true;
+			if(isSynchronize())
+				p_IsDRP = true;
+		}	
+		//Selective Material Plan process
+		if(AD_Process_ID == 53313 )
+			EXECUTION_MODE = MRP_Selective;
+		// DRP Distribution Plan
+		if(AD_Process_ID == 53022 )
+		{	
+			EXECUTION_MODE = MPR_DRP;
+			p_IsSynchronize = true;
+			p_IsDRP = true;
+		}	
+		
 	}	//	prepare
 	
 	/**
@@ -162,35 +220,105 @@ public class MRP extends SvrProcess
 	/**
 	 * @return the M_Warehouse_ID
 	 */
-	public int getM_Warehouse_ID()
+	public Integer getM_Warehouse_ID()
 	{
 		return p_M_Warehouse_ID;
 	}
-
+	
 	/**
-	 * @return the p_IsRequiredDRP
+	 * @return the M_Product_ID
 	 */
-	public boolean isRequiredDRP()
+	public Integer getM_Product_ID()
 	{
-		return p_IsRequiredDRP;
+		return p_M_Product_ID;
 	}
 	
-	public int getPlanner_ID()
+	/**
+	 * @return the M_Product_Category_ID
+	 */
+	public Integer getM_Product_Category_ID()
 	{
-		if (this.p_Planner_ID <= 0)
+		return p_M_Product_Category_ID;
+	}
+	
+	/**
+	 * @return the C_BPartner_ID
+	 */
+	public Integer getC_BPartner_ID()
+	{
+		return p_C_BPartner_ID;
+	}
+
+	/**
+	 * @return the p_IsMPS
+	 */
+	public Boolean isMPS()
+	{
+		return p_IsMPS;
+	}
+	
+	/**
+	 * @return the p_IsDRP
+	 */
+	public Boolean isSynchronize()
+	{
+		return p_IsSynchronize;
+	}
+	
+	/**
+	 * @return the p_IsDRP
+	 */
+	public Boolean isDRP()
+	{
+		return p_IsDRP;
+	}
+	/**
+	 * @return the p_IsDRP
+	 */
+	public Boolean isMRP()
+	{
+		return p_IsMRP;
+	}
+	/**
+	 * @return the p_IsMFG
+	 */
+	public Boolean isMfg()
+	{
+		return p_IsMfg;
+	}
+	
+	/**
+	 * @return the p_IsPur
+	 */
+	public Boolean isPur()
+	{
+		return p_IsPur;
+	}
+	
+	/**
+	 * @return the p_IsLowLevel
+	 */
+	public Boolean isLowLevel()
+	{
+		return p_IsLowLevel;
+	}
+	
+	public Integer getPlanner_ID()
+	{
+		/*if (this.p_Planner_ID == null)
 		{
 			this.p_Planner_ID = Env.getAD_User_ID(getCtx());
-		}
-		return this.p_Planner_ID;
+		}*/
+		return p_Planner_ID;
 	}
 
 	protected String doIt() throws Exception
 	{
-		StringBuffer resultMsg = new StringBuffer();
+		parameters = new ArrayList<Object>();
 		dd_order_id_cache.clear();
 		partner_cache.clear(); 
 	
-		ArrayList <Object> parameters = new ArrayList<Object>();
+		
 		StringBuffer whereClause = new StringBuffer(MResource.COLUMNNAME_ManufacturingResourceType+"=? AND AD_Client_ID=?");
 		parameters.add(MResource.MANUFACTURINGRESOURCETYPE_Plant);
 		parameters.add(getAD_Client_ID());
@@ -224,10 +352,19 @@ public class MRP extends SvrProcess
 			for (MOrg org : orgList)
 			{
 				// Set Default Document Type To Requisition
-				docTypeReq_ID = getDocType(MDocType.DOCBASETYPE_PurchaseRequisition, org.getAD_Org_ID());
-				docTypeMO_ID = getDocType(MDocType.DOCBASETYPE_ManufacturingOrder, org.getAD_Org_ID());
-				docTypeMF_ID = getDocType(MDocType.DOCBASETYPE_MaintenanceOrder, org.getAD_Org_ID());
-				docTypeDO_ID = getDocType(MDocType.DOCBASETYPE_DistributionOrder, org.getAD_Org_ID());
+				int AD_User_ID =  Env.getAD_User_ID(getCtx());
+				docTypeReq_ID = MPPMRP.getDocType(getCtx(),
+						MDocType.DOCBASETYPE_PurchaseRequisition,
+						org.getAD_Org_ID(), AD_User_ID, get_TrxName());
+				docTypeMO_ID = MPPMRP.getDocType(getCtx(),
+						MDocType.DOCBASETYPE_ManufacturingOrder,
+						org.getAD_Org_ID(), AD_User_ID, get_TrxName());
+				docTypeMF_ID = MPPMRP.getDocType(getCtx(),
+						MDocType.DOCBASETYPE_MaintenanceOrder,
+						org.getAD_Org_ID(), AD_User_ID, get_TrxName());
+				docTypeDO_ID = MPPMRP.getDocType(getCtx(),
+						MDocType.DOCBASETYPE_DistributionOrder,
+						org.getAD_Org_ID(), AD_User_ID, get_TrxName());
 				
 				log.info("Run MRP to Organization: " + org.getName());
 				MWarehouse[] ws;
@@ -248,23 +385,43 @@ public class MRP extends SvrProcess
 
 					log.info("Run MRP to Wharehouse: " + w.getName());
 					runMRP(getAD_Client_ID(), org.getAD_Org_ID(), plant.getS_Resource_ID(), w.getM_Warehouse_ID());
-					resultMsg.append("<br>finish MRP to Warehouse " +w.getName());
+					StringBuffer resultMsg = new StringBuffer();
+					resultMsg.append("<br> <b> @AD_Org_ID@: </b>" + org.getName());
+					resultMsg.append("<b>, @M_Warehouse_ID@: </b>" +w.getName());
+					resultMsg.append("<b>, @S_Resource_ID@: </b>" +plant.getName());
+					resultMsg.append("<hr>");
+					resultMsg.append("<br><b>@PP_Order_ID@:</b> "+count_MO);
+					resultMsg.append("<br><b>@DD_Order_ID@:</b> "+count_DO);
+					resultMsg.append("<br><b>@M_Requisition_ID@:</b> "+count_MR);
+					resultMsg.append("<br><b>@AD_Note_ID@:</b> "+count_Msg);
+					count_MO = 0;
+					count_MR = 0;
+					count_DO = 0;
+					count_Msg = 0;
+					addLog(resultMsg.toString());
+					commitEx();
 				}
 				//resultMsg.append("<br>finish MRP to Organization " +org.getName());
 			}
-			resultMsg.append("<br> " +Msg.translate(getCtx(), "Created"));
-			resultMsg.append("<br> " +Msg.translate(getCtx(), "PP_Order_ID")+":"+count_MO);
-			resultMsg.append("<br> " +Msg.translate(getCtx(), "DD_Order_ID")+":"+count_DO);
-			resultMsg.append("<br> " +Msg.translate(getCtx(), "M_Requisition_ID")+":"+count_MR);
-			resultMsg.append("<br> " +Msg.translate(getCtx(), "AD_Note_ID")+":"+count_Msg);
-			resultMsg.append("<br>finish MRP for Plant" +plant.getName());
 		}		
-		commitEx();
 		//
-		return resultMsg.toString();
+		return "";
 	} 
 
-
+	protected String getDeleteSQLWhere(String where , Integer AD_Client_ID, Integer AD_Org_ID, Integer M_Warehouse_ID ,Integer S_Resource_ID, Integer M_Product_ID , String typeMRP)
+	{
+		StringBuilder whereClause = new StringBuilder();
+		whereClause
+				.append("EXISTS (SELECT 1 FROM PP_MRP mrp ")
+				.append(" INNER JOIN M_Product p ON (p.M_Product_ID=mrp.M_Product_ID) ")
+				.append(" LEFT JOIN PP_Product_Planning pp ON (pp.M_Product_ID = mrp.M_Product_ID AND mrp.M_Warehouse_ID = pp.M_Warehouse_ID) ")
+				.append(" WHERE ").append(where).append(" AND ");
+		whereClause.append(getSQLWhere(AD_Client_ID, AD_Org_ID, M_Warehouse_ID,
+				S_Resource_ID, M_Product_ID, null, typeMRP, Planning_Horizon));
+		whereClause.append(")");
+		return whereClause.toString();
+	}
+	
 	/**************************************************************************
 	 * Delete old record in MRP table to calculate again MRP and Document with Draft status 
 	 * @param AD_Client_ID Client_ID
@@ -272,42 +429,103 @@ public class MRP extends SvrProcess
 	 * @param M_Warehouse_ID Warehouse ID
 	 * @throws SQLException 
 	 */
-	protected void deleteMRP(int AD_Client_ID, int AD_Org_ID,int S_Resource_ID, int M_Warehouse_ID) throws SQLException
+	protected void deleteMRP(int AD_Client_ID, int AD_Org_ID,int S_Resource_ID, int M_Warehouse_ID, int M_Product_ID) throws SQLException
 	{
-		// Delete Manufacturing Order with Close Status from MRP Table
-		String sql = "DELETE FROM PP_MRP WHERE OrderType = 'MOP' AND DocStatus ='CL' AND AD_Client_ID=" + AD_Client_ID  + " AND AD_Org_ID=" + AD_Org_ID + " AND M_Warehouse_ID="+M_Warehouse_ID +  " AND S_Resource_ID="+S_Resource_ID ;					
-		DB.executeUpdateEx(sql, get_TrxName());
-		commitEx();
-		//Delete Manufacturing Order with Draft Status 
-		String whereClause = "DocStatus='DR' AND AD_Client_ID=? AND AD_Org_ID=? AND M_Warehouse_ID=? AND S_Resource_ID=?";
-		deletePO(MPPOrder.Table_Name, whereClause, new Object[]{AD_Client_ID, AD_Org_ID, M_Warehouse_ID, S_Resource_ID});
-
-		// Delete Requisition with Status Close from MRP Table
-		sql = "DELETE FROM PP_MRP WHERE OrderType = 'POR' AND DocStatus IN ('CL') AND AD_Client_ID = " + AD_Client_ID +  " AND AD_Org_ID=" + AD_Org_ID+ " AND M_Warehouse_ID="+M_Warehouse_ID;				
-		DB.executeUpdateEx(sql, get_TrxName());
-		commitEx();		
-		//Delete Requisition with Draft Status
-		whereClause = "DocStatus IN ('DR') AND AD_Client_ID=? AND AD_Org_ID=? AND M_Warehouse_ID=?";
-		deletePO(MRequisition.Table_Name, whereClause, new Object[]{AD_Client_ID, AD_Org_ID, M_Warehouse_ID});
-
-		// Delete Action Notice
-		sql = "DELETE FROM AD_Note WHERE AD_Table_ID=? AND AD_Client_ID=? AND AD_Org_ID=?";
-		DB.executeUpdateEx(sql, new Object[]{MPPMRP.Table_ID, AD_Client_ID, AD_Org_ID}, get_TrxName());
-		commitEx();
-
-		if (isRequiredDRP())
-		{
-			//Delete Distribution Order with Draft Status
-			whereClause = "DocStatus='DR' AND AD_Client_ID=? AND AD_Org_ID=?"
-						+" AND EXISTS (SELECT 1 FROM PP_MRP mrp WHERE  mrp.DD_Order_ID=DD_Order.DD_Order_ID)"
-						+" AND EXISTS (SELECT 1 FROM DD_OrderLine ol INNER JOIN  M_Locator l ON (l.M_Locator_ID=ol.M_LocatorTo_ID) "
-						+" WHERE ol.DD_Order_ID=DD_Order.DD_Order_ID AND l.M_Warehouse_ID=?)";
-			deletePO(MDDOrder.Table_Name, whereClause, new Object[]{AD_Client_ID, AD_Org_ID, M_Warehouse_ID});
-		}
-		
-		// Mark all supply MRP records as available
-		DB.executeUpdateEx("UPDATE PP_MRP SET IsAvailable ='Y' WHERE TypeMRP = 'S' AND AD_Client_ID = ? AND AD_Org_ID=? AND M_Warehouse_ID=?", new Object[]{AD_Client_ID,AD_Org_ID,M_Warehouse_ID} ,get_TrxName());
-		commitEx();
+			// Delete Action Notice
+			StringBuilder sql = new StringBuilder("DELETE FROM AD_Note WHERE ");
+			sql.append(
+					getDeleteSQLWhere("mrp." + MPPMRP.COLUMNNAME_PP_MRP_ID
+							+ " = Record_ID AND AD_Table_ID=" + MPPMRP.Table_ID,
+							AD_Client_ID, AD_Org_ID, null, null, M_Product_ID, null)).append(
+					" AND (Reference LIKE '%M_Warehouse_ID->" + M_Warehouse_ID
+							+ "%') OR  (Reference LIKE '%M_Product_ID->"
+							+ M_Product_ID + "%' )");
+			ArrayList<Object> myParameters = new ArrayList(parameters);
+			DB.executeUpdateEx(sql.toString(), myParameters.toArray(),
+					get_TrxName());
+			commitEx();
+	
+			// Apply Restrictions
+			StringBuilder whereClause = new StringBuilder(getDeleteSQLWhere(
+					"mrp."+ MPPMRP.COLUMNNAME_PP_MRP_ID + " = " + MPPMRP.COLUMNNAME_PP_MRP_ID, AD_Client_ID, AD_Org_ID,
+					M_Warehouse_ID, S_Resource_ID, M_Product_ID ,null));
+			// Delete Manufacturing Order with Close Status from MRP Table
+			// "DELETE FROM PP_MRP WHERE OrderType = 'MOP' AND DocStatus ='CL' AND AD_Client_ID="
+			// + AD_Client_ID + " AND AD_Org_ID=" + AD_Org_ID +
+			// " AND M_Warehouse_ID="+M_Warehouse_ID +
+			// " AND S_Resource_ID="+S_Resource_ID ;
+			myParameters = new ArrayList(parameters);
+			sql = new StringBuilder();
+			sql.append("DELETE FROM PP_MRP WHERE ").append(whereClause.toString())
+					.append(" AND ").append(MPPMRP.COLUMNNAME_OrderType)
+					.append("=? ").append("AND ")
+					.append(MPPMRP.COLUMNNAME_DocStatus).append("=? ");
+			myParameters.add(MPPMRP.ORDERTYPE_ManufacturingOrder);
+			myParameters.add(MPPMRP.DOCSTATUS_Closed);
+			DB.executeUpdateEx(sql.toString(), myParameters.toArray(),
+					get_TrxName());
+			commitEx();
+			// Delete Manufacturing Order with Draft Status
+			// "DocStatus='DR' AND AD_Client_ID=? AND AD_Org_ID=? AND M_Warehouse_ID=? AND S_Resource_ID=?";
+			String where = getDeleteSQLWhere("mrp." + MPPMRP.COLUMNNAME_PP_Order_ID + " = " + MPPMRP.COLUMNNAME_PP_Order_ID + " AND mrp." + MPPMRP.COLUMNNAME_PP_Order_BOMLine_ID + " IS NULL ",
+					AD_Client_ID, AD_Org_ID, M_Warehouse_ID, S_Resource_ID, M_Product_ID , null)
+					+ " AND DocStatus=?";
+			myParameters = new ArrayList(parameters);
+			myParameters.add(MPPMRP.DOCSTATUS_Drafted);
+			deletePO(MPPOrder.Table_Name, where, myParameters.toArray());
+	
+			// Delete Requisition with Status Close from MRP Table
+			// "DELETE FROM PP_MRP WHERE OrderType = 'POR' AND DocStatus IN ('CL') AND AD_Client_ID = "
+			// + AD_Client_ID + " AND AD_Org_ID=" + AD_Org_ID+
+			// " AND M_Warehouse_ID="+M_Warehouse_ID;
+			whereClause = new StringBuilder(getDeleteSQLWhere("mrp."+ MPPMRP.COLUMNNAME_PP_MRP_ID + " = " + MPPMRP.COLUMNNAME_PP_MRP_ID, AD_Client_ID, AD_Org_ID,
+					M_Warehouse_ID, null, M_Product_ID , null));
+			myParameters = new ArrayList(parameters);
+			sql = new StringBuilder();
+			sql.append("DELETE FROM PP_MRP WHERE ").append(whereClause.toString())
+					.append(" AND ").append(MPPMRP.COLUMNNAME_OrderType)
+					.append("=? ").append("AND ")
+					.append(MPPMRP.COLUMNNAME_DocStatus).append("=? ");
+			myParameters.add(MPPMRP.ORDERTYPE_PurchaseOrder);
+			myParameters.add(MPPMRP.DOCSTATUS_Closed);
+			DB.executeUpdateEx(sql.toString(), myParameters.toArray(),
+					get_TrxName());
+			commitEx();
+			// Delete Requisition with Draft Status
+			where = getDeleteSQLWhere("mrp." + MPPMRP.COLUMNNAME_M_Requisition_ID + " = " + MPPMRP.COLUMNNAME_M_Requisition_ID,
+					AD_Client_ID, AD_Org_ID, M_Warehouse_ID, null, M_Product_ID , null)
+					+ " AND DocStatus = ?";
+			myParameters = new ArrayList(parameters);
+			myParameters.add(MPPMRP.DOCSTATUS_Drafted);
+			deletePO(MRequisition.Table_Name, where, myParameters.toArray());
+	
+			if (isSynchronize()) {
+				// Delete Distribution Order with Draft Status
+				where = getDeleteSQLWhere("mrp." +  MPPMRP.COLUMNNAME_DD_Order_ID + " = " +  MPPMRP.COLUMNNAME_DD_Order_ID,
+						AD_Client_ID, AD_Org_ID, null, null, M_Product_ID , null)
+						+ " AND EXISTS (SELECT 1 FROM DD_OrderLine ol INNER JOIN  M_Locator l ON (l.M_Locator_ID=ol.M_LocatorTo_ID) "
+						+ " WHERE ol.DD_Order_ID=DD_Order.DD_Order_ID AND l.M_Warehouse_ID=? AND DocStatus=?)";
+				myParameters = new ArrayList(parameters);
+				myParameters.add(M_Warehouse_ID);
+				myParameters.add(MPPMRP.DOCSTATUS_Drafted);
+				deletePO(MDDOrder.Table_Name, where, myParameters.toArray());
+			}
+	
+			// Mark all supply MRP records as available
+			// "UPDATE PP_MRP SET IsAvailable ='Y' WHERE TypeMRP = 'S' AND AD_Client_ID = ? AND AD_Org_ID=? AND M_Warehouse_ID=?"
+			whereClause = new StringBuilder(getDeleteSQLWhere(
+					"mrp."+ MPPMRP.COLUMNNAME_PP_MRP_ID + " = " + MPPMRP.COLUMNNAME_PP_MRP_ID, AD_Client_ID, AD_Org_ID,
+					M_Warehouse_ID, null, M_Product_ID  , MPPMRP.TYPEMRP_Supply));
+			sql = new StringBuilder();
+			sql.append("UPDATE PP_MRP SET IsAvailable ='Y' WHERE ").append(
+					whereClause.toString());
+			DB.executeUpdateEx(sql.toString(), parameters.toArray(), get_TrxName());
+			commitEx();
+			//Remove MRP Detail
+			sql = new StringBuilder("DELETE FROM PP_MRP_Detail WHERE NOT EXISTS (SELECT 1 FROM PP_MRP WHERE PP_MRP_ID=PP_MRP_Detail.MRP_Supply_ID)");
+			DB.executeUpdateEx(sql.toString(), get_TrxName());
+			commitEx();
+			
 	}
 
 	/**************************************************************************
@@ -318,15 +536,12 @@ public class MRP extends SvrProcess
 	 * @throws SQLException 
 	 */
 	protected String runMRP(int AD_Client_ID , int AD_Org_ID, int S_Resource_ID , int M_Warehouse_ID) throws SQLException
-	{
-		deleteMRP(AD_Client_ID,AD_Org_ID,S_Resource_ID,M_Warehouse_ID);
-		
+	{	
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
 		{
 			MProduct product = null;                                                                       
-
 			int BeforePP_MRP_ID = 0;						
 			Timestamp  BeforeDateStartSchedule = null;
 			Timestamp  POQDateStartSchedule = null;
@@ -337,26 +552,19 @@ public class MRP extends SvrProcess
 			for (int level = 0 ; level <= lowlevel ; level++)
 			{
 				log.info("Current Level Is :" + level);
-				String sql = "SELECT mrp.M_Product_ID, mrp.LowLevel, mrp.Qty, mrp.DatePromised"
-							+", mrp.TypeMRP, mrp.OrderType, mrp.DateOrdered, mrp.M_Warehouse_ID"
-							+", mrp.PP_MRP_ID, mrp.DateStartSchedule, mrp.DateFinishSchedule"
-							+" FROM RV_PP_MRP mrp"
-							+" WHERE mrp.TypeMRP=?"
-							+" AND mrp.AD_Client_ID=?"
-							+" AND mrp.AD_Org_ID=? "
-							+" AND mrp.M_Warehouse_ID=?"
-							+" AND mrp.DatePromised<=?"
-							+" AND COALESCE(mrp.LowLevel,0)=? "
-							+(p_M_Product_ID > 0 ? " AND mrp.M_Product_ID="+p_M_Product_ID : "")
-							+" ORDER BY  mrp.M_Product_ID , mrp.DatePromised";
-				pstmt = DB.prepareStatement (sql, get_TrxName());
-				pstmt.setString(1, MPPMRP.TYPEMRP_Demand);
-				pstmt.setInt(2, AD_Client_ID);
-				pstmt.setInt(3, AD_Org_ID);
-				pstmt.setInt(4, M_Warehouse_ID);
-				pstmt.setTimestamp(5, Planning_Horizon);
-				pstmt.setInt(6, level);
+				StringBuilder sql = new StringBuilder();
+				sql.append(
+						"SELECT mrp.M_Product_ID, mrp.LowLevel, mrp.Qty, mrp.DatePromised")
+						.append(",mrp.TypeMRP, mrp.OrderType, mrp.DateOrdered, mrp.M_Warehouse_ID")
+						.append(",mrp.PP_MRP_ID, mrp.DateStartSchedule, mrp.DateFinishSchedule")
+						.append(" FROM RV_PP_MRP mrp WHERE 1=1 ")
+						.append(getSQLWhere(AD_Client_ID, AD_Org_ID, M_Warehouse_ID, null, null , level, MPPMRP.TYPEMRP_Demand, Planning_Horizon))
+						.append(" ORDER BY  mrp.M_Product_ID , mrp.DatePromised");
+							
+				pstmt = DB.prepareStatement (sql.toString(), get_TrxName());
+				DB.setParameters(pstmt, parameters);
 				rs = pstmt.executeQuery();
+				log.info("Records "+ rs.getFetchSize()+ " to process for Low Code:" + level);
 				while (rs.next())
 				{
 					final int PP_MRP_ID = rs.getInt(MPPMRP.COLUMNNAME_PP_MRP_ID);
@@ -403,11 +611,15 @@ public class MRP extends SvrProcess
 							// * is out of Planning Horizon
 							QtyGrossReqs = Env.ZERO;
 						}
+						
+						//Setting MRP Change net Update out the model validator and out transaction
+						if(m_product_planning != null)
+							MPPMRP.setIsRequired(m_product_planning, MPPProductPlanning.COLUMNNAME_IsRequiredMRP , false);
 
 						// Load Product & define Product Data Planning
 						product = MProduct.get(getCtx(), M_Product_ID);
 						log.info("Calculte Plan to this Product:" + product);
-						setProduct(AD_Client_ID,AD_Org_ID ,S_Resource_ID , M_Warehouse_ID,  product);
+						setProduct(AD_Client_ID,AD_Org_ID ,S_Resource_ID , M_Warehouse_ID,  product, PP_MRP_ID);
 						
 						// If No Product Planning found, go to next MRP record 
 						if (m_product_planning == null)
@@ -418,6 +630,8 @@ public class MRP extends SvrProcess
 							POQDateStartSchedule =null;
 						}
 					} // new product
+					
+					demands.put(PP_MRP_ID, Qty);
 					
 					// If No Product Planning found, go to next MRP record 
 					if (m_product_planning == null)
@@ -447,7 +661,7 @@ public class MRP extends SvrProcess
 					if(DatePromised.compareTo(getToday()) < 0)
 					{
 						String comment = Msg.translate(getCtx(), MPPOrder.COLUMNNAME_DatePromised)
-										 + ": " + DatePromised;
+										 + " : " + DatePromised;
 						createMRPNote("MRP-150", AD_Org_ID, PP_MRP_ID, product, MPPMRP.getDocumentNo(PP_MRP_ID), 
 								Qty, comment);
 					}
@@ -490,7 +704,6 @@ public class MRP extends SvrProcess
 					{
 						calculatePlan(AD_Client_ID,AD_Org_ID,M_Warehouse_ID,BeforePP_MRP_ID , product ,BeforeDateStartSchedule );
 					}	
-					
 				}
 				else if (product != null)
 				{
@@ -502,7 +715,7 @@ public class MRP extends SvrProcess
 							product, 
 							null);					
 				}
-
+				createMRPPegging();
 				DB.close(rs, pstmt);
 			} // end for
 		} // try
@@ -517,6 +730,7 @@ public class MRP extends SvrProcess
 
 		return "ok";
 	}
+	
 
 	/**************************************************************************
 	 * 	Define the product to calculate plan
@@ -526,8 +740,10 @@ public class MRP extends SvrProcess
 	 *	@param MProduct
 	 * @throws SQLException 
 	 */
-	private void setProduct(int AD_Client_ID , int AD_Org_ID, int S_Resource_ID , int M_Warehouse_ID, MProduct product) throws SQLException
+	private void setProduct(int AD_Client_ID , int AD_Org_ID, int S_Resource_ID , int M_Warehouse_ID, MProduct product, int PP_MRP_ID) throws SQLException
 	{
+		createMRPPegging();
+		deleteMRP(AD_Client_ID, AD_Org_ID, S_Resource_ID, M_Warehouse_ID, product.getM_Product_ID());
 		DatePromisedTo = null;
 		DatePromisedFrom = null;
 		//
@@ -545,6 +761,7 @@ public class MRP extends SvrProcess
 		}
 
 		QtyProjectOnHand = getQtyOnHand(m_product_planning);
+		
 		if(QtyProjectOnHand.signum() < 0)
 		{
 			String comment = Msg.translate(getCtx(), MStorage.COLUMNNAME_QtyOnHand) 
@@ -553,7 +770,8 @@ public class MRP extends SvrProcess
 			//Beginning Quantity Less Than Zero
 			//Indicates that the quantity on hand is negative.
 			createMRPNote("MRP-140", AD_Org_ID, 0, product , null , QtyProjectOnHand , comment);
-		}
+		} else if(QtyProjectOnHand.signum() > 0)
+			supplies.put(0, QtyProjectOnHand);
 		
 		// Quantity Project On hand 100 
 		// Safety Stock 150
@@ -562,9 +780,9 @@ public class MRP extends SvrProcess
 				&& m_product_planning.getSafetyStock().compareTo(QtyProjectOnHand) > 0)
 		{
 			String comment = Msg.translate(getCtx(), MStorage.COLUMNNAME_QtyOnHand) 
-							+ ": " + QtyProjectOnHand
-							+ " "  +  Msg.translate(getCtx(), I_PP_Product_Planning.COLUMNNAME_SafetyStock)
-							+ ": " + m_product_planning.getSafetyStock();
+							+ " : " + QtyProjectOnHand
+							+ "\n"  +  Msg.translate(getCtx(), I_PP_Product_Planning.COLUMNNAME_SafetyStock)
+							+ " : " + m_product_planning.getSafetyStock();
 			createMRPNote("MRP-001", AD_Org_ID, 0, product , null , QtyProjectOnHand , comment);
 		}
 		log.info("QtyOnHand :" + QtyProjectOnHand);
@@ -580,7 +798,10 @@ public class MRP extends SvrProcess
 		}
 		MPPProductPlanning pp2 = new MPPProductPlanning(getCtx(), 0 , null);                                                       
 		MPPProductPlanning.copyValues(pp, pp2);
-		pp2.setIsRequiredDRP(isRequiredDRP());
+		
+		pp2.setAD_Org_ID(pp.getAD_Org_ID());
+		
+		pp2.setIsRequiredDRP(isSynchronize());
 		//
 		if (pp2.getPP_Product_BOM_ID() <= 0 && product.isBOM())
 		{
@@ -592,7 +813,7 @@ public class MRP extends SvrProcess
 		} 
 		if (pp2.getPlanner_ID() <= 0)
 		{
-			pp2.setPlanner_ID(getPlanner_ID());
+			pp2.setPlanner_ID(getPlanner_ID() == null ? Env.getAD_User_ID(getCtx()) : getPlanner_ID());
 		}
 		if(pp2.getM_Warehouse_ID() <= 0)
 		{
@@ -608,7 +829,7 @@ public class MRP extends SvrProcess
 		}
 
 		//Find Vendor
-		if (!isRequiredDRP())
+		if (!isSynchronize())
 		{	
 			if(product.isPurchased())
 			{    
@@ -726,7 +947,7 @@ public class MRP extends SvrProcess
 			if (m_product_planning.getOrder_Min().compareTo(QtyPlanned) > 0)
 			{
 				String comment = Msg.translate(getCtx(), I_PP_Product_Planning.COLUMNNAME_Order_Min) 
-								+ ":" + m_product_planning.getOrder_Min();
+								+ " : " + m_product_planning.getOrder_Min();
 				createMRPNote("MRP-080", AD_Org_ID, PP_MRP_ID, product , null, QtyPlanned, comment);
 			}
 			QtyPlanned = QtyPlanned.max(m_product_planning.getOrder_Min());
@@ -740,7 +961,7 @@ public class MRP extends SvrProcess
 		if(QtyPlanned.compareTo(m_product_planning.getOrder_Max()) > 0 && m_product_planning.getOrder_Max().signum() > 0)
 		{   
 			String comment = Msg.translate(getCtx(), I_PP_Product_Planning.COLUMNNAME_Order_Max) 
-								+ ":" + m_product_planning.getOrder_Max();
+								+ " : " + m_product_planning.getOrder_Max();
 			createMRPNote("MRP-090", AD_Org_ID, PP_MRP_ID, product  , null , QtyPlanned , comment); 
 		}                        
 
@@ -756,13 +977,13 @@ public class MRP extends SvrProcess
 		// of the requirement that created the demand.
 		if(TimeFence != null && DemandDateStartSchedule.compareTo(TimeFence) < 0)
 		{
-			String comment =  Msg.translate(getCtx(), I_PP_Product_Planning.COLUMNNAME_TimeFence) 
-							+ ":" + m_product_planning.getTimeFence()
+			String comment = Msg.translate(getCtx(), I_PP_Product_Planning.COLUMNNAME_TimeFence) 
+							+ " : " + m_product_planning.getTimeFence()
 							+ "-"
 							+ Msg.getMsg(getCtx(), "Date")
-							+ ":" + TimeFence + " "
+							+ " : " + TimeFence + " "
 							+ Msg.translate(getCtx(), MPPOrder.COLUMNNAME_DatePromised)
-							+ ":" + DemandDateStartSchedule;
+							+ " : " + DemandDateStartSchedule;
 			createMRPNote("MRP-100", AD_Org_ID, PP_MRP_ID, product , null , QtyPlanned , comment);
 		}
 		
@@ -794,7 +1015,7 @@ public class MRP extends SvrProcess
 				}
 				catch (Exception e)
 				{
-					// MRP-160 - Cannot Create Document
+					// on - Cannot Create Document
 					// Indicates that there was an error during document creation
 					createMRPNote("MRP-160", AD_Org_ID, PP_MRP_ID, product, QtyPlanned, DemandDateStartSchedule, e);
 				}
@@ -818,9 +1039,9 @@ public class MRP extends SvrProcess
 	 */
 	protected void createSupply(int AD_Org_ID, int PP_MRP_ID, MProduct product, BigDecimal QtyPlanned ,Timestamp DemandDateStartSchedule)
 	throws AdempiereException, SQLException
-	{
+	{		
 		// Distribution Order
-		if(isRequiredDRP() && m_product_planning.getDD_NetworkDistribution_ID() > 0)
+		if(isSynchronize() && m_product_planning.getDD_NetworkDistribution_ID() > 0)
 		{
 			createDDOrder(AD_Org_ID, PP_MRP_ID, product, QtyPlanned, DemandDateStartSchedule);
 		}
@@ -839,6 +1060,77 @@ public class MRP extends SvrProcess
 			throw new IllegalStateException("MRP Internal Error: Don't know what document to "
 											+"create for "+product+"("+m_product_planning+")");
 		}
+		commitEx();
+	}
+	
+	private void createMRPPegging() {
+		if (demands == null || demands.size() == 0 || supplies == null
+				|| supplies.size() == 0)
+			return;
+
+		Iterator<Entry<Integer, BigDecimal>> iteratorDemands = demands
+				.entrySet().iterator();
+		Iterator<Entry<Integer, BigDecimal>> iteratorSupplies = supplies
+				.entrySet().iterator();
+		while (iteratorSupplies.hasNext()) {
+			Entry<Integer, BigDecimal> supply = iteratorSupplies.next();
+
+			while (iteratorDemands.hasNext()) {
+				Entry<Integer, BigDecimal> demand = iteratorDemands.next();
+				if (demand.getValue().signum() <= 0) {
+					iteratorDemands.remove();
+					continue;
+				}
+
+				if (supply.getValue().signum() > 0) {
+					MPPMRPDetail detail = new MPPMRPDetail(getCtx(), 0,
+							get_TrxName());
+					detail.setMRP_Demand_ID(demand.getKey());
+					detail.setMRP_Supply_ID(supply.getKey());
+					if (supply.getValue().compareTo(demand.getValue()) >= 0) {
+						detail.setQty(demand.getValue());
+						detail.saveEx();
+						supply.setValue(supply.getValue().subtract(
+								demand.getValue()));
+						iteratorDemands.remove();
+						if (supply.getValue().signum() == 0) {
+							iteratorSupplies.remove();
+							break;
+						}
+					} else {
+						detail.setQty(supply.getValue());
+						detail.saveEx();
+						demand.setValue(demand.getValue().subtract(
+								supply.getValue()));
+						iteratorSupplies.remove();
+						break;
+					}
+
+				}
+			}
+		}
+
+		demands = new LinkedHashMap<Integer, BigDecimal>();
+		supplies = new LinkedHashMap<Integer, BigDecimal>();
+	}
+	
+	private MPPMRP getSupply(String columnMaster, Integer master_id,
+			String columnDetail, Integer detail_id) {
+		final StringBuilder whereClause = new StringBuilder(
+				MPPMRP.COLUMNNAME_TypeMRP).append("=? AND ")
+				.append(columnMaster).append("=? ");
+
+		List<Object> parameters = new ArrayList<Object>();
+		parameters.add(MPPMRP.TYPEMRP_Supply);
+		parameters.add(master_id);
+
+		if (columnDetail != null && detail_id != null) {
+			whereClause.append(" AND ").append(columnDetail).append("=?");
+			parameters.add(detail_id);
+		}
+
+		return new Query(getCtx(), MPPMRP.Table_Name, whereClause.toString(),
+				get_TrxName()).setClient_ID().setParameters(parameters).first();
 	}
 	
 	protected void createDDOrder(int AD_Org_ID, int PP_MRP_ID, MProduct product,BigDecimal QtyPlanned ,Timestamp DemandDateStartSchedule)
@@ -851,6 +1143,9 @@ public class MRP extends SvrProcess
 		//TODO vpj-cd I need to create logic for DRP-050 Shipment Pas Due  Action Notice
 		//Indicates that a shipment for a Order Distribution is past due. You should either delay the orders created the requirement for the product 
 		//or expedite them when the product does arrive.
+		
+		//Setting DRP Change net Update out the model validator
+		MPPMRP.setIsRequired(m_product_planning, MPPProductPlanning.COLUMNNAME_IsRequiredDRP , false);
 		
 		if(m_product_planning.getDD_NetworkDistribution_ID() == 0)
 		{
@@ -875,16 +1170,16 @@ public class MRP extends SvrProcess
 			MWarehouse target = MWarehouse.get(getCtx(), network_line.getM_Warehouse_ID());
 			MLocator locator_to =target.getDefaultLocator(); 
 			//get the transfer time
-			BigDecimal transfertTime = network_line.getTransfertTime(); 
-			if(transfertTime.compareTo(Env.ZERO) <= 0)
+			BigDecimal transferTime = network_line.getTransferTime(); 
+			if(transferTime.compareTo(Env.ZERO) <= 0)
 			{
-				transfertTime = m_product_planning.getTransfertTime();
+				transferTime = m_product_planning.getTransferTime();
 			}
 
 			if (locator == null || locator_to == null)
 			{
 				String comment = Msg.translate(getCtx(), MDDNetworkDistributionLine.COLUMNNAME_M_WarehouseSource_ID)
-								 + ":" + source.getName();
+								 + " : " + source.getName();
 				createMRPNote("DRP-001", AD_Org_ID, PP_MRP_ID, product , null , null , comment);
 				continue;
 			}
@@ -894,7 +1189,7 @@ public class MRP extends SvrProcess
 			if (wsts == null || wsts.length == 0)
 			{					
 				String comment = Msg.translate(getCtx(), MOrg.COLUMNNAME_Name)
-				 + ":" + MOrg.get(getCtx(), AD_Org_ID).getName();
+				 + " : " + MOrg.get(getCtx(), AD_Org_ID).getName();
 				createMRPNote("DRP-010", AD_Org_ID, PP_MRP_ID, product , null , null , comment);
 				continue;
 			}
@@ -902,7 +1197,7 @@ public class MRP extends SvrProcess
 			if(network_line.getM_Shipper_ID()==0)
 			{
 				String comment = Msg.translate(getCtx(), MDDNetworkDistribution.COLUMNNAME_Name) 
-				+ ":" + network.getName();
+				+ " : " + network.getName();
 				createMRPNote("DRP-030", AD_Org_ID, PP_MRP_ID, product , null , null , comment);
 				continue;
 			}
@@ -916,7 +1211,7 @@ public class MRP extends SvrProcess
 				if (C_BPartner_ID == 0)
 				{
 					String comment = Msg.translate(getCtx(), MOrg.COLUMNNAME_Name)
-					 + ":" + MOrg.get(getCtx(), AD_Org_ID).getName();
+					 + " : " + MOrg.get(getCtx(), AD_Org_ID).getName();
 					createMRPNote("DRP-020", AD_Org_ID, PP_MRP_ID, product, null , null , comment);
 					continue;
 				}
@@ -935,7 +1230,7 @@ public class MRP extends SvrProcess
 					order.setC_DocType_ID(docTypeDO_ID);  
 					order.setM_Warehouse_ID(wsts[0].get_ID());
 					order.setDocAction(MDDOrder.DOCACTION_Complete);
-					order.setDateOrdered(TimeUtil.addDays(DemandDateStartSchedule , (m_product_planning.getDeliveryTime_Promised().add(transfertTime)).negate().intValueExact()));                       
+					order.setDateOrdered(TimeUtil.addDays(DemandDateStartSchedule , (m_product_planning.getDeliveryTime_Promised().add(transferTime)).negate().intValueExact()));                       
 					order.setDatePromised(DemandDateStartSchedule);
 					order.setM_Shipper_ID(network_line.getM_Shipper_ID());	    	                
 					order.setIsInDispute(false);
@@ -970,9 +1265,6 @@ public class MRP extends SvrProcess
 			oline.setTargetQty(MPPMRP.getQtyReserved(getCtx(), target.getM_Warehouse_ID(), m_product_planning.getM_Product_ID(), DemandDateStartSchedule, get_TrxName()));
 			oline.setIsInvoiced(false);
 			oline.saveEx();
-
-
-
 			// Set Correct Dates for Plan
 			final String whereClause = MPPMRP.COLUMNNAME_DD_OrderLine_ID+"=?";
 			List<MPPMRP> mrpList = new Query(getCtx(), MPPMRP.Table_Name, whereClause, get_TrxName())
@@ -986,11 +1278,11 @@ public class MRP extends SvrProcess
 				mrp.setDatePromised(DemandDateStartSchedule);
 				mrp.setDateFinishSchedule(DemandDateStartSchedule);
 				mrp.saveEx();
+				if(MPPMRP.TYPEMRP_Supply.equals(mrp.getTypeMRP()))
+					supplies.put(mrp.get_ID(), mrp.getQty());
 			}
 			count_DO += 1;
 		}
-		
-		commitEx();
 	}
 	
 	protected void createRequisition(int AD_Org_ID, int PP_MRP_ID, MProduct product, BigDecimal QtyPlanned, Timestamp DemandDateStartSchedule)
@@ -1032,9 +1324,7 @@ public class MRP extends SvrProcess
 		reqline.setPriceActual(Env.ZERO);
 		reqline.setQty(QtyPlanned);
 		reqline.saveEx();
-
-
-
+	
 		// Set Correct Dates for Plan
 		final String whereClause = MPPMRP.COLUMNNAME_M_Requisition_ID+"=?";
 		List<MPPMRP> mrpList = new Query(getCtx(), MPPMRP.Table_Name, whereClause, get_TrxName())
@@ -1048,9 +1338,10 @@ public class MRP extends SvrProcess
 			mrp.setDateStartSchedule(req.getDateDoc());                                                            
 			mrp.setDateFinishSchedule(DemandDateStartSchedule);
 			mrp.saveEx();
+			if(MPPMRP.TYPEMRP_Supply.equals(mrp.getTypeMRP()))
+				supplies.put(mrp.get_ID(), mrp.getQty());
 
 		}
-		commitEx();	
 		count_MR += 1;
 	}
 	
@@ -1100,12 +1391,14 @@ public class MRP extends SvrProcess
 		order.setPriorityRule(MPPOrder.PRIORITYRULE_Medium);
 		order.setDocAction(MPPOrder.DOCACTION_Complete);
 		order.saveEx();
-		commitEx();
+
+		MPPMRP mrp = getSupply(MPPOrder.COLUMNNAME_PP_Order_ID, order.get_ID(), null , null);
+		supplies.put(mrp.get_ID(), mrp.getQty());
 		
 		count_MO += 1;
-	}
-	
-	private void deletePO(String tableName, String whereClause, Object[] params) throws SQLException
+	}	
+
+	private void deletePO(String tableName, String whereClause, Object ...params) throws SQLException
 	{
 		// TODO: refactor this method and move it to org.compiere.model.Query class
 		POResultSet<PO> rs = new Query(getCtx(), tableName, whereClause, get_TrxName())
@@ -1135,6 +1428,7 @@ public class MRP extends SvrProcess
 	 */
 	protected void createMRPNote(String code, int AD_Org_ID, int PP_MRP_ID, MProduct product, String documentNo, BigDecimal qty, String comment) throws SQLException
 	{
+		int M_Warehouse_ID = MPPMRP.getM_Warehouse_ID(PP_MRP_ID, get_TrxName());
 		documentNo = documentNo != null ? documentNo : "";
 		comment = comment != null ? comment : "";
 		qty = qty != null ? qty : Env.ZERO;
@@ -1145,7 +1439,7 @@ public class MRP extends SvrProcess
 		{
 			msg = MMessage.get(getCtx(), "MRP-999");
 		}
-		String message = Msg.getMsg(getCtx(), msg.getValue());
+		String message =  msg.getValue() + " "+ Msg.getMsg(getCtx(), msg.getValue());
 		
 		int user_id = 0;
 		if (m_product_planning != null)
@@ -1153,35 +1447,48 @@ public class MRP extends SvrProcess
 			user_id = m_product_planning.getPlanner_ID();
 		}
 		
-		String reference = "";
+		if(M_Warehouse_ID > 0)
+		{
+			String warehouseName = DB.getSQLValueString(get_TrxName(),
+					"SELECT Name FROM M_Warehouse  WHERE M_Warehouse_ID=? ",
+					MPPMRP.getM_Warehouse_ID(PP_MRP_ID, get_TrxName()));
+			message += "\n" + Msg.translate(getCtx(),MPPMRP.COLUMNNAME_M_Warehouse_ID) + " : " + warehouseName;
+		}
+		
 		if (product != null)
 		{
-			reference = product.getValue() + " " + product.getName();
+			message += "\n" + Msg.translate(getCtx(),MPPMRP.COLUMNNAME_M_Product_ID) + " : " + product.getValue() +  " " + product.getName();
 		}
 		
 		if (!Util.isEmpty(documentNo, true))
 		{
-			message += " " + Msg.translate(getCtx(), MPPOrder.COLUMNNAME_DocumentNo) +":" + documentNo;
+			message += "\n" + Msg.getElement(getCtx(), MPPOrder.COLUMNNAME_DocumentNo) +" : " + documentNo;
 		}
 		if (qty != null)
 		{
-			message += " " + Msg.translate(getCtx(), "QtyPlan") + ":" + qty;
+			message += "\n" + Msg.translate(getCtx(), "QtyPlan") + " : " + qty;
 		}
 		if (!Util.isEmpty(comment, true))
 		{
-	        message +=  " " + comment;
+	        message +=  "\n" + comment;
 		}
+		String reference = "";
+		if(PP_MRP_ID > 0)
+		{	
+			reference = "M_Warehouse_ID" + "->"+ M_Warehouse_ID +  " | "; 
+		}
+			reference = (reference != "" ? reference :  reference) + "M_Product_ID" + "->" + product.get_ID();
 	
 		MNote note = new MNote(getCtx(),
 							msg.getAD_Message_ID(),
 							user_id,
 							MPPMRP.Table_ID, PP_MRP_ID,
-							reference,
+							reference ,
 							message,
 							get_TrxName());
 		note.setAD_Org_ID(AD_Org_ID);
+		//note.setDescription(description);
 		note.saveEx();
-		commitEx(); 
 		log.info(code+": "+note.getTextMsg());  
 		count_Msg += 1;
 	}
@@ -1253,7 +1560,7 @@ public class MRP extends SvrProcess
 	private BigDecimal getNetRequirements(int AD_Client_ID, int AD_Org_ID, 
 											int M_Warehouse_ID, MProduct product,
 											Timestamp DemandDateStartSchedule) throws SQLException
-	{
+	{		
 		BigDecimal QtyNetReqs = QtyProjectOnHand.subtract(QtyGrossReqs);
 		
 		final String whereClause =
@@ -1286,6 +1593,7 @@ public class MRP extends SvrProcess
 			if (mrp.isReleased())
 			{
 				QtyScheduledReceipts = QtyScheduledReceipts.add(mrp.getQty());
+				supplies.put(mrp.get_ID(), mrp.getQty());
 			}
 			
 			if(DemandDateStartSchedule != null)
@@ -1300,9 +1608,9 @@ public class MRP extends SvrProcess
 						&& mrp.getDateStartSchedule().compareTo(DemandDateStartSchedule) < 0)
 				{
 					String comment = Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DateStartSchedule)
-									 + ":" + mrp.getDateStartSchedule()
-									 + " " + Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DatePromised)
-									 + ":" + DemandDateStartSchedule;
+									 + " : " + mrp.getDateStartSchedule()
+									 + "\n" + Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DatePromised)
+									 + " : " + DemandDateStartSchedule;
 					createMRPNote("MRP-030",  mrp, product, comment);
 				}
 				
@@ -1316,9 +1624,9 @@ public class MRP extends SvrProcess
 						&& mrp.getDateStartSchedule().compareTo(DemandDateStartSchedule) > 0)
 				{
 					String comment = Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DateStartSchedule)
-									 + ":" + mrp.getDateStartSchedule()
-									 + " " + Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DatePromised)
-									 + ":" + DemandDateStartSchedule;
+									 + " : " + mrp.getDateStartSchedule()
+									 + "\n " + Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DatePromised)
+									 + " : " + DemandDateStartSchedule;
 					createMRPNote("MRP-040",  mrp, product, comment);
 				}
 				
@@ -1331,7 +1639,7 @@ public class MRP extends SvrProcess
 						&& mrp.getDatePromised().compareTo(getToday()) >= 0)
 				{
 					String comment =  Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DatePromised)
-					 					+ ":" + mrp.getDatePromised();
+					 					+ " : " + mrp.getDatePromised();
 					createMRPNote("MRP-060",  mrp, product, comment);
 				}
 				
@@ -1345,7 +1653,7 @@ public class MRP extends SvrProcess
 						&& mrp.getDatePromised().compareTo(getToday()) < 0)
 				{
 					String comment =  Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DatePromised)
-					 					+ ":" + mrp.getDatePromised();
+					 					+ " : " + mrp.getDatePromised();
 					createMRPNote("MRP-070",  mrp, product, comment);
 				}
 				
@@ -1357,7 +1665,7 @@ public class MRP extends SvrProcess
 						&& mrp.getDatePromised().compareTo(getToday()) < 0)
 				{
 					String comment =  Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DatePromised)
-									 + ":" + mrp.getDatePromised();
+									 + " : " + mrp.getDatePromised();
 					createMRPNote("MRP-110",  mrp, product, comment);
 				}
 				
@@ -1379,7 +1687,7 @@ public class MRP extends SvrProcess
 						&& QtyScheduledReceipts.signum() > 0)
 				{
 					String comment = Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DatePromised)
-					 				+ ":" + mrp.getDatePromised();
+					 				+ " : " + mrp.getDatePromised();
 					createMRPNote("MRP-050",  mrp, product, comment);
 				}
 				
@@ -1393,36 +1701,6 @@ public class MRP extends SvrProcess
 		return QtyNetReqs;
 	}
 	
-	protected int getDocType(String docBaseType, int AD_Org_ID)
-	{
-		MDocType[] docs = MDocType.getOfDocBaseType(getCtx(), docBaseType);
-
-		if (docs == null || docs.length == 0) 
-		{
-			String reference = Msg.getMsg(getCtx(), "SequenceDocNotFound");
-			String textMsg = "Not found default document type for docbasetype "+ docBaseType;
-			MNote note = new MNote(getCtx(), MMessage.getAD_Message_ID (getCtx(), "SequenceDocNotFound"),
-									getPlanner_ID(), MPPMRP.Table_ID, 0,
-									reference,
-									textMsg,
-									get_TrxName());
-			note.saveEx();
-			throw new AdempiereException(textMsg);
-		} 
-		else
-		{
-			for(MDocType doc:docs)
-			{
-				if(doc.getAD_Org_ID()==AD_Org_ID)
-				{
-					return doc.getC_DocType_ID();
-				}
-			}
-			log.info("Doc Type for "+docBaseType+": "+ docs[0].getC_DocType_ID());
-			return docs[0].getC_DocType_ID();
-		}
-	}
-	
 	/**
 	 * get BOMType
 	 * @return
@@ -1434,6 +1712,122 @@ public class MRP extends SvrProcess
 		
 		String BOMType = DB.getSQLValueString(get_TrxName(), "SELECT BOMType FROM PP_Product_BOM WHERE PP_Product_BOM_ID = ?" , m_product_planning.getPP_Product_BOM_ID());
 		return BOMType;
+	}
+	
+	private String getSQLWhere(Integer AD_Client_ID, Integer AD_Org_ID , Integer M_Warehouse_ID, Integer S_Resource_ID,Integer M_Product_ID , Integer LowLevel, String typeMRP ,Timestamp DatePromised)
+	{
+		StringBuilder whereClause = new StringBuilder();
+		parameters = new ArrayList<Object>();
+		// General Parameters
+		// Get Demand records
+		if(M_Product_ID != null)
+		{	
+			whereClause.append("mrp.").append(MPPMRP.COLUMNNAME_M_Product_ID).append("=? ");
+			parameters.add(M_Product_ID);
+		}
+		if(typeMRP != null)
+		{	
+			whereClause.append(" AND ").append("mrp.").append(MPPMRP.COLUMNNAME_TypeMRP).append("=?");
+			parameters.add(typeMRP);
+		}
+		// Set Planning Dimensions
+		if(AD_Client_ID !=null && AD_Client_ID > 0 )
+		{	
+			whereClause.append(" AND ").append("mrp.").append(MPPMRP.COLUMNNAME_AD_Client_ID).append("=? ");
+			parameters.add(AD_Client_ID);
+		}
+		if(AD_Org_ID != null && AD_Org_ID > 0)
+		{	
+			whereClause.append(" AND ").append("mrp.").append(MPPMRP.COLUMNNAME_AD_Org_ID).append("=? ");
+			parameters.add(AD_Org_ID);
+		}
+		if(M_Warehouse_ID != null && M_Warehouse_ID > 0)
+		{	
+			whereClause.append(" AND ").append("mrp.").append(MPPMRP.COLUMNNAME_M_Warehouse_ID).append("=? ");
+			parameters.add(M_Warehouse_ID);
+		}
+		if(S_Resource_ID != null && S_Resource_ID > 0)
+		{	
+			whereClause.append(" AND ").append("mrp.").append(MPPMRP.COLUMNNAME_S_Resource_ID).append("=? ");
+			parameters.add(S_Resource_ID);
+		}
+		// Set MRP Horizontal
+		if(DatePromised != null)
+		{	
+			whereClause.append(" AND ").append("mrp.").append(MPPMRP.COLUMNNAME_DatePromised).append("<=? ");
+			parameters.add(DatePromised);
+		}
+		// Set Maximum Low Level
+		if(LowLevel != null )
+		{	
+		whereClause.append(" AND ").append("COALESCE(LowLevel,0)=? ");
+		parameters.add(LowLevel);
+		}
+
+		if (EXECUTION_MODE == MRP_Selective) {
+			if (isMPS() != null) {
+				whereClause.append(" AND ").append(MPPProductPlanning.COLUMNNAME_IsMPS).append("=?");
+				parameters.add(isMPS());
+			}
+			if (isMRP() != null) {
+				whereClause.append(" AND ").append(MPPProductPlanning.COLUMNNAME_IsRequiredMRP)
+						.append("=?");
+				parameters.add(isMRP());
+			}
+			if (isDRP() != null) {
+				whereClause.append(" AND ").append(MPPProductPlanning.COLUMNNAME_IsRequiredDRP)
+						.append("=?");
+				parameters.add(isDRP());
+			}
+			if (isMfg() != null) {
+				whereClause.append(" AND ").append(MProduct.COLUMNNAME_IsBOM).append("=?");
+				parameters.add(isMfg());
+			}
+			if (isPur() != null) {
+				whereClause.append(" AND ").append(MProduct.COLUMNNAME_IsPurchased).append("=?");
+				parameters.add(isPur());
+			}
+			if (isLowLevel() != null) {
+				// Calculate Low Levels
+			}
+			if (getPlanner_ID() != null && getPlanner_ID() > 0) {
+				whereClause.append(" AND ").append("mrp.").append(MPPMRP.COLUMNNAME_Planner_ID).append("=?");
+				parameters.add(getPlanner_ID());
+			}
+			if (getC_BPartner_ID() != null && getC_BPartner_ID() > 0) {
+				whereClause.append(" AND ").append("mrp.").append(MPPMRP.COLUMNNAME_C_BPartner_ID).append("=?");
+				parameters.add(getC_BPartner_ID());
+			}
+			if (getM_Product_ID() != null && getM_Product_ID() > 0) {
+				whereClause.append(" AND ").append("mrp.").append(MPPMRP.COLUMNNAME_M_Product_ID)
+						.append("=?");
+				parameters.add(getM_Product_ID());
+			}
+			if (getM_Product_Category_ID() != null
+					&& getM_Product_Category_ID() > 0) {
+				whereClause.append(" AND ")
+						.append(MProduct.COLUMNNAME_M_Product_Category_ID)
+						.append("=?");
+				parameters.add(getM_Product_Category_ID());
+			}
+		}
+		if (EXECUTION_MODE == MRP_Net_Change) {
+			if (isMRP() != null) {
+				whereClause.append(" AND ").append("IsRequiredMRP")
+						.append("=?");
+				parameters.add(isMRP());
+			}
+			if (isDRP() != null && isSynchronize()) {
+				whereClause.append(" AND ").append("IsRequiredDRP")
+						.append("=?");
+				parameters.add(isDRP());
+			}
+		}
+		return whereClause.toString();
+	}
+
+	public boolean isRequiredDRP() {
+		return false;
 	}
 }
 

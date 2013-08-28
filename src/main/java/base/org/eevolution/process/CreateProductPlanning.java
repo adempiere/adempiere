@@ -113,7 +113,7 @@ public class CreateProductPlanning extends SvrProcess
 			{    
 				p_TimeFence =  ((BigDecimal)para.getParameter());  
 			} 
-			else if (name.equals(MPPProductPlanning.COLUMNNAME_TransfertTime))
+			else if (name.equals(MPPProductPlanning.COLUMNNAME_TransferTime))
 			{    
 				p_TransferTime =  ((BigDecimal)para.getParameter());  
 			} 
@@ -248,7 +248,7 @@ public class CreateProductPlanning extends SvrProcess
 		pp.setOrder_Max(p_Order_Max);
 		pp.setOrder_Pack(p_Order_Pack);
 		pp.setTimeFence(p_TimeFence);
-		pp.setTransfertTime(p_TransferTime);
+		pp.setTransferTime(p_TransferTime);
 		pp.setIsPhantom(false);
 		pp.setWorkingTime(p_WorkingTime);
 		pp.setYield(p_Yield);                                                                                        

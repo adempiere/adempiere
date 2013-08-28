@@ -21,6 +21,7 @@ import java.util.Collection;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MClient;
+import org.compiere.model.MForecast;
 import org.compiere.model.MForecastLine;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInOutLine;
@@ -93,6 +94,13 @@ public class LiberoValidator implements ModelValidator
 		boolean isDelete = (TYPE_BEFORE_DELETE == type);
 		boolean isReleased = false;
 		boolean isVoided = false;
+		
+		//Update MRP Change Net 
+		if(MPPMRP.isChanged(po) && (TYPE_AFTER_CHANGE == type || TYPE_AFTER_NEW == type))
+		{
+			MPPMRP.setIsRequired(po,MPPProductPlanning.COLUMNNAME_IsRequiredMRP, true);
+		}
+		
 		DocAction doc = null;
 		if (po instanceof DocAction)
 		{
@@ -121,7 +129,18 @@ public class LiberoValidator implements ModelValidator
 		//
 		if (isDelete || isVoided || !po.isActive())
 		{
-			MPPMRP.deleteMRP(po);
+			if(MOrder.Table_Name.equals(po.get_TableName()) 
+			|| MOrderLine.Table_Name.equals(po.get_TableName())
+			|| MPPOrder.Table_Name.equals(po.get_TableName())
+			|| MPPOrderBOMLine.Table_Name.equals(po.get_TableName())
+			|| MDDOrder.Table_Name.equals(po.get_TableName())	
+			|| MDDOrderLine.Table_Name.equals(po.get_TableName())	
+			|| MRequisition.Table_Name.equals(po.get_TableName())
+			|| MRequisitionLine.Table_Name.equals(po.get_TableName())	
+			|| MForecast.Table_Name.equals(po.get_TableName())	
+			|| MForecastLine.Table_Name.equals(po.get_TableName())	
+			)
+				MPPMRP.deleteMRP(po);
 		}
 		else if (po instanceof MOrder)
 		{
