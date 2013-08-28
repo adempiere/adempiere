@@ -6,5 +6,6 @@
 	<classpathentry kind="src" path="src/main/java/ui/zk"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/adempiereDevelop"/>
+	<classpathentry kind="lib" path="/Users/eEvolution/Develop/adempiere/tools/lib/OpenForecast-0.5.0.jar" sourcepath="/openForecast"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

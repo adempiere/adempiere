@@ -58,6 +58,7 @@ public class CalculateLowLevel extends SvrProcess
 				int lowlevel = MPPProductBOMLine.getLowLevel(getCtx(), product.get_ID(), get_TrxName());
 				product.setLowLevel(lowlevel);
 				product.saveEx();
+				commitEx();
 				count_ok++;
 			}
 			catch(Exception e) {
