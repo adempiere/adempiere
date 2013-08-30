@@ -352,7 +352,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 		else if (isIssue())
 		{
 			MProduct product = getM_Product();
-			if (getM_AttributeSetInstance_ID() == 0 && product.isASIMandatory(false))
+			if (getM_AttributeSetInstance_ID() == 0 && product.isASIMandatory(false, getAD_Org_ID()))
 			{
 				throw new AdempiereException("@M_AttributeSet_ID@ @IsMandatory@ @M_Product_ID@=" + product.getValue());
 			}
@@ -361,7 +361,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 		else if (isReceipt())
 		{
 			MProduct product = getM_Product();
-			if (getM_AttributeSetInstance_ID() == 0 && product.isASIMandatory(true))
+			if (getM_AttributeSetInstance_ID() == 0 && product.isASIMandatory(true, getAD_Org_ID()))
 			{
 				throw new AdempiereException("@M_AttributeSet_ID@ @IsMandatory@ @M_Product_ID@=" + product.getValue());
 			}
