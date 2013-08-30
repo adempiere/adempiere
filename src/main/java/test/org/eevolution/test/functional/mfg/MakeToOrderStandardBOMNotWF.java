@@ -13,7 +13,7 @@
  * Copyright (C) 2003-2012 e-Evolution,SC. All Rights Reserved.               *
  * Contributor(s): victor.perez@e-evolution.com, www.e-evolution.com          *
  *****************************************************************************/
-package test.functional.mfg;
+package org.eevolution.test.functional.mfg;
 
 import java.math.BigDecimal;
 

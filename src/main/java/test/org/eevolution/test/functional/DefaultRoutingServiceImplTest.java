@@ -1,7 +1,7 @@
 /**
  * 
  */
-package test.functional;
+package org.eevolution.test.functional;
 
 import java.math.BigDecimal;
 
