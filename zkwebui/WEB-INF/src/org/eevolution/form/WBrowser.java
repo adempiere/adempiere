@@ -29,11 +29,12 @@ import java.util.logging.Level;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.model.MBrowse;
 import org.adempiere.model.MBrowseField;
+import org.adempiere.webui.apps.AEnv;
+import org.adempiere.webui.apps.BusyDialog;
 import org.adempiere.webui.apps.ProcessParameterPanel;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.ConfirmPanel;
-import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Tab;
 import org.adempiere.webui.component.Tabbox;
@@ -41,10 +42,10 @@ import org.adempiere.webui.component.Tabpanel;
 import org.adempiere.webui.component.Tabpanels;
 import org.adempiere.webui.component.Tabs;
 import org.adempiere.webui.component.ToolBar;
+import org.adempiere.webui.component.VerticalBox;
 import org.adempiere.webui.component.WAppsAction;
 import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.editor.WEditor;
-import org.adempiere.webui.editor.WebEditorFactory;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
 import org.adempiere.webui.event.WTableModelEvent;
@@ -54,19 +55,20 @@ import org.adempiere.webui.panel.IFormController;
 import org.adempiere.webui.panel.StatusBarPanel;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
-import org.compiere.apps.AEnv;
 import org.compiere.apps.ProcessCtl;
 import org.compiere.apps.search.Info_Column;
 import org.compiere.minigrid.IDColumn;
-import org.compiere.model.GridField;
 import org.compiere.model.GridFieldVO;
 import org.compiere.model.MPInstance;
 import org.compiere.model.MProcess;
+import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.process.ProcessInfo;
+import org.compiere.process.ProcessInfoUtil;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.event.Event;
@@ -77,9 +79,9 @@ import org.zkoss.zkex.zul.North;
 import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Filedownload;
-import org.zkoss.zul.Grid;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Row;
+import org.zkoss.zul.Separator;
 import org.zkoss.zul.Vbox;
 
 /**
@@ -108,13 +110,15 @@ public class WBrowser extends Browser implements IFormController,
 
 	private WListbox detail;
 	private Borderlayout graphPanel;
-	private Borderlayout processPanel;
-	private Grid searchPanel = GridFactory.newGridLayout();
+	private WBrowserSearch searchGrid;
 	private Borderlayout searchTab;
-	private Borderlayout footPanel;
+	private North collapsibleSeach;
+	private Borderlayout detailPanel;
 	private Tabbox tabsPanel;
 	private ToolBar toolsBar;
 	private Hbox topPanel;
+	private BusyDialog m_waiting;
+	private VerticalBox dialogBody;
 
 	public static CustomForm openBrowse(int AD_Browse_ID) {
 		MBrowse browse = new MBrowse(Env.getCtx(), AD_Browse_ID , null);
@@ -134,12 +138,12 @@ public class WBrowser extends Browser implements IFormController,
 				whereClause);
 		
 		m_frame = new CustomForm();
+		p_WindowNo = SessionManager.getAppDesktop().registerWindow(this);
+		Env.clearWinContext(p_WindowNo);
+		setContextWhere(browse, whereClause);	
 		
-		//m_frame.setTitle(getTitle());
-
 		initComponents();
 		statInit();
-		//p_loadedOK = initBrowser();
 		detail.setMultiSelection(true);
 		int no = detail.getRowCount();
 		setStatusLine(
@@ -152,7 +156,7 @@ public class WBrowser extends Browser implements IFormController,
 	private void statInit() {
 
 		Rows rows = new Rows();
-		rows.setParent(searchPanel);
+		rows.setParent(searchGrid);
 
 		int cols = 0;
 		Row row = rows.newRow();
@@ -160,21 +164,20 @@ public class WBrowser extends Browser implements IFormController,
 		for (MBrowseField field : m_Browse.getCriteriaFields()) {
 			String title = field.getName();
 			String name = field.getAD_View_Column().getColumnName();
-			addComponent(field, row, name, title);
+			searchGrid.addField(field, row, name, title);
 
 			cols++;
 
-			if (field.isRange()) {
-				title = Msg.getMsg(Env.getCtx(), "To");
-				addComponent(field, row, name + "_To", title);
+			if (field.isRange())
 				cols++;
-			}
 
 			if (cols >= 2) {
 				cols = 0;
 				row = rows.newRow();
 			}
 		}
+		
+		searchGrid.dynamicDisplay();
 		
 		if (m_Browse.getAD_Process_ID() > 0) {
 			
@@ -183,61 +186,22 @@ public class WBrowser extends Browser implements IFormController,
 					m_Browse.getAD_Process_ID());
 			pi.setAD_User_ID(Env.getAD_User_ID(Env.getCtx()));
 			pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
-			int Record_ID = 0;
-			if(getProcessInfo() != null)
-				Record_ID = getProcessInfo().getRecord_ID();
-			pi.setRecord_ID(Record_ID);
 			setBrowseProcessInfo(pi);
-			parameterPanel = new ProcessParameterPanel(p_WindowNo, getBrowseProcessInfo() , "70%");
+			parameterPanel = new ProcessParameterPanel(p_WindowNo, getBrowseProcessInfo() , "100%");
 			parameterPanel.setMode(ProcessParameterPanel.BROWSER_MODE);
 			parameterPanel.init();
-
+			
 			South south = new South();
 			south.setAutoscroll(true);
-			south.setTitle(" ");
+			south.setSplittable(true);
+			south.setCollapsible(false);
 			
 			Div div = new Div();
 			div.setWidth("100%");
 			div.appendChild(parameterPanel);
-			south.appendChild(div);		
-			footPanel.appendChild(south);
-		}	
-	}
-
-	public void addComponent(MBrowseField field, Row row, String name,
-			String title) {
-		GridFieldVO voBase = GridFieldVO.createStdField(field.getCtx(), p_WindowNo, 0, 0, 0, false, false, false);
-	
-		voBase.AD_Column_ID = field.getAD_View_Column().getAD_Column_ID();
-		voBase.AD_Table_ID = field.getAD_View_Column().getAD_Column().getAD_Table_ID();
-		voBase.ColumnName = field.getAD_View_Column().getAD_Column().getColumnName();
-		voBase.displayType = field.getAD_Reference_ID();
-		voBase.AD_Reference_Value_ID = field.getAD_Reference_Value_ID();
-		voBase.IsMandatory = field.isMandatory();
-		voBase.IsAlwaysUpdateable = false;
-		voBase.IsKey = field.isKey();
-		voBase.isRange = field.isRange();
-		voBase.IsReadOnly = false;
-		voBase.IsUpdateable = true;
-		voBase.IsDisplayed = true;
-		voBase.Description = field.getDescription();
-		voBase.Help = field.getAD_View_Column().getColumnSQL();
-		voBase.Header = title;
-				
-		GridField gField = new GridField (GridFieldVO.createParameter(voBase));
-		gField.lookupLoadComplete();
-		WEditor editor = WebEditorFactory.getEditor(gField, false);
-		editor.addValueChangeListener(this);
-		editor.dynamicDisplay();
-    	Div div = new Div();
-        div.setAlign("right");
-        org.adempiere.webui.component.Label label = editor.getLabel();
-        div.appendChild(label);
-        if (label.getDecorator() != null)
-        	div.appendChild(label.getDecorator());
-        row.appendChild(div);
-		row.appendChild(editor.getComponent());
-		setParameter(name, editor);
+			south.appendChild(div);	
+			detailPanel.appendChild(south);
+		}		
 	}
 
 	private boolean initBrowser() {
@@ -246,6 +210,7 @@ public class WBrowser extends Browser implements IFormController,
 
 		// prepare table	
 		StringBuilder where = new StringBuilder("");
+		setContextWhere(m_Browse , null);
 		if (p_whereClause.length() > 0) {
 			where.append(p_whereClause);
 		}
@@ -262,9 +227,7 @@ public class WBrowser extends Browser implements IFormController,
 			log.log(Level.SEVERE, "No Brwose for view=" + m_View.getName());
 			return false;
 		}
-		log.finest("Browse Fields #" + list.size());
-		
-		detail.clearTable();		
+		log.finest("Browse Fields #" + list.size());	
 		// Convert ArrayList to Array
 		m_generalLayout = new Info_Column[list.size()];
 		list.toArray(m_generalLayout);
@@ -288,12 +251,13 @@ public class WBrowser extends Browser implements IFormController,
 	}
 
 	private void cmd_zoom() {
-
-		Integer record_ID = getSelectedRowKey();
-
-		if (record_ID == null)
-			return;
-		AEnv.zoom(m_View.getParentViewDefinition().getAD_Table_ID(), record_ID);
+		showBusyDialog();
+		
+		MQuery query = getMQuery();
+		if(query != null)
+			AEnv.zoom(query);
+		
+		hideBusyDialog();
 	}
 	
 	private void cmd_deleteSelection() {
@@ -307,10 +271,10 @@ public class WBrowser extends Browser implements IFormController,
 	protected void prepareTable(Info_Column[] layout, String from,
 			String staticWhere, String orderBy) {
 		p_layout = layout;
-		m_sqlMain = detail.prepareTable(layout, from, staticWhere, false, from);
+		detail.prepareTable(layout, "" , "" , true, "");
 		StringBuffer sql = new StringBuffer("SELECT DISTINCT ");
 		for (int i = 0; i < layout.length; i++) {
-			if (i > 0)
+			if (i > 0 && layout[i].getColSQL().length() > 0)
 				sql.append(", ");
 			sql.append(layout[i].getColSQL());
 			// adding ID column
@@ -326,10 +290,10 @@ public class WBrowser extends Browser implements IFormController,
 		sql.append(" WHERE ");
 		m_sqlMain = sql.toString();
 		m_sqlCount = "SELECT COUNT(*) FROM " + from + " WHERE ";
-		m_sqlOrder = "";
-		if (orderBy != null && orderBy.length() > 0)
-			m_sqlOrder = " ORDER BY " + orderBy;
-
+		m_sqlOrderBy = getSQLOrderBy();
+		
+		if (m_keyColumnIndex == -1)
+			log.log(Level.WARNING, "No KeyColumn - " + sql);
 	}
 
 	private boolean testCount() {
@@ -352,13 +316,12 @@ public class WBrowser extends Browser implements IFormController,
 		if (!m_ok) // did not press OK
 		{
 			m_results.clear();
-			detail.clearTable();
-			detail = null;
 			return;
 		}
 
 		// Multi Selection
 		if (p_multiSelection) {
+			m_results.clear();
 			m_results.addAll(getSelectedRowKeys());
 		} else // singleSelection
 		{
@@ -366,13 +329,11 @@ public class WBrowser extends Browser implements IFormController,
 			if (data != null)
 				m_results.add(data);
 		}
-		log.config(getSelectedSQL());
 
 		// Save Settings of detail info screens
 		// saveSelectionDetail();
 		// Clean-up
 		detail.clearTable();
-		detail = null;
 	}
 	
 	/**
@@ -393,19 +354,25 @@ public class WBrowser extends Browser implements IFormController,
 				if (data instanceof IDColumn) {
 					IDColumn dataColumn = (IDColumn) data;
 					if (dataColumn.isSelected()) {
-						//selectedDataList.add(dataColumn.getRecord_ID());
 						LinkedHashMap<String, Object> values = new LinkedHashMap<String, Object>();
 						int col = 0;
 						for (Info_Column column : m_generalLayout)
 						{	
-							if(!column.isReadOnly())
-							{
-								String columnName = column.getColSQL().substring(column.getColSQL().indexOf("AS ") + 3);
-								Object value = detail.getModel().getValueAt(row,col);
-								values.put(columnName, value);
-								continue;
+							String columnName = column.getColSQL().substring(
+									column.getColSQL().indexOf("AS ") + 3);
+							if (!column.isReadOnly()
+									|| IsIdentifierSelection(columnName)) {
+								if (!column.isKeyPairCol()) {
+									Object value = detail.getModel()
+											.getValueAt(row, col);
+									values.put(columnName, value);
+								} else {
+									KeyNamePair value = (KeyNamePair) detail
+											.getModel().getValueAt(row, col);
+									values.put(columnName, value.getKey());
+								}
 							}
-							col ++;
+							col++;
 						}
 						if(values.size() > 0)
 						{
@@ -455,6 +422,7 @@ public class WBrowser extends Browser implements IFormController,
 
 	public void dispose(boolean ok) {
 		log.config("OK=" + ok);
+		searchGrid.dispose();
 		m_ok = ok;
 		
 		saveResultSelection();
@@ -471,10 +439,11 @@ public class WBrowser extends Browser implements IFormController,
 				null);
 		ProcessInfo pi = getBrowseProcessInfo();
 		pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
+		parameterPanel.saveParameters();
+		ProcessInfoUtil.setParameterFromDB(pi);
 		setBrowseProcessInfo(pi);
 		//Save Values Browse Field Update
 		createT_Selection_Browse(instance.getAD_PInstance_ID());
-		parameterPanel.saveParameters();
 		// Execute Process
 		ProcessCtl worker = new ProcessCtl(this, 0, getBrowseProcessInfo(), null);
 		worker.start();
@@ -518,15 +487,15 @@ public class WBrowser extends Browser implements IFormController,
 		bFind = new Button();
 		tabsPanel = new Tabbox();
 		searchTab = new Borderlayout();
+		collapsibleSeach = new North();
 		topPanel = new Hbox();
-		searchPanel = GridFactory.newGridLayout();
+		searchGrid = new WBrowserSearch(p_WindowNo);
 		bSearch = new Button();
 		detail = new WListbox();
 		bCancel = new Button();
 		bOk = new Button();
-		processPanel = new Borderlayout();
 		graphPanel = new Borderlayout();
-		footPanel= new Borderlayout();
+		detailPanel= new Borderlayout();
 		
 
 		Borderlayout mainLayout = new Borderlayout();
@@ -553,7 +522,7 @@ public class WBrowser extends Browser implements IFormController,
 					}
 					selectedList[row] = row;
 				}
-        		detail.setSelectedIndices(selectedList);
+				detail.setSelectedIndices(selectedList);
 			} else {
 				for (int row = 0; row <= rows - topIndex; row++) {
 					Object data = detail.getModel().getValueAt(row,
@@ -634,8 +603,8 @@ public class WBrowser extends Browser implements IFormController,
 		mainLayout.appendChild(north);
 
 		searchTab = new Borderlayout();
-		searchTab.setWidth("100%");
-		searchTab.setHeight("100%");
+		searchTab.setWidth("99.4%");
+		searchTab.setHeight("99.4%");
 		searchTab.setStyle("background-color: transparent");
 
 		topPanel = new Hbox();
@@ -644,9 +613,9 @@ public class WBrowser extends Browser implements IFormController,
 		//topPanel.setStyle("position: absolute");
 		topPanel.setStyle("background-color: transparent");
 
-		//searchPanel = GridFactory.newGridLayout();
-		searchPanel.setStyle("background-color: transparent");
-		topPanel.appendChild(searchPanel);
+		searchGrid.setStyle("background-color: transparent");
+		topPanel.appendChild(searchGrid);
+		
 		bSearch.setLabel(Msg.getMsg(Env.getCtx(), "StartSearch"));
 
 		bSearch.addActionListener(new EventListener() {
@@ -655,8 +624,6 @@ public class WBrowser extends Browser implements IFormController,
 			}
 		});
 		
-		North sNorth = new North();
-
 		Vbox vbox = new Vbox();
 		vbox.appendChild(topPanel);
 		vbox.appendChild(bSearch);
@@ -669,15 +636,13 @@ public class WBrowser extends Browser implements IFormController,
 		div.setWidth("100%");
 		div.setHeight("100%");
 
-		sNorth.setTitle(" ");
-		//sNorth.setFlex(true);
-		sNorth.setCollapsible(true);
-		sNorth.setAutoscroll(true);
-		sNorth.appendChild(div);
-
-		sNorth.setStyle("background-color: transparent");
-		sNorth.setStyle("border: none");
-		searchTab.appendChild(sNorth);
+		collapsibleSeach.setTitle(Msg.getMsg(Env.getCtx(),("SearchCriteria")));
+		collapsibleSeach.setCollapsible(true);
+		collapsibleSeach.setAutoscroll(true);
+		collapsibleSeach.appendChild(div);
+		collapsibleSeach.setStyle("background-color: transparent");
+		collapsibleSeach.setStyle("border: none");
+		searchTab.appendChild(collapsibleSeach);
 
 		detail.setWidth("100%");
 		detail.setHeight("100%");
@@ -689,16 +654,16 @@ public class WBrowser extends Browser implements IFormController,
 		dCenter.setFlex(true);
 		dCenter.setAutoscroll(true);
 		
-		footPanel.setHeight("100%");
-		footPanel.setWidth("100%");
-		footPanel.appendCenter(detail);
+		detailPanel.setHeight("100%");
+		detailPanel.setWidth("100%");
+		detailPanel.appendCenter(detail);
 		
 		Div dv = new Div();
-		div.appendChild(footPanel);
+		div.appendChild(detailPanel);
 		div.setHeight("100%");
 		div.setWidth("100%");
-		
-		searchTab.appendCenter(footPanel);
+
+		searchTab.appendCenter(detailPanel);
 
 		Hbox hbox = new Hbox();
 
@@ -716,11 +681,20 @@ public class WBrowser extends Browser implements IFormController,
 				bOkActionPerformed(evt);
 			}
 		});
-
+		
+		Div confirmDiv = new Div();
+		confirmDiv.setAlign("center");
 		hbox.appendChild(bCancel);
 		hbox.appendChild(bOk);
 		hbox.setAlign("center");
-		searchTab.appendSouth(hbox);
+		confirmDiv.appendChild(hbox);
+		Separator separator = new Separator();
+		separator.setBar(true);
+		confirmDiv.appendChild(separator);
+		confirmDiv.appendChild(statusBar);
+
+		
+		searchTab.appendSouth(confirmDiv);
 		searchTab.getSouth().setBorder("none");
 
 		Tabpanel search = new Tabpanel();
@@ -766,7 +740,50 @@ public class WBrowser extends Browser implements IFormController,
 	}// GEN-LAST:event_bZoomActionPerformed
 
 	private void bOkActionPerformed(Event evt) {
-		dispose(true);
+		log.config("OK=" + true);
+		m_ok = true;
+		
+		saveResultSelection();
+		saveSelection();
+		
+		if (m_Browse.getAD_Process_ID() > 0 && getSelectedKeys() != null)
+		{
+
+			MPInstance instance = new MPInstance(Env.getCtx(),
+					m_Browse.getAD_Process_ID(), getBrowseProcessInfo().getRecord_ID());
+			instance.saveEx();
+	
+			DB.createT_Selection(instance.getAD_PInstance_ID(), getSelectedKeys(),
+					null);
+			
+			ProcessInfo pi = getBrowseProcessInfo();
+			pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
+			//Save Values Browse Field Update
+			createT_Selection_Browse(instance.getAD_PInstance_ID());
+			parameterPanel.saveParameters();
+			ProcessInfoUtil.setParameterFromDB(pi);
+			setBrowseProcessInfo(pi);
+						
+			// Execute Process
+			ProcessCtl worker = new ProcessCtl(this, 0, getBrowseProcessInfo(), null);
+			showBusyDialog();
+			worker.run();
+			hideBusyDialog();
+			setStatusLine(pi.getSummary(), pi.isError());
+		}	
+		p_loadedOK = initBrowser();
+		collapsibleSeach.setOpen(true);
+	}
+	
+	private void showBusyDialog() {
+		m_waiting = new BusyDialog();
+		m_waiting.setPage(m_frame.getPage());
+		m_waiting.doHighlighted();
+	}
+
+	private void hideBusyDialog() {
+		m_waiting.dispose();
+		m_waiting = null;
 	}
 
 	private void bCancelActionPerformed(Event evt) {
@@ -778,6 +795,7 @@ public class WBrowser extends Browser implements IFormController,
 		bSelectAll.setEnabled(true);
 		bExport.setEnabled(true);
 		bDelete.setEnabled(true);
+		collapsibleSeach.setOpen(false);
 		p_loadedOK = initBrowser();
 		executeQuery();
 	}
@@ -899,7 +917,7 @@ public class WBrowser extends Browser implements IFormController,
 	@Override
 	public Object getParamenterValue(Object key)
 	{
-			WEditor editor = (WEditor) m_search.get(key);
+			WEditor editor = (WEditor)  searchGrid.getParamenters().get(key);
 			if(editor != null)
 				return editor.getValue();
 			else
@@ -917,25 +935,30 @@ public class WBrowser extends Browser implements IFormController,
 		boolean onRange = false;
 		StringBuilder sql = new StringBuilder(p_whereClause);
 
-		for (Entry<Object, Object> entry : m_search.entrySet()) {
+		for (Entry<Object, Object> entry : searchGrid.getParamenters().entrySet()) {
 			WEditor editor = (WEditor) entry.getValue();
 			GridFieldVO field = editor.getGridField().getVO();
 			if (!onRange) {
 
 				if (editor.getValue() != null
+						&& !editor.getValue().toString().isEmpty()
 						&& !field.isRange) {
 					sql.append(" AND ");
-					sql.append(field.Help).append("=?");
+					sql.append(field.Help).append("=? ");
 					m_parameters.add(field.Help);
 					m_parameters_values.add(editor.getValue());
-				} else if(editor.getValue() != null && field.isRange){
+				} else if (editor.getValue() != null
+						&& !editor.getValue().toString().isEmpty()
+						&& field.isRange) {
 					sql.append(" AND ");
 					sql.append(field.Help).append(" BETWEEN ?");
 					m_parameters.add(field.Help);
 					m_parameters_values.add(editor.getValue());
 					onRange = true;
-				} else continue;
-			} else if(editor.getValue() != null) {
+				} else
+					continue;
+			} else if (editor.getValue() != null
+					&& !editor.getValue().toString().isEmpty()) {
 				sql.append(" AND ? ");
 				m_parameters.add(field.Help);
 				m_parameters_values.add(editor.getValue());

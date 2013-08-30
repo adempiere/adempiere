@@ -215,7 +215,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 
 	public void onEvent(Event e)
 	{
-		if (Events.ON_CHANGE.equals(e.getName()) || Events.ON_OK.equals(e.getName()))
+		if (Events.ON_CHANGE.equals(e.getName()) )
 		{
 			if (infoPanel != null)
 		 	{
@@ -225,6 +225,11 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 			actionText(getComponent().getText());
 
 		}
+		else if( Events.ON_OK.equals(e.getName()))
+		{
+			actionRefresh(getValue());
+		}
+		
 		else if (Events.ON_CLICK.equals(e.getName()))
 		{
 			if (infoPanel != null)

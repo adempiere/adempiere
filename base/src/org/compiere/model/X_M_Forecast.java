@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Forecast
  *  @author Adempiere (generated) 
- *  @version Release 3.7.1RC - $Id$ */
+ *  @version Release 1.0.0 - $Id$ */
 public class X_M_Forecast extends PO implements I_M_Forecast, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20120627L;
+	private static final long serialVersionUID = 20130130L;
 
     /** Standard Constructor */
     public X_M_Forecast (Properties ctx, int M_Forecast_ID, String trxName)
@@ -43,8 +43,6 @@ public class X_M_Forecast extends PO implements I_M_Forecast, I_Persistent
 			setIsDefault (false);
 			setM_Forecast_ID (0);
 			setName (null);
-			setPP_Calendar_ID (0);
-			setPP_PeriodDefinition_ID (0);
         } */
     }
 
@@ -99,6 +97,90 @@ public class X_M_Forecast extends PO implements I_M_Forecast, I_Persistent
 	public int getC_Calendar_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Calendar_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Campaign)MTable.get(getCtx(), org.compiere.model.I_C_Campaign.Table_Name)
+			.getPO(getC_Campaign_ID(), get_TrxName());	}
+
+	/** Set Campaign.
+		@param C_Campaign_ID 
+		Marketing Campaign
+	  */
+	public void setC_Campaign_ID (int C_Campaign_ID)
+	{
+		if (C_Campaign_ID < 1) 
+			set_Value (COLUMNNAME_C_Campaign_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Campaign_ID, Integer.valueOf(C_Campaign_ID));
+	}
+
+	/** Get Campaign.
+		@return Marketing Campaign
+	  */
+	public int getC_Campaign_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Campaign_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_ProjectPhase getC_ProjectPhase() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_ProjectPhase)MTable.get(getCtx(), org.compiere.model.I_C_ProjectPhase.Table_Name)
+			.getPO(getC_ProjectPhase_ID(), get_TrxName());	}
+
+	/** Set Project Phase.
+		@param C_ProjectPhase_ID 
+		Phase of a Project
+	  */
+	public void setC_ProjectPhase_ID (int C_ProjectPhase_ID)
+	{
+		if (C_ProjectPhase_ID < 1) 
+			set_Value (COLUMNNAME_C_ProjectPhase_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ProjectPhase_ID, Integer.valueOf(C_ProjectPhase_ID));
+	}
+
+	/** Get Project Phase.
+		@return Phase of a Project
+	  */
+	public int getC_ProjectPhase_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectPhase_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
+			.getPO(getC_Project_ID(), get_TrxName());	}
+
+	/** Set Project.
+		@param C_Project_ID 
+		Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID)
+	{
+		if (C_Project_ID < 1) 
+			set_Value (COLUMNNAME_C_Project_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
+	}
+
+	/** Get Project.
+		@return Financial Project
+	  */
+	public int getC_Project_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_User
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version 360LTS.013
  */
 public interface I_AD_User 
 {
@@ -78,12 +78,12 @@ public interface I_AD_User
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 
-	/** Set Usuario.
+	/** Set User/Contact.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public void setAD_User_ID (int AD_User_ID);
 
-	/** Get Usuario.
+	/** Get User/Contact.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID();
@@ -101,6 +101,30 @@ public interface I_AD_User
 	  */
 	public Timestamp getBirthday();
 
+    /** Column name BP_Location_ID */
+    public static final String COLUMNNAME_BP_Location_ID = "BP_Location_ID";
+
+	/** Set BP Address.
+	  * Address of the Business Partner
+	  */
+	public void setBP_Location_ID (int BP_Location_ID);
+
+	/** Get BP Address.
+	  * Address of the Business Partner
+	  */
+	public int getBP_Location_ID();
+
+	public I_C_Location getBP_Location() throws RuntimeException;
+
+    /** Column name BPName */
+    public static final String COLUMNNAME_BPName = "BPName";
+
+	/** Set BP Name	  */
+	public void setBPName (String BPName);
+
+	/** Get BP Name	  */
+	public String getBPName();
+
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 
@@ -114,7 +138,7 @@ public interface I_AD_User
 	  */
 	public int getC_BPartner_ID();
 
-	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
+	public I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_BPartner_Location_ID */
     public static final String COLUMNNAME_C_BPartner_Location_ID = "C_BPartner_Location_ID";
@@ -129,7 +153,22 @@ public interface I_AD_User
 	  */
 	public int getC_BPartner_Location_ID();
 
-	public org.compiere.model.I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException;
+	public I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException;
+
+    /** Column name C_Campaign_ID */
+    public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
+
+	/** Set Campaign.
+	  * Marketing Campaign
+	  */
+	public void setC_Campaign_ID (int C_Campaign_ID);
+
+	/** Get Campaign.
+	  * Marketing Campaign
+	  */
+	public int getC_Campaign_ID();
+
+	public I_C_Campaign getC_Campaign() throws RuntimeException;
 
     /** Column name C_Greeting_ID */
     public static final String COLUMNNAME_C_Greeting_ID = "C_Greeting_ID";
@@ -144,7 +183,7 @@ public interface I_AD_User
 	  */
 	public int getC_Greeting_ID();
 
-	public org.compiere.model.I_C_Greeting getC_Greeting() throws RuntimeException;
+	public I_C_Greeting getC_Greeting() throws RuntimeException;
 
     /** Column name C_Job_ID */
     public static final String COLUMNNAME_C_Job_ID = "C_Job_ID";
@@ -159,7 +198,22 @@ public interface I_AD_User
 	  */
 	public int getC_Job_ID();
 
-	public org.compiere.model.I_C_Job getC_Job() throws RuntimeException;
+	public I_C_Job getC_Job() throws RuntimeException;
+
+    /** Column name C_Location_ID */
+    public static final String COLUMNNAME_C_Location_ID = "C_Location_ID";
+
+	/** Set Address.
+	  * Location or Address
+	  */
+	public void setC_Location_ID (int C_Location_ID);
+
+	/** Get Address.
+	  * Location or Address
+	  */
+	public int getC_Location_ID();
+
+	public I_C_Location getC_Location() throws RuntimeException;
 
     /** Column name Comments */
     public static final String COLUMNNAME_Comments = "Comments";
@@ -333,6 +387,19 @@ public interface I_AD_User
 	  */
 	public boolean isInPayroll();
 
+    /** Column name IsSalesLead */
+    public static final String COLUMNNAME_IsSalesLead = "IsSalesLead";
+
+	/** Set Sales Lead.
+	  * This contact is a sales lead
+	  */
+	public void setIsSalesLead (boolean IsSalesLead);
+
+	/** Get Sales Lead.
+	  * This contact is a sales lead
+	  */
+	public boolean isSalesLead();
+
     /** Column name LastContact */
     public static final String COLUMNNAME_LastContact = "LastContact";
 
@@ -371,6 +438,58 @@ public interface I_AD_User
 	  * User Name used for authorization via LDAP (directory) services
 	  */
 	public String getLDAPUser();
+
+    /** Column name LeadSource */
+    public static final String COLUMNNAME_LeadSource = "LeadSource";
+
+	/** Set Lead Source.
+	  * The source of this lead/opportunity
+	  */
+	public void setLeadSource (String LeadSource);
+
+	/** Get Lead Source.
+	  * The source of this lead/opportunity
+	  */
+	public String getLeadSource();
+
+    /** Column name LeadSourceDescription */
+    public static final String COLUMNNAME_LeadSourceDescription = "LeadSourceDescription";
+
+	/** Set Lead Source Description.
+	  * Additional information on the source of this lead/opportunity
+	  */
+	public void setLeadSourceDescription (String LeadSourceDescription);
+
+	/** Get Lead Source Description.
+	  * Additional information on the source of this lead/opportunity
+	  */
+	public String getLeadSourceDescription();
+
+    /** Column name LeadStatus */
+    public static final String COLUMNNAME_LeadStatus = "LeadStatus";
+
+	/** Set Lead Status.
+	  * The status of this lead/opportunity in the sales cycle
+	  */
+	public void setLeadStatus (String LeadStatus);
+
+	/** Get Lead Status.
+	  * The status of this lead/opportunity in the sales cycle
+	  */
+	public String getLeadStatus();
+
+    /** Column name LeadStatusDescription */
+    public static final String COLUMNNAME_LeadStatusDescription = "LeadStatusDescription";
+
+	/** Set Lead Status Description.
+	  * Additional information on the status of this lead/opportunity
+	  */
+	public void setLeadStatusDescription (String LeadStatusDescription);
+
+	/** Get Lead Status Description.
+	  * Additional information on the status of this lead/opportunity
+	  */
+	public String getLeadStatusDescription();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -446,6 +565,34 @@ public interface I_AD_User
 	/** Get Process Now	  */
 	public boolean isProcessing();
 
+    /** Column name SalesRep_ID */
+    public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";
+
+	/** Set Sales Representative.
+	  * Sales Representative or Company Agent
+	  */
+	public void setSalesRep_ID (int SalesRep_ID);
+
+	/** Get Sales Representative.
+	  * Sales Representative or Company Agent
+	  */
+	public int getSalesRep_ID();
+
+	public I_AD_User getSalesRep() throws RuntimeException;
+
+    /** Column name Salt */
+    public static final String COLUMNNAME_Salt = "Salt";
+
+	/** Set Salt.
+	  * Random data added to improve password hash effectiveness
+	  */
+	public void setSalt (String Salt);
+
+	/** Get Salt.
+	  * Random data added to improve password hash effectiveness
+	  */
+	public String getSalt();
+
     /** Column name Supervisor_ID */
     public static final String COLUMNNAME_Supervisor_ID = "Supervisor_ID";
 
@@ -459,7 +606,7 @@ public interface I_AD_User
 	  */
 	public int getSupervisor_ID();
 
-	public org.compiere.model.I_AD_User getSupervisor() throws RuntimeException;
+	public I_AD_User getSupervisor() throws RuntimeException;
 
     /** Column name Title */
     public static final String COLUMNNAME_Title = "Title";

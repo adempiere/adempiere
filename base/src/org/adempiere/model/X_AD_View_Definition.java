@@ -31,7 +31,7 @@ public class X_AD_View_Definition extends PO implements I_AD_View_Definition, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20111019L;
+	private static final long serialVersionUID = 20130410L;
 
     /** Standard Constructor */
     public X_AD_View_Definition (Properties ctx, int AD_View_Definition_ID, String trxName)
@@ -39,7 +39,9 @@ public class X_AD_View_Definition extends PO implements I_AD_View_Definition, I_
       super (ctx, AD_View_Definition_ID, trxName);
       /** if (AD_View_Definition_ID == 0)
         {
+			setAD_Table_ID (0);
 			setAD_View_Definition_ID (0);
+			setAD_View_ID (0);
 			setTableAlias (null);
         } */
     }

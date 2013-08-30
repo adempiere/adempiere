@@ -20,12 +20,15 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
 import org.compiere.model.MAllocationHdr;
 import org.compiere.model.MAllocationLine;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MPayment;
+import org.compiere.model.MRole;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -38,6 +41,8 @@ import org.compiere.util.Env;
  */
 public class InvoiceWriteOff extends SvrProcess
 {
+	/**	Organization				*/
+	private int			p_AD_Org_ID = 0;
 	/**	BPartner				*/
 	private int			p_C_BPartner_ID = 0;
 	/** BPartner Group			*/
@@ -64,6 +69,10 @@ public class InvoiceWriteOff extends SvrProcess
 	private int			p_C_BankAccount_ID = 0;
 	/** Simulation				*/
 	private boolean		p_IsSimulation = true;
+	/** InvoiceCollectionType 	*/
+	private String p_InvoiceCollectionType = null;
+	/** Dunning Level 			*/
+	private int p_C_DunningLevel_ID = 0 ;
 
 	/**	Allocation Hdr			*/
 	private MAllocationHdr	m_alloc = null;
@@ -75,39 +84,44 @@ public class InvoiceWriteOff extends SvrProcess
 	 */
 	protected void prepare()
 	{
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
+		for (ProcessInfoParameter para : getParameter())
 		{
-			String name = para[i].getParameterName();
-			if (para[i].getParameter() == null)
+			String name = para.getParameterName();
+			if (para.getParameter() == null)
 				;
+			else if (name.equals("AD_Org_ID"))
+				p_AD_Org_ID = para.getParameterAsInt();
 			else if (name.equals("C_BPartner_ID"))
-				p_C_BPartner_ID = para[i].getParameterAsInt();
+				p_C_BPartner_ID = para.getParameterAsInt();
 			else if (name.equals("C_BP_Group_ID"))
-				p_C_BP_Group_ID = para[i].getParameterAsInt();
+				p_C_BP_Group_ID = para.getParameterAsInt();
 			else if (name.equals("C_Invoice_ID"))
-				p_C_Invoice_ID = para[i].getParameterAsInt();
+				p_C_Invoice_ID = para.getParameterAsInt();
+			else if (name.equals("InvoiceCollectionType"))
+				p_InvoiceCollectionType = (String) para.getParameter();
+			else if (name.equals("C_DunningLevel_ID"))
+				p_C_DunningLevel_ID = para.getParameterAsInt();
 			//
 			else if (name.equals("MaxInvWriteOffAmt"))
-				p_MaxInvWriteOffAmt = (BigDecimal)para[i].getParameter();
+				p_MaxInvWriteOffAmt = (BigDecimal)para.getParameter();
 			else if (name.equals("APAR"))
-				p_APAR = (String)para[i].getParameter();
+				p_APAR = (String)para.getParameter();
 			//
 			else if (name.equals("DateInvoiced"))
 			{
-				p_DateInvoiced_From = (Timestamp)para[i].getParameter();
-				p_DateInvoiced_To = (Timestamp)para[i].getParameter_To();
+				p_DateInvoiced_From = (Timestamp)para.getParameter();
+				p_DateInvoiced_To = (Timestamp)para.getParameter_To();
 			}
 			else if (name.equals("DateAcct"))
-				p_DateAcct = (Timestamp)para[i].getParameter();
+				p_DateAcct = (Timestamp)para.getParameter();
 			//
 			else if (name.equals("CreatePayment"))
-				p_CreatePayment = "Y".equals(para[i].getParameter());
+				p_CreatePayment = "Y".equals(para.getParameter());
 			else if (name.equals("C_BankAccount_ID"))
-				p_C_BankAccount_ID = para[i].getParameterAsInt();
+				p_C_BankAccount_ID = para.getParameterAsInt();
 			//
 			else if (name.equals("IsSimulation"))
-				p_IsSimulation = "Y".equals(para[i].getParameter());
+				p_IsSimulation = "Y".equals(para.getParameter());
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 		}
@@ -120,16 +134,20 @@ public class InvoiceWriteOff extends SvrProcess
 	 */
 	protected String doIt () throws Exception
 	{
+		List<Object> parameters = new ArrayList<Object>();
 		log.info("C_BPartner_ID=" + p_C_BPartner_ID 
 			+ ", C_BP_Group_ID=" + p_C_BP_Group_ID
 			+ ", C_Invoice_ID=" + p_C_Invoice_ID
+			+ ", InvoiceCollectionType=" + p_InvoiceCollectionType
+			+ ", C_DunningLevel_ID=" + p_C_DunningLevel_ID
 			+ "; APAR=" + p_APAR
 			+ ", " + p_DateInvoiced_From + " - " + p_DateInvoiced_To
 			+ "; CreatePayment=" + p_CreatePayment
 			+ ", C_BankAccount_ID=" + p_C_BankAccount_ID);
 		//
-		if (p_C_BPartner_ID == 0 && p_C_Invoice_ID == 0 && p_C_BP_Group_ID == 0)
-			throw new AdempiereUserError ("@FillMandatory@ @C_Invoice_ID@ / @C_BPartner_ID@ / ");
+		
+		if (p_C_BPartner_ID == 0 && p_C_Invoice_ID == 0 && p_C_BP_Group_ID == 0 && p_InvoiceCollectionType == null && p_C_DunningLevel_ID == 0)
+			throw new AdempiereUserError ("@FillMandatory@ @C_Invoice_ID@ / @C_BPartner_ID@ / @C_BP_Group_ID@ / @InvoiceCollectionType@ / @C_DunningLevel_ID@");
 		//
 		if (p_CreatePayment && p_C_BankAccount_ID == 0)
 			throw new AdempiereUserError ("@FillMandatory@  @C_BankAccount_ID@");
@@ -138,41 +156,81 @@ public class InvoiceWriteOff extends SvrProcess
 			"SELECT C_Invoice_ID,DocumentNo,DateInvoiced,"
 			+ " C_Currency_ID,GrandTotal, invoiceOpen(C_Invoice_ID, 0) AS OpenAmt "
 			+ "FROM C_Invoice WHERE ");
+		
+		if (p_AD_Org_ID != 0)
+		{	
+			sql.append("AD_Org_ID=? AND ");
+			parameters.add(p_AD_Org_ID);
+		}
+		
 		if (p_C_Invoice_ID != 0)
-			sql.append("C_Invoice_ID=").append(p_C_Invoice_ID);
+		{	
+			sql.append("C_Invoice_ID=? AND ");
+			parameters.add(p_C_Invoice_ID);
+		}	
 		else
 		{
 			if (p_C_BPartner_ID != 0)
-				sql.append("C_BPartner_ID=").append(p_C_BPartner_ID);
-			else
-				sql.append("EXISTS (SELECT * FROM C_BPartner bp WHERE C_Invoice.C_BPartner_ID=bp.C_BPartner_ID AND bp.C_BP_Group_ID=")
-					.append(p_C_BP_Group_ID).append(")");
+			{	
+				sql.append("C_BPartner_ID=? AND ");
+				parameters.add(p_C_BPartner_ID);
+			}
+			else if (p_C_BP_Group_ID != 0)
+			{
+				sql.append("EXISTS (SELECT * FROM C_BPartner bp WHERE C_Invoice.C_BPartner_ID=bp.C_BPartner_ID AND bp.C_BP_Group_ID=?) AND ");
+				parameters.add(p_C_BP_Group_ID);
+			}
 			//
 			if (ONLY_AR.equals(p_APAR))
-				sql.append(" AND IsSOTrx='Y'");
+			{	
+				sql.append("IsSOTrx=? AND ");
+				parameters.add("Y");
+			}
 			else if (ONLY_AP.equals(p_APAR))
-				sql.append(" AND IsSOTrx='N'");
+			{	
+				sql.append("IsSOTrx=? AND ");
+				parameters.add("N");
+			}	
+			
+			if(p_InvoiceCollectionType != null)
+			{	
+				sql.append(" InvoiceCollectionType=? AND ");
+				parameters.add(p_InvoiceCollectionType);
+			}	
+			
+			if(p_C_DunningLevel_ID != 0)
+			{	
+				sql.append(" C_DunningLevel_ID=? AND ");
+				parameters.add(p_C_DunningLevel_ID);
+			}	
 			//
 			if (p_DateInvoiced_From != null && p_DateInvoiced_To != null)
-				sql.append(" AND TRUNC(DateInvoiced, 'DD') BETWEEN ")
+				sql.append(" TRUNC(DateInvoiced, 'DD') BETWEEN ")
 					.append(DB.TO_DATE(p_DateInvoiced_From, true))
 					.append(" AND ")
-					.append(DB.TO_DATE(p_DateInvoiced_To, true));
+					.append(DB.TO_DATE(p_DateInvoiced_To, true))
+					.append(" AND ");
 			else if (p_DateInvoiced_From != null)
-				sql.append(" AND TRUNC(DateInvoiced, 'DD') >= ")
-					.append(DB.TO_DATE(p_DateInvoiced_From, true));
+				sql.append(" TRUNC(DateInvoiced, 'DD') >= ")
+					.append(DB.TO_DATE(p_DateInvoiced_From, true))
+					.append(" AND ");
 			else if (p_DateInvoiced_To != null)
-				sql.append(" AND TRUNC(DateInvoiced, 'DD') <= ")
-					.append(DB.TO_DATE(p_DateInvoiced_To, true));
+				sql.append("  TRUNC(DateInvoiced, 'DD') <= ")
+					.append(DB.TO_DATE(p_DateInvoiced_To, true))
+					.append(" AND ");
 		}
-		sql.append(" AND IsPaid='N' ORDER BY C_Currency_ID, C_BPartner_ID, DateInvoiced");
-		log.finer(sql.toString());
+		sql.append(" IsPaid='N' ORDER BY C_Currency_ID, C_BPartner_ID, DateInvoiced");
+		
+		final String finalSql = MRole.getDefault(getCtx(), false).addAccessSQL( sql.toString(), "C_Invoice", MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO );
+		log.finer(finalSql);
 		//
 		int counter = 0;
 		PreparedStatement pstmt = null;
 		try
 		{
-			pstmt = DB.prepareStatement (sql.toString(), get_TrxName());
+			pstmt = DB.prepareStatement (finalSql, get_TrxName());
+			DB.setParameters(pstmt, parameters);
+			
 			ResultSet rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
@@ -224,6 +282,7 @@ public class InvoiceWriteOff extends SvrProcess
 		//
 		if (p_IsSimulation)
 		{
+			addLog("@IsSimulation@");
 			addLog(C_Invoice_ID, DateInvoiced, OpenAmt, DocumentNo);
 			return true;
 		}

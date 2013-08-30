@@ -51,7 +51,7 @@ CREATE TABLE t_selection_browse
   t_selection_id numeric,
   columnname character varying(255) ,
   value_string character varying(255),
-  value_date time with time zone,
+  value_date timestamp without time zone,
   value_number numeric,
   info character varying(60)
 );

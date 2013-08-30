@@ -43,6 +43,7 @@ public class MView extends X_AD_View {
 	private static final long serialVersionUID = -4624429043533053271L;
 	/** Logger */
 	private static CLogger s_log = CLogger.getCLogger(MView.class);
+	private List<MViewColumn> m_ViewColumn = null;
 
 	/**************************************************************************
 	 * Smart View
@@ -147,9 +148,12 @@ public class MView extends X_AD_View {
 	 * @param AD_View_ID
 	 * @return MViewColumn
 	 */
-	public List<MViewColumn> getViewColumn(int AD_View_ID) {
-		MView view = new MView(Env.getCtx(), AD_View_ID, get_TrxName());
-		List<MViewColumn> cols = new ArrayList<MViewColumn>();
+	public List<MViewColumn> getViewColumns() {
+		if(m_ViewColumn != null)
+			return m_ViewColumn;
+		m_ViewColumn = new ArrayList<MViewColumn>();
+		MView view = new MView(Env.getCtx(), getAD_View_ID(), get_TrxName());
+
 		for (MViewDefinition def : view.getViewDefinitions()) {
 			final String whereClause = MViewDefinition.COLUMNNAME_AD_View_Definition_ID
 					+ "=?";
@@ -159,12 +163,13 @@ public class MView extends X_AD_View {
 					.list();
 
 			for (MViewColumn col : columns) {
-				cols.add(col);
+				m_ViewColumn.add(col);
 			}
 		}
-		return cols;
+		
+		return m_ViewColumn;
 	}
-
+	
 	/**
 	 * get Parent View Join
 	 * 

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_ForecastLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.1RC
+ *  @version Release 1.0.0
  */
 public interface I_M_ForecastLine 
 {

@@ -64,7 +64,7 @@ public class CreateBrowseField extends SvrProcess {
 		MBrowse browse = new MBrowse(getCtx(), p_Record_ID, get_TrxName());
 		MView view = browse.getAD_View();
 		int seq = 10;
-		for (MViewColumn column : view.getViewColumn(view.getAD_View_ID())) {
+		for (MViewColumn column : view.getViewColumns()) {
 			MBrowseField field = MBrowseField.get(browse, column);
 			if (field != null)
 				continue;
@@ -72,6 +72,8 @@ public class CreateBrowseField extends SvrProcess {
 			field = new MBrowseField(browse, column);
 			field.setAD_Browse_ID(browse.get_ID());
 			field.setEntityType(browse.getEntityType());
+			field.setIsDisplayed(false);
+			field.setIsMandatory(false);
 			field.setSeqNo(seq);
 			field.saveEx();
 			seq++;

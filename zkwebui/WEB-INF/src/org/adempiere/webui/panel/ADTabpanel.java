@@ -39,27 +39,39 @@ import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.SimpleTreeModel;
+import org.adempiere.webui.component.Window;
 import org.adempiere.webui.editor.IZoomableEditor;
 import org.adempiere.webui.editor.WButtonEditor;
+import org.adempiere.webui.editor.WChartEditor;
 import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WEditorPopupMenu;
 import org.adempiere.webui.editor.WebEditorFactory;
 import org.adempiere.webui.event.ContextMenuListener;
+import org.adempiere.webui.event.ValueChangeEvent;
+import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.util.GridTabDataBinder;
 import org.adempiere.webui.window.FDialog;
+import org.adempiere.webui.window.WAlertDialog;
+import org.compiere.grid.ed.VChart;
+import org.adempiere.webui.window.WTextEditorDialog;
+import org.compiere.apps.AEnv;
+import org.compiere.grid.VAlert;
 import org.compiere.model.DataStatusEvent;
 import org.compiere.model.DataStatusListener;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.GridTable;
 import org.compiere.model.GridWindow;
+import org.compiere.model.Lookup;
 import org.compiere.model.MLookup;
+import org.compiere.model.MMemo;
 import org.compiere.model.MTree;
 import org.compiere.model.MTreeNode;
 import org.compiere.model.X_AD_FieldGroup;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Evaluatee;
+import org.compiere.util.Util;
 import org.zkoss.zk.au.out.AuFocus;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
@@ -565,6 +577,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
             GridField mField = comp.getGridField();
             if (mField != null && mField.getIncluded_Tab_ID() <= 0)
             {
+            	
                 if (mField.isDisplayed(true))       //  check context
                 {
                     if (!comp.isVisible())
@@ -884,6 +897,28 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
         //if (col >= 0)
         if (!uiCreated)
         	createUI();
+        
+        if ( mField != null && mField.isLookup() )
+		{
+			Lookup lookup = (Lookup) mField.getLookup();
+			if (lookup != null  && lookup instanceof MLookup )
+			{
+				MLookup mlookup = (MLookup) lookup;
+				Object value = mField.getValue();
+				if ( mlookup.isAlert() && value != null && value instanceof Integer )
+				{
+					String alert = MMemo.getAlerts(Env.getCtx(), mlookup.getTableName(), (Integer) value);
+					if ( !Util.isEmpty(alert) )
+					{
+						WAlertDialog dialog = new WAlertDialog(alert);
+						dialog.setAttribute(Window.MODE_KEY, Window.MODE_MODAL);
+						SessionManager.getAppDesktop().showWindow(dialog);
+						
+					}
+				}
+			}
+		}
+        
         dynamicDisplay(col);
 
         //sync tree

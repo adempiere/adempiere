@@ -31,7 +31,7 @@ public class X_AD_Browse extends PO implements I_AD_Browse, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20111019L;
+	private static final long serialVersionUID = 20130410L;
 
     /** Standard Constructor */
     public X_AD_Browse (Properties ctx, int AD_Browse_ID, String trxName)
@@ -41,6 +41,8 @@ public class X_AD_Browse extends PO implements I_AD_Browse, I_Persistent
         {
 			setAD_Browse_ID (0);
 			setAD_View_ID (0);
+			setAccessLevel (null);
+// 4
 			setEntityType (null);
 			setName (null);
         } */
@@ -182,6 +184,23 @@ public class X_AD_Browse extends PO implements I_AD_Browse, I_Persistent
 		return (String)get_Value(COLUMNNAME_AccessLevel);
 	}
 
+	/** Set Copy From.
+		@param CopyFrom 
+		Copy From Record
+	  */
+	public void setCopyFrom (String CopyFrom)
+	{
+		set_Value (COLUMNNAME_CopyFrom, CopyFrom);
+	}
+
+	/** Get Copy From.
+		@return Copy From Record
+	  */
+	public String getCopyFrom () 
+	{
+		return (String)get_Value(COLUMNNAME_CopyFrom);
+	}
+
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
@@ -277,14 +296,6 @@ public class X_AD_Browse extends PO implements I_AD_Browse, I_Persistent
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), getName());
-    }
-
 	/** Set Process Now.
 		@param Processing Process Now	  */
 	public void setProcessing (boolean Processing)
@@ -322,6 +333,14 @@ public class X_AD_Browse extends PO implements I_AD_Browse, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_Value);
 	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), getValue());
+    }
 
 	/** Set Sql WHERE.
 		@param WhereClause 

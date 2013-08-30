@@ -31,7 +31,7 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20120710L;
+	private static final long serialVersionUID = 20130410L;
 
     /** Standard Constructor */
     public X_AD_Browse_Field (Properties ctx, int AD_Browse_Field_ID, String trxName)
@@ -40,6 +40,7 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
       /** if (AD_Browse_Field_ID == 0)
         {
 			setAD_Browse_Field_ID (0);
+			setAD_Browse_ID (0);
 			setAD_Element_ID (0);
 			setAD_Reference_ID (0);
 			setAD_View_Column_ID (0);
@@ -205,6 +206,34 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_AD_Val_Rule getAD_Val_Rule() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Val_Rule)MTable.get(getCtx(), org.compiere.model.I_AD_Val_Rule.Table_Name)
+			.getPO(getAD_Val_Rule_ID(), get_TrxName());	}
+
+	/** Set Dynamic Validation.
+		@param AD_Val_Rule_ID 
+		Dynamic Validation Rule
+	  */
+	public void setAD_Val_Rule_ID (int AD_Val_Rule_ID)
+	{
+		if (AD_Val_Rule_ID < 1) 
+			set_Value (COLUMNNAME_AD_Val_Rule_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Val_Rule_ID, Integer.valueOf(AD_Val_Rule_ID));
+	}
+
+	/** Get Dynamic Validation.
+		@return Dynamic Validation Rule
+	  */
+	public int getAD_Val_Rule_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Val_Rule_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.adempiere.model.I_AD_View_Column getAD_View_Column() throws RuntimeException
     {
 		return (org.adempiere.model.I_AD_View_Column)MTable.get(getCtx(), org.adempiere.model.I_AD_View_Column.Table_Name)
@@ -297,6 +326,40 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 		return ii.intValue();
 	}
 
+	/** Set Default Logic.
+		@param DefaultValue 
+		Default value hierarchy, separated by ;
+	  */
+	public void setDefaultValue (String DefaultValue)
+	{
+		set_Value (COLUMNNAME_DefaultValue, DefaultValue);
+	}
+
+	/** Get Default Logic.
+		@return Default value hierarchy, separated by ;
+	  */
+	public String getDefaultValue () 
+	{
+		return (String)get_Value(COLUMNNAME_DefaultValue);
+	}
+
+	/** Set Default Logic 2.
+		@param DefaultValue2 
+		Default value hierarchy, separated by ;
+	  */
+	public void setDefaultValue2 (String DefaultValue2)
+	{
+		set_Value (COLUMNNAME_DefaultValue2, DefaultValue2);
+	}
+
+	/** Get Default Logic 2.
+		@return Default value hierarchy, separated by ;
+	  */
+	public String getDefaultValue2 () 
+	{
+		return (String)get_Value(COLUMNNAME_DefaultValue2);
+	}
+
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
@@ -312,6 +375,23 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
+	}
+
+	/** Set Display Logic.
+		@param DisplayLogic 
+		If the Field is displayed, the result determines if the field is actually displayed
+	  */
+	public void setDisplayLogic (String DisplayLogic)
+	{
+		set_Value (COLUMNNAME_DisplayLogic, DisplayLogic);
+	}
+
+	/** Get Display Logic.
+		@return If the Field is displayed, the result determines if the field is actually displayed
+	  */
+	public String getDisplayLogic () 
+	{
+		return (String)get_Value(COLUMNNAME_DisplayLogic);
 	}
 
 	/** EntityType AD_Reference_ID=389 */
@@ -334,6 +414,26 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 		return (String)get_Value(COLUMNNAME_EntityType);
 	}
 
+	/** Set Length.
+		@param FieldLength 
+		Length of the column in the database
+	  */
+	public void setFieldLength (int FieldLength)
+	{
+		set_Value (COLUMNNAME_FieldLength, Integer.valueOf(FieldLength));
+	}
+
+	/** Get Length.
+		@return Length of the column in the database
+	  */
+	public int getFieldLength () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_FieldLength);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Comment/Help.
 		@param Help 
 		Comment or Hint
@@ -349,6 +449,23 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 	public String getHelp () 
 	{
 		return (String)get_Value(COLUMNNAME_Help);
+	}
+
+	/** Set Info Factory Class.
+		@param InfoFactoryClass 
+		Fully qualified class name that implements the InfoFactory interface
+	  */
+	public void setInfoFactoryClass (String InfoFactoryClass)
+	{
+		set_Value (COLUMNNAME_InfoFactoryClass, InfoFactoryClass);
+	}
+
+	/** Get Info Factory Class.
+		@return Fully qualified class name that implements the InfoFactory interface
+	  */
+	public String getInfoFactoryClass () 
+	{
+		return (String)get_Value(COLUMNNAME_InfoFactoryClass);
 	}
 
 	/** Set Centrally maintained.
@@ -471,6 +588,30 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 		return false;
 	}
 
+	/** Set Order by.
+		@param IsOrderBy 
+		Include in sort order
+	  */
+	public void setIsOrderBy (boolean IsOrderBy)
+	{
+		set_Value (COLUMNNAME_IsOrderBy, Boolean.valueOf(IsOrderBy));
+	}
+
+	/** Get Order by.
+		@return Include in sort order
+	  */
+	public boolean isOrderBy () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsOrderBy);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Query Criteria.
 		@param IsQueryCriteria 
 		The column is also used as a query criteria
@@ -560,6 +701,23 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
+	/** Set Read Only Logic.
+		@param ReadOnlyLogic 
+		Logic to determine if field is read only (applies only when field is read-write)
+	  */
+	public void setReadOnlyLogic (String ReadOnlyLogic)
+	{
+		set_Value (COLUMNNAME_ReadOnlyLogic, ReadOnlyLogic);
+	}
+
+	/** Get Read Only Logic.
+		@return Logic to determine if field is read only (applies only when field is read-write)
+	  */
+	public String getReadOnlyLogic () 
+	{
+		return (String)get_Value(COLUMNNAME_ReadOnlyLogic);
+	}
+
 	/** Set Sequence.
 		@param SeqNo 
 		Method of ordering records; lowest number comes first
@@ -578,5 +736,76 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Record Sort No.
+		@param SortNo 
+		Determines in what order the records are displayed
+	  */
+	public void setSortNo (int SortNo)
+	{
+		set_Value (COLUMNNAME_SortNo, Integer.valueOf(SortNo));
+	}
+
+	/** Get Record Sort No.
+		@return Determines in what order the records are displayed
+	  */
+	public int getSortNo () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_SortNo);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Value Format.
+		@param VFormat 
+		Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
+	  */
+	public void setVFormat (String VFormat)
+	{
+		set_Value (COLUMNNAME_VFormat, VFormat);
+	}
+
+	/** Get Value Format.
+		@return Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
+	  */
+	public String getVFormat () 
+	{
+		return (String)get_Value(COLUMNNAME_VFormat);
+	}
+
+	/** Set Max. Value.
+		@param ValueMax 
+		Maximum Value for a field
+	  */
+	public void setValueMax (String ValueMax)
+	{
+		set_Value (COLUMNNAME_ValueMax, ValueMax);
+	}
+
+	/** Get Max. Value.
+		@return Maximum Value for a field
+	  */
+	public String getValueMax () 
+	{
+		return (String)get_Value(COLUMNNAME_ValueMax);
+	}
+
+	/** Set Min. Value.
+		@param ValueMin 
+		Minimum Value for a field
+	  */
+	public void setValueMin (String ValueMin)
+	{
+		set_Value (COLUMNNAME_ValueMin, ValueMin);
+	}
+
+	/** Get Min. Value.
+		@return Minimum Value for a field
+	  */
+	public String getValueMin () 
+	{
+		return (String)get_Value(COLUMNNAME_ValueMin);
 	}
 }

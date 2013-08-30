@@ -544,6 +544,7 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 	 */
 	public void loadTable(ResultSet rs)
 	{
+		int no = 0;
 		int row = 0; // model row
 		int col = 0; // model column
 		Object data = null;
@@ -565,6 +566,7 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 				row = getItemCount();
 				setRowCount(row + 1);
 				rsColOffset = 1;
+				no++;
 				for (col = 0; col < m_layout.length; col++)
 				{
 					//reset the data value
@@ -579,11 +581,15 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 								"An object of type " + m_modelHeaderClass.get(col).getSimpleName()
 								+ " was expected.");
 					}
-
-					if (columnClass == IDColumn.class)
+					
+					if (columnClass == IDColumn.class && !m_layout[col].getColSQL().equals("'Row' AS \"Row\""))
 					{
 						data = new IDColumn(rs.getInt(rsColIndex));
 					}
+					else if (columnClass == IDColumn.class && m_layout[col].getColSQL().equals("'Row' AS \"Row\""))
+					{	
+						data = new IDColumn(no);
+					}	
 					else if (columnClass == Boolean.class)
 					{
 						data = new Boolean(rs.getString(rsColIndex).equals("Y"));

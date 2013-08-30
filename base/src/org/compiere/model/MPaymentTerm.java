@@ -178,10 +178,11 @@ public class MPaymentTerm extends X_C_PaymentTerm
 				m_schedule[i].saveEx();
 			}
 		}
-		String msg = "@OK@";
-		if (!valid)
-			msg = "@Total@ = " + total + " - @Difference@ = " + HUNDRED.subtract(total); 
-		return msg;
+		
+		if (valid)
+			return validMsg;
+		String msg = "@Total@ = " + total + " - @Difference@ = " + HUNDRED.subtract(total); 
+		return Msg.parseTranslation(getCtx(), msg);
 	}	//	validate
 
 

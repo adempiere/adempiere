@@ -149,7 +149,9 @@ public class ViewElementHandler extends AbstractElementHandler {
 				.list();
 
 		for (MViewDefinition vd : viewDefinitions) {
-			packOut.createTable(vd.getAD_Table_ID(), document);
+			//Is not export table definition because maybe cause changes in tables
+			//So that of tables should are created before to import Browser
+			//packOut.createTable(vd.getAD_Table_ID(), document);
 			createViewDefinition(ctx, document, vd.getAD_View_Definition_ID());
 		}
 		// Loop tags.

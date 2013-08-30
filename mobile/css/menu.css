@@ -1,0 +1,52 @@
+/* Compiere (c) Jorg Janke */
+/* $Id: menu.css,v 1.1 2009/04/15 11:26:44 vinhpt Exp $ */
+
+.menuTable	{
+	border-left: none;
+	border-right: none;
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+}
+
+.menuHeader	{
+	background-color : #C9D9F5;
+	padding:10px 10px 10px 10px;
+	border-bottom: 0px solid #000000;
+}
+
+.menuCenter	{
+	width: 100%;
+	background-color : #FFFFFF;
+	border: none;
+	padding:0px 0px 0px 15px;
+	border-top: 1px solid #003FAF;
+	border-bottom: 1px solid #003FAF;
+	margin: 0px 0px 0px 0px;
+}
+
+.menuFooter	{
+	background-color : #C9D9F5;
+	padding:5px 5px 5px 5px;
+}
+
+
+.menuWindow	{
+	list-style: circle inside url(../images/mWindow.gif); /* Menu Item */
+}
+
+.menuWorkflow	{
+	list-style: disc inside url(../images/mWorkFlow.gif); /* Menu Item */
+}
+
+.menuReport	{
+	list-style: disc inside url(../images/mReport.gif); /* Menu Item */
+}
+
+.menuProcess	{
+	list-style: disc inside url(../images/mProcess.gif); /* Menu Item */
+}
+
+.menuSummary	{
+	font-weight: bold; /* Menu Closed */
+	list-style: square inside url(../images/mClosed.gif);
+}

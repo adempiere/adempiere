@@ -32,6 +32,7 @@ import java.util.Map.Entry;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.exceptions.DBException;
 import org.adempiere.impexp.ArrayExcelExporter;
 import org.adempiere.model.I_AD_View_Column;
 import org.adempiere.model.MBrowse;
@@ -65,6 +66,58 @@ import org.compiere.util.Msg;
  */
 public abstract class Browser {
 
+	static public LinkedHashMap<String, Object> getBrowseValues(
+			int AD_PInstance_ID, String alias, int recordId, String trxName) {
+		LinkedHashMap<String, Object> values = new LinkedHashMap<String, Object>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<Object> parameters = new ArrayList<Object>();
+		try {
+			StringBuilder sql = new StringBuilder(
+					"SELECT ColumnName , Value_String, Value_Date , Value_Number FROM T_Selection_Browse "
+							+ "WHERE  AD_PInstance_ID=? AND T_Selection_ID=? ");
+			parameters.add(AD_PInstance_ID);
+			parameters.add(recordId);
+			
+			if(alias != null)
+			{	
+				sql.append("AND ColumnName LIKE ?");
+				parameters.add(alias.toUpperCase() + "_%");
+			}	
+			pstmt = DB.prepareStatement(sql.toString(), trxName);
+			DB.setParameters(pstmt, parameters);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				String columnName = rs.getString(1);
+				/*if (columnName.indexOf("_") > 0)
+					columnName = columnName
+							.substring(columnName.indexOf("_") + 1);*/
+				String valueString = rs.getString(2);
+				Timestamp valueDate = rs.getTimestamp(3);
+				BigDecimal valueBigDecimal = rs.getBigDecimal(4);
+				if (valueString != null) {
+					values.put(columnName, valueString);
+					continue;
+				} else if (valueDate != null) {
+					values.put(columnName, valueDate);
+					continue;
+				} else if (valueBigDecimal != null) {
+					values.put(columnName, valueBigDecimal);
+					continue;
+				}
+			}
+
+		} catch (SQLException ex) {
+			throw new DBException(ex);
+		} finally {
+			DB.close(rs, pstmt);
+			rs = null;
+			pstmt = null;
+		}
+
+		return values;
+	}
+	
 	/** Smart Browse */
 	public MBrowse m_Browse = null;
 	/** Smart View */
@@ -79,8 +132,6 @@ public abstract class Browser {
 	/** list of query columns (SQL) */
 	public ArrayList<String> m_queryColumnsSql = new ArrayList<String>();
 
-	/** Parameters */
-	protected LinkedHashMap<Object,Object> m_search= new LinkedHashMap<Object,Object>();
 	/** Parameters */
 	protected ArrayList<Object> m_parameters;
 	/** Parameters */
@@ -116,7 +167,7 @@ public abstract class Browser {
 	/** Count SQL Statement */
 	public String m_sqlCount;
 	/** Order By Clause */
-	public String m_sqlOrder;
+	public String m_sqlOrderBy;
 	/** Master (owning) Window */
 	public int p_WindowNo;
 	/** Table Name */
@@ -142,37 +193,61 @@ public abstract class Browser {
 			String keyColumn, boolean multiSelection, String where) {
 		m_Browse = browse;
 		m_View = browse.getAD_View();
-		p_WindowNo = WindowNo;
 		p_keyColumn = keyColumn;
 		p_multiSelection = multiSelection;
 		m_language = Language.getLanguage(Env
 				.getAD_Language(m_Browse.getCtx()));
-
+		log.info(m_Browse.getName() + " - " + keyColumn + " - " + p_whereClause);
+	}
+	
+	public void setContextWhere(MBrowse browse, String where)
+	{
+		p_whereClause = null;
+		
 		String whereClause = where != null ? where : "";
 
 		if(m_Browse.getWhereClause() != null )
 			   whereClause = whereClause + m_Browse.getWhereClause();
-			
+		else
+				whereClause = " 1=1 ";
 		if (whereClause == null || whereClause.indexOf('@') == -1)
 			p_whereClause = whereClause;
 		else {
 			p_whereClause = Env.parseContext(Env.getCtx(), p_WindowNo,
-					whereClause, false, false);
+					whereClause, true, true);
 			if (p_whereClause.length() == 0)
 				log.log(Level.SEVERE, "Cannot parse context= " + whereClause);
 		}
 
-		log.info(m_Browse.getName() + " - " + keyColumn + " - " + whereClause);
+		log.info(m_Browse.getName() + " - " + p_whereClause);
 	}
 
 	public ArrayList<Info_Column> initBrowserData() {
-		List<MBrowseField> fields = m_Browse.getFields();
+		List<MBrowseField> fields = m_Browse.getDisplayFields();
 		ArrayList<Info_Column> list = new ArrayList<Info_Column>();
+		
+		MBrowseField fieldKey =  m_Browse.getFieldKey();
+		if(fieldKey != null)
+		{
+			String columnSql = fieldKey.getAD_View_Column().getColumnSQL() + " AS "+ fieldKey.getAD_View_Column().getColumnName();
+			Info_Column infoCol = new Info_Column(fieldKey.getName(), columnSql , IDColumn.class , "" );
+			infoCol.setReadOnly(false);
+			list.add(infoCol);
+		}
+		else
+		{
+			Info_Column infoCol = new Info_Column("Row", "'Row' AS \"Row\"", IDColumn.class  , "" );
+			infoCol.setReadOnly(false);
+			list.add(infoCol);
+		}
+			
+
 		for (MBrowseField field : fields) {
 			MViewColumn vcol = field.getAD_View_Column();
 
 			//String title = m_Browse.getTitle();
-			String columnName = vcol.getAD_Column().getColumnName();
+			MColumn column =  vcol.getAD_Column();
+			String columnName = column.getColumnName();
 			
 			if (field.isQueryCriteria()) {
 				m_queryColumns.add(field.getName());
@@ -180,7 +255,8 @@ public abstract class Browser {
 			m_queryColumnsSql.add(vcol.getColumnSQL());
 
 			int displayType = field.getAD_Reference_ID();
-			boolean isKey = field.isKey();
+			if(field.isKey())
+				continue;
 			boolean isDisplayed = field.isDisplayed();
 			// Defines Field as Y-Axis
 			if(field.getAxis_Column_ID() > 0)
@@ -192,18 +268,21 @@ public abstract class Browser {
 					continue;	
 			}
 			
-			// teo_sarca
+			String IDcolSQL = "";
 			String columnSql = vcol.getColumnSQL() + " AS "
 					+ vcol.getColumnName();
 			if (columnSql == null || columnSql.length() == 0)
 				columnSql = columnName;
 			// Default
-			StringBuffer colSql = new StringBuffer(columnSql);
+			StringBuilder colSql = new StringBuilder(columnSql);
 			Class colClass = null;
-			if (isKey) {
-				colClass = IDColumn.class;
-			} else if (!isDisplayed)
+			if (!isDisplayed)
 				;
+			else if (column.isVirtualColumn())
+			{
+				colSql = new StringBuilder("(" + column.getColumnSQL() + ")");
+				colClass = String.class;
+			}
 			else if (DisplayType.YesNo == displayType)
 				colClass = Boolean.class;
 			else if (DisplayType.Amount == displayType)
@@ -216,19 +295,21 @@ public abstract class Browser {
 			else if (DisplayType.TableDir == displayType
 					|| DisplayType.Search == displayType) {
 				String alias = vcol.getAD_View_Definition().getTableAlias();
-				colSql = new StringBuffer("("
+				colSql = new StringBuilder("("
 						+ MLookupFactory.getLookup_TableDirEmbed(m_language,
 								columnName, alias) + ") AS "
 						+ vcol.getColumnName());
-				colClass = String.class;
+				IDcolSQL = vcol.getColumnSQL();
+				colClass = KeyNamePair.class;
 			} else if (DisplayType.Table == displayType) {
 				String alias = vcol.getAD_View_Definition().getTableAlias();
-				colSql = new StringBuffer("("
+				colSql = new StringBuilder("("
 						+ MLookupFactory.getLookup_TableEmbed(m_language,
 								columnName, alias,
 								field.getAD_Reference_Value_ID()) + ") AS "
 						+ vcol.getColumnName());
-				colClass = String.class;
+				IDcolSQL = vcol.getColumnSQL();
+				colClass = KeyNamePair.class;
 			} else if (DisplayType.String == displayType
 					|| DisplayType.Text == displayType
 					|| DisplayType.Memo == displayType)
@@ -236,21 +317,21 @@ public abstract class Browser {
 			else if (DisplayType.isDate(displayType))
 				colClass = Timestamp.class;
 			else if (DisplayType.List == displayType) {
-				colSql = new StringBuffer("("
+				colSql = new StringBuilder("("
 						+ MLookupFactory.getLookup_ListEmbed(m_language,
 								field.getAD_Reference_Value_ID(),
-								vcol.getColumnSQL()) + ")");
-				colClass = String.class;
+								vcol.getColumnSQL()) + ") AS "
+						+ vcol.getColumnName());
+				colClass = String.class;;
 			}
 			if (colClass != null) {
-				Info_Column infocol = new Info_Column(field.getName(), colSql.toString(), colClass);
+				Info_Column infocol = new Info_Column(field.getName(), colSql.toString(), colClass , displayType , IDcolSQL );
 				infocol.setReadOnly(field.isReadOnly());
 				list.add(infocol);
 				log.finest("Added Field=" + columnName + " Name=" + field.getName());
 			} else
 				log.finest("Not Added Field=" +  columnName + "Name=" + field.getName());
-		}
-
+		}		
 		return list;
 	}
 
@@ -260,12 +341,6 @@ public abstract class Browser {
 	
 	public ArrayList<Object> getParametersValues() {
 		return m_parameters_values;
-	}
-
-	public void setParameter(Object name, Object value) {
-		if (value != null) {
-			m_search.put(name, value);
-		}
 	}
 	
 	public void addSQLWhere(StringBuffer sql, int index, String value) {
@@ -324,37 +399,12 @@ public abstract class Browser {
 	}
 
 	public abstract ArrayList<Integer> getSelectedRowKeys();
-
-	public String getSelectedSQL() {
-		// No results
-		List<Integer> keys = getSelectedKeys();
-		if (keys == null || keys.size() == 0) {
-			log.config("No Results - OK=" + m_ok + ", Cancel=" + m_cancel);
-			return "";
-		}
-		//
-		StringBuffer sb = new StringBuffer(getKeyColumn());
-		if (keys.size() > 1)
-			sb.append(" IN (");
-		else
-			sb.append("=");
-
-		// Add elements
-		for (Integer key : keys) {
-			if (getKeyColumn().endsWith("_ID"))
-				sb.append(key.toString()).append(",");
-			else
-				sb.append("'").append(key.toString()).append("',");
-		}
-
-		sb.replace(sb.length() - 1, sb.length(), "");
-		if (keys.size() > 1)
-			sb.append(")");
-		return sb.toString();
-	} // getSelectedSQL;
 	
 	public void setProcessInfo(ProcessInfo pi) {
 		m_pi = pi;
+		if(m_pi != null)
+			if(	m_browse_pi !=null)
+				m_browse_pi.setRecord_ID(m_pi.getRecord_ID());
 	}
 
 	public ProcessInfo getProcessInfo() {
@@ -430,9 +480,9 @@ public abstract class Browser {
 			MTable xTable = (MTable) xcol.getAD_Column().getAD_Table();
 			String xTableName = xTable.getTableName();
 	
-			MBrowseField fieldKey = field.getFieldKey();
-			if(fieldKey == null)
-				throw new AdempiereException("@NotFound@ @IsKey@");
+			//MBrowseField fieldKey = field.getFieldKey();
+			//if(fieldKey == null)
+			//	throw new AdempiereException("@NotFound@ @IsKey@");
 	
 			String keyColumn = MQuery.getZoomColumnName(columnName);
 			String tableName = MQuery.getZoomTableName(columnName);
@@ -444,15 +494,23 @@ public abstract class Browser {
 			if(pcol.getColumnName() == null)
 				throw new AdempiereException("@NotFound@ @ColumnName@");
 	
-			String whereClause = parentColumn.getColumnName() + "="
+			String whereClause =  "";
+			
+			if(field.getAD_Val_Rule_ID() > 0)
+				whereClause = Env.parseContext(Env.getCtx(), p_WindowNo, field.getAD_Val_Rule().getCode(), false);
+			
+			if(whereClause.length() > 0 )
+				whereClause += " AND ";
+			
+			whereClause += parentColumn.getColumnName() + "="
 					+ getParamenterValue(pcol.getColumnName());
 
 			MLookup lookup = MLookupFactory.get(Env.getCtx(), 0,
 					xcol.getAD_Column_ID(), field.getAD_Reference_ID(),
-					m_language, keyColumn, 0, false, whereClause);
+					m_language, keyColumn, field.getAD_Reference_Value_ID(), false, whereClause);
 
-			for (int id : MTable.getAllIDs(tableName, whereClause, null)) {
-				String colName = lookup.getDisplay(id)
+			for (int id : MTable.getAllIDs(tableName, whereClause , null)) {
+				String colName = lookup.getDisplay(id).trim()
 						+ "/"
 						+ Msg.translate(m_language, ycol.getAD_Column()
 								.getColumnName());
@@ -462,15 +520,16 @@ public abstract class Browser {
 						.append(" FROM  ")
 						.append(xTableName)
 						.append(" WHERE ")
-						.append(xTableName)
-						.append(".")
-						.append(fieldKey.getAD_View_Column().getAD_Column()
-								.getColumnName()).append("=")
-						.append(fieldKey.getAD_View_Column().getColumnSQL())
-						.append(" AND ").append(xTableName).append(".")
+						//.append(xTableName)
+						//.append(".")
+						//.append(fieldKey.getAD_View_Column().getAD_Column()
+						//		.getColumnName()).append("=")
+						//.append(fieldKey.getAD_View_Column().getColumnSQL())
+						//.append(" AND ").append(xTableName).append(".")
+						.append(xTableName).append(".")
 						.append(xcol.getAD_Column().getColumnName())
 						.append("=").append(id).append(") AS ");
-				select.append(makePrefix(lookup.getDisplay(id))).append("_").append(ycol.getColumnName());
+				select.append("\"").append(colName).append("\"");
 				Info_Column infocol = new Info_Column(colName,
 						select.toString(), DisplayType.getClass(ycol.getAD_Column().getAD_Reference_ID(), true));
 				infocol.setReadOnly(field.isReadOnly());
@@ -497,6 +556,41 @@ public abstract class Browser {
 				.setParameters(AD_Table_ID, true).first();
 	}
 	
+	public MBrowseField getFieldKey()
+	{
+	MBrowseField fieldKey = m_Browse.getFieldKey();
+	return fieldKey;
+	}
+	
+	public boolean IsIdentifierSelection(String columnName)
+	{	
+		for (MBrowseField field : m_Browse.getIdentifierFields()) {
+			if (field.getAD_View_Column().getColumnName().equals(columnName))
+				return true;
+		}
+		return false;
+	}
+	
+	public MQuery getMQuery()
+	{
+		Integer record_ID = getSelectedRowKey();
+
+		if (record_ID == null)
+			return null;
+		
+		MBrowseField fieldKey = getFieldKey();
+		if(fieldKey == null)
+			return null;
+		
+		MColumn column = fieldKey.getAD_View_Column().getAD_Column();
+		String keyColumn = MQuery.getZoomColumnName(column.getColumnName());
+		String tableName = column.getAD_Table().getTableName();
+		MQuery query = new MQuery(tableName);
+		query.addRestriction(keyColumn, MQuery.EQUAL, record_ID);
+		return query;
+	}
+	
+	
 	/**
 	 * get Parameter Value
 	 * @param key
@@ -508,18 +602,54 @@ public abstract class Browser {
 	
 	protected String getSQL() {
 		String dynWhere = getSQLWhere(false);
-		StringBuffer sql = new StringBuffer(m_sqlMain);
+		StringBuilder sql = new StringBuilder(m_sqlMain);
 		if (dynWhere.length() > 0)
 			sql.append(dynWhere); // includes first AND
-		sql.append(m_sqlOrder);
+		sql.append(m_sqlOrderBy);
 		String dataSql = Msg.parseTranslation(Env.getCtx(), sql.toString()); // Variables
 		dataSql = MRole.getDefault().addAccessSQL(dataSql,
 				m_View.getParentEntityAliasName(), MRole.SQL_FULLYQUALIFIED,
 				MRole.SQL_RO);
 		log.finer(dataSql);
+		//dataSql += " ORDER BY " + m_Browse.getOrderByClause(); 
 		return dataSql;
 	}
+	
+	public String getSQLOrderBy() {
+		StringBuilder sqlOrderBy = new StringBuilder();
+		for (MBrowseField field : m_Browse.getOrderByFields()) {
+			if (sqlOrderBy.length() > 0 && field.isOrderBy())
+				sqlOrderBy.append(",");
 
+			if (field.isOrderBy()) {
+				int orderByPosition = getOrderByPosition(field
+						.getAD_View_Column().getColumnName());
+				if (orderByPosition > 0)
+					sqlOrderBy.append(orderByPosition);
+			}
+		}
+		return sqlOrderBy.length() > 0 ? "ORDER BY " + sqlOrderBy.toString()
+				: "";
+	}
+	
+	private int getOrderByPosition(String name)
+	{
+		int colOffset = 1; // columns start with 1
+		for (int col = 0; col < p_layout.length; col++) {
+			Info_Column column = p_layout[col];
+			String columnName = column.getColSQL().substring(
+					column.getColSQL().indexOf("AS ") + 3);
+
+			Class<?> c = column.getColClass();
+			int sortBySqlNo = col + colOffset;
+			if (c == KeyNamePair.class)
+				colOffset++;
+			if(name.equals(columnName))
+				return sortBySqlNo;
+		}
+		return 0;
+	}
+	
 	protected PreparedStatement getStatement(String sql) {
 		PreparedStatement stmt = null;
 		try {
@@ -584,46 +714,70 @@ public abstract class Browser {
 	public void createT_Selection_Browse(int AD_PInstance_ID)
 	{
 		StringBuilder insert = new StringBuilder();
-		insert.append("INSERT INTO T_SELECTION_BROWSE (AD_PINSTANCE_ID, T_SELECTION_ID, COLUMNNAME , VALUE_STRING, VALUE_NUMBER , VALUE_DATE ) ");
+		insert.append("INSERT INTO T_SELECTION_BROWSE (AD_PINSTANCE_ID, T_SELECTION_ID, COLUMNNAME , VALUE_STRING, VALUE_NUMBER , VALUE_DATE ) VALUES(?,?,?,?,?,?) ");
 		for (Entry<Integer,LinkedHashMap<String, Object>> records : m_values.entrySet()) {
 			//set Record ID
 			
 				LinkedHashMap<String, Object> fields = records.getValue();
 				for(Entry<String, Object> field : fields.entrySet())
 				{
-					StringBuilder insertValues = new StringBuilder();
-					insertValues.append(" VALUES(").append(AD_PInstance_ID).append(",");
-					insertValues.append(records.getKey()).append(",");
-					//set Browse Field ID
-					insertValues.append("'").append(field.getKey()).append("',");
+					List<Object> parameters = new ArrayList<Object>();
+					parameters.add(AD_PInstance_ID);
+					parameters.add(records.getKey());
+					parameters.add(field.getKey());
+					
 					Object data = field.getValue();
-					// set Values
-					if (data instanceof String)
+					// set Values					
+					if (data instanceof IDColumn)
 					{
-						insertValues.append("'").	append(data).append("',");
-						insertValues.append("null").append(",");
-						insertValues.append("null").append(")");
+						IDColumn id = (IDColumn) data;
+						parameters.add(null);
+						parameters.add(id.getRecord_ID());
+						parameters.add(null);
+					}
+					else if (data instanceof String)
+					{
+						parameters.add(data);
+						parameters.add(null);
+						parameters.add(null);
 					}
 					else if (data instanceof BigDecimal || data instanceof Integer || data instanceof Double)
 					{
-						insertValues.append("null").append(",");
-						insertValues.append(data).append(",");
-						insertValues.append("null").append(")");
+						parameters.add(null);
+						if(data instanceof Double)
+						{	
+							BigDecimal value = BigDecimal.valueOf((Double)data);
+							parameters.add(value);
+						}	
+						else	
+							parameters.add(data);
+						parameters.add(null);
+					}
+					else if (data instanceof Integer)
+					{
+						parameters.add(null);
+						parameters.add((Integer)data);
+						parameters.add(null);
 					}
 					else if (data instanceof Timestamp || data instanceof Date)
 					{
-						insertValues.append("null").append(",");
-						insertValues.append("null").append(",");
-						insertValues.append(data).append(")");
+						parameters.add(null);
+						parameters.add(null);
+						if(data instanceof Date)
+						{
+							Timestamp value = new Timestamp(((Date)data).getTime());
+							parameters.add(value);
+						}
+						else 
+						parameters.add(data);
 					}
 					else
 					{
-						insertValues.append("'").append(data).append("',");
-						insertValues.append("null").append(",");
-						insertValues.append("null").append(")");
+						parameters.add(data);
+						parameters.add(null);
+						parameters.add(null);
 					}
-					
-					DB.executeUpdateEx(insert.toString() + insertValues.toString(), null);		
+					DB.executeUpdateEx(insert.toString(),parameters.toArray() , null);		
 						
 				}
 		}
@@ -673,8 +827,10 @@ public abstract class Browser {
 						Object data = null;
 						Class<?> c = p_layout[col].getColClass();
 						int colIndex = col + colOffset;
-						if (c == IDColumn.class)
+						if (c == IDColumn.class && !p_layout[col].getColSQL().equals("'Row' AS \"Row\""))
 							data = new IDColumn(m_rs.getInt(colIndex));
+						else if (c == IDColumn.class && p_layout[col].getColSQL().equals("'Row' AS \"Row\""))
+							data = new IDColumn(no);
 						else if (c == Boolean.class)
 							data = new Boolean("Y".equals(m_rs
 									.getString(colIndex)));

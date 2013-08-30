@@ -48,4 +48,6 @@ syntax: regexp
 ^zkwebui/dist$
 ^zkwebui/WEB-INF/classes$
 ^migration/my_processes_post_migration$
-Adempiere.*\.properties
+
+syntax: regexp
+^lib/mobile\.war$

@@ -31,7 +31,7 @@ public class X_AD_View extends PO implements I_AD_View, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20111019L;
+	private static final long serialVersionUID = 20130410L;
 
     /** Standard Constructor */
     public X_AD_View (Properties ctx, int AD_View_ID, String trxName)
@@ -94,6 +94,23 @@ public class X_AD_View extends PO implements I_AD_View, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Copy From.
+		@param CopyFrom 
+		Copy From Record
+	  */
+	public void setCopyFrom (String CopyFrom)
+	{
+		set_Value (COLUMNNAME_CopyFrom, CopyFrom);
+	}
+
+	/** Get Copy From.
+		@return Copy From Record
+	  */
+	public String getCopyFrom () 
+	{
+		return (String)get_Value(COLUMNNAME_CopyFrom);
 	}
 
 	/** Set Description.
