@@ -184,7 +184,7 @@ public class BuildDepForecastFile extends SvrProcess
 							depexp.setIsDepreciated(true);
 							depexp.setDateAcct(assetwk.getAssetDepreciationDate());
 							depexp.setA_Entry_Type("FOR");
-							depexp.save();
+							depexp.saveEx();
 						}
 						else
 						{
@@ -200,7 +200,7 @@ public class BuildDepForecastFile extends SvrProcess
 						cal.setTime(ts);
 						assetwk.setDateAcct(ts);
 						assetwk.setA_Period_Forecast(new BigDecimal(assetwk.getA_Period_Posted()));
-						assetwk.save();				
+						assetwk.saveEx();				
 						
 					
 					//Calculate life to date depreciation
@@ -224,7 +224,7 @@ public class BuildDepForecastFile extends SvrProcess
 						assetwk.setDateAcct(ts);
 						v_current_adj = v_current_adj.add((v_HalfYearConv_Adj));
 						assetwk.setA_Period_Forecast(v_current_adj);
-						assetwk.save();
+						assetwk.saveEx();
 					    v_Dep_Exp_Inception = v_Dep_Exp_Inception .add(v_Dep_Exp_Inception2.multiply(v_HalfYearConv_Adj));    
 					    v_current = v_current + 1;
 					}
@@ -288,7 +288,7 @@ public class BuildDepForecastFile extends SvrProcess
 						depexp1.setA_Period((int)v_current);
 						depexp1.setIsDepreciated(true);
 						depexp1.setDateAcct(ts);
-						depexp1.save();
+						depexp1.saveEx();
 						v_total_adjustment = v_total_adjustment.setScale(5, BigDecimal.ROUND_HALF_UP).subtract(v_Dep_Exp_Adjustment.setScale(5, BigDecimal.ROUND_HALF_UP));
 						
 						//Record adjusted expense							
@@ -302,7 +302,7 @@ public class BuildDepForecastFile extends SvrProcess
 						depexp2.setIsDepreciated(true);
 						depexp2.setDateAcct(ts);
 						depexp2.setA_Entry_Type("FOR");
-						depexp2.save();						
+						depexp2.saveEx();						
 						v_Dep_Exp_Inception = v_Dep_Exp_Inception.add((v_Dep_Exp_Monthly.setScale(2, BigDecimal.ROUND_HALF_UP))).setScale(2, BigDecimal.ROUND_HALF_UP);
 					}
 					else
@@ -319,7 +319,7 @@ public class BuildDepForecastFile extends SvrProcess
 						depexp2.setIsDepreciated(true);
 						depexp2.setDateAcct(ts);
 						depexp2.setA_Entry_Type("FOR");
-						depexp2.save();
+						depexp2.saveEx();
 						v_Dep_Exp_Inception = v_Dep_Exp_Inception.add(v_Dep_Exp_Monthly).setScale(2, BigDecimal.ROUND_HALF_UP);
 					}					
 					lastdepexp2 = depexp2.get_ID();
@@ -332,13 +332,13 @@ public class BuildDepForecastFile extends SvrProcess
 					//record in workfile
 					assetwk.setA_Period_Forecast(v_current_adj);
 					assetwk.setDateAcct(ts);
-					assetwk.save();
+					assetwk.saveEx();
 					v_current = v_current + 1;					
 					}
 					//adjust last entry for rounding errors
 					X_A_Depreciation_Exp depexp2 = new X_A_Depreciation_Exp (getCtx(), lastdepexp2, null);					
 					depexp2.setExpense(depexp2.getExpense().add(((rs.getBigDecimal("A_ASSET_COST").subtract(rs.getBigDecimal("A_SALVAGE_VALUE").subtract(v_total_adjustment))).subtract(v_Dep_Exp_Inception)).multiply(new BigDecimal(rs2.getFloat("A_Split_Percent")))));					
-					depexp2.save();
+					depexp2.saveEx();
 					asset_id_current = rs2.getInt("A_ASSET_ID");
 					log.info("Asset #"+asset_id_current);					
 				}

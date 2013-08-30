@@ -90,7 +90,7 @@ public class UserPassword extends SvrProcess
 		}
 
 		//	is entered Password correct ?
-		else if (!p_OldPassword.equals(user.getPassword()))
+		else if (!user.authenticateHash(p_OldPassword) && !p_OldPassword.equals(user.getPassword()) )
 			throw new IllegalArgumentException("@OldPasswordNoMatch@");
 		
 		//	Change Super User

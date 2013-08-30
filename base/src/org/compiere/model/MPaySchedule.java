@@ -115,7 +115,7 @@ public class MPaySchedule extends X_C_PaySchedule
 			log.fine("afterSave");
 			getParent();
 			m_parent.validate();
-			m_parent.save();
+			m_parent.saveEx();
 		}
 		return success;
 	}	//	afterSave
@@ -126,7 +126,7 @@ public class MPaySchedule extends X_C_PaySchedule
 			return false;
 		getParent();
 		m_parent.validate();
-		m_parent.save();
+		m_parent.saveEx();
 		return true;
 	}
 	

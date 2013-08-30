@@ -272,7 +272,7 @@ public class MDistributionLine extends X_GL_DistributionLine
 	{
 		getParent();
 		m_parent.validate();
-		m_parent.save();
+		m_parent.saveEx();
 		return success;
 	}	//	afterSave
 

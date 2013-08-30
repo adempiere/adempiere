@@ -797,4 +797,14 @@ public final class MLookup extends Lookup implements Serializable
 		}	//	run
 	}	//	Loader
 
+
+
+	public String getTableName() {
+		return m_info.TableName;
+	}
+
+	public boolean isAlert() {
+		return m_info.IsAlert;
+	}
+
 }	//	MLookup

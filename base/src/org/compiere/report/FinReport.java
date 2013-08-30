@@ -1181,7 +1181,7 @@ public class FinReport extends SvrProcess
 			pf = MPrintFormat.createFromTable(Env.getCtx(), AD_Table_ID);
 			AD_PrintFormat_ID = pf.getAD_PrintFormat_ID();
 			m_report.setAD_PrintFormat_ID(AD_PrintFormat_ID);
-			m_report.save();
+			m_report.saveEx();
 		}
 		else
 			pf = MPrintFormat.get (getCtx(), AD_PrintFormat_ID, false);	//	use Cache
@@ -1196,7 +1196,7 @@ public class FinReport extends SvrProcess
 		}
 		else if (!m_report.getDescription().equals(pf.getDescription()))
 			pf.setDescription(m_report.getDescription());
-		pf.save();
+		pf.saveEx();
 		log.fine(pf + " - #" + pf.getItemCount());
 
 		//	Print Format Item Sync
@@ -1305,7 +1305,7 @@ public class FinReport extends SvrProcess
 				if (pfi.getSortNo() != 0)
 					pfi.setSortNo(0);
 			}
-			pfi.save();
+			pfi.saveEx();
 			log.fine(pfi.toString());
 		}
 		//	set translated to original

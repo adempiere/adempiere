@@ -257,7 +257,7 @@ public class ListPanel extends Borderlayout implements EventListener
 		int index = 0;
 		for (int i = 0; i < numColumns; i++)
 		{
-			if (gridField[i].isDisplayed())
+			if (gridField[i].isDisplayed() && gridField[i].isDisplayedGrid())
 			{
 				colnames.put(index, gridField[i].getHeader());
 				index++;

@@ -668,7 +668,7 @@ public class ImportOrder extends SvrProcess
 							order.setDocAction(m_docAction);
 							order.processIt (m_docAction);
 						}
-						order.save();
+						order.saveEx();
 					}
 					oldC_BPartner_ID = imp.getC_BPartner_ID();
 					oldC_BPartner_Location_ID = imp.getC_BPartner_Location_ID();
@@ -726,7 +726,7 @@ public class ImportOrder extends SvrProcess
 					if (imp.getC_OrderSource() != null)
 						order.setC_OrderSource_ID(imp.getC_OrderSource_ID());
 					//
-					order.save();
+					order.saveEx();
 					noInsert++;
 					lineNo = 10;
 				}
@@ -754,7 +754,7 @@ public class ImportOrder extends SvrProcess
 					line.setFreightAmt(imp.getFreightAmt());
 				if (imp.getLineDescription() != null)
 					line.setDescription(imp.getLineDescription());
-				line.save();
+				line.saveEx();
 				imp.setC_OrderLine_ID(line.getC_OrderLine_ID());
 				imp.setI_IsImported(true);
 				imp.setProcessed(true);
@@ -769,7 +769,7 @@ public class ImportOrder extends SvrProcess
 					order.setDocAction(m_docAction);
 					order.processIt (m_docAction);
 				}
-				order.save();
+				order.saveEx();
 			}
 			rs.close();
 			pstmt.close();

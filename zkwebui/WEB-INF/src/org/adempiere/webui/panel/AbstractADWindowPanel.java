@@ -630,17 +630,11 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         if (query != null && query.isActive() && query.getRecordCount() < 10)
             return query;
         //
-        StringBuffer where = new StringBuffer();
+		StringBuffer where = new StringBuffer(Env.parseContext(ctx, curWindowNo, mTab.getWhereExtended(), false));
         // Query automatically if high volume and no query
         boolean require = mTab.isHighVolume();
         if (!require && !m_onlyCurrentRows) // No Trx Window
         {
-            String wh1 = mTab.getWhereExtended();
-            if (wh1 == null || wh1.length() == 0)
-                wh1 = mTab.getWhereClause();
-            if (wh1 != null && wh1.length() > 0)
-                where.append(wh1);
-            //
             if (query != null)
             {
                 String wh2 = query.getWhereClause();

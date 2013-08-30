@@ -307,6 +307,10 @@
 			<zipfileset src="lib/cglib.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
+			<!-- Open Forecast -->
+			<zipfileset src="lib/OpenForecast-0.5.0.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
 			<manifest>
 				<attribute name="Specification-Title" value="Adempiere Server Tools" />
 				<attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}" />
@@ -464,6 +468,10 @@
 			</zipfileset>
 			<!-- POI -->
 			<zipfileset src="lib/poi-3.5-FINAL-20090928.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<!-- Open Forecast -->
+			<zipfileset src="lib/OpenForecast-0.5.0.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<manifest>

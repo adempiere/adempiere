@@ -267,7 +267,7 @@ public class InvoiceGen extends GenForm
         }
         else
         {
-            AD_Process_ID = 134;  // HARDCODED    C_InvoiceCreate
+            AD_Process_ID = 134;  // HARDCODED    C_Invoice_Generate (manual)
         }
 		MPInstance instance = new MPInstance(Env.getCtx(), AD_Process_ID, 0);
 		if (!instance.save())

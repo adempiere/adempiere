@@ -160,7 +160,7 @@ public class MLocator extends X_M_Locator
 			MWarehouse wh = MWarehouse.get (ctx, M_Warehouse_ID);
 			retValue = new MLocator (wh, Value);
 			retValue.setXYZ(X, Y, Z);
-			retValue.save();
+			retValue.saveEx();
 		}
 		return retValue;
 	 }	//	get

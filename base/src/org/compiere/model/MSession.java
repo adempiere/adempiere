@@ -76,7 +76,7 @@ public class MSession extends X_AD_Session
 		if (session == null && createNew)
 		{
 			session = new MSession (ctx, null);	//	local session
-			session.save();
+			session.saveEx();
 			AD_Session_ID = session.getAD_Session_ID();
 			Env.setContext (ctx, "#AD_Session_ID", AD_Session_ID);
 			s_sessions.put (new Integer(AD_Session_ID), session);
@@ -101,7 +101,7 @@ public class MSession extends X_AD_Session
 		if (session == null)
 		{
 			session = new MSession (ctx, Remote_Addr, Remote_Host, WebSession, null);	//	remote session
-			session.save();
+			session.saveEx();
 			AD_Session_ID = session.getAD_Session_ID();
 			Env.setContext(ctx, "#AD_Session_ID", AD_Session_ID);
 			s_sessions.put(new Integer(AD_Session_ID), session);

@@ -70,7 +70,7 @@ protected boolean afterSave (boolean newRecord,boolean success)
 	MAsset asset = new MAsset (getCtx(), p_A_Asset_ID, null);
 	asset.setUseUnits(total_unitsused);
 	asset.setProcessing(false);	
-	asset.save();
+	asset.saveEx();
 	
 	
 	MAssetChange change = new MAssetChange (getCtx(), 0,null);
@@ -79,7 +79,7 @@ protected boolean afterSave (boolean newRecord,boolean success)
 	change.setChangeType("USE");
 	change.setTextDetails(MRefList.getListDescription (getCtx(),"A_Update_Type" , "USE"));
 	change.setUseUnits(getUseUnits());
-	change.save();
+	change.saveEx();
 	
 	return true;
 	 

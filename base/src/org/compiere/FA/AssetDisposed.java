@@ -138,7 +138,7 @@ public class AssetDisposed extends SvrProcess
 			depexp0.setIsDepreciated(true);
 			depexp0.setA_Period(AssetDisposed.getC_Period_ID());
 			depexp0.setA_Entry_Type("DIS");
-			depexp0.save();
+			depexp0.saveEx();
 			
 			X_A_Depreciation_Exp depexp1 = new X_A_Depreciation_Exp (getCtx(), 0, null);
 			depexp1.setPostingType(rs.getString("PostingType"));
@@ -150,7 +150,7 @@ public class AssetDisposed extends SvrProcess
 			depexp1.setIsDepreciated(false);
 			depexp1.setA_Period(AssetDisposed.getC_Period_ID());
 			depexp1.setA_Entry_Type("DIS");
-			depexp1.save();
+			depexp1.saveEx();
 			
 			v_Balance = v_Balance.add(rs.getBigDecimal("A_Asset_Cost").multiply(rs.getBigDecimal("A_Split_Percent")));
 			
@@ -165,7 +165,7 @@ public class AssetDisposed extends SvrProcess
 			depexp2.setIsDepreciated(true);
 			depexp2.setA_Period(AssetDisposed.getC_Period_ID());
 			depexp2.setA_Entry_Type("DIS");
-			depexp2.save();
+			depexp2.saveEx();
 			
 			X_A_Depreciation_Exp depexp3 = new X_A_Depreciation_Exp (getCtx(), 0, null);
 			depexp3.setPostingType(rs.getString("PostingType"));
@@ -177,7 +177,7 @@ public class AssetDisposed extends SvrProcess
 			depexp3.setIsDepreciated(false);
 			depexp3.setA_Period(AssetDisposed.getC_Period_ID());
 			depexp3.setA_Entry_Type("DIS");
-			depexp3.save();			
+			depexp3.saveEx();			
 			}
 			
 			sql = "UPDATE A_ASSET "
@@ -201,7 +201,7 @@ public class AssetDisposed extends SvrProcess
 			change.setAssetAccumDepreciationAmt(v_Balance);
 			change.setIsFullyDepreciated(true);
 			change.setIsDisposed(true);
-			change.save();
+			change.saveEx();
 			
 		}
 			catch (Exception e)

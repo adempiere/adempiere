@@ -109,7 +109,7 @@ public class PaymentAllocationManager
         MAllocationHdr alloc = new MAllocationHdr (ctx, true,  //  manual
                 new Timestamp(System.currentTimeMillis()), creditInvoice.getC_Currency_ID(), Env.getContext(Env.getCtx(), "#AD_User_Name"), trxName);
         alloc.setAD_Org_ID(Env.getAD_Org_ID(ctx));
-        alloc.save();
+        alloc.saveEx();
         
         if(invoiceIds.length>1)
         {
@@ -121,14 +121,14 @@ public class PaymentAllocationManager
                     MAllocationLine aLine = new MAllocationLine (alloc, invoice.getOpenAmt(), discountAmt, writeOffAmt, overUnderAmt);
                     aLine.setDocInfo(invoice.getC_BPartner_ID(),invoice.getC_Order_ID(), invoice.get_ID());
                     aLine.setPaymentInfo(paymentId, cashLineId);
-                    aLine.save();
+                    aLine.saveEx();
                 }
                 else if(invoice.getOpenAmt().signum()==1)
                 {
                     MAllocationLine aLine = new MAllocationLine (alloc, appliedAmt, discountAmt, writeOffAmt, overUnderAmt);
                     aLine.setDocInfo(invoice.getC_BPartner_ID(),invoice.getC_Order_ID(), invoice.get_ID());
                     aLine.setPaymentInfo(paymentId, cashLineId);
-                    aLine.save();
+                    aLine.saveEx();
                 }
                 
             }
@@ -179,7 +179,7 @@ public class PaymentAllocationManager
                         payment.getDiscountAmt(), payment.getWriteOffAmt(),overUnderPaymentAmt );
                 aLine.setDocInfo(creditInvoice.getC_BPartner_ID(),creditInvoice.getC_Order_ID(), creditInvoice.get_ID());
                 aLine.setPaymentInfo(payment.get_ID(), cashLineId);
-                aLine.save();
+                aLine.saveEx();
             }
         }
         
@@ -349,7 +349,7 @@ public class PaymentAllocationManager
         MAllocationHdr alloc = new MAllocationHdr (ctx, true,  //  manual
                 new Timestamp(System.currentTimeMillis()), payment.getC_Currency_ID(), Env.getContext(Env.getCtx(), "#AD_User_Name"), trxName);
         alloc.setAD_Org_ID(Env.getAD_Org_ID(ctx));
-        alloc.save();
+        alloc.saveEx();
         
         MInvoice invoice = null;
         if(invoiceIds!=null && invoiceIds.length>0)
@@ -363,7 +363,7 @@ public class PaymentAllocationManager
                         payment.getDiscountAmt(), payment.getWriteOffAmt(), payment.getWriteOffAmt());
                 aLine.setDocInfo(invoice.getC_BPartner_ID(),invoice.getC_Order_ID(), invoice.get_ID());
                 aLine.setPaymentInfo(payment.get_ID(), cashLineId);
-                aLine.save();
+                aLine.saveEx();
             }
         }
     }

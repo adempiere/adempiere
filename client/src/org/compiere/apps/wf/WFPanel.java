@@ -388,12 +388,12 @@ public class WFPanel extends CPanel
 		else if (e.getSource() == bSaveLayout)
 		{
 			if (m_wf.getAD_Client_ID() == AD_Client_ID)
-				m_wf.save();
+				m_wf.saveEx();
 			MWFNode[] nodes = m_wf.getNodes(false, AD_Client_ID);
 			for (int i = 0; i < nodes.length; i++)
 			{
 				if (nodes[i].getAD_Client_ID() == AD_Client_ID)
-					nodes[i].save();
+					nodes[i].saveEx();
 			}
 		}
 		else if (e.getSource() == bResetLayout)

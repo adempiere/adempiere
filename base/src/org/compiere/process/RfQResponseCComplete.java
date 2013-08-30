@@ -62,7 +62,7 @@ public class RfQResponseCComplete extends SvrProcess
 		if (error != null && error.length() > 0)
 			throw new Exception (error);
 		//
-		response.save();
+		response.saveEx();
 		return "OK";
 	}	//	doIt
 	

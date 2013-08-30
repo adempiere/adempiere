@@ -16,6 +16,9 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -33,6 +36,7 @@ import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Secure;
 import org.compiere.util.SecureEngine;
 
 /**
@@ -309,6 +313,7 @@ public class MUser extends X_AD_User
 	private Boolean				m_isAdministrator = null;
 	/** User Access Rights				*/
 	private X_AD_UserBPAccess[]	m_bpAccess = null;
+	private boolean hashed = false;
 	
 		
 	/**
@@ -328,6 +333,7 @@ public class MUser extends X_AD_User
 	 * 	Set Value - 7 bit lower case alpha numerics max length 8
 	 *	@param Value
 	 */
+	@Override
 	public void setValue(String Value)
 	{
 		if (Value == null || Value.trim().length () == 0)
@@ -357,6 +363,73 @@ public class MUser extends X_AD_User
 		super.setValue(result);
 	}	//	setValue
 	
+	/**
+	 * Convert Password to SHA-512 hash with salt * 1000 iterations https://www.owasp.org/index.php/Hashing_Java
+	 * @param password -- plain text password
+	 */
+	@Override
+	public void setPassword(String password) {
+		
+		if ( password == null )
+		{
+			super.setPassword(password);
+			return;
+		}
+		
+		if ( hashed  )
+			return;
+		
+		hashed = true;   // prevents double call from beforeSave
+		
+		// Uses a secure Random not a simple Random
+		SecureRandom random;
+		try {
+			random = SecureRandom.getInstance("SHA1PRNG");
+			// Salt generation 64 bits long
+			byte[] bSalt = new byte[8];
+			random.nextBytes(bSalt);
+			// Digest computation
+			String hash;
+			hash = SecureEngine.getSHA512Hash(1000,password,bSalt);
+
+	        String sSalt = Secure.convertToHexString(bSalt);
+			super.setPassword(hash);
+			setSalt(sSalt);
+		} catch (NoSuchAlgorithmException e) {
+			super.setPassword(password);
+		} catch (UnsupportedEncodingException e) {
+			super.setPassword(password);
+		}
+	}
+	
+	/**
+	 * check if hashed password matches
+	 */
+	public boolean authenticateHash (String password)  {
+
+		String hash = null;
+		String salt = null;
+
+		hash = getPassword();
+		salt = getSalt();
+
+		// always do calculation to prevent timing based attacks
+		if ( hash == null )
+			hash = "0000000000000000";
+		if ( salt == null )
+			salt = "0000000000000000";
+
+		try {
+			return SecureEngine.getSHA512Hash(1000, password, Secure.convertHexString(salt)).equals(hash);
+		} catch (NoSuchAlgorithmException ignored) {
+			log.log(Level.WARNING, "Password hashing not supported by JVM");
+		} catch (UnsupportedEncodingException ignored) {
+			log.log(Level.WARNING, "Password hashing not supported by JVM");
+		}
+		return false;
+		
+	}
+
 	/**
 	 * 	Clean Value
 	 *	@param value value
@@ -802,6 +875,11 @@ public class MUser extends X_AD_User
 			setEMailVerifyDate(null);
 		if (newRecord || super.getValue() == null || is_ValueChanged("Value"))
 			setValue(super.getValue());
+		if ((newRecord || is_ValueChanged("Password")) && !hashed)
+			setPassword(super.getPassword());                 // needed for updating in User window
+		
+		hashed = false;
+		
 		return true;
 	}	//	beforeSave
 	

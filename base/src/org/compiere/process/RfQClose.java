@@ -67,14 +67,14 @@ public class RfQClose extends SvrProcess
 		log.info("doIt - " + rfq);
 		//
 		rfq.setProcessed(true);
-		rfq.save();
+		rfq.saveEx();
 		//
 		int counter = 0;
 		MRfQResponse[] responses = rfq.getResponses (false, false);
 		for (int i = 0; i < responses.length; i++)
 		{
 			responses[i].setProcessed(true);
-			responses[i].save();
+			responses[i].saveEx();
 			counter++;
 		}
 		//

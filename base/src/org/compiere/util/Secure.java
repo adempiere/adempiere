@@ -16,6 +16,7 @@
  *****************************************************************************/
 package org.compiere.util;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.security.AlgorithmParameters;
 import java.security.MessageDigest;
@@ -364,6 +365,29 @@ public class Secure implements SecureInterface
 		return convertToHexString(output);
 	}	//	getDigest
 
+	/**
+	 *  Convert String and salt to SHA-512 hash with iterations
+	 *  https://www.owasp.org/index.php/Hashing_Java
+	 *
+	 *  @param value message
+	 *  @return HexString of message (length = 128 characters)
+	 * @throws NoSuchAlgorithmException 
+	 * @throws UnsupportedEncodingException 
+	 */
+	public String getSHA512Hash (int iterations, String value, byte[] salt) throws NoSuchAlgorithmException, UnsupportedEncodingException
+	{
+		MessageDigest digest = MessageDigest.getInstance("SHA-512");
+		digest.reset();
+		digest.update(salt);
+		byte[] input = digest.digest(value.getBytes("UTF-8"));
+		for (int i = 0; i < iterations; i++) {
+			digest.reset();
+			input = digest.digest(input);
+		}
+		digest.reset();
+		//
+		return convertToHexString(input);
+	}	//	getSHA512Hash
 
 	/**
 	 * 	Checks, if value is a valid digest

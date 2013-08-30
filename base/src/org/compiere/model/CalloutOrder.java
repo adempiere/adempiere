@@ -36,6 +36,10 @@ import org.compiere.util.Msg;
  *	
  *  @author Jorg Janke
  *  @version $Id: CalloutOrder.java,v 1.5 2006/10/08 06:57:33 comdivision Exp $
+ *  
+ *  @author Michael McKay (mjmckay)
+ *  		<li> BF3468458 - Attribute Set Instance not filled on Orders when product lookup not used.
+ *  			 See https://sourceforge.net/tracker/?func=detail&aid=3468458&group_id=176962&atid=879332
  */
 public class CalloutOrder extends CalloutEngine
 {
@@ -697,15 +701,18 @@ public class CalloutOrder extends CalloutEngine
 		if (M_Product_ID == null || M_Product_ID.intValue() == 0)
 			return "";
 		if (steps) log.warning("init");
+
+		MProduct product = MProduct.get (ctx, M_Product_ID.intValue());
+		I_M_AttributeSetInstance asi = product.getM_AttributeSetInstance();
 		//
 		mTab.setValue("C_Charge_ID", null);
-		//	Set Attribute
+		//	Set Attribute from context or, if null, from the Product
 		if (Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_Product_ID") == M_Product_ID.intValue()
 			&& Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_AttributeSetInstance_ID") != 0)
 			mTab.setValue("M_AttributeSetInstance_ID", Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_AttributeSetInstance_ID"));
-		else
-			mTab.setValue("M_AttributeSetInstance_ID", null);
-			
+		else {
+			mTab.setValue("M_AttributeSetInstance_ID", asi.getM_AttributeSetInstance_ID());
+		}
 		/*****	Price Calculation see also qty	****/
 		int C_BPartner_ID = Env.getContextAsInt(ctx, WindowNo, "C_BPartner_ID");
 		BigDecimal Qty = (BigDecimal)mTab.getValue("QtyOrdered");
@@ -756,7 +763,6 @@ public class CalloutOrder extends CalloutEngine
 		
 		if (Env.isSOTrx(ctx, WindowNo))
 		{
-			MProduct product = MProduct.get (ctx, M_Product_ID.intValue());
 			if (product.isStocked())
 			{
 				BigDecimal QtyOrdered = (BigDecimal)mTab.getValue("QtyOrdered");

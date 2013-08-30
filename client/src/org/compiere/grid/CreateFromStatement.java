@@ -41,6 +41,9 @@ import org.compiere.util.Msg;
  *  <li> RF [1811114] http://sourceforge.net/tracker/index.php?func=detail&aid=1811114&group_id=176962&atid=879335
  *  @author Teo Sarca, www.arhipac.ro
  * 			<li>BF [ 2007837 ] VCreateFrom.save() should run in trx
+ *  @author Michael McKay (mjmckay)
+ * 			<li>BF3439685 Create from for Statement Line picks wrong date
+ * 			See https://sourceforge.net/tracker/?func=detail&aid=3439695&group_id=176962&atid=879332  
  */
 public class CreateFromStatement extends CreateFrom 
 {
@@ -302,7 +305,12 @@ public class CreateFromStatement extends CreateFrom
 					+ ", Payment=" + C_Payment_ID + ", Currency=" + C_Currency_ID + ", Amt=" + TrxAmt);
 				//	
 				MBankStatementLine bsl = new MBankStatementLine (bs);
-				bsl.setStatementLineDate(trxDate);
+				
+				// BF3439695 - Create from for Statement Line picks wrong date
+				bsl.setDateAcct(bs.getStatementDate());
+				bsl.setStatementLineDate(bs.getStatementDate());
+				bsl.setValutaDate(trxDate);
+				
 				bsl.setPayment(new MPayment(Env.getCtx(), C_Payment_ID, trxName));
 				
 				bsl.setTrxAmt(TrxAmt);

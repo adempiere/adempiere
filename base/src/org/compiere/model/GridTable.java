@@ -29,6 +29,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -2090,8 +2091,13 @@ public class GridTable extends AbstractTableModel
 					|| (oldValue != null && oldValue.equals (dbValue))
 					//	Target == DB (changed by trigger to new value already)
 					|| (value == null && dbValue == null)
-					|| (value != null && value.equals (dbValue)) )
-				{
+					|| (value != null && value.equals (dbValue)) 
+					
+					//   GridTable.dataSave(boolean manualCmd) has a Bug when comparing new, old and db value 
+					// - https://adempiere.atlassian.net/browse/ADEMPIERE-157
+					|| ((oldValue.getClass().equals(byte[].class) && dbValue.getClass().equals(byte[].class)) && Arrays.equals((byte[])oldValue, (byte[])dbValue))
+					|| ((value.getClass().equals(byte[].class) && dbValue.getClass().equals(byte[].class)) && Arrays.equals((byte[])oldValue, (byte[])dbValue))
+				) {
 					po.set_ValueNoCheck (columnName, value);
 				}
 				//	Original != DB
@@ -3534,6 +3540,11 @@ public class GridTable extends AbstractTableModel
 				// no columns updated or processed to commpare
 				return false;
 			}
+			
+			
+			// todo: temporary fix for carlos assumption that all windows have _id column
+			if ( findColumn(m_tableName + "_ID") == -1)
+				return false;
 
 	    	Timestamp dbUpdated = null;
 	    	String dbProcessedS = null;

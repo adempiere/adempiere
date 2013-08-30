@@ -577,7 +577,7 @@ public class MMatchPO extends X_M_MatchPO
 					if (il != null)
 					{
 						il.setC_OrderLine_ID(iol.getC_OrderLine_ID());
-						il.save();
+						il.saveEx();
 					}
 				}
 			}	//	get from shipment

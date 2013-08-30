@@ -56,7 +56,7 @@ public class PostingManager
         
         MPInstance instance = new MPInstance(ctx, 175, Env.getAD_Client_ID(ctx));
        
-        instance.save();
+        instance.saveEx();
        
         ProcessInfo poInfo = new ProcessInfo("Resubmit Posting", 175);
         poInfo.setParameter(param);

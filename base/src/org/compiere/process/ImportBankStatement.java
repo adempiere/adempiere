@@ -492,7 +492,7 @@ public class ImportBankStatement extends SvrProcess
 					imp.setC_BankStatementLine_ID(line.getC_BankStatementLine_ID());
 					imp.setI_IsImported(true);
 					imp.setProcessed(true);
-					imp.save();
+					imp.saveEx();
 					noInsertLine++;
 					lineNo += 10;	
 				}
