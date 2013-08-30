@@ -683,6 +683,22 @@ public class MiniTable extends CTable implements IMiniTable
 	 */
 	public void setColumnClass (int index, Class c, boolean readOnly, String header)
 	{
+		setColumnClass (index, c, 0  , readOnly, header);
+	}
+	
+	/**
+	 *  Set Column Editor & Renderer to Class
+	 *  (after all columns were added)
+	 *  Lauout of IDColumn depemds on multiSelection
+	 *  @param index column index
+	 *  @param c   class of column - determines renderere/editors supported:
+	 *  @param DisplayType define Type Value
+	 *  IDColumn, Boolean, Double (Quantity), BigDecimal (Amount), Integer, Timestamp, String (default)
+	 *  @param readOnly read only flag
+	 *  @param header optional header value
+	 */
+	public void setColumnClass (int index, Class c, int displayType ,boolean readOnly, String header)
+	{
 	//	log.config( "MiniTable.setColumnClass - " + index, c.getName() + ", r/o=" + readOnly);
 		TableColumn tc = getColumnModel().getColumn(index);
 		if (tc == null)
@@ -697,31 +713,25 @@ public class MiniTable extends CTable implements IMiniTable
 		//  ID Column & Selection
 		if (c == IDColumn.class)
 		{
-			tc.setCellRenderer(new IDColumnRenderer(isMultiSelection()));
-			if (isMultiSelection())
+			tc.setCellRenderer(new IDColumnRenderer(m_multiSelection));
+			if (m_multiSelection)
 			{
 				tc.setCellEditor(new IDColumnEditor());
+				setColumnReadOnly(index, false);
 			}
 			else
 			{
 				tc.setCellEditor(new ROCellEditor());
 			}
 			m_minWidth.add(new Integer(10));
-			if (header == null ||  header.equals("") || header.equals(" "))
-			{
-				tc.setMaxWidth(20);
-				tc.setResizable(false);
-				tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.Number));
-			}
-			else
-			{
-				tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.String));
-				tc.setResizable(true);
-			}
+			tc.setMaxWidth(20);
 			tc.setPreferredWidth(20);
+			tc.setResizable(false);
+			
+			tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.Number));
 		}
 		//  Boolean
-		else if (c == Boolean.class)
+		else if (DisplayType.YesNo == displayType || c == Boolean.class )
 		{
 			tc.setCellRenderer(new CheckRenderer());
 			if (readOnly)
@@ -738,19 +748,28 @@ public class MiniTable extends CTable implements IMiniTable
 			tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.YesNo));
 		}
 		//  Date
-		else if (c == Timestamp.class)
+		else if (DisplayType.Date == displayType || DisplayType.DateTime == displayType ||  c == Timestamp.class )
 		{
-			tc.setCellRenderer(new VCellRenderer(DisplayType.Date));
+			if(DisplayType.DateTime == displayType)
+				tc.setCellRenderer(new VCellRenderer(DisplayType.DateTime));
+			else 
+				tc.setCellRenderer(new VCellRenderer(DisplayType.Date));
+			
 			if (readOnly)
 				tc.setCellEditor(new ROCellEditor());
-			else
+			else if (DisplayType.Date == displayType || DisplayType.DateTime == displayType)
+				tc.setCellEditor(new MiniCellEditor(c, displayType));
+			else 
 				tc.setCellEditor(new MiniCellEditor(c));
-			m_minWidth.add(new Integer(30));
 			
-			tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.DateTime));
+			m_minWidth.add(new Integer(30));
+			if (DisplayType.DateTime == displayType)
+				tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.DateTime));
+			else 
+				tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.Date));
 		}
 		//  Amount
-		else if (c == BigDecimal.class)
+		else if (DisplayType.Amount == displayType || c == BigDecimal.class )
 		{
 			tc.setCellRenderer(new VCellRenderer(DisplayType.Amount));
 			if (readOnly)
@@ -767,7 +786,7 @@ public class MiniTable extends CTable implements IMiniTable
 			tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.Number));
 		}
 		//  Number
-		else if (c == Double.class)
+		else if (DisplayType.Number == displayType || c == Double.class)
 		{
 			tc.setCellRenderer(new VCellRenderer(DisplayType.Number));
 			if (readOnly)
@@ -784,7 +803,7 @@ public class MiniTable extends CTable implements IMiniTable
 			tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.Number));
 		}
 		//  Integer
-		else if (c == Integer.class)
+		else if (DisplayType.Integer == displayType || c == Integer.class )
 		{
 			tc.setCellRenderer(new VCellRenderer(DisplayType.Integer));
 			if (readOnly)
@@ -807,8 +826,7 @@ public class MiniTable extends CTable implements IMiniTable
 			
 			tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.String));
 		}
-		
-		//	log.fine( "Renderer=" + tc.getCellRenderer().toString() + ", Editor=" + tc.getCellEditor().toString());
+	//	log.fine( "Renderer=" + tc.getCellRenderer().toString() + ", Editor=" + tc.getCellEditor().toString());
 	}   //  setColumnClass
 
 	/**

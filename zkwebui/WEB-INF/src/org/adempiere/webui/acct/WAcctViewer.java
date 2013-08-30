@@ -38,36 +38,35 @@ import org.adempiere.webui.component.Tabpanels;
 import org.adempiere.webui.component.Tabs;
 import org.adempiere.webui.component.VerticalBox;
 import org.adempiere.webui.component.WListItemRenderer;
+import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.panel.InfoPanel;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
-import org.compiere.apps.ADialog;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAcctSchemaElement;
 import org.compiere.model.X_C_AcctSchema_Element;
 import org.compiere.report.core.RModel;
 import org.compiere.report.core.RModelExcelExporter;
 import org.compiere.util.CLogMgt;
-import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
 import org.compiere.util.ValueNamePair;
-import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.South;
-import org.zkoss.zkex.zul.West;
 import org.zkoss.zul.Caption;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Groupbox;
 import org.zkoss.zul.Hbox;
+import org.zkoss.zul.Iframe;
 import org.zkoss.zul.Listhead;
 import org.zkoss.zul.Listheader;
 import org.zkoss.zul.Listitem;
@@ -161,7 +160,7 @@ public class WAcctViewer extends Window implements EventListener
 	private Tabbox tabbedPane = new Tabbox();
 	private Iframe iframe = new Iframe();
 
-	private Listbox table = new Listbox();
+	private WListbox table = new WListbox();
 	private Paging paging = new Paging();
 
 	private VerticalBox displayPanel = new VerticalBox();
@@ -453,25 +452,25 @@ public class WAcctViewer extends Window implements EventListener
 
 			// Display Document Info
 
-		displayDocumentInfo.setLabel(Msg.getMsg(Env.getCtx(), "DisplayDocumentInfo"));
+		displayDocumentInfo.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "DisplayDocumentInfo")));
 		displayDocumentInfo.addEventListener(Events.ON_CLICK, this);
 
 			// Display Source Info
 
-		displaySourceAmt.setLabel(Msg.getMsg(Env.getCtx(), "DisplaySourceInfo"));
+		displaySourceAmt.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "DisplaySourceInfo")));
 		displaySourceAmt.addEventListener(Events.ON_CHECK, this);
 
 			// Display Quantity
 
-		displayQty.setLabel(Msg.getMsg(Env.getCtx(), "DisplayQty"));
+		displayQty.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "DisplayQty")));
 		displayQty.addEventListener(Events.ON_CHECK, this);
 
 		Hbox boxSortDisplay = new Hbox();
 		boxSortDisplay.setWidth("100%");
 		boxSortDisplay.setWidths("70%, 30%");
 
-		lSort.setValue(Msg.getMsg(Env.getCtx(), "SortBy"));
-		lGroup.setValue(Msg.getMsg(Env.getCtx(), "GroupBy"));
+		lSort.setValue(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "SortBy")));
+		lGroup.setValue(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "GroupBy")));
 
 		boxSortDisplay.appendChild(lSort);
 		boxSortDisplay.appendChild(lGroup);
@@ -551,32 +550,28 @@ public class WAcctViewer extends Window implements EventListener
 
 		//  South Panel
 
-		bRePost.setLabel(Msg.getMsg(Env.getCtx(), "RePost"));
-		bRePost.setTooltiptext(Msg.getMsg(Env.getCtx(), "RePostInfo"));
+		bRePost.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "RePost")));
+		bRePost.setTooltiptext(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "RePostInfo")));
 		bRePost.addEventListener(Events.ON_CLICK, this);
 		bRePost.setVisible(false);
 
-		forcePost.setLabel(Msg.getMsg(Env.getCtx(), "Force"));
-		forcePost.setTooltiptext(Msg.getMsg(Env.getCtx(), "ForceInfo"));
+		forcePost.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "Force")));
+		forcePost.setTooltiptext(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "ForceInfo")));
 		forcePost.setVisible(false);
 
 		bQuery.setImage("/images/Refresh16.png");
-		bQuery.setTooltiptext(Msg.getMsg(Env.getCtx(), "Refresh"));
+		bQuery.setTooltiptext(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "Refresh")));
 		bQuery.addEventListener(Events.ON_CLICK, this);
 
 		//FR[3435028]
 		bExport.setImage("/images/Export16.png");
-		bExport.setTooltiptext(Msg.getMsg(Env.getCtx(), "Export"));
+		bExport.setTooltiptext(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "Export")));
 		bExport.addEventListener(Events.ON_CLICK, this);
 		
 		bPrint.setImage("/images/Print16.png");
-		bPrint.setTooltiptext(Msg.getMsg(Env.getCtx(), "Print"));
+		bPrint.setTooltiptext(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "Print")));
 		bPrint.addEventListener(Events.ON_CLICK, this);
 		
-		bExport.setImage("/images/Export16.png");
-		bExport.setTooltiptext(Msg.getMsg(Env.getCtx(), "Export"));
-		bExport.addEventListener(Events.ON_CLICK, this);
-
 		southPanel.setWidth("100%");
 		southPanel.setWidths("2%, 12%, 82%, 2%, 2%");
 		southPanel.appendChild(bRePost);
@@ -591,22 +586,18 @@ public class WAcctViewer extends Window implements EventListener
 
 		resultPanel = new Borderlayout();
 		resultPanel.setStyle("position: absolute");
-		resultPanel.setWidth("97%");
-		resultPanel.setHeight("96%");
+		resultPanel.setWidth("99%");
+		resultPanel.setHeight("99%");
 		result.appendChild(resultPanel);
 
 		Center resultCenter = new Center();
-		West resultWest = new West();
 		resultCenter.setFlex(true);
 		resultPanel.appendChild(resultCenter);
-		resultPanel.appendChild(resultWest);
-		table.setWidth("99%;");
+		table.setWidth("96%");
+		table.setHeight("98%");
 		table.setVflex(true);
-		table.setHeight("99%");
-		table.setStyle("position: absolute;");
+		table.setStyle("overflow: auto; position: absolute;");
 		resultCenter.appendChild(table);
-		resultWest.appendChild(iframe);
-		resultWest.setWidth("0%"); // Hide the iFrame - its only a trigger for display of xls files.
 
 		pagingPanel = new South();
 		resultPanel.appendChild(pagingPanel);
@@ -628,10 +619,10 @@ public class WAcctViewer extends Window implements EventListener
 		// Tabbox
 
 		tabQuery.addEventListener(Events.ON_SELECT, this);
-		tabQuery.setLabel(Msg.getMsg(Env.getCtx(), "ViewerQuery").replaceAll("[&]", ""));
+		tabQuery.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "ViewerQuery")));
 
 		tabResult.addEventListener(Events.ON_SELECT, this);
-		tabResult.setLabel(Msg.getMsg(Env.getCtx(), "ViewerResult").replaceAll("[&]", ""));
+		tabResult.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "ViewerResult")));
 
 		tabs.appendChild(tabQuery);
 		tabs.appendChild(tabResult);
@@ -728,56 +719,9 @@ public class WAcctViewer extends Window implements EventListener
 			selRecord.setLabel(m_data.getButtonText(tableName, keyColumn, selectSQL));
 		}
 
-/*
-		if (!haveDoc)
-		{
-			selTable.setSelectedIndex(0);
-			actionTable();
-		}
-		else
-		{
-			if (setSelectedTable(AD_Table_ID, Record_ID))
-			{
-				actionQuery();
-			}
-			else
-			{
-				//reset
-				haveDoc = false;
-				selDocument.setChecked(haveDoc);
-				actionDocument();
-				selTable.setSelectedIndex(0);
-				actionTable();
-			}
-		}
-*/
 		if (tabResult.isSelected())
 			stateChanged();
 	} // dynInit
-
-	private boolean setSelectedTable(int AD_Table_ID, int Record_ID)
-	{
-		int cnt = selTable.getItemCount();
-		ValueNamePair vp = null;
-		for (int i = 0; i < cnt; i++)
-		{
-			Listitem listitem = selTable.getItemAtIndex(i);
-			vp = (ValueNamePair)listitem.getValue();
-			int tableId = (Integer)m_data.tableInfo.get(vp.getValue());
-			if (tableId == AD_Table_ID)
-			{
-				selTable.setSelectedIndex(i);
-				m_data.AD_Table_ID = AD_Table_ID;
-
-				//  Reset Record
-				m_data.Record_ID = Record_ID;
-				selRecord.setLabel("");
-				selRecord.setName(vp.getValue() + "_ID");
-				return true;
-			}
-		}
-		return false;
-	}
 
 	/**
 	 *  Dispose
@@ -840,7 +784,7 @@ public class WAcctViewer extends Window implements EventListener
 			;//PrintScreenPainter.printScreen(this);
 		//  InfoButtons
 		else if  (source == bExport)
-			exportExcel(); // Export the table.
+			actionExportExcel(); // Export the table.
 		else if (source instanceof Button)
 			actionButton((Button)source);
 		else if (source == paging)
@@ -1372,17 +1316,21 @@ public class WAcctViewer extends Window implements EventListener
 		}
 		try {
 			String path = System.getProperty("java.io.tmpdir");
-			String prefix = makePrefix(this.getTitle());
+			String prefix = makePrefix(this.getTitle());  // getTitle will be null for embedded windows.
+			if (prefix.equals(""))
+				prefix = makePrefix(Msg.getMsg(Env.getCtx(), "InfoAccount"));
+			
 			if (log.isLoggable(Level.FINE))
 			{
 				log.log(Level.FINE, "Path="+path + " Prefix="+prefix);
 			}
-			File file = File.createTempFile(prefix, ".pdf", new File(path));
+			File file = File.createTempFile(prefix, ".xls", new File(path));
 			
 			RModelExcelExporter exporter = new RModelExcelExporter((RModel)model);
-			exporter.export(file, null);
-			AMedia media = new AMedia(getTitle(), "xls", "application/msexcel", file, true);
-			Filedownload.save(media, getTitle() + "." + "xls");
+			exporter.export(file, null, false);
+			//AMedia media = new AMedia(getTitle(), "xls", "application/msexcel", file, true);
+			//Filedownload.save(media, getTitle() + "." + "xls");
+			Filedownload.save(file,"application/msexcel");
 		}
 		catch (Exception e) {
 			FDialog.error(0, this, "LoadError", e.getLocalizedMessage());

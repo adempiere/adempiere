@@ -78,6 +78,7 @@ import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
 import org.zkoss.zkex.zul.South;
 import org.zkoss.zkex.zul.West;
+import org.zkoss.zul.Div;
 import org.zkoss.zul.ListModelExt;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Paging;
@@ -371,8 +372,14 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 		p_southLayout.setHeight("70px");
 		
 		if (p_centerNorth.getChildren().size() == 0)
+		{
 			p_centerNorth.detach();
-
+		}
+		else
+		{
+			p_centerNorth.setHeight("25px");
+		}
+		
 		if (p_centerSouth.getChildren().size() > 0)
 		{
 			int detailHeight = (p_height * 25 / 100);
@@ -459,8 +466,11 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 		p_centerLayout.appendChild(p_centerCenter); // the table
 		p_centerLayout.appendChild(p_centerSouth);  // detail tabs or other
         //
-		p_centerCenter.appendChild(p_table);
-		p_centerCenter.setAutoscroll(true);
+		Div div = new Div();  // Need to use a container for p_table so we can insert paging if required.
+		div.appendChild(p_table);
+		div.setStyle("width :100%; height: 100%");
+		p_centerCenter.appendChild(div);
+		p_centerCenter.setAutoscroll(false);
         p_centerCenter.setFlex(true);
 		//
 		p_centerSouth.setCollapsible(true);
@@ -978,7 +988,11 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	}
     
     protected void insertPagingComponent() {
-		p_table.getParent().insertBefore(paging, p_table.getNextSibling());
+    	p_centerNorth.appendChild(paging);
+    	p_centerLayout.appendChild(p_centerNorth);
+    	setSizes();
+    	//this.invalidate();
+    	
 	}
     
     public Vector<String> getColumnHeader(ColumnInfo[] p_layout)

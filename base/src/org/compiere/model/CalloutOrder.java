@@ -783,7 +783,7 @@ public class CalloutOrder extends CalloutEngine
 			{
 				BigDecimal QtyOrdered = (BigDecimal)mTab.getValue("QtyOrdered");
 				int M_Warehouse_ID = Env.getContextAsInt(ctx, WindowNo, "M_Warehouse_ID");
-				int M_AttributeSetInstance_ID = Env.getContextAsInt(ctx, WindowNo, "M_AttributeSetInstance_ID");
+				M_AttributeSetInstance_ID = Env.getContextAsInt(ctx, WindowNo, "M_AttributeSetInstance_ID");
 				BigDecimal available = MStorage.getQtyAvailable
 					(M_Warehouse_ID, M_Product_ID.intValue(), M_AttributeSetInstance_ID, null);
 				if (available == null)

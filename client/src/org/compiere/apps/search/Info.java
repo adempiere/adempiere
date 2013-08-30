@@ -1108,12 +1108,6 @@ public abstract class Info extends CDialog
 			
 			p_selectedRecordKey = 0;
 
-			//
-			int no = p_table.getRowCount();
-			setStatusLine(Integer.toString(no) + " " 
-				+ Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
-			setStatusDB(Integer.toString(no));
-
 			//  Return focus to where it is expected to be
 			m_parentPanel.requestFocus();
 			if (m_heldLastFocus instanceof CTextField)
