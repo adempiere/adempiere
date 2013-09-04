@@ -68,6 +68,7 @@ public class MPPProductBOMLine extends X_PP_Product_BOMLine
 		final String whereClause = MPPProductBOMLine.COLUMNNAME_M_Product_ID+"=?";
 		return new Query(product.getCtx(), MPPProductBOMLine.Table_Name, whereClause, product.get_TrxName())
 						.setParameters(product.getM_Product_ID())
+						.setClient_ID()
 						.list();
 	}
 	

@@ -65,6 +65,7 @@ import org.compiere.model.MPaySelectionCheck;
 import org.compiere.model.MProject;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRfQResponse;
+import org.compiere.model.MTable;
 import org.compiere.model.PrintInfo;
 import org.compiere.print.layout.LayoutEngine;
 import org.compiere.process.ProcessInfo;
@@ -166,6 +167,8 @@ public class ReportEngine implements PrintServiceAttributeListener
 	/** Window */
 	private int m_windowNo = 0;
 	
+	private boolean m_summary = false;
+	
 	/**
 	 * 	Set PrintFormat.
 	 *  If Layout was created, re-create layout
@@ -222,7 +225,7 @@ public class ReportEngine implements PrintServiceAttributeListener
 			return;
 		
 		DataEngine de = new DataEngine(m_printFormat.getLanguage(),m_trxName);
-		setPrintData(de.getPrintData (m_ctx, m_printFormat, m_query));
+		setPrintData(de.getPrintData (m_ctx, m_printFormat, m_query, m_summary));
 	//	m_printData.dump();
 	}	//	setPrintData
 
@@ -1108,7 +1111,14 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		if (IsForm && pi.getRecord_ID() != 0		//	Form = one record
 				&& !TableName.startsWith("T_") )	//	Not temporary table - teo_sarca, BF [ 2828886 ]
 		{
-			query = MQuery.getEqualQuery(TableName + "_ID", pi.getRecord_ID());
+			MTable table = MTable.get(ctx, AD_Table_ID);
+			String columnKey = null;
+			if(table.isSingleKey())
+				 columnKey = table.getKeyColumns()[0];
+			else 
+				columnKey = TableName + "_ID";
+			
+			query = MQuery.getEqualQuery(columnKey, pi.getRecord_ID());
 		}
 		else
 		{
@@ -1147,9 +1157,9 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		PrintInfo info = new PrintInfo (pi);
 		info.setAD_Table_ID(AD_Table_ID);
 		
-		return new ReportEngine(ctx, format, query, info);
+		return new ReportEngine(ctx, format, query, info, pi.getTransactionName());
 	}	//	get
-
+	
 	/*************************************************************************/
 
 	/** Order = 0				*/
@@ -1606,5 +1616,8 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		return m_windowNo;
 	}
 
- 	
+	public void setSummary(boolean summary)
+	{
+		m_summary = summary;
+	}
 }	//	ReportEngine

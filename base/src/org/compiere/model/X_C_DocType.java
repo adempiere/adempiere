@@ -53,6 +53,7 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 			setIsInTransit (false);
 			setIsIndexed (false);
 			setIsPickQAConfirm (false);
+			setIsPrepareSplitDocument (true);
 			setIsSOTrx (false);
 			setIsShipConfirm (false);
 			setIsSplitWhenDifference (false);
@@ -753,6 +754,31 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public boolean isPickQAConfirm () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsPickQAConfirm);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	
+	/** Set Prepare Split Document.
+		@param IsPrepareSplitDocument 
+		Prepare generated split shipment/receipt document
+	  */
+	public void setIsPrepareSplitDocument (boolean IsPrepareSplitDocument)
+	{
+		set_Value (COLUMNNAME_IsPrepareSplitDocument, Boolean.valueOf(IsPrepareSplitDocument));
+	}
+	
+	/** Get Prepare Split Document.
+		@return Prepare generated split shipment/receipt document
+	  */
+	public boolean isPrepareSplitDocument () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsPrepareSplitDocument);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

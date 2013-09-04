@@ -433,6 +433,7 @@ public interface I_C_DocType
 	  */
 	public boolean isSOTrx();
 
+	
     /** Column name IsShipConfirm */
     public static final String COLUMNNAME_IsShipConfirm = "IsShipConfirm";
 
@@ -446,6 +447,19 @@ public interface I_C_DocType
 	  */
 	public boolean isShipConfirm();
 
+    /** Column name IsPrepareSplitDocument */
+    public static final String COLUMNNAME_IsPrepareSplitDocument = "IsPrepareSplitDocument";
+
+	/** Set Prepare Split Document.
+	  * Prepare generated split shipment/receipt document
+	  */
+	public void setIsPrepareSplitDocument (boolean IsPrepareSplitDocument);
+
+	/** Get Prepare Split Document.
+	  * Prepare generated split shipment/receipt document
+	  */
+	public boolean isPrepareSplitDocument();
+	
     /** Column name IsSplitWhenDifference */
     public static final String COLUMNNAME_IsSplitWhenDifference = "IsSplitWhenDifference";
 

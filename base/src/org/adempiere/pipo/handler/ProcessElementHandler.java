@@ -342,7 +342,7 @@ public class ProcessElementHandler extends AbstractElementHandler {
 			atts.addAttribute("", "", "ADReportViewNameID", "CDATA", "");
 		
 		if (m_Process.getAD_Form_ID() > 0) {
-			sql = "SELECT Name FROM AD_Form WHERE AD_Form_ID=?";
+			sql = "SELECT Name FROM AD_From WHERE AD_From_ID=?";
 			name = DB.getSQLValueString(null, sql, m_Process
 					.getAD_Form_ID());
 			atts.addAttribute("", "", "ADFormNameID", "CDATA", name);

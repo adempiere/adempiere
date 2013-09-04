@@ -56,7 +56,6 @@ import org.compiere.model.Query;
 import org.compiere.model.X_C_BP_Group;
 import org.compiere.model.X_C_DocType;
 import org.compiere.print.MPrintFormat;
-import org.compiere.print.ReportCtl;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfoParameter;
@@ -216,7 +215,7 @@ public class ReleaseInOutBound extends SvrProcess
 			{
 				return"";
 			}
-			ReportCtl.preview(re);
+			//ReportCtl.preview(re);
 			re.print(); // prints only original
 		}
 		
