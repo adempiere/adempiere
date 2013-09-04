@@ -240,16 +240,21 @@ public class AccessSqlParser
 			from = from.replaceAll("[\r\n\t ]+RIGHT[\r\n\t ]+OUTER[\r\n\t ]+JOIN[\r\n\t ]+", ", ");
 			from = from.replaceAll("[\r\n\t ]+FULL[\r\n\t ]+JOIN[\r\n\t ]+", ", ");
 			from = from.replaceAll("[\r\n\t ]+[Oo][Nn][\r\n\t ]+", ON); // teo_sarca, BF [ 2840157 ]
-			//	Remove ON clause - assumes that there is no IN () in the clause
+
+			//	Remove ON clause
 			index = from.indexOf(ON);
 			while (index != -1)
 			{
 				//  ADEMPIERE-70: FROM clause can have subordinate queries in the form (##) so 
-				//  start the search from the index, not the beginning
-				int indexClose = from.indexOf(')', index+4);		//	does not catch "IN (1,2)" in ON
+				//  ADEMPIERE-70: FROM clause can have subordinate queries in the form (##) so 
+				//  start the search from the index, not the beginning and search between "ON"
+				//  Assume the ON clause has multiple nested clauses like (a OR (b AND c))
+				int indexClose = -1;  
 				int indexNextOn = from.indexOf(ON, index+4);
 				if (indexNextOn != -1)
-					indexClose = from.lastIndexOf(')', indexNextOn);
+					indexClose = from.lastIndexOf(')', indexNextOn);  // Search between "ON" keywords
+				else 
+					indexClose = from.lastIndexOf(')', from.length());  // Its the last clause.  Search from the end.
 				if (indexClose != -1)
 				{
 					if (index > indexClose)

@@ -46,8 +46,11 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
+import javax.swing.border.Border;
+import javax.swing.border.MatteBorder;
 import javax.swing.text.Document;
 
+import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.FieldRecordInfo;
 import org.compiere.model.GridField;
@@ -68,6 +71,10 @@ import org.compiere.util.Env;
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>BF [ 1739516 ] Warning on numeric field with range set
  * 			<li>BF [ 1834393 ] VNumber.setFocusable not working
+ * 
+ *  @author Michael McKay, 
+ * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
+ * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
  */
 public final class VNumber extends JComponent
 	implements VEditor, ActionListener, KeyListener, FocusListener, VManagedEditor
@@ -206,6 +213,9 @@ public final class VNumber extends JComponent
 	private CTextField		m_text = new CTextField(SIZE);	//	Standard
 	/** The Button                  */
 	private CButton		    m_button = new CButton();
+
+	/** A holder for the value at some point in the past.  Used for comparison. */
+	private Object m_oldValue = null;
 
 	private GridField          m_mField = null;
 	/**	Logger			*/
@@ -808,7 +818,7 @@ public final class VNumber extends JComponent
 		else if (currentEvent instanceof ActionEvent)
 			modifiers = ((ActionEvent)currentEvent).getModifiers();
 		ActionEvent ae = new ActionEvent (this, ActionEvent.ACTION_PERFORMED,
-			"VNumber", EventQueue.getMostRecentEventTime(), modifiers);
+			currentEvent.getClass().getSimpleName(), EventQueue.getMostRecentEventTime(), modifiers);
 
 		// Guaranteed to return a non-null array
 		Object[] listeners = listenerList.getListenerList();
@@ -831,6 +841,40 @@ public final class VNumber extends JComponent
 		m_text.setText (m_oldText);
 		m_initialText = m_oldText;
 		m_modified = false;
+	}
+
+	/**
+	 * Set the old value of the field.  For use in future comparisons.
+	 * The old value must be explicitly set though this call.
+	 * @param m_oldValue
+	 */
+	public void set_oldValue() {
+		this.m_oldValue = getValue();
+	}
+
+	/**
+	 * Get the old value of the field explicitly set in the past
+	 * @return
+	 */
+	public Object get_oldValue() {
+		return m_oldValue;
+	}
+	/**
+	 * Has the field changed over time?
+	 * @return true if the old value is different than the current.
+	 */
+	public boolean hasChanged() {
+		// Both or either could be null
+		if(getValue() != null)
+			if(m_oldValue != null)
+				return !m_oldValue.equals(getValue());
+			else
+				return true;
+		else  // getValue() is null
+			if(m_oldValue != null)
+				return true;
+			else
+				return false;
 	}
 
 }	//	VNumber

@@ -18,6 +18,8 @@ package org.compiere.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Properties;
+
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_Product
@@ -822,4 +824,14 @@ public interface I_M_Product
 	  * Weight of a product
 	  */
 	public BigDecimal getWeight();
+	
+	/**
+	 * Get the Attribute Set Instance.  This is called by callouts to fill the M_AttributeSetInstance_ID
+	 * field.  The ASI should override the context if the product has a defined ASI or if the 
+	 * context ASI does not use the same attribute set.
+	 * @param context
+	 * @param window number
+	 */
+	public Integer getEnvAttributeSetInstance(Properties ctx, int WindowNo);
+
 }

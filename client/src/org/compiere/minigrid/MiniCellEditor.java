@@ -22,6 +22,8 @@ import java.sql.Timestamp;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.JTable;
+import javax.swing.UIManager;
+import javax.swing.border.Border;
 import javax.swing.table.TableCellEditor;
 
 import org.compiere.grid.ed.VDate;
@@ -35,6 +37,9 @@ import org.compiere.util.DisplayType;
  *
  *  @author     Jorg Janke
  *  @version    $Id: MiniCellEditor.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ *  
+ *   *  @author Michael McKay, 
+ * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
  */
 public class MiniCellEditor extends AbstractCellEditor implements TableCellEditor
 {
@@ -84,6 +89,7 @@ public class MiniCellEditor extends AbstractCellEditor implements TableCellEdito
 			m_editor = new VNumber("Integer", false, false, true, DisplayType.Integer, "Integer");
 		else
 			m_editor = new VString();
+		
 
 	}   //  MiniCellEditor
 
@@ -112,7 +118,7 @@ public class MiniCellEditor extends AbstractCellEditor implements TableCellEdito
 
 		//	Set UI
 		m_editor.setBorder(null);
-	//	m_editor.setBorder(UIManager.getBorder("Table.focusCellHighlightBorder"));
+		//m_editor.setBorder(UIManager.getBorder("Table.focusCellHighlightBorder"));
 		m_editor.setFont(table.getFont());
 		return (Component)m_editor;
 	}	//	getTableCellEditorComponent
@@ -130,4 +136,8 @@ public class MiniCellEditor extends AbstractCellEditor implements TableCellEdito
 		return null;
 	}	//	getCellEditorValue
 
+	public void setBorder(Border border)
+	{
+		m_editor.setBorder(border);
+	}
 }   //  MiniCellEditor

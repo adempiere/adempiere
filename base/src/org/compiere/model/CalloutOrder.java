@@ -698,8 +698,21 @@ public class CalloutOrder extends CalloutEngine
 	public String product (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value)
 	{
 		Integer M_Product_ID = (Integer)value;
+		Integer M_AttributeSetInstance_ID = 0;
+		//
 		if (M_Product_ID == null || M_Product_ID.intValue() == 0)
+		{
+			//  If the product information is deleted, zero the other items as well
+			mTab.setValue("M_AttributeSetInstance_ID", null);
+			mTab.setValue("PriceList", new BigDecimal(0));
+			mTab.setValue("PriceLimit", new BigDecimal(0));
+			mTab.setValue("PriceActual", new BigDecimal(0));
+			mTab.setValue("PriceEntered", new BigDecimal(0));
+			mTab.setValue("C_Currency_ID", null);
+			mTab.setValue("Discount", new BigDecimal(0));
+			mTab.setValue("C_UOM_ID", null);
 			return "";
+		}
 		if (steps) log.warning("init");
 
 		MProduct product = MProduct.get (ctx, M_Product_ID.intValue());
@@ -707,6 +720,9 @@ public class CalloutOrder extends CalloutEngine
 		//
 		mTab.setValue("C_Charge_ID", null);
 		//	Set Attribute from context or, if null, from the Product
+		//	Get Model and check the Attribute Set Instance from the context
+		MProduct m_product = MProduct.get(Env.getCtx(), M_Product_ID);
+		mTab.setValue("M_AttributeSetInstance_ID", m_product.getEnvAttributeSetInstance(ctx, WindowNo));
 		if (Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_Product_ID") == M_Product_ID.intValue()
 			&& Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_AttributeSetInstance_ID") != 0)
 			mTab.setValue("M_AttributeSetInstance_ID", Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_AttributeSetInstance_ID"));
@@ -767,7 +783,7 @@ public class CalloutOrder extends CalloutEngine
 			{
 				BigDecimal QtyOrdered = (BigDecimal)mTab.getValue("QtyOrdered");
 				int M_Warehouse_ID = Env.getContextAsInt(ctx, WindowNo, "M_Warehouse_ID");
-				int M_AttributeSetInstance_ID = Env.getContextAsInt(ctx, WindowNo, "M_AttributeSetInstance_ID");
+				M_AttributeSetInstance_ID = Env.getContextAsInt(ctx, WindowNo, "M_AttributeSetInstance_ID");
 				BigDecimal available = MStorage.getQtyAvailable
 					(M_Warehouse_ID, M_Product_ID.intValue(), M_AttributeSetInstance_ID, null);
 				if (available == null)

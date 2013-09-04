@@ -22,19 +22,17 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 
 import org.adempiere.webui.apps.AEnv;
-import org.adempiere.webui.component.Grid;
-import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WSearchEditor;
-import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
-import org.adempiere.webui.event.WTableModelEvent;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
+import org.compiere.model.MAsset;
+import org.compiere.model.MColumn;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MQuery;
 import org.compiere.util.DisplayType;
@@ -42,13 +40,6 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
-import org.zkoss.zul.Div;
-import org.zkoss.zul.Separator;
-import org.zkoss.zul.Vbox;
 
 /**
 * Based on InfoPayment written by Jorg Janke
@@ -59,6 +50,10 @@ import org.zkoss.zul.Vbox;
 * Zk Port
 * @author Elaine
 * @version	InfoAsset.java Adempiere Swing UI 3.4.1 
+* 
+*
+ * @author Michael McKay, ADEMPIERE-72 VLookup and Info Window improvements
+ * 	<li>https://adempiere.atlassian.net/browse/ADEMPIERE-72
 */
 
 public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, EventListener
@@ -69,13 +64,13 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 	private static final long serialVersionUID = -3324796198694097770L;
 
 	/** From Clause             */
-	private static String s_assetFROM = "A_ASSET a"
+	private static String s_From = "A_ASSET a"
 		+ " LEFT OUTER JOIN M_Product p ON (a.M_Product_ID=p.M_Product_ID)"
 		+ " LEFT OUTER JOIN C_BPartner bp ON (a.C_BPartner_ID=bp.C_BPartner_ID)"
 		+ " LEFT OUTER JOIN AD_User u ON (a.AD_User_ID=u.AD_User_ID)";
 
 	/**  Array of Column Info    */
-	private static final ColumnInfo[] s_assetLayout = {
+	private static final ColumnInfo[] s_Layout = {
 		new ColumnInfo(" ", "a.A_Asset_ID", IDColumn.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "Value"), "a.Value", String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "Name"), "a.Name", String.class),
@@ -87,6 +82,7 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 		new ColumnInfo(Msg.translate(Env.getCtx(), "VersionNo"), "a.VersionNo", String.class)
 	};
 
+	private int fieldID = 0;
 	private Textbox fieldValue = new Textbox();
 	private Textbox fieldName = new Textbox();
 	
@@ -96,54 +92,57 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 	private Label labelValue = new Label();
 	private Label labelName = new Label();
 	
-	private Borderlayout layout;
-
-	private Vbox southBody;
-
 	/**
-	 *	Standard Constructor
-	 * @param WindowNo window no
-	 * @param A_Asset_ID asset
-	 * @param value    Query Value or Name if enclosed in @
-	 * @param multiSelection multiple selections
-	 * @param whereClause where clause
+	 *	Standard Constructor - opens in non-modal mode.
+	 * @param WindowNo 			window no
+	 * @param record_id			The record_id of the asset
+	 * @param value    			Query Value or Name if enclosed in @
+	 * @param multiSelection 	multiple selections
+	 * @param whereClause 		where clause
 	 */
-	public InfoAssetPanel(	int WindowNo, int A_Asset_ID, String value,
+	public InfoAssetPanel(	int WindowNo, int record_id, String value,
 							boolean multiSelection, String whereClause)
 	{
-		this(WindowNo, A_Asset_ID, value, multiSelection, whereClause, true);
-	}
-
+		this(WindowNo, true, record_id, value, multiSelection, false, whereClause);
+	}	
+	
 	/**
 	 *	Standard Constructor
 	 * @param WindowNo window no
-	 * @param A_Asset_ID asset
-	 * @param value    Query Value or Name if enclosed in @
+	 * @param record_id The record ID to find
+	 * @param value Query value to find, exclusive of record_id
+	 * @param saveResults true if results are saved in context
 	 * @param multiSelection multiple selections
 	 * @param whereClause where clause
+	 * @param modal True if window is opened in modal mode.
 	 */
 	
-	public InfoAssetPanel(	int WindowNo, int A_Asset_ID, String value,
-							boolean multiSelection, String whereClause, boolean lookup)
+	public InfoAssetPanel(	int WindowNo, boolean modal, int record_id, String value,
+							boolean multiSelection, boolean saveResults, String whereClause)
 	{
-		super (WindowNo, "a", "A_Asset_ID", multiSelection, whereClause, lookup);
+		super (WindowNo, modal, "a", "A_Asset_ID", multiSelection, saveResults, whereClause);
 		
-		log.info(value + ", ID=" + A_Asset_ID + ", WHERE=" + whereClause);
+		log.info(value + ", ID=" + record_id + ", WHERE=" + whereClause);
 		setTitle(Msg.getMsg(Env.getCtx(), "InfoAsset"));
-
+		//
+		StringBuffer where = new StringBuffer();
+		where.append("a.IsActive='Y'");
+		if (whereClause != null && whereClause.length() > 0)
+			where.append(" AND ").append(whereClause);
+		setWhereClause(where.toString());
+		setTableLayout(s_Layout);
+		setFromClause(s_From);
+		setOrderClause("a.Value");
+		//
 		statInit();
-		initInfo(value, A_Asset_ID, whereClause);
-
-		int no = contentPanel.getRowCount();
-		setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
-		setStatusDB(Integer.toString(no));
+		initInfo(record_id, value, whereClause);
 		
-		//	AutoQuery
-		if (value != null && value.length() > 0)
-			executeQuery();
-		
+		//  Auto query
+		if(autoQuery() || record_id != 0 || (value != null && value.length() > 0 && value != "%"))
+			prepareAndExecuteQuery();
+		//
 		p_loadedOK = true;
-	} // InfoProduct
+	} // InfoAssetPanel
 	
 	/**
 	 *	Static Setup - add fields to parameterPanel
@@ -156,24 +155,30 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 		
 		labelValue.setValue(Msg.getMsg(Env.getCtx(), "Value"));
 		fieldValue.addEventListener(Events.ON_CHANGE, this);
+		fieldValue.setAttribute("zk_component_ID", "Lookup_Criteria_fieldValue");
 		
 		labelName.setValue(Msg.getMsg(Env.getCtx(), "Name"));
 		fieldName.addEventListener(Events.ON_CANCEL, this);
+		fieldName.setAttribute("zk_component_ID", "Lookup_Criteria_fieldName");
 		// From A_Asset.
 		fBPartner_ID = new WSearchEditor(
-				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 8065, DisplayType.Search), 
-				Msg.translate(Env.getCtx(), "C_BPartner_ID"), "", false, false, true);
+				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 
+						MColumn.getColumn_ID(MAsset.Table_Name, MAsset.COLUMNNAME_C_BPartner_ID),
+						DisplayType.Search), 
+						Msg.translate(Env.getCtx(), "C_BPartner_ID"), "", false, false, true);
 		fBPartner_ID.addValueChangeListener(this);
+		fBPartner_ID.getComponent().setAttribute("zk_component_ID", "Lookup_Criteria_fBPartner_ID");
 		
 		fProduct_ID = new WSearchEditor(
-				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 8047, DisplayType.Search), 
-				Msg.translate(Env.getCtx(), "M_Product_ID"), "", false, false, true);
+				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0,  
+						MColumn.getColumn_ID(MAsset.Table_Name, MAsset.COLUMNNAME_M_Product_ID), 
+						DisplayType.Search), 
+						Msg.translate(Env.getCtx(), "M_Product_ID"), "", false, false, true);
 		fProduct_ID.addValueChangeListener(this);
+		fProduct_ID.getComponent().setAttribute("zk_component_ID", "Lookup_Criteria_fProduct_ID");
 		
-		Grid grid = GridFactory.newGridLayout();
 		
 		Rows rows = new Rows();
-		grid.appendChild(rows);
 		
 		Row row = new Row();
 		rows.appendChild(row);
@@ -189,40 +194,8 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 		row.appendChild(fProduct_ID.getLabel().rightAlign());
 		row.appendChild(fProduct_ID.getComponent());
 		
-		layout = new Borderlayout();
-        layout.setWidth("100%");
-        layout.setHeight("100%");
-        if (!isLookup())
-        {
-        	layout.setStyle("position: absolute");
-        }
-        this.appendChild(layout);
-
-        North north = new North();
-        layout.appendChild(north);
-		north.appendChild(grid);
-
-        Center center = new Center();
-		layout.appendChild(center);
-		center.setFlex(true);
-		Div div = new Div();
-		div.appendChild(contentPanel);
-		if (isLookup())
-			contentPanel.setWidth("99%");
-        else
-        	contentPanel.setStyle("width: 99%; margin: 0px auto;");
-        contentPanel.setVflex(true);
-		div.setStyle("width :100%; height: 100%");
-		center.appendChild(div);
-        
-		South south = new South();
-		layout.appendChild(south);
-		southBody = new Vbox();
-		southBody.setWidth("100%");
-		south.appendChild(southBody);
-		southBody.appendChild(confirmPanel);
-		southBody.appendChild(new Separator());
-		southBody.appendChild(statusBar);
+		p_criteriaGrid.appendChild(rows);
+		super.setSizes();
 	}
 	
 	/**
@@ -231,23 +204,48 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 	 *  @param whereClause where clause
 	 */
 	
-	private void initInfo (String value, int A_Asset_ID, String whereClause)
+	private void initInfo (int record_id, String value, String whereClause)
 	{
-		//	Create Grid
-		StringBuffer where = new StringBuffer();
-		where.append("a.IsActive='Y'");
-		
-		if (whereClause != null && whereClause.length() > 0)
-			where.append(" AND ").append(whereClause);
-		
-		prepareTable(s_assetLayout, s_assetFROM, where.toString(), "a.Value");
+		//
+		if (!(record_id == 0) && value != null && value.length() > 0)
+		{
+			log.severe("Received both a record_id and a value: " + record_id + " - " + value);
+		}
 
-		//  Set Value
-		if (value == null)
-			value = "%";
-		
-		if (!value.endsWith("%"))
-			value += "%";
+		//  Set Value and boolean criteria (if any)
+		if (!(record_id == 0))
+		{
+			fieldID = record_id;
+		}
+		else
+		{	
+			// Use the value if any
+			if (value != null && value.length() > 0)
+			{
+				fieldValue.setText(value);
+			}
+			else
+			{
+				//  Try to find the context - A_Asset_ID
+	        	String aid = Env.getContext(Env.getCtx(), p_WindowNo, "A_Asset_ID");
+				if (aid != null && aid.length() != 0)
+				{
+					fieldID = new Integer(aid).intValue();
+				}
+				//  C_BPartner_ID
+				String bp = Env.getContext(Env.getCtx(), p_WindowNo, "C_BPartner_ID");
+				if (bp != null && bp.length() != 0)
+				{
+					fBPartner_ID.setValue(new Integer(bp).intValue());
+				}
+				//  M_Product_ID
+				String pid = Env.getContext(Env.getCtx(), p_WindowNo, "M_Product_ID");
+				if (pid != null && pid.length() != 0)
+				{
+					fProduct_ID.setValue(new Integer(pid).intValue());
+				}
+			}
+		}
 	} // initInfo
 	
 	/*************************************************************************/
@@ -261,41 +259,26 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 	protected String getSQLWhere()
 	{
 		StringBuffer sql = new StringBuffer();
-	
+		//  => ID
+		if(isResetRecordID())
+			fieldID = 0;
+		if (!(fieldID == 0))
+			sql.append(" AND a.A_Asset_ID = ?");
 		//	=> Value
-		
-		String value = fieldValue.getText().toUpperCase();
-		
-		if (!(value.equals("") || value.equals("%")))
+		if (isValidSQLText(fieldValue))
 			sql.append(" AND UPPER(a.Value) LIKE ?");
-		
 		//	=> Name
-		
-		String name = fieldName.getText().toUpperCase();
-		
-		if (!(name.equals("") || name.equals("%")))
+		if (isValidSQLText(fieldName))
 			sql.append (" AND UPPER(a.Name) LIKE ?");
-		
 		//	C_BPartner_ID
-		
-		Integer C_BPartner_ID = null;
-		
-		if (fBPartner_ID.getDisplay() != "")
-			C_BPartner_ID = (Integer)fBPartner_ID.getValue();
-		
+		Integer C_BPartner_ID = (Integer)fBPartner_ID.getValue();
 		if (C_BPartner_ID != null)
 			sql.append (" AND a.C_BPartner_ID=").append(C_BPartner_ID);
-
 		//	M_Product_ID
-		
-		Integer M_Product_ID = null;
-		
-		if (fProduct_ID.getDisplay() != "")
-			M_Product_ID = (Integer)fProduct_ID.getValue();
-		
+		Integer M_Product_ID = (Integer)fProduct_ID.getValue();
 		if (M_Product_ID != null)
 			sql.append (" AND a.M_Product_ID=").append(M_Product_ID);
-
+		//
 		return sql.toString();
 	} // getSQLWhere
 
@@ -311,31 +294,23 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 	protected void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
 	{
 		int index = 1;
-		
-		//	=> Value
-		
-		String value = fieldValue.getText().toUpperCase();
-		
-		if (!(value.equals("") || value.equals("%")))
+		//  => ID
+		if(!(fieldID ==0))
 		{
-			if (!value.endsWith("%"))
-				value += "%";
-		
-			pstmt.setString(index++, value);
-			log.fine("Value: " + value);
+			pstmt.setInt(index++, fieldID);
+			log.fine("Record_ID: " + fieldID);
 		}
-		
-		//	=> Name
-		
-		String name = fieldName.getText().toUpperCase();
-		
-		if (!(name.equals("") || name.equals("%")))
+		//	=> Value
+		if (isValidSQLText(fieldValue))
 		{
-			if (!name.endsWith("%"))
-				name += "%";
-		
-			pstmt.setString(index++, name);
-			log.fine("Name: " + name);
+			pstmt.setString(index++, getSQLText(fieldValue));
+			log.fine("Value: " + fieldValue.getText());
+		}
+		//	=> Name
+		if (isValidSQLText(fieldName))
+		{
+			pstmt.setString(index++, getSQLText(fieldName));
+			log.fine("Name: " + fieldName.getText());
 		}
 	} // setParameters
 
@@ -346,7 +321,7 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 	
 	public void saveSelectionDetail()
 	{
-		int row = contentPanel.getSelectedRow();
+		int row = p_table.getSelectedRow();
 		
 		if (row == -1)
 			return;
@@ -357,34 +332,14 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 		Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "A_Asset_ID", ID == null ? "0" : ID.toString());
 	} // saveSelectionDetail
 
-	/*************************************************************************/
-	/**
-	 *	Show History
-	 */
-
-	protected void showHistory()
-	{
-		log.info( "InfoAsset.showHistory");
-	}	//	showHistory
-
-	/**
-	 *	Has History
-	 *  @return true
-	 */
-	
-	protected boolean hasHistory()
-	{
-		return false;
-	} // hasHistory
-
 	// Elaine 2008/12/16
 	/**
 	 *	Zoom
 	 */
-	public void zoom()
+	public void zoom(int record_id)
 	{
 		log.info( "InfoAsset.zoom");
-		Integer A_Asset_ID = getSelectedRowKey();
+		Integer A_Asset_ID = record_id;
 		
 		if (A_Asset_ID == null)
 			return;
@@ -408,47 +363,4 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 		return true;
 	} // hasZoom
 
-	/**
-	 *	Customize
-	 */
-	
-	protected void customize()
-	{
-		log.info( "InfoAsset.customize");
-	} // customize
-
-	/**
-	 *	Has Customize
-	 *  @return false
-	 */
-	
-	protected boolean hasCustomize()
-	{
-		return false; // for now
-	} // hasCustomize
-	
-	public void tableChanged(WTableModelEvent event) 
-	{
-		
-	}
-	
-	public void valueChange(ValueChangeEvent evt)
-	{
-		if (fBPartner_ID.equals(evt.getSource()))
-		{
-	    	fBPartner_ID.setValue(evt.getNewValue());
-		}
-		
-		if (fProduct_ID.equals(evt.getSource()))
-		{
-			fProduct_ID.setValue(evt.getNewValue());
-		}
-	}
-
-	@Override
-	protected void insertPagingComponent()
-    {
-		southBody.insertBefore(paging, southBody.getFirstChild());
-		layout.invalidate();
-	}
 }

@@ -16,8 +16,21 @@
  *****************************************************************************/
 package org.compiere.minigrid;
 
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Event;
 import java.awt.Insets;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,18 +39,35 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Level;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
+import javax.swing.DefaultListSelectionModel;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
+import javax.swing.JTable;
+import javax.swing.KeyStroke;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
+import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.search.Info_Column;
 import org.compiere.grid.ed.VCellRenderer;
 import org.compiere.grid.ed.VHeaderRenderer;
 import org.compiere.model.MRole;
+import org.compiere.model.MSysConfig;
 import org.compiere.model.PO;
 import org.compiere.swing.CCheckBox;
 import org.compiere.swing.CTable;
@@ -77,6 +107,7 @@ import org.compiere.util.Util;
  * 				<li>ADEMPIERE-71 MiniTable causes exception when adding totals
  * 					to tables with no text fields in the first or second column
  * 					https://adempiere.atlassian.net/browse/ADEMPIERE-71
+ * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
  * 
  */
 public class MiniTable extends CTable implements IMiniTable
@@ -86,18 +117,293 @@ public class MiniTable extends CTable implements IMiniTable
 	 */
 	private static final long serialVersionUID = 2853772547464132497L;
 
+	public class TablePropertyListener implements PropertyChangeListener {
+		public void propertyChange(PropertyChangeEvent e)
+		{
+			String propertyName = e.getPropertyName();
+			if (propertyName == "model")
+			{
+				//  Reset
+				((MiniTable) e.getSource()).setShowGrid(false);
+				((MiniTable) e.getSource()).setIntercellSpacing(new Dimension(0, 0));
+			}
+		}
+	}
+
 	/**
 	 *  Default Constructor
 	 */
 	public MiniTable()
 	{
 		super();
-	//	log.config( "MiniTable");
-		setCellSelectionEnabled(false);
-		setRowSelectionAllowed(false);
+		//	log.config( "MiniTable");
+		this.setCellSelectionEnabled(true);
+		this.setRowSelectionAllowed(true);
 		//  Default Editor
 		this.setCellEditor(new ROCellEditor());
+
+		this.setShowGrid(false);
+		this.setIntercellSpacing(new Dimension(0, 0));
+		
+		//  Set up the keyboard interactions
+		this.setSurrendersFocusOnKeystroke(true);  //  Default behaviour is to surrender the focus.
+		//  Customise row selection confirmation
+		this.getInputMap().put(KeyStroke.getKeyStroke("SPACE"), "doMatchIdToSelection");
+		this.getInputMap().put(KeyStroke.getKeyStroke("ctrl SPACE"), "doToggleID");
+		this.getInputMap().put(KeyStroke.getKeyStroke("ctrl shift SPACE"), "doToggleBySelection");
+		//  Disable column selections
+		this.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"), "doNothing");
+		this.getInputMap().put(KeyStroke.getKeyStroke("KP_RIGHT"), "doNothing");
+		this.getInputMap().put(KeyStroke.getKeyStroke("ctrl RIGHT"), "doNothing");
+		this.getInputMap().put(KeyStroke.getKeyStroke("ctrl KP_RIGHT"), "doNothing");
+		this.getInputMap().put(KeyStroke.getKeyStroke("shift RIGHT"), "doNothing");
+		this.getInputMap().put(KeyStroke.getKeyStroke("shift KP_RIGHT"), "doNothing");
+		this.getInputMap().put(KeyStroke.getKeyStroke("ctrl shift RIGHT"), "doNothing");
+		this.getInputMap().put(KeyStroke.getKeyStroke("ctrl shift KP_RIGHT"), "doNothing");
+		this.getInputMap().put(KeyStroke.getKeyStroke("LEFT"), "doNothing");
+		this.getInputMap().put(KeyStroke.getKeyStroke("KP_LEFT"), "doNothing");
+		this.getInputMap().put(KeyStroke.getKeyStroke("ctrl LEFT"), "doNothing");
+		this.getInputMap().put(KeyStroke.getKeyStroke("ctrl KP_LEFT"), "doNothing");
+		this.getInputMap().put(KeyStroke.getKeyStroke("shift LEFT"), "doNothing");
+		this.getInputMap().put(KeyStroke.getKeyStroke("shift KP_LEFT"), "doNothing");
+		this.getInputMap().put(KeyStroke.getKeyStroke("ctrl shift LEFT"), "doNothing");
+		this.getInputMap().put(KeyStroke.getKeyStroke("ctrl shift KP_LEFT"), "doNothing");
+		
+		//  Customize the row selection behaviour
+		this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_TAB, 0), "doSelectRowDown");  //  Tab moves to next row
+		this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_TAB, Event.SHIFT_MASK), "doSelectRowUp");  //  Tab moves to previous row
+		this.getInputMap().put(KeyStroke.getKeyStroke("UP"), "doSelectRowUp");
+		this.getInputMap().put(KeyStroke.getKeyStroke("KP_UP"), "doSelectRowUp");
+		this.getInputMap().put(KeyStroke.getKeyStroke("DOWN"), "doSelectRowDown");
+		this.getInputMap().put(KeyStroke.getKeyStroke("KP_DOWN"), "doSelectRowDown");
+
+		// Add Action functions to table Action Map.  Otherwise, the defaults will be used.
+		this.getActionMap().put("doNothing", doNothing);
+		this.getActionMap().put("doSelectAll", doSelectAll);
+		this.getActionMap().put("doSelectRowDown", doSelectRowDown);
+		this.getActionMap().put("doSelectRowUp", doSelectRowUp);
+		this.getActionMap().put("doAddRowDown", doAddRowDown);
+		this.getActionMap().put("doAddRowUp", doAddRowUp);
+		this.getActionMap().put("doAddRowDownExtend", doAddRowDownExtend);
+		this.getActionMap().put("doAddRowUpExtend", doAddRowUpExtend);
+		this.getActionMap().put("doChangeLeadDown", doChangeLeadDown);
+		this.getActionMap().put("doChangeLeadUp", doChangeLeadUp);
+		this.getActionMap().put("doMatchIdToSelection", doMatchIdToSelection);
+		this.getActionMap().put("doToggleID", doToggleID);
+		this.getActionMap().put("doToggleBySelection", doToggleBySelection);
+		//
+		this.setShowTotals(false);
+		this.getSelectionModel().addListSelectionListener(this);
+		this.addPropertyChangeListener(new TablePropertyListener());
+		
+		//  Add additional config items that may change later
+		config_table();
+
+		this.addFocusListener(new FocusAdapter(){
+			public void focusGained(FocusEvent fe)
+			{
+				log.fine("Focue Gained. " + fe.toString());
+				((MiniTable) fe.getSource()).getParent().repaint();
+			}
+			
+			public void focusLost(FocusEvent fe)
+			{
+				if (((MiniTable) fe.getSource()) != null)
+					((MiniTable) fe.getSource()).getParent().repaint();
+			}
+		});
+
 	}   //  MiniTable
+
+	private boolean pressedInTable = false;
+	private int 	pressedRow = -1;
+	private int		pressedColumn = -1;
+	private boolean wasDragged = false;
+	
+	/**  In multi-selection tables, does a single click select uniquely that record or 
+	 *   toggle the selection of that record (add or remove from the selection).  Defaults
+	 *   to false (add/remove).
+	 */
+	private boolean m_singleClickTogglesSelection = true;
+
+	/**
+	 * @return true if a click on a row adds or removes the row from the selection
+	 */
+	protected boolean isSingleClickTogglesSelection() {
+		return m_singleClickTogglesSelection;
+	}
+
+	/**
+	 * If set to false, the clicked row will become the selection.  If set to true, 
+	 * a click will add or remove the row from the selection. Similar to Ctrl-Click 
+	 * when set to false.  
+	 * @param clickTogglesSelection the m_singleClickTogglesSelection to set
+	 */
+	protected void setSingleClickTogglesSelection(boolean clickTogglesSelection) {
+		m_singleClickTogglesSelection = clickTogglesSelection;
+	}
+
+	@Override protected void processMouseEvent(MouseEvent me)
+	{	
+		MiniTable table = ((MiniTable) me.getSource());
+		if (me.isPopupTrigger())
+		{
+			try
+			{
+				super.processMouseEvent(me);
+			}
+			catch(Exception e)
+			{
+			}
+			return;			
+		}
+		else if (me.getID() == MouseEvent.MOUSE_CLICKED && me.getClickCount() % 2 == 0)
+		{
+			if (isMultiSelection() && isDoubleClickTogglesSelection())
+			{
+				toggleLeadRowChecked();
+			}
+			else
+			{
+				try
+				{
+					super.processMouseEvent(me);
+				}
+				catch(Exception e)
+				{
+				}
+				return;
+			}
+		}
+		else if (me.getID() == MouseEvent.MOUSE_RELEASED)
+		{
+			if(pressedInTable)
+			{
+				//  The mouse press action occurred in the table
+				//  The mouse release may have occurred anywhere
+				boolean releasedInTable = false;
+				if (table.rowAtPoint(me.getPoint()) >= 0 && table.columnAtPoint(me.getPoint()) >= 0)
+					releasedInTable = true;
+				
+				if (!releasedInTable)
+				{
+					//  The mouse may be off the table
+					//  Toggle the ID columns according to the selection (highlight)
+					toggleRowCheckedBySelection();
+					return;
+				}
+				//  Check for same cell and edit that cell if possible
+				if (pressedRow == table.rowAtPoint(me.getPoint()) && pressedColumn == table.columnAtPoint(me.getPoint()))
+				{
+					//  The action occurred in the same sell
+					boolean editable = this.isCellEditable(pressedRow, 
+														   pressedColumn); 
+		            if (editable)
+		            {
+		            	try{super.processMouseEvent(me);}
+		            	catch(Exception e){}
+		            	return;
+		            }
+				}
+				
+				//  Check for Ctrl-click or drag
+			    int ctrlMask = MouseEvent.CTRL_DOWN_MASK;
+			    if ((!wasDragged && ((me.getModifiersEx() & (ctrlMask)) == ctrlMask)) ||	//  same row - ctrl-click
+		    		(isMultiSelection() && isSingleClickTogglesSelection()))				//  dragged or no ctrl key
+	    		{
+			    	if (pressedRow == table.rowAtPoint(me.getPoint()))
+			    		toggleLeadRowChecked();  //  The current row only
+			    	else
+			    		toggleRowCheckedRange(pressedRow, table.rowAtPoint(me.getPoint())); // A range
+			    }
+			    else
+			    	matchCheckWithSelectedRows();
+			}
+			pressedInTable = false;
+			pressedRow = -1;
+			pressedColumn = -1;
+			wasDragged = false;
+		}
+		else if (me.getID() == MouseEvent.MOUSE_PRESSED)
+	    {
+			int rows = table.getRowCount();
+			int columns = table.getColumnCount();
+			
+			if (table.getShowTotals())
+			{
+				rows = rows-1;
+			}
+			pressedRow = table.rowAtPoint(me.getPoint());
+			pressedColumn = table.columnAtPoint(me.getPoint());
+			if (pressedRow >= 0 && pressedRow < rows && pressedColumn >= 0 && pressedColumn < columns)
+			{
+				pressedInTable = true;
+			}
+			else
+			{
+				pressedInTable = false;
+				pressedRow = -1;
+				pressedColumn = -1;
+			}
+	    }
+		
+		//  For all events
+		if(!pressedInTable)
+		{
+			return;
+		}
+		else
+	    {
+			try
+			{
+				super.processMouseEvent(me);
+			}
+			catch(Exception e)
+			{
+			}
+	    }
+	}
+
+	//  Ignore mouse motion that started over the total row.
+	protected void processMouseMotionEvent(MouseEvent mme)
+	{
+		if (mme.getID() == MouseEvent.MOUSE_DRAGGED)
+		{
+			if (!pressedInTable)
+			{
+				wasDragged = false;
+				mme.consume(); // Pretend it didn't originate in the table
+				return;
+			}
+			else if (pressedInTable) // valid
+			{
+				wasDragged = true;
+				MiniTable table = ((MiniTable) mme.getSource());
+
+				if (this.getShowTotals())
+				{
+					//  Check if we are over the total row
+					int totalRow = table.getRowCount()-1;
+					if (totalRow == table.rowAtPoint(mme.getPoint()))
+					{
+						mme.consume(); // Mouse if being dragged over the total row. Ignore it.
+						return;					
+					}						
+				}
+				
+				if(!isMultiSelection())
+				{
+					ListSelectionModel rsm = (ListSelectionModel) table.getSelectionModel();
+					int leadRow = rsm.getLeadSelectionIndex();
+					rsm.setSelectionInterval(leadRow, leadRow);
+				}
+			}
+			super.processMouseMotionEvent(mme);
+		}
+	}
+
+	public static final String SYSCONFIG_INFO_DEFAULTSELECTED = "INFO_DEFAULTSELECTED";
+	public static final String SYSCONFIG_INFO_DOUBLECLICKTOGGLESSELECTION = "INFO_DOUBLECLICKTOGGLESSELECTION";
 
 	/** List of R/W columns     */
 	private ArrayList<Integer>   m_readWriteColumn = new ArrayList<Integer>();
@@ -111,7 +417,10 @@ public class MiniTable extends CTable implements IMiniTable
 
 	/** Multi Selection mode (default false) */
 	private boolean     m_multiSelection = false;
-
+	/** True if double click on a row toggles if row is selected (multi selection mode only) */
+	private boolean				p_doubleClickTogglesSelection = MSysConfig.getBooleanValue(SYSCONFIG_INFO_DOUBLECLICKTOGGLESSELECTION, false, Env.getAD_Client_ID(Env.getCtx()));
+	/** Specify if the records should be checked(selected) by default (multi selection mode only) */
+	private boolean				p_isDefaultSelected = MSysConfig.getBooleanValue(SYSCONFIG_INFO_DEFAULTSELECTED, false, Env.getAD_Client_ID(Env.getCtx()));
 	/** Lauout set in prepareTable and used in loadTable    */
 	private ColumnInfo[]        m_layout = null;
 	/**	Logger			*/
@@ -201,24 +510,49 @@ public class MiniTable extends CTable implements IMiniTable
 		log.finer("Cols=" + size + " - " + (System.currentTimeMillis()-start) + "ms");
 	}	//	autoSize
 
+	
+	/**
+	 * Determines if the row is marked selected in the key column. The table 
+	 * selection status (highlight) is not considered.
+	 * @param row
+	 * @return true if the row is marked selected in the key column
+	 */
+	public boolean isRowChecked(int row)
+	{
+		int keyColumn = this.getKeyColumnIndex();
+		
+		if (keyColumn < 0)
+			return false;
+		
+		//  The selection can be indicated by an IDColumn or Boolean in the keyColumn position
+		Object data = getValueAt(row, convertColumnIndexToView(keyColumn)); 
+		if (data instanceof IDColumn)
+			return ((IDColumn) data).isSelected();
+		else if (data instanceof Boolean)
+			return (Boolean) data;
+
+		return	false;
+	}
 
 	/**
 	 *  Is Cell Editable
-	 *  @param row row
-	 *  @param column column
-	 *  @return true if editable
+	 *  @param row view row
+	 *  @param column view column
+	 *  @return true if read-write
 	 */
 	public boolean isCellEditable(int row, int column)
 	{
-		//  if the first column is a boolean and it is false, it is not editable
-		if (column != 0
-				&& getValueAt(row, 0) instanceof Boolean
-				&& !((Boolean)getValueAt(row, 0)).booleanValue())
-			return false;
-
-		//  is the column RW?
-		if (m_readWriteColumn.contains(new Integer(column)))
-			return true;
+		//  The column has to be read-write and the row has to be selected 
+		//  in order for the cell to be editable.
+		
+		int modelColumn = convertColumnIndexToModel(column);
+		
+		if ((modelColumn == 0 && this.getValueAt(row,column) instanceof Boolean) || isRowChecked(row))
+		{
+			//  is the column RW?
+			if (m_readWriteColumn.contains(new Integer(modelColumn)))
+				return true;
+		}		
 		return false;
 	}   //  isCellEditable
 
@@ -266,7 +600,7 @@ public class MiniTable extends CTable implements IMiniTable
 		String from, String where, boolean multiSelection, String tableName)
 	{
 		m_layout = layout;
-		m_multiSelection = multiSelection;
+		setMultiSelection(multiSelection);
 		//
 		StringBuffer sql = new StringBuffer ("SELECT ");
 		//  add columns & sql
@@ -622,35 +956,68 @@ public class MiniTable extends CTable implements IMiniTable
 		autoSize();
 		log.config("Row(array)=" + getRowCount());
 	}	//	loadTable
-	
-	
+	/**
+	 * 	Set Model index of Key Column.
+	 *  Used for identifying previous selected row after fort complete to set as selected row.
+	 *  If not set, column 0 is used.
+	 * 	@param keyColumnIndex model index
+	 */
+	public void setKeyColumnIndex (int keyColumnIndex)
+	{
+		super.setKeyColumnIndex (keyColumnIndex);
+	}	//	setKeyColumnIndex
+
+	/**
+	 * 	Get Model index of Key Column
+	 *  @return model index
+	 */
+	public int getKeyColumnIndex()
+	{
+		return super.getKeyColumnIndex();
+	}	//	getKeyColumnIndex
+
+	/**
+	 *  Get the key of a row based on layout defined in prepareTable
+	 *  @return ID if key
+	 */
+	public int getRowKey(int row)
+	{
+		if (getKeyColumnIndex() < 0)
+			throw new UnsupportedOperationException("Key Column is not defined");
+		
+		int rows = this.getRowCount();
+		
+		if (this.getShowTotals())
+			rows = rows - 1;
+
+		if (row >= 0 && row < rows)
+		{
+	        Object data = getValueAt(row, convertColumnIndexToView(getKeyColumnIndex())); //  Test
+			if (data instanceof IDColumn)
+			{
+				IDColumn id = (IDColumn)data;
+				return id.getRecord_ID().intValue();
+			}
+		}
+		return 0;
+	}   //  getRowKey
+
 	/**
 	 *  Get the key of currently selected row based on layout defined in prepareTable
 	 *  @return ID if key
 	 */
 	public Integer getSelectedRowKey()
 	{
-		if (m_layout == null)
-			throw new UnsupportedOperationException("Layout not defined");
-
-		int row = getSelectedRow();
-		if (row != -1 && p_keyColumnIndex != -1)
-		{
-			Object data = getModel().getValueAt(row, p_keyColumnIndex);
-			if (data instanceof IDColumn)
-				data = ((IDColumn)data).getRecord_ID();
-			if (data instanceof Integer)
-				return (Integer)data;
-		}
-		return null;
+		int selectedRow = getSelectedRow();
+		return new Integer(getRowKey(selectedRow));
 	}   //  getSelectedRowKey
 
 	/**
 	 * @return collection of selected IDs
 	 */
-	public Collection<Integer> getSelectedKeys()
+	public ArrayList<Integer> getSelectedKeys()
 	{
-		if (m_layout == null)
+		if (getModel() == null)
 		{
 			throw new UnsupportedOperationException("Layout not defined");
 		}
@@ -675,6 +1042,17 @@ public class MiniTable extends CTable implements IMiniTable
 		return list;
 	}
 
+	/**
+	 *  Get the record id of the lead (highlighted) row
+	 *  @return selected key
+	 */
+	public int getLeadRowKey()
+	{
+		int leadRow = getSelectionModel().getLeadSelectionIndex();		
+		return getRowKey(leadRow);
+		
+	}   //  getLeadRowKey
+
 	/**************************************************************************
 	 *  Get Layout
 	 *  @return Array of ColumnInfo
@@ -691,6 +1069,7 @@ public class MiniTable extends CTable implements IMiniTable
 	public void setMultiSelection (boolean multiSelection)
 	{
 		m_multiSelection = multiSelection;
+		config_table(); //  Config for multi selection
 	}   //  setMultiSelection
 
 	/**
@@ -703,6 +1082,24 @@ public class MiniTable extends CTable implements IMiniTable
 	}   //  isMultiSelection
 
 	/**
+	 * (for multi-selection only)
+	 * @param value true if double click should toggle record selection
+	 */
+	public void setDoubleClickTogglesSelection(boolean value)
+	{
+		p_doubleClickTogglesSelection = value;
+	}
+	
+	/**
+	 * (for multi-selection only)
+	 * @return true if double click should toggle record selection
+	 */
+	public boolean isDoubleClickTogglesSelection()
+	{
+		return p_doubleClickTogglesSelection;
+	}
+
+	/**
 	 *	Set the Column to determine the color of the row (based on model index)
 	 *  @param modelIndex model index
 	 */
@@ -710,6 +1107,25 @@ public class MiniTable extends CTable implements IMiniTable
 	{
 		m_colorColumnIndex = modelIndex;
 	}   //  setColorColumn
+
+	/**
+	 * Specify if the records should be checked(selected) by default.
+	 * (for multi-selection only)
+	 * @param value
+	 */
+	public void setDefaultSelected(boolean value)
+	{
+		p_isDefaultSelected = value;
+	}
+	
+	/**
+	 * (for multi-selection only)
+	 * @return true if records are selected by default
+	 */
+	public boolean isDefaultSelected()
+	{
+		return p_isDefaultSelected;
+	}
 
 	/**
 	 *  Set ColorColumn comparison criteria
@@ -804,8 +1220,12 @@ public class MiniTable extends CTable implements IMiniTable
 
 				for (int col = 0; col < layout.length; col++)
 				{
-					Object data = getModel().getValueAt(row, col);
-					Class<?> c = layout[col].getColClass();
+					int viewRow = convertRowIndexToView(row);
+					int viewCol = convertColumnIndexToView(col);
+					int modelRow = convertRowIndexToModel(row);
+					int modelCol = convertColumnIndexToModel(col);
+					Object data = getModel().getValueAt(modelRow, modelCol);
+					Class<?> c = layout[modelCol].getColClass();
 					if (c == BigDecimal.class)
 					{	
 						BigDecimal subtotal = Env.ZERO;
@@ -843,7 +1263,8 @@ public class MiniTable extends CTable implements IMiniTable
 		setRowCount(row);
 		for (int col = 0; col < layout.length; col++)
 		{
-			Class<?> c = layout[col].getColClass();
+			int modelCol = convertColumnIndexToModel(col);
+			Class<?> c = layout[modelCol].getColClass();
 			if (c == BigDecimal.class)
 			{	
 				setValueAt(total[col] , row - 1, col);
@@ -871,7 +1292,8 @@ public class MiniTable extends CTable implements IMiniTable
 	 */
 	public void addTotals(Info_Column[] layout)
 	{
-		if (getRowCount() == 0 || layout.length == 0)
+		addTotals((ColumnInfo[]) layout);
+/*		if (getRowCount() == 0 || layout.length == 0)
 			return;
 		
 		Object[] total = new Object[layout.length];
@@ -881,8 +1303,12 @@ public class MiniTable extends CTable implements IMiniTable
 
 				for (int col = 0; col < layout.length; col++)
 				{
-					Object data = getModel().getValueAt(row, col);
-					Class<?> c = layout[col].getColClass();
+					int viewRow = convertRowIndexToView(row);
+					int viewCol = convertColumnIndexToView(col);
+					int modelRow = convertRowIndexToModel(row);
+					int modelCol = convertColumnIndexToModel(col);
+					Object data = getModel().getValueAt(modelRow, modelCol);
+					Class<?> c = layout[modelCol].getColClass();
 					if (c == BigDecimal.class)
 					{	
 						BigDecimal subtotal = Env.ZERO;
@@ -920,7 +1346,8 @@ public class MiniTable extends CTable implements IMiniTable
 		setRowCount(row);
 		for (int col = 0; col < layout.length; col++)
 		{
-			Class<?> c = layout[col].getColClass();
+			int modelCol = convertColumnIndexToModel(col);
+			Class<?> c = layout[modelCol].getColClass();
 			if (c == BigDecimal.class)
 			{	
 				setValueAt(total[col] , row - 1, col);
@@ -941,5 +1368,587 @@ public class MiniTable extends CTable implements IMiniTable
 			}	
 			
 		}
+		*/
 	}
+	
+	private void config_table()
+	{
+		//  The child class has to setup the behaviour of the ENTER key.  Default is to ignore it.
+		//  Change behaviour for multi-selection
+		if(isMultiSelection())
+		{
+			this.getInputMap().put(KeyStroke.getKeyStroke("ctrl A"), "doSelectAll");
+			this.getInputMap().put(KeyStroke.getKeyStroke("ctrl UP"), "doChangeLeadUp");
+			this.getInputMap().put(KeyStroke.getKeyStroke("ctrl KP_UP"), "doChangeLeadUp");
+			this.getInputMap().put(KeyStroke.getKeyStroke("shift UP"), "doAddRowUpExtend");
+			this.getInputMap().put(KeyStroke.getKeyStroke("shift KP_UP"), "doAddRowUpExtend");
+			this.getInputMap().put(KeyStroke.getKeyStroke("ctrl shift UP"), "doAddRowUp");
+			this.getInputMap().put(KeyStroke.getKeyStroke("ctrl shift KP_UP"), "doAddRowUp");
+			this.getInputMap().put(KeyStroke.getKeyStroke("ctrl DOWN"), "doChangeLeadDown");
+			this.getInputMap().put(KeyStroke.getKeyStroke("ctrl KP_DOWN"), "doChangeLeadDown");
+			this.getInputMap().put(KeyStroke.getKeyStroke("shift DOWN"), "doAddRowDownExtend");
+			this.getInputMap().put(KeyStroke.getKeyStroke("shift KP_DOWN"), "doAddRowDownExtend");
+			this.getInputMap().put(KeyStroke.getKeyStroke("ctrl shift DOWN"), "doAddRowDown");
+			this.getInputMap().put(KeyStroke.getKeyStroke("ctrl shift KP_DOWN"), "doAddRowDown");
+		}
+		else
+		{
+			this.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "doNothing");
+			this.getInputMap().put(KeyStroke.getKeyStroke("ctrl A"), "doNothing");
+			this.getInputMap().put(KeyStroke.getKeyStroke("ctrl UP"), "doSelectRowUp");
+			this.getInputMap().put(KeyStroke.getKeyStroke("ctrl KP_UP"), "doSelectRowUp");
+			this.getInputMap().put(KeyStroke.getKeyStroke("shift UP"), "doSelectRowUp");
+			this.getInputMap().put(KeyStroke.getKeyStroke("shift KP_UP"), "doSelectRowUp");
+			this.getInputMap().put(KeyStroke.getKeyStroke("ctrl shift UP"), "doSelectRowUp");
+			this.getInputMap().put(KeyStroke.getKeyStroke("ctrl shift KP_UP"), "doSelectRowUp");
+			this.getInputMap().put(KeyStroke.getKeyStroke("ctrl DOWN"), "doSelectRowDown");
+			this.getInputMap().put(KeyStroke.getKeyStroke("ctrl KP_DOWN"), "doSelectRowDown");
+			this.getInputMap().put(KeyStroke.getKeyStroke("shift DOWN"), "doSelectRowDown");
+			this.getInputMap().put(KeyStroke.getKeyStroke("shift KP_DOWN"), "doSelectRowDown");
+			this.getInputMap().put(KeyStroke.getKeyStroke("ctrl shift DOWN"), "doSelectRowDown");
+			this.getInputMap().put(KeyStroke.getKeyStroke("ctrl shift KP_DOWN"), "doSelectRowDown");			
+		}
+
+	}
+
+	public TableCellRenderer getCellRenderer(int row, int column)
+	{
+		Object editorClass = null;
+		try {
+			editorClass = this.getColumnModel().getColumn(column).getCellEditor().getClass();
+		} catch (Exception e) {}  //  Possible NPE if the table was not setup properly.
+        boolean editable = this.isCellEditable(row, column);
+		if (editable && editorClass == MiniCellEditor.class)
+		{
+	        Color borderColor = AdempierePLAF.getFieldBackground_Mandatory();
+	        CompoundBorder cb = null;
+	        
+			//  Set the borders on the editor
+			MiniCellEditor jc = ((MiniCellEditor) this.getColumnModel().getColumn(column).getCellEditor());
+    		if (column == 0)
+    		{
+    			cb = new CompoundBorder(new EmptyBorder(new Insets(0,0,0,1)),new MatteBorder(1, 1, 1, 0, borderColor));
+    			jc.setBorder(cb);
+    		}
+    		else if (column == this.getColumnCount()-1)
+    		{
+    			cb = new CompoundBorder(new EmptyBorder(new Insets(0,1,0,0)),new MatteBorder(1, 0, 1, 1, borderColor));
+    			jc.setBorder(cb);
+    		}
+    		else
+    		{
+    			cb = new CompoundBorder(new EmptyBorder(new Insets(0,1,0,1)),new MatteBorder(1, 0, 1, 0, borderColor));
+    			jc.setBorder(cb);
+    		}
+		}
+		return super.getCellRenderer(row, column);
+	}
+	
+    //  Determine editor to be used by row
+    public TableCellEditor getCellEditor(int row, int column)
+    {        
+    	return super.getCellEditor(row, column);   
+    }
+
+	public Component prepareRenderer(
+            TableCellRenderer renderer, int row, int column)
+    {
+
+        int modelColumn = convertColumnIndexToModel(column);
+        int modelRow = convertRowIndexToModel(row);
+
+        Component c = super.prepareRenderer(renderer, row, column);
+        JComponent jc = (JComponent)c;
+        if (c==null) return c;
+        
+        //  Row is selected
+        Color selectedColor = AdempierePLAF.getFieldBackground_Selected();
+        //  Even row
+        Color normalColor = AdempierePLAF.getFieldBackground_Normal();
+        //  Odd row
+        Color backColor = AdempierePLAF.getInfoBackground();
+        //  Lead row border
+        Color borderColor = AdempierePLAF.getFieldBackground_Mandatory();
+        
+        CompoundBorder cb = null;
+
+        ListSelectionModel rsm = this.getSelectionModel();
+        boolean readOnly = !this.isCellEditable(row, column);
+        if (!(row == rsm.getLeadSelectionIndex()))
+        {
+        	if (rsm.isSelectedIndex(row)) //  Highlighted but not the lead
+        	{
+        		c.setBackground(selectedColor);
+        		jc.setBorder(new MatteBorder(1, 1, 1, 1, selectedColor) );
+        	}
+        	else if (row % 2 == 0)  //  Not selected but even in number
+    		{ 
+    			c.setBackground(normalColor);
+        		jc.setBorder(new MatteBorder(1, 1, 1, 1, normalColor) );
+    		} 
+    		else  //  Not selected and odd in number
+    		{
+    			// If not shaded, match the table's background
+    			c.setBackground(backColor);
+        		jc.setBorder(new MatteBorder(1, 1, 1, 1, backColor) );
+    		}
+        	
+        	//  Buttons and checkboxes need to have the border turned on
+        	if (c.getClass().equals(JCheckBox.class))
+        	{
+        		((JCheckBox) c).setBorderPainted(false);
+        	}
+        	else if (c.getClass().equals(JButton.class))
+        	{
+        		((JButton) c).setBorderPainted(false);
+        	}
+
+        }
+        else
+        {
+        	if (c.getClass().equals(JCheckBox.class))
+        	{
+        		((JCheckBox) c).setBorderPainted(true);
+        	}
+        	else if (c.getClass().equals(JButton.class))
+        	{
+        		((JButton) c).setBorderPainted(true);
+        	}
+        	
+        	//  Define border - compond border maintains the spacing of 1px around the field
+    		if (column == 0)
+    		{
+    			cb = new CompoundBorder(new EmptyBorder(new Insets(0,0,0,1)),new MatteBorder(1, 1, 1, 0, borderColor));
+    		}
+    		else if (column == this.getColumnCount()-1)
+    		{
+    			cb = new CompoundBorder(new EmptyBorder(new Insets(0,1,0,0)),new MatteBorder(1, 0, 1, 1, borderColor));
+    		}
+    		else
+    		{
+    			cb = new CompoundBorder(new EmptyBorder(new Insets(0,1,0,1)),new MatteBorder(1, 0, 1, 0, borderColor));
+    		}
+			//  Set border
+    		jc.setBorder(cb);
+    		//  Set background color
+    		if (!readOnly &&  this.isRowChecked(row))
+    			c.setBackground(normalColor);
+    		else
+    			c.setBackground(selectedColor);        			
+        }
+
+        return c;
+    }	
+
+	/**
+     * Performs the action.
+     * @param e
+     * @param actionName determines which action to perform
+     * @param dy the number of rows over which to perform the action.
+     */
+    private void doAction(ActionEvent e, String actionName, int dy)
+    {
+        int leadRow = 0;
+        
+        MiniTable table = (MiniTable)e.getSource();
+
+        if (table.getRowCount() <= 0 || table.getColumnCount() <= 0) 
+        {
+            // bail - don't try to move selection on an empty table
+            return;
+        }
+        
+        ListSelectionModel rsm = table.getSelectionModel();
+        int index = rsm.getLeadSelectionIndex();
+        int compare = table.getRowCount();
+        
+        if(table.getShowTotals())
+        	compare = compare -1;
+        index = index < compare ? index : -1;
+
+        if (dy != 0) 
+        {
+        	if (dy < 0) // Up
+        	{
+        		//  Check limit at the top
+        		leadRow = Math.min(Math.max(index+dy, 0), index);
+        	}
+        	else if (dy > 0)  // Down
+        	{
+        		//  Check the limit at the bottom
+                leadRow = Math.min(Math.max(index+dy, 0), compare-1);        		
+        	}
+        	
+        	if (actionName.equals("SelectRowUp") ||
+    			actionName.equals("SelectRowDown"))
+        	{
+        		rsm.clearSelection();
+        		rsm.addSelectionInterval(leadRow, leadRow);
+        		matchCheckWithSelectedRows();
+        	}
+        	else if (actionName.equals("AddRowUp") ||
+    				 actionName.equals("AddRowDown"))
+        	{
+        		// Determine if the focused row is selected
+	            Object data = table.getValueAt(index, table.convertColumnIndexToView(getKeyColumnIndex())); //  Test the first row
+				if (data instanceof IDColumn)
+				{
+					IDColumn id = (IDColumn)data;
+					
+					rsm.addSelectionInterval(index, leadRow);	
+					setRowChecked(index,true);
+					setRowChecked(leadRow,true);	
+	            }
+        	}
+        	else if (actionName.equals("AddRowUpExtend") ||
+        			 actionName.equals("AddRowDownExtend"))
+        	{
+            	table.changeSelection(index, 0, false, true);
+            	table.changeSelection(leadRow, 0, false, true);
+            	matchCheckWithSelectedRows();        		
+        	}
+        	else if (actionName.equals("ChangeLeadUp") ||
+        			 actionName.equals("ChangeLeadDown"))
+        	{
+				// Determine if the focused row is selected
+				if(isRowChecked(index))
+				{
+					rsm.addSelectionInterval(index, index);		//  Select the original row			
+				}
+				else if(!isRowChecked(index) && table.isRowSelected(index))
+				{
+					rsm.removeSelectionInterval(index, index);
+				}
+            	((DefaultListSelectionModel) rsm).moveLeadSelectionIndex(leadRow);        		
+        	}
+        }
+        
+        Rectangle cellRect = table.getCellRect(leadRow, 0, false);
+        if (cellRect != null) {
+            table.scrollRectToVisible(cellRect);
+        }
+    }
+
+
+    private Action doNothing = new AbstractAction() {
+        public void actionPerformed(ActionEvent e) {
+        	//log.fine("Doing Nothing!!");
+            //do nothing
+        }
+    };
+
+    private Action doSelectAll = new AbstractAction() {
+        public void actionPerformed(ActionEvent e) {
+          
+        	int leadRow = 0;
+            
+            MiniTable table = (MiniTable)e.getSource();
+
+            if (table.getRowCount() <= 0 || table.getColumnCount() <= 0) 
+            {
+                // bail - don't try to move selection on an empty table
+                return;
+            }
+            
+            ListSelectionModel rsm = table.getSelectionModel();
+            int index = 0;
+            int compare = table.getRowCount();
+            
+            if(table.getShowTotals())
+            	compare = compare -1;
+
+            leadRow = compare-1;        		
+            	    					
+			rsm.addSelectionInterval(index, leadRow);
+			matchCheckWithSelectedRows();        		
+			((DefaultListSelectionModel) rsm).moveLeadSelectionIndex(index);
+            
+            Rectangle cellRect = table.getCellRect(index, 0, false);
+            if (cellRect != null) {
+                table.scrollRectToVisible(cellRect);
+            }
+        }
+    };
+
+    private Action doSelectRowDown = new AbstractAction() {
+        public void actionPerformed(ActionEvent e) 
+        {
+        	int dy = 1;       
+        	String actionName = "SelectRowDown";
+            doAction(e, actionName, dy);
+        }
+    };
+
+    private Action doSelectRowUp = new AbstractAction() {
+        public void actionPerformed(ActionEvent e) 
+        {
+            int dy = -1;
+        	String actionName = "SelectRowUp";
+            doAction(e, actionName, dy);
+        }            
+    };
+
+    private Action doAddRowUp = new AbstractAction() {
+        public void actionPerformed(ActionEvent e) 
+        {        	
+        	int dy = -1;
+            String actionName = "AddRowUp";
+            doAction(e, actionName, dy);
+        }
+    };
+    
+    private Action doAddRowDown = new AbstractAction() {
+        public void actionPerformed(ActionEvent e) {
+            int dy = 1;
+            String actionName = "AddRowDown";
+            doAction(e, actionName, dy);
+        }
+    };
+
+    private Action doAddRowUpExtend = new AbstractAction() {
+        public void actionPerformed(ActionEvent e) 
+        {
+            int dy = -1;
+            String actionName = "AddRowUpExtend";
+            doAction(e, actionName, dy);
+        }
+    };
+    
+    private Action doAddRowDownExtend = new AbstractAction() {
+        public void actionPerformed(ActionEvent e) {
+            int dy = 1;
+            String actionName = "AddRowDownExtend";
+            doAction(e, actionName, dy);            
+        }
+    };
+
+    private Action doChangeLeadUp = new AbstractAction() {
+        public void actionPerformed(ActionEvent e) 
+        {
+            int dy = -1;
+            String actionName = "ChangeLeadUp";
+            doAction(e, actionName, dy);            
+        }
+    };
+
+    private Action doChangeLeadDown = new AbstractAction() {
+        public void actionPerformed(ActionEvent e) 
+        {
+            int dy = 1;
+            String actionName = "ChangeLeadDown";
+            doAction(e, actionName, dy);            
+        }
+    };
+
+    protected Action doMatchIdToSelection = new AbstractAction() {
+    	
+    	//  General approach copied from BasicTableUI.java
+        public void actionPerformed(ActionEvent e) {
+        	matchCheckWithSelectedRows();
+        }
+    };
+
+    protected Action doToggleID = new AbstractAction() {
+    	
+    	public void actionPerformed(ActionEvent e) {
+        	toggleLeadRowChecked();
+        }
+    };
+
+    protected Action doToggleBySelection = new AbstractAction() {
+    	
+    	public void actionPerformed(ActionEvent e) {
+        	toggleRowCheckedBySelection();
+        }
+    };
+
+    /**
+     * Match the row check with the row selection (highlight) in the table
+     */
+    public void matchCheckWithSelectedRows() {
+
+    	int rows = this.getRowCount();
+
+		if (this.getShowTotals())
+			rows = rows - 1;
+
+    	if (rows <= 0)
+    		return;
+
+		// Check if the lead row is selected, if not, select it
+		ListSelectionModel rsm = this.getSelectionModel();
+		int leadRow = rsm.getLeadSelectionIndex();
+		if ((leadRow >=0 && leadRow < rows && !rsm.isSelectedIndex(leadRow)))
+		{
+			if (isMultiSelection())
+				rsm.addSelectionInterval(leadRow, leadRow);
+			else
+				rsm.setSelectionInterval(leadRow, leadRow);
+		}
+		
+		//  In case
+		if (this.getShowTotals())
+		{
+			int totalRow = this.getRowCount()-1;
+			if (rsm.isSelectedIndex(totalRow))
+				rsm.removeIndexInterval(totalRow, totalRow);
+		}
+		//  Set the id column to match the selection
+		int selectedRows[] = this.getSelectedRows();
+		
+		if (selectedRows.length < rows) //  Not everything is selected
+		{
+			//  Deselect everything
+			for (int row = 0; row < rows; row++)
+			{
+				setRowChecked(row, false);
+			}
+		}
+		//  Set the selected rows
+		for (int row : selectedRows)
+		{
+			setRowChecked(row, true);
+		}
+	}
+
+    /**
+     * Toggles the selection checkbox of the current lead row. Adds or removes the lead row from
+     * the selection accordingly.  
+     */
+    private void toggleLeadRowChecked() {
+
+    	// Check if the lead row is selected, if not, select it
+		ListSelectionModel rsm = this.getSelectionModel();
+		int leadRow = rsm.getLeadSelectionIndex();
+		if (leadRow == -1)
+			return;
+
+		//  Toggle
+		setRowChecked(leadRow, !isRowChecked(leadRow));
+		if (isRowChecked(leadRow))
+		{
+			if (isMultiSelection())
+				rsm.addSelectionInterval(leadRow, leadRow);
+			else
+				rsm.setSelectionInterval(leadRow, leadRow);
+		}
+		else
+		{
+			rsm.removeSelectionInterval(leadRow, leadRow);
+			rsm.setLeadSelectionIndex(leadRow);
+		}
+	}
+
+    /**
+     * Toggles the selection checkbox of the given row. Adds or removes the row from
+     * the selection accordingly.
+     * @param row - the row in the view to toggle  
+     */
+    private void toggleRowChecked(int row) {
+
+    	//  Range check
+		int rows = this.getRowCount();
+		if(this.getShowTotals())
+			rows = rows - 1;		
+		if (row < 0 || row >= rows)
+			return;
+
+		ListSelectionModel rsm = this.getSelectionModel();
+
+		//  Toggle
+    	setRowChecked(row, !isRowChecked(row));
+		if (isRowChecked(row))
+		{
+			if (isMultiSelection())
+				rsm.addSelectionInterval(row, row);
+			else
+				rsm.setSelectionInterval(row, row);
+		}
+		else
+		{
+			rsm.removeSelectionInterval(row, row);
+		}
+	}
+
+    /**
+     * Toggles the selection checkbox of a range or rows. Adds or removes the rows from
+     * the selection accordingly.
+     * @param index0 - one end of the range
+     * @param index1 - the other end of the range. Can be less than, equal or greater than index0.
+     */
+    private void toggleRowCheckedRange(int index0, int index1) {
+		if (isMultiSelection())
+		{
+			if (getKeyColumnIndex() >= 0)
+			{
+				int rows = this.getRowCount();
+				if(this.getShowTotals())
+					rows = rows - 1;
+				
+				if (index0 < 0 || index0 >= rows || index1 < 0 || index1 >= rows)
+					return;
+
+				ListSelectionModel rsm = this.getSelectionModel();
+				int leadRow = rsm.getLeadSelectionIndex();
+
+				int low = index0 <= index1 ? index0 : index1;
+				int high = index0 <= index1 ? index1 : index0;
+				
+				for (int row = low; row <= high; row++)
+				{
+					toggleRowChecked(row);
+				}
+				//  Return the lead to its original location
+				rsm.setLeadSelectionIndex(leadRow);
+			}
+		}
+	}
+
+    /**
+     * Toggles the ID selection of the selected rows.  Multi-selection only.
+     */
+    private void toggleRowCheckedBySelection() {
+		if (isMultiSelection())
+		{
+			ListSelectionModel rsm = this.getSelectionModel();
+			int leadRow = rsm.getLeadSelectionIndex();
+			
+			int[] selectedRows = this.getSelectedRows();
+			for (int row : selectedRows)
+			{
+				toggleRowChecked(row);
+			}
+			//  Return the lead to its original location
+			rsm.setLeadSelectionIndex(leadRow);
+		}
+	}
+
+    /**
+     * If the table row has a IDColumn or a boolean checkbox in the KeyColumnIndex
+     * this function will set the checkbox according to the setValue parameter
+     * @param row - the view row
+     * @param setValue - the checkbox value to set 
+     */
+    public void setRowChecked(int row, boolean setValue)
+    {   	
+        //  The key column will be defined or zero by default.
+    	//  Check the class of the data in the cell to verify if 
+    	//  it is a selection column.  Selection columns can be
+    	//  of type IDColumn or Boolean.
+    	Object data = this.getValueAt(row, this.convertColumnIndexToView(getKeyColumnIndex()));
+		if (data instanceof IDColumn)
+		{
+			IDColumn id = (IDColumn)data;
+			id.setSelected(setValue);
+		}
+		else if (data instanceof Boolean)
+		{
+			data = setValue;
+		}
+		else return;
+		
+		this.setValueAt(data, row, this.convertColumnIndexToView(getKeyColumnIndex()));
+
+    }
+
 }   //  MiniTable
