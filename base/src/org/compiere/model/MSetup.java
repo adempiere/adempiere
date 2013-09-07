@@ -16,14 +16,22 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import javax.swing.ImageIcon;
+
+import org.compiere.impexp.ImpFormat;
 import org.compiere.process.DocumentTypeVerify;
+import org.compiere.process.ProcessInfo;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -32,6 +40,7 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
+import org.compiere.util.Util;
 
 /**
  * Initial Setup Model
@@ -44,8 +53,14 @@ import org.compiere.util.Trx;
  * @author Carlos Ruiz - globalqss
  * 			<li>Setup correctly IsSOTrx for return documents
  */
-public final class MSetup
+public class MSetup
 {
+	/**
+	 * No-arg constructor call initialize
+	 * 
+	 */
+	public MSetup() {
+	}
 	/**
 	 *  Constructor
 	 *  @param ctx context
@@ -53,44 +68,51 @@ public final class MSetup
 	 */
 	public MSetup(Properties ctx, int WindowNo)
 	{
+		initialize(ctx, WindowNo);
+	}   //  MSetup
+
+
+
+	public void initialize(Properties ctx, int WindowNo) {
 		m_ctx = new Properties(ctx);	//	copy
 		m_lang = Env.getAD_Language(m_ctx);
 		m_WindowNo = WindowNo;
-	}   //  MSetup
+	}
 
 	/**	Logger			*/
 	protected CLogger	log = CLogger.getCLogger(getClass());
 
-	private Trx				m_trx = Trx.get(Trx.createTrxName("Setup"), true);
-	private Properties      m_ctx;
-	private String          m_lang;
-	private int             m_WindowNo;
-	private StringBuffer    m_info;
+	protected Trx				m_trx = Trx.get(Trx.createTrxName("Setup"), true);
+	protected Properties      m_ctx;
+	protected String          m_lang;
+	protected int             m_WindowNo;
+	protected StringBuffer    m_info;
 	//
-	private String          m_clientName;
+	protected String          m_clientName;
 //	private String          m_orgName;
 	//
-	private String          m_stdColumns = "AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy";
-	private String          m_stdValues;
-	private String          m_stdValuesOrg;
+	protected String          m_stdColumns = "AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy";
+	protected String          m_stdValues;
+	protected String          m_stdValuesOrg;
 	//
-	private NaturalAccountMap<String,MElementValue> m_nap = null;
+	protected NaturalAccountMap<String,MElementValue> m_nap = null;
 	//
-	private MClient			m_client;
-	private MOrg			m_org;
-	private MAcctSchema		m_as;
+	protected MClient			m_client;
+	protected MOrg			m_org;
+	protected MAcctSchema		m_as;
 	//
-	private int     		AD_User_ID;
-	private String  		AD_User_Name;
-	private int     		AD_User_U_ID;
-	private String  		AD_User_U_Name;
-	private MCalendar		m_calendar;
-	private int     		m_AD_Tree_Account_ID;
-	private int     		C_Cycle_ID;
+	protected int     		AD_User_ID;
+	protected String  		AD_User_Name;
+	protected int     		AD_User_U_ID;
+	protected String  		AD_User_U_Name;
+	protected MCalendar		m_calendar;
+	protected int     		m_AD_Tree_Account_ID;
+	protected int     		C_Cycle_ID;
+	private int 			C_Element_ID;
 	//
-	private boolean         m_hasProject = false;
-	private boolean         m_hasMCampaign = false;
-	private boolean         m_hasSRegion = false;
+	protected boolean         m_hasProject = false;
+	protected boolean         m_hasMCampaign = false;
+	protected boolean         m_hasSRegion = false;
 
 	/**
 	 *  Create Client Info.
@@ -99,10 +121,12 @@ public final class MSetup
 	 *  @param orgName org name
 	 *  @param userClient user id client
 	 *  @param userOrg user id org
+	 * @param logoFile 
 	 *  @return true if created
 	 */
 	public boolean createClient (String clientName, String orgValue, String orgName,
-		String userClient, String userOrg, String phone, String phone2, String fax, String eMail, String taxID)
+		String userClient, String userOrg, String phone, String phone2, String fax, String eMail, String taxID,
+		String DUNS, String logoFile, int Country_ID)
 	{
 		log.info(clientName);
 		m_trx.start();
@@ -124,6 +148,13 @@ public final class MSetup
 		m_client = new MClient(m_ctx, 0, true, m_trx.getTrxName());
 		m_client.setValue(m_clientName);
 		m_client.setName(m_clientName);
+		m_client.setIsUseBetaFunctions(false);
+		m_client.setAutoArchive(MClient.AUTOARCHIVE_ExternalDocuments);
+		
+		MCountry country = MCountry.get(m_ctx, Country_ID);
+		if ( country.getAD_Language() != null )
+			m_client.setAD_Language(country.getAD_Language());
+		
 		if (!m_client.save())
 		{
 			String err = "Client NOT created";
@@ -133,6 +164,9 @@ public final class MSetup
 			m_trx.close();
 			return false;
 		}
+
+
+		
 		int AD_Client_ID = m_client.getAD_Client_ID();
 		Env.setContext(m_ctx, m_WindowNo, "AD_Client_ID", AD_Client_ID);
 		Env.setContext(m_ctx, "#AD_Client_ID", AD_Client_ID);
@@ -195,9 +229,54 @@ public final class MSetup
 		orgInfo.setPhone2(phone2);
 		orgInfo.setFax(fax);
 		orgInfo.setEMail(eMail);
+		
+		
 		if (taxID != null && taxID.length() > 0) {
 			orgInfo.setTaxID(taxID);
 		}
+		
+		if (!Util.isEmpty(DUNS))
+			orgInfo.setDUNS(DUNS);
+		
+		if ( !Util.isEmpty(logoFile) )
+		{
+			byte[] data = null;
+			File file = new File (logoFile);
+
+			//  See if we can load & display it
+			try
+			{
+				FileInputStream fis = new FileInputStream(file);
+				ByteArrayOutputStream os = new ByteArrayOutputStream();
+				byte[] buffer = new byte[1024*8];   //  8kB
+				int length = -1;
+				while ((length = fis.read(buffer)) != -1)
+					os.write(buffer, 0, length);
+				fis.close();
+				data = os.toByteArray();
+				os.close();
+
+				MImage logo = new MImage(m_ctx, 0, m_trx.getTrxName());
+
+				//  Save info
+				logo.setName(file.getName());
+				logo.setImageURL(file.getPath());
+				logo.setBinaryData(data);
+				logo.saveEx();
+
+				MClientInfo clientInfo = m_client.getInfo();
+				if ( clientInfo != null )
+				{
+					clientInfo.setLogo_ID(logo.getAD_Image_ID());
+					clientInfo.saveEx(m_trx.getTrxName());
+				}
+			}
+			catch (Exception e)
+			{
+				log.log(Level.WARNING, "Failed to load logo image", e);
+			}
+		}
+		
 		if (!orgInfo.save())
 		{
 			String err = "Organization Info NOT Updated";
@@ -362,13 +441,15 @@ public final class MSetup
 	 *  @param hasProject has project segment
 	 *  @param hasMCampaign has campaign segment
 	 *  @param hasSRegion has sales region segment
+	 * @param historyYears 
+	 * @param startDate 
 	 *  @param AccountingFile file name of accounting file
 	 *  @return true if created
 	 */
 	public boolean createAccounting(KeyNamePair currency,
 		boolean hasProduct, boolean hasBPartner, boolean hasProject,
 		boolean hasMCampaign, boolean hasSRegion,
-		File AccountingFile)
+		Timestamp startDate, int historyYears, File AccountingFile)
 	{
 		log.info(m_client.toString());
 		//
@@ -382,24 +463,8 @@ public final class MSetup
 		StringBuffer sqlCmd = null;
 		int no = 0;
 
-		/**
-		 *  Create Calendar
-		 */
-		m_calendar = new MCalendar(m_client);
-		if (!m_calendar.save())
-		{
-			String err = "Calendar NOT inserted";
-			log.log(Level.SEVERE, err);
-			m_info.append(err);
-			m_trx.rollback();
-			m_trx.close();
+		if (!createCalendar(startDate, historyYears))
 			return false;
-		}
-		//  Info
-		m_info.append(Msg.translate(m_lang, "C_Calendar_ID")).append("=").append(m_calendar.getName()).append("\n");
-
-		if (m_calendar.createYear(m_client.getLocale()) == null)
-			log.log(Level.SEVERE, "Year NOT inserted");
 
 		//	Create Account Elements
 		name = m_clientName + " " + Msg.translate(m_lang, "Account_ID");
@@ -414,7 +479,7 @@ public final class MSetup
 			m_trx.close();
 			return false;
 		}
-		int C_Element_ID = element.getC_Element_ID();
+		C_Element_ID = element.getC_Element_ID();
 		m_info.append(Msg.translate(m_lang, "C_Element_ID")).append("=").append(name).append("\n");
 
 		//	Create Account Values
@@ -699,7 +764,7 @@ public final class MSetup
 			DT_S, DT_I, 50000, GL_None, false);
 		createDocType("Credit Order", "Order Confirmation", 
 			MDocType.DOCBASETYPE_SalesOrder, MDocType.DOCSUBTYPESO_OnCreditOrder, 
-			DT_SI, DT_I, 60000, GL_None, false);   //  RE
+			DT_S, DT_I, 60000, GL_None, false);   //  RE
 		createDocType("Warehouse Order", "Order Confirmation", 
 			MDocType.DOCBASETYPE_SalesOrder, MDocType.DOCSUBTYPESO_WarehouseOrder, 
 			DT_S, DT_I,	70000, GL_None, false);    //  LS
@@ -727,7 +792,7 @@ public final class MSetup
 
 		int DT = createDocType("POS Order", "Order Confirmation", 
 			MDocType.DOCBASETYPE_SalesOrder, MDocType.DOCSUBTYPESO_POSOrder, 
-			DT_SI, DT_II, 80000, GL_None, false);    // Bar
+			DT_S, DT_I, 80000, GL_None, false);    // Bar
 		//	POS As Default for window SO
 		createPreference("C_DocTypeTarget_ID", String.valueOf(DT), 143);
 
@@ -752,8 +817,101 @@ public final class MSetup
 		DocumentTypeVerify.createPeriodControls(m_ctx, getAD_Client_ID(), null, m_trx.getTrxName());
 		//
 		log.info("fini");
+		
 		return true;
 	}   //  createAccounting
+	
+	
+	private boolean createCalendar(Timestamp startDate, int historyYears) {
+		/**
+		 *  Create Calendar
+		 */
+		m_calendar = new MCalendar(m_client);
+		if (!m_calendar.save())
+		{
+			String err = "Calendar NOT inserted";
+			log.log(Level.SEVERE, err);
+			m_info.append(err);
+			m_trx.rollback();
+			m_trx.close();
+			return false;
+		}
+		//  Info
+		m_info.append(Msg.translate(m_lang, "C_Calendar_ID")).append("=").append(m_calendar.getName()).append("\n");
+
+		Calendar cal = Calendar.getInstance(m_client.getLocale());
+		if (startDate != null)
+			cal.setTime(startDate);
+		else 
+		{
+			cal.set(Calendar.DATE,1);
+			cal.set(Calendar.MONTH, 0);
+		}
+		
+		if ( historyYears < 0 )
+			historyYears = 0;
+		
+		cal.add(Calendar.YEAR, -historyYears);
+		
+		// get last day of financial year
+		Calendar lastday = Calendar.getInstance();
+		lastday.setTime(cal.getTime());
+		lastday.add(Calendar.YEAR, 1);
+		lastday.add(Calendar.DATE, -1);
+		
+		for ( int i = 0; i < historyYears + 5; i++)  // create next 5 years
+		{
+			MYear year = new MYear (m_calendar);
+			String Year = String.valueOf(lastday.get(Calendar.YEAR));
+			year.setFiscalYear(Year);
+			if (year.save())
+				year.createStdPeriods(m_client.getLocale(), new Timestamp(cal.getTimeInMillis()), "yyyy-MM");
+			if (year == null)
+				log.log(Level.SEVERE, "Year NOT inserted");
+			
+
+			cal.add(Calendar.YEAR, 1);
+			lastday.add(Calendar.YEAR, 1);
+		}
+		return true;
+	}
+	
+	public boolean importChart(File chart)
+	{
+		// import chart of accounts automatically
+		ImpFormat importer = ImpFormat.load ("Accounting - Accounts");
+		importer.loadFile(m_ctx, chart, m_trx.getTrxName(), m_client.getAD_Client_ID(), 0, true);
+		
+
+		//	Process
+		MProcess process = MProcess.get(m_ctx, 197);  // Import_Account
+		MPInstance pInstance = new MPInstance(process, 0);
+		pInstance.setAD_Client_ID(m_client.getAD_Client_ID());
+		pInstance.setAD_Org_ID(0);
+		for (MPInstancePara para : pInstance.getParameters())
+		{
+			String name = para.getParameterName();
+			if ("AD_Client_ID".equals(name))
+				para.setP_Number(m_client.getAD_Client_ID());
+			else if ("C_Element_ID".equals(name))
+				para.setP_Number(C_Element_ID);
+			
+			para.saveEx();
+		}
+		//
+		ProcessInfo pi = new ProcessInfo (process.getName(), process.getAD_Process_ID(),
+			0, 0);
+		pi.setAD_User_ID(getAD_User_ID());
+		pi.setAD_Client_ID(m_client.getAD_Client_ID());
+		pi.setAD_PInstance_ID(pInstance.getAD_PInstance_ID());
+		if ( !process.processItWithoutTrxClose(pi, m_trx))
+			return false;
+		
+
+		boolean success = m_trx.commit();
+		m_trx.close();
+		return success;
+	}
 	
 	private void createAccountingRecord(String tableName) throws Exception
 	{
@@ -780,6 +938,7 @@ public final class MSetup
 		if (!acct.save()) {
 			throw new AdempiereUserError(CLogger.retrieveErrorString(table.getName() + " not created"));
 		}
+		
 	}
 
 
@@ -986,15 +1145,7 @@ public final class MSetup
 		/**
 		 *  Business Partner
 		 */
-		//  Create BP Group
-		MBPGroup bpg = new MBPGroup (m_ctx, 0, m_trx.getTrxName());
-		bpg.setValue(defaultName);
-		bpg.setName(defaultName);
-		bpg.setIsDefault(true);
-		if (bpg.save())
-			m_info.append(Msg.translate(m_lang, "C_BP_Group_ID")).append("=").append(defaultName).append("\n");
-		else
-			log.log(Level.SEVERE, "BP Group NOT inserted");
+		MBPGroup bpg = createBPGroups(defaultName);
 
 		//	Create BPartner
 		MBPartner bp = new MBPartner (m_ctx, 0, m_trx.getTrxName());
@@ -1020,7 +1171,7 @@ public final class MSetup
 		no = DB.executeUpdate(sqlCmd.toString(), m_trx.getTrxName());
 		if (no != 1)
 			log.log(Level.SEVERE, "AcctSchema Element BPartner NOT updated");
-		createPreference("C_BPartner_ID", String.valueOf(bp.getC_BPartner_ID()), 143);
+		// createPreference("C_BPartner_ID", String.valueOf(bp.getC_BPartner_ID()), 143);
 
 		/**
 		 *  Product
@@ -1038,36 +1189,7 @@ public final class MSetup
 		//  UOM (EA)
 		int C_UOM_ID = 100;
 
-		//  TaxCategory
-		int C_TaxCategory_ID = getNextID(getAD_Client_ID(), "C_TaxCategory");
-		sqlCmd = new StringBuffer ("INSERT INTO C_TaxCategory ");
-		sqlCmd.append("(C_TaxCategory_ID,").append(m_stdColumns).append(",");
-		sqlCmd.append(" Name,IsDefault) VALUES (");
-		sqlCmd.append(C_TaxCategory_ID).append(",").append(m_stdValues).append(", ");
-		if (C_Country_ID == 100)    // US
-			sqlCmd.append("'Sales Tax','Y')");
-		else
-			sqlCmd.append(defaultEntry).append("'Y')");
-		no = DB.executeUpdate(sqlCmd.toString(), m_trx.getTrxName());
-		if (no != 1)
-			log.log(Level.SEVERE, "TaxCategory NOT inserted");
-		
-		sqlCmd = new StringBuffer ("INSERT INTO C_TaxCategory_Trl (AD_Language,C_TaxCategory_ID, Description,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy)");
-		sqlCmd.append(" SELECT l.AD_Language,t.C_TaxCategory_ID, t.Description,t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, C_TaxCategory t");
-		sqlCmd.append(" WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.C_TaxCategory_ID=").append(C_TaxCategory_ID);
-		sqlCmd.append(" AND NOT EXISTS (SELECT * FROM C_TaxCategory_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.C_TaxCategory_ID=t.C_TaxCategory_ID)");
-		no = DB.executeUpdate(sqlCmd.toString(), m_trx.getTrxName());
-		if (no < 0)
-			log.log(Level.SEVERE, "TaxCategory Translation NOT inserted");
-
-		//  Tax - Zero Rate
-		MTax tax = new MTax (m_ctx, "Standard", Env.ZERO, C_TaxCategory_ID, m_trx.getTrxName());
-		tax.setIsDefault(true);
-		if (tax.save())
-			m_info.append(Msg.translate(m_lang, "C_Tax_ID"))
-				.append("=").append(tax.getName()).append("\n");
-		else
-			log.log(Level.SEVERE, "Tax NOT inserted");
+		int C_TaxCategory_ID = createTax(C_Country_ID, defaultEntry);
 
 		//	Create Product
 		MProduct product = new MProduct (m_ctx, 0, m_trx.getTrxName());
@@ -1104,6 +1226,12 @@ public final class MSetup
 			log.log(Level.SEVERE, "Location NOT inserted");
 		createPreference("C_Country_ID", String.valueOf(C_Country_ID), 0);
 
+		//  Location (Warehouse)
+		loc = new MLocation(m_ctx, C_Country_ID, C_Region_ID, City, m_trx.getTrxName());
+		loc.setAddress1(address1);
+		loc.setPostal(postal);
+		loc.saveEx();
+		
 		//  Default Warehouse
 		MWarehouse wh = new MWarehouse(m_ctx, 0, m_trx.getTrxName());
 		wh.setValue(defaultName);
@@ -1217,16 +1345,7 @@ public final class MSetup
 			log.log(Level.SEVERE, "User of SalesRep (Admin) NOT updated");
 
 
-		//  Payment Term
-		int C_PaymentTerm_ID = getNextID(getAD_Client_ID(), "C_PaymentTerm");
-		sqlCmd = new StringBuffer ("INSERT INTO C_PaymentTerm ");
-		sqlCmd.append("(C_PaymentTerm_ID,").append(m_stdColumns).append(",");
-		sqlCmd.append("Value,Name,NetDays,GraceDays,DiscountDays,Discount,DiscountDays2,Discount2,IsDefault) VALUES (");
-		sqlCmd.append(C_PaymentTerm_ID).append(",").append(m_stdValues).append(",");
-		sqlCmd.append("'Immediate','Immediate',0,0,0,0,0,0,'Y')");
-		no = DB.executeUpdate(sqlCmd.toString(), m_trx.getTrxName());
-		if (no != 1)
-			log.log(Level.SEVERE, "PaymentTerm NOT inserted");
+		createPaymentTerms();
 
 		//  Project Cycle
 		C_Cycle_ID = getNextID(getAD_Client_ID(), "C_Cycle");
@@ -1276,11 +1395,82 @@ public final class MSetup
 		else
 			log.log(Level.SEVERE, "CashBook NOT inserted");
 		//
-		boolean success = m_trx.commit();
-		m_trx.close();
+		
 		log.info("finish");
-		return success;
+		return true;
 	}   //  createEntities
+	
+	/*
+	 * Create standard payment terms
+	 */
+	protected void createPaymentTerms() {
+		StringBuffer sqlCmd;
+		int no;
+		//  Payment Term
+		int C_PaymentTerm_ID = getNextID(getAD_Client_ID(), "C_PaymentTerm");
+		sqlCmd = new StringBuffer ("INSERT INTO C_PaymentTerm ");
+		sqlCmd.append("(C_PaymentTerm_ID,").append(m_stdColumns).append(",");
+		sqlCmd.append("Value,Name,NetDays,GraceDays,DiscountDays,Discount,DiscountDays2,Discount2,IsDefault) VALUES (");
+		sqlCmd.append(C_PaymentTerm_ID).append(",").append(m_stdValues).append(",");
+		sqlCmd.append("'Immediate','Immediate',0,0,0,0,0,0,'Y')");
+		no = DB.executeUpdate(sqlCmd.toString(), m_trx.getTrxName());
+		if (no != 1)
+			log.log(Level.SEVERE, "PaymentTerm NOT inserted");
+	}
+	
+	/*
+	 * Create standard BP groups and return default one
+	 */
+	protected MBPGroup createBPGroups(String defaultName) {
+		//  Create BP Group
+		MBPGroup bpg = new MBPGroup (m_ctx, 0, m_trx.getTrxName());
+		bpg.setValue(defaultName);
+		bpg.setName(defaultName);
+		bpg.setIsDefault(true);
+		if (bpg.save())
+			m_info.append(Msg.translate(m_lang, "C_BP_Group_ID")).append("=").append(defaultName).append("\n");
+		else
+			log.log(Level.SEVERE, "BP Group NOT inserted");
+		return bpg;
+	}
+
+
+
+	protected int createTax(int C_Country_ID, String defaultEntry) {
+		StringBuffer sqlCmd;
+		int no;
+		//  TaxCategory
+		int C_TaxCategory_ID = getNextID(getAD_Client_ID(), "C_TaxCategory");
+		sqlCmd = new StringBuffer ("INSERT INTO C_TaxCategory ");
+		sqlCmd.append("(C_TaxCategory_ID,").append(m_stdColumns).append(",");
+		sqlCmd.append(" Name,IsDefault) VALUES (");
+		sqlCmd.append(C_TaxCategory_ID).append(",").append(m_stdValues).append(", ");
+		if (C_Country_ID == 100)    // US
+			sqlCmd.append("'Sales Tax','Y')");
+		else
+			sqlCmd.append(defaultEntry).append("'Y')");
+		no = DB.executeUpdate(sqlCmd.toString(), m_trx.getTrxName());
+		if (no != 1)
+			log.log(Level.SEVERE, "TaxCategory NOT inserted");
+		
+		sqlCmd = new StringBuffer ("INSERT INTO C_TaxCategory_Trl (AD_Language,C_TaxCategory_ID, Description,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy)");
+		sqlCmd.append(" SELECT l.AD_Language,t.C_TaxCategory_ID, t.Description,t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, C_TaxCategory t");
+		sqlCmd.append(" WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.C_TaxCategory_ID=").append(C_TaxCategory_ID);
+		sqlCmd.append(" AND NOT EXISTS (SELECT * FROM C_TaxCategory_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.C_TaxCategory_ID=t.C_TaxCategory_ID)");
+		no = DB.executeUpdate(sqlCmd.toString(), m_trx.getTrxName());
+		if (no < 0)
+			log.log(Level.SEVERE, "TaxCategory Translation NOT inserted");
+
+		//  Tax - Zero Rate
+		MTax tax = new MTax (m_ctx, "Standard", Env.ZERO, C_TaxCategory_ID, m_trx.getTrxName());
+		tax.setIsDefault(true);
+		if (tax.save())
+			m_info.append(Msg.translate(m_lang, "C_Tax_ID"))
+				.append("=").append(tax.getName()).append("\n");
+		else
+			log.log(Level.SEVERE, "Tax NOT inserted");
+		return C_TaxCategory_ID;
+	}
 
 	/**
 	 *  Create Preference
@@ -1312,7 +1502,7 @@ public final class MSetup
 	 * 	@param TableName table name
 	 * 	@return id
 	 */
-	private int getNextID (int AD_Client_ID, String TableName)
+	protected int getNextID (int AD_Client_ID, String TableName)
 	{
 		//	TODO: Exception 
 		return DB.getNextID (AD_Client_ID, TableName, m_trx.getTrxName());
@@ -1359,5 +1549,21 @@ public final class MSetup
 			m_trx.rollback();
 			m_trx.close();
 		} catch (Exception e) {}
+	}
+	public void createBank(String bankName, String routingNo,
+			String accountNo, int currencyId) {
+		
+		MBank bank = new MBank(m_ctx, 0, m_trx.getTrxName());
+		bank.setAD_Org_ID(0);
+		bank.setName(bankName);
+		bank.setRoutingNo(routingNo);
+		bank.saveEx();
+		MBankAccount account = new MBankAccount(m_ctx, 0, m_trx.getTrxName());
+		account.setC_Bank_ID(bank.getC_Bank_ID());
+		account.setAccountNo(accountNo);
+		account.setC_Currency_ID(currencyId);
+		account.setBankAccountType(MBankAccount.BANKACCOUNTTYPE_Checking);
+		account.saveEx();
+		
 	}
 }   //  MSetup
