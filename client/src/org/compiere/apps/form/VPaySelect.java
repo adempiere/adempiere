@@ -55,7 +55,6 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
-import org.jboss.util.property.PropertyListener;
 
 /**
  *  Create Manual Payments From (AP) Invoices or (AR) Credit Memos.
