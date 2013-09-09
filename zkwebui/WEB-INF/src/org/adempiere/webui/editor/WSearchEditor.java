@@ -37,9 +37,6 @@ import org.adempiere.webui.panel.InfoPanel;
 import org.adempiere.webui.panel.InfoPanelFactory;
 import org.adempiere.webui.panel.InfoProductPanel;
 import org.adempiere.webui.window.WFieldRecordInfo;
-import org.compiere.apps.FieldRecordInfo;
-import org.compiere.apps.search.Info;
-import org.compiere.apps.search.InfoFactory;
 import org.compiere.model.GridField;
 import org.compiere.model.Lookup;
 import org.compiere.model.MBPartner;
@@ -57,7 +54,6 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
-import org.compiere.util.Util;
 import org.eevolution.model.I_PP_Product_BOMLine;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
@@ -411,7 +407,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		//	Try like
 		if (id == -3)
 		{
-			rSQL = getDirectAccessSQL(Info.getSQLText(text));
+			rSQL = getDirectAccessSQL(InfoPanel.getSQLText(text));
 			if(rSQL == null || rSQL.length() == 0){
 				// Search should have been disabled for this field.
 				log.severe("Search enabled on field " + getColumnName() + ". Associated table has no standard/identifier columns.");

@@ -623,6 +623,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	
 	/**  record the numbe of selected records in a multi-selection event */
 	protected int p_numRecordsSelected = 0;
+	private boolean m_busy = false;
 
 	private static final String[] lISTENER_EVENTS = {};
 
@@ -764,6 +765,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	 */
 	protected void prepareAndExecuteQuery()
 	{
+		m_busy = true;
     	showBusyDialog();
     	Clients.response(new AuEcho(this, "onQueryCallback", null));
 	}
@@ -1450,7 +1452,10 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
     	// Handle actions 
 
 		if(!p_loadedOK)
-			return;
+			return;		//  We aren't ready
+		
+		if(m_busy )
+			return;		//  We're busy.  Ignore events.
 
         if  (event!=null)
         {
@@ -1542,9 +1547,9 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 				{
 					//  Created by the reset button, if used, to reset the criteria panel.
 					//  Go back to the defaults
-					p_loadedOK = false;  // Prevent other actions
+					m_busy = true;  // Prevent other actions
 					initInfo();  // Should be overridden in the subordinate class
-					p_loadedOK = true;
+					m_busy = false;
 					
 					p_triggerRefresh = true;
 					p_refreshNow = true;  // Ignore the autoQuery value and refresh now.
@@ -1698,6 +1703,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
     		refresh();			// Refresh any subordinate tables or other parts of the info window
     		enableButtons();	// Enable buttons based on the type of record selected
     		hideBusyDialog();
+    		m_busy = false;
     	}
     }
     
