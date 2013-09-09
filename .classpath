@@ -19,7 +19,6 @@
 	<classpathentry kind="src" path="webCM/src/main/servlet"/>
 	<classpathentry kind="src" path="migration/src"/>
 	<classpathentry kind="src" path="posterita/posterita/src/main"/>
-	<classpathentry kind="src" path="org.eevolution.cashflow/src/main/java"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jstl.jar">
 		<attributes>
@@ -329,5 +328,6 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="tools/lib/OpenForecast-0.5.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ======================================================== -->
+<!-- Mobile UI (Web UI for mobiles)                               -->
+<!-- based on zkwebui build file								-->
+<!-- ======================================================== -->
+
+<project name="MobileUI" default="war" basedir=".">
+	<description>
+	    This buildfile is used to build the Mobile UI client.
+  	</description>
+	<!-- set global properties for this build -->
+	<!--<property environment="env"/>-->
+	<property name="src.dir" value="${basedir}/WEB-INF/src"/>
+	<property name="classes.dir" value="${basedir}/WEB-INF/classes"/>
+	<property name="dist.dir" value="${basedir}/dist"/>
+	<property name="WEBINF.dir" value="${basedir}/WEB-INF"/>
+	<property name="Adempiere.dir" value="${basedir}/../lib"></property>
+
+	<property name="war.name"	value="mobile"/>
+	<property name="compile.debug"       value="true"/>
+	<property name="compile.deprecation" value="false"/>
+	<property name="compile.optimize"    value="true"/>
+
+	<path id="compile.classpath">
+		<pathelement location="${basedir}"/>
+	  	<pathelement location="${basedir}/WEB-INF/classes"/>
+	  	<pathelement location="${basedir}/WEB-INF/src"/>
+
+		<pathelement location="${Adempiere.dir}/../base/build"/>
+		<pathelement location="${Adempiere.dir}/../client/build"/>
+		<pathelement location="${Adempiere.dir}/../JasperReports/build"/>
+	    <fileset dir="${Adempiere.dir}">
+	    	<include name="*.jar"/>
+	    </fileset>
+
+	    <pathelement location="${Adempiere.dir}/../tools/lib/servlet-api.jar"/>
+	    <fileset dir="${basedir}/WEB-INF/lib">
+	    	<include name="*.jar"/>
+	    </fileset>
+	</path>
+
+	<target name="clean" description="delete class directory">
+	   <delete dir="${classes.dir}/org" />
+	   <delete dir="${dist.dir}" />
+	</target>
+
+	<target name="compile" depends="clean" description="Compile Java sources">
+	    <mkdir dir="${classes.dir}"/>
+	    <javac target="1.7" 
+	    	   srcdir="WEB-INF/src"
+	           destdir="${classes.dir}"
+	           debug="${compile.debug}"
+	     	   deprecation="${compile.deprecation}"
+	           optimize="${compile.optimize}">
+	        <classpath refid="compile.classpath"/>
+	    </javac>
+		<copy  todir="${classes.dir}" overwrite="true">
+			<fileset dir="WEB-INF/src">
+				<include name="**/*.xml" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="war" depends="compile">
+		<echo message="=========== Build Mobile web UI ==========="/>
+		<delete dir="${dist.dir}" />
+
+		<mkdir dir="${dist.dir}"/>
+
+		<war
+			  warfile="${dist.dir}/${war.name}.war"
+			  webxml="${WEBINF.dir}/web.xml">
+		      <fileset dir="${basedir}" excludes="
+		      	                                    .settings/**,
+											      	bin/**,
+											      	dist/**,
+											      	.*,
+											      	work/**,
+											      	WEB-INF/src/**,
+		      										**/web.xml,
+		      										**/test/**,
+		      										WEB-INF/lib/*-sources.jar,
+		      										**/test.zul"
+		      									>
+
+		      </fileset>
+		</war>
+
+		<copy file="${dist.dir}/${war.name}.war" tofile="../lib/${war.name}.war"/>
+	</target>
+</project>

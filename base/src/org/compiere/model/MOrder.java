@@ -1216,8 +1216,8 @@ public class MOrder extends X_C_Order implements DocAction
 		isASIMandatory();
 
 		//	Lines
-//		if (explodeBOM())
-//			lines = getLines(true, MOrderLine.COLUMNNAME_M_Product_ID);
+		if (explodeBOM())
+			lines = getLines(true, MOrderLine.COLUMNNAME_M_Product_ID);
 		if (!reserveStock(dt, lines))
 		{
 			m_processMsg = "Cannot reserve Stock";
@@ -1274,14 +1274,14 @@ public class MOrder extends X_C_Order implements DocAction
 			return DocAction.STATUS_Invalid;
 		
 		m_justPrepared = true;
+	//	if (!DOCACTION_Complete.equals(getDocAction()))		don't set for just prepare 
+	//		setDocAction(DOCACTION_Complete);
+		
 		for(final MOrderLine ol:getLines())
 		{
 				Util.assume(ol.getQtyReserved().compareTo(ol.getQtyOrdered()) == 0, 
 						"After prepareIt, reservations have been made");
 		}
-
-	//	if (!DOCACTION_Complete.equals(getDocAction()))		don't set for just prepare 
-	//		setDocAction(DOCACTION_Complete);
 		return DocAction.STATUS_InProgress;
 	}	//	prepareIt
 	
@@ -1289,10 +1289,6 @@ public class MOrder extends X_C_Order implements DocAction
 	 * 	Explode non stocked BOM.
 	 * 	@return true if bom exploded
 	 */
-	//@Trifon move this function to SHIPMENT.
-//	Here only update BOM line, M_Product_ID must be 0. We make this line only description line.
-//	What will happen if we mark BOM as STOCKED?
-//	TODO Trifon
 	private boolean explodeBOM()
 	{
 		boolean retValue = false;
@@ -2323,6 +2319,7 @@ public class MOrder extends X_C_Order implements DocAction
 		
 		setDocAction(DOCACTION_Complete);
 		setProcessed(false);
+		
 		for(final MOrderLine ol: getLines())
 		{
 			Util.assume(ol.getQtyInvoiced().signum() == 0, 
@@ -2330,7 +2327,6 @@ public class MOrder extends X_C_Order implements DocAction
 			Util.assume(ol.getQtyReserved().compareTo(ol.getQtyOrdered()) == 0, 
 					"After reactivateIt, reservations are still in place");
 		}
-
 		return true;
 	}	//	reActivateIt
 	
@@ -2459,7 +2455,7 @@ public class MOrder extends X_C_Order implements DocAction
 			MProduct product = new MProduct(getCtx(), ol.getM_Product_ID(), get_TrxName());
 			if(product.getM_AttributeSet_ID() > 0)
 			{
-				if(product.isASIMandatory(isSOTrx()))
+				if(product.isASIMandatory(isSOTrx(),getAD_Org_ID()))
 				{
 					MAttributeSet mas = MAttributeSet.get(getCtx(), product.getM_AttributeSet_ID());
 					if(!mas.excludeEntry(MColumn.getColumn_ID(MOrderLine.Table_Name, MOrderLine.COLUMNNAME_C_OrderLine_ID), isSOTrx())

@@ -61,6 +61,8 @@ import org.compiere.util.Env;
  * @author victor.perez@e-evoluton.com, www.e-evolution.com 
  * 			<li>FR [ 3426137 ] Smart Browser
  * 			 https://sourceforge.net/tracker/?func=detail&aid=3426137&group_id=176962&atid=879335
+ * 			<li> https://adempiere.atlassian.net/browse/ADEMPIERE-97
+ * 			<li> The parameters is not show when use display logic, the parameters dialog window is not automatically resize.
  * @version 	2006-12-01
  * @author Michael McKay (mjmckay)
  * 			<li>BF3423098 - Labels for process parameters with display logic false are still displayed

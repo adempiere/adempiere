@@ -59,6 +59,7 @@ import org.compiere.util.Trace;
  */
 public final class MRole extends X_AD_Role
 {
+
 	/**
 	 * 
 	 */
@@ -401,7 +402,6 @@ public final class MRole extends X_AD_Role
 		return success;
 	} 	//	afterDelete
 
-
 	/**
 	 * 	Create Access Records
 	 *	@return info
@@ -530,7 +530,6 @@ public final class MRole extends X_AD_Role
 			+ " -  @AD_Browse_ID@ #"+ browse
 			+ " -  @AD_Workflow_ID@ #" + wf
 			+ " -  @DocAction@ #" + docact;
-		
 	}	//	createAccessRecords
 
 	/**
@@ -686,6 +685,7 @@ public final class MRole extends X_AD_Role
 			m_formAccess = null;
 			m_browseAccess = null;
 		}
+
 		loadIncludedRoles(reload); // Load/Reload included roles - metas-2009_0021_AP1_G94
 	}	//	loadAccess
 

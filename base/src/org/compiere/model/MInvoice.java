@@ -1331,8 +1331,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 			return DocAction.STATUS_Invalid;
 		}
 
-		//Trifon
-//		explodeBOM();
+		explodeBOM();
 		if (!calculateTaxTotal())	//	setTotals
 		{
 			m_processMsg = "Error calculating Tax";

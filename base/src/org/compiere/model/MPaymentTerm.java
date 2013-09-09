@@ -178,6 +178,7 @@ public class MPaymentTerm extends X_C_PaymentTerm
 				m_schedule[i].saveEx();
 			}
 		}
+		
 		if (valid)
 			return validMsg;
 		String msg = "@Total@ = " + total + " - @Difference@ = " + HUNDRED.subtract(total); 
