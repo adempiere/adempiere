@@ -236,7 +236,8 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener<Even
 
         Center center = new Center();
 		layout.appendChild(center);
-		center.setFlex(true);
+		center.setHflex("true");
+center.setVflex("true");
 		div = new Div();
 		div.appendChild(contentPanel);
 		if (isLookup())

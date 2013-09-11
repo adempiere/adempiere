@@ -249,7 +249,8 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener<Event>
 
         Center center = new Center();
 		layout.appendChild(center);
-		center.setFlex(true);
+		center.setHflex("true");
+center.setVflex("true");
 		Div div = new Div();
 		div.appendChild(contentPanel);
 		if (isLookup())

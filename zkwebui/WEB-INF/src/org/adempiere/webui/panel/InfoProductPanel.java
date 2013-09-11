@@ -452,7 +452,8 @@ public class InfoProductPanel extends InfoPanel implements EventListener<Event>
         	borderlayout.setStyle("border: none; position: absolute");
         Center center = new Center();
         center.setAutoscroll(true);
-        center.setFlex(true);
+        center.setHflex("true");
+center.setVflex("true");
 		borderlayout.appendChild(center);
 		center.appendChild(contentPanel);
 		South south = new South();
@@ -460,7 +461,8 @@ public class InfoProductPanel extends InfoPanel implements EventListener<Event>
 		south.setHeight(detailHeight + "px");
 		south.setCollapsible(true);
 		south.setSplittable(true);
-		south.setFlex(true);
+		south.setHflex("true");
+south.setVflex("true");
 		south.setTitle(Msg.translate(Env.getCtx(), "WarehouseStock"));
 		south.setTooltiptext(Msg.translate(Env.getCtx(), "WarehouseStock"));
 		borderlayout.appendChild(south);

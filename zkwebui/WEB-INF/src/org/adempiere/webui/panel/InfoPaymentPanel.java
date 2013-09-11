@@ -246,7 +246,8 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 
         Center center = new Center();
 		layout.appendChild(center);
-		center.setFlex(true);
+		center.setHflex("true");
+center.setVflex("true");
 		Div div = new Div();
 		div.appendChild(contentPanel);
 		if (isLookup())

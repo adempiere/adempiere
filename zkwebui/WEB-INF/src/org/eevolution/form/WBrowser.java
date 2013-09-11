@@ -644,7 +644,8 @@ public class WBrowser extends Browser implements IFormController,
 		dCenter.setBorder("none");
 		detail.setVflex(true);
 		detail.setFixedLayout(true);
-		dCenter.setFlex(true);
+		dCenter.setHflex("true");
+		dCenter.setVflex("true");
 		dCenter.setAutoscroll(true);
 		
 		detailPanel.setHeight("100%");
