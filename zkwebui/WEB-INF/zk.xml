@@ -78,4 +78,11 @@
 	<system-config>
        <disable-event-thread>false</disable-event-thread>
    </system-config>
+   
+   <!-- Component's addEventListener now allows the same listener being registered multiple times, and the listener will be called multiple times. -->
+   <!-- f you prefer to ignore the second registration of the same listener (i.e., backward compatible with ZK 5 and earlier), you could specify a library property called -->
+   <library-property>
+		<name>org.zkoss.zk.ui.EventListener.duplicateIgnored</name>
+		<value>true</value>
+	</library-property>
 </zk>

@@ -35,12 +35,20 @@ public class Rows extends org.zkoss.zul.Rows
 	private static final long serialVersionUID = 5100123951371296683L;
 	private boolean noStrip = false;
     
+	/**
+	 * 新建行
+	 * @return
+	 */
     public Row newRow() {
     	Row row = new Row();    	
     	appendChild(row);
     	return row;
     }
 
+    /**
+     * 设置无边框模式
+     * @param b
+     */
 	public void setNoStrip(boolean b) {
 		noStrip  = b;
 		String style = noStrip ? "border: none" : null;

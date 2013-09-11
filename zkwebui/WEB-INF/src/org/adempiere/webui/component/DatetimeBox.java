@@ -13,6 +13,7 @@
 package org.adempiere.webui.component;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.adempiere.webui.apps.AEnv;
@@ -115,9 +116,13 @@ public class DatetimeBox extends Panel {
 		Date t = timeBox.getValue();
 		
 		if (d != null && t != null) {
-			d.setHours(t.getHours());
-			d.setMinutes(t.getMinutes());
-			d.setSeconds(t.getSeconds());
+			Calendar cd = Calendar.getInstance();
+            cd.setTime(d);
+            Calendar ct = Calendar.getInstance();
+            ct.setTime(t);
+            cd.set(cd.get(Calendar.YEAR), cd.get(Calendar.MONTH), cd.get(Calendar.DAY_OF_MONTH),
+                       ct.get(Calendar.HOUR_OF_DAY), ct.get(Calendar.MINUTE), ct.get(Calendar.SECOND));
+            d = cd.getTime();
 		}
 		
 		return d;
