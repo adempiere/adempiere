@@ -154,7 +154,7 @@ html,body {
 <%-- button --%>
 .action-button {
 	height: 32px;
-	width: 48px;
+	width: 100px;
 }
 
 .action-text-button {
@@ -457,7 +457,7 @@ div.z-vfiletree-body td.menu-tree-cell {
 }
 
 .adwindow-left-nav{
-	width: 20%;
+	width: 12% !important;
 }
 
 .z-textbox-focus, .z-textbox-focus input,
@@ -471,3 +471,8 @@ div.z-vfiletree-body td.menu-tree-cell {
 .z-timebox-focus .z-timebox-inp {
 	background: #FFFFCC;
 }
+
+.z-toolbarbutton-cnt{
+	font-size: 10px;
+}
+

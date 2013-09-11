@@ -117,7 +117,7 @@ public class WWFActivity extends ADForm implements EventListener
 	private ListModelTable model = null;
 	private WListbox listbox = new WListbox();
 
-	private final static String HISTORY_DIV_START_TAG = "<div style='width: 100%; height: 100px; border: 1px solid #7F9DB9;'>";
+	private final static String HISTORY_DIV_START_TAG = "<div style='width: 100%; height: 100px; border: 1px solid #7F9DB9;box-sizing: border-box;-webkit-box-sizing:border-box;-moz-box-sizing: border-box;'>";
 	public WWFActivity()
 	{
 		super();
