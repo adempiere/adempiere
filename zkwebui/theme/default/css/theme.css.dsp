@@ -215,7 +215,6 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 }
 
 .adwindow-nav-content {
-	background-color: #E0EAF7;
 	height: 100%;
 }
 
@@ -442,6 +441,16 @@ div.z-vfiletree-body td.menu-tree-cell {
 }
 
 <%-- FOCUSED FIELD in different color --%>
+.z-textbox {
+	width: 100%; 
+	box-sizing: border-box;
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing: border-box;
+}
+
+.adwindow-left-nav{
+	width: 20%;
+}
 
 .z-textbox-focus, .z-textbox-focus input,
 .z-decimalbox-focus, .z-decimalbox-focus input,
