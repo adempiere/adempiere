@@ -286,11 +286,11 @@ public class SendMailText extends SvrProcess
 			log.warning("NOT VALID - " + email);
 			to.setIsActive(false);
 			to.addDescription("Invalid EMail");
-			to.save();
+			to.saveEx();
 			return Boolean.FALSE;
 		}
 		boolean OK = EMail.SENT_OK.equals(email.send());
-		new MUserMail(m_MailText, AD_User_ID, email).save();
+		new MUserMail(m_MailText, AD_User_ID, email).saveEx();
 		//
 		if (OK)
 			log.fine(to.getEMail());

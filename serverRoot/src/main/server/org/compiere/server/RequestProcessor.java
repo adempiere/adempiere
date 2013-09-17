@@ -82,7 +82,7 @@ public class RequestProcessor extends AdempiereServer
 		MRequestProcessorLog pLog = new MRequestProcessorLog(m_model, m_summary.toString());
 		pLog.setReference("#" + String.valueOf(p_runCount) 
 			+ " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
-		pLog.save();
+		pLog.saveEx();
 	}	//	doWork
 
 	
@@ -125,7 +125,7 @@ public class RequestProcessor extends AdempiereServer
 							countEMails++;
 						}
 					}
-					request.save();
+					request.saveEx();
 					count++;
 				}
 			}
@@ -180,7 +180,7 @@ public class RequestProcessor extends AdempiereServer
 							countEMails++;
 						}
 					}
-					request.save();
+					request.saveEx();
 					count++;
 				}
 			}
@@ -238,7 +238,7 @@ public class RequestProcessor extends AdempiereServer
 							countEMails++;
 						}
 					}
-					request.save();
+					request.saveEx();
 					count++;
 				}
 				rs.close();
@@ -335,7 +335,7 @@ public class RequestProcessor extends AdempiereServer
 							request.setDateLastAlert();
 							countEMails++;
 						}
-						request.save();
+						request.saveEx();
 						count++;
 					}
 				}
@@ -571,7 +571,7 @@ public class RequestProcessor extends AdempiereServer
 				if (SalesRep_ID != 0)
 				{
 					request.setSalesRep_ID(SalesRep_ID);
-					request.save();
+					request.saveEx();
 					changed++;
 				}
 				else

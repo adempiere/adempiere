@@ -1,3 +1,6 @@
+-- Author:  Carlos Ruiz 
+-- http://sourceforge.net/tracker/index.php?func=detail&aid=3116131&group_id=176962&atid=879332
+-- Reported by Pedro Rozo ( smartjsp ) 
 -- Nov 22, 2010 11:04:35 PM CST
 -- BF3116131-Packout details can not be saved - empty Package Build ID
 UPDATE AD_Column SET AD_Reference_ID=19, IsUpdateable='N',Updated=TO_TIMESTAMP('2010-11-22 23:04:35','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=50132

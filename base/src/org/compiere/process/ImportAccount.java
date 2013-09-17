@@ -282,7 +282,7 @@ public class ImportAccount extends SvrProcess
 						noInsert++;
 						impEV.setC_ElementValue_ID(ev.getC_ElementValue_ID());
 						impEV.setI_IsImported(true);
-						impEV.save();
+						impEV.saveEx();
 					}
 					else
 					{
@@ -304,7 +304,7 @@ public class ImportAccount extends SvrProcess
 					{
 						noUpdate++;
 						impEV.setI_IsImported(true);
-						impEV.save();
+						impEV.saveEx();
 					}
 					else
 					{

@@ -311,7 +311,7 @@ public class MCStage extends X_CM_CStage
 					newCStageTTable.setName(thisTemplateTable.getName());
 					newCStageTTable.setOtherClause(thisTemplateTable.getOtherClause());
 					newCStageTTable.setWhereClause(thisTemplateTable.getWhereClause());
-					newCStageTTable.save();
+					newCStageTTable.saveEx();
 				}
 			}
 		}

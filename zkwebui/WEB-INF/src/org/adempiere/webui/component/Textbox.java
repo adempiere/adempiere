@@ -37,6 +37,8 @@ public class Textbox extends org.zkoss.zul.Textbox implements EventListener
 	private static final long serialVersionUID = 2201466028538929955L;
 
 	private Obscure	m_obscure = null;
+	
+	private Object m_oldValue = null;
 
 	private boolean m_infocus;
 
@@ -118,4 +120,40 @@ public class Textbox extends org.zkoss.zul.Textbox implements EventListener
 				setValue(getValue());
 		}		
 	}
-}
+
+	/**
+	 * Set the old value of the field.  For use in future comparisons.
+	 * The old value must be explicitly set though this call.
+	 * @param m_oldValue
+	 */
+	public void set_oldValue() {
+		this.m_oldValue = getValue();
+	}
+
+	/**
+	 * Get the old value of the field explicitly set in the past
+	 * @return
+	 */
+	public Object get_oldValue() {
+		return m_oldValue;
+	}
+	/**
+	 * Has the field changed over time?
+	 * @return true if the old value is different than the current.
+	 */
+	public boolean hasChanged() {
+		// Both or either could be null
+		if(getValue() != null)
+			if(m_oldValue != null)
+				return !m_oldValue.equals(getValue());
+			else
+				return true;
+		else  // getValue() is null
+			if(m_oldValue != null)
+				return true;
+			else
+				return false;
+	}
+
+
+} //  Textbox

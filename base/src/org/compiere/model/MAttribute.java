@@ -188,7 +188,7 @@ public class MAttribute extends X_M_Attribute
 				instance.setValue (null);
 			}
 		}
-		instance.save();
+		instance.saveEx();
 	}	//	setAttributeInstance
 
 	/**
@@ -204,7 +204,7 @@ public class MAttribute extends X_M_Attribute
 				M_AttributeSetInstance_ID, value, get_TrxName());
 		else
 			instance.setValue(value);
-		instance.save();
+		instance.saveEx();
 	}	//	setAttributeInstance
 
 	/**
@@ -220,7 +220,7 @@ public class MAttribute extends X_M_Attribute
 				M_AttributeSetInstance_ID, value, get_TrxName());
 		else
 			instance.setValueNumber(value);
-		instance.save();
+		instance.saveEx();
 	}	//	setAttributeInstance
 	
 	

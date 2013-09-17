@@ -136,7 +136,7 @@ public class InventoryManager
         };
         
         MPInstance instance = new MPInstance(ctx,CREATE_INVENTORY_COUNT_LIST_PROCESS,inventoryId.intValue());
-        instance.save();
+        instance.saveEx();
         ProcessInfo poInfo = new ProcessInfo("Create Inventory Count List",CREATE_INVENTORY_COUNT_LIST_PROCESS);
         poInfo.setParameter(param);
         poInfo.setRecord_ID(inventoryId.intValue());
@@ -196,7 +196,7 @@ public class InventoryManager
     {
         
         MPInstance instance = new MPInstance(ctx,CREATE_INVENTORY_COUNT_LIST_PROCESS,inventoryId.intValue());
-        instance.save();
+        instance.saveEx();
         ProcessInfo poInfo = new ProcessInfo("Create Inventory Count List",CREATE_INVENTORY_COUNT_LIST_PROCESS);
       //  poInfo.setParameter(param);
         poInfo.setRecord_ID(inventoryId.intValue());

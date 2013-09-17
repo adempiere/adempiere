@@ -159,6 +159,9 @@ public class VComboBox extends CComboBox
 		if (getSelectedItem() == null)
 			return "";
 		//
+		if (getSelectedItem() instanceof String)
+			return (String) getSelectedItem();
+		
 		NamePair p = (NamePair)getSelectedItem();
 		if (p == null)
 			return "";

@@ -268,13 +268,13 @@ public class MAllocationLine extends X_C_AllocationLine
 				if (!payment.isCashTrx())
 				{
 					payment.setIsAllocated(false);
-					payment.save();
+					payment.saveEx();
 				}
 			}
 			else
 			{
 				if (payment.testAllocation())
-					payment.save();
+					payment.saveEx();
 			}
 		}
 		

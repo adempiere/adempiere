@@ -175,7 +175,7 @@ public class ProductImageUploader
 //        	attachment.deleteEntry(oldThumbImageEntryId);
 //        
 //        UDIMAttachment udiAttachment = new UDIMAttachment(attachment);
-//        udiAttachment.save();
+//        udiAttachment.saveEx();
 //    }
     
     public static void generateSubImages(Properties ctx, int productId, String imageName, String trxName) throws OperationException, AttachmentNotFoundException

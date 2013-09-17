@@ -263,7 +263,7 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 		log.info("              Workflow: " + getAD_Workflow_ID());
 		log.info("  Network Distribution: " + getDD_NetworkDistribution_ID());
 		log.info("Delivery Time Promised: " + getDeliveryTime_Promised());
-		log.info("         TransfertTime: " + getTransfertTime ());
+		log.info("         TransfertTime: " + getTransferTime ());
 		log.info("         Order Min/Max: " + getOrder_Min() + " / " + getOrder_Max());
 		log.info("            Order Pack: " + getOrder_Pack());
 		log.info("          Safety Stock: " + getSafetyStock());

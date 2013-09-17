@@ -71,7 +71,7 @@ public class OrderTest implements Runnable
 		int count = 0;
 		MBPartner bp = new MBPartner(Env.getCtx(), 117, null);
 		bp.setSOCreditStatus(MBPartner.SOCREDITSTATUS_NoCreditCheck);
-		bp.save();
+		bp.saveEx();
 		
 		//
 		for (int i = 0; i < m_numberOrders; i++)

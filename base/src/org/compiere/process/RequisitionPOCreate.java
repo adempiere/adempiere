@@ -345,6 +345,8 @@ public class RequisitionPOCreate extends SvrProcess
 		if (m_order == null)
 		{
 			m_order = new MOrder(getCtx(), 0, get_TrxName());
+			m_order.setAD_Org_ID(rLine.getAD_Org_ID());
+			m_order.setM_Warehouse_ID(rLine.getParent().getM_Warehouse_ID());
 			m_order.setDatePromised(DateRequired);
 			m_order.setIsSOTrx(false);
 			m_order.setC_DocTypeTarget_ID();

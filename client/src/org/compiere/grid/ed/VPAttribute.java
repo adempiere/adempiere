@@ -16,9 +16,11 @@
  *****************************************************************************/
 package org.compiere.grid.ed;
 
+import java.awt.AWTEvent;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -30,6 +32,7 @@ import java.beans.PropertyVetoException;
 import java.util.logging.Level;
 
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.LookAndFeel;
@@ -37,13 +40,17 @@ import javax.swing.SwingUtilities;
 
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.FieldRecordInfo;
+import org.compiere.apps.search.InfoPAttribute;
+import org.compiere.apps.search.InfoProduct;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.MAttributeSet;
 import org.compiere.model.MPAttributeLookup;
 import org.compiere.model.MProduct;
 import org.compiere.swing.CButton;
+import org.compiere.swing.CDialog;
 import org.compiere.swing.CMenuItem;
+import org.compiere.swing.CTextField;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -58,6 +65,10 @@ import org.compiere.util.Msg;
  * 			<li>BF [ 1895041 ] NPE when move product with attribute set
  * 			<li>BF [ 1770177 ] Inventory Move Locator Error - integrated MGrigioni bug fix
  * 			<li>BF [ 2011222 ] ASI Dialog is reseting locator
+ * 
+ * @author Michael McKay, 
+ * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
+ * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
  */
 public class VPAttribute extends JComponent
 	implements VEditor, ActionListener
@@ -98,13 +109,13 @@ public class VPAttribute extends JComponent
 		}	//	mouse Clicked
 
 	}	//	VPAttribute_mouseAdapter
-
+	
 	/**
 	 *	IDE Constructor
 	 */
 	public VPAttribute()
 	{
-		this (null, false, false, true, 0, null);
+		this (null, false, false, true, 0, null, false);
 	}	//	VAssigment
 
 	/**
@@ -116,9 +127,9 @@ public class VPAttribute extends JComponent
 	 * 	@param lookup Model Product Attribute
 	 */
 	public VPAttribute (boolean mandatory, boolean isReadOnly, boolean isUpdateable, 
-		int WindowNo, MPAttributeLookup lookup)
+		int WindowNo, MPAttributeLookup lookup, boolean searchOnly)
 	{
-		this(null, mandatory, isReadOnly, isUpdateable, WindowNo, lookup);
+		this(null, mandatory, isReadOnly, isUpdateable, WindowNo, lookup, searchOnly);
 	}
 	
 	/**
@@ -129,15 +140,21 @@ public class VPAttribute extends JComponent
 	 *  @param isUpdateable updateable
 	 * 	@param WindowNo WindowNo
 	 * 	@param lookup Model Product Attribute
+	 *  @param searchOnly True if only used to search instances
 	 */
 	public VPAttribute (GridTab gridTab, boolean mandatory, boolean isReadOnly, boolean isUpdateable, 
-		int WindowNo, MPAttributeLookup lookup)
+		int WindowNo, MPAttributeLookup lookup, boolean searchOnly)
 	{
-		super.setName("M_AttributeSetInstance_ID");
+		super();
+		super.setName(m_columnName);
+		m_text.setName("VPAttribute Text - " + m_columnName);
+		m_button.setName("VPAttribute Button - " + m_columnName);
+		m_value = 0;
 		m_GridTab = gridTab; // added for processCallout
 		m_WindowNo = WindowNo;
 		m_mPAttribute = lookup;
 		m_C_BPartner_ID = Env.getContextAsInt(Env.getCtx(), WindowNo, "C_BPartner_ID");
+		m_searchOnly = searchOnly;
 		LookAndFeel.installBorder(this, "TextField.border");
 		this.setLayout(new BorderLayout());
 		//  Size
@@ -174,15 +191,21 @@ public class VPAttribute extends JComponent
 		menuEditor = new CMenuItem(Msg.getMsg(Env.getCtx(), "PAttribute"), Env.getImageIcon("Zoom16.gif"));
 		menuEditor.addActionListener(this);
 		popupMenu.add(menuEditor);
+		
+		set_oldValue();
 	}	//	VPAttribute
 
 	/**	Data Value				*/
 	private Object				m_value = new Object();
+	/** Attribute Where Clause  */
+	private String m_pAttributeWhere = null;
+	/** Column Name - fixed		*/
+	private String				m_columnName = "M_AttributeSetInstance_ID";
 	/** The Attribute Instance	*/
 	private MPAttributeLookup	m_mPAttribute;
 
 	/** The Text Field          */
-	private JTextField			m_text = new JTextField (VLookup.DISPLAY_LENGTH);
+	private CTextField			m_text = new CTextField();
 	/** The Button              */
 	private CButton				m_button = new CButton();
 
@@ -193,6 +216,7 @@ public class VPAttribute extends JComponent
 	private boolean				m_mandatory;
 	private int					m_WindowNo;
 	private int					m_C_BPartner_ID;
+	private boolean 			m_searchOnly;
 	/** The Grid Tab * */
 	private GridTab m_GridTab; // added for processCallout
 	/** The Grid Field * */
@@ -200,7 +224,10 @@ public class VPAttribute extends JComponent
 	
 	/**	Calling Window Info				*/
 	private int					m_AD_Column_ID = 0;
-	private GridField m_mField;
+	/** record the value for comparison at a point in the future */
+	private Integer m_oldValue = 0;
+	private String m_oldText = "";
+	private String m_oldWhere = "";
 	/**	No Instance Key					*/
 	private static Integer		NO_INSTANCE = new Integer(0);
 	/**	Logger			*/
@@ -305,6 +332,7 @@ public class VPAttribute extends JComponent
 		{
 			m_text.setText("");
 			m_value = value;
+			m_pAttributeWhere = "";
 			return;
 		}
 		
@@ -315,6 +343,11 @@ public class VPAttribute extends JComponent
 		log.fine("Value=" + value);
 		m_value = value;
 		m_text.setText(m_mPAttribute.getDisplay(value));	//	loads value
+		// The text can be long.  Use the tooltip to help display the info.
+		m_text.setToolTipText(m_text.getText());
+		m_pAttributeWhere = "EXISTS (SELECT * FROM M_Storage s "
+				+ "WHERE s.M_AttributeSetInstance_ID=" + value
+				+ " AND s.M_Product_ID=p.M_Product_ID)";
 	}	//	setValue
 
 	/**
@@ -323,8 +356,27 @@ public class VPAttribute extends JComponent
 	 */
 	public Object getValue()
 	{
-		return m_value;
+		Integer temp = null;
+		if (m_value != null || NO_INSTANCE.equals(m_value)) {
+			try {
+				temp = (Integer) m_value;
+			}
+			catch (ClassCastException cce)
+			{
+				temp = null;
+			}
+		}
+		return temp;
 	}	//	getValue
+
+	/**
+	 * Get Attribute Where clause
+	 * @return String
+	 */
+	public String getAttributeWhere()
+	{
+		return m_pAttributeWhere;
+	}	//	getAttributeWhere()
 
 	/**
 	 * 	Get Display Value
@@ -342,18 +394,17 @@ public class VPAttribute extends JComponent
 	 */
 	public void setField(GridField mField)
 	{
-		//	To determine behavior
+		//	To determine behaviour
 		m_AD_Column_ID = mField.getAD_Column_ID();
 		m_GridField = mField;
 		
-		m_mField = mField;
-		if (m_mField != null)
+		if (m_GridField != null)
 			FieldRecordInfo.addMenu(this, popupMenu);
 	}	//	setField
 	
 	@Override
 	public GridField getField() {
-		return m_mField;
+		return m_GridField;
 	}
 
 	/**
@@ -362,6 +413,7 @@ public class VPAttribute extends JComponent
 	 */
 	public void addActionListener(ActionListener listener)
 	{
+		m_text.addActionListener(listener);
 	}   //  addActionListener
 
 	/**
@@ -372,7 +424,7 @@ public class VPAttribute extends JComponent
 	{
 		if (e.getActionCommand().equals(FieldRecordInfo.CHANGE_LOG_COMMAND))
 		{
-			FieldRecordInfo.start(m_mField);
+			FieldRecordInfo.start(m_GridField);
 			return;
 		}
 		
@@ -380,7 +432,15 @@ public class VPAttribute extends JComponent
 			return;
 		m_button.setEnabled (false);
 		//
-		Integer oldValue = (Integer)getValue ();
+		Integer oldValue = 0;
+		try
+		{
+			oldValue = (Integer)getValue ();			
+		}
+		catch(ClassCastException cce)
+		{
+			// Possible Invalid Cast exception if getValue() return new instance of Object.
+		}
 		int oldValueInt = oldValue == null ? 0 : oldValue.intValue ();
 		int M_AttributeSetInstance_ID = oldValueInt;
 		int M_Product_ID = 0;
@@ -418,29 +478,56 @@ public class VPAttribute extends JComponent
 		boolean changed = false;
 		if (M_ProductBOM_ID != 0)	//	Use BOM Component
 			M_Product_ID = M_ProductBOM_ID;
-		//	
-		if (!productWindow && (M_Product_ID == 0 || exclude))
-		{
-			changed = true;
-			m_text.setText(null);
-			M_AttributeSetInstance_ID = 0;
-		}
-		else
-		{
-			VPAttributeDialog vad = new VPAttributeDialog (Env.getFrame (this), 
-				M_AttributeSetInstance_ID, M_Product_ID, m_C_BPartner_ID,
-				productWindow, m_AD_Column_ID, m_WindowNo);
-			if (vad.isChanged())
+
+		// If the VPAttribute component is in a dialog, use the search
+		if (m_searchOnly)
+		{	
+			// The component is an element in a CPanel, which is part of a JPanel
+			// which is in a JLayeredPane which is in ...  the InfoProduct window
+			Container me = ((Container) this).getParent();
+			while (me != null)
 			{
-				m_text.setText(vad.getM_AttributeSetInstanceName());
-				M_AttributeSetInstance_ID = vad.getM_AttributeSetInstance_ID();
-				if (!productWindow && vad.getM_Locator_ID() > 0)
-				{
-					M_Locator_ID = vad.getM_Locator_ID();
-				}
-				changed = true;
+				if (me instanceof InfoProduct)
+					break;
+				me = me.getParent();
 			}
+			InfoPAttribute ia = new InfoPAttribute((CDialog) me);
+			m_pAttributeWhere = ia.getWhereClause();
+			String oldText = m_text.getText();
+			m_text.setText(ia.getDisplay());
+			// The text can be long.  Use the tooltip to help display the info.
+			m_text.setToolTipText(m_text.getText());
+
+			
+			ActionEvent ae = new ActionEvent(m_text, 1001, "updated");
+			//  TODO not the generally correct way to fire an event
+			((InfoProduct) me).actionPerformed(ae);
 		}
+		else	
+			if (!productWindow && (M_Product_ID == 0 || exclude))
+			{
+				changed = true;
+				m_text.setText(null);
+				M_AttributeSetInstance_ID = 0;
+			}
+			else
+			{
+				VPAttributeDialog vad = new VPAttributeDialog (Env.getFrame (this), 
+					M_AttributeSetInstance_ID, M_Product_ID, m_C_BPartner_ID,
+					productWindow, m_AD_Column_ID, m_WindowNo, isReadWrite());
+				if (vad.isChanged())
+				{
+					m_text.setText(vad.getM_AttributeSetInstanceName());
+					// The text can be long.  Use the tooltip to help display the info.
+					m_text.setToolTipText(vad.getM_AttributeSetInstanceName());
+					M_AttributeSetInstance_ID = vad.getM_AttributeSetInstance_ID();
+					if (!productWindow && vad.getM_Locator_ID() > 0)
+					{
+						M_Locator_ID = vad.getM_Locator_ID();
+					}
+					changed = true;
+				}
+			}
 		
 		//	Set Value
 		if (changed)
@@ -490,5 +577,73 @@ public class VPAttribute extends JComponent
 		if (evt.getPropertyName().equals(org.compiere.model.GridField.PROPERTY))
 			setValue(evt.getNewValue());
 	}   //  propertyChange
+	/**
+	 * Set the old value of the field.  For use in future comparisons.
+	 * The old value must be explicitly set though this call.
+	 */
+	public void set_oldValue() {
+		if (getValue() != null) {
+			try {
+				this.m_oldValue = ((Integer) getValue());
+			} 
+			catch (ClassCastException e)
+			{
+				this.m_oldValue = null;
+			}
+		}
+		else
+			this.m_oldValue = null;
+		if (m_text != null)
+			this.m_oldText = m_text.getDisplay();
+		else
+			m_oldText = "";
+		this.m_oldWhere = m_pAttributeWhere;
+	}
+	/**
+	 * Get the old value of the field explicitly set in the past
+	 * @return
+	 */
+	public Object get_oldValue() {
+		return m_oldValue;
+	}
+	/**
+	 * Has the field changed over time?
+	 * @return true if the old value is different than the current.
+	 */
+	public boolean hasChanged() {
+		// Both or either could be null
+		
+		// Don't think a test of Value is needed - the value is never set in this field internally
+		//if(getValue() != null)
+		//	if(m_oldValue != null)
+		//		return !m_oldValue.equals(getValue());
+		//	else
+		//		return true;
+		//else  // getValue() is null
+		//	if(m_oldValue != null)
+		//		return true;
+
+		if(m_text != null)
+			if(m_oldText != null)
+				return !m_oldText.equals(m_text.getDisplay());
+			else
+				return true;
+		else  // m_text is null
+			if(m_oldText != null)
+				return true;
+
+		if(m_pAttributeWhere != null)
+			if(m_oldWhere != null)
+				return !m_oldWhere.equals(m_pAttributeWhere);
+			else
+				return true;
+		else  // m_pAttributeWhere is null
+			if(m_oldWhere != null)
+				return true;
+
+		return false;
+
+	
+	}
 
 }	//	VPAttribute

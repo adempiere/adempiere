@@ -101,7 +101,7 @@ public class MinOutManager extends AbstractDocumentManager
         MInOut counterDoc = getInitialDoc(toCtx, shipment.get_ID(), invoice.get_TrxName());
         
         shipment.setRef_InOut_ID(counterDoc.get_ID());
-        shipment.save();
+        shipment.saveEx();
         
         //counter documents
         MInOut receipt = getCounterDoc(ctx, shipment.get_ID(), invoice.get_TrxName());
@@ -112,7 +112,7 @@ public class MinOutManager extends AbstractDocumentManager
         
         receipt = completeMaterialReceiptFromShipment(counterCtx, shipment.get_ID(), invoice.get_TrxName());
         receipt.setC_Invoice_ID(counterInvoice.get_ID());
-        receipt.save();
+        receipt.saveEx();
         createConfirmation(ctx, receipt);
   
         return shipment;
@@ -135,7 +135,7 @@ public class MinOutManager extends AbstractDocumentManager
 	        
 	        receipt = completeMaterialReceiptFromShipment(counterCtx, shipment.get_ID(), invoice.get_TrxName());
 	        receipt.setC_Invoice_ID(counterInvoice.get_ID());
-	        receipt.save();
+	        receipt.saveEx();
 	        createConfirmation(ctx, receipt);
         }
         return shipment;

@@ -124,9 +124,9 @@ public class CreateGLAsset extends SvrProcess
 									asset.setA_Asset_Group_ID(assetgrpacct.getA_Asset_Group_ID());
 									asset.setA_QTY_Current(JVLine.getQty());
 									asset.setA_QTY_Original(JVLine.getQty());
-									asset.save();
+									asset.saveEx();
 									asset.setA_Parent_Asset_ID(asset.getA_Asset_ID());
-									asset.save();
+									asset.saveEx();
 									
 									boolean isdepreciate = assetgrpacct.isProcessing();
 									
@@ -146,7 +146,7 @@ public class CreateGLAsset extends SvrProcess
 											asset.setUseLifeMonths(assetgrpacct.getUseLifeMonths());
 											asset.setIsDepreciated(true);
 											asset.setIsOwned(true);
-											asset.save();
+											asset.saveEx();
 //											uselifemonths = assetgrpacct.getUseLifeMonths();
 //											uselifeyears = assetgrpacct.getUseLifeYears();
 											
@@ -156,7 +156,7 @@ public class CreateGLAsset extends SvrProcess
 											asset.setUseLifeMonths(asset.getUseLifeYears()*12);
 											asset.setIsDepreciated(true);
 											asset.setIsOwned(true);
-											asset.save();
+											asset.saveEx();
 //											uselifemonths = asset.getUseLifeYears()*12;
 //											uselifeyears = asset.getUseLifeYears();						
 											}
@@ -185,7 +185,7 @@ public class CreateGLAsset extends SvrProcess
 										assetacct.setA_Depreciation_Table_Header_ID(assetgrpacct.getA_Depreciation_Table_Header_ID());
 										assetacct.setA_Depreciation_Variable_Perc(assetgrpacct.getA_Depreciation_Variable_Perc());
 										assetacct.setProcessing(false);
-										assetacct.save();
+										assetacct.saveEx();
 										
 										MAssetChange change = new MAssetChange (getCtx(), 0, get_TrxName());						
 										change.setPostingType(assetacct.getPostingType());
@@ -238,7 +238,7 @@ public class CreateGLAsset extends SvrProcess
 									    change.setA_Asset_CreateDate(asset.getA_Asset_CreateDate());
 									    change.setAD_User_ID(asset.getAD_User_ID());
 									    change.setC_Location_ID(asset.getC_Location_ID());
-									    change.save();
+									    change.saveEx();
 									}
 
 			
@@ -256,7 +256,7 @@ public class CreateGLAsset extends SvrProcess
 									assetwk.setA_QTY_Current(JVLine.getQty());
 									assetwk.setIsDepreciated(assetgrpacct.isProcessing());
 									assetwk.setPostingType(assetgrpacct.getPostingType());
-									assetwk.save();
+									assetwk.saveEx();
 									
 									X_A_Asset_Addition assetadd = new X_A_Asset_Addition (getCtx(), 0, get_TrxName());
 									assetadd.setA_Asset_ID(asset.getA_Asset_ID());
@@ -269,7 +269,7 @@ public class CreateGLAsset extends SvrProcess
 									assetadd.setLine(JVLine.getLine());
 									assetadd.setDescription(JVLine.getDescription());									
 									assetadd.setPostingType(assetwk.getPostingType());
-									assetadd.save();
+									assetadd.saveEx();
 									
 					    }											
 						else
@@ -291,7 +291,7 @@ public class CreateGLAsset extends SvrProcess
 								assetwk.setA_Asset_Cost(assetwk.getA_Asset_Cost().add(JVLine.getAmtAcctDr().subtract(JVLine.getAmtAcctCr())));
 								assetwk.setA_QTY_Current(assetwk.getA_QTY_Current().add(JVLine.getQty()));
 								assetwk.setIsDepreciated(assetgrpacct.isProcessing());															
-								assetwk.save();
+								assetwk.saveEx();
 								
 								X_A_Asset_Addition assetadd = new X_A_Asset_Addition (getCtx(), 0, get_TrxName());
 								assetadd.setA_Asset_ID(asset.getA_Asset_ID());							
@@ -304,12 +304,12 @@ public class CreateGLAsset extends SvrProcess
 								assetadd.setLine(JVLine.getLine());
 								assetadd.setDescription(JVLine.getDescription());								
 								assetadd.setPostingType(assetwk.getPostingType());
-								assetadd.save();
+								assetadd.saveEx();
 								
 								
 					            asset.setA_QTY_Original(assetadd.getA_QTY_Current().add(asset.getA_QTY_Original()));
 					            asset.setA_QTY_Current(assetadd.getA_QTY_Current().add(asset.getA_QTY_Current()));
-					            asset.save();
+					            asset.saveEx();
 					            
 					            MAssetChange change = new MAssetChange (getCtx(), 0, get_TrxName());
 					            change.setA_Asset_ID(asset.getA_Asset_ID());					                       
@@ -318,7 +318,7 @@ public class CreateGLAsset extends SvrProcess
 					            change.setPostingType(assetwk.getPostingType());
 					            change.setAssetValueAmt(assetadd.getAssetValueAmt());
 					            change.setA_QTY_Current(assetadd.getA_QTY_Current());            
-					            change.save();
+					            change.saveEx();
 	
 							}
 							}
@@ -349,7 +349,7 @@ public class CreateGLAsset extends SvrProcess
 					assetadd.setLine(JVLine.getLine());
 					assetadd.setDescription(JVLine.getDescription());					
 					assetadd.setPostingType("A");
-					assetadd.save();
+					assetadd.saveEx();
 					
 					MAssetChange change = new MAssetChange (getCtx(), 0, get_TrxName());
 		            change.setA_Asset_ID(asset.getA_Asset_ID());            
@@ -359,10 +359,10 @@ public class CreateGLAsset extends SvrProcess
 		        	assetadd.setPostingType("A");
 		            change.setAssetValueAmt(assetadd.getAssetValueAmt());
 		            change.setA_QTY_Current(assetadd.getA_QTY_Current());            
-		            change.save();
+		            change.saveEx();
 				}		
 				JVLine.set_ValueOfColumn(I_CustomColumn.A_Processed, Boolean.TRUE);
-				JVLine.save();
+				JVLine.saveEx();
 			}
 			rs.close();
 			pstmt.close();

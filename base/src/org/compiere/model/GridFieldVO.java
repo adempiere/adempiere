@@ -105,6 +105,10 @@ public class GridFieldVO implements Serializable
 					vo.IsSameLine = "Y".equals(rs.getString (i));
 				else if (columnName.equalsIgnoreCase("IsDisplayed"))
 					vo.IsDisplayed = "Y".equals(rs.getString (i));
+				else if (columnName.equalsIgnoreCase("IsDisplayedGrid"))
+					vo.IsDisplayedGrid = "Y".equals(rs.getString (i));
+				else if (columnName.equalsIgnoreCase("SeqNoGrid"))
+					vo.SeqNoGrid = rs.getInt (i);
 				else if (columnName.equalsIgnoreCase("DisplayLogic"))
 					vo.DisplayLogic = rs.getString (i);
 				else if (columnName.equalsIgnoreCase("DefaultValue"))
@@ -153,6 +157,8 @@ public class GridFieldVO implements Serializable
 					vo.Callout = rs.getString (i);
 				else if (columnName.equalsIgnoreCase("AD_Process_ID"))
 					vo.AD_Process_ID = rs.getInt (i);
+				else if (columnName.equalsIgnoreCase("AD_Chart_ID"))
+					vo.AD_Chart_ID = rs.getInt (i);
 				else if (columnName.equalsIgnoreCase("ReadOnlyLogic"))
 					vo.ReadOnlyLogic = rs.getString (i);
 				else if (columnName.equalsIgnoreCase("MandatoryLogic"))
@@ -179,8 +185,8 @@ public class GridFieldVO implements Serializable
 				else if (columnName.equalsIgnoreCase("IsAutocomplete"))
 					vo.IsAutocomplete  = "Y".equals(rs.getString(i));
 				// FR 3051618 - Grid View improvements
-				else if (columnName.equalsIgnoreCase("HideInListView"))
-					vo.HideInListView = "Y".equals(rs.getString(i));
+				//else if (columnName.equalsIgnoreCase("HideInListView"))
+				//	vo.HideInListView = "Y".equals(rs.getString(i));
 				else if (columnName.equalsIgnoreCase("PreferredWidth"))
 					vo.PreferredWidth = rs.getInt(i);
 			}
@@ -392,8 +398,10 @@ public class GridFieldVO implements Serializable
 	public boolean      IsSameLine = false;
 	/**	Displayed		*/
 	public boolean      IsDisplayed = false;
-	/** Hide in list view */
-	public boolean		HideInListView = false;
+	/**	Displayed Grid		*/
+	public boolean      IsDisplayedGrid = true;
+	/** Grid Display sequence	*/
+	public int	SeqNoGrid = 0;
 	/** Preferred size in list view */
 	public int			PreferredWidth = 0;
 	/**	Dislay Logic	*/
@@ -440,6 +448,8 @@ public class GridFieldVO implements Serializable
 	public String       Callout = "";
 	/**	Process			*/
 	public int          AD_Process_ID = 0;
+	/** Chart			*/
+	public int			AD_Chart_ID = 0;
 	/**	Description		*/
 	public String       Description = "";
 	/**	Help			*/
@@ -557,7 +567,8 @@ public class GridFieldVO implements Serializable
 		clone.DisplayLength = DisplayLength;
 		clone.IsSameLine = IsSameLine;
 		clone.IsDisplayed = IsDisplayed;
-		clone.HideInListView = HideInListView;
+		clone.IsDisplayedGrid = IsDisplayedGrid;
+		clone.SeqNoGrid = SeqNoGrid;
 		clone.PreferredWidth = PreferredWidth;
 		clone.DisplayLogic = DisplayLogic;
 		clone.DefaultValue = DefaultValue;
@@ -582,6 +593,7 @@ public class GridFieldVO implements Serializable
 		clone.IsParent = IsParent;
 		clone.Callout = Callout;
 		clone.AD_Process_ID = AD_Process_ID;
+		clone.AD_Chart_ID = AD_Chart_ID;
 		clone.Description = Description;
 		clone.Help = Help;
 		clone.ReadOnlyLogic = ReadOnlyLogic;

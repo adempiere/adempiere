@@ -39,27 +39,39 @@ import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.SimpleTreeModel;
+import org.adempiere.webui.component.Window;
 import org.adempiere.webui.editor.IZoomableEditor;
 import org.adempiere.webui.editor.WButtonEditor;
+import org.adempiere.webui.editor.WChartEditor;
 import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WEditorPopupMenu;
 import org.adempiere.webui.editor.WebEditorFactory;
 import org.adempiere.webui.event.ContextMenuListener;
+import org.adempiere.webui.event.ValueChangeEvent;
+import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.util.GridTabDataBinder;
 import org.adempiere.webui.window.FDialog;
+import org.adempiere.webui.window.WAlertDialog;
+import org.compiere.grid.ed.VChart;
+import org.adempiere.webui.window.WTextEditorDialog;
+import org.compiere.apps.AEnv;
+import org.compiere.grid.VAlert;
 import org.compiere.model.DataStatusEvent;
 import org.compiere.model.DataStatusListener;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.GridTable;
 import org.compiere.model.GridWindow;
+import org.compiere.model.Lookup;
 import org.compiere.model.MLookup;
+import org.compiere.model.MMemo;
 import org.compiere.model.MTree;
 import org.compiere.model.MTreeNode;
 import org.compiere.model.X_AD_FieldGroup;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Evaluatee;
+import org.compiere.util.Util;
 import org.zkoss.zk.au.out.AuFocus;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
@@ -565,6 +577,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
             GridField mField = comp.getGridField();
             if (mField != null && mField.getIncluded_Tab_ID() <= 0)
             {
+            	
                 if (mField.isDisplayed(true))       //  check context
                 {
                     if (!comp.isVisible())
@@ -884,6 +897,28 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
         //if (col >= 0)
         if (!uiCreated)
         	createUI();
+        
+        if ( mField != null && mField.isLookup() )
+		{
+			Lookup lookup = (Lookup) mField.getLookup();
+			if (lookup != null  && lookup instanceof MLookup )
+			{
+				MLookup mlookup = (MLookup) lookup;
+				Object value = mField.getValue();
+				if ( mlookup.isAlert() && value != null && value instanceof Integer )
+				{
+					String alert = MMemo.getAlerts(Env.getCtx(), mlookup.getTableName(), (Integer) value);
+					if ( !Util.isEmpty(alert) )
+					{
+						WAlertDialog dialog = new WAlertDialog(alert);
+						dialog.setAttribute(Window.MODE_KEY, Window.MODE_MODAL);
+						SessionManager.getAppDesktop().showWindow(dialog);
+						
+					}
+				}
+			}
+		}
+        
         dynamicDisplay(col);
 
         //sync tree
@@ -892,11 +927,11 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
         		if (e.Record_ID != null
         				&& e.Record_ID instanceof Integer
         				&& ((Integer)e.Record_ID != gridTab.getRecord_ID()))
-        			deleteNode((Integer)e.Record_ID);
+        			rowChanged(false,(Integer)e.Record_ID);
         		else
-        			setSelectedNode(gridTab.getRecord_ID());
+        			rowChanged(true, gridTab.getRecord_ID());
         	else
-        		setSelectedNode(gridTab.getRecord_ID());
+        		rowChanged(true, gridTab.getRecord_ID());
         }
 
         if (listPanel.isVisible()) {
@@ -911,67 +946,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 
     }
 
-    private void deleteNode(int recordId) {
-		if (recordId <= 0) return;
-
-		SimpleTreeModel model = (SimpleTreeModel) treePanel.getTree().getModel();
-
-		if (treePanel.getTree().getSelectedItem() != null) {
-			SimpleTreeNode treeNode = (SimpleTreeNode) treePanel.getTree().getSelectedItem().getValue();
-			MTreeNode data = (MTreeNode) treeNode.getData();
-			if (data.getNode_ID() == recordId) {
-				model.removeNode(treeNode);
-				return;
-			}
-		}
-
-		SimpleTreeNode treeNode = model.find(null, recordId);
-		if (treeNode != null) {
-			model.removeNode(treeNode);
-		}
-	}
-
-	private void addNewNode() {
-    	if (gridTab.getRecord_ID() > 0) {
-	    	String name = (String)gridTab.getValue("Name");
-			String description = (String)gridTab.getValue("Description");
-			boolean summary = gridTab.getValueAsBoolean("IsSummary");
-			String imageIndicator = (String)gridTab.getValue("Action");  //  Menu - Action
-			//
-			SimpleTreeModel model = (SimpleTreeModel) treePanel.getTree().getModel();
-			SimpleTreeNode treeNode = model.getRoot();
-			MTreeNode root = (MTreeNode) treeNode.getData();
-			MTreeNode node = new MTreeNode (gridTab.getRecord_ID(), 0, name, description,
-					root.getNode_ID(), summary, imageIndicator, false, null);
-			SimpleTreeNode newNode = new SimpleTreeNode(node, new ArrayList<Object>());
-			model.addNode(newNode);
-			int[] path = model.getPath(model.getRoot(), newNode);
-			Treeitem ti = treePanel.getTree().renderItemByPath(path);
-			treePanel.getTree().setSelectedItem(ti);
-    	}
-	}
-
-	private void setSelectedNode(int recordId) {
-		if (recordId <= 0) return;
-
-		if (treePanel.getTree().getSelectedItem() != null) {
-			SimpleTreeNode treeNode = (SimpleTreeNode) treePanel.getTree().getSelectedItem().getValue();
-			MTreeNode data = (MTreeNode) treeNode.getData();
-			if (data.getNode_ID() == recordId) return;
-		}
-
-		SimpleTreeModel model = (SimpleTreeModel) treePanel.getTree().getModel();
-		SimpleTreeNode treeNode = model.find(null, recordId);
-		if (treeNode != null) {
-			int[] path = model.getPath(model.getRoot(), treeNode);
-			Treeitem ti = treePanel.getTree().renderItemByPath(path);
-			treePanel.getTree().setSelectedItem(ti);
-		} else {
-			addNewNode();
-		}
-	}
-
-	/**
+    /**
 	 * Toggle between form and grid view
 	 */
 	public void switchRowPresentation() {
@@ -1066,8 +1041,33 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
         	for (EmbeddedPanel panel : includedPanel)
         		panel.tabPanel.query(false, 0, 0);
         }
+		
+		//  Sync tree
+		if (treePanel == null || gridTab.getRecord_ID() <= 0)
+			return;
+		
+		rowChanged(true, gridTab.getRecord_ID());
+		
 	}
 
+	/**
+	 *  Row Changed - synchronize with Tree
+	 *
+	 *  @param  save    true the row was saved (changed/added), false if the row was deleted
+	 *  @param  keyID   the ID of the row changed
+	 */
+	public void rowChanged (boolean save, int keyID)
+	{
+		String name = (String)gridTab.getValue("Name");
+		String description = (String)gridTab.getValue("Description");
+		Boolean IsSummary = (Boolean)gridTab.getValue("IsSummary");
+		boolean summary = IsSummary != null && IsSummary.booleanValue();
+		String imageIndicator = (String)gridTab.getValue("Action");  //  Menu - Action
+		//
+		treePanel.nodeChanged(save, keyID, name, description,
+			summary, imageIndicator);
+	}   //  rowChanged
+	
 	private void createEmbeddedPanelUI(EmbeddedPanel ep) {
 		org.zkoss.zul.Row row = new Row();
 		row.setSpans("5");

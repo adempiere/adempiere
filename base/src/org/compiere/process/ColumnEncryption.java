@@ -123,7 +123,7 @@ public class ColumnEncryption extends SvrProcess {
 				|| "Name".equalsIgnoreCase(column.getColumnName())) {
 			if (column.isEncrypted()) {
 				column.setIsEncrypted(false);
-				column.save();
+				column.saveEx();
 			}
 			return columnName + ": cannot be encrypted";
 		}

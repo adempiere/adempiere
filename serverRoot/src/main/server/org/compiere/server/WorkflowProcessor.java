@@ -84,7 +84,7 @@ public class WorkflowProcessor extends AdempiereServer
 		MWorkflowProcessorLog pLog = new MWorkflowProcessorLog(m_model, m_summary.toString());
 		pLog.setReference("#" + String.valueOf(p_runCount) 
 			+ " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
-		pLog.save();
+		pLog.saveEx();
 	}	//	doWork
 
 	/**
@@ -161,7 +161,7 @@ public class WorkflowProcessor extends AdempiereServer
 				MWFNode node = activity.getNode();
 				int prioDiff = node.calculateDynamicPriority ((int)(ms / 1000));
 				activity.setPriority(activity.getDynPriorityStart() + prioDiff);
-				activity.save();
+				activity.saveEx();
 				count++;
 			}
 			rs.close ();
@@ -215,7 +215,7 @@ public class WorkflowProcessor extends AdempiereServer
 					countEMails += sendEmail (activity, "ActivityOverPriority",
 						escalate, true);
 					activity.setDateLastAlert(new Timestamp(System.currentTimeMillis()));
-					activity.save();
+					activity.saveEx();
 					count++;
 				}
 				rs.close();
@@ -266,7 +266,7 @@ public class WorkflowProcessor extends AdempiereServer
 				countEMails += sendEmail (activity, "ActivityEndWaitTime", 
 					escalate, false);
 				activity.setDateLastAlert(new Timestamp(System.currentTimeMillis()));
-				activity.save();
+				activity.saveEx();
 				count++;
 			}
 			rs.close ();
@@ -316,7 +316,7 @@ public class WorkflowProcessor extends AdempiereServer
 					countEMails += sendEmail (activity, "ActivityInactivity",
 						escalate, false);
 					activity.setDateLastAlert(new Timestamp(System.currentTimeMillis()));
-					activity.save();
+					activity.saveEx();
 					count++;
 				}
 				rs.close();

@@ -60,6 +60,8 @@ public class NumberBox extends Div
     private Decimalbox decimalBox = null;
     private Button btn;
     
+	private Object m_oldValue = null;
+
     private boolean btnEnabled = true;
 
 	private Popup popup;
@@ -443,4 +445,39 @@ public class NumberBox extends Div
 	{
 		return this.btnEnabled;
 	}
+	
+	/**
+	 * Set the old value of the field.  For use in future comparisons.
+	 * The old value must be explicitly set though this call.
+	 * @param m_oldValue
+	 */
+	public void set_oldValue() {
+		this.m_oldValue = getValue();
+	}
+
+	/**
+	 * Get the old value of the field explicitly set in the past
+	 * @return
+	 */
+	public Object get_oldValue() {
+		return m_oldValue;
+	}
+	/**
+	 * Has the field changed over time?
+	 * @return true if the old value is different than the current.
+	 */
+	public boolean hasChanged() {
+		// Both or either could be null
+		if(getValue() != null)
+			if(m_oldValue != null)
+				return !m_oldValue.equals(getValue());
+			else
+				return true;
+		else  // getValue() is null
+			if(m_oldValue != null)
+				return true;
+			else
+				return false;
+	}
+
 }

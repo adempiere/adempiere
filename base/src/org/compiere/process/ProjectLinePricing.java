@@ -78,7 +78,7 @@ public class ProjectLinePricing extends SvrProcess
 		//
 		projectLine.setPlannedPrice(pp.getPriceStd());
 		projectLine.setPlannedMarginAmt(pp.getPriceStd().subtract(pp.getPriceLimit()));
-		projectLine.save();
+		projectLine.saveEx();
 		//
 		String retValue = Msg.getElement(getCtx(), "PriceList") + pp.getPriceList() + " - "
 			+ Msg.getElement(getCtx(), "PriceStd") + pp.getPriceStd() + " - "

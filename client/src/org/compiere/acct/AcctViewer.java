@@ -73,6 +73,10 @@ import org.compiere.util.ValueNamePair;
  * 			BF [ 1778534 ] Info Account: can't find product
  * @author Colin Rooney (croo) 
  * 			BF [ 2006668 ] Selection of Product in the Accounting Viewer
+ *
+ * @author Michael McKay, 
+ * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
+ * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
  */
 public class AcctViewer extends CFrame 
 	implements ActionListener, ChangeListener
@@ -436,6 +440,11 @@ public class AcctViewer extends CFrame
 			m_data.AD_Table_ID = AD_Table_ID;
 			m_data.Record_ID = Record_ID;
 			actionQuery();
+			String keyColumn = selRecord.getActionCommand();
+			String tableName = keyColumn.substring(0, keyColumn.length()-3);
+			String selectSQL = keyColumn + "=" + Record_ID;
+			m_data.buttonRecordID.put(keyColumn,Record_ID);
+			selRecord.setText(m_data.getButtonText(tableName, keyColumn, selectSQL));
 		}
 	}   //  dynInit
 
@@ -692,6 +701,8 @@ public class AcctViewer extends CFrame
 		log.info(keyColumn);
 		String whereClause = "(IsSummary='N' OR IsSummary IS NULL)";
 		String lookupColumn = keyColumn;
+		int record_id = m_data.getButtonRecordID(keyColumn);
+
 		if (keyColumn.equals("Account_ID"))
 		{
 			lookupColumn = "C_ElementValue_ID";
@@ -722,37 +733,67 @@ public class AcctViewer extends CFrame
 		}
 		else if (selDocument.isSelected())
 			whereClause = "";
+		
+		if (button == selRecord)                            //  Record_ID
+			record_id = m_data.Record_ID;
+		else
+			record_id = m_data.getButtonRecordID(keyColumn);
+
 		String tableName = lookupColumn.substring(0, lookupColumn.length()-3);
-		Info info = Info.create(this, true, m_data.WindowNo, tableName, lookupColumn, "", false, whereClause);
+		Info info = Info.create(this, true, m_data.WindowNo, tableName, lookupColumn, record_id, "", false, true, whereClause);
 		if (!info.loadedOK())
 		{
 			info.dispose();
 			info = null;
 			button.setText("");
 			m_data.whereInfo.put(keyColumn, "");
+			m_data.buttonRecordID.put(keyColumn, null);
 			return 0;
 		}
 		info.setVisible(true);
-		String selectSQL = info.getSelectedSQL();       //  C_Project_ID=100 or ""
-		Integer key = (Integer)info.getSelectedKey();
-		info = null;
-		if (selectSQL == null || selectSQL.length() == 0 || key == null)
+
+		boolean isCancelled = info.isCancelled();
+		boolean isOK = info.isOk();
+		Integer key = 0;
+		
+		if (isCancelled && !isOK) // Delete the saved info
 		{
+			key = 0;
+			if (button == selRecord)                            //  Record_ID
+				m_data.Record_ID = key.intValue();
+			else
+			{
+				m_data.whereInfo.put(keyColumn, "");    //  no query
+				m_data.buttonRecordID.put(keyColumn, key.intValue());
+			}
 			button.setText("");
-			m_data.whereInfo.put(keyColumn, "");    //  no query
-			return 0;
 		}
-
-		//  Save for query
-		log.config(keyColumn + " - " + key);
-		if (button == selRecord)                            //  Record_ID
-			m_data.Record_ID = key.intValue();
-		else
-			m_data.whereInfo.put(keyColumn, keyColumn + "=" + key.intValue());
-
-		//  Display Selection and resize
-		button.setText(m_data.getButtonText(tableName, lookupColumn, selectSQL));
-		pack();
+		else if(!isCancelled && isOK)
+		{
+			//  Save for query
+			String selectSQL = info.getSelectedSQL();       //  C_Project_ID=100 or ""
+			key = (Integer)info.getSelectedKey();
+			log.config(keyColumn + " - " + key);
+			if (button == selRecord)                            //  Record_ID
+				m_data.Record_ID = key.intValue();
+			else
+			{
+				m_data.whereInfo.put(keyColumn, keyColumn + "=" + key.intValue());  //  Add to query
+				m_data.buttonRecordID.put(keyColumn, key.intValue());
+			}
+			//  Display Selection and resize
+			button.setText(m_data.getButtonText(tableName, lookupColumn, selectSQL));
+			pack();
+		}
+		else if(!(isCancelled ^ isOK)) // xor: window closed or error - no change
+		{
+			// m_data not changed
+			if (button == selRecord)                            //  Record_ID
+				key = m_data.Record_ID = key.intValue();
+			else
+				key = m_data.getButtonRecordID(keyColumn);
+		}
+		info = null;
 		return key.intValue();
 	}   //  actionButton
 

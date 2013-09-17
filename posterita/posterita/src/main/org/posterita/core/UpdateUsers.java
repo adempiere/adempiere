@@ -52,7 +52,7 @@ public class UpdateUsers {
             {
                 partner = new MBPartner(ctx, user.getC_BPartner_ID(), null);
                 user.setName(partner.getName());
-                user.save();
+                user.saveEx();
             }
             
         }

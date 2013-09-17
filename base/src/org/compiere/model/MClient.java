@@ -690,7 +690,7 @@ public class MClient extends X_AD_Client
 			um.setMessageID(email.getSentMsg());
 			um.setIsDelivered(X_AD_UserMail.ISDELIVERED_No);
 		}
-		um.save();
+		um.saveEx();
 
 		//
 		if (email.isSentOK())

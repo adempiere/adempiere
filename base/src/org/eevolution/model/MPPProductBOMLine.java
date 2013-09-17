@@ -68,6 +68,7 @@ public class MPPProductBOMLine extends X_PP_Product_BOMLine
 		final String whereClause = MPPProductBOMLine.COLUMNNAME_M_Product_ID+"=?";
 		return new Query(product.getCtx(), MPPProductBOMLine.Table_Name, whereClause, product.get_TrxName())
 						.setParameters(product.getM_Product_ID())
+						.setClient_ID()
 						.list();
 	}
 	
@@ -88,7 +89,7 @@ public class MPPProductBOMLine extends X_PP_Product_BOMLine
 	 */
 	public MPPProductBOMLine(MPPProductBOM bom)
 	{
-		super(bom.getCtx(), 0, bom.get_TableName());
+		super(bom.getCtx(), 0, bom.get_TrxName());
 		if (bom.get_ID() <= 0)
 			throw new IllegalArgumentException("Header not saved");
 		setPP_Product_BOM_ID(bom.getPP_Product_BOM_ID()); //	parent

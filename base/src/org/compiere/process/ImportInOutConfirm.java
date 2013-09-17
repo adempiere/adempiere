@@ -156,7 +156,7 @@ public class ImportInOutConfirm extends SvrProcess
 				{
 					importLine.setI_IsImported(false);
 					importLine.setI_ErrorMsg("ID Not Found");
-					importLine.save();
+					importLine.saveEx();
 				}
 				else
 				{

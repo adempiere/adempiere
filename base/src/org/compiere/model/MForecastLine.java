@@ -16,8 +16,12 @@
 package org.compiere.model;
 
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.Properties;
+
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.WarehouseInvalidForOrgException;
+import org.eevolution.model.I_PP_Period;
 
 
 /**
@@ -65,7 +69,7 @@ public class MForecastLine extends  X_M_ForecastLine
 	protected boolean beforeSave (boolean newRecord)
 	{
 		if (newRecord 
-			|| is_ValueChanged("AD_Org_ID") || is_ValueChanged("M_Warehouse_ID"))
+			|| is_ValueChanged(COLUMNNAME_AD_Org_ID) || is_ValueChanged(COLUMNNAME_M_Warehouse_ID))
 		{	
 			MWarehouse wh = MWarehouse.get(getCtx(), getM_Warehouse_ID());
 			if (wh.getAD_Org_ID() != getAD_Org_ID())
@@ -73,6 +77,24 @@ public class MForecastLine extends  X_M_ForecastLine
 				throw new WarehouseInvalidForOrgException(wh.getName(), MOrg.get(getCtx(), getAD_Org_ID()).getName());
 			}
 		}
+		if (newRecord || is_ValueChanged(COLUMNNAME_DatePromised))
+		{
+			if(!isValid(getDatePromised()))
+				throw new AdempiereException("@DatePromised@ @Invalid@");	
+		}
+		
+		return true;
+	}
+	
+	public boolean isValid(Timestamp DatePromised)
+	{
+		I_PP_Period period = getPP_Period();
+		Timestamp validFrom = period.getStartDate();
+		
+		if (DatePromised.before(period.getStartDate()))
+			return false;
+		if (DatePromised.after(period.getEndDate()))
+			return false;
 		return true;
 	}
 	

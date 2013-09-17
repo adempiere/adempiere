@@ -16,6 +16,8 @@
  *****************************************************************************/
 package org.compiere.util;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Properties;
 import java.util.logging.Logger;
 
@@ -69,6 +71,22 @@ public class SecureEngine
 			return null;
 		return s_engine.implementation.getClass().getName();
 	}	//	getClassName
+	
+	/**
+	 *  Convert String and salt to SHA-512 hash with iterations
+	 *  https://www.owasp.org/index.php/Hashing_Java
+	 *
+	 *  @param value message
+	 *  @return HexString of message (length = 128 characters)
+	 * @throws UnsupportedEncodingException 
+	 * @throws NoSuchAlgorithmException 
+	 */
+	public static String getSHA512Hash (int iterations, String value, byte[] salt) throws NoSuchAlgorithmException, UnsupportedEncodingException
+	{
+		if (s_engine == null)
+			init(System.getProperties());
+		return s_engine.implementation.getSHA512Hash(iterations, value, salt);
+	}	//	getDigest
 	
 	/**
 	 *  Convert String to Digest.

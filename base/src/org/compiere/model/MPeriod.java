@@ -520,7 +520,7 @@ public class MPeriod extends X_C_Period
 			if (isInPeriod(today))
 			{
 				as.setC_Period_ID(getC_Period_ID());
-				as.save();
+				as.saveEx();
 			}
 			return true;
 		}

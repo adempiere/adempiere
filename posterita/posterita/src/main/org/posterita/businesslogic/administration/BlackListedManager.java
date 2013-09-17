@@ -252,7 +252,7 @@ public class BlackListedManager
         
         blackListed.setIsActive(false);
          
-        blackListed.save();
+        blackListed.saveEx();
             
     }
 	

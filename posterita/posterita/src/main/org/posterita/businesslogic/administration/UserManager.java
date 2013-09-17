@@ -106,7 +106,7 @@ public class UserManager
         }
         
         MUserRoles userRoles = new MUserRoles(ctx, user.get_ID(), roleId, trxName);
-        userRoles.save();
+        userRoles.saveEx();
         
         MOrg org = new MOrg(ctx, orgId, trxName);
         MRoleOrgAccess roleOrgAccess = new MRoleOrgAccess(org, roleId);
@@ -476,7 +476,7 @@ public class UserManager
             }
             
             MUserRoles userRole = new MUserRoles(ctx,userId,roleId,trxName);
-            userRole.save(); 
+            userRole.saveEx(); 
         }
         catch(OperationException e)
         {

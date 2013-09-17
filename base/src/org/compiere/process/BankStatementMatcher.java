@@ -103,7 +103,7 @@ public class BankStatementMatcher extends SvrProcess
 						ibs.setC_Invoice_ID(info.getC_Invoice_ID());
 					if (info.getC_BPartner_ID() > 0)
 						ibs.setC_BPartner_ID(info.getC_BPartner_ID());
-					ibs.save();
+					ibs.saveEx();
 					return "OK";
 				}
 			}
@@ -137,7 +137,7 @@ public class BankStatementMatcher extends SvrProcess
 						bsl.setC_Invoice_ID(info.getC_Invoice_ID());
 					if (info.getC_BPartner_ID() > 0)
 						bsl.setC_BPartner_ID(info.getC_BPartner_ID());
-					bsl.save();
+					bsl.saveEx();
 					return "OK";
 				}
 			}

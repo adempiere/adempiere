@@ -528,7 +528,7 @@ public class MBPartnerLocationTest extends AdempiereTestCase {
 			location.setPostal(zipcode);
 			location.setPostal_Add(zipcode);
 			location.setAD_Org_ID(0);
-			location.save();
+			location.saveEx();
 	
 			m_group = new MBPGroup (getCtx(), 0, getTrxName());
 			m_group.setName ("Test Group Name");  // N
@@ -536,7 +536,7 @@ public class MBPartnerLocationTest extends AdempiereTestCase {
 			m_group.setIsDefault (false);
 	
 			m_group.setPriorityBase(MBPGroup.PRIORITYBASE_Same);
-			m_group.save();
+			m_group.saveEx();
 	
 			m_partner = new MBPartner (getCtx(), 0, getTrxName());
 			m_partner.setValue ("");
@@ -563,7 +563,7 @@ public class MBPartnerLocationTest extends AdempiereTestCase {
 				bpl.setName("Test Business Partner Location");
 				bpl.setC_BPartner_ID(m_partner.get_ID());
 				bpl.setC_Location_ID(location.get_ID());
-				bpl.save();
+				bpl.saveEx();
 			}
 	 
 			commit();

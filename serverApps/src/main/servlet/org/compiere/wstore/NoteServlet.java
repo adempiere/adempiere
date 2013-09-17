@@ -220,7 +220,7 @@ public class NoteServlet extends HttpServlet
 			if (note.get_ID() == AD_Note_ID)
 			{
 				note.setProcessed(true);
-				note.save();
+				note.saveEx();
 				log.fine("doPost - " + note);
 			}
 		}

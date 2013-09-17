@@ -494,8 +494,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 
 			if (line == null)
 				return false;
-			if (!line.save())
-				return false;
+			line.saveEx();
 		}
 		
 		orderLineId = line.getC_OrderLine_ID();

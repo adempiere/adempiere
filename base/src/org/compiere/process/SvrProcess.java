@@ -497,7 +497,7 @@ public abstract class SvrProcess implements ProcessCall
 			mpi.setIsProcessing(false);
 			mpi.setResult(!m_pi.isError());
 			mpi.setErrorMsg(m_pi.getSummary());
-			mpi.save();
+			mpi.saveEx();
 			log.fine(mpi.toString());
 			
 			ProcessInfoUtil.saveLogToDB(m_pi);
