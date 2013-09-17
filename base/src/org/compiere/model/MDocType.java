@@ -61,9 +61,9 @@ public class MDocType extends X_C_DocType
 	 */
 	static public MDocType[] getOfDocBaseType (Properties ctx, String DocBaseType)
 	{
-		String whereClause  = "AD_Client_ID=? AND DocBaseType=?";
+		final String whereClause  = "AD_Client_ID=? AND DocBaseType=?";
 		List<MDocType> list = new Query(ctx, Table_Name, whereClause, null)
-									.setParameters(new Object[]{Env.getAD_Client_ID(ctx), DocBaseType})
+									.setParameters(Env.getAD_Client_ID(ctx), DocBaseType)
 									.setOnlyActiveRecords(true)
 									.setOrderBy("IsDefault DESC, C_DocType_ID")
 									.list();
@@ -77,9 +77,8 @@ public class MDocType extends X_C_DocType
 	 */
 	static public MDocType[] getOfClient (Properties ctx)
 	{
-		String whereClause  = "AD_Client_ID=?";
-		List<MDocType> list = new Query(ctx, Table_Name, whereClause, null)
-									.setParameters(new Object[]{Env.getAD_Client_ID(ctx)})
+		List<MDocType> list = new Query(ctx, Table_Name, null, null)
+									.setClient_ID()
 									.setOnlyActiveRecords(true)
 									.list();
 		return list.toArray(new MDocType[list.size()]);
