@@ -78,7 +78,6 @@ import org.compiere.util.Language;
 import org.compiere.util.Util;
 import org.eevolution.model.MDDOrder;
 import org.eevolution.model.X_PP_Order;  // to be changed by MPPOrder
-import org.eevolution.model.X_WM_InOutBound;
 
 /**
  *	Report Engine.
@@ -1182,8 +1181,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	public static final int		MANUFACTURING_ORDER = 8;
 	/** Distribution Order = 9  */
 	public static final int		DISTRIBUTION_ORDER = 9;
-	/** Packing Order = 10	    */
-	public static final int		PICKING_ORDER = 10;
+	
 
 //	private static final String[]	DOC_TABLES = new String[] {
 //		"C_Order_Header_v", "M_InOut_Header_v", "C_Invoice_Header_v", "C_Project_Header_v",
@@ -1194,17 +1192,17 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		"C_Order", "M_InOut", "C_Invoice", "C_Project",
 		"C_RfQResponse",
 		"C_PaySelectionCheck", "C_PaySelectionCheck", 
-		"C_DunningRunEntry","PP_Order", "DD_Order", "WM_InOutBound_Header_v" };
+		"C_DunningRunEntry","PP_Order", "DD_Order"};
 	private static final String[]	DOC_IDS = new String[] {
 		"C_Order_ID", "M_InOut_ID", "C_Invoice_ID", "C_Project_ID",
 		"C_RfQResponse_ID",
 		"C_PaySelectionCheck_ID", "C_PaySelectionCheck_ID", 
-		"C_DunningRunEntry_ID" , "PP_Order_ID" , "DD_Order_ID" ,"WM_InOutBound"};
+		"C_DunningRunEntry_ID" , "PP_Order_ID" , "DD_Order_ID" };
 	private static final int[]	DOC_TABLE_ID = new int[] {
 		MOrder.Table_ID, MInOut.Table_ID, MInvoice.Table_ID, MProject.Table_ID,
 		MRfQResponse.Table_ID,
 		MPaySelectionCheck.Table_ID, MPaySelectionCheck.Table_ID, 
-		MDunningRunEntry.Table_ID, X_PP_Order.Table_ID, MDDOrder.Table_ID , X_WM_InOutBound.Table_ID };
+		MDunningRunEntry.Table_ID, X_PP_Order.Table_ID, MDDOrder.Table_ID };
 
 	/**************************************************************************
 	 * 	Get Document Print Engine for Document Type.
@@ -1310,15 +1308,6 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 				+ " LEFT OUTER JOIN C_BPartner bp ON (d.C_BPartner_ID=bp.C_BPartner_ID) "
 				+ "WHERE d.DD_Order_ID=?"					//	info from PrintForm
 				+ " AND pf.AD_Org_ID IN (0,d.AD_Org_ID) ORDER BY pf.AD_Org_ID DESC";
-		else if (type == PICKING_ORDER)
-			sql = "SELECT pf.Picking_Order_PrintFormat_ID,"
-				+ " c.IsMultiLingualDocument,bp.AD_Language, bp.C_BPartner_ID , d.DocumentNo "
-				+ "FROM M_InOutBound d"
-				+ " INNER JOIN AD_Client c ON (d.AD_Client_ID=c.AD_Client_ID)"
-				+ " INNER JOIN AD_PrintForm pf ON (c.AD_Client_ID=pf.AD_Client_ID)"
-				+ " LEFT OUTER JOIN C_BPartner bp ON (d.C_BPartner_ID=bp.C_BPartner_ID) "
-				+ "WHERE d.M_InOutBoundOrder_ID=?"					//	info from PrintForm
-				+ " AND pf.AD_Org_ID IN (0,d.AD_Org_ID) ORDER BY pf.AD_Org_ID DESC";
 		else if (type == RFQ)
 			sql = "SELECT COALESCE(t.AD_PrintFormat_ID, pf.AD_PrintFormat_ID),"
 				+ " c.IsMultiLingualDocument,bp.AD_Language,bp.C_BPartner_ID,rr.Name "
@@ -1377,7 +1366,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 			if (rs.next())	//	first record only
 			{
 				if (type == CHECK || type == DUNNING || type == REMITTANCE 
-					|| type == PROJECT || type == RFQ || type == MANUFACTURING_ORDER || type == DISTRIBUTION_ORDER ||  type == PICKING_ORDER)
+					|| type == PROJECT || type == RFQ || type == MANUFACTURING_ORDER || type == DISTRIBUTION_ORDER)
 				{
 					AD_PrintFormat_ID = rs.getInt(1);
 					copies = 1;
