@@ -21,33 +21,32 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 import org.compiere.model.*;
-import org.compiere.util.KeyNamePair;
 
-/** Generated Model for DD_NetworkDistribution
+/** Generated Model for QM_Specification
  *  @author Adempiere (generated) 
- *  @version Release 3.7.1RC - $Id$ */
-public class X_DD_NetworkDistribution extends PO implements I_DD_NetworkDistribution, I_Persistent 
+ *  @version Release 3.7.0LTS - $Id$ */
+public class X_QM_Specification extends PO implements I_QM_Specification, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20120927L;
+	private static final long serialVersionUID = 20110831L;
 
     /** Standard Constructor */
-    public X_DD_NetworkDistribution (Properties ctx, int DD_NetworkDistribution_ID, String trxName)
+    public X_QM_Specification (Properties ctx, int QM_Specification_ID, String trxName)
     {
-      super (ctx, DD_NetworkDistribution_ID, trxName);
-      /** if (DD_NetworkDistribution_ID == 0)
+      super (ctx, QM_Specification_ID, trxName);
+      /** if (QM_Specification_ID == 0)
         {
-			setDD_NetworkDistribution_ID (0);
-			setName (null);
-			setValue (null);
+			setM_AttributeSet_ID (0);
+			setM_Product_ID (0);
+			setQM_Specification_ID (0);
         } */
     }
 
     /** Load Constructor */
-    public X_DD_NetworkDistribution (Properties ctx, ResultSet rs, String trxName)
+    public X_QM_Specification (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -69,46 +68,34 @@ public class X_DD_NetworkDistribution extends PO implements I_DD_NetworkDistribu
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_DD_NetworkDistribution[")
+      StringBuffer sb = new StringBuffer ("X_QM_Specification[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
 
-	/** Set Copy From.
-		@param CopyFrom 
-		Copy From Record
-	  */
-	public void setCopyFrom (String CopyFrom)
-	{
-		set_Value (COLUMNNAME_CopyFrom, CopyFrom);
-	}
+	public org.compiere.model.I_AD_Workflow getAD_Workflow() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Workflow)MTable.get(getCtx(), org.compiere.model.I_AD_Workflow.Table_Name)
+			.getPO(getAD_Workflow_ID(), get_TrxName());	}
 
-	/** Get Copy From.
-		@return Copy From Record
+	/** Set Workflow.
+		@param AD_Workflow_ID 
+		Workflow or combination of tasks
 	  */
-	public String getCopyFrom () 
+	public void setAD_Workflow_ID (int AD_Workflow_ID)
 	{
-		return (String)get_Value(COLUMNNAME_CopyFrom);
-	}
-
-	/** Set Network Distribution.
-		@param DD_NetworkDistribution_ID 
-		Identifies a distribution network, distribution networks are used to establish the source and target of the materials in the supply chain
-	  */
-	public void setDD_NetworkDistribution_ID (int DD_NetworkDistribution_ID)
-	{
-		if (DD_NetworkDistribution_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_DD_NetworkDistribution_ID, null);
+		if (AD_Workflow_ID < 1) 
+			set_Value (COLUMNNAME_AD_Workflow_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_DD_NetworkDistribution_ID, Integer.valueOf(DD_NetworkDistribution_ID));
+			set_Value (COLUMNNAME_AD_Workflow_ID, Integer.valueOf(AD_Workflow_ID));
 	}
 
-	/** Get Network Distribution.
-		@return Identifies a distribution network, distribution networks are used to establish the source and target of the materials in the supply chain
+	/** Get Workflow.
+		@return Workflow or combination of tasks
 	  */
-	public int getDD_NetworkDistribution_ID () 
+	public int getAD_Workflow_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DD_NetworkDistribution_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Workflow_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -131,63 +118,57 @@ public class X_DD_NetworkDistribution extends PO implements I_DD_NetworkDistribu
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	/** Set Document No.
-		@param DocumentNo 
-		Document sequence number of the document
-	  */
-	public void setDocumentNo (String DocumentNo)
-	{
-		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
-	}
-
-	/** Get Document No.
-		@return Document sequence number of the document
-	  */
-	public String getDocumentNo () 
-	{
-		return (String)get_Value(COLUMNNAME_DocumentNo);
-	}
-
-	/** Set Comment/Help.
-		@param Help 
-		Comment or Hint
-	  */
-	public void setHelp (String Help)
-	{
-		set_Value (COLUMNNAME_Help, Help);
-	}
-
-	/** Get Comment/Help.
-		@return Comment or Hint
-	  */
-	public String getHelp () 
-	{
-		return (String)get_Value(COLUMNNAME_Help);
-	}
-
-	public org.compiere.model.I_M_ChangeNotice getM_ChangeNotice() throws RuntimeException
+	public org.compiere.model.I_M_AttributeSet getM_AttributeSet() throws RuntimeException
     {
-		return (org.compiere.model.I_M_ChangeNotice)MTable.get(getCtx(), org.compiere.model.I_M_ChangeNotice.Table_Name)
-			.getPO(getM_ChangeNotice_ID(), get_TrxName());	}
+		return (org.compiere.model.I_M_AttributeSet)MTable.get(getCtx(), org.compiere.model.I_M_AttributeSet.Table_Name)
+			.getPO(getM_AttributeSet_ID(), get_TrxName());	}
 
-	/** Set Change Notice.
-		@param M_ChangeNotice_ID 
-		Bill of Materials (Engineering) Change Notice (Version)
+	/** Set Attribute Set.
+		@param M_AttributeSet_ID 
+		Product Attribute Set
 	  */
-	public void setM_ChangeNotice_ID (int M_ChangeNotice_ID)
+	public void setM_AttributeSet_ID (int M_AttributeSet_ID)
 	{
-		if (M_ChangeNotice_ID < 1) 
-			set_Value (COLUMNNAME_M_ChangeNotice_ID, null);
+		if (M_AttributeSet_ID < 0) 
+			set_Value (COLUMNNAME_M_AttributeSet_ID, null);
 		else 
-			set_Value (COLUMNNAME_M_ChangeNotice_ID, Integer.valueOf(M_ChangeNotice_ID));
+			set_Value (COLUMNNAME_M_AttributeSet_ID, Integer.valueOf(M_AttributeSet_ID));
 	}
 
-	/** Get Change Notice.
-		@return Bill of Materials (Engineering) Change Notice (Version)
+	/** Get Attribute Set.
+		@return Product Attribute Set
 	  */
-	public int getM_ChangeNotice_ID () 
+	public int getM_AttributeSet_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_ChangeNotice_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_AttributeSet_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
+			.getPO(getM_Product_ID(), get_TrxName());	}
+
+	/** Set Product.
+		@param M_Product_ID 
+		Product, Service, Item
+	  */
+	public void setM_Product_ID (int M_Product_ID)
+	{
+		if (M_Product_ID < 1) 
+			set_Value (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+	}
+
+	/** Get Product.
+		@return Product, Service, Item
+	  */
+	public int getM_Product_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -210,39 +191,52 @@ public class X_DD_NetworkDistribution extends PO implements I_DD_NetworkDistribu
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
-	/** Set Process Now.
-		@param Processing Process Now	  */
-	public void setProcessing (boolean Processing)
+	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException
+    {
+		return (org.eevolution.model.I_PP_Product_BOM)MTable.get(getCtx(), org.eevolution.model.I_PP_Product_BOM.Table_Name)
+			.getPO(getPP_Product_BOM_ID(), get_TrxName());	}
+
+	/** Set BOM & Formula.
+		@param PP_Product_BOM_ID 
+		BOM & Formula
+	  */
+	public void setPP_Product_BOM_ID (int PP_Product_BOM_ID)
 	{
-		set_Value (COLUMNNAME_Processing, Boolean.valueOf(Processing));
+		if (PP_Product_BOM_ID < 1) 
+			set_Value (COLUMNNAME_PP_Product_BOM_ID, null);
+		else 
+			set_Value (COLUMNNAME_PP_Product_BOM_ID, Integer.valueOf(PP_Product_BOM_ID));
 	}
 
-	/** Get Process Now.
-		@return Process Now	  */
-	public boolean isProcessing () 
+	/** Get BOM & Formula.
+		@return BOM & Formula
+	  */
+	public int getPP_Product_BOM_ID () 
 	{
-		Object oo = get_Value(COLUMNNAME_Processing);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
+		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Product_BOM_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
-	/** Set Revision.
-		@param Revision Revision	  */
-	public void setRevision (String Revision)
+	/** Set Quality Specification.
+		@param QM_Specification_ID Quality Specification	  */
+	public void setQM_Specification_ID (int QM_Specification_ID)
 	{
-		set_Value (COLUMNNAME_Revision, Revision);
+		if (QM_Specification_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_QM_Specification_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_QM_Specification_ID, Integer.valueOf(QM_Specification_ID));
 	}
 
-	/** Get Revision.
-		@return Revision	  */
-	public String getRevision () 
+	/** Get Quality Specification.
+		@return Quality Specification	  */
+	public int getQM_Specification_ID () 
 	{
-		return (String)get_Value(COLUMNNAME_Revision);
+		Integer ii = (Integer)get_Value(COLUMNNAME_QM_Specification_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Valid from.
@@ -295,12 +289,4 @@ public class X_DD_NetworkDistribution extends PO implements I_DD_NetworkDistribu
 	{
 		return (String)get_Value(COLUMNNAME_Value);
 	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), getValue());
-    }
 }

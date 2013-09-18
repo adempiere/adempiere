@@ -21,17 +21,17 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for DD_NetworkDistribution
+/** Generated Interface for QM_SpecificationLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.1RC
+ *  @version Release 3.7.0LTS
  */
-public interface I_DD_NetworkDistribution 
+public interface I_QM_SpecificationLine 
 {
 
-    /** TableName=DD_NetworkDistribution */
-    public static final String Table_Name = "DD_NetworkDistribution";
+    /** TableName=QM_SpecificationLine */
+    public static final String Table_Name = "QM_SpecificationLine";
 
-    /** AD_Table_ID=53060 */
+    /** AD_Table_ID=53041 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -63,18 +63,18 @@ public interface I_DD_NetworkDistribution
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name CopyFrom */
-    public static final String COLUMNNAME_CopyFrom = "CopyFrom";
+    /** Column name AndOr */
+    public static final String COLUMNNAME_AndOr = "AndOr";
 
-	/** Set Copy From.
-	  * Copy From Record
+	/** Set And/Or.
+	  * Logical operation: AND or OR
 	  */
-	public void setCopyFrom (String CopyFrom);
+	public void setAndOr (String AndOr);
 
-	/** Get Copy From.
-	  * Copy From Record
+	/** Get And/Or.
+	  * Logical operation: AND or OR
 	  */
-	public String getCopyFrom();
+	public String getAndOr();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -92,58 +92,6 @@ public interface I_DD_NetworkDistribution
 	  */
 	public int getCreatedBy();
 
-    /** Column name DD_NetworkDistribution_ID */
-    public static final String COLUMNNAME_DD_NetworkDistribution_ID = "DD_NetworkDistribution_ID";
-
-	/** Set Network Distribution.
-	  * Identifies a distribution network, distribution networks are used to establish the source and target of the materials in the supply chain
-	  */
-	public void setDD_NetworkDistribution_ID (int DD_NetworkDistribution_ID);
-
-	/** Get Network Distribution.
-	  * Identifies a distribution network, distribution networks are used to establish the source and target of the materials in the supply chain
-	  */
-	public int getDD_NetworkDistribution_ID();
-
-    /** Column name Description */
-    public static final String COLUMNNAME_Description = "Description";
-
-	/** Set Description.
-	  * Optional short description of the record
-	  */
-	public void setDescription (String Description);
-
-	/** Get Description.
-	  * Optional short description of the record
-	  */
-	public String getDescription();
-
-    /** Column name DocumentNo */
-    public static final String COLUMNNAME_DocumentNo = "DocumentNo";
-
-	/** Set Document No.
-	  * Document sequence number of the document
-	  */
-	public void setDocumentNo (String DocumentNo);
-
-	/** Get Document No.
-	  * Document sequence number of the document
-	  */
-	public String getDocumentNo();
-
-    /** Column name Help */
-    public static final String COLUMNNAME_Help = "Help";
-
-	/** Set Comment/Help.
-	  * Comment or Hint
-	  */
-	public void setHelp (String Help);
-
-	/** Get Comment/Help.
-	  * Comment or Hint
-	  */
-	public String getHelp();
-
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -157,51 +105,68 @@ public interface I_DD_NetworkDistribution
 	  */
 	public boolean isActive();
 
-    /** Column name M_ChangeNotice_ID */
-    public static final String COLUMNNAME_M_ChangeNotice_ID = "M_ChangeNotice_ID";
+    /** Column name M_Attribute_ID */
+    public static final String COLUMNNAME_M_Attribute_ID = "M_Attribute_ID";
 
-	/** Set Change Notice.
-	  * Bill of Materials (Engineering) Change Notice (Version)
+	/** Set Attribute.
+	  * Product Attribute
 	  */
-	public void setM_ChangeNotice_ID (int M_ChangeNotice_ID);
+	public void setM_Attribute_ID (int M_Attribute_ID);
 
-	/** Get Change Notice.
-	  * Bill of Materials (Engineering) Change Notice (Version)
+	/** Get Attribute.
+	  * Product Attribute
 	  */
-	public int getM_ChangeNotice_ID();
+	public int getM_Attribute_ID();
 
-	public org.compiere.model.I_M_ChangeNotice getM_ChangeNotice() throws RuntimeException;
+	public org.compiere.model.I_M_Attribute getM_Attribute() throws RuntimeException;
 
-    /** Column name Name */
-    public static final String COLUMNNAME_Name = "Name";
+    /** Column name Operation */
+    public static final String COLUMNNAME_Operation = "Operation";
 
-	/** Set Name.
-	  * Alphanumeric identifier of the entity
+	/** Set Operation.
+	  * Compare Operation
 	  */
-	public void setName (String Name);
+	public void setOperation (String Operation);
 
-	/** Get Name.
-	  * Alphanumeric identifier of the entity
+	/** Get Operation.
+	  * Compare Operation
 	  */
-	public String getName();
+	public String getOperation();
 
-    /** Column name Processing */
-    public static final String COLUMNNAME_Processing = "Processing";
+    /** Column name QM_Specification_ID */
+    public static final String COLUMNNAME_QM_Specification_ID = "QM_Specification_ID";
 
-	/** Set Process Now	  */
-	public void setProcessing (boolean Processing);
+	/** Set Quality Specification	  */
+	public void setQM_Specification_ID (int QM_Specification_ID);
 
-	/** Get Process Now	  */
-	public boolean isProcessing();
+	/** Get Quality Specification	  */
+	public int getQM_Specification_ID();
 
-    /** Column name Revision */
-    public static final String COLUMNNAME_Revision = "Revision";
+	public org.eevolution.model.I_QM_Specification getQM_Specification() throws RuntimeException;
 
-	/** Set Revision	  */
-	public void setRevision (String Revision);
+    /** Column name QM_SpecificationLine_ID */
+    public static final String COLUMNNAME_QM_SpecificationLine_ID = "QM_SpecificationLine_ID";
 
-	/** Get Revision	  */
-	public String getRevision();
+	/** Set QM Specification Line	  */
+	public void setQM_SpecificationLine_ID (int QM_SpecificationLine_ID);
+
+	/** Get QM Specification Line	  */
+	public int getQM_SpecificationLine_ID();
+
+    /** Column name SeqNo */
+    public static final String COLUMNNAME_SeqNo = "SeqNo";
+
+	/** Set Sequence.
+	  * Method of ordering records;
+ lowest number comes first
+	  */
+	public void setSeqNo (int SeqNo);
+
+	/** Get Sequence.
+	  * Method of ordering records;
+ lowest number comes first
+	  */
+	public int getSeqNo();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -225,12 +190,12 @@ public interface I_DD_NetworkDistribution
 	/** Set Valid from.
 	  * Valid from including this date (first day)
 	  */
-	public void setValidFrom (Timestamp ValidFrom);
+	public void setValidFrom (String ValidFrom);
 
 	/** Get Valid from.
 	  * Valid from including this date (first day)
 	  */
-	public Timestamp getValidFrom();
+	public String getValidFrom();
 
     /** Column name ValidTo */
     public static final String COLUMNNAME_ValidTo = "ValidTo";

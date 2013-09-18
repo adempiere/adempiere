@@ -254,7 +254,7 @@ public class VOrderReceiptIssue extends OrderReceiptIssue implements FormPanel,
 				locatorL, m_WindowNo);
 
 		MPAttributeLookup attributeL = new MPAttributeLookup(ctx, m_WindowNo);
-		attribute = new VPAttribute(false, false, true, m_WindowNo, attributeL);
+		attribute = new VPAttribute(false, false, true, m_WindowNo, attributeL, false);
 		attribute.setValue(0);
 		// Tab, Window
 		int m_Window = MWindow.getWindow_ID("Manufacturing Order");

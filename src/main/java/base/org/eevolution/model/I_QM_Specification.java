@@ -21,17 +21,17 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for DD_NetworkDistributionLine
+/** Generated Interface for QM_Specification
  *  @author Adempiere (generated) 
- *  @version Release 3.7.1RC
+ *  @version Release 3.7.0LTS
  */
-public interface I_DD_NetworkDistributionLine 
+public interface I_QM_Specification 
 {
 
-    /** TableName=DD_NetworkDistributionLine */
-    public static final String Table_Name = "DD_NetworkDistributionLine";
+    /** TableName=QM_Specification */
+    public static final String Table_Name = "QM_Specification";
 
-    /** AD_Table_ID=53061 */
+    /** AD_Table_ID=53040 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -63,6 +63,21 @@ public interface I_DD_NetworkDistributionLine
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name AD_Workflow_ID */
+    public static final String COLUMNNAME_AD_Workflow_ID = "AD_Workflow_ID";
+
+	/** Set Workflow.
+	  * Workflow or combination of tasks
+	  */
+	public void setAD_Workflow_ID (int AD_Workflow_ID);
+
+	/** Get Workflow.
+	  * Workflow or combination of tasks
+	  */
+	public int getAD_Workflow_ID();
+
+	public org.compiere.model.I_AD_Workflow getAD_Workflow() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -79,29 +94,18 @@ public interface I_DD_NetworkDistributionLine
 	  */
 	public int getCreatedBy();
 
-    /** Column name DD_NetworkDistributionLine_ID */
-    public static final String COLUMNNAME_DD_NetworkDistributionLine_ID = "DD_NetworkDistributionLine_ID";
+    /** Column name Description */
+    public static final String COLUMNNAME_Description = "Description";
 
-	/** Set Network Distribution Line	  */
-	public void setDD_NetworkDistributionLine_ID (int DD_NetworkDistributionLine_ID);
-
-	/** Get Network Distribution Line	  */
-	public int getDD_NetworkDistributionLine_ID();
-
-    /** Column name DD_NetworkDistribution_ID */
-    public static final String COLUMNNAME_DD_NetworkDistribution_ID = "DD_NetworkDistribution_ID";
-
-	/** Set Network Distribution.
-	  * Identifies a distribution network, distribution networks are used to establish the source and target of the materials in the supply chain
+	/** Set Description.
+	  * Optional short description of the record
 	  */
-	public void setDD_NetworkDistribution_ID (int DD_NetworkDistribution_ID);
+	public void setDescription (String Description);
 
-	/** Get Network Distribution.
-	  * Identifies a distribution network, distribution networks are used to establish the source and target of the materials in the supply chain
+	/** Get Description.
+	  * Optional short description of the record
 	  */
-	public int getDD_NetworkDistribution_ID();
-
-	public org.eevolution.model.I_DD_NetworkDistribution getDD_NetworkDistribution() throws RuntimeException;
+	public String getDescription();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -116,89 +120,72 @@ public interface I_DD_NetworkDistributionLine
 	  */
 	public boolean isActive();
 
-    /** Column name M_Shipper_ID */
-    public static final String COLUMNNAME_M_Shipper_ID = "M_Shipper_ID";
+    /** Column name M_AttributeSet_ID */
+    public static final String COLUMNNAME_M_AttributeSet_ID = "M_AttributeSet_ID";
 
-	/** Set Shipper.
-	  * Method or manner of product delivery
+	/** Set Attribute Set.
+	  * Product Attribute Set
 	  */
-	public void setM_Shipper_ID (int M_Shipper_ID);
+	public void setM_AttributeSet_ID (int M_AttributeSet_ID);
 
-	/** Get Shipper.
-	  * Method or manner of product delivery
+	/** Get Attribute Set.
+	  * Product Attribute Set
 	  */
-	public int getM_Shipper_ID();
+	public int getM_AttributeSet_ID();
 
-	public org.compiere.model.I_M_Shipper getM_Shipper() throws RuntimeException;
+	public org.compiere.model.I_M_AttributeSet getM_AttributeSet() throws RuntimeException;
 
-    /** Column name M_WarehouseSource_ID */
-    public static final String COLUMNNAME_M_WarehouseSource_ID = "M_WarehouseSource_ID";
+    /** Column name M_Product_ID */
+    public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
-	/** Set Source Warehouse.
-	  * Optional Warehouse to replenish from
+	/** Set Product.
+	  * Product, Service, Item
 	  */
-	public void setM_WarehouseSource_ID (int M_WarehouseSource_ID);
+	public void setM_Product_ID (int M_Product_ID);
 
-	/** Get Source Warehouse.
-	  * Optional Warehouse to replenish from
+	/** Get Product.
+	  * Product, Service, Item
 	  */
-	public int getM_WarehouseSource_ID();
+	public int getM_Product_ID();
 
-	public org.compiere.model.I_M_Warehouse getM_WarehouseSource() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
-    /** Column name M_Warehouse_ID */
-    public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
+    /** Column name Name */
+    public static final String COLUMNNAME_Name = "Name";
 
-	/** Set Warehouse.
-	  * Storage Warehouse and Service Point
+	/** Set Name.
+	  * Alphanumeric identifier of the entity
 	  */
-	public void setM_Warehouse_ID (int M_Warehouse_ID);
+	public void setName (String Name);
 
-	/** Get Warehouse.
-	  * Storage Warehouse and Service Point
+	/** Get Name.
+	  * Alphanumeric identifier of the entity
 	  */
-	public int getM_Warehouse_ID();
+	public String getName();
 
-	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
+    /** Column name PP_Product_BOM_ID */
+    public static final String COLUMNNAME_PP_Product_BOM_ID = "PP_Product_BOM_ID";
 
-    /** Column name Percent */
-    public static final String COLUMNNAME_Percent = "Percent";
-
-	/** Set Percent.
-	  * Percentage
+	/** Set BOM & Formula.
+	  * BOM & Formula
 	  */
-	public void setPercent (BigDecimal Percent);
+	public void setPP_Product_BOM_ID (int PP_Product_BOM_ID);
 
-	/** Get Percent.
-	  * Percentage
+	/** Get BOM & Formula.
+	  * BOM & Formula
 	  */
-	public BigDecimal getPercent();
+	public int getPP_Product_BOM_ID();
 
-    /** Column name PriorityNo */
-    public static final String COLUMNNAME_PriorityNo = "PriorityNo";
+	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException;
 
-	/** Set Relative Priority.
-	  * Where inventory should be picked from first
-	  */
-	public void setPriorityNo (int PriorityNo);
+    /** Column name QM_Specification_ID */
+    public static final String COLUMNNAME_QM_Specification_ID = "QM_Specification_ID";
 
-	/** Get Relative Priority.
-	  * Where inventory should be picked from first
-	  */
-	public int getPriorityNo();
+	/** Set Quality Specification	  */
+	public void setQM_Specification_ID (int QM_Specification_ID);
 
-    /** Column name TransferTime */
-    public static final String COLUMNNAME_TransferTime = "TransferTime";
-
-	/** Set Transfer Time.
-	  * Transfer Time
-	  */
-	public void setTransferTime (BigDecimal TransferTime);
-
-	/** Get Transfer Time.
-	  * Transfer Time
-	  */
-	public BigDecimal getTransferTime();
+	/** Get Quality Specification	  */
+	public int getQM_Specification_ID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -241,4 +228,17 @@ public interface I_DD_NetworkDistributionLine
 	  * Valid to including this date (last day)
 	  */
 	public Timestamp getValidTo();
+
+    /** Column name Value */
+    public static final String COLUMNNAME_Value = "Value";
+
+	/** Set Search Key.
+	  * Search key for the record in the format required - must be unique
+	  */
+	public void setValue (String Value);
+
+	/** Get Search Key.
+	  * Search key for the record in the format required - must be unique
+	  */
+	public String getValue();
 }
