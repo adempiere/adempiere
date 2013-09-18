@@ -63,6 +63,7 @@ ContextMenuListener, IZoomableEditor
     
     private Lookup  lookup;
     private Object oldValue;
+    private Object m_oldValue;
     private WEditorPopupMenu popupMenu;
        
     public WTableDirEditor(GridField gridField)
@@ -115,7 +116,7 @@ ContextMenuListener, IZoomableEditor
     	this.lookup = lookup;
     	init();
     }
-    
+
     private void init()
     {
         getComponent().setWidth("200px"); 
@@ -145,7 +146,7 @@ ContextMenuListener, IZoomableEditor
         if (gridField != null) 
         {
         	popupMenu = new WEditorPopupMenu(zoom, true, true);
-        	if (gridField != null &&  gridField.getGridTab() != null)
+        	if (gridField.getGridTab() != null)
     		{
     			WFieldRecordInfo.addMenu(popupMenu);
     		}
@@ -197,14 +198,16 @@ ContextMenuListener, IZoomableEditor
                 //still not in list, reset to zero
                 if (!getComponent().isSelected(value))
                 {
-                	if (value instanceof Integer && gridField != null  && gridField.getDisplayType() != DisplayType.ID) // for IDs is ok to be out of the list
-                	{
-                		getComponent().setValue(null);
-                		if (curValue == null)
-                			curValue = value;
-                		ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), curValue, null);
-            	        super.fireValueChange(changeEvent);
-                		oldValue = null;
+                	if (gridField != null){
+	                	if (value instanceof Integer && gridField.getDisplayType() != DisplayType.ID) // for IDs is ok to be out of the list
+	                	{
+	                		getComponent().setValue(null);
+	                		if (curValue == null)
+	                			curValue = value;
+	                		ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), curValue, null);
+	            	        super.fireValueChange(changeEvent);
+	                		oldValue = null;
+	                	}
                 	}
                 }
             }
@@ -241,7 +244,7 @@ ContextMenuListener, IZoomableEditor
     		getComponent().removeAllItems();
 
     	if (isReadWrite())
-    	{
+    	{    		
 	        if (lookup != null)
 	        {
 	            int size = lookup.getSize();
@@ -424,4 +427,45 @@ ContextMenuListener, IZoomableEditor
 		if ((lookup != null) && (!lookup.isValidated() || !lookup.isLoaded()))
 			this.actionRefresh();
     }
+	
+	/**
+	 * Set the old value of the field.  For use in future comparisons.
+	 * The old value must be explicitly set though this call.
+	 * @param m_oldValue
+	 */
+	public void set_oldValue() {
+		this.m_oldValue = getValue();
+	}
+	/**
+	 * Get the old value of the field explicitly set in the past
+	 * @return
+	 */
+	public Object get_oldValue() {
+		return m_oldValue;
+	}
+	/**
+	 * Has the field changed over time?
+	 * @return true if the old value is different than the current.
+	 */
+	public boolean hasChanged() {
+		// Both or either could be null
+		// null and " " are equivalent
+		if(getValue() != null)
+			if(m_oldValue != null)
+				return !m_oldValue.equals(getValue()); 
+			else
+				if (getValue() != " ")  // Equivalent to null
+					return true; 
+				else
+					return false; // m_oldValue == null, getValue() == " "
+		else  // getValue() is null
+			if(m_oldValue != null)
+				if (m_oldValue != " ")  // Equivalent to null
+					return true;
+				else
+					return false; // m_oldValue == " ", getValue() == null 
+			else
+				return false; // Both null
+	}
+
 }

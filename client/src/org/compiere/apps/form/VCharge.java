@@ -48,6 +48,10 @@ import org.compiere.util.Util;
  *
  *  @author Jorg Janke
  *  @version $Id: VCharge.java,v 1.3 2006/07/30 00:51:28 jjanke Exp $
+ *  
+ *  @author Michael McKay, 
+ * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
+ * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
  */
 public class VCharge extends Charge
 	implements FormPanel, ActionListener
@@ -174,7 +178,10 @@ public class VCharge extends Charge
 			dispose();
 		//  new Account
 		else if (e.getSource().equals(newButton))
+		{
 			createNew();
+			refresh();
+		}
 		else if (e.getSource().equals(accountButton))
 			createAccount();
 	}   //  actionPerformed
@@ -242,4 +249,10 @@ public class VCharge extends Charge
 		findTaxCategoryID();
 	}
 
+	private void refresh()
+	{
+		DefaultTableModel model = new DefaultTableModel(getData(), getColumnNames());
+		dataTable.setModel(model);
+		setColumnClass(dataTable);	
+	}
 }   //  VCharge

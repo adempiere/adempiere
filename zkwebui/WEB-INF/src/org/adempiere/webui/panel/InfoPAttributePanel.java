@@ -32,7 +32,6 @@ import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.editor.WNumberEditor;
 import org.adempiere.webui.editor.WStringEditor;
-import org.compiere.apps.search.InfoPAttribute;
 import org.compiere.model.MAttribute;
 import org.compiere.model.MAttributeSet;
 import org.compiere.model.MRole;
@@ -55,6 +54,8 @@ import org.zkoss.zul.Vbox;
  * This class is based on org.compiere.apps.search.InfoPAttribute written by Jorg Janke
  * @author Elaine
  *
+ * @author Michael McKay, ADEMPIERE-72 VLookup and Info Window improvements
+ * 	<li>https://adempiere.atlassian.net/browse/ADEMPIERE-72
  */
 public class InfoPAttributePanel extends Window implements EventListener
 {
@@ -96,6 +97,8 @@ public class InfoPAttributePanel extends Window implements EventListener
 	
 	/**	Resulting Query			*/
 	private String		m_query = "";
+	/** String representation	*/
+	private String		m_display = "";
 	/**	Product Attribure Editors	*/
 	private ArrayList<Component>	m_productEditors = new ArrayList<Component>();
 	private ArrayList<Component>	m_productEditorsTo = new ArrayList<Component>();
@@ -103,7 +106,7 @@ public class InfoPAttributePanel extends Window implements EventListener
 	private ArrayList<Component>	m_instanceEditors = new ArrayList<Component>();
 	private ArrayList<Component>	m_instanceEditorsTo = new ArrayList<Component>();
 	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(InfoPAttribute.class);
+	private static CLogger log = CLogger.getCLogger(InfoPAttributePanel.class);
 
 	private Rows rows = null;
 	private ConfirmPanel confirmPanel = new ConfirmPanel(true);
@@ -168,6 +171,7 @@ public class InfoPAttributePanel extends Window implements EventListener
 		guaranteeDateSelection.appendItem(s + " <", s + " <");
 		guaranteeDateSelection.appendItem(s + " =", s + " =");
 		guaranteeDateSelection.appendItem(s + " >", s + " >");
+		guaranteeDateSelection.setAttribute("zk_component_ID", "InfoPAttributePanel_guaranteeDateSelection");
 		initLotSelection();
 		
 		//	Fixed Instance Selection Fields
@@ -182,6 +186,7 @@ public class InfoPAttributePanel extends Window implements EventListener
 			row.appendChild(div);
 			row.appendChild(serNoField.getComponent());
 			serNoField.getComponent().setWidth("150px");
+			serNoField.getComponent().setAttribute("zk_component_ID", "InfoPAttributePanel_serNoField");
 		}
 		
 		if (isLot) {
@@ -193,7 +198,8 @@ public class InfoPAttributePanel extends Window implements EventListener
 			row.appendChild(div);
 			row.appendChild(lotField.getComponent());
 			lotField.getComponent().setWidth("150px");
-
+			lotField.getComponent().setAttribute("zk_component_ID", "InfoPAttributePanel_lotField");
+			
 			row = new Row();
 			rows.appendChild(row);
 			div = new Div();
@@ -211,6 +217,7 @@ public class InfoPAttributePanel extends Window implements EventListener
 			div.appendChild(guaranteeDateSelection);
 			row.appendChild(div);
 			row.appendChild(guaranteeDateField);
+			guaranteeDateField.setAttribute("zk_component_ID", "InfoPAttributePanel_guaranteeDateField");
 		}
 	}	//	dynInit
 
@@ -235,6 +242,7 @@ public class InfoPAttributePanel extends Window implements EventListener
 			+ " ORDER BY IsInstanceAttribute, Name", 
 			"M_Attribute", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
 		boolean instanceLine = false;
+		boolean productLine = false;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
@@ -246,7 +254,27 @@ public class InfoPAttributePanel extends Window implements EventListener
 				String description = rs.getString(3);
 				String attributeValueType = rs.getString(4);
 				boolean isInstanceAttribute = "Y".equals(rs.getString(5)); 
-				//	Instance switch
+				// Add label for product attributes if there are any 
+				if (!productLine && !isInstanceAttribute)
+				{
+					Row row = new Row();
+					rows.appendChild(row);
+					row.setSpans("2");
+    				Label group = new Label(Msg.translate(Env.getCtx(), "IsProductAttribute")); 
+    				row.appendChild(group);
+    				rows.appendChild(row);
+    				
+    				row = new Row();
+					rows.appendChild(row);
+					row.setSpans("2");
+                    Separator separator = new Separator();
+                    separator.setBar(true);
+        			row.appendChild(separator);
+        			rows.appendChild(row);
+        			
+					productLine = true;
+				}
+				//	Add label for Instances attributes
 				if (!instanceLine && isInstanceAttribute)
 				{
 					Row row = new Row();
@@ -305,6 +333,8 @@ public class InfoPAttributePanel extends Window implements EventListener
 				row.appendChild(field);
 				//
 				field.setId(String.valueOf(attribute_ID));
+				field.setAttribute("zk_component_ID", "InfoPAttributePanel_field_" + name);
+				//
 				if (isInstanceAttribute)
 					m_instanceEditors.add(field);
 				else
@@ -324,6 +354,9 @@ public class InfoPAttributePanel extends Window implements EventListener
 					row.appendChild(div);
 					row.appendChild(fieldTo);
 				}
+				if (fieldTo != null)
+					fieldTo.setAttribute("zk_component_ID", "InfoPAttributePanel_fieldTo_" + name);
+				
 				if (isInstanceAttribute)
 					m_instanceEditorsTo.add(fieldTo);
 				else
@@ -454,6 +487,7 @@ public class InfoPAttributePanel extends Window implements EventListener
 		lotSelection.setMultiple(false);
 		lotSelection.setMold("select");
 		lotSelection.setWidth("150px");
+		lotSelection.setAttribute("zk_component_ID", "InfoPAttributePanel_lotSelection");
 		for(int i = 0; i < items.length; i++)
 			lotSelection.appendItem(items[i].getName(), items[i]);
 	}	//	initLotSelection
@@ -468,12 +502,14 @@ public class InfoPAttributePanel extends Window implements EventListener
 	{
 		if (e.getTarget().getId().equals(ConfirmPanel.A_OK))
 		{
+			setDisplay();
 			createQuery();
 			dispose();
 		}
 		else if (e.getTarget().getId().equals(ConfirmPanel.A_CANCEL))
 		{
 			m_query = null;
+			m_display = null;
 			dispose();
 		}
 	}	//	actionPerformed
@@ -700,5 +736,90 @@ public class InfoPAttributePanel extends Window implements EventListener
 	{
 		return m_query;
 	}	//	getQuery
+	/**
+	 * Get Display 
+	 * @return String representation of the attribute set instances.
+	 */
+	public String getDisplay()
+	{
+		return m_display;
+	}
+	/**
+	 *   Set the display text
+	 */
+	private void setDisplay()
+	{
+		StringBuffer display = new StringBuffer();
+		if (serNoField != null && serNoField.getValue().toString().length() > 0)
+			display.append(serNoField.getValue().toString() + "-");
+		if (lotField != null && lotField.getValue().toString().length() > 0)
+			display.append(lotField.getValue().toString() + "-");
+		if (lotSelection != null && lotSelection.getSelectedItem().getValue().toString().length() > 0)
+			display.append(lotSelection.getSelectedItem().getValue().toString() + "-");
+		if (guaranteeDateField != null && guaranteeDateField.getValue() != null)
+			display.append(guaranteeDateSelection.getSelectedItem().getValue().toString() + guaranteeDateField.getValue().toString() + "-");
+    
+		for (int i = 0; i < m_productEditors.size(); i++)
+		{
+			Component c = (Component)m_productEditors.get(i);
+			Component cTo = (Component)m_productEditorsTo.get(i);
+			if (c instanceof Listbox)
+			{
+				Listbox field = (Listbox)c;
+				display.append(field.getSelectedItem().getValue().toString() + "-");
+			}
+			else if (c instanceof NumberBox)
+			{
+				NumberBox field = (NumberBox)c;
+				display.append(field.getValue().toString() + "-");
+				NumberBox fieldTo = (NumberBox)cTo;
+				display.append(fieldTo.getValue().toString() + "-");
+				 
+			}
+			else
+			{
+				Textbox field = (Textbox)c;
+				display.append(field.getValue() + "-");
+			}
+		}
+
+		for (int i = 0; i < m_instanceEditors.size(); i++)
+		{
+			Component c = (Component)m_instanceEditors.get(i);
+			Component cTo = (Component)m_instanceEditorsTo.get(i);
+			if (c instanceof Listbox)
+			{
+				Listbox field = (Listbox)c;
+				display.append(field.getSelectedItem().getValue().toString() + "-");
+			}
+			else if (c instanceof NumberBox)
+			{
+				NumberBox field = (NumberBox)c;
+				display.append(field.getValue().toString() + "-");
+				NumberBox fieldTo = (NumberBox)cTo;
+				display.append(fieldTo.getValue().toString() + "-");
+				 
+			}
+			else
+			{
+				Textbox field = (Textbox)c;
+				display.append(field.getValue() + "-");
+			}
+		}
+		//  TODO - there is a more elegant way to do this.
+		while (display.toString().contains("--") && display.length() > 1)
+		{
+				display.delete(display.indexOf("--"), display.indexOf("--")+1);
+		}
+		while (display.toString().startsWith("-") && display.length() > 1)
+		{
+			display.delete(0, 1);
+		}
+		while (display.toString().endsWith("-") && display.length() > 1)
+		{
+			display.delete(display.length()-1, display.length());
+		}
+		m_display = display.toString();
+	}  // set display
 
 }

@@ -1308,4 +1308,9 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 			 return Env.ZERO;
 		return bd;
 	}
+	
+	public Integer getEnvAttributeSetInstance(Properties ctx, int WindowNo)
+	{
+		return null;
+	}
 }

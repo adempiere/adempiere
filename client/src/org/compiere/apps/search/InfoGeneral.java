@@ -29,6 +29,7 @@ import javax.swing.JLabel;
 
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.ADialog;
+import org.compiere.apps.AEnv;
 import org.compiere.apps.ALayout;
 import org.compiere.apps.ALayoutConstraint;
 import org.compiere.minigrid.IDColumn;
@@ -49,6 +50,10 @@ import org.compiere.util.Msg;
  * 
  * 	@author 	Jorg Janke
  * 	@version 	$Id: InfoGeneral.java,v 1.3 2006/10/06 00:42:38 jjanke Exp $
+ *
+ * @author Michael McKay, 
+ * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
+ * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
  */
 public class InfoGeneral extends Info
 {
@@ -69,26 +74,63 @@ public class InfoGeneral extends Info
 	 * 	@param multiSelection multiple selections
 	 * 	@param whereClause where clause
 	 */
+	@Deprecated
 	protected InfoGeneral (Frame frame, boolean modal, int WindowNo, String value,
 		String tableName, String keyColumn,
 		boolean multiSelection, String whereClause)
 	{
-		super (frame, modal, WindowNo, tableName, keyColumn, multiSelection, whereClause);
+		this(frame, modal, WindowNo, 0, value,
+		tableName, keyColumn,
+		multiSelection, true, whereClause);
+	}
+	
+	/**
+	 *	Detail Protected Constructor.
+	 *
+	 * 	@param frame parent
+	 * 	@param modal modal
+	 * 	@param WindowNo window no
+	 *  @param record_id The record ID to find
+	 *  @param value query value to find, exclusive of record_id
+	 * 	@param tableName table name
+	 * 	@param keyColumn key column (ignored)
+	 * 	@param multiSelection multiple selections
+	 *  @param saveResults  True if results will be saved, false for info only
+	 * 	@param whereClause where clause
+	 */
+	protected InfoGeneral (Frame frame, boolean modal, int WindowNo, int record_id, String value,
+		String tableName, String keyColumn,
+		boolean multiSelection, boolean saveResults, String whereClause)
+	{
+		super (frame, modal, WindowNo, tableName, keyColumn, multiSelection, saveResults, whereClause);
 		log.info(tableName + " - " + keyColumn + " - " + whereClause);
 		setTitle(Msg.getMsg(Env.getCtx(), "Info"));
 		//
-		statInit();
-		p_loadedOK = initInfo ();
+		if (!initInfoTable())  // Populates m_generalLayout
+			return;
 		//
-		int no = p_table.getRowCount();
-		setStatusLine(Integer.toString(no) + " " 
-			+ Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
-		setStatusDB(Integer.toString(no));
-		//	Focus
-		textField1.setValue(value);
-		textField1.requestFocus();
-		if (value != null && value.length() > 0)
+		setTableLayout(m_generalLayout);
+		setFromClause(tableName);
+		setOrderClause("2");
+		StringBuffer where = new StringBuffer("IsActive='Y'");
+		if (whereClause.length() > 0)
+			where.append(" AND ").append(p_whereClause);
+		setWhereClause(where.toString());
+		//
+		statInit();
+		initInfo (record_id, value);
+
+		//  To get the focus after the table update
+		m_heldLastFocus = textField1;
+		
+		//	AutoQuery
+		if(autoQuery() || record_id != 0 || (value != null && value.length() > 0 && value != "%"))
 			executeQuery();
+		
+		p_loadedOK = true;
+
+		AEnv.positionCenterWindow(frame, this);
+		
 	}	//	InfoGeneral
 
 	/**  String Array of Column Info    */
@@ -99,6 +141,7 @@ public class InfoGeneral extends Info
 	private ArrayList<String>	m_queryColumnsSql = new ArrayList<String>();
 
 	//  Static data
+	private int fieldID = 0;
 	private CLabel label1 = new CLabel();
 	private CTextField textField1 = new CTextField(10);
 	private CLabel label2 = new CLabel();
@@ -130,36 +173,24 @@ public class InfoGeneral extends Info
 		label4.setHorizontalAlignment(JLabel.LEADING);
 		textField4.setBackground(AdempierePLAF.getInfoBackground());
 		//
-		parameterPanel.setLayout(new ALayout());
-		parameterPanel.add(label1, new ALayoutConstraint(0,0));
-		parameterPanel.add(label2, null);
-		parameterPanel.add(label3, null);
-		parameterPanel.add(label4, null);
+		p_criteriaGrid.setLayout(new ALayout());
+		p_criteriaGrid.add(label1, new ALayoutConstraint(0,0));
+		p_criteriaGrid.add(label2, null);
+		p_criteriaGrid.add(label3, null);
+		p_criteriaGrid.add(label4, null);
 		//
-		parameterPanel.add(textField1, new ALayoutConstraint(1,0));
-		parameterPanel.add(textField2, null);
-		parameterPanel.add(textField3, null);
-		parameterPanel.add(textField4, null);
+		p_criteriaGrid.add(textField1, new ALayoutConstraint(1,0));
+		p_criteriaGrid.add(textField2, null);
+		p_criteriaGrid.add(textField3, null);
+		p_criteriaGrid.add(textField4, null);
 	}	//	statInit
 
 	/**
 	 *	General Init
 	 *	@return true, if success
 	 */
-	private boolean initInfo ()
+	protected void initInfo (int record_id, String value)
 	{
-		if (!initInfoTable())
-			return false;
-
-		//  prepare table
-		StringBuffer where = new StringBuffer("IsActive='Y'");
-		if (p_whereClause.length() > 0)
-			where.append(" AND ").append(p_whereClause);
-		prepareTable(m_generalLayout,
-			p_tableName,
-			where.toString(),
-			"2");
-
 		//	Set & enable Fields
 		label1.setText(Msg.translate(Env.getCtx(), m_queryColumns.get(0).toString()));
 		textField1.addActionListener(this);
@@ -193,7 +224,21 @@ public class InfoGeneral extends Info
 			label4.setVisible(false);
 			textField4.setVisible(false);
 		}
-		return true;
+		
+		//  Set values
+		if (record_id != 0)
+		{
+			fieldID = record_id;
+		}
+		else
+		{
+			if (value != null && value.length() > 0)
+			{
+				textField1.setValue(value);
+			}
+		}
+
+		return;
 	}	//	initInfo
 
 
@@ -372,6 +417,8 @@ public class InfoGeneral extends Info
 		//  Convert ArrayList to Array
 		m_generalLayout = new Info_Column[list.size()];
 		list.toArray(m_generalLayout);
+		
+		setTableLayout(m_generalLayout);
 		return true;
 	}	//	initInfoTable
 
@@ -385,10 +432,16 @@ public class InfoGeneral extends Info
 	protected String getSQLWhere()
 	{
 		StringBuffer sql = new StringBuffer();
-		addSQLWhere (sql, 0, textField1.getText().toUpperCase());
-		addSQLWhere (sql, 1, textField2.getText().toUpperCase());
-		addSQLWhere (sql, 2, textField3.getText().toUpperCase());
-		addSQLWhere (sql, 3, textField4.getText().toUpperCase());
+		if(isResetRecordID())  // Set in Info.java.
+			fieldID = 0;
+		if(!(fieldID==0))
+		{
+			sql.append(" AND ").append(getTableName()).append(".").append(getKeyColumn()).append(" = ?");
+		}
+		addSQLWhere (sql, 0, textField1.getText());
+		addSQLWhere (sql, 1, textField2.getText());
+		addSQLWhere (sql, 2, textField3.getText());
+		addSQLWhere (sql, 3, textField4.getText());
 		return sql.toString();
 	}	//	getSQLWhere
 
@@ -400,26 +453,13 @@ public class InfoGeneral extends Info
 	 */
 	private void addSQLWhere(StringBuffer sql, int index, String value)
 	{
-		if (!(value.equals("") || value.equals("%")) && index < m_queryColumns.size())
+		if (isValidSQLText(value) && index < m_queryColumns.size())
 		{
 			// Angelo Dabala' (genied) nectosoft: [2893220] avoid to append string parameters directly because of special chars like quote(s)
 			sql.append(" AND UPPER(").append(m_queryColumnsSql.get(index).toString()).append(") LIKE ?");
 		}
 	}	//	addSQLWhere
 
-	/**
-	 *  Get SQL WHERE parameter
-	 *  @param f field
-	 *  @return sql part
-	 */
-	private String getSQLText (CTextField f)
-	{
-		String s = f.getText().toUpperCase();
-		if (!s.endsWith("%"))
-			s += "%";
-		log.fine( "String=" + s);
-		return s;
-	}   //  getSQLText
 
 	/**
 	 *  Set Parameters for Query.
@@ -431,14 +471,53 @@ public class InfoGeneral extends Info
 	protected void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
 	{
 		int index = 1;
-		if (textField1.getText().length() > 0)
+		if (!(fieldID == 0))
+			pstmt.setInt(index++, fieldID);
+		if (isValidSQLText(textField1))
 			pstmt.setString(index++, getSQLText(textField1));
-		if (textField2.getText().length() > 0)
+		if (isValidSQLText(textField2))
 			pstmt.setString(index++, getSQLText(textField2));
-		if (textField3.getText().length() > 0)
+		if (isValidSQLText(textField3))
 			pstmt.setString(index++, getSQLText(textField3));
-		if (textField4.getText().length() > 0)
+		if (isValidSQLText(textField4))
 			pstmt.setString(index++, getSQLText(textField4));
 	}   //  setParameters
 
+	/**
+	 * Does the parameter panel have outstanding changes that have not been
+	 * used in a query?
+	 * @return true if there are outstanding changes.
+	 */
+	protected boolean hasOutstandingChanges()
+	{
+		//  All the tracked fields
+		return(
+				textField1.hasChanged()	||
+				textField2.hasChanged()	||
+				textField3.hasChanged()	||
+				textField4.hasChanged());
+	}
+	/**
+	 * Record outstanding changes by copying the current
+	 * value to the oldValue on all fields
+	 */
+	protected void setFieldOldValues()
+	{
+		textField1.set_oldValue();
+		textField2.set_oldValue();
+		textField3.set_oldValue();
+		textField4.set_oldValue();
+		return;
+	}
+    /**
+	 *  Clear all fields and set default values in check boxes
+	 */
+	protected void clearParameters()
+	{
+		//  Clear fields and set defaults
+		textField1.setValue("");
+		textField2.setValue("");
+		textField3.setValue("");
+		textField4.setValue("");
+	}
 }	//	InfoGeneral

@@ -120,10 +120,26 @@ public class EditorBox extends Div {
 	 */
 	public void setEnabled(boolean enabled) {
 		txt.setReadonly(!enabled);
+		
 		btn.setEnabled(enabled);
 		btn.setVisible(enabled);
 		btnColumn.setVisible(enabled);
 		if (enabled)
+			btnColumn.setSclass("editor-button");
+		else
+			btnColumn.setSclass("");
+	}
+
+	/**
+	 * @param enabled
+	 */
+	public void setEnabled(boolean enabled, boolean keepButton) {
+		txt.setReadonly(!enabled);
+		
+		btn.setEnabled(keepButton);
+		btn.setVisible(keepButton);
+		btnColumn.setVisible(keepButton);
+		if (keepButton)
 			btnColumn.setSclass("editor-button");
 		else
 			btnColumn.setSclass("");

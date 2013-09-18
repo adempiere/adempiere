@@ -54,6 +54,13 @@ import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
 
+/**
+ * 
+ * @author Michael McKay, 
+ * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
+ * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
+ *
+ */
 public class VAllocation extends Allocation
 	implements FormPanel, ActionListener, TableModelListener, VetoableChangeListener
 {
@@ -133,6 +140,10 @@ public class VAllocation extends Allocation
 	private void jbInit() throws Exception
 	{
 		CompiereColor.setBackground(panel);
+		//
+		paymentTable.setMultiSelection(true);  // Should be performed before the class is set.
+		invoiceTable.setMultiSelection(true);  // Should be performed before the class is set.
+		invoiceTable.setSurrendersFocusOnKeystroke(true);
 		//
 		mainPanel.setLayout(mainLayout);
 		dateLabel.setText(Msg.getMsg(Env.getCtx(), "Date"));

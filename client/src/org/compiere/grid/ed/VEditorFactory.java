@@ -34,6 +34,10 @@ import org.compiere.util.DisplayType;
  *  @see VCellRenderer for multi-row display
  *  @author  Jorg Janked
  *  @version $Id: VEditorFactory.java,v 1.3 2006/07/30 00:51:28 jjanke Exp $
+ *  
+ *  @author Michael McKay, 
+ * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
+ * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
  */
 public class VEditorFactory
 {
@@ -268,7 +272,7 @@ public class VEditorFactory
 		else if (displayType == DisplayType.PAttribute)
 		{
 			VPAttribute attrib = new VPAttribute (mTab, mandatory, readOnly, updateable, WindowNo,
-				(MPAttributeLookup)mField.getLookup());
+				(MPAttributeLookup)mField.getLookup(), false);
 			attrib.setName(columnName);
 			attrib.setField (mField);
 			editor = attrib;

@@ -24,6 +24,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.IMiniTable;
 import org.compiere.model.MAllocationHdr;
 import org.compiere.model.MAllocationLine;
@@ -40,6 +41,12 @@ import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
 import org.compiere.util.Util;
 
+/**
+ * 
+ * @author Michael McKay, 
+ * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
+ * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
+ */
 public class Allocation
 {
 	public DecimalFormat format = DisplayType.getNumberFormat(DisplayType.Amount);
@@ -152,10 +159,9 @@ public class Allocation
 			while (rs.next())
 			{
 				Vector<Object> line = new Vector<Object>();
-				line.add(new Boolean(false));       //  0-Selection
+				line.add(new IDColumn(rs.getInt(3))); //  0-C_Payment_ID
 				line.add(rs.getTimestamp(1));       //  1-TrxDate
-				KeyNamePair pp = new KeyNamePair(rs.getInt(3), rs.getString(2));
-				line.add(pp);                       //  2-DocumentNo
+				line.add(rs.getString(2));          //  2-DocumentNo
 				if (isMultiCurrency)
 				{
 					line.add(rs.getString(4));      //  3-Currency
@@ -204,19 +210,21 @@ public class Allocation
 	
 	public void setPaymentColumnClass(IMiniTable paymentTable, boolean isMultiCurrency)
 	{
+		Vector<String> names = getPaymentColumnNames(isMultiCurrency);
 		int i = 0;
-		paymentTable.setColumnClass(i++, Boolean.class, false);         //  0-Selection
-		paymentTable.setColumnClass(i++, Timestamp.class, true);        //  1-TrxDate
-		paymentTable.setColumnClass(i++, String.class, true);           //  2-Value
+		paymentTable.setKeyColumnIndex(i);
+		paymentTable.setColumnClass(i, IDColumn.class, true, names.get(i++));         //  0-Selection
+		paymentTable.setColumnClass(i, Timestamp.class, true, names.get(i++));        //  1-TrxDate
+		paymentTable.setColumnClass(i, String.class, true, names.get(i++));           //  2-Value
 		if (isMultiCurrency)
 		{
-			paymentTable.setColumnClass(i++, String.class, true);       //  3-Currency
-			paymentTable.setColumnClass(i++, BigDecimal.class, true);   //  4-PayAmt
+			paymentTable.setColumnClass(i, String.class, true, names.get(i++));       //  3-Currency
+			paymentTable.setColumnClass(i, BigDecimal.class, true, names.get(i++));   //  4-PayAmt
 		}
-		paymentTable.setColumnClass(i++, BigDecimal.class, true);       //  5-ConvAmt
-		paymentTable.setColumnClass(i++, BigDecimal.class, true);       //  6-ConvOpen
-		paymentTable.setColumnClass(i++, BigDecimal.class, false);      //  7-Allocated
-//		paymentTable.setColumnClass(i++, BigDecimal.class, true);      	//  8-Multiplier
+		paymentTable.setColumnClass(i, BigDecimal.class, true, names.get(i++));       //  5-ConvAmt
+		paymentTable.setColumnClass(i, BigDecimal.class, true, names.get(i++));       //  6-ConvOpen
+		paymentTable.setColumnClass(i, BigDecimal.class, false, names.get(i));      //  7-Allocated
+//		paymentTable.setColumnClass(i, BigDecimal.class, true, names.get(i++));      	//  8-Multiplier
 
 		//
 		i_payment = isMultiCurrency ? 7 : 5;
@@ -282,10 +290,9 @@ public class Allocation
 			while (rs.next())
 			{
 				Vector<Object> line = new Vector<Object>();
-				line.add(new Boolean(false));       //  0-Selection
+				line.add(new IDColumn(rs.getInt(3))); //  0-C_Invoice_ID
 				line.add(rs.getTimestamp(1));       //  1-TrxDate
-				KeyNamePair pp = new KeyNamePair(rs.getInt(3), rs.getString(2));
-				line.add(pp);                       //  2-Value
+				line.add(rs.getString(2));          //  2-Value
 				if (isMultiCurrency)
 				{
 					line.add(rs.getString(4));      //  3-Currency
@@ -297,7 +304,7 @@ public class Allocation
 					open = Env.ZERO;
 				line.add(open);      				//  4/6-ConvOpen
 				BigDecimal discount = rs.getBigDecimal(8);
-				if (discount == null)	//	no concersion rate
+				if (discount == null)	//	no conversion rate
 					discount = Env.ZERO;
 				line.add(discount);					//  5/7-ConvAllowedDisc
 				line.add(Env.ZERO);      			//  6/8-WriteOff
@@ -345,22 +352,24 @@ public class Allocation
 	
 	public void setInvoiceColumnClass(IMiniTable invoiceTable, boolean isMultiCurrency)
 	{
+		Vector<String> names = getInvoiceColumnNames(isMultiCurrency);
 		int i = 0;
-		invoiceTable.setColumnClass(i++, Boolean.class, false);         //  0-Selection
-		invoiceTable.setColumnClass(i++, Timestamp.class, true);        //  1-TrxDate
-		invoiceTable.setColumnClass(i++, String.class, true);           //  2-Value
+		invoiceTable.setKeyColumnIndex(i);
+		invoiceTable.setColumnClass(i, IDColumn.class, true, names.get(i++));        //  0-C_Invoice_ID
+		invoiceTable.setColumnClass(i, Timestamp.class, true, names.get(i++));        //  1-TrxDate
+		invoiceTable.setColumnClass(i, String.class, true, names.get(i++));           //  2-Value
 		if (isMultiCurrency)
 		{
-			invoiceTable.setColumnClass(i++, String.class, true);       //  3-Currency
-			invoiceTable.setColumnClass(i++, BigDecimal.class, true);   //  4-Amt
+			invoiceTable.setColumnClass(i, String.class, true, names.get(i++));       //  3-Currency
+			invoiceTable.setColumnClass(i, BigDecimal.class, true, names.get(i++));   //  4-Amt
 		}
-		invoiceTable.setColumnClass(i++, BigDecimal.class, true);       //  5-ConvAmt
-		invoiceTable.setColumnClass(i++, BigDecimal.class, true);       //  6-ConvAmt Open
-		invoiceTable.setColumnClass(i++, BigDecimal.class, false);      //  7-Conv Discount
-		invoiceTable.setColumnClass(i++, BigDecimal.class, false);      //  8-Conv WriteOff
-		invoiceTable.setColumnClass(i++, BigDecimal.class, false);      //  9-Conv OverUnder
-		invoiceTable.setColumnClass(i++, BigDecimal.class, true);		//	10-Conv Applied
-//		invoiceTable.setColumnClass(i++, BigDecimal.class, true);      	//  10-Multiplier
+		invoiceTable.setColumnClass(i, BigDecimal.class, true, names.get(i++));       //  5-ConvAmt
+		invoiceTable.setColumnClass(i, BigDecimal.class, true, names.get(i++));       //  6-ConvAmt Open
+		invoiceTable.setColumnClass(i, BigDecimal.class, false, names.get(i++));      //  7-Conv Discount
+		invoiceTable.setColumnClass(i, BigDecimal.class, false, names.get(i++));      //  8-Conv WriteOff
+		invoiceTable.setColumnClass(i, BigDecimal.class, false, names.get(i++));      //  9-Conv Applied
+		invoiceTable.setColumnClass(i, BigDecimal.class, true, names.get(i++));		//	10-Conv OverUnder
+//		invoiceTable.setColumnClass(i, BigDecimal.class, true, names.get(i++));      	//  10-Multiplier
 		//  Table UI
 		invoiceTable.autoSize();
 	}
@@ -391,13 +400,13 @@ public class Allocation
 		//  Payments
 		if (!isInvoice)
 		{
-			BigDecimal open = (BigDecimal)payment.getValueAt(row, i_open);
-			BigDecimal applied = (BigDecimal)payment.getValueAt(row, i_payment);
+			BigDecimal open = (BigDecimal)payment.getValueAt(row, payment.convertColumnIndexToView(i_open));
+			BigDecimal applied = (BigDecimal)payment.getValueAt(row, payment.convertColumnIndexToView(i_payment));
 			
 			if (col == 0)
 			{
 				// selection of payment row
-				if (((Boolean)payment.getValueAt(row, 0)).booleanValue())
+				if (payment.isRowChecked(row))
 				{
 					applied = open;   //  Open Amount
 					if (totalDiff.abs().compareTo(applied.abs()) < 0			// where less is available to allocate than open
@@ -410,7 +419,7 @@ public class Allocation
 			}
 			
 			
-			if (col == i_payment)
+			if (col == payment.convertColumnIndexToView(i_payment))
 			{
 				if ( applied.signum() == -open.signum() )
 					applied = applied.negate();
@@ -418,18 +427,18 @@ public class Allocation
 							applied = open;
 			}
 			
-			payment.setValueAt(applied, row, i_payment);
+			payment.setValueAt(applied, row, payment.convertColumnIndexToView(i_payment));
 		}
 
 		//  Invoice
 		else 
 		{
-			boolean selected = ((Boolean) invoice.getValueAt(row, 0)).booleanValue();
-			BigDecimal open = (BigDecimal)invoice.getValueAt(row, i_open);
-			BigDecimal discount = (BigDecimal)invoice.getValueAt(row, i_discount);
-			BigDecimal applied = (BigDecimal)invoice.getValueAt(row, i_applied);
-			BigDecimal writeOff = (BigDecimal) invoice.getValueAt(row, i_writeOff);
-			BigDecimal overUnder = (BigDecimal) invoice.getValueAt(row, i_overUnder);
+			boolean selected = invoice.isRowChecked(row);
+			BigDecimal open = (BigDecimal)invoice.getValueAt(row, invoice.convertColumnIndexToView(i_open));
+			BigDecimal discount = (BigDecimal)invoice.getValueAt(row, invoice.convertColumnIndexToView(i_discount));
+			BigDecimal applied = (BigDecimal)invoice.getValueAt(row, invoice.convertColumnIndexToView(i_applied));
+			BigDecimal writeOff = (BigDecimal) invoice.getValueAt(row, invoice.convertColumnIndexToView(i_writeOff));
+			BigDecimal overUnder = (BigDecimal) invoice.getValueAt(row, invoice.convertColumnIndexToView(i_overUnder));
 			int openSign = open.signum();
 			
 			if (col == 0)  //selection
@@ -496,7 +505,7 @@ public class Allocation
 										
 				if ( diffWOD.signum() == open.signum() )  // writeOff and discount are too large
 				{
-					if ( col == i_discount )       // then edit writeoff
+					if ( col == invoice.convertColumnIndexToView(i_discount) )       // then edit writeoff
 					{
 						writeOff = writeOff.subtract(diffWOD);
 					} 
@@ -509,7 +518,7 @@ public class Allocation
 				}
 				
 				// rule 1
-				if ( col == i_applied )
+				if ( col == invoice.convertColumnIndexToView(i_applied) )
 					overUnder = overUnder.subtract(difference);
 				else
 					applied = applied.subtract(difference);
@@ -520,10 +529,10 @@ public class Allocation
 			if (isAutoWriteOff && writeOff.doubleValue()/open.doubleValue() > .30)
 				msg = "AllocationWriteOffWarn";
 
-			invoice.setValueAt(discount, row, i_discount);
-			invoice.setValueAt(applied, row, i_applied);
-			invoice.setValueAt(writeOff, row, i_writeOff);
-			invoice.setValueAt(overUnder, row, i_overUnder);
+			invoice.setValueAt(discount, row, invoice.convertColumnIndexToView(i_discount));
+			invoice.setValueAt(applied, row, invoice.convertColumnIndexToView(i_applied));
+			invoice.setValueAt(writeOff, row, invoice.convertColumnIndexToView(i_writeOff));
+			invoice.setValueAt(overUnder, row, invoice.convertColumnIndexToView(i_overUnder));
 			
 			invoice.repaint(); //  update r/o
 		}
@@ -546,12 +555,12 @@ public class Allocation
 		m_noPayments = 0;
 		for (int i = 0; i < rows; i++)
 		{
-			if (((Boolean)payment.getValueAt(i, 0)).booleanValue())
+			if (payment.isRowChecked(i))
 			{
-				Timestamp ts = (Timestamp)payment.getValueAt(i, 1);
+				Timestamp ts = (Timestamp)payment.getValueAt(i, payment.convertColumnIndexToView(1));
 				if ( !isMultiCurrency )  // the converted amounts are only valid for the selected date
 					allocDate = TimeUtil.max(allocDate, ts);
-				BigDecimal bd = (BigDecimal)payment.getValueAt(i, i_payment);
+				BigDecimal bd = (BigDecimal)payment.getValueAt(i, payment.convertColumnIndexToView(i_payment));
 				totalPay = totalPay.add(bd);  //  Applied Pay
 				m_noPayments++;
 				log.fine("Payment_" + i + " = " + bd + " - Total=" + totalPay);
@@ -570,12 +579,12 @@ public class Allocation
 
 		for (int i = 0; i < rows; i++)
 		{
-			if (((Boolean)invoice.getValueAt(i, 0)).booleanValue())
+			if (invoice.isRowChecked(i))
 			{
-				Timestamp ts = (Timestamp)invoice.getValueAt(i, 1);
+				Timestamp ts = (Timestamp)invoice.getValueAt(i, invoice.convertColumnIndexToView(1));
 				if ( !isMultiCurrency )  // converted amounts only valid for selected date
 					allocDate = TimeUtil.max(allocDate, ts);
-				BigDecimal bd = (BigDecimal)invoice.getValueAt(i, i_applied);
+				BigDecimal bd = (BigDecimal)invoice.getValueAt(i, invoice.convertColumnIndexToView(i_applied));
 				totalInv = totalInv.add(bd);  //  Applied Inv
 				m_noInvoices++;
 				log.fine("Invoice_" + i + " = " + bd + " - Total=" + totalPay);
@@ -616,22 +625,19 @@ public class Allocation
 		ArrayList<Integer> paymentList = new ArrayList<Integer>(pRows);
 		ArrayList<BigDecimal> amountList = new ArrayList<BigDecimal>(pRows);
 		BigDecimal paymentAppliedAmt = Env.ZERO;
+		
+		paymentList = payment.getSelectedKeys();
+		// Sum up the payment and applied amounts.
 		for (int i = 0; i < pRows; i++)
 		{
-			//  Payment line is selected
-			if (((Boolean)payment.getValueAt(i, 0)).booleanValue())
+			if (payment.isRowChecked(i))
 			{
-				KeyNamePair pp = (KeyNamePair)payment.getValueAt(i, 2);   //  Value
-				//  Payment variables
-				int C_Payment_ID = pp.getKey();
-				paymentList.add(new Integer(C_Payment_ID));
-				//
 				BigDecimal PaymentAmt = (BigDecimal)payment.getValueAt(i, i_payment);  //  Applied Payment
 				amountList.add(PaymentAmt);
 				//
 				paymentAppliedAmt = paymentAppliedAmt.add(PaymentAmt);
 				//
-				log.fine("C_Payment_ID=" + C_Payment_ID 
+				log.fine("C_Payment_ID=" + payment.getRowKey(i) 
 					+ " - PaymentAmt=" + PaymentAmt); // + " * " + Multiplier + " = " + PaymentAmtAbs);
 			}
 		}
@@ -651,12 +657,11 @@ public class Allocation
 		for (int i = 0; i < iRows; i++)
 		{
 			//  Invoice line is selected
-			if (((Boolean)invoice.getValueAt(i, 0)).booleanValue())
+			if (invoice.isRowChecked(i))
 			{
 				invoiceLines++;
-				KeyNamePair pp = (KeyNamePair)invoice.getValueAt(i, 2);    //  Value
 				//  Invoice variables
-				int C_Invoice_ID = pp.getKey();
+				int C_Invoice_ID = ((IDColumn) invoice.getValueAt(i, invoice.getKeyColumnIndex())).getRecord_ID();
 				BigDecimal AppliedAmt = (BigDecimal)invoice.getValueAt(i, i_applied);
 				//  semi-fixed fields (reset after first invoice)
 				BigDecimal DiscountAmt = (BigDecimal)invoice.getValueAt(i, i_discount);
@@ -765,11 +770,10 @@ public class Allocation
 		for (int i = 0; i < iRows; i++)
 		{
 			//  Invoice line is selected
-			if (((Boolean)invoice.getValueAt(i, 0)).booleanValue())
+			if (invoice.isRowChecked(i))
 			{
-				KeyNamePair pp = (KeyNamePair)invoice.getValueAt(i, 2);    //  Value
 				//  Invoice variables
-				int C_Invoice_ID = pp.getKey();
+				int C_Invoice_ID = ((IDColumn) invoice.getValueAt(i, invoice.getKeyColumnIndex())).getRecord_ID();
 				String sql = "SELECT invoiceOpen(C_Invoice_ID, 0) "
 					+ "FROM C_Invoice WHERE C_Invoice_ID=?";
 				BigDecimal open = DB.getSQLValueBD(trxName, sql, C_Invoice_ID);

@@ -927,11 +927,11 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
         		if (e.Record_ID != null
         				&& e.Record_ID instanceof Integer
         				&& ((Integer)e.Record_ID != gridTab.getRecord_ID()))
-        			deleteNode((Integer)e.Record_ID);
+        			rowChanged(false,(Integer)e.Record_ID);
         		else
-        			setSelectedNode(gridTab.getRecord_ID());
+        			rowChanged(true, gridTab.getRecord_ID());
         	else
-        		setSelectedNode(gridTab.getRecord_ID());
+        		rowChanged(true, gridTab.getRecord_ID());
         }
 
         if (listPanel.isVisible()) {
@@ -946,67 +946,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 
     }
 
-    private void deleteNode(int recordId) {
-		if (recordId <= 0) return;
-
-		SimpleTreeModel model = (SimpleTreeModel) treePanel.getTree().getModel();
-
-		if (treePanel.getTree().getSelectedItem() != null) {
-			SimpleTreeNode treeNode = (SimpleTreeNode) treePanel.getTree().getSelectedItem().getValue();
-			MTreeNode data = (MTreeNode) treeNode.getData();
-			if (data.getNode_ID() == recordId) {
-				model.removeNode(treeNode);
-				return;
-			}
-		}
-
-		SimpleTreeNode treeNode = model.find(null, recordId);
-		if (treeNode != null) {
-			model.removeNode(treeNode);
-		}
-	}
-
-	private void addNewNode() {
-    	if (gridTab.getRecord_ID() > 0) {
-	    	String name = (String)gridTab.getValue("Name");
-			String description = (String)gridTab.getValue("Description");
-			boolean summary = gridTab.getValueAsBoolean("IsSummary");
-			String imageIndicator = (String)gridTab.getValue("Action");  //  Menu - Action
-			//
-			SimpleTreeModel model = (SimpleTreeModel) treePanel.getTree().getModel();
-			SimpleTreeNode treeNode = model.getRoot();
-			MTreeNode root = (MTreeNode) treeNode.getData();
-			MTreeNode node = new MTreeNode (gridTab.getRecord_ID(), 0, name, description,
-					root.getNode_ID(), summary, imageIndicator, false, null);
-			SimpleTreeNode newNode = new SimpleTreeNode(node, new ArrayList<Object>());
-			model.addNode(newNode);
-			int[] path = model.getPath(model.getRoot(), newNode);
-			Treeitem ti = treePanel.getTree().renderItemByPath(path);
-			treePanel.getTree().setSelectedItem(ti);
-    	}
-	}
-
-	private void setSelectedNode(int recordId) {
-		if (recordId <= 0) return;
-
-		if (treePanel.getTree().getSelectedItem() != null) {
-			SimpleTreeNode treeNode = (SimpleTreeNode) treePanel.getTree().getSelectedItem().getValue();
-			MTreeNode data = (MTreeNode) treeNode.getData();
-			if (data.getNode_ID() == recordId) return;
-		}
-
-		SimpleTreeModel model = (SimpleTreeModel) treePanel.getTree().getModel();
-		SimpleTreeNode treeNode = model.find(null, recordId);
-		if (treeNode != null) {
-			int[] path = model.getPath(model.getRoot(), treeNode);
-			Treeitem ti = treePanel.getTree().renderItemByPath(path);
-			treePanel.getTree().setSelectedItem(ti);
-		} else {
-			addNewNode();
-		}
-	}
-
-	/**
+    /**
 	 * Toggle between form and grid view
 	 */
 	public void switchRowPresentation() {
@@ -1101,8 +1041,33 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
         	for (EmbeddedPanel panel : includedPanel)
         		panel.tabPanel.query(false, 0, 0);
         }
+		
+		//  Sync tree
+		if (treePanel == null || gridTab.getRecord_ID() <= 0)
+			return;
+		
+		rowChanged(true, gridTab.getRecord_ID());
+		
 	}
 
+	/**
+	 *  Row Changed - synchronize with Tree
+	 *
+	 *  @param  save    true the row was saved (changed/added), false if the row was deleted
+	 *  @param  keyID   the ID of the row changed
+	 */
+	public void rowChanged (boolean save, int keyID)
+	{
+		String name = (String)gridTab.getValue("Name");
+		String description = (String)gridTab.getValue("Description");
+		Boolean IsSummary = (Boolean)gridTab.getValue("IsSummary");
+		boolean summary = IsSummary != null && IsSummary.booleanValue();
+		String imageIndicator = (String)gridTab.getValue("Action");  //  Menu - Action
+		//
+		treePanel.nodeChanged(save, keyID, name, description,
+			summary, imageIndicator);
+	}   //  rowChanged
+	
 	private void createEmbeddedPanelUI(EmbeddedPanel ep) {
 		org.zkoss.zul.Row row = new Row();
 		row.setSpans("5");
