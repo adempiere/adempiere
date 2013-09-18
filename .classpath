@@ -19,6 +19,9 @@
 	<classpathentry kind="src" path="webCM/src/main/servlet"/>
 	<classpathentry kind="src" path="migration/src"/>
 	<classpathentry kind="src" path="posterita/posterita/src/main"/>
+	<classpathentry excluding="org/compiere/print/ReportCtl.java|org/compiere/print/ReportEngine.java" kind="src" path="org.eevolution.hr_and_payroll/src/main/java/base"/>
+	<classpathentry kind="src" path="org.eevolution.hr_and_payroll/src/main/java/ui/swing"/>
+	<classpathentry kind="src" path="org.eevolution.hr_and_payroll/src/main/java/ui/zk"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jstl.jar">
 		<attributes>

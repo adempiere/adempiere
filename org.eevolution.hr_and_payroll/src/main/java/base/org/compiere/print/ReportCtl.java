@@ -18,16 +18,19 @@ package org.compiere.print;
 
 import java.lang.reflect.Method;
 import java.util.Properties;
+import java.util.Vector;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.apps.ADialog;
+import org.compiere.apps.ProcessCtl;
 import org.compiere.model.MPaySelectionCheck;
 import org.compiere.model.MProcess;
 import org.compiere.model.MQuery;
 import org.compiere.model.MTable;
 import org.compiere.model.PrintInfo;
 import org.compiere.process.ProcessInfo;
+import org.compiere.process.ProcessInfoParameter;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
@@ -47,25 +50,18 @@ import org.eevolution.model.MHRPaySelectionCheck;
 public class ReportCtl
 {
 	/**
-	 * @deprecated Please use {@link ServerReportCtl#PARAM_PRINTER_NAME}
-	 */
-	public static final String PARAM_PRINTER_NAME = ServerReportCtl.PARAM_PRINTER_NAME;
-	/**
-	 * @deprecated Please use {@link ServerReportCtl#PARAM_PRINT_FORMAT}
-	 */
-	public static final String PARAM_PRINT_FORMAT = ServerReportCtl.PARAM_PRINT_FORMAT;
-	/**
-	 * @deprecated Please use {@link ServerReportCtl#PARAM_PRINT_INFO}
-	 */
-	public static final String PARAM_PRINT_INFO = ServerReportCtl.PARAM_PRINT_INFO;
-	
-	/**
 	 *	Constructor - prevent instance
 	 */
 	private ReportCtl()
 	{
 	}	//	ReportCtrl
 
+	/**
+	 * Constants used to pass process parameters to Jasper Process
+	 */
+	public static final String PARAM_PRINTER_NAME = "PRINTER_NAME";
+	public static final String PARAM_PRINT_FORMAT = "PRINT_FORMAT";
+	public static final String PARAM_PRINT_INFO = "PRINT_INFO";
 	
 	/**	Static Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (ReportCtl.class);
@@ -336,7 +332,47 @@ public class ReportCtl
 			// ==============================
 			if(format.getJasperProcess_ID() > 0)	
 			{
-				ServerReportCtl.runJasperProcess(Record_ID, re, IsDirectPrint, printerName);
+				ProcessInfo pi = new ProcessInfo ("", format.getJasperProcess_ID());
+				pi.setPrintPreview( !IsDirectPrint );
+				pi.setRecord_ID ( Record_ID );
+				Vector<ProcessInfoParameter> jasperPrintParams = new Vector<ProcessInfoParameter>();
+				ProcessInfoParameter pip;
+				if (printerName!=null && printerName.trim().length()>0) {
+					// Override printer name
+					pip = new ProcessInfoParameter(PARAM_PRINTER_NAME, printerName, null, null, null);
+					jasperPrintParams.add(pip);
+				}
+				pip = new ProcessInfoParameter(PARAM_PRINT_FORMAT, format, null, null, null);
+				jasperPrintParams.add(pip);
+				pip = new ProcessInfoParameter(PARAM_PRINT_INFO, re.getPrintInfo(), null, null, null);
+				jasperPrintParams.add(pip);
+				
+				pi.setParameter(jasperPrintParams.toArray(new ProcessInfoParameter[]{}));
+				
+				//	Execute Process
+				if (Ini.isClient())
+				{
+					ProcessCtl.process(null,		// Parent set to null for synchronous processing, see bugtracker 3010932  
+									   WindowNo,
+									   pi,
+									   null); 
+				}
+				else
+				{
+					try 
+					{
+						ClassLoader loader = Thread.currentThread().getContextClassLoader();
+						if (loader == null)
+							loader = ReportCtl.class.getClassLoader();
+						Class<?> clazz = loader.loadClass("org.adempiere.webui.apps.WProcessCtl");
+						Method method = clazz.getDeclaredMethod("process", ASyncProcess.class, Integer.TYPE, ProcessInfo.class, Trx.class);
+						method.invoke(null, parent, WindowNo, pi, null);
+					}
+					catch (Exception e)
+					{
+						throw new AdempiereException(e);
+					}
+				}
 			}
 			else
 			// Standard Print Format (Non-Jasper)
