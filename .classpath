@@ -19,9 +19,12 @@
 	<classpathentry kind="src" path="webCM/src/main/servlet"/>
 	<classpathentry kind="src" path="migration/src"/>
 	<classpathentry kind="src" path="posterita/posterita/src/main"/>
-	<classpathentry excluding="org/compiere/print/ReportCtl.java|org/compiere/print/ReportEngine.java" kind="src" path="org.eevolution.hr_and_payroll/src/main/java/base"/>
 	<classpathentry kind="src" path="org.eevolution.hr_and_payroll/src/main/java/ui/swing"/>
 	<classpathentry kind="src" path="org.eevolution.hr_and_payroll/src/main/java/ui/zk"/>
+	<classpathentry kind="src" path="org.eevolution.manufacturing/src/main/java/base"/>
+	<classpathentry kind="src" path="org.eevolution.manufacturing/src/main/java/test"/>
+	<classpathentry kind="src" path="org.eevolution.manufacturing/src/main/java/ui/swing"/>
+	<classpathentry kind="src" path="org.eevolution.manufacturing/src/main/java/ui/zk"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jstl.jar">
 		<attributes>
@@ -310,7 +313,7 @@
 	<classpathentry kind="lib" path="tools/lib/groovy-all-2.0.1.jar"/>
 	<classpathentry kind="lib" path="JasperReportsTools/lib/jasperreports-5.1.0.jar"/>
 	<classpathentry kind="lib" path="tools/lib/jcommon-1.0.18.jar"/>
-	<classpathentry kind="lib" path="JasperReportsTools/lib/jfreechart-1.0.13.jar"/>
+	<classpathentry kind="lib" path="tools/lib/jfreechart-1.0.15.jar"/>
 	<classpathentry kind="lib" path="tools/lib/poi-3.9-20121203.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
