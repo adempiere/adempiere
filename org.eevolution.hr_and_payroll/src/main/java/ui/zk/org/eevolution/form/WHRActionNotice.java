@@ -67,8 +67,7 @@ import org.zkoss.zul.Space;
 /**
  * HRActionNotice Form
  * 
- * @author Oscar G�mez
- * @version $Id: VHRActionNotice.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ * @author oscar.gomez@e-evolution.com
  */
 public class WHRActionNotice extends HRActionNotice implements IFormController,
 		EventListener, WTableModelListener, ValueChangeListener {

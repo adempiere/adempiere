@@ -59,8 +59,6 @@
       <src path="${looksSrc}"/>
       <src path="../glassfishfacet/src"/>
       <src path="../jbossfacet/src"/>
-      <src path="../org.eevolution.manufacturing/src/main/java/base"/>
-      <src path="../org.eevolution.hr_and_payroll/src/main/java/base/"/>
       <classpath refid="project.class.path"/>
     </javac>
     <!-- copy all image & sound files from src to the build directory -->

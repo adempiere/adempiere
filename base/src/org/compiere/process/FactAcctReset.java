@@ -39,6 +39,7 @@ import org.compiere.model.MPayment;
 import org.compiere.model.MPeriodControl;
 import org.compiere.model.MProjectIssue;
 import org.compiere.model.MRequisition;
+import org.compiere.model.MTable;
 import org.compiere.model.X_M_Production;
 import org.compiere.util.DB;
 import org.compiere.util.TimeUtil;
@@ -241,7 +242,7 @@ public class FactAcctReset extends SvrProcess
 				+ "','" + MPeriodControl.DOCBASETYPE_QualityOrder + "')";
 		else if (AD_Table_ID == X_DD_Order.Table_ID)
 			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_DistributionOrder+ "'";
-		else if (AD_Table_ID == X_HR_Process.Table_ID)
+		else if (AD_Table_ID ==  MTable.getTable_ID("HR_Process")) //X_HR_Process.Table_ID
 			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_Payroll+ "'";
 		//
 		if (docBaseType == null)

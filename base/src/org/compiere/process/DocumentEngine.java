@@ -1133,7 +1133,7 @@ public class DocumentEngine implements DocAction
 		/********************
 		 *  Payroll Process
 		 */
-		else if (AD_Table_ID == I_HR_Process.Table_ID)
+		else if (AD_Table_ID == MTable.getTable_ID("HR_Process")) // I_HR_Process.Table_ID
 		{
 			if (docStatus.equals(DocumentEngine.STATUS_Drafted)
 					|| docStatus.equals(DocumentEngine.STATUS_InProgress)

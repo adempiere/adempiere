@@ -19,6 +19,7 @@
 	<classpathentry kind="src" path="webCM/src/main/servlet"/>
 	<classpathentry kind="src" path="migration/src"/>
 	<classpathentry kind="src" path="posterita/posterita/src/main"/>
+	<classpathentry kind="src" path="org.eevolution.hr_and_payroll/src/main/java/base"/>
 	<classpathentry kind="src" path="org.eevolution.hr_and_payroll/src/main/java/ui/swing"/>
 	<classpathentry kind="src" path="org.eevolution.hr_and_payroll/src/main/java/ui/zk"/>
 	<classpathentry kind="src" path="org.eevolution.manufacturing/src/main/java/base"/>
