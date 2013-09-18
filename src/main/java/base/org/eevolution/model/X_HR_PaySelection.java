@@ -34,7 +34,7 @@ public class X_HR_PaySelection extends PO implements I_HR_PaySelection, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110224L;
+	private static final long serialVersionUID = 20110412L;
 
     /** Standard Constructor */
     public X_HR_PaySelection (Properties ctx, int HR_PaySelection_ID, String trxName)

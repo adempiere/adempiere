@@ -32,7 +32,7 @@ public class X_HR_PaySelectionLine extends PO implements I_HR_PaySelectionLine, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110224L;
+	private static final long serialVersionUID = 20110412L;
 
     /** Standard Constructor */
     public X_HR_PaySelectionLine (Properties ctx, int HR_PaySelectionLine_ID, String trxName)
