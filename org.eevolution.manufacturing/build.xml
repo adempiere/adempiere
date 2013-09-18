@@ -78,7 +78,7 @@
     <mkdir dir="${dist}/lib"/>
 
     <!-- Put everything in ${zkclasses} into the MyProject-${DSTAMP}.jar file -->
-    <jar jarfile="${dist}/lib/liberozkMFG.jar" basedir="${basedir}" includes="WEB-INF/"/>
+    <jar jarfile="${dist}/lib/liberozkMFG.jar" basedir="${basedir}/build/zkwebui" includes="WEB-INF/"/>
 
     <!-- Create target Liberozk deployment -->
     <mkdir dir="${env.ADEMPIERE_HOME}/zkpackages/liberozkMFG/lib"/>

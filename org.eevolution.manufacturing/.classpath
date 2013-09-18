@@ -7,5 +7,7 @@
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="/adempiereDevelop/tools/lib/OpenForecast-0.5.0.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/adempiereDevelop"/>
+	<classpathentry kind="lib" path="/adempiereDevelop/tools/lib/jfreechart-1.0.15.jar"/>
+	<classpathentry kind="lib" path="/adempiereDevelop/tools/lib/jcommon-1.0.18.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
