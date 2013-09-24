@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="U" Name="Switch ZK ID generator to use field names" ReleaseNo="" SeqNo="822">
+    <Comments>Changes the system config setting to use IDs compatible with the SAHI tests.</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="50009" Action="U" Record_ID="50058" Table="AD_SysConfig">
+        <Data AD_Column_ID="50196" Column="Value" oldValue="org.adempiere.webui.SahiIdGenerator">org.adempiere.webui.SahiIdGenerator_v1</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
