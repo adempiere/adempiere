@@ -46,6 +46,7 @@ import org.compiere.model.MAttributeInstance;
 import org.compiere.model.MAttributeSet;
 import org.compiere.model.MAttributeSetInstance;
 import org.compiere.model.MAttributeValue;
+import org.compiere.model.MColumn;
 import org.compiere.model.MDocType;
 import org.compiere.model.MLot;
 import org.compiere.model.MLotCtl;
@@ -60,6 +61,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
 import org.zkoss.zk.ui.HtmlBasedComponent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -121,7 +123,7 @@ public class WPAttributeDialog extends Window implements EventListener
 		m_WindowNoParent = WindowNo;
 
 		//get columnName from ad_column
-		m_columnName = DB.getSQLValueString(null, "SELECT ColumnName FROM AD_Column WHERE AD_Column_ID = ?", m_AD_Column_ID);
+		m_columnName = MColumn.getColumnName(Env.getCtx(), AD_Column_ID);
 		if (m_columnName == null || m_columnName.trim().length() == 0) 
 		{
 			//fallback
@@ -174,13 +176,13 @@ public class WPAttributeDialog extends Window implements EventListener
 //	private VString fieldLotString = new VString ("Lot", false, false, true, 20, 20, null, null);
 	private Textbox fieldLotString = new Textbox();
 	private Listbox fieldLot = new Listbox();
-	private Button bLot = new Button(Msg.getMsg (Env.getCtx(), "New"));
+	private Button bLot = new Button(Util.cleanAmp(Msg.getMsg (Env.getCtx(), "New")));
 	//	Lot Popup
 	Menupopup 					popupMenu = new Menupopup();
 	private Menuitem 			mZoom;
 	//	Ser No
 	private Textbox fieldSerNo = new Textbox();
-	private Button bSerNo = new Button(Msg.getMsg (Env.getCtx(), "New"));
+	private Button bSerNo = new Button(Util.cleanAmp(Msg.getMsg (Env.getCtx(), "New")));
 	//	Date
 	private Datebox fieldGuaranteeDate = new Datebox();
 	//
@@ -284,12 +286,12 @@ public class WPAttributeDialog extends Window implements EventListener
 				
 				//	New/Edit - Selection
 				if (m_M_AttributeSetInstance_ID == 0)		//	new
-					cbNewEdit.setLabel(Msg.getMsg(Env.getCtx(), "NewRecord"));
+					cbNewEdit.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "NewRecord")));
 				else
-					cbNewEdit.setLabel(Msg.getMsg(Env.getCtx(), "EditRecord"));
+					cbNewEdit.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "EditRecord")));
 				cbNewEdit.addEventListener(Events.ON_CHECK, this);
 				row.appendChild(cbNewEdit);
-				bSelect.setLabel(Msg.getMsg(Env.getCtx(), "SelectExisting"));
+				bSelect.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "SelectExisting")));
 				bSelect.setImage("images/PAttribute16.png");
 				bSelect.addEventListener(Events.ON_CLICK, this);
 				row.appendChild(bSelect);
@@ -315,7 +317,7 @@ public class WPAttributeDialog extends Window implements EventListener
 			Row row = new Row();
 			row.setParent(rows);
 			m_row++;
-			Label label = new Label (Msg.translate(Env.getCtx(), "Lot"));
+			Label label = new Label (Util.cleanAmp(Msg.translate(Env.getCtx(), "Lot")));
 			row.appendChild(label);
 			row.appendChild(fieldLotString);
 			fieldLotString.setText (m_masi.getLot());
@@ -335,7 +337,7 @@ public class WPAttributeDialog extends Window implements EventListener
 				fieldLot.appendItem(pair.getName(), pair.getKey());
 			}
 						
-			label = new Label (Msg.translate(Env.getCtx(), "M_Lot_ID"));
+			label = new Label (Util.cleanAmp(Msg.translate(Env.getCtx(), "M_Lot_ID")));
 			row = new Row();
 			row.setParent(rows);
 			m_row++;
@@ -383,7 +385,7 @@ public class WPAttributeDialog extends Window implements EventListener
 			Row row = new Row();
 			row.setParent(rows);
 			m_row++;
-			Label label = new Label (Msg.translate(Env.getCtx(), "SerNo"));
+			Label label = new Label (Util.cleanAmp(Msg.translate(Env.getCtx(), "SerNo")));
 			row.appendChild(label);
 			row.appendChild(fieldSerNo);
 			fieldSerNo.setText(m_masi.getSerNo());
@@ -409,7 +411,7 @@ public class WPAttributeDialog extends Window implements EventListener
 			Row row = new Row();
 			row.setParent(rows);
 			m_row++;
-			Label label = new Label (Msg.translate(Env.getCtx(), "GuaranteeDate"));
+			Label label = new Label (Util.cleanAmp(Msg.translate(Env.getCtx(), "GuaranteeDate")));
 			if (m_M_AttributeSetInstance_ID == 0)
 				fieldGuaranteeDate.setValue(m_masi.getGuaranteeDate(true));
 			else
@@ -432,7 +434,7 @@ public class WPAttributeDialog extends Window implements EventListener
 		}
 
 		//	Attrribute Set Instance Description
-		Label label = new Label (Msg.translate(Env.getCtx(), "Description"));
+		Label label = new Label (Util.cleanAmp(Msg.translate(Env.getCtx(), "Description")));
 //		label.setLabelFor(fieldDescription);
 		fieldDescription.setText(m_masi.getDescription());
 		fieldDescription.setReadonly(true);

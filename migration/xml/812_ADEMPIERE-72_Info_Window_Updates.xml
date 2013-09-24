@@ -64,7 +64,7 @@
         <Data AD_Column_ID="589" Column="Created">2013-09-14 09:02:01.841</Data>
         <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
         <Data AD_Column_ID="7716" Column="EntityType">D</Data>
-        <Data AD_Column_ID="6765" Column="AD_Message_ID">53236 </Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53236</Data>
         <Data AD_Column_ID="588" Column="IsActive">true</Data>
         <Data AD_Column_ID="198" Column="MsgText">Only Stock</Data>
         <Data AD_Column_ID="197" Column="MsgType">I</Data>
@@ -125,7 +125,7 @@
         <Data AD_Column_ID="591" Column="Updated">2013-09-14 09:15:00.041</Data>
         <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
         <Data AD_Column_ID="6766" Column="Value">ShowDetail</Data>
-        <Data AD_Column_ID="6765" Column="AD_Message_ID">53239 </Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53239</Data>
       </PO>
     </Step>
     <Step SeqNo="80" StepType="AD">
@@ -143,7 +143,7 @@
         <Data AD_Column_ID="591" Column="Updated">2013-09-14 09:17:41.327</Data>
         <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
         <Data AD_Column_ID="6766" Column="Value">ShowAttributeDetails</Data>
-        <Data AD_Column_ID="6765" Column="AD_Message_ID">53240 </Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53240</Data>
       </PO>
     </Step>
     <Step SeqNo="90" StepType="AD">
