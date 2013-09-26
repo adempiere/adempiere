@@ -30,6 +30,7 @@ import org.compiere.model.PrintInfo;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 
@@ -359,7 +360,12 @@ public class ReportCtl
 	 */
 	public static boolean startCheckPrint (int C_Payment_ID, boolean IsDirectPrint)
 	{
-		
+		int HR_PaySelectionCheck_ID = getHRPaySelectionCheckById(Env.getCtx(), C_Payment_ID, null);
+		if (HR_PaySelectionCheck_ID > 0)
+		{	
+			return startDocumentPrint (ReportEngine.HR_CHECK, HR_PaySelectionCheck_ID, null, -1, IsDirectPrint);			
+		}	
+		 		
 		// afalcone - [ 1871567 ] Wrong value in Payment document
 		boolean ok = MPaySelectionCheck.deleteGeneratedDraft(Env.getCtx(), C_Payment_ID, null);
 		//
@@ -378,6 +384,12 @@ public class ReportCtl
 		return startDocumentPrint (ReportEngine.CHECK, C_PaySelectionCheck_ID, null, -1, IsDirectPrint);
 	}	//	startCheckPrint
 	
+	private static int getHRPaySelectionCheckById(Properties ctx, int C_Payment_ID,
+			String trxName) {
+		final String sql = "SELECT MAX(HR_PaySelectionCheck_ID) FROM HR_PaySelectionCheck psc WHERE psc.C_Payment_ID = ? AND Processed=?";
+		return DB.getSQLValue(trxName,sql, C_Payment_ID , true);
+	}
+
 	private static void createOutput(ReportEngine re, boolean printPreview, String printerName)
 	{
 		if (printPreview)

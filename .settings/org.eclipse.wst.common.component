@@ -2,6 +2,9 @@
 	<wb-module deploy-name="Adempiere_trunk">
 		<wb-resource deploy-path="/" source-path="/zkwebui"/>
 		<wb-resource deploy-path="/WEB-INF/classes" source-path="/JasperReports/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/org.eevolution.hr_and_payroll/src/main/java/base"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/org.eevolution.hr_and_payroll/src/main/java/ui/swing"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/org.eevolution.hr_and_payroll/src/main/java/ui/zk"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/org.eevolution.manufacturing/src/main/java/base"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/org.eevolution.manufacturing/src/main/java/test"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/org.eevolution.manufacturing/src/main/java/ui/swing"/>

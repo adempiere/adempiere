@@ -33,6 +33,7 @@
 		<ant inheritAll="false" dir="zkwebui"/>
 		<ant inheritAll="false" dir="mobile"/>
 		<ant inheritAll="false" dir="org.eevolution.manufacturing"/>
+		<ant inheritAll="false" dir="org.eevolution.hr_and_payroll"/>
 	</target>
 	<target name="build" depends="jar">
 		<ant inheritAll="false" dir="install"/>		
