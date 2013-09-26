@@ -632,7 +632,7 @@ public final class MHRPaySelectionCheck extends X_HR_PaySelectionCheck
 	public static boolean deleteGeneratedDraft(Properties ctx, int C_Payment_ID, String trxName)
 	{
 		
-		MHRPaySelectionCheck mpsc = (MHRPaySelectionCheck) MHRPaySelectionCheck.getOfPayment (ctx, C_Payment_ID, trxName);
+		MHRPaySelectionCheck mpsc = MHRPaySelectionCheck.getOfPayment (ctx, C_Payment_ID, trxName);
 		
 		if (mpsc != null && mpsc.isGeneratedDraft())  
 		{

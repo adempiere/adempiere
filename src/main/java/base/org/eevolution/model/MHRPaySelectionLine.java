@@ -16,7 +16,6 @@
  *****************************************************************************/
 package org.eevolution.model;
 
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
 
@@ -24,10 +23,10 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 /**
- *	Payment Selection Line Model
- *	
- *  @author Jorg Janke
- *  @version $Id: MPaySelectionLine.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
+ *  Payroll Payment Print/Export model.
+ *
+ * 	@author 	victor.perez@e-evolution.com, www.e-evolution.com
+ * 	@author 	oscar.gomez@e-evolution.com, www.e-evolution.com
  */
 public class MHRPaySelectionLine extends X_HR_PaySelectionLine
 {
