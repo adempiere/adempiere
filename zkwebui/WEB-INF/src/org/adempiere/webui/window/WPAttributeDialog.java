@@ -249,6 +249,11 @@ public class WPAttributeDialog extends Window implements EventListener
 					log.fine("Different ASI than what is specified on Product!");
 				}
 			}
+			else 
+			{
+				// Only show product attributes when in the product window.
+				m_productASI = m_productWindow;				
+			}
 			m_masi = MAttributeSetInstance.get(Env.getCtx(), m_M_AttributeSetInstance_ID, m_M_Product_ID);
 			if (m_masi == null)
 			{
@@ -299,14 +304,14 @@ public class WPAttributeDialog extends Window implements EventListener
 			}
 			//	Add the Instance Attributes if any.  If its a product attribute set
 			//  this will do nothing.
-			MAttribute[] attributes = as.getMAttributes (true);
+			MAttribute[] attributes = as.getMAttributes (true); // True = Instances
 			log.fine ("Instance Attributes=" + attributes.length);
 			for (int i = 0; i < attributes.length; i++)
 				addAttributeLine (rows, attributes[i], false, false);
 		}
 		//  Product attributes can be shown in any window but are read/write in the Product window only.
 		//  This will do nothing if it is an instance attribute set. 
-		MAttribute[] attributes = as.getMAttributes (false);
+		MAttribute[] attributes = as.getMAttributes (false); // False = products
 		log.fine ("Product Attributes=" + attributes.length);
 		for (int i = 0; i < attributes.length; i++)
 			addAttributeLine (rows, attributes[i], true, !m_productWindow);
@@ -603,7 +608,7 @@ public class WPAttributeDialog extends Window implements EventListener
 		{
 			//  Don't try to delete product ASIs.  They can only be cleared 
 			//  in the product window.
-			if (!m_productASI) 
+			if (m_productWindow || !m_productASI) 
 			{
 				m_changed = m_M_AttributeSetInstance_ID != 0;
 				m_M_AttributeSetInstance_ID = 0;
@@ -791,40 +796,43 @@ public class WPAttributeDialog extends Window implements EventListener
 			m_M_AttributeSetInstanceName = m_masi.getDescription();
 		}
 
-		//	Save Instance Attributes
-		MAttribute[] attributes = as.getMAttributes(!m_productWindow);
-		for (int i = 0; i < attributes.length; i++)
-		{
-			if (MAttribute.ATTRIBUTEVALUETYPE_List.equals(attributes[i].getAttributeValueType()))
+		//  Save attributes
+		if (m_M_AttributeSetInstance_ID > 0) {
+			//	Save Instance Attributes
+			MAttribute[] attributes = as.getMAttributes(!m_productASI);
+			for (int i = 0; i < attributes.length; i++)
 			{
-				Listbox editor = (Listbox)m_editors.get(i);
-				ListItem item = editor.getSelectedItem();
-				MAttributeValue value = item != null ? (MAttributeValue)item.getValue() : null;
-				log.fine(attributes[i].getName() + "=" + value);
-				if (attributes[i].isMandatory() && value == null)
-					mandatory += " - " + attributes[i].getName();
-				attributes[i].setMAttributeInstance(m_M_AttributeSetInstance_ID, value);
-			}
-			else if (MAttribute.ATTRIBUTEVALUETYPE_Number.equals(attributes[i].getAttributeValueType()))
-			{
-				NumberBox editor = (NumberBox)m_editors.get(i);
-				BigDecimal value = editor.getValue();
-				log.fine(attributes[i].getName() + "=" + value);
-				if (attributes[i].isMandatory() && value == null)
-					mandatory += " - " + attributes[i].getName();
-				//setMAttributeInstance doesn't work without decimal point
-				if (value != null && value.scale() == 0)
-					value = value.setScale(1, BigDecimal.ROUND_HALF_UP);
-				attributes[i].setMAttributeInstance(m_M_AttributeSetInstance_ID, value);
-			}
-			else
-			{
-				Textbox editor = (Textbox)m_editors.get(i);
-				String value = editor.getText();
-				log.fine(attributes[i].getName() + "=" + value);
-				if (attributes[i].isMandatory() && (value == null || value.length() == 0))
-					mandatory += " - " + attributes[i].getName();
-				attributes[i].setMAttributeInstance(m_M_AttributeSetInstance_ID, value);
+				if (MAttribute.ATTRIBUTEVALUETYPE_List.equals(attributes[i].getAttributeValueType()))
+				{
+					Listbox editor = (Listbox)m_editors.get(i);
+					ListItem item = editor.getSelectedItem();
+					MAttributeValue value = item != null ? (MAttributeValue)item.getValue() : null;
+					log.fine(attributes[i].getName() + "=" + value);
+					if (attributes[i].isMandatory() && value == null)
+						mandatory += " - " + attributes[i].getName();
+					attributes[i].setMAttributeInstance(m_M_AttributeSetInstance_ID, value);
+				}
+				else if (MAttribute.ATTRIBUTEVALUETYPE_Number.equals(attributes[i].getAttributeValueType()))
+				{
+					NumberBox editor = (NumberBox)m_editors.get(i);
+					BigDecimal value = editor.getValue();
+					log.fine(attributes[i].getName() + "=" + value);
+					if (attributes[i].isMandatory() && value == null)
+						mandatory += " - " + attributes[i].getName();
+					//setMAttributeInstance doesn't work without decimal point
+					if (value != null && value.scale() == 0)
+						value = value.setScale(1, BigDecimal.ROUND_HALF_UP);
+					attributes[i].setMAttributeInstance(m_M_AttributeSetInstance_ID, value);
+				}
+				else
+				{
+					Textbox editor = (Textbox)m_editors.get(i);
+					String value = editor.getText();
+					log.fine(attributes[i].getName() + "=" + value);
+					if (attributes[i].isMandatory() && (value == null || value.length() == 0))
+						mandatory += " - " + attributes[i].getName();
+					attributes[i].setMAttributeInstance(m_M_AttributeSetInstance_ID, value);
+				}
 			}
 			m_changed = true;
 		}	//	for all attributes

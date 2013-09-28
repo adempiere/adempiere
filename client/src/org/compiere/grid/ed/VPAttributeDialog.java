@@ -264,6 +264,11 @@ public class VPAttributeDialog extends CDialog
 					log.fine("Different ASI than what is specified on Product!");
 				}
 			}
+			else 
+			{
+				// Only show product attributes when in the product window.
+				m_productASI = m_productWindow;				
+			}
 			m_masi = MAttributeSetInstance.get(Env.getCtx(), m_M_AttributeSetInstance_ID, m_M_Product_ID);
 			if (m_masi == null)
 			{
@@ -317,7 +322,7 @@ public class VPAttributeDialog extends CDialog
 		}
 		//  Product attributes can be shown in any window but are read/write in the Product window only.
 		//  This will do nothing if it is an instance attribute set. 
-		MAttribute[] attributes = as.getMAttributes (false);
+		MAttribute[] attributes = as.getMAttributes (false);  // False = product attribute instances
 		log.fine ("Product Attributes=" + attributes.length);
 		for (int i = 0; i < attributes.length; i++)
 			addAttributeLine (attributes[i], true, !m_productWindow);
@@ -590,7 +595,7 @@ public class VPAttributeDialog extends CDialog
 		//	Cancel
 		else if (e.getActionCommand().equals(ConfirmPanel.A_CANCEL))
 		{
-			if (!m_productASI)
+			if (m_productWindow || !m_productASI)
 			{
 				m_changed = m_M_AttributeSetInstance_ID != 0;
 				m_M_AttributeSetInstance_ID = 0;
@@ -752,7 +757,7 @@ public class VPAttributeDialog extends CDialog
 		//
 		m_changed = false;
 		String mandatory = "";
-		if (!m_productWindow && as.isLot())
+		if ((!m_productWindow || !m_productASI) && as.isLot())
 		{
 			log.fine("Lot=" + fieldLotString.getText ());
 			String text = fieldLotString.getText();
@@ -761,7 +766,7 @@ public class VPAttributeDialog extends CDialog
 				mandatory += " - " + Msg.translate(Env.getCtx(), "Lot");
 			m_changed = true;
 		}	//	Lot
-		if (!m_productWindow && as.isSerNo())
+		if ((!m_productWindow || !m_productASI) && as.isSerNo())
 		{
 			log.fine("SerNo=" + fieldSerNo.getText());
 			String text = fieldSerNo.getText();
@@ -770,7 +775,7 @@ public class VPAttributeDialog extends CDialog
 				mandatory += " - " + Msg.translate(Env.getCtx(), "SerNo");
 			m_changed = true;
 		}	//	SerNo
-		if (!m_productWindow && as.isGuaranteeDate())
+		if ((!m_productWindow || !m_productASI) && as.isGuaranteeDate())
 		{
 			log.fine("GuaranteeDate=" + fieldGuaranteeDate.getValue());
 			Timestamp ts = (Timestamp)fieldGuaranteeDate.getValue();
@@ -789,41 +794,44 @@ public class VPAttributeDialog extends CDialog
 			m_M_AttributeSetInstanceName = m_masi.getDescription();
 		}
 
-		//	Save Instance Attributes
-		MAttribute[] attributes = as.getMAttributes(m_M_AttributeSetInstance_ID > 0 && m_readWrite);
-		for (int i = 0; i < attributes.length; i++)
-		{
-			if (MAttribute.ATTRIBUTEVALUETYPE_List.equals(attributes[i].getAttributeValueType()))
+		//  Save attributes
+		if (m_M_AttributeSetInstance_ID > 0 && m_readWrite) {
+			//	Save Instance Attributes
+			MAttribute[] attributes = as.getMAttributes(!m_productASI);
+			for (int i = 0; i < attributes.length; i++)
 			{
-				CComboBox editor = (CComboBox)m_editors.get(i);
-				MAttributeValue value = (MAttributeValue)editor.getSelectedItem();
-				log.fine(attributes[i].getName() + "=" + value);
-				if (attributes[i].isMandatory() && value == null)
-					mandatory += " - " + attributes[i].getName();
-				attributes[i].setMAttributeInstance(m_M_AttributeSetInstance_ID, value);
+				if (MAttribute.ATTRIBUTEVALUETYPE_List.equals(attributes[i].getAttributeValueType()))
+				{
+					CComboBox editor = (CComboBox)m_editors.get(i);
+					MAttributeValue value = (MAttributeValue)editor.getSelectedItem();
+					log.fine(attributes[i].getName() + "=" + value);
+					if (attributes[i].isMandatory() && value == null)
+						mandatory += " - " + attributes[i].getName();
+					attributes[i].setMAttributeInstance(m_M_AttributeSetInstance_ID, value);
+				}
+				else if (MAttribute.ATTRIBUTEVALUETYPE_Number.equals(attributes[i].getAttributeValueType()))
+				{
+					VNumber editor = (VNumber)m_editors.get(i);
+					BigDecimal value = (BigDecimal)editor.getValue();
+					log.fine(attributes[i].getName() + "=" + value);
+					if (attributes[i].isMandatory() && value == null)
+						mandatory += " - " + attributes[i].getName();
+					//setMAttributeInstance doesn't work without decimal point
+					if (value != null && value.scale() == 0)
+						value = value.setScale(1, BigDecimal.ROUND_HALF_UP);
+					attributes[i].setMAttributeInstance(m_M_AttributeSetInstance_ID, value);
+				}
+				else
+				{
+					VString editor = (VString)m_editors.get(i);
+					String value = editor.getText();
+					log.fine(attributes[i].getName() + "=" + value);
+					if (attributes[i].isMandatory() && (value == null || value.length() == 0))
+						mandatory += " - " + attributes[i].getName();
+					attributes[i].setMAttributeInstance(m_M_AttributeSetInstance_ID, value);
+				}
 			}
-			else if (MAttribute.ATTRIBUTEVALUETYPE_Number.equals(attributes[i].getAttributeValueType()))
-			{
-				VNumber editor = (VNumber)m_editors.get(i);
-				BigDecimal value = (BigDecimal)editor.getValue();
-				log.fine(attributes[i].getName() + "=" + value);
-				if (attributes[i].isMandatory() && value == null)
-					mandatory += " - " + attributes[i].getName();
-				//setMAttributeInstance doesn't work without decimal point
-				if (value != null && value.scale() == 0)
-					value = value.setScale(1, BigDecimal.ROUND_HALF_UP);
-				attributes[i].setMAttributeInstance(m_M_AttributeSetInstance_ID, value);
-			}
-			else
-			{
-				VString editor = (VString)m_editors.get(i);
-				String value = editor.getText();
-				log.fine(attributes[i].getName() + "=" + value);
-				if (attributes[i].isMandatory() && (value == null || value.length() == 0))
-					mandatory += " - " + attributes[i].getName();
-				attributes[i].setMAttributeInstance(m_M_AttributeSetInstance_ID, value);
-			}
-			m_changed = true;
+			m_changed = true;			
 		}	//	for all attributes
 		
 		//	Save Model
