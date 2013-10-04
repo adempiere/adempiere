@@ -189,6 +189,8 @@ public class GridFieldVO implements Serializable
 				//	vo.HideInListView = "Y".equals(rs.getString(i));
 				else if (columnName.equalsIgnoreCase("PreferredWidth"))
 					vo.PreferredWidth = rs.getInt(i);
+				else if (columnName.equalsIgnoreCase("IsRange"))
+					vo.IsRange = "Y".equals(rs.getString (i));
 			}
 			if (vo.Header == null)
 				vo.Header = vo.ColumnName;
@@ -366,6 +368,11 @@ public class GridFieldVO implements Serializable
 	
 	/** Context                     */
 	public Properties   ctx = null;
+	
+	
+	/** RangeLookup     */
+	
+	public boolean      IsRange = false;
 	/** Window No                   */
 	public int          WindowNo;
 	/** Tab No                      */
@@ -606,6 +613,7 @@ public class GridFieldVO implements Serializable
 
 		//  Process Parameter
 		clone.isRange = isRange;
+		clone.IsRange = IsRange;
 		clone.DefaultValue2 = DefaultValue2;
 
 		return clone;

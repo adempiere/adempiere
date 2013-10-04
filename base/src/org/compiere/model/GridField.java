@@ -1890,4 +1890,10 @@ public class GridField
 	{
 		return isParentTabField(m_vo.ColumnName);
 	}
+	
+	 /**           Selection column in range based or not        */  
+    public boolean isRange()  
+    {             
+      return m_vo.IsRange;  
+    }
 }   //  MField
