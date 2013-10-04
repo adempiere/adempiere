@@ -554,6 +554,11 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 				table.addElement(tr);
 				if (row != -1)
 				{
+					if (row % 2 == 0)
+						tr.setClass(cssPrefix + "-evenrow");
+					else
+						tr.setClass(cssPrefix + "-oddrow");
+					
 					m_printData.setRowIndex(row);					
 					if (extension != null)
 					{

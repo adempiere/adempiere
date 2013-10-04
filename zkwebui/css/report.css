@@ -27,12 +27,16 @@
 }
 }
 .rp-number {
-	background-color: #EBF1EF;
 	text-align: right;
 	padding: 3px;
 }
 .rp-text, .rp-date {
-	background-color: #EBF1EF;
 	text-align: left;
 	padding: 3px;
+}
+.rp-evenrow {
+	background-color: #FFF !important;
+}
+.rp-oddrow {
+	background-color: #EBF1EF !important;
 }
