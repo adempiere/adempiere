@@ -8,7 +8,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.logging.Level;
-
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
@@ -35,41 +34,14 @@ import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Separator;
 import org.zkoss.zul.Toolbar;
 import org.zkoss.zul.Toolbarbutton;
+
 /**
  * 
- * 
- * @author Giri
- * @Identifier 20120123
- * @BugNo 1966
- * @Description Creating a toolbar For report with send mail and archive Options
- * 
- *  *  *********************************************************************************************************************************
- *	@BugNo			@author			 @Identifier		@Description 
- * 	1966	    D.Yadagiri Rao		[20120124]		1. Archive sucess Message Changed 
- * 													2. setting AD_Process_ID to AD_Archive
- * 													3. Adding one more parameter to WEmailDialog
- *  1966		D.Yadagiri Rao		[20120127]		1. Removed UnNecessary code from cmd_mail.java
- *  												2. Set iframe Auto hide as true 
- *  													[If browser have Adobe reader plugin Enable 
- *  														then Report open inside the browser ]
- *  
- *  20905             Anitha        20130723        1. Add following Instance variables previewType ,iframe, media
- *               									2. Made changes in init() method : drop down in toolbar to select PDF or XLS
- *                                                  3. Added renderReport()method : This method is used for generate report in PDF or XLS based on previewType selection.
- *                                                  4. Modified actionPerformed() method  : To invoke cmd_render() when event raised
- *                                                  5. Added new method cmd_render() : To invoke renderReport() method to generate report in selected format
- *                                                      And Modified rendorRepor():  Place Common code outside the If else block
- *                                                  
- *  20728           Anitha         20130723         Modified init() method : If Payslip Report , Should not show excels preview 
- *  
- *  
- *                                                  
- *                                                  
- */                     
-
+ * @author                             Modification
+ * WalkingTree ( www.walkingtree.in )  Made code changes to have Excel option for Jasper Reports.
+ *
+ */
 public class ZkJRViewer extends Window implements EventListener {
-	// Kindly do not delete below line as it is being used for svn version maintenance
-	public static final String svnRevision =  "$Id: ZkJRViewer.java 1974 2013-07-23 11:35:37Z anitha $";
 
 	private static final long serialVersionUID = 2021796699437770927L;
 
@@ -78,26 +50,16 @@ public class ZkJRViewer extends Window implements EventListener {
 	private JasperPrint jasperPrint;
     
 	//
-	//Issue No: 18656
+	// Added Preview Type listbox to have PDF and Excel options for jasper report
 	//
-	
 	private Listbox previewType = new Listbox();
 	private Iframe iframe;
 	private AMedia media;
-
 	private Toolbarbutton  sendMail, archive;
-
-	private Toolbar toolbar = null;
-
-	private Properties ctx = null;
-
-	// Issue No :
-	private File file = null;
-
-	private String title = null;			//20905
-
-	//20120124
-	/** ProcessInfo */
+	private Toolbar toolbar         = null;
+	private Properties ctx          = null;
+	private File file               = null;
+	private String title            = null;			
 	private ProcessInfo processInfo = null; 
 
 
@@ -106,19 +68,12 @@ public class ZkJRViewer extends Window implements EventListener {
 	private static CLogger log = CLogger.getCLogger(ZkJRViewer.class);
 
 	public ZkJRViewer(JasperPrint jasperPrint, String title) {
-
-		//
-		// Issue No:20905
-		//
-		
 		super();
 		this.setTitle(title);
 
 		this.title = title.substring(0,title.indexOf(".pdf")) ;
 		ctx = Env.getCtx();
 		this.jasperPrint = jasperPrint;
-
-		//20120124 
 		// Getting AD_Process_ID from Context
 		processInfo	=	new ProcessInfo(jasperPrint.getName(), Env.getContextAsInt(ctx, "AD_Process_ID"));
 		init();
@@ -151,7 +106,6 @@ public class ZkJRViewer extends Window implements EventListener {
 		toolbar.appendChild(new Separator("vertical"));
 
 		//
-		// Issue No: 20905
 		// we have drop down in toolbar to select PDF or XLS
 		//
 		
@@ -174,11 +128,10 @@ public class ZkJRViewer extends Window implements EventListener {
 		iframe.setId(jasperPrint.getName());
 		iframe.setHeight("100%");
 		iframe.setWidth("100%");
-		//20120127
 		iframe.setAutohide( Boolean.TRUE );
 
 		try {
-			renderReport() ; 		//20905
+			renderReport() ; 		
 		} 
 		catch (Exception e) {
 			log.log(Level.SEVERE, e.getLocalizedMessage(), e.getMessage());
@@ -190,7 +143,6 @@ public class ZkJRViewer extends Window implements EventListener {
 	}		
 
 	/***
-	 * Issue No:20905
 	 * 
 	 * This method is used for generate report in PDF or XLS based on previewType selection.
 	 * 
@@ -202,7 +154,6 @@ public class ZkJRViewer extends Window implements EventListener {
 		Listitem selected = previewType.getSelectedItem();
 		
 		//
-		// Issue No:20905
 		// Place Common code outside the If else block
 		//
 		
@@ -260,7 +211,6 @@ public class ZkJRViewer extends Window implements EventListener {
 			cmd_archive();
 
 		//
-	    // Issue No :20905
 		// If select drop down then event raised
 			
 		}else if (e.getTarget() == previewType){
@@ -282,16 +232,12 @@ public class ZkJRViewer extends Window implements EventListener {
 		String subject = jasperPrint.getName();	
 		String message = "";
 		File attachment = file;
-		//20120127 removed unnecessary code 
-		// 20120124
 		new WEMailDialog (this, Msg.getMsg(Env.getCtx(), "SendMail"), from, to, subject, message, attachment);
 
 
 	}	//	cmd_sendMail
 
 	/**
-	 * 
-	 * @Identifier 20120124
 	 * 
 	 * Create a Archive for specified report
 	 * Create an entry at AD_Archive table
@@ -329,8 +275,6 @@ public class ZkJRViewer extends Window implements EventListener {
 	}
 
 	/***
-	 *  Issue No :20905
-	 *  
 	 * This method is responsible for Call rendorReport() when event raised
 	 */
 	private void cmd_render() {
