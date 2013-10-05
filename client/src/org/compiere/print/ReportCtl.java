@@ -219,8 +219,6 @@ public class ReportCtl
 	 */
 	static public boolean startFinReport (ProcessInfo pi)
 	{
-		int AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
-
 		//  Create Query from Parameters
 		String TableName = pi.getAD_Process_ID() == 202 ? "T_Report" : "T_ReportStatement";
 		MQuery query = MQuery.get (Env.getCtx(), pi.getAD_PInstance_ID(), TableName);
@@ -236,7 +234,7 @@ public class ReportCtl
 		}
 		PrintInfo info = new PrintInfo(pi);
 
-		ReportEngine re = new ReportEngine(Env.getCtx(), format, query, info);
+		ReportEngine re = new ReportEngine(Env.getCtx(), format, query, pi,info);
 		createOutput(re, pi.isPrintPreview(), null);
 		return true;
 	}	//	startFinReport

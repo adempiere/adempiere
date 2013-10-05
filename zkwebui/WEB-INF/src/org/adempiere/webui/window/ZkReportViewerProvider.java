@@ -15,11 +15,16 @@
  * _____________________________________________
  *****************************************************************************/
 package org.adempiere.webui.window;
-
+import org.adempiere.webui.component.SMJReportViewer;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.session.SessionManager;
+import org.compiere.model.MSysConfig;
 import org.compiere.print.ReportEngine;
 import org.compiere.print.ReportViewerProvider;
+import org.compiere.process.ProcessInfo;
+import org.compiere.process.ProcessInfoParameter;
+import org.compiere.report.MReport;
+import org.compiere.util.Env;
 
 /**
  * 
@@ -28,11 +33,28 @@ import org.compiere.print.ReportViewerProvider;
  */
 public class ZkReportViewerProvider implements ReportViewerProvider {
 
+
+
 	public void openViewer(ReportEngine report) {
+
 		Window viewer = new ZkReportViewer(report, report.getName());
-		
+
 		viewer.setAttribute(Window.MODE_KEY, Window.MODE_EMBEDDED);
 		viewer.setAttribute(Window.INSERT_POSITION_KEY, Window.INSERT_NEXT);
 		SessionManager.getAppDesktop().showWindow(viewer);
+
+		// System Configuration Parameter "GENERATE_PEDRO_REPORT"
+		// Value = 'Y' if want to generate SMJReport else Value = 'N' if we don't want to generate SMJreport
+
+		if ( report.getPrintInfo().getAD_Process_ID() == 202 && MSysConfig.getBooleanValue("GENERATE_PEDRO_REPORT", Boolean.FALSE) ) { 
+			ProcessInfo processInfo   = report.getProcessInfo() ;
+			MReport	m_report          = new MReport ( report.getCtx(), processInfo.getRecord_ID(), processInfo.getTransactionName() );
+			ProcessInfoParameter[] pi = processInfo.getParameter();
+			Window smjviewer = new SMJReportViewer(processInfo.getAD_PInstance_ID(), processInfo.getTransactionName(), m_report.getLineSet().getPA_ReportLineSet_ID(), pi[0].getParameterAsInt() , report.getPrintFormat().getAD_PrintFont_ID(), m_report.getColumnSet().getColumns());
+			smjviewer.setAttribute(Window.MODE_KEY, Window.MODE_EMBEDDED);
+			smjviewer.setAttribute(Window.INSERT_POSITION_KEY, Window.INSERT_NEXT);
+			SessionManager.getAppDesktop().showWindow(smjviewer);
+
+		}
 	}
 }
