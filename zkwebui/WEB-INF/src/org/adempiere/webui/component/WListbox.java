@@ -1387,14 +1387,12 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 
 	@Override
 	public int convertColumnIndexToView(int modelColumnIndex) {
-		// TODO Auto-generated method stub
-		return 0;
+		return modelColumnIndex;
 	}
 
 	@Override
 	public int convertRowIndexToModel(int row) {
-		// TODO Auto-generated method stub
-		return 0;
+		return row;
 	}
 
     /**
