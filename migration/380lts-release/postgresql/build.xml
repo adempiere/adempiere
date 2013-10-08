@@ -1,13 +1,13 @@
 <project name="migrate-db-postgre" default="run-scripts" basedir=".">
-	<property file="../postgresql.properties" />
+	<property file="../../postgresql.properties" />
 	<path id="lib.path">
-		<fileset dir="${adempiere.trunk}/tools/lib">
+		<fileset dir="../../../tools/lib">
 			<include name="**/*.jar" />
 		</fileset>
 	</path>
 	<taskdef resource="net/sf/antcontrib/antlib.xml">
 		<classpath>
-			<fileset dir="${adempiere.trunk}/tools/lib">
+			<fileset dir="../../../tools/lib">
 				<include name="**/*.jar" />
 			</fileset>
 		</classpath>

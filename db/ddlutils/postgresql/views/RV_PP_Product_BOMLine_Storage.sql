@@ -43,4 +43,4 @@ l.z
 FROM t_bomline t 
 LEFT JOIN PP_Product_BOMLine bl ON (t.PP_Product_BOMLine_ID = bl.PP_Product_BOMLine_ID)
 LEFT JOIN M_Storage s ON (s.M_Product_ID = t.m_product_id AND s.qtyonhand <> 0 AND EXISTS ( SELECT 1 FROM M_Locator ld WHERE s.M_Locator_ID = ld.M_Locator_ID AND ld.M_Warehouse_ID=t.M_Warehouse_ID))
-LEFT JOIN M_Locator l ON (l.M_Locator_ID = s.M_Locator_ID)
+LEFT JOIN M_Locator l ON (l.M_Locator_ID = s.M_Locator_ID);

@@ -47,6 +47,7 @@
 	<target name="compile" depends="clean" description="Compile Java sources">
 	    <mkdir dir="${classes.dir}"/>
 	    <javac target="1.7" 
+	    	   encoding="UTF-8"
 	    	   srcdir="WEB-INF/src"
 	           destdir="${classes.dir}"
 	           debug="${compile.debug}"

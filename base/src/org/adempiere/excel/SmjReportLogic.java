@@ -5,12 +5,10 @@ import java.sql.ResultSet;
 import java.util.LinkedList;
 import java.util.logging.Level;
 
-import org.compiere.apps.form.Allocation;
+import org.compiere.model.ReportTO;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-
-import org.compiere.model.ReportTO;
 
 /**
  * 
@@ -24,7 +22,7 @@ import org.compiere.model.ReportTO;
  */
 public class SmjReportLogic {
 
-	private CLogger log = CLogger.getCLogger(Allocation.class);
+	private CLogger log = CLogger.getCLogger(SmjReportLogic.class);
 
 	/**
 	 * trae los datos de T_Report ** T_Report get Data

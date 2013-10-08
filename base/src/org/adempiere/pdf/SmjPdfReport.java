@@ -13,7 +13,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import org.compiere.apps.form.Allocation;
 import org.compiere.model.MImage;
 import org.compiere.report.MReportColumn;
 import org.compiere.util.CLogger;
@@ -51,7 +50,7 @@ import org.compiere.model.ReportTO;
 public class SmjPdfReport extends PdfPageEventHelper {
 
 	/** Logger */
-	public CLogger log = CLogger.getCLogger(Allocation.class);
+	public CLogger log = CLogger.getCLogger(SmjPdfReport.class);
 	private ByteArrayOutputStream baosPDF;
 	private Font titleFont = new Font(Font.HELVETICA, 15, Font.BOLDITALIC);
 	private Font titleTableFont = new Font(Font.HELVETICA, 12, Font.BOLDITALIC);
