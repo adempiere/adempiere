@@ -754,6 +754,13 @@ public class VLookup extends JComponent
 		
 		if (m_mField != null)
 			FieldRecordInfo.addMenu(this, popupMenu);
+		
+		if (mField != null && mField.isAutocomplete()
+				&& m_lookup instanceof MLookup
+				&& m_lookup.getDisplayType() == DisplayType.Search)
+		{
+			enableLookupAutocomplete();
+		}
 	}   //  setField
 
 	@Override
@@ -857,7 +864,7 @@ public class VLookup extends JComponent
 	 *  </pre>
 	 *  @param value new value
 	 */
-	private void actionCombo (Object value)
+	protected void actionCombo (Object value)
 	{
 		
 		log.fine("Value=" + value);
@@ -1866,6 +1873,17 @@ public class VLookup extends JComponent
 				return false;
 	}
 
+	// ADEMPIERE-191
+	public void enableLookupAutocomplete()
+	{
+		if (m_lookup instanceof MLookup
+				&& m_lookup.getDisplayType() == DisplayType.Search)
+		{
+			new VLookupAutoCompleter(this.m_text, this, (MLookup) m_lookup);
+		}
+	}
+
+	
 	/**
 	 * @param override - true to override the environment, false to use environment
 	 * @param trx the m_isSOTrx to set

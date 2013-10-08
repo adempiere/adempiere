@@ -63,6 +63,7 @@ import org.zkoss.zk.ui.event.Events;
  * Web UI port of search type VLookup
  *
  * @author Ashley G Ramdass
+ * @author Cristina Ghita, c.ghita@metas.ro, METAS GROUP - add autocomplete for search fields
  *
  */
 public class WSearchEditor extends WEditor implements ContextMenuListener, ValueChangeListener, IZoomableEditor
@@ -77,6 +78,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
     private Object				m_oldValue;
     private InfoPanel			infoPanel = null;
     private Boolean				m_settingValue = false;
+    private WSearchEditorAutoComplete autoComplete = null; // ADEMPIERE-191
     private Boolean				m_needsUpdate = false;
     private String				m_lastDisplay = null;
 	/** Override context for sales transactions */
@@ -101,6 +103,13 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		
 		if (m_lookup != null)
 			m_columnName = m_lookup.getColumnName();
+		
+		if (gridField != null && gridField.isAutocomplete()
+				&& m_lookup instanceof MLookup
+				&& m_lookup.getDisplayType() == DisplayType.Search)
+		{
+			autoComplete = new WSearchEditorAutoComplete(this, (MLookup)m_lookup);
+		}
 		
 		init();
 	}
@@ -198,7 +207,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		{
 			WFieldRecordInfo.addMenu(popupMenu);
 		}
-
+		
 		return;
 	}
 
@@ -259,10 +268,18 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		}
 		if (Events.ON_CHANGE.equals(e.getName()) || Events.ON_OK.equals(e.getName()))
 		{
+		        autoComplete.setValue(getComponent().getText()); // ADEMPIERE-191
+			autoComplete.setSearchText(getComponent().getText());  // ADEMPIERE-191
+			
 			actionText(getComponent().getText());
 		}
 		else if (Events.ON_CLICK.equals(e.getName()))
 		{
+			if (infoPanel != null)
+			{
+				infoPanel.detach();
+				infoPanel = null;
+			}
 			actionButton("");
 		}
 	}

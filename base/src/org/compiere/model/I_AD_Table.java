@@ -54,6 +54,19 @@ public interface I_AD_Table
 	  */
 	public String getAccessLevel();
 
+    /** Column name ACTriggerLength */
+    public static final String COLUMNNAME_ACTriggerLength = "ACTriggerLength";
+
+	/** Set Auto Complete Min Length.
+	  * Identifier autocomplete trigger length
+	  */
+	public void setACTriggerLength (int ACTriggerLength);
+
+	/** Get Auto Complete Min Length.
+	  * Identifier autocomplete trigger length
+	  */
+	public int getACTriggerLength();
+
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
