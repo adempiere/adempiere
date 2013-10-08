@@ -15,34 +15,22 @@
 
 package org.compiere.process;
 
-import org.compiere.model.MMigrationStep;
-import org.compiere.process.SvrProcess;
+import org.adempiere.ad.migration.executor.IMigrationExecutor;
 
 /**
  * 
  * Process to rollback a single migration step
  * 
  * @author Paul Bowden, Adaxa Pty Ltd
- *
+ * @author Teo Sarca
+ * 
  */
-public class MigrationStepRollback extends SvrProcess {
-
-	private MMigrationStep migrationstep;
-
+public class MigrationStepRollback extends MigrationStepApply
+{
 	@Override
-	protected String doIt() throws Exception {
-
-		if ( migrationstep == null || migrationstep.is_new() )
-			return "No migration step";
-		else
-			return migrationstep + migrationstep.rollback();
+	protected String doIt() throws Exception
+	{
+		setAction(IMigrationExecutor.Action.Rollback);
+		return super.doIt();
 	}
-
-	@Override
-	protected void prepare() {
-		
-		migrationstep = new MMigrationStep(getCtx(), getRecord_ID(), get_TrxName());
-
-	}
-
 }

@@ -19,18 +19,21 @@ package org.compiere.model;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.ad.migration.logger.IMigrationLogger;
+import org.adempiere.util.Services;
 import org.compiere.Adempiere;
 import org.compiere.util.CCache;
-import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.TimeUtil;
+import org.compiere.util.Trx;
+import org.compiere.util.Util;
 
 /**
  *	Session Model.
@@ -83,6 +86,44 @@ public class MSession extends X_AD_Session
 		}	
 		return session;
 	}	//	get
+
+	// t.schoeneberg@metas.de, task mo73_03132: extracting code, adding public method to load/chache an AD_Session by AD_Session_ID
+	public static MSession get(Properties ctx, int AD_Session_ID)
+	{
+		return get(ctx, AD_Session_ID, false);
+	}
+	
+	private static MSession get(Properties ctx, int AD_Session_ID, boolean updateCtx)
+	{
+		if (AD_Session_ID <= 0)
+		{
+			return null;
+		}
+		
+		MSession session = getFromCache(ctx, AD_Session_ID);
+		
+		// Try to load
+		if (session == null)
+		{
+			session = new MSession(ctx, AD_Session_ID, Trx.TRXNAME_None);
+			if (session.get_ID() != AD_Session_ID)
+			{
+				// no session found for given AD_Session_ID, a warning shall be already logged 
+				return null;
+			}
+			s_sessions.put(AD_Session_ID, session);
+		}
+		
+		// Update context
+		if (updateCtx)
+		{
+			session.updateContext(true); // force=true
+		}
+
+		
+		return session;
+	}
+	// end of t.schoeneberg@metas.de, task mo73_03132
 	
 	/**
 	 * 	Get existing or create remote session
@@ -95,19 +136,47 @@ public class MSession extends X_AD_Session
 	public static MSession get (Properties ctx, String Remote_Addr, String Remote_Host, String WebSession)
 	{
 		int AD_Session_ID = Env.getContextAsInt(ctx, "#AD_Session_ID");
-		MSession session = null;
-		if (AD_Session_ID > 0)
-			session = (MSession)s_sessions.get(new Integer(AD_Session_ID));
+		MSession session = get(ctx, AD_Session_ID, false);
 		if (session == null)
 		{
-			session = new MSession (ctx, Remote_Addr, Remote_Host, WebSession, null);	//	remote session
-			session.saveEx();
-			AD_Session_ID = session.getAD_Session_ID();
-			Env.setContext(ctx, "#AD_Session_ID", AD_Session_ID);
-			s_sessions.put(new Integer(AD_Session_ID), session);
+			session = new MSession (ctx, Remote_Addr, Remote_Host, WebSession, Trx.TRXNAME_None);	//	remote session
+			session.save();
+			session.updateContext(true); // force=true
+			s_sessions.put(AD_Session_ID, session);
 		}	
 		return session;
 	}	//	get
+	
+	private static final MSession getFromCache(Properties ctx, int AD_Session_ID)
+	{
+		if (AD_Session_ID <= 0)
+		{
+			return null;
+		}
+		
+		final MSession session = s_sessions.get(AD_Session_ID);
+		if (session == null)
+		{
+			return null;
+		}
+		if (session.getAD_Session_ID() != AD_Session_ID)
+		{
+			return null;
+		}
+		if (!Util.equals(session.get_TrxName(), Trx.TRXNAME_None))
+		{
+			// Invalid transaction
+			return null;
+		}
+		if (!Util.same(session.getCtx(), ctx))
+		{
+			// Session was created in a different context
+			// we must check this because else we can corrupt other's context
+			return null;
+		}
+		
+		return session;
+	}
 
 	/**	Sessions					*/
 	private static CCache<Integer, MSession> s_sessions = Ini.isClient() 
@@ -192,7 +261,6 @@ public class MSession extends X_AD_Session
 
 	/**	Web Store Session		*/
 	private boolean		m_webStoreSession = false;
-	private MMigration m_migration = null;
 	
 	/**
 	 * 	Is it a Web Store Session
@@ -228,6 +296,23 @@ public class MSession extends X_AD_Session
 			sb.append(",").append(s);
 		if (m_webStoreSession)
 			sb.append(",WebStoreSession");
+		
+		// metas: display also exported attributes
+		for (int i = 0, cols = get_ColumnCount(); i < cols; i++)
+		{
+			if (isContextAttribute(i))
+			{
+				final String columnName = get_ColumnName(i);
+				final String value = get_ValueAsString(columnName);
+				sb.append(",").append(columnName).append("=").append(value);
+			}
+		}
+		// metas: if is in a transaction, this info is also valuable
+		if (!Util.equals(get_TrxName(), Trx.TRXNAME_None))
+		{
+			sb.append(",trxName=" + get_TrxName());
+		}
+		
 		sb.append("]");
 		return sb.toString();
 	}	//	toString
@@ -320,55 +405,152 @@ public class MSession extends X_AD_Session
 		return null;
 	}	//	changeLog
 	
-	public void logMigration(PO po, POInfo pinfo, String event) {
-		
-		String [] exceptionTables = new String[] {
-				"AD_ACCESSLOG",			"AD_ALERTPROCESSORLOG",		"AD_CHANGELOG",
-				"AD_ISSUE",				"AD_LDAPPROCESSORLOG",		"AD_PACKAGE_IMP",
-				"AD_PACKAGE_IMP_BACKUP","AD_PACKAGE_IMP_DETAIL",	"AD_PACKAGE_IMP_INST",
-				"AD_PACKAGE_IMP_PROC",	"AD_PINSTANCE",				"AD_PINSTANCE_LOG",
-				"AD_PINSTANCE_PARA",	"AD_REPLICATION_LOG",		"AD_SCHEDULERLOG",
-				"AD_SESSION",			"AD_WORKFLOWPROCESSORLOG",	"CM_WEBACCESSLOG",
-				"C_ACCTPROCESSORLOG",	"K_INDEXLOG",				"R_REQUESTPROCESSORLOG",
-				"T_AGING",				"T_ALTER_COLUMN",			"T_DISTRIBUTIONRUNDETAIL",
-				"T_INVENTORYVALUE",		"T_INVOICEGL",				"T_REPLENISH",
-				"T_REPORT",				"T_REPORTSTATEMENT",		"T_SELECTION",
-				"T_SELECTION2",			"T_SPOOL",					"T_TRANSACTION",
-				"T_TRIALBALANCE",		"AD_PROCESS_ACCESS",		"AD_WINDOW_ACCESS",
-				"AD_WORKFLOW_ACCESS",	"AD_FORM_ACCESS",			
-				"AD_MIGRATION",			"AD_MIGRATIONSTEP",			"AD_MIGRATIONDATA"
-				//
-			};
-		
-		List<String> list = Arrays.asList(exceptionTables);
-		if ( list.contains(pinfo.getTableName().toUpperCase()) )
-				return;
-		
-		// ignore statistic updates
-		if ( pinfo.getTableName().equalsIgnoreCase("AD_Process") && !po.is_new() && po.is_ValueChanged("Statistic_Count") )
-			return;
-		
-		if ( m_migration == null )
-			createMigration(po.getCtx());
-		
-		MMigrationStep step = new MMigrationStep(m_migration, po, pinfo, event);
-		step.saveEx();
-		
+	public void logMigration(PO po, POInfo pinfo, String event)
+	{	
+		Services.get(IMigrationLogger.class).logMigration(this, po, pinfo, event);
 	}
 
-	private void createMigration(Properties ctx) {
+	/**
+	 * Set Login User.
+	 * At this moment is just updating CreatedBy column
+	 * @param AD_User_ID
+	 */
+	// metas
+	public void setAD_User_ID(int AD_User_ID)
+	{
+		set_ValueNoCheck(COLUMNNAME_CreatedBy, AD_User_ID);
+	}
+	
+	/**
+	 * @return Logged in user (i.e. CreatedBy)
+	 */
+	// metas
+	public int getAD_User_ID()
+	{
+		return getCreatedBy();
+	}
+	
+	
+	public static final String CTX_Prefix = "#AD_Session.";
+
+	/**
+	 * Export attributes from session to context.
+	 * 
+	 * Used context prefix is {@link #CTX_Prefix}.
+	 * 
+	 * Attributes that will be exported to context are: String with FieldLength <= 60.
+	 * 
+	 * @param force if true, update even if current AD_Session_ID from context differs from this one.
+	 * @return true if context was updated
+	 */
+	public boolean updateContext(boolean force)
+	{
+		final int sessionId = getAD_Session_ID();
+		if (sessionId <= 0)
+		{
+			log.log(Level.WARNING, "Cannot update context because session is not saved yet");
+			return false;
+		}
 		
-		m_migration = new MMigration(ctx, 0, null);
-		m_migration.setName(MSysConfig.getValue("DICTIONARY_ID_COMMENTS"));
-		boolean dict = Ini.isPropertyBool(Ini.P_ADEMPIERESYS);
-		m_migration.setEntityType( dict ? "D" : "U");
-		String sql = "SELECT max(SeqNo)+10 FROM AD_Migration";
-		int seqNo = DB.getSQLValue(null, sql);
-		m_migration.setSeqNo(seqNo);
-		m_migration.setStatusCode(MMigration.STATUSCODE_Applied);
-		m_migration.setApply(MMigration.APPLY_Rollback);
-		m_migration.saveEx();
+		if (!isActive())
+		{
+			log.log(Level.FINE, "Cannot update context because session is not active");
+			return false;
+		}
+		
+		if (isProcessed())
+		{
+			log.log(Level.FINE, "Cannot update context because session is processed");
+			return false;
+		}
+
+		
+		final Properties ctx = getCtx();
+		
+		//
+		// If not force, update the context only if the context #AD_Session_ID is same as our session ID.
+		// Even if there is no value in context, the session won't be updated.
+		// Keep this logic because we are calling this method on afterSave too.
+		final int ctxSessionId = Env.getContextAsInt(ctx, "#AD_Session_ID");
+		if (ctxSessionId != sessionId && !force)
+		{
+			log.log(Level.FINE, "Different AD_Session_ID found in context and force=false. Skip updating.");
+			return false;
+		}
+
+		Env.setContext(ctx, "#AD_Session_ID", sessionId);
+		
+		final int cols = get_ColumnCount();
+		for (int i = 0; i < cols; i++)
+		{
+			if (!isContextAttribute(i))
+			{
+				continue;
+			}
+			final String columnName = get_ColumnName(i);
+			final String value = get_ValueAsString(columnName);
+			Env.setContext(ctx, CTX_Prefix + columnName, value);
+		}
+		
+		return true;
+	}
+	
+	private boolean isContextAttribute(final int columnIndex)
+	{
+		if (columnIndex < 0)
+		{
+			return false;
+		}
+		
+		final List<String> ignoredColumnNames = Arrays.asList(
+				COLUMNNAME_AD_Session_ID // this one will be exported particularly
+				, COLUMNNAME_AD_Client_ID
+				, COLUMNNAME_AD_Org_ID
+				, COLUMNNAME_Created
+				, COLUMNNAME_CreatedBy
+				, COLUMNNAME_Updated
+				, COLUMNNAME_UpdatedBy
+				, COLUMNNAME_IsActive
+				, COLUMNNAME_Processed
+				, COLUMNNAME_Remote_Addr
+				, COLUMNNAME_Remote_Host
+				, COLUMNNAME_WebSession);
+		
+		final String columnName = get_ColumnName(columnIndex);
+		if(columnName == null)
+		{
+			return false;
+		}
+		
+		if(ignoredColumnNames.contains(columnName))
+		{
+			return false;
+		}
+		
+		final POInfo poInfo = getPOInfo();
+		final int displayType = poInfo.getColumnDisplayType(columnIndex);
+		if (displayType == DisplayType.String)
+		{
+			return poInfo.getFieldLength(columnIndex) <= 60;
+		}
+		
+		return true;
 	}
 
+	@Override
+	protected boolean afterSave(boolean newRecord, boolean success)
+	{
+		if (!success)
+		{
+			return false;
+		}
+		
+		// Update context only if it's for same session
+		updateContext(false);
+		
+		return true;
+	}
+	
+	
 }	//	MSession
 

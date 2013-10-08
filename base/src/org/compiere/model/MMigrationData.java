@@ -21,6 +21,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 
+import org.adempiere.ad.migration.model.X_AD_MigrationData;
 import org.compiere.util.DisplayType;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

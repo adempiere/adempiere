@@ -522,6 +522,7 @@ public final class APanel extends CPanel
 			if (aWorkflow != null)
 				toolBar.add(aWorkflow.getButton());
 			toolBar.add(aRequest.getButton());
+			toolBar.add(AProcess.createAppsAction(this).getButton());
 			if (MRole.getDefault().isAllow_Info_Product())
 			{
 				toolBar.add(aProduct.getButton());
@@ -2427,7 +2428,7 @@ public final class APanel extends CPanel
 	 *	Start Button Process
 	 *  @param vButton button
 	 */
-	private void actionButton (VButton vButton)
+	protected void actionButton (VButton vButton)
 	{
 		log.info(vButton.toString());
 

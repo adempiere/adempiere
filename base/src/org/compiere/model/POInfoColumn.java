@@ -30,12 +30,10 @@ import org.compiere.util.DB;
  *  @version $Id: POInfoColumn.java,v 1.3 2006/07/30 00:58:04 jjanke Exp $
  */
 public class POInfoColumn implements Serializable
-{	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3014044674086599223L;
-
+{
+	/** Used by Remote FinReport			*/
+	static final long serialVersionUID = -3983585608504631958L;
+	
 	/**
 	 *  Constructor
 	 *	@param ad_Column_ID Column ID
@@ -88,6 +86,7 @@ public class POInfoColumn implements Serializable
 		}
 		else
 			ColumnClass = org.compiere.util.DisplayType.getClass(displayType, true);
+		
 		//ADEMPIERE-101
 		if(org.compiere.util.DisplayType.Table==DisplayType && ad_Reference_Value_ID>0)
 		{
@@ -103,6 +102,7 @@ public class POInfoColumn implements Serializable
 				ColumnClass = String.class;
 			}
 		}
+		
 		IsMandatory = isMandatory;
 		IsUpdateable = isUpdateable;
 		DefaultLogic = defaultLogic;
@@ -146,6 +146,8 @@ public class POInfoColumn implements Serializable
 	public String       ColumnName;
 	/** Virtual Column 	*/
 	public String       ColumnSQL;
+	/** Is Lazy Loading */
+	public boolean		IsLazyLoading;
 	/** Display Type	*/
 	public int          DisplayType;
 	/**	Data Type		*/
@@ -186,6 +188,8 @@ public class POInfoColumn implements Serializable
 	public BigDecimal	ValueMin_BD = null;
 	/**	Max Value		*/
 	public BigDecimal	ValueMax_BD = null;
+	
+	public boolean		IsCalculated = false; // metas: pr50_us215
 
 	/**
 	 * 	String representation

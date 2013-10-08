@@ -1555,8 +1555,13 @@ public final class MRole extends X_AD_Role
 	 *	@param AD_Process_ID process
 	 *	@return null in no access, TRUE if r/w and FALSE if r/o
 	 */
-	public Boolean getProcessAccess (int AD_Process_ID)
-	{
+	public Boolean getProcessAccess (int AD_Process_ID) {
+		Boolean access = checkProcessAccess(AD_Process_ID);
+		//Services.get(IRolePermLoggingBL.class).logProcessAccess(get_ID(), AD_Process_ID, access);
+		return access;
+	}
+	
+	public Boolean checkProcessAccess (int AD_Process_ID) {
 		if (m_processAccess == null)
 		{
 			m_processAccess = new HashMap<Integer,Boolean>(50);

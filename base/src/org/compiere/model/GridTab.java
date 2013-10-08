@@ -3143,6 +3143,12 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		return tabNo;
 	}
 	
+	// metas: make GridTab compatible with PO conventions
+	public String get_TableName()
+	{
+		return this.getTableName();
+	}
+
 	public GridTab getParentTab()
 	{
 		int parentTabNo = getParentTabNo();

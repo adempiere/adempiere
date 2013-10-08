@@ -24,10 +24,17 @@ import java.sql.SQLException;
 import java.sql.Savepoint;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Level;
 
-import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.ad.service.ITrxBL;
+import org.adempiere.ad.service.ITrxListenerManager;
+import org.adempiere.ad.service.impl.NullTrxListenerManager;
+import org.adempiere.ad.service.impl.TrxListenerManager;
+import org.adempiere.util.Services;
+import org.adempiere.util.trxConstraints.api.IOpenTrxBL;
 
 /**
  *	Transaction Management.
@@ -53,6 +60,9 @@ import org.adempiere.exceptions.AdempiereException;
  */
 public class Trx implements VetoableChangeListener
 {
+	/** trxName=null marker */
+	// metas
+	public static final String TRXNAME_None = null;
 	/**
 	 * 	Get Transaction
 	 *	@param trxName trx name
@@ -64,36 +74,56 @@ public class Trx implements VetoableChangeListener
 		if (trxName == null || trxName.length() == 0)
 			throw new IllegalArgumentException ("No Transaction Name");
 
-		if (s_cache == null)
+		if (s_trxMap == null)
 		{
-			s_cache = new CCache<String,Trx>("Trx", 10, -1);	//	no expiration
-			s_cache.addVetoableChangeListener(new Trx("controller"));
+			s_trxMap = new HashMap<String,Trx>(10);	//	no expiration
 		}
 		
-		Trx retValue = (Trx)s_cache.get(trxName);
+		Trx retValue = (Trx)s_trxMap.get(trxName);
 		if (retValue == null && createNew)
 		{
 			retValue = new Trx (trxName);
-			s_cache.put(trxName, retValue);
+			Services.get(IOpenTrxBL.class).onNewTrx(retValue); // metas me00_02367
+			s_trxMap.put(trxName, retValue);
 		}
 		return retValue;
 	}	//	get
 	
 	/**	Transaction Cache					*/
-	private static CCache<String,Trx> 	s_cache = null;	//	create change listener
+	// metas: R.Craciunescu@metas.ro : mo73_03339
+	// in Trx name we will use Map instead of Cache, because it's not a cache at all:
+	// private static CCache<String,Trx> 	s_cache = null;	//	create change listener
+	
+	private static Map<String, Trx> s_trxMap = new HashMap<String, Trx>();
+	
+	/**
+	 * 	Create unique Transaction Name <b>and instantly create the new trx</b>.
+	 *	@param prefix optional prefix
+	 *	@return unique name
+	 */
+	public static String createTrxName (final String prefix)
+	{
+		// calling with createNew == true because that is the old (default) behavior of this method
+		return createTrxName(prefix, true);
+	}
 	
 	/**
 	 * 	Create unique Transaction Name
 	 *	@param prefix optional prefix
+	 *
 	 *	@return unique name
 	 */
-	public static String createTrxName (String prefix)
+	public static String createTrxName (String prefix, final boolean createNew)
 	{
 		if (prefix == null || prefix.length() == 0)
 			prefix = "Trx";
 		prefix += "_" + UUID.randomUUID(); //System.currentTimeMillis();
-		//create transaction entry
-		Trx.get(prefix, true);
+		
+		if(createNew)
+		{
+			//create transaction entry
+			Trx.get(prefix, true);
+		}
 		return prefix;
 	}	//	createTrxName
 
@@ -155,11 +185,34 @@ public class Trx implements VetoableChangeListener
 	{
 		log.log(Level.ALL, "Active=" + isActive() + ", Connection=" + m_connection);
 		
+		// metas: tsa: begin: Handle the case when the connection was already closed
+		// Example: one case when we can get this is when we start a process with a transaction
+		// and that process is commiting the transaction somewhere
+		if (m_connection != null)
+		{
+			boolean isClosed = false;
+			try
+			{
+				isClosed = m_connection.isClosed();
+			}
+			catch (SQLException e)
+			{
+				log.log(Level.SEVERE, "Error checking if the connection is closed. Assume closed - " + e.getLocalizedMessage(), e);
+				isClosed = true;
+			}
+			if (isClosed)
+			{
+				log.info("Connection is closed. Trying to create another connection.");
+				m_connection = null;
+			}
+		}
+		// metas: tsa: end:
+		
 		if (m_connection == null)	//	get new Connection
 		{
 			if (createNew)
 			{
-				if (s_cache == null || !s_cache.containsKey(m_trxName))
+				if (s_trxMap == null || !s_trxMap.containsKey(m_trxName))
 				{
 					new Exception("Illegal to getConnection for Trx that is not register.").printStackTrace();
 					return null;
@@ -298,6 +351,19 @@ public class Trx implements VetoableChangeListener
 	 */
 	public boolean rollback(Savepoint savepoint) throws SQLException
 	{
+		try
+		{
+			return rollback0(savepoint);
+		}
+		finally
+		{
+			Services.get(IOpenTrxBL.class).onRollback(this); // metas me00_02367
+		}
+	}
+	
+	private boolean rollback0(Savepoint savepoint) throws SQLException
+	// metas: end: me00_02367
+	{
 		//local
 		try
 		{
@@ -322,7 +388,27 @@ public class Trx implements VetoableChangeListener
 	 * @return true if success
 	 **/
 	public boolean commit(boolean throwException) throws SQLException
+	// metas: begin: me00_02367
 	{
+		boolean success = false;
+		try
+		{
+			success = commit0(throwException);
+			return success;
+		}
+		finally
+		{
+			Services.get(IOpenTrxBL.class).onCommit(this); // metas me00_02367
+
+			// mo73_04265: If transaction was successfully committed fire listeners
+			if (success)
+	{
+				getTrxListenerManager(false).fireAfterCommit(getTrxName());
+			}
+		}
+	}
+	private boolean commit0(boolean throwException) throws SQLException {
+	// metas: end: me00_02367
 		//local
 		try
 		{
@@ -370,8 +456,22 @@ public class Trx implements VetoableChangeListener
 	 */
 	public synchronized boolean close()
 	{
-		if (s_cache != null)
-			s_cache.remove(getTrxName());
+		// metas: begin: me00_02367
+		try
+		{
+			return close0();
+		}
+		finally
+		{
+			Services.get(IOpenTrxBL.class).onClose(this); // metas me00_02367
+		}
+	}
+		
+	private synchronized boolean close0() 
+	{
+		// metas: end: me00_02367
+		if (s_trxMap != null)
+			s_trxMap.remove(getTrxName());
 		
 		//local
 		if (m_connection == null)
@@ -406,10 +506,16 @@ public class Trx implements VetoableChangeListener
 			getConnection();
 		
 		if(m_connection != null) {
+			
+			final Savepoint result;
 			if (name != null)
-				return m_connection.setSavepoint(name);
+				result = m_connection.setSavepoint(name);
 			else
-				return m_connection.setSavepoint();
+				result = m_connection.setSavepoint();
+			
+			Services.get(IOpenTrxBL.class).onSetSavepoint(this, result); // metas me00_02367
+			return result;
+			
 		} else {
 			return null;
 		}
@@ -439,6 +545,7 @@ public class Trx implements VetoableChangeListener
 		if(m_connection != null)
 		{
 			m_connection.releaseSavepoint(savepoint);
+			Services.get(IOpenTrxBL.class).onReleaseSavepoint(this, savepoint); // metas me00_02367
 		}
 		
 	}
@@ -474,7 +581,7 @@ public class Trx implements VetoableChangeListener
 	 */
 	public static Trx[] getActiveTransactions()
 	{
-		Collection<Trx> collections = s_cache.values();
+		Collection<Trx> collections = s_trxMap.values();
 		Trx[] trxs = new Trx[collections.size()];
 		collections.toArray(trxs);
 		
@@ -486,14 +593,28 @@ public class Trx implements VetoableChangeListener
 	 */
 	public static void run(TrxRunnable r)
 	{
-		run(null, r);
+		Services.get(ITrxBL.class).run(r);
 	}
 	
 	/**
-	 * Execute runnable object using provided transaction.
-	 * If execution fails, database operations will be rolled back.
+	 * Executes the runnable object.
+	 * Same as calling {@link #run(String, boolean, TrxRunnable)} with manageTrx = false 
+	 * @param trxName transaction name
+	 * @param r runnable object
+	 * @see #run(String, boolean, TrxRunnable)
+	 */
+	// metas: backward compatibility
+	public static void run(String trxName, TrxRunnable r)
+	{
+		Services.get(ITrxBL.class).run(trxName, r);
+	}
+	
+	/**
+	 * Execute runnable object using provided transaction. If execution fails, database operations will be rolled back.
 	 * <p>
-	 * Example: <pre>
+	 * Example:
+	 * 
+	 * <pre>
 	 * Trx.run(null, new {@link TrxRunnable}() {
 	 *     public void run(String trxName) {
 	 *         // do something using trxName
@@ -501,66 +622,71 @@ public class Trx implements VetoableChangeListener
 	 * )};
 	 * </pre>
 	 * 
-	 * @param trxName transaction name (if null, a new transaction will be created)
-	 * @param r runnable object
+	 * @param trxName
+	 *            transaction name (if null, a new transaction will be created)
+	 * @param manageTrx
+	 *            if true, the transaction will be managed by this method (i.e. when runner finishes, transaction will
+	 *            be commited). Also, in case transaction is managed, a trxName will be created using given "trxName" as
+	 *            name prefix. If trxName is null a new transaction name will be created with prefix "TrxRun".
+	 *            If trxName is null, the transaction will be automatically managed, even if the manageTrx parameter is false.
+	 * @param r
+	 *            runnable object
 	 */
-	public static void run(String trxName, TrxRunnable r)
+	// metas: added manageTrx parameter
+	public static void run(String trxName, boolean manageTrx, TrxRunnable r)
 	{
-		boolean localTrx = false;
-		if (trxName == null) {
-			trxName = Trx.createTrxName("TrxRun");
-			localTrx = true;
+		Services.get(ITrxBL.class).run(trxName, manageTrx, r);
 		}
-		Trx trx = Trx.get(trxName, true);
-		Savepoint savepoint = null;
-		try
-		{
-			if (!localTrx)
-				savepoint = trx.setSavepoint(null);
-				
-			r.run(trxName);
 			
-			if (localTrx)
-				trx.commit(true);
-		}
-		catch (Throwable e)
-		{
-			// Rollback transaction
-			if (localTrx)
-			{
-				trx.rollback();
-			}
-			else if (savepoint != null)
-			{
-				try {
-					trx.rollback(savepoint);
-				}
-				catch (SQLException e2) {;}
-			}
-			trx = null;
-			// Throw exception
-			if (e instanceof RuntimeException)
-			{
-				throw (RuntimeException)e;
-			}
-			else
-			{
-				throw new AdempiereException(e);
-			}
-		}
-		finally {
-			if (localTrx && trx != null)
-			{
-				trx.close();
-				trx = null;
-			}
-		}
-	}
-
 	private boolean isLocalTrx(String trxName)
-	{
+			{
 		return trxName == null
 			|| trxName.startsWith("POSave") // TODO: hardcoded
 			;
+			}
+
+	/**
+	 * Current {@link ITrxListenerManager}
+	 * 
+	 * @task mo73_04265
+	 */
+	private ITrxListenerManager trxListenerManager = null;
+
+	/**
+	 * Gets the {@link ITrxListenerManager} associated with this transaction.
+	 * 
+	 * If no {@link ITrxListenerManager} was already created and <code>create</code> is true, a new transaction listener manager will be created and returned
+	 * 
+	 * @param create
+	 * @return
+	 * 
+	 * @task mo73_04265
+	 */
+	private ITrxListenerManager getTrxListenerManager(final boolean create)
+			{
+		if (trxListenerManager != null)
+			{
+			return trxListenerManager;
+		}
+
+		if (create)
+			{
+			trxListenerManager = new TrxListenerManager();
+			return trxListenerManager;
+		}
+
+		return NullTrxListenerManager.instance;
+	}
+
+	/**
+	 * Gets the {@link ITrxListenerManager} associated with this transaction
+	 * 
+	 * @return {@link ITrxListenerManager}; never returns null
+	 * 
+	 * @task mo73_04265
+	 */
+	public ITrxListenerManager getTrxListenerManager()
+	{
+		return getTrxListenerManager(true); // create=true
 	}
 }	//	Trx
