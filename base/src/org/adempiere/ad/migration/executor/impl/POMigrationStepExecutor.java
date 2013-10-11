@@ -286,7 +286,7 @@ public class POMigrationStepExecutor extends AbstractMigrationStepExecutor
 
 		I_AD_Table table = step.getAD_Table();
 
-		if (table != null && !step.getTableName().equalsIgnoreCase(table.getTableName()))
+		if (table != null && step.getTableName() != null && !step.getTableName().equalsIgnoreCase(table.getTableName()))
 		{
 			logger.log(Level.WARNING, "Table ID collision '" + step.getTableName() + "' with existing '" + table.getTableName()
 					+ "' (ID=" + step.getAD_Table_ID() + "). Attempting to retrieve table by name.");

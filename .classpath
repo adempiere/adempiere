@@ -311,11 +311,31 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="tools/lib/groovy-all-2.0.1.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="tools/lib/jcommon-1.0.18.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="tools/lib/jfreechart-1.0.15.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="JasperReportsTools/lib/jasperreports-5.1.0.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="tools/lib/poi-3.9-20121203.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="lib" path="tools/lib/OpenForecast-0.5.0.jar"/>
-	<classpathentry kind="lib" path="tools/lib/groovy-all-2.0.1.jar"/>
-	<classpathentry kind="lib" path="JasperReportsTools/lib/jasperreports-5.1.0.jar"/>
-	<classpathentry kind="lib" path="tools/lib/jcommon-1.0.18.jar"/>
-	<classpathentry kind="lib" path="tools/lib/jfreechart-1.0.15.jar"/>
-	<classpathentry kind="lib" path="tools/lib/poi-3.9-20121203.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

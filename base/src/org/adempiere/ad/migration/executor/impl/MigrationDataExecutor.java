@@ -150,7 +150,7 @@ public class MigrationDataExecutor
 		}
 
 		final String dataColumnName = data.getColumnName();
-		if (column != null && !dataColumnName.equalsIgnoreCase(column.getColumnName()))
+		if (column != null && dataColumnName != null && !dataColumnName.equalsIgnoreCase(column.getColumnName()))
 		{
 			logger.log(Level.WARNING, "Column ID collision '" + dataColumnName + "' with existing '" + column.getColumnName()
 					+ "' (ID=" + column.getAD_Column_ID() + "). Attempting to retrieve column by name and tableId.");
