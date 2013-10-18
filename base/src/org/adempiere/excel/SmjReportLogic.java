@@ -72,9 +72,9 @@ public class SmjReportLogic {
 				rpt.setCol_19(rs.getBigDecimal("col_19"));
 				rpt.setCol_20(rs.getBigDecimal("col_20"));
 				//SMJReport
-				rpt.settablevel(rs.getInt("tablevel"));
-				rpt.setreportlinestyle(rs.getString("reportlinestyle"));
-				rpt.setfixedPercentage(rs.getInt("fixedPercentage"));
+				rpt.setTablevel(rs.getInt("tablevel"));
+				rpt.setReportlinestyle(rs.getString("reportlinestyle"));
+				rpt.setFixedPercentage(rs.getInt("fixedPercentage"));
 				data.add(rpt);
 			}// while
 		}// try

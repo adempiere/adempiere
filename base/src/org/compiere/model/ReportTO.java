@@ -39,6 +39,21 @@ public class ReportTO {
 	private Integer tablevel;
 	private String reportlinestyle;
 	private Integer fixedPercentage;
+	private String AccountType;
+	
+	public String getAccountType() {
+		return AccountType;
+	}
+	public void setAccountType(String accountType) {
+		AccountType = accountType;
+	}
+	public String getAx_Case() {
+		return Ax_Case;
+	}
+	public void setAx_Case(String ax_Case) {
+		Ax_Case = ax_Case;
+	}
+	private String Ax_Case;
 
 	public Integer getSeqno() {
 		return seqno;
@@ -184,22 +199,23 @@ public class ReportTO {
 	public void setCol_20(BigDecimal col_20) {
 		this.col_20 = col_20;
 	}
-	public Integer gettablevel() {
+	
+	public Integer getTablevel() {
 		return tablevel;
 	}
-	public void settablevel(Integer tablevel) {
+	public void setTablevel(Integer tablevel) {
 		this.tablevel = tablevel;
 	}
-	public String getreportlinestyle() {
+	public String getReportlinestyle() {
 		return reportlinestyle;
 	}
-	public void setreportlinestyle(String reportlinestyle) {
+	public void setReportlinestyle(String reportlinestyle) {
 		this.reportlinestyle = reportlinestyle;
 	}
-	public Integer fixedPercentage() {
+	public Integer getFixedPercentage() {
 		return fixedPercentage;
 	}
-	public void setfixedPercentage(Integer fixedPercentage) {
+	public void setFixedPercentage(Integer fixedPercentage) {
 		this.fixedPercentage = fixedPercentage;
 	}
 	

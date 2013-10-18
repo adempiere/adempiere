@@ -54,7 +54,7 @@ SELECT i.AD_Client_ID,i.AD_Org_ID, i.IsActive, i.Created,i.CreatedBy,i.Updated,i
     i.GrandTotal*i.MultiplierAP AS Amt,
     invoiceOpen (i.C_Invoice_ID, i.C_InvoicePaySchedule_ID)*MultiplierAP AS OpenAmt,
     i.DateInvoiced AS DateDoc, 
-    COALESCE(daysBetween(getdate(),ips.DueDate), paymentTermDueDays(C_PaymentTerm_ID,DateInvoiced,getdate())) AS DaysDue,
+    NVL(daysBetween(getdate(),ips.DueDate), paymentTermDueDays(C_PaymentTerm_ID,DateInvoiced,getdate())) AS DaysDue,
     i.C_Campaign_ID, i.C_Project_ID, i.C_Activity_ID
 FROM C_Invoice_v i 
   LEFT OUTER JOIN C_InvoicePaySchedule ips ON (i.C_InvoicePaySchedule_ID=ips.C_InvoicePaySchedule_ID)

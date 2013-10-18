@@ -256,7 +256,7 @@ public class SmjXlsReport {
 			}//if
 			newRow = false;
 			
-			if (rpt.getreportlinestyle() != null && rpt.getreportlinestyle().equals("T")) {
+			if (rpt.getReportlinestyle() != null && rpt.getReportlinestyle().equals("T")) {
 				// Coloca titulo - put title
 				row = sheet.createRow(fila++);
 				HSSFFont fontT = book.createFont();
@@ -275,7 +275,7 @@ public class SmjXlsReport {
 				cellT.setCellStyle(cellStyleT);
 				cellT.setCellValue(text);
 				newRow = true;
-			} else if (rpt.getreportlinestyle() != null && rpt.getreportlinestyle().equals("L")) {
+			} else if (rpt.getReportlinestyle() != null && rpt.getReportlinestyle().equals("L")) {
 				// coloca linea en el reporte - Put under line in the report
 				cellStyle.setWrapText(true);
 				cellStyle.setBorderTop(HSSFCellStyle.BORDER_MEDIUM);
@@ -287,14 +287,14 @@ public class SmjXlsReport {
 				cellStyleN.setBorderTop(HSSFCellStyle.BORDER_MEDIUM);
 				cellStyleN.setBottomBorderColor((short)8);
 				newRow = true;
-			} else if (rpt.getreportlinestyle() != null	&& rpt.getreportlinestyle().equals("X")) {
+			} else if (rpt.getReportlinestyle() != null	&& rpt.getReportlinestyle().equals("X")) {
 				// coloca linea de total - Put total line
 				cellStyle.setWrapText(true);
 				cellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_TOP);
 				cellStyle.setBorderTop(HSSFCellStyle.BORDER_MEDIUM);
 				cellStyle.setBottomBorderColor((short)8);
 				newRow = true;
-			}else if (rpt.getreportlinestyle() != null	&& rpt.getreportlinestyle().equals("Z")) {
+			}else if (rpt.getReportlinestyle() != null	&& rpt.getReportlinestyle().equals("Z")) {
 				// coloca linea doble de total - Put total line doble
 				cellStyle.setWrapText(true);
 				cellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_TOP);
@@ -306,23 +306,23 @@ public class SmjXlsReport {
 				putRow(cellStyle, cellStyleD, cellStyleN, sheet, row, fila, rptD);
 				cellStyle = book.createCellStyle();
 				newRow = true;
-			}else if (rpt.getreportlinestyle() != null && rpt.getreportlinestyle().equals("D")) {
+			}else if (rpt.getReportlinestyle() != null && rpt.getReportlinestyle().equals("D")) {
 				// coloca liena de descripcion - put description line
 				cellStyleD.setWrapText(true);
 				cellStyleD.setVerticalAlignment(HSSFCellStyle.VERTICAL_TOP);
 				cellStyleD.setBorderTop(HSSFCellStyle.BORDER_MEDIUM);
 				cellStyleD.setBottomBorderColor((short)8);
 				newRow = true;
-			}else if (rpt.getreportlinestyle() != null && rpt.getreportlinestyle().equals("S")) {
+			}else if (rpt.getReportlinestyle() != null && rpt.getReportlinestyle().equals("S")) {
 				// coloca linea en blanco - put empty line
 				row = sheet.createRow(fila++);
 				newRow = true;
-			}else if (rpt.gettablevel() != null && rpt.gettablevel() > 0) {
+			}else if (rpt.getTablevel() != null && rpt.getTablevel() > 0) {
 				// coloca espacios a la izquierda para simular jeraquia - put
 				// left spaces to simulate hierarchy
 				row = sheet.createRow(fila++);
 				String jerarchy = "";
-				for (int i = 1; i <= rpt.gettablevel(); i++) {
+				for (int i = 1; i <= rpt.getTablevel(); i++) {
 					jerarchy = jerarchy + "   ";
 				}//for
 				Region region = new Region(fila-1,(short)0,fila-1,endRegion);

@@ -197,7 +197,7 @@ public class SmjPdfReport extends PdfPageEventHelper {
 		Iterator<ReportTO> itRep = data.iterator();
 		while (itRep.hasNext()) {
 			ReportTO rpt = itRep.next();
-			if (rpt.getreportlinestyle() != null	&& rpt.getreportlinestyle().equals("T")) {
+			if (rpt.getReportlinestyle() != null	&& rpt.getReportlinestyle().equals("T")) {
 				// Coloca titulo - put title
 				PdfPCell title = new PdfPCell(new Paragraph(
 						dataNull(rpt.getDescription()), titleTableFont));
@@ -205,7 +205,7 @@ public class SmjPdfReport extends PdfPageEventHelper {
 				title.setHorizontalAlignment(Paragraph.ALIGN_CENTER);
 				title.setBorder(0);
 				table.addCell(title);
-			} else if (rpt.getreportlinestyle() != null && rpt.getreportlinestyle().equals("L")) {
+			} else if (rpt.getReportlinestyle() != null && rpt.getReportlinestyle().equals("L")) {
 				// coloca linea en el reporte - Put under line in the report
 				PdfPCell line = new PdfPCell(new Paragraph("", subFont));
 				line.setColspan(cols);
@@ -214,15 +214,15 @@ public class SmjPdfReport extends PdfPageEventHelper {
 				line.setBorderWidthTop(0);
 				line.setBorderColorBottom(Color.BLACK);
 				table.addCell(line);
-			} else if (rpt.getreportlinestyle() != null	&& rpt.getreportlinestyle().equals("X")) {
+			} else if (rpt.getReportlinestyle() != null	&& rpt.getReportlinestyle().equals("X")) {
 				// coloca linea de total - Put total line
 				 simpleLine();
-			} else if (rpt.getreportlinestyle() != null	&& rpt.getreportlinestyle().equals("Z")) {
+			} else if (rpt.getReportlinestyle() != null	&& rpt.getReportlinestyle().equals("Z")) {
 				// coloca linea doble de total - Put total line doble
 				for(int j=0; j< 2;j++){
 				 simpleLine();
 				}
-			} else if (rpt.getreportlinestyle() != null && rpt.getreportlinestyle().equals("D")) {
+			} else if (rpt.getReportlinestyle() != null && rpt.getReportlinestyle().equals("D")) {
 				// coloca liena de descripcion - put description line
 				tableCell = new PdfPCell(new Phrase(""));
 				tableCell.setBorder(0);
@@ -238,17 +238,17 @@ public class SmjPdfReport extends PdfPageEventHelper {
 					tableCell.setBorder(0);
 					table.addCell(tableCell);
 				}// for
-			} else if (rpt.getreportlinestyle() != null && rpt.getreportlinestyle().equals("S")) {
+			} else if (rpt.getReportlinestyle() != null && rpt.getReportlinestyle().equals("S")) {
 				// coloca linea en blanco - put empty line
 				PdfPCell line = new PdfPCell(new Paragraph("         "));
 				line.setColspan(cols);
 				line.setBorder(0);
 				table.addCell(line);
-			} else if (rpt.gettablevel() != null && rpt.gettablevel() > 0) {
+			} else if (rpt.getTablevel() != null && rpt.getTablevel() > 0) {
 				// coloca espacios a la izquierda para simular jeraquia - put
 				// left spaces to simulate hierarchy
 				String jerarchy = "";
-				for (int i = 1; i <= rpt.gettablevel(); i++) {
+				for (int i = 1; i <= rpt.getTablevel(); i++) {
 					jerarchy = jerarchy + "   ";
 				}
 				PdfPCell line = new PdfPCell(new Paragraph(jerarchy

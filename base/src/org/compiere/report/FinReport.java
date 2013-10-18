@@ -500,6 +500,35 @@ public class FinReport extends SvrProcess
 				log.log(Level.SEVERE, "#=" + no + " for " + update);
 			log.finest(update.toString());
 		}
+		
+		//Add extra columns for account type and balancesheet/Pl flag.
+		MReportSource[] mrs= m_lines[line].getSources();
+		for(int j=0;j<mrs.length;j++)
+		{
+			StringBuffer sql1=new StringBuffer("UPDATE t_report SET accounttype=accounttype1 ,ax_case=ax_case1 " 
+												+ "from (SELECT ev.accounttype as accounttype1 ," 
+					+ "CASE ev.accounttype " 
+					+ " WHEN 'A'::bpchar THEN 'B'::text " 
+					+ " WHEN 'C'::bpchar THEN 'P'::text " 
+					+ " WHEN 'E'::bpchar THEN 'P'::text " 
+					+ " WHEN 'F'::bpchar THEN 'P'::text " 
+					+ " WHEN 'L'::bpchar THEN 'B'::text " 
+					+ " WHEN 'M'::bpchar THEN 'B'::text " 
+					+ " WHEN 'O'::bpchar THEN 'B'::text " 
+					+ " WHEN 'P'::bpchar THEN 'P'::text " 
+					+ " WHEN 'R'::bpchar THEN 'P'::text " 
+					+ " WHEN 'T'::bpchar THEN 'P'::text " 
+					+ " ELSE '9. Unknown'::text  END   " 
+					+ "as ax_case1 FROM fact_acct f " 
+					+ "RIGHT  JOIN c_elementvalue ev  ON  f.account_id = ev.c_elementvalue_id WHERE ev.c_elementvalue_id= ")
+					.append(mrs[j].getC_ElementValue_ID())
+					.append(") t  " ).append(" where AD_PInstance_ID = ")
+					.append(getAD_PInstance_ID())
+					.append(" AND PA_ReportLine_ID= ")
+					.append(m_lines[line].getPA_ReportLine_ID());
+			int no = DB.executeUpdate(sql1.toString(), get_TrxName());
+			log.log(Level.SEVERE, "#=" + no + " for " + update);
+		}
 	}	//	insertLine
 
 
@@ -776,8 +805,11 @@ public class FinReport extends SvrProcess
 			DB.close(pstmt); 
 			rs = null; pstmt = null;
 		}
-		if (col>0)
-			return col*percentage;
+		if (col>0) {
+			BigDecimal bd = new BigDecimal(Float.toString(col*percentage));
+			bd = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
+        	return bd.floatValue();
+		}
 		else
 			return new Float(0);
 	}//getFixedPercentage
@@ -1311,7 +1343,7 @@ public class FinReport extends SvrProcess
 						pfi.setName (s);
 						pfi.setPrintName (s);
 					}
-					int seq = 30 + index;
+					int seq = 50 + index;
 					if (pfi.getSeqNo() != seq)
 						pfi.setSeqNo(seq);
 
@@ -1362,6 +1394,31 @@ public class FinReport extends SvrProcess
 			{
 				if (pfi.getSeqNo() != 20)
 					pfi.setSeqNo(20);
+				if (!pfi.isPrinted())
+					pfi.setIsPrinted(true);
+				if (pfi.isOrderBy())
+					pfi.setIsOrderBy(false);
+				if (pfi.getSortNo() != 0)
+					pfi.setSortNo(0);
+			}
+			
+			else if (ColumnName.equals("AccountType"))
+			{
+
+				if (pfi.getSeqNo() != 30)
+					pfi.setSeqNo(30);
+				if (!pfi.isPrinted())
+					pfi.setIsPrinted(true);
+				if (pfi.isOrderBy())
+					pfi.setIsOrderBy(false);
+				if (pfi.getSortNo() != 0)
+					pfi.setSortNo(0);
+			}
+			else if (ColumnName.equalsIgnoreCase("Ax_Case"))
+			{
+				
+				if (pfi.getSeqNo() != 40)
+					pfi.setSeqNo(40);
 				if (!pfi.isPrinted())
 					pfi.setIsPrinted(true);
 				if (pfi.isOrderBy())
