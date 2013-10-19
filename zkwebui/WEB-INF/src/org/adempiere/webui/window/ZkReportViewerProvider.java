@@ -36,17 +36,11 @@ public class ZkReportViewerProvider implements ReportViewerProvider {
 
 
 	public void openViewer(ReportEngine report) {
-
-		Window viewer = new ZkReportViewer(report, report.getName());
-
-		viewer.setAttribute(Window.MODE_KEY, Window.MODE_EMBEDDED);
-		viewer.setAttribute(Window.INSERT_POSITION_KEY, Window.INSERT_NEXT);
-		SessionManager.getAppDesktop().showWindow(viewer);
-
-		// System Configuration Parameter "GENERATE_PEDRO_REPORT"
+		
+		// System Configuration Parameter "SMART_REPORT"
 		// Value = 'Y' if want to generate SMJReport else Value = 'N' if we don't want to generate SMJreport
 
-		if ( report.getPrintInfo().getAD_Process_ID() == 202 && MSysConfig.getBooleanValue("GENERATE_PEDRO_REPORT", Boolean.FALSE) ) { 
+		if ( report.getPrintInfo().getAD_Process_ID() == 202 && MSysConfig.getBooleanValue("SMART_REPORT", Boolean.FALSE) ) { 
 			ProcessInfo processInfo   = report.getProcessInfo() ;
 			MReport	m_report          = new MReport ( report.getCtx(), processInfo.getRecord_ID(), processInfo.getTransactionName() );
 			ProcessInfoParameter[] pi = processInfo.getParameter();
@@ -55,6 +49,12 @@ public class ZkReportViewerProvider implements ReportViewerProvider {
 			smjviewer.setAttribute(Window.INSERT_POSITION_KEY, Window.INSERT_NEXT);
 			SessionManager.getAppDesktop().showWindow(smjviewer);
 
+		} else { 
+			Window viewer = new ZkReportViewer(report, report.getName());
+
+			viewer.setAttribute(Window.MODE_KEY, Window.MODE_EMBEDDED);
+			viewer.setAttribute(Window.INSERT_POSITION_KEY, Window.INSERT_NEXT);
+			SessionManager.getAppDesktop().showWindow(viewer);
 		}
 	}
 }
