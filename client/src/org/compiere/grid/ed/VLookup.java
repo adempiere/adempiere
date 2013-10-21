@@ -1235,6 +1235,7 @@ public class VLookup extends JComponent
 		m_keyColumnName = MQuery.getZoomColumnName(m_columnName);
 
 		if (   m_columnName.equals("M_Product_ID") 
+		    || m_columnName.equals("M_ProductBOM_ID")
 			|| m_columnName.equals("C_BPartner_ID")
 			|| m_columnName.equals("C_Order_ID")
 			|| m_columnName.equals("C_Invoice_ID")

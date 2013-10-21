@@ -46,7 +46,6 @@ import org.compiere.util.Msg;
  */
 public class MProduct extends X_M_Product
 {
-
 	/**
 	 * 
 	 */

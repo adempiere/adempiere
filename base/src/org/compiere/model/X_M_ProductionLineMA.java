@@ -32,7 +32,7 @@ public class X_M_ProductionLineMA extends PO implements I_M_ProductionLineMA, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20111102L;
 
     /** Standard Constructor */
     public X_M_ProductionLineMA (Properties ctx, int M_ProductionLineMA_ID, String trxName)
@@ -122,9 +122,9 @@ public class X_M_ProductionLineMA extends PO implements I_M_ProductionLineMA, I_
 		return bd;
 	}
 
-	public org.compiere.model.I_M_ProductionLine getM_ProductionLine() throws RuntimeException
+	public I_M_ProductionLine getM_ProductionLine() throws RuntimeException
     {
-		return (org.compiere.model.I_M_ProductionLine)MTable.get(getCtx(), org.compiere.model.I_M_ProductionLine.Table_Name)
+		return (I_M_ProductionLine)MTable.get(getCtx(), I_M_ProductionLine.Table_Name)
 			.getPO(getM_ProductionLine_ID(), get_TrxName());	}
 
 	/** Set Production Line.

@@ -345,6 +345,29 @@ public class DocLine
 	}   //  getDateAcct
 
 	/**
+	 *  Get FX Conversion Date
+	 *  
+	 *  The foreign exchange rate conversion date may be different from the accounting posting date in some cases (e.g. bank statement)
+	 *  
+	 *  @return FX conversion date 
+	 */
+	public Timestamp getDateConv ()
+	{
+		Timestamp dateConv = null;
+		int index = p_po.get_ColumnIndex("DateAcct");
+		if (index != -1)
+		{
+			dateConv = (Timestamp)p_po.get_Value(index);
+		}
+		
+
+		if (dateConv == null)
+			dateConv = getDateAcct();
+		
+		return dateConv;
+	}   //  getDateAcct
+	
+	/**
 	 *  Set Document Date
 	 *  @param dateDoc doc date
 	 */
@@ -620,6 +643,22 @@ public class DocLine
 	}	//	isProductionBOM
 	
 	/**
+	 *  Get Production Header
+	 *  @return M_Production_ID
+	 */
+	public int getM_Production_ID()
+	{
+		int index = p_po.get_ColumnIndex("M_Production_ID");
+		if (index != -1)
+		{
+			Integer ii = (Integer)p_po.get_Value(index);
+			if (ii != null)
+				return ii.intValue();
+		}
+		return 0;
+	}   //  getM_Production_ID
+	
+	/**
 	 *  Get Production Plan
 	 *  @return M_ProductionPlan_ID
 	 */
@@ -684,7 +723,7 @@ public class DocLine
 	 */
 	public int setPP_Cost_Collector_ID(int PP_Cost_Collector_ID)
 	{
-		return m_PP_Cost_Collector_ID =  PP_Cost_Collector_ID;
+		return m_PP_Cost_Collector_ID;
 	}	//	getC_LocFrom_ID
 
 	/**

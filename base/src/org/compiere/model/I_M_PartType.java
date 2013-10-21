@@ -16,28 +16,25 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for M_ProductionLineMA
+/** Generated Interface for M_PartType
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
  */
-public interface I_M_ProductionLineMA 
+@SuppressWarnings("javadoc")
+public interface I_M_PartType 
 {
 
-    /** TableName=M_ProductionLineMA */
-    public static final String Table_Name = "M_ProductionLineMA";
+    /** TableName=M_PartType */
+    public static final String Table_Name = "M_PartType";
 
-    /** AD_Table_ID=765 */
-    public static final int Table_ID = MTable.getTable_ID(Table_Name);
+    /** AD_Table_ID=53334 */
+//    public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
-    KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
+//    org.compiere.util.KeyNamePair Model = new org.compiere.util.KeyNamePair(Table_ID, Table_Name);
 
-    /** AccessLevel = 1 - Org 
+    /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(1);
+//    java.math.BigDecimal accessLevel = java.math.BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -49,18 +46,24 @@ public interface I_M_ProductionLineMA
 	  */
 	public int getAD_Client_ID();
 
+	public org.compiere.model.I_AD_Client getAD_Client() throws RuntimeException;
+
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
-	/** Set Organization.
-	  * Organizational entity within client
+	/** Set Organisation.
+	  * Organisational entity within client
 	  */
 	public void setAD_Org_ID (int AD_Org_ID);
 
-	/** Get Organization.
-	  * Organizational entity within client
+	/** Get Organisation.
+	  * Organisational entity within client
 	  */
 	public int getAD_Org_ID();
+
+	public org.compiere.model.I_AD_Org getAD_Org() throws RuntimeException;
+
+	public void setAD_Org(org.compiere.model.I_AD_Org AD_Org);
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -68,7 +71,7 @@ public interface I_M_ProductionLineMA
 	/** Get Created.
 	  * Date this record was created
 	  */
-	public Timestamp getCreated();
+	public java.sql.Timestamp getCreated();
 
     /** Column name CreatedBy */
     public static final String COLUMNNAME_CreatedBy = "CreatedBy";
@@ -77,6 +80,19 @@ public interface I_M_ProductionLineMA
 	  * User who created this records
 	  */
 	public int getCreatedBy();
+
+    /** Column name Description */
+    public static final String COLUMNNAME_Description = "Description";
+
+	/** Set Description.
+	  * Optional short description of the record
+	  */
+	public void setDescription (java.lang.String Description);
+
+	/** Get Description.
+	  * Optional short description of the record
+	  */
+	public java.lang.String getDescription();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -91,48 +107,27 @@ public interface I_M_ProductionLineMA
 	  */
 	public boolean isActive();
 
-    /** Column name M_AttributeSetInstance_ID */
-    public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
+    /** Column name M_PartType_ID */
+    public static final String COLUMNNAME_M_PartType_ID = "M_PartType_ID";
 
-	/** Set Attribute Set Instance.
-	  * Product Attribute Set Instance
+	/** Set Part Type	  */
+	public void setM_PartType_ID (int M_PartType_ID);
+
+	/** Get Part Type	  */
+	public int getM_PartType_ID();
+
+    /** Column name Name */
+    public static final String COLUMNNAME_Name = "Name";
+
+	/** Set Name.
+	  * Alphanumeric identifier of the entity
 	  */
-	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID);
+	public void setName (java.lang.String Name);
 
-	/** Get Attribute Set Instance.
-	  * Product Attribute Set Instance
+	/** Get Name.
+	  * Alphanumeric identifier of the entity
 	  */
-	public int getM_AttributeSetInstance_ID();
-
-	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
-
-    /** Column name MovementQty */
-    public static final String COLUMNNAME_MovementQty = "MovementQty";
-
-	/** Set Movement Quantity.
-	  * Quantity of a product moved.
-	  */
-	public void setMovementQty (BigDecimal MovementQty);
-
-	/** Get Movement Quantity.
-	  * Quantity of a product moved.
-	  */
-	public BigDecimal getMovementQty();
-
-    /** Column name M_ProductionLine_ID */
-    public static final String COLUMNNAME_M_ProductionLine_ID = "M_ProductionLine_ID";
-
-	/** Set Production Line.
-	  * Document Line representing a production
-	  */
-	public void setM_ProductionLine_ID (int M_ProductionLine_ID);
-
-	/** Get Production Line.
-	  * Document Line representing a production
-	  */
-	public int getM_ProductionLine_ID();
-
-	public I_M_ProductionLine getM_ProductionLine() throws RuntimeException;
+	public java.lang.String getName();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -140,7 +135,7 @@ public interface I_M_ProductionLineMA
 	/** Get Updated.
 	  * Date this record was updated
 	  */
-	public Timestamp getUpdated();
+	public java.sql.Timestamp getUpdated();
 
     /** Column name UpdatedBy */
     public static final String COLUMNNAME_UpdatedBy = "UpdatedBy";
