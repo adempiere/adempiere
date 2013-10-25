@@ -379,8 +379,14 @@ public class MobileSessionCtx implements Serializable
 		//  Get Cookie
 		Properties cProp = MobileUtil.getCookieProprties(request);
 		
+		//red1 Get Environment Ctx first
+		String AD_Language = Env.getAD_Language(ctx);
+		
 		//  Get/set Parameter:      Language
-		String AD_Language = MobileUtil.getParameter (request, Env.LANGUAGE);
+		
+		String	mobileLanguage = MobileUtil.getParameter (request, Env.LANGUAGE);
+		if (mobileLanguage != null) 
+			AD_Language = mobileLanguage;
 		if (AD_Language == null)
 		{
 			//  Check Cookie
