@@ -97,7 +97,7 @@ public class WebOrder
 		//
 		m_order.setSendEMail(true);
 		m_order.setDocAction(MOrder.DOCACTION_Prepare);
-		m_order.save();
+		m_order.saveEx();
 		log.fine("ID=" + m_order.getC_Order_ID()
 			+ ", DocNo=" + m_order.getDocumentNo());
 
@@ -111,10 +111,10 @@ public class WebOrder
 			ol.setPrice();
 			ol.setPrice(wbl.getPrice());
 			ol.setTax();
-			ol.save();
+			ol.saveEx();
 		}	//	for all lines
 		boolean ok = m_order.processIt (MOrder.DOCACTION_Prepare);
-		m_order.save();
+		m_order.saveEx();
 
 		//	Web User = Customer
 		if (!wu.isCustomer())
@@ -152,11 +152,11 @@ public class WebOrder
 		if (m_order == null)
 			return false;
 		if (payment.get_ID() == 0)
-			payment.save();
+			payment.saveEx();
 		m_order.setC_Payment_ID (payment.getC_Payment_ID());
 		m_order.setDocAction (MOrder.DOCACTION_WaitComplete);
 		boolean ok = m_order.processIt (MOrder.DOCACTION_WaitComplete);
-		m_order.save();
+		m_order.saveEx();
 		//
 		payment.setC_Order_ID (m_order.getC_Order_ID());
 		payment.setC_Invoice_ID (getInvoice_ID());

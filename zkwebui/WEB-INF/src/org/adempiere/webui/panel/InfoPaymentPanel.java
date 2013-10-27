@@ -21,40 +21,37 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.Date;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Checkbox;
 import org.adempiere.webui.component.Datebox;
-import org.adempiere.webui.component.Grid;
-import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
+import org.adempiere.webui.component.NumberBox;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WSearchEditor;
-import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
-import org.adempiere.webui.event.WTableModelEvent;
+import org.compiere.apps.search.Info_Column;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
+import org.compiere.model.MColumn;
 import org.compiere.model.MLookupFactory;
+import org.compiere.model.MPayment;
 import org.compiere.model.MQuery;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.Trx;
 import org.compiere.util.Util;
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
-import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
-import org.zkoss.zul.Separator;
-import org.zkoss.zul.Vbox;
 
 /**
 * Based on InfoPayment written by Jorg Janke
@@ -65,6 +62,10 @@ import org.zkoss.zul.Vbox;
 * Zk Port
 * @author Elaine
 * @version	InfoPayment.java Adempiere Swing UI 3.4.1
+* 
+* @author Michael McKay, ADEMPIERE-72 VLookup and Info Window improvements
+* 	<li>https://adempiere.atlassian.net/browse/ADEMPIERE-72
+* 
 */
 
 public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, EventListener
@@ -73,27 +74,34 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 	 * 
 	 */
 	private static final long serialVersionUID = -7346527589727807179L;
-	private Textbox fDocumentNo = new Textbox();
-	private Textbox fAmtTo = new Textbox();
-	private Textbox fAmtFrom = new Textbox();
+	
+	private int fieldID = 0;
+	
+	private Textbox fDocumentNo;
+	private NumberBox fAmtTo;
+	private NumberBox fAmtFrom;
 
 	private WEditor fBPartner_ID;
+	private WEditor fBankAccount_ID;
 
 	private Datebox fDateTo = new Datebox();
 	private Datebox fDateFrom = new Datebox();
 
-	private Checkbox fIsReceipt = new Checkbox();
+	private Checkbox fCheckReceipt = new Checkbox();
+	private Checkbox fCheckPayment = new Checkbox();
 	
 	private Label lDocumentNo = new Label(Msg.translate(Env.getCtx(), "DocumentNo"));
 	private Label lDateFrom = new Label(Msg.translate(Env.getCtx(), "DateTrx"));
 	private Label lDateTo = new Label("-");
 	private Label lAmtFrom = new Label(Msg.translate(Env.getCtx(), "PayAmt"));
 	private Label lAmtTo = new Label("-");
-	private Borderlayout layout;
-	private Vbox southBody;
 
+	/** From Clause             */
+	private static String s_From = " C_Payment_v p";
+	/** Order Clause             */
+	private static String s_Order = "2,3,4";
 	/**  Array of Column Info    */
-	private static final ColumnInfo[] s_paymentLayout = {
+	private static final ColumnInfo[] s_Layout = {
 		new ColumnInfo(" ", "p.C_Payment_ID", IDColumn.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "C_BankAccount_ID"),
 			"(SELECT b.Name || ' ' || ba.AccountNo FROM C_Bank b, C_BankAccount ba WHERE b.C_Bank_ID=ba.C_Bank_ID AND ba.C_BankAccount_ID=p.C_BankAccount_ID)", String.class),
@@ -116,91 +124,132 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 		new ColumnInfo(Msg.translate(Env.getCtx(), "WriteOffAmt"),
 			"p.WriteOffAmt",  BigDecimal.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "IsAllocated"),
-			"p.IsAllocated",  Boolean.class)
+			"p.IsAllocated",  Boolean.class),
+		new Info_Column(Msg.translate(Env.getCtx(), "DocStatus"), "docstatus", String.class)
+
 	};
 	
 	/**
 	 *  Detail Protected Constructor
 	 *  
-	 *  @param modal modal
 	 *  @param WindowNo window no
+	 *  @param record_id The id of the record to search for
 	 *  @param value query value
 	 *  @param multiSelection multiple selections
 	 *  @param whereClause where clause
 	 */
-	protected InfoPaymentPanel(int WindowNo, String value,
+	protected InfoPaymentPanel(int WindowNo, int record_id, String value,
 			boolean multiSelection, String whereClause)
 	{
-		this(WindowNo, value, multiSelection, whereClause, true);
+		this(WindowNo, true, record_id, value, multiSelection, true, whereClause);
 	}
 	
 	/**
 	 *  Detail Protected Constructor
 	 *
-	 *  @param modal modal
 	 *  @param WindowNo window no
+	 *  @param modal modal
+	 *  @param record_id The id of the record to search for
 	 *  @param value query value
 	 *  @param multiSelection multiple selections
 	 *  @param whereClause where clause
 	 */
-	protected InfoPaymentPanel(int WindowNo, String value,
-			boolean multiSelection, String whereClause, boolean lookup)
+	protected InfoPaymentPanel(int WindowNo, boolean modal, int record_id, String value,
+			boolean multiSelection, boolean saveResults, String whereClause)
 	{
-		super(WindowNo, "p", "C_Payment_ID", multiSelection, whereClause, lookup);
-		
-		log.info( "InfoPaymentPanel");
+		super(WindowNo, modal, "p", "C_Payment_ID", multiSelection, saveResults, whereClause);
+		log.info( "InfoPayment");
 		setTitle(Msg.getMsg(Env.getCtx(), "InfoPayment"));
+		//
+		StringBuffer where = new StringBuffer("p.IsActive='Y'");
+		if (whereClause.length() > 0)
+			where.append(" AND ").append(Util.replace(whereClause, "C_Payment.", "p."));
+		setWhereClause(where.toString());
+		setTableLayout(s_Layout);
+		setFromClause(s_From);
+		setOrderClause(s_Order);
+		//
+		setShowTotals(true);
+		//
+		statInit();
+		initInfo (record_id, value);
 
-		try
-		{
-			statInit();
-			p_loadedOK = initInfo();
-		}
-		catch (Exception e)
-		{
-			return;
-		}
-
-		int no = contentPanel.getRowCount();
+		//	AutoQuery
+		if(autoQuery() || record_id != 0 || (value != null && value.length() > 0 && value != "%"))
+			prepareAndExecuteQuery();
 		
-		setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
-		setStatusDB(Integer.toString(no));
-		
-		if (value != null && value.length() > 0)
-		{
-			fDocumentNo .setValue(value);
-			executeQuery();
-		}
+		p_loadedOK = true;
 	} // InfoPaymentPanel
 
 	/**
 	 *	Static Setup - add fields to parameterPanel
-	 *  @throws Exception if Lookups cannot be created
-	 */
-	
-	private void statInit() throws Exception
+	 */	
+	private void statInit()
 	{
+		fDocumentNo = new Textbox();
 		fDocumentNo.setWidth("100%");
-		fDateFrom.setWidth("165px");
-		fDateTo.setWidth("165px");
-		fAmtFrom.setWidth("180px");
-		fAmtTo.setWidth("180px");
-		
+        fDocumentNo.addEventListener(Events.ON_CHANGE, this);
+        fDocumentNo.setAttribute("zk_component_ID", "Lookup_Criteria_fDocumentNo");
 		fDocumentNo.addEventListener(Events.ON_CHANGE, this);
 		
-		fIsReceipt.setLabel(Msg.translate(Env.getCtx(), "IsReceipt"));
-		fIsReceipt.addEventListener(Events.ON_CHECK, this);
-		fIsReceipt.setChecked(!"N".equals(Env.getContext(Env.getCtx(), p_WindowNo, "IsSOTrx")));
-		
-		fBPartner_ID = new WSearchEditor(	
-				MLookupFactory.get(Env.getCtx(), p_WindowNo, 0, 3499, DisplayType.Search), 
+		// 	Format the dates and number boxes
+		fDateFrom = new Datebox();
+		fDateFrom.setWidth("97px");
+		fDateFrom.setAttribute("zk_component_ID", "Lookup_Criteria_DateFrom");
+		fDateFrom.addEventListener(Events.ON_CHANGE, this);
+		//
+		fDateTo = new Datebox();
+		fDateTo.setWidth("97px");
+		fDateTo.setAttribute("zk_component_ID", "Lookup_Criteria_DateTo");
+		fDateTo.addEventListener(Events.ON_CHANGE, this);
+		//
+		SimpleDateFormat dateFormat = DisplayType.getDateFormat(DisplayType.Date, AEnv.getLanguage(Env.getCtx()));
+		fDateFrom.setFormat(dateFormat.toPattern());
+		fDateTo.setFormat(dateFormat.toPattern());
+		//
+		fAmtFrom = new NumberBox(false);
+		fAmtFrom.getDecimalbox().setWidth("90px");
+		fAmtFrom.setAttribute("zk_component_ID", "Lookup_Criteria_AmtFrom");
+		fAmtFrom.addEventListener(Events.ON_CHANGE, this);
+		//
+		fAmtTo = new NumberBox(false);
+		fAmtTo.getDecimalbox().setWidth("90px");
+		fAmtTo.setAttribute("zk_component_ID", "Lookup_Criteria_AmtTo");
+		fAmtTo.addEventListener(Events.ON_CHANGE, this);		
+		//
+		DecimalFormat format = DisplayType.getNumberFormat(DisplayType.Amount, AEnv.getLanguage(Env.getCtx()));
+		fAmtFrom.getDecimalbox().setFormat(format.toPattern());
+		fAmtFrom.getDecimalbox().setStyle("text-align:right; " + fAmtFrom.getDecimalbox().getStyle());
+		fAmtTo.getDecimalbox().setFormat(format.toPattern());
+		fAmtTo.getDecimalbox().setStyle("text-align:right; " + fAmtTo.getDecimalbox().getStyle());
+		//
+		fCheckReceipt.setLabel(Msg.translate(Env.getCtx(), "OnlyReceipt"));
+		fCheckReceipt.setName("OnlyReceipt");
+		fCheckReceipt.addEventListener(Events.ON_CHECK, this);
+		fCheckReceipt.setAttribute("zk_component_ID", "Lookup_Criteria_CheckReceipt");
+		//
+		fCheckPayment.setLabel(Msg.translate(Env.getCtx(), "OnlyPayment"));
+		fCheckPayment.setName("OnlyPayment");
+		fCheckPayment.addEventListener(Events.ON_CHECK, this);
+		fCheckPayment.setAttribute("zk_component_ID", "Lookup_Criteria_CheckPayment");
+		//
+		fBPartner_ID = new WSearchEditor(
+				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0,  
+						MColumn.getColumn_ID(MPayment.Table_Name, MPayment.COLUMNNAME_C_BPartner_ID),
+						DisplayType.Search),  
 				Msg.translate(Env.getCtx(), "C_BPartner_ID"), "", false, false, true);
-		fBPartner_ID.addValueChangeListener(this);
+		fBPartner_ID.getComponent().setAttribute("zk_component_ID", "Lookup_Criteria_C_BPartner_ID");
+		fBPartner_ID.addValueChangeListener(this);       
 		
-		Grid grid = GridFactory.newGridLayout();
+		fBankAccount_ID = new WSearchEditor(
+				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0,  
+						MColumn.getColumn_ID(MPayment.Table_Name, MPayment.COLUMNNAME_C_BankAccount_ID),
+						DisplayType.Search),  
+				Msg.translate(Env.getCtx(), "C_BankAccount_ID"), "", false, false, true);
+		fBankAccount_ID.getComponent().setAttribute("zk_component_ID", "Lookup_Criteria_C_BankAccount_ID");
+		fBankAccount_ID.addValueChangeListener(this);       
 		
 		Rows rows = new Rows();
-		grid.appendChild(rows);
 		
 		Row row = new Row();
 		rows.appendChild(row);
@@ -208,20 +257,22 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 		row.appendChild(fDocumentNo);
 		row.appendChild(fBPartner_ID.getLabel().rightAlign());
 		row.appendChild(fBPartner_ID.getComponent());
-		row.appendChild(fIsReceipt);
+		row.appendChild(fCheckReceipt);
 		
 		row = new Row();
-		row.setSpans("3, 2");
 		rows.appendChild(row);
+		row.appendChild(fBankAccount_ID.getLabel().rightAlign());
+		row.appendChild(fBankAccount_ID.getComponent());
 		row.appendChild(lDateFrom.rightAlign());
 		Hbox hbox = new Hbox();
 		hbox.appendChild(fDateFrom);
 		hbox.appendChild(lDateTo);
 		hbox.appendChild(fDateTo);
 		row.appendChild(hbox);
+		row.appendChild(fCheckPayment);
 		
 		row = new Row();
-		row.setSpans("3, 2");
+		row.setSpans("3, 1");
 		rows.appendChild(row);
 		row.appendChild(lAmtFrom.rightAlign());
 		hbox = new Hbox();
@@ -229,41 +280,14 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 		hbox.appendChild(lAmtTo);
 		hbox.appendChild(fAmtTo);
 		row.appendChild(hbox);
-		
-		layout = new Borderlayout();
-        layout.setWidth("100%");
-        layout.setHeight("100%");
-        if (!isLookup())
-        {
-        	layout.setStyle("position: absolute");
-        }
-        this.appendChild(layout);
 
-        North north = new North();
-        layout.appendChild(north);
-		north.appendChild(grid);
-
-        Center center = new Center();
-		layout.appendChild(center);
-		center.setFlex(true);
-		Div div = new Div();
-		div.appendChild(contentPanel);
-		if (isLookup())
-			contentPanel.setWidth("99%");
-        else
-        	contentPanel.setStyle("width: 99%; margin: 0px auto;");
-        contentPanel.setVflex(true);
-		div.setStyle("width :100%; height: 100%");
-		center.appendChild(div);
-        
-		South south = new South();
-		layout.appendChild(south);
-		southBody = new Vbox();
-		southBody.setWidth("100%");
-		south.appendChild(southBody);
-		southBody.appendChild(confirmPanel);
-		southBody.appendChild(new Separator());
-		southBody.appendChild(statusBar);
+		p_criteriaGrid.appendChild(rows);
+		super.setSizes();
+	}
+	
+	protected void initInfo()
+	{
+		initInfo(0,"");
 	}
 	
 	/**
@@ -271,25 +295,91 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 	 *	@return true, if success
 	 */
 	
-	private boolean initInfo ()
+	private void initInfo (int record_id, String value)
 	{
-		//  Set Defaults
-		String bp = Env.getContext(Env.getCtx(), p_WindowNo, "C_BPartner_ID");
-		
-		if (bp != null && bp.length() != 0)
-			fBPartner_ID.setValue(new Integer(bp));
+		if (!(record_id == 0) && value != null && value.length() > 0)
+		{
+			log.severe("Received both a record_id and a value: " + record_id + " - " + value);
+		}
 
-		// Prepare table
-		StringBuffer where = new StringBuffer("p.IsActive='Y'");
-		
-		if (p_whereClause.length() > 0)
-			where.append(" AND ").append(Util.replace(p_whereClause, "C_Payment.", "p."));
-		
-		prepareTable(s_paymentLayout, " C_Payment_v p", where.toString(), "2,3,4");
-		
-		return true;
+		//  Set values
+        if (!(record_id == 0))  // A record is defined
+        {
+        	fieldID = record_id;
+        	String trxName = Trx.createTrxName();
+        	MPayment p = new MPayment(Env.getCtx(),record_id, trxName);
+			fCheckReceipt.setSelected(p.isReceipt());
+    		fCheckPayment.setSelected(!p.isReceipt());
+    		p = null;
+    		Trx.get(trxName, false).close();
+        } 
+        else  // Try to find other criteria in the context
+        {
+			String id;
+			
+			//  C_BPartner_ID
+			id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "C_BPartner_ID", true);
+			if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
+				fBPartner_ID.setValue(new Integer(id));
+			
+			//  The value passed in from the field
+			if (value != null && value.length() > 0)
+			{
+				fDocumentNo.setValue(value);
+			}
+			else
+			{
+				//  C_Payment_ID
+				id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "C_Payment_ID", true);
+				if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
+				{
+					fieldID = new Integer(id).intValue();
+		        	String trxName = Trx.createTrxName();
+		        	MPayment p = new MPayment(Env.getCtx(),record_id, trxName);
+					fCheckReceipt.setSelected(p.isReceipt());
+		    		fCheckPayment.setSelected(!p.isReceipt());
+		    		p = null;
+		    		Trx.get(trxName, false).close();
+				}
+				//  C_BankAccount_ID
+				id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "C_BankAccount_ID", true);
+				if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
+					fBankAccount_ID.setValue(new Integer(id));
+			}
+        }
 	} // initInfo
 	
+    public void onEvent(Event e)
+    {
+    	// Handle specific actions if possible or pass the event to the parent class
+
+		if(!p_loadedOK)
+			return;
+
+		Component component = e.getTarget();
+		
+		if(component != null)
+		{
+			if (component instanceof Checkbox)
+			{
+				Checkbox cb = (Checkbox) component;
+				// Make the checkboxes exclusive
+				if(cb.getName() == "OnlyReceipt")
+				{
+					if(fCheckReceipt.isSelected())
+						fCheckPayment.setSelected(false);
+				}
+				if(cb.getName() == "OnlyPayment")
+				{
+					if(fCheckPayment.isSelected())
+						fCheckReceipt.setSelected(false);
+				}
+			}
+		} 
+		//
+		super.onEvent(e);
+    }
+
 	
 	/**************************************************************************
 	 *	Construct SQL Where Clause and define parameters
@@ -301,21 +391,34 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 	protected String getSQLWhere()
 	{
 		StringBuffer sql = new StringBuffer();
-		
-		if (fDocumentNo.getText().length() > 0)
+
+		//  => ID
+		if(isResetRecordID())
+			fieldID = 0;
+		if(!(fieldID == 0))
+			sql.append(" AND p.C_Payment_ID = ?");
+		//
+		if (isValidSQLText(fDocumentNo))
 			sql.append(" AND UPPER(p.DocumentNo) LIKE ?");
-
-		if (fBPartner_ID.getDisplay() != "")
+		//
+		if (fBPartner_ID.getValue() != null)
 			sql.append(" AND p.C_BPartner_ID=?");
-
+		//
+		if (fBankAccount_ID.getValue() != null)
+			sql.append(" AND p.C_BankAccount_ID=?");
+		//
 		if (fDateFrom.getValue() != null || fDateTo.getValue() != null)
 		{
-			Date f = fDateFrom.getValue();
-			Timestamp from = new Timestamp(f.getTime());
-			
-			Date t = fDateTo.getValue();
-			Timestamp to = new Timestamp(t.getTime());
-
+			Timestamp from = null;
+			Timestamp to = null;
+			//
+			if (fDateFrom.getValue() != null)
+				from = new Timestamp(fDateFrom.getValue().getTime());
+			if (fDateTo.getValue() != null)
+				to = new Timestamp(fDateTo.getValue().getTime());
+			//
+			log.fine("Date From=" + from + ", To=" + to);
+			//
 			if (from == null && to != null)
 				sql.append(" AND TRUNC(p.DateTrx, 'DD') <= ?");
 			else if (from != null && to == null)
@@ -323,12 +426,11 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 			else if (from != null && to != null)
 				sql.append(" AND TRUNC(p.DateTrx, 'DD') BETWEEN ? AND ?");
 		}
-
-		if (fAmtFrom.getText() != "" || fAmtTo.getText() != "")
+		//
+		if (fAmtFrom.getValue() != null || fAmtTo.getValue() != null)
 		{
-			BigDecimal from = new BigDecimal(fAmtFrom.getValue());
-			BigDecimal to = new BigDecimal(fAmtTo.getValue());
-			
+			BigDecimal from = (BigDecimal)fAmtFrom.getValue();
+			BigDecimal to = (BigDecimal)fAmtTo.getValue();
 			if (from == null && to != null)
 				sql.append(" AND p.PayAmt <= ?");
 			else if (from != null && to == null)
@@ -337,7 +439,21 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 				sql.append(" AND p.PayAmt BETWEEN ? AND ?");
 		}
 		
-		sql.append(" AND p.IsReceipt=?");
+		
+		if (fCheckReceipt.isSelected() && fCheckPayment.isSelected())
+			log.severe("Both Only Receipt and Only Payment selected at the same time.");
+		//	Static SQL
+		if (fCheckReceipt.isSelected())
+		{
+			sql.append(" AND ");
+				sql.append ("p.IsReceipt='Y'");
+		}
+
+		if (fCheckPayment.isSelected())
+		{
+			sql.append(" AND ");
+				sql.append ("p.IsReceipt='N'");
+		}
 
 		log.fine(sql.toString());
 		return sql.toString();
@@ -354,27 +470,39 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 	protected void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
 	{
 		int index = 1;
-	
-		if (fDocumentNo.getText().length() > 0)
+		//  => ID
+		if (!(fieldID == 0))
+			pstmt.setInt(index++, fieldID);
+		//
+		if (isValidSQLText(fDocumentNo))
 			pstmt.setString(index++, getSQLText(fDocumentNo));
-
-		if (fBPartner_ID.getDisplay() != "")
+		//
+		if (fBPartner_ID.getValue() != null)
 		{
-			Integer bp = (Integer)fBPartner_ID.getValue();
-			pstmt.setInt(index++, bp.intValue());
-			log.fine("BPartner=" + bp);
+			Integer id = (Integer)fBPartner_ID.getValue();
+			pstmt.setInt(index++, id.intValue());
+			log.fine("BPartner=" + id);
 		}
-
+		//
+		if (fBankAccount_ID.getValue() != null)
+		{
+			Integer id = (Integer)fBankAccount_ID.getValue();
+			pstmt.setInt(index++, id.intValue());
+			log.fine("BankAccount=" + id);
+		}
+		//
 		if (fDateFrom.getValue() != null || fDateTo.getValue() != null)
 		{
-			Date f = fDateFrom.getValue();
-			Timestamp from = new Timestamp(f.getTime());
-			
-			Date t = fDateTo.getValue();
-			Timestamp to = new Timestamp(t.getTime());
-			
+			Timestamp from = null;
+			Timestamp to = null;
+			//
+			if (fDateFrom.getValue() != null)
+				from = new Timestamp(fDateFrom.getValue().getTime());
+			if (fDateTo.getValue() != null)
+				to = new Timestamp(fDateTo.getValue().getTime());
+			//
 			log.fine("Date From=" + from + ", To=" + to);
-		
+			//
 			if (from == null && to != null)
 				pstmt.setTimestamp(index++, to);
 			else if (from != null && to == null)
@@ -385,13 +513,12 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 				pstmt.setTimestamp(index++, to);
 			}
 		}
-
-		if (fAmtFrom.getText() != "" || fAmtTo.getText() != "")
+		//
+		if (fAmtFrom.getValue() != null || fAmtTo.getValue() != null)
 		{
-			BigDecimal from = new BigDecimal(fAmtFrom.getValue());
-			BigDecimal to = new BigDecimal(fAmtTo.getValue());
+			BigDecimal from = (BigDecimal)fAmtFrom.getValue();
+			BigDecimal to = (BigDecimal)fAmtTo.getValue();
 			log.fine("Amt From=" + from + ", To=" + to);
-			
 			if (from == null && to != null)
 				pstmt.setBigDecimal(index++, to);
 			else if (from != null && to == null)
@@ -402,27 +529,7 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 				pstmt.setBigDecimal(index++, to);
 			}
 		}
-		
-		pstmt.setString(index++, fIsReceipt.isChecked() ? "Y" : "N");
 	} // setParameters
-
-	/**
-	 *  Get SQL WHERE parameter
-	 *  @param f field
-	 *  @return Upper case text with % at the end
-	 */
-	
-	private String getSQLText (Textbox f)
-	{
-		String s = f.getText().toUpperCase();
-		
-		if (!s.endsWith("%"))
-			s += "%";
-		
-		log.fine( "String=" + s);
-		
-		return s;
-	} // getSQLText
 
 	// Elaine 2008/12/16
 	/**
@@ -437,7 +544,7 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 		MQuery query = new MQuery("C_Payment");
 		query.addRestriction("C_Payment_ID", MQuery.EQUAL, C_Payment_ID);
 		query.setRecordCount(1);
-		int AD_WindowNo = getAD_Window_ID("C_Payment", fIsReceipt.isSelected());
+		int AD_WindowNo = getAD_Window_ID("C_Payment", fCheckReceipt.isSelected());
 		AEnv.zoom (AD_WindowNo, query);
 	}	//	zoom
 	//
@@ -452,23 +559,42 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 		return true;
 	} // hasZoom
 	
-	public void valueChange(ValueChangeEvent evt)
+	
+	/**
+	 * Does the parameter panel have outstanding changes that have not been
+	 * used in a query?
+	 * @return true if there are outstanding changes.
+	 */
+	protected boolean hasOutstandingChanges()
 	{
-		if (fBPartner_ID.equals(evt.getSource()))
-		{
-	    	fBPartner_ID.setValue(evt.getNewValue());
-		}
+		//  All the tracked fields
+		return(
+				fDocumentNo.hasChanged()	||
+				fBankAccount_ID.hasChanged()	||
+				fCheckPayment.hasChanged()	||
+				fCheckReceipt.hasChanged()	||
+				fBPartner_ID.hasChanged()	||
+				fAmtFrom.hasChanged() ||
+				fAmtTo.hasChanged() ||
+				fDateFrom.hasChanged()	||
+				fDateTo.hasChanged());
 	}
-
-	public void tableChanged(WTableModelEvent event)
+	/**
+	 * Record outstanding changes by copying the current
+	 * value to the oldValue on all fields
+	 */
+	protected void setFieldOldValues()
 	{
-	}
-		
-	@Override
-	protected void insertPagingComponent()
-	{
-		southBody.insertBefore(paging, southBody.getFirstChild());
-		layout.invalidate();
+		fAmtFrom.set_oldValue();
+		fAmtTo.set_oldValue();
+		fDocumentNo.set_oldValue();
+		fBankAccount_ID.set_oldValue();
+		fCheckPayment.set_oldValue();
+		fCheckReceipt.set_oldValue();
+		fBPartner_ID.set_oldValue();
+		fDateFrom.set_oldValue();
+		fDateTo.set_oldValue();
+		return;
 	}
 
 }

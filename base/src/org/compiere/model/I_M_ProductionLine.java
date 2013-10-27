@@ -104,6 +104,19 @@ public interface I_M_ProductionLine
 	  */
 	public boolean isActive();
 
+    /** Column name IsEndProduct */
+    public static final String COLUMNNAME_IsEndProduct = "IsEndProduct";
+
+	/** Set End Product.
+	  * End Product of production
+	  */
+	public void setIsEndProduct (boolean IsEndProduct);
+
+	/** Get End Product.
+	  * End Product of production
+	  */
+	public boolean isEndProduct();
+
     /** Column name Line */
     public static final String COLUMNNAME_Line = "Line";
 
@@ -173,7 +186,22 @@ public interface I_M_ProductionLine
 	  */
 	public int getM_Product_ID();
 
-	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
+	public I_M_Product getM_Product() throws RuntimeException;
+
+    /** Column name M_Production_ID */
+    public static final String COLUMNNAME_M_Production_ID = "M_Production_ID";
+
+	/** Set Production.
+	  * Plan for producing a product
+	  */
+	public void setM_Production_ID (int M_Production_ID);
+
+	/** Get Production.
+	  * Plan for producing a product
+	  */
+	public int getM_Production_ID();
+
+	public I_M_Production getM_Production() throws RuntimeException;
 
     /** Column name M_ProductionLine_ID */
     public static final String COLUMNNAME_M_ProductionLine_ID = "M_ProductionLine_ID";
@@ -201,7 +229,20 @@ public interface I_M_ProductionLine
 	  */
 	public int getM_ProductionPlan_ID();
 
-	public org.compiere.model.I_M_ProductionPlan getM_ProductionPlan() throws RuntimeException;
+	public I_M_ProductionPlan getM_ProductionPlan() throws RuntimeException;
+
+    /** Column name PlannedQty */
+    public static final String COLUMNNAME_PlannedQty = "PlannedQty";
+
+	/** Set Planned Quantity.
+	  * Planned quantity for this project
+	  */
+	public void setPlannedQty (BigDecimal PlannedQty);
+
+	/** Get Planned Quantity.
+	  * Planned quantity for this project
+	  */
+	public BigDecimal getPlannedQty();
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
@@ -215,6 +256,41 @@ public interface I_M_ProductionLine
 	  * The document has been processed
 	  */
 	public boolean isProcessed();
+
+    /** Column name ProductType */
+    public static final String COLUMNNAME_ProductType = "ProductType";
+
+	/** Set Product Type.
+	  * Type of product
+	  */
+	public void setProductType (String ProductType);
+
+	/** Get Product Type.
+	  * Type of product
+	  */
+	public String getProductType();
+
+    /** Column name QtyAvailable */
+    public static final String COLUMNNAME_QtyAvailable = "QtyAvailable";
+
+	/** Set Available Quantity.
+	  * Available Quantity (On Hand - Reserved)
+	  */
+	public void setQtyAvailable (BigDecimal QtyAvailable);
+
+	/** Get Available Quantity.
+	  * Available Quantity (On Hand - Reserved)
+	  */
+	public BigDecimal getQtyAvailable();
+
+    /** Column name QtyUsed */
+    public static final String COLUMNNAME_QtyUsed = "QtyUsed";
+
+	/** Set Quantity Used	  */
+	public void setQtyUsed (BigDecimal QtyUsed);
+
+	/** Get Quantity Used	  */
+	public BigDecimal getQtyUsed();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

@@ -80,6 +80,9 @@ import org.compiere.util.Msg;
 public class VFactReconcile extends CPanel
 	implements FormPanel, ActionListener, TableModelListener, ASyncProcess
 {
+	
+	private static final long serialVersionUID = 6908391117180005512L;
+	
 	/**
 	 *	Initialize Panel
 	 *  @param WindowNo window
@@ -147,6 +150,7 @@ public class VFactReconcile extends CPanel
 	private JButton bZoom = ConfirmPanel.createZoomButton(true);
 	private FlowLayout commandLayout = new FlowLayout();
 	private JButton bRefresh = ConfirmPanel.createRefreshButton(true);
+	private JButton bSelectAll = ConfirmPanel.createCustomizeButton(true);
 	private CLabel labelDateAcct = new CLabel();
 	private VDate fieldDateAcct = new VDate();
 	private CLabel labelDateAcct2 = new CLabel();
@@ -180,6 +184,8 @@ public class VFactReconcile extends CPanel
 		bGenerate.setText(Msg.getMsg(Env.getCtx(),"Process"));
 		bReset.setText(Msg.getMsg(Env.getCtx(),"Reset"));
 		bZoom.setText(Msg.translate(Env.getCtx(), "Fact_Acct_ID"));
+		bSelectAll.addActionListener(this);
+		bSelectAll.setText(Msg.getMsg(Env.getCtx(),"SelectAll"));
 		
 		//
 		labelAcctSchema.setText(Msg.translate(Env.getCtx(), "C_AcctSchema_ID"));
@@ -238,6 +244,7 @@ public class VFactReconcile extends CPanel
 		commandPanel.setLayout(commandLayout);
 		commandLayout.setAlignment(FlowLayout.RIGHT);
 		commandLayout.setHgap(10);
+		commandPanel.add(bSelectAll);
 		commandPanel.add(bZoom, null);
 		commandPanel.add(differenceLabel, null);
 		commandPanel.add(differenceField, null);
@@ -485,6 +492,16 @@ public class VFactReconcile extends CPanel
 		//  Update
 		else if (e.getSource() == bRefresh)
 			loadTableInfo();
+		
+		else if (e.getSource() == bSelectAll) {
+			int rows = miniTable.getModel().getRowCount();
+			for (int i = 0; i < rows; i++) {
+				IDColumn id = (IDColumn)miniTable.getModel().getValueAt(i, idColIndex);
+				id.setSelected(true);
+			}
+			miniTable.repaint();
+			calculateSelection();
+		}
 
 	}   //  actionPerformed
 	
@@ -625,6 +642,7 @@ public class VFactReconcile extends CPanel
 				}
 
 				rec.setMatchCode(matchcode);
+				rec.setIsDirectLoad(true);
 				rec.saveEx();
 
 				((DefaultTableModel) miniTable.getModel()).removeRow(r--);

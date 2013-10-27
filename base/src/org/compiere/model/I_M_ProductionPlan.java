@@ -145,7 +145,7 @@ public interface I_M_ProductionPlan
 	  */
 	public int getM_Product_ID();
 
-	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
+	public I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name M_Production_ID */
     public static final String COLUMNNAME_M_Production_ID = "M_Production_ID";
@@ -160,7 +160,7 @@ public interface I_M_ProductionPlan
 	  */
 	public int getM_Production_ID();
 
-	public org.compiere.model.I_M_Production getM_Production() throws RuntimeException;
+	public I_M_Production getM_Production() throws RuntimeException;
 
     /** Column name M_ProductionPlan_ID */
     public static final String COLUMNNAME_M_ProductionPlan_ID = "M_ProductionPlan_ID";

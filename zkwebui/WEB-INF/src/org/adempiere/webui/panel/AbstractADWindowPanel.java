@@ -29,6 +29,7 @@ import java.util.TreeMap;
 import java.util.Vector;
 import java.util.logging.Level;
 
+import org.adempiere.model.MBrowse;
 import org.adempiere.webui.WArchive;
 import org.adempiere.webui.WRequest;
 import org.adempiere.webui.WZoomAcross;
@@ -78,6 +79,9 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.compiere.util.WebDoc;
+import org.eevolution.form.Browser;
+import org.eevolution.form.VBrowser;
+import org.eevolution.form.WBrowser;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.HtmlBasedComponent;
@@ -626,17 +630,11 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         if (query != null && query.isActive() && query.getRecordCount() < 10)
             return query;
         //
-        StringBuffer where = new StringBuffer();
+		StringBuffer where = new StringBuffer(Env.parseContext(ctx, curWindowNo, mTab.getWhereExtended(), false));
         // Query automatically if high volume and no query
         boolean require = mTab.isHighVolume();
         if (!require && !m_onlyCurrentRows) // No Trx Window
         {
-            String wh1 = mTab.getWhereExtended();
-            if (wh1 == null || wh1.length() == 0)
-                wh1 = mTab.getWhereClause();
-            if (wh1 != null && wh1.length() > 0)
-                where.append(wh1);
-            //
             if (query != null)
             {
                 String wh2 = query.getWhereClause();
@@ -2054,7 +2052,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			if (ps != null && ps.equals("Y"))
 			{
 				new org.adempiere.webui.acct.WAcctViewer(Env.getContextAsInt (ctx, curWindowNo, "AD_Client_ID"),
-						tableId, recordId);
+						tableId, recordId, true);  // Open as a modal window.
 			}
 			else
 			{
@@ -2113,6 +2111,25 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			form.setAttribute(Window.MODE_KEY, Window.MODE_EMBEDDED);
 			form.setAttribute(Window.INSERT_POSITION_KEY, Window.INSERT_NEXT);
 			SessionManager.getAppDesktop().showWindow(form);
+			onRefresh(false);
+		}
+		int adBrowseID = pr.getAD_Browse_ID();
+		if (adBrowseID != 0 )
+		{
+			String title = wButton.getDescription();
+			if (title == null || title.length() == 0)
+				title = wButton.getDisplay();
+			ProcessInfo pi = new ProcessInfo (title, wButton.getProcess_ID(), table_ID, record_ID);
+			pi.setAD_User_ID (Env.getAD_User_ID(ctx));
+			pi.setAD_Client_ID (Env.getAD_Client_ID(ctx));
+			MBrowse browse = new MBrowse(Env.getCtx(), adBrowseID , null);
+			WBrowser browser = new WBrowser(true, curWindowNo, "" , browse, "", true, "");
+			browser.setProcessInfo(pi);
+			CustomForm ff =  browser.getForm();
+			ff.setAttribute(Window.MODE_KEY, Window.MODE_EMBEDDED);
+			ff.setAttribute(Window.INSERT_POSITION_KEY, Window.INSERT_NEXT);
+			ff.setTitle(title);
+			SessionManager.getAppDesktop().showWindow(ff);
 			onRefresh(false);
 		}
 		else

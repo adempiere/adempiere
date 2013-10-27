@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 
 import org.compiere.model.MAccount;
+import org.compiere.model.MCharge;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAcctSchemaElement;
 import org.compiere.model.MAllocationHdr;
@@ -215,20 +216,30 @@ public class Doc_AllocationHdr extends Doc
 			//	No Invoice
 			if (invoice == null)
 			{
+				  /**
+				   * Adaxa: Paul
+				   * Allocate to charges
+				   */
+				  if (line.getC_Invoice_ID() == 0 && line.getC_Payment_ID() == 0 && line.getC_Charge_ID() != 0 )
+				  {
+					  fl = fact.createLine (line, line.getChargeAccount(as, line.getAmtSource()),
+					  getC_Currency_ID(), line.getAmtSource());
+					  
+				  }
 				//	Payment Only
-				if (line.getC_Invoice_ID() == 0 && line.getC_Payment_ID() != 0)
-				{
+				  else if (line.getC_Invoice_ID() == 0 && line.getC_Payment_ID() != 0)
+				  {
 					fl = fact.createLine (line, getPaymentAcct(as, line.getC_Payment_ID()),
 						getC_Currency_ID(), line.getAmtSource(), null);
 					if (fl != null && payment != null)
 						fl.setAD_Org_ID(payment.getAD_Org_ID());
-				}
-				else
-				{
+				   }
+				 else
+				  {
 					p_Error = "Cannot determine SO/PO";
 					log.log(Level.SEVERE, p_Error);
 					return null;
-				}
+				 }
 			}
 			//	Sales Invoice	
 			else if (invoice.isSOTrx())

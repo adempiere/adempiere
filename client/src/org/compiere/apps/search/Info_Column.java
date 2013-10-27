@@ -68,6 +68,20 @@ public class Info_Column extends ColumnInfo
 	 }   //  Info_Column
 
 	/**
+	*  Create Info Column (r/o and not color column)
+	*
+	*  @param colHeader Column Header
+	*  @param colSQL    SQL select code for column
+	*  @param colClass  class of column - determines display
+	*  @param displayType Display Type
+	*  @param IDcolSQL  SQL select for the ID of the for the displayed column (KeyNamePair)
+	*/
+	public Info_Column (String colHeader, String colSQL, Class<?> colClass, int displayType, String IDcolSQL)
+	{
+		super(colHeader, colSQL, colClass , displayType , true, false, IDcolSQL);
+	}   //  Info_Column
+	
+	/**
 	 *  Create Info Column
 	 *
 	 *  @param colHeader Column Header

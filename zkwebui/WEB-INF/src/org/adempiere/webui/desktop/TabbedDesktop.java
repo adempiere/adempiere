@@ -15,6 +15,7 @@ package org.adempiere.webui.desktop;
 
 import java.util.List;
 
+import org.adempiere.model.MBrowse;
 import org.adempiere.webui.apps.ProcessDialog;
 import org.adempiere.webui.apps.wf.WFPanel;
 import org.adempiere.webui.component.DesktopTabpanel;
@@ -22,6 +23,7 @@ import org.adempiere.webui.component.Tabbox;
 import org.adempiere.webui.component.Tabpanel;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.panel.ADForm;
+import org.adempiere.webui.panel.CustomForm;
 import org.adempiere.webui.part.WindowContainer;
 import org.adempiere.webui.window.ADWindow;
 import org.adempiere.webui.window.WTask;
@@ -30,6 +32,7 @@ import org.compiere.model.MTask;
 import org.compiere.util.Env;
 import org.compiere.util.WebDoc;
 import org.compiere.wf.MWorkflow;
+import org.eevolution.form.WBrowser;
 import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zul.Iframe;
@@ -39,6 +42,9 @@ import org.zkoss.zul.Tabpanels;
 /**
  * A Tabbed MDI implementation
  * @author hengsin
+ * @author victor.perez@e-evoluton.com, www.e-evolution.com 
+ * 	<li>FR [ 3426137 ] Smart Browser
+ *  https://sourceforge.net/tracker/?func=detail&aid=3426137&group_id=176962&atid=879335
  *
  */
 public abstract class TabbedDesktop extends AbstractDesktop {
@@ -85,6 +91,17 @@ public abstract class TabbedDesktop extends AbstractDesktop {
 		windowContainer.addWindow(tabPanel, form.getFormName(), true);
 
 		return form;
+	}
+	
+	public void openBrowse(int AD_Browse_ID)
+	{
+		MBrowse browse = new MBrowse(Env.getCtx() ,AD_Browse_ID, null);
+		CustomForm ff =  WBrowser.openBrowse(AD_Browse_ID);
+		DesktopTabpanel tabPanel = new DesktopTabpanel();
+        ff.setParent(tabPanel);
+        preOpenNewTab();
+        windowContainer.addWindow(tabPanel, browse.getTitle(), true);
+		
 	}
 
 	/**

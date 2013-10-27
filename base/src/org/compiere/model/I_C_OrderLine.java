@@ -388,6 +388,19 @@ public interface I_C_OrderLine
 	  */
 	public boolean isActive();
 
+    /** Column name IsConsumesForecast */
+    public static final String COLUMNNAME_IsConsumesForecast = "IsConsumesForecast";
+
+	/** Set Is Consumes Forecast.
+	  * Is Consumes Forecast
+	  */
+	public void setIsConsumesForecast (boolean IsConsumesForecast);
+
+	/** Get Is Consumes Forecast.
+	  * Is Consumes Forecast
+	  */
+	public boolean isConsumesForecast();
+
     /** Column name IsDescription */
     public static final String COLUMNNAME_IsDescription = "IsDescription";
 

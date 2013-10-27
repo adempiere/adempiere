@@ -170,6 +170,10 @@ public class WebEditorFactory
         {
         	editor = new WAssignmentEditor(gridField);
         }
+        else if (displayType == DisplayType.Chart)
+        {
+        	editor = new WChartEditor(gridField, gridTab.getWindowNo());
+        }
         else
         {
             editor = new WUnknownEditor(gridField);

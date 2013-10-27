@@ -38,6 +38,7 @@ import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 
 import org.adempiere.pipo.handler.AdElementHandler;
+import org.adempiere.pipo.handler.BrowseElementHandler;
 import org.adempiere.pipo.handler.CodeSnipitElementHandler;
 import org.adempiere.pipo.handler.CommonTranslationHandler;
 import org.adempiere.pipo.handler.DataElementHandler;
@@ -59,6 +60,7 @@ import org.adempiere.pipo.handler.RoleElementHandler;
 import org.adempiere.pipo.handler.SQLStatementElementHandler;
 import org.adempiere.pipo.handler.TableElementHandler;
 import org.adempiere.pipo.handler.TaskElementHandler;
+import org.adempiere.pipo.handler.ViewElementHandler;
 import org.adempiere.pipo.handler.WindowElementHandler;
 import org.adempiere.pipo.handler.WorkflowElementHandler;
 import org.compiere.model.MSysConfig;
@@ -109,6 +111,8 @@ public class PackOut extends SvrProcess
     TaskElementHandler taskHandler = new TaskElementHandler();
     FormElementHandler formHandler = new FormElementHandler();
     WindowElementHandler windowHandler = new WindowElementHandler();
+    ViewElementHandler viewHandler = new ViewElementHandler();
+    BrowseElementHandler browseHandler = new BrowseElementHandler();
     MenuElementHandler menuHandler = new MenuElementHandler();
     ReportViewElementHandler reportViewHandler = new ReportViewElementHandler();
     DataElementHandler dataHandler = new DataElementHandler();
@@ -298,7 +302,11 @@ public class PackOut extends SvrProcess
 						else if (Type.compareTo("X") == 0)
 							createForm (rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Form_ID), packOutDocument);
 						else if (Type.compareTo("W") == 0)
-							createWindow (rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Window_ID), packOutDocument);				
+							createWindow (rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Window_ID), packOutDocument);	
+						else if (Type.compareTo("SV") == 0)
+							createView (rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_View_ID), packOutDocument);	
+						else if (Type.compareTo("SB") == 0)
+							createBrowse (rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Browse_ID), packOutDocument);						
 						else if (Type.compareTo("S") == 0)
 							createRoles (rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Role_ID), packOutDocument);
 						else if (Type.compareTo("SQL") == 0)
@@ -416,7 +424,7 @@ public class PackOut extends SvrProcess
 				packOutDocument.endDocument();packageDocument.endElement("","","adempiereDocument");
 				packageDocument.endDocument();
 				//m_Exp.setProcessed(true);
-				//m_Exp.save();
+				//m_Exp.saveEx();
 			}
 			rs1.close();
 			pstmt1.close();
@@ -627,6 +635,31 @@ public class PackOut extends SvrProcess
 		getCtx().remove("AD_Window_ID");
 	}
 	
+	/**
+	 * 
+	 * @param AD_View_ID
+	 * @param packOutDocument
+	 * @throws SAXException
+	 */
+	public void createView (int AD_View_ID, TransformerHandler packOutDocument) throws SAXException
+	{
+		Env.setContext(getCtx(), "AD_View_ID", AD_View_ID);
+		viewHandler.create(getCtx(), packOutDocument);
+		getCtx().remove("AD_View_ID");
+	}
+	
+	/**
+	 * 
+	 * @param AD_Browse_ID
+	 * @param packOutDocument
+	 * @throws SAXException
+	 */
+	public void createBrowse (int AD_Browse_ID, TransformerHandler packOutDocument) throws SAXException
+	{
+		Env.setContext(getCtx(), "AD_Browse_ID", AD_Browse_ID);
+		browseHandler.create(getCtx(), packOutDocument);
+		getCtx().remove("AD_Browse_ID");
+	}
 	/**
 	 * 
 	 * @param table_id

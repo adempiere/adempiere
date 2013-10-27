@@ -505,10 +505,19 @@ public abstract class Lookup extends AbstractListModel
 	}
 	
 	/**
-	 * Get custom info factory class
+	 * Get custom info factory class (swing)
 	 * @return info factory class name
 	 */
 	public String getInfoFactoryClass() 
+	{
+		return "";
+	}
+
+	/**
+	 * Get custom info panel factory class (ZK)
+	 * @return info factory class name
+	 */
+	public String getInfoPanelFactoryClass() 
 	{
 		return "";
 	}

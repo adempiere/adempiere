@@ -620,6 +620,30 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 		return bd;
 	}
 
+	/** Set Is Consumes Forecast.
+		@param IsConsumesForecast 
+		Is Consumes Forecast
+	  */
+	public void setIsConsumesForecast (boolean IsConsumesForecast)
+	{
+		set_Value (COLUMNNAME_IsConsumesForecast, Boolean.valueOf(IsConsumesForecast));
+	}
+
+	/** Get Is Consumes Forecast.
+		@return Is Consumes Forecast
+	  */
+	public boolean isConsumesForecast () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsConsumesForecast);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Description Only.
 		@param IsDescription 
 		if true, the line is just description and no transaction

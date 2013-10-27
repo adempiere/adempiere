@@ -61,7 +61,18 @@ public class Combobox extends org.zkoss.zul.Combobox
 	}
 
 	public void appendItem(String name, Object value) {
-		ComboItem item = new ComboItem(name, value);
+
+		ComboItem item;
+		
+		if (name == "")
+		{
+			//  Null items are skipped in Comboitem.class setLable() on creation
+			name = " ";
+			item = new ComboItem(name, value);
+		}
+		else
+			item = new ComboItem(name, value);
+		
 		this.appendChild(item);
 	}
 	

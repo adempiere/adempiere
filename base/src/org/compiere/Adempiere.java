@@ -30,6 +30,10 @@ import javax.jnlp.ServiceManager;
 import javax.jnlp.UnavailableServiceException;
 import javax.swing.ImageIcon;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.util.Check;
+import org.adempiere.util.DefaultServiceNamePolicy;
+import org.adempiere.util.Services;
 import org.compiere.db.CConnection;
 import org.compiere.model.MClient;
 import org.compiere.model.MSystem;
@@ -60,11 +64,11 @@ public final class Adempiere
 	/** Main Version String         */
 	// Conventions for naming second number is even for stable, and odd for unstable
 	// the releases will have a suffix (a) for alpha - (b) for beta - (t) for trunk - (s) for stable - and (LTS) for long term support
-	static public String	MAIN_VERSION	= "Release 3.7.0LTS";
+	static public String	MAIN_VERSION	= "Release 3.8.0RC";
 	/** Detail Version as date      Used for Client/Server		*/
-	static public String	DATE_VERSION	= "2011-09-01";
+	static public String	DATE_VERSION	= "2013-07-31";
 	/** Database Version as date    Compared with AD_System		*/
-	static public String	DB_VERSION		= "2011-09-01";
+	static public String	DB_VERSION		= "2013-07-31";
 
 	/** Product Name            */
 	static public final String	NAME 			= "ADempiere\u00AE";
@@ -472,6 +476,9 @@ public final class Adempiere
 		if (log != null)
 			return true;
 
+		Services.setServiceNameAutoDetectPolicy(new DefaultServiceNamePolicy());
+		Check.setDefaultExClass(AdempiereException.class);
+		
 		//	Check Version
 		if (isClient && !Login.isJavaOK(isClient))
 			System.exit(1);
@@ -526,7 +533,9 @@ public final class Adempiere
 			log.severe ("No Database");
 			return false;
 		}
+
 		MSystem system = MSystem.get(Env.getCtx());	//	Initializes Base Context too
+		
 		if (system == null)
 			return false;
 		
@@ -612,4 +621,21 @@ public final class Adempiere
 			e.printStackTrace();
 		}
 	}   //  main
+
+	/**
+	 * If enabled, everything will run database decoupled.
+	 * Supposed to be called before an interface like org.compiere.model.I_C_Order is to be used in a unit test.
+	 */
+	public static void enableUnitTestMode()
+	{
+		unitTestMode = true;
+	}
+
+	public static boolean isUnitTestMode()
+	{
+		return unitTestMode;
+	}
+
+	private static boolean unitTestMode = false;
+
 }	//	Adempiere

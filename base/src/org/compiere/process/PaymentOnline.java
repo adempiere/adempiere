@@ -59,7 +59,7 @@ public class PaymentOnline extends SvrProcess
 		
 		//  Process it
 		boolean ok = pp.processOnline();
-		pp.save();
+		pp.saveEx();
 		if (!ok)
 			throw new Exception(pp.getErrorMessage());
 		return "OK";

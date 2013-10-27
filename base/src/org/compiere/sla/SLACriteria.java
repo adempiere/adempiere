@@ -77,7 +77,7 @@ public abstract class SLACriteria
 			{
 				goal.setMeasureActual(calculateMeasure(goal));
 				goal.setDateLastRun(new Timestamp(System.currentTimeMillis()));
-				goal.save();
+				goal.saveEx();
 			}
 		}
 	}	//	calculateMeasures

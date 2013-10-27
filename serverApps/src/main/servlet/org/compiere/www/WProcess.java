@@ -664,7 +664,7 @@ public class WProcess extends HttpServlet
 						iPara.setP_String(value.toString());
 					}
 					//
-					iPara.save();
+					iPara.saveEx();
 				}
 				catch (Exception e)
 				{

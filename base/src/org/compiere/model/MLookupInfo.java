@@ -119,6 +119,7 @@ public class MLookupInfo implements Serializable, Cloneable
 		return retValue;
 	}   //  getAD_Column_ID
 
+
 	
 	/**************************************************************************
 	 *  Constructor.
@@ -129,9 +130,10 @@ public class MLookupInfo implements Serializable, Cloneable
 	 *  @param zoomWindow zoom window
 	 *  @param zoomWindowPO PO zoom window
 	 *  @param zoomQuery zoom query
+	 * @param isAlert 
 	 */
 	public MLookupInfo (String sqlQuery, String tableName, String keyColumn, 
-		int zoomWindow, int zoomWindowPO, MQuery zoomQuery)
+		int zoomWindow, int zoomWindowPO, MQuery zoomQuery, boolean isAlert)
 	{
 		if (sqlQuery == null)
 			throw new IllegalArgumentException("SqlQuery is null");
@@ -143,6 +145,7 @@ public class MLookupInfo implements Serializable, Cloneable
 		ZoomWindow = zoomWindow;
 		ZoomWindowPO = zoomWindowPO;
 		ZoomQuery = zoomQuery;
+		IsAlert  = isAlert;
 	}   //  MLookupInfo
 	
 	static final long serialVersionUID = -7958664359250070233L;
@@ -188,6 +191,8 @@ public class MLookupInfo implements Serializable, Cloneable
 	public String		parsedValidationCode = "";
 
 	public String InfoFactoryClass = null;
+
+	public boolean IsAlert = false;
 
 	/**
 	 * String representation

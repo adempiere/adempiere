@@ -95,10 +95,10 @@ public class CopyOrder extends SvrProcess
 			MOrder original = new MOrder (getCtx(), p_C_Order_ID, get_TrxName());
 			original.setDocAction(MOrder.DOCACTION_Complete);
 			original.processIt(MOrder.DOCACTION_Complete);
-			original.save();
+			original.saveEx();
 			original.setDocAction(MOrder.DOCACTION_Close);
 			original.processIt(MOrder.DOCACTION_Close);
-			original.save();
+			original.saveEx();
 		}
 		//
 	//	Env.setSOTrx(getCtx(), newOrder.isSOTrx());

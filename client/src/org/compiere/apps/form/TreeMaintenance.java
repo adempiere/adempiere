@@ -100,22 +100,22 @@ public class TreeMaintenance {
 			if (m_tree.isProduct())
 			{
 				MTree_NodePR node = new MTree_NodePR (m_tree, item.id);
-				node.save();
+				node.saveEx();
 			}
 			else if (m_tree.isBPartner())
 			{
 				MTree_NodeBP node = new MTree_NodeBP (m_tree, item.id);
-				node.save();
+				node.saveEx();
 			}
 			else if (m_tree.isMenu())
 			{
 				MTree_NodeMM node = new MTree_NodeMM (m_tree, item.id);
-				node.save();
+				node.saveEx();
 			}
 			else
 			{
 				MTree_Node node = new MTree_Node (m_tree, item.id);
-				node.save();
+				node.saveEx();
 			}
 		}
 	}	//	action_treeAdd

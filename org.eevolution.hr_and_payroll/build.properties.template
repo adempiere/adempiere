@@ -1,0 +1,3 @@
+#set your adempiere trunk (353a) here
+adempiere.trunk=/Users/eEvolution/code/adempiereTrunk
+adempiere.manufacturing=/Users/eEvolution/code/adempiereLibero

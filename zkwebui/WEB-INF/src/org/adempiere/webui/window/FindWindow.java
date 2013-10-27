@@ -13,6 +13,14 @@
  * For the text or an alternative of this public license, you may reach us    *
  * Posterita Ltd., 3, Draper Avenue, Quatre Bornes, Mauritius                 *
  * or via info@posterita.org or http://www.posterita.org/                     *
+ *                                                                            *
+ * @author Posterita                                                          *
+ *                                                                            *
+ * @Author Michael McKay (mjmckay)                                            *
+ *		<li>BF3431195 Advanced Lookup not working in ZK                       *
+ *      See https://sourceforge.net/tracker/                                  *
+ *      ?func=detail&aid=3431195&group_id=176962&atid=955896                  *
+ *                                                                            *
  *****************************************************************************/
 
 package org.adempiere.webui.window;
@@ -95,6 +103,15 @@ import org.zkoss.zul.Hbox;
  *
  *  @author     Sendy Yagambrum
  *  @date       June 27, 2007
+ *
+ *  @Author Michael McKay (mjmckay)
+ *  @date	December 21, 2011                                            
+ *		<li>BF3431195 Advanced Lookup not working in ZK                       
+ *      See https://sourceforge.net/tracker/?func=detail&aid=3431195&group_id=176962&atid=955896  
+ *        
+ *  @author  WalkingTree (www.walkingtree.in)
+ *  @date    October 4th,2013
+ *      <li> Added Range based lookup for selection columns.            
  */
 public class FindWindow extends Window implements EventListener,ValueChangeListener
 {
@@ -103,63 +120,66 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 	 */
 	private static final long serialVersionUID = 4937678675702382252L;
 	/** Main Window for the Lookup Panel   */
-    private MultiTabPart winMain;
-    /**  Simple Window Tab  */
-    private Window winLookupRecord;
-    /** Advanced Window Tab */
-    private Window winAdvanced;
-    //
-    private Label lblDocumentNo;
-    private Label lblDescription;
-    private Label lblName;
-    private Label lblValue;
-    //
-    private Textbox fieldDocumentNo;
-    private Textbox fieldDescription;
-    private Textbox fieldName;
-    private Textbox fieldValue;
-    //
-    private Combobox fQueryName;
-    //
-    private Listbox advancedPanel;
-    /** container of Simple Window contents   */
-    private Grid contentSimple;
-    /** Target Window No            */
-    private int             m_targetWindowNo;
-    /** Table ID                    */
-    private int             m_AD_Table_ID;
-    /** Table Name                  */
-    private String          m_tableName;
-    /** Where                       */
-    private String          m_whereExtended;
-    /** Search Fields               */
-    private GridField[]     m_findFields;
-    /** Resulting query             */
-    private MQuery          m_query = null;
-    /** Is cancel ?                 */
-    private boolean         m_isCancel = false; // teo_sarca [ 1708717 ]
-    /** Logger          */
-    private static CLogger log = CLogger.getCLogger(FindWindow.class);
-    /** Number of records           */
-    private int             m_total;
-    private PreparedStatement   m_pstmt;
-    //
-    private boolean         hasValue = false;
-    private boolean         hasDocNo = false;
-    private boolean         hasName = false;
-    private boolean         hasDescription = false;
-    /** List of WEditors            */
-    private ArrayList<WEditor>          m_sEditors = new ArrayList<WEditor>();
-    /** Target Fields with AD_Column_ID as key  */
-    private Hashtable<Integer,GridField>    m_targetFields = new Hashtable<Integer,GridField>();
-    /** For Grid Controller         */
-    public static final int     TABNO = 99;
-    /** Length of Fields on first tab   */
-    public static final int     FIELDLENGTH = 20;
+	private MultiTabPart winMain;
+	/**  Simple Window Tab  */
+	private Window winLookupRecord;
+	/** Advanced Window Tab */
+	private Window winAdvanced;
+	//
+	private Label lblDocumentNo;
+	private Label lblDescription;
+	private Label lblName;
+	private Label lblValue;
+	//
+	private Textbox fieldDocumentNo;
+	private Textbox fieldDescription;
+	private Textbox fieldName;
+	private Textbox fieldValue;
+	//
+	private Combobox fQueryName;
+	//
+	private Listbox advancedPanel;
+	/** container of Simple Window contents   */
+	private Grid contentSimple;
+	/** Target Window No            */
+	private int             m_targetWindowNo;
+	/** Table ID                    */
+	private int             m_AD_Table_ID;
+	/** Table Name                  */
+	private String          m_tableName;
+	/** Where                       */
+	private String          m_whereExtended;
+	/** Search Fields               */
+	private GridField[]     m_findFields;
+	/** Resulting query             */
+	private MQuery          m_query = null;
+	/** Is cancel ?                 */
+	private boolean         m_isCancel = false; // teo_sarca [ 1708717 ]
+	/** Logger          */
+	private static CLogger log = CLogger.getCLogger(FindWindow.class);
+	/** Number of records           */
+	private int             m_total;
+	private PreparedStatement   m_pstmt;
+	//
+	private boolean         hasValue = false;
+	private boolean         hasDocNo = false;
+	private boolean         hasName = false;
+	private boolean         hasDescription = false;
+	/** List of WEditors            */
+	private ArrayList<WEditor>          m_sEditors 		= new ArrayList<WEditor>();
+	private ArrayList<WEditor> 			m_sEditors2		= new ArrayList<WEditor>();	
+	/** Target Fields with AD_Column_ID as key  */
+	private Hashtable<Integer,GridField>    m_targetFields = new Hashtable<Integer,GridField>();
+	/** For Grid Controller         */
+	public static final int     TABNO = 99;
+	/** Length of Fields on first tab   */
+	public static final int     FIELDLENGTH = 20;
 	/** Reference ID for Yes/No	*/
 	public static final int		AD_REFERENCE_ID_YESNO = 319;
 
-    private int m_AD_Tab_ID = 0;
+	private List< String >  rangeFirstEditor	= new ArrayList<String>();
+
+	private int m_AD_Tab_ID = 0;
 	private MUserQuery[] userQueries;
 	private Rows contentSimpleRows;
 	private Row pnlDocument;
@@ -168,6 +188,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 	private Row pnlName;
 	private boolean m_createNew = false;
 
+	/** Indexes for fields in the user query - compatible with but not the same as Find.java
 	/** Index ColumnName = 0		*/
 	public static final int		INDEX_COLUMNNAME = 0;
 	/** Index Operator = 1			*/
@@ -176,323 +197,343 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 	public static final int		INDEX_VALUE = 2;
 	/** Index Value2 = 3			*/
 	public static final int		INDEX_VALUE2 = 3;
+	/** Index AndOr = 4		*/
+	public static final int		INDEX_ANDOR = 4;
+	/** Index LeftBracket = 5		*/
+	public static final int		INDEX_LEFTBRACKET = 5;
+	/** Index RightBracket = 6		*/
+	public static final int		INDEX_RIGHTBRACKET = 6;
+
+	/** Search messages using translation */
+	private String				m_sLast;
+	private String				m_sNew;
 
 	private static final String FIELD_SEPARATOR = "<^>";
 	private static final String SEGMENT_SEPARATOR = "<~>";
 
-    /**
-     * FindPanel Constructor
-     * @param targetWindowNo targetWindowNo
-     * @param title title
-     * @param AD_Table_ID AD_Table_ID
-     * @param tableName tableName
-     * @param whereExtended whereExtended
-     * @param findFields findFields
-     * @param minRecords minRecords
-     * @param adTabId
-    **/
-    public FindWindow (int targetWindowNo, String title,
-            int AD_Table_ID, String tableName, String whereExtended,
-            GridField[] findFields, int minRecords, int adTabId)
-    {
-        m_targetWindowNo = targetWindowNo;
-        m_AD_Table_ID = AD_Table_ID;
-        m_tableName = tableName;
-        m_whereExtended = whereExtended;
-        m_findFields = findFields;
-        m_AD_Tab_ID = adTabId;
-        //
-        m_query = new MQuery (m_tableName);
-        m_query.addRestriction(m_whereExtended);
-        //  Required for Column Validation
-        Env.setContext(Env.getCtx(), m_targetWindowNo, "Find_Table_ID", m_AD_Table_ID);
-        //  Context for Advanced Search Grid is WINDOW_FIND
-        Env.setContext(Env.getCtx(), Env.WINDOW_FIND, "Find_Table_ID", m_AD_Table_ID);
-        //
-        initPanel();
-        initFind();
-        initFindAdvanced();
+	/**
+	 * FindPanel Constructor
+	 * @param targetWindowNo targetWindowNo
+	 * @param title title
+	 * @param AD_Table_ID AD_Table_ID
+	 * @param tableName tableName
+	 * @param whereExtended whereExtended
+	 * @param findFields findFields
+	 * @param minRecords minRecords
+	 * @param adTabId
+	 **/
+	public FindWindow (int targetWindowNo, String title,
+			int AD_Table_ID, String tableName, String whereExtended,
+			GridField[] findFields, int minRecords, int adTabId)
+	{
+		m_targetWindowNo = targetWindowNo;
+		m_AD_Table_ID = AD_Table_ID;
+		m_tableName = tableName;
+		m_whereExtended = whereExtended;
+		m_findFields = findFields;
+		m_sLast = "** ".concat(Msg.getMsg(Env.getCtx(), "Last Query")).concat(" **");
+		m_sNew = "** ".concat(Msg.getMsg(Env.getCtx(), "New Query")).concat(" **");
+		m_AD_Tab_ID = adTabId;
+		//
+		m_query = new MQuery (m_tableName);
+		m_query.addRestriction(m_whereExtended);
+		//  Required for Column Validation
+		Env.setContext(Env.getCtx(), m_targetWindowNo, "Find_Table_ID", m_AD_Table_ID);
+		//  Context for Advanced Search Grid is WINDOW_FIND
+		Env.setContext(Env.getCtx(), Env.WINDOW_FIND, "Find_Table_ID", m_AD_Table_ID);
+		//
+		initPanel();
+		initFind();
+		initFindAdvanced();
 
-        if (m_total < minRecords)
-        {
-        	dispose();
-            return;
-        }
-        this.setBorder("normal");
-        this.setWidth("750px");
-        this.setHeight("350px");
-        this.setTitle(Msg.getMsg(Env.getCtx(), "Find").replaceAll("&", "") + ": " + title);
-        this.setAttribute(Window.MODE_KEY, Window.MODE_MODAL);
-        this.setClosable(false);
-        this.setSizable(true);
-        
-        this.setVisible(true);
-        AEnv.showWindow(this);
-    }
-    /**
-     * initialise lookup record tab
-     *
-    **/
-    private void initSimple()
-    {
-        lblDocumentNo = new Label();
-        lblDocumentNo.setValue(Msg.translate(Env.getCtx(),"DocumentNo").replaceAll("&", ""));
+		if (m_total < minRecords)
+		{
+			dispose();
+			return;
+		}
+		this.setBorder("normal");
+		this.setWidth("750px");
+		this.setHeight("350px");
+		this.setTitle(Msg.getMsg(Env.getCtx(), "Find").replaceAll("&", "") + ": " + title);
+		this.setAttribute(Window.MODE_KEY, Window.MODE_MODAL);
+		this.setClosable(false);
+		this.setSizable(true);
 
-        lblDescription = new Label();
-        lblDescription.setValue(Msg.translate(Env.getCtx(),"Description").replaceAll("&", ""));
+		this.setVisible(true);
+		AEnv.showWindow(this);
+	}
+	/**
+	 * initialise lookup record tab
+	 *
+	 **/
+	private void initSimple()
+	{
+		lblDocumentNo = new Label();
+		lblDocumentNo.setValue(Msg.translate(Env.getCtx(),"DocumentNo").replaceAll("&", ""));
 
-        lblName = new Label();
-        lblName.setValue(Msg.translate(Env.getCtx(),"Name").replaceAll("&", ""));
+		lblDescription = new Label();
+		lblDescription.setValue(Msg.translate(Env.getCtx(),"Description").replaceAll("&", ""));
 
-        lblValue = new Label();
-        lblValue.setValue(Msg.translate(Env.getCtx(),"Value").replaceAll("&", ""));
+		lblName = new Label();
+		lblName.setValue(Msg.translate(Env.getCtx(),"Name").replaceAll("&", ""));
 
-        fieldDocumentNo = new Textbox();
-        fieldDocumentNo.setId("fieldDocumentNo");
-        fieldDocumentNo.setMaxlength(40);
+		lblValue = new Label();
+		lblValue.setValue(Msg.translate(Env.getCtx(),"Value").replaceAll("&", ""));
 
-        fieldDescription = new Textbox();
-        fieldDescription.setId("fieldDescription");
-        fieldDescription.setMaxlength(40);
+		fieldDocumentNo = new Textbox();
+		fieldDocumentNo.setId("fieldDocumentNo");
+		fieldDocumentNo.setMaxlength(40);
 
-        fieldName = new Textbox();
-        fieldName.setMaxlength(40);
+		fieldDescription = new Textbox();
+		fieldDescription.setId("fieldDescription");
+		fieldDescription.setMaxlength(40);
 
-        fieldValue = new Textbox();
-        fieldValue.setMaxlength(40);
+		fieldName = new Textbox();
+		fieldName.setMaxlength(40);
 
-        Button btnNew = new Button();
-        btnNew.setName("btnNew");
-        btnNew.setImage("/images/New24.png");
-        btnNew.addEventListener(Events.ON_CLICK,this);
-        LayoutUtils.addSclass("action-button", btnNew);
+		fieldValue = new Textbox();
+		fieldValue.setMaxlength(40);
 
-        Button btnOk = new Button();
-        btnOk.setName("btnOkSimple");
-        btnOk.setImage("/images/Ok24.png");
-        btnOk.addEventListener(Events.ON_CLICK,this);
-        LayoutUtils.addSclass("action-button", btnOk);
+		Button btnNew = new Button();
+		btnNew.setName("btnNew");
+		btnNew.setImage("/images/New24.png");
+		btnNew.addEventListener(Events.ON_CLICK,this);
+		LayoutUtils.addSclass("action-button", btnNew);
 
-        Button btnCancel = new Button();
-        btnCancel.setName("btnCancel");
-        btnCancel.setImage("/images/Cancel24.png");
-        btnCancel.addEventListener(Events.ON_CLICK,this);
-        LayoutUtils.addSclass("action-button", btnCancel);
+		Button btnOk = new Button();
+		btnOk.setName("btnOkSimple");
+		btnOk.setImage("/images/Ok24.png");
+		btnOk.addEventListener(Events.ON_CLICK,this);
+		LayoutUtils.addSclass("action-button", btnOk);
 
-        Panel pnlButtonRight = new Panel();
-        pnlButtonRight.appendChild(btnOk);
-        pnlButtonRight.appendChild(btnCancel);
-        pnlButtonRight.setAlign("right");
-        pnlButtonRight.setWidth("100%");
+		Button btnCancel = new Button();
+		btnCancel.setName("btnCancel");
+		btnCancel.setImage("/images/Cancel24.png");
+		btnCancel.addEventListener(Events.ON_CLICK,this);
+		LayoutUtils.addSclass("action-button", btnCancel);
 
-        Panel pnlButtonLeft = new Panel();
-        pnlButtonLeft.appendChild(btnNew);
+		Panel pnlButtonRight = new Panel();
+		pnlButtonRight.appendChild(btnOk);
+		pnlButtonRight.appendChild(btnCancel);
+		pnlButtonRight.setAlign("right");
+		pnlButtonRight.setWidth("100%");
 
-        Hbox hboxButton = new Hbox();
-        hboxButton.appendChild(pnlButtonLeft);
-        hboxButton.appendChild(pnlButtonRight);
-        hboxButton.setWidth("100%");
+		Panel pnlButtonLeft = new Panel();
+		pnlButtonLeft.appendChild(btnNew);
 
-        pnlDocument = new Row();
-        pnlDocument.setId("pnlDocument");
-        pnlDocument.appendChild(LayoutUtils.makeRightAlign(lblDocumentNo));
-        pnlDocument.appendChild(fieldDocumentNo);
+		Hbox hboxButton = new Hbox();
+		hboxButton.appendChild(pnlButtonLeft);
+		hboxButton.appendChild(pnlButtonRight);
+		hboxButton.setWidth("100%");
 
-        pnlDescription = new Row();
-        pnlDescription.appendChild(LayoutUtils.makeRightAlign(lblDescription));
-        pnlDescription.appendChild(fieldDescription);
+		pnlDocument = new Row();
+		pnlDocument.setId("pnlDocument");
+		pnlDocument.appendChild(LayoutUtils.makeRightAlign(lblDocumentNo));
+		pnlDocument.appendChild(fieldDocumentNo);
 
-        pnlValue = new Row();
-        pnlValue.appendChild(LayoutUtils.makeRightAlign(lblValue));
-        pnlValue.appendChild(fieldValue);
+		pnlDescription = new Row();
+		pnlDescription.appendChild(LayoutUtils.makeRightAlign(lblDescription));
+		pnlDescription.appendChild(fieldDescription);
 
-        pnlName = new Row();
-        pnlName.appendChild(LayoutUtils.makeRightAlign(lblName));
-        pnlName.appendChild(fieldName);
+		pnlValue = new Row();
+		pnlValue.appendChild(LayoutUtils.makeRightAlign(lblValue));
+		pnlValue.appendChild(fieldValue);
 
-        contentSimple = new Grid();
-        contentSimple.setId("contentSimple");
-        contentSimple.setWidth("100%");
-        contentSimple.makeNoStrip();
+		pnlName = new Row();
+		pnlName.appendChild(LayoutUtils.makeRightAlign(lblName));
+		pnlName.appendChild(fieldName);
 
-        contentSimpleRows = new Rows();
-        contentSimple.appendChild(contentSimpleRows);
+		contentSimple = new Grid();
+		contentSimple.setId("contentSimple");
+		contentSimple.setWidth("100%");
+		contentSimple.makeNoStrip();
 
-        contentSimpleRows.appendChild(pnlValue);
-        contentSimpleRows.appendChild(pnlName);
-        contentSimpleRows.appendChild(pnlDocument);
-        contentSimpleRows.appendChild(pnlDescription);
-        contentSimple.setVflex(true);
+		contentSimpleRows = new Rows();
+		contentSimple.appendChild(contentSimpleRows);
 
-        Borderlayout layout = new Borderlayout();
-        layout.setStyle("height: 100%; width: 99%; position: relative");
-        winLookupRecord.appendChild(layout);
+		contentSimpleRows.appendChild(pnlValue);
+		contentSimpleRows.appendChild(pnlName);
+		contentSimpleRows.appendChild(pnlDocument);
+		contentSimpleRows.appendChild(pnlDescription);
+		contentSimple.setVflex(true);
 
-        Center center = new Center();
-        layout.appendChild(center);
-        center.appendChild(contentSimple);
-        center.setFlex(true);
+		Borderlayout layout = new Borderlayout();
+		layout.setStyle("height: 100%; width: 99%; position: relative");
+		winLookupRecord.appendChild(layout);
 
-        South south = new South();
-        layout.appendChild(south);
-        south.appendChild(hboxButton);
+		Center center = new Center();
+		layout.appendChild(center);
+		center.appendChild(contentSimple);
+		center.setFlex(true);
 
-        winLookupRecord.setWidth("100%");
-        winLookupRecord.setHeight("100%");
-        winLookupRecord.addEventListener(Events.ON_OK, this);
+		South south = new South();
+		layout.appendChild(south);
+		south.appendChild(hboxButton);
 
-    }   //  initSimple
+		winLookupRecord.setWidth("100%");
+		winLookupRecord.setHeight("100%");
+		winLookupRecord.addEventListener(Events.ON_OK, this);
 
-    /**
-     * initialise Advanced Tab
-     *
-    **/
-    private void initAdvanced()
-    {
-        ToolBarButton btnNew = new ToolBarButton();
-        btnNew.setImage("/images/New24.png");
-        btnNew.setAttribute("name", "btnNewAdv");
-        btnNew.addEventListener(Events.ON_CLICK, this);
+	}   //  initSimple
 
-        ToolBarButton btnDelete = new ToolBarButton();
-        btnDelete.setAttribute("name","btnDeleteAdv");
-        btnDelete.setImage("/images/Delete24.png");
-        btnDelete.addEventListener(Events.ON_CLICK, this);
+	/**
+	 * initialise Advanced Tab
+	 *
+	 **/
+	private void initAdvanced()
+	{
+		ToolBarButton btnNew = new ToolBarButton();
+		btnNew.setImage("/images/New24.png");
+		btnNew.setAttribute("name", "btnNewAdv");
+		btnNew.addEventListener(Events.ON_CLICK, this);
 
-        ToolBarButton btnSave = new ToolBarButton();
-        btnSave.setAttribute("name","btnSaveAdv");
-        btnSave.setImage("/images/Save24.png");
-        btnSave.addEventListener(Events.ON_CLICK, this);
+		ToolBarButton btnDelete = new ToolBarButton();
+		btnDelete.setAttribute("name","btnDeleteAdv");
+		btnDelete.setImage("/images/Delete24.png");
+		btnDelete.addEventListener(Events.ON_CLICK, this);
 
-        fQueryName = new Combobox();
-        fQueryName.setTooltiptext(Msg.getMsg(Env.getCtx(),"QueryName"));
+		ToolBarButton btnSave = new ToolBarButton();
+		btnSave.setAttribute("name","btnSaveAdv");
+		btnSave.setImage("/images/Save24.png");
+		btnSave.addEventListener(Events.ON_CLICK, this);
+
+		fQueryName = new Combobox();
+		fQueryName.setTooltiptext(Msg.getMsg(Env.getCtx(),"QueryName"));
 		fQueryName.setReadonly(false);
 
-		//user query
-		userQueries = MUserQuery.get(Env.getCtx(), m_AD_Tab_ID);
-		for (int i = 0; i < userQueries.length; i++)
-			fQueryName.appendItem(userQueries[i].getName());
-		fQueryName.setValue("");
+		Button btnOk = new Button();
+		btnOk.setName("btnOkAdv");
+		btnOk.setImage("/images/Ok24.png");
+		btnOk.addEventListener(Events.ON_CLICK, this);
+		LayoutUtils.addSclass("action-button", btnOk);
 
+		Button btnCancel = new Button();
+		btnCancel.setName("btnCancel");
+		btnCancel.setImage("/images/Cancel24.png");
+		btnCancel.addEventListener(Events.ON_CLICK, this);
+		LayoutUtils.addSclass("action-button", btnCancel);
+
+		Panel pnlButtonRight = new Panel();
+		pnlButtonRight.appendChild(btnOk);
+		pnlButtonRight.appendChild(btnCancel);
+		pnlButtonRight.setAlign("right");
+
+		ToolBar toolBar = new ToolBar();
+		toolBar.appendChild(btnNew);
+		toolBar.appendChild(btnDelete);
+		toolBar.appendChild(fQueryName);
+		toolBar.appendChild(btnSave);
+		toolBar.setWidth("100%");
+		fQueryName.setStyle("margin-left: 3px; margin-right: 3px; position: relative; top: 5px;");
 		fQueryName.addEventListener(Events.ON_SELECT, this);
 
-        Button btnOk = new Button();
-        btnOk.setName("btnOkAdv");
-        btnOk.setImage("/images/Ok24.png");
-        btnOk.addEventListener(Events.ON_CLICK, this);
-        LayoutUtils.addSclass("action-button", btnOk);
 
-        Button btnCancel = new Button();
-        btnCancel.setName("btnCancel");
-        btnCancel.setImage("/images/Cancel24.png");
-        btnCancel.addEventListener(Events.ON_CLICK, this);
-        LayoutUtils.addSclass("action-button", btnCancel);
+		btnSave.setDisabled(m_AD_Tab_ID <= 0);
 
-        Panel pnlButtonRight = new Panel();
-        pnlButtonRight.appendChild(btnOk);
-        pnlButtonRight.appendChild(btnCancel);
-        pnlButtonRight.setAlign("right");
+		Hbox confirmPanel = new Hbox();
+		confirmPanel.appendChild(pnlButtonRight);
+		confirmPanel.setWidth("100%");
 
-        ToolBar toolBar = new ToolBar();
-        toolBar.appendChild(btnNew);
-        toolBar.appendChild(btnDelete);
-        toolBar.appendChild(fQueryName);
-        toolBar.appendChild(btnSave);
-        toolBar.setWidth("100%");
-        fQueryName.setStyle("margin-left: 3px; margin-right: 3px; position: relative; top: 5px;");
+		advancedPanel = new Listbox();
+		ListHead listhead = new ListHead();
+		listhead.setSizable(true);
 
-        btnSave.setDisabled(m_AD_Tab_ID <= 0);
+		ListHeader lstHAndOr = new ListHeader();
+		lstHAndOr.setLabel(Msg.getMsg(Env.getCtx(), "And/Or"));
+		lstHAndOr.setWidth("40px");
 
-        Hbox confirmPanel = new Hbox();
-        confirmPanel.appendChild(pnlButtonRight);
-        confirmPanel.setWidth("100%");
+		ListHeader lstHLeftBracket = new ListHeader();
+		lstHLeftBracket.setLabel("(");
+		lstHLeftBracket.setWidth("20px");
 
-        advancedPanel = new Listbox();
-        ListHead listhead = new ListHead();
-        listhead.setSizable(true);
+		ListHeader lstHColumn = new ListHeader();
+		lstHColumn.setLabel(Msg.translate(Env.getCtx(), "AD_Column_ID"));
+		lstHColumn.setWidth("100px");
 
-        ListHeader lstHColumn = new ListHeader();
-        lstHColumn.setLabel(Msg.translate(Env.getCtx(), "AD_Column_ID"));
-        lstHColumn.setWidth("100px");
+		ListHeader lstHOperator = new ListHeader();
+		lstHOperator.setLabel(Msg.getMsg(Env.getCtx(), "Operator"));
 
-        ListHeader lstHOperator = new ListHeader();
-        lstHOperator.setLabel(Msg.getMsg(Env.getCtx(), "Operator"));
+		ListHeader lstHQueryValue = new ListHeader();
+		lstHQueryValue.setLabel(Msg.getMsg(Env.getCtx(), "QueryValue"));
+		lstHQueryValue.setWidth("170px");
 
-        ListHeader lstHQueryValue = new ListHeader();
-        lstHQueryValue.setLabel(Msg.getMsg(Env.getCtx(), "QueryValue"));
-        lstHQueryValue.setWidth("210px");
+		ListHeader lstHQueryTo = new ListHeader();
+		lstHQueryTo.setLabel(Msg.getMsg(Env.getCtx(), "QueryValue2"));
+		lstHQueryTo.setWidth("170px");
 
-        ListHeader lstHQueryTo = new ListHeader();
-        lstHQueryTo.setLabel(Msg.getMsg(Env.getCtx(), "QueryValue2"));
-        lstHQueryTo.setWidth("210px");
+		ListHeader lstHRightBracket = new ListHeader();
+		lstHRightBracket.setLabel(")");
+		lstHRightBracket.setWidth("20px");
 
-        listhead.appendChild(lstHColumn);
-        listhead.appendChild(lstHOperator);
-        listhead.appendChild(lstHQueryValue);
-        listhead.appendChild(lstHQueryTo);
-        advancedPanel.appendChild(listhead);
-        advancedPanel.setVflex(true);
+		listhead.appendChild(lstHAndOr);
+		listhead.appendChild(lstHLeftBracket);
+		listhead.appendChild(lstHColumn);
+		listhead.appendChild(lstHOperator);
+		listhead.appendChild(lstHQueryValue);
+		listhead.appendChild(lstHQueryTo);
+		listhead.appendChild(lstHRightBracket);
+		advancedPanel.appendChild(listhead);
+		advancedPanel.setVflex(true);
 
-        Borderlayout layout = new Borderlayout();
-        layout.setStyle("height: 100%; width: 99%; position: relative;");
-        winAdvanced.appendChild(layout);
+		Borderlayout layout = new Borderlayout();
+		layout.setStyle("height: 100%; width: 99%; position: relative;");
+		winAdvanced.appendChild(layout);
 
-        North north = new North();
-        layout.appendChild(north);
-        north.appendChild(toolBar);
+		North north = new North();
+		layout.appendChild(north);
+		north.appendChild(toolBar);
 
-        Center center = new Center();
-        layout.appendChild(center);
-        center.appendChild(advancedPanel);
-        center.setFlex(true);
+		Center center = new Center();
+		layout.appendChild(center);
+		center.appendChild(advancedPanel);
+		center.setFlex(true);
 
-        South south = new South();
-        layout.appendChild(south);
-        south.appendChild(confirmPanel);
+		South south = new South();
+		layout.appendChild(south);
+		south.appendChild(confirmPanel);
 
-        winAdvanced.setHeight("100%");
-        winAdvanced.setWidth("100%");
-        winAdvanced.addEventListener(Events.ON_OK,this);
+		winAdvanced.setHeight("100%");
+		winAdvanced.setWidth("100%");
+		winAdvanced.addEventListener(Events.ON_OK,this);
 
-    } // initAdvanced
+	} // initAdvanced
 
-    /**
-     * initialise Main Window
-     *
-    **/
-    private void initPanel()
-    {
-        winMain = new MultiTabPart();
-        winMain.createPart(this);
-        winMain.getComponent().setStyle("height: 100%; width: 100%; position: relative;");
-        winAdvanced = new Window();
-        winLookupRecord = new Window();
-        Tabpanel tabPanel = new Tabpanel();
-        tabPanel.setStyle("height: 100%; width: 100%");
-        tabPanel.appendChild(winLookupRecord);
-        winMain.addTab(tabPanel, Msg.getMsg(Env.getCtx(), "Find").replaceAll("&", ""),false, true);
-        tabPanel = new Tabpanel();
-        tabPanel.setStyle("height: 100%; width: 100%");
-        tabPanel.appendChild(winAdvanced);
-        winMain.addTab(tabPanel, Msg.getMsg(Env.getCtx(), "Advanced").replaceAll("&", ""), false, false);
-        initSimple();
-        initAdvanced();
+	/**
+	 * initialise Main Window
+	 *
+	 **/
+	private void initPanel()
+	{
+		winMain = new MultiTabPart();
+		winMain.createPart(this);
+		winMain.getComponent().setStyle("height: 100%; width: 100%; position: relative;");
+		winAdvanced = new Window();
+		winLookupRecord = new Window();
+		Tabpanel tabPanel = new Tabpanel();
+		tabPanel.setStyle("height: 100%; width: 100%");
+		tabPanel.appendChild(winLookupRecord);
+		winMain.addTab(tabPanel, Msg.getMsg(Env.getCtx(), "Find").replaceAll("&", ""),false, true);
+		tabPanel = new Tabpanel();
+		tabPanel.setStyle("height: 100%; width: 100%");
+		tabPanel.appendChild(winAdvanced);
+		winMain.addTab(tabPanel, Msg.getMsg(Env.getCtx(), "Advanced").replaceAll("&", ""), false, false);
+		initSimple();
+		initAdvanced();
 
-    } // initPanel
+	} // initPanel
 
-    /**
-     *  Dynamic Init.6
-     *  Set up GridController
-    **/
-    private void initFind()
-    {
-        log.config("");
+	/**
+	 *  Dynamic Init.6
+	 *  Set up GridController
+	 **/
+	private void initFind()
+	{
+		log.config("");
 
-        //  Get Info from target Tab
-        for (int i = 0; i < m_findFields.length; i++)
-        {
-            GridField mField = m_findFields[i];
-            String columnName = mField.getColumnName();
+		//  Get Info from target Tab
+		for (int i = 0; i < m_findFields.length; i++)
+		{
+			GridField mField = m_findFields[i];
 
 			// Make Yes-No searchable as list
 			if (mField.getVO().displayType == DisplayType.YesNo)
@@ -549,388 +590,521 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
                 hasDescription = true;
             else
             /**/
-            if (mField.isSelectionColumn())
-                addSelectionColumn (mField);
+			if (mField.isSelectionColumn())
+				addSelectionColumn (mField);
 			/** metas: teo_sarca: Specify exactly which are the search fields - http://sourceforge.net/projects/adempiere/forums/forum/610548/topic/3736214
             else if (columnName.indexOf("Name") != -1)
                 addSelectionColumn (mField);
             /**/
 
-            //  TargetFields
-            m_targetFields.put (new Integer(mField.getAD_Column_ID()), mField);
-        }   //  for all target tab fields
+			//  TargetFields
+			m_targetFields.put (new Integer(mField.getAD_Column_ID()), mField);
+		}   //  for all target tab fields
 
-        //  Disable simple query fields
-        pnlValue.setVisible(hasValue);
-        if (hasValue)
-            fieldValue.addEventListener(Events.ON_CHANGE,this);
-        pnlDocument.setVisible(hasDocNo);
-        if (hasDocNo)
-            fieldDocumentNo.addEventListener(Events.ON_CHANGE,this);
-        pnlName.setVisible(hasName);
-        if (hasName)
-            fieldName.addEventListener(Events.ON_CHANGE,this);
-        pnlDescription.setVisible(hasDescription);
-        if (hasDescription)
-            fieldDescription.addEventListener(Events.ON_CHANGE,this);
+		//  Disable simple query fields
+		pnlValue.setVisible(hasValue);
+		if (hasValue)
+			fieldValue.addEventListener(Events.ON_CHANGE,this);
+		pnlDocument.setVisible(hasDocNo);
+		if (hasDocNo)
+			fieldDocumentNo.addEventListener(Events.ON_CHANGE,this);
+		pnlName.setVisible(hasName);
+		if (hasName)
+			fieldName.addEventListener(Events.ON_CHANGE,this);
+		pnlDescription.setVisible(hasDescription);
+		if (hasDescription)
+			fieldDescription.addEventListener(Events.ON_CHANGE,this);
 
-        m_total = getNoOfRecords(null, false);
+		m_total = getNoOfRecords(null, false);
 
-    }   //  initFind
+	}   //  initFind
 
-    /**
-     *  initialise Advanced tab
-    **/
-    private void initFindAdvanced()
-    {
-        log.config("");
-        createFields();
+	/**
+	 *  initialise Advanced tab
+	 **/
+	private void initFindAdvanced()
+	{
+		log.config("");
+		//user query
+		refreshUserQueries(); //Initializes and sets fQueryName		
 
-    }   //  initFindAdvanced
+	}   //  initFindAdvanced
 
-    /**
-     * create respective fields in the advanced window tab
-     *
-    **/
-    private void createFields()
-    {
-        ListItem listItem = new ListItem();
-        listItem.setWidth("100%");
+	/**
+	 * create respective fields in the advanced window tab
+	 *
+	 **/
+	private void createFields()
+	{
+		List<?> rowList = advancedPanel.getChildren();
+		int row = rowList.size()-1;
+		createFields(null,row);
+	}
 
-        Listbox listColumn = new Listbox();
-        listColumn.setId("listColumn"+listItem.getId());
-        listColumn.setName("listColumn");
-        listColumn.setMold("select");
-        listColumn.setRows(0);
-        listColumn.addEventListener(Events.ON_SELECT,this);
+	/**
+	 * create respective fields in the advanced window tab
+	 *
+	 **/
+	private void createFields(String[] fields, int row)
+	{
+		ListItem listItem = new ListItem();
+		listItem.setWidth("100%");
 
-        Listbox listOperator = new Listbox();
-        listOperator.setId("listOperator"+listItem.getId());
-        listOperator.setName("listOperator");
-        listOperator.setMold("select");
-        listOperator.setRows(0);
-        listOperator.addEventListener(Events.ON_SELECT,this);
+		Listbox listColumn = new Listbox();
+		listColumn.setId("listColumn"+listItem.getId());
+		listColumn.setName("listColumn");
+		listColumn.setMold("select");
+		listColumn.setRows(0);
+		listColumn.addEventListener(Events.ON_SELECT,this);
 
-        setValues(listColumn, listOperator);
+		Listbox listOperator = new Listbox();
+		listOperator.setId("listOperator"+listItem.getId());
+		listOperator.setName("listOperator");
+		listOperator.setMold("select");
+		listOperator.setRows(0);
+		listOperator.addEventListener(Events.ON_SELECT,this);
 
-        ListCell cellColumn = new ListCell();
-        cellColumn.appendChild(listColumn);
-        cellColumn.setId("cellColumn"+listItem.getId());
+		Listbox listAndOr = new Listbox();
+		listAndOr.setId("listAndOr"+listItem.getId());
+		listAndOr.setName("listAndOr");
+		listAndOr.setMold("select");
+		listAndOr.setRows(0);
+		listAndOr.addEventListener(Events.ON_SELECT,this);
 
-        ListCell cellOperator = new ListCell();
-        cellOperator.appendChild(listOperator);
-        cellOperator.setId("cellOperator"+listItem.getId());
+		Listbox listLeftBracket = new Listbox();
+		listLeftBracket.setId("listLeftBracket"+listItem.getId());
+		listLeftBracket.setName("listLeftBracket");
+		listLeftBracket.setMold("select");
+		listLeftBracket.setRows(0);
+		listLeftBracket.addEventListener(Events.ON_SELECT,this);
 
-        ListCell cellQueryFrom = new ListCell();
-        cellQueryFrom.setId("cellQueryFrom"+listItem.getId());
+		Listbox listRightBracket = new Listbox();
+		listRightBracket.setId("listRightBracket"+listItem.getId());
+		listRightBracket.setName("listRightBracket");
+		listRightBracket.setMold("select");
+		listRightBracket.setRows(0);
+		listRightBracket.addEventListener(Events.ON_SELECT,this);
 
-        ListCell cellQueryTo = new ListCell();
-        cellQueryTo.setId("cellQueryTo"+listItem.getId());
+		setValues(listColumn, listOperator, fields);
 
-        listItem.appendChild(cellColumn);
-        listItem.appendChild(cellOperator);
-        listItem.appendChild(cellQueryFrom);
-        listItem.appendChild(cellQueryTo);
+		// And Or
+		ValueNamePair[]	andOr = new ValueNamePair[] {
+				new ValueNamePair ("",			""),	
+				new ValueNamePair ("AND",		Msg.getMsg(Env.getCtx(),"AND")),
+				new ValueNamePair ("OR",		Msg.getMsg(Env.getCtx(),"OR"))	
+		};
 
-        advancedPanel.appendChild(listItem);
-        advancedPanel.setSelectedItem(listItem);
-   }    // createFields
-    /**
-     * sets the list of values of column and operator listboxes
-     * @param listColumn column
-     * @param listOperator operator
-    **/
-    private void setValues(Listbox listColumn, Listbox listOperator)
-    {
-    	setValues(listColumn, listOperator, null);
-    }
+		for (ValueNamePair item: andOr)
+			listAndOr.appendItem(item.getName(), item.getValue());
+		if (row<=0){ // don't show item on the first row.
+			listAndOr.setSelectedIndex(0);
+			listAndOr.setVisible(false);
+		} else {
+			listAndOr.setSelectedIndex(1); //And - default
+			listAndOr.setVisible(true);
+		}
 
-    private void setValues(Listbox listColumn, Listbox listOperator, String[] fields)
-    {
-        //  0 = Columns
-        ArrayList<ValueNamePair> items = new ArrayList<ValueNamePair>();
-        for (int c = 0; c < m_findFields.length; c++)
-        {
-            GridField field = m_findFields[c];
-            String columnName = field.getColumnName();
-            String header = field.getHeader();
-            if (header == null || header.length() == 0)
-            {
-                header = Msg.translate(Env.getCtx(), columnName);
+		// Left Bracket
+		ValueNamePair[]	leftBracket = new ValueNamePair[] {
+				new ValueNamePair ("",			""),	
+				new ValueNamePair ("(",			"("),
+				new ValueNamePair ("((",		"(("),	
+				new ValueNamePair ("(((",		"(((")	
+		};
 
-                if (header == null || header.length() == 0)
-                    continue;
-            }
-            if (field.isKey())
-                header += (" (ID)");
-            ValueNamePair pp = new ValueNamePair(columnName, header);
-            items.add(pp);
-        }
-        ValueNamePair[] cols = new ValueNamePair[items.size()];
-        items.toArray(cols);
-        Arrays.sort(cols);      //  sort alpha
+		for (ValueNamePair item: leftBracket)
+			listLeftBracket.appendItem(item.getName(), item.getValue());
+		listLeftBracket.setSelectedIndex(0);
 
-        ValueNamePair[] op = MQuery.OPERATORS;
+		// Right Bracket
+		ValueNamePair[]	rightBracket = new ValueNamePair[] {
+				new ValueNamePair ("",			""),	
+				new ValueNamePair (")",			")"),
+				new ValueNamePair ("))",		"))"),	
+				new ValueNamePair (")))",		")))")	
+		};
 
-        if(fields == null)
-        {
-            listColumn.appendItem("","" );
-            for (ValueNamePair item: cols)
-                listColumn.appendItem(item.getName(), item.getValue());
-        	listColumn.setSelectedIndex(0);
+		for (ValueNamePair item: rightBracket)
+			listRightBracket.appendItem(item.getName(), item.getValue());
+		listRightBracket.setSelectedIndex(0);
 
-            for (ValueNamePair item: op)
-                listOperator.appendItem(item.getName(), item.getValue());
-            listOperator.setSelectedIndex(0);
-        }
-        else
-        {
-        	String columnName = fields.length > INDEX_COLUMNNAME ? fields[INDEX_COLUMNNAME] : "";
-        	String operator = fields.length > INDEX_OPERATOR ? fields[INDEX_OPERATOR] : "";
+		ListCell cellColumn = new ListCell();
+		cellColumn.appendChild(listColumn);
+		cellColumn.setId("cellColumn"+listItem.getId());
 
-            boolean selected = false;
-            listColumn.appendItem("","");
-            for (int i = 0; i < cols.length; i++)
-            {
-            	ValueNamePair item = cols[i];
-                ListItem li = listColumn.appendItem(item.getName(), item.getValue());
-                if(item.getValue().equals(columnName))
-            	{
-                	listColumn.setSelectedItem(li);
-            		selected = true;
-            	}
-            }
-            if(!selected) listColumn.setSelectedIndex(0);
+		ListCell cellOperator = new ListCell();
+		cellOperator.appendChild(listOperator);
+		cellOperator.setId("cellOperator"+listItem.getId());
 
-            selected = false;
-            for (int i = 0; i < op.length; i++)
-            {
-            	ValueNamePair item = op[i];
-            	ListItem li = listOperator.appendItem(item.getName(), item.getValue());
-            	if(item.getValue().equals(operator))
-            	{
-            		listOperator.setSelectedItem(li);
-            		selected = true;
-            	}
-            }
-            if(!selected) listOperator.setSelectedIndex(0);
-        }
-    }   // setValues
+		ListCell cellQueryFrom = new ListCell();
+		cellQueryFrom.setId("cellQueryFrom"+listItem.getId());
 
-    /**
-     *  Add Selection Column to first Tab
-     *  @param mField field
-    **/
-    public void addSelectionColumn(GridField mField)
-    {
-        log.config(mField.getHeader());
-        int displayLength = mField.getDisplayLength();
-        if (displayLength <= 0 || displayLength > FIELDLENGTH)
-            mField.setDisplayLength(FIELDLENGTH);
-        else
-            displayLength = 0;
+		ListCell cellQueryTo = new ListCell();
+		cellQueryTo.setId("cellQueryTo"+listItem.getId());
 
-        //  Editor
-        WEditor editor = null;
-        editor = WebEditorFactory.getEditor(mField, false);
-        editor.setMandatory(false);
-        editor.setReadWrite(true);
-        editor.dynamicDisplay();
-        Label label = editor.getLabel();
-        Component fieldLabel = editor.getComponent();
+		ListCell cellAndOr = new ListCell();
+		cellAndOr.appendChild(listAndOr);
+		cellAndOr.setId("cellAndOr"+listItem.getId());
 
-        //
-        if (displayLength > 0)      //  set it back
-            mField.setDisplayLength(displayLength);
-        //
+		ListCell cellLeftBracket = new ListCell();
+		cellLeftBracket.appendChild(listLeftBracket);
+		cellLeftBracket.setId("cellLeftBracket"+listItem.getId());
 
-        Row panel = new Row();
-        panel.appendChild(LayoutUtils.makeRightAlign(label));
-        panel.appendChild(fieldLabel);
+		ListCell cellRightBracket = new ListCell();
+		cellRightBracket.appendChild(listRightBracket);
+		cellRightBracket.setId("cellRightBracket"+listItem.getId());
 
-        contentSimpleRows.appendChild(panel);
-        m_sEditors.add(editor);
+		listItem.appendChild(cellAndOr);
+		listItem.appendChild(cellLeftBracket);
+		listItem.appendChild(cellColumn);
+		listItem.appendChild(cellOperator);
+		listItem.appendChild(cellQueryFrom);
+		listItem.appendChild(cellQueryTo);
+		listItem.appendChild(cellRightBracket);
 
-        fieldLabel.addEventListener(Events.ON_OK,this);
-    }   // addSelectionColumn
+		advancedPanel.appendChild(listItem);
+		advancedPanel.setSelectedItem(listItem);
 
-    public void onEvent(Event event) throws Exception
-    {
-        if (Events.ON_SELECT.equals(event.getName()))
-        {
-            if (event.getTarget() instanceof Listbox)
-            {
-                ListItem row = (ListItem)(event.getTarget().getParent().getParent());
-                Listbox listbox = (Listbox)event.getTarget();
-                advancedPanel.setSelectedItem(row);
-                Listbox listColumn = (Listbox)row.getFellow("listColumn"+row.getId());
-                Listbox listOperator = (Listbox)row.getFellow("listOperator"+row.getId());
+		if (fields != null){
+			// QueryFrom
+			String columnName = listColumn.getSelectedItem().getValue().toString();
+			if (columnName == null || columnName == "")
+				return;
+			String value = fields.length > INDEX_VALUE ? fields[INDEX_VALUE] : "";
+			if(value.length() > 0)
+			{
+				cellQueryFrom.setAttribute("value", value); // Elaine 2009/03/16 - set attribute value
+				cellQueryFrom.appendChild(parseString(getTargetMField(columnName), value, listItem, false));
+			}
+			// QueryTo
+			String value2 = fields.length > INDEX_VALUE2 ? fields[INDEX_VALUE2] : "";
+			if(value2.length() > 0)
+			{
+				cellQueryTo.setAttribute("value", value); // Elaine 2009/03/16 - set attribute value
+				cellQueryTo.appendChild(parseString(getTargetMField(columnName), value2, listItem, true));
+			}
 
-                if (listbox.getId().equals(listColumn.getId()))
-                {
-                    ListItem column = listColumn.getSelectedItem();
-                    if (column != null)
-                    {
-                        addOperators(column, listOperator);
-                    }
-                }
-                Component componentFrom = getEditorCompQueryFrom(row);
-                Component componentTo = getEditorCompQueryTo(row);
+			// AndOr
+			String sandOr = fields.length > INDEX_ANDOR ? fields[INDEX_ANDOR] : "";
+			if(sandOr.length() > 0)
+			{
+				for (int i=0; i< listAndOr.getItems().size(); i++) {
+					if (listAndOr.getItemAtIndex(i).getValue().equals(sandOr)){
+						listAndOr.setSelectedIndex(i);
+						break;
+					}
+				}
+			}
 
-                addRowEditor(componentFrom, (ListCell)row.getFellow("cellQueryFrom"+row.getId()));
-                addRowEditor(componentTo,(ListCell)row.getFellow("cellQueryTo"+row.getId()));
-            }
-    		else if (event.getTarget() == fQueryName)
-    		{
-    			int index = fQueryName.getSelectedIndex();
-    			if(index < 0) return;
-    			parseUserQuery(userQueries[index]);
-    		}
-        }   //
-        else if (Events.ON_CLICK.equals(event.getName()))
-        {
-            //  Toolbar Buttons actions
-            if(event.getTarget() instanceof ToolBarButton)
-            {
-                ToolBarButton button = (ToolBarButton)event.getTarget();
+			// Left Bracket
+			String sLeftBracket = fields.length > INDEX_LEFTBRACKET ? fields[INDEX_LEFTBRACKET] : "";
+			if(sLeftBracket.length() > 0)
+			{
+				for (int i=0; i < listLeftBracket.getItems().size(); i++) {
+					if (listLeftBracket.getItemAtIndex(i).getValue().equals(sLeftBracket)){
+						listLeftBracket.setSelectedIndex(i);
+						break;
+					}
+				}
+			}
 
-                if ("btnNewAdv".equals(button.getAttribute("name").toString()))
-                {
-                    initFindAdvanced();
-                }
+			// Right Bracket
+			String sRightBracket = fields.length > INDEX_RIGHTBRACKET ? fields[INDEX_RIGHTBRACKET] : "";
+			if(sRightBracket.length() > 0)
+			{
+				for (int i=0; i < listRightBracket.getItems().size(); i++) {
+					if (listRightBracket.getItemAtIndex(i).getValue().equals(sRightBracket)){
+						listRightBracket.setSelectedIndex(i);
+						break;
+					}
+				}
+			}
 
-                else if ("btnDeleteAdv".equals(button.getAttribute("name").toString()))
-                {
-                    int index = advancedPanel.getSelectedIndex();
-                    advancedPanel.getSelectedItem().detach();
-                    advancedPanel.setSelectedIndex(--index);
-                }
+		}
 
-                else if ("btnSaveAdv".equals(button.getAttribute("name").toString()))
-                {
-                	cmd_save(true);
-                }
-            }
-            //  Confirm panel actions
-            else if(event.getTarget() instanceof Button)
-            {
-                Button btn = (Button)event.getTarget();
+	}    // createFields
+	/**
+	 * sets the list of values of column and operator listboxes
+	 * @param listColumn column
+	 * @param listOperator operator
+	 **/
+	private void setValues(Listbox listColumn, Listbox listOperator, String[] fields)
+	{
+		//  0 = Columns
+		ArrayList<ValueNamePair> items = new ArrayList<ValueNamePair>();
+		for (int c = 0; c < m_findFields.length; c++)
+		{
+			GridField field = m_findFields[c];
+			String columnName = field.getColumnName();
+			String header = field.getHeader();
+			if (header == null || header.length() == 0)
+			{
+				header = Msg.translate(Env.getCtx(), columnName);
 
-                if ("btnOkSimple".equals(btn.getName()))
-                {
-                    cmd_ok_Simple();
-                    dispose();
-                }
-                else if ("btnOkAdv".equals(btn.getName()))
-                {
-                    cmd_ok_Advanced();
-                    dispose();
-                }
-                else if("btnCancel".equals(btn.getName()))
-                {
-                	m_isCancel = true;
-                    dispose();
-                }
-                else if ("btnNew".equals(btn.getName()))
-                {
-                    m_query = MQuery.getNoRecordQuery(m_tableName, true);
-                    m_total = 0;
-                    m_createNew  = true;
-                    dispose();
-                }
-            }
-        }
-        else if (Events.ON_OK.equals(event.getName()))
-        {
-            if (winLookupRecord.equals(event.getTarget()))
-            {
-                cmd_ok_Simple();
-                dispose();
-            }
-            else if (winAdvanced.equals(event.getTarget()))
-            {
-                cmd_ok_Advanced();
-                dispose();
-            }
-            // Check simple panel fields
-            for (WEditor editor : m_sEditors)
-            {
-            	if (editor.getComponent() == event.getTarget())
-            	{
-                    cmd_ok_Simple();
-                    dispose();
-            	}
-            }
-        }
+				if (header == null || header.length() == 0)
+					continue;
+			}
+			if (field.isKey())
+				header += (" (ID)");
+			ValueNamePair pp = new ValueNamePair(columnName, header);
+			items.add(pp);
+		}
+		ValueNamePair[] cols = new ValueNamePair[items.size()];
+		items.toArray(cols);
+		Arrays.sort(cols);      //  sort alpha
 
-    }   //  onEvent
+		ValueNamePair[] op = MQuery.OPERATORS;
 
-    private void parseUserQuery(MUserQuery userQuery)
-    {
+		if(fields == null)
+		{
+			listColumn.appendItem("","" );
+			for (ValueNamePair item: cols)
+				listColumn.appendItem(item.getName(), item.getValue());
+			listColumn.setSelectedIndex(0);
+
+			for (ValueNamePair item: op)
+				listOperator.appendItem(item.getName(), item.getValue());
+			listOperator.setSelectedIndex(0);
+		}
+		else
+		{
+			// 0 - column
+			String columnName = fields.length > 0 ? fields[0] : "";
+			// 1 - operator
+			String operator = fields.length > 1 ? fields[1] : "";
+
+			boolean selected = false;
+			listColumn.appendItem("","");
+			for (int i = 0; i < cols.length; i++)
+			{
+				ValueNamePair item = cols[i];
+				ListItem li = listColumn.appendItem(item.getName(), item.getValue());
+				if(item.getValue().equals(columnName))
+				{
+					listColumn.setSelectedItem(li);
+					selected = true;
+				}
+			}
+			if(!selected) listColumn.setSelectedIndex(0);
+
+			selected = false;
+			for (int i = 0; i < op.length; i++)
+			{
+				ValueNamePair item = op[i];
+				ListItem li = listOperator.appendItem(item.getName(), item.getValue());
+				if(item.getValue().equals(operator))
+				{
+					listOperator.setSelectedItem(li);
+					selected = true;
+				}
+			}
+			if(!selected) listOperator.setSelectedIndex(0);
+		}
+
+	}   // setValues
+
+	/**
+	 *  Add Selection Column to first Tab
+	 *  @param mField field
+	 **/
+	public void addSelectionColumn(GridField mField)
+	{
+		log.config(mField.getHeader());
+		int displayLength = mField.getDisplayLength();
+		if (displayLength <= 0 || displayLength > FIELDLENGTH)
+			mField.setDisplayLength(FIELDLENGTH);
+		else
+			displayLength = 0;
+
+		//  Editor
+		WEditor editor 	= null;
+		Label label 	= null;
+		Row panel 		= new Row ();
+
+		contentSimpleRows.appendChild(panel);
+
+		if ( mField.isRange() ) {
+			Hbox box = new Hbox();
+			editor = WebEditorFactory.getEditor(mField, false);
+			label = editor.getLabel();
+			editor.setMandatory(false);
+			editor.setReadWrite(true);
+			editor.dynamicDisplay();
+			box.appendChild(editor.getComponent());
+			rangeFirstEditor.add(mField.getColumnName());
+			// The Editor
+			WEditor toRangeEditor = WebEditorFactory.getEditor( mField, false);
+			// New Field value to be updated to editor
+			toRangeEditor.setMandatory(false);
+			toRangeEditor.setReadWrite(true);
+			toRangeEditor.dynamicDisplay();
+			//
+			m_sEditors2.add (toRangeEditor);
+			Label separator = new Label(" - ");
+			box.appendChild(separator);
+			box.appendChild(toRangeEditor.getComponent());
+			if (displayLength > 0) // set it back
+				mField.setDisplayLength(displayLength);
+			//
+			panel.appendChild(LayoutUtils.makeRightAlign(label));
+			panel.appendChild(box);
+		}
+		else {
+			editor = WebEditorFactory.getEditor(mField, false);
+			label = editor.getLabel();
+			editor.setMandatory(false);
+			editor.setReadWrite(true);
+			editor.dynamicDisplay();
+
+			Component fieldLabel = editor.getComponent();
+
+			//
+			if (displayLength > 0)      //  set it back
+				mField.setDisplayLength(displayLength);
+			//
+			panel.appendChild(LayoutUtils.makeRightAlign(label));
+			panel.appendChild(fieldLabel);
+
+			m_sEditors2.add (null);
+		}
+
+		m_sEditors.add(editor);
+
+	}   // addSelectionColumn
+
+	public void onEvent(Event event) throws Exception
+	{
+		if (Events.ON_SELECT.equals(event.getName()))
+		{
+			if (event.getTarget() instanceof Listbox)
+			{
+				ListItem row = (ListItem)(event.getTarget().getParent().getParent());
+				Listbox listbox = (Listbox)event.getTarget();
+				advancedPanel.setSelectedItem(row);
+				Listbox listColumn = (Listbox)row.getFellow("listColumn"+row.getId());
+				Listbox listOperator = (Listbox)row.getFellow("listOperator"+row.getId());
+
+				if (listbox.getId().equals(listColumn.getId()) || listbox.getId().equals(listOperator.getId())){
+					if (listbox.getId().equals(listColumn.getId()))
+					{
+						ListItem column = listColumn.getSelectedItem();
+						if (column != null)
+						{
+							addOperators(column, listOperator);
+						}
+					}
+					Component componentFrom = getEditorCompQueryFrom(row);
+					Component componentTo = getEditorCompQueryTo(row);
+
+					addRowEditor(componentFrom, (ListCell)row.getFellow("cellQueryFrom"+row.getId()));
+					addRowEditor(componentTo,(ListCell)row.getFellow("cellQueryTo"+row.getId()));
+				}
+			}
+			else if (event.getTarget() == fQueryName)
+			{
+				int index = fQueryName.getSelectedIndex();
+				if(index < 0) return;
+				if(index == 0) { // no query - wipe and start over.
+					List<?> rowList = advancedPanel.getChildren();
+					for (int rowIndex = rowList.size() - 1; rowIndex >= 1; rowIndex--)
+						rowList.remove(rowIndex);
+					createFields();  
+				}
+				else parseUserQuery(userQueries[index-1]);
+			}
+		}   //
+		else if (Events.ON_CLICK.equals(event.getName()))
+		{
+			//  Toolbar Buttons actions
+			if(event.getTarget() instanceof ToolBarButton)
+			{
+				ToolBarButton button = (ToolBarButton)event.getTarget();
+
+				if ("btnNewAdv".equals(button.getAttribute("name").toString()))
+				{
+					createFields();
+				}
+
+				else if ("btnDeleteAdv".equals(button.getAttribute("name").toString()))
+				{
+					int index = advancedPanel.getSelectedIndex();
+					advancedPanel.getSelectedItem().detach();
+					advancedPanel.setSelectedIndex(--index);
+				}
+
+				else if ("btnSaveAdv".equals(button.getAttribute("name").toString()))
+				{
+					cmd_save(true);
+				}
+			}
+			//  Confirm panel actions
+			else if(event.getTarget() instanceof Button)
+			{
+				Button btn = (Button)event.getTarget();
+
+				if ("btnOkSimple".equals(btn.getName()))
+				{
+					cmd_ok_Simple();
+					dispose();
+				}
+				else if ("btnOkAdv".equals(btn.getName()))
+				{
+					cmd_ok_Advanced();
+					dispose();
+				}
+				else if("btnCancel".equals(btn.getName()))
+				{
+					m_isCancel = true;
+					dispose();
+				}
+				else if ("btnNew".equals(btn.getName()))
+				{
+					m_query = MQuery.getNoRecordQuery(m_tableName, true);
+					m_total = 0;
+					m_createNew  = true;
+					dispose();
+				}
+			}
+		}
+		else if (Events.ON_OK.equals(event.getName()))
+		{
+			if (winLookupRecord.equals(event.getTarget()))
+			{
+				cmd_ok_Simple();
+				dispose();
+			}
+			else if (winAdvanced.equals(event.getTarget()))
+			{
+				cmd_ok_Advanced();
+				dispose();
+			}
+			// Check simple panel fields
+			for (WEditor editor : m_sEditors)
+			{
+				if (editor.getComponent() == event.getTarget())
+				{
+					cmd_ok_Simple();
+					dispose();
+				}
+			}
+		}
+
+	}   //  onEvent
+
+	private void parseUserQuery(MUserQuery userQuery)
+	{
 		String code = userQuery.getCode();
 		String[] segments = code.split(Pattern.quote(SEGMENT_SEPARATOR));
 
-        List<?> rowList = advancedPanel.getChildren();
-        for (int rowIndex = rowList.size() - 1; rowIndex >= 1; rowIndex--)
-        	rowList.remove(rowIndex);
+		List<?> rowList = advancedPanel.getChildren();
+		for (int rowIndex = rowList.size() - 1; rowIndex >= 1; rowIndex--)
+			rowList.remove(rowIndex);
 
 		for (int i = 0; i < segments.length; i++)
 		{
 			String[] fields = segments[i].split(Pattern.quote(FIELD_SEPARATOR));
 
-	        ListItem listItem = new ListItem();
-	        listItem.setWidth("100%");
-	        advancedPanel.appendChild(listItem);
-
-	        Listbox listColumn = new Listbox();
-	        listColumn.setId("listColumn"+listItem.getId());
-	        listColumn.setName("listColumn");
-	        listColumn.setMold("select");
-	        listColumn.setRows(0);
-	        listColumn.addEventListener(Events.ON_SELECT,this);
-
-	        Listbox listOperator = new Listbox();
-	        listOperator.setId("listOperator"+listItem.getId());
-	        listOperator.setName("listOperator");
-	        listOperator.setMold("select");
-	        listOperator.setRows(0);
-	        listOperator.addEventListener(Events.ON_SELECT,this);
-
-	        setValues(listColumn, listOperator, fields);
-
-	        ListCell cellColumn = new ListCell();
-	        cellColumn.appendChild(listColumn);
-	        cellColumn.setId("cellColumn"+listItem.getId());
-
-	        ListCell cellOperator = new ListCell();
-	        cellOperator.appendChild(listOperator);
-	        cellOperator.setId("cellOperator"+listItem.getId());
-
-	        ListCell cellQueryFrom = new ListCell();
-	        cellQueryFrom.setId("cellQueryFrom"+listItem.getId());
-
-	        ListCell cellQueryTo = new ListCell();
-	        cellQueryTo.setId("cellQueryTo"+listItem.getId());
-
-	        listItem.appendChild(cellColumn);
-	        listItem.appendChild(cellOperator);
-	        listItem.appendChild(cellQueryFrom);
-	        listItem.appendChild(cellQueryTo);
-
-	        String columnName = listColumn.getSelectedItem().getValue().toString();
-        	String value = fields.length > INDEX_VALUE ? fields[INDEX_VALUE] : "";
-        	if(value.length() > 0)
-        	{
-        		cellQueryFrom.setAttribute("value", value); // Elaine 2009/03/16 - set attribute value
-    	        cellQueryFrom.appendChild(parseString(getTargetMField(columnName), value, listItem, false));
-        	}
-
-        	String value2 = fields.length > INDEX_VALUE2 ? fields[INDEX_VALUE2] : "";
-        	if(value2.length() > 0)
-        	{
-        		cellQueryTo.setAttribute("value", value); // Elaine 2009/03/16 - set attribute value
-        		cellQueryTo.appendChild(parseString(getTargetMField(columnName), value2, listItem, true));
-        	}
+			createFields(fields, i);
 		}
 
 		advancedPanel.invalidate();
@@ -953,18 +1127,18 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 		{
 			WEditor editor = null;
 			if (field.isKey())
-	            editor = new WNumberEditor(field);
-	        else
-	            editor = WebEditorFactory.getEditor(field, true);
-	        if (editor == null)
-	            editor = new WStringEditor(field);
+				editor = new WNumberEditor(field);
+			else
+				editor = WebEditorFactory.getEditor(field, true);
+			if (editor == null)
+				editor = new WStringEditor(field);
 
 			//	Return Integer
 			if (dt == DisplayType.Integer
-				|| (DisplayType.isID(dt) && field.getColumnName().endsWith("_ID")))
+					|| (DisplayType.isID(dt) && field.getColumnName().endsWith("_ID")))
 			{
 				int i = Integer.parseInt(in);
-		        editor.setValue(new Integer(i));
+				editor.setValue(new Integer(i));
 			}
 			//	Return BigDecimal
 			else if (DisplayType.isNumeric(dt))
@@ -996,18 +1170,18 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 			editor.addValueChangeListener(this);
 
 			boolean between = false;
-	        Listbox listOp = (Listbox) listItem.getFellow("listOperator"+listItem.getId());
-	        String betweenValue = listOp.getSelectedItem().getValue().toString();
-	        String opValue = MQuery.OPERATORS[MQuery.BETWEEN_INDEX].getValue();
-	        if (to &&  betweenValue != null
-	            && betweenValue.equals(opValue))
-	            between = true;
+			Listbox listOp = (Listbox) listItem.getFellow("listOperator"+listItem.getId());
+			String betweenValue = listOp.getSelectedItem().getValue().toString();
+			String opValue = MQuery.OPERATORS[MQuery.BETWEEN_INDEX].getValue();
+			if (to &&  betweenValue != null
+					&& betweenValue.equals(opValue))
+				between = true;
 
-	        boolean enabled = !to || (to && between);
+			boolean enabled = !to || (to && between);
 
 			editor.setReadWrite(enabled);
-	        editor.setVisible(enabled);
-	        editor.dynamicDisplay();
+			editor.setVisible(enabled);
+			editor.dynamicDisplay();
 
 			return editor.getComponent();
 		}
@@ -1019,762 +1193,813 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 
 	}	//	parseValue
 
-    private void cmd_save(boolean saveQuery)
+	private void cmd_save(boolean saveQuery)
 	{
 		//
 		m_query = new MQuery(m_tableName);
 		StringBuffer code = new StringBuffer();
 
-        List<?> rowList = advancedPanel.getChildren();
+		int openBrackets = 0;
 
-        for (int rowIndex = 1; rowIndex < rowList.size() ; rowIndex++)
-        {
-            //  Column
-            ListItem row = (ListItem)rowList.get(rowIndex);
-            Listbox column = (Listbox)row.getFellow("listColumn"+row.getId());
-            if (column == null)
-                continue;
-            String ColumnName = column.getSelectedItem().getValue().toString();
-            String infoName = column.toString();
-            //
-            GridField field = getTargetMField(ColumnName);
-            if(field == null) continue; // Elaine 2008/07/29
-            boolean isProductCategoryField = isProductCategoryField(field.getAD_Column_ID());
-            String ColumnSQL = field.getColumnSQL(false);
-            //  Op
-            Listbox op = (Listbox)row.getFellow("listOperator"+row.getId());
-            if (op == null)
-                continue;
-            String Operator = op.getSelectedItem().getValue().toString();
+		List<?> rowList = advancedPanel.getChildren();
 
-            //  Value   ******
-            ListCell cellQueryFrom = (ListCell)row.getFellow("cellQueryFrom"+row.getId());
-            Object value = cellQueryFrom.getAttribute("value");
-            if (value == null)
-                continue;
-            Object parsedValue = parseValue(field, value);
-            if (parsedValue == null)
-                continue;
-            String infoDisplay = value.toString();
-            if (field.isLookup())
-                infoDisplay = field.getLookup().getDisplay(value);
-            else if (field.getDisplayType() == DisplayType.YesNo)
-                infoDisplay = Msg.getMsg(Env.getCtx(), infoDisplay);
-            //  Value2  ******
-            Object value2 = null;
-            if (MQuery.OPERATORS[MQuery.BETWEEN_INDEX].equals(op))
-            {
-                ListCell cellQueryTo = (ListCell)row.getFellow("cellQueryTo"+row.getId());
-                value2 = cellQueryTo.getAttribute("value");
-                if (value2 == null)
-                    continue;
-                Object parsedValue2 = parseValue(field, value2);
-                String infoDisplay_to = value2.toString();
-                if (parsedValue2 == null)
-                    continue;
-                m_query.addRangeRestriction(ColumnSQL, parsedValue, parsedValue2,
-                    infoName, infoDisplay, infoDisplay_to);
-            }
-            else if (isProductCategoryField && MQuery.OPERATORS[MQuery.EQUAL_INDEX].equals(op)) {
-                if (!(parsedValue instanceof Integer)) {
-                    continue;
-                }
-                m_query
+		for (int rowIndex = 1; rowIndex < rowList.size() ; rowIndex++)
+		{
+			//  Column
+			ListItem row = (ListItem)rowList.get(rowIndex);
+			Listbox column = (Listbox)row.getFellow("listColumn"+row.getId());
+			if (column == null)
+				continue;
+			String ColumnName = column.getSelectedItem().getValue().toString();
+			String infoName = column.toString();
+			//
+			GridField field = getTargetMField(ColumnName);
+			if(field == null) 
+				continue; // Elaine 2008/07/29
+			boolean isProductCategoryField = isProductCategoryField(field.getAD_Column_ID());
+			String ColumnSQL = field.getColumnSQL(false);
+			// Left brackets
+			Listbox listLeftBracket = (Listbox)row.getFellow("listLeftBracket"+row.getId());
+			String lBrackets = listLeftBracket.getSelectedItem().getValue().toString();
+			if ( lBrackets != null )
+				openBrackets += lBrackets.length();
+			// Right brackets
+			Listbox listRightBracket = (Listbox)row.getFellow("listRightBracket"+row.getId());
+			String rBrackets = listRightBracket.getSelectedItem().getValue().toString();
+			if ( rBrackets != null )
+				openBrackets -= rBrackets.length();
+			// And Or
+			Listbox listAndOr = (Listbox)row.getFellow("listAndOr"+row.getId());
+			String andOr = listAndOr.getSelectedItem().getValue().toString();
+			boolean and = true;
+			if ( rowIndex > 1 ) {
+				and = !"OR".equals(andOr);
+			}            
+			//  Op
+			Listbox op = (Listbox)row.getFellow("listOperator"+row.getId());
+			if (op == null)
+				continue;
+			String Operator = op.getSelectedItem().getValue().toString();
 
-                .addRestriction(getSubCategoryWhereClause(((Integer) parsedValue).intValue()));
-            }
-            else
-                m_query.addRestriction(ColumnSQL, Operator, parsedValue,
-                    infoName, infoDisplay);
-
+			//  Value   ******
+			ListCell cellQueryFrom = (ListCell)row.getFellow("cellQueryFrom"+row.getId());
+			Object value = cellQueryFrom.getAttribute("value");
+			ListCell cellQueryTo = (ListCell)row.getFellow("cellQueryTo"+row.getId());
+			Object value2 = cellQueryTo.getAttribute("value");
+			if (value == null){  // Capture the case "is null" ?
+				if ( MQuery.OPERATORS[MQuery.EQUAL_INDEX].equals(op) 
+						||  MQuery.OPERATORS[MQuery.NOT_EQUAL_INDEX].equals(op) )
+				{
+					m_query.addRestriction(ColumnSQL, Operator, null,
+							infoName, null, and, openBrackets);
+				} else {
+					continue;
+				}
+			} else {  // Value has a value - check for range too.
+				Object parsedValue = parseValue(field, value);
+				if (parsedValue == null)
+					continue;
+				//encrypt the value if we are searching an encrypted column.
+				if (field.isEncryptedColumn()) {
+					value = SecureEngine.encrypt(value);
+				}
+				String infoDisplay = value.toString();
+				if (field.isLookup())
+					infoDisplay = field.getLookup().getDisplay(value);
+				else if (field.getDisplayType() == DisplayType.YesNo)
+					infoDisplay = Msg.getMsg(Env.getCtx(), infoDisplay);
+				//  Value2  ******
+				if (MQuery.OPERATORS[MQuery.BETWEEN_INDEX].equals(op.getSelectedItem().toValueNamePair()))
+				{
+					if (value2 == null)
+						continue;
+					Object parsedValue2 = parseValue(field, value2);
+					String infoDisplay_to = value2.toString();
+					if (parsedValue2 == null)
+						continue;
+					//encrypt the value if we are searching an encrypted column.
+					if (field.isEncryptedColumn()) {
+						value2 = SecureEngine.encrypt(value2);
+					}
+					m_query.addRangeRestriction(ColumnSQL, parsedValue, parsedValue2,
+							infoName, infoDisplay, infoDisplay_to, and, openBrackets);
+				}
+				else if (isProductCategoryField && MQuery.OPERATORS[MQuery.EQUAL_INDEX].equals(op)) {
+					if (!(parsedValue instanceof Integer)) {
+						continue;
+					}
+					m_query.addRestriction(getSubCategoryWhereClause(((Integer) parsedValue).intValue()), 
+							and, openBrackets);
+				}
+				else
+					m_query.addRestriction(ColumnSQL, Operator, parsedValue,
+							infoName, infoDisplay, and, openBrackets);
+			}
 			if (code.length() > 0)
 				code.append(SEGMENT_SEPARATOR);
 			code.append(ColumnName)
-				.append(FIELD_SEPARATOR)
-				.append(Operator)
-				.append(FIELD_SEPARATOR)
-				.append(value.toString())
-				.append(FIELD_SEPARATOR)
-				.append(value2 != null ? value2.toString() : "");
+			.append(FIELD_SEPARATOR)
+			.append(Operator)
+			.append(FIELD_SEPARATOR)
+			.append(value.toString())
+			.append(FIELD_SEPARATOR)
+			.append(value2 != null ? value2.toString() : "")
+			.append(FIELD_SEPARATOR)
+			.append(andOr)
+			.append(FIELD_SEPARATOR)
+			.append(lBrackets != null ? lBrackets : "")
+			.append(FIELD_SEPARATOR)
+			.append(rBrackets != null ? rBrackets : "");
 		}
+
 		String selected = fQueryName.getValue();
-		if (selected != null && saveQuery) {
+		if (selected != null) {
 			String name = selected;
-			MUserQuery uq = MUserQuery.get(Env.getCtx(), m_AD_Tab_ID, name);
-			if (uq == null && code.length() > 0)
-			{
-				uq = new MUserQuery (Env.getCtx(), 0, null);
-				uq.setName (name);
-				uq.setAD_Tab_ID(m_AD_Tab_ID); //red1 UserQuery [ 1798539 ] taking in new field from Compiere
-				uq.setAD_User_ID(Env.getAD_User_ID(Env.getCtx())); //red1 - [ 1798539 ] missing in Compiere delayed source :-)
+			if ((fQueryName.getSelectedIndex() == 0 || name.equals(m_sLast)) && saveQuery){ // New query - needs a name
+
+				FDialog.warn (m_targetWindowNo, this, "NeedsName", name);
+				return;
 			}
-			else if (uq != null && code.length() == 0)
-			{
-				if (uq.delete(true))
+			if (saveQuery){
+				MUserQuery uq = MUserQuery.get(Env.getCtx(), m_AD_Tab_ID, name);
+				if (code.length() > 0) { // New or updated
+					if (uq == null) // Create a new record
+					{
+						uq = new MUserQuery (Env.getCtx(), 0, null);
+						uq.setName (name);
+						uq.setAD_Table_ID(m_AD_Table_ID);
+						uq.setAD_Tab_ID(m_AD_Tab_ID); //red1 UserQuery [ 1798539 ] taking in new field from Compiere
+						uq.setAD_User_ID(Env.getAD_User_ID(Env.getCtx())); //red1 - [ 1798539 ] missing in Compiere delayed source :-)
+					}
+					uq.setCode (code.toString());  // Update the query code
+
+				} else	if (code.length() <= 0){ // Delete the query
+					if (uq.delete(true))
+					{
+						FDialog.info (m_targetWindowNo, this, "Deleted", name);
+						refreshUserQueries();
+					}
+					else
+						FDialog.warn (m_targetWindowNo, this, "DeleteError", name);
+					return;
+				}
+				//
+				if (uq.save())
 				{
-					FDialog.info (m_targetWindowNo, this, "Deleted", name);
+					FDialog.info (m_targetWindowNo, this, "Saved", name);
 					refreshUserQueries();
 				}
 				else
+					FDialog.warn (m_targetWindowNo, this, "SaveError", name);
+			}
+			//
+			MUserQuery last = MUserQuery.get(Env.getCtx(), m_AD_Tab_ID, m_sLast);
+			if (code.length() > 0) { // New or update				
+				if (last == null) // Create a new record
+				{
+					last = new MUserQuery (Env.getCtx(), 0, null);
+					last.setName (m_sLast);
+					last.setAD_Table_ID (m_AD_Table_ID);
+					last.setAD_Tab_ID(m_AD_Tab_ID); 
+					last.setAD_User_ID(Env.getAD_User_ID(Env.getCtx())); 
+				}
+				last.setCode (code.toString());  // Update the query code
+			} else	if (code.length() <= 0){ // Delete the query
+				if (!last.delete(true))
 					FDialog.warn (m_targetWindowNo, this, "DeleteError", name);
 				return;
 			}
-			else
-				return;
-			uq.setCode (code.toString());
-			uq.setAD_Table_ID (m_AD_Table_ID);
-			//
-			if (uq.save())
-			{
-				FDialog.info (m_targetWindowNo, this, "Saved", name);
-				refreshUserQueries();
-			}
-			else
+
+			if (!last.save())
 				FDialog.warn (m_targetWindowNo, this, "SaveError", name);
 		}
 	}	//	cmd_save
 
 	private void refreshUserQueries()
 	{
-		String value = fQueryName.getValue();
+		String value = m_sLast;
+		if (fQueryName.getItemCount()>0){ // The list is initialized
+			value = fQueryName.getValue();
+		}
 		userQueries = MUserQuery.get(Env.getCtx(), m_AD_Tab_ID);
 		fQueryName.getItems().clear();
 		boolean selected = false;
+		fQueryName.appendItem(m_sNew);  
 		for (int i = 0; i < userQueries.length; i++)
 		{
 			Comboitem ci = fQueryName.appendItem(userQueries[i].getName());
 			if(value.equals(userQueries[i].getName()))
 			{
 				fQueryName.setSelectedItem(ci);
+				parseUserQuery(userQueries[i]);
 				selected = true;
 			}
 		}
 
-		if(!selected) fQueryName.setValue("");
+		if(!selected) fQueryName.setSelectedIndex(0);
+
 	}
 
-    /**
-     * retrieve the columnName of the Column item selected
-     * @param label label
-    **/
-    private String getColumnName(ListItem row)
-    {
-        Listbox listColumn = (Listbox)row.getFellow("listColumn"+row.getId());
-        String columnName = listColumn.getSelectedItem().getValue().toString();
+	/**
+	 * retrieve the columnName of the Column item selected
+	 * @param label label
+	 **/
+	private String getColumnName(ListItem row)
+	{
+		Listbox listColumn = (Listbox)row.getFellow("listColumn"+row.getId());
+		String columnName = listColumn.getSelectedItem().getValue().toString();
 
-        return columnName;
+		return columnName;
 
-    }   // getColumnName
+	}   // getColumnName
 
-    /**
-     *  get editor component for 'query' field
-     * @param row   row
-     * @return  editor component
-    **/
-    private Component getEditorCompQueryFrom(ListItem row)
-    {
-        return getEditorComponent(row, false);
-    }
+	/**
+	 *  get editor component for 'query' field
+	 * @param row   row
+	 * @return  editor component
+	 **/
+	private Component getEditorCompQueryFrom(ListItem row)
+	{
+		return getEditorComponent(row, false);
+	}
 
-    /**
-     *  get editor component for 'query to' field
-     * @param row   row
-     * @return  editor component
-    **/
-    private Component getEditorCompQueryTo(ListItem row)
-    {
-        return getEditorComponent(row, true);
-    }
+	/**
+	 *  get editor component for 'query to' field
+	 * @param row   row
+	 * @return  editor component
+	 **/
+	private Component getEditorCompQueryTo(ListItem row)
+	{
+		return getEditorComponent(row, true);
+	}
 
-    /**
-     * add the editor component in the 'QueryValue' field
-     * @param component editor component
-     * @param label label to replace by editor component
-    **/
-    private void addRowEditor(Component component, ListCell listcell)
-    {
-        listcell.setLabel("");
-        listcell.getChildren().clear();
-        listcell.appendChild(component);
-     }   //  addComponent
+	/**
+	 * add the editor component in the 'QueryValue' field
+	 * @param component editor component
+	 * @param label label to replace by editor component
+	 **/
+	private void addRowEditor(Component component, ListCell listcell)
+	{
+		listcell.setLabel("");
+		listcell.getChildren().clear();
+		listcell.appendChild(component);
+	}   //  addComponent
 
-    /**
-     *    Retrieve operators depending on the item selected in the 'Column' field
-     *    and add them to the selection
-     *    @param column Column field selected
-    **/
-    private void addOperators(ListItem column, Listbox listOperator)
-    {
-        String columnName = column.getValue().toString();
-        log.config("Column: " + columnName);
+	/**
+	 *    Retrieve operators depending on the item selected in the 'Column' field
+	 *    and add them to the selection
+	 *    @param column Column field selected
+	 **/
+	private void addOperators(ListItem column, Listbox listOperator)
+	{
+		String columnName = column.getValue().toString();
+		log.config("Column: " + columnName);
 
-        if (columnName.endsWith("_ID") || columnName.endsWith("_Acct"))
-        {
-             addOperators(MQuery.OPERATORS_ID, listOperator);
-        }
-        else if (columnName.startsWith("Is"))
-        {
-            addOperators(MQuery.OPERATORS_YN, listOperator);
-        }
-        else
-        {
-            addOperators(MQuery.OPERATORS, listOperator);
-        }
-    } //    addOperators
+		if (columnName.endsWith("_ID") || columnName.endsWith("_Acct"))
+		{
+			addOperators(MQuery.OPERATORS_ID, listOperator);
+		}
+		else if (columnName.startsWith("Is"))
+		{
+			addOperators(MQuery.OPERATORS_YN, listOperator);
+		}
+		else
+		{
+			addOperators(MQuery.OPERATORS, listOperator);
+		}
+	} //    addOperators
 
-    /**
-     * add Operators
-     * @param op array of operators
-    **/
-    private void addOperators(ValueNamePair[] op, Listbox listOperator)
-    {
-        List<?> itemList = listOperator.getChildren();
-        itemList.clear();
-        for (ValueNamePair item: op)
-        {
-            listOperator.appendItem(item.getName(), item.getValue());
-        }
-        listOperator.setSelectedIndex(0);
-    }   //  addOperators
+	/**
+	 * add Operators
+	 * @param op array of operators
+	 **/
+	private void addOperators(ValueNamePair[] op, Listbox listOperator)
+	{
+		List<?> itemList = listOperator.getChildren();
+		itemList.clear();
+		for (ValueNamePair item: op)
+		{
+			listOperator.appendItem(item.getName(), item.getValue());
+		}
+		listOperator.setSelectedIndex(0);
+	}   //  addOperators
 
-    /**
-     *  Get Editor
-     *  @param row row
-     *  @return Editor component
-    **/
-    public Component getEditorComponent(ListItem row, boolean to)
-    {
-        String columnName = getColumnName(row);
-        boolean between = false;
-        Listbox listOp = (Listbox) row.getFellow("listOperator"+row.getId());
-        String betweenValue = listOp.getSelectedItem().getValue().toString();
-        String opValue = MQuery.OPERATORS[MQuery.BETWEEN_INDEX].getValue();
-        if (to &&  betweenValue != null
-            && betweenValue.equals(opValue))
-            between = true;
+	/**
+	 *  Get Editor
+	 *  @param row row
+	 *  @return Editor component
+	 **/
+	public Component getEditorComponent(ListItem row, boolean to)
+	{
+		String columnName = getColumnName(row);
+		boolean between = false;
+		Listbox listOp = (Listbox) row.getFellow("listOperator"+row.getId());
+		String betweenValue = listOp.getSelectedItem().getValue().toString();
+		String opValue = MQuery.OPERATORS[MQuery.BETWEEN_INDEX].getValue();
+		if (to &&  betweenValue != null
+				&& betweenValue.equals(opValue))
+			between = true;
 
-        boolean enabled = !to || (to && between);
+		boolean enabled = !to || (to && between);
 
-        //  Create Editor
-        GridField field = getTargetMField(columnName);
-        if(field == null) return new Label("");
+		//  Create Editor
+		GridField field = getTargetMField(columnName);
+		if(field == null) return new Label("");
 
-        WEditor editor = null;
-        if (field.isKey())
-            editor = new WNumberEditor(field);
-        else
-            editor = WebEditorFactory.getEditor(field, true);
-        if (editor == null)
-            editor = new WStringEditor(field);
+		WEditor editor = null;
+		if (field.isKey())
+			editor = new WNumberEditor(field);
+		else
+			editor = WebEditorFactory.getEditor(field, true);
+		if (editor == null)
+			editor = new WStringEditor(field);
 
-        field.addPropertyChangeListener(editor);
-        editor.addValueChangeListener(this);
-        editor.setValue(null);
-        editor.setReadWrite(enabled);
-        editor.setVisible(enabled);
-        editor.dynamicDisplay();
-        //
-        return editor.getComponent();
+		field.addPropertyChangeListener(editor);
+		editor.addValueChangeListener(this);
+		editor.setValue(null);
+		editor.setReadWrite(enabled);
+		editor.setVisible(enabled);
+		editor.dynamicDisplay();
+		//
+		return editor.getComponent();
 
-    }   //  getTableCellEditorComponent
+	}   //  getTableCellEditorComponent
 
-    /**
-     *  Get Target MField
-     *  @param columnName column name
-     *  @return MField
-    **/
-    public GridField getTargetMField (String columnName)
-    {
-        if (columnName == null)
-            return null;
-        for (int c = 0; c < m_findFields.length; c++)
-        {
-            GridField field = m_findFields[c];
-            if (columnName.equals(field.getColumnName()))
-                return field;
-        }
-        return null;
+	/**
+	 *  Get Target MField
+	 *  @param columnName column name
+	 *  @return MField
+	 **/
+	public GridField getTargetMField (String columnName)
+	{
+		if (columnName == null)
+			return null;
+		for (int c = 0; c < m_findFields.length; c++)
+		{
+			GridField field = m_findFields[c];
+			if (columnName.equals(field.getColumnName()))
+				return field;
+		}
+		return null;
 
-    }   //  getTargetMField
+	}   //  getTargetMField
 
-    /**
-     *  Simple OK Button pressed
-    **/
-    private void cmd_ok_Simple()
-    {
-        //  Create Query String
-        m_query = new MQuery(m_tableName);
-        if (hasValue && !fieldValue.getText().equals("%") && fieldValue.getText().length() != 0)
-        {
-            String value = fieldValue.getText().toUpperCase();
+	/**
+	 *  Simple OK Button pressed
+	 **/
+	private void cmd_ok_Simple()
+	{
+		//  Create Query String
+		m_query = new MQuery(m_tableName);
+		if (hasValue && !fieldValue.getText().equals("%") && fieldValue.getText().length() != 0)
+		{
+			String value = fieldValue.getText().toUpperCase();
 
-            if (!value.endsWith("%"))
-                value += "%";
-            m_query.addRestriction("UPPER(Value)", MQuery.LIKE, value, lblValue.getValue(), value);
-        }
-        //
-        if (hasDocNo && !fieldDocumentNo.getText().equals("%") && fieldDocumentNo.getText().length() != 0)
-        {
-            String value = fieldDocumentNo.getText().toUpperCase();
+			if (!value.endsWith("%"))
+				value += "%";
+			m_query.addRestriction("UPPER(Value)", MQuery.LIKE, value, lblValue.getValue(), value);
+		}
+		//
+		if (hasDocNo && !fieldDocumentNo.getText().equals("%") && fieldDocumentNo.getText().length() != 0)
+		{
+			String value = fieldDocumentNo.getText().toUpperCase();
 
-            if (!value.endsWith("%"))
-                value += "%";
-            m_query.addRestriction("UPPER(DocumentNo)", MQuery.LIKE, value, lblDocumentNo.getValue(),value);
-        }
-        //
-        if ((hasName) && !fieldName.getText().equals("%") && fieldName.getText().length() != 0)
-        {
-            String value = fieldName.getText().toUpperCase();
+			if (!value.endsWith("%"))
+				value += "%";
+			m_query.addRestriction("UPPER(DocumentNo)", MQuery.LIKE, value, lblDocumentNo.getValue(),value);
+		}
+		//
+		if ((hasName) && !fieldName.getText().equals("%") && fieldName.getText().length() != 0)
+		{
+			String value = fieldName.getText().toUpperCase();
 
-            if (!value.endsWith("%"))
-                value += "%";
-            m_query.addRestriction("UPPER(Name)", MQuery.LIKE, value, lblName.getValue(), value);
-        }
-        //
-        if (hasDescription && !fieldDescription.getText().equals("%") && fieldDescription.getText().length() != 0)
-        {
-            String value = fieldDescription.getText().toUpperCase();
-            if (!value.endsWith("%"))
-                value += "%";
-            m_query.addRestriction("UPPER(Description)", MQuery.LIKE, value, lblDescription.getValue(), value);
-        }
-        //  Special Editors
-        for (int i = 0; i < m_sEditors.size(); i++)
-        {
-            WEditor wed = (WEditor)m_sEditors.get(i);
-            Object value = wed.getValue();
-            if (value != null && value.toString().length() > 0)
-            {
-                String ColumnName = wed.getColumnName();
-                log.fine(ColumnName + "=" + value);
+			if (!value.endsWith("%"))
+				value += "%";
+			m_query.addRestriction("UPPER(Name)", MQuery.LIKE, value, lblName.getValue(), value);
+		}
+		//
+		if (hasDescription && !fieldDescription.getText().equals("%") && fieldDescription.getText().length() != 0)
+		{
+			String value = fieldDescription.getText().toUpperCase();
+			if (!value.endsWith("%"))
+				value += "%";
+			m_query.addRestriction("UPPER(Description)", MQuery.LIKE, value, lblDescription.getValue(), value);
+		}
+		//
 
-                // globalqss - Carlos Ruiz - 20060711
-                // fix a bug with virtualColumn + isSelectionColumn not yielding results
-                GridField field = getTargetMField(ColumnName);
-                // add encryption here if the field is encrypted.
-                if (field.isEncryptedColumn()) {
-                	value = SecureEngine.encrypt(value);
-                }
-                
-                boolean isProductCategoryField = isProductCategoryField(field.getAD_Column_ID());
-                String ColumnSQL = field.getColumnSQL(false);
-                //
-                // Be more permissive for String columns
-                if (isSearchLike(field))
-                {
-                    String valueStr = value.toString().toUpperCase();
-                    if (!valueStr.endsWith("%"))
-                        valueStr += "%";
-                    //
-                    ColumnSQL = "UPPER("+ColumnSQL+")";
-                    value = valueStr;
-                }
-                //
-                if (value.toString().indexOf('%') != -1)
-                    m_query.addRestriction(ColumnSQL, MQuery.LIKE, value, ColumnName, wed.getDisplay());
-                else if (isProductCategoryField && value instanceof Integer)
-                    m_query.addRestriction(getSubCategoryWhereClause(((Integer) value).intValue()));
-                else
-                    m_query.addRestriction(ColumnSQL, MQuery.EQUAL, value, ColumnName, wed.getDisplay());
-                /*
+
+		//  Special Editors
+		for (int i = 0; i < m_sEditors.size(); i++)
+		{
+			WEditor wed = (WEditor)m_sEditors.get(i);
+			Object value = wed.getValue();
+			Object modifiedvalue = null;
+			String ColumnSQL = null;
+			String ColumnName = wed.getColumnName();
+			GridField field = getTargetMField(ColumnName);
+			if (value != null && value.toString().length() > 0)
+			{
+
+				log.fine(ColumnName + "=" + value);
+
+				// globalqss - Carlos Ruiz - 20060711
+				// fix a bug with virtualColumn + isSelectionColumn not yielding results
+				field = getTargetMField(ColumnName);
+				// add encryption here if the field is encrypted.
+				if (field.isEncryptedColumn()) {
+					value = SecureEngine.encrypt(value);
+				}
+
+				boolean isProductCategoryField = isProductCategoryField(field.getAD_Column_ID());
+				ColumnSQL = field.getColumnSQL(false);
+				//
+				// Be more permissive for String columns
+				if (isSearchLike(field))
+				{
+					String valueStr = value.toString().toUpperCase();
+					if (!valueStr.endsWith("%"))
+						valueStr += "%";
+					//
+					ColumnSQL = "UPPER("+ColumnSQL+")";
+					modifiedvalue = valueStr;
+				}
+				else
+					modifiedvalue = value;
+				//
+				if ( modifiedvalue.toString().indexOf('%') != -1 && !field.isRange() )
+					m_query.addRestriction(ColumnSQL, MQuery.LIKE, modifiedvalue, ColumnName, wed.getDisplay());
+				else if (isProductCategoryField && value instanceof Integer)
+					m_query.addRestriction(getSubCategoryWhereClause(((Integer) value).intValue()));
+				else if ( ! field.isRange()  )																//20121115
+					m_query.addRestriction(ColumnSQL, MQuery.EQUAL, value, ColumnName, wed.getDisplay());
+				/*
                 if (value.toString().indexOf('%') != -1)
                     m_query.addRestriction(ColumnName, MQuery.LIKE, value, ColumnName, ved.getDisplay());
                 else
                     m_query.addRestriction(ColumnName, MQuery.EQUAL, value, ColumnName, ved.getDisplay());
-                */
-                // end globalqss patch
-            }
-        }   //  editors
+				 */
+				// end globalqss patch
+			}
 
-        m_isCancel = false; // teo_sarca [ 1708717 ]
-        //  Test for no records
-        if (getNoOfRecords(m_query, true) != 0)
-          dispose();
+			if (field.isRange() ){
 
-    }   //  cmd_ok_Simple
+				WEditor toRangeEditor = (WEditor)m_sEditors2.get(i);
+				Object value2 = null;
+				Object parsedValue = null;
+				Object parsedValue2 = null;
+				String infoDisplay_to = null;
+				String infoDisplay = null;
+				if (toRangeEditor != null)
+					value2 = toRangeEditor.getValue();
+				if ( value != null && ( value2 != null && !value2.toString().isEmpty() ) && value2.toString().length() > 0)
+				{
+					ColumnName = toRangeEditor.getColumnName();
+					log.fine(ColumnName + "=" + value2);
+					field = getTargetMField(ColumnName);
+					infoDisplay = value.toString();
+					parsedValue = parseValue(field, value);
+					parsedValue2 = parseValue(field, value2);
+					infoDisplay_to = value2.toString();
+					if (parsedValue2 == null)
+						continue;
+					m_query.addRangeRestriction(ColumnSQL, parsedValue, parsedValue2,ColumnSQL, infoDisplay, infoDisplay_to );
+					
+				}
+				// Case2 : If in given range filed First value as given and 2nd value is null
+				//		   then get all the records after the First value
+				else if( value!= null && ! value.toString().isEmpty() && ( value2 == null || value2.toString().isEmpty() ) ){
+					
+					ColumnName = wed.getColumnName();
+					m_query.addRestriction(ColumnSQL, MQuery.GREATER_EQUAL, value, ColumnName, wed.getDisplay());
+				}
+				// Case3 : If in given range filed First value is given as null and 2nd value is given 
+				//   	   then get all the records before the second value 
+				else if( ( value == null || value.toString().isEmpty() ) && value2 != null && ! value2.toString().isEmpty() ){
+					
+					ColumnName = toRangeEditor.getColumnName();
+					field = getTargetMField(ColumnName);
+					ColumnSQL = field.getColumnSQL(false);
+					m_query.addRestriction(ColumnSQL, MQuery.LESS_EQUAL, value2, ColumnName, toRangeEditor.getDisplay());
+				}
+			}
+		}   //  editors
 
-    public void dispose()
-    {
-        log.config("");
-
-        //  Find SQL
-        if (m_pstmt != null)
-        {
-            try {
-                m_pstmt.close();
-            } catch (SQLException e)    {}
-        }
-        m_pstmt = null;
 
 
-        //  TargetFields
-        if (m_targetFields != null)
-            m_targetFields.clear();
-        m_targetFields = null;
-        //
-        super.dispose();
-    }   //  dispose
+		m_isCancel = false; // teo_sarca [ 1708717 ]
+		//  Test for no records
+		if (getNoOfRecords(m_query, true) != 0)
+			dispose();
 
-    /**
-     *  Advanced OK Button pressed
-     */
-    private void cmd_ok_Advanced()
-    {
-        m_isCancel = false; // teo_sarca [ 1708717 ]
-        //  save pending
-        cmd_save();
-        if (getNoOfRecords(m_query, true) != 0)
-          dispose();
-    }   //  cmd_ok_Advanced
+	}   //  cmd_ok_Simple
 
-    /**
-     *  Save (Advanced)
-     */
-    private void cmd_save()
-    {
-        log.info("");
-        //
-        m_query = new MQuery(m_tableName);
-        List<?> rowList = advancedPanel.getChildren();
+	public void dispose()
+	{
+		log.config("");
 
-        for (int rowIndex = 1; rowIndex < rowList.size() ; rowIndex++)
-        {
-            //  Column
-            ListItem row = (ListItem)rowList.get(rowIndex);
-            Listbox column = (Listbox)row.getFellow("listColumn"+row.getId());
-            if (column == null)
-                continue;
-            String ColumnName = column.getSelectedItem().getValue().toString();
-            String infoName = column.toString();
-            //
-            GridField field = getTargetMField(ColumnName);
-            if(field == null) continue; // Elaine 2008/07/29
-            boolean isProductCategoryField = isProductCategoryField(field.getAD_Column_ID());
-            String ColumnSQL = field.getColumnSQL(false);
-            //  Op
-            Listbox op = (Listbox)row.getFellow("listOperator"+row.getId());
-            if (op == null)
-                continue;
-            String Operator = op.getSelectedItem().getValue().toString();
+		//  Find SQL
+		if (m_pstmt != null)
+		{
+			try {
+				m_pstmt.close();
+			} catch (SQLException e)    {}
+		}
+		m_pstmt = null;
 
-            //  Value   ******
-            ListCell cellQueryFrom = (ListCell)row.getFellow("cellQueryFrom"+row.getId());
-            Object value = cellQueryFrom.getAttribute("value");
-            if (value == null)
-                continue;
-            Object parsedValue = parseValue(field, value);
-            if (parsedValue == null)
-                continue;
-            //encrypt the value if we are searching an encrypted column.
-            if (field.isEncryptedColumn()) {
-            	value = SecureEngine.encrypt(value);
-            }
-            String infoDisplay = value.toString();
-            if (field.isLookup())
-                infoDisplay = field.getLookup().getDisplay(value);
-            else if (field.getDisplayType() == DisplayType.YesNo)
-                infoDisplay = Msg.getMsg(Env.getCtx(), infoDisplay);
-            //  Value2  ******
-            if (MQuery.OPERATORS[MQuery.BETWEEN_INDEX].equals(op.getSelectedItem().toValueNamePair()))
-            {
-                ListCell cellQueryTo = (ListCell)row.getFellow("cellQueryTo"+row.getId());
-                Object value2 = cellQueryTo.getAttribute("value");
-                if (value2 == null)
-                    continue;
-                Object parsedValue2 = parseValue(field, value2);
-                String infoDisplay_to = value2.toString();
-                if (parsedValue2 == null)
-                    continue;
-                m_query.addRangeRestriction(ColumnSQL, parsedValue, parsedValue2,
-                    infoName, infoDisplay, infoDisplay_to);
-            }
-            else if (isProductCategoryField && MQuery.OPERATORS[MQuery.EQUAL_INDEX].equals(op)) {
-                if (!(parsedValue instanceof Integer)) {
-                    continue;
-                }
-                m_query
 
-                .addRestriction(getSubCategoryWhereClause(((Integer) parsedValue).intValue()));
-            }
-            else
-                m_query.addRestriction(ColumnSQL, Operator, parsedValue,
-                    infoName, infoDisplay);
-        }
-    }   //  cmd_save
+		//  TargetFields
+		if (m_targetFields != null)
+			m_targetFields.clear();
+		m_targetFields = null;
+		//
+		super.dispose();
+	}   //  dispose
 
-    /**
-     *  Get the number of records of target tab
-     *  @param query where clause for target tab
-     *  @param alertZeroRecords show dialog if there are no records
-     *  @return number of selected records;
-     *          if the results are more then allowed this method will return 0
-    **/
-    private int getNoOfRecords (MQuery query, boolean alertZeroRecords)
-    {
-        log.config("" + query);
-        StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM ");
-        sql.append(m_tableName);
-        boolean hasWhere = false;
-        if (m_whereExtended != null && m_whereExtended.length() > 0)
-        {
-            sql.append(" WHERE ").append(m_whereExtended);
-            hasWhere = true;
-        }
-        if (query != null && query.isActive())
-        {
-            if (hasWhere)
-                sql.append(" AND ");
-            else
-                sql.append(" WHERE ");
-            sql.append(query.getWhereClause());
-        }
-        //  Add Access
-        String finalSQL = MRole.getDefault().addAccessSQL(sql.toString(),
-            m_tableName, MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
-        finalSQL = Env.parseContext(Env.getCtx(), m_targetWindowNo, finalSQL, false);
-        Env.setContext(Env.getCtx(), m_targetWindowNo, TABNO, GridTab.CTX_FindSQL, finalSQL);
+	/**
+	 *  Advanced OK Button pressed
+	 */
+	private void cmd_ok_Advanced()
+	{
+		m_isCancel = false; // teo_sarca [ 1708717 ]
+		//  save pending
+		cmd_save(false);
+		if (getNoOfRecords(m_query, true) != 0)
+			dispose();
+	}   //  cmd_ok_Advanced
 
-        //  Execute Qusery
-        m_total = 999999;
-        try
-        {
-            Statement stmt = DB.createStatement();
-            ResultSet rs = stmt.executeQuery(finalSQL);
-            if (rs.next())
-                m_total = rs.getInt(1);
-            rs.close();
-            stmt.close();
-        }
-        catch (SQLException e)
-        {
-            log.log(Level.SEVERE, finalSQL, e);
-        }
-        MRole role = MRole.getDefault();
-        //  No Records
-      /*  if (m_total == 0 && alertZeroRecords)
+	/**
+	 *  Get the number of records of target tab
+	 *  @param query where clause for target tab
+	 *  @param alertZeroRecords show dialog if there are no records
+	 *  @return number of selected records;
+	 *          if the results are more then allowed this method will return 0
+	 **/
+	private int getNoOfRecords (MQuery query, boolean alertZeroRecords)
+	{
+		log.config("" + query);
+		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM ");
+		sql.append(m_tableName);
+		boolean hasWhere = false;
+		if (m_whereExtended != null && m_whereExtended.length() > 0)
+		{
+			sql.append(" WHERE ").append(m_whereExtended);
+			hasWhere = true;
+		}
+		if (query != null && query.isActive())
+		{
+			if (hasWhere)
+				sql.append(" AND ");
+			else
+				sql.append(" WHERE ");
+			sql.append(query.getWhereClause());
+		}
+		//  Add Access
+		String finalSQL = MRole.getDefault().addAccessSQL(sql.toString(),
+				m_tableName, MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
+		finalSQL = Env.parseContext(Env.getCtx(), m_targetWindowNo, finalSQL, false);
+		Env.setContext(Env.getCtx(), m_targetWindowNo, TABNO, GridTab.CTX_FindSQL, finalSQL);
+
+		//  Execute Qusery
+		m_total = 999999;
+		try
+		{
+			Statement stmt = DB.createStatement();
+			ResultSet rs = stmt.executeQuery(finalSQL);
+			if (rs.next())
+				m_total = rs.getInt(1);
+			rs.close();
+			stmt.close();
+		}
+		catch (SQLException e)
+		{
+			log.log(Level.SEVERE, finalSQL, e);
+		}
+		MRole role = MRole.getDefault();
+		//  No Records
+		/*  if (m_total == 0 && alertZeroRecords)
             FDialog.warn(m_targetWindowNo, this, "FindZeroRecords");*/
-        //  More then allowed
-        if (query != null && role.isQueryMax(m_total))
-        {
-            FDialog.error(m_targetWindowNo, this, "FindOverMax",
-                m_total + " > " + role.getMaxQueryRecords());
-            m_total = 0; // return 0 if more then allowed - teo_sarca [ 1708717 ]
-        }
-        else
-            log.config("#" + m_total);
-        //
-        /*if (query != null)
+		//  More then allowed
+		if (query != null && role.isQueryMax(m_total))
+		{
+			FDialog.error(m_targetWindowNo, this, "FindOverMax",
+					m_total + " > " + role.getMaxQueryRecords());
+			m_total = 0; // return 0 if more then allowed - teo_sarca [ 1708717 ]
+		}
+		else
+			log.config("#" + m_total);
+		//
+		/*if (query != null)
             statusBar.setStatusToolTip (query.getWhereClause());*/
-        return m_total;
+		return m_total;
 
-    }   //  getNoOfRecords
+	}   //  getNoOfRecords
 
-    /**
-     * Checks the given column.
-     * @param columnId
-     * @return true if the column is a product category column
-    **/
-    private boolean isProductCategoryField(int columnId) {
-        X_AD_Column col = new X_AD_Column(Env.getCtx(), columnId, null);
-        if (col.get_ID() == 0) {
-            return false; // column not found...
-        }
-        return MProduct.COLUMNNAME_M_Product_Category_ID.equals(col.getColumnName());
+	/**
+	 * Checks the given column.
+	 * @param columnId
+	 * @return true if the column is a product category column
+	 **/
+	private boolean isProductCategoryField(int columnId) {
+		X_AD_Column col = new X_AD_Column(Env.getCtx(), columnId, null);
+		if (col.get_ID() == 0) {
+			return false; // column not found...
+		}
+		return MProduct.COLUMNNAME_M_Product_Category_ID.equals(col.getColumnName());
 
-    }   //  isProductCategoryField
+	}   //  isProductCategoryField
 
-    /**
-     * Returns a sql where string with the given category id and all of its subcategory ids.
-     * It is used as restriction in MQuery.
-     * @param productCategoryId
-     * @return
-    **/
-    private String getSubCategoryWhereClause(int productCategoryId) {
-        //if a node with this id is found later in the search we have a loop in the tree
-        int subTreeRootParentId = 0;
-        String retString = " M_Product_Category_ID IN (";
-        String sql = " SELECT M_Product_Category_ID, M_Product_Category_Parent_ID FROM M_Product_Category";
-        final Vector<SimpleTreeNode> categories = new Vector<SimpleTreeNode>(100);
-        try {
-            Statement stmt = DB.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-                if(rs.getInt(1)==productCategoryId) {
-                    subTreeRootParentId = rs.getInt(2);
-                }
-                categories.add(new SimpleTreeNode(rs.getInt(1), rs.getInt(2)));
-            }
-            retString += getSubCategoriesString(productCategoryId, categories, subTreeRootParentId);
-            retString += ") ";
-            rs.close();
-            stmt.close();
-        } catch (SQLException e) {
-            log.log(Level.SEVERE, sql, e);
-            retString = "";
-        } catch (AdempiereSystemError e) {
-            log.log(Level.SEVERE, sql, e);
-            retString = "";
-        }
-        return retString;
+	/**
+	 * Returns a sql where string with the given category id and all of its subcategory ids.
+	 * It is used as restriction in MQuery.
+	 * @param productCategoryId
+	 * @return
+	 **/
+	private String getSubCategoryWhereClause(int productCategoryId) {
+		//if a node with this id is found later in the search we have a loop in the tree
+		int subTreeRootParentId = 0;
+		String retString = " M_Product_Category_ID IN (";
+		String sql = " SELECT M_Product_Category_ID, M_Product_Category_Parent_ID FROM M_Product_Category";
+		final Vector<SimpleTreeNode> categories = new Vector<SimpleTreeNode>(100);
+		try {
+			Statement stmt = DB.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				if(rs.getInt(1)==productCategoryId) {
+					subTreeRootParentId = rs.getInt(2);
+				}
+				categories.add(new SimpleTreeNode(rs.getInt(1), rs.getInt(2)));
+			}
+			retString += getSubCategoriesString(productCategoryId, categories, subTreeRootParentId);
+			retString += ") ";
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+			log.log(Level.SEVERE, sql, e);
+			retString = "";
+		} catch (AdempiereSystemError e) {
+			log.log(Level.SEVERE, sql, e);
+			retString = "";
+		}
+		return retString;
 
-    }   //  getSubCategoryWhereClause
+	}   //  getSubCategoryWhereClause
 
-    /**
-     * Recursive search for subcategories with loop detection.
-     * @param productCategoryId
-     * @param categories
-     * @param loopIndicatorId
-     * @return comma seperated list of category ids
-     * @throws AdempiereSystemError if a loop is detected
-    **/
-    private String getSubCategoriesString(int productCategoryId, Vector<SimpleTreeNode> categories, int loopIndicatorId) throws AdempiereSystemError {
-        String ret = "";
-        final Iterator<SimpleTreeNode> iter = categories.iterator();
-        while (iter.hasNext()) {
-            SimpleTreeNode node = (SimpleTreeNode) iter.next();
-            if (node.getParentId() == productCategoryId) {
-                if (node.getNodeId() == loopIndicatorId) {
-                    throw new AdempiereSystemError("The product category tree contains a loop on categoryId: " + loopIndicatorId);
-                }
-                ret = ret + getSubCategoriesString(node.getNodeId(), categories, loopIndicatorId) + ",";
-            }
-        }
-        log.fine(ret);
-        return ret + productCategoryId;
+	/**
+	 * Recursive search for subcategories with loop detection.
+	 * @param productCategoryId
+	 * @param categories
+	 * @param loopIndicatorId
+	 * @return comma seperated list of category ids
+	 * @throws AdempiereSystemError if a loop is detected
+	 **/
+	private String getSubCategoriesString(int productCategoryId, Vector<SimpleTreeNode> categories, int loopIndicatorId) throws AdempiereSystemError {
+		String ret = "";
+		final Iterator<SimpleTreeNode> iter = categories.iterator();
+		while (iter.hasNext()) {
+			SimpleTreeNode node = (SimpleTreeNode) iter.next();
+			if (node.getParentId() == productCategoryId) {
+				if (node.getNodeId() == loopIndicatorId) {
+					throw new AdempiereSystemError("The product category tree contains a loop on categoryId: " + loopIndicatorId);
+				}
+				ret = ret + getSubCategoriesString(node.getNodeId(), categories, loopIndicatorId) + ",";
+			}
+		}
+		log.fine(ret);
+		return ret + productCategoryId;
 
-    }   //  getSubCategoriesString
+	}   //  getSubCategoriesString
 
-    /**
-     * Simple tree node class for product category tree search.
-     * @author Karsten Thiemann, kthiemann@adempiere.org
-     *
-    **/
-    private class SimpleTreeNode {
+	/**
+	 * Simple tree node class for product category tree search.
+	 * @author Karsten Thiemann, kthiemann@adempiere.org
+	 *
+	 **/
+	private class SimpleTreeNode {
 
-        private int nodeId;
+		private int nodeId;
 
-        private int parentId;
+		private int parentId;
 
-        public SimpleTreeNode(int nodeId, int parentId) {
-            this.nodeId = nodeId;
-            this.parentId = parentId;
-        }
+		public SimpleTreeNode(int nodeId, int parentId) {
+			this.nodeId = nodeId;
+			this.parentId = parentId;
+		}
 
-        public int getNodeId() {
-            return nodeId;
-        }
+		public int getNodeId() {
+			return nodeId;
+		}
 
-        public int getParentId() {
-            return parentId;
-        }
-    }   //  SimpleTreeNode
+		public int getParentId() {
+			return parentId;
+		}
+	}   //  SimpleTreeNode
 
-    /**
-     *  Parse Value
-     *  @param field column
-     *  @param in value
-     *  @return data type corected value
-    **/
-    private Object parseValue (GridField field, Object in)
-    {
-        if (in == null)
-            return null;
-        int dt = field.getDisplayType();
-        try
-        {
-            //  Return Integer
-            if (dt == DisplayType.Integer
-                || (DisplayType.isID(dt) && field.getColumnName().endsWith("_ID")))
-            {
-                if (in instanceof Integer)
-                    return in;
-                int i = Integer.parseInt(in.toString());
-                return new Integer(i);
-            }
-            //  Return BigDecimal
-            else if (DisplayType.isNumeric(dt))
-            {
-                if (in instanceof BigDecimal)
-                    return in;
-                return DisplayType.getNumberFormat(dt).parse(in.toString());
-            }
-            //  Return Timestamp
-            else if (DisplayType.isDate(dt))
-            {
-                if (in instanceof Timestamp)
-                    return in;
-                long time = 0;
-                try
-                {
-                    time = DisplayType.getDateFormat_JDBC().parse(in.toString()).getTime();
-                    return new Timestamp(time);
-                }
-                catch (Exception e)
-                {
-                    log.log(Level.SEVERE, in + "(" + in.getClass() + ")" + e);
-                    time = DisplayType.getDateFormat(dt).parse(in.toString()).getTime();
-                }
-                return new Timestamp(time);
-            }
-            //  Return Y/N for Boolean
-            else if (in instanceof Boolean)
-                return ((Boolean)in).booleanValue() ? "Y" : "N";
-        }
-        catch (Exception ex)
-        {
-            log.log(Level.SEVERE, "Object=" + in, ex);
-            String error = ex.getLocalizedMessage();
-            if (error == null || error.length() == 0)
-                error = ex.toString();
-            StringBuffer errMsg = new StringBuffer();
-            errMsg.append(field.getColumnName()).append(" = ").append(in).append(" - ").append(error);
-            //
-            FDialog.error(0, this, "ValidationError", errMsg.toString());
-            return null;
-        }
+	/**
+	 *  Parse Value
+	 *  @param field column
+	 *  @param in value
+	 *  @return data type corected value
+	 **/
+	private Object parseValue (GridField field, Object in)
+	{
+		if (in == null)
+			return null;
+		int dt = field.getDisplayType();
+		try
+		{
+			//  Return Integer
+			if (dt == DisplayType.Integer
+					|| (DisplayType.isID(dt) && field.getColumnName().endsWith("_ID")))
+			{
+				if (in instanceof Integer)
+					return in;
+				int i = Integer.parseInt(in.toString());
+				return new Integer(i);
+			}
+			//  Return BigDecimal
+			else if (DisplayType.isNumeric(dt))
+			{
+				if (in instanceof BigDecimal)
+					return in;
+				return DisplayType.getNumberFormat(dt).parse(in.toString());
+			}
+			//  Return Timestamp
+			else if (DisplayType.isDate(dt))
+			{
+				if (in instanceof Timestamp)
+					return in;
+				long time = 0;
+				try
+				{
+					time = DisplayType.getDateFormat_JDBC().parse(in.toString()).getTime();
+					return new Timestamp(time);
+				}
+				catch (Exception e)
+				{
+					log.log(Level.SEVERE, in + "(" + in.getClass() + ")" + e);
+					time = DisplayType.getDateFormat(dt).parse(in.toString()).getTime();
+				}
+				return new Timestamp(time);
+			}
+			//  Return Y/N for Boolean
+			else if (in instanceof Boolean)
+				return ((Boolean)in).booleanValue() ? "Y" : "N";
+		}
+		catch (Exception ex)
+		{
+			log.log(Level.SEVERE, "Object=" + in, ex);
+			String error = ex.getLocalizedMessage();
+			if (error == null || error.length() == 0)
+				error = ex.toString();
+			StringBuffer errMsg = new StringBuffer();
+			errMsg.append(field.getColumnName()).append(" = ").append(in).append(" - ").append(error);
+			//
+			FDialog.error(0, this, "ValidationError", errMsg.toString());
+			return null;
+		}
 
-        return in;
-    }   //  parseValue
+		return in;
+	}   //  parseValue
 
-    /**************************************************************************
-     *  Get Query - Retrieve result
-     *  @return String representation of query
-     */
-    public MQuery getQuery()
-    {
-        MRole role = MRole.getDefault();
-        if (role.isQueryMax(getTotalRecords()) && !m_isCancel)
-        {
-            m_query = MQuery.getNoRecordQuery (m_tableName, false);
-            m_total = 0;
-            log.warning("Query - over max");
-        }
-        else
-            log.info("Query=" + m_query);
-        return m_query;
-    }   //  getQuery
+	/**************************************************************************
+	 *  Get Query - Retrieve result
+	 *  @return String representation of query
+	 */
+	public MQuery getQuery()
+	{
+		MRole role = MRole.getDefault();
+		if (role.isQueryMax(getTotalRecords()) && !m_isCancel)
+		{
+			m_query = MQuery.getNoRecordQuery (m_tableName, false);
+			m_total = 0;
+			log.warning("Query - over max");
+		}
+		else
+			log.info("Query=" + m_query);
+		return m_query;
+	}   //  getQuery
 
-    /**
-     *  Get Total Records
-     *  @return no of records
-    **/
-    public int getTotalRecords()
-    {
-        return m_total;
+	/**
+	 *  Get Total Records
+	 *  @return no of records
+	 **/
+	public int getTotalRecords()
+	{
+		return m_total;
 
-    }   //  getTotalRecords
+	}   //  getTotalRecords
 
-    public void valueChange(ValueChangeEvent evt)
-    {
-        if (evt != null && evt.getSource() instanceof WEditor)
-        {
-            WEditor editor = (WEditor)evt.getSource();
-            // Editor component
-            Component component = editor.getComponent();
-            ListCell listcell = (ListCell)component.getParent();
-            listcell.setAttribute("value", evt.getNewValue());
-        }
-    }
+	public void valueChange(ValueChangeEvent evt)
+	{
+		if (evt != null && evt.getSource() instanceof WEditor)
+		{
+			WEditor editor = (WEditor)evt.getSource();
+			// Editor component
+			Component component = editor.getComponent();
+			ListCell listcell = (ListCell)component.getParent();
+			listcell.setAttribute("value", evt.getNewValue());
+		}
+	}
 
 	public void OnPostVisible() {
 		if (hasDocNo)
@@ -1810,7 +2035,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 		}
 		return ret;
 	}
-	
+
 	private boolean isSearchLike(GridField field)
 	{
 		return DisplayType.isText(field.getDisplayType())

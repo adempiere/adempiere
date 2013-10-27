@@ -16,7 +16,9 @@
  *****************************************************************************/
 package org.compiere.util;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 
 /**
@@ -126,4 +128,15 @@ public interface SecureInterface
 	 */
 	public boolean isDigest (String value);
 	
+	/**
+	 *  Convert String and salt to SHA-512 hash with iterations
+	 *  https://www.owasp.org/index.php/Hashing_Java
+	 *
+	 *  @param value message
+	 *  @return HexString of message (length = 128 characters)
+	 * @throws NoSuchAlgorithmException 
+	 * @throws UnsupportedEncodingException 
+	 */
+	public String getSHA512Hash (int iterations, String value, byte[] salt) throws NoSuchAlgorithmException, UnsupportedEncodingException;
+
 }	//	SecureInterface

@@ -20,6 +20,7 @@
   <property name="launch.dir" value="../launch"/>
   <property name="keystore.dir" value="../keystore"/>
   <property name="data.dir" value="../data"/>
+  <property name="migration.dir" value="../migration"/>
   <property name="jboss.dir" value="../jboss"/>
 
   <property name="src" value="src"/>
@@ -62,7 +63,7 @@
   <!-- ======================================================= -->
   <target name="installCompile" depends="installInit">
 	<!-- compile the java code from ${src} into ${build.dir} -->
-	<javac target="1.6" srcdir="${src}" destdir="${compile.dir}" deprecation="on" debug="on">
+	<javac  target="1.7" encoding="UTF-8" srcdir="${src}" destdir="${compile.dir}" deprecation="on" debug="on">
 	  <classpath refid="project.class.path"/>
 	</javac>
 	<!-- copy all image & sound files from src to the build directory -->
@@ -224,7 +225,14 @@
       	<include name="**/*.jar"/>
       </fileset>
 	</copy>
-
+  	
+	<!-- Migration Directory			-->
+	<mkdir dir="${build.dir}/Adempiere/migration"/>
+	<copy todir="${build.dir}/Adempiere/migration">
+	  <fileset dir="${migration.dir}/xml">
+	    <include name="**/*.xml"/>
+	  </fileset>
+	</copy>
 
 	<!-- JBoss Directory		-->
 	<mkdir dir="${build.dir}/Adempiere/jboss"/>
@@ -256,10 +264,13 @@
 
 	<!-- Create Install TAR		-->
   	<tar longfile="gnu" tarfile="${build.dir}/Adempiere_${env.ADEMPIERE_VERSION_FILE}.tar.gz"
-	   basedir="${build.dir}"
-  		includes="Adempiere/**"
-	  	compression="gzip" />
-
+	  	compression="gzip" >
+  		<tarfileset dir="${build.dir}" includes="Adempiere/**" excludes="Adempiere/**/*.sh" >
+  		    </tarfileset>
+  		<!-- <tarfileset dir="${build.dir}" includes="Adempiere/**/*.sh" filemode="755"> -->
+  		<tarfileset dir="${build.dir}" includes="Adempiere/**/*.sh">
+  		   </tarfileset>
+	</tar>
 
 	<!-- Create Checksums		-->
 	<checksum file="${build.dir}/Adempiere_${env.ADEMPIERE_VERSION_FILE}.tar.gz"/>

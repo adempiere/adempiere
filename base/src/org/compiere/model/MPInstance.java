@@ -95,7 +95,7 @@ public class MPInstance extends X_AD_PInstance
 			MPInstancePara pip = new MPInstancePara (this, para[i].getSeqNo());
 			pip.setParameterName(para[i].getColumnName());
 			pip.setInfo(para[i].getName());
-			pip.save();
+			pip.saveEx();
 		}
 	}	//	MPInstance
 
@@ -198,7 +198,7 @@ public class MPInstance extends X_AD_PInstance
 			P_Date, P_ID, P_Number, P_Msg);
 		m_log.add(logEntry);
 		//	save it to DB ?
-	//	log.save();
+	//	log.saveEx();
 	}	//	addLog
 
 	

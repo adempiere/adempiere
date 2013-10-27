@@ -253,7 +253,7 @@ public class ImportConversionRate extends SvrProcess
 					imp.setC_Conversion_Rate_ID(rate.getC_Conversion_Rate_ID());
 					imp.setI_IsImported(true);
 					imp.setProcessed(true);
-					imp.save();
+					imp.saveEx();
 					noInsert++;
 					//
 					if (imp.isCreateReciprocalRate())

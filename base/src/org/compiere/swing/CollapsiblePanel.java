@@ -216,4 +216,9 @@ public class CollapsiblePanel extends JPanel {
 		return null;
 	}
 
+	public void setCollapsed(boolean collapsed)
+	{
+		if (collapsible != null)
+			collapsible.setCollapsed(collapsed);
+	}
 }

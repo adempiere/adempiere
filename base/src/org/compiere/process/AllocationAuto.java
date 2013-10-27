@@ -280,7 +280,7 @@ public class AllocationAuto extends SvrProcess
 				if (allocated != null && allocated.compareTo(payment.getPayAmt()) == 0)
 				{
 					payment.setIsAllocated(true);
-					payment.save();
+					payment.saveEx();
 				}
 				else
 					list.add (payment);
@@ -328,7 +328,7 @@ public class AllocationAuto extends SvrProcess
 				if (invoice.getOpenAmt(false, null).signum() == 0)
 				{
 					invoice.setIsPaid(true);
-					invoice.save();
+					invoice.saveEx();
 				}
 				else
 					list.add (invoice);
@@ -831,7 +831,7 @@ public class AllocationAuto extends SvrProcess
 		if (success)
 			success = m_allocation.save();
 		else
-			m_allocation.save();
+			m_allocation.saveEx();
 		addLog(0, m_allocation.getDateAcct(), null, m_allocation.getDescription());
 		m_allocation = null;
 		return success;

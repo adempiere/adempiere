@@ -527,6 +527,9 @@ public abstract class Convert
 				"AD_WINDOW_ACCESS",
 				"AD_WORKFLOW_ACCESS",
 				"AD_FORM_ACCESS",
+				"AD_MIGRATION",
+				"AD_MIGRATIONSTEP",
+				"AD_MIGRATIONDATA"
 				//
 			};
 		String uppStmt = statement.toUpperCase().trim();

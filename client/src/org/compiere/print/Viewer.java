@@ -66,13 +66,13 @@ import org.adempiere.pdf.Document;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.AMenu;
+import org.compiere.apps.ASearch;
 import org.compiere.apps.AWindow;
 import org.compiere.apps.AWindowListener;
 import org.compiere.apps.AppsAction;
 import org.compiere.apps.EMailDialog;
 import org.compiere.apps.StatusBar;
 import org.compiere.apps.WindowMenu;
-import org.compiere.apps.search.Find;
 import org.compiere.model.GridField;
 import org.compiere.model.MArchive;
 import org.compiere.model.MClient;
@@ -452,7 +452,12 @@ public class Viewer extends CFrame
 		StringBuffer sb = new StringBuffer("** ").append(Msg.getMsg(m_ctx, "NewReport")).append(" **");
 		KeyNamePair pp = new KeyNamePair(-1, sb.toString());
 		comboReport.addItem(pp);
-		if (selectValue != null)
+		
+		sb = new StringBuffer("** ").append(Msg.getMsg(m_ctx, "CopyReport")).append(" **");
+	   	pp = new KeyNamePair(-2, sb.toString());
+	    comboReport.addItem(pp);
+		
+	    if (selectValue != null)
 			comboReport.setSelectedItem(selectValue);
 		comboReport.addActionListener(this);
 	}	//	fillComboReport
@@ -1065,6 +1070,21 @@ public class Viewer extends CFrame
 			else
 				return;
 		}
+		//copy current
+		if (AD_PrintFormat_ID == -2) {
+			MPrintFormat current = m_reportEngine.getPrintFormat();
+			if (current != null) {
+				pf = MPrintFormat.copyToClient(m_ctx,
+						current.getAD_PrintFormat_ID(),
+						Env.getAD_Client_ID(m_ctx));
+
+				if (pf != null)
+					fillComboReport(pf.get_ID());
+				else
+					return;
+			} else
+				return;
+		}		
 		else
 			pf = MPrintFormat.get (Env.getCtx(), AD_PrintFormat_ID, true);
 		
@@ -1170,11 +1190,8 @@ public class Viewer extends CFrame
 			bFind.setEnabled(false);
 		else
 		{
-			Find find = new Find (this, m_reportEngine.getWindowNo(), title,
-					AD_Tab_ID, AD_Table_ID, tableName, m_reportEngine.getWhereExtended(), findFields, 1);
-			m_reportEngine.setQuery(find.getQuery());
-			find.dispose();
-			find = null;
+			ASearch search = new ASearch (bFind,this, title,AD_Tab_ID, AD_Table_ID, tableName, m_reportEngine ,findFields, 1);
+			search = null;
 			revalidate();
 		}
 		cmd_drill();	//	setCursor

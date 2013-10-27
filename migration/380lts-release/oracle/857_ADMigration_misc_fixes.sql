@@ -1,0 +1,30 @@
+-- Jun 17, 2013 6:18:17 PM EEST
+-- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
+UPDATE AD_Table SET AD_Window_ID=53084,Updated=TO_DATE('2013-06-17 18:18:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53219
+;
+
+-- Jun 17, 2013 6:18:35 PM EEST
+-- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
+UPDATE AD_Table SET AD_Window_ID=53084,Updated=TO_DATE('2013-06-17 18:18:35','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53217
+;
+
+-- Jun 17, 2013 6:21:05 PM EEST
+-- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
+UPDATE AD_Tab SET OrderByClause=NULL,Updated=TO_DATE('2013-06-17 18:21:05','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53234
+;
+
+-- Jun 17, 2013 6:21:46 PM EEST
+-- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
+UPDATE AD_Field SET SortNo=1.000000000000,Updated=TO_DATE('2013-06-17 18:21:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=57292
+;
+
+-- Jun 17, 2013 6:22:11 PM EEST
+-- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
+UPDATE AD_Tab SET OrderByClause=NULL,Updated=TO_DATE('2013-06-17 18:22:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53233
+;
+
+-- Jun 17, 2013 6:22:24 PM EEST
+-- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
+UPDATE AD_Field SET SortNo=1.000000000000,Updated=TO_DATE('2013-06-17 18:22:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=57277
+;
+

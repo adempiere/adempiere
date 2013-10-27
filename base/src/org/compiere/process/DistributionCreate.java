@@ -152,7 +152,7 @@ public class DistributionCreate extends SvrProcess
 		if (m_singleOrder != null)
 		{
 			m_singleOrder.setDescription("# " + counter + " - " + m_totalQty);
-			m_singleOrder.save();
+			m_singleOrder.saveEx();
 		}
 		
 		return "@Created@ #" + counter + " - @Qty@=" + m_totalQty;

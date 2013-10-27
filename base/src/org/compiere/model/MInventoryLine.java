@@ -254,7 +254,7 @@ public class MInventoryLine extends X_M_InventoryLine
 			if (getM_AttributeSetInstance_ID() == 0)
 			{
 				MProduct product = MProduct.get(getCtx(), getM_Product_ID());
-				if (product != null && product.isASIMandatory(isSOTrx()))
+				if (product != null && product.isASIMandatory(isSOTrx(), getAD_Org_ID()))
 				{
 					log.saveError("FillMandatory", Msg.getElement(getCtx(), COLUMNNAME_M_AttributeSetInstance_ID));
 					return false;

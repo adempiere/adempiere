@@ -310,7 +310,7 @@ public class ImportInventory extends SvrProcess
 						if (mas.isSerNo() && imp.getSerNo() != null)
 							masi.setSerNo(imp.getSerNo());
 						masi.setDescription();
-						masi.save();
+						masi.saveEx();
 						M_AttributeSetInstance_ID = masi.getM_AttributeSetInstance_ID();
 					}
 				}

@@ -55,6 +55,10 @@ import org.compiere.util.ValueNamePair;
  *
  *  @author Niraj Sohun
  *  		July 27, 2007
+ *
+ * @author Michael McKay, 
+ * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
+ * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
  */
 
 public class WAcctViewerData 
@@ -104,6 +108,9 @@ public class WAcctViewerData
 	
 	/** Containing TableName and AD_Table_ID    */
 	public HashMap<String,Integer> tableInfo = new HashMap<String,Integer>();
+
+	/** Containing Column and selected record_id     */
+	public HashMap<String,Integer>	buttonRecordID = new HashMap<String,Integer>();
 
 	//  Display Info
 	
@@ -325,6 +332,22 @@ public class WAcctViewerData
 		}
 		return retValue;
 	} // getButtonText
+
+	/**
+	 *  Get Button Record ID
+	 *
+	 *  @param tableName table
+	 *  @param columnName column
+	 *  @param selectSQL sql
+	 *  @return Text on button
+	 */
+	protected int getButtonRecordID (String keyColumn)
+	{
+		Integer record_id = buttonRecordID.get(keyColumn);
+		if (record_id == null || record_id.intValue() == 0)
+			return 0;
+		return record_id.intValue();
+	}   //  getButtonRecordID
 
 	/**************************************************************************
 	/**

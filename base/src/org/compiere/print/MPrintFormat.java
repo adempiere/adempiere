@@ -785,13 +785,24 @@ public class MPrintFormat extends X_AD_PrintFormat
 				to_Client_ID = Env.getAD_Client_ID(ctx);
 			to.setClientOrg (to_Client_ID, 0);
 		}
-		//	Set Name - Remove TEMPLATE - add copy
-		to.setName(Util.replace(to.getName(), "TEMPLATE", String.valueOf(to_Client_ID)));
-		to.setName(to.getName() 
-			+ " " + Msg.getMsg(ctx, "Copy")		 
-			+ " " + to.hashCode());		//	unique name
+		//Set Name - Remove TEMPLATE
+   		to.setName(Util.replace(to.getName(), "** TEMPLATE **", "").trim());
+    	String sql = "SELECT count(*) from AD_PrintFormat WHERE AD_Client_ID = ? AND AD_Table_ID = ? AND Name = ?";
+  		
+  		String suggestedName = to.getName();
+   		int count = 0;
+   		while (DB.getSQLValue(to.get_TrxName(), sql,to.getAD_Client_ID(), to.getAD_Table_ID(), suggestedName) > 0)
+   		{
+   			count++;
+    			suggestedName = to.getName() + " ("+ count + ")";
+   		}
+    		
+    	to.setName(suggestedName);
+
+
+
 		//
-		to.save();
+		to.saveEx();
 
 		//	Copy Items
 		to.setItems(copyItems(from,to));

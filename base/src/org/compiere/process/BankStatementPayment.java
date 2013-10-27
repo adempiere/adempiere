@@ -99,7 +99,7 @@ public class BankStatementPayment extends SvrProcess
 		ibs.setC_Payment_ID(payment.getC_Payment_ID());
 		ibs.setC_Currency_ID (payment.getC_Currency_ID());
 		ibs.setTrxAmt(payment.getPayAmt(true));
-		ibs.save();
+		ibs.saveEx();
 		//
 		String retString = "@C_Payment_ID@ = " + payment.getDocumentNo();
 		if (payment.getOverUnderAmt().signum() != 0)
@@ -131,7 +131,7 @@ public class BankStatementPayment extends SvrProcess
 			throw new AdempiereSystemError("Could not create Payment");
 		//	update statement
 		bsl.setPayment(payment);
-		bsl.save();
+		bsl.saveEx();
 		//
 		String retString = "@C_Payment_ID@ = " + payment.getDocumentNo();
 		if (payment.getOverUnderAmt().signum() != 0)
@@ -221,10 +221,10 @@ public class BankStatementPayment extends SvrProcess
 		}
 		else
 			return null;
-		payment.save();
+		payment.saveEx();
 		//
 		payment.processIt(MPayment.DOCACTION_Complete);
-		payment.save();
+		payment.saveEx();
 		return payment;		
 	}	//	createPayment
 

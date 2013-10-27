@@ -86,7 +86,7 @@ public class GridTabListItemRenderer implements ListitemRenderer, ListitemRender
 		int columnCount = gridTab.getTableModel().getColumnCount();
 		GridField[] gridField = gridTab.getFields();
 		for (int i = 0; i < columnCount; i++) {
-			if (!gridField[i].isDisplayed()) {
+			if (!(gridField[i].isDisplayed() && gridField[i].isDisplayedGrid())) {
 				continue;
 			}
 			if (editors.get(gridField[i]) == null)

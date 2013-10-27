@@ -55,6 +55,10 @@ import org.compiere.util.ValueNamePair;
  *  @author Teo Sarca, SC ARHIPAC SERVICE SRL
  *  			<li>BF [ 1748449 ] Info Account - Posting Type is not translated
  * 				<li>BF [ 1778373 ] AcctViewer: data is not sorted proper
+ *
+ * @author Michael McKay, 
+ * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
+ * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
  */
 class AcctViewerData
 {
@@ -110,6 +114,8 @@ class AcctViewerData
 
 	/** Containing Column and Query     */
 	public HashMap<String,String>	whereInfo = new HashMap<String,String>();
+	/** Containing Column and selected record_id     */
+	public HashMap<String,Integer>	buttonRecordID = new HashMap<String,Integer>();
 	/** Containing TableName and AD_Table_ID    */
 	public HashMap<String,Integer>	tableInfo = new HashMap<String,Integer>();
 
@@ -278,6 +284,22 @@ class AcctViewerData
 		}
 		return retValue;
 	}   //  getButtonText
+
+	/**
+	 *  Get Button Record ID
+	 *
+	 *  @param tableName table
+	 *  @param columnName column
+	 *  @param selectSQL sql
+	 *  @return Text on button
+	 */
+	protected int getButtonRecordID (String keyColumn)
+	{
+		Integer record_id = buttonRecordID.get(keyColumn);
+		if (record_id == null || record_id.intValue() == 0)
+			return 0;
+		return record_id.intValue();
+	}   //  getButtonRecordID
 
 	/**************************************************************************
 

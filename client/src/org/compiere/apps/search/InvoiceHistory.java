@@ -533,6 +533,7 @@ public class InvoiceHistory extends CDialog
 		table.setColumnClass(2, Timestamp.class, true);   //  MovementDate
 		table.setColumnClass(3, Boolean.class, true);  	  //  IsSOTrx
 		table.setColumnClass(4, String.class, true);      //  DocNo
+		table.setColumnClass(5, String.class, true);	  //  Warehouse
 		//
 		table.autoSize();
 	}	//	initUnconfirmedTab

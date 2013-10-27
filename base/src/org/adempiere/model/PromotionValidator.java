@@ -41,7 +41,7 @@ public class PromotionValidator implements ModelValidator {
 					PromotionRule.applyPromotions(order);
 					order.getLines(true, null);
 					order.calculateTaxTotal();
-					order.save();
+					order.saveEx();
 					increasePromotionCounter(order);
 				} catch (Exception e) {
 					if (e instanceof RuntimeException)
