@@ -1,6 +1,6 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Copyright (C) 2011 Adaxa Pty Ltd. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -17,89 +17,44 @@
 
 package org.compiere.process;
 
-import java.util.Arrays;
+import org.compiere.model.MMigration;
+import org.compiere.model.MMigrationStep;
+import org.compiere.process.SvrProcess;
 
-import org.adempiere.ad.migration.executor.IMigrationExecutor;
-import org.adempiere.ad.migration.executor.IMigrationExecutor.Action;
-import org.adempiere.ad.migration.executor.IMigrationExecutorContext;
-import org.adempiere.ad.migration.executor.IMigrationExecutorProvider;
-import org.adempiere.ad.migration.model.I_AD_MigrationStep;
-import org.adempiere.ad.migration.model.X_AD_MigrationStep;
-import org.adempiere.exceptions.AdempiereException;
-import org.adempiere.model.POWrapper;
-import org.adempiere.util.Services;
+public class MigrationStepApply extends SvrProcess {
 
-/**
- * 
- * Process to apply a single migration step
- * 
- * @author Paul Bowden, Adaxa Pty Ltd
- * @author Teo Sarca
- * 
- */
-public class MigrationStepApply extends SvrProcess
-{
+	private MMigrationStep migrationstep;
 
-	private I_AD_MigrationStep migrationStep;
-	private Action action = null;
-
+	/**
+	 * 
+	 * Process to apply a single migration step
+	 * 
+	 * @author Paul Bowden, Adaxa Pty Ltd
+	 *
+	 */
 	@Override
-	protected void prepare()
-	{
-		if (I_AD_MigrationStep.Table_Name.equals(getTableName()) && getRecord_ID() > 0)
-		{
-			migrationStep = POWrapper.create(getCtx(), getRecord_ID(), I_AD_MigrationStep.class, null);
-		}
-	}
+	protected String doIt() throws Exception {
 
-	public Action getAction()
-	{
-		return action;
-	}
-
-	public void setAction(Action action)
-	{
-		this.action = action;
-	}
-
-	public I_AD_MigrationStep getMigrationStep()
-	{
-		return migrationStep;
-	}
-
-	@Override
-	protected String doIt() throws Exception
-	{
-		if (migrationStep == null || migrationStep.getAD_MigrationStep_ID() <= 0)
-		{
-			throw new AdempiereException("@NotFound@ AD_MigrationStep_ID@");
-		}
-
-		final IMigrationExecutorProvider executorProvider = Services.get(IMigrationExecutorProvider.class);
-		final IMigrationExecutorContext migrationCtx = executorProvider.createInitialContext(getCtx());
-
-		final IMigrationExecutor executor = executorProvider.newMigrationExecutor(migrationCtx, migrationStep.getAD_Migration_ID());
-		executor.setMigrationSteps(Arrays.asList(migrationStep));
-
-		if (action == null)
-		{
-			action = getAction(migrationStep);
-		}
-
-		executor.execute(action);
-
-		return "Executed: " + action;
-	}
-
-	protected Action getAction(I_AD_MigrationStep step)
-	{
-		if (X_AD_MigrationStep.STATUSCODE_Applied.equals(migrationStep.getStatusCode()))
-		{
-			return IMigrationExecutor.Action.Rollback;
-		}
+		String retval = migrationstep.toString();
+		if ( migrationstep == null || migrationstep.is_new() )
+			return "No migration step";
+		else if ( MMigrationStep.STATUSCODE_Applied.equals(migrationstep.getStatusCode()) )
+			retval +=migrationstep.rollback();
 		else
-		{
-			return IMigrationExecutor.Action.Apply;
-		}
+			retval += migrationstep.apply();
+		
+		MMigration migration = migrationstep.getParent();
+		migration.updateStatus(get_TrxName());
+		migration.saveEx();
+		
+		return retval;
 	}
+	
+	@Override
+	protected void prepare() {
+		
+		migrationstep = new MMigrationStep(getCtx(), getRecord_ID(), get_TrxName());
+
+	}
+
 }

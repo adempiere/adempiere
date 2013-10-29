@@ -23,10 +23,8 @@ package org.compiere.model;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Iterator;
 
 import org.adempiere.exceptions.DBException;
-import org.adempiere.model.POWrapper;
 import org.compiere.util.DB;
 
 /**
@@ -36,12 +34,11 @@ import org.compiere.util.DB;
  * 			<li>FR [ 1984834 ] Add POResultSet.hasNext convenient method
  * 			<li>FR [ 1985134 ] POResultSet improvements
  */
-public class POResultSet<T> implements Iterator<T>
-{
+public class POResultSet<T extends PO> {
+
 	private String trxName;
 	private ResultSet resultSet;
 	private MTable table;
-	private Class<T> clazz;
 	private PreparedStatement statement;
 	/** Current fetched PO */
 	private T currentPO = null;
@@ -56,9 +53,8 @@ public class POResultSet<T> implements Iterator<T>
 	 * @param rs
 	 * @param trxName
 	 */
-	public POResultSet(MTable table, Class<T> clazz, PreparedStatement ps, ResultSet rs, String trxName) {
+	public POResultSet(MTable table, PreparedStatement ps, ResultSet rs, String trxName) {
 		this.table = table;
-		this.clazz = clazz;
 		this.statement = ps;
 		this.resultSet = rs;
 		this.trxName = trxName;
@@ -70,7 +66,6 @@ public class POResultSet<T> implements Iterator<T>
 	 * @return true if it has next, false otherwise
 	 * @throws DBException
 	 */
-	@Override
 	public boolean hasNext() throws DBException {
 		if (currentPO != null)
 			return true;
@@ -83,7 +78,6 @@ public class POResultSet<T> implements Iterator<T>
 	 * @return PO or null if reach the end of resultset
 	 * @throws DBException
 	 */
-	@Override
 	public T next() throws DBException {
 		if (currentPO != null) {
 			T po = currentPO;
@@ -91,22 +85,9 @@ public class POResultSet<T> implements Iterator<T>
 			return po;
 		}
 		try {
-			if ( resultSet.next() )
-			{
-				PO o = table.getPO(resultSet, trxName);
-				if (clazz != null && !o.getClass().isAssignableFrom(clazz))
-				{
-					return POWrapper.create(o, clazz);
-				}
-				else
-				{
-					@SuppressWarnings("unchecked")
-					final T retValue = (T)o;
-					return retValue;
-				}
-			}
-			else
-			{
+			if ( resultSet.next() ) {
+				return (T) table.getPO(resultSet, trxName);
+			} else {
 				this.close(); // close it if there is no more data to read
 				return null;
 			}
@@ -151,11 +132,5 @@ public class POResultSet<T> implements Iterator<T>
 		this.resultSet = null;
 		this.statement = null;
 		currentPO = null;
-	}
-
-	@Override
-	public void remove()
-	{
-		throw new UnsupportedOperationException("Remove is not supported");
 	}
 }

@@ -25,21 +25,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.adempiere.ad.dao.IQueryBL;
-import org.adempiere.ad.dao.IQueryOrderBy;
-import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DBException;
-import org.adempiere.exceptions.DBMoreThenOneRecordsFoundException;
 import org.adempiere.model.POWrapper;
-import org.adempiere.util.Services;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -66,26 +58,29 @@ import org.compiere.util.Util;
  * 			<li>FR: [ 2214883 ] Remove SQL code and Replace for Query // introducing SQL String prompt in log.info 
  *			<li>FR: [ 2214883 ] - to introduce .setClient_ID
  */
-public class Query implements IQuery
+public class Query
 {
 	public static final String AGGREGATE_COUNT		= "COUNT";
 	public static final String AGGREGATE_SUM		= "SUM";
 	public static final String AGGREGATE_AVG		= "AVG";
 	public static final String AGGREGATE_MIN		= "MIN";
 	public static final String AGGREGATE_MAX		= "MAX";
-	public static final String AGGREGATE_DISTINCT	= "DISTINCT";
 	
+	// metas
+	public static final int NO_LIMIT = -1;
+	private int limit = NO_LIMIT;
+		
 	private static CLogger log	= CLogger.getCLogger (Query.class);
 	
 	private Properties ctx = null;
 	private MTable table = null;
 	private String whereClause = null;
-	private IQueryOrderBy queryOrderBy = null;
+	private String orderBy = null;
 	private String trxName = null;
-	private List<Object> parameters = null;
+	private Object[] parameters = null;
 	private boolean applyAccessFilter = false;
 	private boolean applyAccessFilterRW = false;
-	// private boolean applyAccessFilterFullyQualified = true; // metas: shall not be used
+	private boolean applyAccessFilterFullyQualified = true;
 	private boolean onlyActiveRecords = false;
 	private boolean onlyClient_ID = false;
 	private int onlySelection_ID = -1;
@@ -113,9 +108,6 @@ public class Query implements IQuery
 	 */
 	public Query(Properties ctx, MTable table, String whereClause, String trxName)
 	{
-		Util.assume(ctx != null, "ctx != null");
-		Util.assume(table != null, "table != null");
-		
 		this.ctx = ctx;
 		this.table = table;
 		this.whereClause = whereClause;
@@ -142,7 +134,7 @@ public class Query implements IQuery
 	 */
 	public Query setParameters(Object ...parameters)
 	{
-		this.parameters = Arrays.asList(parameters);
+		this.parameters = parameters;
 		return this;
 	}
 	
@@ -156,7 +148,8 @@ public class Query implements IQuery
 			this.parameters = null;
 			return this;
 		}
-		this.parameters = new ArrayList<Object>(parameters);
+		this.parameters = new Object[parameters.size()];
+		parameters.toArray(this.parameters);
 		return this;
 	}
 	
@@ -167,14 +160,11 @@ public class Query implements IQuery
 	 */
 	public Query setOrderBy(String orderBy)
 	{
-		this.queryOrderBy = Services.get(IQueryBL.class).createSqlQueryOrderBy(orderBy);
-		return this;
-	}
-	
-	@Override
-	public Query setOrderBy(IQueryOrderBy orderBy)
-	{
-		this.queryOrderBy = orderBy;
+		this.orderBy = orderBy != null ? orderBy.trim() : null;
+		if (this.orderBy != null && this.orderBy.toUpperCase().startsWith("ORDER BY"))
+		{
+			this.orderBy = this.orderBy.substring(8);
+		}
 		return this;
 	}
 	
@@ -191,34 +181,11 @@ public class Query implements IQuery
 	/**
 	 * Turn on data access filter with controls
 	 * @param flag
-	 * 
-	 * @deprecated Please use {@link #setApplyAccessFilterRW(boolean)}
 	 */
-	@Deprecated
 	public Query setApplyAccessFilter(boolean fullyQualified, boolean RW)
 	{
-		// metas: begin: fullyQualified parameter shall not exist at all because it's related on how the query is internally built.
-		// For backward-compatibility we are keeping it but we enforce developer to always set it to true
-		if (!fullyQualified)
-		{
-			log.log(Level.WARNING, "fullyQualified shall be always true, else it could be a developer issue. Changing to true."
-					+ " Query: " + toString(), new AdempiereException());
-		}
-		
-		return setApplyAccessFilterRW(RW);
-		// metas: end
-	}
-
-	/**
-	 * Apply read-write access filter to all resulting records.
-	 * 
-	 * Please note that this method will turn on security filter anyway. If you want to turn this off again, use {@link #setApplyAccessFilter(boolean)}.
-	 * 
-	 * @param RW true if read-write access is required, false if read-only access is sufficient
-	 */
-	public Query setApplyAccessFilterRW(boolean RW)
-	{
 		this.applyAccessFilter = true;
+		this.applyAccessFilterFullyQualified = fullyQualified;
 		this.applyAccessFilterRW = RW;
 		return this;
 	}
@@ -253,7 +220,7 @@ public class Query implements IQuery
 		return this;
 	}
 	
-	/**
+/**
 	 * Return a list of all po that match the query criteria.
 	 * @return List
 	 * @throws DBException 
@@ -269,7 +236,6 @@ public class Query implements IQuery
 	 * @throws DBException 
 	 */
 	@SuppressWarnings("unchecked")
-	@Override
 	public <T> List<T> list(Class<T> clazz) throws DBException
 	{
 		final List<T> list;
@@ -327,25 +293,7 @@ public class Query implements IQuery
 	@SuppressWarnings("unchecked")
 	public <T extends PO> T first() throws DBException
 	{
-		return (T)first(null);
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T> T first(Class<T> clazz) throws DBException
-	{
 		T po = null;
-		
-		// metas: begin: not using ORDER BY clause can be a developer error
-		final String orderBy = getOrderBy();
-		if (Util.isEmpty(orderBy, true))
-		{
-			log.log(Level.WARNING, "Using first() without an ORDER BY clause can be a developer error."
-					+ " Please specify ORDER BY clause or in case you know that only one result shall be returned then use firstOnly()."
-					+ " Query: " + toString(), new AdempiereException());
-		}
-		// metas: end
-		
 		String sql = buildSQL(null, true);
 		
 		PreparedStatement pstmt = null;
@@ -356,11 +304,7 @@ public class Query implements IQuery
 			rs = createResultSet(pstmt);
 			if (rs.next ())
 			{
-				PO o = table.getPO(rs, trxName);
-				if (clazz != null && !o.getClass().isAssignableFrom(clazz))
-					po = POWrapper.create(o, clazz);
-				else
-					po = (T)o;
+				po = (T)table.getPO(rs, trxName);
 			}
 		}
 		catch (SQLException e)
@@ -384,19 +328,6 @@ public class Query implements IQuery
 	@SuppressWarnings("unchecked")
 	public <T extends PO> T firstOnly() throws DBException
 	{
-		return (T)firstOnly(null);
-	}
-	/**
-	 * Return first PO that match query criteria.
-	 * If there are more records that match criteria an exception will be throwed 
-	 * @return first PO
-	 * @throws DBException
-	 * @see {@link #first()}
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T> T firstOnly(Class<T> clazz) throws DBException
-	{
 		T po = null;
 		String sql = buildSQL(null, true);
 		
@@ -408,15 +339,11 @@ public class Query implements IQuery
 			rs = createResultSet(pstmt);
 			if (rs.next())
 			{
-				PO o = table.getPO(rs, trxName);
-				if (clazz != null && !o.getClass().isAssignableFrom(clazz))
-					po = POWrapper.create(o, clazz);
-				else
-					po = (T)o;
+				po = (T)table.getPO(rs, trxName);
 			}
 			if (rs.next())
 			{
-				throw new DBMoreThenOneRecordsFoundException(this.toString());
+				throw new DBException("QueryMoreThanOneRecordsFound"); // TODO : translate
 			}
 		}
 		catch (SQLException e)
@@ -455,14 +382,14 @@ public class Query implements IQuery
 	
 	private int firstId(boolean assumeOnlyOneResult) throws DBException
 	{
-		final String keyColumnName = getKeyColumnName();
-		if (keyColumnName == null)
+		String[] keys = table.getKeyColumns();
+		if (keys.length != 1)
 		{
 			throw new DBException("Table "+table+" has 0 or more than 1 key columns");
 		}
 
-		StringBuilder selectClause = new StringBuilder("SELECT ");
-		selectClause.append(keyColumnName);
+		StringBuffer selectClause = new StringBuffer("SELECT ");
+		selectClause.append(keys[0]);
 		selectClause.append(" FROM ").append(table.getTableName());
 		String sql = buildSQL(selectClause, true);
 
@@ -527,37 +454,13 @@ public class Query implements IQuery
 	 * @return aggregated value
 	 * @throws DBException
 	 */
-	public <T> T aggregate(String sqlExpression, String sqlFunction, Class<T> returnType) throws DBException
-	{
-		final List<T> list = aggregateList(sqlExpression, sqlFunction, returnType);
-		
-		if (list.isEmpty())
-		{
-			return null;
-		}
-		else if (list.size() > 1)
-		{
-			throw new DBException("QueryMoreThanOneRecordsFound"); // TODO : translate
-		}
-		
-		return list.get(0);
-	}
-	
 	@SuppressWarnings("unchecked")
-	public <T> List<T> aggregateList(String sqlExpression, String sqlFunction, Class<T> returnType) throws DBException
+	public <T> T aggregate(String sqlExpression, String sqlFunction, Class<T> returnType) throws DBException
 	{
 		if (Util.isEmpty(sqlFunction, true))
 		{
 			throw new DBException("No Aggregate Function defined");
 		}
-		
-		// metas-tsa: If the sqlExpression is a virtual column, then replace it with it's ColumnSQL
-		final MColumn column = table.getColumn(sqlExpression);
-		if (column != null && column.isVirtualColumn())
-		{
-			sqlExpression = column.getColumnSQL();
-		}
-
 		if (Util.isEmpty(sqlExpression, true))
 		{
 			if (AGGREGATE_COUNT == sqlFunction)
@@ -570,11 +473,12 @@ public class Query implements IQuery
 			}
 		}
 		
-		final List<T> result = new ArrayList<T>();
-
-		StringBuilder sqlSelect = new StringBuilder("SELECT ").append(sqlFunction).append("(")
+		StringBuffer sqlSelect = new StringBuffer("SELECT ").append(sqlFunction).append("(")
 					.append(sqlExpression).append(")")
 					.append(" FROM ").append(table.getTableName());
+		
+		T value = null;
+		T defaultValue = null;
 		
 		String sql = buildSQL(sqlSelect, false);
 		PreparedStatement pstmt = null;
@@ -583,10 +487,8 @@ public class Query implements IQuery
 		{
 			pstmt = DB.prepareStatement(sql, this.trxName);
 			rs = createResultSet(pstmt);
-			while(rs.next())
+			if (rs.next())
 			{
-				T value = null;
-				T defaultValue = null;
 				if (returnType.isAssignableFrom(BigDecimal.class))
 				{
 					value = (T)rs.getBigDecimal(1);
@@ -615,18 +517,11 @@ public class Query implements IQuery
 				{
 					value = (T)rs.getObject(1);
 				}
-				
-				//
-				// Add value to result
-				if (value == null)
-				{
-					value = defaultValue;
 			}
-				if (value != null)
+			if (rs.next())
 			{
-					result.add(value);
+				throw new DBException("QueryMoreThanOneRecordsFound"); // TODO : translate
 			}
-		}
 		}
 		catch (SQLException e)
 		{
@@ -638,7 +533,11 @@ public class Query implements IQuery
 			rs = null; pstmt = null;
 		}
 		//
-		return result;
+		if (value == null)
+		{
+			value = defaultValue;
+		}
+		return value;
 	}
 	
 	/**
@@ -646,7 +545,6 @@ public class Query implements IQuery
 	 * @return count
 	 * @throws DBException
 	 */
-	@Override
 	public int count() throws DBException
 	{
 		return aggregate("*", AGGREGATE_COUNT).intValue();
@@ -668,7 +566,7 @@ public class Query implements IQuery
 	 */
 	public boolean match() throws DBException
 	{
-		String sql = buildSQL(new StringBuilder("SELECT 1 FROM ").append(table.getTableName()), false);
+		String sql = buildSQL(new StringBuffer("SELECT 1 FROM ").append(table.getTableName()), false);
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
@@ -695,59 +593,8 @@ public class Query implements IQuery
 	 */
 	public <T extends PO> Iterator<T> iterate() throws DBException
 	{
-		return (Iterator<T>)iterate((Class<T>)null);
-	}
-	
-	public <T> Iterator<T> iterate(Class<T> clazz) throws DBException
-	{
-		// Because most of the business logic relies on guaranteed iterator, we will use it as implicit. 
-		final boolean guaranteed = true;
-		return iterate(clazz, guaranteed);
-	}
-	
-	public <T> Iterator<T> iterate(Class<T> clazz, boolean guaranteed) throws DBException
-	{
-		final Integer iteratorBufferSize = getOption(OPTION_IteratorBufferSize);
-		
-		if (guaranteed)
-		{
-			final GuaranteedPOBufferedIterator<T> it = new GuaranteedPOBufferedIterator<T>(this, clazz);
-			if (iteratorBufferSize != null)
-			{
-				it.setBufferSize(iteratorBufferSize);
-			}
-			return it;
-		}
-		
-		// metas: mo73_03658: use POBufferedIterator instead of old POIterator, if database paging is supported
-		else if (DB.getDatabase().isPagingSupported())
-		{
-			final POBufferedIterator<T> poBufferedIterator = new POBufferedIterator<T>(this, clazz);
-			if (iteratorBufferSize != null)
-			{
-				poBufferedIterator.setBufferSize(iteratorBufferSize);
-			}
-			else if (limit != NO_LIMIT)
-			{   // use the set limit as our buffer size, if a limit has been set
-				poBufferedIterator.setBufferSize(limit);
-			}
-			return poBufferedIterator;
-		}
-		else
-		{
-			final List<Object[]> idList = getComposedIDs();
-			return new POIterator<T>(table, clazz, idList, trxName);
-		}
-	}
-
-	/**
-	 * Get a List of composed IDs for this Query.
-	 * @return List of composed IDs
-	 */
-	public List<Object[]> getComposedIDs()
-	{
 		String[] keys = table.getKeyColumns();
-		StringBuilder sqlBuffer = new StringBuilder(" SELECT ");
+		StringBuffer sqlBuffer = new StringBuffer(" SELECT ");
 		for (int i = 0; i < keys.length; i++) {
 			if (i > 0)
 				sqlBuffer.append(", ");
@@ -780,21 +627,16 @@ public class Query implements IQuery
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
 		}
-
-		return idList;
+		return new POIterator<T>(table, idList, trxName);
 	}
 	
 	/**
-	 * Return a simple wrapper over a JDBC {@link ResultSet}. It is the caller responsibility to
+	 * Return a simple wrapper over a jdbc resultset. It is the caller responsibility to
 	 * call the close method to release the underlying database resources.
 	 * @return POResultSet
 	 * @throws DBException 
 	 */
 	public <T extends PO> POResultSet<T> scroll() throws DBException
-	{
-		return (POResultSet<T>)scroll((Class<T>)null);
-	}
-	public <T> POResultSet<T> scroll(Class<T> clazz) throws DBException
 	{
 		String sql = buildSQL(null, true);
 		PreparedStatement pstmt = null;
@@ -804,7 +646,7 @@ public class Query implements IQuery
 		{
 			pstmt = DB.prepareStatement (sql, trxName);
 			rs = createResultSet(pstmt);
-			rsPO = new POResultSet<T>(table, clazz, pstmt, rs, trxName);
+			rsPO = new POResultSet<T>(table, pstmt, rs, trxName);
 			rsPO.setCloseOnError(true);
 			return rsPO;
 		}
@@ -824,48 +666,22 @@ public class Query implements IQuery
 	}
 	
 	/**
-	 * Create a new {@link Query} object and set it's whereClause 
-	 * @param whereClause
-	 * @return
+	 * Build SQL Clause
+	 * @param selectClause optional; if null the select clause will be build according to POInfo
+	 * @return final SQL
 	 */
-	public Query setWhereClause(final String whereClause)
+	private final String buildSQL(StringBuffer selectClause, boolean useOrderByClause)
 	{
-		final Query query = copy();
-		query.whereClause = whereClause;
-		return query;
-	}
-	
-	public Query addWhereClause(final boolean joinByAnd, final String whereClause)
+		if (selectClause == null)
 		{
-		if (Util.isEmpty(whereClause, true))
+			POInfo info = POInfo.getPOInfo(this.ctx, table.getAD_Table_ID(), trxName);
+			if (info == null)
 			{
-			return this;
+				throw new IllegalStateException("No POInfo found for AD_Table_ID="+table.getAD_Table_ID());
 			}
-
-		final String whereClauseFinal;
-		if (!Util.isEmpty(getWhereClause(), true))
-		{
-			whereClauseFinal = new StringBuilder()
-					.append("(").append(getWhereClause()).append(")")
-					.append(joinByAnd ? " AND " : " OR ")
-					.append("(").append(whereClause).append(")")
-					.toString();
-		}
-		else
-		{
-			whereClauseFinal = whereClause;
+			selectClause = info.buildSelect();
 		}
 		
-		return setWhereClause(whereClauseFinal);
-	}
-	
-	public String getWhereClause()
-	{
-		return whereClause;
-	}
-	
-	protected final String getWhereClauseEffective()
-	{
 		StringBuffer whereBuffer = new StringBuffer(); 
 		if (!Util.isEmpty(this.whereClause, true))
 		{
@@ -887,8 +703,8 @@ public class Query implements IQuery
 		}
 		if (this.onlySelection_ID > 0)
 		{
-			final String keyColumnName = getKeyColumnName();
-			if (keyColumnName == null)
+			String[] keys = table.getKeyColumns();
+			if (keys.length != 1)
 			{
 				throw new DBException("Table "+table+" has 0 or more than 1 key columns");
 			}
@@ -896,69 +712,14 @@ public class Query implements IQuery
 			if (whereBuffer.length() > 0)
 				whereBuffer.append(" AND ");
 			whereBuffer.append(" EXISTS (SELECT 1 FROM T_Selection s WHERE s.AD_PInstance_ID=?"
-					+" AND s.T_Selection_ID="+table.getTableName()+"."+keyColumnName+")");
+					+" AND s.T_Selection_ID="+table.getTableName()+"."+keys[0]+")");
 		}
 		
-		return whereBuffer.toString();
-	}
-	
-	protected final List<Object> getParametersEffective()
+		StringBuffer sqlBuffer = new StringBuffer(selectClause);
+		if (whereBuffer.length() > 0)
 		{
-		final List<Object> parametersEffective = new ArrayList<Object>();
-		
-		if (parameters != null && !parameters.isEmpty())
-		{
-			parametersEffective.addAll(parameters);
+			sqlBuffer.append(" WHERE ").append(whereBuffer);
 		}
-		
-		if (this.onlyActiveRecords)
-		{
-			parametersEffective.add(true);
-			log.finest("Parameter IsActive = Y");
-		}
-		if (this.onlyClient_ID)
-		{
-			int AD_Client_ID = Env.getAD_Client_ID(ctx);
-			parametersEffective.add(AD_Client_ID);
-			log.finest("Parameter AD_Client_ID = "+AD_Client_ID);
-		}
-		if (this.onlySelection_ID > 0)
-		{
-			parametersEffective.add(this.onlySelection_ID);
-			log.finest("Parameter Selection AD_PInstance_ID = "+this.onlySelection_ID);
-		}
-
-		return parametersEffective;
-	}
-
-	
-	/**
-	 * Build SQL Clause
-	 * @param selectClause optional; if null the select clause will be build according to POInfo
-	 * @return final SQL
-	 */
-	protected final String buildSQL(StringBuilder selectClause, boolean useOrderByClause)
-	{
-		if (selectClause == null)
-		{
-			POInfo info = POInfo.getPOInfo(this.ctx, table.getAD_Table_ID(), trxName);
-			if (info == null)
-			{
-				throw new IllegalStateException("No POInfo found for AD_Table_ID="+table.getAD_Table_ID());
-			}
-			selectClause = new StringBuilder(info.buildSelect().toString());
-		}
-		
-		
-		StringBuilder sqlBuffer = new StringBuilder(selectClause);
-		
-		final String whereClauseEffective = getWhereClauseEffective();
-		if (whereClauseEffective != null && !whereClauseEffective.isEmpty())
-		{
-			sqlBuffer.append(" WHERE ").append(whereClauseEffective);
-		}
-		
-		final String orderBy = getOrderBy();
 		if (useOrderByClause && !Util.isEmpty(orderBy, true))
 		{
 			sqlBuffer.append(" ORDER BY ").append(orderBy);
@@ -967,47 +728,34 @@ public class Query implements IQuery
 		if (applyAccessFilter)
 		{
 			MRole role = MRole.getDefault(this.ctx, false);
-			final boolean applyAccessFilterFullyQualified = true; // metas: shall always be true
 			sql = role.addAccessSQL(sql, table.getTableName(), applyAccessFilterFullyQualified, applyAccessFilterRW);
 		}
-		
-		// metas: begin
-		if (this.limit > 0 || this.offset >= 0)
-		{
-			if (DB.getDatabase().isPagingSupported())
-			{
-				final int offsetFixed = offset > 0 ? offset : 0;
-				final int start = offsetFixed + 1;
-				final int end = limit + offsetFixed;
-				sql = DB.getDatabase().addPagingSQL(sql, start, end);
-			}
-			else
-			{
-				log.log(Level.SEVERE, "Paging is not supported. Ignored", new Exception());
-			}
-		}
-		// metas: end
-
 		if (CLogMgt.isLevelFinest()) log.finest("TableName = "+table.getTableName()+"... SQL = " +sql); //red1  - to assist in debugging SQL
 		return sql;
 	}
 	
 	private final ResultSet createResultSet (PreparedStatement pstmt) throws SQLException
 	{
-		final List<Object> parametersEffective = getParametersEffective();
-		DB.setParameters(pstmt, parametersEffective);
+		DB.setParameters(pstmt, parameters);
+		int i = 1 + (parameters != null ? parameters.length : 0);
 		
-		final long ts = System.currentTimeMillis();
-		final ResultSet rs = pstmt.executeQuery();
-		
-		final long durationMillis = System.currentTimeMillis() - ts;
-		final long durationMaxMillis = 1000 * 60 * 5; // 5min 
-		if (durationMaxMillis > 0 && durationMillis > durationMaxMillis)
+		if (this.onlyActiveRecords)
 		{
-			log.log(Level.WARNING, "Query " + this + " took longer then " + durationMaxMillis + "millis to create the ResultSet", new Exception("trace"));
+			DB.setParameter(pstmt, i++, true);
+			log.finest("Parameter IsActive = Y");
 		}
-		
-		return rs;
+		if (this.onlyClient_ID)
+		{
+			int AD_Client_ID = Env.getAD_Client_ID(ctx);
+			DB.setParameter(pstmt, i++, AD_Client_ID);
+			log.finest("Parameter AD_Client_ID = "+AD_Client_ID);
+		}
+		if (this.onlySelection_ID > 0)
+		{
+			DB.setParameter(pstmt, i++, this.onlySelection_ID);
+			log.finest("Parameter Selection AD_PInstance_ID = "+this.onlySelection_ID);
+		}
+		return pstmt.executeQuery();
 	}
 	
 	/**
@@ -1016,14 +764,14 @@ public class Query implements IQuery
 	 */
 	public int[] getIDs ()
 	{
-		final String keyColumnName = getKeyColumnName();
-		if (keyColumnName == null)
+		String[] keys = table.getKeyColumns();
+		if (keys.length != 1)
 		{
 			throw new DBException("Table "+table+" has 0 or more than 1 key columns");
 		}
 
-		StringBuilder selectClause = new StringBuilder("SELECT ");
-		selectClause.append(keyColumnName);
+		StringBuffer selectClause = new StringBuffer("SELECT ");
+		selectClause.append(keys[0]);
 		selectClause.append(" FROM ").append(table.getTableName());
 		String sql = buildSQL(selectClause, true);
 		
@@ -1057,229 +805,4 @@ public class Query implements IQuery
 		return retValue;
 	}	//	get_IDs
 
-	@Override
-	public String toString()
-	{
-		StringBuffer sb = new StringBuffer();
-		sb.append("Query[");
-		sb.append(table.getTableName());
-		sb.append(", Where=").append(whereClause);
-		if (parameters != null && !parameters.isEmpty())
-			sb.append(", Params=").append(parameters.toString());
-		if (queryOrderBy != null)
-			sb.append(", OrderBy=").append(queryOrderBy);
-		//
-		// metas: limit & offset
-		if (limit > 0)
-		{
-			sb.append(", Limit=").append(limit);
-		}
-		if (offset >= 0)
-		{
-			sb.append(", Offset=").append(offset);
-		}
-		
-		sb.append(", trxName=").append(trxName);
-		sb.append(", Options=");
-		if (applyAccessFilter)
-			sb.append("ApplyAccessFilter;");
-		// metas: commented out because we don't use it anymore (considering always true)
-//		if (applyAccessFilterFullyQualified)
-//			sb.append("ApplyAccessFilterFQ;");
-		if (applyAccessFilterRW)
-			sb.append("ApplyAccessFilterRW;");
-		if (onlyActiveRecords)
-			sb.append("OnlyActive;");
-		if (onlySelection_ID > 0)
-			sb.append("OnlySelection=").append(onlySelection_ID).append(";");
-		if (options != null && !options.isEmpty())
-			sb.append(options.toString()).append(";");
-		sb.append("]");
-		return sb.toString();
-	}
-
-	// metas
-	public static final int NO_LIMIT = -1;
-	private int limit = NO_LIMIT;
-	private int offset = NO_LIMIT;
-
-	/**
-	 * Sets query LIMIT to be used.
-	 * 
-	 * For a detailed description about LIMIT and OFFSET concepts, please take a look <a
-	 * href="http://www.postgresql.org/docs/9.1/static/queries-limit.html">here</a>.
-	 * 
-	 * @param limit
-	 *            integer greater than zero or {@link #NO_LIMIT}. Note: if the {@link #iterate()} method is used and the
-	 *            underlying database supports paging, then the limit value (if set) is used as page size.
-	 * @return this
-	 */
-	public Query setLimit(int limit)
-	{
-		this.limit = limit;
-		return this;
-	}
-	
-	/**
-	 * Sets query LIMIT and OFFSET to be used.
-	 * 
-	 * For a detailed description about LIMIT and OFFSET concepts, please take a look <a
-	 * href="http://www.postgresql.org/docs/9.1/static/queries-limit.html">here</a>.
-	 * 
-	 * @param limit
-	 *            integer greater than zero or {@link #NO_LIMIT}. Note: if the {@link #iterate()} method is used and the
-	 *            underlying database supports paging, then the limit value (if set) is used as page size.
-	 * @param offset
-	 *            integer greater than zero or {@link #NO_LIMIT}
-	 * @return this
-	 */
-	public Query setLimit(int limit, int offset)
-	{
-		this.limit = limit;
-		this.offset = offset;
-		return this;
-	}
-	
-	public Properties getCtx()
-	{
-		return ctx;
-	}
-	
-	public String getTrxName()
-	{
-		return trxName;
-	}
-	
-	public String getOrderBy()
-	{
-		if (queryOrderBy == null)
-		{
-			return null;
-		}
-		return queryOrderBy.getSql();
-	}
-	
-	@Override
-	public String getTableName()
-	{
-		return table.getTableName();
-	}
-	
-	protected MTable getAD_Table()
-	{
-		return table;
-	}
-	
-	/**
-	 * Gets single key column name.
-	 * @return key column name.
-	 * @throws DBException 
-	 */
-	public String getKeyColumnName()
-	{
-		final String[] keys = table.getKeyColumns();
-		if (keys == null || keys.length != 1)
-		{
-			return null;
-		}
-
-		return keys[0];
-	}
-	
-	private Map<String, Object> options = null;
-	public static final String OPTION_IteratorBufferSize = "IteratorBufferSize";
-	
-	public Query setOption(String name, Object value)
-	{
-		if (options == null)
-		{
-			options = new HashMap<String, Object>();
-		}
-		options.put(name, value);
-		
-		return this;
-	}
-	
-	public <T> T getOption(String name)
-	{
-		if (options == null)
-		{
-			return null;
-		}
-		
-		@SuppressWarnings("unchecked")
-		final T value = (T)options.get(name);
-		
-		return value;
-	}
-	
-	/**
-	 * 
-	 * @return a copy of this object
-	 */
-	@Override
-	public Query copy()
-	{
-		final Query queryTo = new Query(ctx, table, whereClause, trxName);
-		queryTo.ctx = ctx;
-		queryTo.table = table;
-		queryTo.whereClause = whereClause;
-		queryTo.trxName = trxName;
-		//
-		queryTo.queryOrderBy = queryOrderBy;
-		queryTo.applyAccessFilter = applyAccessFilter;
-		queryTo.applyAccessFilterRW = applyAccessFilterRW;
-		queryTo.onlyActiveRecords = onlyActiveRecords;
-		queryTo.onlyClient_ID = onlyClient_ID;
-		queryTo.onlySelection_ID = onlySelection_ID;
-		queryTo.limit = limit;
-		queryTo.offset = offset;
-		
-		if (parameters == null)
-		{
-			queryTo.parameters = null;
-		}
-		else
-		{
-			queryTo.parameters = new ArrayList<Object>(parameters);
-		}
-		
-		queryTo.options = options == null ? null : new HashMap<String, Object>(options);
-
-		return queryTo;
-	}
-
-	@Override
-	public Object clone()
-	{
-		return copy();
-	}
-	
-	/**
-	 * Inserts the query result into a <code>T_Selection</code> for the given AD_PInstance_ID
-	 * 
-	 * @param AD_PInstance_ID
-	 * @return number of records inserted in selection
-	 */
-	public int createSelection(final int AD_PInstance_ID)
-	{
-		final String keyColumnName = getKeyColumnName();
-		if (keyColumnName == null)
-		{
-			throw new DBException("Table "+table+" has 0 or more than 1 key columns");
-		}
-
-		final StringBuilder selectClause = new StringBuilder(80)
-				.append("INSERT INTO T_SELECTION(AD_PINSTANCE_ID, T_SELECTION_ID) ")
-				.append(" SELECT ")
-				.append(AD_PInstance_ID)
-				.append(", ").append(keyColumnName)
-				.append(" FROM ").append(table.getTableName());
-
-		final String sql = buildSQL(selectClause, false);
-		final Object[] params = getParametersEffective().toArray();
-		
-		final int no = DB.executeUpdateEx(sql, params, trxName);
-		return no;
-	}
 }
