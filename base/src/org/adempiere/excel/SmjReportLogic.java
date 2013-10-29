@@ -91,15 +91,16 @@ public class SmjReportLogic {
 	/**
 	 * regresa el titulo general del reporte ** get General title
 	 * 
-	 * @param idReportLineSet
+	 * @param idReport
 	 * @param nameTrx
 	 * @return
 	 */
-	public String[] getGeneralTitle(Integer idReportLineSet, String nameTrx) {
+	public String[] getGeneralTitle(Integer idReport, String nameTrx) {
 		StringBuffer sql = new StringBuffer();
 		// cols = 0;
 		sql.append("select name, prePeriodName, posPeriodName from PA_Report ");
-		sql.append("where pa_reportlineset_id = " + idReportLineSet + " ");
+		// Goodwill - BF: report title is taken wrongly from other report if report line set is shared
+		sql.append("where pa_report_id = " + idReport + " ");
 //		System.out.println("getGeneralTitle SQL: "+sql.toString());
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;

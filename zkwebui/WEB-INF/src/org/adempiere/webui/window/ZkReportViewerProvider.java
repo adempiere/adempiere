@@ -44,7 +44,11 @@ public class ZkReportViewerProvider implements ReportViewerProvider {
 			ProcessInfo processInfo   = report.getProcessInfo() ;
 			MReport	m_report          = new MReport ( report.getCtx(), processInfo.getRecord_ID(), processInfo.getTransactionName() );
 			ProcessInfoParameter[] pi = processInfo.getParameter();
-			Window smjviewer = new SMJReportViewer(processInfo.getAD_PInstance_ID(), processInfo.getTransactionName(), m_report.getLineSet().getPA_ReportLineSet_ID(), pi[0].getParameterAsInt() , report.getPrintFormat().getAD_PrintFont_ID(), m_report.getColumnSet().getColumns());
+			// Goodwill BF: report title is taken wrongly from other report if report line set is shared 
+			// - passing PA_Report_ID instead of PA_ReportLineSet_ID
+			Window smjviewer = new SMJReportViewer(processInfo.getAD_PInstance_ID(), processInfo.getTransactionName(), 
+													m_report.getPA_Report_ID(), pi[0].getParameterAsInt() , 
+													report.getPrintFormat().getAD_PrintFont_ID(), m_report.getColumnSet().getColumns());
 			smjviewer.setAttribute(Window.MODE_KEY, Window.MODE_EMBEDDED);
 			smjviewer.setAttribute(Window.INSERT_POSITION_KEY, Window.INSERT_NEXT);
 			SessionManager.getAppDesktop().showWindow(smjviewer);

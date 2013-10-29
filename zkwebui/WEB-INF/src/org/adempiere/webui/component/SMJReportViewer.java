@@ -16,6 +16,7 @@ import org.adempiere.webui.panel.StatusBarPanel;
 import org.adempiere.webui.window.FDialog;
 import org.adempiere.webui.window.ZkReportViewer;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.adempiere.util.StringUtils;
 import org.compiere.model.MClientInfo;
 import org.compiere.model.MOrgInfo;
 import org.compiere.model.MRole;
@@ -74,11 +75,12 @@ public class SMJReportViewer extends Window implements EventListener {
 			private StatusBarPanel statusBar = new StatusBarPanel();
 			private Iframe iframe;
 			private Integer reportId;
+			private Integer m_AD_PInstance_ID;
 			private File filePdf;
 			private File fileXls;
 			private ByteArrayOutputStream baosPDF; 
 			private String trxName = "";
-			private Integer reportLineSetId;
+			//private Integer reportLineSetId;
 			private Integer p_C_Period_ID;
 			private Integer p_AD_PrintFont_ID;
 			
@@ -101,12 +103,13 @@ public class SMJReportViewer extends Window implements EventListener {
 			 * 	Static Layout
 			 * 	@throws Exception
 			 */
-			public SMJReportViewer(Integer idReport, String nameTrx, Integer idReportLineSet, Integer C_Period_ID, 
+			public SMJReportViewer(Integer AD_PInstance_ID, String nameTrx, Integer idReport, Integer C_Period_ID, 
 					Integer AD_PrintFont_ID, MReportColumn[] columns) {		
 				super();
-				reportId = idReport;
+				reportId = idReport;					// Goodwill - this become PA_Report_ID
+				m_AD_PInstance_ID = AD_PInstance_ID;	// Goodwill - this is the instance
 				trxName = nameTrx;
-				reportLineSetId = idReportLineSet;
+				//reportLineSetId = idReportLineSet;	// Goodwill - BF: report title is taken wrongly from other report if report line set is shared
 				p_C_Period_ID = C_Period_ID;
 				p_AD_PrintFont_ID  = AD_PrintFont_ID;
 				m_columns = columns;
@@ -176,7 +179,7 @@ public class SMJReportViewer extends Window implements EventListener {
 			private void renderReport(String type) throws Exception {
 				AMedia media = null;
 					String path = System.getProperty("java.io.tmpdir");
-					String prefix = makePrefix("financial");
+					String prefix = StringUtils.makePrefix("financial");
 					if (log.isLoggable(Level.FINE))
 					{
 						log.log(Level.FINE, "Path="+path + " Prefix="+prefix);
@@ -190,32 +193,14 @@ public class SMJReportViewer extends Window implements EventListener {
 					}
 				iframe.setContent(media);
 			}//renderReport
-
-			/**
-			 * make prefix
-			 * @param name
-			 * @return String
-			 */
-			private String makePrefix(String name) {
-				StringBuffer prefix = new StringBuffer();
-				char[] nameArray = name.toCharArray();
-				for (char ch : nameArray) {
-					if (Character.isLetterOrDigit(ch)) {
-						prefix.append(ch);
-					} else {
-						prefix.append("_");
-					}
-				}
-				return prefix.toString();
-			}//makePrefix
 			
 			/**
 			 * 	Dynamic Init
 			 */
 			private void dynInit(){
 				SmjReportLogic logic = new SmjReportLogic();
-				data = logic.getDataReport(reportId, trxName);
-				generalTitle = logic.getGeneralTitle(reportLineSetId, trxName);
+				data = logic.getDataReport(m_AD_PInstance_ID, trxName);
+				generalTitle = logic.getGeneralTitle(reportId, trxName);
 				clientName = logic.getOrgName(trxName);
 //				if (clientName.equals("") || clientName.length()<=0){
 //					clientName = logic.getClientName(trxName);
@@ -232,6 +217,8 @@ public class SMJReportViewer extends Window implements EventListener {
 				if (logoId <= 0){
 					MClientInfo ci = MClientInfo.get(prop);
 					logoId = ci.getLogoReport_ID();
+					if (logoId <= 0) 
+						logoId = ci.getLogo_ID();
 				}
 				SmjPdfReport pdf = new SmjPdfReport();
 				baosPDF = pdf.generate(data, trxName, generalTitle, clientName, clientNIT, periodName, currencyName, m_columns, codeFont, city, logoId);

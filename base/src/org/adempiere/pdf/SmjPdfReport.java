@@ -12,12 +12,14 @@ import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.logging.Level;
 
 import org.compiere.model.MImage;
 import org.compiere.report.MReportColumn;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.adempiere.util.StringUtils;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.ExceptionConverter;
@@ -46,6 +48,14 @@ import org.compiere.model.ReportTO;
  *          </ul>
  * @author Freddy Rodriguez - "SmartJSP" - http://www.smartjsp.com/
  * //SMJReport --> Clase nueva para el PDF
+ * 
+ * Goodwill Change Log
+ * - BF: file not saved in temporary folder
+ * - Change some hard text to English
+ * - Fix Logger point to wrong class
+ * - Change font size onEndPage and onCloseDocument
+ * - Change PDF author to clientName
+ * - Fix Rounding is Necessary
  */
 public class SmjPdfReport extends PdfPageEventHelper {
 
@@ -450,20 +460,20 @@ public class SmjPdfReport extends PdfPageEventHelper {
 		PdfContentByte cb = writer.getDirectContent();
 		cb.saveState();
 		Date date = new Date();
-		String textLeft = "Pagina " + writer.getPageNumber() + " de ";
-		String textRight = date + "         " + "Pagina "+ writer.getPageNumber() + " de ";
+		String textLeft = "Page " + writer.getPageNumber() + " of ";
+		String textRight = date + "            " + "Page "+ writer.getPageNumber() + " of ";
 		float textBase = document.bottom() - 20;
-		float textSizeLeft = helv.getWidthPoint(textLeft, 12);
-		float textSizeRigth = helv.getWidthPoint(textRight, 12);
+		float textSizeLeft = helv.getWidthPoint(textLeft, 8);
+		float textSizeRigth = helv.getWidthPoint(textRight, 8);
 		cb.beginText();
-		cb.setFontAndSize(helv, 12);
+		cb.setFontAndSize(helv, 8);
 		if ((writer.getPageNumber() % 2) == 1) {
 			cb.setTextMatrix(document.left(), textBase);
-			cb.showText(textLeft + "         " + date);
+			cb.showText(textLeft + "            " + date);
 			cb.endText();
 			cb.addTemplate(total, document.left() + textSizeLeft, textBase);
 		} else {
-			float adjust = helv.getWidthPoint("", 12);
+			float adjust = helv.getWidthPoint("", 8);
 			cb.setTextMatrix(document.right() - textSizeRigth - adjust,
 					textBase);
 			cb.showText(textRight);
@@ -481,7 +491,7 @@ public class SmjPdfReport extends PdfPageEventHelper {
 	 */
 	public void onCloseDocument(PdfWriter writer, Document document) {
 		total.beginText();
-		total.setFontAndSize(helv, 12);
+		total.setFontAndSize(helv, 8);
 		total.setTextMatrix(0, 0);
 		total.showText(String.valueOf(writer.getPageNumber()));
 		total.endText();
@@ -495,8 +505,26 @@ public class SmjPdfReport extends PdfPageEventHelper {
 	 */
 	public File tofile(byte[] buf, String[] generalTitle) {
 		byte[] bytes = buf;
-
-		File file = new File(generalTitle[0]+".pdf");
+		// Goodwill
+		String path = System.getProperty("java.io.tmpdir");
+		if ( !(path.endsWith("/") || path.endsWith("\\")) )
+			path = path + System.getProperty("file.separator");
+		String prefix = StringUtils.makePrefix(generalTitle[0]);		
+		if (log.isLoggable(Level.FINE))
+		{
+			log.log(Level.FINE, "Path="+path + " Prefix="+prefix);
+		}
+		File file = new File(path+prefix+".pdf");
+		try {
+			if (file.exists())
+				file.delete();
+		}
+		catch (Exception e)
+		{
+			log.log(Level.SEVERE, "file", e);
+			return null;
+		}
+		//
 		FileOutputStream fos;
 		try {
 			fos = new FileOutputStream(file);
@@ -544,7 +572,7 @@ public class SmjPdfReport extends PdfPageEventHelper {
 			return "";
 		else{
 			DecimalFormat frm = new DecimalFormat("###,###,###,##0.00");
-			return frm.format(data.setScale(2));
+			return frm.format(data.setScale(2, BigDecimal.ROUND_HALF_UP));	// Goodwill BF Rounding is necessary
 		}
 	}// formatValue
 
