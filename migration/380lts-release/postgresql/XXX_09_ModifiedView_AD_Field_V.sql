@@ -1,5 +1,8 @@
 DROP VIEW AD_Field_V;
 
+ALTER TABLE AD_Field ADD Column IsDisplayedGrid character(1) DEFAULT 'Y'::bpchar NOT NULL;
+ALTER TABLE AD_Field ADD Column SeqNoGrid Numeric(10,0) DEFAULT NULL::numeric;
+
 CREATE OR REPLACE VIEW AD_Field_V AS
      SELECT t.ad_window_id, f.ad_tab_id, f.ad_field_id, tbl.ad_table_id, f.ad_column_id, f.name, f.description, f.help, f.isdisplayed, f.displaylogic,  
             f.displaylength, f.seqno, f.sortno, f.issameline, f.isheading, f.isfieldonly, f.isreadonly, f.isencrypted AS isencryptedfield, f.obscuretype,

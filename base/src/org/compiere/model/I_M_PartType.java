@@ -20,7 +20,6 @@ package org.compiere.model;
 /** Generated Interface for M_PartType
  *  @author Adempiere (generated) 
  */
-@SuppressWarnings("javadoc")
 public interface I_M_PartType 
 {
 
@@ -34,7 +33,7 @@ public interface I_M_PartType
 
     /** AccessLevel = 3 - Client - Org 
      */
-//    java.math.BigDecimal accessLevel = java.math.BigDecimal.valueOf(3);
+   java.math.BigDecimal accessLevel = java.math.BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -45,8 +44,6 @@ public interface I_M_PartType
 	  * Client/Tenant for this installation.
 	  */
 	public int getAD_Client_ID();
-
-	public org.compiere.model.I_AD_Client getAD_Client() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -60,11 +57,7 @@ public interface I_M_PartType
 	  * Organisational entity within client
 	  */
 	public int getAD_Org_ID();
-
-	public org.compiere.model.I_AD_Org getAD_Org() throws RuntimeException;
-
-	public void setAD_Org(org.compiere.model.I_AD_Org AD_Org);
-
+	
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 

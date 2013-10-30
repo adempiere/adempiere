@@ -303,6 +303,8 @@ public abstract class PO
 	 */
 	public boolean equals (Object cmp)
 	{
+		if (this == cmp)
+			return true;
 		if (cmp == null)
 			return false;
 		if (!(cmp instanceof PO))
@@ -3160,7 +3162,7 @@ public abstract class PO
 	 * 	Insert (missing) Translation Records
 	 * 	@return false if error (true if no translation or success)
 	 */
-	private boolean insertTranslations()
+	public boolean insertTranslations()
 	{
 		//	Not a translation table
 		if (m_IDs.length > 1
