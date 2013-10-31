@@ -320,6 +320,10 @@ public class VLookup extends JComponent
 			setReadWrite(false);
 		else
 			setReadWrite(true);
+		
+		// If mandatory, make sure something is selected.
+		if (isMandatory() && m_combo.getItemCount() > 0)
+			m_combo.setSelectedIndex(0);
 
 		//	Create the Popup Menu
 		if (m_lookup != null)
@@ -721,6 +725,17 @@ public class VLookup extends JComponent
 		if (m_comboActive)
 			return m_combo.getValue ();
 		return m_value;
+	}	//	getValue
+
+	/**
+	 *	Return combobox component 
+	 *  @return value
+	 */
+	public Object getCombo()
+	{
+		if (m_comboActive)
+			return m_combo;
+		return null;
 	}	//	getValue
 
 	/**

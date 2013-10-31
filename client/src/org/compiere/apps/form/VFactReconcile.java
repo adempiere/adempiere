@@ -13,8 +13,7 @@
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
- * Contributors:                                                              *
- * Colin Rooney (croo) Patch 1605368 Fixed Payment Terms & Only due           *
+ * Contributors: Adaxa                                                        *
  *****************************************************************************/
 package org.compiere.apps.form;
 
@@ -55,10 +54,16 @@ import org.compiere.grid.ed.VLookup;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.MiniTable;
+import org.compiere.model.MAcctSchema;
+import org.compiere.model.MBPartner;
 import org.compiere.model.MClient;
+import org.compiere.model.MColumn;
+import org.compiere.model.MFactAcct;
 import org.compiere.model.MFactReconciliation;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
+import org.compiere.model.MPriceListVersion;
+import org.compiere.model.MProductPO;
 import org.compiere.model.MRole;
 import org.compiere.model.Query;
 import org.compiere.plaf.CompiereColor;
@@ -72,6 +77,7 @@ import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
+import org.compiere.util.Language;
 import org.compiere.util.Msg;
 
 /**
@@ -136,7 +142,7 @@ public class VFactReconcile extends CPanel
 	private VLookup fieldOrg = null;
 	private VCheckBox isReconciled = new VCheckBox();
 	private CLabel labelAccount = new CLabel();
-	private VComboBox fieldAccount = new VComboBox();
+	private VLookup fieldAccount = null;
 	private CLabel labelBPartner = new CLabel();
 	private VLookup fieldBPartner = null;
 
@@ -267,11 +273,12 @@ public class VFactReconcile extends CPanel
 		m_AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
 		
 
-		int AD_Column_ID = 2513;        //  Fact_Acct.C_AcctSchema_ID
-		MLookup lookupAS = MLookupFactory.get (Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.TableDir);
-		fieldAcctSchema = new VLookup("C_AcctSchema_ID", true, false, true, lookupAS);
+		//  Fact_Acct.C_AcctSchema_ID
+		fieldAcctSchema = new VLookup("C_AcctSchema_ID", false, false, true,
+				MLookupFactory.get (Env.getCtx(), m_WindowNo, 0, 
+				MColumn.getColumn_ID(MFactAcct.Table_Name, MFactAcct.COLUMNNAME_C_AcctSchema_ID),
+				DisplayType.TableDir));
 		fieldAcctSchema.addActionListener(this);
-		MClient.get(Env.getCtx()).getAcctSchema().getC_AcctSchema_ID();
 		fieldAcctSchema.setValue(MClient.get(Env.getCtx()).getAcctSchema().getC_AcctSchema_ID());
 		
 		Dimension dim = fieldAcctSchema.getPreferredSize();
@@ -279,60 +286,49 @@ public class VFactReconcile extends CPanel
 		fieldAcctSchema.setPreferredSize(dim);
 		
 		// Organization filter selection
-		AD_Column_ID = 839; //C_Period.AD_Org_ID (needed to allow org 0)
-		MLookup lookupOrg = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.TableDir);
-		fieldOrg = new VLookup("AD_Org_ID", true, false, true, lookupOrg);
-		if (lookupOrg.containsKey(0))
-			fieldOrg.setValue(0);
-		else
+		fieldOrg = new VLookup("AD_Org_ID", false, false, true, 
+				MLookupFactory.get (Env.getCtx(), m_WindowNo, 0, 
+						MColumn.getColumn_ID(MFactAcct.Table_Name, MFactAcct.COLUMNNAME_AD_Org_ID),
+						DisplayType.TableDir));
+        if (fieldOrg.getValue() == null || ((Integer) fieldOrg.getValue()).intValue() != 0)
 			fieldOrg.setValue(Env.getAD_Org_ID(Env.getCtx()));
-		
 		
 		dim = fieldOrg.getPreferredSize();
 		dim.width = 300;
 		fieldOrg.setPreferredSize(dim);
 		
 		//  BPartner
-		AD_Column_ID = 3499;        //  C_Invoice.C_BPartner_ID
-		MLookup lookupBP = MLookupFactory.get (Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.Search);
-		fieldBPartner = new VLookup("C_BPartner_ID", false, false, true, lookupBP);
+		//  C_Invoice.C_BPartner_ID AD_Column_ID = 3499; 
+		fieldBPartner = new VLookup("C_BPartner_ID", false, false, true,
+				MLookupFactory.get (Env.getCtx(), m_WindowNo, 0, 
+						MColumn.getColumn_ID(MFactAcct.Table_Name, MFactAcct.COLUMNNAME_C_BPartner_ID),
+						DisplayType.Search));
 		
 		// Product
-		AD_Column_ID = 2527;        //  Fact_Acct.M_Product_ID
-		MLookup lookupProduct = MLookupFactory.get (Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.Search);
-		fieldProduct = new VLookup("M_Product_ID", false, false, true, lookupProduct);
+		//  Fact_Acct.M_Product_ID AD_Column_ID = 2527;        
+		fieldProduct = new VLookup("M_Product_ID", false, false, true,
+				MLookupFactory.get (Env.getCtx(), m_WindowNo, 0, 
+						MColumn.getColumn_ID(MFactAcct.Table_Name, MFactAcct.COLUMNNAME_M_Product_ID),
+						DisplayType.Search));
 		
-		
-		//  Account
-		KeyNamePair pp;
-		String sql = MRole.getDefault().addAccessSQL(
-			"SELECT ev.C_ElementValue_ID, ev.Value || ' ' || ev.Name FROM C_ElementValue ev", "ev",
-			MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO)
-			+ "AND ev.IsActive='Y' AND ev.IsSummary='N' " 
-			+ "AND ev.C_Element_ID IN (SELECT C_Element_ID FROM C_AcctSchema_Element ase "
-			+ "WHERE ase.ElementType='AC' AND ase.AD_Client_ID=" + m_AD_Client_ID + ") "
-			+ "ORDER BY 2";
-		
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				pp = new KeyNamePair(rs.getInt(1), rs.getString(2));
-				fieldAccount.addItem(pp);
-			}
-			rs.close();
-			pstmt.close();
+		// The Account combo.  A bit more involved if we try to filter out the summary accounts.
+		MLookup lookup;
+		try{
+			lookup = MLookupFactory.get (Env.getCtx(), m_WindowNo, 
+					MColumn.getColumn_ID(MFactAcct.Table_Name, MFactAcct.COLUMNNAME_Account_ID),
+					DisplayType.TableDir, Env.getLanguage(Env.getCtx()), MFactAcct.COLUMNNAME_Account_ID, 
+					0, false, "C_ElementValue.IsSummary = 'N'");
 		}
-		catch (SQLException e)
+		catch (Exception e)
 		{
-			log.log(Level.SEVERE, sql, e);
+			// Jut alors!  Drop the validation and try again.
+			lookup = MLookupFactory.get (Env.getCtx(), m_WindowNo, 0, 
+					MColumn.getColumn_ID(MFactAcct.Table_Name, MFactAcct.COLUMNNAME_Account_ID), DisplayType.TableDir);
 		}
-		
-		AutoCompletion.enable(fieldAccount);
-		fieldAccount.setMandatory(true);
-		fieldAccount.setSelectedIndex(0);
+		fieldAccount = new VLookup("Account_ID", true, false, true, lookup);  // Mandatory true will select first entry with no null option.
+		dim = fieldAccount.getPreferredSize();
+		dim.width = 300;
+		fieldAccount.setPreferredSize(dim);
 		
 		m_sql = miniTable.prepareTable(new ColumnInfo[] {
 			new ColumnInfo(Msg.translate(ctx, "Amt"), "abs(fa.amtacctdr-fa.amtacctcr)", BigDecimal.class),
@@ -378,8 +374,7 @@ public class VFactReconcile extends CPanel
 	
 
 		String sql = m_sql;
-		KeyNamePair pp = (KeyNamePair)fieldAccount.getSelectedItem();
-		int Account_ID = pp.getKey();
+		int Account_ID = ((Integer) fieldAccount.getValue()).intValue() ;
 		if (Account_ID != 0)
 			sql += " AND fa.Account_ID=?";
 		
@@ -555,9 +550,7 @@ public class VFactReconcile extends CPanel
 
 				((DefaultTableModel) miniTable.getModel()).removeRow(r--);
 			}
-		}
-	
-		
+		}	
 	}
 
 	/**
@@ -648,10 +641,6 @@ public class VFactReconcile extends CPanel
 				((DefaultTableModel) miniTable.getModel()).removeRow(r--);
 			}
 		}
-	
-
-		
-		
 	}   
 
 	/**

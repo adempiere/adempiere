@@ -24,13 +24,19 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
 
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.event.TableValueChangeEvent;
 import org.adempiere.webui.event.TableValueChangeListener;
+import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
@@ -71,6 +77,25 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
     private Listbox listBox;
 
 	private EventListener cellListener;
+
+    private List<WTableColumn> hiddenColumns = new ArrayList<WTableColumn>();
+
+    private Map<WTableColumn, ColumnAttributes> columnAttributesMap
+	= new HashMap<WTableColumn, ColumnAttributes>();
+
+    class ColumnAttributes {
+		protected TableCellEditor cellEditor;
+
+    	protected TableCellRenderer cellRenderer;
+
+		protected Object headerValue;
+
+		protected int minWidth;
+
+		protected int maxWidth;
+
+		protected int preferredWidth;
+	}
 
 	/**
 	 * Default constructor.
@@ -322,7 +347,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 	}   //  updateColumn
 
 	/**
-	 *  Add Table Column.
+	 *  Add Table Column.  Assumes it is visible.
 	 *  after adding a column, you need to set the column classes again
 	 *  (DefaultTableModel fires TableStructureChanged, which calls
 	 *  JTable.tableChanged .. createDefaultColumnsFromModel
@@ -334,6 +359,26 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 
 		tableColumn = new WTableColumn();
 		tableColumn.setHeaderValue(Util.cleanAmp(header));
+		setColumnVisibility(tableColumn,true);
+		m_tableColumns.add(tableColumn);
+
+		return;
+	}   //  addColumn
+
+	/**
+	 *  Add Table Column.
+	 *  after adding a column, you need to set the column classes again
+	 *  (DefaultTableModel fires TableStructureChanged, which calls
+	 *  JTable.tableChanged .. createDefaultColumnsFromModel
+	 *  @param ColumnInfo for the column
+	 */
+	public void addColumn(ColumnInfo info)
+	{
+		WTableColumn tableColumn;
+
+		tableColumn = new WTableColumn();
+		tableColumn.setHeaderValue(Util.cleanAmp(info.getColHeader()));
+		setColumnVisibility(tableColumn,info.getVisibility());
 		m_tableColumns.add(tableColumn);
 
 		return;
@@ -350,7 +395,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 
 	/**
 	 * This is unused.
-	 * The readonly proprty of a column should be set in
+	 * The read only property of a column should be set in
 	 * the parent table.
 	 *
 	 * @param colIndex
@@ -670,6 +715,8 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 	public void clearColumns()
 	{
 		m_tableColumns.clear();
+		columnAttributesMap.clear();
+		hiddenColumns.clear();
 	}
 
 	/**
@@ -765,6 +812,69 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 		if (index >= 0 && index < m_tableColumns.size())
 		{
 			m_tableColumns.get(index).setColumnClass(classType);
+		}
+	}
+
+	/**
+     * 
+     * @param column
+     * @return boolean
+     */
+	public boolean isColumnVisible(WTableColumn column) 
+	{
+		return !hiddenColumns.contains(column);
+	}
+
+	/**
+	 * Hide or show column
+	 * @param index of the column
+	 * @param visible
+	 */
+	public void setColumnVisibility(int index, boolean visible) 
+	{
+		WTableColumn column;
+		
+		if (index >= 0 && index < m_tableColumns.size())
+		{
+			column = m_tableColumns.get(index);
+			setColumnVisibility(column, visible);
+		}
+		else
+			return;
+	}
+	/**
+	 * Hide or show column
+	 * @param column
+	 * @param visible
+	 */
+	public void setColumnVisibility(WTableColumn column, boolean visible) 
+	{
+
+		if (visible)
+		{
+			if (isColumnVisible(column)) return;
+			ColumnAttributes attributes = columnAttributesMap.get(column);
+			if (attributes == null) return;
+			
+			column.setMinWidth(attributes.minWidth);
+			column.setMaxWidth(attributes.maxWidth);
+			column.setPreferredWidth(attributes.preferredWidth);
+			columnAttributesMap.remove(column);
+			hiddenColumns.remove(column);
+		}
+		else 
+		{
+			if (!isColumnVisible(column)) return;
+
+			ColumnAttributes attributes = new ColumnAttributes();
+			attributes.minWidth = column.getMinWidth();
+			attributes.maxWidth = column.getMaxWidth();
+			attributes.preferredWidth = column.getPreferredWidth();
+			columnAttributesMap.put(column, attributes);			
+			column.setMinWidth(0);
+			column.setMaxWidth(0);            	
+			column.setPreferredWidth(0);
+        	hiddenColumns.add(column);
 		}
 	}
 
