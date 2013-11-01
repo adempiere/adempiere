@@ -440,12 +440,24 @@ public class DynamicDashBoard extends DashboardPanel implements EventListener
 
 			int count = rsm.getColumnCount();
 
-			int i = 2;
-			int a = 2;
-			if (displayZoomCol) {
-				i = 1;	//Event enabled
-				a = 1;	//To start creating labels from second column as first column is record ID. 
+			int i = 0;
+			int a = 0;
+			if (zoomWindowId > 0 && zoomTabId > 0 ) {
+				if (displayZoomCol){
+					i = 1;
+					a = 1;
+				}
+				else
+				{
+					i = 2;	//Event enabled
+					a = 2;	//To start creating labels from second column as first column is record ID. 
+				}
 
+			}
+			else
+			{
+				i = 1;
+				a = 1;
 			}
 			
 			row = new Row();
@@ -486,7 +498,7 @@ public class DynamicDashBoard extends DashboardPanel implements EventListener
 			}
 
 			if (zoomWindowId > 0 && zoomTabId > 0) {
-				row.setId(String.valueOf(rs.getInt(1/*zoomTableColumnName*/)));
+				row.setId(String.valueOf(rs.getInt(zoomTableColumnName)));
 				if (event == null || event.length() == 0) {
 					event = Events.ON_DOUBLE_CLICK;//default event
 
