@@ -1009,10 +1009,10 @@ UPDATE AD_Field SET Description='Select a mouse event OnClick or Double Click. d
 UPDATE AD_Field_Trl SET IsTranslated='N' WHERE AD_Field_ID=70000
 ;
 
-ALTER TABLE PA_DashboardContent DROP AD_Tab_ID
+ALTER TABLE PA_DashboardContent DROP COLUMN AD_Tab_ID
 ;
 
-ALTER TABLE PA_DashboardContent DROP IsDynamicDashboard
+ALTER TABLE PA_DashboardContent DROP COLUMN IsDynamicDashboard
 ;
 
 ALTER TABLE PA_DashboardContent ADD AD_Browse_ID Number(10,0)

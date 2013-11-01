@@ -303,9 +303,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Nov 1, 2013 11:49:01 AM IST
 -- Fix the migration script erros in Process Gear. Regenerated the scripts with ADempiere sequence number.
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,69649,1682,0,18,389,53660,'EntityType',TO_DATE('2013-11-01 11:49:00','YYYY-MM-DD HH24:MI:SS'),0,'Dictionary Entity Type; Determines ownership and synchronization','D',255,'The Entity Types "Dictionary", "Adempiere" and "Application" might be automatically synchronized and customizations deleted or overwritten.  
-
-For customizations, copy the entity and select "User"!','Y','N','N','N','N','Y','N','N','N','Y','Entity Type',TO_DATE('2013-11-01 11:49:00','YYYY-MM-DD HH24:MI:SS'),0,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,69649,1682,0,18,389,53660,'EntityType',TO_DATE('2013-11-01 11:49:00','YYYY-MM-DD HH24:MI:SS'),0,'Dictionary Entity Type; Determines ownership and synchronization','D',255,'The Entity Types "Dictionary", "Adempiere" and "Application" might be automatically synchronized and customizations deleted or overwritten.For customizations, copy the entity and select "User"!','Y','N','N','N','N','Y','N','N','N','Y','Entity Type',TO_DATE('2013-11-01 11:49:00','YYYY-MM-DD HH24:MI:SS'),0,0)
 ;
 
 -- Nov 1, 2013 11:49:01 AM IST
@@ -354,9 +352,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Nov 1, 2013 11:59:12 AM IST
 -- Fix the migration script erros in Process Gear. Regenerated the scripts with ADempiere sequence number.
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,69649,70249,0,53799,TO_DATE('2013-11-01 11:59:11','YYYY-MM-DD HH24:MI:SS'),0,'Dictionary Entity Type; Determines ownership and synchronization',255,'D','The Entity Types "Dictionary", "Adempiere" and "Application" might be automatically synchronized and customizations deleted or overwritten.  
-
-For customizations, copy the entity and select "User"!','Y','Y','Y','N','N','N','N','N','Entity Type',TO_DATE('2013-11-01 11:59:11','YYYY-MM-DD HH24:MI:SS'),0)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,69649,70249,0,53799,TO_DATE('2013-11-01 11:59:11','YYYY-MM-DD HH24:MI:SS'),0,'Dictionary Entity Type; Determines ownership and synchronization',255,'D','The Entity Types "Dictionary", "Adempiere" and "Application" might be automatically synchronized and customizations deleted or overwritten.For customizations, copy the entity and select "User"!','Y','Y','Y','N','N','N','N','N','Entity Type',TO_DATE('2013-11-01 11:59:11','YYYY-MM-DD HH24:MI:SS'),0)
 ;
 
 -- Nov 1, 2013 11:59:12 AM IST
