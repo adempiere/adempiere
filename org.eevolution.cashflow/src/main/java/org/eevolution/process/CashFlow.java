@@ -28,11 +28,12 @@ import java.util.List;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DBException;
+import org.compiere.model.I_C_BPartner;
 import org.compiere.model.I_C_BankAccount;
 import org.compiere.model.I_C_Invoice;
 import org.compiere.model.I_C_Order;
-import org.compiere.model.I_M_Movement;
 import org.compiere.model.MAging;
+import org.compiere.model.Query;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
@@ -47,7 +48,7 @@ import org.eevolution.model.MCashFlow;
  * @author victor.perez@e-evolution.com
  * @author teo.sarca@gmail.com
  */
-public class Cashflow extends SvrProcess {
+public class CashFlow extends SvrProcess {
 	protected Timestamp p_DueDate = null;
 	protected int p_C_Currency_ID = -1;
 	protected int p_C_BP_Group_ID = -1;
@@ -55,7 +56,7 @@ public class Cashflow extends SvrProcess {
 	protected boolean p_IsIncludeOrders = false;
 	protected boolean p_IsIncludeCashFlows = false;
 	protected boolean p_IsIncludeInvoices = true;
-	protected boolean   p_IsIncludeBalance = true;
+	protected boolean   p_IsIncludeBankBalance = true;
 	protected boolean   p_IsIncludeCreditline = true;
 
 	protected void prepare() {
@@ -74,10 +75,12 @@ public class Cashflow extends SvrProcess {
 				p_C_BPartner_ID = ((BigDecimal) para.getParameter()).intValue();
 			else if (name.equals("IsIncludeOrders"))
 				p_IsIncludeOrders = "Y".equals(para.getParameter());
-			else if (name.equals("IsIncludeCashFlows"))
+			else if (name.equals("IsIncludeCashflows"))
 				p_IsIncludeCashFlows = "Y".equals(para.getParameter());
 			else if (name.equals("IsIncludeInvoices"))
 				p_IsIncludeInvoices = "Y".equals(para.getParameter());
+			else if (name.equals("IsIncludeBankBalances"))
+				p_IsIncludeBankBalance = "Y".equals(para.getParameter());
 			else
 				log.config("prepare - Unknown Parameter: " + name);
 		}
@@ -133,7 +136,7 @@ public class Cashflow extends SvrProcess {
 		if (p_IsIncludeInvoices) {
 			if (sql.length() > 0)
 				sql.append(" UNION ");
-			sql.append("SELECT bp.C_BP_Group_ID, oi.C_BPartner_ID,"
+			sql.append("SELECT -1 AS C_BankAccount_ID, bp.C_BP_Group_ID, oi.C_BPartner_ID,"
 					+ getSqlCashFlowSource(I_C_Invoice.Table_Name, params)
 					+ ","
 					+ " oi.C_Invoice_ID AS Record_ID,"
@@ -169,7 +172,7 @@ public class Cashflow extends SvrProcess {
 		if (p_IsIncludeOrders) {
 			if (sql.length() > 0)
 				sql.append(" UNION ");
-			sql.append("SELECT bp.C_BP_Group_ID, oi.C_BPartner_ID,"
+			sql.append("SELECT -1 AS C_BankAccount_ID, bp.C_BP_Group_ID, oi.C_BPartner_ID,"
 					+ getSqlCashFlowSource(I_C_Order.Table_Name, params)
 					+ ","
 					+ " oi.C_Order_ID AS Record_ID,"
@@ -204,7 +207,7 @@ public class Cashflow extends SvrProcess {
 			// CashFlow records
 			if (sql.length() > 0)
 				sql.append(" UNION ");
-			sql.append("SELECT bp.C_BP_Group_ID, oi.C_BPartner_ID,"
+			sql.append("SELECT -1 AS C_BankAccount_ID, bp.C_BP_Group_ID, oi.C_BPartner_ID,"
 					+ getSqlCashFlowSource(I_C_CashFlow.Table_Name, params)
 					+ ","
 					+ " oi.C_CashFlow_ID AS Record_ID,"
@@ -228,34 +231,41 @@ public class Cashflow extends SvrProcess {
 					+ MCashFlow.Table_Name
 					+ " oi "
 					+ " INNER JOIN C_BPartner bp ON (oi.C_BPartner_ID=bp.C_BPartner_ID) "
-					+ " WHERE oi.IsActive='Y'");
+					+ " WHERE oi.IsActive='Y' AND oi.Processed = 'Y'");
 			addWhereClause(sql, params);
 			if (p_DueDate != null) {
 				sql.append(" AND oi.DueDate <= ?");
 				params.add(p_DueDate);
 			}
 		}
-		if (p_IsIncludeBalance)
+		if (p_IsIncludeBankBalance)
 		{
+			int C_BPartner_ID = new Query(getCtx(), I_C_BPartner.Table_Name , "AD_OrgBP_ID IS NOT NULL" , get_TrxName()).setClient_ID().firstId();
+			int C_BP_Group_ID = DB.getSQLValue(get_TrxName(), "SELECT C_BP_Group_ID FROM C_BPartner bp WHERE bp.C_BPartner_ID=?", C_BPartner_ID);
+			params.add(C_BP_Group_ID);
+			params.add(C_BPartner_ID);
+			
 			// Bankaccountbalance + Creditlimit
 			sql.append(" UNION ");
-			sql.append("SELECT 0 as C_BP_Group_ID ,oi.c_bankaccount_id,"
+			sql.append("SELECT oi.C_BankAccount_ID , ? AS C_BP_Group_ID,  ? AS C_BPartner_ID , "
 					+ getSqlCashFlowSource(I_C_BankAccount.Table_Name, params)+","
-					+ " oi.c_bankaccount_id AS Record_ID,"
+					+ " oi.C_BankAccount_id AS Record_ID,"
 					+ getSqlCurrency(I_C_BankAccount.Table_Name, "oi", params)+" AS C_Currency_ID,"
 					+ " 'Y',"
 					+ " getDate() AS DateTrx,"
 					+ " 0 AS NetDays,"
 					+ " getDate(),"
 					+ " 0 AS DaysDue,"
-					+ getSqlCurrencyConvert(I_C_BankAccount.Table_Name, "oi", "currentbalance + creditlimit", params)+" AS GrandTotal,"
+					+ getSqlCurrencyConvert(I_C_BankAccount.Table_Name, "oi", "CurrentBalance", params)+" AS GrandTotal,"
 					+ " 0 AS PaidAmt,"
-					+ getSqlCurrencyConvert(I_C_BankAccount.Table_Name, "oi", "currentbalance + creditlimit", params)+" AS OpenAmt,"
+					+ getSqlCurrencyConvert(I_C_BankAccount.Table_Name, "oi", "CurrentBalance", params)+" AS OpenAmt,"
 					+ " 0 AS C_InvoicePaySchedule_ID,"
 					+ " oi.AD_Org_ID "
-					+ " FROM rv_c_bankaccount oi "
-					+ " WHERE oi .IsActive='Y'");
-			addWhereClause(sql, params);
+					+ " FROM RV_C_BankAccount oi "
+					+ " WHERE oi.IsActive='Y' AND oi.CurrentBalance <> 0 ");
+			
+			sql.append(" AND oi.AD_Client_ID=?");
+			params.add(getAD_Client_ID());
 		}
 		//
 		sql.insert(0, "SELECT * FROM (");
@@ -277,6 +287,7 @@ public class Cashflow extends SvrProcess {
 	protected void addLine(ResultSet rs) throws SQLException {
 		final int C_BP_Group_ID = rs.getInt("C_BP_Group_ID");
 		final int C_BPartner_ID = rs.getInt("C_BPartner_ID");
+		final int C_BankAccount_ID = rs.getInt("C_BankAccount_ID");
 		final String CashFlowSource = rs.getString("CashFlowSource");
 		final int Record_ID = rs.getInt("Record_ID");
 		final int C_InvoicePaySchedule_ID = rs
@@ -302,7 +313,7 @@ public class Cashflow extends SvrProcess {
 				|| !CashFlowSource.equals(getCashFlowSource(m_aging))
 				|| Record_ID != getRecord_ID(m_aging)) {
 			saveRow();
-			m_aging = createAgingRecord(DateTrx, C_BPartner_ID, C_Currency_ID,
+			m_aging = createAgingRecord(DateTrx, C_BankAccount_ID , C_BPartner_ID, C_Currency_ID,
 					CashFlowSource, Record_ID, C_InvoicePaySchedule_ID,
 					C_BP_Group_ID, AD_Org_ID, DueDate, IsSOTrx);
 		}
@@ -333,6 +344,8 @@ public class Cashflow extends SvrProcess {
 			return I_C_Order.Table_Name;
 		else if (aging.get_ValueAsInt(I_C_CashFlow.COLUMNNAME_C_CashFlow_ID) > 0)
 			return I_C_CashFlow.Table_Name;
+		else if (aging.get_ValueAsInt(I_C_BankAccount.COLUMNNAME_C_BankAccount_ID) > 0)
+			return I_C_BankAccount.Table_Name;
 		else
 			throw new AdempiereException("Unknown CashFlowSource - " + aging);
 	}
@@ -344,6 +357,8 @@ public class Cashflow extends SvrProcess {
 			return aging.get_ValueAsInt(I_C_Order.COLUMNNAME_C_Order_ID);
 		else if (aging.get_ValueAsInt(I_C_CashFlow.COLUMNNAME_C_CashFlow_ID) > 0)
 			return aging.get_ValueAsInt(I_C_CashFlow.COLUMNNAME_C_CashFlow_ID);
+		else if (aging.get_ValueAsInt(I_C_BankAccount.COLUMNNAME_C_BankAccount_ID) > 0)
+			return aging.get_ValueAsInt(I_C_BankAccount.COLUMNNAME_C_BankAccount_ID);
 		else
 			throw new AdempiereException("Unknown CashFlowSource - " + aging);
 	}
@@ -430,11 +445,11 @@ public class Cashflow extends SvrProcess {
 	}
 
 	protected MAging createAgingRecord(Timestamp StatementDate,
-			int C_BPartner_ID, int C_Currency_ID, String cashFlowSource,
+			int C_BankAccount_ID ,int C_BPartner_ID, int C_Currency_ID, String cashFlowSource,
 			int record_id, int C_InvoicePaySchedule_ID, int C_BP_Group_ID,
 			int AD_Org_ID, Timestamp DueDate, boolean IsSOTrx) {
 		MAging aging = new MAging(getCtx(), getAD_PInstance_ID(),
-				StatementDate, C_BPartner_ID, C_Currency_ID, 0,
+				StatementDate, C_BankAccount_ID , C_BPartner_ID, C_Currency_ID, 0,
 				C_InvoicePaySchedule_ID, C_BP_Group_ID, AD_Org_ID, DueDate,
 				IsSOTrx, get_TrxName());
 		aging.setIsListInvoices(false);
