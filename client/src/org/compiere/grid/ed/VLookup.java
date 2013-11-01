@@ -729,7 +729,7 @@ public class VLookup extends JComponent
 
 	/**
 	 *	Return combobox component 
-	 *  @return value
+	 *  @return combobox or null
 	 */
 	public Object getCombo()
 	{

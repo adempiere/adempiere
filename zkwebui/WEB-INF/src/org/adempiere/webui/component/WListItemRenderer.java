@@ -30,9 +30,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableCellRenderer;
-
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.event.TableValueChangeEvent;
 import org.adempiere.webui.event.TableValueChangeListener;
@@ -84,9 +81,6 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 	= new HashMap<WTableColumn, ColumnAttributes>();
 
     class ColumnAttributes {
-		protected TableCellEditor cellEditor;
-
-    	protected TableCellRenderer cellRenderer;
 
 		protected Object headerValue;
 
@@ -216,9 +210,11 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 		ListCell listcell = new ListCell();
 		boolean isCellEditable = table != null ? table.isCellEditable(rowIndex, columnIndex) : false;
 
+		boolean isColumnVisible = isColumnVisible(getColumn(columnIndex));
+
         // TODO put this in factory method for generating cell renderers, which
         // are assigned to Table Columns
-		if (field != null)
+		if (field != null && isColumnVisible)
 		{
 			if (field instanceof Boolean)
 			{
@@ -426,7 +422,13 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
         String headerText = headerValue.toString();
         if (m_headers.size() <= headerIndex || m_headers.get(headerIndex) == null)
         {
-        	if (classType != null && classType.isAssignableFrom(IDColumn.class))
+        	if (!isColumnVisible(getColumn(headerIndex)))
+        	{
+        		header = new ListHeader("");
+        		header.setWidth("0px");
+        		header.setStyle("width: 0px");
+        	}
+        	else if (classType != null && classType.isAssignableFrom(IDColumn.class))
         	{
         		header = new ListHeader("");
         		header.setWidth("35px");
@@ -472,7 +474,13 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
         {
             header = m_headers.get(headerIndex);
 
-            if (!header.getLabel().equals(headerText))
+        	if (!isColumnVisible(getColumn(headerIndex)))
+        	{
+        		header.setLabel("");
+        		header.setWidth("0px");
+        		header.setStyle("width: 0px");
+        	}
+        	else if (!header.getLabel().equals(headerText))
             {
                 header.setLabel(headerText);
             }
