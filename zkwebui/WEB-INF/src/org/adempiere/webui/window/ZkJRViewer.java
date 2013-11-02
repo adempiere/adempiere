@@ -1,23 +1,24 @@
 package org.adempiere.webui.window;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Properties;
 import java.util.logging.Level;
-
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
-
-import org.adempiere.exceptions.AdempiereException;
-import org.adempiere.webui.apps.AEnv;
-import org.adempiere.webui.component.ConfirmPanel;
-import org.adempiere.webui.component.Label;
-import org.adempiere.webui.component.ListItem;
+import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import org.adempiere.webui.component.Listbox;
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.webui.component.Window;
-import org.compiere.model.MRole;
+import org.compiere.model.MArchive;
 import org.compiere.model.MUser;
+import org.compiere.model.PrintInfo;
+import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -28,53 +29,93 @@ import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
-import org.zkoss.zul.Div;
-import org.zkoss.zul.Filedownload;
-import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Iframe;
+import org.zkoss.zul.Listitem;
+import org.zkoss.zul.Separator;
 import org.zkoss.zul.Toolbar;
 import org.zkoss.zul.Toolbarbutton;
-import org.zkoss.zul.Vbox;
 
-/*
- * @author victor.perez@e-evolution.com, www.e-evolution.com
- * 				<li>FR[3434743] Add Export icon for Jasper Report
- * 				<li>http://sourceforge.net/tracker/?func=detail&aid=3434743&group_id=176962&atid=879335
+/**
+ * 
+ * @author                             Modification
+ * WalkingTree ( www.walkingtree.in )  Made code changes to have Excel option for Jasper Reports.
+ *
  */
 public class ZkJRViewer extends Window implements EventListener {
 
 	private static final long serialVersionUID = 2021796699437770927L;
 
-	private JasperPrint jasperPrint;
+	// Initialization of global variables
 
-	/** Logger */
+	private JasperPrint jasperPrint;
+    
+	//
+	// Added Preview Type listbox to have PDF and Excel options for jasper report
+	//
+	private Listbox previewType = new Listbox();
+	private Iframe iframe;
+	private AMedia media;
+	private Toolbarbutton  sendMail, archive;
+	private Toolbar toolbar         = null;
+	private Properties ctx          = null;
+	private File file               = null;
+	private String title            = null;			
+	private ProcessInfo processInfo = null; 
+
+
+
+	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(ZkJRViewer.class);
-	// FR[3434743]
-	private Toolbarbutton bExport = new Toolbarbutton();
-	private Toolbarbutton bSendMail = new Toolbarbutton();
-	private boolean m_isCanExport;
-	private Window winExportFile = null;
-	private ConfirmPanel confirmPanel = new ConfirmPanel(true);
-	private Listbox cboType = new Listbox();
 
 	public ZkJRViewer(JasperPrint jasperPrint, String title) {
+		super();
 		this.setTitle(title);
+
+		this.title = title.substring(0,title.indexOf(".pdf")) ;
+		ctx = Env.getCtx();
 		this.jasperPrint = jasperPrint;
+		// Getting AD_Process_ID from Context
+		processInfo	=	new ProcessInfo(jasperPrint.getName(), Env.getContextAsInt(ctx, "AD_Process_ID"));
 		init();
 	}
 
+	// initialization
 	private void init() {
 		Borderlayout layout = new Borderlayout();
 		layout.setStyle("position: absolute; height: 99%; width: 99%");
 		this.appendChild(layout);
 		this.setStyle("width: 100%; height: 100%; position: absolute");
 
-		Toolbar toolbar = new Toolbar();
+
+		toolbar = new Toolbar();
 		toolbar.setHeight("26px");
-		Toolbarbutton button = new Toolbarbutton();
-		button.setImage("/images/Print24.png");
-		button.setTooltiptext("Print");
-		toolbar.appendChild(button);
+		sendMail = new Toolbarbutton();
+		archive = new Toolbarbutton();
+
+
+		sendMail.setImage("/images/SendMail24.png");
+		sendMail.setTooltiptext("Send Mail");
+		toolbar.appendChild(sendMail);
+		sendMail.addEventListener(Events.ON_CLICK, this);
+
+		archive.setImage("/images/Archive24.png");
+		archive.setTooltiptext("Archived Documents/Reports");
+		toolbar.appendChild(archive);
+		archive.addEventListener(Events.ON_CLICK, this);
+
+		toolbar.appendChild(new Separator("vertical"));
+
+		//
+		// we have drop down in toolbar to select PDF or XLS
+		//
+		
+		previewType.setMold("select");
+		previewType.appendItem("PDF", "PDF");
+		previewType.appendItem("Excel", "XLS");
+
+		
+		toolbar.appendChild(previewType);
+		previewType.addEventListener(Events.ON_SELECT, this);
 
 		North north = new North();
 		layout.appendChild(north);
@@ -83,47 +124,71 @@ public class ZkJRViewer extends Window implements EventListener {
 		Center center = new Center();
 		center.setFlex(true);
 		layout.appendChild(center);
-		Iframe iframe = new Iframe();
-		iframe.setId("reportFrame");
+		iframe = new Iframe();
+		iframe.setId(jasperPrint.getName());
 		iframe.setHeight("100%");
 		iframe.setWidth("100%");
-
-		// FR[3434743]
-		bSendMail.setImage("/images/SendMail24.png");
-		bSendMail.setTooltiptext(Msg.getMsg(Env.getCtx(), "SendMail"));
-		toolbar.appendChild(bSendMail);
-		bSendMail.addEventListener(Events.ON_CLICK, this);
-
-		m_isCanExport = MRole.getDefault().isCanExport();
-
-		if (m_isCanExport) {
-			bExport.setImage("/images/ExportX24.png");
-			bExport.setTooltiptext(Msg.getMsg(Env.getCtx(), "Export"));
-			toolbar.appendChild(bExport);
-			bExport.addEventListener(Events.ON_CLICK, this);
-		}
+		iframe.setAutohide( Boolean.TRUE );
 
 		try {
-			String path = System.getProperty("java.io.tmpdir");
-			String prefix = makePrefix(jasperPrint.getName());
-			if (log.isLoggable(Level.FINE)) {
-				log.log(Level.FINE, "Path=" + path + " Prefix=" + prefix);
-			}
-			File file = File.createTempFile(prefix, ".pdf", new File(path));
-			JasperExportManager.exportReportToPdfFile(jasperPrint,
-					file.getAbsolutePath());
-			AMedia media = new AMedia(getTitle(), "pdf", "application/pdf",
-					file, true);
-			iframe.setContent(media);
-		} catch (Exception e) {
-			log.log(Level.SEVERE, e.getLocalizedMessage(), e);
+			renderReport() ; 		
+		} 
+		catch (Exception e) {
+			log.log(Level.SEVERE, e.getLocalizedMessage(), e.getMessage());
 			throw new AdempiereException("Failed to render report.", e);
 		}
 		center.appendChild(iframe);
 
 		this.setBorder("normal");
-	}
+	}		
 
+	/***
+	 * 
+	 * This method is used for generate report in PDF or XLS based on previewType selection.
+	 * 
+	 * @throws Exception
+	 */
+
+	private void renderReport() throws Exception {
+
+		Listitem selected = previewType.getSelectedItem();
+		
+		//
+		// Place Common code outside the If else block
+		//
+		
+		String path = System.getProperty("java.io.tmpdir");
+		String prefix = makePrefix(jasperPrint.getName());
+		if ( log.isLoggable(Level.FINE) )  {
+			log.log(Level.FINE, "Path="+path + " Prefix="+prefix);
+		}
+
+		if ( selected == null || "PDF".equals(selected.getValue() ) )  {
+
+			File file = File.createTempFile(prefix, ".pdf", new File(path));
+			JasperExportManager.exportReportToPdfFile(jasperPrint, file.getAbsolutePath());
+			media = new AMedia(this.title, "pdf", "application/pdf", file, true);
+		}
+
+		else if ("XLS".equals(previewType.getSelectedItem().getValue())){
+
+			File file = File.createTempFile(prefix, ".xls", new File(path));
+			FileOutputStream fos = new FileOutputStream(file);
+			JRXlsExporter exporterXLS = new JRXlsExporter();
+			exporterXLS.setParameter(JRXlsExporterParameter.JASPER_PRINT, jasperPrint);
+			exporterXLS.setParameter(JRXlsExporterParameter.OUTPUT_STREAM, fos);
+			exporterXLS.setParameter(JRXlsExporterParameter.OUTPUT_FILE, file.getAbsolutePath());
+			exporterXLS.setParameter(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, Boolean.TRUE);
+			exporterXLS.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
+			exporterXLS.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE );
+			exporterXLS.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS, Boolean.TRUE );
+			exporterXLS.setParameter(JRXlsExporterParameter.IS_COLLAPSE_ROW_SPAN, Boolean.TRUE);
+			exporterXLS.setParameter(JRXlsExporterParameter.IS_IGNORE_GRAPHICS, Boolean.FALSE);
+			exporterXLS.exportReport();
+			media = new AMedia(this.title, "xls", "application/vnd.ms-excel", file, true);
+		}
+		iframe.setContent(media);
+	}
 	private String makePrefix(String name) {
 		StringBuffer prefix = new StringBuffer();
 		char[] nameArray = name.toCharArray();
@@ -137,175 +202,121 @@ public class ZkJRViewer extends Window implements EventListener {
 		return prefix.toString();
 	}
 
-	// {-> FR[3434743]
-
-	/**************************************************************************
-	 * Action Listener
-	 * 
-	 * @param e
-	 *            event
-	 */
 	public void actionPerformed(Event e) {
-		if (e.getTarget() == bSendMail)
+
+		if (e.getTarget() == sendMail) {
 			cmd_sendMail();
-		else if (e.getTarget() == bExport)
-			cmd_export();
+		} 
+		else if (e.getTarget() == archive) {
+			cmd_archive();
+
+		//
+		// If select drop down then event raised
+			
+		}else if (e.getTarget() == previewType){
+			cmd_render();
+		}
 	}
 
-	/**
-	 * Export
-	 * 
-	 */
-	private void cmd_export() {
-		log.config("");
-		if (!m_isCanExport) {
-			FDialog.error(0, this, "AccessCannotExport", getTitle());
-			return;
-		}
-
-		if (winExportFile == null) {
-			winExportFile = new Window();
-			winExportFile.setTitle(Msg.getMsg(Env.getCtx(), "Export") + ": "
-					+ getTitle());
-			winExportFile.setWidth("450px");
-			winExportFile.setClosable(true);
-			winExportFile.setBorder("normal");
-			winExportFile.setStyle("position:absolute");
-
-			cboType.setMold("select");
-
-			cboType.getItems().clear();
-			cboType.appendItem(
-					"xml" + " - " + Msg.getMsg(Env.getCtx(), "FileXML"), "xml");
-			ListItem li = cboType.appendItem(
-					"pdf" + " - " + Msg.getMsg(Env.getCtx(), "FilePDF"), "pdf");
-			cboType.appendItem(
-					"html" + " - " + Msg.getMsg(Env.getCtx(), "FileHTML"),
-					"html");
-			cboType.appendItem(
-					"csv" + " - " + Msg.getMsg(Env.getCtx(), "FileCSV"), "csv");
-			cboType.appendItem(
-					"xls" + " - " + Msg.getMsg(Env.getCtx(), "FileXLS"), "xls");
-			cboType.setSelectedItem(li);
-
-			Hbox hb = new Hbox();
-			Div div = new Div();
-			div.setAlign("right");
-			div.appendChild(new Label(Msg.getMsg(Env.getCtx(), "FilesOfType")));
-			hb.appendChild(div);
-			hb.appendChild(cboType);
-			cboType.setWidth("100%");
-
-			Vbox vb = new Vbox();
-			vb.setWidth("390px");
-			winExportFile.appendChild(vb);
-			vb.appendChild(hb);
-			vb.appendChild(confirmPanel);
-			confirmPanel.addActionListener(this);
-		}
-
-		AEnv.showCenterScreen(winExportFile);
-
-	} // cmd_export
-
-	@Override
 	public void onEvent(Event event) throws Exception {
-		if (event.getTarget().getId().equals(ConfirmPanel.A_CANCEL))
-			winExportFile.onClose();
-		else if (event.getTarget().getId().equals(ConfirmPanel.A_OK))
-			exportFile();
-		else if (event.getName().equals(Events.ON_CLICK)
-				|| event.getName().equals(Events.ON_SELECT))
+
+		if (event.getName().equals(Events.ON_CLICK) || event.getName().equals(Events.ON_SELECT)) {
 			actionPerformed(event);
-
-	}
-
-	private void exportFile() {
-		try {
-			ListItem li = cboType.getSelectedItem();
-			if (li == null || li.getValue() == null) {
-				FDialog.error(0, winExportFile, "FileInvalidExtension");
-				return;
-			}
-
-			String ext = li.getValue().toString();
-			File file = null;
-			AMedia media = null;
-			String path = System.getProperty("java.io.tmpdir");
-			String prefix = makePrefix(jasperPrint.getName());
-			if (log.isLoggable(Level.FINE)) {
-				log.log(Level.FINE, "Path=" + path + " Prefix=" + prefix);
-			}
-
-			file = File.createTempFile(prefix, "." + ext, new File(path));
-
-			if (ext.equals("pdf")) {
-				JasperExportManager.exportReportToPdfFile(jasperPrint,
-						file.getAbsolutePath());
-				media = new AMedia(getTitle(), "pdf", "application/pdf", file,
-						true);
-			} else if (ext.equals("xml")) {
-				JasperExportManager.exportReportToXmlFile(jasperPrint,
-						file.getAbsolutePath(), false);
-				media = new AMedia(getTitle(), "xml", "application/xml", file,
-						true);
-			} else if (ext.equals("csv")) {
-				JRCsvExporter exporter = new net.sf.jasperreports.engine.export.JRCsvExporter();
-				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME,
-						file.getAbsolutePath());
-				exporter.setParameter(JRExporterParameter.JASPER_PRINT,
-						jasperPrint);
-				exporter.exportReport();
-				media = new AMedia(getTitle(), "csv", "application/csv", file,
-						true);
-			} else if (ext.equals("html") || ext.equals("htm")) {
-				JasperExportManager.exportReportToHtmlFile(jasperPrint,
-						file.getAbsolutePath());
-				media = new AMedia(getTitle(), "html", "application/html",
-						file, true);
-			} else if (ext.equals("xls")) {
-				JRXlsExporter exporter = new net.sf.jasperreports.engine.export.JRXlsExporter();
-				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME,
-						file.getAbsolutePath());
-				exporter.setParameter(JRExporterParameter.JASPER_PRINT,
-						jasperPrint);
-				exporter.exportReport();
-				media = new AMedia(getTitle(), "xls", "application/msexcel",
-						file, true);
-			} else {
-				FDialog.error(0, winExportFile, "FileInvalidExtension");
-				return;
-			}
-
-			winExportFile.onClose();
-
-			Filedownload.save(media, jasperPrint.getName() + "." + ext);
-		} catch (Exception e) {
-			log.log(Level.SEVERE, "Failed to export content.", e);
 		}
 	}
 
-	/**
-	 * Send Mail
-	 */
-	private void cmd_sendMail() {
+	private void cmd_sendMail()
+	{
 		String to = "";
 		MUser from = MUser.get(Env.getCtx(), Env.getAD_User_ID(Env.getCtx()));
-		String subject = getTitle();
+		String subject = jasperPrint.getName();	
 		String message = "";
-		File attachment = null;
+		File attachment = file;
+		new WEMailDialog (this, Msg.getMsg(Env.getCtx(), "SendMail"), from, to, subject, message, attachment);
 
+
+	}	//	cmd_sendMail
+
+	/**
+	 * 
+	 * Create a Archive for specified report
+	 * Create an entry at AD_Archive table
+	 * 
+	 */
+	private void cmd_archive() {
+		boolean success = false;
+		byte[] data = getPDFAsArray(file);
+		MArchive arc = null;
+		if (data != null) {
+			PrintInfo printInfo = null;
+			if (null != processInfo) {
+				printInfo = new PrintInfo(processInfo);
+			}
+			if (null != printInfo) {
+				arc = new MArchive(Env.getCtx(), printInfo, null);
+			}
+			if (null != arc) {
+				arc.setBinaryData(data);
+				arc.setAD_Process_ID(processInfo.getAD_Process_ID());
+				arc.setRecord_ID(processInfo.getRecord_ID());
+				arc.setName(processInfo.getTitle());
+				success = arc.save();
+			}
+		}
+		if (success)
+		{
+			FDialog.info(0, this, Msg.getMsg(ctx, "ArchiveSuccess", new Object[] { arc.getName() }));
+			log.log(Level.FINE, arc.getName()+ " Archived Into " +arc.getAD_Archive_ID());
+			archive.setDisabled( Boolean.TRUE );
+		}
+		else {
+			throw new AdempiereException("ArchiveError");
+		}
+	}
+
+	/***
+	 * This method is responsible for Call rendorReport() when event raised
+	 */
+	private void cmd_render() {
 		try {
-			attachment = File.createTempFile("mail", ".pdf");
-			JasperExportManager.exportReportToPdfFile(jasperPrint,
-					attachment.getAbsolutePath());
+			renderReport();
 		} catch (Exception e) {
-			log.log(Level.SEVERE, "", e);
+			throw new AdempiereException("Failed to render report", e);
+		}
+	}
+
+
+	/**
+	 * 
+	 * @return bytes of data
+	 */
+	private byte[] getPDFAsArray(File f) {
+		FileInputStream fis = null;
+		try {
+			fis = new FileInputStream(f);
+		} 
+		catch (FileNotFoundException e) {
+			log.log(Level.SEVERE, "Unable to create FileInputStream object. " +e.getLocalizedMessage(), e.getMessage());
+		}
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		byte[] buf = new byte[(int) f.length()];
+		try {
+			for (int readNum; (readNum = fis.read(buf)) != -1;) {
+				bos.write(buf, 0, readNum);
+			}
+		}
+		catch (FileNotFoundException e) {
+			log.log(Level.SEVERE, "File Not Found Exception. " + e.getLocalizedMessage(), e.getMessage());
+		}
+		catch (IOException e) {
+			log.log(Level.SEVERE, "File Not Found Exception. " + e.getLocalizedMessage(), e.getMessage());
 		}
 
-		new WEMailDialog(this, Msg.getMsg(Env.getCtx(), "SendMail"), from, to,
-				subject, message, attachment);
-	} // cmd_sendMail
+		byte[] bytes = bos.toByteArray();
 
-	// FR[3434743] <-}
+		return bytes;
+
+	}
+
+
 }

@@ -53,9 +53,13 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 			setIsIndexed (false);
 			setIsInTransit (false);
 			setIsPickQAConfirm (false);
+<<<<<<< mine
+			setIsPrepareSplitDocument (true);
+=======
 			setIsPrepareSplitDocument (true);
 // Y
 			setIsShipConfirm (false);
+>>>>>>> theirs
 			setIsSOTrx (false);
 			setIsSplitWhenDifference (false);
 // N

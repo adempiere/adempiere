@@ -16,6 +16,11 @@
  *****************************************************************************/
 package org.compiere.impexp;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,12 +28,15 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.I_AD_ImpFormat;
 import org.compiere.model.X_AD_ImpFormat;
 import org.compiere.model.X_I_GLJournal;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Ini;
+import org.compiere.util.Util;
 
 /**
  *	Import Format a Row
@@ -73,6 +81,9 @@ public final class ImpFormat
 	private ArrayList<ImpFormatRow>	m_rows	= new ArrayList<ImpFormatRow>();
 	//
 	private String separatorChar;
+	
+	private int m_AD_Client_ID = 0;
+	private int m_AD_Org_ID = 0;
 	
 	/**
 	 *	Set Name
@@ -166,11 +177,6 @@ public final class ImpFormat
 		{
 			m_tableUniqueParent = "ElementName";			//	the parent key
 			m_tableUniqueChild = "Value";					//	the key
-		}
-		else if (m_AD_Table_ID == 535)		//	I_ReportLine
-		{
-			m_tableUniqueParent = "ReportLineSetName";		//	the parent key
-			m_tableUniqueChild = "Name";					//	the key
 		}
 	}   //  setTable
 
@@ -300,7 +306,7 @@ public final class ImpFormat
 	private static void loadRows (ImpFormat format, int ID)
 	{
 		String sql = "SELECT f.SeqNo,c.ColumnName,f.StartNo,f.EndNo,f.DataType,c.FieldLength,"		//	1..6
-			+ "f.DataFormat,f.DecimalPoint,f.DivideBy100,f.ConstantValue,f.Callout "				//	7..11
+			+ "f.DataFormat,f.DecimalPoint,f.DivideBy100,f.ConstantValue,f.Callout, f.DefaultValue "				//	7..12
 			+ "FROM AD_ImpFormat_Row f,AD_Column c "
 			+ "WHERE f.AD_ImpFormat_ID=? AND f.AD_Column_ID=c.AD_Column_ID AND f.IsActive='Y'"
 			+ "ORDER BY f.SeqNo";
@@ -316,7 +322,7 @@ public final class ImpFormat
 				//
 				row.setFormatInfo(rs.getString(7), rs.getString(8),
 					rs.getString(9).equals("Y"),
-					rs.getString(10), rs.getString(11));
+					rs.getString(10), rs.getString(11), rs.getString(12));
 				//
 				format.addRow (row);
 			}
@@ -375,9 +381,13 @@ public final class ImpFormat
 				info = parseFlexFormat (line, m_formatType, row.getStartNo());
 			}
 
-			if (info == null)
-				info = "";
-
+			if (Util.isEmpty(info, true))
+			{
+				if ( row.getDefaultValue() != null )
+					info = row.getDefaultValue();
+				else
+					info = "";
+			}
 			//	Interpret Data
 			entry.append(row.parse(info));
 
@@ -508,8 +518,8 @@ public final class ImpFormat
 	//	log.config( "ImpFormat.updateDB - listSize=" + nodes.length);
 
 		//  Standard Fields
-		int AD_Client_ID = Env.getAD_Client_ID(ctx);
-		int AD_Org_ID = Env.getAD_Org_ID(ctx);
+		int AD_Client_ID = m_AD_Client_ID == 0 ? Env.getAD_Client_ID(ctx) : m_AD_Client_ID;
+		int AD_Org_ID = m_AD_Org_ID == 0 ? Env.getAD_Org_ID(ctx) : m_AD_Org_ID;
 		if (getAD_Table_ID() == X_I_GLJournal.Table_ID)
 			AD_Org_ID = 0;
 		int UpdatedBy = Env.getAD_User_ID(ctx);
@@ -620,5 +630,40 @@ public final class ImpFormat
 		}
 		return true;
 	}	//	updateDB
+	
+	public void loadFile(Properties ctx, File file, String trxName, int AD_Client_ID, int AD_Org_ID, boolean excludeHeaderRow) {
+		
+		m_AD_Client_ID = AD_Client_ID;
+		m_AD_Org_ID = AD_Org_ID;
+		
+		if (file == null)
+			throw new AdempiereException("No file");
+		
+		try
+		{
+			Charset charset = Ini.getCharset(); 
+			BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(file), charset), 10240);
+			String s = null;
+			boolean first = true;
+			while ((s = in.readLine()) != null)
+			{
+				
+				if (first && excludeHeaderRow)	
+				{
+					first = false;
+					continue;
+				}
+				
+				first = false;
+				
+				updateDB(ctx, s, trxName);
+			}
+			in.close();
+		}
+		catch (Exception e)
+		{
+			throw new AdempiereException("Load error", e);
+		}
+	}
 
 }	//	ImpFormat

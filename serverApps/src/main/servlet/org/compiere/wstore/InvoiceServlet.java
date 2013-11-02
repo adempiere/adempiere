@@ -210,7 +210,7 @@ public class InvoiceServlet extends HttpServlet
 			if (file != null)
 			{
 				invoice.setDatePrinted (new Timestamp(System.currentTimeMillis()));
-				invoice.save();
+				invoice.saveEx();
 			}
 		}
 		//	Issue Error

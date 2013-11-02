@@ -123,7 +123,36 @@ public class MAging extends X_T_Aging
 		//
 		setDueDate(DueDate);		//	only sensible if List invoices
 	}	//	MAging
-
+	
+	
+	/**
+	 * 	Full Cashflow Constructor
+	 *	@param ctx context
+	 *	@param AD_PInstance_ID instance
+	 *	@param StatementDate statement date
+	 *	@param C_BPartner_ID bpartner
+	 *	@param C_Currency_ID currency
+	 *	@param C_Invoice_ID invoice
+	 *	@param C_InvoicePaySchedule_ID invoice schedule
+	 *	@param C_BP_Group_ID group
+	 *	@param AD_Org_ID organization
+	 *	@param DueDate due date
+	 *	@param IsSOTrx SO Trx
+	 *	@param trxName transaction
+	 */
+	public MAging (Properties ctx, int AD_PInstance_ID, Timestamp StatementDate, int C_BankAccount_ID , 
+		int C_BPartner_ID, int C_Currency_ID, 
+		int C_Invoice_ID, int C_InvoicePaySchedule_ID,
+		int C_BP_Group_ID, int AD_Org_ID, Timestamp DueDate, boolean IsSOTrx, String trxName)
+	{
+		this (ctx, AD_PInstance_ID, StatementDate, 
+				C_BPartner_ID,  C_Currency_ID, 
+				C_Invoice_ID, C_InvoicePaySchedule_ID,
+				C_BP_Group_ID,  AD_Org_ID,  DueDate,  IsSOTrx, trxName);
+		
+		if (C_BankAccount_ID > 0)
+			setC_BankAccount_ID(C_BankAccount_ID);
+	}	//	MAging
 	/**
 	 * 	Partial Constructor - backward compatibility
 	 *	@param ctx context

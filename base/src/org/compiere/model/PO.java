@@ -89,6 +89,8 @@ import org.w3c.dom.Element;
  *			<li>http://sourceforge.net/tracker/index.php?func=detail&aid=2195894&group_id=176962&atid=879335
  *			<li>BF [2947622] The replication ID (Primary Key) is not working
  *			<li>https://sourceforge.net/tracker/?func=detail&aid=2947622&group_id=176962&atid=879332
+ *			<li>Error when try load a PO Entity with virtual columns
+ *			<li>http://adempiere.atlassian.net/browse/ADEMPIERE-100
  */
 public abstract class PO
 	implements Serializable, Comparator, Evaluatee, Cloneable
@@ -301,6 +303,8 @@ public abstract class PO
 	 */
 	public boolean equals (Object cmp)
 	{
+		if (this == cmp)
+			return true;
 		if (cmp == null)
 			return false;
 		if (!(cmp instanceof PO))
@@ -1400,6 +1404,9 @@ public abstract class PO
 			String columnName = p_info.getColumnName(index);
 			Class<?> clazz = p_info.getColumnClass(index);
 			int dt = p_info.getColumnDisplayType(index);
+			//ADEMPIERE-100
+			if(p_info.isVirtualColumn(index))
+				continue;
 			try
 			{
 				if (clazz == Integer.class)
@@ -3155,7 +3162,7 @@ public abstract class PO
 	 * 	Insert (missing) Translation Records
 	 * 	@return false if error (true if no translation or success)
 	 */
-	private boolean insertTranslations()
+	public boolean insertTranslations()
 	{
 		//	Not a translation table
 		if (m_IDs.length > 1
@@ -4058,6 +4065,4 @@ public abstract class PO
 		clone.m_isReplication = false;
 		return clone;
 	}
-
-
 }   //  PO

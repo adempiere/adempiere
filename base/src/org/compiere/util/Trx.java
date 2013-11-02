@@ -53,6 +53,9 @@ import org.adempiere.exceptions.AdempiereException;
  */
 public class Trx implements VetoableChangeListener
 {
+	/** trxName=null marker */
+	// metas
+	public static final String TRXNAME_None = null;
 	/**
 	 * 	Get Transaction
 	 *	@param trxName trx name

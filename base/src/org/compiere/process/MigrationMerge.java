@@ -17,10 +17,6 @@
 package org.compiere.process;
 
 import org.compiere.model.MMigration;
-import org.compiere.model.MMigrationStep;
-import org.compiere.model.MTable;
-import org.compiere.process.SvrProcess;
-import org.compiere.util.DB;
 
 public class MigrationMerge extends SvrProcess {
 

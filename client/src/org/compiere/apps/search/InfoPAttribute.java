@@ -57,6 +57,10 @@ import org.compiere.util.Msg;
  *
  *  @author     Jorg Janke
  *  @version    $Id: InfoPAttribute.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
+ *
+ * @author Michael McKay, 
+ * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
+ * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
  */
 public class InfoPAttribute extends CDialog
 {
@@ -93,6 +97,8 @@ public class InfoPAttribute extends CDialog
 
 	/**	Resulting Query			*/
 	private String		m_query = "";
+	/** String representation	*/
+	private String		m_display = "";
 	/**	Product Attribute Editors	*/
 	private ArrayList<Component>	m_productEditors = new ArrayList<Component>();
 	private ArrayList<Component>	m_productEditorsTo = new ArrayList<Component>();
@@ -197,6 +203,7 @@ public class InfoPAttribute extends CDialog
 			+ " ORDER BY IsInstanceAttribute, Name", 
 			"M_Attribute", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
 		boolean instanceLine = false;
+		boolean productLine = false;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
@@ -208,10 +215,20 @@ public class InfoPAttribute extends CDialog
 				String description = rs.getString(3);
 				String attributeValueType = rs.getString(4);
 				boolean isInstanceAttribute = "Y".equals(rs.getString(5)); 
-				//	Instance switch
+				// Add label for product attributes if there are any 
+				if (!productLine && !isInstanceAttribute)
+				{
+					CPanel group = new CPanel();
+					group.setBorder(new VLine(Msg.translate(Env.getCtx(), "IsProductAttribute")));
+					group.add(Box.createVerticalStrut(VLine.SPACE));
+					centerPanel.add(group, new ALayoutConstraint(row++, 0));
+					productLine = true;
+				}
+				//	Add label for Instances attributes
 				if (!instanceLine && isInstanceAttribute)
 				{
 					CPanel group = new CPanel();
+					group.add(Box.createVerticalStrut(VLine.SPACE));
 					group.setBorder(new VLine(Msg.translate(Env.getCtx(), "IsInstanceAttribute")));
 					group.add(Box.createVerticalStrut(VLine.SPACE));
 					centerPanel.add(group, new ALayoutConstraint(row++, 0));
@@ -373,12 +390,14 @@ public class InfoPAttribute extends CDialog
 	{
 		if (e.getActionCommand().equals(ConfirmPanel.A_OK))
 		{
+			setDisplay();
 			createQuery();
 			dispose();
 		}
 		else if (e.getActionCommand().equals(ConfirmPanel.A_CANCEL))
 		{
 			m_query = null;
+			m_display = null;
 			dispose();
 		}
 	}	//	actionPerformed
@@ -584,7 +603,94 @@ public class InfoPAttribute extends CDialog
 		log.config(m_query);		
 		return m_query;
 	}	//	createQuery
+	/**
+	 * Get Display 
+	 * @return String representation of the attribute set instances.
+	 */
+	public String getDisplay()
+	{
+		return m_display;
+	}
+	/**
+	 *   Set the display text
+	 */
+	private void setDisplay()
+	{
+		StringBuffer display = new StringBuffer();
+		if (serNoField != null && serNoField.getValue().toString().length() > 0)
+			display.append(serNoField.getValue().toString() + "-");
+		if (lotField != null && lotField.getValue().toString().length() > 0)
+			display.append(lotField.getValue().toString() + "-");
+		if (lotSelection != null && lotSelection.getDisplay().length() > 0)
+			display.append(lotSelection.getDisplay() + "-");
+		if (guaranteeDateField != null && guaranteeDateField.getValue() != null)
+			display.append(guaranteeDateSelection.getDisplay() + guaranteeDateField.getValue().toString() + "-");
+    
+		for (int i = 0; i < m_productEditors.size(); i++)
+		{
+			Component c = (Component)m_productEditors.get(i);
+			Component cTo = (Component)m_productEditorsTo.get(i);
+			if (c instanceof VComboBox)
+			{
+				VComboBox field = (VComboBox)c;
+				display.append(field.getDisplay() + "-");
+			}
+			else if (c instanceof VNumber)
+			{
+				VNumber field = (VNumber)c;
+				display.append(field.getDisplay() + "-");
+				VNumber fieldTo = (VNumber)cTo;
+				display.append(fieldTo.getDisplay() + "-");
+				 
+			}
+			else
+			{
+				VString field = (VString)c;
+				display.append(field.getDisplay() + "-");
+				
+			}
+		}
 
+		for (int i = 0; i < m_instanceEditors.size(); i++)
+		{
+			Component c = (Component)m_instanceEditors.get(i);
+			Component cTo = (Component)m_instanceEditorsTo.get(i);
+			if (c instanceof VComboBox)
+			{
+				VComboBox field = (VComboBox)c;
+				display.append(field.getDisplay() + "-");
+			}
+			else if (c instanceof VNumber)
+			{
+				VNumber field = (VNumber)c;
+				display.append(field.getDisplay() + "-");
+				VNumber fieldTo = (VNumber)cTo;
+				display.append(fieldTo.getDisplay() + "-");
+				 
+			}
+			else
+			{
+				VString field = (VString)c;
+				display.append(field.getDisplay() + "-");
+				
+			}
+		}
+		//  TODO - there is a more elegant way to do this.
+		while (display.toString().contains("--") && display.length() > 1)
+		{
+				display.delete(display.indexOf("--"), display.indexOf("--")+1);
+		}
+		while (display.toString().startsWith("-") && display.length() >= 1)
+		{
+			display.delete(0, 1);
+		}
+		while (display.toString().endsWith("-") && display.length() >= 1)
+		{
+			display.delete(display.length()-1, display.length());
+		}
+		m_display = display.toString();
+	}  // set display
+	
 	/**
 	 * 	Get resulting Query WHERE
 	 *	@return query or null

@@ -211,7 +211,7 @@ public class MMovementLine extends X_M_MovementLine
 		//      Mandatory Instance
 		MProduct product = getProduct();
 		if (getM_AttributeSetInstance_ID() == 0) {
-			if (product != null && product.isASIMandatory(false)) {
+			if (product != null && product.isASIMandatory(false, getAD_Org_ID())) {
 				log.saveError("FillMandatory", Msg.getElement(getCtx(), COLUMNNAME_M_AttributeSetInstance_ID));
 				return false;
 			}
@@ -225,7 +225,7 @@ public class MMovementLine extends X_M_MovementLine
 					setM_AttributeSetInstanceTo_ID(getM_AttributeSetInstance_ID());
 			}
 			
-			if (product != null && product.isASIMandatory(true) && getM_AttributeSetInstanceTo_ID() == 0)
+			if (product != null && product.isASIMandatory(true, getAD_Org_ID()) && getM_AttributeSetInstanceTo_ID() == 0)
 			{
 				log.saveError("FillMandatory", Msg.getElement(getCtx(), COLUMNNAME_M_AttributeSetInstanceTo_ID));
 				return false;

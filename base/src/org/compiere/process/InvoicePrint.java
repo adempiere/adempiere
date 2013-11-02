@@ -319,7 +319,7 @@ public class InvoicePrint extends SvrProcess
 					//
 					String msg = email.send();
 					MUserMail um = new MUserMail(mText, getAD_User_ID(), email);
-					um.save();
+					um.saveEx();
 					if (msg.equals(EMail.SENT_OK))
 					{
 						addLog (C_Invoice_ID, null, null,

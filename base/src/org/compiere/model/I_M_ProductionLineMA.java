@@ -132,7 +132,7 @@ public interface I_M_ProductionLineMA
 	  */
 	public int getM_ProductionLine_ID();
 
-	public org.compiere.model.I_M_ProductionLine getM_ProductionLine() throws RuntimeException;
+	public I_M_ProductionLine getM_ProductionLine() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

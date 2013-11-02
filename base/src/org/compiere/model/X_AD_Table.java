@@ -30,7 +30,7 @@ public class X_AD_Table extends PO implements I_AD_Table, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20130614L;
 
     /** Standard Constructor */
     public X_AD_Table (Properties ctx, int AD_Table_ID, String trxName)
@@ -115,6 +115,26 @@ public class X_AD_Table extends PO implements I_AD_Table, I_Persistent
 	public String getAccessLevel () 
 	{
 		return (String)get_Value(COLUMNNAME_AccessLevel);
+	}
+
+	/** Set Auto Complete Min Length.
+		@param ACTriggerLength 
+		Identifier autocomplete trigger length
+	  */
+	public void setACTriggerLength (int ACTriggerLength)
+	{
+		set_Value (COLUMNNAME_ACTriggerLength, Integer.valueOf(ACTriggerLength));
+	}
+
+	/** Get Auto Complete Min Length.
+		@return Identifier autocomplete trigger length
+	  */
+	public int getACTriggerLength () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_ACTriggerLength);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Table.

@@ -22,8 +22,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -38,6 +36,11 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class MMigration extends X_AD_Migration {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5145941967716336078L;
 
 	public boolean isFailOnError() {
 		return isFailOnError;

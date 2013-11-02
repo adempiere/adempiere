@@ -86,7 +86,7 @@ public class RfQCopyLines extends SvrProcess
 		//	newLine.setDateWorkStart();
 		//	newLine.setDateWorkComplete();
 			newLine.setDeliveryDays(lines[i].getDeliveryDays());
-			newLine.save();
+			newLine.saveEx();
 			//	Copy Qtys
 			MRfQLineQty[] qtys = lines[i].getQtys();
 			for (int j = 0; j < qtys.length; j++)
@@ -97,7 +97,7 @@ public class RfQCopyLines extends SvrProcess
 				newQty.setIsOfferQty(qtys[j].isOfferQty());
 				newQty.setIsPurchaseQty(qtys[j].isPurchaseQty());
 				newQty.setMargin(qtys[j].getMargin());
-				newQty.save();
+				newQty.saveEx();
 			}
 			counter++;
 		}	//	copy all lines	

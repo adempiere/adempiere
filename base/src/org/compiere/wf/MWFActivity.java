@@ -197,7 +197,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 		save();
 		//
 		m_audit = new MWFEventAudit(this);
-		m_audit.save();
+		m_audit.saveEx();
 		//
 		m_process = process;
 	}	//	MWFActivity
@@ -318,7 +318,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 		}
 		else
 			m_audit.setEventType(MWFEventAudit.EVENTTYPE_StateChanged);
-		m_audit.save();
+		m_audit.saveEx();
 	}	//	updateEventAudit
 
 	/**
@@ -838,7 +838,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 				m_po.load(get_TrxName());
 				DocAction doc = (DocAction)m_po;
 				doc.setDocStatus(m_docStatus);
-				m_po.save();
+				m_po.saveEx();
 			}
 		}
 		finally
@@ -965,12 +965,12 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			note.setTextMsg(m_node.getName(true));
 			note.setDescription(m_node.getDescription(true));
 			note.setRecord(getAD_Table_ID(), getRecord_ID());
-			note.save();
+			note.saveEx();
 			//	Attachment
 			MAttachment attachment = new MAttachment (getCtx(), MNote.Table_ID, note.getAD_Note_ID(), get_TrxName());
 			attachment.addEntry(report);
 			attachment.setTextMsg(m_node.getName(true));
-			attachment.save();
+			attachment.saveEx();
 			return true;
 		}
 		
@@ -1164,7 +1164,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 		else
 			dbValue = value;
 		m_po.set_ValueOfColumn(getNode().getAD_Column_ID(), dbValue);
-		m_po.save();
+		m_po.saveEx();
 		if (dbValue != null && !dbValue.equals(m_po.get_ValueOfColumn(getNode().getAD_Column_ID())))
 			throw new Exception("Persistent Object not updated - AD_Table_ID=" 
 				+ getAD_Table_ID() + ", Record_ID=" + getRecord_ID() 
@@ -1287,7 +1287,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 						setTextMsg ("Cannot Approve - Document Status: " + doc.getDocStatus());
 					}
 				}
-				doc.save();
+				doc.saveEx();
 			}
 			catch (Exception e)
 			{
@@ -1320,7 +1320,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 					// Add record information to the note, so that the user receiving the
 					// note can jump to the doc easily
 					note.setRecord(m_po.get_Table_ID(), m_po.get_ID());
-					note.save();
+					note.saveEx();
 				}
 			}
 		}
@@ -1365,10 +1365,10 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 		m_audit.setEventType(MWFEventAudit.EVENTTYPE_StateChanged);
 		long ms = System.currentTimeMillis() - m_audit.getCreated().getTime();
 		m_audit.setElapsedTimeMS(new BigDecimal(ms));
-		m_audit.save();
+		m_audit.saveEx();
 		//	Create new one
 		m_audit = new MWFEventAudit(this);
-		m_audit.save();
+		m_audit.saveEx();
 		return true;
 	}	//	forwardTo
 

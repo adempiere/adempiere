@@ -428,7 +428,7 @@ public class MAsset extends X_A_Asset
 				if (getA_Parent_Asset_ID() < 1 ) 
 				{				
 					asset.setA_Parent_Asset_ID(getA_Asset_ID());
-					asset.save();
+					asset.saveEx();
 				}	
 
 
@@ -454,7 +454,7 @@ public class MAsset extends X_A_Asset
 							asset.setUseLifeMonths(assetgrpacct.getUseLifeMonths());
 							asset.setIsDepreciated(true);
 							asset.setIsOwned(true);
-							asset.save();
+							asset.saveEx();
 							uselifemonths = assetgrpacct.getUseLifeMonths();
 							uselifeyears = assetgrpacct.getUseLifeYears();
 
@@ -464,7 +464,7 @@ public class MAsset extends X_A_Asset
 							asset.setUseLifeMonths(getUseLifeYears()*12);
 							asset.setIsDepreciated(true);
 							asset.setIsOwned(true);
-							asset.save();
+							asset.saveEx();
 							uselifemonths = getUseLifeYears()*12;
 							uselifeyears = getUseLifeYears();						
 						}
@@ -494,7 +494,7 @@ public class MAsset extends X_A_Asset
 						assetacct.setA_Depreciation_Table_Header_ID(assetgrpacct.getA_Depreciation_Table_Header_ID());
 						assetacct.setA_Depreciation_Variable_Perc(assetgrpacct.getA_Depreciation_Variable_Perc());
 						assetacct.setProcessing(false);
-						assetacct.save();
+						assetacct.saveEx();
 
 						change.setPostingType(assetacct.getPostingType());
 						change.setA_Split_Percent(assetacct.getA_Split_Percent());
@@ -547,7 +547,7 @@ public class MAsset extends X_A_Asset
 							assetwk.setA_QTY_Current(new BigDecimal(0.0));
 							assetwk.setA_Asset_Cost(new BigDecimal(0.0));
 							assetwk.setA_Period_Posted(0);
-							assetwk.save();
+							assetwk.saveEx();
 						}
 					}
 				}
@@ -575,7 +575,7 @@ public class MAsset extends X_A_Asset
 				change.setA_Asset_CreateDate(getA_Asset_CreateDate());
 				change.setAD_User_ID(getAD_User_ID());
 				change.setC_Location_ID(getC_Location_ID());
-				change.save();
+				change.saveEx();
 
 				rs.close();
 				pstmt.close();
@@ -628,7 +628,7 @@ public class MAsset extends X_A_Asset
 						uselifemonths = getUseLifeMonths();
 						uselifeyears = getUseLifeYears();
 					}			
-					assetacct.save();
+					assetacct.saveEx();
 				}
 				rs.close();
 				pstmt.close();
@@ -666,7 +666,7 @@ public class MAsset extends X_A_Asset
 					assetwk.setA_Asset_Life_Years(uselifeyears);
 					assetwk.setIsDepreciated(isDepreciated());
 					//assetwk.setA_QTY_Current(getA_QTY_Current());		   
-					assetwk.save();		
+					assetwk.saveEx();		
 
 					if (isProcessing()== true){
 						MAssetChange change = new MAssetChange (getCtx(), 0, get_TrxName());		    
@@ -695,13 +695,13 @@ public class MAsset extends X_A_Asset
 						change.setA_Asset_CreateDate(getA_Asset_CreateDate());		    
 						change.setAD_User_ID(getAD_User_ID());
 						change.setC_Location_ID(getC_Location_ID());
-						change.save();		    
+						change.saveEx();		    
 					}
 					else
 					{
 						X_A_Asset asset = new X_A_Asset (getCtx(), p_A_Asset_ID, get_TrxName());
 						asset.setProcessing(true);
-						asset.save();
+						asset.saveEx();
 					}	
 				}
 				rs.close();

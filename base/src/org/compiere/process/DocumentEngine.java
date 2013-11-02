@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.acct.Doc;
 import org.compiere.db.CConnection;
 import org.compiere.interfaces.Server;
@@ -310,13 +311,13 @@ public class DocumentEngine implements DocAction
 					// Process (this is to update the ProcessedOn flag with a timestamp after the original document)
 					for (PO docafter : docsPostProcess) {
 						docafter.setProcessedOn("Processed", true, false);
-						docafter.save();
+						docafter.saveEx();
 					}
 				}
 				
 				if (STATUS_Completed.equals(status) && MClient.isClientAccountingImmediate())
 				{
-					m_document.save();
+					m_document.saveEx();
 					postIt();
 					
 					if (m_document instanceof PO && docsPostProcess.size() > 0) {
@@ -797,6 +798,15 @@ public class DocumentEngine implements DocAction
 	}
 	
 	/**
+	 * 	Save Document
+	 *	@return throw exception
+	 */
+	public void saveEx() throws AdempiereException
+	{
+		throw new IllegalStateException(EXCEPTION_MSG);
+	}
+	
+	/**
 	 * 	Get Context
 	 *	@return context
 	 */
@@ -1123,7 +1133,7 @@ public class DocumentEngine implements DocAction
 		/********************
 		 *  Payroll Process
 		 */
-		else if (AD_Table_ID == I_HR_Process.Table_ID)
+		else if (AD_Table_ID == MTable.getTable_ID("HR_Process")) // I_HR_Process.Table_ID
 		{
 			if (docStatus.equals(DocumentEngine.STATUS_Drafted)
 					|| docStatus.equals(DocumentEngine.STATUS_InProgress)

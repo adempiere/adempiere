@@ -474,7 +474,7 @@ public class VSetup extends CPanel
 		m_frame.setBusyTimer(45);
 		//  Step 1
 		boolean ok = ms.createClient(fClientName.getText(), fOrgValue.getText(), fOrgName.getText(),
-			fUserClient.getText(), fUserOrg.getText(), null, null, null, null, null);
+			fUserClient.getText(), fUserOrg.getText(), null, null, null, null, null,null,null,0);
 		String info = ms.getInfo();
 
 		if (ok)
@@ -483,7 +483,7 @@ public class VSetup extends CPanel
 			KeyNamePair currency = (KeyNamePair)fCurrency.getSelectedItem();
 			if (!ms.createAccounting(currency,
 				fProduct.isSelected(), fBPartner.isSelected(), fProject.isSelected(),
-				fMCampaign.isSelected(), fSRegion.isSelected(),
+				fMCampaign.isSelected(), fSRegion.isSelected(), null ,0, 
 				m_file))
 			{
 				ADialog.error(m_WindowNo, this, "AccountSetupError");

@@ -17,6 +17,7 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
+import java.util.Properties;
 import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
@@ -75,7 +76,7 @@ public interface I_M_Product
 	  */
 	public String getClassification();
 
-    /** Column name CopyFrom */
+	 /** Column name CopyFrom */
     public static final String COLUMNNAME_CopyFrom = "CopyFrom";
 
 	/** Set Copy From.
@@ -117,7 +118,7 @@ public interface I_M_Product
 	  */
 	public int getC_RevenueRecognition_ID();
 
-	public org.compiere.model.I_C_RevenueRecognition getC_RevenueRecognition() throws RuntimeException;
+	public I_C_RevenueRecognition getC_RevenueRecognition() throws RuntimeException;
 
     /** Column name C_SubscriptionType_ID */
     public static final String COLUMNNAME_C_SubscriptionType_ID = "C_SubscriptionType_ID";
@@ -132,7 +133,7 @@ public interface I_M_Product
 	  */
 	public int getC_SubscriptionType_ID();
 
-	public org.compiere.model.I_C_SubscriptionType getC_SubscriptionType() throws RuntimeException;
+	public I_C_SubscriptionType getC_SubscriptionType() throws RuntimeException;
 
     /** Column name C_TaxCategory_ID */
     public static final String COLUMNNAME_C_TaxCategory_ID = "C_TaxCategory_ID";
@@ -147,7 +148,7 @@ public interface I_M_Product
 	  */
 	public int getC_TaxCategory_ID();
 
-	public org.compiere.model.I_C_TaxCategory getC_TaxCategory() throws RuntimeException;
+	public I_C_TaxCategory getC_TaxCategory() throws RuntimeException;
 
     /** Column name C_UOM_ID */
     public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
@@ -162,7 +163,7 @@ public interface I_M_Product
 	  */
 	public int getC_UOM_ID();
 
-	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException;
+	public I_C_UOM getC_UOM() throws RuntimeException;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -364,6 +365,45 @@ public interface I_M_Product
 	  */
 	public boolean isInvoicePrintDetails();
 
+    /** Column name IsKanban */
+    public static final String COLUMNNAME_IsKanban = "IsKanban";
+
+	/** Set Kanban controlled.
+	  * This part is Kanban controlled
+	  */
+	public void setIsKanban (boolean IsKanban);
+
+	/** Get Kanban controlled.
+	  * This part is Kanban controlled
+	  */
+	public boolean isKanban();
+
+    /** Column name IsManufactured */
+    public static final String COLUMNNAME_IsManufactured = "IsManufactured";
+
+	/** Set Manufactured.
+	  * This product is manufactured
+	  */
+	public void setIsManufactured (boolean IsManufactured);
+
+	/** Get Manufactured.
+	  * This product is manufactured
+	  */
+	public boolean isManufactured();
+
+    /** Column name IsPhantom */
+    public static final String COLUMNNAME_IsPhantom = "IsPhantom";
+
+	/** Set Phantom.
+	  * Phantom Component
+	  */
+	public void setIsPhantom (boolean IsPhantom);
+
+	/** Get Phantom.
+	  * Phantom Component
+	  */
+	public boolean isPhantom();
+
     /** Column name IsPickListPrintDetails */
     public static final String COLUMNNAME_IsPickListPrintDetails = "IsPickListPrintDetails";
 
@@ -494,7 +534,7 @@ public interface I_M_Product
 	  */
 	public int getM_AttributeSet_ID();
 
-	public org.compiere.model.I_M_AttributeSet getM_AttributeSet() throws RuntimeException;
+	public I_M_AttributeSet getM_AttributeSet() throws RuntimeException;
 
     /** Column name M_AttributeSetInstance_ID */
     public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
@@ -524,7 +564,7 @@ public interface I_M_Product
 	  */
 	public int getM_FreightCategory_ID();
 
-	public org.compiere.model.I_M_FreightCategory getM_FreightCategory() throws RuntimeException;
+	public I_M_FreightCategory getM_FreightCategory() throws RuntimeException;
 
     /** Column name M_Locator_ID */
     public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
@@ -541,6 +581,17 @@ public interface I_M_Product
 
 	public I_M_Locator getM_Locator() throws RuntimeException;
 
+    /** Column name M_PartType_ID */
+    public static final String COLUMNNAME_M_PartType_ID = "M_PartType_ID";
+
+	/** Set Part Type	  */
+	public void setM_PartType_ID (int M_PartType_ID);
+
+	/** Get Part Type	  */
+	public int getM_PartType_ID();
+
+	public I_M_PartType getM_PartType() throws RuntimeException;
+
     /** Column name M_Product_Category_ID */
     public static final String COLUMNNAME_M_Product_Category_ID = "M_Product_Category_ID";
 
@@ -554,7 +605,7 @@ public interface I_M_Product
 	  */
 	public int getM_Product_Category_ID();
 
-	public org.compiere.model.I_M_Product_Category getM_Product_Category() throws RuntimeException;
+	public I_M_Product_Category getM_Product_Category() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -617,7 +668,7 @@ public interface I_M_Product
 	  */
 	public int getR_MailText_ID();
 
-	public org.compiere.model.I_R_MailText getR_MailText() throws RuntimeException;
+	public I_R_MailText getR_MailText() throws RuntimeException;
 
     /** Column name SalesRep_ID */
     public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";
@@ -632,7 +683,7 @@ public interface I_M_Product
 	  */
 	public int getSalesRep_ID();
 
-	public org.compiere.model.I_AD_User getSalesRep() throws RuntimeException;
+	public I_AD_User getSalesRep() throws RuntimeException;
 
     /** Column name S_ExpenseType_ID */
     public static final String COLUMNNAME_S_ExpenseType_ID = "S_ExpenseType_ID";
@@ -647,7 +698,7 @@ public interface I_M_Product
 	  */
 	public int getS_ExpenseType_ID();
 
-	public org.compiere.model.I_S_ExpenseType getS_ExpenseType() throws RuntimeException;
+	public I_S_ExpenseType getS_ExpenseType() throws RuntimeException;
 
     /** Column name ShelfDepth */
     public static final String COLUMNNAME_ShelfDepth = "ShelfDepth";
@@ -714,7 +765,7 @@ public interface I_M_Product
 	  */
 	public int getS_Resource_ID();
 
-	public org.compiere.model.I_S_Resource getS_Resource() throws RuntimeException;
+	public I_S_Resource getS_Resource() throws RuntimeException;
 
     /** Column name UnitsPerPack */
     public static final String COLUMNNAME_UnitsPerPack = "UnitsPerPack";
@@ -822,4 +873,15 @@ public interface I_M_Product
 	  * Weight of a product
 	  */
 	public BigDecimal getWeight();
+	
+	/**
+	 * Get the Attribute Set Instance.  This is called by callouts to fill the M_AttributeSetInstance_ID
+	 * field.  The ASI should override the context if the product has a defined ASI or if the 
+	 * context ASI does not use the same attribute set.
+	 * @param context
+	 * @param window number
+	 */
+
+	public Integer getEnvAttributeSetInstance(Properties ctx, int windowNo);
+
 }

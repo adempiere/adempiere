@@ -28,6 +28,8 @@ import org.compiere.util.Env;
  *	
  *  @author Jorg Janke
  *  @version $Id: CalloutRequisition.java,v 1.3 2006/07/30 00:51:05 jjanke Exp $
+ *  @author Michael McKay (mjmckay)
+ *          <li> BF3468429 Show attribute set instance field on the requisition line
  */
 public class CalloutRequisition extends CalloutEngine
 {
@@ -51,6 +53,7 @@ public class CalloutRequisition extends CalloutEngine
 		setPrice(ctx, WindowNo, req, line);
 		MProduct product = MProduct.get(ctx, M_Product_ID);
 		line.setC_UOM_ID(product.getC_UOM_ID());
+		line.setM_AttributeSetInstance_ID(product.getM_AttributeSetInstance_ID());
 
 		return "";
 	}	//	product

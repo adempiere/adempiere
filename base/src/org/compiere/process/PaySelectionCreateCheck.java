@@ -89,7 +89,7 @@ public class PaySelectionCreateCheck extends SvrProcess
 		}
 		//
 		psel.setProcessed(true);
-		psel.save();
+		psel.saveEx();
 		
 		return "@C_PaySelectionCheck_ID@ - #" + m_list.size();
 	}	//	doIt

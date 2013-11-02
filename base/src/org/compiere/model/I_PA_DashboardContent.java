@@ -16,14 +16,11 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PA_DashboardContent
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
  */
+@SuppressWarnings("javadoc")
 public interface I_PA_DashboardContent 
 {
 
@@ -31,15 +28,25 @@ public interface I_PA_DashboardContent
     public static final String Table_Name = "PA_DashboardContent";
 
     /** AD_Table_ID=50010 */
-    public static final int Table_ID = MTable.getTable_ID(Table_Name);
+//    public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
-    KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
+//    org.compiere.util.KeyNamePair Model = new org.compiere.util.KeyNamePair(Table_ID, Table_Name);
 
     /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(6);
+    
+    java.math.BigDecimal accessLevel = java.math.BigDecimal.valueOf(6);
 
     /** Load Meta Data */
+
+    /** Column name AD_Browse_ID */
+    public static final String COLUMNNAME_AD_Browse_ID = "AD_Browse_ID";
+
+	/** Set Smart Browse	  */
+	public void setAD_Browse_ID (int AD_Browse_ID);
+
+	/** Get Smart Browse	  */
+	public int getAD_Browse_ID();
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -61,8 +68,8 @@ public interface I_PA_DashboardContent
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
-
-    /** Column name AD_Window_ID */
+	
+	 /** Column name AD_Window_ID */
     public static final String COLUMNNAME_AD_Window_ID = "AD_Window_ID";
 
 	/** Set Window.
@@ -96,7 +103,7 @@ public interface I_PA_DashboardContent
 	/** Get Created.
 	  * Date this record was created
 	  */
-	public Timestamp getCreated();
+	public java.sql.Timestamp getCreated();
 
     /** Column name CreatedBy */
     public static final String COLUMNNAME_CreatedBy = "CreatedBy";
@@ -112,12 +119,12 @@ public interface I_PA_DashboardContent
 	/** Set Description.
 	  * Optional short description of the record
 	  */
-	public void setDescription (String Description);
+	public void setDescription (java.lang.String Description);
 
 	/** Get Description.
 	  * Optional short description of the record
 	  */
-	public String getDescription();
+	public java.lang.String getDescription();
 
     /** Column name GoalDisplay */
     public static final String COLUMNNAME_GoalDisplay = "GoalDisplay";
@@ -125,21 +132,21 @@ public interface I_PA_DashboardContent
 	/** Set Goal Display.
 	  * Type of goal display on dashboard
 	  */
-	public void setGoalDisplay (String GoalDisplay);
+	public void setGoalDisplay (java.lang.String GoalDisplay);
 
 	/** Get Goal Display.
 	  * Type of goal display on dashboard
 	  */
-	public String getGoalDisplay();
+	public java.lang.String getGoalDisplay();
 
     /** Column name HTML */
     public static final String COLUMNNAME_HTML = "HTML";
 
 	/** Set HTML	  */
-	public void setHTML (String HTML);
+	public void setHTML (java.lang.String HTML);
 
 	/** Get HTML	  */
-	public String getHTML();
+	public java.lang.String getHTML();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -167,6 +174,15 @@ public interface I_PA_DashboardContent
 	  */
 	public boolean isCollapsible();
 
+    /** Column name IsEventRequired */
+    public static final String COLUMNNAME_IsEventRequired = "IsEventRequired";
+
+	/** Set IsEventRequired	  */
+	public void setIsEventRequired (boolean IsEventRequired);
+
+	/** Get IsEventRequired	  */
+	public boolean isEventRequired();
+
     /** Column name IsOpenByDefault */
     public static final String COLUMNNAME_IsOpenByDefault = "IsOpenByDefault";
 
@@ -182,12 +198,12 @@ public interface I_PA_DashboardContent
 	/** Set Line No.
 	  * Unique line for this document
 	  */
-	public void setLine (BigDecimal Line);
+	public void setLine (java.math.BigDecimal Line);
 
 	/** Get Line No.
 	  * Unique line for this document
 	  */
-	public BigDecimal getLine();
+	public java.math.BigDecimal getLine();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -195,12 +211,21 @@ public interface I_PA_DashboardContent
 	/** Set Name.
 	  * Alphanumeric identifier of the entity
 	  */
-	public void setName (String Name);
+	public void setName (java.lang.String Name);
 
 	/** Get Name.
 	  * Alphanumeric identifier of the entity
 	  */
-	public String getName();
+	public java.lang.String getName();
+
+    /** Column name onevent */
+    public static final String COLUMNNAME_onevent = "onevent";
+
+	/** Set On Event	  */
+	public void setonevent (java.lang.String onevent);
+
+	/** Get On Event	  */
+	public java.lang.String getonevent();
 
     /** Column name PA_DashboardContent_ID */
     public static final String COLUMNNAME_PA_DashboardContent_ID = "PA_DashboardContent_ID";
@@ -224,7 +249,14 @@ public interface I_PA_DashboardContent
 	  */
 	public int getPA_Goal_ID();
 
-	public org.compiere.model.I_PA_Goal getPA_Goal() throws RuntimeException;
+    /** Column name PageSize */
+    public static final String COLUMNNAME_PageSize = "PageSize";
+
+	/** Set Page Size	  */
+	public void setPageSize (java.math.BigDecimal PageSize);
+
+	/** Get Page Size	  */
+	public java.math.BigDecimal getPageSize();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -232,7 +264,7 @@ public interface I_PA_DashboardContent
 	/** Get Updated.
 	  * Date this record was updated
 	  */
-	public Timestamp getUpdated();
+	public java.sql.Timestamp getUpdated();
 
     /** Column name UpdatedBy */
     public static final String COLUMNNAME_UpdatedBy = "UpdatedBy";
@@ -242,16 +274,43 @@ public interface I_PA_DashboardContent
 	  */
 	public int getUpdatedBy();
 
+    /** Column name Zoom_Field_ID */
+    public static final String COLUMNNAME_Zoom_Field_ID = "Zoom_Field_ID";
+
+	/** Set Zoom_Field_ID	  */
+	public void setZoom_Field_ID (int Zoom_Field_ID);
+
+	/** Get Zoom_Field_ID	  */
+	public int getZoom_Field_ID();
+
+    /** Column name Zoom_Tab_ID */
+    public static final String COLUMNNAME_Zoom_Tab_ID = "Zoom_Tab_ID";
+
+	/** Set Zoom_Tab_ID	  */
+	public void setZoom_Tab_ID (int Zoom_Tab_ID);
+
+	/** Get Zoom_Tab_ID	  */
+	public int getZoom_Tab_ID();
+
+    /** Column name Zoom_Window_ID */
+    public static final String COLUMNNAME_Zoom_Window_ID = "Zoom_Window_ID";
+
+	/** Set Zoom_Window_ID	  */
+	public void setZoom_Window_ID (int Zoom_Window_ID);
+
+	/** Get Zoom_Window_ID	  */
+	public int getZoom_Window_ID();
+
     /** Column name ZulFilePath */
     public static final String COLUMNNAME_ZulFilePath = "ZulFilePath";
 
 	/** Set ZUL File Path.
 	  * Absolute path to zul file
 	  */
-	public void setZulFilePath (String ZulFilePath);
+	public void setZulFilePath (java.lang.String ZulFilePath);
 
 	/** Get ZUL File Path.
 	  * Absolute path to zul file
 	  */
-	public String getZulFilePath();
+	public java.lang.String getZulFilePath();
 }

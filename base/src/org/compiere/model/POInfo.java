@@ -66,16 +66,21 @@ public class POInfo implements Serializable
 	 */
 	public static POInfo getPOInfo (Properties ctx, int AD_Table_ID, String trxName)
 	{
-		Integer key = new Integer(AD_Table_ID);
+		Integer key = AD_Table_ID;
 		POInfo retValue = (POInfo)s_cache.get(key);
 		if (retValue == null)
 		{
 			retValue = new POInfo(ctx, AD_Table_ID, false, trxName);
 			if (retValue.getColumnCount() == 0)
+			{
 				//	May be run before Language verification
 				retValue = new POInfo(ctx, AD_Table_ID, true, trxName);
+			}
 			else
+			{
 				s_cache.put(key, retValue);
+				s_cacheByTableName.put(retValue.getTableName(), retValue); // metas
+			}
 		}
 		return retValue;
 	}   //  getPOInfo
@@ -141,8 +146,10 @@ public class POInfo implements Serializable
 			+ "c.AD_Reference_Value_ID, vr.Code, "							//	12..13
 			+ "c.FieldLength, c.ValueMin, c.ValueMax, c.IsTranslated, "		//	14..17
 			+ "t.AccessLevel, c.ColumnSQL, c.IsEncrypted, "					// 18..20
-			+ "c.IsAllowLogging,t.IsChangeLog ");											// 21
-		sql.append("FROM AD_Table t"
+			+ "c.IsAllowLogging,t.IsChangeLog "								// 21,22
+			+ ",t.AD_Table_ID "												// 26 // metas
+		);
+		sql.append(" FROM AD_Table t"
 			+ " INNER JOIN AD_Column c ON (t.AD_Table_ID=c.AD_Table_ID)"
 			+ " LEFT OUTER JOIN AD_Val_Rule vr ON (c.AD_Val_Rule_ID=vr.AD_Val_Rule_ID)"
 			+ " INNER JOIN AD_Element");
@@ -150,7 +157,7 @@ public class POInfo implements Serializable
 			sql.append("_Trl");
 		sql.append(" e "
 			+ " ON (c.AD_Element_ID=e.AD_Element_ID) "
-			+ "WHERE t.AD_Table_ID=?"
+			+ "WHERE t." + (m_AD_Table_ID <= 0 ? "TableName=?" : "AD_Table_ID=?")
 			+ " AND c.IsActive='Y'");
 		if (!baseLanguage)
 			sql.append(" AND e.AD_Language='").append(Env.getAD_Language(m_ctx)).append("'");
@@ -160,12 +167,17 @@ public class POInfo implements Serializable
 		try
 		{
 			pstmt = DB.prepareStatement(sql.toString(), trxName);
-			pstmt.setInt(1, m_AD_Table_ID);
+			if (m_AD_Table_ID <= 0)
+				pstmt.setString(1, m_TableName);
+			else
+				pstmt.setInt(1, m_AD_Table_ID);
 			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				if (m_TableName == null)
 					m_TableName = rs.getString(1);
+				if (m_AD_Table_ID <= 0)
+					m_AD_Table_ID = rs.getInt("AD_Table_ID");
 				String ColumnName = rs.getString(2);
 				int AD_Reference_ID = rs.getInt(3);
 				boolean IsMandatory = "Y".equals(rs.getString(4));
@@ -175,6 +187,21 @@ public class POInfo implements Serializable
 				String Description = rs.getString(8);
 				int AD_Column_ID = rs.getInt(9);
 				boolean IsKey = "Y".equals(rs.getString(10));
+				// metas: begin
+				if (IsKey)
+				{
+					if (m_hasKeyColumn)
+					{
+						// it already has a key column, which means that this table has multi-primary key
+						// so we don't have a single key column
+						m_keyColumnName = null;
+					}
+					else
+					{
+						m_keyColumnName = ColumnName;
+					}
+				}
+				// metas: end
 				if (IsKey)
 					m_hasKeyColumn = true;
 				boolean IsParent = "Y".equals(rs.getString(11));
@@ -220,6 +247,7 @@ public class POInfo implements Serializable
 	 *  String representation
 	 *  @return String Representation
 	 */
+	@Override
 	public String toString()
 	{
 		return "POInfo[" + getTableName() + ",AD_Table_ID=" + getAD_Table_ID() + "]";
@@ -331,7 +359,8 @@ public class POInfo implements Serializable
 	 *  @param index index
 	 *  @return column
 	 */
-	protected POInfoColumn getColumn (int index)
+	// metas: making getColumn public to enable easier testing (was protected)
+	public POInfoColumn getColumn (int index)
 	{
 		if (index < 0 || index >= m_columns.length)
 			return null;
@@ -449,6 +478,23 @@ public class POInfo implements Serializable
 		return m_columns[index].IsMandatory;
 	}   //  isMandatory
 
+	// metas-mo73_03035 begin
+	// method has been added to find out which table a given column references
+	//
+	/**
+	 *  Returns the columns <code>AD_Reference_Value_ID</code>.
+	 *  @param index index
+	 *  @return the column's AD_Reference_Value_ID or -1 if the given index is not valid
+	 */
+	public int getColumnReferenceValueId (int index)
+	{
+		if (index < 0 || index >= m_columns.length)
+			return -1;
+		return m_columns[index].AD_Reference_Value_ID;
+	}   
+	//
+	// metas-mo73_03035 end
+	
 	/**
 	 *  Is Column Updateable
 	 *  @param index index
@@ -712,20 +758,30 @@ public class POInfo implements Serializable
 		return null;
 	}   //  validate
 	
+	public boolean isLazyLoading(int index)
+	{
+		if (index < 0 || index >= m_columns.length)
+			return true;
+		return isVirtualColumn(index) && m_columns[index].IsLazyLoading; 
+	}
+	
 	/**
 	 * Build select clause
 	 * @return stringbuffer
 	 */
 	public StringBuffer buildSelect()
 	{
-		StringBuffer sql = new StringBuffer("SELECT ");
+		StringBuffer sql = new StringBuffer();
 		int size = getColumnCount();
 		for (int i = 0; i < size; i++)
 		{
-			if (i != 0)
+			if (isLazyLoading(i))
+				continue;
+			if (sql.length() > 0)
 				sql.append(",");
 			sql.append(getColumnSQL(i));	//	Normal and Virtual Column
 		}
+		sql.insert(0, "SELECT ");
 		sql.append(" FROM ").append(getTableName());
 		return sql;
 	}
@@ -738,5 +794,99 @@ public class POInfo implements Serializable
 	{
 		return m_IsChangeLog;
 	}
+
+	// metas: pr50_us215
+	public boolean isCalculated(int index)
+	{
+		if (index < 0 || index >= m_columns.length)
+			return false;
+		return m_columns[index].IsCalculated
+				;
+	}
+
+	private String m_keyColumnName = null;
+	public String getKeyColumnName()
+	{
+		return m_keyColumnName;
+	}
 	
+	// metas-mo73_03035 begin
+	//
+	/**
+	 * Makes sure that a POInfo with the given <code>tableName</code> is not cached (anymore). This method can be used
+	 * to make sure that a subsequent call of one of any <code>getPOInfo(...)</code> method causes a reload from DB.
+	 * 
+	 * @param tableName
+	 *           if there is a cached POInfo instance whose {@link #getTableName()} method returns this string, it is removed from cache
+	 */
+	public static void removeFromCache(final String tableName)
+	{
+		final POInfo cachedValue = s_cacheByTableName.get(tableName);
+		if(cachedValue == null)
+		{
+			return; // nothing to do
+		}
+		s_cacheByTableName.remove(tableName);
+		s_cache.remove(cachedValue.getAD_Table_ID());
+	}
+	
+	/**
+	 * Makes sure that a POInfo with the given <code>AD_Table_ID</code> is not cached (anymore). This method can be used
+	 * to make sure that a subsequent call of one of any <code>getPOInfo(...)</code> method causes a reload from DB.
+	 * 
+	 * @param AD_Table_ID
+	 *            if there is a cached POInfo instance whose {@link #getAD_Table_ID()} method returns this int, it is removed from cache
+	 */
+	public static void removeFromCache(final int AD_Table_ID)
+	{
+		final POInfo cachedValue = s_cache.get(AD_Table_ID);
+		if(cachedValue == null)
+		{
+			return; // nothing to do
+		}
+		s_cache.remove(AD_Table_ID);
+		s_cacheByTableName.remove(cachedValue.getTableName());
+	}
+	//
+	// metas-mo73_03035 end
+	
+	public static POInfo getPOInfo (Properties ctx, String tableName)
+	{
+		return getPOInfo(ctx, tableName, null);
+	}
+	
+	public static POInfo getPOInfo (Properties ctx, String tableName, String trxName)
+	{
+		POInfo retValue = s_cacheByTableName.get(tableName);
+		if (retValue == null)
+		{
+			retValue = new POInfo(ctx, tableName, false, trxName);
+			if (retValue.getColumnCount() == 0)
+			{
+				//	May be run before Language verification
+				retValue = new POInfo(ctx, tableName, true, trxName);
+			}
+			else
+			{
+				s_cache.put(retValue.getAD_Table_ID(), retValue);
+				s_cacheByTableName.put(retValue.getTableName(), retValue); // metas
+			}
+		}
+		return retValue;
+	}   //  getPOInfo
+	
+	public int getAccessLevelInt()
+	{
+		return Integer.parseInt(m_AccessLevel);
+	}
+	
+	private static final CCache<String,POInfo>  s_cacheByTableName = new CCache<String,POInfo>("POInfo_ByTableName", 200);
+	private POInfo (Properties ctx, String tableName, boolean baseLanguageOnly, String trxName)
+	{
+		m_ctx = ctx;
+		m_TableName = tableName;
+		boolean baseLanguage = baseLanguageOnly ? true : Env.isBaseLanguage(m_ctx, "AD_Table");
+		loadInfo (baseLanguage, trxName);
+	}   //  PInfo
+
 }   //  POInfo
