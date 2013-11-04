@@ -22,12 +22,10 @@ import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.Insets;
 import java.awt.Rectangle;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -36,24 +34,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.logging.Level;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
-import javax.swing.JTable;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.EtchedBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -104,10 +98,10 @@ import org.compiere.util.Util;
  * 					https://sourceforge.net/tracker/?func=detail&aid=2876895&group_id=176962&atid=879332
  * 
  * @author Michael McKay, 
- * 				<li>ADEMPIERE-71 MiniTable causes exception when adding totals
- * 					to tables with no text fields in the first or second column
- * 					https://adempiere.atlassian.net/browse/ADEMPIERE-71
- * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
+ * 		<li><a href="https://adempiere.atlassian.net/browse/ADEMPIERE-71">ADMPIERE-71</a> MiniTable causes exception when adding totals
+ * 			to tables with no text fields in the first or second column
+ * 		<li><a href="https://adempiere.atlassian.net/browse/ADEMPIERE-72">ADMPIERE-72</a> VLookup and Info Window improvements
+ * 		<li><a href="https://adempiere.atlassian.net/browse/ADEMPIERE-241">ADMPIERE-241</a> Adding Select All checkbox to table header.
  * 
  */
 public class MiniTable extends CTable implements IMiniTable
@@ -386,7 +380,7 @@ public class MiniTable extends CTable implements IMiniTable
 					int totalRow = table.getRowCount()-1;
 					if (totalRow == table.rowAtPoint(mme.getPoint()))
 					{
-						mme.consume(); // Mouse if being dragged over the total row. Ignore it.
+						mme.consume(); // Mouse is being dragged over the total row. Ignore it.
 						return;					
 					}						
 				}
@@ -713,39 +707,52 @@ public class MiniTable extends CTable implements IMiniTable
 		//  ID Column & Selection
 		if (c == IDColumn.class)
 		{
-			tc.setCellRenderer(new IDColumnRenderer(m_multiSelection));
+			IDColumnRenderer idcr = new IDColumnRenderer(m_multiSelection);
+			tc.setCellRenderer(idcr);
 			if (m_multiSelection)
 			{
+				VHeaderRenderer vhr = new VHeaderRenderer(m_multiSelection);
 				tc.setCellEditor(new IDColumnEditor());
+				tc.setHeaderRenderer(vhr);
+				idcr.addItemListener(vhr);  //  Connect the IDColumn with the header
 				setColumnReadOnly(index, false);
 			}
 			else
 			{
 				tc.setCellEditor(new ROCellEditor());
+				tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.Number));
 			}
 			m_minWidth.add(new Integer(10));
 			tc.setMaxWidth(20);
 			tc.setPreferredWidth(20);
 			tc.setResizable(false);
-			
-			tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.Number));
 		}
 		//  Boolean
 		else if (DisplayType.YesNo == displayType || c == Boolean.class )
 		{
-			tc.setCellRenderer(new CheckRenderer());
+			CheckRenderer cr = new CheckRenderer();
+			tc.setCellRenderer(cr);
 			if (readOnly)
+			{
 				tc.setCellEditor(new ROCellEditor());
+				tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.YesNo));
+			}
 			else
 			{
-				CCheckBox check = new CCheckBox();
-				check.setMargin(new Insets(0,0,0,0));
-				check.setHorizontalAlignment(SwingConstants.CENTER);
-				tc.setCellEditor(new DefaultCellEditor(check));
+				if (m_multiSelection)
+				{
+					VHeaderRenderer vhr = new VHeaderRenderer(m_multiSelection);
+					setColumnReadOnly(index, false);
+					CCheckBox check = new CCheckBox();
+					check.setMargin(new Insets(0,0,0,0));
+					check.setHorizontalAlignment(SwingConstants.CENTER);
+					tc.setCellEditor(new DefaultCellEditor(check));
+					tc.setHeaderRenderer(vhr);
+					cr.addItemListener(vhr);  //  Connect the check control with the header
+				}
 			}
 			m_minWidth.add(new Integer(30));
 			
-			tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.YesNo));
 		}
 		//  Date
 		else if (DisplayType.Date == displayType || DisplayType.DateTime == displayType ||  c == Timestamp.class )
@@ -958,7 +965,6 @@ public class MiniTable extends CTable implements IMiniTable
 	}	//	loadTable
 	/**
 	 * 	Set Model index of Key Column.
-	 *  Used for identifying previous selected row after fort complete to set as selected row.
 	 *  If not set, column 0 is used.
 	 * 	@param keyColumnIndex model index
 	 */
@@ -1940,6 +1946,7 @@ public class MiniTable extends CTable implements IMiniTable
 		{
 			IDColumn id = (IDColumn)data;
 			id.setSelected(setValue);
+			
 		}
 		else if (data instanceof Boolean)
 		{
@@ -1950,5 +1957,5 @@ public class MiniTable extends CTable implements IMiniTable
 		this.setValueAt(data, row, this.convertColumnIndexToView(getKeyColumnIndex()));
 
     }
-
+    
 }   //  MiniTable

@@ -19,6 +19,7 @@ package org.compiere.minigrid;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Insets;
+import java.awt.event.ItemListener;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -29,8 +30,11 @@ import javax.swing.table.DefaultTableCellRenderer;
 /**
  *  ID Column Renderer
  *
- * 	@author 	Jorg Janke
- * 	@version 	$Id: IDColumnRenderer.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ * 	@author Jorg Janke
+ *  @author Michael McKay, 
+ * 		<li><a href="https://adempiere.atlassian.net/browse/ADEMPIERE-241">ADMPIERE-241</a> Adding Select All checkbox to table header.
+ *
+ * 	@version 	$Id: IDColumnRenderer.java,v 1.3 2013/11/03 $
  */
 public class IDColumnRenderer extends DefaultTableCellRenderer
 {
@@ -110,4 +114,8 @@ public class IDColumnRenderer extends DefaultTableCellRenderer
 			return m_button;
 	}   //  setTableCellRenderereComponent
 
+	public void addItemListener(ItemListener listener)
+	{
+		m_check.addItemListener(listener);
+	}
 }   //  IDColumnRenderer
