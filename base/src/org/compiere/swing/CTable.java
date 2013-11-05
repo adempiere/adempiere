@@ -49,8 +49,8 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.minigrid.CheckRenderer;
-import org.compiere.minigrid.IDColumnRenderer;
+//import org.compiere.minigrid.CheckRenderer;
+//import org.compiere.minigrid.IDColumnRenderer;
 import org.compiere.util.MSort;
 import org.jdesktop.swingx.icon.ColumnControlIcon;
 
@@ -479,8 +479,8 @@ public class CTable extends JTable
 				TableColumn column = getTableHeader().getResizingColumn();
 				if (column != null) return;
 
-				Object renderer = getColumnModel().getColumn(mc).getCellRenderer();
-				if (renderer instanceof IDColumnRenderer  || renderer instanceof CheckRenderer) return;
+				//Object renderer = getColumnModel().getColumn(mc).getCellRenderer();
+				//if (renderer instanceof IDColumnRenderer  || renderer instanceof CheckRenderer) return;
 				sort(mc);
 			}
 		}

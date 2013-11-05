@@ -1,22 +1,22 @@
-ALTER TABLE pa_reportline ADD COLUMN ReportLineStyle CHAR(1);
+ALTER TABLE pa_reportline ADD ReportLineStyle CHAR(1);
 
-ALTER TABLE pa_reportline ADD COLUMN TabLevel numeric(10,0);
+ALTER TABLE pa_reportline ADD TabLevel number(10,0);
 
-ALTER TABLE I_ReportLine ADD COLUMN ReportLineStyle CHAR(1);
+ALTER TABLE I_ReportLine ADD ReportLineStyle CHAR(1);
 
-ALTER TABLE I_ReportLine ADD COLUMN TabLevel numeric(10,0);
+ALTER TABLE I_ReportLine ADD TabLevel number(10,0);
 
-ALTER TABLE T_Report ADD COLUMN TabLevel numeric(10,0);
+ALTER TABLE T_Report ADD TabLevel number(10,0);
 
-ALTER TABLE T_Report ADD COLUMN ReportLineStyle CHAR(1);
+ALTER TABLE T_Report ADD ReportLineStyle CHAR(1);
 
-ALTER TABLE T_Report ADD COLUMN FixedPercentage numeric;
+ALTER TABLE T_Report ADD FixedPercentage number(10,0);
 
-ALTER TABLE PA_ReportLine ADD COLUMN FixedPercentage numeric;
+ALTER TABLE PA_ReportLine ADD FixedPercentage number(10,0);
 
-ALTER TABLE PA_Report ADD COLUMN prePeriodName character varying(20);
+ALTER TABLE PA_Report ADD prePeriodName VARCHAR2(20);
 
-ALTER TABLE PA_Report ADD COLUMN posPeriodName character varying(20);
+ALTER TABLE PA_Report ADD posPeriodName VARCHAR2(20);
 
 -- Oct 3, 2013 5:14:48 PM IST
 -- SmartJS Report functionality in ADempiere380
