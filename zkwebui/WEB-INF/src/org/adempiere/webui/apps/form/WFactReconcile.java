@@ -1,6 +1,6 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) Adaxa. All Rights Reserved.					              *
+ * Copyright (C) 2013 Adaxa Inc., All Rights Reserved.			              *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -29,6 +29,7 @@ import java.util.Calendar;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Checkbox;
@@ -38,6 +39,7 @@ import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.ListModelTable;
+import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
@@ -50,7 +52,8 @@ import org.adempiere.webui.event.WTableModelListener;
 import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.CustomForm;
 import org.adempiere.webui.panel.IFormController;
-import org.adempiere.webui.apps.AEnv;
+import org.adempiere.webui.panel.StatusBarPanel;
+import org.adempiere.webui.session.SessionManager;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MClient;
@@ -70,10 +73,10 @@ import org.compiere.util.Msg;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
 import org.zkoss.zkex.zul.South;
+import org.zkoss.zkex.zul.West;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Space;
 
@@ -130,41 +133,52 @@ public class WFactReconcile extends CustomForm
 	private static CLogger log = CLogger.getCLogger(WFactReconcile.class);
 
 	//
-	private Borderlayout mainPanel = new Borderlayout(); // May be redundant in ZK
+	private Borderlayout mainPanel = new Borderlayout(); 
 	private Grid parameterGrid = GridFactory.newGridLayout();
-	private Borderlayout commandPanel = new Borderlayout(); // To hold the buttons.
+	private Borderlayout parameterPanel = new Borderlayout();  
+	private Borderlayout commandPanel = new Borderlayout(); // To hold the buttons and status bar
+	private Hbox commandPane; // To hold the buttons
 	private ConfirmPanel confirmPanel = new ConfirmPanel(); // Needed only to generate buttons easily.
-
+    //
+    private Hbox hboxBtnLeft;
+    private Hbox hboxBtnRight;
+    private Hbox hboxTextCenter;
+    //
+    private Panel pnlBtnRight;
+    private Panel pnlBtnLeft;
+    private Panel pnlTextCenter;
+    //
 	private WListbox miniTable = new WListbox();
-
+	//
 	private Label labelAcctSchema = new Label();
 	private Label labelOrg = new Label();
 	private Label labelBlank = new Label();
 	private Label labelAccount = new Label();
 	private Label labelBPartner = new Label();
-	private Label dataStatus = new Label();
+	protected StatusBarPanel statusBar = new StatusBarPanel();
+	//
 	private Label labelDateAcct = new Label();
 	private Label labelDateAcct2 = new Label();
 	private Label labelProduct = new Label();
 	private Label differenceLabel = new Label();
-
+	//
 	private WTableDirEditor fieldAcctSchema = null;
 	private WTableDirEditor fieldOrg = null;
 	private WSearchEditor fieldProduct = WSearchEditor.createProduct(m_WindowNo);	
 	private WSearchEditor fieldBPartner = WSearchEditor.createBPartner(m_WindowNo);
-
+	//
 	private Checkbox isReconciled = new Checkbox();
 	private WTableDirEditor fieldAccount = null;
 	private Textbox differenceField = new Textbox();
 	private Datebox fieldDateAcct = new Datebox();
 	private Datebox fieldDateAcct2 = new Datebox();
-
+	//
 	private Button bCancel = confirmPanel.createButton(ConfirmPanel.A_CANCEL);
 	private Button bGenerate = confirmPanel.createButton(ConfirmPanel.A_PROCESS);
 	private Button bReset = confirmPanel.createButton(ConfirmPanel.A_RESET);
 	private Button bZoom = confirmPanel.createButton(ConfirmPanel.A_ZOOM);
 	private Button bRefresh = confirmPanel.createButton(ConfirmPanel.A_REFRESH);
-
+	//
 	private boolean loading = false;
 	private int amtColIndex = 1;
 
@@ -175,24 +189,24 @@ public class WFactReconcile extends CustomForm
 	private void initComponents() throws Exception
 	{
 
-		// Reset button
+		//  Buttons
 		bCancel.addActionListener(this);
-
+		//
 		bGenerate.setLabel(Msg.getMsg(Env.getCtx(),"Process"));
 		bGenerate.addActionListener(this);
 		bGenerate.setEnabled(false);
-				
+		//	
 		bReset.setLabel(Msg.getMsg(Env.getCtx(),"Reset"));
 		bReset.addActionListener(this);
 		bReset.setEnabled(false);
-
+		//
 		bZoom.setLabel(Msg.translate(Env.getCtx(), "Fact_Acct_ID"));
 		bZoom.setEnabled(false);
 		bZoom.addActionListener(this);
-
+		//
 		bRefresh.addActionListener(this);
 	
-		//
+		//  Labels
 		labelBlank.setValue(" ");
 		labelAcctSchema.setText(Msg.translate(Env.getCtx(), "C_AcctSchema_ID"));
 		labelAccount.setText(Msg.translate(Env.getCtx(), "Account_ID"));
@@ -203,12 +217,18 @@ public class WFactReconcile extends CustomForm
 		//
 		labelOrg.setText(Msg.translate(Env.getCtx(), "AD_Org_ID"));
 		isReconciled.setText(Msg.translate(Env.getCtx(), "IsReconciled"));
-		dataStatus.setText(" ");
+		//
+		statusBar.setEastVisibility(false);
+		statusBar.setAttribute("zk_component_ID", "info_statusBar");
+        setStatusLine(Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
+        setStatusDB("0");
 		//
 		differenceLabel.setText(Msg.getMsg(Env.getCtx(), "Difference"));
 		differenceField.setReadonly(true);
 		differenceField.setValue("0");
-
+		differenceField.setAttribute("zk_component_ID", "ConfirmPanel_differenceField");
+		
+		//  Find context and client
 		Properties ctx = Env.getCtx();
 		m_AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());	
 
@@ -236,23 +256,21 @@ public class WFactReconcile extends CustomForm
 		fieldOrg.setValue(0);  // Attempt to select "*" and fall back to context           
         if (fieldOrg.getValue() == null || ((Integer) fieldOrg.getValue()).intValue() != 0)
 			fieldOrg.setValue(Env.getAD_Org_ID(Env.getCtx()));
-
-		//  BPartner
-		//  C_Invoice.C_BPartner_ID AD_Column_ID = 3499; 
+		//
+        //  BPartner C_Invoice.C_BPartner_ID AD_Column_ID = 3499; 
 		fieldBPartner.getComponent().setAttribute("zk_component_ID", "Lookup_Criteria_C_BPartner_ID");
 		fieldBPartner.getComponent().setAttribute("zk_component_prefix", "Lookup_");
 		fieldBPartner.getComponent().setAttribute("IsDynamic", "False");
 		fieldBPartner.getComponent().setAttribute("fieldName", "fieldBPartner");
 		fieldBPartner.getComponent().setWidth("200px");
-
-		// Product
-		//  Fact_Acct.M_Product_ID AD_Column_ID = 2527;        
+		//
+		// Product Fact_Acct.M_Product_ID AD_Column_ID = 2527;        
 		fieldProduct.getComponent().setAttribute("zk_component_ID", "Lookup_Criteria_M_Product_ID");
 		fieldProduct.getComponent().setAttribute("zk_component_prefix", "Lookup_");
 		fieldProduct.getComponent().setAttribute("IsDynamic", "False");
 		fieldProduct.getComponent().setAttribute("fieldName", "fieldProduct");
 		fieldProduct.getComponent().setWidth("200px");
-		
+		//
 		// The Account combo.  A bit more involved if we try to filter out the summary accounts.
 		MLookup lookup;
 		try{
@@ -275,6 +293,7 @@ public class WFactReconcile extends CustomForm
 		if (fieldAccount.getComponent().getItemCount() > 2)
 			fieldAccount.getComponent().setSelectedIndex(1);
 
+		//  Define the table
 		m_sql = miniTable.prepareTable(new ColumnInfo[] {
 				new ColumnInfo(" ", "fa.Fact_Acct_ID", IDColumn.class, false, false, null),
 				new ColumnInfo(Msg.translate(ctx, "AmtAcct"), "(fa.amtacctdr-fa.amtacctcr)", BigDecimal.class,true,true,null),
@@ -311,8 +330,6 @@ public class WFactReconcile extends CustomForm
 					}					
 				}
 			});
-
-
 	}   //  initComponents
 
 	/**
@@ -330,12 +347,12 @@ public class WFactReconcile extends CustomForm
 		setHeight("100%");
 		setStyle("position: absolute");
 
-        //miniTable.setOddRowSclass(null);
         miniTable.setAttribute("zk_component_ID", "Lookup_Data_SearchResults");        
         miniTable.setVflex(true);
 
+        //  Define the criteria rows and grid  
 		Rows rows = new Rows();
-
+		//
 		Row row = new Row();
 		rows.appendChild(row);
 		row.setSpans("1, 1, 1, 1");
@@ -343,7 +360,7 @@ public class WFactReconcile extends CustomForm
 		row.appendChild(fieldAcctSchema.getComponent());
 		row.appendChild(labelBPartner.rightAlign());
 		row.appendChild(fieldBPartner.getComponent());
-
+		//
 		row = new Row();
 		rows.appendChild(row);
 		row.setSpans("1, 1, 1, 1");
@@ -352,7 +369,6 @@ public class WFactReconcile extends CustomForm
 		row.appendChild(labelProduct.rightAlign());
 		row.appendChild(fieldProduct.getComponent());
 		//
-
 		row = new Row();
 		rows.appendChild(row);
 		row.setSpans("1, 1, 1, 1");
@@ -360,7 +376,7 @@ public class WFactReconcile extends CustomForm
 		row.appendChild(fieldAccount.getComponent());
 		row.appendChild(new Space());
 		row.appendChild(isReconciled);
-		
+		//
 		row = new Row();
 		rows.appendChild(row);
 		row.setSpans("1, 1, 1, 1");
@@ -370,50 +386,93 @@ public class WFactReconcile extends CustomForm
 		hbox.appendChild(labelDateAcct2);
 		hbox.appendChild(fieldDateAcct2);
 		row.appendChild(hbox);
-
-		row = new Row();
-		rows.appendChild(row);
-		row.setSpans("1, 1, 1, 1");
-		row.appendChild(bRefresh);
-
+		//
 		parameterGrid.appendChild(rows);
-		North north = new North();
-		north.appendChild(parameterGrid);
-		mainPanel.appendChild(north);
-		
+		//
 		Center center = new Center();
+		center.setBorder("0");
+		center.appendChild(parameterGrid);
+		Hbox btnBox = new Hbox();
+		btnBox.setStyle("border-top: 2px; border-bottom: 2px; padding: 4px");
+		btnBox.appendChild(bRefresh);
+		btnBox.setHeight("100%");
+		West west = new West();
+		west.setBorder("0");
+		west.appendChild(btnBox);
+		parameterPanel.appendChild(center);
+		parameterPanel.appendChild(west);
+		parameterPanel.setHeight("100px");
+		//
+		North north = new North();
+		north.appendChild(parameterPanel);
+		mainPanel.appendChild(north);
+		//
+		center = new Center();
 		center.appendChild(miniTable);
 		mainPanel.appendChild(center);
-		
-		//  Insert buttons and fields into the command Panel
-		rows = new Rows();		
-		row = new Row();
-		rows.appendChild(row);
-		row.setSpans("1, 1, 1, 1, 1, 1");
-		row.appendChild(bZoom);
-		row.appendChild(differenceLabel.rightAlign());
-		row.appendChild(differenceField);
-		row.appendChild(bGenerate);
-		row.appendChild(bReset);
-		row.appendChild(bCancel);
-		
-		Grid grid = GridFactory.newGridLayout();
-		grid.appendChild(rows);
-		
+
+		//  Setup the command buttons
+		pnlBtnLeft = new Panel();
+        pnlBtnLeft.setAlign("left");
+        pnlBtnLeft.setStyle("border-top: 2px; border-bottom: 2px; padding: 4px");
+        pnlBtnLeft.appendChild(bZoom);
+        //
+        pnlBtnRight = new Panel();
+        pnlBtnRight.setAlign("right");
+        pnlBtnRight.setStyle("border-top: 2px; border-bottom: 2px; padding: 4px");
+        pnlBtnRight.appendChild(bGenerate);
+        pnlBtnRight.appendChild(bReset);
+        pnlBtnRight.appendChild(bCancel);
+        //
+        pnlTextCenter = new Panel();
+        pnlTextCenter.setStyle("border-top: 2px; border-bottom: 2px; padding: 4px");
+        pnlTextCenter.setAlign("center");
+        pnlTextCenter.appendChild(differenceLabel);
+        pnlTextCenter.appendChild(differenceField);
+        //
+        hboxBtnRight = new Hbox();
+        hboxBtnRight.appendChild(pnlBtnRight);
+        hboxBtnRight.setWidth("100%");
+        hboxBtnRight.setStyle("text-align:right");
+        //
+        hboxBtnLeft = new Hbox();
+        hboxBtnLeft.appendChild(pnlBtnLeft);
+        hboxBtnLeft.setWidth("100%");
+        hboxBtnLeft.setStyle("text-align:left");
+        //
+        hboxTextCenter = new Hbox();
+        hboxTextCenter.appendChild(pnlTextCenter);
+        hboxTextCenter.setWidth("100%");
+        hboxTextCenter.setHeight("100%");
+        hboxTextCenter.setPack("center");
+        hboxTextCenter.setStyle("text-align:Center");
+        //
+        commandPane = new Hbox();
+        commandPane.appendChild(hboxBtnLeft);
+        commandPane.appendChild(hboxTextCenter);
+        commandPane.appendChild(hboxBtnRight);
+        commandPane.setWidth("100%");
+        commandPane.setPack("center");        
+        //
 		commandPanel.setHeight("70px");
+		commandPanel.setStyle("border-top: 2px; border-bottom: 2px; padding: 4px");
+		commandPanel.setWidth("100%");
 		center = new Center();
-		center.appendChild(grid);
+		center.appendChild(commandPane);
+		center.setBorder("0");
 		commandPanel.appendChild(center);
 		South south = new South();
-		south.appendChild(dataStatus);
+		south.appendChild(statusBar);
+		south.setBorder("0");
 		commandPanel.appendChild(south);
 		south = new South();
 		south.appendChild(commandPanel);
+		south.setBorder("0");
 		mainPanel.appendChild(south);
-
+		
+		//  Add everything to the form 
 		this.appendChild(mainPanel);
-        this.addEventListener(Events.ON_OK, this);
-
+		
 	}   //  initLayout
 
 	/**
@@ -507,7 +566,7 @@ public class WFactReconcile extends CustomForm
 	public void dispose()
 	{
 		miniTable.clear();
-		this.detach();
+    	SessionManager.getAppDesktop().closeActiveWindow();
 	}	//	dispose
 
 	@Override
@@ -673,7 +732,9 @@ public class WFactReconcile extends CustomForm
 		info.append(m_noSelected).append(" ").append(Msg.getMsg(Env.getCtx(), "Selected")).append(" / ").append(miniTable.getRowCount());
 		
 		differenceField.setValue(m_format.format(selectedAmt));
-		dataStatus.setText(info.toString());
+        setStatusLine(info.toString() + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
+        setStatusDB(Integer.toString(miniTable.getRowCount()));
+
 		//
 		bGenerate.setEnabled(m_noSelected != 0 && Env.ZERO.compareTo(selectedAmt) == 0 && !isReconciled.isSelected());
 		bReset.setEnabled(m_noSelected > 0 && isReconciled.isSelected());
@@ -778,5 +839,23 @@ public class WFactReconcile extends CustomForm
 		if (! loading )
 			calculateSelection();
 	}
+	/**
+	 *	Set Status Line
+	 *  @param text text
+	 *  @param error error
+	 */
+	public void setStatusLine (String text, boolean error)
+	{
+		statusBar.setStatusLine(text, error);
+	}	//	setStatusLine
+
+	/**
+	 *	Set Status DB
+	 *  @param text text
+	 */
+	public void setStatusDB (String text)
+	{
+		statusBar.setStatusDB(text);
+	}	//	setStatusDB
 
 } 

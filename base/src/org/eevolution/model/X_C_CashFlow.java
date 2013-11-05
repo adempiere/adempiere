@@ -17,25 +17,24 @@
 /** Generated Model - DO NOT CHANGE */
 package org.eevolution.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.model.*;
 import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_CashFlow
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_C_CashFlow extends PO implements I_C_CashFlow, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20131101L;
 
     /** Standard Constructor */
     public X_C_CashFlow (Properties ctx, int C_CashFlow_ID, String trxName)
@@ -103,21 +102,10 @@ public class X_C_CashFlow extends PO implements I_C_CashFlow, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException 
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
-        I_C_BPartner result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
+			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
 		@param C_BPartner_ID 
@@ -142,21 +130,10 @@ public class X_C_CashFlow extends PO implements I_C_CashFlow, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_BankAccount getC_BankAccount() throws RuntimeException 
+	public org.compiere.model.I_C_BankAccount getC_BankAccount() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_BankAccount.Table_Name);
-        I_C_BankAccount result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_BankAccount)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BankAccount_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.compiere.model.I_C_BankAccount)MTable.get(getCtx(), org.compiere.model.I_C_BankAccount.Table_Name)
+			.getPO(getC_BankAccount_ID(), get_TrxName());	}
 
 	/** Set Bank Account.
 		@param C_BankAccount_ID 
@@ -201,21 +178,10 @@ public class X_C_CashFlow extends PO implements I_C_CashFlow, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_ConversionType getC_ConversionType() throws RuntimeException 
+	public org.compiere.model.I_C_ConversionType getC_ConversionType() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_ConversionType.Table_Name);
-        I_C_ConversionType result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_ConversionType)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_ConversionType_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.compiere.model.I_C_ConversionType)MTable.get(getCtx(), org.compiere.model.I_C_ConversionType.Table_Name)
+			.getPO(getC_ConversionType_ID(), get_TrxName());	}
 
 	/** Set Currency Type.
 		@param C_ConversionType_ID 
@@ -240,21 +206,10 @@ public class X_C_CashFlow extends PO implements I_C_CashFlow, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Currency getC_Currency() throws RuntimeException 
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
-        I_C_Currency result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Currency)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Currency_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.compiere.model.I_C_Currency)MTable.get(getCtx(), org.compiere.model.I_C_Currency.Table_Name)
+			.getPO(getC_Currency_ID(), get_TrxName());	}
 
 	/** Set Currency.
 		@param C_Currency_ID 
@@ -279,21 +234,10 @@ public class X_C_CashFlow extends PO implements I_C_CashFlow, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException 
+	public org.compiere.model.I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_PaymentTerm.Table_Name);
-        I_C_PaymentTerm result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_PaymentTerm)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_PaymentTerm_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.compiere.model.I_C_PaymentTerm)MTable.get(getCtx(), org.compiere.model.I_C_PaymentTerm.Table_Name)
+			.getPO(getC_PaymentTerm_ID(), get_TrxName());	}
 
 	/** Set Payment Term.
 		@param C_PaymentTerm_ID 
@@ -368,6 +312,14 @@ public class X_C_CashFlow extends PO implements I_C_CashFlow, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_DocumentNo);
 	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), getDocumentNo());
+    }
 
 	/** Set Due Date.
 		@param DueDate 
@@ -445,5 +397,70 @@ public class X_C_CashFlow extends PO implements I_C_CashFlow, I_Persistent
 	public String getName () 
 	{
 		return (String)get_Value(COLUMNNAME_Name);
+	}
+
+	/** Set Processed.
+		@param Processed 
+		The document has been processed
+	  */
+	public void setProcessed (boolean Processed)
+	{
+		set_Value (COLUMNNAME_Processed, Boolean.valueOf(Processed));
+	}
+
+	/** Get Processed.
+		@return The document has been processed
+	  */
+	public boolean isProcessed () 
+	{
+		Object oo = get_Value(COLUMNNAME_Processed);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Processed On.
+		@param ProcessedOn 
+		The date+time (expressed in decimal format) when the document has been processed
+	  */
+	public void setProcessedOn (BigDecimal ProcessedOn)
+	{
+		set_Value (COLUMNNAME_ProcessedOn, ProcessedOn);
+	}
+
+	/** Get Processed On.
+		@return The date+time (expressed in decimal format) when the document has been processed
+	  */
+	public BigDecimal getProcessedOn () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ProcessedOn);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Process Now.
+		@param Processing Process Now	  */
+	public void setProcessing (boolean Processing)
+	{
+		set_Value (COLUMNNAME_Processing, Boolean.valueOf(Processing));
+	}
+
+	/** Get Process Now.
+		@return Process Now	  */
+	public boolean isProcessing () 
+	{
+		Object oo = get_Value(COLUMNNAME_Processing);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 }

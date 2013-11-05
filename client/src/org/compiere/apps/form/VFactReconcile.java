@@ -1,6 +1,6 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Copyright (C) 2011-2013 Adaxa Inc., All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -46,25 +46,18 @@ import net.miginfocom.swing.MigLayout;
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.ConfirmPanel;
-import org.compiere.grid.ed.AutoCompletion;
 import org.compiere.grid.ed.VCheckBox;
-import org.compiere.grid.ed.VComboBox;
 import org.compiere.grid.ed.VDate;
 import org.compiere.grid.ed.VLookup;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.MiniTable;
-import org.compiere.model.MAcctSchema;
-import org.compiere.model.MBPartner;
 import org.compiere.model.MClient;
 import org.compiere.model.MColumn;
 import org.compiere.model.MFactAcct;
 import org.compiere.model.MFactReconciliation;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
-import org.compiere.model.MPriceListVersion;
-import org.compiere.model.MProductPO;
-import org.compiere.model.MRole;
 import org.compiere.model.Query;
 import org.compiere.plaf.CompiereColor;
 import org.compiere.process.ProcessInfo;
@@ -76,9 +69,18 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
-import org.compiere.util.KeyNamePair;
-import org.compiere.util.Language;
 import org.compiere.util.Msg;
+
+/**
+* Original code
+* @author Paul Bowden, Adaxa
+*  
+* 
+* Zk Port - minor changes
+* @author Michael McKay, ADEMPIERE-41 GL Reconciliation integration
+* 
+*/
+
 
 /**
  *  Create manual match of accounting facts

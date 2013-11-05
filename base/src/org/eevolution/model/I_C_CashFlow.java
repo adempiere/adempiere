@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_CashFlow
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.8.0RC
  */
 public interface I_C_CashFlow 
 {
@@ -89,7 +89,7 @@ public interface I_C_CashFlow
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_BankAccount_ID */
     public static final String COLUMNNAME_C_BankAccount_ID = "C_BankAccount_ID";
@@ -104,7 +104,7 @@ public interface I_C_CashFlow
 	  */
 	public int getC_BankAccount_ID();
 
-	public I_C_BankAccount getC_BankAccount() throws RuntimeException;
+	public org.compiere.model.I_C_BankAccount getC_BankAccount() throws RuntimeException;
 
     /** Column name C_CashFlow_ID */
     public static final String COLUMNNAME_C_CashFlow_ID = "C_CashFlow_ID";
@@ -128,7 +128,7 @@ public interface I_C_CashFlow
 	  */
 	public int getC_ConversionType_ID();
 
-	public I_C_ConversionType getC_ConversionType() throws RuntimeException;
+	public org.compiere.model.I_C_ConversionType getC_ConversionType() throws RuntimeException;
 
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
@@ -143,7 +143,7 @@ public interface I_C_CashFlow
 	  */
 	public int getC_Currency_ID();
 
-	public I_C_Currency getC_Currency() throws RuntimeException;
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException;
 
     /** Column name C_PaymentTerm_ID */
     public static final String COLUMNNAME_C_PaymentTerm_ID = "C_PaymentTerm_ID";
@@ -158,7 +158,7 @@ public interface I_C_CashFlow
 	  */
 	public int getC_PaymentTerm_ID();
 
-	public I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException;
+	public org.compiere.model.I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -279,6 +279,41 @@ public interface I_C_CashFlow
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
+
+    /** Column name Processed */
+    public static final String COLUMNNAME_Processed = "Processed";
+
+	/** Set Processed.
+	  * The document has been processed
+	  */
+	public void setProcessed (boolean Processed);
+
+	/** Get Processed.
+	  * The document has been processed
+	  */
+	public boolean isProcessed();
+
+    /** Column name ProcessedOn */
+    public static final String COLUMNNAME_ProcessedOn = "ProcessedOn";
+
+	/** Set Processed On.
+	  * The date+time (expressed in decimal format) when the document has been processed
+	  */
+	public void setProcessedOn (BigDecimal ProcessedOn);
+
+	/** Get Processed On.
+	  * The date+time (expressed in decimal format) when the document has been processed
+	  */
+	public BigDecimal getProcessedOn();
+
+    /** Column name Processing */
+    public static final String COLUMNNAME_Processing = "Processing";
+
+	/** Set Process Now	  */
+	public void setProcessing (boolean Processing);
+
+	/** Get Process Now	  */
+	public boolean isProcessing();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
