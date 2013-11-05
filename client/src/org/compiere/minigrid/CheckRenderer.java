@@ -19,6 +19,7 @@ package org.compiere.minigrid;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Insets;
+import java.awt.event.ItemListener;
 
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -31,7 +32,10 @@ import org.adempiere.plaf.AdempierePLAF;
  *  Check Box Renderer based on Boolean values
  *
  *  @author     Jorg Janke
- *  @version    $Id: CheckRenderer.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ *  @author Michael McKay, 
+ * 		<li><a href="https://adempiere.atlassian.net/browse/ADEMPIERE-241">ADMPIERE-241</a> Adding Select All checkbox to table header.
+  *  
+ *  @version    $Id: CheckRenderer.java,v 1.3 2013/11/03 $
  */
 public final class CheckRenderer extends DefaultTableCellRenderer
 {
@@ -97,5 +101,9 @@ public final class CheckRenderer extends DefaultTableCellRenderer
 		else
 			m_check.setSelected(false);
 	}   //  setValue
+
+	public void addItemListener(ItemListener listener) {
+		m_check.addItemListener(listener);
+	}
 
 }   //  CheckRenderer

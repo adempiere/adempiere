@@ -49,6 +49,8 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
 import org.adempiere.plaf.AdempierePLAF;
+import org.compiere.minigrid.CheckRenderer;
+import org.compiere.minigrid.IDColumnRenderer;
 import org.compiere.util.MSort;
 import org.jdesktop.swingx.icon.ColumnControlIcon;
 
@@ -56,14 +58,13 @@ import org.jdesktop.swingx.icon.ColumnControlIcon;
  * Model Independent enhanced JTable.
  * Provides sizing and sorting.
  * 
- * @author	Jorg Janke
- * @version	$Id: CTable.java,v 1.2 2006/07/30 00:52:24 jjanke Exp $
- * 
+ * @author	Jorg Janke * 
  * @author	Teo Sarca, SC ARHIPAC SERVICE SRL - BF [ 1585369 ], FR [ 1753943 ]
- * 
  * @author Michael McKay, 
- * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
- * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
+ * 				<li><a href="https://adempiere.atlassian.net/browse/ADEMPIERE-72">ADEMPIERE-72</a> VLookup and Info Window improvements
+ * 				<li><a href="https://adempiere.atlassian.net/browse/ADEMPIERE-241">ADMPIERE-241</a> Adding Select All checkbox to table header
+ * 					
+ * @version	$Id: CTable.java,v 1.3 2013/11/03 $
  */
 public class CTable extends JTable
 {
@@ -477,6 +478,9 @@ public class CTable extends JTable
 				int mc = convertColumnIndexToModel(vc);
 				TableColumn column = getTableHeader().getResizingColumn();
 				if (column != null) return;
+
+				Object renderer = getColumnModel().getColumn(mc).getCellRenderer();
+				if (renderer instanceof IDColumnRenderer  || renderer instanceof CheckRenderer) return;
 				sort(mc);
 			}
 		}
