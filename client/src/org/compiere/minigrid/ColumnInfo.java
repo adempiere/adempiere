@@ -63,7 +63,7 @@ public class ColumnInfo
 		boolean readOnly, boolean colorColumn, String keyPairColSQL)
 	{
 		this(colHeader, colSQL, colClass, 0 ,
-				readOnly,  colorColumn, keyPairColSQL);
+				readOnly,  colorColumn, keyPairColSQL, true);
 	}
 	
 	/**
@@ -79,6 +79,24 @@ public class ColumnInfo
 	public ColumnInfo (String colHeader, String colSQL, Class<?> colClass, int displayType,
 		boolean readOnly, boolean colorColumn, String keyPairColSQL)
 	{
+		this(colHeader, colSQL, colClass, 0 ,
+				readOnly,  colorColumn, keyPairColSQL, true);		
+	}
+
+	/**
+	 *  Create Info Column
+	 *
+	 *  @param colHeader Column Header
+	 *  @param colSQL    SQL select code for column
+	 *  @param colClass  class of column - determines display
+	 *  @param readOnly  column is read only
+	 *  @param colorColumn   if true, value of column determines foreground color
+	 *  @param keyPairColSQL  SQL select for the ID of the for the displayed column
+	 *  @param visible  if true, the column will be visible.  False, it will be hidden.
+	 */
+	public ColumnInfo (String colHeader, String colSQL, Class<?> colClass, int displayType,
+		boolean readOnly, boolean colorColumn, String keyPairColSQL, boolean visible)
+	{
 		setColHeader(colHeader);
 		setColSQL(colSQL);
 		setColClass(colClass);
@@ -86,16 +104,18 @@ public class ColumnInfo
 		setColorColumn(colorColumn);
 		setKeyPairColSQL(keyPairColSQL);
 		setDisplayType(displayType);
+		setVisibility(visible);
 	}   //  ColumnInfo
 
 
 	private String      m_colHeader;
 	private String      m_colSQL;
-	private Class<?>       m_colClass;
+	private Class<?>	m_colClass;
 	private boolean     m_readOnly;
 	private boolean     m_colorColumn;
 	private String      m_keyPairColSQL = "";
-	private int      m_DisplayType;
+	private int      	m_DisplayType;
+	private boolean		m_isVisible;
 
 	/**
 	 * 	Get Col Class
@@ -226,5 +246,19 @@ public class ColumnInfo
 	public int getDisplayType()
 	{
 		return m_DisplayType;
+	}
+
+	/**
+	 * @param m_isVisible the m_isVisible to set
+	 */
+	public void setVisibility(boolean m_isVisible) {
+		this.m_isVisible = m_isVisible;
+	}
+
+	/**
+	 * @return the m_isVisible
+	 */
+	public boolean getVisibility() {
+		return m_isVisible;
 	}
 }   //  infoColumn
