@@ -213,7 +213,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 
         // TODO put this in factory method for generating cell renderers, which
         // are assigned to Table Columns
-		if (field != null)
+		if (field != null && isColumnVisible )
 		{
 			if (field instanceof Boolean)
 			{
