@@ -57,6 +57,8 @@ public class IDColumnRenderer extends DefaultTableCellRenderer
 			m_check = new JCheckBox();
 			m_check.setMargin(new Insets(0,0,0,0));
 			m_check.setHorizontalAlignment(JLabel.CENTER);
+			// Set client properties to prevent sorting based on ID
+			this.putClientProperty("SortColumn", Boolean.FALSE);
 		}
 		else    //  Single => Button
 		{
@@ -64,6 +66,7 @@ public class IDColumnRenderer extends DefaultTableCellRenderer
 			m_button.setMargin(new Insets(0,0,0,0));
 			m_button.setSize(new Dimension(5,5));
 		}
+				
 	}   //  IDColumnRenderer
 
 	/** Mult-Selection flag */

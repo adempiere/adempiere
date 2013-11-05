@@ -53,6 +53,7 @@ public final class CheckRenderer extends DefaultTableCellRenderer
 		m_check.setMargin(new Insets(0,0,0,0));
 		m_check.setHorizontalAlignment(JLabel.CENTER);
 		m_check.setOpaque(true);
+		
 	}   //  CheckRenderer
 
 	private JCheckBox   m_check = new JCheckBox();
@@ -70,6 +71,12 @@ public final class CheckRenderer extends DefaultTableCellRenderer
 	public Component getTableCellRendererComponent(JTable table, Object value,
 		boolean isSelected, boolean hasFocus, int row, int col)
 	{
+		if (table.isCellEditable(row, col))
+			// Set client properties to prevent sorting based on ID
+			this.putClientProperty("SortColumn", Boolean.FALSE);
+		else
+			this.putClientProperty("SortColumn", Boolean.TRUE);
+
 		//  Background & Foreground
 		Color bg = AdempierePLAF.getFieldBackground_Normal();
 		//  Selected is white on blue in Windows

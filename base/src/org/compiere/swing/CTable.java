@@ -49,8 +49,6 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.minigrid.CheckRenderer;
-import org.compiere.minigrid.IDColumnRenderer;
 import org.compiere.util.MSort;
 import org.jdesktop.swingx.icon.ColumnControlIcon;
 
@@ -480,8 +478,15 @@ public class CTable extends JTable
 				if (column != null) return;
 
 				Object renderer = getColumnModel().getColumn(mc).getCellRenderer();
-				if (renderer instanceof IDColumnRenderer  || renderer instanceof CheckRenderer) return;
-				sort(mc);
+				boolean sort = true;
+				if(renderer instanceof DefaultTableCellRenderer)
+				{
+					Object cProperty = ((DefaultTableCellRenderer) renderer).getClientProperty("SortColumn");
+					if (cProperty != null)
+						sort = (Boolean) cProperty;
+				}
+				if (sort)
+					sort(mc);
 			}
 		}
 		
