@@ -337,5 +337,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="tools/lib/OpenForecast-0.5.0.jar"/>
+	<classpathentry kind="lib" path="packages/liberoCashflow.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
