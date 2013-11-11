@@ -16,6 +16,7 @@ import org.adempiere.model.MBrowseField;
 import org.adempiere.model.MViewColumn;
 import org.adempiere.model.MViewDefinition;
 import org.adempiere.model.X_AD_Browse;
+import org.adempiere.model.X_AD_Browse_Field;
 import org.adempiere.model.X_AD_View_Definition;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Label;
@@ -153,6 +154,7 @@ public class DynamicDashBoard extends DashboardPanel implements EventListener
 		List<MBrowseField> fieldList = new Query(Env.getCtx(), I_AD_Browse_Field.Table_Name,
 				whereClause.toString(), null)
 		.setOnlyActiveRecords(true)
+		.setOrderBy(X_AD_Browse_Field.COLUMNNAME_SeqNo)
 		.list();
 
 
