@@ -81,12 +81,12 @@ import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.DigestOfFile;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Language;
 import org.compiere.util.Trx;
 import org.compiere.util.Util;
-import org.compiere.utils.DigestOfFile;
 
 /**
  * @author rlemeill
