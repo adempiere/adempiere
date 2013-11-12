@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="EntryPointsManager">
+    <entry_points version="2.0" />
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="1.7" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+  <component name="ScalaProjectSettings">
+    <option name="importsWithPrefix">
+      <array>
+        <option value="exclude:scala.collection.mutable.ArrayBuffer" />
+        <option value="exclude:scala.collection.mutable.ListBuffer" />
+        <option value="java.util.AbstractCollection" />
+        <option value="java.util.AbstractList" />
+        <option value="java.util.AbstractMap" />
+        <option value="java.util.AbstractQueue" />
+        <option value="java.util.AbstractSequentialList" />
+        <option value="java.util.AbstractSet" />
+        <option value="java.util.ArrayDeque" />
+        <option value="java.util.ArrayList" />
+        <option value="java.util.Arrays" />
+        <option value="java.util.BitSet" />
+        <option value="java.util.Collection" />
+        <option value="java.util.Deque" />
+        <option value="java.util.EnumMap" />
+        <option value="java.util.EnumSet" />
+        <option value="java.util.Enumeration" />
+        <option value="java.util.Hahtable" />
+        <option value="java.util.HashMap" />
+        <option value="java.util.HashSet" />
+        <option value="java.util.IdentityHashMap" />
+        <option value="java.util.Iterator" />
+        <option value="java.util.LikedHashSet" />
+        <option value="java.util.LinkedHashMap" />
+        <option value="java.util.LinkedList" />
+        <option value="java.util.List" />
+        <option value="java.util.ListIterator" />
+        <option value="java.util.Map" />
+        <option value="java.util.NavigableMap" />
+        <option value="java.util.NavigableSet" />
+        <option value="java.util.Queue" />
+        <option value="java.util.Set" />
+        <option value="java.util.SortedMap" />
+        <option value="java.util.SortedSet" />
+        <option value="java.util.Stack" />
+        <option value="java.util.SubList" />
+        <option value="java.util.TreeMap" />
+        <option value="java.util.TreeSet" />
+        <option value="java.util.Vector" />
+        <option value="java.util.WeakHashMap" />
+        <option value="org.scalatest.fixture._" />
+        <option value="org.scalatest.path._" />
+        <option value="scala.collection.mutable._" />
+      </array>
+    </option>
+    <option name="intInjectionMapping">
+      <map>
+        <entry key="xml" value="XML" />
+      </map>
+    </option>
+  </component>
+  <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="false" SSL_PROTOCOLS="sslv3">
+    <option name="USER" value="" />
+    <option name="PASSWORD" value="" />
+    <option name="mySSHConnectionTimeout" value="30000" />
+    <option name="mySSHReadTimeout" value="30000" />
+    <option name="LAST_MERGED_REVISION" />
+    <option name="MERGE_DRY_RUN" value="false" />
+    <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
+    <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
+    <option name="IGNORE_SPACES_IN_MERGE" value="false" />
+    <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
+    <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
+    <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
+    <option name="FORCE_UPDATE" value="false" />
+    <option name="IGNORE_EXTERNALS" value="false" />
+    <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
+  </component>
+</project>
+
