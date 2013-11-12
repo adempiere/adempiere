@@ -8,7 +8,7 @@
   <!-- set global properties for this build -->
   <property file="build.properties"/>
   <import file="${adempiere.trunk}/utils_dev/properties.xml"/>	
-  <property name="src" location="extension/eevolution/warehousemanagement/src/main"/>
+  <property name="src" location="src/main/java/base"/>
   <property name="build" location="build"/>
   <property name="dist"  location="dist"/>
 
