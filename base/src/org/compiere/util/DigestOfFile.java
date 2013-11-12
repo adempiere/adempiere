@@ -1,4 +1,4 @@
-package org.compiere.utils;
+package org.compiere.util;
 
 import java.io.BufferedInputStream;
 import java.io.File;
