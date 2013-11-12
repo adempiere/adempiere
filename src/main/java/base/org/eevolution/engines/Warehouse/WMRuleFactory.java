@@ -27,7 +27,11 @@
  *  - e-Evolution (http://www.e-evolution.com/)                       *
  **********************************************************************/
 
-package org.eevolution.engines.Warehouse;
+package org.eevolution.engines.warehouse;
+
+import org.eevolution.engines.warehouse.WMRuleFIFO;
+import org.eevolution.engines.warehouse.WMRuleInterface;
+
 /**
  * Factory of WM Rules
  * victor.perez@e-evolution.com, victor.perez@e-evolution.com
