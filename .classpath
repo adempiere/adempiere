@@ -14,7 +14,7 @@
 	<classpathentry kind="src" path="serverApps/src/main/servlet"/>
 	<classpathentry kind="src" path="zkwebui/WEB-INF/src"/>
 	<classpathentry excluding="org/compiere/interfaces/" kind="src" path="JasperReports/src"/>
-	<classpathentry excluding="org/compiere/utils/DigestOfFile.java" kind="src" path="JasperReportsWebApp/src"/>
+	<classpathentry excluding="org/compiere/utils/DigestOfFile.java|org/compiere/interfaces/" kind="src" path="JasperReportsWebApp/src"/>
 	<classpathentry kind="src" path="tools/src"/>
 	<classpathentry kind="src" path="webCM/src/main/servlet"/>
 	<classpathentry kind="src" path="migration/src"/>
@@ -27,6 +27,7 @@
 	<classpathentry kind="src" path="org.eevolution.manufacturing/src/main/java/test"/>
 	<classpathentry kind="src" path="org.eevolution.manufacturing/src/main/java/ui/swing"/>
 	<classpathentry kind="src" path="org.eevolution.manufacturing/src/main/java/ui/zk"/>
+	<classpathentry kind="src" path="org.eevolution.warehouse/src/main/java/base"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jstl.jar">
 		<attributes>
@@ -337,5 +338,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="tools/lib/OpenForecast-0.5.0.jar"/>
+	<classpathentry kind="lib" path="packages/liberoCashflow.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

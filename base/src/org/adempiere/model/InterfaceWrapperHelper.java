@@ -4,10 +4,8 @@ import java.lang.reflect.Field;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.adempiere.ad.wrapper.POJOWrapper;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.util.Check;
-import org.compiere.Adempiere;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.PO;
@@ -47,10 +45,6 @@ public class InterfaceWrapperHelper
 		{
 			return POWrapper.create(model, cl);
 		}
-		else if (POJOWrapper.isHandled(model))
-		{
-			return POJOWrapper.create(model, cl);
-		}
 		else
 		{
 			throw new AdempiereException("Model wrapping is not supported for " + model + " (class:" + model.getClass() + ")");
@@ -59,30 +53,18 @@ public class InterfaceWrapperHelper
 
 	public static <T> T create(Properties ctx, Class<T> cl, String trxName)
 	{
-		if (org.compiere.Adempiere.isUnitTestMode())
-		{
-			return POJOWrapper.create(ctx, cl, trxName);
-		}
 		final T bean = POWrapper.create(ctx, cl, trxName);
 		return bean;
 	}
 
 	public static <T> T create(Properties ctx, int id, Class<T> cl, String trxName)
 	{
-		if (org.compiere.Adempiere.isUnitTestMode())
-		{
-			return POJOWrapper.create(ctx, id, cl, trxName);
-		}
 		final T bean = POWrapper.create(ctx, id, cl, trxName);
 		return bean;
 	}
 
 	public static <T> T create(final Properties ctx, final String tableName, final int id, final Class<T> cl, final String trxName)
 	{
-		if (org.compiere.Adempiere.isUnitTestMode())
-		{
-			return POJOWrapper.create(ctx, tableName, id, cl, trxName);
-		}
 		final T bean = POWrapper.create(ctx, tableName, id, cl, trxName);
 		return bean;
 	}
@@ -93,8 +75,6 @@ public class InterfaceWrapperHelper
 			GridTabWrapper.refresh(model);
 		else if (POWrapper.isHandled(model))
 			POWrapper.refresh(model);
-		else if (POJOWrapper.isHandled(model))
-			POJOWrapper.refresh(model);
 		else
 			throw new AdempiereException("Not supported model " + model + " (class:" + model.getClass() + ")");
 	}
@@ -108,10 +88,6 @@ public class InterfaceWrapperHelper
 		else if (POWrapper.isHandled(model))
 		{
 			POWrapper.refresh(model, trxName);
-		}
-		else if (POJOWrapper.isHandled(model))
-		{
-			POJOWrapper.refresh(model);
 		}
 		else
 		{
@@ -132,10 +108,6 @@ public class InterfaceWrapperHelper
 		else if (POWrapper.isHandled(model))
 		{
 			POWrapper.save(model);
-		}
-		else if (POJOWrapper.isHandled(model))
-		{
-			POJOWrapper.save(model);
 		}
 		else
 		{
@@ -177,10 +149,6 @@ public class InterfaceWrapperHelper
 		{
 			return POWrapper.getCtx(model, useClientOrgFromModel);
 		}
-		else if (POJOWrapper.isHandled(model))
-		{
-			return POJOWrapper.getCtx(model);
-		}
 		else
 		{
 			logger.log(Level.WARNING, "Cannot get context from object: " + model + ". Returning global context.", new AdempiereException());
@@ -202,10 +170,6 @@ public class InterfaceWrapperHelper
 		{
 			return POWrapper.getTrxName(model);
 		}
-		else if (POJOWrapper.isHandled(model))
-		{
-			return POJOWrapper.getTrxName(model);
-		}
 		else
 		{
 			logger.log(Level.WARNING, "Cannot get trxName from object: " + model + ". Returning null.", new AdempiereException());
@@ -221,8 +185,6 @@ public class InterfaceWrapperHelper
 			POWrapper.delete(model);
 		// else if (GridTabWrapper.isHandled(model))
 		// GridTabWrapper.
-		else if (POJOWrapper.isHandled(model))
-			POJOWrapper.delete(model);
 		else
 			throw new IllegalStateException("delete is not supported for " + model);
 	}
@@ -234,10 +196,6 @@ public class InterfaceWrapperHelper
 	 */
 	public static PO getPO(Object model)
 	{
-		if (Adempiere.isUnitTestMode())
-		{
-			throw new UnsupportedOperationException("Getting PO from '" + model + "' is not supported in JUnit testing mode");
-		}
 		return POWrapper.getPO(model);
 	}
 
@@ -262,10 +220,6 @@ public class InterfaceWrapperHelper
 		else if (GridTabWrapper.isHandled(model))
 		{
 			return GridTabWrapper.getGridTab(model).getRecord_ID();
-		}
-		else if (POJOWrapper.isHandled(model))
-		{
-			return POJOWrapper.getWrapper(model).getId();
 		}
 		else
 		{
@@ -355,42 +309,9 @@ public class InterfaceWrapperHelper
 		{
 			return POWrapper.getPO(model).get_TableName();
 		}
-		else if (POJOWrapper.isHandled(model))
-		{
-			return POJOWrapper.getWrapper(model).getTableName();
-		}
 		else
 		{
 			throw new AdempiereException("Cannot get TableName from model: " + model);
-		}
-	}
-
-	public static void copyValues(Object from, Object to)
-	{
-		// mo73_03710 we must honor IsCalculated unless we definitely know what we do. Otherwise all kind of problems will occur.
-		final boolean honorIsCalculated = true;
-
-		copyValues(from, to, honorIsCalculated);
-	}
-
-	public static void copyValues(Object from, Object to, boolean honorIsCalculated)
-	{
-		if (POWrapper.isHandled(to))
-		{
-			final PO fromPO = getPO(from);
-			final PO toPO = getPO(to);
-			//PO.copyValues(fromPO, toPO, honorIsCalculated);
-		}
-		else if (POJOWrapper.isHandled(from) && POJOWrapper.isHandled(to))
-		{
-			Check.assume(!honorIsCalculated, "honorIsCalculated=true not supported by {0}", POJOWrapper.class);
-			final POJOWrapper fromWrapper = POJOWrapper.getWrapper(from);
-			final POJOWrapper toWrapper = POJOWrapper.getWrapper(to);
-			toWrapper.copyFrom(fromWrapper);
-		}
-		else
-		{
-			throw new AdempiereException("Unsupported models: from=" + from + ", to=" + to);
 		}
 	}
 
@@ -414,10 +335,6 @@ public class InterfaceWrapperHelper
 		else if (POWrapper.isHandled(model))
 		{
 			return POWrapper.isNull(model, columnName);
-		}
-		else if (POJOWrapper.isHandled(model))
-		{
-			return POJOWrapper.isNull(model, columnName);
 		}
 		else
 		{
@@ -521,91 +438,10 @@ public class InterfaceWrapperHelper
 			T value = (T)po.get_Value(idx);
 			return value;
 		}
-		else if (POJOWrapper.isHandled(model))
-		{
-			final POJOWrapper wrapper = POJOWrapper.getWrapper(model);
-			if (!wrapper.getValuesMap().containsKey(columnName))
-			{
-				if (throwExIfColumnNotFound)
-				{
-					throw new AdempiereException("No columnName " + columnName + " found for " + model);
-				}
-				else
-				{
-					return null;
-				}
-			}
-			@SuppressWarnings("unchecked")
-			T value = (T)wrapper.getValuesMap().get(columnName);
-			return value;
-		}
 		else
 		{
 			throw new AdempiereException("Model wrapping is not supported for " + model + " (class:" + model.getClass() + ")");
 		}
 	}
 	
-	/**
-	 * Explicitly mark a column that was changed.
-	 * 
-	 * It is helpful to do this when:
-	 * <ul>
-	 * <li>you set a value for a column but the new value can be the same as the old value
-	 * <li>and you really really what to trigger the database UPDATE or you really really want to trigger the model validators
-	 * </ul>
-	 * 
-	 * NOTE:
-	 * <ul>
-	 * <li>if you are marking the column as changed but you are not explicitly set a value (i.e. a new value), this command will have no effect
-	 * <li>this command has effect only for {@link POWrapper}ed objects
-	 * </ul>
-	 * 
-	 * @param model
-	 * @param columnName column name to be marked as changed
-	 */
-	public static void markColumnChanged(final Object model, final String columnName)
-	{
-		if (POWrapper.isHandled(model))
-		{
-			final PO po = POWrapper.getPO(model, false);
-			//po.markColumnChanged(columnName);
-		}
-
-		// Other wrappers are not supporting this feature
-	}
-	
-	public static void setDynAttribute(final Object model, final String attributeName, final Object value)
-	{
-		if (POWrapper.isHandled(model))
-		{
-			POWrapper.setDynAttribute(model, attributeName, value);
-		}
-		else if (POJOWrapper.isHandled(model))
-		{
-			POJOWrapper.setDynAttribute(model, attributeName, value);
-		}
-		else
-		{
-			throw new AdempiereException("Model wrapping is not supported for " + model + " (class:" + model.getClass() + ")");
-		}
-	}
-
-	public static <T> T getDynAttribute(final Object model, final String attributeName)
-	{
-		if (POWrapper.isHandled(model))
-		{
-			final T value = POWrapper.getDynAttribute(model, attributeName);
-			return value;
-		}
-		else if (POJOWrapper.isHandled(model))
-		{
-			final T value = POJOWrapper.getDynAttribute(model, attributeName);
-			return value;
-		}
-		else
-		{
-			throw new AdempiereException("Model wrapping is not supported for " + model + " (class:" + model.getClass() + ")");
-		}
-	}
-
 }

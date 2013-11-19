@@ -23,7 +23,6 @@ import java.util.Properties;
 /** Generated Model for M_PartType
  *  @author Adempiere (generated) 
  */
-@SuppressWarnings("javadoc")
 public class X_M_PartType extends org.compiere.model.PO implements I_M_PartType, org.compiere.model.I_Persistent 
 {
 
@@ -49,6 +48,10 @@ public class X_M_PartType extends org.compiere.model.PO implements I_M_PartType,
       super (ctx, rs, trxName);
     }
 
+    protected int get_AccessLevel()
+    {
+      return accessLevel.intValue();
+    }
 
     /** Load Meta Data */
     @Override

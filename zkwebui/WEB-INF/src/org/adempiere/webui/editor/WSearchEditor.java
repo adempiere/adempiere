@@ -267,10 +267,11 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 			return;
 		}
 		if (Events.ON_CHANGE.equals(e.getName()) || Events.ON_OK.equals(e.getName()))
-		{
-		        autoComplete.setValue(getComponent().getText()); // ADEMPIERE-191
-			autoComplete.setSearchText(getComponent().getText());  // ADEMPIERE-191
-			
+		{ 
+			if ( autoComplete != null ) {
+				autoComplete.setValue(getComponent().getText()); // ADEMPIERE-191
+				autoComplete.setSearchText(getComponent().getText());  // ADEMPIERE-191
+			}
 			actionText(getComponent().getText());
 		}
 		else if (Events.ON_CLICK.equals(e.getName()))

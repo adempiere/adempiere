@@ -178,37 +178,33 @@ public class ModelInterfaceGenerator
 			.append("package ").append(packageName).append(";").append(NL)
 		;
 		
-//		if (!packageName.equals("org.compiere.model")) {
-//			addImportClass("org.compiere.model.*");
-//		}
-		//addImportClass(java.math.BigDecimal.class);
-		//addImportClass(org.compiere.util.KeyNamePair.class);
+		if (!packageName.equals("org.compiere.model")) {
+			addImportClass("org.compiere.model.*");
+		}
+		addImportClass(java.math.BigDecimal.class);
+		addImportClass(org.compiere.util.KeyNamePair.class);
 		
 		createImports(start);
 		// Interface
 		start.append("/** Generated Interface for ").append(tableName).append("\n")
 			 .append(" *  @author Adempiere (generated) \n")
-			 //.append(" *  @version ").append(Adempiere.MAIN_VERSION).append(NL) //.append(" - ").append(s_run).append("\n")  // metas: don't generate it because it is changing on each rollout
+			 .append(" *  @version ").append(Adempiere.MAIN_VERSION).append(NL) //.append(" - ").append(s_run).append("\n")
 			 .append(" */\n")
-			 .append("@SuppressWarnings(\"javadoc\")\n") // metas
 			 .append("public interface ").append(className).append(" {").append("\n")
 			 
 			 .append("    /** TableName=").append(tableName).append(" */\n")
 			 .append("    public static final String Table_Name = \"").append(tableName).append("\";\n")
 			 
 			 .append("    /** AD_Table_ID=").append(AD_Table_ID).append(" */\n")
-			 .append(isGenerateLegacy() ? "" : "//") // metas
 			 .append("    public static final int Table_ID = MTable.getTable_ID(Table_Name);\n")
 			 
 			 //.append("    protected KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);\n")
-			 .append(isGenerateLegacy() ? "" : "//") // metas
-			 .append("    org.compiere.util.KeyNamePair Model = new org.compiere.util.KeyNamePair(Table_ID, Table_Name);\n") // INFO - Should this be here???
+			 .append("    KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);\n") // INFO - Should this be here???
 			 
 			 .append("    /** AccessLevel = ").append(accessLevelInfo).append("\n")
 			 .append("     */\n")
 			 //.append("    protected BigDecimal AccessLevel = new BigDecimal(").append(accessLevel).append(");\n")
-			 .append(isGenerateLegacy() ? "" : "//") // metas
-			 .append("    java.math.BigDecimal accessLevel = java.math.BigDecimal.valueOf(").append(accessLevel).append(");\n") // INFO - Should this be here???
+			 .append("    BigDecimal accessLevel = BigDecimal.valueOf(").append(accessLevel).append(");\n") // INFO - Should this be here???
 			 
 			 .append("    /** Load Meta Data */\n")
 			 //.append("    protected POInfo initPO (Properties ctx);")
@@ -244,7 +240,6 @@ public class ModelInterfaceGenerator
 //				+ " AND c.ColumnName NOT LIKE 'Created%'"
 //				+ " AND c.ColumnName NOT LIKE 'Updated%' "
 				+ " AND c.IsActive='Y'"
-				+ getColumnsEntityTypeWhereClause(AD_Table_ID)
 				+ " ORDER BY c.ColumnName";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -367,16 +362,9 @@ public class ModelInterfaceGenerator
 			{
 				sb.append("\n")
 				  .append("\tpublic "+referenceClassName+" get").append(fieldName).append("() throws RuntimeException;");
-				
-				// metas: begin: model setter
-				if (isGenerateSetter(columnName))
-				{
-					sb.append("\n\tpublic void set" + fieldName + "(" + referenceClassName + " " + fieldName + ");");
-				}
-				// metas: end
 			}
 		}
-		//addImportClass(clazz);
+		addImportClass(clazz);
 		return sb.toString();
 	}
 	
@@ -401,9 +389,6 @@ public class ModelInterfaceGenerator
 	private void writeToFile(StringBuffer sb, String fileName) {
 		try {
 			File out = new File(fileName);
-			// metas: begin: make sure directory exists
-			out.getParentFile().mkdirs();
-			// metas: end
 			Writer fw = new OutputStreamWriter(new FileOutputStream(out, false), "UTF-8"); 
 			for (int i = 0; i < sb.length(); i++) {
 				char c = sb.charAt(i);
@@ -555,10 +540,6 @@ public class ModelInterfaceGenerator
 		} else if (displayType == DisplayType.Binary || displayType == DisplayType.Image) {
 			dataType = "byte[]";
 		}
-		else
-		{
-			dataType = cl.getName(); // metas: always use FQ names
-		}
 		return dataType;
 	}
 	
@@ -585,9 +566,9 @@ public class ModelInterfaceGenerator
 	 */
 	public static boolean isGenerateModelGetter(String columnName)
 	{
-		return true
-//			&& !"AD_Client_ID".equals(columnName)
-//			&& !"AD_Org_ID".equals(columnName)
+		return
+			!"AD_Client_ID".equals(columnName)
+			&& !"AD_Org_ID".equals(columnName)
 			&& !"CreatedBy".equals(columnName)
 			&& !"UpdatedBy".equals(columnName)
 		;
@@ -684,7 +665,7 @@ public class ModelInterfaceGenerator
 			if (AD_Table_ID == 707 && columnName.equals("Account_ID"))
 				return null;
 			//
-			final String sql = "SELECT t.TableName, t.EntityType, ck.AD_Reference_ID, ck.IsKey"
+			final String sql = "SELECT t.TableName, t.EntityType, ck.AD_Reference_ID"
 				+" FROM AD_Ref_Table rt"
 				+" INNER JOIN AD_Table t ON (t.AD_Table_ID=rt.AD_Table_ID)"
 				+" INNER JOIN AD_Column ck ON (ck.AD_Table_ID=rt.AD_Table_ID AND ck.AD_Column_ID=rt.AD_Key)"
@@ -702,8 +683,7 @@ public class ModelInterfaceGenerator
 					final String refTableName = rs.getString(1);
 					final String entityType = rs.getString(2);
 					final int refDisplayType = rs.getInt(3);
-					final boolean refIsKey = "Y".equals(rs.getString("IsKey"));
-					if (refDisplayType == DisplayType.ID || refIsKey)
+					if (refDisplayType == DisplayType.ID)
 					{
 						referenceClassName = "I_"+refTableName;
 						String modelpackage = getModelPackage(entityType);
@@ -730,19 +710,19 @@ public class ModelInterfaceGenerator
 		}
 		else if (displayType == DisplayType.Location)
 		{
-			referenceClassName = "org.compiere.model.I_C_Location";
+			referenceClassName = "I_C_Location";
 		}
 		else if (displayType == DisplayType.Locator)
 		{
-			referenceClassName = "org.compiere.model.I_M_Locator";
+			referenceClassName = "I_M_Locator";
 		}
 		else if (displayType == DisplayType.Account)
 		{
-			referenceClassName = "org.compiere.model.I_C_ValidCombination";
+			referenceClassName = "I_C_ValidCombination";
 		}
 		else if (displayType == DisplayType.PAttribute)
 		{
-			referenceClassName = "org.compiere.model.I_M_AttributeSetInstance";
+			referenceClassName = "I_M_AttributeSetInstance";
 		}
 		else
 		{
@@ -759,7 +739,6 @@ public class ModelInterfaceGenerator
 	 * 
 	 * @return string representation
 	 */
-	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer("GenerateModel[").append("]");
 		return sb.toString();
@@ -860,29 +839,4 @@ public class ModelInterfaceGenerator
 
 	}
 
-	public static String getColumnsEntityTypeWhereClause(int AD_Table_ID)
-	{
-		if ("true".equals(System.getProperty("org.adempiere.util.GenerateModel.OnlySystemColumns")))
-		{
-			String entityType = DB.getSQLValueStringEx(null, "SELECT EntityType FROM AD_Table WHERE AD_Table_ID=?", AD_Table_ID);
-			int AD_EntityType_ID = DB.getSQLValueEx(null, "SELECT AD_EntityType_ID FROM AD_EntityType WHERE EntityType=?", entityType);
-			boolean isSystemEntity = AD_EntityType_ID < 500000;
-			if (!isSystemEntity)
-				return "";
-
-			// only columns from system entity type
-			return " AND EXISTS (SELECT 1 FROM AD_EntityType et WHERE et.EntityType=c.EntityType AND et.AD_EntityType_ID < 500000) ";
-		}
-		// Strict column's EntityType - same entity type as it's table
-		else
-		{
-			return " AND c.EntityType IN (SELECT t1.EntityType FROM AD_Table t1 WHERE t1.AD_Table_ID="+AD_Table_ID+")";
-		}
-	}
-	
-	public static final String PROPERTY_Legacy = "generate.legacy";
-	public static final boolean isGenerateLegacy()
-	{
-		return "true".equals(System.getProperty(PROPERTY_Legacy));
-	}
 }

@@ -34,6 +34,7 @@
 		<ant inheritAll="false" dir="org.eevolution.cashflow"/>
 		<ant inheritAll="false" dir="org.eevolution.manufacturing"/>
 		<ant inheritAll="false" dir="org.eevolution.hr_and_payroll"/>
+		<ant inheritAll="false" dir="org.eevolution.warehouse"/>
 	</target>
 	<target name="build" depends="jar">
 		<ant inheritAll="false" dir="install"/>		
@@ -58,6 +59,7 @@
 		<ant inheritAll="false" dir="org.eevolution.cashflow" target="clean"/>
 		<ant inheritAll="false" dir="org.eevolution.manufacturing" target="clean"/>
 		<ant inheritAll="false" dir="org.eevolution.hr_and_payroll" target="clean"/>
+		<ant inheritAll="false" dir="org.eevolution.warehouse" target="clean"/>
 	</target>
 
   <target name="clean-all" depends="clean">

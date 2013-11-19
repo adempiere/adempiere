@@ -16,6 +16,7 @@
  *****************************************************************************/
 package org.compiere.print;
 
+import java.awt.Font;
 import java.awt.print.PrinterJob;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -562,6 +563,21 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 				cssPrefix = null;
 
 			table table = new table();
+			
+			if (m_printFormat.getAD_PrintFont_ID() != 0) {
+				MPrintFont font = (MPrintFont) m_printFormat.getAD_PrintFont();
+				Font ff = font.getFont();
+				String generic = ff.getName();
+				if ( generic.equalsIgnoreCase("sansserif"))
+					generic = "sans-serif";
+				if ( generic.equalsIgnoreCase("monospaced"))
+					generic = "monospace";
+				if ( generic.equalsIgnoreCase("dialog"))
+					generic = "cursive";
+				if ( generic.equalsIgnoreCase("dialoginput"))
+					generic = "fantasy";
+				table.setStyle("font-family:" + generic);
+			}
 			if (cssPrefix != null)
 				table.setClass(cssPrefix + "-table");
 			//
@@ -570,13 +586,11 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 			{
 				tr tr = new tr();
 				table.addElement(tr);
+				
+				if (cssPrefix != null && row % 2 == 0)
+					tr.setClass(cssPrefix + "-odd");
 				if (row != -1)
 				{
-					if (row % 2 == 0)
-						tr.setClass(cssPrefix + "-evenrow");
-					else
-						tr.setClass(cssPrefix + "-oddrow");
-
 					m_printData.setRowIndex(row);					
 					if (extension != null)
 					{
@@ -600,6 +614,12 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 						{
 							td td = new td();
 							tr.addElement(td);
+							if (item.isFixedWidth() && item.getMaxWidth() > 0) {
+								// convert to pixels assuming 96dpi
+								int pxs = (item.getMaxWidth()*96);
+								pxs = pxs / 72;
+								td.setStyle("width:" + pxs + "px");
+							}
 							Object obj = m_printData.getNode(new Integer(item.getAD_Column_ID()));
 							if (obj == null)
 								td.addElement("&nbsp;");
@@ -626,8 +646,11 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 								}
 								if (cssPrefix != null)
 								{
-									if (DisplayType.isNumeric(pde.getDisplayType()))
+									if (DisplayType.isNumeric(pde.getDisplayType())) {
 										td.setClass(cssPrefix + "-number");
+										td.setClass(cssPrefix + "-numberalign");
+									}
+									
 									else if (DisplayType.isDate(pde.getDisplayType()))
 										td.setClass(cssPrefix + "-date");
 									else

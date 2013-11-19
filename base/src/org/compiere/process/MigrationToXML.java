@@ -15,58 +15,88 @@
 
 package org.compiere.process;
 
+import java.io.FileWriter;
 import java.util.logging.Level;
 
-import org.adempiere.ad.migration.model.I_AD_Migration;
-import org.adempiere.ad.migration.xml.XMLWriter;
-import org.adempiere.model.POWrapper;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.compiere.model.MMigration;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * 
- * Process to export an AD migration script as XML
+ * Process to export an AD migration script as xml
  * 
  * @author Paul Bowden, Adaxa Pty Ltd
- * @author Teo Sarca
- * 
+ *
  */
-public class MigrationToXML extends SvrProcess
-{
+public class MigrationToXML extends SvrProcess {
 
 	private int migrationId = 0;
 	private String fileName;
 
 	@Override
-	protected void prepare()
-	{
-		for (ProcessInfoParameter para : getParameter())
-		{
-			if (para.getParameterName().equals("AD_Migration_ID"))
-			{
-				migrationId = para.getParameterAsInt();
-			}
-			else if (para.getParameterName().equals("FileName"))
-			{
-				fileName = (String)para.getParameter();
-			}
-		}
+	protected String doIt() throws Exception {
+		MMigration migration = new MMigration(getCtx(), migrationId, get_TrxName());
+		if ( migration == null || migration.is_new() )
+			return "No migration to export";
+		
+		log.log(Level.FINE, "Creating xml document for migration: " + migration);
+		Document document = null;
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = factory.newDocumentBuilder();
+		document = builder.newDocument();
+		Element root = document.createElement("Migrations");
+		document.appendChild(root);
+		root.appendChild(migration.toXmlNode(document));
+		
+		  //set up a transformer
+        TransformerFactory transfac = TransformerFactory.newInstance();
+        transfac.setAttribute("indent-number", 2);
+        Transformer trans;
+        
+		trans = transfac.newTransformer();
+		
+        trans.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+        trans.setOutputProperty(OutputKeys.INDENT, "yes");
+        trans.setOutputProperty(OutputKeys.STANDALONE, "yes");
 
-		// if run from Migration window
-		if (migrationId <= 0 && I_AD_Migration.Table_Name.equals(getTableName()))
-		{
-			migrationId = getRecord_ID();
-		}
-
-		log.log(Level.FINE, "AD_Migration_ID = " + migrationId + ", filename = " + fileName);
+        log.log(Level.FINE, "Writing xml to file.");
+        //create string from xml tree
+        FileWriter fw = new FileWriter(fileName);
+        StreamResult result = new StreamResult(fw);
+        DOMSource source = new DOMSource(document);
+        trans.transform(source, result);
+        fw.close();
+        
+		return "Exported migration to: " + fileName;
 	}
 
 	@Override
-	protected String doIt() throws Exception
-	{
-		final I_AD_Migration migration = POWrapper.create(getCtx(), migrationId, I_AD_Migration.class, get_TrxName());
+	protected void prepare() {
 
-		final XMLWriter writer = new XMLWriter(fileName);
-		writer.write(migration);
+		ProcessInfoParameter[] paras = getParameter();
+		for ( ProcessInfoParameter para : paras )
+		{
+			if ( para.getParameterName().equals("AD_Migration_ID"))
+				migrationId =  para.getParameterAsInt();
+			else if ( para.getParameterName().equals("FileName"))
+				fileName = (String) para.getParameter();
+		}
+		
+		// if run from Migration window
+		if ( migrationId == 0 )
+			migrationId = getRecord_ID();
+		
+		log.log(Level.FINE, "AD_Migration_ID = " + migrationId + ", filename = " + fileName);
 
-		return "Exported migration to: " + fileName;
 	}
+
 }

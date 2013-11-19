@@ -17,20 +17,13 @@
 
 package org.adempiere.webui.component;
 
-import java.awt.Component;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
-
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
 
 import org.adempiere.webui.event.TableValueChangeEvent;
 import org.adempiere.webui.event.TableValueChangeListener;
@@ -63,6 +56,11 @@ import org.zkoss.zul.ListModel;
  *
  * @author Andrew Kimball
  * @author Sendy Yagambrum
+ * 
+ * ADEMPIERE-72 - Info Panel improvements
+ * ADEMPIERE-41 - GL Reconciliation integration - added hidden columns
+ * @author Michael McKay
+
  */
 public class WListbox extends Listbox implements IMiniTable, TableValueChangeListener, WTableModelListener
 {	
@@ -343,6 +341,7 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 		return;
 	}   //  setColumnReadOnly
 
+
 	/**
 	 *  Prepare Table and return SQL required to get resultset to
 	 *  populate table.
@@ -406,7 +405,7 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
             }
 
             //  add to model
-            addColumn(layout[columnIndex].getColHeader());
+            addColumn(layout[columnIndex]);
 
             // set the colour column
             if (layout[columnIndex].isColorColumn())
@@ -474,6 +473,20 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 	{
 		WListItemRenderer renderer = (WListItemRenderer)getItemRenderer();
 		renderer.addColumn(Util.cleanAmp(header));
+		getModel().addColumn();
+
+		return;
+	}   //  addColumn
+
+	/**
+	 *  Add Table Column and specify the column header.
+	 *
+	 *  @param info	ColumInfo class for the column
+	 */
+	public void addColumn (ColumnInfo info)
+	{
+		WListItemRenderer renderer = (WListItemRenderer)getItemRenderer();
+		renderer.addColumn(info);
 		getModel().addColumn();
 
 		return;

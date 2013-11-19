@@ -186,6 +186,69 @@ public class POWrapper implements InvocationHandler
 		return create(po, cl, useOldValues, trlAdLanguage);
 	}
 
+	
+	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable
+	{
+		String methodName = method.getName();
+		if (methodName.startsWith("set") && args.length == 1)
+		{
+			String propertyName = methodName.substring(3);
+			po.set_ValueOfColumn(propertyName, args[0]);
+			return null;
+		}
+		else if (methodName.startsWith("get") && (args == null || args.length == 0))
+		{
+			String propertyName = methodName.substring(3);
+			Object value = null;
+			final int idx = po.get_ColumnIndex(propertyName);
+			if (idx >= 0)
+				value = po.get_Value(propertyName);
+			if (value != null)
+			{
+				return value;
+			}
+			//
+			if (method.getReturnType() == int.class)
+			{
+				value = Integer.valueOf(0);
+			}
+			else if (method.getReturnType() == BigDecimal.class)
+			{
+				value = BigDecimal.ZERO;
+			}
+			else if (isModelInterface(method.getReturnType()))
+			{
+				value = getReferencedObject(propertyName, method);
+			}
+			else if (PO.class.isAssignableFrom(method.getReturnType()))
+			{
+				throw new IllegalArgumentException("Method not supported - "+methodName);
+			}
+			return value;
+		}
+		else if (methodName.startsWith("is") && (args == null || args.length == 0))
+		{
+			String propertyName = methodName.substring(2);
+			int ii = po.get_ColumnIndex(propertyName);
+			if (ii >= 0)
+			{
+				return po.get_Value(ii);
+			}
+			ii = po.get_ColumnIndex("Is"+propertyName);
+			if (ii >= 0)
+			{
+				return po.get_Value(ii);
+			}
+			//
+			throw new IllegalArgumentException("Method not supported - "+methodName);
+		}
+		else
+		{
+			return method.invoke(po, args);
+		}
+	}
+	
+	
 	/**
 	 * Method calls {@link #getPO(Object, boolean)} with <code>checkOtherWrapper=true</code>.
 	 * 
@@ -367,35 +430,6 @@ public class POWrapper implements InvocationHandler
 
 	}
 
-	protected int getValueAsInt(int index)
-	{
-		if (useOldValues)
-			return po.get_ValueOldAsInt(index);
-		else
-			return po.get_ValueAsInt(index);
-	}
-
-	protected void setValue(String name, Object value)
-	{
-		if (useOldValues)
-			throw new AdempiereException("Setting values in an old object is not allowed");
-		else
-		{
-			value = checkZeroIdValue(name, value);
-			po.set_ValueOfColumn(name, value);
-		}
-	}
-
-	protected void setValueFromPO(String name, Class<?> clazz, Object value)
-	{
-		if (useOldValues)
-			throw new AdempiereException("Setting values in an old object is not allowed");
-		else
-		{
-			po.set_ValueFromPO(name, clazz, value);
-		}
-	}
-
 	protected static final Object checkZeroIdValue(String columnName, Object value)
 	{
 		// TODO: check and refactor with see ModelClassGenerator.createColumnMethods
@@ -429,31 +463,6 @@ public class POWrapper implements InvocationHandler
 		return method.invoke(po, args);
 	}
 
-	private boolean invokeEquals(Object[] args)
-	{
-		PO po2 = POWrapper.getPO(args[0]);
-		return po == po2 || po.equals(po2);
-	}
-
-	private Method findPOMethod(Method ifaceMethod)
-	{
-		try
-		{
-			final Class<?> poClass = po.getClass();
-			final String name = ifaceMethod.getName();
-			final Class<?>[] parameterTypes = ifaceMethod.getParameterTypes();
-			return poClass.getMethod(name, parameterTypes);
-
-		}
-		catch (SecurityException e)
-		{
-			throw new AdempiereException(e);
-		}
-		catch (NoSuchMethodException e)
-		{
-			return null;
-		}
-	}
 
 	public PO getPO()
 	{
@@ -465,112 +474,23 @@ public class POWrapper implements InvocationHandler
 		return interfaceClass;
 	}
 
-	@Override
-	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable
-	{
-		String methodName = method.getName();
-		if (methodName.startsWith("set") && args.length == 1)
-		{
-			final String propertyName = methodName.substring(3);
-			final Class<?> paramType = method.getParameterTypes()[0];
-			final Object value = args[0];
-			if (isModelInterface(paramType))
-			{
-				setValueFromPO(propertyName + "_ID", paramType, value);
-			}
-			else
-			{
-				setValue(propertyName, value);
-			}
-			return null;
-		}
-		else if (methodName.startsWith("get") && (args == null || args.length == 0))
-		{
-			String propertyName = methodName.substring(3);
-
-			if (isModelInterface(method.getReturnType()))
-			{
-				return getReferencedObject(propertyName, method);
-			}
-
-			Object value = null;
-			final int idx = getColumnIndex(propertyName);
-			if (idx >= 0)
-				value = getValue(propertyName, idx, method.getReturnType());
-			if (value != null)
-			{
-				return value;
-			}
-			//
-			if (method.getReturnType() == int.class)
-			{
-				value = Integer.valueOf(0);
-			}
-			else if (method.getReturnType() == BigDecimal.class)
-			{
-				value = BigDecimal.ZERO;
-			}
-			else if (PO.class.isAssignableFrom(method.getReturnType()))
-			{
-				throw new IllegalArgumentException("Method not supported - "+methodName);
-			}
-			return value;
-		}
-		else if (methodName.startsWith("is") && (args == null || args.length == 0))
-		{
-			String propertyName = methodName.substring(2);
-			int ii = getColumnIndex(propertyName);
-			if (ii >= 0)
-			{
-				return getValue(propertyName, ii, method.getReturnType());
-			}
-
-			propertyName = "Is" + propertyName;
-			ii = getColumnIndex(propertyName);
-			if (ii >= 0)
-			{
-				return getValue(propertyName, ii, method.getReturnType());
-			}
-			//
-			throw new IllegalArgumentException("Method not supported - "+methodName);
-		}
-		else if (methodName.equals("equals") && args.length == 1)
-		{
-			return invokeEquals(args);
-	}
-		else
-	{
-			return invokeParent(method, args);
-		}
-	}
-	
+		
 	/**
-	 * Load object that is referenced by given property. Example: getReferencedObject("M_Product", method) should load the M_Product record with ID given by M_Product_ID property name;
-	 * 
+	 * Load object that is referenced by given property.
+	 * Example: getReferencedObject("M_Product", method) should load the M_Product record
+	 * with ID given by M_Product_ID property name;
 	 * @param propertyName
 	 * @param method
 	 * @return
 	 */
-	private final Object getReferencedObject(String propertyName, Method method) throws Exception
+	private final Object getReferencedObject(String propertyName, Method method)
 	{
-		Method poMethod = findPOMethod(method);
-		if (poMethod != null)
-		{
-			final Object retValue = poMethod.invoke(po, (Object[])null);
-			if (retValue == null)
-				return null;
-			else if (method.getReturnType().isAssignableFrom(retValue.getClass()))
-				return retValue;
-			else
-				return POWrapper.create(retValue, method.getReturnType());
-		}
-
-		int i = getColumnIndex(propertyName + "_ID");
+		int i = po.get_ColumnIndex(propertyName+"_ID");
 		if (i < 0)
 			return null;
 		
 		// Fetch Record_ID
-		final Integer record_id = getValueAsInt(i);
+		final Integer record_id = po.get_ValueAsInt(i);
 		if (record_id == null || record_id <= 0)
 			return null;
 			
@@ -580,7 +500,7 @@ public class POWrapper implements InvocationHandler
 		String tableName;
 		try
 		{
-			tableName = getTableName(cl);
+			tableName = (String)cl.getField("Table_Name").get(null);
 		}
 		catch (Exception e)
 		{
@@ -589,10 +509,8 @@ public class POWrapper implements InvocationHandler
 		}
 		
 		// Load Persistent Object
-		PO child = MTable.get(getCtx(), tableName).getPO(record_id, getTrxName());
-		if (child == null || child.get_ID() != record_id)
-			throw new AdempiereException("@PONotFound@ @" + tableName + "@ (ID=" + record_id + ")");
-		return POWrapper.create(child, method.getReturnType());
+		PO child = MTable.get(po.getCtx(), tableName).getPO(record_id, po.get_TrxName());
+		return child;
 	}
 	
 	private boolean isModelInterface(Class<?> cl)
@@ -701,16 +619,5 @@ public class POWrapper implements InvocationHandler
 		final Object value = po.get_Value(columnName);
 		return value == null;
 	}
-
-	public static void setDynAttribute(final Object model, final String attributeName, final Object value)
-	{
-		getPO(model, false).setDynAttribute(attributeName, value);
-	}
-
-	public static <T> T getDynAttribute(final Object model, final String attributeName)
-	{
-		@SuppressWarnings("unchecked")
-		final T value = (T)getPO(model, false).getDynAttribute(attributeName);
-		return value;
-	}
+	
 }

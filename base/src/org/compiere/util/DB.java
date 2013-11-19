@@ -41,9 +41,6 @@ import javax.swing.UIManager;
 
 import org.adempiere.exceptions.DBException;
 import org.adempiere.util.Check;
-import org.adempiere.util.Services;
-import org.adempiere.util.trxConstraints.api.ITrxConstraints;
-import org.adempiere.util.trxConstraints.api.ITrxConstraintsBL;
 import org.compiere.Adempiere;
 import org.compiere.db.AdempiereDatabase;
 import org.compiere.db.CConnection;
@@ -847,8 +844,6 @@ public final class DB
 			pstmt.setBigDecimal(index, (BigDecimal)param);
 		else if (param instanceof Timestamp)
 			pstmt.setTimestamp(index, (Timestamp)param);
-		else if (param instanceof java.util.Date) // metas: support for java.util.Date
-			pstmt.setTimestamp(index, new Timestamp(((java.util.Date)param).getTime()));
 		else if (param instanceof Boolean)
 			pstmt.setString(index, ((Boolean)param).booleanValue() ? "Y" : "N");
 		else
@@ -1284,7 +1279,7 @@ public final class DB
     	}
     	catch (SQLException e)
     	{
-    		throw new DBException(e, sql ,params);
+    		throw new DBException(e, sql);
     	}
     	finally
     	{
@@ -2213,7 +2208,7 @@ public final class DB
         }
         catch (SQLException e)
         {
-            throw new DBException(e, sql, params);
+            throw new DBException(e, sql);
         }
         finally
         {
@@ -2266,64 +2261,9 @@ public final class DB
 			log.severe("Transaction closed or never opened ("+trxName+") => this is equivalent to commit without trx (autocommit) --> " + sql); // severe?
 		}
 	}
-	
-	/**
-	 * Delete T_Selection
-	 * 
-	 * @param AD_PInstance_ID
-	 * @param trxName
-	 * @return number of records that were deleted
-	 */
-	public static int deleteT_Selection(final int AD_PInstance_ID, final String trxName)
-	{
-		final String sql = "DELETE FROM T_SELECTION WHERE AD_PInstance_ID=?";
-		int no = DB.executeUpdateEx(sql, new Object[] { AD_PInstance_ID }, trxName);
-		return no;
-	}
-
-	/**
-	 * Returns the current ITrxConstraints instance of the current thread. The instance is created on-the-fly the first
-	 * time this method is called from a given thread. It is destroyed when the calling thread finishes.
-	 * 
-	 * Note that there might be more than one instance per thread, but there is only one active instance at a time. See
-	 * {@link #saveConstraints()} and {@link #restoreConstraints()} for details.
-	 * 
-	 */
-	// metas me00_02367
-	public static ITrxConstraints getConstraints()
-	{
-		return Services.get(ITrxConstraintsBL.class).getConstraints();
-	}
-
-	/**
-	 * Saves the current constraints instance of the current thread to be restored later on.
-	 * 
-	 * More specifically, the current constraints are copied and the copy is pushed to a stack (i.e. on top of the
-	 * current instance). Therefore, the next invocation of {@link #getConstraints()} will return the copy. The calling
-	 * thread can modify the copy for its temporary needs (e.g. relax some constraint while calling a particular
-	 * method).
-	 * 
-	 * @see #restoreConstraints()
-	 */
-	// metas me00_02367
-	public static void saveConstraints()
-	{
-		Services.get(ITrxConstraintsBL.class).saveConstraints();
-	}
-
-	/**
-	 * Discards the currently active constraints instance and restores the one that has previously been saved.
-	 * 
-	 * @see #saveConstraints()
-	 */
-	// metas me00_02367
-	public static void restoreConstraints()
-	{
-		Services.get(ITrxConstraintsBL.class).restoreConstraints();
-	}
 
 	public static final String SQL_EmptyList = "(-1)";
-	
+
 	/**
 	 * Build an SQL list for given parameters. <br>
 	 * e.g. For paramsIn={1,2,3} it will return "(?,?,?)" and it will copy paramsIn to paramsOut
@@ -2352,6 +2292,4 @@ public final class DB
 
 		return sql.insert(0, "(").append(")").toString();
 	}
-
 }	//	DB
-

@@ -14,15 +14,7 @@
 package org.adempiere.webui.editor;
 
 
-
-import java.awt.Container;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyVetoException;
-import java.util.logging.Level;
-
 import org.adempiere.webui.apps.AEnv;
-import org.adempiere.webui.component.Combobox;
 import org.adempiere.webui.component.PAttributebox;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.event.ContextMenuEvent;
@@ -30,24 +22,17 @@ import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.panel.InfoPAttributePanel;
 import org.adempiere.webui.panel.InfoProductPanel;
-import org.adempiere.webui.window.FDialog;
 import org.adempiere.webui.window.WFieldRecordInfo;
 import org.adempiere.webui.window.WPAttributeDialog;
-import org.compiere.apps.search.InfoPAttribute;
-import org.compiere.apps.search.InfoProduct;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
-import org.compiere.model.Lookup;
 import org.compiere.model.MAttributeSet;
-import org.compiere.model.MAttributeSetInstance;
 import org.compiere.model.MPAttributeLookup;
 import org.compiere.model.MProduct;
-import org.compiere.swing.CDialog;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 
 /**

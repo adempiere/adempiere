@@ -12,7 +12,7 @@ import javax.ejb.Stateless;
 
 import org.compiere.interfaces.MD5;
 import org.compiere.util.CLogger;
-import org.compiere.utils.DigestOfFile;
+import org.compiere.util.DigestOfFile;
 
 /**
  *  @ejb:ejb-ref ejb-name="compiere/MD5"

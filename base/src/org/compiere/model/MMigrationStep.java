@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.adempiere.ad.migration.model.X_AD_MigrationStep;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;

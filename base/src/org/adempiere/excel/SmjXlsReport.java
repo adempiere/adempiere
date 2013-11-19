@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.logging.Level;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -21,8 +22,10 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.Region;
 import org.compiere.model.MImage;
 import org.compiere.report.MReportColumn;
+import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.adempiere.util.StringUtils;
 
 import org.compiere.model.ReportTO;
 
@@ -40,6 +43,8 @@ import org.compiere.model.ReportTO;
 @SuppressWarnings("deprecation")
 public class SmjXlsReport {
 
+	/** Logger */
+	public CLogger log = CLogger.getCLogger(SmjXlsReport.class);
 	private int cols = 0;
 	private short endRegion=2;
 
@@ -55,7 +60,7 @@ public class SmjXlsReport {
 			// create workbook
 			HSSFWorkbook book = new HSSFWorkbook();
 			// crea hoja - create sheet
-			HSSFSheet sheet = book.createSheet(generalTitle[0]);
+			HSSFSheet sheet = book.createSheet(StringUtils.makePrefix(generalTitle[0]));	// Goodwill BF: Invalid sheet name
 			// crea fuente - Create Font
 			HSSFFont font = book.createFont();
 			font.setFontHeightInPoints((short) 13);
@@ -522,7 +527,26 @@ public class SmjXlsReport {
 	 */
 	public File tofile(HSSFWorkbook wb, String[] generalTitle) {
 
-		File file = new File(generalTitle[0]+".xls");
+		// Goodwill
+		String path = System.getProperty("java.io.tmpdir");
+		if ( !(path.endsWith("/") || path.endsWith("\\")) )
+			path = path + System.getProperty("file.separator");
+		String prefix = StringUtils.makePrefix(generalTitle[0]);
+		if (log.isLoggable(Level.FINE))
+		{
+			log.log(Level.FINE, "Path="+path + " Prefix="+prefix);
+		}
+		File file = new File(path+prefix+".xls");
+		try {
+			if (file.exists())
+				file.delete();
+		}
+		catch (Exception e)
+		{
+			log.log(Level.SEVERE, "file", e);
+			return null;
+		}
+		//
 		FileOutputStream fos;
 		try {
 			fos = new FileOutputStream(file);
@@ -549,7 +573,7 @@ public class SmjXlsReport {
 			return "";
 		else{
 			DecimalFormat frm = new DecimalFormat("###,###,###,##0.00");
-			return frm.format(data.setScale(2));
+			return frm.format(data.setScale(2, BigDecimal.ROUND_HALF_UP));	// Goodwill BF Rounding is necessary
 		}
 	}// formatValue
 	
