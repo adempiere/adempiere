@@ -42,8 +42,8 @@ public class BOMFlagValidate extends SvrProcess {
 	{
 		
 		//Select Products where there's a BOM, and there are no lines
-		String sql = "SELECT NAME FROM M_PRODUCT WHERE ISBOM = 'Y' AND " + 
-		"M_PRODUCT_ID NOT IN (SELECT M_PRODUCT_ID FROM M_PRODUCT_BOM ) AND "; 
+		String sql = "SELECT NAME FROM M_PRODUCT WHERE ISBOM = 'Y' AND " +
+		"M_PRODUCT_ID NOT IN (SELECT b.M_PRODUCT_ID FROM PP_PRODUCT_BOM b JOIN PP_PRODUCT_BOMLINE bl ON b.PP_PRODUCT_BOM_ID = bl.PP_PRODUCT_BOM_ID ) AND ";
 		if (p_M_Product_Category_ID == 0)
 			sql += "AD_Client_ID= ?";
 	        
@@ -66,7 +66,7 @@ public class BOMFlagValidate extends SvrProcess {
 		pstmt.close();
 		
 		String update = "UPDATE M_Product SET ISBOM = 'N' WHERE ISBOM = 'Y' AND M_PRODUCT_ID NOT IN " +
-		"(SELECT M_PRODUCT_ID FROM M_PRODUCT_BOM ) AND "; 
+		"(SELECT b.M_PRODUCT_ID FROM PP_PRODUCT_BOM b JOIN PP_PRODUCT_BOMLINE bl ON bl.PP_PRODUCT_BOM_ID = b.PP_PRODUCT_BOM_ID ) AND ";
 		if (p_M_Product_Category_ID == 0)
 			update += "AD_Client_ID= ?";
 		else
@@ -86,8 +86,8 @@ public class BOMFlagValidate extends SvrProcess {
 	{
 		
 		//Select Products where there's a BOM, and there are no lines
-		String sql = "SELECT NAME FROM M_PRODUCT WHERE ISBOM = 'N' AND " + 
-		"M_PRODUCT_ID IN (SELECT M_PRODUCT_ID FROM M_PRODUCT_BOM ) AND "; 
+		String sql = "SELECT NAME FROM M_PRODUCT WHERE ISBOM = 'N' AND " +
+		"M_PRODUCT_ID IN (SELECT b.M_PRODUCT_ID FROM PP_PRODUCT_BOM b JOIN PP_PRODUCT_BOMLINE bl ON b.PP_PRODUCT_BOM_ID = bl.PP_PRODUCT_BOM_ID ) AND ";
 		if (p_M_Product_Category_ID == 0)
 			sql += "AD_Client_ID= ?";
 	        
@@ -108,8 +108,8 @@ public class BOMFlagValidate extends SvrProcess {
 		rs.close();
 		pstmt.close();
 		
-		String update = "UPDATE M_Product SET ISBOM = 'Y' WHERE ISBOM = 'N' AND M_PRODUCT_ID IN " +
-		"(SELECT M_PRODUCT_ID FROM M_PRODUCT_BOM ) AND "; 
+		String update = "UPDATE M_Product SET ISBOM = 'Y' WHERE ISBOM = 'N' AND M_PRODUCT_ID IN "+
+		"(SELECT b.M_PRODUCT_ID FROM PP_PRODUCT_BOM b JOIN PP_PRODUCT_BOMLINE bl ON b.PP_PRODUCT_BOM_ID = bl.PP_PRODUCT_BOM_ID  ) AND ";
 		if (p_M_Product_Category_ID == 0)
 			update += "AD_Client_ID= ?";
 		else

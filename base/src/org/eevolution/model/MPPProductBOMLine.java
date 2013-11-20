@@ -73,6 +73,23 @@ public class MPPProductBOMLine extends X_PP_Product_BOMLine
 	}
 	
 	/**
+	 * Get all the Product BOM line for a Component
+	 * @param product Product
+	 * @return list of MPPProductBOMLine
+	 */
+	public static MPPProductBOMLine[] getBOMLines(MProduct product) 
+	{		
+		final String whereClause = MPPProductBOMLine.COLUMNNAME_PP_Product_BOM_ID 
+							+ " IN ( SELECT PP_PRODUCT_BOM_ID FROM PP_PRODUCT_BOM WHERE M_PRODUCT_ID = " + product.getM_Product_ID() + ")";
+		List <MPPProductBOMLine> list = new Query(product.getCtx(), MPPProductBOMLine.Table_Name, whereClause, product.get_TrxName())
+								.setClient_ID()
+								.list();
+		MPPProductBOMLine[] retValue = new MPPProductBOMLine[list.size()];
+		list.toArray(retValue);
+		return retValue;
+	}
+	
+	/**
 	 *  Default Constructor
 	 *  @param ctx context
 	 *  @param PP_Product_BOMLine  BOM line to load

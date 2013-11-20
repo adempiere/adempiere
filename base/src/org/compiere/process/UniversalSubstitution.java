@@ -33,12 +33,11 @@ public class UniversalSubstitution extends SvrProcess {
 
 		if ( productId == 0 || replacementId == 0 )
 			throw new AdempiereException("Product and replacement product required");
-		
-		
-	String update = "UPDATE M_Product_BOM bb " +
-		"SET M_PRODUCTBOM_ID = ? " +
-		"WHERE bb.M_PRODUCTBOM_ID = ?";
-		
+	
+	String update = "UPDATE PP_Product_BOMLine bb " +
+		"SET M_PRODUCT_ID = ? " +
+		"WHERE bb.M_PRODUCT_ID = ?";
+
 		PreparedStatement pstmt = DB.prepareStatement(update, get_TrxName());
 		pstmt.setInt(1, replacementId);
 		pstmt.setInt(2, productId);
