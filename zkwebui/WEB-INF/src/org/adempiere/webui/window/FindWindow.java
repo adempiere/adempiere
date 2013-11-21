@@ -930,6 +930,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 			editor.setMandatory(false);
 			editor.setReadWrite(true);
 			editor.dynamicDisplay();
+			Component fieldLabel = editor.getComponent();
 			box.appendChild(editor.getComponent());
 			rangeFirstEditor.add(mField.getColumnName());
 			// The Editor
@@ -942,12 +943,15 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 			m_sEditors2.add (toRangeEditor);
 			Label separator = new Label(" - ");
 			box.appendChild(separator);
+			Component fieldLabel1 = toRangeEditor.getComponent();
 			box.appendChild(toRangeEditor.getComponent());
 			if (displayLength > 0) // set it back
 				mField.setDisplayLength(displayLength);
 			//
 			panel.appendChild(LayoutUtils.makeRightAlign(label));
 			panel.appendChild(box);
+			fieldLabel.addEventListener(Events.ON_OK,this);
+			fieldLabel1.addEventListener(Events.ON_OK,this);
 		}
 		else {
 			editor = WebEditorFactory.getEditor(mField, false);
@@ -955,7 +959,6 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 			editor.setMandatory(false);
 			editor.setReadWrite(true);
 			editor.dynamicDisplay();
-
 			Component fieldLabel = editor.getComponent();
 
 			//
@@ -964,6 +967,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 			//
 			panel.appendChild(LayoutUtils.makeRightAlign(label));
 			panel.appendChild(fieldLabel);
+			fieldLabel.addEventListener(Events.ON_OK,this);
 
 			m_sEditors2.add (null);
 		}
@@ -1082,6 +1086,16 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 			for (WEditor editor : m_sEditors)
 			{
 				if (editor.getComponent() == event.getTarget())
+				{
+					cmd_ok_Simple();
+					dispose();
+				}
+			}
+			
+			// Check simple panel fields
+			for (WEditor editor : m_sEditors2)
+			{
+				if (editor != null && editor.getComponent() == event.getTarget())
 				{
 					cmd_ok_Simple();
 					dispose();
@@ -1651,7 +1665,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 				String infoDisplay = null;
 				if (toRangeEditor != null)
 					value2 = toRangeEditor.getValue();
-				if ( value != null && ( value2 != null && !value2.toString().isEmpty() ) && value2.toString().length() > 0)
+				if ( ( value != null && !value.toString().isEmpty()) && ( value2 != null && !value2.toString().isEmpty() ) && value2.toString().length() > 0)
 				{
 					ColumnName = toRangeEditor.getColumnName();
 					log.fine(ColumnName + "=" + value2);

@@ -1157,7 +1157,7 @@ public final class Find extends CDialog
 		           	 if (editor2 != null)
 		           	 value2 = editor2.getValue();
 		           	 //GridField field = null;
-		           	if ( value != null && ( value2 != null && !value2.toString().isEmpty() ) && value2.toString().length() > 0)
+		           	if ( ( value != null && !value.toString().isEmpty() ) && ( value2 != null && !value2.toString().isEmpty() ) && value2.toString().length() > 0)
 		           	 {
 			           	 ColumnName = ((Component)ved).getName ();
 			           	 log.fine(ColumnName + "=" + value2);

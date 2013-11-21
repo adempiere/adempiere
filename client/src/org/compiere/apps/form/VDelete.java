@@ -225,6 +225,8 @@ public class VDelete extends CPanel
 		tableLabel = new CLabel(Msg.getMsg(Env.getCtx(), "AD_Table_ID"));
 		tablePick = new VLookup("AD_Table_ID", true, false, true,
 				MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, 114, DisplayType.TableDir));
+		tablePick.setValue(new Integer((Integer) Env.getContextAsInt(Env.getCtx(), "$AD_Table_ID")));
+		tablePick.setMandatory(true);
 		tablePick.addActionListener(this);
 		
 		DeleteEntitiesModel root = new DeleteEntitiesModel();
@@ -354,13 +356,18 @@ public class VDelete extends CPanel
 		}
 		else if ( e.getActionCommand().equals("comboBoxChanged"))
 		{
-			if (tableId == 0 || clientId == 0)
+			if (clientId == 0)
 			{
 				ADialog.error(m_WindowNo, this, "Error", 
 						"Select client and base table for cascade delete.");
 				return;
 			}
-			MTable table = MTable.get(Env.getCtx(), tableId);
+			
+			MTable table = null;
+			if( tableId > 0)
+			 table = MTable.get(Env.getCtx(), tableId);
+			else
+				return;
 
 			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			confirmPanel.getOKButton().setEnabled(false);

@@ -67,7 +67,7 @@ public class CalloutBOM extends CalloutEngine
         bomLine.setDescription(product.getDescription());
         bomLine.setHelp(product.getHelp());
         bomLine.setC_UOM_ID(product.getC_UOM_ID());
-        bomLine.setM_AttributeSetInstance_ID(product.getEnvAttributeSetInstance(ctx,WindowNo));
+        bomLine.setM_AttributeSetInstance_ID(product.getEnvAttributeSetInstance(ctx,WindowNo) == null ? 0 : product.getEnvAttributeSetInstance(ctx,WindowNo) );
 		return "";
 	}
         

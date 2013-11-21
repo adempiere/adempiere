@@ -368,9 +368,10 @@ public class CalloutPayment extends CalloutEngine
 		BigDecimal OverUnderAmt = (BigDecimal)mTab.getValue ("OverUnderAmt");
 		log.fine ("Pay=" + PayAmt + ", Discount=" + DiscountAmt + ", WriteOff="
 			+ WriteOffAmt + ", OverUnderAmt=" + OverUnderAmt);
+		
 		// Get Currency Info
-		int C_Currency_ID = ((Integer)mTab.getValue ("C_Currency_ID"))
-			.intValue ();
+		int C_Currency_ID = ((Integer)mTab.getValue ("C_Currency_ID")) == null ? Env.getContextAsInt(ctx, "$C_Currency_ID"): ((Integer)mTab.getValue ("C_Currency_ID"));
+			//.intValue ();
 		MCurrency currency = MCurrency.get (ctx, C_Currency_ID);
 		Timestamp ConvDate = (Timestamp)mTab.getValue ("DateTrx");
 		int C_ConversionType_ID = 0;
