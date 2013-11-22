@@ -140,8 +140,8 @@ public class ReferenceTableElementHandler extends AbstractElementHandler {
 					name, "AD_Table", tableId);
 			String entityType = atts.getValue("EntityType");
 			String isValueDisplayed = atts.getValue("IsValueDisplayed");
-			String OrderByClause = atts.getValue("OrderByClause").replaceAll("'", "''");
-			String WhereClause = atts.getValue("WhereClause").replaceAll("'","''");
+			String OrderByClause = atts.getValue("OrderByClause");
+			String WhereClause = atts.getValue("WhereClause");
 			if (count > 0) {
 				sqlB = new StringBuffer("UPDATE AD_Ref_Table ").append(
 						"SET AD_Table_ID = " + tableId).append(
