@@ -75,7 +75,7 @@ public class RollUpCosts extends SvrProcess {
 		{
 			String sql = "SELECT M_PRODUCT_ID FROM M_PRODUCT WHERE M_PRODUCT_CATEGORY_ID = " + 
 			    category + " AND AD_CLIENT_ID = " + Env.getAD_Client_ID(getCtx()) + 
-			    " AND M_PRODUCT_ID IN (SELECT M_PRODUCT_ID FROM M_PRODUCT_BOM)";
+			    " AND M_PRODUCT_ID IN (SELECT b.M_PRODUCT_ID FROM PP_PRODUCT_BOM b JOIN PP_PRODUCT_BOMLINE bl ON b.PP_PRODUCT_BOM_ID = bl.PP_PRODUCT_BOM_ID)";
 			//System.err.println(sql);
 		    RowSet results = DB.getRowSet(sql);
 			while (results.next())
@@ -86,7 +86,7 @@ public class RollUpCosts extends SvrProcess {
 		else //do it for all products 
 		{
 			String sql = "SELECT M_PRODUCT_ID FROM M_PRODUCT WHERE AD_CLIENT_ID = " + Env.getAD_Client_ID(getCtx()) + 
-			   " AND M_PRODUCT_ID IN (SELECT M_PRODUCT_ID FROM M_PRODUCT_BOM)";
+			   " AND M_PRODUCT_ID IN (SELECT b.M_PRODUCT_ID FROM PP_PRODUCT_BOM b JOIN PP_PRODUCT_BOMLINE bl ON b.PP_PRODUCT_BOM_ID = bl.PP_PRODUCT_BOM_ID)";
 		    //System.err.println(sql);
 	        RowSet results = DB.getRowSet(sql);
 		    while (results.next())
