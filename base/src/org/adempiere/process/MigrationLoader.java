@@ -25,6 +25,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Trx;
+import org.compiere.util.TrxRunnable;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -81,7 +82,26 @@ public class MigrationLoader {
 
 				NodeList migrations = doc.getDocumentElement().getElementsByTagName("Migration");
 				for ( int i = 0; i < migrations.getLength(); i++ ) {
-					MMigration.fromXmlNode(ctx, (Element) migrations.item(i), null);  //TODO trx
+					
+				   Trx.run(new TrxRunnable() 
+				   {
+					   Properties ctx;
+					   Element element;
+					   
+					   TrxRunnable setParamenters(Properties ctx , Element element)
+					   {
+						   ctx =  ctx;
+						   element = element;
+						   return this;
+					   }
+			            public void run(String trxName) {
+			            	try {
+								MMigration.fromXmlNode(ctx, element , trxName);
+							} catch (SQLException e) {
+								e.printStackTrace();
+							}
+			            }
+			       }.setParamenters(ctx, (Element) migrations.item(i)));
 				}
 			}
 
