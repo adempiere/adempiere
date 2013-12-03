@@ -40,10 +40,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jun 28, 2012 4:51:28 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63222,348,0,20,53386,'IsActive',TO_DATE('2012-06-28 16:51:26','YYYY-MM-DD HH24:MI:SS'),100,'Y','The record is active in the system','EE01',1,'There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
-There are two reasons for de-activating and not deleting records:
-(1) The system requires the record for audit purposes.
-(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','Y','Y','N','N','N','N','Y','N','N','N','Y','Active',TO_DATE('2012-06-28 16:51:26','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63222,348,0,20,53386,'IsActive',TO_DATE('2012-06-28 16:51:26','YYYY-MM-DD HH24:MI:SS'),100,'Y','The record is active in the system','EE01',1,'There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.There are two reasons for de-activating and not deleting records:(1) The system requires the record for audit purposes.(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','Y','Y','N','N','N','N','Y','N','N','N','Y','Active',TO_DATE('2012-06-28 16:51:26','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Jun 28, 2012 4:51:28 PM CDT
@@ -178,10 +175,7 @@ UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=113
 
 -- Jun 28, 2012 4:51:37 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-UPDATE AD_Element SET ColumnName='IsActive', Description='The record is active in the system', EntityType='D', Help='There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
-There are two reasons for de-activating and not deleting records:
-(1) The system requires the record for audit purposes.
-(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.', IsActive='Y', Name='Active', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Active',Updated=TO_DATE('2012-06-28 16:51:37','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=348
+UPDATE AD_Element SET ColumnName='IsActive', Description='The record is active in the system', EntityType='D', Help='There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.There are two reasons for de-activating and not deleting records:(1) The system requires the record for audit purposes.(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.', IsActive='Y', Name='Active', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Active',Updated=TO_DATE('2012-06-28 16:51:37','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=348
 ;
 
 -- Jun 28, 2012 4:51:37 PM CDT
@@ -1437,8 +1431,7 @@ UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=134
 
 -- Jun 28, 2012 4:52:13 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-UPDATE AD_Ref_Table SET AD_Table_ID = 188, AD_Display = 1135, AD_Key = 1125, isValueDisplayed = 'Y', OrderByClause = 'C_ElementValue.Value', EntityType ='D', WhereClause = 'C_ElementValue.IsActive=''Y'' AND C_ElementValue.IsSummary=''N'' 
-AND C_ElementValue.C_Element_ID IN (SELECT C_Element_ID FROM C_AcctSchema_Element ase WHERE ase.ElementType=''U1'' AND ase.AD_Client_ID=@AD_Client_ID@)' WHERE AD_Reference_ID = 134
+UPDATE AD_Ref_Table SET AD_Table_ID = 188, AD_Display = 1135, AD_Key = 1125, isValueDisplayed = 'Y', OrderByClause = 'C_ElementValue.Value', EntityType ='D', WhereClause = 'C_ElementValue.IsActive=''Y'' AND C_ElementValue.IsSummary=''N'' AND C_ElementValue.C_Element_ID IN (SELECT C_Element_ID FROM C_AcctSchema_Element ase WHERE ase.ElementType=''U1'' AND ase.AD_Client_ID=@AD_Client_ID@)' WHERE AD_Reference_ID = 134
 ;
 
 -- Jun 28, 2012 4:52:14 PM CDT
@@ -1478,8 +1471,7 @@ UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=137
 
 -- Jun 28, 2012 4:52:15 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-UPDATE AD_Ref_Table SET AD_Table_ID = 188, AD_Display = 1135, AD_Key = 1125, isValueDisplayed = 'Y', OrderByClause = 'C_ElementValue.Value', EntityType ='D', WhereClause = 'C_ElementValue.IsActive=''Y'' AND C_ElementValue.IsSummary=''N'' 
-AND C_ElementValue.C_Element_ID IN (SELECT C_Element_ID FROM C_AcctSchema_Element ase WHERE ase.ElementType=''U2'' AND ase.AD_Client_ID=@AD_Client_ID@)' WHERE AD_Reference_ID = 137
+UPDATE AD_Ref_Table SET AD_Table_ID = 188, AD_Display = 1135, AD_Key = 1125, isValueDisplayed = 'Y', OrderByClause = 'C_ElementValue.Value', EntityType ='D', WhereClause = 'C_ElementValue.IsActive=''Y'' AND C_ElementValue.IsSummary=''N'' AND C_ElementValue.C_Element_ID IN (SELECT C_Element_ID FROM C_AcctSchema_Element ase WHERE ase.ElementType=''U2'' AND ase.AD_Client_ID=@AD_Client_ID@)' WHERE AD_Reference_ID = 137
 ;
 
 -- Jun 28, 2012 4:52:15 PM CDT
@@ -1509,10 +1501,7 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Jun 28, 2012 4:52:16 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DefaultValue,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,63222,64395,0,53516,TO_DATE('2012-06-28 16:52:16','YYYY-MM-DD HH24:MI:SS'),100,NULL,'The record is active in the system',1,'EE01','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
-There are two reasons for de-activating and not deleting records:
-(1) The system requires the record for audit purposes.
-(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','N','Y','Y','N','N','N','N','N','Active',0,0,0,TO_DATE('2012-06-28 16:52:16','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DefaultValue,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,63222,64395,0,53516,TO_DATE('2012-06-28 16:52:16','YYYY-MM-DD HH24:MI:SS'),100,NULL,'The record is active in the system',1,'EE01','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.There are two reasons for de-activating and not deleting records:(1) The system requires the record for audit purposes.(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','N','Y','Y','N','N','N','N','N','Active',0,0,0,TO_DATE('2012-06-28 16:52:16','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jun 28, 2012 4:52:16 PM CDT
@@ -2232,10 +2221,7 @@ UPDATE AD_Field SET AD_Column_ID=11905, AD_FieldGroup_ID=NULL, AD_Reference_ID=N
 
 -- Jun 28, 2012 4:53:29 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-UPDATE AD_Field SET AD_Column_ID=11913, AD_FieldGroup_ID=NULL, AD_Reference_ID=NULL, AD_Reference_Value_ID=NULL, AD_Tab_ID=653, AD_Val_Rule_ID=NULL, DefaultValue=NULL, Description='The record is active in the system', DisplayLength=1, DisplayLogic=NULL, EntityType='D', Help='There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
-There are two reasons for de-activating and not deleting records:
-(1) The system requires the record for audit purposes.
-(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.', HideInListView='N', InfoFactoryClass=NULL, IsActive='Y', IsCentrallyMaintained='Y', IsDisplayed='Y', IsFieldOnly='N', IsHeading='N', IsReadOnly='N', IsSameLine='N', Name='Active', PreferredWidth=0, SeqNo=60, SortNo=0,Updated=TO_DATE('2012-06-28 16:53:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=10296
+UPDATE AD_Field SET AD_Column_ID=11913, AD_FieldGroup_ID=NULL, AD_Reference_ID=NULL, AD_Reference_Value_ID=NULL, AD_Tab_ID=653, AD_Val_Rule_ID=NULL, DefaultValue=NULL, Description='The record is active in the system', DisplayLength=1, DisplayLogic=NULL, EntityType='D', Help='There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.There are two reasons for de-activating and not deleting records:(1) The system requires the record for audit purposes.(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.', HideInListView='N', InfoFactoryClass=NULL, IsActive='Y', IsCentrallyMaintained='Y', IsDisplayed='Y', IsFieldOnly='N', IsHeading='N', IsReadOnly='N', IsSameLine='N', Name='Active', PreferredWidth=0, SeqNo=60, SortNo=0,Updated=TO_DATE('2012-06-28 16:53:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=10296
 ;
 
 -- Jun 28, 2012 4:53:29 PM CDT
@@ -2465,10 +2451,7 @@ UPDATE AD_Field SET AD_Column_ID=53412, AD_FieldGroup_ID=NULL, AD_Reference_ID=N
 
 -- Jun 28, 2012 4:53:45 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-UPDATE AD_Field SET AD_Column_ID=11940, AD_FieldGroup_ID=NULL, AD_Reference_ID=NULL, AD_Reference_Value_ID=NULL, AD_Tab_ID=654, AD_Val_Rule_ID=NULL, DefaultValue=NULL, Description='The record is active in the system', DisplayLength=1, DisplayLogic=NULL, EntityType='D', Help='There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
-There are two reasons for de-activating and not deleting records:
-(1) The system requires the record for audit purposes.
-(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.', HideInListView='N', InfoFactoryClass=NULL, IsActive='Y', IsCentrallyMaintained='Y', IsDisplayed='Y', IsFieldOnly='N', IsHeading='N', IsReadOnly='N', IsSameLine='N', Name='Active', PreferredWidth=0, SeqNo=80, SortNo=0,Updated=TO_DATE('2012-06-28 16:53:45','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=10308
+UPDATE AD_Field SET AD_Column_ID=11940, AD_FieldGroup_ID=NULL, AD_Reference_ID=NULL, AD_Reference_Value_ID=NULL, AD_Tab_ID=654, AD_Val_Rule_ID=NULL, DefaultValue=NULL, Description='The record is active in the system', DisplayLength=1, DisplayLogic=NULL, EntityType='D', Help='There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.There are two reasons for de-activating and not deleting records:(1) The system requires the record for audit purposes.(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.', HideInListView='N', InfoFactoryClass=NULL, IsActive='Y', IsCentrallyMaintained='Y', IsDisplayed='Y', IsFieldOnly='N', IsHeading='N', IsReadOnly='N', IsSameLine='N', Name='Active', PreferredWidth=0, SeqNo=80, SortNo=0,Updated=TO_DATE('2012-06-28 16:53:45','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=10308
 ;
 
 -- Jun 28, 2012 4:53:45 PM CDT
@@ -3223,10 +3206,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jun 28, 2012 4:54:28 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63283,348,0,20,53387,'IsActive',TO_DATE('2012-06-28 16:54:28','YYYY-MM-DD HH24:MI:SS'),100,'Y','The record is active in the system','EE01',1,'There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
-There are two reasons for de-activating and not deleting records:
-(1) The system requires the record for audit purposes.
-(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','Y','Y','N','N','N','N','Y','N','N','N','Y','Active',TO_DATE('2012-06-28 16:54:28','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63283,348,0,20,53387,'IsActive',TO_DATE('2012-06-28 16:54:28','YYYY-MM-DD HH24:MI:SS'),100,'Y','The record is active in the system','EE01',1,'There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.There are two reasons for de-activating and not deleting records:(1) The system requires the record for audit purposes.(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','Y','Y','N','N','N','N','Y','N','N','N','Y','Active',TO_DATE('2012-06-28 16:54:28','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Jun 28, 2012 4:54:28 PM CDT
@@ -3376,10 +3356,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jun 28, 2012 4:54:42 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DefaultValue,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,63283,64450,0,53517,TO_DATE('2012-06-28 16:54:41','YYYY-MM-DD HH24:MI:SS'),100,NULL,'The record is active in the system',1,'EE01','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
-There are two reasons for de-activating and not deleting records:
-(1) The system requires the record for audit purposes.
-(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','N','Y','Y','Y','N','N','N','N','Active',0,50,0,TO_DATE('2012-06-28 16:54:41','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DefaultValue,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,63283,64450,0,53517,TO_DATE('2012-06-28 16:54:41','YYYY-MM-DD HH24:MI:SS'),100,NULL,'The record is active in the system',1,'EE01','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.There are two reasons for de-activating and not deleting records:(1) The system requires the record for audit purposes.(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','N','Y','Y','Y','N','N','N','N','Active',0,50,0,TO_DATE('2012-06-28 16:54:41','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jun 28, 2012 4:54:42 PM CDT
@@ -3429,10 +3406,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jun 28, 2012 4:54:45 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63293,348,0,20,53388,'IsActive',TO_DATE('2012-06-28 16:54:44','YYYY-MM-DD HH24:MI:SS'),100,'Y','The record is active in the system','EE01',1,'There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
-There are two reasons for de-activating and not deleting records:
-(1) The system requires the record for audit purposes.
-(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','Y','Y','N','N','N','N','Y','N','N','N','Y','Active',TO_DATE('2012-06-28 16:54:44','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63293,348,0,20,53388,'IsActive',TO_DATE('2012-06-28 16:54:44','YYYY-MM-DD HH24:MI:SS'),100,'Y','The record is active in the system','EE01',1,'There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.There are two reasons for de-activating and not deleting records:(1) The system requires the record for audit purposes.(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','Y','Y','N','N','N','N','Y','N','N','N','Y','Active',TO_DATE('2012-06-28 16:54:44','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Jun 28, 2012 4:54:45 PM CDT
@@ -3707,10 +3681,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jun 28, 2012 4:54:56 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DefaultValue,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,63293,64457,0,53518,TO_DATE('2012-06-28 16:54:55','YYYY-MM-DD HH24:MI:SS'),100,NULL,'The record is active in the system',1,'EE01','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
-There are two reasons for de-activating and not deleting records:
-(1) The system requires the record for audit purposes.
-(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','N','Y','Y','Y','N','N','N','N','Active',0,60,0,TO_DATE('2012-06-28 16:54:55','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DefaultValue,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,63293,64457,0,53518,TO_DATE('2012-06-28 16:54:55','YYYY-MM-DD HH24:MI:SS'),100,NULL,'The record is active in the system',1,'EE01','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.There are two reasons for de-activating and not deleting records:(1) The system requires the record for audit purposes.(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','N','Y','Y','Y','N','N','N','N','Active',0,60,0,TO_DATE('2012-06-28 16:54:55','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jun 28, 2012 4:54:56 PM CDT
@@ -4048,10 +4019,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jun 28, 2012 4:55:15 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DefaultValue,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,63306,64469,0,53519,TO_DATE('2012-06-28 16:55:14','YYYY-MM-DD HH24:MI:SS'),100,NULL,'The record is active in the system',1,'EE01','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
-There are two reasons for de-activating and not deleting records:
-(1) The system requires the record for audit purposes.
-(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','N','Y','Y','Y','N','N','N','N','Active',0,80,0,TO_DATE('2012-06-28 16:55:14','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DefaultValue,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,63306,64469,0,53519,TO_DATE('2012-06-28 16:55:14','YYYY-MM-DD HH24:MI:SS'),100,NULL,'The record is active in the system',1,'EE01','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.There are two reasons for de-activating and not deleting records:(1) The system requires the record for audit purposes.(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','N','Y','Y','Y','N','N','N','N','Active',0,80,0,TO_DATE('2012-06-28 16:55:14','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jun 28, 2012 4:55:15 PM CDT
@@ -4101,10 +4069,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jun 28, 2012 4:55:17 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63319,348,0,20,53390,'IsActive',TO_DATE('2012-06-28 16:55:16','YYYY-MM-DD HH24:MI:SS'),100,'Y','The record is active in the system','EE01',1,'There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
-There are two reasons for de-activating and not deleting records:
-(1) The system requires the record for audit purposes.
-(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','Y','Y','N','N','N','N','Y','N','N','N','Y','Active',TO_DATE('2012-06-28 16:55:16','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63319,348,0,20,53390,'IsActive',TO_DATE('2012-06-28 16:55:16','YYYY-MM-DD HH24:MI:SS'),100,'Y','The record is active in the system','EE01',1,'There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.There are two reasons for de-activating and not deleting records:(1) The system requires the record for audit purposes.(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','Y','Y','N','N','N','N','Y','N','N','N','Y','Active',TO_DATE('2012-06-28 16:55:16','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Jun 28, 2012 4:55:17 PM CDT
@@ -4584,10 +4549,7 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Jun 28, 2012 4:55:34 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DefaultValue,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,63319,64470,0,53520,TO_DATE('2012-06-28 16:55:33','YYYY-MM-DD HH24:MI:SS'),100,NULL,'The record is active in the system',1,'EE01','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
-There are two reasons for de-activating and not deleting records:
-(1) The system requires the record for audit purposes.
-(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','N','Y','Y','N','N','N','N','N','Active',0,0,0,TO_DATE('2012-06-28 16:55:33','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DefaultValue,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,63319,64470,0,53520,TO_DATE('2012-06-28 16:55:33','YYYY-MM-DD HH24:MI:SS'),100,NULL,'The record is active in the system',1,'EE01','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.There are two reasons for de-activating and not deleting records:(1) The system requires the record for audit purposes.(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','N','Y','Y','N','N','N','N','N','Active',0,0,0,TO_DATE('2012-06-28 16:55:33','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jun 28, 2012 4:55:34 PM CDT
@@ -4927,10 +4889,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jun 28, 2012 4:55:48 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63353,348,0,20,53391,'IsActive',TO_DATE('2012-06-28 16:55:48','YYYY-MM-DD HH24:MI:SS'),100,'Y','The record is active in the system','EE01',1,'There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
-There are two reasons for de-activating and not deleting records:
-(1) The system requires the record for audit purposes.
-(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','Y','Y','N','N','N','N','Y','N','N','N','Y','Active',TO_DATE('2012-06-28 16:55:48','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63353,348,0,20,53391,'IsActive',TO_DATE('2012-06-28 16:55:48','YYYY-MM-DD HH24:MI:SS'),100,'Y','The record is active in the system','EE01',1,'There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.There are two reasons for de-activating and not deleting records:(1) The system requires the record for audit purposes.(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','Y','Y','N','N','N','N','Y','N','N','N','Y','Active',TO_DATE('2012-06-28 16:55:48','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Jun 28, 2012 4:55:48 PM CDT
@@ -5100,9 +5059,7 @@ ALTER TABLE PP_ForecastRun ADD PeriodHistory NUMBER(10) DEFAULT NULL
 
 -- Jun 28, 2012 4:55:55 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-UPDATE AD_Element SET ColumnName='DocumentNo', Description='Document sequence number of the document', EntityType='D', Help='The document number is usually automatically generated by the system and determined by the document type of the document. If the document is not saved, the preliminary number is displayed in "<>".
-
-If the document type of your document has no automatic document sequence defined, the field is empty if you create a new document. This is for documents which usually have an external number (like vendor invoice).  If you leave the field empty, the system will generate a document number for you. The document sequence used for this fallback number is defined in the "Maintain Sequence" window with the name "DocumentNo_<TableName>", where TableName is the actual name of the table (e.g. C_Order).', IsActive='Y', Name='Document No', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Document No',Updated=TO_DATE('2012-06-28 16:55:55','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=290
+UPDATE AD_Element SET ColumnName='DocumentNo', Description='Document sequence number of the document', EntityType='D', Help='The document number is usually automatically generated by the system and determined by the document type of the document. If the document is not saved, the preliminary number is displayed in "<>".If the document type of your document has no automatic document sequence defined, the field is empty if you create a new document. This is for documents which usually have an external number (like vendor invoice).  If you leave the field empty, the system will generate a document number for you. The document sequence used for this fallback number is defined in the "Maintain Sequence" window with the name "DocumentNo_<TableName>", where TableName is the actual name of the table (e.g. C_Order).', IsActive='Y', Name='Document No', PO_Description=NULL, PO_Help=NULL, PO_Name=NULL, PO_PrintName=NULL, PrintName='Document No',Updated=TO_DATE('2012-06-28 16:55:55','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=290
 ;
 
 -- Jun 28, 2012 4:55:55 PM CDT
@@ -5112,9 +5069,7 @@ UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=290
 
 -- Jun 28, 2012 4:55:56 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,63363,290,0,10,53391,'DocumentNo',TO_DATE('2012-06-28 16:55:55','YYYY-MM-DD HH24:MI:SS'),100,'Document sequence number of the document','EE01',30,'The document number is usually automatically generated by the system and determined by the document type of the document. If the document is not saved, the preliminary number is displayed in "<>".
-
-If the document type of your document has no automatic document sequence defined, the field is empty if you create a new document. This is for documents which usually have an external number (like vendor invoice).  If you leave the field empty, the system will generate a document number for you. The document sequence used for this fallback number is defined in the "Maintain Sequence" window with the name "DocumentNo_<TableName>", where TableName is the actual name of the table (e.g. C_Order).','Y','N','N','Y','N','Y','N','Y','Y','N','Y','Document No',1,TO_DATE('2012-06-28 16:55:55','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,63363,290,0,10,53391,'DocumentNo',TO_DATE('2012-06-28 16:55:55','YYYY-MM-DD HH24:MI:SS'),100,'Document sequence number of the document','EE01',30,'The document number is usually automatically generated by the system and determined by the document type of the document. If the document is not saved, the preliminary number is displayed in "<>".If the document type of your document has no automatic document sequence defined, the field is empty if you create a new document. This is for documents which usually have an external number (like vendor invoice).  If you leave the field empty, the system will generate a document number for you. The document sequence used for this fallback number is defined in the "Maintain Sequence" window with the name "DocumentNo_<TableName>", where TableName is the actual name of the table (e.g. C_Order).','Y','N','N','Y','N','Y','N','Y','Y','N','Y','Document No',1,TO_DATE('2012-06-28 16:55:55','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jun 28, 2012 4:55:56 PM CDT
@@ -5334,9 +5289,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jun 28, 2012 4:56:03 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DefaultValue,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,63363,64502,0,53521,TO_DATE('2012-06-28 16:56:02','YYYY-MM-DD HH24:MI:SS'),100,NULL,'Document sequence number of the document',29,'EE01','The document number is usually automatically generated by the system and determined by the document type of the document. If the document is not saved, the preliminary number is displayed in "<>".
-
-If the document type of your document has no automatic document sequence defined, the field is empty if you create a new document. This is for documents which usually have an external number (like vendor invoice).  If you leave the field empty, the system will generate a document number for you. The document sequence used for this fallback number is defined in the "Maintain Sequence" window with the name "DocumentNo_<TableName>", where TableName is the actual name of the table (e.g. C_Order).','N','Y','Y','Y','N','N','N','N','Document No',0,30,0,TO_DATE('2012-06-28 16:56:02','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DefaultValue,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,63363,64502,0,53521,TO_DATE('2012-06-28 16:56:02','YYYY-MM-DD HH24:MI:SS'),100,NULL,'Document sequence number of the document',29,'EE01','The document number is usually automatically generated by the system and determined by the document type of the document. If the document is not saved, the preliminary number is displayed in "<>".If the document type of your document has no automatic document sequence defined, the field is empty if you create a new document. This is for documents which usually have an external number (like vendor invoice).  If you leave the field empty, the system will generate a document number for you. The document sequence used for this fallback number is defined in the "Maintain Sequence" window with the name "DocumentNo_<TableName>", where TableName is the actual name of the table (e.g. C_Order).','N','Y','Y','Y','N','N','N','N','Document No',0,30,0,TO_DATE('2012-06-28 16:56:02','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jun 28, 2012 4:56:03 PM CDT
@@ -5356,10 +5309,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jun 28, 2012 4:56:04 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DefaultValue,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,63353,64504,0,53521,TO_DATE('2012-06-28 16:56:03','YYYY-MM-DD HH24:MI:SS'),100,NULL,'The record is active in the system',1,'EE01','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
-There are two reasons for de-activating and not deleting records:
-(1) The system requires the record for audit purposes.
-(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','N','Y','Y','Y','N','N','N','N','Active',0,50,0,TO_DATE('2012-06-28 16:56:03','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DefaultValue,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,63353,64504,0,53521,TO_DATE('2012-06-28 16:56:03','YYYY-MM-DD HH24:MI:SS'),100,NULL,'The record is active in the system',1,'EE01','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.There are two reasons for de-activating and not deleting records:(1) The system requires the record for audit purposes.(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','N','Y','Y','Y','N','N','N','N','Active',0,50,0,TO_DATE('2012-06-28 16:56:03','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jun 28, 2012 4:56:04 PM CDT
@@ -5509,10 +5459,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jun 28, 2012 4:56:11 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63373,348,0,20,53392,'IsActive',TO_DATE('2012-06-28 16:56:10','YYYY-MM-DD HH24:MI:SS'),100,'Y','The record is active in the system','EE01',1,'There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
-There are two reasons for de-activating and not deleting records:
-(1) The system requires the record for audit purposes.
-(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','Y','Y','N','N','N','N','Y','N','N','N','Y','Active',TO_DATE('2012-06-28 16:56:10','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63373,348,0,20,53392,'IsActive',TO_DATE('2012-06-28 16:56:10','YYYY-MM-DD HH24:MI:SS'),100,'Y','The record is active in the system','EE01',1,'There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.There are two reasons for de-activating and not deleting records:(1) The system requires the record for audit purposes.(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','Y','Y','N','N','N','N','Y','N','N','N','Y','Active',TO_DATE('2012-06-28 16:56:10','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Jun 28, 2012 4:56:11 PM CDT
@@ -5852,10 +5799,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jun 28, 2012 4:56:26 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DefaultValue,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,63373,64523,0,53522,TO_DATE('2012-06-28 16:56:26','YYYY-MM-DD HH24:MI:SS'),100,NULL,'The record is active in the system',1,'EE01','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
-There are two reasons for de-activating and not deleting records:
-(1) The system requires the record for audit purposes.
-(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','N','Y','Y','Y','N','N','N','N','Active',0,50,0,TO_DATE('2012-06-28 16:56:26','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DefaultValue,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,63373,64523,0,53522,TO_DATE('2012-06-28 16:56:26','YYYY-MM-DD HH24:MI:SS'),100,NULL,'The record is active in the system',1,'EE01','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.There are two reasons for de-activating and not deleting records:(1) The system requires the record for audit purposes.(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','N','Y','Y','Y','N','N','N','N','Active',0,50,0,TO_DATE('2012-06-28 16:56:26','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jun 28, 2012 4:56:26 PM CDT
@@ -5935,10 +5879,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jun 28, 2012 4:56:30 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63389,348,0,20,53393,'IsActive',TO_DATE('2012-06-28 16:56:29','YYYY-MM-DD HH24:MI:SS'),100,'Y','The record is active in the system','EE01',1,'There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
-There are two reasons for de-activating and not deleting records:
-(1) The system requires the record for audit purposes.
-(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','Y','Y','N','N','N','N','Y','N','N','N','Y','Active',TO_DATE('2012-06-28 16:56:29','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63389,348,0,20,53393,'IsActive',TO_DATE('2012-06-28 16:56:29','YYYY-MM-DD HH24:MI:SS'),100,'Y','The record is active in the system','EE01',1,'There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.There are two reasons for de-activating and not deleting records:(1) The system requires the record for audit purposes.(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','Y','Y','N','N','N','N','Y','N','N','N','Y','Active',TO_DATE('2012-06-28 16:56:29','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Jun 28, 2012 4:56:30 PM CDT
@@ -6183,10 +6124,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jun 28, 2012 4:56:45 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DefaultValue,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,63389,64535,0,53523,TO_DATE('2012-06-28 16:56:45','YYYY-MM-DD HH24:MI:SS'),100,NULL,'The record is active in the system',1,'EE01','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
-There are two reasons for de-activating and not deleting records:
-(1) The system requires the record for audit purposes.
-(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','N','Y','Y','Y','N','N','N','N','Active',0,50,0,TO_DATE('2012-06-28 16:56:45','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DefaultValue,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,63389,64535,0,53523,TO_DATE('2012-06-28 16:56:45','YYYY-MM-DD HH24:MI:SS'),100,NULL,'The record is active in the system',1,'EE01','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.There are two reasons for de-activating and not deleting records:(1) The system requires the record for audit purposes.(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','N','Y','Y','Y','N','N','N','N','Active',0,50,0,TO_DATE('2012-06-28 16:56:45','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jun 28, 2012 4:56:45 PM CDT
@@ -6236,10 +6174,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jun 28, 2012 4:56:47 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63402,348,0,20,53394,'IsActive',TO_DATE('2012-06-28 16:56:47','YYYY-MM-DD HH24:MI:SS'),100,'Y','The record is active in the system','EE01',1,'There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
-There are two reasons for de-activating and not deleting records:
-(1) The system requires the record for audit purposes.
-(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','Y','Y','N','N','N','N','Y','N','N','N','Y','Active',TO_DATE('2012-06-28 16:56:47','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63402,348,0,20,53394,'IsActive',TO_DATE('2012-06-28 16:56:47','YYYY-MM-DD HH24:MI:SS'),100,'Y','The record is active in the system','EE01',1,'There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.There are two reasons for de-activating and not deleting records:(1) The system requires the record for audit purposes.(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','Y','Y','N','N','N','N','Y','N','N','N','Y','Active',TO_DATE('2012-06-28 16:56:47','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Jun 28, 2012 4:56:47 PM CDT
@@ -6419,10 +6354,7 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Jun 28, 2012 4:56:55 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DefaultValue,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,63402,64537,0,53524,TO_DATE('2012-06-28 16:56:55','YYYY-MM-DD HH24:MI:SS'),100,NULL,'The record is active in the system',1,'EE01','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
-There are two reasons for de-activating and not deleting records:
-(1) The system requires the record for audit purposes.
-(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','N','Y','Y','N','N','N','N','N','Active',0,0,0,TO_DATE('2012-06-28 16:56:55','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DefaultValue,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,63402,64537,0,53524,TO_DATE('2012-06-28 16:56:55','YYYY-MM-DD HH24:MI:SS'),100,NULL,'The record is active in the system',1,'EE01','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.There are two reasons for de-activating and not deleting records:(1) The system requires the record for audit purposes.(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','N','Y','Y','N','N','N','N','N','Active',0,0,0,TO_DATE('2012-06-28 16:56:55','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jun 28, 2012 4:56:55 PM CDT
@@ -6512,10 +6444,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jun 28, 2012 4:56:59 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63415,348,0,20,53395,'IsActive',TO_DATE('2012-06-28 16:56:58','YYYY-MM-DD HH24:MI:SS'),100,'Y','The record is active in the system','EE01',1,'There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
-There are two reasons for de-activating and not deleting records:
-(1) The system requires the record for audit purposes.
-(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','Y','Y','N','N','N','N','Y','N','N','N','Y','Active',TO_DATE('2012-06-28 16:56:58','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63415,348,0,20,53395,'IsActive',TO_DATE('2012-06-28 16:56:58','YYYY-MM-DD HH24:MI:SS'),100,'Y','The record is active in the system','EE01',1,'There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.There are two reasons for de-activating and not deleting records:(1) The system requires the record for audit purposes.(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','Y','Y','N','N','N','N','Y','N','N','N','Y','Active',TO_DATE('2012-06-28 16:56:58','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Jun 28, 2012 4:56:59 PM CDT
@@ -6885,10 +6814,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jun 28, 2012 4:57:13 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DefaultValue,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,63415,64555,0,53525,TO_DATE('2012-06-28 16:57:13','YYYY-MM-DD HH24:MI:SS'),100,NULL,'The record is active in the system',1,'EE01','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
-There are two reasons for de-activating and not deleting records:
-(1) The system requires the record for audit purposes.
-(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','N','Y','Y','Y','N','N','N','N','Active',0,90,0,TO_DATE('2012-06-28 16:57:13','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DefaultValue,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,63415,64555,0,53525,TO_DATE('2012-06-28 16:57:13','YYYY-MM-DD HH24:MI:SS'),100,NULL,'The record is active in the system',1,'EE01','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.There are two reasons for de-activating and not deleting records:(1) The system requires the record for audit purposes. (2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','N','Y','Y','Y','N','N','N','N','Active',0,90,0,TO_DATE('2012-06-28 16:57:13','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jun 28, 2012 4:57:13 PM CDT
@@ -6938,10 +6864,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jun 28, 2012 4:57:15 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63432,348,0,20,53396,'IsActive',TO_DATE('2012-06-28 16:57:15','YYYY-MM-DD HH24:MI:SS'),100,'Y','The record is active in the system','EE01',1,'There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
-There are two reasons for de-activating and not deleting records:
-(1) The system requires the record for audit purposes.
-(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','Y','Y','N','N','N','N','Y','N','N','N','Y','Active',TO_DATE('2012-06-28 16:57:15','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63432,348,0,20,53396,'IsActive',TO_DATE('2012-06-28 16:57:15','YYYY-MM-DD HH24:MI:SS'),100,'Y','The record is active in the system','EE01',1,'There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.There are two reasons for de-activating and not deleting records:(1) The system requires the record for audit purposes.(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','Y','Y','N','N','N','N','Y','N','N','N','Y','Active',TO_DATE('2012-06-28 16:57:15','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Jun 28, 2012 4:57:15 PM CDT
@@ -7151,10 +7074,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jun 28, 2012 4:57:24 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DefaultValue,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,63432,64561,0,53526,TO_DATE('2012-06-28 16:57:23','YYYY-MM-DD HH24:MI:SS'),100,NULL,'The record is active in the system',1,'EE01','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
-There are two reasons for de-activating and not deleting records:
-(1) The system requires the record for audit purposes.
-(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','N','Y','Y','Y','N','N','N','N','Active',0,50,0,TO_DATE('2012-06-28 16:57:23','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DefaultValue,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,63432,64561,0,53526,TO_DATE('2012-06-28 16:57:23','YYYY-MM-DD HH24:MI:SS'),100,NULL,'The record is active in the system',1,'EE01','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.There are two reasons for de-activating and not deleting records:(1) The system requires the record for audit purposes.(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','N','Y','Y','Y','N','N','N','N','Active',0,50,0,TO_DATE('2012-06-28 16:57:23','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jun 28, 2012 4:57:24 PM CDT
@@ -7224,10 +7144,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jun 28, 2012 4:57:27 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63444,348,0,20,53397,'IsActive',TO_DATE('2012-06-28 16:57:26','YYYY-MM-DD HH24:MI:SS'),100,'Y','The record is active in the system','EE01',1,'There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
-There are two reasons for de-activating and not deleting records:
-(1) The system requires the record for audit purposes.
-(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','Y','Y','N','N','N','N','Y','N','N','N','Y','Active',TO_DATE('2012-06-28 16:57:26','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63444,348,0,20,53397,'IsActive',TO_DATE('2012-06-28 16:57:26','YYYY-MM-DD HH24:MI:SS'),100,'Y','The record is active in the system','EE01',1,'There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.There are two reasons for de-activating and not deleting records:(1) The system requires the record for audit purposes.(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','Y','Y','N','N','N','N','Y','N','N','N','Y','Active',TO_DATE('2012-06-28 16:57:26','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Jun 28, 2012 4:57:27 PM CDT
@@ -7377,10 +7294,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jun 28, 2012 4:57:34 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DefaultValue,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,63444,64568,0,53527,TO_DATE('2012-06-28 16:57:34','YYYY-MM-DD HH24:MI:SS'),100,NULL,'The record is active in the system',1,'EE01','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
-There are two reasons for de-activating and not deleting records:
-(1) The system requires the record for audit purposes.
-(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','N','Y','Y','Y','N','N','N','N','Active',0,50,0,TO_DATE('2012-06-28 16:57:34','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DefaultValue,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,63444,64568,0,53527,TO_DATE('2012-06-28 16:57:34','YYYY-MM-DD HH24:MI:SS'),100,NULL,'The record is active in the system',1,'EE01','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.There are two reasons for de-activating and not deleting records:(1) The system requires the record for audit purposes.(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','N','Y','Y','Y','N','N','N','N','Active',0,50,0,TO_DATE('2012-06-28 16:57:34','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jun 28, 2012 4:57:34 PM CDT
@@ -7430,10 +7344,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jun 28, 2012 4:57:36 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63454,348,0,20,53398,'IsActive',TO_DATE('2012-06-28 16:57:36','YYYY-MM-DD HH24:MI:SS'),100,'Y','The record is active in the system','EE01',1,'There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
-There are two reasons for de-activating and not deleting records:
-(1) The system requires the record for audit purposes.
-(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','Y','Y','N','N','N','N','Y','N','N','N','Y','Active',TO_DATE('2012-06-28 16:57:36','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63454,348,0,20,53398,'IsActive',TO_DATE('2012-06-28 16:57:36','YYYY-MM-DD HH24:MI:SS'),100,'Y','The record is active in the system','EE01',1,'There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.There are two reasons for de-activating and not deleting records:(1) The system requires the record for audit purposes.(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','Y','Y','N','N','N','N','Y','N','N','N','Y','Active',TO_DATE('2012-06-28 16:57:36','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Jun 28, 2012 4:57:36 PM CDT
@@ -7763,10 +7674,7 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Jun 28, 2012 4:57:51 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DefaultValue,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,63454,64570,0,53528,TO_DATE('2012-06-28 16:57:50','YYYY-MM-DD HH24:MI:SS'),100,NULL,'The record is active in the system',1,'EE01','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
-There are two reasons for de-activating and not deleting records:
-(1) The system requires the record for audit purposes.
-(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','N','Y','Y','N','N','N','N','N','Active',0,0,0,TO_DATE('2012-06-28 16:57:50','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DefaultValue,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,63454,64570,0,53528,TO_DATE('2012-06-28 16:57:50','YYYY-MM-DD HH24:MI:SS'),100,NULL,'The record is active in the system',1,'EE01','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.There are two reasons for de-activating and not deleting records:(1) The system requires the record for audit purposes.(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','N','Y','Y','N','N','N','N','N','Active',0,0,0,TO_DATE('2012-06-28 16:57:50','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jun 28, 2012 4:57:51 PM CDT
@@ -8156,31 +8064,7 @@ INSERT INTO AD_Process_Para_Trl (AD_Language,AD_Process_Para_ID, Description,Hel
 
 -- Jun 28, 2012 4:58:07 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-UPDATE AD_Process SET AccessLevel='3', Classname='org.eevolution.process.GenerateForecast', Description=' This process allows to generate a forecast based on the calculation of the simulation of a forecast.', EntityType='EE01', Help='<b>Generate Forecast Process:</b>
-
-<br>This process allows to generate a forecast based on the calculation of the simulation of a forecast.
-<br>
-<br>The process uses the resulting values ​​of the simulation to generate a new forecast.
-<br><br>
-<b>Action Type of the forecast:  </b> It Indicates how the forecast will be generated
-<br>
-<br>If the action type is "Replace" all lines of this forecast are eliminated and are generated again based on the simulation products and the selection criteria.
-<br>
-<br>If the action type  is "Merge" all lines of this forecast are combined based on the unique combination of product, warehouse and period. Therefore, if combination exists, the forecast quantities are accumulated.
-<br><br>
-<b>The Load Type of forecast: </b> Indicates which date of the period will be used to determine the promise date of a line of the forecast.
-<br><br>
-<b>Options:</b>
-<br><br>
-<b>To Use the Period Start Date: </b> The due date is set based on the period start date 
-<br><br>
-<b>To Use the Period End Date: </b> The due date is set based on the period end date.
-<br><br>
-<b>Days after the due date:</b>  Indicates the number of days to be added or subtracted to the due date . If the value is negative, the days are subtracted.
-<br><br>
-<b>Selection Criteria:</b>
-<br>
-<br>It is possible to use the category, classification, class and group of the product to get the products to be included in the new forecast.', IsActive='Y', IsBetaFunctionality='N', IsDirectPrint='Y', IsReport='Y', JasperReport=NULL, Name='Calculate Forecast', ProcedureName=NULL, ShowHelp='Y', Statistic_Count=0, Statistic_Seconds=0, Value='M_Forecast Calculate', WorkflowValue=NULL,Updated=TO_DATE('2012-06-28 16:58:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53148
+UPDATE AD_Process SET AccessLevel='3', Classname='org.eevolution.process.GenerateForecast', Description=' This process allows to generate a forecast based on the calculation of the simulation of a forecast.', EntityType='EE01', Help='<b>Generate Forecast Process:</b><br>This process allows to generate a forecast based on the calculation of the simulation of a forecast.<br><br>The process uses the resulting values ​​of the simulation to generate a new forecast.<br><br><b>Action Type of the forecast:  </b> It Indicates how the forecast will be generated<br><br>If the action type is "Replace" all lines of this forecast are eliminated and are generated again based on the simulation products and the selection criteria.<br><br>If the action type  is "Merge" all lines of this forecast are combined based on the unique combination of product, warehouse and period. Therefore, if combination exists, the forecast quantities are accumulated.<br><br><b>The Load Type of forecast: </b> Indicates which date of the period will be used to determine the promise date of a line of the forecast.<br><br><b>Options:</b><br><br><b>To Use the Period Start Date: </b> The due date is set based on the period start date <br><br><b>To Use the Period End Date: </b> The due date is set based on the period end date.<br><br><b>Days after the due date:</b>  Indicates the number of days to be added or subtracted to the due date . If the value is negative, the days are subtracted.<br><br><b>Selection Criteria:</b><br><br>It is possible to use the category, classification, class and group of the product to get the products to be included in the new forecast.', IsActive='Y', IsBetaFunctionality='N', IsDirectPrint='Y', IsReport='Y', JasperReport=NULL, Name='Calculate Forecast', ProcedureName=NULL, ShowHelp='Y', Statistic_Count=0, Statistic_Seconds=0, Value='M_Forecast Calculate', WorkflowValue=NULL,Updated=TO_DATE('2012-06-28 16:58:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53148
 ;
 
 -- Jun 28, 2012 4:58:07 PM CDT
@@ -8405,10 +8289,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jun 28, 2012 4:58:16 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63478,348,0,20,53399,'IsActive',TO_DATE('2012-06-28 16:58:15','YYYY-MM-DD HH24:MI:SS'),100,'Y','The record is active in the system','EE01',1,'There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
-There are two reasons for de-activating and not deleting records:
-(1) The system requires the record for audit purposes.
-(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','Y','Y','N','N','N','N','Y','N','N','N','Y','Active',TO_DATE('2012-06-28 16:58:15','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63478,348,0,20,53399,'IsActive',TO_DATE('2012-06-28 16:58:15','YYYY-MM-DD HH24:MI:SS'),100,'Y','The record is active in the system','EE01',1,'There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.There are two reasons for de-activating and not deleting records:(1) The system requires the record for audit purposes.(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','Y','Y','N','N','N','N','Y','N','N','N','Y','Active',TO_DATE('2012-06-28 16:58:15','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Jun 28, 2012 4:58:16 PM CDT
@@ -8948,9 +8829,7 @@ INSERT INTO AD_TREENODEMM(AD_Client_ID, AD_Org_ID, CreatedBy, UpdatedBy, Parent_
 
 -- Jul 16, 2012 1:39:05 PM CDT
 -- MFG-25
-INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,55545,0,22,'FactorBeta',TO_DATE('2012-07-16 13:39:03','YYYY-MM-DD HH24:MI:SS'),100,'Identifies a Factor Beta','EE01',22,'Factor Beta is the second smoothing constant (beta) used in this Triple exponential smoothing model.
-
-<p>betaTolerance the required precision/accuracy - or tolerance of error - required in the estimate of the beta smoothing constant','Y','Factor Beta','Factor Beta',TO_DATE('2012-07-16 13:39:03','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,55545,0,22,'FactorBeta',TO_DATE('2012-07-16 13:39:03','YYYY-MM-DD HH24:MI:SS'),100,'Identifies a Factor Beta','EE01',22,'Factor Beta is the second smoothing constant (beta) used in this Triple exponential smoothing model.<p>betaTolerance the required precision/accuracy - or tolerance of error - required in the estimate of the beta smoothing constant','Y','Factor Beta','Factor Beta',TO_DATE('2012-07-16 13:39:03','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 16, 2012 1:39:05 PM CDT
@@ -8960,9 +8839,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jul 16, 2012 1:39:21 PM CDT
 -- MFG-25
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,63684,55545,0,22,53398,'FactorBeta',TO_DATE('2012-07-16 13:39:20','YYYY-MM-DD HH24:MI:SS'),100,'Identifies a Factor Beta','EE01',22,'Factor Beta is the second smoothing constant (beta) used in this Triple exponential smoothing model.
-
-<p>betaTolerance the required precision/accuracy - or tolerance of error - required in the estimate of the beta smoothing constant','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Factor Beta',0,TO_DATE('2012-07-16 13:39:20','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,63684,55545,0,22,53398,'FactorBeta',TO_DATE('2012-07-16 13:39:20','YYYY-MM-DD HH24:MI:SS'),100,'Identifies a Factor Beta','EE01',22,'Factor Beta is the second smoothing constant (beta) used in this Triple exponential smoothing model.<p>betaTolerance the required precision/accuracy - or tolerance of error - required in the estimate of the beta smoothing constant','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Factor Beta',0,TO_DATE('2012-07-16 13:39:20','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 16, 2012 1:39:21 PM CDT
@@ -9032,9 +8909,7 @@ ALTER TABLE PP_ForecastDefinitionLine ADD FactorUser NUMBER DEFAULT NULL
 
 -- Jul 16, 2012 1:46:44 PM CDT
 -- MFG-25
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,63686,55545,0,22,53392,'FactorBeta',TO_DATE('2012-07-16 13:46:44','YYYY-MM-DD HH24:MI:SS'),100,'Identifies a Factor Beta','EE01',22,'Factor Beta is the second smoothing constant (beta) used in this Triple exponential smoothing model.
-
-<p>betaTolerance the required precision/accuracy - or tolerance of error - required in the estimate of the beta smoothing constant','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Factor Beta',0,TO_DATE('2012-07-16 13:46:44','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,63686,55545,0,22,53392,'FactorBeta',TO_DATE('2012-07-16 13:46:44','YYYY-MM-DD HH24:MI:SS'),100,'Identifies a Factor Beta','EE01',22,'Factor Beta is the second smoothing constant (beta) used in this Triple exponential smoothing model.<p>betaTolerance the required precision/accuracy - or tolerance of error - required in the estimate of the beta smoothing constant','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Factor Beta',0,TO_DATE('2012-07-16 13:46:44','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 16, 2012 1:46:44 PM CDT
@@ -9064,9 +8939,7 @@ ALTER TABLE PP_ForecastRunMaster ADD FactorUser NUMBER DEFAULT NULL
 
 -- Jul 16, 2012 1:47:38 PM CDT
 -- MFG-25
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,63684,64724,0,53528,TO_DATE('2012-07-16 13:47:36','YYYY-MM-DD HH24:MI:SS'),100,'Identifies a Factor Beta',22,'EE01','Factor Beta is the second smoothing constant (beta) used in this Triple exponential smoothing model.
-
-<p>betaTolerance the required precision/accuracy - or tolerance of error - required in the estimate of the beta smoothing constant','Y','Y','Y','N','N','N','N','N','Factor Beta',TO_DATE('2012-07-16 13:47:36','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,63684,64724,0,53528,TO_DATE('2012-07-16 13:47:36','YYYY-MM-DD HH24:MI:SS'),100,'Identifies a Factor Beta',22,'EE01','Factor Beta is the second smoothing constant (beta) used in this Triple exponential smoothing model.<p>betaTolerance the required precision/accuracy - or tolerance of error - required in the estimate of the beta smoothing constant','Y','Y','Y','N','N','N','N','N','Factor Beta',TO_DATE('2012-07-16 13:47:36','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 16, 2012 1:47:38 PM CDT
@@ -9116,9 +8989,7 @@ UPDATE AD_Field SET IsSameLine='Y',Updated=TO_DATE('2012-07-16 13:48:04','YYYY-M
 
 -- Jul 16, 2012 1:48:24 PM CDT
 -- MFG-25
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,63686,64726,0,53522,TO_DATE('2012-07-16 13:48:23','YYYY-MM-DD HH24:MI:SS'),100,'Identifies a Factor Beta',22,'EE01','Factor Beta is the second smoothing constant (beta) used in this Triple exponential smoothing model.
-
-<p>betaTolerance the required precision/accuracy - or tolerance of error - required in the estimate of the beta smoothing constant','Y','Y','Y','N','N','N','N','N','Factor Beta',TO_DATE('2012-07-16 13:48:23','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,63686,64726,0,53522,TO_DATE('2012-07-16 13:48:23','YYYY-MM-DD HH24:MI:SS'),100,'Identifies a Factor Beta',22,'EE01','Factor Beta is the second smoothing constant (beta) used in this Triple exponential smoothing model.<p>betaTolerance the required precision/accuracy - or tolerance of error - required in the estimate of the beta smoothing constant','Y','Y','Y','N','N','N','N','N','Factor Beta',TO_DATE('2012-07-16 13:48:23','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 16, 2012 1:48:24 PM CDT

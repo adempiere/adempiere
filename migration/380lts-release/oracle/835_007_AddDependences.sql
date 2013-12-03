@@ -250,17 +250,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jun 29, 2012 10:06:51 AM CDT
 -- https://adempiere.atlassian.net/browse/ADEMPIERE-10
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,56776,64605,0,122,TO_DATE('2012-06-29 10:06:50','YYYY-MM-DD HH24:MI:SS'),100,'The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent',10,'EE01','ADempiere Calculate the total yield for a product from the yield for each activity when the process Workflow Cost Roll-Up is executed.
-
-The expected yield for an Activity can be expressed as:
-
-Yield = Acceptable Units at Activity End x 100
-
-The Total manufacturing yield for a product is determined by multiplying the yied percentage for each activity.
-
-Manufacturing Yield = Yield % for Activity 10 x Yied % for Activity 20 , etc
-
-Take care when setting yield to anything but 100% particularly when yied is used for multiples activities','Y','Y','Y','N','N','N','N','N','Yield %',TO_DATE('2012-06-29 10:06:50','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,56776,64605,0,122,TO_DATE('2012-06-29 10:06:50','YYYY-MM-DD HH24:MI:SS'),100,'The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent',10,'EE01','ADempiere Calculate the total yield for a product from the yield for each activity when the process Workflow Cost Roll-Up is executed.The expected yield for an Activity can be expressed as:Yield = Acceptable Units at Activity End x 100The Total manufacturing yield for a product is determined by multiplying the yied percentage for each activity.Manufacturing Yield = Yield % for Activity 10 x Yied % for Activity 20 , etcTake care when setting yield to anything but 100% particularly when yied is used for multiples activities','Y','Y','Y','N','N','N','N','N','Yield %',TO_DATE('2012-06-29 10:06:50','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jun 29, 2012 10:06:51 AM CDT

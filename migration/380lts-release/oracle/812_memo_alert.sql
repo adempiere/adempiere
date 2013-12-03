@@ -1,5 +1,5 @@
-Alter table AD_Ref_Table add column isalert character(1) DEFAULT 'N'::bpchar NOT NULL;
+ALTER TABLE AD_Ref_TABLE ADD isalert CHAR(1) DEFAULT 'N' NOT NULL;
 
-Alter table AD_Ref_Table add column displaysql text;
+ALTER TABLE AD_Ref_TABLE ADD displaysql VARCHAR2(100);
 
-Alter table AD_Ref_Table add column isdisplayidentifier character(1) DEFAULT 'N'::bpchar NOT NULL;
+ALTER TABLE AD_Ref_TABLE ADD isdisplayidentifier CHAR(1) DEFAULT 'N' NOT NULL;

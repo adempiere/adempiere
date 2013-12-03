@@ -193,11 +193,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 23, 2012 8:58:15 AM CDT
 -- MFG-28
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63752,53255,0,29,53411,'QtyBOM',TO_DATE('2012-07-23 08:58:14','YYYY-MM-DD HH24:MI:SS'),100,'Indicate the Quantity  use in this BOM','EE01',22,'Exist two way the add a compenent to a BOM or Formula:
-
-1.- Adding a Component based in quantity to use in this BOM
-2.- Adding a Component based in % to use the Order Quantity of Manufacturing Order in this Formula.
-','Y','N','N','N','N','N','N','N','Y','N','Y','Quantity',TO_DATE('2012-07-23 08:58:14','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63752,53255,0,29,53411,'QtyBOM',TO_DATE('2012-07-23 08:58:14','YYYY-MM-DD HH24:MI:SS'),100,'Indicate the Quantity  use in this BOM','EE01',22,'Exist two way the add a compenent to a BOM or Formula:1.- Adding a Component based in quantity to use in this BOM2.- Adding a Component based in % to use the Order Quantity of Manufacturing Order in this Formula.','Y','N','N','N','N','N','N','N','Y','N','Y','Quantity',TO_DATE('2012-07-23 08:58:14','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 23, 2012 8:58:15 AM CDT
@@ -257,16 +253,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 23, 2012 8:58:19 AM CDT
 -- MFG-28
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63758,53249,0,17,53225,53411,'ComponentType',TO_DATE('2012-07-23 08:58:18','YYYY-MM-DD HH24:MI:SS'),100,'Component Type for a Bill of Material or Formula','EE01',2,'The Component Type can be:
-
-1.- By Product: Define a By Product as Component into BOM
-2.- Component: Define a normal Component into BOM
-3.- Option: Define an Option for Product Configure BOM
-4.- Phantom: Define a Phantom as Component into BOM
-5.- Packing: Define a Packing as Component into BOM
-6.- Planning : Define Planning as Component into BOM
-7.- Tools: Define Tools as Component into BOM
-8.- Variant: Define Variant  for Product Configure BOM','Y','N','N','N','N','N','N','N','Y','N','Y','Component Type',TO_DATE('2012-07-23 08:58:18','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63758,53249,0,17,53225,53411,'ComponentType',TO_DATE('2012-07-23 08:58:18','YYYY-MM-DD HH24:MI:SS'),100,'Component Type for a Bill of Material or Formula','EE01',2,'The Component Type can be:1.- By Product: Define a By Product as Component into BOM2.- Component: Define a normal Component into BOM3.- Option: Define an Option for Product Configure BOM4.- Phantom: Define a Phantom as Component into BOM5.- Packing: Define a Packing as Component into BOM6.- Planning : Define Planning as Component into BOM7.- Tools: Define Tools as Component into BOM8.- Variant: Define Variant  for Product Configure BOM','Y','N','N','N','N','N','N','N','Y','N','Y','Component Type',TO_DATE('2012-07-23 08:58:18','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 23, 2012 8:58:19 AM CDT
@@ -286,11 +273,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 23, 2012 8:58:20 AM CDT
 -- MFG-28
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63760,53253,0,17,53226,53411,'IssueMethod',TO_DATE('2012-07-23 08:58:20','YYYY-MM-DD HH24:MI:SS'),100,'There are two methods for issue the components to Manufacturing Order','EE01',1,'Method Issue: The component are delivered one for one and is necessary indicate the delivered quantity for each component.
-
-Method BackFlush: The component are delivered based in BOM, The  delivered quantity for each component is based in BOM or Formula and Manufacturing Order Quantity.
-
-Use the field Backflush Group for grouping the component in a Backflush Method.','Y','N','N','N','N','N','N','N','Y','N','Y','Issue Method',TO_DATE('2012-07-23 08:58:20','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,63760,53253,0,17,53226,53411,'IssueMethod',TO_DATE('2012-07-23 08:58:20','YYYY-MM-DD HH24:MI:SS'),100,'There are two methods for issue the components to Manufacturing Order','EE01',1,'Method Issue: The component are delivered one for one and is necessary indicate the delivered quantity for each component.Method BackFlush: The component are delivered based in BOM, The  delivered quantity for each component is based in BOM or Formula and Manufacturing Order Quantity.Use the field Backflush Group for grouping the component in a Backflush Method.','Y','N','N','N','N','N','N','N','Y','N','Y','Issue Method',TO_DATE('2012-07-23 08:58:20','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 23, 2012 8:58:20 AM CDT

@@ -203,46 +203,7 @@ UPDATE PP_ForecastRule SET Description='Moving Average Model',Updated=TO_DATE('2
 
 -- Aug 3, 2012 10:11:52 AM CDT
 -- ADEMPIERE-98
-UPDATE PP_ForecastRule SET Help='    <p>
-      A moving average forecast model is based on an artificially constructed 
-      time series in which the value for a given time period is replaced by 
-      the mean of that value and the values for some number of preceding and 
-      succeeding time periods. As you may have guessed from the description, 
-      this model is best suited to time-series data; i.e. data that changes 
-      over time.
-    </p>
-    <p>
-      For example, many charts of individual stocks on the stock market show 
-      20, 50, 100 or 200 day moving averages as a way to show trends.
-    </p>
-    <p>
-      Since the forecast value for any given period is an average of the 
-      previous periods, then the forecast will always appear to &quot;lag&quot; behind 
-      either increases or decreases in the observed (dependent) values.
-    </p>
-    <p>
-      For example, if a data series has a noticeable upward trend then a 
-      moving average forecast will generally provide an underestimate of the 
-      values of the dependent variable.
-    </p>
-    <p>
-      The moving average method has an advantage over other forecasting models 
-      in that it does smooth out peaks and troughs (or valleys) in a set of 
-      observations. However, it also has several disadvantages. 
-    </p>
-    <p>
-      In particular this model does not produce an actual equation. Therefore, 
-      it is not all that useful as a medium-long range forecasting tool. It 
-      can only reliably be used to forecast one or two periods into the future.
-    </p>
-    <p>
-      The moving average model is a special case of the more general weighted 
-      moving average. In the simple moving average, all weights are equal.
-    </p>
-    <p>
-      Author Steven R. Gould
-    </p>
-',Updated=TO_DATE('2012-08-03 10:11:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE PP_ForecastRule_ID=50008
+UPDATE PP_ForecastRule SET Help='    <p>A moving average forecast model is based on an artificially constructed time series in which the value for a given time period is replaced by the mean of that value and the values for some number of preceding and succeeding time periods. As you may have guessed from the description, this model is best suited to time-series data; i.e. data that changes over time.</p><p>For example, many charts of individual stocks on the stock market show 20, 50, 100 or 200 day moving averages as a way to show trends.</p><p>Since the forecast value for any given period is an average of the previous periods, then the forecast will always appear to &quot;lag&quot; behind either increases or decreases in the observed (dependent) values.</p><p>For example, if a data series has a noticeable upward trend then a moving average forecast will generally provide an underestimate of the values of the dependent variable.</p><p>The moving average method has an advantage over other forecasting models in that it does smooth out peaks and troughs (or valleys) in a set of observations. However, it also has several disadvantages. </p><p>In particular this model does not produce an actual equation. Therefore, it is not all that useful as a medium-long range forecasting tool. It can only reliably be used to forecast one or two periods into the future.</p><p>The moving average model is a special case of the more general weighted moving average. In the simple moving average, all weights are equal.</p> <p>Author Steven R. Gould</p>',Updated=TO_DATE('2012-08-03 10:11:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE PP_ForecastRule_ID=50008
 ;
 
 -- Aug 3, 2012 10:00:11 AM CDT
@@ -312,13 +273,7 @@ UPDATE AD_Column SET IsAlwaysUpdateable='Y',Updated=TO_DATE('2012-08-03 11:30:41
 
 -- Aug 7, 2012 9:50:32 AM CDT
 -- ADEMPIERE-98
-INSERT INTO AD_Window (AD_Client_ID,AD_Org_ID,AD_Window_ID,Created,CreatedBy,Description,EntityType,Help,IsActive,IsBetaFunctionality,IsDefault,IsSOTrx,Name,Processing,Updated,UpdatedBy,WindowType) VALUES (0,0,53190,TO_DATE('2012-08-07 09:50:26','YYYY-MM-DD HH24:MI:SS'),100,'This process allows to import the forecast by using a predefined import format,  inside the application.','EE01','The parameters are the default values to import the records.
-<br>
-<br>
-The maintained information inside the forecast are: the Forecast ID , product , warehouse ,  quantities, promised data
-<br>
-<br>
-The forecast information is used to MRP calculus','Y','N','N','N','Import Forecast','N',TO_DATE('2012-08-07 09:50:26','YYYY-MM-DD HH24:MI:SS'),100,'M')
+INSERT INTO AD_Window (AD_Client_ID,AD_Org_ID,AD_Window_ID,Created,CreatedBy,Description,EntityType,Help,IsActive,IsBetaFunctionality,IsDefault,IsSOTrx,Name,Processing,Updated,UpdatedBy,WindowType) VALUES (0,0,53190,TO_DATE('2012-08-07 09:50:26','YYYY-MM-DD HH24:MI:SS'),100,'This process allows to import the forecast by using a predefined import format,  inside the application.','EE01','The parameters are the default values to import the records.<br><br>The maintained information inside the forecast are: the Forecast ID , product , warehouse ,  quantities, promised data<br><br>The forecast information is used to MRP calculus','Y','N','N','N','Import Forecast','N',TO_DATE('2012-08-07 09:50:26','YYYY-MM-DD HH24:MI:SS'),100,'M')
 ;
 
 -- Aug 7, 2012 9:50:32 AM CDT
@@ -689,13 +644,7 @@ UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=28
 
 -- Aug 7, 2012 9:51:08 AM CDT
 -- ADEMPIERE-98
-INSERT INTO AD_Process (AD_Client_ID,AD_Org_ID,AD_Process_ID,AccessLevel,Classname,Created,CreatedBy,Description,EntityType,Help,IsActive,IsBetaFunctionality,IsDirectPrint,IsReport,Name,ShowHelp,Statistic_Count,Statistic_Seconds,Updated,UpdatedBy,Value,WorkflowValue) VALUES (0,0,53308,'3','org.eevolution.process.ImportForecast',TO_DATE('2012-08-07 09:51:07','YYYY-MM-DD HH24:MI:SS'),100,'Imports Forecast from a file into the application','EE01','The parameters are the default values to import the records.
-<br>
-<br>
-The maintained information inside the forecast are: the Forecast ID , product , warehouse ,  quantities, promised data
-<br>
-<br>
-The forecast information is used to MRP calculus','Y','N','N','N','Import Forecast','Y',0,0,TO_DATE('2012-08-07 09:51:07','YYYY-MM-DD HH24:MI:SS'),100,'Import_Forecast',NULL)
+INSERT INTO AD_Process (AD_Client_ID,AD_Org_ID,AD_Process_ID,AccessLevel,Classname,Created,CreatedBy,Description,EntityType,Help,IsActive,IsBetaFunctionality,IsDirectPrint,IsReport,Name,ShowHelp,Statistic_Count,Statistic_Seconds,Updated,UpdatedBy,Value,WorkflowValue) VALUES (0,0,53308,'3','org.eevolution.process.ImportForecast',TO_DATE('2012-08-07 09:51:07','YYYY-MM-DD HH24:MI:SS'),100,'Imports Forecast from a file into the application','EE01','The parameters are the default values to import the records.<br><br>The maintained information inside the forecast are: the Forecast ID , product , warehouse ,  quantities, promised data<br><br>The forecast information is used to MRP calculus','Y','N','N','N','Import Forecast','Y',0,0,TO_DATE('2012-08-07 09:51:07','YYYY-MM-DD HH24:MI:SS'),100,'Import_Forecast',NULL)
 ;
 
 -- Aug 7, 2012 9:51:08 AM CDT
@@ -885,8 +834,7 @@ UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=190
 
 -- Aug 7, 2012 9:51:32 AM CDT
 -- ADEMPIERE-98
-UPDATE AD_Ref_Table SET AD_Table_ID = 114, AD_Display = 213, AD_Key = 212, isValueDisplayed = 'N', OrderByClause = '', EntityType ='D', WhereClause = 'EXISTS (SELECT * FROM C_BPartner bp WHERE AD_User.C_BPartner_ID=bp.C_BPartner_ID AND bp.IsSalesRep=''Y'')
-' WHERE AD_Reference_ID = 190
+UPDATE AD_Ref_Table SET AD_Table_ID = 114, AD_Display = 213, AD_Key = 212, isValueDisplayed = 'N', OrderByClause = '', EntityType ='D', WhereClause = 'EXISTS (SELECT * FROM C_BPartner bp WHERE AD_User.C_BPartner_ID=bp.C_BPartner_ID AND bp.IsSalesRep=''Y'')' WHERE AD_Reference_ID = 190
 ;
 
 -- Aug 7, 2012 9:51:33 AM CDT
@@ -1051,13 +999,7 @@ ALTER TABLE I_Forecast ADD M_ForecastLine_ID NUMBER(10) DEFAULT NULL
 
 -- Aug 7, 2012 9:51:49 AM CDT
 -- ADEMPIERE-98
-INSERT INTO AD_Tab (AD_Client_ID,AD_Org_ID,AD_Tab_ID,AD_Table_ID,AD_Window_ID,CommitWarning,Created,CreatedBy,Description,EntityType,HasTree,Help,IsActive,IsAdvancedTab,IsInfoTab,IsInsertRecord,IsReadOnly,IsSingleRow,IsSortTab,IsTranslationTab,Name,Processing,SeqNo,TabLevel,Updated,UpdatedBy) VALUES (0,0,53544,53414,53190,NULL,TO_DATE('2012-08-07 09:51:45','YYYY-MM-DD HH24:MI:SS'),100,'Import Forecast','EE01','N','The parameters are the default values to import the records.
-<br>
-<br>
-The maintained information inside the forecast are: the Forecast ID , product , warehouse ,  quantities, promised data
-<br>
-<br>
-The forecast information is used to MRP calculus','Y','N','N','Y','N','Y','N','N','Forecast','N',10,0,TO_DATE('2012-08-07 09:51:45','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Tab (AD_Client_ID,AD_Org_ID,AD_Tab_ID,AD_Table_ID,AD_Window_ID,CommitWarning,Created,CreatedBy,Description,EntityType,HasTree,Help,IsActive,IsAdvancedTab,IsInfoTab,IsInsertRecord,IsReadOnly,IsSingleRow,IsSortTab,IsTranslationTab,Name,Processing,SeqNo,TabLevel,Updated,UpdatedBy) VALUES (0,0,53544,53414,53190,NULL,TO_DATE('2012-08-07 09:51:45','YYYY-MM-DD HH24:MI:SS'),100,'Import Forecast','EE01','N','The parameters are the default values to import the records.<br><br>The maintained information inside the forecast are: the Forecast ID , product , warehouse ,  quantities, promised data<br><br>The forecast information is used to MRP calculus','Y','N','N','Y','N','Y','N','N','Forecast','N',10,0,TO_DATE('2012-08-07 09:51:45','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 7, 2012 9:51:49 AM CDT
