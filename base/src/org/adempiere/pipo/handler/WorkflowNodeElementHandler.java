@@ -167,6 +167,19 @@ public class WorkflowNodeElementHandler extends AbstractElementHandler {
 				if (id > 0)
 					m_WFNode.setAD_WF_Block_ID(id);
 			}
+
+            String columnName = atts.getValue("ADColumnNameID");
+            int tableId = m_WFNode.getWorkflow().getAD_Table_ID();
+            int columnId = get_IDWithMasterAndColumn(ctx, "AD_Column", "ColumnName",
+                    columnName, "AD_Table", tableId);
+
+            if (columnId <= 0 && tableId > 0 && columnName != null && columnName.length() > 0) {
+                element.unresolved = "AD_Column=" + columnName;
+                element.defer = true;
+                return;
+            }
+            else
+                m_WFNode.setAD_Column_ID(columnId);
 			
 			//[Bugs-1789058 ]
 			/*
