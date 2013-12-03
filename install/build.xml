@@ -155,6 +155,10 @@
 	<mkdir dir="${build.dir}/Adempiere/packages/liberoCashflow/lib"/>
   	<copy file="../packages/liberoCashflow.jar" tofile="${build.dir}/Adempiere/packages/liberoCashflow/lib/liberoCashflow.jar"/>
   	
+  	<mkdir dir="${build.dir}/Adempiere/packages/liberoWM"/>
+  	<mkdir dir="${build.dir}/Adempiere/packages/liberoWM/lib"/>
+  	<copy file="../packages/liberoWM.jar" tofile="${build.dir}/Adempiere/packages/liberoWM/lib/liberoWM.jar"/>
+  	
 	<mkdir dir="${build.dir}/Adempiere/zkpackages/liberoMFG"/>
 	<mkdir dir="${build.dir}/Adempiere/zkpackages/liberoMFG/lib"/>
   	<copy file="../zkpackages/liberozkMFG.jar" tofile="${build.dir}/Adempiere/zkpackages/liberoMFG/lib/liberozkMFG.jar"/>
