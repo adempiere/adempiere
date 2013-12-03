@@ -76,6 +76,7 @@ import org.compiere.swing.CFrame;
 import org.compiere.swing.CollapsiblePanel;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.KeyNamePair;
@@ -1161,9 +1162,18 @@ public class VBrowser extends Browser implements ActionListener,
 						&& !editor.getValue().toString().isEmpty()
 						&& !field.isRange) {
 					sql.append(" AND ");
-					sql.append(field.Help).append("=? ");
-					m_parameters.add(field.Help);
-					m_parameters_values.add(editor.getValue());
+					if(DisplayType.String == field.displayType)
+                    {
+                        sql.append(field.Help).append(" LIKE ? ");
+                        m_parameters.add(field.Help);
+					    m_parameters_values.add("%" + editor.getValue() + "%");
+                    }
+                    else
+                    {
+                        sql.append(field.Help).append("=? ");
+                        m_parameters.add(field.Help);
+                        m_parameters_values.add(editor.getValue());
+                    }
 				} else if (editor.getValue() != null
 						&& !editor.getValue().toString().isEmpty()
 						&& field.isRange) {
