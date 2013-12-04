@@ -65,11 +65,7 @@ import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoUtil;
-import org.compiere.util.ASyncProcess;
-import org.compiere.util.DB;
-import org.compiere.util.Env;
-import org.compiere.util.KeyNamePair;
-import org.compiere.util.Msg;
+import org.compiere.util.*;
 import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -944,9 +940,19 @@ public class WBrowser extends Browser implements IFormController,
 						&& !editor.getValue().toString().isEmpty()
 						&& !field.isRange) {
 					sql.append(" AND ");
-					sql.append(field.Help).append("=? ");
-					m_parameters.add(field.Help);
-					m_parameters_values.add(editor.getValue());
+
+                    if(DisplayType.String == field.displayType)
+                    {
+                        sql.append(field.Help).append(" LIKE ? ");
+                        m_parameters.add(field.Help);
+					    m_parameters_values.add("%" + editor.getValue() + "%");
+                    }
+                    else
+                    {
+                        sql.append(field.Help).append("=? ");
+                        m_parameters.add(field.Help);
+                        m_parameters_values.add(editor.getValue());
+                    }
 				} else if (editor.getValue() != null
 						&& !editor.getValue().toString().isEmpty()
 						&& field.isRange) {

@@ -137,7 +137,7 @@ public class MMigration extends X_AD_Migration {
 
 	public static boolean updated = false;
 	
-	public static MMigration fromXmlNode(Properties ctx, Element element, String trx)
+	public static MMigration fromXmlNode(Properties ctx, Element element, String trxName) throws SQLException
 	{
 		
 		if ( !updated )
@@ -156,12 +156,12 @@ public class MMigration extends X_AD_Migration {
 			+ " AND SeqNo = ?"
 			+ " AND EntityType = ?";
 		Object[] params = new Object[] {name, Integer.parseInt(seqNo), entityType};
-		MMigration mmigration = new Query(ctx, MMigration.Table_Name, where, trx)
+		MMigration mmigration = new Query(ctx, MMigration.Table_Name, where, trxName)
 		.setParameters(params).firstOnly();
 		if ( mmigration != null )
 			return null;  // already exists (TODO: update?)
 		
-		mmigration = new MMigration(ctx, 0, trx);
+		mmigration = new MMigration(ctx, 0, trxName);
 		
 		mmigration.setName(name);
 		mmigration.setSeqNo(Integer.parseInt(seqNo));
@@ -179,6 +179,7 @@ public class MMigration extends X_AD_Migration {
 			Element step = (Element) children.item(i);
 			if ( "Step".equals(step.getTagName()))
 				MMigrationStep.fromXmlNode(mmigration, step);
+				Trx.get(trxName, false).commit(true);
 		}
 		
 		mmigration.saveEx();

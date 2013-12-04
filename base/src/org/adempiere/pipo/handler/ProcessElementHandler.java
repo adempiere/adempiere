@@ -78,12 +78,17 @@ public class ProcessElementHandler extends AbstractElementHandler {
 
 			name = atts.getValue("ADWorkflowNameID");
 			if (name != null && name.trim().length() > 0) {
-				id = get_IDWithColumn(ctx, "AD_Workflow", "Name", name);
-				if (id <= 0) {
-					element.defer = true;
-					element.unresolved = "AD_Workflow: " + name;
-					return;
-				}
+				    id = get_IDWithColumn(ctx, "AD_Workflow", "Name", name);
+                    if (id <= 0) {
+                        if (element.pass == 1) {
+                        element.defer = true;
+                        element.unresolved = "AD_Workflow: " + name;
+                        return;
+                    } else {
+                        log.warning("AD_Workflow: " + name + " not found for Workflow: " + name);
+                    }
+                }
+                if (id > 0)
 				m_Process.setAD_Workflow_ID(id);
 			}
 

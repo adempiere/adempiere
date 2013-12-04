@@ -673,7 +673,7 @@ public class PackInHandler extends DefaultHandler {
         		String workflowName = atts.getValue("Name");
         		MWorkflow wf = null;
 
-    				int workflow_id =  IDFinder.get_IDWithColumn("AD_Workflow", "Name", workflowName ,m_AD_Client_ID , m_trxName);
+    				int workflow_id =  IDFinder.get_IDWithColumn("AD_Workflow", "Name", workflowName, m_AD_Client_ID, m_trxName);
     				if(workflow_id > 0)
     				{
     					wf = new MWorkflow(m_ctx, workflow_id , m_trxName);
@@ -797,7 +797,7 @@ public class PackInHandler extends DefaultHandler {
     				}    				
     			}
     			if (log.isLoggable(Level.INFO)) {
-    				log.info("Processeing Defer Element: " + d.element.getElementValue() + " - " 
+    				log.info("Processing Defer Element: " + d.element.getElementValue() + " - "
 						+ d.element.attributes.getValue(0));
     			}
     			ElementHandler handler = handlers.get(d.element.getElementValue());

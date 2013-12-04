@@ -88,14 +88,14 @@ public class MColumn extends X_AD_Column
 			column.setDescription(element.getDescription());
 		if(column.getHelp() == null || column.getHelp().length() <= 0)
 			column.setHelp(element.getHelp());
-		if(column.getColumnName().equals("Name") || column.getColumnName().equals("Value"))
+		/*if(column.getColumnName().equals("Name") || column.getColumnName().equals("Value"))
 		{	
 			column.setIsIdentifier(true);
 			int seqNo = DB.getSQLValue(trxName,"SELECT MAX(SeqNo) FROM AD_Column "+
 					"WHERE AD_Table_ID=?"+
 					" AND IsIdentifier='Y'",column.getAD_Table_ID());
 			column.setSeqNo(seqNo + 1);
-		}
+		}*/
 		return column;	
 	}
 	/**

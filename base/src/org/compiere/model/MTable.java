@@ -859,10 +859,10 @@ public class MTable extends X_AD_Table
 		column.saveEx();		
 		column = new MColumn(this, COLUMNNAME_Updated	, 7 , DisplayType.DateTime , "");
 		column.saveEx();
-		column = new MColumn(this, COLUMNNAME_CreatedBy	, 22 , DisplayType.TableDir, "");
+		column = new MColumn(this, COLUMNNAME_CreatedBy	, 22 , DisplayType.Table, "");
 		column.setAD_Reference_Value_ID(110);
 		column.saveEx();
-		column = new MColumn(this, COLUMNNAME_UpdatedBy	, 22 , DisplayType.TableDir, "");
+		column = new MColumn(this, COLUMNNAME_UpdatedBy	, 22 , DisplayType.Table, "");
 		column.setAD_Reference_Value_ID(110);
 		column.saveEx();
 		if(!isView())
