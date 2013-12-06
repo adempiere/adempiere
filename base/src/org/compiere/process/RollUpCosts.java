@@ -1,13 +1,10 @@
 package org.compiere.process;
 
-import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.logging.Level;
 
 import javax.sql.RowSet;
 
-import org.compiere.process.ProcessInfoParameter;
-import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 
@@ -78,7 +75,7 @@ public class RollUpCosts extends SvrProcess {
 		{
 			String sql = "SELECT M_PRODUCT_ID FROM M_PRODUCT WHERE M_PRODUCT_CATEGORY_ID = " + 
 			    category + " AND AD_CLIENT_ID = " + Env.getAD_Client_ID(getCtx()) + 
-			    " AND M_PRODUCT_ID IN (SELECT M_PRODUCT_ID FROM M_PRODUCT_BOM)";
+			    " AND M_PRODUCT_ID IN (SELECT b.M_PRODUCT_ID FROM PP_PRODUCT_BOM b JOIN PP_PRODUCT_BOMLINE bl ON b.PP_PRODUCT_BOM_ID = bl.PP_PRODUCT_BOM_ID)";
 			//System.err.println(sql);
 		    RowSet results = DB.getRowSet(sql);
 			while (results.next())
@@ -89,7 +86,7 @@ public class RollUpCosts extends SvrProcess {
 		else //do it for all products 
 		{
 			String sql = "SELECT M_PRODUCT_ID FROM M_PRODUCT WHERE AD_CLIENT_ID = " + Env.getAD_Client_ID(getCtx()) + 
-			   " AND M_PRODUCT_ID IN (SELECT M_PRODUCT_ID FROM M_PRODUCT_BOM)";
+			   " AND M_PRODUCT_ID IN (SELECT b.M_PRODUCT_ID FROM PP_PRODUCT_BOM b JOIN PP_PRODUCT_BOMLINE bl ON b.PP_PRODUCT_BOM_ID = bl.PP_PRODUCT_BOM_ID)";
 		    //System.err.println(sql);
 	        RowSet results = DB.getRowSet(sql);
 		    while (results.next())
@@ -114,8 +111,10 @@ public class RollUpCosts extends SvrProcess {
 	
 	protected void rollUpCosts(int p_id) throws Exception 
 	{
-		String sql = "SELECT M_ProductBOM_ID FROM M_Product_BOM WHERE M_Product_ID = " + 
-		    p_id + " AND AD_Client_ID = " + Env.getAD_Client_ID(getCtx());
+		String sql = "SELECT bl.M_Product_ID FROM PP_Product_BOMLine bl JOIN PP_PRODUCT_BOM b " 
+			+ " ON ( b.PP_PRODUCT_BOM_ID = bl.PP_PRODUCT_BOM_ID ) WHERE b.M_Product_ID = " + 
+			p_id + " AND bl.AD_Client_ID = " + Env.getAD_Client_ID(getCtx());
+
 		//System.err.println(sql);
 		RowSet results = DB.getRowSet(sql);
 		
@@ -128,15 +127,18 @@ public class RollUpCosts extends SvrProcess {
 		results.close();
 			
 		//once the subproducts costs are accurate, calculate the costs for this product
-		String update = "UPDATE M_Cost set CurrentCostPrice = COALESCE((select Sum (b.BOMQty * c.currentcostprice)" + 
-           " FROM M_Product_BOM b INNER JOIN M_Cost c ON (b.M_PRODUCTBOM_ID = c.M_Product_ID) " + 
-           " WHERE b.M_Product_ID = " + p_id + " AND M_CostElement_ID = " + costelement_id + "),0)," + 
-           " FutureCostPrice = COALESCE((select Sum (b.BOMQty * c.futurecostprice) FROM M_Product_BOM b " + 
-           " INNER JOIN M_Cost c ON (b.M_PRODUCTBOM_ID = c.M_Product_ID) " + 
-           " WHERE b.M_Product_ID = " + p_id + " AND M_CostElement_ID = " + costelement_id + "),0)" +
+           
+         String update = "UPDATE M_Cost set CurrentCostPrice = COALESCE((select Sum (b.QtyBOM * c.currentcostprice)" +
+           " FROM PP_Product_BOMLine b INNER JOIN M_Cost c ON (b.M_PRODUCT_ID = c.M_Product_ID) " + 
+           " JOIN PP_Product_BOM bom ON (bom.PP_PRODUCT_BOM_ID = b.PP_PRODUCT_BOM_ID) " +
+           " WHERE bom.M_Product_ID = " + p_id + " AND M_CostElement_ID = " + costelement_id + "),0)," + 
+           " FutureCostPrice = COALESCE((select Sum (b.QtyBOM * c.futurecostprice) FROM PP_Product_BOMLine b " +  
+           " INNER JOIN M_Cost c ON (b.M_PRODUCT_ID = c.M_Product_ID) " +
+           " JOIN PP_Product_BOM bom ON (bom.PP_PRODUCT_BOM_ID = b.PP_PRODUCT_BOM_ID) " +
+           " WHERE bom.M_Product_ID = "+ p_id + " AND M_CostElement_ID = " + costelement_id + "),0)" +
            " WHERE M_Product_ID = " + p_id + " AND AD_Client_ID = " + Env.getAD_Client_ID(getCtx()) +
            " AND M_CostElement_ID = " + costelement_id +
-           " AND M_PRODUCT_ID IN (SELECT M_PRODUCT_ID FROM M_PRODUCT_BOM)";;
+           " AND M_PRODUCT_ID IN (SELECT b.M_PRODUCT_ID FROM PP_PRODUCT_BOM b JOIN PP_PRODUCT_BOMLINE bl ON b.PP_PRODUCT_BOM_ID = bl.PP_PRODUCT_BOM_ID)";
         
 		//System.err.println(sql);
 		DB.executeUpdate(update, get_TrxName());

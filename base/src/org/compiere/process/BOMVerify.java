@@ -23,6 +23,7 @@ import org.compiere.model.*;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.*;
+import org.eevolution.model.MPPProductBOMLine;
 
 /**
  * 	Validate BOM
@@ -161,13 +162,15 @@ public class BOMVerify extends SvrProcess
 		
 		
 		foundproducts.add(product);
-		MProductBOM[] productsBOMs = MProductBOM.getBOMLines(product);
+		//MProductBOM[] productsBOMs = MProductBOM.getBOMLines(product);
+		
+		MPPProductBOMLine[] productsBOMs = MPPProductBOMLine.getBOMLines(product);
 		boolean containsinvalid = false;
 		boolean invalid = false;
 		for (int i = 0; i < productsBOMs.length; i++)
 		{
-			MProductBOM productsBOM = productsBOMs[i];
-			MProduct pp = new MProduct(getCtx(), productsBOM.getM_ProductBOM_ID(), get_TrxName());
+			MPPProductBOMLine productsBOM = productsBOMs[i];
+			MProduct pp = new MProduct(getCtx(), productsBOM.getM_Product_ID(), get_TrxName());
 			if (!pp.isBOM())
 				log.finer(pp.getName());
 			else 

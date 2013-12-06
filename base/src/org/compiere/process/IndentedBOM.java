@@ -33,6 +33,7 @@ import org.compiere.model.X_T_BOM_Indented;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.Env;
+import org.eevolution.model.MPPProductBOMLine;
 
 /**
  * Cost Multi-Level BOM & Formula Review
@@ -50,13 +51,10 @@ public class IndentedBOM extends SvrProcess
 	private int p_C_AcctSchema_ID = 0;
 	private int p_M_Product_ID = 0;
 	private int p_M_CostElement_ID = 0;
-	private String p_CostingMethod = MCostElement.COSTINGMETHOD_StandardCosting;
 	//
 	private int m_LevelNo = 0;
 	private int m_SeqNo = 0;
 	private MAcctSchema m_as = null;
-	private BigDecimal m_currentCost = Env.ZERO;
-	private BigDecimal m_futureCost = Env.ZERO;
 
 	protected void prepare()
 	{
@@ -133,13 +131,13 @@ public class IndentedBOM extends SvrProcess
 
 		BigDecimal llCost = Env.ZERO;
 		BigDecimal llFutureCost = Env.ZERO;
-		List<MProductBOM> list = getBOMs(product);
-		for (MProductBOM bom : list)
+		List<MPPProductBOMLine> list = getBOMs(product);
+		for (MPPProductBOMLine bom : list)
 		{
 			m_LevelNo++;
-			llCost ll = explodeProduct(bom.getM_ProductBOM_ID(), bom.getBOMQty(), accumQty.multiply(bom.getBOMQty()));
-			llCost = llCost.add(ll.currentCost.multiply(accumQty.multiply(bom.getBOMQty())));
-			llFutureCost = llFutureCost.add(ll.futureCost.multiply(accumQty.multiply(bom.getBOMQty())));
+			llCost ll = explodeProduct(bom.getM_Product_ID(), bom.getQtyBOM(), accumQty.multiply(bom.getQtyBOM()));
+			llCost = llCost.add(ll.currentCost.multiply(accumQty.multiply(bom.getQtyBOM())));
+			llFutureCost = llFutureCost.add(ll.futureCost.multiply(accumQty.multiply(bom.getQtyBOM())));
 			m_LevelNo--;
 		}
 
@@ -174,17 +172,19 @@ public class IndentedBOM extends SvrProcess
 	 * @param isComponent
 	 * @return list of MProductBOM
 	 */
-	private List<MProductBOM> getBOMs(MProduct product)
+	private List<MPPProductBOMLine> getBOMs(MProduct product)
 	{
-		ArrayList<Object> params = new ArrayList<Object>();
-		StringBuffer whereClause = new StringBuffer();
-		whereClause.append(MProductBOM.COLUMNNAME_M_Product_ID).append("=?");
-		params.add(product.get_ID());
 		
-		List<MProductBOM> list = new Query(getCtx(), MProductBOM.Table_Name, whereClause.toString(), null)
-									.setParameters(params)
+		log.severe(" PRODUCT NAME = " + product.getName() ) ;
+		
+		StringBuffer whereClause = new StringBuffer();
+		whereClause.append(MPPProductBOMLine.COLUMNNAME_PP_Product_BOM_ID);
+		whereClause.append(" IN ( SELECT PP_Product_BOM_ID FROM PP_Product_BOM ");
+		whereClause.append(" WHERE M_Product_ID = " + product.get_ID() + " ) ");
+		
+		List<MPPProductBOMLine> list = new Query(getCtx(), MPPProductBOMLine.Table_Name, whereClause.toString(), null)
 									.setOnlyActiveRecords(true)
-									.setOrderBy(MProductBOM.COLUMNNAME_Line)
+									.setOrderBy(MPPProductBOMLine.COLUMNNAME_Line)
 									.list();
 		return list;
 	}

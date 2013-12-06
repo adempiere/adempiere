@@ -59,16 +59,18 @@ public class ProductionCreate extends SvrProcess {
 	
 	private boolean costsOK(int M_Product_ID) throws AdempiereUserError {
 		// Warning will not work if non-standard costing is used
-		String sql = "SELECT ABS(((cc.currentcostprice-(SELECT SUM(c.currentcostprice*bom.bomqty)"
-            + " FROM m_cost c"
-            + " INNER JOIN m_product_bom bom ON (c.m_product_id=bom.m_productbom_id)"
-            + " WHERE bom.m_product_id = pp.m_product_id)"
-            + " )/cc.currentcostprice))"
-            + " FROM m_product pp"
-            + " INNER JOIN m_cost cc on (cc.m_product_id=pp.m_product_id)"
-            + " INNER JOIN m_costelement ce ON (cc.m_costelement_id=ce.m_costelement_id)"
-            + " WHERE cc.currentcostprice > 0 AND pp.M_Product_ID = ?"
-            + " AND ce.costingmethod='S'";
+		
+		String sql = "SELECT ABS(((cc.currentcostprice-(SELECT SUM(c.currentcostprice*bom.qtybom)"
+			+ " FROM m_cost c"
+			+ " INNER JOIN pp_product_bomline bom ON (c.m_product_id=bom.m_product_id)"
+			+ " JOIN pp_product_bom b ON (b.pp_product_bom_id = bom.pp_product_bom_id)"
+			+ " WHERE b.m_product_id = pp.m_product_id)"
+			+ " )/cc.currentcostprice))"
+			+ " FROM m_product pp"
+			+ " INNER JOIN m_cost cc on (cc.m_product_id=pp.m_product_id)"
+			+ " INNER JOIN m_costelement ce ON (cc.m_costelement_id=ce.m_costelement_id)"
+			+ " WHERE cc.currentcostprice > 0 AND pp.M_Product_ID = ?"
+			+ " AND ce.costingmethod='S'";
 		
 		BigDecimal costPercentageDiff = DB.getSQLValueBD(get_TrxName(), sql, M_Product_ID);
 		
@@ -115,7 +117,7 @@ public class ProductionCreate extends SvrProcess {
 		{
 			throw new AdempiereUserError ("Attempt to create product line for Non Bill Of Materials");
 		}
-		int materials = DB.getSQLValue(get_TrxName(), "SELECT count(M_Product_BOM_ID) FROM M_Product_BOM WHERE M_Product_ID = ?", M_Product_ID);
+		int materials = DB.getSQLValue(get_TrxName(), "SELECT count(bl.PP_Product_BOMLine_ID) FROM PP_Product_BOMLine bl JOIN PP_Product_BOM b ON b.PP_Product_BOM_ID = bl.PP_Product_BOM_ID WHERE b.M_Product_ID = ?", M_Product_ID );
 		if (materials == 0)
 		{
 			throw new AdempiereUserError ("Attempt to create product line for Bill Of Materials with no BOM Products");
