@@ -246,15 +246,16 @@ public class CashFlow extends SvrProcess {
 			params.add(C_BPartner_ID);
 			
 			// Bankaccountbalance + Creditlimit
-			sql.append(" UNION ");
+			if (sql.length() > 0)
+				sql.append(" UNION ");
 			sql.append("SELECT oi.C_BankAccount_ID , ? AS C_BP_Group_ID,  ? AS C_BPartner_ID , "
 					+ getSqlCashFlowSource(I_C_BankAccount.Table_Name, params)+","
 					+ " oi.C_BankAccount_id AS Record_ID,"
 					+ getSqlCurrency(I_C_BankAccount.Table_Name, "oi", params)+" AS C_Currency_ID,"
-					+ " 'Y',"
+					+ " 'Y' AS IsSOTrx,"
 					+ " getDate() AS DateTrx,"
 					+ " 0 AS NetDays,"
-					+ " getDate(),"
+					+ " getDate() AS DueDate,"
 					+ " 0 AS DaysDue,"
 					+ getSqlCurrencyConvert(I_C_BankAccount.Table_Name, "oi", "CurrentBalance", params)+" AS GrandTotal,"
 					+ " 0 AS PaidAmt,"
