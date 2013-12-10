@@ -34,10 +34,10 @@ import org.compiere.model.MMatchInv;
 import org.compiere.model.MMatchPO;
 import org.compiere.model.MProduct;
 import org.compiere.model.MTransaction;
-import org.compiere.model.Query;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
+import org.compiere.util.KeyNamePair;
 import org.eevolution.model.MPPCostCollector;
 
 /**
@@ -230,7 +230,11 @@ public class GenerateCostDetail extends SvrProcess {
 			}
 		}
 
-		for (MTransaction trx : getTransactions()) {
+		//for (MTransaction trx : getTransactions()) {
+		for (KeyNamePair kp : getTransactionIdsByDateAcct()) {
+			
+			int M_Transaction_ID = kp.getKey();
+			MTransaction trx = new MTransaction(getCtx(), M_Transaction_ID, get_TrxName());
 			if (M_Product_ID != trx.getM_Product_ID()) {
 				M_Product_ID = trx.getM_Product_ID();
 				generateCostDetailForCollectorCost(M_Product_ID);
@@ -335,24 +339,22 @@ public class GenerateCostDetail extends SvrProcess {
 			commitEx();
 		}
 	}
-
-	private List<MTransaction> getTransactions() {
-
-		StringBuffer trxWhereClause = new StringBuffer();
-		ArrayList<Object> trxParameters = new ArrayList<Object>();
+	
+	private KeyNamePair[] getTransactionIdsByDateAcct()
+	{
+		StringBuilder sql = new StringBuilder();
+		StringBuilder whereClause = new StringBuilder("WHERE ");
+		whereClause.append(MCostDetail.COLUMNNAME_AD_Client_ID).append("=")
+		.append(getAD_Client_ID()).append(" AND ");
 		if (p_M_Product_ID > 0) {
-			trxWhereClause.append(MCostDetail.COLUMNNAME_M_Product_ID).append(
-					"=? AND ");
-			trxParameters.add(p_M_Product_ID);
+			whereClause.append(MCostDetail.COLUMNNAME_M_Product_ID)
+			.append("=").append(p_M_Product_ID).append(" AND ");
 		}
-
-		trxWhereClause
-				.append(" EXISTS (SELECT 1 FROM RV_Transaction rvt WHERE rvt.M_Transaction_ID=M_Transaction.M_Transaction_ID AND rvt.DateAcct >= ?)");
-		trxParameters.add(p_DateAcct);
-
-		return new Query(getCtx(), MTransaction.Table_Name,
-				trxWhereClause.toString(), get_TrxName())
-				.setParameters(trxParameters).setClient_ID()
-				.setOrderBy("M_Product_ID , M_Transaction_ID ").list();
+		whereClause.append(MCostDetail.COLUMNNAME_DateAcct).append(">=?");
+		sql.append("SELECT M_Transaction_ID , Value FROM RV_Transaction ")
+		.append(whereClause)
+		.append(" ORDER BY M_Product_ID , DateAcct , M_Transaction_ID , SUBSTR(MovementType,2,1) ");
+		//.append(" ORDER BY M_Product_ID , DateAcct , M_Transaction_ID");
+		return DB.getKeyNamePairs(get_TrxName(), sql.toString(), false, p_DateAcct);
 	}
 }

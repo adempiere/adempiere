@@ -115,4 +115,10 @@ public class LastInvoiceCostingMethod extends AbstractCostingMethod implements I
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void updateAmtCost() {
+		// TODO Auto-generated method stub
+		
+	}
 }

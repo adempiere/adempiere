@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_CostElement
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 1.0.0
  */
 public interface I_M_CostElement 
 {

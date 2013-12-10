@@ -253,7 +253,7 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 		return null;
 	}
 
-	private void updateAmtCost() {
+	public void updateAmtCost() {
 		if (m_trx.getMovementType().contains("+")) {
 			m_costdetail.setCostAmt(m_costdetail.getAmt().subtract(
 					m_costdetail.getCostAdjustment()));

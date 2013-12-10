@@ -11,6 +11,7 @@ import org.compiere.model.I_M_AttributeInstance;
 import org.compiere.model.I_M_CostElement;
 import org.compiere.model.I_M_CostType;
 import org.compiere.model.I_M_Product;
+import org.compiere.model.I_M_Warehouse;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCostType;
 import org.compiere.model.MLocator;
@@ -32,6 +33,7 @@ public class CostDimension
 
 	private int AD_Client_ID;
 	private int AD_Org_ID;
+	private int M_Warehouse_ID;
 	private int M_Product_ID;
 	private int S_Resource_ID;
 	private int M_AttributeSetInstance_ID;
@@ -39,10 +41,11 @@ public class CostDimension
 	private int C_AcctSchema_ID;
 	private int M_CostElement_ID;
 
-	public CostDimension(MProduct product, MAcctSchema as, int M_CostType_ID, int AD_Org_ID, int M_ASI_ID, int M_CostElement_ID)
+	public CostDimension(MProduct product, MAcctSchema as, int M_CostType_ID, int AD_Org_ID, int M_Warehouse_ID, int M_ASI_ID, int M_CostElement_ID)
 	{
 		this.AD_Client_ID = as.getAD_Client_ID();
 		this.AD_Org_ID = AD_Org_ID;
+		this.M_Warehouse_ID = M_Warehouse_ID;
 		this.M_Product_ID = product != null ? product.get_ID() : ANY;
 		this.M_AttributeSetInstance_ID = M_ASI_ID;
 		this.M_CostType_ID = M_CostType_ID;
@@ -51,10 +54,11 @@ public class CostDimension
 		updateForProduct(product, as);
 	}
 
-	public CostDimension(int client_ID, int org_ID, int product_ID, int attributeSetInstance_ID, int costType_ID, int acctSchema_ID, int costElement_ID)
+	public CostDimension(int client_ID, int org_ID, int warehouse_ID,  int product_ID, int attributeSetInstance_ID, int costType_ID, int acctSchema_ID, int costElement_ID)
 	{
 		this.AD_Client_ID = client_ID;
 		this.AD_Org_ID = org_ID;
+		this.M_Warehouse_ID  = M_Warehouse_ID;
 		this.M_Product_ID = product_ID;
 		this.M_AttributeSetInstance_ID = attributeSetInstance_ID;
 		this.M_CostType_ID = costType_ID;
@@ -73,6 +77,7 @@ public class CostDimension
 	{
 		this.AD_Client_ID = costDimension.AD_Client_ID;
 		this.AD_Org_ID = costDimension.AD_Org_ID;
+		this.M_Warehouse_ID = costDimension.M_Warehouse_ID;
 		this.M_Product_ID = costDimension.M_Product_ID;
 		this.M_AttributeSetInstance_ID = costDimension.M_AttributeSetInstance_ID;
 		this.M_CostType_ID = costDimension.M_CostType_ID;
@@ -111,6 +116,11 @@ public class CostDimension
 		{
 			M_AttributeSetInstance_ID = 0;
 		}
+		else if (MAcctSchema.COSTINGLEVEL_Warehouse.equals(CostingLevel))
+		{
+			M_Warehouse_ID = 0;
+			M_AttributeSetInstance_ID = 0;
+		}
 		else if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(CostingLevel))
 		{
 			AD_Org_ID = 0;
@@ -135,6 +145,15 @@ public class CostDimension
 		return AD_Org_ID;
 	}
 
+	/**
+	 * @return the aD_Org_ID
+	 */
+	public int getM_Warehouse_ID()
+	{
+		return M_Warehouse_ID;
+	}
+
+	
 	/**
 	 * @return the m_Product_ID
 	 */
@@ -225,6 +244,8 @@ public class CostDimension
 		finalParams.add(this.AD_Client_ID);
 		finalWhereClause.append(" AND "+I_AD_Org.COLUMNNAME_AD_Org_ID+"=?");
 		finalParams.add(this.AD_Org_ID);
+		finalWhereClause.append(" AND "+I_M_Warehouse.COLUMNNAME_M_Warehouse_ID+"=?");
+		finalParams.add(this.M_Warehouse_ID);
 		finalWhereClause.append(" AND "+I_M_Product.COLUMNNAME_M_Product_ID+"=?");
 		finalParams.add(this.M_Product_ID);
 		finalWhereClause.append(" AND "+I_M_AttributeInstance.COLUMNNAME_M_AttributeSetInstance_ID+"=?");
@@ -273,6 +294,7 @@ public class CostDimension
 		retValue = "CostDimension{"
 			+ "AD_Client_ID = " + this.AD_Client_ID + TAB
 			+ "AD_Org_ID = " + this.AD_Org_ID + TAB
+			+ "M_Warehouse_ID = " + this.M_Warehouse_ID + TAB
 			+ "M_Product_ID = " + this.M_Product_ID + TAB
 			+ "M_AttributeSetInstance_ID = " + this.M_AttributeSetInstance_ID + TAB
 			+ "M_CostType_ID = " + this.M_CostType_ID + TAB
@@ -309,6 +331,11 @@ public class CostDimension
 			ASI_ID = 0;
 			ASI_ID_To = 0;
 		}
+		else if (MAcctSchema.COSTINGLEVEL_Warehouse.equals(CostingLevel))
+		{
+			ASI_ID = 0;
+			ASI_ID_To = 0;
+		}
 		else if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(CostingLevel))
 		{
 			Org_ID = 0;
@@ -334,6 +361,11 @@ public class CostDimension
 			ASI_ID_To = 0;
 		}
 		else if (MAcctSchema.COSTINGLEVEL_Organization.equals(CostingLevel))
+		{
+			ASI_ID = 0;
+			ASI_ID_To = 0;
+		}
+		else if (MAcctSchema.COSTINGLEVEL_Warehouse.equals(CostingLevel))
 		{
 			ASI_ID = 0;
 			ASI_ID_To = 0;

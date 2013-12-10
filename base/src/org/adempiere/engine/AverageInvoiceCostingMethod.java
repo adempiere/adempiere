@@ -77,11 +77,11 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 		// The cost detail was created before then is necessary to update cost by
 		// generate adjustment	
 		if (m_trx.getM_Transaction_ID() == m_last_costdetail.getM_Transaction_ID()) {
-			m_Amount = m_model.getMovementQty().multiply(m_costThisLevel); // total
+			m_Amount = m_trx.getMovementQty().multiply(m_costThisLevel); // total
 																			// adjustment
 																			// this
 																			// level
-			m_AmountLL = m_model.getMovementQty().multiply(m_costLowLevel); // total
+			m_AmountLL = m_trx.getMovementQty().multiply(m_costLowLevel); // total
 																			// adjustment
 																			// low
 																			// level
@@ -98,7 +98,7 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 					m_AdjustCost);
 			m_CumulatedAmtLL = getNewCumulatedAmtLL(m_last_costdetail)
 					.subtract(m_AdjustCostLL);
-
+			
 			m_CurrentCostPrice = m_CumulatedAmt.divide(
 					m_CumulatedQty.signum() != 0 ? m_CumulatedQty
 							: BigDecimal.ONE, m_as.getCostingPrecision(),
@@ -130,6 +130,10 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 		// calculated costing
 		if (m_trx.getMovementType().endsWith("+"))
 		{
+			
+			if(m_costThisLevel.signum() < 0)
+				System.out.println("Problem");
+
 			m_Amount = m_trx.getMovementQty().multiply(m_costThisLevel);
 			m_AmountLL = m_trx.getMovementQty().multiply(m_costLowLevel);
 			m_CumulatedAmt = getNewCumulatedAmt(m_last_costdetail).add(m_Amount);
@@ -139,7 +143,6 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 			m_CumulatedQty = getNewCumulatedQty(m_last_costdetail).add(
 					m_trx.getMovementQty());
 
-
 			m_CurrentCostPrice = m_costThisLevel;
 			m_CurrentCostPriceLL = m_costLowLevel;
 			
@@ -147,15 +150,26 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 		else if (m_trx.getMovementType().endsWith("-")) {
 
 			// Use the last current cost price for out transaction
-			//Calculate based on last average cost.
-			m_CurrentCostPrice = getNewCurrentCostPrice(m_last_costdetail,
-					m_as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
-			m_CurrentCostPriceLL = getNewCurrentCostPriceLL(m_last_costdetail,
-					m_as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
-
+			BigDecimal qtyOndhand = getNewCumulatedQty(m_last_costdetail);
+			if (qtyOndhand.add(m_trx.getMovementQty()).signum() >= 0)
+			{
+				m_CurrentCostPrice = getNewCurrentCostPrice(m_last_costdetail,m_as
+						.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+				m_CurrentCostPriceLL = getNewCurrentCostPriceLL(m_last_costdetail,m_as
+						.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+			} 
+			else
+			{
+				m_CurrentCostPrice = getNewCumulatedAmt(m_last_costdetail)
+									.divide(m_trx.getMovementQty(), m_as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP).abs();
+				m_CurrentCostPriceLL = getNewCumulatedAmtLL(m_last_costdetail)
+						.divide(m_trx.getMovementQty(), m_as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP).abs();
+			}
+						
 			m_Amount = m_trx.getMovementQty().multiply(m_CurrentCostPrice);
 			m_AmountLL = m_trx.getMovementQty().multiply(m_CurrentCostPriceLL);
 
+			
 			m_CumulatedAmt = getNewCumulatedAmt(m_last_costdetail)
 					.add(m_Amount);
 			m_CumulatedAmtLL = getNewCumulatedAmtLL(m_last_costdetail).add(
@@ -166,10 +180,8 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 		
 			if(m_costdetail != null)
 			{	
-					m_costdetail.setAmt(m_CurrentCostPrice.multiply(m_model
-							.getMovementQty()));
-					m_costdetail.setAmtLL(m_CurrentCostPriceLL.multiply(m_model
-							.getMovementQty()));
+				m_costdetail.setAmt(m_CurrentCostPrice.multiply(m_trx.getMovementQty().abs()));
+				m_costdetail.setAmtLL(m_CurrentCostPriceLL.multiply(m_trx.getMovementQty()).abs());
 			}
 		}
 		
@@ -353,7 +365,7 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 		if (cd.getQty().signum() >= 0)
 			cumulatedAmt = cd.getCumulatedAmt().add(cd.getCostAmt())
 					.add(cd.getCostAdjustment());
-		else
+		else if (cd.getQty().signum() < 0)
 			cumulatedAmt = cd.getCumulatedAmt().add(cd.getCostAmt().negate())
 					.add(cd.getCostAdjustment().negate());
 
@@ -390,7 +402,7 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 	 */
 	public BigDecimal getNewCumulatedAmtLL(MCostDetail cd) {
 		BigDecimal cumulatedAmtLL = Env.ZERO;
-		if (cd.getQty().signum() > 0)
+		if (cd.getQty().signum() >= 0)
 			cumulatedAmtLL = cd.getCumulatedAmtLL().add(cd.getCostAmtLL())
 					.add(cd.getCostAdjustmentLL());
 		else
@@ -414,14 +426,15 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 	/**
 	 * Update Cost Amt
 	 */
-	private void updateAmtCost() {
-		if (m_trx.getMovementType().contains("+")) {
+	public void updateAmtCost() {
+		
+		if (m_trx.getMovementQty().signum() > 0) {
 			m_costdetail.setCostAmt(m_costdetail.getAmt().subtract(
 					m_costdetail.getCostAdjustment()));
 			m_costdetail.setCostAmtLL(m_costdetail.getAmtLL().subtract(
 					m_costdetail.getCostAdjustmentLL()));
-		}
-		if (m_trx.getMovementType().contains("-")) {
+		}	
+		else if (m_trx.getMovementQty().signum() < 0 ) {
 			m_costdetail.setCostAmt(m_costdetail.getAmt().add(m_AdjustCost));
 			m_costdetail.setCostAmtLL(m_costdetail.getAmtLL().add(
 					m_AdjustCostLL));
@@ -452,6 +465,8 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 		m_costdetail.setCurrentCostPrice(m_CurrentCostPrice);
 		m_costdetail.setCurrentCostPriceLL(m_CurrentCostPriceLL);
 		m_costdetail.saveEx();
+		
+		//System.out.println (m_costdetail.getM_Warehouse().getName() + " " + m_costdetail.getSeqNo() + " Cumulated Qty:" + m_costdetail.getCumulatedQty() + " Cumulated Amt:" + m_costdetail.getCumulatedAmt() + " Transaction ID: " +  m_costdetail.getM_Transaction_ID() +  " Model ID: " + m_model.get_ID() + " Date " + m_costdetail.getDateAcct());
 		// Trx.get(m_costdetail.get_TrxName(), false).commit();
 	}
 

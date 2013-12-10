@@ -382,7 +382,7 @@ public class ProductCost
 	 *  @return cost or null, if qty or costs cannot be determined
 	 *  @deprecated
 	 */
-	public BigDecimal getProductCosts (MAcctSchema as, int AD_Org_ID, 
+	public BigDecimal getProductCosts (MAcctSchema as, int AD_Org_ID, int M_Warehouse_ID,
 		String costingMethod, int C_OrderLine_ID, boolean zeroCostsOK)
 	{
 		if (m_qty == null)
@@ -410,7 +410,7 @@ public class ProductCost
 		}
 		//
 		BigDecimal cost = MCost.getCurrentCost (m_product, m_M_AttributeSetInstance_ID, 
-			as, AD_Org_ID, costingMethod, m_qty, C_OrderLine_ID, zeroCostsOK, m_trxName);
+			as, AD_Org_ID,M_Warehouse_ID, costingMethod, m_qty, C_OrderLine_ID, zeroCostsOK, m_trxName);
 		if (cost == null)
 		{
 			log.fine("No Costs");

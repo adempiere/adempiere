@@ -691,39 +691,16 @@ public class MMatchPO extends X_M_MatchPO implements IDocumentLine
 
 	
 	/**
-	 * 	Get the later Date Acct from invoice or shipment
+	 * 	Get the Date Acct from shipment
 	 *	@return date or null
 	 */
 	public Timestamp getNewerDateAcct()
 	{
-		Timestamp invoiceDate = null;
-		Timestamp shipDate = null;
-		
-		if (getC_InvoiceLine_ID() != 0)
-		{
-			String sql = "SELECT i.DateAcct "
-				+ "FROM C_InvoiceLine il"
-				+ " INNER JOIN C_Invoice i ON (i.C_Invoice_ID=il.C_Invoice_ID) "
-				+ "WHERE C_InvoiceLine_ID=?";
-			invoiceDate = DB.getSQLValueTS(null, sql, getC_InvoiceLine_ID());
-		}
-		//
-		if (getM_InOutLine_ID() != 0)
-		{
-			String sql = "SELECT io.DateAcct "
-				+ "FROM M_InOutLine iol"
-				+ " INNER JOIN M_InOut io ON (io.M_InOut_ID=iol.M_InOut_ID) "
-				+ "WHERE iol.M_InOutLine_ID=?";
-			shipDate = DB.getSQLValueTS(null, sql, getM_InOutLine_ID());
-		}
-		//
-		//	Assuming that order date is always earlier
-		if (invoiceDate == null)
-			return shipDate;
-		if (shipDate == null)
-			return invoiceDate;
-		if (invoiceDate.after(shipDate))
-			return invoiceDate;
+		String sql = "SELECT io.DateAcct "
+			+ "FROM M_InOutLine iol"
+			+ " INNER JOIN M_InOut io ON (io.M_InOut_ID=iol.M_InOut_ID) "
+			+ "WHERE iol.M_InOutLine_ID=?";
+		Timestamp shipDate = DB.getSQLValueTS(null, sql, getM_InOutLine_ID());
 		return shipDate;
 	}	//	getNewerDateAcct
 

@@ -608,7 +608,7 @@ public class POSProductManager extends ProductManager
         
         for(int i = 0; i < costElements.length; i++)
         {
-            MCost cost = MCost.get(product, 0, client.getAcctSchema(), 0, costElements[i].get_ID());
+            MCost cost = MCost.get(product, 0, client.getAcctSchema(), 0 , 0, costElements[i].get_ID());
             cost.set_TrxName(trxName);
             cost.setCurrentCostPrice(costPrice);
             if(stock!=null)

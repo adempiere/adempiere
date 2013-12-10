@@ -16,7 +16,16 @@
  *****************************************************************************/
 package org.compiere.process;
 
+import java.util.List;
+
+import org.adempiere.engine.CostEngineFactory;
+import org.compiere.model.MAcctSchema;
+import org.compiere.model.MCostElement;
+import org.compiere.model.MCostType;
+import org.compiere.model.MInOutLine;
 import org.compiere.model.MLandedCost;
+import org.compiere.model.MLandedCostAllocation;
+import org.compiere.model.MTransaction;
 import org.compiere.util.AdempiereUserError;
 
 /**
@@ -53,9 +62,19 @@ public class LandedCostDistribute extends SvrProcess
 			throw new AdempiereUserError("@NotFound@: @C_LandedCost_ID@ - " + p_C_LandedCost_ID);
 
 		String error = m_lc.allocateCosts();
+		
+		generateCostDetail();
+		
 		if (error == null || error.length() == 0)
 			return "@OK@";
 		return error;
-	}	//	doIt
+	}	//	doIt	
 	
+	private void generateCostDetail()
+	{
+		for (MLandedCostAllocation allocation : MLandedCostAllocation.getOfInvoiceLine(getCtx(), m_lc.getC_InvoiceLine_ID(), get_TrxName()))
+		{
+			CostEngineFactory.getCostEngine(getAD_Client_ID()).createCostDetailForLandedCostAllocation(allocation);
+		}
+	}
 }	//	LandedCostDistribute

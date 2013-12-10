@@ -375,7 +375,7 @@ public class MCostQueue extends X_M_CostQueue
 	 *	@deprecated
 	 */
 	public static BigDecimal getCosts (MProduct product, int M_ASI_ID,
-		MAcctSchema as, int Org_ID, MCostElement ce, BigDecimal Qty, 
+		MAcctSchema as, int Org_ID, int M_Warehouse_ID, MCostElement ce, BigDecimal Qty, 
 		String trxName)
 	{
 		if (Qty.signum() == 0)
@@ -429,7 +429,7 @@ public class MCostQueue extends X_M_CostQueue
 
 		if (lastPrice == null)
 		{
-			lastPrice = MCost.getSeedCosts(product, M_ASI_ID, as, Org_ID, 
+			lastPrice = MCost.getSeedCosts(product, M_ASI_ID, as, Org_ID, M_Warehouse_ID,
 				ce.getCostingMethod(), 0);
 			if (lastPrice == null)
 			{
@@ -523,6 +523,7 @@ public class MCostQueue extends X_M_CostQueue
 					cost.getM_AttributeSetInstance_ID(),
 					MAcctSchema.get(cost.getCtx(), cost.getC_AcctSchema_ID()),
 					cost.getAD_Org_ID(),
+					cost.getM_Warehouse_ID(),
 					cost.getCostingMethod(),
 					0 // C_OrderLine_ID
 			);
