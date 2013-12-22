@@ -118,7 +118,7 @@ public class ColumnElementHandler extends AbstractElementHandler {
 			id = get_IDWithColumn(ctx, "AD_Val_Rule", "Name", Name);
 			m_Column.setAD_Val_Rule_ID(id);
             //Validate that reference id is for Table or List
-            if (DisplayType.Table == referenceId || DisplayType.List == referenceId)
+            if (DisplayType.Table == referenceId || DisplayType.List == referenceId || DisplayType.Search == referenceId)
             {
                 Name = atts.getValue("ADReferenceNameValueID");
                 id = get_IDWithColumn(ctx, "AD_Reference", "Name", Name);
