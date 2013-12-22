@@ -169,7 +169,8 @@ public class WorkflowNodeElementHandler extends AbstractElementHandler {
 			}
 
             String columnName = atts.getValue("ADColumnNameID");
-            int tableId = m_WFNode.getWorkflow().getAD_Table_ID();
+            int tableId = DB.getSQLValue(getTrxName(ctx), "SELECT AD_Table_ID FROM AD_Workflow WHERE AD_Workflow_ID=?", workflowId);
+            get_IDWithColumn(ctx, "AD_Workflow", "AD_Table_ID", workflowId);
             int columnId = get_IDWithMasterAndColumn(ctx, "AD_Column", "ColumnName",
                     columnName, "AD_Table", tableId);
 
@@ -178,7 +179,7 @@ public class WorkflowNodeElementHandler extends AbstractElementHandler {
                 element.defer = true;
                 return;
             }
-            else
+            else if (columnId > 0)
                 m_WFNode.setAD_Column_ID(columnId);
 			
 			//[Bugs-1789058 ]
