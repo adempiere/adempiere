@@ -309,6 +309,9 @@ public class MMigrationStep extends X_AD_MigrationStep {
 						where += " AND ";
 					
 					MColumn column = (MColumn) key.getAD_Column();
+                    if(column == null)
+                        continue;
+
 					where += column.getColumnName() + " = ? ";
 					
 					params.add(stringToObject(column, key.getNewValue()));
@@ -335,6 +338,9 @@ public class MMigrationStep extends X_AD_MigrationStep {
 					value = null;
 
 				MColumn column = (MColumn) data.getAD_Column();
+                if(column == null)
+                    continue;
+
 
 				// backup existing value
 				if ( !po.is_new() )
@@ -421,6 +427,9 @@ public class MMigrationStep extends X_AD_MigrationStep {
 						where += " AND ";
 					
 					MColumn column = (MColumn) key.getAD_Column();
+                    if(column == null)
+                        continue;
+
 					where += column.getColumnName() + " = ? ";
 					
 					params.add(stringToObject(column, key.getNewValue()));
@@ -453,6 +462,8 @@ public class MMigrationStep extends X_AD_MigrationStep {
 						value = null;
 
 					MColumn column = (MColumn) data.getAD_Column();
+                    if(column == null)
+                        continue;
 
 					po.set_ValueNoCheck(column.getColumnName(), stringToObject(column, value));
 				}
