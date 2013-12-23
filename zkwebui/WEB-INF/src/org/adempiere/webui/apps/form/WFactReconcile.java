@@ -25,6 +25,7 @@ import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -762,12 +763,14 @@ public class WFactReconcile extends CustomForm
 		String matchcode = "Manual: " + Env.getContext(Env.getCtx(), "#AD_User_Name") + " " + time;
         
     	int[] rows = miniTable.getSelectedIndices();
+    	Arrays.sort(rows);
+    	int[] sortedRows = rows;
     	if (rows.length ==0)
     		return;
     	
-        for (int row = rows.length-1; row >= 0; row--)  //work backwards and shrink the table as you go
+        for (int row = sortedRows.length-1; row >= 0; row--)  //work backwards and shrink the table as you go
         {
-			int factId = miniTable.getRowKey(rows[row]);
+			int factId = miniTable.getRowKey(sortedRows[row]);
 
 			MFactReconciliation rec = new Query(Env.getCtx(), MFactReconciliation.Table_Name, "Fact_Acct_ID = ?", null)
 			.setParameters(new Object[] {factId}).first();

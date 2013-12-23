@@ -209,7 +209,10 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 	{
 		ListCell listcell = new ListCell();
 		boolean isCellEditable = table != null ? table.isCellEditable(rowIndex, columnIndex) : false;
-		boolean isColumnVisible = isColumnVisible(getColumn(columnIndex));
+		boolean isColumnVisible = Boolean.TRUE;
+		
+		if ( !m_tableColumns.isEmpty() )
+			isColumnVisible = isColumnVisible(getColumn(columnIndex));
 
         // TODO put this in factory method for generating cell renderers, which
         // are assigned to Table Columns
