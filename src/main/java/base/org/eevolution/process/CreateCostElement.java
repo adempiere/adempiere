@@ -111,7 +111,7 @@ public class CreateCostElement extends SvrProcess
 				{
 					for(final MCostElement element : getElements())
 					{
-						CostDimension d = new CostDimension(getAD_Client_ID(), org_id,
+						CostDimension d = new CostDimension(getAD_Client_ID(), org_id, 0,
 								product_id, 0, // ASI=0
 								p_M_CostType_ID, as.get_ID(), element.get_ID());
 						MCost cost = d.toQuery(MCost.class, get_TrxName()).firstOnly();
