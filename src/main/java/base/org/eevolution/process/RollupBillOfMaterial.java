@@ -326,7 +326,7 @@ public class RollupBillOfMaterial extends SvrProcess
 	{
 		if (m_costElements == null)
 		{
-			m_costElements = MCostElement.getByCostingMethod(getCtx(),  p_ConstingMethod);
+			m_costElements = MCostElement.getCostElement(getCtx(), get_TrxName());
 		}
 		return m_costElements;
 	}
