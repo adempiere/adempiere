@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.adempiere.engine.CostEngineFactory;
+import org.adempiere.model.engines.CostEngineFactory;
 import org.adempiere.exceptions.FillMandatoryException;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCostDetail;

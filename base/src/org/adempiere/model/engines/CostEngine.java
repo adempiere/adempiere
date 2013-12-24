@@ -153,7 +153,7 @@ public class CostEngine {
 		if (actualCost == null)
 			actualCost = Env.ZERO;
 
-		if (line.getMovementQty().signum() > 0)
+		if (line.getMovementQty().signum() > 0 && actualCost.signum() != 0 )
 			actualCost = actualCost.divide(line.getMovementQty(),
 					as.getCostingPrecision(), BigDecimal.ROUND_HALF_DOWN);
 
@@ -191,6 +191,7 @@ public class CostEngine {
 		CostDimension d = new CostDimension(product,
 					as, as.getM_CostType_ID(),
 					0, //AD_Org_ID,
+					0, //Warehouse_ID
 					0, //M_ASI_ID,
 					element.getM_CostElement_ID());
 			MCost cost = d.toQuery(MCost.class, trxName).firstOnly();
@@ -206,6 +207,7 @@ public class CostEngine {
 			MProduct product, MAcctSchema as, MCostElement element) {
 		CostDimension d = new CostDimension(product, as, as.getM_CostType_ID(),
 				0, // AD_Org_ID,
+				0, //Warehouse_ID
 				0, // M_ASI_ID,
 				element.getM_CostElement_ID());
 		MPPOrderCost oc = d.toQuery(MPPOrderCost.class,
@@ -233,10 +235,10 @@ public class CostEngine {
 	}
 
 	public List<MCost> getByElement(MProduct product, MAcctSchema as,
-			int M_CostType_ID, int AD_Org_ID, int M_AttributeSetInstance_ID,
+			int M_CostType_ID, int AD_Org_ID, int M_Warehouse_ID, int M_AttributeSetInstance_ID,
 			int M_CostElement_ID) {
 		CostDimension cd = new CostDimension(product, as, M_CostType_ID,
-				AD_Org_ID, M_AttributeSetInstance_ID, M_CostElement_ID);
+				AD_Org_ID, M_Warehouse_ID, M_AttributeSetInstance_ID, M_CostElement_ID);
 		return cd.toQuery(MCost.class, product.get_TrxName())
 				.setOnlyActiveRecords(true).list();
 	}
@@ -299,6 +301,8 @@ public class CostEngine {
 			M_ASI_ID = 0;
 		} else if (MAcctSchema.COSTINGLEVEL_Organization.equals(CostingLevel))
 			M_ASI_ID = 0;
+		else if (MAcctSchema.COSTINGLEVEL_Warehouse.equals(CostingLevel))
+			M_ASI_ID = 0;
 		else if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(CostingLevel))
 			Org_ID = 0;
 		StringBuilder description = new StringBuilder();
@@ -317,7 +321,7 @@ public class CostEngine {
 				continue;
 			for (MCostElement ce : ces) {
 				
-				if (MCost.get(mtrx.getCtx(), mtrx.getAD_Client_ID(), Org_ID,
+				if (MCost.get(mtrx.getCtx(), mtrx.getAD_Client_ID(), Org_ID,  mtrx.getM_Warehouse_ID(),
 						mtrx.getM_Product_ID(), ct.getM_CostType_ID(),
 						as.getC_AcctSchema_ID(), ce.getM_CostElement_ID(),
 						M_ASI_ID, mtrx.get_TrxName()) == null && M_ASI_ID == 0)
@@ -401,7 +405,7 @@ public class CostEngine {
 		}
 
 		MCost cost = validateCostForCostType(as, ct, ce,
-				mtrx.getM_Product_ID(), mtrx.getAD_Org_ID(),
+				mtrx.getM_Product_ID(), mtrx.getAD_Org_ID(),  mtrx.getM_Warehouse_ID(),
 				mtrx.getM_AttributeSetInstance_ID());
 		if (cost == null)
 			return;
@@ -563,7 +567,7 @@ public class CostEngine {
 	}
 
 	public MCost validateCostForCostType(MAcctSchema as, MCostType ct,
-			MCostElement ce, int M_Product_ID, int AD_Org_ID,
+			MCostElement ce, int M_Product_ID, int AD_Org_ID, int M_Warehouse_ID, 
 			int M_AttributeSetInstance_ID) {
 		if (ce == null)
 			throw new IllegalArgumentException(
@@ -593,13 +597,15 @@ public class CostEngine {
 			M_AttributeSetInstance_ID = 0;
 		} else if (MAcctSchema.COSTINGLEVEL_Organization.equals(CostingLevel))
 			M_AttributeSetInstance_ID = 0;
+		else if (MAcctSchema.COSTINGLEVEL_Warehouse.equals(CostingLevel))
+			M_AttributeSetInstance_ID = 0;
 		else if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(CostingLevel))
 			AD_Org_ID = 0;
 		// Costing Method
 		
 		// Get or Create MCost
 		MCost cost = MCost.getOrCreate(product, M_AttributeSetInstance_ID, as,
-				AD_Org_ID, ct.getM_CostType_ID(), ce.getM_CostElement_ID(),
+				AD_Org_ID, M_Warehouse_ID, ct.getM_CostType_ID(), ce.getM_CostElement_ID(),
 				ct.get_TrxName());
 		if (cost.is_new())
 			cost.saveEx();
@@ -1016,6 +1022,7 @@ public class CostEngine {
 							cc.getS_Resource_ID(), cc);
 					final CostDimension d = new CostDimension(product, as,
 							as.getM_CostType_ID(), 0, // AD_Org_ID,
+							0, //Warehouse_ID
 							0, // M_ASI_ID
 							element.getM_CostElement_ID());
 					final BigDecimal price = getResourceActualCostRate(cc,
@@ -1074,7 +1081,7 @@ public class CostEngine {
 			M_ASI_ID = 0;
 		else if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(CostingLevel))
 			Org_ID = 0;
-		MCost cost = MCost.get(mtrx.getCtx(), mtrx.getAD_Client_ID(), Org_ID,
+		MCost cost = MCost.get(mtrx.getCtx(), mtrx.getAD_Client_ID(), Org_ID,  mtrx.getM_Warehouse_ID(),
 				mtrx.getM_Product_ID(), ct.getM_CostType_ID(),
 				as.getC_AcctSchema_ID(), ce.getM_CostElement_ID(),
 				M_ASI_ID, mtrx.get_TrxName());

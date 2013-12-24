@@ -26,7 +26,6 @@ import org.adempiere.model.engines.CostEngineFactory;
 import org.adempiere.model.engines.CostingMethodFactory;
 import org.adempiere.model.engines.ICostingMethod;
 import org.adempiere.model.engines.IDocumentLine;
-import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 
@@ -137,10 +136,6 @@ public class MMatchInv extends X_M_MatchInv implements IDocumentLine
 		.list();
 		return list.toArray (new MMatchInv[list.size()]);
 	}	//	getInvoice
-
-	
-	/**	Static Logger	*/
-	private static CLogger	s_log	= CLogger.getCLogger (MMatchInv.class);
 
 	
 	/**************************************************************************
@@ -463,7 +458,7 @@ public class MMatchInv extends X_M_MatchInv implements IDocumentLine
 
 						MInOutLine inout_line = (MInOutLine) getM_InOutLine();
 						MCost dimension = new MCost (product, M_ASI_ID,
-								as.getC_AcctSchema_ID(), Org_ID, cd.getM_CostType_ID(), cd.getM_CostElement_ID());
+								as.getC_AcctSchema_ID(), Org_ID,  inout_line.getM_Warehouse_ID(), cd.getM_CostType_ID(), cd.getM_CostElement_ID());
 						
 						for (MTransaction trx: MTransaction.getByInOutLine(inout_line))
 						{

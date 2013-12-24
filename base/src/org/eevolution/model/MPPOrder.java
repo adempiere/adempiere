@@ -1499,7 +1499,9 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			productsAdded.add(product.getM_Product_ID());
 			//
 			final CostDimension d = new CostDimension(product, as, as.getM_CostType_ID(),
-												getAD_Org_ID(), getM_AttributeSetInstance_ID(),
+												getAD_Org_ID(),
+												getM_Warehouse_ID(),
+												getM_AttributeSetInstance_ID(),
 												CostDimension.ANY);
 			Collection<MCost> costs = d.toQuery(MCost.class, get_TrxName()).list();
 			for (MCost cost : costs)
@@ -1522,7 +1524,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			productsAdded.add(product.getM_Product_ID());
 			//
 			CostDimension d = new CostDimension(line.getM_Product(), as, as.getM_CostType_ID(),
-												line.getAD_Org_ID(), line.getM_AttributeSetInstance_ID(),
+												line.getAD_Org_ID(), line.getM_Warehouse_ID(), line.getM_AttributeSetInstance_ID(),
 												CostDimension.ANY);
 			Collection<MCost> costs = d.toQuery(MCost.class, get_TrxName()).list();
 			for (MCost cost : costs)
@@ -1550,6 +1552,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			//
 			CostDimension d = new CostDimension(resourceProduct, as, as.getM_CostType_ID(),
 					node.getAD_Org_ID(),
+					getM_Warehouse_ID(),
 					0, // ASI
 					CostDimension.ANY);
 			Collection<MCost> costs = d.toQuery(MCost.class, get_TrxName()).list();

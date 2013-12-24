@@ -216,6 +216,7 @@ public class CostBillOfMaterial extends SvrProcess
 					m_as,
 					p_M_CostType_ID,
 					p_AD_Org_ID,
+					0, // Warehouse
 					0, // ASI
 					costElement.getM_CostElement_ID());
 			BigDecimal currentCostPrice = Env.ZERO;

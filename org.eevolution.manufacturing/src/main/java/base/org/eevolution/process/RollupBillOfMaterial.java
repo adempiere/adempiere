@@ -178,7 +178,7 @@ public class RollupBillOfMaterial extends SvrProcess
 			final BigDecimal costPrice = baseCost.getCurrentCostPriceLL().multiply(bomline.getCostAllocationPerc(true));
 			//
 			// Get/Create Cost
-			MCost cost = MCost.get(baseCost.getCtx(), baseCost.getAD_Client_ID(), baseCost.getAD_Org_ID(),
+			MCost cost = MCost.get(baseCost.getCtx(), baseCost.getAD_Client_ID(), baseCost.getAD_Org_ID(), baseCost.getM_Warehouse_ID(),
 									bomline.getM_Product_ID(),
 									baseCost.getM_CostType_ID(), baseCost.getC_AcctSchema_ID(),
 									baseCost.getM_CostElement_ID(),
@@ -256,7 +256,7 @@ public class RollupBillOfMaterial extends SvrProcess
 	private Collection<MCost> getCosts(MProduct product, int M_CostElement_ID)
 	{
 		MAcctSchema as = MAcctSchema.get(getCtx(), p_C_AcctSchema_ID);
-		CostDimension d = new CostDimension(product, as, p_M_CostType_ID, p_AD_Org_ID, 0, M_CostElement_ID);
+		CostDimension d = new CostDimension(product, as, p_M_CostType_ID, p_AD_Org_ID, 0, 0, M_CostElement_ID);
 		return d.toQuery(MCost.class, get_TrxName()).list();
 	}
 

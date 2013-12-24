@@ -77,6 +77,7 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 						cc.getS_Resource_ID(), cc);
 				final CostDimension d = new CostDimension(product, as,
 						as.getM_CostType_ID(), 0, // AD_Org_ID,
+						0, // Warehouse ID
 						0, // M_ASI_ID
 						dimension.getM_CostElement_ID());		
 				final BigDecimal price = getResourceActualCostRate(cc,
@@ -838,6 +839,7 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 		CostDimension d = new CostDimension(product,
 					as, as.getM_CostType_ID(),
 					0, //AD_Org_ID,
+					0, //Warehouse ID
 					0, //M_ASI_ID,
 					element.getM_CostElement_ID());
 			MCost cost = d.toQuery(MCost.class, trxName).firstOnly();

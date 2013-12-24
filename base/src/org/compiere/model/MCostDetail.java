@@ -131,6 +131,12 @@ public class MCostDetail extends X_M_CostDetail
 			params.add(mtrx.getAD_Org_ID());
 		}
 		
+		if(MAcctSchema.COSTINGLEVEL_Warehouse.equals(costingLevel))
+		{	
+			whereClause.append(MCostDetail.COLUMNNAME_M_Warehouse_ID+ "=? AND ");
+			params.add(mtrx.getM_Warehouse_ID());
+		}
+		
 		whereClause.append(MCostDetail.COLUMNNAME_C_AcctSchema_ID + "=? AND ");
 		params.add(C_AcctSchema_ID);
 		whereClause.append(MCostDetail.COLUMNNAME_M_Product_ID+ "=? AND ");
@@ -409,7 +415,9 @@ public class MCostDetail extends X_M_CostDetail
 		final StringBuffer whereClause = new StringBuffer(MCostDetail.COLUMNNAME_AD_Client_ID + "=? AND ");
 		params.add(mtrx.getAD_Client_ID());
 		whereClause.append(MCostDetail.COLUMNNAME_AD_Org_ID).append("=? AND ");
-		params.add(mtrx.getAD_Org_ID());		
+		params.add(mtrx.getAD_Org_ID());
+		whereClause.append(MCostDetail.COLUMNNAME_M_Warehouse_ID).append("=? AND ");
+		params.add(mtrx.getM_Warehouse_ID());
 		whereClause.append(MCostDetail.COLUMNNAME_C_AcctSchema_ID).append( "=? AND ");
 		params.add(C_AcctSchema_ID);
 		whereClause.append(MCostDetail.COLUMNNAME_M_Product_ID).append( "=? AND ");
@@ -545,6 +553,11 @@ public class MCostDetail extends X_M_CostDetail
 		{	
 		whereClause.append(MCostDetail.COLUMNNAME_AD_Org_ID).append("=? AND ");
 		params.add(cd.getAD_Org_ID());
+		}
+		if(MAcctSchema.COSTINGLEVEL_Warehouse.equals(costingLevel))
+		{	
+		whereClause.append(MCostDetail.COLUMNNAME_M_Warehouse_ID).append("=? AND ");
+		params.add(cd.getM_Warehouse_ID());
 		}
 		if(MAcctSchema.COSTINGLEVEL_BatchLot.equals(costingLevel))
 		{
@@ -1182,7 +1195,7 @@ public class MCostDetail extends X_M_CostDetail
 		int counterError = 0;
 		List<MCostDetail> list = new Query(product.getCtx(),I_M_CostDetail.Table_Name,whereClause,trxName)
 		.setParameters(product.getM_Product_ID(),false)
-		.setOrderBy("C_AcctSchema_ID, M_CostElement_ID, AD_Org_ID, M_AttributeSetInstance_ID, Created")
+		.setOrderBy("C_AcctSchema_ID, M_CostElement_ID, AD_Org_ID, M_Warehouse_ID, M_AttributeSetInstance_ID, Created")
 		.list();
 		for (MCostDetail cd : list) {
 			if (cd.process())	//	saves
@@ -1283,6 +1296,7 @@ public class MCostDetail extends X_M_CostDetail
 		this (mtrx.getCtx(), 0, trxName);
 		setAD_Client_ID(mtrx.getAD_Client_ID());
 		setAD_Org_ID(mtrx.getAD_Org_ID());
+		setM_Warehouse_ID(mtrx.getM_Warehouse_ID());
 		setC_AcctSchema_ID(C_AcctSchema_ID);
 		setM_Product_ID(mtrx.getM_Product_ID());
 		setM_CostType_ID(M_CostType_ID);
@@ -1454,6 +1468,11 @@ public class MCostDetail extends X_M_CostDetail
 		sb.append(",Qty=").append(getQty());
 		sb.append(",CumulatedQty =").append(getCumulatedQty());
 		sb.append(",Qty Onhand =").append(getQty().add(getCumulatedQty()));
+		sb.append(",Current Qty =").append(getCurrentQty());
+		sb.append(",Cumulated Amt =").append(getCumulatedAmt());
+		sb.append(",Cumulated Amt LL =").append(getCumulatedAmtLL());
+		sb.append(",Current Price =").append(getCurrentCostPrice());
+		sb.append(",Current Proce TL =").append(getCurrentCostPriceLL());
 		
 		if (isDelta())
 			sb.append(",DeltaAmt=").append(getDeltaAmt())

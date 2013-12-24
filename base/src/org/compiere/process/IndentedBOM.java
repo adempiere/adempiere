@@ -122,7 +122,7 @@ public class IndentedBOM extends SvrProcess
 		tboml.setLevels( (m_LevelNo > 0 ? ":" : "") +  StringUtils.repeat("    ", m_LevelNo) +" " + product.getValue());
 		//
 		// Set Costs:
-		MCost cost = MCost.get(product, 0, m_as, p_AD_Org_ID, p_M_CostElement_ID, get_TrxName());
+		MCost cost = MCost.get(product, 0, m_as, p_AD_Org_ID, 0, p_M_CostElement_ID, get_TrxName());
 		tboml.setCurrentCostPrice(cost.getCurrentCostPrice());
 		tboml.setCost(cost.getCurrentCostPrice().multiply(accumQty));
 		tboml.setFutureCostPrice(cost.getFutureCostPrice());
