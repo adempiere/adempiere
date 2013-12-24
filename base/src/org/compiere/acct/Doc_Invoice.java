@@ -28,12 +28,15 @@ import org.compiere.model.MAcctSchema;
 import org.compiere.model.MClientInfo;
 import org.compiere.model.MConversionRate;
 import org.compiere.model.MCostDetail;
+import org.compiere.model.MCostType;
 import org.compiere.model.MCurrency;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MLandedCostAllocation;
+import org.compiere.model.MStorage;
 import org.compiere.model.MTax;
 import org.compiere.model.ProductCost;
+import org.compiere.model.Query;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 
@@ -532,19 +535,19 @@ public class Doc_Invoice extends Doc
 					}
 					fact.createLine (line, expense,
 						getC_Currency_ID(), amt, null);
-					if (!line.isItem())
+					if (!line.isItem()&& line.getC_Charge_ID()==0)
 					{
 						grossAmt = grossAmt.subtract(amt);
 						serviceAmt = serviceAmt.add(amt);
 					}
 					//
-					if (line.getM_Product_ID() != 0
+					/*if (line.getM_Product_ID() != 0
 						&& line.getProduct().isService())	//	otherwise Inv Matching
 						MCostDetail.createInvoice(as, line.getAD_Org_ID(), 
 							line.getM_Product_ID(), line.getM_AttributeSetInstance_ID(),
 							line.get_ID(), 0,		//	No Cost Element
 							line.getAmtSource(), line.getQty(),
-							line.getDescription(), getTrxName());
+							line.getDescription(), getTrxName(), line.get_ID());*/
 				}
 			}
 			//  Set Locations
@@ -644,13 +647,13 @@ public class Doc_Invoice extends Doc
 						serviceAmt = serviceAmt.add(amt);
 					}
 					//
-					if (line.getM_Product_ID() != 0
+					/*if (line.getM_Product_ID() != 0
 						&& line.getProduct().isService())	//	otherwise Inv Matching
 						MCostDetail.createInvoice(as, line.getAD_Org_ID(), 
 							line.getM_Product_ID(), line.getM_AttributeSetInstance_ID(),
 							line.get_ID(), 0,		//	No Cost Element
 							line.getAmtSource().negate(), line.getQty(),
-							line.getDescription(), getTrxName());
+							line.getDescription(), getTrxName(), line.get_ID());*/
 				}
 			}
 			//  Set Locations
@@ -842,12 +845,61 @@ public class Doc_Invoice extends Doc
 				lca.getM_Product_ID(), lca.getM_AttributeSetInstance_ID(), getTrxName());
 			BigDecimal drAmt = null;
 			BigDecimal crAmt = null;
+			BigDecimal amt = Env.ZERO;/*
 			if (dr)
 				drAmt = lca.getAmt();
 			else
-				crAmt = lca.getAmt();
-			FactLine fl = fact.createLine (line, pc.getAccount(ProductCost.ACCTTYPE_P_CostAdjustment, as),
-				getC_Currency_ID(), drAmt, crAmt);
+				crAmt = lca.getAmt();*/
+			
+			MCostType ct = MCostType.get(as, lca.getM_Product_ID(), il.getAD_Org_ID());
+			FactLine fl = null;
+			if(MCostType.COSTINGMETHOD_AverageInvoice.equals(ct.getCostingMethod()))
+			{	
+				for (MCostDetail cd:MCostDetail.getByDocLineLandedCost(lca, as.getC_AcctSchema_ID(), ct.getM_CostType_ID()))
+				{
+
+					if (!MCostDetail.existsCost(cd))
+						return false;
+					 amt = MCostDetail.getTotalCost(cd, as);
+
+						if (dr)
+							drAmt = amt;
+						else
+							crAmt = amt;
+				}/*
+				int asi = lca.getM_InOutLine().getM_AttributeSetInstance_ID();
+				BigDecimal qty = new Query(getCtx(), MStorage.Table_Name, "m_attributesetinstance_ID=? and m_product_id=?", lca.get_TrxName())
+				.setParameters(asi, lca.getM_Product_ID())
+				.sum(MStorage.COLUMNNAME_QtyOnHand);
+				BigDecimal amt = lca.getAmt().divide(lca.getQty(),as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+				amt = amt.multiply(qty);*/
+				if (amt.compareTo(Env.ZERO)!= 0)
+				{						
+					fl = fact.createLine (line, pc.getAccount(ProductCost.ACCTTYPE_P_Asset, as),
+							as.getC_Currency_ID(), drAmt, crAmt);
+					fl.setDescription(desc);
+					fl.setM_Product_ID(lca.getM_Product_ID());					
+				}
+				
+				if (dr)
+					drAmt = lca.getAmt().subtract(amt);
+				else
+					crAmt = lca.getAmt().subtract(amt);
+				if (drAmt.compareTo(Env.ZERO)!= 0 || crAmt.compareTo(Env.ZERO)!= 0)
+				{
+					fl = fact.createLine (line, pc.getAccount(ProductCost.ACCTTYPE_P_CostAdjustment, as),
+							as.getC_Currency_ID(), drAmt, crAmt);
+					fl.setDescription(desc);
+					fl.setM_Product_ID(lca.getM_Product_ID());
+
+				}
+			}	
+			else
+			{	
+				fl = fact.createLine (line, pc.getAccount(ProductCost.ACCTTYPE_P_CostAdjustment, as),
+						getC_Currency_ID(), drAmt, crAmt);
+			}	
+			
 			fl.setDescription(desc);
 			fl.setM_Product_ID(lca.getM_Product_ID());
 			
@@ -862,14 +914,6 @@ public class Doc_Invoice extends Doc
 				allocationAmt = allocationAmt.setScale(as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
 			if (!dr)
 				allocationAmt = allocationAmt.negate();
-			// AZ Goodwill
-			// use createInvoice to create/update non Material Cost Detail
-			MCostDetail.createInvoice(as, lca.getAD_Org_ID(), 
-					lca.getM_Product_ID(), lca.getM_AttributeSetInstance_ID(),
-					C_InvoiceLine_ID, lca.getM_CostElement_ID(),
-					allocationAmt, lca.getQty(),
-					desc, getTrxName());
-			// end AZ
 		}
 		
 		log.config("Created #" + lcas.length);

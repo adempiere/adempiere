@@ -18,12 +18,16 @@ package org.compiere.acct;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.Properties;
 
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCharge;
 import org.compiere.model.MCostDetail;
+import org.compiere.model.MCostType;
 import org.compiere.model.MProduct;
+import org.compiere.model.MProductCategoryAcct;
 import org.compiere.model.PO;
 import org.compiere.model.ProductCost;
 import org.compiere.util.CLogger;
@@ -161,7 +165,7 @@ public class DocLine
 	 * 	Set C_ConversionType_ID
 	 *	@param C_ConversionType_ID id
 	 */
-	protected void setC_ConversionType_ID(int C_ConversionType_ID)
+	public void setC_ConversionType_ID(int C_ConversionType_ID)
 	{
 		m_C_ConversionType_ID = C_ConversionType_ID;
 	}	//	setC_ConversionType_ID
@@ -345,29 +349,6 @@ public class DocLine
 	}   //  getDateAcct
 
 	/**
-	 *  Get FX Conversion Date
-	 *  
-	 *  The foreign exchange rate conversion date may be different from the accounting posting date in some cases (e.g. bank statement)
-	 *  
-	 *  @return FX conversion date 
-	 */
-	public Timestamp getDateConv ()
-	{
-		Timestamp dateConv = null;
-		int index = p_po.get_ColumnIndex("DateAcct");
-		if (index != -1)
-		{
-			dateConv = (Timestamp)p_po.get_Value(index);
-		}
-		
-
-		if (dateConv == null)
-			dateConv = getDateAcct();
-		
-		return dateConv;
-	}   //  getDateAcct
-	
-	/**
 	 *  Set Document Date
 	 *  @param dateDoc doc date
 	 */
@@ -434,14 +415,14 @@ public class DocLine
 				return acct;
 		}
 		//	Product Account
-		return getProductCost().getAccount (AcctType, as);
+		return getProductCost().getAccount (AcctType, as, getAD_Org_ID());
 	}   //  getAccount
 
 	/**
 	 * 	Get Charge
 	 * 	@return C_Charge_ID
 	 */
-	protected int getC_Charge_ID()
+	public int getC_Charge_ID()
 	{
 		int index = p_po.get_ColumnIndex("C_Charge_ID");
 		if (index != -1)
@@ -492,7 +473,7 @@ public class DocLine
 	 * 	Set C_Period_ID
 	 *	@param C_Period_ID id
 	 */
-	protected void setC_Period_ID (int C_Period_ID)
+	public void setC_Period_ID (int C_Period_ID)
 	{
 		m_C_Period_ID = C_Period_ID;
 	}	//	setC_Period_ID
@@ -643,22 +624,6 @@ public class DocLine
 	}	//	isProductionBOM
 	
 	/**
-	 *  Get Production Header
-	 *  @return M_Production_ID
-	 */
-	public int getM_Production_ID()
-	{
-		int index = p_po.get_ColumnIndex("M_Production_ID");
-		if (index != -1)
-		{
-			Integer ii = (Integer)p_po.get_Value(index);
-			if (ii != null)
-				return ii.intValue();
-		}
-		return 0;
-	}   //  getM_Production_ID
-	
-	/**
 	 *  Get Production Plan
 	 *  @return M_ProductionPlan_ID
 	 */
@@ -765,10 +730,12 @@ public class DocLine
 	 *	@param whereClause null are OK
 	 *  @return costs
 	 */
+	/*
 	public BigDecimal getProductCosts (MAcctSchema as, int AD_Org_ID, boolean zeroCostsOK, String whereClause)
 	{
-		if (whereClause != null && !as.getCostingMethod().equals(MAcctSchema.COSTINGMETHOD_StandardCosting))
+		if (whereClause != null)
 		{
+			// TODO: comment this
 			MCostDetail cd = MCostDetail.get (Env.getCtx(), whereClause, 
 					get_ID(), getM_AttributeSetInstance_ID(), as.getC_AcctSchema_ID(), p_po.get_TrxName());
 			if (cd != null)
@@ -776,6 +743,7 @@ public class DocLine
 		}
 		return getProductCosts(as, AD_Org_ID, zeroCostsOK);
 	}   //  getProductCosts
+	*/
 	// end MZ
 	
 	/**
@@ -785,17 +753,46 @@ public class DocLine
 	 *	@param zeroCostsOK zero/no costs are OK
 	 *  @return costs
 	 */
-	public BigDecimal getProductCosts (MAcctSchema as, int AD_Org_ID, boolean zeroCostsOK)
+	/*public BigDecimal getProductCosts (MAcctSchema as, int AD_Org_ID, boolean zeroCostsOK)
 	{
-		ProductCost pc = getProductCost();
-		int C_OrderLine_ID = getC_OrderLine_ID();
-		String costingMethod = null;
-		BigDecimal costs = pc.getProductCosts(as, AD_Org_ID, costingMethod, 
-			C_OrderLine_ID, zeroCostsOK);
-		if (costs != null)
-			return costs;
+		
+		final String whereClause = null;
 		return Env.ZERO;
-	}   //  getProductCosts
+		/*MCostDetail[] details = getCostDetail(as, AD_Org_ID);
+		if (zeroCostsOK && details.length == 0)
+		{
+			return Env.ZERO;
+		}
+		BigDecimal costs = Env.ZERO;
+		BigDecimal qty = Env.ZERO;
+		for (MCostDetail cd : details)
+		{
+			if (cd.isProcessed())
+			{
+				// TODO: re-process + cost adjustments
+			}
+			if (cd.isSOTrx())
+				costs = costs.subtract(cd.getAmt());
+			else
+				costs = costs.add(cd.getAmt());
+			qty = qty.add(cd.getQty());
+		
+			if (!cd.isProcessed())
+			{
+				cd.setProcessed(true);//ancabradau 
+				cd.saveEx();
+			}
+		}
+		// Check if Qty is same
+		// TODO: check if it's needed
+//		BigDecimal lineQty = getQty() == null ? Env.ZERO : getQty();
+//		if (lineQty.compareTo(qty) != 0)
+//		{
+//			throw new AdempiereException("Qty not match - LineQty="+lineQty+", CostsQty="+qty);
+//		}
+		return costs;*/
+		
+//	}   //  getProductCosts
 
 	/**
 	 * 	Get Product 
@@ -1164,7 +1161,7 @@ public class DocLine
 	 */
 	public String toString()
 	{
-		StringBuffer sb = new StringBuffer("DocLine=[");
+		StringBuffer sb = new StringBuffer(getClass().getName()).append("=[");	// arhipac: replaced
 		sb.append(p_po.get_ID());
 		if (getDescription() != null)
 			sb.append(",").append(getDescription());
@@ -1176,4 +1173,36 @@ public class DocLine
 		return sb.toString();
 	}	//	toString
 
+	/**
+	 * getCostDetail
+	 * @return cost detail list for this document line or null if not found
+	 */
+	public List<MCostDetail> getCostDetail(MAcctSchema as)
+	{
+		MCostType ct = MCostType.get(as, getM_Product_ID(), getAD_Org_ID());
+		return MCostDetail.getByDocLine(this, as.getC_AcctSchema_ID(), ct.getM_CostType_ID());
+	}
+	
+	
+	
+	public int getAD_Client_ID()
+	{
+		return m_doc.getAD_Client_ID();
+	}
+	public boolean isSOTrx()
+	{
+		return m_doc.isSOTrx();
+	}
+	public Properties getCtx()
+	{
+		return p_po.getCtx();
+	}
+	public String getTrxName()
+	{
+		return p_po.get_TrxName();
+	}
+	public String getTableName()
+	{
+		return p_po.get_TableName();
+	}
 }	//	DocumentLine

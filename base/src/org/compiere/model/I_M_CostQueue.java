@@ -119,6 +119,19 @@ public interface I_M_CostQueue
 	  */
 	public BigDecimal getCurrentQty();
 
+    /** Column name DateAcct */
+    public static final String COLUMNNAME_DateAcct = "DateAcct";
+
+	/** Set Account Date.
+	  * Accounting Date
+	  */
+	public void setDateAcct (Timestamp DateAcct);
+
+	/** Get Account Date.
+	  * Accounting Date
+	  */
+	public Timestamp getDateAcct();
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 

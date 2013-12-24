@@ -19,8 +19,12 @@ package org.compiere.model;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.model.engines.CostEngineFactory;
+import org.adempiere.model.engines.IDocumentLine;
 import org.compiere.util.Env;
 
 /**
@@ -36,7 +40,120 @@ public class MTransaction extends X_M_Transaction
 	 */
 	private static final long serialVersionUID = 3411351000865493212L;
 
+	/**
+	 * get the transaction based on Document Line and movement type
+	 * @param model IDocumentLine
+	 * @param type Movement Type
+	 * @return first MTransaction
+	 */
+	public static MTransaction getByDocumentLine(IDocumentLine model, String type)
+	{
+		final String column_id = model.get_TableName() + "_ID";
+		final String whereClause = column_id + "=? AND "
+			   					 + MTransaction.COLUMNNAME_MovementType + "=? ";
+		return new Query (model.getCtx(), I_M_Transaction.Table_Name, whereClause, model.get_TrxName())
+		.setClient_ID()
+		.setParameters(model.get_ID(), type)
+		.first();
+	}
 
+	/**
+	 * get the Material Transaction after Date Account
+	 * @param ctx Context
+	 * @param M_Product_ID Product ID
+	 * @param dateAcct Date Account 
+	 * @param trxName Transaction name
+	 * @return List with the MTransaction after date account
+	 */
+	static public List<MTransaction> getAfterDateAcct(Properties ctx , int M_Product_ID,Timestamp dateAcct, String trxName)
+	{
+		ArrayList<MTransaction> list = new ArrayList();
+		final String whereClause = I_M_Transaction.COLUMNNAME_M_Product_ID + "=?";
+		List<MTransaction> trxs = new Query(ctx, Table_Name, whereClause, trxName)
+			.setClient_ID()
+			.setParameters(M_Product_ID)
+			.list();
+		
+		for(MTransaction trx : trxs)
+		{
+			IDocumentLine model = trx.getDocumentLine();
+			if(model.getDateAcct().compareTo(dateAcct) > 0)
+			{
+				list.add(trx);
+			}
+		}	
+		return list;
+	}
+	
+	/**
+	 * get all material transaction for MInOutLine 
+	 * @param line MInOutLine
+	 * @return List the MTransaction
+	 */
+	static public List<MTransaction> getByInOutLine(MInOutLine line)
+	{
+		ArrayList<MTransaction> transactions = new ArrayList();
+		
+		MInOutLineMA[] lines = MInOutLineMA.get(line.getCtx(), line.getM_InOutLine_ID(), line.get_TrxName());
+		if(lines != null && lines.length == 0)
+		{	
+			transactions.add(get(line, line.getM_AttributeSetInstance_ID()));
+			return transactions;
+		}
+		for(MInOutLineMA ma : lines)
+		{	
+			MTransaction trx = get(line, ma.getM_AttributeSetInstance_ID());
+			transactions.add(trx);
+		}		
+		return transactions;
+	}
+	
+	static public MTransaction get(MInOutLine line , int M_ASI_ID)
+	{
+		final String whereClause = I_M_InOutLine.COLUMNNAME_M_Product_ID + "=? AND "
+								 + I_M_InOutLine.COLUMNNAME_M_InOutLine_ID + "=? AND "
+		 						 + I_M_InOutLine.COLUMNNAME_M_AttributeSetInstance_ID + "=?";
+		
+		return new Query(line.getCtx(), Table_Name, whereClause, line.get_TrxName())
+		.setClient_ID()
+		.setParameters(line.getM_Product_ID(),line.getM_InOutLine_ID(), M_ASI_ID)
+		.firstOnly();
+	}
+	
+	
+	/**
+	 * 
+	 * get Material transaction for Reversal Document
+	 * @param trx MTransaction
+	 * @return
+	 */
+	static public List<MTransaction> getByDocumentLine (MTransaction trx)
+	{
+		IDocumentLine reversal = trx.getDocumentLine().getReversalDocumentLine();
+		List<Object> parameters = new ArrayList();
+		String columnName =  reversal.get_TableName()+"_ID";			
+		StringBuffer whereClause = new StringBuffer(I_M_Transaction.COLUMNNAME_M_Product_ID);
+		parameters.add(reversal.getM_Product_ID());
+		whereClause.append( "=? AND ");
+		whereClause.append( columnName ).append("=? AND ");
+		parameters.add(reversal.get_ID());
+		
+			whereClause.append(I_M_Transaction.COLUMNNAME_MovementType).append("=? AND ");
+			if(MTransaction.MOVEMENTTYPE_InventoryIn.equals(trx.getMovementType()))
+					parameters.add(MTransaction.MOVEMENTTYPE_InventoryOut);
+			else if(MTransaction.MOVEMENTTYPE_InventoryOut.equals(trx.getMovementType()))
+					parameters.add(MTransaction.MOVEMENTTYPE_InventoryIn);
+			else
+				parameters.add(trx.getMovementType());
+			
+		whereClause.append(I_M_Transaction.COLUMNNAME_M_Transaction_ID).append("<>?");
+		parameters.add(trx.getM_Transaction_ID());
+		return new Query(trx.getCtx(), Table_Name, whereClause.toString(), trx.get_TrxName())
+		.setClient_ID()
+		.setParameters(parameters)
+		.list();
+	}
+	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
@@ -104,6 +221,45 @@ public class MTransaction extends X_M_Transaction
 			setMovementDate(MovementDate);
 	}	//	MTransaction
 
+	protected boolean afterSave (boolean newRecord, boolean success)
+	{
+		if (newRecord)
+		{	
+			MClient client = MClient.get(getCtx());
+			if (client.isCostImmediate())
+				CostEngineFactory.getCostEngine(getAD_Client_ID()).createCostDetail(this);
+		}	
+		return true;
+	}	//	afterSave
+	
+	public IDocumentLine getDocumentLine()
+	{
+	    if(getM_InOutLine_ID() > 0)
+		return (IDocumentLine) getM_InOutLine();
+	    if(getM_InventoryLine_ID() > 0)
+		return (IDocumentLine) getM_InventoryLine();
+	    if(getM_MovementLine_ID() > 0)
+		return (IDocumentLine) getM_MovementLine();
+	    if(getM_ProductionLine_ID() > 0)
+		return (IDocumentLine) getM_ProductionLine();
+	    if(getPP_Cost_Collector_ID() > 0)
+		return (IDocumentLine) getPP_Cost_Collector();
+	    
+	    return null;	
+	}
+	
+	/**
+	 * get Warehouse ID
+	 * @return Warehouse ID
+	 */
+	public int  getM_Warehouse_ID()
+	{
+		final String whereClause ="EXISTS (SELECT 1 FROM M_Locator WHERE M_Locator_ID=? AND M_Warehouse.M_Warehouse_ID=M_Locator.M_Warehouse_ID)";
+		return new Query(getCtx(), X_M_Warehouse.Table_Name, whereClause, get_TrxName())
+		.setClient_ID()
+		.setParameters(getM_Locator_ID())
+		.firstIdOnly();
+	}
 	
 	/**
 	 * 	String Representation
@@ -119,5 +275,6 @@ public class MTransaction extends X_M_Transaction
 			.append ("]");
 		return sb.toString ();
 	}	//	toString
+	
 	
 }	//	MTransaction

@@ -17,6 +17,7 @@
 package org.compiere.model;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -44,14 +45,93 @@ public class MCostElement extends X_M_CostElement
 	 * 
 	 */
 	private static final long serialVersionUID = 3196322266971717530L;
-
-
+	
+	/**
+	 * get or create Cost Element 
+	 * @param po Persistence Object
+	 * @return get Cost Element
+	 */
+	public static List<MCostElement> getDefaultElements (PO po)
+	{
+		//
+		final String whereClause = "IsDefault=?";
+		List<MCostElement> elements = new Query(po.getCtx(), Table_Name, whereClause, po.get_TrxName())
+			.setParameters(true)
+			.setClient_ID()
+			.setOnlyActiveRecords(true)
+			.setOrderBy("AD_Org_ID DESC")
+			.list();
+		
+		if (elements != null && elements.size() > 0)
+			return elements;	
+		
+		MCostElement costElement = MCostElement.getByMaterialCostElementType(po);
+		
+		if (costElement != null)
+		{	
+			if (!costElement.isActive())
+			{	
+				costElement.setIsActive(true);
+				costElement.saveEx();
+			}		
+		}
+		else
+		{
+		//	Create New
+			costElement = new MCostElement (po.getCtx(), 0, po.get_TrxName());
+			costElement.setClientOrg(po.getAD_Client_ID(), 0);
+			costElement.setName("Material");
+			costElement.setIsDefault(true);
+			costElement.setIsActive(true);
+			costElement.setCostElementType(COSTELEMENTTYPE_Material);
+			costElement.saveEx();
+		}	
+		
+		elements = new ArrayList();
+		elements.add(costElement);
+		//
+		return elements;
+    }	//	getMaterialCostElement  
+		
+    /**
+     * Get Cost Element    
+     * @param po Persistence Object
+     * @return MCostElement Cost Element
+     */
+	public static MCostElement getByMaterialCostElementType (PO po)
+	{
+		final String whereClause = "CostElementType=?";
+		MCostElement retValue = new Query(po.getCtx(), Table_Name, whereClause, po.get_TrxName())
+			.setParameters(COSTELEMENTTYPE_Material)
+			.setClient_ID()
+			.setOrderBy("M_CostElement_ID ,IsDefault, AD_Org_ID DESC")
+			.first();
+		//
+		return retValue;
+    }	//	getMaterialCostElement  
+	
+	/**
+	 * Get All Cost Elements for current AD_Client_ID
+	 * @param ctx context
+	 * @param trxName transaction
+	 * @return List with cost elements
+	 */
+	public static List<MCostElement> getCostElement(Properties ctx, String trxName)		
+	{
+		return new Query(ctx, Table_Name, null, trxName)
+					.setClient_ID()
+					.setOnlyActiveRecords(true)
+					.setOrderBy(COLUMNNAME_Created)
+					.list();
+	}
+	
 	/**
 	 * 	Get Material Cost Element or create it
 	 *	@param po parent
 	 *	@param CostingMethod method
 	 *	@return cost element
 	 */
+    @Deprecated
 	public static MCostElement getMaterialCostElement (PO po, String CostingMethod)
 	{
 		if (CostingMethod == null || CostingMethod.length() == 0)
@@ -82,13 +162,14 @@ public class MCostElement extends X_M_CostElement
 		//
 		return retValue;
 	}	//	getMaterialCostElement
-
+  
 	/**
 	 * 	Get first Material Cost Element
 	 *	@param ctx context
 	 *	@param CostingMethod costing method
 	 *	@return Cost Element or null
 	 */
+	@Deprecated
 	public static MCostElement getMaterialCostElement(Properties ctx, String CostingMethod)
 	{
 		final String whereClause = "AD_Client_ID=? AND CostingMethod=? AND CostElementType=?";
@@ -109,6 +190,7 @@ public class MCostElement extends X_M_CostElement
 	 *	@param po parent
 	 *	@return cost element array
 	 */
+	@Deprecated
 	public static List<MCostElement> getCostElementsWithCostingMethods (PO po)
 	{
 		final String whereClause = "AD_Client_ID=? AND CostingMethod IS NOT NULL";
@@ -117,6 +199,20 @@ public class MCostElement extends X_M_CostElement
 		.setOnlyActiveRecords(true)
 		.list();
 	}	//	getCostElementCostingMethod	
+	
+	@Deprecated
+	public static MCostElement[] getActiveCostingMethods (PO po)
+	{
+		final String whereClause = "CostingMethod IS NOT NULL AND CostElementType='M'";
+		List<MCostElement>list = new Query(po.getCtx(),I_M_CostElement.Table_Name, whereClause, po.get_TrxName())
+		.setClient_ID()
+		.setOnlyActiveRecords(true)
+		.list(); 
+		//
+		MCostElement[] retValue = new MCostElement[list.size ()];
+		list.toArray (retValue);
+		return retValue;
+	}	//
 	
 	/**
 	 * 	Get active Material Cost Element for client 
@@ -144,7 +240,8 @@ public class MCostElement extends X_M_CostElement
 	 */
 	public static MCostElement[] getNonCostingMethods (PO po)
 	{
-		final String whereClause = "AD_Client_ID=? AND CostingMethod IS NULL";
+		//final String whereClause = "AD_Client_ID=? AND CostingMethod IS NULL";
+		final String whereClause = "AD_Client_ID=? AND costelementtype in ('R','B','O','X')";
 		List<MCostElement>list = new Query(po.getCtx(),I_M_CostElement.Table_Name, whereClause, po.get_TrxName())
 		.setParameters(po.getAD_Client_ID())
 		.setOnlyActiveRecords(true)
@@ -155,7 +252,6 @@ public class MCostElement extends X_M_CostElement
 		return retValue;
 	}	//	getMaterialCostElement
 	// end MZ
-	
 	/**
 	 * 	Get Cost Element from Cache
 	 *	@param ctx context
@@ -181,6 +277,7 @@ public class MCostElement extends X_M_CostElement
 	 * @param trxName transaction
 	 * @return array cost elements
 	 */
+	@Deprecated
 	public static MCostElement[] getElements (Properties ctx, String trxName)
 	{
 		int AD_Org_ID = 0; // Org is always ZERO - see beforeSave
@@ -200,6 +297,7 @@ public class MCostElement extends X_M_CostElement
 	 * @param trxName transaction
 	 * @return array cost elements
 	 **/
+	@Deprecated
 	public static List<MCostElement> getByCostingMethod (Properties ctx, String CostingMethod)
 	{		
 		final String whereClause = "AD_Client_ID = ? AND CostingMethod=?";
@@ -208,7 +306,16 @@ public class MCostElement extends X_M_CostElement
 					.setParameters(Env.getAD_Client_ID(ctx),CostingMethod)
 					.list();	
 	}	
-
+	
+	public static List<MCostElement> getByCostType (Properties ctx, int m_CostType_ID)
+	{		
+		final String whereClause = "AD_Client_ID = ? AND m_costtype_ID=?";
+		return new Query(ctx, Table_Name, whereClause, null)
+					.setOnlyActiveRecords(true)
+					.setParameters(Env.getAD_Client_ID(ctx),m_CostType_ID)
+					.list();	
+	}	
+	
 	/**	Cache						*/
 	private static CCache<Integer,MCostElement>	s_cache	= new CCache<Integer,MCostElement>("M_CostElement", 20);
 	
@@ -320,9 +427,10 @@ public class MCostElement extends X_M_CostElement
 		
 		//	Costing Methods on PC level
 		int M_Product_Category_ID = 0;
-		final String whereClause ="AD_Client_ID=? AND CostingMethod=?";
+		final String whereClause ="CostingMethod=?";
 		MProductCategoryAcct retValue = new Query(getCtx(), I_M_Product_Category_Acct.Table_Name, whereClause, null)
-		.setParameters(getAD_Client_ID(), getCostingMethod())
+		.setParameters(getCostingMethod())
+		.setClient_ID()
 		.first();
 		if (retValue != null)
 			M_Product_Category_ID = retValue.getM_Product_Category_ID();
@@ -348,6 +456,7 @@ public class MCostElement extends X_M_CostElement
 	/**
 	 * 	Is Avg Invoice Costing Method
 	 *	@return true if AverageInvoice
+	 *	@deprecated
 	 */
 	public boolean isAverageInvoice()
 	{
@@ -360,6 +469,7 @@ public class MCostElement extends X_M_CostElement
 	/**
 	 * 	Is Avg PO Costing Method
 	 *	@return true if AveragePO
+	 *	@deprecated
 	 */
 	public boolean isAveragePO()
 	{
@@ -371,6 +481,7 @@ public class MCostElement extends X_M_CostElement
 	/**
 	 * 	Is FiFo Costing Method
 	 *	@return true if Fifo
+	 *	@deprecated
 	 */
 	public boolean isFifo()
 	{
@@ -382,6 +493,7 @@ public class MCostElement extends X_M_CostElement
 	/**
 	 * 	Is Last Invoice Costing Method
 	 *	@return true if LastInvoice
+	 *	@deprecated
 	 */
 	public boolean isLastInvoice()
 	{
@@ -393,6 +505,7 @@ public class MCostElement extends X_M_CostElement
 	/**
 	 * 	Is Last PO Costing Method
 	 *	@return true if LastPOPrice
+	 *	@deprecated
 	 */
 	public boolean isLastPOPrice()
 	{
@@ -404,6 +517,7 @@ public class MCostElement extends X_M_CostElement
 	/**
 	 * 	Is LiFo Costing Method
 	 *	@return true if Lifo
+	 *	@deprecated
 	 */
 	public boolean isLifo()
 	{
@@ -415,6 +529,7 @@ public class MCostElement extends X_M_CostElement
 	/**
 	 * 	Is Std Costing Method
 	 *	@return true if StandardCosting
+	 *	@deprecated
 	 */
 	public boolean isStandardCosting()
 	{
@@ -426,6 +541,7 @@ public class MCostElement extends X_M_CostElement
 	/**
 	 * 	Is User Costing Method
 	 *	@return true if User Defined
+	 *	@deprecated
 	 */
 	public boolean isUserDefined()
 	{

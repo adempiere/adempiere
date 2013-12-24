@@ -221,7 +221,7 @@ public class RollupWorkflow extends SvrProcess
 		workflow.setMovingTime(MovingTime);
 		workflow.setWorkingTime(WorkingTime);
 
-		for (MCostElement element : MCostElement.getByCostingMethod(getCtx(), p_ConstingMethod))
+		for (MCostElement element : MCostElement.getCostElement(getCtx(), get_TrxName()))
 		{
 			if (!CostEngine.isActivityControlElement(element))
 			{

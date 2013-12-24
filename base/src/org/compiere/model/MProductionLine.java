@@ -1,22 +1,12 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.compiere.model.MAttributeSet;
-import org.compiere.model.MAttributeSetInstance;
-import org.compiere.model.MInventoryLineMA;
-import org.compiere.model.MLocator;
-import org.compiere.model.MProduct;
-import org.compiere.model.MStorage;
-import org.compiere.model.MTransaction;
-import org.compiere.model.X_M_ProductionLine;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 
@@ -27,6 +17,26 @@ public class MProductionLine extends X_M_ProductionLine {
 	 */
 	private static final long serialVersionUID = 1L;
 	private MProduction parent;
+	
+	/**
+	 * get true if Production Line is Parent Product
+	 * @return true
+	 */
+	public boolean isParent()
+	{
+		return (getM_Product_ID()==getM_ProductionPlan().getM_Product_ID())?true:false;
+		/*
+	 final StringBuffer whereClause = new StringBuffer();
+		whereClause.append(X_M_ProductionLine.COLUMNNAME_M_ProductionLine_ID);
+		whereClause.append(" IN (SELECT M_ProductionLine_ID FROM M_ProductionLine pl INNER JOIN M_ProductionPlan pp ON (pp.M_ProductionPlan_ID=pl.M_ProductionPlan_ID)");
+		whereClause.append(" WHERE pl.M_ProductionPlan_ID=? AND ");
+		whereClause.append(" pp.M_Product_ID = pl.M_Product_ID )");
+
+	 return new Query(getCtx(), X_M_ProductionLine.Table_Name, whereClause.toString(),get_TrxName())
+		.setClient_ID()
+		.setParameters(getM_ProductionPlan_ID())
+		.match();*/
+	}
 
 
 	/**

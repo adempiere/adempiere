@@ -17,15 +17,13 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
-
 
 /**
  *	Movement Material Allocation
@@ -49,41 +47,26 @@ public class MMovementLineMA extends X_M_MovementLineMA
 	 */
 	public static MMovementLineMA[] get (Properties ctx, int M_MovementLine_ID, String trxName)
 	{
-		ArrayList<MMovementLineMA> list = new ArrayList<MMovementLineMA>();
-		String sql = "SELECT * FROM M_MovementLineMA WHERE M_MovementLine_ID=?";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			pstmt.setInt (1, M_MovementLine_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-			{
-				list.add (new MMovementLineMA (ctx, rs, trxName));
-			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log (Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		
-		MMovementLineMA[] retValue = new MMovementLineMA[list.size ()];
-		list.toArray (retValue);
-		return retValue;
+		List<MMovementLineMA> list = new Query(ctx, Table_Name, COLUMNNAME_M_MovementLine_ID+"=?", trxName)
+											.setParameters(new Object[]{M_MovementLine_ID})
+											.list();
+		return list.toArray(new MMovementLineMA[list.size()]);
 	}	//	get
+	
+	/**
+	 * 	Delete all Material Allocation for Movement Line
+	 *	@param M_MovementLine_ID movement line
+	 *	@param trxName transaction
+	 *	@return number of rows deleted
+	 */
+	public static int deleteMovementLineMA (int M_MovementLine_ID, String trxName)
+	{
+		String sql = "DELETE FROM "+Table_Name+" WHERE "+COLUMNNAME_M_MovementLine_ID+"=?";
+		int no = DB.executeUpdateEx(sql, new Object[]{M_MovementLine_ID}, trxName);
+		if (no > 0)
+			s_log.config("Delete old #" + no);
+		return no;
+	}
 	
 	/**
 	 * 	Delete all Material Allocation for Movement
@@ -98,18 +81,6 @@ public class MMovementLineMA extends X_M_MovementLineMA
 			+ " AND M_Movement_ID=" + M_Movement_ID + ")";
 		return DB.executeUpdate(sql, trxName);
 	}	//	deleteInOutMA
-	
-	/**
-	 * 	Delete all Material Allocation for Movement Line
-	 *	@param M_MovementLine_ID movement line
-	 *	@param trxName transaction
-	 *	@return number of rows deleted or -1 for error
-	 */
-	public static int deleteMovementLineMA (int M_MovementLine_ID, String trxName)
-	{
-		String sql = "DELETE FROM M_MovementLineMA WHERE M_MovementLine_ID=" + M_MovementLine_ID;
-		return DB.executeUpdate(sql, trxName);
-	}	//	deleteMovementLineMA
 	
 	/**	Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (MMovementLineMA.class);
@@ -132,8 +103,8 @@ public class MMovementLineMA extends X_M_MovementLineMA
 	/**
 	 * 	Load Constructor
 	 *	@param ctx context
-	 *	@param rs result ser
-	 *	@param trxName trx
+	 *	@param rs result set
+	 *	@param trxName transaction
 	 */
 	public MMovementLineMA (Properties ctx, ResultSet rs, String trxName)
 	{

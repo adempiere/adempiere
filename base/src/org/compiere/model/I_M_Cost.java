@@ -118,6 +118,19 @@ public interface I_M_Cost
 	  * Total Amount
 	  */
 	public BigDecimal getCumulatedAmt();
+	
+	/** Column name CumulatedAmtLL */
+    public static final String COLUMNNAME_CumulatedAmtLL = "CumulatedAmtLL";
+
+	/** Set Accumulated Amt LL.
+	  * Total Amount
+	  */
+	public void setCumulatedAmtLL (BigDecimal CumulatedAmtLL);
+
+	/** Get Accumulated Amt LL.
+	  * Total Amount
+	  */
+	public BigDecimal getCumulatedAmtLL();
 
     /** Column name CumulatedQty */
     public static final String COLUMNNAME_CumulatedQty = "CumulatedQty";

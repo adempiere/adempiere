@@ -17,8 +17,10 @@
 package org.compiere.model;
 
 import java.sql.ResultSet;
+import java.util.List;
 import java.util.Properties;
 
+import org.compiere.util.CCache;
 import org.compiere.util.Msg;
 
 /**
@@ -32,7 +34,87 @@ public class MCostType extends X_M_CostType
 	 * 
 	 */
 	private static final long serialVersionUID = -2060640115481013228L;
+	
+	/**	Cache of AcctSchemas 					**/
+	private static CCache<Integer,MCostType> s_cache = new CCache<Integer,MCostType>("MCostType", 3);	//  3 accounting schemas
+	
+	/**
+	 * get Cost Type 
+	 * @param as
+	 * @param product
+	 * @param AD_Org_ID
+	 * @return return Cost Type 
+	 */
+	public static MCostType get(MAcctSchema as ,int M_Product_ID , int AD_Org_ID)
+	{
+		MProduct product = MProduct.get(as.getCtx(), M_Product_ID);
+		MCostType ct = MCostType.getByOrg(as.getCtx(), AD_Org_ID, as.get_TrxName());
+		
+		if(product != null)
+		{
+			MProductCategoryAcct pca = MProductCategoryAcct.get(as.getCtx(), product.getM_Product_Category_ID(), as.getC_AcctSchema_ID(), AD_Org_ID, as.get_TrxName());
+			
+			if(pca != null && pca.getCostingMethod() != null && pca.getCostingMethod().length() > 0)
+			{				
+				ct = MCostType.getByMethodCosting(as.getCtx(), pca.getCostingMethod(), as.get_TrxName(), as.getAD_Client_ID());
+			}
+			else if (ct == null)
+			{
+				ct = MCostType.getByMethodCosting(as.getCtx(), as.getCostingMethod(), as.get_TrxName(), as.getAD_Client_ID());				 
+			}
+		}		
+		if(ct == null)
+			throw new IllegalStateException("A Cost Type does not exist with this Costing method: " + as.getCostingMethod());
+		
+		return ct;
+	}
+	
+	public static MCostType get (Properties ctx, int M_CostType_ID)
+	{
+		return get(ctx, M_CostType_ID, null);
+	}	//	get
 
+	public static MCostType get (Properties ctx, int M_CostType_ID, String trxName)
+	{
+		//  Check Cache
+		Integer key = new Integer(M_CostType_ID);
+		MCostType retValue = (MCostType)s_cache.get(key);
+		if (retValue != null)
+			return retValue;
+		retValue = new MCostType (ctx, M_CostType_ID, trxName);
+		if (trxName == null)
+			s_cache.put(key, retValue);
+		return retValue;
+	}	//	get
+
+	public static List<MCostType> get (Properties ctx, String trxName)
+	{
+		// TODO: anca_bradau: do caching
+		return new Query(ctx, Table_Name, null, trxName)
+		.setOnlyActiveRecords(true)
+		.setClient_ID()
+		.setOrderBy(COLUMNNAME_M_CostType_ID)
+		.list();
+	}
+	
+	public static MCostType getByOrg(Properties ctx,int AD_Org_ID, String trxName)
+	{
+		return new Query(ctx, Table_Name, "AD_Org_ID=?", trxName)
+		.setOnlyActiveRecords(true)
+		.setClient_ID()
+		.setParameters(AD_Org_ID)
+		.setOrderBy(COLUMNNAME_M_CostType_ID)
+		.first();
+	}
+	
+	public static MCostType getByMethodCosting(Properties ctx,String costingMethod, String trxName, int AD_Client_ID)
+	{
+		return new Query(ctx, Table_Name, "CostingMethod=? and ad_client_id=?", trxName)
+		.setOnlyActiveRecords(true)
+		.setParameters(costingMethod, AD_Client_ID)
+		.setOrderBy(COLUMNNAME_CostingMethod)
+		.first();
+	}
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
@@ -73,8 +155,6 @@ public class MCostType extends X_M_CostType
 	 */
 	protected boolean beforeSave (boolean newRecord)
 	{
-		if (getAD_Org_ID() != 0)
-			setAD_Org_ID(0);
 		return true;
 	}	//	beforeSave
 
@@ -97,4 +177,93 @@ public class MCostType extends X_M_CostType
 		return true;
 	}	//	beforeDelete
 	
+	/**
+	 * 	Is Avg PO Costing Method
+	 *	@return true if AveragePO
+	 */
+	public boolean isAveragePO()
+	{
+		String cm = getCostingMethod();
+		return cm != null 
+			&& cm.equals(COSTINGMETHOD_AveragePO);
+	}	//	isAveragePO
+
+	
+	/**
+	 * 	Is FiFo Costing Method
+	 *	@return true if Fifo
+	 */
+	public boolean isFifo()
+	{
+		String cm = getCostingMethod();
+		return cm != null 
+			&& cm.equals(COSTINGMETHOD_Fifo);
+	}	//	isFifo
+	
+	/**
+	 * 	Is Last Invoice Costing Method
+	 *	@return true if LastInvoice
+	 */
+	public boolean isLastInvoice()
+	{
+		String cm = getCostingMethod();
+		return cm != null 
+			&& cm.equals(COSTINGMETHOD_LastInvoice);
+	}	//	isLastInvoice
+	
+	/**
+	 * 	Is Last PO Costing Method
+	 *	@return true if LastPOPrice
+	 */
+	public boolean isLastPOPrice()
+	{
+		String cm = getCostingMethod();
+		return cm != null 
+			&& cm.equals(COSTINGMETHOD_LastPOPrice);
+	}	//	isLastPOPrice
+	
+
+	/**
+	 * 	Is LiFo Costing Method
+	 *	@return true if Lifo
+	 */
+	public boolean isLifo()
+	{
+		String cm = getCostingMethod();
+		return cm != null 
+			&& cm.equals(COSTINGMETHOD_Lifo);
+	}	//	isLiFo
+	/**
+	 * 	Is Std Costing Method
+	 *	@return true if StandardCosting
+	 */
+	public boolean isStandardCosting()
+	{
+		String cm = getCostingMethod();
+		return cm != null 
+			&& cm.equals(COSTINGMETHOD_StandardCosting);
+	}	//	isStandardCosting
+	
+	/**
+	 * 	Is Avg Invoice Costing Method
+	 *	@return true if AverageInvoice
+	 */
+	public boolean isAverageInvoice()
+	{
+		String cm = getCostingMethod();
+		return cm != null 
+			&& cm.equals(COSTINGMETHOD_AverageInvoice);
+	}	//	isAverageInvoice
+	
+
+	/**
+	 * 	Is User Costing Method
+	 *	@return true if User Defined
+	 */
+	public boolean isUserDefined()
+	{
+		String cm = getCostingMethod();
+		return cm != null 
+			&& cm.equals(COSTINGMETHOD_UserDefined);
+	}	//	isAveragePO
 }	//	MCostType

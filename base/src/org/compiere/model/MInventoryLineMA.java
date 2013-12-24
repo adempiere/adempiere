@@ -19,7 +19,7 @@ package org.compiere.model;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -50,61 +50,42 @@ public class MInventoryLineMA extends X_M_InventoryLineMA
 	 */
 	public static MInventoryLineMA[] get (Properties ctx, int M_InventoryLine_ID, String trxName)
 	{
-		ArrayList<MInventoryLineMA> list = new ArrayList<MInventoryLineMA>();
-		String sql = "SELECT * FROM M_InventoryLineMA WHERE M_InventoryLine_ID=?";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			pstmt.setInt (1, M_InventoryLine_ID);
-			rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MInventoryLineMA (ctx, rs, trxName));
-		}
-		catch (Exception e)
-		{
-			s_log.log (Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		
-		MInventoryLineMA[] retValue = new MInventoryLineMA[list.size ()];
-		list.toArray (retValue);
-		return retValue;
+		String whereClause = COLUMNNAME_M_InventoryLine_ID+"=?";
+		List<MInventoryLineMA> list = new Query(ctx, Table_Name, whereClause, trxName)
+										.setParameters(new Object[]{M_InventoryLine_ID})
+										.list();
+		return list.toArray(new MInventoryLineMA[list.size()]);
 	}	//	get
 	
 	/**
 	 * 	Delete all Material Allocation for Inventory
 	 *	@param M_Inventory_ID inventory
 	 *	@param trxName transaction
-	 *	@return number of rows deleted or -1 for error
+	 *	@return number of rows deleted
 	 */
 	public static int deleteInventoryMA (int M_Inventory_ID, String trxName)
 	{
 		String sql = "DELETE FROM M_InventoryLineMA ma WHERE EXISTS "
-			+ "(SELECT * FROM M_InventoryLine l WHERE l.M_InventoryLine_ID=ma.M_InventoryLine_ID"
-			+ " AND M_Inventory_ID=" + M_Inventory_ID + ")";
-		return DB.executeUpdate(sql, trxName);
+			+ "(SELECT 1 FROM M_InventoryLine l WHERE l.M_InventoryLine_ID=ma.M_InventoryLine_ID"
+			+ " AND M_Inventory_ID=?)";
+		return DB.executeUpdateEx(sql, new Object[]{M_Inventory_ID}, trxName);
 	}	//	deleteInventoryMA
 
 	/**
-	 * 	Delete all Material Allocation for Inventory
+	 * 	Delete all Material Allocation for Inventory Line
 	 *	@param M_InventoryLine_ID inventory
 	 *	@param trxName transaction
 	 *	@return number of rows deleted or -1 for error
 	 */
 	public static int deleteInventoryLineMA (int M_InventoryLine_ID, String trxName)
 	{
-		String sql = "DELETE FROM M_InventoryLineMA ma WHERE EXISTS "
-			+ "(SELECT * FROM M_InventoryLine l WHERE l.M_InventoryLine_ID=ma.M_InventoryLine_ID"
-			+ " AND M_InventoryLine_ID=" + M_InventoryLine_ID + ")";
-		return DB.executeUpdate(sql, trxName);
-	}	//	deleteInventoryMA
-	
+		String sql = "DELETE FROM "+Table_Name+" WHERE "+COLUMNNAME_M_InventoryLine_ID+"=?";
+		int no = DB.executeUpdateEx(sql, new Object[]{M_InventoryLine_ID}, trxName);
+		if (no > 0)
+			s_log.config("Delete old #" + no);
+		return no;
+	}
+
 	/**	Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (MInventoryLineMA.class);
 

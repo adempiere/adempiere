@@ -62,6 +62,19 @@ public interface I_M_CostType
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name CostingMethod */
+    public static final String COLUMNNAME_CostingMethod = "CostingMethod";
+
+	/** Set Costing Method.
+	  * Indicates how Costs will be calculated
+	  */
+	public void setCostingMethod (String CostingMethod);
+
+	/** Get Costing Method.
+	  * Indicates how Costs will be calculated
+	  */
+	public String getCostingMethod();
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 

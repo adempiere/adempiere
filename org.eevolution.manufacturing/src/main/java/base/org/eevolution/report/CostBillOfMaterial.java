@@ -207,10 +207,7 @@ public class CostBillOfMaterial extends SvrProcess
 			//
 			tboml.setSeqNo(m_SeqNo);
 			tboml.setLevelNo(m_LevelNo);
-			if ( m_LevelNo < 10)
-				tboml.setLevels(LEVELS.substring(0, m_LevelNo) + m_LevelNo);
-			else
-				tboml.setLevels(LEVELS + "-");
+			tboml.setLevels(LEVELS.substring(0, m_LevelNo) + m_LevelNo);
 			//
 			// Set Costs:
 			final CostEngine engine = CostEngineFactory.getCostEngine(getAD_Client_ID());
@@ -260,7 +257,7 @@ public class CostBillOfMaterial extends SvrProcess
 	{
 		if (m_costElements == null)
 		{
-			m_costElements = MCostElement.getByCostingMethod(getCtx(), p_ConstingMethod);
+			m_costElements = MCostElement.getCostElement(getCtx(), get_TrxName());
 		}
 		return m_costElements;
 	}

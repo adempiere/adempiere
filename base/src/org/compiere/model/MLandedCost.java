@@ -19,6 +19,7 @@ package org.compiere.model;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -38,6 +39,19 @@ public class MLandedCost extends X_C_LandedCost
 	 */
 	private static final long serialVersionUID = -5645509613930428050L;
 
+
+	/**
+	 * get Landed Costs from Material Receipt 
+	 * @param MInOut Material Receipt
+	 * @return List with MLandedCost
+	 */
+	public static List<MLandedCost> getLandedCosts(MInOut io)
+	{
+	    final String whereClause = I_C_LandedCost.COLUMNNAME_M_InOut_ID + "=?";
+	    return new Query(io.getCtx(), I_C_LandedCost.Table_Name, whereClause , io.get_TrxName())
+	    .setClient_ID().setParameters(io.getM_InOut_ID())
+	    .list();	    
+	}
 
 	/**
 	 *	Get Costs of Invoice Line

@@ -161,7 +161,7 @@ public class CalloutOrder extends CalloutEngine
 							{
 								String dateColumn = rs.getString(10);
 								mTab.setValue("DocumentNo", 
-										"<" 
+										"<"
 										+ MSequence.getPreliminaryNoByYear(mTab, rs.getInt(7), dateColumn, null) 
 										+ ">");
 							}
@@ -242,6 +242,7 @@ public class CalloutOrder extends CalloutEngine
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
 		}
+
 		return "";
 	}	//	docType
 
@@ -699,7 +700,7 @@ public class CalloutOrder extends CalloutEngine
 	{
 		Integer M_Product_ID = (Integer)value;
 		Integer M_AttributeSetInstance_ID = 0;
-		//
+
 		if (M_Product_ID == null || M_Product_ID.intValue() == 0)
 		{
 			//  If the product information is deleted, zero the other items as well
@@ -713,22 +714,10 @@ public class CalloutOrder extends CalloutEngine
 			mTab.setValue("C_UOM_ID", null);
 			return "";
 		}
+
 		if (steps) log.warning("init");
 
 		MProduct product = MProduct.get (ctx, M_Product_ID.intValue());
-		I_M_AttributeSetInstance asi = product.getM_AttributeSetInstance();
-		//
-		mTab.setValue("C_Charge_ID", null);
-		//	Set Attribute from context or, if null, from the Product
-		//	Get Model and check the Attribute Set Instance from the context
-		MProduct m_product = MProduct.get(Env.getCtx(), M_Product_ID);
-		mTab.setValue("M_AttributeSetInstance_ID", m_product.getEnvAttributeSetInstance(ctx, WindowNo));
-		if (Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_Product_ID") == M_Product_ID.intValue()
-			&& Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_AttributeSetInstance_ID") != 0)
-			mTab.setValue("M_AttributeSetInstance_ID", Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_AttributeSetInstance_ID"));
-		else {
-			mTab.setValue("M_AttributeSetInstance_ID", asi.getM_AttributeSetInstance_ID());
-		}
 		/*****	Price Calculation see also qty	****/
 		int C_BPartner_ID = Env.getContextAsInt(ctx, WindowNo, "C_BPartner_ID");
 		BigDecimal Qty = (BigDecimal)mTab.getValue("QtyOrdered");
@@ -979,7 +968,9 @@ public class CalloutOrder extends CalloutEngine
 		int C_UOM_To_ID = Env.getContextAsInt(ctx, WindowNo, "C_UOM_ID");
 		int M_Product_ID = Env.getContextAsInt(ctx, WindowNo, "M_Product_ID");
 		int M_PriceList_ID = Env.getContextAsInt(ctx, WindowNo, "M_PriceList_ID");
-		int StdPrecision = MPriceList.getStandardPrecision(ctx, M_PriceList_ID);
+		// SHW: eine andere Price Precision
+		int StdPrecision = MPriceList.getPricePrecision(ctx, M_PriceList_ID);
+		//int StdPrecision = MPriceList.getStandardPrecision(ctx, M_PriceList_ID);
 		BigDecimal QtyEntered, QtyOrdered, PriceEntered, PriceActual, PriceLimit, Discount, PriceList;
 		//	get values
 		QtyEntered = (BigDecimal)mTab.getValue("QtyEntered");
@@ -1291,6 +1282,23 @@ public class CalloutOrder extends CalloutEngine
 		//
 		return "";
 	}	//	qty
+
+	public String asi (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value)
+	{
+		Integer asi_ID = (Integer)value;
+		if (asi_ID == null || asi_ID.intValue() == 0)			
+			return "";
+		String sql = "select count(*) from m_attributeinstance ai where m_attributesetinstance_ID = ? and m_attributevalue_ID = 1000004 ";
+		int no = DB.getSQLValue(null, sql,asi_ID);
+		if (no < 1)
+		{
+			mTab.setValue("M_AttributeSetInstance_ID", null);
+			return "Lote seleccionado no está aprobado";
+		}
+		return "";
+	}
+	
+	
 	
 }	//	CalloutOrder
 

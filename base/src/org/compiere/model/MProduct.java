@@ -844,7 +844,6 @@ public class MProduct extends X_M_Product
 	 * @return true if ASI is mandatory, false otherwise
 	 * @deprecated
 	 */
-	/*
 	public boolean isASIMandatory(boolean isSOTrx) {
 		//
 		//	If CostingLevel is BatchLot ASI is always mandatory - check all client acct schemas
@@ -874,7 +873,68 @@ public class MProduct extends X_M_Product
 		//
 		// Default not mandatory
 		return false;
-	}*/
+	}
+	
+	
+	
+	/**
+	 * Get Product Costing Level
+	 * @param as accounting schema
+	 * @return product costing level
+	 */
+	public String getCostingLevel(MAcctSchema as)
+	{
+		MProductCategoryAcct pca = MProductCategoryAcct.get(getCtx(), getM_Product_Category_ID(), as.get_ID(), get_TrxName());
+		String costingLevel = pca.getCostingLevel();
+		if (costingLevel == null)
+		{
+			costingLevel = as.getCostingLevel();
+		}
+		return costingLevel;
+	}
+	
+	/**
+	 * Get Product Costing Method
+	 * @param C_AcctSchema_ID accounting schema ID
+	 * @return product costing method
+	 */
+	public String getCostingMethod(MAcctSchema as)
+	{
+		MProductCategoryAcct pca = MProductCategoryAcct.get(getCtx(), getM_Product_Category_ID(), as.get_ID(), get_TrxName());
+		String costingMethod = pca.getCostingMethod();
+		if (costingMethod == null)
+		{
+			costingMethod = as.getCostingMethod();
+		}
+		return costingMethod;
+	}
+	
+	public String getCostingLevel(MAcctSchema as,int AD_Org_ID)
+	{	
+		MProductCategoryAcct pca = MProductCategoryAcct.get(getCtx(), getM_Product_Category_ID(), as.get_ID(), AD_Org_ID , get_TrxName());
+		if(pca == null)
+		{
+			return  getCostingLevel(as);
+		}
+		
+		String costingLevel = pca.getCostingLevel();
+		if (costingLevel == null)
+		{
+			costingLevel = as.getCostingLevel();
+		}
+		return costingLevel;
+	}
+	
+	public String getCostingMethod(MAcctSchema as , int AD_Org_ID)
+	{
+		MProductCategoryAcct pca = MProductCategoryAcct.get(getCtx(), getM_Product_Category_ID(), as.get_ID() , AD_Org_ID, get_TrxName());
+		String costingMethod = pca.getCostingMethod();
+		if (costingMethod == null)
+		{
+			costingMethod = as.getCostingMethod();
+		}
+		return costingMethod;
+	}
 	
 	/**
 	 * Check if ASI is mandatory
@@ -913,37 +973,26 @@ public class MProduct extends X_M_Product
 		return false;
 	}
 	
-	/**
-	 * Get Product Costing Level
-	 * @param as accounting schema
-	 * @return product costing level
-	 */
-	public String getCostingLevel(MAcctSchema as)
+	public static MProduct get (Properties ctx, String Value)
 	{
-		MProductCategoryAcct pca = MProductCategoryAcct.get(getCtx(), getM_Product_Category_ID(), as.get_ID(), get_TrxName());
-		String costingLevel = pca.getCostingLevel();
-		if (costingLevel == null)
-		{
-			costingLevel = as.getCostingLevel();
-		}
-		return costingLevel;
-	}
-	
-	/**
-	 * Get Product Costing Method
-	 * @param C_AcctSchema_ID accounting schema ID
-	 * @return product costing method
-	 */
-	public String getCostingMethod(MAcctSchema as)
+		if (Value == null || Value.length() == 0)
+			return null;
+		String whereClause = "Value=? AND AD_Client_ID=?";
+		MProduct retValue = new Query(ctx,MProduct.Table_Name,whereClause.toString(),null)
+		.setParameters(new Object[]{Value,Env.getAD_Client_ID(ctx)})
+		.firstOnly();
+		return retValue;
+	}	//	get
+	public static MProduct getByValue (Properties ctx, String Value)
 	{
-		MProductCategoryAcct pca = MProductCategoryAcct.get(getCtx(), getM_Product_Category_ID(), as.get_ID(), get_TrxName());
-		String costingMethod = pca.getCostingMethod();
-		if (costingMethod == null)
-		{
-			costingMethod = as.getCostingMethod();
-		}
-		return costingMethod;
-	}
+		if (Value == null || Value.length() == 0)
+			return null;
+		String whereClause = "Value=? AND AD_Client_ID=?";
+		MProduct retValue = new Query(ctx,MProduct.Table_Name,whereClause.toString(),null)
+		.setParameters(new Object[]{Value,Env.getAD_Client_ID(ctx)})
+		.firstOnly();
+		return retValue;
+	}	//	get (Value)
 	
 	/**
 	 * Get the Attribute Set Instance.  This is called by callouts to fill the M_AttributeSetInstance_ID
