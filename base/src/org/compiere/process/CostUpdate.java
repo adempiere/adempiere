@@ -100,6 +100,7 @@ public class CostUpdate extends SvrProcess
 	 *	@return info
 	 *	@throws Exception
 	 */
+	@SuppressWarnings("deprecation")
 	protected String doIt() throws Exception
 	{
 		log.info("M_Product_Category_ID=" + p_M_Product_Category_ID
@@ -354,6 +355,7 @@ public class CostUpdate extends SvrProcess
 	 *	@return costs (could be 0) or null if not found
 	 *	@throws Exception
 	 */
+	@SuppressWarnings("deprecation")
 	private BigDecimal getCosts (MCost cost, String to) throws Exception
 	{
 		BigDecimal retValue = null;

@@ -42,6 +42,7 @@ import org.compiere.model.MMatchInv;
 import org.compiere.model.MMatchPO;
 import org.compiere.model.MMovementLine;
 import org.compiere.model.MProduct;
+import org.compiere.model.MProductPO;
 import org.compiere.model.MProductionLine;
 import org.compiere.model.MTransaction;
 import org.compiere.model.PO;
@@ -67,6 +68,27 @@ import org.eevolution.model.RoutingServiceFactory;
 public class CostEngine {
 	/** Logger */
 	protected transient CLogger log = CLogger.getCLogger(getClass());
+	
+	public static BigDecimal getSeedCost(Properties ctx , int  M_Product_ID ,  String trxName)
+	{
+		BigDecimal costThisLevel = Env.ZERO;
+		for (MProductPO productPO : MProductPO.getOfProduct(ctx,M_Product_ID, trxName))
+		 {
+			 if (productPO.isCurrentVendor())
+			 { 
+				 if (productPO.getPriceLastInv().signum() != 0)
+					 costThisLevel = productPO.getPriceLastInv();
+				 else if (productPO.getPriceLastPO().signum() != 0) 
+					 costThisLevel = productPO.getPriceLastPO();
+				 else if  (productPO.getPricePO().signum() != 0) 
+					 costThisLevel = productPO.getPricePO();
+				 else 
+					 costThisLevel = productPO.getPriceList();
+				 return costThisLevel;
+			 } 
+		 }
+		return costThisLevel;
+	}
 
 	/**
 	 * Get Actual Cost of Parent Product Based on Cost Type
@@ -141,7 +163,7 @@ public class CostEngine {
 				.append(" IN (SELECT M_ProductionLine_ID FROM M_ProductionLine pl WHERE pl.M_ProductionPlan_ID=? AND ");
 		whereClause.append(" pl.M_Product_ID <> ? )");
 
-		BigDecimal actualCost = new Query(line.getCtx(),
+		BigDecimal actualCostTotal = new Query(line.getCtx(),
 				I_M_CostDetail.Table_Name, whereClause.toString(),
 				line.get_TrxName())
 				.setClient_ID()
@@ -150,9 +172,10 @@ public class CostEngine {
 				.sum("(" + MCostDetail.COLUMNNAME_Amt + "+"
 						+ MCostDetail.COLUMNNAME_CostAmtLL + ")");
 
-		if (actualCost == null)
-			actualCost = Env.ZERO;
+		if (actualCostTotal == null)
+			actualCostTotal = Env.ZERO;
 
+		BigDecimal actualCost = Env.ZERO;
 		if (line.getMovementQty().signum() > 0 && actualCost.signum() != 0 )
 			actualCost = actualCost.divide(line.getMovementQty(),
 					as.getCostingPrecision(), BigDecimal.ROUND_HALF_DOWN);
@@ -188,11 +211,27 @@ public class CostEngine {
 
 	public BigDecimal getProductActualCostPrice(MPPCostCollector cc, MProduct product, MAcctSchema as, MCostElement element, String trxName) 
 	{
+		String CostingLevel = product.getCostingLevel(as);
+		// Org Element
+		int Org_ID = cc.getAD_Org_ID();
+		int Warehouse_ID = cc.getM_Warehouse_ID();
+		
+		int M_ASI_ID = cc.getM_AttributeSetInstance_ID();
+		if (MAcctSchema.COSTINGLEVEL_Client.equals(CostingLevel)) {
+			Org_ID = 0;
+			M_ASI_ID = 0;
+		} else if (MAcctSchema.COSTINGLEVEL_Organization.equals(CostingLevel))
+			M_ASI_ID = 0;
+		else if (MAcctSchema.COSTINGLEVEL_Warehouse.equals(CostingLevel))
+			M_ASI_ID = 0;
+		else if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(CostingLevel))
+			Org_ID = 0;
+
 		CostDimension d = new CostDimension(product,
 					as, as.getM_CostType_ID(),
-					0, //AD_Org_ID,
-					0, //Warehouse_ID
-					0, //M_ASI_ID,
+					Org_ID, //AD_Org_ID,
+					Warehouse_ID, //Warehouse_ID
+					M_ASI_ID, //M_ASI_ID,
 					element.getM_CostElement_ID());
 			MCost cost = d.toQuery(MCost.class, trxName).firstOnly();
 			
@@ -525,6 +564,20 @@ public class CostEngine {
 			}
 			if (model instanceof MProductionLine) {
 				MProductionLine productionLine = (MProductionLine) model;
+				costThisLevel = CostEngine.getParentActualCostByCostType(
+						productionLine, as, ct.getM_CostType_ID(),
+						ce.getM_CostElement_ID());
+				
+				if(costThisLevel.signum() == 0)
+					costThisLevel = cost.getCurrentCostPrice();
+					if(costThisLevel.signum() == 0 
+					&& MCostElement.COSTELEMENTTYPE_Material.equals(ce
+							.getCostElementType()))
+						costThisLevel = getSeedCost(
+								mtrx.getCtx(), 
+								mtrx.getM_Product_ID(), 
+								mtrx.get_TableName());
+
 				// Material Receipt for Production light
 				if (productionLine.isParent()) {
 					// get Actual Cost for Cost Type and Cost Element

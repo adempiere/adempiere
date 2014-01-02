@@ -53,7 +53,7 @@ public class ValuationEffectiveDate extends SvrProcess
 	
 	
 	private StringBuffer whereClause1 = new StringBuffer("WHERE tc.IsReversal='N' ");
-	private StringBuffer whereClause2 = new StringBuffer(" AND  tc.SeqNo = (SELECT MAX(SeqNo) FROM RV_M_Transaction_Costing tc1")
+	private StringBuffer whereClause2 = new StringBuffer(" AND  tc.SerNo = (SELECT MAX(SerNo) FROM RV_M_Transaction_Costing tc1")
 	.append(" WHERE tc.M_Product_ID=tc1.M_Product_ID AND tc.M_Warehouse_ID = tc1.M_Warehouse_ID ");
 	private ArrayList<Object> params = new ArrayList<Object>(); 
 	
@@ -137,11 +137,11 @@ public class ValuationEffectiveDate extends SvrProcess
     	params  = new ArrayList<Object>();
     	
     	whereClause1 = new StringBuffer("WHERE tc.IsReversal='N' ");
-    	whereClause2 = new StringBuffer(" AND  tc.SeqNo = (SELECT MAX(SeqNo) FROM RV_M_Transaction_Costing tc1")
+    	whereClause2 = new StringBuffer(" AND  tc.SerNo = (SELECT MAX(SerNo) FROM RV_M_Transaction_Costing tc1")
     	.append(" WHERE tc.M_Product_ID=tc1.M_Product_ID AND tc.M_Warehouse_ID = tc1.M_Warehouse_ID ");
     	
-			whereClause1.append("AND tc.DateAcct<= ").append(DB.TO_DATE(p_DateValue));
-			whereClause2.append("AND tc1.DateAcct<= ").append(DB.TO_DATE(p_DateValue));
+			//whereClause1.append("AND tc.DateAcct<= ").append(DB.TO_DATE(p_DateValue));
+			//whereClause2.append("AND tc1.DateAcct<= ").append(DB.TO_DATE(p_DateValue));
 			
     	if(p_M_Product_ID > 0)
     	{
@@ -154,19 +154,19 @@ public class ValuationEffectiveDate extends SvrProcess
     		whereClause1.append(" AND p.M_Product_Category_ID =? ");
     		params.add(p_M_Product_Category_ID);
     	}
-    	if(M_CostType_ID > 0)
+    	/*if(M_CostType_ID > 0)
     	{ 					
 			whereClause1.append(" AND tc.M_CostType_ID =?  ");
 			params.add(M_CostType_ID);
     		whereClause2.append(" AND tc1.M_CostType_ID=tc.M_CostType_ID ");
     		
-    	}
-    	if(M_CostElement_ID > 0)
+    	}*/
+    	/*if(M_CostElement_ID > 0)
     	{
     		whereClause1.append(" AND tc.M_CostElement_ID=? ");
     		params.add(M_CostElement_ID);
     		whereClause2.append(" AND tc1.M_CostElement_ID = tc.M_CostElement_ID");
-    	}
+    	}*/
     	
     	if(M_Warehouse_ID > 0)
     	{
@@ -196,7 +196,7 @@ public class ValuationEffectiveDate extends SvrProcess
     	.append("(tc.AmtLL + tc.CumulatedAmtLL) AS CostAmtLL")
     	.append(" FROM M_Product p ")
     	.append(" INNER JOIN RV_M_Transaction_Costing tc ON (p.M_Product_ID=tc.M_Product_ID) ");
-    	insert.append(whereClause1).append(whereClause2);
+    	insert.append(whereClause1)/*.append(whereClause2)*/;
     	
     	DB.executeUpdateEx(insert.toString(), params.toArray(),get_TrxName());
     	

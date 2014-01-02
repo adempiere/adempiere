@@ -1558,6 +1558,8 @@ public class MCost extends X_M_Cost
 		MAcctSchema as, int AD_Org_ID,  int M_Warehouse_ID, int M_CostType_ID , int M_CostElement_ID, String trxName)
 	{
 		String whereClause = I_M_Cost.COLUMNNAME_AD_Org_ID + "=? AND "
+		 + " ( " + I_M_Cost.COLUMNNAME_M_Warehouse_ID + "=? OR " 
+		 + I_M_Cost.COLUMNNAME_M_Warehouse_ID + " IS NULL ) AND "
 		 + I_M_Cost.COLUMNNAME_C_AcctSchema_ID + "=? AND "
 		 + I_M_Cost.COLUMNNAME_M_Product_ID + "=? AND "
 		 + I_M_Cost.COLUMNNAME_M_AttributeSetInstance_ID + "=? AND "
@@ -1715,6 +1717,7 @@ public class MCost extends X_M_Cost
 	{
 		this (product.getCtx(), 0, product.get_TrxName());
 		setClientOrg(product.getAD_Client_ID(), AD_Org_ID);
+		setM_Warehouse_ID(M_Warehouse_ID);
 		setC_AcctSchema_ID(C_AcctSchema_ID);
 		setM_CostType_ID(M_CostType_ID);
 		setM_Product_ID(product.getM_Product_ID());

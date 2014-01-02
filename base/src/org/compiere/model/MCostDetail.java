@@ -206,6 +206,11 @@ public class MCostDetail extends X_M_CostDetail
 			whereClause.append(MCostDetail.COLUMNNAME_AD_Org_ID+ "=? AND ");
 			params.add(mtrx.getAD_Org_ID());
 		}
+		if(MAcctSchema.COSTINGLEVEL_Warehouse.equals(costingLevel))
+		{	
+			whereClause.append(MCostDetail.COLUMNNAME_M_Warehouse_ID+ "=? AND ");
+			params.add(mtrx.getM_Warehouse_ID());
+		}
 		
 		whereClause.append(MCostDetail.COLUMNNAME_C_AcctSchema_ID + "=? AND ");
 		params.add(C_AcctSchema_ID);

@@ -184,6 +184,7 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 			
 			if (trxs.get(0).equals(original_trx)) {
 				m_costdetail.setAD_Org_ID(original_cd.getAD_Org_ID());
+				m_costdetail.setM_Warehouse_ID(original_cd.getM_Warehouse_ID());
 				MCostDetail.copyValues(original_cd, m_costdetail);
 				m_costdetail.setCumulatedAmt(getNewCumulatedAmt(original_cd));
 				m_costdetail.setCumulatedQty(getNewCumulatedQty(original_cd));
@@ -208,6 +209,10 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 				m_costdetail.setAmtLL(Env.ZERO);
 				m_costdetail.setCostAmtLL(Env.ZERO);
 				m_costdetail.setCostAdjustmentLL(Env.ZERO);
+				m_costdetail.setCumulatedAmt(Env.ZERO);
+				m_costdetail.setCumulatedAmtLL(Env.ZERO);
+				m_costdetail.setCumulatedQty(Env.ZERO);
+
 			}
 
 			BigDecimal qty = m_costdetail.getQty();
