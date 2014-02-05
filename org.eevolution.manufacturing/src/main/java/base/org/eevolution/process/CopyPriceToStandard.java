@@ -106,7 +106,7 @@ public class CopyPriceToStandard extends SvrProcess
 								getAD_Client_ID(), p_AD_Org_ID);                     	
 			}
 			MProduct product = MProduct.get(getCtx(), pprice.getM_Product_ID());
-			CostDimension d = new CostDimension(product, as, p_M_CostType_ID, p_AD_Org_ID, 0, 0, p_M_CostElement_ID);
+			CostDimension d = new CostDimension(product, as, p_M_CostType_ID, p_AD_Org_ID, 0, p_M_CostElement_ID);
 			Collection<MCost> costs = d.toQuery(MCost.class, get_TrxName()).list(); 
 			for (MCost cost : costs)
 			{

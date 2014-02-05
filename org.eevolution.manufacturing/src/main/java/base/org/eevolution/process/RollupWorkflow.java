@@ -221,13 +221,13 @@ public class RollupWorkflow extends SvrProcess
 		workflow.setMovingTime(MovingTime);
 		workflow.setWorkingTime(WorkingTime);
 
-		for (MCostElement element : MCostElement.getCostElement(getCtx(), get_TrxName()))
+		for (MCostElement element : MCostElement.getByCostingMethod(getCtx(), p_ConstingMethod))
 		{
 			if (!CostEngine.isActivityControlElement(element))
 			{
 				continue;
 			}
-			final CostDimension d = new CostDimension(product, m_as, p_M_CostType_ID, p_AD_Org_ID, 0, 0, element.get_ID());
+			final CostDimension d = new CostDimension(product, m_as, p_M_CostType_ID, p_AD_Org_ID, 0, element.get_ID());
 			final List<MCost> costs = d.toQuery(MCost.class, get_TrxName()).list();
 			for (MCost cost : costs)
 			{
