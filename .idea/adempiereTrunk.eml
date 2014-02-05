@@ -374,4 +374,7 @@
 	<lib name="liberoCashflow.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/../packages/liberoCashflow.jar!/"/>
 	</lib>
+	<lib name="liberoWM.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/../packages/liberoWM.jar!/"/>
+	</lib>
 </component>

@@ -158,6 +158,7 @@
           <content-type name="SQL" enabled="true" />
           <content-type name="PL/SQL" enabled="true" />
           <content-type name="Groovy" enabled="true" />
+          <content-type name="Manifest" enabled="true" />
         </content-types>
       </qualified-text-editor>
       <record-navigation>
@@ -339,6 +340,11 @@
         <create-ddl-files value="false" />
       </general>
     </ddl-file-settings>
+  </component>
+  <component name="EclipseCodeFormatter">
+    <option name="defaultSettings" value="true" />
+    <option name="id" value="1386171739650" />
+    <option name="name" value="default" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" />
 </project>

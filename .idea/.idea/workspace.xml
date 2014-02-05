@@ -4,7 +4,28 @@
     <option name="ANALYSIS_IN_BACKGROUND" value="true" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="296c6a76-1ab7-4248-95b5-317663a52ae2" name="Default" comment="" />
+    <list default="true" id="296c6a76-1ab7-4248-95b5-317663a52ae2" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../migration/380lts-release/oracle/XXX_Version.sql" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../migration/380lts-release/postgresql/XXX_Version.sql" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../migration/360lts-release/postgresql/GLreconciliation_postgresql.sql" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../migration/360lts-release/oracle/GLReconciliation_oracle.sql" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../serverRoot/src/main/server/org/compiere/server/AcctProcessor.java" afterPath="$PROJECT_DIR$/../serverRoot/src/main/server/org/compiere/server/AcctProcessor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../base/src/org/compiere/Adempiere.java" afterPath="$PROJECT_DIR$/../base/src/org/compiere/Adempiere.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../launch/Adempiere.xml" afterPath="$PROJECT_DIR$/../launch/Adempiere.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../base/src/org/adempiere/process/ClientAcctProcessor.java" afterPath="$PROJECT_DIR$/../base/src/org/adempiere/process/ClientAcctProcessor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../org.eevolution.manufacturing/src/main/java/base/org/eevolution/process/CopyPriceToStandard.java" afterPath="$PROJECT_DIR$/../org.eevolution.manufacturing/src/main/java/base/org/eevolution/process/CopyPriceToStandard.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../serverRoot/src/web/adempiere.html" afterPath="$PROJECT_DIR$/../serverRoot/src/web/adempiere.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../serverRoot/src/web/adempiere.jnlp" afterPath="$PROJECT_DIR$/../serverRoot/src/web/adempiere.jnlp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../utils/adempiereDirectTemplate.jnlp" afterPath="$PROJECT_DIR$/../utils/adempiereDirectTemplate.jnlp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/adempiereTrunk.eml" afterPath="$PROJECT_DIR$/adempiereTrunk.eml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/adempiereTrunk.iml" afterPath="$PROJECT_DIR$/adempiereTrunk.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/misc.xml" afterPath="$PROJECT_DIR$/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workspace.xml" afterPath="$PROJECT_DIR$/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <ignored path="adempiereDevelop.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -70,17 +91,113 @@
     <favorites_list name="adempiereDevelop" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file leaf-file-name="Adempiere.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../base/src/org/compiere/Adempiere.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="62" column="62" selection-start="2787" selection-end="2787" vertical-scroll-proportion="0.0" vertical-offset="855" max-vertical-offset="8685">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Adempiere.xml" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../launch/Adempiere.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="43" column="2" selection-start="1433" selection-end="1433" vertical-scroll-proportion="0.8632219" vertical-offset="77" max-vertical-offset="735">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="adempiere.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../serverRoot/src/web/adempiere.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="155" column="273" selection-start="4883" selection-end="4883" vertical-scroll-proportion="-96.875" vertical-offset="0" max-vertical-offset="4035">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="adempiere.jnlp" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../serverRoot/src/web/adempiere.jnlp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="7" column="49" selection-start="307" selection-end="307" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="555">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="adempiereDirectTemplate.jnlp" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../utils/adempiereDirectTemplate.jnlp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="22" column="104" selection-start="1172" selection-end="1172" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="525">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="build.properties" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../utils_dev/build.properties">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="240">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="XXX_Version.sql" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../migration/380lts-release/postgresql/XXX_Version.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="4" column="50" selection-start="212" selection-end="212" vertical-scroll-proportion="-2.0689654" vertical-offset="0" max-vertical-offset="180">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="807_CheckSequence370.sql" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../migration/360lts-370lts/oracle/807_CheckSequence370.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="34.551723" vertical-offset="1002" max-vertical-offset="1965">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="XXX_Version.sql" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../migration/380lts-release/oracle/XXX_Version.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="7" column="56" selection-start="257" selection-end="257" vertical-scroll-proportion="-3.6206896" vertical-offset="0" max-vertical-offset="195">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
       <setting name="OPEN_NEW_TAB" value="false" />
     </FindUsagesManager>
   </component>
+  <component name="HgRememberedInputs">
+    <option name="repositoryUrls">
+      <list>
+        <option value="ssh://vpj-cd@hg.code.sf.net/p/adempiere/code" />
+      </list>
+    </option>
+  </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/../base/src/org/compiere/util/CCachedRowSet.java" />
+        <option value="$PROJECT_DIR$/../base/src/org/compiere/Adempiere.java" />
+        <option value="$PROJECT_DIR$/../launch/Adempiere.xml" />
+        <option value="$PROJECT_DIR$/../serverRoot/src/web/adempiere.html" />
+        <option value="$PROJECT_DIR$/../utils/adempiereDirectTemplate.jnlp" />
+        <option value="$PROJECT_DIR$/../serverRoot/src/web/adempiere.jnlp" />
+        <option value="$PROJECT_DIR$/../migration/380lts-release/oracle/XXX_Version.sql" />
+        <option value="$PROJECT_DIR$/../migration/380lts-release/postgresql/XXX_Version.sql" />
       </list>
     </option>
   </component>
@@ -89,7 +206,7 @@
     <option name="width" value="1920" />
     <option name="height" value="1174" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
     <OptionsSetting value="true" id="Checkout" />
@@ -103,7 +220,7 @@
     <option name="STATE" value="0" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="PackagesPane" proportions="" version="1" splitterProportion="0.5">
+    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -115,40 +232,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereDevelop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereDevelop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereDevelop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="PackagesPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereDevelop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereTrunk" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="Scope">
         <subPane subId="Project Files">
           <PATH>
@@ -177,6 +260,242 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereTrunk" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereTrunk" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="org" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereTrunk" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="org" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="compiere" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="utils_dev" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="migration" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="migration" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="380lts-release" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="migration" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="380lts-release" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="postgresql" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="migration" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="380lts-release" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="oracle" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="migration" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="360lts-370lts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="migration" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="360lts-370lts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="oracle" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="migration" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="354a-360lts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="postgresql" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="migration" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="354a-360lts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -185,7 +504,7 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="MemberChooser.sorted" value="false" />
-    <property name="options.lastSelected" value="org.jetbrains.plugins.scala.settings.ScalaProjectSettingsConfigurable" />
+    <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
@@ -196,6 +515,12 @@
     <property name="recentsLimit" value="5" />
     <property name="dynamic.classpath" value="false" />
     <property name="last_opened_file_path" value="$USER_HOME$/Desktop/RecruitmentManagement/dict/PackOut.xml" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/../migration/380lts-release/oracle" />
+      <recent name="$PROJECT_DIR$/../migration/380lts-release/postgresql" />
+    </key>
   </component>
   <component name="RunManager" selected="Application.Adempiere">
     <configuration default="false" name="Adempiere" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -210,7 +535,13 @@
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="adempiereTrunk" />
       <envs />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
       <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
@@ -218,26 +549,6 @@
       <module name="" />
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
       <option name="PROGRAM_PARAMETERS" />
-      <method />
-    </configuration>
-    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
-      <module name="" />
-      <option name="TESTING_TYPE" value="0" />
-      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
-      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="USE_COMMAND_LINE" value="true" />
-      <option name="COMMAND_LINE" value="" />
-      <option name="WIPE_USER_DATA" value="false" />
-      <option name="DISABLE_BOOT_ANIMATION" value="false" />
-      <option name="NETWORK_SPEED" value="full" />
-      <option name="NETWORK_LATENCY" value="none" />
-      <option name="CLEAR_LOGCAT" value="false" />
-      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
       <method />
     </configuration>
     <configuration default="true" type="Remote" factoryName="Remote">
@@ -248,17 +559,17 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
+    <configuration default="true" type="Specs2RunConfiguration" factoryName="Specs2">
       <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
+      <setting name="path" value="" />
+      <setting name="package" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workingDirectory" value="$PROJECT_DIR$" />
+      <setting name="searchForTest" value="Across module dependencies" />
+      <setting name="testName" value="" />
+      <setting name="testKind" value="Class" />
+      <setting name="showProgressMessages" value="true" />
       <method />
     </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
@@ -286,6 +597,19 @@
       <envs />
       <properties />
       <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -322,23 +646,17 @@
       <patterns />
       <method />
     </configuration>
-    <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
+    <configuration default="true" type="ScalaTestRunConfiguration" factoryName="ScalaTest">
       <module name="" />
-      <option name="ACTIVITY_CLASS" value="" />
-      <option name="MODE" value="default_activity" />
-      <option name="DEPLOY" value="true" />
-      <option name="ARTIFACT_NAME" value="" />
-      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
-      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="USE_COMMAND_LINE" value="true" />
-      <option name="COMMAND_LINE" value="" />
-      <option name="WIPE_USER_DATA" value="false" />
-      <option name="DISABLE_BOOT_ANIMATION" value="false" />
-      <option name="NETWORK_SPEED" value="full" />
-      <option name="NETWORK_LATENCY" value="none" />
-      <option name="CLEAR_LOGCAT" value="false" />
-      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <setting name="path" value="" />
+      <setting name="package" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workingDirectory" value="$PROJECT_DIR$" />
+      <setting name="searchForTest" value="Across module dependencies" />
+      <setting name="testName" value="" />
+      <setting name="testKind" value="Class" />
+      <setting name="showProgressMessages" value="true" />
       <method />
     </configuration>
     <list size="1">
@@ -358,6 +676,25 @@
     <queries />
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="Talios.JiraConfigurationComponent" enableIssueTracking="false" autoRefresh="false" useExternalBrowser="false" refreshTimeout="0" annotateissues="false">
+    <servers />
+    <columns>
+      <column id="created" position="0" width="-1" />
+      <column id="key" position="1" width="-1" />
+      <column id="component" position="2" width="-1" />
+      <column id="title" position="3" width="-1" />
+      <column id="type" position="4" width="-1" />
+      <column id="priority" position="5" width="-1" />
+      <column id="status" position="6" width="-1" />
+      <column id="resolution" position="7" width="-1" />
+      <column id="assignee" position="8" width="-1" />
+      <column id="reporter" position="9" width="-1" />
+      <column id="updated" position="10" width="-1" />
+      <column id="dueDate" position="11" width="-1" />
+      <column id="version" position="12" width="-1" />
+      <column id="fixVersion" position="13" width="-1" />
+    </columns>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="296c6a76-1ab7-4248-95b5-317663a52ae2" name="Default" comment="" />
@@ -372,33 +709,36 @@
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="SQL" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3285985" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="SBT Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39944392" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32941177" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1359375" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32941177" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29499468" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="DB Browser" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32808155" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="DB Execution Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="SQL" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32941177" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32941177" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32781458" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32941177" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
-    <option name="RECENTLY_FILTERED_USERS">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
       <collection />
     </option>
   </component>
@@ -409,6 +749,7 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
+    <option name="UPDATE_GROUP_BY_PACKAGES" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -416,34 +757,79 @@
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
     <option name="FILTER_TARGETS" value="false" />
+    <buildFile url="file://$PROJECT_DIR$/../migration/380lts-release/postgresql/build.xml">
+      <targetFilters>
+        <filter targetName="init" isVisible="false" />
+        <filter targetName="run-scripts" isVisible="false" />
+        <filter targetName="load" isVisible="false" />
+      </targetFilters>
+      <expanded value="true" />
+    </buildFile>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/../migration/postgresql.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="435" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../base/src/org/compiere/model/MCostDetail.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="463" column="30" selection-start="17666" selection-end="17666" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="32220" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../org.eevolution.manufacturing/src/main/java/base/org/eevolution/process/CreateCostElement.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="120" column="76" selection-start="4279" selection-end="4279" vertical-scroll-proportion="0.0" vertical-offset="1800" max-vertical-offset="3270" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../base/src/org/eevolution/model/CalloutBOM.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="13" selection-start="1945" selection-end="1945" vertical-scroll-proportion="0.0" vertical-offset="600" max-vertical-offset="2115" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../base/src/org/eevolution/model/I_DD_Order.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="17" selection-start="1558" selection-end="1558" vertical-scroll-proportion="0.0" vertical-offset="405" max-vertical-offset="12750" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../base/src/org/compiere/model/MCostDetail.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="463" column="30" selection-start="17666" selection-end="17666" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="32220" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../org.eevolution.manufacturing/src/main/java/base/org/eevolution/process/CreateCostElement.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="120" column="76" selection-start="4279" selection-end="4279" vertical-scroll-proportion="0.0" vertical-offset="1800" max-vertical-offset="3270" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../base/src/org/eevolution/model/CalloutBOM.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="13" selection-start="1945" selection-end="1945" vertical-scroll-proportion="0.0" vertical-offset="600" max-vertical-offset="2115" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../base/src/org/eevolution/model/I_DD_Order.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="17" selection-start="1558" selection-end="1558" vertical-scroll-proportion="0.0" vertical-offset="405" max-vertical-offset="12750" />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/../base/src/org/compiere/util/CCachedRowSet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="260" column="30" selection-start="7495" selection-end="7495" vertical-scroll-proportion="0.0" vertical-offset="3900" max-vertical-offset="4050">
-          <folding />
-        </state>
+        <state line="260" column="30" selection-start="7495" selection-end="7495" vertical-scroll-proportion="0.0" vertical-offset="3900" max-vertical-offset="4050" />
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/Desktop/RecruitmentManagement/dict/PackOut.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="138" column="233" selection-start="77960" selection-end="77987" vertical-scroll-proportion="0.0" vertical-offset="1845" max-vertical-offset="13290">
-          <folding />
-        </state>
+        <state line="138" column="233" selection-start="77960" selection-end="77987" vertical-scroll-proportion="0.0" vertical-offset="1845" max-vertical-offset="13290" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../base/src/org/compiere/util/CCachedRowSet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="260" column="30" selection-start="7495" selection-end="7495" vertical-scroll-proportion="0.0" vertical-offset="3585" max-vertical-offset="3825">
-          <folding />
-        </state>
+        <state line="260" column="30" selection-start="7495" selection-end="7495" vertical-scroll-proportion="0.0" vertical-offset="3585" max-vertical-offset="3825" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../base/src/org/compiere/util/CCachedRowSet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="72" selection-start="1930" selection-end="1930" vertical-scroll-proportion="0.0" vertical-offset="630" max-vertical-offset="3960">
-          <folding />
-        </state>
+        <state line="42" column="72" selection-start="1930" selection-end="1930" vertical-scroll-proportion="0.0" vertical-offset="630" max-vertical-offset="3960" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../JasperReports/src/org/compiere/interfaces/MD5.java">
@@ -468,9 +854,7 @@
     </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.7.0_15.jdk/Contents/Home/src.zip!/javax/sql/rowset/CachedRowSet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1588" column="94" selection-start="81849" selection-end="81849" vertical-scroll-proportion="0.0625" vertical-offset="23327" max-vertical-offset="24015">
-          <folding />
-        </state>
+        <state line="1588" column="94" selection-start="81849" selection-end="81849" vertical-scroll-proportion="0.0625" vertical-offset="23327" max-vertical-offset="24015" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../JasperReports/src/org/compiere/interfaces/MD5.java">
@@ -480,28 +864,108 @@
     </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.7.0_15.jdk/Contents/Home/src.zip!/javax/sql/rowset/BaseRowSet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1136" column="16" selection-start="49822" selection-end="49822" vertical-scroll-proportion="22.253857" vertical-offset="423" max-vertical-offset="66720">
-          <folding />
-        </state>
+        <state line="1136" column="16" selection-start="49822" selection-end="49822" vertical-scroll-proportion="22.253857" vertical-offset="423" max-vertical-offset="66720" />
       </provider>
     </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.7.0_15.jdk/Contents/Home/src.zip!/javax/sql/RowSet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="246" column="8" selection-start="9427" selection-end="9427" vertical-scroll-proportion="0.35343617" vertical-offset="3048" max-vertical-offset="32490">
-          <folding />
-        </state>
+        <state line="246" column="8" selection-start="9427" selection-end="9427" vertical-scroll-proportion="0.35343617" vertical-offset="3048" max-vertical-offset="32490" />
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/Desktop/RecruitmentManagement/dict/PackOut.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="138" column="233" selection-start="77960" selection-end="77987" vertical-scroll-proportion="0.21146616" vertical-offset="1845" max-vertical-offset="13290">
-          <folding />
-        </state>
+        <state line="138" column="233" selection-start="77960" selection-end="77987" vertical-scroll-proportion="0.21146616" vertical-offset="1845" max-vertical-offset="13290" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../base/src/org/compiere/util/CCachedRowSet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="260" column="30" selection-start="7495" selection-end="7495" vertical-scroll-proportion="0.8607242" vertical-offset="2973" max-vertical-offset="4050">
+        <state line="260" column="30" selection-start="7495" selection-end="7495" vertical-scroll-proportion="0.8607242" vertical-offset="2973" max-vertical-offset="4050" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../base/src/org/eevolution/model/CalloutBOM.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="13" selection-start="1945" selection-end="1945" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1725" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../base/src/org/eevolution/model/I_DD_Order.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="17" selection-start="1558" selection-end="1558" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="12480" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../base/src/org/compiere/model/MCostDetail.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="463" column="30" selection-start="17666" selection-end="17666" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="31725" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../org.eevolution.manufacturing/src/main/java/base/org/eevolution/process/CreateCostElement.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="120" column="76" selection-start="4279" selection-end="4279" vertical-scroll-proportion="-0.4085603" vertical-offset="1800" max-vertical-offset="3270" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../migration/postgresql.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1028" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../base/src/org/compiere/Adempiere.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="62" column="62" selection-start="2787" selection-end="2787" vertical-scroll-proportion="0.0" vertical-offset="855" max-vertical-offset="8685">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../serverRoot/src/web/adempiere.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="155" column="273" selection-start="4883" selection-end="4883" vertical-scroll-proportion="-96.875" vertical-offset="0" max-vertical-offset="4035">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../serverRoot/src/web/adempiere.jnlp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="49" selection-start="307" selection-end="307" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="555">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../utils/adempiereDirectTemplate.jnlp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="104" selection-start="1172" selection-end="1172" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="525">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../utils_dev/build.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1028">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../migration/380lts-release/oracle/XXX_Version.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="56" selection-start="257" selection-end="257" vertical-scroll-proportion="-3.6206896" vertical-offset="0" max-vertical-offset="195">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../migration/380lts-release/postgresql/XXX_Version.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="50" selection-start="212" selection-end="212" vertical-scroll-proportion="-2.0689654" vertical-offset="0" max-vertical-offset="180">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../migration/360lts-370lts/oracle/807_CheckSequence370.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="34.551723" vertical-offset="1002" max-vertical-offset="1965">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../launch/Adempiere.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="43" column="2" selection-start="1433" selection-end="1433" vertical-scroll-proportion="0.8632219" vertical-offset="77" max-vertical-offset="735">
           <folding />
         </state>
       </provider>
