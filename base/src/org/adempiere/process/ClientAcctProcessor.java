@@ -109,7 +109,7 @@ public class ClientAcctProcessor extends SvrProcess
 			m_ass = new MAcctSchema[] {new MAcctSchema (getCtx(), p_C_AcctSchema_ID, get_TrxName())};
 		
 		postSession();
-		MCost.create(m_client);
+		//MCost.create(m_client);
 
 		addLog(m_summary.toString());
 
