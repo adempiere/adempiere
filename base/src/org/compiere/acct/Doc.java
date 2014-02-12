@@ -32,7 +32,6 @@ import org.adempiere.exceptions.DBException;
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MConversionRate;
-import org.compiere.model.MCostType;
 import org.compiere.model.MDocType;
 import org.compiere.model.MNote;
 import org.compiere.model.MPeriod;
@@ -641,16 +640,6 @@ public abstract class Doc
 					continue;
 				//	post
 				log.info("(" + i + ") " + p_po);
-
-				String msg = "";
-				MCostType ct = new MCostType(getCtx(), m_ass[i].getM_CostType_ID(), trxName);
-				if (ct.isAverageInvoice())
-				{
-					msg = ModelValidationEngine.get().fireDocValidate(getPO(), ModelValidator.TIMING_PREPAREPOST);
-					if (msg != null) {
-						return "Costdetail could not be created for DocumentNo=" + getDocumentNo();
-					}					
-				}
 				p_Status = postLogic (i);
 				if (!p_Status.equals(STATUS_Posted))
 					OK = false;

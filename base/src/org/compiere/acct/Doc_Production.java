@@ -87,7 +87,7 @@ public class Doc_Production extends Doc
 			+ "ORDER BY pp.Line";
 		String sqlPL = "SELECT * FROM M_ProductionLine pl "
 			+ "WHERE pl.M_ProductionPlan_ID=? "
-			+ "ORDER BY pl.movementqty desc";
+			+ "ORDER BY pl.Line";
 
 		try
 		{
@@ -167,69 +167,76 @@ public class Doc_Production extends Doc
 		//  create Fact Header
 		Fact fact = new Fact(this, as, Fact.POST_Actual);
 		setC_Currency_ID (as.getC_Currency_ID());
-		ArrayList<Fact> facts = new ArrayList<Fact>();
 
 		//  Line pointer
 		FactLine fl = null;
-		DocLine prodBomLine = null;
 		BigDecimal total = Env.ZERO;
-		BigDecimal totalDr = Env.ZERO;
-		BigDecimal totalCr = Env.ZERO;
-		MProduct product = null;
 		for (int i = 0; i < p_lines.length; i++)
 		{
 			DocLine line = p_lines[i];
-			if (p_lines[i].isProductionBOM())
-			{	if (prodBomLine == null)
-				prodBomLine = p_lines[i];
-				if (totalDr.compareTo(totalCr)!=0)
-				{
-					ProductCost m_pc = new ProductCost (Env.getCtx(), 
-							product.getM_Product_ID(), line.getM_AttributeSetInstance_ID(), getTrxName());
-					BigDecimal diff = totalDr.subtract(totalCr);
-					fl = fact.createLine(null,
-							m_pc.getAccount(ProductCost.ACCTTYPE_P_Asset,as),
-							as.getC_Currency_ID(), diff);
-				}
-				product = line.getProduct();
-				totalDr = Env.ZERO;
-				totalCr = Env.ZERO;
-				prodBomLine = p_lines[i];
-				
-			}
+			MProduct product = line.getProduct();
 			BigDecimal costs = Env.ZERO;			
 			for (MCostDetail cost : line.getCostDetail(as))
 			{
-
-				if (!MCostDetail.existsCost(cost))
-					return null;
-
+				
+				if(!MCostDetail.existsCost(cost))
+					continue;	 
+				
 				costs = MCostDetail.getTotalCost(cost, as);
-
+				
 				//get costing method for product
 				String description = cost.getM_CostElement().getName() +" "+ cost.getM_CostType().getName();
 				if(cost.getQty().signum() > 0)
-					//totalDr = totalDr.add(costs)
-					;
+					costs = costs;
 				else
-				{
-					//totalCr = totalCr.add(costs);
 					costs = costs.negate();	
-				}
-
+				
 				if (cost != null)
 				{	
 					total = total.add(costs.abs());
 				}	
+				else
+				{	
+					if (line.isProductionBOM())
+					{
+						//	Get BOM Cost - Sum of individual lines
+						BigDecimal bomCost = Env.ZERO;						
+						for (int ii = 0; ii < p_lines.length; ii++)
+						{
+							DocLine line0 = p_lines[ii];
+							if (line0.getM_ProductionPlan_ID() != line.getM_ProductionPlan_ID())
+								continue;
+							if (!line0.isProductionBOM())
+							{	
+									bomCost = bomCost.add(MCostDetail.getTotalCost(cost, as));
+							}	
+						}
+						costs = bomCost.negate();
+						// [ 1965015 ] Posting not balanced when is producing more than 1 product - Globalqss 2008/06/26
+						X_M_ProductionPlan mpp = new X_M_ProductionPlan(getCtx(), line.getM_ProductionPlan_ID(), getTrxName());
+					    if (line.getQty() != mpp.getProductionQty()) {
+					    	// if the line doesn't correspond with the whole qty produced then apply prorate
+					    	// costs = costs * line_qty / production_qty
+					    	costs = costs.multiply(cost.getQty());
+					    	costs = costs.divide(mpp.getProductionQty(), as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+					    }
+					}
+					else
+						costs = Env.ZERO;
+				}
+				
+				//  Inventory       DR      CR
 				fl = fact.createLine(line,
-						line.getAccount(ProductCost.ACCTTYPE_P_Asset,as),
-						as.getC_Currency_ID(), costs);
+					line.getAccount(ProductCost.ACCTTYPE_P_Asset,as),
+					as.getC_Currency_ID(), costs);
+				/*if (fl == null)
+				{
+					p_Error = "No Costs for Line " + line.getLine() + " - " + line;
+					return null;
+				}*/
 				fl.setM_Locator_ID(line.getM_Locator_ID());
 				fl.setQty(cost.getQty());
-				if (fl.getAmtSourceDr().compareTo(Env.ZERO)==1)
-					totalDr = totalDr.add(fl.getAmtSourceDr());
-				else
-					totalCr = totalCr.add(fl.getAmtSourceCr());
+				
 				//	Cost Detail
 				//String description = line.getDescription();
 				description = description + " " +line.getDescription();
@@ -239,30 +246,16 @@ public class Doc_Production extends Doc
 					description += "(*)";
 			}
 		}
-
-		if (totalDr.compareTo(totalCr)!=0)
-		{
-			ProductCost m_pc = new ProductCost (Env.getCtx(), 
-					product.getM_Product_ID(), 0, getTrxName());
-			BigDecimal diff = totalDr.subtract(totalCr);
-			fl = fact.createLine(null,
-					m_pc.getAccount(ProductCost.ACCTTYPE_P_Asset,as),
-					as.getC_Currency_ID(), diff.negate());
-			fl.setM_Product_ID(prodBomLine.getM_Product_ID());
-			fl.setM_Locator_ID(prodBomLine.getM_Locator_ID());
-			fl.setQty(Env.ONE);
-		}
 		if (total == null || total.signum() == 0)
 		{
 			p_Error = "Resubmit - No Costs for " + getDescription();
 			log.log(Level.WARNING, p_Error);
 			return null;
 		}
-		
 		//
+		ArrayList<Fact> facts = new ArrayList<Fact>();
 		facts.add(fact);
 		return facts;
 	}   //  createFact
 
-	
 }   //  Doc_Production

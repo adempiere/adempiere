@@ -99,8 +99,6 @@ public class MProductCategoryAcct extends X_M_Product_Category_Acct
 		return acct;
 	}	//	get
 	
-
-	
 	/**************************************************************************
 	 * 	Standard Constructor
 	 *	@param ctx context
@@ -132,7 +130,7 @@ public class MProductCategoryAcct extends X_M_Product_Category_Acct
 	{
 		//	Create Cost Elements
 		if (getCostingMethod() != null && getCostingMethod().length() > 0)
-			MCostElement.getByMaterialCostElementType(this);
+			MCostElement.getMaterialCostElement(this, getCostingMethod());
 	}	//	checkCosting
 
 	/**

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.adempiere.model.engines;
+package org.adempiere.engine;
 
 import java.util.HashMap;
 import java.util.Map;

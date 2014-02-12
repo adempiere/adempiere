@@ -484,7 +484,7 @@ public class MAcctSchema extends X_C_AcctSchema
 		}
 		
 		//	Create Cost Elements
-		MCostElement.getByMaterialCostElementType(this);
+		MCostElement.getMaterialCostElement(this, getCostingMethod());
 		
 		//	Default Costing Level
 		if (getCostingLevel() == null)

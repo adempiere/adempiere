@@ -1,4 +1,4 @@
-package org.adempiere.model.engines;
+package org.adempiere.engine;
 
 import java.util.ArrayList;
 import java.util.Properties;
@@ -54,11 +54,11 @@ public class CostDimension
 		updateForProduct(product, as);
 	}
 
-	public CostDimension(int client_ID, int org_ID, int M_Warehouse_ID, int product_ID, int attributeSetInstance_ID, int costType_ID, int acctSchema_ID, int costElement_ID)
+	public CostDimension(int client_ID, int org_ID, int warehouse_ID,  int product_ID, int attributeSetInstance_ID, int costType_ID, int acctSchema_ID, int costElement_ID)
 	{
 		this.AD_Client_ID = client_ID;
 		this.AD_Org_ID = org_ID;
-		this.M_Warehouse_ID = M_Warehouse_ID;
+		this.M_Warehouse_ID  = M_Warehouse_ID;
 		this.M_Product_ID = product_ID;
 		this.M_AttributeSetInstance_ID = attributeSetInstance_ID;
 		this.M_CostType_ID = costType_ID;
@@ -144,7 +144,7 @@ public class CostDimension
 	{
 		return AD_Org_ID;
 	}
-	
+
 	/**
 	 * @return the aD_Org_ID
 	 */
@@ -153,6 +153,7 @@ public class CostDimension
 		return M_Warehouse_ID;
 	}
 
+	
 	/**
 	 * @return the m_Product_ID
 	 */

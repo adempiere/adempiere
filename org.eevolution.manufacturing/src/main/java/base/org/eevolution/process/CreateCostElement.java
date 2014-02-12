@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Level;
 
-import org.adempiere.model.engines.CostDimension;
+import org.adempiere.engine.CostDimension;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCost;
 import org.compiere.model.MCostElement;
@@ -110,7 +110,8 @@ public class CreateCostElement extends SvrProcess
 				for(final MCostElement element : getElements())
 				{
 					CostDimension d = new CostDimension(getAD_Client_ID(), org_id,
-											product_id, 0, // ASI=0
+											product_id, 0,
+											0, // ASI=0
 											p_M_CostType_ID, as.get_ID(), element.get_ID());
 					MCost cost = d.toQuery(MCost.class, get_TrxName()).firstOnly();
 					if(cost == null)

@@ -120,7 +120,6 @@ public class Doc_ProjectIssue extends Doc
 		//  create Fact Header
 		Fact fact = new Fact(this, as, Fact.POST_Actual);
 		setC_Currency_ID (as.getC_Currency_ID());
-		ArrayList<Fact> facts = new ArrayList<Fact>();
 
 		MProject project = new MProject (getCtx(), m_issue.getC_Project_ID(), getTrxName());
 		String ProjectCategory = project.getProjectCategory();
@@ -141,8 +140,8 @@ public class Doc_ProjectIssue extends Doc
 		{	
 			for(MCostDetail cost : m_line.getCostDetail(as))
 			{	
-				if (!MCostDetail.existsCost(cost))
-					return null;
+				if(!MCostDetail.existsCost(cost))
+					continue;
 				
 				costs = MCostDetail.getTotalCost(cost, as);
 				total = total.add(costs);
@@ -174,6 +173,7 @@ public class Doc_ProjectIssue extends Doc
 		cr.setM_Locator_ID(m_line.getM_Locator_ID());
 		cr.setLocationFromLocator(m_line.getM_Locator_ID(), true);	// from Loc
 		//
+		ArrayList<Fact> facts = new ArrayList<Fact>();
 		facts.add(fact);
 		return facts;
 	}   //  createFact

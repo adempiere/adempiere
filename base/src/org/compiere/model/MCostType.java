@@ -56,11 +56,11 @@ public class MCostType extends X_M_CostType
 			
 			if(pca != null && pca.getCostingMethod() != null && pca.getCostingMethod().length() > 0)
 			{				
-				ct = MCostType.getByMethodCosting(as.getCtx(), pca.getCostingMethod(), as.get_TrxName(), as.getAD_Client_ID());
+				ct = MCostType.getByMethodCosting(as.getCtx(), pca.getCostingMethod(), as.get_TrxName());
 			}
 			else if (ct == null)
 			{
-				ct = MCostType.getByMethodCosting(as.getCtx(), as.getCostingMethod(), as.get_TrxName(), as.getAD_Client_ID());				 
+				ct = MCostType.getByMethodCosting(as.getCtx(), as.getCostingMethod(), as.get_TrxName());				 
 			}
 		}		
 		if(ct == null)
@@ -107,11 +107,12 @@ public class MCostType extends X_M_CostType
 		.first();
 	}
 	
-	public static MCostType getByMethodCosting(Properties ctx,String costingMethod, String trxName, int AD_Client_ID)
+	public static MCostType getByMethodCosting(Properties ctx,String costingMethod, String trxName)
 	{
-		return new Query(ctx, Table_Name, "CostingMethod=? and ad_client_id=?", trxName)
+		return new Query(ctx, Table_Name, "CostingMethod=?", trxName)
 		.setOnlyActiveRecords(true)
-		.setParameters(costingMethod, AD_Client_ID)
+		.setParameters(costingMethod)
+		.setClient_ID()
 		.setOrderBy(COLUMNNAME_CostingMethod)
 		.first();
 	}

@@ -118,8 +118,8 @@ public interface I_M_Cost
 	  * Total Amount
 	  */
 	public BigDecimal getCumulatedAmt();
-	
-	/** Column name CumulatedAmtLL */
+
+    /** Column name CumulatedAmtLL */
     public static final String COLUMNNAME_CumulatedAmtLL = "CumulatedAmtLL";
 
 	/** Set Accumulated Amt LL.
@@ -161,12 +161,12 @@ public interface I_M_Cost
     /** Column name CurrentCostPriceLL */
     public static final String COLUMNNAME_CurrentCostPriceLL = "CurrentCostPriceLL";
 
-	/** Set Current Cost Price Lower Level.
+	/** Set Current Cost Price LL.
 	  * Current Price Lower Level Is the sum of the costs of the components of this product manufactured for this level.
 	  */
 	public void setCurrentCostPriceLL (BigDecimal CurrentCostPriceLL);
 
-	/** Get Current Cost Price Lower Level.
+	/** Get Current Cost Price LL.
 	  * Current Price Lower Level Is the sum of the costs of the components of this product manufactured for this level.
 	  */
 	public BigDecimal getCurrentCostPriceLL();
@@ -209,10 +209,10 @@ public interface I_M_Cost
     /** Column name FutureCostPriceLL */
     public static final String COLUMNNAME_FutureCostPriceLL = "FutureCostPriceLL";
 
-	/** Set Future Cost Price Lower Level	  */
+	/** Set Future Cost Price LL	  */
 	public void setFutureCostPriceLL (BigDecimal FutureCostPriceLL);
 
-	/** Get Future Cost Price Lower Level	  */
+	/** Get Future Cost Price LL	  */
 	public BigDecimal getFutureCostPriceLL();
 
     /** Column name IsActive */
@@ -300,8 +300,8 @@ public interface I_M_Cost
 	public int getM_Product_ID();
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
-	
-	 /** Column name M_Warehouse_ID */
+
+    /** Column name M_Warehouse_ID */
     public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
 
 	/** Set Warehouse.

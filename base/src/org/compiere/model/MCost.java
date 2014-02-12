@@ -27,8 +27,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.adempiere.model.engines.CostComponent;
-import org.adempiere.model.engines.IDocumentLine;
+import org.adempiere.engine.CostComponent;
+import org.adempiere.engine.IDocumentLine;
 import org.adempiere.exceptions.DBException;
 import org.compiere.Adempiere;
 import org.compiere.util.CLogger;
@@ -84,25 +84,25 @@ public class MCost extends X_M_Cost
     			M_Warehouse_ID = 0;
     			M_AttributeSetInstance_ID = 0;
     		}	
-    		else if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(CostingLevel))
-    		{	
-    			AD_Org_ID = model.getAD_Org_ID();
-    			M_Warehouse_ID = 0;
-    			M_AttributeSetInstance_ID = model.getM_AttributeSetInstance_ID();
-    		}
     		else if (MAcctSchema.COSTINGLEVEL_Warehouse.equals(CostingLevel))
     		{	
     			AD_Org_ID = model.getM_Locator_ID();
     			M_Warehouse_ID = MLocator.get(model.getCtx(), model.getM_Locator_ID()).getM_Warehouse_ID();
     			M_AttributeSetInstance_ID = 0;
     		}	
+    		else if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(CostingLevel))
+    		{	
+    			AD_Org_ID = model.getAD_Org_ID();
+    			M_Warehouse_ID = 0;
+    			M_AttributeSetInstance_ID = model.getM_AttributeSetInstance_ID();
+    		}
     		
     		final String whereClause = "M_Product_ID=?  AND AD_Org_ID=? AND M_Warehouse_ID=? AND M_AttributeSetInstance_ID=?" ;
     		
     		return new Query(as.getCtx(), Table_Name, whereClause, model.get_TrxName())
-    			.setParameters(model.getM_Product_ID(), AD_Org_ID,  M_Warehouse_ID, M_AttributeSetInstance_ID)
+    			.setParameters(model.getM_Product_ID(), AD_Org_ID, M_Warehouse_ID , M_AttributeSetInstance_ID)
     			.setClient_ID()
-    			.setOrderBy("AD_Client_ID, AD_Org_ID,  M_Warehouse_ID, M_AttributeSetInstance_ID")
+    			.setOrderBy("AD_Client_ID, AD_Org_ID, M_Warehouse_ID , M_AttributeSetInstance_ID")
     			.list();
        	}   
 
@@ -122,7 +122,7 @@ public class MCost extends X_M_Cost
     	 * @return get List Cost Component
     	 */
     	private static List<CostComponent> getCurrentCostLayers (MProduct product, int M_ASI_ID, 
-    			MAcctSchema as, int Org_ID, int M_Warehouse_ID, int M_CostType_ID,  
+    			MAcctSchema as, int Org_ID,int M_Warehouse_ID, int M_CostType_ID,  
     			String costingMethod, BigDecimal qty, int C_OrderLine_ID, 
     			boolean zeroCostsOK, String trxName, MCost cost)
     	{
@@ -210,7 +210,7 @@ public class MCost extends X_M_Cost
     			if (zeroCostsOK)
     				return new ArrayList<CostComponent>();
     			materialCostEach = getSeedCosts(product, M_ASI_ID,
-    					as, Org_ID, M_Warehouse_ID, costingMethod, C_OrderLine_ID);
+    					as, Org_ID, M_Warehouse_ID , costingMethod, C_OrderLine_ID);
     		}
     		if (materialCostEach == null)
     			return null;
@@ -350,7 +350,7 @@ public class MCost extends X_M_Cost
 	 *	@deprecated
 	 */
 	private static BigDecimal getCurrentCost (MProduct product, int M_ASI_ID,
-		MAcctSchema as, int Org_ID, int M_Warehouse_ID, int M_CostType_ID,
+		MAcctSchema as, int Org_ID, int M_Warehouse_ID,  int M_CostType_ID,
 		String costingMethod, BigDecimal qty, int C_OrderLine_ID,
 		boolean zeroCostsOK, String trxName)
 	{
@@ -439,7 +439,7 @@ public class MCost extends X_M_Cost
 			if (zeroCostsOK)
 				return Env.ZERO;
 			materialCostEach = getSeedCosts(product, M_ASI_ID,
-				as, Org_ID, M_Warehouse_ID, costingMethod, C_OrderLine_ID);
+				as, Org_ID, M_Warehouse_ID , costingMethod, C_OrderLine_ID);
 		}
 		if (materialCostEach == null)
 			return null;
@@ -457,7 +457,7 @@ public class MCost extends X_M_Cost
 		{
 			MCostElement ce = MCostElement.getMaterialCostElement(as, costingMethod);
 			materialCost = MCostQueue.getCosts(product, M_ASI_ID,
-				as, Org_ID, M_Warehouse_ID, ce, qty, trxName);
+				as, Org_ID,M_Warehouse_ID , ce, qty, trxName);
 		}
 
 		//	Other Costs
@@ -563,7 +563,7 @@ public class MCost extends X_M_Cost
 			List<MCostType> costtypes = MCostType.get(product.getCtx(), product.get_TrxName()); 
 			for (MCostType mc : costtypes)
 			{
-				MCost cost = getOrCreate(product, M_ASI_ID, as, Org_ID, M_Warehouse_ID, mc.getM_CostType_ID(), ce.getM_CostElement_ID(), product.get_TrxName());
+				MCost cost = getOrCreate(product, M_ASI_ID, as, Org_ID , M_Warehouse_ID , mc.getM_CostType_ID(), ce.getM_CostElement_ID(), product.get_TrxName());
 				if (cost != null && cost.getCurrentCostPrice().signum() != 0)
 				{
 					s_log.fine(product.getName() + ", Standard - " + retValue);
@@ -880,7 +880,7 @@ public class MCost extends X_M_Cost
 				MProduct product = new MProduct (client.getCtx(), rs, trxNameUsed);
 				for (int i = 0; i < ass.length; i++)
 				{
-					BigDecimal cost = getCurrentCost(product, 0, ass[i], 0,0,
+					BigDecimal cost = getCurrentCost(product, 0, ass[i], 0, 0 ,
 						null, Env.ONE, 0, false, trxNameUsed);		//	create non-zero costs
 					s_log.info(product.getName() + " = " + cost);
 				}
@@ -943,7 +943,7 @@ public class MCost extends X_M_Cost
 						for(MCostElement ce : ces)
 						{
 							MCost cost = MCost.getOrCreate(product, M_ASI_ID,
-								as, 0, 0, ct.getM_CostType_ID() ,ce.getM_CostElement_ID(), product.get_TrxName());
+								as, 0 , 0 , ct.getM_CostType_ID() ,ce.getM_CostElement_ID(), product.get_TrxName());
 							if (cost.is_new())
 							{
 								if (cost.save())
@@ -967,7 +967,7 @@ public class MCost extends X_M_Cost
 							for(MCostElement ce : ces)
 							{
 								MCost cost = MCost.getOrCreate(product, M_ASI_ID,
-									as, o.getAD_Org_ID(), 0, ct.getM_CostType_ID() , ce.getM_CostElement_ID(), product.get_TrxName());
+									as, o.getAD_Org_ID(), 0 , ct.getM_CostType_ID() , ce.getM_CostElement_ID(), product.get_TrxName());
 								if (cost.is_new())
 								{
 									if (cost.save())
@@ -1017,7 +1017,7 @@ public class MCost extends X_M_Cost
 						for(MCostElement ce : ces)
 						{
 							MCost cost = MCost.getOrCreate(product, M_ASI_ID,
-								as, 0, 0, ct.getM_CostType_ID() , ce.getM_CostElement_ID(), product.get_TrxName());
+								as, 0, 0 , ct.getM_CostType_ID() , ce.getM_CostElement_ID(), product.get_TrxName());
 							if(cost != null)
 							cost.deleteEx(true);
 						}
@@ -1034,7 +1034,7 @@ public class MCost extends X_M_Cost
 							for(MCostElement ce : ces)
 							{
 								MCost cost = MCost.getOrCreate (product, M_ASI_ID,
-									as, o.getAD_Org_ID(), 0, ct.getM_CostType_ID() , ce.getM_CostElement_ID(), product.get_TrxName());
+									as, o.getAD_Org_ID(), 0 , ct.getM_CostType_ID() , ce.getM_CostElement_ID(), product.get_TrxName());
 								if(cost != null)
 									cost.deleteEx(true);
 							}
@@ -1541,7 +1541,7 @@ public class MCost extends X_M_Cost
 	public static MCost get (MProduct product, int M_AttributeSetInstance_ID,
 		MAcctSchema as, int AD_Org_ID, int M_Warehouse_ID, int M_CostElement_ID, String trxName)
 	{
-		return MCost.getOrCreate(product, M_AttributeSetInstance_ID, as, AD_Org_ID, M_Warehouse_ID, as.getM_CostType_ID(), M_CostElement_ID , trxName);
+		return MCost.getOrCreate(product, M_AttributeSetInstance_ID, as, AD_Org_ID, M_Warehouse_ID,  as.getM_CostType_ID(), M_CostElement_ID , trxName);
 	}
 	/**
 	 * 	Get/Create Cost Record.
@@ -1555,10 +1555,10 @@ public class MCost extends X_M_Cost
 	 *	@return cost price
 	 */
 	public static MCost getOrCreate (MProduct product, int M_AttributeSetInstance_ID,
-		MAcctSchema as, int AD_Org_ID,  int M_Warehouse_ID, int M_CostType_ID , int M_CostElement_ID, String trxName)
+		MAcctSchema as, int AD_Org_ID, int M_Warehouse_ID,  int M_CostType_ID , int M_CostElement_ID, String trxName)
 	{
 		String whereClause = I_M_Cost.COLUMNNAME_AD_Org_ID + "=? AND "
-		 + " ( " + I_M_Cost.COLUMNNAME_M_Warehouse_ID + "=? OR " 
+		 + "(" +  I_M_Cost.COLUMNNAME_M_Warehouse_ID + "=? OR "
 		 + I_M_Cost.COLUMNNAME_M_Warehouse_ID + " IS NULL ) AND "
 		 + I_M_Cost.COLUMNNAME_C_AcctSchema_ID + "=? AND "
 		 + I_M_Cost.COLUMNNAME_M_Product_ID + "=? AND "
@@ -1568,8 +1568,8 @@ public class MCost extends X_M_Cost
 
 		MCost cost = new Query(product.getCtx(), I_M_Cost.Table_Name, whereClause, product.get_TrxName())
 		.setClient_ID()
-		.setParameters(AD_Org_ID,
-		M_Warehouse_ID,
+		.setParameters(AD_Org_ID, 
+		M_Warehouse_ID,		
 		as.getC_AcctSchema_ID(), 
 		product.getM_Product_ID(), 
 		M_AttributeSetInstance_ID, 
@@ -1605,7 +1605,7 @@ public class MCost extends X_M_Cost
 	 * @param trxName transaction name
 	 * @return cost or null
 	 */
-	public static MCost get (Properties ctx, int AD_Client_ID, int AD_Org_ID, int M_Warehouse_ID, int M_Product_ID,
+	public static MCost get (Properties ctx, int AD_Client_ID, int AD_Org_ID, int M_Warehouse_ID , int M_Product_ID,
 		int M_CostType_ID, int C_AcctSchema_ID, int M_CostElement_ID,
 		int M_AttributeSetInstance_ID,
 		String trxName)
@@ -1617,7 +1617,7 @@ public class MCost extends X_M_Cost
 									+" AND "+COLUMNNAME_C_AcctSchema_ID+"=?"
 									+" AND "+COLUMNNAME_M_CostElement_ID+"=?"
 									+" AND "+COLUMNNAME_M_AttributeSetInstance_ID+"=?";
-		final Object[] params = new Object[]{AD_Client_ID, AD_Org_ID, M_Warehouse_ID, M_Product_ID,
+		final Object[] params = new Object[]{AD_Client_ID, AD_Org_ID, M_Warehouse_ID , M_Product_ID,
 												M_CostType_ID, C_AcctSchema_ID,
 												M_CostElement_ID, M_AttributeSetInstance_ID};
 		return new Query(ctx, Table_Name, whereClause, trxName)
@@ -1627,11 +1627,11 @@ public class MCost extends X_M_Cost
 	}	//	get
 
 	@Deprecated
-	public static MCost get (Properties ctx, int AD_Client_ID, int AD_Org_ID, int M_Warehouse_ID, int M_Product_ID,
+	public static MCost get (Properties ctx, int AD_Client_ID, int AD_Org_ID, int M_Warehouse_ID , int M_Product_ID,
 			int M_CostType_ID, int C_AcctSchema_ID, int M_CostElement_ID,
 			int M_AttributeSetInstance_ID)
 	{
-		return get(ctx, AD_Client_ID, AD_Org_ID, M_Warehouse_ID,
+		return get(ctx, AD_Client_ID, AD_Org_ID, M_Warehouse_ID ,
 				M_Product_ID, M_CostType_ID, C_AcctSchema_ID, M_CostElement_ID,
 				M_AttributeSetInstance_ID,
 				null); // trxName
@@ -1713,7 +1713,7 @@ public class MCost extends X_M_Cost
 	 * @param M_CostElement_ID cost element
 	 */
 	public MCost (MProduct product, int M_AttributeSetInstance_ID,
-		int C_AcctSchema_ID, int AD_Org_ID, int M_Warehouse_ID, int M_CostType_ID, int M_CostElement_ID)
+		int C_AcctSchema_ID, int AD_Org_ID, int M_Warehouse_ID ,int M_CostType_ID, int M_CostElement_ID)
 	{
 		this (product.getCtx(), 0, product.get_TrxName());
 		setClientOrg(product.getAD_Client_ID(), AD_Org_ID);
@@ -1723,6 +1723,7 @@ public class MCost extends X_M_Cost
 		setM_Product_ID(product.getM_Product_ID());
 		setM_AttributeSetInstance_ID(M_AttributeSetInstance_ID);
 		setM_CostElement_ID(M_CostElement_ID);
+		//
 		m_manual = false;
 	}	//	MCost
 

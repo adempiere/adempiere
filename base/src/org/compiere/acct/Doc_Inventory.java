@@ -138,8 +138,6 @@ public class Doc_Inventory extends Doc
 	public ArrayList<Fact> createFacts (MAcctSchema as)
 	{
 		//  create Fact Header
-
-		ArrayList<Fact> facts = new ArrayList<Fact>();
 		Fact fact = new Fact(this, as, Fact.POST_Actual);
 		setC_Currency_ID(as.getC_Currency_ID());
 
@@ -156,8 +154,7 @@ public class Doc_Inventory extends Doc
 			{
 
 				if (!MCostDetail.existsCost(cost))
-					return null;
-
+					continue;
 				
 				//get costing method for product
 				String description = cost.getM_CostElement().getName() +" "+ cost.getM_CostType().getName();
@@ -235,6 +232,7 @@ public class Doc_Inventory extends Doc
 		
 		
 		//
+		ArrayList<Fact> facts = new ArrayList<Fact>();
 		facts.add(fact);
 		return facts;
 	}   //  createFact

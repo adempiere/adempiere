@@ -24,9 +24,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 
-import org.adempiere.model.engines.CostDimension;
-import org.adempiere.model.engines.CostEngine;
-import org.adempiere.model.engines.CostEngineFactory;
+import org.adempiere.engine.CostDimension;
+import org.adempiere.engine.CostEngine;
+import org.adempiere.engine.CostEngineFactory;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCost;
 import org.compiere.model.MCostElement;
@@ -227,7 +227,7 @@ public class RollupWorkflow extends SvrProcess
 			{
 				continue;
 			}
-			final CostDimension d = new CostDimension(product, m_as, p_M_CostType_ID, p_AD_Org_ID, 0, element.get_ID());
+			final CostDimension d = new CostDimension(product, m_as, p_M_CostType_ID, p_AD_Org_ID, 0, 0,  element.get_ID());
 			final List<MCost> costs = d.toQuery(MCost.class, get_TrxName()).list();
 			for (MCost cost : costs)
 			{

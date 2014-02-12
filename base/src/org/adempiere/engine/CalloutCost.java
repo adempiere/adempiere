@@ -13,7 +13,7 @@
  * Copyright (C) 2003-2010 e-Evolution,SC. All Rights Reserved.               *
  * Contributor(s): Victor Perez www.e-evolution.com                           *
  *****************************************************************************/
-package org.adempiere.model.engines;
+package org.adempiere.engine;
 
 import java.util.Properties;
 

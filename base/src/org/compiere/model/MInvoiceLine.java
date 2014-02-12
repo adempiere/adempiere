@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.adempiere.model.engines.IDocumentLine;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -48,7 +47,7 @@ import org.compiere.util.Msg;
  * 				incorrectly calculated.
  * @author red1 FR: [ 2214883 ] Remove SQL code and Replace for Query
  */
-public class MInvoiceLine extends X_C_InvoiceLine implements IDocumentLine
+public class MInvoiceLine extends X_C_InvoiceLine
 {
 	/**
 	 * 
@@ -1039,7 +1038,6 @@ public class MInvoiceLine extends X_C_InvoiceLine implements IDocumentLine
 					lca.setM_AttributeSetInstance_ID(iol.getM_AttributeSetInstance_ID());
 					BigDecimal base = iol.getBase(lc.getLandedCostDistribution());
 					lca.setBase(base);
-					lca.setM_InOutLine_ID(iol.getM_InOutLine_ID());
 					// MZ Goodwill
 					// add set Qty from InOutLine
 					lca.setQty(iol.getMovementQty());
@@ -1070,7 +1068,6 @@ public class MInvoiceLine extends X_C_InvoiceLine implements IDocumentLine
 				BigDecimal base = iol.getBase(lc.getLandedCostDistribution()); 
 				lca.setBase(base);
 				lca.setAmt(getLineNetAmt());
-				lca.setM_InOutLine_ID(iol.getM_InOutLine_ID());
 				// MZ Goodwill
 				// add set Qty from InOutLine
 				lca.setQty(iol.getMovementQty());
@@ -1155,7 +1152,6 @@ public class MInvoiceLine extends X_C_InvoiceLine implements IDocumentLine
 			// MZ Goodwill
 			// add set Qty from InOutLine
 			lca.setQty(iol.getMovementQty());
-			lca.setM_InOutLine_ID(iol.getM_InOutLine_ID());
 			// end MZ
 			if (base.signum() != 0)
 			{
@@ -1194,7 +1190,7 @@ public class MInvoiceLine extends X_C_InvoiceLine implements IDocumentLine
 		if (difference.signum() != 0)
 		{
 			largestAmtAllocation.setAmt(largestAmtAllocation.getAmt().add(difference));
-			largestAmtAllocation.save();
+			largestAmtAllocation.saveEx();
 			log.config("Difference=" + difference
 				+ ", C_LandedCostAllocation_ID=" + largestAmtAllocation.getC_LandedCostAllocation_ID()
 				+ ", Amt" + largestAmtAllocation.getAmt());
@@ -1320,59 +1316,4 @@ public class MInvoiceLine extends X_C_InvoiceLine implements IDocumentLine
 		return DB.getSQLValueBDEx(get_TrxName(), sql, getC_InvoiceLine_ID(), true);
 	}
 
-	@Override
-	public int getM_Locator_ID() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public BigDecimal getMovementQty() 
-	{
-		return this.getQtyInvoiced();
-	}
-
-	@Override
-	public int getReversalLine_ID() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public boolean isSOTrx() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void setM_Locator_ID(int M_Locator_ID) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	public Timestamp getDateAcct() {
-		return getParent().getDateAcct();
-	}
-	
-
-	public IDocumentLine getReversalDocumentLine() {
-		return null;
-	}
-
-	@Override
-	public int getM_AttributeSetInstanceTo_ID() {
-		// TODO Auto-generated method stub
-		return -1;
-	}
-
-	@Override
-	public int getM_LocatorTo_ID() {
-		// TODO Auto-generated method stub
-		return -1;
-	}
-	
-	@Override
-	public int getC_DocType_ID() {
-		return getParent().getC_DocType_ID();
-	}
 }	//	MInvoiceLine

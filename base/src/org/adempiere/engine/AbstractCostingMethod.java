@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.adempiere.model.engines;
+package org.adempiere.engine;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -24,7 +24,6 @@ import org.compiere.model.MMovementLine;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MPeriod;
 import org.compiere.model.MTransaction;
-import org.compiere.model.Query;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -169,39 +168,30 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 			String idColumnName = model.get_TableName() + "_ID";
 
 			// Qty Transaction
-			/*MCostDetail original_cd = MCostDetail.getByTransaction(model,
+			m_last_costdetail = MCostDetail.getByTransaction(model,
 					original_trx, m_as.getC_AcctSchema_ID(),
 					m_dimension.getM_CostType_ID(),
-					m_dimension.getM_CostElement_ID());*/
-			String whereClause = model.get_TableName() + "_ID =" + model.getReversalLine_ID();
-			MCostDetail original_cd = new Query(model.getCtx(), MCostDetail.Table_Name, whereClause, model.get_TrxName())
-				.first();
-			if (original_cd == null)
+					m_dimension.getM_CostElement_ID());
+			if (m_last_costdetail == null)
 				return; // throw new
 						// AdempiereException("Can not found the original cost detail");
-			//else
-			//	i_lastcostdetail = original_cd;
-			
-			if (trxs.get(0).equals(original_trx)) {
-				m_costdetail.setAD_Org_ID(original_cd.getAD_Org_ID());
-				m_costdetail.setM_Warehouse_ID(original_cd.getM_Warehouse_ID());
-				MCostDetail.copyValues(original_cd, m_costdetail);
-				m_costdetail.setCumulatedAmt(getNewCumulatedAmt(original_cd));
-				m_costdetail.setCumulatedQty(getNewCumulatedQty(original_cd));
-				m_costdetail.setCurrentCostPrice(getNewCurrentCostPrice(
-						original_cd, m_as.getCostingPrecision(),
-						BigDecimal.ROUND_HALF_UP));
-				m_costdetail.setAmt(m_CurrentCostPrice.multiply(
-						m_trx.getMovementQty()).abs());
-				m_costdetail
-						.setCumulatedAmtLL(getNewCumulatedAmtLL(original_cd));
-				m_costdetail.setCumulatedQty(getNewCumulatedQty(original_cd));
-				m_costdetail.setCurrentCostPriceLL(getNewCurrentCostPriceLL(
-						original_cd, m_as.getCostingPrecision(),
-						BigDecimal.ROUND_HALF_UP));
-				m_costdetail.setAmtLL(m_CurrentCostPriceLL.multiply(m_trx
-						.getMovementQty()));
 
+			if (trxs.get(0).equals(original_trx)) {
+				m_costdetail.setAD_Org_ID(m_last_costdetail.getAD_Org_ID());
+				m_costdetail.setM_Warehouse_ID(m_last_costdetail.getM_Warehouse_ID());
+				m_costdetail.copyValues(m_last_costdetail, m_costdetail);
+				m_costdetail.setCurrentCostPrice(getNewCurrentCostPrice(
+						m_last_costdetail, m_as.getCostingPrecision(),
+						BigDecimal.ROUND_HALF_UP));
+				//m_costdetail.setAmt(m_CurrentCostPrice.multiply(
+				//		m_trx.getMovementQty()).abs());
+				
+				m_costdetail.setCurrentCostPriceLL(getNewCurrentCostPriceLL(
+						m_last_costdetail, m_as.getCostingPrecision(),
+						BigDecimal.ROUND_HALF_UP));
+				//m_costdetail.setAmtLL(m_CurrentCostPriceLL.multiply(m_trx
+				//		.getMovementQty()));
+				m_costdetail.setCurrentQty(Env.ZERO);
 				m_costdetail.setQty(Env.ZERO);
 				m_costdetail.setAmt(Env.ZERO);
 				m_costdetail.setCostAmt(Env.ZERO);
@@ -212,59 +202,47 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 				m_costdetail.setCumulatedAmt(Env.ZERO);
 				m_costdetail.setCumulatedAmtLL(Env.ZERO);
 				m_costdetail.setCumulatedQty(Env.ZERO);
-
 			}
 
-			BigDecimal qty = m_costdetail.getQty();
-			BigDecimal amt = m_costdetail.getAmt();
-			BigDecimal costAmt = m_costdetail.getCostAmt();
-			BigDecimal costAmtLL = m_costdetail.getCostAmtLL();
-			BigDecimal costAdjustment = m_costdetail.getCostAdjustment();
-			BigDecimal costAdjustmentLL = m_costdetail.getCostAdjustmentLL();
+			//BigDecimal qty = m_costdetail.getQty();
+			//BigDecimal amt = m_costdetail.getAmt();
+			//BigDecimal costAmt = m_costdetail.getCostAmt();
+			//BigDecimal costAmtLL = m_costdetail.getCostAmtLL();
+			//BigDecimal costAdjustment = m_costdetail.getCostAdjustment();
+			//BigDecimal costAdjustmentLL = m_costdetail.getCostAdjustmentLL();
 
-			//SHW
-			//if (m_model instanceof MInOutLine && MTransaction.MOVEMENTTYPE_CustomerShipment.equals(original_trx.getMovementType())
-			//		&& !original_trx.getMovementDate().equals(m_trx.getMovementDate()))
-				m_costdetail.setSeqNo(original_cd.getSeqNo() + 10);
-			//	else						
-			//		m_costdetail.setSeqNo(original_cd.getSeqNo() + 10);
-			m_costdetail.setQty(original_cd.getQty().negate().add(qty));
-			m_costdetail.setAmt(original_cd.getAmt().add(amt));
-			m_costdetail.setCostAmt(original_cd.getCostAmt().add(costAmt).abs());
-			m_costdetail.setCostAdjustment(original_cd.getCostAdjustment().add(
-					costAdjustment).abs());
-			m_costdetail.setCostAdjustmentDate(original_cd
+			m_costdetail.setSeqNo(m_last_costdetail.getSeqNo() + 10);
+			m_costdetail.setQty(m_last_costdetail.getQty().negate());
+			m_costdetail.setAmt(m_last_costdetail.getAmt());
+			m_costdetail.setCostAmt(m_last_costdetail.getCostAmt());
+			
+			m_CurrentCostPrice = m_last_costdetail.getCurrentCostPrice();
+			m_CurrentCostPriceLL = m_last_costdetail.getCurrentCostPriceLL();
+			
+			updateAmtCost();
+			
+			m_costdetail.setCostAdjustment(m_last_costdetail.getCostAdjustment());
+			m_costdetail.setCostAdjustmentDate(m_last_costdetail
 					.getCostAdjustmentDate());
-			// Cost Lower Level
-			m_costdetail.setAmtLL(original_cd.getAmtLL().add(costAmtLL));
-			m_costdetail
-					.setCostAmtLL(original_cd.getCostAmtLL().add(costAmtLL).abs());
-			m_costdetail.setCostAdjustmentLL(original_cd.getCostAdjustmentLL()
-					.add(costAdjustmentLL).abs());
-			m_costdetail.setCostAdjustmentDateLL(original_cd
-					.getCostAdjustmentDateLL());
+			
 			m_costdetail.setM_AttributeSetInstance_ID(m_trx
 					.getM_AttributeSetInstance_ID());
 
-				
 			m_costdetail.setDateAcct(m_model.getDateAcct());
 			m_costdetail.setProcessing(false);
-			if (!m_costdetail.set_ValueOfColumnReturningBoolean(idColumnName,
-					model.get_ID()))
-				throw new AdempiereException("Cannot set " + idColumnName);
 			m_costdetail.setM_Transaction_ID(m_trx.getM_Transaction_ID());
 			m_costdetail.setDescription("Reversal "
-					+ original_cd.getM_Transaction_ID());
+					+ original_trx.getM_Transaction_ID());
 			m_costdetail.setIsReversal(true);
 			m_costdetail.saveEx();
 
 			// Update the original cost detail
-			original_cd
-					.setDescription(original_cd.getDescription() != null ? original_cd
+			m_last_costdetail
+					.setDescription(m_last_costdetail.getDescription() != null ? m_last_costdetail
 							.getDescription() : "" + "|Reversal "
 							+ m_costdetail.getM_Transaction_ID());
-			original_cd.setIsReversal(true);
-			original_cd.saveEx(m_trx.get_TrxName());
+			m_last_costdetail.setIsReversal(true);
+			m_last_costdetail.saveEx(m_trx.get_TrxName());
 
 			// Update the new cost detail
 			m_CumulatedQty = getNewCumulatedQty(m_costdetail);
@@ -276,6 +254,8 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 		// Only uncomment to debug Trx.get(m_costdetail.get_TrxName(),
 		// false).commit();
 	}
+	
+	public abstract void updateAmtCost();
 
 	/**
 	 * Method to implement the costing method Get the New Current Cost Price

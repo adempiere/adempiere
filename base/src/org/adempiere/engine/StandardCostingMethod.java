@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.adempiere.model.engines;
+package org.adempiere.engine;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -10,12 +10,8 @@ import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCost;
 import org.compiere.model.MCostDetail;
-import org.compiere.model.MCostElement;
-import org.compiere.model.MCostType;
-import org.compiere.model.MMatchInv;
 import org.compiere.model.MProduct;
 import org.compiere.model.MTransaction;
-import org.compiere.model.Query;
 import org.compiere.util.Env;
 import org.compiere.util.Util;
 
@@ -38,20 +34,7 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 		m_isSOTrx = isSOTrx;
 		m_model = mtrx.getDocumentLine();
 		costingLevel = MProduct.get(mtrx.getCtx(), mtrx.getM_Product_ID())
-				.getCostingLevel(as);
-
-		if (model instanceof MMatchInv )
-		{
-			if (dimension.getM_CostType().getCostingMethod().equals(MCost.COSTINGMETHOD_StandardCosting) 
-					&& costingLevel.equals(MAcctSchema.COSTINGLEVEL_BatchLot)
-					&& dimension.getCostElement().getCostElementType().equals(MCostElement.COSTELEMENTTYPE_Material))
-			{
-				dimension.setCurrentCostPrice(((MMatchInv) model).getC_InvoiceLine().getPriceActual());
-				dimension.setCumulatedQty(model.getMovementQty());
-				dimension.saveEx();
-				m_costThisLevel = dimension.getCurrentCostPrice();
-			}
-		}
+				.getCostingLevel(as, mtrx.getAD_Org_ID());
 		m_costdetail = MCostDetail.getByTransaction(model, mtrx,
 				m_as.getC_AcctSchema_ID(), m_dimension.getM_CostType_ID(),
 				m_dimension.getM_CostElement_ID());
@@ -64,8 +47,8 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 		if (m_trx.getMovementType().endsWith("-")) {
 			m_CurrentCostPrice = m_dimension.getCurrentCostPrice();
 			m_CurrentCostPriceLL = m_dimension.getCurrentCostPriceLL();
-			m_Amount = m_trx.getMovementQty().multiply(m_CurrentCostPrice);
-			m_AmountLL = m_trx.getMovementQty()
+			m_Amount = m_model.getMovementQty().multiply(m_CurrentCostPrice);
+			m_AmountLL = m_model.getMovementQty()
 					.multiply(m_CurrentCostPriceLL);
 			m_CumulatedQty = m_dimension.getCumulatedQty().add(
 					m_trx.getMovementQty());
@@ -88,7 +71,7 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 			m_AdjustCost = m_CurrentCostPrice.multiply(
 					m_dimension.getCumulatedQty()).subtract(
 					m_dimension.getCumulatedAmt());
-			m_AdjustCostLL = m_CurrentCostPriceLL.multiply(
+			m_AdjustCost = m_CurrentCostPriceLL.multiply(
 					m_dimension.getCumulatedQty()).subtract(
 					m_dimension.getCumulatedAmtLL());
 			return;
@@ -126,13 +109,13 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 			m_costdetail.set_ValueOfColumn(idColumnName,
 					CostEngine.getIDColumn(m_model));
 		} else {
-			if (m_AdjustCost.compareTo(Env.ZERO)!=0) {
+			if (!m_AdjustCost.equals(Env.ZERO)) {
 				m_costdetail.setCostAdjustment(m_AdjustCost);
 				m_costdetail.setProcessed(false);
 				m_costdetail.setDescription("Adjust Cost");
 
 			}
-			if  (m_AdjustCostLL.compareTo(Env.ZERO)!=0) {
+			if (!m_AdjustCostLL.equals(Env.ZERO)) {
 				m_costdetail.setCostAdjustmentLL(m_AdjustCostLL);
 				m_costdetail.setProcessed(false);
 				m_costdetail.setDescription("Adjust Cost LL");
@@ -270,7 +253,7 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 		return null;
 	}
 
-	private void updateAmtCost() {
+	public void updateAmtCost() {
 		if (m_trx.getMovementType().contains("+")) {
 			m_costdetail.setCostAmt(m_costdetail.getAmt().subtract(
 					m_costdetail.getCostAdjustment()));
@@ -281,44 +264,6 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 			m_costdetail.setCostAmt(m_costdetail.getAmt().add(m_AdjustCost));
 			m_costdetail.setCostAmtLL(m_costdetail.getAmtLL().add(
 					m_AdjustCostLL));
-		}
-	}
-	
-
-	public void updateInventoryValue() {
-		if (m_CumulatedQty.signum() != 0 && m_dimension.getCurrentCostPrice().equals(Env.ZERO))
-		{	
-			m_dimension.setCurrentCostPrice(m_CurrentCostPrice);
-			m_dimension.setCurrentCostPriceLL(m_CumulatedAmtLL.divide(m_CumulatedQty, m_as.getCostingPrecision(),
-					BigDecimal.ROUND_HALF_UP));
-		}
-		m_dimension.setCumulatedAmt(m_CumulatedAmt);
-		m_dimension.setCumulatedAmtLL(m_CumulatedAmtLL);
-		m_dimension.setCumulatedQty(m_CumulatedQty);
-		m_dimension.setCurrentQty(m_CumulatedQty);
-		m_dimension.saveEx();
-		if (costingLevel.equals("O"))
-		{
-			final String whereClause = "AD_Client_ID=? AND AD_Org_ID<>?"
-					+" AND "+MCost.COLUMNNAME_M_CostType_ID+"=?"
-					+" AND "+MCost.COLUMNNAME_C_AcctSchema_ID+"=?"
-					+" AND "+MCost.COLUMNNAME_M_CostElement_ID+"=?"
-					+" AND "+MCost.COLUMNNAME_M_Product_ID+ "=?"
-					+" AND currentcostprice = 0";
-			final Object[] params = new Object[]{m_dimension.getAD_Client_ID(), m_dimension.getAD_Org_ID(),
-					m_dimension.getM_CostType_ID(), m_dimension.getC_AcctSchema_ID(),
-					m_dimension.getM_CostElement_ID(),
-					m_dimension.getM_Product_ID()};
-			List<MCost> costs =  new Query(m_dimension.getCtx(), MCost.Table_Name, whereClause, m_dimension.get_TrxName())
-			.setOnlyActiveRecords(true)
-			.setParameters(params)
-			.list();
-			for (MCost cost:costs)
-			{
-				cost.setCurrentCostPrice(m_dimension.getCurrentCostPrice());
-				cost.setCurrentCostPriceLL(m_dimension.getCurrentCostPriceLL());
-				cost.saveEx();
-			}				
 		}
 	}
 

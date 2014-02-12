@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.adempiere.model.engines.IDocumentLine;
+import org.adempiere.engine.IDocumentLine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -199,26 +199,6 @@ public class MLandedCostAllocation extends X_C_LandedCostAllocation implements I
 		.setParameters(getC_InvoiceLine_ID())
 		.firstOnly();
 		BigDecimal price = getAmt().divide(getQty(), currency.getCostingPrecision() ,  RoundingMode.HALF_UP);
-		return MConversionRate.convertBase(getCtx(), price, currency.getC_Currency_ID(), 
-				getC_InvoiceLine().getC_Invoice().getDateAcct(), 
-				getC_InvoiceLine().getC_Invoice().getC_ConversionType_ID(), getAD_Client_ID(), getAD_Org_ID());		
-	}
-	
-
-	public BigDecimal getPriceActualAccountingCurrency(MAcctSchema as)
-	{	
-		BigDecimal convertedamt = Env.ZERO;
-		final String where = "EXISTS (SELECT 1 FROM C_Invoice i INNER JOIN C_InvoiceLine il ON (i.C_Invoice_ID=il.C_Invoice_ID) WHERE C_Currency.C_Currency_ID=i.C_Currency_ID AND il.C_InvoiceLine_ID=?)";
-		MCurrency currency = new Query (getCtx(), I_C_Currency.Table_Name, where , get_TrxName())
-		.setParameters(getC_InvoiceLine_ID())
-		.firstOnly();
-		if (as.getC_Currency_ID() == getC_InvoiceLine().getC_Invoice().getC_Currency_ID())
-			convertedamt = getAmt();
-		else
-			convertedamt = MConversionRate.convert(getCtx(), getAmt(), currency.getC_Currency_ID(),
-				as.getC_Currency_ID(), getC_InvoiceLine().getC_Invoice().getDateAcct(), 
-				getC_InvoiceLine().getC_Invoice().getC_ConversionType_ID(), getAD_Client_ID(), getAD_Org_ID());
-		BigDecimal price = convertedamt.divide(getQty(), currency.getCostingPrecision() ,  RoundingMode.HALF_UP);
 		return price;
 	}
 
@@ -243,7 +223,7 @@ public class MLandedCostAllocation extends X_C_LandedCostAllocation implements I
 	}
 	
 	public Timestamp getDateAcct() {
-		return getC_InvoiceLine().getC_Invoice().getDateAcct();
+		return getM_InOutLine().getM_InOut().getDateAcct();
 	}
 	
 

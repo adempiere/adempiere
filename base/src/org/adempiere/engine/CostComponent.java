@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.adempiere.model.engines;
+package org.adempiere.engine;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

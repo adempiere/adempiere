@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.adempiere.model.engines;
+package org.adempiere.engine;
 
 import java.math.BigDecimal;
 
@@ -9,7 +9,6 @@ import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCost;
 import org.compiere.model.MCostDetail;
 import org.compiere.model.MTransaction;
-import org.eevolution.model.MPPCostCollector;
 
 /**
  * @author anca_bradau

@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.adempiere.model.engines.CostComponent;
+import org.adempiere.engine.CostComponent;
 import org.adempiere.exceptions.CostInsufficientQtyException;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
@@ -394,6 +394,7 @@ public class MCostQueue extends X_M_CostQueue
 			//	Negative Qty i.e. add
 			if (remainingQty.signum() <= 0)
 			{
+				BigDecimal oldQty = queue.getCurrentQty();
 				lastPrice = queue.getCurrentCostPrice();
 				BigDecimal costBatch = lastPrice.multiply(remainingQty);
 				cost = cost.add(costBatch);
@@ -408,6 +409,7 @@ public class MCostQueue extends X_M_CostQueue
 				BigDecimal reduction = remainingQty;
 				if (reduction.compareTo(queue.getCurrentQty()) > 0)
 					reduction = queue.getCurrentQty();
+				BigDecimal oldQty = queue.getCurrentQty();
 				lastPrice = queue.getCurrentCostPrice();
 				BigDecimal costBatch = lastPrice.multiply(reduction);
 				cost = cost.add(costBatch);
@@ -427,7 +429,7 @@ public class MCostQueue extends X_M_CostQueue
 
 		if (lastPrice == null)
 		{
-			lastPrice = MCost.getSeedCosts(product, M_ASI_ID, as, Org_ID, M_Warehouse_ID, 
+			lastPrice = MCost.getSeedCosts(product, M_ASI_ID, as, Org_ID, M_Warehouse_ID,
 				ce.getCostingMethod(), 0);
 			if (lastPrice == null)
 			{

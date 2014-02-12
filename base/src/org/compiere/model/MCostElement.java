@@ -240,8 +240,7 @@ public class MCostElement extends X_M_CostElement
 	 */
 	public static MCostElement[] getNonCostingMethods (PO po)
 	{
-		//final String whereClause = "AD_Client_ID=? AND CostingMethod IS NULL";
-		final String whereClause = "AD_Client_ID=? AND costelementtype in ('R','B','O','X')";
+		final String whereClause = "AD_Client_ID=? AND CostingMethod IS NULL";
 		List<MCostElement>list = new Query(po.getCtx(),I_M_CostElement.Table_Name, whereClause, po.get_TrxName())
 		.setParameters(po.getAD_Client_ID())
 		.setOnlyActiveRecords(true)
@@ -306,16 +305,7 @@ public class MCostElement extends X_M_CostElement
 					.setParameters(Env.getAD_Client_ID(ctx),CostingMethod)
 					.list();	
 	}	
-	
-	public static List<MCostElement> getByCostType (Properties ctx, int m_CostType_ID)
-	{		
-		final String whereClause = "AD_Client_ID = ? AND m_costtype_ID=?";
-		return new Query(ctx, Table_Name, whereClause, null)
-					.setOnlyActiveRecords(true)
-					.setParameters(Env.getAD_Client_ID(ctx),m_CostType_ID)
-					.list();	
-	}	
-	
+
 	/**	Cache						*/
 	private static CCache<Integer,MCostElement>	s_cache	= new CCache<Integer,MCostElement>("M_CostElement", 20);
 	

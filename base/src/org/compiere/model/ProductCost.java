@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.adempiere.model.engines.CostComponent;
+import org.adempiere.engine.CostComponent;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -410,7 +410,7 @@ public class ProductCost
 		}
 		//
 		BigDecimal cost = MCost.getCurrentCost (m_product, m_M_AttributeSetInstance_ID, 
-			as, AD_Org_ID, M_Warehouse_ID, costingMethod, m_qty, C_OrderLine_ID, zeroCostsOK, m_trxName);
+			as, AD_Org_ID,M_Warehouse_ID, costingMethod, m_qty, C_OrderLine_ID, zeroCostsOK, m_trxName);
 		if (cost == null)
 		{
 			log.fine("No Costs");

@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MAttributeSetInstance;
@@ -14,6 +13,7 @@ import org.compiere.model.MProduct;
 import org.compiere.model.MStorage;
 import org.compiere.model.X_M_Production;
 import org.compiere.util.AdempiereUserError;
+import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 
@@ -23,8 +23,8 @@ public class MProduction extends X_M_Production {
 	 * 
 	 */
 	/** Log								*/
+	private static CLogger		m_log = CLogger.getCLogger (MProduction.class);
 	private static final long serialVersionUID = 1L;
-	private MProductionPlan[]	m_lines = null;
 	private int lineno;
 	private int count;
 
@@ -42,22 +42,7 @@ public class MProduction extends X_M_Production {
 		setAD_Org_ID(line.getAD_Org_ID());
 		setMovementDate( line.getDatePromised() );
 	}
-	
-	public MProductionPlan[] getLines (boolean requery)
-	{
-		if (m_lines != null && !requery) {
-			set_TrxName(m_lines, get_TrxName());
-			return m_lines;
-		}
-		List<MProductionPlan> list = new Query(getCtx(), I_M_ProductionPlan.Table_Name, " M_Production_ID=?", get_TrxName())
-		.setParameters(getM_Production_ID())
-		.setOrderBy(MInOutLine.COLUMNNAME_Line)
-		.list();
-		//
-		m_lines = new MProductionPlan[list.size()];
-		list.toArray(m_lines);
-		return m_lines;
-	}	//	getMInOutLines
+
 	
 
 	public MProductionLine[] getLines() {

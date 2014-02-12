@@ -16,7 +16,7 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import org.adempiere.model.engines.CostEngineFactory;
+import org.adempiere.engine.CostEngineFactory;
 import org.compiere.model.MLandedCost;
 import org.compiere.model.MLandedCostAllocation;
 import org.compiere.util.AdempiereUserError;

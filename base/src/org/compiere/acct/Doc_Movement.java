@@ -21,15 +21,12 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCostDetail;
-import org.compiere.model.MLocator;
 import org.compiere.model.MMovement;
 import org.compiere.model.MMovementLine;
 import org.compiere.model.MTransaction;
 import org.compiere.model.ProductCost;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 /**
@@ -58,15 +55,6 @@ public class Doc_Movement extends Doc
 	{
 		super (ass, MMovement.class, rs, DOCTYPE_MatMovement, trxName);
 	}   //  Doc_Movement
-
-	public void balanceSource(DocLine docline, BigDecimal diff, String postingtype, Fact fact, MAcctSchema as)
-	{
-		//  new line
-		fact.createLine(docline,
-				getAccount(ACCTTYPE_InvDifferences, as),as.getC_Currency_ID(), diff);
-
-	}   //  balancingSource
-
 
 	/**
 	 *  Load Document Details
@@ -141,36 +129,33 @@ public class Doc_Movement extends Doc
 		//  Line pointers
 		FactLine dr = null;
 		FactLine cr = null;
-		FactLine diffline = null;
 
-		ArrayList<Fact> facts = new ArrayList<Fact>();
 		for (int i = 0; i < p_lines.length; i++)
 		{
 			DocLine line = p_lines[i];
 			BigDecimal costs = Env.ZERO;			
 			for (MCostDetail cost : line.getCostDetail(as))
 			{
-
-				if (!MCostDetail.existsCost(cost))
-					return null;
+				if(!MCostDetail.existsCost(cost))
+					continue;
 				//get costing method for product
 				String description = cost.getM_CostElement().getName() +" "+ cost.getM_CostType().getName();
-
+				
 				costs = MCostDetail.getTotalCost(cost, as);
-
+				
 				MTransaction trx =  new MTransaction(getCtx(), cost.getM_Transaction_ID() , getTrxName());
 				if(MTransaction.MOVEMENTTYPE_MovementFrom.equals(trx.getMovementType()))
 				{	
-
+					
 					//  ** Inventory       DR      CR
 					dr = fact.createLine(line,
-							line.getAccount(ProductCost.ACCTTYPE_P_Asset, as),
-							as.getC_Currency_ID(), costs );		//	from (-) CR
+						line.getAccount(ProductCost.ACCTTYPE_P_Asset, as),
+						as.getC_Currency_ID(), costs.negate());		//	from (-) CR
 					if (dr == null)
 						continue;
 					dr.setM_Locator_ID(line.getM_Locator_ID());
 					dr.addDescription(description);
-					dr.setQty(cost.getQty());	//	outgoing
+					dr.setQty(cost.getQty().negate());	//	outgoing
 					if (m_DocStatus.equals(MMovement.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
 					{
 						//	Set AmtAcctDr from Original Movement
@@ -187,8 +172,8 @@ public class Doc_Movement extends Doc
 				{	
 					//  ** InventoryTo     DR      CR
 					cr = fact.createLine(line,
-							line.getAccount(ProductCost.ACCTTYPE_P_Asset, as),
-							as.getC_Currency_ID(), costs);			//	to (+) DR
+						line.getAccount(ProductCost.ACCTTYPE_P_Asset, as),
+						as.getC_Currency_ID(), costs);			//	to (+) DR
 					if (cr == null)
 						continue;
 					cr.setM_Locator_ID(line.getM_LocatorTo_ID());
@@ -203,29 +188,15 @@ public class Doc_Movement extends Doc
 							p_Error = "Original Inventory Move not posted yet";
 							return null;
 						}
+						costs = cr.getAcctBalance(); //get original cost
 					}		
-				}
+				}	
 			}
-			if (dr.getAD_Org_ID() != cr.getAD_Org_ID())
-			{
-				BigDecimal diff = (dr.getAmtAcctCr().subtract(cr.getAmtAcctDr()));	
-				if (diff.compareTo(Env.ZERO)!= 0)
-				{
-					MLocator locTo = new MLocator(getCtx(), line.getM_LocatorTo_ID(), null);
-					int m_warehouseID = locTo.getM_Warehouse_ID();
-					String sql = "SELECT W_Differences_Acct FROM M_Warehouse_Acct WHERE M_Warehouse_ID=? AND C_AcctSchema_ID=?";
-					MAccount diffacct = MAccount.get (as.getCtx(), DB.getSQLValue(null, sql, m_warehouseID, as.getC_AcctSchema_ID()));
-					diffline = fact.createLine(line, diffacct,as.getC_Currency_ID(), diff);
-				}							
-			}
-			
 		}
 
 		//
+		ArrayList<Fact> facts = new ArrayList<Fact>();
 		facts.add(fact);
 		return facts;
 	}   //  createFact
-	
-	
-	
 }   //  Doc_Movement

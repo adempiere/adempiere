@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.adempiere.model.engines;
+package org.adempiere.engine;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -253,10 +253,10 @@ public class FifoLifoCostingMethod extends AbstractCostingMethod
 		final List<MCostDetail> cds;
 		if (costDetail.getCostAdjustmentDate()!= null)
 		{
-			cds = MCostDetail.getAfterAndIncludeCostAdjustmentDate(costDetail);
+			cds = MCostDetail.getAfterDate(costDetail , costingLevel);
 		}
 		else 
-			cds = MCostDetail.getAfterDateAcct(costDetail);
+			cds = MCostDetail.getAfterDate(costDetail , costingLevel);
 		List<Object> list = new ArrayList<Object>();
 
 		for (MCostDetail cd : cds)
@@ -444,5 +444,6 @@ public class FifoLifoCostingMethod extends AbstractCostingMethod
 			m_costdetail.setCostAmt(m_costdetail.getAmt());
 			m_costdetail.setCostAmtLL(m_costdetail.getAmtLL());
 		}	
-	}	
+	}
+	
 }

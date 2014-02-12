@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.TreeSet;
 
-import org.adempiere.model.engines.CostDimension;
+import org.adempiere.engine.CostDimension;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DocTypeNotFoundException;
 import org.compiere.model.MAcctSchema;
@@ -491,8 +491,12 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		}
 		
 		// Un-Order Stock
-		setQtyOrdered(Env.ZERO);
-		orderStock();
+		if(MPPOrder.DOCSTATUS_InProgress.equals(getDocStatus()) || 
+				   MPPOrder.DOCSTATUS_Completed.equals(getDocStatus()))
+		{	
+			setQtyOrdered(Env.ZERO);
+			orderStock();
+		}	
 
 		return true;
 	} //	beforeDelete
@@ -1499,9 +1503,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			productsAdded.add(product.getM_Product_ID());
 			//
 			final CostDimension d = new CostDimension(product, as, as.getM_CostType_ID(),
-												getAD_Org_ID(),
-												getM_Warehouse_ID(),
-												getM_AttributeSetInstance_ID(),
+												getAD_Org_ID() , getM_Warehouse_ID() , getM_AttributeSetInstance_ID(),
 												CostDimension.ANY);
 			Collection<MCost> costs = d.toQuery(MCost.class, get_TrxName()).list();
 			for (MCost cost : costs)
@@ -1524,7 +1526,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			productsAdded.add(product.getM_Product_ID());
 			//
 			CostDimension d = new CostDimension(line.getM_Product(), as, as.getM_CostType_ID(),
-												line.getAD_Org_ID(), line.getM_Warehouse_ID(), line.getM_AttributeSetInstance_ID(),
+												line.getAD_Org_ID(), getM_Warehouse_ID() ,line.getM_AttributeSetInstance_ID(),
 												CostDimension.ANY);
 			Collection<MCost> costs = d.toQuery(MCost.class, get_TrxName()).list();
 			for (MCost cost : costs)
@@ -1727,7 +1729,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 				Env.ZERO, // scrap,
 				Env.ZERO, // reject,
 				setupTimeVariance.intValueExact(), //durationSetup,
-				durationReal // duration
+				durationVariance // duration
 		);
 	}
 	
@@ -1851,5 +1853,4 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			//return DOCSTATUS_Closed;
 		}
 	}
-	
 } // MPPOrder

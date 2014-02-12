@@ -22,10 +22,12 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
-import org.adempiere.model.engines.CostEngineFactory;
-import org.adempiere.model.engines.CostingMethodFactory;
-import org.adempiere.model.engines.ICostingMethod;
-import org.adempiere.model.engines.IDocumentLine;
+import org.adempiere.engine.CostEngineFactory;
+import org.adempiere.engine.IDocumentLine;
+import org.adempiere.engine.CostingMethodFactory;
+import org.adempiere.engine.ICostingMethod;
+
+import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 
@@ -138,6 +140,10 @@ public class MMatchInv extends X_M_MatchInv implements IDocumentLine
 	}	//	getInvoice
 
 	
+	/**	Static Logger	*/
+	private static CLogger	s_log	= CLogger.getCLogger (MMatchInv.class);
+
+	
 	/**************************************************************************
 	 * 	Standard Constructor
 	 *	@param ctx context
@@ -229,10 +235,8 @@ public class MMatchInv extends X_M_MatchInv implements IDocumentLine
 	 */
 	protected boolean afterSave (boolean newRecord, boolean success)
 	{
-		MClient client = MClient.get(getCtx());
-		if (client.isCostImmediate())
 		if (newRecord && success)
-		{							
+		{				
 			MInOutLine inout_line = (MInOutLine) getM_InOutLine();
 			for (MTransaction trx: MTransaction.getByInOutLine(inout_line))
 			{
@@ -244,29 +248,16 @@ public class MMatchInv extends X_M_MatchInv implements IDocumentLine
 	}	//	afterSave
 	
 	/**
-	 * 	Get the later Date Acct from invoice or shipment
+	 * 	Get the Date Acct from  shipment
 	 *	@return date or null
 	 */
 	public Timestamp getNewerDateAcct()
 	{
-		String sql = "SELECT i.DateAcct "
-			+ "FROM C_InvoiceLine il"
-			+ " INNER JOIN C_Invoice i ON (i.C_Invoice_ID=il.C_Invoice_ID) "
-			+ "WHERE C_InvoiceLine_ID=?";
-		Timestamp invoiceDate = DB.getSQLValueTS(get_TrxName(), sql, getC_InvoiceLine_ID());
-		//
-		sql = "SELECT io.DateAcct "
+		String sql = "SELECT io.DateAcct "
 			+ "FROM M_InOutLine iol"
 			+ " INNER JOIN M_InOut io ON (io.M_InOut_ID=iol.M_InOut_ID) "
 			+ "WHERE iol.M_InOutLine_ID=?";
 		Timestamp shipDate = DB.getSQLValueTS(get_TrxName(), sql, getM_InOutLine_ID());
-		//
-		if (invoiceDate == null)
-			return shipDate;
-		if (shipDate == null)
-			return invoiceDate;
-		if (invoiceDate.after(shipDate))
-			return invoiceDate;
 		return shipDate;
 	}	//	getNewerDateAcct
 	
@@ -321,7 +312,7 @@ public class MMatchInv extends X_M_MatchInv implements IDocumentLine
 				else
 				{
 					mPO[i].setC_InvoiceLine_ID(null);
-					mPO[i].save();
+					mPO[i].saveEx();
 				}
 			}
 		}
@@ -403,7 +394,7 @@ public class MMatchInv extends X_M_MatchInv implements IDocumentLine
 		
 		return "";
 	}*/
-	//
+	
 	//AZ Goodwill
 	private String deleteMatchInvCostDetail()
 	{
@@ -458,7 +449,7 @@ public class MMatchInv extends X_M_MatchInv implements IDocumentLine
 
 						MInOutLine inout_line = (MInOutLine) getM_InOutLine();
 						MCost dimension = new MCost (product, M_ASI_ID,
-								as.getC_AcctSchema_ID(), Org_ID,  inout_line.getM_Warehouse_ID(), cd.getM_CostType_ID(), cd.getM_CostElement_ID());
+								as.getC_AcctSchema_ID(), Org_ID, inout_line.getM_Warehouse_ID() , cd.getM_CostType_ID(), cd.getM_CostElement_ID());
 						
 						for (MTransaction trx: MTransaction.getByInOutLine(inout_line))
 						{

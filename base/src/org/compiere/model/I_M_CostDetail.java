@@ -580,8 +580,8 @@ public interface I_M_CostDetail
 
 	/** Get Inventory Transaction	  */
 	public int getM_Transaction_ID();
-	
-	/** Column name M_Warehouse_ID */
+
+    /** Column name M_Warehouse_ID */
     public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
 
 	/** Set Warehouse.
@@ -595,7 +595,6 @@ public interface I_M_CostDetail
 	public int getM_Warehouse_ID();
 
 	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
-
 
     /** Column name PP_Cost_Collector_ID */
     public static final String COLUMNNAME_PP_Cost_Collector_ID = "PP_Cost_Collector_ID";

@@ -19,12 +19,10 @@ package org.compiere.model;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.ProductNotOnPriceListException;
-import org.adempiere.model.engines.IDocumentLine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -52,7 +50,7 @@ import org.compiere.util.Msg;
  * 				invoice line for a product on a price list that includes tax, the net amount is
  * 				incorrectly calculated.
  */
-public class MOrderLine extends X_C_OrderLine implements IDocumentLine
+public class MOrderLine extends X_C_OrderLine
 {
 	/**
 	 * 
@@ -868,13 +866,13 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 			{
 				int M_AttributeSet_ID = product.getM_AttributeSet_ID();
 				boolean isInstance = M_AttributeSet_ID != 0;
-				if (isInstance )
+				if (isInstance)
 				{
 					MAttributeSet mas = MAttributeSet.get(getCtx(), M_AttributeSet_ID);
 					isInstance = mas.isInstanceAttribute();
 				}
 				//	Max
-				if (isInstance && product.isASIMandatory(isSOTrx()) )
+				if (isInstance)
 				{
 					MStorage[] storages = MStorage.getWarehouse(getCtx(), 
 						getM_Warehouse_ID(), getM_Product_ID(), getM_AttributeSetInstance_ID(), 
@@ -1047,62 +1045,5 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 		m_parent = null;
 		return no == 1;
 	}	//	updateHeaderTax
-	
-	@Override
-	public int getM_Locator_ID() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public BigDecimal getMovementQty() 
-	{
-		return this.getQtyEntered();
-	}
-
-	@Override
-	public int getReversalLine_ID() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public boolean isSOTrx() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void setM_Locator_ID(int M_Locator_ID) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Timestamp getDateAcct() {
-		return getParent().getDateAcct();
-	}
-	
-
-	public IDocumentLine getReversalDocumentLine() {
-		return null;
-	}
-
-	@Override
-	public int getM_AttributeSetInstanceTo_ID() {
-		// TODO Auto-generated method stub
-		return -1;
-	}
-
-	@Override
-	public int getM_LocatorTo_ID() {
-		// TODO Auto-generated method stub
-		return -1;
-	}
-	
-	@Override
-	public int getC_DocType_ID() {
-		return getParent().getC_DocType_ID();
-	}
 	
 }	//	MOrderLine

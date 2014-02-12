@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.adempiere.model.engines.CostEngineFactory;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.BPartnerNoAddressException;
 import org.adempiere.exceptions.DBException;
@@ -74,8 +73,8 @@ public class MInvoice extends X_C_Invoice implements DocAction
 	public static MInvoice[] getOfBPartner (Properties ctx, int C_BPartner_ID, String trxName)
 	{
 		List<MInvoice> list = new Query(ctx, Table_Name, COLUMNNAME_C_BPartner_ID+"=?", trxName)
-		.setParameters(C_BPartner_ID)
-		.list();
+									.setParameters(C_BPartner_ID)
+									.list();
 		return list.toArray(new MInvoice[list.size()]);
 	}	//	getOfBPartner
 
@@ -635,9 +634,9 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		if (whereClause != null)
 			whereClauseFinal += whereClause;
 		List<MInvoiceLine> list = new Query(getCtx(), I_C_InvoiceLine.Table_Name, whereClauseFinal, get_TrxName())
-		.setParameters(getC_Invoice_ID())
-		.setOrderBy(I_C_InvoiceLine.COLUMNNAME_Line)
-		.list();
+										.setParameters(getC_Invoice_ID())
+										.setOrderBy(I_C_InvoiceLine.COLUMNNAME_Line)
+										.list();
 		return list.toArray(new MInvoiceLine[list.size()]);
 	}	//	getLines
 
@@ -789,8 +788,8 @@ public class MInvoice extends X_C_Invoice implements DocAction
 
 		final String whereClause = MInvoiceTax.COLUMNNAME_C_Invoice_ID+"=?";
 		List<MInvoiceTax> list = new Query(getCtx(), I_C_InvoiceTax.Table_Name, whereClause, get_TrxName())
-		.setParameters(get_ID())
-		.list();
+										.setParameters(get_ID())
+										.list();
 		m_taxes = list.toArray(new MInvoiceTax[list.size()]);
 		return m_taxes;
 	}	//	getTaxes
@@ -1123,8 +1122,8 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		}
 
 		POResultSet<MInvoice> rs = new Query(ctx, MInvoice.Table_Name, whereClause.toString(), trxName)
-		.setParameters(params)
-		.scroll();
+										.setParameters(params)
+										.scroll();
 		int counter = 0;
 		try {
 			while(rs.hasNext()) {
@@ -1743,25 +1742,6 @@ public class MInvoice extends X_C_Invoice implements DocAction
 					addDocsPostProcess(inv);
 			}
 		}	//	for all lines
-
-		//create cost detail for landed cost add by ancabradau
-		MClient client = MClient.get(getCtx());
-		if (client.isCostImmediate())
-		for (int i = 0; i < lines.length; i++)
-		{
-			MInvoiceLine line = lines[i];
-			MLandedCostAllocation[] lcas = MLandedCostAllocation.getOfInvoiceLine(
-					getCtx(), line.getC_InvoiceLine_ID(), get_TrxName());
-			for (int j = 0; j < lcas.length; j++)
-			{
-				MLandedCostAllocation allocation = lcas[j];
-				MInOutLine ioLine = (MInOutLine) allocation.getM_InOutLine();
-				for (MTransaction trx: MTransaction.getByInOutLine(ioLine))
-				{
-						CostEngineFactory.getCostEngine(getAD_Client_ID()).createCostDetail(trx, allocation);
-				}		
-			}
-		}
 		if (matchInv > 0)
 			info.append(" @M_MatchInv_ID@#").append(matchInv).append(" ");
 		if (matchPO > 0)
@@ -2222,15 +2202,15 @@ public class MInvoice extends X_C_Invoice implements DocAction
 			MAllocationLine aLine = new MAllocationLine (alloc, gt,
 				Env.ZERO, Env.ZERO, Env.ZERO);
 			aLine.setC_Invoice_ID(getC_Invoice_ID());
-			aLine.save();
+			aLine.saveEx();
 			//	Reversal Line
 			MAllocationLine rLine = new MAllocationLine (alloc, gt.negate(),
 				Env.ZERO, Env.ZERO, Env.ZERO);
 			rLine.setC_Invoice_ID(reversal.getC_Invoice_ID());
-			rLine.save();
+			rLine.saveEx();
 			//	Process It
 			if (alloc.processIt(DocAction.ACTION_Complete))
-				alloc.save();
+				alloc.saveEx();
 		}
 
 		// After reverseCorrect
@@ -2374,31 +2354,5 @@ public class MInvoice extends X_C_Invoice implements DocAction
 			|| DOCSTATUS_Closed.equals(ds)
 			|| DOCSTATUS_Reversed.equals(ds);
 	}	//	isComplete
-	
-
-	public static boolean updateHeaderWithholding(int C_Invoice_ID, String trxName)
-	{
-		//	Update Invoice Header
-		String sql = 
-			"UPDATE C_Invoice "
-			+ " SET WithholdingAmt="
-				+ "(SELECT COALESCE(SUM(TaxAmt),0) FROM LCO_InvoiceWithholding iw WHERE iw.IsActive = 'Y' " +
-						"AND iw.IsCalcOnPayment = 'N' AND C_Invoice.C_Invoice_ID=iw.C_Invoice_ID) "
-			+ "WHERE C_Invoice_ID=?";
-		int no = DB.executeUpdate(sql, C_Invoice_ID, trxName);
-
-		return no == 1;
-	}	//	updateHeaderWithholding
-
-	/*
-	 * Set Withholding Amount without Logging (via direct SQL UPDATE)
-	 */
-	public static boolean setWithholdingAmtWithoutLogging(MInvoice inv, BigDecimal wamt) {
-		DB.executeUpdate("UPDATE C_Invoice SET WithholdingAmt=? WHERE C_Invoice_ID=?", 
-				new Object[] {wamt, inv.getC_Invoice_ID()}, 
-				true, 
-				inv.get_TrxName());
-		return true;
-	}
 
 }	//	MInvoice

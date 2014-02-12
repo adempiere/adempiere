@@ -27,9 +27,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
-import org.adempiere.model.engines.CostEngineFactory;
-import org.adempiere.model.engines.IDocumentLine;
-import org.adempiere.model.engines.StorageEngine;
+import org.adempiere.engine.CostEngineFactory;
+import org.adempiere.engine.IDocumentLine;
+import org.adempiere.engine.StorageEngine;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DocTypeNotFoundException;
 import org.adempiere.exceptions.FillMandatoryException;
