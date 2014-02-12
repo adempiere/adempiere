@@ -21,7 +21,7 @@ import java.util.Collection;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.adempiere.engine.CostDimension;
+import org.adempiere.model.engines.CostDimension;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MConversionRate;
 import org.compiere.model.MCost;

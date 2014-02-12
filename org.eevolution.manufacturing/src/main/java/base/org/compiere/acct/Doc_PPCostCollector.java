@@ -23,12 +23,15 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 
+import org.compiere.model.I_M_CostDetail;
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCost;
 import org.compiere.model.MCostDetail;
 import org.compiere.model.MCostElement;
 import org.compiere.model.MDocType;
+import org.compiere.model.MInOutLine;
+import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MProduct;
 import org.compiere.model.ProductCost;
 import org.compiere.model.Query;
@@ -223,7 +226,7 @@ public class Doc_PPCostCollector extends Doc
 			{
 				MAccount debit = m_line.getAccount(ProductCost.ACCTTYPE_P_Asset, as);
 				MCost c = MCost.get(product, 0, as, cd.getAD_Org_ID(), cd.getM_Warehouse_ID(), cd.getM_CostElement_ID());
-				BigDecimal cost = cd.getAmt().add(c.getCurrentCostPriceLL());
+				BigDecimal cost = cd.getAmt().add(cd.getAmtLL());
 				if (cost.scale() > as.getStdPrecision())
 					cost = cost.setScale(as.getStdPrecision(), RoundingMode.HALF_UP);
 				createLines(element, as, fact, product, debit, burden, cost, m_cc.getMovementQty());
@@ -233,7 +236,7 @@ public class Doc_PPCostCollector extends Doc
 			{
 				MAccount debit = m_line.getAccount(ProductCost.ACCTTYPE_P_Asset, as);
 				MCost c = MCost.get(product, 0, as, cd.getAD_Org_ID(), cd.getM_Warehouse_ID(), cd.getM_CostElement_ID());
-				BigDecimal cost = cd.getAmt().add(c.getCurrentCostPriceLL());
+				BigDecimal cost = cd.getAmt().add(cd.getAmtLL());
 				if (cost.scale() > as.getStdPrecision())
 					cost = cost.setScale(as.getStdPrecision(), RoundingMode.HALF_UP);
 				createLines(element, as, fact, product, debit, credit, cost, m_cc.getMovementQty());
@@ -241,7 +244,7 @@ public class Doc_PPCostCollector extends Doc
 			if(m_cc.getScrappedQty().signum() != 0)
 			{
 				MAccount debit = m_line.getAccount(ProductCost.ACCTTYPE_P_Scrap, as);
-				MCost c = MCost.get(product, 0, as, cd.getAD_Org_ID(), cd.getM_Warehouse_ID(),  cd.getM_CostElement_ID());
+				MCost c = MCost.get(product, 0, as, cd.getAD_Org_ID(), cd.getM_Warehouse_ID(), cd.getM_CostElement_ID());
 				BigDecimal cost = cd.getPrice().multiply(m_cc.getScrappedQty()).add(c.getCurrentCostPriceLL());
 				if (cost.scale() > as.getStdPrecision())
 					cost = cost.setScale(as.getStdPrecision(), RoundingMode.HALF_UP);
@@ -291,8 +294,8 @@ public class Doc_PPCostCollector extends Doc
 		{
 			MCostElement element = MCostElement.get(getCtx(), cd.getM_CostElement_ID());
 		
-			MCost c = MCost.get(product, 0, as, cd.getAD_Org_ID(), cd.getM_Warehouse_ID(),  cd.getM_CostElement_ID());
-			BigDecimal cost = cd.getAmt().add(c.getCurrentCostPriceLL()).negate();
+			MCost c = MCost.get(product, 0, as, cd.getAD_Org_ID(), cd.getM_Warehouse_ID(), cd.getM_CostElement_ID());
+			BigDecimal cost = cd.getAmt().add(c.getCurrentCostPriceLL()) ;
 			if (cost.scale() > as.getStdPrecision())
 				cost = cost.setScale(as.getStdPrecision(), RoundingMode.HALF_UP);
 			createLines(element, as, fact, product, debit, credit, cost, m_cc.getMovementQty());
@@ -322,7 +325,7 @@ public class Doc_PPCostCollector extends Doc
 
 		MAccount debit = m_line.getAccount(ProductCost.ACCTTYPE_P_WorkInProcess, as);
 		
-		for (MCostDetail cd : getCostDetailsActivityControl())
+		for (MCostDetail cd :  m_line.getCostDetail(as))
 		{
 			MCost c = MCost.get(product, 0, as, cd.getAD_Org_ID(), cd.getM_Warehouse_ID(), cd.getM_CostElement_ID());
 			BigDecimal costs = cd.getAmt().add(c.getCurrentCostPriceLL()).negate();
@@ -348,7 +351,7 @@ public class Doc_PPCostCollector extends Doc
 		for (MCostDetail cd : getCostDetails())
 		{
 			MCostElement element = MCostElement.get(getCtx(), cd.getM_CostElement_ID());
-			MCost c = MCost.get(product, 0, as, cd.getAD_Org_ID(), cd.getM_Warehouse_ID(),cd.getM_CostElement_ID());
+			MCost c = MCost.get(product, 0, as, cd.getAD_Org_ID(), cd.getM_Warehouse_ID(), cd.getM_CostElement_ID());
 			BigDecimal costs = cd.getAmt().add(c.getCurrentCostPriceLL()).negate();
 			if (costs.scale() > as.getStdPrecision())
 				costs = costs.setScale(as.getStdPrecision(), RoundingMode.HALF_UP);
@@ -390,6 +393,7 @@ public class Doc_PPCostCollector extends Doc
 	
 	private List<MCostDetail> getCostDetailsActivityControl()
 	{
+		
 		if (m_costDetails == null)
 		{
 			String whereClause = MCostDetail.COLUMNNAME_PP_Cost_Collector_ID+"=? AND EXISTS(SELECT 1 FROM M_CostElement ce " +

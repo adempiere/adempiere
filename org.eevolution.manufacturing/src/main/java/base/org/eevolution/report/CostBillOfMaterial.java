@@ -24,8 +24,8 @@ import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.FillMandatoryException;
-import org.adempiere.engine.CostEngine;
-import org.adempiere.engine.CostEngineFactory;
+import org.adempiere.model.engines.CostEngine;
+import org.adempiere.model.engines.CostEngineFactory;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCost;
 import org.compiere.model.MCostElement;
@@ -207,10 +207,7 @@ public class CostBillOfMaterial extends SvrProcess
 			//
 			tboml.setSeqNo(m_SeqNo);
 			tboml.setLevelNo(m_LevelNo);
-			if ( m_LevelNo < 10)
-				tboml.setLevels(LEVELS.substring(0, m_LevelNo) + m_LevelNo);
-			else
-				tboml.setLevels(LEVELS + "-");
+			tboml.setLevels(LEVELS.substring(0, m_LevelNo) + m_LevelNo);
 			//
 			// Set Costs:
 			final CostEngine engine = CostEngineFactory.getCostEngine(getAD_Client_ID());
@@ -219,7 +216,7 @@ public class CostBillOfMaterial extends SvrProcess
 					m_as,
 					p_M_CostType_ID,
 					p_AD_Org_ID,
-					0,
+					0, // Warehouse
 					0, // ASI
 					costElement.getM_CostElement_ID());
 			BigDecimal currentCostPrice = Env.ZERO;
@@ -261,7 +258,7 @@ public class CostBillOfMaterial extends SvrProcess
 	{
 		if (m_costElements == null)
 		{
-			m_costElements = MCostElement.getByCostingMethod(getCtx(), p_ConstingMethod);
+			m_costElements = MCostElement.getCostElement(getCtx(), get_TrxName());
 		}
 		return m_costElements;
 	}

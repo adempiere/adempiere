@@ -19,7 +19,7 @@ package org.eevolution.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
-import org.adempiere.engine.IInventoryAllocation;
+import org.adempiere.model.engines.IInventoryAllocation;
 
 /**
  * Cost Collector Material Allocation

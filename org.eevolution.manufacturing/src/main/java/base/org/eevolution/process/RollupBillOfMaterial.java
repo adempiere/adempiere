@@ -23,7 +23,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 
-import org.adempiere.engine.CostDimension;
+import org.adempiere.model.engines.CostDimension;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCost;
 import org.compiere.model.MCostElement;
