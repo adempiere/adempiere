@@ -24,8 +24,8 @@ import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.FillMandatoryException;
-import org.adempiere.model.engines.CostEngine;
-import org.adempiere.model.engines.CostEngineFactory;
+import org.adempiere.engine.CostEngine;
+import org.adempiere.engine.CostEngineFactory;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCost;
 import org.compiere.model.MCostElement;
