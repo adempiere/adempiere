@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="CostEngine by Warehouse" ReleaseNo="" SeqNo="610">
+  <Migration EntityType="D" Name="CostEngine by Warehouse" ReleaseNo="" SeqNo="563">
     <Step SeqNo="30" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="66648" Table="AD_Column">
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
@@ -316,11 +316,6 @@
     <Step SeqNo="350" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="12163" Table="AD_Field">
         <Data AD_Column_ID="181" Column="SeqNo" oldValue="60">70</Data>
-      </PO>
-    </Step>
-    <Step SeqNo="360" StepType="AD">
-      <PO AD_Table_ID="107" Action="U" Record_ID="1001556" Table="AD_Field">
-        <Data AD_Column_ID="181" Column="SeqNo" oldValue="70">80</Data>
       </PO>
     </Step>
     <Step SeqNo="370" StepType="AD">
