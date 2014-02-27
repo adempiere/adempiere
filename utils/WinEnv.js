@@ -31,17 +31,23 @@ SysEnv("JAVA_HOME") = home;
 WScript.Echo ("SET JAVA_HOME="+ home);
 
 
-// Check that JAVA_HOME is in PATH
+//Check that JAVA_HOME is in PATH
 var pathString = SysEnv("PATH"); // Shell.ExpandEnvironmentStrings("%PATH%");
 var index = pathString.indexOf(home);
 if (index == -1)
 {
-  SysEnv("PATH") = home + "\\bin;" + pathString;
-  var index_2 = SysEnv("PATH").indexOf(home);
-  if (index_2 == -1)
-    WScript.Echo ("Path NOT changed - run program as Administrator!");
+  var index_1 = pathString.indexOf("%JAVA_HOME%\\bin");
+  if (index_1 == -1)
+  {
+	  SysEnv("PATH") = "%JAVA_HOME%\\bin;" + pathString;
+	  var index_2 = SysEnv("PATH").indexOf("%JAVA_HOME%\\bin;");
+	  if (index_2 == -1)
+		  WScript.Echo ("Path NOT changed - run program as Administrator!");
+	  else
+		  WScript.Echo ("Path Changed = " + SysEnv("PATH"));
+  }
   else
-    WScript.Echo ("Path Changed = " + SysEnv("PATH"));
+	  WScript.Echo ("Path is OK = " + SysEnv("PATH"));
 }
 else
   WScript.Echo ("Path is OK = " + SysEnv("PATH"));

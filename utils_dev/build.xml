@@ -52,7 +52,7 @@
 	</target>
 
   <target name="clean-all" depends="clean">
-    <delete dir="${env.ADEMPIERE_ROOT}"/>
+    <delete dir="${env.ADEMPIERE_HOME}"/>
   </target>
 
     <target name="update-adempiere-jar" depends="init">
