@@ -734,6 +734,16 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 					f.restoreValue();
 			}
 		}
+		
+		public void refreshContext()
+	 	{
+			for(int i = 0; i < m_vEditors.size(); i++) {
+				VEditor editor = m_vEditors.get(i);
+				GridField mField = editor.getField();
+				editor.setValue(mField.getDefault());
+			}
+	 	}
+		
 		/**
 		 * Define the mode to Display the parameters
 		 * @param mode

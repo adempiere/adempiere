@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Browse
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_AD_Browse extends PO implements I_AD_Browse, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130410L;
+	private static final long serialVersionUID = 20140227L;
 
     /** Standard Constructor */
     public X_AD_Browse (Properties ctx, int AD_Browse_ID, String trxName)
@@ -147,6 +147,34 @@ public class X_AD_Browse extends PO implements I_AD_Browse, I_Persistent
 	public int getAD_View_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_View_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_AD_Window getAD_Window() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Window)MTable.get(getCtx(), org.compiere.model.I_AD_Window.Table_Name)
+			.getPO(getAD_Window_ID(), get_TrxName());	}
+
+	/** Set Window.
+		@param AD_Window_ID 
+		Data entry or display window
+	  */
+	public void setAD_Window_ID (int AD_Window_ID)
+	{
+		if (AD_Window_ID < 1) 
+			set_Value (COLUMNNAME_AD_Window_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Window_ID, Integer.valueOf(AD_Window_ID));
+	}
+
+	/** Get Window.
+		@return Data entry or display window
+	  */
+	public int getAD_Window_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Window_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -270,6 +298,102 @@ public class X_AD_Browse extends PO implements I_AD_Browse, I_Persistent
 	public boolean isBetaFunctionality () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsBetaFunctionality);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Is collapsible by default.
+		@param IsCollapsibleByDefault 
+		Flag to indicate if is collapsible by default
+	  */
+	public void setIsCollapsibleByDefault (boolean IsCollapsibleByDefault)
+	{
+		set_Value (COLUMNNAME_IsCollapsibleByDefault, Boolean.valueOf(IsCollapsibleByDefault));
+	}
+
+	/** Get Is collapsible by default.
+		@return Flag to indicate if is collapsible by default
+	  */
+	public boolean isCollapsibleByDefault () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsCollapsibleByDefault);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Records deletable.
+		@param IsDeleteable 
+		Indicates if records can be deleted from the database
+	  */
+	public void setIsDeleteable (boolean IsDeleteable)
+	{
+		set_Value (COLUMNNAME_IsDeleteable, Boolean.valueOf(IsDeleteable));
+	}
+
+	/** Get Records deletable.
+		@return Indicates if records can be deleted from the database
+	  */
+	public boolean isDeleteable () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsDeleteable);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Is executed query by default.
+		@param IsExecutedQueryByDefault 
+		Is executed query by default
+	  */
+	public void setIsExecutedQueryByDefault (boolean IsExecutedQueryByDefault)
+	{
+		set_Value (COLUMNNAME_IsExecutedQueryByDefault, Boolean.valueOf(IsExecutedQueryByDefault));
+	}
+
+	/** Get Is executed query by default.
+		@return Is executed query by default
+	  */
+	public boolean isExecutedQueryByDefault () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsExecutedQueryByDefault);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Is selected by default.
+		@param IsSelectedByDefault 
+		Allows auto select rows of a browser
+	  */
+	public void setIsSelectedByDefault (boolean IsSelectedByDefault)
+	{
+		set_Value (COLUMNNAME_IsSelectedByDefault, Boolean.valueOf(IsSelectedByDefault));
+	}
+
+	/** Get Is selected by default.
+		@return Allows auto select rows of a browser
+	  */
+	public boolean isSelectedByDefault () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsSelectedByDefault);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
