@@ -161,7 +161,7 @@ public class MCostDetail extends X_M_CostDetail
 
 		
 		
-		List<MCostDetail> costs = new Query(mtrx.getCtx(), Table_Name, whereClause.toString(), mtrx.get_TrxName())
+		/*List<MCostDetail> costs = new Query(mtrx.getCtx(), Table_Name, whereClause.toString(), mtrx.get_TrxName())
 		.setParameters(params)	
 		.setOrderBy(orderBy.toString())
 		.list();
@@ -174,7 +174,7 @@ public class MCostDetail extends X_M_CostDetail
 			System.out.println(cost.toString());
 		}
 		System.out.println("---------------------- FIN BUSCANDO LA ULTIMA TRANSACCIONES ------------------------------");
-		System.out.println("");
+		System.out.println("");*/
 		
 		return  new Query(mtrx.getCtx(), Table_Name, whereClause.toString(), mtrx.get_TrxName())
 		.setParameters(params)	
@@ -282,7 +282,7 @@ public class MCostDetail extends X_M_CostDetail
 		params.add(M_CostType_ID);
 		whereClause.append(MCostDetail.COLUMNNAME_M_Transaction_ID ).append( "=? ");
 		params.add(mtrx.getM_Transaction_ID());
-		//Find adjusment cost 
+		
 		if(model instanceof MMatchInv)
 		{	
 			MMatchInv matchInv = (MMatchInv) model;
@@ -290,13 +290,18 @@ public class MCostDetail extends X_M_CostDetail
 			params.add(matchInv.getC_InvoiceLine_ID());
 			whereClause.append(MCostDetail.COLUMNNAME_Qty).append("=0 ");
 		}	
-		else if (model.getReversalLine_ID() == 0)
-		{	
+		else if (model instanceof MLandedCostAllocation)
+		{
+			whereClause.append(" AND ").append(MCostDetail.COLUMNNAME_C_LandedCostAllocation_ID).append( "=? ");
+			params.add(model.get_ID());
+		}
+		else
+		{
 			whereClause.append(" AND ").append(model.get_TableName()).append( "_ID=? AND ");
 			params.add(model.get_ID());
 			whereClause.append(MCostDetail.COLUMNNAME_Qty).append("<>0 ");
 		}
-
+		
 		return new Query (mtrx.getCtx(), I_M_CostDetail.Table_Name, whereClause.toString() , mtrx.get_TrxName())
 		.setParameters(params)
 		.setOrderBy(MCostDetail.COLUMNNAME_SeqNo + " DESC")
@@ -1053,7 +1058,7 @@ public class MCostDetail extends X_M_CostDetail
 		setM_CostElement_ID(M_CostElement_ID);
 		setM_AttributeSetInstance_ID(mtrx.getM_AttributeSetInstance_ID());
 		MCostType ct = new MCostType(mtrx.getCtx(), M_CostType_ID, mtrx.get_TrxName());
-		setCostingMethod(ct.getCostingMethod()); 
+		setCostingMethod(ct.getCostingMethod());
 		setAmt(amt);
 		setAmtLL(amtLL);
 		setQty(qty);
