@@ -187,6 +187,12 @@ public abstract class Browser {
 	private Language m_language = null;
 	/** Export rows **/
 	private ArrayList<ArrayList<Object>> m_rows = new ArrayList<ArrayList<Object>>();
+	
+	protected boolean isCollapsibleByDefault = true;
+	protected boolean isSelectedByDefault = false;
+	protected boolean isExecuteQueryByDefault = false;
+	protected boolean isDeleteable = true;
+	protected int     AD_Window_ID = 0;
 
 
 	public Browser(boolean modal, int WindowNo, String value, MBrowse browse,
@@ -197,6 +203,14 @@ public abstract class Browser {
 		p_multiSelection = multiSelection;
 		m_language = Language.getLanguage(Env
 				.getAD_Language(m_Browse.getCtx()));
+		
+		isCollapsibleByDefault = browse.isCollapsibleByDefault();
+		isDeleteable = browse.isDeleteable();
+		isSelectedByDefault = browse.isSelectedByDefault();
+		isExecuteQueryByDefault = browse.isExecutedQueryByDefault();
+		
+		AD_Window_ID = browse.getAD_Window_ID();
+		
 		log.info(m_Browse.getName() + " - " + keyColumn + " - " + p_whereClause);
 	}
 	
@@ -458,7 +472,32 @@ public abstract class Browser {
 		}
 		return records;
 	}
+	
+	protected boolean isSelectedByDefault()
+	{
+		return isSelectedByDefault;
+	}
+	
+	protected boolean isExecuteQueryByDefault()
+	{
+		return isExecuteQueryByDefault;
+	}
 
+	protected boolean isCollapsibleByDefault()
+	{
+		return isCollapsibleByDefault;
+	}
+	
+	protected boolean isDeleteable()
+	{
+		return isDeleteable;
+	}
+	
+	protected int getAD_Window_ID()
+	{
+		return AD_Window_ID;
+	}
+	
 	public int getAD_Browse_ID() {
 		return m_Browse.getAD_Browse_ID();
 	}

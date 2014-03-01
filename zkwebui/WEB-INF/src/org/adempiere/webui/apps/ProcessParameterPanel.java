@@ -647,5 +647,14 @@ implements ValueChangeListener, IProcessParameter
 					f.restoreValue();
 			}
 		}
+		
+		public void refreshContext()
+	 	{
+			for(int i = 0; i < m_wEditors.size(); i++) {
+				WEditor editor = m_wEditors.get(i);
+				GridField mField = editor.getGridField();
+				editor.setValue(mField.getDefault());
+			}
+	 	}
 	}	//	ProcessParameterPanel
 
