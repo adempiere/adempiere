@@ -26,6 +26,7 @@ import org.compiere.util.Env;
 public class AveragePOCostingMethod extends AbstractCostingMethod
 		implements ICostingMethod {
 
+	
 	/*
 	 * Constructor for Cost Engine
 	 * 
@@ -61,8 +62,18 @@ public class AveragePOCostingMethod extends AbstractCostingMethod
 				costingLevel);
 
 		// If model is reversal then no calculate cost
-		if (m_model.getReversalLine_ID() > 0 && m_costdetail == null)
+		//Validate if model have a reverses and processing of reverse
+		if (m_model.getReversalLine_ID() > 0 
+			&& m_costdetail == null)
 			return;
+		else if( m_costdetail != null 
+			&& m_costdetail.isReversal() 
+			&& m_model.getReversalLine_ID() > 0)
+	{	
+		setReversalCostDetail();		
+		return;
+	}	
+
 		
 		// created a new instance cost detail to process calculated cost
 		if (m_last_costdetail == null) { 
@@ -77,22 +88,28 @@ public class AveragePOCostingMethod extends AbstractCostingMethod
 		// The cost detail was created before then is necessary to update cost by
 		// generate adjustment	
 		if (m_trx.getM_Transaction_ID() == m_last_costdetail.getM_Transaction_ID()) {
-			m_Amount = m_trx.getMovementQty().multiply(m_costThisLevel); // total
-																			// adjustment
-																			// this
-																			// level
-			m_AmountLL = m_trx.getMovementQty().multiply(m_costLowLevel); // total
-																			// adjustment
-																			// low
-																			// level
-			m_CumulatedQty = getNewCumulatedQty(m_last_costdetail); // Quantity
-																	// Cumulated
-																	// from last
-																	// transaction
-			// Cost Adjustment
-			m_AdjustCost = m_Amount.subtract(m_last_costdetail.getCostAmt());
-			m_AdjustCostLL = m_AmountLL.subtract(m_last_costdetail
-					.getCostAmtLL());
+			
+			// Quantity Cumulated from last cost transaction
+			m_CumulatedQty = getNewCumulatedQty(m_last_costdetail); 
+			
+			// Processing provision of purchase cost  
+			//Provision is calculated when the last cost detail  is a material receipt and not exist a of invoice line
+			//if an invoice line exist for this cost detail then an invoice line was  processed for this material receipt 
+			//and not exist different between purchase cost and invoice cost, this logic was implemented to prevent 
+			//that a provision of purchase cost decreases more than one times in a cost adjustment
+			BigDecimal provisionOfPurchaseCost = BigDecimal.ZERO;
+			BigDecimal provisionOfPurchaseCostLL = BigDecimal.ZERO;
+			if (m_model instanceof MMatchInv && m_last_costdetail.getC_InvoiceLine_ID() == 0)
+			{	
+				provisionOfPurchaseCost = m_last_costdetail.getCostAmt();
+				provisionOfPurchaseCostLL =  m_last_costdetail.getCostAmtLL();
+				MMatchInv iMatch =  (MMatchInv) m_model;
+				m_last_costdetail.setC_InvoiceLine_ID(iMatch.getC_InvoiceLine_ID());
+				m_last_costdetail.saveEx();
+			}	
+				
+			m_AdjustCost = m_model.getMovementQty().multiply(m_costThisLevel).subtract(provisionOfPurchaseCost);
+			m_AdjustCostLL =  m_model.getMovementQty().multiply(m_costLowLevel).subtract(provisionOfPurchaseCostLL);
 				
 			m_CumulatedAmt = getNewCumulatedAmt(m_last_costdetail).add(
 					m_AdjustCost);
@@ -126,13 +143,22 @@ public class AveragePOCostingMethod extends AbstractCostingMethod
 			return;
 		}
 		
+		BigDecimal qtyOndhand = getNewCumulatedQty(m_last_costdetail);
 		
 		// calculated costing
 		if (m_trx.getMovementType().endsWith("+"))
 		{
+			//Project of cost if a cost was entry in zero, the inventory is revalued using the fist cost
+			//Example ; Quantity On hand 2.00 , Total Cost : 0.00 , Transaction Quantity 4.00 , Cost Total Transaction 17.8196
+			//cost This Level = ( (17.8196 / 4)  * 6 ) / 4 | (costThisLevel * costThisLevel) / m_last_costdetail.getQty()
 			
-			if(m_costThisLevel.signum() < 0)
-				System.out.println("Problem");
+			//Detect Inventory with zero value
+			if (qtyOndhand.signum() != 0 && getNewCumulatedAmt(m_last_costdetail).signum() == 0)
+				m_AdjustCost = qtyOndhand.
+								add(m_trx.getMovementQty())
+								.multiply(m_costThisLevel)
+								.subtract(m_costThisLevel
+								.multiply(m_trx.getMovementQty()));
 
 			m_Amount = m_trx.getMovementQty().multiply(m_costThisLevel);
 			m_AmountLL = m_trx.getMovementQty().multiply(m_costLowLevel);
@@ -148,9 +174,8 @@ public class AveragePOCostingMethod extends AbstractCostingMethod
 			
 		}
 		else if (m_trx.getMovementType().endsWith("-")) {
-
 			// Use the last current cost price for out transaction
-			BigDecimal qtyOndhand = getNewCumulatedQty(m_last_costdetail);
+			
 			if (qtyOndhand.add(m_trx.getMovementQty()).signum() >= 0)
 			{
 				m_CurrentCostPrice = getNewCurrentCostPrice(m_last_costdetail,m_as
@@ -160,10 +185,9 @@ public class AveragePOCostingMethod extends AbstractCostingMethod
 			} 
 			else
 			{
-				m_CurrentCostPrice = getNewCumulatedAmt(m_last_costdetail)
-									.divide(m_trx.getMovementQty(), m_as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP).abs();
-				m_CurrentCostPriceLL = getNewCumulatedAmtLL(m_last_costdetail)
-						.divide(m_trx.getMovementQty(), m_as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP).abs();
+				m_CurrentCostPrice = CostEngine.getCostThisLevel(m_trx, m_as,
+						m_dimension.getM_CostType() , m_dimension.getM_CostElement() , m_model,
+						costingLevel);
 			}
 						
 			m_Amount = m_trx.getMovementQty().multiply(m_CurrentCostPrice);
@@ -196,10 +220,14 @@ public class AveragePOCostingMethod extends AbstractCostingMethod
 
 		// Ignore reversal transaction because is created based on the original
 		// transaction
-		if (m_model.getReversalLine_ID() > 0 && m_costdetail == null) {
+		//Validate if model have a reverses and processing of reverse
+		if (m_model.getReversalLine_ID() > 0 && m_costdetail == null ) {
 			createReversalCostDetail();
 			return;
-		}
+		} 
+		else if (m_model.getReversalLine_ID() > 0)
+			return;
+		
 
 		int seqNo = m_last_costdetail.getSeqNo() + 10;
 		// create a new cost detail or is necessary create a new cost detail for
@@ -211,8 +239,9 @@ public class AveragePOCostingMethod extends AbstractCostingMethod
 				&& m_costdetail == null) {
 			// set Movement Qty in Zero because is a adjustment
 			BigDecimal m_movementQty = m_trx.getMovementQty();
-			// if exist adjustment cost then set the movement qty to zero
-			if (m_AdjustCost.add(m_AdjustCostLL).signum() != 0)
+			// if exist adjustment cost for Landed Cost Allocation or Match Inv then set the movement qty to zero
+			if (m_AdjustCost.add(m_AdjustCostLL).signum() != 0 
+			&& (m_model instanceof MLandedCostAllocation || m_model instanceof MMatchInv))
 				m_movementQty = Env.ZERO;
 
 			// create new cost detail
@@ -242,8 +271,8 @@ public class AveragePOCostingMethod extends AbstractCostingMethod
 				if (m_AdjustCost.signum() != 0) {
 					m_costdetail.setCostAdjustmentDate(m_model.getDateAcct());
 					m_costdetail.setCostAdjustment(m_AdjustCost);
-					m_costdetail.setCostAmt(BigDecimal.ZERO);
-					m_costdetail.setAmt(m_costdetail.getCostAmt().add(
+					//m_costdetail.setCostAmt(BigDecimal.ZERO);
+					m_costdetail.setAmt(m_costdetail.getAmt().add(
 							m_costdetail.getCostAdjustment()));
 					m_costdetail.setDescription(description + " Adjust Cost:"
 							+ m_AdjustCost);
@@ -254,7 +283,7 @@ public class AveragePOCostingMethod extends AbstractCostingMethod
 							.getDescription() : "";
 					m_costdetail.setCostAdjustmentDateLL(m_model.getDateAcct());
 					m_costdetail.setCostAdjustmentLL(m_AdjustCostLL);
-					m_costdetail.setCostAmtLL(BigDecimal.ZERO);
+					//m_costdetail.setCostAmtLL(BigDecimal.ZERO);
 					m_costdetail.setAmt(m_costdetail.getCostAmtLL().add(
 							m_costdetail.getCostAdjustmentLL()));
 					m_costdetail.setDescription(description
@@ -449,6 +478,8 @@ public class AveragePOCostingMethod extends AbstractCostingMethod
 		{	
 			MInOutLine ioLine =  (MInOutLine) m_model;
 			m_costdetail.setC_OrderLine_ID(ioLine.getC_OrderLine_ID());
+			// IMPORTANT : reset possible provision purchase cost processed
+			m_costdetail.setC_InvoiceLine_ID(0);
 		}
 		if (m_model instanceof MMatchInv && m_costdetail.getM_InOutLine_ID() == 0)
 		{	

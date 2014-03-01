@@ -113,10 +113,11 @@ public class MTransaction extends X_M_Transaction
 		final String whereClause = I_M_InOutLine.COLUMNNAME_M_Product_ID + "=? AND "
 								 + I_M_InOutLine.COLUMNNAME_M_InOutLine_ID + "=? AND "
 		 						 + I_M_InOutLine.COLUMNNAME_M_AttributeSetInstance_ID + "=?";
-			return new Query(line.getCtx(), Table_Name, whereClause, line.get_TrxName())
-			.setClient_ID()
-			.setParameters(line.getM_Product_ID(),line.getM_InOutLine_ID(), M_ASI_ID)
-			.firstOnly();
+		
+		return new Query(line.getCtx(), Table_Name, whereClause, line.get_TrxName())
+		.setClient_ID()
+		.setParameters(line.getM_Product_ID(),line.getM_InOutLine_ID(), M_ASI_ID)
+		.firstOnly();
 	}
 	
 	
@@ -126,31 +127,37 @@ public class MTransaction extends X_M_Transaction
 	 * @param trx MTransaction
 	 * @return
 	 */
-	static public List<MTransaction> getByDocumentLine (MTransaction trx)
+	static public MTransaction getByDocumentLine (MTransaction trx)
 	{
 		IDocumentLine reversal = trx.getDocumentLine().getReversalDocumentLine();
 		List<Object> parameters = new ArrayList();
 		String columnName =  reversal.get_TableName()+"_ID";			
 		StringBuffer whereClause = new StringBuffer(I_M_Transaction.COLUMNNAME_M_Product_ID);
-		parameters.add(reversal.getM_Product_ID());
 		whereClause.append( "=? AND ");
+		parameters.add(reversal.getM_Product_ID());
 		whereClause.append( columnName ).append("=? AND ");
 		parameters.add(reversal.get_ID());
 		
-			whereClause.append(I_M_Transaction.COLUMNNAME_MovementType).append("=? AND ");
-			if(MTransaction.MOVEMENTTYPE_InventoryIn.equals(trx.getMovementType()))
-					parameters.add(MTransaction.MOVEMENTTYPE_InventoryOut);
-			else if(MTransaction.MOVEMENTTYPE_InventoryOut.equals(trx.getMovementType()))
-					parameters.add(MTransaction.MOVEMENTTYPE_InventoryIn);
-			else
-				parameters.add(trx.getMovementType());
+		if (trx.getM_AttributeSetInstance_ID() >  0)
+		{
+			whereClause.append(I_M_Transaction.COLUMNNAME_M_AttributeSetInstance_ID).append("=? AND ");
+			parameters.add(trx.getM_AttributeSetInstance_ID());
+		}
+		
+		whereClause.append(I_M_Transaction.COLUMNNAME_MovementType).append("=? AND ");
+		if(MTransaction.MOVEMENTTYPE_InventoryIn.equals(trx.getMovementType()))
+				parameters.add(MTransaction.MOVEMENTTYPE_InventoryOut);
+		else if(MTransaction.MOVEMENTTYPE_InventoryOut.equals(trx.getMovementType()))
+				parameters.add(MTransaction.MOVEMENTTYPE_InventoryIn);
+		else
+			parameters.add(trx.getMovementType());
 			
 		whereClause.append(I_M_Transaction.COLUMNNAME_M_Transaction_ID).append("<>?");
 		parameters.add(trx.getM_Transaction_ID());
 		return new Query(trx.getCtx(), Table_Name, whereClause.toString(), trx.get_TrxName())
 		.setClient_ID()
 		.setParameters(parameters)
-		.list();
+		.first();
 	}
 	
 	/**
@@ -223,7 +230,11 @@ public class MTransaction extends X_M_Transaction
 	protected boolean afterSave (boolean newRecord, boolean success)
 	{
 		if (newRecord)
-			CostEngineFactory.getCostEngine(getAD_Client_ID()).createCostDetail(this);
+		{	
+			MClient client = MClient.get(getCtx());
+			if (client.isCostImmediate())
+				CostEngineFactory.getCostEngine(getAD_Client_ID()).createCostDetail(this);
+		}	
 		return true;
 	}	//	afterSave
 	
@@ -238,7 +249,7 @@ public class MTransaction extends X_M_Transaction
 	    if(getM_ProductionLine_ID() > 0)
 		return (IDocumentLine) getM_ProductionLine();
 	    if(getPP_Cost_Collector_ID() > 0)
-			return (IDocumentLine) getPP_Cost_Collector();
+		return (IDocumentLine) getPP_Cost_Collector();
 	    
 	    return null;	
 	}
@@ -249,11 +260,7 @@ public class MTransaction extends X_M_Transaction
 	 */
 	public int  getM_Warehouse_ID()
 	{
-		final String whereClause ="EXISTS (SELECT 1 FROM M_Locator WHERE M_Locator_ID=? AND M_Warehouse.M_Warehouse_ID=M_Locator.M_Warehouse_ID)";
-		return new Query(getCtx(), X_M_Warehouse.Table_Name, whereClause, get_TrxName())
-		.setClient_ID()
-		.setParameters(getM_Locator_ID())
-		.firstIdOnly();
+		return getM_Locator().getM_Warehouse_ID();
 	}
 	
 	/**
@@ -264,6 +271,7 @@ public class MTransaction extends X_M_Transaction
 	{
 		StringBuffer sb = new StringBuffer ("MTransaction[");
 		sb.append(get_ID()).append(",").append(getMovementType())
+			.append(",MovementDate=").append(getMovementDate())
 			.append(",Qty=").append(getMovementQty())
 			.append(",M_Product_ID=").append(getM_Product_ID())
 			.append(",ASI=").append(getM_AttributeSetInstance_ID())

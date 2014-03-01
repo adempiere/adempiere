@@ -28,6 +28,7 @@ import org.compiere.model.I_C_InvoiceLine;
 import org.compiere.model.I_C_OrderLine;
 import org.compiere.model.I_M_CostDetail;
 import org.compiere.model.I_M_CostElement;
+import org.compiere.model.I_M_CostType;
 import org.compiere.model.I_M_Transaction;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MClient;
@@ -421,12 +422,12 @@ public class CostEngine {
 				&& mtrx.getMovementType().contains("+")
 				&& !MCostType.COSTINGMETHOD_StandardCosting.equals(ct
 						.getCostingMethod())) {
-			if (model instanceof MMovementLine
-					|| model instanceof MInventoryLine
-					|| (model instanceof MInOutLine && MTransaction.MOVEMENTTYPE_CustomerReturns
-							.equals(mtrx.getMovementType()))
-					) 
-			{
+			if 
+			(	model instanceof MMovementLine
+			||  model instanceof MInventoryLine
+			|| (model instanceof MInOutLine && MTransaction.MOVEMENTTYPE_CustomerReturns.equals(mtrx.getMovementType()))
+			) 
+			{					
 				costThisLevel = getCostThisLevel(mtrx, as, ct, ce, model,
 						costingLevel);
 				// If cost this level is zero and is a physical inventory then
@@ -437,17 +438,19 @@ public class CostEngine {
 								.getCostElementType())) {
 					MInventoryLine inventoryLine = (MInventoryLine) model;
 					// Use the cost only for Physical Inventory
-					if (inventoryLine.getQtyInternalUse().signum() == 0)
+					if (inventoryLine.getQtyInternalUse().signum() == 0 )
 						costThisLevel = inventoryLine.getCurrentCostPrice();
+					
+					if(costThisLevel.signum() == 0)
+						costThisLevel = getCostThisLevel(mtrx, as, ct, ce, model, costingLevel);
 				}
-				// do not exist cost detail by some purchase then get the cost
-				// from other other warehouse
-				if (model instanceof MMovementLine
-						&& costThisLevel.signum() == 0) {
+				//Get cost from movement from if it > that zero replace cost This Level
+				if (model instanceof MMovementLine) {
 					MTransaction trx = MTransaction.getByDocumentLine(model,
 							MTransaction.MOVEMENTTYPE_MovementFrom);
-					costThisLevel = getCostThisLevel(trx, as, ct, ce, model,
-							costingLevel);
+					BigDecimal costMovementFrom = getCostThisLevel(trx, as, ct, ce, model,costingLevel);
+					if (costMovementFrom.signum() > 0 )
+						costThisLevel = costMovementFrom;					
 				}
 			} else if (MCostElement.COSTELEMENTTYPE_Material.equals(ce
 					.getCostElementType())) {
@@ -1184,43 +1187,58 @@ public class CostEngine {
 	 *            Cost Element
 	 * @param model
 	 *            Document Line
-	 * @param costingLevel
-	 *            Costing Level
+	 * 
 	 * @return Cost this Level
 	 */
-	public BigDecimal getCostThisLevel(MTransaction mtrx, MAcctSchema as,
-			MCostType ct, MCostElement ce, IDocumentLine model,
+	public static BigDecimal getCostThisLevel(MTransaction mtrx, MAcctSchema as,
+			I_M_CostType ct, I_M_CostElement ce, IDocumentLine model,
 			String costingLevel) {
 		BigDecimal costThisLevel = Env.ZERO;
 		MCostDetail m_last_costdetail = MCostDetail.getLastTransaction(model,
 				mtrx, as.getC_AcctSchema_ID(), ct.getM_CostType_ID(),
 				ce.getM_CostElement_ID(), model.getDateAcct(), costingLevel);
 		if (m_last_costdetail != null) {
-			BigDecimal qty = m_last_costdetail.getCumulatedQty().add(
-					m_last_costdetail.getQty());
-			//if (qty.signum() != 0) {
-				BigDecimal cost = Env.ZERO;
-
-				if (m_last_costdetail.getQty().signum() >= 0)
-				{	
-					cost = m_last_costdetail.getCostAmt().add(
-							m_last_costdetail.getCostAdjustment());
-					if (qty.signum() > 0)
-					costThisLevel = m_last_costdetail
-							.getCumulatedAmt()
-							.add(cost)
-							.divide(qty, as.getCostingPrecision(),
-									BigDecimal.ROUND_HALF_UP).abs();
-				}	
-				else
-				{	
-					costThisLevel = m_last_costdetail
-							.getCostAmt()
-							.add(m_last_costdetail.getCostAdjustment())
+				// Return of unit cost from last transaction 
+				// transaction quantity is different of zero
+				// then cost this level is equal that:
+				// (Total Cost transaction + cost adjustments) divide by transaction quantity
+				if (m_last_costdetail.getQty().signum() != 0)
+				{
+					costThisLevel =  m_last_costdetail.getCostAmt().add(
+							m_last_costdetail.getCostAdjustment())
 							.divide(m_last_costdetail.getQty(), as.getCostingPrecision(),
+									BigDecimal.ROUND_HALF_UP).abs();
+				}
+				// return unit cost from last transaction
+				// transaction quantity is zero
+				// the cost this level is equal that:
+				// (Total Cost Transaction + cost adjustments + accumulate cost) divide between on hand quantity 
+				else if (m_last_costdetail.getCumulatedQty().add( m_last_costdetail.getQty()).signum() != 0)
+				{
+					costThisLevel =  m_last_costdetail.getCostAmt().add(
+									 m_last_costdetail.getCostAdjustment()).add(
+									 m_last_costdetail.getCumulatedAmt())
+							.divide(m_last_costdetail.getCumulatedQty().add( m_last_costdetail.getQty()), 
+									as.getCostingPrecision(),
 							BigDecimal.ROUND_HALF_UP).abs();
+					
+					return costThisLevel;
 				}	
-		}
+				// Return of unit cost from inventory value
+				// Cumulated quantity is different of zero 
+				// then cost this level is equal that:
+				// (Total Cost transaction + cost adjustments + Cumulated amount) divide by On hand Quantity
+				else if (m_last_costdetail.getCumulatedQty().signum() != 0)
+				{
+					costThisLevel = m_last_costdetail.getCumulatedAmt()
+							.divide(m_last_costdetail.getCumulatedQty(), 
+									as.getCostingPrecision(),
+							BigDecimal.ROUND_HALF_UP).abs();
+					
+					return costThisLevel;
+				}	
+				
+			}
 
 		return costThisLevel;
 	}
