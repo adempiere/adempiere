@@ -63,7 +63,7 @@ public class CalloutBOM extends CalloutEngine
              throw new AdempiereException("@ValidComponent@ - Error Parent not be Component");				
         }
         // Set BOM Line defaults
-        I_M_Product product = MProduct.get(ctx, M_Product_ID);  // May be the parent;
+        MProduct product = MProduct.get(ctx, M_Product_ID);  // May be the parent;
         bomLine.setDescription(product.getDescription());
         bomLine.setHelp(product.getHelp());
         bomLine.setC_UOM_ID(product.getC_UOM_ID());
@@ -120,7 +120,7 @@ public class CalloutBOM extends CalloutEngine
 		if (M_Product_ID <= 0)
 			return "";
 		
-        I_M_Product product =  MProduct.get(ctx, M_Product_ID);
+        MProduct product =  MProduct.get(ctx, M_Product_ID);
         I_PP_Product_BOM bom = GridTabWrapper.create(mTab, I_PP_Product_BOM.class);
         bom.setValue(product.getValue());
         bom.setName(product.getName());
