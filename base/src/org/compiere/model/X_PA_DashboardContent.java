@@ -32,7 +32,7 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131105L;
+	private static final long serialVersionUID = 20140301L;
 
     /** Standard Constructor */
     public X_PA_DashboardContent (Properties ctx, int PA_DashboardContent_ID, String trxName)
@@ -314,27 +314,6 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
         return new KeyNamePair(get_ID(), getName());
     }
 
-	/** onevent AD_Reference_ID=53574 */
-	public static final int ONEVENT_AD_Reference_ID=53574;
-	/** onClick = onClick */
-	public static final String ONEVENT_OnClick = "onClick";
-	/** onDoubleClick = onDoubleClick */
-	public static final String ONEVENT_OnDoubleClick = "onDoubleClick";
-	/** Set On Event.
-		@param onevent On Event	  */
-	public void setonevent (String onevent)
-	{
-
-		set_Value (COLUMNNAME_onevent, onevent);
-	}
-
-	/** Get On Event.
-		@return On Event	  */
-	public String getonevent () 
-	{
-		return (String)get_Value(COLUMNNAME_onevent);
-	}
-
 	/** Set Dashboard Content.
 		@param PA_DashboardContent_ID Dashboard Content	  */
 	public void setPA_DashboardContent_ID (int PA_DashboardContent_ID)
@@ -490,5 +469,26 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
 	public String getZulFilePath () 
 	{
 		return (String)get_Value(COLUMNNAME_ZulFilePath);
+	}
+
+	/** onevent AD_Reference_ID=53574 */
+	public static final int ONEVENT_AD_Reference_ID=53574;
+	/** onClick = onClick */
+	public static final String ONEVENT_OnClick = "onClick";
+	/** onDoubleClick = onDoubleClick */
+	public static final String ONEVENT_OnDoubleClick = "onDoubleClick";
+	/** Set On Event.
+		@param onevent On Event	  */
+	public void setonevent (String onevent)
+	{
+
+		set_Value (COLUMNNAME_onevent, onevent);
+	}
+
+	/** Get On Event.
+		@return On Event	  */
+	public String getonevent () 
+	{
+		return (String)get_Value(COLUMNNAME_onevent);
 	}
 }

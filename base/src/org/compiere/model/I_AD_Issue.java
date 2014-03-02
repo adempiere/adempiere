@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Issue
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_AD_Issue 
 {
@@ -40,21 +40,6 @@ public interface I_AD_Issue
     BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
-
-    /** Column name A_Asset_ID */
-    public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
-
-	/** Set Asset.
-	  * Asset used internally or by customers
-	  */
-	public void setA_Asset_ID (int A_Asset_ID);
-
-	/** Get Asset.
-	  * Asset used internally or by customers
-	  */
-	public int getA_Asset_ID();
-
-	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException;
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -135,6 +120,21 @@ public interface I_AD_Issue
 
 	public org.compiere.model.I_AD_Window getAD_Window() throws RuntimeException;
 
+    /** Column name A_Asset_ID */
+    public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
+
+	/** Set Asset.
+	  * Asset used internally or by customers
+	  */
+	public void setA_Asset_ID (int A_Asset_ID);
+
+	/** Get Asset.
+	  * Asset used internally or by customers
+	  */
+	public int getA_Asset_ID();
+
+	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException;
+
     /** Column name Comments */
     public static final String COLUMNNAME_Comments = "Comments";
 
@@ -164,19 +164,6 @@ public interface I_AD_Issue
 	  */
 	public int getCreatedBy();
 
-    /** Column name DatabaseInfo */
-    public static final String COLUMNNAME_DatabaseInfo = "DatabaseInfo";
-
-	/** Set Database.
-	  * Database Information
-	  */
-	public void setDatabaseInfo (String DatabaseInfo);
-
-	/** Get Database.
-	  * Database Information
-	  */
-	public String getDatabaseInfo();
-
     /** Column name DBAddress */
     public static final String COLUMNNAME_DBAddress = "DBAddress";
 
@@ -189,6 +176,19 @@ public interface I_AD_Issue
 	  * JDBC URL of the database server
 	  */
 	public String getDBAddress();
+
+    /** Column name DatabaseInfo */
+    public static final String COLUMNNAME_DatabaseInfo = "DatabaseInfo";
+
+	/** Set Database.
+	  * Database Information
+	  */
+	public void setDatabaseInfo (String DatabaseInfo);
+
+	/** Get Database.
+	  * Database Information
+	  */
+	public String getDatabaseInfo();
 
     /** Column name ErrorTrace */
     public static final String COLUMNNAME_ErrorTrace = "ErrorTrace";
@@ -229,6 +229,19 @@ public interface I_AD_Issue
 	  */
 	public String getIsReproducible();
 
+    /** Column name IsVanillaSystem */
+    public static final String COLUMNNAME_IsVanillaSystem = "IsVanillaSystem";
+
+	/** Set Vanilla System.
+	  * The system was NOT compiled from Source - i.e. standard distribution
+	  */
+	public void setIsVanillaSystem (String IsVanillaSystem);
+
+	/** Get Vanilla System.
+	  * The system was NOT compiled from Source - i.e. standard distribution
+	  */
+	public String getIsVanillaSystem();
+
     /** Column name IssueSource */
     public static final String COLUMNNAME_IssueSource = "IssueSource";
 
@@ -254,19 +267,6 @@ public interface I_AD_Issue
 	  * Issue Summary
 	  */
 	public String getIssueSummary();
-
-    /** Column name IsVanillaSystem */
-    public static final String COLUMNNAME_IsVanillaSystem = "IsVanillaSystem";
-
-	/** Set Vanilla System.
-	  * The system was NOT compiled from Source - i.e. standard distribution
-	  */
-	public void setIsVanillaSystem (String IsVanillaSystem);
-
-	/** Get Vanilla System.
-	  * The system was NOT compiled from Source - i.e. standard distribution
-	  */
-	public String getIsVanillaSystem();
 
     /** Column name JavaInfo */
     public static final String COLUMNNAME_JavaInfo = "JavaInfo";
@@ -381,6 +381,81 @@ public interface I_AD_Issue
 	  */
 	public String getProfileInfo();
 
+    /** Column name R_IssueKnown_ID */
+    public static final String COLUMNNAME_R_IssueKnown_ID = "R_IssueKnown_ID";
+
+	/** Set Known Issue.
+	  * Known Issue
+	  */
+	public void setR_IssueKnown_ID (int R_IssueKnown_ID);
+
+	/** Get Known Issue.
+	  * Known Issue
+	  */
+	public int getR_IssueKnown_ID();
+
+	public org.compiere.model.I_R_IssueKnown getR_IssueKnown() throws RuntimeException;
+
+    /** Column name R_IssueProject_ID */
+    public static final String COLUMNNAME_R_IssueProject_ID = "R_IssueProject_ID";
+
+	/** Set Issue Project.
+	  * Implementation Projects
+	  */
+	public void setR_IssueProject_ID (int R_IssueProject_ID);
+
+	/** Get Issue Project.
+	  * Implementation Projects
+	  */
+	public int getR_IssueProject_ID();
+
+	public org.compiere.model.I_R_IssueProject getR_IssueProject() throws RuntimeException;
+
+    /** Column name R_IssueSystem_ID */
+    public static final String COLUMNNAME_R_IssueSystem_ID = "R_IssueSystem_ID";
+
+	/** Set Issue System.
+	  * System creating the issue
+	  */
+	public void setR_IssueSystem_ID (int R_IssueSystem_ID);
+
+	/** Get Issue System.
+	  * System creating the issue
+	  */
+	public int getR_IssueSystem_ID();
+
+	public org.compiere.model.I_R_IssueSystem getR_IssueSystem() throws RuntimeException;
+
+    /** Column name R_IssueUser_ID */
+    public static final String COLUMNNAME_R_IssueUser_ID = "R_IssueUser_ID";
+
+	/** Set IssueUser.
+	  * User who reported issues
+	  */
+	public void setR_IssueUser_ID (int R_IssueUser_ID);
+
+	/** Get IssueUser.
+	  * User who reported issues
+	  */
+	public int getR_IssueUser_ID();
+
+	public org.compiere.model.I_R_IssueUser getR_IssueUser() throws RuntimeException;
+
+    /** Column name R_Request_ID */
+    public static final String COLUMNNAME_R_Request_ID = "R_Request_ID";
+
+	/** Set Request.
+	  * Request from a Business Partner or Prospect
+	  */
+	public void setR_Request_ID (int R_Request_ID);
+
+	/** Get Request.
+	  * Request from a Business Partner or Prospect
+	  */
+	public int getR_Request_ID();
+
+	public org.compiere.model.I_R_Request getR_Request() throws RuntimeException;
+
     /** Column name Record_ID */
     public static final String COLUMNNAME_Record_ID = "Record_ID";
 
@@ -471,81 +546,6 @@ public interface I_AD_Issue
 	  * Request Response Text
 	  */
 	public String getResponseText();
-
-    /** Column name R_IssueKnown_ID */
-    public static final String COLUMNNAME_R_IssueKnown_ID = "R_IssueKnown_ID";
-
-	/** Set Known Issue.
-	  * Known Issue
-	  */
-	public void setR_IssueKnown_ID (int R_IssueKnown_ID);
-
-	/** Get Known Issue.
-	  * Known Issue
-	  */
-	public int getR_IssueKnown_ID();
-
-	public org.compiere.model.I_R_IssueKnown getR_IssueKnown() throws RuntimeException;
-
-    /** Column name R_IssueProject_ID */
-    public static final String COLUMNNAME_R_IssueProject_ID = "R_IssueProject_ID";
-
-	/** Set Issue Project.
-	  * Implementation Projects
-	  */
-	public void setR_IssueProject_ID (int R_IssueProject_ID);
-
-	/** Get Issue Project.
-	  * Implementation Projects
-	  */
-	public int getR_IssueProject_ID();
-
-	public org.compiere.model.I_R_IssueProject getR_IssueProject() throws RuntimeException;
-
-    /** Column name R_IssueSystem_ID */
-    public static final String COLUMNNAME_R_IssueSystem_ID = "R_IssueSystem_ID";
-
-	/** Set Issue System.
-	  * System creating the issue
-	  */
-	public void setR_IssueSystem_ID (int R_IssueSystem_ID);
-
-	/** Get Issue System.
-	  * System creating the issue
-	  */
-	public int getR_IssueSystem_ID();
-
-	public org.compiere.model.I_R_IssueSystem getR_IssueSystem() throws RuntimeException;
-
-    /** Column name R_IssueUser_ID */
-    public static final String COLUMNNAME_R_IssueUser_ID = "R_IssueUser_ID";
-
-	/** Set IssueUser.
-	  * User who reported issues
-	  */
-	public void setR_IssueUser_ID (int R_IssueUser_ID);
-
-	/** Get IssueUser.
-	  * User who reported issues
-	  */
-	public int getR_IssueUser_ID();
-
-	public org.compiere.model.I_R_IssueUser getR_IssueUser() throws RuntimeException;
-
-    /** Column name R_Request_ID */
-    public static final String COLUMNNAME_R_Request_ID = "R_Request_ID";
-
-	/** Set Request.
-	  * Request from a Business Partner or Prospect
-	  */
-	public void setR_Request_ID (int R_Request_ID);
-
-	/** Get Request.
-	  * Request from a Business Partner or Prospect
-	  */
-	public int getR_Request_ID();
-
-	public org.compiere.model.I_R_Request getR_Request() throws RuntimeException;
 
     /** Column name SourceClassName */
     public static final String COLUMNNAME_SourceClassName = "SourceClassName";

@@ -116,7 +116,7 @@ public interface ModelValidator
 		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_DocumentAfterReverseAccrual,  // TIMING_AFTER_REVERSEACCRUAL = 14
 		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_DocumentBeforePost,           // TIMING_BEFORE_POST = 15
 		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_DocumentAfterPost,             // TIMING_AFTER_POST = 16
-		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_DocumentPreparePost            // TIMING_PreparePost = 17
+		//X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_DocumentPreparePost            // TIMING_PreparePost = 17
 	};
 	
 	/**

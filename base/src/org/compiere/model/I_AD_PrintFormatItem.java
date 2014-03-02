@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_PrintFormatItem
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_AD_PrintFormatItem 
 {
@@ -122,6 +122,19 @@ public interface I_AD_PrintFormatItem
 
 	public org.compiere.model.I_AD_PrintFormat getAD_PrintFormatChild() throws RuntimeException;
 
+    /** Column name AD_PrintFormatItem_ID */
+    public static final String COLUMNNAME_AD_PrintFormatItem_ID = "AD_PrintFormatItem_ID";
+
+	/** Set Print Format Item.
+	  * Item/Column in the Print format
+	  */
+	public void setAD_PrintFormatItem_ID (int AD_PrintFormatItem_ID);
+
+	/** Get Print Format Item.
+	  * Item/Column in the Print format
+	  */
+	public int getAD_PrintFormatItem_ID();
+
     /** Column name AD_PrintFormat_ID */
     public static final String COLUMNNAME_AD_PrintFormat_ID = "AD_PrintFormat_ID";
 
@@ -136,19 +149,6 @@ public interface I_AD_PrintFormatItem
 	public int getAD_PrintFormat_ID();
 
 	public org.compiere.model.I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException;
-
-    /** Column name AD_PrintFormatItem_ID */
-    public static final String COLUMNNAME_AD_PrintFormatItem_ID = "AD_PrintFormatItem_ID";
-
-	/** Set Print Format Item.
-	  * Item/Column in the Print format
-	  */
-	public void setAD_PrintFormatItem_ID (int AD_PrintFormatItem_ID);
-
-	/** Get Print Format Item.
-	  * Item/Column in the Print format
-	  */
-	public int getAD_PrintFormatItem_ID();
 
     /** Column name AD_PrintGraph_ID */
     public static final String COLUMNNAME_AD_PrintGraph_ID = "AD_PrintGraph_ID";

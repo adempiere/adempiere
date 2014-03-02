@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_PromotionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_M_PromotionLine 
 {
@@ -104,19 +104,6 @@ public interface I_M_PromotionLine
 	  */
 	public boolean isMandatoryPL();
 
-    /** Column name MinimumAmt */
-    public static final String COLUMNNAME_MinimumAmt = "MinimumAmt";
-
-	/** Set Minimum Amt.
-	  * Minimum Amount in Document Currency
-	  */
-	public void setMinimumAmt (BigDecimal MinimumAmt);
-
-	/** Get Minimum Amt.
-	  * Minimum Amount in Document Currency
-	  */
-	public BigDecimal getMinimumAmt();
-
     /** Column name M_PromotionGroup_ID */
     public static final String COLUMNNAME_M_PromotionGroup_ID = "M_PromotionGroup_ID";
 
@@ -127,6 +114,15 @@ public interface I_M_PromotionLine
 	public int getM_PromotionGroup_ID();
 
 	public org.compiere.model.I_M_PromotionGroup getM_PromotionGroup() throws RuntimeException;
+
+    /** Column name M_PromotionLine_ID */
+    public static final String COLUMNNAME_M_PromotionLine_ID = "M_PromotionLine_ID";
+
+	/** Set Promotion Line	  */
+	public void setM_PromotionLine_ID (int M_PromotionLine_ID);
+
+	/** Get Promotion Line	  */
+	public int getM_PromotionLine_ID();
 
     /** Column name M_Promotion_ID */
     public static final String COLUMNNAME_M_Promotion_ID = "M_Promotion_ID";
@@ -139,14 +135,18 @@ public interface I_M_PromotionLine
 
 	public org.compiere.model.I_M_Promotion getM_Promotion() throws RuntimeException;
 
-    /** Column name M_PromotionLine_ID */
-    public static final String COLUMNNAME_M_PromotionLine_ID = "M_PromotionLine_ID";
+    /** Column name MinimumAmt */
+    public static final String COLUMNNAME_MinimumAmt = "MinimumAmt";
 
-	/** Set Promotion Line	  */
-	public void setM_PromotionLine_ID (int M_PromotionLine_ID);
+	/** Set Minimum Amt.
+	  * Minimum Amount in Document Currency
+	  */
+	public void setMinimumAmt (BigDecimal MinimumAmt);
 
-	/** Get Promotion Line	  */
-	public int getM_PromotionLine_ID();
+	/** Get Minimum Amt.
+	  * Minimum Amount in Document Currency
+	  */
+	public BigDecimal getMinimumAmt();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

@@ -25,14 +25,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for M_CostDetail
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130315L;
+	private static final long serialVersionUID = 20140301L;
 
     /** Standard Constructor */
     public X_M_CostDetail (Properties ctx, int M_CostDetail_ID, String trxName)
@@ -920,7 +920,7 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
-	
+
 	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException
     {
 		return (org.compiere.model.I_M_Warehouse)MTable.get(getCtx(), org.compiere.model.I_M_Warehouse.Table_Name)
@@ -948,7 +948,6 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
-
 
 	public org.eevolution.model.I_PP_Cost_Collector getPP_Cost_Collector() throws RuntimeException
     {

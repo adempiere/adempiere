@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_RfQ_TopicSubscriberOnly
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_C_RfQ_TopicSubscriberOnly 
 {
@@ -62,21 +62,18 @@ public interface I_C_RfQ_TopicSubscriberOnly
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name Created */
-    public static final String COLUMNNAME_Created = "Created";
+    /** Column name C_RfQ_TopicSubscriberOnly_ID */
+    public static final String COLUMNNAME_C_RfQ_TopicSubscriberOnly_ID = "C_RfQ_TopicSubscriberOnly_ID";
 
-	/** Get Created.
-	  * Date this record was created
+	/** Set RfQ Topic Subscriber Restriction.
+	  * Include Subscriber only for certain products or product categories
 	  */
-	public Timestamp getCreated();
+	public void setC_RfQ_TopicSubscriberOnly_ID (int C_RfQ_TopicSubscriberOnly_ID);
 
-    /** Column name CreatedBy */
-    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
-
-	/** Get Created By.
-	  * User who created this records
+	/** Get RfQ Topic Subscriber Restriction.
+	  * Include Subscriber only for certain products or product categories
 	  */
-	public int getCreatedBy();
+	public int getC_RfQ_TopicSubscriberOnly_ID();
 
     /** Column name C_RfQ_TopicSubscriber_ID */
     public static final String COLUMNNAME_C_RfQ_TopicSubscriber_ID = "C_RfQ_TopicSubscriber_ID";
@@ -93,18 +90,21 @@ public interface I_C_RfQ_TopicSubscriberOnly
 
 	public org.compiere.model.I_C_RfQ_TopicSubscriber getC_RfQ_TopicSubscriber() throws RuntimeException;
 
-    /** Column name C_RfQ_TopicSubscriberOnly_ID */
-    public static final String COLUMNNAME_C_RfQ_TopicSubscriberOnly_ID = "C_RfQ_TopicSubscriberOnly_ID";
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
 
-	/** Set RfQ Topic Subscriber Restriction.
-	  * Include Subscriber only for certain products or product categories
+	/** Get Created.
+	  * Date this record was created
 	  */
-	public void setC_RfQ_TopicSubscriberOnly_ID (int C_RfQ_TopicSubscriberOnly_ID);
+	public Timestamp getCreated();
 
-	/** Get RfQ Topic Subscriber Restriction.
-	  * Include Subscriber only for certain products or product categories
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
 	  */
-	public int getC_RfQ_TopicSubscriberOnly_ID();
+	public int getCreatedBy();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

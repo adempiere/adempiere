@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_MigrationStep
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.8.0RC
  */
 public interface I_AD_MigrationStep 
 {
@@ -75,7 +75,7 @@ public interface I_AD_MigrationStep
 	  */
 	public int getAD_Migration_ID();
 
-	public I_AD_Migration getAD_Migration() throws RuntimeException;
+	public org.compiere.model.I_AD_Migration getAD_Migration() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -103,7 +103,7 @@ public interface I_AD_MigrationStep
 	  */
 	public int getAD_Table_ID();
 
-	public I_AD_Table getAD_Table() throws RuntimeException;
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
 
     /** Column name Action */
     public static final String COLUMNNAME_Action = "Action";

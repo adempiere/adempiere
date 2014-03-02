@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for W_Store
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_W_Store 
 {
@@ -372,6 +372,19 @@ public interface I_W_Store
 	  */
 	public String getStylesheet();
 
+    /** Column name URL */
+    public static final String COLUMNNAME_URL = "URL";
+
+	/** Set URL.
+	  * Full URL address - e.g. http://www.adempiere.org
+	  */
+	public void setURL (String URL);
+
+	/** Get URL.
+	  * Full URL address - e.g. http://www.adempiere.org
+	  */
+	public String getURL();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -388,18 +401,57 @@ public interface I_W_Store
 	  */
 	public int getUpdatedBy();
 
-    /** Column name URL */
-    public static final String COLUMNNAME_URL = "URL";
+    /** Column name WStoreEMail */
+    public static final String COLUMNNAME_WStoreEMail = "WStoreEMail";
 
-	/** Set URL.
-	  * Full URL address - e.g. http://www.adempiere.org
+	/** Set Web Store EMail.
+	  * EMail address used as the sender (From)
 	  */
-	public void setURL (String URL);
+	public void setWStoreEMail (String WStoreEMail);
 
-	/** Get URL.
-	  * Full URL address - e.g. http://www.adempiere.org
+	/** Get Web Store EMail.
+	  * EMail address used as the sender (From)
 	  */
-	public String getURL();
+	public String getWStoreEMail();
+
+    /** Column name WStoreUser */
+    public static final String COLUMNNAME_WStoreUser = "WStoreUser";
+
+	/** Set WebStore User.
+	  * User ID of the Web Store EMail address
+	  */
+	public void setWStoreUser (String WStoreUser);
+
+	/** Get WebStore User.
+	  * User ID of the Web Store EMail address
+	  */
+	public String getWStoreUser();
+
+    /** Column name WStoreUserPW */
+    public static final String COLUMNNAME_WStoreUserPW = "WStoreUserPW";
+
+	/** Set WebStore Password.
+	  * Password of the Web Store EMail address
+	  */
+	public void setWStoreUserPW (String WStoreUserPW);
+
+	/** Get WebStore Password.
+	  * Password of the Web Store EMail address
+	  */
+	public String getWStoreUserPW();
+
+    /** Column name W_Store_ID */
+    public static final String COLUMNNAME_W_Store_ID = "W_Store_ID";
+
+	/** Set Web Store.
+	  * A Web Store of the Client
+	  */
+	public void setW_Store_ID (int W_Store_ID);
+
+	/** Get Web Store.
+	  * A Web Store of the Client
+	  */
+	public int getW_Store_ID();
 
     /** Column name WebContext */
     public static final String COLUMNNAME_WebContext = "WebContext";
@@ -517,56 +569,4 @@ public interface I_W_Store
 	  * Web Site Parameter 6 (default footer right)
 	  */
 	public String getWebParam6();
-
-    /** Column name WStoreEMail */
-    public static final String COLUMNNAME_WStoreEMail = "WStoreEMail";
-
-	/** Set Web Store EMail.
-	  * EMail address used as the sender (From)
-	  */
-	public void setWStoreEMail (String WStoreEMail);
-
-	/** Get Web Store EMail.
-	  * EMail address used as the sender (From)
-	  */
-	public String getWStoreEMail();
-
-    /** Column name W_Store_ID */
-    public static final String COLUMNNAME_W_Store_ID = "W_Store_ID";
-
-	/** Set Web Store.
-	  * A Web Store of the Client
-	  */
-	public void setW_Store_ID (int W_Store_ID);
-
-	/** Get Web Store.
-	  * A Web Store of the Client
-	  */
-	public int getW_Store_ID();
-
-    /** Column name WStoreUser */
-    public static final String COLUMNNAME_WStoreUser = "WStoreUser";
-
-	/** Set WebStore User.
-	  * User ID of the Web Store EMail address
-	  */
-	public void setWStoreUser (String WStoreUser);
-
-	/** Get WebStore User.
-	  * User ID of the Web Store EMail address
-	  */
-	public String getWStoreUser();
-
-    /** Column name WStoreUserPW */
-    public static final String COLUMNNAME_WStoreUserPW = "WStoreUserPW";
-
-	/** Set WebStore Password.
-	  * Password of the Web Store EMail address
-	  */
-	public void setWStoreUserPW (String WStoreUserPW);
-
-	/** Get WebStore Password.
-	  * Password of the Web Store EMail address
-	  */
-	public String getWStoreUserPW();
 }

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_WorkbenchWindow
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_AD_WorkbenchWindow 
 {
@@ -122,6 +122,15 @@ public interface I_AD_WorkbenchWindow
 
 	public org.compiere.model.I_AD_Window getAD_Window() throws RuntimeException;
 
+    /** Column name AD_WorkbenchWindow_ID */
+    public static final String COLUMNNAME_AD_WorkbenchWindow_ID = "AD_WorkbenchWindow_ID";
+
+	/** Set Workbench Window	  */
+	public void setAD_WorkbenchWindow_ID (int AD_WorkbenchWindow_ID);
+
+	/** Get Workbench Window	  */
+	public int getAD_WorkbenchWindow_ID();
+
     /** Column name AD_Workbench_ID */
     public static final String COLUMNNAME_AD_Workbench_ID = "AD_Workbench_ID";
 
@@ -136,15 +145,6 @@ public interface I_AD_WorkbenchWindow
 	public int getAD_Workbench_ID();
 
 	public org.compiere.model.I_AD_Workbench getAD_Workbench() throws RuntimeException;
-
-    /** Column name AD_WorkbenchWindow_ID */
-    public static final String COLUMNNAME_AD_WorkbenchWindow_ID = "AD_WorkbenchWindow_ID";
-
-	/** Set Workbench Window	  */
-	public void setAD_WorkbenchWindow_ID (int AD_WorkbenchWindow_ID);
-
-	/** Get Workbench Window	  */
-	public int getAD_WorkbenchWindow_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for CM_Ad
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_CM_Ad 
 {
@@ -40,6 +40,27 @@ public interface I_CM_Ad
     BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
+
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
 
     /** Column name ActualClick */
     public static final String COLUMNNAME_ActualClick = "ActualClick";
@@ -66,27 +87,6 @@ public interface I_CM_Ad
 	  * How many impressions have been counted
 	  */
 	public int getActualImpression();
-
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
 
     /** Column name CM_Ad_Cat_ID */
     public static final String COLUMNNAME_CM_Ad_Cat_ID = "CM_Ad_Cat_ID";
@@ -303,19 +303,6 @@ public interface I_CM_Ad
 	  */
 	public int getStartImpression();
 
-    /** Column name Target_Frame */
-    public static final String COLUMNNAME_Target_Frame = "Target_Frame";
-
-	/** Set Target Frame.
-	  * Which target should be used if user clicks?
-	  */
-	public void setTarget_Frame (String Target_Frame);
-
-	/** Get Target Frame.
-	  * Which target should be used if user clicks?
-	  */
-	public String getTarget_Frame();
-
     /** Column name TargetURL */
     public static final String COLUMNNAME_TargetURL = "TargetURL";
 
@@ -328,6 +315,19 @@ public interface I_CM_Ad
 	  * URL for the Target
 	  */
 	public String getTargetURL();
+
+    /** Column name Target_Frame */
+    public static final String COLUMNNAME_Target_Frame = "Target_Frame";
+
+	/** Set Target Frame.
+	  * Which target should be used if user clicks?
+	  */
+	public void setTarget_Frame (String Target_Frame);
+
+	/** Get Target Frame.
+	  * Which target should be used if user clicks?
+	  */
+	public String getTarget_Frame();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

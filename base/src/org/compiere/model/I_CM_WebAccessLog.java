@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for CM_WebAccessLog
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_CM_WebAccessLog 
 {
@@ -40,19 +40,6 @@ public interface I_CM_WebAccessLog
     BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
-
-    /** Column name AcceptLanguage */
-    public static final String COLUMNNAME_AcceptLanguage = "AcceptLanguage";
-
-	/** Set Accept Language.
-	  * Language accepted based on browser information
-	  */
-	public void setAcceptLanguage (String AcceptLanguage);
-
-	/** Get Accept Language.
-	  * Language accepted based on browser information
-	  */
-	public String getAcceptLanguage();
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -89,6 +76,19 @@ public interface I_CM_WebAccessLog
 	public int getAD_User_ID();
 
 	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
+
+    /** Column name AcceptLanguage */
+    public static final String COLUMNNAME_AcceptLanguage = "AcceptLanguage";
+
+	/** Set Accept Language.
+	  * Language accepted based on browser information
+	  */
+	public void setAcceptLanguage (String AcceptLanguage);
+
+	/** Get Accept Language.
+	  * Language accepted based on browser information
+	  */
+	public String getAcceptLanguage();
 
     /** Column name CM_BroadcastServer_ID */
     public static final String COLUMNNAME_CM_BroadcastServer_ID = "CM_BroadcastServer_ID";

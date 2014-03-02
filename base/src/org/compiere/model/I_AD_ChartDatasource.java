@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_ChartDatasource
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_AD_ChartDatasource 
 {
@@ -59,7 +59,7 @@ public interface I_AD_ChartDatasource
 	/** Get Chart	  */
 	public int getAD_Chart_ID();
 
-	public I_AD_Chart getAD_Chart() throws RuntimeException;
+	public org.compiere.model.I_AD_Chart getAD_Chart() throws RuntimeException;
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -72,13 +72,13 @@ public interface I_AD_ChartDatasource
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
-	/** Set Organisation.
-	  * Organisational entity within client
+	/** Set Organization.
+	  * Organizational entity within client
 	  */
 	public void setAD_Org_ID (int AD_Org_ID);
 
-	/** Get Organisation.
-	  * Organisational entity within client
+	/** Get Organization.
+	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
 
@@ -95,7 +95,7 @@ public interface I_AD_ChartDatasource
 	  */
 	public int getAD_Table_ID();
 
-	public I_AD_Table getAD_Table() throws RuntimeException;
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
 
     /** Column name CategoryColumn */
     public static final String COLUMNNAME_CategoryColumn = "CategoryColumn";

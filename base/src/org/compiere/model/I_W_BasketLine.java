@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for W_BasketLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_W_BasketLine 
 {
@@ -183,6 +183,19 @@ public interface I_W_BasketLine
 	  */
 	public int getUpdatedBy();
 
+    /** Column name W_BasketLine_ID */
+    public static final String COLUMNNAME_W_BasketLine_ID = "W_BasketLine_ID";
+
+	/** Set Basket Line.
+	  * Web Basket Line
+	  */
+	public void setW_BasketLine_ID (int W_BasketLine_ID);
+
+	/** Get Basket Line.
+	  * Web Basket Line
+	  */
+	public int getW_BasketLine_ID();
+
     /** Column name W_Basket_ID */
     public static final String COLUMNNAME_W_Basket_ID = "W_Basket_ID";
 
@@ -197,17 +210,4 @@ public interface I_W_BasketLine
 	public int getW_Basket_ID();
 
 	public org.compiere.model.I_W_Basket getW_Basket() throws RuntimeException;
-
-    /** Column name W_BasketLine_ID */
-    public static final String COLUMNNAME_W_BasketLine_ID = "W_BasketLine_ID";
-
-	/** Set Basket Line.
-	  * Web Basket Line
-	  */
-	public void setW_BasketLine_ID (int W_BasketLine_ID);
-
-	/** Get Basket Line.
-	  * Web Basket Line
-	  */
-	public int getW_BasketLine_ID();
 }

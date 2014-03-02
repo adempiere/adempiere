@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Field
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_AD_Field 
 {
@@ -343,6 +343,19 @@ public interface I_AD_Field
 	  */
 	public boolean isDisplayed();
 
+    /** Column name IsDisplayedGrid */
+    public static final String COLUMNNAME_IsDisplayedGrid = "IsDisplayedGrid";
+
+	/** Set Displayed in Grid.
+	  * Determines, if this field is displayed in grid view
+	  */
+	public void setIsDisplayedGrid (boolean IsDisplayedGrid);
+
+	/** Get Displayed in Grid.
+	  * Determines, if this field is displayed in grid view
+	  */
+	public boolean isDisplayedGrid();
+
     /** Column name IsEncrypted */
     public static final String COLUMNNAME_IsEncrypted = "IsEncrypted";
 
@@ -474,6 +487,21 @@ public interface I_AD_Field
  lowest number comes first
 	  */
 	public int getSeqNo();
+
+    /** Column name SeqNoGrid */
+    public static final String COLUMNNAME_SeqNoGrid = "SeqNoGrid";
+
+	/** Set Grid Sequence.
+	  * Method of ordering records;
+ lowest number comes first
+	  */
+	public void setSeqNoGrid (int SeqNoGrid);
+
+	/** Get Grid Sequence.
+	  * Method of ordering records;
+ lowest number comes first
+	  */
+	public int getSeqNoGrid();
 
     /** Column name SortNo */
     public static final String COLUMNNAME_SortNo = "SortNo";

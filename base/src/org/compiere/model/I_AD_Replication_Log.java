@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Replication_Log
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_AD_Replication_Log 
 {
@@ -62,6 +62,21 @@ public interface I_AD_Replication_Log
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name AD_ReplicationTable_ID */
+    public static final String COLUMNNAME_AD_ReplicationTable_ID = "AD_ReplicationTable_ID";
+
+	/** Set Replication Table.
+	  * Data Replication Strategy Table Info
+	  */
+	public void setAD_ReplicationTable_ID (int AD_ReplicationTable_ID);
+
+	/** Get Replication Table.
+	  * Data Replication Strategy Table Info
+	  */
+	public int getAD_ReplicationTable_ID();
+
+	public org.compiere.model.I_AD_ReplicationTable getAD_ReplicationTable() throws RuntimeException;
+
     /** Column name AD_Replication_Log_ID */
     public static final String COLUMNNAME_AD_Replication_Log_ID = "AD_Replication_Log_ID";
 
@@ -89,21 +104,6 @@ public interface I_AD_Replication_Log
 	public int getAD_Replication_Run_ID();
 
 	public org.compiere.model.I_AD_Replication_Run getAD_Replication_Run() throws RuntimeException;
-
-    /** Column name AD_ReplicationTable_ID */
-    public static final String COLUMNNAME_AD_ReplicationTable_ID = "AD_ReplicationTable_ID";
-
-	/** Set Replication Table.
-	  * Data Replication Strategy Table Info
-	  */
-	public void setAD_ReplicationTable_ID (int AD_ReplicationTable_ID);
-
-	/** Get Replication Table.
-	  * Data Replication Strategy Table Info
-	  */
-	public int getAD_ReplicationTable_ID();
-
-	public org.compiere.model.I_AD_ReplicationTable getAD_ReplicationTable() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

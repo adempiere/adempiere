@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for T_Replenish
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_T_Replenish 
 {
@@ -148,21 +148,6 @@ public interface I_T_Replenish
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
-    /** Column name M_Warehouse_ID */
-    public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
-
-	/** Set Warehouse.
-	  * Storage Warehouse and Service Point
-	  */
-	public void setM_Warehouse_ID (int M_Warehouse_ID);
-
-	/** Get Warehouse.
-	  * Storage Warehouse and Service Point
-	  */
-	public int getM_Warehouse_ID();
-
-	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
-
     /** Column name M_WarehouseSource_ID */
     public static final String COLUMNNAME_M_WarehouseSource_ID = "M_WarehouseSource_ID";
 
@@ -177,6 +162,21 @@ public interface I_T_Replenish
 	public int getM_WarehouseSource_ID();
 
 	public org.compiere.model.I_M_Warehouse getM_WarehouseSource() throws RuntimeException;
+
+    /** Column name M_Warehouse_ID */
+    public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
+
+	/** Set Warehouse.
+	  * Storage Warehouse and Service Point
+	  */
+	public void setM_Warehouse_ID (int M_Warehouse_ID);
+
+	/** Get Warehouse.
+	  * Storage Warehouse and Service Point
+	  */
+	public int getM_Warehouse_ID();
+
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
 
     /** Column name Order_Min */
     public static final String COLUMNNAME_Order_Min = "Order_Min";
@@ -252,19 +252,6 @@ public interface I_T_Replenish
 	/** Get Quantity to Order	  */
 	public BigDecimal getQtyToOrder();
 
-    /** Column name ReplenishmentCreate */
-    public static final String COLUMNNAME_ReplenishmentCreate = "ReplenishmentCreate";
-
-	/** Set Create.
-	  * Create from Replenishment
-	  */
-	public void setReplenishmentCreate (String ReplenishmentCreate);
-
-	/** Get Create.
-	  * Create from Replenishment
-	  */
-	public String getReplenishmentCreate();
-
     /** Column name ReplenishType */
     public static final String COLUMNNAME_ReplenishType = "ReplenishType";
 
@@ -277,6 +264,19 @@ public interface I_T_Replenish
 	  * Method for re-ordering a product
 	  */
 	public String getReplenishType();
+
+    /** Column name ReplenishmentCreate */
+    public static final String COLUMNNAME_ReplenishmentCreate = "ReplenishmentCreate";
+
+	/** Set Create.
+	  * Create from Replenishment
+	  */
+	public void setReplenishmentCreate (String ReplenishmentCreate);
+
+	/** Get Create.
+	  * Create from Replenishment
+	  */
+	public String getReplenishmentCreate();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

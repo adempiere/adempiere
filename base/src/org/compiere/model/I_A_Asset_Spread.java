@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Spread
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_A_Asset_Spread 
 {
@@ -40,24 +40,6 @@ public interface I_A_Asset_Spread
     BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
-
-    /** Column name A_Asset_Spread_ID */
-    public static final String COLUMNNAME_A_Asset_Spread_ID = "A_Asset_Spread_ID";
-
-	/** Set Asset Spread	  */
-	public void setA_Asset_Spread_ID (int A_Asset_Spread_ID);
-
-	/** Get Asset Spread	  */
-	public int getA_Asset_Spread_ID();
-
-    /** Column name A_Asset_Spread_Type */
-    public static final String COLUMNNAME_A_Asset_Spread_Type = "A_Asset_Spread_Type";
-
-	/** Set Asset Spread Type	  */
-	public void setA_Asset_Spread_Type (String A_Asset_Spread_Type);
-
-	/** Get Asset Spread Type	  */
-	public String getA_Asset_Spread_Type();
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -79,6 +61,24 @@ public interface I_A_Asset_Spread
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name A_Asset_Spread_ID */
+    public static final String COLUMNNAME_A_Asset_Spread_ID = "A_Asset_Spread_ID";
+
+	/** Set Asset Spread	  */
+	public void setA_Asset_Spread_ID (int A_Asset_Spread_ID);
+
+	/** Get Asset Spread	  */
+	public int getA_Asset_Spread_ID();
+
+    /** Column name A_Asset_Spread_Type */
+    public static final String COLUMNNAME_A_Asset_Spread_Type = "A_Asset_Spread_Type";
+
+	/** Set Asset Spread Type	  */
+	public void setA_Asset_Spread_Type (String A_Asset_Spread_Type);
+
+	/** Get Asset Spread Type	  */
+	public String getA_Asset_Spread_Type();
 
     /** Column name A_Period_1 */
     public static final String COLUMNNAME_A_Period_1 = "A_Period_1";

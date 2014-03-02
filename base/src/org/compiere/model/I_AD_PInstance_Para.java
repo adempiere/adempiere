@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_PInstance_Para
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_AD_PInstance_Para 
 {
@@ -128,15 +128,6 @@ public interface I_AD_PInstance_Para
 	  */
 	public boolean isActive();
 
-    /** Column name ParameterName */
-    public static final String COLUMNNAME_ParameterName = "ParameterName";
-
-	/** Set Parameter Name	  */
-	public void setParameterName (String ParameterName);
-
-	/** Get Parameter Name	  */
-	public String getParameterName();
-
     /** Column name P_Date */
     public static final String COLUMNNAME_P_Date = "P_Date";
 
@@ -214,6 +205,15 @@ public interface I_AD_PInstance_Para
 	  * Process Parameter
 	  */
 	public String getP_String_To();
+
+    /** Column name ParameterName */
+    public static final String COLUMNNAME_ParameterName = "ParameterName";
+
+	/** Set Parameter Name	  */
+	public void setParameterName (String ParameterName);
+
+	/** Get Parameter Name	  */
+	public String getParameterName();
 
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";

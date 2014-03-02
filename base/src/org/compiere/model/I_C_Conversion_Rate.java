@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_Conversion_Rate
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_C_Conversion_Rate 
 {
@@ -62,19 +62,6 @@ public interface I_C_Conversion_Rate
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_Conversion_Rate_ID */
-    public static final String COLUMNNAME_C_Conversion_Rate_ID = "C_Conversion_Rate_ID";
-
-	/** Set Conversion Rate.
-	  * Rate used for converting currencies
-	  */
-	public void setC_Conversion_Rate_ID (int C_Conversion_Rate_ID);
-
-	/** Get Conversion Rate.
-	  * Rate used for converting currencies
-	  */
-	public int getC_Conversion_Rate_ID();
-
     /** Column name C_ConversionType_ID */
     public static final String COLUMNNAME_C_ConversionType_ID = "C_ConversionType_ID";
 
@@ -89,6 +76,19 @@ public interface I_C_Conversion_Rate
 	public int getC_ConversionType_ID();
 
 	public org.compiere.model.I_C_ConversionType getC_ConversionType() throws RuntimeException;
+
+    /** Column name C_Conversion_Rate_ID */
+    public static final String COLUMNNAME_C_Conversion_Rate_ID = "C_Conversion_Rate_ID";
+
+	/** Set Conversion Rate.
+	  * Rate used for converting currencies
+	  */
+	public void setC_Conversion_Rate_ID (int C_Conversion_Rate_ID);
+
+	/** Get Conversion Rate.
+	  * Rate used for converting currencies
+	  */
+	public int getC_Conversion_Rate_ID();
 
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";

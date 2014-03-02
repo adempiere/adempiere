@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_ReplicationStrategy
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_AD_ReplicationStrategy 
 {
@@ -104,6 +104,17 @@ public interface I_AD_ReplicationStrategy
 	  */
 	public String getDescription();
 
+    /** Column name EXP_Processor_ID */
+    public static final String COLUMNNAME_EXP_Processor_ID = "EXP_Processor_ID";
+
+	/** Set Export Processor	  */
+	public void setEXP_Processor_ID (int EXP_Processor_ID);
+
+	/** Get Export Processor	  */
+	public int getEXP_Processor_ID();
+
+	public org.compiere.model.I_EXP_Processor getEXP_Processor() throws RuntimeException;
+
     /** Column name EntityType */
     public static final String COLUMNNAME_EntityType = "EntityType";
 
@@ -118,17 +129,6 @@ public interface I_AD_ReplicationStrategy
  Determines ownership and synchronization
 	  */
 	public String getEntityType();
-
-    /** Column name EXP_Processor_ID */
-    public static final String COLUMNNAME_EXP_Processor_ID = "EXP_Processor_ID";
-
-	/** Set Export Processor	  */
-	public void setEXP_Processor_ID (int EXP_Processor_ID);
-
-	/** Get Export Processor	  */
-	public int getEXP_Processor_ID();
-
-	public org.compiere.model.I_EXP_Processor getEXP_Processor() throws RuntimeException;
 
     /** Column name Help */
     public static final String COLUMNNAME_Help = "Help";
