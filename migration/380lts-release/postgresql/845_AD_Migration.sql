@@ -2105,4 +2105,12 @@ UPDATE AD_Tab SET OrderByClause='AD_MigrationStep.SeqNo',Updated=TO_TIMESTAMP('2
 UPDATE AD_Column SET AD_Reference_Value_ID=53312,Updated=TO_TIMESTAMP('2009-06-23 11:03:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=57865
 ;
 
-
+-- Add FilePathOrName and update the migration import parameters to use it.  Also include "Apply" to apply all imported migrations.
+INSERT INTO AD_Reference (AD_Client_ID,AD_Org_ID,AD_Reference_ID,Created,CreatedBy,Description,EntityType,Help,IsActive,IsOrderByValue,Name,Updated,UpdatedBy,ValidationType) VALUES (0,0,53670,TO_TIMESTAMP('2014-03-02 15:26:11','YYYY-MM-DD HH24:MI:SS'),0,'Local File Path or Name','D','Selects a path or a single file.','Y','N','FilePathOrName',TO_TIMESTAMP('2014-03-02 15:26:11','YYYY-MM-DD HH24:MI:SS'),0,'D')
+;
+INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,57071,0,53670,'FilePathOrName',TO_TIMESTAMP('2014-03-02 15:57:04','YYYY-MM-DD HH24:MI:SS'),0,'Path of directory or name of the local file or URL','D',120,'Path of the directory or name of a file in the local directory space - or URL (file://.., http://.., ftp://..)','Y','File Path or Name','File Path/Name',TO_TIMESTAMP('2014-03-02 15:57:04','YYYY-MM-DD HH24:MI:SS'),0)
+;
+UPDATE AD_Process_Para SET AD_Element_ID=57071, AD_Reference_ID=53670, Description='The path to the XML file(s) to load the migration script from', Help='Select a directory to load all XML files stored there.', Name='File Path or Name',Updated=TO_TIMESTAMP('2014-03-02 16:48:56','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Process_Para_ID=53318
+;
+INSERT INTO AD_Process_Para (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Process_ID,AD_Process_Para_ID,AD_Reference_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,IsActive,IsCentrallyMaintained,IsMandatory,IsRange,Name,SeqNo,Updated,UpdatedBy) VALUES (0,53879,0,53175,54556,20,'Apply',TO_TIMESTAMP('2014-03-02 16:05:41','YYYY-MM-DD HH24:MI:SS'),0,'Apply migration','D',0,'Y','Y','N','N','Apply',20,TO_TIMESTAMP('2014-03-02 16:05:41','YYYY-MM-DD HH24:MI:SS'),0)
+;
