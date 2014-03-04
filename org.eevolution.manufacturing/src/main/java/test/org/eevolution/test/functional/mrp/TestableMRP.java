@@ -112,12 +112,12 @@ class TestableMRP extends org.eevolution.process.MRP
 	}
 	@Override
 	protected MPPProductPlanning getProductPlanning(int AD_Client_ID, int AD_Org_ID,
-														int S_Resource_ID, int M_Warehouse_ID, MProduct product)
+														int S_Resource_ID, int M_Warehouse_ID, MProduct product, String trxName)
 	{
 		return (MPPProductPlanning)this.planning;
 	}
 	@Override
-	protected BigDecimal getQtyOnHand(I_PP_Product_Planning pp)
+	protected BigDecimal getQtyOnHand(I_PP_Product_Planning pp, String trxName)
 	{
 		return this.qtyOnHand;
 	}
@@ -127,7 +127,7 @@ class TestableMRP extends org.eevolution.process.MRP
 		return this.today;
 	}
 	@Override
-	protected void createMRPNote(String code, int AD_Org_ID, int PP_MRP_ID, MProduct product, String documentNo, BigDecimal qty, String comment)
+	protected void createMRPNote(String code, int AD_Org_ID, int PP_MRP_ID, MProduct product, String documentNo, BigDecimal qty, String comment, String trxName)
 	{
 		MRPNotice note = new MRPNotice(code);
 		note.AD_Org_ID = AD_Org_ID;
@@ -139,17 +139,17 @@ class TestableMRP extends org.eevolution.process.MRP
 		this.actualNotices.add(note);
 	}
 	@Override
-	protected void createDDOrder(int AD_Org_ID, int PP_MRP_ID, MProduct product, BigDecimal QtyPlanned, Timestamp DemandDateStartSchedule)
+	protected void createDDOrder(int AD_Org_ID, int PP_MRP_ID, MProduct product, BigDecimal QtyPlanned, Timestamp DemandDateStartSchedule, String trxName)
 	{
 		createMRPSupply(AD_Org_ID, PP_MRP_ID, product, QtyPlanned, DemandDateStartSchedule);
 	}
 	@Override
-	protected void createPPOrder(int AD_Org_ID, int PP_MRP_ID, MProduct product, BigDecimal QtyPlanned, Timestamp DemandDateStartSchedule)
+	protected void createPPOrder(int AD_Org_ID, int PP_MRP_ID, MProduct product, BigDecimal QtyPlanned, Timestamp DemandDateStartSchedule, String trxName)
 	{
 		createMRPSupply(AD_Org_ID, PP_MRP_ID, product, QtyPlanned, DemandDateStartSchedule);
 	}
 	@Override
-	protected void createRequisition(int AD_Org_ID, int PP_MRP_ID, MProduct product, BigDecimal QtyPlanned, Timestamp DemandDateStartSchedule)
+	protected void createRequisition(int AD_Org_ID, int PP_MRP_ID, MProduct product, BigDecimal QtyPlanned, Timestamp DemandDateStartSchedule, String trxName)
 	{
 		createMRPSupply(AD_Org_ID, PP_MRP_ID, product, QtyPlanned, DemandDateStartSchedule);
 	}
@@ -175,7 +175,7 @@ class TestableMRP extends org.eevolution.process.MRP
 		return super.doIt();
 	}
 	@Override
-	protected void deleteMRP(int AD_Client_ID, int AD_Org_ID, int S_Resource_ID, int M_Warehouse_ID, int M_Product_ID) throws SQLException
+	protected void deleteMRP(int AD_Client_ID, int AD_Org_ID, int S_Resource_ID, int M_Warehouse_ID, int M_Product_ID, String trxName) throws SQLException
 	{
 		// Delete all MRP records for our testing product
 		String sql = "DELETE FROM PP_MRP"
@@ -188,7 +188,7 @@ class TestableMRP extends org.eevolution.process.MRP
 				get_TrxName());
 		log.info("[DEBUG] clean up MRP #"+no);
 		//
-		super.deleteMRP(AD_Client_ID, AD_Org_ID, S_Resource_ID, M_Warehouse_ID, M_Product_ID);
+		super.deleteMRP(AD_Client_ID, AD_Org_ID, S_Resource_ID, M_Warehouse_ID, M_Product_ID, trxName);
 	}
 
 	public void dumpStatus()

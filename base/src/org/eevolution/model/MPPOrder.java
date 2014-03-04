@@ -79,14 +79,14 @@ public class MPPOrder extends X_PP_Order implements DocAction
 	 * get Manufacturing Order based in Sales Order ID
 	 * @param ctx Context
 	 * @param C_OrderLine_ID Sales Order Line
+	 * @param M_Product_ID Product
 	 * @param trxName Transaction 
 	 * @return Manufacturing Order
 	 */
-	public static MPPOrder forC_OrderLine_ID(Properties ctx, int C_OrderLine_ID, String trxName)
+	public static MPPOrder forC_OrderLine_ID(Properties ctx, int C_OrderLine_ID , int M_Product_ID , String trxName)
 	{
-		MOrderLine line = new MOrderLine(ctx,  C_OrderLine_ID, trxName);	
 		return new Query(ctx, MPPOrder.Table_Name, COLUMNNAME_C_OrderLine_ID+"=? AND "+ COLUMNNAME_M_Product_ID+"=?", trxName)
-								.setParameters(new Object[]{C_OrderLine_ID,line.getM_Product_ID()})
+								.setParameters(C_OrderLine_ID,M_Product_ID)
 								.firstOnly();
 	}
 	
