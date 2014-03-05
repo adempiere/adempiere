@@ -536,9 +536,13 @@ public class MMatchInv extends X_M_MatchInv implements IDocumentLine
 	public BigDecimal getPriceActual() {
 
 		MInvoiceLine il = (MInvoiceLine) getC_InvoiceLine();
-		return MConversionRate.convertBase(getCtx(), il.getPriceActual(), il.getParent().getC_Currency_ID(),
+		BigDecimal priceActual = MConversionRate.convertBase(getCtx(), il.getPriceActual(), il.getParent().getC_Currency_ID(),
 				 il.getParent().getDateAcct(), il.getParent().getC_ConversionType_ID(),
 				getAD_Client_ID(), getAD_Org_ID());	
+		if (X_C_DocType.DOCBASETYPE_APCreditMemo.equals(il.getParent().getC_DocType().getDocBaseType()))
+			return priceActual.multiply(new BigDecimal(-1));
+		else
+			return priceActual;
 	}
 
 	@Override
