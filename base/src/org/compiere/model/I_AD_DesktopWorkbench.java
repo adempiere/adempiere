@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_DesktopWorkbench
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_AD_DesktopWorkbench 
 {
@@ -49,6 +49,15 @@ public interface I_AD_DesktopWorkbench
 	  */
 	public int getAD_Client_ID();
 
+    /** Column name AD_DesktopWorkbench_ID */
+    public static final String COLUMNNAME_AD_DesktopWorkbench_ID = "AD_DesktopWorkbench_ID";
+
+	/** Set Desktop Workbench	  */
+	public void setAD_DesktopWorkbench_ID (int AD_DesktopWorkbench_ID);
+
+	/** Get Desktop Workbench	  */
+	public int getAD_DesktopWorkbench_ID();
+
     /** Column name AD_Desktop_ID */
     public static final String COLUMNNAME_AD_Desktop_ID = "AD_Desktop_ID";
 
@@ -63,15 +72,6 @@ public interface I_AD_DesktopWorkbench
 	public int getAD_Desktop_ID();
 
 	public org.compiere.model.I_AD_Desktop getAD_Desktop() throws RuntimeException;
-
-    /** Column name AD_DesktopWorkbench_ID */
-    public static final String COLUMNNAME_AD_DesktopWorkbench_ID = "AD_DesktopWorkbench_ID";
-
-	/** Set Desktop Workbench	  */
-	public void setAD_DesktopWorkbench_ID (int AD_DesktopWorkbench_ID);
-
-	/** Get Desktop Workbench	  */
-	public int getAD_DesktopWorkbench_ID();
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";

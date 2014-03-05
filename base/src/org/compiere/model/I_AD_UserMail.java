@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_UserMail
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_AD_UserMail 
 {
@@ -62,6 +62,19 @@ public interface I_AD_UserMail
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name AD_UserMail_ID */
+    public static final String COLUMNNAME_AD_UserMail_ID = "AD_UserMail_ID";
+
+	/** Set User Mail.
+	  * Mail sent to the user
+	  */
+	public void setAD_UserMail_ID (int AD_UserMail_ID);
+
+	/** Get User Mail.
+	  * Mail sent to the user
+	  */
+	public int getAD_UserMail_ID();
+
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 
@@ -76,19 +89,6 @@ public interface I_AD_UserMail
 	public int getAD_User_ID();
 
 	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
-
-    /** Column name AD_UserMail_ID */
-    public static final String COLUMNNAME_AD_UserMail_ID = "AD_UserMail_ID";
-
-	/** Set User Mail.
-	  * Mail sent to the user
-	  */
-	public void setAD_UserMail_ID (int AD_UserMail_ID);
-
-	/** Get User Mail.
-	  * Mail sent to the user
-	  */
-	public int getAD_UserMail_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

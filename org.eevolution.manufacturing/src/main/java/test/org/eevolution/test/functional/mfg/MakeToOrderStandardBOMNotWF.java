@@ -61,7 +61,7 @@ public class MakeToOrderStandardBOMNotWF extends AbstractMakeToOrder
 		MPPOrder expected = createPPOrder();
 		
 		
-		I_PP_Order actual = MPPOrder.forC_OrderLine_ID(getCtx(), oline.get_ID(), trxName);
+		I_PP_Order actual = MPPOrder.forC_OrderLine_ID(getCtx(), oline.get_ID(), oline.getM_Product_ID() , trxName);
 		
 		if(actual == null)
 		{

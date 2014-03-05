@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_Country
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_C_Country 
 {
@@ -88,15 +88,6 @@ public interface I_C_Country
 	  */
 	public boolean isAllowCitiesOutOfList();
 
-    /** Column name CaptureSequence */
-    public static final String COLUMNNAME_CaptureSequence = "CaptureSequence";
-
-	/** Set Capture Sequence	  */
-	public void setCaptureSequence (String CaptureSequence);
-
-	/** Get Capture Sequence	  */
-	public String getCaptureSequence();
-
     /** Column name C_Country_ID */
     public static final String COLUMNNAME_C_Country_ID = "C_Country_ID";
 
@@ -124,6 +115,15 @@ public interface I_C_Country
 	public int getC_Currency_ID();
 
 	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException;
+
+    /** Column name CaptureSequence */
+    public static final String COLUMNNAME_CaptureSequence = "CaptureSequence";
+
+	/** Set Capture Sequence	  */
+	public void setCaptureSequence (String CaptureSequence);
+
+	/** Get Capture Sequence	  */
+	public String getCaptureSequence();
 
     /** Column name CountryCode */
     public static final String COLUMNNAME_CountryCode = "CountryCode";

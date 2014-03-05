@@ -98,7 +98,7 @@ public class LiberoValidator implements ModelValidator
 		//Update MRP Change Net 
 		if(MPPMRP.isChanged(po) && (TYPE_AFTER_CHANGE == type || TYPE_AFTER_NEW == type))
 		{
-			MPPMRP.setIsRequired(po,MPPProductPlanning.COLUMNNAME_IsRequiredMRP, true);
+			MPPMRP.setIsRequired(po,MPPProductPlanning.COLUMNNAME_IsRequiredMRP, true , po.get_TrxName());
 		}
 		
 		DocAction doc = null;

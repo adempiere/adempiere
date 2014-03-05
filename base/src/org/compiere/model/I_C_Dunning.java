@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_Dunning
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_C_Dunning 
 {
@@ -75,6 +75,19 @@ public interface I_C_Dunning
 	  */
 	public int getC_Dunning_ID();
 
+    /** Column name CreateLevelsSequentially */
+    public static final String COLUMNNAME_CreateLevelsSequentially = "CreateLevelsSequentially";
+
+	/** Set Create levels sequentially.
+	  * Create Dunning Letter by level sequentially
+	  */
+	public void setCreateLevelsSequentially (boolean CreateLevelsSequentially);
+
+	/** Get Create levels sequentially.
+	  * Create Dunning Letter by level sequentially
+	  */
+	public boolean isCreateLevelsSequentially();
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -90,19 +103,6 @@ public interface I_C_Dunning
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name CreateLevelsSequentially */
-    public static final String COLUMNNAME_CreateLevelsSequentially = "CreateLevelsSequentially";
-
-	/** Set Create levels sequentially.
-	  * Create Dunning Letter by level sequentially
-	  */
-	public void setCreateLevelsSequentially (boolean CreateLevelsSequentially);
-
-	/** Get Create levels sequentially.
-	  * Create Dunning Letter by level sequentially
-	  */
-	public boolean isCreateLevelsSequentially();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

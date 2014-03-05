@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_RfQResponse
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_C_RfQResponse 
 {
@@ -122,15 +122,6 @@ public interface I_C_RfQResponse
 
 	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException;
 
-    /** Column name CheckComplete */
-    public static final String COLUMNNAME_CheckComplete = "CheckComplete";
-
-	/** Set Check Complete	  */
-	public void setCheckComplete (String CheckComplete);
-
-	/** Get Check Complete	  */
-	public String getCheckComplete();
-
     /** Column name C_Order_ID */
     public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
 
@@ -146,21 +137,18 @@ public interface I_C_RfQResponse
 
 	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException;
 
-    /** Column name Created */
-    public static final String COLUMNNAME_Created = "Created";
+    /** Column name C_RfQResponse_ID */
+    public static final String COLUMNNAME_C_RfQResponse_ID = "C_RfQResponse_ID";
 
-	/** Get Created.
-	  * Date this record was created
+	/** Set RfQ Response.
+	  * Request for Quotation Response from a potential Vendor
 	  */
-	public Timestamp getCreated();
+	public void setC_RfQResponse_ID (int C_RfQResponse_ID);
 
-    /** Column name CreatedBy */
-    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
-
-	/** Get Created By.
-	  * User who created this records
+	/** Get RfQ Response.
+	  * Request for Quotation Response from a potential Vendor
 	  */
-	public int getCreatedBy();
+	public int getC_RfQResponse_ID();
 
     /** Column name C_RfQ_ID */
     public static final String COLUMNNAME_C_RfQ_ID = "C_RfQ_ID";
@@ -177,18 +165,30 @@ public interface I_C_RfQResponse
 
 	public org.compiere.model.I_C_RfQ getC_RfQ() throws RuntimeException;
 
-    /** Column name C_RfQResponse_ID */
-    public static final String COLUMNNAME_C_RfQResponse_ID = "C_RfQResponse_ID";
+    /** Column name CheckComplete */
+    public static final String COLUMNNAME_CheckComplete = "CheckComplete";
 
-	/** Set RfQ Response.
-	  * Request for Quotation Response from a potential Vendor
-	  */
-	public void setC_RfQResponse_ID (int C_RfQResponse_ID);
+	/** Set Check Complete	  */
+	public void setCheckComplete (String CheckComplete);
 
-	/** Get RfQ Response.
-	  * Request for Quotation Response from a potential Vendor
+	/** Get Check Complete	  */
+	public String getCheckComplete();
+
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
+
+	/** Get Created.
+	  * Date this record was created
 	  */
-	public int getC_RfQResponse_ID();
+	public Timestamp getCreated();
+
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
+	  */
+	public int getCreatedBy();
 
     /** Column name DateInvited */
     public static final String COLUMNNAME_DateInvited = "DateInvited";

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Alert
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_AD_Alert 
 {
@@ -41,19 +41,6 @@ public interface I_AD_Alert
 
     /** Load Meta Data */
 
-    /** Column name AD_Alert_ID */
-    public static final String COLUMNNAME_AD_Alert_ID = "AD_Alert_ID";
-
-	/** Set Alert.
-	  * Adempiere Alert
-	  */
-	public void setAD_Alert_ID (int AD_Alert_ID);
-
-	/** Get Alert.
-	  * Adempiere Alert
-	  */
-	public int getAD_Alert_ID();
-
     /** Column name AD_AlertProcessor_ID */
     public static final String COLUMNNAME_AD_AlertProcessor_ID = "AD_AlertProcessor_ID";
 
@@ -68,6 +55,19 @@ public interface I_AD_Alert
 	public int getAD_AlertProcessor_ID();
 
 	public org.compiere.model.I_AD_AlertProcessor getAD_AlertProcessor() throws RuntimeException;
+
+    /** Column name AD_Alert_ID */
+    public static final String COLUMNNAME_AD_Alert_ID = "AD_Alert_ID";
+
+	/** Set Alert.
+	  * Adempiere Alert
+	  */
+	public void setAD_Alert_ID (int AD_Alert_ID);
+
+	/** Get Alert.
+	  * Adempiere Alert
+	  */
+	public int getAD_Alert_ID();
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";

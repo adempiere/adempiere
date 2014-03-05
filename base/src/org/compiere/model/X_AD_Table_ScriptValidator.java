@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Table_ScriptValidator
  *  @author Adempiere (generated) 
- *  @version Release 3.7.1RC - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_AD_Table_ScriptValidator extends PO implements I_AD_Table_ScriptValidator, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20120927L;
+	private static final long serialVersionUID = 20140301L;
 
     /** Standard Constructor */
     public X_AD_Table_ScriptValidator (Properties ctx, int AD_Table_ScriptValidator_ID, String trxName)
@@ -200,8 +200,6 @@ public class X_AD_Table_ScriptValidator extends PO implements I_AD_Table_ScriptV
 	public static final String EVENTMODELVALIDATOR_TableAfterChangeReplication = "TACR";
 	/** Table Before Delete Replication = TBDR */
 	public static final String EVENTMODELVALIDATOR_TableBeforeDeleteReplication = "TBDR";
-	/** Document After Post = DAPO */
-	public static final String EVENTMODELVALIDATOR_DocumentPreparePost = "DPPO";
 	/** Set Event Model Validator.
 		@param EventModelValidator Event Model Validator	  */
 	public void setEventModelValidator (String EventModelValidator)

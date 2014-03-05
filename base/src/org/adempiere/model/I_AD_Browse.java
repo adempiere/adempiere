@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Browse
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_AD_Browse 
 {
@@ -101,6 +101,21 @@ public interface I_AD_Browse
 	public int getAD_View_ID();
 
 	public org.adempiere.model.I_AD_View getAD_View() throws RuntimeException;
+
+    /** Column name AD_Window_ID */
+    public static final String COLUMNNAME_AD_Window_ID = "AD_Window_ID";
+
+	/** Set Window.
+	  * Data entry or display window
+	  */
+	public void setAD_Window_ID (int AD_Window_ID);
+
+	/** Get Window.
+	  * Data entry or display window
+	  */
+	public int getAD_Window_ID();
+
+	public org.compiere.model.I_AD_Window getAD_Window() throws RuntimeException;
 
     /** Column name AccessLevel */
     public static final String COLUMNNAME_AccessLevel = "AccessLevel";
@@ -210,6 +225,58 @@ public interface I_AD_Browse
 	  * This functionality is considered Beta
 	  */
 	public boolean isBetaFunctionality();
+
+    /** Column name IsCollapsibleByDefault */
+    public static final String COLUMNNAME_IsCollapsibleByDefault = "IsCollapsibleByDefault";
+
+	/** Set Is collapsible by default.
+	  * Flag to indicate if is collapsible by default
+	  */
+	public void setIsCollapsibleByDefault (boolean IsCollapsibleByDefault);
+
+	/** Get Is collapsible by default.
+	  * Flag to indicate if is collapsible by default
+	  */
+	public boolean isCollapsibleByDefault();
+
+    /** Column name IsDeleteable */
+    public static final String COLUMNNAME_IsDeleteable = "IsDeleteable";
+
+	/** Set Records deletable.
+	  * Indicates if records can be deleted from the database
+	  */
+	public void setIsDeleteable (boolean IsDeleteable);
+
+	/** Get Records deletable.
+	  * Indicates if records can be deleted from the database
+	  */
+	public boolean isDeleteable();
+
+    /** Column name IsExecutedQueryByDefault */
+    public static final String COLUMNNAME_IsExecutedQueryByDefault = "IsExecutedQueryByDefault";
+
+	/** Set Is executed query by default.
+	  * Is executed query by default
+	  */
+	public void setIsExecutedQueryByDefault (boolean IsExecutedQueryByDefault);
+
+	/** Get Is executed query by default.
+	  * Is executed query by default
+	  */
+	public boolean isExecutedQueryByDefault();
+
+    /** Column name IsSelectedByDefault */
+    public static final String COLUMNNAME_IsSelectedByDefault = "IsSelectedByDefault";
+
+	/** Set Is selected by default.
+	  * Allows auto select rows of a browser
+	  */
+	public void setIsSelectedByDefault (boolean IsSelectedByDefault);
+
+	/** Get Is selected by default.
+	  * Allows auto select rows of a browser
+	  */
+	public boolean isSelectedByDefault();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

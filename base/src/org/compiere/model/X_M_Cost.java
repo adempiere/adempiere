@@ -24,14 +24,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for M_Cost
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_M_Cost extends PO implements I_M_Cost, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110101L;
+	private static final long serialVersionUID = 20140301L;
 
     /** Standard Constructor */
     public X_M_Cost (Properties ctx, int M_Cost_ID, String trxName)
@@ -450,7 +450,7 @@ public class X_M_Cost extends PO implements I_M_Cost, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
-	
+
 	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException
     {
 		return (org.compiere.model.I_M_Warehouse)MTable.get(getCtx(), org.compiere.model.I_M_Warehouse.Table_Name)
@@ -478,7 +478,6 @@ public class X_M_Cost extends PO implements I_M_Cost, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
-
 
 	/** Set Percent.
 		@param Percent 

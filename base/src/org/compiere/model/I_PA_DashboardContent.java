@@ -222,15 +222,6 @@ public interface I_PA_DashboardContent
 	  */
 	public String getName();
 
-    /** Column name onevent */
-    public static final String COLUMNNAME_onevent = "onevent";
-
-	/** Set On Event	  */
-	public void setonevent (String onevent);
-
-	/** Get On Event	  */
-	public String getonevent();
-
     /** Column name PA_DashboardContent_ID */
     public static final String COLUMNNAME_PA_DashboardContent_ID = "PA_DashboardContent_ID";
 
@@ -325,4 +316,13 @@ public interface I_PA_DashboardContent
 	  * Absolute path to zul file
 	  */
 	public String getZulFilePath();
+
+    /** Column name onevent */
+    public static final String COLUMNNAME_onevent = "onevent";
+
+	/** Set On Event	  */
+	public void setonevent (String onevent);
+
+	/** Get On Event	  */
+	public String getonevent();
 }

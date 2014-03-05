@@ -18,12 +18,11 @@ package org.compiere.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for T_InventoryValue
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_T_InventoryValue 
 {

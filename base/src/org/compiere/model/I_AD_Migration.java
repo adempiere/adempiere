@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Migration
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.8.0RC
  */
 public interface I_AD_Migration 
 {
@@ -170,6 +170,15 @@ public interface I_AD_Migration
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
+
+    /** Column name Processing */
+    public static final String COLUMNNAME_Processing = "Processing";
+
+	/** Set Process Now	  */
+	public void setProcessing (boolean Processing);
+
+	/** Get Process Now	  */
+	public boolean isProcessing();
 
     /** Column name ReleaseNo */
     public static final String COLUMNNAME_ReleaseNo = "ReleaseNo";

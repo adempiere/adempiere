@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for ASP_Tab
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_ASP_Tab 
 {
@@ -77,15 +77,6 @@ public interface I_ASP_Tab
 
 	public org.compiere.model.I_AD_Tab getAD_Tab() throws RuntimeException;
 
-    /** Column name AllFields */
-    public static final String COLUMNNAME_AllFields = "AllFields";
-
-	/** Set AllFields	  */
-	public void setAllFields (boolean AllFields);
-
-	/** Get AllFields	  */
-	public boolean isAllFields();
-
     /** Column name ASP_Status */
     public static final String COLUMNNAME_ASP_Status = "ASP_Status";
 
@@ -114,6 +105,15 @@ public interface I_ASP_Tab
 	public int getASP_Window_ID();
 
 	public org.compiere.model.I_ASP_Window getASP_Window() throws RuntimeException;
+
+    /** Column name AllFields */
+    public static final String COLUMNNAME_AllFields = "AllFields";
+
+	/** Set AllFields	  */
+	public void setAllFields (boolean AllFields);
+
+	/** Get AllFields	  */
+	public boolean isAllFields();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

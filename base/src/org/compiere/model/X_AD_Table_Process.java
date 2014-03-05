@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for AD_Table_Process
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_AD_Table_Process extends PO implements I_AD_Table_Process, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110324L;
+	private static final long serialVersionUID = 20140301L;
 
     /** Standard Constructor */
     public X_AD_Table_Process (Properties ctx, int AD_Table_Process_ID, String trxName)
@@ -50,7 +50,7 @@ public class X_AD_Table_Process extends PO implements I_AD_Table_Process, I_Pers
     }
 
     /** AccessLevel
-      * @return 4 - System 
+      * @return 7 - System - Client - Org 
       */
     protected int get_AccessLevel()
     {
@@ -71,14 +71,14 @@ public class X_AD_Table_Process extends PO implements I_AD_Table_Process, I_Pers
       return sb.toString();
     }
 
-	public I_AD_Process getAD_Process() throws RuntimeException
+	public org.compiere.model.I_AD_Process getAD_Process() throws RuntimeException
     {
-		return (I_AD_Process)MTable.get(getCtx(), I_AD_Process.Table_Name)
+		return (org.compiere.model.I_AD_Process)MTable.get(getCtx(), org.compiere.model.I_AD_Process.Table_Name)
 			.getPO(getAD_Process_ID(), get_TrxName());	}
 
-	/** Set Prozess.
+	/** Set Process.
 		@param AD_Process_ID 
-		Prozess oder Bericht
+		Process or Report
 	  */
 	public void setAD_Process_ID (int AD_Process_ID)
 	{
@@ -88,8 +88,8 @@ public class X_AD_Table_Process extends PO implements I_AD_Table_Process, I_Pers
 			set_ValueNoCheck (COLUMNNAME_AD_Process_ID, Integer.valueOf(AD_Process_ID));
 	}
 
-	/** Get Prozess.
-		@return Prozess oder Bericht
+	/** Get Process.
+		@return Process or Report
 	  */
 	public int getAD_Process_ID () 
 	{
@@ -99,12 +99,12 @@ public class X_AD_Table_Process extends PO implements I_AD_Table_Process, I_Pers
 		return ii.intValue();
 	}
 
-	public I_AD_Table getAD_Table() throws RuntimeException
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException
     {
-		return (I_AD_Table)MTable.get(getCtx(), I_AD_Table.Table_Name)
+		return (org.compiere.model.I_AD_Table)MTable.get(getCtx(), org.compiere.model.I_AD_Table.Table_Name)
 			.getPO(getAD_Table_ID(), get_TrxName());	}
 
-	/** Set DB-Tabelle.
+	/** Set Table.
 		@param AD_Table_ID 
 		Database Table information
 	  */
@@ -116,7 +116,7 @@ public class X_AD_Table_Process extends PO implements I_AD_Table_Process, I_Pers
 			set_ValueNoCheck (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
-	/** Get DB-Tabelle.
+	/** Get Table.
 		@return Database Table information
 	  */
 	public int getAD_Table_ID () 
@@ -129,7 +129,7 @@ public class X_AD_Table_Process extends PO implements I_AD_Table_Process, I_Pers
 
 	/** EntityType AD_Reference_ID=389 */
 	public static final int ENTITYTYPE_AD_Reference_ID=389;
-	/** Set Entitäts-Art.
+	/** Set Entity Type.
 		@param EntityType 
 		Dictionary Entity Type; Determines ownership and synchronization
 	  */
@@ -139,7 +139,7 @@ public class X_AD_Table_Process extends PO implements I_AD_Table_Process, I_Pers
 		set_Value (COLUMNNAME_EntityType, EntityType);
 	}
 
-	/** Get Entitäts-Art.
+	/** Get Entity Type.
 		@return Dictionary Entity Type; Determines ownership and synchronization
 	  */
 	public String getEntityType () 

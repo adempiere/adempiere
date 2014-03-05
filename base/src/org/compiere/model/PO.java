@@ -3439,8 +3439,8 @@ public abstract class PO
 			id = get_IDOld();
 		
 		String tableName = MTree_Base.getNodeTableName(treeType);
-		String whereClause = "Node_ID="+id+ " AND EXISTS (SELECT * FROM AD_Tree t "
-				+ "WHERE t.AD_Tree_ID=AD_Tree_ID AND t.TreeType='" + treeType + "')";
+		String whereClause = tableName + ".Node_ID="+id+ " AND EXISTS (SELECT * FROM AD_Tree t "
+				+ "WHERE t.AD_Tree_ID="+tableName+".AD_Tree_ID AND t.TreeType='" + treeType + "')";
 		
 		PO tree = MTable.get(getCtx(), tableName).getPO(whereClause, get_TrxName());
 		tree.deleteEx(true);

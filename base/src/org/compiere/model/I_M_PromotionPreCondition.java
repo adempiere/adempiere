@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_PromotionPreCondition
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_M_PromotionPreCondition 
 {
@@ -77,21 +77,6 @@ public interface I_M_PromotionPreCondition
 
 	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException;
 
-    /** Column name C_BPartner_ID */
-    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
-
-	/** Set Business Partner .
-	  * Identifies a Business Partner
-	  */
-	public void setC_BPartner_ID (int C_BPartner_ID);
-
-	/** Get Business Partner .
-	  * Identifies a Business Partner
-	  */
-	public int getC_BPartner_ID();
-
-	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
-
     /** Column name C_BP_Group_ID */
     public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
 
@@ -106,6 +91,21 @@ public interface I_M_PromotionPreCondition
 	public int getC_BP_Group_ID();
 
 	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException;
+
+    /** Column name C_BPartner_ID */
+    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
+
+	/** Set Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID);
+
+	/** Get Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID();
+
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -164,6 +164,15 @@ public interface I_M_PromotionPreCondition
 
 	public org.compiere.model.I_M_PriceList getM_PriceList() throws RuntimeException;
 
+    /** Column name M_PromotionPreCondition_ID */
+    public static final String COLUMNNAME_M_PromotionPreCondition_ID = "M_PromotionPreCondition_ID";
+
+	/** Set Promotion Pre Condition	  */
+	public void setM_PromotionPreCondition_ID (int M_PromotionPreCondition_ID);
+
+	/** Get Promotion Pre Condition	  */
+	public int getM_PromotionPreCondition_ID();
+
     /** Column name M_Promotion_ID */
     public static final String COLUMNNAME_M_Promotion_ID = "M_Promotion_ID";
 
@@ -174,15 +183,6 @@ public interface I_M_PromotionPreCondition
 	public int getM_Promotion_ID();
 
 	public org.compiere.model.I_M_Promotion getM_Promotion() throws RuntimeException;
-
-    /** Column name M_PromotionPreCondition_ID */
-    public static final String COLUMNNAME_M_PromotionPreCondition_ID = "M_PromotionPreCondition_ID";
-
-	/** Set Promotion Pre Condition	  */
-	public void setM_PromotionPreCondition_ID (int M_PromotionPreCondition_ID);
-
-	/** Get Promotion Pre Condition	  */
-	public int getM_PromotionPreCondition_ID();
 
     /** Column name M_Warehouse_ID */
     public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";

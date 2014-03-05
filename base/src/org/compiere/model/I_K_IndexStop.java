@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for K_IndexStop
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_K_IndexStop 
 {
@@ -62,21 +62,6 @@ public interface I_K_IndexStop
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_DocType_ID */
-    public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
-
-	/** Set Document Type.
-	  * Document type or rules
-	  */
-	public void setC_DocType_ID (int C_DocType_ID);
-
-	/** Get Document Type.
-	  * Document type or rules
-	  */
-	public int getC_DocType_ID();
-
-	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
-
     /** Column name CM_WebProject_ID */
     public static final String COLUMNNAME_CM_WebProject_ID = "CM_WebProject_ID";
 
@@ -91,6 +76,21 @@ public interface I_K_IndexStop
 	public int getCM_WebProject_ID();
 
 	public org.compiere.model.I_CM_WebProject getCM_WebProject() throws RuntimeException;
+
+    /** Column name C_DocType_ID */
+    public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
+
+	/** Set Document Type.
+	  * Document type or rules
+	  */
+	public void setC_DocType_ID (int C_DocType_ID);
+
+	/** Get Document Type.
+	  * Document type or rules
+	  */
+	public int getC_DocType_ID();
+
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -134,19 +134,6 @@ public interface I_K_IndexStop
 	  */
 	public boolean isManual();
 
-    /** Column name Keyword */
-    public static final String COLUMNNAME_Keyword = "Keyword";
-
-	/** Set Keyword.
-	  * Case insensitive keyword
-	  */
-	public void setKeyword (String Keyword);
-
-	/** Get Keyword.
-	  * Case insensitive keyword
-	  */
-	public String getKeyword();
-
     /** Column name K_IndexStop_ID */
     public static final String COLUMNNAME_K_IndexStop_ID = "K_IndexStop_ID";
 
@@ -159,6 +146,19 @@ public interface I_K_IndexStop
 	  * Keyword not to be indexed
 	  */
 	public int getK_IndexStop_ID();
+
+    /** Column name Keyword */
+    public static final String COLUMNNAME_Keyword = "Keyword";
+
+	/** Set Keyword.
+	  * Case insensitive keyword
+	  */
+	public void setKeyword (String Keyword);
+
+	/** Get Keyword.
+	  * Case insensitive keyword
+	  */
+	public String getKeyword();
 
     /** Column name R_RequestType_ID */
     public static final String COLUMNNAME_R_RequestType_ID = "R_RequestType_ID";

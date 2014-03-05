@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Opportunity
  *  @author Adempiere (generated) 
- *  @version 360LTS.013 - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_C_Opportunity extends PO implements I_C_Opportunity, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20111026L;
+	private static final long serialVersionUID = 20140301L;
 
     /** Standard Constructor */
     public X_C_Opportunity (Properties ctx, int C_Opportunity_ID, String trxName)
@@ -42,6 +42,7 @@ public class X_C_Opportunity extends PO implements I_C_Opportunity, I_Persistent
       /** if (C_Opportunity_ID == 0)
         {
 			setC_BPartner_ID (0);
+// @C_BPartner_ID@
 			setC_Currency_ID (0);
 			setC_Opportunity_ID (0);
 			setC_SalesStage_ID (0);
@@ -80,12 +81,12 @@ public class X_C_Opportunity extends PO implements I_C_Opportunity, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_User getAD_User() throws RuntimeException
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
     {
-		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getAD_User_ID(), get_TrxName());	}
 
-	/** Set User/Contact.
+	/** Set Usuario.
 		@param AD_User_ID 
 		User within the system - Internal or Business Partner Contact
 	  */
@@ -97,7 +98,7 @@ public class X_C_Opportunity extends PO implements I_C_Opportunity, I_Persistent
 			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
-	/** Get User/Contact.
+	/** Get Usuario.
 		@return User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID () 
@@ -108,9 +109,9 @@ public class X_C_Opportunity extends PO implements I_C_Opportunity, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -136,9 +137,9 @@ public class X_C_Opportunity extends PO implements I_C_Opportunity, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Campaign getC_Campaign() throws RuntimeException
+	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException
     {
-		return (I_C_Campaign)MTable.get(getCtx(), I_C_Campaign.Table_Name)
+		return (org.compiere.model.I_C_Campaign)MTable.get(getCtx(), org.compiere.model.I_C_Campaign.Table_Name)
 			.getPO(getC_Campaign_ID(), get_TrxName());	}
 
 	/** Set Campaign.
@@ -164,9 +165,9 @@ public class X_C_Opportunity extends PO implements I_C_Opportunity, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Currency getC_Currency() throws RuntimeException
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException
     {
-		return (I_C_Currency)MTable.get(getCtx(), I_C_Currency.Table_Name)
+		return (org.compiere.model.I_C_Currency)MTable.get(getCtx(), org.compiere.model.I_C_Currency.Table_Name)
 			.getPO(getC_Currency_ID(), get_TrxName());	}
 
 	/** Set Currency.
@@ -187,6 +188,82 @@ public class X_C_Opportunity extends PO implements I_C_Opportunity, I_Persistent
 	public int getC_Currency_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Currency_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Sales Opportunity.
+		@param C_Opportunity_ID Sales Opportunity	  */
+	public void setC_Opportunity_ID (int C_Opportunity_ID)
+	{
+		if (C_Opportunity_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Opportunity_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Opportunity_ID, Integer.valueOf(C_Opportunity_ID));
+	}
+
+	/** Get Sales Opportunity.
+		@return Sales Opportunity	  */
+	public int getC_Opportunity_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Opportunity_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Order)MTable.get(getCtx(), org.compiere.model.I_C_Order.Table_Name)
+			.getPO(getC_Order_ID(), get_TrxName());	}
+
+	/** Set Order.
+		@param C_Order_ID 
+		Order
+	  */
+	public void setC_Order_ID (int C_Order_ID)
+	{
+		if (C_Order_ID < 1) 
+			set_Value (COLUMNNAME_C_Order_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
+	}
+
+	/** Get Order.
+		@return Order
+	  */
+	public int getC_Order_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Order_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_SalesStage getC_SalesStage() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_SalesStage)MTable.get(getCtx(), org.compiere.model.I_C_SalesStage.Table_Name)
+			.getPO(getC_SalesStage_ID(), get_TrxName());	}
+
+	/** Set Sales Stage.
+		@param C_SalesStage_ID 
+		Stages of the sales process
+	  */
+	public void setC_SalesStage_ID (int C_SalesStage_ID)
+	{
+		if (C_SalesStage_ID < 1) 
+			set_Value (COLUMNNAME_C_SalesStage_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_SalesStage_ID, Integer.valueOf(C_SalesStage_ID));
+	}
+
+	/** Get Sales Stage.
+		@return Stages of the sales process
+	  */
+	public int getC_SalesStage_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_SalesStage_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -226,54 +303,6 @@ public class X_C_Opportunity extends PO implements I_C_Opportunity, I_Persistent
 		return (String)get_Value(COLUMNNAME_Comments);
 	}
 
-	/** Set Sales Opportunity.
-		@param C_Opportunity_ID Sales Opportunity	  */
-	public void setC_Opportunity_ID (int C_Opportunity_ID)
-	{
-		if (C_Opportunity_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_Opportunity_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_Opportunity_ID, Integer.valueOf(C_Opportunity_ID));
-	}
-
-	/** Get Sales Opportunity.
-		@return Sales Opportunity	  */
-	public int getC_Opportunity_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Opportunity_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_Order getC_Order() throws RuntimeException
-    {
-		return (I_C_Order)MTable.get(getCtx(), I_C_Order.Table_Name)
-			.getPO(getC_Order_ID(), get_TrxName());	}
-
-	/** Set Order.
-		@param C_Order_ID 
-		Order
-	  */
-	public void setC_Order_ID (int C_Order_ID)
-	{
-		if (C_Order_ID < 1) 
-			set_Value (COLUMNNAME_C_Order_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
-	}
-
-	/** Get Order.
-		@return Order
-	  */
-	public int getC_Order_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Order_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Cost.
 		@param Cost 
 		Cost information
@@ -292,34 +321,6 @@ public class X_C_Opportunity extends PO implements I_C_Opportunity, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
-	}
-
-	public I_C_SalesStage getC_SalesStage() throws RuntimeException
-    {
-		return (I_C_SalesStage)MTable.get(getCtx(), I_C_SalesStage.Table_Name)
-			.getPO(getC_SalesStage_ID(), get_TrxName());	}
-
-	/** Set Sales Stage.
-		@param C_SalesStage_ID 
-		Stages of the sales process
-	  */
-	public void setC_SalesStage_ID (int C_SalesStage_ID)
-	{
-		if (C_SalesStage_ID < 1) 
-			set_Value (COLUMNNAME_C_SalesStage_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_SalesStage_ID, Integer.valueOf(C_SalesStage_ID));
-	}
-
-	/** Get Sales Stage.
-		@return Stages of the sales process
-	  */
-	public int getC_SalesStage_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_SalesStage_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set Description.
@@ -418,9 +419,9 @@ public class X_C_Opportunity extends PO implements I_C_Opportunity, I_Persistent
 		return bd;
 	}
 
-	public I_AD_User getSalesRep() throws RuntimeException
+	public org.compiere.model.I_AD_User getSalesRep() throws RuntimeException
     {
-		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getSalesRep_ID(), get_TrxName());	}
 
 	/** Set Sales Representative.

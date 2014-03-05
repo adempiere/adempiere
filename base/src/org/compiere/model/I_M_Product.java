@@ -17,13 +17,12 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
-import java.util.Properties;
 import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_Product
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_M_Product 
 {
@@ -63,6 +62,66 @@ public interface I_M_Product
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name C_RevenueRecognition_ID */
+    public static final String COLUMNNAME_C_RevenueRecognition_ID = "C_RevenueRecognition_ID";
+
+	/** Set Revenue Recognition.
+	  * Method for recording revenue
+	  */
+	public void setC_RevenueRecognition_ID (int C_RevenueRecognition_ID);
+
+	/** Get Revenue Recognition.
+	  * Method for recording revenue
+	  */
+	public int getC_RevenueRecognition_ID();
+
+	public org.compiere.model.I_C_RevenueRecognition getC_RevenueRecognition() throws RuntimeException;
+
+    /** Column name C_SubscriptionType_ID */
+    public static final String COLUMNNAME_C_SubscriptionType_ID = "C_SubscriptionType_ID";
+
+	/** Set Subscription Type.
+	  * Type of subscription
+	  */
+	public void setC_SubscriptionType_ID (int C_SubscriptionType_ID);
+
+	/** Get Subscription Type.
+	  * Type of subscription
+	  */
+	public int getC_SubscriptionType_ID();
+
+	public org.compiere.model.I_C_SubscriptionType getC_SubscriptionType() throws RuntimeException;
+
+    /** Column name C_TaxCategory_ID */
+    public static final String COLUMNNAME_C_TaxCategory_ID = "C_TaxCategory_ID";
+
+	/** Set Tax Category.
+	  * Tax Category
+	  */
+	public void setC_TaxCategory_ID (int C_TaxCategory_ID);
+
+	/** Get Tax Category.
+	  * Tax Category
+	  */
+	public int getC_TaxCategory_ID();
+
+	public org.compiere.model.I_C_TaxCategory getC_TaxCategory() throws RuntimeException;
+
+    /** Column name C_UOM_ID */
+    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
+
+	/** Set UOM.
+	  * Unit of Measure
+	  */
+	public void setC_UOM_ID (int C_UOM_ID);
+
+	/** Get UOM.
+	  * Unit of Measure
+	  */
+	public int getC_UOM_ID();
+
+	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException;
+
     /** Column name Classification */
     public static final String COLUMNNAME_Classification = "Classification";
 
@@ -76,7 +135,7 @@ public interface I_M_Product
 	  */
 	public String getClassification();
 
-	 /** Column name CopyFrom */
+    /** Column name CopyFrom */
     public static final String COLUMNNAME_CopyFrom = "CopyFrom";
 
 	/** Set Copy From.
@@ -88,6 +147,19 @@ public interface I_M_Product
 	  * Copy From Record
 	  */
 	public String getCopyFrom();
+
+    /** Column name CostStandard */
+    public static final String COLUMNNAME_CostStandard = "CostStandard";
+
+	/** Set Standard Cost.
+	  * Standard Costs
+	  */
+	public void setCostStandard (BigDecimal CostStandard);
+
+	/** Get Standard Cost.
+	  * Standard Costs
+	  */
+	public BigDecimal getCostStandard();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -104,66 +176,6 @@ public interface I_M_Product
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_RevenueRecognition_ID */
-    public static final String COLUMNNAME_C_RevenueRecognition_ID = "C_RevenueRecognition_ID";
-
-	/** Set Revenue Recognition.
-	  * Method for recording revenue
-	  */
-	public void setC_RevenueRecognition_ID (int C_RevenueRecognition_ID);
-
-	/** Get Revenue Recognition.
-	  * Method for recording revenue
-	  */
-	public int getC_RevenueRecognition_ID();
-
-	public I_C_RevenueRecognition getC_RevenueRecognition() throws RuntimeException;
-
-    /** Column name C_SubscriptionType_ID */
-    public static final String COLUMNNAME_C_SubscriptionType_ID = "C_SubscriptionType_ID";
-
-	/** Set Subscription Type.
-	  * Type of subscription
-	  */
-	public void setC_SubscriptionType_ID (int C_SubscriptionType_ID);
-
-	/** Get Subscription Type.
-	  * Type of subscription
-	  */
-	public int getC_SubscriptionType_ID();
-
-	public I_C_SubscriptionType getC_SubscriptionType() throws RuntimeException;
-
-    /** Column name C_TaxCategory_ID */
-    public static final String COLUMNNAME_C_TaxCategory_ID = "C_TaxCategory_ID";
-
-	/** Set Tax Category.
-	  * Tax Category
-	  */
-	public void setC_TaxCategory_ID (int C_TaxCategory_ID);
-
-	/** Get Tax Category.
-	  * Tax Category
-	  */
-	public int getC_TaxCategory_ID();
-
-	public I_C_TaxCategory getC_TaxCategory() throws RuntimeException;
-
-    /** Column name C_UOM_ID */
-    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
-
-	/** Set UOM.
-	  * Unit of Measure
-	  */
-	public void setC_UOM_ID (int C_UOM_ID);
-
-	/** Get UOM.
-	  * Unit of Measure
-	  */
-	public int getC_UOM_ID();
-
-	public I_C_UOM getC_UOM() throws RuntimeException;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -217,6 +229,19 @@ public interface I_M_Product
 	  */
 	public Timestamp getDiscontinuedAt();
 
+    /** Column name DiscontinuedBy */
+    public static final String COLUMNNAME_DiscontinuedBy = "DiscontinuedBy";
+
+	/** Set Discontinued by.
+	  * Discontinued By
+	  */
+	public void setDiscontinuedBy (Timestamp DiscontinuedBy);
+
+	/** Get Discontinued by.
+	  * Discontinued By
+	  */
+	public Timestamp getDiscontinuedBy();
+
     /** Column name DocumentNote */
     public static final String COLUMNNAME_DocumentNote = "DocumentNote";
 
@@ -230,22 +255,35 @@ public interface I_M_Product
 	  */
 	public String getDocumentNote();
 
+    /** Column name DownloadURL */
+    public static final String COLUMNNAME_DownloadURL = "DownloadURL";
+
+	/** Set Download URL.
+	  * URL of the Download files
+	  */
+	public void setDownloadURL (String DownloadURL);
+
+	/** Get Download URL.
+	  * URL of the Download files
+	  */
+	public String getDownloadURL();
+
     /** Column name Group1 */
     public static final String COLUMNNAME_Group1 = "Group1";
 
-	/** Set Group1	  */
+	/** Set Group 1	  */
 	public void setGroup1 (String Group1);
 
-	/** Get Group1	  */
+	/** Get Group 1	  */
 	public String getGroup1();
 
     /** Column name Group2 */
     public static final String COLUMNNAME_Group2 = "Group2";
 
-	/** Set Group2	  */
+	/** Set Group 2	  */
 	public void setGroup2 (String Group2);
 
-	/** Get Group2	  */
+	/** Get Group 2	  */
 	public String getGroup2();
 
     /** Column name GuaranteeDays */
@@ -286,6 +324,15 @@ public interface I_M_Product
 	  * Comment or Hint
 	  */
 	public String getHelp();
+
+    /** Column name ISTOFORMULE */
+    public static final String COLUMNNAME_ISTOFORMULE = "ISTOFORMULE";
+
+	/** Set ISTOFORMULE	  */
+	public void setISTOFORMULE (boolean ISTOFORMULE);
+
+	/** Get ISTOFORMULE	  */
+	public boolean isTOFORMULE();
 
     /** Column name ImageURL */
     public static final String COLUMNNAME_ImageURL = "ImageURL";
@@ -521,21 +568,6 @@ public interface I_M_Product
 	  */
 	public int getLowLevel();
 
-    /** Column name M_AttributeSet_ID */
-    public static final String COLUMNNAME_M_AttributeSet_ID = "M_AttributeSet_ID";
-
-	/** Set Attribute Set.
-	  * Product Attribute Set
-	  */
-	public void setM_AttributeSet_ID (int M_AttributeSet_ID);
-
-	/** Get Attribute Set.
-	  * Product Attribute Set
-	  */
-	public int getM_AttributeSet_ID();
-
-	public I_M_AttributeSet getM_AttributeSet() throws RuntimeException;
-
     /** Column name M_AttributeSetInstance_ID */
     public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
 
@@ -551,6 +583,21 @@ public interface I_M_Product
 
 	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
 
+    /** Column name M_AttributeSet_ID */
+    public static final String COLUMNNAME_M_AttributeSet_ID = "M_AttributeSet_ID";
+
+	/** Set Attribute Set.
+	  * Product Attribute Set
+	  */
+	public void setM_AttributeSet_ID (int M_AttributeSet_ID);
+
+	/** Get Attribute Set.
+	  * Product Attribute Set
+	  */
+	public int getM_AttributeSet_ID();
+
+	public org.compiere.model.I_M_AttributeSet getM_AttributeSet() throws RuntimeException;
+
     /** Column name M_FreightCategory_ID */
     public static final String COLUMNNAME_M_FreightCategory_ID = "M_FreightCategory_ID";
 
@@ -564,7 +611,7 @@ public interface I_M_Product
 	  */
 	public int getM_FreightCategory_ID();
 
-	public I_M_FreightCategory getM_FreightCategory() throws RuntimeException;
+	public org.compiere.model.I_M_FreightCategory getM_FreightCategory() throws RuntimeException;
 
     /** Column name M_Locator_ID */
     public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
@@ -605,7 +652,52 @@ public interface I_M_Product
 	  */
 	public int getM_Product_Category_ID();
 
-	public I_M_Product_Category getM_Product_Category() throws RuntimeException;
+	public org.compiere.model.I_M_Product_Category getM_Product_Category() throws RuntimeException;
+
+    /** Column name M_Product_Class_ID */
+    public static final String COLUMNNAME_M_Product_Class_ID = "M_Product_Class_ID";
+
+	/** Set Product Class.
+	  * Class of a Product
+	  */
+	public void setM_Product_Class_ID (int M_Product_Class_ID);
+
+	/** Get Product Class.
+	  * Class of a Product
+	  */
+	public int getM_Product_Class_ID();
+
+	public org.compiere.model.I_M_Product_Class getM_Product_Class() throws RuntimeException;
+
+    /** Column name M_Product_Classification_ID */
+    public static final String COLUMNNAME_M_Product_Classification_ID = "M_Product_Classification_ID";
+
+	/** Set Product Classification.
+	  * Classification of a Product
+	  */
+	public void setM_Product_Classification_ID (int M_Product_Classification_ID);
+
+	/** Get Product Classification.
+	  * Classification of a Product
+	  */
+	public int getM_Product_Classification_ID();
+
+	public org.compiere.model.I_M_Product_Classification getM_Product_Classification() throws RuntimeException;
+
+    /** Column name M_Product_Group_ID */
+    public static final String COLUMNNAME_M_Product_Group_ID = "M_Product_Group_ID";
+
+	/** Set Product Group.
+	  * Group of a Product
+	  */
+	public void setM_Product_Group_ID (int M_Product_Group_ID);
+
+	/** Get Product Group.
+	  * Group of a Product
+	  */
+	public int getM_Product_Group_ID();
+
+	public org.compiere.model.I_M_Product_Group getM_Product_Group() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -668,22 +760,20 @@ public interface I_M_Product
 	  */
 	public int getR_MailText_ID();
 
-	public I_R_MailText getR_MailText() throws RuntimeException;
+	public org.compiere.model.I_R_MailText getR_MailText() throws RuntimeException;
 
-    /** Column name SalesRep_ID */
-    public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";
+    /** Column name SKU */
+    public static final String COLUMNNAME_SKU = "SKU";
 
-	/** Set Sales Representative.
-	  * Sales Representative or Company Agent
+	/** Set SKU.
+	  * Stock Keeping Unit
 	  */
-	public void setSalesRep_ID (int SalesRep_ID);
+	public void setSKU (String SKU);
 
-	/** Get Sales Representative.
-	  * Sales Representative or Company Agent
+	/** Get SKU.
+	  * Stock Keeping Unit
 	  */
-	public int getSalesRep_ID();
-
-	public I_AD_User getSalesRep() throws RuntimeException;
+	public String getSKU();
 
     /** Column name S_ExpenseType_ID */
     public static final String COLUMNNAME_S_ExpenseType_ID = "S_ExpenseType_ID";
@@ -698,7 +788,37 @@ public interface I_M_Product
 	  */
 	public int getS_ExpenseType_ID();
 
-	public I_S_ExpenseType getS_ExpenseType() throws RuntimeException;
+	public org.compiere.model.I_S_ExpenseType getS_ExpenseType() throws RuntimeException;
+
+    /** Column name S_Resource_ID */
+    public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";
+
+	/** Set Resource.
+	  * Resource
+	  */
+	public void setS_Resource_ID (int S_Resource_ID);
+
+	/** Get Resource.
+	  * Resource
+	  */
+	public int getS_Resource_ID();
+
+	public org.compiere.model.I_S_Resource getS_Resource() throws RuntimeException;
+
+    /** Column name SalesRep_ID */
+    public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";
+
+	/** Set Sales Representative.
+	  * Sales Representative or Company Agent
+	  */
+	public void setSalesRep_ID (int SalesRep_ID);
+
+	/** Get Sales Representative.
+	  * Sales Representative or Company Agent
+	  */
+	public int getSalesRep_ID();
+
+	public org.compiere.model.I_AD_User getSalesRep() throws RuntimeException;
 
     /** Column name ShelfDepth */
     public static final String COLUMNNAME_ShelfDepth = "ShelfDepth";
@@ -739,33 +859,18 @@ public interface I_M_Product
 	  */
 	public int getShelfWidth();
 
-    /** Column name SKU */
-    public static final String COLUMNNAME_SKU = "SKU";
+    /** Column name UPC */
+    public static final String COLUMNNAME_UPC = "UPC";
 
-	/** Set SKU.
-	  * Stock Keeping Unit
+	/** Set UPC/EAN.
+	  * Bar Code (Universal Product Code or its superset European Article Number)
 	  */
-	public void setSKU (String SKU);
+	public void setUPC (String UPC);
 
-	/** Get SKU.
-	  * Stock Keeping Unit
+	/** Get UPC/EAN.
+	  * Bar Code (Universal Product Code or its superset European Article Number)
 	  */
-	public String getSKU();
-
-    /** Column name S_Resource_ID */
-    public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";
-
-	/** Set Resource.
-	  * Resource
-	  */
-	public void setS_Resource_ID (int S_Resource_ID);
-
-	/** Get Resource.
-	  * Resource
-	  */
-	public int getS_Resource_ID();
-
-	public I_S_Resource getS_Resource() throws RuntimeException;
+	public String getUPC();
 
     /** Column name UnitsPerPack */
     public static final String COLUMNNAME_UnitsPerPack = "UnitsPerPack";
@@ -792,19 +897,6 @@ public interface I_M_Product
 	  * Units Per Pallet
 	  */
 	public BigDecimal getUnitsPerPallet();
-
-    /** Column name UPC */
-    public static final String COLUMNNAME_UPC = "UPC";
-
-	/** Set UPC/EAN.
-	  * Bar Code (Universal Product Code or its superset European Article Number)
-	  */
-	public void setUPC (String UPC);
-
-	/** Get UPC/EAN.
-	  * Bar Code (Universal Product Code or its superset European Article Number)
-	  */
-	public String getUPC();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -873,15 +965,4 @@ public interface I_M_Product
 	  * Weight of a product
 	  */
 	public BigDecimal getWeight();
-	
-	/**
-	 * Get the Attribute Set Instance.  This is called by callouts to fill the M_AttributeSetInstance_ID
-	 * field.  The ASI should override the context if the product has a defined ASI or if the 
-	 * context ASI does not use the same attribute set.
-	 * @param context
-	 * @param window number
-	 */
-
-	public Integer getEnvAttributeSetInstance(Properties ctx, int windowNo);
-
 }

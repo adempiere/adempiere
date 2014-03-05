@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for U_WebMenu
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_U_WebMenu 
 {
@@ -204,6 +204,15 @@ public interface I_U_WebMenu
 	/** Get Sequence	  */
 	public BigDecimal getSequence();
 
+    /** Column name U_WebMenu_ID */
+    public static final String COLUMNNAME_U_WebMenu_ID = "U_WebMenu_ID";
+
+	/** Set Web Menu	  */
+	public void setU_WebMenu_ID (int U_WebMenu_ID);
+
+	/** Get Web Menu	  */
+	public int getU_WebMenu_ID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -219,13 +228,4 @@ public interface I_U_WebMenu
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name U_WebMenu_ID */
-    public static final String COLUMNNAME_U_WebMenu_ID = "U_WebMenu_ID";
-
-	/** Set Web Menu	  */
-	public void setU_WebMenu_ID (int U_WebMenu_ID);
-
-	/** Get Web Menu	  */
-	public int getU_WebMenu_ID();
 }

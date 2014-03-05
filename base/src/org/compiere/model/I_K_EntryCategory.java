@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for K_EntryCategory
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_K_EntryCategory 
 {
@@ -91,21 +91,6 @@ public interface I_K_EntryCategory
 	  */
 	public boolean isActive();
 
-    /** Column name K_Category_ID */
-    public static final String COLUMNNAME_K_Category_ID = "K_Category_ID";
-
-	/** Set Knowledge Category.
-	  * Knowledge Category
-	  */
-	public void setK_Category_ID (int K_Category_ID);
-
-	/** Get Knowledge Category.
-	  * Knowledge Category
-	  */
-	public int getK_Category_ID();
-
-	public org.compiere.model.I_K_Category getK_Category() throws RuntimeException;
-
     /** Column name K_CategoryValue_ID */
     public static final String COLUMNNAME_K_CategoryValue_ID = "K_CategoryValue_ID";
 
@@ -120,6 +105,21 @@ public interface I_K_EntryCategory
 	public int getK_CategoryValue_ID();
 
 	public org.compiere.model.I_K_CategoryValue getK_CategoryValue() throws RuntimeException;
+
+    /** Column name K_Category_ID */
+    public static final String COLUMNNAME_K_Category_ID = "K_Category_ID";
+
+	/** Set Knowledge Category.
+	  * Knowledge Category
+	  */
+	public void setK_Category_ID (int K_Category_ID);
+
+	/** Get Knowledge Category.
+	  * Knowledge Category
+	  */
+	public int getK_Category_ID();
+
+	public org.compiere.model.I_K_Category getK_Category() throws RuntimeException;
 
     /** Column name K_Entry_ID */
     public static final String COLUMNNAME_K_Entry_ID = "K_Entry_ID";

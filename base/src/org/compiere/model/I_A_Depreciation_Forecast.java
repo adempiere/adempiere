@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Depreciation_Forecast
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_A_Depreciation_Forecast 
 {
@@ -49,15 +49,6 @@ public interface I_A_Depreciation_Forecast
 	  */
 	public int getAD_Client_ID();
 
-    /** Column name A_Depreciation_Forecast_ID */
-    public static final String COLUMNNAME_A_Depreciation_Forecast_ID = "A_Depreciation_Forecast_ID";
-
-	/** Set Depreciation Forecast	  */
-	public void setA_Depreciation_Forecast_ID (int A_Depreciation_Forecast_ID);
-
-	/** Get Depreciation Forecast	  */
-	public int getA_Depreciation_Forecast_ID();
-
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -70,6 +61,15 @@ public interface I_A_Depreciation_Forecast
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name A_Depreciation_Forecast_ID */
+    public static final String COLUMNNAME_A_Depreciation_Forecast_ID = "A_Depreciation_Forecast_ID";
+
+	/** Set Depreciation Forecast	  */
+	public void setA_Depreciation_Forecast_ID (int A_Depreciation_Forecast_ID);
+
+	/** Get Depreciation Forecast	  */
+	public int getA_Depreciation_Forecast_ID();
 
     /** Column name A_End_Asset_ID */
     public static final String COLUMNNAME_A_End_Asset_ID = "A_End_Asset_ID";

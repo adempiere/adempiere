@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_RMALine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_M_RMALine 
 {
@@ -173,6 +173,19 @@ public interface I_M_RMALine
 
 	public org.compiere.model.I_M_InOutLine getM_InOutLine() throws RuntimeException;
 
+    /** Column name M_RMALine_ID */
+    public static final String COLUMNNAME_M_RMALine_ID = "M_RMALine_ID";
+
+	/** Set RMA Line.
+	  * Return Material Authorization Line
+	  */
+	public void setM_RMALine_ID (int M_RMALine_ID);
+
+	/** Get RMA Line.
+	  * Return Material Authorization Line
+	  */
+	public int getM_RMALine_ID();
+
     /** Column name M_RMA_ID */
     public static final String COLUMNNAME_M_RMA_ID = "M_RMA_ID";
 
@@ -187,19 +200,6 @@ public interface I_M_RMALine
 	public int getM_RMA_ID();
 
 	public org.compiere.model.I_M_RMA getM_RMA() throws RuntimeException;
-
-    /** Column name M_RMALine_ID */
-    public static final String COLUMNNAME_M_RMALine_ID = "M_RMALine_ID";
-
-	/** Set RMA Line.
-	  * Return Material Authorization Line
-	  */
-	public void setM_RMALine_ID (int M_RMALine_ID);
-
-	/** Get RMA Line.
-	  * Return Material Authorization Line
-	  */
-	public int getM_RMALine_ID();
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
