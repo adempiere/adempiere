@@ -436,7 +436,7 @@ public class ReleaseInOutBound extends SvrProcess
 	 */
 	public void createMO(MWMInOutBoundLine boundline, MProduct product, BigDecimal qtySupply)
 	{
-		MPPOrder order = MPPOrder.forC_OrderLine_ID(boundline.getCtx(), boundline.getC_OrderLine_ID(), boundline.get_TrxName());
+		MPPOrder order = MPPOrder.forC_OrderLine_ID(boundline.getCtx(), boundline.getC_OrderLine_ID(), product.get_ID(), boundline.get_TrxName());
 		if(order == null)
 		{	
 			MPPProductBOM bom = MPPProductBOM.getDefault(product, get_TrxName());
