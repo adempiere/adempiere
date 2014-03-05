@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_PriceList
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_M_PriceList 
 {
@@ -173,14 +173,18 @@ public interface I_M_PriceList
 	  */
 	public boolean isMandatory();
 
-    /** Column name isPresentForProduct */
-    public static final String COLUMNNAME_isPresentForProduct = "isPresentForProduct";
+    /** Column name IsNetPrice */
+    public static final String COLUMNNAME_IsNetPrice = "IsNetPrice";
 
-	/** Set isPresentForProduct	  */
-	public void setisPresentForProduct (boolean isPresentForProduct);
+	/** Set Net Price.
+	  * Net Price including all discounts
+	  */
+	public void setIsNetPrice (boolean IsNetPrice);
 
-	/** Get isPresentForProduct	  */
-	public boolean isPresentForProduct();
+	/** Get Net Price.
+	  * Net Price including all discounts
+	  */
+	public boolean isNetPrice();
 
     /** Column name IsSOPriceList */
     public static final String COLUMNNAME_IsSOPriceList = "IsSOPriceList";
@@ -262,4 +266,13 @@ public interface I_M_PriceList
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name isPresentForProduct */
+    public static final String COLUMNNAME_isPresentForProduct = "isPresentForProduct";
+
+	/** Set isPresentForProduct	  */
+	public void setisPresentForProduct (boolean isPresentForProduct);
+
+	/** Get isPresentForProduct	  */
+	public boolean isPresentForProduct();
 }

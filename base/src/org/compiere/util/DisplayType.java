@@ -96,6 +96,8 @@ public final class DisplayType
 	public static final int FilePath  = 38;
 	/** Display Type 39 File Name	*/
 	public static final int FileName  = 39;
+	/** Display Type 53670	File Path or Name	*/
+	public static final int FilePathOrName  = 53670;
 	/** Display Type 40	URL	*/
 	public static final int URL  = 40;
 	/** Display Type 42	PrinterName	*/
