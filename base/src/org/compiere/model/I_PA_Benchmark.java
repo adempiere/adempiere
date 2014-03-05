@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PA_Benchmark
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_PA_Benchmark 
 {
@@ -40,19 +40,6 @@ public interface I_PA_Benchmark
     BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
-
-    /** Column name AccumulationType */
-    public static final String COLUMNNAME_AccumulationType = "AccumulationType";
-
-	/** Set Accumulation Type.
-	  * How to accumulate data on time axis
-	  */
-	public void setAccumulationType (String AccumulationType);
-
-	/** Get Accumulation Type.
-	  * How to accumulate data on time axis
-	  */
-	public String getAccumulationType();
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -74,6 +61,19 @@ public interface I_PA_Benchmark
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name AccumulationType */
+    public static final String COLUMNNAME_AccumulationType = "AccumulationType";
+
+	/** Set Accumulation Type.
+	  * How to accumulate data on time axis
+	  */
+	public void setAccumulationType (String AccumulationType);
+
+	/** Get Accumulation Type.
+	  * How to accumulate data on time axis
+	  */
+	public String getAccumulationType();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
