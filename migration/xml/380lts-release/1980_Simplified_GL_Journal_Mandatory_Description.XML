@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Mandatory discription  on journal line" ReleaseNo="" SeqNo="1980">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="70501" Table="AD_Field">
+        <Data AD_Column_ID="15013" Column="IsMandatory" isOldNull="true">Y</Data>
+      </PO>
+    </Step>
+	   <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="725" Table="AD_Field">
+        <Data AD_Column_ID="15013" Column="IsMandatory" isOldNull="true">Y</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
+
+

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="U" Name="821_Migration for updating old record" ReleaseNo="" SeqNo="1970">
+    <Step DBType="ALL" SeqNo="0" StepType="SQL">
+      <SQLStatement>
+UPDATE GL_JournalLine SET Account_ID = (SELECT Account_ID FROM C_ValidCombination vc WHERE vc.C_ValidCombination_ID = GL_JournalLine.C_ValidCombination_ID);
+UPDATE GL_JournalLine SET C_BPartner_ID = (SELECT C_BPartner_ID FROM C_ValidCombination vc WHERE vc.C_ValidCombination_ID = GL_JournalLine.C_ValidCombination_ID);
+UPDATE GL_JournalLine SET AD_OrgTrx_ID = (SELECT AD_OrgTrx_ID FROM C_ValidCombination vc WHERE vc.C_ValidCombination_ID = GL_JournalLine.C_ValidCombination_ID);
+UPDATE GL_JournalLine SET C_Activity_ID = (SELECT C_Activity_ID FROM C_ValidCombination vc WHERE vc.C_ValidCombination_ID = GL_JournalLine.C_ValidCombination_ID);
+UPDATE GL_JournalLine SET C_Campaign_ID = (SELECT C_Campaign_ID FROM C_ValidCombination vc WHERE vc.C_ValidCombination_ID = GL_JournalLine.C_ValidCombination_ID);
+UPDATE GL_JournalLine SET C_LocFrom_ID = (SELECT C_LocFrom_ID FROM C_ValidCombination vc WHERE vc.C_ValidCombination_ID = GL_JournalLine.C_ValidCombination_ID);
+UPDATE GL_JournalLine SET C_LocTo_ID = (SELECT C_LocTo_ID FROM C_ValidCombination vc WHERE vc.C_ValidCombination_ID = GL_JournalLine.C_ValidCombination_ID);
+UPDATE GL_JournalLine SET C_Project_ID = (SELECT C_Project_ID FROM C_ValidCombination vc WHERE vc.C_ValidCombination_ID = GL_JournalLine.C_ValidCombination_ID);
+UPDATE GL_JournalLine SET C_SalesRegion_ID = (SELECT C_SalesRegion_ID FROM C_ValidCombination vc WHERE vc.C_ValidCombination_ID = GL_JournalLine.C_ValidCombination_ID);
+UPDATE GL_JournalLine SET C_SubAcct_ID = (SELECT C_SubAcct_ID FROM C_ValidCombination vc WHERE vc.C_ValidCombination_ID = GL_JournalLine.C_ValidCombination_ID);
+UPDATE GL_JournalLine SET M_Product_ID = (SELECT M_Product_ID FROM C_ValidCombination vc WHERE vc.C_ValidCombination_ID = GL_JournalLine.C_ValidCombination_ID);
+UPDATE GL_JournalLine SET User1_ID = (SELECT User1_ID FROM C_ValidCombination vc WHERE vc.C_ValidCombination_ID = GL_JournalLine.C_ValidCombination_ID);
+UPDATE GL_JournalLine SET User2_ID = (SELECT User2_ID FROM C_ValidCombination vc WHERE vc.C_ValidCombination_ID = GL_JournalLine.C_ValidCombination_ID);
+UPDATE GL_JournalLine SET UserElement1_ID = (SELECT UserElement1_ID FROM C_ValidCombination vc WHERE vc.C_ValidCombination_ID = GL_JournalLine.C_ValidCombination_ID);
+UPDATE GL_JournalLine SET UserElement2_ID = (SELECT UserElement2_ID FROM C_ValidCombination vc WHERE vc.C_ValidCombination_ID = GL_JournalLine.C_ValidCombination_ID);</SQLStatement>
+    </Step>
+  </Migration>
+</Migrations>
+
+
