@@ -62,9 +62,9 @@ public final class Adempiere
 	// the releases will have a suffix (a) for alpha - (b) for beta - (t) for trunk - (s) for stable - and (LTS) for long term support
 	static public String	MAIN_VERSION	= "Release 3.8.0RC";
 	/** Detail Version as date      Used for Client/Server		*/
-	static public String	DATE_VERSION	= "2013-07-31";
+	static public String	DATE_VERSION	= "2014-04-30";
 	/** Database Version as date    Compared with AD_System		*/
-	static public String	DB_VERSION		= "2013-07-31";
+	static public String	DB_VERSION		= "2014-04-30";
 
 	/** Product Name            */
 	static public final String	NAME 			= "ADempiere\u00AE";
