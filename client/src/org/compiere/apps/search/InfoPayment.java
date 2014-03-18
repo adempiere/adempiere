@@ -54,6 +54,7 @@ import org.compiere.util.Util;
  * @author Michael McKay, 
  * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
  * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
+ * 				<li>release/380 fix event listeners
  */
 public class InfoPayment extends Info
 {
@@ -201,30 +202,33 @@ public class InfoPayment extends Info
 						DisplayType.TableDir));
 		lBankAccount_ID.setLabelFor(fBankAccount_ID);
 		fBankAccount_ID.setBackground(AdempierePLAF.getInfoBackground());
-		fBankAccount_ID.addPropertyChangeListener(this);
+		fBankAccount_ID.addActionListener(this);
 		fBPartner_ID = new VLookup("C_BPartner_ID", false, false, true,
 			MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 
 					MColumn.getColumn_ID(MPayment.Table_Name, MPayment.COLUMNNAME_C_BPartner_ID), 
 					DisplayType.Search));
 		lBPartner_ID.setLabelFor(fBPartner_ID);
 		fBPartner_ID.setBackground(AdempierePLAF.getInfoBackground());
-		fBPartner_ID.addPropertyChangeListener(this);
+		fBPartner_ID.addActionListener(this);
 		//
 		lDateFrom.setLabelFor(fDateFrom);
 		fDateFrom.setBackground(AdempierePLAF.getInfoBackground());
 		fDateFrom.setToolTipText(Msg.translate(Env.getCtx(), "DateFrom"));
+		fDateFrom.addActionListener(this);
 		lDateTo.setLabelFor(fDateTo);
 		fDateTo.setBackground(AdempierePLAF.getInfoBackground());
 		fDateTo.setToolTipText(Msg.translate(Env.getCtx(), "DateTo"));
+		fDateTo.addActionListener(this);
 		lAmtFrom.setLabelFor(fAmtFrom);
 		fAmtFrom.setBackground(AdempierePLAF.getInfoBackground());
 		fAmtFrom.setToolTipText(Msg.translate(Env.getCtx(), "AmtFrom"));
 		fAmtFrom.setBorder(fDateFrom.getBorder());  // Not sure why this is necessary?  The border is not visible otherwise.
+		fAmtFrom.addActionListener(this);
 		lAmtTo.setLabelFor(fAmtTo);
 		fAmtTo.setBackground(AdempierePLAF.getInfoBackground());
 		fAmtTo.setToolTipText(Msg.translate(Env.getCtx(), "AmtTo"));
 		fAmtTo.setBorder(fDateFrom.getBorder());  // Not sure why this is necessary?  The border is not visible otherwise.
-
+		fAmtTo.addActionListener(this);
 		//
 		CPanel amtPanel = new CPanel();
 		CPanel datePanel = new CPanel();

@@ -65,7 +65,11 @@ import org.zkoss.zk.ui.event.Events;
  * @author Ashley G Ramdass
  * @author Cristina Ghita, c.ghita@metas.ro, METAS GROUP - add autocomplete for search fields
  *
+ * @author	Michael McKay
+ * 				<li>release/380 - change order of value change and value change event to allow event
+ * 					handlers to see the changed value in the same thread. Also added old value comparison
  */
+
 public class WSearchEditor extends WEditor implements ContextMenuListener, ValueChangeListener, IZoomableEditor
 {
 	private static final String[] LISTENER_EVENTS = {Events.ON_CLICK, Events.ON_CHANGE, Events.ON_OK};
@@ -486,10 +490,8 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 
 		m_settingValue = true;
 		
-		ValueChangeEvent evt = new ValueChangeEvent(this, this.getColumnName(), getValue(), value);
-		// -> ADTabpanel - valuechange
-		fireValueChange(evt);
-		
+		Object oldValue = getValue();
+				
 		//  is the value updated ?
 		boolean updated = false;
 		if (value instanceof Object[] && ((Object[])value).length > 0)
@@ -506,6 +508,11 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 			setValue(value);
 		}
 		
+		// Fire the change event after the change so listeners can react in the same thread.
+		ValueChangeEvent evt = new ValueChangeEvent(this, this.getColumnName(), oldValue, getValue());
+		// -> ADTabpanel - valuechange
+		fireValueChange(evt);
+
 		m_settingValue = false;  // last in the chain of changes.
 		m_needsUpdate = false;
 	}	//	actionCombo
@@ -603,6 +610,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		if (infoPanelFactoryClass != null && infoPanelFactoryClass.trim().length() > 0)
 		{
 			try {
+				@SuppressWarnings("unchecked")
 				Class<InfoPanelFactory> clazz = (Class<InfoPanelFactory>)this.getClass().getClassLoader().loadClass(infoPanelFactoryClass);
 				InfoPanelFactory factory = clazz.newInstance();
 				if (m_tableName == null)	//	sets table name & key column
@@ -1024,7 +1032,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 
 	public void valueChange(ValueChangeEvent evt)
 	{
-        if ("zoom".equals(evt.getPropertyName()))
+        	if ("zoom".equals(evt.getPropertyName()))
         {
             actionZoom(evt.getNewValue());
         }

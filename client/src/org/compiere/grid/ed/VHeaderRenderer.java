@@ -31,12 +31,15 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.minigrid.IDColumn;
+import org.compiere.minigrid.MiniTable;
 import org.compiere.model.GridField;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CTable;
@@ -51,10 +54,11 @@ import org.compiere.util.Env;
  *  @author Michael McKay, 
  * 		<li><a href="https://adempiere.atlassian.net/browse/ADEMPIERE-241">ADMPIERE-241</a> Adding Select All checkbox to table header.
  * 			Based on work by Michael Dunn as <a hfre="http://www.coderanch.com/t/343795/GUI/java/Check-Box-JTable-header">posted in coderanch.com</a>
+ * 		<li>release/380 - fix row selection event handling to fire single event per row selection
  * 
  *  @version 	$Id: VHeaderRenderer.java,v 1.3 2013/11/03 00:51:28
  */
-public final class VHeaderRenderer implements TableCellRenderer, MouseListener, ItemListener 
+public final class VHeaderRenderer implements TableCellRenderer, MouseListener, ChangeListener 
 {
 	private Integer	prefWidth;
 	
@@ -171,20 +175,22 @@ public final class VHeaderRenderer implements TableCellRenderer, MouseListener, 
 				record = checked;
 				m_table.setValueAt(record, x, m_column);
 			}
-	      }  
+	      }
+	      ((MiniTable) m_table).fireRowSelectionEvent();
 	    }
 	  }
 	
 	/**
-	 * Item listener for the checkboxes in IDColumns 
+	 * Change listener for the checkboxes in IDColumns 
 	 */
-    public void itemStateChanged(ItemEvent e) 
+    public void stateChanged(ChangeEvent e) 
     {  
       Object source = e.getSource();  
       //
       if (source instanceof AbstractButton == false) return;
       //
-      boolean checked = e.getStateChange() == ItemEvent.SELECTED;
+      
+      boolean checked = ((JCheckBox) source).isSelected();
       if (!checked && m_check.isSelected())
       {
     	  m_headerOnly = true;
@@ -332,5 +338,5 @@ public final class VHeaderRenderer implements TableCellRenderer, MouseListener, 
 		// TODO Auto-generated method stub
 		
 	}
-	
+
 }	//	VHeaderRenderer

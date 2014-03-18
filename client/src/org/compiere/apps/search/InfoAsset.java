@@ -45,6 +45,7 @@ import org.compiere.util.Msg;
  * @author Michael McKay, 
  * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
  * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
+ * 				<li>release/380 fix listeners on some fields
  */
 public class InfoAsset extends Info
 {
@@ -167,12 +168,15 @@ public class InfoAsset extends Info
 					DisplayType.Search));
 		lBPartner_ID.setLabelFor(fBPartner_ID);
 		fBPartner_ID.setBackground(AdempierePLAF.getInfoBackground());
+		fBPartner_ID.addActionListener(this);
+		
 		fProduct_ID = new VLookup("M_Product_ID", false, false, true,
 			MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 
 					MColumn.getColumn_ID(MAsset.Table_Name, MAsset.COLUMNNAME_M_Product_ID), 
 					DisplayType.Search));
 		lProduct_ID.setLabelFor(fProduct_ID);
 		fProduct_ID.setBackground(AdempierePLAF.getInfoBackground());
+		fProduct_ID.addActionListener(this);
 		//
 		p_criteriaGrid.add(labelValue, new ALayoutConstraint(0,0));
 		p_criteriaGrid.add(fieldValue, null);

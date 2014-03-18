@@ -16,6 +16,7 @@
  *****************************************************************************/
 package org.compiere.minigrid;
 
+import java.awt.AWTEvent;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -34,6 +35,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.logging.Level;
 
 import javax.swing.AbstractAction;
@@ -49,6 +51,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.EventListenerList;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
@@ -102,6 +106,7 @@ import org.compiere.util.Util;
  * 			to tables with no text fields in the first or second column
  * 		<li><a href="https://adempiere.atlassian.net/browse/ADEMPIERE-72">ADMPIERE-72</a> VLookup and Info Window improvements
  * 		<li><a href="https://adempiere.atlassian.net/browse/ADEMPIERE-241">ADMPIERE-241</a> Adding Select All checkbox to table header.
+ * 		<li>release/380 - fix row selection event handling to fire single event per row selection. Also code clean-up.
  * 
  */
 public class MiniTable extends CTable implements IMiniTable
@@ -124,6 +129,18 @@ public class MiniTable extends CTable implements IMiniTable
 		}
 	}
 
+	public interface MiniTableSelectionListener extends EventListener {
+		public  abstract void rowSelected(RowSelectionEvent e);
+	}
+
+	@SuppressWarnings("serial")
+	public class RowSelectionEvent extends AWTEvent {
+	    public static final int ROW_TOGGLED = AWTEvent.RESERVED_ID_MAX + 1;
+	    public RowSelectionEvent(MiniTable source, int id) {
+	        super(source, id);
+	    }
+	}
+	
 	/**
 	 *  Default Constructor
 	 */
@@ -196,7 +213,6 @@ public class MiniTable extends CTable implements IMiniTable
 		this.addFocusListener(new FocusAdapter(){
 			public void focusGained(FocusEvent fe)
 			{
-				log.fine("Focue Gained. " + fe.toString());
 				((MiniTable) fe.getSource()).getParent().repaint();
 			}
 			
@@ -219,6 +235,9 @@ public class MiniTable extends CTable implements IMiniTable
 	 *   to false (add/remove).
 	 */
 	private boolean m_singleClickTogglesSelection = true;
+
+    /** A list of event listeners for this component. */
+    protected EventListenerList listenerList = new EventListenerList();
 
 	/**
 	 * @return true if a click on a row adds or removes the row from the selection
@@ -296,6 +315,7 @@ public class MiniTable extends CTable implements IMiniTable
 		            {
 		            	try{super.processMouseEvent(me);}
 		            	catch(Exception e){}
+		            	fireRowSelectionEvent(); // To ensure the selection event is noticed.
 		            	return;
 		            }
 				}
@@ -317,7 +337,7 @@ public class MiniTable extends CTable implements IMiniTable
 			pressedRow = -1;
 			pressedColumn = -1;
 			wasDragged = false;
-		}
+ 		}
 		else if (me.getID() == MouseEvent.MOUSE_PRESSED)
 	    {
 			int rows = table.getRowCount();
@@ -654,13 +674,34 @@ public class MiniTable extends CTable implements IMiniTable
 	}   //  addColumn
 
 	/**
+	 * Add change listener to the column - used to listen to selection events
+	 * involving ID Columns or Check boxes that are independent of list selection
+	 * events.  If the column is not a ID Column or Check box, it will be ignored.
+	 * @param column - the column number to listen to
+	 * @param listener - the listener - implements ItemListener
+	 */
+	public void addChangeListener(int column, ChangeListener listener)
+	{
+		TableColumn tc = getColumn(column);
+		TableCellRenderer tcr = tc.getCellRenderer();
+		
+		if (tcr instanceof IDColumnRenderer || tcr instanceof CheckRenderer)
+		{
+			((IDColumnRenderer) tcr).addChangeListener(listener);
+		}
+		else if (tcr instanceof CheckRenderer)
+		{
+			((CheckRenderer) tcr).addChangeListener(listener);
+		}
+	}
+	/**
 	 *  Set Column Editor & Renderer to Class.
 	 *  (after all columns were added)
 	 *  @param index column index
 	 *  @param c   class of column - determines renderere
 	 *  @param readOnly read only flag
 	 */
-	public void setColumnClass (int index, Class c, boolean readOnly)
+	public void setColumnClass (int index, @SuppressWarnings("rawtypes") Class c, boolean readOnly)
 	{
 		setColumnClass(index, c, readOnly, null);
 	}   //  setColumnClass
@@ -675,7 +716,7 @@ public class MiniTable extends CTable implements IMiniTable
 	 *  @param readOnly read only flag
 	 *  @param header optional header value
 	 */
-	public void setColumnClass (int index, Class c, boolean readOnly, String header)
+	public void setColumnClass (int index, @SuppressWarnings("rawtypes") Class c, boolean readOnly, String header)
 	{
 		setColumnClass (index, c, 0  , readOnly, header);
 	}
@@ -683,15 +724,15 @@ public class MiniTable extends CTable implements IMiniTable
 	/**
 	 *  Set Column Editor & Renderer to Class
 	 *  (after all columns were added)
-	 *  Lauout of IDColumn depemds on multiSelection
+	 *  Layout of IDColumn depends on multiSelection
 	 *  @param index column index
-	 *  @param c   class of column - determines renderere/editors supported:
+	 *  @param c   class of column - determines renderer/editors supported:
 	 *  @param DisplayType define Type Value
 	 *  IDColumn, Boolean, Double (Quantity), BigDecimal (Amount), Integer, Timestamp, String (default)
 	 *  @param readOnly read only flag
 	 *  @param header optional header value
 	 */
-	public void setColumnClass (int index, Class c, int displayType ,boolean readOnly, String header)
+	public void setColumnClass (int index, @SuppressWarnings("rawtypes") Class c, int displayType ,boolean readOnly, String header)
 	{
 	//	log.config( "MiniTable.setColumnClass - " + index, c.getName() + ", r/o=" + readOnly);
 		TableColumn tc = getColumnModel().getColumn(index);
@@ -714,7 +755,7 @@ public class MiniTable extends CTable implements IMiniTable
 				VHeaderRenderer vhr = new VHeaderRenderer(m_multiSelection);
 				tc.setCellEditor(new IDColumnEditor());
 				tc.setHeaderRenderer(vhr);
-				idcr.addItemListener(vhr);  //  Connect the IDColumn with the header
+				idcr.addChangeListener(vhr);  //  Connect the IDColumn with the header
 				setColumnReadOnly(index, false);
 			}
 			else
@@ -748,7 +789,7 @@ public class MiniTable extends CTable implements IMiniTable
 					check.setHorizontalAlignment(SwingConstants.CENTER);
 					tc.setCellEditor(new DefaultCellEditor(check));
 					tc.setHeaderRenderer(vhr);
-					cr.addItemListener(vhr);  //  Connect the check control with the header
+					cr.addChangeListener(vhr);  //  Connect the check control with the header
 				}
 			}
 			m_minWidth.add(new Integer(30));
@@ -1226,8 +1267,6 @@ public class MiniTable extends CTable implements IMiniTable
 
 				for (int col = 0; col < layout.length; col++)
 				{
-					int viewRow = convertRowIndexToView(row);
-					int viewCol = convertColumnIndexToView(col);
 					int modelRow = convertRowIndexToModel(row);
 					int modelCol = convertColumnIndexToModel(col);
 					Object data = getModel().getValueAt(modelRow, modelCol);
@@ -1460,9 +1499,6 @@ public class MiniTable extends CTable implements IMiniTable
             TableCellRenderer renderer, int row, int column)
     {
 
-        int modelColumn = convertColumnIndexToModel(column);
-        int modelRow = convertRowIndexToModel(row);
-
         Component c = super.prepareRenderer(renderer, row, column);
         JComponent jc = (JComponent)c;
         if (c==null) return c;
@@ -1599,8 +1635,6 @@ public class MiniTable extends CTable implements IMiniTable
 	            Object data = table.getValueAt(index, table.convertColumnIndexToView(getKeyColumnIndex())); //  Test the first row
 				if (data instanceof IDColumn)
 				{
-					IDColumn id = (IDColumn)data;
-					
 					rsm.addSelectionInterval(index, leadRow);	
 					setRowChecked(index,true);
 					setRowChecked(leadRow,true);	
@@ -1636,14 +1670,16 @@ public class MiniTable extends CTable implements IMiniTable
     }
 
 
-    private Action doNothing = new AbstractAction() {
+    @SuppressWarnings("serial")
+	private Action doNothing = new AbstractAction() {
         public void actionPerformed(ActionEvent e) {
         	//log.fine("Doing Nothing!!");
             //do nothing
         }
     };
 
-    private Action doSelectAll = new AbstractAction() {
+    @SuppressWarnings("serial")
+	private Action doSelectAll = new AbstractAction() {
         public void actionPerformed(ActionEvent e) {
           
         	int leadRow = 0;
@@ -1676,7 +1712,8 @@ public class MiniTable extends CTable implements IMiniTable
         }
     };
 
-    private Action doSelectRowDown = new AbstractAction() {
+    @SuppressWarnings("serial")
+	private Action doSelectRowDown = new AbstractAction() {
         public void actionPerformed(ActionEvent e) 
         {
         	int dy = 1;       
@@ -1685,7 +1722,8 @@ public class MiniTable extends CTable implements IMiniTable
         }
     };
 
-    private Action doSelectRowUp = new AbstractAction() {
+    @SuppressWarnings("serial")
+	private Action doSelectRowUp = new AbstractAction() {
         public void actionPerformed(ActionEvent e) 
         {
             int dy = -1;
@@ -1694,7 +1732,8 @@ public class MiniTable extends CTable implements IMiniTable
         }            
     };
 
-    private Action doAddRowUp = new AbstractAction() {
+    @SuppressWarnings("serial")
+	private Action doAddRowUp = new AbstractAction() {
         public void actionPerformed(ActionEvent e) 
         {        	
         	int dy = -1;
@@ -1703,7 +1742,8 @@ public class MiniTable extends CTable implements IMiniTable
         }
     };
     
-    private Action doAddRowDown = new AbstractAction() {
+    @SuppressWarnings("serial")
+	private Action doAddRowDown = new AbstractAction() {
         public void actionPerformed(ActionEvent e) {
             int dy = 1;
             String actionName = "AddRowDown";
@@ -1711,7 +1751,8 @@ public class MiniTable extends CTable implements IMiniTable
         }
     };
 
-    private Action doAddRowUpExtend = new AbstractAction() {
+    @SuppressWarnings("serial")
+	private Action doAddRowUpExtend = new AbstractAction() {
         public void actionPerformed(ActionEvent e) 
         {
             int dy = -1;
@@ -1720,7 +1761,8 @@ public class MiniTable extends CTable implements IMiniTable
         }
     };
     
-    private Action doAddRowDownExtend = new AbstractAction() {
+    @SuppressWarnings("serial")
+	private Action doAddRowDownExtend = new AbstractAction() {
         public void actionPerformed(ActionEvent e) {
             int dy = 1;
             String actionName = "AddRowDownExtend";
@@ -1728,7 +1770,8 @@ public class MiniTable extends CTable implements IMiniTable
         }
     };
 
-    private Action doChangeLeadUp = new AbstractAction() {
+    @SuppressWarnings("serial")
+	private Action doChangeLeadUp = new AbstractAction() {
         public void actionPerformed(ActionEvent e) 
         {
             int dy = -1;
@@ -1737,7 +1780,8 @@ public class MiniTable extends CTable implements IMiniTable
         }
     };
 
-    private Action doChangeLeadDown = new AbstractAction() {
+    @SuppressWarnings("serial")
+	private Action doChangeLeadDown = new AbstractAction() {
         public void actionPerformed(ActionEvent e) 
         {
             int dy = 1;
@@ -1746,7 +1790,8 @@ public class MiniTable extends CTable implements IMiniTable
         }
     };
 
-    protected Action doMatchIdToSelection = new AbstractAction() {
+    @SuppressWarnings("serial")
+	protected Action doMatchIdToSelection = new AbstractAction() {
     	
     	//  General approach copied from BasicTableUI.java
         public void actionPerformed(ActionEvent e) {
@@ -1754,19 +1799,22 @@ public class MiniTable extends CTable implements IMiniTable
         }
     };
 
-    protected Action doToggleID = new AbstractAction() {
+    @SuppressWarnings("serial")
+	protected Action doToggleID = new AbstractAction() {
     	
     	public void actionPerformed(ActionEvent e) {
         	toggleLeadRowChecked();
         }
     };
 
-    protected Action doToggleBySelection = new AbstractAction() {
+    @SuppressWarnings("serial")
+	protected Action doToggleBySelection = new AbstractAction() {
     	
     	public void actionPerformed(ActionEvent e) {
         	toggleRowCheckedBySelection();
         }
     };
+	private boolean m_changingMultipleRows;
 
     /**
      * Match the row check with the row selection (highlight) in the table
@@ -1802,6 +1850,8 @@ public class MiniTable extends CTable implements IMiniTable
 		//  Set the id column to match the selection
 		int selectedRows[] = this.getSelectedRows();
 		
+		m_changingMultipleRows = true;
+		
 		if (selectedRows.length < rows) //  Not everything is selected
 		{
 			//  Deselect everything
@@ -1815,6 +1865,9 @@ public class MiniTable extends CTable implements IMiniTable
 		{
 			setRowChecked(row, true);
 		}
+		
+		fireRowSelectionEvent();
+		m_changingMultipleRows = false;
 	}
 
     /**
@@ -1899,6 +1952,9 @@ public class MiniTable extends CTable implements IMiniTable
 
 				int low = index0 <= index1 ? index0 : index1;
 				int high = index0 <= index1 ? index1 : index0;
+
+				// Limit the number of row selection events to once per change
+				m_changingMultipleRows = true;
 				
 				for (int row = low; row <= high; row++)
 				{
@@ -1906,6 +1962,10 @@ public class MiniTable extends CTable implements IMiniTable
 				}
 				//  Return the lead to its original location
 				rsm.setLeadSelectionIndex(leadRow);
+
+				fireRowSelectionEvent();
+				m_changingMultipleRows = false;
+
 			}
 		}
 	}
@@ -1920,12 +1980,25 @@ public class MiniTable extends CTable implements IMiniTable
 			int leadRow = rsm.getLeadSelectionIndex();
 			
 			int[] selectedRows = this.getSelectedRows();
+			
+			// Limit the number of row selection events to once per change
+			if (selectedRows.length > 1)
+				m_changingMultipleRows = true;
+			else
+				m_changingMultipleRows = false;
+			
 			for (int row : selectedRows)
 			{
 				toggleRowChecked(row);
 			}
 			//  Return the lead to its original location
 			rsm.setLeadSelectionIndex(leadRow);
+			
+			if (m_changingMultipleRows)
+			{
+				fireRowSelectionEvent();
+				m_changingMultipleRows = false;
+			}
 		}
 	}
 
@@ -1955,7 +2028,41 @@ public class MiniTable extends CTable implements IMiniTable
 		else return;
 		
 		this.setValueAt(data, row, this.convertColumnIndexToView(getKeyColumnIndex()));
+		
+		if (!m_changingMultipleRows)
+			fireRowSelectionEvent();
 
     }
     
+    public void fireRowSelectionEvent() {
+        // Guaranteed to return a non-null array
+        Object[] listeners = listenerList.getListenerList();
+
+        // Lazily create the event:
+        RowSelectionEvent rowSelectionEvent = new RowSelectionEvent(this, RowSelectionEvent.ROW_TOGGLED);
+
+        // Process the listeners last to first, notifying
+        // those that are interested in this event
+        for (int i = listeners.length-2; i>=0; i-=2) {
+            if (listeners[i]==MiniTableSelectionListener.class) {
+                ((MiniTableSelectionListener)listeners[i+1]).rowSelected(rowSelectionEvent);
+            }          
+        }
+    }    
+
+    /**
+     * Adds a <code>ChangeListener</code> to the button.
+     * @param l the listener to be added
+     */
+    public void addMiniTableSelectionListener(MiniTableSelectionListener l) {
+        listenerList.add(MiniTableSelectionListener.class, l);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void removeMiniTableSelectionListener(MiniTableSelectionListener l) {
+        listenerList.remove(MiniTableSelectionListener.class, l);
+    }
+
 }   //  MiniTable

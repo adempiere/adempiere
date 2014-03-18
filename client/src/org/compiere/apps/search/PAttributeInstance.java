@@ -57,6 +57,9 @@ import org.compiere.util.Msg;
  *
  *  @author     Jorg Janke
  *  @version    $Id: PAttributeInstance.java,v 1.3 2006/07/30 00:51:27 jjanke Exp $
+ *  
+ *  @author		Michael McKay
+ *  				<li>release/380 clean up size code
  */
 public class PAttributeInstance extends CDialog 
 	implements ListSelectionListener
@@ -129,7 +132,6 @@ public class PAttributeInstance extends CDialog
 	private CPanel mainPanel = new CPanel();
 	private BorderLayout mainLayout = new BorderLayout();
 	private CPanel northPanel = new CPanel();
-	private BorderLayout northLayout = new BorderLayout();
 	private JScrollPane centerScrollPane = new JScrollPane();
 	private ConfirmPanel confirmPanel = new ConfirmPanel (true);
 	private CCheckBox showAll = new CCheckBox (Msg.getMsg(Env.getCtx(), "ShowAll"));
@@ -151,10 +153,8 @@ public class PAttributeInstance extends CDialog
 	Toolkit toolkit = Toolkit.getDefaultToolkit();
 	Dimension screensize = toolkit.getScreenSize();
 
-	protected final int        INFO_WIDTH = screensize.width > 1500 ? 1500 : screensize.width - 100;
-	protected final int        SCREEN_HEIGHT = screensize.height;
-
-	
+	protected final int        SCREEN_WIDTH = screensize.width > 1500 ? 1500 : screensize.width - 100;
+	protected final int        SCREEN_HEIGHT = screensize.height > 600 ? 250 : 105;
 	
 	/**
 	 * 	Static Init
@@ -174,7 +174,7 @@ public class PAttributeInstance extends CDialog
 		centerScrollPane.getViewport().add(m_table, null);
 		//	South
 		mainPanel.add(confirmPanel, BorderLayout.SOUTH);
-		mainPanel.setPreferredSize(new Dimension(INFO_WIDTH, SCREEN_HEIGHT > 600 ? 250 : 105));
+		mainPanel.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
 		confirmPanel.addActionListener(this);
 	}
 

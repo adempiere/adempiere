@@ -24,6 +24,7 @@ import java.awt.event.ItemListener;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import org.adempiere.plaf.AdempierePLAF;
@@ -34,7 +35,8 @@ import org.adempiere.plaf.AdempierePLAF;
  *  @author     Jorg Janke
  *  @author Michael McKay, 
  * 		<li><a href="https://adempiere.atlassian.net/browse/ADEMPIERE-241">ADMPIERE-241</a> Adding Select All checkbox to table header.
-  *  
+ * 		<li>release/380 - fix row selection event handling to fire single event per row selection
+ *  
  *  @version    $Id: CheckRenderer.java,v 1.3 2013/11/03 $
  */
 public final class CheckRenderer extends DefaultTableCellRenderer
@@ -109,8 +111,8 @@ public final class CheckRenderer extends DefaultTableCellRenderer
 			m_check.setSelected(false);
 	}   //  setValue
 
-	public void addItemListener(ItemListener listener) {
-		m_check.addItemListener(listener);
+	public void addChangeListener(ChangeListener listener) {
+		m_check.addChangeListener(listener);
 	}
 
 }   //  CheckRenderer

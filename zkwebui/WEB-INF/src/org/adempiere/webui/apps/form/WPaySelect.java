@@ -34,8 +34,13 @@ import org.adempiere.webui.component.ListboxFactory;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
+import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.editor.WDateEditor;
+import org.adempiere.webui.editor.WPAttributeEditor;
+import org.adempiere.webui.editor.WSearchEditor;
+import org.adempiere.webui.event.ValueChangeEvent;
+import org.adempiere.webui.event.ValueChangeListener;
 import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
 import org.adempiere.webui.panel.ADForm;
@@ -44,6 +49,7 @@ import org.adempiere.webui.panel.IFormController;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.apps.form.PaySelect;
+import org.compiere.model.MSysConfig;
 import org.compiere.model.X_C_PaySelection;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.ASyncProcess;
@@ -51,6 +57,7 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
+import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.SuspendNotAllowedException;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -70,11 +77,15 @@ import org.zkoss.zul.Space;
  *
  *  @author Jorg Janke
  *  @version $Id: VPaySelect.java,v 1.3 2006/07/30 00:51:28 jjanke Exp $
+ *  
+ *  @author	Michael McKay
+ * 				<li>release/380 - fix row selection event handling to fire single event per row selection.
+ * 					Use WSearchEditor for BPartner, include auto query and improve handling of criteria events
  */
 public class WPaySelect extends PaySelect
-	implements IFormController, EventListener, WTableModelListener, ASyncProcess
+	implements IFormController, EventListener, ValueChangeListener, WTableModelListener, ASyncProcess
 {
-	/** @todo withholding */
+	/** TODO withholding */
 	
 	/**
 	 * 
@@ -82,6 +93,7 @@ public class WPaySelect extends PaySelect
 	private static final long serialVersionUID = -6031404894392912610L;
 	
 	private CustomForm form = new CustomForm();
+	private boolean m_loadedOK = false;
 
 	//
 	private Panel mainPanel = new Panel();
@@ -95,7 +107,7 @@ public class WPaySelect extends PaySelect
 	private Label labelBalance = new Label();
 	private Checkbox onlyDue = new Checkbox();
 	private Label labelBPartner = new Label();
-	private Listbox fieldBPartner = ListboxFactory.newDropdownListbox();
+	private WSearchEditor fieldBPartner = WSearchEditor.createBPartner(0);
 	private Label dataStatus = new Label();
 	private WListbox miniTable = ListboxFactory.newDataTable();
 	private ConfirmPanel commandPanel = new ConfirmPanel(true, false, false, false, false, false, false);
@@ -112,7 +124,10 @@ public class WPaySelect extends PaySelect
 	@SuppressWarnings("unused")
 	private ProcessInfo m_pi;
 	private boolean m_isLock;
-	
+
+	private Checkbox checkAutoQuery = new Checkbox();
+	private static String SYSCONFIG_INFO_AUTO_QUERY = "INFO_AUTO_QUERY";
+
 	/**
 	 *	Initialize Panel
 	 */
@@ -121,11 +136,15 @@ public class WPaySelect extends PaySelect
 		try
 		{
 			zkInit();
-			dynInit();
+			dynInit();	
+			m_loadedOK = true;
 			
-			loadBankInfo();
-			southPanel.appendChild(new Separator());
-			southPanel.appendChild(commandPanel);
+			if (checkAutoQuery.isSelected())
+			{
+				setFieldOldValues();
+				loadTableInfo();
+			}
+
 		}
 		catch(Exception e)
 		{
@@ -149,20 +168,71 @@ public class WPaySelect extends PaySelect
 		//
 		labelBankAccount.setText(Msg.translate(Env.getCtx(), "C_BankAccount_ID"));
 		fieldBankAccount.addActionListener(this);
+		fieldBankAccount.setAttribute("zk_component_ID", "Lookup_Criteria_C_BankAccount_ID");
+		fieldBankAccount.setAttribute("zk_component_prefix", "Lookup_");
+		fieldBankAccount.setAttribute("IsDynamic", "False");
+		fieldBankAccount.setAttribute("fieldName", "fieldBankAccount");
+		fieldBankAccount.setWidth("200px");		
+		//
 		labelBPartner.setText(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
-		fieldBPartner.addActionListener(this);
+		fieldBPartner.addValueChangeListener(this);
+		fieldBPartner.getComponent().setAttribute("zk_component_ID", "Lookup_Criteria_C_BPartner_ID");
+		fieldBPartner.getComponent().setAttribute("zk_component_prefix", "Lookup_");
+		fieldBPartner.getComponent().setAttribute("IsDynamic", "False");
+		fieldBPartner.getComponent().setAttribute("fieldName", "fieldBPartner");
+		fieldBPartner.getComponent().setWidth("200px");
+		//
 		bRefresh.addActionListener(this);
+		//
 		labelPayDate.setText(Msg.translate(Env.getCtx(), "PayDate"));
+		fieldPayDate.addValueChangeListener(this);
+		fieldPayDate.getComponent().setAttribute("zk_component_ID", "Lookup_Criteria_PayDate");
+		fieldPayDate.getComponent().setAttribute("zk_component_prefix", "Lookup_");
+		fieldPayDate.getComponent().setAttribute("IsDynamic", "False");
+		fieldPayDate.getComponent().setAttribute("fieldName", "fieldPayDate");
+		fieldPayDate.getComponent().setWidth("200px");
+		//
 		labelPaymentRule.setText(Msg.translate(Env.getCtx(), "PaymentRule"));
 		fieldPaymentRule.addActionListener(this);
+		fieldPaymentRule.setAttribute("zk_component_ID", "Lookup_Criteria_PaymentRule");
+		fieldPaymentRule.setAttribute("zk_component_prefix", "Lookup_");
+		fieldPaymentRule.setAttribute("IsDynamic", "False");
+		fieldPaymentRule.setAttribute("fieldName", "fieldPaymentRule");
+		fieldPaymentRule.setWidth("200px");
+		//
 		labelDtype.setText(Msg.translate(Env.getCtx(), "C_DocType_ID"));
 		fieldDtype.addActionListener(this);
+		fieldDtype.setAttribute("zk_component_ID", "Lookup_Criteria_C_DocType_ID");
+		fieldDtype.setAttribute("zk_component_prefix", "Lookup_");
+		fieldDtype.setAttribute("IsDynamic", "False");
+		fieldDtype.setAttribute("fieldName", "fieldDtype");
 		//
 		labelBankBalance.setText(Msg.translate(Env.getCtx(), "CurrentBalance"));
 		labelBalance.setText("0");
+		labelBalance.setAttribute("zk_component_ID", "Lookup_Criteria_CurrentBalance");
+		labelBalance.setAttribute("zk_component_prefix", "Lookup_");
+		labelBalance.setAttribute("IsDynamic", "False");
+		labelBalance.setAttribute("fieldName", "labelBalance");
+		//
 		onlyDue.setText(Msg.getMsg(Env.getCtx(), "OnlyDue"));
+		onlyDue.addActionListener(this);
+		onlyDue.setAttribute("zk_component_ID", "Lookup_Criteria_OnlyDue");
+		onlyDue.setAttribute("fieldName", "onlyDue");
+		onlyDue.setName("OnlyDue");
+		onlyDue.setTooltiptext(Msg.getMsg(Env.getCtx(), "OnlyDue"));
+		//
+		checkAutoQuery.setText(Msg.getMsg(Env.getCtx(), "AutoRefresh"));
+		checkAutoQuery.addActionListener(this);
+		checkAutoQuery.setAttribute("zk_component_ID", "Lookup_Criteria_AutoRefresh");
+		checkAutoQuery.setName("AutoQuery");
+		checkAutoQuery.setSelected(MSysConfig.getValue(SYSCONFIG_INFO_AUTO_QUERY,"Y",Env.getAD_Client_ID(Env.getCtx())).equals("Y"));  
+		//
 		dataStatus.setText(" ");
 		dataStatus.setPre(true);
+		dataStatus.setAttribute("zk_component_ID", "Lookup_Criteria_DataStatus");
+		dataStatus.setAttribute("zk_component_prefix", "Lookup_");
+		dataStatus.setAttribute("IsDynamic", "False");
+		dataStatus.setAttribute("fieldName", "dataStatus");
 		//
 		bGenerate.addActionListener(this);
 		bCancel.addActionListener(this);
@@ -171,7 +241,7 @@ public class WPaySelect extends PaySelect
 		north.setStyle("border: none");
 		mainLayout.appendChild(north);
 		north.appendChild(parameterPanel);
-		
+		//
 		Rows rows = parameterLayout.newRows();
 		Row row = rows.newRow();
 		row.appendChild(labelBankAccount.rightAlign());
@@ -182,40 +252,44 @@ public class WPaySelect extends PaySelect
 		balancePanel.appendChild(labelBalance);
 		row.appendChild(balancePanel);
 		row.appendChild(new Space());
-		
+		//
 		row = rows.newRow();
 		row.appendChild(labelBPartner.rightAlign());
-		row.appendChild(fieldBPartner);
+		row.appendChild(fieldBPartner.getComponent());
 		row.appendChild(new Space());
-		row.appendChild(onlyDue);
 		row.appendChild(new Space());
-		
+		row.appendChild(new Space());
+		//
 		row = rows.newRow();
 		row.appendChild(labelDtype.rightAlign());
 		row.appendChild(fieldDtype);
-		row.appendChild(new Space());
-		row.appendChild(new Space());
-		row.appendChild(new Space());
-		
+		row.appendChild(labelPaymentRule.rightAlign());
+		row.appendChild(fieldPaymentRule);
+		row.appendChild(checkAutoQuery);
+		//
 		row = rows.newRow();
 		row.appendChild(labelPayDate.rightAlign());
 		row.appendChild(fieldPayDate.getComponent());
-		row.appendChild(labelPaymentRule.rightAlign());
-		row.appendChild(fieldPaymentRule);
+		row.appendChild(new Space());
+		row.appendChild(onlyDue);
 		row.appendChild(bRefresh);
-
-		South south = new South();
-		south.setStyle("border: none");
-		mainLayout.appendChild(south);
-		southPanel = new Panel();
-		southPanel.appendChild(dataStatus);
-		south.appendChild(southPanel);
-		Center center = new Center();
-		mainLayout.appendChild(center);
-		center.appendChild(miniTable);
 		//
 		commandPanel.addButton(bGenerate);
 		commandPanel.getButton(ConfirmPanel.A_OK).setVisible(false);
+		//
+		southPanel = new Panel();
+		southPanel.appendChild(dataStatus);
+		southPanel.appendChild(new Separator());
+		southPanel.appendChild(commandPanel);
+		//
+		South south = new South();
+		south.setStyle("border: none");
+		mainLayout.appendChild(south);
+		south.appendChild(southPanel);
+		//
+		Center center = new Center();
+		mainLayout.appendChild(center);
+		center.appendChild(miniTable);
 	}   //  jbInit
 
 	/**
@@ -234,12 +308,9 @@ public class WPaySelect extends PaySelect
 			FDialog.error(m_WindowNo, form, "VPaySelectNoBank");
 		else
 			fieldBankAccount.setSelectedIndex(0);
-		
-		ArrayList<KeyNamePair> bpartnerData = getBPartnerData();
-		for(KeyNamePair pp : bpartnerData)
-			fieldBPartner.appendItem(pp.getName(), pp);
-		fieldBPartner.setSelectedIndex(0);
 
+		loadBankInfo();
+		
 		ArrayList<KeyNamePair> docTypeData = getDocTypeData();
 		for(KeyNamePair pp : docTypeData)
 			fieldDtype.appendItem(pp.getName(), pp);
@@ -284,10 +355,16 @@ public class WPaySelect extends PaySelect
 		BankInfo bi = (BankInfo)fieldBankAccount.getSelectedItem().getValue();
 		
 		ValueNamePair paymentRule = (ValueNamePair) fieldPaymentRule.getSelectedItem().getValue();
-		KeyNamePair bpartner = (KeyNamePair) fieldBPartner.getSelectedItem().getValue();
 		KeyNamePair docType = (KeyNamePair) fieldDtype.getSelectedItem().getValue();
 
-		loadTableInfo(bi, payDate, paymentRule, onlyDue.isSelected(), bpartner, docType, miniTable);
+		int c_bpartner_id = 0;
+		if (fieldBPartner.getValue() != null)
+		{
+			Integer id = (Integer)fieldBPartner.getValue();
+			c_bpartner_id = id.intValue();
+		}
+
+		loadTableInfo(bi, payDate, paymentRule, onlyDue.isSelected(), c_bpartner_id, docType, miniTable);
 		
 		calculateSelection();
 	}   //  loadTableInfo
@@ -307,23 +384,89 @@ public class WPaySelect extends PaySelect
 	 */
 	public void onEvent (Event e)
 	{
-		//  Update Bank Info
-		if (e.getTarget() == fieldBankAccount)
-			loadBankInfo();
+		boolean triggerRefresh = false;
+		
+		if(!m_loadedOK)
+			return;
 
-		//  Generate PaySelection
-		else if (e.getTarget() == bGenerate)
-		{
-			generatePaySelect();
+		if (e != null) {
+			
+	    	Component component = e.getTarget();
+	
+	    	if (component != null) {
+    			//  Generic components in the criteria fields
+    			if (component instanceof Textbox)
+    			{
+    				Textbox tb = ((Textbox) component);
+
+    				if (tb.hasChanged())
+    				{
+    					triggerRefresh = true;
+    				}
+    				else
+    				{
+    					// Special case where text fields don't change but cause an event
+    					// Interpret this as a click of the OK button and close EXCEPT
+    					// if the dialog was opened from a menu.
+    					//if (isModal())
+    					//	dispose(true);  //  Save the selection and close;
+    					//else
+    						return;
+    				}
+    			}
+    			else if (component instanceof Checkbox)
+    			{
+    				//  Check box changes generally always cause a refresh
+    				//  Capture changes that don't in a specific event handler
+    				triggerRefresh = true;
+    				
+    				Checkbox cb = (Checkbox) component;
+    				if (cb.getName() != null && cb.getName().equals("AutoQuery"))
+    				{
+    					//  Only trigger a refresh if the check box is selected
+    					if(!cb.isSelected())
+    					{
+    						return;
+    					}
+    				}
+    			}
+    			else 
+    			{
+    				//  Assume another type of component
+    				if(e.getName().equals("onChange") || e.getName().equals("onSelect"))
+					{
+    						triggerRefresh = true;	
+					}
+				}
+		
+    			String fieldName = "";
+    			if (component.getAttribute("fieldName") != null)
+    			{
+    				fieldName = (String) component.getAttribute("fieldName");
+    			}
+    				
+				if (triggerRefresh && fieldName.equals("fieldBankAccount"))
+				{
+					loadBankInfo();
+				}
+		
+				//  Generate PaySelection
+				if (component.equals(bGenerate))
+				{
+					generatePaySelect();
+					dispose();
+				}
+				else if (component.equals(bCancel))
+					dispose();
+						
+				// Refresh if the autoquery feature is selected or the refresh button is clicked.
+				if (component.equals(bRefresh) || (checkAutoQuery.isSelected() && triggerRefresh))
+				{
+					setFieldOldValues();
+					loadTableInfo();
+				}
+	    	}	
 		}
-
-		else if (e.getTarget() == bCancel)
-			dispose();
-
-		//  Update Open Invoices
-		else if (e.getTarget() == fieldBPartner || e.getTarget() == bRefresh || e.getTarget() == fieldDtype)
-			loadTableInfo();
-
 	}   //  actionPerformed
 
 	/**
@@ -444,4 +587,44 @@ public class WPaySelect extends PaySelect
 	public ADForm getForm() {
 		return form;
 	}
+
+	/**
+	 * Capture value changes in WSearchEditor components specifically.
+	 * Copy and override as required.
+	 * @param evt
+	 */
+	public void valueChange(ValueChangeEvent evt) 
+	{
+		Object c = null;
+		
+		if (evt.getSource() instanceof WSearchEditor)
+			c = ((WSearchEditor) evt.getSource()).getComponent();
+		else if (evt.getSource() instanceof WPAttributeEditor)
+			c = ((WPAttributeEditor) evt.getSource()).getComponent();
+		else if (evt.getSource() instanceof WDateEditor)
+			c = ((WDateEditor) evt.getSource()).getComponent();
+				
+		if (c == null)
+			return;
+
+		// Pass it off to the event handler to process.
+		Event e = new Event("onChange", (Component) c);
+		onEvent(e);
+
+	}  //  valueChange
+
+	/**
+	 * Record outstanding changes by copying the current
+	 * value to the oldValue on all fields
+	 */
+	protected void setFieldOldValues()
+	{
+		fieldBankAccount.set_oldValue();
+		fieldBPartner.set_oldValue();
+		fieldDtype.set_oldValue();
+		fieldPaymentRule.set_oldValue();
+		onlyDue.set_oldValue();
+		return;
+	}
+
 }   //  VPaySelect

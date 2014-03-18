@@ -57,7 +57,10 @@ import org.zkoss.zul.ListitemRendererExt;
  *
  * @author Andrew Kimball
  *
+ * @author	Michael McKay
+ * 				<li>release/380 - enable red rows based on color row in miniTable. 
  */
+
 public class WListItemRenderer implements ListitemRenderer, EventListener, ListitemRendererExt
 {
 	/** Array of listeners for changes in the table components. */
@@ -168,6 +171,19 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 			table = (WListbox)item.getListbox();
 		}
 
+
+		int colorCode = 0;
+		if (table != null)
+		{
+			colorCode = table.getColorCode(rowIndex);
+			if (colorCode < 0)
+			{
+				//  Color the row.
+				//  TODO: do this with a class and CSS
+				item.setStyle("color: #FF0000; " + item.getStyle());
+			}
+		}
+
 		if (!(data instanceof List))
 		{
 			throw new IllegalArgumentException("A model element was not a list");
@@ -256,8 +272,6 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 					numberbox.setValue(field);
 					numberbox.setWidth("100px");
 					numberbox.setEnabled(true);
-					numberbox.setStyle("text-align:right; "
-									+ listcell.getStyle());
 					numberbox.addEventListener(Events.ON_CHANGE, this);
 					listcell.appendChild(numberbox);
 				}
@@ -321,7 +335,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 			listcell.setLabel("");
 			listcell.setValue("");
 		}
-
+		
 		listcell.setAttribute("zk_component_ID", "ListItem_Cell_" + rowIndex + "_" + columnIndex);
 
 		return listcell;

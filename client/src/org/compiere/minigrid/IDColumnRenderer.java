@@ -19,12 +19,12 @@ package org.compiere.minigrid;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Insets;
-import java.awt.event.ItemListener;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableCellRenderer;
 
 /**
@@ -33,6 +33,7 @@ import javax.swing.table.DefaultTableCellRenderer;
  * 	@author Jorg Janke
  *  @author Michael McKay, 
  * 		<li><a href="https://adempiere.atlassian.net/browse/ADEMPIERE-241">ADMPIERE-241</a> Adding Select All checkbox to table header.
+ *		<li>release/380 - fix row selection event handling to fire single event per row selection
  *
  * 	@version 	$Id: IDColumnRenderer.java,v 1.3 2013/11/03 $
  */
@@ -94,7 +95,8 @@ public class IDColumnRenderer extends DefaultTableCellRenderer
 			else
 				sel = value.toString().equals("Y");
 			//
-			m_check.setSelected(sel);
+			if (m_check.isSelected() != sel)
+				m_check.setSelected(sel);
 		}
 	}   //  setValue
 
@@ -117,8 +119,8 @@ public class IDColumnRenderer extends DefaultTableCellRenderer
 			return m_button;
 	}   //  setTableCellRenderereComponent
 
-	public void addItemListener(ItemListener listener)
+	public void addChangeListener(ChangeListener listener)
 	{
-		m_check.addItemListener(listener);
+		m_check.addChangeListener(listener);
 	}
 }   //  IDColumnRenderer

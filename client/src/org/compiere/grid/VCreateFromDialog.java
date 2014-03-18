@@ -30,6 +30,8 @@ import org.compiere.apps.AppsAction;
 import org.compiere.apps.ConfirmPanel;
 import org.compiere.apps.StatusBar;
 import org.compiere.minigrid.MiniTable;
+import org.compiere.minigrid.MiniTable.MiniTableSelectionListener;
+import org.compiere.minigrid.MiniTable.RowSelectionEvent;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CDialog;
 import org.compiere.swing.CPanel;
@@ -41,9 +43,10 @@ import org.compiere.util.TrxRunnable;
  * 
  *  @author Michael McKay, 
  * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
+ * 				<li>release/380 - fix row selection event handling to fire single event per row selection
  *
  */
-public class VCreateFromDialog extends CDialog implements ActionListener, TableModelListener
+public class VCreateFromDialog extends CDialog implements ActionListener, MiniTableSelectionListener
 {
 	private static final long serialVersionUID = 1L;
 	
@@ -168,11 +171,11 @@ public class VCreateFromDialog extends CDialog implements ActionListener, TableM
 
 	public void info()
 	{
-		TableModel model = dataTable.getModel();
-		int rows = model.getRowCount();
-		int count = dataTable.getSelectedRowCount();
-		setStatusLine(count, null);
-		
+		//Duplicated status info
+		//TableModel model = dataTable.getModel();
+		//int rows = model.getRowCount();
+		//int count = dataTable.getSelectedRowCount();
+		//setStatusLine(count, null);
 		createFrom.info();
 	}
 	
@@ -200,5 +203,11 @@ public class VCreateFromDialog extends CDialog implements ActionListener, TableM
 	public ConfirmPanel getConfirmPanel()
 	{
 		return confirmPanel;
+	}
+
+	@Override
+	public void rowSelected(RowSelectionEvent e) {
+		// TODO Auto-generated method stub
+		info();
 	}
 }

@@ -66,6 +66,7 @@ import org.compiere.util.Util;
  * @author Michael McKay, 
  * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
  * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
+ * 				<li>release/380 Fix listeners on some fields and improve query speed for Payment #
  */
 public class InfoInvoice extends Info
 {
@@ -190,21 +191,27 @@ public class InfoInvoice extends Info
 	private static String s_subFrom = " C_Invoice_v i";
     /** Where Clause						*/
     private static String s_subWhere = "i.C_Invoice_ID = ?";
+	private static String numPayments = 	
+			  "COALESCE((SELECT COUNT(ps.C_PaymentTerm_ID)"
+			+ " 		FROM"
+			+ " 			C_PaySchedule ps, C_InvoicePaySchedule cips"
+			+ " 		WHERE"
+			+ " 			ps.C_PaySchedule_ID = cips.C_PaySchedule_ID"
+			+ " 			AND cips.C_INVOICE_ID = i.C_Invoice_ID"
+			+ " 			AND cips.duedate <= i.duedate"
+			+ " 		GROUP BY ps.C_PaymentTerm_ID),1)  || ' / ' ||"
+		    + " 		COALESCE((SELECT COUNT(ps.C_PaymentTerm_ID) AS maxpayno"
+		    + " 		    FROM "
+			+ " 			C_PaySchedule ps, C_InvoicePaySchedule cips"
+			+ " 		WHERE "
+			+ " 			ps.C_PaySchedule_ID = cips.C_PaySchedule_ID"
+			+ " 			AND cips.C_INVOICE_ID = i.C_Invoice_ID"
+			+ " 		GROUP BY ps.C_PaymentTerm_ID),1)";
+
 	/**  Array of Column Info    */
     private static ColumnInfo[] s_subLayout = new ColumnInfo[] {
 		new ColumnInfo(" ", "i.C_InvoicePaySchedule_ID", IDColumn.class),
-		new ColumnInfo(Msg.getMsg(Env.getCtx(), "Payment #"), "(SELECT ((SELECT COUNT(C_Invoice_ID) AS payno"
-				+			   " FROM C_Invoice_V"
-				+			   " WHERE C_Invoice_ID = civ.C_Invoice_ID"
-				+			   " AND duedate <= civ.duedate"
-				+			   " GROUP BY C_Invoice_ID) || ' / ' ||"
-				+			   " (SELECT COUNT(C_Invoice_ID) as numpmts"
-				+			   " FROM C_Invoice_V"
-				+			   " WHERE C_Invoice_ID = civ.C_Invoice_ID"
-				+			   " GROUP BY C_Invoice_ID)) as numpaymts"
-				+			   " FROM C_Invoice_v civ WHERE i.C_Invoice_ID=civ.C_Invoice_ID"
-				+														" AND (i.C_InvoicePaySchedule_ID IS NULL"
-				+														" OR i.C_InvoicePaySchedule_ID = civ.C_InvoicePaySchedule_ID))", String.class),
+		new ColumnInfo(Msg.getMsg(Env.getCtx(), "Payment #"), numPayments, String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "DueDate"), "i.DueDate", Timestamp.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "C_Currency_ID"), "(SELECT ISO_Code FROM C_Currency c WHERE c.C_Currency_ID=i.C_Currency_ID)", String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "GrandTotal"), "i.GrandTotal",  BigDecimal.class),
@@ -236,7 +243,7 @@ public class InfoInvoice extends Info
 						DisplayType.Search));
 		lBPartner_ID.setLabelFor(fBPartner_ID);
 		fBPartner_ID.setBackground(AdempierePLAF.getInfoBackground());
-		fBPartner_ID.addPropertyChangeListener(this);
+		fBPartner_ID.addActionListener(this);
 		//	C_Invoice.C_Order_ID
 		fOrder_ID = new VLookup("C_Order_ID", false, false, true, 
 	        		MLookupFactory.get(Env.getCtx(), p_WindowNo,0, 
@@ -244,7 +251,7 @@ public class InfoInvoice extends Info
 	        				DisplayType.Search));
 		lOrder_ID.setLabelFor(fOrder_ID);
 		fOrder_ID.setBackground(AdempierePLAF.getInfoBackground());
-		fOrder_ID.addPropertyChangeListener(this);
+		fOrder_ID.addActionListener(this);
 		//
 		lDateFrom.setLabelFor(fDateFrom);
 		fDateFrom.setBackground(AdempierePLAF.getInfoBackground());
