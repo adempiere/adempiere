@@ -1,13 +1,3 @@
--- Apr 23, 2012 1:35:17 PM EDT
--- Adding Messages for Info Panel changes
-INSERT INTO AD_SysConfig (AD_Client_ID,AD_Org_ID,AD_SysConfig_ID,ConfigurationLevel,Created,CreatedBy,Description,EntityType,IsActive,Name,Updated,UpdatedBy,Value) VALUES (0,0,1000005,'C',TO_TIMESTAMP('2012-04-23 13:35:17','YYYY-MM-DD HH24:MI:SS'),0,'Info Windows - is the query performed automatically (Y) or does the user have to click the Refresh button.','U','Y','INFO_AUTO_QUERY',TO_TIMESTAMP('2012-04-23 13:35:17','YYYY-MM-DD HH24:MI:SS'),0,'N')
-;
-
--- Apr 23, 2012 1:39:31 PM EDT
--- Adding Messages for Info Panel changes
-INSERT INTO AD_SysConfig (AD_Client_ID,AD_Org_ID,AD_SysConfig_ID,ConfigurationLevel,Created,CreatedBy,Description,EntityType,IsActive,Name,Updated,UpdatedBy,Value) VALUES (0,0,1000006,'S',TO_TIMESTAMP('2012-04-23 13:39:31','YYYY-MM-DD HH24:MI:SS'),0,'Determines the wild card pattern to apply to search text as none, first, last or both.  The percent sign "%" is the wildcard.  The astrixs could be any text.  "*%" is the default - last only. * - is none.  %* is first only.  %*%, % or %% is both.','U','Y','INFO_AUTO_WILDCARD',TO_TIMESTAMP('2012-04-23 13:39:31','YYYY-MM-DD HH24:MI:SS'),0,'*%')
-;
-
 -- Apr 23, 2012 1:43:39 PM EDT
 -- Adding Messages for Info Panel changes
 INSERT INTO AD_Message (AD_Client_ID,AD_Message_ID,AD_Org_ID,Created,CreatedBy,EntityType,IsActive,MsgText,MsgTip,MsgType,Updated,UpdatedBy,Value) VALUES (0,1000001,0,TO_TIMESTAMP('2012-04-23 13:43:39','YYYY-MM-DD HH24:MI:SS'),0,'D','Y','Expected Change','The expected change or delta in the amount.','I',TO_TIMESTAMP('2012-04-23 13:43:39','YYYY-MM-DD HH24:MI:SS'),0,'ExpectedChange')
