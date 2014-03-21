@@ -329,7 +329,7 @@ public final class ImpFormatRow
 	{
 		return m_divideBy100;
 	}
-
+	
 	/**
 	 *  Get the constant value
 	 *  @return constant value
