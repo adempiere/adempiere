@@ -147,7 +147,17 @@ public class MigrationLoader {
 		loader.load(Env.getCtx());
 		loader.applyMigrations();	
 		
-		ProcessInfo pi = new ProcessInfo("Synchronize Terminology", 172);
+		ProcessInfo pi = new ProcessInfo("Sequence Check", 258);
+		pi.setAD_Client_ID(0);
+		pi.setAD_User_ID(100);
+		
+		SequenceCheck scheck = new SequenceCheck();
+		scheck.startProcess(Env.getCtx(), pi, null);
+
+		System.out.println("Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());		
+		
+		
+		pi = new ProcessInfo("Synchronize Terminology", 172);
 		pi.setAD_Client_ID(0);
 		pi.setAD_User_ID(100);
 		
@@ -165,14 +175,5 @@ public class MigrationLoader {
 		
 
 		System.out.println("Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());
-		
-		pi = new ProcessInfo("Sequence Check", 258);
-		pi.setAD_Client_ID(0);
-		pi.setAD_User_ID(100);
-		
-		SequenceCheck scheck = new SequenceCheck();
-		scheck.startProcess(Env.getCtx(), pi, null);
-
-		System.out.println("Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());		
 	}
 }
