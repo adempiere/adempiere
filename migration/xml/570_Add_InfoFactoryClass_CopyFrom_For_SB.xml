@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add InfoFactoryClass for Smart Browse" ReleaseNo="" SeqNo="130">
+  <Migration EntityType="D" Name="Add InfoFactoryClass for Smart Browse" ReleaseNo="" SeqNo="570">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="64853" Table="AD_Column">
         <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
