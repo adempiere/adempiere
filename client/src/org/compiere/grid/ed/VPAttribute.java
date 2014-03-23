@@ -462,7 +462,7 @@ public class VPAttribute extends JComponent
 		boolean productWindow = m_AD_Column_ID == 8418;		//	HARDCODED
 		
 		//	Exclude ability to enter ASI
-		boolean exclude = true;
+		boolean exclude = false;
 		
 		if (M_Product_ID != 0)
 		{

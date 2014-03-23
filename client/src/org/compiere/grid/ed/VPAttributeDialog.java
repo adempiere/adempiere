@@ -285,14 +285,14 @@ public class VPAttributeDialog extends CDialog
 		//	Product has no Attribute Set
 		if (as == null)		
 		{
-			ADialog.error(m_WindowNo, this, "PAttributeNoAttributeSet");
-			return false;
+			//ADialog.error(m_WindowNo, this, "PAttributeNoAttributeSet");
+			//return false;
 		}
 
 		//	BF3468823 Show Product Attributes
 		//  Product attributes can be shown in any window but are read/write only in the product
 		//  window.  Instance attributes are shown in any window but the product window and are
-		//  always read/write.  The two are exclusive and can't co-exists.  
+		//  always read/write.  The two are exclusive and can't co-exist.  
 		if (!m_productWindow || !m_productASI)	//	Set Instance Attributes and dialog controls
 		{
 			if (!m_productASI)  // Instance attributes possible.  Set up controls.
@@ -315,13 +315,16 @@ public class VPAttributeDialog extends CDialog
 			for (int i = 0; i < attributes.length; i++)
 				addAttributeLine (attributes[i], false, false);
 		}
-		//  Product attributes can be shown in any window but are read/write in the Product window only.
-		//  This will do nothing if it is an instance attribute set. 
-		MAttribute[] attributes = as.getMAttributes (false);
-		log.fine ("Product Attributes=" + attributes.length);
-		for (int i = 0; i < attributes.length; i++)
-			addAttributeLine (attributes[i], true, !m_productWindow);
 
+                if (as != null)
+                {
+                        //  Product attributes can be shown in any window but are read/write in the Product window only.
+                        //  This will do nothing if it is an instance attribute set. 
+                        MAttribute[] attributes = as.getMAttributes (false);
+                        log.fine ("Product Attributes=" + attributes.length);
+                        for (int i = 0; i < attributes.length; i++)
+                                addAttributeLine (attributes[i], true, !m_productWindow);
+                }
 		//	Lot
 		if ((!m_productWindow || !m_productASI) && as.isLot())
 		{
@@ -412,7 +415,7 @@ public class VPAttributeDialog extends CDialog
 		if (m_row == 0)
 		{
 			ADialog.error(m_WindowNo, this, "PAttributeNoInfo");
-			return false;
+			//return false;
 		}
 
 		//	New/Edit Window

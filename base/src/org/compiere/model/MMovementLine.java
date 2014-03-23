@@ -95,8 +95,8 @@ public class MMovementLine extends X_M_MovementLine
 	public int getM_AttributeSetInstanceTo_ID ()
 	{
 		int M_AttributeSetInstanceTo_ID = super.getM_AttributeSetInstanceTo_ID();
-		if (M_AttributeSetInstanceTo_ID == 0 && (getM_Locator_ID() == getM_LocatorTo_ID()))
-			M_AttributeSetInstanceTo_ID = super.getM_AttributeSetInstance_ID();
+//		if (M_AttributeSetInstanceTo_ID == 0 && (getM_Locator_ID() == getM_LocatorTo_ID()))
+//			M_AttributeSetInstanceTo_ID = super.getM_AttributeSetInstance_ID();
 		return M_AttributeSetInstanceTo_ID;
 	}	//	getM_AttributeSetInstanceTo_ID
 	
