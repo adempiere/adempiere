@@ -332,7 +332,8 @@ public class Trx implements VetoableChangeListener
 			if (m_connection != null)
 			{
 				m_connection.commit();
-				log.log(isLocalTrx(m_trxName) ? Level.FINE : Level.INFO, "**** " + m_trxName);
+				//log.log(isLocalTrx(m_trxName) ? Level.FINE : Level.INFO, "**** " + m_trxName);
+				log.log (Level.ALL, "**** " + m_trxName);
 				m_active = false;
 				return true;
 			}
@@ -394,7 +395,7 @@ public class Trx implements VetoableChangeListener
 		}
 		m_connection = null;
 		m_active = false;
-		log.config(m_trxName);
+		log.log(Level.ALL,m_trxName);
 		return true;
 	}	//	close
 	

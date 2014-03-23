@@ -85,13 +85,13 @@ public class MigrationLoader {
 					
 				   Trx.run(new TrxRunnable() 
 				   {
-					   Properties ctx;
-					   Element element;
+					   private Properties ctx;
+					   private Element element;
 					   
 					   TrxRunnable setParamenters(Properties ctx , Element element)
 					   {
-						   ctx =  ctx;
-						   element = element;
+						   this.ctx =  ctx;
+						   this.element = element;
 						   return this;
 					   }
 			            public void run(String trxName) {

@@ -47,8 +47,9 @@ public class MMigrationStep extends X_AD_MigrationStep {
 	 */
 	private static final long serialVersionUID = 6002302731217174562L;
 	private List<MMigrationData> m_migrationData;
+	private MMigration parent;
 	/** Logger */
-	private CLogger log = CLogger
+	private static CLogger log = CLogger
 			.getCLogger(MMigrationStep.class);
 
 
@@ -76,6 +77,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 	public MMigrationStep(MMigration parent) {
 		this(parent.getCtx(), 0, parent.get_TrxName());
 		setAD_Migration_ID(parent.getAD_Migration_ID());
+		this.parent = parent;
 	}
 
 	public String toString() {
@@ -385,13 +387,14 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			setStatusCode(MMigrationStep.STATUSCODE_Failed);
 			setApply(MMigrationStep.APPLY_Apply);
 			saveEx(null);
-			throw new AdempiereException("Migration step failed.", e);
+			final String error = "Migration Script : " + getParent().getName() +  " ---> Strp " + getSeqNo() +  " failed";
+			throw new AdempiereException(error, e);
 		}
 		setStatusCode(MMigrationStep.STATUSCODE_Applied);
 		setApply(MMigrationStep.APPLY_Rollback);
 		setErrorMsg(null);
 		saveEx();
-		
+		log.log(Level.CONFIG, "Migration " + getParent().getName() + " ---> Step " + getSeqNo() + " successfully applied");
 		return "Applied";
 	}
 	
@@ -596,11 +599,19 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		}
 		
 		mstep.saveEx();
+		log.log(Level.CONFIG, "Migration " + mstep.getAD_Migration().getName() + " Step " + mstep.getSeqNo() + " loaded");
 
 	}
 
+	/**
+	 * get parent migration
+	 */
 	public MMigration getParent() {
-		return (MMigration) getAD_Migration();
+		
+		if (parent == null)
+			parent =  (MMigration) getAD_Migration();
+		
+		return parent;
 	}
 
 }
