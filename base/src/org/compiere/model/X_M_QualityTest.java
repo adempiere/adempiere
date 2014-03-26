@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_QualityTest
  *  @author Adempiere (generated) 
- *  @version 360LTS.013 - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_M_QualityTest extends PO implements I_M_QualityTest, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20111102L;
+	private static final long serialVersionUID = 20101207L;
 
     /** Standard Constructor */
     public X_M_QualityTest (Properties ctx, int M_QualityTest_ID, String trxName)

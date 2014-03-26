@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_ProductionLineMA
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC
+ *  @version Release 3.6.0LTS
  */
 public interface I_M_ProductionLineMA 
 {
@@ -52,13 +52,13 @@ public interface I_M_ProductionLineMA
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
-	/** Set Organization.
-	  * Organizational entity within client
+	/** Set Organisation.
+	  * Organisational entity within client
 	  */
 	public void setAD_Org_ID (int AD_Org_ID);
 
-	/** Get Organization.
-	  * Organizational entity within client
+	/** Get Organisation.
+	  * Organisational entity within client
 	  */
 	public int getAD_Org_ID();
 
@@ -106,6 +106,19 @@ public interface I_M_ProductionLineMA
 
 	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
 
+    /** Column name MovementQty */
+    public static final String COLUMNNAME_MovementQty = "MovementQty";
+
+	/** Set Movement Quantity.
+	  * Quantity of a product moved.
+	  */
+	public void setMovementQty (BigDecimal MovementQty);
+
+	/** Get Movement Quantity.
+	  * Quantity of a product moved.
+	  */
+	public BigDecimal getMovementQty();
+
     /** Column name M_ProductionLine_ID */
     public static final String COLUMNNAME_M_ProductionLine_ID = "M_ProductionLine_ID";
 
@@ -119,20 +132,7 @@ public interface I_M_ProductionLineMA
 	  */
 	public int getM_ProductionLine_ID();
 
-	public org.compiere.model.I_M_ProductionLine getM_ProductionLine() throws RuntimeException;
-
-    /** Column name MovementQty */
-    public static final String COLUMNNAME_MovementQty = "MovementQty";
-
-	/** Set Movement Quantity.
-	  * Quantity of a product moved.
-	  */
-	public void setMovementQty (BigDecimal MovementQty);
-
-	/** Get Movement Quantity.
-	  * Quantity of a product moved.
-	  */
-	public BigDecimal getMovementQty();
+	public I_M_ProductionLine getM_ProductionLine() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

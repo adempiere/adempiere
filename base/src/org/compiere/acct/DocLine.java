@@ -27,7 +27,6 @@ import org.compiere.model.MCharge;
 import org.compiere.model.MCostDetail;
 import org.compiere.model.MCostType;
 import org.compiere.model.MProduct;
-import org.compiere.model.MProductCategoryAcct;
 import org.compiere.model.PO;
 import org.compiere.model.ProductCost;
 import org.compiere.util.CLogger;

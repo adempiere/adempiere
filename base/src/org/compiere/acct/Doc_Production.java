@@ -19,7 +19,6 @@ package org.compiere.acct;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
@@ -80,30 +79,16 @@ public class Doc_Production extends Doc
 	{
 		ArrayList<DocLine> list = new ArrayList<DocLine>();
 		//	Production
-		//	-- ProductionPlan
-		//	-- -- ProductionLine	- the real level
-		String sqlPP = "SELECT * FROM M_ProductionPlan pp "
-			+ "WHERE pp.M_Production_ID=? "
-			+ "ORDER BY pp.Line";
+		//	-- ProductionLine	- the real level
 		String sqlPL = "SELECT * FROM M_ProductionLine pl "
-			+ "WHERE pl.M_ProductionPlan_ID=? "
+			+ "WHERE pl.M_Production_ID=? "
 			+ "ORDER BY pl.Line";
 
 		try
 		{
-			PreparedStatement pstmtPP = DB.prepareStatement(sqlPP, getTrxName());
-			pstmtPP.setInt(1, get_ID());
-			ResultSet rsPP = pstmtPP.executeQuery();
-			//
-			while (rsPP.next())
-			{
-				int M_Product_ID = rsPP.getInt("M_Product_ID");
-				int M_ProductionPlan_ID = rsPP.getInt("M_ProductionPlan_ID");
-				//
-				try
-				{
+			
 					PreparedStatement pstmtPL = DB.prepareStatement(sqlPL, getTrxName());
-					pstmtPL.setInt(1, M_ProductionPlan_ID);
+					pstmtPL.setInt(1,get_ID());
 					ResultSet rsPL = pstmtPL.executeQuery();
 					while (rsPL.next())
 					{
@@ -116,7 +101,7 @@ public class Doc_Production extends Doc
 						DocLine docLine = new DocLine (line, this);
 						docLine.setQty (line.getMovementQty(), false);
 						//	Identify finished BOM Product
-						docLine.setProductionBOM(line.getM_Product_ID() == M_Product_ID);
+						docLine.setProductionBOM(line.getM_Product_ID() == prod.getM_Product_ID());
 						//
 						log.fine(docLine.toString());
 						list.add (docLine);
@@ -128,15 +113,7 @@ public class Doc_Production extends Doc
 				{
 					log.log(Level.SEVERE, sqlPL, ee);
 				}
-			}
-			rsPP.close();
-			pstmtPP.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sqlPP, e);
-		}
-		//	Return Array
+			
 		DocLine[] dl = new DocLine[list.size()];
 		list.toArray(dl);
 		return dl;
@@ -257,5 +234,115 @@ public class Doc_Production extends Doc
 		facts.add(fact);
 		return facts;
 	}   //  createFact
+	
+	/**
+	 *  Create Facts (the accounting logic) for
+	 *  MMP.
+	 *  <pre>
+	 *  Production
+	 *      Inventory       DR      CR
+	 *  </pre>
+	 *  @param as account schema
+	 *  @return Fact
+	 */
+	/*public ArrayList<Fact> createFacts (MAcctSchema as)
+	{
+		//  create Fact Header
+		Fact fact = new Fact(this, as, Fact.POST_Actual);
+		setC_Currency_ID (as.getC_Currency_ID());
 
+		//  Line pointer
+		FactLine fl = null;
+		for (int i = 0; i < p_lines.length; i++)
+		{
+			DocLine line = p_lines[i];
+			//	Calculate Costs
+			BigDecimal costs = null;
+			
+			 adaxa-pb don't use cost details
+			// MZ Goodwill
+			// if Production CostDetail exist then get Cost from Cost Detail 
+			MCostDetail cd = MCostDetail.get (as.getCtx(), "M_ProductionLine_ID=?", 
+					line.get_ID(), line.getM_AttributeSetInstance_ID(), as.getC_AcctSchema_ID(), getTrxName());
+			if (cd != null)
+				costs = cd.getAmt();
+			else
+			
+			{	
+				int variedHeader = 0;
+				BigDecimal variance = null;
+				costs = line.getProductCosts(as, line.getAD_Org_ID(), false);
+				if (line.isProductionBOM() && line.getM_Production_ID() != variedHeader ) 
+				{
+					//	Get BOM Cost - Sum of individual lines
+					BigDecimal bomCost = Env.ZERO;
+					for (int ii = 0; ii < p_lines.length; ii++)
+					{
+						DocLine line0 = p_lines[ii];
+						if (line0.getM_Production_ID() != line.getM_Production_ID())
+							continue;
+						//pb changed this 20/10/06 
+						 if ( !line0.isProductionBOM() )
+						bomCost = bomCost.add(line0.getProductCosts(as, line.getAD_Org_ID(), false).setScale(2,BigDecimal.ROUND_HALF_UP));
+					}
+					variance = (costs.setScale(2,BigDecimal.ROUND_HALF_UP)).subtract(bomCost.negate());
+					//TODO use currency precision instead of hardcoded 2 
+					// get variance account
+					int validCombination = MAcctSchemaDefault.get(getCtx(),
+							as.get_ID()).getP_RateVariance_Acct();
+					MAccount base = MAccount.get(getCtx(), validCombination);
+					MAccount account = MAccount.get(getCtx(),as.getAD_Client_ID(),as.getAD_Org_ID(),
+							as.get_ID(), base.getAccount_ID(), 0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+					// 
+					// only post variance if it's not zero 
+					if (variance.compareTo(new BigDecimal("0.00")) != 0) 
+					{
+						//post variance 
+						fl = fact.createLine(line, 
+								account, 
+								as.getC_Currency_ID(), variance.negate()); 
+						fl.setQty(Env.ZERO);
+						if (fl == null) 
+						{ 
+							p_Error = "Couldn't post variance " + line.getLine() + " - " + line; 
+							return null; 
+						}
+					}
+					// costs = bomCost.negate();
+				}
+				else
+					costs = line.getProductCosts(as, line.getAD_Org_ID(), false);
+			}
+			// end MZ
+			
+			//  Inventory       DR      CR
+			fl = fact.createLine(line,
+				line.getAccount(ProductCost.ACCTTYPE_P_Asset, as),
+				as.getC_Currency_ID(), costs);
+			if (fl == null)
+			{
+				p_Error = "No Costs for Line " + line.getLine() + " - " + line;
+				return null;
+			}
+			fl.setM_Locator_ID(line.getM_Locator_ID());
+			fl.setQty(line.getQty());
+			
+			//	Cost Detail
+			String description = line.getDescription();
+			if (description == null)
+				description = "";
+			if (line.isProductionBOM())
+				description += "(*)";
+			MCostDetail.createProduction(as, line.getAD_Org_ID(), 
+				line.getM_Product_ID(), line.getM_AttributeSetInstance_ID(), 
+				line.get_ID(), 0, 
+				costs, line.getQty(), 
+				description, getTrxName());
+		}
+		//
+		ArrayList<Fact> facts = new ArrayList<Fact>();
+		facts.add(fact);
+		return facts;
+	}   //  createFact
+*/
 }   //  Doc_Production

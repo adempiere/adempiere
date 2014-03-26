@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Production
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_M_Production extends PO implements I_M_Production, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140301L;
+	private static final long serialVersionUID = 20110405L;
 
     /** Standard Constructor */
     public X_M_Production (Properties ctx, int M_Production_ID, String trxName)
@@ -45,10 +45,10 @@ public class X_M_Production extends PO implements I_M_Production, I_Persistent
 			setIsCreated (null);
 // N
 			setM_Locator_ID (0);
-			setM_Product_ID (0);
-			setM_Production_ID (0);
 			setMovementDate (new Timestamp( System.currentTimeMillis() ));
 // @#Date@
+			setM_Product_ID (0);
+			setM_Production_ID (0);
 			setPosted (false);
 			setProcessed (false);
 			setProductionQty (Env.ZERO);
@@ -84,9 +84,9 @@ public class X_M_Production extends PO implements I_M_Production, I_Persistent
       return sb.toString();
     }
 
-	/** Set Trx Organization.
+	/** Set Trx Organisation.
 		@param AD_OrgTrx_ID 
-		Performing or initiating organization
+		Performing or initiating organisation
 	  */
 	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
 	{
@@ -96,8 +96,8 @@ public class X_M_Production extends PO implements I_M_Production, I_Persistent
 			set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
 	}
 
-	/** Get Trx Organization.
-		@return Performing or initiating organization
+	/** Get Trx Organisation.
+		@return Performing or initiating organisation
 	  */
 	public int getAD_OrgTrx_ID () 
 	{
@@ -107,9 +107,9 @@ public class X_M_Production extends PO implements I_M_Production, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException
+	public I_C_Activity getC_Activity() throws RuntimeException
     {
-		return (org.compiere.model.I_C_Activity)MTable.get(getCtx(), org.compiere.model.I_C_Activity.Table_Name)
+		return (I_C_Activity)MTable.get(getCtx(), I_C_Activity.Table_Name)
 			.getPO(getC_Activity_ID(), get_TrxName());	}
 
 	/** Set Activity.
@@ -135,33 +135,9 @@ public class X_M_Production extends PO implements I_M_Production, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
+	public I_C_Campaign getC_Campaign() throws RuntimeException
     {
-		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
-			.getPO(getC_BPartner_ID(), get_TrxName());	}
-
-	/** Set Business Partner .
-		@param C_BPartner_ID 
-		Identifies a Business Partner
-	  */
-	public void setC_BPartner_ID (int C_BPartner_ID)
-	{
-		throw new IllegalArgumentException ("C_BPartner_ID is virtual column");	}
-
-	/** Get Business Partner .
-		@return Identifies a Business Partner
-	  */
-	public int getC_BPartner_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_Campaign)MTable.get(getCtx(), org.compiere.model.I_C_Campaign.Table_Name)
+		return (I_C_Campaign)MTable.get(getCtx(), I_C_Campaign.Table_Name)
 			.getPO(getC_Campaign_ID(), get_TrxName());	}
 
 	/** Set Campaign.
@@ -187,9 +163,9 @@ public class X_M_Production extends PO implements I_M_Production, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_OrderLine getC_OrderLine() throws RuntimeException
+	public I_C_OrderLine getC_OrderLine() throws RuntimeException
     {
-		return (org.compiere.model.I_C_OrderLine)MTable.get(getCtx(), org.compiere.model.I_C_OrderLine.Table_Name)
+		return (I_C_OrderLine)MTable.get(getCtx(), I_C_OrderLine.Table_Name)
 			.getPO(getC_OrderLine_ID(), get_TrxName());	}
 
 	/** Set Sales Order Line.
@@ -215,9 +191,9 @@ public class X_M_Production extends PO implements I_M_Production, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
+	public I_C_Project getC_Project() throws RuntimeException
     {
-		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
+		return (I_C_Project)MTable.get(getCtx(), I_C_Project.Table_Name)
 			.getPO(getC_Project_ID(), get_TrxName());	}
 
 	/** Set Project.
@@ -241,23 +217,6 @@ public class X_M_Production extends PO implements I_M_Production, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Create lines from.
-		@param CreateFrom 
-		Process which will generate a new document lines based on an existing document
-	  */
-	public void setCreateFrom (String CreateFrom)
-	{
-		set_Value (COLUMNNAME_CreateFrom, CreateFrom);
-	}
-
-	/** Get Create lines from.
-		@return Process which will generate a new document lines based on an existing document
-	  */
-	public String getCreateFrom () 
-	{
-		return (String)get_Value(COLUMNNAME_CreateFrom);
 	}
 
 	/** Set Date Promised.
@@ -336,17 +295,10 @@ public class X_M_Production extends PO implements I_M_Production, I_Persistent
 		return (String)get_Value(COLUMNNAME_IsComplete);
 	}
 
-	/** IsCreated AD_Reference_ID=319 */
-	public static final int ISCREATED_AD_Reference_ID=319;
-	/** Yes = Y */
-	public static final String ISCREATED_Yes = "Y";
-	/** No = N */
-	public static final String ISCREATED_No = "N";
 	/** Set Records created.
 		@param IsCreated Records created	  */
 	public void setIsCreated (String IsCreated)
 	{
-
 		set_Value (COLUMNNAME_IsCreated, IsCreated);
 	}
 
@@ -385,9 +337,26 @@ public class X_M_Production extends PO implements I_M_Production, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
+	/** Set Movement Date.
+		@param MovementDate 
+		Date a product was moved in or out of inventory
+	  */
+	public void setMovementDate (Timestamp MovementDate)
+	{
+		set_Value (COLUMNNAME_MovementDate, MovementDate);
+	}
+
+	/** Get Movement Date.
+		@return Date a product was moved in or out of inventory
+	  */
+	public Timestamp getMovementDate () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_MovementDate);
+	}
+
+	public I_M_Product getM_Product() throws RuntimeException
     {
-		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
+		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.
@@ -434,23 +403,6 @@ public class X_M_Production extends PO implements I_M_Production, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Movement Date.
-		@param MovementDate 
-		Date a product was moved in or out of inventory
-	  */
-	public void setMovementDate (Timestamp MovementDate)
-	{
-		set_Value (COLUMNNAME_MovementDate, MovementDate);
-	}
-
-	/** Get Movement Date.
-		@return Date a product was moved in or out of inventory
-	  */
-	public Timestamp getMovementDate () 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_MovementDate);
 	}
 
 	/** Set Name.
@@ -579,9 +531,9 @@ public class X_M_Production extends PO implements I_M_Production, I_Persistent
 		return bd;
 	}
 
-	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException
+	public I_C_ElementValue getUser1() throws RuntimeException
     {
-		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
+		return (I_C_ElementValue)MTable.get(getCtx(), I_C_ElementValue.Table_Name)
 			.getPO(getUser1_ID(), get_TrxName());	}
 
 	/** Set User List 1.
@@ -607,9 +559,9 @@ public class X_M_Production extends PO implements I_M_Production, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_ElementValue getUser2() throws RuntimeException
+	public I_C_ElementValue getUser2() throws RuntimeException
     {
-		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
+		return (I_C_ElementValue)MTable.get(getCtx(), I_C_ElementValue.Table_Name)
 			.getPO(getUser2_ID(), get_TrxName());	}
 
 	/** Set User List 2.
