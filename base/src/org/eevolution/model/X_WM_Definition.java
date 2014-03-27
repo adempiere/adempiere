@@ -17,23 +17,21 @@
 /** Generated Model - DO NOT CHANGE */
 package org.eevolution.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for WM_Definition
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_WM_Definition extends PO implements I_WM_Definition, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_WM_Definition (Properties ctx, int WM_Definition_ID, String trxName)
@@ -76,21 +74,10 @@ public class X_WM_Definition extends PO implements I_WM_Definition, I_Persistent
       return sb.toString();
     }
 
-	public I_C_BP_Group getC_BP_Group() throws RuntimeException 
+	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_BP_Group.Table_Name);
-        I_C_BP_Group result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_BP_Group)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BP_Group_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.compiere.model.I_C_BP_Group)MTable.get(getCtx(), org.compiere.model.I_C_BP_Group.Table_Name)
+			.getPO(getC_BP_Group_ID(), get_TrxName());	}
 
 	/** Set Business Partner Group.
 		@param C_BP_Group_ID 
@@ -115,21 +102,10 @@ public class X_WM_Definition extends PO implements I_WM_Definition, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException 
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
-        I_C_BPartner result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
+			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
 		@param C_BPartner_ID 
@@ -216,6 +192,11 @@ public class X_WM_Definition extends PO implements I_WM_Definition, I_Persistent
 		return (String)get_Value(COLUMNNAME_Group2);
 	}
 
+	public I_M_Locator getM_Locator() throws RuntimeException
+    {
+		return (I_M_Locator)MTable.get(getCtx(), I_M_Locator.Table_Name)
+			.getPO(getM_Locator_ID(), get_TrxName());	}
+
 	/** Set Locator.
 		@param M_Locator_ID 
 		Warehouse Locator
@@ -239,21 +220,10 @@ public class X_WM_Definition extends PO implements I_WM_Definition, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Product_Category getM_Product_Category() throws RuntimeException 
+	public org.compiere.model.I_M_Product_Category getM_Product_Category() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_Product_Category.Table_Name);
-        I_M_Product_Category result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_Product_Category)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_Category_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.compiere.model.I_M_Product_Category)MTable.get(getCtx(), org.compiere.model.I_M_Product_Category.Table_Name)
+			.getPO(getM_Product_Category_ID(), get_TrxName());	}
 
 	/** Set Product Category.
 		@param M_Product_Category_ID 
@@ -278,21 +248,10 @@ public class X_WM_Definition extends PO implements I_WM_Definition, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException 
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
-        I_M_Product result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
+			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.
 		@param M_Product_ID 
@@ -342,6 +301,36 @@ public class X_WM_Definition extends PO implements I_WM_Definition, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
+	/** PriorityRule AD_Reference_ID=154 */
+	public static final int PRIORITYRULE_AD_Reference_ID=154;
+	/** High = 3 */
+	public static final String PRIORITYRULE_High = "3";
+	/** Medium = 5 */
+	public static final String PRIORITYRULE_Medium = "5";
+	/** Low = 7 */
+	public static final String PRIORITYRULE_Low = "7";
+	/** Urgent = 1 */
+	public static final String PRIORITYRULE_Urgent = "1";
+	/** Minor = 9 */
+	public static final String PRIORITYRULE_Minor = "9";
+	/** Set Priority.
+		@param PriorityRule 
+		Priority of a document
+	  */
+	public void setPriorityRule (String PriorityRule)
+	{
+
+		set_Value (COLUMNNAME_PriorityRule, PriorityRule);
+	}
+
+	/** Get Priority.
+		@return Priority of a document
+	  */
+	public String getPriorityRule () 
+	{
+		return (String)get_Value(COLUMNNAME_PriorityRule);
+	}
+
 	/** Set Sequence.
 		@param SeqNo 
 		Method of ordering records; lowest number comes first
@@ -362,21 +351,10 @@ public class X_WM_Definition extends PO implements I_WM_Definition, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_WM_Area_Type getWM_Area_Type() throws RuntimeException 
+	public org.eevolution.model.I_WM_Area_Type getWM_Area_Type() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(org.eevolution.model.I_WM_Area_Type.Table_Name);
-        org.eevolution.model.I_WM_Area_Type result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.eevolution.model.I_WM_Area_Type)constructor.newInstance(new Object[] {getCtx(), new Integer(getWM_Area_Type_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.eevolution.model.I_WM_Area_Type)MTable.get(getCtx(), org.eevolution.model.I_WM_Area_Type.Table_Name)
+			.getPO(getWM_Area_Type_ID(), get_TrxName());	}
 
 	/** Set Warehouse Area Type.
 		@param WM_Area_Type_ID 
@@ -421,21 +399,10 @@ public class X_WM_Definition extends PO implements I_WM_Definition, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_WM_Section_Type getWM_Section_Type() throws RuntimeException 
+	public org.eevolution.model.I_WM_Section_Type getWM_Section_Type() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(org.eevolution.model.I_WM_Section_Type.Table_Name);
-        org.eevolution.model.I_WM_Section_Type result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.eevolution.model.I_WM_Section_Type)constructor.newInstance(new Object[] {getCtx(), new Integer(getWM_Section_Type_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.eevolution.model.I_WM_Section_Type)MTable.get(getCtx(), org.eevolution.model.I_WM_Section_Type.Table_Name)
+			.getPO(getWM_Section_Type_ID(), get_TrxName());	}
 
 	/** Set Warehouse Section Type.
 		@param WM_Section_Type_ID Warehouse Section Type	  */
@@ -457,21 +424,10 @@ public class X_WM_Definition extends PO implements I_WM_Definition, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_WM_Strategy getWM_Strategy() throws RuntimeException 
+	public org.eevolution.model.I_WM_Strategy getWM_Strategy() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(org.eevolution.model.I_WM_Strategy.Table_Name);
-        org.eevolution.model.I_WM_Strategy result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.eevolution.model.I_WM_Strategy)constructor.newInstance(new Object[] {getCtx(), new Integer(getWM_Strategy_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.eevolution.model.I_WM_Strategy)MTable.get(getCtx(), org.eevolution.model.I_WM_Strategy.Table_Name)
+			.getPO(getWM_Strategy_ID(), get_TrxName());	}
 
 	/** Set Warehouse Managamet Strategy.
 		@param WM_Strategy_ID Warehouse Managamet Strategy	  */

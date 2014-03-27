@@ -33,7 +33,7 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140301L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_C_OrderLine (Properties ctx, int C_OrderLine_ID, String trxName)
@@ -1303,15 +1303,15 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Create Shipment.
-		@param createshipment Create Shipment	  */
+	/** Set createshipment.
+		@param createshipment createshipment	  */
 	public void setcreateshipment (String createshipment)
 	{
 		set_Value (COLUMNNAME_createshipment, createshipment);
 	}
 
-	/** Get Create Shipment.
-		@return Create Shipment	  */
+	/** Get createshipment.
+		@return createshipment	  */
 	public String getcreateshipment () 
 	{
 		return (String)get_Value(COLUMNNAME_createshipment);

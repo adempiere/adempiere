@@ -32,7 +32,7 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140301L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_PA_DashboardContent (Properties ctx, int PA_DashboardContent_ID, String trxName)
@@ -362,15 +362,15 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
 		return ii.intValue();
 	}
 
-	/** Set Page Size.
-		@param PageSize Page Size	  */
+	/** Set PageSize.
+		@param PageSize PageSize	  */
 	public void setPageSize (BigDecimal PageSize)
 	{
 		set_Value (COLUMNNAME_PageSize, PageSize);
 	}
 
-	/** Get Page Size.
-		@return Page Size	  */
+	/** Get PageSize.
+		@return PageSize	  */
 	public BigDecimal getPageSize () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PageSize);
@@ -477,16 +477,16 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
 	public static final String ONEVENT_OnClick = "onClick";
 	/** onDoubleClick = onDoubleClick */
 	public static final String ONEVENT_OnDoubleClick = "onDoubleClick";
-	/** Set On Event.
-		@param onevent On Event	  */
+	/** Set onevent.
+		@param onevent onevent	  */
 	public void setonevent (String onevent)
 	{
 
 		set_Value (COLUMNNAME_onevent, onevent);
 	}
 
-	/** Get On Event.
-		@return On Event	  */
+	/** Get onevent.
+		@return onevent	  */
 	public String getonevent () 
 	{
 		return (String)get_Value(COLUMNNAME_onevent);

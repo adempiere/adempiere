@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_Order_Cost
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_PP_Order_Cost 
 {
@@ -182,12 +182,12 @@ public interface I_PP_Order_Cost
     /** Column name CurrentCostPriceLL */
     public static final String COLUMNNAME_CurrentCostPriceLL = "CurrentCostPriceLL";
 
-	/** Set Current Cost Price Lower Level.
+	/** Set Current Cost Price LL.
 	  * Current Price Lower Level Is the sum of the costs of the components of this product manufactured for this level.
 	  */
 	public void setCurrentCostPriceLL (BigDecimal CurrentCostPriceLL);
 
-	/** Get Current Cost Price Lower Level.
+	/** Get Current Cost Price LL.
 	  * Current Price Lower Level Is the sum of the costs of the components of this product manufactured for this level.
 	  */
 	public BigDecimal getCurrentCostPriceLL();

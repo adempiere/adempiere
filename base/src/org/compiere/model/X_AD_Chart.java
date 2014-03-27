@@ -29,7 +29,7 @@ public class X_AD_Chart extends PO implements I_AD_Chart, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140301L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_AD_Chart (Properties ctx, int AD_Chart_ID, String trxName)
@@ -149,7 +149,7 @@ public class X_AD_Chart extends PO implements I_AD_Chart, I_Persistent
 	public static final String CHARTTYPE_RingChart = "RC";
 	/** Set Chart Type.
 		@param ChartType 
-		Type of chart to render
+		Type fo chart to render
 	  */
 	public void setChartType (String ChartType)
 	{
@@ -158,7 +158,7 @@ public class X_AD_Chart extends PO implements I_AD_Chart, I_Persistent
 	}
 
 	/** Get Chart Type.
-		@return Type of chart to render
+		@return Type fo chart to render
 	  */
 	public String getChartType () 
 	{

@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_PaySelection
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_HR_PaySelection 
 {
@@ -123,14 +123,10 @@ public interface I_HR_PaySelection
     /** Column name HR_PaySelection_ID */
     public static final String COLUMNNAME_HR_PaySelection_ID = "HR_PaySelection_ID";
 
-	/** Set Payroll Payment Selection ID.
-	  * Payroll Payment Selection
-	  */
+	/** Set Payroll Payment Selection ID	  */
 	public void setHR_PaySelection_ID (int HR_PaySelection_ID);
 
-	/** Get Payroll Payment Selection ID.
-	  * Payroll Payment Selection
-	  */
+	/** Get Payroll Payment Selection ID	  */
 	public int getHR_PaySelection_ID();
 
     /** Column name IsActive */

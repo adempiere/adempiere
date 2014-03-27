@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_MRP
  *  @author Adempiere (generated) 
- *  @version Release 3.7.1RC
+ *  @version Release 3.8.0RC
  */
 public interface I_PP_MRP 
 {

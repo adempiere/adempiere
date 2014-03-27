@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for WM_InOutBound
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.8.0RC
  */
 public interface I_WM_InOutBound 
 {
@@ -31,7 +31,7 @@ public interface I_WM_InOutBound
     /** TableName=WM_InOutBound */
     public static final String Table_Name = "WM_InOutBound";
 
-    /** AD_Table_ID=1000013 */
+    /** AD_Table_ID=53233 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -89,7 +89,7 @@ public interface I_WM_InOutBound
 	  */
 	public int getC_Activity_ID();
 
-	public I_C_Activity getC_Activity() throws RuntimeException;
+	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException;
 
     /** Column name C_Campaign_ID */
     public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
@@ -104,7 +104,7 @@ public interface I_WM_InOutBound
 	  */
 	public int getC_Campaign_ID();
 
-	public I_C_Campaign getC_Campaign() throws RuntimeException;
+	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException;
 
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
@@ -118,6 +118,8 @@ public interface I_WM_InOutBound
 	  * Document type or rules
 	  */
 	public int getC_DocType_ID();
+
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -239,6 +241,8 @@ public interface I_WM_InOutBound
 	  */
 	public int getDropShip_BPartner_ID();
 
+	public org.compiere.model.I_C_BPartner getDropShip_BPartner() throws RuntimeException;
+
     /** Column name DropShip_Location_ID */
     public static final String COLUMNNAME_DropShip_Location_ID = "DropShip_Location_ID";
 
@@ -252,6 +256,8 @@ public interface I_WM_InOutBound
 	  */
 	public int getDropShip_Location_ID();
 
+	public org.compiere.model.I_C_BPartner_Location getDropShip_Location() throws RuntimeException;
+
     /** Column name DropShip_User_ID */
     public static final String COLUMNNAME_DropShip_User_ID = "DropShip_User_ID";
 
@@ -264,6 +270,8 @@ public interface I_WM_InOutBound
 	  * Business Partner Contact for drop shipment
 	  */
 	public int getDropShip_User_ID();
+
+	public org.compiere.model.I_AD_User getDropShip_User() throws RuntimeException;
 
     /** Column name FreightAmt */
     public static final String COLUMNNAME_FreightAmt = "FreightAmt";
@@ -382,7 +390,7 @@ public interface I_WM_InOutBound
 	  */
 	public int getM_Shipper_ID();
 
-	public I_M_Shipper getM_Shipper() throws RuntimeException;
+	public org.compiere.model.I_M_Shipper getM_Shipper() throws RuntimeException;
 
     /** Column name M_Warehouse_ID */
     public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
@@ -397,7 +405,7 @@ public interface I_WM_InOutBound
 	  */
 	public int getM_Warehouse_ID();
 
-	public I_M_Warehouse getM_Warehouse() throws RuntimeException;
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
 
     /** Column name POReference */
     public static final String COLUMNNAME_POReference = "POReference";
@@ -473,6 +481,8 @@ public interface I_WM_InOutBound
 	  */
 	public int getSalesRep_ID();
 
+	public org.compiere.model.I_AD_User getSalesRep() throws RuntimeException;
+
     /** Column name SendEMail */
     public static final String COLUMNNAME_SendEMail = "SendEMail";
 
@@ -541,6 +551,8 @@ public interface I_WM_InOutBound
 	  */
 	public int getUser1_ID();
 
+	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException;
+
     /** Column name User2_ID */
     public static final String COLUMNNAME_User2_ID = "User2_ID";
 
@@ -553,6 +565,8 @@ public interface I_WM_InOutBound
 	  * User defined list element #2
 	  */
 	public int getUser2_ID();
+
+	public org.compiere.model.I_C_ElementValue getUser2() throws RuntimeException;
 
     /** Column name Volume */
     public static final String COLUMNNAME_Volume = "Volume";
@@ -570,10 +584,10 @@ public interface I_WM_InOutBound
     /** Column name WM_InOutBound_ID */
     public static final String COLUMNNAME_WM_InOutBound_ID = "WM_InOutBound_ID";
 
-	/** Set Inbound & Outbound Order	  */
+	/** Set In & Out Bound Order	  */
 	public void setWM_InOutBound_ID (int WM_InOutBound_ID);
 
-	/** Get Inbound & Outbound Order	  */
+	/** Get In & Out Bound Order	  */
 	public int getWM_InOutBound_ID();
 
     /** Column name Weight */

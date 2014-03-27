@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_HR_Movement
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_I_HR_Movement 
 {
@@ -227,6 +227,19 @@ public interface I_I_HR_Movement
 	  */
 	public boolean isActive();
 
+    /** Column name ProcessName */
+    public static final String COLUMNNAME_ProcessName = "ProcessName";
+
+	/** Set Process Name.
+	  * Name of the Process
+	  */
+	public void setProcessName (String ProcessName);
+
+	/** Get Process Name.
+	  * Name of the Process
+	  */
+	public String getProcessName();
+
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
 
@@ -248,19 +261,6 @@ public interface I_I_HR_Movement
 
 	/** Get Process Now	  */
 	public boolean isProcessing();
-
-    /** Column name ProcessName */
-    public static final String COLUMNNAME_ProcessName = "ProcessName";
-
-	/** Set Process Name.
-	  * Name of the Process
-	  */
-	public void setProcessName (String ProcessName);
-
-	/** Get Process Name.
-	  * Name of the Process
-	  */
-	public String getProcessName();
 
     /** Column name Qty */
     public static final String COLUMNNAME_Qty = "Qty";

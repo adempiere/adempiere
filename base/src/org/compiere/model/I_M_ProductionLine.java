@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_ProductionLine
  *  @author Adempiere (generated) 
- *  @version 360LTS.010
+ *  @version Release 3.8.0RC
  */
 public interface I_M_ProductionLine 
 {
@@ -52,30 +52,15 @@ public interface I_M_ProductionLine
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
-	/** Set Organisation.
-	  * Organisational entity within client
+	/** Set Organization.
+	  * Organizational entity within client
 	  */
 	public void setAD_Org_ID (int AD_Org_ID);
 
-	/** Get Organisation.
-	  * Organisational entity within client
+	/** Get Organization.
+	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
-
-    /** Column name C_OrderLine_ID */
-    public static final String COLUMNNAME_C_OrderLine_ID = "C_OrderLine_ID";
-
-	/** Set Sales Order Line.
-	  * Sales Order Line
-	  */
-	public void setC_OrderLine_ID (int C_OrderLine_ID);
-
-	/** Get Sales Order Line.
-	  * Sales Order Line
-	  */
-	public int getC_OrderLine_ID();
-
-	public I_C_OrderLine getC_OrderLine() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -175,19 +160,6 @@ public interface I_M_ProductionLine
 
 	public I_M_Locator getM_Locator() throws RuntimeException;
 
-    /** Column name MovementQty */
-    public static final String COLUMNNAME_MovementQty = "MovementQty";
-
-	/** Set Movement Quantity.
-	  * Quantity of a product moved.
-	  */
-	public void setMovementQty (BigDecimal MovementQty);
-
-	/** Get Movement Quantity.
-	  * Quantity of a product moved.
-	  */
-	public BigDecimal getMovementQty();
-
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -201,22 +173,7 @@ public interface I_M_ProductionLine
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
-
-    /** Column name M_Production_ID */
-    public static final String COLUMNNAME_M_Production_ID = "M_Production_ID";
-
-	/** Set Production.
-	  * Plan for producing a product
-	  */
-	public void setM_Production_ID (int M_Production_ID);
-
-	/** Get Production.
-	  * Plan for producing a product
-	  */
-	public int getM_Production_ID();
-
-	public I_M_Production getM_Production() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name M_ProductionLine_ID */
     public static final String COLUMNNAME_M_ProductionLine_ID = "M_ProductionLine_ID";
@@ -244,7 +201,35 @@ public interface I_M_ProductionLine
 	  */
 	public int getM_ProductionPlan_ID();
 
-	public I_M_ProductionPlan getM_ProductionPlan() throws RuntimeException;
+	public org.compiere.model.I_M_ProductionPlan getM_ProductionPlan() throws RuntimeException;
+
+    /** Column name M_Production_ID */
+    public static final String COLUMNNAME_M_Production_ID = "M_Production_ID";
+
+	/** Set Production.
+	  * Plan for producing a product
+	  */
+	public void setM_Production_ID (int M_Production_ID);
+
+	/** Get Production.
+	  * Plan for producing a product
+	  */
+	public int getM_Production_ID();
+
+	public org.compiere.model.I_M_Production getM_Production() throws RuntimeException;
+
+    /** Column name MovementQty */
+    public static final String COLUMNNAME_MovementQty = "MovementQty";
+
+	/** Set Movement Quantity.
+	  * Quantity of a product moved.
+	  */
+	public void setMovementQty (BigDecimal MovementQty);
+
+	/** Get Movement Quantity.
+	  * Quantity of a product moved.
+	  */
+	public BigDecimal getMovementQty();
 
     /** Column name PlannedQty */
     public static final String COLUMNNAME_PlannedQty = "PlannedQty";
@@ -271,6 +256,32 @@ public interface I_M_ProductionLine
 	  * The document has been processed
 	  */
 	public boolean isProcessed();
+
+    /** Column name ProductType */
+    public static final String COLUMNNAME_ProductType = "ProductType";
+
+	/** Set Product Type.
+	  * Type of product
+	  */
+	public void setProductType (String ProductType);
+
+	/** Get Product Type.
+	  * Type of product
+	  */
+	public String getProductType();
+
+    /** Column name QtyAvailable */
+    public static final String COLUMNNAME_QtyAvailable = "QtyAvailable";
+
+	/** Set Available Quantity.
+	  * Available Quantity (On Hand - Reserved)
+	  */
+	public void setQtyAvailable (BigDecimal QtyAvailable);
+
+	/** Get Available Quantity.
+	  * Available Quantity (On Hand - Reserved)
+	  */
+	public BigDecimal getQtyAvailable();
 
     /** Column name QtyUsed */
     public static final String COLUMNNAME_QtyUsed = "QtyUsed";

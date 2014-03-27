@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_List
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_HR_List extends PO implements I_HR_List, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_HR_List (Properties ctx, int HR_List_ID, String trxName)
@@ -140,26 +140,6 @@ public class X_HR_List extends PO implements I_HR_List, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Payroll List.
-		@param HR_List_ID Payroll List	  */
-	public void setHR_List_ID (int HR_List_ID)
-	{
-		if (HR_List_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_HR_List_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_HR_List_ID, Integer.valueOf(HR_List_ID));
-	}
-
-	/** Get Payroll List.
-		@return Payroll List	  */
-	public int getHR_List_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_List_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.eevolution.model.I_HR_ListType getHR_ListType() throws RuntimeException
     {
 		return (org.eevolution.model.I_HR_ListType)MTable.get(getCtx(), org.eevolution.model.I_HR_ListType.Table_Name)
@@ -180,6 +160,26 @@ public class X_HR_List extends PO implements I_HR_List, I_Persistent
 	public int getHR_ListType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_ListType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Payroll List.
+		@param HR_List_ID Payroll List	  */
+	public void setHR_List_ID (int HR_List_ID)
+	{
+		if (HR_List_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_HR_List_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_HR_List_ID, Integer.valueOf(HR_List_ID));
+	}
+
+	/** Get Payroll List.
+		@return Payroll List	  */
+	public int getHR_List_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_List_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

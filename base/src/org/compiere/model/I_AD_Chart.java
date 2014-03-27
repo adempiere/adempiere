@@ -88,12 +88,12 @@ public interface I_AD_Chart
     public static final String COLUMNNAME_ChartType = "ChartType";
 
 	/** Set Chart Type.
-	  * Type of chart to render
+	  * Type fo chart to render
 	  */
 	public void setChartType (String ChartType);
 
 	/** Get Chart Type.
-	  * Type of chart to render
+	  * Type fo chart to render
 	  */
 	public String getChartType();
 

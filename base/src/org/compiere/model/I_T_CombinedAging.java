@@ -95,27 +95,19 @@ public interface I_T_CombinedAging
     /** Column name AmtAcctOpenPosted */
     public static final String COLUMNNAME_AmtAcctOpenPosted = "AmtAcctOpenPosted";
 
-	/** Set Open Posted Amount.
-	  * The calculated open amount of the posted account entry in the currency of Accouting Schema.
-	  */
+	/** Set Open Posted Amount	  */
 	public void setAmtAcctOpenPosted (BigDecimal AmtAcctOpenPosted);
 
-	/** Get Open Posted Amount.
-	  * The calculated open amount of the posted account entry in the currency of Accouting Schema.
-	  */
+	/** Get Open Posted Amount	  */
 	public BigDecimal getAmtAcctOpenPosted();
 
     /** Column name AmtAcctOpenSource */
     public static final String COLUMNNAME_AmtAcctOpenSource = "AmtAcctOpenSource";
 
-	/** Set Open Source Amount.
-	  * The calculated open amount in document source currency 
-	  */
+	/** Set Open Source Amount	  */
 	public void setAmtAcctOpenSource (BigDecimal AmtAcctOpenSource);
 
-	/** Get Open Source Amount.
-	  * The calculated open amount in document source currency 
-	  */
+	/** Get Open Source Amount	  */
 	public BigDecimal getAmtAcctOpenSource();
 
     /** Column name AmtRevalDiff */

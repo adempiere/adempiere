@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_ForecastDefinitionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_PP_ForecastDefinitionLine 
 {
@@ -143,12 +143,12 @@ public interface I_PP_ForecastDefinitionLine
     public static final String COLUMNNAME_FactorAlpha = "FactorAlpha";
 
 	/** Set Factor Alpha.
-	  * Identifies a Factor Alpha
+	  * Identifies an Factor Alpha
 	  */
 	public void setFactorAlpha (BigDecimal FactorAlpha);
 
 	/** Get Factor Alpha.
-	  * Identifies a Factor Alpha
+	  * Identifies an Factor Alpha
 	  */
 	public BigDecimal getFactorAlpha();
 

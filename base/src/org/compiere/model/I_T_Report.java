@@ -374,9 +374,9 @@ public interface I_T_Report
     /** Column name reportlinestyle */
     public static final String COLUMNNAME_reportlinestyle = "reportlinestyle";
 
-	/** Set ReportLineStyle	  */
+	/** Set reportlinestyle	  */
 	public void setreportlinestyle (boolean reportlinestyle);
 
-	/** Get ReportLineStyle	  */
+	/** Get reportlinestyle	  */
 	public boolean isreportlinestyle();
 }

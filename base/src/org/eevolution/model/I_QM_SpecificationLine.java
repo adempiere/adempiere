@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for QM_SpecificationLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_QM_SpecificationLine 
 {
@@ -133,6 +133,15 @@ public interface I_QM_SpecificationLine
 	  */
 	public String getOperation();
 
+    /** Column name QM_SpecificationLine_ID */
+    public static final String COLUMNNAME_QM_SpecificationLine_ID = "QM_SpecificationLine_ID";
+
+	/** Set QM Specification Line	  */
+	public void setQM_SpecificationLine_ID (int QM_SpecificationLine_ID);
+
+	/** Get QM Specification Line	  */
+	public int getQM_SpecificationLine_ID();
+
     /** Column name QM_Specification_ID */
     public static final String COLUMNNAME_QM_Specification_ID = "QM_Specification_ID";
 
@@ -143,15 +152,6 @@ public interface I_QM_SpecificationLine
 	public int getQM_Specification_ID();
 
 	public org.eevolution.model.I_QM_Specification getQM_Specification() throws RuntimeException;
-
-    /** Column name QM_SpecificationLine_ID */
-    public static final String COLUMNNAME_QM_SpecificationLine_ID = "QM_SpecificationLine_ID";
-
-	/** Set QM Specification Line	  */
-	public void setQM_SpecificationLine_ID (int QM_SpecificationLine_ID);
-
-	/** Get QM Specification Line	  */
-	public int getQM_SpecificationLine_ID();
 
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";

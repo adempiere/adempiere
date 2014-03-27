@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for WM_InOutBoundLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.8.0RC
  */
 public interface I_WM_InOutBoundLine 
 {
@@ -31,7 +31,7 @@ public interface I_WM_InOutBoundLine
     /** TableName=WM_InOutBoundLine */
     public static final String Table_Name = "WM_InOutBoundLine";
 
-    /** AD_Table_ID=1000014 */
+    /** AD_Table_ID=53234 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -89,7 +89,7 @@ public interface I_WM_InOutBoundLine
 	  */
 	public int getC_Activity_ID();
 
-	public I_C_Activity getC_Activity() throws RuntimeException;
+	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException;
 
     /** Column name C_Campaign_ID */
     public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
@@ -104,7 +104,7 @@ public interface I_WM_InOutBoundLine
 	  */
 	public int getC_Campaign_ID();
 
-	public I_C_Campaign getC_Campaign() throws RuntimeException;
+	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException;
 
     /** Column name C_Charge_ID */
     public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
@@ -119,7 +119,7 @@ public interface I_WM_InOutBoundLine
 	  */
 	public int getC_Charge_ID();
 
-	public I_C_Charge getC_Charge() throws RuntimeException;
+	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException;
 
     /** Column name C_OrderLine_ID */
     public static final String COLUMNNAME_C_OrderLine_ID = "C_OrderLine_ID";
@@ -134,7 +134,7 @@ public interface I_WM_InOutBoundLine
 	  */
 	public int getC_OrderLine_ID();
 
-	public I_C_OrderLine getC_OrderLine() throws RuntimeException;
+	public org.compiere.model.I_C_OrderLine getC_OrderLine() throws RuntimeException;
 
     /** Column name C_ProjectPhase_ID */
     public static final String COLUMNNAME_C_ProjectPhase_ID = "C_ProjectPhase_ID";
@@ -149,7 +149,7 @@ public interface I_WM_InOutBoundLine
 	  */
 	public int getC_ProjectPhase_ID();
 
-	public I_C_ProjectPhase getC_ProjectPhase() throws RuntimeException;
+	public org.compiere.model.I_C_ProjectPhase getC_ProjectPhase() throws RuntimeException;
 
     /** Column name C_ProjectTask_ID */
     public static final String COLUMNNAME_C_ProjectTask_ID = "C_ProjectTask_ID";
@@ -164,7 +164,7 @@ public interface I_WM_InOutBoundLine
 	  */
 	public int getC_ProjectTask_ID();
 
-	public I_C_ProjectTask getC_ProjectTask() throws RuntimeException;
+	public org.compiere.model.I_C_ProjectTask getC_ProjectTask() throws RuntimeException;
 
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
@@ -179,7 +179,7 @@ public interface I_WM_InOutBoundLine
 	  */
 	public int getC_Project_ID();
 
-	public I_C_Project getC_Project() throws RuntimeException;
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
 
     /** Column name C_UOM_ID */
     public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
@@ -194,7 +194,7 @@ public interface I_WM_InOutBoundLine
 	  */
 	public int getC_UOM_ID();
 
-	public I_C_UOM getC_UOM() throws RuntimeException;
+	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -277,6 +277,8 @@ public interface I_WM_InOutBoundLine
 	  */
 	public int getM_AttributeSetInstance_ID();
 
+	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
+
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -290,7 +292,7 @@ public interface I_WM_InOutBoundLine
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name MovementQty */
     public static final String COLUMNNAME_MovementQty = "MovementQty";
@@ -382,6 +384,8 @@ public interface I_WM_InOutBoundLine
 	  */
 	public int getUser1_ID();
 
+	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException;
+
     /** Column name User2_ID */
     public static final String COLUMNNAME_User2_ID = "User2_ID";
 
@@ -395,6 +399,8 @@ public interface I_WM_InOutBoundLine
 	  */
 	public int getUser2_ID();
 
+	public org.compiere.model.I_C_ElementValue getUser2() throws RuntimeException;
+
     /** Column name WM_InOutBoundLine_ID */
     public static final String COLUMNNAME_WM_InOutBoundLine_ID = "WM_InOutBoundLine_ID";
 
@@ -407,10 +413,10 @@ public interface I_WM_InOutBoundLine
     /** Column name WM_InOutBound_ID */
     public static final String COLUMNNAME_WM_InOutBound_ID = "WM_InOutBound_ID";
 
-	/** Set Inbound & Outbound Order	  */
+	/** Set In & Out Bound Order	  */
 	public void setWM_InOutBound_ID (int WM_InOutBound_ID);
 
-	/** Get Inbound & Outbound Order	  */
+	/** Get In & Out Bound Order	  */
 	public int getWM_InOutBound_ID();
 
 	public org.eevolution.model.I_WM_InOutBound getWM_InOutBound() throws RuntimeException;

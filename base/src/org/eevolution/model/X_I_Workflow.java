@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_Workflow
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_I_Workflow extends PO implements I_I_Workflow, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20120512L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_I_Workflow (Properties ctx, int I_Workflow_ID, String trxName)
@@ -442,6 +442,10 @@ public class X_I_Workflow extends PO implements I_I_Workflow, I_Persistent
 	public static final String ACTION_EMail = "M";
 	/** User Workbench = B */
 	public static final String ACTION_UserWorkbench = "B";
+	/** Smart View = Q */
+	public static final String ACTION_SmartView = "Q";
+	/** Smart Browse = S */
+	public static final String ACTION_SmartBrowse = "S";
 	/** Set Action.
 		@param Action 
 		Indicates the Action to be performed

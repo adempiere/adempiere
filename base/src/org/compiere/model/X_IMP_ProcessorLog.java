@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for IMP_ProcessorLog
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_IMP_ProcessorLog extends PO implements I_IMP_ProcessorLog, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_IMP_ProcessorLog (Properties ctx, int IMP_ProcessorLog_ID, String trxName)
@@ -37,8 +37,8 @@ public class X_IMP_ProcessorLog extends PO implements I_IMP_ProcessorLog, I_Pers
       super (ctx, IMP_ProcessorLog_ID, trxName);
       /** if (IMP_ProcessorLog_ID == 0)
         {
-			setIMP_Processor_ID (0);
 			setIMP_ProcessorLog_ID (0);
+			setIMP_Processor_ID (0);
 			setIsError (true);
 // 'Y'
         } */
@@ -123,6 +123,26 @@ public class X_IMP_ProcessorLog extends PO implements I_IMP_ProcessorLog, I_Pers
 		return (String)get_Value(COLUMNNAME_Help);
 	}
 
+	/** Set Import Processor Log.
+		@param IMP_ProcessorLog_ID Import Processor Log	  */
+	public void setIMP_ProcessorLog_ID (int IMP_ProcessorLog_ID)
+	{
+		if (IMP_ProcessorLog_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_IMP_ProcessorLog_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_IMP_ProcessorLog_ID, Integer.valueOf(IMP_ProcessorLog_ID));
+	}
+
+	/** Get Import Processor Log.
+		@return Import Processor Log	  */
+	public int getIMP_ProcessorLog_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_IMP_ProcessorLog_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_IMP_Processor getIMP_Processor() throws RuntimeException
     {
 		return (org.compiere.model.I_IMP_Processor)MTable.get(getCtx(), org.compiere.model.I_IMP_Processor.Table_Name)
@@ -143,26 +163,6 @@ public class X_IMP_ProcessorLog extends PO implements I_IMP_ProcessorLog, I_Pers
 	public int getIMP_Processor_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_IMP_Processor_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Import Processor Log.
-		@param IMP_ProcessorLog_ID Import Processor Log	  */
-	public void setIMP_ProcessorLog_ID (int IMP_ProcessorLog_ID)
-	{
-		if (IMP_ProcessorLog_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_IMP_ProcessorLog_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_IMP_ProcessorLog_ID, Integer.valueOf(IMP_ProcessorLog_ID));
-	}
-
-	/** Get Import Processor Log.
-		@return Import Processor Log	  */
-	public int getIMP_ProcessorLog_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_IMP_ProcessorLog_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

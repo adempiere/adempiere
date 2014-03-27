@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for WM_Section_Type
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_WM_Section_Type extends PO implements I_WM_Section_Type, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_WM_Section_Type (Properties ctx, int WM_Section_Type_ID, String trxName)
@@ -90,8 +90,8 @@ public class X_WM_Section_Type extends PO implements I_WM_Section_Type, I_Persis
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	/** InOutBoundType AD_Reference_ID=1000009 */
-	public static final int INOUTBOUNDTYPE_AD_Reference_ID=1000009;
+	/** InOutBoundType AD_Reference_ID=53321 */
+	public static final int INOUTBOUNDTYPE_AD_Reference_ID=53321;
 	/** Outbound Operation = O */
 	public static final String INOUTBOUNDTYPE_OutboundOperation = "O";
 	/** Inbound Operation = I */

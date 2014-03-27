@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Browse_Field
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_AD_Browse_Field 
 {
@@ -45,10 +45,10 @@ public interface I_AD_Browse_Field
     /** Column name AD_Browse_Field_ID */
     public static final String COLUMNNAME_AD_Browse_Field_ID = "AD_Browse_Field_ID";
 
-	/** Set Smart Browse Fields ID	  */
+	/** Set Browse Field	  */
 	public void setAD_Browse_Field_ID (int AD_Browse_Field_ID);
 
-	/** Get Smart Browse Fields ID	  */
+	/** Get Browse Field	  */
 	public int getAD_Browse_Field_ID();
 
     /** Column name AD_Browse_ID */

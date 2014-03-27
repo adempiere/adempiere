@@ -32,7 +32,7 @@ public class X_I_PriceList extends PO implements I_I_PriceList, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140301L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_I_PriceList (Properties ctx, int I_PriceList_ID, String trxName)

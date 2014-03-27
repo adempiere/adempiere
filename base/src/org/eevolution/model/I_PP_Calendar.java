@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_Calendar
  *  @author Adempiere (generated) 
- *  @version Release 3.7.1RC
+ *  @version Release 3.8.0RC
  */
 public interface I_PP_Calendar 
 {
@@ -31,7 +31,7 @@ public interface I_PP_Calendar
     /** TableName=PP_Calendar */
     public static final String Table_Name = "PP_Calendar";
 
-    /** AD_Table_ID=1000002 */
+    /** AD_Table_ID=53387 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);

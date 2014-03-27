@@ -25,14 +25,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for HR_PaySelectionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_HR_PaySelectionLine extends PO implements I_HR_PaySelectionLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110412L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_HR_PaySelectionLine (Properties ctx, int HR_PaySelectionLine_ID, String trxName)
@@ -173,9 +173,7 @@ public class X_HR_PaySelectionLine extends PO implements I_HR_PaySelectionLine, 
 			.getPO(getHR_PaySelectionCheck_ID(), get_TrxName());	}
 
 	/** Set Payroll Pay Selection Check ID.
-		@param HR_PaySelectionCheck_ID 
-		Payroll Payment Selection Check
-	  */
+		@param HR_PaySelectionCheck_ID Payroll Pay Selection Check ID	  */
 	public void setHR_PaySelectionCheck_ID (int HR_PaySelectionCheck_ID)
 	{
 		if (HR_PaySelectionCheck_ID < 1) 
@@ -185,8 +183,7 @@ public class X_HR_PaySelectionLine extends PO implements I_HR_PaySelectionLine, 
 	}
 
 	/** Get Payroll Pay Selection Check ID.
-		@return Payroll Payment Selection Check
-	  */
+		@return Payroll Pay Selection Check ID	  */
 	public int getHR_PaySelectionCheck_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_PaySelectionCheck_ID);
@@ -196,9 +193,7 @@ public class X_HR_PaySelectionLine extends PO implements I_HR_PaySelectionLine, 
 	}
 
 	/** Set Payroll Payment Selection Line ID.
-		@param HR_PaySelectionLine_ID 
-		Payroll Payment Selection Line
-	  */
+		@param HR_PaySelectionLine_ID Payroll Payment Selection Line ID	  */
 	public void setHR_PaySelectionLine_ID (int HR_PaySelectionLine_ID)
 	{
 		if (HR_PaySelectionLine_ID < 1) 
@@ -208,8 +203,7 @@ public class X_HR_PaySelectionLine extends PO implements I_HR_PaySelectionLine, 
 	}
 
 	/** Get Payroll Payment Selection Line ID.
-		@return Payroll Payment Selection Line
-	  */
+		@return Payroll Payment Selection Line ID	  */
 	public int getHR_PaySelectionLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_PaySelectionLine_ID);
@@ -224,9 +218,7 @@ public class X_HR_PaySelectionLine extends PO implements I_HR_PaySelectionLine, 
 			.getPO(getHR_PaySelection_ID(), get_TrxName());	}
 
 	/** Set Payroll Payment Selection ID.
-		@param HR_PaySelection_ID 
-		Payroll Payment Selection
-	  */
+		@param HR_PaySelection_ID Payroll Payment Selection ID	  */
 	public void setHR_PaySelection_ID (int HR_PaySelection_ID)
 	{
 		if (HR_PaySelection_ID < 1) 
@@ -236,8 +228,7 @@ public class X_HR_PaySelectionLine extends PO implements I_HR_PaySelectionLine, 
 	}
 
 	/** Get Payroll Payment Selection ID.
-		@return Payroll Payment Selection
-	  */
+		@return Payroll Payment Selection ID	  */
 	public int getHR_PaySelection_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_PaySelection_ID);

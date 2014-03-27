@@ -32,7 +32,7 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140301L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_T_Report (Properties ctx, int T_Report_ID, String trxName)
@@ -689,15 +689,15 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 		return bd;
 	}
 
-	/** Set ReportLineStyle.
-		@param reportlinestyle ReportLineStyle	  */
+	/** Set reportlinestyle.
+		@param reportlinestyle reportlinestyle	  */
 	public void setreportlinestyle (boolean reportlinestyle)
 	{
 		set_Value (COLUMNNAME_reportlinestyle, Boolean.valueOf(reportlinestyle));
 	}
 
-	/** Get ReportLineStyle.
-		@return ReportLineStyle	  */
+	/** Get reportlinestyle.
+		@return reportlinestyle	  */
 	public boolean isreportlinestyle () 
 	{
 		Object oo = get_Value(COLUMNNAME_reportlinestyle);

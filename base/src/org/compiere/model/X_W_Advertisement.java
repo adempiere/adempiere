@@ -31,7 +31,7 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140301L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_W_Advertisement (Properties ctx, int W_Advertisement_ID, String trxName)

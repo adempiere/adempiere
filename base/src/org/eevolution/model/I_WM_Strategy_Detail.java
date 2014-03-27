@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for WM_Strategy_Detail
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.8.0RC
  */
 public interface I_WM_Strategy_Detail 
 {
@@ -31,7 +31,7 @@ public interface I_WM_Strategy_Detail
     /** TableName=WM_Strategy_Detail */
     public static final String Table_Name = "WM_Strategy_Detail";
 
-    /** AD_Table_ID=1000038 */
+    /** AD_Table_ID=53242 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);

@@ -17,23 +17,21 @@
 /** Generated Model - DO NOT CHANGE */
 package org.eevolution.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for WM_Rule
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_WM_Rule extends PO implements I_WM_Rule, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_WM_Rule (Properties ctx, int WM_Rule_ID, String trxName)
@@ -76,21 +74,10 @@ public class X_WM_Rule extends PO implements I_WM_Rule, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Rule getAD_Rule() throws RuntimeException 
+	public org.compiere.model.I_AD_Rule getAD_Rule() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Rule.Table_Name);
-        I_AD_Rule result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Rule)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Rule_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.compiere.model.I_AD_Rule)MTable.get(getCtx(), org.compiere.model.I_AD_Rule.Table_Name)
+			.getPO(getAD_Rule_ID(), get_TrxName());	}
 
 	/** Set Rule.
 		@param AD_Rule_ID Rule	  */
@@ -129,12 +116,12 @@ public class X_WM_Rule extends PO implements I_WM_Rule, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	/** InOutBoundRule AD_Reference_ID=1000010 */
-	public static final int INOUTBOUNDRULE_AD_Reference_ID=1000010;
-	/** Find any locator with available capacity = WMC */
-	public static final String INOUTBOUNDRULE_FindAnyLocatorWithAvailableCapacity = "WMC";
+	/** InOutBoundRule AD_Reference_ID=53322 */
+	public static final int INOUTBOUNDRULE_AD_Reference_ID=53322;
 	/** Custum Interface = WMI */
 	public static final String INOUTBOUNDRULE_CustumInterface = "WMI";
+	/** Find any locator with available capacity = WMC */
+	public static final String INOUTBOUNDRULE_FindAnyLocatorWithAvailableCapacity = "WMC";
 	/** For the material oldest using FIFO = WMF */
 	public static final String INOUTBOUNDRULE_ForTheMaterialOldestUsingFIFO = "WMF";
 	/** For the material most recent using LIFO = WML */
@@ -157,8 +144,8 @@ public class X_WM_Rule extends PO implements I_WM_Rule, I_Persistent
 		return (String)get_Value(COLUMNNAME_InOutBoundRule);
 	}
 
-	/** InOutBoundType AD_Reference_ID=1000009 */
-	public static final int INOUTBOUNDTYPE_AD_Reference_ID=1000009;
+	/** InOutBoundType AD_Reference_ID=53321 */
+	public static final int INOUTBOUNDTYPE_AD_Reference_ID=53321;
 	/** Outbound Operation = O */
 	public static final String INOUTBOUNDTYPE_OutboundOperation = "O";
 	/** Inbound Operation = I */

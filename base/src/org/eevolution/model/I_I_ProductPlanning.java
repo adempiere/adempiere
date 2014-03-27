@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_ProductPlanning
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_I_ProductPlanning 
 {
@@ -120,6 +120,19 @@ public interface I_I_ProductPlanning
 	  */
 	public int getCreatedBy();
 
+    /** Column name DD_NetworkDistribution_ID */
+    public static final String COLUMNNAME_DD_NetworkDistribution_ID = "DD_NetworkDistribution_ID";
+
+	/** Set Network Distribution.
+	  * Identifies a distribution network, distribution networks are used to establish the source and target of the materials in the supply chain
+	  */
+	public void setDD_NetworkDistribution_ID (int DD_NetworkDistribution_ID);
+
+	/** Get Network Distribution.
+	  * Identifies a distribution network, distribution networks are used to establish the source and target of the materials in the supply chain
+	  */
+	public int getDD_NetworkDistribution_ID();
+
     /** Column name DatePromised */
     public static final String COLUMNNAME_DatePromised = "DatePromised";
 
@@ -132,15 +145,6 @@ public interface I_I_ProductPlanning
 	  * Date Order was promised
 	  */
 	public Timestamp getDatePromised();
-
-    /** Column name DD_NetworkDistribution_ID */
-    public static final String COLUMNNAME_DD_NetworkDistribution_ID = "DD_NetworkDistribution_ID";
-
-	/** Set Network Distribution	  */
-	public void setDD_NetworkDistribution_ID (int DD_NetworkDistribution_ID);
-
-	/** Get Network Distribution	  */
-	public int getDD_NetworkDistribution_ID();
 
     /** Column name DeliveryTime_Promised */
     public static final String COLUMNNAME_DeliveryTime_Promised = "DeliveryTime_Promised";
@@ -232,10 +236,14 @@ public interface I_I_ProductPlanning
     /** Column name IsMPS */
     public static final String COLUMNNAME_IsMPS = "IsMPS";
 
-	/** Set Is MPS	  */
+	/** Set Is MPS.
+	  * Indicates if this product is part of the master production schedule
+	  */
 	public void setIsMPS (boolean IsMPS);
 
-	/** Get Is MPS	  */
+	/** Get Is MPS.
+	  * Indicates if this product is part of the master production schedule
+	  */
 	public boolean isMPS();
 
     /** Column name IsPhantom */
@@ -251,21 +259,6 @@ public interface I_I_ProductPlanning
 	  */
 	public boolean isPhantom();
 
-    /** Column name M_Forecast_ID */
-    public static final String COLUMNNAME_M_Forecast_ID = "M_Forecast_ID";
-
-	/** Set Forecast.
-	  * Material Forecast
-	  */
-	public void setM_Forecast_ID (int M_Forecast_ID);
-
-	/** Get Forecast.
-	  * Material Forecast
-	  */
-	public int getM_Forecast_ID();
-
-	public org.compiere.model.I_M_Forecast getM_Forecast() throws RuntimeException;
-
     /** Column name M_ForecastLine_ID */
     public static final String COLUMNNAME_M_ForecastLine_ID = "M_ForecastLine_ID";
 
@@ -280,6 +273,21 @@ public interface I_I_ProductPlanning
 	public int getM_ForecastLine_ID();
 
 	public org.compiere.model.I_M_ForecastLine getM_ForecastLine() throws RuntimeException;
+
+    /** Column name M_Forecast_ID */
+    public static final String COLUMNNAME_M_Forecast_ID = "M_Forecast_ID";
+
+	/** Set Forecast.
+	  * Material Forecast
+	  */
+	public void setM_Forecast_ID (int M_Forecast_ID);
+
+	/** Get Forecast.
+	  * Material Forecast
+	  */
+	public int getM_Forecast_ID();
+
+	public org.compiere.model.I_M_Forecast getM_Forecast() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -366,28 +374,40 @@ public interface I_I_ProductPlanning
     /** Column name Order_Period */
     public static final String COLUMNNAME_Order_Period = "Order_Period";
 
-	/** Set Order Period	  */
+	/** Set Order Period.
+	  * Order Period
+	  */
 	public void setOrder_Period (BigDecimal Order_Period);
 
-	/** Get Order Period	  */
+	/** Get Order Period.
+	  * Order Period
+	  */
 	public BigDecimal getOrder_Period();
 
     /** Column name Order_Policy */
     public static final String COLUMNNAME_Order_Policy = "Order_Policy";
 
-	/** Set Order Policy	  */
+	/** Set Order Policy.
+	  * Order Policy
+	  */
 	public void setOrder_Policy (String Order_Policy);
 
-	/** Get Order Policy	  */
+	/** Get Order Policy.
+	  * Order Policy
+	  */
 	public String getOrder_Policy();
 
     /** Column name Order_Qty */
     public static final String COLUMNNAME_Order_Qty = "Order_Qty";
 
-	/** Set Order Qty	  */
+	/** Set Order Qty.
+	  * Order Qty
+	  */
 	public void setOrder_Qty (BigDecimal Order_Qty);
 
-	/** Get Order Qty	  */
+	/** Get Order Qty.
+	  * Order Qty
+	  */
 	public BigDecimal getOrder_Qty();
 
     /** Column name OrgValue */
@@ -402,30 +422,6 @@ public interface I_I_ProductPlanning
 	  * Key of the Organization
 	  */
 	public String getOrgValue();
-
-    /** Column name Planner_ID */
-    public static final String COLUMNNAME_Planner_ID = "Planner_ID";
-
-	/** Set Planner	  */
-	public void setPlanner_ID (int Planner_ID);
-
-	/** Get Planner	  */
-	public int getPlanner_ID();
-
-	public org.compiere.model.I_AD_User getPlanner() throws RuntimeException;
-
-    /** Column name PlannerValue */
-    public static final String COLUMNNAME_PlannerValue = "PlannerValue";
-
-	/** Set Planner Key.
-	  * Search Key of the Planning
-	  */
-	public void setPlannerValue (String PlannerValue);
-
-	/** Get Planner Key.
-	  * Search Key of the Planning
-	  */
-	public String getPlannerValue();
 
     /** Column name PP_Product_BOM_ID */
     public static final String COLUMNNAME_PP_Product_BOM_ID = "PP_Product_BOM_ID";
@@ -445,13 +441,45 @@ public interface I_I_ProductPlanning
     /** Column name PP_Product_Planning_ID */
     public static final String COLUMNNAME_PP_Product_Planning_ID = "PP_Product_Planning_ID";
 
-	/** Set Product Planning	  */
+	/** Set Product Planning.
+	  * Product Planning
+	  */
 	public void setPP_Product_Planning_ID (int PP_Product_Planning_ID);
 
-	/** Get Product Planning	  */
+	/** Get Product Planning.
+	  * Product Planning
+	  */
 	public int getPP_Product_Planning_ID();
 
 	public org.eevolution.model.I_PP_Product_Planning getPP_Product_Planning() throws RuntimeException;
+
+    /** Column name PlannerValue */
+    public static final String COLUMNNAME_PlannerValue = "PlannerValue";
+
+	/** Set Planner Key.
+	  * Search Key of the Planning
+	  */
+	public void setPlannerValue (String PlannerValue);
+
+	/** Get Planner Key.
+	  * Search Key of the Planning
+	  */
+	public String getPlannerValue();
+
+    /** Column name Planner_ID */
+    public static final String COLUMNNAME_Planner_ID = "Planner_ID";
+
+	/** Set Planner.
+	  * Company Agent for Planning
+	  */
+	public void setPlanner_ID (int Planner_ID);
+
+	/** Get Planner.
+	  * Company Agent for Planning
+	  */
+	public int getPlanner_ID();
+
+	public org.compiere.model.I_AD_User getPlanner() throws RuntimeException;
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
@@ -475,19 +503,6 @@ public interface I_I_ProductPlanning
 	/** Get Process Now	  */
 	public boolean isProcessing();
 
-    /** Column name Product_BOM_Value */
-    public static final String COLUMNNAME_Product_BOM_Value = "Product_BOM_Value";
-
-	/** Set Product BOM Key.
-	  * Key of Product BOM
-	  */
-	public void setProduct_BOM_Value (String Product_BOM_Value);
-
-	/** Get Product BOM Key.
-	  * Key of Product BOM
-	  */
-	public String getProduct_BOM_Value();
-
     /** Column name ProductValue */
     public static final String COLUMNNAME_ProductValue = "ProductValue";
 
@@ -500,6 +515,19 @@ public interface I_I_ProductPlanning
 	  * Key of the Product
 	  */
 	public String getProductValue();
+
+    /** Column name Product_BOM_Value */
+    public static final String COLUMNNAME_Product_BOM_Value = "Product_BOM_Value";
+
+	/** Set Product BOM Key.
+	  * Key of Product BOM
+	  */
+	public void setProduct_BOM_Value (String Product_BOM_Value);
+
+	/** Get Product BOM Key.
+	  * Key of Product BOM
+	  */
+	public String getProduct_BOM_Value();
 
     /** Column name Qty */
     public static final String COLUMNNAME_Qty = "Qty";
@@ -527,6 +555,21 @@ public interface I_I_ProductPlanning
 	  */
 	public String getResourceValue();
 
+    /** Column name S_Resource_ID */
+    public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";
+
+	/** Set Resource.
+	  * Resource
+	  */
+	public void setS_Resource_ID (int S_Resource_ID);
+
+	/** Get Resource.
+	  * Resource
+	  */
+	public int getS_Resource_ID();
+
+	public org.compiere.model.I_S_Resource getS_Resource() throws RuntimeException;
+
     /** Column name SafetyStock */
     public static final String COLUMNNAME_SafetyStock = "SafetyStock";
 
@@ -553,38 +596,31 @@ public interface I_I_ProductPlanning
 	  */
 	public int getSalesRep_ID();
 
-    /** Column name S_Resource_ID */
-    public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";
-
-	/** Set Resource.
-	  * Resource
-	  */
-	public void setS_Resource_ID (int S_Resource_ID);
-
-	/** Get Resource.
-	  * Resource
-	  */
-	public int getS_Resource_ID();
-
-	public org.compiere.model.I_S_Resource getS_Resource() throws RuntimeException;
-
     /** Column name TimeFence */
     public static final String COLUMNNAME_TimeFence = "TimeFence";
 
-	/** Set Time Fence	  */
+	/** Set Time Fence.
+	  * The Time Fence is the number of days since you execute the MRP process inside of which  the system must not change the planned orders. 
+	  */
 	public void setTimeFence (BigDecimal TimeFence);
 
-	/** Get Time Fence	  */
+	/** Get Time Fence.
+	  * The Time Fence is the number of days since you execute the MRP process inside of which  the system must not change the planned orders. 
+	  */
 	public BigDecimal getTimeFence();
 
-    /** Column name TransfertTime */
-    public static final String COLUMNNAME_TransfertTime = "TransfertTime";
+    /** Column name TransferTime */
+    public static final String COLUMNNAME_TransferTime = "TransferTime";
 
-	/** Set Transfert Time	  */
-	public void setTransfertTime (BigDecimal TransfertTime);
+	/** Set Transfer Time.
+	  * Transfer Time
+	  */
+	public void setTransferTime (BigDecimal TransferTime);
 
-	/** Get Transfert Time	  */
-	public BigDecimal getTransfertTime();
+	/** Get Transfer Time.
+	  * Transfer Time
+	  */
+	public BigDecimal getTransferTime();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

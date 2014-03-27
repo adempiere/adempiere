@@ -34,7 +34,7 @@ public class X_C_CashFlow extends PO implements I_C_CashFlow, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131101L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_C_CashFlow (Properties ctx, int C_CashFlow_ID, String trxName)

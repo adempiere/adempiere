@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for WM_Section_Type
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.8.0RC
  */
 public interface I_WM_Section_Type 
 {
@@ -31,7 +31,7 @@ public interface I_WM_Section_Type
     /** TableName=WM_Section_Type */
     public static final String Table_Name = "WM_Section_Type";
 
-    /** AD_Table_ID=1000041 */
+    /** AD_Table_ID=53239 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);

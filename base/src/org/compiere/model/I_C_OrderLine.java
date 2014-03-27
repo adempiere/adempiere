@@ -809,9 +809,9 @@ public interface I_C_OrderLine
     /** Column name createshipment */
     public static final String COLUMNNAME_createshipment = "createshipment";
 
-	/** Set Create Shipment	  */
+	/** Set createshipment	  */
 	public void setcreateshipment (String createshipment);
 
-	/** Get Create Shipment	  */
+	/** Get createshipment	  */
 	public String getcreateshipment();
 }

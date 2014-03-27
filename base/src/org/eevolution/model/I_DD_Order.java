@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for DD_Order
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_DD_Order 
 {
@@ -50,19 +50,6 @@ public interface I_DD_Order
 	  */
 	public int getAD_Client_ID();
 
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
-
     /** Column name AD_OrgTrx_ID */
     public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
 
@@ -75,6 +62,19 @@ public interface I_DD_Order
 	  * Performing or initiating organization
 	  */
 	public int getAD_OrgTrx_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
 
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
@@ -181,19 +181,6 @@ public interface I_DD_Order
 
 	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
 
-    /** Column name ChargeAmt */
-    public static final String COLUMNNAME_ChargeAmt = "ChargeAmt";
-
-	/** Set Charge amount.
-	  * Charge Amount
-	  */
-	public void setChargeAmt (BigDecimal ChargeAmt);
-
-	/** Get Charge amount.
-	  * Charge Amount
-	  */
-	public BigDecimal getChargeAmt();
-
     /** Column name C_Invoice_ID */
     public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
 
@@ -239,6 +226,19 @@ public interface I_DD_Order
 
 	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
 
+    /** Column name ChargeAmt */
+    public static final String COLUMNNAME_ChargeAmt = "ChargeAmt";
+
+	/** Set Charge amount.
+	  * Charge Amount
+	  */
+	public void setChargeAmt (BigDecimal ChargeAmt);
+
+	/** Get Charge amount.
+	  * Charge Amount
+	  */
+	public BigDecimal getChargeAmt();
+
     /** Column name CreateConfirm */
     public static final String COLUMNNAME_CreateConfirm = "CreateConfirm";
 
@@ -247,22 +247,6 @@ public interface I_DD_Order
 
 	/** Get Create Confirm	  */
 	public String getCreateConfirm();
-
-    /** Column name Created */
-    public static final String COLUMNNAME_Created = "Created";
-
-	/** Get Created.
-	  * Date this record was created
-	  */
-	public Timestamp getCreated();
-
-    /** Column name CreatedBy */
-    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
-
-	/** Get Created By.
-	  * User who created this records
-	  */
-	public int getCreatedBy();
 
     /** Column name CreateFrom */
     public static final String COLUMNNAME_CreateFrom = "CreateFrom";
@@ -285,6 +269,31 @@ public interface I_DD_Order
 
 	/** Get Create Package	  */
 	public String getCreatePackage();
+
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
+
+	/** Get Created.
+	  * Date this record was created
+	  */
+	public Timestamp getCreated();
+
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
+	  */
+	public int getCreatedBy();
+
+    /** Column name DD_Order_ID */
+    public static final String COLUMNNAME_DD_Order_ID = "DD_Order_ID";
+
+	/** Set Distribution Order	  */
+	public void setDD_Order_ID (int DD_Order_ID);
+
+	/** Get Distribution Order	  */
+	public int getDD_Order_ID();
 
     /** Column name DateOrdered */
     public static final String COLUMNNAME_DateOrdered = "DateOrdered";
@@ -337,15 +346,6 @@ public interface I_DD_Order
 	  * Date a product was received
 	  */
 	public Timestamp getDateReceived();
-
-    /** Column name DD_Order_ID */
-    public static final String COLUMNNAME_DD_Order_ID = "DD_Order_ID";
-
-	/** Set Distribution Order	  */
-	public void setDD_Order_ID (int DD_Order_ID);
-
-	/** Get Distribution Order	  */
-	public int getDD_Order_ID();
 
     /** Column name DeliveryRule */
     public static final String COLUMNNAME_DeliveryRule = "DeliveryRule";
@@ -551,15 +551,6 @@ public interface I_DD_Order
 	  */
 	public boolean isPrinted();
 
-    /** Column name IsSelected */
-    public static final String COLUMNNAME_IsSelected = "IsSelected";
-
-	/** Set Selected	  */
-	public void setIsSelected (boolean IsSelected);
-
-	/** Get Selected	  */
-	public boolean isSelected();
-
     /** Column name IsSOTrx */
     public static final String COLUMNNAME_IsSOTrx = "IsSOTrx";
 
@@ -572,6 +563,15 @@ public interface I_DD_Order
 	  * This is a Sales Transaction
 	  */
 	public boolean isSOTrx();
+
+    /** Column name IsSelected */
+    public static final String COLUMNNAME_IsSelected = "IsSelected";
+
+	/** Set Selected	  */
+	public void setIsSelected (boolean IsSelected);
+
+	/** Get Selected	  */
+	public boolean isSelected();
 
     /** Column name M_Shipper_ID */
     public static final String COLUMNNAME_M_Shipper_ID = "M_Shipper_ID";
@@ -616,19 +616,6 @@ public interface I_DD_Order
 	  */
 	public int getNoPackages();
 
-    /** Column name PickDate */
-    public static final String COLUMNNAME_PickDate = "PickDate";
-
-	/** Set Pick Date.
-	  * Date/Time when picked for Shipment
-	  */
-	public void setPickDate (Timestamp PickDate);
-
-	/** Get Pick Date.
-	  * Date/Time when picked for Shipment
-	  */
-	public Timestamp getPickDate();
-
     /** Column name POReference */
     public static final String COLUMNNAME_POReference = "POReference";
 
@@ -641,6 +628,19 @@ public interface I_DD_Order
 	  * Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
 	  */
 	public String getPOReference();
+
+    /** Column name PickDate */
+    public static final String COLUMNNAME_PickDate = "PickDate";
+
+	/** Set Pick Date.
+	  * Date/Time when picked for Shipment
+	  */
+	public void setPickDate (Timestamp PickDate);
+
+	/** Get Pick Date.
+	  * Date/Time when picked for Shipment
+	  */
+	public Timestamp getPickDate();
 
     /** Column name Posted */
     public static final String COLUMNNAME_Posted = "Posted";

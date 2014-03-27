@@ -23,14 +23,14 @@ import org.compiere.model.*;
 
 /** Generated Model for AD_Browse_Access
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_AD_Browse_Access extends PO implements I_AD_Browse_Access, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130410L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_AD_Browse_Access (Properties ctx, int AD_Browse_Access_ID, String trxName)

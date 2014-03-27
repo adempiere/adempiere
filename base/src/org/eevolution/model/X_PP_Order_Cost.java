@@ -25,14 +25,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for PP_Order_Cost
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_PP_Order_Cost extends PO implements I_PP_Order_Cost, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_PP_Order_Cost (Properties ctx, int PP_Order_Cost_ID, String trxName)
@@ -264,7 +264,7 @@ public class X_PP_Order_Cost extends PO implements I_PP_Order_Cost, I_Persistent
 		return bd;
 	}
 
-	/** Set Current Cost Price Lower Level.
+	/** Set Current Cost Price LL.
 		@param CurrentCostPriceLL 
 		Current Price Lower Level Is the sum of the costs of the components of this product manufactured for this level.
 	  */
@@ -273,7 +273,7 @@ public class X_PP_Order_Cost extends PO implements I_PP_Order_Cost, I_Persistent
 		set_ValueNoCheck (COLUMNNAME_CurrentCostPriceLL, CurrentCostPriceLL);
 	}
 
-	/** Get Current Cost Price Lower Level.
+	/** Get Current Cost Price LL.
 		@return Current Price Lower Level Is the sum of the costs of the components of this product manufactured for this level.
 	  */
 	public BigDecimal getCurrentCostPriceLL () 

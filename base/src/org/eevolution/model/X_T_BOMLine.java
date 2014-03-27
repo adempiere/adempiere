@@ -26,14 +26,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for T_BOMLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.1RC - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20120927L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_T_BOMLine (Properties ctx, int T_BOMLine_ID, String trxName)
@@ -228,7 +228,7 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 		return bd;
 	}
 
-	/** Set Current Cost Price Lower Level.
+	/** Set Current Cost Price LL.
 		@param CurrentCostPriceLL 
 		Current Price Lower Level Is the sum of the costs of the components of this product manufactured for this level.
 	  */
@@ -237,7 +237,7 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 		set_Value (COLUMNNAME_CurrentCostPriceLL, CurrentCostPriceLL);
 	}
 
-	/** Get Current Cost Price Lower Level.
+	/** Get Current Cost Price LL.
 		@return Current Price Lower Level Is the sum of the costs of the components of this product manufactured for this level.
 	  */
 	public BigDecimal getCurrentCostPriceLL () 
@@ -282,15 +282,15 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 		return bd;
 	}
 
-	/** Set Future Cost Price Lower Level.
-		@param FutureCostPriceLL Future Cost Price Lower Level	  */
+	/** Set Future Cost Price LL.
+		@param FutureCostPriceLL Future Cost Price LL	  */
 	public void setFutureCostPriceLL (BigDecimal FutureCostPriceLL)
 	{
 		set_Value (COLUMNNAME_FutureCostPriceLL, FutureCostPriceLL);
 	}
 
-	/** Get Future Cost Price Lower Level.
-		@return Future Cost Price Lower Level	  */
+	/** Get Future Cost Price LL.
+		@return Future Cost Price LL	  */
 	public BigDecimal getFutureCostPriceLL () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_FutureCostPriceLL);

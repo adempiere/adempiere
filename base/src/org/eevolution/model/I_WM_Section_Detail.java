@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for WM_Section_Detail
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.8.0RC
  */
 public interface I_WM_Section_Detail 
 {
@@ -31,7 +31,7 @@ public interface I_WM_Section_Detail
     /** TableName=WM_Section_Detail */
     public static final String Table_Name = "WM_Section_Detail";
 
-    /** AD_Table_ID=1000036 */
+    /** AD_Table_ID=53236 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -104,6 +104,8 @@ public interface I_WM_Section_Detail
 	  * Warehouse Locator
 	  */
 	public int getM_Locator_ID();
+
+	public I_M_Locator getM_Locator() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

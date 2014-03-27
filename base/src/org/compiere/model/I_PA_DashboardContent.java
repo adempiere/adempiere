@@ -249,10 +249,10 @@ public interface I_PA_DashboardContent
     /** Column name PageSize */
     public static final String COLUMNNAME_PageSize = "PageSize";
 
-	/** Set Page Size	  */
+	/** Set PageSize	  */
 	public void setPageSize (BigDecimal PageSize);
 
-	/** Get Page Size	  */
+	/** Get PageSize	  */
 	public BigDecimal getPageSize();
 
     /** Column name Updated */
@@ -320,9 +320,9 @@ public interface I_PA_DashboardContent
     /** Column name onevent */
     public static final String COLUMNNAME_onevent = "onevent";
 
-	/** Set On Event	  */
+	/** Set onevent	  */
 	public void setonevent (String onevent);
 
-	/** Get On Event	  */
+	/** Get onevent	  */
 	public String getonevent();
 }

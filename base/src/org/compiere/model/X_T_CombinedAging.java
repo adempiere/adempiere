@@ -32,7 +32,7 @@ public class X_T_CombinedAging extends PO implements I_T_CombinedAging, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140301L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_T_CombinedAging (Properties ctx, int T_CombinedAging_ID, String trxName)
@@ -154,16 +154,13 @@ public class X_T_CombinedAging extends PO implements I_T_CombinedAging, I_Persis
 	}
 
 	/** Set Open Posted Amount.
-		@param AmtAcctOpenPosted 
-		The calculated open amount of the posted account entry in the currency of Accouting Schema.
-	  */
+		@param AmtAcctOpenPosted Open Posted Amount	  */
 	public void setAmtAcctOpenPosted (BigDecimal AmtAcctOpenPosted)
 	{
 		throw new IllegalArgumentException ("AmtAcctOpenPosted is virtual column");	}
 
 	/** Get Open Posted Amount.
-		@return The calculated open amount of the posted account entry in the currency of Accouting Schema.
-	  */
+		@return Open Posted Amount	  */
 	public BigDecimal getAmtAcctOpenPosted () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_AmtAcctOpenPosted);
@@ -173,16 +170,13 @@ public class X_T_CombinedAging extends PO implements I_T_CombinedAging, I_Persis
 	}
 
 	/** Set Open Source Amount.
-		@param AmtAcctOpenSource 
-		The calculated open amount in document source currency 
-	  */
+		@param AmtAcctOpenSource Open Source Amount	  */
 	public void setAmtAcctOpenSource (BigDecimal AmtAcctOpenSource)
 	{
 		throw new IllegalArgumentException ("AmtAcctOpenSource is virtual column");	}
 
 	/** Get Open Source Amount.
-		@return The calculated open amount in document source currency 
-	  */
+		@return Open Source Amount	  */
 	public BigDecimal getAmtAcctOpenSource () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_AmtAcctOpenSource);

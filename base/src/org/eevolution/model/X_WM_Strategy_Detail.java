@@ -17,23 +17,20 @@
 /** Generated Model - DO NOT CHANGE */
 package org.eevolution.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.model.*;
-import org.compiere.util.KeyNamePair;
 
 /** Generated Model for WM_Strategy_Detail
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_WM_Strategy_Detail extends PO implements I_WM_Strategy_Detail, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_WM_Strategy_Detail (Properties ctx, int WM_Strategy_Detail_ID, String trxName)
@@ -93,21 +90,10 @@ public class X_WM_Strategy_Detail extends PO implements I_WM_Strategy_Detail, I_
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_WM_Rule getWM_Rule() throws RuntimeException 
+	public org.eevolution.model.I_WM_Rule getWM_Rule() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(org.eevolution.model.I_WM_Rule.Table_Name);
-        org.eevolution.model.I_WM_Rule result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.eevolution.model.I_WM_Rule)constructor.newInstance(new Object[] {getCtx(), new Integer(getWM_Rule_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.eevolution.model.I_WM_Rule)MTable.get(getCtx(), org.eevolution.model.I_WM_Rule.Table_Name)
+			.getPO(getWM_Rule_ID(), get_TrxName());	}
 
 	/** Set Inbound & Outbound Rule.
 		@param WM_Rule_ID Inbound & Outbound Rule	  */
@@ -149,29 +135,10 @@ public class X_WM_Strategy_Detail extends PO implements I_WM_Strategy_Detail, I_
 		return ii.intValue();
 	}
 
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
+	public org.eevolution.model.I_WM_Strategy getWM_Strategy() throws RuntimeException
     {
-        return new KeyNamePair(get_ID(), String.valueOf(getWM_Strategy_Detail_ID()));
-    }
-
-	public org.eevolution.model.I_WM_Strategy getWM_Strategy() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(org.eevolution.model.I_WM_Strategy.Table_Name);
-        org.eevolution.model.I_WM_Strategy result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.eevolution.model.I_WM_Strategy)constructor.newInstance(new Object[] {getCtx(), new Integer(getWM_Strategy_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.eevolution.model.I_WM_Strategy)MTable.get(getCtx(), org.eevolution.model.I_WM_Strategy.Table_Name)
+			.getPO(getWM_Strategy_ID(), get_TrxName());	}
 
 	/** Set Warehouse Managamet Strategy.
 		@param WM_Strategy_ID Warehouse Managamet Strategy	  */

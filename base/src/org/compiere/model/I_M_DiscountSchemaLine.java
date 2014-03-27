@@ -137,19 +137,19 @@ public interface I_M_DiscountSchemaLine
     /** Column name Group1 */
     public static final String COLUMNNAME_Group1 = "Group1";
 
-	/** Set Group 1	  */
+	/** Set Group1	  */
 	public void setGroup1 (String Group1);
 
-	/** Get Group 1	  */
+	/** Get Group1	  */
 	public String getGroup1();
 
     /** Column name Group2 */
     public static final String COLUMNNAME_Group2 = "Group2";
 
-	/** Set Group 2	  */
+	/** Set Group2	  */
 	public void setGroup2 (String Group2);
 
-	/** Get Group 2	  */
+	/** Get Group2	  */
 	public String getGroup2();
 
     /** Column name IsActive */

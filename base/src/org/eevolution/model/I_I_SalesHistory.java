@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_SalesHistory
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_I_SalesHistory 
 {
@@ -505,14 +505,10 @@ public interface I_I_SalesHistory
     /** Column name Processing */
     public static final String COLUMNNAME_Processing = "Processing";
 
-	/** Set Process Now.
-	  * This process allows to import the sales statistics by using a predefined import format,  inside the application.
-	  */
+	/** Set Process Now	  */
 	public void setProcessing (boolean Processing);
 
-	/** Get Process Now.
-	  * This process allows to import the sales statistics by using a predefined import format,  inside the application.
-	  */
+	/** Get Process Now	  */
 	public boolean isProcessing();
 
     /** Column name ProductValue */

@@ -31,7 +31,7 @@ public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140301L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_CM_Ad (Properties ctx, int CM_Ad_ID, String trxName)

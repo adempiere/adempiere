@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PP_ForecastDefinitionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_PP_ForecastDefinitionLine extends PO implements I_PP_ForecastDefinitionLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20120716L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_PP_ForecastDefinitionLine (Properties ctx, int PP_ForecastDefinitionLine_ID, String trxName)
@@ -189,7 +189,7 @@ public class X_PP_ForecastDefinitionLine extends PO implements I_PP_ForecastDefi
 
 	/** Set Factor Alpha.
 		@param FactorAlpha 
-		Identifies a Factor Alpha
+		Identifies an Factor Alpha
 	  */
 	public void setFactorAlpha (BigDecimal FactorAlpha)
 	{
@@ -197,7 +197,7 @@ public class X_PP_ForecastDefinitionLine extends PO implements I_PP_ForecastDefi
 	}
 
 	/** Get Factor Alpha.
-		@return Identifies a Factor Alpha
+		@return Identifies an Factor Alpha
 	  */
 	public BigDecimal getFactorAlpha () 
 	{

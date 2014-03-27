@@ -17,23 +17,20 @@
 /** Generated Model - DO NOT CHANGE */
 package org.eevolution.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.model.*;
-import org.compiere.util.KeyNamePair;
 
 /** Generated Model for WM_Section_Detail
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_WM_Section_Detail extends PO implements I_WM_Section_Detail, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_WM_Section_Detail (Properties ctx, int WM_Section_Detail_ID, String trxName)
@@ -74,6 +71,11 @@ public class X_WM_Section_Detail extends PO implements I_WM_Section_Detail, I_Pe
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	public I_M_Locator getM_Locator() throws RuntimeException
+    {
+		return (I_M_Locator)MTable.get(getCtx(), I_M_Locator.Table_Name)
+			.getPO(getM_Locator_ID(), get_TrxName());	}
 
 	/** Set Locator.
 		@param M_Locator_ID 
@@ -121,29 +123,10 @@ public class X_WM_Section_Detail extends PO implements I_WM_Section_Detail, I_Pe
 		return ii.intValue();
 	}
 
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
+	public org.eevolution.model.I_WM_Section getWM_Section() throws RuntimeException
     {
-        return new KeyNamePair(get_ID(), String.valueOf(getWM_Section_Detail_ID()));
-    }
-
-	public org.eevolution.model.I_WM_Section getWM_Section() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(org.eevolution.model.I_WM_Section.Table_Name);
-        org.eevolution.model.I_WM_Section result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.eevolution.model.I_WM_Section)constructor.newInstance(new Object[] {getCtx(), new Integer(getWM_Section_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.eevolution.model.I_WM_Section)MTable.get(getCtx(), org.eevolution.model.I_WM_Section.Table_Name)
+			.getPO(getWM_Section_ID(), get_TrxName());	}
 
 	/** Set Warehouse Section.
 		@param WM_Section_ID 

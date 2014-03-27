@@ -30,7 +30,7 @@ public class X_AD_Form extends PO implements I_AD_Form, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140301L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_AD_Form (Properties ctx, int AD_Form_ID, String trxName)

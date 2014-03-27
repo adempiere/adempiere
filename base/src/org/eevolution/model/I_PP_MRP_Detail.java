@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_MRP_Detail
  *  @author Adempiere (generated) 
- *  @version Release 3.7.1RC
+ *  @version Release 3.8.0RC
  */
 public interface I_PP_MRP_Detail 
 {
@@ -121,10 +121,14 @@ public interface I_PP_MRP_Detail
     /** Column name PP_MRP_Detail_ID */
     public static final String COLUMNNAME_PP_MRP_Detail_ID = "PP_MRP_Detail_ID";
 
-	/** Set MRP Detail ID ID	  */
+	/** Set MRP Detail ID.
+	  * Contains the supplies chronological relationships for each demand.
+	  */
 	public void setPP_MRP_Detail_ID (int PP_MRP_Detail_ID);
 
-	/** Get MRP Detail ID ID	  */
+	/** Get MRP Detail ID.
+	  * Contains the supplies chronological relationships for each demand.
+	  */
 	public int getPP_MRP_Detail_ID();
 
     /** Column name Qty */

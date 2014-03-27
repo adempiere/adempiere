@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_Product_ASI
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_I_Product_ASI 
 {
@@ -31,7 +31,7 @@ public interface I_I_Product_ASI
     /** TableName=I_Product_ASI */
     public static final String Table_Name = "I_Product_ASI";
 
-    /** AD_Table_ID=1000001 */
+    /** AD_Table_ID=53775 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);

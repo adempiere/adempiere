@@ -25,14 +25,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for PP_ForecastRunLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_PP_ForecastRunLine extends PO implements I_PP_ForecastRunLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20120716L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_PP_ForecastRunLine (Properties ctx, int PP_ForecastRunLine_ID, String trxName)
@@ -129,8 +129,10 @@ public class X_PP_ForecastRunLine extends PO implements I_PP_ForecastRunLine, I_
 		return ii.intValue();
 	}
 
-	/** Set Forecast Run Line ID.
-		@param PP_ForecastRunLine_ID Forecast Run Line ID	  */
+	/** Set Forecast Run Line.
+		@param PP_ForecastRunLine_ID 
+		Contains the forecasting calculation results based on forecast definition.
+	  */
 	public void setPP_ForecastRunLine_ID (int PP_ForecastRunLine_ID)
 	{
 		if (PP_ForecastRunLine_ID < 1) 
@@ -139,8 +141,9 @@ public class X_PP_ForecastRunLine extends PO implements I_PP_ForecastRunLine, I_
 			set_ValueNoCheck (COLUMNNAME_PP_ForecastRunLine_ID, Integer.valueOf(PP_ForecastRunLine_ID));
 	}
 
-	/** Get Forecast Run Line ID.
-		@return Forecast Run Line ID	  */
+	/** Get Forecast Run Line.
+		@return Contains the forecasting calculation results based on forecast definition.
+	  */
 	public int getPP_ForecastRunLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_ForecastRunLine_ID);

@@ -32,7 +32,7 @@ public class X_C_DunningRunLine extends PO implements I_C_DunningRunLine, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140301L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_C_DunningRunLine (Properties ctx, int C_DunningRunLine_ID, String trxName)

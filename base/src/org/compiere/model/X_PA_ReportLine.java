@@ -32,7 +32,7 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140301L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_PA_ReportLine (Properties ctx, int PA_ReportLine_ID, String trxName)
@@ -485,16 +485,16 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
 	public static final String REPORTLINESTYLE_TotalLine = "X";
 	/** Centered Title = T */
 	public static final String REPORTLINESTYLE_CenteredTitle = "T";
-	/** Set Report Line Style.
-		@param reportlinestyle Report Line Style	  */
+	/** Set reportlinestyle.
+		@param reportlinestyle reportlinestyle	  */
 	public void setreportlinestyle (String reportlinestyle)
 	{
 
 		set_Value (COLUMNNAME_reportlinestyle, reportlinestyle);
 	}
 
-	/** Get Report Line Style.
-		@return Report Line Style	  */
+	/** Get reportlinestyle.
+		@return reportlinestyle	  */
 	public String getreportlinestyle () 
 	{
 		return (String)get_Value(COLUMNNAME_reportlinestyle);

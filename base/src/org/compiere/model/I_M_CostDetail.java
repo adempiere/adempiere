@@ -192,12 +192,12 @@ public interface I_M_CostDetail
     /** Column name CostAdjustmentDateLL */
     public static final String COLUMNNAME_CostAdjustmentDateLL = "CostAdjustmentDateLL";
 
-	/** Set Cost Adjustment Date LL.
+	/** Set Cost Adjustment Date.
 	  * Date Product Cost Adjustment Lower Level
 	  */
 	public void setCostAdjustmentDateLL (Timestamp CostAdjustmentDateLL);
 
-	/** Get Cost Adjustment Date LL.
+	/** Get Cost Adjustment Date.
 	  * Date Product Cost Adjustment Lower Level
 	  */
 	public Timestamp getCostAdjustmentDateLL();

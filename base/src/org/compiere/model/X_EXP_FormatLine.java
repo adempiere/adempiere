@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for EXP_FormatLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_EXP_FormatLine (Properties ctx, int EXP_FormatLine_ID, String trxName)
@@ -185,6 +185,26 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
 		return ii.intValue();
 	}
 
+	/** Set Format Line.
+		@param EXP_FormatLine_ID Format Line	  */
+	public void setEXP_FormatLine_ID (int EXP_FormatLine_ID)
+	{
+		if (EXP_FormatLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_EXP_FormatLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_EXP_FormatLine_ID, Integer.valueOf(EXP_FormatLine_ID));
+	}
+
+	/** Get Format Line.
+		@return Format Line	  */
+	public int getEXP_FormatLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_EXP_FormatLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_EXP_Format getEXP_Format() throws RuntimeException
     {
 		return (org.compiere.model.I_EXP_Format)MTable.get(getCtx(), org.compiere.model.I_EXP_Format.Table_Name)
@@ -205,26 +225,6 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
 	public int getEXP_Format_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_EXP_Format_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Format Line.
-		@param EXP_FormatLine_ID Format Line	  */
-	public void setEXP_FormatLine_ID (int EXP_FormatLine_ID)
-	{
-		if (EXP_FormatLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_EXP_FormatLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_EXP_FormatLine_ID, Integer.valueOf(EXP_FormatLine_ID));
-	}
-
-	/** Get Format Line.
-		@return Format Line	  */
-	public int getEXP_FormatLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_EXP_FormatLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

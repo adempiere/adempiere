@@ -32,7 +32,7 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140301L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_M_CostDetail (Properties ctx, int M_CostDetail_ID, String trxName)
@@ -297,7 +297,7 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_CostAdjustmentDate);
 	}
 
-	/** Set Cost Adjustment Date LL.
+	/** Set Cost Adjustment Date.
 		@param CostAdjustmentDateLL 
 		Date Product Cost Adjustment Lower Level
 	  */
@@ -306,7 +306,7 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 		set_Value (COLUMNNAME_CostAdjustmentDateLL, CostAdjustmentDateLL);
 	}
 
-	/** Get Cost Adjustment Date LL.
+	/** Get Cost Adjustment Date.
 		@return Date Product Cost Adjustment Lower Level
 	  */
 	public Timestamp getCostAdjustmentDateLL () 

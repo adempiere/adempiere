@@ -31,7 +31,7 @@ public class X_C_Subscription extends PO implements I_C_Subscription, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140301L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_C_Subscription (Properties ctx, int C_Subscription_ID, String trxName)

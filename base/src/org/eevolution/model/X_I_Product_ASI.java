@@ -23,14 +23,14 @@ import org.compiere.model.*;
 
 /** Generated Model for I_Product_ASI
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_I_Product_ASI extends PO implements I_I_Product_ASI, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20120806L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_I_Product_ASI (Properties ctx, int I_Product_ASI_ID, String trxName)
@@ -466,9 +466,9 @@ public class X_I_Product_ASI extends PO implements I_I_Product_ASI, I_Persistent
 	public void setM_AttributeSearch_ID (int M_AttributeSearch_ID)
 	{
 		if (M_AttributeSearch_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_AttributeSearch_ID, null);
+			set_Value (COLUMNNAME_M_AttributeSearch_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_M_AttributeSearch_ID, Integer.valueOf(M_AttributeSearch_ID));
+			set_Value (COLUMNNAME_M_AttributeSearch_ID, Integer.valueOf(M_AttributeSearch_ID));
 	}
 
 	/** Get Attribute Search.
@@ -522,9 +522,9 @@ public class X_I_Product_ASI extends PO implements I_I_Product_ASI, I_Persistent
 	public void setM_AttributeSet_ID (int M_AttributeSet_ID)
 	{
 		if (M_AttributeSet_ID < 0) 
-			set_ValueNoCheck (COLUMNNAME_M_AttributeSet_ID, null);
+			set_Value (COLUMNNAME_M_AttributeSet_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_M_AttributeSet_ID, Integer.valueOf(M_AttributeSet_ID));
+			set_Value (COLUMNNAME_M_AttributeSet_ID, Integer.valueOf(M_AttributeSet_ID));
 	}
 
 	/** Get Attribute Set.
@@ -578,9 +578,9 @@ public class X_I_Product_ASI extends PO implements I_I_Product_ASI, I_Persistent
 	public void setM_Attribute_ID (int M_Attribute_ID)
 	{
 		if (M_Attribute_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_Attribute_ID, null);
+			set_Value (COLUMNNAME_M_Attribute_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_M_Attribute_ID, Integer.valueOf(M_Attribute_ID));
+			set_Value (COLUMNNAME_M_Attribute_ID, Integer.valueOf(M_Attribute_ID));
 	}
 
 	/** Get Attribute.
@@ -606,9 +606,9 @@ public class X_I_Product_ASI extends PO implements I_I_Product_ASI, I_Persistent
 	public void setM_Product_ID (int M_Product_ID)
 	{
 		if (M_Product_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
+			set_Value (COLUMNNAME_M_Product_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.

@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_PaySelectionCheck
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_HR_PaySelectionCheck extends PO implements I_HR_PaySelectionCheck, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110412L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_HR_PaySelectionCheck (Properties ctx, int HR_PaySelectionCheck_ID, String trxName)
@@ -215,9 +215,7 @@ public class X_HR_PaySelectionCheck extends PO implements I_HR_PaySelectionCheck
     }
 
 	/** Set Payroll Pay Selection Check ID.
-		@param HR_PaySelectionCheck_ID 
-		Payroll Payment Selection Check
-	  */
+		@param HR_PaySelectionCheck_ID Payroll Pay Selection Check ID	  */
 	public void setHR_PaySelectionCheck_ID (int HR_PaySelectionCheck_ID)
 	{
 		if (HR_PaySelectionCheck_ID < 1) 
@@ -227,8 +225,7 @@ public class X_HR_PaySelectionCheck extends PO implements I_HR_PaySelectionCheck
 	}
 
 	/** Get Payroll Pay Selection Check ID.
-		@return Payroll Payment Selection Check
-	  */
+		@return Payroll Pay Selection Check ID	  */
 	public int getHR_PaySelectionCheck_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_PaySelectionCheck_ID);
@@ -243,9 +240,7 @@ public class X_HR_PaySelectionCheck extends PO implements I_HR_PaySelectionCheck
 			.getPO(getHR_PaySelection_ID(), get_TrxName());	}
 
 	/** Set Payroll Payment Selection ID.
-		@param HR_PaySelection_ID 
-		Payroll Payment Selection
-	  */
+		@param HR_PaySelection_ID Payroll Payment Selection ID	  */
 	public void setHR_PaySelection_ID (int HR_PaySelection_ID)
 	{
 		if (HR_PaySelection_ID < 1) 
@@ -255,8 +250,7 @@ public class X_HR_PaySelectionCheck extends PO implements I_HR_PaySelectionCheck
 	}
 
 	/** Get Payroll Payment Selection ID.
-		@return Payroll Payment Selection
-	  */
+		@return Payroll Payment Selection ID	  */
 	public int getHR_PaySelection_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_PaySelection_ID);

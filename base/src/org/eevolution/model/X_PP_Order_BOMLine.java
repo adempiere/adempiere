@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PP_Order_BOMLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_PP_Order_BOMLine (Properties ctx, int PP_Order_BOMLine_ID, String trxName)
@@ -48,11 +48,11 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 // @SQL=SELECT COALESCE(MAX(Line),0)+10 AS DefaultValue FROM PP_Order_BOMLine WHERE PP_Order_ID=@PP_Order_ID@
 			setM_Product_ID (0);
 			setM_Warehouse_ID (0);
-			setPP_Order_BOM_ID (0);
 			setPP_Order_BOMLine_ID (0);
+			setPP_Order_BOM_ID (0);
 			setPP_Order_ID (0);
-			setQtyBatch (Env.ZERO);
 			setQtyBOM (Env.ZERO);
+			setQtyBatch (Env.ZERO);
 			setQtyDelivered (Env.ZERO);
 			setQtyPost (Env.ZERO);
 			setQtyReject (Env.ZERO);
@@ -157,6 +157,34 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 		return (String)get_Value(COLUMNNAME_BackflushGroup);
 	}
 
+	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_UOM)MTable.get(getCtx(), org.compiere.model.I_C_UOM.Table_Name)
+			.getPO(getC_UOM_ID(), get_TrxName());	}
+
+	/** Set UOM.
+		@param C_UOM_ID 
+		Unit of Measure
+	  */
+	public void setC_UOM_ID (int C_UOM_ID)
+	{
+		if (C_UOM_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_UOM_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
+	}
+
+	/** Get UOM.
+		@return Unit of Measure
+	  */
+	public int getC_UOM_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_UOM_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** ComponentType AD_Reference_ID=53225 */
 	public static final int COMPONENTTYPE_AD_Reference_ID=53225;
 	/** By-Product = BY */
@@ -213,34 +241,6 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
-	}
-
-	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_UOM)MTable.get(getCtx(), org.compiere.model.I_C_UOM.Table_Name)
-			.getPO(getC_UOM_ID(), get_TrxName());	}
-
-	/** Set UOM.
-		@param C_UOM_ID 
-		Unit of Measure
-	  */
-	public void setC_UOM_ID (int C_UOM_ID)
-	{
-		if (C_UOM_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_UOM_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
-	}
-
-	/** Get UOM.
-		@return Unit of Measure
-	  */
-	public int getC_UOM_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_UOM_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set Date Delivered.
@@ -593,6 +593,26 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 		return ii.intValue();
 	}
 
+	/** Set Manufacturing Order BOM Line.
+		@param PP_Order_BOMLine_ID Manufacturing Order BOM Line	  */
+	public void setPP_Order_BOMLine_ID (int PP_Order_BOMLine_ID)
+	{
+		if (PP_Order_BOMLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PP_Order_BOMLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PP_Order_BOMLine_ID, Integer.valueOf(PP_Order_BOMLine_ID));
+	}
+
+	/** Get Manufacturing Order BOM Line.
+		@return Manufacturing Order BOM Line	  */
+	public int getPP_Order_BOMLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_BOMLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_PP_Order_BOM getPP_Order_BOM() throws RuntimeException
     {
 		return (org.eevolution.model.I_PP_Order_BOM)MTable.get(getCtx(), org.eevolution.model.I_PP_Order_BOM.Table_Name)
@@ -613,26 +633,6 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 	public int getPP_Order_BOM_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_BOM_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Manufacturing Order BOM Line.
-		@param PP_Order_BOMLine_ID Manufacturing Order BOM Line	  */
-	public void setPP_Order_BOMLine_ID (int PP_Order_BOMLine_ID)
-	{
-		if (PP_Order_BOMLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_PP_Order_BOMLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_PP_Order_BOMLine_ID, Integer.valueOf(PP_Order_BOMLine_ID));
-	}
-
-	/** Get Manufacturing Order BOM Line.
-		@return Manufacturing Order BOM Line	  */
-	public int getPP_Order_BOMLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_BOMLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -666,26 +666,6 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 		return ii.intValue();
 	}
 
-	/** Set Quantity in %.
-		@param QtyBatch 
-		Indicate the Quantity % use in this Formula
-	  */
-	public void setQtyBatch (BigDecimal QtyBatch)
-	{
-		set_ValueNoCheck (COLUMNNAME_QtyBatch, QtyBatch);
-	}
-
-	/** Get Quantity in %.
-		@return Indicate the Quantity % use in this Formula
-	  */
-	public BigDecimal getQtyBatch () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyBatch);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	/** Set Quantity.
 		@param QtyBOM 
 		Indicate the Quantity  use in this BOM
@@ -701,6 +681,26 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 	public BigDecimal getQtyBOM () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyBOM);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Quantity in %.
+		@param QtyBatch 
+		Indicate the Quantity % use in this Formula
+	  */
+	public void setQtyBatch (BigDecimal QtyBatch)
+	{
+		set_ValueNoCheck (COLUMNNAME_QtyBatch, QtyBatch);
+	}
+
+	/** Get Quantity in %.
+		@return Indicate the Quantity % use in this Formula
+	  */
+	public BigDecimal getQtyBatch () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyBatch);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;

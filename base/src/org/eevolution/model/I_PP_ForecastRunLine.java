@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_ForecastRunLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_PP_ForecastRunLine 
 {
@@ -125,10 +125,14 @@ public interface I_PP_ForecastRunLine
     /** Column name PP_ForecastRunLine_ID */
     public static final String COLUMNNAME_PP_ForecastRunLine_ID = "PP_ForecastRunLine_ID";
 
-	/** Set Forecast Run Line ID	  */
+	/** Set Forecast Run Line.
+	  * Contains the forecasting calculation results based on forecast definition.
+	  */
 	public void setPP_ForecastRunLine_ID (int PP_ForecastRunLine_ID);
 
-	/** Get Forecast Run Line ID	  */
+	/** Get Forecast Run Line.
+	  * Contains the forecasting calculation results based on forecast definition.
+	  */
 	public int getPP_ForecastRunLine_ID();
 
     /** Column name PP_ForecastRun_ID */

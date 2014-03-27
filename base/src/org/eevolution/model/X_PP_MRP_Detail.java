@@ -25,14 +25,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for PP_MRP_Detail
  *  @author Adempiere (generated) 
- *  @version Release 3.7.1RC - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_PP_MRP_Detail extends PO implements I_PP_MRP_Detail, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20120927L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_PP_MRP_Detail (Properties ctx, int PP_MRP_Detail_ID, String trxName)
@@ -118,8 +118,10 @@ public class X_PP_MRP_Detail extends PO implements I_PP_MRP_Detail, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set MRP Detail ID ID.
-		@param PP_MRP_Detail_ID MRP Detail ID ID	  */
+	/** Set MRP Detail ID.
+		@param PP_MRP_Detail_ID 
+		Contains the supplies chronological relationships for each demand.
+	  */
 	public void setPP_MRP_Detail_ID (int PP_MRP_Detail_ID)
 	{
 		if (PP_MRP_Detail_ID < 1) 
@@ -128,8 +130,9 @@ public class X_PP_MRP_Detail extends PO implements I_PP_MRP_Detail, I_Persistent
 			set_ValueNoCheck (COLUMNNAME_PP_MRP_Detail_ID, Integer.valueOf(PP_MRP_Detail_ID));
 	}
 
-	/** Get MRP Detail ID ID.
-		@return MRP Detail ID ID	  */
+	/** Get MRP Detail ID.
+		@return Contains the supplies chronological relationships for each demand.
+	  */
 	public int getPP_MRP_Detail_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_MRP_Detail_ID);

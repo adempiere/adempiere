@@ -31,7 +31,7 @@ public class X_AD_Browse extends PO implements I_AD_Browse, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140227L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_AD_Browse (Properties ctx, int AD_Browse_ID, String trxName)
@@ -42,7 +42,7 @@ public class X_AD_Browse extends PO implements I_AD_Browse, I_Persistent
 			setAD_Browse_ID (0);
 			setAD_View_ID (0);
 			setAccessLevel (null);
-// 4
+// 3
 			setEntityType (null);
 			setName (null);
         } */

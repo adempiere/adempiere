@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_PeriodDefinition
  *  @author Adempiere (generated) 
- *  @version Release 3.7.1RC
+ *  @version Release 3.8.0RC
  */
 public interface I_PP_PeriodDefinition 
 {
@@ -31,7 +31,7 @@ public interface I_PP_PeriodDefinition
     /** TableName=PP_PeriodDefinition */
     public static final String Table_Name = "PP_PeriodDefinition";
 
-    /** AD_Table_ID=1000003 */
+    /** AD_Table_ID=53388 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);

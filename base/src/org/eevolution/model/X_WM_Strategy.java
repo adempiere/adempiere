@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for WM_Strategy
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_WM_Strategy extends PO implements I_WM_Strategy, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_WM_Strategy (Properties ctx, int WM_Strategy_ID, String trxName)
@@ -91,8 +91,8 @@ public class X_WM_Strategy extends PO implements I_WM_Strategy, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	/** InOutBoundType AD_Reference_ID=1000009 */
-	public static final int INOUTBOUNDTYPE_AD_Reference_ID=1000009;
+	/** InOutBoundType AD_Reference_ID=53321 */
+	public static final int INOUTBOUNDTYPE_AD_Reference_ID=53321;
 	/** Outbound Operation = O */
 	public static final String INOUTBOUNDTYPE_OutboundOperation = "O";
 	/** Inbound Operation = I */
@@ -114,6 +114,11 @@ public class X_WM_Strategy extends PO implements I_WM_Strategy, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_InOutBoundType);
 	}
+
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_Warehouse)MTable.get(getCtx(), org.compiere.model.I_M_Warehouse.Table_Name)
+			.getPO(getM_Warehouse_ID(), get_TrxName());	}
 
 	/** Set Warehouse.
 		@param M_Warehouse_ID 

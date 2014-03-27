@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for WM_Strategy
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.8.0RC
  */
 public interface I_WM_Strategy 
 {
@@ -31,7 +31,7 @@ public interface I_WM_Strategy
     /** TableName=WM_Strategy */
     public static final String Table_Name = "WM_Strategy";
 
-    /** AD_Table_ID=1000037 */
+    /** AD_Table_ID=53243 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -130,6 +130,8 @@ public interface I_WM_Strategy
 	  * Storage Warehouse and Service Point
 	  */
 	public int getM_Warehouse_ID();
+
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

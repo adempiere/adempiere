@@ -30,7 +30,7 @@ public class X_AD_Replication_Log extends PO implements I_AD_Replication_Log, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140301L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_AD_Replication_Log (Properties ctx, int AD_Replication_Log_ID, String trxName)

@@ -308,9 +308,9 @@ public interface I_PA_ReportLine
     /** Column name reportlinestyle */
     public static final String COLUMNNAME_reportlinestyle = "reportlinestyle";
 
-	/** Set Report Line Style	  */
+	/** Set reportlinestyle	  */
 	public void setreportlinestyle (String reportlinestyle);
 
-	/** Get Report Line Style	  */
+	/** Get reportlinestyle	  */
 	public String getreportlinestyle();
 }

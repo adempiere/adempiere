@@ -386,9 +386,9 @@ public interface I_I_ReportLine
     /** Column name reportlinestyle */
     public static final String COLUMNNAME_reportlinestyle = "reportlinestyle";
 
-	/** Set ReportLineStyle	  */
+	/** Set reportlinestyle	  */
 	public void setreportlinestyle (String reportlinestyle);
 
-	/** Get ReportLineStyle	  */
+	/** Get reportlinestyle	  */
 	public String getreportlinestyle();
 }

@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_Movement
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_I_Movement 
 {
@@ -50,19 +50,6 @@ public interface I_I_Movement
 	  */
 	public int getAD_Client_ID();
 
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
-
     /** Column name AD_OrgTrx_ID */
     public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
 
@@ -77,6 +64,19 @@ public interface I_I_Movement
 	public int getAD_OrgTrx_ID();
 
 	public org.compiere.model.I_AD_Org getAD_OrgTrx() throws RuntimeException;
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
 
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
@@ -105,15 +105,6 @@ public interface I_I_Movement
 	  * Key of the Business Partner
 	  */
 	public String getBPartnerValue();
-
-    /** Column name CampaignValue */
-    public static final String COLUMNNAME_CampaignValue = "CampaignValue";
-
-	/** Set CampaignValue	  */
-	public void setCampaignValue (String CampaignValue);
-
-	/** Get CampaignValue	  */
-	public String getCampaignValue();
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -174,6 +165,15 @@ public interface I_I_Movement
 	public int getC_Project_ID();
 
 	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
+
+    /** Column name CampaignValue */
+    public static final String COLUMNNAME_CampaignValue = "CampaignValue";
+
+	/** Set CampaignValue	  */
+	public void setCampaignValue (String CampaignValue);
+
+	/** Get CampaignValue	  */
+	public String getCampaignValue();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -326,21 +326,6 @@ public interface I_I_Movement
 	  */
 	public String getLocatorValue();
 
-    /** Column name M_Locator_ID */
-    public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
-
-	/** Set Locator.
-	  * Warehouse Locator
-	  */
-	public void setM_Locator_ID (int M_Locator_ID);
-
-	/** Get Locator.
-	  * Warehouse Locator
-	  */
-	public int getM_Locator_ID();
-
-	public I_M_Locator getM_Locator() throws RuntimeException;
-
     /** Column name M_LocatorTo_ID */
     public static final String COLUMNNAME_M_LocatorTo_ID = "M_LocatorTo_ID";
 
@@ -356,20 +341,20 @@ public interface I_I_Movement
 
 	public I_M_Locator getM_LocatorTo() throws RuntimeException;
 
-    /** Column name M_Movement_ID */
-    public static final String COLUMNNAME_M_Movement_ID = "M_Movement_ID";
+    /** Column name M_Locator_ID */
+    public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
 
-	/** Set Inventory Move.
-	  * Movement of Inventory
+	/** Set Locator.
+	  * Warehouse Locator
 	  */
-	public void setM_Movement_ID (int M_Movement_ID);
+	public void setM_Locator_ID (int M_Locator_ID);
 
-	/** Get Inventory Move.
-	  * Movement of Inventory
+	/** Get Locator.
+	  * Warehouse Locator
 	  */
-	public int getM_Movement_ID();
+	public int getM_Locator_ID();
 
-	public org.compiere.model.I_M_Movement getM_Movement() throws RuntimeException;
+	public I_M_Locator getM_Locator() throws RuntimeException;
 
     /** Column name M_MovementLine_ID */
     public static final String COLUMNNAME_M_MovementLine_ID = "M_MovementLine_ID";
@@ -386,31 +371,20 @@ public interface I_I_Movement
 
 	public org.compiere.model.I_M_MovementLine getM_MovementLine() throws RuntimeException;
 
-    /** Column name MovementDate */
-    public static final String COLUMNNAME_MovementDate = "MovementDate";
+    /** Column name M_Movement_ID */
+    public static final String COLUMNNAME_M_Movement_ID = "M_Movement_ID";
 
-	/** Set Movement Date.
-	  * Date a product was moved in or out of inventory
+	/** Set Inventory Move.
+	  * Movement of Inventory
 	  */
-	public void setMovementDate (Timestamp MovementDate);
+	public void setM_Movement_ID (int M_Movement_ID);
 
-	/** Get Movement Date.
-	  * Date a product was moved in or out of inventory
+	/** Get Inventory Move.
+	  * Movement of Inventory
 	  */
-	public Timestamp getMovementDate();
+	public int getM_Movement_ID();
 
-    /** Column name MovementQty */
-    public static final String COLUMNNAME_MovementQty = "MovementQty";
-
-	/** Set Movement Quantity.
-	  * Quantity of a product moved.
-	  */
-	public void setMovementQty (BigDecimal MovementQty);
-
-	/** Get Movement Quantity.
-	  * Quantity of a product moved.
-	  */
-	public BigDecimal getMovementQty();
+	public org.compiere.model.I_M_Movement getM_Movement() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -441,6 +415,32 @@ public interface I_I_Movement
 	public int getM_Shipper_ID();
 
 	public org.compiere.model.I_M_Shipper getM_Shipper() throws RuntimeException;
+
+    /** Column name MovementDate */
+    public static final String COLUMNNAME_MovementDate = "MovementDate";
+
+	/** Set Movement Date.
+	  * Date a product was moved in or out of inventory
+	  */
+	public void setMovementDate (Timestamp MovementDate);
+
+	/** Get Movement Date.
+	  * Date a product was moved in or out of inventory
+	  */
+	public Timestamp getMovementDate();
+
+    /** Column name MovementQty */
+    public static final String COLUMNNAME_MovementQty = "MovementQty";
+
+	/** Set Movement Quantity.
+	  * Quantity of a product moved.
+	  */
+	public void setMovementQty (BigDecimal MovementQty);
+
+	/** Get Movement Quantity.
+	  * Quantity of a product moved.
+	  */
+	public BigDecimal getMovementQty();
 
     /** Column name OrgTrxValue */
     public static final String COLUMNNAME_OrgTrxValue = "OrgTrxValue";

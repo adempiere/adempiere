@@ -33,7 +33,7 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140301L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_M_DiscountSchemaLine (Properties ctx, int M_DiscountSchemaLine_ID, String trxName)
@@ -193,29 +193,29 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 		return (Timestamp)get_Value(COLUMNNAME_ConversionDate);
 	}
 
-	/** Set Group 1.
-		@param Group1 Group 1	  */
+	/** Set Group1.
+		@param Group1 Group1	  */
 	public void setGroup1 (String Group1)
 	{
 		set_Value (COLUMNNAME_Group1, Group1);
 	}
 
-	/** Get Group 1.
-		@return Group 1	  */
+	/** Get Group1.
+		@return Group1	  */
 	public String getGroup1 () 
 	{
 		return (String)get_Value(COLUMNNAME_Group1);
 	}
 
-	/** Set Group 2.
-		@param Group2 Group 2	  */
+	/** Set Group2.
+		@param Group2 Group2	  */
 	public void setGroup2 (String Group2)
 	{
 		set_Value (COLUMNNAME_Group2, Group2);
 	}
 
-	/** Get Group 2.
-		@return Group 2	  */
+	/** Get Group2.
+		@return Group2	  */
 	public String getGroup2 () 
 	{
 		return (String)get_Value(COLUMNNAME_Group2);

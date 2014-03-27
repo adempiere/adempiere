@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Browse_Field
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130410L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_AD_Browse_Field (Properties ctx, int AD_Browse_Field_ID, String trxName)
@@ -77,8 +77,8 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
       return sb.toString();
     }
 
-	/** Set Smart Browse Fields ID.
-		@param AD_Browse_Field_ID Smart Browse Fields ID	  */
+	/** Set Browse Field.
+		@param AD_Browse_Field_ID Browse Field	  */
 	public void setAD_Browse_Field_ID (int AD_Browse_Field_ID)
 	{
 		if (AD_Browse_Field_ID < 1) 
@@ -87,8 +87,8 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 			set_ValueNoCheck (COLUMNNAME_AD_Browse_Field_ID, Integer.valueOf(AD_Browse_Field_ID));
 	}
 
-	/** Get Smart Browse Fields ID.
-		@return Smart Browse Fields ID	  */
+	/** Get Browse Field.
+		@return Browse Field	  */
 	public int getAD_Browse_Field_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Browse_Field_ID);

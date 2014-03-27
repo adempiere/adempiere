@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_SalesHistory
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_I_SalesHistory extends PO implements I_I_SalesHistory, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130415L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_I_SalesHistory (Properties ctx, int I_SalesHistory_ID, String trxName)
@@ -787,17 +787,14 @@ public class X_I_SalesHistory extends PO implements I_I_SalesHistory, I_Persiste
 	}
 
 	/** Set Process Now.
-		@param Processing 
-		This process allows to import the sales statistics by using a predefined import format,  inside the application.
-	  */
+		@param Processing Process Now	  */
 	public void setProcessing (boolean Processing)
 	{
 		set_Value (COLUMNNAME_Processing, Boolean.valueOf(Processing));
 	}
 
 	/** Get Process Now.
-		@return This process allows to import the sales statistics by using a predefined import format,  inside the application.
-	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
