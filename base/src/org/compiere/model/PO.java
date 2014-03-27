@@ -1353,7 +1353,7 @@ public abstract class PO
 			}
 			else
 			{
-				log.log(Level.WARNING, "NO Data found for " + get_WhereClause(true));
+				if (!log.getLevel().equals(Level.CONFIG)) log.log(Level.WARNING, "NO Data found for " + get_WhereClause(true));
 				m_IDs = new Object[] {I_ZERO};
 				success = false;
 			//	throw new DBException("NO Data found for " + get_WhereClause(true));

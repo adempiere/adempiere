@@ -294,6 +294,8 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		try {
 			MTable table = MTable.get( getCtx(), getAD_Table_ID() );
 			PO po = null;
+			//reset cache of persistence object
+			POInfo.removeFromCache(getAD_Table_ID());
 			if ( table.isSingleKey() && getRecord_ID() > 0 )
 				po = table.getPO( getRecord_ID(), get_TrxName() );
 			else 
@@ -387,14 +389,14 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			setStatusCode(MMigrationStep.STATUSCODE_Failed);
 			setApply(MMigrationStep.APPLY_Apply);
 			saveEx(null);
-			final String error = "Migration Script : " + getParent().getName() +  " ---> Strp " + getSeqNo() +  " failed";
+			final String error = "Migration Script : " + getParent().getSeqNo() + " - " + getParent().getName() +  " ---> Strp " + getSeqNo() +  " failed";
 			throw new AdempiereException(error, e);
 		}
 		setStatusCode(MMigrationStep.STATUSCODE_Applied);
 		setApply(MMigrationStep.APPLY_Rollback);
 		setErrorMsg(null);
 		saveEx();
-		log.log(Level.CONFIG, "Migration " + getParent().getName() + " ---> Step " + getSeqNo() + " successfully applied");
+		log.log(Level.CONFIG, "Migration " + getParent().getSeqNo() +" - "+ getParent().getName() + " ---> Step " + getSeqNo() + " successfully applied");
 		return "Applied";
 	}
 	
