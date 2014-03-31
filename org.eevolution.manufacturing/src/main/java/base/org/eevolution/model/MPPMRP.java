@@ -78,7 +78,7 @@ public class MPPMRP extends X_PP_MRP
 	
 	public static MPPOrder createMOMakeTo(MOrderLine ol, BigDecimal qty)
 	{
-		MPPOrder order = MPPOrder.forC_OrderLine_ID(ol.getCtx(), ol.getC_OrderLine_ID(), ol.getM_Product_ID(), ol.get_TrxName());
+		MPPOrder order = MPPOrder.forC_OrderLine_ID(ol.getCtx(), ol.get_ID(), ol.get_TrxName());
 		if (order == null)
 		{
 			final MProduct product = MProduct.get(ol.getCtx(), ol.getM_Product_ID());
@@ -235,10 +235,9 @@ public class MPPMRP extends X_PP_MRP
 		
 		if (pp.getS_Resource_ID() > 0 && bom != null && wf != null)
 		{
-			//RoutingService routingService = RoutingServiceFactory.get().getRoutingService(pp.getCtx());
-			//int duration = routingService.calculateDuration(wf,MResource.get(pp.getCtx(), pp.getS_Resource_ID()),qty).intValueExact(); 
-			int duration = MPPMRP.getDurationDays(qty, pp);
-
+			RoutingService routingService = RoutingServiceFactory.get().getRoutingService(pp.getCtx());
+			int duration = routingService.calculateDuration(wf,MResource.get(pp.getCtx(), pp.getS_Resource_ID()),qty).intValueExact(); 
+			//
 			MPPOrder order = new MPPOrder(pp.getCtx(), 0 , pp.get_TrxName());
 			order.setAD_Org_ID(pp.getAD_Org_ID());
 			order.setDescription(description);
@@ -328,8 +327,6 @@ public class MPPMRP extends X_PP_MRP
 				MPPOrder.COLUMNNAME_C_UOM_ID,
 				MPPOrder.COLUMNNAME_DatePromised,
 				MPPOrder.COLUMNNAME_QtyOrdered,
-				MPPOrder.COLUMNNAME_DateStartSchedule,
-				MPPOrder.COLUMNNAME_DateFinishSchedule,
 				MPPOrder.COLUMNNAME_QtyDelivered,
 				MPPOrder.COLUMNNAME_PP_Product_BOM_ID,
 				MPPOrder.COLUMNNAME_AD_Workflow_ID,
@@ -427,7 +424,7 @@ public class MPPMRP extends X_PP_MRP
 		return s_sourceColumnNames.keySet();
 	}
 	
-	public static void setIsRequired(PO po, String type, boolean isRequiredMRP, String trxName) {
+	public static void setIsRequired(PO po, String type, boolean isRequiredMRP) {
 
 		int M_Product_ID = po
 				.get_ValueAsInt(MPPProductPlanning.COLUMNNAME_M_Product_ID);
@@ -441,7 +438,7 @@ public class MPPMRP extends X_PP_MRP
 			if (M_Locator_ID > 0)
 				M_Warehouse_ID = DB
 						.getSQLValue(
-								trxName,
+								po.get_TrxName(),
 								"SELECT M_Warehouse_ID FROM M_Locator WHERE M_Locator_ID=?",
 								M_Locator_ID);
 		}
@@ -475,7 +472,7 @@ public class MPPMRP extends X_PP_MRP
 		parameters.add(M_Product_ID);
 
 		DB.executeUpdateEx(sql.toString(), parameters.toArray(),
-				trxName);
+				po.get_TrxName());
 	}
 	
 	public static void deleteMRP(PO po)
@@ -490,7 +487,7 @@ public class MPPMRP extends X_PP_MRP
 		if (po instanceof MOrderLine)
 		{
 			MOrderLine ol = (MOrderLine)po;
-			MPPOrder order = MPPOrder.forC_OrderLine_ID(ol.getCtx(), ol.getC_OrderLine_ID(), ol.getM_Product_ID() ,  ol.get_TrxName());
+			MPPOrder order = MPPOrder.forC_OrderLine_ID(ol.getCtx(), ol.get_ID(), ol.get_TrxName());
 			if (order != null && !order.isProcessed())
 			{
 				order.deleteEx(true);
