@@ -104,30 +104,30 @@ public class CreateCostElement extends SvrProcess
 		MAcctSchema as = MAcctSchema.get(getCtx(), p_C_AcctSchema_ID);
 
 		int count_costs = 0, count_all = 0;
-
-		for(final int product_id: getProduct_IDs())
-			for(final int org_id : getOrgs(as, product_id))
+		for(final int org_id : getOrgs(as))
+		{
+			for(final int product_id: getProduct_IDs())
 			{
+				for(final MCostElement element : getElements())
 				{
-					for(final MCostElement element : getElements())
-					{
-						CostDimension d = new CostDimension(getAD_Client_ID(), org_id, 0,
-								product_id, 0, // ASI=0
-								p_M_CostType_ID, as.get_ID(), element.get_ID());
-						MCost cost = d.toQuery(MCost.class, get_TrxName()).firstOnly();
-						if(cost == null)
-						{	
-							MProduct product = MProduct.get(getCtx(), product_id);
-							cost = new MCost (product, d.getM_AttributeSetInstance_ID(), as,
-									d.getAD_Org_ID(), d.getM_CostElement_ID());
-							cost.setM_CostType_ID(d.getM_CostType_ID());
-							cost.saveEx(get_TrxName());
-							count_costs++;
-						}
-						count_all++;
+					CostDimension d = new CostDimension(getAD_Client_ID(), org_id,
+											0 , product_id, 0, // ASI=0
+											p_M_CostType_ID, as.get_ID(), element.get_ID());
+					
+					MCost cost = d.toQuery(MCost.class, get_TrxName()).firstOnly();
+					if(cost == null)
+					{	
+						MProduct product = MProduct.get(getCtx(), product_id);
+						cost = new MCost (product, d.getM_AttributeSetInstance_ID(), as,
+											d.getAD_Org_ID(), d.getM_CostElement_ID());
+						cost.setM_CostType_ID(d.getM_CostType_ID());
+						cost.saveEx(get_TrxName());
+						count_costs++;
 					}
+					count_all++;
 				}
 			}
+		}
 
 
 		return "@Created@ #"+count_costs+" / "+count_all;
@@ -138,40 +138,29 @@ public class CreateCostElement extends SvrProcess
 	 * @param as Account Schema
 	 * @return array of IDs
 	 */
-	private int[] getOrgs(MAcctSchema as, int product_id)
+	private int[] getOrgs(MAcctSchema as)
 	{
-		MProduct product = new MProduct(getCtx(), product_id, get_TrxName());
-		String whereClause = "";
+		String whereClause = "";		
 		ArrayList<Object> params = new ArrayList<Object>();
 		//Set the Costing Level 
-		String CostingLevel = product.getCostingLevel(as);
+		String CostingLevel = as.getCostingLevel();
 		
 		if (MAcctSchema.COSTINGLEVEL_Client.equals(CostingLevel))
 		{
+			p_AD_Org_ID = 0;
+			p_M_AttributeSetInstance_ID = 0;
 			return new int[]{0};
 		}
-		else if (MAcctSchema.COSTINGLEVEL_Organization.equals(CostingLevel))
-		{
-			if (p_AD_Org_ID != null)
-			{
-				whereClause = "ad_org_id=?";
-				return new Query(getCtx(), MOrg.Table_Name,  whereClause, get_TrxName())
-				.setParameters(p_AD_Org_ID)
-				.setClient_ID()
-				.setOnlyActiveRecords(true)
-				.getIDs();
-			}
-			else
-				return new Query(getCtx(), MOrg.Table_Name,  whereClause, get_TrxName())
-				.setParameters(params)
-				.setClient_ID()
-				.setOnlyActiveRecords(true)
-				.getIDs();
+		if (p_AD_Org_ID != null)
+		{	
+			whereClause = "AD_Org_ID=?";
+			params.add(p_AD_Org_ID);
 		}
-		else
-		return new int[]{};
 		//
-		
+		return new Query(getCtx(), MOrg.Table_Name,  whereClause, get_TrxName())
+					.setParameters(params)
+					.setClient_ID()
+					.getIDs();
 	}
 
 	private Collection<MCostElement> getElements()
@@ -204,13 +193,8 @@ public class CreateCostElement extends SvrProcess
 		ArrayList<Object> paramsProducts= new ArrayList<Object>();
 
 		if (p_M_Product_Category_ID > 0)
-		{	
-			String sql = "select count(*) from m_product_category where m_product_category_parent_id =?";
-			int count = DB.getSQLValue(get_TrxName(), sql, p_M_Product_Category_ID);
-			if (count > 0)
-				whereClauseProducts = "m_product_category_id in (select m_product_category_id from m_product_category where m_product_category_parent_id =? ) ";
-			else
-				whereClauseProducts = MProduct.COLUMNNAME_M_Product_Category_ID+"=?";
+		{
+			whereClauseProducts = MProduct.COLUMNNAME_M_Product_Category_ID+"=?";
 			paramsProducts.add(p_M_Product_Category_ID);
 			p_M_Product_ID = 0;
 		}
