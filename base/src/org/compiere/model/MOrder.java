@@ -1279,8 +1279,8 @@ public class MOrder extends X_C_Order implements DocAction
 		
 		for(final MOrderLine ol:getLines())
 		{
-				Util.assume(ol.getQtyReserved().compareTo(ol.getQtyOrdered()) == 0, 
-						"After prepareIt, reservations have been made");
+				Util.assume(ol.getQtyReserved().compareTo(ol.getQtyOrdered()) == 0 || ol.getM_Product_ID() == 0, 
+						"After prepareIt, reservations do not equal quantities ordered.");
 		}
 		return DocAction.STATUS_InProgress;
 	}	//	prepareIt
@@ -1495,7 +1495,7 @@ public class MOrder extends X_C_Order implements DocAction
 				Volume = Volume.add(product.getVolume().multiply(line.getQtyOrdered()));
 				Weight = Weight.add(product.getWeight().multiply(line.getQtyOrdered()));
 			}	//	product
-		}	//	reverse inventory
+		}	//	reserve inventory
 		
 		setVolume(Volume);
 		setWeight(Weight);
