@@ -1279,7 +1279,7 @@ public class MOrder extends X_C_Order implements DocAction
 		
 		for(final MOrderLine ol:getLines())
 		{
-				Util.assume(ol.getQtyReserved().compareTo(ol.getQtyOrdered()) == 0 || ol.getM_Product_ID() == 0, 
+				Util.assume(ol.getQtyReserved().compareTo(ol.getQtyOrdered()) == 0 || ol.getM_Product_ID() == 0 || dt.isProposal(), 
 						"After prepareIt, reservations do not equal quantities ordered.");
 		}
 		return DocAction.STATUS_InProgress;
