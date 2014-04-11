@@ -87,6 +87,11 @@ public class WebEditorFactory
         {
         	editor = new WFileDirectoryEditor(gridField);
         }
+        /** File Path or Name */
+        else if (displayType == DisplayType.FilePathOrName)
+        {
+        	editor = new WFilenameEditor(gridField);
+        }
         /** Number */
         else if (DisplayType.isNumeric(displayType))
         {
