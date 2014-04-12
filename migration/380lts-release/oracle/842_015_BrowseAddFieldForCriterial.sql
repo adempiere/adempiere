@@ -88,18 +88,7 @@ ALTER TABLE AD_Browse_Field ADD FieldLength NUMBER(10) DEFAULT NULL
 
 -- Sep 3, 2012 12:56:55 PM CDT
 -- Smart Browse
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,64358,1663,0,14,53223,'ReadOnlyLogic',TO_DATE('2012-09-03 12:56:54','YYYY-MM-DD HH24:MI:SS'),100,'Logic to determine if field is read only (applies only when field is read-write)','EE07',2000,'format := {expression} [{logic} {expression}]<br> 
-expression := @{context}@{operand}{value} or @{context}@{operand}{value}<br> 
-logic := {|}|{&}<br>
-context := any global or window context <br>
-value := strings or numbers<br>
-logic operators	:= AND or OR with the previous result from left to right <br>
-operand := eq{=}, gt{&gt;}, le{&lt;}, not{~^!} <br>
-Examples: <br>
-@AD_Table_ID@=14 | @Language@!GERGER <br>
-@PriceLimit@>10 | @PriceList@>@PriceActual@<br>
-@Name@>J<br>
-Strings may be in single quotes (optional)','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Read Only Logic',0,TO_DATE('2012-09-03 12:56:54','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,64358,1663,0,14,53223,'ReadOnlyLogic',TO_DATE('2012-09-03 12:56:54','YYYY-MM-DD HH24:MI:SS'),100,'Logic to determine if field is read only (applies only when field is read-write)','EE07',2000,'format := {expression} [{logic} {expression}]<br>expression := @{context}@{operand}{value} or @{context}@{operand}{value}<br>logic := {|}|{&}<br>context := any global or window context <br>value := strings or numbers<br>logic operators	:= AND or OR with the previous result from left to right <br>operand := eq{=}, gt{&gt;}, le{&lt;}, not{~^!} <br>Examples: <br>@AD_Table_ID@=14 | @Language@!GERGER <br>@PriceLimit@>10 | @PriceList@>@PriceActual@<br>@Name@>J<br>Strings may be in single quotes (optional)','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Read Only Logic',0,TO_DATE('2012-09-03 12:56:54','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Sep 3, 2012 12:56:55 PM CDT
@@ -114,21 +103,7 @@ ALTER TABLE AD_Browse_Field ADD ReadOnlyLogic NVARCHAR2(2000) DEFAULT NULL
 
 -- Sep 3, 2012 12:57:15 PM CDT
 -- Smart Browse
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,64359,616,0,10,53223,'VFormat',TO_DATE('2012-09-03 12:57:15','YYYY-MM-DD HH24:MI:SS'),100,'Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"','EE07',60,'<B>Validation elements:</B>
- 	(Space) any character
-_	Space (fixed character)
-l	any Letter a..Z NO space
-L	any Letter a..Z NO space converted to upper case
-o	any Letter a..Z or space
-O	any Letter a..Z or space converted to upper case
-a	any Letters & Digits NO space
-A	any Letters & Digits NO space converted to upper case
-c	any Letters & Digits or space
-C	any Letters & Digits or space converted to upper case
-0	Digits 0..9 NO space
-9	Digits 0..9 or space
-
-Example of format "(000)_000-0000"','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Value Format',0,TO_DATE('2012-09-03 12:57:15','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,64359,616,0,10,53223,'VFormat',TO_DATE('2012-09-03 12:57:15','YYYY-MM-DD HH24:MI:SS'),100,'Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"','EE07',60,'<B>Validation elements:</B><br> 	(Space) any character<br>_	Space (fixed character)<br>l	any Letter a..Z NO space<br>L	any Letter a..Z NO space converted to upper case<br>o	any Letter a..Z or space<br>O	any Letter a..Z or space converted to upper case<br>a	any Letters & Digits NO space<br>A	any Letters & Digits NO space converted to upper case<br>c	any Letters & Digits or space<br>C	any Letters & Digits or space converted to upper case<br>0	Digits 0..9 NO space<br>9	Digits 0..9 or space<br><br>Example of format "(000)_000-0000"','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Value Format',0,TO_DATE('2012-09-03 12:57:15','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Sep 3, 2012 12:57:15 PM CDT
@@ -193,18 +168,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Sep 3, 2012 12:58:51 PM CDT
 -- Smart Browse
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,64356,65294,0,53247,TO_DATE('2012-09-03 12:58:49','YYYY-MM-DD HH24:MI:SS'),100,'If the Field is displayed, the result determines if the field is actually displayed',2000,'EE07','format := {expression} [{logic} {expression}]<br> 
-expression := @{context}@{operand}{value} or @{context}@{operand}{value}<br> 
-logic := {|}|{&}<br>
-context := any global or window context <br>
-value := strings or numbers<br>
-logic operators	:= AND or OR with the previous result from left to right <br>
-operand := eq{=}, gt{&gt;}, le{&lt;}, not{~^!} <br>
-Examples: <br>
-@AD_Table_ID@=14 | @Language@!GERGER <br>
-@PriceLimit@>10 | @PriceList@>@PriceActual@<br>
-@Name@>J<br>
-Strings may be in single quotes (optional)','Y','Y','Y','N','N','N','N','N','Display Logic',TO_DATE('2012-09-03 12:58:49','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,64356,65294,0,53247,TO_DATE('2012-09-03 12:58:49','YYYY-MM-DD HH24:MI:SS'),100,'If the Field is displayed, the result determines if the field is actually displayed',2000,'EE07','format := {expression} [{logic} {expression}]<br>expression := @{context}@{operand}{value} or @{context}@{operand}{value}<br> logic := {|}|{&}<br>context := any global or window context <br>value := strings or numbers<br>logic operators	:= AND or OR with the previous result from left to right <br>operand := eq{=}, gt{&gt;}, le{&lt;}, not{~^!} <br>Examples: <br>@AD_Table_ID@=14 | @Language@!GERGER <br>@PriceLimit@>10 | @PriceList@>@PriceActual@<br>@Name@>J<br>Strings may be in single quotes (optional)','Y','Y','Y','N','N','N','N','N','Display Logic',TO_DATE('2012-09-03 12:58:49','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Sep 3, 2012 12:58:51 PM CDT
@@ -264,18 +228,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Sep 3, 2012 12:58:58 PM CDT
 -- Smart Browse
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,64358,65300,0,53247,TO_DATE('2012-09-03 12:58:56','YYYY-MM-DD HH24:MI:SS'),100,'Logic to determine if field is read only (applies only when field is read-write)',2000,'EE07','format := {expression} [{logic} {expression}]<br> 
-expression := @{context}@{operand}{value} or @{context}@{operand}{value}<br> 
-logic := {|}|{&}<br>
-context := any global or window context <br>
-value := strings or numbers<br>
-logic operators	:= AND or OR with the previous result from left to right <br>
-operand := eq{=}, gt{&gt;}, le{&lt;}, not{~^!} <br>
-Examples: <br>
-@AD_Table_ID@=14 | @Language@!GERGER <br>
-@PriceLimit@>10 | @PriceList@>@PriceActual@<br>
-@Name@>J<br>
-Strings may be in single quotes (optional)','Y','Y','Y','N','N','N','N','N','Read Only Logic',TO_DATE('2012-09-03 12:58:56','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,64358,65300,0,53247,TO_DATE('2012-09-03 12:58:56','YYYY-MM-DD HH24:MI:SS'),100,'Logic to determine if field is read only (applies only when field is read-write)',2000,'EE07','format := {expression} [{logic} {expression}]<br>expression := @{context}@{operand}{value} or @{context}@{operand}{value}<br> logic := {|}|{&}<br>context := any global or window context <br>value := strings or numbers<br>logic operators	:= AND or OR with the previous result from left to right <br>operand := eq{=}, gt{&gt;}, le{&lt;}, not{~^!} <br>Examples: <br>@AD_Table_ID@=14 | @Language@!GERGER <br>@PriceLimit@>10 | @PriceList@>@PriceActual@<br>@Name@>J<br>Strings may be in single quotes (optional)','Y','Y','Y','N','N','N','N','N','Read Only Logic',TO_DATE('2012-09-03 12:58:56','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Sep 3, 2012 12:58:58 PM CDT
@@ -285,8 +238,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Sep 3, 2012 12:58:59 PM CDT
 -- Smart Browse
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,64221,65301,0,53247,TO_DATE('2012-09-03 12:58:58','YYYY-MM-DD HH24:MI:SS'),100,'Determines in what order the records are displayed',22,'EE07','The Record Sort No indicates the ascending sort sequence of the records. If the number is negative, the records are sorted descending. 
-Example: A tab with C_DocType_ID (1), DocumentNo (-2) will be sorted ascending by document type and descending by document number (SQL: ORDER BY C_DocType, DocumentNo DESC)','Y','Y','Y','N','N','N','N','N','Record Sort No',TO_DATE('2012-09-03 12:58:58','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,64221,65301,0,53247,TO_DATE('2012-09-03 12:58:58','YYYY-MM-DD HH24:MI:SS'),100,'Determines in what order the records are displayed',22,'EE07','The Record Sort No indicates the ascending sort sequence of the records. If the number is negative, the records are sorted descending.<br>Example: A tab with C_DocType_ID (1), DocumentNo (-2) will be sorted ascending by document type and descending by document number (SQL: ORDER BY C_DocType, DocumentNo DESC)','Y','Y','Y','N','N','N','N','N','Record Sort No',TO_DATE('2012-09-03 12:58:58','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Sep 3, 2012 12:58:59 PM CDT
@@ -296,21 +248,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Sep 3, 2012 12:59:00 PM CDT
 -- Smart Browse
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,64359,65302,0,53247,TO_DATE('2012-09-03 12:58:59','YYYY-MM-DD HH24:MI:SS'),100,'Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"',60,'EE07','<B>Validation elements:</B>
- 	(Space) any character
-_	Space (fixed character)
-l	any Letter a..Z NO space
-L	any Letter a..Z NO space converted to upper case
-o	any Letter a..Z or space
-O	any Letter a..Z or space converted to upper case
-a	any Letters & Digits NO space
-A	any Letters & Digits NO space converted to upper case
-c	any Letters & Digits or space
-C	any Letters & Digits or space converted to upper case
-0	Digits 0..9 NO space
-9	Digits 0..9 or space
-
-Example of format "(000)_000-0000"','Y','Y','Y','N','N','N','N','N','Value Format',TO_DATE('2012-09-03 12:58:59','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,64359,65302,0,53247,TO_DATE('2012-09-03 12:58:59','YYYY-MM-DD HH24:MI:SS'),100,'Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"',60,'EE07','<B>Validation elements:</B><br> 	(Space) any character<br>_	Space (fixed character)<br>l	any Letter a..Z NO space<br>L	any Letter a..Z NO space converted to upper case<br>o	any Letter a..Z or space<br>O	any Letter a..Z or space converted to upper case<br>a	any Letters & Digits NO space<br>A	any Letters & Digits NO space converted to upper case<br>c	any Letters & Digits or space<br>C	any Letters & Digits or space converted to upper case<br>0	Digits 0..9 NO space<br>9	Digits 0..9 or space<br><br>Example of format "(000)_000-0000"','Y','Y','Y','N','N','N','N','N','Value Format',TO_DATE('2012-09-03 12:58:59','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Sep 3, 2012 12:59:00 PM CDT
