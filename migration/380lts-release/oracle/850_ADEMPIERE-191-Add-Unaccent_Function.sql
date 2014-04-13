@@ -1,3 +1,5 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON;
 -- oracle version
 -- Function: unaccent_string(text, numeric)
 

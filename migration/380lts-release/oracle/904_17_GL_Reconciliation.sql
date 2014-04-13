@@ -1,3 +1,5 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON;
 -- 02/09/2010 5:53:14 PM
 
 INSERT INTO AD_Table (AccessLevel,AD_Client_ID,AD_Org_ID,AD_Table_ID,Created,CreatedBy,EntityType,IsActive,IsChangeLog,IsDeleteable,IsHighVolume,IsSecurityEnabled,IsView,Name,ReplicationType,TableName,Updated,UpdatedBy) VALUES ('3',0,0,53285,TO_DATE('2010-09-02 17:53:12','YYYY-MM-DD HH24:MI:SS'),100,'U','Y','N','N','N','N','N','T_RV_Reconciliation','L','T_RV_Reconciliation',TO_DATE('2010-09-02 17:53:12','YYYY-MM-DD HH24:MI:SS'),100)
@@ -469,11 +471,6 @@ INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Refe
 -- 02/09/2010 5:54:32 PM
 
 INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=59750 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
-;
-
--- 02/09/2010 5:54:33 PM
-
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,59751,2659,0,10,53285,'ProductName',TO_TIMESTAMP('2010-09-02 17:54:33','YYYY-MM-DD HH24:MI:SS'),100,'Name of the Product','D',60,'Y','N','N','N','N','N','N','N','Y','N','N','Product Name',TO_TIMESTAMP('2010-09-02 17:54:33','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- 02/09/2010 5:54:33 PM
