@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON;
+
 INSERT INTO AD_Window (AD_Client_ID,AD_Org_ID,AD_Window_ID,Created,CreatedBy,EntityType,IsActive,IsBetaFunctionality,IsDefault,IsSOTrx,Name,Processing,Updated,UpdatedBy,WindowType) VALUES (0,0,53127,TO_DATE('2011-07-27 15:13:48','YYYY-MM-DD HH24:MI:SS'),100,'D','Y','N','N','Y','Production (Single Product)','N',TO_DATE('2011-07-27 15:13:48','YYYY-MM-DD HH24:MI:SS'),100,'T')
 ;
 
