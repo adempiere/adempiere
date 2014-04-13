@@ -38,7 +38,9 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- 29/06/2011 4:59:43 PM
 -- -
-INSERT INTO AD_Process (AccessLevel,AD_Client_ID,AD_Org_ID,AD_Process_ID,Classname,CopyFromProcess,Created,CreatedBy,Description,EntityType,Help,IsActive,IsBetaFunctionality,IsDirectPrint,IsReport,IsServerProcess,Name,ShowHelp,Statistic_Count,Statistic_Seconds,Updated,UpdatedBy,Value) VALUES ('4',0,0,53259,'org.compiere.process.HashPasswords','N',TO_DATE('2011-06-29 16:59:41','YYYY-MM-DD HH24:MI:SS'),100,'Convert existing plain text/encrypted user passwords to one way hash','D','This process will overwrite existing user passwords with a salted SHA-512 hash of the password so that they cannot be recovered if your database is compromised. (Note: If your password column is currently encrypted, the hash will also be encrypted.)','Y','N','N','N','N','Convert passwords to hashes','Y',0,0,TO_DATE('2011-06-29 16:59:41','YYYY-MM-DD HH24:MI:SS'),100,'AD_User_HashPassword')
+INSERT INTO AD_Process (AccessLevel,AD_Client_ID,AD_Org_ID,AD_Process_ID,Classname,CopyFromProcess,Created,CreatedBy,Description,EntityType,Help,IsActive,IsBetaFunctionality,IsDirectPrint,IsReport,IsServerProcess,Name,ShowHelp,Statistic_Count,Statistic_Seconds,Updated,UpdatedBy,Value) VALUES ('4',0,0,53259,'org.compiere.process.HashPasswords','N',TO_DATE('2011-06-29 16:59:41','YYYY-MM-DD HH24:MI:SS'),100,'Convert existing plain text/encrypted user passwords to one way hash','D','This process will overwrite existing user passwords with a salted SHA-512 hash of the password so that they cannot be recovered if your database is compromised.
+
+(Note: If your password column is currently encrypted, the hash will also be encrypted.)','Y','N','N','N','N','Convert passwords to hashes','Y',0,0,TO_DATE('2011-06-29 16:59:41','YYYY-MM-DD HH24:MI:SS'),100,'AD_User_HashPassword')
 ;
 
 -- 29/06/2011 4:59:43 PM
