@@ -47,7 +47,18 @@ ALTER TABLE AD_Browse_Field ADD DefaultValue2 NVARCHAR2(2000) DEFAULT NULL
 
 -- Sep 3, 2012 12:55:31 PM CDT
 -- Smart Browse
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,64356,283,0,14,53223,'DisplayLogic',TO_DATE('2012-09-03 12:55:29','YYYY-MM-DD HH24:MI:SS'),100,'If the Field is displayed, the result determines if the field is actually displayed','EE07',2000,'format := {expression} [{logic} {expression}]<br>expression := @{context}@{operand}{value} or @{context}@{operand}{value}<br> logic := {|}|{&}<br>context := any global or window context <br>value := strings or numbers<br>logic operators	:= AND or OR with the previous result from left to right <br>operand := eq{=}, gt{&gt;}, le{&lt;}, not{~^!} <br>Examples: <br>@AD_Table_ID@=14 | @Language@!GERGER <br>@PriceLimit@>10 | @PriceList@>@PriceActual@<br>@Name@>J<br>Strings may be in single quotes (optional)','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Display Logic',0,TO_DATE('2012-09-03 12:55:29','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,64356,283,0,14,53223,'DisplayLogic',TO_DATE('2012-09-03 12:55:29','YYYY-MM-DD HH24:MI:SS'),100,'If the Field is displayed, the result determines if the field is actually displayed','EE07',2000,'format := {expression} [{logic} {expression}]<br> 
+expression := @{context}@{operand}{value} or @{context}@{operand}{value}<br> 
+logic := {|}|{&}<br>
+context := any global or window context <br>
+value := strings or numbers<br>
+logic operators	:= AND or OR with the previous result from left to right <br>
+operand := eq{=}, gt{&gt;}, le{&lt;}, not{~^!} <br>
+Examples: <br>
+@AD_Table_ID@=14 | @Language@!GERGER <br>
+@PriceLimit@>10 | @PriceList@>@PriceActual@<br>
+@Name@>J<br>
+Strings may be in single quotes (optional)','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Display Logic',0,TO_DATE('2012-09-03 12:55:29','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Sep 3, 2012 12:55:31 PM CDT
