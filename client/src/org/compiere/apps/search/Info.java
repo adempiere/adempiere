@@ -627,7 +627,7 @@ public abstract class Info extends CDialog
 			DefaultTableModel tm = new DefaultTableModel();
 			p_table.setModel(tm);
 			//  Zero out the indexes
-			p_table.setColorColumn(0);
+			p_table.setColorColumn(-1);
 			//  Re-establish the auto-updates
 			p_table.setAutoCreateColumnsFromModel(flag);
 			

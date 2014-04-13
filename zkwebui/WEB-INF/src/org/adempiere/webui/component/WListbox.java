@@ -385,8 +385,10 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
         setLayout(layout);
 
         clearColumns();
-
+        setColorColumn(-1); // No color column assigned.
+        
         setMultiSelection(multiSelection);
+        
 
         //  add columns & sql
         for (columnIndex = 0; columnIndex < layout.length; columnIndex++)

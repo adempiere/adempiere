@@ -131,7 +131,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 	{
 		super (frame, modal, WindowNo, "p", "M_Product_ID", multiSelection, saveResults, whereClause);
 		log.info(value + ", Wh=" + M_Warehouse_ID + ", PL=" + M_PriceList_ID + ", WHERE=" + whereClause);
-		setTitle(Msg.getMsg(Env.getCtx(), "InfoProduct"));
+		setTitle(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "InfoProduct")));
 		m_M_Warehouse_ID = M_Warehouse_ID;
 		m_M_PriceList_ID = M_PriceList_ID;
 		//
@@ -356,7 +356,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
         ColumnInfo[] s_layoutWarehouse = new ColumnInfo[]{
         		new ColumnInfo(" ", "M_Warehouse_ID", IDColumn.class),
         		new ColumnInfo(Msg.translate(Env.getCtx(), "Warehouse"), "Warehouse", String.class),
-        		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyAvailable"), "sum(QtyAvailable)", Double.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyAvailable"), "sum(QtyAvailable)", Double.class, true, true, null),
         		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOnHand"), "sum(QtyOnHand)", Double.class),
            		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyReserved"), "sum(QtyReserved)", Double.class),
         		new ColumnInfo(Msg.translate(Env.getCtx(), "DocumentNote"), "DocumentNote", String.class)};
@@ -377,7 +377,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
         		new ColumnInfo(Msg.translate(Env.getCtx(), "Description"), "description", String.class),
         		new ColumnInfo(Msg.translate(Env.getCtx(), "Value"), "value", String.class),
     			new ColumnInfo(Msg.translate(Env.getCtx(), "Name"), "Name", String.class),
-    			new ColumnInfo(Msg.translate(Env.getCtx(), "QtyAvailable"), "QtyAvailable", Double.class),
+    			new ColumnInfo(Msg.translate(Env.getCtx(), "QtyAvailable"), "QtyAvailable", Double.class, true, true, null),
   	        	new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOnHand"), "QtyOnHand", Double.class),
     	        new ColumnInfo(Msg.translate(Env.getCtx(), "QtyReserved"), "QtyReserved", Double.class),
   	        	new ColumnInfo(Msg.translate(Env.getCtx(), "PriceStd"), "PriceStd", Double.class)};
@@ -395,7 +395,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
         		new ColumnInfo(Msg.translate(Env.getCtx(), "Description"), "description", String.class),
         		new ColumnInfo(Msg.translate(Env.getCtx(), "Value"), "value", String.class),
     			new ColumnInfo(Msg.translate(Env.getCtx(), "Name"), "Name", String.class),
-    			new ColumnInfo(Msg.translate(Env.getCtx(), "QtyAvailable"), "QtyAvailable", Double.class),
+    			new ColumnInfo(Msg.translate(Env.getCtx(), "QtyAvailable"), "QtyAvailable", Double.class, true, true, null),
   	        	new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOnHand"), "QtyOnHand", Double.class),
     	        new ColumnInfo(Msg.translate(Env.getCtx(), "QtyReserved"), "QtyReserved", Double.class),
   	        	new ColumnInfo(Msg.translate(Env.getCtx(), "PriceStd"), "PriceStd", Double.class)};
@@ -562,11 +562,11 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 						rs = pstmt.executeQuery();
 						while (rs.next())
 						{
-							if (rs.getString(1).length() > 0)
+							if (rs.getString(1) != null && rs.getString(1).length() > 0)
 								paText
 									.append(Msg.translate(Env.getCtx(), "Lot")).append(": ")
 									.append(rs.getString(6)).append(rs.getString(1)).append(rs.getString(7)).append(eol);
-							if (rs.getString(1).length() > 0)
+							if (rs.getString(2) != null && rs.getString(2).length() > 0)
 								paText
 									.append(Msg.translate(Env.getCtx(), "SerialNumber")).append(": ")
 									.append(rs.getString(4)).append(rs.getString(2)).append(rs.getString(5)).append(eol);
@@ -574,7 +574,6 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 								paText
 									.append(Msg.translate(Env.getCtx(), "GuaranteeDate")).append(": ").append(rs.getDate(3)).append(eol);
 						}
-						rs.close();
 					}
 					catch (Exception e)
 					{
@@ -1609,7 +1608,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 		list.add(new Info_Column(Msg.translate(Env.getCtx(), "M_Warehouse_ID"), "Warehouse", String.class));
 		list.add(new Info_Column(Msg.translate(Env.getCtx(), "M_Locator_ID"), "Locator", String.class));
 		list.add(new Info_Column(Msg.getMsg(Env.getCtx(), "Date", true), "Date", Timestamp.class));
-		list.add(new Info_Column(Msg.translate(Env.getCtx(), "QtyAvailable"), "QtyAvailable", Double.class));
+		list.add(new Info_Column(Msg.translate(Env.getCtx(), "QtyAvailable"), "QtyAvailable", Double.class, true, true, null));
 		list.add(new Info_Column(Msg.translate(Env.getCtx(), "QtyOnHand"), "QtyOnHand", Double.class));
 		list.add(new Info_Column(Msg.getMsg(Env.getCtx(), "ExpectedChange", true), "DeltaQty", Double.class));
 		list.add(new Info_Column(Msg.translate(Env.getCtx(), "C_BPartner_ID"), "BP_Name", String.class));
@@ -1779,8 +1778,10 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 		//	Header
 		Vector<String> columnNames = new Vector<String>();
 		for (int i = 0; i < m_layoutATP.length; i++)
+		{
 			columnNames.add(m_layoutATP[i].getColHeader());
-
+		}
+		
 		m_modelAtp = new DefaultTableModel();
 		m_modelAtp.setDataVector(data, columnNames);
 
@@ -1789,7 +1790,13 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 			m_tableAtp.setModel(m_modelAtp);
 			//  set editors (two steps)
 			for (int i = 0; i < m_layoutATP.length; i++)
+			{
 				m_tableAtp.setColumnClass(i, m_layoutATP[i].getColClass(), m_layoutATP[i].isReadOnly(), m_layoutATP[i].getColHeader());
+				if (m_layoutATP[i].isColorColumn())
+				{
+					m_tableAtp.setColorColumn(i);  // QtyAvailable.
+				}
+			}
 			m_tableAtp.autoSize();
 		}});
 
