@@ -1,3 +1,7 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
+
 -- Sep 17, 2013 6:45:47 PM EEST
 -- ADEMPIERE-190
 INSERT INTO AD_Table (AccessLevel,AD_Client_ID,AD_Org_ID,AD_Table_ID,CopyColumnsFromTable,Created,CreatedBy,EntityType,ImportTable,IsActive,IsCentrallyMaintained,IsChangeLog,IsDeleteable,IsHighVolume,IsSecurityEnabled,IsView,LoadSeq,Name,ReplicationType,TableName,Updated,UpdatedBy) VALUES ('4',0,0,1000000,'N',TO_DATE('2013-09-17 18:45:46','YYYY-MM-DD HH24:MI:SS'),100,'U','N','Y','Y','N','Y','N','N','N',0,'Table Process','L','ad_table_process',TO_DATE('2013-09-17 18:45:46','YYYY-MM-DD HH24:MI:SS'),100)
@@ -135,7 +139,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 -- ADEMPIERE-190
 INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,1000010,1682,0,18,389,1000000,'EntityType',TO_DATE('2013-09-17 18:46:21','YYYY-MM-DD HH24:MI:SS'),100,'Dictionary Entity Type; Determines ownership and synchronization','D',255,'The Entity Types "Dictionary", "Adempiere" and "Application" might be automatically synchronized and customizations deleted or overwritten.  
 
-For customizations, copy the entity and select "User"!','Y','N','N','N','N','Y','N','N','N','Y','Entity Type',TO_DATE('2013-09-17 18:46:21','YYYY-MM-DD HH24:MI:SS'),100,0)
+For customizations, copy the entity and select \"User\"!','Y','N','N','N','N','Y','N','N','N','Y','Entity Type',TO_DATE('2013-09-17 18:46:21','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Sep 17, 2013 6:46:21 PM EEST
@@ -200,7 +204,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 -- ADEMPIERE-190
 INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,1000010,1000002,0,1000000,TO_DATE('2013-09-17 18:49:12','YYYY-MM-DD HH24:MI:SS'),100,'Dictionary Entity Type; Determines ownership and synchronization',255,'U','The Entity Types "Dictionary", "Adempiere" and "Application" might be automatically synchronized and customizations deleted or overwritten.  
 
-For customizations, copy the entity and select "User"!','Y','Y','Y','N','N','N','N','N','Entity Type',TO_DATE('2013-09-17 18:49:12','YYYY-MM-DD HH24:MI:SS'),100)
+For customizations, copy the entity and select \"User\"!','Y','Y','Y','N','N','N','N','N','Entity Type',TO_DATE('2013-09-17 18:49:12','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Sep 17, 2013 6:49:12 PM EEST
