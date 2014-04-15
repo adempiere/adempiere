@@ -19,10 +19,11 @@ package org.compiere.process;
 import java.util.List;
 import java.util.logging.Level;
 
-import org.compiere.model.MTable;
-import org.compiere.model.MUser;
-import org.compiere.model.PO;
+import org.compiere.Adempiere;
+import org.compiere.model.*;
+import org.compiere.util.CLogMgt;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 import org.compiere.util.Util;
 
 /**
@@ -72,6 +73,64 @@ public class HashPasswords extends SvrProcess
 		
 		return "@Updated@ " + count;
 	}	//	doIt
+
+
+    /**
+     * 	Test
+     *	@param args ignored
+     */
+    public static void main (String[] args) {
+
+        Adempiere.startupEnvironment(false);
+        CLogMgt.setLevel(Level.CONFIG);
+
+
+        ColumnEncryption  columnEncryption = new ColumnEncryption();
+
+        int processId= 328; // AD_ColumnEncryption
+        int columnId = 417; // AD_User - Password
+        Env.setContext(Env.getCtx(), I_AD_Column.COLUMNNAME_AD_Column_ID , columnId);
+
+        MPInstance instance;
+        MPInstancePara instanceParameters;
+
+        instance = new MPInstance(Env.getCtx(), processId, columnId);
+        instance.saveEx();
+
+        instanceParameters = new MPInstancePara(instance, 10);
+        instanceParameters.setParameter(I_AD_Column.COLUMNNAME_IsEncrypted, true );
+        instanceParameters.saveEx();
+
+        instanceParameters = new MPInstancePara(instance, 20);
+        instanceParameters.setParameter("ChangeSetting", true );
+        instanceParameters.saveEx();
+
+
+        ProcessInfo pi = new ProcessInfo("AD_ColumnEncryption", processId);
+        pi.setRecord_ID(instance.getRecord_ID());
+        pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
+        pi.setAD_Client_ID(0);
+        pi.setAD_User_ID(100);
+
+        columnEncryption.startProcess(Env.getCtx(), pi , null);
+
+        /*List<MUser> users = new Query(Env.getCtx(), I_AD_User.Table_Name , "Password IS NOT NULL", null).list();
+        for (MUser user : users)
+        {
+            user.setPassword(user.getPassword());
+            user.saveEx();
+        }*/
+
+        processId=53259; // Convert password to hashed
+
+        pi = new ProcessInfo("AD_User_HashPassword", processId);
+        pi.setAD_Client_ID(0);
+        pi.setAD_User_ID(100);
+
+        HashPasswords process = new HashPasswords();
+        process.startProcess(Env.getCtx(), pi , null);
+
+    }
 
 }	//	UserPassword
 
