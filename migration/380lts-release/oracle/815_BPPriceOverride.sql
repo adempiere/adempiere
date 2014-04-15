@@ -1,3 +1,5 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON;
 -- 08/07/2011 2:31:39 PM
 -- --
 INSERT INTO AD_Table (AccessLevel,AD_Client_ID,AD_Org_ID,AD_Table_ID,AD_Window_ID,CopyColumnsFromTable,Created,CreatedBy,Description,EntityType,ImportTable,IsActive,IsCentrallyMaintained,IsChangeLog,IsDeleteable,IsHighVolume,IsSecurityEnabled,IsView,LoadSeq,Name,ReplicationType,TableName,Updated,UpdatedBy) VALUES ('3',0,0,53325,123,'N',TO_DATE('2011-07-08 14:31:36','YYYY-MM-DD HH24:MI:SS'),100,'Business Partner specific pricing that will override the price list','D','N','Y','Y','N','Y','N','N','N',0,'Business Partner Price','L','M_BP_Price',TO_DATE('2011-07-08 14:31:36','YYYY-MM-DD HH24:MI:SS'),100)

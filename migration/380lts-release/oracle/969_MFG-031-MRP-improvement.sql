@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- Aug 20, 2012 10:34:30 AM CDT
 -- MFG-31
 INSERT INTO AD_Tab (AD_Client_ID,AD_Org_ID,AD_Tab_ID,AD_Table_ID,AD_Window_ID,Created,CreatedBy,Description,EntityType,HasTree,Help,ImportFields,IsActive,IsAdvancedTab,IsInfoTab,IsInsertRecord,IsReadOnly,IsSingleRow,IsSortTab,IsTranslationTab,Name,Processing,SeqNo,TabLevel,Updated,UpdatedBy) VALUES (0,0,53562,53020,140,TO_DATE('2012-08-20 10:34:25','YYYY-MM-DD HH24:MI:SS'),100,'Maintain Product Planning Data','EE01','N','in the Window Product Planning Data you enter the product information which will serve as a base to execute the algorithms of Material Requirement Planning, along with MPS, open orders and inventories','N','Y','N','N','Y','N','Y','N','N','Planning Data','N',55,0,TO_DATE('2012-08-20 10:34:25','YYYY-MM-DD HH24:MI:SS'),100)
@@ -1264,7 +1267,8 @@ UPDATE AD_Field SET AD_FieldGroup_ID=104,Updated=TO_DATE('2012-08-20 13:28:31','
 
 -- Aug 20, 2012 1:28:56 PM CDT
 -- MFG-31
-UPDATE AD_Field SET AD_FieldGroup_ID=106,Updated=TO_DATE('2012-08-20 13:28:56','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 W-- Aug 20, 2012 1:12:47 PM CDT
+UPDATE AD_Field SET AD_FieldGroup_ID=106,Updated=TO_DATE('2012-08-20 13:28:56','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=56436
+;
 
 -- Aug 20, 2012 1:28:59 PM CDT
 -- MFG-31

@@ -1,3 +1,7 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
+
 -- Apr 11, 2013 9:52:34 AM CDT
 -- MFG-38 Muli-Level Pegging
 INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,64858,2019,0,35,53021,'M_AttributeSetInstance_ID',TO_DATE('2013-04-11 09:52:30','YYYY-MM-DD HH24:MI:SS'),100,'Product Attribute Set Instance','EE01',10,'The values of the actual Product Attribute Instances.  The product level attributes are defined on Product level.','Y','N','N','N','N','N','N','N','N','N','Attribute Set Instance',TO_DATE('2013-04-11 09:52:30','YYYY-MM-DD HH24:MI:SS'),100,0)
@@ -1911,7 +1915,7 @@ CAST('STK' AS nvarchar2(3)), --mrp.ordertype,
 p.LowLevel,
 null, --C_BPartner_ID
 null,
-CAST('Safety Stock' AS nvarchar2(80))   --documentNo(mrp.pp_mrp_id) AS documentNo
+CAST('Safety Stock' AS nvarchar2(80)),   --documentNo(mrp.pp_mrp_id) AS documentNo
 null,
 null,
 null
@@ -1994,6 +1998,7 @@ mrp.DateFinishSchedule
 FROM RV_PP_MRP mrp INNER JOIN M_Product p ON (p.M_Product_ID=mrp.M_Product_ID)
 WHERE mrp.TypeMRP='S' AND mrp.Qty > 0 ORDER BY mrp.DatePromised;
 
+
 CREATE VIEW RV_PP_MRP_Detail_Demand AS
 SELECT
 mrp_detail.AD_Client_ID,
@@ -2006,11 +2011,6 @@ mrp_detail.isActive,
 mrp_detail.MRP_Demand_ID,
 mrp_detail.MRP_Supply_ID,
 mrp_detail.Qty,
-mrp.C_Project_ID,
-mrp.C_ProjectPhase_ID,
-mrp.C_ProjectTask_ID,
-mrp.DateStartSchedule,
-mrp.DateFinishSchedule
 demand.OrderType,
 demand.DocStatus,
 demand.DateOrdered,
@@ -2019,7 +2019,12 @@ demand.Priority,
 demand.S_Resource_ID,
 demand.M_Warehouse_ID,
 demand.C_BPartner_ID,
-demand.Planner_ID
+demand.Planner_ID,
+demand.C_Project_ID,
+demand.C_ProjectPhase_ID,
+demand.C_ProjectTask_ID,
+demand.DateStartSchedule,
+demand.DateFinishSchedule
 FROM PP_MRP_Detail mrp_detail
 LEFT JOIN RV_PP_MRP demand ON (demand.PP_MRP_ID=mrp_detail.MRP_demand_ID);
 
@@ -2035,11 +2040,6 @@ mrp_detail.isActive,
 mrp_detail.MRP_Demand_ID,
 mrp_detail.MRP_Supply_ID,
 mrp_detail.Qty,
-mrp.C_Project_ID,
-mrp.C_ProjectPhase_ID,
-mrp.C_ProjectTask_ID,
-mrp.DateStartSchedule,
-mrp.DateFinishSchedule,
 supply.OrderType,
 supply.DocStatus,
 supply.DateOrdered,
@@ -2048,6 +2048,11 @@ supply.Priority,
 supply.S_Resource_ID,
 supply.M_Warehouse_ID,
 supply.C_BPartner_ID,
-supply.Planner_ID
+supply.Planner_ID,
+supply.C_Project_ID,
+supply.C_ProjectPhase_ID,
+supply.C_ProjectTask_ID,
+supply.DateStartSchedule,
+supply.DateFinishSchedule
 FROM PP_MRP_Detail mrp_detail  
 LEFT JOIN RV_PP_MRP supply ON (supply.PP_MRP_ID=mrp_detail.MRP_Supply_ID);

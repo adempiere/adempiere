@@ -1,3 +1,5 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
 -- Dec 15, 2012 5:28:44 PM CET
 -- Generate Invoices from Shipments
 INSERT INTO AD_Form (AccessLevel,AD_Client_ID,AD_Form_ID,AD_Org_ID,Classname,Created,CreatedBy,Description,EntityType,Help,IsActive,IsBetaFunctionality,Name,Updated,UpdatedBy) VALUES ('1',0,53027,0,'org.adempiere.apps.form.VInvoiceGenFromShipment',TO_DATE('2012-12-15 17:28:31','YYYY-MM-DD HH24:MI:SS'),100,'Select shipments and generate invoices','U','Generate Invoices from Shipments.  
