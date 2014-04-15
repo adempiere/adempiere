@@ -214,6 +214,8 @@ public class WStringEditor extends WEditor implements ContextMenuListener
         if (password)
         {
             getComponent().setType("password");
+            //Remove the popup menu preferences and editor
+	        popupMenu = null;
         }
         else
         {
