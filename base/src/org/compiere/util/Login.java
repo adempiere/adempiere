@@ -24,6 +24,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -32,16 +33,7 @@ import javax.swing.JOptionPane;
 
 import org.compiere.Adempiere;
 import org.compiere.db.CConnection;
-import org.compiere.model.I_M_Warehouse;
-import org.compiere.model.MAcctSchema;
-import org.compiere.model.MClientInfo;
-import org.compiere.model.MCountry;
-import org.compiere.model.MRole;
-import org.compiere.model.MSystem;
-import org.compiere.model.MTable;
-import org.compiere.model.MTree_Base;
-import org.compiere.model.MUser;
-import org.compiere.model.ModelValidationEngine;
+import org.compiere.model.*;
 
 
 /**
@@ -270,7 +262,7 @@ public class Login
 		
 
 		// adaxa-pb: try to authenticate using hashed password -- falls back to plain text/encrypted
-		String where = " COALESCE(LDAPUser,Name) = ? AND" +
+		final String where = " COALESCE(LDAPUser,Name) = ? AND" +
 				" EXISTS (SELECT * FROM AD_User_Roles ur" +
 				"         INNER JOIN AD_Role r ON (ur.AD_Role_ID=r.AD_Role_ID)" +
 				"         WHERE ur.AD_User_ID=AD_User.AD_User_ID AND ur.IsActive='Y' AND r.IsActive='Y') AND " +
@@ -278,33 +270,34 @@ public class Login
 				"         WHERE c.AD_Client_ID=AD_User.AD_Client_ID" +
 				"         AND c.IsActive='Y') AND " +
 				" AD_User.IsActive='Y'";
-		
-		MUser user = MTable.get(m_ctx, MUser.Table_ID).createQuery( where, null)
-		.setParameters(app_user)
-		.firstOnly();   // throws error if username collision occurs
-		
-		String hash = null;
-		String salt = null;
-		int AD_User_ID = 0;
-		
-		if (user != null )
-		{
-			hash = user.getPassword();
-			salt = user.getSalt();
-		}
-		
-		// always do calculation to confuse timing based attacks
-		if ( user == null )
-			user = MUser.get(m_ctx, 0);
+
+        List<Object> parameters  = new ArrayList<Object>();
+        parameters.add(app_user);
+        //Get User ID and hash Password
+        final ValueNamePair[]  passwordHash = DB.getValueNamePairs("SELECT  AD_User_ID , Password FROM AD_User WHERE " + where , false  ,parameters);
+
+        String hash = null;
+        String salt = null;
+        int AD_User_ID = 0;
+        //Validate if password column is encrypted
+        boolean isEncrypted = MColumn.isEncrypted(417);
+
+        //Validate  password hash
+        if ( passwordHash != null && passwordHash.length > 0)
+        {
+            AD_User_ID = new Integer (passwordHash[0].getValue());
+            hash = isEncrypted ? SecureEngine.decrypt(passwordHash[0].getName()) : passwordHash[0].getName();
+            salt = DB.getSQLValueString(null, "SELECT Salt FROM AD_User WHERE AD_User_ID=?", AD_User_ID);
+        }
+
 		if ( hash == null )
 			hash = "0000000000000000";
 		if ( salt == null )
 			salt = "0000000000000000";
 
-		if ( user.authenticateHash(app_pwd) )
+		if ( MUser.authenticateHash(app_pwd, hash , salt) )
 		{
 			authenticated = true;
-			AD_User_ID = user.getAD_User_ID();
 			app_pwd = null;
 		}
 
@@ -369,6 +362,7 @@ public class Login
 			Env.setContext(m_ctx, "#AD_User_Name", app_user);
 			Env.setContext(m_ctx, "#AD_User_ID", rs.getInt(1));
 			Env.setContext(m_ctx, "#SalesRep_ID", rs.getInt(1));
+
 			//
 			if (Ini.isClient())
 			{

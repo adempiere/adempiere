@@ -21,10 +21,7 @@ import java.util.logging.Level;
 
 import org.compiere.Adempiere;
 import org.compiere.model.*;
-import org.compiere.util.CLogMgt;
-import org.compiere.util.DB;
-import org.compiere.util.Env;
-import org.compiere.util.Util;
+import org.compiere.util.*;
 
 /**
  *	Reset Password
@@ -51,6 +48,7 @@ public class HashPasswords extends SvrProcess
 		String where = " Password IS NOT NULL AND Salt IS NULL ";
 		
 		int count = 0;
+		boolean isEncrypted = MColumn.isEncrypted(417);
 
 		List<MUser> users = MTable.get(getCtx(), MUser.Table_ID).createQuery( where, get_TrxName())
 		.list();
@@ -58,9 +56,18 @@ public class HashPasswords extends SvrProcess
 		{
 			if ( user.getAD_User_ID() == 0 )
 			{
-				user.setPassword(user.getPassword());
-				String sql = "UPDATE AD_User SET Password = ?, Salt = ? WHERE AD_User_ID = 0 ";
-				DB.executeUpdateEx(sql, new Object[] {user.getPassword(), user.getSalt()}, get_TrxName());
+                String password = DB.getSQLValueString(get_TrxName(), "SELECT Password FROM AD_User WHERE AD_User_ID=?", 0);
+                if (isEncrypted)
+                	password = SecureEngine.decrypt(password);
+                
+				user.setPassword(password);
+                String sql = "UPDATE AD_User SET Updated=SysDate, UpdatedBy=" + getAD_User_ID();
+                if (!Util.isEmpty(password)) {
+                    sql += ", Password=" + DB.TO_STRING( isEncrypted ? SecureEngine.encrypt(user.getPassword()) : user.getPassword());
+                    sql += ", Salt=" +  DB.TO_STRING(user.getSalt());
+                }
+                sql += " WHERE AD_User_ID=0";
+                DB.executeUpdateEx(sql, get_TrxName());
 				count++;
 			}
 			else

@@ -32,6 +32,7 @@ import java.util.logging.Level;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -158,59 +159,6 @@ public class MUser extends X_AD_User
 		return get(ctx, Env.getAD_User_ID(ctx));
 	}	//	get
 
-	/**
-	 * 	Get User
-	 *	@param ctx context
-	 *	@param name name
-	 *	@param password password
-	 *	@return user or null
-	 */
-	public static MUser get (Properties ctx, String name, String password)
-	{
-		if (name == null || name.length() == 0 || password == null || password.length() == 0)
-		{
-			s_log.warning ("Invalid Name/Password = " + name + "/" + password);
-			return null;
-		}
-		int AD_Client_ID = Env.getAD_Client_ID(ctx);
-		
-		MUser retValue = null;
-		String sql = "SELECT * FROM AD_User "
-			+ "WHERE COALESCE(LDAPUser, Name)=? "  // #1
-			+ " AND ((Password=? AND (SELECT IsEncrypted FROM AD_Column WHERE AD_Column_ID=417)='N') " // #2 
-			+    "OR (Password=? AND (SELECT IsEncrypted FROM AD_Column WHERE AD_Column_ID=417)='Y'))" // #3
-			+ " AND IsActive='Y' AND AD_Client_ID=?" // #4
-		;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setString (1, name);
-			pstmt.setString (2, password);
-			pstmt.setString (3, SecureEngine.encrypt(password));
-			pstmt.setInt(4, AD_Client_ID);
-			rs = pstmt.executeQuery ();
-			if (rs.next ())
-			{
-				retValue = new MUser (ctx, rs, null);
-				if (rs.next())
-					s_log.warning ("More then one user with Name/Password = " + name);
-			}
-			else
-				s_log.fine("No record");
- 		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		return retValue;
-	}	//	get
 	
 	/**
 	 *  Get Name of AD_User
@@ -401,6 +349,19 @@ public class MUser extends X_AD_User
 			super.setPassword(password);
 		}
 	}
+
+    /**
+     * check if hashed password matches
+     */
+    public static boolean authenticateHash (final String password, final String hash,final  String salt) {
+        try {
+          return SecureEngine.getSHA512Hash(1000, password, Secure.convertHexString(salt)).equals(hash);
+        } catch (NoSuchAlgorithmException ignored) {
+         throw new AdempiereException("Password hashing not supported by JVM");
+        } catch (UnsupportedEncodingException ignored) {
+            throw new AdempiereException( "Password hashing not supported by JVM");
+        }
+    }
 	
 	/**
 	 * check if hashed password matches
@@ -419,15 +380,7 @@ public class MUser extends X_AD_User
 		if ( salt == null )
 			salt = "0000000000000000";
 
-		try {
-			return SecureEngine.getSHA512Hash(1000, password, Secure.convertHexString(salt)).equals(hash);
-		} catch (NoSuchAlgorithmException ignored) {
-			log.log(Level.WARNING, "Password hashing not supported by JVM");
-		} catch (UnsupportedEncodingException ignored) {
-			log.log(Level.WARNING, "Password hashing not supported by JVM");
-		}
-		return false;
-		
+        return MUser.authenticateHash(password, hash , salt);		
 	}
 
 	/**
