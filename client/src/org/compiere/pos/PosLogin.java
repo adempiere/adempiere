@@ -15,6 +15,7 @@ import org.compiere.swing.CDialog;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
 import org.compiere.util.Env;
+import org.compiere.util.Login;
 import org.compiere.util.Msg;
 
 public class PosLogin extends CDialog implements ActionListener {
@@ -71,7 +72,8 @@ public class PosLogin extends CDialog implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if ( e.getSource().equals(bProcess) )
 		{
-			MUser.get(posPanel.getCtx(), username.getText(), pin.getText());
+			Login login = new Login(posPanel.getCtx());
+			login.getRoles(username.getText(), pin.getText());
 		}
 		
 		dispose();

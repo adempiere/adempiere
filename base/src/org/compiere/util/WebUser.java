@@ -204,7 +204,7 @@ public class WebUser
 			m_passwordOK = true;
 		}	**/
 		//	We have a password
-		if (m_bpc != null && password != null && password.equals(m_bpc.getPassword()))
+		if (m_bpc != null && password != null && authenticateHash(password))
 			m_passwordOK = true;
 		if (m_passwordOK || m_bpc == null)
 			m_passwordMessage = null;
@@ -368,7 +368,7 @@ public class WebUser
 		//
 		log.info("= " + m_bp + " - " + m_bpc);
 	}	//	load
-
+	
 	/**
 	 * 	Return Valid.
 	 * 	@return return true if found
@@ -669,14 +669,21 @@ public class WebUser
 	public boolean login (String password)
 	{
 		m_loggedIn = isValid () 			//	we have a contact
-			 && WebUtil.exists (password) 	//	we have a password
-			 && password.equals (getPassword ());
+				 && WebUtil.exists (password) 	//	we have a password
+				 && authenticateHash(password);
 		setPasswordOK (m_loggedIn, password);
 		log.fine("success=" + m_loggedIn);
 		if (m_loggedIn)
 			Env.setContext(m_ctx, "#AD_User_ID", getAD_User_ID());
 		return m_loggedIn;
 	}	//	isLoggedIn
+	
+	
+
+	public boolean authenticateHash(String password)
+	{
+		return m_bpc.authenticateHash(password);
+	}
 
 	/**
 	 * 	Log in with oassword

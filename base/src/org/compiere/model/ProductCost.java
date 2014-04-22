@@ -343,8 +343,8 @@ public class ProductCost
 			+ "P_Overhead_Acct,P_Scrap_Acct "											//  21,22
 			+ "FROM M_Product_Category pc, M_Product_Category_Acct pca "
 			+ "WHERE pc.M_Product_Category_ID=pca.M_Product_Category_ID"
-			+ " AND pca.C_AcctSchema_ID=? AND (AD_Org_ID=? OR AD_Org_ID=0)"
-			+ " ORDER BY AD_Org_ID DESC , pc.IsDefault DESC, pc.Created";
+			+ " AND pca.C_AcctSchema_ID=? AND (pca.AD_Org_ID=? OR pca.AD_Org_ID=0)"
+			+ " ORDER BY pca.AD_Org_ID DESC , pc.IsDefault DESC, pc.Created";
 		//
 		int validCombination_ID = 0;
 		PreparedStatement pstmt = null;
