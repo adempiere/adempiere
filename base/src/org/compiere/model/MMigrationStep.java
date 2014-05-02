@@ -25,6 +25,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.StringTokenizer;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -177,9 +178,9 @@ public class MMigrationStep extends X_AD_MigrationStep {
 
 	private String applySQL(boolean rollback) {
 
-		String sql = rollback ? getRollbackStatement() : getSQLStatement();
+		String sqlStatements = rollback ? getRollbackStatement() : getSQLStatement();
 		
-		if ( sql == null || sql.trim().length() == 0 || sql.equals(";"))
+		if ( sqlStatements == null || sqlStatements.trim().length() == 0 || sqlStatements.equals(";"))
 		{
 			setErrorMsg("No SQL to execute.");
 			if ( !rollback )
@@ -188,54 +189,55 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			saveEx();
 			return " No SQL";
 		}
-		
-		sql = sql.trim();
-		if (sql.endsWith(";"))
-			sql = sql.substring(0, sql.length() - 1);		
 
-		if( getDBType().equals(MMigrationStep.DBTYPE_AllDatabaseTypes)
-				|| ( DB.isOracle() && getDBType().equals(MMigrationStep.DBTYPE_Oracle) )
-				|| ( DB.isPostgreSQL() && getDBType().equals(MMigrationStep.DBTYPE_Postgres) ) )
-		{
-			Connection conn = DB.getConnectionRW();
-			Statement stmt = null;
-			try {
 
-				conn.setAutoCommit(false);
-				stmt = conn.createStatement();
-				stmt.execute(sql);
-				conn.commit();
-				setStatusCode( rollback ? MMigrationStep.STATUSCODE_Unapplied :MMigrationStep.STATUSCODE_Applied);
-				setApply( rollback ? MMigrationStep.APPLY_Apply : MMigrationStep.APPLY_Rollback);
-				setErrorMsg(null);
-				conn.close();
-			} 
-			catch (SQLException e) {
-				setErrorMsg(e.toString());
-				log.log(Level.SEVERE, (rollback ? "Rollback" : "Application") + " of " + toString() + " failed.", e);
-				try {
-					conn.rollback();
-					conn.close();
-				} catch (SQLException se) {
-					;  // all out of luck
-				}
-				if ( !rollback )
-					setStatusCode(MMigrationStep.STATUSCODE_Failed);
-				setApply( rollback ? MMigrationStep.APPLY_Rollback : MMigrationStep.APPLY_Apply);
-				throw new AdempiereException("Step failed.", e);
-			} 
-			finally {
-				DB.close(stmt);
-				saveEx(null);
-			}
-		}
-		else
-		{
-			setStatusCode( rollback ? MMigrationStep.STATUSCODE_Unapplied :MMigrationStep.STATUSCODE_Applied);
-			setApply( rollback ? MMigrationStep.APPLY_Apply : MMigrationStep.APPLY_Rollback);
-			setErrorMsg(null);
-			saveEx(null);
-		}
+
+        if (getDBType().equals(MMigrationStep.DBTYPE_AllDatabaseTypes)
+        || (DB.isOracle() && getDBType().equals(MMigrationStep.DBTYPE_Oracle))
+        || (DB.isPostgreSQL() && getDBType().equals(MMigrationStep.DBTYPE_Postgres))) {
+         Connection conn = DB.getConnectionRW();
+         Statement stmt = null;
+         try {
+
+             conn.setAutoCommit(false);
+             stmt = conn.createStatement();
+
+             StringTokenizer tokens = new StringTokenizer(sqlStatements, ";");
+             while(tokens.hasMoreTokens()) {
+                 final String sql = tokens.nextToken().trim();
+                 if (sql != null && sql.length() > 0 )
+                    stmt.addBatch(sql);
+             }
+
+             stmt.executeBatch();
+             conn.commit();
+             setStatusCode(rollback ? MMigrationStep.STATUSCODE_Unapplied : MMigrationStep.STATUSCODE_Applied);
+             setApply(rollback ? MMigrationStep.APPLY_Apply : MMigrationStep.APPLY_Rollback);
+             setErrorMsg(null);
+             conn.close();
+         } catch (SQLException e) {
+             setErrorMsg(e.toString());
+             log.log(Level.SEVERE, (rollback ? "Rollback" : "Application") + " of " + toString() + " failed.", e);
+             try {
+                 conn.rollback();
+                 conn.close();
+             } catch (SQLException se) {
+                 ;  // all out of luck
+             }
+             if (!rollback)
+                 setStatusCode(MMigrationStep.STATUSCODE_Failed);
+             setApply(rollback ? MMigrationStep.APPLY_Rollback : MMigrationStep.APPLY_Apply);
+             throw new AdempiereException("Step failed.", e);
+         } finally {
+             DB.close(stmt);
+             saveEx(null);
+         }
+     } else {
+         setStatusCode(rollback ? MMigrationStep.STATUSCODE_Unapplied : MMigrationStep.STATUSCODE_Applied);
+         setApply(rollback ? MMigrationStep.APPLY_Apply : MMigrationStep.APPLY_Rollback);
+         setErrorMsg(null);
+         saveEx(null);
+     }
 		
 		return rollback ? " Rolled-back" : " Applied";
 	}

@@ -2475,7 +2475,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">SQL for display of lookup value</Data>
         <Data AD_Column_ID="6482" Column="EntityType">D</Data>
-        <Data AD_Column_ID="118" Column="FieldLength">999999</Data>
+        <Data AD_Column_ID="118" Column="FieldLength">2000</Data>
         <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
         <Data AD_Column_ID="113" Column="Help">Fully qualified subquery SQL</Data>
         <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
