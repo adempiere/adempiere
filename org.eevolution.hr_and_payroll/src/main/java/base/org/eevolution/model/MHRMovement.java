@@ -92,6 +92,7 @@ public class MHRMovement extends X_HR_Movement
 		setC_Activity_ID(employee.getC_Activity_ID());
 		setColumnType(hrconcept.getColumnType());
 		setValidFrom(impHRm.getValidFrom());
+        setValidTo(impHRm.getValidTo());
 		setIsManual(hrconcept.isManual());
 		setIsPrinted(hrconcept.isPrinted());
 
