@@ -151,6 +151,19 @@ public interface I_AD_PInstance
 
 	/** Get Processing	  */
 	public boolean isProcessing();
+	
+	/** Column name Name */
+	public static final String COLUMNNAME_Name = "Name";
+	
+	/** Set Name.
+	* Alphanumeric identifier of the entity
+	*/
+	public void setName (String Name);
+	
+	/** Get Name.
+	* Alphanumeric identifier of the entity
+	*/
+	public String getName();
 
     /** Column name Record_ID */
     public static final String COLUMNNAME_Record_ID = "Record_ID";
