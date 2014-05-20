@@ -44,7 +44,7 @@
         <Data AD_Column_ID="109" Column="AD_Column_ID">69936</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">226</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">362</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -72,7 +72,7 @@
         <Data AD_Column_ID="109" Column="AD_Column_ID">69937</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">226</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">130</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -123,7 +123,7 @@
         <Data AD_Column_ID="2598" Column="Created">2013-11-23 16:46:54.64</Data>
         <Data AD_Column_ID="2599" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="2597" Column="IsActive">true</Data>
         <Data AD_Column_ID="2603" Column="Name">Alias</Data>
@@ -144,7 +144,7 @@
         <Data AD_Column_ID="554" Column="Created">2013-11-23 16:47:46.734</Data>
         <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="131" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="6486" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">D</Data>
         <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="553" Column="IsActive">true</Data>
         <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
@@ -167,7 +167,7 @@
         <Data AD_Column_ID="559" Column="Created">2013-11-23 16:48:26.5</Data>
         <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="62121" Column="DisplaySQL" isNewNull="true"/>
-        <Data AD_Column_ID="7711" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7711" Column="EntityType">D</Data>
         <Data AD_Column_ID="558" Column="IsActive">true</Data>
         <Data AD_Column_ID="62120" Column="IsAlert">false</Data>
         <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
@@ -185,7 +185,7 @@
         <Data AD_Column_ID="109" Column="AD_Column_ID">69938</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">226</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">53598</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -239,7 +239,7 @@
         <Data AD_Column_ID="109" Column="AD_Column_ID">69939</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">226</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">142</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -283,7 +283,7 @@
         <Data AD_Column_ID="109" Column="AD_Column_ID">69940</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">226</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">138</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -332,7 +332,7 @@
         <Data AD_Column_ID="109" Column="AD_Column_ID">69941</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">226</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">143</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -381,7 +381,7 @@
         <Data AD_Column_ID="109" Column="AD_Column_ID">69942</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">226</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">133</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -430,7 +430,7 @@
         <Data AD_Column_ID="109" Column="AD_Column_ID">69943</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">226</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">133</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -479,7 +479,7 @@
         <Data AD_Column_ID="109" Column="AD_Column_ID">69944</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">226</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">141</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -528,7 +528,7 @@
         <Data AD_Column_ID="109" Column="AD_Column_ID">69945</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">226</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">144</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -577,7 +577,7 @@
         <Data AD_Column_ID="109" Column="AD_Column_ID">69946</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">226</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -632,7 +632,7 @@
         <Data AD_Column_ID="109" Column="AD_Column_ID">69947</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">226</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">162</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -681,7 +681,7 @@
         <Data AD_Column_ID="109" Column="AD_Column_ID">69948</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">226</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">134</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -730,7 +730,7 @@
         <Data AD_Column_ID="109" Column="AD_Column_ID">69949</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">226</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">137</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -784,7 +784,7 @@
         <Data AD_Column_ID="109" Column="AD_Column_ID">69950</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">226</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -871,7 +871,7 @@
         <Data AD_Column_ID="109" Column="AD_Column_ID">69951</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">226</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
@@ -978,7 +978,7 @@
         <Data AD_Column_ID="169" Column="Description">Account used</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">10</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The (natural) account used</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1018,7 +1018,7 @@
         <Data AD_Column_ID="169" Column="Description">Identifies a Business Partner</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">A Business Partner is anyone with whom you transact.  This can include Vendor, Customer, Employee or Salesperson</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1058,7 +1058,7 @@
         <Data AD_Column_ID="169" Column="Description">Performing or initiating organisation</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic">@$Element_OT@=Y</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The organisation which performs or initiates this transaction (for another organisation).  The owning Organisation may not be the transaction organisation in a service bureau environment, with centralised services, and inter-organisation transactions.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1098,7 +1098,7 @@
         <Data AD_Column_ID="169" Column="Description">Business Activity</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic">@$Element_AY@=Y</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">Activities indicate tasks that are performed and used to utilize Activity based Costing</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1138,7 +1138,7 @@
         <Data AD_Column_ID="169" Column="Description">Marketing Campaign</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic">@$Element_MC@=Y</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Campaign defines a unique marketing program.  Projects can be associated with a pre defined Marketing Campaign.  You can then report based on a specific Campaign.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1178,7 +1178,7 @@
         <Data AD_Column_ID="169" Column="Description">Sales coverage region</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic">@$Element_SR@=Y</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Sales Region indicates a specific area of sales coverage.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1218,7 +1218,7 @@
         <Data AD_Column_ID="169" Column="Description">Financial Project</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic">@$Element_PJ@=Y</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">A Project allows you to track and control internal or external activities.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1258,7 +1258,7 @@
         <Data AD_Column_ID="169" Column="Description">Sub account for Element Value</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic">@$Element_SA@=Y</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Element Value (e.g. Account) may have optional sub accounts for further detail. The sub account is dependent on the value of the account, so a further specification. If the sub-accounts are more or less the same, consider using another accounting dimension.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1298,7 +1298,7 @@
         <Data AD_Column_ID="169" Column="Description">Product, Service, Item</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic">@$Element_PR@=Y</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">Identifies an item which is either purchased or sold in this organization.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1338,7 +1338,7 @@
         <Data AD_Column_ID="169" Column="Description">Location that inventory was moved from</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic">@$Element_LF@=Y</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Location From indicates the location that a product was moved from.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1378,7 +1378,7 @@
         <Data AD_Column_ID="169" Column="Description">Location that inventory was moved to</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic">@$Element_LT@=Y</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Location To indicates the location that a product was moved to.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1428,7 +1428,7 @@
         <Data AD_Column_ID="169" Column="Description">User defined accounting Element</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic">@$Element_X1@=Y</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">A user defined accounting element refers to a Adempiere table. This allows to use any table content as an accounting dimension (e.g. Project Task).  Note that User Elements are optional and are populated from the context of the document (i.e. not requested)</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1468,7 +1468,7 @@
         <Data AD_Column_ID="169" Column="Description">User defined accounting Element</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic">@$Element_X2@=Y</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">A user defined accounting element refers to a Adempiere table. This allows to use any table content as an accounting dimension (e.g. Project Task).  Note that User Elements are optional and are populated from the context of the document (i.e. not requested)</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1508,7 +1508,7 @@
         <Data AD_Column_ID="169" Column="Description">User defined list element #1</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic">@$Element_U1@=Y</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The user defined element displays the optional elements that have been defined for this account combination.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1548,7 +1548,7 @@
         <Data AD_Column_ID="169" Column="Description">User defined list element #2</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic">@$Element_U2@=Y</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The user defined element displays the optional elements that have been defined for this account combination.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1582,7 +1582,7 @@
         <Data AD_Column_ID="169" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1636,7 +1636,7 @@
         <Data AD_Column_ID="599" Column="Created">2013-11-23 17:19:33.25</Data>
         <Data AD_Column_ID="600" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="230" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="7721" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7721" Column="EntityType">D</Data>
         <Data AD_Column_ID="598" Column="IsActive">true</Data>
         <Data AD_Column_ID="59134" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="6651" Column="IsReadOnly">false</Data>
@@ -1657,7 +1657,7 @@
         <Data AD_Column_ID="569" Column="Created">2013-11-23 17:20:12.296</Data>
         <Data AD_Column_ID="570" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="157" Column="Description">Enter and change Manual Journal Entries</Data>
-        <Data AD_Column_ID="6490" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6490" Column="EntityType">D</Data>
         <Data AD_Column_ID="158" Column="Help">The GL Journal Window allows you to enter and modify manual journal entries</Data>
         <Data AD_Column_ID="568" Column="IsActive">true</Data>
         <Data AD_Column_ID="12457" Column="IsBetaFunctionality">false</Data>
@@ -1689,7 +1689,7 @@
         <Data AD_Column_ID="575" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="162" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="13450" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7713" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7713" Column="EntityType">D</Data>
         <Data AD_Column_ID="1183" Column="HasTree">false</Data>
         <Data AD_Column_ID="163" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6487" Column="ImportFields">N</Data>
@@ -1731,7 +1731,7 @@
         <Data AD_Column_ID="169" Column="Description">Client/Tenant for this installation.</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1771,7 +1771,7 @@
         <Data AD_Column_ID="169" Column="Description">Organizational entity within client</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1811,7 +1811,7 @@
         <Data AD_Column_ID="169" Column="Description">Rules for accounting</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">An Accounting Schema defines the rules used in accounting such as costing method, currency and calendar</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1856,7 +1856,7 @@
         <Data AD_Column_ID="169" Column="Description">General Ledger Journal Batch</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">140</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The General Ledger Journal Batch identifies a group of journals to be processed as a group.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1896,7 +1896,7 @@
         <Data AD_Column_ID="169" Column="Description">Document sequence number of the document</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">20</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The document number is usually automatically generated by the system and determined by the document type of the document. If the document is not saved, the preliminary number is displayed in "&lt;&gt;".
 
 If the document type of your document has no automatic document sequence defined, the field is empty if you create a new document. This is for documents which usually have an external number (like vendor invoice).  If you leave the field empty, the system will generate a document number for you. The document sequence used for this fallback number is defined in the "Maintain Sequence" window with the name "DocumentNo_&lt;TableName&gt;", where TableName is the actual name of the table (e.g. C_Order).</Data>
@@ -1938,7 +1938,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="169" Column="Description">Optional short description of the record</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">60</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">A description is limited to 255 characters.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1978,7 +1978,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="169" Column="Description">The record is active in the system</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">1</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
 There are two reasons for de-activating and not deleting records:
 (1) The system requires the record for audit purposes.
@@ -2021,7 +2021,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">The type of posted amount for the transaction</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Posting Type indicates the type of amount (Actual, Budget, Reservation, Commitment, Statistical) the transaction.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -2061,7 +2061,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">General Ledger Budget</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">14</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic">@PostingType@='B'</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The General Ledger Budget identifies a user defined budget.  These can be used in reporting as a comparison against your actual amounts.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -2101,7 +2101,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Document type or rules</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">14</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Document Type determines document sequence and processing rules</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -2141,7 +2141,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">General Ledger Category</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The General Ledger Category is an optional, user defined method of grouping journal lines.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -2181,7 +2181,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Date of the Document</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">14</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Document Date indicates the date the document was generated.  It may or may not be the same as the accounting date.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -2221,7 +2221,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Accounting Date</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">14</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Accounting Date indicates the date to be used on the General Ledger account entries generated from this document. It is also used for any currency conversion.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -2281,7 +2281,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Period of the Calendar</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
       </PO>
     </Step>
     <Step SeqNo="800" StepType="AD">
@@ -2306,7 +2306,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">The Currency for this record</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">14</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">Indicates the Currency to be used when processing or reporting on this record</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -2346,7 +2346,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Currency Conversion Rate Type</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">14</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic">@$C_Currency_ID@!@C_Currency_ID@</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Currency Conversion Rate Type lets you define different type of rates, e.g. Spot, Corporate and/or Sell/Buy rates.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -2386,7 +2386,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Currency Conversion Rate</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">26</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic">@$C_Currency_ID@!@C_Currency_ID@</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Currency Conversion Rate indicates the rate to use when converting the source currency to the accounting currency</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -2426,7 +2426,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">If not zero, the Debit amount of the document must be equal this amount</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">26</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">If the control amount is zero, no check is performed.
 Otherwise the total Debit amount must be equal to the control amount, before the document is processed.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
@@ -2467,7 +2467,7 @@ Otherwise the total Debit amount must be equal to the control amount, before the
         <Data AD_Column_ID="169" Column="Description">Indicates if this document requires approval</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Approved checkbox indicates if this document requires approval before it can be processed.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -2507,7 +2507,7 @@ Otherwise the total Debit amount must be equal to the control amount, before the
         <Data AD_Column_ID="169" Column="Description">Total debit in document currency</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">26</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Total Debit indicates the total debit amount for a journal or journal batch in the source currency</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -2547,7 +2547,7 @@ Otherwise the total Debit amount must be equal to the control amount, before the
         <Data AD_Column_ID="169" Column="Description">Total Credit in document currency</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">26</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Total Credit indicates the total credit amount for a journal or journal batch in the source currency</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -2587,7 +2587,7 @@ Otherwise the total Debit amount must be equal to the control amount, before the
         <Data AD_Column_ID="169" Column="Description">The current status of the document</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">14</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Document Status indicates the status of a document at this time.  If you want to change the document status, use the Document Action field</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -2627,7 +2627,7 @@ Otherwise the total Debit amount must be equal to the control amount, before the
         <Data AD_Column_ID="169" Column="Description">The targeted status of the document</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">You find the current status in the Document Status field. The options are listed in a popup</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -2667,7 +2667,7 @@ Otherwise the total Debit amount must be equal to the control amount, before the
         <Data AD_Column_ID="169" Column="Description">Posting status</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">23</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic">@Processed@=Y &amp; @#ShowAcct@=Y</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Posted field indicates the status of the Generation of General Ledger Accounting Lines </Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -2707,7 +2707,7 @@ Otherwise the total Debit amount must be equal to the control amount, before the
         <Data AD_Column_ID="575" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="162" Column="Description">General Ledger Journal Line</Data>
         <Data AD_Column_ID="13450" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7713" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7713" Column="EntityType">D</Data>
         <Data AD_Column_ID="1183" Column="HasTree">false</Data>
         <Data AD_Column_ID="163" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6487" Column="ImportFields">N</Data>
@@ -2749,7 +2749,7 @@ Otherwise the total Debit amount must be equal to the control amount, before the
         <Data AD_Column_ID="169" Column="Description">Client/Tenant for this installation.</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">14</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -2789,7 +2789,7 @@ Otherwise the total Debit amount must be equal to the control amount, before the
         <Data AD_Column_ID="169" Column="Description">Organizational entity within client</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -2841,7 +2841,7 @@ Otherwise the total Debit amount must be equal to the control amount, before the
         <Data AD_Column_ID="169" Column="Description">General Ledger Journal</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">14</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The General Ledger Journal identifies a group of journal lines which represent a logical business transaction</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -2869,7 +2869,7 @@ Otherwise the total Debit amount must be equal to the control amount, before the
         <Data AD_Column_ID="169" Column="Description">Unique line for this document</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">110</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">Indicates the unique line for a document.  It will also control the display order of the lines within a document.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -2909,7 +2909,7 @@ Otherwise the total Debit amount must be equal to the control amount, before the
         <Data AD_Column_ID="169" Column="Description">Optional short description of the record</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">60</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">A description is limited to 255 characters.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -2949,7 +2949,7 @@ Otherwise the total Debit amount must be equal to the control amount, before the
         <Data AD_Column_ID="169" Column="Description">The record is active in the system</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">1</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
         <Data AD_Column_ID="578" Column="IsActive">true</Data>
@@ -2992,7 +2992,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">This Line is generated</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">1</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Generated checkbox identifies a journal line that was generated from a source document.  Lines could also be entered manually or imported.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -3032,7 +3032,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">The Currency for this record</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">14</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">Indicates the Currency to be used when processing or reporting on this record</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -3071,7 +3071,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="180" Column="DisplayLength">14</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic">@C_Currency_ID@!@$C_Currency_ID@</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Accounting Date indicates the date to be used on the General Ledger account entries generated from this document. It is also used for any currency conversion.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -3112,7 +3112,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Currency Conversion Rate Type</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">14</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic">@C_Currency_ID@!@$C_Currency_ID@</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Currency Conversion Rate Type lets you define different type of rates, e.g. Spot, Corporate and/or Sell/Buy rates.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -3152,7 +3152,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Account used</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">10</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The (natural) account used</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -3191,7 +3191,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Identifies a Business Partner</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">10</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">A Business Partner is anyone with whom you transact.  This can include Vendor, Customer, Employee or Salesperson</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -3232,7 +3232,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Performing or initiating organisation</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">10</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic">@$Element_OT@=Y</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The organisation which performs or initiates this transaction (for another organisation).  The owning Organisation may not be the transaction organisation in a service bureau environment, with centralised services, and inter-organisation transactions.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -3272,7 +3272,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Business Activity</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">10</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic">@$Element_AY@=Y</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">Activities indicate tasks that are performed and used to utilize Activity based Costing</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -3312,7 +3312,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Marketing Campaign</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">10</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic">@$Element_MC@=Y</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Campaign defines a unique marketing program.  Projects can be associated with a pre defined Marketing Campaign.  You can then report based on a specific Campaign.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -3352,7 +3352,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Sales coverage region</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">10</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic">@$Element_SR@=Y</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Sales Region indicates a specific area of sales coverage.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -3391,7 +3391,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="180" Column="DisplayLength">20</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic">@$Element_PJ@=Y</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">A Project allows you to track and control internal or external activities.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -3432,7 +3432,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Sub account for Element Value</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">18</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic">@$Element_SA@=Y</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Element Value (e.g. Account) may have optional sub accounts for further detail. The sub account is dependent on the value of the account, so a further specification. If the sub-accounts are more or less the same, consider using another accounting dimension.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -3472,7 +3472,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Product, Service, Item</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">10</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic">@$Element_PR@=Y</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">Identifies an item which is either purchased or sold in this organization.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -3511,7 +3511,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Location that inventory was moved from</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">10</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic">@$Element_LF@=Y</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Location From indicates the location that a product was moved from.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -3552,7 +3552,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Location that inventory was moved to</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">10</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic">@$Element_LT@=Y</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Location To indicates the location that a product was moved to.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -3602,7 +3602,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">User defined accounting Element</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">10</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic">@$Element_X1@=Y</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">A user defined accounting element refers to a Adempiere table. This allows to use any table content as an accounting dimension (e.g. Project Task).  Note that User Elements are optional and are populated from the context of the document (i.e. not requested)</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -3642,7 +3642,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">User defined accounting Element</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">10</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic">@$Element_X2@=Y</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">A user defined accounting element refers to a Adempiere table. This allows to use any table content as an accounting dimension (e.g. Project Task).  Note that User Elements are optional and are populated from the context of the document (i.e. not requested)</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -3692,7 +3692,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">User defined list element #1</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">10</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic">@$Element_U1@=Y</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The user defined element displays the optional elements that have been defined for this account combination.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -3732,7 +3732,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">User defined list element #2</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">10</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic">@$Element_U2@=Y</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
         <Data AD_Column_ID="578" Column="IsActive">true</Data>
@@ -3772,7 +3772,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="180" Column="DisplayLength">10</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -3812,7 +3812,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Currency Conversion Rate</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">26</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic">@C_Currency_ID@!@$C_Currency_ID@</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Currency Conversion Rate indicates the rate to use when converting the source currency to the accounting currency</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -3852,7 +3852,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Valid Account Combination</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">26</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
         <Data AD_Column_ID="578" Column="IsActive">true</Data>
@@ -3892,7 +3892,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="180" Column="DisplayLength">1</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -3932,7 +3932,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Asset used internally or by customers</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">22</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic">@A_CreateAsset@='Y'</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">An asset is either created by purchasing or by delivering a product.  An asset can be used internally or be a customer asset.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -3972,7 +3972,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Group of Assets</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic">@A_Asset_ID@&lt;1&amp;@A_CreateAsset@='Y'</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
         <Data AD_Column_ID="578" Column="IsActive">true</Data>
@@ -4012,7 +4012,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Source Debit Amount</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">26</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Source Debit Amount indicates the credit amount for this line in the source currency.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -4052,7 +4052,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Source Credit Amount</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">26</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Source Credit Amount indicates the credit amount for this line in the source currency.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -4092,7 +4092,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Accounted Debit Amount</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">26</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
         <Data AD_Column_ID="578" Column="IsActive">true</Data>
@@ -4132,7 +4132,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Accounted Credit Amount</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">26</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Account Credit Amount indicates the transaction amount converted to this organization's accounting currency</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -4172,7 +4172,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Unit of Measure</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">14</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The UOM defines a unique non monetary Unit of Measure</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -4212,7 +4212,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Quantity</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">26</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Quantity indicates the number of a specific product or item for this document.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -4317,7 +4317,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Date this record was created</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Created field indicates the date that this record was created.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -4356,7 +4356,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="169" Column="Description">User who created this records</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Created By field indicates the user who created this record.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -4397,7 +4397,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Date this record was updated</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Updated field indicates the date that this record was updated.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -4437,7 +4437,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">User who updated this records</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Updated By field indicates the user who updated this record.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -4476,7 +4476,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Created field indicates the date that this record was created.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -4517,7 +4517,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">User who created this records</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Created By field indicates the user who created this record.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -4557,7 +4557,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Date this record was updated</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Updated field indicates the date that this record was updated.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -4596,7 +4596,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Updated By field indicates the user who updated this record.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -4637,7 +4637,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">General Ledger Journal Line</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The General Ledger Journal Line identifies a single transaction in a journal.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -4677,7 +4677,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">The document has been processed</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Processed checkbox indicates that a document has been processed.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -4716,7 +4716,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">General Ledger Journal</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The General Ledger Journal identifies a group of journal lines which represent a logical business transaction</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -4757,7 +4757,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">The document has been processed</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Processed checkbox indicates that a document has been processed.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -4797,7 +4797,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Indicates if this document / line is printed</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Printed checkbox indicates if this document or line will included when printing.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -4836,7 +4836,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">The date+time (expressed in decimal format) when the document has been processed</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The ProcessedOn Date+Time save the exact moment (nanoseconds precision if allowed by the DB) when a document has been processed.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -4877,7 +4877,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>

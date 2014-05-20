@@ -63,7 +63,7 @@ ALTER TABLE T_InventoryValue ADD Group1 NVARCHAR2(255) DEFAULT NULL
 
 -- Sep 13, 2010 12:18:44 PM CDT
 -- Cost Engine
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,59794,52019,0,10,478,'Group2',TO_DATE('2010-09-13 12:18:42','YYYY-MM-DD HH24:MI:SS'),0,'U',255,'Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Group2',0,TO_DATE('2010-09-13 12:18:42','YYYY-MM-DD HH24:MI:SS'),0,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,59794,52019,0,10,478,'Group2',TO_DATE('2010-09-13 12:18:42','YYYY-MM-DD HH24:MI:SS'),0,'D',255,'Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Group2',0,TO_DATE('2010-09-13 12:18:42','YYYY-MM-DD HH24:MI:SS'),0,0)
 ;
 
 -- Sep 13, 2010 12:18:44 PM CDT

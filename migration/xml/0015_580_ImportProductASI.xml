@@ -515,19 +515,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="1187" Column="VFormat" isNewNull="true"/>
       </PO>
     </Step>
-    <Step SeqNo="130" StepType="AD">
-      <PO AD_Table_ID="276" Action="U" Record_ID="57075" Table="AD_Element">
-        <Data AD_Column_ID="58588" Column="AD_Reference_ID" isNewNull="true" isOldNull="true"/>
-        <Data AD_Column_ID="58590" Column="AD_Reference_Value_ID" isNewNull="true" isOldNull="true"/>
-        <Data AD_Column_ID="2604" Column="Description" isNewNull="true" isOldNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType" oldValue="EE01">U</Data>
-        <Data AD_Column_ID="2605" Column="Help" isNewNull="true" isOldNull="true"/>
-        <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true" isOldNull="true"/>
-        <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true" isOldNull="true"/>
-        <Data AD_Column_ID="6285" Column="PO_Name" isNewNull="true" isOldNull="true"/>
-        <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true" isOldNull="true"/>
-      </PO>
-    </Step>
     <Step SeqNo="140" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="72282" Table="AD_Column">
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
@@ -694,7 +681,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2805" Column="Created">2014-03-08 20:03:45.621</Data>
         <Data AD_Column_ID="2806" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="2810" Column="Description">Imports Product Attribute Set Instance  from a file into the application</Data>
-        <Data AD_Column_ID="6485" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6485" Column="EntityType">D</Data>
         <Data AD_Column_ID="2811" Column="Help">The parameters are the default values to import the records.
 </Data>
         <Data AD_Column_ID="2804" Column="IsActive">true</Data>

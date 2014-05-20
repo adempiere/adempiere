@@ -9453,7 +9453,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Order</Data>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="118" Column="FieldLength">10</Data>
         <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
         <Data AD_Column_ID="113" Column="Help">The Order is a control document.  The  Order is complete when the quantity ordered is the same as the quantity shipped and invoiced.  When you close an order, unshipped (backordered) quantities are cancelled.</Data>
@@ -22634,7 +22634,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic">@CreateOpportunity@='Y'</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="3737" Column="FieldLength">7</Data>
         <Data AD_Column_ID="2824" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="2817" Column="IsActive">true</Data>

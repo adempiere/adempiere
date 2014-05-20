@@ -15,7 +15,7 @@ ALTER TABLE AD_Package_Exp_Detail ADD AD_View_ID NUMBER(10) DEFAULT NULL
 
 -- Jun 29, 2012 9:57:28 AM CDT
 -- https://adempiere.atlassian.net/browse/ADEMPIERE-10
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,63485,53902,0,19,50006,'AD_Browse_ID',TO_DATE('2012-06-29 09:57:28','YYYY-MM-DD HH24:MI:SS'),100,'U',22,'Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Smart Browse',0,TO_DATE('2012-06-29 09:57:28','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,63485,53902,0,19,50006,'AD_Browse_ID',TO_DATE('2012-06-29 09:57:28','YYYY-MM-DD HH24:MI:SS'),100,'EE07',22,'Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Smart Browse',0,TO_DATE('2012-06-29 09:57:28','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jun 29, 2012 9:57:28 AM CDT
@@ -35,7 +35,7 @@ ALTER TABLE AD_Package_Exp_Detail MODIFY AD_Browse_ID NUMBER(10) DEFAULT NULL
 
 -- Jun 29, 2012 9:59:11 AM CDT
 -- https://adempiere.atlassian.net/browse/ADEMPIERE-10
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,63485,64590,0,50006,TO_DATE('2012-06-29 09:59:10','YYYY-MM-DD HH24:MI:SS'),100,22,'U','Y','Y','Y','N','N','N','N','N','Smart Browse',TO_DATE('2012-06-29 09:59:10','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,63485,64590,0,50006,TO_DATE('2012-06-29 09:59:10','YYYY-MM-DD HH24:MI:SS'),100,22,'EE07','Y','Y','Y','N','N','N','N','N','Smart Browse',TO_DATE('2012-06-29 09:59:10','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jun 29, 2012 9:59:11 AM CDT
@@ -100,7 +100,7 @@ ALTER TABLE AD_WF_Node ADD AD_View_ID NUMBER(10) DEFAULT NULL
 
 -- Jun 29, 2012 10:05:41 AM CDT
 -- https://adempiere.atlassian.net/browse/ADEMPIERE-10
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,63487,53902,0,19,129,'AD_Browse_ID',TO_DATE('2012-06-29 10:05:41','YYYY-MM-DD HH24:MI:SS'),100,'U',22,'Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Smart Browse',0,TO_DATE('2012-06-29 10:05:41','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,63487,53902,0,19,129,'AD_Browse_ID',TO_DATE('2012-06-29 10:05:41','YYYY-MM-DD HH24:MI:SS'),100,'EE07',22,'Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Smart Browse',0,TO_DATE('2012-06-29 10:05:41','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jun 29, 2012 10:05:41 AM CDT

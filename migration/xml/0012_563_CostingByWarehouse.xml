@@ -783,7 +783,7 @@
     </Step>
     <Step SeqNo="1060" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="66651" Table="AD_Column">
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="118" Column="FieldLength">22</Data>
         <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>

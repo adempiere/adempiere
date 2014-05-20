@@ -2,7 +2,7 @@ SET DEFINE OFF
 SET SQLBLANKLINES ON;
 -- 02/09/2010 5:53:14 PM
 
-INSERT INTO AD_Table (AccessLevel,AD_Client_ID,AD_Org_ID,AD_Table_ID,Created,CreatedBy,EntityType,IsActive,IsChangeLog,IsDeleteable,IsHighVolume,IsSecurityEnabled,IsView,Name,ReplicationType,TableName,Updated,UpdatedBy) VALUES ('3',0,0,53285,TO_DATE('2010-09-02 17:53:12','YYYY-MM-DD HH24:MI:SS'),100,'U','Y','N','N','N','N','N','T_RV_Reconciliation','L','T_RV_Reconciliation',TO_DATE('2010-09-02 17:53:12','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Table (AccessLevel,AD_Client_ID,AD_Org_ID,AD_Table_ID,Created,CreatedBy,EntityType,IsActive,IsChangeLog,IsDeleteable,IsHighVolume,IsSecurityEnabled,IsView,Name,ReplicationType,TableName,Updated,UpdatedBy) VALUES ('3',0,0,53285,TO_DATE('2010-09-02 17:53:12','YYYY-MM-DD HH24:MI:SS'),100,'D','Y','N','N','N','N','N','T_RV_Reconciliation','L','T_RV_Reconciliation',TO_DATE('2010-09-02 17:53:12','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- 02/09/2010 5:53:14 PM

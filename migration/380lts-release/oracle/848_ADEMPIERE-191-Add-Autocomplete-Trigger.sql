@@ -10,7 +10,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jun 14, 2013 4:41:40 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,ValueMin,Version) VALUES (0,65574,55913,0,11,100,'ACTriggerLength',TO_DATE('2013-06-14 16:41:40','YYYY-MM-DD HH24:MI:SS'),100,'0','Identifier autocomplete trigger length','U',10,'Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Auto Complete Min Length',0,TO_DATE('2013-06-14 16:41:40','YYYY-MM-DD HH24:MI:SS'),100,'0',0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,ValueMin,Version) VALUES (0,65574,55913,0,11,100,'ACTriggerLength',TO_DATE('2013-06-14 16:41:40','YYYY-MM-DD HH24:MI:SS'),100,'0','Identifier autocomplete trigger length','D',10,'Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Auto Complete Min Length',0,TO_DATE('2013-06-14 16:41:40','YYYY-MM-DD HH24:MI:SS'),100,'0',0)
 ;
 
 -- Jun 14, 2013 4:41:40 PM EEST

@@ -1,6 +1,6 @@
 -- Jun 25, 2010 5:02:52 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,59609,2819,0,30,808,'C_LandedCostAllocation_ID',TO_TIMESTAMP('2010-06-25 17:02:48','YYYY-MM-DD HH24:MI:SS'),0,'Allocation for Land Costs','U',10,'Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Landed Cost Allocation',0,TO_TIMESTAMP('2010-06-25 17:02:48','YYYY-MM-DD HH24:MI:SS'),0,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,59609,2819,0,30,808,'C_LandedCostAllocation_ID',TO_TIMESTAMP('2010-06-25 17:02:48','YYYY-MM-DD HH24:MI:SS'),0,'Allocation for Land Costs','D',10,'Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Landed Cost Allocation',0,TO_TIMESTAMP('2010-06-25 17:02:48','YYYY-MM-DD HH24:MI:SS'),0,0)
 ;
 
 -- Jun 25, 2010 5:02:52 PM EEST
@@ -21,7 +21,7 @@ INSERT INTO t_alter_column values('m_costdetail','C_LandedCostAllocation_ID','NU
 
 -- Jun 25, 2010 5:05:37 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,59609,59521,0,748,TO_TIMESTAMP('2010-06-25 17:05:31','YYYY-MM-DD HH24:MI:SS'),0,'Allocation for Land Costs',10,'U','Y','Y','Y','N','N','N','N','N','Landed Cost Allocation',TO_TIMESTAMP('2010-06-25 17:05:31','YYYY-MM-DD HH24:MI:SS'),0)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,59609,59521,0,748,TO_TIMESTAMP('2010-06-25 17:05:31','YYYY-MM-DD HH24:MI:SS'),0,'Allocation for Land Costs',10,'D','Y','Y','Y','N','N','N','N','N','Landed Cost Allocation',TO_TIMESTAMP('2010-06-25 17:05:31','YYYY-MM-DD HH24:MI:SS'),0)
 ;
 
 -- Jun 25, 2010 5:05:37 PM EEST

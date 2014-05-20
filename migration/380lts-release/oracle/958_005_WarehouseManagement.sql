@@ -4302,7 +4302,7 @@ ALTER TABLE WM_Section_Type ADD InOutBoundType CHAR(1) NOT NULL
 
 -- Sep 6, 2009 11:55:57 PM ECT
 -- Warehouse Management
-INSERT INTO AD_Tab (AD_Client_ID,AD_Org_ID,AD_Tab_ID,AD_Table_ID,AD_Window_ID,CommitWarning,Created,CreatedBy,Description,EntityType,HasTree,Help,IsActive,IsAdvancedTab,IsInfoTab,IsInsertRecord,IsReadOnly,IsSingleRow,IsSortTab,IsTranslationTab,Name,Processing,SeqNo,TabLevel,Updated,UpdatedBy) VALUES (0,0,53264,53239,53093,NULL,TO_DATE('2009-09-06 23:55:54','YYYY-MM-DD HH24:MI:SS'),0,'Warehouse Section Type','U','N','The Warehouse Section Type Tab defines different Warehouse Section used for different purpose in a Warehouse.','Y','N','N','Y','N','Y','N','N','Warehouse Section Type','N',10,0,TO_DATE('2009-09-06 23:55:54','YYYY-MM-DD HH24:MI:SS'),0)
+INSERT INTO AD_Tab (AD_Client_ID,AD_Org_ID,AD_Tab_ID,AD_Table_ID,AD_Window_ID,CommitWarning,Created,CreatedBy,Description,EntityType,HasTree,Help,IsActive,IsAdvancedTab,IsInfoTab,IsInsertRecord,IsReadOnly,IsSingleRow,IsSortTab,IsTranslationTab,Name,Processing,SeqNo,TabLevel,Updated,UpdatedBy) VALUES (0,0,53264,53239,53093,NULL,TO_DATE('2009-09-06 23:55:54','YYYY-MM-DD HH24:MI:SS'),0,'Warehouse Section Type','D','N','The Warehouse Section Type Tab defines different Warehouse Section used for different purpose in a Warehouse.','Y','N','N','Y','N','Y','N','N','Warehouse Section Type','N',10,0,TO_DATE('2009-09-06 23:55:54','YYYY-MM-DD HH24:MI:SS'),0)
 ;
 
 -- Sep 6, 2009 11:55:57 PM ECT

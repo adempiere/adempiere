@@ -1,6 +1,6 @@
 -- Nov 13, 2013 12:40:24 PM IST
 -- Improvements in Manufacturing Light
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,68430,70351,0,180,TO_TIMESTAMP('2013-11-13 12:40:23','YYYY-MM-DD HH24:MI:SS'),0,'Discontinued By',7,'U','The Discontinued By indicates the individual who discontinued this product','Y','Y','Y','N','N','N','N','N','Discontinued by',TO_TIMESTAMP('2013-11-13 12:40:23','YYYY-MM-DD HH24:MI:SS'),0)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,68430,70351,0,180,TO_TIMESTAMP('2013-11-13 12:40:23','YYYY-MM-DD HH24:MI:SS'),0,'Discontinued By',7,'D','The Discontinued By indicates the individual who discontinued this product','Y','Y','Y','N','N','N','N','N','Discontinued by',TO_TIMESTAMP('2013-11-13 12:40:23','YYYY-MM-DD HH24:MI:SS'),0)
 ;
 
 -- Nov 13, 2013 12:40:24 PM IST
@@ -10,7 +10,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Nov 13, 2013 12:40:25 PM IST
 -- Improvements in Manufacturing Light
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,68431,70352,0,180,TO_TIMESTAMP('2013-11-13 12:40:24','YYYY-MM-DD HH24:MI:SS'),0,'URL of the Download files',60,'U','Semicolon separated list of URLs to be downloaded or distributed','Y','Y','Y','N','N','N','N','N','Download URL',TO_TIMESTAMP('2013-11-13 12:40:24','YYYY-MM-DD HH24:MI:SS'),0)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,68431,70352,0,180,TO_TIMESTAMP('2013-11-13 12:40:24','YYYY-MM-DD HH24:MI:SS'),0,'URL of the Download files',60,'D','Semicolon separated list of URLs to be downloaded or distributed','Y','Y','Y','N','N','N','N','N','Download URL',TO_TIMESTAMP('2013-11-13 12:40:24','YYYY-MM-DD HH24:MI:SS'),0)
 ;
 
 -- Nov 13, 2013 12:40:25 PM IST
@@ -20,7 +20,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Nov 13, 2013 12:40:26 PM IST
 -- Improvements in Manufacturing Light
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,68432,70353,0,180,TO_TIMESTAMP('2013-11-13 12:40:25','YYYY-MM-DD HH24:MI:SS'),0,1,'U','Y','Y','Y','N','N','N','N','N','ISTOFORMULE',TO_TIMESTAMP('2013-11-13 12:40:25','YYYY-MM-DD HH24:MI:SS'),0)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,68432,70353,0,180,TO_TIMESTAMP('2013-11-13 12:40:25','YYYY-MM-DD HH24:MI:SS'),0,1,'D','Y','Y','Y','N','N','N','N','N','ISTOFORMULE',TO_TIMESTAMP('2013-11-13 12:40:25','YYYY-MM-DD HH24:MI:SS'),0)
 ;
 
 -- Nov 13, 2013 12:40:26 PM IST
@@ -30,7 +30,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Nov 13, 2013 12:40:26 PM IST
 -- Improvements in Manufacturing Light
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,61996,70354,0,180,TO_TIMESTAMP('2013-11-13 12:40:26','YYYY-MM-DD HH24:MI:SS'),0,'This part is Kanban controlled',1,'U','Y','Y','Y','N','N','N','N','N','Kanban controlled',TO_TIMESTAMP('2013-11-13 12:40:26','YYYY-MM-DD HH24:MI:SS'),0)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,61996,70354,0,180,TO_TIMESTAMP('2013-11-13 12:40:26','YYYY-MM-DD HH24:MI:SS'),0,'This part is Kanban controlled',1,'D','Y','Y','Y','N','N','N','N','N','Kanban controlled',TO_TIMESTAMP('2013-11-13 12:40:26','YYYY-MM-DD HH24:MI:SS'),0)
 ;
 
 -- Nov 13, 2013 12:40:26 PM IST
@@ -50,7 +50,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Nov 13, 2013 12:40:28 PM IST
 -- Improvements in Manufacturing Light
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,61997,70356,0,180,TO_TIMESTAMP('2013-11-13 12:40:27','YYYY-MM-DD HH24:MI:SS'),0,'This product is manufactured',1,'U','Y','Y','Y','N','N','N','N','N','Manufactured',TO_TIMESTAMP('2013-11-13 12:40:27','YYYY-MM-DD HH24:MI:SS'),0)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,61997,70356,0,180,TO_TIMESTAMP('2013-11-13 12:40:27','YYYY-MM-DD HH24:MI:SS'),0,'This product is manufactured',1,'D','Y','Y','Y','N','N','N','N','N','Manufactured',TO_TIMESTAMP('2013-11-13 12:40:27','YYYY-MM-DD HH24:MI:SS'),0)
 ;
 
 -- Nov 13, 2013 12:40:28 PM IST
@@ -60,7 +60,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Nov 13, 2013 12:40:29 PM IST
 -- Improvements in Manufacturing Light
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,61995,70357,0,180,TO_TIMESTAMP('2013-11-13 12:40:28','YYYY-MM-DD HH24:MI:SS'),0,10,'U','Y','Y','Y','N','N','N','N','N','Part Type',TO_TIMESTAMP('2013-11-13 12:40:28','YYYY-MM-DD HH24:MI:SS'),0)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,61995,70357,0,180,TO_TIMESTAMP('2013-11-13 12:40:28','YYYY-MM-DD HH24:MI:SS'),0,10,'D','Y','Y','Y','N','N','N','N','N','Part Type',TO_TIMESTAMP('2013-11-13 12:40:28','YYYY-MM-DD HH24:MI:SS'),0)
 ;
 
 -- Nov 13, 2013 12:40:29 PM IST
@@ -70,7 +70,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Nov 13, 2013 12:40:29 PM IST
 -- Improvements in Manufacturing Light
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,68433,70358,0,180,TO_TIMESTAMP('2013-11-13 12:40:29','YYYY-MM-DD HH24:MI:SS'),0,'Phantom Component',1,'U','Phantom Component are not stored and produced with the product. This is an option to avild maintaining an Engineering and Manufacturing Bill of Materials.','Y','Y','Y','N','N','N','N','N','Phantom',TO_TIMESTAMP('2013-11-13 12:40:29','YYYY-MM-DD HH24:MI:SS'),0)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,68433,70358,0,180,TO_TIMESTAMP('2013-11-13 12:40:29','YYYY-MM-DD HH24:MI:SS'),0,'Phantom Component',1,'D','Phantom Component are not stored and produced with the product. This is an option to avild maintaining an Engineering and Manufacturing Bill of Materials.','Y','Y','Y','N','N','N','N','N','Phantom',TO_TIMESTAMP('2013-11-13 12:40:29','YYYY-MM-DD HH24:MI:SS'),0)
 ;
 
 -- Nov 13, 2013 12:40:29 PM IST
@@ -80,7 +80,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Nov 13, 2013 12:40:30 PM IST
 -- Improvements in Manufacturing Light
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,61998,70359,0,180,TO_TIMESTAMP('2013-11-13 12:40:29','YYYY-MM-DD HH24:MI:SS'),0,'Standard Costs',10,'U','Standard (plan) costs.','Y','Y','Y','N','N','N','N','N','Standard Cost',TO_TIMESTAMP('2013-11-13 12:40:29','YYYY-MM-DD HH24:MI:SS'),0)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,61998,70359,0,180,TO_TIMESTAMP('2013-11-13 12:40:29','YYYY-MM-DD HH24:MI:SS'),0,'Standard Costs',10,'D','Standard (plan) costs.','Y','Y','Y','N','N','N','N','N','Standard Cost',TO_TIMESTAMP('2013-11-13 12:40:29','YYYY-MM-DD HH24:MI:SS'),0)
 ;
 
 -- Nov 13, 2013 12:40:30 PM IST

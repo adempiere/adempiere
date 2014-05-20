@@ -157,7 +157,7 @@
         <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="3737" Column="FieldLength">60</Data>
         <Data AD_Column_ID="2824" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="2817" Column="IsActive">true</Data>

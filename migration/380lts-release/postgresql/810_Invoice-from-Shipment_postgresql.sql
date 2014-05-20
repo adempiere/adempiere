@@ -1,6 +1,6 @@
 -- Dec 15, 2012 5:28:44 PM CET
 -- Generate Invoices from Shipments
-INSERT INTO AD_Form (AccessLevel,AD_Client_ID,AD_Form_ID,AD_Org_ID,Classname,Created,CreatedBy,Description,EntityType,Help,IsActive,IsBetaFunctionality,Name,Updated,UpdatedBy) VALUES ('1',0,53027,0,'org.adempiere.apps.form.VInvoiceGenFromShipment',TO_TIMESTAMP('2012-12-15 17:28:31','YYYY-MM-DD HH24:MI:SS'),100,'Select shipments and generate invoices','U','Generate Invoices from Shipments.  
+INSERT INTO AD_Form (AccessLevel,AD_Client_ID,AD_Form_ID,AD_Org_ID,Classname,Created,CreatedBy,Description,EntityType,Help,IsActive,IsBetaFunctionality,Name,Updated,UpdatedBy) VALUES ('1',0,53027,0,'org.adempiere.apps.form.VInvoiceGenFromShipment',TO_TIMESTAMP('2012-12-15 17:28:31','YYYY-MM-DD HH24:MI:SS'),100,'Select shipments and generate invoices','D','Generate Invoices from Shipments.  
 Select the shipmens to generate the invoice for.','Y','N','Generate Invoices from Shipments (manual)',TO_TIMESTAMP('2012-12-15 17:28:31','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
@@ -11,7 +11,7 @@ INSERT INTO AD_Form_Trl (AD_Language,AD_Form_ID, Description,Help,Name, IsTransl
 
 -- Dec 15, 2012 5:33:19 PM CET
 -- Generate Invoices from Shipments
-INSERT INTO AD_Menu ("action",AD_Client_ID,AD_Form_ID,AD_Menu_ID,AD_Org_ID,Created,CreatedBy,Description,EntityType,IsActive,IsCentrallyMaintained,IsReadOnly,IsSOTrx,IsSummary,Name,Updated,UpdatedBy) VALUES ('X',0,53027,53474,0,TO_TIMESTAMP('2012-12-15 17:33:18','YYYY-MM-DD HH24:MI:SS'),100,'Select shipments and generate invoices','U','Y','Y','N','Y','N','Generate Invoices from Shipments (manual)',TO_TIMESTAMP('2012-12-15 17:33:18','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Menu ("action",AD_Client_ID,AD_Form_ID,AD_Menu_ID,AD_Org_ID,Created,CreatedBy,Description,EntityType,IsActive,IsCentrallyMaintained,IsReadOnly,IsSOTrx,IsSummary,Name,Updated,UpdatedBy) VALUES ('X',0,53027,53474,0,TO_TIMESTAMP('2012-12-15 17:33:18','YYYY-MM-DD HH24:MI:SS'),100,'Select shipments and generate invoices','D','Y','Y','N','Y','N','Generate Invoices from Shipments (manual)',TO_TIMESTAMP('2012-12-15 17:33:18','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Dec 15, 2012 5:33:19 PM CET
@@ -61,7 +61,7 @@ UPDATE AD_Menu SET IsSOTrx='Y',Updated=TO_TIMESTAMP('2012-12-15 17:35:57','YYYY-
 
 -- Dec 15, 2012 5:53:20 PM CET
 -- Generate Invoices from Shipments
-INSERT INTO AD_Process (AccessLevel,AD_Client_ID,AD_Org_ID,AD_Process_ID,Classname,CopyFromProcess,Created,CreatedBy,Description,EntityType,IsActive,IsBetaFunctionality,IsDirectPrint,IsReport,IsServerProcess,Name,ShowHelp,Statistic_Count,Statistic_Seconds,Updated,UpdatedBy,Value) VALUES ('1',0,0,53345,'org.adempiere.process.InvoiceGenerateFromShipment','N',TO_TIMESTAMP('2012-12-15 17:53:17','YYYY-MM-DD HH24:MI:SS'),100,'Generate Invoices from Shipments','U','Y','N','N','N','N','Generate Invoices from Shipments','Y',0,0,TO_TIMESTAMP('2012-12-15 17:53:17','YYYY-MM-DD HH24:MI:SS'),100,'C_Invoice_Generate_from_Shipment')
+INSERT INTO AD_Process (AccessLevel,AD_Client_ID,AD_Org_ID,AD_Process_ID,Classname,CopyFromProcess,Created,CreatedBy,Description,EntityType,IsActive,IsBetaFunctionality,IsDirectPrint,IsReport,IsServerProcess,Name,ShowHelp,Statistic_Count,Statistic_Seconds,Updated,UpdatedBy,Value) VALUES ('1',0,0,53345,'org.adempiere.process.InvoiceGenerateFromShipment','N',TO_TIMESTAMP('2012-12-15 17:53:17','YYYY-MM-DD HH24:MI:SS'),100,'Generate Invoices from Shipments','D','Y','N','N','N','N','Generate Invoices from Shipments','Y',0,0,TO_TIMESTAMP('2012-12-15 17:53:17','YYYY-MM-DD HH24:MI:SS'),100,'C_Invoice_Generate_from_Shipment')
 ;
 
 -- Dec 15, 2012 5:53:20 PM CET
@@ -71,7 +71,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Dec 15, 2012 5:54:14 PM CET
 -- Generate Invoices from Shipments
-INSERT INTO AD_Process_Para (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Process_ID,AD_Process_Para_ID,AD_Reference_ID,ColumnName,Created,CreatedBy,DefaultValue,EntityType,FieldLength,IsActive,IsCentrallyMaintained,IsMandatory,IsRange,Name,SeqNo,Updated,UpdatedBy) VALUES (0,267,0,53345,53837,15,'DateInvoiced',TO_TIMESTAMP('2012-12-15 17:54:13','YYYY-MM-DD HH24:MI:SS'),100,'@#Date@','U',1,'Y','Y','N','N','Date Invoiced',10,TO_TIMESTAMP('2012-12-15 17:54:13','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Process_Para (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Process_ID,AD_Process_Para_ID,AD_Reference_ID,ColumnName,Created,CreatedBy,DefaultValue,EntityType,FieldLength,IsActive,IsCentrallyMaintained,IsMandatory,IsRange,Name,SeqNo,Updated,UpdatedBy) VALUES (0,267,0,53345,53837,15,'DateInvoiced',TO_TIMESTAMP('2012-12-15 17:54:13','YYYY-MM-DD HH24:MI:SS'),100,'@#Date@','D',1,'Y','Y','N','N','Date Invoiced',10,TO_TIMESTAMP('2012-12-15 17:54:13','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Dec 15, 2012 5:54:14 PM CET
@@ -81,7 +81,7 @@ INSERT INTO AD_Process_Para_Trl (AD_Language,AD_Process_Para_ID, Description,Hel
 
 -- Dec 15, 2012 5:56:20 PM CET
 -- Generate Invoices from Shipments
-INSERT INTO AD_Process_Para (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Process_ID,AD_Process_Para_ID,AD_Reference_ID,AD_Reference_Value_ID,ColumnName,Created,CreatedBy,DefaultValue,EntityType,FieldLength,IsActive,IsCentrallyMaintained,IsMandatory,IsRange,Name,SeqNo,Updated,UpdatedBy) VALUES (0,113,0,53345,53838,18,130,'AD_Org_ID',TO_TIMESTAMP('2012-12-15 17:56:19','YYYY-MM-DD HH24:MI:SS'),100,'@#AD_Org_ID@','U',0,'Y','Y','Y','N','Organization',20,TO_TIMESTAMP('2012-12-15 17:56:19','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Process_Para (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Process_ID,AD_Process_Para_ID,AD_Reference_ID,AD_Reference_Value_ID,ColumnName,Created,CreatedBy,DefaultValue,EntityType,FieldLength,IsActive,IsCentrallyMaintained,IsMandatory,IsRange,Name,SeqNo,Updated,UpdatedBy) VALUES (0,113,0,53345,53838,18,130,'AD_Org_ID',TO_TIMESTAMP('2012-12-15 17:56:19','YYYY-MM-DD HH24:MI:SS'),100,'@#AD_Org_ID@','D',0,'Y','Y','Y','N','Organization',20,TO_TIMESTAMP('2012-12-15 17:56:19','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Dec 15, 2012 5:56:20 PM CET
@@ -91,7 +91,7 @@ INSERT INTO AD_Process_Para_Trl (AD_Language,AD_Process_Para_ID, Description,Hel
 
 -- Dec 15, 2012 5:57:56 PM CET
 -- Generate Invoices from Shipments
-INSERT INTO AD_Process_Para (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Process_ID,AD_Process_Para_ID,AD_Reference_ID,AD_Reference_Value_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsCentrallyMaintained,IsMandatory,IsRange,Name,SeqNo,Updated,UpdatedBy) VALUES (0,1025,0,53345,53839,30,337,'M_InOut_ID',TO_TIMESTAMP('2012-12-15 17:57:55','YYYY-MM-DD HH24:MI:SS'),100,'U',0,'Y','Y','N','N','Shipment',30,TO_TIMESTAMP('2012-12-15 17:57:55','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Process_Para (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Process_ID,AD_Process_Para_ID,AD_Reference_ID,AD_Reference_Value_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsCentrallyMaintained,IsMandatory,IsRange,Name,SeqNo,Updated,UpdatedBy) VALUES (0,1025,0,53345,53839,30,337,'M_InOut_ID',TO_TIMESTAMP('2012-12-15 17:57:55','YYYY-MM-DD HH24:MI:SS'),100,'D',0,'Y','Y','N','N','Shipment',30,TO_TIMESTAMP('2012-12-15 17:57:55','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Dec 15, 2012 5:57:56 PM CET
@@ -101,7 +101,7 @@ INSERT INTO AD_Process_Para_Trl (AD_Language,AD_Process_Para_ID, Description,Hel
 
 -- Dec 15, 2012 5:59:24 PM CET
 -- Generate Invoices from Shipments
-INSERT INTO AD_Process_Para (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Process_ID,AD_Process_Para_ID,AD_Reference_ID,AD_Reference_Value_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsCentrallyMaintained,IsMandatory,IsRange,Name,SeqNo,Updated,UpdatedBy) VALUES (0,187,0,53345,53840,30,173,'C_BPartner_ID',TO_TIMESTAMP('2012-12-15 17:59:23','YYYY-MM-DD HH24:MI:SS'),100,'U',0,'Y','Y','N','N','Business Partner',40,TO_TIMESTAMP('2012-12-15 17:59:23','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Process_Para (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Process_ID,AD_Process_Para_ID,AD_Reference_ID,AD_Reference_Value_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsCentrallyMaintained,IsMandatory,IsRange,Name,SeqNo,Updated,UpdatedBy) VALUES (0,187,0,53345,53840,30,173,'C_BPartner_ID',TO_TIMESTAMP('2012-12-15 17:59:23','YYYY-MM-DD HH24:MI:SS'),100,'D',0,'Y','Y','N','N','Business Partner',40,TO_TIMESTAMP('2012-12-15 17:59:23','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Dec 15, 2012 5:59:24 PM CET
@@ -111,7 +111,7 @@ INSERT INTO AD_Process_Para_Trl (AD_Language,AD_Process_Para_ID, Description,Hel
 
 -- Dec 15, 2012 6:00:52 PM CET
 -- Generate Invoices from Shipments
-INSERT INTO AD_Process_Para (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Process_ID,AD_Process_Para_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Val_Rule_ID,ColumnName,Created,CreatedBy,DefaultValue,EntityType,FieldLength,IsActive,IsCentrallyMaintained,IsMandatory,IsRange,Name,SeqNo,Updated,UpdatedBy) VALUES (0,287,0,53345,53841,17,135,219,'DocAction',TO_TIMESTAMP('2012-12-15 18:00:50','YYYY-MM-DD HH24:MI:SS'),100,'CO','U',0,'Y','Y','Y','N','Document Action',50,TO_TIMESTAMP('2012-12-15 18:00:50','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Process_Para (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Process_ID,AD_Process_Para_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Val_Rule_ID,ColumnName,Created,CreatedBy,DefaultValue,EntityType,FieldLength,IsActive,IsCentrallyMaintained,IsMandatory,IsRange,Name,SeqNo,Updated,UpdatedBy) VALUES (0,287,0,53345,53841,17,135,219,'DocAction',TO_TIMESTAMP('2012-12-15 18:00:50','YYYY-MM-DD HH24:MI:SS'),100,'CO','D',0,'Y','Y','Y','N','Document Action',50,TO_TIMESTAMP('2012-12-15 18:00:50','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Dec 15, 2012 6:00:52 PM CET
@@ -121,7 +121,7 @@ INSERT INTO AD_Process_Para_Trl (AD_Language,AD_Process_Para_ID, Description,Hel
 
 -- Dec 15, 2012 6:01:26 PM CET
 -- Generate Invoices from Shipments
-INSERT INTO AD_Process_Para (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Process_ID,AD_Process_Para_ID,AD_Reference_ID,ColumnName,Created,CreatedBy,DefaultValue,EntityType,FieldLength,IsActive,IsCentrallyMaintained,IsMandatory,IsRange,Name,SeqNo,Updated,UpdatedBy) VALUES (0,2182,0,53345,53842,20,'ConsolidateDocument',TO_TIMESTAMP('2012-12-15 18:01:25','YYYY-MM-DD HH24:MI:SS'),100,'Y','U',1,'Y','Y','N','N','Consolidate to one Document',60,TO_TIMESTAMP('2012-12-15 18:01:25','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Process_Para (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Process_ID,AD_Process_Para_ID,AD_Reference_ID,ColumnName,Created,CreatedBy,DefaultValue,EntityType,FieldLength,IsActive,IsCentrallyMaintained,IsMandatory,IsRange,Name,SeqNo,Updated,UpdatedBy) VALUES (0,2182,0,53345,53842,20,'ConsolidateDocument',TO_TIMESTAMP('2012-12-15 18:01:25','YYYY-MM-DD HH24:MI:SS'),100,'Y','D',1,'Y','Y','N','N','Consolidate to one Document',60,TO_TIMESTAMP('2012-12-15 18:01:25','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Dec 15, 2012 6:01:26 PM CET
@@ -131,7 +131,7 @@ INSERT INTO AD_Process_Para_Trl (AD_Language,AD_Process_Para_ID, Description,Hel
 
 -- Dec 15, 2012 6:04:20 PM CET
 -- Generate Invoices from Shipments
-INSERT INTO AD_Menu ("action",AD_Client_ID,AD_Menu_ID,AD_Org_ID,AD_Process_ID,Created,CreatedBy,Description,EntityType,IsActive,IsCentrallyMaintained,IsReadOnly,IsSOTrx,IsSummary,Name,Updated,UpdatedBy) VALUES ('P',0,53475,0,53345,TO_TIMESTAMP('2012-12-15 18:04:19','YYYY-MM-DD HH24:MI:SS'),100,'Select shipments and generate invoices','U','Y','Y','N','Y','N','Generate Invoices from Shipments',TO_TIMESTAMP('2012-12-15 18:04:19','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Menu ("action",AD_Client_ID,AD_Menu_ID,AD_Org_ID,AD_Process_ID,Created,CreatedBy,Description,EntityType,IsActive,IsCentrallyMaintained,IsReadOnly,IsSOTrx,IsSummary,Name,Updated,UpdatedBy) VALUES ('P',0,53475,0,53345,TO_TIMESTAMP('2012-12-15 18:04:19','YYYY-MM-DD HH24:MI:SS'),100,'Select shipments and generate invoices','D','Y','Y','N','Y','N','Generate Invoices from Shipments',TO_TIMESTAMP('2012-12-15 18:04:19','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Dec 15, 2012 6:04:20 PM CET

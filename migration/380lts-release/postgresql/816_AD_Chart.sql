@@ -90,7 +90,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- 23/08/2010 1:34:18 PM
 -- Chart
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,ReadOnlyLogic,SeqNo,Updated,UpdatedBy,Version) VALUES (0,59675,1682,0,18,389,53282,'EntityType',TO_TIMESTAMP('2010-08-23 13:34:17','YYYY-MM-DD HH24:MI:SS'),100,'U','Dictionary Entity Type; Determines ownership and synchronization','D',40,'The Entity Types "Dictionary", "Adempiere" and "Application" might be automatically synchronized and customizations deleted or overwritten.  
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,ReadOnlyLogic,SeqNo,Updated,UpdatedBy,Version) VALUES (0,59675,1682,0,18,389,53282,'EntityType',TO_TIMESTAMP('2010-08-23 13:34:17','YYYY-MM-DD HH24:MI:SS'),100,'D','Dictionary Entity Type; Determines ownership and synchronization','D',40,'The Entity Types "Dictionary", "Adempiere" and "Application" might be automatically synchronized and customizations deleted or overwritten.  
 
 For customizations, copy the entity and select "User"!','Y','N','N','N','N','Y','N','N','N','N','Y','Entity Type','@EntityType@=D',0,TO_TIMESTAMP('2010-08-23 13:34:17','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
@@ -235,7 +235,7 @@ INSERT INTO AD_Sequence (AD_Client_ID,AD_Org_ID,AD_Sequence_ID,Created,CreatedBy
 
 -- 23/08/2010 1:41:13 PM
 -- Chart
-INSERT INTO AD_Table (AccessLevel,AD_Client_ID,AD_Org_ID,AD_Table_ID,CopyColumnsFromTable,Created,CreatedBy,Description,EntityType,ImportTable,IsActive,IsCentrallyMaintained,IsChangeLog,IsDeleteable,IsHighVolume,IsSecurityEnabled,IsView,LoadSeq,Name,ReplicationType,TableName,Updated,UpdatedBy) VALUES ('4',0,0,53283,'N',TO_TIMESTAMP('2010-08-23 13:41:12','YYYY-MM-DD HH24:MI:SS'),100,'Chart definition','U','N','Y','Y','N','Y','N','N','N',0,'Chart','L','AD_Chart',TO_TIMESTAMP('2010-08-23 13:41:12','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Table (AccessLevel,AD_Client_ID,AD_Org_ID,AD_Table_ID,CopyColumnsFromTable,Created,CreatedBy,Description,EntityType,ImportTable,IsActive,IsCentrallyMaintained,IsChangeLog,IsDeleteable,IsHighVolume,IsSecurityEnabled,IsView,LoadSeq,Name,ReplicationType,TableName,Updated,UpdatedBy) VALUES ('4',0,0,53283,'N',TO_TIMESTAMP('2010-08-23 13:41:12','YYYY-MM-DD HH24:MI:SS'),100,'Chart definition','D','N','Y','Y','N','Y','N','N','N',0,'Chart','L','AD_Chart',TO_TIMESTAMP('2010-08-23 13:41:12','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- 23/08/2010 1:41:13 PM
@@ -518,7 +518,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- 23/08/2010 2:36:13 PM
 -- Chart
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,59701,54271,0,10,53282,'CategoryColumn',TO_TIMESTAMP('2010-08-23 14:36:12','YYYY-MM-DD HH24:MI:SS'),100,'Fully qualified data category column','U',60,'The Category Column determines how the chart data is grouped','Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','Category Column',0,TO_TIMESTAMP('2010-08-23 14:36:12','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,59701,54271,0,10,53282,'CategoryColumn',TO_TIMESTAMP('2010-08-23 14:36:12','YYYY-MM-DD HH24:MI:SS'),100,'Fully qualified data category column','D',60,'The Category Column determines how the chart data is grouped','Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','Category Column',0,TO_TIMESTAMP('2010-08-23 14:36:12','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- 23/08/2010 2:36:13 PM
@@ -1261,7 +1261,7 @@ CREATE TABLE AD_Chart (AD_Chart_ID NUMERIC(10) NOT NULL, AD_Client_ID NUMERIC(10
 
 -- 23/08/2010 2:58:49 PM
 -- Chart
-CREATE TABLE AD_ChartDatasource (AD_ChartDatasource_ID NUMERIC(10) NOT NULL, AD_Chart_ID NUMERIC(10) NOT NULL, AD_Client_ID NUMERIC(10) NOT NULL, AD_Org_ID NUMERIC(10) NOT NULL, AD_Table_ID NUMERIC(10) NOT NULL, CategoryColumn VARCHAR(60) NOT NULL, Created TIMESTAMP NOT NULL, CreatedBy NUMERIC(10) NOT NULL, DateColumn VARCHAR(60) DEFAULT NULL , Description VARCHAR(255) DEFAULT NULL , EntityType VARCHAR(40) DEFAULT 'U' NOT NULL, FromClause VARCHAR(2000) NOT NULL, IsActive CHAR(1) DEFAULT 'Y' CHECK (IsActive IN ('Y','N')) NOT NULL, KeyColumn VARCHAR(60) NOT NULL, Name VARCHAR(60) NOT NULL, Updated TIMESTAMP NOT NULL, UpdatedBy NUMERIC(10) NOT NULL, ValueColumn VARCHAR(60) NOT NULL, WhereClause VARCHAR(2000) DEFAULT 'WHERE ...' NOT NULL, CONSTRAINT AD_ChartDatasource_Key PRIMARY KEY (AD_ChartDatasource_ID))
+CREATE TABLE AD_ChartDatasource (AD_ChartDatasource_ID NUMERIC(10) NOT NULL, AD_Chart_ID NUMERIC(10) NOT NULL, AD_Client_ID NUMERIC(10) NOT NULL, AD_Org_ID NUMERIC(10) NOT NULL, AD_Table_ID NUMERIC(10) NOT NULL, CategoryColumn VARCHAR(60) NOT NULL, Created TIMESTAMP NOT NULL, CreatedBy NUMERIC(10) NOT NULL, DateColumn VARCHAR(60) DEFAULT NULL , Description VARCHAR(255) DEFAULT NULL , EntityType VARCHAR(40) DEFAULT 'D' NOT NULL, FromClause VARCHAR(2000) NOT NULL, IsActive CHAR(1) DEFAULT 'Y' CHECK (IsActive IN ('Y','N')) NOT NULL, KeyColumn VARCHAR(60) NOT NULL, Name VARCHAR(60) NOT NULL, Updated TIMESTAMP NOT NULL, UpdatedBy NUMERIC(10) NOT NULL, ValueColumn VARCHAR(60) NOT NULL, WhereClause VARCHAR(2000) DEFAULT 'WHERE ...' NOT NULL, CONSTRAINT AD_ChartDatasource_Key PRIMARY KEY (AD_ChartDatasource_ID))
 ;
 
 -- 23/08/2010 3:01:02 PM

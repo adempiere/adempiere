@@ -1,6 +1,6 @@
 -- Aug 28, 2010 5:46:41 PM CDT
 -- Cost Engine
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,59705,2962,0,37,808,'CostAmt',TO_TIMESTAMP('2010-08-28 17:46:39','YYYY-MM-DD HH24:MI:SS'),0,'Value with Cost','U',22,'Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Cost Value',0,TO_TIMESTAMP('2010-08-28 17:46:39','YYYY-MM-DD HH24:MI:SS'),0,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,59705,2962,0,37,808,'CostAmt',TO_TIMESTAMP('2010-08-28 17:46:39','YYYY-MM-DD HH24:MI:SS'),0,'Value with Cost','D',22,'Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Cost Value',0,TO_TIMESTAMP('2010-08-28 17:46:39','YYYY-MM-DD HH24:MI:SS'),0,0)
 ;
 
 -- Aug 28, 2010 5:46:41 PM CDT

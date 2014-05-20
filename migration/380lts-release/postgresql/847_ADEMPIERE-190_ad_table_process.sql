@@ -13,7 +13,7 @@ CREATE TABLE ad_table_process
   isactive character(1) NOT NULL,
   updated timestamp with time zone NOT NULL,
   updatedby numeric(10,0) NOT NULL,
-  entitytype character varying(255) NOT NULL,
+  entitytype character varying(255) default 'U' NOT NULL,
   CONSTRAINT ad_table_process_key PRIMARY KEY (ad_process_id, ad_table_id),
   CONSTRAINT adprocess_adtableprocess FOREIGN KEY (ad_process_id)
       REFERENCES ad_process (ad_process_id) MATCH SIMPLE

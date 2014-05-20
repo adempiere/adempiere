@@ -1023,7 +1023,7 @@ INSERT INTO AD_Process_Para_Trl (AD_Language,AD_Process_Para_ID, Description,Hel
 
 -- Sep 17, 2010 4:29:27 PM CDT
 -- Cost Engine Report
-INSERT INTO AD_Table (AD_Client_ID,AD_Org_ID,AD_Table_ID,AccessLevel,Created,CreatedBy,EntityType,IsActive,IsChangeLog,IsDeleteable,IsHighVolume,IsSecurityEnabled,IsView,Name,ReplicationType,TableName,Updated,UpdatedBy) VALUES (0,0,53288,'3',TO_DATE('2010-09-17 16:29:23','YYYY-MM-DD HH24:MI:SS'),100,'U','Y','N','N','N','N','N','RV_M_Transaction_Costing','L','RV_M_Transaction_Costing',TO_DATE('2010-09-17 16:29:23','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Table (AD_Client_ID,AD_Org_ID,AD_Table_ID,AccessLevel,Created,CreatedBy,EntityType,IsActive,IsChangeLog,IsDeleteable,IsHighVolume,IsSecurityEnabled,IsView,Name,ReplicationType,TableName,Updated,UpdatedBy) VALUES (0,0,53288,'3',TO_DATE('2010-09-17 16:29:23','YYYY-MM-DD HH24:MI:SS'),100,'D','Y','N','N','N','N','N','RV_M_Transaction_Costing','L','RV_M_Transaction_Costing',TO_DATE('2010-09-17 16:29:23','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Sep 17, 2010 4:29:27 PM CDT

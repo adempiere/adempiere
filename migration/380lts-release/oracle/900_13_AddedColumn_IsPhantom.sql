@@ -5,7 +5,7 @@ ALTER TABLE M_PRODUCT ADD isphantom CHAR(1) DEFAULT 'N' NOT NULL ENABLE CHECK (i
 
 -- Oct 3, 2013 1:38:22 PM IST
 -- isphantom column is added in M_Product Table
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,68430,279,0,16,208,'DiscontinuedBy',TO_DATE('2013-10-03 13:38:18','YYYY-MM-DD HH24:MI:SS'),0,'Discontinued By','U',7,'The Discontinued By indicates the individual who discontinued this product','Y','N','N','N','N','N','N','N','N','Y','Discontinued by',TO_DATE('2013-10-03 13:38:18','YYYY-MM-DD HH24:MI:SS'),0,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,68430,279,0,16,208,'DiscontinuedBy',TO_DATE('2013-10-03 13:38:18','YYYY-MM-DD HH24:MI:SS'),0,'Discontinued By','D',7,'The Discontinued By indicates the individual who discontinued this product','Y','N','N','N','N','N','N','N','N','Y','Discontinued by',TO_DATE('2013-10-03 13:38:18','YYYY-MM-DD HH24:MI:SS'),0,0)
 ;
 
 -- Oct 3, 2013 1:38:22 PM IST
@@ -15,7 +15,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Oct 3, 2013 1:38:23 PM IST
 -- isphantom column is added in M_Product Table
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,68431,2038,0,10,208,'DownloadURL',TO_DATE('2013-10-03 13:38:22','YYYY-MM-DD HH24:MI:SS'),0,'URL of the Download files','U',60,'Semicolon separated list of URLs to be downloaded or distributed','Y','N','N','N','N','N','N','N','N','Y','Download URL',TO_DATE('2013-10-03 13:38:22','YYYY-MM-DD HH24:MI:SS'),0,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,68431,2038,0,10,208,'DownloadURL',TO_DATE('2013-10-03 13:38:22','YYYY-MM-DD HH24:MI:SS'),0,'URL of the Download files','D',60,'Semicolon separated list of URLs to be downloaded or distributed','Y','N','N','N','N','N','N','N','N','Y','Download URL',TO_DATE('2013-10-03 13:38:22','YYYY-MM-DD HH24:MI:SS'),0,0)
 ;
 
 -- Oct 3, 2013 1:38:23 PM IST
@@ -25,7 +25,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Oct 3, 2013 1:38:24 PM IST
 -- isphantom column is added in M_Product Table
-INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,EntityType,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,56431,0,'ISTOFORMULE',TO_DATE('2013-10-03 13:38:23','YYYY-MM-DD HH24:MI:SS'),0,'U','Y','ISTOFORMULE','ISTOFORMULE',TO_DATE('2013-10-03 13:38:23','YYYY-MM-DD HH24:MI:SS'),0)
+INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,EntityType,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,56431,0,'ISTOFORMULE',TO_DATE('2013-10-03 13:38:23','YYYY-MM-DD HH24:MI:SS'),0,'D','Y','ISTOFORMULE','ISTOFORMULE',TO_DATE('2013-10-03 13:38:23','YYYY-MM-DD HH24:MI:SS'),0)
 ;
 
 -- Oct 3, 2013 1:38:24 PM IST
@@ -35,7 +35,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Oct 3, 2013 1:38:25 PM IST
 -- isphantom column is added in M_Product Table
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,68432,56431,0,20,208,'ISTOFORMULE',TO_DATE('2013-10-03 13:38:23','YYYY-MM-DD HH24:MI:SS'),0,'U',1,'Y','N','N','N','N','N','N','N','N','Y','ISTOFORMULE',TO_DATE('2013-10-03 13:38:23','YYYY-MM-DD HH24:MI:SS'),0,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,68432,56431,0,20,208,'ISTOFORMULE',TO_DATE('2013-10-03 13:38:23','YYYY-MM-DD HH24:MI:SS'),0,'D',1,'Y','N','N','N','N','N','N','N','N','Y','ISTOFORMULE',TO_DATE('2013-10-03 13:38:23','YYYY-MM-DD HH24:MI:SS'),0,0)
 ;
 
 -- Oct 3, 2013 1:38:25 PM IST
@@ -45,7 +45,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Oct 3, 2013 1:38:26 PM IST
 -- isphantom column is added in M_Product Table
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,68433,2788,0,20,208,'IsPhantom',TO_DATE('2013-10-03 13:38:25','YYYY-MM-DD HH24:MI:SS'),0,'Phantom Component','U',1,'Phantom Component are not stored and produced with the product. This is an option to avild maintaining an Engineering and Manufacturing Bill of Materials.','Y','N','N','N','N','Y','N','N','N','Y','Phantom',TO_DATE('2013-10-03 13:38:25','YYYY-MM-DD HH24:MI:SS'),0,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,68433,2788,0,20,208,'IsPhantom',TO_DATE('2013-10-03 13:38:25','YYYY-MM-DD HH24:MI:SS'),0,'Phantom Component','D',1,'Phantom Component are not stored and produced with the product. This is an option to avild maintaining an Engineering and Manufacturing Bill of Materials.','Y','N','N','N','N','Y','N','N','N','Y','Phantom',TO_DATE('2013-10-03 13:38:25','YYYY-MM-DD HH24:MI:SS'),0,0)
 ;
 
 -- Oct 3, 2013 1:38:26 PM IST
@@ -65,7 +65,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Oct 3, 2013 1:39:51 PM IST
 -- isphantom column is added in M_Product Table
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,68430,69723,0,53346,TO_DATE('2013-10-03 13:39:50','YYYY-MM-DD HH24:MI:SS'),0,'Discontinued By',7,'U','The Discontinued By indicates the individual who discontinued this product','Y','Y','Y','N','N','N','N','N','Discontinued by',TO_DATE('2013-10-03 13:39:50','YYYY-MM-DD HH24:MI:SS'),0)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,68430,69723,0,53346,TO_DATE('2013-10-03 13:39:50','YYYY-MM-DD HH24:MI:SS'),0,'Discontinued By',7,'D','The Discontinued By indicates the individual who discontinued this product','Y','Y','Y','N','N','N','N','N','Discontinued by',TO_DATE('2013-10-03 13:39:50','YYYY-MM-DD HH24:MI:SS'),0)
 ;
 
 -- Oct 3, 2013 1:39:51 PM IST
@@ -75,7 +75,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Oct 3, 2013 1:39:52 PM IST
 -- isphantom column is added in M_Product Table
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,68431,69724,0,53346,TO_DATE('2013-10-03 13:39:51','YYYY-MM-DD HH24:MI:SS'),0,'URL of the Download files',60,'U','Semicolon separated list of URLs to be downloaded or distributed','Y','Y','Y','N','N','N','N','N','Download URL',TO_DATE('2013-10-03 13:39:51','YYYY-MM-DD HH24:MI:SS'),0)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,68431,69724,0,53346,TO_DATE('2013-10-03 13:39:51','YYYY-MM-DD HH24:MI:SS'),0,'URL of the Download files',60,'D','Semicolon separated list of URLs to be downloaded or distributed','Y','Y','Y','N','N','N','N','N','Download URL',TO_DATE('2013-10-03 13:39:51','YYYY-MM-DD HH24:MI:SS'),0)
 ;
 
 -- Oct 3, 2013 1:39:52 PM IST
@@ -85,7 +85,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Oct 3, 2013 1:39:54 PM IST
 -- isphantom column is added in M_Product Table
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,68432,69725,0,53346,TO_DATE('2013-10-03 13:39:52','YYYY-MM-DD HH24:MI:SS'),0,1,'U','Y','Y','Y','N','N','N','N','N','ISTOFORMULE',TO_DATE('2013-10-03 13:39:52','YYYY-MM-DD HH24:MI:SS'),0)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,68432,69725,0,53346,TO_DATE('2013-10-03 13:39:52','YYYY-MM-DD HH24:MI:SS'),0,1,'D','Y','Y','Y','N','N','N','N','N','ISTOFORMULE',TO_DATE('2013-10-03 13:39:52','YYYY-MM-DD HH24:MI:SS'),0)
 ;
 
 -- Oct 3, 2013 1:39:54 PM IST
@@ -95,7 +95,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Oct 3, 2013 1:39:55 PM IST
 -- isphantom column is added in M_Product Table
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,68433,69726,0,53346,TO_DATE('2013-10-03 13:39:54','YYYY-MM-DD HH24:MI:SS'),0,'Phantom Component',1,'U','Phantom Component are not stored and produced with the product. This is an option to avild maintaining an Engineering and Manufacturing Bill of Materials.','Y','Y','Y','N','N','N','N','N','Phantom',TO_DATE('2013-10-03 13:39:54','YYYY-MM-DD HH24:MI:SS'),0)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,68433,69726,0,53346,TO_DATE('2013-10-03 13:39:54','YYYY-MM-DD HH24:MI:SS'),0,'Phantom Component',1,'D','Phantom Component are not stored and produced with the product. This is an option to avild maintaining an Engineering and Manufacturing Bill of Materials.','Y','Y','Y','N','N','N','N','N','Phantom',TO_DATE('2013-10-03 13:39:54','YYYY-MM-DD HH24:MI:SS'),0)
 ;
 
 -- Oct 3, 2013 1:39:55 PM IST
