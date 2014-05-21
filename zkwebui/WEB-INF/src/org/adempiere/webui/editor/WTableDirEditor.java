@@ -18,8 +18,6 @@
 package org.adempiere.webui.editor;
 
 import java.beans.PropertyChangeEvent;
-import java.math.BigDecimal;
-import java.sql.Timestamp;
 
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
@@ -185,7 +183,7 @@ ContextMenuListener, IZoomableEditor
 
     public void setValue(Object value)
     {
-    	if (value != null && (value instanceof Integer || value instanceof String || value instanceof Timestamp || value instanceof BigDecimal))
+    	if (value != null && (value instanceof Integer || value instanceof String))
         {
 
             getComponent().setValue(value);            
