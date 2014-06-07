@@ -143,7 +143,8 @@ public class WFileImport extends ADForm implements EventListener
 			layout.appendChild(north);
 			north.appendChild(northPanel);
 			Center center = new Center();
-			center.setFlex(true);
+			center.setHflex("true");
+center.setVflex("true");
 			layout.appendChild(center);
 			center.appendChild(centerPanel);
 			South south = new South();

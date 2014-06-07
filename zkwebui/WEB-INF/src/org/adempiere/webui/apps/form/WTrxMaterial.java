@@ -212,7 +212,8 @@ public class WTrxMaterial extends TrxMaterial
 			m_gridController.switchRowPresentation();
 		Center center = new Center();
 		mainLayout.appendChild(center);
-		center.setFlex(true);
+		center.setHflex("true");
+center.setVflex("true");
 		center.appendChild(m_gridController);
 	}   //  dynInit
 

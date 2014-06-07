@@ -54,7 +54,8 @@ public class Accordion extends Borderlayout implements EventListener {
 		north.setCollapsible(false);
 		
 		Center center = new Center();
-		center.setFlex(true);
+		center.setHflex("true");
+center.setVflex("true");
 		appendChild(new Center());
 		
 		South south = new South();

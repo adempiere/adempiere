@@ -28,6 +28,7 @@ import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Hbox;
+import org.zkoss.zul.Hlayout;
 import org.zkoss.zul.Messagebox;
 /**
  * Application Confirm Panel
@@ -217,19 +218,19 @@ public final class ConfirmPanel extends Hbox
     private Hbox hboxBtnLeft;
     private Hbox hboxBtnRight;
     //
-    private Panel pnlBtnRight;
-    private Panel pnlBtnLeft;
+    private Hlayout pnlBtnRight;
+    private Hlayout pnlBtnLeft;
 
     /**
      * initialise components
      */
     private void init()
     {
-        pnlBtnLeft = new Panel();
-        pnlBtnLeft.setAlign("left");
+        pnlBtnLeft = new Hlayout();
+        pnlBtnLeft.setSclass("confirm-panel-left");
 
-        pnlBtnRight = new Panel();
-        pnlBtnRight.setAlign("right");
+        pnlBtnRight = new Hlayout();
+        pnlBtnRight.setSclass("confirm-panel-right");
 
         hboxBtnRight = new Hbox();
         hboxBtnRight.appendChild(pnlBtnRight);

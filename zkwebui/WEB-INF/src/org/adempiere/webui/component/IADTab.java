@@ -27,18 +27,19 @@ import org.zkoss.zk.ui.event.EventListener;
 public interface IADTab extends UIPart {
 
 	/**
-	 *
+	 * 获取选择的Tab序号
 	 * @return selected tab index
 	 */
 	public int getSelectedIndex();
 
 	/**
-	 *
+	 * 设置选择的Tab序号
 	 * @param tab index
 	 */
 	public void setSelectedIndex(int i);
 
 	/**
+	 * 更新选择的序号？？
 	 * @param oldTabIndex
 	 * @param newTabIndex
 	 * @return
@@ -46,12 +47,13 @@ public interface IADTab extends UIPart {
 	public boolean updateSelectedIndex(int oldTabIndex, int newTabIndex);
 
 	/**
+	 * 获取被选中的Tab Panel
 	 * @return selected tab panel reference
 	 */
 	public IADTabpanel getSelectedTabpanel();
 
 	/**
-	 *
+	 * 是否可以导航
 	 * @param fromIndex
 	 * @param toIndex
 	 * @return boolean
@@ -59,19 +61,21 @@ public interface IADTab extends UIPart {
 	public boolean canNavigateTo(int fromIndex, int toIndex);
 
 	/**
+	 * 是否显示
 	 * @param index
 	 * @return boolean
 	 */
 	public boolean isDisplay(int index);
 
 	/**
-	 *
+	 * 添加Tab
 	 * @param tab
 	 * @param tabPanel
 	 */
 	public void addTab(GridTab tab, IADTabpanel tabPanel);
 
 	/**
+	 * 获取Tab数量
 	 * @return Number of tab
 	 */
 	public int getTabCount();
@@ -82,27 +86,31 @@ public interface IADTab extends UIPart {
 	public void evaluate(DataStatusEvent e);
 
 	/**
+	 * 获取路径
 	 * @return path to the active tab
 	 */
 	public String getPath();
 
 	/**
-	 *
+	 * 添加选择监听
 	 * @param listener
 	 */
 	public void addSelectionEventListener(EventListener listener);
 
 	/**
+	 * 获取选中Tab的component
 	 * @return tab selection component
 	 */
 	public Component getTabSelectionComponent();
 
 	/**
+	 * 是否使用额外的选择
 	 * @return boolean
 	 */
 	public boolean isUseExternalSelection();
 
 	/**
+	 * 获取Tab Panel
 	 * @param index
 	 * @return IADTabpanel
 	 */
@@ -115,12 +123,14 @@ public interface IADTab extends UIPart {
 	public final int RIGHT = 1;
 
 	/**
+	 * 设置Tab 所在的位置
 	 * Set tab placement ( left or right )
 	 * @param tabPlacement
 	 */
 	public void setTabplacement(int tabPlacement);
 
 	/**
+	 * 根据GridTab寻找Tab Panel
 	 * @param gTab
 	 * @return IADTabpanel or null if not found
 	 */

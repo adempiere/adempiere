@@ -137,7 +137,8 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		center = new Center();
 		layout.appendChild(center);
 		center.appendChild(centerPanel);
-		center.setFlex(true);
+		center.setHflex("true");
+center.setVflex("true");
 		center.setAutoscroll(true);
 		center.setStyle("border: none");
 		

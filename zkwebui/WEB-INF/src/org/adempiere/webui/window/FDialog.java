@@ -26,6 +26,7 @@ import org.compiere.util.Msg;
 import org.compiere.util.Trace;
 
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.UiException;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Messagebox;
 
@@ -138,7 +139,7 @@ public class FDialog
 			String s = out.toString().replace("\n", "<br>");
 			Messagebox.showDialog(s, newTitle, Messagebox.OK, Messagebox.EXCLAMATION);
 		}
-		catch (InterruptedException exception)
+		catch (UiException exception)
 		{
 			// Restore the interrupted status
             Thread.currentThread().interrupt();
@@ -237,7 +238,7 @@ public class FDialog
 			String s = out.toString().replace("\n", "<br>");
 			Messagebox.showDialog(s, AEnv.getDialogHeader(ctx, windowNo), Messagebox.OK, Messagebox.ERROR);
 		}
-		catch (InterruptedException exception)
+		catch (UiException exception)
 		{
 			// Restore the interrupted status
             Thread.currentThread().interrupt();
@@ -286,7 +287,7 @@ public class FDialog
 
             return (response == Messagebox.OK);
         }
-        catch (InterruptedException ex)
+        catch (UiException ex)
         {
 			// Restore the interrupted status
             Thread.currentThread().interrupt();
@@ -344,7 +345,7 @@ public class FDialog
         	String s = out.toString().replace("\n", "<br>");
         	Messagebox.showDialog(s, AEnv.getDialogHeader(ctx, windowNo), Messagebox.OK, Messagebox.INFORMATION);
         }
-        catch (InterruptedException exception)
+        catch (UiException exception)
         {
             // Restore the interrupted status
             Thread.currentThread().interrupt();

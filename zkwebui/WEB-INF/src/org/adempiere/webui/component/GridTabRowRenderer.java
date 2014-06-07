@@ -95,6 +95,13 @@ public class GridTabRowRenderer implements RowRenderer<Object[]>, RowRendererExt
 		this.dataBinder = new GridTabDataBinder(gridTab);
 	}
 
+	/**
+	 * 
+	 * @param gridField
+	 * @param object
+	 * @param i
+	 * @return
+	 */
 	private WEditor getEditorCell(GridField gridField, Object object, int i) {
 		WEditor editor = editors.get(gridField);
 		if (editor != null)  {

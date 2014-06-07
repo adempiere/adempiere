@@ -65,7 +65,8 @@ public class WLogin extends AbstractUIPart
         Center center = new Center();
         center.setParent(layout);
         center.setBorder("none");
-        center.setFlex(true);
+        center.setHflex("true");
+center.setVflex("true");
         center.setAutoscroll(true);
         center.setStyle("border: none; background-color: transparent;");
 

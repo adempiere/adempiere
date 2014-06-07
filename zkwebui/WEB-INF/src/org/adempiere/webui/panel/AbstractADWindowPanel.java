@@ -224,6 +224,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     }
 
 	/**
+	 * 获取状态栏
 	 * @return StatusBarPanel
 	 */
 	public StatusBarPanel getStatusBar()
@@ -232,12 +233,16 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     }
 
 	/**
+	 * 是否是嵌入的
 	 * @return boolean
 	 */
 	public boolean isEmbedded() {
 		return embeddedTabindex >= 0;
 	}
 
+	/**
+	 * 初始化部件
+	 */
     private void initComponents()
     {
         /** Initalise toolbar */
@@ -260,6 +265,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	}
 
     /**
+     * 初始化Panel
      * @param adWindowId
      * @param query
      * @return boolean
@@ -291,9 +297,14 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		// Set AutoCommit for this Window
 		if (embeddedTabindex < 0)
 		{
-			Env.setAutoCommit(ctx, curWindowNo, Env.isAutoCommit(ctx));
-			boolean autoNew = Env.isAutoNew(ctx);
-			Env.setAutoNew(ctx, curWindowNo, autoNew);
+			// 修改autoNew、AutoCommit 为 false	
+			// modified by jack 20130825
+//			Env.setAutoCommit(ctx, curWindowNo, Env.isAutoCommit(ctx));
+//			boolean autoNew = Env.isAutoNew(ctx);
+//			Env.setAutoNew(ctx, curWindowNo, autoNew);
+			Env.setAutoCommit(ctx, curWindowNo, false);
+			boolean autoNew = false;
+			Env.setAutoNew(ctx, curWindowNo, false);
 
 	        GridWindowVO gWindowVO = AEnv.getMWindowVO(curWindowNo, adWindowId, 0);
 	        if (gWindowVO == null)
@@ -309,7 +320,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	        Env.setContext(ctx, curWindowNo, "IsSOTrx", gridWindow.isSOTrx());
 	        if (!autoNew && gridWindow.isTransaction())
 	        {
-	            Env.setAutoNew(ctx, curWindowNo, true);
+	        	// modified by jack 20130825
+	            //Env.setAutoNew(ctx, curWindowNo, true);
+	        	Env.setAutoNew(ctx, curWindowNo, false);
 	        }
 		}
 
@@ -511,6 +524,11 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		return false;
 	}
 
+	/**
+	 * 初始化内置Tab
+	 * @param query
+	 * @param tabIndex
+	 */
 	private void initEmbeddedTab(MQuery query, int tabIndex) {
 		GridTab gTab = gridWindow.getTab(tabIndex);
 		gTab.addDataStatusListener(this);
@@ -1351,6 +1369,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     }
 
     /**
+     * 创建新的记录
      * @see ToolbarListener#onNew()
      */
     public void onNew()
@@ -1404,6 +1423,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 	// Elaine 2008/11/19
     /**
+     * 复制操作
      * @see ToolbarListener#onCopy()
      */
     public void onCopy()
@@ -1436,6 +1456,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     //
 
     /**
+     * 查找
      * @see ToolbarListener#onFind()
      */
     public void onFind()

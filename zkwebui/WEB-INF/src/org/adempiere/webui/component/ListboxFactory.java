@@ -37,7 +37,7 @@ public class ListboxFactory {
 		WListbox dataTable = new WListbox();
 		dataTable.setWidth("100%");
 		dataTable.setHeight("100%");
-		dataTable.setFixedLayout(true);
+		dataTable.setSizedByContent(false);
 		dataTable.setVflex(true);
 		
 		return dataTable;

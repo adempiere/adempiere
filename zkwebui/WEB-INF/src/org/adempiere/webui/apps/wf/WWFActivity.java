@@ -117,7 +117,7 @@ public class WWFActivity extends ADForm implements EventListener
 	private ListModelTable model = null;
 	private WListbox listbox = new WListbox();
 
-	private final static String HISTORY_DIV_START_TAG = "<div style='width: 100%; height: 100px; border: 1px solid #7F9DB9;'>";
+	private final static String HISTORY_DIV_START_TAG = "<div style='width: 100%; height: 100px; border: 1px solid #7F9DB9;box-sizing: border-box;-webkit-box-sizing:border-box;-moz-box-sizing: border-box;'>";
 	public WWFActivity()
 	{
 		super();
@@ -244,7 +244,8 @@ public class WWFActivity extends ADForm implements EventListener
 		North north = new North();
 		north.appendChild(listbox);
 		north.setSplittable(true);
-		north.setFlex(true);
+		north.setHflex("true");
+north.setVflex("true");
 		north.setHeight("50%");
 		layout.appendChild(north);
 		north.setStyle("background-color: transparent");
@@ -254,7 +255,8 @@ public class WWFActivity extends ADForm implements EventListener
 		center.appendChild(grid);
 		layout.appendChild(center);
 		center.setStyle("background-color: transparent");
-		center.setFlex(true);
+		center.setHflex("true");
+center.setVflex("true");
 
 		South south = new South();
 		south.appendChild(statusBar);

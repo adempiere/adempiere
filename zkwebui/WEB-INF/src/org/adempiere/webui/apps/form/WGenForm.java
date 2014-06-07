@@ -114,7 +114,8 @@ public class WGenForm extends ADForm implements EventListener, WTableModelListen
 			center.setStyle("border: none");
 			contentPane.appendChild(center);
 			center.appendChild(tabbedPane);
-			center.setFlex(true);
+			center.setHflex("true");
+center.setVflex("true");
 			South south = new South();
 			south.setStyle("border: none");
 			contentPane.appendChild(south);
@@ -166,7 +167,8 @@ public class WGenForm extends ADForm implements EventListener, WTableModelListen
 		Center center = new Center();
 		selPanel.appendChild(center);
 		center.appendChild(miniTable);
-		center.setFlex(true);
+		center.setHflex("true");
+center.setVflex("true");
 		miniTable.setHeight("99%");
 		confirmPanelSel.addActionListener(this);
 		//

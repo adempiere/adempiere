@@ -29,6 +29,7 @@ public class Keylistener extends HtmlBasedComponent {
 	private static final long serialVersionUID = 4611014738053691844L;
 
 	/**
+	 * 是否自动模糊
 	 * Is auto blur active
 	 *
 	 * @return the autoBlur

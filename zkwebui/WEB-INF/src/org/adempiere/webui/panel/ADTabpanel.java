@@ -220,7 +220,8 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 			layout.appendChild(west);
 
 			Center center = new Center();
-			center.setFlex(true);
+			center.setHflex("true");
+center.setVflex("true");
 			center.appendChild(grid);
 			layout.appendChild(center);
 

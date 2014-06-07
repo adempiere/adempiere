@@ -357,7 +357,8 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
         Center center = new Center();
         layout.appendChild(center);
         center.appendChild(contentSimple);
-        center.setFlex(true);
+        center.setHflex("true");
+center.setVflex("true");
 
         South south = new South();
         layout.appendChild(south);
@@ -479,7 +480,8 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
         Center center = new Center();
         layout.appendChild(center);
         center.appendChild(advancedPanel);
-        center.setFlex(true);
+        center.setHflex("true");
+center.setVflex("true");
 
         South south = new South();
         layout.appendChild(south);
