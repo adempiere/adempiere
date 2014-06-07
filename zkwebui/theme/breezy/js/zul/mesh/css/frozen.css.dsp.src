@@ -1,0 +1,27 @@
+<%@ taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c" %>
+<%@ taglib uri="http://www.zkoss.org/dsp/zk/core" prefix="z" %>
+<%@ taglib uri="http://www.zkoss.org/dsp/web/theme" prefix="t" %>
+.z-frozen {
+  background-image: url(${c:encodeThemeURL('~./zul/img/common/bar-bg.png')});
+  overflow: hidden;
+}
+.z-frozen-body {
+  overflow: hidden;
+  float: left;
+}
+.z-frozen-inner {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  float: right;
+  <c:if test="${ zk.ie > 0 }">
+
+  <%-- Bug 3244126: scroll bar cannot click then move with IE --%>
+
+  padding-top: 1px;
+  margin-top: -1px;
+  </c:if>
+
+}
+.z-frozen-inner div {
+  height: 100%;
+}

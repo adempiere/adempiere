@@ -1,0 +1,400 @@
+@import "~./zul/less/_header.less";
+
+.z-combobox,
+.z-bandbox,
+.z-datebox,
+.z-timebox,
+.z-spinner,
+.z-doublespinner {
+	display: inline-block;
+	min-height: @baseButtonHeight;
+	white-space: nowrap;
+
+	&-input {
+		.fontStyle(@baseContentFontFamily, @fontSizeMedium, normal, @baseTextColor);
+		height: @baseButtonHeight;
+		border: 1px solid @inputBorderColor;
+		border-right: 0;
+		.leftBorderRadius(@borderRadiusSmall);
+		margin: 0;
+		padding: 4px 5px;
+		line-height: @baseLineHeight;
+		background: @inputBackgroundColor;
+
+		&:focus {
+			.boxShadow('inset 1px 1px 1px rgba(210, 210, 210, 0.60)');
+			background: @inputBackgroundColorFocus;  // ad customization
+			border: 1px solid @themeColorPrimaryDark;
+		}
+		&[readonly] {
+			border-color: @readonlyBorderColor;
+			background: @readonlyBackgroundColor;
+		}
+		&[readonly]:focus {
+			.boxShadow('none');
+		}
+	}
+
+	&-button {
+		.iconFontStyle(@baseFontSize, @iconColor);
+		display: inline-block;
+		min-width: @baseButtonWidth;
+		<c:if test="${ zk.ie == 8 }">
+			min-width: @baseButtonWidth - 10;
+		</c:if>
+		height: @baseButtonHeight;
+		border: 1px solid @inputBorderColor;
+		.rightBorderRadius(@borderRadiusSmall);
+		padding: 4px;
+		line-height: @baseLineHeight;
+		background: @inputBackgroundColor;
+		text-align: left;
+		vertical-align: middle;
+		overflow: hidden;
+		cursor: pointer;
+
+		&:hover {
+			border-color: @hoverBorderColor;
+			<c:if test="${ zk.ie != 8 }">
+				.verGradient(@hoverGradientStart, @hoverGradientEnd);
+			</c:if>
+		}
+		&:active {
+			border-color: @activeBorderColor;
+			<c:if test="${ zk.ie != 8 }">
+				.verGradient(@activeGradientStart, @activeGradientEnd);
+			</c:if>
+			.boxShadow('inset 1px 1px 1px #91AAB7');
+		}
+		input[disabled] + & {
+			&:hover,
+			&:active {
+				border-color: @inputBorderColor;
+				.resetGradient();
+				.boxShadow('none');
+			}
+		}
+	}
+
+	&-disabled {
+		.opacity(@disabledOpacity);
+		& * {
+			color: @disabledColor !important;
+			background: @disabledBackgroundColor !important;
+			cursor: default !important;
+		}
+	}
+
+	&-invalid {
+		border: 1px solid @invalidBorderColor !important;
+		margin-right: -1px;
+		background: @baseBackgroundColor;
+		.boxShadow(inset -1px 0 0 @invalidBorderColor);
+	}
+
+	&-readonly:focus {
+		border-color: @readonlyBorderColor;
+		border-right-width: 0;
+		background: transparent repeat-x 0 0;
+		cursor: default;
+		.boxShadow(none);
+	}
+
+	&-rightedge {
+		border-right: 1px solid @inputBorderColor;
+		.borderRadius(@borderRadiusSmall);
+	}
+}
+
+.z-combobox-input,
+.z-bandbox-input,
+.z-datebox-input {
+	&[readonly] {
+		cursor: pointer;
+	}
+}
+
+.z-combobox-button.z-combobox-disabled,
+.z-bandbox-button.z-bandbox-disabled,
+.z-datebox-button.z-datebox-disabled,
+.z-timebox-button.z-timebox-disabled,
+.z-spinner-button.z-spinner-disabled,
+.z-doublespinner-button.z-doublespinner-disabled {
+	display: none;
+}
+
+.z-combobox-button {
+	font-size: @fontSizeLarge;
+	min-height: @baseButtonHeight;
+	<c:if test="${ zk.ie == 8 }">
+		min-width: @baseButtonHeight - 13;
+		min-height: @baseButtonWidth - 11;
+	</c:if>	
+	padding-left: 7px;
+	padding-top: 5px;
+}
+
+.z-datebox-button,
+.z-bandbox-button {
+	text-align: center;
+}
+
+.z-timebox-button,
+.z-spinner-button,
+.z-doublespinner-button {
+	<c:if test="${ zk.ie == 8 }">
+		min-width: @baseButtonWidth - 2;
+	</c:if>	
+	padding: 0;
+	position: relative;
+
+	&:hover,
+	&:active {
+		.resetGradient();
+		.boxShadow(none);
+	}
+
+	& > a {
+		color: @iconColor;
+		.size(@baseButtonWidth, @baseButtonHeight / 2);
+		padding: 0 7px;
+		background: @baseBackgroundColor;
+		position: absolute;
+		left: 0;
+		overflow: hidden;
+		text-decoration: none;
+
+		&:first-child {// up icon
+			top: -1px;
+
+			&:active {
+				top: 0;
+			}
+		}
+		&:hover {
+			border-color: @hoverBorderColor;
+			<c:if test="${ zk.ie != 8 }">
+				.verGradient(@hoverGradientStart, @hoverGradientEnd);
+			</c:if>
+		}
+		&:active {
+			border-color: @activeBorderColor;
+			<c:if test="${ zk.ie != 8 }">
+				.verGradient(@activeGradientStart, @activeGradientEnd);
+			</c:if>	
+			.boxShadow('inset 1px 1px 1px #91AAB7');
+		}
+	}
+	// separator
+	& > i {
+		z-index: 2; // greater than arrow icon
+	}
+	&:hover > i {
+		.size(@baseButtonWidth, 1px);
+		border-top: 1px solid @hoverBorderColor;
+		position: absolute;
+		top: 11px;
+		left: 0;
+	}
+	& > a ~ a {// bottom icon
+		bottom: -1px;
+
+		& > i { // fix 1px alignment
+			position: relative;
+			top: -2px;
+		}
+		&:active {
+			bottom: -2px;
+		}
+	}
+}
+
+.z-timebox-disabled a,
+.z-spinner-disabled a,
+.z-doublespinner-disabled a {
+	&:active,
+	&:hover {
+		.resetGradient();
+		.boxShadow('none');
+	}
+	&:first-child:active { // up icon
+		top: -1px; // same as default one
+	}
+	& ~ a:active { // bottom icon
+		bottom: -1px; // same as default one
+	}
+
+	// separator
+	& + i[class*='-separator'] {
+		display: none;
+	}
+}
+
+// Inplace editing
+.z-combobox-inplace .z-combobox-input,
+.z-bandbox-inplace .z-bandbox-input,
+.z-datebox-inplace .z-datebox-input,
+.z-timebox-inplace .z-timebox-input,
+.z-spinner-inplace .z-spinner-input,
+.z-doublespinner-inplace .z-doublespinner-input {
+	border: 0;
+	padding: 3px;
+	background: none;
+
+	&:focus {
+		.resetGradient();
+		.boxShadow('none');
+	}
+}
+.z-combobox-inplace .z-combobox-button,
+.z-bandbox-inplace .z-bandbox-button,
+.z-datebox-inplace .z-datebox-button,
+.z-timebox-inplace .z-timebox-button,
+.z-spinner-inplace .z-spinner-button,
+.z-doublespinner-inplace .z-doublespinner-button {
+	display: none;
+}
+
+// Comboitem
+.z-comboitem,
+.z-comboitem-button {
+	font-size: @fontSizeMedium;
+	white-space: nowrap;
+	cursor: pointer;
+}
+.z-comboitem {
+	display: block;
+	padding: 3px 2px;
+	position: relative;
+	text-shadow: 0 1px #FFFFFF;
+}
+.z-comboitem-inner,
+.z-comboitem-content {//description
+	.iconFontStyle(@fontSizeXSmall, @textColorGray);
+}
+.z-comboitem,
+.z-comboitem a,
+.z-comboitem a:visited {
+	font-size: @fontSizeMedium;
+	font-weight: normal;
+	color: @baseTextColor;
+	text-decoration: none;
+}
+.z-comboitem:hover {
+	<c:if test="${ zk.ie != 8 }">
+		.verGradient(@hoverGradientStart, @hoverGradientEnd);
+	</c:if>
+}
+.z-comboitem-selected {
+	<c:if test="${ zk.ie != 8 }">
+		.verGradient(@selectedGradientStart, @selectedGradientEnd);
+	</c:if>
+	.z-comboitem-text {
+		color: @selectedColor;
+	}
+}
+.z-comboitem-selected:hover {
+	<c:if test="${ zk.ie != 8 }">
+		.verGradient(@selectedHoverGradientStart, @selectedHoverGradientEnd);
+	</c:if>
+	.z-comboitem-text {
+		color: @selectedHoverColor;
+	}
+}
+.z-comboitem-image {
+	margin-top: -4px;
+	margin-right: 3px;
+	float: left;
+	
+	&:empty {
+		margin-right: 0px;
+	}
+}
+
+.z-combobox-popup,
+.z-bandbox-popup,
+.z-datebox-popup,
+.z-timebox-popup {
+	font-family: @baseContentFontFamily;
+	font-weight: normal;
+	font-size: @fontSizeMedium;
+	display: block;
+	border: 1px solid @popupBorderColor;
+	padding: 2px;
+	background: @popupBackgroundColor;
+	position: absolute;
+	overflow: hidden;
+}
+
+.z-combobox-popup {
+	overflow: auto;
+}
+
+.z-bandbox-popup {
+	overflow: auto;
+	.boxShadow('0 0 15px rgba(0, 0, 0, 0.35)');
+}
+
+.z-combobox-content {
+	border: 0;
+	padding: 0;
+	margin: 0;
+	background: transparent none repeat 0 0;
+	position: relative;
+	list-style-image: none;
+	list-style-position: outside;
+	list-style-type: none;
+}
+
+//Shadow
+.z-combobox-shadow,
+.z-bandbox-shadow,
+.z-datebox-shadow {
+	.borderRadius(@borderRadiusSmall);
+	.boxShadow('0 0 15px rgba(0, 0, 0, 0.35)');
+}
+
+.ie8 {
+	.z-combobox,
+	.z-bandbox,
+	.z-datebox,
+	.z-timebox,
+	.z-spinner,
+	.z-doublespinner {
+		&-button {
+			&:hover {
+				.gradientFallback(@hoverGradientStart, @hoverGradientEnd);
+			}
+			&:active {
+				.gradientFallback(@activeGradientStart, @activeGradientEnd);
+			}
+		}
+	}
+
+	.z-timebox,
+	.z-spinner,
+	.z-doublespinner {
+		&-button {
+			& > a {
+				&:hover {
+					.gradientFallback(@hoverGradientStart, @hoverGradientEnd);
+				}
+				&:active {
+					.gradientFallback(@activeGradientStart, @activeGradientEnd);
+				}
+			}
+		}
+	}
+
+	.z-comboitem {
+		&-selected {			
+			.gradientFallback(@selectedGradientStart, @selectedGradientEnd);
+		}
+		&:hover {
+			.gradientFallback(@hoverGradientStart, @hoverGradientEnd);
+		}
+		&-selected:hover {
+			.gradientFallback(@selectedHoverGradientStart, @selectedHoverGradientEnd);
+		}
+	}
+}

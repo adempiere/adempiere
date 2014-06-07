@@ -1,0 +1,104 @@
+@import "~./zul/less/_header.less";
+
+.z-groupbox {
+	padding-top: 16px;
+
+	> .z-groupbox-header {
+		.fontStyle(@baseTitleFontFamily, @fontSizeMedium, normal, @textColorGrayDark);
+		.size(100%, @baseIconHeight);
+		border: 1px solid @baseBorderColor;
+		border-bottom: 0;
+		padding-left: 10px;
+		line-height: @baseLineHeight;
+		zoom: 1;
+
+		.z-groupbox-title {
+			font-size: 12px;
+			height: auto;
+			min-height: 24px;
+			white-space: nowrap;
+		}
+
+		.z-groupbox-title-content {
+			display: inline-block;
+			padding: 4px 0;
+			line-height: 16px;
+		}
+
+		.z-caption, .z-groupbox-title {
+			display: inline;
+			width: auto;
+			padding: 0px 4px;
+			line-height: @baseIconHeight;
+			background: @baseBackgroundColor;
+			position: relative;
+			cursor: pointer;
+
+			&-readonly {
+				cursor: default;
+			}
+		}
+
+		.z-caption-content, .z-label {
+			float: none;
+		}
+	}
+	
+	> .z-groupbox-readonly .z-groupbox-title {
+		cursor: default;
+	}
+	
+	&-content {
+		display: block;
+		height: inherit; // Firefox bug: content cant be collapsed when scrolling
+		border: 1px solid @baseBorderColor;
+		border-top: 0;
+		padding: 5px;
+		overflow: hidden;
+		zoom: 1;
+	}
+
+	&-notitle {
+		padding: 0;
+
+		.z-groupbox-content {
+			border-top: 1px solid @baseBorderColor;
+		}
+	}
+
+	&-collapsed .z-groupbox-header {
+		border-left: 1px solid transparent;
+		border-right: 1px solid transparent;
+	}
+
+	&-3d {
+		padding: 0;
+
+		> .z-groupbox-header {
+			font-weight: bold;
+			height: auto;
+			min-height: @baseBarHeight;
+			<c:if test="${ zk.ie == 8 }">
+				min-height: @baseBarHeight - 8;
+			</c:if>
+			border-bottom: 1px solid @baseBorderColor;
+			padding: 3px 4px;
+			.verGradient(@baseGradientStart, @baseGradientEnd);
+
+			.z-caption, .z-groupbox-title {
+				display: inline-block;
+				width: 100%;
+				margin: 0;
+				padding: 0;
+				line-height: @baseButtonHeight;
+				background: none;
+				top: 0px;
+			}
+
+			.z-caption-content {
+				padding: 4px 0px 4px 0px;
+				line-height: @baseIconHeight;
+			}
+		}
+	}
+}

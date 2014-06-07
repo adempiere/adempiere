@@ -1,0 +1,20 @@
+@import "~./zul/less/_header.less";
+
+.z-anchorlayout,
+.z-anchorlayout-body,
+.z-anchorchildren {
+	overflow: hidden;
+}
+
+.z-anchorchildren {
+	margin: 0;
+	padding: 0;
+    float: left;
+}
+
+<c:if test="${ zk.ie > 0 }">
+.z-anchorlayout,
+.z-anchorchildren {
+    zoom: 1;
+}
+</c:if>

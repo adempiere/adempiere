@@ -1,0 +1,139 @@
+@import "~./zul/less/_header.less";
+
+.z-combobutton {
+	display: inline-block;
+	min-height: @baseButtonHeight;
+	cursor: pointer;
+
+	&-content {
+		.fontStyle(@baseContentFontFamily, @fontSizeMedium, normal, @baseTextColor);
+		display: inline-block;
+		min-height: @baseButtonHeight;
+		border: 1px solid @buttonBorderColor;
+		.borderRadius(@borderRadiusSmall);
+		padding: 4px 30px 4px 5px;
+		line-height: @baseLineHeight;
+		<c:if test="${ zk.ie != 8 }">
+			.verGradient(@buttonGradientStart, @buttonGradientEnd);
+		</c:if>
+		vertical-align: middle;
+		position: relative;
+		white-space: nowrap;
+	}
+	&-image {
+		vertical-align: middle;
+	}
+	&-button {
+		font-weight: normal;
+		.displaySize(block, @baseButtonWidth, 100%);
+		border-left: 1px solid @buttonBorderColor;
+		line-height: normal;
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
+	&-icon {
+		.iconFontStyle(@fontSizeLarge, @iconColor);
+		
+		&.z-icon-caret-down {
+			display: block;
+			margin-top: -8px;
+			position: absolute;
+			top: 50%;
+			left: 7px;
+		}
+	}
+	&:hover {
+		.z-combobutton-content,
+		.z-combobutton-button {
+			border-color: @hoverBorderColor;
+			<c:if test="${ zk.ie != 8 }">
+				.verGradient(@hoverGradientStart, @hoverGradientEnd);
+			</c:if>
+		}
+	}
+	&:focus {
+		.z-combobutton-content,
+		.z-combobutton-button {
+			color: @focusColor;
+			border-color: @focusBorderColor;
+			.verGradient(@focusGradientStart, @focusGradientEnd);
+			.boxShadow('inset 0 0 2px #0CBCFF');
+		}
+		.z-combobutton-button {
+			border-left-color: @baseBorderColor;
+		}
+	}
+	&:active {
+		.z-combobutton-content,
+		.z-combobutton-button {
+			border-color: @activeBorderColor;
+			.verGradient(@activeGradientStart, @activeGradientEnd);
+		}
+	}
+	&[disabled] {
+		cursor: default;
+
+		.z-combobutton-content,
+		.z-combobutton-button {
+			border-color: @buttonBorderColor;
+			.resetGradient();
+			.boxShadow('none');
+			.opacity(@disabledOpacity);
+		}
+	}
+
+	//toolbar mold
+	&-toolbar {
+		.z-combobutton-content,
+		.z-combobutton-button {
+			border-color: transparent;
+			.borderRadius(0);
+			.resetGradient();
+		}
+		&:focus {
+			.z-combobutton-content,
+			.z-combobutton-button {
+				border-color: transparent;
+				.boxShadow('none');
+			}
+		}
+		&:active {
+			.z-combobutton-content,
+			.z-combobutton-button {
+				border-color: @hoverBorderColor;
+				.verGradient(@hoverGradientStart, @hoverGradientEnd);
+			}
+		}
+		&[disabled] {
+			.z-combobutton-content,
+			.z-combobutton-button {
+				border-color: transparent;
+				.resetGradient();
+				.opacity(@disabledOpacity);
+				.boxShadow('none');
+			}
+		}
+	}
+}
+
+.ie8 .z-combobutton {
+	min-height: @baseButtonHeight - 10;
+
+	&-content {
+		.gradientFallback(@baseGradientEnd, @baseGradientStart);
+		min-height: @baseButtonHeight - 10;
+	}
+	&-toolbar {
+		.z-combobutton-content,
+		.z-combobutton-button {
+			background: transparent;
+		}
+	}
+	&:hover {
+		.z-combobutton-content,
+		.z-combobutton-button {
+			background: @hoverGradientEnd;
+		}
+	}
+}

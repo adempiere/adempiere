@@ -1,0 +1,52 @@
+@import "~./zul/less/_header.less";
+
+.z-row {
+	.z-detail-outer {
+		width: 40px;
+		min-width: 40px;
+		border-top: 1px solid @meshTitleBorderColor;
+		padding: 18px 6px;
+		line-height: normal;
+		<c:if test="${ zk.ie != 8 }">
+			.horGradient(@baseGradientStart, @baseGradientEnd);
+		</c:if>
+		vertical-align: top;
+	}
+
+	&:first-child .z-detail-outer {
+		border-top: none;
+	}
+
+	.z-detail-outer + td,
+	.z-detail-inner:first-child {
+		border-left: 1px solid @meshTitleBorderColor;
+	}
+}
+
+.z-detail {
+	font-size: @baseFontSize;
+	.size(@baseIconWidth, @baseIconHeight);
+	border: 1px solid @meshTitleBorderColor;
+	padding: 0;
+	line-height: @baseLineHeight;
+	.verGradient(@baseGradientStart, @baseGradientEnd);
+	text-align: center;
+	overflow: hidden;
+	white-space: nowrap;
+	cursor: pointer;
+
+	&-icon {
+		.iconFontStyle(@fontSizeLarge, @iconColor);
+		position: relative;
+		left: 1px;
+	}
+	&-open .z-detail-icon {
+		line-height: @baseLineHeight + 2;
+		left: 0;
+	}
+}
+
+// IE 8
+.ie8 .z-row .z-detail-outer{
+	background: @meshBackgroundColor;
+}

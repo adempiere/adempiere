@@ -1,0 +1,107 @@
+@import "~./zul/less/_header.less";
+
+.z-slider {
+	background-image: none;
+
+	&-center {
+		.borderRadius(5px);
+		cursor: pointer;
+	}
+
+	&-button {
+		.size(@baseIconWidth, @baseIconHeight);
+		border: 1px solid @sliderBorderColor;
+		.borderRadius(@borderRadiusSmall);
+		<c:if test="${ zk.ie != 8 }">
+			.gradient('ver', '#FFFFFF 0%; #FEFEFE 50%; #EFEFEF 100%');
+		</c:if>
+		position: relative;
+		cursor: pointer;
+
+		&:active {
+			border-top-color: @sliderActiveBorderColor;
+			border-left-color: @sliderActiveBorderColor;
+			.verGradient(@baseGradientEnd, @baseGradientStart);
+		}
+
+		&:hover {
+			.resetGradient();
+			background: @hoverBackgroundColor;
+		}
+	}
+
+	&-horizontal {
+		height: @baseBarHeight;
+
+		.z-slider-center {
+			.size(100%, @baseHeight - 2);
+			margin-top: -3px;
+			<c:if test="${ zk.ie != 8 }">
+				.gradient('ver', 'rgba(157, 157, 157, 0.5) 0%; rgba(130, 140, 149, 0.5) 13%; rgba(215, 215, 215, 0.5) 100%');
+			</c:if>	
+			position: relative;
+			top: 50%;
+		}
+
+		.z-slider-button {
+			top: -5px;
+			left: 0;
+		}
+	}
+
+	&-vertical {
+		font-size: 0;
+		width: @baseBarWidth;
+		margin-right: 0px;
+		line-height: 0;
+
+		.z-slider-button {
+			left: -5px;
+		}
+
+		.z-slider-center {
+			.size(@baseWidth - 2, 100%);
+			margin: auto;
+			<c:if test="${ zk.ie != 8 }">
+				.gradient('hor', 'rgba(157, 157, 157, 0.5) 0%; rgba(130, 140, 149, 0.5) 13%; rgba(215, 215, 215, 0.5) 100%');
+			</c:if>
+		}
+	}
+
+	&-popup {
+		font-family: @baseContentFontFamily;
+		font-size: @fontSizeMedium;
+		font-weight: normal;
+		padding: 2px;
+		text-shadow: 0 1px #FFFFFF;
+		.boxShadow('0 0 10px rgba(0, 0, 0, 0.35)');
+	}
+
+	&-sphere {
+		.z-slider-vertical .z-slider-button {
+			bottom: 0;			
+		}
+	}
+
+	&-sphere,
+	&-scale {
+		.z-slider-button {
+			.borderRadius(15px);
+		}
+	}
+
+	&-scale {
+		.encodeThemeURL(background-image, '~./zul/img/slider/ticks.gif');
+	}
+}
+
+.ie8 .z-slider {
+	&-button {
+		.gradientFallback(#FFFFFF, #EFEFEF);
+	}
+
+	&-vertical .z-slider-center, 
+	&-horizontal .z-slider-center {
+		.gradientFallback(rgb(157,157,157), rgb(215,215,215));
+	}
+}

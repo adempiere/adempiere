@@ -1,0 +1,243 @@
+@import "~./zul/less/_header.less";
+
+@media print {
+	.z-borderlayout {
+		//Bug 2949287
+		<c:if test="${ zk.safari > 0 }">
+		position: static;
+		</c:if>
+	}
+}
+
+@media screen {
+	.z-borderlayout {
+		position: relative;
+	}
+}
+
+.z-borderlayout {
+	.size(100%, 100%);
+	border: 0;
+	background: @baseBackgroundColor;
+	overflow: hidden;
+
+	&-icon {
+		.iconFontStyle(@baseFontSize, @iconColor);
+		.displaySize(block, @baseButtonWidth, @baseButtonHeight);
+		line-height: @baseButtonHeight;
+		.opacity(0.5);
+		text-align: center;
+		position: absolute;
+		right: 3px;
+		overflow: hidden;
+		cursor: pointer;
+		
+		&:hover {
+			.opacity(1);
+		}
+	}
+}
+
+.z-north,
+.z-south,
+.z-west,
+.z-center,
+.z-east {
+	border: 1px solid @baseBorderColor;
+	background: @baseBackgroundColor;
+	position: absolute;
+	overflow: hidden;
+
+	&-noborder {
+		border: 0;
+	}
+	&-header {
+		.fontStyle(@baseTitleFontFamily, @fontSizeMedium, bold, @textColorGray);
+		height: @baseBarHeight;
+		border-bottom: 1px solid @baseBorderColor;
+		padding: 4px 4px 3px;
+		line-height: @baseBarHeight - 8; // 24px = 32 - (padding + border)
+		.verGradient(@baseGradientStart, @baseGradientEnd);
+		overflow: hidden;
+		cursor: default;
+		white-space: nowrap;
+	}
+
+	&-body {
+		line-height: @baseLineHeight;
+	}
+
+	&-collapsed {
+		.size(@baseBarWidth, @baseBarHeight);
+		border: 1px solid @collapsedBorderColor;
+		padding: 5px;
+		background: @collapsedBackgroundColor;
+		position: absolute;
+		overflow: hidden;
+	 	cursor: pointer; // ios issue
+	}
+
+	&-caption {
+		height: @baseBarHeight;
+	}
+}
+.z-north,
+.z-south,
+.z-center {
+	width: 100%; // Fixed for B30-1902533.zul
+}
+.z-west,
+.z-east {
+	height: 100%; // Fixed for B30-1902533.zul
+}
+
+.z-west,
+.z-west-collapsed,
+.z-west-splitter {
+	z-index: 12;
+}
+.z-center {
+	z-index: 8;
+}
+.z-east,
+.z-east-collapsed,
+.z-east-splitter {
+	z-index: 10;
+}
+.z-north,
+.z-north-collapsed,
+.z-north-splitter  {
+	z-index: 16;
+}
+.z-south,
+.z-south-collapsed,
+.z-south-splitter {
+	z-index: 14;
+}
+
+.z-east,
+.z-west,
+.z-north,
+.z-south {
+	&-splitter {
+		.size(@baseWidth, @baseHeight);
+		.horGradient(@splitterGradientStart, @splitterGradientEnd);
+		position: absolute;
+		overflow: hidden;
+		cursor: e-resize;
+
+		// splitter-button
+		&-button {
+			color: @iconColor;
+			display: inline-block;
+			border: 1px solid @baseBorderColor;
+			vertical-align: top;// vertical-align: make it looks same in diff browsers
+			position: relative;
+			cursor: pointer;
+		}
+		&-button-disabled {
+			border: 0;
+		}
+	}
+
+	&-icon {
+		font-size: @fontSizeXSmall;
+		line-height: @baseLineHeight;
+		.opacity(0.5);
+		position: absolute;
+	}
+}
+.z-north-splitter,
+.z-south-splitter {
+	border-left: 1px solid @baseBorderColor;
+	border-right: 1px solid @baseBorderColor;
+	.verGradient(@splitterGradientStart, @splitterGradientEnd);
+	cursor: s-resize;
+}
+
+<c:if test="${ zk.ie == 8 }">
+.z-west-icon.z-icon-caret-left,
+.z-south-icon.z-icon-caret-down,
+.z-east-icon.z-icon-caret-right,
+.z-north-icon.z-icon-caret-up {
+	font-size: @fontSizeMedium;
+}
+.z-south-icon.z-icon-caret-down {
+	top: -2px;
+}
+</c:if>
+.z-north-splitter-button:hover .z-icon-caret-up,
+.z-south-splitter-button:hover .z-icon-caret-down,
+.z-west-splitter-button:hover .z-icon-caret-left,
+.z-east-splitter-button:hover .z-icon-caret-right {
+	opacity: 1;
+}
+.z-north-splitter-button-disabled .z-icon-caret-up,
+.z-south-splitter-button-disabled .z-icon-caret-down,
+.z-west-splitter-button-disabled .z-icon-caret-left,
+.z-east-splitter-button-disabled .z-icon-caret-right {
+	display: none;
+}
+.z-north-splitter-button-disabled,
+.z-south-splitter-button-disabled {
+	cursor: s-resize;
+}
+.z-west-splitter-button-disabled,
+.z-east-splitter-button-disabled {
+	cursor: e-resize;
+}
+.z-west-icon,
+.z-east-icon {
+	font-size: @fontSizeXSmall + 1; // add 1px more
+	top: 8px;
+	left: 2px;
+}
+
+.z-west-icon.z-icon-ellipsis-vertical,
+.z-east-icon.z-icon-ellipsis-vertical {
+	font-size: @fontSizeXSmall;
+	top: -21px;
+	left: 3px;
+	cursor: e-resize;
+	<c:if test="${ zk.ie == 8 }">
+		font-size: @baseFontSize;
+	</c:if>
+}
+.z-north-icon,
+.z-south-icon {
+	left: 11px;
+	top: -3px;
+}
+.z-west-icon.z-icon-ellipsis-vertical ~ .z-west-icon.z-icon-ellipsis-vertical,
+.z-east-icon.z-icon-ellipsis-vertical ~ .z-east-icon.z-icon-ellipsis-vertical {
+	top: 39px;
+}
+
+.z-north-icon.z-icon-ellipsis-horizontal,
+.z-south-icon.z-icon-ellipsis-horizontal {
+	top: -2px;
+	left: -20px;
+	cursor: s-resize;
+	<c:if test="${ zk.ie == 8 }">
+		font-size: @baseFontSize;
+	</c:if>
+}
+.z-north-icon.z-icon-ellipsis-horizontal ~ .z-north-icon.z-icon-ellipsis-horizontal,
+.z-south-icon.z-icon-ellipsis-horizontal ~ .z-south-icon.z-icon-ellipsis-horizontal {
+	left: 40px;
+}
+
+.z-west-splitter-button,
+.z-east-splitter-button {
+	.size(8px, 30px);
+	border-width: 1px 0;
+}
+.z-north-splitter-button,
+.z-south-splitter-button {
+	.size(30px, 8px);
+	border-width: 0 1px;
+}
+
+.ie8 .z-borderlayout > div {
+	border: 0;
+}

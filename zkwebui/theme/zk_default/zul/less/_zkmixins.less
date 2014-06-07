@@ -1,0 +1,152 @@
+// ZK Mixins Utility
+
+// EL Function
+// --------------------------------------------
+
+//---------------------------------------------
+// web/core.dsp.tld
+//---------------------------------------------
+.encodeURL(@property, @url, @rest...) when (@property = background) {
+	background: url(${ c:encodeURL('@{url}') }) @rest;
+}
+.encodeURL(@property, @url, @rest...) when (@property = background-image) {
+	background-image: url(${ c:encodeURL('@{url}') });
+}
+.encodeThemeURL(@property, @url, @rest...) when (@property = background) {
+	background: url(${ c:encodeThemeURL('@{url}') }) @rest;
+}
+.encodeThemeURL(@property, @url, @rest...) when (@property = background-image) {
+	background-image: url(${ c:encodeThemeURL('@{url}') });
+}
+.encodeURL-horGradient(@url, @start, @end) {
+	background: url(${ c:encodeURL('@{url}') }), ${ t:gradValue('hor', '@{start} 0%; @{end} 100%') };
+}
+.encodeURL-verGradient(@url, @start, @end) {
+	background: url(${ c:encodeURL('@{url}') }), ${ t:gradValue('ver', '@{start} 0%; @{end} 100%') };
+}
+//---------------------------------------------
+// theme.dsp.tld
+//---------------------------------------------
+// gradient
+.gradient(@direction, @value) {
+	${ t:gradient('@{direction}', '@{value}') };
+}
+.gradValue(@direction, @value) {
+	background: ${ t:gradValue('@{direction}', '@{value}') };
+}
+.gradients(@direction, @value) {
+	${ t:gradients('@{direction}', '@{value}') };
+}
+// box layout
+.box(@name, @value) {
+	${ t:box('@{name}', '@{value}') };
+}
+.box2(@name, @value, @name2, @value2) {
+	${ t:box2('@{name}', '@{value}', '@{name2}', '@{value2}') };
+}
+.box3(@name, @value, @name2, @value2, @name3, @value3) {
+	${ t:box3('@{name}', '@{value}', '@{name2}', '@{value2}', '@{name3}', '@{value3}') };
+}
+// box-shadow
+.boxShadow(@value) {
+	${ t:boxShadow('@{value}') };
+}
+// border-radius
+.borderRadius(@size) {
+	${ t:borderRadius('@{size}') };
+}
+// transform
+.transform(@value) {
+	${ t:transform('@{value}') };
+}
+// CSS3
+.applyCSS3(@key, @value) {
+	${ t:applyCSS3('@{key}', '@{value}') };
+}
+
+//---------------------------------------------
+// Other helpful utilities
+//---------------------------------------------
+// gradient utility
+.horGradient(@start, @end) when (@start = @end) {
+	background: @start;
+}
+.horGradient(@start, @end) when not (@start = @end) {
+	${ t:gradient('hor', '@{start} 0%; @{end} 100%') };
+}
+.verGradient(@start, @end) when (@start = @end) {
+	background: @start;
+}
+.verGradient(@start, @end) when not (@start = @end) {
+	${ t:gradient('ver', '@{start} 0%; @{end} 100%') };
+}
+.gradientFallback(@start, @end) {
+	background: average(@start, @end);
+}
+.resetGradient() {
+	background: none;
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+// border-radius utility
+.topBorderRadius(@size) {
+	${ t:borderRadius('@{size} @{size} 0 0') };
+}
+.rightBorderRadius(@size) {
+	${ t:borderRadius('0 @{size} @{size} 0') };
+}
+.bottomBorderRadius(@size) {
+	${ t:borderRadius('0 0 @{size} @{size}') };
+}
+.leftBorderRadius(@size) {
+	${ t:borderRadius('@{size} 0 0 @{size}') };
+}
+
+// transition utility
+.transition(@property, @duration, @timingFunc, @delay: 0) {
+	${ t:applyCSS3('transition', '@{property} @{duration} @{timingFunc} @{delay}') };
+}
+
+// opacity utility
+.opacity(@opacity) {
+	opacity: @opacity;
+	@opacity100: @opacity * 100;
+	filter: ~"alpha(opacity=@{opacity100})";
+}
+
+// icon font utility
+.baseIconFont() {
+	font-family: FontAwesome;
+	font-weight: normal;
+	font-style: normal;
+	text-decoration: inherit;
+	-webkit-font-smoothing: antialiased;
+	*margin-right: .3em; // fixes ie7 issues
+}
+
+// other utility
+.size(@width, @height) {
+	width: @width;
+	height: @height;
+}
+.displaySize(@display, @width, @height) {
+	display: @display;
+	.size(@width, @height);
+}
+.fontStyle(@family, @size, @weight, @color) {
+	font-family: @family;
+	font-size: @size;
+	font-weight: @weight;
+	font-style: normal;
+	color: @color;
+}
+.fontStyle(@family, @size, @weight) {
+	font-family: @family;
+	font-size: @size;
+	font-weight: @weight;
+	font-style: normal;
+}
+.iconFontStyle(@size, @color) {
+	font-size: @size;
+	color: @color;
+}

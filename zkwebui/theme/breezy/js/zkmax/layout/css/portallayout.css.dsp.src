@@ -1,0 +1,29 @@
+<%@ taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c" %>
+<%@ taglib uri="http://www.zkoss.org/dsp/zk/core" prefix="z" %>
+<%@ taglib uri="http://www.zkoss.org/dsp/web/theme" prefix="t" %>
+.z-portallayout,
+.z-portalchildren,
+.z-portalchildren-content {
+  overflow: hidden;
+}
+.z-portallayout-vertical > .z-portalchildren {
+  height: 100%;
+  float: left;
+}
+.z-portalchildren-content {
+  width: 100%;
+  height: 100%;
+}
+.z-portallayout-horizontal > .z-portalchildren {
+  height: 100%;
+}
+.z-portallayout-horizontal .z-portalchildren-content > .z-panel,
+.z-portallayout-horizontal .z-portalchildren-content > .z-panel-move-block {
+  float: left;
+}
+<c:if test="${ zk.ie > 0 }">
+.z-portallayout,
+.z-portalchildren {
+  zoom: 1;
+}
+</c:if>

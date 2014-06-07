@@ -1,0 +1,362 @@
+@import "~./zul/less/_header.less";
+
+.hoverStyle() {
+	border-color: @hoverBorderColor;
+	<c:if test="${ zk.ie != 8 }">
+		.verGradient(@hoverGradientStart, @hoverGradientEnd);
+	</c:if>
+}
+.activeStyle() {
+	border-color: @menuActiveBorderColorTR @menuActiveBorderColorBL @menuActiveBorderColorBL @menuActiveBorderColorTR;
+	<c:if test="${ zk.ie != 8 }">
+		.verGradient(@baseGradientStart, @baseGradientEnd);
+	</c:if>
+	.boxShadow('inset 1px 1px 1px rgba(210, 210, 210, 0.75)');
+}
+.restUl() {
+	background: transparent none repeat 0 0;
+	border: 0;
+	padding: 0;
+	margin: 0;
+	position: relative;
+	list-style-image: none;
+	list-style-position: outside;
+	list-style-type: none;
+}
+
+// define common font property
+.z-menubar {
+	display: block;
+	border-top: 1px solid @baseBorderColor;
+	border-bottom: 1px solid @baseBorderColor;
+	padding: 3px 0;
+	.verGradient(@baseGradientStart, @baseGradientEnd);
+	position: relative;
+
+	ul {
+		overflow: hidden;
+		.restUl();
+	}
+	li {
+		display: block;
+		padding: 0;
+		position: relative;
+	}
+
+	&-horizontal {
+		li {
+			margin: 0 2px;
+			float: left;
+		}
+		.z-menuseparator {
+			display: block;
+			width: 1px;
+			border-left: 1px solid @menuSeparatorBorderColor;
+			line-height: @baseButtonHeight;
+		}
+	}
+	&-vertical {
+		ul {
+			display: inline-table;
+		}
+		li {
+			margin: 3px 2px 4px;
+			&:first-child {
+				margin: 2px;
+			}
+		}
+		.z-menuseparator {
+			height: 0;
+			min-height: 0;
+			border-top: 1px solid @menuSeparatorBorderColor;
+			line-height: 0;
+		}
+		.z-menu {
+			&-icon {
+				position: absolute;
+				right: 5px;
+				top: 5px;
+			}
+		}
+	}
+}
+.z-menu-hover > .z-menu-content,
+.z-menuitem-hover > .z-menuitem-content {
+	.hoverStyle();
+}
+
+.z-menu,
+.z-menuitem {
+	.restUl(); //avoid using none default zclass
+	&-text {
+		font-family: @baseTitleFontFamily;
+		font-size: @fontSizeMedium;
+		font-weight: normal;
+		display: inline-block;
+		line-height: @baseIconHeight;
+		text-shadow: 0 1px #FFFFFF;
+		
+		// align for img + text
+		img ~ & {
+			vertical-align: middle;
+		}
+		&:empty {
+			display: none;
+		}
+	}
+	&-image {
+		max-width: @menuImageSize;
+		margin-right: 3px;
+	}
+	&-content {
+		color: @textColorGray;
+		display: block;
+		border: 1px solid transparent;
+		.borderRadius(@baseBorderRadius);
+		padding: 3px 6px 3px;
+		line-height: @baseLineHeight - 2;
+		position: relative;
+		cursor: pointer;
+		text-decoration: none;
+		white-space: nowrap;
+		z-index: 20; // the 20 is greater than menupopup-separator's z-index
+
+		&:hover {
+			.hoverStyle();
+		}
+		&:focus {
+			.hoverStyle();
+		}
+		&:active {
+			.activeStyle();
+		}
+		&[disabled] {
+			.opacity(@disabledOpacity);
+			border: 1px solid transparent;
+			.resetGradient();
+			cursor: default;
+			.boxShadow('none');
+		}
+	}
+
+	// icon sclass
+	&-content i {
+		vertical-align: text-bottom;
+	}
+}
+.z-menu {
+	&-separator {
+		display: none;
+	}
+	&-clickable {
+		.z-menu-separator {
+			.size(1px, 100%);
+			background: @hoverBorderColor;
+			position: absolute;
+			top: 0;
+			right: 18px;
+		}
+		&.z-menu:hover .z-menu-separator {
+			display: block;
+		}
+		&.z-menu:active,
+		&.z-menu-selected {
+			.z-menu-separator {
+				background: @menuSeparatorBackgroundColor;
+			}
+		}
+		.z-menu-text {
+			margin-right: 3px;
+		}
+	}
+	&-content {
+		padding-right: 18px;
+	}
+
+	&-icon {
+		position: absolute;
+		top: 5px;
+		right: 5px;
+
+		&.z-icon-caret-down {
+			font-size: @fontSizeLarge;
+		}
+
+		&.z-icon-caret-right {
+			font-size: 15px;
+		}
+	}
+	&-icon,
+	&-icon:hover,
+	&-icon:active {
+		color: @iconColor;
+		vertical-align: text-bottom;
+	}
+	&-selected > &-content {
+		.activeStyle();
+	}
+}
+.z-menuitem {
+	&-selected > &-content {
+		.activeStyle();
+	}
+}
+
+// menupopup
+.z-menupopup-shadow,
+.z-menu-palette-popup,
+.z-menu-picker-popup,
+.z-menu-content-popup {
+	.boxShadow('1px 1px 2px rgba(0, 0, 0, 0.2)');
+}
+
+.z-menu-content-popup {
+	.displaySize(none, auto, auto);
+	position: absolute;
+	overflow: auto;
+	z-index: @basePopupZIndex;
+}
+.z-menupopup {
+	border: 1px solid @baseBorderColor;
+	padding: 3px;
+	background: @menuPopupBackground;
+	left: 0;
+	top: 0;
+	white-space: nowrap;
+	z-index: @basePopupZIndex;
+
+	ul {
+		.restUl();
+	}
+	&-separator {
+		.size(2px, 100%);
+		border-width: 3px 1px 3px 0;
+		border-style: solid;
+		border-color: @menuPopupSeparatorBorder;
+		background: @menuPopupSeparatorBackground;
+		position: absolute;
+		top: 0;
+		left: 31px;
+		z-index: 10;
+	}
+	.z-menu-image,
+	.z-menuitem-image {
+		min-width:  @menuImageSize;
+		min-height:  @menuImageSize;
+		margin-right: 9px;
+	}
+	.z-menuitem-icon {
+		.iconFontStyle(14px, @checkedColor);
+		display: none;
+		position: absolute;
+		top: 5px;
+		left: 7px;
+		<c:if test="${ zk.ie == 8 }">
+			top: 6px;
+			left: 8px;
+		</c:if>
+	}
+	.z-menu-content {
+		padding-right: 16px;
+	}
+	.z-menu-icon {
+		position: absolute;
+		top: 5px;
+		right: 5px;
+	}
+	.z-menuseparator {
+		font-size: 1px;
+		display: block;
+		width: auto;
+		min-height: 2px;
+		border-bottom: 1px solid @menuPopupSeparatorBorder;
+		padding: 0px;
+		line-height: 1px;
+		background: @menuPopupSeparatorBackground;
+		position: relative;
+	}
+}
+//define checked menuitem effect in menupopup
+.z-menuitem-checkable .z-menuitem-image {
+	border: 1px solid @checkedBorderColor;
+	background: @checkedBackgroundColor;
+}
+.z-menuitem-checked.z-menuitem-checkable .z-menuitem-icon {
+	display: block;
+}
+
+//define menubar hor scroll
+.z-menubar {
+	&-scroll {
+		overflow: hidden;
+	}
+	&-body {
+		width: 100%;
+		margin-left: 32px;
+		margin-right: 32px;
+		position: relative;
+		overflow: hidden;
+	}
+	&-content {
+		width: 5000px;
+	}
+	&-icon {
+		.iconFontStyle(@fontSizeMedium, @iconColor);
+		.opacity(0.7);
+		margin-top: -@fontSizeMedium/2;
+		margin-left: -@fontSizeMedium/2 + 2;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+	}
+	&-left,
+	&-right {
+		&:active {
+			.boxShadow('inset 1px 1px 1px rgba(210, 210, 210, 0.75)');
+		}
+		&:hover {
+			> .z-menubar-icon {
+				color: @iconHoverColor;
+				opacity: 1;
+				text-shadow: 1px 0 #C2E0F9;
+			}
+		}
+	}
+	&-left {
+		left: 0;
+	}
+	&-scrollable {
+		.size(@baseBarWidth, 100%);
+		border: 1px solid @baseBorderColor;
+		border-width: 0 1px;
+		line-height: normal;
+		.verGradient(@baseGradientStart, @baseGradientEnd);
+		position: absolute;
+		top: 0;
+		right: 0;
+		cursor: pointer;
+		z-index: 25;
+	}
+}
+
+.ie8 {
+	.z-menu-hover > .z-menu-content, 
+	.z-menuitem-hover > .z-menuitem-content {
+		.gradientFallback(@hoverGradientStart, @hoverGradientEnd);
+	}
+
+	.z-menu, .z-menuitem { 
+		&-content {
+			&:hover, &:focus {
+				.gradientFallback(@hoverGradientStart, @hoverGradientEnd);
+			}
+			&:active {
+				.gradientFallback(@baseGradientStart, @baseGradientEnd);
+			}
+		}
+
+		&-selected > &-content {
+			.gradientFallback(@baseGradientStart, @baseGradientEnd);
+		}
+	}
+}

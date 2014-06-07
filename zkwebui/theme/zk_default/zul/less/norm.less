@@ -1,0 +1,645 @@
+@import "~./zul/less/_header.less";
+@import "~./zul/less/_reset.less";
+@import "~./zul/less/font/_all.less"; // Font-Awesome 3.1.1
+
+html, body {
+	height: 100%;
+}
+
+// affect ZK component only
+[class^="z-"],
+[class*=" z-"],
+[class^="z-"]:after,
+[class*=" z-"]:after,
+[class^="z-"]:before,
+[class*=" z-"]:before,
+.z-borderbox {
+	.applyCSS3('box-sizing', 'border-box');
+}
+
+// Reset
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input,
+input:focus,
+textarea,
+textarea:focus {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	 outline: none;
+	 -webkit-user-select: text;
+}
+
+*:focus {
+  outline: none;
+}
+
+fieldset { 
+	border: 1px solid #c0c0c0;
+	border-radius: 0;
+	margin: 0 2px;
+	padding: 0px;
+}
+
+legend {
+	border: 0;
+	padding: 0;
+}
+
+<c:if test="${ zk.gecko > 0 }">
+button::-moz-focus-inner {
+	border: 0;
+}
+</c:if>
+<c:if test="${ empty c:property('org.zkoss.zul.theme.browserDefault') }">
+body {
+	margin: 0;
+	padding: 0 5px;
+}
+</c:if>
+
+//mobile
+.mobile * {
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+//ZK JavaScript debug box
+.z-error {
+	display: none;
+	width: 450px;
+	border: 1px solid @errorboxBorderColor;
+	padding: 3px 5px 3px 3px;
+	background: @errorboxBackgroundColor;
+	position: absolute;
+	top: 0;
+	left: 40%;
+	.boxShadow('1px 1px 3px rgba(0, 0, 0, 0.35)');
+	z-index: 9999999;
+	
+	.messagecontent {
+		border: 1px solid @errorboxBorderColor;
+		padding: 0;
+		background: @baseBackgroundColor;
+	}
+	.messages {
+		padding: 2px 3px 15px;
+		word-wrap: break-word;
+		overflow: auto;
+		
+		.message {
+			padding: 3px 0 2px;
+		}
+	}
+	.newmessage {
+		background: @errorboxBackgroundColor;
+		display: none;
+	}
+	.button {
+		color: @errorboxColor;
+		.size(@baseIconWidth, @baseIconHeight);
+		margin-left: 4px;
+		cursor: pointer;	
+		float: right;
+		
+		> .z-icon-remove {
+			font-size: @fontSizeXLarge;
+		}
+	}
+	#zk_err-p {
+		height: 24px;
+		padding-top: 6px;
+		cursor: move;
+	}
+	.errornumbers {
+		font-weight: bold;
+		color: @errorboxColor;
+		padding-left: 4px;
+		float: left;
+	}
+}
+
+//zk.log box
+div.z-log {
+	width: 50%;
+	text-align: right;  
+	position: absolute;
+	right: 10px;
+	bottom: 5px;
+	z-index: 99000;
+	
+	textarea {
+		width: 100%;
+		border-color: rgba(82,168,236,0.8);
+		outline: 0;
+		.boxShadow('inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(82,168,236,0.6)');
+	}
+	button {
+		font-size: @fontSizeXSmall;
+	}
+}
+
+//General
+.noscript { //the content of noscript
+	.size(100%, 100%);
+	background: #E0E1E3;
+	.opacity(0.6);
+	text-align: center;
+	position: absolute;
+	top: 0;
+	left: 0;
+	zoom: 1;
+	z-index: 32000;
+
+	p {
+		font-weight: bold;
+		color: black;
+		border: 1px solid black;
+		margin: 10% 15%;
+		padding: 10px 0;
+		background: white;
+		.opacity(1.0);
+	}
+}
+
+//radio, radiogroup
+input[type="radio"] {
+	-webkit-appearance: radio;
+	-moz-appearance: radio;
+	margin: 0px 2px 2px;
+}
+
+//checkbox
+input[type="checkbox"] {
+	-webkit-appearance: checkbox;
+	-moz-appearance: checkbox;
+	margin: 0px 2px 2px;
+}
+
+//label
+.z-label {
+	line-height: normal;
+}
+.z-label,
+.z-radio-content,
+.z-checkbox-content,
+.z-loading {
+	font-family: @baseContentFontFamily;
+	font-size: @fontSizeMedium;
+	font-weight: normal;
+}
+
+.z-temp,
+.z-modal-mask {
+	.size(100%, 100%);
+	background: @maskBackgroundColor;
+	.opacity(0.6);
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.z-initing {
+	.size(60px, 60px);
+	background: transparent no-repeat center;
+
+<c:if test="${ z:isEditionValid() }">
+	background-image: url('http://www.zkoss.org/zk/img/${ z:encodeWithZK("zkpowered.png") }');
+</c:if>
+	position: absolute;
+	right: 10px;
+	bottom: 10px;
+	z-index: 32000;
+}
+<c:if test="${ z:isEditionValid() }">
+.z-uptime {
+	background-image: url('http://www.zkoss.org/zk/img/${ z:encodeWithZK("zkuptime.png") }');
+}
+</c:if>
+
+.z-loading,
+.z-apply-loading {
+	border: 1px solid @baseBorderColor;
+	padding: 3px;
+	background: @loadingBackgroundColor;
+	position: absolute;
+	cursor: wait;
+	white-space: nowrap;
+}
+.z-loading {
+	top: 0;
+	left: 0;
+	z-index: 31000;
+}
+.z-apply-loading {
+	overflow: hidden;
+	z-index: 89500;
+}
+.z-loading-indicator,
+.z-apply-loading-indicator {
+	color: @textColorGrayDark;
+	border: 1px solid @baseBorderColor;
+	background: @baseBackgroundColor;
+	white-space: nowrap;
+}
+.z-loading-indicator {
+	padding: 6px;
+}
+.z-apply-loading-indicator {
+	font-family: @baseTitleFontFamily;
+	font-size: @fontSizeMedium;
+	font-weight: normal;
+	padding: 2px;
+}
+.z-apply-loading-icon,
+.z-loading-icon,
+.z-renderdefer {
+	.size(16px, 16px);
+	background: transparent no-repeat center;
+	.encodeThemeURL(background-image, '~./zul/img/misc/progress.gif');
+}
+.z-apply-loading-icon,
+.z-loading-icon {
+	display: inline-block;
+	vertical-align: top;
+}
+.z-apply-mask {
+	.size(100%, 100%);
+	background: @maskBackgroundColor;
+	.opacity(0.6);
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 89000;
+}
+.z-inline-block { //used with label/checkbox and others to ensure the dimension
+	display: inline-block;
+	vertical-align: top; //vertical-align: make it looks same in diff browsers
+}
+.z-word-wrap {
+	word-wrap: break-word;
+}
+.z-word-nowrap {
+	white-space: nowrap;
+}
+.z-overflow-hidden {
+	overflow: hidden;
+}
+.z-dd-stackup {
+	.size(100%, 100%);
+	.encodeURL(background-image, '~./img/spacer.gif');
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 16800;
+}
+
+.z-temp * { //temporary
+	font-size: 5px;
+	color: #FFFFFF;
+	background: #FFFFFF;
+	text-decoration: none;
+}
+.z-temp {
+	.z-loading {
+		background: @loadingBackgroundColor;
+		top: 49%;
+		left: 46%;
+	}
+	.z-loading-indicator {
+		font-size: @fontSizeMedium;
+		color: @textColorGrayDark;
+	}
+}
+
+//Fix float issue for CSS
+.z-clear {
+	font-size: 0;
+	.size(0, 0);
+	line-height: 0;
+	overflow: hidden;
+	clear: both;
+}
+
+//Shadow for not CSS3
+<c:if test="${ zk.ie < 9 }">
+.z-shadow {
+	display: none;
+	position: absolute;
+	left: 0;
+	top: 0;
+	overflow: hidden;
+}
+.z-shadow-wrapper {
+	height: 100%;
+	padding-bottom: 6px;
+}
+.z-shadow .z-shadow-cl {
+	height: 100%;
+	padding-left: 6px;
+	background: transparent repeat-y 0 0;
+	.encodeThemeURL(background-image, '~./zul/img/shadow-cl.png');
+	overflow: hidden;
+	zoom: 1;
+}
+.z-shadow .z-shadow-cr {
+	height: 100%;
+	padding-right: 6px;
+	background: transparent repeat-y right;
+	.encodeThemeURL(background-image, '~./zul/img/shadow-cr.png');
+	overflow: hidden;
+	zoom: 1;
+}
+.z-shadow .z-shadow-cm {
+	height: 100%;
+	background: transparent repeat 0 0;
+	.encodeThemeURL(background-image, '~./zul/img/shadow-m.png');
+	overflow: hidden;
+	zoom: 1;
+}
+
+.z-shadow .z-shadow-tl,
+.z-shadow .z-shadow-tr,
+.z-shadow .z-shadow-bl,
+.z-shadow .z-shadow-br {
+	font-size: 0;
+	height: 6px;
+	margin-right: 6px;
+	line-height: 0;
+	background: transparent no-repeat 0 top;
+	zoom: 1;
+}
+.z-shadow .z-shadow-tr,
+.z-shadow .z-shadow-br {
+	background-position: right -6px;
+	margin-right: -6px;
+	position: relative;
+}
+.z-shadow .z-shadow-tl,
+.z-shadow .z-shadow-tr {
+	.encodeThemeURL(background-image, '~./zul/img/shadow-tlr.png');
+}
+.z-shadow .z-shadow-bl,
+.z-shadow .z-shadow-br {
+	.encodeThemeURL(background-image, '~./zul/img/shadow-blr.png');
+}
+</c:if>
+
+//Drag-Drop
+.z-dragged {
+	color: @dragColor;
+	background: none no-repeat scroll 0 0 @dragBackgroundColor;
+}
+.z-drag {
+	&-over {
+		background: @dragHoverBackgroundColor;
+	}
+	&-ghost {
+		list-style: none;
+	}
+}
+.z-drop {
+	&-allow {
+		background: @dragAllowBackgroundColor;
+
+		.z-drop-icon {
+			color: @dragAllowBackgroundColor;
+		}
+	}
+	&-disallow {
+		background: @dragDisAllowBackgroundColor;
+
+		.z-drop-icon {
+			color: @dragDisAllowBackgroundColor;
+			padding-right: 1px;
+		}
+	}
+	&-content {
+		.fontStyle(@baseContentFontFamily, @fontSizeMedium, normal, @dragColor);
+		.size(120px, @baseButtonHeight);
+		padding: 4px;
+		padding-left: @baseIconWidth + 8; // for icon
+		line-height: @baseButtonHeight - 8;
+		position: relative;
+	}
+	&-icon {
+		font-size: @fontSizeMedium;
+		.size(@baseIconWidth, @baseIconHeight);
+		.borderRadius(@baseIconWidth / 2);
+		line-height: @baseIconHeight;
+		background: @baseBackgroundColor;
+		text-align: center;
+		position: absolute;
+		top: 4px;
+		left: 6px;
+	}
+}
+
+// Focus Anchor
+.z-focus-a {
+	font-size: 0 !important;
+	.size(1px, 1px) !important;
+	border: 0 !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	line-height: 0 !important;
+	background: transparent !important;
+	position: absolute;
+	top: 0;
+	left: 0;
+	-moz-outline: 0 none;
+	outline: 0 none;
+	-moz-user-select: text;
+	-khtml-user-select: text;
+	overflow: hidden;
+	
+	&:focus {
+		-moz-outline: 0 none;
+		outline: 0 none;
+	}
+}
+
+//upload button
+span.z-upload {
+	font-size: 0;
+	.displaySize(inline-block, 0, 0);
+	margin: 0;
+	padding: 0;
+	position: relative;
+}
+span.z-upload input {
+	font-size: 45pt;
+	margin: 0;
+	padding: 0;
+	.opacity(0);
+	position: absolute;
+	cursor: pointer;
+	z-index: 1;
+}
+.z-upload-icon {
+	.encodeThemeURL(background-image, '~./zul/img/misc/prgmeter.png');
+	overflow: hidden;
+}
+
+//fileupload dialog
+.z-fileupload-add,
+.z-fileupload-remove {
+	color: #1096BC;
+	.size(16px, 17px);
+	cursor: pointer;
+}
+.z-fileupload-progress {
+	width: 300px;
+}
+.z-fileupload-manager {
+	width: 350px;
+}
+
+//Selectbox
+.z-selectbox {
+	font-family: @baseContentFontFamily;
+	font-size: @fontSizeMedium;
+}
+
+//scrollbar
+.z-scrollbar {
+	display: none;
+	.opacity(0);
+	position: absolute;
+
+	//vertical
+	&-vertical {
+		.size(@scrollbarWidth, 100%);
+		top: 0;
+		right: 0;
+
+		.z-scrollbar {
+			&-wrapper {
+				width: 100%;
+				position: absolute;
+				top: @baseIconHeight;
+				left: 0;
+			}
+			&-indicator {
+				width: @scrollbarWidth - 2;
+				border: 1px solid @scrollbarBorderColor;
+				.borderRadius(2px);
+				.horGradient(@scrollbarGradientStart, @scrollbarGradientEnd);
+				position: absolute;
+				left: 1px;
+				cursor: pointer;
+				z-index: 100;
+			}
+			&-rail {
+				.size(100%, 100%);
+			    background: @scrollbarBackgroundColor;
+			}
+			&-icon {
+				color: @iconColor;
+				.size(@baseIconWidth, @baseIconHeight);
+				margin-top: -8px;
+				position: absolute;
+				left: -1px;
+				top: 50%;
+				.transform('scale(0.5, 0.7)');
+			}
+		}
+		&-embed {
+			.size(@scrollbarWidth / 2, 100%);
+			.borderRadius(@baseBorderRadius);
+			background: #000000;
+			.opacity(0.2);
+			position: absolute;
+			top: 0;
+			right: 0;
+			.boxShadow('inset 1px 1px 0 rgba(0, 0, 0, 0.1), inset 0 -1px 0 rgba(0, 0, 0, 0.07)');
+		}
+	}
+	&-up,
+	&-down {
+		.iconFontStyle(@baseFontSize, @iconColor);
+		.size(@baseIconWidth, @baseIconHeight);
+		background: @scrollbarBackgroundColor;
+		position: absolute;
+		cursor: pointer;
+	}
+	&-up {
+		> .z-icon-caret-up:before {
+			.size(@baseIconWidth, @baseIconHeight);
+			position: absolute;
+			left: 4px;
+			top: -1px;
+		}
+	}
+	&-down {
+		bottom: 0;
+		> .z-icon-caret-down:before {
+			.size(@baseIconWidth, @baseIconHeight);
+			position: absolute;
+			left: 4px;
+			top: 1px;
+		}
+	}
+
+	//horizontal
+	&-horizontal {
+		.size(100%, @scrollbarHeight);
+		left: 0;
+		bottom: 0;
+
+		.z-scrollbar {
+			&-wrapper {
+				height: 100%;
+				position: absolute;
+				bottom: 0;
+				left: @baseIconWidth;
+			}
+			&-indicator {
+				height: @scrollbarHeight - 2;
+				border: 1px solid @scrollbarBorderColor;
+				.borderRadius(2px);
+				.verGradient(@scrollbarGradientStart, @scrollbarGradientEnd);
+				position: absolute;
+				top: 1px;
+				cursor: pointer;
+				z-index: 100;
+			}
+			&-rail {
+				.size(100%, 100%);
+				background: @scrollbarBackgroundColor;
+			}
+			&-icon {
+				color: @iconColor;
+				margin-left: -8px;
+				position: absolute;
+				left: 50%;
+				top: -2px;
+				.transform('rotate(90deg) scale(0.5, 0.7)');
+			}
+		}
+		&-embed {
+			.size(100%, @scrollbarHeight / 2);
+			.borderRadius(@baseBorderRadius);
+			background: #000000;
+			.opacity(0.2);
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			.boxShadow('inset 1px 1px 0 rgba(0, 0, 0, 0.1), inset 0 -1px 0 rgba(0, 0, 0, 0.07)');
+		}
+	}
+	&-left,
+	&-right {
+		.iconFontStyle(@baseFontSize, @iconColor);
+		.size(@baseIconWidth, @baseIconHeight);
+		padding: 1px 6px 0 5px;
+		background: @scrollbarBackgroundColor;
+		position: absolute;
+		cursor: pointer;
+	}
+	&-right {
+		right: 0;
+	}
+}

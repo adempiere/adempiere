@@ -1,0 +1,26 @@
+@import "~./zul/less/_header.less";
+
+.z-hlayout, .z-vlayout {
+	overflow: hidden;
+}
+.z-hlayout {
+	white-space: nowrap;
+}
+.z-hlayout-inner {
+	display: inline-block;
+	position: relative;
+	vertical-align: top;
+	white-space: normal;
+	.z-valign-bottom > & {
+		vertical-align: bottom;
+	}
+	.z-valign-top > & {
+		vertical-align: top;
+	}
+	.z-valign-middle > & {
+		vertical-align: middle;
+	}
+}
+.z-vlayout-inner {
+	position: relative;
+}
