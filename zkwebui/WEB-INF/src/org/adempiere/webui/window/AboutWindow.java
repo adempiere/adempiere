@@ -55,7 +55,7 @@ import org.zkoss.zul.Vbox;
  * @author Low Heng Sin
  *
  */
-public class AboutWindow extends Window implements EventListener {
+public class AboutWindow extends Window implements EventListener<Event> {
 
 	/**
 	 *
@@ -75,11 +75,12 @@ public class AboutWindow extends Window implements EventListener {
 	}
 
 	private void init() {
-		this.setWidth("500px");
-		this.setHeight("450px");
+//		this.setWidth("500px");
+//		this.setHeight("450px");
 		this.setPosition("center");
 		this.setTitle(ThemeManager.getBrowserTitle());
 		this.setClosable(true);
+		this.setMaximizable(true);
 		this.setSizable(true);
 
 		this.addEventListener(Events.ON_SIZE, this);
@@ -87,17 +88,21 @@ public class AboutWindow extends Window implements EventListener {
 		Vbox layout = new Vbox();
 		layout.setWidth("100%");
 		layout.setParent(this);
+		layout.setVflex("1");
+		layout.setHflex("1");
 
 		tabbox = new Tabbox();
 		tabbox.setParent(layout);
-		tabbox.setWidth("480px");
-		tabbox.setHeight("380px");
-//		tabbox.setSclass("lite");
+		tabbox.setVflex("1");
+		tabbox.setHflex("1");
+
 		Tabs tabs = new Tabs();
 		tabs.setParent(tabbox);
+		
 		tabPanels = new Tabpanels();
 		tabPanels.setParent(tabbox);
-		tabPanels.setWidth("480px");
+		tabPanels.setHflex("1");
+		tabPanels.setVflex("1");
 
 		//about
 		Tab tab = new Tab();

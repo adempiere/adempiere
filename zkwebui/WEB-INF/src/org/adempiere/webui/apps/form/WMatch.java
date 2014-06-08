@@ -56,10 +56,10 @@ import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.North;
+import org.zkoss.zul.South;
 import org.zkoss.zul.Separator;
 import org.zkoss.zul.Space;
 
@@ -272,7 +272,8 @@ public class WMatch extends Match
 		Center center = new Center();
 		mainLayout.appendChild(center);
 		center.appendChild(centerPanel);
-		center.setFlex(true);
+		center.setHflex("true");
+center.setVflex("true");
 		centerLayout.setWidth("100%");
 		centerLayout.setHeight("100%");
 		north = new North();
@@ -298,7 +299,8 @@ public class WMatch extends Match
 		center = new Center();
 		centerLayout.appendChild(center);
 		center.setStyle("border: none");
-		center.setFlex(false);
+		center.setHflex("false");
+		center.setVflex("false");
 //		center.setHeight("6%");
 		center.appendChild(xPanel);
 		xPanel.appendChild(sameBPartner);

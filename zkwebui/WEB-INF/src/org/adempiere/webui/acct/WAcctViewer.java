@@ -59,9 +59,9 @@ import org.compiere.util.ValueNamePair;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.South;
 import org.zkoss.zul.Caption;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Groupbox;
@@ -591,7 +591,8 @@ public class WAcctViewer extends Window implements EventListener
 		result.appendChild(resultPanel);
 
 		Center resultCenter = new Center();
-		resultCenter.setFlex(true);
+		resultCenter.setHflex("true");
+		resultCenter.setVflex("true");
 		resultPanel.appendChild(resultCenter);
 		table.setWidth("96%");
 		table.setHeight("98%");
@@ -644,13 +645,15 @@ public class WAcctViewer extends Window implements EventListener
 
 		Center center = new Center();
 		center.setParent(layout);
-		center.setFlex(true);
+		center.setHflex("true");
+center.setVflex("true");
 		center.setStyle("background-color: transparent");
 		tabbedPane.setParent(center);
 
 		South south = new South();
 		south.setParent(layout);
-		south.setFlex(true);
+		south.setHflex("true");
+south.setVflex("true");
 		south.setStyle("background-color: transparent");
 		southPanel.setParent(south);
 

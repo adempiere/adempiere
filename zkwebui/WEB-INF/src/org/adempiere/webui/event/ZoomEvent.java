@@ -23,7 +23,7 @@ import org.zkoss.zk.ui.event.Event;
  */
 public class ZoomEvent extends Event {
 
-	private static final String EVENT_NAME = "onZoom";
+	public static final String EVENT_NAME = "onZoom";
 
 	public ZoomEvent(Component target, Object data) {
 		super(EVENT_NAME, target, data);

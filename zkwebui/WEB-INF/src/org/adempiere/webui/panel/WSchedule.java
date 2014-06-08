@@ -136,7 +136,11 @@ public class WSchedule extends Panel implements EventListener
 		dayBand.setIntervalPixels(100);
 		dayBand.setSyncWith(hourBand.getId());		
 		dayBand.setTimeZone(TimeZone.getDefault());
-		dayBand.setShowEventText(false);
+		
+		/* TODO-evenos: do we need to replace this line, also added setId because it was used in idempiere... */
+//		dayBand.setShowEventText(false);
+		dayBand.setId("WScheduleDayBand");
+		
 		// listening band scroll event
 		dayBand.addEventListener("onBandScroll", this);
 		
@@ -149,7 +153,7 @@ public class WSchedule extends Panel implements EventListener
 		mthBand.setIntervalPixels(150);
 		mthBand.setSyncWith(dayBand.getId());		
 		mthBand.setTimeZone(TimeZone.getDefault());
-		mthBand.setShowEventText(false);		
+//		mthBand.setShowEventText(false);		
 	}
 
 	/**

@@ -303,7 +303,7 @@ public class ProcessModalDialog extends Window implements EventListener
 		
 		if (m_ASyncProcess != null) {
 			m_ASyncProcess.lockUI(m_pi);
-			Clients.showBusy(null, false);
+			Clients.clearBusy();
 		}
 		
 		showBusyDialog();

@@ -56,10 +56,10 @@ import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.North;
+import org.zkoss.zul.South;
 import org.zkoss.zul.Caption;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Groupbox;
@@ -227,7 +227,8 @@ public final class WAccountDialog extends Window
 
 		North nRegion = new North();
 		nRegion.setParent(layout);
-		nRegion.setFlex(false);
+		nRegion.setHflex("false");
+		nRegion.setVflex("false");
 		nRegion.appendChild(northPanel);
 		nRegion.setStyle("background-color: transparent; border: none");
 		northPanel.setStyle("background-color: transparent;");
@@ -235,8 +236,8 @@ public final class WAccountDialog extends Window
 		Center cRegion = new Center();
 		cRegion.setParent(layout);
 		cRegion.appendChild(m_adTabPanel);
-		cRegion.setFlex(true);
-
+		cRegion.setHflex("true");
+		cRegion.setVflex("true");
 		South sRegion = new South();
 		sRegion.setParent(layout);
 		Div div = new Div();

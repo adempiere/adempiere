@@ -154,7 +154,7 @@ html,body {
 <%-- button --%>
 .action-button {
 	height: 32px;
-	width: 48px;
+	width: 100px;
 }
 
 .action-text-button {
@@ -215,8 +215,8 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 }
 
 .adwindow-nav-content {
-	background-color: #E0EAF7;
 	height: 100%;
+	overflow:hidden
 }
 
 .adwindow-toolbar {
@@ -228,13 +228,16 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 	margin-top: 3px;
 	padding-top: 2px;
 	padding-bottom: 2px;
+	font-size: larger;
+	font-weight: normal;
 }
 
 .adwindow-navbtn-sel {
-	background-color: #9CBDFF;
+<%--	background-color: #FFFFFF;--%>
+	cursor: pointer;  
 	font-weight: bold;
-	color: #274D5F;
-	cursor: pointer;
+<%--	color: #274D5F; --%>
+	cursor: pointer;  
 	border-top: 2px solid #7EAAC6;
 	border-bottom: 2px solid #7EAAC6;
 }
@@ -242,33 +245,35 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 .adwindow-left-navbtn-sel {
 	border-left: 2px solid #7EAAC6;
 	border-right: none;
-	text-align: right;
+	text-align: left;
 	-moz-border-radius-topleft: 5px;
 	-moz-border-radius-bottomleft: 5px;
 	-webkit-border-top-left-radius: 5px;
 	-webkit-border-bottom-left-radius: 5px;
-	background-color: #d1e7f6 !important;
-	background-image: url(../images/adtab-left-bg.png);
-	background-repeat: repeat-y;
-	background-position: top right;
+<%--	background-color: #d1e7f6 !important;  --%>
+<%--	background-image: url(../images/adtab-left-bg.png);  --%>
+<%--	background-repeat: repeat-y;  --%>
+<%--	background-position: top right;  --%>
+	width:100% !important;
 }
 
 .adwindow-right-navbtn-sel {
 	border-right: 2px solid #7EAAC6;
 	border-left: none;
-	text-align: left;
+	text-align: right;
 	-moz-border-radius-topright: 5px;
 	-moz-border-radius-bottomright: 5px;
 	-webkit-border-top-right-radius: 5px;
 	-webkit-border-bottom-right-radius: 5px;
-	background-color: #d1e7f6 !important;
-	background-image: url(../images/adtab-right-bg.png);
-	background-repeat: repeat-y;
-	background-position: top left;
+<%--	background-color: #d1e7f6 !important;  --%>
+<%--	background-image: url(../images/adtab-right-bg.png);  --%>
+<%--	background-repeat: repeat-y;  --%>
+<%--	background-position: top left;  --%>
+	width:100% !important;
 }
 
 .adwindow-navbtn-uns {
-	background-color: #C4DCFB;
+	background-color: #FFFFFF;
 	font-weight: normal;
 	color: #274D5F;
 	cursor: pointer;
@@ -286,21 +291,23 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 .adwindow-left-navbtn-uns, .adwindow-left-navbtn-dis {
 	border-left: 1px solid #CCCCCC;
 	border-right: none;
-	text-align: right;
+	text-align: left;
 	-moz-border-radius-topleft: 5px;
 	-moz-border-radius-bottomleft: 5px;
 	-webkit-border-top-left-radius: 5px;
 	-webkit-border-bottom-left-radius: 5px;
+	width:100% !important;
 }
 
 .adwindow-right-navbtn-uns, .adwindow-right-navbtn-dis {
 	border-right: 1px solid #CCCCCC;
 	border-left: none;
-	text-align: left;
+	text-align: right;
 	-moz-border-radius-topright: 5px;
 	-moz-border-radius-bottomright: 5px;
 	-webkit-border-top-right-radius: 5px;
 	-webkit-border-bottom-right-radius: 5px;
+	width:100% !important;
 }
 
 <%-- ad tab --%>
@@ -442,6 +449,16 @@ div.z-vfiletree-body td.menu-tree-cell {
 }
 
 <%-- FOCUSED FIELD in different color --%>
+.z-textbox {
+	width: 100%; 
+	box-sizing: border-box;
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing: border-box;
+}
+
+.adwindow-left-nav{
+	width: 12% !important;
+}
 
 .z-textbox-focus, .z-textbox-focus input,
 .z-decimalbox-focus, .z-decimalbox-focus input,
@@ -454,3 +471,8 @@ div.z-vfiletree-body td.menu-tree-cell {
 .z-timebox-focus .z-timebox-inp {
 	background: #FFFFCC;
 }
+
+.z-toolbarbutton-cnt{
+	font-size: 10px;
+}
+

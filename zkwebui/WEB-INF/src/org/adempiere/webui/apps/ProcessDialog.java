@@ -43,10 +43,10 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.util.Clients;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.North;
+import org.zkoss.zul.South;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
@@ -149,7 +149,8 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		center = new Center();
 		layout.appendChild(center);
 		center.appendChild(centerPanel);
-		center.setFlex(true);
+		center.setHflex("true");
+center.setVflex("true");
 		center.setAutoscroll(true);
 		center.setStyle("border: none");
 		

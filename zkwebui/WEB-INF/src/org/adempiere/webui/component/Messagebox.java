@@ -25,6 +25,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.zkoss.zhtml.Text;
+import org.zkoss.zk.ui.UiException;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -241,7 +242,7 @@ public class Messagebox extends Window implements EventListener
 		return returnValue;
 	}
 
-	public static int showDialog(String message, String title, int buttons, String icon) throws InterruptedException
+	public static int showDialog(String message, String title, int buttons, String icon) throws UiException
 	{
 		Messagebox msg = new Messagebox();
 

@@ -45,6 +45,7 @@ import org.adempiere.webui.component.Tabpanel;
 import org.adempiere.webui.component.Tabpanels;
 import org.adempiere.webui.component.Tabs;
 import org.adempiere.webui.component.Window;
+import org.adempiere.webui.component.SimpleTreeModel;
 import org.adempiere.webui.editor.IZoomableEditor;
 import org.adempiere.webui.editor.WButtonEditor;
 import org.adempiere.webui.editor.WEditor;
@@ -53,6 +54,7 @@ import org.adempiere.webui.editor.WebEditorFactory;
 import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.util.GridTabDataBinder;
+import org.adempiere.webui.util.TreeUtils;
 import org.adempiere.webui.window.FDialog;
 import org.adempiere.webui.window.WAlertDialog;
 import org.compiere.model.DataStatusEvent;
@@ -78,9 +80,9 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.util.Clients;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.West;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.DefaultTreeNode;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Group;
 import org.zkoss.zul.Groupfoot;
@@ -89,7 +91,9 @@ import org.zkoss.zul.Panelchildren;
 import org.zkoss.zul.Separator;
 import org.zkoss.zul.SimpleTreeNode;
 import org.zkoss.zul.Space;
+import org.zkoss.zul.TreeModel;
 import org.zkoss.zul.Treeitem;
+import org.zkoss.zul.West;
 
 /**
  *
@@ -104,7 +108,7 @@ import org.zkoss.zul.Treeitem;
  *
  * @author Low Heng Sin
  */
-public class ADTabpanel extends Div implements Evaluatee, EventListener,
+public class ADTabpanel extends Div implements Evaluatee, EventListener<Event>,
 DataStatusListener, IADTabpanel, VetoableChangeListener
 {
 	/**
@@ -156,7 +160,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 
 	private GridTabDataBinder dataBinder;
 
-	private Map<Integer, org.zkoss.zul.Div> includedTab = new HashMap<Integer, org.zkoss.zul.Div>();
+	private Map<Integer, Group> includedTab = new HashMap<Integer, Group>();
 	private Map<Integer, Groupfoot> includedTabFooter = new HashMap<Integer, Groupfoot>();
 	private Map<Integer, Tabpanel> embeddTabPanel = new HashMap<Integer, Tabpanel>();
 	private List<EmbeddedPanel> includedPanel = new ArrayList<EmbeddedPanel>();
@@ -166,6 +170,9 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 	private Group currentGroup;
 
 	private boolean m_vetoActive = false;
+	
+	
+	private static final String ON_DEFER_SET_SELECTED_NODE = "onDeferSetSelectedNode";
 
 	public ADTabpanel()
 	{
@@ -175,6 +182,8 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
     private void init()
     {
         initComponents();
+        
+        addEventListener(ON_DEFER_SET_SELECTED_NODE, this);
     }
 
     private void initComponents()
@@ -232,7 +241,8 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 			layout.appendChild(west);
 
 			Center center = new Center();
-			center.setFlex(true);
+			center.setHflex("true");
+center.setVflex("true");
 			center.appendChild(grid);
 			layout.appendChild(center);
 
@@ -321,25 +331,17 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 					row.appendChild(new Separator());
 					rows.appendChild( row );
 
-					org.zkoss.zul.Div div = new Div();
-					div.setWidth("100%");
-					row = new Row();
-					row.setSpans("5");
-					row.appendChild(div);
-					
-					rows.appendChild(row);
-					
-					includedTab.put(field.getIncluded_Tab_ID(),  div);
-					
-					row = new Groupfoot();
-
-
-        		
-        		includedTabFooter.put(field.getIncluded_Tab_ID(), (Groupfoot) row);
+            		row = new Group();
+            		row.setSpans("2,3");
+            		rows.appendChild(row);
+            		includedTab.put(field.getIncluded_Tab_ID(), (Group)row);
+            		row = new Groupfoot();
+            		rows.appendChild(row);
+            		includedTabFooter.put(field.getIncluded_Tab_ID(), (Groupfoot)row);
 
             		for (EmbeddedPanel ep : includedPanel) {
             			if (ep.adTabId == field.getIncluded_Tab_ID()) {
-            				ep.divComponent = includedTab.get(ep.adTabId);
+            				ep.group = includedTab.get(ep.adTabId);
             				createEmbeddedPanelUI(ep);
             				break;
             			}
@@ -953,13 +955,20 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
     	{
     		this.switchRowPresentation();
     	}
-    	else if (event.getTarget() == treePanel.getTree()) {
+    	else if (treePanel != null && event.getTarget() == treePanel.getTree()) 
+    	{
     		Treeitem item =  treePanel.getTree().getSelectedItem();
-    		navigateTo((SimpleTreeNode)item.getValue());
+    		navigateTo((DefaultTreeNode<MTreeNode>)item.getValue());
+    	} 
+    	else if (ON_DEFER_SET_SELECTED_NODE.equals(event.getName())) 
+    	{
+    		if (gridTab.getRecord_ID() > 0 && gridTab.isTreeTab() && treePanel != null) {
+            	setSelectedNode(gridTab.getRecord_ID());
+            }
     	}
     }
 
-    private void navigateTo(SimpleTreeNode value) {
+    private void navigateTo(DefaultTreeNode<MTreeNode> value) {
     	MTreeNode treeNode = (MTreeNode) value.getData();
     	//  We Have a TreeNode
 		int nodeID = treeNode.getNode_ID();
@@ -1145,16 +1154,16 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 		ep.tabIndex = tabIndex;
 		ep.gridWindow = gridWindow;
 		includedPanel.add(ep);
-		ADWindowPanel panel = new ADWindowPanel(ctx, windowNo, gridWindow, tabIndex, tabPanel);
-		ep.windowPanel = panel;
-		org.zkoss.zul.Div parentRow = includedTab.get(adTabId );
-		ep.divComponent = parentRow;
+		Group group = includedTab.get(adTabId);
+		ep.group = group;
 		if (tabPanel instanceof ADTabpanel) {
 			ADTabpanel atp = (ADTabpanel) tabPanel;
 			atp.listPanel.setPageSize(-1);
 		}
+		ADWindowPanel panel = new ADWindowPanel(ctx, windowNo, gridWindow, tabIndex, tabPanel);
+		ep.windowPanel = panel;
 
-		if (parentRow != null) {
+		if (group != null) {
 			createEmbeddedPanelUI(ep);
 			if (active)
 				activateChild(true, ep);
@@ -1221,11 +1230,9 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 	}
 
 	class EmbeddedPanel {
-		org.zkoss.zul.Div divComponent ;
-		org.zkoss.zul.Row toolbarRow ;
-		Grid embeddedGrid;
+		Group group;
 		GridWindow gridWindow;
-		int tabIndex ;
+		int tabIndex;
 		ADWindowPanel windowPanel;
 		IADTabpanel tabPanel;
 		int adTabId;
@@ -1240,13 +1247,6 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
         	for (EmbeddedPanel panel : includedPanel)
         		panel.tabPanel.query(false, 0, 0);
         }
-		
-		//  Sync tree
-		if (treePanel == null || gridTab.getRecord_ID() <= 0)
-			return;
-		
-		rowChanged(true, gridTab.getRecord_ID());
-		
 	}
 
 	/**
@@ -1268,19 +1268,17 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 	}   //  rowChanged
 	
 	private void createEmbeddedPanelUI(EmbeddedPanel ep) {
-		
-		org.zkoss.zul.Row ChildRow = createPanelForEmbedded(ep.divComponent,  includedTabFooter.get(ep.adTabId) , ep );
-
-		ep.windowPanel.createPart(ChildRow);
+		org.zkoss.zul.Row row = new Row();
+		row.setSpans("5");
+		grid.getRows().insertBefore(row, includedTabFooter.get(ep.adTabId));
+		ep.windowPanel.createPart(row);
 		ep.windowPanel.getComponent().setWidth("100%");
 		ep.windowPanel.getComponent().setStyle("position: relative");
 		ep.windowPanel.getComponent().setHeight("400px");
 
-		FToolbar bar = ep.windowPanel.getToolbar();
-		bar.setAlign("start");
-		bar.setStyle("background-color: transparent; height: 20%; ");
-		
-		ep.toolbarRow.appendChild(bar);
+		Label title = new Label(ep.gridWindow.getTab(ep.tabIndex).getName());
+		ep.group.appendChild(title);
+		ep.group.appendChild(ep.windowPanel.getToolbar());
 		ep.windowPanel.getStatusBar().setZclass("z-group-foot");
 		ep.windowPanel.initPanel(-1, null);
 	}

@@ -47,13 +47,13 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.event.KeyEvent;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.East;
-import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
-import org.zkoss.zkex.zul.West;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.East;
+import org.zkoss.zul.North;
+import org.zkoss.zul.South;
 import org.zkoss.zul.Tab;
+import org.zkoss.zul.West;
 
 /**
  *
@@ -130,10 +130,11 @@ public class ADWindowPanel extends AbstractADWindowPanel
     	        layout.appendChild(west);
     	        west.setSplittable(false);
     	        west.setAutoscroll(true);
-    	        west.setFlex(true);
+    	        west.setHflex("true");
+    	        west.setVflex("true");
     	        LayoutUtils.addSclass("adwindow-nav adwindow-left-nav", west);
-    	        adTab.setTabplacement(IADTab.LEFT);
-    	        adTab.getTabSelectionComponent().setParent(west);
+    	       adTab.setTabplacement(IADTab.LEFT);
+    	       adTab.getTabSelectionComponent().setParent(west);
 
     	        if (SessionManager.getSessionApplication().getUserPreference().isPropertyBool(UserPreference.P_WINDOW_TAB_COLLAPSIBLE))
     	        {
@@ -147,7 +148,8 @@ public class ADWindowPanel extends AbstractADWindowPanel
 		        layout.appendChild(east);
 		        east.setSplittable(false);
 		        east.setAutoscroll(true);
-		        east.setFlex(true);
+		        east.setHflex("true");
+		        east.setVflex("true");
 		        LayoutUtils.addSclass("adwindow-nav adwindow-right-nav", east);
 		        adTab.setTabplacement(IADTab.RIGHT);
 		        adTab.getTabSelectionComponent().setParent(east);
@@ -164,7 +166,8 @@ public class ADWindowPanel extends AbstractADWindowPanel
         contentArea = new Center();
         contentArea.setParent(layout);
         contentArea.setAutoscroll(true);
-        contentArea.setFlex(true);
+        contentArea.setHflex("true");
+        contentArea.setVflex("true");
         adTab.createPart(contentArea);
 
         if (parent instanceof Tabpanel) {
@@ -172,16 +175,18 @@ public class ADWindowPanel extends AbstractADWindowPanel
         	((Tabpanel)parent).setOnCloseHandler(handler);
         }
 
-        if (!isEmbedded()) {
-        	if (keyListener != null)
-        		keyListener.detach();
-        	keyListener = new Keylistener();
-        	statusBar.appendChild(keyListener);
-        	keyListener.setCtrlKeys("#f1#f2#f3#f4#f5#f6#f7#f8#f9#f10#f11#f12^f^i^n^s^d@#left@#right@#up@#down@#pgup@#pgdn@p^p@z@x#enter");
-        	keyListener.addEventListener(Events.ON_CTRL_KEY, toolbar);
-        	keyListener.addEventListener(Events.ON_CTRL_KEY, this);
-        	keyListener.setAutoBlur(false);
-        }
+        
+    
+//        if (!isEmbedded()) {
+//        	if (keyListener != null)
+//        		keyListener.detach();
+//        	keyListener = new Keylistener();
+//        	statusBar.appendChild(keyListener);
+//        	keyListener.setCtrlKeys("#f1#f2#f3#f4#f5#f6#f7#f8#f9#f10#f11#f12^f^i^n^s^d@#left@#right@#up@#down@#pgup@#pgdn@p^p@z@x#enter");
+//        	keyListener.addEventListener(Events.ON_CTRL_KEY, toolbar);
+//        	keyListener.addEventListener(Events.ON_CTRL_KEY, this);
+//        	keyListener.setAutoBlur(false);
+//        }
 
         layout.setAttribute(ITabOnSelectHandler.ATTRIBUTE_KEY, new ITabOnSelectHandler() {
 			public void onSelect() {

@@ -24,54 +24,62 @@ import org.zkoss.zk.ui.Component;
 public interface IADTabpanel extends Component, Evaluatee {
 
 	/**
+	 * 获取显示逻辑
 	 * @return display logic
 	 */
 	public String getDisplayLogic();
 
 	/**
+	 * 获取Tab 的层次
 	 * @return tab level
 	 */
 	public int getTabLevel();
 
 	/**
+	 * 是否需要刷新
 	 * @return true if refresh is not needed
 	 */
 	public boolean isCurrent();
 
 	/**
-	 *
+	 * 获取title
 	 * @return title
 	 */
 	public String getTitle();
 
 	/**
+	 * 创建UI
 	 * Render the panel
 	 */
 	public void createUI();
 
 	/**
-	 *
+	 * 获取对应的GridTab
 	 * @return GridTab
 	 */
 	public GridTab getGridTab();
 
 	/**
+	 * 激活/不激活panel
 	 * activate/deactivate the panel
 	 * @param b
 	 */
 	public void activate(boolean b);
 
 	/**
+	 * 查询
 	 * retrieve data from db
 	 */
 	public void query();
 
 	/**
+	 * 刷新
 	 * Refresh from db
 	 */
 	public void refresh();
 
 	/**
+	 * 查询
 	 * retrieve data from db
 	 * @param currentRows
 	 * @param currentDays
@@ -80,11 +88,13 @@ public interface IADTabpanel extends Component, Evaluatee {
 	public void query(boolean currentRows, int currentDays, int maxRows);
 
 	/**
+	 * 表格切换
 	 * Toggle between grid and form view
 	 */
 	public void switchRowPresentation();
 
 	/**
+	 * 动态更新列属性（可见，排序，强制）
 	 * Dynamic update of field properties ( visibility, filter and mandatory )
 	 * @param i
 	 */

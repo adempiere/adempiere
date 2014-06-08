@@ -37,9 +37,9 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.util.Clients;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.South;
 import org.zkoss.zul.Column;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Paging;
@@ -57,20 +57,21 @@ public class GridPanel extends Borderlayout implements EventListener
 	 * generated serial version ID
 	 */
 	private static final long serialVersionUID = -7151423393713654553L;
+	
+	private static final int MIN_COLUMN_WIDTH = 100;			// 列最小宽度
 
-	private static final int MIN_COLUMN_WIDTH = 100;
+	private static final int MAX_COLUMN_WIDTH = 300;		// 列最大宽度
 
-	private static final int MAX_COLUMN_WIDTH = 300;
+	private static final int MIN_COMBOBOX_WIDTH = 160;	// COMBOBOX最小宽度
 
-	private static final int MIN_COMBOBOX_WIDTH = 160;
-
-	private static final int MIN_NUMERIC_COL_WIDTH = 130;
+	private static final int MIN_NUMERIC_COL_WIDTH = 130;	// numeric最小宽度
 
 	private Grid listbox = null;
 
 	private int pageSize = 100;
 
 	private GridField[] gridField;
+	
 	private AbstractTableModel tableModel;
 
 	private int numColumns = 5;
@@ -79,7 +80,7 @@ public class GridPanel extends Borderlayout implements EventListener
 
 	private GridTab gridTab;
 
-	private boolean init;
+	private boolean init;			// 是否已经初始化
 
 	private GridTableListModel listModel;
 
@@ -131,6 +132,7 @@ public class GridPanel extends Borderlayout implements EventListener
 		if (init) return;
 
 		this.gridTab = gridTab;
+		
 		tableModel = gridTab.getTableModel();
 
 		numColumns = tableModel.getColumnCount();
@@ -248,12 +250,15 @@ public class GridPanel extends Borderlayout implements EventListener
 			this.setVisible(false);
 	}
 
+	/**
+	 * 创建列
+	 */
 	private void setupColumns()
 	{
 		if (init) return;
 
 		Columns columns = new Columns();
-		listbox.appendChild(columns);
+		//	listbox.appendChild(columns);			// moved to end
 		columns.setSizable(true);
 		columns.setMenupopup("auto");
 		columns.setColumnsgroup(false);
@@ -273,8 +278,7 @@ public class GridPanel extends Borderlayout implements EventListener
 				column.setLabel(gridField[i].getHeader());
 				
 				int displayLength = gridField[i].getPreferredWidthInListView() > 0 ? gridField[i].getPreferredWidthInListView() : gridField[i].getDisplayLength() * 9 ;
-					
-					
+
 				int l = DisplayType.isNumeric(gridField[i].getDisplayType())
 					? 120 : displayLength ;
 				
@@ -297,11 +301,12 @@ public class GridPanel extends Borderlayout implements EventListener
 				column.setWidth(Integer.toString(l) + "px");
 				
 				// FR 3051618 - Hide in list view
-				if (!gridField[i].isDisplayedGrid()) {
+				if (gridField[i].isHideInListView()) {
 					column.setVisible(false);
 				}
 				
 				columns.appendChild(column);
+				listbox.appendChild(columns);
 			}
 		}
 	}
@@ -311,7 +316,8 @@ public class GridPanel extends Borderlayout implements EventListener
 		LayoutUtils.addSclass("adtab-grid-panel", this);
 
 		listbox.setVflex(true);
-		listbox.setFixedLayout(true);
+		//true might looks better, false for better performance
+        listbox.setSizedByContent(false);
 		listbox.addEventListener(Events.ON_CLICK, this);
 
 		updateModel();
