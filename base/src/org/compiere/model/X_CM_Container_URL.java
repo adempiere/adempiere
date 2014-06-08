@@ -23,14 +23,14 @@ import java.util.Properties;
 
 /** Generated Model for CM_Container_URL
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_CM_Container_URL extends PO implements I_CM_Container_URL, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_CM_Container_URL (Properties ctx, int CM_Container_URL_ID, String trxName)
@@ -38,9 +38,9 @@ public class X_CM_Container_URL extends PO implements I_CM_Container_URL, I_Pers
       super (ctx, CM_Container_URL_ID, trxName);
       /** if (CM_Container_URL_ID == 0)
         {
-			setChecked (new Timestamp( System.currentTimeMillis() ));
 			setCM_Container_ID (0);
 			setCM_Container_URL_ID (0);
+			setChecked (new Timestamp( System.currentTimeMillis() ));
 			setLast_Result (null);
 			setStatus (null);
         } */
@@ -73,23 +73,6 @@ public class X_CM_Container_URL extends PO implements I_CM_Container_URL, I_Pers
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	/** Set Last Checked.
-		@param Checked 
-		Info when we did the last check
-	  */
-	public void setChecked (Timestamp Checked)
-	{
-		set_Value (COLUMNNAME_Checked, Checked);
-	}
-
-	/** Get Last Checked.
-		@return Info when we did the last check
-	  */
-	public Timestamp getChecked () 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_Checked);
-	}
 
 	public org.compiere.model.I_CM_Container getCM_Container() throws RuntimeException
     {
@@ -140,6 +123,23 @@ public class X_CM_Container_URL extends PO implements I_CM_Container_URL, I_Pers
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Last Checked.
+		@param Checked 
+		Info when we did the last check
+	  */
+	public void setChecked (Timestamp Checked)
+	{
+		set_Value (COLUMNNAME_Checked, Checked);
+	}
+
+	/** Get Last Checked.
+		@return Info when we did the last check
+	  */
+	public Timestamp getChecked () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_Checked);
 	}
 
 	/** Set Last Result.

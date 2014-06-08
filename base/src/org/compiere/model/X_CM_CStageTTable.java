@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_CStageTTable
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_CM_CStageTTable extends PO implements I_CM_CStageTTable, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_CM_CStageTTable (Properties ctx, int CM_CStageTTable_ID, String trxName)
@@ -38,8 +38,8 @@ public class X_CM_CStageTTable extends PO implements I_CM_CStageTTable, I_Persis
       super (ctx, CM_CStageTTable_ID, trxName);
       /** if (CM_CStageTTable_ID == 0)
         {
-			setCM_CStage_ID (0);
 			setCM_CStageTTable_ID (0);
+			setCM_CStage_ID (0);
 			setCM_TemplateTable_ID (0);
 			setName (null);
         } */
@@ -73,6 +73,29 @@ public class X_CM_CStageTTable extends PO implements I_CM_CStageTTable, I_Persis
       return sb.toString();
     }
 
+	/** Set Stage T.Table.
+		@param CM_CStageTTable_ID 
+		Container Stage Template Table
+	  */
+	public void setCM_CStageTTable_ID (int CM_CStageTTable_ID)
+	{
+		if (CM_CStageTTable_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_CStageTTable_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_CStageTTable_ID, Integer.valueOf(CM_CStageTTable_ID));
+	}
+
+	/** Get Stage T.Table.
+		@return Container Stage Template Table
+	  */
+	public int getCM_CStageTTable_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CM_CStageTTable_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_CM_CStage getCM_CStage() throws RuntimeException
     {
 		return (org.compiere.model.I_CM_CStage)MTable.get(getCtx(), org.compiere.model.I_CM_CStage.Table_Name)
@@ -96,29 +119,6 @@ public class X_CM_CStageTTable extends PO implements I_CM_CStageTTable, I_Persis
 	public int getCM_CStage_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_CM_CStage_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Stage T.Table.
-		@param CM_CStageTTable_ID 
-		Container Stage Template Table
-	  */
-	public void setCM_CStageTTable_ID (int CM_CStageTTable_ID)
-	{
-		if (CM_CStageTTable_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_CM_CStageTTable_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_CM_CStageTTable_ID, Integer.valueOf(CM_CStageTTable_ID));
-	}
-
-	/** Get Stage T.Table.
-		@return Container Stage Template Table
-	  */
-	public int getCM_CStageTTable_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_CM_CStageTTable_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

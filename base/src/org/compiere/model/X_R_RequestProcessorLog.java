@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for R_RequestProcessorLog
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_R_RequestProcessorLog extends PO implements I_R_RequestProcessorLog, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_R_RequestProcessorLog (Properties ctx, int R_RequestProcessorLog_ID, String trxName)
@@ -38,8 +38,8 @@ public class X_R_RequestProcessorLog extends PO implements I_R_RequestProcessorL
       /** if (R_RequestProcessorLog_ID == 0)
         {
 			setIsError (false);
-			setR_RequestProcessor_ID (0);
 			setR_RequestProcessorLog_ID (0);
+			setR_RequestProcessor_ID (0);
         } */
     }
 
@@ -129,21 +129,27 @@ public class X_R_RequestProcessorLog extends PO implements I_R_RequestProcessorL
 		return false;
 	}
 
-	/** Set Reference.
-		@param Reference 
-		Reference for this record
+	/** Set Request Processor Log.
+		@param R_RequestProcessorLog_ID 
+		Result of the execution of the Request Processor
 	  */
-	public void setReference (String Reference)
+	public void setR_RequestProcessorLog_ID (int R_RequestProcessorLog_ID)
 	{
-		set_Value (COLUMNNAME_Reference, Reference);
+		if (R_RequestProcessorLog_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_R_RequestProcessorLog_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_RequestProcessorLog_ID, Integer.valueOf(R_RequestProcessorLog_ID));
 	}
 
-	/** Get Reference.
-		@return Reference for this record
+	/** Get Request Processor Log.
+		@return Result of the execution of the Request Processor
 	  */
-	public String getReference () 
+	public int getR_RequestProcessorLog_ID () 
 	{
-		return (String)get_Value(COLUMNNAME_Reference);
+		Integer ii = (Integer)get_Value(COLUMNNAME_R_RequestProcessorLog_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	public org.compiere.model.I_R_RequestProcessor getR_RequestProcessor() throws RuntimeException
@@ -174,27 +180,21 @@ public class X_R_RequestProcessorLog extends PO implements I_R_RequestProcessorL
 		return ii.intValue();
 	}
 
-	/** Set Request Processor Log.
-		@param R_RequestProcessorLog_ID 
-		Result of the execution of the Request Processor
+	/** Set Reference.
+		@param Reference 
+		Reference for this record
 	  */
-	public void setR_RequestProcessorLog_ID (int R_RequestProcessorLog_ID)
+	public void setReference (String Reference)
 	{
-		if (R_RequestProcessorLog_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_R_RequestProcessorLog_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_R_RequestProcessorLog_ID, Integer.valueOf(R_RequestProcessorLog_ID));
+		set_Value (COLUMNNAME_Reference, Reference);
 	}
 
-	/** Get Request Processor Log.
-		@return Result of the execution of the Request Processor
+	/** Get Reference.
+		@return Reference for this record
 	  */
-	public int getR_RequestProcessorLog_ID () 
+	public String getReference () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_R_RequestProcessorLog_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		return (String)get_Value(COLUMNNAME_Reference);
 	}
 
 	/** Set Summary.

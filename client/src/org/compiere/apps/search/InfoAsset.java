@@ -23,10 +23,11 @@ import java.sql.Timestamp;
 
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.AEnv;
-import org.compiere.apps.ALayout;
 import org.compiere.apps.ALayoutConstraint;
 import org.compiere.grid.ed.VLookup;
 import org.compiere.minigrid.IDColumn;
+import org.compiere.model.MAsset;
+import org.compiere.model.MColumn;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MQuery;
 import org.compiere.swing.CLabel;
@@ -40,6 +41,11 @@ import org.compiere.util.Msg;
  *	
  *  @author Jorg Janke
  *  @version $Id: InfoAsset.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
+ *
+ * @author Michael McKay, 
+ * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
+ * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
+ * 				<li>release/380 fix listeners on some fields
  */
 public class InfoAsset extends Info
 {
@@ -59,38 +65,68 @@ public class InfoAsset extends Info
 	 * @param multiSelection multiple selections
 	 * @param whereClause where clause
 	 */
+	@Deprecated
 	public InfoAsset (Frame frame, boolean modal, int WindowNo,
 		int A_Asset_ID, String value,
 		boolean multiSelection, String whereClause)
 	{
-		super (frame, modal, WindowNo, "a", "A_Asset_ID", multiSelection, whereClause);
-		log.info(value + ", ID=" + A_Asset_ID + ", WHERE=" + whereClause);
+		this(frame, modal, WindowNo,
+				0, value,
+				multiSelection, true, whereClause);
+	}
+	
+	/**
+	 *	Standard Constructor
+
+	 * @param frame frame
+	 * @param modal modal
+	 * @param WindowNo window no
+	 * @param record_id The record ID to find
+	 * @param value query value to find, exclusive of record_id
+	 * @param multiSelection multiple selections
+	 * @param saveResults  True if results will be saved, false for info only
+	 * @param whereClause where clause
+	 */
+	public InfoAsset (Frame frame, boolean modal, int WindowNo,
+		int record_id, String value,
+		boolean multiSelection, boolean saveResults, String whereClause)
+	{
+		super (frame, modal, WindowNo, "a", "A_Asset_ID", multiSelection, saveResults, whereClause);
+		log.info(value + ", ID=" + record_id + ", WHERE=" + whereClause);
 		setTitle(Msg.getMsg(Env.getCtx(), "InfoAsset"));
 		//
-		statInit();
-		initInfo (value, A_Asset_ID, whereClause);
+		StringBuffer where = new StringBuffer();
+		where.append("a.IsActive='Y'");
+		if (whereClause != null && whereClause.length() > 0)
+			where.append(" AND ").append(whereClause);
+		setWhereClause(where.toString());
+		setTableLayout(s_Layout);
+		setFromClause(s_From);
+		setOrderClause("a.Value");
 		//
-		int no = p_table.getRowCount();
-		setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
-		setStatusDB(Integer.toString(no));
+		statInit();
+		initInfo (record_id, value);
+
+		//  To get the focus after the table update
+		m_heldLastFocus = fieldValue;
+		
 		//	AutoQuery
-		if (value != null && value.length() > 0)
+		if(autoQuery() || record_id != 0 || (value != null && value.length() > 0 && value != "%"))
 			executeQuery();
+		
 		p_loadedOK = true;
-		//	Focus
-	//	fieldValue.requestFocus();
 
 		AEnv.positionCenterWindow(frame, this);
 	}	//	InfoProduct
 
 	/** From Clause             */
-	private static String s_assetFROM = "A_ASSET a"
+	private static String s_From = "A_ASSET a"
 		+ " LEFT OUTER JOIN M_Product p ON (a.M_Product_ID=p.M_Product_ID)"
 		+ " LEFT OUTER JOIN C_BPartner bp ON (a.C_BPartner_ID=bp.C_BPartner_ID)"
 		+ " LEFT OUTER JOIN AD_User u ON (a.AD_User_ID=u.AD_User_ID)";
 
 	/**  Array of Column Info    */
-	private static final Info_Column[] s_assetLayout = {
+	private static final Info_Column[] s_Layout = {
 		new Info_Column(" ", "a.A_Asset_ID", IDColumn.class),
 		new Info_Column(Msg.translate(Env.getCtx(), "Value"), "a.Value", String.class),
 		new Info_Column(Msg.translate(Env.getCtx(), "Name"), "a.Name", String.class),
@@ -103,6 +139,7 @@ public class InfoAsset extends Info
 	};
 	
 	//
+	private int fieldID = 0;
 	private CLabel labelValue = new CLabel();
 	private CTextField fieldValue = new CTextField(10);
 	private CLabel labelName = new CLabel();
@@ -126,50 +163,76 @@ public class InfoAsset extends Info
 		fieldName.addActionListener(this);
 		//	From A_Asset.
 		fBPartner_ID = new VLookup("C_BPartner_ID", false, false, true,
-			MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 8065, DisplayType.Search));
+			MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 
+					MColumn.getColumn_ID(MAsset.Table_Name, MAsset.COLUMNNAME_C_BPartner_ID), 
+					DisplayType.Search));
 		lBPartner_ID.setLabelFor(fBPartner_ID);
 		fBPartner_ID.setBackground(AdempierePLAF.getInfoBackground());
+		fBPartner_ID.addActionListener(this);
+		
 		fProduct_ID = new VLookup("M_Product_ID", false, false, true,
-			MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 8047, DisplayType.Search));
+			MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 
+					MColumn.getColumn_ID(MAsset.Table_Name, MAsset.COLUMNNAME_M_Product_ID), 
+					DisplayType.Search));
 		lProduct_ID.setLabelFor(fProduct_ID);
 		fProduct_ID.setBackground(AdempierePLAF.getInfoBackground());
+		fProduct_ID.addActionListener(this);
 		//
-		parameterPanel.setLayout(new ALayout());
-		//
-		parameterPanel.add(labelValue, new ALayoutConstraint(0,0));
-		parameterPanel.add(fieldValue, null);
-		parameterPanel.add(lBPartner_ID, null);
-		parameterPanel.add(fBPartner_ID, null);
+		p_criteriaGrid.add(labelValue, new ALayoutConstraint(0,0));
+		p_criteriaGrid.add(fieldValue, null);
+		p_criteriaGrid.add(lBPartner_ID, null);
+		p_criteriaGrid.add(fBPartner_ID, null);
 		//		
-		parameterPanel.add(labelName, new ALayoutConstraint(1,0));
-		parameterPanel.add(fieldName, null);
-		parameterPanel.add(lProduct_ID, null);
-		parameterPanel.add(fProduct_ID, null);
+		p_criteriaGrid.add(labelName, new ALayoutConstraint(1,0));
+		p_criteriaGrid.add(fieldName, null);
+		p_criteriaGrid.add(lProduct_ID, null);
+		p_criteriaGrid.add(fProduct_ID, null);
 	}	//	statInit
 
 	/**
 	 *	Dynamic Init
-	 *  @param value value
-	 *  @param whereClause where clause
 	 */
-	private void initInfo (String value, int A_Asset_ID, String whereClause)
+	protected void initInfo (int record_id, String value)
 	{
-		//	Create Grid
-		StringBuffer where = new StringBuffer();
-		where.append("a.IsActive='Y'");
-		if (whereClause != null && whereClause.length() > 0)
-			where.append(" AND ").append(whereClause);
-		//
-		prepareTable(s_assetLayout, s_assetFROM,
-			where.toString(),
-			"a.Value");
+		if (!(record_id == 0) && value != null && value.length() > 0)
+		{
+			log.severe("Received both a record_id and a value: " + record_id + " - " + value);
+		}
 
-		//  Set Value
-		if (value == null)
-			value = "%";
-		if (!value.endsWith("%"))
-			value += "%";
-		fieldValue.setText(value);
+		//  Set Value and boolean criteria (if any)
+		if (!(record_id == 0))
+		{
+			fieldID = record_id;
+		}
+		else
+		{	
+			// Use the value if any
+			if (value != null && value.length() > 0)
+			{
+				fieldValue.setText(value);
+			}
+			else
+			{
+				//  Try to find the context - A_Asset_ID
+	        	String aid = Env.getContext(Env.getCtx(), p_WindowNo, "A_Asset_ID");
+				if (aid != null && aid.length() != 0)
+				{
+					fieldID = new Integer(aid).intValue();
+				}
+				//  C_BPartner_ID
+				String bp = Env.getContext(Env.getCtx(), p_WindowNo, "C_BPartner_ID");
+				if (bp != null && bp.length() != 0)
+				{
+					fBPartner_ID.setValue(new Integer(bp).intValue());
+				}
+				//  M_Product_ID
+				String pid = Env.getContext(Env.getCtx(), p_WindowNo, "M_Product_ID");
+				if (pid != null && pid.length() != 0)
+				{
+					fProduct_ID.setValue(new Integer(pid).intValue());
+				}
+			}
+		}
 	}	//	initInfo
 
 	/*************************************************************************/
@@ -183,13 +246,16 @@ public class InfoAsset extends Info
 	protected String getSQLWhere()
 	{
 		StringBuffer sql = new StringBuffer();
+		//  => ID
+		if(isResetRecordID())
+			fieldID = 0;
+		if (!(fieldID == 0))
+			sql.append(" AND a.A_Asset_ID = ?");
 		//	=> Value
-		String value = fieldValue.getText().toUpperCase();
-		if (!(value.equals("") || value.equals("%")))
+		if (isValidSQLText(fieldValue))
 			sql.append(" AND UPPER(a.Value) LIKE ?");
 		//	=> Name
-		String name = fieldName.getText().toUpperCase();
-		if (!(name.equals("") || name.equals("%")))
+		if (isValidSQLText(fieldName))
 			sql.append (" AND UPPER(a.Name) LIKE ?");
 		//	C_BPartner_ID
 		Integer C_BPartner_ID = (Integer)fBPartner_ID.getValue();
@@ -214,23 +280,23 @@ public class InfoAsset extends Info
 	protected void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
 	{
 		int index = 1;
-		//	=> Value
-		String value = fieldValue.getText().toUpperCase();
-		if (!(value.equals("") || value.equals("%")))
+		//  => ID
+		if(!(fieldID ==0))
 		{
-			if (!value.endsWith("%"))
-				value += "%";
-			pstmt.setString(index++, value);
-			log.fine("Value: " + value);
+			pstmt.setInt(index++, fieldID);
+			log.fine("Record_ID: " + fieldID);
+		}
+		//	=> Value
+		if (isValidSQLText(fieldValue))
+		{
+			pstmt.setString(index++, getSQLText(fieldValue));
+			log.fine("Value: " + fieldValue.getText());
 		}
 		//	=> Name
-		String name = fieldName.getText().toUpperCase();
-		if (!(name.equals("") || name.equals("%")))
+		if (isValidSQLText(fieldName))
 		{
-			if (!name.endsWith("%"))
-				name += "%";
-			pstmt.setString(index++, name);
-			log.fine("Name: " + name);
+			pstmt.setString(index++, getSQLText(fieldName));
+			log.fine("Name: " + fieldName.getText());
 		}
 	}	//	setParameters
 
@@ -272,10 +338,10 @@ public class InfoAsset extends Info
 	/**
 	 *	Zoom
 	 */
-	protected void zoom()
+	protected void zoom(int record_ID)
 	{
 		log.info( "InfoAsset.zoom");
-		Integer A_Asset_ID = getSelectedRowKey();
+		Integer A_Asset_ID = record_ID;
 		if (A_Asset_ID == null)
 			return;
 		MQuery query = new MQuery("A_Asset");
@@ -310,5 +376,43 @@ public class InfoAsset extends Info
 	{
 		return false;	//	for now
 	}	//	hasCustomize
+
+	/**
+	 * Does the parameter panel have outstanding changes that have not been
+	 * used in a query?
+	 * @return true if there are outstanding changes.
+	 */
+	protected boolean hasOutstandingChanges()
+	{
+		//  All the tracked fields
+		return(
+				fieldValue.hasChanged()	||
+				fieldName.hasChanged()	||
+				fProduct_ID.hasChanged()	||
+				fBPartner_ID.hasChanged());
+	}
+	/**
+	 * Record outstanding changes by copying the current
+	 * value to the oldValue on all fields
+	 */
+	protected void setFieldOldValues()
+	{
+		fieldValue.set_oldValue();
+		fieldName.set_oldValue();
+		fProduct_ID.set_oldValue();
+		fBPartner_ID.set_oldValue();
+		return;
+	}
+	/**
+	 *  Clear all fields and set default values in check boxes
+	 */
+	protected void clearParameters()
+	{
+		//  Clear fields and set defaults
+		fieldValue.setText("");
+		fieldName.setText("");
+    	fProduct_ID.setValue(null);
+    	fBPartner_ID.setValue(null);
+	}
 
 }	//	InfoAsset

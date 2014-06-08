@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_POSKey
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_C_POSKey extends PO implements I_C_POSKey, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_C_POSKey (Properties ctx, int C_POSKey_ID, String trxName)
@@ -40,8 +40,8 @@ public class X_C_POSKey extends PO implements I_C_POSKey, I_Persistent
       super (ctx, C_POSKey_ID, trxName);
       /** if (C_POSKey_ID == 0)
         {
-			setC_POSKey_ID (0);
 			setC_POSKeyLayout_ID (0);
+			setC_POSKey_ID (0);
 			setName (null);
 			setSeqNo (0);
 // @SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM C_POSKey WHERE C_POSKeyLayout_ID=@C_POSKeyLayout_ID@
@@ -155,29 +155,6 @@ public class X_C_POSKey extends PO implements I_C_POSKey, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set POS Key.
-		@param C_POSKey_ID 
-		POS Function Key
-	  */
-	public void setC_POSKey_ID (int C_POSKey_ID)
-	{
-		if (C_POSKey_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_POSKey_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_POSKey_ID, Integer.valueOf(C_POSKey_ID));
-	}
-
-	/** Get POS Key.
-		@return POS Function Key
-	  */
-	public int getC_POSKey_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_POSKey_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_C_POSKeyLayout getC_POSKeyLayout() throws RuntimeException
     {
 		return (org.compiere.model.I_C_POSKeyLayout)MTable.get(getCtx(), org.compiere.model.I_C_POSKeyLayout.Table_Name)
@@ -201,6 +178,29 @@ public class X_C_POSKey extends PO implements I_C_POSKey, I_Persistent
 	public int getC_POSKeyLayout_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_POSKeyLayout_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set POS Key.
+		@param C_POSKey_ID 
+		POS Function Key
+	  */
+	public void setC_POSKey_ID (int C_POSKey_ID)
+	{
+		if (C_POSKey_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_POSKey_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_POSKey_ID, Integer.valueOf(C_POSKey_ID));
+	}
+
+	/** Get POS Key.
+		@return POS Function Key
+	  */
+	public int getC_POSKey_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_POSKey_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

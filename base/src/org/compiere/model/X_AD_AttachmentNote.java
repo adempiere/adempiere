@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_AttachmentNote
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_AD_AttachmentNote extends PO implements I_AD_AttachmentNote, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_AD_AttachmentNote (Properties ctx, int AD_AttachmentNote_ID, String trxName)
@@ -38,8 +38,8 @@ public class X_AD_AttachmentNote extends PO implements I_AD_AttachmentNote, I_Pe
       super (ctx, AD_AttachmentNote_ID, trxName);
       /** if (AD_AttachmentNote_ID == 0)
         {
-			setAD_Attachment_ID (0);
 			setAD_AttachmentNote_ID (0);
+			setAD_Attachment_ID (0);
 			setAD_User_ID (0);
 			setTextMsg (null);
 			setTitle (null);
@@ -74,6 +74,29 @@ public class X_AD_AttachmentNote extends PO implements I_AD_AttachmentNote, I_Pe
       return sb.toString();
     }
 
+	/** Set Attachment Note.
+		@param AD_AttachmentNote_ID 
+		Personal Attachment Note
+	  */
+	public void setAD_AttachmentNote_ID (int AD_AttachmentNote_ID)
+	{
+		if (AD_AttachmentNote_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_AttachmentNote_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_AttachmentNote_ID, Integer.valueOf(AD_AttachmentNote_ID));
+	}
+
+	/** Get Attachment Note.
+		@return Personal Attachment Note
+	  */
+	public int getAD_AttachmentNote_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_AttachmentNote_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_AD_Attachment getAD_Attachment() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_Attachment)MTable.get(getCtx(), org.compiere.model.I_AD_Attachment.Table_Name)
@@ -97,29 +120,6 @@ public class X_AD_AttachmentNote extends PO implements I_AD_AttachmentNote, I_Pe
 	public int getAD_Attachment_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Attachment_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Attachment Note.
-		@param AD_AttachmentNote_ID 
-		Personal Attachment Note
-	  */
-	public void setAD_AttachmentNote_ID (int AD_AttachmentNote_ID)
-	{
-		if (AD_AttachmentNote_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_AttachmentNote_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_AttachmentNote_ID, Integer.valueOf(AD_AttachmentNote_ID));
-	}
-
-	/** Get Attachment Note.
-		@return Personal Attachment Note
-	  */
-	public int getAD_AttachmentNote_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_AttachmentNote_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

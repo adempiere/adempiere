@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BankAccount
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_C_BankAccount (Properties ctx, int C_BankAccount_ID, String trxName)
@@ -96,6 +96,23 @@ public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent
 		return (String)get_Value(COLUMNNAME_AccountNo);
 	}
 
+	/** Set BBAN.
+		@param BBAN 
+		Basic Bank Account Number
+	  */
+	public void setBBAN (String BBAN)
+	{
+		set_Value (COLUMNNAME_BBAN, BBAN);
+	}
+
+	/** Get BBAN.
+		@return Basic Bank Account Number
+	  */
+	public String getBBAN () 
+	{
+		return (String)get_Value(COLUMNNAME_BBAN);
+	}
+
 	/** BankAccountType AD_Reference_ID=216 */
 	public static final int BANKACCOUNTTYPE_AD_Reference_ID=216;
 	/** Checking = C */
@@ -118,23 +135,6 @@ public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent
 	public String getBankAccountType () 
 	{
 		return (String)get_Value(COLUMNNAME_BankAccountType);
-	}
-
-	/** Set BBAN.
-		@param BBAN 
-		Basic Bank Account Number
-	  */
-	public void setBBAN (String BBAN)
-	{
-		set_Value (COLUMNNAME_BBAN, BBAN);
-	}
-
-	/** Get BBAN.
-		@return Basic Bank Account Number
-	  */
-	public String getBBAN () 
-	{
-		return (String)get_Value(COLUMNNAME_BBAN);
 	}
 
 	/** Set Bank Account.

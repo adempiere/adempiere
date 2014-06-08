@@ -34,7 +34,11 @@ import org.zkoss.zul.Listitem;
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
  * @date    Feb 25, 2007
  * @version $Revision: 0.10 $
+ * 
+ * @author	Michael McKay
+ * 				<li>release/380 - add old value comparison for lookup/info window support
  */
+
 public class Listbox extends org.zkoss.zul.Listbox implements EventListener
 {
 	/**
@@ -45,6 +49,7 @@ public class Listbox extends org.zkoss.zul.Listbox implements EventListener
     private List<EventListener> onDropListeners = new ArrayList<EventListener>();
 	private boolean draggable;
 	private String oddRowSclass;
+	private Object m_oldValue;
 	
     public Listbox() {
 		super();
@@ -141,13 +146,26 @@ public class Listbox extends org.zkoss.zul.Listbox implements EventListener
         	}
         }
     }
-    
+
+    /** 
+     * Get selected item for the list box based on the value of list item
+     * @return Value of selected ListItem
+     */
+    public Object getValue()
+    {
+    	ListItem item = getSelectedItem();
+    	
+    	return item.getValue();
+    	
+    }
+
     public ListHead getListHead()
     {
     	return (ListHead)super.getListhead();
     }
 
 	public int[] getSelectedIndices() {
+		@SuppressWarnings("rawtypes")
 		Set selectedItems = this.getSelectedItems();
 		int[] selecteds = new int[this.getSelectedCount()];
 		int i = 0;
@@ -340,4 +358,37 @@ public class Listbox extends org.zkoss.zul.Listbox implements EventListener
 		return items.toString();
 	}
 	
+	/**
+	 * Set the old value of the field.  For use in future comparisons.
+	 * The old value must be explicitly set though this call.
+	 * @param m_oldValue
+	 */
+	public void set_oldValue() {
+		this.m_oldValue = getValue();
+	}
+	/**
+	 * Get the old value of the field explicitly set in the past
+	 * @return
+	 */
+	public Object get_oldValue() {
+		return m_oldValue;
+	}
+	/**
+	 * Has the field changed over time?
+	 * @return true if the old value is different than the current.
+	 */
+	public boolean hasChanged() {
+		// Both or either could be null
+		if(getValue() != null)
+			if(m_oldValue != null)
+				return !m_oldValue.equals(getValue());
+			else
+				return true;
+		else  // getValue() is null
+			if(m_oldValue != null)
+				return true;
+			else
+				return false;
+	}
+
 }

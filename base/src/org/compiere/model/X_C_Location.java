@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Location
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_C_Location extends PO implements I_C_Location, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_C_Location (Properties ctx, int C_Location_ID, String trxName)
@@ -195,31 +195,6 @@ public class X_C_Location extends PO implements I_C_Location, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set City.
-		@param City 
-		Identifies a City
-	  */
-	public void setCity (String City)
-	{
-		set_Value (COLUMNNAME_City, City);
-	}
-
-	/** Get City.
-		@return Identifies a City
-	  */
-	public String getCity () 
-	{
-		return (String)get_Value(COLUMNNAME_City);
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), getCity());
-    }
-
 	/** Set Address.
 		@param C_Location_ID 
 		Location or Address
@@ -270,6 +245,31 @@ public class X_C_Location extends PO implements I_C_Location, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	/** Set City.
+		@param City 
+		Identifies a City
+	  */
+	public void setCity (String City)
+	{
+		set_Value (COLUMNNAME_City, City);
+	}
+
+	/** Get City.
+		@return Identifies a City
+	  */
+	public String getCity () 
+	{
+		return (String)get_Value(COLUMNNAME_City);
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), getCity());
+    }
 
 	/** Set ZIP.
 		@param Postal 

@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_List
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_HR_List 
 {
@@ -114,15 +114,6 @@ public interface I_HR_List
 
 	public org.eevolution.model.I_HR_Employee getHR_Employee() throws RuntimeException;
 
-    /** Column name HR_List_ID */
-    public static final String COLUMNNAME_HR_List_ID = "HR_List_ID";
-
-	/** Set Payroll List	  */
-	public void setHR_List_ID (int HR_List_ID);
-
-	/** Get Payroll List	  */
-	public int getHR_List_ID();
-
     /** Column name HR_ListType_ID */
     public static final String COLUMNNAME_HR_ListType_ID = "HR_ListType_ID";
 
@@ -133,6 +124,15 @@ public interface I_HR_List
 	public int getHR_ListType_ID();
 
 	public org.eevolution.model.I_HR_ListType getHR_ListType() throws RuntimeException;
+
+    /** Column name HR_List_ID */
+    public static final String COLUMNNAME_HR_List_ID = "HR_List_ID";
+
+	/** Set Payroll List	  */
+	public void setHR_List_ID (int HR_List_ID);
+
+	/** Get Payroll List	  */
+	public int getHR_List_ID();
 
     /** Column name HR_Payroll_ID */
     public static final String COLUMNNAME_HR_Payroll_ID = "HR_Payroll_ID";

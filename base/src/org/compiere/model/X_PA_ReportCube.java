@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_ReportCube
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_PA_ReportCube extends PO implements I_PA_ReportCube, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_PA_ReportCube (Properties ctx, int PA_ReportCube_ID, String trxName)
@@ -432,54 +432,6 @@ public class X_PA_ReportCube extends PO implements I_PA_ReportCube, I_Persistent
 		return false;
 	}
 
-	/** Set User Element 1 Dimension.
-		@param IsUserElement1Dim 
-		Include User Element 1 as a cube dimension
-	  */
-	public void setIsUserElement1Dim (boolean IsUserElement1Dim)
-	{
-		set_Value (COLUMNNAME_IsUserElement1Dim, Boolean.valueOf(IsUserElement1Dim));
-	}
-
-	/** Get User Element 1 Dimension.
-		@return Include User Element 1 as a cube dimension
-	  */
-	public boolean isUserElement1Dim () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsUserElement1Dim);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	/** Set User Element 2 Dimension.
-		@param IsUserElement2Dim 
-		Include User Element 2 as a cube dimension
-	  */
-	public void setIsUserElement2Dim (boolean IsUserElement2Dim)
-	{
-		set_Value (COLUMNNAME_IsUserElement2Dim, Boolean.valueOf(IsUserElement2Dim));
-	}
-
-	/** Get User Element 2 Dimension.
-		@return Include User Element 2 as a cube dimension
-	  */
-	public boolean isUserElement2Dim () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsUserElement2Dim);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** Set User 1 Dimension.
 		@param IsUser1Dim 
 		Include User 1 as a cube dimension
@@ -519,6 +471,54 @@ public class X_PA_ReportCube extends PO implements I_PA_ReportCube, I_Persistent
 	public boolean isUser2Dim () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsUser2Dim);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set User Element 1 Dimension.
+		@param IsUserElement1Dim 
+		Include User Element 1 as a cube dimension
+	  */
+	public void setIsUserElement1Dim (boolean IsUserElement1Dim)
+	{
+		set_Value (COLUMNNAME_IsUserElement1Dim, Boolean.valueOf(IsUserElement1Dim));
+	}
+
+	/** Get User Element 1 Dimension.
+		@return Include User Element 1 as a cube dimension
+	  */
+	public boolean isUserElement1Dim () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsUserElement1Dim);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set User Element 2 Dimension.
+		@param IsUserElement2Dim 
+		Include User Element 2 as a cube dimension
+	  */
+	public void setIsUserElement2Dim (boolean IsUserElement2Dim)
+	{
+		set_Value (COLUMNNAME_IsUserElement2Dim, Boolean.valueOf(IsUserElement2Dim));
+	}
+
+	/** Get User Element 2 Dimension.
+		@return Include User Element 2 as a cube dimension
+	  */
+	public boolean isUserElement2Dim () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsUserElement2Dim);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

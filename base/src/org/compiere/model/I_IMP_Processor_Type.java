@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for IMP_Processor_Type
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_IMP_Processor_Type 
 {

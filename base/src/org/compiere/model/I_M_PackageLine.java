@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_PackageLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_M_PackageLine 
 {
@@ -119,6 +119,19 @@ public interface I_M_PackageLine
 
 	public org.compiere.model.I_M_InOutLine getM_InOutLine() throws RuntimeException;
 
+    /** Column name M_PackageLine_ID */
+    public static final String COLUMNNAME_M_PackageLine_ID = "M_PackageLine_ID";
+
+	/** Set Package Line.
+	  * The detail content of the Package
+	  */
+	public void setM_PackageLine_ID (int M_PackageLine_ID);
+
+	/** Get Package Line.
+	  * The detail content of the Package
+	  */
+	public int getM_PackageLine_ID();
+
     /** Column name M_Package_ID */
     public static final String COLUMNNAME_M_Package_ID = "M_Package_ID";
 
@@ -133,19 +146,6 @@ public interface I_M_PackageLine
 	public int getM_Package_ID();
 
 	public org.compiere.model.I_M_Package getM_Package() throws RuntimeException;
-
-    /** Column name M_PackageLine_ID */
-    public static final String COLUMNNAME_M_PackageLine_ID = "M_PackageLine_ID";
-
-	/** Set Package Line.
-	  * The detail content of the Package
-	  */
-	public void setM_PackageLine_ID (int M_PackageLine_ID);
-
-	/** Get Package Line.
-	  * The detail content of the Package
-	  */
-	public int getM_PackageLine_ID();
 
     /** Column name Qty */
     public static final String COLUMNNAME_Qty = "Qty";

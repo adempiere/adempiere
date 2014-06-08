@@ -24,14 +24,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for M_PromotionReward
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_M_PromotionReward extends PO implements I_M_PromotionReward, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_M_PromotionReward (Properties ctx, int M_PromotionReward_ID, String trxName)
@@ -42,8 +42,8 @@ public class X_M_PromotionReward extends PO implements I_M_PromotionReward, I_Pe
 			setC_Charge_ID (0);
 			setIsForAllDistribution (false);
 // N
-			setM_Promotion_ID (0);
 			setM_PromotionReward_ID (0);
+			setM_Promotion_ID (0);
 			setRewardType (null);
 			setSeqNo (0);
 // @SQL=SELECT COALESCE(MAX(SeqNo),0)+10 AS DefaultValue FROM M_PromotionReward WHERE M_Promotion_ID=@M_Promotion_ID@
@@ -223,6 +223,26 @@ public class X_M_PromotionReward extends PO implements I_M_PromotionReward, I_Pe
 		return ii.intValue();
 	}
 
+	/** Set Promotion Reward.
+		@param M_PromotionReward_ID Promotion Reward	  */
+	public void setM_PromotionReward_ID (int M_PromotionReward_ID)
+	{
+		if (M_PromotionReward_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_PromotionReward_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_PromotionReward_ID, Integer.valueOf(M_PromotionReward_ID));
+	}
+
+	/** Get Promotion Reward.
+		@return Promotion Reward	  */
+	public int getM_PromotionReward_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_PromotionReward_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_M_Promotion getM_Promotion() throws RuntimeException
     {
 		return (org.compiere.model.I_M_Promotion)MTable.get(getCtx(), org.compiere.model.I_M_Promotion.Table_Name)
@@ -243,26 +263,6 @@ public class X_M_PromotionReward extends PO implements I_M_PromotionReward, I_Pe
 	public int getM_Promotion_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Promotion_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Promotion Reward.
-		@param M_PromotionReward_ID Promotion Reward	  */
-	public void setM_PromotionReward_ID (int M_PromotionReward_ID)
-	{
-		if (M_PromotionReward_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_PromotionReward_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_PromotionReward_ID, Integer.valueOf(M_PromotionReward_ID));
-	}
-
-	/** Get Promotion Reward.
-		@return Promotion Reward	  */
-	public int getM_PromotionReward_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_PromotionReward_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

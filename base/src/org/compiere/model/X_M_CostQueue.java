@@ -19,19 +19,20 @@ package org.compiere.model;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.Properties;
 import org.compiere.util.Env;
 
 /** Generated Model for M_CostQueue
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_M_CostQueue extends PO implements I_M_CostQueue, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_M_CostQueue (Properties ctx, int M_CostQueue_ID, String trxName)
@@ -144,6 +145,23 @@ public class X_M_CostQueue extends PO implements I_M_CostQueue, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set Account Date.
+		@param DateAcct 
+		Accounting Date
+	  */
+	public void setDateAcct (Timestamp DateAcct)
+	{
+		set_Value (COLUMNNAME_DateAcct, DateAcct);
+	}
+
+	/** Get Account Date.
+		@return Accounting Date
+	  */
+	public Timestamp getDateAcct () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_DateAcct);
 	}
 
 	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException

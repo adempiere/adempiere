@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_CostType
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_M_CostType 
 {
@@ -61,6 +61,19 @@ public interface I_M_CostType
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name CostingMethod */
+    public static final String COLUMNNAME_CostingMethod = "CostingMethod";
+
+	/** Set Costing Method.
+	  * Indicates how Costs will be calculated
+	  */
+	public void setCostingMethod (String CostingMethod);
+
+	/** Get Costing Method.
+	  * Indicates how Costs will be calculated
+	  */
+	public String getCostingMethod();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Split
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_A_Asset_Split 
 {
@@ -40,6 +40,27 @@ public interface I_A_Asset_Split
     BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
+
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
 
     /** Column name A_Amount_Split */
     public static final String COLUMNNAME_A_Amount_Split = "A_Amount_Split";
@@ -101,14 +122,6 @@ public interface I_A_Asset_Split
 	/** Get Asset Split	  */
 	public int getA_Asset_Split_ID();
 
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
-
     /** Column name A_Depreciation_Workfile_ID */
     public static final String COLUMNNAME_A_Depreciation_Workfile_ID = "A_Depreciation_Workfile_ID";
 
@@ -117,19 +130,6 @@ public interface I_A_Asset_Split
 
 	/** Get Depreciation Workfile	  */
 	public int getA_Depreciation_Workfile_ID();
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
 
     /** Column name A_Percent_Original */
     public static final String COLUMNNAME_A_Percent_Original = "A_Percent_Original";

@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_AlertRule
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_AD_AlertRule extends PO implements I_AD_AlertRule, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_AD_AlertRule (Properties ctx, int AD_AlertRule_ID, String trxName)
@@ -38,8 +38,8 @@ public class X_AD_AlertRule extends PO implements I_AD_AlertRule, I_Persistent
       super (ctx, AD_AlertRule_ID, trxName);
       /** if (AD_AlertRule_ID == 0)
         {
-			setAD_Alert_ID (0);
 			setAD_AlertRule_ID (0);
+			setAD_Alert_ID (0);
 			setFromClause (null);
 			setIsValid (true);
 // Y
@@ -76,6 +76,29 @@ public class X_AD_AlertRule extends PO implements I_AD_AlertRule, I_Persistent
       return sb.toString();
     }
 
+	/** Set Alert Rule.
+		@param AD_AlertRule_ID 
+		Definition of the alert element
+	  */
+	public void setAD_AlertRule_ID (int AD_AlertRule_ID)
+	{
+		if (AD_AlertRule_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_AlertRule_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_AlertRule_ID, Integer.valueOf(AD_AlertRule_ID));
+	}
+
+	/** Get Alert Rule.
+		@return Definition of the alert element
+	  */
+	public int getAD_AlertRule_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_AlertRule_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_AD_Alert getAD_Alert() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_Alert)MTable.get(getCtx(), org.compiere.model.I_AD_Alert.Table_Name)
@@ -99,29 +122,6 @@ public class X_AD_AlertRule extends PO implements I_AD_AlertRule, I_Persistent
 	public int getAD_Alert_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Alert_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Alert Rule.
-		@param AD_AlertRule_ID 
-		Definition of the alert element
-	  */
-	public void setAD_AlertRule_ID (int AD_AlertRule_ID)
-	{
-		if (AD_AlertRule_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_AlertRule_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_AlertRule_ID, Integer.valueOf(AD_AlertRule_ID));
-	}
-
-	/** Get Alert Rule.
-		@return Definition of the alert element
-	  */
-	public int getAD_AlertRule_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_AlertRule_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_InvoiceLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_C_InvoiceLine 
 {
@@ -40,6 +40,40 @@ public interface I_C_InvoiceLine
     BigDecimal accessLevel = BigDecimal.valueOf(1);
 
     /** Load Meta Data */
+
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
+
+    /** Column name AD_OrgTrx_ID */
+    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
+
+	/** Set Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
+
+	/** Get Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
 
     /** Column name A_Asset_Group_ID */
     public static final String COLUMNNAME_A_Asset_Group_ID = "A_Asset_Group_ID";
@@ -88,40 +122,6 @@ public interface I_C_InvoiceLine
 
 	/** Get Asset Related?	  */
 	public boolean isA_CreateAsset();
-
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
-
-    /** Column name AD_OrgTrx_ID */
-    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
-
-	/** Set Trx Organization.
-	  * Performing or initiating organization
-	  */
-	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
-
-	/** Get Trx Organization.
-	  * Performing or initiating organization
-	  */
-	public int getAD_OrgTrx_ID();
 
     /** Column name A_Processed */
     public static final String COLUMNNAME_A_Processed = "A_Processed";
@@ -177,6 +177,19 @@ public interface I_C_InvoiceLine
 
 	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException;
 
+    /** Column name C_InvoiceLine_ID */
+    public static final String COLUMNNAME_C_InvoiceLine_ID = "C_InvoiceLine_ID";
+
+	/** Set Invoice Line.
+	  * Invoice Detail Line
+	  */
+	public void setC_InvoiceLine_ID (int C_InvoiceLine_ID);
+
+	/** Get Invoice Line.
+	  * Invoice Detail Line
+	  */
+	public int getC_InvoiceLine_ID();
+
     /** Column name C_Invoice_ID */
     public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
 
@@ -192,19 +205,6 @@ public interface I_C_InvoiceLine
 
 	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException;
 
-    /** Column name C_InvoiceLine_ID */
-    public static final String COLUMNNAME_C_InvoiceLine_ID = "C_InvoiceLine_ID";
-
-	/** Set Invoice Line.
-	  * Invoice Detail Line
-	  */
-	public void setC_InvoiceLine_ID (int C_InvoiceLine_ID);
-
-	/** Get Invoice Line.
-	  * Invoice Detail Line
-	  */
-	public int getC_InvoiceLine_ID();
-
     /** Column name C_OrderLine_ID */
     public static final String COLUMNNAME_C_OrderLine_ID = "C_OrderLine_ID";
 
@@ -219,21 +219,6 @@ public interface I_C_InvoiceLine
 	public int getC_OrderLine_ID();
 
 	public org.compiere.model.I_C_OrderLine getC_OrderLine() throws RuntimeException;
-
-    /** Column name C_Project_ID */
-    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
-
-	/** Set Project.
-	  * Financial Project
-	  */
-	public void setC_Project_ID (int C_Project_ID);
-
-	/** Get Project.
-	  * Financial Project
-	  */
-	public int getC_Project_ID();
-
-	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
 
     /** Column name C_ProjectPhase_ID */
     public static final String COLUMNNAME_C_ProjectPhase_ID = "C_ProjectPhase_ID";
@@ -265,21 +250,20 @@ public interface I_C_InvoiceLine
 
 	public org.compiere.model.I_C_ProjectTask getC_ProjectTask() throws RuntimeException;
 
-    /** Column name Created */
-    public static final String COLUMNNAME_Created = "Created";
+    /** Column name C_Project_ID */
+    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 
-	/** Get Created.
-	  * Date this record was created
+	/** Set Project.
+	  * Financial Project
 	  */
-	public Timestamp getCreated();
+	public void setC_Project_ID (int C_Project_ID);
 
-    /** Column name CreatedBy */
-    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
-
-	/** Get Created By.
-	  * User who created this records
+	/** Get Project.
+	  * Financial Project
 	  */
-	public int getCreatedBy();
+	public int getC_Project_ID();
+
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
 
     /** Column name C_Tax_ID */
     public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";
@@ -310,6 +294,22 @@ public interface I_C_InvoiceLine
 	public int getC_UOM_ID();
 
 	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException;
+
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
+
+	/** Get Created.
+	  * Date this record was created
+	  */
+	public Timestamp getCreated();
+
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
+	  */
+	public int getCreatedBy();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -553,15 +553,6 @@ public interface I_C_InvoiceLine
 	  */
 	public BigDecimal getQtyInvoiced();
 
-    /** Column name Ref_InvoiceLine_ID */
-    public static final String COLUMNNAME_Ref_InvoiceLine_ID = "Ref_InvoiceLine_ID";
-
-	/** Set Referenced Invoice Line	  */
-	public void setRef_InvoiceLine_ID (int Ref_InvoiceLine_ID);
-
-	/** Get Referenced Invoice Line	  */
-	public int getRef_InvoiceLine_ID();
-
     /** Column name RRAmt */
     public static final String COLUMNNAME_RRAmt = "RRAmt";
 
@@ -587,6 +578,15 @@ public interface I_C_InvoiceLine
 	  * Revenue Recognition Start Date
 	  */
 	public Timestamp getRRStartDate();
+
+    /** Column name Ref_InvoiceLine_ID */
+    public static final String COLUMNNAME_Ref_InvoiceLine_ID = "Ref_InvoiceLine_ID";
+
+	/** Set Referenced Invoice Line	  */
+	public void setRef_InvoiceLine_ID (int Ref_InvoiceLine_ID);
+
+	/** Get Referenced Invoice Line	  */
+	public int getRef_InvoiceLine_ID();
 
     /** Column name S_ResourceAssignment_ID */
     public static final String COLUMNNAME_S_ResourceAssignment_ID = "S_ResourceAssignment_ID";

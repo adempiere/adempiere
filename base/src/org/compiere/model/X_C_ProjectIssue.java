@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_ProjectIssue
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_C_ProjectIssue extends PO implements I_C_ProjectIssue, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_C_ProjectIssue (Properties ctx, int C_ProjectIssue_ID, String trxName)
@@ -41,15 +41,15 @@ public class X_C_ProjectIssue extends PO implements I_C_ProjectIssue, I_Persiste
       super (ctx, C_ProjectIssue_ID, trxName);
       /** if (C_ProjectIssue_ID == 0)
         {
-			setC_Project_ID (0);
 			setC_ProjectIssue_ID (0);
+			setC_Project_ID (0);
 			setLine (0);
 // @SQL=SELECT NVL(MAX(Line),0)+10 AS DefaultValue FROM C_ProjectIssue WHERE C_Project_ID=@C_Project_ID@
 			setM_AttributeSetInstance_ID (0);
 			setM_Locator_ID (0);
+			setM_Product_ID (0);
 			setMovementDate (new Timestamp( System.currentTimeMillis() ));
 			setMovementQty (Env.ZERO);
-			setM_Product_ID (0);
 			setPosted (false);
 // N
 			setProcessed (false);
@@ -83,6 +83,29 @@ public class X_C_ProjectIssue extends PO implements I_C_ProjectIssue, I_Persiste
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** Set Project Issue.
+		@param C_ProjectIssue_ID 
+		Project Issues (Material, Labor)
+	  */
+	public void setC_ProjectIssue_ID (int C_ProjectIssue_ID)
+	{
+		if (C_ProjectIssue_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_ProjectIssue_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_ProjectIssue_ID, Integer.valueOf(C_ProjectIssue_ID));
+	}
+
+	/** Get Project Issue.
+		@return Project Issues (Material, Labor)
+	  */
+	public int getC_ProjectIssue_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectIssue_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
     {
@@ -119,29 +142,6 @@ public class X_C_ProjectIssue extends PO implements I_C_ProjectIssue, I_Persiste
     {
         return new KeyNamePair(get_ID(), String.valueOf(getC_Project_ID()));
     }
-
-	/** Set Project Issue.
-		@param C_ProjectIssue_ID 
-		Project Issues (Material, Labor)
-	  */
-	public void setC_ProjectIssue_ID (int C_ProjectIssue_ID)
-	{
-		if (C_ProjectIssue_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_ProjectIssue_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_ProjectIssue_ID, Integer.valueOf(C_ProjectIssue_ID));
-	}
-
-	/** Get Project Issue.
-		@return Project Issues (Material, Labor)
-	  */
-	public int getC_ProjectIssue_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectIssue_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	/** Set Description.
 		@param Description 
@@ -264,6 +264,34 @@ public class X_C_ProjectIssue extends PO implements I_C_ProjectIssue, I_Persiste
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
+			.getPO(getM_Product_ID(), get_TrxName());	}
+
+	/** Set Product.
+		@param M_Product_ID 
+		Product, Service, Item
+	  */
+	public void setM_Product_ID (int M_Product_ID)
+	{
+		if (M_Product_ID < 1) 
+			set_Value (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+	}
+
+	/** Get Product.
+		@return Product, Service, Item
+	  */
+	public int getM_Product_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Movement Date.
 		@param MovementDate 
 		Date a product was moved in or out of inventory
@@ -299,34 +327,6 @@ public class X_C_ProjectIssue extends PO implements I_C_ProjectIssue, I_Persiste
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
-	}
-
-	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
-    {
-		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
-			.getPO(getM_Product_ID(), get_TrxName());	}
-
-	/** Set Product.
-		@param M_Product_ID 
-		Product, Service, Item
-	  */
-	public void setM_Product_ID (int M_Product_ID)
-	{
-		if (M_Product_ID < 1) 
-			set_Value (COLUMNNAME_M_Product_ID, null);
-		else 
-			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
-	}
-
-	/** Get Product.
-		@return Product, Service, Item
-	  */
-	public int getM_Product_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set Posted.

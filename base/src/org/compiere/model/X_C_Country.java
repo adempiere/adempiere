@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Country
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_C_Country extends PO implements I_C_Country, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_C_Country (Properties ctx, int C_Country_ID, String trxName)
@@ -122,20 +122,6 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 		return false;
 	}
 
-	/** Set Capture Sequence.
-		@param CaptureSequence Capture Sequence	  */
-	public void setCaptureSequence (String CaptureSequence)
-	{
-		set_Value (COLUMNNAME_CaptureSequence, CaptureSequence);
-	}
-
-	/** Get Capture Sequence.
-		@return Capture Sequence	  */
-	public String getCaptureSequence () 
-	{
-		return (String)get_Value(COLUMNNAME_CaptureSequence);
-	}
-
 	/** Set Country.
 		@param C_Country_ID 
 		Country 
@@ -185,6 +171,20 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Capture Sequence.
+		@param CaptureSequence Capture Sequence	  */
+	public void setCaptureSequence (String CaptureSequence)
+	{
+		set_Value (COLUMNNAME_CaptureSequence, CaptureSequence);
+	}
+
+	/** Get Capture Sequence.
+		@return Capture Sequence	  */
+	public String getCaptureSequence () 
+	{
+		return (String)get_Value(COLUMNNAME_CaptureSequence);
 	}
 
 	/** Set ISO Country Code.

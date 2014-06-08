@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for GL_FundRestriction
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_GL_FundRestriction extends PO implements I_GL_FundRestriction, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_GL_FundRestriction (Properties ctx, int GL_FundRestriction_ID, String trxName)
@@ -39,8 +39,8 @@ public class X_GL_FundRestriction extends PO implements I_GL_FundRestriction, I_
       /** if (GL_FundRestriction_ID == 0)
         {
 			setC_ElementValue_ID (0);
-			setGL_Fund_ID (0);
 			setGL_FundRestriction_ID (0);
+			setGL_Fund_ID (0);
 			setName (null);
         } */
     }
@@ -118,6 +118,29 @@ public class X_GL_FundRestriction extends PO implements I_GL_FundRestriction, I_
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	/** Set Fund Restriction.
+		@param GL_FundRestriction_ID 
+		Restriction of Funds
+	  */
+	public void setGL_FundRestriction_ID (int GL_FundRestriction_ID)
+	{
+		if (GL_FundRestriction_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_GL_FundRestriction_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_GL_FundRestriction_ID, Integer.valueOf(GL_FundRestriction_ID));
+	}
+
+	/** Get Fund Restriction.
+		@return Restriction of Funds
+	  */
+	public int getGL_FundRestriction_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_GL_FundRestriction_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_GL_Fund getGL_Fund() throws RuntimeException
     {
 		return (org.compiere.model.I_GL_Fund)MTable.get(getCtx(), org.compiere.model.I_GL_Fund.Table_Name)
@@ -141,29 +164,6 @@ public class X_GL_FundRestriction extends PO implements I_GL_FundRestriction, I_
 	public int getGL_Fund_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_GL_Fund_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Fund Restriction.
-		@param GL_FundRestriction_ID 
-		Restriction of Funds
-	  */
-	public void setGL_FundRestriction_ID (int GL_FundRestriction_ID)
-	{
-		if (GL_FundRestriction_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_GL_FundRestriction_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_GL_FundRestriction_ID, Integer.valueOf(GL_FundRestriction_ID));
-	}
-
-	/** Get Fund Restriction.
-		@return Restriction of Funds
-	  */
-	public int getGL_FundRestriction_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_GL_FundRestriction_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

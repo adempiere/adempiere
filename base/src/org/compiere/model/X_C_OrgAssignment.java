@@ -23,14 +23,14 @@ import java.util.Properties;
 
 /** Generated Model for C_OrgAssignment
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_C_OrgAssignment extends PO implements I_C_OrgAssignment, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_C_OrgAssignment (Properties ctx, int C_OrgAssignment_ID, String trxName)

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_CostDetail
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_M_CostDetail 
 {
@@ -75,6 +75,19 @@ public interface I_M_CostDetail
 	  */
 	public BigDecimal getAmt();
 
+    /** Column name AmtLL */
+    public static final String COLUMNNAME_AmtLL = "AmtLL";
+
+	/** Set Amount LL.
+	  * Amount Lower Level Cost
+	  */
+	public void setAmtLL (BigDecimal AmtLL);
+
+	/** Get Amount LL.
+	  * Amount Lower Level Cost
+	  */
+	public BigDecimal getAmtLL();
+
     /** Column name C_AcctSchema_ID */
     public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
 
@@ -104,6 +117,21 @@ public interface I_M_CostDetail
 	public int getC_InvoiceLine_ID();
 
 	public org.compiere.model.I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException;
+
+    /** Column name C_LandedCostAllocation_ID */
+    public static final String COLUMNNAME_C_LandedCostAllocation_ID = "C_LandedCostAllocation_ID";
+
+	/** Set Landed Cost Allocation.
+	  * Allocation for Land Costs
+	  */
+	public void setC_LandedCostAllocation_ID (int C_LandedCostAllocation_ID);
+
+	/** Get Landed Cost Allocation.
+	  * Allocation for Land Costs
+	  */
+	public int getC_LandedCostAllocation_ID();
+
+	public org.compiere.model.I_C_LandedCostAllocation getC_LandedCostAllocation() throws RuntimeException;
 
     /** Column name C_OrderLine_ID */
     public static final String COLUMNNAME_C_OrderLine_ID = "C_OrderLine_ID";
@@ -135,6 +163,97 @@ public interface I_M_CostDetail
 
 	public org.compiere.model.I_C_ProjectIssue getC_ProjectIssue() throws RuntimeException;
 
+    /** Column name CostAdjustment */
+    public static final String COLUMNNAME_CostAdjustment = "CostAdjustment";
+
+	/** Set Cost Adjustment.
+	  * Product Cost Adjustment
+	  */
+	public void setCostAdjustment (BigDecimal CostAdjustment);
+
+	/** Get Cost Adjustment.
+	  * Product Cost Adjustment
+	  */
+	public BigDecimal getCostAdjustment();
+
+    /** Column name CostAdjustmentDate */
+    public static final String COLUMNNAME_CostAdjustmentDate = "CostAdjustmentDate";
+
+	/** Set Cost Adjustment Date.
+	  * Product Cost Adjustment
+	  */
+	public void setCostAdjustmentDate (Timestamp CostAdjustmentDate);
+
+	/** Get Cost Adjustment Date.
+	  * Product Cost Adjustment
+	  */
+	public Timestamp getCostAdjustmentDate();
+
+    /** Column name CostAdjustmentDateLL */
+    public static final String COLUMNNAME_CostAdjustmentDateLL = "CostAdjustmentDateLL";
+
+	/** Set Cost Adjustment Date.
+	  * Date Product Cost Adjustment Lower Level
+	  */
+	public void setCostAdjustmentDateLL (Timestamp CostAdjustmentDateLL);
+
+	/** Get Cost Adjustment Date.
+	  * Date Product Cost Adjustment Lower Level
+	  */
+	public Timestamp getCostAdjustmentDateLL();
+
+    /** Column name CostAdjustmentLL */
+    public static final String COLUMNNAME_CostAdjustmentLL = "CostAdjustmentLL";
+
+	/** Set Cost Adjustment LL.
+	  * Product Cost Adjustment Lower Level
+	  */
+	public void setCostAdjustmentLL (BigDecimal CostAdjustmentLL);
+
+	/** Get Cost Adjustment LL.
+	  * Product Cost Adjustment Lower Level
+	  */
+	public BigDecimal getCostAdjustmentLL();
+
+    /** Column name CostAmt */
+    public static final String COLUMNNAME_CostAmt = "CostAmt";
+
+	/** Set Cost Value.
+	  * Value with Cost
+	  */
+	public void setCostAmt (BigDecimal CostAmt);
+
+	/** Get Cost Value.
+	  * Value with Cost
+	  */
+	public BigDecimal getCostAmt();
+
+    /** Column name CostAmtLL */
+    public static final String COLUMNNAME_CostAmtLL = "CostAmtLL";
+
+	/** Set Cost Value LL.
+	  * Value with Cost Lower Level
+	  */
+	public void setCostAmtLL (BigDecimal CostAmtLL);
+
+	/** Get Cost Value LL.
+	  * Value with Cost Lower Level
+	  */
+	public BigDecimal getCostAmtLL();
+
+    /** Column name CostingMethod */
+    public static final String COLUMNNAME_CostingMethod = "CostingMethod";
+
+	/** Set Costing Method.
+	  * Indicates how Costs will be calculated
+	  */
+	public void setCostingMethod (String CostingMethod);
+
+	/** Get Costing Method.
+	  * Indicates how Costs will be calculated
+	  */
+	public String getCostingMethod();
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -164,6 +283,19 @@ public interface I_M_CostDetail
 	  */
 	public BigDecimal getCumulatedAmt();
 
+    /** Column name CumulatedAmtLL */
+    public static final String COLUMNNAME_CumulatedAmtLL = "CumulatedAmtLL";
+
+	/** Set Accumulated Amt LL.
+	  * Total Amount
+	  */
+	public void setCumulatedAmtLL (BigDecimal CumulatedAmtLL);
+
+	/** Get Accumulated Amt LL.
+	  * Total Amount
+	  */
+	public BigDecimal getCumulatedAmtLL();
+
     /** Column name CumulatedQty */
     public static final String COLUMNNAME_CumulatedQty = "CumulatedQty";
 
@@ -190,6 +322,19 @@ public interface I_M_CostDetail
 	  */
 	public BigDecimal getCurrentCostPrice();
 
+    /** Column name CurrentCostPriceLL */
+    public static final String COLUMNNAME_CurrentCostPriceLL = "CurrentCostPriceLL";
+
+	/** Set Current Cost Price LL.
+	  * Current Price Lower Level Is the sum of the costs of the components of this product manufactured for this level.
+	  */
+	public void setCurrentCostPriceLL (BigDecimal CurrentCostPriceLL);
+
+	/** Get Current Cost Price LL.
+	  * Current Price Lower Level Is the sum of the costs of the components of this product manufactured for this level.
+	  */
+	public BigDecimal getCurrentCostPriceLL();
+
     /** Column name CurrentQty */
     public static final String COLUMNNAME_CurrentQty = "CurrentQty";
 
@@ -202,6 +347,19 @@ public interface I_M_CostDetail
 	  * Current Quantity
 	  */
 	public BigDecimal getCurrentQty();
+
+    /** Column name DateAcct */
+    public static final String COLUMNNAME_DateAcct = "DateAcct";
+
+	/** Set Account Date.
+	  * Accounting Date
+	  */
+	public void setDateAcct (Timestamp DateAcct);
+
+	/** Get Account Date.
+	  * Accounting Date
+	  */
+	public Timestamp getDateAcct();
 
     /** Column name DeltaAmt */
     public static final String COLUMNNAME_DeltaAmt = "DeltaAmt";
@@ -254,6 +412,19 @@ public interface I_M_CostDetail
 	  * The record is active in the system
 	  */
 	public boolean isActive();
+
+    /** Column name IsReversal */
+    public static final String COLUMNNAME_IsReversal = "IsReversal";
+
+	/** Set Reversal.
+	  * This is a reversing transaction
+	  */
+	public void setIsReversal (boolean IsReversal);
+
+	/** Get Reversal.
+	  * This is a reversing transaction
+	  */
+	public boolean isReversal();
 
     /** Column name IsSOTrx */
     public static final String COLUMNNAME_IsSOTrx = "IsSOTrx";
@@ -310,6 +481,21 @@ public interface I_M_CostDetail
 	public int getM_CostElement_ID();
 
 	public org.compiere.model.I_M_CostElement getM_CostElement() throws RuntimeException;
+
+    /** Column name M_CostType_ID */
+    public static final String COLUMNNAME_M_CostType_ID = "M_CostType_ID";
+
+	/** Set Cost Type.
+	  * Type of Cost (e.g. Current, Plan, Future)
+	  */
+	public void setM_CostType_ID (int M_CostType_ID);
+
+	/** Get Cost Type.
+	  * Type of Cost (e.g. Current, Plan, Future)
+	  */
+	public int getM_CostType_ID();
+
+	public org.compiere.model.I_M_CostType getM_CostType() throws RuntimeException;
 
     /** Column name M_InOutLine_ID */
     public static final String COLUMNNAME_M_InOutLine_ID = "M_InOutLine_ID";
@@ -386,6 +572,30 @@ public interface I_M_CostDetail
 
 	public org.compiere.model.I_M_ProductionLine getM_ProductionLine() throws RuntimeException;
 
+    /** Column name M_Transaction_ID */
+    public static final String COLUMNNAME_M_Transaction_ID = "M_Transaction_ID";
+
+	/** Set Inventory Transaction	  */
+	public void setM_Transaction_ID (int M_Transaction_ID);
+
+	/** Get Inventory Transaction	  */
+	public int getM_Transaction_ID();
+
+    /** Column name M_Warehouse_ID */
+    public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
+
+	/** Set Warehouse.
+	  * Storage Warehouse and Service Point
+	  */
+	public void setM_Warehouse_ID (int M_Warehouse_ID);
+
+	/** Get Warehouse.
+	  * Storage Warehouse and Service Point
+	  */
+	public int getM_Warehouse_ID();
+
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
+
     /** Column name PP_Cost_Collector_ID */
     public static final String COLUMNNAME_PP_Cost_Collector_ID = "PP_Cost_Collector_ID";
 
@@ -423,6 +633,15 @@ public interface I_M_CostDetail
 	  */
 	public boolean isProcessed();
 
+    /** Column name Processing */
+    public static final String COLUMNNAME_Processing = "Processing";
+
+	/** Set Process Now	  */
+	public void setProcessing (boolean Processing);
+
+	/** Get Process Now	  */
+	public boolean isProcessing();
+
     /** Column name Qty */
     public static final String COLUMNNAME_Qty = "Qty";
 
@@ -435,6 +654,21 @@ public interface I_M_CostDetail
 	  * Quantity
 	  */
 	public BigDecimal getQty();
+
+    /** Column name SeqNo */
+    public static final String COLUMNNAME_SeqNo = "SeqNo";
+
+	/** Set Sequence.
+	  * Method of ordering records;
+ lowest number comes first
+	  */
+	public void setSeqNo (int SeqNo);
+
+	/** Get Sequence.
+	  * Method of ordering records;
+ lowest number comes first
+	  */
+	public int getSeqNo();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

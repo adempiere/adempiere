@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_POS
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_C_POS extends PO implements I_C_POS, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_C_POS (Properties ctx, int C_POS_ID, String trxName)
@@ -97,18 +97,32 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set CashDrawer.
-		@param CashDrawer CashDrawer	  */
-	public void setCashDrawer (String CashDrawer)
+	public org.compiere.model.I_C_BPartner getC_BPartnerCashTrx() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
+			.getPO(getC_BPartnerCashTrx_ID(), get_TrxName());	}
+
+	/** Set Template B.Partner.
+		@param C_BPartnerCashTrx_ID 
+		Business Partner used for creating new Business Partners on the fly
+	  */
+	public void setC_BPartnerCashTrx_ID (int C_BPartnerCashTrx_ID)
 	{
-		set_Value (COLUMNNAME_CashDrawer, CashDrawer);
+		if (C_BPartnerCashTrx_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartnerCashTrx_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartnerCashTrx_ID, Integer.valueOf(C_BPartnerCashTrx_ID));
 	}
 
-	/** Get CashDrawer.
-		@return CashDrawer	  */
-	public String getCashDrawer () 
+	/** Get Template B.Partner.
+		@return Business Partner used for creating new Business Partners on the fly
+	  */
+	public int getC_BPartnerCashTrx_ID () 
 	{
-		return (String)get_Value(COLUMNNAME_CashDrawer);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartnerCashTrx_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	public org.compiere.model.I_C_BankAccount getC_BankAccount() throws RuntimeException
@@ -134,34 +148,6 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 	public int getC_BankAccount_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BankAccount_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.compiere.model.I_C_BPartner getC_BPartnerCashTrx() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
-			.getPO(getC_BPartnerCashTrx_ID(), get_TrxName());	}
-
-	/** Set Template B.Partner.
-		@param C_BPartnerCashTrx_ID 
-		Business Partner used for creating new Business Partners on the fly
-	  */
-	public void setC_BPartnerCashTrx_ID (int C_BPartnerCashTrx_ID)
-	{
-		if (C_BPartnerCashTrx_ID < 1) 
-			set_Value (COLUMNNAME_C_BPartnerCashTrx_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_BPartnerCashTrx_ID, Integer.valueOf(C_BPartnerCashTrx_ID));
-	}
-
-	/** Get Template B.Partner.
-		@return Business Partner used for creating new Business Partners on the fly
-	  */
-	public int getC_BPartnerCashTrx_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartnerCashTrx_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -223,29 +209,6 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set POS Terminal.
-		@param C_POS_ID 
-		Point of Sales Terminal
-	  */
-	public void setC_POS_ID (int C_POS_ID)
-	{
-		if (C_POS_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_POS_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_POS_ID, Integer.valueOf(C_POS_ID));
-	}
-
-	/** Get POS Terminal.
-		@return Point of Sales Terminal
-	  */
-	public int getC_POS_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_POS_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_C_POSKeyLayout getC_POSKeyLayout() throws RuntimeException
     {
 		return (org.compiere.model.I_C_POSKeyLayout)MTable.get(getCtx(), org.compiere.model.I_C_POSKeyLayout.Table_Name)
@@ -272,6 +235,43 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set POS Terminal.
+		@param C_POS_ID 
+		Point of Sales Terminal
+	  */
+	public void setC_POS_ID (int C_POS_ID)
+	{
+		if (C_POS_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_POS_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_POS_ID, Integer.valueOf(C_POS_ID));
+	}
+
+	/** Get POS Terminal.
+		@return Point of Sales Terminal
+	  */
+	public int getC_POS_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_POS_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set CashDrawer.
+		@param CashDrawer CashDrawer	  */
+	public void setCashDrawer (String CashDrawer)
+	{
+		set_Value (COLUMNNAME_CashDrawer, CashDrawer);
+	}
+
+	/** Get CashDrawer.
+		@return CashDrawer	  */
+	public String getCashDrawer () 
+	{
+		return (String)get_Value(COLUMNNAME_CashDrawer);
 	}
 
 	/** Set Description.

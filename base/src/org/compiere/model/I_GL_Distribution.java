@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for GL_Distribution
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_GL_Distribution 
 {
@@ -41,21 +41,6 @@ public interface I_GL_Distribution
 
     /** Load Meta Data */
 
-    /** Column name Account_ID */
-    public static final String COLUMNNAME_Account_ID = "Account_ID";
-
-	/** Set Account.
-	  * Account used
-	  */
-	public void setAccount_ID (int Account_ID);
-
-	/** Get Account.
-	  * Account used
-	  */
-	public int getAccount_ID();
-
-	public org.compiere.model.I_C_ElementValue getAccount() throws RuntimeException;
-
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -63,6 +48,19 @@ public interface I_GL_Distribution
 	  * Client/Tenant for this installation.
 	  */
 	public int getAD_Client_ID();
+
+    /** Column name AD_OrgTrx_ID */
+    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
+
+	/** Set Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
+
+	/** Get Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID();
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -77,18 +75,20 @@ public interface I_GL_Distribution
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name AD_OrgTrx_ID */
-    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
+    /** Column name Account_ID */
+    public static final String COLUMNNAME_Account_ID = "Account_ID";
 
-	/** Set Trx Organization.
-	  * Performing or initiating organization
+	/** Set Account.
+	  * Account used
 	  */
-	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
+	public void setAccount_ID (int Account_ID);
 
-	/** Get Trx Organization.
-	  * Performing or initiating organization
+	/** Get Account.
+	  * Account used
 	  */
-	public int getAD_OrgTrx_ID();
+	public int getAccount_ID();
+
+	public org.compiere.model.I_C_ElementValue getAccount() throws RuntimeException;
 
     /** Column name AnyAcct */
     public static final String COLUMNNAME_AnyAcct = "AnyAcct";
@@ -379,6 +379,21 @@ public interface I_GL_Distribution
 
 	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
 
+    /** Column name C_SalesRegion_ID */
+    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
+
+	/** Set Sales Region.
+	  * Sales coverage region
+	  */
+	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
+
+	/** Get Sales Region.
+	  * Sales coverage region
+	  */
+	public int getC_SalesRegion_ID();
+
+	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -394,21 +409,6 @@ public interface I_GL_Distribution
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_SalesRegion_ID */
-    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
-
-	/** Set Sales Region.
-	  * Sales coverage region
-	  */
-	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
-
-	/** Get Sales Region.
-	  * Sales coverage region
-	  */
-	public int getC_SalesRegion_ID();
-
-	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

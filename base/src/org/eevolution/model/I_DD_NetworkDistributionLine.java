@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for DD_NetworkDistributionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_DD_NetworkDistributionLine 
 {
@@ -79,17 +79,6 @@ public interface I_DD_NetworkDistributionLine
 	  */
 	public int getCreatedBy();
 
-    /** Column name DD_NetworkDistribution_ID */
-    public static final String COLUMNNAME_DD_NetworkDistribution_ID = "DD_NetworkDistribution_ID";
-
-	/** Set Network Distribution	  */
-	public void setDD_NetworkDistribution_ID (int DD_NetworkDistribution_ID);
-
-	/** Get Network Distribution	  */
-	public int getDD_NetworkDistribution_ID();
-
-	public org.eevolution.model.I_DD_NetworkDistribution getDD_NetworkDistribution() throws RuntimeException;
-
     /** Column name DD_NetworkDistributionLine_ID */
     public static final String COLUMNNAME_DD_NetworkDistributionLine_ID = "DD_NetworkDistributionLine_ID";
 
@@ -98,6 +87,21 @@ public interface I_DD_NetworkDistributionLine
 
 	/** Get Network Distribution Line	  */
 	public int getDD_NetworkDistributionLine_ID();
+
+    /** Column name DD_NetworkDistribution_ID */
+    public static final String COLUMNNAME_DD_NetworkDistribution_ID = "DD_NetworkDistribution_ID";
+
+	/** Set Network Distribution.
+	  * Identifies a distribution network, distribution networks are used to establish the source and target of the materials in the supply chain
+	  */
+	public void setDD_NetworkDistribution_ID (int DD_NetworkDistribution_ID);
+
+	/** Get Network Distribution.
+	  * Identifies a distribution network, distribution networks are used to establish the source and target of the materials in the supply chain
+	  */
+	public int getDD_NetworkDistribution_ID();
+
+	public org.eevolution.model.I_DD_NetworkDistribution getDD_NetworkDistribution() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -127,21 +131,6 @@ public interface I_DD_NetworkDistributionLine
 
 	public org.compiere.model.I_M_Shipper getM_Shipper() throws RuntimeException;
 
-    /** Column name M_Warehouse_ID */
-    public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
-
-	/** Set Warehouse.
-	  * Storage Warehouse and Service Point
-	  */
-	public void setM_Warehouse_ID (int M_Warehouse_ID);
-
-	/** Get Warehouse.
-	  * Storage Warehouse and Service Point
-	  */
-	public int getM_Warehouse_ID();
-
-	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
-
     /** Column name M_WarehouseSource_ID */
     public static final String COLUMNNAME_M_WarehouseSource_ID = "M_WarehouseSource_ID";
 
@@ -156,6 +145,21 @@ public interface I_DD_NetworkDistributionLine
 	public int getM_WarehouseSource_ID();
 
 	public org.compiere.model.I_M_Warehouse getM_WarehouseSource() throws RuntimeException;
+
+    /** Column name M_Warehouse_ID */
+    public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
+
+	/** Set Warehouse.
+	  * Storage Warehouse and Service Point
+	  */
+	public void setM_Warehouse_ID (int M_Warehouse_ID);
+
+	/** Get Warehouse.
+	  * Storage Warehouse and Service Point
+	  */
+	public int getM_Warehouse_ID();
+
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
 
     /** Column name Percent */
     public static final String COLUMNNAME_Percent = "Percent";
@@ -183,14 +187,18 @@ public interface I_DD_NetworkDistributionLine
 	  */
 	public int getPriorityNo();
 
-    /** Column name TransfertTime */
-    public static final String COLUMNNAME_TransfertTime = "TransfertTime";
+    /** Column name TransferTime */
+    public static final String COLUMNNAME_TransferTime = "TransferTime";
 
-	/** Set Transfert Time	  */
-	public void setTransfertTime (BigDecimal TransfertTime);
+	/** Set Transfer Time.
+	  * Transfer Time
+	  */
+	public void setTransferTime (BigDecimal TransferTime);
 
-	/** Get Transfert Time	  */
-	public BigDecimal getTransfertTime();
+	/** Get Transfer Time.
+	  * Transfer Time
+	  */
+	public BigDecimal getTransferTime();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

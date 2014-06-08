@@ -59,7 +59,7 @@ public class MigrationFromXML extends SvrProcess {
 			for ( int i = 0; i < migrations.getLength(); i++ )
 			{
 				MMigration migration = MMigration.fromXmlNode(getCtx(), (Element) migrations.item(i), get_TrxName());
-				if ( apply )
+				if ( migration != null && apply )
 					migration.apply();
 			}
 		}

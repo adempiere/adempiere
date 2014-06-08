@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_PaymentTerm
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_C_PaymentTerm 
 {
@@ -130,6 +130,19 @@ public interface I_C_PaymentTerm
 	  */
 	public BigDecimal getDiscount();
 
+    /** Column name Discount2 */
+    public static final String COLUMNNAME_Discount2 = "Discount2";
+
+	/** Set Discount 2 %.
+	  * Discount in percent
+	  */
+	public void setDiscount2 (BigDecimal Discount2);
+
+	/** Get Discount 2 %.
+	  * Discount in percent
+	  */
+	public BigDecimal getDiscount2();
+
     /** Column name DiscountDays */
     public static final String COLUMNNAME_DiscountDays = "DiscountDays";
 
@@ -155,19 +168,6 @@ public interface I_C_PaymentTerm
 	  * Number of days from invoice date to be eligible for discount
 	  */
 	public int getDiscountDays2();
-
-    /** Column name Discount2 */
-    public static final String COLUMNNAME_Discount2 = "Discount2";
-
-	/** Set Discount 2 %.
-	  * Discount in percent
-	  */
-	public void setDiscount2 (BigDecimal Discount2);
-
-	/** Get Discount 2 %.
-	  * Discount in percent
-	  */
-	public BigDecimal getDiscount2();
 
     /** Column name DocumentNote */
     public static final String COLUMNNAME_DocumentNote = "DocumentNote";

@@ -25,6 +25,7 @@ import org.compiere.swing.CComboBox;
 import org.compiere.util.CLogger;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.NamePair;
+import org.compiere.util.ValueNamePair;
 
 /**
  *  Combobox with KeyNamePair/ValueNamePair or Locator.
@@ -33,6 +34,10 @@ import org.compiere.util.NamePair;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: VComboBox.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ * 
+ *  @author 	Michael McKay
+ *  				<li>release/380 add changes to record and compare values similar to
+ *  					ADEMPIERE-72
  */
 public class VComboBox extends CComboBox
 {
@@ -40,6 +45,9 @@ public class VComboBox extends CComboBox
 	 * 
 	 */
 	private static final long serialVersionUID = 7632613004262943867L;
+
+	/** The old Value - for comparison at future points in time.	*/
+	private Object				m_oldValue;
 
 	/**
 	 *  Constructor
@@ -137,17 +145,26 @@ public class VComboBox extends CComboBox
 	 */
 	public Object getValue()
 	{
-		NamePair p = (NamePair)getSelectedItem();
-		if (p == null)
-			return null;
-		//
-		if (p instanceof KeyNamePair)
+		Object p = getSelectedItem();
+		if (p instanceof NamePair)
 		{
-			if (p.getID() == null)	//	-1 return null
+			if (p instanceof KeyNamePair)
+			{
+				if (((KeyNamePair) p).getID() == null)	//	-1 return null
+					return null;
+				return new Integer(((KeyNamePair)p).getID());
+			}
+			else if (p instanceof ValueNamePair)
+			{
+				if (((ValueNamePair) p).getID() == null)	//	-1 return null
+					return null;
+				return new String(((ValueNamePair)p).getID());
+			}
+			else if (((NamePair) p).getID() == null)	//	-1 return null
 				return null;
-			return new Integer(((KeyNamePair)p).getID());
+			return new Integer(((NamePair)p).getID());
 		}
-		return p.getID();
+		return p;
 	}	//	getValue
 
 	/**
@@ -159,6 +176,9 @@ public class VComboBox extends CComboBox
 		if (getSelectedItem() == null)
 			return "";
 		//
+		if (getSelectedItem() instanceof String)
+			return (String) getSelectedItem();
+		
 		NamePair p = (NamePair)getSelectedItem();
 		if (p == null)
 			return "";
@@ -172,5 +192,38 @@ public class VComboBox extends CComboBox
 			element = ((NamePair)element).getName();
 		return super.isMatchingFilter(element);
 	}	
+
+	/**
+	 * Set the old value of the field.  For use in future comparisons.
+	 * The old value must be explicitly set though this call.
+	 * @param m_oldValue
+	 */
+	public void set_oldValue() {
+		this.m_oldValue = getValue();
+	}
+	/**
+	 * Get the old value of the field explicitly set in the past
+	 * @return
+	 */
+	public Object get_oldValue() {
+		return m_oldValue;
+	}
+	/**
+	 * Has the field changed over time?
+	 * @return true if the old value is different than the current.
+	 */
+	public boolean hasChanged() {
+		// Both or either could be null
+		if(getValue() != null)
+			if(m_oldValue != null)
+				return !m_oldValue.equals(getValue());
+			else
+				return true;
+		else  // getValue() is null
+			if(m_oldValue != null)
+				return true;
+			else
+				return false;
+	}
 
 }	//	VComboBox

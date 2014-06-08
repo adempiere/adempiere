@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for AD_Role_Included
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_AD_Role_Included extends PO implements I_AD_Role_Included, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_AD_Role_Included (Properties ctx, int AD_Role_Included_ID, String trxName)

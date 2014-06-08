@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for GL_Journal
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_GL_Journal 
 {
@@ -122,19 +122,6 @@ public interface I_GL_Journal
 
 	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
 
-    /** Column name ControlAmt */
-    public static final String COLUMNNAME_ControlAmt = "ControlAmt";
-
-	/** Set Control Amount.
-	  * If not zero, the Debit amount of the document must be equal this amount
-	  */
-	public void setControlAmt (BigDecimal ControlAmt);
-
-	/** Get Control Amount.
-	  * If not zero, the Debit amount of the document must be equal this amount
-	  */
-	public BigDecimal getControlAmt();
-
     /** Column name C_Period_ID */
     public static final String COLUMNNAME_C_Period_ID = "C_Period_ID";
 
@@ -149,6 +136,19 @@ public interface I_GL_Journal
 	public int getC_Period_ID();
 
 	public org.compiere.model.I_C_Period getC_Period() throws RuntimeException;
+
+    /** Column name ControlAmt */
+    public static final String COLUMNNAME_ControlAmt = "ControlAmt";
+
+	/** Set Control Amount.
+	  * If not zero, the Debit amount of the document must be equal this amount
+	  */
+	public void setControlAmt (BigDecimal ControlAmt);
+
+	/** Get Control Amount.
+	  * If not zero, the Debit amount of the document must be equal this amount
+	  */
+	public BigDecimal getControlAmt();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

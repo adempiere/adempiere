@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_RMALine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_M_RMALine (Properties ctx, int M_RMALine_ID, String trxName)
@@ -40,8 +40,8 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
       super (ctx, M_RMALine_ID, trxName);
       /** if (M_RMALine_ID == 0)
         {
-			setM_RMA_ID (0);
 			setM_RMALine_ID (0);
+			setM_RMA_ID (0);
 			setProcessed (false);
 			setQty (Env.ZERO);
         } */
@@ -208,6 +208,29 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set RMA Line.
+		@param M_RMALine_ID 
+		Return Material Authorization Line
+	  */
+	public void setM_RMALine_ID (int M_RMALine_ID)
+	{
+		if (M_RMALine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_RMALine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_RMALine_ID, Integer.valueOf(M_RMALine_ID));
+	}
+
+	/** Get RMA Line.
+		@return Return Material Authorization Line
+	  */
+	public int getM_RMALine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_RMALine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_M_RMA getM_RMA() throws RuntimeException
     {
 		return (org.compiere.model.I_M_RMA)MTable.get(getCtx(), org.compiere.model.I_M_RMA.Table_Name)
@@ -243,29 +266,6 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
     {
         return new KeyNamePair(get_ID(), String.valueOf(getM_RMA_ID()));
     }
-
-	/** Set RMA Line.
-		@param M_RMALine_ID 
-		Return Material Authorization Line
-	  */
-	public void setM_RMALine_ID (int M_RMALine_ID)
-	{
-		if (M_RMALine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_RMALine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_RMALine_ID, Integer.valueOf(M_RMALine_ID));
-	}
-
-	/** Get RMA Line.
-		@return Return Material Authorization Line
-	  */
-	public int getM_RMALine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_RMALine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	/** Set Processed.
 		@param Processed 

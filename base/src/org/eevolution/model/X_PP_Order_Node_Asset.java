@@ -23,14 +23,14 @@ import org.compiere.model.*;
 
 /** Generated Model for PP_Order_Node_Asset
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_PP_Order_Node_Asset extends PO implements I_PP_Order_Node_Asset, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_PP_Order_Node_Asset (Properties ctx, int PP_Order_Node_Asset_ID, String trxName)

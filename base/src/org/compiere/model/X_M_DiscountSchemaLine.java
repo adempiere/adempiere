@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_DiscountSchemaLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_M_DiscountSchemaLine (Properties ctx, int M_DiscountSchemaLine_ID, String trxName)
@@ -60,8 +60,8 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 			setList_MinAmt (Env.ZERO);
 			setList_Rounding (null);
 // C
-			setM_DiscountSchema_ID (0);
 			setM_DiscountSchemaLine_ID (0);
+			setM_DiscountSchema_ID (0);
 			setSeqNo (0);
 // @SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM M_DiscountSchemaLine WHERE M_DiscountSchema_ID=@M_DiscountSchema_ID@
 			setStd_AddAmt (Env.ZERO);
@@ -549,6 +549,29 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 		return (String)get_Value(COLUMNNAME_List_Rounding);
 	}
 
+	/** Set Discount Pricelist.
+		@param M_DiscountSchemaLine_ID 
+		Line of the pricelist trade discount schema
+	  */
+	public void setM_DiscountSchemaLine_ID (int M_DiscountSchemaLine_ID)
+	{
+		if (M_DiscountSchemaLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_DiscountSchemaLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_DiscountSchemaLine_ID, Integer.valueOf(M_DiscountSchemaLine_ID));
+	}
+
+	/** Get Discount Pricelist.
+		@return Line of the pricelist trade discount schema
+	  */
+	public int getM_DiscountSchemaLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_DiscountSchemaLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_M_DiscountSchema getM_DiscountSchema() throws RuntimeException
     {
 		return (org.compiere.model.I_M_DiscountSchema)MTable.get(getCtx(), org.compiere.model.I_M_DiscountSchema.Table_Name)
@@ -572,29 +595,6 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	public int getM_DiscountSchema_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_DiscountSchema_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Discount Pricelist.
-		@param M_DiscountSchemaLine_ID 
-		Line of the pricelist trade discount schema
-	  */
-	public void setM_DiscountSchemaLine_ID (int M_DiscountSchemaLine_ID)
-	{
-		if (M_DiscountSchemaLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_DiscountSchemaLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_DiscountSchemaLine_ID, Integer.valueOf(M_DiscountSchemaLine_ID));
-	}
-
-	/** Get Discount Pricelist.
-		@return Line of the pricelist trade discount schema
-	  */
-	public int getM_DiscountSchemaLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_DiscountSchemaLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

@@ -966,9 +966,9 @@ public final class FactLine extends X_Fact_Acct
 			AD_Client_ID, AD_Org_ID, getC_AcctSchema_ID(), Account_ID, C_SubAcct_ID,
 			M_Product_ID, C_BPartner_ID, AD_OrgTrx_ID, C_LocFrom_ID, C_LocTo_ID, C_SRegion_ID, 
 			C_Project_ID, C_Campaign_ID, C_Activity_ID, 
-			User1_ID, User2_ID, UserElement1_ID, UserElement2_ID);
+			User1_ID, User2_ID, UserElement1_ID, UserElement2_ID, null);
 		if (revenue != null && revenue.get_ID() == 0)
-			revenue.save();
+			revenue.saveEx();
 		if (revenue == null || revenue.get_ID() == 0)
 		{
 			log.severe ("Revenue_Acct not found");

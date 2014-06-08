@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_PaySelection
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_HR_PaySelection extends PO implements I_HR_PaySelection, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110412L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_HR_PaySelection (Properties ctx, int HR_PaySelection_ID, String trxName)
@@ -146,9 +146,7 @@ public class X_HR_PaySelection extends PO implements I_HR_PaySelection, I_Persis
 	}
 
 	/** Set Payroll Payment Selection ID.
-		@param HR_PaySelection_ID 
-		Payroll Payment Selection
-	  */
+		@param HR_PaySelection_ID Payroll Payment Selection ID	  */
 	public void setHR_PaySelection_ID (int HR_PaySelection_ID)
 	{
 		if (HR_PaySelection_ID < 1) 
@@ -158,8 +156,7 @@ public class X_HR_PaySelection extends PO implements I_HR_PaySelection, I_Persis
 	}
 
 	/** Get Payroll Payment Selection ID.
-		@return Payroll Payment Selection
-	  */
+		@return Payroll Payment Selection ID	  */
 	public int getHR_PaySelection_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_PaySelection_ID);

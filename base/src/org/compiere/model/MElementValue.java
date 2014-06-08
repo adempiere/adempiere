@@ -268,7 +268,7 @@ public class MElementValue extends X_C_ElementValue
 	protected boolean afterDelete (boolean success)
 	{
 		if (success)
-			delete_Tree(MTree_Base.TREETYPE_ElementValue);
+			delete_Tree(getC_Element().getAD_Tree().getTreeType());
 		return success;
 	}	//	afterDelete
 

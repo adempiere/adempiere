@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_Forecast
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_M_Forecast 
 {
@@ -77,21 +77,50 @@ public interface I_M_Forecast
 
 	public org.compiere.model.I_C_Calendar getC_Calendar() throws RuntimeException;
 
-    /** Column name Created */
-    public static final String COLUMNNAME_Created = "Created";
+    /** Column name C_Campaign_ID */
+    public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
 
-	/** Get Created.
-	  * Date this record was created
+	/** Set Campaign.
+	  * Marketing Campaign
 	  */
-	public Timestamp getCreated();
+	public void setC_Campaign_ID (int C_Campaign_ID);
 
-    /** Column name CreatedBy */
-    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
-
-	/** Get Created By.
-	  * User who created this records
+	/** Get Campaign.
+	  * Marketing Campaign
 	  */
-	public int getCreatedBy();
+	public int getC_Campaign_ID();
+
+	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException;
+
+    /** Column name C_ProjectPhase_ID */
+    public static final String COLUMNNAME_C_ProjectPhase_ID = "C_ProjectPhase_ID";
+
+	/** Set Project Phase.
+	  * Phase of a Project
+	  */
+	public void setC_ProjectPhase_ID (int C_ProjectPhase_ID);
+
+	/** Get Project Phase.
+	  * Phase of a Project
+	  */
+	public int getC_ProjectPhase_ID();
+
+	public org.compiere.model.I_C_ProjectPhase getC_ProjectPhase() throws RuntimeException;
+
+    /** Column name C_Project_ID */
+    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
+
+	/** Set Project.
+	  * Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID);
+
+	/** Get Project.
+	  * Financial Project
+	  */
+	public int getC_Project_ID();
+
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
 
     /** Column name C_Year_ID */
     public static final String COLUMNNAME_C_Year_ID = "C_Year_ID";
@@ -107,6 +136,22 @@ public interface I_M_Forecast
 	public int getC_Year_ID();
 
 	public org.compiere.model.I_C_Year getC_Year() throws RuntimeException;
+
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
+
+	/** Get Created.
+	  * Date this record was created
+	  */
+	public Timestamp getCreated();
+
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
+	  */
+	public int getCreatedBy();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -200,6 +245,62 @@ public interface I_M_Forecast
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
+
+    /** Column name PP_Calendar_ID */
+    public static final String COLUMNNAME_PP_Calendar_ID = "PP_Calendar_ID";
+
+	/** Set Operational Calendar.
+	  * Operational Period, allows to define the periods for the Operational Calendar
+	  */
+	public void setPP_Calendar_ID (int PP_Calendar_ID);
+
+	/** Get Operational Calendar.
+	  * Operational Period, allows to define the periods for the Operational Calendar
+	  */
+	public int getPP_Calendar_ID();
+
+	public org.eevolution.model.I_PP_Calendar getPP_Calendar() throws RuntimeException;
+
+    /** Column name PP_PeriodDefinition_ID */
+    public static final String COLUMNNAME_PP_PeriodDefinition_ID = "PP_PeriodDefinition_ID";
+
+	/** Set Period Definition.
+	  * Period Definition, allows to define time cycles for the Operational Calendar
+	  */
+	public void setPP_PeriodDefinition_ID (int PP_PeriodDefinition_ID);
+
+	/** Get Period Definition.
+	  * Period Definition, allows to define time cycles for the Operational Calendar
+	  */
+	public int getPP_PeriodDefinition_ID();
+
+	public org.eevolution.model.I_PP_PeriodDefinition getPP_PeriodDefinition() throws RuntimeException;
+
+    /** Column name Processed */
+    public static final String COLUMNNAME_Processed = "Processed";
+
+	/** Set Processed.
+	  * The document has been processed
+	  */
+	public void setProcessed (boolean Processed);
+
+	/** Get Processed.
+	  * The document has been processed
+	  */
+	public boolean isProcessed();
+
+    /** Column name ProcessedOn */
+    public static final String COLUMNNAME_ProcessedOn = "ProcessedOn";
+
+	/** Set Processed On.
+	  * The date+time (expressed in decimal format) when the document has been processed
+	  */
+	public void setProcessedOn (BigDecimal ProcessedOn);
+
+	/** Get Processed On.
+	  * The date+time (expressed in decimal format) when the document has been processed
+	  */
+	public BigDecimal getProcessedOn();
 
     /** Column name Processing */
     public static final String COLUMNNAME_Processing = "Processing";

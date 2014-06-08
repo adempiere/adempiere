@@ -139,7 +139,7 @@ public class MMovementManager
   			docType.setGL_Category_ID(gl_catId);
   			docType.setDocBaseType(MDocType.DOCBASETYPE_MaterialMovement);
   			docType.setIsInTransit(true);
-  			docType.save();
+  			docType.saveEx();
   			docType_Id = docType.getC_DocType_ID();
   		}
   		else if (docTypesMM.length> 1)
@@ -900,11 +900,11 @@ public class MMovementManager
 		moveConfirm.setDocStatus(DocumentEngine.STATUS_Completed);
 		moveConfirm.setDocAction(DocumentEngine.ACTION_Close);
 		moveConfirm.completeIt();
-		moveConfirm.save();
+		moveConfirm.saveEx();
 		
 		MMovement movement = new MMovement(ctx, movementId, trxName);
 		movement.setIsApproved(true);
-		movement.save();
+		movement.saveEx();
 	}
 	
 	/**

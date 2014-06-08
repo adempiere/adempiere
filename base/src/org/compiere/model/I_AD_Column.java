@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Column
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_AD_Column 
 {
@@ -40,6 +40,17 @@ public interface I_AD_Column
     BigDecimal accessLevel = BigDecimal.valueOf(4);
 
     /** Load Meta Data */
+
+    /** Column name AD_Chart_ID */
+    public static final String COLUMNNAME_AD_Chart_ID = "AD_Chart_ID";
+
+	/** Set Chart	  */
+	public void setAD_Chart_ID (int AD_Chart_ID);
+
+	/** Get Chart	  */
+	public int getAD_Chart_ID();
+
+	public org.compiere.model.I_AD_Chart getAD_Chart() throws RuntimeException;
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -432,6 +443,19 @@ public interface I_AD_Column
 	  */
 	public boolean isParent();
 
+    /** Column name IsRange */
+    public static final String COLUMNNAME_IsRange = "IsRange";
+
+	/** Set Range.
+	  * The parameter is a range of values
+	  */
+	public void setIsRange (boolean IsRange);
+
+	/** Get Range.
+	  * The parameter is a range of values
+	  */
+	public boolean isRange();
+
     /** Column name IsSelectionColumn */
     public static final String COLUMNNAME_IsSelectionColumn = "IsSelectionColumn";
 
@@ -550,6 +574,21 @@ public interface I_AD_Column
 	  */
 	public int getUpdatedBy();
 
+    /** Column name VFormat */
+    public static final String COLUMNNAME_VFormat = "VFormat";
+
+	/** Set Value Format.
+	  * Format of the value;
+ Can contain fixed format elements, Variables: "_lLoOaAcCa09"
+	  */
+	public void setVFormat (String VFormat);
+
+	/** Get Value Format.
+	  * Format of the value;
+ Can contain fixed format elements, Variables: "_lLoOaAcCa09"
+	  */
+	public String getVFormat();
+
     /** Column name ValueMax */
     public static final String COLUMNNAME_ValueMax = "ValueMax";
 
@@ -588,19 +627,4 @@ public interface I_AD_Column
 	  * Version of the table definition
 	  */
 	public BigDecimal getVersion();
-
-    /** Column name VFormat */
-    public static final String COLUMNNAME_VFormat = "VFormat";
-
-	/** Set Value Format.
-	  * Format of the value;
- Can contain fixed format elements, Variables: "_lLoOaAcCa09"
-	  */
-	public void setVFormat (String VFormat);
-
-	/** Get Value Format.
-	  * Format of the value;
- Can contain fixed format elements, Variables: "_lLoOaAcCa09"
-	  */
-	public String getVFormat();
 }

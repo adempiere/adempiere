@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Column
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_AD_Column extends PO implements I_AD_Column, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_AD_Column (Properties ctx, int AD_Column_ID, String trxName)
@@ -57,6 +57,7 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 			setIsKey (false);
 			setIsMandatory (false);
 			setIsParent (false);
+			setIsRange (false);
 			setIsSelectionColumn (false);
 			setIsTranslated (false);
 			setIsUpdateable (true);
@@ -93,6 +94,31 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	public org.compiere.model.I_AD_Chart getAD_Chart() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Chart)MTable.get(getCtx(), org.compiere.model.I_AD_Chart.Table_Name)
+			.getPO(getAD_Chart_ID(), get_TrxName());	}
+
+	/** Set Chart.
+		@param AD_Chart_ID Chart	  */
+	public void setAD_Chart_ID (int AD_Chart_ID)
+	{
+		if (AD_Chart_ID < 1) 
+			set_Value (COLUMNNAME_AD_Chart_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Chart_ID, Integer.valueOf(AD_Chart_ID));
+	}
+
+	/** Get Chart.
+		@return Chart	  */
+	public int getAD_Chart_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Chart_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** Set Column.
 		@param AD_Column_ID 
@@ -661,6 +687,30 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 		return false;
 	}
 
+	/** Set Range.
+		@param IsRange 
+		The parameter is a range of values
+	  */
+	public void setIsRange (boolean IsRange)
+	{
+		set_Value (COLUMNNAME_IsRange, Boolean.valueOf(IsRange));
+	}
+
+	/** Get Range.
+		@return The parameter is a range of values
+	  */
+	public boolean isRange () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsRange);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Selection Column.
 		@param IsSelectionColumn 
 		Is this column used for finding rows in windows
@@ -818,6 +868,23 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Value Format.
+		@param VFormat 
+		Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
+	  */
+	public void setVFormat (String VFormat)
+	{
+		set_Value (COLUMNNAME_VFormat, VFormat);
+	}
+
+	/** Get Value Format.
+		@return Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
+	  */
+	public String getVFormat () 
+	{
+		return (String)get_Value(COLUMNNAME_VFormat);
+	}
+
 	/** Set Max. Value.
 		@param ValueMax 
 		Maximum Value for a field
@@ -870,22 +937,5 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
-	}
-
-	/** Set Value Format.
-		@param VFormat 
-		Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
-	  */
-	public void setVFormat (String VFormat)
-	{
-		set_Value (COLUMNNAME_VFormat, VFormat);
-	}
-
-	/** Get Value Format.
-		@return Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
-	  */
-	public String getVFormat () 
-	{
-		return (String)get_Value(COLUMNNAME_VFormat);
 	}
 }

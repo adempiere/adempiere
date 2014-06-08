@@ -238,7 +238,7 @@ public class MWFProcess extends X_AD_WF_Process
 					}
 					if (!activities[i].isProcessed())
 						activities[i].setProcessed(true);
-					activities[i].save();
+					activities[i].saveEx();
 				}
 			}	//	closed
 		}
@@ -286,7 +286,7 @@ public class MWFProcess extends X_AD_WF_Process
 			{
 				//	eliminate from active processed
 				activity.setProcessed(true);
-				activity.save();
+				activity.saveEx();
 				//
 				if (closedState == null)
 					closedState = activityWFState;
@@ -354,7 +354,7 @@ public class MWFProcess extends X_AD_WF_Process
 		}
 		//	eliminate from active processed
 		last.setProcessed(true);
-		last.save();
+		last.saveEx();
 
 		//	Start next activity
 		String split = last.getNode().getSplitElement();

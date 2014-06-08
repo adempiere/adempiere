@@ -18,8 +18,10 @@ package org.compiere.model;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.Properties;
 
+import org.adempiere.engine.IDocumentLine;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -34,7 +36,7 @@ import org.compiere.util.Msg;
  * 			<li>BF [ 1817757 ] Error on saving MInventoryLine in a custom environment
  * 			<li>BF [ 1722982 ] Error with inventory when you enter count qty in negative
  */
-public class MInventoryLine extends X_M_InventoryLine 
+public class MInventoryLine extends X_M_InventoryLine implements IDocumentLine
 {
 	/**
 	 * 
@@ -254,7 +256,7 @@ public class MInventoryLine extends X_M_InventoryLine
 			if (getM_AttributeSetInstance_ID() == 0)
 			{
 				MProduct product = MProduct.get(getCtx(), getM_Product_ID());
-				if (product != null && product.isASIMandatory(isSOTrx()))
+				if (product != null && product.isASIMandatory(isSOTrx(), getAD_Org_ID()))
 				{
 					log.saveError("FillMandatory", Msg.getElement(getCtx(), COLUMNNAME_M_AttributeSetInstance_ID));
 					return false;
@@ -409,5 +411,37 @@ public class MInventoryLine extends X_M_InventoryLine
 	 */
 	public boolean isSOTrx() {
 		return getMovementQty().signum() < 0;
+	}
+
+	public BigDecimal getPriceActual() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Timestamp getDateAcct() {
+		return getParent().getMovementDate();
+	}
+	
+
+	public IDocumentLine getReversalDocumentLine() {
+		return (IDocumentLine) getReversalLine();
+	}
+
+	@Override
+	public int getM_AttributeSetInstanceTo_ID() {
+		// TODO Auto-generated method stub
+		return -1;
+	}
+
+	@Override
+	public int getM_LocatorTo_ID() {
+		// TODO Auto-generated method stub
+		return -1;
+	}
+	
+	@Override
+	public int getC_DocType_ID() {
+		return getParent().getC_DocType_ID();
 	}
 }	//	MInventoryLine

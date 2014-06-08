@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Rule
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_AD_Rule 
 {
@@ -40,19 +40,6 @@ public interface I_AD_Rule
     BigDecimal accessLevel = BigDecimal.valueOf(4);
 
     /** Load Meta Data */
-
-    /** Column name AccessLevel */
-    public static final String COLUMNNAME_AccessLevel = "AccessLevel";
-
-	/** Set Data Access Level.
-	  * Access Level required
-	  */
-	public void setAccessLevel (String AccessLevel);
-
-	/** Get Data Access Level.
-	  * Access Level required
-	  */
-	public String getAccessLevel();
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -83,6 +70,19 @@ public interface I_AD_Rule
 
 	/** Get Rule	  */
 	public int getAD_Rule_ID();
+
+    /** Column name AccessLevel */
+    public static final String COLUMNNAME_AccessLevel = "AccessLevel";
+
+	/** Set Data Access Level.
+	  * Access Level required
+	  */
+	public void setAccessLevel (String AccessLevel);
+
+	/** Get Data Access Level.
+	  * Access Level required
+	  */
+	public String getAccessLevel();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

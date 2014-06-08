@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_ContainerTTable
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_CM_ContainerTTable extends PO implements I_CM_ContainerTTable, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_CM_ContainerTTable (Properties ctx, int CM_ContainerTTable_ID, String trxName)
@@ -38,8 +38,8 @@ public class X_CM_ContainerTTable extends PO implements I_CM_ContainerTTable, I_
       super (ctx, CM_ContainerTTable_ID, trxName);
       /** if (CM_ContainerTTable_ID == 0)
         {
-			setCM_Container_ID (0);
 			setCM_ContainerTTable_ID (0);
+			setCM_Container_ID (0);
 			setCM_TemplateTable_ID (0);
 			setName (null);
         } */
@@ -73,6 +73,29 @@ public class X_CM_ContainerTTable extends PO implements I_CM_ContainerTTable, I_
       return sb.toString();
     }
 
+	/** Set Container T.Table.
+		@param CM_ContainerTTable_ID 
+		Container Template Table
+	  */
+	public void setCM_ContainerTTable_ID (int CM_ContainerTTable_ID)
+	{
+		if (CM_ContainerTTable_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_ContainerTTable_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_ContainerTTable_ID, Integer.valueOf(CM_ContainerTTable_ID));
+	}
+
+	/** Get Container T.Table.
+		@return Container Template Table
+	  */
+	public int getCM_ContainerTTable_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CM_ContainerTTable_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_CM_Container getCM_Container() throws RuntimeException
     {
 		return (org.compiere.model.I_CM_Container)MTable.get(getCtx(), org.compiere.model.I_CM_Container.Table_Name)
@@ -96,29 +119,6 @@ public class X_CM_ContainerTTable extends PO implements I_CM_ContainerTTable, I_
 	public int getCM_Container_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_CM_Container_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Container T.Table.
-		@param CM_ContainerTTable_ID 
-		Container Template Table
-	  */
-	public void setCM_ContainerTTable_ID (int CM_ContainerTTable_ID)
-	{
-		if (CM_ContainerTTable_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_CM_ContainerTTable_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_CM_ContainerTTable_ID, Integer.valueOf(CM_ContainerTTable_ID));
-	}
-
-	/** Get Container T.Table.
-		@return Container Template Table
-	  */
-	public int getCM_ContainerTTable_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_CM_ContainerTTable_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

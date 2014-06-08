@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for T_Report
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_T_Report extends PO implements I_T_Report, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_T_Report (Properties ctx, int T_Report_ID, String trxName)
@@ -101,6 +101,30 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Account Type.
+		@param AccountType 
+		Indicates the type of account
+	  */
+	public void setAccountType (boolean AccountType)
+	{
+		set_Value (COLUMNNAME_AccountType, Boolean.valueOf(AccountType));
+	}
+
+	/** Get Account Type.
+		@return Indicates the type of account
+	  */
+	public boolean isAccountType () 
+	{
+		Object oo = get_Value(COLUMNNAME_AccountType);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Col_0.
@@ -605,5 +629,84 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Tab Level.
+		@param TabLevel 
+		Hierarchical Tab Level (0 = top)
+	  */
+	public void setTabLevel (int TabLevel)
+	{
+		set_Value (COLUMNNAME_TabLevel, Integer.valueOf(TabLevel));
+	}
+
+	/** Get Tab Level.
+		@return Hierarchical Tab Level (0 = top)
+	  */
+	public int getTabLevel () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_TabLevel);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set ax_case.
+		@param ax_case ax_case	  */
+	public void setax_case (boolean ax_case)
+	{
+		set_Value (COLUMNNAME_ax_case, Boolean.valueOf(ax_case));
+	}
+
+	/** Get ax_case.
+		@return ax_case	  */
+	public boolean isax_case () 
+	{
+		Object oo = get_Value(COLUMNNAME_ax_case);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set fixedpercentage.
+		@param fixedpercentage fixedpercentage	  */
+	public void setfixedpercentage (BigDecimal fixedpercentage)
+	{
+		set_Value (COLUMNNAME_fixedpercentage, fixedpercentage);
+	}
+
+	/** Get fixedpercentage.
+		@return fixedpercentage	  */
+	public BigDecimal getfixedpercentage () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_fixedpercentage);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set reportlinestyle.
+		@param reportlinestyle reportlinestyle	  */
+	public void setreportlinestyle (boolean reportlinestyle)
+	{
+		set_Value (COLUMNNAME_reportlinestyle, Boolean.valueOf(reportlinestyle));
+	}
+
+	/** Get reportlinestyle.
+		@return reportlinestyle	  */
+	public boolean isreportlinestyle () 
+	{
+		Object oo = get_Value(COLUMNNAME_reportlinestyle);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 }

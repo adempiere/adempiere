@@ -17,20 +17,22 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
+import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_ReportLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_PA_ReportLine (Properties ctx, int PA_ReportLine_ID, String trxName)
@@ -42,8 +44,8 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
 // Y
 			setLineType (null);
 			setName (null);
-			setPA_ReportLine_ID (0);
 			setPA_ReportLineSet_ID (0);
+			setPA_ReportLine_ID (0);
 			setSeqNo (0);
 // @SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM PA_ReportLine WHERE PA_ReportLineSet_ID=@PA_ReportLineSet_ID@
         } */
@@ -177,6 +179,10 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
 	public static final String LINETYPE_SegmentValue = "S";
 	/** Calculation = C */
 	public static final String LINETYPE_Calculation = "C";
+	/** Tabbed Text = T */
+	public static final String LINETYPE_TabbedText = "T";
+	/** Customized Line = L */
+	public static final String LINETYPE_CustomizedLine = "L";
 	/** Set Line Type.
 		@param LineType Line Type	  */
 	public void setLineType (String LineType)
@@ -333,26 +339,6 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
 		return (String)get_Value(COLUMNNAME_PAPeriodType);
 	}
 
-	/** Set Report Line.
-		@param PA_ReportLine_ID Report Line	  */
-	public void setPA_ReportLine_ID (int PA_ReportLine_ID)
-	{
-		if (PA_ReportLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_PA_ReportLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_PA_ReportLine_ID, Integer.valueOf(PA_ReportLine_ID));
-	}
-
-	/** Get Report Line.
-		@return Report Line	  */
-	public int getPA_ReportLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ReportLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_PA_ReportLineSet getPA_ReportLineSet() throws RuntimeException
     {
 		return (org.compiere.model.I_PA_ReportLineSet)MTable.get(getCtx(), org.compiere.model.I_PA_ReportLineSet.Table_Name)
@@ -373,6 +359,26 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
 	public int getPA_ReportLineSet_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ReportLineSet_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Report Line.
+		@param PA_ReportLine_ID Report Line	  */
+	public void setPA_ReportLine_ID (int PA_ReportLine_ID)
+	{
+		if (PA_ReportLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_ReportLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_ReportLine_ID, Integer.valueOf(PA_ReportLine_ID));
+	}
+
+	/** Get Report Line.
+		@return Report Line	  */
+	public int getPA_ReportLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ReportLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -426,5 +432,71 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Tab Level.
+		@param TabLevel 
+		Hierarchical Tab Level (0 = top)
+	  */
+	public void setTabLevel (int TabLevel)
+	{
+		set_Value (COLUMNNAME_TabLevel, Integer.valueOf(TabLevel));
+	}
+
+	/** Get Tab Level.
+		@return Hierarchical Tab Level (0 = top)
+	  */
+	public int getTabLevel () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_TabLevel);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set fixedpercentage.
+		@param fixedpercentage fixedpercentage	  */
+	public void setfixedpercentage (BigDecimal fixedpercentage)
+	{
+		set_Value (COLUMNNAME_fixedpercentage, fixedpercentage);
+	}
+
+	/** Get fixedpercentage.
+		@return fixedpercentage	  */
+	public BigDecimal getfixedpercentage () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_fixedpercentage);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** reportlinestyle AD_Reference_ID=53564 */
+	public static final int REPORTLINESTYLE_AD_Reference_ID=53564;
+	/** Blank Line = S */
+	public static final String REPORTLINESTYLE_BlankLine = "S";
+	/** Underlined Descriptions = D */
+	public static final String REPORTLINESTYLE_UnderlinedDescriptions = "D";
+	/** Double Line for Total = Z */
+	public static final String REPORTLINESTYLE_DoubleLineForTotal = "Z";
+	/** Line = L */
+	public static final String REPORTLINESTYLE_Line = "L";
+	/** Total Line = X */
+	public static final String REPORTLINESTYLE_TotalLine = "X";
+	/** Centered Title = T */
+	public static final String REPORTLINESTYLE_CenteredTitle = "T";
+	/** Set reportlinestyle.
+		@param reportlinestyle reportlinestyle	  */
+	public void setreportlinestyle (String reportlinestyle)
+	{
+
+		set_Value (COLUMNNAME_reportlinestyle, reportlinestyle);
+	}
+
+	/** Get reportlinestyle.
+		@return reportlinestyle	  */
+	public String getreportlinestyle () 
+	{
+		return (String)get_Value(COLUMNNAME_reportlinestyle);
 	}
 }

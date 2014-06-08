@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.engine.CostEngineFactory;
+import org.adempiere.engine.IDocumentLine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -51,7 +53,7 @@ import org.compiere.util.Env;
  * 			<li> FR [ 2520591 ] Support multiples calendar for Org 
  *			@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962 
  */
-public class MMatchPO extends X_M_MatchPO
+public class MMatchPO extends X_M_MatchPO implements IDocumentLine
 {
 	/**
 	 * 
@@ -622,12 +624,13 @@ public class MMatchPO extends X_M_MatchPO
 		if (newRecord || m_isInOutLineChange)
 		{	
 			// Elaine 2008/6/20	
-			String err = createMatchPOCostDetail();
+			/*String err = createMatchPOCostDetail();
 			if(err != null && err.length() > 0) 
 			{
 				s_log.warning(err);
 				return false;
-			}
+			}*/
+			
 		}
 		
 		return true;
@@ -645,6 +648,12 @@ public class MMatchPO extends X_M_MatchPO
 	{
 		//	Purchase Order Delivered/Invoiced
 		//	(Reserved in VMatch and MInOut.completeIt)
+		MInOutLine inout_line = (MInOutLine) getM_InOutLine();
+		for (MTransaction trx: MTransaction.getByInOutLine(inout_line))
+		{
+			CostEngineFactory.getCostEngine(getAD_Client_ID()).createCostDetail(trx,this);
+		}
+		
 		if (success && getC_OrderLine_ID() != 0)
 		{
 			MOrderLine orderLine = getOrderLine();
@@ -682,39 +691,16 @@ public class MMatchPO extends X_M_MatchPO
 
 	
 	/**
-	 * 	Get the later Date Acct from invoice or shipment
+	 * 	Get the Date Acct from shipment
 	 *	@return date or null
 	 */
 	public Timestamp getNewerDateAcct()
 	{
-		Timestamp invoiceDate = null;
-		Timestamp shipDate = null;
-		
-		if (getC_InvoiceLine_ID() != 0)
-		{
-			String sql = "SELECT i.DateAcct "
-				+ "FROM C_InvoiceLine il"
-				+ " INNER JOIN C_Invoice i ON (i.C_Invoice_ID=il.C_Invoice_ID) "
-				+ "WHERE C_InvoiceLine_ID=?";
-			invoiceDate = DB.getSQLValueTS(null, sql, getC_InvoiceLine_ID());
-		}
-		//
-		if (getM_InOutLine_ID() != 0)
-		{
-			String sql = "SELECT io.DateAcct "
-				+ "FROM M_InOutLine iol"
-				+ " INNER JOIN M_InOut io ON (io.M_InOut_ID=iol.M_InOut_ID) "
-				+ "WHERE iol.M_InOutLine_ID=?";
-			shipDate = DB.getSQLValueTS(null, sql, getM_InOutLine_ID());
-		}
-		//
-		//	Assuming that order date is always earlier
-		if (invoiceDate == null)
-			return shipDate;
-		if (shipDate == null)
-			return invoiceDate;
-		if (invoiceDate.after(shipDate))
-			return invoiceDate;
+		String sql = "SELECT io.DateAcct "
+			+ "FROM M_InOutLine iol"
+			+ " INNER JOIN M_InOut io ON (io.M_InOut_ID=iol.M_InOut_ID) "
+			+ "WHERE iol.M_InOutLine_ID=?";
+		Timestamp shipDate = DB.getSQLValueTS(null, sql, getM_InOutLine_ID());
 		return shipDate;
 	}	//	getNewerDateAcct
 
@@ -750,7 +736,7 @@ public class MMatchPO extends X_M_MatchPO
 		if (success && getC_OrderLine_ID() != 0)
 		{
 			// AZ Goodwill
-			deleteMatchPOCostDetail();
+			//deleteMatchPOCostDetail();
 			// end AZ
 			
 			MOrderLine orderLine = new MOrderLine (getCtx(), getC_OrderLine_ID(), get_TrxName());
@@ -854,7 +840,7 @@ public class MMatchPO extends X_M_MatchPO
 	}	//	consolidate
 	
 	// Elaine 2008/6/20	
-	private String createMatchPOCostDetail()
+	/*private String createMatchPOCostDetail()
 	{
 		if (getM_InOutLine_ID() != 0)
 		{
@@ -955,9 +941,10 @@ public class MMatchPO extends X_M_MatchPO
 			}
 		}
 		return "";
-	}
+	}*/
 	
 	//AZ Goodwill
+	/*
 	private String deleteMatchPOCostDetail()
 	{
 		// Get Account Schemas to delete MCostDetail
@@ -1002,6 +989,60 @@ public class MMatchPO extends X_M_MatchPO
 		}
 		
 		return "";
+	}*/
+	
+	@Override
+	public int getM_Locator_ID() {
+	 return -1;
+	}
+
+	@Override
+	public BigDecimal getMovementQty() {
+		return getQty();
+	}
+
+	@Override
+	public BigDecimal getPriceActual() {
+		MOrderLine ol = getOrderLine();
+		return MConversionRate.convertBase(getCtx(), getOrderLine().getPriceActual(), ol.getParent().getC_Currency_ID(),
+				 ol.getParent().getDateAcct(), ol.getParent().getC_ConversionType_ID(),
+				getAD_Client_ID(), getAD_Org_ID());
+	}
+
+	@Override
+	public int getReversalLine_ID() {
+			return -1;
+	}
+
+	@Override
+	public boolean isSOTrx() {
+		return false;
+	}
+
+	@Override
+	public void setM_Locator_ID(int M_Locator_ID) {
+		;		
 	}
 	
+
+	public IDocumentLine getReversalDocumentLine() {
+		return null;
+	}
+
+	@Override
+	public int getM_AttributeSetInstanceTo_ID() {
+		// TODO Auto-generated method stub
+		return -1;
+	}
+
+	@Override
+	public int getM_LocatorTo_ID() {
+		// TODO Auto-generated method stub
+		return -1;
+	}
+	
+	@Override
+	public int getC_DocType_ID() {
+		return -1;
+	}
 }	//	MMatchPO

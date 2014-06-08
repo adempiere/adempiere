@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Rule
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_AD_Rule extends PO implements I_AD_Rule, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_AD_Rule (Properties ctx, int AD_Rule_ID, String trxName)
@@ -76,6 +76,26 @@ public class X_AD_Rule extends PO implements I_AD_Rule, I_Persistent
       return sb.toString();
     }
 
+	/** Set Rule.
+		@param AD_Rule_ID Rule	  */
+	public void setAD_Rule_ID (int AD_Rule_ID)
+	{
+		if (AD_Rule_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Rule_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Rule_ID, Integer.valueOf(AD_Rule_ID));
+	}
+
+	/** Get Rule.
+		@return Rule	  */
+	public int getAD_Rule_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Rule_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** AccessLevel AD_Reference_ID=5 */
 	public static final int ACCESSLEVEL_AD_Reference_ID=5;
 	/** Organization = 1 */
@@ -106,26 +126,6 @@ public class X_AD_Rule extends PO implements I_AD_Rule, I_Persistent
 	public String getAccessLevel () 
 	{
 		return (String)get_Value(COLUMNNAME_AccessLevel);
-	}
-
-	/** Set Rule.
-		@param AD_Rule_ID Rule	  */
-	public void setAD_Rule_ID (int AD_Rule_ID)
-	{
-		if (AD_Rule_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_Rule_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_Rule_ID, Integer.valueOf(AD_Rule_ID));
-	}
-
-	/** Get Rule.
-		@return Rule	  */
-	public int getAD_Rule_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Rule_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set Description.
@@ -181,6 +181,8 @@ public class X_AD_Rule extends PO implements I_AD_Rule, I_Persistent
 	public static final String EVENTTYPE_HumanResourcePayroll = "H";
 	/** Measure for Performance Analysis = M */
 	public static final String EVENTTYPE_MeasureForPerformanceAnalysis = "M";
+	/** GL Reconciliation = R */
+	public static final String EVENTTYPE_GLReconciliation = "R";
 	/** Set Event Type.
 		@param EventType 
 		Type of Event

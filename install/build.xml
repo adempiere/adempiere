@@ -150,6 +150,14 @@
 	<mkdir dir="${build.dir}/Adempiere/packages/liberoMFG"/>
 	<mkdir dir="${build.dir}/Adempiere/packages/liberoMFG/lib"/>
   	<copy file="../packages/liberoMFG.jar" tofile="${build.dir}/Adempiere/packages/liberoMFG/lib/liberoMFG.jar"/>
+	
+	<mkdir dir="${build.dir}/Adempiere/packages/liberoCashflow"/>
+	<mkdir dir="${build.dir}/Adempiere/packages/liberoCashflow/lib"/>
+  	<copy file="../packages/liberoCashflow.jar" tofile="${build.dir}/Adempiere/packages/liberoCashflow/lib/liberoCashflow.jar"/>
+  	
+  	<mkdir dir="${build.dir}/Adempiere/packages/liberoWM"/>
+  	<mkdir dir="${build.dir}/Adempiere/packages/liberoWM/lib"/>
+  	<copy file="../packages/liberoWM.jar" tofile="${build.dir}/Adempiere/packages/liberoWM/lib/liberoWM.jar"/>
   	
 	<mkdir dir="${build.dir}/Adempiere/zkpackages/liberoMFG"/>
 	<mkdir dir="${build.dir}/Adempiere/zkpackages/liberoMFG/lib"/>
@@ -267,7 +275,8 @@
 	  	compression="gzip" >
   		<tarfileset dir="${build.dir}" includes="Adempiere/**" excludes="Adempiere/**/*.sh" >
   		    </tarfileset>
-  		<tarfileset dir="${build.dir}" includes="Adempiere/**/*.sh" filemode="755">
+  		<!-- <tarfileset dir="${build.dir}" includes="Adempiere/**/*.sh" filemode="755"> -->
+  		<tarfileset dir="${build.dir}" includes="Adempiere/**/*.sh">
   		   </tarfileset>
 	</tar>
 

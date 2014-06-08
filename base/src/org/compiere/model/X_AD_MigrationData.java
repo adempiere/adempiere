@@ -17,21 +17,19 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 
 /** Generated Model for AD_MigrationData
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_AD_MigrationData extends PO implements I_AD_MigrationData, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_AD_MigrationData (Properties ctx, int AD_MigrationData_ID, String trxName)
@@ -73,21 +71,10 @@ public class X_AD_MigrationData extends PO implements I_AD_MigrationData, I_Pers
       return sb.toString();
     }
 
-	public I_AD_Column getAD_Column() throws RuntimeException 
+	public org.compiere.model.I_AD_Column getAD_Column() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Column.Table_Name);
-        I_AD_Column result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Column)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Column_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.compiere.model.I_AD_Column)MTable.get(getCtx(), org.compiere.model.I_AD_Column.Table_Name)
+			.getPO(getAD_Column_ID(), get_TrxName());	}
 
 	/** Set Column.
 		@param AD_Column_ID 
@@ -132,21 +119,10 @@ public class X_AD_MigrationData extends PO implements I_AD_MigrationData, I_Pers
 		return ii.intValue();
 	}
 
-	public I_AD_MigrationStep getAD_MigrationStep() throws RuntimeException 
+	public org.compiere.model.I_AD_MigrationStep getAD_MigrationStep() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_MigrationStep.Table_Name);
-        I_AD_MigrationStep result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_MigrationStep)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_MigrationStep_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.compiere.model.I_AD_MigrationStep)MTable.get(getCtx(), org.compiere.model.I_AD_MigrationStep.Table_Name)
+			.getPO(getAD_MigrationStep_ID(), get_TrxName());	}
 
 	/** Set Migration step.
 		@param AD_MigrationStep_ID 

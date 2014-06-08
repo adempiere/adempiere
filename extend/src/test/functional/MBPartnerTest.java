@@ -539,11 +539,11 @@ public class MBPartnerTest extends AdempiereTestCase {
 	
 	        m_group.setPriorityBase(MBPGroup.PRIORITYBASE_Same);
 	
-	        m_group.save();
+	        m_group.saveEx();
 	
 			m_partner.setBPGroup(m_group);
 			// Reset Created, Updated to current system time ( teo_sarca )
-			m_partner.save();
+			m_partner.saveEx();
 	 
 			commit();
     	} catch(Exception e) {

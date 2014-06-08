@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for AD_WorkflowProcessorLog
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_AD_WorkflowProcessorLog extends PO implements I_AD_WorkflowProcessorLog, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_AD_WorkflowProcessorLog (Properties ctx, int AD_WorkflowProcessorLog_ID, String trxName)
@@ -37,8 +37,8 @@ public class X_AD_WorkflowProcessorLog extends PO implements I_AD_WorkflowProces
       super (ctx, AD_WorkflowProcessorLog_ID, trxName);
       /** if (AD_WorkflowProcessorLog_ID == 0)
         {
-			setAD_WorkflowProcessor_ID (0);
 			setAD_WorkflowProcessorLog_ID (0);
+			setAD_WorkflowProcessor_ID (0);
 			setIsError (false);
         } */
     }
@@ -71,6 +71,29 @@ public class X_AD_WorkflowProcessorLog extends PO implements I_AD_WorkflowProces
       return sb.toString();
     }
 
+	/** Set Workflow Processorl Log.
+		@param AD_WorkflowProcessorLog_ID 
+		Result of the execution of the Workflow Processor
+	  */
+	public void setAD_WorkflowProcessorLog_ID (int AD_WorkflowProcessorLog_ID)
+	{
+		if (AD_WorkflowProcessorLog_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_WorkflowProcessorLog_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_WorkflowProcessorLog_ID, Integer.valueOf(AD_WorkflowProcessorLog_ID));
+	}
+
+	/** Get Workflow Processorl Log.
+		@return Result of the execution of the Workflow Processor
+	  */
+	public int getAD_WorkflowProcessorLog_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_WorkflowProcessorLog_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_AD_WorkflowProcessor getAD_WorkflowProcessor() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_WorkflowProcessor)MTable.get(getCtx(), org.compiere.model.I_AD_WorkflowProcessor.Table_Name)
@@ -94,29 +117,6 @@ public class X_AD_WorkflowProcessorLog extends PO implements I_AD_WorkflowProces
 	public int getAD_WorkflowProcessor_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_WorkflowProcessor_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Workflow Processorl Log.
-		@param AD_WorkflowProcessorLog_ID 
-		Result of the execution of the Workflow Processor
-	  */
-	public void setAD_WorkflowProcessorLog_ID (int AD_WorkflowProcessorLog_ID)
-	{
-		if (AD_WorkflowProcessorLog_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_WorkflowProcessorLog_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_WorkflowProcessorLog_ID, Integer.valueOf(AD_WorkflowProcessorLog_ID));
-	}
-
-	/** Get Workflow Processorl Log.
-		@return Result of the execution of the Workflow Processor
-	  */
-	public int getAD_WorkflowProcessorLog_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_WorkflowProcessorLog_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

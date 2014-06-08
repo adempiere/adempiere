@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_CostElement
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_M_CostElement extends PO implements I_M_CostElement, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_M_CostElement (Properties ctx, int M_CostElement_ID, String trxName)
@@ -85,6 +85,8 @@ public class X_M_CostElement extends PO implements I_M_CostElement, I_Persistent
 	public static final String COSTELEMENTTYPE_OutsideProcessing = "X";
 	/** Resource = R */
 	public static final String COSTELEMENTTYPE_Resource = "R";
+	/** Landed Cost = L */
+	public static final String COSTELEMENTTYPE_LandedCost = "L";
 	/** Set Cost Element Type.
 		@param CostElementType 
 		Type of Cost Element
@@ -173,6 +175,30 @@ public class X_M_CostElement extends PO implements I_M_CostElement, I_Persistent
 	public boolean isCalculated () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsCalculated);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Default.
+		@param IsDefault 
+		Default value
+	  */
+	public void setIsDefault (boolean IsDefault)
+	{
+		set_Value (COLUMNNAME_IsDefault, Boolean.valueOf(IsDefault));
+	}
+
+	/** Get Default.
+		@return Default value
+	  */
+	public boolean isDefault () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsDefault);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

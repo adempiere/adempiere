@@ -297,7 +297,7 @@ public class GridPanel extends Borderlayout implements EventListener
 				column.setWidth(Integer.toString(l) + "px");
 				
 				// FR 3051618 - Hide in list view
-				if (gridField[i].isHideInListView()) {
+				if (!gridField[i].isDisplayedGrid()) {
 					column.setVisible(false);
 				}
 				

@@ -25,6 +25,7 @@ import java.util.Map;
 import org.adempiere.webui.LayoutUtils;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Hbox;
@@ -102,7 +103,8 @@ public final class ConfirmPanel extends Hbox
     {
         Button button = new Button();
         button.setName("btn"+name);
-        button.setId(name);
+        button.setId(name);  // Might get overwritten by renderer
+        button.setAttribute("zk_component_ID", "ConfirmPanel_btn"+name);
         String text = Msg.translate(Env.getCtx(), name);
         if (!name.equals(text))
         	text = text.replaceAll("[&]", "");
@@ -255,6 +257,17 @@ public final class ConfirmPanel extends Hbox
     	if (!buttonMap.containsKey(button.getId()))
     		buttonMap.put(button.getId(), button);
         pnlBtnLeft.appendChild(button);
+    }
+
+    /**
+     * add a component before the button to the left side of the confirm panel
+     * @param button button
+     */
+    public void addComponentLeftBefore(Component comp, Button button)
+    {
+    	if (!buttonMap.containsKey(button.getId()))
+    		buttonMap.put(button.getId(), button);
+        pnlBtnLeft.insertBefore(comp, button);
     }
 
     /**

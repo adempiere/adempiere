@@ -46,7 +46,6 @@ import org.compiere.util.Msg;
  */
 public class MProduct extends X_M_Product
 {
-
 	/**
 	 * 
 	 */
@@ -696,7 +695,7 @@ public class MProduct extends X_M_Product
 			{
 				//	Old
 				MProductCosting pcOld = new MProductCosting(this, mass[i].getC_AcctSchema_ID());
-				pcOld.save();
+				pcOld.saveEx();
 			}
 		}
 		
@@ -843,13 +842,52 @@ public class MProduct extends X_M_Product
 	 * Check if ASI is mandatory
 	 * @param isSOTrx is outgoing trx?
 	 * @return true if ASI is mandatory, false otherwise
+	 * @deprecated
 	 */
+	/*
 	public boolean isASIMandatory(boolean isSOTrx) {
 		//
 		//	If CostingLevel is BatchLot ASI is always mandatory - check all client acct schemas
 		MAcctSchema[] mass = MAcctSchema.getClientAcctSchema(getCtx(), getAD_Client_ID(), get_TrxName());
 		for (MAcctSchema as : mass)
 		{
+			String cl = getCostingLevel(as);
+			if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(cl)) {
+				return true;
+			}
+		}
+		//
+		// Check Attribute Set settings
+		int M_AttributeSet_ID = getM_AttributeSet_ID();
+		if (M_AttributeSet_ID != 0)
+		{
+			MAttributeSet mas = MAttributeSet.get(getCtx(), M_AttributeSet_ID);
+			if (mas == null || !mas.isInstanceAttribute())
+				return false;
+			// Outgoing transaction
+			else if (isSOTrx)
+				return mas.isMandatory();
+			// Incoming transaction
+			else // isSOTrx == false
+				return mas.isMandatoryAlways();
+		}
+		//
+		// Default not mandatory
+		return false;
+	}*/
+	
+	/**
+	 * Check if ASI is mandatory
+	 * @param isSOTrx is outgoing trx?
+	 * @return true if ASI is mandatory, false otherwise
+	 */
+	public boolean isASIMandatory(boolean isSOTrx,int AD_Org_ID) {
+		//
+		//	If CostingLevel is BatchLot ASI is always mandatory - check all client acct schemas
+		MAcctSchema[] mass = MAcctSchema.getClientAcctSchema(getCtx(), getAD_Client_ID(), get_TrxName());
+		for (MAcctSchema as : mass)
+		{
+			//String cl = getCostingLevel(as,AD_Org_ID);
 			String cl = getCostingLevel(as);
 			if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(cl)) {
 				return true;
@@ -880,16 +918,47 @@ public class MProduct extends X_M_Product
 	 * @param as accounting schema
 	 * @return product costing level
 	 */
+	
 	public String getCostingLevel(MAcctSchema as)
 	{
 		MProductCategoryAcct pca = MProductCategoryAcct.get(getCtx(), getM_Product_Category_ID(), as.get_ID(), get_TrxName());
-		String costingLevel = pca.getCostingLevel();
+		String costingLevel = null;
+		
+		if (pca != null)
+		{
+			costingLevel = pca.getCostingLevel();
+			if (costingLevel == null)
+			{
+				costingLevel = as.getCostingLevel();
+			}	
+		}
+		
+		return costingLevel;
+	}
+
+	
+	/**
+	 * Get Product Costing Level
+	 * @param as accounting schema
+	 * @param AD_Org_ID Organization ID
+	 * @return product costing level
+	 */
+	public String getCostingLevel(MAcctSchema as,int AD_Org_ID)
+	{	
+		MProductCategoryAcct pca = MProductCategoryAcct.get(getCtx(), getM_Product_Category_ID(), as.get_ID(), AD_Org_ID , get_TrxName());
+		if(pca == null)
+		{
+			return  getCostingLevel(as);
+		}
+		
+		String costingLevel = costingLevel = pca.getCostingLevel();
 		if (costingLevel == null)
 		{
 			costingLevel = as.getCostingLevel();
 		}
 		return costingLevel;
 	}
+
 	
 	/**
 	 * Get Product Costing Method
@@ -905,5 +974,54 @@ public class MProduct extends X_M_Product
 			costingMethod = as.getCostingMethod();
 		}
 		return costingMethod;
+	}
+	
+	/**
+	 * Get Product Costing Method
+	 * @param C_AcctSchema_ID accounting schema ID
+	 * @return product costing method
+	 */
+	public String getCostingMethod(MAcctSchema as , int AD_Org_ID)
+	{
+		MProductCategoryAcct pca = MProductCategoryAcct.get(getCtx(), getM_Product_Category_ID(), as.get_ID() , AD_Org_ID, get_TrxName());
+		String costingMethod = pca.getCostingMethod();
+		if (costingMethod == null)
+		{
+			costingMethod = as.getCostingMethod();
+		}
+		return costingMethod;
+	}
+
+	/**
+	 * Get the Attribute Set Instance.  This is called by callouts to fill the M_AttributeSetInstance_ID
+	 * field.  The ASI should override the context if the product has a defined ASI or if the 
+	 * context ASI does not use the same attribute set.
+	 * @param context
+	 * @param window number
+	 */
+	public Integer getEnvAttributeSetInstance(Properties ctx, int WindowNo)
+	{
+		Integer M_AttributeSetInstance_ID = 0;
+
+		//	Set Attribute Instance from the context
+		M_AttributeSetInstance_ID = Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_AttributeSetInstance_ID");
+		//	Get Model and check if it has a product attribute instance
+		if (getM_AttributeSetInstance_ID() > 0)
+		{
+			//  If the product has a product instance associated with it. Use it regardless of the context.
+			//  Product Attributes and Instance Attributes are exclusive
+				M_AttributeSetInstance_ID = new Integer(getM_AttributeSetInstance_ID());
+		} 
+		else if (getM_AttributeSet_ID() > 0 && M_AttributeSetInstance_ID > 0)
+		{
+			// Check compatibility of the instance with the product - they have to use the same set.
+			MAttributeSetInstance masi = MAttributeSetInstance.get(Env.getCtx(),M_AttributeSetInstance_ID,this.getM_Product_ID());
+			if (masi.getMAttributeSet().get_ID() != this.getAttributeSet().get_ID())
+				M_AttributeSetInstance_ID = 0;  
+		}
+		if (M_AttributeSetInstance_ID != 0)
+			return M_AttributeSetInstance_ID;
+		else
+			return null;
 	}
 }	//	MProduct

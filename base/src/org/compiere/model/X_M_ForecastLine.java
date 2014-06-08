@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_ForecastLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_M_ForecastLine extends PO implements I_M_ForecastLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_M_ForecastLine (Properties ctx, int M_ForecastLine_ID, String trxName)
@@ -41,10 +41,9 @@ public class X_M_ForecastLine extends PO implements I_M_ForecastLine, I_Persiste
       super (ctx, M_ForecastLine_ID, trxName);
       /** if (M_ForecastLine_ID == 0)
         {
-			setC_Period_ID (0);
 			setDatePromised (new Timestamp( System.currentTimeMillis() ));
-			setM_Forecast_ID (0);
 			setM_ForecastLine_ID (0);
+			setM_Forecast_ID (0);
 			setM_Product_ID (0);
 			setM_Warehouse_ID (0);
 // @M_Warehouse_ID@
@@ -134,6 +133,29 @@ public class X_M_ForecastLine extends PO implements I_M_ForecastLine, I_Persiste
 		return (Timestamp)get_Value(COLUMNNAME_DatePromised);
 	}
 
+	/** Set Forecast Line.
+		@param M_ForecastLine_ID 
+		Forecast Line
+	  */
+	public void setM_ForecastLine_ID (int M_ForecastLine_ID)
+	{
+		if (M_ForecastLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_ForecastLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_ForecastLine_ID, Integer.valueOf(M_ForecastLine_ID));
+	}
+
+	/** Get Forecast Line.
+		@return Forecast Line
+	  */
+	public int getM_ForecastLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_ForecastLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_M_Forecast getM_Forecast() throws RuntimeException
     {
 		return (org.compiere.model.I_M_Forecast)MTable.get(getCtx(), org.compiere.model.I_M_Forecast.Table_Name)
@@ -157,29 +179,6 @@ public class X_M_ForecastLine extends PO implements I_M_ForecastLine, I_Persiste
 	public int getM_Forecast_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Forecast_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Forecast Line.
-		@param M_ForecastLine_ID 
-		Forecast Line
-	  */
-	public void setM_ForecastLine_ID (int M_ForecastLine_ID)
-	{
-		if (M_ForecastLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_ForecastLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_ForecastLine_ID, Integer.valueOf(M_ForecastLine_ID));
-	}
-
-	/** Get Forecast Line.
-		@return Forecast Line
-	  */
-	public int getM_ForecastLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_ForecastLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -236,6 +235,34 @@ public class X_M_ForecastLine extends PO implements I_M_ForecastLine, I_Persiste
 	public int getM_Warehouse_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Warehouse_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.eevolution.model.I_PP_Period getPP_Period() throws RuntimeException
+    {
+		return (org.eevolution.model.I_PP_Period)MTable.get(getCtx(), org.eevolution.model.I_PP_Period.Table_Name)
+			.getPO(getPP_Period_ID(), get_TrxName());	}
+
+	/** Set Operational Period.
+		@param PP_Period_ID 
+		Forecast Definition Periods.
+	  */
+	public void setPP_Period_ID (int PP_Period_ID)
+	{
+		if (PP_Period_ID < 1) 
+			set_Value (COLUMNNAME_PP_Period_ID, null);
+		else 
+			set_Value (COLUMNNAME_PP_Period_ID, Integer.valueOf(PP_Period_ID));
+	}
+
+	/** Get Operational Period.
+		@return Forecast Definition Periods.
+	  */
+	public int getPP_Period_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Period_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PrintLabelLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_AD_PrintLabelLine extends PO implements I_AD_PrintLabelLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_AD_PrintLabelLine (Properties ctx, int AD_PrintLabelLine_ID, String trxName)
@@ -39,8 +39,8 @@ public class X_AD_PrintLabelLine extends PO implements I_AD_PrintLabelLine, I_Pe
       /** if (AD_PrintLabelLine_ID == 0)
         {
 			setAD_LabelPrinterFunction_ID (0);
-			setAD_PrintLabel_ID (0);
 			setAD_PrintLabelLine_ID (0);
+			setAD_PrintLabel_ID (0);
 			setLabelFormatType (null);
 // F
 			setName (null);
@@ -134,6 +134,29 @@ public class X_AD_PrintLabelLine extends PO implements I_AD_PrintLabelLine, I_Pe
 		return ii.intValue();
 	}
 
+	/** Set Print Label Line.
+		@param AD_PrintLabelLine_ID 
+		Print Label Line Format
+	  */
+	public void setAD_PrintLabelLine_ID (int AD_PrintLabelLine_ID)
+	{
+		if (AD_PrintLabelLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_PrintLabelLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_PrintLabelLine_ID, Integer.valueOf(AD_PrintLabelLine_ID));
+	}
+
+	/** Get Print Label Line.
+		@return Print Label Line Format
+	  */
+	public int getAD_PrintLabelLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PrintLabelLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_AD_PrintLabel getAD_PrintLabel() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_PrintLabel)MTable.get(getCtx(), org.compiere.model.I_AD_PrintLabel.Table_Name)
@@ -157,29 +180,6 @@ public class X_AD_PrintLabelLine extends PO implements I_AD_PrintLabelLine, I_Pe
 	public int getAD_PrintLabel_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PrintLabel_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Print Label Line.
-		@param AD_PrintLabelLine_ID 
-		Print Label Line Format
-	  */
-	public void setAD_PrintLabelLine_ID (int AD_PrintLabelLine_ID)
-	{
-		if (AD_PrintLabelLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_PrintLabelLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_PrintLabelLine_ID, Integer.valueOf(AD_PrintLabelLine_ID));
-	}
-
-	/** Get Print Label Line.
-		@return Print Label Line Format
-	  */
-	public int getAD_PrintLabelLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PrintLabelLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

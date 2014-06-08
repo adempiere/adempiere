@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Currency
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_C_Currency extends PO implements I_C_Currency, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_C_Currency (Properties ctx, int C_Currency_ID, String trxName)
@@ -45,11 +45,11 @@ public class X_C_Currency extends PO implements I_C_Currency, I_Persistent
 			setCostingPrecision (0);
 // 4
 			setDescription (null);
+			setISO_Code (null);
 			setIsEMUMember (false);
 // N
 			setIsEuro (false);
 // N
-			setISO_Code (null);
 			setRoundOffFactor (Env.ZERO);
 // 1
 			setStdPrecision (0);
@@ -199,6 +199,31 @@ public class X_C_Currency extends PO implements I_C_Currency, I_Persistent
 		return bd;
 	}
 
+	/** Set ISO Currency Code.
+		@param ISO_Code 
+		Three letter ISO 4217 Code of the Currency
+	  */
+	public void setISO_Code (String ISO_Code)
+	{
+		set_Value (COLUMNNAME_ISO_Code, ISO_Code);
+	}
+
+	/** Get ISO Currency Code.
+		@return Three letter ISO 4217 Code of the Currency
+	  */
+	public String getISO_Code () 
+	{
+		return (String)get_Value(COLUMNNAME_ISO_Code);
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), getISO_Code());
+    }
+
 	/** Set EMU Member.
 		@param IsEMUMember 
 		This currency is member if the European Monetary Union
@@ -246,31 +271,6 @@ public class X_C_Currency extends PO implements I_C_Currency, I_Persistent
 		}
 		return false;
 	}
-
-	/** Set ISO Currency Code.
-		@param ISO_Code 
-		Three letter ISO 4217 Code of the Currency
-	  */
-	public void setISO_Code (String ISO_Code)
-	{
-		set_Value (COLUMNNAME_ISO_Code, ISO_Code);
-	}
-
-	/** Get ISO Currency Code.
-		@return Three letter ISO 4217 Code of the Currency
-	  */
-	public String getISO_Code () 
-	{
-		return (String)get_Value(COLUMNNAME_ISO_Code);
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), getISO_Code());
-    }
 
 	/** Set Round Off Factor.
 		@param RoundOffFactor 

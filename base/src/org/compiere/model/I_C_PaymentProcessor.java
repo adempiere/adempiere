@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_PaymentProcessor
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_C_PaymentProcessor 
 {
@@ -40,6 +40,42 @@ public interface I_C_PaymentProcessor
     BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
+
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
+    /** Column name AD_Sequence_ID */
+    public static final String COLUMNNAME_AD_Sequence_ID = "AD_Sequence_ID";
+
+	/** Set Sequence.
+	  * Document Sequence
+	  */
+	public void setAD_Sequence_ID (int AD_Sequence_ID);
+
+	/** Get Sequence.
+	  * Document Sequence
+	  */
+	public int getAD_Sequence_ID();
+
+	public org.compiere.model.I_AD_Sequence getAD_Sequence() throws RuntimeException;
 
     /** Column name AcceptAMEX */
     public static final String COLUMNNAME_AcceptAMEX = "AcceptAMEX";
@@ -171,42 +207,6 @@ public interface I_C_PaymentProcessor
 	  */
 	public boolean isAcceptVisa();
 
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
-
-    /** Column name AD_Sequence_ID */
-    public static final String COLUMNNAME_AD_Sequence_ID = "AD_Sequence_ID";
-
-	/** Set Sequence.
-	  * Document Sequence
-	  */
-	public void setAD_Sequence_ID (int AD_Sequence_ID);
-
-	/** Get Sequence.
-	  * Document Sequence
-	  */
-	public int getAD_Sequence_ID();
-
-	public org.compiere.model.I_AD_Sequence getAD_Sequence() throws RuntimeException;
-
     /** Column name C_BankAccount_ID */
     public static final String COLUMNNAME_C_BankAccount_ID = "C_BankAccount_ID";
 
@@ -237,6 +237,19 @@ public interface I_C_PaymentProcessor
 
 	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException;
 
+    /** Column name C_PaymentProcessor_ID */
+    public static final String COLUMNNAME_C_PaymentProcessor_ID = "C_PaymentProcessor_ID";
+
+	/** Set Payment Processor.
+	  * Payment processor for electronic payments
+	  */
+	public void setC_PaymentProcessor_ID (int C_PaymentProcessor_ID);
+
+	/** Get Payment Processor.
+	  * Payment processor for electronic payments
+	  */
+	public int getC_PaymentProcessor_ID();
+
     /** Column name Commission */
     public static final String COLUMNNAME_Commission = "Commission";
 
@@ -262,19 +275,6 @@ public interface I_C_PaymentProcessor
 	  * Fixed cost per transaction
 	  */
 	public BigDecimal getCostPerTrx();
-
-    /** Column name C_PaymentProcessor_ID */
-    public static final String COLUMNNAME_C_PaymentProcessor_ID = "C_PaymentProcessor_ID";
-
-	/** Set Payment Processor.
-	  * Payment processor for electronic payments
-	  */
-	public void setC_PaymentProcessor_ID (int C_PaymentProcessor_ID);
-
-	/** Get Payment Processor.
-	  * Payment processor for electronic payments
-	  */
-	public int getC_PaymentProcessor_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

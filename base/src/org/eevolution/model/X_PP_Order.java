@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PP_Order
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_PP_Order extends PO implements I_PP_Order, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_PP_Order (Properties ctx, int PP_Order_ID, String trxName)
@@ -61,9 +61,9 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 // N
 			setIsPrinted (false);
 // N
-			setIsSelected (false);
-// N
 			setIsSOTrx (false);
+// N
+			setIsSelected (false);
 // N
 			setLine (0);
 			setM_Product_ID (0);
@@ -94,7 +94,7 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
     }
 
     /** AccessLevel
-      * @return 1 - Org 
+      * @return 3 - Client - Org 
       */
     protected int get_AccessLevel()
     {
@@ -242,34 +242,6 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
-			.getPO(getC_DocType_ID(), get_TrxName());	}
-
-	/** Set Document Type.
-		@param C_DocType_ID 
-		Document type or rules
-	  */
-	public void setC_DocType_ID (int C_DocType_ID)
-	{
-		if (C_DocType_ID < 0) 
-			set_Value (COLUMNNAME_C_DocType_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
-	}
-
-	/** Get Document Type.
-		@return Document type or rules
-	  */
-	public int getC_DocType_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_C_DocType getC_DocTypeTarget() throws RuntimeException
     {
 		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
@@ -298,21 +270,32 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Copy From.
-		@param CopyFrom 
-		Copy From Record
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
+			.getPO(getC_DocType_ID(), get_TrxName());	}
+
+	/** Set Document Type.
+		@param C_DocType_ID 
+		Document type or rules
 	  */
-	public void setCopyFrom (String CopyFrom)
+	public void setC_DocType_ID (int C_DocType_ID)
 	{
-		set_Value (COLUMNNAME_CopyFrom, CopyFrom);
+		if (C_DocType_ID < 0) 
+			set_Value (COLUMNNAME_C_DocType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
 	}
 
-	/** Get Copy From.
-		@return Copy From Record
+	/** Get Document Type.
+		@return Document type or rules
 	  */
-	public String getCopyFrom () 
+	public int getC_DocType_ID () 
 	{
-		return (String)get_Value(COLUMNNAME_CopyFrom);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	public org.compiere.model.I_C_OrderLine getC_OrderLine() throws RuntimeException
@@ -338,6 +321,62 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 	public int getC_OrderLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_OrderLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_ProjectPhase getC_ProjectPhase() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_ProjectPhase)MTable.get(getCtx(), org.compiere.model.I_C_ProjectPhase.Table_Name)
+			.getPO(getC_ProjectPhase_ID(), get_TrxName());	}
+
+	/** Set Project Phase.
+		@param C_ProjectPhase_ID 
+		Phase of a Project
+	  */
+	public void setC_ProjectPhase_ID (int C_ProjectPhase_ID)
+	{
+		if (C_ProjectPhase_ID < 1) 
+			set_Value (COLUMNNAME_C_ProjectPhase_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ProjectPhase_ID, Integer.valueOf(C_ProjectPhase_ID));
+	}
+
+	/** Get Project Phase.
+		@return Phase of a Project
+	  */
+	public int getC_ProjectPhase_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectPhase_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_ProjectTask getC_ProjectTask() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_ProjectTask)MTable.get(getCtx(), org.compiere.model.I_C_ProjectTask.Table_Name)
+			.getPO(getC_ProjectTask_ID(), get_TrxName());	}
+
+	/** Set Project Task.
+		@param C_ProjectTask_ID 
+		Actual Project Task in a Phase
+	  */
+	public void setC_ProjectTask_ID (int C_ProjectTask_ID)
+	{
+		if (C_ProjectTask_ID < 1) 
+			set_Value (COLUMNNAME_C_ProjectTask_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ProjectTask_ID, Integer.valueOf(C_ProjectTask_ID));
+	}
+
+	/** Get Project Task.
+		@return Actual Project Task in a Phase
+	  */
+	public int getC_ProjectTask_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectTask_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -397,6 +436,23 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Copy From.
+		@param CopyFrom 
+		Copy From Record
+	  */
+	public void setCopyFrom (String CopyFrom)
+	{
+		set_Value (COLUMNNAME_CopyFrom, CopyFrom);
+	}
+
+	/** Get Copy From.
+		@return Copy From Record
+	  */
+	public String getCopyFrom () 
+	{
+		return (String)get_Value(COLUMNNAME_CopyFrom);
 	}
 
 	/** Set Date Confirm.
@@ -775,27 +831,6 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return false;
 	}
 
-	/** Set Selected.
-		@param IsSelected Selected	  */
-	public void setIsSelected (boolean IsSelected)
-	{
-		set_Value (COLUMNNAME_IsSelected, Boolean.valueOf(IsSelected));
-	}
-
-	/** Get Selected.
-		@return Selected	  */
-	public boolean isSelected () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsSelected);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** Set Sales Transaction.
 		@param IsSOTrx 
 		This is a Sales Transaction
@@ -811,6 +846,27 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 	public boolean isSOTrx () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsSOTrx);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Selected.
+		@param IsSelected Selected	  */
+	public void setIsSelected (boolean IsSelected)
+	{
+		set_Value (COLUMNNAME_IsSelected, Boolean.valueOf(IsSelected));
+	}
+
+	/** Get Selected.
+		@return Selected	  */
+	public boolean isSelected () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsSelected);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -958,55 +1014,6 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return (String)get_Value(COLUMNNAME_OrderType);
 	}
 
-	public org.compiere.model.I_AD_User getPlanner() throws RuntimeException
-    {
-		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
-			.getPO(getPlanner_ID(), get_TrxName());	}
-
-	/** Set Planner.
-		@param Planner_ID Planner	  */
-	public void setPlanner_ID (int Planner_ID)
-	{
-		if (Planner_ID < 1) 
-			set_Value (COLUMNNAME_Planner_ID, null);
-		else 
-			set_Value (COLUMNNAME_Planner_ID, Integer.valueOf(Planner_ID));
-	}
-
-	/** Get Planner.
-		@return Planner	  */
-	public int getPlanner_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Planner_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Posted.
-		@param Posted 
-		Posting status
-	  */
-	public void setPosted (boolean Posted)
-	{
-		set_Value (COLUMNNAME_Posted, Boolean.valueOf(Posted));
-	}
-
-	/** Get Posted.
-		@return Posting status
-	  */
-	public boolean isPosted () 
-	{
-		Object oo = get_Value(COLUMNNAME_Posted);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** Set Manufacturing Order.
 		@param PP_Order_ID 
 		Manufacturing Order
@@ -1056,6 +1063,58 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	public org.compiere.model.I_AD_User getPlanner() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
+			.getPO(getPlanner_ID(), get_TrxName());	}
+
+	/** Set Planner.
+		@param Planner_ID 
+		Company Agent for Planning
+	  */
+	public void setPlanner_ID (int Planner_ID)
+	{
+		if (Planner_ID < 1) 
+			set_Value (COLUMNNAME_Planner_ID, null);
+		else 
+			set_Value (COLUMNNAME_Planner_ID, Integer.valueOf(Planner_ID));
+	}
+
+	/** Get Planner.
+		@return Company Agent for Planning
+	  */
+	public int getPlanner_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Planner_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Posted.
+		@param Posted 
+		Posting status
+	  */
+	public void setPosted (boolean Posted)
+	{
+		set_Value (COLUMNNAME_Posted, Boolean.valueOf(Posted));
+	}
+
+	/** Get Posted.
+		@return Posting status
+	  */
+	public boolean isPosted () 
+	{
+		Object oo = get_Value(COLUMNNAME_Posted);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** PriorityRule AD_Reference_ID=154 */
@@ -1153,23 +1212,6 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return false;
 	}
 
-	/** Set Qty Batchs.
-		@param QtyBatchs Qty Batchs	  */
-	public void setQtyBatchs (BigDecimal QtyBatchs)
-	{
-		set_ValueNoCheck (COLUMNNAME_QtyBatchs, QtyBatchs);
-	}
-
-	/** Get Qty Batchs.
-		@return Qty Batchs	  */
-	public BigDecimal getQtyBatchs () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyBatchs);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	/** Set Qty Batch Size.
 		@param QtyBatchSize Qty Batch Size	  */
 	public void setQtyBatchSize (BigDecimal QtyBatchSize)
@@ -1182,6 +1224,23 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 	public BigDecimal getQtyBatchSize () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyBatchSize);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Qty Batchs.
+		@param QtyBatchs Qty Batchs	  */
+	public void setQtyBatchs (BigDecimal QtyBatchs)
+	{
+		set_ValueNoCheck (COLUMNNAME_QtyBatchs, QtyBatchs);
+	}
+
+	/** Get Qty Batchs.
+		@return Qty Batchs	  */
+	public BigDecimal getQtyBatchs () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyBatchs);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
@@ -1304,6 +1363,34 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return bd;
 	}
 
+	public org.compiere.model.I_S_Resource getS_Resource() throws RuntimeException
+    {
+		return (org.compiere.model.I_S_Resource)MTable.get(getCtx(), org.compiere.model.I_S_Resource.Table_Name)
+			.getPO(getS_Resource_ID(), get_TrxName());	}
+
+	/** Set Resource.
+		@param S_Resource_ID 
+		Resource
+	  */
+	public void setS_Resource_ID (int S_Resource_ID)
+	{
+		if (S_Resource_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_S_Resource_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
+	}
+
+	/** Get Resource.
+		@return Resource
+	  */
+	public int getS_Resource_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_S_Resource_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Schedule Type.
 		@param ScheduleType 
 		Type of schedule
@@ -1336,34 +1423,6 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 	public String getSerNo () 
 	{
 		return (String)get_Value(COLUMNNAME_SerNo);
-	}
-
-	public org.compiere.model.I_S_Resource getS_Resource() throws RuntimeException
-    {
-		return (org.compiere.model.I_S_Resource)MTable.get(getCtx(), org.compiere.model.I_S_Resource.Table_Name)
-			.getPO(getS_Resource_ID(), get_TrxName());	}
-
-	/** Set Resource.
-		@param S_Resource_ID 
-		Resource
-	  */
-	public void setS_Resource_ID (int S_Resource_ID)
-	{
-		if (S_Resource_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_S_Resource_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
-	}
-
-	/** Get Resource.
-		@return Resource
-	  */
-	public int getS_Resource_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_S_Resource_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException

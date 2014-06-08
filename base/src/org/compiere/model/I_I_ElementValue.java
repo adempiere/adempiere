@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_ElementValue
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_I_ElementValue 
 {
@@ -40,32 +40,6 @@ public interface I_I_ElementValue
     BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
-
-    /** Column name AccountSign */
-    public static final String COLUMNNAME_AccountSign = "AccountSign";
-
-	/** Set Account Sign.
-	  * Indicates the Natural Sign of the Account as a Debit or Credit
-	  */
-	public void setAccountSign (String AccountSign);
-
-	/** Get Account Sign.
-	  * Indicates the Natural Sign of the Account as a Debit or Credit
-	  */
-	public String getAccountSign();
-
-    /** Column name AccountType */
-    public static final String COLUMNNAME_AccountType = "AccountType";
-
-	/** Set Account Type.
-	  * Indicates the type of account
-	  */
-	public void setAccountType (String AccountType);
-
-	/** Get Account Type.
-	  * Indicates the type of account
-	  */
-	public String getAccountType();
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -103,20 +77,46 @@ public interface I_I_ElementValue
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_Element_ID */
-    public static final String COLUMNNAME_C_Element_ID = "C_Element_ID";
+    /** Column name AccountSign */
+    public static final String COLUMNNAME_AccountSign = "AccountSign";
 
-	/** Set Element.
-	  * Accounting Element
+	/** Set Account Sign.
+	  * Indicates the Natural Sign of the Account as a Debit or Credit
 	  */
-	public void setC_Element_ID (int C_Element_ID);
+	public void setAccountSign (String AccountSign);
 
-	/** Get Element.
-	  * Accounting Element
+	/** Get Account Sign.
+	  * Indicates the Natural Sign of the Account as a Debit or Credit
 	  */
-	public int getC_Element_ID();
+	public String getAccountSign();
 
-	public org.compiere.model.I_C_Element getC_Element() throws RuntimeException;
+    /** Column name AccountType */
+    public static final String COLUMNNAME_AccountType = "AccountType";
+
+	/** Set Account Type.
+	  * Indicates the type of account
+	  */
+	public void setAccountType (String AccountType);
+
+	/** Get Account Type.
+	  * Indicates the type of account
+	  */
+	public String getAccountType();
+
+    /** Column name C_Charge_ID */
+    public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
+
+	/** Set Charge.
+	  * Additional document charges
+	  */
+	public void setC_Charge_ID (int C_Charge_ID);
+
+	/** Get Charge.
+	  * Additional document charges
+	  */
+	public int getC_Charge_ID();
+
+	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException;
 
     /** Column name C_ElementValue_ID */
     public static final String COLUMNNAME_C_ElementValue_ID = "C_ElementValue_ID";
@@ -132,6 +132,49 @@ public interface I_I_ElementValue
 	public int getC_ElementValue_ID();
 
 	public org.compiere.model.I_C_ElementValue getC_ElementValue() throws RuntimeException;
+
+    /** Column name C_Element_ID */
+    public static final String COLUMNNAME_C_Element_ID = "C_Element_ID";
+
+	/** Set Element.
+	  * Accounting Element
+	  */
+	public void setC_Element_ID (int C_Element_ID);
+
+	/** Get Element.
+	  * Accounting Element
+	  */
+	public int getC_Element_ID();
+
+	public org.compiere.model.I_C_Element getC_Element() throws RuntimeException;
+
+    /** Column name C_TaxCategory_ID */
+    public static final String COLUMNNAME_C_TaxCategory_ID = "C_TaxCategory_ID";
+
+	/** Set Tax Category.
+	  * Tax Category
+	  */
+	public void setC_TaxCategory_ID (int C_TaxCategory_ID);
+
+	/** Get Tax Category.
+	  * Tax Category
+	  */
+	public int getC_TaxCategory_ID();
+
+	public org.compiere.model.I_C_TaxCategory getC_TaxCategory() throws RuntimeException;
+
+    /** Column name ChargeName */
+    public static final String COLUMNNAME_ChargeName = "ChargeName";
+
+	/** Set Charge Name.
+	  * Name of the Charge
+	  */
+	public void setChargeName (String ChargeName);
+
+	/** Get Charge Name.
+	  * Name of the Charge
+	  */
+	public String getChargeName();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -380,6 +423,19 @@ public interface I_I_ElementValue
 
 	/** Get Process Now	  */
 	public boolean isProcessing();
+
+    /** Column name TaxCategoryName */
+    public static final String COLUMNNAME_TaxCategoryName = "TaxCategoryName";
+
+	/** Set Tax Category Name.
+	  * Name of tax category
+	  */
+	public void setTaxCategoryName (String TaxCategoryName);
+
+	/** Get Tax Category Name.
+	  * Name of tax category
+	  */
+	public String getTaxCategoryName();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

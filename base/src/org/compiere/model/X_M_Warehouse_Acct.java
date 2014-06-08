@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for M_Warehouse_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_M_Warehouse_Acct extends PO implements I_M_Warehouse_Acct, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_M_Warehouse_Acct (Properties ctx, int M_Warehouse_Acct_ID, String trxName)

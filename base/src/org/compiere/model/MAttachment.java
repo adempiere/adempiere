@@ -885,7 +885,7 @@ public class MAttachment extends X_AD_Attachment
 		MAttachment att = new MAttachment(Env.getCtx(), 100, 0, null);
 		att.addEntry(new File ("C:\\Adempiere\\Dev.properties"));
 		att.addEntry(new File ("C:\\Adempiere\\index.html"));
-		att.save();
+		att.saveEx();
 		System.out.println (att);
 		att.dumpEntryNames();
 		int AD_Attachment_ID = att.getAD_Attachment_ID();

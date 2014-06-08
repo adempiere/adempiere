@@ -19,19 +19,20 @@ package org.compiere.model;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.Properties;
 import org.compiere.util.Env;
 
 /** Generated Model for M_CostDetail
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_M_CostDetail (Properties ctx, int M_CostDetail_ID, String trxName)
@@ -40,6 +41,7 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
       /** if (M_CostDetail_ID == 0)
         {
 			setAmt (Env.ZERO);
+			setAmtLL (Env.ZERO);
 			setC_AcctSchema_ID (0);
 			setIsSOTrx (false);
 			setM_AttributeSetInstance_ID (0);
@@ -98,6 +100,26 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 		return bd;
 	}
 
+	/** Set Amount LL.
+		@param AmtLL 
+		Amount Lower Level Cost
+	  */
+	public void setAmtLL (BigDecimal AmtLL)
+	{
+		set_Value (COLUMNNAME_AmtLL, AmtLL);
+	}
+
+	/** Get Amount LL.
+		@return Amount Lower Level Cost
+	  */
+	public BigDecimal getAmtLL () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_AmtLL);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException
     {
 		return (org.compiere.model.I_C_AcctSchema)MTable.get(getCtx(), org.compiere.model.I_C_AcctSchema.Table_Name)
@@ -138,9 +160,9 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 	public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
 	{
 		if (C_InvoiceLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, null);
+			set_Value (COLUMNNAME_C_InvoiceLine_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, Integer.valueOf(C_InvoiceLine_ID));
+			set_Value (COLUMNNAME_C_InvoiceLine_ID, Integer.valueOf(C_InvoiceLine_ID));
 	}
 
 	/** Get Invoice Line.
@@ -149,6 +171,34 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 	public int getC_InvoiceLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_InvoiceLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_LandedCostAllocation getC_LandedCostAllocation() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_LandedCostAllocation)MTable.get(getCtx(), org.compiere.model.I_C_LandedCostAllocation.Table_Name)
+			.getPO(getC_LandedCostAllocation_ID(), get_TrxName());	}
+
+	/** Set Landed Cost Allocation.
+		@param C_LandedCostAllocation_ID 
+		Allocation for Land Costs
+	  */
+	public void setC_LandedCostAllocation_ID (int C_LandedCostAllocation_ID)
+	{
+		if (C_LandedCostAllocation_ID < 1) 
+			set_Value (COLUMNNAME_C_LandedCostAllocation_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_LandedCostAllocation_ID, Integer.valueOf(C_LandedCostAllocation_ID));
+	}
+
+	/** Get Landed Cost Allocation.
+		@return Allocation for Land Costs
+	  */
+	public int getC_LandedCostAllocation_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_LandedCostAllocation_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -166,9 +216,9 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 	public void setC_OrderLine_ID (int C_OrderLine_ID)
 	{
 		if (C_OrderLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_OrderLine_ID, null);
+			set_Value (COLUMNNAME_C_OrderLine_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_C_OrderLine_ID, Integer.valueOf(C_OrderLine_ID));
+			set_Value (COLUMNNAME_C_OrderLine_ID, Integer.valueOf(C_OrderLine_ID));
 	}
 
 	/** Get Sales Order Line.
@@ -210,6 +260,158 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Cost Adjustment.
+		@param CostAdjustment 
+		Product Cost Adjustment
+	  */
+	public void setCostAdjustment (BigDecimal CostAdjustment)
+	{
+		set_Value (COLUMNNAME_CostAdjustment, CostAdjustment);
+	}
+
+	/** Get Cost Adjustment.
+		@return Product Cost Adjustment
+	  */
+	public BigDecimal getCostAdjustment () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CostAdjustment);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Cost Adjustment Date.
+		@param CostAdjustmentDate 
+		Product Cost Adjustment
+	  */
+	public void setCostAdjustmentDate (Timestamp CostAdjustmentDate)
+	{
+		set_Value (COLUMNNAME_CostAdjustmentDate, CostAdjustmentDate);
+	}
+
+	/** Get Cost Adjustment Date.
+		@return Product Cost Adjustment
+	  */
+	public Timestamp getCostAdjustmentDate () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_CostAdjustmentDate);
+	}
+
+	/** Set Cost Adjustment Date.
+		@param CostAdjustmentDateLL 
+		Date Product Cost Adjustment Lower Level
+	  */
+	public void setCostAdjustmentDateLL (Timestamp CostAdjustmentDateLL)
+	{
+		set_Value (COLUMNNAME_CostAdjustmentDateLL, CostAdjustmentDateLL);
+	}
+
+	/** Get Cost Adjustment Date.
+		@return Date Product Cost Adjustment Lower Level
+	  */
+	public Timestamp getCostAdjustmentDateLL () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_CostAdjustmentDateLL);
+	}
+
+	/** Set Cost Adjustment LL.
+		@param CostAdjustmentLL 
+		Product Cost Adjustment Lower Level
+	  */
+	public void setCostAdjustmentLL (BigDecimal CostAdjustmentLL)
+	{
+		set_Value (COLUMNNAME_CostAdjustmentLL, CostAdjustmentLL);
+	}
+
+	/** Get Cost Adjustment LL.
+		@return Product Cost Adjustment Lower Level
+	  */
+	public BigDecimal getCostAdjustmentLL () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CostAdjustmentLL);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Cost Value.
+		@param CostAmt 
+		Value with Cost
+	  */
+	public void setCostAmt (BigDecimal CostAmt)
+	{
+		set_Value (COLUMNNAME_CostAmt, CostAmt);
+	}
+
+	/** Get Cost Value.
+		@return Value with Cost
+	  */
+	public BigDecimal getCostAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CostAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Cost Value LL.
+		@param CostAmtLL 
+		Value with Cost Lower Level
+	  */
+	public void setCostAmtLL (BigDecimal CostAmtLL)
+	{
+		set_Value (COLUMNNAME_CostAmtLL, CostAmtLL);
+	}
+
+	/** Get Cost Value LL.
+		@return Value with Cost Lower Level
+	  */
+	public BigDecimal getCostAmtLL () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CostAmtLL);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** CostingMethod AD_Reference_ID=122 */
+	public static final int COSTINGMETHOD_AD_Reference_ID=122;
+	/** Standard Costing = S */
+	public static final String COSTINGMETHOD_StandardCosting = "S";
+	/** Average PO = A */
+	public static final String COSTINGMETHOD_AveragePO = "A";
+	/** Lifo = L */
+	public static final String COSTINGMETHOD_Lifo = "L";
+	/** Fifo = F */
+	public static final String COSTINGMETHOD_Fifo = "F";
+	/** Last PO Price = p */
+	public static final String COSTINGMETHOD_LastPOPrice = "p";
+	/** Average Invoice = I */
+	public static final String COSTINGMETHOD_AverageInvoice = "I";
+	/** Last Invoice = i */
+	public static final String COSTINGMETHOD_LastInvoice = "i";
+	/** User Defined = U */
+	public static final String COSTINGMETHOD_UserDefined = "U";
+	/** _ = x */
+	public static final String COSTINGMETHOD__ = "x";
+	/** Set Costing Method.
+		@param CostingMethod 
+		Indicates how Costs will be calculated
+	  */
+	public void setCostingMethod (String CostingMethod)
+	{
+
+		set_Value (COLUMNNAME_CostingMethod, CostingMethod);
+	}
+
+	/** Get Costing Method.
+		@return Indicates how Costs will be calculated
+	  */
+	public String getCostingMethod () 
+	{
+		return (String)get_Value(COLUMNNAME_CostingMethod);
+	}
+
 	/** Set Accumulated Amt.
 		@param CumulatedAmt 
 		Total Amount
@@ -225,6 +427,26 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 	public BigDecimal getCumulatedAmt () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CumulatedAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Accumulated Amt LL.
+		@param CumulatedAmtLL 
+		Total Amount
+	  */
+	public void setCumulatedAmtLL (BigDecimal CumulatedAmtLL)
+	{
+		set_Value (COLUMNNAME_CumulatedAmtLL, CumulatedAmtLL);
+	}
+
+	/** Get Accumulated Amt LL.
+		@return Total Amount
+	  */
+	public BigDecimal getCumulatedAmtLL () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CumulatedAmtLL);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
@@ -270,6 +492,26 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 		return bd;
 	}
 
+	/** Set Current Cost Price LL.
+		@param CurrentCostPriceLL 
+		Current Price Lower Level Is the sum of the costs of the components of this product manufactured for this level.
+	  */
+	public void setCurrentCostPriceLL (BigDecimal CurrentCostPriceLL)
+	{
+		set_Value (COLUMNNAME_CurrentCostPriceLL, CurrentCostPriceLL);
+	}
+
+	/** Get Current Cost Price LL.
+		@return Current Price Lower Level Is the sum of the costs of the components of this product manufactured for this level.
+	  */
+	public BigDecimal getCurrentCostPriceLL () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CurrentCostPriceLL);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	/** Set Current Quantity.
 		@param CurrentQty 
 		Current Quantity
@@ -288,6 +530,23 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set Account Date.
+		@param DateAcct 
+		Accounting Date
+	  */
+	public void setDateAcct (Timestamp DateAcct)
+	{
+		set_Value (COLUMNNAME_DateAcct, DateAcct);
+	}
+
+	/** Get Account Date.
+		@return Accounting Date
+	  */
+	public Timestamp getDateAcct () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_DateAcct);
 	}
 
 	/** Set Delta Amount.
@@ -345,6 +604,30 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
+	}
+
+	/** Set Reversal.
+		@param IsReversal 
+		This is a reversing transaction
+	  */
+	public void setIsReversal (boolean IsReversal)
+	{
+		set_Value (COLUMNNAME_IsReversal, Boolean.valueOf(IsReversal));
+	}
+
+	/** Get Reversal.
+		@return This is a reversing transaction
+	  */
+	public boolean isReversal () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsReversal);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Sales Transaction.
@@ -450,6 +733,34 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_M_CostType getM_CostType() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_CostType)MTable.get(getCtx(), org.compiere.model.I_M_CostType.Table_Name)
+			.getPO(getM_CostType_ID(), get_TrxName());	}
+
+	/** Set Cost Type.
+		@param M_CostType_ID 
+		Type of Cost (e.g. Current, Plan, Future)
+	  */
+	public void setM_CostType_ID (int M_CostType_ID)
+	{
+		if (M_CostType_ID < 1) 
+			set_Value (COLUMNNAME_M_CostType_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_CostType_ID, Integer.valueOf(M_CostType_ID));
+	}
+
+	/** Get Cost Type.
+		@return Type of Cost (e.g. Current, Plan, Future)
+	  */
+	public int getM_CostType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_CostType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_M_InOutLine getM_InOutLine() throws RuntimeException
     {
 		return (org.compiere.model.I_M_InOutLine)MTable.get(getCtx(), org.compiere.model.I_M_InOutLine.Table_Name)
@@ -462,9 +773,9 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 	public void setM_InOutLine_ID (int M_InOutLine_ID)
 	{
 		if (M_InOutLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_InOutLine_ID, null);
+			set_Value (COLUMNNAME_M_InOutLine_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_M_InOutLine_ID, Integer.valueOf(M_InOutLine_ID));
+			set_Value (COLUMNNAME_M_InOutLine_ID, Integer.valueOf(M_InOutLine_ID));
 	}
 
 	/** Get Shipment/Receipt Line.
@@ -590,6 +901,54 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Inventory Transaction.
+		@param M_Transaction_ID Inventory Transaction	  */
+	public void setM_Transaction_ID (int M_Transaction_ID)
+	{
+		if (M_Transaction_ID < 1) 
+			set_Value (COLUMNNAME_M_Transaction_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Transaction_ID, Integer.valueOf(M_Transaction_ID));
+	}
+
+	/** Get Inventory Transaction.
+		@return Inventory Transaction	  */
+	public int getM_Transaction_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Transaction_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_Warehouse)MTable.get(getCtx(), org.compiere.model.I_M_Warehouse.Table_Name)
+			.getPO(getM_Warehouse_ID(), get_TrxName());	}
+
+	/** Set Warehouse.
+		@param M_Warehouse_ID 
+		Storage Warehouse and Service Point
+	  */
+	public void setM_Warehouse_ID (int M_Warehouse_ID)
+	{
+		if (M_Warehouse_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Warehouse_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
+	}
+
+	/** Get Warehouse.
+		@return Storage Warehouse and Service Point
+	  */
+	public int getM_Warehouse_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Warehouse_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_PP_Cost_Collector getPP_Cost_Collector() throws RuntimeException
     {
 		return (org.eevolution.model.I_PP_Cost_Collector)MTable.get(getCtx(), org.eevolution.model.I_PP_Cost_Collector.Table_Name)
@@ -600,9 +959,9 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 	public void setPP_Cost_Collector_ID (int PP_Cost_Collector_ID)
 	{
 		if (PP_Cost_Collector_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_PP_Cost_Collector_ID, null);
+			set_Value (COLUMNNAME_PP_Cost_Collector_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_PP_Cost_Collector_ID, Integer.valueOf(PP_Cost_Collector_ID));
+			set_Value (COLUMNNAME_PP_Cost_Collector_ID, Integer.valueOf(PP_Cost_Collector_ID));
 	}
 
 	/** Get Manufacturing Cost Collector.
@@ -658,6 +1017,27 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 		return false;
 	}
 
+	/** Set Process Now.
+		@param Processing Process Now	  */
+	public void setProcessing (boolean Processing)
+	{
+		set_Value (COLUMNNAME_Processing, Boolean.valueOf(Processing));
+	}
+
+	/** Get Process Now.
+		@return Process Now	  */
+	public boolean isProcessing () 
+	{
+		Object oo = get_Value(COLUMNNAME_Processing);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Quantity.
 		@param Qty 
 		Quantity
@@ -676,5 +1056,25 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set Sequence.
+		@param SeqNo 
+		Method of ordering records; lowest number comes first
+	  */
+	public void setSeqNo (int SeqNo)
+	{
+		set_Value (COLUMNNAME_SeqNo, Integer.valueOf(SeqNo));
+	}
+
+	/** Get Sequence.
+		@return Method of ordering records; lowest number comes first
+	  */
+	public int getSeqNo () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_SeqNo);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 }

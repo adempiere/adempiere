@@ -19,17 +19,18 @@ package org.compiere.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Migration
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_AD_Migration extends PO implements I_AD_Migration, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_AD_Migration (Properties ctx, int AD_Migration_ID, String trxName)
@@ -191,6 +192,35 @@ public class X_AD_Migration extends PO implements I_AD_Migration, I_Persistent
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), getName());
+    }
+
+	/** Set Process Now.
+		@param Processing Process Now	  */
+	public void setProcessing (boolean Processing)
+	{
+		set_Value (COLUMNNAME_Processing, Boolean.valueOf(Processing));
+	}
+
+	/** Get Process Now.
+		@return Process Now	  */
+	public boolean isProcessing () 
+	{
+		Object oo = get_Value(COLUMNNAME_Processing);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Release No.
 		@param ReleaseNo 
 		Internal Release Number
@@ -214,7 +244,7 @@ public class X_AD_Migration extends PO implements I_AD_Migration, I_Persistent
 	  */
 	public void setSeqNo (int SeqNo)
 	{
-		set_ValueNoCheck (COLUMNNAME_SeqNo, Integer.valueOf(SeqNo));
+		set_Value (COLUMNNAME_SeqNo, Integer.valueOf(SeqNo));
 	}
 
 	/** Get Sequence.

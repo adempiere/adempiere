@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_DistributionRunLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_M_DistributionRunLine extends PO implements I_M_DistributionRunLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_M_DistributionRunLine (Properties ctx, int M_DistributionRunLine_ID, String trxName)
@@ -43,11 +43,11 @@ public class X_M_DistributionRunLine extends PO implements I_M_DistributionRunLi
 			setLine (0);
 // @SQL=SELECT NVL(MAX(Line),0)+10 AS DefaultValue FROM M_DistributionRunLine WHERE M_DistributionRun_ID=@M_DistributionRun_ID@
 			setM_DistributionList_ID (0);
-			setM_DistributionRun_ID (0);
 			setM_DistributionRunLine_ID (0);
+			setM_DistributionRun_ID (0);
+			setM_Product_ID (0);
 			setMinQty (Env.ZERO);
 // 0
-			setM_Product_ID (0);
 			setTotalQty (Env.ZERO);
         } */
     }
@@ -145,6 +145,29 @@ public class X_M_DistributionRunLine extends PO implements I_M_DistributionRunLi
 		return ii.intValue();
 	}
 
+	/** Set Distribution Run Line.
+		@param M_DistributionRunLine_ID 
+		Distribution Run Lines define Distribution List, the Product and Quantities
+	  */
+	public void setM_DistributionRunLine_ID (int M_DistributionRunLine_ID)
+	{
+		if (M_DistributionRunLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_DistributionRunLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_DistributionRunLine_ID, Integer.valueOf(M_DistributionRunLine_ID));
+	}
+
+	/** Get Distribution Run Line.
+		@return Distribution Run Lines define Distribution List, the Product and Quantities
+	  */
+	public int getM_DistributionRunLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_DistributionRunLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_M_DistributionRun getM_DistributionRun() throws RuntimeException
     {
 		return (org.compiere.model.I_M_DistributionRun)MTable.get(getCtx(), org.compiere.model.I_M_DistributionRun.Table_Name)
@@ -181,49 +204,6 @@ public class X_M_DistributionRunLine extends PO implements I_M_DistributionRunLi
         return new KeyNamePair(get_ID(), String.valueOf(getM_DistributionRun_ID()));
     }
 
-	/** Set Distribution Run Line.
-		@param M_DistributionRunLine_ID 
-		Distribution Run Lines define Distribution List, the Product and Quantities
-	  */
-	public void setM_DistributionRunLine_ID (int M_DistributionRunLine_ID)
-	{
-		if (M_DistributionRunLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_DistributionRunLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_DistributionRunLine_ID, Integer.valueOf(M_DistributionRunLine_ID));
-	}
-
-	/** Get Distribution Run Line.
-		@return Distribution Run Lines define Distribution List, the Product and Quantities
-	  */
-	public int getM_DistributionRunLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_DistributionRunLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Minimum Quantity.
-		@param MinQty 
-		Minimum quantity for the business partner
-	  */
-	public void setMinQty (BigDecimal MinQty)
-	{
-		set_Value (COLUMNNAME_MinQty, MinQty);
-	}
-
-	/** Get Minimum Quantity.
-		@return Minimum quantity for the business partner
-	  */
-	public BigDecimal getMinQty () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MinQty);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
 		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
@@ -250,6 +230,26 @@ public class X_M_DistributionRunLine extends PO implements I_M_DistributionRunLi
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Minimum Quantity.
+		@param MinQty 
+		Minimum quantity for the business partner
+	  */
+	public void setMinQty (BigDecimal MinQty)
+	{
+		set_Value (COLUMNNAME_MinQty, MinQty);
+	}
+
+	/** Get Minimum Quantity.
+		@return Minimum quantity for the business partner
+	  */
+	public BigDecimal getMinQty () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MinQty);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Total Quantity.

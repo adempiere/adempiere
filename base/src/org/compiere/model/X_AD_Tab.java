@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Tab
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_AD_Tab (Properties ctx, int AD_Tab_ID, String trxName)
@@ -88,34 +88,6 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
       return sb.toString();
     }
 
-	public org.compiere.model.I_AD_Column getAD_Column() throws RuntimeException
-    {
-		return (org.compiere.model.I_AD_Column)MTable.get(getCtx(), org.compiere.model.I_AD_Column.Table_Name)
-			.getPO(getAD_Column_ID(), get_TrxName());	}
-
-	/** Set Column.
-		@param AD_Column_ID 
-		Column in the table
-	  */
-	public void setAD_Column_ID (int AD_Column_ID)
-	{
-		if (AD_Column_ID < 1) 
-			set_Value (COLUMNNAME_AD_Column_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
-	}
-
-	/** Get Column.
-		@return Column in the table
-	  */
-	public int getAD_Column_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Column_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_AD_Column getAD_ColumnSortOrder() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_Column)MTable.get(getCtx(), org.compiere.model.I_AD_Column.Table_Name)
@@ -167,6 +139,34 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 	public int getAD_ColumnSortYesNo_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_ColumnSortYesNo_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_AD_Column getAD_Column() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Column)MTable.get(getCtx(), org.compiere.model.I_AD_Column.Table_Name)
+			.getPO(getAD_Column_ID(), get_TrxName());	}
+
+	/** Set Column.
+		@param AD_Column_ID 
+		Column in the table
+	  */
+	public void setAD_Column_ID (int AD_Column_ID)
+	{
+		if (AD_Column_ID < 1) 
+			set_Value (COLUMNNAME_AD_Column_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
+	}
+
+	/** Get Column.
+		@return Column in the table
+	  */
+	public int getAD_Column_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Column_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

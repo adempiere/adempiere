@@ -17,21 +17,19 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 
 /** Generated Model for AD_MigrationStep
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_AD_MigrationStep extends PO implements I_AD_MigrationStep, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_AD_MigrationStep (Properties ctx, int AD_MigrationStep_ID, String trxName)
@@ -97,21 +95,10 @@ public class X_AD_MigrationStep extends PO implements I_AD_MigrationStep, I_Pers
 		return ii.intValue();
 	}
 
-	public I_AD_Migration getAD_Migration() throws RuntimeException 
+	public org.compiere.model.I_AD_Migration getAD_Migration() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Migration.Table_Name);
-        I_AD_Migration result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Migration)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Migration_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.compiere.model.I_AD_Migration)MTable.get(getCtx(), org.compiere.model.I_AD_Migration.Table_Name)
+			.getPO(getAD_Migration_ID(), get_TrxName());	}
 
 	/** Set Migration.
 		@param AD_Migration_ID 
@@ -136,21 +123,10 @@ public class X_AD_MigrationStep extends PO implements I_AD_MigrationStep, I_Pers
 		return ii.intValue();
 	}
 
-	public I_AD_Table getAD_Table() throws RuntimeException 
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
-        I_AD_Table result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Table)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Table_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.compiere.model.I_AD_Table)MTable.get(getCtx(), org.compiere.model.I_AD_Table.Table_Name)
+			.getPO(getAD_Table_ID(), get_TrxName());	}
 
 	/** Set Table.
 		@param AD_Table_ID 

@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_MovementLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_M_MovementLine (Properties ctx, int M_MovementLine_ID, String trxName)
@@ -42,15 +42,15 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
         {
 			setLine (0);
 // @SQL=SELECT NVL(MAX(Line),0)+10 AS DefaultValue FROM M_MovementLine WHERE M_Movement_ID=@M_Movement_ID@
-			setM_Locator_ID (0);
-// @M_Locator_ID@
 			setM_LocatorTo_ID (0);
 // @M_LocatorTo_ID@
-			setM_Movement_ID (0);
+			setM_Locator_ID (0);
+// @M_Locator_ID@
 			setM_MovementLine_ID (0);
+			setM_Movement_ID (0);
+			setM_Product_ID (0);
 			setMovementQty (Env.ZERO);
 // 1
-			setM_Product_ID (0);
 			setProcessed (false);
 			setTargetQty (Env.ZERO);
 // 0
@@ -175,34 +175,6 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
         return new KeyNamePair(get_ID(), String.valueOf(getLine()));
     }
 
-	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException
-    {
-		return (I_M_AttributeSetInstance)MTable.get(getCtx(), I_M_AttributeSetInstance.Table_Name)
-			.getPO(getM_AttributeSetInstance_ID(), get_TrxName());	}
-
-	/** Set Attribute Set Instance.
-		@param M_AttributeSetInstance_ID 
-		Product Attribute Set Instance
-	  */
-	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
-	{
-		if (M_AttributeSetInstance_ID < 0) 
-			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, null);
-		else 
-			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
-	}
-
-	/** Get Attribute Set Instance.
-		@return Product Attribute Set Instance
-	  */
-	public int getM_AttributeSetInstance_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_AttributeSetInstance_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_M_AttributeSetInstance getM_AttributeSetInstanceTo() throws RuntimeException
     {
 		return (I_M_AttributeSetInstance)MTable.get(getCtx(), I_M_AttributeSetInstance.Table_Name)
@@ -231,29 +203,29 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_M_Locator getM_Locator() throws RuntimeException
+	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException
     {
-		return (I_M_Locator)MTable.get(getCtx(), I_M_Locator.Table_Name)
-			.getPO(getM_Locator_ID(), get_TrxName());	}
+		return (I_M_AttributeSetInstance)MTable.get(getCtx(), I_M_AttributeSetInstance.Table_Name)
+			.getPO(getM_AttributeSetInstance_ID(), get_TrxName());	}
 
-	/** Set Locator.
-		@param M_Locator_ID 
-		Warehouse Locator
+	/** Set Attribute Set Instance.
+		@param M_AttributeSetInstance_ID 
+		Product Attribute Set Instance
 	  */
-	public void setM_Locator_ID (int M_Locator_ID)
+	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 	{
-		if (M_Locator_ID < 1) 
-			set_Value (COLUMNNAME_M_Locator_ID, null);
+		if (M_AttributeSetInstance_ID < 0) 
+			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, null);
 		else 
-			set_Value (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
+			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
 	}
 
-	/** Get Locator.
-		@return Warehouse Locator
+	/** Get Attribute Set Instance.
+		@return Product Attribute Set Instance
 	  */
-	public int getM_Locator_ID () 
+	public int getM_AttributeSetInstance_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Locator_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_AttributeSetInstance_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -287,29 +259,29 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_M_Movement getM_Movement() throws RuntimeException
+	public I_M_Locator getM_Locator() throws RuntimeException
     {
-		return (org.compiere.model.I_M_Movement)MTable.get(getCtx(), org.compiere.model.I_M_Movement.Table_Name)
-			.getPO(getM_Movement_ID(), get_TrxName());	}
+		return (I_M_Locator)MTable.get(getCtx(), I_M_Locator.Table_Name)
+			.getPO(getM_Locator_ID(), get_TrxName());	}
 
-	/** Set Inventory Move.
-		@param M_Movement_ID 
-		Movement of Inventory
+	/** Set Locator.
+		@param M_Locator_ID 
+		Warehouse Locator
 	  */
-	public void setM_Movement_ID (int M_Movement_ID)
+	public void setM_Locator_ID (int M_Locator_ID)
 	{
-		if (M_Movement_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_Movement_ID, null);
+		if (M_Locator_ID < 1) 
+			set_Value (COLUMNNAME_M_Locator_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_M_Movement_ID, Integer.valueOf(M_Movement_ID));
+			set_Value (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
 	}
 
-	/** Get Inventory Move.
-		@return Movement of Inventory
+	/** Get Locator.
+		@return Warehouse Locator
 	  */
-	public int getM_Movement_ID () 
+	public int getM_Locator_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Movement_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Locator_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -338,24 +310,32 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 		return ii.intValue();
 	}
 
-	/** Set Movement Quantity.
-		@param MovementQty 
-		Quantity of a product moved.
+	public org.compiere.model.I_M_Movement getM_Movement() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_Movement)MTable.get(getCtx(), org.compiere.model.I_M_Movement.Table_Name)
+			.getPO(getM_Movement_ID(), get_TrxName());	}
+
+	/** Set Inventory Move.
+		@param M_Movement_ID 
+		Movement of Inventory
 	  */
-	public void setMovementQty (BigDecimal MovementQty)
+	public void setM_Movement_ID (int M_Movement_ID)
 	{
-		set_Value (COLUMNNAME_MovementQty, MovementQty);
+		if (M_Movement_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Movement_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Movement_ID, Integer.valueOf(M_Movement_ID));
 	}
 
-	/** Get Movement Quantity.
-		@return Quantity of a product moved.
+	/** Get Inventory Move.
+		@return Movement of Inventory
 	  */
-	public BigDecimal getMovementQty () 
+	public int getM_Movement_ID () 
 	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MovementQty);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Movement_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
@@ -384,6 +364,26 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Movement Quantity.
+		@param MovementQty 
+		Quantity of a product moved.
+	  */
+	public void setMovementQty (BigDecimal MovementQty)
+	{
+		set_Value (COLUMNNAME_MovementQty, MovementQty);
+	}
+
+	/** Get Movement Quantity.
+		@return Quantity of a product moved.
+	  */
+	public BigDecimal getMovementQty () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MovementQty);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Processed.

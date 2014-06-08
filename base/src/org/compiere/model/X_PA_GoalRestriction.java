@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_GoalRestriction
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_PA_GoalRestriction (Properties ctx, int PA_GoalRestriction_ID, String trxName)
@@ -40,8 +40,8 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
         {
 			setGoalRestrictionType (null);
 			setName (null);
-			setPA_Goal_ID (0);
 			setPA_GoalRestriction_ID (0);
+			setPA_Goal_ID (0);
         } */
     }
 
@@ -73,34 +73,6 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
       return sb.toString();
     }
 
-	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
-			.getPO(getC_BPartner_ID(), get_TrxName());	}
-
-	/** Set Business Partner .
-		@param C_BPartner_ID 
-		Identifies a Business Partner
-	  */
-	public void setC_BPartner_ID (int C_BPartner_ID)
-	{
-		if (C_BPartner_ID < 1) 
-			set_Value (COLUMNNAME_C_BPartner_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
-	}
-
-	/** Get Business Partner .
-		@return Identifies a Business Partner
-	  */
-	public int getC_BPartner_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException
     {
 		return (org.compiere.model.I_C_BP_Group)MTable.get(getCtx(), org.compiere.model.I_C_BP_Group.Table_Name)
@@ -124,6 +96,34 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
 	public int getC_BP_Group_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Group_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
+			.getPO(getC_BPartner_ID(), get_TrxName());	}
+
+	/** Set Business Partner .
+		@param C_BPartner_ID 
+		Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID)
+	{
+		if (C_BPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+	}
+
+	/** Get Business Partner .
+		@return Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -263,6 +263,29 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
 		return ii.intValue();
 	}
 
+	/** Set Goal Restriction.
+		@param PA_GoalRestriction_ID 
+		Performance Goal Restriction
+	  */
+	public void setPA_GoalRestriction_ID (int PA_GoalRestriction_ID)
+	{
+		if (PA_GoalRestriction_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_GoalRestriction_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_GoalRestriction_ID, Integer.valueOf(PA_GoalRestriction_ID));
+	}
+
+	/** Get Goal Restriction.
+		@return Performance Goal Restriction
+	  */
+	public int getPA_GoalRestriction_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PA_GoalRestriction_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_PA_Goal getPA_Goal() throws RuntimeException
     {
 		return (org.compiere.model.I_PA_Goal)MTable.get(getCtx(), org.compiere.model.I_PA_Goal.Table_Name)
@@ -286,29 +309,6 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
 	public int getPA_Goal_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PA_Goal_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Goal Restriction.
-		@param PA_GoalRestriction_ID 
-		Performance Goal Restriction
-	  */
-	public void setPA_GoalRestriction_ID (int PA_GoalRestriction_ID)
-	{
-		if (PA_GoalRestriction_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_PA_GoalRestriction_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_PA_GoalRestriction_ID, Integer.valueOf(PA_GoalRestriction_ID));
-	}
-
-	/** Get Goal Restriction.
-		@return Performance Goal Restriction
-	  */
-	public int getPA_GoalRestriction_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PA_GoalRestriction_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

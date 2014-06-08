@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for ASP_Field
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_ASP_Field extends PO implements I_ASP_Field, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_ASP_Field (Properties ctx, int ASP_Field_ID, String trxName)

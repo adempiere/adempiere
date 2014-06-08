@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_Goal
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_PA_Goal (Properties ctx, int PA_Goal_ID, String trxName)
@@ -459,29 +459,6 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Goal.
-		@param PA_Goal_ID 
-		Performance Goal
-	  */
-	public void setPA_Goal_ID (int PA_Goal_ID)
-	{
-		if (PA_Goal_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_PA_Goal_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_PA_Goal_ID, Integer.valueOf(PA_Goal_ID));
-	}
-
-	/** Get Goal.
-		@return Performance Goal
-	  */
-	public int getPA_Goal_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PA_Goal_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_PA_Goal getPA_GoalParent() throws RuntimeException
     {
 		return (org.compiere.model.I_PA_Goal)MTable.get(getCtx(), org.compiere.model.I_PA_Goal.Table_Name)
@@ -505,6 +482,29 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	public int getPA_GoalParent_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PA_GoalParent_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Goal.
+		@param PA_Goal_ID 
+		Performance Goal
+	  */
+	public void setPA_Goal_ID (int PA_Goal_ID)
+	{
+		if (PA_Goal_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_Goal_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_Goal_ID, Integer.valueOf(PA_Goal_ID));
+	}
+
+	/** Get Goal.
+		@return Performance Goal
+	  */
+	public int getPA_Goal_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PA_Goal_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

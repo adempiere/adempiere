@@ -44,5 +44,4 @@ public class MigrationStepRollback extends SvrProcess {
 		migrationstep = new MMigrationStep(getCtx(), getRecord_ID(), get_TrxName());
 
 	}
-
 }

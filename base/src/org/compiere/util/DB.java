@@ -40,6 +40,7 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 import org.adempiere.exceptions.DBException;
+import org.adempiere.util.Check;
 import org.compiere.Adempiere;
 import org.compiere.db.AdempiereDatabase;
 import org.compiere.db.CConnection;
@@ -165,7 +166,7 @@ public final class DB
 		for (int i = 0; i < ass.length; i++)
 		{
 			ass[i].checkCosting();
-			ass[i].save();
+			ass[i].saveEx();
 		}
 
 		//	Reset Flag
@@ -2261,5 +2262,34 @@ public final class DB
 		}
 	}
 
-}	//	DB
+	public static final String SQL_EmptyList = "(-1)";
 
+	/**
+	 * Build an SQL list for given parameters. <br>
+	 * e.g. For paramsIn={1,2,3} it will return "(?,?,?)" and it will copy paramsIn to paramsOut
+	 * 
+	 * @param paramsIn
+	 * @param paramsOut
+	 * @return SQL list
+	 */
+	public static String buildSqlList(final List<? extends Object> paramsIn, final List<Object> paramsOut)
+	{
+		Check.assumeNotNull(paramsOut, "paramsOut not null");
+		
+		if (paramsIn == null || paramsIn.isEmpty())
+		{
+			return SQL_EmptyList;
+		}
+		
+		final StringBuilder sql = new StringBuilder("?");
+		final int len = paramsIn.size();
+		for (int i = 1; i < len; i++)
+		{
+			sql.append(",?");
+		}
+		
+		paramsOut.addAll(paramsIn);
+
+		return sql.insert(0, "(").append(")").toString();
+	}
+}	//	DB

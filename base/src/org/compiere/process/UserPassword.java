@@ -18,8 +18,10 @@ package org.compiere.process;
 
 import java.util.logging.Level;
 
+import org.compiere.model.MColumn;
 import org.compiere.model.MUser;
 import org.compiere.util.DB;
+import org.compiere.util.SecureEngine;
 import org.compiere.util.Util;
 
 /**
@@ -90,15 +92,18 @@ public class UserPassword extends SvrProcess
 		}
 
 		//	is entered Password correct ?
-		else if (!p_OldPassword.equals(user.getPassword()))
+		else if (!user.authenticateHash(p_OldPassword) && !p_OldPassword.equals(user.getPassword()) )
 			throw new IllegalArgumentException("@OldPasswordNoMatch@");
-		
+
 		//	Change Super User
-		if (p_AD_User_ID == 0)
+        if (p_AD_User_ID == 0)
 		{
+            user.setPassword(p_NewPassword);
 			String sql = "UPDATE AD_User SET Updated=SysDate, UpdatedBy=" + getAD_User_ID();
-			if (!Util.isEmpty(p_NewPassword))
-				sql += ", Password=" + DB.TO_STRING(p_NewPassword);
+			if (!Util.isEmpty(p_NewPassword)) {
+                sql += ", Password=" + DB.TO_STRING( MColumn.isEncrypted(417) ? SecureEngine.encrypt(user.getPassword()) : user.getPassword());
+                sql += ", Salt=" +  DB.TO_STRING(user.getSalt());
+            }
 			if (!Util.isEmpty(p_NewEMail))
 				sql += ", Email=" + DB.TO_STRING(p_NewEMail);
 			if (!Util.isEmpty(p_NewEMailUser))
@@ -110,6 +115,7 @@ public class UserPassword extends SvrProcess
 				return "OK";
 			else 
 				return "@Error@";
+
 		}
 		else
 		{

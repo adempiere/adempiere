@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for K_Entry
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_K_Entry extends PO implements I_K_Entry, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_K_Entry (Properties ctx, int K_Entry_ID, String trxName)
@@ -169,23 +169,6 @@ public class X_K_Entry extends PO implements I_K_Entry, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Keywords.
-		@param Keywords 
-		List of Keywords - separated by space, comma or semicolon
-	  */
-	public void setKeywords (String Keywords)
-	{
-		set_Value (COLUMNNAME_Keywords, Keywords);
-	}
-
-	/** Get Keywords.
-		@return List of Keywords - separated by space, comma or semicolon
-	  */
-	public String getKeywords () 
-	{
-		return (String)get_Value(COLUMNNAME_Keywords);
-	}
-
 	public org.compiere.model.I_K_Source getK_Source() throws RuntimeException
     {
 		return (org.compiere.model.I_K_Source)MTable.get(getCtx(), org.compiere.model.I_K_Source.Table_Name)
@@ -240,6 +223,23 @@ public class X_K_Entry extends PO implements I_K_Entry, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Keywords.
+		@param Keywords 
+		List of Keywords - separated by space, comma or semicolon
+	  */
+	public void setKeywords (String Keywords)
+	{
+		set_Value (COLUMNNAME_Keywords, Keywords);
+	}
+
+	/** Get Keywords.
+		@return List of Keywords - separated by space, comma or semicolon
+	  */
+	public String getKeywords () 
+	{
+		return (String)get_Value(COLUMNNAME_Keywords);
 	}
 
 	/** Set Name.

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_CashLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_C_CashLine 
 {
@@ -75,19 +75,6 @@ public interface I_C_CashLine
 	  */
 	public BigDecimal getAmount();
 
-    /** Column name CashType */
-    public static final String COLUMNNAME_CashType = "CashType";
-
-	/** Set Cash Type.
-	  * Source of Cash
-	  */
-	public void setCashType (String CashType);
-
-	/** Get Cash Type.
-	  * Source of Cash
-	  */
-	public String getCashType();
-
     /** Column name C_BankAccount_ID */
     public static final String COLUMNNAME_C_BankAccount_ID = "C_BankAccount_ID";
 
@@ -103,6 +90,19 @@ public interface I_C_CashLine
 
 	public org.compiere.model.I_C_BankAccount getC_BankAccount() throws RuntimeException;
 
+    /** Column name C_CashLine_ID */
+    public static final String COLUMNNAME_C_CashLine_ID = "C_CashLine_ID";
+
+	/** Set Cash Journal Line.
+	  * Cash Journal Line
+	  */
+	public void setC_CashLine_ID (int C_CashLine_ID);
+
+	/** Get Cash Journal Line.
+	  * Cash Journal Line
+	  */
+	public int getC_CashLine_ID();
+
     /** Column name C_Cash_ID */
     public static final String COLUMNNAME_C_Cash_ID = "C_Cash_ID";
 
@@ -117,19 +117,6 @@ public interface I_C_CashLine
 	public int getC_Cash_ID();
 
 	public org.compiere.model.I_C_Cash getC_Cash() throws RuntimeException;
-
-    /** Column name C_CashLine_ID */
-    public static final String COLUMNNAME_C_CashLine_ID = "C_CashLine_ID";
-
-	/** Set Cash Journal Line.
-	  * Cash Journal Line
-	  */
-	public void setC_CashLine_ID (int C_CashLine_ID);
-
-	/** Get Cash Journal Line.
-	  * Cash Journal Line
-	  */
-	public int getC_CashLine_ID();
 
     /** Column name C_Charge_ID */
     public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
@@ -190,6 +177,19 @@ public interface I_C_CashLine
 	public int getC_Payment_ID();
 
 	public org.compiere.model.I_C_Payment getC_Payment() throws RuntimeException;
+
+    /** Column name CashType */
+    public static final String COLUMNNAME_CashType = "CashType";
+
+	/** Set Cash Type.
+	  * Source of Cash
+	  */
+	public void setCashType (String CashType);
+
+	/** Get Cash Type.
+	  * Source of Cash
+	  */
+	public String getCashType();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

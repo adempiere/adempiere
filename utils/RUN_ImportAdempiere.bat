@@ -3,9 +3,14 @@
 @if (%ADEMPIERE_HOME%) == () (CALL myEnvironment.bat Server) else (CALL %ADEMPIERE_HOME%\utils\myEnvironment.bat Server)
 @Title Import Adempiere - %ADEMPIERE_HOME% (%ADEMPIERE_DB_NAME%)
 
+@if %ADEMPIERE_DB_PATH% == postgresql (
+	echo Re-Create Adempiere User and import %ADEMPIERE_HOME%\data\Adempiere_pg.dmp - %ADEMPIERE_DB_NAME%
+	dir %ADEMPIERE_HOME%\data\Adempiere_pg.dmp
+ ) else (
+	echo Re-Create Adempiere User and import %ADEMPIERE_HOME%\data\Adempiere.dmp - %ADEMPIERE_DB_NAME%
+	dir %ADEMPIERE_HOME%\data\Adempiere.dmp
+)
 
-@echo Re-Create Adempiere User and import %ADEMPIERE_HOME%\data\Adempiere.dmp - (%ADEMPIERE_DB_NAME%)
-@dir %ADEMPIERE_HOME%\data\Adempiere.dmp
 @echo == The import will show warnings. This is OK ==
 @pause
 

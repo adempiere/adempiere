@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_TemplateTable
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_CM_TemplateTable extends PO implements I_CM_TemplateTable, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_CM_TemplateTable (Properties ctx, int CM_TemplateTable_ID, String trxName)
@@ -39,8 +39,8 @@ public class X_CM_TemplateTable extends PO implements I_CM_TemplateTable, I_Pers
       /** if (CM_TemplateTable_ID == 0)
         {
 			setAD_Table_ID (0);
-			setCM_Template_ID (0);
 			setCM_TemplateTable_ID (0);
+			setCM_Template_ID (0);
 			setName (null);
         } */
     }
@@ -101,6 +101,29 @@ public class X_CM_TemplateTable extends PO implements I_CM_TemplateTable, I_Pers
 		return ii.intValue();
 	}
 
+	/** Set Template Table.
+		@param CM_TemplateTable_ID 
+		CM Template Table Link
+	  */
+	public void setCM_TemplateTable_ID (int CM_TemplateTable_ID)
+	{
+		if (CM_TemplateTable_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_TemplateTable_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_TemplateTable_ID, Integer.valueOf(CM_TemplateTable_ID));
+	}
+
+	/** Get Template Table.
+		@return CM Template Table Link
+	  */
+	public int getCM_TemplateTable_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CM_TemplateTable_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_CM_Template getCM_Template() throws RuntimeException
     {
 		return (org.compiere.model.I_CM_Template)MTable.get(getCtx(), org.compiere.model.I_CM_Template.Table_Name)
@@ -124,29 +147,6 @@ public class X_CM_TemplateTable extends PO implements I_CM_TemplateTable, I_Pers
 	public int getCM_Template_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_CM_Template_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Template Table.
-		@param CM_TemplateTable_ID 
-		CM Template Table Link
-	  */
-	public void setCM_TemplateTable_ID (int CM_TemplateTable_ID)
-	{
-		if (CM_TemplateTable_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_CM_TemplateTable_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_CM_TemplateTable_ID, Integer.valueOf(CM_TemplateTable_ID));
-	}
-
-	/** Get Template Table.
-		@return CM Template Table Link
-	  */
-	public int getCM_TemplateTable_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_CM_TemplateTable_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

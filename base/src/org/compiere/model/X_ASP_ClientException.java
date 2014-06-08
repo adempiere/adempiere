@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for ASP_ClientException
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_ASP_ClientException extends PO implements I_ASP_ClientException, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20120702L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_ASP_ClientException (Properties ctx, int ASP_ClientException_ID, String trxName)
@@ -70,31 +70,6 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	public org.adempiere.model.I_AD_Browse getAD_Browse() throws RuntimeException
-    {
-		return (org.adempiere.model.I_AD_Browse)MTable.get(getCtx(), org.adempiere.model.I_AD_Browse.Table_Name)
-			.getPO(getAD_Browse_ID(), get_TrxName());	}
-
-	/** Set Smart Browse.
-		@param AD_Browse_ID Smart Browse	  */
-	public void setAD_Browse_ID (int AD_Browse_ID)
-	{
-		if (AD_Browse_ID < 1) 
-			set_Value (COLUMNNAME_AD_Browse_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_Browse_ID, Integer.valueOf(AD_Browse_ID));
-	}
-
-	/** Get Smart Browse.
-		@return Smart Browse	  */
-	public int getAD_Browse_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Browse_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	public org.compiere.model.I_AD_Field getAD_Field() throws RuntimeException
     {

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_PaySelection
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_C_PaySelection 
 {
@@ -90,6 +90,19 @@ public interface I_C_PaySelection
 	  */
 	public int getC_PaySelection_ID();
 
+    /** Column name CreateFrom */
+    public static final String COLUMNNAME_CreateFrom = "CreateFrom";
+
+	/** Set Create lines from.
+	  * Process which will generate a new document lines based on an existing document
+	  */
+	public void setCreateFrom (String CreateFrom);
+
+	/** Get Create lines from.
+	  * Process which will generate a new document lines based on an existing document
+	  */
+	public String getCreateFrom();
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -105,19 +118,6 @@ public interface I_C_PaySelection
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name CreateFrom */
-    public static final String COLUMNNAME_CreateFrom = "CreateFrom";
-
-	/** Set Create lines from.
-	  * Process which will generate a new document lines based on an existing document
-	  */
-	public void setCreateFrom (String CreateFrom);
-
-	/** Get Create lines from.
-	  * Process which will generate a new document lines based on an existing document
-	  */
-	public String getCreateFrom();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

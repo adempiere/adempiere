@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Ref_Table
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_AD_Ref_Table extends PO implements I_AD_Ref_Table, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_AD_Ref_Table (Properties ctx, int AD_Ref_Table_ID, String trxName)
@@ -44,6 +44,10 @@ public class X_AD_Ref_Table extends PO implements I_AD_Ref_Table, I_Persistent
 			setAD_Table_ID (0);
 			setEntityType (null);
 // U
+			setIsAlert (false);
+// N
+			setIsDisplayIdentifier (false);
+// N
 			setIsValueDisplayed (false);
         } */
     }
@@ -218,6 +222,23 @@ public class X_AD_Ref_Table extends PO implements I_AD_Ref_Table, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Display SQL.
+		@param DisplaySQL 
+		SQL for display of lookup value
+	  */
+	public void setDisplaySQL (String DisplaySQL)
+	{
+		set_Value (COLUMNNAME_DisplaySQL, DisplaySQL);
+	}
+
+	/** Get Display SQL.
+		@return SQL for display of lookup value
+	  */
+	public String getDisplaySQL () 
+	{
+		return (String)get_Value(COLUMNNAME_DisplaySQL);
+	}
+
 	/** EntityType AD_Reference_ID=389 */
 	public static final int ENTITYTYPE_AD_Reference_ID=389;
 	/** Set Entity Type.
@@ -236,6 +257,54 @@ public class X_AD_Ref_Table extends PO implements I_AD_Ref_Table, I_Persistent
 	public String getEntityType () 
 	{
 		return (String)get_Value(COLUMNNAME_EntityType);
+	}
+
+	/** Set Alert.
+		@param IsAlert 
+		Display alert message when referenced record is accessed
+	  */
+	public void setIsAlert (boolean IsAlert)
+	{
+		set_Value (COLUMNNAME_IsAlert, Boolean.valueOf(IsAlert));
+	}
+
+	/** Get Alert.
+		@return Display alert message when referenced record is accessed
+	  */
+	public boolean isAlert () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsAlert);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Display Identifier.
+		@param IsDisplayIdentifier 
+		Display the record identifier
+	  */
+	public void setIsDisplayIdentifier (boolean IsDisplayIdentifier)
+	{
+		set_Value (COLUMNNAME_IsDisplayIdentifier, Boolean.valueOf(IsDisplayIdentifier));
+	}
+
+	/** Get Display Identifier.
+		@return Display the record identifier
+	  */
+	public boolean isDisplayIdentifier () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsDisplayIdentifier);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Display Value.

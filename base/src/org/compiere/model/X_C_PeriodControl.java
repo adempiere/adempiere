@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_PeriodControl
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_C_PeriodControl extends PO implements I_C_PeriodControl, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_C_PeriodControl (Properties ctx, int C_PeriodControl_ID, String trxName)
@@ -190,6 +190,8 @@ public class X_C_PeriodControl extends PO implements I_C_PeriodControl, I_Persis
 	public static final String DOCBASETYPE_DistributionOrder = "DOO";
 	/** Manufacturing Cost Collector = MCC */
 	public static final String DOCBASETYPE_ManufacturingCostCollector = "MCC";
+	/** Warehouse Management Order = WMO */
+	public static final String DOCBASETYPE_WarehouseManagementOrder = "WMO";
 	/** Set Document BaseType.
 		@param DocBaseType 
 		Logical type of document

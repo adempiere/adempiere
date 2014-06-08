@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_RfQ_TopicSubscriberOnly
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_C_RfQ_TopicSubscriberOnly extends PO implements I_C_RfQ_TopicSubscriberOnly, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_C_RfQ_TopicSubscriberOnly (Properties ctx, int C_RfQ_TopicSubscriberOnly_ID, String trxName)
@@ -38,8 +38,8 @@ public class X_C_RfQ_TopicSubscriberOnly extends PO implements I_C_RfQ_TopicSubs
       super (ctx, C_RfQ_TopicSubscriberOnly_ID, trxName);
       /** if (C_RfQ_TopicSubscriberOnly_ID == 0)
         {
-			setC_RfQ_TopicSubscriber_ID (0);
 			setC_RfQ_TopicSubscriberOnly_ID (0);
+			setC_RfQ_TopicSubscriber_ID (0);
         } */
     }
 
@@ -71,6 +71,29 @@ public class X_C_RfQ_TopicSubscriberOnly extends PO implements I_C_RfQ_TopicSubs
       return sb.toString();
     }
 
+	/** Set RfQ Topic Subscriber Restriction.
+		@param C_RfQ_TopicSubscriberOnly_ID 
+		Include Subscriber only for certain products or product categories
+	  */
+	public void setC_RfQ_TopicSubscriberOnly_ID (int C_RfQ_TopicSubscriberOnly_ID)
+	{
+		if (C_RfQ_TopicSubscriberOnly_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_RfQ_TopicSubscriberOnly_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_RfQ_TopicSubscriberOnly_ID, Integer.valueOf(C_RfQ_TopicSubscriberOnly_ID));
+	}
+
+	/** Get RfQ Topic Subscriber Restriction.
+		@return Include Subscriber only for certain products or product categories
+	  */
+	public int getC_RfQ_TopicSubscriberOnly_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_RfQ_TopicSubscriberOnly_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_C_RfQ_TopicSubscriber getC_RfQ_TopicSubscriber() throws RuntimeException
     {
 		return (org.compiere.model.I_C_RfQ_TopicSubscriber)MTable.get(getCtx(), org.compiere.model.I_C_RfQ_TopicSubscriber.Table_Name)
@@ -94,29 +117,6 @@ public class X_C_RfQ_TopicSubscriberOnly extends PO implements I_C_RfQ_TopicSubs
 	public int getC_RfQ_TopicSubscriber_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_RfQ_TopicSubscriber_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set RfQ Topic Subscriber Restriction.
-		@param C_RfQ_TopicSubscriberOnly_ID 
-		Include Subscriber only for certain products or product categories
-	  */
-	public void setC_RfQ_TopicSubscriberOnly_ID (int C_RfQ_TopicSubscriberOnly_ID)
-	{
-		if (C_RfQ_TopicSubscriberOnly_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_RfQ_TopicSubscriberOnly_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_RfQ_TopicSubscriberOnly_ID, Integer.valueOf(C_RfQ_TopicSubscriberOnly_ID));
-	}
-
-	/** Get RfQ Topic Subscriber Restriction.
-		@return Include Subscriber only for certain products or product categories
-	  */
-	public int getC_RfQ_TopicSubscriberOnly_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_RfQ_TopicSubscriberOnly_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

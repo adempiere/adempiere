@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_LandedCostAllocation
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_C_LandedCostAllocation 
 {
@@ -132,6 +132,19 @@ public interface I_C_LandedCostAllocation
 	  */
 	public int getCreatedBy();
 
+    /** Column name IsActive */
+    public static final String COLUMNNAME_IsActive = "IsActive";
+
+	/** Set Active.
+	  * The record is active in the system
+	  */
+	public void setIsActive (boolean IsActive);
+
+	/** Get Active.
+	  * The record is active in the system
+	  */
+	public boolean isActive();
+
     /** Column name M_AttributeSetInstance_ID */
     public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
 
@@ -161,6 +174,21 @@ public interface I_C_LandedCostAllocation
 	public int getM_CostElement_ID();
 
 	public org.compiere.model.I_M_CostElement getM_CostElement() throws RuntimeException;
+
+    /** Column name M_InOutLine_ID */
+    public static final String COLUMNNAME_M_InOutLine_ID = "M_InOutLine_ID";
+
+	/** Set Shipment/Receipt Line.
+	  * Line on Shipment or Receipt document
+	  */
+	public void setM_InOutLine_ID (int M_InOutLine_ID);
+
+	/** Get Shipment/Receipt Line.
+	  * Line on Shipment or Receipt document
+	  */
+	public int getM_InOutLine_ID();
+
+	public org.compiere.model.I_M_InOutLine getM_InOutLine() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";

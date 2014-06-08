@@ -136,7 +136,7 @@ public class DeliveryAccuracy extends SLACriteria
 			if (!measure.isProcessed())
 			{
 				measure.setProcessed(true);
-				measure.save();
+				measure.saveEx();
 			}
 		}
 		//	Goal Expired

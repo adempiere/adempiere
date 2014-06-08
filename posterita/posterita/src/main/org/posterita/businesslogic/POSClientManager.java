@@ -174,7 +174,7 @@ public class POSClientManager extends ClientManager
 		
 		//set warehouse in org info
 		orgInfo.setM_Warehouse_ID(warehouse.getM_Warehouse_ID());
-		orgInfo.save();
+		orgInfo.saveEx();
 				
 		System.out.println("Creating Business Partners...");
 		// Create Cash Transaction Business Partner

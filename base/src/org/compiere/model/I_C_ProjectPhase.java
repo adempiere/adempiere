@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_ProjectPhase
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_C_ProjectPhase 
 {
@@ -62,19 +62,6 @@ public interface I_C_ProjectPhase
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name CommittedAmt */
-    public static final String COLUMNNAME_CommittedAmt = "CommittedAmt";
-
-	/** Set Committed Amount.
-	  * The (legal) commitment amount
-	  */
-	public void setCommittedAmt (BigDecimal CommittedAmt);
-
-	/** Get Committed Amount.
-	  * The (legal) commitment amount
-	  */
-	public BigDecimal getCommittedAmt();
-
     /** Column name C_Order_ID */
     public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
 
@@ -105,6 +92,19 @@ public interface I_C_ProjectPhase
 
 	public org.compiere.model.I_C_Phase getC_Phase() throws RuntimeException;
 
+    /** Column name C_ProjectPhase_ID */
+    public static final String COLUMNNAME_C_ProjectPhase_ID = "C_ProjectPhase_ID";
+
+	/** Set Project Phase.
+	  * Phase of a Project
+	  */
+	public void setC_ProjectPhase_ID (int C_ProjectPhase_ID);
+
+	/** Get Project Phase.
+	  * Phase of a Project
+	  */
+	public int getC_ProjectPhase_ID();
+
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 
@@ -120,18 +120,18 @@ public interface I_C_ProjectPhase
 
 	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
 
-    /** Column name C_ProjectPhase_ID */
-    public static final String COLUMNNAME_C_ProjectPhase_ID = "C_ProjectPhase_ID";
+    /** Column name CommittedAmt */
+    public static final String COLUMNNAME_CommittedAmt = "CommittedAmt";
 
-	/** Set Project Phase.
-	  * Phase of a Project
+	/** Set Committed Amount.
+	  * The (legal) commitment amount
 	  */
-	public void setC_ProjectPhase_ID (int C_ProjectPhase_ID);
+	public void setCommittedAmt (BigDecimal CommittedAmt);
 
-	/** Get Project Phase.
-	  * Phase of a Project
+	/** Get Committed Amount.
+	  * The (legal) commitment amount
 	  */
-	public int getC_ProjectPhase_ID();
+	public BigDecimal getCommittedAmt();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

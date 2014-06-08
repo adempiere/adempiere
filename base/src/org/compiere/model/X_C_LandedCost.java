@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_LandedCost
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_C_LandedCost extends PO implements I_C_LandedCost, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_C_LandedCost (Properties ctx, int C_LandedCost_ID, String trxName)
@@ -208,34 +208,6 @@ public class X_C_LandedCost extends PO implements I_C_LandedCost, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_M_InOut getM_InOut() throws RuntimeException
-    {
-		return (org.compiere.model.I_M_InOut)MTable.get(getCtx(), org.compiere.model.I_M_InOut.Table_Name)
-			.getPO(getM_InOut_ID(), get_TrxName());	}
-
-	/** Set Shipment/Receipt.
-		@param M_InOut_ID 
-		Material Shipment Document
-	  */
-	public void setM_InOut_ID (int M_InOut_ID)
-	{
-		if (M_InOut_ID < 1) 
-			set_Value (COLUMNNAME_M_InOut_ID, null);
-		else 
-			set_Value (COLUMNNAME_M_InOut_ID, Integer.valueOf(M_InOut_ID));
-	}
-
-	/** Get Shipment/Receipt.
-		@return Material Shipment Document
-	  */
-	public int getM_InOut_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_InOut_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_M_InOutLine getM_InOutLine() throws RuntimeException
     {
 		return (org.compiere.model.I_M_InOutLine)MTable.get(getCtx(), org.compiere.model.I_M_InOutLine.Table_Name)
@@ -259,6 +231,34 @@ public class X_C_LandedCost extends PO implements I_C_LandedCost, I_Persistent
 	public int getM_InOutLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_InOutLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_InOut getM_InOut() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_InOut)MTable.get(getCtx(), org.compiere.model.I_M_InOut.Table_Name)
+			.getPO(getM_InOut_ID(), get_TrxName());	}
+
+	/** Set Shipment/Receipt.
+		@param M_InOut_ID 
+		Material Shipment Document
+	  */
+	public void setM_InOut_ID (int M_InOut_ID)
+	{
+		if (M_InOut_ID < 1) 
+			set_Value (COLUMNNAME_M_InOut_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_InOut_ID, Integer.valueOf(M_InOut_ID));
+	}
+
+	/** Get Shipment/Receipt.
+		@return Material Shipment Document
+	  */
+	public int getM_InOut_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_InOut_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

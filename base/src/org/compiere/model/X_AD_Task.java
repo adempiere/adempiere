@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Task
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_AD_Task extends PO implements I_AD_Task, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_AD_Task (Properties ctx, int AD_Task_ID, String trxName)
@@ -38,8 +38,8 @@ public class X_AD_Task extends PO implements I_AD_Task, I_Persistent
       super (ctx, AD_Task_ID, trxName);
       /** if (AD_Task_ID == 0)
         {
-			setAccessLevel (null);
 			setAD_Task_ID (0);
+			setAccessLevel (null);
 			setEntityType (null);
 // U
 			setIsServerProcess (false);
@@ -77,6 +77,29 @@ public class X_AD_Task extends PO implements I_AD_Task, I_Persistent
       return sb.toString();
     }
 
+	/** Set OS Task.
+		@param AD_Task_ID 
+		Operation System Task
+	  */
+	public void setAD_Task_ID (int AD_Task_ID)
+	{
+		if (AD_Task_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Task_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Task_ID, Integer.valueOf(AD_Task_ID));
+	}
+
+	/** Get OS Task.
+		@return Operation System Task
+	  */
+	public int getAD_Task_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Task_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** AccessLevel AD_Reference_ID=5 */
 	public static final int ACCESSLEVEL_AD_Reference_ID=5;
 	/** Organization = 1 */
@@ -107,29 +130,6 @@ public class X_AD_Task extends PO implements I_AD_Task, I_Persistent
 	public String getAccessLevel () 
 	{
 		return (String)get_Value(COLUMNNAME_AccessLevel);
-	}
-
-	/** Set OS Task.
-		@param AD_Task_ID 
-		Operation System Task
-	  */
-	public void setAD_Task_ID (int AD_Task_ID)
-	{
-		if (AD_Task_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_Task_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_Task_ID, Integer.valueOf(AD_Task_ID));
-	}
-
-	/** Get OS Task.
-		@return Operation System Task
-	  */
-	public int getAD_Task_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Task_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set Description.

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_MovementLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_M_MovementLine 
 {
@@ -141,21 +141,6 @@ public interface I_M_MovementLine
 	  */
 	public int getLine();
 
-    /** Column name M_AttributeSetInstance_ID */
-    public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
-
-	/** Set Attribute Set Instance.
-	  * Product Attribute Set Instance
-	  */
-	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID);
-
-	/** Get Attribute Set Instance.
-	  * Product Attribute Set Instance
-	  */
-	public int getM_AttributeSetInstance_ID();
-
-	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
-
     /** Column name M_AttributeSetInstanceTo_ID */
     public static final String COLUMNNAME_M_AttributeSetInstanceTo_ID = "M_AttributeSetInstanceTo_ID";
 
@@ -171,20 +156,20 @@ public interface I_M_MovementLine
 
 	public I_M_AttributeSetInstance getM_AttributeSetInstanceTo() throws RuntimeException;
 
-    /** Column name M_Locator_ID */
-    public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
+    /** Column name M_AttributeSetInstance_ID */
+    public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
 
-	/** Set Locator.
-	  * Warehouse Locator
+	/** Set Attribute Set Instance.
+	  * Product Attribute Set Instance
 	  */
-	public void setM_Locator_ID (int M_Locator_ID);
+	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID);
 
-	/** Get Locator.
-	  * Warehouse Locator
+	/** Get Attribute Set Instance.
+	  * Product Attribute Set Instance
 	  */
-	public int getM_Locator_ID();
+	public int getM_AttributeSetInstance_ID();
 
-	public I_M_Locator getM_Locator() throws RuntimeException;
+	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
 
     /** Column name M_LocatorTo_ID */
     public static final String COLUMNNAME_M_LocatorTo_ID = "M_LocatorTo_ID";
@@ -201,6 +186,34 @@ public interface I_M_MovementLine
 
 	public I_M_Locator getM_LocatorTo() throws RuntimeException;
 
+    /** Column name M_Locator_ID */
+    public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
+
+	/** Set Locator.
+	  * Warehouse Locator
+	  */
+	public void setM_Locator_ID (int M_Locator_ID);
+
+	/** Get Locator.
+	  * Warehouse Locator
+	  */
+	public int getM_Locator_ID();
+
+	public I_M_Locator getM_Locator() throws RuntimeException;
+
+    /** Column name M_MovementLine_ID */
+    public static final String COLUMNNAME_M_MovementLine_ID = "M_MovementLine_ID";
+
+	/** Set Move Line.
+	  * Inventory Move document Line
+	  */
+	public void setM_MovementLine_ID (int M_MovementLine_ID);
+
+	/** Get Move Line.
+	  * Inventory Move document Line
+	  */
+	public int getM_MovementLine_ID();
+
     /** Column name M_Movement_ID */
     public static final String COLUMNNAME_M_Movement_ID = "M_Movement_ID";
 
@@ -216,32 +229,6 @@ public interface I_M_MovementLine
 
 	public org.compiere.model.I_M_Movement getM_Movement() throws RuntimeException;
 
-    /** Column name M_MovementLine_ID */
-    public static final String COLUMNNAME_M_MovementLine_ID = "M_MovementLine_ID";
-
-	/** Set Move Line.
-	  * Inventory Move document Line
-	  */
-	public void setM_MovementLine_ID (int M_MovementLine_ID);
-
-	/** Get Move Line.
-	  * Inventory Move document Line
-	  */
-	public int getM_MovementLine_ID();
-
-    /** Column name MovementQty */
-    public static final String COLUMNNAME_MovementQty = "MovementQty";
-
-	/** Set Movement Quantity.
-	  * Quantity of a product moved.
-	  */
-	public void setMovementQty (BigDecimal MovementQty);
-
-	/** Get Movement Quantity.
-	  * Quantity of a product moved.
-	  */
-	public BigDecimal getMovementQty();
-
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -256,6 +243,19 @@ public interface I_M_MovementLine
 	public int getM_Product_ID();
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
+
+    /** Column name MovementQty */
+    public static final String COLUMNNAME_MovementQty = "MovementQty";
+
+	/** Set Movement Quantity.
+	  * Quantity of a product moved.
+	  */
+	public void setMovementQty (BigDecimal MovementQty);
+
+	/** Get Movement Quantity.
+	  * Quantity of a product moved.
+	  */
+	public BigDecimal getMovementQty();
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";

@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for K_EntryRelated
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_K_EntryRelated extends PO implements I_K_EntryRelated, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_K_EntryRelated (Properties ctx, int K_EntryRelated_ID, String trxName)
@@ -38,8 +38,8 @@ public class X_K_EntryRelated extends PO implements I_K_EntryRelated, I_Persiste
       super (ctx, K_EntryRelated_ID, trxName);
       /** if (K_EntryRelated_ID == 0)
         {
-			setK_Entry_ID (0);
 			setK_EntryRelated_ID (0);
+			setK_Entry_ID (0);
         } */
     }
 
@@ -71,34 +71,6 @@ public class X_K_EntryRelated extends PO implements I_K_EntryRelated, I_Persiste
       return sb.toString();
     }
 
-	public org.compiere.model.I_K_Entry getK_Entry() throws RuntimeException
-    {
-		return (org.compiere.model.I_K_Entry)MTable.get(getCtx(), org.compiere.model.I_K_Entry.Table_Name)
-			.getPO(getK_Entry_ID(), get_TrxName());	}
-
-	/** Set Entry.
-		@param K_Entry_ID 
-		Knowledge Entry
-	  */
-	public void setK_Entry_ID (int K_Entry_ID)
-	{
-		if (K_Entry_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_K_Entry_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_K_Entry_ID, Integer.valueOf(K_Entry_ID));
-	}
-
-	/** Get Entry.
-		@return Knowledge Entry
-	  */
-	public int getK_Entry_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_K_Entry_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Related Entry.
 		@param K_EntryRelated_ID 
 		Related Entry for this Entry
@@ -129,6 +101,34 @@ public class X_K_EntryRelated extends PO implements I_K_EntryRelated, I_Persiste
     {
         return new KeyNamePair(get_ID(), String.valueOf(getK_EntryRelated_ID()));
     }
+
+	public org.compiere.model.I_K_Entry getK_Entry() throws RuntimeException
+    {
+		return (org.compiere.model.I_K_Entry)MTable.get(getCtx(), org.compiere.model.I_K_Entry.Table_Name)
+			.getPO(getK_Entry_ID(), get_TrxName());	}
+
+	/** Set Entry.
+		@param K_Entry_ID 
+		Knowledge Entry
+	  */
+	public void setK_Entry_ID (int K_Entry_ID)
+	{
+		if (K_Entry_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_K_Entry_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_K_Entry_ID, Integer.valueOf(K_Entry_ID));
+	}
+
+	/** Get Entry.
+		@return Knowledge Entry
+	  */
+	public int getK_Entry_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_K_Entry_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** Set Name.
 		@param Name 

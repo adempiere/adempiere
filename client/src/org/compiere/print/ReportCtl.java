@@ -18,24 +18,21 @@ package org.compiere.print;
 
 import java.lang.reflect.Method;
 import java.util.Properties;
-import java.util.Vector;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.apps.ADialog;
-import org.compiere.apps.ProcessCtl;
 import org.compiere.model.MPaySelectionCheck;
 import org.compiere.model.MProcess;
 import org.compiere.model.MQuery;
 import org.compiere.model.MTable;
 import org.compiere.model.PrintInfo;
 import org.compiere.process.ProcessInfo;
-import org.compiere.process.ProcessInfoParameter;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
-import org.compiere.util.Trx;
 
 /**
  *	Report Controller.
@@ -223,8 +220,6 @@ public class ReportCtl
 	 */
 	static public boolean startFinReport (ProcessInfo pi)
 	{
-		int AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
-
 		//  Create Query from Parameters
 		String TableName = pi.getAD_Process_ID() == 202 ? "T_Report" : "T_ReportStatement";
 		MQuery query = MQuery.get (Env.getCtx(), pi.getAD_PInstance_ID(), TableName);
@@ -240,7 +235,7 @@ public class ReportCtl
 		}
 		PrintInfo info = new PrintInfo(pi);
 
-		ReportEngine re = new ReportEngine(Env.getCtx(), format, query, info);
+		ReportEngine re = new ReportEngine(Env.getCtx(), format, query, pi,info);
 		createOutput(re, pi.isPrintPreview(), null);
 		return true;
 	}	//	startFinReport
@@ -363,7 +358,12 @@ public class ReportCtl
 	 */
 	public static boolean startCheckPrint (int C_Payment_ID, boolean IsDirectPrint)
 	{
-		
+		int HR_PaySelectionCheck_ID = getHRPaySelectionCheckById(Env.getCtx(), C_Payment_ID, null);
+		if (HR_PaySelectionCheck_ID > 0)
+		{	
+			return startDocumentPrint (ReportEngine.HR_CHECK, HR_PaySelectionCheck_ID, null, -1, IsDirectPrint);			
+		}	
+		 		
 		// afalcone - [ 1871567 ] Wrong value in Payment document
 		boolean ok = MPaySelectionCheck.deleteGeneratedDraft(Env.getCtx(), C_Payment_ID, null);
 		//
@@ -382,6 +382,12 @@ public class ReportCtl
 		return startDocumentPrint (ReportEngine.CHECK, C_PaySelectionCheck_ID, null, -1, IsDirectPrint);
 	}	//	startCheckPrint
 	
+	private static int getHRPaySelectionCheckById(Properties ctx, int C_Payment_ID,
+			String trxName) {
+		final String sql = "SELECT MAX(HR_PaySelectionCheck_ID) FROM HR_PaySelectionCheck psc WHERE psc.C_Payment_ID = ? AND Processed=?";
+		return DB.getSQLValue(trxName,sql, C_Payment_ID , true);
+	}
+
 	private static void createOutput(ReportEngine re, boolean printPreview, String printerName)
 	{
 		if (printPreview)

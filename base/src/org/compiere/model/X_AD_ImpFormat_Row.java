@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_ImpFormat_Row
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_AD_ImpFormat_Row extends PO implements I_AD_ImpFormat_Row, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_AD_ImpFormat_Row (Properties ctx, int AD_ImpFormat_Row_ID, String trxName)
@@ -246,6 +246,23 @@ public class X_AD_ImpFormat_Row extends PO implements I_AD_ImpFormat_Row, I_Pers
 	public String getDecimalPoint () 
 	{
 		return (String)get_Value(COLUMNNAME_DecimalPoint);
+	}
+
+	/** Set Default Logic.
+		@param DefaultValue 
+		Default value hierarchy, separated by ;
+	  */
+	public void setDefaultValue (String DefaultValue)
+	{
+		set_Value (COLUMNNAME_DefaultValue, DefaultValue);
+	}
+
+	/** Get Default Logic.
+		@return Default value hierarchy, separated by ;
+	  */
+	public String getDefaultValue () 
+	{
+		return (String)get_Value(COLUMNNAME_DefaultValue);
 	}
 
 	/** Set Divide by 100.

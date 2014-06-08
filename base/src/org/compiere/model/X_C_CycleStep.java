@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_CycleStep
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_C_CycleStep extends PO implements I_C_CycleStep, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_C_CycleStep (Properties ctx, int C_CycleStep_ID, String trxName)
@@ -40,8 +40,8 @@ public class X_C_CycleStep extends PO implements I_C_CycleStep, I_Persistent
       super (ctx, C_CycleStep_ID, trxName);
       /** if (C_CycleStep_ID == 0)
         {
-			setC_Cycle_ID (0);
 			setC_CycleStep_ID (0);
+			setC_Cycle_ID (0);
 			setName (null);
 			setRelativeWeight (Env.ZERO);
 // 1
@@ -78,6 +78,29 @@ public class X_C_CycleStep extends PO implements I_C_CycleStep, I_Persistent
       return sb.toString();
     }
 
+	/** Set Cycle Step.
+		@param C_CycleStep_ID 
+		The step for this Cycle
+	  */
+	public void setC_CycleStep_ID (int C_CycleStep_ID)
+	{
+		if (C_CycleStep_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_CycleStep_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_CycleStep_ID, Integer.valueOf(C_CycleStep_ID));
+	}
+
+	/** Get Cycle Step.
+		@return The step for this Cycle
+	  */
+	public int getC_CycleStep_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_CycleStep_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_C_Cycle getC_Cycle() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Cycle)MTable.get(getCtx(), org.compiere.model.I_C_Cycle.Table_Name)
@@ -101,29 +124,6 @@ public class X_C_CycleStep extends PO implements I_C_CycleStep, I_Persistent
 	public int getC_Cycle_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Cycle_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Cycle Step.
-		@param C_CycleStep_ID 
-		The step for this Cycle
-	  */
-	public void setC_CycleStep_ID (int C_CycleStep_ID)
-	{
-		if (C_CycleStep_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_CycleStep_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_CycleStep_ID, Integer.valueOf(C_CycleStep_ID));
-	}
-
-	/** Get Cycle Step.
-		@return The step for this Cycle
-	  */
-	public int getC_CycleStep_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_CycleStep_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for CM_Media_Server
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_CM_Media_Server 
 {
@@ -210,6 +210,19 @@ public interface I_CM_Media_Server
 	  */
 	public String getPassword();
 
+    /** Column name URL */
+    public static final String COLUMNNAME_URL = "URL";
+
+	/** Set URL.
+	  * Full URL address - e.g. http://www.adempiere.org
+	  */
+	public void setURL (String URL);
+
+	/** Get URL.
+	  * Full URL address - e.g. http://www.adempiere.org
+	  */
+	public String getURL();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -225,19 +238,6 @@ public interface I_CM_Media_Server
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name URL */
-    public static final String COLUMNNAME_URL = "URL";
-
-	/** Set URL.
-	  * Full URL address - e.g. http://www.adempiere.org
-	  */
-	public void setURL (String URL);
-
-	/** Get URL.
-	  * Full URL address - e.g. http://www.adempiere.org
-	  */
-	public String getURL();
 
     /** Column name UserName */
     public static final String COLUMNNAME_UserName = "UserName";

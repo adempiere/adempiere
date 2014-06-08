@@ -66,6 +66,7 @@ import org.compiere.grid.ed.VEditor;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.MiniTable;
 import org.compiere.model.GridFieldVO;
+import org.compiere.model.GridTab;
 import org.compiere.model.MPInstance;
 import org.compiere.model.MProcess;
 import org.compiere.model.MQuery;
@@ -76,6 +77,7 @@ import org.compiere.swing.CFrame;
 import org.compiere.swing.CollapsiblePanel;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.KeyNamePair;
@@ -146,7 +148,7 @@ public class VBrowser extends Browser implements ActionListener,
 		setContextWhere(browse, whereClause);		
 		initComponents();
 		statInit();
-		m_frame.setPreferredSize(getPreferredSize());
+		//m_frame.setPreferredSize(getPreferredSize());
 		//
 		int no = detail.getRowCount();
 		setStatusLine(
@@ -154,6 +156,10 @@ public class VBrowser extends Browser implements ActionListener,
 						+ Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"),
 				false);
 		setStatusDB(Integer.toString(no));
+		
+		if (isExecuteQueryByDefault())
+			executeQuery();
+		
 	} // InfoGeneral
 
 	/** Process Parameters Panel */
@@ -223,6 +229,7 @@ public class VBrowser extends Browser implements ActionListener,
 
 		prepareTable(m_generalLayout, m_View.getFromClause(), where.toString(),
 				"2");
+		
 		return true;
 	} // initInfo
 
@@ -279,6 +286,20 @@ public class VBrowser extends Browser implements ActionListener,
 	 */
 	protected void executeQuery() {
 
+		bZoom.setEnabled(true);
+		bSelectAll.setEnabled(true);
+		bExport.setEnabled(true);
+		if(isDeleteable())
+			bDelete.setEnabled(true);
+		
+		p_loadedOK = initBrowser();
+		collapsibleSeach.setCollapsed(isCollapsibleByDefault());
+		//p_loadedOK = initBrowser();
+		
+		Env.setContext(Env.getCtx(), 0, "currWindowNo", p_WindowNo);
+		if(parameterPanel !=null)
+			parameterPanel.refreshContext();
+		
 		if (m_worker != null && m_worker.isAlive())
 			return;
 		//
@@ -300,7 +321,7 @@ public class VBrowser extends Browser implements ActionListener,
 		
 		MQuery query = getMQuery();
 		if(query != null)
-			AEnv.zoom(query);
+			AEnv.zoom(m_frame , getAD_Window_ID() , query);
 		
 		m_frame.setCursor(Cursor.getDefaultCursor());
 		bZoom.setSelected(false);
@@ -704,7 +725,8 @@ public class VBrowser extends Browser implements ActionListener,
 				bZoomActionPerformed(evt);
 			}
 		});
-		toolsBar.add(bZoom);
+		if (AD_Window_ID > 0)
+			toolsBar.add(bZoom);
 
 		bExport.setText(Msg.getMsg(Env.getCtx(),("Export")));
 		bExport.setFocusable(false);
@@ -728,7 +750,9 @@ public class VBrowser extends Browser implements ActionListener,
 				bDeleteActionPerformed(evt);
 			}
 		});
-		toolsBar.add(bDelete);
+		
+		if(isDeleteable())
+			toolsBar.add(bDelete);
 
 		//TODO: victor.perez@e-evolution.com, Implement Print functionality
 		/*
@@ -873,12 +897,6 @@ public class VBrowser extends Browser implements ActionListener,
 	}
 
 	private void bSearchActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bSearchActionPerformed
-		bZoom.setEnabled(true);
-		bSelectAll.setEnabled(true);
-		bExport.setEnabled(true);
-		bDelete.setEnabled(true);
-		p_loadedOK = initBrowser();
-		collapsibleSeach.setCollapsed(true);
 		executeQuery();
 	}// GEN-LAST:event_bSearchActionPerformed
 
@@ -973,9 +991,18 @@ public class VBrowser extends Browser implements ActionListener,
 						Class<?> c = p_layout[col].getColClass();
 						int colIndex = col + colOffset;						
 						if (c == IDColumn.class && !p_layout[col].getColSQL().equals("'Row' AS \"Row\""))
-							value = new IDColumn(m_rs.getInt(colIndex));
+						{	
+							IDColumn idColumn = new IDColumn(m_rs.getInt(colIndex));
+							idColumn.setSelected(isSelectedByDefault());
+							value = idColumn;
+
+						}	
 						else if (c == IDColumn.class && p_layout[col].getColSQL().equals("'Row' AS \"Row\""))
-							value = new IDColumn(no);
+						{	
+							IDColumn idColumn = new IDColumn(no);
+							idColumn.setSelected(isSelectedByDefault());
+							value = idColumn;
+						}	
 						else if (c == Boolean.class)
 							value = new Boolean("Y".equals(m_rs
 									.getString(colIndex)));
@@ -1161,9 +1188,18 @@ public class VBrowser extends Browser implements ActionListener,
 						&& !editor.getValue().toString().isEmpty()
 						&& !field.isRange) {
 					sql.append(" AND ");
-					sql.append(field.Help).append("=? ");
-					m_parameters.add(field.Help);
-					m_parameters_values.add(editor.getValue());
+					if(DisplayType.String == field.displayType)
+                    {
+                        sql.append(field.Help).append(" LIKE ? ");
+                        m_parameters.add(field.Help);
+					    m_parameters_values.add("%" + editor.getValue() + "%");
+                    }
+                    else
+                    {
+                        sql.append(field.Help).append("=? ");
+                        m_parameters.add(field.Help);
+                        m_parameters_values.add(editor.getValue());
+                    }
 				} else if (editor.getValue() != null
 						&& !editor.getValue().toString().isEmpty()
 						&& field.isRange) {

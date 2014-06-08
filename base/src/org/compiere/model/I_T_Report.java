@@ -21,7 +21,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for T_Report
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_T_Report 
 {
@@ -54,6 +54,19 @@ public interface I_T_Report
 	public int getAD_PInstance_ID();
 
 	public org.compiere.model.I_AD_PInstance getAD_PInstance() throws RuntimeException;
+
+    /** Column name AccountType */
+    public static final String COLUMNNAME_AccountType = "AccountType";
+
+	/** Set Account Type.
+	  * Indicates the type of account
+	  */
+	public void setAccountType (boolean AccountType);
+
+	/** Get Account Type.
+	  * Indicates the type of account
+	  */
+	public boolean isAccountType();
 
     /** Column name Col_0 */
     public static final String COLUMNNAME_Col_0 = "Col_0";
@@ -326,4 +339,44 @@ public interface I_T_Report
  lowest number comes first
 	  */
 	public int getSeqNo();
+
+    /** Column name TabLevel */
+    public static final String COLUMNNAME_TabLevel = "TabLevel";
+
+	/** Set Tab Level.
+	  * Hierarchical Tab Level (0 = top)
+	  */
+	public void setTabLevel (int TabLevel);
+
+	/** Get Tab Level.
+	  * Hierarchical Tab Level (0 = top)
+	  */
+	public int getTabLevel();
+
+    /** Column name ax_case */
+    public static final String COLUMNNAME_ax_case = "ax_case";
+
+	/** Set ax_case	  */
+	public void setax_case (boolean ax_case);
+
+	/** Get ax_case	  */
+	public boolean isax_case();
+
+    /** Column name fixedpercentage */
+    public static final String COLUMNNAME_fixedpercentage = "fixedpercentage";
+
+	/** Set fixedpercentage	  */
+	public void setfixedpercentage (BigDecimal fixedpercentage);
+
+	/** Get fixedpercentage	  */
+	public BigDecimal getfixedpercentage();
+
+    /** Column name reportlinestyle */
+    public static final String COLUMNNAME_reportlinestyle = "reportlinestyle";
+
+	/** Set reportlinestyle	  */
+	public void setreportlinestyle (boolean reportlinestyle);
+
+	/** Get reportlinestyle	  */
+	public boolean isreportlinestyle();
 }

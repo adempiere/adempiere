@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_RfQResponseLineQty
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_C_RfQResponseLineQty extends PO implements I_C_RfQResponseLineQty, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_C_RfQResponseLineQty (Properties ctx, int C_RfQResponseLineQty_ID, String trxName)
@@ -41,8 +41,8 @@ public class X_C_RfQResponseLineQty extends PO implements I_C_RfQResponseLineQty
       /** if (C_RfQResponseLineQty_ID == 0)
         {
 			setC_RfQLineQty_ID (0);
-			setC_RfQResponseLine_ID (0);
 			setC_RfQResponseLineQty_ID (0);
+			setC_RfQResponseLine_ID (0);
 			setPrice (Env.ZERO);
         } */
     }
@@ -103,6 +103,29 @@ public class X_C_RfQResponseLineQty extends PO implements I_C_RfQResponseLineQty
 		return ii.intValue();
 	}
 
+	/** Set RfQ Response Line Qty.
+		@param C_RfQResponseLineQty_ID 
+		Request for Quotation Response Line Quantity
+	  */
+	public void setC_RfQResponseLineQty_ID (int C_RfQResponseLineQty_ID)
+	{
+		if (C_RfQResponseLineQty_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_RfQResponseLineQty_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_RfQResponseLineQty_ID, Integer.valueOf(C_RfQResponseLineQty_ID));
+	}
+
+	/** Get RfQ Response Line Qty.
+		@return Request for Quotation Response Line Quantity
+	  */
+	public int getC_RfQResponseLineQty_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_RfQResponseLineQty_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_C_RfQResponseLine getC_RfQResponseLine() throws RuntimeException
     {
 		return (org.compiere.model.I_C_RfQResponseLine)MTable.get(getCtx(), org.compiere.model.I_C_RfQResponseLine.Table_Name)
@@ -138,29 +161,6 @@ public class X_C_RfQResponseLineQty extends PO implements I_C_RfQResponseLineQty
     {
         return new KeyNamePair(get_ID(), String.valueOf(getC_RfQResponseLine_ID()));
     }
-
-	/** Set RfQ Response Line Qty.
-		@param C_RfQResponseLineQty_ID 
-		Request for Quotation Response Line Quantity
-	  */
-	public void setC_RfQResponseLineQty_ID (int C_RfQResponseLineQty_ID)
-	{
-		if (C_RfQResponseLineQty_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_RfQResponseLineQty_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_RfQResponseLineQty_ID, Integer.valueOf(C_RfQResponseLineQty_ID));
-	}
-
-	/** Get RfQ Response Line Qty.
-		@return Request for Quotation Response Line Quantity
-	  */
-	public int getC_RfQResponseLineQty_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_RfQResponseLineQty_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	/** Set Discount %.
 		@param Discount 

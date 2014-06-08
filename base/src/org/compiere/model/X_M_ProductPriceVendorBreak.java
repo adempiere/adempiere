@@ -24,14 +24,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for M_ProductPriceVendorBreak
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_M_ProductPriceVendorBreak extends PO implements I_M_ProductPriceVendorBreak, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_M_ProductPriceVendorBreak (Properties ctx, int M_ProductPriceVendorBreak_ID, String trxName)
@@ -42,8 +42,8 @@ public class X_M_ProductPriceVendorBreak extends PO implements I_M_ProductPriceV
 			setBreakValue (Env.ZERO);
 			setC_BPartner_ID (0);
 			setM_PriceList_Version_ID (0);
-			setM_Product_ID (0);
 			setM_ProductPriceVendorBreak_ID (0);
+			setM_Product_ID (0);
 			setPriceLimit (Env.ZERO);
 			setPriceList (Env.ZERO);
 			setPriceStd (Env.ZERO);
@@ -154,6 +154,26 @@ public class X_M_ProductPriceVendorBreak extends PO implements I_M_ProductPriceV
 		return ii.intValue();
 	}
 
+	/** Set Product Price Break.
+		@param M_ProductPriceVendorBreak_ID Product Price Break	  */
+	public void setM_ProductPriceVendorBreak_ID (int M_ProductPriceVendorBreak_ID)
+	{
+		if (M_ProductPriceVendorBreak_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_ProductPriceVendorBreak_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_ProductPriceVendorBreak_ID, Integer.valueOf(M_ProductPriceVendorBreak_ID));
+	}
+
+	/** Get Product Price Break.
+		@return Product Price Break	  */
+	public int getM_ProductPriceVendorBreak_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_ProductPriceVendorBreak_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
 		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
@@ -177,26 +197,6 @@ public class X_M_ProductPriceVendorBreak extends PO implements I_M_ProductPriceV
 	public int getM_Product_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Product Price Break.
-		@param M_ProductPriceVendorBreak_ID Product Price Break	  */
-	public void setM_ProductPriceVendorBreak_ID (int M_ProductPriceVendorBreak_ID)
-	{
-		if (M_ProductPriceVendorBreak_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_ProductPriceVendorBreak_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_ProductPriceVendorBreak_ID, Integer.valueOf(M_ProductPriceVendorBreak_ID));
-	}
-
-	/** Get Product Price Break.
-		@return Product Price Break	  */
-	public int getM_ProductPriceVendorBreak_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_ProductPriceVendorBreak_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

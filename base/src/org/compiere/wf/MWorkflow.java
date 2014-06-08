@@ -691,7 +691,7 @@ public class MWorkflow extends X_AD_Workflow
 		try
 		{
 			retValue = new MWFProcess (this, pi, trxName != null ? trxName : localTrx.getTrxName());
-			retValue.save();
+			retValue.saveEx();
 			pi.setSummary(Msg.getMsg(getCtx(), "Processing"));
 			retValue.startWork();
 			if (localTrx != null)
@@ -855,7 +855,7 @@ public class MWorkflow extends X_AD_Workflow
 		wf.setName (wf.getValue());
 		wf.setDescription("(Standard " + wf.getValue());
 		wf.setEntityType (ENTITYTYPE_Dictionary);
-		wf.save();
+		wf.saveEx();
 		//
 		MWFNode node10 = new MWFNode (wf, "10", "(Start)");
 		node10.setDescription("(Standard Node)");
@@ -863,9 +863,9 @@ public class MWorkflow extends X_AD_Workflow
 		node10.setAction(MWFNode.ACTION_WaitSleep);
 		node10.setWaitTime(0);
 		node10.setPosition(5, 5);
-		node10.save();
+		node10.saveEx();
 		wf.setAD_WF_Node_ID(node10.getAD_WF_Node_ID());
-		wf.save();
+		wf.saveEx();
 		
 		MWFNode node20 = new MWFNode (wf, "20", "(DocAuto)");
 		node20.setDescription("(Standard Node)");
@@ -873,12 +873,12 @@ public class MWorkflow extends X_AD_Workflow
 		node20.setAction(MWFNode.ACTION_DocumentAction);
 		node20.setDocAction(MWFNode.DOCACTION_None);
 		node20.setPosition(5, 120);
-		node20.save();
+		node20.saveEx();
 		MWFNodeNext tr10_20 = new MWFNodeNext(node10, node20.getAD_WF_Node_ID());
 		tr10_20.setEntityType (ENTITYTYPE_Dictionary);
 		tr10_20.setDescription("(Standard Transition)");
 		tr10_20.setSeqNo(100);
-		tr10_20.save();
+		tr10_20.saveEx();
 		
 		MWFNode node100 = new MWFNode (wf, "100", "(DocPrepare)");
 		node100.setDescription("(Standard Node)");
@@ -886,13 +886,13 @@ public class MWorkflow extends X_AD_Workflow
 		node100.setAction(MWFNode.ACTION_DocumentAction);
 		node100.setDocAction(MWFNode.DOCACTION_Prepare);
 		node100.setPosition(170, 5);
-		node100.save();
+		node100.saveEx();
 		MWFNodeNext tr10_100 = new MWFNodeNext(node10, node100.getAD_WF_Node_ID());
 		tr10_100.setEntityType (ENTITYTYPE_Dictionary);
 		tr10_100.setDescription("(Standard Approval)");
 		tr10_100.setIsStdUserWorkflow(true);
 		tr10_100.setSeqNo(10);
-		tr10_100.save();
+		tr10_100.saveEx();
 		
 		MWFNode node200 = new MWFNode (wf, "200", "(DocComplete)");
 		node200.setDescription("(Standard Node)");
@@ -900,12 +900,12 @@ public class MWorkflow extends X_AD_Workflow
 		node200.setAction(MWFNode.ACTION_DocumentAction);
 		node200.setDocAction(MWFNode.DOCACTION_Complete);
 		node200.setPosition(170, 120);
-		node200.save();
+		node200.saveEx();
 		MWFNodeNext tr100_200 = new MWFNodeNext(node100, node200.getAD_WF_Node_ID());
 		tr100_200.setEntityType (ENTITYTYPE_Dictionary);
 		tr100_200.setDescription("(Standard Transition)");
 		tr100_200.setSeqNo(100);
-		tr100_200.save();
+		tr100_200.saveEx();
 		
 		
 		/**
@@ -917,7 +917,7 @@ public class MWorkflow extends X_AD_Workflow
 		int M_Requsition_ID = 100;
 		MRequisition req = new MRequisition (Env.getCtx(), M_Requsition_ID);
 		req.setDocStatus(DocAction.DOCSTATUS_Drafted);
-		req.save();
+		req.saveEx();
 		Log.setTraceLevel(8);
 		System.out.println("---------------------------------------------------");
 		MWorkflow wf = MWorkflow.get (Env.getCtx(), AD_Workflow_ID);

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_InventoryLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_M_InventoryLine 
 {
@@ -93,6 +93,19 @@ public interface I_M_InventoryLine
 	  */
 	public int getCreatedBy();
 
+    /** Column name CurrentCostPrice */
+    public static final String COLUMNNAME_CurrentCostPrice = "CurrentCostPrice";
+
+	/** Set Current Cost Price.
+	  * The currently used cost price
+	  */
+	public void setCurrentCostPrice (BigDecimal CurrentCostPrice);
+
+	/** Get Current Cost Price.
+	  * The currently used cost price
+	  */
+	public BigDecimal getCurrentCostPrice();
+
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
 
@@ -160,6 +173,19 @@ public interface I_M_InventoryLine
 
 	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
 
+    /** Column name M_InventoryLine_ID */
+    public static final String COLUMNNAME_M_InventoryLine_ID = "M_InventoryLine_ID";
+
+	/** Set Phys.Inventory Line.
+	  * Unique line in an Inventory document
+	  */
+	public void setM_InventoryLine_ID (int M_InventoryLine_ID);
+
+	/** Get Phys.Inventory Line.
+	  * Unique line in an Inventory document
+	  */
+	public int getM_InventoryLine_ID();
+
     /** Column name M_Inventory_ID */
     public static final String COLUMNNAME_M_Inventory_ID = "M_Inventory_ID";
 
@@ -174,19 +200,6 @@ public interface I_M_InventoryLine
 	public int getM_Inventory_ID();
 
 	public org.compiere.model.I_M_Inventory getM_Inventory() throws RuntimeException;
-
-    /** Column name M_InventoryLine_ID */
-    public static final String COLUMNNAME_M_InventoryLine_ID = "M_InventoryLine_ID";
-
-	/** Set Phys.Inventory Line.
-	  * Unique line in an Inventory document
-	  */
-	public void setM_InventoryLine_ID (int M_InventoryLine_ID);
-
-	/** Get Phys.Inventory Line.
-	  * Unique line in an Inventory document
-	  */
-	public int getM_InventoryLine_ID();
 
     /** Column name M_Locator_ID */
     public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";

@@ -26,14 +26,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for DD_NetworkDistributionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_DD_NetworkDistributionLine extends PO implements I_DD_NetworkDistributionLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_DD_NetworkDistributionLine (Properties ctx, int DD_NetworkDistributionLine_ID, String trxName)
@@ -41,12 +41,12 @@ public class X_DD_NetworkDistributionLine extends PO implements I_DD_NetworkDist
       super (ctx, DD_NetworkDistributionLine_ID, trxName);
       /** if (DD_NetworkDistributionLine_ID == 0)
         {
-			setDD_NetworkDistribution_ID (0);
 			setDD_NetworkDistributionLine_ID (0);
+			setDD_NetworkDistribution_ID (0);
 			setM_Shipper_ID (0);
+			setM_WarehouseSource_ID (0);
 			setM_Warehouse_ID (0);
 // @M_Warehouse_ID@
-			setM_WarehouseSource_ID (0);
         } */
     }
 
@@ -78,31 +78,6 @@ public class X_DD_NetworkDistributionLine extends PO implements I_DD_NetworkDist
       return sb.toString();
     }
 
-	public org.eevolution.model.I_DD_NetworkDistribution getDD_NetworkDistribution() throws RuntimeException
-    {
-		return (org.eevolution.model.I_DD_NetworkDistribution)MTable.get(getCtx(), org.eevolution.model.I_DD_NetworkDistribution.Table_Name)
-			.getPO(getDD_NetworkDistribution_ID(), get_TrxName());	}
-
-	/** Set Network Distribution.
-		@param DD_NetworkDistribution_ID Network Distribution	  */
-	public void setDD_NetworkDistribution_ID (int DD_NetworkDistribution_ID)
-	{
-		if (DD_NetworkDistribution_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_DD_NetworkDistribution_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_DD_NetworkDistribution_ID, Integer.valueOf(DD_NetworkDistribution_ID));
-	}
-
-	/** Get Network Distribution.
-		@return Network Distribution	  */
-	public int getDD_NetworkDistribution_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DD_NetworkDistribution_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Network Distribution Line.
 		@param DD_NetworkDistributionLine_ID Network Distribution Line	  */
 	public void setDD_NetworkDistributionLine_ID (int DD_NetworkDistributionLine_ID)
@@ -118,6 +93,34 @@ public class X_DD_NetworkDistributionLine extends PO implements I_DD_NetworkDist
 	public int getDD_NetworkDistributionLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_DD_NetworkDistributionLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.eevolution.model.I_DD_NetworkDistribution getDD_NetworkDistribution() throws RuntimeException
+    {
+		return (org.eevolution.model.I_DD_NetworkDistribution)MTable.get(getCtx(), org.eevolution.model.I_DD_NetworkDistribution.Table_Name)
+			.getPO(getDD_NetworkDistribution_ID(), get_TrxName());	}
+
+	/** Set Network Distribution.
+		@param DD_NetworkDistribution_ID 
+		Identifies a distribution network, distribution networks are used to establish the source and target of the materials in the supply chain
+	  */
+	public void setDD_NetworkDistribution_ID (int DD_NetworkDistribution_ID)
+	{
+		if (DD_NetworkDistribution_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_DD_NetworkDistribution_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_DD_NetworkDistribution_ID, Integer.valueOf(DD_NetworkDistribution_ID));
+	}
+
+	/** Get Network Distribution.
+		@return Identifies a distribution network, distribution networks are used to establish the source and target of the materials in the supply chain
+	  */
+	public int getDD_NetworkDistribution_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_DD_NetworkDistribution_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -151,34 +154,6 @@ public class X_DD_NetworkDistributionLine extends PO implements I_DD_NetworkDist
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException
-    {
-		return (org.compiere.model.I_M_Warehouse)MTable.get(getCtx(), org.compiere.model.I_M_Warehouse.Table_Name)
-			.getPO(getM_Warehouse_ID(), get_TrxName());	}
-
-	/** Set Warehouse.
-		@param M_Warehouse_ID 
-		Storage Warehouse and Service Point
-	  */
-	public void setM_Warehouse_ID (int M_Warehouse_ID)
-	{
-		if (M_Warehouse_ID < 1) 
-			set_Value (COLUMNNAME_M_Warehouse_ID, null);
-		else 
-			set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
-	}
-
-	/** Get Warehouse.
-		@return Storage Warehouse and Service Point
-	  */
-	public int getM_Warehouse_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Warehouse_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_M_Warehouse getM_WarehouseSource() throws RuntimeException
     {
 		return (org.compiere.model.I_M_Warehouse)MTable.get(getCtx(), org.compiere.model.I_M_Warehouse.Table_Name)
@@ -202,6 +177,34 @@ public class X_DD_NetworkDistributionLine extends PO implements I_DD_NetworkDist
 	public int getM_WarehouseSource_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_WarehouseSource_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_Warehouse)MTable.get(getCtx(), org.compiere.model.I_M_Warehouse.Table_Name)
+			.getPO(getM_Warehouse_ID(), get_TrxName());	}
+
+	/** Set Warehouse.
+		@param M_Warehouse_ID 
+		Storage Warehouse and Service Point
+	  */
+	public void setM_Warehouse_ID (int M_Warehouse_ID)
+	{
+		if (M_Warehouse_ID < 1) 
+			set_Value (COLUMNNAME_M_Warehouse_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
+	}
+
+	/** Get Warehouse.
+		@return Storage Warehouse and Service Point
+	  */
+	public int getM_Warehouse_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Warehouse_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -247,18 +250,21 @@ public class X_DD_NetworkDistributionLine extends PO implements I_DD_NetworkDist
 		return ii.intValue();
 	}
 
-	/** Set Transfert Time.
-		@param TransfertTime Transfert Time	  */
-	public void setTransfertTime (BigDecimal TransfertTime)
+	/** Set Transfer Time.
+		@param TransferTime 
+		Transfer Time
+	  */
+	public void setTransferTime (BigDecimal TransferTime)
 	{
-		set_Value (COLUMNNAME_TransfertTime, TransfertTime);
+		set_Value (COLUMNNAME_TransferTime, TransferTime);
 	}
 
-	/** Get Transfert Time.
-		@return Transfert Time	  */
-	public BigDecimal getTransfertTime () 
+	/** Get Transfer Time.
+		@return Transfer Time
+	  */
+	public BigDecimal getTransferTime () 
 	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_TransfertTime);
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_TransferTime);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;

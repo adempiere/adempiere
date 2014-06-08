@@ -26,8 +26,8 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import org.compiere.model.MPInstance;
+import org.compiere.model.MTable;
 import org.compiere.model.PO;
-import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -497,7 +497,7 @@ public abstract class SvrProcess implements ProcessCall
 			mpi.setIsProcessing(false);
 			mpi.setResult(!m_pi.isError());
 			mpi.setErrorMsg(m_pi.getSummary());
-			mpi.save();
+			mpi.saveEx();
 			log.fine(mpi.toString());
 			
 			ProcessInfoUtil.saveLogToDB(m_pi);
@@ -518,5 +518,12 @@ public abstract class SvrProcess implements ProcessCall
 			return m_trx.getTrxName();
 		return null;
 	}	//	get_TrxName
+	
+	// metas: begin
+	public String getTableName()
+	{
+		return MTable.getTableName(getCtx(), getTable_ID());
+	}
+	// metas: end
 	
 }   //  SvrProcess

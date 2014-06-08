@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_PaymentTerm
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_C_PaymentTerm extends PO implements I_C_PaymentTerm, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_C_PaymentTerm (Properties ctx, int C_PaymentTerm_ID, String trxName)
@@ -43,9 +43,9 @@ public class X_C_PaymentTerm extends PO implements I_C_PaymentTerm, I_Persistent
 			setAfterDelivery (false);
 			setC_PaymentTerm_ID (0);
 			setDiscount (Env.ZERO);
+			setDiscount2 (Env.ZERO);
 			setDiscountDays (0);
 			setDiscountDays2 (0);
-			setDiscount2 (Env.ZERO);
 			setGraceDays (0);
 			setIsDueFixed (false);
 			setIsValid (false);
@@ -167,6 +167,26 @@ public class X_C_PaymentTerm extends PO implements I_C_PaymentTerm, I_Persistent
 		return bd;
 	}
 
+	/** Set Discount 2 %.
+		@param Discount2 
+		Discount in percent
+	  */
+	public void setDiscount2 (BigDecimal Discount2)
+	{
+		set_Value (COLUMNNAME_Discount2, Discount2);
+	}
+
+	/** Get Discount 2 %.
+		@return Discount in percent
+	  */
+	public BigDecimal getDiscount2 () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Discount2);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	/** Set Discount Days.
 		@param DiscountDays 
 		Number of days from invoice date to be eligible for discount
@@ -205,26 +225,6 @@ public class X_C_PaymentTerm extends PO implements I_C_PaymentTerm, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Discount 2 %.
-		@param Discount2 
-		Discount in percent
-	  */
-	public void setDiscount2 (BigDecimal Discount2)
-	{
-		set_Value (COLUMNNAME_Discount2, Discount2);
-	}
-
-	/** Get Discount 2 %.
-		@return Discount in percent
-	  */
-	public BigDecimal getDiscount2 () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Discount2);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
 	}
 
 	/** Set Document Note.

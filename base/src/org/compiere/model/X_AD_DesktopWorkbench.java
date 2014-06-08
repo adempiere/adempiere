@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_DesktopWorkbench
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_AD_DesktopWorkbench extends PO implements I_AD_DesktopWorkbench, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_AD_DesktopWorkbench (Properties ctx, int AD_DesktopWorkbench_ID, String trxName)
@@ -38,8 +38,8 @@ public class X_AD_DesktopWorkbench extends PO implements I_AD_DesktopWorkbench, 
       super (ctx, AD_DesktopWorkbench_ID, trxName);
       /** if (AD_DesktopWorkbench_ID == 0)
         {
-			setAD_Desktop_ID (0);
 			setAD_DesktopWorkbench_ID (0);
+			setAD_Desktop_ID (0);
 			setAD_Workbench_ID (0);
 			setSeqNo (0);
         } */
@@ -73,6 +73,26 @@ public class X_AD_DesktopWorkbench extends PO implements I_AD_DesktopWorkbench, 
       return sb.toString();
     }
 
+	/** Set Desktop Workbench.
+		@param AD_DesktopWorkbench_ID Desktop Workbench	  */
+	public void setAD_DesktopWorkbench_ID (int AD_DesktopWorkbench_ID)
+	{
+		if (AD_DesktopWorkbench_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_DesktopWorkbench_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_DesktopWorkbench_ID, Integer.valueOf(AD_DesktopWorkbench_ID));
+	}
+
+	/** Get Desktop Workbench.
+		@return Desktop Workbench	  */
+	public int getAD_DesktopWorkbench_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_DesktopWorkbench_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_AD_Desktop getAD_Desktop() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_Desktop)MTable.get(getCtx(), org.compiere.model.I_AD_Desktop.Table_Name)
@@ -96,26 +116,6 @@ public class X_AD_DesktopWorkbench extends PO implements I_AD_DesktopWorkbench, 
 	public int getAD_Desktop_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Desktop_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Desktop Workbench.
-		@param AD_DesktopWorkbench_ID Desktop Workbench	  */
-	public void setAD_DesktopWorkbench_ID (int AD_DesktopWorkbench_ID)
-	{
-		if (AD_DesktopWorkbench_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_DesktopWorkbench_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_DesktopWorkbench_ID, Integer.valueOf(AD_DesktopWorkbench_ID));
-	}
-
-	/** Get Desktop Workbench.
-		@return Desktop Workbench	  */
-	public int getAD_DesktopWorkbench_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_DesktopWorkbench_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

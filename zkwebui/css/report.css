@@ -18,21 +18,27 @@
 	border-width: 1px;
 	border-color: #BBBBBB;
 	border-style: solid;
+	vertical-align: top;
 }
 .rp-table td {
 	border-width: 1px;
 	border-color: #BBBBBB;
 	border-style: solid;
 	padding: 3px;
+	vertical-align: top;
 }
 }
 .rp-number {
-	background-color: #EBF1EF;
 	text-align: right;
 	padding: 3px;
 }
 .rp-text, .rp-date {
-	background-color: #EBF1EF;
 	text-align: left;
 	padding: 3px;
+}
+.rp-odd {
+	background-color: #FFFFFF;
+}
+.rp-numberalign {
+	text-align: right;
 }

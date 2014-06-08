@@ -125,7 +125,7 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 		ps.setPayDate (payment.getDateTrx());
 		ps.setTotalAmt (payment.getPayAmt());
 		ps.setIsApproved (true);
-		ps.save();
+		ps.saveEx();
 		
 		//	Create new PaySelection Check
 		MPaySelectionCheck psc = new MPaySelectionCheck(ps, PaymentRule);
@@ -140,7 +140,7 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 		// afalcone - [ 1871567 ] Wrong value in Payment document
 		psc.setIsGeneratedDraft( ! payment.isProcessed() );
 		//
-		psc.save();
+		psc.saveEx();
 		
 		//	Create new PaySelection Line
 		MPaySelectionLine psl = null;
@@ -155,7 +155,7 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 			psl.setDifferenceAmt (Env.ZERO);
 			psl.setC_PaySelectionCheck_ID(psc.getC_PaySelectionCheck_ID());
 			psl.setProcessed(true);
-			psl.save();
+			psl.saveEx();
 		} else {
 			// globalqss - CarlosRuiz - fix bug [ 1803054 ] Empty Remittance lines on payments
 			// look for existance of C_PaymentAllocate records
@@ -177,20 +177,20 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 						psla.setDifferenceAmt (Env.ZERO);
 						psla.setC_PaySelectionCheck_ID(psc.getC_PaySelectionCheck_ID());
 						psla.setProcessed(true);
-						psla.save();
+						psla.saveEx();
 						numInv++;
 					}
 				}
 				if (numInv > 0) {
 					psc.setQty (numInv);
-					psc.save();
+					psc.saveEx();
 				}
 			}
 		}
 		
 		//	Indicate Done
 		ps.setProcessed(true);
-		ps.save();
+		ps.saveEx();
 		return psc;
 	}	//	createForPayment
 
@@ -225,7 +225,7 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 				MPaySelectionCheck check = new MPaySelectionCheck (Env.getCtx(), rs, trxName);
 				//	Set new Check Document No
 				check.setDocumentNo(String.valueOf(docNo++));
-				check.save(); 
+				check.saveEx(); 
 				list.add(check);
 			}
 			rs.close();
@@ -295,7 +295,7 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 				if (batch != null)
 				{
 					if (batch.getC_PaymentBatch_ID() == 0)
-						batch.save();	//	new
+						batch.saveEx();	//	new
 					payment.setC_PaymentBatch_ID(batch.getC_PaymentBatch_ID());
 				}
 				//	Link to Invoice
@@ -325,7 +325,7 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 				else
 				{
 					check.setC_Payment_ID (C_Payment_ID);
-					check.save();	//	Payment process needs it
+					check.saveEx();	//	Payment process needs it
 					//	Should start WF
 					payment.processIt(DocAction.ACTION_Complete);
 					if (!payment.save())

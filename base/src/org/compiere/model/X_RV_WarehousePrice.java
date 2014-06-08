@@ -24,14 +24,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for RV_WarehousePrice
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_RV_WarehousePrice extends PO implements I_RV_WarehousePrice, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_RV_WarehousePrice (Properties ctx, int RV_WarehousePrice_ID, String trxName)
@@ -129,26 +129,6 @@ public class X_RV_WarehousePrice extends PO implements I_RV_WarehousePrice, I_Pe
 		return false;
 	}
 
-	/** Set Margin %.
-		@param Margin 
-		Margin for a product as a percentage
-	  */
-	public void setMargin (BigDecimal Margin)
-	{
-		set_ValueNoCheck (COLUMNNAME_Margin, Margin);
-	}
-
-	/** Get Margin %.
-		@return Margin for a product as a percentage
-	  */
-	public BigDecimal getMargin () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Margin);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	public org.compiere.model.I_M_PriceList_Version getM_PriceList_Version() throws RuntimeException
     {
 		return (org.compiere.model.I_M_PriceList_Version)MTable.get(getCtx(), org.compiere.model.I_M_PriceList_Version.Table_Name)
@@ -231,6 +211,26 @@ public class X_RV_WarehousePrice extends PO implements I_RV_WarehousePrice, I_Pe
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Margin %.
+		@param Margin 
+		Margin for a product as a percentage
+	  */
+	public void setMargin (BigDecimal Margin)
+	{
+		set_ValueNoCheck (COLUMNNAME_Margin, Margin);
+	}
+
+	/** Get Margin %.
+		@return Margin for a product as a percentage
+	  */
+	public BigDecimal getMargin () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Margin);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Name.

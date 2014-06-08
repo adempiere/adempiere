@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_PackageLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_M_PackageLine extends PO implements I_M_PackageLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_M_PackageLine (Properties ctx, int M_PackageLine_ID, String trxName)
@@ -41,8 +41,8 @@ public class X_M_PackageLine extends PO implements I_M_PackageLine, I_Persistent
       /** if (M_PackageLine_ID == 0)
         {
 			setM_InOutLine_ID (0);
-			setM_Package_ID (0);
 			setM_PackageLine_ID (0);
+			setM_Package_ID (0);
 			setQty (Env.ZERO);
         } */
     }
@@ -120,6 +120,29 @@ public class X_M_PackageLine extends PO implements I_M_PackageLine, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Package Line.
+		@param M_PackageLine_ID 
+		The detail content of the Package
+	  */
+	public void setM_PackageLine_ID (int M_PackageLine_ID)
+	{
+		if (M_PackageLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_PackageLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_PackageLine_ID, Integer.valueOf(M_PackageLine_ID));
+	}
+
+	/** Get Package Line.
+		@return The detail content of the Package
+	  */
+	public int getM_PackageLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_PackageLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_M_Package getM_Package() throws RuntimeException
     {
 		return (org.compiere.model.I_M_Package)MTable.get(getCtx(), org.compiere.model.I_M_Package.Table_Name)
@@ -155,29 +178,6 @@ public class X_M_PackageLine extends PO implements I_M_PackageLine, I_Persistent
     {
         return new KeyNamePair(get_ID(), String.valueOf(getM_Package_ID()));
     }
-
-	/** Set Package Line.
-		@param M_PackageLine_ID 
-		The detail content of the Package
-	  */
-	public void setM_PackageLine_ID (int M_PackageLine_ID)
-	{
-		if (M_PackageLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_PackageLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_PackageLine_ID, Integer.valueOf(M_PackageLine_ID));
-	}
-
-	/** Get Package Line.
-		@return The detail content of the Package
-	  */
-	public int getM_PackageLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_PackageLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	/** Set Quantity.
 		@param Qty 

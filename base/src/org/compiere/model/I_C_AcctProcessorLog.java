@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_AcctProcessorLog
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_C_AcctProcessorLog 
 {
@@ -75,6 +75,19 @@ public interface I_C_AcctProcessorLog
 	  */
 	public byte[] getBinaryData();
 
+    /** Column name C_AcctProcessorLog_ID */
+    public static final String COLUMNNAME_C_AcctProcessorLog_ID = "C_AcctProcessorLog_ID";
+
+	/** Set Accounting Processor Log.
+	  * Result of the execution of the Accounting Processor
+	  */
+	public void setC_AcctProcessorLog_ID (int C_AcctProcessorLog_ID);
+
+	/** Get Accounting Processor Log.
+	  * Result of the execution of the Accounting Processor
+	  */
+	public int getC_AcctProcessorLog_ID();
+
     /** Column name C_AcctProcessor_ID */
     public static final String COLUMNNAME_C_AcctProcessor_ID = "C_AcctProcessor_ID";
 
@@ -89,19 +102,6 @@ public interface I_C_AcctProcessorLog
 	public int getC_AcctProcessor_ID();
 
 	public org.compiere.model.I_C_AcctProcessor getC_AcctProcessor() throws RuntimeException;
-
-    /** Column name C_AcctProcessorLog_ID */
-    public static final String COLUMNNAME_C_AcctProcessorLog_ID = "C_AcctProcessorLog_ID";
-
-	/** Set Accounting Processor Log.
-	  * Result of the execution of the Accounting Processor
-	  */
-	public void setC_AcctProcessorLog_ID (int C_AcctProcessorLog_ID);
-
-	/** Get Accounting Processor Log.
-	  * Result of the execution of the Accounting Processor
-	  */
-	public int getC_AcctProcessorLog_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

@@ -12,7 +12,13 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.webui.component.Button;
+import org.adempiere.webui.component.Combobox;
+import org.adempiere.webui.component.Grid;
+import org.adempiere.webui.component.GridFactory;
+import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Panel;
+import org.adempiere.webui.component.Row;
+import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.desktop.IDesktop;
 import org.adempiere.webui.process.WProcessInfo;
@@ -20,13 +26,17 @@ import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
 import org.adempiere.webui.window.SimplePDFViewer;
 import org.compiere.apps.ProcessCtl;
+import org.compiere.model.MPInstance;
+import org.compiere.model.MPInstancePara;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoUtil;
+import org.compiere.util.AdempiereSystemError;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
 import org.zkoss.zk.au.out.AuEcho;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
@@ -37,6 +47,7 @@ import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
 import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Html;
@@ -79,13 +90,14 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 	/**
 	 * generate serial version ID
 	 */
+	
 	private static final long serialVersionUID = 5545731871518761455L;
 	private static final String MESSAGE_DIV_STYLE = "max-height: 150pt; overflow: auto";	
 	private Div messageDiv;
 	private Center center;
 	private North north;
-
-
+	private Grid southRowPanel = GridFactory.newGridLayout();
+	
 	/**
 	 * Dialog to start a process/report
 	 * @param ctx
@@ -141,30 +153,55 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		center.setAutoscroll(true);
 		center.setStyle("border: none");
 		
-		Div div = new Div();
-		div.setAlign("center");
-		Hbox hbox = new Hbox();
+		Rows rows = southRowPanel.newRows();
+		Row row = rows.newRow();
+		
+		Hbox hBox = new Hbox();
+		
+		//Panel saveParaPanel =new Panel();
+		//saveParaPanel.setAlign("left");
+		
+		hBox.appendChild(lSaved);
+		fSavedName.addEventListener(Events.ON_CHANGE, this);
+		hBox.appendChild(fSavedName);
+		
+		bSave.setEnabled(false);
+		bSave.setImage("/images/Save24.png");
+		bSave.setSclass("action-button");
+		bSave.addActionListener(this);
+		hBox.appendChild(bSave);
+				
+		bDelete.setEnabled(false);
+		bDelete.setImage("/images/Delete24.png");
+		bDelete.setSclass("action-button");
+		bDelete.addActionListener(this);
+		hBox.appendChild(bDelete);
+				
+		row.appendChild(hBox);
+		
+				
+		Panel confParaPanel =new Panel();
+		confParaPanel.setAlign("right");
+		
 		String label = Msg.getMsg(Env.getCtx(), "Start");
 		bOK = new Button(label.replaceAll("&", ""));
 		bOK.setImage("/images/Ok16.png");
 		bOK.setId("Ok");
 		bOK.addEventListener(Events.ON_CLICK, this);
 		bOK.setSclass("action-button");
-		hbox.appendChild(bOK);
+		confParaPanel.appendChild(bOK);
 		
 		label = Msg.getMsg(Env.getCtx(), "Cancel");
-		Button btn = new Button(label.replaceAll("&", ""));
-		btn.setImage("/images/Cancel16.png");
-		btn.setId("Cancel");
-		btn.addEventListener(Events.ON_CLICK, this);
-		btn.setSclass("action-button");
-		hbox.appendChild(btn);		
-		div.appendChild(hbox);
-		div.setStyle("padding: 10px");
+		bCancle = new Button(label.replaceAll("&", ""));
+		bCancle.setImage("/images/Cancel16.png");
+		bCancle.addEventListener(Events.ON_CLICK, this);
+		bCancle.setSclass("action-button");
+		confParaPanel.appendChild(bCancle);	
+		row.appendChild(confParaPanel);
 		
 		South south = new South();
 		layout.appendChild(south);
-		south.appendChild(div);		
+		south.appendChild(southRowPanel);		
 		this.appendChild(layout);
 	}
 
@@ -181,6 +218,7 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 	private Panel centerPanel = null;
 	private Html message = null;
 	private Button bOK = null;
+	private Button bCancle = null;
 	
 	private boolean valid = true;
 	
@@ -193,6 +231,14 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 	private boolean m_isLocked = false;
 	private String initialMessage;
 	private BusyDialog progressWindow;
+	
+	//saved paramaters
+	
+	private Combobox fSavedName=new Combobox();
+	private Button bSave=new Button("Save");
+	private Button bDelete=new Button("Delete");
+	private List<MPInstance> savedParams;
+	private Label lSaved=new Label(Msg.getMsg(Env.getCtx(), "SavedParameter"));
 
 	
 	/**
@@ -297,9 +343,26 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		{
 			startProcess();
 		}
+		
+		querySaved();
+		
 		return true;
 	}	//	init
 
+	private void querySaved() 
+	{
+		//user query
+		savedParams = MPInstance.get(Env.getCtx(), m_AD_Process_ID, Env.getContextAsInt(Env.getCtx(), "#AD_User_ID"));
+		fSavedName.removeAllItems();
+		for (MPInstance instance : savedParams)
+		{
+			String queries = instance.getName();
+			fSavedName.appendItem(queries);
+		}
+		
+		fSavedName.setValue("");
+	}
+	
 	public void startProcess()
 	{
 		m_pi.setPrintPreview(true);
@@ -317,23 +380,133 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 	}
 	
 	public void onEvent(Event event) {
+		String saveName = null;
+		boolean lastRun = false;
+		if(fSavedName.getRawText() != null )
+		{
+			saveName = fSavedName.getRawText();
+			lastRun = ("** " + Msg.getMsg(Env.getCtx(), "LastRun") + " **").equals(saveName);
+		}
 		Component component = event.getTarget(); 
-		if (component instanceof Button) {
-			Button element = (Button)component;
-			if ("Ok".equalsIgnoreCase(element.getId())) {
-				if (!parameterPanel.validateParameters())
-					return;
-				if (element.getLabel().length() > 0)
-					this.startProcess();
-				else
-					this.dispose();
-			} else if ("Cancel".equalsIgnoreCase(element.getId())) {
+		if (event.getTarget().equals(bOK)) 
+		{
+			Button element = (Button) component;
+			if (!parameterPanel.validateParameters())
+				return;
+			if (element.getLabel().length() > 0) 
+				this.startProcess();
+			else
 				this.dispose();
+		} 
+		else if (event.getTarget().equals(bCancle)) 
+		{
+			this.dispose();
+			}
+		
+		//saved paramater
+		else if(event.getTarget().equals(bSave) && fSavedName != null && !lastRun)
+		{
+			// Update existing
+			if (fSavedName.getSelectedIndex() > -1 && savedParams != null)
+			{
+				for (int i = 0; i < savedParams.size(); i++) 
+				{
+					if (savedParams.get(i).getName().equals(saveName))
+					{
+						m_pi.setAD_PInstance_ID(savedParams.get(i).getAD_PInstance_ID());
+						for (MPInstancePara para : savedParams.get(i).getParameters())
+						{
+							para.deleteEx(true);
+						}
+						parameterPanel.saveParameters();
+					}
+				}
+			}
+			// create new
+			else 
+			{
+				MPInstance instance = null; 
+				try 
+				{ 
+					instance = new MPInstance(Env.getCtx(), m_pi.getAD_Process_ID(), m_pi.getRecord_ID()); 
+					instance.setName(saveName);
+					instance.saveEx();
+					m_pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
+					//				Get Parameters
+					if (parameterPanel != null) 
+					{
+						if (!parameterPanel.saveParameters())
+						{
+							throw new AdempiereSystemError(Msg.getMsg(Env.getCtx(), "SaveParameterError"));
+						}
+					}
+				} 
+				catch (Exception ex) 
+				{ 
+					log.log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+				}
+			}
+			
+			querySaved();
+			fSavedName.setSelectedItem(getComboItem(saveName));
+			
+		}
+		
+		else if(event.getTarget().equals(bDelete)   && fSavedName != null && !lastRun )
+		{
+			Object o = fSavedName.getSelectedItem();
+			if (savedParams != null && o != null)
+			{
+				String selected = fSavedName.getSelectedItem().getLabel();
+				for (int i = 0; i < savedParams.size(); i++) 
+				{
+					if (savedParams.get(i).getName().equals(selected))
+					{
+						savedParams.get(i).deleteEx(true);
+					}
+				}
+			}
+			
+			querySaved();
+		}
+		
+		else if(event.getTarget().equals(fSavedName) )
+		{
+			if (savedParams != null && saveName != null)
+			{
+				for (int i = 0; i < savedParams.size(); i++) 
+				{
+					if (savedParams.get(i).getName().equals(saveName))
+					{
+						loadSavedParams(savedParams.get(i));
+					}
+				}
+			}
+			boolean enabled = !Util.isEmpty(saveName);
+			bSave.setEnabled(enabled && !lastRun);
+			bDelete.setEnabled(enabled && fSavedName.getSelectedIndex() > -1 && !lastRun);
+		}
+	}
+	
+	public  Comboitem getComboItem( String value){
+		
+		Comboitem item = null;
+		for(int i = 0; i < fSavedName.getItems().size(); i++){
+			if(fSavedName.getItems().get(i) != null){
+				item = (Comboitem)fSavedName.getItems().get(i);
+				if(value.equals(item.getLabel().toString())){
+					break;
+				}
 			}
 		}
 		
+		return item;
 	}
 
+	private void loadSavedParams(MPInstance instance) {
+		parameterPanel.loadParameters(instance);
+	}
+	
 	public void lockUI(ProcessInfo pi) {
 		if (m_isLocked) return;
 		

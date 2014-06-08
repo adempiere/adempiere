@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -27,6 +25,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Trx;
+import org.compiere.util.TrxRunnable;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -83,7 +82,26 @@ public class MigrationLoader {
 
 				NodeList migrations = doc.getDocumentElement().getElementsByTagName("Migration");
 				for ( int i = 0; i < migrations.getLength(); i++ ) {
-					MMigration.fromXmlNode(ctx, (Element) migrations.item(i), null);  //TODO trx
+					
+				   Trx.run(new TrxRunnable() 
+				   {
+					   private Properties ctx;
+					   private Element element;
+					   
+					   TrxRunnable setParamenters(Properties ctx , Element element)
+					   {
+						   this.ctx =  ctx;
+						   this.element = element;
+						   return this;
+					   }
+			            public void run(String trxName) {
+			            	try {
+								MMigration.fromXmlNode(ctx, element , trxName);
+							} catch (SQLException e) {
+								e.printStackTrace();
+							}
+			            }
+			       }.setParamenters(ctx, (Element) migrations.item(i)));
 				}
 			}
 
@@ -129,7 +147,17 @@ public class MigrationLoader {
 		loader.load(Env.getCtx());
 		loader.applyMigrations();	
 		
-		ProcessInfo pi = new ProcessInfo("Synchronize Terminology", 172);
+		ProcessInfo pi = new ProcessInfo("Sequence Check", 258);
+		pi.setAD_Client_ID(0);
+		pi.setAD_User_ID(100);
+		
+		SequenceCheck scheck = new SequenceCheck();
+		scheck.startProcess(Env.getCtx(), pi, null);
+
+		System.out.println("Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());		
+		
+		
+		pi = new ProcessInfo("Synchronize Terminology", 172);
 		pi.setAD_Client_ID(0);
 		pi.setAD_User_ID(100);
 		
@@ -147,14 +175,5 @@ public class MigrationLoader {
 		
 
 		System.out.println("Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());
-		
-		pi = new ProcessInfo("Sequence Check", 258);
-		pi.setAD_Client_ID(0);
-		pi.setAD_User_ID(100);
-		
-		SequenceCheck scheck = new SequenceCheck();
-		scheck.startProcess(Env.getCtx(), pi, null);
-
-		System.out.println("Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());		
 	}
 }

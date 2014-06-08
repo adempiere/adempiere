@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_AlertRecipient
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_AD_AlertRecipient extends PO implements I_AD_AlertRecipient, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_AD_AlertRecipient (Properties ctx, int AD_AlertRecipient_ID, String trxName)
@@ -38,8 +38,8 @@ public class X_AD_AlertRecipient extends PO implements I_AD_AlertRecipient, I_Pe
       super (ctx, AD_AlertRecipient_ID, trxName);
       /** if (AD_AlertRecipient_ID == 0)
         {
-			setAD_Alert_ID (0);
 			setAD_AlertRecipient_ID (0);
+			setAD_Alert_ID (0);
         } */
     }
 
@@ -71,6 +71,29 @@ public class X_AD_AlertRecipient extends PO implements I_AD_AlertRecipient, I_Pe
       return sb.toString();
     }
 
+	/** Set Alert Recipient.
+		@param AD_AlertRecipient_ID 
+		Recipient of the Alert Notification
+	  */
+	public void setAD_AlertRecipient_ID (int AD_AlertRecipient_ID)
+	{
+		if (AD_AlertRecipient_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_AlertRecipient_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_AlertRecipient_ID, Integer.valueOf(AD_AlertRecipient_ID));
+	}
+
+	/** Get Alert Recipient.
+		@return Recipient of the Alert Notification
+	  */
+	public int getAD_AlertRecipient_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_AlertRecipient_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_AD_Alert getAD_Alert() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_Alert)MTable.get(getCtx(), org.compiere.model.I_AD_Alert.Table_Name)
@@ -94,29 +117,6 @@ public class X_AD_AlertRecipient extends PO implements I_AD_AlertRecipient, I_Pe
 	public int getAD_Alert_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Alert_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Alert Recipient.
-		@param AD_AlertRecipient_ID 
-		Recipient of the Alert Notification
-	  */
-	public void setAD_AlertRecipient_ID (int AD_AlertRecipient_ID)
-	{
-		if (AD_AlertRecipient_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_AlertRecipient_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_AlertRecipient_ID, Integer.valueOf(AD_AlertRecipient_ID));
-	}
-
-	/** Get Alert Recipient.
-		@return Recipient of the Alert Notification
-	  */
-	public int getAD_AlertRecipient_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_AlertRecipient_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

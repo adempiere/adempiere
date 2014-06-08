@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_ProjectLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_C_ProjectLine (Properties ctx, int C_ProjectLine_ID, String trxName)
@@ -40,8 +40,8 @@ public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent
       super (ctx, C_ProjectLine_ID, trxName);
       /** if (C_ProjectLine_ID == 0)
         {
-			setC_Project_ID (0);
 			setC_ProjectLine_ID (0);
+			setC_Project_ID (0);
 			setInvoicedAmt (Env.ZERO);
 			setInvoicedQty (Env.ZERO);
 // 0
@@ -87,74 +87,6 @@ public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent
       return sb.toString();
     }
 
-	/** Set Committed Amount.
-		@param CommittedAmt 
-		The (legal) commitment amount
-	  */
-	public void setCommittedAmt (BigDecimal CommittedAmt)
-	{
-		set_Value (COLUMNNAME_CommittedAmt, CommittedAmt);
-	}
-
-	/** Get Committed Amount.
-		@return The (legal) commitment amount
-	  */
-	public BigDecimal getCommittedAmt () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CommittedAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
-	/** Set Committed Quantity.
-		@param CommittedQty 
-		The (legal) commitment Quantity
-	  */
-	public void setCommittedQty (BigDecimal CommittedQty)
-	{
-		set_Value (COLUMNNAME_CommittedQty, CommittedQty);
-	}
-
-	/** Get Committed Quantity.
-		@return The (legal) commitment Quantity
-	  */
-	public BigDecimal getCommittedQty () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CommittedQty);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
-	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_Order)MTable.get(getCtx(), org.compiere.model.I_C_Order.Table_Name)
-			.getPO(getC_Order_ID(), get_TrxName());	}
-
-	/** Set Order.
-		@param C_Order_ID 
-		Order
-	  */
-	public void setC_Order_ID (int C_Order_ID)
-	{
-		if (C_Order_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_Order_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
-	}
-
-	/** Get Order.
-		@return Order
-	  */
-	public int getC_Order_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Order_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_C_Order getC_OrderPO() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Order)MTable.get(getCtx(), org.compiere.model.I_C_Order.Table_Name)
@@ -183,29 +115,29 @@ public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
+	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException
     {
-		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
-			.getPO(getC_Project_ID(), get_TrxName());	}
+		return (org.compiere.model.I_C_Order)MTable.get(getCtx(), org.compiere.model.I_C_Order.Table_Name)
+			.getPO(getC_Order_ID(), get_TrxName());	}
 
-	/** Set Project.
-		@param C_Project_ID 
-		Financial Project
+	/** Set Order.
+		@param C_Order_ID 
+		Order
 	  */
-	public void setC_Project_ID (int C_Project_ID)
+	public void setC_Order_ID (int C_Order_ID)
 	{
-		if (C_Project_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_Project_ID, null);
+		if (C_Order_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Order_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
+			set_ValueNoCheck (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
 	}
 
-	/** Get Project.
-		@return Financial Project
+	/** Get Order.
+		@return Order
 	  */
-	public int getC_Project_ID () 
+	public int getC_Order_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Order_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -316,6 +248,74 @@ public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
+			.getPO(getC_Project_ID(), get_TrxName());	}
+
+	/** Set Project.
+		@param C_Project_ID 
+		Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID)
+	{
+		if (C_Project_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Project_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
+	}
+
+	/** Get Project.
+		@return Financial Project
+	  */
+	public int getC_Project_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Committed Amount.
+		@param CommittedAmt 
+		The (legal) commitment amount
+	  */
+	public void setCommittedAmt (BigDecimal CommittedAmt)
+	{
+		set_Value (COLUMNNAME_CommittedAmt, CommittedAmt);
+	}
+
+	/** Get Committed Amount.
+		@return The (legal) commitment amount
+	  */
+	public BigDecimal getCommittedAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CommittedAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Committed Quantity.
+		@param CommittedQty 
+		The (legal) commitment Quantity
+	  */
+	public void setCommittedQty (BigDecimal CommittedQty)
+	{
+		set_Value (COLUMNNAME_CommittedQty, CommittedQty);
+	}
+
+	/** Get Committed Quantity.
+		@return The (legal) commitment Quantity
+	  */
+	public BigDecimal getCommittedQty () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CommittedQty);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Description.

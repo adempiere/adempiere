@@ -24,14 +24,14 @@ import org.compiere.model.*;
 
 /** Generated Model for QM_Specification
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_QM_Specification extends PO implements I_QM_Specification, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_QM_Specification (Properties ctx, int QM_Specification_ID, String trxName)

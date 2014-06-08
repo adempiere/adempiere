@@ -25,14 +25,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for T_InventoryValue
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_T_InventoryValue extends PO implements I_T_InventoryValue, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_T_InventoryValue (Properties ctx, int T_InventoryValue_ID, String trxName)
@@ -131,13 +131,30 @@ public class X_T_InventoryValue extends PO implements I_T_InventoryValue, I_Pers
 		return ii.intValue();
 	}
 
+	/** Set Classification.
+		@param Classification 
+		Classification for grouping
+	  */
+	public void setClassification (String Classification)
+	{
+		set_Value (COLUMNNAME_Classification, Classification);
+	}
+
+	/** Get Classification.
+		@return Classification for grouping
+	  */
+	public String getClassification () 
+	{
+		return (String)get_Value(COLUMNNAME_Classification);
+	}
+
 	/** Set Cost.
 		@param Cost 
 		Cost information
 	  */
 	public void setCost (BigDecimal Cost)
 	{
-		set_Value (COLUMNNAME_Cost, Cost);
+		set_ValueNoCheck (COLUMNNAME_Cost, Cost);
 	}
 
 	/** Get Cost.
@@ -166,6 +183,26 @@ public class X_T_InventoryValue extends PO implements I_T_InventoryValue, I_Pers
 	public BigDecimal getCostAmt () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CostAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Cost Value LL.
+		@param CostAmtLL 
+		Value with Cost Lower Level
+	  */
+	public void setCostAmtLL (BigDecimal CostAmtLL)
+	{
+		set_Value (COLUMNNAME_CostAmtLL, CostAmtLL);
+	}
+
+	/** Get Cost Value LL.
+		@return Value with Cost Lower Level
+	  */
+	public BigDecimal getCostAmtLL () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CostAmtLL);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
@@ -211,6 +248,26 @@ public class X_T_InventoryValue extends PO implements I_T_InventoryValue, I_Pers
 		return bd;
 	}
 
+	/** Set Accumulated Amt.
+		@param CumulatedAmt 
+		Total Amount
+	  */
+	public void setCumulatedAmt (BigDecimal CumulatedAmt)
+	{
+		set_Value (COLUMNNAME_CumulatedAmt, CumulatedAmt);
+	}
+
+	/** Get Accumulated Amt.
+		@return Total Amount
+	  */
+	public BigDecimal getCumulatedAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CumulatedAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	/** Set Valuation Date.
 		@param DateValue 
 		Date of valuation
@@ -226,6 +283,34 @@ public class X_T_InventoryValue extends PO implements I_T_InventoryValue, I_Pers
 	public Timestamp getDateValue () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DateValue);
+	}
+
+	/** Set Group1.
+		@param Group1 Group1	  */
+	public void setGroup1 (String Group1)
+	{
+		set_Value (COLUMNNAME_Group1, Group1);
+	}
+
+	/** Get Group1.
+		@return Group1	  */
+	public String getGroup1 () 
+	{
+		return (String)get_Value(COLUMNNAME_Group1);
+	}
+
+	/** Set Group2.
+		@param Group2 Group2	  */
+	public void setGroup2 (String Group2)
+	{
+		set_Value (COLUMNNAME_Group2, Group2);
+	}
+
+	/** Get Group2.
+		@return Group2	  */
+	public String getGroup2 () 
+	{
+		return (String)get_Value(COLUMNNAME_Group2);
 	}
 
 	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException
@@ -284,6 +369,34 @@ public class X_T_InventoryValue extends PO implements I_T_InventoryValue, I_Pers
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_M_CostType getM_CostType() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_CostType)MTable.get(getCtx(), org.compiere.model.I_M_CostType.Table_Name)
+			.getPO(getM_CostType_ID(), get_TrxName());	}
+
+	/** Set Cost Type.
+		@param M_CostType_ID 
+		Type of Cost (e.g. Current, Plan, Future)
+	  */
+	public void setM_CostType_ID (int M_CostType_ID)
+	{
+		if (M_CostType_ID < 1) 
+			set_Value (COLUMNNAME_M_CostType_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_CostType_ID, Integer.valueOf(M_CostType_ID));
+	}
+
+	/** Get Cost Type.
+		@return Type of Cost (e.g. Current, Plan, Future)
+	  */
+	public int getM_CostType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_CostType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_M_PriceList_Version getM_PriceList_Version() throws RuntimeException
     {
 		return (org.compiere.model.I_M_PriceList_Version)MTable.get(getCtx(), org.compiere.model.I_M_PriceList_Version.Table_Name)
@@ -307,6 +420,34 @@ public class X_T_InventoryValue extends PO implements I_T_InventoryValue, I_Pers
 	public int getM_PriceList_Version_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_PriceList_Version_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_Product_Category getM_Product_Category() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_Product_Category)MTable.get(getCtx(), org.compiere.model.I_M_Product_Category.Table_Name)
+			.getPO(getM_Product_Category_ID(), get_TrxName());	}
+
+	/** Set Product Category.
+		@param M_Product_Category_ID 
+		Category of a Product
+	  */
+	public void setM_Product_Category_ID (int M_Product_Category_ID)
+	{
+		if (M_Product_Category_ID < 1) 
+			set_Value (COLUMNNAME_M_Product_Category_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_Category_ID, Integer.valueOf(M_Product_Category_ID));
+	}
+
+	/** Get Product Category.
+		@return Category of a Product
+	  */
+	public int getM_Product_Category_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_Category_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

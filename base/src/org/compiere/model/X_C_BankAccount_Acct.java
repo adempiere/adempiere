@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for C_BankAccount_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_C_BankAccount_Acct extends PO implements I_C_BankAccount_Acct, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_C_BankAccount_Acct (Properties ctx, int C_BankAccount_Acct_ID, String trxName)
@@ -39,9 +39,9 @@ public class X_C_BankAccount_Acct extends PO implements I_C_BankAccount_Acct, I_
         {
 			setB_Asset_Acct (0);
 			setB_Expense_Acct (0);
+			setB_InTransit_Acct (0);
 			setB_InterestExp_Acct (0);
 			setB_InterestRev_Acct (0);
-			setB_InTransit_Acct (0);
 			setB_PaymentSelect_Acct (0);
 			setB_RevaluationGain_Acct (0);
 			setB_RevaluationLoss_Acct (0);
@@ -132,6 +132,31 @@ public class X_C_BankAccount_Acct extends PO implements I_C_BankAccount_Acct, I_
 		return ii.intValue();
 	}
 
+	public I_C_ValidCombination getB_InTransit_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getB_InTransit_Acct(), get_TrxName());	}
+
+	/** Set Bank In Transit.
+		@param B_InTransit_Acct 
+		Bank In Transit Account
+	  */
+	public void setB_InTransit_Acct (int B_InTransit_Acct)
+	{
+		set_Value (COLUMNNAME_B_InTransit_Acct, Integer.valueOf(B_InTransit_Acct));
+	}
+
+	/** Get Bank In Transit.
+		@return Bank In Transit Account
+	  */
+	public int getB_InTransit_Acct () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_B_InTransit_Acct);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_C_ValidCombination getB_InterestExp_A() throws RuntimeException
     {
 		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
@@ -177,31 +202,6 @@ public class X_C_BankAccount_Acct extends PO implements I_C_BankAccount_Acct, I_
 	public int getB_InterestRev_Acct () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_B_InterestRev_Acct);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_ValidCombination getB_InTransit_A() throws RuntimeException
-    {
-		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
-			.getPO(getB_InTransit_Acct(), get_TrxName());	}
-
-	/** Set Bank In Transit.
-		@param B_InTransit_Acct 
-		Bank In Transit Account
-	  */
-	public void setB_InTransit_Acct (int B_InTransit_Acct)
-	{
-		set_Value (COLUMNNAME_B_InTransit_Acct, Integer.valueOf(B_InTransit_Acct));
-	}
-
-	/** Get Bank In Transit.
-		@return Bank In Transit Account
-	  */
-	public int getB_InTransit_Acct () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_B_InTransit_Acct);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

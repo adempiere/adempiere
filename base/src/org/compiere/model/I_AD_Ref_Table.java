@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Ref_Table
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_AD_Ref_Table 
 {
@@ -153,6 +153,19 @@ public interface I_AD_Ref_Table
 	  */
 	public int getCreatedBy();
 
+    /** Column name DisplaySQL */
+    public static final String COLUMNNAME_DisplaySQL = "DisplaySQL";
+
+	/** Set Display SQL.
+	  * SQL for display of lookup value
+	  */
+	public void setDisplaySQL (String DisplaySQL);
+
+	/** Get Display SQL.
+	  * SQL for display of lookup value
+	  */
+	public String getDisplaySQL();
+
     /** Column name EntityType */
     public static final String COLUMNNAME_EntityType = "EntityType";
 
@@ -180,6 +193,32 @@ public interface I_AD_Ref_Table
 	  * The record is active in the system
 	  */
 	public boolean isActive();
+
+    /** Column name IsAlert */
+    public static final String COLUMNNAME_IsAlert = "IsAlert";
+
+	/** Set Alert.
+	  * Display alert message when referenced record is accessed
+	  */
+	public void setIsAlert (boolean IsAlert);
+
+	/** Get Alert.
+	  * Display alert message when referenced record is accessed
+	  */
+	public boolean isAlert();
+
+    /** Column name IsDisplayIdentifier */
+    public static final String COLUMNNAME_IsDisplayIdentifier = "IsDisplayIdentifier";
+
+	/** Set Display Identifier.
+	  * Display the record identifier
+	  */
+	public void setIsDisplayIdentifier (boolean IsDisplayIdentifier);
+
+	/** Get Display Identifier.
+	  * Display the record identifier
+	  */
+	public boolean isDisplayIdentifier();
 
     /** Column name IsValueDisplayed */
     public static final String COLUMNNAME_IsValueDisplayed = "IsValueDisplayed";

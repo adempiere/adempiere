@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_AttributeSetInstance
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_M_AttributeSetInstance extends PO implements I_M_AttributeSetInstance, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_M_AttributeSetInstance (Properties ctx, int M_AttributeSetInstance_ID, String trxName)
@@ -39,8 +39,8 @@ public class X_M_AttributeSetInstance extends PO implements I_M_AttributeSetInst
       super (ctx, M_AttributeSetInstance_ID, trxName);
       /** if (M_AttributeSetInstance_ID == 0)
         {
-			setM_AttributeSet_ID (0);
 			setM_AttributeSetInstance_ID (0);
+			setM_AttributeSet_ID (0);
         } */
     }
 
@@ -123,34 +123,6 @@ public class X_M_AttributeSetInstance extends PO implements I_M_AttributeSetInst
 		return (String)get_Value(COLUMNNAME_Lot);
 	}
 
-	public org.compiere.model.I_M_AttributeSet getM_AttributeSet() throws RuntimeException
-    {
-		return (org.compiere.model.I_M_AttributeSet)MTable.get(getCtx(), org.compiere.model.I_M_AttributeSet.Table_Name)
-			.getPO(getM_AttributeSet_ID(), get_TrxName());	}
-
-	/** Set Attribute Set.
-		@param M_AttributeSet_ID 
-		Product Attribute Set
-	  */
-	public void setM_AttributeSet_ID (int M_AttributeSet_ID)
-	{
-		if (M_AttributeSet_ID < 0) 
-			set_Value (COLUMNNAME_M_AttributeSet_ID, null);
-		else 
-			set_Value (COLUMNNAME_M_AttributeSet_ID, Integer.valueOf(M_AttributeSet_ID));
-	}
-
-	/** Get Attribute Set.
-		@return Product Attribute Set
-	  */
-	public int getM_AttributeSet_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_AttributeSet_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Attribute Set Instance.
 		@param M_AttributeSetInstance_ID 
 		Product Attribute Set Instance
@@ -181,6 +153,34 @@ public class X_M_AttributeSetInstance extends PO implements I_M_AttributeSetInst
     {
         return new KeyNamePair(get_ID(), String.valueOf(getM_AttributeSetInstance_ID()));
     }
+
+	public org.compiere.model.I_M_AttributeSet getM_AttributeSet() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_AttributeSet)MTable.get(getCtx(), org.compiere.model.I_M_AttributeSet.Table_Name)
+			.getPO(getM_AttributeSet_ID(), get_TrxName());	}
+
+	/** Set Attribute Set.
+		@param M_AttributeSet_ID 
+		Product Attribute Set
+	  */
+	public void setM_AttributeSet_ID (int M_AttributeSet_ID)
+	{
+		if (M_AttributeSet_ID < 0) 
+			set_Value (COLUMNNAME_M_AttributeSet_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_AttributeSet_ID, Integer.valueOf(M_AttributeSet_ID));
+	}
+
+	/** Get Attribute Set.
+		@return Product Attribute Set
+	  */
+	public int getM_AttributeSet_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_AttributeSet_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	public org.compiere.model.I_M_Lot getM_Lot() throws RuntimeException
     {

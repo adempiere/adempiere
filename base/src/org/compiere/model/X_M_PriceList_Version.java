@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_PriceList_Version
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_M_PriceList_Version extends PO implements I_M_PriceList_Version, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_M_PriceList_Version (Properties ctx, int M_PriceList_Version_ID, String trxName)
@@ -150,6 +150,29 @@ public class X_M_PriceList_Version extends PO implements I_M_PriceList_Version, 
 		return ii.intValue();
 	}
 
+	/** Set Price List Version.
+		@param M_PriceList_Version_ID 
+		Identifies a unique instance of a Price List
+	  */
+	public void setM_PriceList_Version_ID (int M_PriceList_Version_ID)
+	{
+		if (M_PriceList_Version_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_PriceList_Version_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_PriceList_Version_ID, Integer.valueOf(M_PriceList_Version_ID));
+	}
+
+	/** Get Price List Version.
+		@return Identifies a unique instance of a Price List
+	  */
+	public int getM_PriceList_Version_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_PriceList_Version_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_M_PriceList_Version getM_Pricelist_Version_Base() throws RuntimeException
     {
 		return (org.compiere.model.I_M_PriceList_Version)MTable.get(getCtx(), org.compiere.model.I_M_PriceList_Version.Table_Name)
@@ -173,29 +196,6 @@ public class X_M_PriceList_Version extends PO implements I_M_PriceList_Version, 
 	public int getM_Pricelist_Version_Base_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Pricelist_Version_Base_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Price List Version.
-		@param M_PriceList_Version_ID 
-		Identifies a unique instance of a Price List
-	  */
-	public void setM_PriceList_Version_ID (int M_PriceList_Version_ID)
-	{
-		if (M_PriceList_Version_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_PriceList_Version_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_PriceList_Version_ID, Integer.valueOf(M_PriceList_Version_ID));
-	}
-
-	/** Get Price List Version.
-		@return Identifies a unique instance of a Price List
-	  */
-	public int getM_PriceList_Version_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_PriceList_Version_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

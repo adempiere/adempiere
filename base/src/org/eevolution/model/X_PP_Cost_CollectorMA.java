@@ -25,14 +25,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for PP_Cost_CollectorMA
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_PP_Cost_CollectorMA extends PO implements I_PP_Cost_CollectorMA, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_PP_Cost_CollectorMA (Properties ctx, int PP_Cost_CollectorMA_ID, String trxName)
@@ -42,8 +42,8 @@ public class X_PP_Cost_CollectorMA extends PO implements I_PP_Cost_CollectorMA, 
         {
 			setM_AttributeSetInstance_ID (0);
 			setMovementQty (Env.ZERO);
-			setPP_Cost_Collector_ID (0);
 			setPP_Cost_CollectorMA_ID (0);
+			setPP_Cost_Collector_ID (0);
         } */
     }
 
@@ -123,6 +123,26 @@ public class X_PP_Cost_CollectorMA extends PO implements I_PP_Cost_CollectorMA, 
 		return bd;
 	}
 
+	/** Set Manufacturing Order MA.
+		@param PP_Cost_CollectorMA_ID Manufacturing Order MA	  */
+	public void setPP_Cost_CollectorMA_ID (int PP_Cost_CollectorMA_ID)
+	{
+		if (PP_Cost_CollectorMA_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PP_Cost_CollectorMA_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PP_Cost_CollectorMA_ID, Integer.valueOf(PP_Cost_CollectorMA_ID));
+	}
+
+	/** Get Manufacturing Order MA.
+		@return Manufacturing Order MA	  */
+	public int getPP_Cost_CollectorMA_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Cost_CollectorMA_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_PP_Cost_Collector getPP_Cost_Collector() throws RuntimeException
     {
 		return (org.eevolution.model.I_PP_Cost_Collector)MTable.get(getCtx(), org.eevolution.model.I_PP_Cost_Collector.Table_Name)
@@ -143,26 +163,6 @@ public class X_PP_Cost_CollectorMA extends PO implements I_PP_Cost_CollectorMA, 
 	public int getPP_Cost_Collector_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Cost_Collector_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Manufacturing Order MA.
-		@param PP_Cost_CollectorMA_ID Manufacturing Order MA	  */
-	public void setPP_Cost_CollectorMA_ID (int PP_Cost_CollectorMA_ID)
-	{
-		if (PP_Cost_CollectorMA_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_PP_Cost_CollectorMA_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_PP_Cost_CollectorMA_ID, Integer.valueOf(PP_Cost_CollectorMA_ID));
-	}
-
-	/** Get Manufacturing Order MA.
-		@return Manufacturing Order MA	  */
-	public int getPP_Cost_CollectorMA_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Cost_CollectorMA_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

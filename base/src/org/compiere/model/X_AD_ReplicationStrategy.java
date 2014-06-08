@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_ReplicationStrategy
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_AD_ReplicationStrategy extends PO implements I_AD_ReplicationStrategy, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_AD_ReplicationStrategy (Properties ctx, int AD_ReplicationStrategy_ID, String trxName)
@@ -113,26 +113,6 @@ public class X_AD_ReplicationStrategy extends PO implements I_AD_ReplicationStra
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	/** EntityType AD_Reference_ID=389 */
-	public static final int ENTITYTYPE_AD_Reference_ID=389;
-	/** Set Entity Type.
-		@param EntityType 
-		Dictionary Entity Type; Determines ownership and synchronization
-	  */
-	public void setEntityType (String EntityType)
-	{
-
-		set_Value (COLUMNNAME_EntityType, EntityType);
-	}
-
-	/** Get Entity Type.
-		@return Dictionary Entity Type; Determines ownership and synchronization
-	  */
-	public String getEntityType () 
-	{
-		return (String)get_Value(COLUMNNAME_EntityType);
-	}
-
 	public org.compiere.model.I_EXP_Processor getEXP_Processor() throws RuntimeException
     {
 		return (org.compiere.model.I_EXP_Processor)MTable.get(getCtx(), org.compiere.model.I_EXP_Processor.Table_Name)
@@ -156,6 +136,26 @@ public class X_AD_ReplicationStrategy extends PO implements I_AD_ReplicationStra
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** EntityType AD_Reference_ID=389 */
+	public static final int ENTITYTYPE_AD_Reference_ID=389;
+	/** Set Entity Type.
+		@param EntityType 
+		Dictionary Entity Type; Determines ownership and synchronization
+	  */
+	public void setEntityType (String EntityType)
+	{
+
+		set_Value (COLUMNNAME_EntityType, EntityType);
+	}
+
+	/** Get Entity Type.
+		@return Dictionary Entity Type; Determines ownership and synchronization
+	  */
+	public String getEntityType () 
+	{
+		return (String)get_Value(COLUMNNAME_EntityType);
 	}
 
 	/** Set Comment/Help.

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Table
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_AD_Table 
 {
@@ -41,18 +41,18 @@ public interface I_AD_Table
 
     /** Load Meta Data */
 
-    /** Column name AccessLevel */
-    public static final String COLUMNNAME_AccessLevel = "AccessLevel";
+    /** Column name ACTriggerLength */
+    public static final String COLUMNNAME_ACTriggerLength = "ACTriggerLength";
 
-	/** Set Data Access Level.
-	  * Access Level required
+	/** Set Auto Complete Min Length.
+	  * Identifier autocomplete trigger length
 	  */
-	public void setAccessLevel (String AccessLevel);
+	public void setACTriggerLength (int ACTriggerLength);
 
-	/** Get Data Access Level.
-	  * Access Level required
+	/** Get Auto Complete Min Length.
+	  * Identifier autocomplete trigger length
 	  */
-	public String getAccessLevel();
+	public int getACTriggerLength();
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -117,6 +117,19 @@ public interface I_AD_Table
 	public int getAD_Window_ID();
 
 	public org.compiere.model.I_AD_Window getAD_Window() throws RuntimeException;
+
+    /** Column name AccessLevel */
+    public static final String COLUMNNAME_AccessLevel = "AccessLevel";
+
+	/** Set Data Access Level.
+	  * Access Level required
+	  */
+	public void setAccessLevel (String AccessLevel);
+
+	/** Get Data Access Level.
+	  * Access Level required
+	  */
+	public String getAccessLevel();
 
     /** Column name CopyColumnsFromTable */
     public static final String COLUMNNAME_CopyColumnsFromTable = "CopyColumnsFromTable";

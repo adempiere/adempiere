@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Info_Ins
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_A_Asset_Info_Ins extends PO implements I_A_Asset_Info_Ins, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_A_Asset_Info_Ins (Properties ctx, int A_Asset_Info_Ins_ID, String trxName)
@@ -142,20 +142,6 @@ public class X_A_Asset_Info_Ins extends PO implements I_A_Asset_Info_Ins, I_Pers
 		return bd;
 	}
 
-	/** Set Insurance Company.
-		@param A_Insurance_Co Insurance Company	  */
-	public void setA_Insurance_Co (String A_Insurance_Co)
-	{
-		set_Value (COLUMNNAME_A_Insurance_Co, A_Insurance_Co);
-	}
-
-	/** Get Insurance Company.
-		@return Insurance Company	  */
-	public String getA_Insurance_Co () 
-	{
-		return (String)get_Value(COLUMNNAME_A_Insurance_Co);
-	}
-
 	/** Set Insured Value.
 		@param A_Ins_Value Insured Value	  */
 	public void setA_Ins_Value (BigDecimal A_Ins_Value)
@@ -171,6 +157,20 @@ public class X_A_Asset_Info_Ins extends PO implements I_A_Asset_Info_Ins, I_Pers
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set Insurance Company.
+		@param A_Insurance_Co Insurance Company	  */
+	public void setA_Insurance_Co (String A_Insurance_Co)
+	{
+		set_Value (COLUMNNAME_A_Insurance_Co, A_Insurance_Co);
+	}
+
+	/** Get Insurance Company.
+		@return Insurance Company	  */
+	public String getA_Insurance_Co () 
+	{
+		return (String)get_Value(COLUMNNAME_A_Insurance_Co);
 	}
 
 	/** Set Policy Number.

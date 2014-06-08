@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Field
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_AD_Field extends PO implements I_AD_Field, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_AD_Field (Properties ctx, int AD_Field_ID, String trxName)
@@ -48,6 +48,8 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 			setIsCentrallyMaintained (true);
 // Y
 			setIsDisplayed (true);
+// Y
+			setIsDisplayedGrid (true);
 // Y
 			setIsEncrypted (false);
 			setIsFieldOnly (false);
@@ -502,6 +504,30 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 		return false;
 	}
 
+	/** Set Displayed in Grid.
+		@param IsDisplayedGrid 
+		Determines, if this field is displayed in grid view
+	  */
+	public void setIsDisplayedGrid (boolean IsDisplayedGrid)
+	{
+		set_Value (COLUMNNAME_IsDisplayedGrid, Boolean.valueOf(IsDisplayedGrid));
+	}
+
+	/** Get Displayed in Grid.
+		@return Determines, if this field is displayed in grid view
+	  */
+	public boolean isDisplayedGrid () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsDisplayedGrid);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Encrypted.
 		@param IsEncrypted 
 		Display or Storage is encrypted
@@ -734,6 +760,26 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	public int getSeqNo () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_SeqNo);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Grid Sequence.
+		@param SeqNoGrid 
+		Method of ordering records; lowest number comes first
+	  */
+	public void setSeqNoGrid (int SeqNoGrid)
+	{
+		set_Value (COLUMNNAME_SeqNoGrid, Integer.valueOf(SeqNoGrid));
+	}
+
+	/** Get Grid Sequence.
+		@return Method of ordering records; lowest number comes first
+	  */
+	public int getSeqNoGrid () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_SeqNoGrid);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

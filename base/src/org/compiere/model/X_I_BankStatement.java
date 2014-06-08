@@ -25,14 +25,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for I_BankStatement
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_I_BankStatement (Properties ctx, int I_BankStatement_ID, String trxName)
@@ -73,6 +73,23 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
       return sb.toString();
     }
 
+	/** Set Business Partner Key.
+		@param BPartnerValue 
+		Key of the Business Partner
+	  */
+	public void setBPartnerValue (String BPartnerValue)
+	{
+		set_Value (COLUMNNAME_BPartnerValue, BPartnerValue);
+	}
+
+	/** Get Business Partner Key.
+		@return Key of the Business Partner
+	  */
+	public String getBPartnerValue () 
+	{
+		return (String)get_Value(COLUMNNAME_BPartnerValue);
+	}
+
 	/** Set Bank Account No.
 		@param BankAccountNo 
 		Bank Account Number
@@ -90,21 +107,32 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 		return (String)get_Value(COLUMNNAME_BankAccountNo);
 	}
 
-	/** Set Business Partner Key.
-		@param BPartnerValue 
-		Key of the Business Partner
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
+			.getPO(getC_BPartner_ID(), get_TrxName());	}
+
+	/** Set Business Partner .
+		@param C_BPartner_ID 
+		Identifies a Business Partner
 	  */
-	public void setBPartnerValue (String BPartnerValue)
+	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		set_Value (COLUMNNAME_BPartnerValue, BPartnerValue);
+		if (C_BPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
-	/** Get Business Partner Key.
-		@return Key of the Business Partner
+	/** Get Business Partner .
+		@return Identifies a Business Partner
 	  */
-	public String getBPartnerValue () 
+	public int getC_BPartner_ID () 
 	{
-		return (String)get_Value(COLUMNNAME_BPartnerValue);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	public org.compiere.model.I_C_BankAccount getC_BankAccount() throws RuntimeException
@@ -130,34 +158,6 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 	public int getC_BankAccount_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BankAccount_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.compiere.model.I_C_BankStatement getC_BankStatement() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_BankStatement)MTable.get(getCtx(), org.compiere.model.I_C_BankStatement.Table_Name)
-			.getPO(getC_BankStatement_ID(), get_TrxName());	}
-
-	/** Set Bank Statement.
-		@param C_BankStatement_ID 
-		Bank Statement of account
-	  */
-	public void setC_BankStatement_ID (int C_BankStatement_ID)
-	{
-		if (C_BankStatement_ID < 1) 
-			set_Value (COLUMNNAME_C_BankStatement_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_BankStatement_ID, Integer.valueOf(C_BankStatement_ID));
-	}
-
-	/** Get Bank Statement.
-		@return Bank Statement of account
-	  */
-	public int getC_BankStatement_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BankStatement_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -191,29 +191,29 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.compiere.model.I_C_BankStatement getC_BankStatement() throws RuntimeException
     {
-		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
-			.getPO(getC_BPartner_ID(), get_TrxName());	}
+		return (org.compiere.model.I_C_BankStatement)MTable.get(getCtx(), org.compiere.model.I_C_BankStatement.Table_Name)
+			.getPO(getC_BankStatement_ID(), get_TrxName());	}
 
-	/** Set Business Partner .
-		@param C_BPartner_ID 
-		Identifies a Business Partner
+	/** Set Bank Statement.
+		@param C_BankStatement_ID 
+		Bank Statement of account
 	  */
-	public void setC_BPartner_ID (int C_BPartner_ID)
+	public void setC_BankStatement_ID (int C_BankStatement_ID)
 	{
-		if (C_BPartner_ID < 1) 
-			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		if (C_BankStatement_ID < 1) 
+			set_Value (COLUMNNAME_C_BankStatement_ID, null);
 		else 
-			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+			set_Value (COLUMNNAME_C_BankStatement_ID, Integer.valueOf(C_BankStatement_ID));
 	}
 
-	/** Get Business Partner .
-		@return Identifies a Business Partner
+	/** Get Bank Statement.
+		@return Bank Statement of account
 	  */
-	public int getC_BPartner_ID () 
+	public int getC_BankStatement_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BankStatement_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -275,43 +275,6 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 		return ii.intValue();
 	}
 
-	/** Set Charge amount.
-		@param ChargeAmt 
-		Charge Amount
-	  */
-	public void setChargeAmt (BigDecimal ChargeAmt)
-	{
-		set_Value (COLUMNNAME_ChargeAmt, ChargeAmt);
-	}
-
-	/** Get Charge amount.
-		@return Charge Amount
-	  */
-	public BigDecimal getChargeAmt () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ChargeAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
-	/** Set Charge Name.
-		@param ChargeName 
-		Name of the Charge
-	  */
-	public void setChargeName (String ChargeName)
-	{
-		set_Value (COLUMNNAME_ChargeName, ChargeName);
-	}
-
-	/** Get Charge Name.
-		@return Name of the Charge
-	  */
-	public String getChargeName () 
-	{
-		return (String)get_Value(COLUMNNAME_ChargeName);
-	}
-
 	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Invoice)MTable.get(getCtx(), org.compiere.model.I_C_Invoice.Table_Name)
@@ -366,6 +329,43 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Charge amount.
+		@param ChargeAmt 
+		Charge Amount
+	  */
+	public void setChargeAmt (BigDecimal ChargeAmt)
+	{
+		set_Value (COLUMNNAME_ChargeAmt, ChargeAmt);
+	}
+
+	/** Get Charge amount.
+		@return Charge Amount
+	  */
+	public BigDecimal getChargeAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ChargeAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Charge Name.
+		@param ChargeName 
+		Name of the Charge
+	  */
+	public void setChargeName (String ChargeName)
+	{
+		set_Value (COLUMNNAME_ChargeName, ChargeName);
+	}
+
+	/** Get Charge Name.
+		@return Name of the Charge
+	  */
+	public String getChargeName () 
+	{
+		return (String)get_Value(COLUMNNAME_ChargeName);
 	}
 
 	/** Set Create Payment.
@@ -640,6 +640,23 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 		return (Timestamp)get_Value(COLUMNNAME_EftValutaDate);
 	}
 
+	/** Set ISO Currency Code.
+		@param ISO_Code 
+		Three letter ISO 4217 Code of the Currency
+	  */
+	public void setISO_Code (String ISO_Code)
+	{
+		set_Value (COLUMNNAME_ISO_Code, ISO_Code);
+	}
+
+	/** Get ISO Currency Code.
+		@return Three letter ISO 4217 Code of the Currency
+	  */
+	public String getISO_Code () 
+	{
+		return (String)get_Value(COLUMNNAME_ISO_Code);
+	}
+
 	/** Set Import Bank Statement.
 		@param I_BankStatement_ID 
 		Import of the Bank Statement
@@ -739,23 +756,6 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 	public String getInvoiceDocumentNo () 
 	{
 		return (String)get_Value(COLUMNNAME_InvoiceDocumentNo);
-	}
-
-	/** Set ISO Currency Code.
-		@param ISO_Code 
-		Three letter ISO 4217 Code of the Currency
-	  */
-	public void setISO_Code (String ISO_Code)
-	{
-		set_Value (COLUMNNAME_ISO_Code, ISO_Code);
-	}
-
-	/** Get ISO Currency Code.
-		@return Three letter ISO 4217 Code of the Currency
-	  */
-	public String getISO_Code () 
-	{
-		return (String)get_Value(COLUMNNAME_ISO_Code);
 	}
 
 	/** Set Reversal.

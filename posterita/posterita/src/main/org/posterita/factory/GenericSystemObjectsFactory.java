@@ -73,7 +73,7 @@ public class GenericSystemObjectsFactory extends AbstractFactory
         factory.add(ctx, PRODUCT_CATEGORY_ID, productCategory);
         productCategory = (MProductCategory) factory.get(ctx, GenericSystemObjectsFactory.PRODUCT_CATEGORY_ID);
         productCategory.setA_Asset_Group_ID(assetGroup.get_ID());
-        productCategory.save();
+        productCategory.saveEx();
         
         factory.add(ctx, TAX_CATEGORY_DEFAULT_ID, SystemObjects.getTaxCategory(ctx, "Posterita Tax Category"));
         MTaxCategory taxCategory = (MTaxCategory) factory.get(ctx, TAX_CATEGORY_DEFAULT_ID);

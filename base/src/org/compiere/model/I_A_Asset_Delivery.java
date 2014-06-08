@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Delivery
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_A_Asset_Delivery 
 {
@@ -40,34 +40,6 @@ public interface I_A_Asset_Delivery
     BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
-
-    /** Column name A_Asset_Delivery_ID */
-    public static final String COLUMNNAME_A_Asset_Delivery_ID = "A_Asset_Delivery_ID";
-
-	/** Set Asset Delivery.
-	  * Delivery of Asset
-	  */
-	public void setA_Asset_Delivery_ID (int A_Asset_Delivery_ID);
-
-	/** Get Asset Delivery.
-	  * Delivery of Asset
-	  */
-	public int getA_Asset_Delivery_ID();
-
-    /** Column name A_Asset_ID */
-    public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
-
-	/** Set Asset.
-	  * Asset used internally or by customers
-	  */
-	public void setA_Asset_ID (int A_Asset_ID);
-
-	/** Get Asset.
-	  * Asset used internally or by customers
-	  */
-	public int getA_Asset_ID();
-
-	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException;
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -104,6 +76,34 @@ public interface I_A_Asset_Delivery
 	public int getAD_User_ID();
 
 	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
+
+    /** Column name A_Asset_Delivery_ID */
+    public static final String COLUMNNAME_A_Asset_Delivery_ID = "A_Asset_Delivery_ID";
+
+	/** Set Asset Delivery.
+	  * Delivery of Asset
+	  */
+	public void setA_Asset_Delivery_ID (int A_Asset_Delivery_ID);
+
+	/** Get Asset Delivery.
+	  * Delivery of Asset
+	  */
+	public int getA_Asset_Delivery_ID();
+
+    /** Column name A_Asset_ID */
+    public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
+
+	/** Set Asset.
+	  * Asset used internally or by customers
+	  */
+	public void setA_Asset_ID (int A_Asset_ID);
+
+	/** Get Asset.
+	  * Asset used internally or by customers
+	  */
+	public int getA_Asset_ID();
+
+	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -186,19 +186,6 @@ public interface I_A_Asset_Delivery
 	  */
 	public String getLot();
 
-    /** Column name MessageID */
-    public static final String COLUMNNAME_MessageID = "MessageID";
-
-	/** Set Message ID.
-	  * EMail Message ID
-	  */
-	public void setMessageID (String MessageID);
-
-	/** Get Message ID.
-	  * EMail Message ID
-	  */
-	public String getMessageID();
-
     /** Column name M_InOutLine_ID */
     public static final String COLUMNNAME_M_InOutLine_ID = "M_InOutLine_ID";
 
@@ -214,19 +201,6 @@ public interface I_A_Asset_Delivery
 
 	public org.compiere.model.I_M_InOutLine getM_InOutLine() throws RuntimeException;
 
-    /** Column name MovementDate */
-    public static final String COLUMNNAME_MovementDate = "MovementDate";
-
-	/** Set Movement Date.
-	  * Date a product was moved in or out of inventory
-	  */
-	public void setMovementDate (Timestamp MovementDate);
-
-	/** Get Movement Date.
-	  * Date a product was moved in or out of inventory
-	  */
-	public Timestamp getMovementDate();
-
     /** Column name M_ProductDownload_ID */
     public static final String COLUMNNAME_M_ProductDownload_ID = "M_ProductDownload_ID";
 
@@ -241,6 +215,32 @@ public interface I_A_Asset_Delivery
 	public int getM_ProductDownload_ID();
 
 	public org.compiere.model.I_M_ProductDownload getM_ProductDownload() throws RuntimeException;
+
+    /** Column name MessageID */
+    public static final String COLUMNNAME_MessageID = "MessageID";
+
+	/** Set Message ID.
+	  * EMail Message ID
+	  */
+	public void setMessageID (String MessageID);
+
+	/** Get Message ID.
+	  * EMail Message ID
+	  */
+	public String getMessageID();
+
+    /** Column name MovementDate */
+    public static final String COLUMNNAME_MovementDate = "MovementDate";
+
+	/** Set Movement Date.
+	  * Date a product was moved in or out of inventory
+	  */
+	public void setMovementDate (Timestamp MovementDate);
+
+	/** Get Movement Date.
+	  * Date a product was moved in or out of inventory
+	  */
+	public Timestamp getMovementDate();
 
     /** Column name Referrer */
     public static final String COLUMNNAME_Referrer = "Referrer";
@@ -294,6 +294,19 @@ public interface I_A_Asset_Delivery
 	  */
 	public String getSerNo();
 
+    /** Column name URL */
+    public static final String COLUMNNAME_URL = "URL";
+
+	/** Set URL.
+	  * Full URL address - e.g. http://www.adempiere.org
+	  */
+	public void setURL (String URL);
+
+	/** Get URL.
+	  * Full URL address - e.g. http://www.adempiere.org
+	  */
+	public String getURL();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -309,19 +322,6 @@ public interface I_A_Asset_Delivery
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name URL */
-    public static final String COLUMNNAME_URL = "URL";
-
-	/** Set URL.
-	  * Full URL address - e.g. http://www.adempiere.org
-	  */
-	public void setURL (String URL);
-
-	/** Get URL.
-	  * Full URL address - e.g. http://www.adempiere.org
-	  */
-	public String getURL();
 
     /** Column name VersionNo */
     public static final String COLUMNNAME_VersionNo = "VersionNo";

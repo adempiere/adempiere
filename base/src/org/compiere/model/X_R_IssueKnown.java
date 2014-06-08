@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_IssueKnown
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_R_IssueKnown (Properties ctx, int R_IssueKnown_ID, String trxName)
@@ -39,8 +39,8 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
       /** if (R_IssueKnown_ID == 0)
         {
 			setIssueSummary (null);
-			setReleaseNo (null);
 			setR_IssueKnown_ID (0);
+			setReleaseNo (null);
         } */
     }
 
@@ -181,31 +181,6 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 		return false;
 	}
 
-	/** Set Release No.
-		@param ReleaseNo 
-		Internal Release Number
-	  */
-	public void setReleaseNo (String ReleaseNo)
-	{
-		set_Value (COLUMNNAME_ReleaseNo, ReleaseNo);
-	}
-
-	/** Get Release No.
-		@return Internal Release Number
-	  */
-	public String getReleaseNo () 
-	{
-		return (String)get_Value(COLUMNNAME_ReleaseNo);
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), getReleaseNo());
-    }
-
 	/** Set Known Issue.
 		@param R_IssueKnown_ID 
 		Known Issue
@@ -312,6 +287,31 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	/** Set Release No.
+		@param ReleaseNo 
+		Internal Release Number
+	  */
+	public void setReleaseNo (String ReleaseNo)
+	{
+		set_Value (COLUMNNAME_ReleaseNo, ReleaseNo);
+	}
+
+	/** Get Release No.
+		@return Internal Release Number
+	  */
+	public String getReleaseNo () 
+	{
+		return (String)get_Value(COLUMNNAME_ReleaseNo);
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), getReleaseNo());
+    }
 
 	/** Set Source Class.
 		@param SourceClassName 

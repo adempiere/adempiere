@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_ValidCombination
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_C_ValidCombination (Properties ctx, int C_ValidCombination_ID, String trxName)
@@ -73,6 +73,29 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
       return sb.toString();
     }
 
+	/** Set Trx Organization.
+		@param AD_OrgTrx_ID 
+		Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
+	{
+		if (AD_OrgTrx_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_OrgTrx_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
+	}
+
+	/** Get Trx Organization.
+		@return Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_OrgTrx_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_C_ElementValue getAccount() throws RuntimeException
     {
 		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
@@ -96,29 +119,6 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
 	public int getAccount_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_Account_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Trx Organization.
-		@param AD_OrgTrx_ID 
-		Performing or initiating organization
-	  */
-	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
-	{
-		if (AD_OrgTrx_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_OrgTrx_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
-	}
-
-	/** Get Trx Organization.
-		@return Performing or initiating organization
-	  */
-	public int getAD_OrgTrx_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_OrgTrx_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -309,31 +309,6 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
 		return ii.intValue();
 	}
 
-	/** Set Combination.
-		@param Combination 
-		Unique combination of account elements
-	  */
-	public void setCombination (String Combination)
-	{
-		set_ValueNoCheck (COLUMNNAME_Combination, Combination);
-	}
-
-	/** Get Combination.
-		@return Unique combination of account elements
-	  */
-	public String getCombination () 
-	{
-		return (String)get_Value(COLUMNNAME_Combination);
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), getCombination());
-    }
-
 	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
@@ -441,6 +416,31 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
 		return ii.intValue();
 	}
 
+	/** Set Combination.
+		@param Combination 
+		Unique combination of account elements
+	  */
+	public void setCombination (String Combination)
+	{
+		set_ValueNoCheck (COLUMNNAME_Combination, Combination);
+	}
+
+	/** Get Combination.
+		@return Unique combination of account elements
+	  */
+	public String getCombination () 
+	{
+		return (String)get_Value(COLUMNNAME_Combination);
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), getCombination());
+    }
+
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
@@ -510,52 +510,6 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
 		return ii.intValue();
 	}
 
-	/** Set User Element 1.
-		@param UserElement1_ID 
-		User defined accounting Element
-	  */
-	public void setUserElement1_ID (int UserElement1_ID)
-	{
-		if (UserElement1_ID < 1) 
-			set_Value (COLUMNNAME_UserElement1_ID, null);
-		else 
-			set_Value (COLUMNNAME_UserElement1_ID, Integer.valueOf(UserElement1_ID));
-	}
-
-	/** Get User Element 1.
-		@return User defined accounting Element
-	  */
-	public int getUserElement1_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_UserElement1_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set User Element 2.
-		@param UserElement2_ID 
-		User defined accounting Element
-	  */
-	public void setUserElement2_ID (int UserElement2_ID)
-	{
-		if (UserElement2_ID < 1) 
-			set_Value (COLUMNNAME_UserElement2_ID, null);
-		else 
-			set_Value (COLUMNNAME_UserElement2_ID, Integer.valueOf(UserElement2_ID));
-	}
-
-	/** Get User Element 2.
-		@return User defined accounting Element
-	  */
-	public int getUserElement2_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_UserElement2_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException
     {
 		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
@@ -607,6 +561,52 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
 	public int getUser2_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_User2_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set User Element 1.
+		@param UserElement1_ID 
+		User defined accounting Element
+	  */
+	public void setUserElement1_ID (int UserElement1_ID)
+	{
+		if (UserElement1_ID < 1) 
+			set_Value (COLUMNNAME_UserElement1_ID, null);
+		else 
+			set_Value (COLUMNNAME_UserElement1_ID, Integer.valueOf(UserElement1_ID));
+	}
+
+	/** Get User Element 1.
+		@return User defined accounting Element
+	  */
+	public int getUserElement1_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_UserElement1_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set User Element 2.
+		@param UserElement2_ID 
+		User defined accounting Element
+	  */
+	public void setUserElement2_ID (int UserElement2_ID)
+	{
+		if (UserElement2_ID < 1) 
+			set_Value (COLUMNNAME_UserElement2_ID, null);
+		else 
+			set_Value (COLUMNNAME_UserElement2_ID, Integer.valueOf(UserElement2_ID));
+	}
+
+	/** Get User Element 2.
+		@return User defined accounting Element
+	  */
+	public int getUserElement2_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_UserElement2_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

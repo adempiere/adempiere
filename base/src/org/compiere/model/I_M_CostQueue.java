@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_CostQueue
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_M_CostQueue 
 {
@@ -118,6 +118,19 @@ public interface I_M_CostQueue
 	  * Current Quantity
 	  */
 	public BigDecimal getCurrentQty();
+
+    /** Column name DateAcct */
+    public static final String COLUMNNAME_DateAcct = "DateAcct";
+
+	/** Set Account Date.
+	  * Accounting Date
+	  */
+	public void setDateAcct (Timestamp DateAcct);
+
+	/** Get Account Date.
+	  * Accounting Date
+	  */
+	public Timestamp getDateAcct();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for AD_AlertProcessorLog
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_AD_AlertProcessorLog extends PO implements I_AD_AlertProcessorLog, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_AD_AlertProcessorLog (Properties ctx, int AD_AlertProcessorLog_ID, String trxName)
@@ -37,8 +37,8 @@ public class X_AD_AlertProcessorLog extends PO implements I_AD_AlertProcessorLog
       super (ctx, AD_AlertProcessorLog_ID, trxName);
       /** if (AD_AlertProcessorLog_ID == 0)
         {
-			setAD_AlertProcessor_ID (0);
 			setAD_AlertProcessorLog_ID (0);
+			setAD_AlertProcessor_ID (0);
 			setIsError (false);
         } */
     }
@@ -71,6 +71,29 @@ public class X_AD_AlertProcessorLog extends PO implements I_AD_AlertProcessorLog
       return sb.toString();
     }
 
+	/** Set Alert Processor Log.
+		@param AD_AlertProcessorLog_ID 
+		Result of the execution of the Alert Processor
+	  */
+	public void setAD_AlertProcessorLog_ID (int AD_AlertProcessorLog_ID)
+	{
+		if (AD_AlertProcessorLog_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_AlertProcessorLog_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_AlertProcessorLog_ID, Integer.valueOf(AD_AlertProcessorLog_ID));
+	}
+
+	/** Get Alert Processor Log.
+		@return Result of the execution of the Alert Processor
+	  */
+	public int getAD_AlertProcessorLog_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_AlertProcessorLog_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_AD_AlertProcessor getAD_AlertProcessor() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_AlertProcessor)MTable.get(getCtx(), org.compiere.model.I_AD_AlertProcessor.Table_Name)
@@ -94,29 +117,6 @@ public class X_AD_AlertProcessorLog extends PO implements I_AD_AlertProcessorLog
 	public int getAD_AlertProcessor_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_AlertProcessor_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Alert Processor Log.
-		@param AD_AlertProcessorLog_ID 
-		Result of the execution of the Alert Processor
-	  */
-	public void setAD_AlertProcessorLog_ID (int AD_AlertProcessorLog_ID)
-	{
-		if (AD_AlertProcessorLog_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_AlertProcessorLog_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_AlertProcessorLog_ID, Integer.valueOf(AD_AlertProcessorLog_ID));
-	}
-
-	/** Get Alert Processor Log.
-		@return Result of the execution of the Alert Processor
-	  */
-	public int getAD_AlertProcessorLog_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_AlertProcessorLog_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

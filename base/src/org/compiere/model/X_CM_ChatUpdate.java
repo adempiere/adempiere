@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for CM_ChatUpdate
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_CM_ChatUpdate extends PO implements I_CM_ChatUpdate, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_CM_ChatUpdate (Properties ctx, int CM_ChatUpdate_ID, String trxName)

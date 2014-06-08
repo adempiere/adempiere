@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PA_Report
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_PA_Report 
 {
@@ -242,6 +242,17 @@ public interface I_PA_Report
 
 	public org.compiere.model.I_PA_ReportCube getPA_ReportCube() throws RuntimeException;
 
+    /** Column name PA_ReportLineSet_ID */
+    public static final String COLUMNNAME_PA_ReportLineSet_ID = "PA_ReportLineSet_ID";
+
+	/** Set Report Line Set	  */
+	public void setPA_ReportLineSet_ID (int PA_ReportLineSet_ID);
+
+	/** Get Report Line Set	  */
+	public int getPA_ReportLineSet_ID();
+
+	public org.compiere.model.I_PA_ReportLineSet getPA_ReportLineSet() throws RuntimeException;
+
     /** Column name PA_Report_ID */
     public static final String COLUMNNAME_PA_Report_ID = "PA_Report_ID";
 
@@ -254,17 +265,6 @@ public interface I_PA_Report
 	  * Financial Report
 	  */
 	public int getPA_Report_ID();
-
-    /** Column name PA_ReportLineSet_ID */
-    public static final String COLUMNNAME_PA_ReportLineSet_ID = "PA_ReportLineSet_ID";
-
-	/** Set Report Line Set	  */
-	public void setPA_ReportLineSet_ID (int PA_ReportLineSet_ID);
-
-	/** Get Report Line Set	  */
-	public int getPA_ReportLineSet_ID();
-
-	public org.compiere.model.I_PA_ReportLineSet getPA_ReportLineSet() throws RuntimeException;
 
     /** Column name Processing */
     public static final String COLUMNNAME_Processing = "Processing";
@@ -290,4 +290,22 @@ public interface I_PA_Report
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name posperiodname */
+    public static final String COLUMNNAME_posperiodname = "posperiodname";
+
+	/** Set posperiodname	  */
+	public void setposperiodname (String posperiodname);
+
+	/** Get posperiodname	  */
+	public String getposperiodname();
+
+    /** Column name preperiodname */
+    public static final String COLUMNNAME_preperiodname = "preperiodname";
+
+	/** Set preperiodname	  */
+	public void setpreperiodname (String preperiodname);
+
+	/** Get preperiodname	  */
+	public String getpreperiodname();
 }

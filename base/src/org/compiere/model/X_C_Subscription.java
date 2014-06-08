@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Subscription
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_C_Subscription extends PO implements I_C_Subscription, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_C_Subscription (Properties ctx, int C_Subscription_ID, String trxName)
@@ -40,8 +40,8 @@ public class X_C_Subscription extends PO implements I_C_Subscription, I_Persiste
       /** if (C_Subscription_ID == 0)
         {
 			setC_BPartner_ID (0);
-			setC_Subscription_ID (0);
 			setC_SubscriptionType_ID (0);
+			setC_Subscription_ID (0);
 			setIsDue (false);
 			setM_Product_ID (0);
 			setName (null);
@@ -107,29 +107,6 @@ public class X_C_Subscription extends PO implements I_C_Subscription, I_Persiste
 		return ii.intValue();
 	}
 
-	/** Set Subscription.
-		@param C_Subscription_ID 
-		Subscription of a Business Partner of a Product to renew
-	  */
-	public void setC_Subscription_ID (int C_Subscription_ID)
-	{
-		if (C_Subscription_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_Subscription_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_Subscription_ID, Integer.valueOf(C_Subscription_ID));
-	}
-
-	/** Get Subscription.
-		@return Subscription of a Business Partner of a Product to renew
-	  */
-	public int getC_Subscription_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Subscription_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_C_SubscriptionType getC_SubscriptionType() throws RuntimeException
     {
 		return (org.compiere.model.I_C_SubscriptionType)MTable.get(getCtx(), org.compiere.model.I_C_SubscriptionType.Table_Name)
@@ -153,6 +130,29 @@ public class X_C_Subscription extends PO implements I_C_Subscription, I_Persiste
 	public int getC_SubscriptionType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_SubscriptionType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Subscription.
+		@param C_Subscription_ID 
+		Subscription of a Business Partner of a Product to renew
+	  */
+	public void setC_Subscription_ID (int C_Subscription_ID)
+	{
+		if (C_Subscription_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Subscription_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Subscription_ID, Integer.valueOf(C_Subscription_ID));
+	}
+
+	/** Get Subscription.
+		@return Subscription of a Business Partner of a Product to renew
+	  */
+	public int getC_Subscription_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Subscription_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

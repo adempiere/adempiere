@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for ASP_Task
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_ASP_Task extends PO implements I_ASP_Task, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_ASP_Task (Properties ctx, int ASP_Task_ID, String trxName)

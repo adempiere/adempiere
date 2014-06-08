@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for AD_UserBPAccess
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_AD_UserBPAccess extends PO implements I_AD_UserBPAccess, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_AD_UserBPAccess (Properties ctx, int AD_UserBPAccess_ID, String trxName)
@@ -208,6 +208,8 @@ public class X_AD_UserBPAccess extends PO implements I_AD_UserBPAccess, I_Persis
 	public static final String DOCBASETYPE_DistributionOrder = "DOO";
 	/** Manufacturing Cost Collector = MCC */
 	public static final String DOCBASETYPE_ManufacturingCostCollector = "MCC";
+	/** Warehouse Management Order = WMO */
+	public static final String DOCBASETYPE_WarehouseManagementOrder = "WMO";
 	/** Set Document BaseType.
 		@param DocBaseType 
 		Logical type of document

@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_Asset
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_I_Asset extends PO implements I_I_Asset, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_I_Asset (Properties ctx, int I_Asset_ID, String trxName)
@@ -72,6 +72,29 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** Set Usuario.
+		@param AD_User_ID 
+		User within the system - Internal or Business Partner Contact
+	  */
+	public void setAD_User_ID (int AD_User_ID)
+	{
+		if (AD_User_ID < 1) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+	}
+
+	/** Get Usuario.
+		@return User within the system - Internal or Business Partner Contact
+	  */
+	public int getAD_User_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	public I_C_ValidCombination getA_Accumdepreciation_A() throws RuntimeException
     {
@@ -489,29 +512,6 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 	public int getA_Disposal_Revenue () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Disposal_Revenue);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Usuario.
-		@param AD_User_ID 
-		User within the system - Internal or Business Partner Contact
-	  */
-	public void setAD_User_ID (int AD_User_ID)
-	{
-		if (AD_User_ID < 1) 
-			set_Value (COLUMNNAME_AD_User_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
-	}
-
-	/** Get Usuario.
-		@return User within the system - Internal or Business Partner Contact
-	  */
-	public int getAD_User_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

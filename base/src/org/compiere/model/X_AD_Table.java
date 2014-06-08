@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Table
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_AD_Table extends PO implements I_AD_Table, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_AD_Table (Properties ctx, int AD_Table_ID, String trxName)
@@ -38,9 +38,9 @@ public class X_AD_Table extends PO implements I_AD_Table, I_Persistent
       super (ctx, AD_Table_ID, trxName);
       /** if (AD_Table_ID == 0)
         {
+			setAD_Table_ID (0);
 			setAccessLevel (null);
 // 4
-			setAD_Table_ID (0);
 			setEntityType (null);
 // U
 			setIsChangeLog (false);
@@ -85,36 +85,24 @@ public class X_AD_Table extends PO implements I_AD_Table, I_Persistent
       return sb.toString();
     }
 
-	/** AccessLevel AD_Reference_ID=5 */
-	public static final int ACCESSLEVEL_AD_Reference_ID=5;
-	/** Organization = 1 */
-	public static final String ACCESSLEVEL_Organization = "1";
-	/** Client+Organization = 3 */
-	public static final String ACCESSLEVEL_ClientPlusOrganization = "3";
-	/** System only = 4 */
-	public static final String ACCESSLEVEL_SystemOnly = "4";
-	/** All = 7 */
-	public static final String ACCESSLEVEL_All = "7";
-	/** System+Client = 6 */
-	public static final String ACCESSLEVEL_SystemPlusClient = "6";
-	/** Client only = 2 */
-	public static final String ACCESSLEVEL_ClientOnly = "2";
-	/** Set Data Access Level.
-		@param AccessLevel 
-		Access Level required
+	/** Set Auto Complete Min Length.
+		@param ACTriggerLength 
+		Identifier autocomplete trigger length
 	  */
-	public void setAccessLevel (String AccessLevel)
+	public void setACTriggerLength (int ACTriggerLength)
 	{
-
-		set_Value (COLUMNNAME_AccessLevel, AccessLevel);
+		set_Value (COLUMNNAME_ACTriggerLength, Integer.valueOf(ACTriggerLength));
 	}
 
-	/** Get Data Access Level.
-		@return Access Level required
+	/** Get Auto Complete Min Length.
+		@return Identifier autocomplete trigger length
 	  */
-	public String getAccessLevel () 
+	public int getACTriggerLength () 
 	{
-		return (String)get_Value(COLUMNNAME_AccessLevel);
+		Integer ii = (Integer)get_Value(COLUMNNAME_ACTriggerLength);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Table.
@@ -194,6 +182,38 @@ public class X_AD_Table extends PO implements I_AD_Table, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** AccessLevel AD_Reference_ID=5 */
+	public static final int ACCESSLEVEL_AD_Reference_ID=5;
+	/** Organization = 1 */
+	public static final String ACCESSLEVEL_Organization = "1";
+	/** Client+Organization = 3 */
+	public static final String ACCESSLEVEL_ClientPlusOrganization = "3";
+	/** System only = 4 */
+	public static final String ACCESSLEVEL_SystemOnly = "4";
+	/** All = 7 */
+	public static final String ACCESSLEVEL_All = "7";
+	/** System+Client = 6 */
+	public static final String ACCESSLEVEL_SystemPlusClient = "6";
+	/** Client only = 2 */
+	public static final String ACCESSLEVEL_ClientOnly = "2";
+	/** Set Data Access Level.
+		@param AccessLevel 
+		Access Level required
+	  */
+	public void setAccessLevel (String AccessLevel)
+	{
+
+		set_Value (COLUMNNAME_AccessLevel, AccessLevel);
+	}
+
+	/** Get Data Access Level.
+		@return Access Level required
+	  */
+	public String getAccessLevel () 
+	{
+		return (String)get_Value(COLUMNNAME_AccessLevel);
 	}
 
 	/** Set Copy Columns From Table.

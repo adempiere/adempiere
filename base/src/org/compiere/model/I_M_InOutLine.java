@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_InOutLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_M_InOutLine 
 {
@@ -49,19 +49,6 @@ public interface I_M_InOutLine
 	  */
 	public int getAD_Client_ID();
 
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
-
     /** Column name AD_OrgTrx_ID */
     public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
 
@@ -74,6 +61,19 @@ public interface I_M_InOutLine
 	  * Performing or initiating organization
 	  */
 	public int getAD_OrgTrx_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
 
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
@@ -120,19 +120,6 @@ public interface I_M_InOutLine
 
 	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException;
 
-    /** Column name ConfirmedQty */
-    public static final String COLUMNNAME_ConfirmedQty = "ConfirmedQty";
-
-	/** Set Confirmed Quantity.
-	  * Confirmation of a received quantity
-	  */
-	public void setConfirmedQty (BigDecimal ConfirmedQty);
-
-	/** Get Confirmed Quantity.
-	  * Confirmation of a received quantity
-	  */
-	public BigDecimal getConfirmedQty();
-
     /** Column name C_OrderLine_ID */
     public static final String COLUMNNAME_C_OrderLine_ID = "C_OrderLine_ID";
 
@@ -147,21 +134,6 @@ public interface I_M_InOutLine
 	public int getC_OrderLine_ID();
 
 	public org.compiere.model.I_C_OrderLine getC_OrderLine() throws RuntimeException;
-
-    /** Column name C_Project_ID */
-    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
-
-	/** Set Project.
-	  * Financial Project
-	  */
-	public void setC_Project_ID (int C_Project_ID);
-
-	/** Get Project.
-	  * Financial Project
-	  */
-	public int getC_Project_ID();
-
-	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
 
     /** Column name C_ProjectPhase_ID */
     public static final String COLUMNNAME_C_ProjectPhase_ID = "C_ProjectPhase_ID";
@@ -193,21 +165,20 @@ public interface I_M_InOutLine
 
 	public org.compiere.model.I_C_ProjectTask getC_ProjectTask() throws RuntimeException;
 
-    /** Column name Created */
-    public static final String COLUMNNAME_Created = "Created";
+    /** Column name C_Project_ID */
+    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 
-	/** Get Created.
-	  * Date this record was created
+	/** Set Project.
+	  * Financial Project
 	  */
-	public Timestamp getCreated();
+	public void setC_Project_ID (int C_Project_ID);
 
-    /** Column name CreatedBy */
-    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
-
-	/** Get Created By.
-	  * User who created this records
+	/** Get Project.
+	  * Financial Project
 	  */
-	public int getCreatedBy();
+	public int getC_Project_ID();
+
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
 
     /** Column name C_UOM_ID */
     public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
@@ -223,6 +194,35 @@ public interface I_M_InOutLine
 	public int getC_UOM_ID();
 
 	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException;
+
+    /** Column name ConfirmedQty */
+    public static final String COLUMNNAME_ConfirmedQty = "ConfirmedQty";
+
+	/** Set Confirmed Quantity.
+	  * Confirmation of a received quantity
+	  */
+	public void setConfirmedQty (BigDecimal ConfirmedQty);
+
+	/** Get Confirmed Quantity.
+	  * Confirmation of a received quantity
+	  */
+	public BigDecimal getConfirmedQty();
+
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
+
+	/** Get Created.
+	  * Date this record was created
+	  */
+	public Timestamp getCreated();
+
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
+	  */
+	public int getCreatedBy();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -304,6 +304,19 @@ public interface I_M_InOutLine
 
 	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
 
+    /** Column name M_InOutLine_ID */
+    public static final String COLUMNNAME_M_InOutLine_ID = "M_InOutLine_ID";
+
+	/** Set Shipment/Receipt Line.
+	  * Line on Shipment or Receipt document
+	  */
+	public void setM_InOutLine_ID (int M_InOutLine_ID);
+
+	/** Get Shipment/Receipt Line.
+	  * Line on Shipment or Receipt document
+	  */
+	public int getM_InOutLine_ID();
+
     /** Column name M_InOut_ID */
     public static final String COLUMNNAME_M_InOut_ID = "M_InOut_ID";
 
@@ -319,19 +332,6 @@ public interface I_M_InOutLine
 
 	public org.compiere.model.I_M_InOut getM_InOut() throws RuntimeException;
 
-    /** Column name M_InOutLine_ID */
-    public static final String COLUMNNAME_M_InOutLine_ID = "M_InOutLine_ID";
-
-	/** Set Shipment/Receipt Line.
-	  * Line on Shipment or Receipt document
-	  */
-	public void setM_InOutLine_ID (int M_InOutLine_ID);
-
-	/** Get Shipment/Receipt Line.
-	  * Line on Shipment or Receipt document
-	  */
-	public int getM_InOutLine_ID();
-
     /** Column name M_Locator_ID */
     public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
 
@@ -346,19 +346,6 @@ public interface I_M_InOutLine
 	public int getM_Locator_ID();
 
 	public I_M_Locator getM_Locator() throws RuntimeException;
-
-    /** Column name MovementQty */
-    public static final String COLUMNNAME_MovementQty = "MovementQty";
-
-	/** Set Movement Quantity.
-	  * Quantity of a product moved.
-	  */
-	public void setMovementQty (BigDecimal MovementQty);
-
-	/** Get Movement Quantity.
-	  * Quantity of a product moved.
-	  */
-	public BigDecimal getMovementQty();
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -389,6 +376,19 @@ public interface I_M_InOutLine
 	public int getM_RMALine_ID();
 
 	public org.compiere.model.I_M_RMALine getM_RMALine() throws RuntimeException;
+
+    /** Column name MovementQty */
+    public static final String COLUMNNAME_MovementQty = "MovementQty";
+
+	/** Set Movement Quantity.
+	  * Quantity of a product moved.
+	  */
+	public void setMovementQty (BigDecimal MovementQty);
+
+	/** Get Movement Quantity.
+	  * Quantity of a product moved.
+	  */
+	public BigDecimal getMovementQty();
 
     /** Column name PickedQty */
     public static final String COLUMNNAME_PickedQty = "PickedQty";
@@ -474,6 +474,19 @@ public interface I_M_InOutLine
 	  * Target Movement Quantity
 	  */
 	public BigDecimal getTargetQty();
+
+    /** Column name ToBeInvoiced */
+    public static final String COLUMNNAME_ToBeInvoiced = "ToBeInvoiced";
+
+	/** Set To be Invoiced.
+	  * If Shipment line is marked as ToBeInvoiced='N' then it is included in the generated Invoice line with price 0.0
+	  */
+	public void setToBeInvoiced (boolean ToBeInvoiced);
+
+	/** Get To be Invoiced.
+	  * If Shipment line is marked as ToBeInvoiced='N' then it is included in the generated Invoice line with price 0.0
+	  */
+	public boolean isToBeInvoiced();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

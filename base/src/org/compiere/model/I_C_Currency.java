@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_Currency
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_C_Currency 
 {
@@ -156,6 +156,19 @@ public interface I_C_Currency
 	  */
 	public BigDecimal getEMURate();
 
+    /** Column name ISO_Code */
+    public static final String COLUMNNAME_ISO_Code = "ISO_Code";
+
+	/** Set ISO Currency Code.
+	  * Three letter ISO 4217 Code of the Currency
+	  */
+	public void setISO_Code (String ISO_Code);
+
+	/** Get ISO Currency Code.
+	  * Three letter ISO 4217 Code of the Currency
+	  */
+	public String getISO_Code();
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -194,19 +207,6 @@ public interface I_C_Currency
 	  * This currency is the Euro
 	  */
 	public boolean isEuro();
-
-    /** Column name ISO_Code */
-    public static final String COLUMNNAME_ISO_Code = "ISO_Code";
-
-	/** Set ISO Currency Code.
-	  * Three letter ISO 4217 Code of the Currency
-	  */
-	public void setISO_Code (String ISO_Code);
-
-	/** Get ISO Currency Code.
-	  * Three letter ISO 4217 Code of the Currency
-	  */
-	public String getISO_Code();
 
     /** Column name RoundOffFactor */
     public static final String COLUMNNAME_RoundOffFactor = "RoundOffFactor";

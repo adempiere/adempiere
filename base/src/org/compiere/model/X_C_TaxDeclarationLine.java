@@ -25,14 +25,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for C_TaxDeclarationLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_C_TaxDeclarationLine (Properties ctx, int C_TaxDeclarationLine_ID, String trxName)
@@ -42,8 +42,8 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
         {
 			setC_BPartner_ID (0);
 			setC_Currency_ID (0);
-			setC_TaxDeclaration_ID (0);
 			setC_TaxDeclarationLine_ID (0);
+			setC_TaxDeclaration_ID (0);
 			setC_Tax_ID (0);
 			setDateAcct (new Timestamp( System.currentTimeMillis() ));
 			setIsManual (true);
@@ -166,34 +166,6 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_Invoice)MTable.get(getCtx(), org.compiere.model.I_C_Invoice.Table_Name)
-			.getPO(getC_Invoice_ID(), get_TrxName());	}
-
-	/** Set Invoice.
-		@param C_Invoice_ID 
-		Invoice Identifier
-	  */
-	public void setC_Invoice_ID (int C_Invoice_ID)
-	{
-		if (C_Invoice_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
-	}
-
-	/** Get Invoice.
-		@return Invoice Identifier
-	  */
-	public int getC_Invoice_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Invoice_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException
     {
 		return (org.compiere.model.I_C_InvoiceLine)MTable.get(getCtx(), org.compiere.model.I_C_InvoiceLine.Table_Name)
@@ -222,29 +194,29 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_TaxDeclaration getC_TaxDeclaration() throws RuntimeException
+	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException
     {
-		return (org.compiere.model.I_C_TaxDeclaration)MTable.get(getCtx(), org.compiere.model.I_C_TaxDeclaration.Table_Name)
-			.getPO(getC_TaxDeclaration_ID(), get_TrxName());	}
+		return (org.compiere.model.I_C_Invoice)MTable.get(getCtx(), org.compiere.model.I_C_Invoice.Table_Name)
+			.getPO(getC_Invoice_ID(), get_TrxName());	}
 
-	/** Set Tax Declaration.
-		@param C_TaxDeclaration_ID 
-		Define the declaration to the tax authorities
+	/** Set Invoice.
+		@param C_Invoice_ID 
+		Invoice Identifier
 	  */
-	public void setC_TaxDeclaration_ID (int C_TaxDeclaration_ID)
+	public void setC_Invoice_ID (int C_Invoice_ID)
 	{
-		if (C_TaxDeclaration_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_TaxDeclaration_ID, null);
+		if (C_Invoice_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_C_TaxDeclaration_ID, Integer.valueOf(C_TaxDeclaration_ID));
+			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
 	}
 
-	/** Get Tax Declaration.
-		@return Define the declaration to the tax authorities
+	/** Get Invoice.
+		@return Invoice Identifier
 	  */
-	public int getC_TaxDeclaration_ID () 
+	public int getC_Invoice_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_TaxDeclaration_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Invoice_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -268,6 +240,34 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
 	public int getC_TaxDeclarationLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_TaxDeclarationLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_TaxDeclaration getC_TaxDeclaration() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_TaxDeclaration)MTable.get(getCtx(), org.compiere.model.I_C_TaxDeclaration.Table_Name)
+			.getPO(getC_TaxDeclaration_ID(), get_TrxName());	}
+
+	/** Set Tax Declaration.
+		@param C_TaxDeclaration_ID 
+		Define the declaration to the tax authorities
+	  */
+	public void setC_TaxDeclaration_ID (int C_TaxDeclaration_ID)
+	{
+		if (C_TaxDeclaration_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_TaxDeclaration_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_TaxDeclaration_ID, Integer.valueOf(C_TaxDeclaration_ID));
+	}
+
+	/** Get Tax Declaration.
+		@return Define the declaration to the tax authorities
+	  */
+	public int getC_TaxDeclaration_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_TaxDeclaration_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

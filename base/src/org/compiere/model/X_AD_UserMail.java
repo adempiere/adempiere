@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_UserMail
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_AD_UserMail extends PO implements I_AD_UserMail, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_AD_UserMail (Properties ctx, int AD_UserMail_ID, String trxName)
@@ -38,8 +38,8 @@ public class X_AD_UserMail extends PO implements I_AD_UserMail, I_Persistent
       super (ctx, AD_UserMail_ID, trxName);
       /** if (AD_UserMail_ID == 0)
         {
-			setAD_User_ID (0);
 			setAD_UserMail_ID (0);
+			setAD_User_ID (0);
         } */
     }
 
@@ -70,6 +70,29 @@ public class X_AD_UserMail extends PO implements I_AD_UserMail, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** Set User Mail.
+		@param AD_UserMail_ID 
+		Mail sent to the user
+	  */
+	public void setAD_UserMail_ID (int AD_UserMail_ID)
+	{
+		if (AD_UserMail_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_UserMail_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_UserMail_ID, Integer.valueOf(AD_UserMail_ID));
+	}
+
+	/** Get User Mail.
+		@return Mail sent to the user
+	  */
+	public int getAD_UserMail_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_UserMail_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
     {
@@ -106,29 +129,6 @@ public class X_AD_UserMail extends PO implements I_AD_UserMail, I_Persistent
     {
         return new KeyNamePair(get_ID(), String.valueOf(getAD_User_ID()));
     }
-
-	/** Set User Mail.
-		@param AD_UserMail_ID 
-		Mail sent to the user
-	  */
-	public void setAD_UserMail_ID (int AD_UserMail_ID)
-	{
-		if (AD_UserMail_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_UserMail_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_UserMail_ID, Integer.valueOf(AD_UserMail_ID));
-	}
-
-	/** Get User Mail.
-		@return Mail sent to the user
-	  */
-	public int getAD_UserMail_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_UserMail_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	/** Set Delivery Confirmation.
 		@param DeliveryConfirmation 

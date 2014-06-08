@@ -25,14 +25,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for M_Product_PO
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_M_Product_PO extends PO implements I_M_Product_PO, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_M_Product_PO (Properties ctx, int M_Product_PO_ID, String trxName)
@@ -135,26 +135,6 @@ public class X_M_Product_PO extends PO implements I_M_Product_PO, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Cost per Order.
-		@param CostPerOrder 
-		Fixed Cost Per Order
-	  */
-	public void setCostPerOrder (BigDecimal CostPerOrder)
-	{
-		set_Value (COLUMNNAME_CostPerOrder, CostPerOrder);
-	}
-
-	/** Get Cost per Order.
-		@return Fixed Cost Per Order
-	  */
-	public BigDecimal getCostPerOrder () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CostPerOrder);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException
     {
 		return (org.compiere.model.I_C_UOM)MTable.get(getCtx(), org.compiere.model.I_C_UOM.Table_Name)
@@ -181,6 +161,26 @@ public class X_M_Product_PO extends PO implements I_M_Product_PO, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Cost per Order.
+		@param CostPerOrder 
+		Fixed Cost Per Order
+	  */
+	public void setCostPerOrder (BigDecimal CostPerOrder)
+	{
+		set_Value (COLUMNNAME_CostPerOrder, CostPerOrder);
+	}
+
+	/** Get Cost per Order.
+		@return Fixed Cost Per Order
+	  */
+	public BigDecimal getCostPerOrder () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CostPerOrder);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Actual Delivery Time.
@@ -288,23 +288,6 @@ public class X_M_Product_PO extends PO implements I_M_Product_PO, I_Persistent
 		return false;
 	}
 
-	/** Set Manufacturer.
-		@param Manufacturer 
-		Manufacturer of the Product
-	  */
-	public void setManufacturer (String Manufacturer)
-	{
-		set_Value (COLUMNNAME_Manufacturer, Manufacturer);
-	}
-
-	/** Get Manufacturer.
-		@return Manufacturer of the Product
-	  */
-	public String getManufacturer () 
-	{
-		return (String)get_Value(COLUMNNAME_Manufacturer);
-	}
-
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
 		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
@@ -331,6 +314,23 @@ public class X_M_Product_PO extends PO implements I_M_Product_PO, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Manufacturer.
+		@param Manufacturer 
+		Manufacturer of the Product
+	  */
+	public void setManufacturer (String Manufacturer)
+	{
+		set_Value (COLUMNNAME_Manufacturer, Manufacturer);
+	}
+
+	/** Get Manufacturer.
+		@return Manufacturer of the Product
+	  */
+	public String getManufacturer () 
+	{
+		return (String)get_Value(COLUMNNAME_Manufacturer);
 	}
 
 	/** Set Minimum Order Qty.

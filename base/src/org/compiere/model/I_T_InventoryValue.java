@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for T_InventoryValue
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_T_InventoryValue 
 {
@@ -92,6 +92,19 @@ public interface I_T_InventoryValue
 
 	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException;
 
+    /** Column name Classification */
+    public static final String COLUMNNAME_Classification = "Classification";
+
+	/** Set Classification.
+	  * Classification for grouping
+	  */
+	public void setClassification (String Classification);
+
+	/** Get Classification.
+	  * Classification for grouping
+	  */
+	public String getClassification();
+
     /** Column name Cost */
     public static final String COLUMNNAME_Cost = "Cost";
 
@@ -117,6 +130,19 @@ public interface I_T_InventoryValue
 	  * Value with Cost
 	  */
 	public BigDecimal getCostAmt();
+
+    /** Column name CostAmtLL */
+    public static final String COLUMNNAME_CostAmtLL = "CostAmtLL";
+
+	/** Set Cost Value LL.
+	  * Value with Cost Lower Level
+	  */
+	public void setCostAmtLL (BigDecimal CostAmtLL);
+
+	/** Get Cost Value LL.
+	  * Value with Cost Lower Level
+	  */
+	public BigDecimal getCostAmtLL();
 
     /** Column name CostStandard */
     public static final String COLUMNNAME_CostStandard = "CostStandard";
@@ -144,6 +170,19 @@ public interface I_T_InventoryValue
 	  */
 	public BigDecimal getCostStandardAmt();
 
+    /** Column name CumulatedAmt */
+    public static final String COLUMNNAME_CumulatedAmt = "CumulatedAmt";
+
+	/** Set Accumulated Amt.
+	  * Total Amount
+	  */
+	public void setCumulatedAmt (BigDecimal CumulatedAmt);
+
+	/** Get Accumulated Amt.
+	  * Total Amount
+	  */
+	public BigDecimal getCumulatedAmt();
+
     /** Column name DateValue */
     public static final String COLUMNNAME_DateValue = "DateValue";
 
@@ -156,6 +195,24 @@ public interface I_T_InventoryValue
 	  * Date of valuation
 	  */
 	public Timestamp getDateValue();
+
+    /** Column name Group1 */
+    public static final String COLUMNNAME_Group1 = "Group1";
+
+	/** Set Group1	  */
+	public void setGroup1 (String Group1);
+
+	/** Get Group1	  */
+	public String getGroup1();
+
+    /** Column name Group2 */
+    public static final String COLUMNNAME_Group2 = "Group2";
+
+	/** Set Group2	  */
+	public void setGroup2 (String Group2);
+
+	/** Get Group2	  */
+	public String getGroup2();
 
     /** Column name M_AttributeSetInstance_ID */
     public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
@@ -187,6 +244,21 @@ public interface I_T_InventoryValue
 
 	public org.compiere.model.I_M_CostElement getM_CostElement() throws RuntimeException;
 
+    /** Column name M_CostType_ID */
+    public static final String COLUMNNAME_M_CostType_ID = "M_CostType_ID";
+
+	/** Set Cost Type.
+	  * Type of Cost (e.g. Current, Plan, Future)
+	  */
+	public void setM_CostType_ID (int M_CostType_ID);
+
+	/** Get Cost Type.
+	  * Type of Cost (e.g. Current, Plan, Future)
+	  */
+	public int getM_CostType_ID();
+
+	public org.compiere.model.I_M_CostType getM_CostType() throws RuntimeException;
+
     /** Column name M_PriceList_Version_ID */
     public static final String COLUMNNAME_M_PriceList_Version_ID = "M_PriceList_Version_ID";
 
@@ -201,6 +273,21 @@ public interface I_T_InventoryValue
 	public int getM_PriceList_Version_ID();
 
 	public org.compiere.model.I_M_PriceList_Version getM_PriceList_Version() throws RuntimeException;
+
+    /** Column name M_Product_Category_ID */
+    public static final String COLUMNNAME_M_Product_Category_ID = "M_Product_Category_ID";
+
+	/** Set Product Category.
+	  * Category of a Product
+	  */
+	public void setM_Product_Category_ID (int M_Product_Category_ID);
+
+	/** Get Product Category.
+	  * Category of a Product
+	  */
+	public int getM_Product_Category_ID();
+
+	public org.compiere.model.I_M_Product_Category getM_Product_Category() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";

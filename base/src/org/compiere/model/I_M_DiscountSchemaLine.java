@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_DiscountSchemaLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_M_DiscountSchemaLine 
 {
@@ -351,6 +351,19 @@ public interface I_M_DiscountSchemaLine
 	  */
 	public String getList_Rounding();
 
+    /** Column name M_DiscountSchemaLine_ID */
+    public static final String COLUMNNAME_M_DiscountSchemaLine_ID = "M_DiscountSchemaLine_ID";
+
+	/** Set Discount Pricelist.
+	  * Line of the pricelist trade discount schema
+	  */
+	public void setM_DiscountSchemaLine_ID (int M_DiscountSchemaLine_ID);
+
+	/** Get Discount Pricelist.
+	  * Line of the pricelist trade discount schema
+	  */
+	public int getM_DiscountSchemaLine_ID();
+
     /** Column name M_DiscountSchema_ID */
     public static final String COLUMNNAME_M_DiscountSchema_ID = "M_DiscountSchema_ID";
 
@@ -365,19 +378,6 @@ public interface I_M_DiscountSchemaLine
 	public int getM_DiscountSchema_ID();
 
 	public org.compiere.model.I_M_DiscountSchema getM_DiscountSchema() throws RuntimeException;
-
-    /** Column name M_DiscountSchemaLine_ID */
-    public static final String COLUMNNAME_M_DiscountSchemaLine_ID = "M_DiscountSchemaLine_ID";
-
-	/** Set Discount Pricelist.
-	  * Line of the pricelist trade discount schema
-	  */
-	public void setM_DiscountSchemaLine_ID (int M_DiscountSchemaLine_ID);
-
-	/** Get Discount Pricelist.
-	  * Line of the pricelist trade discount schema
-	  */
-	public int getM_DiscountSchemaLine_ID();
 
     /** Column name M_Product_Category_ID */
     public static final String COLUMNNAME_M_Product_Category_ID = "M_Product_Category_ID";

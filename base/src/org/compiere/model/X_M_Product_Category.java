@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Product_Category
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_M_Product_Category extends PO implements I_M_Product_Category, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_M_Product_Category (Properties ctx, int M_Product_Category_ID, String trxName)
@@ -80,34 +80,6 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
       return sb.toString();
     }
 
-	public org.compiere.model.I_A_Asset_Group getA_Asset_Group() throws RuntimeException
-    {
-		return (org.compiere.model.I_A_Asset_Group)MTable.get(getCtx(), org.compiere.model.I_A_Asset_Group.Table_Name)
-			.getPO(getA_Asset_Group_ID(), get_TrxName());	}
-
-	/** Set Asset Group.
-		@param A_Asset_Group_ID 
-		Group of Assets
-	  */
-	public void setA_Asset_Group_ID (int A_Asset_Group_ID)
-	{
-		if (A_Asset_Group_ID < 1) 
-			set_Value (COLUMNNAME_A_Asset_Group_ID, null);
-		else 
-			set_Value (COLUMNNAME_A_Asset_Group_ID, Integer.valueOf(A_Asset_Group_ID));
-	}
-
-	/** Get Asset Group.
-		@return Group of Assets
-	  */
-	public int getA_Asset_Group_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Group_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_AD_PrintColor getAD_PrintColor() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_PrintColor)MTable.get(getCtx(), org.compiere.model.I_AD_PrintColor.Table_Name)
@@ -131,6 +103,34 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
 	public int getAD_PrintColor_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PrintColor_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_A_Asset_Group getA_Asset_Group() throws RuntimeException
+    {
+		return (org.compiere.model.I_A_Asset_Group)MTable.get(getCtx(), org.compiere.model.I_A_Asset_Group.Table_Name)
+			.getPO(getA_Asset_Group_ID(), get_TrxName());	}
+
+	/** Set Asset Group.
+		@param A_Asset_Group_ID 
+		Group of Assets
+	  */
+	public void setA_Asset_Group_ID (int A_Asset_Group_ID)
+	{
+		if (A_Asset_Group_ID < 1) 
+			set_Value (COLUMNNAME_A_Asset_Group_ID, null);
+		else 
+			set_Value (COLUMNNAME_A_Asset_Group_ID, Integer.valueOf(A_Asset_Group_ID));
+	}
+
+	/** Get Asset Group.
+		@return Group of Assets
+	  */
+	public int getA_Asset_Group_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Group_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

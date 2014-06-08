@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_ImpFormat_Row
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_AD_ImpFormat_Row 
 {
@@ -177,6 +177,21 @@ public interface I_AD_ImpFormat_Row
 	  * Decimal Point in the data file - if any
 	  */
 	public String getDecimalPoint();
+
+    /** Column name DefaultValue */
+    public static final String COLUMNNAME_DefaultValue = "DefaultValue";
+
+	/** Set Default Logic.
+	  * Default value hierarchy, separated by ;
+
+	  */
+	public void setDefaultValue (String DefaultValue);
+
+	/** Get Default Logic.
+	  * Default value hierarchy, separated by ;
+
+	  */
+	public String getDefaultValue();
 
     /** Column name DivideBy100 */
     public static final String COLUMNNAME_DivideBy100 = "DivideBy100";

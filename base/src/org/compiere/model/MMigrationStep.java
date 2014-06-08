@@ -25,6 +25,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.StringTokenizer;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -47,8 +48,9 @@ public class MMigrationStep extends X_AD_MigrationStep {
 	 */
 	private static final long serialVersionUID = 6002302731217174562L;
 	private List<MMigrationData> m_migrationData;
+	private MMigration parent;
 	/** Logger */
-	private CLogger log = CLogger
+	private static CLogger log = CLogger
 			.getCLogger(MMigrationStep.class);
 
 
@@ -76,6 +78,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 	public MMigrationStep(MMigration parent) {
 		this(parent.getCtx(), 0, parent.get_TrxName());
 		setAD_Migration_ID(parent.getAD_Migration_ID());
+		this.parent = parent;
 	}
 
 	public String toString() {
@@ -175,9 +178,9 @@ public class MMigrationStep extends X_AD_MigrationStep {
 
 	private String applySQL(boolean rollback) {
 
-		String sql = rollback ? getRollbackStatement() : getSQLStatement();
+		String sqlStatements = rollback ? getRollbackStatement() : getSQLStatement();
 		
-		if ( sql == null || sql.trim().length() == 0 || sql.equals(";"))
+		if ( sqlStatements == null || sqlStatements.trim().length() == 0 || sqlStatements.equals(";"))
 		{
 			setErrorMsg("No SQL to execute.");
 			if ( !rollback )
@@ -186,54 +189,55 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			saveEx();
 			return " No SQL";
 		}
-		
-		sql = sql.trim();
-		if (sql.endsWith(";"))
-			sql = sql.substring(0, sql.length() - 1);		
 
-		if( getDBType().equals(MMigrationStep.DBTYPE_AllDatabaseTypes)
-				|| ( DB.isOracle() && getDBType().equals(MMigrationStep.DBTYPE_Oracle) )
-				|| ( DB.isPostgreSQL() && getDBType().equals(MMigrationStep.DBTYPE_Postgres) ) )
-		{
-			Connection conn = DB.getConnectionRW();
-			Statement stmt = null;
-			try {
 
-				conn.setAutoCommit(false);
-				stmt = conn.createStatement();
-				stmt.execute(sql);
-				conn.commit();
-				setStatusCode( rollback ? MMigrationStep.STATUSCODE_Unapplied :MMigrationStep.STATUSCODE_Applied);
-				setApply( rollback ? MMigrationStep.APPLY_Apply : MMigrationStep.APPLY_Rollback);
-				setErrorMsg(null);
-				conn.close();
-			} 
-			catch (SQLException e) {
-				setErrorMsg(e.toString());
-				log.log(Level.SEVERE, (rollback ? "Rollback" : "Application") + " of " + toString() + " failed.", e);
-				try {
-					conn.rollback();
-					conn.close();
-				} catch (SQLException se) {
-					;  // all out of luck
-				}
-				if ( !rollback )
-					setStatusCode(MMigrationStep.STATUSCODE_Failed);
-				setApply( rollback ? MMigrationStep.APPLY_Rollback : MMigrationStep.APPLY_Apply);
-				throw new AdempiereException("Step failed.", e);
-			} 
-			finally {
-				DB.close(stmt);
-				saveEx(null);
-			}
-		}
-		else
-		{
-			setStatusCode( rollback ? MMigrationStep.STATUSCODE_Unapplied :MMigrationStep.STATUSCODE_Applied);
-			setApply( rollback ? MMigrationStep.APPLY_Apply : MMigrationStep.APPLY_Rollback);
-			setErrorMsg(null);
-			saveEx(null);
-		}
+
+        if (getDBType().equals(MMigrationStep.DBTYPE_AllDatabaseTypes)
+        || (DB.isOracle() && getDBType().equals(MMigrationStep.DBTYPE_Oracle))
+        || (DB.isPostgreSQL() && getDBType().equals(MMigrationStep.DBTYPE_Postgres))) {
+         Connection conn = DB.getConnectionRW();
+         Statement stmt = null;
+         try {
+
+             conn.setAutoCommit(false);
+             stmt = conn.createStatement();
+
+             StringTokenizer tokens = new StringTokenizer(sqlStatements, ";");
+             while(tokens.hasMoreTokens()) {
+                 final String sql = tokens.nextToken().trim();
+                 if (sql != null && sql.length() > 0 )
+                    stmt.addBatch(sql);
+             }
+
+             stmt.executeBatch();
+             conn.commit();
+             setStatusCode(rollback ? MMigrationStep.STATUSCODE_Unapplied : MMigrationStep.STATUSCODE_Applied);
+             setApply(rollback ? MMigrationStep.APPLY_Apply : MMigrationStep.APPLY_Rollback);
+             setErrorMsg(null);
+             conn.close();
+         } catch (SQLException e) {
+             setErrorMsg(e.toString());
+             log.log(Level.SEVERE, (rollback ? "Rollback" : "Application") + " of " + toString() + " failed.", e);
+             try {
+                 conn.rollback();
+                 conn.close();
+             } catch (SQLException se) {
+                 ;  // all out of luck
+             }
+             if (!rollback)
+                 setStatusCode(MMigrationStep.STATUSCODE_Failed);
+             setApply(rollback ? MMigrationStep.APPLY_Rollback : MMigrationStep.APPLY_Apply);
+             throw new AdempiereException("Step failed.", e);
+         } finally {
+             DB.close(stmt);
+             saveEx(null);
+         }
+     } else {
+         setStatusCode(rollback ? MMigrationStep.STATUSCODE_Unapplied : MMigrationStep.STATUSCODE_Applied);
+         setApply(rollback ? MMigrationStep.APPLY_Apply : MMigrationStep.APPLY_Rollback);
+         setErrorMsg(null);
+         saveEx(null);
+     }
 		
 		return rollback ? " Rolled-back" : " Applied";
 	}
@@ -292,6 +296,8 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		try {
 			MTable table = MTable.get( getCtx(), getAD_Table_ID() );
 			PO po = null;
+			//reset cache of persistence object
+			POInfo.removeFromCache(getAD_Table_ID());
 			if ( table.isSingleKey() && getRecord_ID() > 0 )
 				po = table.getPO( getRecord_ID(), get_TrxName() );
 			else 
@@ -309,6 +315,9 @@ public class MMigrationStep extends X_AD_MigrationStep {
 						where += " AND ";
 					
 					MColumn column = (MColumn) key.getAD_Column();
+                    if(column == null)
+                        continue;
+
 					where += column.getColumnName() + " = ? ";
 					
 					params.add(stringToObject(column, key.getNewValue()));
@@ -335,6 +344,9 @@ public class MMigrationStep extends X_AD_MigrationStep {
 					value = null;
 
 				MColumn column = (MColumn) data.getAD_Column();
+                if(column == null)
+                    continue;
+
 
 				// backup existing value
 				if ( !po.is_new() )
@@ -379,13 +391,14 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			setStatusCode(MMigrationStep.STATUSCODE_Failed);
 			setApply(MMigrationStep.APPLY_Apply);
 			saveEx(null);
-			throw new AdempiereException("Migration step failed.", e);
+			final String error = "Migration Script : " + getParent().getSeqNo() + " - " + getParent().getName() +  " ---> Strp " + getSeqNo() +  " failed";
+			throw new AdempiereException(error, e);
 		}
 		setStatusCode(MMigrationStep.STATUSCODE_Applied);
 		setApply(MMigrationStep.APPLY_Rollback);
 		setErrorMsg(null);
 		saveEx();
-		
+		log.log(Level.CONFIG, "Migration " + getParent().getSeqNo() +" - "+ getParent().getName() + " ---> Step " + getSeqNo() + " successfully applied");
 		return "Applied";
 	}
 	
@@ -421,6 +434,9 @@ public class MMigrationStep extends X_AD_MigrationStep {
 						where += " AND ";
 					
 					MColumn column = (MColumn) key.getAD_Column();
+                    if(column == null)
+                        continue;
+
 					where += column.getColumnName() + " = ? ";
 					
 					params.add(stringToObject(column, key.getNewValue()));
@@ -453,6 +469,8 @@ public class MMigrationStep extends X_AD_MigrationStep {
 						value = null;
 
 					MColumn column = (MColumn) data.getAD_Column();
+                    if(column == null)
+                        continue;
 
 					po.set_ValueNoCheck(column.getColumnName(), stringToObject(column, value));
 				}
@@ -585,11 +603,19 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		}
 		
 		mstep.saveEx();
+		log.log(Level.CONFIG, "Migration " + mstep.getAD_Migration().getName() + " Step " + mstep.getSeqNo() + " loaded");
 
 	}
 
+	/**
+	 * get parent migration
+	 */
 	public MMigration getParent() {
-		return (MMigration) getAD_Migration();
+		
+		if (parent == null)
+			parent =  (MMigration) getAD_Migration();
+		
+		return parent;
 	}
 
 }

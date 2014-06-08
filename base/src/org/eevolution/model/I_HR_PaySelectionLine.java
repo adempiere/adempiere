@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_PaySelectionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_HR_PaySelectionLine 
 {
@@ -132,14 +132,10 @@ public interface I_HR_PaySelectionLine
     /** Column name HR_PaySelectionCheck_ID */
     public static final String COLUMNNAME_HR_PaySelectionCheck_ID = "HR_PaySelectionCheck_ID";
 
-	/** Set Payroll Pay Selection Check ID.
-	  * Payroll Payment Selection Check
-	  */
+	/** Set Payroll Pay Selection Check ID	  */
 	public void setHR_PaySelectionCheck_ID (int HR_PaySelectionCheck_ID);
 
-	/** Get Payroll Pay Selection Check ID.
-	  * Payroll Payment Selection Check
-	  */
+	/** Get Payroll Pay Selection Check ID	  */
 	public int getHR_PaySelectionCheck_ID();
 
 	public org.eevolution.model.I_HR_PaySelectionCheck getHR_PaySelectionCheck() throws RuntimeException;
@@ -147,27 +143,19 @@ public interface I_HR_PaySelectionLine
     /** Column name HR_PaySelectionLine_ID */
     public static final String COLUMNNAME_HR_PaySelectionLine_ID = "HR_PaySelectionLine_ID";
 
-	/** Set Payroll Payment Selection Line ID.
-	  * Payroll Payment Selection Line
-	  */
+	/** Set Payroll Payment Selection Line ID	  */
 	public void setHR_PaySelectionLine_ID (int HR_PaySelectionLine_ID);
 
-	/** Get Payroll Payment Selection Line ID.
-	  * Payroll Payment Selection Line
-	  */
+	/** Get Payroll Payment Selection Line ID	  */
 	public int getHR_PaySelectionLine_ID();
 
     /** Column name HR_PaySelection_ID */
     public static final String COLUMNNAME_HR_PaySelection_ID = "HR_PaySelection_ID";
 
-	/** Set Payroll Payment Selection ID.
-	  * Payroll Payment Selection
-	  */
+	/** Set Payroll Payment Selection ID	  */
 	public void setHR_PaySelection_ID (int HR_PaySelection_ID);
 
-	/** Get Payroll Payment Selection ID.
-	  * Payroll Payment Selection
-	  */
+	/** Get Payroll Payment Selection ID	  */
 	public int getHR_PaySelection_ID();
 
 	public org.eevolution.model.I_HR_PaySelection getHR_PaySelection() throws RuntimeException;

@@ -72,7 +72,7 @@ public class MatchPODelete extends SvrProcess
 			}
 			return "@OK@";
 		}
-		po.save();
+		po.saveEx();
 		return "@Error@";
 	}	//	doIt
 

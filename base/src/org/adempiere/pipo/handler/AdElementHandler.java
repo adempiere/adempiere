@@ -29,6 +29,7 @@ import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.PoFiller;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.X_AD_Element;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -88,6 +89,14 @@ public class AdElementHandler extends AbstractElementHandler {
 			pf.setString(X_AD_Element.COLUMNNAME_PO_Name);
 			pf.setString(X_AD_Element.COLUMNNAME_PO_Help);
 			pf.setString(X_AD_Element.COLUMNNAME_PO_PrintName);
+
+            String Name = atts.getValue("ADReferenceNameID");
+            id = get_IDWithColumn(ctx, "AD_Reference", "Name", Name);
+            m_AdElement.setAD_Reference_ID(id);
+
+            Name = atts.getValue("ADReferenceNameValueID");
+            id = get_IDWithColumn(ctx, "AD_Reference", "Name", Name);
+            m_AdElement.setAD_Reference_Value_ID(id);
 			
 			
 			if (m_AdElement.save(getTrxName(ctx)) == true) {
@@ -145,7 +154,10 @@ public class AdElementHandler extends AbstractElementHandler {
 	
 	private AttributesImpl createAdElementBinding(AttributesImpl atts,
 			X_AD_Element m_AdElement) {
-		
+
+        String sql = null;
+        String name = null;
+
 		AttributeFiller filler = new AttributeFiller(atts, m_AdElement);
 		if (m_AdElement.getAD_Element_ID() <= PackOut.MAX_OFFICIAL_ID)
 			filler.add(X_AD_Element.COLUMNNAME_AD_Element_ID);
@@ -158,11 +170,27 @@ public class AdElementHandler extends AbstractElementHandler {
 		filler.add(X_AD_Element.COLUMNNAME_Help);
 		filler.add(X_AD_Element.COLUMNNAME_Name);
 		filler.add(X_AD_Element.COLUMNNAME_PrintName);
+        filler.add(X_AD_Element.COLUMNNAME_FieldLength);
 		
 		filler.add(X_AD_Element.COLUMNNAME_PO_Description);
 		filler.add(X_AD_Element.COLUMNNAME_PO_Name);
 		filler.add(X_AD_Element.COLUMNNAME_PO_Help);
 		filler.add(X_AD_Element.COLUMNNAME_PO_PrintName);
+
+        if (m_AdElement.getAD_Reference_ID() > 0) {
+            sql = "SELECT Name FROM AD_Reference WHERE AD_Reference_ID=?";
+            name = DB.getSQLValueString(null, sql, m_AdElement
+                    .getAD_Reference_ID());
+            atts.addAttribute("", "", "ADReferenceNameID", "CDATA", name);
+        } else
+            atts.addAttribute("", "", "ADReferenceNameID", "CDATA", "");
+        if (m_AdElement.getAD_Reference_Value_ID() > 0) {
+            sql = "SELECT Name FROM AD_Reference WHERE AD_Reference_ID=?";
+            name = DB.getSQLValueString(null, sql, m_AdElement
+                    .getAD_Reference_Value_ID());
+            atts.addAttribute("", "", "ADReferenceNameValueID", "CDATA", name);
+        } else
+            atts.addAttribute("", "", "ADReferenceNameValueID", "CDATA", "");
 		
 		return atts;
 	}

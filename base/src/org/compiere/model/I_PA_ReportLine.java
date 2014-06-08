@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PA_ReportLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_PA_ReportLine 
 {
@@ -219,15 +219,6 @@ public interface I_PA_ReportLine
 	  */
 	public String getPAPeriodType();
 
-    /** Column name PA_ReportLine_ID */
-    public static final String COLUMNNAME_PA_ReportLine_ID = "PA_ReportLine_ID";
-
-	/** Set Report Line	  */
-	public void setPA_ReportLine_ID (int PA_ReportLine_ID);
-
-	/** Get Report Line	  */
-	public int getPA_ReportLine_ID();
-
     /** Column name PA_ReportLineSet_ID */
     public static final String COLUMNNAME_PA_ReportLineSet_ID = "PA_ReportLineSet_ID";
 
@@ -238,6 +229,15 @@ public interface I_PA_ReportLine
 	public int getPA_ReportLineSet_ID();
 
 	public org.compiere.model.I_PA_ReportLineSet getPA_ReportLineSet() throws RuntimeException;
+
+    /** Column name PA_ReportLine_ID */
+    public static final String COLUMNNAME_PA_ReportLine_ID = "PA_ReportLine_ID";
+
+	/** Set Report Line	  */
+	public void setPA_ReportLine_ID (int PA_ReportLine_ID);
+
+	/** Get Report Line	  */
+	public int getPA_ReportLine_ID();
 
     /** Column name PostingType */
     public static final String COLUMNNAME_PostingType = "PostingType";
@@ -267,6 +267,19 @@ public interface I_PA_ReportLine
 	  */
 	public int getSeqNo();
 
+    /** Column name TabLevel */
+    public static final String COLUMNNAME_TabLevel = "TabLevel";
+
+	/** Set Tab Level.
+	  * Hierarchical Tab Level (0 = top)
+	  */
+	public void setTabLevel (int TabLevel);
+
+	/** Get Tab Level.
+	  * Hierarchical Tab Level (0 = top)
+	  */
+	public int getTabLevel();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -282,4 +295,22 @@ public interface I_PA_ReportLine
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name fixedpercentage */
+    public static final String COLUMNNAME_fixedpercentage = "fixedpercentage";
+
+	/** Set fixedpercentage	  */
+	public void setfixedpercentage (BigDecimal fixedpercentage);
+
+	/** Get fixedpercentage	  */
+	public BigDecimal getfixedpercentage();
+
+    /** Column name reportlinestyle */
+    public static final String COLUMNNAME_reportlinestyle = "reportlinestyle";
+
+	/** Set reportlinestyle	  */
+	public void setreportlinestyle (String reportlinestyle);
+
+	/** Get reportlinestyle	  */
+	public String getreportlinestyle();
 }

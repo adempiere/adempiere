@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PA_DashboardContent
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_PA_DashboardContent 
 {
@@ -40,6 +40,17 @@ public interface I_PA_DashboardContent
     BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
+
+    /** Column name AD_Browse_ID */
+    public static final String COLUMNNAME_AD_Browse_ID = "AD_Browse_ID";
+
+	/** Set Smart Browse	  */
+	public void setAD_Browse_ID (int AD_Browse_ID);
+
+	/** Get Smart Browse	  */
+	public int getAD_Browse_ID();
+
+	public org.adempiere.model.I_AD_Browse getAD_Browse() throws RuntimeException;
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -167,6 +178,15 @@ public interface I_PA_DashboardContent
 	  */
 	public boolean isCollapsible();
 
+    /** Column name IsEventRequired */
+    public static final String COLUMNNAME_IsEventRequired = "IsEventRequired";
+
+	/** Set IsEventRequired	  */
+	public void setIsEventRequired (boolean IsEventRequired);
+
+	/** Get IsEventRequired	  */
+	public boolean isEventRequired();
+
     /** Column name IsOpenByDefault */
     public static final String COLUMNNAME_IsOpenByDefault = "IsOpenByDefault";
 
@@ -226,6 +246,15 @@ public interface I_PA_DashboardContent
 
 	public org.compiere.model.I_PA_Goal getPA_Goal() throws RuntimeException;
 
+    /** Column name PageSize */
+    public static final String COLUMNNAME_PageSize = "PageSize";
+
+	/** Set PageSize	  */
+	public void setPageSize (BigDecimal PageSize);
+
+	/** Get PageSize	  */
+	public BigDecimal getPageSize();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -242,6 +271,39 @@ public interface I_PA_DashboardContent
 	  */
 	public int getUpdatedBy();
 
+    /** Column name Zoom_Field_ID */
+    public static final String COLUMNNAME_Zoom_Field_ID = "Zoom_Field_ID";
+
+	/** Set Zoom_Field_ID	  */
+	public void setZoom_Field_ID (int Zoom_Field_ID);
+
+	/** Get Zoom_Field_ID	  */
+	public int getZoom_Field_ID();
+
+	public org.adempiere.model.I_AD_Browse_Field getZoom_Field() throws RuntimeException;
+
+    /** Column name Zoom_Tab_ID */
+    public static final String COLUMNNAME_Zoom_Tab_ID = "Zoom_Tab_ID";
+
+	/** Set Zoom_Tab_ID	  */
+	public void setZoom_Tab_ID (int Zoom_Tab_ID);
+
+	/** Get Zoom_Tab_ID	  */
+	public int getZoom_Tab_ID();
+
+	public org.compiere.model.I_AD_Tab getZoom_Tab() throws RuntimeException;
+
+    /** Column name Zoom_Window_ID */
+    public static final String COLUMNNAME_Zoom_Window_ID = "Zoom_Window_ID";
+
+	/** Set Zoom_Window_ID	  */
+	public void setZoom_Window_ID (int Zoom_Window_ID);
+
+	/** Get Zoom_Window_ID	  */
+	public int getZoom_Window_ID();
+
+	public org.compiere.model.I_AD_Window getZoom_Window() throws RuntimeException;
+
     /** Column name ZulFilePath */
     public static final String COLUMNNAME_ZulFilePath = "ZulFilePath";
 
@@ -254,4 +316,13 @@ public interface I_PA_DashboardContent
 	  * Absolute path to zul file
 	  */
 	public String getZulFilePath();
+
+    /** Column name onevent */
+    public static final String COLUMNNAME_onevent = "onevent";
+
+	/** Set onevent	  */
+	public void setonevent (String onevent);
+
+	/** Get onevent	  */
+	public String getonevent();
 }

@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BankStatementLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_C_BankStatementLine extends PO implements I_C_BankStatementLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_C_BankStatementLine (Properties ctx, int C_BankStatementLine_ID, String trxName)
@@ -41,8 +41,8 @@ public class X_C_BankStatementLine extends PO implements I_C_BankStatementLine, 
       super (ctx, C_BankStatementLine_ID, trxName);
       /** if (C_BankStatementLine_ID == 0)
         {
-			setC_BankStatement_ID (0);
 			setC_BankStatementLine_ID (0);
+			setC_BankStatement_ID (0);
 			setC_Charge_ID (0);
 			setC_Currency_ID (0);
 // @SQL=SELECT C_Currency_ID FROM C_BankAccount WHERE C_BankAccount_ID=@C_BankAccount_ID@
@@ -93,29 +93,29 @@ public class X_C_BankStatementLine extends PO implements I_C_BankStatementLine, 
       return sb.toString();
     }
 
-	public org.compiere.model.I_C_BankStatement getC_BankStatement() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (org.compiere.model.I_C_BankStatement)MTable.get(getCtx(), org.compiere.model.I_C_BankStatement.Table_Name)
-			.getPO(getC_BankStatement_ID(), get_TrxName());	}
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
+			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
-	/** Set Bank Statement.
-		@param C_BankStatement_ID 
-		Bank Statement of account
+	/** Set Business Partner .
+		@param C_BPartner_ID 
+		Identifies a Business Partner
 	  */
-	public void setC_BankStatement_ID (int C_BankStatement_ID)
+	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BankStatement_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_BankStatement_ID, null);
+		if (C_BPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_C_BankStatement_ID, Integer.valueOf(C_BankStatement_ID));
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
-	/** Get Bank Statement.
-		@return Bank Statement of account
+	/** Get Business Partner .
+		@return Identifies a Business Partner
 	  */
-	public int getC_BankStatement_ID () 
+	public int getC_BPartner_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BankStatement_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -144,29 +144,29 @@ public class X_C_BankStatementLine extends PO implements I_C_BankStatementLine, 
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.compiere.model.I_C_BankStatement getC_BankStatement() throws RuntimeException
     {
-		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
-			.getPO(getC_BPartner_ID(), get_TrxName());	}
+		return (org.compiere.model.I_C_BankStatement)MTable.get(getCtx(), org.compiere.model.I_C_BankStatement.Table_Name)
+			.getPO(getC_BankStatement_ID(), get_TrxName());	}
 
-	/** Set Business Partner .
-		@param C_BPartner_ID 
-		Identifies a Business Partner
+	/** Set Bank Statement.
+		@param C_BankStatement_ID 
+		Bank Statement of account
 	  */
-	public void setC_BPartner_ID (int C_BPartner_ID)
+	public void setC_BankStatement_ID (int C_BankStatement_ID)
 	{
-		if (C_BPartner_ID < 1) 
-			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		if (C_BankStatement_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_BankStatement_ID, null);
 		else 
-			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+			set_ValueNoCheck (COLUMNNAME_C_BankStatement_ID, Integer.valueOf(C_BankStatement_ID));
 	}
 
-	/** Get Business Partner .
-		@return Identifies a Business Partner
+	/** Get Bank Statement.
+		@return Bank Statement of account
 	  */
-	public int getC_BPartner_ID () 
+	public int getC_BankStatement_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BankStatement_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -228,26 +228,6 @@ public class X_C_BankStatementLine extends PO implements I_C_BankStatementLine, 
 		return ii.intValue();
 	}
 
-	/** Set Charge amount.
-		@param ChargeAmt 
-		Charge Amount
-	  */
-	public void setChargeAmt (BigDecimal ChargeAmt)
-	{
-		set_Value (COLUMNNAME_ChargeAmt, ChargeAmt);
-	}
-
-	/** Get Charge amount.
-		@return Charge Amount
-	  */
-	public BigDecimal getChargeAmt () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ChargeAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Invoice)MTable.get(getCtx(), org.compiere.model.I_C_Invoice.Table_Name)
@@ -302,6 +282,26 @@ public class X_C_BankStatementLine extends PO implements I_C_BankStatementLine, 
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Charge amount.
+		@param ChargeAmt 
+		Charge Amount
+	  */
+	public void setChargeAmt (BigDecimal ChargeAmt)
+	{
+		set_Value (COLUMNNAME_ChargeAmt, ChargeAmt);
+	}
+
+	/** Get Charge amount.
+		@return Charge Amount
+	  */
+	public BigDecimal getChargeAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ChargeAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Create Payment.

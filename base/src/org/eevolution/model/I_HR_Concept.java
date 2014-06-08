@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_Concept
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_HR_Concept 
 {
@@ -41,19 +41,6 @@ public interface I_HR_Concept
     BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
-
-    /** Column name AccountSign */
-    public static final String COLUMNNAME_AccountSign = "AccountSign";
-
-	/** Set Account Sign.
-	  * Indicates the Natural Sign of the Account as a Debit or Credit
-	  */
-	public void setAccountSign (String AccountSign);
-
-	/** Get Account Sign.
-	  * Indicates the Natural Sign of the Account as a Debit or Credit
-	  */
-	public String getAccountSign();
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -90,6 +77,19 @@ public interface I_HR_Concept
 	public int getAD_Reference_ID();
 
 	public org.compiere.model.I_AD_Reference getAD_Reference() throws RuntimeException;
+
+    /** Column name AccountSign */
+    public static final String COLUMNNAME_AccountSign = "AccountSign";
+
+	/** Set Account Sign.
+	  * Indicates the Natural Sign of the Account as a Debit or Credit
+	  */
+	public void setAccountSign (String AccountSign);
+
+	/** Get Account Sign.
+	  * Indicates the Natural Sign of the Account as a Debit or Credit
+	  */
+	public String getAccountSign();
 
     /** Column name ColumnType */
     public static final String COLUMNNAME_ColumnType = "ColumnType";
@@ -220,6 +220,19 @@ public interface I_HR_Concept
 	  * Indicates if  this Business Partner is an employee
 	  */
 	public boolean isEmployee();
+
+    /** Column name IsInvoiced */
+    public static final String COLUMNNAME_IsInvoiced = "IsInvoiced";
+
+	/** Set Invoiced.
+	  * Is this invoiced?
+	  */
+	public void setIsInvoiced (boolean IsInvoiced);
+
+	/** Get Invoiced.
+	  * Is this invoiced?
+	  */
+	public boolean isInvoiced();
 
     /** Column name IsManual */
     public static final String COLUMNNAME_IsManual = "IsManual";

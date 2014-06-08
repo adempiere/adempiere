@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PP_Product_BOM
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_PP_Product_BOM extends PO implements I_PP_Product_BOM, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_PP_Product_BOM (Properties ctx, int PP_Product_BOM_ID, String trxName)
@@ -145,23 +145,6 @@ public class X_PP_Product_BOM extends PO implements I_PP_Product_BOM, I_Persiste
 		return (String)get_Value(COLUMNNAME_BOMUse);
 	}
 
-	/** Set Copy From.
-		@param CopyFrom 
-		Copy From Record
-	  */
-	public void setCopyFrom (String CopyFrom)
-	{
-		set_Value (COLUMNNAME_CopyFrom, CopyFrom);
-	}
-
-	/** Get Copy From.
-		@return Copy From Record
-	  */
-	public String getCopyFrom () 
-	{
-		return (String)get_Value(COLUMNNAME_CopyFrom);
-	}
-
 	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException
     {
 		return (org.compiere.model.I_C_UOM)MTable.get(getCtx(), org.compiere.model.I_C_UOM.Table_Name)
@@ -188,6 +171,23 @@ public class X_PP_Product_BOM extends PO implements I_PP_Product_BOM, I_Persiste
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Copy From.
+		@param CopyFrom 
+		Copy From Record
+	  */
+	public void setCopyFrom (String CopyFrom)
+	{
+		set_Value (COLUMNNAME_CopyFrom, CopyFrom);
+	}
+
+	/** Get Copy From.
+		@return Copy From Record
+	  */
+	public String getCopyFrom () 
+	{
+		return (String)get_Value(COLUMNNAME_CopyFrom);
 	}
 
 	/** Set Description.

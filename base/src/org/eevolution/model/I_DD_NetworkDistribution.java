@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for DD_NetworkDistribution
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_DD_NetworkDistribution 
 {
@@ -95,10 +95,14 @@ public interface I_DD_NetworkDistribution
     /** Column name DD_NetworkDistribution_ID */
     public static final String COLUMNNAME_DD_NetworkDistribution_ID = "DD_NetworkDistribution_ID";
 
-	/** Set Network Distribution	  */
+	/** Set Network Distribution.
+	  * Identifies a distribution network, distribution networks are used to establish the source and target of the materials in the supply chain
+	  */
 	public void setDD_NetworkDistribution_ID (int DD_NetworkDistribution_ID);
 
-	/** Get Network Distribution	  */
+	/** Get Network Distribution.
+	  * Identifies a distribution network, distribution networks are used to establish the source and target of the materials in the supply chain
+	  */
 	public int getDD_NetworkDistribution_ID();
 
     /** Column name Description */

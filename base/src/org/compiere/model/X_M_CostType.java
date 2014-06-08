@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_CostType
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_M_CostType extends PO implements I_M_CostType, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_M_CostType (Properties ctx, int M_CostType_ID, String trxName)
@@ -38,6 +38,8 @@ public class X_M_CostType extends PO implements I_M_CostType, I_Persistent
       super (ctx, M_CostType_ID, trxName);
       /** if (M_CostType_ID == 0)
         {
+			setCostingMethod (null);
+// S
 			setM_CostType_ID (0);
 			setName (null);
         } */
@@ -70,6 +72,44 @@ public class X_M_CostType extends PO implements I_M_CostType, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** CostingMethod AD_Reference_ID=122 */
+	public static final int COSTINGMETHOD_AD_Reference_ID=122;
+	/** Standard Costing = S */
+	public static final String COSTINGMETHOD_StandardCosting = "S";
+	/** Average PO = A */
+	public static final String COSTINGMETHOD_AveragePO = "A";
+	/** Lifo = L */
+	public static final String COSTINGMETHOD_Lifo = "L";
+	/** Fifo = F */
+	public static final String COSTINGMETHOD_Fifo = "F";
+	/** Last PO Price = p */
+	public static final String COSTINGMETHOD_LastPOPrice = "p";
+	/** Average Invoice = I */
+	public static final String COSTINGMETHOD_AverageInvoice = "I";
+	/** Last Invoice = i */
+	public static final String COSTINGMETHOD_LastInvoice = "i";
+	/** User Defined = U */
+	public static final String COSTINGMETHOD_UserDefined = "U";
+	/** _ = x */
+	public static final String COSTINGMETHOD__ = "x";
+	/** Set Costing Method.
+		@param CostingMethod 
+		Indicates how Costs will be calculated
+	  */
+	public void setCostingMethod (String CostingMethod)
+	{
+
+		set_ValueNoCheck (COLUMNNAME_CostingMethod, CostingMethod);
+	}
+
+	/** Get Costing Method.
+		@return Indicates how Costs will be calculated
+	  */
+	public String getCostingMethod () 
+	{
+		return (String)get_Value(COLUMNNAME_CostingMethod);
+	}
 
 	/** Set Description.
 		@param Description 

@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Issue
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_AD_Issue (Properties ctx, int AD_Issue_ID, String trxName)
@@ -82,34 +82,6 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException
-    {
-		return (org.compiere.model.I_A_Asset)MTable.get(getCtx(), org.compiere.model.I_A_Asset.Table_Name)
-			.getPO(getA_Asset_ID(), get_TrxName());	}
-
-	/** Set Asset.
-		@param A_Asset_ID 
-		Asset used internally or by customers
-	  */
-	public void setA_Asset_ID (int A_Asset_ID)
-	{
-		if (A_Asset_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_A_Asset_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
-	}
-
-	/** Get Asset.
-		@return Asset used internally or by customers
-	  */
-	public int getA_Asset_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	public org.compiere.model.I_AD_Form getAD_Form() throws RuntimeException
     {
@@ -218,6 +190,34 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException
+    {
+		return (org.compiere.model.I_A_Asset)MTable.get(getCtx(), org.compiere.model.I_A_Asset.Table_Name)
+			.getPO(getA_Asset_ID(), get_TrxName());	}
+
+	/** Set Asset.
+		@param A_Asset_ID 
+		Asset used internally or by customers
+	  */
+	public void setA_Asset_ID (int A_Asset_ID)
+	{
+		if (A_Asset_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
+	}
+
+	/** Get Asset.
+		@return Asset used internally or by customers
+	  */
+	public int getA_Asset_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Comments.
 		@param Comments 
 		Comments or additional information
@@ -235,23 +235,6 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 		return (String)get_Value(COLUMNNAME_Comments);
 	}
 
-	/** Set Database.
-		@param DatabaseInfo 
-		Database Information
-	  */
-	public void setDatabaseInfo (String DatabaseInfo)
-	{
-		set_ValueNoCheck (COLUMNNAME_DatabaseInfo, DatabaseInfo);
-	}
-
-	/** Get Database.
-		@return Database Information
-	  */
-	public String getDatabaseInfo () 
-	{
-		return (String)get_Value(COLUMNNAME_DatabaseInfo);
-	}
-
 	/** Set DB Address.
 		@param DBAddress 
 		JDBC URL of the database server
@@ -267,6 +250,23 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 	public String getDBAddress () 
 	{
 		return (String)get_Value(COLUMNNAME_DBAddress);
+	}
+
+	/** Set Database.
+		@param DatabaseInfo 
+		Database Information
+	  */
+	public void setDatabaseInfo (String DatabaseInfo)
+	{
+		set_ValueNoCheck (COLUMNNAME_DatabaseInfo, DatabaseInfo);
+	}
+
+	/** Get Database.
+		@return Database Information
+	  */
+	public String getDatabaseInfo () 
+	{
+		return (String)get_Value(COLUMNNAME_DatabaseInfo);
 	}
 
 	/** Set Error Trace.
@@ -310,6 +310,30 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 		return (String)get_Value(COLUMNNAME_IsReproducible);
 	}
 
+	/** IsVanillaSystem AD_Reference_ID=319 */
+	public static final int ISVANILLASYSTEM_AD_Reference_ID=319;
+	/** Yes = Y */
+	public static final String ISVANILLASYSTEM_Yes = "Y";
+	/** No = N */
+	public static final String ISVANILLASYSTEM_No = "N";
+	/** Set Vanilla System.
+		@param IsVanillaSystem 
+		The system was NOT compiled from Source - i.e. standard distribution
+	  */
+	public void setIsVanillaSystem (String IsVanillaSystem)
+	{
+
+		set_Value (COLUMNNAME_IsVanillaSystem, IsVanillaSystem);
+	}
+
+	/** Get Vanilla System.
+		@return The system was NOT compiled from Source - i.e. standard distribution
+	  */
+	public String getIsVanillaSystem () 
+	{
+		return (String)get_Value(COLUMNNAME_IsVanillaSystem);
+	}
+
 	/** IssueSource AD_Reference_ID=104 */
 	public static final int ISSUESOURCE_AD_Reference_ID=104;
 	/** Window = W */
@@ -326,6 +350,8 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 	public static final String ISSUESOURCE_Form = "X";
 	/** Workbench = B */
 	public static final String ISSUESOURCE_Workbench = "B";
+	/** Smart Browse = S */
+	public static final String ISSUESOURCE_SmartBrowse = "S";
 	/** Set Source.
 		@param IssueSource 
 		Issue Source
@@ -368,30 +394,6 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
     {
         return new KeyNamePair(get_ID(), getIssueSummary());
     }
-
-	/** IsVanillaSystem AD_Reference_ID=319 */
-	public static final int ISVANILLASYSTEM_AD_Reference_ID=319;
-	/** Yes = Y */
-	public static final String ISVANILLASYSTEM_Yes = "Y";
-	/** No = N */
-	public static final String ISVANILLASYSTEM_No = "N";
-	/** Set Vanilla System.
-		@param IsVanillaSystem 
-		The system was NOT compiled from Source - i.e. standard distribution
-	  */
-	public void setIsVanillaSystem (String IsVanillaSystem)
-	{
-
-		set_Value (COLUMNNAME_IsVanillaSystem, IsVanillaSystem);
-	}
-
-	/** Get Vanilla System.
-		@return The system was NOT compiled from Source - i.e. standard distribution
-	  */
-	public String getIsVanillaSystem () 
-	{
-		return (String)get_Value(COLUMNNAME_IsVanillaSystem);
-	}
 
 	/** Set Java Info.
 		@param JavaInfo 
@@ -560,131 +562,6 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 		return (String)get_Value(COLUMNNAME_ProfileInfo);
 	}
 
-	/** Set Record ID.
-		@param Record_ID 
-		Direct internal record ID
-	  */
-	public void setRecord_ID (int Record_ID)
-	{
-		if (Record_ID < 0) 
-			set_ValueNoCheck (COLUMNNAME_Record_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
-	}
-
-	/** Get Record ID.
-		@return Direct internal record ID
-	  */
-	public int getRecord_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Record_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Release No.
-		@param ReleaseNo 
-		Internal Release Number
-	  */
-	public void setReleaseNo (String ReleaseNo)
-	{
-		set_ValueNoCheck (COLUMNNAME_ReleaseNo, ReleaseNo);
-	}
-
-	/** Get Release No.
-		@return Internal Release Number
-	  */
-	public String getReleaseNo () 
-	{
-		return (String)get_Value(COLUMNNAME_ReleaseNo);
-	}
-
-	/** Set Release Tag.
-		@param ReleaseTag 
-		Release Tag
-	  */
-	public void setReleaseTag (String ReleaseTag)
-	{
-		set_Value (COLUMNNAME_ReleaseTag, ReleaseTag);
-	}
-
-	/** Get Release Tag.
-		@return Release Tag
-	  */
-	public String getReleaseTag () 
-	{
-		return (String)get_Value(COLUMNNAME_ReleaseTag);
-	}
-
-	/** Set Remote Addr.
-		@param Remote_Addr 
-		Remote Address
-	  */
-	public void setRemote_Addr (String Remote_Addr)
-	{
-		set_ValueNoCheck (COLUMNNAME_Remote_Addr, Remote_Addr);
-	}
-
-	/** Get Remote Addr.
-		@return Remote Address
-	  */
-	public String getRemote_Addr () 
-	{
-		return (String)get_Value(COLUMNNAME_Remote_Addr);
-	}
-
-	/** Set Remote Host.
-		@param Remote_Host 
-		Remote host Info
-	  */
-	public void setRemote_Host (String Remote_Host)
-	{
-		set_ValueNoCheck (COLUMNNAME_Remote_Host, Remote_Host);
-	}
-
-	/** Get Remote Host.
-		@return Remote host Info
-	  */
-	public String getRemote_Host () 
-	{
-		return (String)get_Value(COLUMNNAME_Remote_Host);
-	}
-
-	/** Set Request Document No.
-		@param RequestDocumentNo 
-		Adempiere Request Document No
-	  */
-	public void setRequestDocumentNo (String RequestDocumentNo)
-	{
-		set_ValueNoCheck (COLUMNNAME_RequestDocumentNo, RequestDocumentNo);
-	}
-
-	/** Get Request Document No.
-		@return Adempiere Request Document No
-	  */
-	public String getRequestDocumentNo () 
-	{
-		return (String)get_Value(COLUMNNAME_RequestDocumentNo);
-	}
-
-	/** Set Response Text.
-		@param ResponseText 
-		Request Response Text
-	  */
-	public void setResponseText (String ResponseText)
-	{
-		set_ValueNoCheck (COLUMNNAME_ResponseText, ResponseText);
-	}
-
-	/** Get Response Text.
-		@return Request Response Text
-	  */
-	public String getResponseText () 
-	{
-		return (String)get_Value(COLUMNNAME_ResponseText);
-	}
-
 	public org.compiere.model.I_R_IssueKnown getR_IssueKnown() throws RuntimeException
     {
 		return (org.compiere.model.I_R_IssueKnown)MTable.get(getCtx(), org.compiere.model.I_R_IssueKnown.Table_Name)
@@ -823,6 +700,131 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Record ID.
+		@param Record_ID 
+		Direct internal record ID
+	  */
+	public void setRecord_ID (int Record_ID)
+	{
+		if (Record_ID < 0) 
+			set_ValueNoCheck (COLUMNNAME_Record_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
+	}
+
+	/** Get Record ID.
+		@return Direct internal record ID
+	  */
+	public int getRecord_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Record_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Release No.
+		@param ReleaseNo 
+		Internal Release Number
+	  */
+	public void setReleaseNo (String ReleaseNo)
+	{
+		set_ValueNoCheck (COLUMNNAME_ReleaseNo, ReleaseNo);
+	}
+
+	/** Get Release No.
+		@return Internal Release Number
+	  */
+	public String getReleaseNo () 
+	{
+		return (String)get_Value(COLUMNNAME_ReleaseNo);
+	}
+
+	/** Set Release Tag.
+		@param ReleaseTag 
+		Release Tag
+	  */
+	public void setReleaseTag (String ReleaseTag)
+	{
+		set_Value (COLUMNNAME_ReleaseTag, ReleaseTag);
+	}
+
+	/** Get Release Tag.
+		@return Release Tag
+	  */
+	public String getReleaseTag () 
+	{
+		return (String)get_Value(COLUMNNAME_ReleaseTag);
+	}
+
+	/** Set Remote Addr.
+		@param Remote_Addr 
+		Remote Address
+	  */
+	public void setRemote_Addr (String Remote_Addr)
+	{
+		set_ValueNoCheck (COLUMNNAME_Remote_Addr, Remote_Addr);
+	}
+
+	/** Get Remote Addr.
+		@return Remote Address
+	  */
+	public String getRemote_Addr () 
+	{
+		return (String)get_Value(COLUMNNAME_Remote_Addr);
+	}
+
+	/** Set Remote Host.
+		@param Remote_Host 
+		Remote host Info
+	  */
+	public void setRemote_Host (String Remote_Host)
+	{
+		set_ValueNoCheck (COLUMNNAME_Remote_Host, Remote_Host);
+	}
+
+	/** Get Remote Host.
+		@return Remote host Info
+	  */
+	public String getRemote_Host () 
+	{
+		return (String)get_Value(COLUMNNAME_Remote_Host);
+	}
+
+	/** Set Request Document No.
+		@param RequestDocumentNo 
+		Adempiere Request Document No
+	  */
+	public void setRequestDocumentNo (String RequestDocumentNo)
+	{
+		set_ValueNoCheck (COLUMNNAME_RequestDocumentNo, RequestDocumentNo);
+	}
+
+	/** Get Request Document No.
+		@return Adempiere Request Document No
+	  */
+	public String getRequestDocumentNo () 
+	{
+		return (String)get_Value(COLUMNNAME_RequestDocumentNo);
+	}
+
+	/** Set Response Text.
+		@param ResponseText 
+		Request Response Text
+	  */
+	public void setResponseText (String ResponseText)
+	{
+		set_ValueNoCheck (COLUMNNAME_ResponseText, ResponseText);
+	}
+
+	/** Get Response Text.
+		@return Request Response Text
+	  */
+	public String getResponseText () 
+	{
+		return (String)get_Value(COLUMNNAME_ResponseText);
 	}
 
 	/** Set Source Class.

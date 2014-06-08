@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_System
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_AD_System extends PO implements I_AD_System, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_AD_System (Properties ctx, int AD_System_ID, String trxName)
@@ -369,20 +369,6 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 		return false;
 	}
 
-	/** Set Last Build Info.
-		@param LastBuildInfo Last Build Info	  */
-	public void setLastBuildInfo (String LastBuildInfo)
-	{
-		set_Value (COLUMNNAME_LastBuildInfo, LastBuildInfo);
-	}
-
-	/** Get Last Build Info.
-		@return Last Build Info	  */
-	public String getLastBuildInfo () 
-	{
-		return (String)get_Value(COLUMNNAME_LastBuildInfo);
-	}
-
 	/** Set LDAP Domain.
 		@param LDAPDomain 
 		Directory service domain name - e.g. adempiere.org
@@ -415,6 +401,20 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 	public String getLDAPHost () 
 	{
 		return (String)get_Value(COLUMNNAME_LDAPHost);
+	}
+
+	/** Set Last Build Info.
+		@param LastBuildInfo Last Build Info	  */
+	public void setLastBuildInfo (String LastBuildInfo)
+	{
+		set_Value (COLUMNNAME_LastBuildInfo, LastBuildInfo);
+	}
+
+	/** Get Last Build Info.
+		@return Last Build Info	  */
+	public String getLastBuildInfo () 
+	{
+		return (String)get_Value(COLUMNNAME_LastBuildInfo);
 	}
 
 	/** Set Name.

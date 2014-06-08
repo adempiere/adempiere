@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for R_RequestUpdate
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_R_RequestUpdate 
 {
@@ -158,18 +158,18 @@ public interface I_R_RequestUpdate
 	  */
 	public BigDecimal getQtySpent();
 
-    /** Column name Result */
-    public static final String COLUMNNAME_Result = "Result";
+    /** Column name R_RequestUpdate_ID */
+    public static final String COLUMNNAME_R_RequestUpdate_ID = "R_RequestUpdate_ID";
 
-	/** Set Result.
-	  * Result of the action taken
+	/** Set Request Update.
+	  * Request Updates
 	  */
-	public void setResult (String Result);
+	public void setR_RequestUpdate_ID (int R_RequestUpdate_ID);
 
-	/** Get Result.
-	  * Result of the action taken
+	/** Get Request Update.
+	  * Request Updates
 	  */
-	public String getResult();
+	public int getR_RequestUpdate_ID();
 
     /** Column name R_Request_ID */
     public static final String COLUMNNAME_R_Request_ID = "R_Request_ID";
@@ -186,18 +186,18 @@ public interface I_R_RequestUpdate
 
 	public org.compiere.model.I_R_Request getR_Request() throws RuntimeException;
 
-    /** Column name R_RequestUpdate_ID */
-    public static final String COLUMNNAME_R_RequestUpdate_ID = "R_RequestUpdate_ID";
+    /** Column name Result */
+    public static final String COLUMNNAME_Result = "Result";
 
-	/** Set Request Update.
-	  * Request Updates
+	/** Set Result.
+	  * Result of the action taken
 	  */
-	public void setR_RequestUpdate_ID (int R_RequestUpdate_ID);
+	public void setResult (String Result);
 
-	/** Get Request Update.
-	  * Request Updates
+	/** Get Result.
+	  * Result of the action taken
 	  */
-	public int getR_RequestUpdate_ID();
+	public String getResult();
 
     /** Column name StartTime */
     public static final String COLUMNNAME_StartTime = "StartTime";

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_PriceList_Version
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_M_PriceList_Version 
 {
@@ -134,6 +134,19 @@ public interface I_M_PriceList_Version
 
 	public org.compiere.model.I_M_PriceList getM_PriceList() throws RuntimeException;
 
+    /** Column name M_PriceList_Version_ID */
+    public static final String COLUMNNAME_M_PriceList_Version_ID = "M_PriceList_Version_ID";
+
+	/** Set Price List Version.
+	  * Identifies a unique instance of a Price List
+	  */
+	public void setM_PriceList_Version_ID (int M_PriceList_Version_ID);
+
+	/** Get Price List Version.
+	  * Identifies a unique instance of a Price List
+	  */
+	public int getM_PriceList_Version_ID();
+
     /** Column name M_Pricelist_Version_Base_ID */
     public static final String COLUMNNAME_M_Pricelist_Version_Base_ID = "M_Pricelist_Version_Base_ID";
 
@@ -148,19 +161,6 @@ public interface I_M_PriceList_Version
 	public int getM_Pricelist_Version_Base_ID();
 
 	public org.compiere.model.I_M_PriceList_Version getM_Pricelist_Version_Base() throws RuntimeException;
-
-    /** Column name M_PriceList_Version_ID */
-    public static final String COLUMNNAME_M_PriceList_Version_ID = "M_PriceList_Version_ID";
-
-	/** Set Price List Version.
-	  * Identifies a unique instance of a Price List
-	  */
-	public void setM_PriceList_Version_ID (int M_PriceList_Version_ID);
-
-	/** Get Price List Version.
-	  * Identifies a unique instance of a Price List
-	  */
-	public int getM_PriceList_Version_ID();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

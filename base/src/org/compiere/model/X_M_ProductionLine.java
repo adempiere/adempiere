@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_ProductionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_M_ProductionLine extends PO implements I_M_ProductionLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_M_ProductionLine (Properties ctx, int M_ProductionLine_ID, String trxName)
@@ -41,14 +41,14 @@ public class X_M_ProductionLine extends PO implements I_M_ProductionLine, I_Pers
       /** if (M_ProductionLine_ID == 0)
         {
 			setLine (0);
-// @SQL=SELECT NVL(MAX(Line),0)+10 AS DefaultValue FROM M_ProductionLine WHERE M_ProductionPlan_ID=@M_ProductionPlan_ID@
+// @SQL=SELECT NVL(MAX(Line),0)+10 AS DefaultValue FROM M_ProductionLine WHERE M_Production_ID=@M_Production_ID@
 			setM_AttributeSetInstance_ID (0);
 			setM_Locator_ID (0);
 // @M_Locator_ID@
-			setMovementQty (Env.ZERO);
 			setM_Product_ID (0);
 			setM_ProductionLine_ID (0);
-			setM_ProductionPlan_ID (0);
+			setM_Production_ID (0);
+			setMovementQty (Env.ZERO);
 			setProcessed (false);
         } */
     }
@@ -98,6 +98,30 @@ public class X_M_ProductionLine extends PO implements I_M_ProductionLine, I_Pers
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	/** Set End Product.
+		@param IsEndProduct 
+		End Product of production
+	  */
+	public void setIsEndProduct (boolean IsEndProduct)
+	{
+		set_Value (COLUMNNAME_IsEndProduct, Boolean.valueOf(IsEndProduct));
+	}
+
+	/** Get End Product.
+		@return End Product of production
+	  */
+	public boolean isEndProduct () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsEndProduct);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Line No.
 		@param Line 
 		Unique line for this document
@@ -117,14 +141,6 @@ public class X_M_ProductionLine extends PO implements I_M_ProductionLine, I_Pers
 			 return 0;
 		return ii.intValue();
 	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), String.valueOf(getLine()));
-    }
 
 	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException
     {
@@ -180,26 +196,6 @@ public class X_M_ProductionLine extends PO implements I_M_ProductionLine, I_Pers
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Movement Quantity.
-		@param MovementQty 
-		Quantity of a product moved.
-	  */
-	public void setMovementQty (BigDecimal MovementQty)
-	{
-		set_Value (COLUMNNAME_MovementQty, MovementQty);
-	}
-
-	/** Get Movement Quantity.
-		@return Quantity of a product moved.
-	  */
-	public BigDecimal getMovementQty () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MovementQty);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
 	}
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
@@ -281,6 +277,82 @@ public class X_M_ProductionLine extends PO implements I_M_ProductionLine, I_Pers
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_M_Production getM_Production() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_Production)MTable.get(getCtx(), org.compiere.model.I_M_Production.Table_Name)
+			.getPO(getM_Production_ID(), get_TrxName());	}
+
+	/** Set Production.
+		@param M_Production_ID 
+		Plan for producing a product
+	  */
+	public void setM_Production_ID (int M_Production_ID)
+	{
+		if (M_Production_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Production_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Production_ID, Integer.valueOf(M_Production_ID));
+	}
+
+	/** Get Production.
+		@return Plan for producing a product
+	  */
+	public int getM_Production_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Production_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getM_Production_ID()));
+    }
+
+	/** Set Movement Quantity.
+		@param MovementQty 
+		Quantity of a product moved.
+	  */
+	public void setMovementQty (BigDecimal MovementQty)
+	{
+		set_Value (COLUMNNAME_MovementQty, MovementQty);
+	}
+
+	/** Get Movement Quantity.
+		@return Quantity of a product moved.
+	  */
+	public BigDecimal getMovementQty () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MovementQty);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Planned Quantity.
+		@param PlannedQty 
+		Planned quantity for this project
+	  */
+	public void setPlannedQty (BigDecimal PlannedQty)
+	{
+		set_Value (COLUMNNAME_PlannedQty, PlannedQty);
+	}
+
+	/** Get Planned Quantity.
+		@return Planned quantity for this project
+	  */
+	public BigDecimal getPlannedQty () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PlannedQty);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	/** Set Processed.
 		@param Processed 
 		The document has been processed
@@ -303,5 +375,57 @@ public class X_M_ProductionLine extends PO implements I_M_ProductionLine, I_Pers
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Set Product Type.
+		@param ProductType 
+		Type of product
+	  */
+	public void setProductType (String ProductType)
+	{
+		throw new IllegalArgumentException ("ProductType is virtual column");	}
+
+	/** Get Product Type.
+		@return Type of product
+	  */
+	public String getProductType () 
+	{
+		return (String)get_Value(COLUMNNAME_ProductType);
+	}
+
+	/** Set Available Quantity.
+		@param QtyAvailable 
+		Available Quantity (On Hand - Reserved)
+	  */
+	public void setQtyAvailable (BigDecimal QtyAvailable)
+	{
+		throw new IllegalArgumentException ("QtyAvailable is virtual column");	}
+
+	/** Get Available Quantity.
+		@return Available Quantity (On Hand - Reserved)
+	  */
+	public BigDecimal getQtyAvailable () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyAvailable);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Quantity Used.
+		@param QtyUsed Quantity Used	  */
+	public void setQtyUsed (BigDecimal QtyUsed)
+	{
+		set_Value (COLUMNNAME_QtyUsed, QtyUsed);
+	}
+
+	/** Get Quantity Used.
+		@return Quantity Used	  */
+	public BigDecimal getQtyUsed () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyUsed);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 }

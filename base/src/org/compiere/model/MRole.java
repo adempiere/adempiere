@@ -59,6 +59,7 @@ import org.compiere.util.Trace;
  */
 public final class MRole extends X_AD_Role
 {
+
 	/**
 	 * 
 	 */
@@ -368,12 +369,12 @@ public final class MRole extends X_AD_Role
 		{
 			//	Add Role to SuperUser
 			MUserRoles su = new MUserRoles(getCtx(), SUPERUSER_USER_ID, getAD_Role_ID(), get_TrxName());
-			su.save();
+			su.saveEx();
 			//	Add Role to User
 			if (getCreatedBy() != SUPERUSER_USER_ID)
 			{
 				MUserRoles ur = new MUserRoles(getCtx(), getCreatedBy(), getAD_Role_ID(), get_TrxName());
-				ur.save();
+				ur.saveEx();
 			}
 			updateAccessRecords();
 		}
@@ -400,7 +401,6 @@ public final class MRole extends X_AD_Role
 		}
 		return success;
 	} 	//	afterDelete
-
 
 	/**
 	 * 	Create Access Records
@@ -530,7 +530,6 @@ public final class MRole extends X_AD_Role
 			+ " -  @AD_Browse_ID@ #"+ browse
 			+ " -  @AD_Workflow_ID@ #" + wf
 			+ " -  @DocAction@ #" + docact;
-		
 	}	//	createAccessRecords
 
 	/**
@@ -686,6 +685,7 @@ public final class MRole extends X_AD_Role
 			m_formAccess = null;
 			m_browseAccess = null;
 		}
+
 		loadIncludedRoles(reload); // Load/Reload included roles - metas-2009_0021_AP1_G94
 	}	//	loadAccess
 
@@ -1555,8 +1555,13 @@ public final class MRole extends X_AD_Role
 	 *	@param AD_Process_ID process
 	 *	@return null in no access, TRUE if r/w and FALSE if r/o
 	 */
-	public Boolean getProcessAccess (int AD_Process_ID)
-	{
+	public Boolean getProcessAccess (int AD_Process_ID) {
+		Boolean access = checkProcessAccess(AD_Process_ID);
+		//Services.get(IRolePermLoggingBL.class).logProcessAccess(get_ID(), AD_Process_ID, access);
+		return access;
+	}
+	
+	public Boolean checkProcessAccess (int AD_Process_ID) {
 		if (m_processAccess == null)
 		{
 			m_processAccess = new HashMap<Integer,Boolean>(50);

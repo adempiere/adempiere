@@ -24,14 +24,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for M_Cost
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_M_Cost extends PO implements I_M_Cost, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_M_Cost (Properties ctx, int M_Cost_ID, String trxName)
@@ -164,6 +164,26 @@ public class X_M_Cost extends PO implements I_M_Cost, I_Persistent
 		return bd;
 	}
 
+	/** Set Accumulated Amt LL.
+		@param CumulatedAmtLL 
+		Total Amount
+	  */
+	public void setCumulatedAmtLL (BigDecimal CumulatedAmtLL)
+	{
+		set_ValueNoCheck (COLUMNNAME_CumulatedAmtLL, CumulatedAmtLL);
+	}
+
+	/** Get Accumulated Amt LL.
+		@return Total Amount
+	  */
+	public BigDecimal getCumulatedAmtLL () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CumulatedAmtLL);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	/** Set Accumulated Qty.
 		@param CumulatedQty 
 		Total Quantity
@@ -204,7 +224,7 @@ public class X_M_Cost extends PO implements I_M_Cost, I_Persistent
 		return bd;
 	}
 
-	/** Set Current Cost Price Lower Level.
+	/** Set Current Cost Price LL.
 		@param CurrentCostPriceLL 
 		Current Price Lower Level Is the sum of the costs of the components of this product manufactured for this level.
 	  */
@@ -213,7 +233,7 @@ public class X_M_Cost extends PO implements I_M_Cost, I_Persistent
 		set_Value (COLUMNNAME_CurrentCostPriceLL, CurrentCostPriceLL);
 	}
 
-	/** Get Current Cost Price Lower Level.
+	/** Get Current Cost Price LL.
 		@return Current Price Lower Level Is the sum of the costs of the components of this product manufactured for this level.
 	  */
 	public BigDecimal getCurrentCostPriceLL () 
@@ -278,15 +298,15 @@ public class X_M_Cost extends PO implements I_M_Cost, I_Persistent
 		return bd;
 	}
 
-	/** Set Future Cost Price Lower Level.
-		@param FutureCostPriceLL Future Cost Price Lower Level	  */
+	/** Set Future Cost Price LL.
+		@param FutureCostPriceLL Future Cost Price LL	  */
 	public void setFutureCostPriceLL (BigDecimal FutureCostPriceLL)
 	{
 		set_Value (COLUMNNAME_FutureCostPriceLL, FutureCostPriceLL);
 	}
 
-	/** Get Future Cost Price Lower Level.
-		@return Future Cost Price Lower Level	  */
+	/** Get Future Cost Price LL.
+		@return Future Cost Price LL	  */
 	public BigDecimal getFutureCostPriceLL () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_FutureCostPriceLL);
@@ -426,6 +446,34 @@ public class X_M_Cost extends PO implements I_M_Cost, I_Persistent
 	public int getM_Product_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_Warehouse)MTable.get(getCtx(), org.compiere.model.I_M_Warehouse.Table_Name)
+			.getPO(getM_Warehouse_ID(), get_TrxName());	}
+
+	/** Set Warehouse.
+		@param M_Warehouse_ID 
+		Storage Warehouse and Service Point
+	  */
+	public void setM_Warehouse_ID (int M_Warehouse_ID)
+	{
+		if (M_Warehouse_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Warehouse_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
+	}
+
+	/** Get Warehouse.
+		@return Storage Warehouse and Service Point
+	  */
+	public int getM_Warehouse_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Warehouse_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

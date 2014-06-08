@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_WF_NodeNext
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_AD_WF_NodeNext extends PO implements I_AD_WF_NodeNext, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_AD_WF_NodeNext (Properties ctx, int AD_WF_NodeNext_ID, String trxName)
@@ -39,8 +39,8 @@ public class X_AD_WF_NodeNext extends PO implements I_AD_WF_NodeNext, I_Persiste
       /** if (AD_WF_NodeNext_ID == 0)
         {
 			setAD_WF_Next_ID (0);
-			setAD_WF_Node_ID (0);
 			setAD_WF_NodeNext_ID (0);
+			setAD_WF_Node_ID (0);
 			setEntityType (null);
 // U
 			setIsStdUserWorkflow (false);
@@ -105,6 +105,29 @@ public class X_AD_WF_NodeNext extends PO implements I_AD_WF_NodeNext, I_Persiste
 		return ii.intValue();
 	}
 
+	/** Set Node Transition.
+		@param AD_WF_NodeNext_ID 
+		Workflow Node Transition
+	  */
+	public void setAD_WF_NodeNext_ID (int AD_WF_NodeNext_ID)
+	{
+		if (AD_WF_NodeNext_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_WF_NodeNext_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_WF_NodeNext_ID, Integer.valueOf(AD_WF_NodeNext_ID));
+	}
+
+	/** Get Node Transition.
+		@return Workflow Node Transition
+	  */
+	public int getAD_WF_NodeNext_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_WF_NodeNext_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_AD_WF_Node getAD_WF_Node() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_WF_Node)MTable.get(getCtx(), org.compiere.model.I_AD_WF_Node.Table_Name)
@@ -140,29 +163,6 @@ public class X_AD_WF_NodeNext extends PO implements I_AD_WF_NodeNext, I_Persiste
     {
         return new KeyNamePair(get_ID(), String.valueOf(getAD_WF_Node_ID()));
     }
-
-	/** Set Node Transition.
-		@param AD_WF_NodeNext_ID 
-		Workflow Node Transition
-	  */
-	public void setAD_WF_NodeNext_ID (int AD_WF_NodeNext_ID)
-	{
-		if (AD_WF_NodeNext_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_WF_NodeNext_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_WF_NodeNext_ID, Integer.valueOf(AD_WF_NodeNext_ID));
-	}
-
-	/** Get Node Transition.
-		@return Workflow Node Transition
-	  */
-	public int getAD_WF_NodeNext_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_WF_NodeNext_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	/** Set Description.
 		@param Description 

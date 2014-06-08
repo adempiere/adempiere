@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Table_Access
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_AD_Table_Access extends PO implements I_AD_Table_Access, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_AD_Table_Access (Properties ctx, int AD_Table_Access_ID, String trxName)
@@ -38,10 +38,10 @@ public class X_AD_Table_Access extends PO implements I_AD_Table_Access, I_Persis
       super (ctx, AD_Table_Access_ID, trxName);
       /** if (AD_Table_Access_ID == 0)
         {
-			setAccessTypeRule (null);
-// A
 			setAD_Role_ID (0);
 			setAD_Table_ID (0);
+			setAccessTypeRule (null);
+// A
 			setIsCanExport (false);
 			setIsCanReport (false);
 			setIsExclude (true);
@@ -77,32 +77,6 @@ public class X_AD_Table_Access extends PO implements I_AD_Table_Access, I_Persis
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	/** AccessTypeRule AD_Reference_ID=293 */
-	public static final int ACCESSTYPERULE_AD_Reference_ID=293;
-	/** Accessing = A */
-	public static final String ACCESSTYPERULE_Accessing = "A";
-	/** Reporting = R */
-	public static final String ACCESSTYPERULE_Reporting = "R";
-	/** Exporting = E */
-	public static final String ACCESSTYPERULE_Exporting = "E";
-	/** Set Access Type.
-		@param AccessTypeRule 
-		The type of access for this rule
-	  */
-	public void setAccessTypeRule (String AccessTypeRule)
-	{
-
-		set_ValueNoCheck (COLUMNNAME_AccessTypeRule, AccessTypeRule);
-	}
-
-	/** Get Access Type.
-		@return The type of access for this rule
-	  */
-	public String getAccessTypeRule () 
-	{
-		return (String)get_Value(COLUMNNAME_AccessTypeRule);
-	}
 
 	public org.compiere.model.I_AD_Role getAD_Role() throws RuntimeException
     {
@@ -167,6 +141,32 @@ public class X_AD_Table_Access extends PO implements I_AD_Table_Access, I_Persis
     {
         return new KeyNamePair(get_ID(), String.valueOf(getAD_Table_ID()));
     }
+
+	/** AccessTypeRule AD_Reference_ID=293 */
+	public static final int ACCESSTYPERULE_AD_Reference_ID=293;
+	/** Accessing = A */
+	public static final String ACCESSTYPERULE_Accessing = "A";
+	/** Reporting = R */
+	public static final String ACCESSTYPERULE_Reporting = "R";
+	/** Exporting = E */
+	public static final String ACCESSTYPERULE_Exporting = "E";
+	/** Set Access Type.
+		@param AccessTypeRule 
+		The type of access for this rule
+	  */
+	public void setAccessTypeRule (String AccessTypeRule)
+	{
+
+		set_ValueNoCheck (COLUMNNAME_AccessTypeRule, AccessTypeRule);
+	}
+
+	/** Get Access Type.
+		@return The type of access for this rule
+	  */
+	public String getAccessTypeRule () 
+	{
+		return (String)get_Value(COLUMNNAME_AccessTypeRule);
+	}
 
 	/** Set Can Export.
 		@param IsCanExport 

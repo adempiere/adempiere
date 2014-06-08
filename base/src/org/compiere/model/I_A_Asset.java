@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_A_Asset 
 {
@@ -40,6 +40,42 @@ public interface I_A_Asset
     BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
+
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
+    /** Column name AD_User_ID */
+    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
+
+	/** Set Usuario.
+	  * User within the system - Internal or Business Partner Contact
+	  */
+	public void setAD_User_ID (int AD_User_ID);
+
+	/** Get Usuario.
+	  * User within the system - Internal or Business Partner Contact
+	  */
+	public int getAD_User_ID();
+
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
 
     /** Column name A_Asset_CreateDate */
     public static final String COLUMNNAME_A_Asset_CreateDate = "A_Asset_CreateDate";
@@ -86,42 +122,6 @@ public interface I_A_Asset
 
 	/** Get Asset Reval. Date	  */
 	public Timestamp getA_Asset_RevalDate();
-
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
-
-    /** Column name AD_User_ID */
-    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
-
-	/** Set Usuario.
-	  * User within the system - Internal or Business Partner Contact
-	  */
-	public void setAD_User_ID (int AD_User_ID);
-
-	/** Get Usuario.
-	  * User within the system - Internal or Business Partner Contact
-	  */
-	public int getAD_User_ID();
-
-	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
 
     /** Column name A_Parent_Asset_ID */
     public static final String COLUMNNAME_A_Parent_Asset_ID = "A_Parent_Asset_ID";
@@ -191,6 +191,21 @@ public interface I_A_Asset
 	  */
 	public Timestamp getAssetServiceDate();
 
+    /** Column name C_BPartnerSR_ID */
+    public static final String COLUMNNAME_C_BPartnerSR_ID = "C_BPartnerSR_ID";
+
+	/** Set BPartner (Agent).
+	  * Business Partner (Agent or Sales Rep)
+	  */
+	public void setC_BPartnerSR_ID (int C_BPartnerSR_ID);
+
+	/** Get BPartner (Agent).
+	  * Business Partner (Agent or Sales Rep)
+	  */
+	public int getC_BPartnerSR_ID();
+
+	public org.compiere.model.I_C_BPartner getC_BPartnerSR() throws RuntimeException;
+
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 
@@ -220,21 +235,6 @@ public interface I_A_Asset
 	public int getC_BPartner_Location_ID();
 
 	public org.compiere.model.I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException;
-
-    /** Column name C_BPartnerSR_ID */
-    public static final String COLUMNNAME_C_BPartnerSR_ID = "C_BPartnerSR_ID";
-
-	/** Set BPartner (Agent).
-	  * Business Partner (Agent or Sales Rep)
-	  */
-	public void setC_BPartnerSR_ID (int C_BPartnerSR_ID);
-
-	/** Get BPartner (Agent).
-	  * Business Partner (Agent or Sales Rep)
-	  */
-	public int getC_BPartnerSR_ID();
-
-	public org.compiere.model.I_C_BPartner getC_BPartnerSR() throws RuntimeException;
 
     /** Column name C_Location_ID */
     public static final String COLUMNNAME_C_Location_ID = "C_Location_ID";
@@ -438,6 +438,19 @@ public interface I_A_Asset
 	  */
 	public int getLastMaintenanceUnit();
 
+    /** Column name LeaseTerminationDate */
+    public static final String COLUMNNAME_LeaseTerminationDate = "LeaseTerminationDate";
+
+	/** Set Lease Termination.
+	  * Lease Termination Date
+	  */
+	public void setLeaseTerminationDate (Timestamp LeaseTerminationDate);
+
+	/** Get Lease Termination.
+	  * Lease Termination Date
+	  */
+	public Timestamp getLeaseTerminationDate();
+
     /** Column name Lease_BPartner_ID */
     public static final String COLUMNNAME_Lease_BPartner_ID = "Lease_BPartner_ID";
 
@@ -452,19 +465,6 @@ public interface I_A_Asset
 	public int getLease_BPartner_ID();
 
 	public org.compiere.model.I_C_BPartner getLease_BPartner() throws RuntimeException;
-
-    /** Column name LeaseTerminationDate */
-    public static final String COLUMNNAME_LeaseTerminationDate = "LeaseTerminationDate";
-
-	/** Set Lease Termination.
-	  * Lease Termination Date
-	  */
-	public void setLeaseTerminationDate (Timestamp LeaseTerminationDate);
-
-	/** Get Lease Termination.
-	  * Lease Termination Date
-	  */
-	public Timestamp getLeaseTerminationDate();
 
     /** Column name LifeUseUnits */
     public static final String COLUMNNAME_LifeUseUnits = "LifeUseUnits";

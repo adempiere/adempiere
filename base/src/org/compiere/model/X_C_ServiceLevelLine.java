@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_ServiceLevelLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_C_ServiceLevelLine extends PO implements I_C_ServiceLevelLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_C_ServiceLevelLine (Properties ctx, int C_ServiceLevelLine_ID, String trxName)
@@ -41,8 +41,8 @@ public class X_C_ServiceLevelLine extends PO implements I_C_ServiceLevelLine, I_
       super (ctx, C_ServiceLevelLine_ID, trxName);
       /** if (C_ServiceLevelLine_ID == 0)
         {
-			setC_ServiceLevel_ID (0);
 			setC_ServiceLevelLine_ID (0);
+			setC_ServiceLevel_ID (0);
 			setServiceDate (new Timestamp( System.currentTimeMillis() ));
 			setServiceLevelProvided (Env.ZERO);
         } */
@@ -76,6 +76,29 @@ public class X_C_ServiceLevelLine extends PO implements I_C_ServiceLevelLine, I_
       return sb.toString();
     }
 
+	/** Set Service Level Line.
+		@param C_ServiceLevelLine_ID 
+		Product Revenue Recognition Service Level Line
+	  */
+	public void setC_ServiceLevelLine_ID (int C_ServiceLevelLine_ID)
+	{
+		if (C_ServiceLevelLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_ServiceLevelLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_ServiceLevelLine_ID, Integer.valueOf(C_ServiceLevelLine_ID));
+	}
+
+	/** Get Service Level Line.
+		@return Product Revenue Recognition Service Level Line
+	  */
+	public int getC_ServiceLevelLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ServiceLevelLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_C_ServiceLevel getC_ServiceLevel() throws RuntimeException
     {
 		return (org.compiere.model.I_C_ServiceLevel)MTable.get(getCtx(), org.compiere.model.I_C_ServiceLevel.Table_Name)
@@ -99,29 +122,6 @@ public class X_C_ServiceLevelLine extends PO implements I_C_ServiceLevelLine, I_
 	public int getC_ServiceLevel_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_ServiceLevel_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Service Level Line.
-		@param C_ServiceLevelLine_ID 
-		Product Revenue Recognition Service Level Line
-	  */
-	public void setC_ServiceLevelLine_ID (int C_ServiceLevelLine_ID)
-	{
-		if (C_ServiceLevelLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_ServiceLevelLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_ServiceLevelLine_ID, Integer.valueOf(C_ServiceLevelLine_ID));
-	}
-
-	/** Get Service Level Line.
-		@return Product Revenue Recognition Service Level Line
-	  */
-	public int getC_ServiceLevelLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_ServiceLevelLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

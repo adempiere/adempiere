@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_CommissionRun
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_C_CommissionRun extends PO implements I_C_CommissionRun, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_C_CommissionRun (Properties ctx, int C_CommissionRun_ID, String trxName)
@@ -41,8 +41,8 @@ public class X_C_CommissionRun extends PO implements I_C_CommissionRun, I_Persis
       super (ctx, C_CommissionRun_ID, trxName);
       /** if (C_CommissionRun_ID == 0)
         {
-			setC_Commission_ID (0);
 			setC_CommissionRun_ID (0);
+			setC_Commission_ID (0);
 			setDocumentNo (null);
 			setGrandTotal (Env.ZERO);
 			setProcessed (false);
@@ -78,6 +78,29 @@ public class X_C_CommissionRun extends PO implements I_C_CommissionRun, I_Persis
       return sb.toString();
     }
 
+	/** Set Commission Run.
+		@param C_CommissionRun_ID 
+		Commission Run or Process
+	  */
+	public void setC_CommissionRun_ID (int C_CommissionRun_ID)
+	{
+		if (C_CommissionRun_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_CommissionRun_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_CommissionRun_ID, Integer.valueOf(C_CommissionRun_ID));
+	}
+
+	/** Get Commission Run.
+		@return Commission Run or Process
+	  */
+	public int getC_CommissionRun_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_CommissionRun_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_C_Commission getC_Commission() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Commission)MTable.get(getCtx(), org.compiere.model.I_C_Commission.Table_Name)
@@ -101,29 +124,6 @@ public class X_C_CommissionRun extends PO implements I_C_CommissionRun, I_Persis
 	public int getC_Commission_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Commission_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Commission Run.
-		@param C_CommissionRun_ID 
-		Commission Run or Process
-	  */
-	public void setC_CommissionRun_ID (int C_CommissionRun_ID)
-	{
-		if (C_CommissionRun_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_CommissionRun_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_CommissionRun_ID, Integer.valueOf(C_CommissionRun_ID));
-	}
-
-	/** Get Commission Run.
-		@return Commission Run or Process
-	  */
-	public int getC_CommissionRun_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_CommissionRun_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

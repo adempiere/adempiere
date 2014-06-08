@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for DD_NetworkDistribution
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_DD_NetworkDistribution extends PO implements I_DD_NetworkDistribution, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_DD_NetworkDistribution (Properties ctx, int DD_NetworkDistribution_ID, String trxName)
@@ -92,7 +92,9 @@ public class X_DD_NetworkDistribution extends PO implements I_DD_NetworkDistribu
 	}
 
 	/** Set Network Distribution.
-		@param DD_NetworkDistribution_ID Network Distribution	  */
+		@param DD_NetworkDistribution_ID 
+		Identifies a distribution network, distribution networks are used to establish the source and target of the materials in the supply chain
+	  */
 	public void setDD_NetworkDistribution_ID (int DD_NetworkDistribution_ID)
 	{
 		if (DD_NetworkDistribution_ID < 1) 
@@ -102,7 +104,8 @@ public class X_DD_NetworkDistribution extends PO implements I_DD_NetworkDistribu
 	}
 
 	/** Get Network Distribution.
-		@return Network Distribution	  */
+		@return Identifies a distribution network, distribution networks are used to establish the source and target of the materials in the supply chain
+	  */
 	public int getDD_NetworkDistribution_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_DD_NetworkDistribution_ID);

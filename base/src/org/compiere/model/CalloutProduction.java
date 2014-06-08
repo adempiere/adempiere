@@ -25,6 +25,8 @@ import org.compiere.util.Env;
  *	
  *  @author Jorg Janke
  *  @version $Id: CalloutProduction.java,v 1.2 2006/07/30 00:51:05 jjanke Exp $
+ *  
+ *  @contrib Paul Bowden (adaxa)  set locator from product
  */
 public class CalloutProduction extends CalloutEngine
 {
@@ -44,6 +46,7 @@ public class CalloutProduction extends CalloutEngine
 		Integer M_Product_ID = (Integer)value;
 		if (M_Product_ID == null || M_Product_ID.intValue() == 0)
 			return "";
+		
 		//	Set Attribute
 		if (Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_Product_ID") == M_Product_ID.intValue()
 			&& Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_AttributeSetInstance_ID") != 0)
@@ -54,6 +57,14 @@ public class CalloutProduction extends CalloutEngine
 		{
 			mTab.setValue("M_AttributeSetInstance_ID", null);
 		}
+		
+		MProduct product = MProduct.get(ctx, M_Product_ID);
+		if ( product != null )
+		{
+			if ( product.getM_Locator_ID() > 0)
+				mTab.setValue("M_Locator_ID", product.getM_Locator_ID());
+		}
+		
 		return "";
 	}   //  product
 

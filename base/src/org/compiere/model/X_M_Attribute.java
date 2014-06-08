@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Attribute
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_M_Attribute extends PO implements I_M_Attribute, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_M_Attribute (Properties ctx, int M_Attribute_ID, String trxName)
@@ -166,29 +166,6 @@ public class X_M_Attribute extends PO implements I_M_Attribute, I_Persistent
 		return false;
 	}
 
-	/** Set Attribute.
-		@param M_Attribute_ID 
-		Product Attribute
-	  */
-	public void setM_Attribute_ID (int M_Attribute_ID)
-	{
-		if (M_Attribute_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_Attribute_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_Attribute_ID, Integer.valueOf(M_Attribute_ID));
-	}
-
-	/** Get Attribute.
-		@return Product Attribute
-	  */
-	public int getM_Attribute_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Attribute_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_M_AttributeSearch getM_AttributeSearch() throws RuntimeException
     {
 		return (org.compiere.model.I_M_AttributeSearch)MTable.get(getCtx(), org.compiere.model.I_M_AttributeSearch.Table_Name)
@@ -212,6 +189,29 @@ public class X_M_Attribute extends PO implements I_M_Attribute, I_Persistent
 	public int getM_AttributeSearch_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_AttributeSearch_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Attribute.
+		@param M_Attribute_ID 
+		Product Attribute
+	  */
+	public void setM_Attribute_ID (int M_Attribute_ID)
+	{
+		if (M_Attribute_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Attribute_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Attribute_ID, Integer.valueOf(M_Attribute_ID));
+	}
+
+	/** Get Attribute.
+		@return Product Attribute
+	  */
+	public int getM_Attribute_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Attribute_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

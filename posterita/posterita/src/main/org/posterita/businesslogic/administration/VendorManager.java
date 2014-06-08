@@ -67,7 +67,7 @@ public class VendorManager
 		if (priceListId != null)
 		{
 			bPartner.setM_PriceList_ID(priceListId);
-			bPartner.save();
+			bPartner.saveEx();
 		}
 		
 		MUser user;

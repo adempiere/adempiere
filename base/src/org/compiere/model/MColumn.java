@@ -40,15 +40,28 @@ import org.compiere.util.Util;
  *  @author victor.perez@e-evolution.com, www.e-evolution.com
  *  	<li>FR [ 3426134 ] Add the Reference ,FieldLength, Reference Value
  * 		https://sourceforge.net/tracker/?func=detail&aid=3426134&group_id=176962&atid=879335
+ * 		<li> Add method that valid if a column is encrypted
  *  @version $Id: MColumn.java,v 1.6 2006/08/09 05:23:49 jjanke Exp $
  */
 public class MColumn extends X_AD_Column
 {
 
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 6543789555737635129L;
+	private static final long serialVersionUID = 3455817869952578951L;
+
+	/**
+     * Get if id column is Encrypted
+     * @param columnId
+     * @return true or false
+     */
+    public static boolean isEncrypted (int columnId)
+    {
+        final String sql = "SELECT IsEncrypted FROM AD_Column WHERE AD_Column_ID = ?";
+        return "Y".equals(DB.getSQLValueString(null , sql , columnId));
+    }
 
 	/**
 	 * Set default base on AD_Element FR [ 3426134 ]
@@ -88,14 +101,14 @@ public class MColumn extends X_AD_Column
 			column.setDescription(element.getDescription());
 		if(column.getHelp() == null || column.getHelp().length() <= 0)
 			column.setHelp(element.getHelp());
-		if(column.getColumnName().equals("Name") || column.getColumnName().equals("Value"))
+		/*if(column.getColumnName().equals("Name") || column.getColumnName().equals("Value"))
 		{	
 			column.setIsIdentifier(true);
 			int seqNo = DB.getSQLValue(trxName,"SELECT MAX(SeqNo) FROM AD_Column "+
 					"WHERE AD_Table_ID=?"+
 					" AND IsIdentifier='Y'",column.getAD_Table_ID());
 			column.setSeqNo(seqNo + 1);
-		}
+		}*/
 		return column;	
 	}
 	/**

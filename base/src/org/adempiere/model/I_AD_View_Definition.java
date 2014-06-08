@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_View_Definition
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_AD_View_Definition 
 {
@@ -81,10 +81,14 @@ public interface I_AD_View_Definition
     /** Column name AD_View_Definition_ID */
     public static final String COLUMNNAME_AD_View_Definition_ID = "AD_View_Definition_ID";
 
-	/** Set View Definition ID	  */
+	/** Set View Definition.
+	  * The View Definition allow defined the tables for a view.
+	  */
 	public void setAD_View_Definition_ID (int AD_View_Definition_ID);
 
-	/** Get View Definition ID	  */
+	/** Get View Definition.
+	  * The View Definition allow defined the tables for a view.
+	  */
 	public int getAD_View_Definition_ID();
 
     /** Column name AD_View_ID */

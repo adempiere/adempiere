@@ -19,36 +19,43 @@ package org.adempiere.webui.panel;
 
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Checkbox;
-import org.adempiere.webui.component.Grid;
-import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
+import org.adempiere.webui.component.ListboxFactory;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
+import org.adempiere.webui.component.Tab;
+import org.adempiere.webui.component.Tabbox;
+import org.adempiere.webui.component.Tabpanel;
+import org.adempiere.webui.component.Tabpanels;
+import org.adempiere.webui.component.Tabs;
 import org.adempiere.webui.component.Textbox;
-import org.adempiere.webui.event.WTableModelEvent;
+import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.event.WTableModelListener;
+import org.compiere.apps.search.Info_Column;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
+import org.compiere.model.MLocation;
 import org.compiere.model.MQuery;
 import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
+import org.compiere.util.Trx;
 import org.compiere.util.Util;
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
-import org.zkoss.zul.Div;
-import org.zkoss.zul.Separator;
-import org.zkoss.zul.Vbox;
 
 /**
 *	Search Business Partner and return selection
@@ -57,7 +64,10 @@ import org.zkoss.zul.Vbox;
 * 
 * 	Zk Port
 * 	@author Elaine
-* 	@version	InfoBPartner.java Adempiere Swing UI 3.4.1 
+* 	
+ * @author Michael McKay, ADEMPIERE-72 VLookup and Info Window improvements
+ * 	<li>https://adempiere.atlassian.net/browse/ADEMPIERE-72
+* 	@version	InfoBPartner.java Adempiere Swing UI 3.7.1 
 */
 
 
@@ -67,367 +77,552 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 	 * 
 	 */
 	private static final long serialVersionUID = 5677624151607188344L;
-	private Label lblValue ;
+
+	
+	/**
+	 *	Standard Constructor
+	 *  @param record_id 	ID of current record, if known.  0 otherwise.
+	 *  @param queryvalue   Query value Name or Value if contains only numbers
+	 *  @param isSOTrx  if false, query vendors only
+	 *  @param isSOMatch	Should the customer/vendor only checkbox be checked?
+	 *  @param whereClause where clause
+	 */
+	@Deprecated
+	public InfoBPartnerPanel(int record_id, String value,int windowNo, 
+				boolean isSOTrx, boolean isSOMatch, 
+				boolean multipleSelection, 
+				String whereClause)
+	{
+		this(windowNo, true, record_id, value, isSOTrx, isSOMatch, multipleSelection, 
+				false, whereClause);
+
+	}
+
+	/**
+	 *	Standard Constructor
+	 *  @param record_id 	ID of current record, if known.  0 otherwise.
+	 *  @param queryvalue   Query value Name or Value if contains only numbers
+	 *  @param isSOTrx  if false, query vendors only
+	 *  @param isSOMatch	Should the customer/vendor only checkbox be checked?
+	 *  @param saveResults  True if results will be saved, false for info only
+	 *  @param whereClause where clause
+	 *  @param modal True if window is opened in modal mode.
+	 */
+	public InfoBPartnerPanel(int windowNo, boolean modal, int record_id, String value, 
+				boolean isSOTrx, boolean isSOMatch, boolean multipleSelection, 
+				boolean saveResults, String whereClause)
+	{
+
+		super (windowNo, modal, "C_BPartner", "C_BPartner_ID", multipleSelection, saveResults, whereClause);
+		log.info(value + ", WHERE=" + whereClause);
+		setTitle(Msg.getMsg(Env.getCtx(), "InfoBPartner"));
+		m_isSOTrx = isSOTrx;
+		m_isSOMatch = isSOMatch;
+		//
+		StringBuffer where = new StringBuffer();
+		where.append("C_BPartner.IsSummary='N' AND C_BPartner.IsActive='Y'");
+		if (whereClause != null && whereClause.length() > 0)
+			where.append(" AND ").append(whereClause);
+		setWhereClause(where.toString());
+		setTableLayout(s_Layout);
+		setFromClause(s_From);
+		setOrderClause(s_Order);
+		//
+		setShowTotals(true);
+		//
+        statInit();
+		initInfo(record_id, value, false);
+        //
+        if(autoQuery() || record_id != 0 || (value != null && value.length() > 0 && value != "%"))
+        {
+        	prepareAndExecuteQuery();
+        }
+        //
+        p_loadedOK = true;
+	}
+
+	/** SalesOrder Trx          */
+	private boolean 		m_isSOTrx = false;
+	private boolean			m_isSOMatch = true;
+
+	private int m_AD_User_ID = -1;
+    private int m_C_BPartner_Location_ID = -1;
+
+	/** From Clause             */
+	private static String s_From = "C_BPartner";
+	/** Order Clause             */
+	private static String s_Order = "C_BPartner.Value";
+
+	/**  Array of Column Info    */
+	private static Info_Column[] s_Layout = {
+		new Info_Column(" ", "C_BPartner.C_BPartner_ID", IDColumn.class),
+		new Info_Column(Msg.translate(Env.getCtx(), "Value"), "C_BPartner.Value", String.class),
+		new Info_Column(Msg.translate(Env.getCtx(), "Name"), "C_BPartner.Name", String.class),
+		new Info_Column(Msg.translate(Env.getCtx(), "C_BP_Group_ID"), "(SELECT bpg.Name FROM C_BP_Group bpg WHERE bpg.C_BP_Group_ID = C_BPartner.C_BP_Group_ID)", String.class),
+		new Info_Column(Msg.translate(Env.getCtx(), "TotalOpenBalance"), "C_BPartner.TotalOpenBalance", BigDecimal.class),
+		new Info_Column(Msg.translate(Env.getCtx(), "SO_CreditAvailable"), "C_BPartner.SO_CreditLimit-C_BPartner.SO_CreditUsed AS SO_CreditAvailable", BigDecimal.class, true, true, null),
+		new Info_Column(Msg.translate(Env.getCtx(), "SO_CreditUsed"), "C_BPartner.SO_CreditUsed", BigDecimal.class),
+		new Info_Column(Msg.translate(Env.getCtx(), "Revenue"), "C_BPartner.ActualLifetimeValue", BigDecimal.class)
+	};
+	
+	
+	private int fieldID = 0; 
+	private Label labelValue ;
 	private Textbox fieldValue ;
-	private Label lblName;
+	private Label labelName;
 	private Textbox fieldName ;
-	private Label lblContact ;
+	private Label labelContact ;
 	private Textbox fieldContact;
-	private Label lblEMail ;
+	private Label labelEMail ;
 	private Textbox fieldEMail;
-	private Label lblPostal;
+	private Label labelPostal;
 	private Textbox fieldPostal;
-	private Label lblPhone;
+	private Label labelPhone;
 	private Textbox fieldPhone;
 	private Checkbox checkAND ;
 	private Checkbox checkCustomer;
 
-	private int m_AD_User_ID_index = -1; // Elaine 2008/12/16
-    private int m_C_BPartner_Location_ID_index = -1;
-		
-	/** SalesOrder Trx          */
-	private boolean 		m_isSOTrx;
-		
 	/**	Logger			*/
 	protected CLogger log = CLogger.getCLogger(getClass());
-	private Borderlayout layout;
-	private Vbox southBody;
 	
-	/** From Clause             */
-	private static String s_partnerFROM = "C_BPartner"
-		+ " LEFT OUTER JOIN C_BPartner_Location l ON (C_BPartner.C_BPartner_ID=l.C_BPartner_ID AND l.IsActive='Y')"
-		+ " LEFT OUTER JOIN AD_User c ON (C_BPartner.C_BPartner_ID=c.C_BPartner_ID AND (c.C_BPartner_Location_ID IS NULL OR c.C_BPartner_Location_ID=l.C_BPartner_Location_ID) AND c.IsActive='Y')" 
-		+ " LEFT OUTER JOIN C_Location a ON (l.C_Location_ID=a.C_Location_ID)";
-	
-	/**  Array of Column Info    */
-	private static ColumnInfo[] s_partnerLayout = {
-		new ColumnInfo(" ", "C_BPartner.C_BPartner_ID", IDColumn.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "Value"), "C_BPartner.Value", String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "Name"), "C_BPartner.Name", String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "Contact"), "c.Name AS Contact", KeyNamePair.class, "c.AD_User_ID"),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "SO_CreditAvailable"), "C_BPartner.SO_CreditLimit-C_BPartner.SO_CreditUsed AS SO_CreditAvailable", BigDecimal.class, true, true, null),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "SO_CreditUsed"), "C_BPartner.SO_CreditUsed", BigDecimal.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "Phone"), "c.Phone", String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "Postal"), "a.Postal", KeyNamePair.class, "l.C_BPartner_Location_ID"),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "City"), "a.City", String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "TotalOpenBalance"), "C_BPartner.TotalOpenBalance", BigDecimal.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "Revenue"), "C_BPartner.ActualLifetimeValue", BigDecimal.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "Address1"), "a.Address1", String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "IsShipTo"), "l.IsShipTo", Boolean.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "IsBillTo"), "l.IsBillTo", Boolean.class)
-	};
+	private Tabbox detailTabBox = new Tabbox();
+	private WListbox contactTbl = ListboxFactory.newDataTable();
+	private String m_sqlContact;
+	private WListbox addressTbl = ListboxFactory.newDataTable();
+	private String m_sqlAddress;
+	private int m_C_BPartner_ID = 0;
+	private static int ADDRESS_INDEX;
 
 	/**
-	 *	Standard Constructor
-	 *  @param  queryvalue   Query value Name or Value if contains numbers
-	 *  @param isSOTrx  if false, query vendors only
-	 *  @param whereClause where clause
+	 *  Initialize the zk components.
 	 */
-	public InfoBPartnerPanel(String queryValue,int windowNo, boolean isSOTrx,boolean multipleSelection, String whereClause)
-	{		
-		this(queryValue, windowNo, isSOTrx, multipleSelection, whereClause, true);
-	}
-
-	/**
-	 *	Standard Constructor
-	 *  @param  queryvalue   Query value Name or Value if contains numbers
-	 *  @param isSOTrx  if false, query vendors only
-	 *  @param whereClause where clause
-	 */
-	public InfoBPartnerPanel(String queryValue,int windowNo, boolean isSOTrx,boolean multipleSelection, String whereClause, boolean lookup)
-	{
-
-		super (windowNo, "C_BPartner", "C_BPartner_ID",multipleSelection, whereClause, lookup);
-		setTitle(Msg.getMsg(Env.getCtx(), "InfoBPartner"));
-		m_isSOTrx = isSOTrx;
-        initComponents();
-        init();
-		initInfo(queryValue, whereClause);
-        
-        int no = contentPanel.getRowCount();
-        setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
-        setStatusDB(Integer.toString(no));
-        //
-		if (queryValue != null && queryValue.length()>0)
-		{
-			 executeQuery();
-             renderItems();
-        }
-		p_loadedOK = true; // Elaine 2008/07/28
-			
-	}
-	
 	private void initComponents()
 	{
-		lblValue = new Label();
-		lblValue.setValue(Util.cleanAmp(Msg.translate(Env.getCtx(), "Value")));
-		lblName = new Label();
-		lblName.setValue(Util.cleanAmp(Msg.translate(Env.getCtx(), "Name")));
-		lblContact = new Label();
-		lblContact.setValue(Msg.translate(Env.getCtx(), "Contact"));
-		lblEMail = new Label();
-		lblEMail.setValue(Msg.getMsg(Env.getCtx(), "EMail"));
-		lblPostal = new Label();
-		lblPostal.setValue(Msg.getMsg(Env.getCtx(), "Postal"));
-		lblPhone = new Label();
-		lblPhone.setValue(Msg.translate(Env.getCtx(), "Phone"));
+		labelValue = new Label();
+		labelValue.setValue(Util.cleanAmp(Msg.translate(Env.getCtx(), "Value")));
+		labelName = new Label();
+		labelName.setValue(Util.cleanAmp(Msg.translate(Env.getCtx(), "Name")));
+		labelContact = new Label();
+		labelContact.setValue(Msg.translate(Env.getCtx(), "Contact"));
+		labelEMail = new Label();
+		labelEMail.setValue(Msg.getMsg(Env.getCtx(), "EMail"));
+		labelPostal = new Label();
+		labelPostal.setValue(Msg.getMsg(Env.getCtx(), "Postal"));
+		labelPhone = new Label();
+		labelPhone.setValue(Msg.translate(Env.getCtx(), "Phone"));
 		
+		fieldID = 0; //Record_ID
+		//
 		fieldValue = new Textbox();
 		fieldValue.setMaxlength(40);
+		fieldValue.setAttribute("zk_component_ID", "Lookup_Criteria_fieldValue");
+		fieldValue.addEventListener(Events.ON_CHANGE, this);
+		//
 		fieldName = new Textbox();
 		fieldName.setMaxlength(40);
+		fieldName.setAttribute("zk_component_ID", "Lookup_Criteria_fieldName");
+		fieldName.addEventListener(Events.ON_CHANGE, this);
+		//
 		fieldContact = new Textbox();
 		fieldContact.setMaxlength(40);
+		fieldContact.setAttribute("zk_component_ID", "Lookup_Criteria_fieldContact");
+		fieldContact.addEventListener(Events.ON_CHANGE, this);
+		//
 		fieldEMail = new Textbox();
 		fieldEMail.setMaxlength(40);
+		fieldEMail.setAttribute("zk_component_ID", "Lookup_Criteria_fieldEMail");
+		fieldEMail.addEventListener(Events.ON_CHANGE, this);
+		//
 		fieldPostal = new Textbox();
 		fieldPostal.setMaxlength(40);
+		fieldPostal.setAttribute("zk_component_ID", "Lookup_Criteria_fieldPostal");
+		fieldPostal.addEventListener(Events.ON_CHANGE, this);
+		//
 		fieldPhone = new Textbox();
 		fieldPhone.setMaxlength(40);
-		
+		fieldPhone.setAttribute("zk_component_ID", "Lookup_Criteria_fieldPhone");
+		fieldPhone.addEventListener(Events.ON_CHANGE, this);
+		//
 		checkAND = new Checkbox();
-		checkAND.setLabel(Msg.getMsg(Env.getCtx(), "SearchAND"));
-		checkAND.setChecked(true);
-		checkAND.addEventListener(Events.ON_CHECK, this);
+		checkAND.setText(Msg.getMsg(Env.getCtx(), "SearchAND"));
+		checkAND.setName("SearchAND");
+		checkAND.setTooltiptext(Msg.getMsg(Env.getCtx(), "SearchANDInfo"));
+		checkAND.setSelected(true);
+		checkAND.addActionListener(this);
+		checkAND.setAttribute("zk_component_ID", "Lookup_Criteria_checkAND");
+		//
 		checkCustomer = new Checkbox();
-		checkCustomer.setChecked(true);
-		checkCustomer.addEventListener(Events.ON_CHECK, this);
+		checkCustomer.addActionListener(this);
+		checkCustomer.setAttribute("zk_component_ID", "Lookup_Criteria_checkCustomer");
+		checkCustomer.setName("checkCustomer");
 		if (m_isSOTrx)
 			checkCustomer.setLabel(Msg.getMsg(Env.getCtx(), "OnlyCustomers"));
 		else
 			checkCustomer.setLabel(Msg.getMsg(Env.getCtx(), "OnlyVendors"));
+		checkCustomer.setSelected(m_isSOMatch);
 	}
 	
-	private void init()
+	private void statInit()
 	{
+		initComponents();
+
 		fieldValue.setWidth("100%");
 		fieldContact.setWidth("100%");
 		fieldPhone.setWidth("100%");
-		
 		fieldName.setWidth("100%");
 		fieldEMail.setWidth("100%");
 		fieldPostal.setWidth("100%");
 		
-		Grid grid = GridFactory.newGridLayout();
-		
 		Rows rows = new Rows();
-		grid.appendChild(rows);
 		
 		Row row = new Row();
 		rows.appendChild(row);
-		row.appendChild(lblValue.rightAlign());
+		row.appendChild(labelValue.rightAlign());
 		row.appendChild(fieldValue);
-		row.appendChild(lblContact.rightAlign());
+		row.appendChild(labelContact.rightAlign());
 		row.appendChild(fieldContact);
-		row.appendChild(lblPhone.rightAlign());
+		row.appendChild(labelPhone.rightAlign());
 		row.appendChild(fieldPhone);
 		row.appendChild(checkCustomer);
 
 		row = new Row();
 		rows.appendChild(row);
-		row.appendChild(lblName.rightAlign());
+		row.appendChild(labelName.rightAlign());
 		row.appendChild(fieldName);
-		row.appendChild(lblEMail.rightAlign());
+		row.appendChild(labelEMail.rightAlign());
 		row.appendChild(fieldEMail);
-		row.appendChild(lblPostal.rightAlign());
+		row.appendChild(labelPostal.rightAlign());
 		row.appendChild(fieldPostal);
 		row.appendChild(checkAND);
         
-		layout = new Borderlayout();
-        layout.setWidth("100%");
-        layout.setHeight("100%");
-        if (!isLookup())
-        {
-        	layout.setStyle("position: absolute");
-        }
-        this.appendChild(layout);
+		statusBar.setEastVisibility(false);
+		
+		//  Contact Tab
+        ColumnInfo[] s_layoutContact = new ColumnInfo[]{
+        		new ColumnInfo(" ", "AD_User_ID", IDColumn.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "C_Greeting_ID"), "(SELECT g.Greeting from C_Greeting g WHERE g.C_Greeting_ID = AD_User.C_Greeting_ID)", String.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "Name"), "Name", String.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "Title"), "Title", String.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "C_Location_ID"), "(SELECT a.Name from C_BPartner_Location a WHERE AD_User.C_BPartner_Location_ID=a.C_BPartner_Location_ID)", String.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "Phone"), "Phone", String.class),
+           		new ColumnInfo(Msg.translate(Env.getCtx(), "Phone2"), "Phone2", String.class),
+           		new ColumnInfo(Msg.translate(Env.getCtx(), "Fax"), "Fax", String.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "EMail"), "EMail", String.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "LastContact"), "LastContact", String.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "LastResult"), "LastResult", String.class)};
+        //  From Clause
+        String s_sqlFrom = "AD_User";
+        //  Where Clause					
+        String s_sqlWhere = "C_BPartner_ID = ?  and IsActive = 'Y'";
+        m_sqlContact = contactTbl.prepareTable(s_layoutContact, s_sqlFrom, s_sqlWhere, false, "AD_User");
+        contactTbl.setMultiSelection(false);
+        contactTbl.autoSize();
+        contactTbl.getModel().addTableModelListener(this);
+        contactTbl.setAttribute("zk_component_ID", "Lookup_Data_Contact");
+        
+        //  Location Tab
+        ColumnInfo[] s_layoutAddress = new ColumnInfo[]{
+        		new ColumnInfo(" ", "l.C_BPartner_Location_ID", IDColumn.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "Name"), "l.Name", String.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "Phone"), "l.Phone", String.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "Phone2"), "l.Phone2", String.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "Fax"), "l.Fax", String.class),        		
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "Address"), "a.Address1", String.class), // Replaced with parsed value
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "IsShipTo"), "l.IsShipTo", Boolean.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "IsBillTo"), "l.IsBillTo", Boolean.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "IsRemitTo"), "l.IsRemitTo", Boolean.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "IsPayFrom"), "l.IsPayFrom", Boolean.class)};
+        ADDRESS_INDEX = 5;
+        /**	From Clause							*/
+        String s_locationFrom = "C_BPartner_Location l" 
+    		+ " LEFT OUTER JOIN C_Location a ON (l.C_Location_ID=a.C_Location_ID)";
+        /** Where Clause						*/
+        String s_locationWhere = "l.C_BPartner_ID = ? and l.IsActive = 'Y'";
+        m_sqlAddress = addressTbl.prepareTable(s_layoutAddress, s_locationFrom, s_locationWhere, false, "l");
+        addressTbl.setMultiSelection(false);
+        addressTbl.autoSize();
+        addressTbl.getModel().addTableModelListener(this);
+        addressTbl.setAttribute("zk_component_ID", "Lookup_Data_Address");
+		//
+        detailTabBox.setHeight("100%");
+        Tabpanels tabPanels = new Tabpanels();
+		detailTabBox.appendChild(tabPanels);
+		Tabs tabs = new Tabs();
+		detailTabBox.appendChild(tabs);
 
-        North north = new North();
-        layout.appendChild(north);
-		north.appendChild(grid);
+		Tab tab = new Tab(Util.cleanAmp(Msg.translate(Env.getCtx(), "Contact")));
+		tab.addEventListener(Events.ON_SELECT, this);
+		tabs.appendChild(tab);
+		Tabpanel desktopTabPanel = new Tabpanel();
+		desktopTabPanel.setHeight("100%");
+		desktopTabPanel.appendChild(contactTbl);
+		tabPanels.appendChild(desktopTabPanel);
 
-        Center center = new Center();
-		layout.appendChild(center);
-		center.setFlex(true);
-		Div div = new Div();
-		div.appendChild(contentPanel);
-		if (isLookup())
-			contentPanel.setWidth("99%");
-        else
-        	contentPanel.setStyle("width: 99%; margin: 0px auto;");
-        contentPanel.setVflex(true);
-		div.setStyle("width :100%; height: 100%");
-		center.appendChild(div);
+		tab = new Tab(Msg.translate(Env.getCtx(), "Location"));
+		tab.addEventListener(Events.ON_SELECT, this);
+		tabs.appendChild(tab);
+		desktopTabPanel = new Tabpanel();
+		desktopTabPanel.setHeight("100%");
+		desktopTabPanel.appendChild(addressTbl);
+		tabPanels.appendChild(desktopTabPanel);
+		
+		tabs.setAttribute("zk_component_ID", "Subordinate_Tabs");
+	
+		Borderlayout southSP = new Borderlayout();
+		Center center = new Center();
+		North north = new North();
+		center.appendChild(detailTabBox);
+		southSP.appendChild(north);
+		southSP.appendChild(center);
+        
+		p_centerSouth.setTitle(Msg.translate(Env.getCtx(), "ContactAndAddress"));
+		p_centerSouth.setTooltiptext(Msg.translate(Env.getCtx(), "ContactAndAddress"));
+		p_centerSouth.appendChild(southSP);
+		p_criteriaGrid.appendChild(rows);
+		super.setSizes();
+		
+		contactTbl.addActionListener(new EventListener() {
+			public void onEvent(Event event) throws Exception {
+				int leadRowKey = 0;
 
-		South south = new South();
-		layout.appendChild(south);
-		southBody = new Vbox();
-		southBody.setWidth("100%");
-		south.appendChild(southBody);
-		southBody.appendChild(confirmPanel);
-		southBody.appendChild(new Separator());
-		southBody.appendChild(statusBar);
-        		
+				if (contactTbl != null || contactTbl.getRowCount() > 0)
+					leadRowKey = contactTbl.getLeadRowKey();
+		    	
+				if (m_AD_User_ID != leadRowKey)
+		    	{
+					m_AD_User_ID = leadRowKey;  //  From the contact table
+		    	}
+			}
+		});
+
+		addressTbl.addActionListener(new EventListener() {
+			public void onEvent(Event event) throws Exception {
+				int leadRowKey = 0;
+
+				if (addressTbl != null || addressTbl.getRowCount() > 0)
+					leadRowKey = addressTbl.getLeadRowKey();
+		    	
+				if (m_C_BPartner_Location_ID != leadRowKey)
+		    	{
+					m_C_BPartner_Location_ID = leadRowKey;  //  From the main table
+		    	}
+			}
+		});
+
 	}	
 	
+	/**
+	 *	Reset the Criteria Info - init with blank data
+	 */		
+	protected void initInfo()
+	{
+		initInfo(0,"", true);
+	}
+
 	/**
 	 *	Dynamic Init
 	 *  @param value value
 	 *  @param whereClause where clause
 	 */
 		
-	private void initInfo(String value, String whereClause)
-	{
-			/**	From
-				C_BPartner
-				 LEFT OUTER JOIN C_BPartner_Location l ON (C_BPartner.C_BPartner_ID=l.C_BPartner_ID AND l.IsActive='Y') 
-				 LEFT OUTER JOIN AD_User c ON (C_BPartner.C_BPartner_ID=c.C_BPartner_ID AND (c.C_BPartner_Location_ID IS NULL OR c.C_BPartner_Location_ID=l.C_BPartner_Location_ID) AND c.IsActive='Y') 
-				 LEFT OUTER JOIN C_Location a ON (l.C_Location_ID=a.C_Location_ID)
-			**/
-
-			//	Create Grid
-			StringBuffer where = new StringBuffer();
-			where.append("C_BPartner.IsSummary='N' AND C_BPartner.IsActive='Y'");
-			if (whereClause != null && whereClause.length() > 0)
-				where.append(" AND ").append(whereClause);
-			//
-                          
-			prepareTable(s_partnerLayout, s_partnerFROM, where.toString(), "C_BPartner.Value");
-			
-			// Get indexes
-            for (int i = 0; i < p_layout.length; i++)
-            {
-            	// Elaine 2008/12/16
-            	if (p_layout[i].getKeyPairColSQL().indexOf("AD_User_ID") != -1)
-    				m_AD_User_ID_index = i;
-            	//
-                if (p_layout[i].getKeyPairColSQL().indexOf("C_BPartner_Location_ID") != -1)
-                    m_C_BPartner_Location_ID_index = i;
-            }
-            //  Set Value
-			if (value == null)
-				value = "%";
-			if (!value.endsWith("%"))
-				value += "%";
-
-			//	Put query string in Name if not numeric
-			if (value.equals("%"))
-				fieldName.setText(value);
-			//	No Numbers entered
-			else if ((value.indexOf('0')+value.indexOf('1')+value.indexOf('2')+value.indexOf('3')+value.indexOf('4') +value.indexOf('5')
-				+value.indexOf('6')+value.indexOf('7')+value.indexOf('8')+value.indexOf('9')) == -10)
+	private void initInfo(int record_id, String value, boolean reset)
+	{			
+	    //
+	    if (!(record_id == 0) && value != null && value.length() > 0)
+		{
+			log.severe("Received both a record_id and a value: " + record_id + " - " + value);
+		}
+		//  In case of reset, clear all parameters to ensure we are at a known starting point.
+		if(reset)
+		{
+			clearParameters();
+		}
+		//
+	    if (!(record_id == 0))  // A record is defined
+	    {
+	    	fieldID = record_id;
+	    }
+	    else
+	    {
+			if (value != null && value.length() > 0)
 			{
-				if (value.startsWith("%"))
-					fieldName.setText(value);
-				else
-					fieldName.setText("%" + value);
+				//	Put query string in Name if not fully numeric
+	    		if (!value.matches(".*\\D+.*")) // If value has no non-digit characters, use the Value
+	    			fieldValue.setText(value);
+	    		else
+	    			fieldName.setText(value);  // A few non-digit characters might be in the name. E.g. 451Group, 1st Choice, ...
 			}
-			//	Number entered
 			else
-				fieldValue.setText(value);
+			{
+				//  Try to find the fieldID from the context
+	        	String bp = Env.getContext(Env.getCtx(), p_WindowNo, "C_BPartner_ID");
+				if (bp != null && bp.length() != 0)
+				{
+					fieldID = new Integer(bp).intValue();
+				}
+			}
+	    }
 	}	//	initInfo
 
 	/**
-	 *  Set Parameters for Query.
-	 *  (as defined in getSQLWhere)
-	 *  @param pstmt pstmt
-	 *  @param forCount for counting records
-	 *  @throws SQLException
+	 * A record was selected - take action to sync subordinate tables if any
+	 * @param key of the selected record
 	 */
-	public void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
+	protected void recordSelected(int key)
 	{
-		int index = 1;
-		//	=> Value
-		String value = fieldValue.getText().toUpperCase();
-		if (!(value.equals("") || value.equals("%")))
-		{
-			if (!value.endsWith("%"))
-				value += "%";
-			pstmt.setString(index++, value);
-			log.fine("Value: " + value);
-		}
-		//	=> Name
-		String name = fieldName.getText().toUpperCase();
-		if (!(name.equals("") || name.equals("%")))
-		{
-			if (!name.endsWith("%"))
-				name += "%";
-			pstmt.setString(index++, name);
-			log.fine("Name: " + name);
-		}
-		//	=> Contact
-		String contact = fieldContact.getText().toUpperCase();
-		if (!(contact.equals("") || contact.equals("%")))
-		{
-			if (!contact.endsWith("%"))
-				contact += "%";
-			pstmt.setString(index++, contact);
-			log.fine("Contact: " + contact);
-		}
-		//	=> EMail
-		String email = fieldEMail.getText().toUpperCase();
-		if (!(email.equals("") || email.equals("%")))
-		{
-			if (!email.endsWith("%"))
-				email += "%";
-			pstmt.setString(index++, email);
-			log.fine("EMail: " + email);
-		}
-		//	=> Phone
-		String phone = fieldPhone.getText().toUpperCase();
-		if (!(phone.equals("") || phone.equals("%")))
-		{
-			if (!phone.endsWith("%"))
-				phone += "%";
-			pstmt.setString(index++, phone);
-			log.fine("Phone: " + phone);
-		}
-		//	=> Postal
-		String postal = fieldPostal.getText().toUpperCase();
-		if (!(postal.equals("") || postal.equals("%")))
-		{
-			if (!postal.endsWith("%"))
-				postal += "%";
-			pstmt.setString(index++, postal);
-			log.fine("Postal: " + postal);
-		}
-	}   //  setParameters
+		m_C_BPartner_ID = key;
+		refresh();
+		p_centerSouth.setOpen(true);
+		return;
+	}
+	/**
+	 * No record was selected - take action to sync subordinate tables if any
+	 */
+	protected void noRecordSelected()
+	{
+		//  Nothing was selected, or the query is empty
+		//  - close the panel
+		m_C_BPartner_ID = 0;
+    	p_centerSouth.setOpen(false);
+		return;
+	}
 
-	/*************************************************************************/
-	/*************************************************************************/
+    public void onEvent(Event e)
+    {
+    	// Handle panel specific actions and pass the event to the parent class
+
+		if(!p_loadedOK)
+			return;
+				
+		Component component = e.getTarget();
+		
+		if(component != null)
+		{
+			if (component instanceof Tab) // a tab in the subordinate panel is selected
+			{
+				refresh();
+				return;
+			}
+		} 
+		
+		super.onEvent(e);
+
+    }
+	/**
+	 * 	Refresh Query
+	 */
+	protected void refresh()
+	{				
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		int leadRowKey = 0;
+
+		if (p_table != null || p_table.getRowCount() > 0)
+			leadRowKey = p_table.getLeadRowKey();
+    	
+		if (m_C_BPartner_ID != leadRowKey)
+    	{
+			m_C_BPartner_ID = leadRowKey;  //  From the main table
+    	}
+
+		if (detailTabBox.getSelectedIndex() == 0)
+		{
+			//  Contact tab	
+			log.finest(m_sqlContact);
+			try
+			{
+				pstmt = DB.prepareStatement(m_sqlContact, null);
+				pstmt.setInt(1, m_C_BPartner_ID);
+				rs = pstmt.executeQuery();
+				contactTbl.loadTable(rs);
+				rs.close();
+			}
+			catch (Exception e)
+			{
+				log.log(Level.WARNING, m_sqlContact, e);
+			}
+			finally
+			{
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
+			}
+		}
+		else
+		{
+			//  Address tab	
+			log.finest(m_sqlAddress);
+			try
+			{
+				pstmt = DB.prepareStatement(m_sqlAddress, null);
+				pstmt.setInt(1, m_C_BPartner_ID);
+				rs = pstmt.executeQuery();
+				addressTbl.loadTable(rs);
+				rs.close();
+			}
+			catch (Exception e)
+			{
+				log.log(Level.WARNING, m_sqlContact, e);
+			}
+			finally
+			{
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
+			}
+	
+			String trxName = Trx.createTrxName();
+	        for (int row=0; row < addressTbl.getRowCount(); row++)
+			{
+				int loc_id = 0;
+				Object loc_data = addressTbl.getValueAt(row, addressTbl.getKeyColumnIndex());
+	            if (loc_data != null && loc_data instanceof IDColumn)
+	            {
+	            	IDColumn dataColumn = (IDColumn) loc_data;
+	        		loc_id = dataColumn.getRecord_ID();
+	            }
+	
+				MLocation loc = MLocation.getBPLocation(Env.getCtx(), loc_id, trxName);
+				addressTbl.setValueAt(loc.toString(), row, ADDRESS_INDEX);
+			}
+			Trx.get(trxName, false).close();
+			addressTbl.autoSize();
+		}
+	}	//	refresh
+
 	/**
 	 *	Construct SQL Where Clause and define parameters.
 	 *  (setParameters needs to set parameters)
 	 *  Includes first AND
 	 *  @return WHERE clause
 	 */
-	public String getSQLWhere()
+	protected String getSQLWhere()
 	{
 		ArrayList<String> list = new ArrayList<String>();
+		//  => ID
+		if(isResetRecordID())
+			fieldID = 0;
+		if(!(fieldID == 0))
+			list.add("C_BPartner.C_BPartner_ID = ?");
 		//	=> Value
-		String value = fieldValue.getText().toUpperCase();
-		if (!(value.equals("") || value.equals("%")))
+		if (isValidSQLText(fieldValue))
 			list.add ("UPPER(C_BPartner.Value) LIKE ?");
 		//	=> Name
-		String name = fieldName.getText().toUpperCase();
-		if (!(name.equals("") || name.equals("%")))
+		if (isValidSQLText(fieldName))
 			list.add ("UPPER(C_BPartner.Name) LIKE ?");
 		//	=> Contact
-		String contact = fieldContact.getText().toUpperCase();
-		if (!(contact.equals("") || contact.equals("%")))
-			list.add ("UPPER(c.Name) LIKE ?");
+		if (isValidSQLText(fieldContact))
+			list.add ("C_BPartner.C_BPartner_ID IN (SELECT C_BPartner_ID from AD_User c WHERE UPPER(c.Name) LIKE ?)");
 		//	=> EMail
-		String email = fieldEMail.getText().toUpperCase();
-		if (!(email.equals("") || email.equals("%")))
-			list.add ("UPPER(c.EMail) LIKE ?");
+		if (isValidSQLText(fieldEMail))
+			list.add ("C_BPartner.C_BPartner_ID IN (SELECT C_BPartner_ID from AD_User c WHERE UPPER(c.EMail) LIKE ?)");
 		//	=> Phone
-		String phone = fieldPhone.getText().toUpperCase();
-		if (!(phone.equals("") || phone.equals("%")))
-			list.add ("UPPER(c.Phone) LIKE ?");
+		if (isValidSQLText(fieldPhone))
+			list.add ("C_BPartner.C_BPartner_ID IN (SELECT C_BPartner_ID from AD_User c WHERE UPPER(c.Phone) LIKE ?)");
 		//	=> Postal
-		String postal = fieldPostal.getText().toUpperCase();
-		if (!(postal.equals("") || postal.equals("%")))
-			list.add ("UPPER(a.Postal) LIKE ?");
+		if (isValidSQLText(fieldPostal))
+			list.add ("C_BPartner_ID IN (Select C_BPartner_ID FROM C_BPartner_Location bpl, "
+					+ "C_Location l where l.C_Location_ID = bpl.C_Location_ID AND UPPER(Postal) LIKE ?)");
+
 		StringBuffer sql = new StringBuffer();
 		int size = list.size();
 		//	Just one
@@ -435,7 +630,7 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 			sql.append(" AND ").append(list.get(0));
 		else if (size > 1)
 		{
-			boolean AND = checkAND.isChecked();
+			boolean AND = checkAND.isSelected();
 			sql.append(" AND ");
 			if (!AND)
 				sql.append("(");
@@ -448,8 +643,9 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 			if (!AND)
 				sql.append(")");
 		}
-			//	Static SQL
-		if (checkCustomer.isChecked())
+
+		//	Static SQL
+		if (checkCustomer.isSelected())
 		{
 			sql.append(" AND ");
 			if (m_isSOTrx)
@@ -458,8 +654,62 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 				sql.append ("C_BPartner.IsVendor='Y'");
 		}
 		return sql.toString();
-
 	}	//	getSQLWhere
+
+	/**
+	 *  Set Parameters for Query.
+	 *  (as defined in getSQLWhere)
+	 *  @param pstmt pstmt
+	 *  @param forCount for counting records
+	 *  @throws SQLException
+	 */
+	protected void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
+	{
+		
+		int index = 1;
+		//  => ID
+		if (!(fieldID == 0))
+		{
+			pstmt.setInt(index++, fieldID);
+			log.fine("Record ID: " + fieldID);
+		}
+		//	=> Value
+		if (isValidSQLText(fieldValue))
+		{
+			pstmt.setString(index++, getSQLText(fieldValue));
+			log.fine("Value: " + fieldValue.getText());
+		}
+		//	=> Name
+		if (isValidSQLText(fieldName))
+		{
+			pstmt.setString(index++, getSQLText(fieldName));
+			log.fine("Name: " + fieldName.getText());
+		}
+		//	=> Contact
+		if (isValidSQLText(fieldContact))
+		{
+			pstmt.setString(index++, getSQLText(fieldContact));
+			log.fine("Contact: " + fieldContact.getText());
+		}
+		//	=> EMail
+		if (isValidSQLText(fieldEMail))
+		{
+			pstmt.setString(index++, getSQLText(fieldEMail));
+			log.fine("EMail: " + fieldEMail.getText());
+		}
+		//	=> Phone
+		if (isValidSQLText(fieldPhone))
+		{
+			pstmt.setString(index++, getSQLText(fieldPhone));
+			log.fine("Phone: " + fieldPhone.getText());
+		}
+		//	=> Postal
+		if (isValidSQLText(fieldPostal))
+		{
+			pstmt.setString(index++, getSQLText(fieldPostal));
+			log.fine("Postal: " + fieldPostal);
+		}
+	}   //  setParameters
     
     /*************************************************************************/
 
@@ -469,32 +719,40 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
      */
     public void saveSelectionDetail()
     {
-        int row = contentPanel.getSelectedRow();
+        int row = p_table.getSelectedRow();
         if (row == -1)
             return;
 
-        int AD_User_ID = 0;
-        int C_BPartner_Location_ID = 0;
-        
         // Elaine 2008/12/16
-        if (m_AD_User_ID_index != -1)
+        if (m_AD_User_ID == -1)
         {
-            Object data =contentPanel.getValueAt(row, m_AD_User_ID_index);
-            if (data instanceof KeyNamePair)
-            	AD_User_ID = ((KeyNamePair)data).getKey();
+			int leadRowKey = -1;
+
+			if (contactTbl != null || contactTbl.getRowCount() > 0)
+				leadRowKey = contactTbl.getLeadRowKey();
+	    	
+			if (m_AD_User_ID != leadRowKey)
+	    	{
+				m_AD_User_ID = leadRowKey;  //  From the main table
+	    	}
         }
         //
-        if (m_C_BPartner_Location_ID_index != -1)
+        if (m_C_BPartner_Location_ID == -1)
         {
-            Object data =contentPanel.getValueAt(row, m_C_BPartner_Location_ID_index);
-            if (data instanceof KeyNamePair)
-                C_BPartner_Location_ID = ((KeyNamePair)data).getKey();
+			int leadRowKey = -1;
+
+			if (addressTbl != null || addressTbl.getRowCount() > 0)
+				leadRowKey = addressTbl.getLeadRowKey();
+	    	
+			if (m_C_BPartner_Location_ID != leadRowKey)
+	    	{
+				m_C_BPartner_Location_ID = leadRowKey;  //  From the main table
+	    	}
         }
         //  publish for Callout to read
-        Integer ID = getSelectedRowKey();
-        Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "C_BPartner_ID", ID == null ? "0" : ID.toString());
-        Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "AD_User_ID", String.valueOf(AD_User_ID));
-        Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "C_BPartner_Location_ID", String.valueOf(C_BPartner_Location_ID));
+        Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "C_BPartner_ID", String.valueOf(m_C_BPartner_ID));
+        Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "AD_User_ID", String.valueOf(m_AD_User_ID));
+        Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "C_BPartner_Location_ID", String.valueOf(m_C_BPartner_Location_ID));
        
     }   //  saveSelectionDetail
     
@@ -532,7 +790,6 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 		Integer C_BPartner_ID = getSelectedRowKey();
 		if (C_BPartner_ID == null)
 			return;
-	//	AEnv.zoom(MBPartner.Table_ID, C_BPartner_ID.intValue(), true);	//	SO
 
 		MQuery query = new MQuery("C_BPartner");
 		query.addRestriction("C_BPartner_ID", MQuery.EQUAL, C_BPartner_ID);
@@ -550,27 +807,58 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 		return true;
 	}	//	hasZoom
 
+		
 	/**
-	 *	Customize
+	 * Does the parameter panel have outstanding changes that have not been
+	 * used in a query?
+	 * @return true if there are outstanding changes.
 	 */
-	protected void customize()
+	protected boolean hasOutstandingChanges()
 	{
-		log.info( "InfoBPartner.customize");
-	}	//	customize
+		//  All the tracked fields
+		return(
+			fieldValue.hasChanged()	||
+			fieldName.hasChanged() ||
+			fieldContact.hasChanged() ||
+			fieldEMail.hasChanged() ||
+			fieldPhone.hasChanged() ||
+			fieldPostal.hasChanged() ||
+			checkCustomer.hasChanged() ||
+			checkAND.hasChanged()
+			);
+			
+	}
+	/**
+	 * Record outstanding changes by copying the current
+	 * value to the oldValue on all fields
+	 */
+	protected void setFieldOldValues()
+	{
+		fieldValue.set_oldValue();
+		fieldName.set_oldValue();
+		fieldContact.set_oldValue();
+		fieldEMail.set_oldValue();
+		fieldPhone.set_oldValue();
+		fieldPostal.set_oldValue();
+		checkCustomer.set_oldValue();
+		checkAND.set_oldValue();
+		return;
+	}
 
-	/**
-	 *	Has Customize
-	 *  @return false
+    /**
+	 *  Clear all fields and set default values in check boxes
 	 */
-	protected boolean hasCustomize()
+	private void clearParameters()
 	{
-		return false;	//	for now
-	}	//	hasCustomize
-	//
-	
-    public void tableChanged(WTableModelEvent event)
-    {
-        
-    }
-	
+		//  Clear fields and set defaults
+		fieldValue.setText("");
+		fieldName.setText("");
+		fieldContact.setText("");
+		fieldEMail.setText("");
+		fieldPhone.setText("");
+		fieldPostal.setText("");
+		checkCustomer.setSelected(m_isSOMatch);  	//  Customers Only
+		checkAND.setSelected(true); 		//  Use AND
+	}
+
 }

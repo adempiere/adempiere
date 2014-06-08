@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for R_RequestProcessorLog
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_R_RequestProcessorLog 
 {
@@ -130,18 +130,18 @@ public interface I_R_RequestProcessorLog
 	  */
 	public boolean isError();
 
-    /** Column name Reference */
-    public static final String COLUMNNAME_Reference = "Reference";
+    /** Column name R_RequestProcessorLog_ID */
+    public static final String COLUMNNAME_R_RequestProcessorLog_ID = "R_RequestProcessorLog_ID";
 
-	/** Set Reference.
-	  * Reference for this record
+	/** Set Request Processor Log.
+	  * Result of the execution of the Request Processor
 	  */
-	public void setReference (String Reference);
+	public void setR_RequestProcessorLog_ID (int R_RequestProcessorLog_ID);
 
-	/** Get Reference.
-	  * Reference for this record
+	/** Get Request Processor Log.
+	  * Result of the execution of the Request Processor
 	  */
-	public String getReference();
+	public int getR_RequestProcessorLog_ID();
 
     /** Column name R_RequestProcessor_ID */
     public static final String COLUMNNAME_R_RequestProcessor_ID = "R_RequestProcessor_ID";
@@ -158,18 +158,18 @@ public interface I_R_RequestProcessorLog
 
 	public org.compiere.model.I_R_RequestProcessor getR_RequestProcessor() throws RuntimeException;
 
-    /** Column name R_RequestProcessorLog_ID */
-    public static final String COLUMNNAME_R_RequestProcessorLog_ID = "R_RequestProcessorLog_ID";
+    /** Column name Reference */
+    public static final String COLUMNNAME_Reference = "Reference";
 
-	/** Set Request Processor Log.
-	  * Result of the execution of the Request Processor
+	/** Set Reference.
+	  * Reference for this record
 	  */
-	public void setR_RequestProcessorLog_ID (int R_RequestProcessorLog_ID);
+	public void setReference (String Reference);
 
-	/** Get Request Processor Log.
-	  * Result of the execution of the Request Processor
+	/** Get Reference.
+	  * Reference for this record
 	  */
-	public int getR_RequestProcessorLog_ID();
+	public String getReference();
 
     /** Column name Summary */
     public static final String COLUMNNAME_Summary = "Summary";

@@ -25,9 +25,16 @@ import java.util.logging.Level;
 
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
+import org.compiere.model.MAcctSchemaElement;
+import org.compiere.model.MCharge;
+import org.compiere.model.MChargeAcct;
+import org.compiere.model.MElement;
 import org.compiere.model.MElementValue;
+import org.compiere.model.MTaxCategory;
 import org.compiere.model.X_I_ElementValue;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Util;
 
 /**
  *	Import Accounts from I_ElementValue
@@ -114,7 +121,6 @@ public class ImportAccount extends SvrProcess
 			+ " UpdatedBy = COALESCE (UpdatedBy, 0),"
 			+ " I_ErrorMsg = ' ',"
 			+ " Processed = 'N', "
-			+ " Processing = 'Y', "
 			+ " I_IsImported = 'N' "
 			+ "WHERE I_IsImported<>'Y' OR I_IsImported IS NULL");
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
@@ -251,7 +257,25 @@ public class ImportAccount extends SvrProcess
 			+ " AND I_IsImported='N'").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.fine("Found ElementValue=" + no);
+		
+		//  update Charge
+		sql = new StringBuffer ("UPDATE I_ElementValue i "
+			+ "SET C_Charge_ID = (SELECT C_Charge_ID FROM C_Charge c"
+			+ " WHERE i.ChargeName=c.Name AND i.AD_Client_ID=c.AD_Client_ID)"
+			+ "WHERE C_Charge_ID IS NULL"
+			+ " AND I_IsImported<>'Y'").append(clientCheck);
+		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		log.fine("Set Charge=" + no);
 
+		//  update Tax Category
+		sql = new StringBuffer ("UPDATE I_ElementValue i "
+			+ "SET C_TaxCategory_ID = (SELECT C_TaxCategory_ID FROM C_TaxCategory c"
+			+ " WHERE i.TaxCategoryName=c.Name AND i.AD_Client_ID=c.AD_Client_ID)"
+			+ "WHERE C_TaxCategory_ID IS NULL"
+			+ " AND I_IsImported<>'Y'").append(clientCheck);
+		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		log.fine("Set Tax Category=" + no);
+		
 		commitEx();
 
 		//	-------------------------------------------------------------------
@@ -272,7 +296,7 @@ public class ImportAccount extends SvrProcess
 				X_I_ElementValue impEV = new X_I_ElementValue(getCtx(), rs, get_TrxName());
 				int C_ElementValue_ID = impEV.getC_ElementValue_ID();
 				int I_ElementValue_ID = impEV.getI_ElementValue_ID();
-
+				
 				//	****	Create/Update ElementValue
 				if (C_ElementValue_ID == 0)		//	New
 				{
@@ -280,9 +304,11 @@ public class ImportAccount extends SvrProcess
 					if (ev.save())
 					{
 						noInsert++;
+						if ( !ev.isSummary() )
+							updateCharge(impEV, ev);
 						impEV.setC_ElementValue_ID(ev.getC_ElementValue_ID());
 						impEV.setI_IsImported(true);
-						impEV.save();
+						impEV.saveEx();
 					}
 					else
 					{
@@ -303,8 +329,10 @@ public class ImportAccount extends SvrProcess
 					if (ev.save())
 					{
 						noUpdate++;
+						if (! ev.isSummary() )
+							updateCharge(impEV, ev);
 						impEV.setI_IsImported(true);
-						impEV.save();
+						impEV.saveEx();
 					}
 					else
 					{
@@ -314,7 +342,8 @@ public class ImportAccount extends SvrProcess
 						DB.executeUpdate(sql.toString(), get_TrxName());
 					}
 				}
-			}	//	for all I_Product
+				
+			}	//	for all I_ElementValue
 			rs.close();
 			pstmt.close();
 		}
@@ -430,6 +459,116 @@ public class ImportAccount extends SvrProcess
 
 		return "";
 	}	//	doIt
+
+
+	private void updateCharge(X_I_ElementValue impEV, MElementValue ev) {
+		MCharge charge = (MCharge) impEV.getC_Charge();
+		if ( charge.get_ID() == 0 && !Util.isEmpty(impEV.getChargeName()) )
+		{					
+			charge.setName(impEV.getChargeName());
+			charge.setAD_Org_ID(0);
+			if ( impEV.getC_TaxCategory_ID() == 0 )
+			{
+				String sql = "SELECT C_TaxCategory_ID FROM C_TaxCategory WHERE AD_Client_ID = ? ORDER BY IsDefault DESC ";
+				int taxc = DB.getSQLValue(get_TrxName(), sql, m_AD_Client_ID);
+				charge.setC_TaxCategory_ID(taxc);
+			}
+			else
+			{
+				charge.setC_TaxCategory_ID(impEV.getC_TaxCategory_ID());
+			}
+			
+			charge.saveEx();
+			impEV.setC_Charge_ID(charge.getC_Charge_ID());
+		}
+
+		// add/update charge accounting 
+		if (ev != null && !charge.is_new())
+		{ 
+			// for accounting schemas
+			for (MAcctSchema schema : MAcctSchema.getClientAcctSchema(getCtx(), m_AD_Client_ID) )
+			{
+				// with the same Account Element as the import
+				if ( schema.getAcctSchemaElement(MAcctSchemaElement.ELEMENTTYPE_Account).getC_Element_ID() == ev.getC_Element_ID() )
+				{
+					MChargeAcct chargeacct = MChargeAcct.get(schema, charge.getC_Charge_ID(), get_TrxName());
+					if (chargeacct == null)
+					{
+						chargeacct = new MChargeAcct(getCtx(), 0, get_TrxName());
+						chargeacct.setAD_Org_ID(charge.getAD_Org_ID());
+						chargeacct.setC_AcctSchema_ID(schema.getC_AcctSchema_ID());
+						chargeacct.setC_Charge_ID(charge.getC_Charge_ID());
+					}
+					
+					MAccount expenseAccount = (MAccount) chargeacct.getCh_Expense_A();
+					if (expenseAccount == null)
+					{
+						expenseAccount = MAccount.getDefault(schema, true); //  optional null
+					}
+					
+					if ( expenseAccount.getAccount_ID() != ev.getC_ElementValue_ID() )
+					{
+						MAccount account = MAccount.get(Env.getCtx(),
+								charge.getAD_Client_ID(),
+								charge.getAD_Org_ID(),
+								schema.getC_AcctSchema_ID(),
+								ev.getC_ElementValue_ID(),
+								expenseAccount.getC_SubAcct_ID(),
+								expenseAccount.getM_Product_ID(),
+								expenseAccount.getC_BPartner_ID(),
+								expenseAccount.getAD_OrgTrx_ID(),
+								expenseAccount.getC_LocFrom_ID(),
+								expenseAccount.getC_LocTo_ID(),
+								expenseAccount.getC_SalesRegion_ID(),
+								expenseAccount.getC_Project_ID(),
+								expenseAccount.getC_Campaign_ID(),
+								expenseAccount.getC_Activity_ID(),
+								expenseAccount.getUser1_ID(),
+								expenseAccount.getUser2_ID(),
+								expenseAccount.getUserElement1_ID(),
+								expenseAccount.getUserElement2_ID(), get_TrxName());
+						
+						chargeacct.setCh_Expense_Acct(account.getC_ValidCombination_ID());
+						
+					}
+					
+					MAccount revenueAccount = (MAccount) chargeacct.getCh_Revenue_A();
+					if (revenueAccount == null)
+					{
+						revenueAccount = MAccount.getDefault(schema, true); //  optional null
+					}
+					
+					if ( revenueAccount.getAccount_ID() != ev.getC_ElementValue_ID() )
+					{
+						MAccount account = MAccount.get(Env.getCtx(),
+								charge.getAD_Client_ID(),
+								charge.getAD_Org_ID(),
+								schema.getC_AcctSchema_ID(),
+								ev.getC_ElementValue_ID(),
+								revenueAccount.getC_SubAcct_ID(),
+								revenueAccount.getM_Product_ID(),
+								revenueAccount.getC_BPartner_ID(),
+								revenueAccount.getAD_OrgTrx_ID(),
+								revenueAccount.getC_LocFrom_ID(),
+								revenueAccount.getC_LocTo_ID(),
+								revenueAccount.getC_SalesRegion_ID(),
+								revenueAccount.getC_Project_ID(),
+								revenueAccount.getC_Campaign_ID(),
+								revenueAccount.getC_Activity_ID(),
+								revenueAccount.getUser1_ID(),
+								revenueAccount.getUser2_ID(),
+								revenueAccount.getUserElement1_ID(),
+								revenueAccount.getUserElement2_ID(), get_TrxName());
+						
+						chargeacct.setCh_Revenue_Acct(account.getC_ValidCombination_ID());
+					}
+					
+					chargeacct.saveEx();
+				}
+			}
+
+		}
+	}
 
 	
 	/**************************************************************************

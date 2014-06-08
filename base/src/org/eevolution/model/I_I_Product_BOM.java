@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_Product_BOM
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_I_Product_BOM 
 {
@@ -76,19 +76,6 @@ public interface I_I_Product_BOM
 	  */
 	public BigDecimal getAssay();
 
-    /** Column name BackflushGroup */
-    public static final String COLUMNNAME_BackflushGroup = "BackflushGroup";
-
-	/** Set Backflush Group.
-	  * The Grouping Components to the Backflush
-	  */
-	public void setBackflushGroup (String BackflushGroup);
-
-	/** Get Backflush Group.
-	  * The Grouping Components to the Backflush
-	  */
-	public String getBackflushGroup();
-
     /** Column name BOMType */
     public static final String COLUMNNAME_BOMType = "BOMType";
 
@@ -114,6 +101,34 @@ public interface I_I_Product_BOM
 	  * The use of the Bill of Material
 	  */
 	public String getBOMUse();
+
+    /** Column name BackflushGroup */
+    public static final String COLUMNNAME_BackflushGroup = "BackflushGroup";
+
+	/** Set Backflush Group.
+	  * The Grouping Components to the Backflush
+	  */
+	public void setBackflushGroup (String BackflushGroup);
+
+	/** Get Backflush Group.
+	  * The Grouping Components to the Backflush
+	  */
+	public String getBackflushGroup();
+
+    /** Column name C_UOM_ID */
+    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
+
+	/** Set UOM.
+	  * Unit of Measure
+	  */
+	public void setC_UOM_ID (int C_UOM_ID);
+
+	/** Get UOM.
+	  * Unit of Measure
+	  */
+	public int getC_UOM_ID();
+
+	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException;
 
     /** Column name ComponentType */
     public static final String COLUMNNAME_ComponentType = "ComponentType";
@@ -156,21 +171,6 @@ public interface I_I_Product_BOM
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_UOM_ID */
-    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
-
-	/** Set UOM.
-	  * Unit of Measure
-	  */
-	public void setC_UOM_ID (int C_UOM_ID);
-
-	/** Get UOM.
-	  * Unit of Measure
-	  */
-	public int getC_UOM_ID();
-
-	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -382,21 +382,6 @@ public interface I_I_Product_BOM
 	  */
 	public String getOrgValue();
 
-    /** Column name PP_Product_BOM_ID */
-    public static final String COLUMNNAME_PP_Product_BOM_ID = "PP_Product_BOM_ID";
-
-	/** Set BOM & Formula.
-	  * BOM & Formula
-	  */
-	public void setPP_Product_BOM_ID (int PP_Product_BOM_ID);
-
-	/** Get BOM & Formula.
-	  * BOM & Formula
-	  */
-	public int getPP_Product_BOM_ID();
-
-	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException;
-
     /** Column name PP_Product_BOMLine_ID */
     public static final String COLUMNNAME_PP_Product_BOMLine_ID = "PP_Product_BOMLine_ID";
 
@@ -411,6 +396,21 @@ public interface I_I_Product_BOM
 	public int getPP_Product_BOMLine_ID();
 
 	public org.eevolution.model.I_PP_Product_BOMLine getPP_Product_BOMLine() throws RuntimeException;
+
+    /** Column name PP_Product_BOM_ID */
+    public static final String COLUMNNAME_PP_Product_BOM_ID = "PP_Product_BOM_ID";
+
+	/** Set BOM & Formula.
+	  * BOM & Formula
+	  */
+	public void setPP_Product_BOM_ID (int PP_Product_BOM_ID);
+
+	/** Get BOM & Formula.
+	  * BOM & Formula
+	  */
+	public int getPP_Product_BOM_ID();
+
+	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException;
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
@@ -434,19 +434,6 @@ public interface I_I_Product_BOM
 	/** Get Process Now	  */
 	public boolean isProcessing();
 
-    /** Column name Product_BOM_Value */
-    public static final String COLUMNNAME_Product_BOM_Value = "Product_BOM_Value";
-
-	/** Set Product BOM Key.
-	  * Key of Product BOM
-	  */
-	public void setProduct_BOM_Value (String Product_BOM_Value);
-
-	/** Get Product BOM Key.
-	  * Key of Product BOM
-	  */
-	public String getProduct_BOM_Value();
-
     /** Column name ProductValue */
     public static final String COLUMNNAME_ProductValue = "ProductValue";
 
@@ -460,18 +447,18 @@ public interface I_I_Product_BOM
 	  */
 	public String getProductValue();
 
-    /** Column name QtyBatch */
-    public static final String COLUMNNAME_QtyBatch = "QtyBatch";
+    /** Column name Product_BOM_Value */
+    public static final String COLUMNNAME_Product_BOM_Value = "Product_BOM_Value";
 
-	/** Set Quantity in %.
-	  * Indicate the Quantity % use in this Formula
+	/** Set Product BOM Key.
+	  * Key of Product BOM
 	  */
-	public void setQtyBatch (BigDecimal QtyBatch);
+	public void setProduct_BOM_Value (String Product_BOM_Value);
 
-	/** Get Quantity in %.
-	  * Indicate the Quantity % use in this Formula
+	/** Get Product BOM Key.
+	  * Key of Product BOM
 	  */
-	public BigDecimal getQtyBatch();
+	public String getProduct_BOM_Value();
 
     /** Column name QtyBOM */
     public static final String COLUMNNAME_QtyBOM = "QtyBOM";
@@ -485,6 +472,19 @@ public interface I_I_Product_BOM
 	  * Indicate the Quantity  use in this BOM
 	  */
 	public BigDecimal getQtyBOM();
+
+    /** Column name QtyBatch */
+    public static final String COLUMNNAME_QtyBatch = "QtyBatch";
+
+	/** Set Quantity in %.
+	  * Indicate the Quantity % use in this Formula
+	  */
+	public void setQtyBatch (BigDecimal QtyBatch);
+
+	/** Get Quantity in %.
+	  * Indicate the Quantity % use in this Formula
+	  */
+	public BigDecimal getQtyBatch();
 
     /** Column name Scrap */
     public static final String COLUMNNAME_Scrap = "Scrap";

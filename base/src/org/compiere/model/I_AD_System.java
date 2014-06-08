@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_System
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0RC
  */
 public interface I_AD_System 
 {
@@ -265,15 +265,6 @@ public interface I_AD_System
 	  */
 	public boolean isJustMigrated();
 
-    /** Column name LastBuildInfo */
-    public static final String COLUMNNAME_LastBuildInfo = "LastBuildInfo";
-
-	/** Set Last Build Info	  */
-	public void setLastBuildInfo (String LastBuildInfo);
-
-	/** Get Last Build Info	  */
-	public String getLastBuildInfo();
-
     /** Column name LDAPDomain */
     public static final String COLUMNNAME_LDAPDomain = "LDAPDomain";
 
@@ -299,6 +290,15 @@ public interface I_AD_System
 	  * Connection String to LDAP server starting with ldap://
 	  */
 	public String getLDAPHost();
+
+    /** Column name LastBuildInfo */
+    public static final String COLUMNNAME_LastBuildInfo = "LastBuildInfo";
+
+	/** Set Last Build Info	  */
+	public void setLastBuildInfo (String LastBuildInfo);
+
+	/** Get Last Build Info	  */
+	public String getLastBuildInfo();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

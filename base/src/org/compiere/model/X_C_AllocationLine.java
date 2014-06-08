@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_AllocationLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_C_AllocationLine extends PO implements I_C_AllocationLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_C_AllocationLine (Properties ctx, int C_AllocationLine_ID, String trxName)
@@ -199,6 +199,34 @@ public class X_C_AllocationLine extends PO implements I_C_AllocationLine, I_Pers
 	public int getC_CashLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_CashLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Charge)MTable.get(getCtx(), org.compiere.model.I_C_Charge.Table_Name)
+			.getPO(getC_Charge_ID(), get_TrxName());	}
+
+	/** Set Charge.
+		@param C_Charge_ID 
+		Additional document charges
+	  */
+	public void setC_Charge_ID (int C_Charge_ID)
+	{
+		if (C_Charge_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Charge_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
+	}
+
+	/** Get Charge.
+		@return Additional document charges
+	  */
+	public int getC_Charge_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Charge_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

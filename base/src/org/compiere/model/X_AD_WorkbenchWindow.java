@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_WorkbenchWindow
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_AD_WorkbenchWindow extends PO implements I_AD_WorkbenchWindow, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_AD_WorkbenchWindow (Properties ctx, int AD_WorkbenchWindow_ID, String trxName)
@@ -38,8 +38,8 @@ public class X_AD_WorkbenchWindow extends PO implements I_AD_WorkbenchWindow, I_
       super (ctx, AD_WorkbenchWindow_ID, trxName);
       /** if (AD_WorkbenchWindow_ID == 0)
         {
-			setAD_Workbench_ID (0);
 			setAD_WorkbenchWindow_ID (0);
+			setAD_Workbench_ID (0);
 			setEntityType (null);
 // U
 			setIsPrimary (false);
@@ -187,34 +187,6 @@ public class X_AD_WorkbenchWindow extends PO implements I_AD_WorkbenchWindow, I_
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_AD_Workbench getAD_Workbench() throws RuntimeException
-    {
-		return (org.compiere.model.I_AD_Workbench)MTable.get(getCtx(), org.compiere.model.I_AD_Workbench.Table_Name)
-			.getPO(getAD_Workbench_ID(), get_TrxName());	}
-
-	/** Set Workbench.
-		@param AD_Workbench_ID 
-		Collection of windows, reports
-	  */
-	public void setAD_Workbench_ID (int AD_Workbench_ID)
-	{
-		if (AD_Workbench_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_Workbench_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_Workbench_ID, Integer.valueOf(AD_Workbench_ID));
-	}
-
-	/** Get Workbench.
-		@return Collection of windows, reports
-	  */
-	public int getAD_Workbench_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Workbench_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Workbench Window.
 		@param AD_WorkbenchWindow_ID Workbench Window	  */
 	public void setAD_WorkbenchWindow_ID (int AD_WorkbenchWindow_ID)
@@ -242,6 +214,34 @@ public class X_AD_WorkbenchWindow extends PO implements I_AD_WorkbenchWindow, I_
     {
         return new KeyNamePair(get_ID(), String.valueOf(getAD_WorkbenchWindow_ID()));
     }
+
+	public org.compiere.model.I_AD_Workbench getAD_Workbench() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Workbench)MTable.get(getCtx(), org.compiere.model.I_AD_Workbench.Table_Name)
+			.getPO(getAD_Workbench_ID(), get_TrxName());	}
+
+	/** Set Workbench.
+		@param AD_Workbench_ID 
+		Collection of windows, reports
+	  */
+	public void setAD_Workbench_ID (int AD_Workbench_ID)
+	{
+		if (AD_Workbench_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Workbench_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Workbench_ID, Integer.valueOf(AD_Workbench_ID));
+	}
+
+	/** Get Workbench.
+		@return Collection of windows, reports
+	  */
+	public int getAD_Workbench_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Workbench_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** EntityType AD_Reference_ID=389 */
 	public static final int ENTITYTYPE_AD_Reference_ID=389;

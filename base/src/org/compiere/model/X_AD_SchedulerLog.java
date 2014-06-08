@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for AD_SchedulerLog
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_AD_SchedulerLog extends PO implements I_AD_SchedulerLog, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_AD_SchedulerLog (Properties ctx, int AD_SchedulerLog_ID, String trxName)
@@ -37,8 +37,8 @@ public class X_AD_SchedulerLog extends PO implements I_AD_SchedulerLog, I_Persis
       super (ctx, AD_SchedulerLog_ID, trxName);
       /** if (AD_SchedulerLog_ID == 0)
         {
-			setAD_Scheduler_ID (0);
 			setAD_SchedulerLog_ID (0);
+			setAD_Scheduler_ID (0);
 			setIsError (false);
         } */
     }
@@ -71,6 +71,29 @@ public class X_AD_SchedulerLog extends PO implements I_AD_SchedulerLog, I_Persis
       return sb.toString();
     }
 
+	/** Set Scheduler Log.
+		@param AD_SchedulerLog_ID 
+		Result of the execution of the Scheduler
+	  */
+	public void setAD_SchedulerLog_ID (int AD_SchedulerLog_ID)
+	{
+		if (AD_SchedulerLog_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_SchedulerLog_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_SchedulerLog_ID, Integer.valueOf(AD_SchedulerLog_ID));
+	}
+
+	/** Get Scheduler Log.
+		@return Result of the execution of the Scheduler
+	  */
+	public int getAD_SchedulerLog_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_SchedulerLog_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_AD_Scheduler getAD_Scheduler() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_Scheduler)MTable.get(getCtx(), org.compiere.model.I_AD_Scheduler.Table_Name)
@@ -94,29 +117,6 @@ public class X_AD_SchedulerLog extends PO implements I_AD_SchedulerLog, I_Persis
 	public int getAD_Scheduler_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Scheduler_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Scheduler Log.
-		@param AD_SchedulerLog_ID 
-		Result of the execution of the Scheduler
-	  */
-	public void setAD_SchedulerLog_ID (int AD_SchedulerLog_ID)
-	{
-		if (AD_SchedulerLog_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_SchedulerLog_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_SchedulerLog_ID, Integer.valueOf(AD_SchedulerLog_ID));
-	}
-
-	/** Get Scheduler Log.
-		@return Result of the execution of the Scheduler
-	  */
-	public int getAD_SchedulerLog_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_SchedulerLog_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

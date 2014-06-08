@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_PaySchedule
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_C_PaySchedule extends PO implements I_C_PaySchedule, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_C_PaySchedule (Properties ctx, int C_PaySchedule_ID, String trxName)
@@ -40,8 +40,8 @@ public class X_C_PaySchedule extends PO implements I_C_PaySchedule, I_Persistent
       super (ctx, C_PaySchedule_ID, trxName);
       /** if (C_PaySchedule_ID == 0)
         {
-			setC_PaymentTerm_ID (0);
 			setC_PaySchedule_ID (0);
+			setC_PaymentTerm_ID (0);
 			setDiscount (Env.ZERO);
 			setDiscountDays (0);
 			setGraceDays (0);
@@ -79,6 +79,29 @@ public class X_C_PaySchedule extends PO implements I_C_PaySchedule, I_Persistent
       return sb.toString();
     }
 
+	/** Set Payment Schedule.
+		@param C_PaySchedule_ID 
+		Payment Schedule Template
+	  */
+	public void setC_PaySchedule_ID (int C_PaySchedule_ID)
+	{
+		if (C_PaySchedule_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_PaySchedule_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_PaySchedule_ID, Integer.valueOf(C_PaySchedule_ID));
+	}
+
+	/** Get Payment Schedule.
+		@return Payment Schedule Template
+	  */
+	public int getC_PaySchedule_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaySchedule_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException
     {
 		return (org.compiere.model.I_C_PaymentTerm)MTable.get(getCtx(), org.compiere.model.I_C_PaymentTerm.Table_Name)
@@ -114,29 +137,6 @@ public class X_C_PaySchedule extends PO implements I_C_PaySchedule, I_Persistent
     {
         return new KeyNamePair(get_ID(), String.valueOf(getC_PaymentTerm_ID()));
     }
-
-	/** Set Payment Schedule.
-		@param C_PaySchedule_ID 
-		Payment Schedule Template
-	  */
-	public void setC_PaySchedule_ID (int C_PaySchedule_ID)
-	{
-		if (C_PaySchedule_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_PaySchedule_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_PaySchedule_ID, Integer.valueOf(C_PaySchedule_ID));
-	}
-
-	/** Get Payment Schedule.
-		@return Payment Schedule Template
-	  */
-	public int getC_PaySchedule_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaySchedule_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	/** Set Discount %.
 		@param Discount 

@@ -24,14 +24,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for CM_WebAccessLog
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_CM_WebAccessLog (Properties ctx, int CM_WebAccessLog_ID, String trxName)
@@ -75,23 +75,6 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
       return sb.toString();
     }
 
-	/** Set Accept Language.
-		@param AcceptLanguage 
-		Language accepted based on browser information
-	  */
-	public void setAcceptLanguage (String AcceptLanguage)
-	{
-		set_Value (COLUMNNAME_AcceptLanguage, AcceptLanguage);
-	}
-
-	/** Get Accept Language.
-		@return Language accepted based on browser information
-	  */
-	public String getAcceptLanguage () 
-	{
-		return (String)get_Value(COLUMNNAME_AcceptLanguage);
-	}
-
 	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
@@ -118,6 +101,23 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Accept Language.
+		@param AcceptLanguage 
+		Language accepted based on browser information
+	  */
+	public void setAcceptLanguage (String AcceptLanguage)
+	{
+		set_Value (COLUMNNAME_AcceptLanguage, AcceptLanguage);
+	}
+
+	/** Get Accept Language.
+		@return Language accepted based on browser information
+	  */
+	public String getAcceptLanguage () 
+	{
+		return (String)get_Value(COLUMNNAME_AcceptLanguage);
 	}
 
 	public org.compiere.model.I_CM_BroadcastServer getCM_BroadcastServer() throws RuntimeException

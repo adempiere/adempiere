@@ -34,6 +34,10 @@ import org.compiere.util.DisplayType;
  *  @see VCellRenderer for multi-row display
  *  @author  Jorg Janked
  *  @version $Id: VEditorFactory.java,v 1.3 2006/07/30 00:51:28 jjanke Exp $
+ *  
+ *  @author Michael McKay, 
+ * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
+ * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
  */
 public class VEditorFactory
 {
@@ -121,10 +125,10 @@ public class VEditorFactory
 		}	**/
 		
 		//	File Path / Name
-		else if (displayType == DisplayType.FilePath || displayType == DisplayType.FileName)
+		else if (displayType == DisplayType.FilePath || displayType == DisplayType.FileName || displayType == DisplayType.FilePathOrName)
 		{
 			VFile file = new VFile (columnName, mandatory, readOnly, updateable,
-				mField.getFieldLength(), displayType == DisplayType.FileName);
+				mField.getFieldLength(), displayType == DisplayType.FilePathOrName, displayType == DisplayType.FileName);
 			file.setName(columnName);
 			file.setField(mField);
 			editor = file;
@@ -268,7 +272,7 @@ public class VEditorFactory
 		else if (displayType == DisplayType.PAttribute)
 		{
 			VPAttribute attrib = new VPAttribute (mTab, mandatory, readOnly, updateable, WindowNo,
-				(MPAttributeLookup)mField.getLookup());
+				(MPAttributeLookup)mField.getLookup(), false);
 			attrib.setName(columnName);
 			attrib.setField (mField);
 			editor = attrib;
@@ -291,6 +295,13 @@ public class VEditorFactory
 			bin.setName(columnName);
 			bin.setField (mField);
 			editor = bin;
+		}
+		
+		// Chart
+		else if (displayType == DisplayType.Chart )
+		{
+			VChart chart = new VChart(mField.getAD_Chart_ID(), WindowNo);
+			editor = chart;
 		}
 
 		else
@@ -316,7 +327,8 @@ public class VEditorFactory
 		//	No Label for FieldOnly, CheckBox, Button
 		if (mField.isFieldOnly()
 				|| displayType == DisplayType.YesNo
-				|| displayType == DisplayType.Button)
+				|| displayType == DisplayType.Button
+				|| displayType == DisplayType.Chart)
 			return null;
 		//
 		CLabel label = new CLabel(mField.getHeader(), mField.getDescription());

@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for B_Topic
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0RC - $Id$ */
 public class X_B_Topic extends PO implements I_B_Topic, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_B_Topic (Properties ctx, int B_Topic_ID, String trxName)
@@ -40,8 +40,8 @@ public class X_B_Topic extends PO implements I_B_Topic, I_Persistent
       /** if (B_Topic_ID == 0)
         {
 			setB_TopicCategory_ID (0);
-			setB_Topic_ID (0);
 			setB_TopicType_ID (0);
+			setB_Topic_ID (0);
 			setDecisionDate (new Timestamp( System.currentTimeMillis() ));
 			setDocumentNo (null);
 			setIsPublished (false);
@@ -108,29 +108,6 @@ public class X_B_Topic extends PO implements I_B_Topic, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Topic.
-		@param B_Topic_ID 
-		Auction Topic
-	  */
-	public void setB_Topic_ID (int B_Topic_ID)
-	{
-		if (B_Topic_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_B_Topic_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_B_Topic_ID, Integer.valueOf(B_Topic_ID));
-	}
-
-	/** Get Topic.
-		@return Auction Topic
-	  */
-	public int getB_Topic_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_B_Topic_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_B_TopicType getB_TopicType() throws RuntimeException
     {
 		return (org.compiere.model.I_B_TopicType)MTable.get(getCtx(), org.compiere.model.I_B_TopicType.Table_Name)
@@ -154,6 +131,29 @@ public class X_B_Topic extends PO implements I_B_Topic, I_Persistent
 	public int getB_TopicType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_B_TopicType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Topic.
+		@param B_Topic_ID 
+		Auction Topic
+	  */
+	public void setB_Topic_ID (int B_Topic_ID)
+	{
+		if (B_Topic_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_B_Topic_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_B_Topic_ID, Integer.valueOf(B_Topic_ID));
+	}
+
+	/** Get Topic.
+		@return Auction Topic
+	  */
+	public int getB_Topic_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_B_Topic_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
