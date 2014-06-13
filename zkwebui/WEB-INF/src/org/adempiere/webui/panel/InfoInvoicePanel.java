@@ -282,36 +282,34 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
 		
 		Row row = new Row();
 		rows.appendChild(row);
-		row.appendChild(lblDocumentNo.rightAlign());
-		row.appendChild(fDocumentNo);
-		row.appendChild(fBPartner_ID.getLabel().rightAlign());
-		row.appendChild(fBPartner_ID.getComponent());
-		row.appendChild(fIsSOTrx);
-		row.appendChild(fIsPaid);
+		row.appendCellChild(lblDocumentNo.rightAlign());
+		row.appendCellChild(fDocumentNo);
+		row.appendCellChild(fBPartner_ID.getLabel().rightAlign());
+		row.appendCellChild(fBPartner_ID.getComponent());
+		row.appendCellChild(fIsSOTrx);
+		row.appendCellChild(fIsPaid);
 		
 		row = new Row();
-		row.setSpans("1, 1, 1, 3");
 		rows.appendChild(row);
-		row.appendChild(lblDescription.rightAlign());
-		row.appendChild(fDescription);
-		row.appendChild(lblDateInvoiced.rightAlign());
+		row.appendCellChild(lblDescription.rightAlign());
+		row.appendCellChild(fDescription);
+		row.appendCellChild(lblDateInvoiced.rightAlign());
 		Hbox hbox = new Hbox();
 		hbox.appendChild(fDateFrom);
 		hbox.appendChild(new Label("-"));
 		hbox.appendChild(fDateTo);
-		row.appendChild(hbox);
+		row.appendCellChild(hbox,3);
 		
 		row = new Row();
-		row.setSpans("1, 1, 1, 3");
 		rows.appendChild(row);
-		row.appendChild(fOrder_ID.getLabel().rightAlign());
-		row.appendChild(fOrder_ID.getComponent());
-		row.appendChild(lblGrandTotal.rightAlign());
+		row.appendCellChild(fOrder_ID.getLabel().rightAlign());
+		row.appendCellChild(fOrder_ID.getComponent());
+		row.appendCellChild(lblGrandTotal.rightAlign());
 		hbox = new Hbox();
 		hbox.appendChild(fAmtFrom);
 		hbox.appendChild(new Label("-"));
 		hbox.appendChild(fAmtTo);
-		row.appendChild(hbox);
+		row.appendCellChild(hbox,3);
 
 		p_criteriaGrid.appendChild(rows);
 		

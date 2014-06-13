@@ -60,6 +60,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.HtmlBasedComponent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -291,7 +292,7 @@ center.setVflex("true");
 				cbNewEdit.addEventListener(Events.ON_CHECK, this);
 				row.appendChild(cbNewEdit);
 				bSelect.setLabel(Msg.getMsg(Env.getCtx(), "SelectExisting"));
-				bSelect.setImage("images/PAttribute16.png");
+				bSelect.setImage(ServletFns.resolveThemeURL("~./images/PAttribute16.png"));
 				bSelect.addEventListener(Events.ON_CLICK, this);
 				row.appendChild(bSelect);
 				rows.appendChild(row);
@@ -372,7 +373,7 @@ center.setVflex("true");
 			}
 			//	Popup 
 //			fieldLot.addMouseListener(new VPAttributeDialog_mouseAdapter(this));    //  popup
-			mZoom = new Menuitem(Msg.getMsg(Env.getCtx(), "Zoom"), "images/Zoom16.png");
+			mZoom = new Menuitem(Msg.getMsg(Env.getCtx(), "Zoom"), ServletFns.resolveThemeURL("~./images/Zoom16.png"));
 			mZoom.addEventListener(Events.ON_CLICK, this);
 			popupMenu.appendChild(mZoom);
 			this.appendChild(popupMenu);

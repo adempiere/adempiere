@@ -36,6 +36,7 @@ import org.jfree.data.Range;
 import org.jfree.data.general.DefaultValueDataset;
 import org.jfree.ui.RectangleInsets;
 import org.zkoss.image.AImage;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -82,7 +83,7 @@ public class WPerformanceIndicator extends Panel implements EventListener
 	private static DecimalFormat	s_format = DisplayType.getNumberFormat(DisplayType.Integer);
 
 	Menupopup 					popupMenu = new Menupopup();
-	private Menuitem 			mRefresh = new Menuitem(Msg.getMsg(Env.getCtx(), "Refresh"), "/images/Refresh16.png");
+	private Menuitem 			mRefresh = new Menuitem(Msg.getMsg(Env.getCtx(), "Refresh"), ServletFns.resolveThemeURL("~./images/Refresh16.png"));
 
 	ChartPanel chartPanel;
 

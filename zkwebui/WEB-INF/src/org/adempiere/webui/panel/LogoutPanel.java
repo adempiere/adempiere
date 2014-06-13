@@ -19,6 +19,7 @@ package org.adempiere.webui.panel;
 
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.session.SessionManager;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -48,7 +49,7 @@ public class LogoutPanel extends Panel implements EventListener
     private void init()
     {
         btnLogOut = new Button();
-        btnLogOut.setImage("/images/Logout24.png");
+        btnLogOut.setImage(ServletFns.resolveThemeURL("~./images/Logout24.png"));
         btnLogOut.addEventListener(Events.ON_CLICK, this);
     
         this.appendChild(btnLogOut);

@@ -46,7 +46,7 @@ import org.zkoss.zul.Div;
  * @author Elaine
  *
  */
-public class InfoPAttributeInstancePanel extends Window implements EventListener, WTableModelListener
+public class InfoPAttributeInstancePanel extends Window implements EventListener<Event>, WTableModelListener
 {
 	/**
 	 * 

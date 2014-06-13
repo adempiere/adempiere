@@ -16,7 +16,7 @@ package org.adempiere.webui.install;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
-import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.FolderBrowser;
 import org.adempiere.webui.component.Grid;
@@ -69,7 +69,7 @@ public class WTranslationDialog extends TranslationController implements IFormCo
 			south.setStyle("border: none");
 			contentLayout.appendChild(south);
 			south.appendChild(statusBar);
-			LayoutUtils.addSclass("status-border", statusBar);
+			ThemeUtils.addSclass("status-border", statusBar);
 			south.setHeight("22px");
 		}
 		catch(Exception e)

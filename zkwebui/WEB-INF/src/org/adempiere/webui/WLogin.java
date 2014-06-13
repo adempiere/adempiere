@@ -17,7 +17,7 @@ package org.adempiere.webui;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.part.AbstractUIPart;
 import org.adempiere.webui.theme.ITheme;
-import org.adempiere.webui.theme.ThemeManager;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.window.LoginWindow;
 import org.zkoss.zhtml.Text;
 import org.zkoss.zk.ui.Component;
@@ -60,23 +60,21 @@ public class WLogin extends AbstractUIPart
         	layout.setParent(parent);
         else
         	layout.setPage(page);
-        LayoutUtils.addSclass(ITheme.LOGIN_WINDOW_CLASS, layout);
+        ThemeUtils.addSclass(ITheme.WLOGIN_LAYOUT, layout);
 
         Center center = new Center();
         center.setParent(layout);
-        center.setBorder("none");
         center.setHflex("true");
-center.setVflex("true");
+        center.setVflex("true");
         center.setAutoscroll(true);
-        center.setStyle("border: none; background-color: transparent;");
+        ThemeUtils.addSclass(ITheme.WLOGIN_LAYOUT_CENTER, center);
 
         Vbox vb = new Vbox();
         vb.setParent(center);
-        vb.setHeight("100%");
-        vb.setWidth("100%");
         vb.setPack("center");
         vb.setAlign("center");
-        vb.setStyle("background-color: transparent;");
+        vb.setWidth("100%");
+        vb.setHeight("100%");
 
         LoginWindow loginWindow = new LoginWindow(app);
         loginWindow.setParent(vb);
@@ -86,21 +84,20 @@ center.setVflex("true");
         	//TODO: localization
         	String msg = "You might experience slow performance and user interface anomalies using your current browser to access the application. We recommend the use of Firefox, Google Chrome or Apple Safari.";
         	browserWarningWindow = new Window();
+        	ThemeUtils.addSclass("window-browser-not-supported", browserWarningWindow);
         	Div div = new Div();
-        	div.setStyle("font-size: 9pt");
         	div.appendChild(new Text(msg));
-        	browserWarningWindow.appendChild(div);
         	browserWarningWindow.setPosition("top,right");
-        	browserWarningWindow.setWidth("550px");
+        	browserWarningWindow.appendChild(div);
         	browserWarningWindow.setPage(page);
         	browserWarningWindow.doOverlapped();
         }
         
         try {
-        	String right = ThemeManager.getLoginRightPanel();
+        	String right = ThemeUtils.getLoginRightPanel();
 	        PageDefinition pageDefintion = Executions.getCurrent().getPageDefinition(right);
 	    	East east = new East();
-	    	east.setSclass(ITheme.LOGIN_EAST_PANEL_CLASS);
+	    	ThemeUtils.addSclass(ITheme.LOGIN_EAST_PANEL_CLASS, east);
 	    	addContent(east, pageDefintion);
         } catch (Exception e) {
         	//ignore page not found exception
@@ -114,10 +111,10 @@ center.setVflex("true");
         }
 
         try {
-	        String left = ThemeManager.getLoginLeftPanel();
+	        String left = ThemeUtils.getLoginLeftPanel();
 	        PageDefinition pageDefintion = Executions.getCurrent().getPageDefinition(left);
 	    	West west = new West();
-	    	west.setSclass(ITheme.LOGIN_WEST_PANEL_CLASS);
+	    	ThemeUtils.addSclass(ITheme.LOGIN_WEST_PANEL_CLASS, west);
 	    	addContent(west, pageDefintion);
         } catch (Exception e){
         	//ignore page not found exception
@@ -131,10 +128,10 @@ center.setVflex("true");
         }
 
         try {
-	        String top = ThemeManager.getLoginTopPanel();
+	        String top = ThemeUtils.getLoginTopPanel();
 	        PageDefinition pageDefintion = Executions.getCurrent().getPageDefinition(top);
 	    	North north = new North();
-	    	north.setSclass(ITheme.LOGIN_NORTH_PANEL_CLASS);
+	    	ThemeUtils.addSclass(ITheme.LOGIN_NORTH_PANEL_CLASS, north);
 	    	addContent(north, pageDefintion);
         } catch (Exception e) {
         	//ignore page not found exception
@@ -148,10 +145,10 @@ center.setVflex("true");
         }
 
         try {
-	        String bottom = ThemeManager.getLoginBottomPanel();
+	        String bottom = ThemeUtils.getLoginBottomPanel();
 	        PageDefinition pageDefintion = Executions.getCurrent().getPageDefinition(bottom);
 	    	South south = new South();
-	    	south.setSclass(ITheme.LOGIN_SOUTH_PANEL_CLASS);
+	    	ThemeUtils.addSclass(ITheme.LOGIN_SOUTH_PANEL_CLASS, south);
 	    	addContent(south, pageDefintion);
         } catch (Exception e) {
         	//ignore page not found exception

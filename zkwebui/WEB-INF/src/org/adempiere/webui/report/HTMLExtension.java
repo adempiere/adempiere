@@ -23,6 +23,7 @@ import org.compiere.print.PrintData;
 import org.compiere.print.PrintDataElement;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.zkoss.web.fn.ServletFns;
 
 /**
  * 
@@ -64,7 +65,7 @@ public class HTMLExtension implements IHTMLExtension {
 				+ dataElement.getValueAsString() + "')");
 		window.addElement(href);
 		menu.addElement(window);									
-		img image = new img("/webui/images/mWindow.png");
+		img image = new img(ServletFns.resolveThemeURL("~./images/mWindow.png"));
 		image.setAlign("middle");
 		href.addElement(image);
 		href.addElement(Msg.getMsg(AEnv.getLanguage(Env.getCtx()), "Window"));
@@ -82,7 +83,7 @@ public class HTMLExtension implements IHTMLExtension {
 				+ dataElement.getValueAsString() + "')");
 		report.addElement(href);
 		menu.addElement(report);
-		image = new img("/webui/images/mReport.png");
+		image = new img(ServletFns.resolveThemeURL("~./images/mReport.png"));
 		image.setAlign("middle");
 		href.addElement(image);
 		href.addElement(Msg.getMsg(AEnv.getLanguage(Env.getCtx()), "Report").replace("&", ""));

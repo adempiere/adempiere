@@ -153,10 +153,10 @@ input[disabled] + .z-doublespinner-button:active {
 .z-timebox-invalid,
 .z-spinner-invalid,
 .z-doublespinner-invalid {
-  border: 1px solid #dd7777 !important;
+  border: 1px solid #bf8236 !important;
   margin-right: -1px;
   background: #ffffff;
-   ${t:boxShadow('inset -1px 0 0 #dd7777') };
+   ${t:boxShadow('inset -1px 0 0 #bf8236') };
 }
 .z-combobox-readonly:focus,
 .z-bandbox-readonly:focus,

@@ -117,12 +117,12 @@
   float: left;
 }
 .z-calendar-selected {
-  color: #008bb6;
+  color: #106fa7;
    ${t:borderRadius('4px') };
   background: #ceecfd;
 }
 .z-calendar-selected:hover {
-  color: #008bb6;
+  color: #106fa7;
   background: #a5daf5;
 }
 .z-calendar-outside {

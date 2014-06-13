@@ -20,7 +20,7 @@ package org.adempiere.webui.component;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.panel.IADTabpanel;
 import org.compiere.model.DataStatusEvent;
 import org.compiere.model.GridTab;
@@ -59,7 +59,7 @@ public class CompositeADTab extends AbstractADTab
     	div= new Div();
     	if (parent != null) {
     		div.setParent(parent);
-    		LayoutUtils.addSclass("adtab-body", div);
+    		ThemeUtils.addSclass("adtab-body", div);
     	} else {
     		div.setPage(page);
     	}

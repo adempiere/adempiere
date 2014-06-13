@@ -28,7 +28,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.logging.Level;
 
-import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.ConfirmPanel;
@@ -164,14 +164,14 @@ public class WAssignmentDialog extends Window implements EventListener
 		Rows rows = new Rows();
 		mainPanel.appendChild(rows);
 		Row row = new Row();
-		row.appendChild(LayoutUtils.makeRightAlign(lResource));
+		row.appendChild(ThemeUtils.makeRightAlign(lResource));
 		row.appendChild(fResource);
 		row.appendChild(new Label(" "));
 		rows.appendChild(row);
 		
 		row = new Row();
 		row.setSpans("1, 2");
-		row.appendChild(LayoutUtils.makeRightAlign(lDate));
+		row.appendChild(ThemeUtils.makeRightAlign(lDate));
 		Div div = new Div();
 		div.appendChild(fDateFrom);
 		div.appendChild(fTimeFrom);
@@ -180,21 +180,21 @@ public class WAssignmentDialog extends Window implements EventListener
 		rows.appendChild(row);
 		
 		row = new Row();
-		row.appendChild(LayoutUtils.makeRightAlign(lQty));		
+		row.appendChild(ThemeUtils.makeRightAlign(lQty));		
 		row.appendChild(fQty);
 		row.appendChild(lUOM);
 		rows.appendChild(row);
 		
 		row = new Row();
 		row.setSpans("1, 2");
-		row.appendChild(LayoutUtils.makeRightAlign(lName));
+		row.appendChild(ThemeUtils.makeRightAlign(lName));
 		row.appendChild(fName);
 		fName.setStyle("width: 100%");
 		rows.appendChild(row);
 		
 		row = new Row();
 		row.setSpans("1, 2");
-		row.appendChild(LayoutUtils.makeRightAlign(lDescription));
+		row.appendChild(ThemeUtils.makeRightAlign(lDescription));
 		row.appendChild(fDescription);
 		fDescription.setMultiline(true);
 		fDescription.setRows(3);

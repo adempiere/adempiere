@@ -17,7 +17,7 @@
 
 package org.adempiere.webui.panel;
 
-import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Panel;
@@ -134,7 +134,7 @@ public class StatusBarPanel extends Panel implements EventListener<Event>, IStat
         west.appendChild(statusLine);
         Vbox vbox = new Vbox();
         vbox.setPack("center");
-        LayoutUtils.addSclass("status", vbox);
+        ThemeUtils.addSclass("status", vbox);
         vbox.appendChild(west);
         leftCell.appendChild(vbox);
 
@@ -149,13 +149,13 @@ public class StatusBarPanel extends Panel implements EventListener<Event>, IStat
         }
         east.appendChild(statusDB);
 
-        LayoutUtils.addSclass("status-db", statusDB);
+        ThemeUtils.addSclass("status-db", statusDB);
         if (!embedded)
-        	LayoutUtils.addSclass("status-info", infoLine);
+        	ThemeUtils.addSclass("status-info", infoLine);
         vbox = new Vbox();
         vbox.setAlign("stretch");
         vbox.setPack("center");
-        LayoutUtils.addSclass("status", vbox);
+        ThemeUtils.addSclass("status", vbox);
         vbox.appendChild(east);
         rightCell.appendChild(vbox);
 

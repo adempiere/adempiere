@@ -18,7 +18,7 @@ package org.adempiere.webui.window;
 
 import java.util.logging.Level;
 
-import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.session.SessionManager;
@@ -185,7 +185,7 @@ center.setVflex("true");
 		confirmPanel.addActionListener(this);
 		confirmPanel.getOKButton().setEnabled(false);
 
-		LayoutUtils.sendDeferLayoutEvent(layout, 100);
+		ThemeUtils.sendDeferLayoutEvent(layout, 100);
 	}   //  jbInit
 
 

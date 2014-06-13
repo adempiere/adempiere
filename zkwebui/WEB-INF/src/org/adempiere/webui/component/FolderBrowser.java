@@ -20,6 +20,7 @@ import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MSysConfig;
 import org.compiere.util.Ini;
 import org.compiere.util.ValueNamePair;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -107,7 +108,7 @@ center.setVflex("true");
 			if(!dir.getParent().equals(root.getParent()))
 			{
 				ListItem li = new ListItem(dir.getName(), dir.getParent());
-				li.setImage("images/Undo16.png");
+				li.setImage(ServletFns.resolveThemeURL("~./images/Undo16.png"));
 				listDir.appendChild(li);
 			}
 
@@ -118,7 +119,7 @@ center.setVflex("true");
 				if(file.isDirectory())
 				{
 					ListItem li = new ListItem(file.getName(), file.getAbsolutePath());
-					li.setImage("images/Folder16.png");
+					li.setImage(ServletFns.resolveThemeURL("~./images/Folder16.png"));
 					listDir.appendChild(li);
 				}
 			}

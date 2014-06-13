@@ -20,11 +20,7 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
-import org.compiere.model.I_AD_ThemeResource;
 import org.compiere.model.Query;
-import org.compiere.model.X_AD_Theme;
-import org.compiere.model.X_AD_ThemeResource;
-import org.compiere.util.Env;
 
 /**
  *  Theme Resources
@@ -33,6 +29,11 @@ import org.compiere.util.Env;
  */
 public class MThemeResource extends X_AD_ThemeResource
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2147517429817854005L;
+
 	/**
 	 * 	Load Constructor
 	 *	@param ctx context

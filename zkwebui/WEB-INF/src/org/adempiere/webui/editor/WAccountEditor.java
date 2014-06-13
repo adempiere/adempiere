@@ -29,6 +29,7 @@ import org.compiere.model.MRole;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 
@@ -53,7 +54,7 @@ public class WAccountEditor extends WEditor implements ContextMenuListener
 	public WAccountEditor(GridField gridField)
 	{
 		super(new Combinationbox(), gridField);
-		getComponent().setButtonImage("/images/Account10.png");
+		getComponent().setButtonImage(ServletFns.resolveThemeURL("~./images/Account10.png"));
 
 		m_mAccount = new MAccountLookup (gridField.getVO().ctx, gridField.getWindowNo());
 		

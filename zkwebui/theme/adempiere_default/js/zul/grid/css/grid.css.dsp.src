@@ -180,7 +180,7 @@
   border-bottom: 1px solid #cfcfcf;
   <c:if test="${ zk.ie != 8 }">
 
-   ${t:gradient('ver', '#ffffff 0%; #e9f2fb 100%') };
+   ${t:gradient('ver', '#ffffff 0%; #e1eef6 100%') };
   </c:if>
 
   position: relative;
@@ -207,7 +207,7 @@
 .z-groupfoot-inner {
   <c:if test="${ zk.ie != 8 }">
 
-   ${t:gradient('ver', '#e9f2fb 0%; #ffffff 100%') };
+   ${t:gradient('ver', '#e1eef6 0%; #ffffff 100%') };
   </c:if>
 
   overflow: hidden;

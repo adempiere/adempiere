@@ -22,10 +22,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.net.URL;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.logging.Level;
-import org.adempiere.webui.apps.BusyDialog;
+
 import org.adempiere.webui.apps.graph.WGraph;
 import org.adempiere.webui.apps.graph.WPerformanceDetail;
 import org.adempiere.webui.component.Tabpanel;
@@ -37,6 +35,7 @@ import org.adempiere.webui.event.MenuListener;
 import org.adempiere.webui.panel.HeaderPanel;
 import org.adempiere.webui.panel.SidePanel;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.util.IServerPushCallback;
 import org.adempiere.webui.util.ServerPushTemplate;
 import org.adempiere.webui.util.UserPreference;
@@ -45,10 +44,10 @@ import org.compiere.model.MDashboardContent;
 import org.compiere.model.MGoal;
 import org.compiere.model.X_PA_DashboardContent;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.au.out.AuScript;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
@@ -58,16 +57,16 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.event.OpenEvent;
 import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.Anchorchildren;
+import org.zkoss.zul.Anchorlayout;
 import org.zkoss.zul.Borderlayout;
 import org.zkoss.zul.Center;
-import org.zkoss.zul.North;
-import org.zkoss.zul.West;
-import org.zkoss.zkmax.zul.Portalchildren;
-import org.zkoss.zkmax.zul.Portallayout;
 import org.zkoss.zul.Html;
+import org.zkoss.zul.North;
 import org.zkoss.zul.Panel;
 import org.zkoss.zul.Panelchildren;
 import org.zkoss.zul.Toolbarbutton;
+import org.zkoss.zul.West;
 
 /**
  *
@@ -119,14 +118,11 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
         if (parent != null)
         {
         	layout.setParent(parent);
-        	layout.setWidth("100%");
-        	layout.setHeight("100%");
-        	layout.setStyle("position: absolute");
-        	layout.setSclass("desktop-layout");
-        	
         }
         else
         	layout.setPage(page);
+
+        ThemeUtils.addSclass("desktop-layout",layout);
 
         dashboardRunnable = new DashboardRunnable(layout.getDesktop(), this);
 
@@ -134,18 +130,13 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
         North n = new North();
         layout.appendChild(n);
         n.setCollapsible(false);
-        n.setSclass("desktop-north");
+        ThemeUtils.addSclass("desktop-north",n);
         pnlHead.setParent(n);
-        
-       
-
-        
-        
         
         West w = new West();
         w.setId("desktop-left-column");
         layout.appendChild(w);
-        w.setSclass("desktop-left-column");
+        ThemeUtils.addSclass("desktop-left-column",w);
         w.setWidth("300px");
         w.setCollapsible(true);
         w.setSplittable(true);
@@ -167,8 +158,7 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 
         windowArea = new Center();
         windowArea.setParent(layout);
-        windowArea.setSclass("desktop-center");
-
+        ThemeUtils.addSclass("desktop-center",windowArea);
         
         windowContainer.createPart(windowArea);
 
@@ -183,50 +173,31 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
         windowContainer.addWindow(homeTab, Msg.getMsg(Env.getCtx(), "Home").replaceAll("&", ""), false);
 
 
-        Portallayout portalLayout = new Portallayout();
-        portalLayout.setWidth("100%");
-        portalLayout.setHeight("100%");
-        portalLayout.setVflex("1");
-        portalLayout.setHflex("1");
-        portalLayout.setStyle("position: absolute; overflow: auto;");
+        Anchorlayout anchorLayout = new Anchorlayout();
+        anchorLayout.setVflex("1");
+        anchorLayout.setHflex("1");
         
-        homeTab.appendChild(portalLayout);
+        homeTab.appendChild(anchorLayout);
         
 
         // Dashboard content
-        Portalchildren portalchildren = null;
+        Anchorchildren anchorchildren = null;
         int currentColumnNo = 0;
         
-        String sql = "SELECT COUNT(DISTINCT COLUMNNO) "
-						+ "FROM PA_DASHBOARDCONTENT "
-						+ "WHERE (AD_CLIENT_ID=0 OR AD_CLIENT_ID=?) AND ISACTIVE='Y'";
-
-        int noOfCols = DB.getSQLValue(null, sql, Env.getAD_Client_ID(Env.getCtx()));
-        int width = noOfCols <= 0 ? 100 : 100 / noOfCols;
-        
-        sql = "SELECT x.* "
-			+ "FROM PA_DASHBOARDCONTENT x "
-			+ "WHERE (x.AD_CLIENT_ID=0 OR x.AD_CLIENT_ID=?) AND x.ISACTIVE='Y' "
-			+ "ORDER BY x.COLUMNNO, x.AD_CLIENT_ID, x.LINE ";
-        
-        PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
         try
 		{
-            noOfCols = MDashboardContent.getForSessionColumnCount();
-            width = noOfCols <= 0 ? 100 : 100 / noOfCols;
+            int noOfCols = MDashboardContent.getForSessionColumnCount();
+            int width = noOfCols <= 0 ? 100 : 100 / noOfCols;
             for (final MDashboardContent dp : MDashboardContent.getForSession())
 			{
 	        	int columnNo = dp.getColumnNo();
-	        	if(portalchildren == null || currentColumnNo != columnNo)
+	        	if(anchorchildren == null || currentColumnNo != columnNo)
 	        	{
-	        		portalchildren = new Portalchildren();
-	        		portalchildren.setHflex("1");
-	        		portalchildren.setVflex("1");
-	        		portalLayout.appendChild(portalchildren);
-					portalchildren.setWidth(width + "%");
-	                portalchildren.setStyle("padding: 5px; overflow: auto;");
+	        		anchorchildren = new Anchorchildren();
+	        		anchorchildren.setHflex("1");
+	        		anchorchildren.setVflex("1");
+	        		anchorLayout.appendChild(anchorchildren);
+					anchorchildren.setWidth(width + "%");
 	        
 					currentColumnNo = columnNo;
 				}
@@ -236,14 +207,14 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 	        	panel.setStyle("margin-bottom:10px; overflow: auto;");
 	        	panel.setTitle(dp.get_Translation(MDashboardContent.COLUMNNAME_Name));
 
-	        	String description = rs.getString(X_PA_DashboardContent.COLUMNNAME_Description);
+	        	String description = dp.getDescription();
             	if(description != null)
             		panel.setTooltiptext(description);
 
             	panel.setCollapsible(dp.isCollapsible());
             	panel.setOpen( dp.isOpenByDefault() );
             	panel.setBorder("normal");
-	        	portalchildren.appendChild(panel);
+	        	anchorchildren.appendChild(panel);
 	        	
 	            Panelchildren content = new Panelchildren();
 	            content.setStyle("overflow: auto;");	//zk 6 -> makes each Portalchildren scrollable
@@ -252,7 +223,7 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 	            boolean panelEmpty = true;
 
 	            // HTML content
-	            String htmlContent = rs.getString(X_PA_DashboardContent.COLUMNNAME_HTML);
+	            String htmlContent = dp.getHTML();
 	            if(htmlContent != null)
 	            {
 		            StringBuffer result = new StringBuffer("<html><head>");
@@ -297,7 +268,7 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 
 	            
 	            //SmartBrowse
-	            int AD_Browse_ID = rs.getInt(X_PA_DashboardContent.COLUMNNAME_AD_Browse_ID);
+	            int AD_Browse_ID = dp.getAD_Browse_ID();
 
 	        	// [11-01-2013]
 
@@ -309,12 +280,12 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 	        	if ( AD_Browse_ID > 0 ) {
 	        		
 	        		try {
-	        			Env.setContext( Env.getCtx(), "#AD_Browse_ID", rs.getInt(X_PA_DashboardContent.COLUMNNAME_AD_Browse_ID));//setting Tab ID to context
-	        			Env.setContext( Env.getCtx(), "#PageSize", rs.getInt(X_PA_DashboardContent.COLUMNNAME_PageSize));
-	        			Env.setContext( Env.getCtx(), "#Zoom_Tab_ID", rs.getInt(X_PA_DashboardContent.COLUMNNAME_Zoom_Tab_ID));
-	        			Env.setContext( Env.getCtx(),"#Zoom_Window_ID", rs.getInt(X_PA_DashboardContent.COLUMNNAME_Zoom_Window_ID));
-	        			Env.setContext( Env.getCtx(), "#Zoom_Field_ID", rs.getInt(X_PA_DashboardContent.COLUMNNAME_Zoom_Field_ID));
-	        			Env.setContext( Env.getCtx(), "#OnEvent", rs.getString(X_PA_DashboardContent.COLUMNNAME_onevent));
+	        			Env.setContext( Env.getCtx(), "#AD_Browse_ID", dp.getAD_Browse_ID());//setting Tab ID to context
+	        			Env.setContext( Env.getCtx(), "#PageSize", dp.getPageSize().intValue());
+	        			Env.setContext( Env.getCtx(), "#Zoom_Tab_ID", dp.getZoom_Tab_ID());
+	        			Env.setContext( Env.getCtx(),"#Zoom_Window_ID", dp.getZoom_Window_ID());
+	        			Env.setContext( Env.getCtx(), "#Zoom_Field_ID", dp.getZoom_Field_ID());
+	        			Env.setContext( Env.getCtx(), "#OnEvent", dp.getonevent());
 
 	        			Component component = Executions.createComponents(dynamic_Dashboard_zulFilepath, content, null);
 
@@ -343,7 +314,7 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 	        	{
 	        		//link to open performance detail
 	        		Toolbarbutton link = new Toolbarbutton();
-		            link.setImage("/images/Zoom16.png");
+		            link.setImage(ServletFns.resolveThemeURL("~./images/Zoom16.png"));
 		            link.setAttribute("PA_Goal_ID", PA_Goal_ID);
 		            link.addEventListener(Events.ON_CLICK, new EventListener<Event>() {
 
@@ -409,8 +380,8 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
         //register as 0
         registerWindow(homeTab);
 
-        if (!portalLayout.getDesktop().isServerPushEnabled())
-        	portalLayout.getDesktop().enableServerPush(true);
+        if (!anchorLayout.getDesktop().isServerPushEnabled())
+        	anchorLayout.getDesktop().enableServerPush(true);
 
         dashboardRunnable.refreshDashboard();
 

@@ -19,7 +19,7 @@ package org.adempiere.webui.panel;
 
 import java.util.Properties;
 
-import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Messagebox;
@@ -74,65 +74,59 @@ public class UserPanel extends Vbox  implements EventListener<Event>
     private void init()
     {
     	
-    	this.setSclass("desktop-user-panel");
+    	this.setSclass("user-panel");  // vbox
+    	this.setAlign("center");
     	
-    	Vbox vbox = new Vbox();
-    	this.appendChild(vbox);
-
+    	// Top row
     	lblUserNameValue.setValue(getUserName() + "@" + getClientName() + "." + getOrgName()+"/"+getRoleName());
-    	lblUserNameValue.setStyle("cursor: pointer;");
     	lblUserNameValue.setId("loginUserAndRole");
-    	
-    	LayoutUtils.addSclass("desktop-header-font", lblUserNameValue);
-    	LayoutUtils.addSclass("desktop-header-username", lblUserNameValue);
+
+    	ThemeUtils.addSclass("user-panel-username", lblUserNameValue);
+    	this.appendChild(lblUserNameValue);
     	
     	   	
     	Hbox hbox = new Hbox();
+    	ThemeUtils.addSclass("user-panel-buttons", hbox);
     	
-    	vbox.appendChild(lblUserNameValue);
-    	vbox.appendChild(hbox);
+    	this.appendChild(hbox);
     	
     	hbox.setAlign("center");
     	
     	// TODO - make configurable
     	context.setLabel(Msg.getMsg(Env.getCtx(), "Context"));
+    	context.setId("context");
     	context.addEventListener(Events.ON_CLICK, this);
-    	context.setStyle("text-align:right");
-    	LayoutUtils.addSclass("desktop-header-font", context);
+    	ThemeUtils.addSclass("link", context);
     	context.setParent(hbox);    	
+
+    	Separator sep = new Separator("vertical");
+    	sep.setBar(true);
+    	sep.setParent(hbox);
 
     	preference.setLabel(Msg.getMsg(Env.getCtx(), "Preference"));
     	preference.setId("preference");
     	preference.addEventListener(Events.ON_CLICK, this);
-    	LayoutUtils.addSclass("desktop-header-font", preference);
-    	LayoutUtils.addSclass("link", preference);
+    	ThemeUtils.addSclass("link", preference);
     	preference.setParent(hbox);
 
-    	
-    	Separator sep = new Separator("vertical");
+    	sep = new Separator("vertical");
     	sep.setBar(true);
-    	sep.setHeight("13px");
     	sep.setParent(hbox);
-
-    	
+    	    	
     	role.setLabel(this.getRoleName());
     	role.setId("role");
     	role.addEventListener(Events.ON_CLICK, this);
-    	role.setStyle("text-align:right");
-    	LayoutUtils.addSclass("desktop-header-font", role);
-    	LayoutUtils.addSclass("link", role);
+    	ThemeUtils.addSclass("link", role);
     	role.setParent(hbox);
 
     	sep = new Separator("vertical");
     	sep.setBar(true);
-    	sep.setHeight("13px");
     	sep.setParent(hbox);
 
     	logout.setLabel(Msg.getMsg(Env.getCtx(),"Logout"));
     	logout.setId("logout");
     	logout.addEventListener(Events.ON_CLICK, this);
-    	LayoutUtils.addSclass("desktop-header-font", logout);
-    	LayoutUtils.addSclass("link", logout);
+    	ThemeUtils.addSclass("link", logout);
     	logout.setParent(hbox);
 
     }

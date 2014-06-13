@@ -31,6 +31,7 @@ import org.compiere.model.MTreeNode;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -176,13 +177,13 @@ public class MenuPanel extends Panel implements EventListener<Event>
                 treeitem.setValue(String.valueOf(mChildNode.getNode_ID()));
                 
                 if (mChildNode.isReport())
-                	treeitem.setImage("/images/mReport.png");
+                	treeitem.setImage(ServletFns.resolveThemeURL("~./images/mReport.png"));
                 else if (mChildNode.isProcess() || mChildNode.isTask())
-                	treeitem.setImage("/images/mProcess.png");
+                	treeitem.setImage(ServletFns.resolveThemeURL("~./images/mProcess.png"));
                 else if (mChildNode.isWorkFlow())
-                	treeitem.setImage("/images/mWorkFlow.png");
+                	treeitem.setImage(ServletFns.resolveThemeURL("~./images/mWorkFlow.png"));
                 else
-                	treeitem.setImage("/images/mWindow.png");
+                	treeitem.setImage(ServletFns.resolveThemeURL("~./images/mWindow.png"));
                 
                 treeitem.getTreerow().setDraggable("favourite"); // Elaine 2008/07/24
                 

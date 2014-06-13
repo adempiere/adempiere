@@ -15,7 +15,7 @@ package org.adempiere.webui.component;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.apps.AEnv;
 import org.zkoss.zhtml.Table;
 import org.zkoss.zhtml.Td;
@@ -84,7 +84,7 @@ public class EditorBox extends Div {
 		btnColumn.setSclass("editor-button");
 		btn = new Button();
 		btn.setTabindex(-1);
-		LayoutUtils.addSclass("editor-button", btn);
+		ThemeUtils.addSclass("editor-button", btn);
 		btnColumn.appendChild(btn);
 
 		String style = AEnv.isFirefox2() ? "display: inline"

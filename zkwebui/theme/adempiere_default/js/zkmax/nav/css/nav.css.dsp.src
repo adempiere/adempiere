@@ -60,10 +60,10 @@
 }
 .z-navbar .z-navitem-selected .z-navitem-content {
   color: #ffffff;
-  background: #372f2b;
+  background: #343a87;
 }
 .z-navbar .z-navitem-selected .z-navitem-content:hover {
-  background: #453b36;
+  background: #3b4299;
 }
 .z-navbar-horizontal li {
   display: inline-block;
@@ -111,7 +111,7 @@
 .z-navbar-horizontal .z-nav-content:before {
   width: 100%;
   height: 4px;
-  background: #372f2b;
+  background: #343a87;
   position: absolute;
   bottom: 0;
   left: 0;
@@ -191,7 +191,7 @@
   margin-left: 8px;
   padding: 0 4px;
   line-height: 14px;
-  background: #544741;
+  background: #424aac;
   text-align: center;
    ${t:boxShadow('0 1px 2px rgba(0,0,0,0.5) inset, 0 1px 0 rgba(255,255,255,0.2)') };
 }
@@ -237,7 +237,7 @@
 }
 .z-navbar-collapsed > ul > .z-navitem-selected:hover > .z-navitem-content {
   color: #ffffff;
-  background: #453b36;
+  background: #3b4299;
 }
 .z-navbar-collapsed > ul > .z-nav > .z-nav-content > .z-nav-info {
   margin-left: 8px;
@@ -283,7 +283,7 @@
   display: none;
   width: 4px;
   height: 32px;
-  background: #372f2b;
+  background: #343a87;
   position: absolute;
   top: 0;
   left: 0;
@@ -359,10 +359,10 @@
 }
 .z-nav-popup .z-navitem-selected .z-navitem-content {
   color: #ffffff;
-  background: #372f2b;
+  background: #343a87;
 }
 .z-nav-popup .z-navitem-selected .z-navitem-content:hover {
-  background: #453b36;
+  background: #3b4299;
 }
 .z-nav-content:before {
   content: '';

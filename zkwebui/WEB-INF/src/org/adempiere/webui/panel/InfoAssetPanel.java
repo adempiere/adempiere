@@ -38,7 +38,6 @@ import org.compiere.model.MQuery;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 
 /**
@@ -56,7 +55,7 @@ import org.zkoss.zk.ui.event.Events;
  * 	<li>https://adempiere.atlassian.net/browse/ADEMPIERE-72
 */
 
-public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, EventListener
+public class InfoAssetPanel extends InfoPanel implements ValueChangeListener
 {
 	/**
 	 * 

@@ -25,13 +25,14 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Level;
 
-import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.event.ToolbarListener;
 import org.adempiere.webui.session.SessionManager;
 import org.compiere.model.MRole;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -121,7 +122,7 @@ public class CWindowToolbar extends FToolbar implements EventListener<Event>
 
     private void init()
     {
-    	LayoutUtils.addSclass("adwindow-toolbar", this);
+    	ThemeUtils.addSclass("adwindow-toolbar", this);
 
         btnIgnore = createButton("Ignore", "Ignore", "Ignore");
         addSeparator();
@@ -193,7 +194,7 @@ public class CWindowToolbar extends FToolbar implements EventListener<Event>
     {
     	ToolBarButton btn = new ToolBarButton("");
         btn.setName("btn"+name);
-        btn.setImage("/images/"+image + (embedded ? "16.png" : "24.png"));
+        btn.setImage(ServletFns.resolveThemeURL("~./images/"+image + (embedded ? "16.png" : "24.png")));
         btn.setTooltiptext(Msg.getMsg(Env.getCtx(),tooltip));
         if (embedded)
         {
@@ -502,7 +503,7 @@ public class CWindowToolbar extends FToolbar implements EventListener<Event>
     {
     	this.btnLock.setPressed(locked);
 
-    	String imgURL = "/images/"+ (this.btnLock.isPressed() ? "LockX" : "Lock") + (embedded ? "16.png" : "24.png");
+    	String imgURL = ServletFns.resolveThemeURL("~./images/"+ (this.btnLock.isPressed() ? "LockX" : "Lock") + (embedded ? "16.png" : "24.png"));
 		this.btnLock.setImage(imgURL);
     }
 

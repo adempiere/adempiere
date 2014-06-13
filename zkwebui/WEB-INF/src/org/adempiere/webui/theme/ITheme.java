@@ -28,9 +28,12 @@ public interface ITheme {
 	public static final String THEME_PATH_PREFIX = "/theme/";
 
 	//css for login window and box
+	public static final String WLOGIN_LAYOUT = "wlogin-layout";
+	public static final String WLOGIN_LAYOUT_CENTER = "wlogin-layout-center";
 	public static final String LOGIN_WINDOW_CLASS = "login-window";
+	public static final String LOGIN_BOX_CLASS = "login-box";
 	public static final String LOGIN_BOX_HEADER_CLASS = "login-box-header";
-	public static final String LOGIN_BOX_HEADER_TXT_CLASS = "login-box-header-txt";
+	public static final String LOGIN_BOX_HEADER_TXT_CLASS = "login-box-header-text";
 	public static final String LOGIN_BOX_HEADER_LOGO_CLASS = "login-box-header-logo";
 	public static final String LOGIN_BOX_BODY_CLASS = "login-box-body";
 	public static final String LOGIN_BOX_FOOTER_CLASS = "login-box-footer";
@@ -47,17 +50,20 @@ public interface ITheme {
 	public static final String LOGIN_WEST_PANEL_CLASS = "login-west-panel";
 	public static final String LOGIN_EAST_PANEL_CLASS = "login-east-panel";
 
-	public static final String LOGIN_TOP_PANEL_ZUL = "/login-top.zul";
-	public static final String LOGIN_BOTTOM_PANEL_ZUL = "/login-bottom.zul";
-	public static final String LOGIN_LEFT_PANEL_ZUL = "/login-left.zul";
-	public static final String LOGIN_RIGHT_PANEL_ZUL = "/login-right.zul";
+	//  The following file locations have been moved to the AD_Theme table and MTheme model
+	//  to make them variable with the theme.
+	//public static final String LOGIN_TOP_PANEL_ZUL = "~./zul/login-top.zul";
+	//public static final String LOGIN_BOTTOM_PANEL_ZUL = "~./zul/login-bottom.zul";
+	//public static final String LOGIN_LEFT_PANEL_ZUL = "~./zul/login-left.zul";
+	//public static final String LOGIN_RIGHT_PANEL_ZUL = "~./zul/login-right.zul";
 
-	//logo
-	public static final String LOGIN_LOGO_IMAGE = "/images/login-logo.png";
-	public static final String HEADER_LOGO_IMAGE = "/images/header-logo.png";
-	public static final String BROWSER_ICON_IMAGE= "/images/icon.png";
-
-	//stylesheet url
-	public static final String THEME_STYLESHEET = "/css/theme.css.dsp";
-	public static final String THEME_STYLESHEET_BY_BROWSER = "/css/theme*.css.dsp*";
+	// Defalut logo file names.  The "~." path element will be replaced
+	// by the active theme folder/jar path through MTheme or through the 
+	// system configurator.  See ThemeUtils.java
+	// System Config ZK_LOGO_LARGE
+	//public static final String LOGO_LARGE_IMAGE = "~./images/login-logo.png";
+	// System Config ZK_LOGO_SMALL or WEBUI_LOGOURL
+	//public static final String LOGO_SMALL_IMAGE = "~./images/header-logo.png";
+	// System Config ZK_BROWSER_ICON
+	//public static final String BROWSER_ICON_IMAGE= "~./images/icon.png";
 }

@@ -34,6 +34,7 @@ import org.compiere.model.MRole;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Menuitem;
@@ -141,7 +142,7 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 	        	((Textbox)getComponent()).setObscureType(obscureType);
 
 	        popupMenu = new WEditorPopupMenu(false, false, true);
-	        Menuitem editor = new Menuitem(Msg.getMsg(Env.getCtx(), "Editor"), "images/Editor16.png");
+	        Menuitem editor = new Menuitem(Msg.getMsg(Env.getCtx(), "Editor"), ServletFns.resolveThemeURL("~./images/Editor16.png"));
 	        editor.setAttribute("EVENT", EDITOR_EVENT);
 	        editor.addEventListener(Events.ON_CLICK, popupMenu);
 	        popupMenu.appendChild(editor);

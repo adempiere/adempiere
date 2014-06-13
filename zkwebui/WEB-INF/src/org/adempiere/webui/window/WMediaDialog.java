@@ -30,6 +30,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.util.media.AMedia;
 import org.zkoss.util.media.Media;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -151,15 +152,15 @@ public class WMediaDialog extends Window implements EventListener
 		
 
 		bSave.setEnabled(false);
-		bSave.setImage("/images/Export24.png");
+		bSave.setImage(ServletFns.resolveThemeURL("~./images/Export24.png"));
 		bSave.setTooltiptext(Msg.getMsg(Env.getCtx(), "AttachmentSave"));
 		bSave.addEventListener(Events.ON_CLICK, this);
 
-		bLoad.setImage("/images/Import24.png");
+		bLoad.setImage(ServletFns.resolveThemeURL("~./images/Import24.png"));
 		bLoad.setTooltiptext(Msg.getMsg(Env.getCtx(), "Load"));
 		bLoad.addEventListener(Events.ON_CLICK, this);
 
-		bDelete.setImage("/images/Delete24.png");
+		bDelete.setImage(ServletFns.resolveThemeURL("~./images/Delete24.png"));
 		bDelete.setTooltiptext(Msg.getMsg(Env.getCtx(), "Delete"));
 		bDelete.addEventListener(Events.ON_CLICK, this);
 
@@ -179,10 +180,10 @@ public class WMediaDialog extends Window implements EventListener
 		southPane.appendChild(confirmPanel);
 		southPane.setHeight("30px");
 		
-		bCancel.setImage("/images/Cancel24.png");
+		bCancel.setImage(ServletFns.resolveThemeURL("~./images/Cancel24.png"));
 		bCancel.addEventListener(Events.ON_CLICK, this);
 
-		bOk.setImage("/images/Ok24.png");
+		bOk.setImage(ServletFns.resolveThemeURL("~./images/Ok24.png"));
 		bOk.addEventListener(Events.ON_CLICK, this);
 		
 		confirmPanel.appendChild(bCancel);

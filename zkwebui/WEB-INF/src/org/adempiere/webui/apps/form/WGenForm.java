@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
-import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.apps.BusyDialog;
 import org.adempiere.webui.component.ConfirmPanel;
@@ -120,7 +120,7 @@ center.setVflex("true");
 			south.setStyle("border: none");
 			contentPane.appendChild(south);
 			south.appendChild(statusBar);
-			LayoutUtils.addSclass("status-border", statusBar);
+			ThemeUtils.addSclass("status-border", statusBar);
 			south.setHeight("22px");			
 		}
 		catch(Exception ex)

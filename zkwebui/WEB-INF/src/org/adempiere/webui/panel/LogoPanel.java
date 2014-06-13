@@ -18,6 +18,7 @@
 package org.adempiere.webui.panel;
 
 import org.adempiere.webui.component.Panel;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zul.Image;
 
 /**
@@ -42,7 +43,8 @@ public class LogoPanel extends Panel
     
     private void init()
     {
-        imgLogo = new Image("/images/logo.png");
+    	// TODO - add this to the Theme model
+        imgLogo = new Image(ServletFns.resolveThemeURL("~./images/logo.png"));
         this.appendChild(imgLogo);
         this.setWidth("250px");
     }

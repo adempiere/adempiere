@@ -36,6 +36,12 @@
 	    <fileset dir="${basedir}/WEB-INF/lib">
 	    	<include name="*.jar"/>
 	    </fileset>
+	    <fileset dir="${basedir}/WEB-INF/lib/zkforge">
+	    	<include name="*.jar"/>
+	    </fileset>
+	    <fileset dir="${basedir}/WEB-INF/lib/ext">
+	    	<include name="*.jar"/>
+	    </fileset>
 	</path>
 
 	<target name="clean" description="delete class directory">
@@ -59,8 +65,13 @@
 			</fileset>
 		</copy>
 	</target>
+	
+	<target name="build-lesscss" description="Compile .less to .css.dsp for themes">
+		<ant antfile="build-lesscss.xml" target="all"/>
+	</target>
 
-	<target name="war" depends="compile">
+
+	<target name="war" depends="compile, build-lesscss">
 		<echo message="=========== Build Zk Ajax UI ==========="/>
 		<delete dir="${dist.dir}" />
 
@@ -69,6 +80,7 @@
 		<war
 			  warfile="${dist.dir}/${war.name}.war"
 			  webxml="${WEBINF.dir}/web.xml">
+			  <!-- Remove the reference to *.less if compiling .less in the browser. -->
 		      <fileset dir="${basedir}" excludes="
 		      	                                    .settings/**,
 											      	bin/**,
@@ -79,7 +91,8 @@
 		      										**/web.xml,
 		      										**/test/**,
 		      										WEB-INF/lib/*-sources.jar,
-		      										**/test.zul"
+		      										**/test.zul,
+		      										**/*.less"
 		      									>
 
 		      </fileset>

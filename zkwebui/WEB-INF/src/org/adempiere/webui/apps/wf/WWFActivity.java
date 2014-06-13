@@ -55,6 +55,7 @@ import org.compiere.util.ValueNamePair;
 import org.compiere.wf.MWFActivity;
 import org.compiere.wf.MWFNode;
 import org.eevolution.form.WBrowser;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -129,8 +130,8 @@ public class WWFActivity extends ADForm implements EventListener
 
         fAnswerList.setMold("select");
 
-    	bZoom.setImage("/images/Zoom16.png");
-    	bOK.setImage("/images/Ok24.png");
+    	bZoom.setImage(ServletFns.resolveThemeURL("~./images/Zoom16.png"));
+    	bOK.setImage(ServletFns.resolveThemeURL("~./images/Ok24.png"));
 
         MLookup lookup = MLookupFactory.get(Env.getCtx(), m_WindowNo,
                 0, 10443, DisplayType.Search);
@@ -446,7 +447,7 @@ center.setVflex("true");
 		fAnswerText.setVisible(false);
 		fAnswerList.setVisible(false);
 		fAnswerButton.setVisible(false);
-		fAnswerButton.setImage("/images/mWindow.png");
+		fAnswerButton.setImage(ServletFns.resolveThemeURL("~./images/mWindow.png"));
 		fTextMsg.setReadonly(!(selIndex >= 0));
 		bZoom.setEnabled(selIndex >= 0);
 		bOK.setEnabled(selIndex >= 0);

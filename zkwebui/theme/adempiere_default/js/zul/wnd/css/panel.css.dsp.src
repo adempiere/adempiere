@@ -17,7 +17,7 @@
   border-bottom-color: #cfcfcf;
    ${t:borderRadius('4px 4px 0 0') };
   padding: 3px 5px;
-  background: #e1edf4;
+  background: #e1eef6;
   overflow: hidden;
    ${t:boxShadow('inset 0px 1px 1px #FFFFFF') };
 }

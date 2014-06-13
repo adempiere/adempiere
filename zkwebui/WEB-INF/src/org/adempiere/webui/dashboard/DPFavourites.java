@@ -24,6 +24,7 @@ import org.compiere.model.MTreeNode;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.DropEvent;
 import org.zkoss.zk.ui.event.Event;
@@ -77,7 +78,7 @@ public class DPFavourites extends DashboardPanel implements EventListener<Event>
 		this.appendChild(favToolbar);
 		
 		// Elaine 2008/07/24
-		Image img = new Image("/images/Delete24.png");
+		Image img = new Image(ServletFns.resolveThemeURL("~./images/Delete24.png"));
 		favToolbar.appendChild(img);
 		img.setStyle("text-align: right");
 		img.setDroppable(DELETE_FAV_DROPPABLE);

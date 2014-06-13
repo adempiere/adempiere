@@ -42,7 +42,6 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
-import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Hbox;
 
@@ -60,7 +59,7 @@ import org.zkoss.zul.Hbox;
  * 	<li>https://adempiere.atlassian.net/browse/ADEMPIERE-72
 */
 
-public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, EventListener
+public class InfoInOutPanel extends InfoPanel implements ValueChangeListener
 {
 	/**
 	 * 
@@ -215,31 +214,30 @@ public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, Ev
 		
 		Row row = new Row();
 		rows.appendChild(row);
-		row.appendChild(lDocumentNo.rightAlign());
-		row.appendChild(fDocumentNo);
-		row.appendChild(fBPartner_ID.getLabel().rightAlign());
-		row.appendChild(fBPartner_ID.getComponent());
-		row.appendChild(fIsSOTrx);
+		row.appendCellChild(lDocumentNo.rightAlign());
+		row.appendCellChild(fDocumentNo);
+		row.appendCellChild(fBPartner_ID.getLabel().rightAlign());
+		row.appendCellChild(fBPartner_ID.getComponent());
+		row.appendCellChild(fIsSOTrx);
 		
 		row = new Row();
-		row.setSpans("1, 1, 1, 2");
 		rows.appendChild(row);
-		row.appendChild(lDescription.rightAlign());
-		row.appendChild(fDescription);
-		row.appendChild(lDateFrom.rightAlign());
+		row.appendCellChild(lDescription.rightAlign());
+		row.appendCellChild(fDescription);
+		row.appendCellChild(lDateFrom.rightAlign());
 		Hbox hbox = new Hbox();
 		hbox.appendChild(fDateFrom);
 		hbox.appendChild(lDateTo);
 		hbox.appendChild(fDateTo);
-		row.appendChild(hbox);
+		row.appendCellChild(hbox, 2);
 		
 		row = new Row();
 		rows.appendChild(row);
-		row.appendChild(lPOReference.rightAlign());
-		row.appendChild(fPOReference);		
-		row.appendChild(fShipper_ID.getLabel().rightAlign());
-		row.appendChild(fShipper_ID.getComponent());
-		row.appendChild(new Label());
+		row.appendCellChild(lPOReference.rightAlign());
+		row.appendCellChild(fPOReference);		
+		row.appendCellChild(fShipper_ID.getLabel().rightAlign());
+		row.appendCellChild(fShipper_ID.getComponent());
+		row.appendCellChild(new Label());
 
 		p_criteriaGrid.appendChild(rows);
 		super.setSizes();

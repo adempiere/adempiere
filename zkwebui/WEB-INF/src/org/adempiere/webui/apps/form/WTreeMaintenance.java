@@ -19,7 +19,7 @@ package org.adempiere.webui.apps.form;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
-import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Checkbox;
 import org.adempiere.webui.component.Label;
@@ -38,6 +38,7 @@ import org.compiere.model.MTreeNode;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -91,7 +92,7 @@ public class WTreeMaintenance extends TreeMaintenance implements IFormController
 			preInit();
 			jbInit ();
 			action_loadTree();
-			LayoutUtils.sendDeferLayoutEvent(mainLayout, 100);
+			ThemeUtils.sendDeferLayoutEvent(mainLayout, 100);
 		}
 		catch (Exception ex)
 		{
@@ -119,10 +120,10 @@ public class WTreeMaintenance extends TreeMaintenance implements IFormController
 	 */
 	private void jbInit () throws Exception
 	{
-		bAddAll.setSrc("images/FastBack24.png");
-		bAdd.setSrc("images/StepBack24.png");
-		bDelete.setSrc("images/StepForward24.png");
-		bDeleteAll.setSrc("images/FastForward24.png");
+		bAddAll.setImage(ServletFns.resolveThemeURL("~./images/FastBack24.png"));
+		bAdd.setImage(ServletFns.resolveThemeURL("~./images/StepBack24.png"));
+		bDelete.setImage(ServletFns.resolveThemeURL("~./images/StepForward24.png"));
+		bDeleteAll.setImage(ServletFns.resolveThemeURL("~./images/FastForward24.png"));
 		
 		form.setWidth("99%");
 		form.setHeight("100%");
@@ -201,7 +202,7 @@ center.setVflex("true");
 		if (e.getTarget() == treeField)
 		{
 			action_loadTree();
-			LayoutUtils.sendDeferLayoutEvent(mainLayout, 100);
+			ThemeUtils.sendDeferLayoutEvent(mainLayout, 100);
 		}
 		else if (e.getTarget() == bAddAll)
 			action_treeAddAll();

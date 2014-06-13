@@ -17,7 +17,7 @@
 
 package org.adempiere.webui.component;
 
-import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.theme.ThemeUtils;
 
 /**
  * @author Sendy Yagambrum
@@ -38,7 +38,7 @@ public class ToolBarButton extends org.zkoss.zul.Toolbarbutton
 	public void setDisabled(boolean disabled) {
 		super.setDisabled(disabled);
 		if (disabled) {
-			LayoutUtils.addSclass("disableFilter", this);
+			ThemeUtils.addSclass("disableFilter", this);
 		} else {
 			if (this.getSclass() != null && this.getSclass().indexOf("disableFilter") >= 0)
 				this.setSclass(this.getSclass().replace("disableFilter", ""));
@@ -49,7 +49,7 @@ public class ToolBarButton extends org.zkoss.zul.Toolbarbutton
     	this.pressed = pressed; // Elaine 2008/12/09
 		if (!isDisabled()) {
 			if (pressed) {
-				LayoutUtils.addSclass("depressed", this);
+				ThemeUtils.addSclass("depressed", this);
 			} else {
 				if (this.getSclass() != null && this.getSclass().indexOf("depressed") >= 0)
 					this.setSclass(this.getSclass().replace("depressed", ""));

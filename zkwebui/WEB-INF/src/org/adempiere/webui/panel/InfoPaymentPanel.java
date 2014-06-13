@@ -49,7 +49,6 @@ import org.compiere.util.Trx;
 import org.compiere.util.Util;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Hbox;
 
@@ -68,7 +67,7 @@ import org.zkoss.zul.Hbox;
 * 
 */
 
-public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, EventListener
+public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener
 {
 	/**
 	 * 
@@ -272,14 +271,13 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 		row.appendChild(fCheckPayment);
 		
 		row = new Row();
-		row.setSpans("3, 1");
 		rows.appendChild(row);
-		row.appendChild(lAmtFrom.rightAlign());
+		row.appendCellChild(lAmtFrom.rightAlign(),3);
 		hbox = new Hbox();
 		hbox.appendChild(fAmtFrom);
 		hbox.appendChild(lAmtTo);
 		hbox.appendChild(fAmtTo);
-		row.appendChild(hbox);
+		row.appendCellChild(hbox,1);
 
 		p_criteriaGrid.appendChild(rows);
 		super.setSizes();

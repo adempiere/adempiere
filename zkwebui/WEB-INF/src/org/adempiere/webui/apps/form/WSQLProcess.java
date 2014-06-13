@@ -32,6 +32,7 @@ import org.compiere.apps.form.VSQLProcess;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -129,7 +130,7 @@ public class WSQLProcess extends ADForm implements EventListener
     {
         Button btnProcess = new Button();
 
-        btnProcess.setImage("/images/Process24.png");
+        btnProcess.setImage(ServletFns.resolveThemeURL("~./images/Process24.png"));
         btnProcess.setName(Msg.getMsg(Env.getCtx(), "Process"));
 
         return btnProcess;

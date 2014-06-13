@@ -23,8 +23,9 @@ import org.zkoss.zul.Div;
 /**
  * 
  * @author Low Heng Sin
- *
+ * Use ThemeUtils instead
  */
+@Deprecated
 public final class LayoutUtils {
 
 	/**

@@ -52,6 +52,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -187,13 +188,13 @@ public final class WAccountDialog extends Window
 		toolBar.setOrient("vertical");
 		toolBar.setStyle("border: none; margin: 5px");
 
-		bSave.setImage("images/Save24.png");
+		bSave.setImage(ServletFns.resolveThemeURL("~./images/Save24.png"));
 		bSave.setTooltiptext(Msg.getMsg(Env.getCtx(),"AccountNewUpdate"));
 		bSave.addEventListener(Events.ON_CLICK, this);
-		bRefresh.setImage("images/Refresh24.png");
+		bRefresh.setImage(ServletFns.resolveThemeURL("~./images/Refresh24.png"));
 		bRefresh.setTooltiptext(Msg.getMsg(Env.getCtx(),"Refresh"));
 		bRefresh.addEventListener(Events.ON_CLICK, this);
-		bIgnore.setImage("images/Ignore24.png");
+		bIgnore.setImage(ServletFns.resolveThemeURL("~./images/Ignore24.png"));
 		bIgnore.setTooltiptext(Msg.getMsg(Env.getCtx(),"Ignore"));
 		bIgnore.addEventListener(Events.ON_CLICK, this);
 		//

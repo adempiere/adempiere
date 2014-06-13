@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.logging.Level;
 
-import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Checkbox;
@@ -97,7 +97,7 @@ public class WMatch extends Match
 
 			southPanel.appendChild(new Separator());
 			southPanel.appendChild(statusBar);
-			LayoutUtils.addSclass("status-border", statusBar);
+			ThemeUtils.addSclass("status-border", statusBar);
 			//
 			
 			MMatchPO.consolidate(Env.getCtx());

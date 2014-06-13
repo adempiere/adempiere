@@ -36,6 +36,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.NamePair;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 
@@ -105,26 +106,26 @@ public class WButtonEditor extends WEditor
         if (columnName.equals("PaymentRule"))
         {
             readReference(195);
-            getComponent().setImage("/images/Payment16.png");    //  29*14
+            getComponent().setImage(ServletFns.resolveThemeURL("~./images/Payment16.png"));    //  29*14
         }
         else if (columnName.equals("DocAction"))
         {
             readReference(135);
-            getComponent().setImage("/images/Process16.png");    //  16*16
+            getComponent().setImage(ServletFns.resolveThemeURL("~./images/Process16.png"));    //  16*16
         }
         else if (columnName.equals("CreateFrom"))
         {
-            getComponent().setImage("/images/Copy16.png");       //  16*16
+            getComponent().setImage(ServletFns.resolveThemeURL("~./images/Copy16.png"));       //  16*16
         }
         else if (columnName.equals("Record_ID"))
         {
-            getComponent().setImage("/images/Zoom16.png");       //  16*16
+            getComponent().setImage(ServletFns.resolveThemeURL("~./images/Zoom16.png"));       //  16*16
             getComponent().setLabel(Msg.getMsg(Env.getCtx(), "ZoomDocument"));
         }
         else if (columnName.equals("Posted"))
         {
             readReference(234);
-            getComponent().setImage("/images/InfoAccount16.png");    //  16*16
+            getComponent().setImage(ServletFns.resolveThemeURL("~./images/InfoAccount16.png"));    //  16*16
         }
         
         if (gridField.getColumnName().endsWith("_ID") && !gridField.getColumnName().equals("Record_ID"))

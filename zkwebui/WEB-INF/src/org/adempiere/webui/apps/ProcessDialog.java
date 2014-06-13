@@ -37,6 +37,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.au.out.AuEcho;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
@@ -167,13 +168,13 @@ center.setVflex("true");
 		hBox.appendChild(fSavedName);
 		
 		bSave.setEnabled(false);
-		bSave.setImage("/images/Save24.png");
+		bSave.setImage(ServletFns.resolveThemeURL("~./images/Save24.png"));
 		bSave.setSclass("action-button");
 		bSave.addActionListener(this);
 		hBox.appendChild(bSave);
 				
 		bDelete.setEnabled(false);
-		bDelete.setImage("/images/Delete24.png");
+		bDelete.setImage(ServletFns.resolveThemeURL("~./images/Delete24.png"));
 		bDelete.setSclass("action-button");
 		bDelete.addActionListener(this);
 		hBox.appendChild(bDelete);
@@ -186,7 +187,7 @@ center.setVflex("true");
 		
 		String label = Msg.getMsg(Env.getCtx(), "Start");
 		bOK = new Button(label.replaceAll("&", ""));
-		bOK.setImage("/images/Ok16.png");
+		bOK.setImage(ServletFns.resolveThemeURL("~./images/Ok16.png"));
 		bOK.setId("Ok");
 		bOK.addEventListener(Events.ON_CLICK, this);
 		bOK.setSclass("action-button");
@@ -194,7 +195,7 @@ center.setVflex("true");
 		
 		label = Msg.getMsg(Env.getCtx(), "Cancel");
 		bCancle = new Button(label.replaceAll("&", ""));
-		bCancle.setImage("/images/Cancel16.png");
+		bCancle.setImage(ServletFns.resolveThemeURL("~./images/Cancel16.png"));
 		bCancle.addEventListener(Events.ON_CLICK, this);
 		bCancle.setSclass("action-button");
 		confParaPanel.appendChild(bCancle);	

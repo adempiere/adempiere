@@ -43,7 +43,7 @@ import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Div;
 
@@ -61,7 +61,7 @@ import org.zkoss.zul.Div;
  * 	<li>https://adempiere.atlassian.net/browse/ADEMPIERE-72
 */
 
-public class InfoAssignmentPanel extends InfoPanel implements EventListener, ValueChangeListener
+public class InfoAssignmentPanel extends InfoPanel implements ValueChangeListener
 {
 	/**
 	 * 
@@ -198,7 +198,7 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 		fieldResource.getComponent().addEventListener(Events.ON_CHANGE, this);
 		fieldResource.getComponent().setAttribute("zk_component_ID", "Lookup_Criteria_S_Resource_ID");
 
-		bNew.setImage("/images/New16.png");
+		bNew.setImage(ServletFns.resolveThemeURL("~./images/New16.png"));
 		fieldFrom.setWidth("180px");
 		fieldTo.setWidth("180px");
 		

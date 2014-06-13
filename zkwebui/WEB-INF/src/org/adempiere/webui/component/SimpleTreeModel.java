@@ -25,6 +25,7 @@ import org.zkoss.lang.Objects;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zul.DefaultTreeModel;
 import org.zkoss.zul.DefaultTreeNode;
 import org.zkoss.zul.Tree;
 import org.zkoss.zul.TreeNode;
@@ -41,7 +42,7 @@ import org.zkoss.zul.event.TreeDataEvent;
  * @author Low Heng Sin
  *
  */
-public class SimpleTreeModel extends org.zkoss.zul.DefaultTreeModel<Object> implements TreeitemRenderer<Object>, EventListener<Event> {
+public class SimpleTreeModel extends DefaultTreeModel<Object> implements TreeitemRenderer<Object>, EventListener<Event> {
 
 	/**
 	 * 
@@ -52,7 +53,7 @@ public class SimpleTreeModel extends org.zkoss.zul.DefaultTreeModel<Object> impl
 	
 	private boolean itemDraggable;
 	private List<EventListener<Event>> onDropListners = new ArrayList<EventListener<Event>>();
-
+	
 	public SimpleTreeModel(DefaultTreeNode<Object> root) {
 		super(root);
 	}

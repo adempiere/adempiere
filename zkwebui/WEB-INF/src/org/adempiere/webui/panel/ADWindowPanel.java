@@ -26,7 +26,7 @@ package org.adempiere.webui.panel;
 import java.util.List;
 import java.util.Properties;
 
-import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.component.CompositeADTab;
 import org.adempiere.webui.component.IADTab;
 import org.adempiere.webui.component.Tabbox;
@@ -119,7 +119,7 @@ public class ADWindowPanel extends AbstractADWindowPanel
         layout.appendChild(s);
         s.setCollapsible(false);
         statusBar.setParent(s);
-        LayoutUtils.addSclass("adwindow-status", statusBar);
+        ThemeUtils.addSclass("adwindow-status", statusBar);
 
         if (!isEmbedded() && adTab.isUseExternalSelection())
         {
@@ -132,7 +132,7 @@ public class ADWindowPanel extends AbstractADWindowPanel
     	        west.setAutoscroll(true);
     	        west.setHflex("true");
     	        west.setVflex("true");
-    	        LayoutUtils.addSclass("adwindow-nav adwindow-left-nav", west);
+    	        ThemeUtils.addSclass("adwindow-nav adwindow-left-nav", west);
     	       adTab.setTabplacement(IADTab.LEFT);
     	       adTab.getTabSelectionComponent().setParent(west);
 
@@ -150,7 +150,7 @@ public class ADWindowPanel extends AbstractADWindowPanel
 		        east.setAutoscroll(true);
 		        east.setHflex("true");
 		        east.setVflex("true");
-		        LayoutUtils.addSclass("adwindow-nav adwindow-right-nav", east);
+		        ThemeUtils.addSclass("adwindow-nav adwindow-right-nav", east);
 		        adTab.setTabplacement(IADTab.RIGHT);
 		        adTab.getTabSelectionComponent().setParent(east);
 
@@ -160,7 +160,7 @@ public class ADWindowPanel extends AbstractADWindowPanel
     	        	east.setCollapsible(true);
     	        }
         	}
-	        LayoutUtils.addSclass("adwindow-nav-content", (HtmlBasedComponent) adTab.getTabSelectionComponent());
+	        ThemeUtils.addSclass("adwindow-nav-content", (HtmlBasedComponent) adTab.getTabSelectionComponent());
         }
 
         contentArea = new Center();

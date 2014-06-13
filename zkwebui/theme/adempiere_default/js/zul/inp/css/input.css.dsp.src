@@ -53,7 +53,7 @@
 .z-intbox-invalid,
 .z-longbox-invalid,
 .z-doublebox-invalid {
-  border-color: #dd7777;
+  border-color: #bf8236;
   background: #ffffff;
 }
 .z-textbox[disabled],

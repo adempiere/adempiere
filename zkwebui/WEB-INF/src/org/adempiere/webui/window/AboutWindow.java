@@ -37,6 +37,7 @@ import org.compiere.util.CLogMgt;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.util.media.AMedia;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zhtml.Pre;
 import org.zkoss.zhtml.Text;
 import org.zkoss.zk.ui.event.Event;
@@ -138,7 +139,7 @@ public class AboutWindow extends Window implements EventListener<Event> {
 		hbox.setPack("end");
 		hbox.setWidth("100%");
 		Button btnOk = new Button();
-		btnOk.setImage("/images/Ok24.png");
+		btnOk.setImage(ServletFns.resolveThemeURL("~./images/Ok24.png"));
 		btnOk.addEventListener(Events.ON_CLICK, this);
 		btnOk.setParent(hbox);
 

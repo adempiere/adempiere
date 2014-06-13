@@ -57,12 +57,12 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.event.OpenEvent;
 import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.Anchorchildren;
+import org.zkoss.zul.Anchorlayout;
 import org.zkoss.zul.Borderlayout;
 import org.zkoss.zul.Center;
 import org.zkoss.zul.North;
 import org.zkoss.zul.West;
-import org.zkoss.zkmax.zul.Portalchildren;
-import org.zkoss.zkmax.zul.Portallayout;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Html;
 import org.zkoss.zul.Panel;
@@ -205,14 +205,14 @@ center.setVflex("true");
         Tabpanel homeTab = new Tabpanel();
         windowContainer.addWindow(homeTab, Util.cleanAmp(Msg.getMsg(Env.getCtx(), "Home")), false);
 
-        Portallayout portalLayout = new Portallayout();
-        portalLayout.setWidth("100%");
-        portalLayout.setHeight("100%");
-        portalLayout.setStyle("position: absolute; overflow: auto");
-        homeTab.appendChild(portalLayout);
+        Anchorlayout Anchorlayout = new Anchorlayout();
+        Anchorlayout.setWidth("100%");
+        Anchorlayout.setHeight("100%");
+        Anchorlayout.setStyle("position: absolute; overflow: auto");
+        homeTab.appendChild(Anchorlayout);
 
         // Dashboard content
-        Portalchildren portalchildren = null;
+        Anchorchildren Anchorchildren = null;
         int currentColumnNo = 0;
 
         String sql = "SELECT COUNT(DISTINCT COLUMNNO) "
@@ -243,12 +243,12 @@ center.setVflex("true");
 			while (rs.next())
 			{
 	        	int columnNo = rs.getInt(X_PA_DashboardContent.COLUMNNAME_ColumnNo);
-	        	if(portalchildren == null || currentColumnNo != columnNo)
+	        	if(Anchorchildren == null || currentColumnNo != columnNo)
 	        	{
-	        		portalchildren = new Portalchildren();
-	                portalLayout.appendChild(portalchildren);
-	                portalchildren.setWidth(width + "%");
-	                portalchildren.setStyle("padding: 5px");
+	        		Anchorchildren = new Anchorchildren();
+	                Anchorlayout.appendChild(Anchorchildren);
+	                Anchorchildren.setWidth(width + "%");
+	                Anchorchildren.setStyle("padding: 5px");
 
 	                currentColumnNo = columnNo;
 	        	}
@@ -265,7 +265,7 @@ center.setVflex("true");
             	panel.setCollapsible(collapsible.equals("Y"));
 
 	        	panel.setBorder("normal");
-	        	portalchildren.appendChild(panel);
+	        	Anchorchildren.appendChild(panel);
 	            Panelchildren content = new Panelchildren();
 	            panel.appendChild(content);
 
@@ -370,8 +370,8 @@ center.setVflex("true");
         //register as 0
         registerWindow(homeTab);
 
-        if (!portalLayout.getDesktop().isServerPushEnabled())
-        	portalLayout.getDesktop().enableServerPush(true);
+        if (!Anchorlayout.getDesktop().isServerPushEnabled())
+        	Anchorlayout.getDesktop().enableServerPush(true);
 
         dashboardRunnable.refreshDashboard();
 

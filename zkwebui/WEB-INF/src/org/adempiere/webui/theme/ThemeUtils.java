@@ -16,14 +16,20 @@ import java.util.Properties;
 
 import org.adempiere.model.MTheme;
 import org.adempiere.webui.component.Label;
+import org.compiere.model.MSysConfig;
+import org.compiere.util.Env;
 import org.zkoss.zhtml.impl.AbstractTag;
 import org.zkoss.zk.au.out.AuScript;
 import org.zkoss.zk.ui.AbstractComponent;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.HtmlBasedComponent;
+import org.zkoss.zk.ui.Page;
+import org.zkoss.zk.ui.sys.PageCtrl;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Borderlayout;
 import org.zkoss.zul.Div;
+import org.zkoss.util.media.ContentTypes;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.web.theme.StandardTheme.ThemeOrigin;
 import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;
@@ -33,6 +39,7 @@ import org.zkoss.zul.theme.Themes;
 /**
  * 
  * @author Low Heng Sin
+ * @author Michael Mckay - modified for the ZK7  theme system
  *
  */
 public final class ThemeUtils {
@@ -133,12 +140,14 @@ public final class ThemeUtils {
 		String themeName = dt.get_themeName();
 		
 		String currentTheme = Themes.getCurrentTheme();
-		if (!currentTheme.equals(themeName)) {
-			Themes.setTheme(exec, themeName);
-			Executions.sendRedirect(null);  // reload the current page
-			return true;
+		if (currentTheme.equals(themeName)) {
+			//  No need to do anything
+			return false;
 		}
-		return false;
+
+		Themes.setTheme(exec, themeName);
+		Executions.sendRedirect(null);  // reload the current page
+		return true;
 	}
 
 	/**
@@ -211,5 +220,163 @@ public final class ThemeUtils {
 		return false;
 	}
 
+	/**
+	 * @return theme resolved url for the large logo of the current theme
+	 */
+	public static String getLargeLogo() {
+		String url = "";
+		String currentTheme = Themes.getCurrentTheme();
+		MTheme theme = MTheme.get(Env.getCtx(), currentTheme);
+		url = theme.getLogo_Large_Image();
+		if (url == null || url.length() == 0) {
+			url = MSysConfig.getValue("ZK_LOGO_LARGE", DefaultTheme.LOGO_LARGE_IMAGE); 
+		}
+		return ServletFns.resolveThemeURL(url);
+	}
+
+	/**
+	 * @return theme resolved url for the small logo of the current theme
+	 */
+	public static String getSmallLogo() {
+		String url = "";
+		String currentTheme = Themes.getCurrentTheme();
+		MTheme theme = MTheme.get(Env.getCtx(), currentTheme);
+		url = theme.getLogo_Small_Image();
+		if (url == null || url.length() == 0) {
+			url = MSysConfig.getValue("ZK_LOGO_SMALL", DefaultTheme.LOGO_SMALL_IMAGE); 
+			if (url == null || url.length() == 0) {
+				url = MSysConfig.getValue("WEBUI_LOGOURL", DefaultTheme.LOGO_SMALL_IMAGE);
+			}
+		}
+		return ServletFns.resolveThemeURL(url);
+	}
+
+	/**
+	 * @return theme specific url for the small logo of the current theme
+	 */
+	public static String getBrowserTitle() {
+		String title = "";
+		String currentTheme = Themes.getCurrentTheme();
+		MTheme theme = MTheme.get(Env.getCtx(), currentTheme);
+		title = theme.getBrowser_Title();
+		if (title == null || title.length() == 0) {
+			title = MSysConfig.getValue("ZK_BROWSER_TITLE", DefaultTheme.ZK_BROWSER_TITLE); 
+		}
+		return title;
+	}
+
+	/**
+	 * @return resolved url for browser icon
+	 * Replaced by ThemeUtils.getBrowserIcon();
+	 */
+	public static String getBrowserIcon() {
+		String url = "";
+		String currentTheme = Themes.getCurrentTheme();
+		MTheme theme = MTheme.get(Env.getCtx(), currentTheme);
+		url = theme.getBrowser_Icon_Image();
+		if (url == null || url.length() == 0) {
+			url = MSysConfig.getValue("ZK_BROWSER_ICON", DefaultTheme.BROWSER_ICON_IMAGE); 
+		}
+		return ServletFns.resolveThemeURL(url);
+	}
+
+	public static String getFaviconLinks() {
+		// Get the browser icon from the current theme.  It should be an image or ico file.
+		String url = ThemeUtils.getBrowserIcon();
+		if (url == null || url.length() == 0) {
+			return "";
+		}
+		
+		//  Find the mime_type of the icon. Assume the url ends with the file extension.
+		//  This could be anything so at least verify that the mime_type starts with "image".
+		String mime = ContentTypes.getContentType(url.substring(url.lastIndexOf(".")));
+		if (mime == null || mime.length() == 0 || !mime.startsWith("image")) {
+			return "";
+		}
+		
+		// Build the html link statement
+		StringBuffer link = new StringBuffer("<link rel=\"shortcut icon\" type=\"")
+		.append(mime).append("\" href=\"/webui").append(url)
+		.append("\"><link rel=\"icon\" type=\"")
+		.append(mime).append("\" href=\"/webui").append(url)
+		.append("\">"); 
+
+		return link.toString();
+	}
+
+	/**
+	 * Add an icon (favicon or image) and title to the browser based 
+	 * on the current theme. The icon image has to be identified in 
+	 * the AD_Theme table
+	 * 
+	 * @param page the page to which to add the icon and title
+	 */
+	public static void addBrowserIconAndTitle(Page page) {
+    	
+		// Set that page title from the current theme
+        page.setTitle(ThemeUtils.getBrowserTitle());
+        
+        // Set the favicon according to the theme
+		String link = ThemeUtils.getFaviconLinks();
+		if (link != null && link.length() > 0) {
+			((PageCtrl) page).addBeforeHeadTags(link);
+		}
+	}
+	
+	/**
+	 * @return url for right panel
+	 */
+	public static String getLoginRightPanel() {
+		String url = "";
+		String currentTheme = Themes.getCurrentTheme();
+		MTheme theme = MTheme.get(Env.getCtx(), currentTheme);
+		url = theme.getLogin_Right_Panel_Zul();
+		if (url == null || url.length() == 0) {
+			url = DefaultTheme.LOGIN_RIGHT_PANEL_ZUL; 
+		}
+		return ServletFns.resolveThemeURL(url);
+	}
+
+	/**
+	 * @return url for left panel
+	 */
+	public static String getLoginLeftPanel() {
+		String url = "";
+		String currentTheme = Themes.getCurrentTheme();
+		MTheme theme = MTheme.get(Env.getCtx(), currentTheme);
+		url = theme.getLogin_Left_Panel_Zul();
+		if (url == null || url.length() == 0) {
+			url = DefaultTheme.LOGIN_LEFT_PANEL_ZUL; 
+		}
+		return ServletFns.resolveThemeURL(url);
+	}
+
+	/**
+	 * @return url for top panel
+	 */
+	public static String getLoginTopPanel() {
+		String url = "";
+		String currentTheme = Themes.getCurrentTheme();
+		MTheme theme = MTheme.get(Env.getCtx(), currentTheme);
+		url = theme.getLogin_Top_Panel_Zul();
+		if (url == null || url.length() == 0) {
+			url = DefaultTheme.LOGIN_TOP_PANEL_ZUL; 
+		}
+		return ServletFns.resolveThemeURL(url);
+	}
+
+	/**
+	 * @return url for bottom panel
+	 */
+	public static String getLoginBottomPanel() {
+		String url = "";
+		String currentTheme = Themes.getCurrentTheme();
+		MTheme theme = MTheme.get(Env.getCtx(), currentTheme);
+		url = theme.getLogin_Bottom_Panel_Zul();
+		if (url == null || url.length() == 0) {
+			url = DefaultTheme.LOGIN_BOTTOM_PANEL_ZUL; 
+		}
+		return ServletFns.resolveThemeURL(url);
+	}
 
 }

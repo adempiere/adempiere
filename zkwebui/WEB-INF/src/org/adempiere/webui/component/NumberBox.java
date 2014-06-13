@@ -21,10 +21,11 @@ import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.ParseException;
 
-import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.apps.AEnv;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zhtml.Table;
 import org.zkoss.zhtml.Td;
 import org.zkoss.zhtml.Tr;
@@ -105,13 +106,13 @@ public class NumberBox extends Div
 		btnColumn.setStyle("border: none; padding: 0px; margin: 0px;");
 		btnColumn.setSclass("editor-button");
 		btn = new Button();
-        btn.setImage("/images/Calculator10.png");
+        btn.setImage(ServletFns.resolveThemeURL("~./images/Calculator10.png"));
 		btn.setTabindex(-1);
-		LayoutUtils.addSclass("editor-button", btn);
+		ThemeUtils.addSclass("editor-button", btn);
 		btnColumn.appendChild(btn);
         
         popup = getCalculatorPopup();
-        LayoutUtils.addSclass("editor-button", btn);
+        ThemeUtils.addSclass("editor-button", btn);
         btn.setPopup(popup);
         btn.setStyle("text-align: center;");
         appendChild(popup);

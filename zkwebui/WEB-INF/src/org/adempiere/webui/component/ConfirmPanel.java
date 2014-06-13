@@ -22,12 +22,19 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.theme.ThemeUtils;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.zkoss.web.fn.ServletFns;
+import org.zkoss.zhtml.Div;
+import org.zkoss.zhtml.Table;
+import org.zkoss.zhtml.Td;
+import org.zkoss.zhtml.Tr;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zul.Cell;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Hlayout;
 import org.zkoss.zul.Messagebox;
@@ -37,7 +44,7 @@ import org.zkoss.zul.Messagebox;
  * @author Sendy Yagambrum
  * @date July 25, 2007
  **/
-public final class ConfirmPanel extends Hbox
+public final class ConfirmPanel extends Table
 {
 	/**
 	 * 
@@ -114,16 +121,16 @@ public final class ConfirmPanel extends Hbox
 
         if (m_withText && text != null)
         {
-        	button.setImage("images/"+name+"16.png");
+        	button.setImage(ServletFns.resolveThemeURL("~./images/"+name+"16.png"));
         	button.setLabel(text);
-        	LayoutUtils.addSclass("action-text-button", button);
+        	ThemeUtils.addSclass("action-text-button", button);
         }
         else
         {
-        	button.setImage("images/"+name+"24.png");
+        	button.setImage(ServletFns.resolveThemeURL("~./images/"+name+"24.png"));
         	if (text != null)
         		button.setTooltiptext(text);
-        	LayoutUtils.addSclass("action-button", button);
+        	ThemeUtils.addSclass("action-button", button);
         }
 
         buttonMap.put(name, button);
@@ -217,36 +224,32 @@ public final class ConfirmPanel extends Hbox
         this(withCancel,false,false,false,false,false);
     }
     //
-    private Hbox hboxBtnLeft;
-    private Hbox hboxBtnRight;
+    //private Hbox hboxBtnLeft;
+    //private Hbox hboxBtnRight;
     //
-    private Hlayout pnlBtnRight;
-    private Hlayout pnlBtnLeft;
+    private Div pnlBtnRight;
+    private Div pnlBtnLeft;
 
     /**
      * initialise components
      */
     private void init()
     {
-        pnlBtnLeft = new Hlayout();
-        pnlBtnLeft.setSclass("confirm-panel-left");
+    	ThemeUtils.addSclass("confirm-panel", this);
+    	Tr tr = new Tr();
+    	this.appendChild(tr);
+    	Td td = new Td();
+    	tr.appendChild(td);
+    	
+        pnlBtnLeft = new Div();
+        pnlBtnLeft.setAttribute("align", "left");
+        td.appendChild(pnlBtnLeft);
+        ThemeUtils.addSclass("confirm-panel-left", pnlBtnLeft);
 
-        pnlBtnRight = new Hlayout();
-        pnlBtnRight.setSclass("confirm-panel-right");
-
-        hboxBtnRight = new Hbox();
-        hboxBtnRight.appendChild(pnlBtnRight);
-        hboxBtnRight.setWidth("100%");
-        hboxBtnRight.setStyle("text-align:right");
-
-        hboxBtnLeft = new Hbox();
-        hboxBtnLeft.appendChild(pnlBtnLeft);
-        hboxBtnLeft.setWidth("100%");
-        hboxBtnLeft.setStyle("text-align:left");
-
-        this.appendChild(hboxBtnLeft);
-        this.appendChild(hboxBtnRight);
-        this.setWidth("100%");
+        pnlBtnRight = new Div();
+        pnlBtnRight.setAttribute("align", "right");
+        td.appendChild(pnlBtnRight);
+        ThemeUtils.addSclass("confirm-panel-right", pnlBtnRight);
     }
 
     /**

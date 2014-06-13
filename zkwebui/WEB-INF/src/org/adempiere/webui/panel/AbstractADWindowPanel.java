@@ -82,6 +82,7 @@ import org.compiere.util.WebDoc;
 import org.eevolution.form.Browser;
 import org.eevolution.form.VBrowser;
 import org.eevolution.form.WBrowser;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.HtmlBasedComponent;
@@ -1668,7 +1669,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 		Button btnOk = new Button();
 		btnOk.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "OK")));
-		btnOk.setImage("/images/Ok16.png");
+		btnOk.setImage(ServletFns.resolveThemeURL("~./images/Ok16.png"));
 		btnOk.addEventListener(Events.ON_CLICK, new EventListener()
 		{
 			@SuppressWarnings("unchecked")
@@ -1711,7 +1712,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 		Button btnCancel = new Button();
 		btnCancel.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "Cancel")));
-		btnCancel.setImage("/images/Cancel16.png");
+		btnCancel.setImage(ServletFns.resolveThemeURL("~./images/Cancel16.png"));
 		btnCancel.addEventListener(Events.ON_CLICK, new EventListener()
 		{
 			public void onEvent(Event event) throws Exception

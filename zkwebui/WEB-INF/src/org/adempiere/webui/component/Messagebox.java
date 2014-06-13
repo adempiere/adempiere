@@ -19,11 +19,12 @@ package org.adempiere.webui.component;
 
 import java.util.Properties;
 
-import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.apps.AEnv;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zhtml.Text;
 import org.zkoss.zk.ui.UiException;
 import org.zkoss.zk.ui.event.Event;
@@ -111,37 +112,37 @@ public class Messagebox extends Window implements EventListener
 		lblMsg.setValue(msg);
 
 		btnCancel.setLabel(Util.cleanAmp(Msg.getMsg(ctx, "Cancel")));
-		btnCancel.setImage("/images/Cancel16.png");
+		btnCancel.setImage(ServletFns.resolveThemeURL("~./images/Cancel16.png"));
 		btnCancel.addEventListener(Events.ON_CLICK, this);
-		LayoutUtils.addSclass("action-text-button", btnCancel);
+		ThemeUtils.addSclass("action-text-button", btnCancel);
 		
 		btnOk.setLabel(Util.cleanAmp(Msg.getMsg(ctx, "OK")));
-		btnOk.setImage("/images/Ok16.png");
+		btnOk.setImage(ServletFns.resolveThemeURL("~./images/Ok16.png"));
 		btnOk.addEventListener(Events.ON_CLICK, this);
-		LayoutUtils.addSclass("action-text-button", btnOk);
+		ThemeUtils.addSclass("action-text-button", btnOk);
 
 		btnYes.setLabel(Util.cleanAmp(Msg.getMsg(ctx, "Yes")));
-		btnYes.setImage("/images/Ok16.png");
+		btnYes.setImage(ServletFns.resolveThemeURL("~./images/Ok16.png"));
 		btnYes.addEventListener(Events.ON_CLICK, this);
-		LayoutUtils.addSclass("action-text-button", btnYes);
+		ThemeUtils.addSclass("action-text-button", btnYes);
 
 		btnNo.setLabel(Util.cleanAmp(Msg.getMsg(ctx, "No")));
-		btnNo.setImage("/images/Cancel16.png");
+		btnNo.setImage(ServletFns.resolveThemeURL("~./images/Cancel16.png"));
 		btnNo.addEventListener(Events.ON_CLICK, this);
-		LayoutUtils.addSclass("action-text-button", btnNo);
+		ThemeUtils.addSclass("action-text-button", btnNo);
 
 		btnAbort.setLabel("Abort");
 		btnAbort.addEventListener(Events.ON_CLICK, this);
-		LayoutUtils.addSclass("action-text-button", btnAbort);
+		ThemeUtils.addSclass("action-text-button", btnAbort);
 
 		btnRetry.setLabel("Retry");
 		btnRetry.addEventListener(Events.ON_CLICK, this);
-		LayoutUtils.addSclass("action-text-button", btnRetry);
+		ThemeUtils.addSclass("action-text-button", btnRetry);
 
 		btnIgnore.setLabel("Ignore");
-		btnIgnore.setImage("/images/Ignore16.png");
+		btnIgnore.setImage(ServletFns.resolveThemeURL("~./images/Ignore16.png"));
 		btnIgnore.addEventListener(Events.ON_CLICK, this);
-		LayoutUtils.addSclass("action-text-button", btnIgnore);
+		ThemeUtils.addSclass("action-text-button", btnIgnore);
 
 		Panel pnlMessage = new Panel();
 		pnlMessage.setStyle(MESSAGE_PANEL_STYLE);

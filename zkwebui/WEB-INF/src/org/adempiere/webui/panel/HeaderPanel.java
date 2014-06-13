@@ -17,10 +17,13 @@
 
 package org.adempiere.webui.panel;
 
-import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.theme.ThemeManager;
 import org.adempiere.webui.window.AboutWindow;
+import org.zkoss.zhtml.Table;
+import org.zkoss.zhtml.Td;
+import org.zkoss.zhtml.Tr;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -53,49 +56,44 @@ public class HeaderPanel extends Panel implements EventListener<Event>
 
     private void init()
     {
-    	LayoutUtils.addSclass("desktop-header", this);
+    	ThemeUtils.addSclass("ad-headerpanel", this);
+    	
+    	// Keep this simple for speed
+    	// Create a simple table to hold the header elements.
+    	Table table = new Table();
+    	ThemeUtils.addSclass("ad-headerpanel-table", table);
+    	Tr tr = new Tr();
+    	ThemeUtils.addSclass("ad-headerpanel-row", tr);
 
-    	image.setSrc(ThemeManager.getSmallLogo());
+    	Td tdLeft = new Td();
+    	ThemeUtils.addSclass("ad-headerpanel-left", tdLeft);
+    	
+    	Td tdRight = new Td();
+    	ThemeUtils.addSclass("ad-headerpanel-right", tdRight);
+    	
+    	this.appendChild(table);
+    	table.appendChild(tr);
+    	
+    	tr.appendChild(tdLeft);
+    	tr.appendChild(tdRight);
+    	    	
+    	image.setSrc(ThemeUtils.getSmallLogo());
     	image.addEventListener(Events.ON_CLICK, this);
-    	image.setStyle("cursor: pointer;");
-
-    	Borderlayout layout = new Borderlayout();
-    	LayoutUtils.addSclass("desktop-header", layout);
-    	layout.setParent(this);
-    	West west = new West();
-    	west.setWidth("50%");
-    	west.setParent(layout);
-
-    	Hbox hbox = new Hbox();
-    	hbox.setParent(west);
-    	hbox.setHeight("100%");
-    	hbox.setPack("center");
-        hbox.setAlign("left");
+    	ThemeUtils.addSclass("ad-headerpanel-logo", image);
         
-    	image.setParent(hbox);
+    	image.setParent(tdLeft);
 
-    	LayoutUtils.addSclass("desktop-header-left", west);
-    	
-    	//the following doesn't work when declare as part of the header-left style
-    	west.setStyle("background-color: transparent; border: none;");
-
-
-
-    	// Elaine 2009/03/02
-    	Center center = new Center();
-    	center.setParent(layout);
-    	
     	UserPanel userPanel = new UserPanel();
-    	userPanel.setParent(center);
-    	userPanel.setHeight("100%");
-    	userPanel.setAlign("right");
-    	userPanel.setStyle("position: absolute; text-align:right;");
-    	userPanel.setVflex("1");
-    	userPanel.setHflex("1");
-    	LayoutUtils.addSclass("desktop-header-right", center);
+    	userPanel.setParent(tdRight);
+    	//userPanel.setHeight("100%");
+    	//userPanel.setAlign("right");
+    	//userPanel.setStyle("position: absolute; text-align:right;");
+    	//userPanel.setVflex("1");
+    	//userPanel.setHflex("1");
+    	//ThemeUtils.addSclass("desktop-header-right", center);
     	
     	//the following doesn't work when declare as part of the header-right style
-    	center.setStyle("background-color: transparent; border: none;");
+    	//center.setStyle("background-color: transparent; border: none;");
 
 
     }

@@ -19,7 +19,7 @@ import java.util.Map;
 
 import javax.swing.table.AbstractTableModel;
 
-import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.panel.AbstractADWindowPanel;
 import org.adempiere.webui.util.SortComparator;
@@ -301,7 +301,7 @@ public class GridPanel extends Borderlayout implements EventListener
 				column.setWidth(Integer.toString(l) + "px");
 				
 				// FR 3051618 - Hide in list view
-				if (gridField[i].isHideInListView()) {
+				if (gridField[i].isDisplayedGrid()) {
 					column.setVisible(false);
 				}
 				
@@ -313,7 +313,7 @@ public class GridPanel extends Borderlayout implements EventListener
 
 	private void render()
 	{
-		LayoutUtils.addSclass("adtab-grid-panel", this);
+		ThemeUtils.addSclass("adtab-grid-panel", this);
 
 		listbox.setVflex(true);
 		//true might looks better, false for better performance

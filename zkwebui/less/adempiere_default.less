@@ -145,7 +145,7 @@
 @loginBoxWidth: 		 660px;
 @loginBoxPaddingBottom:  100px;
 @loginBoxHeaderHeight: 	  53px;
-@loginBoxFooterHeight: 	 109px;
+@loginBoxFooterHeight: 	  90px;
 @loginBoxFooterPnlWidth: 604px;
 @loginBoxRadius:		  10px;
 
@@ -163,6 +163,14 @@
 	.wlogin-layout-center {
 		background-color: @loginWindowBGColor;	
 	}
+}
+
+.window-browser-not-supported {
+			width: 550px;
+				
+			div {
+				font-size: 9pt;
+			}
 }
 
 .login-window {
@@ -209,6 +217,15 @@
 			.login-field {
 				text-align: left;
 				width: 55%;
+				
+				.z-textbox,
+				.z-combobox {
+					width: 220px;
+					
+					input {
+						width: 100%;
+					}
+				}
 			}		    
 		}
 		
@@ -270,7 +287,9 @@
 	
 
 .versionInfoBox {
-		background-color: @themeBaseDarkColor;
+		background-color: @loginWindowBGColor;
+		border: 1px solid @baseBorderColor;
+		font-family: @baseContentFontFamily;
 		margin: 5px;
 		border-radius: 5px;
 		-moz-border-radius: 5px;
@@ -296,8 +315,23 @@
 /*  Confirm Panel							*/
 /********************************************/
 
-.confirm-panel-right-buttons {
-	width: 100%;
+.confirm-panel {
+	
+	&-left {
+		text-align: left;
+		
+		.z-button {
+			margin: 0 @baseTextPaddingLeftRight 0 0;  // Add space on right
+		}
+	}
+		
+	&-right {
+		text-align: right;
+		
+		.z-button {
+			margin: 0 0 0 @baseTextPaddingLeftRight; // Add space on left
+		}
+	}		
 }
 
 /********************************************/
@@ -383,6 +417,31 @@
 	
 }
 
+
+/********************************************/
+/*  WAcctViewer								*/
+/********************************************/
+
+.wacct-viewer-window {
+	.modal {
+		border: 1px solid @windowBorderColor;
+		height: 85%;
+		width: 85%;
+		overflow: auto;
+	}
+	
+	.embedded {
+		border: none;
+		height: 100%;
+		width: 100%;
+		position: absolute;
+	}
+	
+	.label-box {
+		width: 100%
+	}
+}
+
 .color-row-low.z-listitem.z-listitem-selected > .z-listcell > .z-listcell-content {
 	color: @themeColorFontColorRowLow - #111;  // Darken
 }
@@ -405,10 +464,6 @@
 
 .color-row-high.z-listitem > .z-listcell > .z-listcell-content {
 	color: @themeColorFontColorRowHigh;
-}
-
-.desktop-header-username {
-	cursor: default;
 }
 
 
@@ -480,15 +535,28 @@
 
 // Old Stuff
 
-.desktop-header {
+.ad-headerpanel {
 	//.encodeThemeURL(background-image, @image_header-bg);
 	.verGradient(@themeColorPrimaryVeryVeryLight, @themeColorPrimaryVeryLight);
 	width: 100%;
-	height: 35px;
+	height: @baseTitleHeight;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: @fontSizeXSmall;
+	
+	&-table {
+		width: 100%;
+		border-collapse: collapse;
+	}
+
+	&-row {
+		width: 100%;
+	}
+	
+	&-logo {
+		cursor: pointer;
+	}
 
 	&-font {
-		font-family: Verdana, Arial, Helvetica, sans-serif;
-		font-size: 10px;
 		display: inline;
 		
 		.z-toolbarbutton-content {
@@ -502,19 +570,18 @@
 		cursor: arrow;
 	}
 
-	&-row-separator {
-		height: 0px;
-	}
-
-	&-right-top,
-	&-right-bottom {
+	&-right {
 		width: 100%;
 		text-align: right;
 		vertical-align: middle;
 		padding: 0 5px 0 0; // Top, right, bottom, left
 	}
 
-	&-right-bottom {
+	.user-panel {
+		float: right;
+		text-align: center;
+		verticle-align: middle;
+		
 		.z-hbox {
 			width: 100%;
 		}
@@ -523,9 +590,24 @@
 			width: 0;
 		}
 	
-		.z-separator-vertical-bar {
-			line-height: 14px;
-			margin: 3px 0;    
+		.z-vbox-separator {
+			height: 2px;
+		}
+
+		&-buttons {
+			
+			.z-toolbarbutton {
+				height: 18px;
+			}
+			
+			.z-toolbarbutton-content {
+				text-shadow: none;
+			}
+		}
+		
+		&-username {
+			font-size: @fontSizeXSmall;
+			cursor: default;
 		}
 	}
 
@@ -636,6 +718,11 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 
 .menu-search {
 	background-color: @themeColorPrimaryLight;
+}
+
+.adbuttontablist {
+	margin:		0;
+	padding:	0;
 }
 
 .adform-content-none {
@@ -804,6 +891,10 @@ div.menu-tree-cell-cnt {
 	//font-family: ${fontFamilyC};
 	//font-size: ${fontSizeM}; font-weight: normal;
     white-space:nowrap
+}
+
+div.label-right {
+	text-align: right;
 }
 
 td.menu-tree-cell-disd * {

@@ -73,17 +73,17 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.event.SelectEvent;
 import org.zkoss.zk.ui.util.Clients;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
-import org.zkoss.zkex.zul.West;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.North;
+import org.zkoss.zul.South;
+import org.zkoss.zul.West;
 import org.zkoss.zul.Div;
-import org.zkoss.zul.ListModelExt;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Paging;
 import org.zkoss.zul.Separator;
 import org.zkoss.zul.event.ZulEvents;
+import org.zkoss.zul.ext.Sortable;
 
 /**
  *	Search Information and return selection - Base Class.
@@ -98,7 +98,7 @@ import org.zkoss.zul.event.ZulEvents;
  * @author Michael McKay, ADEMPIERE-72 VLookup and Info Window improvements
  * 	<li>https://adempiere.atlassian.net/browse/ADEMPIERE-72
  */
-public abstract class InfoPanel extends Window implements EventListener, WTableModelListener, ListModelExt
+public abstract class InfoPanel extends Window implements EventListener<Event>, WTableModelListener, Sortable<Object>
 {
 	
 	/**
@@ -331,7 +331,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 			
 		});
 		
-		p_table.addActionListener(new EventListener() {
+		p_table.addActionListener(new EventListener<Event>() {
 			public void onEvent(Event event) throws Exception {
 
 				if (p_table.getRowCount() == 0)
@@ -343,7 +343,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 				
 				if (event.getName().equals("onSelect"))
 				{
-					SelectEvent se = ((SelectEvent) event);
+					SelectEvent<?, ?> se = ((SelectEvent<?, ?>) event);
 					setNumRecordsSelected(se.getSelectedItems().size());
 					recordSelected(p_table.getLeadRowKey());
 					p_selectedRecordKey = p_table.getLeadRowKey();
@@ -471,11 +471,13 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 		div.setStyle("width :100%; height: 100%");
 		p_centerCenter.appendChild(div);
 		p_centerCenter.setAutoscroll(false);
-        p_centerCenter.setFlex(true);
+        p_centerCenter.setVflex("1");
+        p_centerCenter.setHflex("1");
 		//
 		p_centerSouth.setCollapsible(true);
 		p_centerSouth.setSplittable(true);
-		p_centerSouth.setFlex(true);
+		p_centerSouth.setVflex("1");
+		p_centerSouth.setHflex("1");
 
 		//  Setup the north reset button and criteria grid
 		West spWest = new West();
@@ -981,7 +983,8 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	}
 
     private void addDoubleClickListener() {
-		Iterator<?> i = p_table.getListenerIterator(Events.ON_DOUBLE_CLICK);
+		Iterable<EventListener<? extends Event>> el = p_table.getEventListeners(Events.ON_DOUBLE_CLICK);
+		Iterator<EventListener<? extends Event>> i = el.iterator();
 		while (i.hasNext()) {
 			if (i.next() == this)
 				return;
@@ -1874,7 +1877,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	        this.detach();
     }   //  dispose
         
-	public void sort(Comparator cmpr, boolean ascending) {
+	public void sort(Comparator<Object> cmpr, boolean ascending) {
 		WListItemRenderer.ColumnComparator lsc = (WListItemRenderer.ColumnComparator) cmpr;
 		if (m_useDatabasePaging)
 		{
@@ -2099,6 +2102,12 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	 */
 	protected void setNumRecordsSelected(int numRecordsSeleted) {
 		p_numRecordsSelected = numRecordsSeleted;
+	}
+
+	@Override
+	public String getSortDirection(Comparator<Object> cmpr) {
+		// TODO Auto-generated method stub - fix this to make it functional
+		return "natural";
 	}
 
 }	//	Info

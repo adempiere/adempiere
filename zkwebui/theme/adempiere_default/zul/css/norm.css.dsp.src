@@ -1691,25 +1691,25 @@ input[type="checkbox"] {
 </c:if>
 .z-dragged {
   color: #ffffff;
-  background: none no-repeat scroll 0 0 #e0eaf0;
+  background: none no-repeat scroll 0 0 #ceecfd;
 }
 .z-drag-over {
-  background: #add2ff;
+  background: #e1eef6;
 }
 .z-drag-ghost {
   list-style: none;
 }
 .z-drop-allow {
-  background: #11aa33;
+  background: #3edb8b;
 }
 .z-drop-allow .z-drop-icon {
-  color: #11aa33;
+  color: #3edb8b;
 }
 .z-drop-disallow {
-  background: #c13634;
+  background: #ff910b;
 }
 .z-drop-disallow .z-drop-icon {
-  color: #c13634;
+  color: #ff910b;
   padding-right: 1px;
 }
 .z-drop-content {

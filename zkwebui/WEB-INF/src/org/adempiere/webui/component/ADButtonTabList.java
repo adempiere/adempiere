@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.adempiere.webui.component.ADTabListModel.ADTabLabel;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.zkoss.zhtml.Button;
 import org.zkoss.zhtml.Text;
 import org.zkoss.zk.ui.Component;
@@ -29,20 +30,20 @@ import org.zkoss.zk.ui.event.Events;
  * @author <a href="mailto:hengsin@gmail.com">Low Heng Sin</a>
  *
  */
-public class ADButtonTabList extends Panel implements IADTabList, EventListener {
+public class ADButtonTabList extends Panel implements IADTabList, EventListener<Event> {
 
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = -9203013067784673646L;
 	private List<ADTabLabel> listItems = new ArrayList<ADTabLabel>();
-	private List<EventListener> listeners = new ArrayList<EventListener>();
+	private List<EventListener<Event>> listeners = new ArrayList<EventListener<Event>>();
 	private IADTab tabbox;
 	private int selectedIndex = 0;
 	private int tabPlacement = IADTab.LEFT;
 
 	public ADButtonTabList() {
-		this.setStyle("margin:0;padding:0");
+		ThemeUtils.addSclass("adbuttontablist", this);
 	}
 
 	/**

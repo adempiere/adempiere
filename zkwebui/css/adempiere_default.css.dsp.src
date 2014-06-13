@@ -4,6 +4,12 @@
 .wlogin-layout .wlogin-layout-center {
   background-color: #e1eef6;
 }
+.window-browser-not-supported {
+  width: 550px;
+}
+.window-browser-not-supported div {
+  font-size: 9pt;
+}
 .login-window {
   box-shadow: 10px 10px 5px #a1aeb6;
   border-radius: 10px;
@@ -44,6 +50,14 @@
   text-align: left;
   width: 55%;
 }
+.login-window .login-box-body .login-field .z-textbox,
+.login-window .login-box-body .login-field .z-combobox {
+  width: 220px;
+}
+.login-window .login-box-body .login-field .z-textbox input,
+.login-window .login-box-body .login-field .z-combobox input {
+  width: 100%;
+}
 .login-window .login-box-header {
   border-radius: 10px 10px 0 0;
   background-color: #05466d;
@@ -65,7 +79,7 @@
 .login-window .login-box-footer {
   background-color: #05466d;
   border-radius: 0 0 10px 10px;
-  height: 109px;
+  height: 90px;
   width: 660px;
   z-index: 2;
 }
@@ -83,11 +97,13 @@
 .login-east-panel,
 .login-west-panel {
   width: 350px;
-  background-color: #d9e5ef;
+  background-color: #ceecfd;
   position: relative;
 }
 .versionInfoBox {
-  background-color: #285e7d;
+  background-color: #e1eef6;
+  border: 1px solid #cfcfcf;
+  font-family: Arial, Sans-serif;
   margin: 5px;
   border-radius: 5px;
   -moz-border-radius: 5px;
@@ -99,8 +115,17 @@
 .about-window .about-window-logo {
   padding: 10px 0px 5px 0px;
 }
-.confirm-panel-right-buttons {
-  width: 100%;
+.confirm-panel-left {
+  text-align: left;
+}
+.confirm-panel-left .z-button {
+  margin: 0 4px 0 0;
+}
+.confirm-panel-right {
+  text-align: right;
+}
+.confirm-panel-right .z-button {
+  margin: 0 0 0 4px;
 }
 .info-panel .confirm-panel {
   border-top: 2px;
@@ -159,6 +184,21 @@
   padding: 0;
   border: none;
 }
+.wacct-viewer-window .modal {
+  border: 1px solid #9c9c9c;
+  height: 85%;
+  width: 85%;
+  overflow: auto;
+}
+.wacct-viewer-window .embedded {
+  border: none;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+.wacct-viewer-window .label-box {
+  width: 100%;
+}
 .color-row-low.z-listitem.z-listitem-selected > .z-listcell > .z-listcell-content {
   color: #aa0000;
 }
@@ -176,9 +216,6 @@
 }
 .color-row-high.z-listitem > .z-listcell > .z-listcell-content {
   color: #00bb00;
-}
-.desktop-header-username {
-  cursor: default;
 }
 .desktop-layout {
   width: 100%;
@@ -227,43 +264,63 @@
   opacity: 1.0;
   cursor: pointer;
 }
-.desktop-header {
+.ad-headerpanel {
    ${t:gradient('ver', '#e1eef6 0%; #ceecfd 100%') };
   width: 100%;
-  height: 35px;
-}
-.desktop-header-font {
+  height: 36px;
   font-family: Verdana, Arial, Helvetica, sans-serif;
   font-size: 10px;
+}
+.ad-headerpanel-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.ad-headerpanel-row {
+  width: 100%;
+}
+.ad-headerpanel-logo {
+  cursor: pointer;
+}
+.ad-headerpanel-font {
   display: inline;
 }
-.desktop-header-font .z-toolbarbutton-content {
+.ad-headerpanel-font .z-toolbarbutton-content {
   text-shadow: none;
 }
-.desktop-header-left {
+.ad-headerpanel-left {
   vertical-align: middle;
   padding: 3px 0 3px 5px;
   cursor: arrow;
 }
-.desktop-header-row-separator {
-  height: 0px;
-}
-.desktop-header-right-top,
-.desktop-header-right-bottom {
+.ad-headerpanel-right {
   width: 100%;
   text-align: right;
   vertical-align: middle;
   padding: 0 5px 0 0;
 }
-.desktop-header-right-bottom .z-hbox {
+.ad-headerpanel .user-panel {
+  float: right;
+  text-align: center;
+  verticle-align: middle;
+}
+.ad-headerpanel .user-panel .z-hbox {
   width: 100%;
 }
-.desktop-header-right-bottom .z-hbox-separator {
+.ad-headerpanel .user-panel .z-hbox-separator {
   width: 0;
 }
-.desktop-header-right-bottom .z-separator-vertical-bar {
-  line-height: 14px;
-  margin: 3px 0;
+.ad-headerpanel .user-panel .z-vbox-separator {
+  height: 0;
+}
+.ad-headerpanel .user-panel-buttons .z-toolbarbutton {
+  height: 18px;
+}
+.ad-headerpanel .user-panel-buttons .z-toolbarbutton-content {
+  text-shadow: none;
+}
+.ad-headerpanel .user-panel-username {
+  font-size: 10px;
+  cursor: default;
 }
 .z-toolbarbutton[disabled] {
   border: 1px solid #b0b0b0;
@@ -343,6 +400,10 @@ div.wc-highlighted-none {
 }
 .menu-search {
   background-color: #6aacd3;
+}
+.adbuttontablist {
+  margin: 0;
+  padding: 0;
 }
 .adform-content-none {
   overflow: auto;
@@ -467,6 +528,9 @@ div.menu-tree-cell-cnt {
   margin: 0;
   padding: 0;
   white-space: nowrap;
+}
+div.label-right {
+  text-align: right;
 }
 td.menu-tree-cell-disd * {
   color: #C5CACB !important;

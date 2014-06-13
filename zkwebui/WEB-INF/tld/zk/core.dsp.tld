@@ -14,128 +14,17 @@ Copyright (C) 2005 Potix Corporation. All Rights Reserved.
 <taglib>
 	<uri>http://www.zkoss.org/dsp/zk/core</uri>
 	<description>
-	Methods and actions for ZK in DSP/ZUML
+	Methods and actions of ZK utilities
 	</description>
 
 	<!--         -->
 	<!-- Imports -->
 	<!--         -->
-	<import>
-		<import-name>ZkFns</import-name>
-		<import-class>org.zkoss.zk.fn.ZkFns</import-class>
-	</import>
 
 	<!--           -->
 	<!-- Functions -->
 	<!--           -->
-	<function>
-		<name>redraw</name>
-		<function-class>org.zkoss.zk.fn.ZkFns</function-class>
-		<function-signature>
-	void redraw(org.zkoss.zk.ui.Component, java.io.Writer)
-		</function-signature>
-		<description>
-	Redraw the specified component.
-		</description>
-	</function>
-
-	<function>
-		<name>outResponseJavaScripts</name>
-		<function-class>org.zkoss.zk.fn.ZkFns</function-class>
-		<function-signature>
-	java.lang.String outResponseJavaScripts(java.util.Collection);
-		</function-signature>
-		<description>
-	Returns javascript to handle the specified responses.
-		</description>
-	</function>
-
-	<function>
-		<name>outLangJavaScripts</name>
-		<function-class>org.zkoss.zk.fn.ZkFns</function-class>
-		<function-signature>
-	java.lang.String outLangJavaScripts(java.lang.String)
-		</function-signature>
-		<description>
-	Returns HTML tags to include all JavaScripts used by all languages.
-	The argument is ignored (since 3.5.0; reserved for backward compatible).
-		</description>
-	</function>
-	<function>
-		<name>outLangStyleSheets</name>
-		<function-class>org.zkoss.zk.fn.ZkFns</function-class>
-		<function-signature>
-	java.lang.String outLangStyleSheets()
-		</function-signature>
-		<description>
-	Returns HTML tags to include all style sheets used by all languages.
-	Note: it cannot be called without current execution. In other words,
-	it is used to design component templates.
-		</description>
-	</function>
-	<function>
-		<name>outHtmlUnavailable</name>
-		<function-class>org.zkoss.zk.fn.ZkFns</function-class>
-		<function-signature>
-	java.lang.String outHtmlUnavailable(org.zkoss.zk.ui.Page)
-		</function-signature>
-		<description>
-	Generates the unavailable message in HTML tags, if any.
-		</description>
-	</function>
-	<function>
-		<name>outHeaders</name>
-		<function-class>org.zkoss.zk.fn.ZkFns</function-class>
-		<function-signature>
-	java.lang.String outHeaders(org.zkoss.zk.ui.Page, boolean)
-		</function-signature>
-		<description>
-	Returns the content that will be placed inside the header element
-	of the specified page.
-		</description>
-	</function>
-	<function>
-		<name>outRootAttributes</name>
-		<function-class>org.zkoss.zk.fn.ZkFns</function-class>
-		<function-signature>
-	java.lang.String outRootAttributes(org.zkoss.zk.ui.Page)
-		</function-signature>
-		<description>
-	Returns the content that will be placed as the attributes of
-	the root element of the specified page.
-		</description>
-	</function>
-	<function>
-		<name>outContentType</name>
-		<function-class>org.zkoss.zk.fn.ZkFns</function-class>
-		<function-signature>
-	java.lang.String outContentType(org.zkoss.zk.ui.Page)
-		</function-signature>
-		<description>
-	Returns the content type.
-		</description>
-	</function>
-	<function>
-		<name>outDocType</name>
-		<function-class>org.zkoss.zk.fn.ZkFns</function-class>
-		<function-signature>
-	java.lang.String outDocType(org.zkoss.zk.ui.Page)
-		</function-signature>
-		<description>
-	Returns the doc type.
-		</description>
-	</function>
-	<function>
-		<name>outFirstLine</name>
-		<function-class>org.zkoss.zk.fn.ZkFns</function-class>
-		<function-signature>
-	java.lang.String outFirstLine(org.zkoss.zk.ui.Page)
-		</function-signature>
-		<description>
-	Returns the first line to be generated to the output.
-		</description>
-	</function>
-
+	<!-- ZUML Functions -->
 	<function>
 		<name>toAbsoluteURI</name>
 		<function-class>org.zkoss.zk.fn.ZkFns</function-class>
@@ -149,69 +38,61 @@ Copyright (C) 2005 Potix Corporation. All Rights Reserved.
 	</function>
 
 	<function>
-		<name>outPageAttrs</name>
+		<name>getBuild</name>
 		<function-class>org.zkoss.zk.fn.ZkFns</function-class>
 		<function-signature>
-	java.lang.String outPageAttrs(org.zkoss.zk.ui.Page)
+	java.lang.String getBuild()
 		</function-signature>
 		<description>
-	Returns the attributes to render a page.
+	Returns the build identifier, such as 2007121316.
 		</description>
 	</function>
 
 	<function>
-		<name>outZkHtmlTags</name>
+		<name>getVersion</name>
 		<function-class>org.zkoss.zk.fn.ZkFns</function-class>
 		<function-signature>
-	java.lang.String outZkHtmlTags()
+	java.lang.String getVersion()
 		</function-signature>
 		<description>
-	Returns the ZK specific HTML tags, if not generated yet.
-		</description>
-	</function>
-	<function>
-		<name>outZkHeadHtmlTags</name>
-		<function-class>org.zkoss.zk.fn.ZkFns</function-class>
-		<function-signature>
-	java.lang.String outZkHeadHtmlTags(org.zkoss.zk.ui.Page)
-		</function-signature>
-		<description>
-	Returns the ZK specific HTML tags including the headers defined in the page,
-	if not generated yet
+	Returns the ZK version, such as "1.1.0" and "2.0.0".
 		</description>
 	</function>
 
 	<function>
-		<name>noCSSAttrs</name>
+		<name>getEdition</name>
 		<function-class>org.zkoss.zk.fn.ZkFns</function-class>
 		<function-signature>
-	java.lang.String noCSSAttrs(java.lang.String)
+	java.lang.String getEdition()
 		</function-signature>
 		<description>
-	Removes the class and style attributes from the specified one.
+	Returns the edition, such as EE, PE and CE.
 		</description>
 	</function>
+
+
 	<function>
-		<name>outCSSAttrs</name>
+		<name>isEditionValid</name>
 		<function-class>org.zkoss.zk.fn.ZkFns</function-class>
 		<function-signature>
-	java.lang.String outCSSAttrs(java.lang.String)
+	boolean isEditionValid()
 		</function-signature>
 		<description>
-	Returns only the class and style attributes from the specified one.
+	Returns the edition whether valid or invalid.
 		</description>
 	</function>
 
 	<function>
-		<name>outLocaleJavaScript</name>
-		<function-class>org.zkoss.zk.fn.DspFns</function-class>
+		<name>encodeWithZK</name>
+		<function-class>org.zkoss.zk.fn.ZkFns</function-class>
 		<function-signature>
-	java.lang.String outLocaleJavaScript()
+	java.lang.String encodeWithZK(java.lang.String)
 		</function-signature>
 		<description>
-	Returns date relevant labels in JavaScript.
+	Returns the string encoded with ZK
 		</description>
 	</function>
+
 	<function>
 		<name>outDeviceStyleSheets</name>
 		<function-class>org.zkoss.zk.fn.DspFns</function-class>
@@ -220,8 +101,35 @@ Copyright (C) 2005 Potix Corporation. All Rights Reserved.
 		</function-signature>
 		<description>
 	Returns HTML tags to include all style sheets used by the specified device.
-	Note: unlike outLangStyleSheets, it can be called without current execution.
-	@param deviceType the device type. If null, "ajax" is assumed.
+	This method is designed to use with DSP pages.
+	@param deviceType the device type. If null, ajax is assumed.
+		</description>
+	</function>
+	<function>
+		<name>outDeviceCSSContent</name>
+		<function-class>org.zkoss.zk.fn.DspFns</function-class>
+		<function-signature>
+	java.lang.String outDeviceCSSContent(java.lang.String)
+		</function-signature>
+		<description>
+	Generates and returns the complete CSS content of all components in the
+	specified device.
+	This method is designed to use with DSP pages.
+	@param deviceType the device type. If null, ajax is assumed.
+		</description>
+	</function>
+	<function>
+		<name>outZkHtmlTags</name>
+		<function-class>org.zkoss.zk.fn.DspFns</function-class>
+		<function-signature>
+	java.lang.String outZkHtmlTags(java.lang.String)
+		</function-signature>
+		<description>
+	Generates and returns the ZK specific HTML tags for the HTML output.
+	If you want to generate HTML HEAD and BODY tags by yourself, you
+	can invoke this method in the HTML HEAD tag.
+	This method is designed to use with DSP pages.
+	@param deviceType the device type. If null, ajax is assumed.
 		</description>
 	</function>
 

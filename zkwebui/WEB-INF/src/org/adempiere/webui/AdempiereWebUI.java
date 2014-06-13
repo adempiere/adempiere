@@ -29,10 +29,9 @@ import org.adempiere.webui.component.TokenCommand;
 import org.adempiere.webui.component.ZoomCommand;
 import org.adempiere.webui.desktop.DefaultDesktop;
 import org.adempiere.webui.desktop.IDesktop;
-import org.adempiere.webui.event.TokenEvent;
 import org.adempiere.webui.session.SessionContextListener;
 import org.adempiere.webui.session.SessionManager;
-import org.adempiere.webui.theme.ThemeManager;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.util.BrowserToken;
 import org.adempiere.webui.util.UserPreference;
 import org.compiere.model.MRole;
@@ -44,6 +43,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Page;
 import org.zkoss.zk.ui.Session;
@@ -57,6 +57,7 @@ import org.zkoss.zk.ui.sys.DesktopCache;
 import org.zkoss.zk.ui.sys.DesktopCtrl;
 import org.zkoss.zk.ui.sys.ExecutionCtrl;
 import org.zkoss.zk.ui.sys.ExecutionsCtrl;
+import org.zkoss.zk.ui.sys.PageCtrl;
 import org.zkoss.zk.ui.sys.SessionCtrl;
 import org.zkoss.zk.ui.sys.Visualizer;
 import org.zkoss.zul.Window;
@@ -69,7 +70,7 @@ import org.zkoss.zul.Window;
  *
  * @author hengsin
  */
-public class AdempiereWebUI extends Window implements EventListener, IWebClient
+public class AdempiereWebUI extends Window implements EventListener<Event>, IWebClient
 {
 	/**
 	 * 
@@ -78,7 +79,7 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 
 	public static final String APP_NAME = "Adempiere";
 
-    public static final String UID          = "3.5";
+    public static final String UID          = "7.02";
 
     private WLogin             loginDesktop;
 
@@ -100,20 +101,24 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
     {
     	this.addEventListener(Events.ON_CLIENT_INFO, this);
     	this.setVisible(false);
-
     	userPreference = new UserPreference();
+    	
+    	// Register all the themes that will be used
+    	ThemeUtils.registerAllThemes(Env.getCtx());   		
     }
 
     public void onCreate()
     {
-        this.getPage().setTitle(ThemeManager.getBrowserTitle());
-
         Properties ctx = Env.getCtx();
         langSession = Env.getContext(ctx, Env.LANGUAGE);
         SessionManager.setSessionApplication(this);
         Session session = Executions.getCurrent().getDesktop().getSession();
         if (session.getAttribute(SessionContextListener.SESSION_CTX) == null || !SessionManager.isUserLoggedIn(ctx))
         {
+        	// Use the system default theme where the user has not logged in.
+        	ThemeUtils.setSystemDefaultTheme();
+        	ThemeUtils.addBrowserIconAndTitle(this.getPage());
+
             loginDesktop = new WLogin(this);
             loginDesktop.createPart(this.getPage());
         }
@@ -181,11 +186,12 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
     	Env.setContext(ctx, Env.LANGUAGE, language.getAD_Language()); //Bug
 
 		//	Create adempiere Session - user id in ctx
-        Session currSess = Executions.getCurrent().getDesktop().getSession();
+    	Execution exec = Executions.getCurrent();
+        Session currSess = exec.getDesktop().getSession();
         HttpSession httpSess = (HttpSession) currSess.getNativeSession();
 
-		MSession mSession = MSession.get (ctx, currSess.getRemoteAddr(),
-			currSess.getRemoteHost(), httpSess.getId() );
+		MSession mSession = MSession.get (ctx, exec.getRemoteAddr(),
+			exec.getRemoteHost(), httpSess.getId() );
 
 		//enable full interface, relook into this when doing preference
 		Env.setContext(ctx, "#ShowTrl", true);

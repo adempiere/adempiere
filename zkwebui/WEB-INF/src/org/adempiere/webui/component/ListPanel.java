@@ -19,7 +19,7 @@ import java.util.Map;
 
 import javax.swing.table.AbstractTableModel;
 
-import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.editor.WEditor;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
@@ -281,13 +281,13 @@ public class ListPanel extends Borderlayout implements EventListener
 	
 	private void render()
 	{
-		LayoutUtils.addSclass("adtab-grid-panel", this);
+		ThemeUtils.addSclass("adtab-grid-panel", this);
 		
 		listbox.setVflex(true);
 		listbox.setFixedLayout(true);
 		listbox.addEventListener(Events.ON_SELECT, this);
 		
-		LayoutUtils.addSclass("adtab-grid", listbox);
+		ThemeUtils.addSclass("adtab-grid", listbox);
 		
 		updateModel();				
 		

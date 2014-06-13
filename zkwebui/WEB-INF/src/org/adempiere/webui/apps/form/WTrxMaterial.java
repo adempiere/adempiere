@@ -20,7 +20,7 @@ import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Grid;
@@ -164,7 +164,7 @@ public class WTrxMaterial extends TrxMaterial
 		mainLayout.appendChild(south);
 		south.appendChild(southPanel);
 		
-		LayoutUtils.addSclass("status-border", statusBar);
+		ThemeUtils.addSclass("status-border", statusBar);
 	}   //  jbInit
 
 	/**

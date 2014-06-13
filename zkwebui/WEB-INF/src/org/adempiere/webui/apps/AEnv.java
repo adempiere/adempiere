@@ -53,6 +53,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Language;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.web.servlet.Servlets;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Execution;
@@ -522,7 +523,7 @@ public final class AEnv
         URI uri = null;
         try
         {
-            uri = new URI("/images/" + fileNameInImageDir);
+            uri = new URI(ServletFns.resolveThemeURL("~./images/" + fileNameInImageDir));
         }
         catch (URISyntaxException exception)
         {

@@ -23,6 +23,7 @@ import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.util.UserPreference;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -100,7 +101,7 @@ public class WPreference extends Popup implements EventListener {
 		this.appendChild(toolbar);
 		ToolBarButton btn = new ToolBarButton("");
         btn.setName("btnSave");
-        btn.setImage("/images/Save24.png");
+        btn.setImage(ServletFns.resolveThemeURL("~./images/Save24.png"));
         btn.setTooltiptext(Msg.getMsg(Env.getCtx(),"Save"));
         btn.addEventListener(Events.ON_CLICK, this);
         toolbar.appendChild(btn);

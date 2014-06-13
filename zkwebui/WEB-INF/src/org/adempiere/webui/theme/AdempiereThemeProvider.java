@@ -15,16 +15,16 @@ package org.adempiere.webui.theme;
 import java.util.Collection;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Properties;
 
 import org.adempiere.model.MTheme;
-import org.adempiere.model.MThemeResource;
 import org.compiere.util.Env;
 import org.zkoss.lang.Strings;
 import org.zkoss.web.fn.ServletFns;
-import org.zkoss.zk.ui.Execution;
-import org.zkoss.zk.ui.util.ThemeProvider;
 import org.zkoss.web.theme.StandardTheme;
+import org.zkoss.zk.ui.Execution;
+import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Page;
+import org.zkoss.zk.ui.util.ThemeProvider;
 import org.zkoss.zul.theme.Themes;
 
 public class AdempiereThemeProvider implements ThemeProvider {
@@ -52,7 +52,6 @@ public class AdempiereThemeProvider implements ThemeProvider {
 		}
 	}
 	
-	
 	public Collection<Object> getThemeURIs(Execution exec, List<Object> uris) {
 		String suffix = getThemeFileSuffix();
 		
@@ -66,6 +65,9 @@ public class AdempiereThemeProvider implements ThemeProvider {
 		            uris.add(themeURI);
 		        }
 			}
+			else {
+				uris.add(DefaultTheme.ZK_DEFAULT_THEME_URI);
+			}			
 		}
         return uris;
     }
