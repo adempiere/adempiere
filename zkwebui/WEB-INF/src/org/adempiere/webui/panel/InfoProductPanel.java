@@ -87,6 +87,7 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Borderlayout;
 import org.zkoss.zul.Center;
+import org.zkoss.zul.Frozen;
 import org.zkoss.zul.North;
 
 /**
@@ -173,6 +174,7 @@ public class InfoProductPanel extends InfoPanel implements ValueChangeListener
 	private int			m_M_Locator_ID = 0;
 
 	protected int m_ATP_M_Warehouse_ID;
+	private Frozen m_frozen;
 
 	/**
 	 *	Standard Constructor
@@ -455,7 +457,8 @@ public class InfoProductPanel extends InfoPanel implements ValueChangeListener
         m_sqlWarehouse = warehouseTbl.prepareTable(s_layoutWarehouse, s_sqlFrom, s_sqlWhere, false, "M_PRODUCT_STOCK_V");
         m_sqlWarehouse += " Group By M_Warehouse_ID, Warehouse, documentnote ";
 		warehouseTbl.setMultiSelection(false);
-        warehouseTbl.autoSize();
+		warehouseTbl.setSizedByContent(false);
+        //warehouseTbl.autoSize();
         warehouseTbl.setShowTotals(true);
         //warehouseTbl.getModel().addTableModelListener(this);
         warehouseTbl.setAttribute("zk_component_ID", "Lookup_Data_Warehouse");
@@ -2017,7 +2020,7 @@ public class InfoProductPanel extends InfoPanel implements ValueChangeListener
 	 * A record was selected - take action to sync subordinate tables if any
 	 */
 	protected void recordSelected(int key)
-	{
+	{		
 		//  Found and selected the same record or selected the first record
     	if (m_M_Product_ID != key)
     	{

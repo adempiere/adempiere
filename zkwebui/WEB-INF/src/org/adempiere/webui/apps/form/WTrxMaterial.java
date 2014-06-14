@@ -41,6 +41,7 @@ import org.adempiere.webui.panel.CustomForm;
 import org.adempiere.webui.panel.IFormController;
 import org.adempiere.webui.panel.StatusBarPanel;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.compiere.apps.form.TrxMaterial;
 import org.compiere.model.MLocatorLookup;
 import org.compiere.model.MLookup;

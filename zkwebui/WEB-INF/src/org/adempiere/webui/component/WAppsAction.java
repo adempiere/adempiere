@@ -22,6 +22,7 @@ import java.net.URI;
 
 import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.apps.AEnv;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 

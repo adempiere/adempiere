@@ -23,8 +23,10 @@ import java.text.ParseException;
 
 import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.apps.AEnv;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zhtml.Table;
 import org.zkoss.zhtml.Td;
@@ -98,7 +100,7 @@ public class NumberBox extends Div
 		decimalBox = new Decimalbox();
     	if (integral)
     		decimalBox.setScale(0);
-    	decimalBox.setStyle("display: inline;");
+                decimalBox.setStyle("display: inline;");
 		td.appendChild(decimalBox);
 		
 		Td btnColumn = new Td();
@@ -106,7 +108,7 @@ public class NumberBox extends Div
 		btnColumn.setStyle("border: none; padding: 0px; margin: 0px;");
 		btnColumn.setSclass("editor-button");
 		btn = new Button();
-        btn.setImage(ServletFns.resolveThemeURL("~./images/Calculator10.png"));
+                btn.setImage(ServletFns.resolveThemeURL("~./images/Calculator10.png"));
 		btn.setTabindex(-1);
 		ThemeUtils.addSclass("editor-button", btn);
 		btnColumn.appendChild(btn);

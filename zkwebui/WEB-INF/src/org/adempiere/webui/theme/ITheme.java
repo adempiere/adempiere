@@ -20,17 +20,11 @@ package org.adempiere.webui.theme;
  */
 public interface ITheme {
 
-	//theme key in MSysConfig
-	public static final String ZK_THEME = "ZK_THEME";
-	//default theme
-	public static final String ZK_THEME_DEFAULT = "default";
-	//theme resource url prefix
-	public static final String THEME_PATH_PREFIX = "/theme/";
-
 	//css for login window and box
 	public static final String WLOGIN_LAYOUT = "wlogin-layout";
 	public static final String WLOGIN_LAYOUT_CENTER = "wlogin-layout-center";
 	public static final String LOGIN_WINDOW_CLASS = "login-window";
+	public static final String LOGIN_PANEL_CLASS = "login-panel";
 	public static final String LOGIN_BOX_CLASS = "login-box";
 	public static final String LOGIN_BOX_HEADER_CLASS = "login-box-header";
 	public static final String LOGIN_BOX_HEADER_TXT_CLASS = "login-box-header-text";
@@ -38,7 +32,9 @@ public interface ITheme {
 	public static final String LOGIN_BOX_BODY_CLASS = "login-box-body";
 	public static final String LOGIN_BOX_FOOTER_CLASS = "login-box-footer";
 	public static final String LOGIN_BOX_FOOTER_PANEL_CLASS = "login-box-footer-pnl";
-
+	public static final String LOGIN_BOX_CENTER_CLASS = "login-box-center";
+	public static final String LOGIN_BOX_CLASS = "login-box";
+	
 	//css for login control
 	public static final String LOGIN_BUTTON_CLASS = "login-btn";
 	public static final String LOGIN_LABEL_CLASS = "login-label";
@@ -49,6 +45,14 @@ public interface ITheme {
 	public static final String LOGIN_SOUTH_PANEL_CLASS = "login-south-panel";
 	public static final String LOGIN_WEST_PANEL_CLASS = "login-west-panel";
 	public static final String LOGIN_EAST_PANEL_CLASS = "login-east-panel";
+
+	//Confirm Panel
+	public static final String CONFIRM_PANEL = "confirm-panel";
+	public static final String CONFIRM_PANEL_BUTTON = "confirm-panel-button";
+	public static final String CONFIRM_PANEL_LEFT_BUTTONS = "confirm-panel-left-buttons";
+	public static final String CONFIRM_PANEL_RIGHT_BUTTONS = "confirm-panel-right-buttons";
+	public static final String CONFIRM_PANEL_ACTION_TEXT_BUTTON = "confirm-panel-action-text-button";
+	public static final String CONFIRM_PANEL_ACTION_BUTTON = "confirm-panel-action-button";
 
 	//  The following file locations have been moved to the AD_Theme table and MTheme model
 	//  to make them variable with the theme.

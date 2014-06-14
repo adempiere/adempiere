@@ -22,6 +22,7 @@ import javax.swing.table.AbstractTableModel;
 import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.panel.AbstractADWindowPanel;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.util.SortComparator;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
@@ -58,13 +59,13 @@ public class GridPanel extends Borderlayout implements EventListener
 	 */
 	private static final long serialVersionUID = -7151423393713654553L;
 	
-	private static final int MIN_COLUMN_WIDTH = 100;			// 列最小宽度
+	private static final int MIN_COLUMN_WIDTH = 100;			// 列最�宽度
 
 	private static final int MAX_COLUMN_WIDTH = 300;		// 列最大宽度
 
-	private static final int MIN_COMBOBOX_WIDTH = 160;	// COMBOBOX最小宽度
+	private static final int MIN_COMBOBOX_WIDTH = 160;	// COMBOBOX最�宽度
 
-	private static final int MIN_NUMERIC_COL_WIDTH = 130;	// numeric最小宽度
+	private static final int MIN_NUMERIC_COL_WIDTH = 130;	// numeric最�宽度
 
 	private Grid listbox = null;
 
@@ -80,7 +81,7 @@ public class GridPanel extends Borderlayout implements EventListener
 
 	private GridTab gridTab;
 
-	private boolean init;			// 是否已经初始化
+	private boolean init;			// 是�已��始化
 
 	private GridTableListModel listModel;
 
@@ -317,7 +318,7 @@ public class GridPanel extends Borderlayout implements EventListener
 
 		listbox.setVflex(true);
 		//true might looks better, false for better performance
-        listbox.setSizedByContent(false);
+                listbox.setSizedByContent(false);
 		listbox.addEventListener(Events.ON_CLICK, this);
 
 		updateModel();

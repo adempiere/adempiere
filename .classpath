@@ -278,16 +278,6 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/jcommon-1.0.18.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/jfreechart-1.0.15.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="JasperReportsTools/lib/jasperreports-5.1.0.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
@@ -305,21 +295,14 @@
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/ext/commons-collections.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/ext/commons-fileupload.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/ext/commons-io.jar"/>
-	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/ext/commons-logging.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/ext/Filters.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/ext/itext.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/ext/jasperreports.jar"/>
-	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/ext/jcommon.jar"/>
-	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/ext/jfreechart.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/ext/jxl.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/ext/poi.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/theme/sapphire.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/theme/silvertail.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zkforge/flashchart.jar"/>
-	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zkforge/gmapsz.jar"/>
-	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zkforge/timelinez.jar"/>
-	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zkforge/timeplotz.jar"/>
-	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zkforge/zuljsp.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/asm.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/cglib.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/fckez.jar"/>
@@ -331,21 +314,17 @@
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/mvel.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/ognl.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/xercesImpl.jar"/>
-	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zcommon-sources.jar"/>
+	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/keylistener.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zcommon.jar" sourcepath="zkwebui/WEB-INF/lib/zcommon-sources.jar"/>
-	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zel-sources.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zel.jar" sourcepath="zkwebui/WEB-INF/lib/zel-sources.jar"/>
-	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zhtml-sources.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zhtml.jar" sourcepath="zkwebui/WEB-INF/lib/zhtml-sources.jar"/>
-	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zk-sources.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zk.jar" sourcepath="zkwebui/WEB-INF/lib/zk-sources.jar"/>
-	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zkbind-sources.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zkbind.jar" sourcepath="zkwebui/WEB-INF/lib/zkbind-sources.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zkplus-sources.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zkplus.jar" sourcepath="zkwebui/WEB-INF/lib/zkplus-sources.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zul-sources.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zul.jar" sourcepath="zkwebui/WEB-INF/lib/zul-sources.jar"/>
-	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zweb-sources.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zweb.jar" sourcepath="zkwebui/WEB-INF/lib/zweb-sources.jar"/>
+	<classpathentry kind="lib" path="tools/lib/jfreechart-1.0.17.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

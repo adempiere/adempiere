@@ -21,6 +21,7 @@ import javax.swing.table.AbstractTableModel;
 
 import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.editor.WEditor;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.GridTable;

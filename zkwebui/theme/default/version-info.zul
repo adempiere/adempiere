@@ -16,17 +16,6 @@ Copyright (C) 2009 Idalica Corporation
 </zscript>
 <html>
 <![CDATA[
-<style>
-	.versionInfoBox {
-		background-color: #9CBDFF;
-		margin: 5px;
-		padding: 3px;
-		margin-top: 20px;
-		-moz-border-radius: 5px;
-		-webkit-border-radius: 5px;
-		font-size: 8pt;
-	}
-</style>
 <div class="versionInfoBox">
 	<table border="0">
 		<tr>

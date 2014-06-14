@@ -38,7 +38,7 @@ import javax.servlet.ServletRequest;
 
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.session.SessionManager;
-import org.adempiere.webui.theme.ThemeManager;
+import org.adempiere.webui.theme.DefaultTheme;
 import org.compiere.acct.Doc;
 import org.compiere.model.GridWindowVO;
 import org.compiere.model.Lookup;
@@ -515,7 +515,7 @@ public final class AEnv
 	/**
 	 *  Get ImageIcon.
 	 *
-	 *  @param fileNameInImageDir full file name in imgaes folder (e.g. Bean16.png)
+	 *  @param fileNameInImageDir full file name in theme imgaes folder (e.g. Bean16.png)
 	 *  @return image
 	 */
     public static URI getImage(String fileNameInImageDir)
@@ -735,7 +735,10 @@ public final class AEnv
 		}
 		String header = sb.toString().trim();
 		if (header.length() == 0)
-			header = ThemeManager.getBrowserTitle();
+		{
+			DefaultTheme dt = new DefaultTheme();
+			header = dt.get_themeDisplay();
+		}
 		return header;
 	}
 }	//	AEnv

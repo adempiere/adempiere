@@ -29,7 +29,8 @@ import org.adempiere.webui.component.Tabpanels;
 import org.adempiere.webui.component.Tabs;
 import org.adempiere.webui.component.ToolBarButton;
 import org.adempiere.webui.component.Window;
-import org.adempiere.webui.theme.ThemeManager;
+import org.adempiere.webui.theme.DefaultTheme;
+import org.adempiere.webui.theme.ITheme;
 import org.compiere.Adempiere;
 import org.compiere.model.MUser;
 import org.compiere.util.CLogErrorBuffer;
@@ -76,18 +77,20 @@ public class AboutWindow extends Window implements EventListener<Event> {
 	}
 
 	private void init() {
-//		this.setWidth("500px");
-//		this.setHeight("450px");
+		this.setWidth("500px");
+		this.setHeight("450px");
 		this.setPosition("center");
-		this.setTitle(ThemeManager.getBrowserTitle());
+		DefaultTheme dt = new DefaultTheme();
+		this.setTitle(dt.get_themeDisplay());
 		this.setClosable(true);
 		this.setMaximizable(true);
 		this.setSizable(true);
+		this.setSclass("about-window");
+		this.setContentSclass("about-window-content");
 
 		this.addEventListener(Events.ON_SIZE, this);
 
 		Vbox layout = new Vbox();
-		layout.setWidth("100%");
 		layout.setParent(this);
 		layout.setVflex("1");
 		layout.setHflex("1");
@@ -224,10 +227,11 @@ public class AboutWindow extends Window implements EventListener<Event> {
 		Hbox hbox = new Hbox();
 		hbox.setParent(vbox);
 		ToolBarButton link = new ToolBarButton();
-		link.setImage("images/Posterita.jpg");
+		link.setImage(ServletFns.resolveThemeURL("~./images/Posterita.jpg"));
 		link.setParent(hbox);
 		link.setHref("http://www.posterita.org");
 		link.setTarget("_blank");
+		link.setHeight("54px");
 		Label label= new Label("Contributed the initial Zk Web Client code.");
 		label.setParent(hbox);
 
@@ -315,43 +319,44 @@ public class AboutWindow extends Window implements EventListener<Event> {
 		vbox.setPack("center");
 		vbox.setParent(tabPanel);
 
-		Image image = new Image(ThemeManager.getSmallLogo());
+		Image image = new Image(ServletFns.resolveThemeURL(ITheme.LOGO_IMAGE_SMALL));
 		image.setParent(vbox);
+		image.setSclass("about-window-logo");
 
 		Text text = new Text(Adempiere.getSubtitle());
 		text.setParent(vbox);
-		Separator separator = new Separator();
-		separator.setParent(vbox);
+		//Separator separator = new Separator();
+		//separator.setParent(vbox);
 
 		text = new Text(Adempiere.getVersion());
 		text.setParent(vbox);
 
-		separator = new Separator();
-		separator.setParent(vbox);
+		//separator = new Separator();
+		//separator.setParent(vbox);
 		ToolBarButton link = new ToolBarButton();
 		link.setLabel("Sourceforge.net Project Site");
 		link.setHref("http://www.sourceforge.net/projects/adempiere");
 		link.setTarget("_blank");
 		link.setParent(vbox);
 
-		separator = new Separator();
-		separator.setParent(vbox);
+		//separator = new Separator();
+		//separator.setParent(vbox);
 		link = new ToolBarButton();
 		link.setLabel("ADempiere Wiki");
 		link.setHref("http://www.adempiere.com/wiki/index.php");
 		link.setTarget("_blank");
 		link.setParent(vbox);
 
-		separator = new Separator();
-		separator.setParent(vbox);
+		//separator = new Separator();
+		//separator.setParent(vbox);
 		link = new ToolBarButton();
 		link.setLabel("ADempiere.org");
 		link.setHref("http://www.adempiere.org");
 		link.setTarget("_blank");
 		link.setParent(vbox);
 
-		separator = new Separator();
-		separator.setParent(vbox);
+		//separator = new Separator();
+		//separator.setParent(vbox);
 		link = new ToolBarButton();
 		link.setLabel("ADempiere.com");
 		link.setHref("http://www.adempiere.com");

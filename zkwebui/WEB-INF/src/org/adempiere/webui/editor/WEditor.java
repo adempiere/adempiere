@@ -28,6 +28,7 @@ import org.adempiere.webui.component.Datebox;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.util.DisplayType;
@@ -180,6 +181,8 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
 
     private void init()
     {
+    	ThemeUtils.addSclass("editor", this.getComponent());
+
         label = new Label("");
         label.setValue(strLabel);
         label.setTooltiptext(description);

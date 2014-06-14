@@ -42,6 +42,7 @@ public class Button extends org.zkoss.zul.Button
     public Button(String label)
     {
         super(label);
+    	setName(label);
     }
     
     public void setName(String name)

@@ -22,6 +22,7 @@ import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.util.OSTask;
 import org.compiere.model.MTask;
 import org.compiere.util.CLogger;

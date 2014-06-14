@@ -225,7 +225,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     }
 
 	/**
-	 * 获取状态栏
+	 * 获�状��
 	 * @return StatusBarPanel
 	 */
 	public StatusBarPanel getStatusBar()
@@ -234,7 +234,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     }
 
 	/**
-	 * 是否是嵌入的
+	 * 是�是嵌入的
 	 * @return boolean
 	 */
 	public boolean isEmbedded() {
@@ -242,7 +242,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	}
 
 	/**
-	 * 初始化部件
+	 * �始化部件
 	 */
     private void initComponents()
     {
@@ -266,7 +266,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	}
 
     /**
-     * 初始化Panel
+     * �始化Panel
      * @param adWindowId
      * @param query
      * @return boolean
@@ -298,7 +298,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		// Set AutoCommit for this Window
 		if (embeddedTabindex < 0)
 		{
-			// 修改autoNew、AutoCommit 为 false	
+			// 修改autoNew�AutoCommit 为 false	
 			// modified by jack 20130825
 //			Env.setAutoCommit(ctx, curWindowNo, Env.isAutoCommit(ctx));
 //			boolean autoNew = Env.isAutoNew(ctx);
@@ -526,7 +526,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	}
 
 	/**
-	 * 初始化内置Tab
+	 * �始化内置Tab
 	 * @param query
 	 * @param tabIndex
 	 */
@@ -1418,7 +1418,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 	// Elaine 2008/11/19
     /**
-     * 复制操作
+     * �制�作
      * @see ToolbarListener#onCopy()
      */
     public void onCopy()

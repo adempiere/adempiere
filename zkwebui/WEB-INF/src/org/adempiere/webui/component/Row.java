@@ -20,14 +20,25 @@ package org.adempiere.webui.component;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zul.Cell;
 
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zul.Cell;
+
 /**
  *
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
  * @date    Feb 25, 2007
  * @version $Revision: 0.10 $
+ * 
+ * Append cell code copied from idempiere project.
+ * See https://bitbucket.org/idempiere/idempiere/src/8d3b639fd52c/org.adempiere.ui.zk/WEB-INF/src/org/adempiere/webui/component/Row.java?at=development
+ * 
  */
 public class Row extends org.zkoss.zul.Row
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5996761805124218360L;
 	private Cell m_lastCell;
 
 	public boolean appendCellChild(Component child) {
@@ -58,5 +69,4 @@ public class Row extends org.zkoss.zul.Row
 	public Cell getLastCell() {
 		return m_lastCell;
 	}
-
 }

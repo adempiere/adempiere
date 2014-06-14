@@ -19,7 +19,7 @@ Copyright (C) 2007 Ashley G Ramdass (ADempiere WebUI).
 
 	<version>
 		<version-class>org.adempiere.webui.AdempiereWebUI</version-class>
-		<version-uid>3.5</version-uid>
+		<version-uid>7.02</version-uid>
 	</version>
 
 	<component>

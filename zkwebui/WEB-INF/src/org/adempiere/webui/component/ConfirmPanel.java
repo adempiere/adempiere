@@ -22,7 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.adempiere.webui.theme.ThemeUtils;
+import org.adempiere.webui.theme.ITheme;
 import org.adempiere.webui.theme.ThemeUtils;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -31,6 +31,8 @@ import org.zkoss.zhtml.Div;
 import org.zkoss.zhtml.Table;
 import org.zkoss.zhtml.Td;
 import org.zkoss.zhtml.Tr;
+import org.compiere.util.Util;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -44,7 +46,7 @@ import org.zkoss.zul.Messagebox;
  * @author Sendy Yagambrum
  * @date July 25, 2007
  **/
-public final class ConfirmPanel extends Table
+public final class ConfirmPanel extends Hlayout
 {
 	/**
 	 * 
@@ -113,11 +115,7 @@ public final class ConfirmPanel extends Table
         button.setName("btn"+name);
         button.setId(name);  // Might get overwritten by renderer
         button.setAttribute("zk_component_ID", "ConfirmPanel_btn"+name);
-        String text = Msg.translate(Env.getCtx(), name);
-        if (!name.equals(text))
-        	text = text.replaceAll("[&]", "");
-        else
-        	text = null;
+        String text = Util.cleanAmp(Msg.translate(Env.getCtx(), name));
 
         if (m_withText && text != null)
         {
@@ -227,29 +225,29 @@ public final class ConfirmPanel extends Table
     //private Hbox hboxBtnLeft;
     //private Hbox hboxBtnRight;
     //
-    private Div pnlBtnRight;
-    private Div pnlBtnLeft;
+    private Hbox pnlBtnRight;
+    private Hbox pnlBtnLeft;
 
     /**
      * initialise components
      */
     private void init()
     {
-    	ThemeUtils.addSclass("confirm-panel", this);
-    	Tr tr = new Tr();
-    	this.appendChild(tr);
-    	Td td = new Td();
-    	tr.appendChild(td);
-    	
-        pnlBtnLeft = new Div();
-        pnlBtnLeft.setAttribute("align", "left");
-        td.appendChild(pnlBtnLeft);
+        pnlBtnLeft = new Hbox();
+        pnlBtnLeft.setPack("start"); // load from the left
+        pnlBtnLeft.setHflex("min"); // Shrink to fit the contents
+        pnlBtnLeft.setSizedByContent(false);
         ThemeUtils.addSclass("confirm-panel-left", pnlBtnLeft);
 
-        pnlBtnRight = new Div();
-        pnlBtnRight.setAttribute("align", "right");
-        td.appendChild(pnlBtnRight);
+        pnlBtnRight = new Hbox();
+        pnlBtnRight.setPack("end"); // Load from the right
+        pnlBtnRight.setHflex("1"); // Take up the rest of the space in the Confirm Panel
+        pnlBtnRight.setSizedByContent(false);
         ThemeUtils.addSclass("confirm-panel-right", pnlBtnRight);
+
+        this.appendChild(pnlBtnLeft);
+        this.appendChild(pnlBtnRight);
+    	ThemeUtils.addSclass("confirm-panel", this);
     }
 
     /**

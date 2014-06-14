@@ -31,6 +31,7 @@ import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.CustomForm;
 import org.adempiere.webui.panel.IFormController;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.apps.form.TreeMaintenance;
 import org.compiere.model.MTree;

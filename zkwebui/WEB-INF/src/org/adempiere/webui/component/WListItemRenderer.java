@@ -33,6 +33,7 @@ import java.util.Set;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.event.TableValueChangeEvent;
 import org.adempiere.webui.event.TableValueChangeListener;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.util.DisplayType;
@@ -184,8 +185,17 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 			if (colorCode < 0)
 			{
 				//  Color the row.
-				//  TODO: do this with a class and CSS
-				item.setStyle("color: #FF0000; " + item.getStyle());
+				ThemeUtils.addSclass("color-row-low", item);
+			}
+			if (colorCode == 0)
+			{
+				//  Color the row.
+				ThemeUtils.addSclass("color-row-normal", item);
+			}
+			if (colorCode > 0)
+			{
+				//  Color the row.
+				ThemeUtils.addSclass("color-row-high", item);
 			}
 		}
 
@@ -464,6 +474,8 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 	            header.setSort("auto");
 	            header.setSortAscending(ascComparator);
 	            header.setSortDescending(dscComparator);
+	            
+	            /*  After ZK 5+ use hflex to set column size.
 	
 	            int width = headerText.trim().length() * 9;
 	            if (width > 300)
@@ -488,6 +500,8 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 	            	width = 100;
 	
 	            header.setWidth(width + "px");
+	            */
+	            header.setHflex("min");
         	}
             m_headers.add(header);
         }

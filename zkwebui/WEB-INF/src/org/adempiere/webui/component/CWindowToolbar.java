@@ -28,6 +28,7 @@ import java.util.logging.Level;
 import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.event.ToolbarListener;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.compiere.model.MRole;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
@@ -56,9 +57,9 @@ public class CWindowToolbar extends FToolbar implements EventListener<Event>
 	 */
 	private static final long serialVersionUID = -8259762910508209764L;
 
-	private static final String TOOLBAR_BUTTON_STYLE = "background-color: transparent; display:inline-block; margin-left: 1px; margin-right: 1px; width: 26px; height: 24px;";
-
-	private static final String EMBEDDED_TOOLBAR_BUTTON_STYLE = "background-color: transparent; display:inline-block; margin-left: 1px; margin-right: 1px; width: 20px; height: 18px;";
+	// Theme info moved to theme.
+	//private static final String TOOLBAR_BUTTON_STYLE = "background-color: transparent; display:inline-block; margin-left: 1px; margin-right: 1px; width: 26px; height: 24px;";
+	//private static final String EMBEDDED_TOOLBAR_BUTTON_STYLE = "background-color: transparent; display:inline-block; margin-left: 1px; margin-right: 1px; width: 20px; height: 18px;";
 	
     private static CLogger log = CLogger.getCLogger(CWindowToolbar.class);
 
@@ -198,12 +199,12 @@ public class CWindowToolbar extends FToolbar implements EventListener<Event>
         btn.setTooltiptext(Msg.getMsg(Env.getCtx(),tooltip));
         if (embedded)
         {
-        	btn.setStyle(EMBEDDED_TOOLBAR_BUTTON_STYLE);
+        	//btn.setStyle(EMBEDDED_TOOLBAR_BUTTON_STYLE);  // Moved to theme
         	btn.setSclass("embedded-toolbar-button");
         }
         else
         {
-        	btn.setStyle(TOOLBAR_BUTTON_STYLE);
+        	//btn.setStyle(TOOLBAR_BUTTON_STYLE);  // Moved to theme
         	btn.setSclass("toolbar-button");
         }
         buttons.put(name, btn);
@@ -347,23 +348,11 @@ public class CWindowToolbar extends FToolbar implements EventListener<Event>
 		        Method method = tListener.getClass().getMethod(methodName, (Class[]) null);
 		        method.invoke(tListener, (Object[]) null);
 		    }
-		    catch(SecurityException e)
-		    {
-		        log.log(Level.SEVERE, "Could not invoke Toolbar listener method: " + methodName + "()", e);
-		    }
-		    catch(NoSuchMethodException e)
-		    {
-		        log.log(Level.SEVERE, "Could not invoke Toolbar listener method: " + methodName + "()", e);
-		    }
-		    catch(IllegalArgumentException e)
-		    {
-		        log.log(Level.SEVERE, "Could not invoke Toolbar listener method: " + methodName + "()", e);
-		    }
-		    catch(IllegalAccessException e)
-		    {
-		        log.log(Level.SEVERE, "Could not invoke Toolbar listener method: " + methodName + "()", e);
-		    }
-		    catch(InvocationTargetException e)
+		    catch(SecurityException | 
+		    	  NoSuchMethodException |
+		    	  IllegalArgumentException |
+		    	  IllegalAccessException |
+		    	  InvocationTargetException e)
 		    {
 		        log.log(Level.SEVERE, "Could not invoke Toolbar listener method: " + methodName + "()", e);
 		    }

@@ -86,7 +86,6 @@ import org.zkoss.zul.DefaultTreeNode;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Groupfoot;
 import org.zkoss.zul.Panel;
-import org.zkoss.zul.Panelchildren;
 import org.zkoss.zul.Space;
 import org.zkoss.zul.TreeModel;
 import org.zkoss.zul.Treeitem;
@@ -294,6 +293,8 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
     	columns.appendChild(col);
     	
     	numCols = columns.getChildren().size();
+    	
+    	numCols = columns.getChildren().size();
 
     	rows = grid.newRows();
         GridField fields[] = gridTab.getFields();
@@ -321,11 +322,19 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
                         if (currentGroup != null) {
                         	currentGroup.add(row);
                         }
+                        }
+                        if (currentGroup != null) {
+                        	currentGroup.add(row);
+                        }
         			} else if (row.getChildren().size() > 0)
         			{
         				rows.appendChild(row);
         				if (rowList != null) {
             				rowList.add(row);
+        				}
+                        if (currentGroup != null) {
+                        	currentGroup.add(row);
+                        }
         				}
                         if (currentGroup != null) {
                         	currentGroup.add(row);
@@ -675,6 +684,12 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
     			collapsedGroups.add(group);
     	}
 
+    	List<Group> collapsedGroups = new ArrayList<Group>();
+    	for (Group group : allCollapsibleGroups) {
+    		if (! group.isOpen())
+    			collapsedGroups.add(group);
+    	}
+
         for (WEditor comp : editors)
         {
         	comp.setMandatoryLabels();
@@ -728,10 +743,16 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
         }   //  all components
 
         //hide row if all editor within the row is invisible or the group is closed
-        List<Row> rows = grid.getRows().getChildren();
-        for(Row row: rows)
+        List<Compontent> rows = grid.getRows().getChildren();
+        for(Component comp: rows)
         {
-        	List<?> components = row.getChildren();
+        	// Ignore the groups
+        	if (comp instanceof Group) {
+        		continue;
+        	}
+        	
+        	Row row = (Row) comp;
+        	
         	boolean visible = false;
         	boolean editorRow = false;
         	for (Component component: row.getChildren())
@@ -750,6 +771,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
         	if (editorRow && (row.isVisible() != visible)) {
         		row.setAttribute(Group.GROUP_ROW_VISIBLE_KEY, visible ? "true" : "false");
         		row.setVisible(visible);
+        	}
         	}
         }
 
@@ -1473,6 +1495,22 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 	 */
 	public GridPanel getGridView() {
 		return listPanel;
+	}
+	
+	/**
+	 * Add a row to the rows and group.
+	 * 
+	 * @param row
+	 */
+	private void addRow(Row row) {
+        rows.appendChild(row);
+        if (rowList != null) {
+			rowList.add(row);
+        }
+        if (currentGroup != null) {
+        	currentGroup.add(row);
+        }
+
 	}
 	
 	/**

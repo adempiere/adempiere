@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 Copyright (C) 2007 Ashley G Ramdass.
+Modified 2014 Michael McKay
+
+All themes and css can be added in software or the model.
 -->
 <?page style="height:100%"?>
 <?meta http-equiv="X-UA-Compatible" content="IE=8" ?>

@@ -15,8 +15,8 @@ package org.adempiere.webui.dashboard;
 
 import java.util.Enumeration;
 
+import org.adempiere.webui.component.Button;
 import org.adempiere.exceptions.DBException;
-import org.adempiere.webui.component.ToolBarButton;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MTree;
@@ -116,11 +116,12 @@ public class DPFavourites extends DashboardPanel implements EventListener<Event>
 				MTreeNode nd = (MTreeNode)en.nextElement();
 				if (nd.isOnBar()) {
 					String label = nd.toString().trim();
-					ToolBarButton btnFavItem = new ToolBarButton(String.valueOf(nd.getNode_ID()));
+					Button btnFavItem = new Button(String.valueOf(nd.getNode_ID()));
 					
 					
 					btnFavItem.setLabel(label);
 					btnFavItem.setImage(getIconFile(nd));
+					btnFavItem.setIconSclass("dp-favorite-button-image");
 					btnFavItem.setDraggable(DELETE_FAV_DROPPABLE);
 					btnFavItem.addEventListener(Events.ON_CLICK, this);
 					btnFavItem.addEventListener(Events.ON_DROP, this);
@@ -171,16 +172,16 @@ public class DPFavourites extends DashboardPanel implements EventListener<Event>
         
         if(eventName.equals(Events.ON_CLICK))
         {
-            if(comp instanceof ToolBarButton)
+            if(comp instanceof Button)
             {
-            	ToolBarButton btn = (ToolBarButton) comp;
+            	Button btn = (Button) comp;
             	
             	int menuId = 0;
             	try
             	{
             		menuId = Integer.valueOf(btn.getName());            		
             	}
-            	catch (Exception e) {
+            	catch (NumberFormatException e) {
 					
 				}
             	
@@ -205,9 +206,9 @@ public class DPFavourites extends DashboardPanel implements EventListener<Event>
         	}
         	else if(comp instanceof Image)
         	{
-        		if(dragged instanceof ToolBarButton)
+        		if(dragged instanceof Button)
         		{
-        			ToolBarButton btn = (ToolBarButton) dragged;
+        			Button btn = (Button) dragged;
         			removeLink(btn);
         		}
         	}
@@ -215,7 +216,7 @@ public class DPFavourites extends DashboardPanel implements EventListener<Event>
         //
 	}
 
-	private void removeLink(ToolBarButton btn) {
+	private void removeLink(Button btn) {
 		String value = btn.getName();
 		
 		if(value != null)
@@ -245,7 +246,7 @@ public class DPFavourites extends DashboardPanel implements EventListener<Event>
 			if(barDBupdate(true, Node_ID))
 			{
 				String label = treeitem.getLabel().trim();
-				ToolBarButton btnFavItem = new ToolBarButton(String.valueOf(Node_ID));
+				Button btnFavItem = new Button(String.valueOf(Node_ID));
 				btnFavItem.setLabel(label);
 				btnFavItem.setImage(treeitem.getImage());
 				btnFavItem.setDraggable(DELETE_FAV_DROPPABLE);
@@ -263,13 +264,13 @@ public class DPFavourites extends DashboardPanel implements EventListener<Event>
 	
 	private String getIconFile(MTreeNode mt) {
 		if (mt.isWindow())
-			return "images/mWindow.png";
+			return ServletFns.resolveThemeURL("~./images/mWindow.png");
 		if (mt.isReport())
-			return "images/mReport.png";
+			return ServletFns.resolveThemeURL("~./images/mReport.png");
 		if (mt.isProcess())
-			return "images/mProcess.png";
+			return ServletFns.resolveThemeURL("~./images/mProcess.png");
 		if (mt.isWorkFlow())
-			return "images/mWorkFlow.png";
-		return "images/mWindow.png";
+			return ServletFns.resolveThemeURL("~./images/mWorkFlow.png");
+		return ServletFns.resolveThemeURL("~./images/mWindow.png");
 	}
 }

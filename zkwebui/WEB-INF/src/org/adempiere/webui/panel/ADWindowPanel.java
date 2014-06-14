@@ -34,6 +34,7 @@ import org.adempiere.webui.component.Tabpanel;
 import org.adempiere.webui.component.Tabs;
 import org.adempiere.webui.part.ITabOnSelectHandler;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.util.UserPreference;
 import org.compiere.model.GridWindow;
 import org.compiere.model.MQuery;
@@ -97,20 +98,22 @@ public class ADWindowPanel extends AbstractADWindowPanel
         layout = new Borderlayout();
         if (parent != null) {
 	        layout.setParent(parent);
-	        layout.setStyle("position:absolute");
-	        layout.setHeight("100%");
-	        layout.setWidth("100%");
+	        //layout.setStyle("position:absolute");
+	        //layout.setHeight("100%");
+	        //layout.setWidth("100%");
         } else {
         	layout.setPage(page);
         }
+        ThemeUtils.addSclass("adwindow", layout);
 
         if (!isEmbedded())
         {
 	        North n = new North();
 	        n.setParent(layout);
 	        n.setCollapsible(false);
-	        n.setHeight("30px");
-	        toolbar.setHeight("30px");
+	        ThemeUtils.addSclass("adwindow-toolbar-layout", n);
+	        //n.setHeight("30px");  // Moved to theme
+	        //toolbar.setHeight("30px");
 	        toolbar.setParent(n);
 	        toolbar.setWindowNo(getWindowNo());
         }
@@ -122,7 +125,7 @@ public class ADWindowPanel extends AbstractADWindowPanel
         ThemeUtils.addSclass("adwindow-status", statusBar);
 
         if (!isEmbedded() && adTab.isUseExternalSelection())
-        {
+        {	
         	String tabPlacement = SessionManager.getSessionApplication().getUserPreference().getProperty(UserPreference.P_WINDOW_TAB_PLACEMENT);
         	if (tabPlacement == null || "left".equalsIgnoreCase(tabPlacement))
         	{
@@ -132,7 +135,7 @@ public class ADWindowPanel extends AbstractADWindowPanel
     	        west.setAutoscroll(true);
     	        west.setHflex("true");
     	        west.setVflex("true");
-    	        ThemeUtils.addSclass("adwindow-nav adwindow-left-nav", west);
+    	        ThemeUtils.addSclass("adwindow-nav adwindow-nav-left", west);
     	       adTab.setTabplacement(IADTab.LEFT);
     	       adTab.getTabSelectionComponent().setParent(west);
 
@@ -150,7 +153,7 @@ public class ADWindowPanel extends AbstractADWindowPanel
 		        east.setAutoscroll(true);
 		        east.setHflex("true");
 		        east.setVflex("true");
-		        ThemeUtils.addSclass("adwindow-nav adwindow-right-nav", east);
+		        ThemeUtils.addSclass("adwindow-nav adwindow-nav-right", east);
 		        adTab.setTabplacement(IADTab.RIGHT);
 		        adTab.getTabSelectionComponent().setParent(east);
 

@@ -165,7 +165,7 @@ public class MChartDatasource extends X_AD_ChartDatasource {
 					RegularTimePeriod period = null;
 
 					if ( parent.getTimeUnit().equals(MChart.TIMEUNIT_Day))
-						period = new Day(date);
+						Day day = new Day();
 					else if ( parent.getTimeUnit().equals(MChart.TIMEUNIT_Week))
 						period = new Week(date);
 					else if ( parent.getTimeUnit().equals(MChart.TIMEUNIT_Month))

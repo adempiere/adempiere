@@ -35,7 +35,6 @@ import org.adempiere.webui.component.Window;
 import org.adempiere.webui.exception.ApplicationException;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.theme.ITheme;
-import org.adempiere.webui.theme.ThemeManager;
 import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.util.UserPreference;
 import org.adempiere.webui.window.LoginWindow;
@@ -47,6 +46,7 @@ import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
 import org.compiere.util.Login;
 import org.compiere.util.Msg;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zhtml.Table;
 import org.zkoss.zhtml.Td;
 import org.zkoss.zhtml.Tr;
@@ -70,6 +70,7 @@ import org.zkoss.zul.Image;
  * @author <a href="mailto:sendy.yagambrum@posterita.org">Sendy Yagambrum</a>
  * @date    July 18, 2007
  */
+@SuppressWarnings("rawtypes")
 public class RolePanel extends Window implements EventListener, Deferrable
 {
 	/**
@@ -116,6 +117,8 @@ public class RolePanel extends Window implements EventListener, Deferrable
 
     private void init()
     {
+    	//this.setContentSclass(ITheme.LOGIN_WINDOW_CLASS);
+    	
     	Div div = new Div();
     	ThemeUtils.addSclass(ITheme.LOGIN_BOX_HEADER_CLASS,div);
     	Label label = new Label("Login");
@@ -125,8 +128,6 @@ public class RolePanel extends Window implements EventListener, Deferrable
 
         Table table = new Table();
         table.setId("grdChooseRole");
-        table.setDynamicProperty("cellpadding", "0");
-    	table.setDynamicProperty("cellspacing", "5");
     	ThemeUtils.addSclass(ITheme.LOGIN_BOX_BODY_CLASS,table);
 
     	this.appendChild(table);
@@ -138,7 +139,8 @@ public class RolePanel extends Window implements EventListener, Deferrable
     	tr.appendChild(td);
     	td.setDynamicProperty("colspan", "2");
     	Image image = new Image();
-        image.setSrc(ThemeManager.getLargeLogo());
+        image.setSrc(ServletFns.resolveThemeURL(ITheme.LOGO_IMAGE_LARGE));
+    	ThemeUtils.addSclass(ITheme.LOGIN_BOX_HEADER_LOGO_CLASS,image);
         td.appendChild(image);
 
         tr = new Tr();
@@ -198,9 +200,11 @@ public class RolePanel extends Window implements EventListener, Deferrable
         pnlButtons.getButton(ConfirmPanel.A_CANCEL).setSclass(ITheme.LOGIN_BUTTON_CLASS);
         div.appendChild(pnlButtons);
         this.appendChild(div);
+
     }
 
-    private void initComponents()
+    @SuppressWarnings("unchecked")
+	private void initComponents()
     {
     	Language language = Env.getLanguage(m_ctx);
 

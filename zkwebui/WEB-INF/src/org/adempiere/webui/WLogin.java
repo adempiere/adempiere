@@ -19,6 +19,7 @@ import org.adempiere.webui.part.AbstractUIPart;
 import org.adempiere.webui.theme.ITheme;
 import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.window.LoginWindow;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zhtml.Text;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
@@ -51,6 +52,7 @@ public class WLogin extends AbstractUIPart
     public WLogin(IWebClient app)
     {
         this.app = app;
+        ThemeUtils.addSclass("wlogin", this);
     }
 
     protected Component doCreatePart(Component parent)

@@ -25,6 +25,7 @@ import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Messagebox;
 import org.adempiere.webui.component.ToolBarButton;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.window.WContext;
 import org.adempiere.webui.window.WPreference;
 import org.compiere.model.MClient;
@@ -75,7 +76,7 @@ public class UserPanel extends Vbox  implements EventListener<Event>
     {
     	
     	this.setSclass("user-panel");  // vbox
-    	this.setAlign("center");
+    	this.setAlign("right");
     	
     	// Top row
     	lblUserNameValue.setValue(getUserName() + "@" + getClientName() + "." + getOrgName()+"/"+getRoleName());
@@ -90,7 +91,8 @@ public class UserPanel extends Vbox  implements EventListener<Event>
     	
     	this.appendChild(hbox);
     	
-    	hbox.setAlign("center");
+    	hbox.setPack("end");
+    	hbox.setVflex("1");
     	
     	// TODO - make configurable
     	context.setLabel(Msg.getMsg(Env.getCtx(), "Context"));
@@ -101,6 +103,11 @@ public class UserPanel extends Vbox  implements EventListener<Event>
 
     	Separator sep = new Separator("vertical");
     	sep.setBar(true);
+    	sep.setParent(hbox);
+
+    	Separator sep = new Separator("vertical");
+    	sep.setBar(true);
+    	sep.setHeight("13px");
     	sep.setParent(hbox);
 
     	preference.setLabel(Msg.getMsg(Env.getCtx(), "Preference"));

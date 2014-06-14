@@ -15,6 +15,8 @@ package org.adempiere.webui.component;
 import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.apps.AEnv;
 import org.zkoss.web.fn.ServletFns;
+import org.adempiere.webui.theme.ThemeUtils;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zhtml.Table;
 import org.zkoss.zhtml.Td;
 import org.zkoss.zhtml.Tr;
@@ -84,7 +86,7 @@ public class Locationbox extends EditorBox
  		tdUrl.setStyle("border: none; padding: 0px; margin: 0px;");
  		tdUrl.setSclass("editor-button");
  		bUrl = new Button();
-    	bUrl.setImage(ServletFns.resolveThemeURL("~./images/Online10.png"));
+                bUrl.setImage(ServletFns.resolveThemeURL("~./images/Online10.png"));
 
  		bUrl.setName("bUrl");
  		bUrl.setTabindex(-1);

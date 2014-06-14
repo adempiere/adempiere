@@ -20,8 +20,8 @@ package org.adempiere.webui.component;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.panel.IADTabpanel;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.compiere.model.DataStatusEvent;
 import org.compiere.model.GridTab;
 import org.compiere.util.CLogger;

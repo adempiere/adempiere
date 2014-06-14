@@ -23,14 +23,17 @@ import java.util.Properties;
 
 import javax.servlet.http.HttpSession;
 
+import org.adempiere.model.MTheme;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.DrillCommand;
 import org.adempiere.webui.component.TokenCommand;
 import org.adempiere.webui.component.ZoomCommand;
 import org.adempiere.webui.desktop.DefaultDesktop;
 import org.adempiere.webui.desktop.IDesktop;
+import org.adempiere.webui.event.TokenEvent;
 import org.adempiere.webui.session.SessionContextListener;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.theme.DefaultTheme;
 import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.util.BrowserToken;
 import org.adempiere.webui.util.UserPreference;
@@ -61,6 +64,7 @@ import org.zkoss.zk.ui.sys.PageCtrl;
 import org.zkoss.zk.ui.sys.SessionCtrl;
 import org.zkoss.zk.ui.sys.Visualizer;
 import org.zkoss.zul.Window;
+import org.zkoss.zul.theme.Themes;
 
 /**
  *
@@ -79,7 +83,7 @@ public class AdempiereWebUI extends Window implements EventListener<Event>, IWeb
 
 	public static final String APP_NAME = "Adempiere";
 
-    public static final String UID          = "7.02";
+    public static final String UID          = "7.02"; // Important this matches the settings in metainfo/zk/lang-addon.xml
 
     private WLogin             loginDesktop;
 
@@ -97,14 +101,16 @@ public class AdempiereWebUI extends Window implements EventListener<Event>, IWeb
 
 	public static final String ZK_DESKTOP_SESSION_KEY = "zk.desktop";
 
-    public AdempiereWebUI()
+    @SuppressWarnings("unchecked")
+	public AdempiereWebUI()
     {
     	this.addEventListener(Events.ON_CLIENT_INFO, this);
     	this.setVisible(false);
-    	userPreference = new UserPreference();
     	
-    	// Register all the themes that will be used
-    	ThemeUtils.registerAllThemes(Env.getCtx());   		
+    	//  Register the available themes in the system.
+    	ThemeUtils.registerAllThemes(Env.getCtx());
+ 
+   	userPreference = new UserPreference();    	
     }
 
     public void onCreate()
@@ -115,8 +121,16 @@ public class AdempiereWebUI extends Window implements EventListener<Event>, IWeb
         Session session = Executions.getCurrent().getDesktop().getSession();
         if (session.getAttribute(SessionContextListener.SESSION_CTX) == null || !SessionManager.isUserLoggedIn(ctx))
         {
-        	// Use the system default theme where the user has not logged in.
-        	ThemeUtils.setSystemDefaultTheme();
+        	//  Set the system default theme used during the login.
+        	//  The default themes can be defined in the AD_Theme table (Theme Maintenance window)
+        	//  or in the System Configurator.  See the comments and code in 
+        	//  the DefaultTheme class.
+        	//
+        	//  The system defaults will be overridden by user preferences once the user
+        	//  logs in.
+        	if (ThemeUtils.setSystemDefaultTheme()) {
+        		return;
+        	};
         	ThemeUtils.addBrowserIconAndTitle(this.getPage());
 
             loginDesktop = new WLogin(this);
@@ -135,9 +149,8 @@ public class AdempiereWebUI extends Window implements EventListener<Event>, IWeb
         Executions.getCurrent().getDesktop().addListener(new ZoomCommand());
         eventThreadEnabled = Executions.getCurrent().getDesktop().getWebApp().getConfiguration().isEventThreadEnabled();
     }
-	private static boolean eventThreadEnabled = false;
-	
-	
+
+    private static boolean eventThreadEnabled = false;  // Remove?
 	
     public void onOk()
     {
@@ -152,13 +165,27 @@ public class AdempiereWebUI extends Window implements EventListener<Event>, IWeb
 	 */
     public void loginCompleted()
     {
+        Properties ctx = Env.getCtx();
+
+		// to reload preferences when the user refresh the browser
+		userPreference = loadUserPreference(Env.getAD_User_ID(ctx));
+
+		// Set the theme according to the user preferences.  If the theme changes, the page will
+		// be reloaded again - so do this first thing.
+		int theme_id = userPreference.getPropertyAsInt(UserPreference.P_ZK_THEME_PREFERENCE);
+		if (theme_id > 0) {  // If theme_id == 0, don't bother setting a new MTheme. Just use the current theme.
+			MTheme theme = MTheme.get(ctx, theme_id);
+			if(ThemeUtils.makeCurrent(theme)) {  // Make the theme active and reload the page.
+				return;
+			}
+		}
+    	
     	if (loginDesktop != null)
     	{
     		loginDesktop.detach();
     		loginDesktop = null;
     	}
 
-        Properties ctx = Env.getCtx();
         String langLogin = Env.getContext(ctx, Env.LANGUAGE);
         if (langLogin == null || langLogin.length() <= 0)
         {
@@ -198,8 +225,6 @@ public class AdempiereWebUI extends Window implements EventListener<Event>, IWeb
 		Env.setContext(ctx, "#ShowAcct", MRole.getDefault().isShowAcct());
 		Env.setContext(ctx, "#ShowAdvanced", true);
 
-		// to reload preferences when the user refresh the browser
-		userPreference = loadUserPreference(Env.getAD_User_ID(ctx));
 		
 		//auto commit user preference
 		String autoCommit = userPreference.getProperty(UserPreference.P_AUTO_COMMIT);
@@ -208,7 +233,8 @@ public class AdempiereWebUI extends Window implements EventListener<Event>, IWeb
 		//auto new user preference
 		String autoNew = userPreference.getProperty(UserPreference.P_AUTO_NEW);
 		Env.setAutoNew(ctx, "true".equalsIgnoreCase(autoNew) || "y".equalsIgnoreCase(autoNew));
-
+		
+		
 		IDesktop d = (IDesktop) currSess.getAttribute("application.desktop");
 		if (d != null && d instanceof IDesktop)
 		{
@@ -385,4 +411,5 @@ public class AdempiereWebUI extends Window implements EventListener<Event>, IWeb
 //		new DrillCommand("onDrillDown", Command.IGNORE_OLD_EQUIV);
 //		new TokenCommand(TokenEvent.ON_USER_TOKEN, Command.IGNORE_OLD_EQUIV);
 //	}
+		
 }

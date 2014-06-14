@@ -36,6 +36,7 @@ import org.adempiere.webui.panel.InfoBPartnerPanel;
 import org.adempiere.webui.panel.InfoPanel;
 import org.adempiere.webui.panel.InfoPanelFactory;
 import org.adempiere.webui.panel.InfoProductPanel;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.window.WFieldRecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.model.Lookup;
@@ -188,6 +189,8 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 	 */
 	private void init()
 	{
+
+		ThemeUtils.addSclass("search", getComponent());
 
 		m_columnName = this.getColumnName();
                 

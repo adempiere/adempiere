@@ -155,8 +155,6 @@ public class WindowContainer extends AbstractUIPart
         tabpanel.setVflex("1");
         tabpanel.setHflex("1");
         tabpanel.setSclass("desktop-tabpanel");
-//        tabpanel.setZclass("desktop-tabpanel");
-        tabpanel.setStyle("position: absolute; overflow: auto;");
         
         if (refTab == null)  
         {

@@ -25,6 +25,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
 import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
@@ -67,8 +68,8 @@ public class DPActivities extends DashboardPanel implements EventListener {
 
         btnNotice = new Button();
         vbox.appendChild(btnNotice);
-        btnNotice.setLabel(Msg.translate(Env.getCtx(), "AD_Note_ID") + " : 0");
-        btnNotice.setTooltiptext(Msg.translate(Env.getCtx(), "AD_Note_ID"));
+        btnNotice.setLabel(Util.cleanAmp(Msg.translate(Env.getCtx(), "AD_Note_ID")) + " : 0");
+        btnNotice.setTooltiptext(Util.cleanAmp(Msg.translate(Env.getCtx(), "AD_Note_ID")));
         btnNotice.setImage(ServletFns.resolveThemeURL("~./images/GetMail16.png"));
         int AD_Menu_ID = DB.getSQLValue(null, "SELECT AD_Menu_ID FROM AD_Menu WHERE Name = 'Notice' AND IsSummary = 'N'");
         btnNotice.setName(String.valueOf(AD_Menu_ID));
@@ -76,8 +77,8 @@ public class DPActivities extends DashboardPanel implements EventListener {
 
         btnRequest = new Button();
         vbox.appendChild(btnRequest);
-        btnRequest.setLabel(Msg.translate(Env.getCtx(), "R_Request_ID") + " : 0");
-        btnRequest.setTooltiptext(Msg.translate(Env.getCtx(), "R_Request_ID"));
+        btnRequest.setLabel(Util.cleanAmp(Msg.translate(Env.getCtx(), "R_Request_ID")) + " : 0");
+        btnRequest.setTooltiptext(Util.cleanAmp(Msg.translate(Env.getCtx(), "R_Request_ID")));
         btnRequest.setImage(ServletFns.resolveThemeURL("~./images/Request16.png"));
         AD_Menu_ID = DB.getSQLValue(null, "SELECT AD_Menu_ID FROM AD_Menu WHERE Name = 'Request' AND IsSummary = 'N'");
         btnRequest.setName(String.valueOf(AD_Menu_ID));
@@ -85,8 +86,8 @@ public class DPActivities extends DashboardPanel implements EventListener {
 
         btnWorkflow = new Button();
         vbox.appendChild(btnWorkflow);
-        btnWorkflow.setLabel(Msg.getMsg (Env.getCtx(), "WorkflowActivities") + " : 0");
-        btnWorkflow.setTooltiptext(Msg.getMsg (Env.getCtx(), "WorkflowActivities"));
+        btnWorkflow.setLabel(Util.cleanAmp(Msg.getMsg (Env.getCtx(), "WorkflowActivities")) + " : 0");
+        btnWorkflow.setTooltiptext(Util.cleanAmp(Msg.getMsg (Env.getCtx(), "WorkflowActivities")));
         btnWorkflow.setImage(ServletFns.resolveThemeURL("~./images/Assignment16.png"));
         AD_Menu_ID = DB.getSQLValue(null, "SELECT AD_Menu_ID FROM AD_Menu WHERE Name = 'Workflow Activities' AND IsSummary = 'N'");
         btnWorkflow.setName(String.valueOf(AD_Menu_ID));

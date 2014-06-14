@@ -205,14 +205,14 @@ center.setVflex("true");
         Tabpanel homeTab = new Tabpanel();
         windowContainer.addWindow(homeTab, Util.cleanAmp(Msg.getMsg(Env.getCtx(), "Home")), false);
 
-        Anchorlayout Anchorlayout = new Anchorlayout();
+        Anchorlayout anchorlayout = new Anchorlayout();
         Anchorlayout.setWidth("100%");
         Anchorlayout.setHeight("100%");
         Anchorlayout.setStyle("position: absolute; overflow: auto");
-        homeTab.appendChild(Anchorlayout);
+        homeTab.appendChild(anchorlayout);
 
         // Dashboard content
-        Anchorchildren Anchorchildren = null;
+        Anchorchildren anchorchildren = null;
         int currentColumnNo = 0;
 
         String sql = "SELECT COUNT(DISTINCT COLUMNNO) "
@@ -243,12 +243,12 @@ center.setVflex("true");
 			while (rs.next())
 			{
 	        	int columnNo = rs.getInt(X_PA_DashboardContent.COLUMNNAME_ColumnNo);
-	        	if(Anchorchildren == null || currentColumnNo != columnNo)
+	        	if(anchorchildren == null || currentColumnNo != columnNo)
 	        	{
-	        		Anchorchildren = new Anchorchildren();
-	                Anchorlayout.appendChild(Anchorchildren);
-	                Anchorchildren.setWidth(width + "%");
-	                Anchorchildren.setStyle("padding: 5px");
+	        		anchorchildren = new Anchorchildren();
+	                anchorlayout.appendChild(anchorchildren);
+	                anchorchildren.setWidth(width + "%");
+	                anchorchildren.setStyle("padding: 5px");
 
 	                currentColumnNo = columnNo;
 	        	}
@@ -265,7 +265,7 @@ center.setVflex("true");
             	panel.setCollapsible(collapsible.equals("Y"));
 
 	        	panel.setBorder("normal");
-	        	Anchorchildren.appendChild(panel);
+	        	anchorchildren.appendChild(panel);
 	            Panelchildren content = new Panelchildren();
 	            panel.appendChild(content);
 
@@ -370,8 +370,8 @@ center.setVflex("true");
         //register as 0
         registerWindow(homeTab);
 
-        if (!Anchorlayout.getDesktop().isServerPushEnabled())
-        	Anchorlayout.getDesktop().enableServerPush(true);
+        if (!anchorlayout.getDesktop().isServerPushEnabled())
+        	anchorlayout.getDesktop().enableServerPush(true);
 
         dashboardRunnable.refreshDashboard();
 

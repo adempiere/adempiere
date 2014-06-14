@@ -42,6 +42,7 @@ import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.Window;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.compiere.model.MResourceAssignment;
 import org.compiere.model.MRole;
 import org.compiere.model.MUOMConversion;

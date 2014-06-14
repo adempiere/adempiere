@@ -40,8 +40,7 @@ public class ToolBarButton extends org.zkoss.zul.Toolbarbutton
 		if (disabled) {
 			ThemeUtils.addSclass("disableFilter", this);
 		} else {
-			if (this.getSclass() != null && this.getSclass().indexOf("disableFilter") >= 0)
-				this.setSclass(this.getSclass().replace("disableFilter", ""));
+			ThemeUtils.removeSclass("disableFilter", this);
 		}
 	}
     
@@ -51,8 +50,7 @@ public class ToolBarButton extends org.zkoss.zul.Toolbarbutton
 			if (pressed) {
 				ThemeUtils.addSclass("depressed", this);
 			} else {
-				if (this.getSclass() != null && this.getSclass().indexOf("depressed") >= 0)
-					this.setSclass(this.getSclass().replace("depressed", ""));
+				ThemeUtils.removeSclass("depressed", this);
 			}
 		}
     }

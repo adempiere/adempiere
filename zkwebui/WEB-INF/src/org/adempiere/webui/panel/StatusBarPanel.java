@@ -22,6 +22,7 @@ import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.window.WRecordInfo;
 import org.compiere.apps.IStatusBar;
 import org.compiere.model.DataStatusEvent;

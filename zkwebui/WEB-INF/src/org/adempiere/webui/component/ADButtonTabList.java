@@ -18,8 +18,12 @@ import java.util.List;
 
 import org.adempiere.webui.component.ADTabListModel.ADTabLabel;
 import org.adempiere.webui.theme.ThemeUtils;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.zkoss.zhtml.Button;
+import org.zkoss.zhtml.Table;
+import org.zkoss.zhtml.Td;
 import org.zkoss.zhtml.Text;
+import org.zkoss.zhtml.Tr;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -69,57 +73,90 @@ public class ADButtonTabList extends Panel implements IADTabList, EventListener<
 		}
 		Object[] items = listItems.toArray();
 		int tabWidth = 100;
-		List<Button> btnList = new ArrayList<Button>();
+		List<Tab> tabList = new ArrayList<Tab>();
+		
+		// Try a tab box
+        Tabbox nav_tb = new Tabbox();
+        nav_tb.setVflex("1");
+        this.appendChild(nav_tb);
+        nav_tb.setSclass("adwindow-nav-tabbox");
+        nav_tb.setOrient(tabPlacement == IADTab.LEFT? "left" : "right");
+        
+        Tabs tabs = new Tabs();
+        tabs.setVflex("1");
+        nav_tb.appendChild(tabs);
+        tabs.setSclass("adwindow-nav-tabbox-tabs");
+			
 		for (int i = 0; i < items.length; i++) {
+			
 			ADTabLabel tabLabel = (ADTabLabel) items[i];
-			Button button = new Button();
-			button.setDynamicProperty("Title", tabLabel.description);
-			Text text = new Text(tabLabel.label);
-			button.appendChild(text);
-			int s = tabbox.getSelectedIndex();
+			Tab tab = new Tab(tabLabel.label);
+			tabs.appendChild(tab);
+			ThemeUtils.addSclass(tabPlacement == IADTab.LEFT? "left" : "right", tab);
+			
+			StringBuffer sclass = new StringBuffer("adwindow-nav-tabbox-tabs-tab");
+			ThemeUtils.addSclass(sclass.toString(), tab);
+			
+			if (tabPlacement == IADTab.LEFT) {
+				sclass.append("-left");
+			}
+			else {
+				sclass.append("-right");
+			}
+			ThemeUtils.addSclass(sclass.toString(), tab);
 
+			int s = tabbox.getSelectedIndex();
 			if ( s == i) {
-				button.setSclass("adwindow-navbtn-sel " + (tabPlacement == IADTab.LEFT ? "adwindow-left-navbtn-sel" : "adwindow-right-navbtn-sel"));
-				button.setDynamicProperty("disabled", null);
+				sclass.append("-selected");
+				tab.setDisabled(false);
+				//tab.setDynamicProperty("disabled", null);
 			} else {
 				if (!tabbox.canNavigateTo(s, i)) {
-					button.setDynamicProperty("disabled", "disabled");
-					button.setSclass("adwindow-navbtn-dis " + (tabPlacement == IADTab.LEFT ? "adwindow-left-navbtn-dis" : "adwindow-right-navbtn-dis"));
+					sclass.append("-disabled");
+					//button.setDynamicProperty("disabled", "disabled");
+					tab.setDisabled(true);
 					if (!tabbox.isDisplay(i))
-						button.setVisible(false);
+						tab.setVisible(false);
 					else
-						button.setVisible(true);
+						tab.setVisible(true);
 				} else {
-					button.setDynamicProperty("disabled", null);
-					button.setSclass("adwindow-navbtn-uns " + (tabPlacement == IADTab.LEFT ? "adwindow-left-navbtn-uns" : "adwindow-right-navbtn-uns"));
-					button.setVisible(true);
+					sclass.append("-unselected");
+					tab.setDisabled(false);
+					tab.setVisible(true);
+					//button.setDynamicProperty("disabled", null);
+					//button.setVisible(true);
 				}
 			}
-
+			ThemeUtils.addSclass(sclass.toString(), tab);
+			
 			String style = (tabPlacement == IADTab.LEFT ? "margin-left:" : "margin-right:") + (tabLabel.tabLevel*15+5) + "px";
-			if (button.isVisible()) {
+			if (tab.isVisible()) {
 				int width = tabLabel.label.length() * 10 + 20;
 				if (width > tabWidth)
 					tabWidth = width;
 			}
-			btnList.add(button);
-			button.setStyle(style);
-
-			button.setParent(this);
-			button.addEventListener(Events.ON_CLICK, this);
-		}
+			tabList.add(tab);
+			tab.setStyle(style);
+			tab.addEventListener(Events.ON_CLICK, this);
+			
+			// Set the currently selected tab as selected
+			tab.setSelected(selectedIndex==i);
+		}		
 
 		//set width
 		if (tabWidth > 190)
 			tabWidth = 190;
 		for (int i = 0; i < items.length; i++) {
 			ADTabLabel tabLabel = (ADTabLabel) items[i];
-			Button button = btnList.get(i);
-			if (!button.isVisible())
+			Tab tab = tabList.get(i);
+			if (!tab.isVisible())
 				continue;
 			String width = (tabWidth - tabLabel.tabLevel*15)+"px";
-			button.setStyle(button.getStyle() + "; display: block; width:" + width);
+			tabs.setWidth(width);
+			//tab.setStyle(tab.getStyle() + "; display: block; width:" + width);
+			//((Tabs) tab.getParent()).setStyle("width:" + width);
 		}
+		
 	}
 
 	public int getSelectedIndex() {
@@ -148,11 +185,13 @@ public class ADButtonTabList extends Panel implements IADTabList, EventListener<
 	}
 
 	public void onEvent(Event event) throws Exception {
-		Event selectEvent = new Event(Events.ON_SELECT, this);
-		Button button = (Button) event.getTarget();
+		Tab tab = (Tab) event.getTarget();
+		selectedIndex = tab.getIndex();
+		
+		/*
 		int i = 0;
 		for (ADTabLabel tabLabel : listItems) {
-			Text text = (Text) button.getFirstChild();
+			Text text = (Text) tab.getFirstChild();
 			if (tabLabel.label.equals(text.getValue())) {
 				break;
 			}
@@ -160,6 +199,8 @@ public class ADButtonTabList extends Panel implements IADTabList, EventListener<
 		}
 
 		selectedIndex = i;
+		*/
+		Event selectEvent = new Event(Events.ON_SELECT, this);		
 		for (EventListener listener : listeners) {
 			listener.onEvent(selectEvent);
 		}

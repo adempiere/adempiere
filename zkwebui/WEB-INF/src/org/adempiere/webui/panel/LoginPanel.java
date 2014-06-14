@@ -41,7 +41,6 @@ import org.adempiere.webui.event.TokenEvent;
 import org.adempiere.webui.exception.ApplicationException;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.theme.ITheme;
-import org.adempiere.webui.theme.ThemeManager;
 import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.util.BrowserToken;
 import org.adempiere.webui.util.UserPreference;
@@ -60,6 +59,7 @@ import org.compiere.util.Login;
 import org.compiere.util.Msg;
 import org.zkoss.lang.Strings;
 import org.zkoss.util.Locales;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zhtml.Div;
 import org.zkoss.zhtml.Table;
 import org.zkoss.zhtml.Td;
@@ -123,6 +123,8 @@ public class LoginPanel extends Window implements EventListener<Event>
 
     private void init()
     {
+    	//this.setContentSclass(ITheme.LOGIN_WINDOW_CLASS);
+    	
     	Div div = new Div();
     	ThemeUtils.addSclass(ITheme.LOGIN_BOX_HEADER_CLASS,div);
     	Label label = new Label("Login");
@@ -142,7 +144,8 @@ public class LoginPanel extends Window implements EventListener<Event>
     	tr.appendChild(td);
     	td.setDynamicProperty("colspan", "2");
     	Image image = new Image();
-        image.setSrc(ThemeManager.getLargeLogo());
+        image.setSrc(ServletFns.resolveThemeURL(ITheme.LOGO_IMAGE_LARGE));
+    	ThemeUtils.addSclass(ITheme.LOGIN_BOX_HEADER_LOGO_CLASS,image);
         td.appendChild(image);
 
         tr = new Tr();
