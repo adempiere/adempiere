@@ -481,12 +481,13 @@
 		height:		100%;
 		positon:	absolute;
 		overflow:	auto;		
+
+		.z-anchorchildren {
+			padding: 5px; 
+			overflow: visible;
+		}
 	}
 	
-	.z-anchorchildren {
-		padding: 5px; 
-		overflow: visible;
-	}
 	
 	.default-desktop-panel {
 	    margin-bottom:	10px; 
@@ -527,7 +528,22 @@
 	}
 }
 
+.ad-component {
+	width: 100%	
+}
 
+.ad-image {
+	width: 48px;
+	height: 48px;
+}
+
+.ad-label {
+	text-align: right;
+}
+
+.ad-heading {
+	text-align: center;
+}
  
 /********************************************/
 /*  ZK Customizations						*/
@@ -709,6 +725,8 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 	position: absolute;
 	font-size: 12px;  // Sets the default font size
 	overflow: auto;
+	height: 100%;
+	width: 100%;
 	
 	.z-center, .z-south {
 		border: none;
@@ -844,6 +862,93 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 
 .form-button {
 	// width: 99%;
+}
+
+/********************************************/
+/*  Search Component						*/
+/********************************************/
+
+.ad-search-editor,
+.ad-number-editor,
+.ad-pattribute-editor {
+
+	// Search box 
+	border: none; 
+	padding: 0px; 
+	margin: 0px; 
+	background-color: transparent;
+	
+	//		String style = AEnv.isFirefox2() ? "display: inline"
+	//			: "display: inline-block";
+	//	style = style
+	//			+ ";border: none; padding: 0px; margin: 0px; background-color: transparent;";	
+	
+	table {
+		border: none; 
+		padding: 0px; 
+		margin: 0px;
+		width:	100%;
+		cellpadding: 0;
+		cellspacing: 0;		
+	}
+	
+	tr {
+		width: 100%; 
+		border: none; 
+		padding: 0px; 
+		margin: 0px; 
+		white-space:nowrap;
+	}
+
+	.z-textbox {
+		.leftBorderRadius(@borderRadiusSmall);
+	    display: inline; 
+	    width: 100%;
+	}
+
+	.editor-button {
+		.iconFontStyle(@baseFontSize, @iconColor);
+		width: @baseButtonWidth;
+		<c:if test="${ zk.ie == 8 }">
+			width: @baseButtonWidth - 10;
+		</c:if>
+		height: @baseButtonHeight;
+		.rightBorderRadius(@borderRadiusSmall);
+		padding: 0px;
+		line-height: @baseLineHeight;
+		background: @inputBackgroundColor;
+		text-align: center;
+		vertical-align: middle;
+		overflow: hidden;
+		cursor: pointer;
+
+		&:hover {
+			border-color: @hoverBorderColor;
+			<c:if test="${ zk.ie != 8 }">
+				.verGradient(@hoverGradientStart, @hoverGradientEnd);
+			</c:if>
+		}
+		&:active {
+			border-color: @activeBorderColor;
+			<c:if test="${ zk.ie != 8 }">
+				.verGradient(@activeGradientStart, @activeGradientEnd);
+			</c:if>
+			.boxShadow('inset 1px 1px 1px #91AAB7');
+		}
+		input[disabled] + & {
+			&:hover,
+			&:active {
+				border-color: @inputBorderColor;
+				.resetGradient();
+				.boxShadow('none');
+			}
+		}
+
+		img {
+			vertical-align: middle;
+			text-align: center;
+		}
+	}
 }
 
 .z-combobox-disd {
@@ -1405,88 +1510,3 @@ div.z-vfiletree-body td.menu-tree-cell {
     line-height: 14px;
  }
 
-/********************************************/
-/*  Search Component						*/
-/********************************************/
-
-.search {
-
-	// Search box 
-	border: none; 
-	padding: 0px; 
-	margin: 0px; 
-	background-color: transparent;
-	
-	//		String style = AEnv.isFirefox2() ? "display: inline"
-	//			: "display: inline-block";
-	//	style = style
-	//			+ ";border: none; padding: 0px; margin: 0px; background-color: transparent;";
-	
-	
-	table {
-		border: none; 
-		padding: 0px; 
-		margin: 0px;
-		width:	100%;
-		cellpadding: 0;
-		cellspacing: 0;		
-	}
-	
-	tr {
-		width: 100%; 
-		border: none; 
-		padding: 0px; 
-		margin: 0px; 
-		white-space:nowrap;
-	}
-
-	.z-textbox {
-		.leftBorderRadius(@borderRadiusSmall);
-	    display: inline; 
-	    width: 100%;
-	}
-
-	.editor-button {
-		.iconFontStyle(@baseFontSize, @iconColor);
-		width: @baseButtonWidth;
-		<c:if test="${ zk.ie == 8 }">
-			width: @baseButtonWidth - 10;
-		</c:if>
-		height: @baseButtonHeight;
-		.rightBorderRadius(@borderRadiusSmall);
-		padding: 0px;
-		line-height: @baseLineHeight;
-		background: @inputBackgroundColor;
-		text-align: center;
-		vertical-align: middle;
-		overflow: hidden;
-		cursor: pointer;
-
-		&:hover {
-			border-color: @hoverBorderColor;
-			<c:if test="${ zk.ie != 8 }">
-				.verGradient(@hoverGradientStart, @hoverGradientEnd);
-			</c:if>
-		}
-		&:active {
-			border-color: @activeBorderColor;
-			<c:if test="${ zk.ie != 8 }">
-				.verGradient(@activeGradientStart, @activeGradientEnd);
-			</c:if>
-			.boxShadow('inset 1px 1px 1px #91AAB7');
-		}
-		input[disabled] + & {
-			&:hover,
-			&:active {
-				border-color: @inputBorderColor;
-				.resetGradient();
-				.boxShadow('none');
-			}
-		}
-
-		img {
-			vertical-align: middle;
-			text-align: center;
-		}
-	}
-}

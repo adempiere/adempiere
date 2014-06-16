@@ -6,14 +6,22 @@
 <project name="less.compile" default="all" basedir=".">
 	
 	<!-- theme.path should use forward slashes -->
-	<property name="theme.path" value="C:/dev/repos/workspace/adempiere/zkwebui/theme/"/>
+	<!-- property name="theme.path" value="C:/dev/repos/workspace/adempiere/zkwebui/theme/"/ -->
 	<property name="theme.dir" value="${basedir}/theme/"/>
 	<property name="ext.input.dir" value="${basedir}/less"/>
 	<property name="ext.output.dir" value="${basedir}/css"/>
 	
+	<!-- less to css software requires theme.path to use forward slashes. -->
+	<!-- The other properties can use either.                             -->
+	<target name="fix_path">
+		<script language="javascript">
+		    var sys_dep_path = project.getProperty("theme.dir");
+		    project.setProperty("theme.path", sys_dep_path.replaceAll('\\\\', "/"));
+		</script>
+	</target>
+	
 	<target name="external">
 		<echo message="=========== Compiling external .less to .css ==========="/>
-		<echo message="Theme: ${themeName}"/>
 		<echo message="input directory: ${ext.input.dir}"/>
 		<echo message="output directory: ${ext.output.dir}"/>
 
@@ -36,14 +44,14 @@
 		</java>
 	</target>
 
-	<target name="adempiere_default">
-
+	<target name="adempiere_default"  depends="fix_path">
+		<local name="theme.name"/>
 		<property name="theme.name" value="adempiere_default"/>
 
 		<echo message="=========== Compiling theme .less to .css ==========="/>
-		<echo message="Theme: ${theme.dir}${theme.name}"/>
-		<echo message="input directory: ${theme.input.dir}"/>
-		<echo message="output directory: ${theme.output.dir}"/>
+		<echo message="Theme: ${theme.path}${theme.name}"/>
+		<echo message="input directory: ${theme.dir}${theme.name}"/>
+		<echo message="output directory: ${theme.dir}${theme.name}"/>
 
 		<java classname="CpLess" fork="true">
 			<arg value="${theme.dir}${theme.name}"  /><!-- input folder that contains less file -->
@@ -65,14 +73,14 @@
 		</java>
 	</target>
 
-	<target name="green_thumb">
-
+	<target name="green_thumb"  depends="fix_path">
+		<local name="theme.name"/>
 		<property name="theme.name" value="green_thumb"/>
 	
 		<echo message="=========== Compiling theme .less to .css ==========="/>
-		<echo message="Theme: ${theme.dir}${theme.name}"/>
-		<echo message="input directory: ${theme.input.dir}"/>
-		<echo message="output directory: ${theme.output.dir}"/>
+		<echo message="Theme: ${theme.path}${theme.name}"/>
+		<echo message="input directory: ${theme.dir}${theme.name}"/>
+		<echo message="output directory: ${theme.dir}${theme.name}"/>
 
 		<java classname="CpLess" fork="true">
 			<arg value="${theme.dir}${theme.name}"  /><!-- input folder that contains less file -->
