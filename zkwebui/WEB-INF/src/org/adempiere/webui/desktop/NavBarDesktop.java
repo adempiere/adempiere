@@ -205,9 +205,6 @@ public class NavBarDesktop extends TabbedDesktop implements MenuListener, Serial
         windowContainer.addWindow(homeTab, Msg.getMsg(Env.getCtx(), "Home").replaceAll("&", ""), false);
 
         Anchorlayout anchorLayout = new Anchorlayout();
-        anchorLayout.setWidth("100%");
-        anchorLayout.setHeight("100%");
-        anchorLayout.setStyle("position: absolute; overflow: auto");
         homeTab.appendChild(anchorLayout);
 
         // Dashboard content

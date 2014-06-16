@@ -105,11 +105,6 @@ public class UserPanel extends Vbox  implements EventListener<Event>
     	sep.setBar(true);
     	sep.setParent(hbox);
 
-    	Separator sep = new Separator("vertical");
-    	sep.setBar(true);
-    	sep.setHeight("13px");
-    	sep.setParent(hbox);
-
     	preference.setLabel(Msg.getMsg(Env.getCtx(), "Preference"));
     	preference.setId("preference");
     	preference.addEventListener(Events.ON_CLICK, this);

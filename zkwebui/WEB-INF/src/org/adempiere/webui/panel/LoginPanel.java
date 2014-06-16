@@ -113,7 +113,7 @@ public class LoginPanel extends Window implements EventListener<Event>
         initComponents();
         init();
         this.setId("loginPanel");
-        ThemeUtils.addSclass(ITheme.LOGIN_BOX_CLASS, this);
+        ThemeUtils.addSclass("login-box", this);
 
         AuFocus auf = new AuFocus(txtUserId);
         Clients.response(auf);
@@ -126,26 +126,26 @@ public class LoginPanel extends Window implements EventListener<Event>
     	//this.setContentSclass(ITheme.LOGIN_WINDOW_CLASS);
     	
     	Div div = new Div();
-    	ThemeUtils.addSclass(ITheme.LOGIN_BOX_HEADER_CLASS,div);
-    	Label label = new Label("Login");
-    	ThemeUtils.addSclass(ITheme.LOGIN_BOX_HEADER_TXT_CLASS, label);
+    	ThemeUtils.addSclass("login-box-header",div);
+    	Label label = new Label("Login");  // TODO - localization
+    	ThemeUtils.addSclass("login-box-header-text", label);
     	div.appendChild(label);
     	this.appendChild(div);
 
     	Table table = new Table();
     	table.setId("grdLogin");
-    	ThemeUtils.addSclass(ITheme.LOGIN_BOX_BODY_CLASS, table);
+    	ThemeUtils.addSclass("login-box-body", table);
     	this.appendChild(table);
 
     	Tr tr = new Tr();
     	table.appendChild(tr);
     	Td td = new Td();
-    	ThemeUtils.addSclass(ITheme.LOGIN_BOX_HEADER_LOGO_CLASS, td);
+    	ThemeUtils.addSclass("login-box-header-logo", td);
     	tr.appendChild(td);
     	td.setDynamicProperty("colspan", "2");
     	Image image = new Image();
-        image.setSrc(ServletFns.resolveThemeURL(ITheme.LOGO_IMAGE_LARGE));
-    	ThemeUtils.addSclass(ITheme.LOGIN_BOX_HEADER_LOGO_CLASS,image);
+        image.setSrc(ThemeUtils.getLargeLogo());
+    	ThemeUtils.addSclass("login-box-header-logo",image);
         td.appendChild(image);
 
         tr = new Tr();
@@ -153,10 +153,10 @@ public class LoginPanel extends Window implements EventListener<Event>
         table.appendChild(tr);
     	td = new Td();
     	tr.appendChild(td);
-    	ThemeUtils.addSclass(ITheme.LOGIN_LABEL_CLASS, td);
+    	ThemeUtils.addSclass("login-label", td);
     	td.appendChild(lblUserId);
     	td = new Td();
-    	ThemeUtils.addSclass(ITheme.LOGIN_FIELD_CLASS, td);
+    	ThemeUtils.addSclass("login-field", td);
     	tr.appendChild(td);
     	td.appendChild(txtUserId);
 
@@ -165,10 +165,10 @@ public class LoginPanel extends Window implements EventListener<Event>
         table.appendChild(tr);
     	td = new Td();
     	tr.appendChild(td);
-    	ThemeUtils.addSclass(ITheme.LOGIN_LABEL_CLASS, td);
+    	ThemeUtils.addSclass("login-label", td);
     	td.appendChild(lblPassword);
     	td = new Td();
-    	ThemeUtils.addSclass(ITheme.LOGIN_FIELD_CLASS, td);
+    	ThemeUtils.addSclass("login-field", td);
     	tr.appendChild(td);
     	td.appendChild(txtPassword);
 
@@ -177,10 +177,10 @@ public class LoginPanel extends Window implements EventListener<Event>
         table.appendChild(tr);
     	td = new Td();
     	tr.appendChild(td);
-    	ThemeUtils.addSclass(ITheme.LOGIN_LABEL_CLASS, td);
+    	ThemeUtils.addSclass("login-label", td);
     	td.appendChild(lblLanguage);
     	td = new Td();
-    	ThemeUtils.addSclass(ITheme.LOGIN_FIELD_CLASS, td);
+    	ThemeUtils.addSclass("login-field", td);
     	tr.appendChild(td);
     	td.appendChild(lstLanguage);
 
@@ -190,21 +190,21 @@ public class LoginPanel extends Window implements EventListener<Event>
             table.appendChild(tr);
         	td = new Td();
         	tr.appendChild(td);
-        	ThemeUtils.addSclass(ITheme.LOGIN_LABEL_CLASS, td);
+        	ThemeUtils.addSclass("login-label", td);
         	td.appendChild(new Label(""));
         	td = new Td();
-        	ThemeUtils.addSclass(ITheme.LOGIN_FIELD_CLASS, td);
+        	ThemeUtils.addSclass("login-field", td);
         	tr.appendChild(td);
         	td.appendChild(chkRememberMe);
     	}
 
     	div = new Div();
-    	ThemeUtils.addSclass(ITheme.LOGIN_BOX_FOOTER_CLASS, div);
+    	ThemeUtils.addSclass("login-box-footer", div);
         ConfirmPanel pnlButtons = new ConfirmPanel(false);
         pnlButtons.addActionListener(this);
         
-        ThemeUtils.addSclass(ITheme.LOGIN_BOX_FOOTER_PANEL_CLASS, pnlButtons);
-        pnlButtons.getButton(ConfirmPanel.A_OK).setSclass(ITheme.LOGIN_BUTTON_CLASS);
+        ThemeUtils.addSclass("login-box-footer-pnl", pnlButtons);
+        pnlButtons.getButton(ConfirmPanel.A_OK).setSclass("login-btn");
         div.appendChild(pnlButtons);
         this.appendChild(div);
 

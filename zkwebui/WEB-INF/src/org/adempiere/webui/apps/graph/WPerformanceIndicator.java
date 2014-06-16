@@ -38,7 +38,6 @@ import org.jfree.data.general.ValueDataset;
 import org.jfree.ui.RectangleInsets;
 import org.zkoss.image.AImage;
 import org.zkoss.web.fn.ServletFns;
-import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;

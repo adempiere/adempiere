@@ -120,7 +120,7 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 	
 	private void initComponents() {
 		
-		ThemeUtils.addSclass("search", getComponent());
+		ThemeUtils.addSclass("ad-pattribute-editor", getComponent());
 
 		getComponent().setButtonImage(ServletFns.resolveThemeURL("~./images/PAttribute10.png"));
 		getComponent().addEventListener(Events.ON_CLICK, this);

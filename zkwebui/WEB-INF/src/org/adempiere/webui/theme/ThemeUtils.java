@@ -229,7 +229,11 @@ public final class ThemeUtils {
 		MTheme theme = MTheme.get(Env.getCtx(), currentTheme);
 		url = theme.getLogo_Large_Image();
 		if (url == null || url.length() == 0) {
-			url = MSysConfig.getValue("ZK_LOGO_LARGE", DefaultTheme.LOGO_LARGE_IMAGE); 
+			url = MSysConfig.getValue("ZK_LOGO_LARGE_IMAGE", DefaultTheme.ZK_LOGO_LARGE_IMAGE); 
+			// For backwards compatibility
+			if (url == null || url.length() == 0) {
+				url = MSysConfig.getValue("ZK_LOGO_LARGE", DefaultTheme.ZK_LOGO_LARGE_IMAGE);
+			}
 		}
 		return ServletFns.resolveThemeURL(url);
 	}
@@ -243,9 +247,13 @@ public final class ThemeUtils {
 		MTheme theme = MTheme.get(Env.getCtx(), currentTheme);
 		url = theme.getLogo_Small_Image();
 		if (url == null || url.length() == 0) {
-			url = MSysConfig.getValue("ZK_LOGO_SMALL", DefaultTheme.LOGO_SMALL_IMAGE); 
+			url = MSysConfig.getValue("ZK_LOGO_SMALL_IMAGE", DefaultTheme.ZK_LOGO_SMALL_IMAGE); 
+			// For backwards compatibility
 			if (url == null || url.length() == 0) {
-				url = MSysConfig.getValue("WEBUI_LOGOURL", DefaultTheme.LOGO_SMALL_IMAGE);
+				url = MSysConfig.getValue("ZK_LOGO_SMALL", DefaultTheme.ZK_LOGO_SMALL_IMAGE); 
+				if (url == null || url.length() == 0) {
+					url = MSysConfig.getValue("WEBUI_LOGOURL", DefaultTheme.ZK_LOGO_SMALL_IMAGE);
+				}
 			}
 		}
 		return ServletFns.resolveThemeURL(url);
@@ -275,7 +283,7 @@ public final class ThemeUtils {
 		MTheme theme = MTheme.get(Env.getCtx(), currentTheme);
 		url = theme.getBrowser_Icon_Image();
 		if (url == null || url.length() == 0) {
-			url = MSysConfig.getValue("ZK_BROWSER_ICON", DefaultTheme.BROWSER_ICON_IMAGE); 
+			url = MSysConfig.getValue("ZK_BROWSER_ICON", DefaultTheme.ZK_BROWSER_ICON_IMAGE); 
 		}
 		return ServletFns.resolveThemeURL(url);
 	}
@@ -332,7 +340,7 @@ public final class ThemeUtils {
 		MTheme theme = MTheme.get(Env.getCtx(), currentTheme);
 		url = theme.getLogin_Right_Panel_Zul();
 		if (url == null || url.length() == 0) {
-			url = DefaultTheme.LOGIN_RIGHT_PANEL_ZUL; 
+			url = MSysConfig.getValue("ZK_LOGIN_RIGHT_PANEL_ZUL", DefaultTheme.ZK_LOGIN_RIGHT_PANEL_ZUL); 
 		}
 		return ServletFns.resolveThemeURL(url);
 	}
@@ -346,7 +354,7 @@ public final class ThemeUtils {
 		MTheme theme = MTheme.get(Env.getCtx(), currentTheme);
 		url = theme.getLogin_Left_Panel_Zul();
 		if (url == null || url.length() == 0) {
-			url = DefaultTheme.LOGIN_LEFT_PANEL_ZUL; 
+			url = MSysConfig.getValue("ZK_LOGIN_LEFT_PANEL_ZUL", DefaultTheme.ZK_LOGIN_LEFT_PANEL_ZUL); 
 		}
 		return ServletFns.resolveThemeURL(url);
 	}
@@ -360,7 +368,7 @@ public final class ThemeUtils {
 		MTheme theme = MTheme.get(Env.getCtx(), currentTheme);
 		url = theme.getLogin_Top_Panel_Zul();
 		if (url == null || url.length() == 0) {
-			url = DefaultTheme.LOGIN_TOP_PANEL_ZUL; 
+			url = MSysConfig.getValue("ZK_LOGIN_TOP_PANEL_ZUL", DefaultTheme.ZK_LOGIN_TOP_PANEL_ZUL); 
 		}
 		return ServletFns.resolveThemeURL(url);
 	}
@@ -374,7 +382,7 @@ public final class ThemeUtils {
 		MTheme theme = MTheme.get(Env.getCtx(), currentTheme);
 		url = theme.getLogin_Bottom_Panel_Zul();
 		if (url == null || url.length() == 0) {
-			url = DefaultTheme.LOGIN_BOTTOM_PANEL_ZUL; 
+			url = MSysConfig.getValue("ZK_LOGIN_BOTTOM_PANEL_ZUL", DefaultTheme.ZK_LOGIN_BOTTOM_PANEL_ZUL); 
 		}
 		return ServletFns.resolveThemeURL(url);
 	}

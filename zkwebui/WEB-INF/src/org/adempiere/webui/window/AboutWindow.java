@@ -30,7 +30,7 @@ import org.adempiere.webui.component.Tabs;
 import org.adempiere.webui.component.ToolBarButton;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.theme.DefaultTheme;
-import org.adempiere.webui.theme.ITheme;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.compiere.Adempiere;
 import org.compiere.model.MUser;
 import org.compiere.util.CLogErrorBuffer;
@@ -319,7 +319,7 @@ public class AboutWindow extends Window implements EventListener<Event> {
 		vbox.setPack("center");
 		vbox.setParent(tabPanel);
 
-		Image image = new Image(ServletFns.resolveThemeURL(ITheme.LOGO_IMAGE_SMALL));
+		Image image = new Image(ThemeUtils.getSmallLogo());
 		image.setParent(vbox);
 		image.setSclass("about-window-logo");
 

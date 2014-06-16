@@ -63,7 +63,7 @@ public class LoginWindow extends FWindow implements EventListener
         init();
         // add listener on 'ENTER' key for the login window
         addEventListener(Events.ON_OK,this);
-        ThemeUtils.addSclass(ITheme.LOGIN_WINDOW_CLASS, this);
+        ThemeUtils.addSclass("login-window", this);
     }
 
     private void init()

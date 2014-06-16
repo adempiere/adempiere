@@ -62,14 +62,14 @@ public class WLogin extends AbstractUIPart
         	layout.setParent(parent);
         else
         	layout.setPage(page);
-        ThemeUtils.addSclass(ITheme.WLOGIN_LAYOUT, layout);
+        ThemeUtils.addSclass("wlogin-layout", layout);
 
         Center center = new Center();
         center.setParent(layout);
         center.setHflex("true");
         center.setVflex("true");
         center.setAutoscroll(true);
-        ThemeUtils.addSclass(ITheme.WLOGIN_LAYOUT_CENTER, center);
+        ThemeUtils.addSclass("wlogin-layout-center", center);
 
         Vbox vb = new Vbox();
         vb.setParent(center);
@@ -99,7 +99,7 @@ public class WLogin extends AbstractUIPart
         	String right = ThemeUtils.getLoginRightPanel();
 	        PageDefinition pageDefintion = Executions.getCurrent().getPageDefinition(right);
 	    	East east = new East();
-	    	ThemeUtils.addSclass(ITheme.LOGIN_EAST_PANEL_CLASS, east);
+	    	ThemeUtils.addSclass("login-east-panel", east);
 	    	addContent(east, pageDefintion);
         } catch (Exception e) {
         	//ignore page not found exception
@@ -116,7 +116,7 @@ public class WLogin extends AbstractUIPart
 	        String left = ThemeUtils.getLoginLeftPanel();
 	        PageDefinition pageDefintion = Executions.getCurrent().getPageDefinition(left);
 	    	West west = new West();
-	    	ThemeUtils.addSclass(ITheme.LOGIN_WEST_PANEL_CLASS, west);
+	    	ThemeUtils.addSclass("login-west-panel", west);
 	    	addContent(west, pageDefintion);
         } catch (Exception e){
         	//ignore page not found exception
@@ -133,7 +133,7 @@ public class WLogin extends AbstractUIPart
 	        String top = ThemeUtils.getLoginTopPanel();
 	        PageDefinition pageDefintion = Executions.getCurrent().getPageDefinition(top);
 	    	North north = new North();
-	    	ThemeUtils.addSclass(ITheme.LOGIN_NORTH_PANEL_CLASS, north);
+	    	ThemeUtils.addSclass("login-north-panel", north);
 	    	addContent(north, pageDefintion);
         } catch (Exception e) {
         	//ignore page not found exception
@@ -150,7 +150,7 @@ public class WLogin extends AbstractUIPart
 	        String bottom = ThemeUtils.getLoginBottomPanel();
 	        PageDefinition pageDefintion = Executions.getCurrent().getPageDefinition(bottom);
 	    	South south = new South();
-	    	ThemeUtils.addSclass(ITheme.LOGIN_SOUTH_PANEL_CLASS, south);
+	    	ThemeUtils.addSclass("login-south-panel", south);
 	    	addContent(south, pageDefintion);
         } catch (Exception e) {
         	//ignore page not found exception

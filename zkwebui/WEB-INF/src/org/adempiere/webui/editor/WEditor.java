@@ -462,20 +462,16 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
         		String width = "100%";
         		if (getComponent() instanceof Button) {
         			Button btn = (Button) getComponent();
-        			String zclass = btn.getZclass();
         			if (gridField.getDisplayType() == DisplayType.Image) {
-        				if (!zclass.contains("image-button-field ")) {
-            				btn.setZclass("image-button-field " + zclass);
-        				}
-        			} else if (!zclass.contains("form-button ")) {
-        				btn.setZclass("form-button " + zclass);
+        				ThemeUtils.addSclass("ad-button-image", btn);
+        			} else {
+        				ThemeUtils.addSclass("ad-button-form",btn);
         			}
         		} else if (getComponent() instanceof Image) {
         			Image image = (Image) getComponent();
-        			image.setWidth("48px");
-        			image.setHeight("48px");
+        			ThemeUtils.addSclass("ad-image", image);
         		} else {
-        			((HtmlBasedComponent)getComponent()).setWidth(width);
+        			ThemeUtils.addSclass("ad-component", getComponent());
         		}
         	}
         }

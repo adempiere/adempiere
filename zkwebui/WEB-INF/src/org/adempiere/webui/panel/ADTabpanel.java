@@ -86,6 +86,7 @@ import org.zkoss.zul.DefaultTreeNode;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Groupfoot;
 import org.zkoss.zul.Panel;
+import org.zkoss.zul.Panelchildren;
 import org.zkoss.zul.Space;
 import org.zkoss.zul.TreeModel;
 import org.zkoss.zul.Treeitem;
@@ -293,8 +294,6 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
     	columns.appendChild(col);
     	
     	numCols = columns.getChildren().size();
-    	
-    	numCols = columns.getChildren().size();
 
     	rows = grid.newRows();
         GridField fields[] = gridTab.getFields();
@@ -315,32 +314,13 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
         				row.appendChild(createSpacer());
                         row.appendChild(createSpacer());
                         row.appendChild(createSpacer());
-                        rows.appendChild(row);
-                        if (rowList != null) {
-            				rowList.add(row);
-                        }
-                        if (currentGroup != null) {
-                        	currentGroup.add(row);
-                        }
-                        }
-                        if (currentGroup != null) {
-                        	currentGroup.add(row);
-                        }
+
         			} else if (row.getChildren().size() > 0)
         			{
-        				rows.appendChild(row);
-        				if (rowList != null) {
-            				rowList.add(row);
-        				}
-                        if (currentGroup != null) {
-                        	currentGroup.add(row);
-                        }
-        				}
-                        if (currentGroup != null) {
-                        	currentGroup.add(row);
-                        }
+        				// Don't need to do anything
         			}
 
+            		addRow(row);
             		// End current field group
             		if (currentGroup != null) {
             			Groupfoot groupfoot = new Groupfoot();
@@ -383,27 +363,25 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
             		{
             			// We have a new group
             			// Complete the current row
-            			currentFieldGroup = fieldGroup;
             			if (row.getChildren().size() == 2)
             			{
             				row.appendChild(createSpacer());
                             row.appendChild(createSpacer());
                             row.appendChild(createSpacer());
                             rows.appendChild(row);
-                            if (rowList != null)
-                				rowList.add(row);
-                            //row = new Row();
             			} else if (row.getChildren().size() > 0)
             			{
             				rows.appendChild(row);
-            				if (rowList != null)
-                				rowList.add(row);
-            				//row = new Row();
             			}
+            			addRow(row);
+            			
+            			row = new Row();
 
             			// TODO - Group footer?
             			
             			// Start a new group
+            			currentFieldGroup = fieldGroup;
+
             			// Create a list for the group components
             			List<Group> headerRows = new ArrayList<Group>();
             			fieldGroupHeaders.put(fieldGroup, headerRows);
@@ -451,10 +429,9 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
                 	{
 	                    if (row.getChildren().size() == 2)
 	                    {
-	                        row.appendChild(createSpacer());
-	                        row.appendChild(createSpacer());
-	                        row.appendChild(createSpacer());
+	                        row.appendCellChild(createSpacer(),3);
 	                    }
+	                    else // Likely 4
 	                    {
 	                    	row.appendChild(createSpacer());
 	                    }
@@ -478,26 +455,35 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
                 	field.addPropertyChangeListener(editor);
                     editors.add(editor);
                     editorIds.add(editor.getComponent().getUuid());
+                    
+                    // Add the label
                     if (field.isFieldOnly())
                     {
+                    	// blank label
                     	row.appendChild(createSpacer());
                     }
                     else
                     {
+                    	//  Add the label
                     	Div div = new Div();
-                        div.setAlign("right");
+                    	ThemeUtils.addSclass("ad-label", div);
                         Label label = editor.getLabel();
 	                    div.appendChild(label);
 	                    if (label.getDecorator() != null)
 	                    	div.appendChild(label.getDecorator());
-	                    row.appendChild(div);
+	                    row.appendCellChild(div);
                     }
-                    row.appendChild(editor.getComponent());
+                    
+                    // Long fields take up the rest of the row
                     if (field.isLongField()) {
-                    	row.setSpans("1,3,1");
-                    	row.appendChild(createSpacer());
+                        row.appendCellChild(editor.getComponent(),3);
+                    	row.appendCellChild(createSpacer());
 	                    addRow(row);
                     	row = new Row();
+                    }
+                    else {
+                    	// Just a single column
+                        row.appendCellChild(editor.getComponent());                    	
                     }
 
                     if (editor instanceof WButtonEditor)
@@ -537,7 +523,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
     				//display just a label if we are "heading only"
     				Label label = new Label(field.getHeader());
     				Div div = new Div();
-    				div.setAlign("center");
+                	ThemeUtils.addSclass("ad-heading", div);
     				row.appendChild(createSpacer());
     				div.appendChild(label);
     				row.appendChild(div);
@@ -678,13 +664,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
             return;
         }
 
-    	List<Group> collapsedGroups = new ArrayList<Group>();
-    	for (Group group : allCollapsibleGroups) {
-    		if (! group.isOpen())
-    			collapsedGroups.add(group);
-    	}
-
-    	List<Group> collapsedGroups = new ArrayList<Group>();
+     	List<Group> collapsedGroups = new ArrayList<Group>();
     	for (Group group : allCollapsibleGroups) {
     		if (! group.isOpen())
     			collapsedGroups.add(group);
@@ -743,7 +723,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
         }   //  all components
 
         //hide row if all editor within the row is invisible or the group is closed
-        List<Compontent> rows = grid.getRows().getChildren();
+        List<Component> rows = grid.getRows().getChildren();
         for(Component comp: rows)
         {
         	// Ignore the groups
@@ -768,10 +748,10 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
         			}
         		}
         	}
+        	
         	if (editorRow && (row.isVisible() != visible)) {
         		row.setAttribute(Group.GROUP_ROW_VISIBLE_KEY, visible ? "true" : "false");
         		row.setVisible(visible);
-        	}
         	}
         }
 
@@ -1234,7 +1214,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 		}
 	}
 
-	class ZoomListener implements EventListener {
+	class ZoomListener implements EventListener<Event> {
 
 		private IZoomableEditor searchEditor;
 
@@ -1495,22 +1475,6 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 	 */
 	public GridPanel getGridView() {
 		return listPanel;
-	}
-	
-	/**
-	 * Add a row to the rows and group.
-	 * 
-	 * @param row
-	 */
-	private void addRow(Row row) {
-        rows.appendChild(row);
-        if (rowList != null) {
-			rowList.add(row);
-        }
-        if (currentGroup != null) {
-        	currentGroup.add(row);
-        }
-
 	}
 	
 	/**

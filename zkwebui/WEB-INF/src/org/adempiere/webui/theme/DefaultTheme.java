@@ -94,6 +94,8 @@ public class DefaultTheme extends Theme {
 	public final static int    ZK_DEFAULT_THEME_PRIORITY 	= 1000;							// Integer priority
 	
 	// Other theme elements
+	// These provide a fall-back default in case no system config or MThemeResources
+	// are defined.
 	/**
 	 * URI for a single additional resource to add to the theme.
 	 * Can be overridden in the System configurator "ZK_DEFAULT_THEME_URI".
@@ -112,23 +114,21 @@ public class DefaultTheme extends Theme {
 	
 	//  The following file locations have been moved to the AD_Theme table and MTheme model
 	//  to make them variable with the theme. These are the fall-back defaults.
-	public static final String LOGIN_TOP_PANEL_ZUL = "~./zul/login-top.zul";
-	public static final String LOGIN_BOTTOM_PANEL_ZUL = "~./zul/login-bottom.zul";
-	public static final String LOGIN_LEFT_PANEL_ZUL = "~./zul/login-left.zul";
-	public static final String LOGIN_RIGHT_PANEL_ZUL = "~./zul/login-right.zul";
+	public static final String ZK_LOGIN_TOP_PANEL_ZUL = "~./zul/login-top.zul";
+	public static final String ZK_LOGIN_BOTTOM_PANEL_ZUL = "~./zul/login-bottom.zul";
+	public static final String ZK_LOGIN_LEFT_PANEL_ZUL = "~./zul/login-left.zul";
+	public static final String ZK_LOGIN_RIGHT_PANEL_ZUL = "~./zul/login-right.zul";
 
 	// Defalut logo file names.  The "~." path element will be replaced
 	// by the active theme folder/jar path through MTheme or through the 
 	// system configurator.  See ThemeUtils.java
 	// System Config ZK_LOGO_LARGE
-	public static final String LOGO_LARGE_IMAGE = "~./images/logo-large.png";
+	public static final String ZK_LOGO_LARGE_IMAGE = "~./images/logo-large.png";
 	// System Config ZK_LOGO_SMALL or WEBUI_LOGOURL
-	public static final String LOGO_SMALL_IMAGE = "~./images/logo-small.png";
+	public static final String ZK_LOGO_SMALL_IMAGE = "~./images/logo-small.png";
 	// System Config ZK_BROWSER_ICON
-	public static final String BROWSER_ICON_IMAGE= "~./images/icon.png";
+	public static final String ZK_BROWSER_ICON_IMAGE= "~./images/icon.png";
 
-	// The ZK_DEFAULT_THEME_URI is used by the AdempiereThemeProvider as a fall-back default in case no system config or MThemeResources
-	// are defined.
 	
 	//  Don't include in system configurator.  Use ZK_DEFAULT_THEME_ORIGIN instead.
 	private final static ThemeOrigin ZK_DEFAULT_THEME_ORIGIN_ENUM = ThemeOrigin.FOLDER;

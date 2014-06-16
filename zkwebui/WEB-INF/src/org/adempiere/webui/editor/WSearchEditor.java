@@ -190,7 +190,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 	private void init()
 	{
 
-		ThemeUtils.addSclass("search", getComponent());
+		ThemeUtils.addSclass("ad-search-editor", getComponent());
 
 		m_columnName = this.getColumnName();
                 

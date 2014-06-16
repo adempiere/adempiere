@@ -19,6 +19,7 @@ import org.adempiere.webui.component.Tabpanel;
 import org.adempiere.webui.component.Tabpanels;
 import org.adempiere.webui.component.Tabs;
 import org.adempiere.webui.panel.ADTabpanel;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -149,12 +150,7 @@ public class WindowContainer extends AbstractUIPart
         } else {
         	tabpanel = new Tabpanel();
         	tabpanel.appendChild(comp);
-        }                
-        tabpanel.setHeight("100%");
-        tabpanel.setWidth("100%");
-        tabpanel.setVflex("1");
-        tabpanel.setHflex("1");
-        tabpanel.setSclass("desktop-tabpanel");
+        }
         
         if (refTab == null)  
         {

@@ -123,8 +123,6 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
         else
         	layout.setPage(page);
 
-        ThemeUtils.addSclass("desktop-layout",layout);
-
         dashboardRunnable = new DashboardRunnable(layout.getDesktop(), this);
         
         North n = new North();
@@ -170,15 +168,13 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 	private void createHomeTab()
 	{
         Tabpanel homeTab = new Tabpanel();
+        ThemeUtils.addSclass("desktop-tabpanel", homeTab);
+
         windowContainer.addWindow(homeTab, Util.cleanAmp(Msg.getMsg(Env.getCtx(), "Home")), false);
 
-
         Anchorlayout anchorLayout = new Anchorlayout();
-        anchorLayout.setVflex("1");
-        anchorLayout.setHflex("1");
         
-        homeTab.appendChild(anchorLayout);
-        
+        homeTab.appendChild(anchorLayout);        
 
         // Dashboard content
         Anchorchildren anchorchildren = null;
@@ -194,18 +190,15 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 	        	if(anchorchildren == null || currentColumnNo != columnNo)
 	        	{
 	        		// New column
-                                anchorchildren = new Anchorchildren();
-	        		anchorchildren.setHflex("1");  				// Equally share the width with other columns 
-	        		anchorchildren.setVflex("1");				// Expand to fill the vertical space
+                    anchorchildren = new Anchorchildren();
 	        		anchorLayout.appendChild(anchorchildren);
                                 anchorchildren.setWidth(width + "%");
                                 currentColumnNo = columnNo;
                         }
     
 	        	Panel panel = new Panel();
-	        	panel.setVflex("1");       	
+	        	panel.setBorder("rounded");
 	        	ThemeUtils.addSclass("default-desktop-panel", panel);
-	        	// panel.setStyle("margin-bottom:10px; overflow: auto;");  // Moved to theme
 	        	panel.setTitle(dp.get_Translation(MDashboardContent.COLUMNNAME_Name));
 
 	        	String description = dp.getDescription();
@@ -214,11 +207,9 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 
             	panel.setCollapsible(dp.isCollapsible());
             	panel.setOpen( dp.isOpenByDefault() );
-            	//panel.setBorder("normal"); 				// Moved to theme
 	        	anchorchildren.appendChild(panel);
 	        	
 	            Panelchildren content = new Panelchildren();
-	            //  content.setStyle("overflow: auto;");	//zk 6 -> makes each Portalchildren scrollable - moved to theme
 	            panel.appendChild(content);
 
 	            boolean panelEmpty = true;
@@ -274,7 +265,7 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 	        	// [11-01-2013]
 
 	        	/*To handle DynamicDashboard. Added new if block
-	        	* If the configuration is dynamic dash board, It finds by using IsDynamicDashboard value. If it is “Y�, Control
+	        	* If the configuration is dynamic dash board, It finds by using IsDynamicDashboard value. If it is “Y�, Control
 	        	* forwards to the Dynamic Dashboard corresponding zul file path, interns it forwards to DynamicDashboard class.
 	        	* For this few result set values are set to context. */
 				
