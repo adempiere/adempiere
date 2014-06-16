@@ -28,7 +28,6 @@
 	<classpathentry kind="src" path="org.eevolution.manufacturing/src/main/java/ui/swing"/>
 	<classpathentry kind="src" path="org.eevolution.manufacturing/src/main/java/ui/zk"/>
 	<classpathentry kind="src" path="org.eevolution.warehouse/src/main/java/base"/>
-	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jstl.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
@@ -297,7 +296,6 @@
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/ext/commons-io.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/ext/Filters.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/ext/itext.jar"/>
-	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/ext/jasperreports.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/ext/jxl.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/ext/poi.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/theme/sapphire.jar"/>
@@ -325,6 +323,27 @@
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zul-sources.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zul.jar" sourcepath="zkwebui/WEB-INF/lib/zul-sources.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zweb.jar" sourcepath="zkwebui/WEB-INF/lib/zweb-sources.jar"/>
-	<classpathentry kind="lib" path="tools/lib/jfreechart-1.0.17.jar"/>
+	<classpathentry kind="lib" path="tools/lib/jfreechart-1.0.17.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="tools/lib/jcommon-1.0.21.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zkforge/timelinez.jar"/>
+	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/ext/jasperreports-5.1.0.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v6.0">
+		<attributes>
+			<attribute name="owner.project.facets" value="jst.web"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.7.0_51">
+		<attributes>
+			<attribute name="owner.project.facets" value="java"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
