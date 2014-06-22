@@ -19,6 +19,8 @@ package org.adempiere.webui.component;
 
 import java.util.List;
 
+import org.adempiere.webui.theme.ThemeUtils;
+import org.zkoss.zk.ui.WrongValueException;
 import org.zkoss.zul.Comboitem;
 
 /**
@@ -33,6 +35,16 @@ public class Combobox extends org.zkoss.zul.Combobox
 	 * 
 	 */
 	private static final long serialVersionUID = -6278632602577424842L;
+
+	public Combobox() {
+		super();
+		ThemeUtils.addSclass("ad-combobox", this);
+	}
+
+	public Combobox(String value) throws WrongValueException {
+		super(value);
+		ThemeUtils.addSclass("ad-combobox", this);
+	}
 
 	public void setEnabled(boolean enabled)
     {

@@ -47,6 +47,7 @@ public class EditorBox extends Div {
 	 * @param text
 	 */
 	public EditorBox(String text) {
+		ThemeUtils.addSclass("ad-editorbox", this);
 		initComponents();
 		setText(text);
 	}
@@ -61,22 +62,26 @@ public class EditorBox extends Div {
 	private void initComponents() {
 		
 		Table grid = new Table();
+		ThemeUtils.addSclass("ad-editorbox-grid", grid);
 		appendChild(grid);
 
 		Tr tr = new Tr();
+		ThemeUtils.addSclass("ad-editorbox-row", tr);
 		grid.appendChild(tr);
 
 		Td td = new Td();
+		ThemeUtils.addSclass("ad-editorbox-cell-input", td);
 		tr.appendChild(td);
 		txt = new Textbox();
+		ThemeUtils.addSclass("ad-editorbox-input", txt);
 		td.appendChild(txt);
 
 		btnColumn = new Td();
 		tr.appendChild(btnColumn);
-		ThemeUtils.addSclass("editor-button", btnColumn);
+		ThemeUtils.addSclass("ad-editorbox-cell-button", btnColumn);
 		btn = new Button();
 		btn.setTabindex(-1);
-		ThemeUtils.addSclass("editor-button", btn);
+		ThemeUtils.addSclass("ad-editorbox-button", btn);
 		btnColumn.appendChild(btn);
 	}
 
@@ -111,9 +116,9 @@ public class EditorBox extends Div {
 		btn.setVisible(enabled);
 		btnColumn.setVisible(enabled);
 		if (enabled)
-			btnColumn.setSclass("editor-button");
+			ThemeUtils.addSclass("enabled", btnColumn);
 		else
-			btnColumn.setSclass("");
+			ThemeUtils.removeSclass("enabled", btnColumn);
 	}
 
 	/**
@@ -126,9 +131,9 @@ public class EditorBox extends Div {
 		btn.setVisible(keepButton);
 		btnColumn.setVisible(keepButton);
 		if (keepButton)
-			btnColumn.setSclass("editor-button");
+			ThemeUtils.addSclass("enabled", btnColumn);
 		else
-			btnColumn.setSclass("");
+			ThemeUtils.removeSclass("enabled", btnColumn);
 	}
 
 	/**

@@ -17,6 +17,7 @@
 
 package org.adempiere.webui.component;
 
+import org.adempiere.webui.theme.ThemeUtils;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 
@@ -37,11 +38,13 @@ public class Button extends org.zkoss.zul.Button
     public Button()
     {
         super();
+        ThemeUtils.addSclass("ad-button", this);
     }
     
     public Button(String label)
     {
         super(label);
+        ThemeUtils.addSclass("ad-button", this);
     	setName(label);
     }
     

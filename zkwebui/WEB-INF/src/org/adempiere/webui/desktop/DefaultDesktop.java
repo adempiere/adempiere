@@ -104,6 +104,7 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
     public DefaultDesktop()
     {
     	super();
+    	ThemeUtils.addSclass("ad-defaultdesktop", this);
     }
 
     protected Component doCreatePart(Component parent)

@@ -12,6 +12,8 @@
  *****************************************************************************/
 package org.adempiere.webui.component;
 
+import org.adempiere.webui.theme.ThemeUtils;
+
 /**
  * 
  * @author Low Heng Sin
@@ -26,5 +28,6 @@ public class Searchbox extends EditorBox
 
 	public Searchbox()
 	{
+		ThemeUtils.addSclass("ad-searchbox", this);
 	}
 }

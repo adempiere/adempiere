@@ -22,21 +22,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.adempiere.webui.theme.ITheme;
 import org.adempiere.webui.theme.ThemeUtils;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.zkoss.web.fn.ServletFns;
-import org.zkoss.zhtml.Div;
-import org.zkoss.zhtml.Table;
-import org.zkoss.zhtml.Td;
-import org.zkoss.zhtml.Tr;
 import org.compiere.util.Util;
 import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zul.Cell;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Hlayout;
 import org.zkoss.zul.Messagebox;
@@ -119,12 +113,14 @@ public final class ConfirmPanel extends Hlayout
 
         if (m_withText && text != null)
         {
+        	// TODO - move image names to theme
         	button.setImage(ServletFns.resolveThemeURL("~./images/"+name+"16.png"));
         	button.setLabel(text);
         	ThemeUtils.addSclass("action-text-button", button);
         }
         else
         {
+        	// TODO - move image names to theme
         	button.setImage(ServletFns.resolveThemeURL("~./images/"+name+"24.png"));
         	if (text != null)
         		button.setTooltiptext(text);
@@ -237,17 +233,17 @@ public final class ConfirmPanel extends Hlayout
         pnlBtnLeft.setPack("start"); // load from the left
         pnlBtnLeft.setHflex("min"); // Shrink to fit the contents
         pnlBtnLeft.setSizedByContent(false);
-        ThemeUtils.addSclass("confirm-panel-left", pnlBtnLeft);
+        ThemeUtils.addSclass("ad-confirmpanel-left", pnlBtnLeft);
 
         pnlBtnRight = new Hbox();
         pnlBtnRight.setPack("end"); // Load from the right
         pnlBtnRight.setHflex("1"); // Take up the rest of the space in the Confirm Panel
         pnlBtnRight.setSizedByContent(false);
-        ThemeUtils.addSclass("confirm-panel-right", pnlBtnRight);
+        ThemeUtils.addSclass("ad-confirmpanel-right", pnlBtnRight);
 
         this.appendChild(pnlBtnLeft);
         this.appendChild(pnlBtnRight);
-    	ThemeUtils.addSclass("confirm-panel", this);
+    	ThemeUtils.addSclass("ad-confirmpanel", this);
     }
 
     /**
@@ -433,7 +429,7 @@ public final class ConfirmPanel extends Hlayout
      * @param event event
      * @param listener listener
      */
-    public void addActionListener(String event, EventListener listener)
+    public void addActionListener(String event, EventListener<Event> listener)
     {
         List<?> list1 = pnlBtnLeft.getChildren();
         List<?> list2 = pnlBtnRight.getChildren();
@@ -456,7 +452,7 @@ public final class ConfirmPanel extends Hlayout
      * added to ease porting of swing form
      * @param listener
      */
-	public void addActionListener(EventListener listener) {
+	public void addActionListener(EventListener<Event> listener) {
 		addActionListener(Events.ON_CLICK, listener);
 	}
 

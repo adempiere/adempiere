@@ -77,6 +77,7 @@ public class NumberBox extends Div
     public NumberBox(boolean integral)
     {
         super();
+        ThemeUtils.addSclass("ad-numberbox", this);
         this.integral = integral;
         init();
     }
@@ -84,37 +85,32 @@ public class NumberBox extends Div
     private void init()
     {
     	Table grid = new Table();
+		ThemeUtils.addSclass("ad-numberbox-grid", grid);
 		appendChild(grid);
-		grid.setStyle("border: none; padding: 0px; margin: 0px;");
-		grid.setDynamicProperty("border", "0");
-		grid.setDynamicProperty("cellpadding", "0");
-		grid.setDynamicProperty("cellspacing", "0");
 		
 		Tr tr = new Tr();
+		ThemeUtils.addSclass("ad-numberbox-row", tr);
 		grid.appendChild(tr);
-		tr.setStyle("border: none; padding: 0px; margin: 0px; white-space:nowrap; ");
 
 		Td td = new Td();
 		tr.appendChild(td);
-		td.setStyle("border: none; padding: 0px; margin: 0px;");
+		ThemeUtils.addSclass("ad-numberbox-cell-input", td);
 		decimalBox = new Decimalbox();
+		ThemeUtils.addSclass("ad-numberbox-input", decimalBox);
     	if (integral)
     		decimalBox.setScale(0);
-                decimalBox.setStyle("display: inline;");
 		td.appendChild(decimalBox);
 		
 		Td btnColumn = new Td();
 		tr.appendChild(btnColumn);
-		btnColumn.setStyle("border: none; padding: 0px; margin: 0px;");
-		btnColumn.setSclass("editor-button");
+		ThemeUtils.addSclass("ad-numberbox-cell-button", btnColumn);
 		btn = new Button();
-                btn.setImage(ServletFns.resolveThemeURL("~./images/Calculator10.png"));
+                btn.setImage(ServletFns.resolveThemeURL("~./images/Calculator10.png"));  // TODO - move to theme
 		btn.setTabindex(-1);
-		ThemeUtils.addSclass("editor-button", btn);
+		ThemeUtils.addSclass("ad-numberbox-button", btn);
 		btnColumn.appendChild(btn);
         
         popup = getCalculatorPopup();
-        ThemeUtils.addSclass("editor-button", btn);
         btn.setPopup(popup);
         btn.setStyle("text-align: center;");
         appendChild(popup);

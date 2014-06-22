@@ -27,6 +27,7 @@ import org.adempiere.webui.event.ContextMenuEvent;
 import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.window.WFieldRecordInfo;
 import org.adempiere.webui.window.WTextEditorDialog;
 import org.compiere.model.GridField;
@@ -72,6 +73,7 @@ public class WStringEditor extends WEditor implements ContextMenuListener
     public WStringEditor(GridField gridField, boolean tableEditor)
     {
         super(gridField.isAutocomplete() ? new Combobox() : new Textbox(), gridField);
+        ThemeUtils.addSclass("ad-wstringeditor", this);
         this.tableEditor = tableEditor;
         init(gridField.getObscureType());
     }
@@ -91,7 +93,7 @@ public class WStringEditor extends WEditor implements ContextMenuListener
     		int displayLength, int fieldLength, String vFormat, String obscureType)
     {
     	super(new Textbox(), columnName, null, null, mandatory, isReadOnly,isUpdateable);
-
+        ThemeUtils.addSclass("ad-wstringeditor", this);
     	init(obscureType);
     }
 

@@ -17,22 +17,9 @@
  * is the ZK Breezy theme which is contained in the theme folder structure.
  * 
  * The default theme can be changed by creating a new folder under the theme directory
- * with the folder name matching the theme name and specifying the proper System 
- * Configuration variables as defined in org.adempiere.webui.theme.ITheme.java.
+ * with the folder name matching the theme name and specifying the theme in the 
+ * application Theme Management window. See http://www.adempiere.com/Theme_Management.
  * 
- * Key elements of this or copied themes that are required by the Adempiere code are:
- * 
- * Login Window styles
- * 			LOGIN_WINDOW_CLASS = "login-window";
- * 			LOGIN_BOX_HEADER_CLASS = "login-box-header";
- * 			LOGIN_BOX_HEADER_TXT_CLASS = "login-box-header-txt";
- * 			LOGIN_BOX_HEADER_LOGO_CLASS = "login-box-header-logo";
- * 			LOGIN_BOX_BODY_CLASS = "login-box-body";
- * 			LOGIN_BOX_FOOTER_CLASS = "login-box-footer";
- * 			LOGIN_BOX_FOOTER_PANEL_CLASS = "login-box-footer-pnl";
- * 			LOGIN_BOX_CENTER_CLASS = "login-box-center";
- * 			LOGIN_BOX_CLASS = "login-box"
- *
  */ 
 // Header - includes default theme colors and variables.
 @import "_adempiere_default_header.less"; 
@@ -315,7 +302,7 @@
 /*  Confirm Panel							*/
 /********************************************/
 
-.confirm-panel {
+.ad-confirm-panel {
 	
 	&-left {
 		text-align: left;
@@ -352,7 +339,11 @@
 	
 	.criteria {
 		border:			none;
-		padding: 		5px;		
+		padding: 		5px;
+		
+		.z-grid {
+			border: none;
+		}		
 	}
 	
 	.z-listheader {
@@ -493,6 +484,14 @@
 	    margin-bottom:	10px; 
 	    overflow: 		auto;
 	    
+	    .z-panel-body {
+	    	background: none;
+	    	
+	    	.z-panelchildren-noborder {
+	    		border: none;
+	    	}
+	    }
+	    
 	    .z-button {
 	    	min-height: 22px;
 	    	padding: 0 6px;
@@ -528,6 +527,14 @@
 	}
 }
 
+.ad-autocompleter {
+	.warning {
+		color: @errorboxColor;
+		border-color: @errorboxBorderColor;
+		background-color: @errorboxBackgroundColor;
+	}
+}
+
 .ad-component {
 	width: 100%	
 }
@@ -545,12 +552,6 @@
 	text-align: center;
 }
  
-/********************************************/
-/*  ZK Customizations						*/
-/********************************************/
-
-// Old Stuff
-
 .ad-headerpanel {
 	//.encodeThemeURL(background-image, @image_header-bg);
 	.verGradient(@themeColorPrimaryVeryVeryLight, @themeColorPrimaryVeryLight);
@@ -705,20 +706,20 @@
 }
 
 .action-button {
-	height: 32px;
-	width: 100px;
+	height: @baseButtonHeight + @baseHeight;
+	width: (@baseButtonHeight + @baseHeight)*3;
 }
 
 .action-text-button {
-	height: 32px;
-	width: 80px;
+	height: @baseButtonHeight + @baseHeight;
+	width: (@baseButtonHeight)*3;
 }
 
 div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 	background-color: white;
 }
 
-.desktop-tabpanel {
+.ad-desktoptabpanel {
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -728,8 +729,15 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 	height: 100%;
 	width: 100%;
 	
-	.z-center, .z-south {
+	.z-south {
 		border: none;
+	}
+	
+	.z-center {  // TODO - make this aware of the tab orientations ie. top, bottom, accordion
+		border-top: 2px solid @baseBorderColorHighlight;
+		border-bottom: 2px solid @baseBorderColorHighlight;
+		border-left: none;
+		border-right: none;
 	}
 	
 }
@@ -738,25 +746,36 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 	background-color: @themeColorPrimaryLight;
 }
 
-.adbuttontablist {
+.ad-adbuttontablist {
 	margin:		0;
 	padding:	0;
 }
 
-.adform-content-none {
-	overflow: auto;
-	position: absolute;
-	width: 100%;
-	margin: 3px;
+.ad-datetimebox {
+		display: inline;
+		//String style = AEnv.isFirefox2() ? "display: inline" : "display: inline-block"; 
+		white-space: nowrap;
+	
+	.ad-dateBox {
+		display: inline;
+	}
+	
+	.ad-timeBox {
+		display: inline;
+	}
 }
-
-
 
 .adwindow-toolbar-layout {
     border-width: 0 0 1px 0;
 	
 	.adwindow-toolbar {
 		border: 0px;
+		width:		100%;
+		
+		& .embedded {
+			text-align: end;
+    		background: transparent none;
+		}
 	}
 }
 
@@ -771,8 +790,30 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 	*/
 }
 
-.adtab-content {
+.ad-adtabpanel {
 	padding: 2px 0px;
+	
+	.z-grid {
+		margin:0; 
+		padding:0; 
+		position: relative;
+		width:100%;
+		height:100%;
+		border: none;
+		
+		.z-grid-body .z-cell {
+			padding-top: 0px;
+			padding-bottom: 0px;
+		}
+	}
+}
+
+.ad-gridpanel {
+	height: 100%;
+
+	&-center {
+		height: 100%;
+	}
 }
 
 .adtab-grid {
@@ -798,6 +839,8 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 	&-group {  // a row
 	    
 	    &-header {  // a cell (td)
+	        padding-bottom: 1px !important; 
+    		padding-top: 1px !important; 
 		    
 		    &-body {
 		    	background: linear-gradient(to bottom, @themeColorPrimaryVeryVeryLight 0%, @themeColorPrimaryVeryLight 100%) repeat scroll 0 0 padding-box rgba(0, 0, 0, 0);
@@ -864,13 +907,116 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 	// width: 99%;
 }
 
+.ad-wpreference {
+	padding: 5px;
+	
+	div {
+		background-color: transparent !important; 
+		border: none; 
+		margin: 5px;
+	}
+}
+
+.ad-wpapanel {
+	
+	.ad-grid.z-grid {
+		border: none;
+	}
+}
+
+.ad-processdialog {
+	position: absolute; 
+	width: 100%; 
+	height: 100%;
+	background: none;
+	
+	.z-window-content {
+		padding: 0px;
+	}
+
+	.z-borderlayout {
+		position: absolute; 
+		width: 100%; 
+		height: 100%; 
+		border: none;
+	}
+	
+	.z-north {
+		border: none;
+
+		div {
+			max-height: 150pt; 
+			overflow: auto;	
+			padding: 4px;
+			
+			.z-html {
+					font-family: @baseTitleFontFamily;
+					font-size: @fontSizeLarge;
+					font-style: normal;
+			}
+		}
+	} 
+	
+	.z-center,
+	.z-south {
+		border: none;
+		
+		.z-grid {
+			border: none;
+		}
+	}
+	
+	.z-south {
+		padding: 4px;
+		
+		.z-div>button {
+			margin-left: 0.3em;	
+		}
+	}
+}
+
+.ad-adform {
+     width: 100%;
+     height: 100%;
+     position: absolute;
+     background: none;
+     
+     &-content {
+	     width: 100%;
+	     height: 100%;
+     	
+     	.z-borderlayout {
+     		height: 100%;
+     		width: 100%;
+     		
+     		.z-grid {
+     			border: none;
+     		}
+     	}
+     }
+ }
+ 
+ .adform-content-none {
+	overflow: auto;
+	position: absolute;
+	width: 100%;
+	margin: 3px;
+}
+
+.ad-wtabledireditor.ad-combobox {
+		width: 100%;
+		
+		.z-combobox-input {
+			width: 85%;
+		}
+}
+
 /********************************************/
 /*  Search Component						*/
 /********************************************/
 
-.ad-search-editor,
-.ad-number-editor,
-.ad-pattribute-editor {
+.ad-editorbox,
+.ad-numberbox {
 
 	// Search box 
 	border: none; 
@@ -883,7 +1029,7 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 	//	style = style
 	//			+ ";border: none; padding: 0px; margin: 0px; background-color: transparent;";	
 	
-	table {
+	&-grid {
 		border: none; 
 		padding: 0px; 
 		margin: 0px;
@@ -892,7 +1038,7 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 		cellspacing: 0;		
 	}
 	
-	tr {
+	&-row { // A row
 		width: 100%; 
 		border: none; 
 		padding: 0px; 
@@ -900,13 +1046,16 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 		white-space:nowrap;
 	}
 
-	.z-textbox {
-		.leftBorderRadius(@borderRadiusSmall);
-	    display: inline; 
-	    width: 100%;
+	&-cell-input {  // A cell
 	}
 
-	.editor-button {
+	&-input { // A text input field
+		.leftBorderRadius(@borderRadiusSmall);
+	    display: inline; 
+	    width: 100%;		
+	}
+	
+	&-button {  // A button
 		.iconFontStyle(@baseFontSize, @iconColor);
 		width: @baseButtonWidth;
 		<c:if test="${ zk.ie == 8 }">
@@ -1064,14 +1213,43 @@ div.z-vfiletree-body td.menu-tree-cell {
 	user-select: none;
 }
 
+@ad-nav-tab-indent:		5px;
+@ad-nav-tab-indent-per-level: 15px;
+@ad-nav-tab-max-levels: 10;
+
+.ad-tab-left-margin(@level) {
+		margin-left: @level*@ad-nav-tab-indent-per-level + @ad-nav-tab-indent;
+}
+
+.ad-tab-right-margin(@level) {
+		margin-right: @level*@ad-nav-tab-indent-per-level + @ad-nav-tab-indent;
+}
+
+.generate-left-margins(@n, @i: 0) when (@i =< @n) {
+  .tab-left-level-@{i} {
+  	.ad-tab-left-margin(@i);  	
+  }
+  .generate-left-margins(@n, (@i + 1));
+}
+
+.generate-right-margins(@n, @i: 0) when (@i =< @n) {
+  .tab-right-level-@{i} {
+  	.ad-tab-right-margin(@i);  	
+  }
+  .generate-right-margins(@n, (@i + 1));
+}
+
+
 .verticalStyle() {
 	.z-tabs {
 		float: left;
+		height: 100%;
 		
 		&-content {
 			display: block;
 			height: 4096px;
 			border-right: 2px solid @baseBorderColorHighlight;
+			max-width: 190px;
 		}
 		&-space {
 			width: 0;
@@ -1092,6 +1270,7 @@ div.z-vfiletree-body td.menu-tree-cell {
 				font-weight: bold;
 				cursor: default;
 				white-space: nowrap;
+				padding: @baseTextPaddingTopBottom 4px; 
 			}
 		}
 
@@ -1202,12 +1381,15 @@ div.z-vfiletree-body td.menu-tree-cell {
 		}
 		// left
 		&-left {
+			height: 100%;
+			
 			.z-tabbox-icon {
 				border-right: 2px solid @baseBorderColorHighlight;
 				padding-top: 0;
 			}
 			.verticalStyle();
-	
+			.generate-left-margins(10);
+			
 			.z-tab {
 				border-right: 0px;
 				.leftBorderRadius(@baseBorderRadius);
@@ -1229,13 +1411,16 @@ div.z-vfiletree-body td.menu-tree-cell {
 	
 		// right
 		&-right {
+			height: 100%;
+			
 			.z-tabbox-icon {
 				border-left: 2px solid @baseBorderColorHighlight;
 				padding-top: 0;
 				right: 0;
 			}
 			.verticalStyle();
-	
+			.generate-right-margins(10);	
+
 			.z-tabs {
 				float: right;
 				
@@ -1439,6 +1624,7 @@ div.z-vfiletree-body td.menu-tree-cell {
 			.z-tab-text {
 				cursor: default;
 				font-weight: bold;
+				text-overflow: unset;  // clip perhaps?
 			}
 		}
 		&-disabled {

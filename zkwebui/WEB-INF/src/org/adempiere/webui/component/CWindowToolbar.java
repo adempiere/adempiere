@@ -25,7 +25,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Level;
 
-import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.event.ToolbarListener;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.theme.ThemeUtils;
@@ -123,7 +122,7 @@ public class CWindowToolbar extends FToolbar implements EventListener<Event>
 
     private void init()
     {
-    	ThemeUtils.addSclass("adwindow-toolbar", this);
+    	ThemeUtils.addSclass("ad-cwindowtoolbar adwindow-toolbar", this);
 
         btnIgnore = createButton("Ignore", "Ignore", "Ignore");
         addSeparator();
@@ -175,18 +174,16 @@ public class CWindowToolbar extends FToolbar implements EventListener<Event>
 
         if (embedded)
         {
+        	ThemeUtils.addSclass("embedded", this);
         	btnParentRecord.setVisible(false);
     		btnDetailRecord.setVisible(false);
     		btnActiveWorkflows.setVisible(false);
     		btnHistoryRecords.setVisible(false);
     		btnProductInfo.setVisible(false);
-    		setAlign("end");
-    		setWidth("100%");
-    		setStyle("background: transparent none; ");
         }
         else
         {
-        	setWidth("100%");
+        	ThemeUtils.removeSclass("embedded", this);
         }
     }
 
@@ -284,6 +281,7 @@ public class CWindowToolbar extends FToolbar implements EventListener<Event>
 	protected void addSeparator()
     {
 		Space s = new Space();
+		// TODO - move to theme
 		if (embedded)
 			s.setSpacing("3px");
 		else

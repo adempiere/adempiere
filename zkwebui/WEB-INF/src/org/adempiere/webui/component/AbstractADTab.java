@@ -54,7 +54,7 @@ public abstract class AbstractADTab extends AbstractUIPart implements IADTab
     
     public AbstractADTab()
     {
-    	ThemeUtils.addSclass("ad_abstract-adtab", this);
+    	ThemeUtils.addSclass("ad-abstractadtab", this);
     }
     
     /**
@@ -334,4 +334,6 @@ public abstract class AbstractADTab extends AbstractUIPart implements IADTab
 	public void setADWindowPanel(AbstractADWindowPanel abstractADWindowPanel) {
 		this.adWindowPanel = abstractADWindowPanel;
 	}
+
+
 }

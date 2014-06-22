@@ -179,6 +179,7 @@ public class AdempiereWebUI extends Window implements EventListener<Event>, IWeb
 				return;
 			}
 		}
+    	ThemeUtils.addBrowserIconAndTitle(this.getPage());
     	
     	if (loginDesktop != null)
     	{

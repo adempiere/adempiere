@@ -181,7 +181,7 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
 
     private void init()
     {
-    	ThemeUtils.addSclass("editor", this.getComponent());
+    	ThemeUtils.addSclass("ad-editor", this.getComponent());
 
         label = new Label("");
         label.setValue(strLabel);
@@ -459,7 +459,6 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
         	//can't stretch bandbox & datebox
         	if (!(getComponent() instanceof Bandbox) &&
         		!(getComponent() instanceof Datebox)) {
-        		String width = "100%";
         		if (getComponent() instanceof Button) {
         			Button btn = (Button) getComponent();
         			if (gridField.getDisplayType() == DisplayType.Image) {

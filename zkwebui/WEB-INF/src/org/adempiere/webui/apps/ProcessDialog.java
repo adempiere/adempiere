@@ -23,6 +23,7 @@ import org.adempiere.webui.component.Window;
 import org.adempiere.webui.desktop.IDesktop;
 import org.adempiere.webui.process.WProcessInfo;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.window.FDialog;
 import org.adempiere.webui.window.SimplePDFViewer;
 import org.compiere.apps.ProcessCtl;
@@ -93,7 +94,6 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 	 */
 	
 	private static final long serialVersionUID = 5545731871518761455L;
-	private static final String MESSAGE_DIV_STYLE = "max-height: 150pt; overflow: auto";	
 	private Div messageDiv;
 	private Center center;
 	private North north;
@@ -113,7 +113,7 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 	 */
 	public ProcessDialog (int AD_Process_ID, boolean isSOTrx)
 	{
-		
+		ThemeUtils.addSclass("ad-processdialog", this);
 		log.info("Process=" + AD_Process_ID );
 		m_ctx = Env.getCtx();
 		m_WindowNo = SessionManager.getAppDesktop().registerWindow(this);
@@ -132,28 +132,23 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 	}	//	ProcessDialog
 
 	private void initComponents() {
-		this.setStyle("position: absolute; width: 100%; height: 100%");
 		Borderlayout layout = new Borderlayout();
-		layout.setStyle("position: absolute; width: 100%; height: 100%; border: none;");
 		messageDiv = new Div();
 		message = new Html();
 		messageDiv.appendChild(message);
-		messageDiv.setStyle(MESSAGE_DIV_STYLE);
 		
 		north = new North();
 		north.appendChild(messageDiv);
 		layout.appendChild(north);
 		north.setAutoscroll(true);
-		north.setStyle("border: none;");
 		
 		centerPanel = new Panel();
 		center = new Center();
 		layout.appendChild(center);
 		center.appendChild(centerPanel);
 		center.setHflex("true");
-center.setVflex("true");
+		center.setVflex("true");
 		center.setAutoscroll(true);
-		center.setStyle("border: none");
 		
 		Rows rows = southRowPanel.newRows();
 		Row row = rows.newRow();

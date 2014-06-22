@@ -16,14 +16,7 @@ package org.adempiere.webui.component;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.adempiere.webui.component.ADTabListModel.ADTabLabel;
 import org.adempiere.webui.theme.ThemeUtils;
-import org.adempiere.webui.theme.ThemeUtils;
-import org.zkoss.zhtml.Button;
-import org.zkoss.zhtml.Table;
-import org.zkoss.zhtml.Td;
-import org.zkoss.zhtml.Text;
-import org.zkoss.zhtml.Tr;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -47,7 +40,7 @@ public class ADButtonTabList extends Panel implements IADTabList, EventListener<
 	private int tabPlacement = IADTab.LEFT;
 
 	public ADButtonTabList() {
-		ThemeUtils.addSclass("adbuttontablist", this);
+		ThemeUtils.addSclass("ad-adbuttontablist", this);
 	}
 
 	/**
@@ -77,13 +70,19 @@ public class ADButtonTabList extends Panel implements IADTabList, EventListener<
 		
 		// Try a tab box
         Tabbox nav_tb = new Tabbox();
-        nav_tb.setVflex("1");
+        nav_tb.setVflex("1");				// TODO prepare for other orientations
         this.appendChild(nav_tb);
         nav_tb.setSclass("adwindow-nav-tabbox");
+        
+        // TODO prepare to handle other tab types
         nav_tb.setOrient(tabPlacement == IADTab.LEFT? "left" : "right");
         
         Tabs tabs = new Tabs();
-        tabs.setVflex("1");
+
+        // TODO prepare to handle other tab types
+        tabs.setVflex("1");  //  This is ok for vertical style tabs (left/right)
+        tabs.setHflex("min"); // Minium width.
+
         nav_tb.appendChild(tabs);
         tabs.setSclass("adwindow-nav-tabbox-tabs");
 			
@@ -129,34 +128,21 @@ public class ADButtonTabList extends Panel implements IADTabList, EventListener<
 			}
 			ThemeUtils.addSclass(sclass.toString(), tab);
 			
-			String style = (tabPlacement == IADTab.LEFT ? "margin-left:" : "margin-right:") + (tabLabel.tabLevel*15+5) + "px";
-			if (tab.isVisible()) {
-				int width = tabLabel.label.length() * 10 + 20;
-				if (width > tabWidth)
-					tabWidth = width;
+			// The following sets the sclass for the tabs and the theme can display the tabs accordingly.
+			// TODO - prepare for other orientations			
+			if (tabPlacement == IADTab.LEFT) {
+				ThemeUtils.addSclass("tab-left-level-" + tabLabel.tabLevel, tab);
 			}
+			else if (tabPlacement == IADTab.RIGHT) {
+				ThemeUtils.addSclass("tab-right-level-" + tabLabel.tabLevel, tab);
+			} 
+
 			tabList.add(tab);
-			tab.setStyle(style);
 			tab.addEventListener(Events.ON_CLICK, this);
 			
 			// Set the currently selected tab as selected
 			tab.setSelected(selectedIndex==i);
-		}		
-
-		//set width
-		if (tabWidth > 190)
-			tabWidth = 190;
-		for (int i = 0; i < items.length; i++) {
-			ADTabLabel tabLabel = (ADTabLabel) items[i];
-			Tab tab = tabList.get(i);
-			if (!tab.isVisible())
-				continue;
-			String width = (tabWidth - tabLabel.tabLevel*15)+"px";
-			tabs.setWidth(width);
-			//tab.setStyle(tab.getStyle() + "; display: block; width:" + width);
-			//((Tabs) tab.getParent()).setStyle("width:" + width);
-		}
-		
+		}				
 	}
 
 	public int getSelectedIndex() {

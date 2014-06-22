@@ -17,6 +17,8 @@
 
 package org.adempiere.webui.component;
 
+import org.adempiere.webui.theme.ThemeUtils;
+
 /**
  * Bad stuff, cannot overide method equals in AbstractComponent.
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
@@ -33,11 +35,13 @@ public class ComboItem extends org.zkoss.zul.Comboitem
 	public ComboItem(String label)
     {
         super(label);
+        ThemeUtils.addSclass("ad-comboitem", this);
     }
     
     public ComboItem(String label, Object value)
     {
         super(label);
+        ThemeUtils.addSclass("ad-comboitem", this);
         this.setValue(value);
     }    
 }

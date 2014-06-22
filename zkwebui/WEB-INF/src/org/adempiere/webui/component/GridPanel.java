@@ -111,11 +111,10 @@ public class GridPanel extends Borderlayout implements EventListener
 	 */
 	public GridPanel(int windowNo)
 	{
+		ThemeUtils.addSclass("ad-gridpanel adtab-grid-panel", this);
 		this.windowNo = windowNo;
-		listbox = new Grid();
-		listbox.setOddRowSclass(null);
-		south = new South();
-		this.appendChild(south);
+		
+		init_components();
 
 		//default paging size
 		pageSize = MSysConfig.getIntValue(PAGE_SIZE_KEY, 100);
@@ -135,19 +134,60 @@ public class GridPanel extends Borderlayout implements EventListener
 		this.gridTab = gridTab;
 		
 		tableModel = gridTab.getTableModel();
-
 		numColumns = tableModel.getColumnCount();
-
 		gridField = ((GridTable)tableModel).getFields();
 
+		// Create columns and append them to the listbox(Grid)
 		setupColumns();
-		render();
+		
+		// Create the model and attach to listmodel
+		updateModel();  // causes a re-render event
+
+		if (pageSize > 0)
+		{
+			paging = new Paging();
+			paging.setPageSize(pageSize);
+			paging.setTotalSize(tableModel.getRowCount());
+			paging.setDetailed(true);
+			south.appendChild(paging);
+			paging.addEventListener(ZulEvents.ON_PAGING, this);
+			renderer.setPaging(paging);
+		}
+		else
+		{
+			south.setVisible(false);
+		}
 
 		updateListIndex();
 
+		listbox.setModel(listModel);  // Triggers a re-render
+
 		this.init = true;
 	}
+	
+	/**
+	 * 
+	 */
+private void init_components() {
 
+	listbox = new Grid();
+	listbox.setOddRowSclass(null);
+
+	listbox.setHeight("100%");
+	//true might looks better, false for better performance
+    //listbox.setSizedByContent(false);
+	listbox.addEventListener(Events.ON_CLICK, this);
+
+	Center center = new Center();
+	ThemeUtils.addSclass("ad-gridpanel-center", center);
+	center.setVflex("1");
+	center.setHflex("1");
+	center.appendChild(listbox);
+	this.appendChild(center);
+
+	south = new South();
+	this.appendChild(south);
+}
 	/**
 	 *
 	 * @return boolean
@@ -178,8 +218,8 @@ public class GridPanel extends Borderlayout implements EventListener
 		}
 		else
 		{
-			listbox.setModel(listModel);
 			updateListIndex();
+			listbox.setModel(listModel);  // Triggers a render event
 		}
 	}
 
@@ -302,7 +342,7 @@ public class GridPanel extends Borderlayout implements EventListener
 				column.setWidth(Integer.toString(l) + "px");
 				
 				// FR 3051618 - Hide in list view
-				if (gridField[i].isDisplayedGrid()) {
+				if (!gridField[i].isDisplayedGrid()) {
 					column.setVisible(false);
 				}
 				
@@ -314,33 +354,6 @@ public class GridPanel extends Borderlayout implements EventListener
 
 	private void render()
 	{
-		ThemeUtils.addSclass("adtab-grid-panel", this);
-
-		listbox.setVflex(true);
-		//true might looks better, false for better performance
-                listbox.setSizedByContent(false);
-		listbox.addEventListener(Events.ON_CLICK, this);
-
-		updateModel();
-
-		Center center = new Center();
-		center.appendChild(listbox);
-		this.appendChild(center);
-
-		if (pageSize > 0)
-		{
-			paging = new Paging();
-			paging.setPageSize(pageSize);
-			paging.setTotalSize(tableModel.getRowCount());
-			paging.setDetailed(true);
-			south.appendChild(paging);
-			paging.addEventListener(ZulEvents.ON_PAGING, this);
-			renderer.setPaging(paging);
-		}
-		else
-		{
-			south.setVisible(false);
-		}
 
 	}
 
@@ -354,7 +367,7 @@ public class GridPanel extends Borderlayout implements EventListener
 		renderer.setADWindowPanel(windowPanel);
 
 		listbox.setRowRenderer(renderer);
-		listbox.setModel(listModel);
+		// listbox.setModel(listModel);  // causes a re-render
 	}
 
 	/**

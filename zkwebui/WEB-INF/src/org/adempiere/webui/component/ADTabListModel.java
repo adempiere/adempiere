@@ -21,6 +21,13 @@ import org.zkoss.zul.Listitem;
 import org.zkoss.zul.ListitemRenderer;
 import org.zkoss.zul.ListitemRendererExt;
 
+/**
+ * 
+ * No longer used.
+ *
+ */
+
+@Deprecated // as of 3.8.0
 public class ADTabListModel extends AbstractListModel implements ListitemRenderer, ListitemRendererExt {
 	
 	/**

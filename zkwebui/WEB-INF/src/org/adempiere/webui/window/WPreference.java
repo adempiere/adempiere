@@ -23,6 +23,7 @@ import org.adempiere.webui.component.ToolBarButton;
 import org.adempiere.webui.editor.WTableDirEditor;
 import org.adempiere.webui.editor.WYesNoEditor;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.util.UserPreference;
 import org.compiere.model.MColumn;
 import org.compiere.model.MLookupFactory;
@@ -63,34 +64,36 @@ public class WPreference extends Popup implements EventListener {
 	}
 
 	private void init() {
-		this.setStyle("padding: 5px");
+		ThemeUtils.addSclass("ad-wpreference", this);
 
 		Div div = new Div();
-		div.setStyle("background-color: transparent !important; border: none; margin: 5px;");
 		autoCommit = new WYesNoEditor("AutoCommit", Msg.getMsg(Env.getCtx(), "AutoCommit", true),
 				null, false, false, true);
 		div.appendChild(autoCommit.getComponent());
 		autoCommit.getComponent().setTooltiptext(Msg.getMsg(Env.getCtx(), "AutoCommit", false));
+		autoCommit.getComponent().setAttribute("zk_component_ID", "Preference_autoCommit");
+		autoCommit.getComponent().setAttribute("zk_component_prefix", "Preference_");
 		this.appendChild(div);
 
 		autoNew = new WYesNoEditor("AutoNew", Msg.getMsg(Env.getCtx(), "AutoNew", true),
 				null, false, false, true);
 		autoNew.getComponent().setTooltiptext(Msg.getMsg(Env.getCtx(), "AutoNew", false));
+		autoNew.getComponent().setAttribute("zk_component_ID", "Preference_autoNew");
+		autoNew.getComponent().setAttribute("zk_component_prefix", "Preference_");
 		div = new Div();
-		div.setStyle("background-color: transparent !important; border: none; margin: 5px;");
 		div.appendChild(autoNew.getComponent());
 		this.appendChild(div);
 
 		tabCollapsible = new WYesNoEditor("WindowTabCollapsible", Msg.getMsg(Env.getCtx(), "WindowTabCollapsible", true),
 				null, false, false, true);
 		tabCollapsible.getComponent().setTooltiptext(Msg.getMsg(Env.getCtx(), "WindowTabCollapsible", false));
+		tabCollapsible.getComponent().setAttribute("zk_component_ID", "Preference_tabCollapsible");
+		tabCollapsible.getComponent().setAttribute("zk_component_prefix", "Preference_");
 		div = new Div();
-		div.setStyle("background-color: transparent !important; border: none; margin: 5px;");
 		div.appendChild(tabCollapsible.getComponent());
 		this.appendChild(div);
 
 		div = new Div();
-		div.setStyle("background-color: transparent !important; border: none; margin: 5px;");
 		Label label = new Label(Msg.getMsg(Env.getCtx(), "WindowTabPlacement", true));
 		label.setTooltiptext(Msg.getMsg(Env.getCtx(), "WindowTabPlacement", false));
 		div.appendChild(label);
@@ -98,11 +101,12 @@ public class WPreference extends Popup implements EventListener {
 		tabPlacement = new Combobox();
 		tabPlacement.appendItem(Msg.getMsg(Env.getCtx(), "Left", true), "Left");
 		tabPlacement.appendItem(Msg.getMsg(Env.getCtx(), "Right", true), "Right");
+		tabPlacement.setAttribute("zk_component_ID", "Preference_tabPlacement");
+		tabPlacement.setAttribute("zk_component_prefix", "Preference_");
 		div.appendChild(tabPlacement);
 		this.appendChild(div);
 
 		div = new Div();
-		div.setStyle("background-color: transparent !important; border: none; margin: 5px;");
 		label = new Label(Msg.getMsg(Env.getCtx(), "Theme", true));
 		label.setTooltiptext(Msg.getMsg(Env.getCtx(), "SelectTheme", false));
 		div.appendChild(label);
@@ -119,7 +123,6 @@ public class WPreference extends Popup implements EventListener {
 		Separator separator = new Separator();
 		separator.setSpacing("20px");
 		div = new Div();
-		div.setStyle("background-color: transparent !important; border: none; margin: 5px;");
 		div.appendChild(separator);
 		this.appendChild(div);
 
@@ -186,8 +189,6 @@ public class WPreference extends Popup implements EventListener {
 		this.detach();
 		
 		if (changeTheme) {
-			//MTheme theme = MTheme.get(Env.getCtx(), newTheme_ID);
-			//theme.setTheme(Env.getCtx(), true);  // Set the theme and reload the page.
 			Executions.sendRedirect(null);  // Reload the page - it will use the new theme
 		}
 	}

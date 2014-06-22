@@ -4,6 +4,7 @@ import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.compiere.model.MGoal;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
@@ -38,6 +39,7 @@ public class WPAPanel extends Panel implements EventListener<Event>
 	private WPAPanel (MGoal[] goals)
 	{
 		super ();
+		ThemeUtils.addSclass("ad-wpapanel", this);
 		m_goals = goals;
 		init();
 	}
@@ -55,8 +57,8 @@ public class WPAPanel extends Panel implements EventListener<Event>
 	{
 		Grid grid = new Grid();
 		appendChild(grid);
-		grid.setWidth("100%");
-		grid.setStyle("margin:0; padding:0; position: absolute;");
+		//grid.setWidth("100%");
+		//grid.setStyle("margin:0; padding:0; position: absolute;");
 		grid.makeNoStrip();
 		grid.setOddRowSclass("even");
 
@@ -67,10 +69,9 @@ public class WPAPanel extends Panel implements EventListener<Event>
 		{
 			Row row = new Row();
 			rows.appendChild(row);
-			row.setWidth("100%");
 			
 			WPerformanceIndicator pi = new WPerformanceIndicator(m_goals[i]);
-			row.appendChild(pi);
+			row.appendCellChild(pi);
 			pi.addEventListener(Events.ON_CLICK, this);			
 		}	
 	}	//	init
