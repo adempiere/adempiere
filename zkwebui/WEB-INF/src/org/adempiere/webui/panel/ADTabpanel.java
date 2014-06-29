@@ -167,6 +167,8 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 
 	private boolean m_vetoActive = false;
 
+	private boolean m_processingEvent;
+
 	public ADTabpanel()
 	{
         init();
@@ -954,8 +956,10 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
     		this.switchRowPresentation();
     	}
     	else if (event.getTarget() == treePanel.getTree()) {
+    		set_processingEvent(true);
     		Treeitem item =  treePanel.getTree().getSelectedItem();
     		navigateTo((SimpleTreeNode)item.getValue());
+    		set_processingEvent(false);
     	}
     }
 
@@ -1257,10 +1261,12 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 	 */
 	public void rowChanged (boolean save, int keyID)
 	{
+		if (is_processingEvent())
+			return;
+		
 		String name = (String)gridTab.getValue("Name");
 		String description = (String)gridTab.getValue("Description");
-		Boolean IsSummary = (Boolean)gridTab.getValue("IsSummary");
-		boolean summary = IsSummary != null && IsSummary.booleanValue();
+		boolean summary = "Y".equals(gridTab.getValue("IsSummary"));
 		String imageIndicator = (String)gridTab.getValue("Action");  //  Menu - Action
 		//
 		treePanel.nodeChanged(save, keyID, name, description,
@@ -1375,6 +1381,20 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 	 */
 	public GridPanel getGridView() {
 		return listPanel;
+	}
+
+	/**
+	 * @return the m_processingEvent
+	 */
+	public boolean is_processingEvent() {
+		return m_processingEvent;
+	}
+
+	/**
+	 * @param m_processingEvent the m_processingEvent to set
+	 */
+	public void set_processingEvent(boolean m_processingEvent) {
+		this.m_processingEvent = m_processingEvent;
 	}
 }
 
