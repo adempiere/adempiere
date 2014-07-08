@@ -38,7 +38,7 @@ public class WUrlEditor extends WEditor implements ContextMenuListener
 	{
 		super(new Urlbox(), gridField);
 		getComponent().setButtonImage("/images/Online10.png");
-		
+		getComponent().getButton().setTarget("_blank");
 		popupMenu = new WEditorPopupMenu(false, false, true);
 		popupMenu.addMenuListener(this);
 		if (gridField != null && gridField.getGridTab() != null)
@@ -100,14 +100,33 @@ public class WUrlEditor extends WEditor implements ContextMenuListener
 		{
 			String newValue = getComponent().getText();
 			if (oldValue != null && newValue != null && oldValue.equals(newValue)) {
-	    	    return;
-	    	}
-	        if (oldValue == null && newValue == null) {
-	        	return;
-	        }
+				return;
+			}
+			if (oldValue == null && newValue == null) {
+				return;
+			}
 			ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldValue, newValue);
 			fireValueChange(changeEvent);
 			oldValue = newValue;
+			String value = getComponent().getText();
+			String url=null;
+			if (value == null) 
+			{
+				url = "about:blank";
+			} 
+			else
+			{
+				url = value.trim();
+				if (url.length() == 0)
+				{
+					url = "about:blank";
+				}
+				else if (url.indexOf("://") < 0)
+				{
+					url = "http://"+ url;
+				}
+			}
+			getComponent().getButton().setHref(url);
 		}
 		else if (Events.ON_CLICK.equals(event.getName()))
 		{
