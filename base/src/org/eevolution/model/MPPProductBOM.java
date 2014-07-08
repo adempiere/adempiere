@@ -58,6 +58,7 @@ public class MPPProductBOM extends X_PP_Product_BOM
 		return new Query (product.getCtx(), X_PP_Product_BOM.Table_Name, whereClause, product.get_TrxName())
 					.setClient_ID()
 					.setParameters(product.getValue(), product.getM_Product_ID())
+					.setOnlyActiveRecords(true)
 					.list();
 		
 	}
@@ -109,6 +110,7 @@ public class MPPProductBOM extends X_PP_Product_BOM
 	{
 		MPPProductBOM bom = new Query(product.getCtx(), Table_Name, "M_Product_ID=? AND Value=?", trxName)
 				.setParameters(new Object[]{product.getM_Product_ID(), product.getValue()})
+				.setOnlyActiveRecords(true)
 				.setClient_ID()
 				.firstOnly();
 		// If outside trx, then cache it
