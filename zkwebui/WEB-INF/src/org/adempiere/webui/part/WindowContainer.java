@@ -19,12 +19,13 @@ import org.adempiere.webui.component.Tabpanel;
 import org.adempiere.webui.component.Tabpanels;
 import org.adempiere.webui.component.Tabs;
 import org.adempiere.webui.panel.ADTabpanel;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
 
 /**
  * 
@@ -57,14 +58,22 @@ public class WindowContainer extends AbstractUIPart
     protected Component doCreatePart(Component parent)
     {
         tabbox = new Tabbox();
+        tabbox.setSclass("desktop-tabbox");
+        tabbox.setId("desktop_tabbox");
+        
         
         Tabpanels tabpanels = new Tabpanels();
+        tabpanels.setVflex("1");
+        tabpanels.setHflex("1");
+        
         Tabs tabs = new Tabs();
 
         tabbox.appendChild(tabs);
         tabbox.appendChild(tabpanels);
         tabbox.setWidth("100%");
         tabbox.setHeight("100%");
+        tabbox.setVflex("1");
+        tabbox.setHflex("1");
         
         if (parent != null)
         	tabbox.setParent(parent);
@@ -122,7 +131,7 @@ public class WindowContainer extends AbstractUIPart
         tab.setClosable(closeable);
         
         // fix scroll position lost coming back into a grid view tab
-        tab.addEventListener(Events.ON_SELECT, new EventListener() {
+        tab.addEventListener(Events.ON_SELECT, new EventListener<Event>() {
 			public void onEvent(Event event) throws Exception {
 				Tab tab = (Tab)event.getTarget();
 				org.zkoss.zul.Tabpanel panel = tab.getLinkedPanel();
@@ -141,11 +150,7 @@ public class WindowContainer extends AbstractUIPart
         } else {
         	tabpanel = new Tabpanel();
         	tabpanel.appendChild(comp);
-        }                
-        tabpanel.setHeight("100%");
-        tabpanel.setWidth("100%");
-        tabpanel.setZclass("desktop-tabpanel");
-        tabpanel.setStyle("position: absolute;");
+        }
         
         if (refTab == null)  
         {

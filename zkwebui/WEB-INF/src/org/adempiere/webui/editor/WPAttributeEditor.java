@@ -22,6 +22,7 @@ import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.panel.InfoPAttributePanel;
 import org.adempiere.webui.panel.InfoProductPanel;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.window.WFieldRecordInfo;
 import org.adempiere.webui.window.WPAttributeDialog;
 import org.compiere.model.GridField;
@@ -31,6 +32,7 @@ import org.compiere.model.MPAttributeLookup;
 import org.compiere.model.MProduct;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
@@ -117,7 +119,10 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 	}
 	
 	private void initComponents() {
-		getComponent().setButtonImage("images/PAttribute10.png");
+		
+		ThemeUtils.addSclass("ad-pattribute-editor", getComponent());
+
+		getComponent().setButtonImage(ServletFns.resolveThemeURL("~./images/PAttribute10.png"));
 		getComponent().addEventListener(Events.ON_CLICK, this);
 		getComponent().addEventListener(Events.ON_CHANGE, this);
 

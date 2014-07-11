@@ -186,20 +186,45 @@ Copyright (C) 2005 Potix Corporation. All Rights Reserved.
 		<function-signature>java.lang.Object new_(java.lang.Object)</function-signature>
 		<description>
 	Instantiates the specified class.
-	The argument could be either a string (class name) or a Class instance.
+	The parameter could be either a string (class name) or a Class instance.
+		</description>
+	</function>
+	<function>
+		<name>new1</name>
+		<function-class>org.zkoss.xel.fn.CommonFns</function-class>
+		<function-signature>java.lang.Object new_(java.lang.Object, java.lang.Object)</function-signature>
+		<description>
+	Instantiates the specified class and argument.
+	The first parameter could be either a string (class name) or a Class instance.
+	The second parameter is the argument passed to the constructor.
+		</description>
+	</function>
+	<function>
+		<name>new2</name>
+		<function-class>org.zkoss.xel.fn.CommonFns</function-class>
+		<function-signature>java.lang.Object new_(java.lang.Object, java.lang.Object, java.lang.Object)</function-signature>
+		<description>
+	Instantiates the specified class and two arguments.
+	The first parameter could be either a string (class name) or a Class instance.
+	The second parameter is the first argument passed to the constructor.
+	The third parameter is the second argument passed to the constructor.
+		</description>
+	</function>
+	<function>
+		<name>new3</name>
+		<function-class>org.zkoss.xel.fn.CommonFns</function-class>
+		<function-signature>java.lang.Object new_(java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object)</function-signature>
+		<description>
+	Instantiates the specified class and three arguments.
+	The first parameter could be either a string (class name) or a Class instance.
+	The second parameter is the first argument passed to the constructor.
+	The third parameter is the second argument passed to the constructor.
+	The fourth parameter is the third argument passed to the constructor.
 		</description>
 	</function>
 
 	<function>
 		<name>property</name><!-- since 3.5.1 -->
-		<function-class>org.zkoss.lang.Library</function-class>
-		<function-signature>java.lang.String getProperty(java.lang.String)</function-signature>
-		<description>
-	Returns the library property.
-		</description>
-	</function>
-	<function><!-- backward compatible -->
-		<name>getProperty</name>
 		<function-class>org.zkoss.lang.Library</function-class>
 		<function-signature>java.lang.String getProperty(java.lang.String)</function-signature>
 		<description>
@@ -270,6 +295,107 @@ Copyright (C) 2005 Potix Corporation. All Rights Reserved.
 	Replaces all occurenances of the second argument with the third argument.
 		</description>
 	</function>
+	<function>
+		<name>toLowerCase</name>
+		<function-class>org.zkoss.xel.fn.StringFns</function-class>
+		<function-signature>
+	java.lang.String toLowerCase(java.lang.String)
+		</function-signature>
+		<description>
+	Converts to the lower case.
+		</description>
+	</function>
+	<function>
+		<name>toUpperCase</name>
+		<function-class>org.zkoss.xel.fn.StringFns</function-class>
+		<function-signature>
+	java.lang.String toUpperCase(java.lang.String)
+		</function-signature>
+		<description>
+	Converts to the upper case.
+		</description>
+	</function>
+	<function>
+		<name>trim</name>
+		<function-class>org.zkoss.xel.fn.StringFns</function-class>
+		<function-signature>
+	java.lang.String trim(java.lang.String)
+		</function-signature>
+		<description>
+	Trims the whitespaces.
+		</description>
+	</function>
+	<function>
+		<name>split</name>
+		<function-class>org.zkoss.xel.fn.StringFns</function-class>
+		<function-signature>
+	java.lang.String[] split(java.lang.String, java.lang.String)
+		</function-signature>
+		<description>
+	Splits a string into an array of strings based on the given separator.
+		</description>
+	</function>
+	<function>
+		<name>join</name>
+		<function-class>org.zkoss.xel.fn.StringFns</function-class>
+		<function-signature>
+	java.lang.String join(java.lang.Object[], java.lang.String)
+		</function-signature>
+		<description>
+	Joins an array of strings into a single string based on the given separator.
+		</description>
+	</function>
+	<function>
+		<name>startsWith</name>
+		<function-class>org.zkoss.xel.fn.StringFns</function-class>
+		<function-signature>
+	boolean startsWith(java.lang.String, java.lang.String)
+		</function-signature>
+		<description>
+	Returns whether a string starts with another.
+		</description>
+	</function>
+	<function>
+		<name>endsWith</name>
+		<function-class>org.zkoss.xel.fn.StringFns</function-class>
+		<function-signature>
+	boolean endsWith(java.lang.String, java.lang.String)
+		</function-signature>
+		<description>
+	Returns whether a string starts with another.
+		</description>
+	</function>
+	<function>
+		<name>substring</name>
+		<function-class>org.zkoss.xel.fn.StringFns</function-class>
+		<function-signature>
+	java.lang.String substring(java.lang.String, int from, int to)
+		</function-signature>
+		<description>
+	Returns the substring.
+		</description>
+	</function>
+
+	<function>
+		<name>indexOf</name>
+		<function-class>org.zkoss.xel.fn.CommonFns</function-class>
+		<function-signature>
+	int indexOf(java.lang.Object, java.lang.Object)
+		</function-signature>
+		<description>
+	Returns the index of the given element.
+		</description>
+	</function>
+	<function>
+		<name>lastIndexOf</name>
+		<function-class>org.zkoss.xel.fn.CommonFns</function-class>
+		<function-signature>
+	int lastIndexOf(java.lang.Object, java.lang.Object)
+		</function-signature>
+		<description>
+	Returns the index of the given element.
+		</description>
+	</function>
 
 	<function>
 		<name>l</name>
@@ -289,6 +415,46 @@ Copyright (C) 2005 Potix Corporation. All Rights Reserved.
 		</description>
 	</function>
 
+	<!--                    -->
+	<!-- Date Utilities     -->
+	<!--                    -->
+	<function>
+		<name>formatDate</name>
+		<function-class>org.zkoss.xel.fn.CommonFns</function-class>
+		<function-signature>java.lang.String formatDate(java.util.Date, java.lang.String)</function-signature>
+		<description>
+		Returns the formatted time string.
+		</description>
+	</function>
+	<function>
+		<name>parseDate</name>
+		<function-class>org.zkoss.xel.fn.CommonFns</function-class>
+		<function-signature>java.util.Date parseDate(java.lang.String, java.lang.String)</function-signature>
+		<description>
+		Returns A Date parsed from the string.
+		</description>
+	</function>
+
+	<!--                    -->
+	<!-- Number Utilities   -->
+	<!--                    -->
+	<function>
+		<name>formatNumber</name>
+		<function-class>org.zkoss.xel.fn.CommonFns</function-class>
+		<function-signature>java.lang.String formatNumber(java.lang.Object, java.lang.String)</function-signature>
+		<description>
+		Returns the formatted number string.
+		</description>
+	</function>
+	<function>
+		<name>parseNumber</name>
+		<function-class>org.zkoss.xel.fn.CommonFns</function-class>
+		<function-signature>java.lang.Number parseNumber(java.lang.String, java.lang.String)</function-signature>
+		<description>
+		Returns A Number parsed from the string.
+		</description>
+	</function>
+	
 	<!--                    -->
 	<!-- XML/HTML Utilities -->
 	<!--                    -->
@@ -330,6 +496,29 @@ Copyright (C) 2005 Potix Corporation. All Rights Reserved.
 	Encoding a string to be used as a query name or value.
 		</description>
 	</function>
+	<function>
+		<name>encodeThemeURL</name>
+		<function-class>org.zkoss.web.fn.ServletFns</function-class>
+		<function-signature>
+	java.lang.String encodeThemeURL(java.lang.String)
+		</function-signature>
+		<description>
+	Encoding URL to theme specific prefix the context path and to provide 
+	session info, if necessary
+	If URL contains "*", it is resolved to the current Locale and
+	the browser code.
+		</description>
+	</function>
+	<function>
+		<name>resolveThemeURL</name>
+		<function-class>org.zkoss.web.fn.ServletFns</function-class>
+		<function-signature>
+	java.lang.String resolveThemeURL(java.lang.String)
+		</function-signature>
+		<description>
+		Resolves a URL to point to resource served by the current theme.
+		</description>
+	</function>
 
 	<function>
 		<name>escapeXML</name>
@@ -349,17 +538,15 @@ Copyright (C) 2005 Potix Corporation. All Rights Reserved.
 		<function-signature>
 	boolean isBrowser(java.lang.String)
 		</function-signature>
-		<description>
+		<description><![CDATA[
 	Whether the current request is coming from the browser of the specified
 	type.
-	@param type the type of the browser.
-		Allowed values include "robot", "ie", "ie6", "ie6-", "ie7", "ie8",
-		"ie7-", "gecko", "gecko2", "gecko3", "gecko2-",
-		"opara", "safari",
-		"mil", "hil", "mil-".<br/>
-		Note: "ie6-" means Internet Explorer 6 only; not Internet Explorer 7
-		or other.
-		</description>
+	 @param type the type of the browser.
+	 The syntax: <code>&lt;browser-name&gt;[&lt;version-number&gt;];[-]</code>.<br/>
+	 For example, ie9, ios and ie6-.
+	 And, <code>ie9</code> means Internet Explorer 9 and later, while
+	 <code>ie6-</code> means Internet Explorer 6 (not prior, nor later).
+		]]></description>
 	</function>
 	<function>
 		<name>isExplorer</name>

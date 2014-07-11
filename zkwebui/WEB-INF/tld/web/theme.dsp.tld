@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+Purpose:
+	
+Description:
+	
+Histroy:
+	Tue, Jul 10, 2012  9:32:48 AM, Created by jumperchen
+
+Copyright (C) 2012 Potix Corporation. All Rights Reserved.
+-->
+<taglib>
+	<uri>http://www.zkoss.org/dsp/web/theme</uri>
+	<description>
+		Theme utility methods
+	</description>
+	
+	<!--      -->
+	<!-- Tags -->
+	<!--      -->
+	<!--  
+	<tag>
+		<description>
+	Provides the context for mutually exclusive conditional execution.
+		</description>
+		<name>choose</name>
+		<tag-class>org.zkoss.web.servlet.dsp.action.Choose</tag-class>
+	</tag>
+	-->
+	
+	<!--         -->
+	<!-- Imports -->
+	<!--         -->
+	<import>
+		<import-name>ThemeFns</import-name>
+		<import-class>org.zkoss.web.fn.ThemeFns</import-class>
+	</import>
+	
+	<!--                 -->
+	<!-- Theme Utilities -->
+	<!--                 -->
+	<function>
+		<name>gradient</name>
+		<function-class>org.zkoss.web.fn.ThemeFns</function-class>
+		<function-signature>
+	java.lang.String gradient(java.lang.String, java.lang.String)
+		</function-signature>
+		<description><![CDATA[
+	Generates a specific of browser CSS color gradient rules String.
+	@param type "ver", "hor", "diag-", "diag+", "rad"
+	@param colors the colors, which are separated by semicolon ";"
+		]]></description>
+	</function>
+	<function>
+		<name>gradValue</name>
+		<function-class>org.zkoss.web.fn.ThemeFns</function-class>
+		<function-signature>
+	java.lang.String gradValue(java.lang.String, java.lang.String)
+		</function-signature>
+		<description><![CDATA[
+	Generates a specific CSS color gradient value only
+	@param type "ver", "hor", "diag-", "diag+", "rad"
+	@param colors the colors, which are separated by semicolon ";"
+		]]></description>
+	</function>
+	<function>
+		<name>gradients</name>
+		<function-class>org.zkoss.web.fn.ThemeFns</function-class>
+		<function-signature>
+	java.lang.String gradients(java.lang.String, java.lang.String)
+		</function-signature>
+		<description><![CDATA[
+	Generates a set of cross-browser CSS color gradient rules String.
+	@param type "ver", "hor", "diag-", "diag+", "rad"
+	@param colors the colors, which are separated by semicolon ";"
+		]]></description>
+	</function>
+	<function>
+		<name>box</name>
+		<function-class>org.zkoss.web.fn.ThemeFns</function-class>
+		<function-signature>
+	java.lang.String box(java.lang.String, java.lang.String)
+		</function-signature>
+		<description><![CDATA[
+	Generates a specific browser CSS rule string for box model.
+	@param styleName
+	           the value of the style name, like <code>box-orient</code>,
+	           <code>box-pack</code>
+	@param styleValue
+	            the value according to the style name, like
+	           <code>horizontal</code>, <code>center</code>
+	@return a specific browser CSS rule string, like
+	         <code>-moz-box-orient</code> for firefox and
+	        <code>-webkit-box-orient</code> for safari and chrome
+		]]></description>
+	</function>
+	<function>
+		<name>box2</name>
+		<function-class>org.zkoss.web.fn.ThemeFns</function-class>
+		<function-signature>
+	java.lang.String box2(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+		</function-signature>
+		<description><![CDATA[
+	Generates a specific browser CSS rule string for box model with two pair styles.
+		]]></description>
+	</function>
+	<function>
+		<name>box3</name>
+		<function-class>org.zkoss.web.fn.ThemeFns</function-class>
+		<function-signature>
+	java.lang.String box3(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+		</function-signature>
+		<description><![CDATA[
+	Generates a specific browser CSS rule string for box model with three pair styles.
+		]]></description>
+	</function>
+	<function>
+		<name>boxShadow</name>
+		<function-class>org.zkoss.web.fn.ThemeFns</function-class>
+		<function-signature>
+	java.lang.String boxShadow(java.lang.String)
+		</function-signature>
+		<description><![CDATA[
+	Generates a specific browser CSS box-shadow.
+	@param style the value of the box-shadow
+		]]></description>
+	</function>
+	<function>
+		<name>borderRadius</name>
+		<function-class>org.zkoss.web.fn.ThemeFns</function-class>
+		<function-signature>
+	java.lang.String borderRadius(java.lang.String)
+		</function-signature>
+		<description><![CDATA[
+	Generates a specific browser CSS border-radius.
+	@param style the value of the border-radius
+		]]></description>
+	</function>
+	<function>
+		<name>applyCSS3</name>
+		<function-class>org.zkoss.web.fn.ThemeFns</function-class>
+		<function-signature>
+	java.lang.String applyCSS3(java.lang.String, java.lang.String)
+		</function-signature>
+		<description><![CDATA[
+	 Generates a specific browser CSS rule String for the given style name and
+	 value.
+	 <p>
+	 Note: the method is only applied with the browser prefix as the style
+	 name, if the CSS3 style usage rule is different between browsers, please
+	 use another method instead.
+	 
+	 @param styleName
+	            the value of the style name, like <code>box-sizing</code>,
+	            <code>animation</code>
+	 @param styleValue
+	            the value according to the style name, like
+	            <code>border-box</code>, <code>mymove 5s infinite</code>
+	 @return a specific browser CSS rule string, like
+	         <code>-moz-box-sizing</code> for firefox and
+	         <code>-webkit-box-sizing</code> for safari and chrome
+		]]></description>
+	</function>
+	<function>
+		<name>transform</name>
+		<function-class>org.zkoss.web.fn.ThemeFns</function-class>
+		<function-signature>
+	java.lang.String transform(java.lang.String)
+		</function-signature>
+		<description><![CDATA[
+	Generates a specific browser CSS transform.
+	@param style the value of the transform
+		]]></description>
+	</function>
+	<function>
+		<name>loadProperties</name>
+		<function-class>org.zkoss.web.fn.ThemeFns</function-class>
+		<function-signature>
+	void loadProperties(java.lang.String path)
+		</function-signature>
+		<description><![CDATA[
+	Loads a specific theme properties and apply them into the request scope
+		]]></description>
+	</function>
+	<function>
+		<name>getCurrentTheme</name>
+		<function-class>org.zkoss.web.fn.ThemeFns</function-class>
+		<function-signature>
+	java.lang.String getCurrentTheme()
+		</function-signature>
+		<description><![CDATA[
+	Returns the current theme name
+		]]></description>
+	</function>
+</taglib>

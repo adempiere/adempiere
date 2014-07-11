@@ -18,8 +18,6 @@ import java.util.Arrays;
 
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Textbox;
-import org.adempiere.webui.component.ToolBar;
-import org.adempiere.webui.component.ToolBarButton;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.session.SessionManager;
 import org.compiere.util.Env;
@@ -27,22 +25,22 @@ import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
-import org.zkoss.zul.Div;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.South;
 
 /**
  * Based on WPreference.java and Info.java
  * @author Michael McKay
  *
  */
-public class WContext extends Window implements EventListener {
+public class WContext extends Window implements EventListener<Event> {
 
 	
-	// TODO - assign serial version ID
-	private static final long serialVersionUID = 0;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8980408211908631062L;
 	private ConfirmPanel confirmPanel;
 	
 	public WContext() {

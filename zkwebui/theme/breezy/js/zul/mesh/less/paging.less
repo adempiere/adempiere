@@ -1,0 +1,121 @@
+@import "~./zul/less/_header.less";
+
+.z-paging {
+	height: @baseBarHeight;
+	border-bottom: 1px solid @pagingBorderColor;
+	padding: 4px 10px 3px;
+	background: @pagingBackgroundColor;
+	position: relative;
+	
+	&-os {
+		border-bottom: none;
+		padding-bottom: 4px;
+	}
+	ul {
+		display: inline-block;
+		margin: 0;
+		padding: 0;
+		
+		> li {
+			display: inline;
+		}
+	}
+	&-button {
+		.fontStyle(@baseContentFontFamily, @fontSizeMedium, normal, @pagingColor);
+		display: inline-block;
+		min-width: @baseButtonWidth;
+		height: @baseButtonHeight;
+		border: 1px solid @pagingBorderColor;
+		.borderRadius(@borderRadiusSmall);
+		margin-right: 6px;
+		padding: 4px 0px;
+		line-height: @baseLineHeight;
+		.verGradient(@baseGradientStart, @baseGradientEnd);
+		text-align: center;
+		vertical-align: top;
+		cursor: pointer;
+		text-decoration: none;
+		white-space: nowrap;
+		
+		&:hover {
+			border-color: @pagingActiveBorderColor;
+			.boxShadow('0 0 2px rgba(0, 0, 0, 0.34)');
+		}
+		&:active {
+			border-color: @pagingActiveBorderColor @pagingBorderColor;
+			.verGradient(@baseGradientEnd, @baseGradientStart);
+		}
+		&[disabled] {
+			color: @disabledColor;
+			.opacity(@disabledOpacity);
+			cursor: default;
+			
+			&:hover {
+				border-color: @pagingBorderColor;
+				.boxShadow('0 0 0 rgba(0, 0, 0, 0)');
+			}
+			&:active {
+				border-color: @pagingBorderColor;
+				.verGradient(@baseGradientStart, @baseGradientEnd);
+			}
+			.z-paging-icon,
+			.z-paging-icon:hover {
+				color: @disabledColor;
+			}
+		}
+	}
+	.z-paging-icon {
+		.iconFontStyle(@fontSizeXLarge, @pagingColor);
+	}
+	&-noborder {
+		border-color: transparent;
+		.resetGradient();
+		&:hover {
+			border-color: transparent;
+			.boxShadow('0 0 0 rgba(0, 0, 0, 0)');
+			text-decoration: underline;
+		}
+		&:active {
+			border-color: transparent;
+			.resetGradient();
+		}
+	}
+	&-selected {
+		color: @pagingSelectedColor;
+		border-color: @pagingActiveBorderColor;
+		.resetGradient();
+		background: @pagingSelectedBackgroundColor;
+		&:hover {
+			border-color: @pagingActiveBorderColor;
+			.boxShadow('0 0 0 rgba(0, 0, 0, 0)');
+		}
+		&:active {
+			border-color: @pagingActiveBorderColor;
+			.resetGradient();
+			background: @pagingSelectedBackgroundColor;
+		}
+	}
+	&-input {
+		.fontStyle(@baseContentFontFamily, @fontSizeMedium, normal, @textColorGrayDark);
+		height: @baseButtonHeight;
+		border: 1px solid @pagingBorderColor;
+		margin-left: 6px;
+		padding: 3px 0;
+		line-height: 20px;
+		vertical-align: baseline;
+		<c:if test="${ zk.ie == 8 }">
+			vertical-align: middle;
+		</c:if>
+	}
+	&-text {
+		.fontStyle(@baseContentFontFamily, @fontSizeMedium, normal, @textColorGrayDark);
+		margin-right: 12px;
+	}
+	&-info {
+		.fontStyle(@baseContentFontFamily, @fontSizeMedium, normal, @textColorGrayDark);
+		padding: 4px 0;
+		position: absolute;
+		top: 4px;
+		right: 10px;
+	}
+}

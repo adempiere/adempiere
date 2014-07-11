@@ -28,7 +28,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.logging.Level;
 
-import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.apps.BusyDialog;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.ConfirmPanel;
@@ -46,6 +46,7 @@ import org.adempiere.webui.component.Window;
 import org.adempiere.webui.editor.WButtonEditor;
 import org.adempiere.webui.editor.WDateEditor;
 import org.adempiere.webui.editor.WNumberEditor;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.GridTab;
 import org.compiere.model.MCash;
@@ -72,10 +73,10 @@ import org.zkoss.zk.au.out.AuEcho;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.util.Clients;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.North;
+import org.zkoss.zul.South;
 import org.zkoss.zul.Space;
 
 /**
@@ -302,7 +303,7 @@ public class WPayment extends Window
 		kApprovalLabel.setText(Msg.translate(Env.getCtx(), "VoiceAuthCode"));
 		kAmountLabel.setText(Msg.getMsg(Env.getCtx(), "Amount"));
 		kOnline.setLabel(Msg.getMsg(Env.getCtx(), "Online"));
-		LayoutUtils.addSclass("action-text-button", kOnline);
+		ThemeUtils.addSclass("action-text-button", kOnline);
 		kOnline.addActionListener(this);
 		kStatus.setText(" ");
 		kPanel.setId("kPanel");
@@ -353,7 +354,7 @@ public class WPayment extends Window
 		tRoutingText.setText(Msg.translate(Env.getCtx(), "RoutingNo"));
 		tNumberText.setText(Msg.translate(Env.getCtx(), "AccountNo"));
 		tOnline.setLabel(Msg.getMsg(Env.getCtx(), "Online"));
-		LayoutUtils.addSclass("action-text-button", tOnline);
+		ThemeUtils.addSclass("action-text-button", tOnline);
 		tStatus.setText(" ");
 		tPanel.setId("tPanel");
 		centerPanel.appendChild(tPanel);
@@ -396,7 +397,7 @@ public class WPayment extends Window
 		sRoutingField.setWidth("70pt");
 		sStatus.setText(" ");
 		sOnline.setLabel(Msg.getMsg(Env.getCtx(), "Online"));
-		LayoutUtils.addSclass("action-text-button", sOnline);
+		ThemeUtils.addSclass("action-text-button", sOnline);
 		sPanel.setId("sPanel");
 		centerPanel.appendChild(sPanel);
 		centerLayout.add(sPanel);

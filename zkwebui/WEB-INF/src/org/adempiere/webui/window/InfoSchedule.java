@@ -50,6 +50,7 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -238,7 +239,7 @@ public class InfoSchedule extends Window implements EventListener
 			Button btnNew = new Button();
 	        btnNew.setName("btnNew");
 	        btnNew.setId("New");
-	        btnNew.setSrc("/images/New24.png");
+	        btnNew.setImage(ServletFns.resolveThemeURL("~./images/New24.png"));
 	        
 			confirmPanel.addComponentsLeft(btnNew);			
 			btnNew.addEventListener(Events.ON_CLICK, this);

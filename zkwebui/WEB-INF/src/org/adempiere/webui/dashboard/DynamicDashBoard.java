@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
+
 import org.adempiere.model.I_AD_Browse;
 import org.adempiere.model.I_AD_Browse_Field;
 import org.adempiere.model.I_AD_View_Column;
@@ -112,7 +113,13 @@ public class DynamicDashBoard extends DashboardPanel implements EventListener
 		int columnsSize = column.length;
 		for (int i1 = 0; i1 < columnsSize; i1++) {
 			if (column[i1] != null) {
-				column[i1].setSort("auto");
+				try {
+					column[i1].setSort("auto");
+				} catch (ClassNotFoundException 
+						| InstantiationException
+						| IllegalAccessException e) {
+					logger.severe("Error setting sort to Auto" + e.toString());;
+				}
 				columns.appendChild(column[i1]);
 			}
 

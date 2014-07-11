@@ -57,14 +57,15 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.zkoss.util.media.AMedia;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.North;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.North;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Hbox;
@@ -220,31 +221,31 @@ public class ZkReportViewer extends Window implements EventListener {
 		summary.setText(Msg.getMsg(Env.getCtx(), "Summary"));
 		toolBar.appendChild(summary);
 		
-		bCustomize.setImage("/images/Preference24.png");
+		bCustomize.setImage(ServletFns.resolveThemeURL("~./images/Preference24.png"));
 		bCustomize.setTooltiptext(Msg.getMsg(Env.getCtx(), "PrintCustomize"));
 		toolBar.appendChild(bCustomize);
 		bCustomize.addEventListener(Events.ON_CLICK, this);
 		
-		bFind.setImage("/images/Find24.png");
+		bFind.setImage(ServletFns.resolveThemeURL("~./images/Find24.png"));
 		bFind.setTooltiptext(Msg.getMsg(Env.getCtx(), "Find"));
 		toolBar.appendChild(bFind);
 		bFind.addEventListener(Events.ON_CLICK, this);
 		
 		toolBar.appendChild(new Separator("vertical"));
 		
-		bSendMail.setImage("/images/SendMail24.png");
+		bSendMail.setImage(ServletFns.resolveThemeURL("~./images/SendMail24.png"));
 		bSendMail.setTooltiptext(Msg.getMsg(Env.getCtx(), "SendMail"));
 		toolBar.appendChild(bSendMail);
 		bSendMail.addEventListener(Events.ON_CLICK, this);
 		
-		bArchive.setImage("/images/Archive24.png");
+		bArchive.setImage(ServletFns.resolveThemeURL("~./images/Archive24.png"));
 		bArchive.setTooltiptext(Msg.getMsg(Env.getCtx(), "Archive"));
 		toolBar.appendChild(bArchive);
 		bArchive.addEventListener(Events.ON_CLICK, this);
 		
 		if (m_isCanExport)
 		{
-			bExport.setImage("/images/ExportX24.png");
+			bExport.setImage(ServletFns.resolveThemeURL("~./images/ExportX24.png"));
 			bExport.setTooltiptext(Msg.getMsg(Env.getCtx(), "Export"));
 			toolBar.appendChild(bExport);
 			bExport.addEventListener(Events.ON_CLICK, this);
@@ -252,7 +253,7 @@ public class ZkReportViewer extends Window implements EventListener {
 		
 		toolBar.appendChild(new Separator("vertical"));
 		
-		bRefresh.setImage("/images/Refresh24.png");
+		bRefresh.setImage(ServletFns.resolveThemeURL("~./images/Refresh24.png"));
 		bRefresh.setTooltiptext(Msg.getMsg(Env.getCtx(), "Refresh"));
 		toolBar.appendChild(bRefresh);
 		bRefresh.addEventListener(Events.ON_CLICK, this);
@@ -262,7 +263,8 @@ public class ZkReportViewer extends Window implements EventListener {
 		north.appendChild(toolBar);
 
 		Center center = new Center();
-		center.setFlex(true);
+		center.setHflex("true");
+center.setVflex("true");
 		layout.appendChild(center);
 		iframe = new Iframe();
 		iframe.setId("reportFrame");

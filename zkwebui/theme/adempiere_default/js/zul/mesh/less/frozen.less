@@ -1,0 +1,26 @@
+@import "~./zul/less/_header.less";
+
+.z-frozen {
+	.encodeThemeURL(background-image, '~./zul/img/common/bar-bg.png');
+	overflow: hidden;
+
+	&-body {
+		overflow: hidden;
+		float: left;
+	}
+
+	&-inner {
+		overflow-x: scroll;
+		overflow-y: hidden;
+		float: right;
+		<c:if test="${ zk.ie > 0 }">
+			<%-- Bug 3244126: scroll bar cannot click then move with IE --%>
+			padding-top: 1px;
+			margin-top: -1px;
+		</c:if>
+		
+		div {
+			height: 100%;
+		}
+	}
+}

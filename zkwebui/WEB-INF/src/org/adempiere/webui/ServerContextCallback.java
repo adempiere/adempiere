@@ -20,7 +20,7 @@ import org.adempiere.webui.session.ServerContext;
 import net.sf.cglib.proxy.InvocationHandler;
 
 /**
- * Intercaptor for Server context properties that delegate to the threadlocal instance
+ * Interceptor for Server context properties that delegate to the threadlocal instance
  * @author Low Heng Sin
  *
  */

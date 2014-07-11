@@ -27,6 +27,7 @@ import org.adempiere.webui.event.ContextMenuEvent;
 import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.window.WFieldRecordInfo;
 import org.adempiere.webui.window.WTextEditorDialog;
 import org.compiere.model.GridField;
@@ -34,6 +35,7 @@ import org.compiere.model.MRole;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Menuitem;
@@ -71,6 +73,7 @@ public class WStringEditor extends WEditor implements ContextMenuListener
     public WStringEditor(GridField gridField, boolean tableEditor)
     {
         super(gridField.isAutocomplete() ? new Combobox() : new Textbox(), gridField);
+        ThemeUtils.addSclass("ad-wstringeditor", this);
         this.tableEditor = tableEditor;
         init(gridField.getObscureType());
     }
@@ -90,7 +93,7 @@ public class WStringEditor extends WEditor implements ContextMenuListener
     		int displayLength, int fieldLength, String vFormat, String obscureType)
     {
     	super(new Textbox(), columnName, null, null, mandatory, isReadOnly,isUpdateable);
-
+        ThemeUtils.addSclass("ad-wstringeditor", this);
     	init(obscureType);
     }
 
@@ -141,7 +144,7 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 	        	((Textbox)getComponent()).setObscureType(obscureType);
 
 	        popupMenu = new WEditorPopupMenu(false, false, true);
-	        Menuitem editor = new Menuitem(Msg.getMsg(Env.getCtx(), "Editor"), "images/Editor16.png");
+	        Menuitem editor = new Menuitem(Msg.getMsg(Env.getCtx(), "Editor"), ServletFns.resolveThemeURL("~./images/Editor16.png"));
 	        editor.setAttribute("EVENT", EDITOR_EVENT);
 	        editor.addEventListener(Events.ON_CLICK, popupMenu);
 	        popupMenu.appendChild(editor);

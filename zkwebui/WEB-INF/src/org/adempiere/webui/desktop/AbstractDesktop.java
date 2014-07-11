@@ -198,14 +198,7 @@ public abstract class AbstractDesktop extends AbstractUIPart implements IDesktop
    		//fall back to highlighted if can't execute doModal
    		if (Events.inEventListener())
    		{
-			try
-			{
-				win.doModal();
-			}
-			catch(InterruptedException e)
-			{
-				
-			}
+			win.doModal();
    		}
    		else
    		{

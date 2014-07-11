@@ -17,18 +17,15 @@
 
 package org.adempiere.webui.panel;
 
-import org.adempiere.webui.LayoutUtils;
-import org.adempiere.webui.component.Panel;
-import org.adempiere.webui.theme.ThemeManager;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.window.AboutWindow;
+import org.zkoss.zhtml.Table;
+import org.zkoss.zhtml.Td;
+import org.zkoss.zhtml.Tr;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.West;
 import org.zkoss.zul.Image;
-import org.zkoss.zul.Vbox;
 
 /**
  *
@@ -37,9 +34,11 @@ import org.zkoss.zul.Vbox;
  * @date    Mar 2, 2007
  * @date    July 7, 2007
  * @version $Revision: 0.20 $
+ * 
+ * Updated to zk 7.
  */
 
-public class HeaderPanel extends Panel implements EventListener
+public class HeaderPanel extends Table implements EventListener<Event>
 {
 	private static final long serialVersionUID = -2351317624519209484L;
 
@@ -53,54 +52,46 @@ public class HeaderPanel extends Panel implements EventListener
 
     private void init()
     {
-    	LayoutUtils.addSclass("desktop-header", this);
+    	ThemeUtils.addSclass("ad-headerpanel", this);
+
+    	// Keep this simple for speed
+    	// Create a simple table to hold the header elements.
+    	Tr tr = new Tr();
+    	ThemeUtils.addSclass("ad-headerpanel-row", tr);
+
+    	Td tdLeft = new Td();
+    	ThemeUtils.addSclass("ad-headerpanel-left", tdLeft);
+    	
+    	Td tdRight = new Td();
+
+    	ThemeUtils.addSclass("ad-headerpanel-right", tdRight);
+    	
+    	this.appendChild(tr);
+    	
+    	tr.appendChild(tdLeft);
+    	tr.appendChild(tdRight);
+    	    	
+    	image.setSrc(ThemeUtils.getSmallLogo());
+    	image.addEventListener(Events.ON_CLICK, this);
+    	ThemeUtils.addSclass("ad-headerpanel-logo", image);
+        
+    	image.setParent(tdLeft);
 
     	UserPanel userPanel = new UserPanel();
-
-    	image.setSrc(ThemeManager.getSmallLogo());
-    	image.addEventListener(Events.ON_CLICK, this);
-    	image.setStyle("cursor: pointer;");
-
-    	Borderlayout layout = new Borderlayout();
-    	LayoutUtils.addSclass("desktop-header", layout);
-    	layout.setParent(this);
-    	West west = new West();
-    	west.setParent(layout);
-
-    	Vbox vb = new Vbox();
-        vb.setParent(west);
-        vb.setHeight("100%");
-        vb.setPack("center");
-        vb.setAlign("left");
-
-    	image.setParent(vb);
-
-    	LayoutUtils.addSclass("desktop-header-left", west);
-    	//the following doesn't work when declare as part of the header-left style
-    	west.setStyle("background-color: transparent; border: none;");
-
-    	// Elaine 2009/03/02
-    	Center center = new Center();
-    	center.setParent(layout);
-    	userPanel.setParent(center);
-    	userPanel.setWidth("100%");
-    	userPanel.setHeight("100%");
-    	userPanel.setStyle("position: absolute");
-    	center.setFlex(true);
-    	LayoutUtils.addSclass("desktop-header-right", center);
-    	//the following doesn't work when declare as part of the header-right style
-    	center.setStyle("background-color: transparent; border: none;");
+    	userPanel.setParent(tdRight);
     }
-
+    
 	public void onEvent(Event event) throws Exception {
+		if (event == null)
+			return;
 		if (Events.ON_CLICK.equals(event.getName())) {
-			if(event.getTarget() == image)
+			if(image == event.getTarget())
 			{
 				AboutWindow w = new AboutWindow();
 				w.setPage(this.getPage());
-				w.doModal();
+				w.doHighlighted();
 			}
 		}
-
 	}
+
 }

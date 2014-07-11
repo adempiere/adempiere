@@ -1,0 +1,110 @@
+@import "~./zul/less/_header.less";
+
+.z-toolbar {
+	display: block;
+	border-color: @baseBorderColor;
+	border-style: solid;
+	border-width: 0 0 1px;
+	padding: 4px 4px 3px;
+	.verGradient(@baseGradientStart, @baseGradientEnd);
+	position: relative;
+}
+.z-caption .z-toolbar {
+	background: none;
+	border: 0;
+}
+.z-toolbar-tabs .z-toolbar-content,
+.z-toolbar-tabs .z-toolbar-content span,
+.z-toolbar-content, .z-toolbar-content span {
+	font-size: @fontSizeSmall;
+}
+.z-toolbar-panel .z-toolbar-content,
+.z-toolbar-panel .z-toolbar-content span {
+	font-size: @fontSizeMedium;
+}
+// toolbar horizontal alignment
+.z-toolbar-start {
+	float: left;
+	clear: none;
+}
+.z-toolbar-center {
+	text-align: center;
+	margin: 0 auto;
+}
+.z-toolbar-end {
+	float: right;
+	clear: none;
+}
+// Toolbar Panel Mold
+.z-toolbar-panel {
+	border-width: 0;
+	padding: 5px;
+	.resetGradient();
+}
+
+.z-toolbar-panel .z-toolbar-horizontal,
+.z-toolbar-panel .z-toolbar-vertical {
+	border: 0;
+	padding: 0;
+}
+.z-toolbar-panel .z-toolbar-horizontal {
+	padding-left: 3px;
+}
+.z-toolbar-panel .z-toolbar-vertical {
+	padding-bottom: 1px;
+}
+
+// Toolbarbutton
+.z-toolbarbutton {
+	display: inline-block;
+	height: @baseButtonHeight;
+	border: 1px solid @buttonBorderColor;
+	.borderRadius(@borderRadiusSmall);
+	margin: 0 2px;
+	padding: 1px 0;
+	line-height: @baseLineHeight;
+	position: relative;
+	cursor: pointer;
+
+	&:hover {
+		border-color: @hoverBorderColor;
+		.verGradient(@hoverGradientStart, @hoverGradientEnd);
+	}
+	&:active {
+		border: 1px solid @activeBorderColor;
+		.verGradient(@activeGradientStart, @activeGradientEnd);
+		.boxShadow('inset 1px 1px 1px rgba(210, 210, 210, 0.75), 0 0 7px #CFCFCF');
+	}
+	&[disabled] {
+		color: @disabledColor !important;
+		border: 1px solid transparent;
+		.resetGradient();
+		.opacity(@disabledOpacity);
+		cursor: default !important;
+		.boxShadow('none');
+	}
+	
+	img:hover, 
+    .z-toolbarbutton-content:hover {
+		border: none;
+	}
+}
+
+.z-toolbarbutton-checked {
+	border: 1px solid @checkedBorderColor;
+	.borderRadius(@borderRadiusSmall);
+	.verGradient(@checkedGradientStart, @checkedGradientEnd);
+}
+.z-toolbarbutton-content {
+	.fontStyle(@baseTitleFontFamily, @fontSizeSmall, normal, @baseTextColor);
+	padding: 2px;
+	line-height: @baseLineHeight; // 20px for IE to v-align center
+	vertical-align: baseline;
+	position: relative;
+	text-shadow: 0 1px @themeColorPrimaryLight;
+	white-space:nowrap;
+	
+	img {
+		vertical-align: top;
+	}
+}

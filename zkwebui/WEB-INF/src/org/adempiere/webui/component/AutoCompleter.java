@@ -24,6 +24,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.adempiere.webui.theme.ThemeUtils;
 import org.compiere.util.CLogger;
 import org.compiere.util.Util;
 import org.zkoss.zk.ui.event.EventListener;
@@ -67,6 +68,7 @@ public abstract class AutoCompleter extends AutoComplete implements EventListene
 	public AutoCompleter()
 	{
 		super();
+		ThemeUtils.addSclass("ad-autocompleter", this);
 		defaultStyle = getStyle();
 		addEventListener(Events.ON_CHANGING, this);
 		addEventListener(Events.ON_CHANGE, this);
@@ -77,11 +79,11 @@ public abstract class AutoCompleter extends AutoComplete implements EventListene
 		m_userObject = userObject;
 		if (m_userObject == null && !Util.isEmpty(getText(), true))
 		{
-			setStyle("background:red");
+			ThemeUtils.addSclass("warning", this);
 		}
 		else
 		{
-			setStyle(defaultStyle);
+			ThemeUtils.removeSclass("warning", this);
 		}
 		//
 		setTooltiptext(userObject == null ? "" : userObject.toString());

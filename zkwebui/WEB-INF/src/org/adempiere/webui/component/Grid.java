@@ -17,6 +17,7 @@
 
 package org.adempiere.webui.component;
 
+import org.adempiere.webui.theme.ThemeUtils;
 import org.zkoss.zk.ui.Component;
 
 /**
@@ -34,16 +35,24 @@ public class Grid extends org.zkoss.zul.Grid
     public Grid() {
 		super();
 		//cache default
+		ThemeUtils.addSclass("ad-grid", this);
 		oddRowSclass = super.getOddRowSclass();
 		super.setOddRowSclass(oddRowSclass);
 	}
 
+    /**
+     * 设置无边框
+     */
 	public void makeNoStrip() {
-    	setStyle("border: none");
+    	// setStyle("border: none"); move to theme
     	setOddRowSclass(null);
         noStrip = true;
     }
 
+	/**
+	 * 在Grid中创建新的行（多行）
+	 * @return
+	 */
 	public Rows newRows() {
 		Rows rows = new Rows();
 		appendChild(rows);
@@ -51,6 +60,9 @@ public class Grid extends org.zkoss.zul.Grid
 		return rows;
 	}    
 	
+	/**
+	 * 插入之前执行
+	 */
 	public boolean insertBefore(Component child, Component refChild) {
 		boolean b = super.insertBefore(child, refChild);
 		if (b && child instanceof Rows && noStrip) {

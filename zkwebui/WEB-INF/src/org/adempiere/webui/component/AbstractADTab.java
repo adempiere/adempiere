@@ -26,6 +26,7 @@ import org.adempiere.webui.panel.ADTabpanel;
 import org.adempiere.webui.panel.AbstractADWindowPanel;
 import org.adempiere.webui.panel.IADTabpanel;
 import org.adempiere.webui.part.AbstractUIPart;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.compiere.model.DataStatusEvent;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
@@ -53,6 +54,7 @@ public abstract class AbstractADTab extends AbstractUIPart implements IADTab
     
     public AbstractADTab()
     {
+    	ThemeUtils.addSclass("ad-abstractadtab", this);
     }
     
     /**
@@ -332,4 +334,6 @@ public abstract class AbstractADTab extends AbstractUIPart implements IADTab
 	public void setADWindowPanel(AbstractADWindowPanel abstractADWindowPanel) {
 		this.adWindowPanel = abstractADWindowPanel;
 	}
+
+
 }

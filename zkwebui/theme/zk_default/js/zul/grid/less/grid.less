@@ -1,0 +1,286 @@
+@import "~./zul/less/_header.less";
+
+//reset table
+.resetTable() {
+	table {
+		border-spacing: 0;
+		th, td {
+			background-clip: padding-box;
+			padding: 0;
+		}
+		th {
+			text-align: inherit;
+		}
+	}
+}
+
+//grid
+.z-grid {
+	border: 1px solid @baseBorderColor;
+	overflow: hidden;
+	zoom: 1;
+	//grid header
+	&-header {
+		width: 100%;
+		<c:if test="${ zk.ie != 8 }">
+			.verGradient(@baseGradientStart, @baseGradientEnd);
+		</c:if>
+		position: relative;
+		overflow: hidden;
+		.resetTable();
+	}
+	&-header-border {
+		border-bottom: 1px solid @meshTitleBorderColor;
+		margin-top: -1px;
+		position: relative;
+	}
+	//grid body
+	&-body {
+		margin-top: auto;
+		position: relative;
+		overflow: hidden;
+		.resetTable();
+	}
+	&-emptybody td {
+		.fontStyle(@baseContentFontFamily, @fontSizeMedium, normal, @disabledColor);
+		font-style: italic;
+		text-align: center;
+	}
+	//grid footer
+	&-footer {
+		border-top: 1px solid @baseBorderColor;
+		background: @meshFootBackgroundColor;
+		overflow: hidden;
+		.resetTable();
+		
+		.z-footer {
+			overflow: hidden;
+		}
+	}
+	&-odd > .z-row-inner,
+	&-odd > .z-cell {
+		background: @meshStripeBackgroundColor;
+	}
+}
+//column
+.z-columns {
+	th:first-child {
+		border-left: none;
+
+		// B50-3306729: the first header should have border-left when the first column is covered with other header
+		&.z-columns-border {
+			border-left: 1px solid @meshTitleBorderColor;
+		}
+	}
+	&-bar {
+		border-left: 1px solid @meshTitleBorderColor;
+		border-bottom: 1px solid @meshTitleBorderColor;
+	}
+}
+.z-column {
+	border-left: 1px solid @meshTitleBorderColor;
+	border-bottom: 1px solid @meshTitleBorderColor;
+	padding: 0;
+	<c:if test="${ zk.ie != 8 }">
+		.verGradient(@baseGradientStart, @baseGradientEnd);
+	</c:if>
+	background-clip: padding-box;
+	position: relative;
+	overflow: hidden;
+	white-space: nowrap;
+
+	&-hover {
+		<c:if test="${ zk.ie != 8 }">
+			.verGradient(@meshTitleHoverStart, @meshTitleHoverEnd);
+		</c:if>
+		.z-column-button {
+			display: block;
+		}
+	}
+	.z-column-content {
+		position: relative;
+	}
+	&-sort {
+		.z-column-content {
+			cursor: pointer;
+		}
+		.z-column-sorticon {
+			color: @iconColor;
+			position: absolute;
+			top: -7px;
+			left: 50%;
+		}
+	}
+	&-button {
+		color: @iconColor;
+		display: none;
+		.size(@baseButtonWidth - 1, @baseBarHeight);
+		border-left: 1px solid darken(@meshTitleHoverStart, 15%);
+		line-height: @baseBarHeight;
+		text-align: center;
+		position: absolute;
+		top: 0;
+		right: 0;
+		z-index: 15;
+		cursor: pointer;
+		text-decoration: none;
+		.boxShadow('inset 1px 0 #FFFFFF');
+		
+		&:hover {
+			<c:if test="${ zk.ie != 8 }">
+				.verGradient(darken(@meshTitleHoverStart, 5%), darken(@meshTitleHoverEnd, 10%));
+			</c:if>
+		}
+	}
+	&-sizing,
+	&-sizing .z-column-button,
+	&-sizing.z-column-sort .z-column-button {
+		cursor: e-resize;
+	}
+}
+//row and cell
+.z-row {
+	td:first-child {
+		border-left: none;
+	}
+	.z-row-inner,
+	.z-cell {
+		border-left: 1px solid @meshContentBorderColor;
+		overflow: hidden;
+	}
+	&:hover {
+		> .z-row-inner,
+		> .z-cell {
+			<c:if test="${ zk.ie != 8 }">
+				.verGradient(@meshContentHoverStart, @meshContentHoverEnd);
+			</c:if>
+			background-clip: padding-box;
+			position: relative;
+		}
+		> .z-row-inner > .z-row-content { //for nest issue
+			color: @hoverColor;
+		}
+	}
+}
+//Group
+.z-group {
+	&-inner {
+		border-top: 1px solid @meshTitleBorderColor;
+		border-bottom: 1px solid @meshTitleBorderColor;
+		<c:if test="${ zk.ie != 8 }">
+			.verGradient(@groupGradientStart, @groupGradientEnd);
+		</c:if>
+		position: relative;
+		overflow: hidden;
+		
+		.z-group-content,
+		.z-cell {
+			padding: 3px 5px;
+		}
+	}
+	&-icon {
+		.iconFontStyle(@baseFontSize, @iconColor);
+		.displaySize(inline-block, @baseIconWidth, @baseIconHeight);
+		line-height: @baseIconHeight;
+		text-align: center;
+		position: relative;
+		cursor: pointer;
+		
+		&:hover {
+			color: @iconHoverColor;
+		}
+	}
+}
+.z-groupfoot-inner {
+	<c:if test="${ zk.ie != 8 }">
+		.verGradient(@groupGradientEnd, @groupGradientStart);
+	</c:if>
+	overflow: hidden;
+}
+//content
+.z-column-content,
+.z-row-content,
+.z-group-content,
+.z-groupfoot-content,
+.z-footer-content {
+	font-family: @baseContentFontFamily;
+	font-size: @fontSizeMedium;
+	color: @textColorGrayLight;
+	padding: 4px 5px;
+	line-height: @baseButtonHeight;
+	overflow: hidden;
+}
+.z-column-content {
+	font-weight: bold;
+	padding: 4px 5px 3px;
+}
+.z-group-content,
+.z-groupfoot-content {
+	.z-label {
+		font-weight: bold;
+	}
+}
+//Cell Content
+.z-grid-body .z-cell {
+	font-family: @baseContentFontFamily;
+	font-size: @fontSizeMedium;
+	padding: 4px 5px;
+	line-height: @baseButtonHeight;
+	overflow: hidden;
+}
+//paging
+.z-grid-paging {
+	&-top {
+		width: 100%;
+		border-bottom: 1px solid @pagingBorderColor;
+		overflow: hidden;
+	}
+	&-bottom {
+		width: 100%;
+		border-top: 1px solid @pagingBorderColor;
+		overflow: hidden;
+	}
+}
+//column menu
+.z-columns-menugrouping .z-menuitem-image {
+	.encodeThemeURL(background-image, '~./zul/img/grid/menu-group.png');
+}
+.z-columns-menuungrouping .z-menuitem-image {
+	.encodeThemeURL(background-image, '~./zul/img/grid/menu-ungroup.png');
+}
+.z-columns-menuascending .z-menuitem-image {
+	.encodeThemeURL(background-image, '~./zul/img/grid/menu-arrowup.png');
+}
+.z-columns-menudescending .z-menuitem-image {
+	.encodeThemeURL(background-image, '~./zul/img/grid/menu-arrowdown.png');
+}
+// IE 8
+.ie8 {
+	.z-grid-header {
+		background: @meshBackgroundColorIE8;
+	}
+	.z-column {
+		position: static;
+		background: @meshBackgroundColorIE8;
+		&-hover {
+			background: @meshHoverBackgroundColorIE8;
+		}
+
+		&-button:hover {
+			background: darken(@meshHoverBackgroundColorIE8, 3%);
+		}
+	}
+	.z-row:hover {
+		> .z-row-inner,
+		> .z-cell {
+			position: static;
+			background: @meshHoverBackgroundColorIE8;
+		}
+	}
+	.z-group-inner {
+		background: @meshGroupBackgroundColorIE8;
+	}
+	.z-groupfoot-inner {
+		background: @meshGroupFooterBackgroundColorIE8;
+	}
+}

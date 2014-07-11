@@ -57,6 +57,7 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.zkoss.util.media.AMedia;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -190,19 +191,19 @@ public class WArchiveViewer extends Archive implements IFormController, EventLis
 		createdByQField.setMold("select");
 		createdByQField.setRows(1);
 		
-		updateArchive.setImage("/images/Ok24.png");
+		updateArchive.setImage(ServletFns.resolveThemeURL("~./images/Ok24.png"));
 		updateArchive.setTooltiptext(Msg.getMsg(Env.getCtx(), "Update"));
 		updateArchive.addEventListener(Events.ON_CLICK, this);
 		
-		bRefresh.setImage("/images/Refresh24.png");
+		bRefresh.setImage(ServletFns.resolveThemeURL("~./images/Refresh24.png"));
 		bRefresh.setTooltiptext(Msg.getMsg(Env.getCtx(), "Refresh"));
 		bRefresh.addEventListener(Events.ON_CLICK, this);
 		
-		bBack.setImage("/images/Parent24.png");
+		bBack.setImage(ServletFns.resolveThemeURL("~./images/Parent24.png"));
 		bBack.setTooltiptext(Msg.getMsg(Env.getCtx(), "Previous"));
 		bBack.addEventListener(Events.ON_CLICK, this);
 		
-		bNext.setImage("/images/Detail24.png");
+		bNext.setImage(ServletFns.resolveThemeURL("~./images/Detail24.png"));
 		bNext.setTooltiptext(Msg.getMsg(Env.getCtx(), "Next"));
 		bNext.addEventListener(Events.ON_CLICK, this);
 		

@@ -18,6 +18,7 @@
 package org.adempiere.webui.component;
 
 import org.adempiere.webui.apps.AEnv;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 
@@ -40,6 +41,7 @@ public class Datebox extends org.zkoss.zul.Datebox
 
 	public Datebox() {
 		super();
+		ThemeUtils.addSclass("ad-datebox", this);
 		setFormat(DisplayType.getDateFormat(AEnv.getLanguage(Env.getCtx())).toPattern());
 	}
 

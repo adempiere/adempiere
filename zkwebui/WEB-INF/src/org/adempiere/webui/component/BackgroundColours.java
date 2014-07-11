@@ -16,12 +16,16 @@
  *****************************************************************************/
 
 package org.adempiere.webui.component;
-
+/*
+ * Deprecated as of 3.8.0 and moved to theme.  See 
+ * http://www.adempiere.com/Theme_Management
+ */
+@Deprecated  // As of 3.8.0
 public final class BackgroundColours 
 {
-	public final static String MANDATORY = "background-color:#fbb5b5";
+//	public final static String MANDATORY = "background-color:#fbb5b5";
 	
-	public final static String ERROR = "background-color:#ffffff";
+//	public final static String ERROR = "background-color:#ffffff";
 	
-	public final static String CORRECT = "background-color:#d18ae3";
+//	public final static String CORRECT = "background-color:#d18ae3";
 }

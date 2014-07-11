@@ -25,13 +25,14 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Level;
 
-import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.event.ToolbarListener;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.compiere.model.MRole;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -48,16 +49,16 @@ import org.zkoss.zul.Space;
  * @author Cristina Ghita, www.arhipac.ro
  * 				<li>FR [ 2076330 ] Add new methods in CWindowToolbar class
  */
-public class CWindowToolbar extends FToolbar implements EventListener
+public class CWindowToolbar extends FToolbar implements EventListener<Event>
 {
     /**
 	 *
 	 */
 	private static final long serialVersionUID = -8259762910508209764L;
 
-	private static final String TOOLBAR_BUTTON_STYLE = "background-color: transparent; display:inline-block; margin-left: 1px; margin-right: 1px; width: 26px; height: 24px;";
-
-	private static final String EMBEDDED_TOOLBAR_BUTTON_STYLE = "background-color: transparent; display:inline-block; margin-left: 1px; margin-right: 1px; width: 20px; height: 18px;";
+	// Theme info moved to theme.
+	//private static final String TOOLBAR_BUTTON_STYLE = "background-color: transparent; display:inline-block; margin-left: 1px; margin-right: 1px; width: 26px; height: 24px;";
+	//private static final String EMBEDDED_TOOLBAR_BUTTON_STYLE = "background-color: transparent; display:inline-block; margin-left: 1px; margin-right: 1px; width: 20px; height: 18px;";
 	
     private static CLogger log = CLogger.getCLogger(CWindowToolbar.class);
 
@@ -121,7 +122,7 @@ public class CWindowToolbar extends FToolbar implements EventListener
 
     private void init()
     {
-    	LayoutUtils.addSclass("adwindow-toolbar", this);
+    	ThemeUtils.addSclass("ad-cwindowtoolbar adwindow-toolbar", this);
 
         btnIgnore = createButton("Ignore", "Ignore", "Ignore");
         addSeparator();
@@ -173,18 +174,16 @@ public class CWindowToolbar extends FToolbar implements EventListener
 
         if (embedded)
         {
+        	ThemeUtils.addSclass("embedded", this);
         	btnParentRecord.setVisible(false);
     		btnDetailRecord.setVisible(false);
     		btnActiveWorkflows.setVisible(false);
     		btnHistoryRecords.setVisible(false);
     		btnProductInfo.setVisible(false);
-    		setAlign("end");
-    		setWidth("100%");
-    		setStyle("background: transparent none; ");
         }
         else
         {
-        	setWidth("100%");
+        	ThemeUtils.removeSclass("embedded", this);
         }
     }
 
@@ -193,16 +192,16 @@ public class CWindowToolbar extends FToolbar implements EventListener
     {
     	ToolBarButton btn = new ToolBarButton("");
         btn.setName("btn"+name);
-        btn.setImage("/images/"+image + (embedded ? "16.png" : "24.png"));
+        btn.setImage(ServletFns.resolveThemeURL("~./images/"+image + (embedded ? "16.png" : "24.png")));
         btn.setTooltiptext(Msg.getMsg(Env.getCtx(),tooltip));
         if (embedded)
         {
-        	btn.setStyle(EMBEDDED_TOOLBAR_BUTTON_STYLE);
+        	//btn.setStyle(EMBEDDED_TOOLBAR_BUTTON_STYLE);  // Moved to theme
         	btn.setSclass("embedded-toolbar-button");
         }
         else
         {
-        	btn.setStyle(TOOLBAR_BUTTON_STYLE);
+        	//btn.setStyle(TOOLBAR_BUTTON_STYLE);  // Moved to theme
         	btn.setSclass("toolbar-button");
         }
         buttons.put(name, btn);
@@ -282,6 +281,7 @@ public class CWindowToolbar extends FToolbar implements EventListener
 	protected void addSeparator()
     {
 		Space s = new Space();
+		// TODO - move to theme
 		if (embedded)
 			s.setSpacing("3px");
 		else
@@ -346,23 +346,11 @@ public class CWindowToolbar extends FToolbar implements EventListener
 		        Method method = tListener.getClass().getMethod(methodName, (Class[]) null);
 		        method.invoke(tListener, (Object[]) null);
 		    }
-		    catch(SecurityException e)
-		    {
-		        log.log(Level.SEVERE, "Could not invoke Toolbar listener method: " + methodName + "()", e);
-		    }
-		    catch(NoSuchMethodException e)
-		    {
-		        log.log(Level.SEVERE, "Could not invoke Toolbar listener method: " + methodName + "()", e);
-		    }
-		    catch(IllegalArgumentException e)
-		    {
-		        log.log(Level.SEVERE, "Could not invoke Toolbar listener method: " + methodName + "()", e);
-		    }
-		    catch(IllegalAccessException e)
-		    {
-		        log.log(Level.SEVERE, "Could not invoke Toolbar listener method: " + methodName + "()", e);
-		    }
-		    catch(InvocationTargetException e)
+		    catch(SecurityException | 
+		    	  NoSuchMethodException |
+		    	  IllegalArgumentException |
+		    	  IllegalAccessException |
+		    	  InvocationTargetException e)
 		    {
 		        log.log(Level.SEVERE, "Could not invoke Toolbar listener method: " + methodName + "()", e);
 		    }
@@ -502,7 +490,7 @@ public class CWindowToolbar extends FToolbar implements EventListener
     {
     	this.btnLock.setPressed(locked);
 
-    	String imgURL = "/images/"+ (this.btnLock.isPressed() ? "LockX" : "Lock") + (embedded ? "16.png" : "24.png");
+    	String imgURL = ServletFns.resolveThemeURL("~./images/"+ (this.btnLock.isPressed() ? "LockX" : "Lock") + (embedded ? "16.png" : "24.png"));
 		this.btnLock.setImage(imgURL);
     }
 

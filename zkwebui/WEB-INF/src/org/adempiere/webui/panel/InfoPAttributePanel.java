@@ -32,6 +32,7 @@ import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.editor.WNumberEditor;
 import org.adempiere.webui.editor.WStringEditor;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.compiere.model.MAttribute;
 import org.compiere.model.MAttributeSet;
 import org.compiere.model.MRole;
@@ -79,6 +80,7 @@ public class InfoPAttributePanel extends Window implements EventListener
 			p_M_AttributeSet_ID = ((InfoProductPanel)parent).getM_AttributeSet_ID();
 		}
 		setTitle(Msg.getMsg(Env.getCtx(), "InfoPAttribute"));
+		ThemeUtils.addSclass("info-pattribute", this);
 		this.setBorder("normal");
 		this.setMaximizable(true);
 		this.setSizable(true);
@@ -131,10 +133,7 @@ public class InfoPAttributePanel extends Window implements EventListener
 		this.appendChild(vbox);
 		
 		Grid grid = new Grid();
-		grid.setWidth("400px");
-		grid.setStyle("margin:0; padding:0;");
-		grid.makeNoStrip();
-		grid.setOddRowSclass("even");
+		ThemeUtils.addSclass("small-grid", grid);
 		vbox.appendChild(grid);
         
 		rows = new Rows();
@@ -280,7 +279,7 @@ public class InfoPAttributePanel extends Window implements EventListener
 					Row row = new Row();
 					rows.appendChild(row);
 					row.setSpans("2");
-    				Label group = new Label(Msg.translate(Env.getCtx(), "IsInstanceAttribute")); 
+    				Label group = new Label(Msg.translate(Env.getCtx(), "IsInstanceAttribute")); 	
     				row.appendChild(group);
     				rows.appendChild(row);
     				
@@ -333,7 +332,12 @@ public class InfoPAttributePanel extends Window implements EventListener
 				row.appendChild(field);
 				//
 				field.setId(String.valueOf(attribute_ID));
-				field.setAttribute("zk_component_ID", "InfoPAttributePanel_field_" + name);
+				// The field name is used as the UUID so it has restricted characters - alpha numeric and the underscore.
+				// If name is null, replace it with "_"
+				if (name.equals("")) {
+					name = "_";
+				}
+				field.setAttribute("zk_component_ID", "InfoPAttributePanel_field_" + name.replaceAll("[^a-zA-Z0-9_]", "_"));
 				//
 				if (isInstanceAttribute)
 					m_instanceEditors.add(field);

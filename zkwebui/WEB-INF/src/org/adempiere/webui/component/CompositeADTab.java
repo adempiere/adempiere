@@ -20,12 +20,13 @@ package org.adempiere.webui.component;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.panel.IADTabpanel;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.compiere.model.DataStatusEvent;
 import org.compiere.model.GridTab;
 import org.compiere.util.CLogger;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zul.Div;
 
@@ -42,7 +43,7 @@ public class CompositeADTab extends AbstractADTab
     @SuppressWarnings("unused")
 	private static CLogger  log = CLogger.getCLogger (CompositeADTab.class);
 
-    private List<ADTabListModel.ADTabLabel> tabLabelList = new ArrayList<ADTabListModel.ADTabLabel>();
+    private List<ADTabLabel> tabLabelList = new ArrayList<ADTabLabel>();
 
     private Div div;
 
@@ -57,9 +58,9 @@ public class CompositeADTab extends AbstractADTab
     protected Component doCreatePart(Component parent)
     {
     	div= new Div();
+    	ThemeUtils.addSclass("ad-compositeadtab adtab-body", div);
     	if (parent != null) {
     		div.setParent(parent);
-    		LayoutUtils.addSclass("adtab-body", div);
     	} else {
     		div.setPage(page);
     	}
@@ -71,7 +72,7 @@ public class CompositeADTab extends AbstractADTab
     	tabPanel.setParent(div);
         tabPanel.setVisible(false);
 
-        ADTabListModel.ADTabLabel tabLabel = new ADTabListModel.ADTabLabel(gTab.getName(), gTab.getTabLevel(),gTab.getDescription());
+        ADTabLabel tabLabel = new ADTabLabel(gTab.getName(), gTab.getTabLevel(),gTab.getDescription());
         tabLabelList.add(tabLabel);
 	}
 
@@ -112,7 +113,7 @@ public class CompositeADTab extends AbstractADTab
     	return -1;
     }
 
-	public void addSelectionEventListener(EventListener listener) {
+    public void addSelectionEventListener(EventListener<Event> listener) {
 		tabList.addSelectionEventListener(listener);
 	}
 

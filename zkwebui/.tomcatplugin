@@ -33,8 +33,8 @@
         <webClassPathEntry>/tools/lib/groovy-all-1.5.1.jar</webClassPathEntry>
         <webClassPathEntry>/tools/lib/groovy-engine.jar</webClassPathEntry>
         <webClassPathEntry>/tools/lib/iText-2.1.7.jar</webClassPathEntry>
-        <webClassPathEntry>/tools/lib/jcommon-1.0.5.jar</webClassPathEntry>
-        <webClassPathEntry>/tools/lib/jfreechart-1.0.2.jar</webClassPathEntry>
+        <webClassPathEntry>/tools/lib/jcommon-1.0.21.jar</webClassPathEntry>
+        <webClassPathEntry>/tools/lib/jfreechart-1.0.17.jar</webClassPathEntry>
         <webClassPathEntry>/tools/lib/jnlp.jar</webClassPathEntry>
         <webClassPathEntry>/tools/lib/jpayment.jar</webClassPathEntry>
         <webClassPathEntry>/tools/lib/jpedal.jar</webClassPathEntry>

@@ -13,6 +13,8 @@
 
 package org.adempiere.webui.component;
 
+import org.adempiere.webui.theme.ThemeUtils;
+
 /**
  * 
  * @author Low Heng Sin
@@ -28,6 +30,7 @@ public class Combinationbox extends EditorBox
 	public Combinationbox()
     {
         super();
+        ThemeUtils.addSclass("ad-combinationbox", this);
     }
 
 	/**
@@ -36,6 +39,7 @@ public class Combinationbox extends EditorBox
     public Combinationbox(String url)
     {
         super();
+        ThemeUtils.addSclass("ad-combinationbox", this);
         setText(url);
     }
 }

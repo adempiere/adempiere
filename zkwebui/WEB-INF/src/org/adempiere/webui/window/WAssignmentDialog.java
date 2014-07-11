@@ -28,7 +28,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.logging.Level;
 
-import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.ConfirmPanel;
@@ -42,6 +42,7 @@ import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.Window;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.compiere.model.MResourceAssignment;
 import org.compiere.model.MRole;
 import org.compiere.model.MUOMConversion;
@@ -55,6 +56,7 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Div;
+import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Timebox;
 
 /**
@@ -163,14 +165,14 @@ public class WAssignmentDialog extends Window implements EventListener
 		Rows rows = new Rows();
 		mainPanel.appendChild(rows);
 		Row row = new Row();
-		row.appendChild(LayoutUtils.makeRightAlign(lResource));
+		row.appendChild(ThemeUtils.makeRightAlign(lResource));
 		row.appendChild(fResource);
 		row.appendChild(new Label(" "));
 		rows.appendChild(row);
 		
 		row = new Row();
 		row.setSpans("1, 2");
-		row.appendChild(LayoutUtils.makeRightAlign(lDate));
+		row.appendChild(ThemeUtils.makeRightAlign(lDate));
 		Div div = new Div();
 		div.appendChild(fDateFrom);
 		div.appendChild(fTimeFrom);
@@ -179,21 +181,21 @@ public class WAssignmentDialog extends Window implements EventListener
 		rows.appendChild(row);
 		
 		row = new Row();
-		row.appendChild(LayoutUtils.makeRightAlign(lQty));		
+		row.appendChild(ThemeUtils.makeRightAlign(lQty));		
 		row.appendChild(fQty);
 		row.appendChild(lUOM);
 		rows.appendChild(row);
 		
 		row = new Row();
 		row.setSpans("1, 2");
-		row.appendChild(LayoutUtils.makeRightAlign(lName));
+		row.appendChild(ThemeUtils.makeRightAlign(lName));
 		row.appendChild(fName);
 		fName.setStyle("width: 100%");
 		rows.appendChild(row);
 		
 		row = new Row();
 		row.setSpans("1, 2");
-		row.appendChild(LayoutUtils.makeRightAlign(lDescription));
+		row.appendChild(ThemeUtils.makeRightAlign(lDescription));
 		row.appendChild(fDescription);
 		fDescription.setMultiline(true);
 		fDescription.setRows(3);
@@ -222,7 +224,7 @@ public class WAssignmentDialog extends Window implements EventListener
 		//	Set Resource
 		int S_Resource_ID = m_mAssignment.getS_Resource_ID();
 		
-		for (ListItem item : fResource.getItems()) {
+		for (Listitem item : fResource.getItems()) {
 			if ( (Integer)item.getValue() == S_Resource_ID) {
 				fResource.setSelectedItem(item);
 				break;

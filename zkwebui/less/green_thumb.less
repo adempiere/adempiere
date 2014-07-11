@@ -1,0 +1,1613 @@
+/**
+ * adempiere_default.less
+ * 
+ * The Default css theme for ADempiere 380+ using zk 7.01+
+ * 
+ * Complile with less.  An ant build file has been provided for this purpose.
+ * See ZK Style & Customization Guide for more info.
+ * href=http://books.zkoss.org/wiki/ZK%20Style%20Customization%20Guide
+ * 
+ * Also see http://lesscss.org/features/ for less feature guide.
+ * 
+ * This file is the only .less file in the theme without a leading underscore. All
+ * other custom .less files are imported in a tree structure to this main file.  When compiled, 
+ * the adempiere_default.css.dsp file is added to the theme in the AdempiereThemeManager class.
+ * 
+ * This theme can be used as a starting point for customized themes.  The base theme
+ * is the ZK Breezy theme which is contained in the theme folder structure.
+ * 
+ * The default theme can be changed by creating a new folder under the theme directory
+ * with the folder name matching the theme name and specifying the theme in the 
+ * application Theme Management window. See http://www.adempiere.com/Theme_Management.
+ * 
+ */ 
+// Header - includes default theme colors and variables.
+@import "_adempiere_default_header.less"; 
+// Core variables and mixins
+@import "../theme/green_thumb/zul/less/_zkvariables.less"; // variables needed for ZK
+@import "../theme/green_thumb/zul/less/_zkmixins.less";
+
+
+// image files
+@import "_adempiere_default_images.less";
+
+/********************************************/
+/* Common Variables 						*/
+/********************************************/
+
+@themeBaseBGColor:  				@baseBackgroundColor;
+@themeLoginBorderColor:				@themeColorPrimaryDark;  
+@themeBaseDarkColor:				@themeColorPrimaryMidDark;
+@themeBaseLightColor:				@themeColorPrimaryMidLight;
+@themeBaseBGHighlightColor:			@themeColorPrimaryLight;
+@themeHighlightTextColor: 			white;
+@themeLabelColor:					black;
+@themeAccentColor:					@themeColorSecondaryA;  
+@themeFieldBackgroundColor:			@themeColorSecondaryBLight;  
+@themeColorFieldBackgroundMandatory: #FFBBBB; // Pink?
+@themeColorFieldBackgroundReadonly:	#F0F0F0;
+@themeColorWindowBackground:		#FFFFFF;
+@themeBorderColorLight:				@baseBorderColor;
+@themeBorderColorDark:				@themeColorPrimaryDark;  
+@themeButtonBorderColor:			#B0B0B0;  // Mid grey
+@themeButtonBorderColor-hover:		@themeColorPrimaryMidDark;  
+@themeHeaderBorderColor:			@themeBorderColorDark;
+@themeHeaderIconColor:				@themeColorPrimaryMidLight;
+@themeTabTextColor: 				@textColorBlue;
+@themeMenuTextColor:				@textColorBlue;
+@themePanelHeaderBGColor:			@themeBaseBGColor;
+@themeNavigationBorderColor:		@baseBorderColor;
+@themeNavigationBorderColorSelected: @themeBorderColorLight;
+//@themeNavigationBorderColorDeselected: @themeBorderColorLight;
+@themeNavigationButtonColor:		@baseBackgroundColor;
+@themeNavigationButtonColorSelected: @baseBackgroundColor;
+@themeNavigationButtonColorDisabled: #C4DCFB;
+@themeWindowBGColor:				@baseBackgroundColor;
+@themeColorFontData:				#000000;
+@themeColorFontDataDisabled:		#080808;
+@themeRowHoverGradientTopColor:		@themeColorPrimaryLight;
+@themeRowHoverGradientBottomColor:	@themeColorPrimaryMidLight;
+@themeColorFontColorRowLow:			#BB0000; // Red
+@themeColorFontColorRowNormal:		@themeColorFontData;
+@themeColorFontColorRowHigh:		#00BB00; // Green
+
+
+// Bacgrounds
+
+.themeBackground() {
+	background: none repeat scroll 0 0 @themeColorWindowBackground;
+}
+
+.themeHeaderBackground() {
+    background: linear-gradient(to bottom, @baseGradientStart 0%, @baseGradientEnd 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+
+.themeHeaderBorder() {
+    border-bottom: 1px solid @themeHeaderBorderColor;
+}
+
+.themeHeaderBGandBorder() {
+	.themeHeaderBackground;
+	.themeHeaderBorder;
+}
+
+.themeRowHoverGradient() {
+    background: linear-gradient(to bottom, @themeColorPrimaryLight 0%, @themeColorPrimaryVeryLight 100%) repeat scroll 0 0 padding-box rgba(0, 0, 0, 0);
+}
+
+// Sizes
+.themeLargeButtonSize() {
+	height: 36px;
+	width: 	72px;
+}
+
+@themeHeaderLineHeight: 	14px;
+@themeTabTextLineHeight:	@themeHeaderLineHeight;
+@themeNavigationBorderThickness: 2px;
+@themeNavigationBorderRadius:	 6px;
+@themeFieldHeight:			20px;
+
+// borders
+.themeFieldFocusBorderStyle(){
+    border: 1px solid @themeAccentColor;
+}
+
+.themeDepressed_img_colors(){
+	border-color: @themeBaseDarkColor;
+	background-color: @themeBaseLightColor;
+}
+
+// fonts
+.themeFontFamily() {
+		font-family: @baseTitleFontFamily;
+}
+
+
+/********************************************/
+/* Login Window Variables 					*/
+/********************************************/
+
+// Sizes
+@loginSidePanelWidth:	 350px;
+@loginBoxWidth: 		 660px;
+@loginBoxPaddingBottom:  100px;
+@loginBoxHeaderHeight: 	  53px;
+@loginBoxFooterHeight: 	  90px;
+@loginBoxFooterPnlWidth: 604px;
+@loginBoxRadius:		  10px;
+
+// Colors
+@loginWindowBGColor: 	@themeColorPrimaryVeryVeryLight;
+@loginBoxBorderColor: 	@themeLoginBorderColor;
+
+
+/********************************************/
+/*  Login Styles							*/
+/********************************************/
+
+.wlogin-layout {
+	
+	.wlogin-layout-center {
+		background-color: @loginWindowBGColor;	
+	}
+}
+
+.window-browser-not-supported {
+			width: 550px;
+				
+			div {
+				font-size: 9pt;
+			}
+}
+
+.login-window {
+	box-shadow: 10px 10px 5px @loginWindowBGColor - #404040;  // darker
+	border-radius: 10px;
+	padding: 0;
+	
+	.z-window-content {
+		background-color: transparent;
+		padding: 0;
+	}
+	
+	.login-box {
+		background-color: transparent;
+		width: @loginBoxWidth;
+	
+		&-body {
+			//.encodeThemeURL(background-image, @image_login-box-bg);
+			//background-repeat: repeat-y;
+			background-color: @themeBaseBGColor;
+    		border-left: 4px solid @loginBoxBorderColor;
+    		border-right: 4px solid @loginBoxBorderColor;
+    		width: 	@loginBoxWidth;
+			z-index: 1;
+			padding: 0;
+			margin: 0;
+			text-align: center;
+			padding-bottom: @loginBoxPaddingBottom;
+			cellpadding: 0;
+		    cellspacing: 5;			
+		    
+		    .login-box-header-logo {
+				padding-top: 20px;
+				padding-bottom: 25px;
+			}
+			
+			.login-label {	
+				color: @themeLabelColor;
+				padding: 05px;
+				text-align: right;
+				width: 40%;
+			}
+			
+			.login-field {
+				text-align: left;
+				width: 55%;
+				
+				.z-textbox,
+				.z-combobox {
+					width: 220px;
+					
+					input {
+						width: 100%;
+					}
+				}
+			}		    
+		}
+		
+		&-header {
+			//.encodeThemeURL(background-image, @image_login-box-header);
+			border-radius: 10px 10px 0 0;
+			background-color: @loginBoxBorderColor;
+			z-index: 2;
+			height: @loginBoxHeaderHeight;
+			width: @loginBoxWidth;
+	
+			&-text {
+				font-style: bold;
+				font-size: larger;
+				color: @themeHighlightTextColor;
+				position: relative;
+				top: 17px;
+			}			
+		}
+		
+		&-center {
+			border: none; 
+			background-color: @loginWindowBGColor;
+	
+		}
+	
+		&-footer {
+			//.encodeThemeURL(background-image, @image_login-box-footer);
+			//background-position: top right;
+			//background-attachment: scroll;
+			//background-repeat: repeat-y;
+			background-color: @loginBoxBorderColor;
+			border-radius: 0 0 10px 10px;
+			height: @loginBoxFooterHeight;
+			width: @loginBoxWidth;
+			z-index: 2;
+			
+			&-pnl {
+				width: @loginBoxFooterPnlWidth;
+				margin-left: 10px;
+				margin-right: 10px;
+				padding-top: 40px;
+				align: right;
+			}
+		}	
+			
+		.login-btn {
+			.themeLargeButtonSize;
+		}	
+	}
+}
+
+
+.login-east-panel, .login-west-panel {
+	width: @loginSidePanelWidth;
+	background-color: @windowBackgroundColor;
+	position: relative;
+}
+	
+
+.versionInfoBox {
+		background-color: @loginWindowBGColor;
+		border: 1px solid @baseBorderColor;
+		font-family: @baseContentFontFamily;
+		margin: 5px;
+		border-radius: 5px;
+		-moz-border-radius: 5px;
+		-webkit-border-radius: 5px;
+		padding: 3px;
+		margin-top: 20px;
+		font-size: 8pt;
+}
+
+/********************************************/
+/*  About Window							*/
+/********************************************/
+
+.about-window {
+    
+    .about-window-logo {
+    	padding: 10px 0px 5px 0px;
+    }    
+}
+
+
+/********************************************/
+/*  Confirm Panel							*/
+/********************************************/
+
+.ad-confirm-panel {
+	
+	&-left {
+		text-align: left;
+		
+		.z-button {
+			margin: 0 @baseTextPaddingLeftRight 0 0;  // Add space on right
+		}
+	}
+		
+	&-right {
+		text-align: right;
+		
+		.z-button {
+			margin: 0 0 0 @baseTextPaddingLeftRight; // Add space on left
+		}
+	}		
+}
+
+/********************************************/
+/*  Info Panel								*/
+/********************************************/
+
+.info-panel {
+
+	.confirm-panel {
+		border-top: 	2px; 
+		border-bottom: 	2px; 
+		padding: 		4px;	
+	}
+	
+	.info-center-layout {
+		width:			100%;
+	}
+	
+	.criteria {
+		border:			none;
+		padding: 		5px;
+		
+		.z-grid {
+			border: none;
+		}		
+	}
+	
+	.z-listheader {
+	    white-space: wrap;
+	    //line-height: 14px;
+	}
+	
+	.z-tabpanel {
+	    border-width: 0 0 1px;  // Bottom only
+	    padding: 0;
+	}
+		
+}
+
+.info-panel.info-panel-modal {
+	border: 		none; 
+	position: 		relative;		
+}
+
+.info-panel.info-panel-embedded {
+	border: 		none; 
+	position: 		absolute;
+	
+	.z-north, 
+	.z-south, 
+	.z-west, 
+	.z-center, 
+	.z-east {
+	    border: none;
+	}		
+
+	.z-window-content {
+    	padding: 0;
+	}
+	
+	.z-listbox {
+		border-width: 1px 0 0 0;
+		border-type: solid;
+	}
+
+	.z-listbox-body:hover {
+		overflow: auto;
+	}
+	
+	.z-north-splitter, .z-south-splitter {
+	    border-top: 1px solid @baseBorderColor;
+	    border-bottom: 1px solid @baseBorderColor;
+	    border-left: 0px solid @baseBorderColor;
+	    border-right: 0px solid @baseBorderColor;
+	}
+
+}
+
+.info-pattribute {
+	
+	.small-grid {
+		width:		400px;
+		margin:		0; 
+		padding:	0;
+		border:		none;
+	}
+	
+}
+
+
+/********************************************/
+/*  WAcctViewer								*/
+/********************************************/
+
+.wacct-viewer-window {
+	.modal {
+		border: 1px solid @windowBorderColor;
+		height: 85%;
+		width: 85%;
+		overflow: auto;
+	}
+	
+	.embedded {
+		border: none;
+		height: 100%;
+		width: 100%;
+		position: absolute;
+	}
+	
+	.label-box {
+		width: 100%
+	}
+}
+
+.color-row-low.z-listitem.z-listitem-selected > .z-listcell > .z-listcell-content {
+	color: @themeColorFontColorRowLow - #111;  // Darken
+}
+
+.color-row-normal.z-listitem.z-listitem-selected > .z-listcell > .z-listcell-content {
+	color: @themeColorFontColorRowNormal - #111;
+}
+
+.color-row-high.z-listitem.z-listitem-selected > .z-listcell > .z-listcell-content {
+	color: @themeColorFontColorRowHigh - #111;
+}
+
+.color-row-low.z-listitem > .z-listcell > .z-listcell-content {
+	color: @themeColorFontColorRowLow;
+}
+
+.color-row-normal.z-listitem > .z-listcell > .z-listcell-content {
+	color: @themeColorFontColorRowNormal;
+}
+
+.color-row-high.z-listitem > .z-listcell > .z-listcell-content {
+	color: @themeColorFontColorRowHigh;
+}
+
+
+.desktop-layout {
+	width:		100%;
+	height:		100%;
+	position:	absolute;
+	
+	.desktop-left-column {
+		 width:		300px;
+	}
+	
+	.z-anchorlayout {
+		width:		100%;
+		height:		100%;
+		positon:	absolute;
+		overflow:	auto;		
+
+		.z-anchorchildren {
+			padding: 5px; 
+			overflow: visible;
+		}
+	}
+	
+	
+	.default-desktop-panel {
+	    margin-bottom:	10px; 
+	    overflow: 		auto;
+	    
+	    .z-panel-body {
+	    	background: none;
+	    	
+	    	.z-panelchildren-noborder {
+	    		border: none;
+	    	}
+	    }
+	    
+	    .z-button {
+	    	min-height: 22px;
+	    	padding: 0 6px;
+	    }
+	
+		.z-toolbar {
+		    background: none repeat scroll 0 center rgba(0, 0, 0, 0);
+		    border: none;
+		    padding: 4px 4px 0 4px;
+		    
+		    .z-toolbar-content.z-toolbar-start {
+			    clear: none;
+			    float: right;
+			}
+			
+			.z-toolbar-content {
+	
+			    .z-image {
+			    	border: 1px solid @buttonBorderColor;
+			    	border-radius: 2px;
+			    	padding: 1px;
+			    	cursor: default;
+			    	opacity: 0.35;
+				}
+			
+			    .z-image.z-drag-over {
+				    border: 1px solid @buttonBorderColor;
+				    opacity: 1.0;
+			    	cursor: pointer;
+				}
+			}
+		}
+	}
+}
+
+.ad-autocompleter {
+	.warning {
+		color: @errorboxColor;
+		border-color: @errorboxBorderColor;
+		background-color: @errorboxBackgroundColor;
+	}
+}
+
+.ad-component {
+	width: 100%	
+}
+
+.ad-image {
+	width: 48px;
+	height: 48px;
+}
+
+.ad-label {
+	text-align: right;
+}
+
+.ad-heading {
+	text-align: center;
+}
+ 
+.ad-headerpanel {
+	//.encodeThemeURL(background-image, @image_header-bg);
+	.verGradient(@themeColorPrimaryVeryVeryLight, @themeColorPrimaryVeryLight);
+	width: 100%;
+	height: @baseTitleHeight;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: @fontSizeXSmall;
+	
+	&-table {
+		width: 100%;
+		border-collapse: collapse;
+	}
+
+	&-row {
+		width: 100%;
+	}
+	
+	&-logo {
+		cursor: pointer;
+	}
+
+	&-font {
+		display: inline;
+		
+		.z-toolbarbutton-content {
+			text-shadow: none;
+		}
+	}
+	
+	&-left {
+		vertical-align: middle;
+		padding: 3px 0 3px 5px; // Top, right, bottom, left
+		cursor: arrow;
+	}
+
+	&-right {
+		width: 100%;
+		text-align: right;
+		vertical-align: middle;
+		padding: 0 5px 0 0; // Top, right, bottom, left
+	}
+
+	.user-panel {
+		float: right;
+		text-align: center;
+		verticle-align: middle;
+		
+		.z-hbox {
+			width: 100%;
+		}
+	
+		.z-hbox-separator {
+			width: 0;
+		}
+	
+		.z-vbox-separator {
+			height: 2px;
+		}
+
+		&-buttons {
+			
+			.z-toolbarbutton {
+				height: 18px;
+			}
+			
+			.z-toolbarbutton-content {
+				text-shadow: none;
+			}
+		}
+		
+		&-username {
+			font-size: @fontSizeXSmall;
+			cursor: default;
+		}
+	}
+
+}
+
+
+.z-toolbarbutton[disabled] {
+    border: 1px solid @themeButtonBorderColor;
+    cursor: default !important;
+    opacity: 0.25;
+
+	.z-toolbarbutton:hover { 
+	    border: 1px solid @themeButtonBorderColor;
+	}	    
+
+    img:hover, 
+    .z-toolbarbutton-content:hover {
+		border: none;
+	}
+}
+
+
+.disableFilter img {
+	//opacity: 0.3;
+	//-moz-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=20)";
+	//-moz-opacity: 0.3;
+}
+
+.login-btn {
+	.z-button-image {
+    	height: 24px;
+    	width: 24px;	
+	}
+}
+
+.z-button-image {
+	width: 18px;
+	height: 18px;
+	padding: 0px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: transparent;
+}
+
+
+.toolbar {
+	padding: 0px;
+}
+
+.toolbar-button {
+	img {
+		width: 18px;
+		height: 18px;
+		padding: 1px;
+		border: none;
+	}
+}
+
+.embedded-toolbar-button {
+	img {
+		width: 16px;
+		height: 16px;
+		padding: 0px 1px 0px 1px;
+		border-style: solid;
+		border-width: 1px;
+		border-color: transparent;
+	}
+}
+
+.depressed {
+	img {
+		border-style: inset;
+		border-width: 1px;
+		.themeDepressed_img_colors;
+		-moz-border-radius: 5px;
+		-webkit-border-radius: 5px;
+		padding: 0px 1px 0px 1px;
+	}
+}
+
+.action-button {
+	height: @baseButtonHeight + @baseHeight;
+	width: (@baseButtonHeight + @baseHeight)*3;
+}
+
+.action-text-button {
+	height: @baseButtonHeight + @baseHeight;
+	width: (@baseButtonHeight)*3;
+}
+
+div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
+	background-color: white;
+}
+
+.ad-desktoptabpanel {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	position: absolute;
+	font-size: 12px;  // Sets the default font size
+	overflow: auto;
+	height: 100%;
+	width: 100%;
+	
+	.z-center, .z-south {
+		border: none;
+	}
+	
+}
+
+.menu-search {
+	background-color: @themeColorPrimaryLight;
+}
+
+.ad-adbuttontablist {
+	margin:		0;
+	padding:	0;
+}
+
+.ad-datetimebox {
+		display: inline;
+		//String style = AEnv.isFirefox2() ? "display: inline" : "display: inline-block"; 
+		white-space: nowrap;
+	
+	.ad-dateBox {
+		display: inline;
+	}
+	
+	.ad-timeBox {
+		display: inline;
+	}
+}
+
+.adform-content-none {
+	overflow: auto;
+	position: absolute;
+	width: 100%;
+	margin: 3px;
+}
+
+
+
+.adwindow-toolbar-layout {
+    border-width: 0 0 1px 0;
+	
+	.adwindow-toolbar {
+		border: 0px;
+		width:		100%;
+		
+		& .embedded {
+			text-align: end;
+    		background: transparent none;
+		}
+	}
+}
+
+.adtab-body {
+	/*
+	position: absolute;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+	border: none;
+	*/
+}
+
+.ad-adtabpanel {
+	padding: 2px 0px;
+	
+	.z-grid {
+		margin:0; 
+		padding:0; 
+		position: relative;
+		width:100%;
+		height:100%;
+		border: none;
+		
+		.z-grid-body .z-cell {
+			padding-top: 0px;
+			padding-bottom: 0px;
+		}
+	}
+}
+
+.ad-gridpanel {
+	height: 100%;
+
+	&-center {
+		height: 100%;
+	}
+}
+
+.adtab-grid {
+	width: 100%;
+	position: absolute;
+
+	&-panel {
+		position: absolute;
+		overflow: hidden;
+		width: 100%;
+		height: 100%;
+		
+		.z-grid-odd > .z-row-inner, .z-grid-odd > .z-cell {
+	    	background: none repeat scroll 0 0 #F7F7F7;
+		}
+		
+		.z-row:hover > .z-row-inner, .z-row:hover > .z-cell {
+		    background: linear-gradient(to bottom, @themeRowHoverGradientTopColor 0%, @themeRowHoverGradientBottomColor 100%) repeat scroll 0 0 padding-box rgba(0, 0, 0, 0);
+		    position: relative;
+		}
+	} // -panel
+
+	&-group {  // a row
+	    
+	    &-header {  // a cell (td)
+	        padding-bottom: 1px !important; 
+    		padding-top: 1px !important; 
+		    
+		    &-body {
+		    	background: linear-gradient(to bottom, @themeColorPrimaryVeryVeryLight 0%, @themeColorPrimaryVeryLight 100%) repeat scroll 0 0 padding-box rgba(0, 0, 0, 0);
+			    border-top: 2px solid @baseBorderColorHighlight;
+			    border-bottom: 1px solid @baseBorderColorHighlight;
+		    }
+		    
+		    &-button {
+		    	width: @baseButtonWidth;
+		    	height: @baseButtonHeight;
+		    	color: @baseBorderColorHighlight;
+		    	text-align: center;
+		    	cursor: pointer;
+		    } // -button
+		    
+		    &-label {
+		    	cursor: pointer;
+		    	padding: 0 5px;
+		    } // -button
+
+		    .z-cell {
+		    	padding: 2px 0px;
+		    }
+	    } // -header
+	} // -group
+} // adtab-grid
+
+.adtab-tabpanels {
+	width: 80%;
+	border-top: 1px solid #9CBDFF;
+	border-bottom: 1px solid #9CBDFF;
+	border-left: 2px solid #9CBDFF;
+	border-right: 2px solid #9CBDFF;
+}
+
+.status {
+	height: 20px;
+	padding-left: 5px;
+	width: 100%;
+}
+
+.status-db {
+	padding-top: 0;
+	pdding-bottom: 0;
+	padding-left: 5px;
+	padding-right: 5px;
+	cursor: pointer;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	border-left: solid 1px #9CBDFF;
+}
+
+.status-info {
+	padding-right: 10px;
+	border-left: solid 1px #9CBDFF;
+}
+
+.status-border {
+	border: solid 1px #9CBDFF;
+}
+
+.form-button {
+	// width: 99%;
+}
+
+.ad-wpreference {
+	padding: 5px;
+	
+	div {
+		background-color: transparent !important; 
+		border: none; 
+		margin: 5px;
+	}
+}
+
+.ad-wpapanel {
+	
+	.ad-grid.z-grid {
+		border: none;
+	}
+}
+
+/********************************************/
+/*  Search Component						*/
+/********************************************/
+
+.ad-editorbox,
+.ad-numberbox {
+
+	// Search box 
+	border: none; 
+	padding: 0px; 
+	margin: 0px; 
+	background-color: transparent;
+	
+	//		String style = AEnv.isFirefox2() ? "display: inline"
+	//			: "display: inline-block";
+	//	style = style
+	//			+ ";border: none; padding: 0px; margin: 0px; background-color: transparent;";	
+	
+	&-grid {
+		border: none; 
+		padding: 0px; 
+		margin: 0px;
+		width:	100%;
+		cellpadding: 0;
+		cellspacing: 0;		
+	}
+	
+	&-row { // A row
+		width: 100%; 
+		border: none; 
+		padding: 0px; 
+		margin: 0px; 
+		white-space:nowrap;
+	}
+
+	&-cell-input {  // A cell
+	}
+
+	&-input { // A text input field
+		.leftBorderRadius(@borderRadiusSmall);
+	    display: inline; 
+	    width: 100%;		
+	}
+	
+	&-button {  // A button
+		.iconFontStyle(@baseFontSize, @iconColor);
+		width: @baseButtonWidth;
+		<c:if test="${ zk.ie == 8 }">
+			width: @baseButtonWidth - 10;
+		</c:if>
+		height: @baseButtonHeight;
+		.rightBorderRadius(@borderRadiusSmall);
+		padding: 0px;
+		line-height: @baseLineHeight;
+		background: @inputBackgroundColor;
+		text-align: center;
+		vertical-align: middle;
+		overflow: hidden;
+		cursor: pointer;
+
+		&:hover {
+			border-color: @hoverBorderColor;
+			<c:if test="${ zk.ie != 8 }">
+				.verGradient(@hoverGradientStart, @hoverGradientEnd);
+			</c:if>
+		}
+		&:active {
+			border-color: @activeBorderColor;
+			<c:if test="${ zk.ie != 8 }">
+				.verGradient(@activeGradientStart, @activeGradientEnd);
+			</c:if>
+			.boxShadow('inset 1px 1px 1px #91AAB7');
+		}
+		input[disabled] + & {
+			&:hover,
+			&:active {
+				border-color: @inputBorderColor;
+				.resetGradient();
+				.boxShadow('none');
+			}
+		}
+
+		img {
+			vertical-align: middle;
+			text-align: center;
+		}
+	}
+}
+
+.z-combobox-disd {
+	color: black !important; 
+	cursor: default !important; 
+	opacity: 1; 
+	-moz-opacity: 1; 
+	-khtml-opacity: 1; 
+	filter: alpha(opacity=100);
+}
+
+.z-combobox-disd * {
+	color: black !important; cursor: default !important;
+}
+
+.z-combobox-text-disd {
+	background-color: #ECEAE4 !important;
+}
+
+.z-button-disd {
+	color: black; cursor: default; opacity: .6; -moz-opacity: .6; -khtml-opacity: .6; filter: alpha(opacity=60);
+}
+
+//input:focus, 
+//textarea:focus, 
+//.z-combobox-inp:focus, 
+//z-datebox-inp:focus {
+//	border: 1px solid #0000ff;
+//}
+
+.mandatory-decorator-text {
+	text-decoration: none; font-size: xx-small; vertical-align: top; color:red;
+}
+
+div.z-tree-body td.menu-tree-cell {
+	cursor: pointer;
+	padding: 0 2px;
+   	//font-size: ${fontSizeM};
+   	font-weight: normal;
+   	overflow: visible;
+}
+
+div.menu-tree-cell-cnt {
+	border: 0; margin: 0; padding: 0;
+	//font-family: ${fontFamilyC};
+	//font-size: ${fontSizeM}; font-weight: normal;
+    white-space:nowrap
+}
+
+div.label-right {
+	text-align: right;
+}
+
+td.menu-tree-cell-disd * {
+	color: #C5CACB !important; cursor: default!important;
+}
+
+td.menu-tree-cell-disd a:visited, td.menu-tree-cell-disd a:hover {
+	text-decoration: none !important;
+	cursor: default !important;
+	border-color: #D0DEF0 !important;
+}
+
+div.z-dottree-body td.menu-tree-cell {
+	cursor: pointer; padding: 0 2px;
+	//font-size: ${fontSizeM}; font-weight: normal; overflow: visible;
+}
+
+div.z-filetree-body td.menu-tree-cell {
+	cursor: pointer; padding: 0 2px;
+	//font-size: ${fontSizeM}; font-weight: normal; overflow: visible;
+}
+
+div.z-vfiletree-body td.menu-tree-cell {
+	cursor: pointer; padding: 0 2px;
+	//font-size: ${fontSizeM}; font-weight: normal; overflow: visible;
+}
+
+.adwindow {
+  	position:	absolute;
+	height:		100%;
+	width:		100%;
+	
+	&-nav {
+		border: none;
+		
+		&-right {
+		}
+
+
+		&-left{
+		}
+
+		&-content {
+			height: 100%;
+			overflow:hidden;
+		}			
+	} //&-nav
+	
+	&-status {
+		background-color: @themeColorPrimaryVeryVeryLight;
+		height: 20px;
+		border-top: 1px solid @baseBorderColor;
+	}
+} //.adwindow
+
+.userSelect() {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+@ad-nav-tab-indent:		5px;
+@ad-nav-tab-indent-per-level: 15px;
+@ad-nav-tab-max-levels: 10;
+
+.ad-tab-left-margin(@level) {
+		margin-left: @level*@ad-nav-tab-indent-per-level + @ad-nav-tab-indent;
+}
+
+.ad-tab-right-margin(@level) {
+		margin-right: @level*@ad-nav-tab-indent-per-level + @ad-nav-tab-indent;
+}
+
+.generate-left-margins(@n, @i: 0) when (@i =< @n) {
+  .tab-left-level-@{i} {
+  	.ad-tab-left-margin(@i);  	
+  }
+  .generate-left-margins(@n, (@i + 1));
+}
+
+.generate-right-margins(@n, @i: 0) when (@i =< @n) {
+  .tab-right-level-@{i} {
+  	.ad-tab-right-margin(@i);  	
+  }
+  .generate-right-margins(@n, (@i + 1));
+}
+
+
+.verticalStyle() {
+	.z-tabs {
+		float: left;
+		height: 100%;
+		
+		&-content {
+			display: block;
+			height: 4096px;
+			border-right: 2px solid @baseBorderColorHighlight;
+			max-width: 190px;
+		}
+		&-space {
+			width: 0;
+			position: relative;
+			float: left;
+		}
+	}
+	.z-tab {
+		border: 1px solid @baseBorderColor;
+		border-radius: @baseBorderRadius;
+		padding-top: 0px;
+		float: none;
+		
+		&-selected {
+			border: 2px solid @baseBorderColorHighlight;
+
+			.z-tab-text {
+				font-weight: bold;
+				cursor: default;
+				white-space: nowrap;
+				padding: @baseTextPaddingTopBottom 4px; 
+			}
+		}
+
+		&.z-tab-disabled .z-tab-text {
+			color: gray;
+			.opacity(@disabledOpacity);
+			cursor: default;
+		}
+	}
+
+	&.z-tabbox-scroll {
+		> .z-tabs {
+			margin: 24px 0px 24px 0px;
+		}
+	}		
+
+	.z-tabpanels {
+		border: 1px solid @baseBorderColor;
+		border-left: 0px;
+	}
+
+	.z-tabpanel {
+		border: 0;
+		padding: 5px;
+	}
+}
+
+.adwindow-nav-content {
+		
+	.z-tabbox .z-tab {
+		&.z-tab-selected {
+			box-shadow: none;
+		}
+		&.z-tab-selected + .z-tab {
+				box-shadow: none;
+		}
+	}
+	// remove selected tab bottom border
+	.z-tabbox-top .z-tab {
+		&.z-tab-selected {
+			.z-tab-content {
+				.boxShadow(0px 2px 0 @baseBackgroundColor);
+			}	
+		}
+	}
+	// remove selected tab top border
+	.z-tabbox-bottom .z-tab {
+		&.z-tab-selected {
+			.z-tab-content {
+				.boxShadow(0px -2px 0 @baseBackgroundColor);
+			}	
+		}
+	}
+	// remove selected tab right border
+	.z-tabbox-left .z-tab {
+		&.z-tab-selected {
+			.z-tab-content {
+				.boxShadow(2px 0px 0 @baseBackgroundColor);
+			}	
+		}
+	}
+	// remove selected tab left border
+	.z-tabbox-right .z-tab {
+		&.z-tab-selected {
+			.z-tab-content {
+				.boxShadow(-2px 0px 0 @baseBackgroundColor);
+			}	
+		}
+	}
+	
+	.z-tabbox {
+		position: relative;
+		overflow: hidden;
+		// horizontal (default)
+		&-icon {
+			border: 1px solid @baseBorderColor;
+			border-radius: 0px;
+		}
+		// bottom
+		&-bottom {
+			.z-tabbox-icon {
+				border-top: 2px solid @baseBorderColorHighlight;
+				top: auto;
+				bottom: 0;
+			}
+			.z-tabs-content {
+				border-top: 2px solid @baseBorderColorHighlight;
+				border-bottom: 0;
+			}
+			.z-tab {
+				border-width: 0px 1px 1px 1px;
+				.bottomBorderRadius(@baseBorderRadius);
+				
+				&.z-tab-selected {
+					.boxShadow('0px -2px 0 @baseBackgroundColor');
+				}
+			}
+			.z-tabpanel {
+				border: 1px solid @baseBorderColor;
+				border-bottom: 0;
+			}
+			.z-toolbar-tabs {
+				border-top: 1px solid @baseBorderColor;
+				border-bottom: 0;
+				top: auto;
+				bottom: 0;
+			}
+		}
+		// left
+		&-left {
+			height: 100%;
+			
+			.z-tabbox-icon {
+				border-right: 2px solid @baseBorderColorHighlight;
+				padding-top: 0;
+			}
+			.verticalStyle();
+			.generate-left-margins(10);
+			
+			.z-tab {
+				border-right: 0px;
+				.leftBorderRadius(@baseBorderRadius);
+
+				&-button {
+					top: 0;
+					left: 0px;
+					& + .z-tab-text {
+						margin-left: 14px;
+						margin-right: 0px;
+					}
+				}
+				&-icon {
+					left: 10px;
+					right: auto;
+				}
+			}
+		}
+	
+		// right
+		&-right {
+			height: 100%;
+			
+			.z-tabbox-icon {
+				border-left: 2px solid @baseBorderColorHighlight;
+				padding-top: 0;
+				right: 0;
+			}
+			.verticalStyle();
+			.generate-right-margins(10);	
+
+			.z-tabs {
+				float: right;
+				
+				&-content {
+					border-left: 2px solid @baseBorderColorHighlight;
+					border-right: 0;
+				}
+				&-space {
+					float: right;
+				}			
+			}
+			.z-tab {
+				border-left: 0px;
+				.rightBorderRadius(@baseBorderRadius);
+				
+				//&.z-tab-selected {
+				//	border-left: 0px;
+				//}
+			}
+			.z-tabpanels {		
+				border: 1px solid @baseBorderColor;
+				border-right: 0;
+			}
+		}
+	
+		// accordion
+		&-accordion {
+			> .z-tabpanels {
+				border-top: 1px solid @baseBorderColor;
+				
+				> .z-tabpanel {
+					border: 0;
+					padding: 0;
+				}
+			}
+			.z-tabpanel > .z-tabpanel-content {
+				border: 1px solid @baseBorderColor;
+				border-top: 0;
+				padding: 5px;
+				zoom: 1;
+			}
+			.z-tabpanel > .z-tab {
+				border-width: 0 1px 1px 1px;
+				.borderRadius(0);
+				padding-top: 1px;
+				text-align: left;
+				float: none;
+				zoom: 1;
+	
+				&-selected {
+					.verGradient(@baseGradientStart, @baseGradientEnd);
+					.boxShadow('none');
+					cursor: default;
+				}
+			}
+			.z-tab-button {
+				.opacity(0.7);
+				&:hover {
+					color: @iconHoverColor;
+				}
+	
+				+ .z-tab-text {
+					margin-right: @baseButtonWidth;
+				}
+			}
+			.z-tab-text {
+				padding: 3px 5px 3px 8px;
+			}
+		}
+	
+		// .z-tabbox-scroll
+		&-scroll {
+			> .z-tabs {
+				border: 0;
+				margin: 0px 24px 0px 24px;
+				padding-bottom: 0;
+				zoom: 1;
+			}
+			.z-tabbox-icon {
+				display: block;
+			}
+		}
+	}
+	
+	.z-tabs {
+		border: 0;
+		margin: 0;
+		padding: 0;
+		line-height: @baseButtonHeight;
+		overflow: hidden;
+		position: relative;
+	
+		&-content {
+			display: table;
+			width: 100%;
+			border-collapse: separate;
+			border-spacing: 0;
+			border-bottom: 2px solid @baseBorderColorHighlight;
+			margin: 0;
+			padding-left: 0;
+			padding-top: 0;
+			list-style-image: none;
+			list-style-position: outside;
+			list-style-type: none;
+			zoom: 1;
+			clear: both;
+		}
+	}
+	
+	.z-tab {
+		font-family: @baseTitleFontFamily;
+		font-size: @fontSizeMedium;
+		display: block;
+		border: 1px solid @baseBorderColor;
+		border-width: 1px 1px 0px 1px;
+		.topBorderRadius(@baseBorderRadius);
+		margin: 0;
+		padding-top: 1px;
+		line-height: @baseBarHeight - 2px; // Less border
+		.verGradient(@baseGradientStart, @baseGradientEnd);
+		text-align: center;
+		position: relative;
+		cursor: pointer;
+		float: left;
+		
+	
+		&-content {
+			display: block;
+		}
+	
+		&:hover {
+			.verGradient(@hoverGradientStart, @hoverGradientEnd);
+		}
+	
+		&-icon {
+			.displaySize(block, @baseButtonHeight, @baseButtonHeight);
+			line-height: @baseButtonHeight;
+			padding: (@baseBarHeight - @baseButtonHeight)/2 0;
+			position: relative;
+			cursor: pointer;
+			<c:if test="${ zk.ie == 8 }">
+				//margin-top: -7px;
+				font-size: 14px;
+			</c:if>
+	
+			&:hover {
+				font-weight: bold;  // Change the font weight to indicate hover.
+			}		
+		}
+	
+		&-text {
+			font-style: normal;
+			color: @textColorGray;
+			display: block;
+			height: @baseBarHeight - 2px; // Less border
+			padding: @baseTextPaddingTopBottom 12px;
+			line-height: @baseButtonHeight;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+	
+		&-image {
+			vertical-align: middle;
+		}
+	
+		&-button {
+			.iconFontStyle(@fontSizeMedium, @iconColor);
+			.displaySize(block, @baseButtonHeight, 100%);
+			line-height: @baseButtonHeight;
+			.opacity(0.7);
+			text-align: center;
+			position: absolute;
+			right: 0;
+			top: 0;
+			z-index: 15;
+			zoom: 1;
+			.userSelect();
+			
+			&:hover {
+				color: @iconHoverColor;
+			}
+			& + .z-tab-text {
+				margin-right: 14px;
+			}
+		}
+		.z-caption {
+			margin: auto;
+		}
+		&-selected {
+			.resetGradient();
+			background: @tabSelectedBackgroundColor;
+			.boxShadow('0 1px 0 @baseBackgroundColor');
+			&:hover {
+				.resetGradient();
+				background: @tabSelectedBackgroundColor;
+			}
+			.z-tab-button {
+				.opacity(1);
+			}
+			.z-tab-text {
+				cursor: default;
+				font-weight: bold;
+				text-overflow: unset;  // clip perhaps?
+			}
+		}
+		&-disabled {
+			color: @disabledColor;
+			.opacity(@disabledOpacity);
+			cursor: default;
+			
+			&:hover {
+				.verGradient(@baseGradientStart, @baseGradientEnd);
+			}
+			.z-tab-button:hover {
+				.opacity(@disabledOpacity);
+			}
+			.z-tab-text {
+				font-style: normal;
+				.opacity(@disabledOpacity);
+				cursor: default;
+				white-space: nowrap;
+			}
+		}
+	}	
+} // .adwindow-nav-tabbox
+
+.z-treerow.z-treerow-selected > .z-treecell {
+    background: linear-gradient(to bottom, #E5F4FB 0%, #D3EDFA 100%) repeat scroll 0 0 padding-box rgba(0, 0, 0, 0);
+    position: relative;
+}
+
+.z-treerow.z-treerow-selected > .z-treecell > .z-treecell-content,
+.z-treerow.z-treerow-selected:hover > .z-treecell > .z-treecell-content {
+    color: @themeMenuTextColor;
+}
+
+.z-treecell-content {
+    line-height: 14px;
+    padding: 2px 2px;
+}
+.z-treecol-content, .z-treecell-content, .z-treefooter-content {
+    color: @themeMenuTextColor;
+}
+
+.z-tabpanels {
+    overflow: visible;  // Other settings cause the portal panels to disappear.
+    position: relative;
+}
+
+.dp-favorite-button-image {
+	vertical-align: top;
+}
+
+
+.z-grid-odd > .z-row-inner, 
+.z-grid-odd > .z-cell {
+	//  Override the row banding when in form view
+	background: none;
+	background-clip: padding-box;
+}
+
+.z-row:hover > .z-row-inner, .z-row:hover > .z-cell {
+    background: none;
+}
+
+.z-column-content, 
+.z-row-content, 
+.z-group-content, 
+.z-groupfoot-content, 
+.z-footer-content {
+    padding: 1px 5px;
+    line-height: 14px;
+ }
+

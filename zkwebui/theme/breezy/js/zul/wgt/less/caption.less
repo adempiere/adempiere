@@ -1,0 +1,56 @@
+@import "~./zul/less/_header.less";
+
+.z-caption {
+	font-size: @fontSizeMedium;
+	.size(100%, auto);
+	min-height: @baseButtonHeight;
+	line-height: @baseLineHeight;
+	white-space: nowrap;
+
+	& > * {
+		margin-left: 4px;
+
+		&:first-child {
+			margin-left: 0px;
+		} 
+	}
+
+	&-content,
+	.z-label {
+		display: inline-block;
+		padding: 4px 0px;
+		line-height: @baseIconHeight;
+		float: left;
+	}
+
+	&-image {
+		vertical-align: middle;
+	}
+
+	input {
+		font-size: @fontSizeSmall;
+	}
+
+	.z-toolbar {
+		.z-a,
+		.z-a:visited,
+		.z-a:hover {
+			color: #FFFFFF;
+			border: 0;
+			background: none;
+		}
+	}
+
+	.z-a,
+	.z-a:visited {
+		font-size: @fontSizeSmall; 
+		font-weight: normal; 
+		color: @baseTextColor; 
+		background: none;
+		text-decoration: none;
+	}
+
+	.z-a:hover {
+		text-decoration: underline;
+	}
+}

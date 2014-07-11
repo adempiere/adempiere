@@ -34,8 +34,10 @@ import org.jfree.chart.plot.MeterInterval;
 import org.jfree.chart.plot.MeterPlot;
 import org.jfree.data.Range;
 import org.jfree.data.general.DefaultValueDataset;
+import org.jfree.data.general.ValueDataset;
 import org.jfree.ui.RectangleInsets;
 import org.zkoss.image.AImage;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -82,7 +84,7 @@ public class WPerformanceIndicator extends Panel implements EventListener
 	private static DecimalFormat	s_format = DisplayType.getNumberFormat(DisplayType.Integer);
 
 	Menupopup 					popupMenu = new Menupopup();
-	private Menuitem 			mRefresh = new Menuitem(Msg.getMsg(Env.getCtx(), "Refresh"), "/images/Refresh16.png");
+	private Menuitem 			mRefresh = new Menuitem(Msg.getMsg(Env.getCtx(), "Refresh"), ServletFns.resolveThemeURL("~./images/Refresh16.png"));
 
 	ChartPanel chartPanel;
 
@@ -137,22 +139,25 @@ public class WPerformanceIndicator extends Panel implements EventListener
                  	  new Range(rangeLo, rangeHi), //range
                  	  colorSchema.getColor(rangeHi),
                  	  new BasicStroke(7.0f),
-                 	  new Color(-13091716)
+                 	  null
                 ));
             	rangeLo = rangeHi;
             }
         }
         plot.setRange(new Range(0,rangeLo));
 
-        plot.setDialBackgroundPaint(new Color(-13091716));
+        plot.setDialBackgroundPaint(null); // new Color(-13091716)
         plot.setUnits("");
         plot.setDialShape(DialShape.CHORD);//CIRCLE);
-        plot.setNeedlePaint(Color.white);
+        plot.setDialOutlinePaint(Color.GRAY);
+        plot.setNeedlePaint(Color.BLACK);
         plot.setTickSize(2000);
-        plot.setTickLabelFont(new Font("SansSerif", Font.BOLD, 8));
+        plot.setTickPaint(Color.DARK_GRAY);
+        plot.setTickLabelFont(new Font("SansSerif", Font.BOLD, 8)) ;
+        plot.setTickLabelPaint(Color.DARK_GRAY);
         plot.setValueFont(new Font("SansSerif", Font.BOLD, 8));
+        plot.setValuePaint(Color.BLUE);
         plot.setNoDataMessageFont(new Font("SansSerif", Font.BOLD, 8));
-        plot.setTickLabelPaint(Color.white);
         plot.setInsets(new RectangleInsets(1.0, 2.0, 3.0, 4.0));
 
         chart = new JFreeChart( m_text, new Font("SansSerif", Font.BOLD, 9), plot,false);
@@ -167,7 +172,7 @@ public class WPerformanceIndicator extends Panel implements EventListener
 	private void init()
 	{
 		JFreeChart chart = createChart();
-		chart.setBackgroundPaint(Color.WHITE);
+		chart.setBackgroundPaint(null);
 		chart.setBorderVisible(true);
 		chart.setBorderPaint(Color.LIGHT_GRAY);
 		chart.setAntiAlias(true);

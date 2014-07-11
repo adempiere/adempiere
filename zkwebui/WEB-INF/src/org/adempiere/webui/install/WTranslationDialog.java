@@ -16,7 +16,7 @@ package org.adempiere.webui.install;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
-import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.FolderBrowser;
 import org.adempiere.webui.component.Grid;
@@ -32,6 +32,7 @@ import org.adempiere.webui.panel.CustomForm;
 import org.adempiere.webui.panel.IFormController;
 import org.adempiere.webui.panel.StatusBarPanel;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.install.Translation;
 import org.compiere.install.TranslationController;
@@ -41,9 +42,9 @@ import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.South;
 import org.zkoss.zul.Div;
 
 public class WTranslationDialog extends TranslationController implements IFormController, EventListener {
@@ -69,7 +70,7 @@ public class WTranslationDialog extends TranslationController implements IFormCo
 			south.setStyle("border: none");
 			contentLayout.appendChild(south);
 			south.appendChild(statusBar);
-			LayoutUtils.addSclass("status-border", statusBar);
+			ThemeUtils.addSclass("status-border", statusBar);
 			south.setHeight("22px");
 		}
 		catch(Exception e)

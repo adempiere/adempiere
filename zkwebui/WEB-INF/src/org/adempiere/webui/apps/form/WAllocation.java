@@ -54,10 +54,10 @@ import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.North;
+import org.zkoss.zul.South;
 import org.zkoss.zul.Separator;
 import org.zkoss.zul.Space;
 
@@ -149,8 +149,6 @@ public class WAllocation extends Allocation
 	{
 		//
 		form.appendChild(mainLayout);
-		mainLayout.setWidth("99%");
-		mainLayout.setHeight("100%");
 		dateLabel.setText(Msg.getMsg(Env.getCtx(), "Date"));
 		autoWriteOff.setSelected(false);
 		autoWriteOff.setText(Msg.getMsg(Env.getCtx(), "AutoWriteOff", true));
@@ -178,57 +176,47 @@ public class WAllocation extends Allocation
 		organizationLabel.setText(Msg.translate(Env.getCtx(), "AD_Org_ID"));
 		
 		North north = new North();
-		north.setStyle("border: none");
 		mainLayout.appendChild(north);
 		north.appendChild(parameterPanel);
 		
 		Rows rows = null;
 		Row row = null;
 		
-		parameterLayout.setWidth("800px");
+		//parameterLayout.setWidth("800px");
 		rows = parameterLayout.newRows();
 		row = rows.newRow();
-		row.appendChild(bpartnerLabel.rightAlign());
-		row.appendChild(bpartnerSearch.getComponent());
-		row.appendChild(dateLabel.rightAlign());
-		row.appendChild(dateField.getComponent());
-		row.appendChild(organizationLabel.rightAlign());
-		row.appendChild(organizationPick.getComponent());
+		row.appendCellChild(bpartnerLabel.rightAlign());
+		row.appendCellChild(bpartnerSearch.getComponent());
+		row.appendCellChild(dateLabel.rightAlign());
+		row.appendCellChild(dateField.getComponent());
+		row.appendCellChild(organizationLabel.rightAlign());
+		row.appendCellChild(organizationPick.getComponent());
 		
 		row = rows.newRow();
-		row.appendChild(currencyLabel.rightAlign());
-		row.appendChild(currencyPick.getComponent());		
-		row.appendChild(multiCurrency);		
-		row.appendChild(new Space());
-		row.appendChild(new Space());
-		row.setSpans("1,1,2,1,1");
-		
-		row = rows.newRow();
-		row.appendChild(new Space());
-		row.appendChild(autoWriteOff);
-		row.appendChild(new Space());
-		row.appendChild(new Space());
-		row.appendChild(new Space());
-		row.appendChild(new Space());
+		row.appendCellChild(currencyLabel.rightAlign());
+		row.appendCellChild(currencyPick.getComponent());		
+		row.appendCellChild(new Space());
+		row.appendCellChild(multiCurrency);		
+		row.appendCellChild(new Space());
+		row.appendCellChild(autoWriteOff);
 		
 		South south = new South();
-		south.setStyle("border: none");
 		mainLayout.appendChild(south);
 		south.appendChild(southPanel);
 		southPanel.appendChild(allocationPanel);
 		allocationPanel.appendChild(allocationLayout);
-		allocationLayout.setWidth("600px");
+		//allocationLayout.setWidth("600px");
 		rows = allocationLayout.newRows();
 		row = rows.newRow();
-		row.appendChild(differenceLabel.rightAlign());
-		row.appendChild(allocCurrencyLabel.rightAlign());
-		row.appendChild(differenceField);
-		row.appendChild(new Space());
-		row.appendChild(chargeLabel.rightAlign());
-		row.appendChild(chargePick.getComponent());
+		row.appendCellChild(differenceLabel.rightAlign());
+		row.appendCellChild(allocCurrencyLabel.rightAlign());
+		row.appendCellChild(differenceField);
+		row.appendCellChild(new Space());
+		row.appendCellChild(chargeLabel.rightAlign());
+		row.appendCellChild(chargePick.getComponent());
 		
-		row.appendChild(new Space());
-		row.appendChild(allocateButton);
+		row.appendCellChild(new Space());
+		row.appendCellChild(allocateButton);
 		
 		paymentPanel.appendChild(paymentLayout);
 		paymentPanel.setWidth("100%");
@@ -275,7 +263,8 @@ public class WAllocation extends Allocation
 		center.setStyle("border: none");
 		//
 		center = new Center();
-		center.setFlex(true);
+		center.setHflex("true");
+center.setVflex("true");
 		mainLayout.appendChild(center);
 		center.appendChild(infoPanel);
 		
@@ -291,7 +280,8 @@ public class WAllocation extends Allocation
 		north.setSplittable(true);
 		center = new Center();
 		center.setStyle("border: none");
-		center.setFlex(true);
+		center.setHflex("true");
+center.setVflex("true");
 		infoPanel.appendChild(center);
 		center.appendChild(invoicePanel);
 	}   //  jbInit

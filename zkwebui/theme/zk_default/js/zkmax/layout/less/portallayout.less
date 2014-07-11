@@ -1,0 +1,35 @@
+@import "~./zul/less/_header.less";
+
+.z-portallayout,
+.z-portalchildren,
+.z-portalchildren-content {
+	overflow: hidden;
+}
+.z-portallayout-vertical { 
+	> .z-portalchildren {
+		height: 100%;
+	    float: left;
+	}
+}
+.z-portalchildren-content {
+	.size(100%, 100%);
+}
+.z-portallayout-horizontal { 
+	> .z-portalchildren {
+		height: 100%;
+	}
+}
+
+	    
+.z-portallayout-horizontal	.z-portalchildren-content {
+	> .z-panel,
+	> .z-panel-move-block {
+		float: left;
+	} 
+}
+<c:if test="${ zk.ie > 0 }">
+.z-portallayout,
+.z-portalchildren {
+	zoom: 1;
+}
+</c:if>

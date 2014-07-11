@@ -13,9 +13,11 @@
 package org.adempiere.webui.component;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
-import org.adempiere.webui.apps.AEnv;
+import org.adempiere.webui.theme.ThemeUtils;
+import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zul.Timebox;
 
@@ -43,14 +45,12 @@ public class DatetimeBox extends Panel {
 	}
 
 	private void initComponents() {
-		dateBox.setStyle("display: inline;");
-		timeBox.setStyle("display: inline;");
+		ThemeUtils.addSclass("ad-datetimebox", this);
+
+		//dateBox.setStyle("display: inline;");
+		//timeBox.setStyle("display: inline;");
 		timeBox.setButtonVisible(false);
-		timeBox.setZclass(dateBox.getZclass());
-		
-		String style = AEnv.isFirefox2() ? "display: inline" : "display: inline-block"; 
-		style = style + ";white-space:nowrap";
-	    this.setStyle(style);
+		timeBox.setZclass(dateBox.getZclass());		
 	}
 
 	/**
@@ -86,8 +86,7 @@ public class DatetimeBox extends Panel {
 		return dateBox.getText() + " " + timeBox.getText();
 	}
 	
-	@Override
-	public boolean addEventListener(String evtnm, EventListener listener) {
+	public boolean addEventListener(String evtnm, EventListener<? extends Event> listener) {
 		return dateBox.addEventListener(evtnm, listener) && timeBox.addEventListener(evtnm, listener);
 	}
 
@@ -115,9 +114,13 @@ public class DatetimeBox extends Panel {
 		Date t = timeBox.getValue();
 		
 		if (d != null && t != null) {
-			d.setHours(t.getHours());
-			d.setMinutes(t.getMinutes());
-			d.setSeconds(t.getSeconds());
+			Calendar cd = Calendar.getInstance();
+            cd.setTime(d);
+            Calendar ct = Calendar.getInstance();
+            ct.setTime(t);
+            cd.set(cd.get(Calendar.YEAR), cd.get(Calendar.MONTH), cd.get(Calendar.DAY_OF_MONTH),
+                       ct.get(Calendar.HOUR_OF_DAY), ct.get(Calendar.MINUTE), ct.get(Calendar.SECOND));
+            d = cd.getTime();
 		}
 		
 		return d;

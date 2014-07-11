@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+macro.zul
+
+	Purpose:
+		Feature 2493161
+	Description:
+		
+	History:
+		Thu Jan  8 10:58:48     2009, Created by tomyeh
+
+Copyright (C) 2008 Potix Corporation. All Rights Reserved.
+
+-->
+<label value="macro URI required"/>

@@ -36,6 +36,7 @@ import org.adempiere.webui.panel.InfoBPartnerPanel;
 import org.adempiere.webui.panel.InfoPanel;
 import org.adempiere.webui.panel.InfoPanelFactory;
 import org.adempiere.webui.panel.InfoProductPanel;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.window.WFieldRecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.model.Lookup;
@@ -55,6 +56,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.eevolution.model.I_PP_Product_BOMLine;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 
@@ -188,22 +190,24 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 	private void init()
 	{
 
+		ThemeUtils.addSclass("ad-search-editor", getComponent());
+
 		m_columnName = this.getColumnName();
                 
 		if (m_columnName.equals("C_BPartner_ID"))
 		{
 			popupMenu = new WEditorPopupMenu(true, true, true, true, true);
-			getComponent().setButtonImage("/images/BPartner10.png");
+			getComponent().setButtonImage(ServletFns.resolveThemeURL("~./images/BPartner10.png"));
 		}
 		else if (m_columnName.equals("M_Product_ID"))
 		{
 			popupMenu = new WEditorPopupMenu(true, true, true, false, false);
-			getComponent().setButtonImage("/images/Product10.png");
+			getComponent().setButtonImage(ServletFns.resolveThemeURL("~./images/Product10.png"));
 		}
 		else
 		{
 			popupMenu = new WEditorPopupMenu(true, true, true, false, false);
-			getComponent().setButtonImage("/images/PickOpen10.png");
+			getComponent().setButtonImage(ServletFns.resolveThemeURL("~./images/PickOpen10.png"));
 		}
 		
 		getComponent().getTextbox().setContext(popupMenu.getId());

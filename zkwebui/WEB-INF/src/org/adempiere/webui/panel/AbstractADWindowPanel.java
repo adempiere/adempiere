@@ -82,6 +82,7 @@ import org.compiere.util.WebDoc;
 import org.eevolution.form.Browser;
 import org.eevolution.form.VBrowser;
 import org.eevolution.form.WBrowser;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.HtmlBasedComponent;
@@ -121,7 +122,7 @@ import org.zkoss.zul.Menupopup;
  *  		https://sourceforge.net/tracker/?func=detail&aid=2985892&group_id=176962&atid=955896
  */
 public abstract class AbstractADWindowPanel extends AbstractUIPart implements ToolbarListener,
-        EventListener, DataStatusListener, ActionListener, ASyncProcess
+        EventListener<Event>, DataStatusListener, ActionListener, ASyncProcess
 {
     private static final CLogger logger;
 
@@ -224,6 +225,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     }
 
 	/**
+	 * Return the status bar panel
 	 * @return StatusBarPanel
 	 */
 	public StatusBarPanel getStatusBar()
@@ -232,12 +234,16 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     }
 
 	/**
+	 * Is the window panel embedded?
 	 * @return boolean
 	 */
 	public boolean isEmbedded() {
 		return embeddedTabindex >= 0;
 	}
 
+	/**
+	 * �始化部件
+	 */
     private void initComponents()
     {
         /** Initalise toolbar */
@@ -260,6 +266,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	}
 
     /**
+     * �始化Panel
      * @param adWindowId
      * @param query
      * @return boolean
@@ -291,9 +298,13 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		// Set AutoCommit for this Window
 		if (embeddedTabindex < 0)
 		{
-			Env.setAutoCommit(ctx, curWindowNo, Env.isAutoCommit(ctx));
-			boolean autoNew = Env.isAutoNew(ctx);
-			Env.setAutoNew(ctx, curWindowNo, autoNew);
+			// modified by jack 20130825
+//			Env.setAutoCommit(ctx, curWindowNo, Env.isAutoCommit(ctx));
+//			boolean autoNew = Env.isAutoNew(ctx);
+//			Env.setAutoNew(ctx, curWindowNo, autoNew);
+			Env.setAutoCommit(ctx, curWindowNo, false);
+			boolean autoNew = false;
+			Env.setAutoNew(ctx, curWindowNo, false);
 
 	        GridWindowVO gWindowVO = AEnv.getMWindowVO(curWindowNo, adWindowId, 0);
 	        if (gWindowVO == null)
@@ -309,7 +320,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	        Env.setContext(ctx, curWindowNo, "IsSOTrx", gridWindow.isSOTrx());
 	        if (!autoNew && gridWindow.isTransaction())
 	        {
-	            Env.setAutoNew(ctx, curWindowNo, true);
+	        	// modified by jack 20130825
+	            //Env.setAutoNew(ctx, curWindowNo, true);
+	        	Env.setAutoNew(ctx, curWindowNo, false);
 	        }
 		}
 
@@ -511,6 +524,11 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		return false;
 	}
 
+	/**
+	 * Initialize the embedded tab
+	 * @param query
+	 * @param tabIndex
+	 */
 	private void initEmbeddedTab(MQuery query, int tabIndex) {
 		GridTab gTab = gridWindow.getTab(tabIndex);
 		gTab.addDataStatusListener(this);
@@ -1345,6 +1363,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     }
 
     /**
+     * 创建新的记录
      * @see ToolbarListener#onNew()
      */
     public void onNew()
@@ -1398,6 +1417,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 	// Elaine 2008/11/19
     /**
+     * Copy the current record
      * @see ToolbarListener#onCopy()
      */
     public void onCopy()
@@ -1430,6 +1450,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     //
 
     /**
+     * Find
      * @see ToolbarListener#onFind()
      */
     public void onFind()
@@ -1647,7 +1668,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 		Button btnOk = new Button();
 		btnOk.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "OK")));
-		btnOk.setImage("/images/Ok16.png");
+		btnOk.setImage(ServletFns.resolveThemeURL("~./images/Ok16.png"));
 		btnOk.addEventListener(Events.ON_CLICK, new EventListener()
 		{
 			@SuppressWarnings("unchecked")
@@ -1690,7 +1711,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 		Button btnCancel = new Button();
 		btnCancel.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "Cancel")));
-		btnCancel.setImage("/images/Cancel16.png");
+		btnCancel.setImage(ServletFns.resolveThemeURL("~./images/Cancel16.png"));
 		btnCancel.addEventListener(Events.ON_CLICK, new EventListener()
 		{
 			public void onEvent(Event event) throws Exception
@@ -1731,12 +1752,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 				AD_Process_ID,table_ID, record_ID, true);
 		if (dialog.isValid()) {
 			dialog.setPosition("center");
-			try {
-				dialog.setPage(this.getComponent().getPage());
-				dialog.doModal();
-			}
-			catch (InterruptedException e) {
-			}
+			dialog.setPage(this.getComponent().getPage());
+			dialog.doModal();
 		}
 	}
 
@@ -2215,14 +2232,14 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		m_uiLocked = true;
 
 		if (Executions.getCurrent() != null)
-			Clients.showBusy(null, true);
+			Clients.showBusy(null);
 		else
 		{
 			try {
 				//get full control of desktop
 				Executions.activate(getComponent().getDesktop(), 500);
 				try {
-					Clients.showBusy(null, true);
+					Clients.showBusy(null);
                 } catch(Error ex){
                 	throw ex;
                 } finally{
@@ -2254,7 +2271,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			{
 				updateUI(pi);
 			}
-			Clients.showBusy(null, false);
+			Clients.clearBusy();
 		}
 		else
 		{
@@ -2266,7 +2283,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 					{
 						updateUI(pi);
 					}
-                	Clients.showBusy(null, false);
+                	Clients.clearBusy();
                 } catch(Error ex){
                 	throw ex;
                 } finally{

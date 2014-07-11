@@ -43,6 +43,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DefaultContextProvider;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -224,14 +225,14 @@ public class WLocationDialog extends Window implements EventListener
 		lstCountry.setRows(0);
 		
 		btnUrl =  new Button();
-		btnUrl.setImage("/images/Online10.png");
+		btnUrl.setImage(ServletFns.resolveThemeURL("~./images/Online10.png"));
 		btnUrl.addEventListener(Events.ON_CLICK,this);
 		
 		btnOk = new Button();
-		btnOk.setImage("/images/Ok16.png");
+		btnOk.setImage(ServletFns.resolveThemeURL("~./images/Ok16.png"));
 		btnOk.addEventListener(Events.ON_CLICK,this);
 		btnCancel = new Button();
-		btnCancel.setImage("/images/Cancel16.png");
+		btnCancel.setImage(ServletFns.resolveThemeURL("~./images/Cancel16.png"));
 		btnCancel.addEventListener(Events.ON_CLICK,this);
 
 		mainPanel = GridFactory.newGridLayout();

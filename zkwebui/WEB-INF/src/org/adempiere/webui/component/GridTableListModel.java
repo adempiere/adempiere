@@ -23,25 +23,24 @@ import org.compiere.model.GridTable;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zul.AbstractListModel;
 import org.zkoss.zul.ListModel;
-import org.zkoss.zul.ListModelExt;
+//import org.zkoss.zul.ListModelExt;
 import org.zkoss.zul.ListitemComparator;
 import org.zkoss.zul.event.ListDataEvent;
+import org.zkoss.zul.ext.Sortable;
 
 /**
  * 
  * @author Low Heng Sin
  *
  */
-public class GridTableListModel extends AbstractListModel implements TableModelListener, ListModelExt {
+public class GridTableListModel extends AbstractListModel implements TableModelListener, Sortable {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 698185856751242764L;
 	private GridTable tableModel;
-	@SuppressWarnings("unused")
 	private GridField[] gridField;
-	@SuppressWarnings("unused")
 	private int windowNo;
 	
 	private int pageSize = -1;
@@ -62,6 +61,8 @@ public class GridTableListModel extends AbstractListModel implements TableModelL
 	}
 
 	/**
+	 * 获取选择行的所有字段的数据
+	 * 考虑到了分页，如果分页了，根据页码和每页的行数量进行计算。
 	 * @param rowIndex
 	 * @see ListModel#getElementAt(int)
 	 */
@@ -76,11 +77,12 @@ public class GridTableListModel extends AbstractListModel implements TableModelL
 				values[i] = tableModel.getValueAt(rowIndex, i);
 			}
 		}
-		
 		return values;
 	}
 	
 	/**
+	 * 设置页码
+	 * 		  重新计算开始的值
 	 * set current page no ( starting from 0 )
 	 * @param pg
 	 */
@@ -98,6 +100,7 @@ public class GridTableListModel extends AbstractListModel implements TableModelL
 	}
 	
 	/**
+	 * 获取页码
 	 * @return current page no ( starting from 0 )
 	 */
 	public int getPage() {
@@ -105,6 +108,7 @@ public class GridTableListModel extends AbstractListModel implements TableModelL
 	}
 	
 	/**
+	 * 设置每页显示数量
 	 * Set number of rows per page
 	 * @param pgSize
 	 */
@@ -113,6 +117,7 @@ public class GridTableListModel extends AbstractListModel implements TableModelL
 	}
 
 	/**
+	 * 获取每页显示数量
 	 * Get number of rows per page
 	 * @return pageSize
 	 */
@@ -121,6 +126,9 @@ public class GridTableListModel extends AbstractListModel implements TableModelL
 	}
 	
 	/**
+	 * 获取页面的总行数
+	 * 		如果是1页，返回:数据库行数
+	 * 		如果是多页，返回：计算值
 	 * Get total number of rows
 	 * @return int
 	 * @see ListModel#getSize()
@@ -142,6 +150,7 @@ public class GridTableListModel extends AbstractListModel implements TableModelL
 	}
 	
 	/**
+	 * 更新某一行的数据
 	 * Request components that attached to this model to re-render a row.
 	 * @param row
 	 */
@@ -150,9 +159,10 @@ public class GridTableListModel extends AbstractListModel implements TableModelL
 	}
 	
 	/**
+	 * 更新多行的数据
 	 * Request components that attached to this model to re-render a range of row.
-	 * @param fromRow
-	 * @param toRow
+	 * @param fromRow 开始行号
+	 * @param toRow		结束行号
 	 */
 	public void updateComponent(int fromRow, int toRow) {
 		//must run from the UI thread
@@ -162,8 +172,9 @@ public class GridTableListModel extends AbstractListModel implements TableModelL
 	}
 
 	/**
-	 * @param cmpr
-	 * @param ascending
+	 * 排序
+	 * @param cmpr		比较类（支持两种比较类ListitemComparator、SortComparator）
+	 * @param ascending	是否是升序
 	 * @see ListModelExt#sort(Comparator, boolean) 
 	 */
 	@SuppressWarnings("unchecked")
@@ -180,6 +191,7 @@ public class GridTableListModel extends AbstractListModel implements TableModelL
 	}
 
 	/**
+	 * 表格发生更改
 	 * @param e
 	 * @see TableModelListener#tableChanged(TableModelEvent) 
 	 */
@@ -218,10 +230,16 @@ public class GridTableListModel extends AbstractListModel implements TableModelL
 	}
 
 	/**
+	 * 设置是否可修改
 	 * @param b
 	 */
 	public void setEditing(boolean b) {
 		editing = b;
+	}
+
+	@Override
+	public String getSortDirection(Comparator arg0) {
+		return "natural";
 	}
 
 }

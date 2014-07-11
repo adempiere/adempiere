@@ -3,18 +3,19 @@
  */
 package org.adempiere.webui.component;
 
+import org.adempiere.webui.theme.ThemeUtils;
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.East;
-import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
-import org.zkoss.zkex.zul.West;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.East;
+import org.zkoss.zul.North;
+import org.zkoss.zul.South;
+import org.zkoss.zul.West;
 
 /**
  * @author teo_sarca
  *
  */
-public class Borderlayout extends org.zkoss.zkex.zul.Borderlayout
+public class Borderlayout extends org.zkoss.zul.Borderlayout
 {
 	/**
 	 * 
@@ -24,6 +25,7 @@ public class Borderlayout extends org.zkoss.zkex.zul.Borderlayout
 	public Borderlayout()
 	{
 		super();
+		ThemeUtils.addSclass("ad-borderlayout", this);
 	}
 	
 	public Borderlayout appendNorth(Component c)
@@ -34,6 +36,7 @@ public class Borderlayout extends org.zkoss.zkex.zul.Borderlayout
 			north = new North();
 			this.appendChild(north);
 		}
+		ThemeUtils.addSclass("ad-borderlayout-north", north);
 		north.appendChild(c);
 		return this;
 	}
@@ -45,6 +48,7 @@ public class Borderlayout extends org.zkoss.zkex.zul.Borderlayout
 			west = new West();
 			this.appendChild(west);
 		}
+		ThemeUtils.addSclass("ad-borderlayout-west", west);
 		west.appendChild(c);
 		return this;
 	}
@@ -57,6 +61,7 @@ public class Borderlayout extends org.zkoss.zkex.zul.Borderlayout
 			this.appendChild(south);
 		}
 		south.appendChild(c);
+		ThemeUtils.addSclass("ad-borderlayout-south", south);
 		return this;
 	}
 	public Borderlayout appendEast(Component c)
@@ -68,6 +73,7 @@ public class Borderlayout extends org.zkoss.zkex.zul.Borderlayout
 			this.appendChild(east);
 		}
 		east.appendChild(c);
+		ThemeUtils.addSclass("ad-borderlayout-east", east);
 		return this;
 	}
 	public Borderlayout appendCenter(Component c)
@@ -79,6 +85,7 @@ public class Borderlayout extends org.zkoss.zkex.zul.Borderlayout
 			this.appendChild(center);
 		}
 		center.appendChild(c);
+		ThemeUtils.addSclass("ad-borderlayout-center", center);
 		return this;
 	}
 }

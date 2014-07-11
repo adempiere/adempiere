@@ -294,11 +294,18 @@
 			<zipfileset src="lib/jcommon-1.0.16.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			-->
+			
 			<zipfileset src="lib/jfreechart-1.0.15.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/jcommon-1.0.18.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			-->
+			<zipfileset src="lib/jfreechart-1.0.17.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/jcommon-1.0.21.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- JMS -->
@@ -454,11 +461,17 @@
 			<zipfileset src="lib/jcommon-1.0.16.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			-->
 			<zipfileset src="lib/jfreechart-1.0.15.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/jcommon-1.0.18.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			-->
+			<zipfileset src="lib/jfreechart-1.0.17.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/jcommon-1.0.21.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- Graph				-->

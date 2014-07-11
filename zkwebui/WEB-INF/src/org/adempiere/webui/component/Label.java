@@ -17,7 +17,7 @@
 
 package org.adempiere.webui.component;
 
-import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.zkoss.zk.ui.Component;
 
 /**
@@ -40,6 +40,7 @@ public class Label extends org.zkoss.zul.Label
     public Label()
     {
         super();
+        ThemeUtils.addSclass("ad_label", this);
     }
 
     public Label(String value)
@@ -104,7 +105,7 @@ public class Label extends org.zkoss.zul.Label
 	}
 
 	public Component rightAlign() {
-		return LayoutUtils.makeRightAlign(this);
+		return ThemeUtils.makeRightAlign(this);
 	}
 	
 	private boolean m_zoomable = false;

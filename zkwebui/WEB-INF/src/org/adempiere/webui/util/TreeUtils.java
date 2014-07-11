@@ -15,7 +15,7 @@ package org.adempiere.webui.util;
 
 import java.util.List;
 
-import org.zkoss.zul.SimpleTreeNode;
+import org.zkoss.zul.DefaultTreeNode;
 import org.zkoss.zul.Tree;
 import org.zkoss.zul.TreeModel;
 import org.zkoss.zul.Treechildren;
@@ -104,7 +104,7 @@ public class TreeUtils {
 	 * @param model
 	 * @param action
 	 */
-	public static void traverse(TreeModel model, TreeNodeAction action) {
+	public static void traverse(TreeModel<Object> model, TreeNodeAction action) {
 		traverse(model, model.getRoot(), action);
 		
 	}
@@ -115,15 +115,25 @@ public class TreeUtils {
 	 * @param parent
 	 * @param action
 	 */
-	public static void traverse(TreeModel model, Object parent,
+	public static void traverse(TreeModel<Object> model, Object parent,
 			TreeNodeAction action) {
 		int count = model.getChildCount(parent);
 		for(int i = 0; i < count; i++) {
 			Object child = model.getChild(parent, i);
-			if (child instanceof SimpleTreeNode) {
-				action.run((SimpleTreeNode) child);
+			if (child instanceof DefaultTreeNode) {
+				action.run((DefaultTreeNode<?>) child);
 			}
 			traverse(model, child, action);
 		}
+	}
+	
+	
+	private static final String ATTR_ON_INIT_RENDER_POSTED =
+			"org.zkoss.zul.Tree.onInitLaterPosted";
+	public static boolean isOnInitRenderPosted(Tree tree) {
+		if (tree.getAttribute(ATTR_ON_INIT_RENDER_POSTED) != null) {
+			return ((Boolean)tree.getAttribute(ATTR_ON_INIT_RENDER_POSTED)).booleanValue();
+		}
+		return false;
 	}
 }

@@ -13,103 +13,114 @@
  *****************************************************************************/
 package org.adempiere.webui.theme;
 
-import org.adempiere.webui.AdempiereWebUI;
-import org.compiere.model.MSysConfig;
+import org.zkoss.zul.theme.Themes;
 
 /**
  *
  * @author hengsin
+ * 
+ * Replaced by ThemeUtils.java, MTheme.java, DefaultTheme.java
  *
  */
+@Deprecated
 public final class ThemeManager {
 
 	/**
 	 * @return url for large logo
+	 * Use ThemeUtils.getLargeLogo()
 	 */
+	@Deprecated
 	public static String getLargeLogo() {
-		String theme = getTheme();
-		String def = ITheme.THEME_PATH_PREFIX+theme+ITheme.LOGIN_LOGO_IMAGE;
-		return MSysConfig.getValue("ZK_LOGO_LARGE", def);
+		return ThemeUtils.getLargeLogo();
 	}
 
 	/**
 	 * @return url for small logo
+	 * Use ThemeUtils.getSmallLogo()
 	 */
+	@Deprecated
 	public static String getSmallLogo() {
-		String theme = getTheme();
-		String def = ITheme.THEME_PATH_PREFIX+theme+ITheme.HEADER_LOGO_IMAGE;
-		String url = MSysConfig.getValue("ZK_LOGO_SMALL", null);
-		if (url == null)
-			url = MSysConfig.getValue("WEBUI_LOGOURL", def);
-		return url;
+		return ThemeUtils.getSmallLogo();
 	}
 
 	/**
 	 * @return name of active theme
+	 * Use Themes.getCurrentTheme();
 	 */
+	@Deprecated
 	public static String getTheme() {
-		return MSysConfig.getValue(ITheme.ZK_THEME, ITheme.ZK_THEME_DEFAULT);
+		return Themes.getCurrentTheme();
 	}
 
 	/**
 	 * @return url of theme stylesheet
+	 * See the AdempiereThemeProvider.java and MThemeResources.java
 	 */
+	@Deprecated
 	public static String getStyleSheet() {
-		return ITheme.THEME_PATH_PREFIX + getTheme() + ITheme.THEME_STYLESHEET;
+		return DefaultTheme.ZK_DEFAULT_THEME_URI;
 	}
 
 	/**
 	 * @return url of theme stylesheet by browser
+	 * See the AdempiereThemeProvider.java and MThemeResources.java
 	 */
+	@Deprecated
 	public static String getStyleSheetByBrowser() {
-		return ITheme.THEME_PATH_PREFIX + getTheme() + ITheme.THEME_STYLESHEET_BY_BROWSER;
+		return DefaultTheme.ZK_DEFAULT_THEME_URI;
 	}
 
 	/**
 	 * @return title text for the browser window
+	 * Replaced by ThemeUtils function;
 	 */
+	@Deprecated
 	public static String getBrowserTitle() {
-		return MSysConfig.getValue("ZK_BROWSER_TITLE", AdempiereWebUI.APP_NAME);
+		return DefaultTheme.ZK_BROWSER_TITLE;
 	}
 
 	/**
 	 * @return url for right panel
+	 * Replaced by ThemeUtils function;
 	 */
+	@Deprecated
 	public static String getLoginRightPanel() {
-		String theme = getTheme();
-		return ITheme.THEME_PATH_PREFIX + theme + ITheme.LOGIN_RIGHT_PANEL_ZUL;
+		return ThemeUtils.getLoginRightPanel();
 	}
 
 	/**
 	 * @return url for left panel
+	 * Replaced by ThemeUtils function;
 	 */
+	@Deprecated
 	public static String getLoginLeftPanel() {
-		String theme = getTheme();
-		return ITheme.THEME_PATH_PREFIX + theme + ITheme.LOGIN_LEFT_PANEL_ZUL;
+		return ThemeUtils.getLoginLeftPanel();
 	}
 
 	/**
 	 * @return url for top panel
+	 * Replaced by ThemeUtils function;
 	 */
+	@Deprecated
 	public static String getLoginTopPanel() {
-		String theme = getTheme();
-		return ITheme.THEME_PATH_PREFIX + theme + ITheme.LOGIN_TOP_PANEL_ZUL;
+		return ThemeUtils.getLoginTopPanel();
 	}
 
 	/**
 	 * @return url for bottom panel
+	 * Replaced by ThemeUtils function;
 	 */
+	@Deprecated
 	public static String getLoginBottomPanel() {
-		String theme = getTheme();
-		return ITheme.THEME_PATH_PREFIX + theme + ITheme.LOGIN_BOTTOM_PANEL_ZUL;
+		return ThemeUtils.getLoginBottomPanel();
 	}
 
 	/**
 	 * @return url for browser icon
+	 * Replaced by ThemeUtils.getBrowserIcon();
 	 */
+	@Deprecated
 	public static String getBrowserIcon() {
-		String theme = getTheme();
-		String def = ITheme.THEME_PATH_PREFIX + theme + ITheme.BROWSER_ICON_IMAGE;
-		return MSysConfig.getValue("ZK_BROWSER_ICON", def);
+		return ThemeUtils.getBrowserIcon();
 	}
 }

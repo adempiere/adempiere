@@ -40,7 +40,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
-import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Combobox;
@@ -66,6 +66,7 @@ import org.adempiere.webui.editor.WebEditorFactory;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
 import org.adempiere.webui.part.MultiTabPart;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.compiere.model.GridField;
 import org.compiere.model.GridFieldVO;
 import org.compiere.model.GridTab;
@@ -84,16 +85,17 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.SecureEngine;
 import org.compiere.util.ValueNamePair;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.au.out.AuFocus;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.util.Clients;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.North;
+import org.zkoss.zul.South;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Hbox;
 
@@ -296,21 +298,21 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 
 		Button btnNew = new Button();
 		btnNew.setName("btnNew");
-		btnNew.setImage("/images/New24.png");
+		btnNew.setImage(ServletFns.resolveThemeURL("~./images/New24.png"));
 		btnNew.addEventListener(Events.ON_CLICK,this);
-		LayoutUtils.addSclass("action-button", btnNew);
+		ThemeUtils.addSclass("action-button", btnNew);
 
 		Button btnOk = new Button();
 		btnOk.setName("btnOkSimple");
-		btnOk.setImage("/images/Ok24.png");
+		btnOk.setImage(ServletFns.resolveThemeURL("~./images/Ok24.png"));
 		btnOk.addEventListener(Events.ON_CLICK,this);
-		LayoutUtils.addSclass("action-button", btnOk);
+		ThemeUtils.addSclass("action-button", btnOk);
 
 		Button btnCancel = new Button();
 		btnCancel.setName("btnCancel");
-		btnCancel.setImage("/images/Cancel24.png");
+		btnCancel.setImage(ServletFns.resolveThemeURL("~./images/Cancel24.png"));
 		btnCancel.addEventListener(Events.ON_CLICK,this);
-		LayoutUtils.addSclass("action-button", btnCancel);
+		ThemeUtils.addSclass("action-button", btnCancel);
 
 		Panel pnlButtonRight = new Panel();
 		pnlButtonRight.appendChild(btnOk);
@@ -328,19 +330,19 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 
 		pnlDocument = new Row();
 		pnlDocument.setId("pnlDocument");
-		pnlDocument.appendChild(LayoutUtils.makeRightAlign(lblDocumentNo));
+		pnlDocument.appendChild(ThemeUtils.makeRightAlign(lblDocumentNo));
 		pnlDocument.appendChild(fieldDocumentNo);
 
 		pnlDescription = new Row();
-		pnlDescription.appendChild(LayoutUtils.makeRightAlign(lblDescription));
+		pnlDescription.appendChild(ThemeUtils.makeRightAlign(lblDescription));
 		pnlDescription.appendChild(fieldDescription);
 
 		pnlValue = new Row();
-		pnlValue.appendChild(LayoutUtils.makeRightAlign(lblValue));
+		pnlValue.appendChild(ThemeUtils.makeRightAlign(lblValue));
 		pnlValue.appendChild(fieldValue);
 
 		pnlName = new Row();
-		pnlName.appendChild(LayoutUtils.makeRightAlign(lblName));
+		pnlName.appendChild(ThemeUtils.makeRightAlign(lblName));
 		pnlName.appendChild(fieldName);
 
 		contentSimple = new Grid();
@@ -364,7 +366,8 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 		Center center = new Center();
 		layout.appendChild(center);
 		center.appendChild(contentSimple);
-		center.setFlex(true);
+        center.setHflex("true");
+center.setVflex("true");
 
 		South south = new South();
 		layout.appendChild(south);
@@ -383,18 +386,18 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 	private void initAdvanced()
 	{
 		ToolBarButton btnNew = new ToolBarButton();
-		btnNew.setImage("/images/New24.png");
+		btnNew.setImage(ServletFns.resolveThemeURL("~./images/New24.png"));
 		btnNew.setAttribute("name", "btnNewAdv");
 		btnNew.addEventListener(Events.ON_CLICK, this);
 
 		ToolBarButton btnDelete = new ToolBarButton();
 		btnDelete.setAttribute("name","btnDeleteAdv");
-		btnDelete.setImage("/images/Delete24.png");
+		btnDelete.setImage(ServletFns.resolveThemeURL("~./images/Delete24.png"));
 		btnDelete.addEventListener(Events.ON_CLICK, this);
 
 		ToolBarButton btnSave = new ToolBarButton();
 		btnSave.setAttribute("name","btnSaveAdv");
-		btnSave.setImage("/images/Save24.png");
+		btnSave.setImage(ServletFns.resolveThemeURL("~./images/Save24.png"));
 		btnSave.addEventListener(Events.ON_CLICK, this);
 
 		fQueryName = new Combobox();
@@ -403,15 +406,15 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 
 		Button btnOk = new Button();
 		btnOk.setName("btnOkAdv");
-		btnOk.setImage("/images/Ok24.png");
+		btnOk.setImage(ServletFns.resolveThemeURL("~./images/Ok24.png"));
 		btnOk.addEventListener(Events.ON_CLICK, this);
-		LayoutUtils.addSclass("action-button", btnOk);
+		ThemeUtils.addSclass("action-button", btnOk);
 
 		Button btnCancel = new Button();
 		btnCancel.setName("btnCancel");
-		btnCancel.setImage("/images/Cancel24.png");
+		btnCancel.setImage(ServletFns.resolveThemeURL("~./images/Cancel24.png"));
 		btnCancel.addEventListener(Events.ON_CLICK, this);
-		LayoutUtils.addSclass("action-button", btnCancel);
+		ThemeUtils.addSclass("action-button", btnCancel);
 
 		Panel pnlButtonRight = new Panel();
 		pnlButtonRight.appendChild(btnOk);
@@ -486,7 +489,8 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 		Center center = new Center();
 		layout.appendChild(center);
 		center.appendChild(advancedPanel);
-		center.setFlex(true);
+        center.setHflex("true");
+center.setVflex("true");
 
 		South south = new South();
 		layout.appendChild(south);
@@ -948,7 +952,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 			if (displayLength > 0) // set it back
 				mField.setDisplayLength(displayLength);
 			//
-			panel.appendChild(LayoutUtils.makeRightAlign(label));
+			panel.appendChild(ThemeUtils.makeRightAlign(label));
 			panel.appendChild(box);
 			fieldLabel.addEventListener(Events.ON_OK,this);
 			fieldLabel1.addEventListener(Events.ON_OK,this);
@@ -965,7 +969,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 			if (displayLength > 0)      //  set it back
 				mField.setDisplayLength(displayLength);
 			//
-			panel.appendChild(LayoutUtils.makeRightAlign(label));
+			panel.appendChild(ThemeUtils.makeRightAlign(label));
 			panel.appendChild(fieldLabel);
 			fieldLabel.addEventListener(Events.ON_OK,this);
 

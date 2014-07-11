@@ -28,6 +28,7 @@ import org.adempiere.webui.component.Datebox;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.util.DisplayType;
@@ -180,6 +181,8 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
 
     private void init()
     {
+    	ThemeUtils.addSclass("ad-editor", this.getComponent());
+
         label = new Label("");
         label.setValue(strLabel);
         label.setTooltiptext(description);
@@ -456,23 +459,18 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
         	//can't stretch bandbox & datebox
         	if (!(getComponent() instanceof Bandbox) &&
         		!(getComponent() instanceof Datebox)) {
-        		String width = "100%";
         		if (getComponent() instanceof Button) {
         			Button btn = (Button) getComponent();
-        			String zclass = btn.getZclass();
         			if (gridField.getDisplayType() == DisplayType.Image) {
-        				if (!zclass.contains("image-button-field ")) {
-            				btn.setZclass("image-button-field " + zclass);
-        				}
-        			} else if (!zclass.contains("form-button ")) {
-        				btn.setZclass("form-button " + zclass);
+        				ThemeUtils.addSclass("ad-button-image", btn);
+        			} else {
+        				ThemeUtils.addSclass("ad-button-form",btn);
         			}
         		} else if (getComponent() instanceof Image) {
         			Image image = (Image) getComponent();
-        			image.setWidth("48px");
-        			image.setHeight("48px");
+        			ThemeUtils.addSclass("ad-image", image);
         		} else {
-        			((HtmlBasedComponent)getComponent()).setWidth(width);
+        			ThemeUtils.addSclass("ad-component", getComponent());
         		}
         	}
         }

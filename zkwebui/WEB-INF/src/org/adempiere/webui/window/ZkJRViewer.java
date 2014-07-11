@@ -8,10 +8,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.logging.Level;
+
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
+
 import org.adempiere.webui.component.Listbox;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.webui.component.Window;
@@ -23,12 +25,13 @@ import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.util.media.AMedia;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.North;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.North;
 import org.zkoss.zul.Iframe;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Separator;
@@ -93,12 +96,12 @@ public class ZkJRViewer extends Window implements EventListener {
 		archive = new Toolbarbutton();
 
 
-		sendMail.setImage("/images/SendMail24.png");
+		sendMail.setImage(ServletFns.resolveThemeURL("~./images/SendMail24.png"));
 		sendMail.setTooltiptext("Send Mail");
 		toolbar.appendChild(sendMail);
 		sendMail.addEventListener(Events.ON_CLICK, this);
 
-		archive.setImage("/images/Archive24.png");
+		archive.setImage(ServletFns.resolveThemeURL("~./images/Archive24.png"));
 		archive.setTooltiptext("Archived Documents/Reports");
 		toolbar.appendChild(archive);
 		archive.addEventListener(Events.ON_CLICK, this);
@@ -122,7 +125,8 @@ public class ZkJRViewer extends Window implements EventListener {
 		north.appendChild(toolbar);
 
 		Center center = new Center();
-		center.setFlex(true);
+		center.setHflex("true");
+center.setVflex("true");
 		layout.appendChild(center);
 		iframe = new Iframe();
 		iframe.setId(jasperPrint.getName());

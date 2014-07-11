@@ -80,13 +80,15 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.North;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.Frozen;
+import org.zkoss.zul.North;
 
 /**
  * Search Product and return selection
@@ -100,7 +102,7 @@ import org.zkoss.zkex.zul.North;
  * @author Michael McKay, ADEMPIERE-72 VLookup and Info Window improvements
  * 	<li>https://adempiere.atlassian.net/browse/ADEMPIERE-72
  */
-public class InfoProductPanel extends InfoPanel implements EventListener, ValueChangeListener
+public class InfoProductPanel extends InfoPanel implements ValueChangeListener
 {
 	/**
 	 * 
@@ -172,6 +174,7 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 	private int			m_M_Locator_ID = 0;
 
 	protected int m_ATP_M_Warehouse_ID;
+	private Frozen m_frozen;
 
 	/**
 	 *	Standard Constructor
@@ -289,7 +292,7 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 		checkAND.setSelected(true);
 		checkAND.addActionListener(this);
 		
-		m_InfoPAttributeButton.setImage("/images/PAttribute16.png");
+		m_InfoPAttributeButton.setImage(ServletFns.resolveThemeURL("~./images/PAttribute16.png"));
 		m_InfoPAttributeButton.setTooltiptext(Msg.getMsg(Env.getCtx(), "PAttribute"));
 		m_InfoPAttributeButton.addEventListener(Events.ON_CLICK,this);
 
@@ -404,44 +407,40 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 
 		Row row = new Row();
 		rows.appendChild(row);
-		row.setSpans("1, 1, 1, 1, 1, 1");
-		row.appendChild(lblValue.rightAlign());
-		row.appendChild(fieldValue);
-		row.appendChild(lblWarehouse.rightAlign());
-		row.appendChild(fWarehouse_ID.getComponent());
-		row.appendChild(lblBlank.rightAlign());
-		row.appendChild(checkOnlyStock);
+		row.appendCellChild(lblValue.rightAlign());
+		row.appendCellChild(fieldValue);
+		row.appendCellChild(lblWarehouse.rightAlign());
+		row.appendCellChild(fWarehouse_ID.getComponent());
+		row.appendCellChild(lblBlank.rightAlign());
+		row.appendCellChild(checkOnlyStock);
 
 		row = new Row();
 		rows.appendChild(row);
-		row.setSpans("1, 1, 1, 1, 1, 1");
-		row.appendChild(lblName.rightAlign());
-		row.appendChild(fieldName);
-		row.appendChild(lblPriceList.rightAlign());
-		row.appendChild(fPriceList_ID.getComponent());
-		row.appendChild(lblAS.rightAlign());
-		row.appendChild(fAS_ID.getComponent());
+		row.appendCellChild(lblName.rightAlign());
+		row.appendCellChild(fieldName);
+		row.appendCellChild(lblPriceList.rightAlign());
+		row.appendCellChild(fPriceList_ID.getComponent());
+		row.appendCellChild(lblAS.rightAlign());
+		row.appendCellChild(fAS_ID.getComponent());
 		//
 
 		row = new Row();
 		rows.appendChild(row);
-		row.setSpans("1, 1, 1, 1, 1, 1");
-		row.appendChild(lblUPC.rightAlign());
-		row.appendChild(fieldUPC);
-		row.appendChild(lblProductCategory.rightAlign());
-		row.appendChild(fProductCategory_ID.getComponent());
-		row.appendChild(lblASI.rightAlign());
-		row.appendChild(fASI_ID.getComponent());
+		row.appendCellChild(lblUPC.rightAlign());
+		row.appendCellChild(fieldUPC);
+		row.appendCellChild(lblProductCategory.rightAlign());
+		row.appendCellChild(fProductCategory_ID.getComponent());
+		row.appendCellChild(lblASI.rightAlign());
+		row.appendCellChild(fASI_ID.getComponent());
 		
 		row = new Row();
 		rows.appendChild(row);
-		row.setSpans("1, 1, 1, 1, 1, 1");
-		row.appendChild(lblSKU.rightAlign());
-		row.appendChild(fieldSKU);
-		row.appendChild(lblVendor.rightAlign());
-		row.appendChild(fVendor_ID.getComponent());
-		row.appendChild(lblBlank.rightAlign());
-		row.appendChild(checkAND);
+		row.appendCellChild(lblSKU.rightAlign());
+		row.appendCellChild(fieldSKU);
+		row.appendCellChild(lblVendor.rightAlign());
+		row.appendCellChild(fVendor_ID.getComponent());
+		row.appendCellChild(lblBlank.rightAlign());
+		row.appendCellChild(checkAND);
 		
 		//
         ColumnInfo[] s_layoutWarehouse = new ColumnInfo[]{
@@ -458,7 +457,8 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
         m_sqlWarehouse = warehouseTbl.prepareTable(s_layoutWarehouse, s_sqlFrom, s_sqlWhere, false, "M_PRODUCT_STOCK_V");
         m_sqlWarehouse += " Group By M_Warehouse_ID, Warehouse, documentnote ";
 		warehouseTbl.setMultiSelection(false);
-        warehouseTbl.autoSize();
+		warehouseTbl.setSizedByContent(false);
+        //warehouseTbl.autoSize();
         warehouseTbl.setShowTotals(true);
         //warehouseTbl.getModel().addTableModelListener(this);
         warehouseTbl.setAttribute("zk_component_ID", "Lookup_Data_Warehouse");
@@ -610,7 +610,7 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 		p_centerSouth.setTooltiptext(Msg.translate(Env.getCtx(), "WarehouseStock"));
 		super.setSizes();
 
-		warehouseTbl.addActionListener(new EventListener() {
+		warehouseTbl.addActionListener(new EventListener<Event>() {
 			public void onEvent(Event event) throws Exception {
 				if (warehouseTbl.getRowCount() > 0)
 				{
@@ -2020,7 +2020,7 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 	 * A record was selected - take action to sync subordinate tables if any
 	 */
 	protected void recordSelected(int key)
-	{
+	{		
 		//  Found and selected the same record or selected the first record
     	if (m_M_Product_ID != key)
     	{

@@ -47,7 +47,6 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
-import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Hbox;
 
@@ -65,7 +64,7 @@ import org.zkoss.zul.Hbox;
  * 	<li>https://adempiere.atlassian.net/browse/ADEMPIERE-72
 */
 
-public class InfoCashLinePanel extends InfoPanel implements ValueChangeListener, EventListener
+public class InfoCashLinePanel extends InfoPanel implements ValueChangeListener
 {
 	/**
 	 * 

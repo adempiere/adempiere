@@ -1,0 +1,336 @@
+// Global Variables
+// -------------------------------------
+// Typography
+// -------------------------------------
+@baseFontSize:                 16px;
+@baseTitleFontFamily:          "Helvetica Neue", Helvetica, Arial, sans-serif;
+@baseContentFontFamily:        Arial, Sans-serif;
+@baseLineHeight:               16px;
+
+// Padding for input boxes
+@baseTextPaddingTopBottom:		1px;
+@baseTextPaddingLeftRight:		@baseHeight / 2; // 4px;
+
+// Component height
+@baseHeight:                   10px;
+@baseIconHeight:               @baseHeight * 2; // 20px
+@baseButtonHeight:             @baseHeight * 3; // 30px
+@baseBarHeight:                @baseHeight * 4; // 40px
+@baseTitleHeight:              @baseHeight * 5; // 50px
+
+// Component width
+@baseWidth:                    10px;
+@baseIconWidth:                @baseWidth * 2; // 20px
+@baseButtonWidth:              @baseWidth * 3; // 30px
+@baseBarWidth:                 @baseWidth * 4; // 40px
+
+// -------------------------------------
+// Component sizing
+// -------------------------------------
+// Based on 16px font-size and 22px line-height
+@fontSizeXLarge:               ceil(@baseFontSize * 1.25); // 18px
+@fontSizeLarge:                floor(@baseFontSize * 1.15); // 16px
+@fontSizeMedium:               ceil(@baseFontSize * 0.85); // 12px
+@fontSizeSmall:                floor(@baseFontSize * 0.8); // 11px
+@fontSizeXSmall:               ceil(@baseFontSize * 0.7); // 10px
+
+@baseBorderRadius:             5px;
+@borderRadiusLarge:            8px;
+@borderRadiusSmall:            4px;
+
+@basePopupZIndex:              88000;
+
+// -------------------------------------
+// Component Basic Coloring
+// -------------------------------------
+
+// Theme colors
+//
+//  Based on http://colorschemedesigner.com accented analogic theme using the #81F95B as the primary
+//  Angle 30 degrees. 
+
+// Primary Color:  Greens
+@themeColorPrimary:					#81F95B;
+@themeColorPrimaryMidDark:			#78BD62;
+@themeColorPrimaryDark:				#3FA51F;
+@themeColorPrimaryMidLight:			#B8FEA1;
+@themeColorPrimaryLight:			#E1FED8;
+@themeColorPrimaryVeryLight:		#E1FED8;
+@themeColorPrimaryVeryVeryLight:	#E1FED8;
+
+// Secondary Color A: Darker greens
+@themeColorSecondaryA:				#58F2D4;
+@themeColorSecondaryAMidDark:		#5FB7A6;
+@themeColorSecondaryADark:			#1EA086;
+@themeColorSecondaryAMidLight:		#A1FDEB;
+@themeColorSecondaryALight:			#D7FDF6;
+
+// Secondary Color B: yellow greens
+@themeColorSecondaryB:				#D2FD5C;
+@themeColorSecondaryBMidDark:		#A7C063;
+@themeColorSecondaryBDark:			#83A71F;
+@themeColorSecondaryBMidLight:		#E6FFA2;
+@themeColorSecondaryBLight:			#F5FFD9;
+
+// Complementary Color:  reds
+@themeColorComplementary:				#FD5C73;
+@themeColorComplementaryMidDark:		#C06470;
+@themeColorComplementaryDark:			#A71F32;
+@themeColorComplementaryMidLight:		#FFA2AF;
+@themeColorComplementaryLight:			#FFD9DE;
+
+				
+				
+
+// Font color
+@baseTextColor:                #000000;
+@textColorGray:                #555555;
+@textColorGrayDark:            #363636;
+@textColorGrayLight:           #636363;
+@textColorBlue:                @themeColorPrimaryDark;
+@textColorGreen:               @themeColorSecondaryBDark;
+@textColorOrange:              @themeColorComplementary;
+@textColorRed:				   #A62004;  //  Red - off theme
+
+// Border color
+@baseBorderColor:              @themeColorSecondaryA;
+@baseBorderColorDark:		   @themeColorSecondaryADark;
+@baseBorderColorHighlight:	   @themeColorSecondaryALight;
+		
+// Background color
+@baseBackgroundColor:          @themeColorPrimaryLight;
+
+// Gradient background
+@baseGradientStart:            @themeColorPrimaryLight;
+@baseGradientEnd:              @themeColorPrimaryMidLight;
+
+// -------------------------------------
+// Icon font color (used for font-awesome)
+// -------------------------------------
+@iconColor:                    #636363;
+@iconHoverColor:               #636363;
+@iconDisabledColor:            #AAAAAA;
+
+// -------------------------------------
+// Button (used for button, combobutton)
+// -------------------------------------
+@buttonBorderColor:            #A9A9A9;
+@buttonGradientStart:          @baseGradientStart;
+@buttonGradientEnd:            @baseGradientEnd;
+
+// -------------------------------------
+// Input (used for textbox, intbox, spinner, ...)
+// -------------------------------------
+@inputBorderColor:             @baseBorderColor;
+@inputBorderColorFocus:        @baseBorderColor;
+@inputBackgroundColor:         @baseBackgroundColor;
+@inputBackgroundColorFocus:    @themeColorComplementaryLight;  // AD - Pale yellow
+
+// -------------------------------------
+// Mesh Table (used for grid, listbox, tree, biglistbox)
+// -------------------------------------
+@meshTitleBorderColor:         @baseBorderColor;
+@meshContentBorderColor:       #FFFFFF;
+@meshBackgroundColor:          @baseBackgroundColor;
+@meshStripeBackgroundColor:    @themeColorPrimaryMidLight;
+@meshFootBackgroundColor:      @themeColorPrimaryMidLight;
+@meshTitleHoverStart:          @themeColorPrimaryVeryVeryLight;
+@meshTitleHoverEnd:            @themeColorPrimaryVeryLight;
+@meshContentHoverStart:        @themeColorPrimaryVeryVeryLight;
+@meshContentHoverEnd:          @themeColorPrimaryVeryLight;
+
+// -------------------------------------
+// Component State
+// -------------------------------------
+// Active
+@activeColor:                  @baseTextColor;
+@activeBorderColor:            @themeColorPrimaryMidLight;
+@activeBackgroundColor:        @themeColorPrimaryLight;
+@activeGradientStart:          @themeColorPrimaryVeryLight;
+@activeGradientEnd:            @themeColorPrimaryLight;
+
+// Focus
+@focusColor:                   @baseTextColor;
+@focusBorderColor:             @themeColorPrimaryMidLight;
+@focusBackgroundColor:         @baseGradientEnd;
+@focusGradientStart:           @baseGradientStart;
+@focusGradientEnd:             @baseGradientEnd;
+
+// Hover
+@hoverColor:                   @textColorGrayLight;
+@hoverBorderColor:             @themeColorPrimaryLight;
+@hoverBackgroundColor:         @themeColorPrimaryVeryLight;
+@hoverGradientStart:           @themeColorPrimaryVeryVeryLight;
+@hoverGradientEnd:             @themeColorPrimaryVeryLight;
+
+// Disabled
+@disabledColor:                #AAAAAA;
+@disabledBackgroundColor:      #F0F0F0;
+@disabledOpacity:              0.6;
+
+// Invalid
+@invalidBorderColor:           #DD7777;
+
+// Read-only
+@readonlyBorderColor:          #E6E6E6;
+@readonlyBackgroundColor:      #FAFAFA;
+
+// Selected (used on listbox, tree, comboitem)
+@selectedColor:                @textColorGrayLight;
+@selectedBorderColor:          @baseBorderColor;
+@selectedBackgroundColor:      @themeColorPrimaryLight;
+@selectedGradientStart:        @themeColorPrimaryVeryVeryLight;
+@selectedGradientEnd:          @themeColorPrimaryVeryLight;
+
+// Selected Hover (used on listbox, tree, comboitem)
+@selectedHoverColor:           @textColorGrayLight;
+@selectedHoverBorderColor:     @baseBorderColor;
+@selectedHoverBackgroundColor: #C5E7F8;
+@selectedHoverGradientStart:   #CFEBF8;
+@selectedHoverGradientEnd:     #A5DAF5;
+
+// Checked (used on menuitem, listbox, tree, toolbarbutton)
+@checkedColor:                 #2184BA;
+@checkedBorderColor:           #8E8F8F;
+@checkedBackgroundColor:       #F8F8F8;
+@checkedGradientStart:         #F4FAFD;
+@checkedGradientEnd:           #E2EFF6;
+
+// Collapsed (used on Borderlayout)
+@collapsedBorderColor:         @baseBorderColor;
+@collapsedBackgroundColor:     #FCFCFC;
+
+// -------------------------------------
+// Component independent variables
+// -------------------------------------
+// mask and loading
+@maskBackgroundColor:          #E0E1E3;
+@loadingBackgroundColor:       #E3E3E3;
+
+// scrollbar
+@scrollbarWidth:               16px;
+@scrollbarHeight:              16px;
+@scrollbarBorderColor:         #838383;
+@scrollbarBackgroundColor:     #DDDDDD;
+@scrollbarGradientStart:       #FFFFFF;
+@scrollbarGradientEnd:         #CFCFCF;
+
+// drag and drop
+@dragColor:                    #FFFFFF;
+@dragBackgroundColor:          #E0EAF0;
+@dragHoverBackgroundColor:     #ADD2FF;
+@dragAllowBorderColor:         #11AA33;
+@dragAllowBackgroundColor:     #11AA33;
+@dragDisAllowBorderColor:      #C13634;
+@dragDisAllowBackgroundColor:  #C13634;
+
+// splitter (hbox, vbox, borderlayout)
+@splitterSize:                 8px;
+@splitterGradientStart:        #FDFDFD;
+@splitterGradientEnd:          #F1F1F1;
+
+// calendar
+@calendarTitleColor:           @textColorGrayLight;
+@calendarTitleHoverColor:      @textColorGrayLight;
+@calendarCellColor:            @textColorGrayLight;
+@calendarSelectedColor:        #008BB6;
+@calendarSelectedHoverColor:   #008BB6;
+@weekendColor:                 @textColorOrange;
+@weekendBackgroundColor:       #F2F2F2;
+@weekColor:                    @textColorGrayLight;
+@weekofyearColor:              #FFFFFF;
+@weekofyearBackgroundColor:    #636363;
+
+// popup
+@popupBorderColor:             @baseBorderColor;
+@popupBackgroundColor:         @baseBackgroundColor;
+@popupGradientStart:           @baseBackgroundColor;
+@popupGradientEnd:             #F5F5F5;
+
+// group (group, listgroup)
+@groupGradientStart:           #FFFFFF;
+@groupGradientEnd:             #E9F2FB;
+
+// paging
+@pagingColor:                  @textColorBlue;
+@pagingSelectedColor:          @textColorGrayDark;
+@pagingBorderColor:            @baseBorderColor;
+@pagingActiveBorderColor:      #A9A9A9;
+@pagingBackgroundColor:        #FAFAFA;
+@pagingSelectedBackgroundColor:#E6E6E6;
+
+// slider
+@sliderBorderColor:            @baseBorderColor;
+@sliderActiveBorderColor:      #838383;
+
+// errorbox (input constraint)
+@errorboxColor:                #990000;
+@errorboxBorderColor:          #990000;
+@errorboxBackgroundColor:      #FFEEEE;
+
+// notification
+@notificationInfoColor:        rgba(33, 155, 166, 0.88);
+@notificationWarningColor:     rgba(234, 67, 23, 0.88);
+@notificationErrorColor:       rgba(190, 0, 5, 0.88);
+@notificationArrowColor:       rgba(51, 51, 51, 0.9);
+@notificationInfoColorIE8:     rgb(33, 155, 166);
+@notificationWarningColorIE8:  rgb(234, 67, 23);
+@notificationErrorColorIE8:    rgb(190, 0, 5);
+@notificationArrowColorIE8:    rgb(51, 51, 51);
+
+// progressmeter
+@progressmeterGradientStart:   #E8F6FD;
+@progressmeterGradientEnd:     #C6E9FA;
+
+// window
+@windowBorderColor:            @baseBorderColorDark;
+@windowBackgroundColor:        #D9E5EF;
+@windowFramePadding:           4px;
+
+// tabbox
+@tabSelectedBackgroundColor:   @themeColorPrimaryLight;
+
+// panel
+@panelBorderColor:             @baseBorderColorDark;
+@panelBackgroundColor:         @baseBackgroundColor;
+@panelBodyBackground:          @themeColorPrimaryVeryLight;
+
+// menu
+@menuImageSize:                16px;
+@menuActiveBorderColorTR:      #838383;
+@menuActiveBorderColorBL:      #B6B6B6;
+@menuPopupBackground:          #FAFAFA;
+@menuSeparatorBorderColor:     #838383;
+@menuSeparatorBackgroundColor: #B8B8B8;
+@menuPopupSeparatorBorder:     #FFFFFF;
+@menuPopupSeparatorBackground: #E0E0E0;
+
+// navbar
+@navImageSize:                 16px;
+@navColor:                     #333333;
+@navBorderColor:               #F4F4F3;
+@navBackgroundColor:           #FFFFFF; //first level, each level is 3% darker (darken(@navBackgroundColor, 3 * level));
+@navHoverBackgroundColor:      #E8E8E8;
+@navSelectedColor:             #FFFFFF;
+@navSelectedBackgroundColor:   #372F2B;
+@navSeparatorColor:            #838383;
+@navCollapsedWidth:            32px;
+
+// colorbox
+@colorboxBorderColor:          @baseBorderColorDark;
+
+// chosenbox
+@chosenboxItemBorderColor:     #B3B3B3;
+@chosenboxCreateIconColor:     @textColorGreen;
+
+// biglistbox
+@biglistboxBackgroundColor:    #F0F0F0;
+@biglistboxFrozenBackground:   #E0E0E0;
+
+// mesh for ie8
+@meshBackgroundColorIE8:              #F5F5F5;
+@meshHoverBackgroundColorIE8:         #E5F7FF;
+@meshSelectedBackgroundColorIE8:      #E5F7FF;
+@meshSelectedHoverBackgroundColorIE8: #D9F2FF;
+@meshGroupBackgroundColorIE8:         #EDF6FF;
+@meshGroupFooterBackgroundColorIE8:   #F2F9FF;
