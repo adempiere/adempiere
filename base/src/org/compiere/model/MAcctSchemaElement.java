@@ -154,7 +154,7 @@ public final class MAcctSchemaElement extends X_C_AcctSchema_Element
 		else if (elementType.equals(ELEMENTTYPE_Project))
 			return "SELECT Value,Name FROM C_Project WHERE C_Project_ID=";
 		else if (elementType.equals(ELEMENTTYPE_SalesRegion))
-			return "SELECT Value,Name FROM C_SalesRegion WHERE C_SalesRegion_ID";
+			return "SELECT Value,Name FROM C_SalesRegion WHERE C_SalesRegion_ID=";
 		else if (elementType.equals(ELEMENTTYPE_UserList1))
 			return "SELECT Value,Name FROM C_ElementValue WHERE C_ElementValue_ID=";
 		else if (elementType.equals(ELEMENTTYPE_UserList2))
