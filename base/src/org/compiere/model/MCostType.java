@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.compiere.util.CCache;
+import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
 /**
@@ -47,8 +48,9 @@ public class MCostType extends X_M_CostType
 	 */
 	public static MCostType get(MAcctSchema as ,int M_Product_ID , int AD_Org_ID)
 	{
+		as               = new MAcctSchema(Env.getCtx(), as.get_ID(),as.get_TrxName());
 		MProduct product = MProduct.get(as.getCtx(), M_Product_ID);
-		MCostType ct = MCostType.getByOrg(as.getCtx(), AD_Org_ID, as.get_TrxName());
+		MCostType ct     = MCostType.getByOrg(as.getCtx(), AD_Org_ID, as.get_TrxName());
 		
 		if(product != null)
 		{
@@ -64,7 +66,7 @@ public class MCostType extends X_M_CostType
 			}
 		}		
 		if(ct == null)
-			throw new IllegalStateException("A Cost Type does not exist with this Costing method: " + as.getCostingMethod());
+			throw new IllegalStateException("A Cost Type does not exist with this Costing method: " + as.getCostingMethod()+ "OrgId: " + AD_Org_ID + "clientId: " + as.getAD_Client_ID());
 		
 		return ct;
 	}
