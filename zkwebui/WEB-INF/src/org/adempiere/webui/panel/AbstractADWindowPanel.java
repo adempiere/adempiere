@@ -2144,7 +2144,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 				dialog.setPosition("center");
 				AEnv.showWindow(dialog);
 			}
-			onRefresh(false);
+			onRefresh(true); // Need to fire events to activate subordinate tabs.
 		}
 	} // actionButton
 
