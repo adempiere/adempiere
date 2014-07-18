@@ -360,22 +360,24 @@ public class CConnectionDialog extends CDialog implements ActionListener
 		{
 			if (dbTypeField.getSelectedItem() == null)
 				return;
-		}
 
-
-		updateCConnection();
-		//
-		if (src == bTestApps)
-			cmd_testApps();
-
-		//  Database Selection Changed
-		else if (src == dbTypeField)
-		{
-			m_cc.setType((String)dbTypeField.getSelectedItem());
+			// Check if the type has changed.  If so, set the defaults for the 
+			// database type dependent fields
+			if (m_cc.getType() != (String)dbTypeField.getSelectedItem())
+			{
+				m_cc.setType((String)dbTypeField.getSelectedItem());
+				m_cc.setDatabaseDefaults();
+			}
+			// Set the dialog fields with the new values, if any
 			dbPortField.setText(String.valueOf(m_cc.getDbPort()));
 			cbBequeath.setSelected(m_cc.isBequeath());
 			fwPortField.setText(String.valueOf(m_cc.getFwPort()));
 		}
+		//
+		updateCConnection();
+		//
+		if (src == bTestApps)
+			cmd_testApps();
 		//
 		else if (src == bTestDB)
 			cmd_testDB();
