@@ -27,6 +27,7 @@ import org.adempiere.webui.window.WPAttributeDialog;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.MAttributeSet;
+import org.compiere.model.MColumn;
 import org.compiere.model.MPAttributeLookup;
 import org.compiere.model.MProduct;
 import org.compiere.util.CLogger;
@@ -83,6 +84,7 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 		m_GridTab = gridTab;
 		m_WindowNo = gridField.getWindowNo();
 		m_mPAttribute = (MPAttributeLookup) gridField.getLookup();
+		m_AD_Column_ID = gridField.getAD_Column_ID();
 		m_readWrite = false;
 		initComponents();
 	}
@@ -113,6 +115,11 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 		m_searchOnly = searchOnly;
 		m_mandatory = mandatory;
 		m_readWrite = !isReadOnly && isUpdateable;
+		if (m_GridTab != null){
+			GridField gridField = m_GridTab.getField(m_columnName);
+			if (gridField != null)
+				m_AD_Column_ID = gridField.getAD_Column_ID();
+		}
 		initComponents();
 	}
 	
@@ -256,7 +263,7 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 			+ ",M_AttributeSetInstance_ID=" + M_AttributeSetInstance_ID);
 
 		//	M_Product.M_AttributeSetInstance_ID = 8418
-		boolean productWindow = m_AD_Column_ID == 8418;		//	HARDCODED
+		boolean productWindow = m_AD_Column_ID == MColumn.getColumn_ID(MProduct.Table_Name, MProduct.COLUMNNAME_M_AttributeSetInstance_ID);
 
 		//	Exclude ability to enter ASI
 		boolean exclude = true;

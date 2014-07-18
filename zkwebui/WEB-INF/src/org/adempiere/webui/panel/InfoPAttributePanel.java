@@ -771,10 +771,11 @@ public class InfoPAttributePanel extends Window implements EventListener
 			else if (c instanceof NumberBox)
 			{
 				NumberBox field = (NumberBox)c;
-				display.append(field.getValue().toString() + "-");
+				if (field.getValue() != null)
+					display.append(field.getValue().toString() + "-");
 				NumberBox fieldTo = (NumberBox)cTo;
-				display.append(fieldTo.getValue().toString() + "-");
-				 
+				if (fieldTo.getValue() != null)
+					display.append(fieldTo.getValue().toString() + "-");
 			}
 			else
 			{
@@ -795,10 +796,11 @@ public class InfoPAttributePanel extends Window implements EventListener
 			else if (c instanceof NumberBox)
 			{
 				NumberBox field = (NumberBox)c;
-				display.append(field.getValue().toString() + "-");
+				if (field.getValue() != null)
+					display.append(field.getValue().toString() + "-");
 				NumberBox fieldTo = (NumberBox)cTo;
-				display.append(fieldTo.getValue().toString() + "-");
-				 
+				if (fieldTo.getValue() != null)
+					display.append(fieldTo.getValue().toString() + "-");				 
 			}
 			else
 			{
