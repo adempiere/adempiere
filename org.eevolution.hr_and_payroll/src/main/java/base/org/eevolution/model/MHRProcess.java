@@ -750,6 +750,8 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	{
 		//get the concept that should store the labor
 		MHRConcept concept = MHRConcept.forValue(getCtx(), CONCEPT_PP_COST_COLLECTOR_LABOR);
+		if (concept==null)
+			return null; 
 
 		//get the attribute for specific concept
 		List<Object> params = new ArrayList<Object>();
