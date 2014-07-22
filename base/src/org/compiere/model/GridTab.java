@@ -685,7 +685,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 				}
 				else
 				{
-					if (!m_query.isActive()){ // create a where criteria - otherwise, use the query.
+					//if (!m_query.isActive()){ // create a where criteria - otherwise, use the query.
 						//	we have column and value
 						if (where.length() != 0)
 							where.append(" AND ");
@@ -694,7 +694,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 							where.append(DB.TO_NUMBER(new BigDecimal(value), DisplayType.ID));
 						else
 							where.append(DB.TO_STRING(value));
-					}
+					//}
 				}
 			}
 		}	//	isDetail
