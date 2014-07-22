@@ -888,19 +888,19 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	 */
 	public void dataRefreshAll ()
 	{
-		dataRefreshAll(true);
+		dataRefreshAll(true ,false);
 	}
 
 	/**************************************************************************
 	 *  Refresh all data
 	 *  @param fireEvent
 	 */
-	public void dataRefreshAll (boolean fireEvent)
+	public void dataRefreshAll (boolean fireEvent,  boolean retainedCurrentRow)
 	{
 		log.fine("#" + m_vo.TabNo);
 		/** @todo does not work with alpha key */
 		int keyNo = m_mTable.getKeyID(m_currentRow);
-		m_mTable.dataRefreshAll(fireEvent);
+		m_mTable.dataRefreshAll(fireEvent, retainedCurrentRow ? m_currentRow : -1);
 		//  Should use RowID - not working for tables with multiple keys
 		if (keyNo != -1)
 		{

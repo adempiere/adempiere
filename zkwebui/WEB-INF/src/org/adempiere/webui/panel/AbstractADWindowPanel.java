@@ -1322,7 +1322,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     public void onRefresh(boolean fireEvent)
     {
     	onSave(false);
-        curTab.dataRefreshAll(fireEvent);
+        curTab.dataRefreshAll(fireEvent, true);
         curTabpanel.dynamicDisplay(0);
         focusToActivePanel();
     }
