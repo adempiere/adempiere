@@ -617,5 +617,18 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		
 		return parent;
 	}
+	
+	/**
+	 * 	Before Delete
+	 *	@return true of it can be deleted
+	 */
+	protected boolean beforeDelete ()
+	{
+		for (MMigrationData data : m_migrationData) {
+			data.deleteEx(true);
+		}
+		return true;
+	}	//	beforeDelete
+
 
 }

@@ -262,4 +262,17 @@ public class MMigration extends X_AD_Migration {
 				step.apply();
 		}
 	}
+	
+	/**
+	 * 	Before Delete
+	 *	@return true if it can be deleted
+	 */
+	protected boolean beforeDelete ()
+	{
+		for (MMigrationStep step : getSteps(false)) {
+			step.deleteEx(true);
+		}
+		return true;
+	}	//	beforeDelete
+
 }
