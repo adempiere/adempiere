@@ -99,7 +99,7 @@ public class MMigration extends X_AD_Migration {
 		String sql = base + " AND StatusCode = 'A'";
 		int applied = DB.getSQLValue(trxName, sql);
 		
-		sql = base + " AND StatusCode = 'U'";
+		sql = base + " AND StatusCode IN ('F','U')";  //  Failed or Unapplied
 		int unapplied = DB.getSQLValue(trxName, sql);
 
 		if ( applied == total && applied > 0 )

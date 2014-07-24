@@ -71,6 +71,8 @@ public class MigrationApply extends SvrProcess {
 			
 		}
 
+		migration.updateStatus(get_TrxName());
+		
 		return "@OK@";
 	}
 
