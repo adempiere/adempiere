@@ -2430,16 +2430,18 @@ public class MOrder extends X_C_Order implements DocAction
 	 */
 	public void updateIsDelivered() throws SQLException {
 		
-		if (isDelivered()) return;
-		
-		String query = "SELECT SUM(QtyOrdered-QtyDelivered) FROM C_OrderLine WHERE C_Order_ID=?";
+		String query = "SELECT COUNT(*) FROM C_OrderLine WHERE C_Order_ID=? and QtyOrdered > QtyDelivered ";
 		PreparedStatement ps = DB.prepareStatement(query, get_TrxName());
 		ps.setInt(1, get_ID());
 		ResultSet rs = ps.executeQuery();
+		
 		if (rs.next()) {
 			int delta = rs.getInt(1);
 			if (delta==0) {
 				setIsDelivered(true);
+			}else {
+				setIsDelivered(false);
+				
 			}
 		}
 		rs.close();

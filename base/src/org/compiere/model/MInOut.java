@@ -2124,6 +2124,31 @@ public class MInOut extends X_M_InOut implements DocAction
 		setDocStatus(DOCSTATUS_Reversed); // need to set & save docstatus to be able to check it in MInOutConfirm.voidIt()
 		saveEx();
 		voidConfirmations();
+		
+		Set<Integer> inOutOrders   = new TreeSet<Integer>();		
+		MInOutLine[] lines = getLines(false);
+		for (int lineIndex = 0; lineIndex < lines.length; lineIndex++)
+		{
+			MInOutLine sLine = lines[lineIndex];
+			MOrderLine oLine = null;
+			if (sLine.getC_OrderLine_ID() != 0)
+			{
+				oLine = new MOrderLine (getCtx(), sLine.getC_OrderLine_ID(), get_TrxName());
+				inOutOrders.add(oLine.getC_Order_ID());
+			}
+		}
+		if (inOutOrders.size()>0) {
+			MOrder order;
+			for (Iterator<Integer> it = inOutOrders.iterator(); it.hasNext(); ) {
+				order = new MOrder(getCtx(), it.next().intValue(), get_TrxName());
+				try {
+					order.updateIsDelivered();
+				} catch (SQLException ee) {
+					log.warning("Could not update isDelivered flag on order " + order.getDocumentNo() + " : " + ee.getMessage());
+			}
+				order.saveEx(get_TrxName());
+			}
+		}
 
 		// After reverseCorrect
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
