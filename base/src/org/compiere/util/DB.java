@@ -22,6 +22,7 @@ import java.io.FileOutputStream;
 import java.math.BigDecimal;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -2291,5 +2292,29 @@ public final class DB
 		paramsOut.addAll(paramsIn);
 
 		return sql.insert(0, "(").append(")").toString();
+	}
+	
+	/**
+		 * @param tableName
+		 * @return true if table or view with name=tableName exists in db
+		 */
+	public static boolean isTableOrViewExists(String tableName) {
+		Connection conn = getConnectionRO();
+		ResultSet rs = null;
+		try {
+			DatabaseMetaData metadata = conn.getMetaData();
+			rs = metadata.getTables(null, null, (DB.isPostgreSQL() ? tableName.toLowerCase() : tableName.toUpperCase()), null);
+			if (rs.next()) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DB.close(rs);
+			try {
+				conn.close();
+			} catch (SQLException e) {}
+		}
+		return false;
 	}
 }	//	DB
