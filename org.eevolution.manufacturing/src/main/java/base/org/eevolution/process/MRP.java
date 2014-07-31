@@ -506,7 +506,7 @@ public class MRP extends SvrProcess
 						+ " AND EXISTS (SELECT 1 FROM  DD_Order o WHERE o.DD_Order_ID=DD_OrderLine.DD_Order_ID AND DocStatus = ?)";
 				
 				myParameters = new ArrayList(parameters);
-				myParameters.add(MPPMRP.TYPEMRP_Supply);
+				myParameters.add(0,MPPMRP.TYPEMRP_Supply);
 				myParameters.add(M_Warehouse_ID);
 				myParameters.add(MPPMRP.DOCSTATUS_Drafted);
 				deletePO(MDDOrderLine.Table_Name, where, trxName ,myParameters.toArray());
