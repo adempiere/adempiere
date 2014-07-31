@@ -112,7 +112,7 @@ public class GenerateCostDetail extends SvrProcess {
 	 * 
 	 * @throws SQLException
 	 */
-	private void deleteCostDetail() throws SQLException {
+	private void deleteCostDetail(MCostType ct) throws SQLException {
 		StringBuffer sqlDelete;
 
 		int record = 0;
@@ -120,10 +120,15 @@ public class GenerateCostDetail extends SvrProcess {
 		sqlDelete.append(deleteCostDetailWhereClause);
 		record = DB.executeUpdateEx(sqlDelete.toString(),
 				deleteParameters.toArray(), get_TrxName());
-		sqlDelete = new StringBuffer("DELETE M_Cost  WHERE ");
-		sqlDelete.append(deleteCostWhereClause);
-		record = DB.executeUpdateEx(sqlDelete.toString(),
-				deleteCostParameters.toArray(), get_TrxName());
+		
+		// Delete M_Cost not for others than average
+		if(ct.getCostingMethod().equals(MCostType.COSTINGMETHOD_AverageInvoice)){
+			sqlDelete = new StringBuffer("DELETE M_Cost  WHERE ");
+			sqlDelete.append(deleteCostWhereClause);
+			record = DB.executeUpdateEx(sqlDelete.toString(),
+			deleteCostParameters.toArray(), get_TrxName());
+			
+		}
 		commitEx();
 	}
 
@@ -233,7 +238,7 @@ public class GenerateCostDetail extends SvrProcess {
 					applyCriterial(as.getC_AcctSchema_ID(),
 							ct.getM_CostType_ID(), ce.getM_CostElement_ID(),
 							p_M_Product_ID, p_DateAcct, p_DateAcctTo);
-					deleteCostDetail();
+					deleteCostDetail(ct);
 				}
 			}
 		}
