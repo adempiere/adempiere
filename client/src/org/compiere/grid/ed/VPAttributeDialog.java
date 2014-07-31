@@ -629,7 +629,9 @@ public class VPAttributeDialog extends CDialog
 		if (C_DocType_ID > 0) {
 			MDocType doctype = new MDocType (Env.getCtx(), C_DocType_ID, null);
 			String docbase = doctype.getDocBaseType();
-			if (docbase.equals(MDocType.DOCBASETYPE_MaterialReceipt))
+			// consider also old lot numbers at inventory
+			if (docbase.equals(MDocType.DOCBASETYPE_MaterialReceipt)
+				||  docbase.equals(MDocType.DOCBASETYPE_MaterialPhysicalInventory))
 				M_Warehouse_ID = 0;
 		}
 		
