@@ -138,13 +138,6 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 	 * Update the Inventory Value based in last transaction
 	 */
 	public void updateInventoryValue() {
-		if (m_CumulatedQty.signum() != 0)
-		{	
-			m_dimension.setCurrentCostPrice(m_CumulatedAmt.divide(m_CumulatedQty, m_as.getCostingPrecision(),
-					BigDecimal.ROUND_HALF_UP));
-			m_dimension.setCurrentCostPriceLL(m_CumulatedAmtLL.divide(m_CumulatedQty, m_as.getCostingPrecision(),
-					BigDecimal.ROUND_HALF_UP));
-		}
 		m_dimension.setCumulatedAmt(m_CumulatedAmt);
 		m_dimension.setCumulatedAmtLL(m_CumulatedAmtLL);
 		m_dimension.setCumulatedQty(m_CumulatedQty);
