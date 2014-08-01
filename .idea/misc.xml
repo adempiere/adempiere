@@ -3,7 +3,10 @@
   <component name="EclipseCodeFormatter">
     <option name="defaultSettings" value="true" />
     <option name="id" value="1386171739650" />
+    <option name="importOrderConfigFilePath" value="$USER_HOME$/Develop/FCAQ/formatter Eclipse build in .xml" />
+    <option name="importOrderFromFile" value="true" />
     <option name="name" value="default" />
+    <option name="pathToConfigFileJava" value="$USER_HOME$/Develop/FCAQ/formatter Eclipse build in .xml" />
   </component>
   <component name="EntryPointsManager">
     <entry_points version="2.0" />
