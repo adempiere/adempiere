@@ -244,7 +244,7 @@ public class CostDimension
 		finalParams.add(this.AD_Client_ID);
 		finalWhereClause.append(" AND "+I_AD_Org.COLUMNNAME_AD_Org_ID+"=?");
 		finalParams.add(this.AD_Org_ID);
-		finalWhereClause.append(" AND (M_Warehouse_ID is null OR "+I_M_Warehouse.COLUMNNAME_M_Warehouse_ID+"=? )");
+		finalWhereClause.append(" AND (").append(I_M_Warehouse.COLUMNNAME_M_Warehouse_ID).append(" IS NULL OR ").append(I_M_Warehouse.COLUMNNAME_M_Warehouse_ID+"=? )");
 		finalParams.add(this.M_Warehouse_ID);
 		finalWhereClause.append(" AND "+I_M_Product.COLUMNNAME_M_Product_ID+"=?");
 		finalParams.add(this.M_Product_ID);
