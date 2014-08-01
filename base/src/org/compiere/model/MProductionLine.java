@@ -9,9 +9,10 @@ import java.util.logging.Level;
 
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.adempiere.engine.IDocumentLine;
 
 
-public class MProductionLine extends X_M_ProductionLine {
+public class MProductionLine extends X_M_ProductionLine  implements IDocumentLine{
 	/**
 	 * 
 	 */
@@ -327,6 +328,38 @@ public class MProductionLine extends X_M_ProductionLine {
 		
 		deleteMA();
 		return true;
+	}
+	
+
+	public Timestamp getDateAcct(){
+		return getM_ProductionPlan().getM_Production().getMovementDate();
+	}
+	public BigDecimal getMovementQty()
+	{
+		return getMovementQty();
+	}
+	public boolean isSOTrx(){
+		return false;
+	}
+	public int getReversalLine_ID(){
+		return -1;
+	}
+	public BigDecimal getPriceActual(){
+		return Env.ZERO;
+	}
+	public IDocumentLine getReversalDocumentLine(){
+		return null;
+	}
+
+	public int getM_AttributeSetInstanceTo_ID(){
+		return -1;
+	}
+	public int getM_LocatorTo_ID(){
+		return -1;
+	}
+
+	public int getC_DocType_ID(){
+		return -1;
 	}
 	
 }
