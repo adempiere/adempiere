@@ -16,8 +16,6 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -28,9 +26,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.logging.Level;
-
-import javax.swing.JOptionPane;
-
+import javax.swing.*;
 import org.compiere.Adempiere;
 import org.compiere.db.CConnection;
 import org.compiere.model.*;
@@ -97,14 +93,17 @@ public class Login
 	{
 		//	Java System version check
 		String jVersion = System.getProperty("java.version");
-		if (jVersion.startsWith("1.5.0"))
-			return true;
+		//if (jVersion.startsWith("1.5.0"))
+		//	return true;
         //vpj-cd e-evolution support to java 6
-        if (jVersion.startsWith("1.6.0"))
-			return true;
+        //if (jVersion.startsWith("1.6.0"))
+		//	return true;
         //Add ADEMPIERE-86 Add JAVA 7.0 support in ADempiere
         if (jVersion.startsWith("1.7.0"))
 			return true;
+        //Add ADEMPIERE-86 Add JAVA 8.0 support in ADempiere
+        if (jVersion.startsWith("1.8.0"))
+            return true;
         //end
 		//  Warning
 		boolean ok = false;
@@ -117,7 +116,8 @@ public class Login
 		msg.append(System.getProperty("java.vm.name")).append(" - ").append(jVersion);
 		if (ok)
 			msg.append("(untested)");
-		msg.append(" <> 1.5.0, 1.6.0, 1.7.0");
+		//msg.append(" <> 1.5.0, 1.6.0, 1.7.0 1.8.0");
+        msg.append(" <> 1.7.0 , 1.8.0");
 		//
 		if (isClient)
 			JOptionPane.showMessageDialog(null, msg.toString(),
