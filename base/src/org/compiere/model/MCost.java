@@ -97,7 +97,7 @@ public class MCost extends X_M_Cost
     			M_AttributeSetInstance_ID = model.getM_AttributeSetInstance_ID();
     		}
     		
-    		final String whereClause = "M_Product_ID=?  AND AD_Org_ID=? AND M_Warehouse_ID=? AND M_AttributeSetInstance_ID=?" ;
+    		final String whereClause = "M_Product_ID=?  AND AD_Org_ID=? AND (M_Warehouse_ID=? or m_Warehouse_ID is null) AND M_AttributeSetInstance_ID=?" ;
     		
     		return new Query(as.getCtx(), Table_Name, whereClause, model.get_TrxName())
     			.setParameters(model.getM_Product_ID(), AD_Org_ID, M_Warehouse_ID , M_AttributeSetInstance_ID)
@@ -1611,7 +1611,7 @@ public class MCost extends X_M_Cost
 		String trxName)
 	{
 		final String whereClause = "AD_Client_ID=? AND AD_Org_ID=?"
-									+" AND "+COLUMNNAME_M_Warehouse_ID+"=?"
+									+" AND ("+COLUMNNAME_M_Warehouse_ID+"=? or " + COLUMNNAME_M_Warehouse_ID + " is null)"
 									+" AND "+COLUMNNAME_M_Product_ID+"=?"
 									+" AND "+COLUMNNAME_M_CostType_ID+"=?"
 									+" AND "+COLUMNNAME_C_AcctSchema_ID+"=?"
