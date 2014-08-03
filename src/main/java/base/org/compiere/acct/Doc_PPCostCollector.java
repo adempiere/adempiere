@@ -349,7 +349,7 @@ public class Doc_PPCostCollector extends Doc
 
 		MAccount debit = m_line.getAccount(ProductCost.ACCTTYPE_P_WorkInProcess, as);
 		
-		for (MCostDetail cd : m_line.getCostDetail(as))
+		for (MCostDetail cd : m_line.getCostDetail(as, false))
 		{
 			BigDecimal costs = cd.getAmt().add(cd.getCurrentCostPriceLL()).negate();
 			
