@@ -8,39 +8,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkpackages/liberozkHR.jar" afterPath="$PROJECT_DIR$/zkpackages/liberozkHR.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkpackages/liberozkMFG.jar" afterPath="$PROJECT_DIR$/zkpackages/liberozkMFG.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/mysql-connector-java-5.1.13-bin.jar" afterPath="$PROJECT_DIR$/lib/mysql-connector-java-5.1.13-bin.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.classpath" afterPath="$PROJECT_DIR$/.classpath" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.hgsubstate" afterPath="$PROJECT_DIR$/.hgsubstate" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/adempiere/engine/AbstractCostingMethod.java" afterPath="$PROJECT_DIR$/base/src/org/adempiere/engine/AbstractCostingMethod.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/adempiere/engine/AverageInvoiceCostingMethod.java" afterPath="$PROJECT_DIR$/base/src/org/adempiere/engine/AverageInvoiceCostingMethod.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/adempiere/engine/AveragePOCostingMethod.java" afterPath="$PROJECT_DIR$/base/src/org/adempiere/engine/AveragePOCostingMethod.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/adempiere/engine/CostDimension.java" afterPath="$PROJECT_DIR$/base/src/org/adempiere/engine/CostDimension.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/adempiere/engine/CostEngine.java" afterPath="$PROJECT_DIR$/base/src/org/adempiere/engine/CostEngine.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/adempiere/engine/CostingMethodFactory.java" afterPath="$PROJECT_DIR$/base/src/org/adempiere/engine/CostingMethodFactory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/acct/DocLine.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/acct/DocLine.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/acct/Doc_InOut.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/acct/Doc_InOut.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/acct/Doc_Inventory.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/acct/Doc_Inventory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/acct/Doc_Movement.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/acct/Doc_Movement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/acct/Doc_Production.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/acct/Doc_Production.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/acct/Doc_ProjectIssue.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/acct/Doc_ProjectIssue.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/adempiere/engine/FifoLifoCostingMethod.java" afterPath="$PROJECT_DIR$/base/src/org/adempiere/engine/FifoLifoCostingMethod.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/eevolution/process/GenerateCostDetail.java" afterPath="$PROJECT_DIR$/base/src/org/eevolution/process/GenerateCostDetail.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/adempiere/engine/ICostingMethod.java" afterPath="$PROJECT_DIR$/base/src/org/adempiere/engine/ICostingMethod.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/adempiere/engine/LastInvoiceCostingMethod.java" afterPath="$PROJECT_DIR$/base/src/org/adempiere/engine/LastInvoiceCostingMethod.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/adempiere/engine/LastPOPriceCostingMethod.java" afterPath="$PROJECT_DIR$/base/src/org/adempiere/engine/LastPOPriceCostingMethod.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MCost.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MCost.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MCostDetail.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MCostDetail.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MCostType.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MCostType.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MInOut.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MInOut.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MMatchInv.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MMatchInv.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extend/src/test/functional/MMatchInvTest.java" afterPath="$PROJECT_DIR$/extend/src/test/functional/MMatchInvTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MMatchPO.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MMatchPO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MMovement.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MMovement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/eevolution/model/MPPCostCollector.java" afterPath="$PROJECT_DIR$/base/src/org/eevolution/model/MPPCostCollector.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MTransaction.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MTransaction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/ProductCost.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/ProductCost.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/adempiere/engine/StandardCostingMethod.java" afterPath="$PROJECT_DIR$/base/src/org/adempiere/engine/StandardCostingMethod.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/eevolution/process/ValuationEffectiveDate.java" afterPath="$PROJECT_DIR$/base/src/org/eevolution/process/ValuationEffectiveDate.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/adempiereTrunk.eml" afterPath="$PROJECT_DIR$/adempiereTrunk.eml" />
     </list>
     <ignored path="adempiereDevelop.iws" />
     <ignored path=".idea/workspace.xml" />
