@@ -72,10 +72,10 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.util.Clients;
-import org.zkoss.zul.Borderlayout;
-import org.zkoss.zul.Center;
-import org.zkoss.zul.North;
-import org.zkoss.zul.South;
+import org.zkoss.zkex.zul.Borderlayout;
+import org.zkoss.zkex.zul.Center;
+import org.zkoss.zkex.zul.North;
+import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Html;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Row;
@@ -456,13 +456,27 @@ ValueChangeListener,Serializable,WTableModelListener
 		{
 			if (getMovementDate() == null)
 			{
-					Messagebox.show( Msg.getMsg(Env.getCtx(), "NoDate"), "Info",Messagebox.OK, Messagebox.INFORMATION);
+					try 
+					{
+						Messagebox.show( Msg.getMsg(Env.getCtx(), "NoDate"), "Info",Messagebox.OK, Messagebox.INFORMATION);
+					} 
+					catch (InterruptedException ex) 
+					{
+						throw new AdempiereException (ex);
+					}
 				return;
 			}
 
 			if ((isOnlyReceipt() || isBackflush()) && getM_Locator_ID() <= 0) 
 			{
-				Messagebox.show(Msg.getMsg(Env.getCtx(), "NoLocator"),"Info", Messagebox.OK, Messagebox.INFORMATION);
+				try 
+				{
+					Messagebox.show(Msg.getMsg(Env.getCtx(), "NoLocator"),"Info", Messagebox.OK, Messagebox.INFORMATION);
+				}
+				catch (InterruptedException ex) 
+				{
+					throw new AdempiereException (ex);
+				}
 				return;
 			}
 
@@ -471,17 +485,31 @@ ValueChangeListener,Serializable,WTableModelListener
 			
 			generateSummaryTable();
 			int result = -1;
-			result = Messagebox.show(Msg.getMsg(Env.getCtx(), "Update"),"",Messagebox.OK|Messagebox.CANCEL,Messagebox.QUESTION);
+			try 
+			{
+				result = Messagebox.show(Msg.getMsg(Env.getCtx(), "Update"),"",Messagebox.OK|Messagebox.CANCEL,Messagebox.QUESTION);
+			}
+			catch (InterruptedException ex) 
+			{
+				throw new AdempiereException(ex);
+			}
 			if ( result == Messagebox.OK)
 			{				
-				final boolean isCloseDocument = (Messagebox.show(Msg.parseTranslation(Env.getCtx(),"@IsCloseDocument@ : "+  getPP_Order().getDocumentNo()),"",Messagebox.OK|Messagebox.CANCEL,Messagebox.QUESTION) == Messagebox.OK);
-
-				if (cmd_process(isCloseDocument, issue))
+				try 
 				{
-					dispose();
-					return;
+					final boolean isCloseDocument = (Messagebox.show(Msg.parseTranslation(Env.getCtx(),"@IsCloseDocument@ : "+  getPP_Order().getDocumentNo()),"",Messagebox.OK|Messagebox.CANCEL,Messagebox.QUESTION) == Messagebox.OK);
+
+					if (cmd_process(isCloseDocument, issue))
+					{
+						dispose();
+						return;
+					}
 				}
-				Clients.clearBusy();
+				catch (InterruptedException ex) 
+				{
+					throw new AdempiereException(ex);
+				}
+				Clients.showBusy(null, false);
 			}
 			TabsReceiptsIssue.setSelectedIndex(0);
 		}	
