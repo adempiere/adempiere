@@ -5,7 +5,7 @@ package org.adempiere.engine;
 
 import java.math.BigDecimal;
 import java.util.List;
-
+import java.util.Properties;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCost;
 import org.compiere.model.MCostDetail;
@@ -26,192 +26,218 @@ import org.compiere.util.Env;
 public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 		implements ICostingMethod {
 
-	/*
-	 * Constructor for Cost Engine
-	 * 
-	 * @see
-	 * org.adempiere.engine.ICostingMethod#setCostingMethod(org.compiere.model
-	 * .MAcctSchema, org.compiere.model.MTransaction,
-	 * org.adempiere.engine.IDocumentLine, org.compiere.model.MCost,
-	 * java.math.BigDecimal, java.math.BigDecimal, java.lang.Boolean)
-	 */
-	public void setCostingMethod(MAcctSchema as, IDocumentLine model,
-			MTransaction mtrx, MCost dimension, BigDecimal costThisLevel,
-			BigDecimal costLowLevel, Boolean isSOTrx) {
-		m_as = as;
-		m_trx = mtrx;
-		m_dimension = dimension;
-		m_costThisLevel = (costThisLevel == null ? Env.ZERO : costThisLevel);
-		m_costLowLevel = (costLowLevel == null ? Env.ZERO : costLowLevel);
-		m_isSOTrx = isSOTrx;
-		m_model = model;
-		costingLevel = MProduct.get(mtrx.getCtx(), mtrx.getM_Product_ID())
-				.getCostingLevel(as, mtrx.getAD_Org_ID());
+    /**
+     * Constructor for Cost Engine
+     * @param accountSchema
+     * @param transaction
+     * @param model
+     * @param dimension
+     * @param costThisLevel
+     * @param costLowLevel
+     * @param isSalesTransaction
+     */
+	public void setCostingMethod(MAcctSchema accountSchema, MTransaction transaction, IDocumentLine model,
+                                 MCost dimension, BigDecimal costThisLevel,
+                                 BigDecimal costLowLevel, Boolean isSalesTransaction) {
+		this.accountSchema = accountSchema;
+		this.transaction = transaction;
+		this.dimension = dimension;
+		this.costThisLevel = (costThisLevel == null ? Env.ZERO : costThisLevel);
+		this.costLowLevel = (costLowLevel == null ? Env.ZERO : costLowLevel);
+		this.isSalesTransaction = isSalesTransaction;
+		this.model = model;
+		this.costingLevel = MProduct.get(this.transaction.getCtx(), this.transaction.getM_Product_ID())
+				.getCostingLevel(accountSchema, transaction.getAD_Org_ID());
 		// find if this transaction exist into cost detail
-		m_costdetail = MCostDetail.getByTransaction(model, m_trx,
-				m_as.getC_AcctSchema_ID(), m_dimension.getM_CostType_ID(),
-				m_dimension.getM_CostElement_ID());
+		this.costDetail = MCostDetail.getByTransaction(this.model, this.transaction,
+				this.accountSchema.getC_AcctSchema_ID(), this.dimension.getM_CostType_ID(),
+				this.dimension.getM_CostElement_ID());
 	}
 
 	public void calculate() {
 		// try find the last cost detail transaction
-		m_last_costdetail = MCostDetail.getLastTransaction(m_model, m_trx,
-				m_as.getC_AcctSchema_ID(), m_dimension.getM_CostType_ID(),
-				m_dimension.getM_CostElement_ID(), m_model.getDateAcct(),
+		lastCostDetail = MCostDetail.getLastTransaction(model, transaction,
+				accountSchema.getC_AcctSchema_ID(), dimension.getM_CostType_ID(),
+				dimension.getM_CostElement_ID(), model.getDateAcct(),
 				costingLevel);
 
 		// If model is reversal then no calculate cost
 		//Validate if model have a reverses and processing of reverse
-		if (m_model.getReversalLine_ID() > 0 
-			&& m_costdetail == null)
+		if (model.getReversalLine_ID() > 0
+			&& costDetail == null)
 			return;
-		else if( m_costdetail != null 
-			&& m_costdetail.isReversal() 
-			&& m_model.getReversalLine_ID() > 0)
-		{	
+		else if( costDetail != null
+			&& costDetail.isReversal()
+			&& model.getReversalLine_ID() > 0)
+	{	
 		setReversalCostDetail();		
 		return;
-		}	
+	}	
 
 		
 		// created a new instance cost detail to process calculated cost
-		if (m_last_costdetail == null) { 
-			m_last_costdetail = new MCostDetail(m_trx,
-					m_as.getC_AcctSchema_ID(), m_dimension.getM_CostType_ID(),
-					m_dimension.getM_CostElement_ID(), Env.ZERO, Env.ZERO,
-					Env.ZERO, m_trx.get_TrxName());
-			m_last_costdetail.setDateAcct(m_model.getDateAcct());
+		if (lastCostDetail == null) {
+			lastCostDetail = new MCostDetail(transaction,
+					accountSchema.getC_AcctSchema_ID(), dimension.getM_CostType_ID(),
+					dimension.getM_CostElement_ID(), Env.ZERO, Env.ZERO,
+					Env.ZERO, transaction.get_TrxName());
+			lastCostDetail.setDateAcct(model.getDateAcct());
 		}
 			
-				
+		BigDecimal quantityOnHand = getNewAccumulatedQuantity(lastCostDetail);
+		
 		// The cost detail was created before then is necessary to update cost by
 		// generate adjustment	
-		if (m_trx.getM_Transaction_ID() == m_last_costdetail.getM_Transaction_ID()) {
+		if (transaction.getM_Transaction_ID() == lastCostDetail.getM_Transaction_ID()) {
 			
-			// Quantity Cumulated from last cost transaction
-			m_CumulatedQty = getNewCumulatedQty(m_last_costdetail); 
-			
-			// Processing provision of purchase cost  
-			//Provision is calculated when the last cost detail  is a material receipt and not exist a of invoice line
-			//if an invoice line exist for this cost detail then an invoice line was  processed for this material receipt 
+			//Processing provision of purchase cost  
+			//Provision is calculated when the last cost detail  is a material receipt and not exist of invoice line
+			//if an invoice line exist for this cost detail then an invoice line was processed for this material receipt 
 			//and not exist different between purchase cost and invoice cost, this logic was implemented to prevent 
 			//that a provision of purchase cost decreases more than one times in a cost adjustment
 			BigDecimal provisionOfPurchaseCost = BigDecimal.ZERO;
 			BigDecimal provisionOfPurchaseCostLL = BigDecimal.ZERO;
-			if (m_model instanceof MMatchInv && m_last_costdetail.getC_InvoiceLine_ID() == 0)
-			{	
-				provisionOfPurchaseCost = m_last_costdetail.getCostAmt();
-				provisionOfPurchaseCostLL =  m_last_costdetail.getCostAmtLL();
-				MMatchInv iMatch =  (MMatchInv) m_model;
-				m_last_costdetail.setC_InvoiceLine_ID(iMatch.getC_InvoiceLine_ID());
-				m_last_costdetail.saveEx();
+            // Quantity accumulated from last cost transaction
+            accumulatedQuantity = getNewAccumulatedQuantity(lastCostDetail).add(
+                    transaction.getMovementQty());
+
+			if (model instanceof MMatchInv && lastCostDetail.getC_InvoiceLine_ID() == 0)
+			{
+				provisionOfPurchaseCost = lastCostDetail.getCostAmt();
+				provisionOfPurchaseCostLL =  lastCostDetail.getCostAmtLL();
+				MMatchInv iMatch =  (MMatchInv) model;
+				lastCostDetail.setC_InvoiceLine_ID(iMatch.getC_InvoiceLine_ID());
+				lastCostDetail.saveEx();
+                // reset the accumulated quantity with last cost detail
+                if (lastCostDetail != null && lastCostDetail.getM_CostDetail_ID() > 0)
+                    accumulatedQuantity = getNewAccumulatedQuantity(lastCostDetail);
 			}	
 				
-			m_AdjustCost = m_model.getMovementQty().multiply(m_costThisLevel).subtract(provisionOfPurchaseCost);
-			m_AdjustCostLL =  m_model.getMovementQty().multiply(m_costLowLevel).subtract(provisionOfPurchaseCostLL);
-				
-			m_CumulatedAmt = getNewCumulatedAmt(m_last_costdetail).add(
-					m_AdjustCost);
-			m_CumulatedAmtLL = getNewCumulatedAmtLL(m_last_costdetail)
-					.subtract(m_AdjustCostLL);
+			adjustCost = model.getMovementQty().multiply(costThisLevel).subtract(provisionOfPurchaseCost);
+			adjustCostLowerLevel =  model.getMovementQty().multiply(costLowLevel).subtract(provisionOfPurchaseCostLL);
+
 			
-			m_CurrentCostPrice = m_CumulatedAmt.divide(
-					m_CumulatedQty.signum() != 0 ? m_CumulatedQty
-							: BigDecimal.ONE, m_as.getCostingPrecision(),
+			accumulatedAmount = getNewAccumulatedAmount(lastCostDetail);
+			accumulatedAmount = accumulatedQuantity.signum() > 0 ? accumulatedAmount.add(adjustCost) : accumulatedAmount.add(adjustCost.negate());
+			
+			accumulatedAmountLowerLevel = getNewAccumulatedAmountLowerLevel(lastCostDetail);
+			accumulatedAmountLowerLevel =  accumulatedQuantity.signum() > 0 ? accumulatedAmountLowerLevel.add(adjustCostLowerLevel) : 
+				accumulatedAmountLowerLevel.add(adjustCostLowerLevel.negate());
+					
+			
+			currentCostPrice = accumulatedAmount.divide(
+					accumulatedQuantity.signum() != 0 ? accumulatedQuantity
+							: BigDecimal.ONE, accountSchema.getCostingPrecision(),
 					BigDecimal.ROUND_HALF_UP);
-			m_CurrentCostPriceLL = m_CumulatedAmtLL.divide(m_CumulatedQty
-					.signum() != 0 ? m_CumulatedQty : BigDecimal.ONE, m_as
+			currentCostPriceLowerLevel = accumulatedAmountLowerLevel.divide(accumulatedQuantity
+					.signum() != 0 ? accumulatedQuantity : BigDecimal.ONE, accountSchema
 					.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
 
-			if(m_AdjustCost.add(m_AdjustCostLL).signum() == 0)
+			if(adjustCost.add(adjustCostLowerLevel).signum() == 0)
 				return;
 			// validation when the cost detail is reprocess
-			if (m_costdetail == null)
+			if (costDetail == null)
 				return;
 			
 			// reset with the current values
-			m_costdetail.setCostAdjustment(m_AdjustCost);
-			m_costdetail.setAmt(m_costdetail.getCostAmt().add(
-					m_costdetail.getCostAdjustment()));
-			m_costdetail.setCostAdjustmentLL(m_AdjustCostLL);
-			m_costdetail.setAmtLL(m_costdetail.getCostAmtLL().add(
-					m_costdetail.getCostAdjustmentLL()));
+			costDetail.setCostAdjustment(adjustCost);
+			costDetail.setAmt(costDetail.getCostAmt().add(
+					costDetail.getCostAdjustment()));
+			costDetail.setCostAdjustmentLL(adjustCostLowerLevel);
+			costDetail.setAmtLL(costDetail.getCostAmtLL().add(
+					costDetail.getCostAdjustmentLL()));
 
-			updateAmtCost();
+			updateAmountCost();
 
 			return;
 		}
 		
-		BigDecimal qtyOndhand = getNewCumulatedQty(m_last_costdetail);
-		
 		// calculated costing
-		if (m_trx.getMovementType().endsWith("+"))
+		if (transaction.getMovementType().endsWith("+"))
 		{
 			//Project of cost if a cost was entry in zero, the inventory is revalued using the fist cost
 			//Example ; Quantity On hand 2.00 , Total Cost : 0.00 , Transaction Quantity 4.00 , Cost Total Transaction 17.8196
-			//cost This Level = ( (17.8196 / 4)  * 6 ) / 4 | (costThisLevel * costThisLevel) / m_last_costdetail.getQty()
+			//cost This Level = ( (17.8196 / 4)  * 6 ) / 4 | (costThisLevel * costThisLevel) / lastCostDetail.getQty()
 			
 			//Detect Inventory with zero value
-			if (qtyOndhand.signum() != 0 && getNewCumulatedAmt(m_last_costdetail).signum() == 0)
-				m_AdjustCost = qtyOndhand.
-								add(m_trx.getMovementQty())
-								.multiply(m_costThisLevel)
-								.subtract(m_costThisLevel
-								.multiply(m_trx.getMovementQty()));
-
-			m_Amount = m_trx.getMovementQty().multiply(m_costThisLevel);
-			m_AmountLL = m_trx.getMovementQty().multiply(m_costLowLevel);
-			m_CumulatedAmt = getNewCumulatedAmt(m_last_costdetail).add(m_Amount);
-			m_CumulatedAmtLL = getNewCumulatedAmtLL(m_last_costdetail).add(
-					m_AmountLL);
-
-			m_CumulatedQty = getNewCumulatedQty(m_last_costdetail).add(
-					m_trx.getMovementQty());
-
-			m_CurrentCostPrice = m_costThisLevel;
-			m_CurrentCostPriceLL = m_costLowLevel;
-			
-		}
-		else if (m_trx.getMovementType().endsWith("-")) {
-			// Use the last current cost price for out transaction			
-			if (qtyOndhand.add(m_trx.getMovementQty()).signum() >= 0)
+			//the On hand is different zero and inventory values is zero then
+			if (quantityOnHand.signum() != 0
+			&& getNewAccumulatedAmount(lastCostDetail).signum() == 0
+			&& costThisLevel.signum() != 0
+			)
+			{				
+				adjustCost = quantityOnHand.
+								add(transaction.getMovementQty())
+								.multiply(costThisLevel)
+								.subtract(costThisLevel
+								.multiply(transaction.getMovementQty()));
+			} // Logic to calculate adjustment when inventory is negative
+			else if (quantityOnHand.add(transaction.getMovementQty()).signum() < 0
+			&& getNewCurrentCostPrice(lastCostDetail, accountSchema
+			  .getCostingPrecision(),  BigDecimal.ROUND_HALF_UP).signum() != 0
+			&& costThisLevel.signum() == 0  )
 			{
-				m_CurrentCostPrice = getNewCurrentCostPrice(m_last_costdetail,m_as
+				currentCostPrice = getNewCurrentCostPrice(lastCostDetail, accountSchema
+						.getCostingPrecision(),  BigDecimal.ROUND_HALF_UP);
+				adjustCost = currentCostPrice.multiply(transaction.getMovementQty()).abs();
+			}
+				
+
+			
+			amount = transaction.getMovementQty().multiply(costThisLevel);
+			amountLowerLevel = transaction.getMovementQty().multiply(costLowLevel);
+			
+			accumulatedQuantity = getNewAccumulatedQuantity(lastCostDetail).add(
+					transaction.getMovementQty());
+			
+			accumulatedAmount = getNewAccumulatedAmount(lastCostDetail);
+			accumulatedAmount = accumulatedQuantity.signum() > 0 ? accumulatedAmount.add(amount) : accumulatedAmount.add(amount.negate());
+			
+			accumulatedAmountLowerLevel = getNewAccumulatedAmountLowerLevel(lastCostDetail);
+			accumulatedAmountLowerLevel = accumulatedQuantity.signum() > 0 ? accumulatedAmountLowerLevel.add(amountLowerLevel) : accumulatedAmountLowerLevel.add(amountLowerLevel.negate());
+	
+			currentCostPrice = costThisLevel;
+			currentCostPriceLowerLevel = costLowLevel;
+	
+		}
+		else if (transaction.getMovementType().endsWith("-")) {
+			// Use the last current cost price for out transaction			
+			if (quantityOnHand.add(transaction.getMovementQty()).signum() >= 0)
+			{
+				currentCostPrice = getNewCurrentCostPrice(lastCostDetail, accountSchema
 						.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
-				m_CurrentCostPriceLL = getNewCurrentCostPriceLL(m_last_costdetail,m_as
-						.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+				currentCostPriceLowerLevel = getNewCurrentCostPriceLowerLevel(lastCostDetail, accountSchema
+                        .getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
 			} 
 			else
 			{
-				m_CurrentCostPrice = CostEngine.getCostThisLevel(m_trx, m_as,
-						m_dimension.getM_CostType() , m_dimension.getM_CostElement() , m_model,
-						costingLevel);
+				currentCostPrice = CostEngine.getCostThisLevel(accountSchema, dimension.getM_CostType(), dimension.getM_CostElement(), transaction, model, costingLevel);
 			}
-						
-			m_Amount = m_trx.getMovementQty().multiply(m_CurrentCostPrice);
-			m_AmountLL = m_trx.getMovementQty().multiply(m_CurrentCostPriceLL);
-
-			
-			m_CumulatedAmt = getNewCumulatedAmt(m_last_costdetail)
-					.add(m_Amount);
-			m_CumulatedAmtLL = getNewCumulatedAmtLL(m_last_costdetail).add(
-					m_AmountLL);
-			
-			m_CumulatedQty = getNewCumulatedQty(m_last_costdetail).add(
-					m_trx.getMovementQty());
 		
-			if(m_costdetail != null)
+			amount = transaction.getMovementQty().multiply(currentCostPrice);
+			amountLowerLevel = transaction.getMovementQty().multiply(currentCostPriceLowerLevel);
+
+			accumulatedQuantity = getNewAccumulatedQuantity(lastCostDetail).add(
+					transaction.getMovementQty());
+			
+			accumulatedAmount = getNewAccumulatedAmount(lastCostDetail);
+			accumulatedAmount = accumulatedQuantity.signum() > 0 ? accumulatedAmount.add(amount) : accumulatedAmount.add(amount.negate());
+			
+			accumulatedAmountLowerLevel = getNewAccumulatedAmountLowerLevel(lastCostDetail);
+			accumulatedAmountLowerLevel = accumulatedQuantity.signum() > 0 ? accumulatedAmountLowerLevel.add(amountLowerLevel) : accumulatedAmountLowerLevel.add(amountLowerLevel.negate());
+		
+			if(costDetail != null)
 			{	
-				m_costdetail.setAmt(m_CurrentCostPrice.multiply(m_trx.getMovementQty().abs()));
-				m_costdetail.setAmtLL(m_CurrentCostPriceLL.multiply(m_trx.getMovementQty()).abs());
+				costDetail.setAmt(currentCostPrice.multiply(transaction.getMovementQty().abs()));
+				costDetail.setAmtLL(currentCostPriceLowerLevel.multiply(transaction.getMovementQty()).abs());
 			}
 		}
 		
 		//create new cost
-		if (m_costdetail == null)
+		if (costDetail == null)
 			return;
 		
-		updateAmtCost();
+		updateAmountCost();
 	}
 
 	private void createCostDetail() {
@@ -219,106 +245,110 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 		// Ignore reversal transaction because is created based on the original
 		// transaction
 		//Validate if model have a reverses and processing of reverse
-		if (m_model.getReversalLine_ID() > 0 && m_costdetail == null ) {
+		if (model.getReversalLine_ID() > 0 && costDetail == null ) {
 			createReversalCostDetail();
 			return;
 		} 
-		else if (m_model.getReversalLine_ID() > 0)
+		else if (model.getReversalLine_ID() > 0)
 			return;
 		
 
-		int seqNo = m_last_costdetail.getSeqNo() + 10;
+		int seqNo = lastCostDetail.getSeqNo() + 10;
 		// create a new cost detail or is necessary create a new cost detail for
 		// adjustment
-		if (m_trx.getM_Transaction_ID() != m_last_costdetail
+		if (transaction.getM_Transaction_ID() != lastCostDetail
 				.getM_Transaction_ID()
-				&& m_costdetail == null
-				|| m_AdjustCost.add(m_AdjustCostLL).signum() != 0
-				&& m_costdetail == null) {
+				&& costDetail == null
+				|| adjustCost.add(adjustCostLowerLevel).signum() != 0
+				&& costDetail == null) {
 			// set Movement Qty in Zero because is a adjustment
-			BigDecimal m_movementQty = m_trx.getMovementQty();
+			BigDecimal movementQuantity = transaction.getMovementQty();
 			// if exist adjustment cost for Landed Cost Allocation or Match Inv then set the movement qty to zero
-			if (m_AdjustCost.add(m_AdjustCostLL).signum() != 0 
-			&& (m_model instanceof MLandedCostAllocation || m_model instanceof MMatchInv))
-				m_movementQty = Env.ZERO;
+			if (adjustCost.add(adjustCostLowerLevel).signum() != 0
+			&& (model instanceof MLandedCostAllocation || model instanceof MMatchInv))
+				movementQuantity = Env.ZERO;
 
 			// create new cost detail
-			m_costdetail = new MCostDetail(m_trx, m_as.getC_AcctSchema_ID(),
-					m_dimension.getM_CostType_ID(),
-					m_dimension.getM_CostElement_ID(), m_CurrentCostPrice
-							.multiply(m_movementQty).abs(),
-					m_CurrentCostPriceLL.multiply(m_movementQty).abs(),
-					m_movementQty, m_trx.get_TrxName());
+			costDetail = new MCostDetail(transaction, accountSchema.getC_AcctSchema_ID(),
+					dimension.getM_CostType_ID(),
+					dimension.getM_CostElement_ID(), currentCostPrice
+							.multiply(movementQuantity).abs(),
+					currentCostPriceLowerLevel.multiply(movementQuantity).abs(),
+					movementQuantity, transaction.get_TrxName());
 			// set account date for this cost detail
-			m_costdetail.setDateAcct(m_model.getDateAcct());
-			m_costdetail.setSeqNo(seqNo);
+			costDetail.setDateAcct(model.getDateAcct());
+			costDetail.setSeqNo(seqNo);
 
 			// set transaction id
-			if (m_trx != null)
-				m_costdetail.setM_Transaction_ID(m_trx.getM_Transaction_ID());
+			if (transaction != null)
+				costDetail.setM_Transaction_ID(transaction.getM_Transaction_ID());
 			// set if transaction is sales order type or not
-			if (m_isSOTrx != null)
-				m_costdetail.setIsSOTrx(m_isSOTrx);
+			if (isSalesTransaction != null)
+				costDetail.setIsSOTrx(isSalesTransaction);
 			else
-				m_costdetail.setIsSOTrx(m_model.isSOTrx());
+				costDetail.setIsSOTrx(model.isSOTrx());
 
-			if (m_AdjustCost.signum() != 0 || m_AdjustCostLL.signum() != 0) {
-				String description = m_costdetail.getDescription() != null ? m_costdetail
+			if (adjustCost.signum() != 0 || adjustCostLowerLevel.signum() != 0) {
+				String description = costDetail.getDescription() != null ? costDetail
 						.getDescription() : "";
 				// update adjustment cost this level
-				if (m_AdjustCost.signum() != 0) {
-					m_costdetail.setCostAdjustmentDate(m_model.getDateAcct());
-					m_costdetail.setCostAdjustment(m_AdjustCost);
-					m_costdetail.setAmt(m_costdetail.getAmt().add(
-							m_costdetail.getCostAdjustment()));
-					m_costdetail.setDescription(description + " Adjust Cost:"
-							+ m_AdjustCost);
+				if (adjustCost.signum() != 0) {
+					costDetail.setCostAdjustmentDate(model.getDateAcct());
+					costDetail.setCostAdjustment(adjustCost);
+					//costDetail.setCostAmt(BigDecimal.ZERO);
+					costDetail.setAmt(costDetail.getAmt().add(
+							costDetail.getCostAdjustment()));
+					costDetail.setDescription(description + " Adjust Cost:"
+							+ adjustCost);
 				}
 				// update adjustment cost lower level
-				if (m_AdjustCostLL.signum() != 0) {
-					description = m_costdetail.getDescription() != null ? m_costdetail
+				if (adjustCostLowerLevel.signum() != 0) {
+					description = costDetail.getDescription() != null ? costDetail
 							.getDescription() : "";
-					m_costdetail.setCostAdjustmentDateLL(m_model.getDateAcct());
-					m_costdetail.setCostAdjustmentLL(m_AdjustCostLL);
-					m_costdetail.setAmt(m_costdetail.getCostAmtLL().add(
-							m_costdetail.getCostAdjustmentLL()));
-					m_costdetail.setDescription(description
-							+ " Adjust Cost LL:" + m_AdjustCost);
+					costDetail.setCostAdjustmentDateLL(model.getDateAcct());
+					costDetail.setCostAdjustmentLL(adjustCostLowerLevel);
+					//costDetail.setCostAmtLL(BigDecimal.ZERO);
+					costDetail.setAmt(costDetail.getCostAmtLL().add(
+							costDetail.getCostAdjustmentLL()));
+					costDetail.setDescription(description
+							+ " Adjust Cost LL:" + adjustCost);
 				}
 			}
 
-			updateAmtCost();
+			updateAmountCost();
 			return;
 		}
 	}
 
-	public MCostDetail process() {
-
+	public MCostDetail process() {		
 		calculate();
 		createCostDetail();
 		updateInventoryValue();
 		createCostAdjustment();
-		return m_costdetail;
+       // if (costDetail != null && costDetail.getM_CostDetail_ID() > 0)
+       //     DB.executeUpdate("UPDATE M_CostDetail SET Processing='N' WHERE M_CostDetail_ID=?", costDetail.getM_CostDetail_ID(), costDetail.get_TrxName());
+
+		return costDetail;
 	}
 
 	public void createCostAdjustment() {
 		// only re process cost detail if account schema need adjust cost
-		if (!m_as.isAdjustCOGS())
+		if (!accountSchema.isAdjustCOGS())
 			return;
 		// void the cycle process, only process the adjustment
-		if (m_costdetail == null || m_costdetail.isProcessing())
+		if (costDetail == null || costDetail.isProcessing())
 			return;
 
 		// Check if cost detail is an earlier transaction
 		// get the cost details that need be re process before this cost
 		// transaction
-		List<MCostDetail> cds = MCostDetail.getAfterDate(m_costdetail,
+		List<MCostDetail> cds = MCostDetail.getAfterDate(costDetail,
 				costingLevel);
 		if (cds == null || cds.size() == 0)
 			return;
 		
-		MCostDetail last_cd = m_costdetail;
-		m_costdetail = null;
+		MCostDetail last_cd = costDetail;
+		costDetail = null;
 		
 		 /*System.out.println(
 		 "-----------------------------------ADJUSTMENT COST -------------------------------------------------"
@@ -338,16 +368,16 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 
 		for (MCostDetail cd : cds) {
 			adjustCostDetail(cd);
-			cd.setProcessing(false);
-			cd.saveEx();
- 			clearAccounting(cd);
+            cd.setProcessing(false);
+            cd.saveEx();
+ 			//clearAccounting(cd);
 			// Only uncomment to debug
 			// Trx.get(cd.get_TrxName(), false).commit();
 		}
 	}
 
 	@Override
-	public void processCostDetail(MCostDetail mCostdetail) {
+	public void processCostDetail(MCostDetail costDetail) {
 	}
 
 	@Override
@@ -369,9 +399,9 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 	 */
 	public BigDecimal getNewCurrentCostPrice(MCostDetail cd, int scale,
 			int roundingMode) {
-		if (getNewCumulatedQty(cd).signum() != 0
-				&& getNewCumulatedAmt(cd).signum() != 0)
-			return getNewCumulatedAmt(cd).divide(getNewCumulatedQty(cd), scale,
+		if (getNewAccumulatedQuantity(cd).signum() != 0
+				&& getNewAccumulatedAmount(cd).signum() != 0)
+			return getNewAccumulatedAmount(cd).divide(getNewAccumulatedQuantity(cd), scale,
 					roundingMode);
 		else
 			return BigDecimal.ZERO;
@@ -384,35 +414,42 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 	 *            Cost Detail
 	 * @return New Cumulated Amt This Level
 	 */
-	public BigDecimal getNewCumulatedAmt(MCostDetail cd) {
+	public BigDecimal getNewAccumulatedAmount(MCostDetail cd) {
 
-		BigDecimal cumulatedAmt = Env.ZERO;
-		if (cd.getQty().signum() >= 0)
-			cumulatedAmt = cd.getCumulatedAmt().add(cd.getCostAmt())
+		BigDecimal accumulatedAmount = Env.ZERO;
+		if (cd.getQty().signum() > 0)
+			accumulatedAmount = cd.getCumulatedAmt().add(cd.getCostAmt())
 					.add(cd.getCostAdjustment());
 		else if (cd.getQty().signum() < 0)
-			cumulatedAmt = cd.getCumulatedAmt().add(cd.getCostAmt().negate())
+			accumulatedAmount = cd.getCumulatedAmt().add(cd.getCostAmt().negate())
 					.add(cd.getCostAdjustment().negate());
-
-		return cumulatedAmt;
+		else if (cd.getQty().signum() == 0)
+		{
+			if(getNewAccumulatedQuantity(cd).signum() > 0)
+				accumulatedAmount = cd.getCumulatedAmt().add(cd.getCostAmt())
+				.add(cd.getCostAdjustment());
+			else if (getNewAccumulatedQuantity(cd).signum() < 0)
+				accumulatedAmount = cd.getCumulatedAmt().add(cd.getCostAmt().negate())
+				.add(cd.getCostAdjustment().negate());
+				
+		}
+		
+		return accumulatedAmount;
 	}
 
 	/**
 	 * Average Invoice Get the New Current Cost Price low level
 	 * 
-	 * @param cd
-	 *            Cost Detail
-	 * @param scale
-	 *            Scale
-	 * @param roundingMode
-	 *            Rounding Mode
+	 * @param costDetail Cost Detail
+	 * @param scale Scale
+	 * @param roundingMode Rounding Mode
 	 * @return New Current Cost Price low level
 	 */
-	public BigDecimal getNewCurrentCostPriceLL(MCostDetail cd, int scale,
-			int roundingMode) {
-		if (getNewCumulatedQty(cd).signum() != 0
-				&& getNewCumulatedAmtLL(cd).signum() != 0)
-			return getNewCumulatedAmtLL(cd).divide(getNewCumulatedQty(cd),
+	public BigDecimal getNewCurrentCostPriceLowerLevel(MCostDetail costDetail, int scale,
+                                                       int roundingMode) {
+		if (getNewAccumulatedQuantity(costDetail).signum() != 0
+				&& getNewAccumulatedAmountLowerLevel(costDetail).signum() != 0)
+			return getNewAccumulatedAmountLowerLevel(costDetail).divide(getNewAccumulatedQuantity(costDetail),
 					scale, roundingMode);
 		else
 			return BigDecimal.ZERO;
@@ -421,161 +458,166 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 	/**
 	 * Average Invoice Get the new Cumulated Amt Low Level
 	 * 
-	 * @param cd
-	 *            MCostDetail
+	 * @param costDetail MCostDetail
 	 * @return New Cumulated Am Low Level
 	 */
-	public BigDecimal getNewCumulatedAmtLL(MCostDetail cd) {
-		BigDecimal cumulatedAmtLL = Env.ZERO;
-		if (cd.getQty().signum() >= 0)
-			cumulatedAmtLL = cd.getCumulatedAmtLL().add(cd.getCostAmtLL())
-					.add(cd.getCostAdjustmentLL());
+	public BigDecimal getNewAccumulatedAmountLowerLevel(MCostDetail costDetail) {
+		BigDecimal accumulatedAmountLowerLevel = Env.ZERO;
+		if (costDetail.getQty().signum() >= 0)
+			accumulatedAmountLowerLevel = costDetail.getCumulatedAmtLL().add(costDetail.getCostAmtLL())
+					.add(costDetail.getCostAdjustmentLL());
 		else
-			cumulatedAmtLL = cd.getCumulatedAmtLL()
-					.add(cd.getCostAmtLL().negate())
-					.add(cd.getCostAdjustmentLL().negate());
-		return cumulatedAmtLL;
+			accumulatedAmountLowerLevel = costDetail.getCumulatedAmtLL()
+					.add(costDetail.getCostAmtLL().negate())
+					.add(costDetail.getCostAdjustmentLL().negate());
+		return accumulatedAmountLowerLevel;
 	}
 
 	/**
 	 * Average Invoice Get the new Cumulated Qty
-	 * 
-	 * @param cd
-	 *            Cost Detail
-	 * @return New Cumulated Qty
+	 * @param costDetail Cost Detail
+	 * @return New Accumulated Quantity
 	 */
-	public BigDecimal getNewCumulatedQty(MCostDetail cd) {
-		return cd.getCumulatedQty().add(cd.getQty());
+	public BigDecimal getNewAccumulatedQuantity(MCostDetail costDetail) {
+		    return costDetail.getCumulatedQty().add(costDetail.getQty());
 	}
 
 	/**
 	 * Update Cost Amt
 	 */
-	public void updateAmtCost() {
+	public void updateAmountCost() {
 		
-		if (m_trx.getMovementQty().signum() > 0) {
-			m_costdetail.setCostAmt(m_costdetail.getAmt().subtract(
-					m_costdetail.getCostAdjustment()));
-			m_costdetail.setCostAmtLL(m_costdetail.getAmtLL().subtract(
-					m_costdetail.getCostAdjustmentLL()));
+		if (transaction.getMovementQty().signum() > 0) {
+			costDetail.setCostAmt(costDetail.getAmt().subtract(
+					costDetail.getCostAdjustment()));
+			costDetail.setCostAmtLL(costDetail.getAmtLL().subtract(
+					costDetail.getCostAdjustmentLL()));
 		}	
-		else if (m_trx.getMovementQty().signum() < 0 ) {
-			m_costdetail.setCostAmt(m_costdetail.getAmt().add(m_AdjustCost));
-			m_costdetail.setCostAmtLL(m_costdetail.getAmtLL().add(
-					m_AdjustCostLL));
+		else if (transaction.getMovementQty().signum() < 0 ) {
+			costDetail.setCostAmt(costDetail.getAmt().add(adjustCost));
+			costDetail.setCostAmtLL(costDetail.getAmtLL().add(
+                    adjustCostLowerLevel));
 		}
+
+        costDetail.setCumulatedQty(getNewAccumulatedQuantity(lastCostDetail));
+        costDetail.setCumulatedAmt(getNewAccumulatedAmount(lastCostDetail));
+        costDetail.setCurrentCostPrice(currentCostPrice);
+        costDetail.setCurrentCostPriceLL(currentCostPriceLowerLevel);
 
 		// set the id for model
-		final String idColumnName = CostEngine.getIDColumnName(m_model);
-		m_costdetail.set_ValueOfColumn(idColumnName,
-				CostEngine.getIDColumn(m_model));
+		final String idColumnName = CostEngine.getIDColumnName(model);
+		costDetail.set_ValueOfColumn(idColumnName,
+				CostEngine.getIDColumn(model));
 		
-		if (m_model instanceof MInOutLine)
+		if (model instanceof MInOutLine)
 		{	
-			MInOutLine ioLine =  (MInOutLine) m_model;
-			m_costdetail.setC_OrderLine_ID(ioLine.getC_OrderLine_ID());
+			MInOutLine ioLine =  (MInOutLine) model;
+			costDetail.setC_OrderLine_ID(ioLine.getC_OrderLine_ID());
 			// IMPORTANT : reset possible provision purchase cost processed
-			m_costdetail.setC_InvoiceLine_ID(0);
+			costDetail.setC_InvoiceLine_ID(0);
 		}
-		if (m_model instanceof MMatchInv && m_costdetail.getM_InOutLine_ID() == 0)
+
+		if (model instanceof MMatchInv && costDetail.getM_InOutLine_ID() == 0)
 		{	
-			MMatchInv iMatch =  (MMatchInv) m_model;
-			m_costdetail.setM_InOutLine_ID(iMatch.getM_InOutLine_ID());
+			MMatchInv iMatch =  (MMatchInv) model;
+			costDetail.setM_InOutLine_ID(iMatch.getM_InOutLine_ID());
 		}
-		if(m_model instanceof MMatchPO && m_costdetail.getM_InOutLine_ID() == 0)
+		if(model instanceof MMatchPO && costDetail.getM_InOutLine_ID() == 0)
 		{
-			MMatchPO poMatch =  (MMatchPO) m_model;
-			m_costdetail.setM_InOutLine_ID(poMatch.getM_InOutLine_ID());
+			MMatchPO poMatch =  (MMatchPO) model;
+			costDetail.setM_InOutLine_ID(poMatch.getM_InOutLine_ID());
 		}
-		m_costdetail.setCumulatedAmt(getNewCumulatedAmt(m_last_costdetail));
-		m_costdetail.setCumulatedQty(getNewCumulatedQty(m_last_costdetail));
-		m_costdetail.setCurrentCostPrice(m_CurrentCostPrice);
-		m_costdetail.setCurrentCostPriceLL(m_CurrentCostPriceLL);
-		m_costdetail.saveEx();
-		
-		//System.out.println (m_costdetail.getM_Warehouse().getName() + " " + m_costdetail.getSeqNo() + " Cumulated Qty:" + m_costdetail.getCumulatedQty() + " Cumulated Amt:" + m_costdetail.getCumulatedAmt() + " Transaction ID: " +  m_costdetail.getM_Transaction_ID() +  " Model ID: " + m_model.get_ID() + " Date " + m_costdetail.getDateAcct());
-		// Trx.get(m_costdetail.get_TrxName(), false).commit();
+		if (model instanceof MLandedCostAllocation) {
+			MLandedCostAllocation allocation = (MLandedCostAllocation) model;
+			costDetail.setM_InOutLine_ID(allocation.getM_InOutLine_ID());
+			costDetail.setC_InvoiceLine_ID(allocation.getC_InvoiceLine_ID());
+			costDetail.setProcessed(false);
+		}
+		costDetail.saveEx();
+        //System.out.println("Catidad Inicial" + costDetail.getCumulatedQty() + " Saldo Inicial  " + costDetail.getCumulatedAmt());
+		//System.out.println (costDetail.getM_Warehouse().getName() + " " + costDetail.getSeqNo() + " Cumulated Qty:" + costDetail.getCumulatedQty() + " Cumulated Amt:" + costDetail.getCumulatedAmt() + " Transaction ID: " +  costDetail.getM_Transaction_ID() +  " Model ID: " + model.get_ID() + " Date " + costDetail.getDateAcct());
+		// Trx.get(costDetail.get_TrxName(), false).commit();
 	}
 
-	/**
+    public void updateInventoryValue() {
+        if (accumulatedQuantity.signum() != 0)
+        {
+            dimension.setCurrentCostPrice(accumulatedAmount.divide(accumulatedQuantity, accountSchema.getCostingPrecision(),
+                    BigDecimal.ROUND_HALF_UP));
+            dimension.setCurrentCostPriceLL(accumulatedAmountLowerLevel.divide(accumulatedQuantity, accountSchema.getCostingPrecision(),
+                    BigDecimal.ROUND_HALF_UP));
+        }
+        dimension.setCumulatedAmt(accumulatedAmount);
+        dimension.setCumulatedAmtLL(accumulatedAmountLowerLevel);
+        dimension.setCumulatedQty(accumulatedQuantity);
+        dimension.setCurrentQty(accumulatedQuantity);
+        dimension.saveEx();
+    }
+
+
+    /**
 	 * Recalculate Cost Detail
-	 * 
-	 * @param cd
-	 *            Cost Detail
-	 * @param ct
-	 *            Cost Type
-	 * @param ce
-	 *            Cost Element
-	 */
-	public void adjustCostDetail(MCostDetail cd) {
-		MTransaction trx = new MTransaction(m_model.getCtx(),
-				cd.getM_Transaction_ID(), m_model.get_TrxName());
-		IDocumentLine docLine = null;
-		MCostType ct = (MCostType) cd.getM_CostType();
-		MCostElement ce = (MCostElement) cd.getM_CostElement();
+	 * @param costDetail
+     */
+	public void adjustCostDetail(MCostDetail costDetail) {
 
-		CostEngineFactory.getCostEngine(cd.getAD_Client_ID()).createCostDetail(
-				m_as, trx, trx.getDocumentLine(), ct, ce);
+        Properties ctx =  costDetail.getCtx();
+        String trxName = costDetail.get_TrxName();
+        int transactionId = costDetail.getM_Transaction_ID();
+        int clientId = costDetail.getAD_Client_ID();
 
-		if (MCostElement.COSTELEMENTTYPE_Material.equals(ce
-				.getCostElementType())) {
-			// Calculate adjustment cost by variances in invoices
-			if (MTransaction.MOVEMENTTYPE_VendorReceipts.equals(trx
-					.getMovementType())
-					&& MCostElement.COSTELEMENTTYPE_Material.equals(ce
-							.getCostElementType())) {
-				MInOutLine line = (MInOutLine) trx.getDocumentLine();
-				MMatchPO[] orderMatches = MMatchPO.getOrderLine(cd.getCtx(),
-						line.getC_OrderLine_ID(), cd.get_TrxName());
-				for (MMatchPO match : orderMatches) {
-					if (match.getM_InOutLine_ID() == line.getM_InOutLine_ID()
-							&& match.getM_Product_ID() == trx.getM_Product_ID()) {
-						CostEngineFactory.getCostEngine(cd.getAD_Client_ID())
-								.createCostDetail(m_as, trx, match, ct, ce);
-					}
-				}
+		MTransaction transaction = new MTransaction(ctx, transactionId, trxName);
 
-				MMatchInv[] invoiceMatches = MMatchInv
-						.getInOutLine(cd.getCtx(), line.getM_InOutLine_ID(),
-								cd.get_TrxName());
-				for (MMatchInv match : invoiceMatches) {
-					if (match.getM_Product_ID() == trx.getM_Product_ID()) {
-						CostEngineFactory.getCostEngine(cd.getAD_Client_ID())
-								.createCostDetail(m_as, trx, match, ct, ce);
-					}
-				}
+		MCostType costType = (MCostType) costDetail.getM_CostType();
+		MCostElement costElement = (MCostElement) costDetail.getM_CostElement();
+		MAcctSchema accountSchema = (MAcctSchema) costDetail.getC_AcctSchema();
+
+
+		if (MTransaction.MOVEMENTTYPE_VendorReceipts.equals(transaction.getMovementType()))
+		{
+			MInOutLine line = (MInOutLine) transaction.getDocumentLine();
+			if (MCostElement.COSTELEMENTTYPE_Material.equals(costElement.getCostElementType()))
+			{
+                if (costDetail.getM_InOutLine_ID() > 0 && costDetail.getQty().signum() !=  0 )
+                {
+                    CostEngineFactory.getCostEngine(clientId).createCostDetail(
+                            accountSchema, costType, costElement, transaction, line, true);
+                }
+                else if (costDetail.getM_InOutLine_ID() > 0 && costDetail.getQty().signum() != 0 && costDetail.getC_OrderLine_ID() > 0) {
+                    List<MMatchPO> orderMatches = MMatchPO.getInOutLine(line);
+                    for (MMatchPO match : orderMatches) {
+                        if (match.getM_InOutLine_ID() == line.getM_InOutLine_ID()
+                                && match.getM_Product_ID() == transaction.getM_Product_ID()) {
+                            CostEngineFactory.getCostEngine(clientId)
+                                    .createCostDetail(accountSchema, costType, costElement, transaction, match, true);
+                        }
+                    }
+                }
+                else if (costDetail.getM_InOutLine_ID() > 0 && costDetail.getQty().signum() == 0 && costDetail.getC_InvoiceLine_ID() > 0 ) {
+                    List<MMatchInv> invoiceMatches = MMatchInv
+                            .getInOutLine(line);
+                    for (MMatchInv match : invoiceMatches) {
+                        if (match.getM_Product_ID() == transaction.getM_Product_ID()) {
+                            CostEngineFactory.getCostEngine(clientId)
+                                    .createCostDetail(accountSchema, costType, costElement, transaction, match, true);
+                        }
+                    }
+                }
 			}
-			return;
-		}
-		// Process Landed Cost Element
-		if (MCostElement.COSTELEMENTTYPE_LandedCost.equals(ce
-				.getCostElementType())) {
-			if (MTransaction.MOVEMENTTYPE_VendorReceipts.equals(trx
-					.getMovementType())
-					&& cd.getC_LandedCostAllocation_ID() > 0) {
-					CostEngineFactory
-					.getCostEngine(cd.getAD_Client_ID())
-					.createCostDetailForLandedCostAllocation((MLandedCostAllocation) cd.getC_LandedCostAllocation());
-			}
-			return;
-		}
-	}
 
-	/**
-	 * Update the Inventory Value based in last transaction
-	 */
-	public void updateInventoryValue() {
-		if (m_CumulatedQty.signum() != 0)
-		{	
-			m_dimension.setCurrentCostPrice(m_CumulatedAmt.divide(m_CumulatedQty, m_as.getCostingPrecision(),
-					BigDecimal.ROUND_HALF_UP));
-			m_dimension.setCurrentCostPriceLL(m_CumulatedAmtLL.divide(m_CumulatedQty, m_as.getCostingPrecision(),
-					BigDecimal.ROUND_HALF_UP));
+			//get landed allocation cost
+			for (MLandedCostAllocation allocation : 
+				MLandedCostAllocation.getOfInOuline(line,
+							costElement.getM_CostElement_ID()))
+			{
+				//System.out.println("Allocation : " + allocation.getC_LandedCostAllocation_ID() +  " Amount:" +  allocation.getAmt());
+				CostEngineFactory
+				.getCostEngine(clientId)
+				.createCostDetail(accountSchema, costType, costElement, transaction, allocation, true);
+			}
 		}
-		m_dimension.setCumulatedAmt(m_CumulatedAmt);
-		m_dimension.setCumulatedAmtLL(m_CumulatedAmtLL);
-		m_dimension.setCumulatedQty(m_CumulatedQty);
-		m_dimension.setCurrentQty(m_CumulatedQty);
-		m_dimension.saveEx();
-	}
+        else
+            CostEngineFactory.getCostEngine(clientId).createCostDetail(
+                    accountSchema, costType, costElement, transaction, transaction.getDocumentLine(), true);
+	}	
 }

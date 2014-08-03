@@ -21,6 +21,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -64,15 +65,15 @@ public class MMatchPO extends X_M_MatchPO implements IDocumentLine
 	/**
 	 * 	Get PO Match with order/invoice
 	 *	@param ctx context
-	 *	@param C_OrderLine_ID order
-	 *	@param C_InvoiceLine_ID invoice
+	 *	@param orderLineId order
+	 *	@param invoiceLineId invoice
 	 *	@param trxName transaction
 	 *	@return array of matches
 	 */
 	public static MMatchPO[] get (Properties ctx, 
-		int C_OrderLine_ID, int C_InvoiceLine_ID, String trxName)
+		int orderLineId, int invoiceLineId, String trxName)
 	{
-		if (C_OrderLine_ID == 0 || C_InvoiceLine_ID == 0)
+		if (orderLineId == 0 || invoiceLineId == 0)
 			return new MMatchPO[]{};
 		//
 		String sql = "SELECT * FROM M_MatchPO WHERE C_OrderLine_ID=? AND C_InvoiceLine_ID=?";
@@ -82,8 +83,8 @@ public class MMatchPO extends X_M_MatchPO implements IDocumentLine
 		try
 		{
 			pstmt = DB.prepareStatement (sql, trxName);
-			pstmt.setInt (1, C_OrderLine_ID);
-			pstmt.setInt (2, C_InvoiceLine_ID);
+			pstmt.setInt (1, orderLineId);
+			pstmt.setInt (2, invoiceLineId);
 			rs = pstmt.executeQuery ();
 			while (rs.next ())
 				list.add (new MMatchPO (ctx, rs, trxName));
@@ -102,6 +103,19 @@ public class MMatchPO extends X_M_MatchPO implements IDocumentLine
 		return retValue;
 	}	//	get
 
+    /**
+     * get Match PO entity
+     * @param ioLine
+     * @return
+     */
+	public static List<MMatchPO> getInOutLine (MInOutLine ioLine)
+	{
+		return new Query(ioLine.getCtx(), MMatchPO.Table_Name,  MMatchPO.COLUMNNAME_M_InOutLine_ID + "=?" , ioLine.get_TrxName())
+		.setClient_ID()
+		.setParameters(ioLine.getM_InOutLine_ID())
+		.list();
+	}
+	
 	/**
 	 * 	Get PO Matches of receipt
 	 *	@param ctx context
@@ -547,13 +561,14 @@ public class MMatchPO extends X_M_MatchPO implements IDocumentLine
 		// If newRecord, set c_invoiceline_id while null
 		if (newRecord && getC_InvoiceLine_ID() == 0) 
 		{
-			MMatchInv[] mpi = MMatchInv.getInOutLine(getCtx(), getM_InOutLine_ID(), get_TrxName());
-			for (int i = 0; i < mpi.length; i++) 
+			MInOutLine line =  (MInOutLine) getM_InOutLine();
+			List<MMatchInv> matches = MMatchInv.getInOutLine(line);
+			for (MMatchInv match : matches)
 			{
-				if (mpi[i].getC_InvoiceLine_ID() != 0 && 
-						mpi[i].getM_AttributeSetInstance_ID() == getM_AttributeSetInstance_ID()) 
+				if (match.getC_InvoiceLine_ID() != 0 && 
+						match.getM_AttributeSetInstance_ID() == getM_AttributeSetInstance_ID()) 
 				{
-					setC_InvoiceLine_ID(mpi[i].getC_InvoiceLine_ID());
+					setC_InvoiceLine_ID(match.getC_InvoiceLine_ID());
 					break;
 				}
 			}

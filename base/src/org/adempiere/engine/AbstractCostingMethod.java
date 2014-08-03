@@ -16,6 +16,7 @@ import org.compiere.model.MCost;
 import org.compiere.model.MCostDetail;
 import org.compiere.model.MCostElement;
 import org.compiere.model.MCostType;
+import org.compiere.model.MDocType;
 import org.compiere.model.MInOutLine;
 import org.compiere.model.MInventoryLine;
 import org.compiere.model.MMatchInv;
@@ -33,36 +34,37 @@ import org.eevolution.model.MPPCostCollector;
 /**
  * @author anca_bradau
  * @author victor.perez@e-evolution.com, www.e-evolution.com
- * @param <abtract>
  * 
+ */
+
+/**
+ * Abstract Costing Method
  */
 public abstract class AbstractCostingMethod implements ICostingMethod {
 	protected final CLogger log = CLogger.getCLogger(getClass());
 
-	MAcctSchema m_as;
-	IDocumentLine m_model;
-	MTransaction m_trx;
-	MCost m_dimension;
-	Boolean m_isSOTrx;
-	BigDecimal m_costThisLevel;
-	BigDecimal m_costLowLevel;
-	BigDecimal m_cost;
-	MCostDetail m_costdetail = null;
-	BigDecimal m_movementQty = Env.ZERO;
-	BigDecimal m_CumulatedAmt = Env.ZERO;
-	BigDecimal m_CumulatedAmtLL = Env.ZERO;
-	BigDecimal m_CumulatedQty = Env.ZERO;
-	BigDecimal m_CurrentCostPrice = Env.ZERO;
-	BigDecimal m_CurrentCostPriceLL = Env.ZERO;
-	BigDecimal m_Amount = Env.ZERO;
-	BigDecimal m_AmountLL = Env.ZERO;
-	BigDecimal m_AdjustCost = Env.ZERO;
-	BigDecimal m_AdjustCostLL = Env.ZERO;
-	MCostDetail m_last_costdetail = null;
-	String costingLevel;
+	protected MAcctSchema accountSchema;
+    protected IDocumentLine model;
+    protected MTransaction transaction;
+    protected MCost dimension;
+    protected Boolean isSalesTransaction;
+    protected BigDecimal costThisLevel;
+    protected BigDecimal costLowLevel;
+    protected MCostDetail costDetail = null;
+    protected BigDecimal accumulatedAmount = Env.ZERO;
+    protected BigDecimal accumulatedAmountLowerLevel = Env.ZERO;
+    protected BigDecimal accumulatedQuantity = Env.ZERO;
+    protected BigDecimal currentCostPrice = Env.ZERO;
+    protected BigDecimal currentCostPriceLowerLevel = Env.ZERO;
+    protected BigDecimal amount = Env.ZERO;
+    protected BigDecimal amountLowerLevel = Env.ZERO;
+    protected BigDecimal adjustCost = Env.ZERO;
+    protected BigDecimal adjustCostLowerLevel = Env.ZERO;
+    protected MCostDetail lastCostDetail = null;
+    protected String costingLevel;
 
-	protected List<MCostDetail> createCostDetails(MCost cost, MTransaction mtrx) {
-		IDocumentLine model = mtrx.getDocumentLine();
+	protected List<MCostDetail> createCostDetails(MCost cost, MTransaction transaction) {
+		IDocumentLine model = transaction.getDocumentLine();
 
 		final String idColumnName;
 		if (model instanceof MMatchPO) {
@@ -78,11 +80,11 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 				|| model instanceof MMovementLine) {
 			List<CostComponent> ccs = getCalculatedCosts();
 			for (CostComponent cc : ccs) {
-				MCostDetail cd = new MCostDetail(m_trx,
-						m_as.getC_AcctSchema_ID(),
-						m_dimension.getM_CostType_ID(),
-						m_dimension.getM_CostElement_ID(), cc.getAmount(),
-						Env.ZERO, cc.getQty(), m_model.get_TrxName());
+				MCostDetail cd = new MCostDetail(this.transaction,
+						accountSchema.getC_AcctSchema_ID(),
+						dimension.getM_CostType_ID(),
+						dimension.getM_CostElement_ID(), cc.getAmount(),
+						Env.ZERO, cc.getQty(), this.model.get_TrxName());
 				if (!cd.set_ValueOfColumnReturningBoolean(idColumnName,
 						model.get_ID()))
 					throw new AdempiereException("Cannot set " + idColumnName);
@@ -97,22 +99,22 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 					cd.setIsSOTrx(model.isSOTrx());
 				else
 					cd.setIsSOTrx(model.isSOTrx());
-				cd.setM_Transaction_ID(mtrx.get_ID());
+				cd.setM_Transaction_ID(transaction.get_ID());
 				cd.setDescription(description.toString());
 				cd.saveEx();
 				list.add(cd);
 			}
 		} else // qty and amt is take from documentline
 		{
-			MCostDetail cd = new MCostDetail(m_trx, m_as.getC_AcctSchema_ID(),
-					m_dimension.getM_CostType_ID(),
-					m_dimension.getM_CostElement_ID(),
-					m_costThisLevel.multiply(model.getMovementQty()), Env.ZERO,
-					model.getMovementQty(), m_model.get_TrxName());
+			MCostDetail cd = new MCostDetail(this.transaction, accountSchema.getC_AcctSchema_ID(),
+					dimension.getM_CostType_ID(),
+					dimension.getM_CostElement_ID(),
+					costThisLevel.multiply(model.getMovementQty()), Env.ZERO,
+					model.getMovementQty(), this.model.get_TrxName());
 			int id;
 			if (model instanceof MMatchPO) {
 
-				I_M_InOutLine iline = mtrx.getM_InOutLine();
+				I_M_InOutLine iline = transaction.getM_InOutLine();
 				I_C_OrderLine oline = iline.getC_OrderLine();
 				id = oline.getC_OrderLine_ID();
 
@@ -125,7 +127,7 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 				cd.setIsSOTrx(model.isSOTrx());
 			else
 				cd.setIsSOTrx(model.isSOTrx());
-			cd.setM_Transaction_ID(mtrx.get_ID());
+			cd.setM_Transaction_ID(transaction.get_ID());
 			cd.saveEx();
 			list.add(cd);
 		}
@@ -137,117 +139,118 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 	/**
 	 * Update the Inventory Value based in last transaction
 	 */
-	public void updateInventoryValue() {
-		m_dimension.setCumulatedAmt(m_CumulatedAmt);
-		m_dimension.setCumulatedAmtLL(m_CumulatedAmtLL);
-		m_dimension.setCumulatedQty(m_CumulatedQty);
-		m_dimension.setCurrentQty(m_CumulatedQty);
-		m_dimension.saveEx();
-	}
+    protected  void updateInventoryValue()
+    {
+
+    }
 
 	/**
 	 * Create Reversal Transaction
 	 */
 	public void createReversalCostDetail() {
 		
-		MTransaction original_trx = MTransaction.getByDocumentLine(m_trx);
-		if (original_trx == null)
-			 throw new AdempiereException("Can not found the original transaction");
-		
-		m_costdetail = new MCostDetail(m_model.getCtx(), 0, m_trx.get_TrxName());
-
-		IDocumentLine model = original_trx.getDocumentLine();
-		String idColumnName = model.get_TableName() + "_ID";
-
-		// Qty Transaction
-		m_last_costdetail = MCostDetail.getByTransaction(model,
-				original_trx, m_as.getC_AcctSchema_ID(),
-				m_dimension.getM_CostType_ID(),
-				m_dimension.getM_CostElement_ID());
-		if (m_last_costdetail == null)
+		MTransaction originalTransaction = MTransaction.getByDocumentLine(transaction);
+		if (originalTransaction == null)
 		{	
-			m_last_costdetail = MCostDetail.getByTransaction(model,
-					original_trx, m_as.getC_AcctSchema_ID(),
-					m_dimension.getM_CostType_ID(),
-					m_dimension.getM_CostElement_ID());
+			 //throw new AdempiereException("Can not found the original transaction");
+			System.out.println("Transaction not found :" + transaction);
+			return;
+		}	
+		
+		costDetail = new MCostDetail(model.getCtx(), 0, transaction.get_TrxName());
+		// Qty Transaction
+		lastCostDetail = MCostDetail.getByTransaction(originalTransaction.getDocumentLine(),
+                originalTransaction, accountSchema.getC_AcctSchema_ID(),
+                dimension.getM_CostType_ID(),
+                dimension.getM_CostElement_ID());
+		if (lastCostDetail == null)
+		{	
+			/*lastCostDetail = MCostDetail.getByTransaction(model,
+					original_trx, accountSchema.getC_AcctSchema_ID(),
+					dimension.getM_CostType_ID(),
+					dimension.getM_CostElement_ID());*/
 			
-			 throw new
-					 AdempiereException("Can not found the original cost detail");
-		}	 
+			 //throw new
+			 //		 AdempiereException("Can not found the original cost detail");
+			System.out.println("Detail Cost not found :" + originalTransaction);
+			return;
+		}
 
-			m_costdetail.setAD_Org_ID(m_last_costdetail.getAD_Org_ID());
-			m_costdetail.setM_Warehouse_ID(m_last_costdetail.getM_Warehouse_ID());
-			m_costdetail.copyValues(m_last_costdetail, m_costdetail);
+            costDetail.copyValues(lastCostDetail, costDetail);
+			costDetail.setAD_Org_ID(lastCostDetail.getAD_Org_ID());
+			costDetail.setM_Warehouse_ID(lastCostDetail.getM_Warehouse_ID());
+
 			
 			setReversalCostDetail();
 			
-			m_costdetail.setM_AttributeSetInstance_ID(m_trx
-					.getM_AttributeSetInstance_ID());
+			costDetail.setM_AttributeSetInstance_ID(transaction
+                    .getM_AttributeSetInstance_ID());
 
-			m_costdetail.setDateAcct(m_model.getDateAcct());
-			//m_costdetail.setProcessing(false); not should change so that be costing re processing by early transaction
-			m_costdetail.setM_Transaction_ID(m_trx.getM_Transaction_ID());
-			m_costdetail.setDescription("Reversal "
-					+ original_trx.getM_Transaction_ID());
-			m_costdetail.setIsReversal(true);
-			m_costdetail.saveEx();
+			costDetail.setDateAcct(this.model.getDateAcct());
+			//costDetail.setProcessing(false); not should change so that be costing re processing by early transaction
+			//costDetail.setM_Transaction_ID(transaction.getM_Transaction_ID());
+			costDetail.setDescription("Reversal "
+                    + originalTransaction.getM_Transaction_ID());
+			costDetail.setIsReversal(true);
+			costDetail.saveEx();
 
 			// Update the original cost detail
-			m_last_costdetail
-					.setDescription(m_last_costdetail.getDescription() != null ? m_last_costdetail
-							.getDescription() : "" + "|Reversal "
-							+ m_costdetail.getM_Transaction_ID());
-			m_last_costdetail.setIsReversal(true);
-			m_last_costdetail.saveEx(m_trx.get_TrxName());
+			lastCostDetail
+					.setDescription(lastCostDetail.getDescription() != null ? lastCostDetail
+                            .getDescription() : "" + "|Reversal "
+                            + costDetail.getM_Transaction_ID());
+			lastCostDetail.setIsReversal(true);
+			lastCostDetail.saveEx(transaction.get_TrxName());
 			
-		// Only uncomment to debug Trx.get(m_costdetail.get_TrxName(),
+		// Only uncomment to debug Trx.get(costDetail.get_TrxName(),
 		// false).commit();
 	}
 	
 	protected void setReversalCostDetail()
 	{
-		m_costdetail.setCurrentCostPrice(getNewCurrentCostPrice(
-				m_last_costdetail, m_as.getCostingPrecision(),
-				BigDecimal.ROUND_HALF_UP));
+		costDetail.setCurrentCostPrice(getNewCurrentCostPrice(
+                lastCostDetail, accountSchema.getCostingPrecision(),
+                BigDecimal.ROUND_HALF_UP));
 		
-		m_costdetail.setCurrentCostPriceLL(getNewCurrentCostPriceLL(
-				m_last_costdetail, m_as.getCostingPrecision(),
-				BigDecimal.ROUND_HALF_UP));
-		m_costdetail.setCurrentQty(Env.ZERO);
-		m_costdetail.setQty(Env.ZERO);
-		m_costdetail.setAmt(Env.ZERO);
-		m_costdetail.setCostAmt(Env.ZERO);
-		m_costdetail.setCostAdjustment(Env.ZERO);
-		m_costdetail.setAmtLL(Env.ZERO);
-		m_costdetail.setCostAmtLL(Env.ZERO);
-		m_costdetail.setCostAdjustmentLL(Env.ZERO);
-		m_costdetail.setCumulatedAmt(Env.ZERO);
-		m_costdetail.setCumulatedAmtLL(Env.ZERO);
-		m_costdetail.setCumulatedQty(Env.ZERO);
+		costDetail.setCurrentCostPriceLL(getNewCurrentCostPriceLowerLevel(
+                lastCostDetail, accountSchema.getCostingPrecision(),
+                BigDecimal.ROUND_HALF_UP));
+		costDetail.setCurrentQty(Env.ZERO);
+		costDetail.setQty(Env.ZERO);
+		costDetail.setAmt(Env.ZERO);
+		costDetail.setCostAmt(Env.ZERO);
+		costDetail.setCostAdjustment(Env.ZERO);
+		costDetail.setAmtLL(Env.ZERO);
+		costDetail.setCostAmtLL(Env.ZERO);
+		costDetail.setCostAdjustmentLL(Env.ZERO);
+		costDetail.setCumulatedAmt(Env.ZERO);
+		costDetail.setCumulatedAmtLL(Env.ZERO);
+		costDetail.setCumulatedQty(Env.ZERO);
+        costDetail.setM_Transaction_ID(transaction.getM_Transaction_ID());
 		
-		m_costdetail.setSeqNo(m_last_costdetail.getSeqNo() + 10);
-		m_costdetail.setQty(m_last_costdetail.getQty().negate());
-		m_costdetail.setAmt(m_last_costdetail.getAmt());
-		m_costdetail.setCostAmt(m_last_costdetail.getCostAmt());
+		costDetail.setSeqNo(lastCostDetail.getSeqNo() + 10);
+		costDetail.setQty(lastCostDetail.getQty().negate());
+		costDetail.setAmt(lastCostDetail.getAmt());
+		costDetail.setCostAmt(lastCostDetail.getCostAmt());
 	
-		m_costdetail.setCostAdjustment(m_last_costdetail.getCostAdjustment());
-		m_costdetail.setCostAdjustmentDate(m_last_costdetail
-				.getCostAdjustmentDate());
+		costDetail.setCostAdjustment(lastCostDetail.getCostAdjustment());
+		costDetail.setCostAdjustmentDate(lastCostDetail
+                .getCostAdjustmentDate());
 		
-		m_CurrentCostPrice = m_last_costdetail.getCurrentCostPrice();
-		m_CurrentCostPriceLL = m_last_costdetail.getCurrentCostPriceLL();
+		currentCostPrice = lastCostDetail.getCurrentCostPrice();
+		currentCostPriceLowerLevel = lastCostDetail.getCurrentCostPriceLL();
 		
-		updateAmtCost();
+		updateAmountCost();
 		
 		// Update the new cost detail
-		m_CumulatedQty = getNewCumulatedQty(m_costdetail);
-		m_CumulatedAmt = getNewCumulatedAmt(m_costdetail);
-		m_CumulatedAmtLL = getNewCumulatedAmtLL(m_costdetail);
-		m_CurrentCostPrice = getNewCurrentCostPrice(m_costdetail,
-				m_as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+		accumulatedQuantity = getNewAccumulatedQuantity(costDetail);
+		accumulatedAmount = getNewAccumulatedAmount(costDetail);
+		accumulatedAmountLowerLevel = getNewAccumulatedAmountLowerLevel(costDetail);
+		currentCostPrice = getNewCurrentCostPrice(costDetail,
+                accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
 	}
 	
-	public abstract void updateAmtCost();
+	public abstract void updateAmountCost();
 
 	/**
 	 * Method to implement the costing method Get the New Current Cost Price
@@ -272,7 +275,7 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 	 *            Cost Detail
 	 * @return New Cumulated Amt This Level
 	 */
-	abstract public BigDecimal getNewCumulatedAmt(MCostDetail cd);
+	abstract public BigDecimal getNewAccumulatedAmount(MCostDetail cd);
 
 	/**
 	 * Method to implement the costing method Get the New Current Cost Price low
@@ -286,8 +289,8 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 	 *            Rounding Mode
 	 * @return New Current Cost Price low level
 	 */
-	abstract public BigDecimal getNewCurrentCostPriceLL(MCostDetail cd,
-			int scale, int roundingMode);
+	abstract public BigDecimal getNewCurrentCostPriceLowerLevel(MCostDetail cd,
+                                                                int scale, int roundingMode);
 
 	/**
 	 * Method to implement the costing method Get the new Cumulated Amt Low
@@ -297,7 +300,7 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 	 *            MCostDetail
 	 * @return New Cumulated Am Low Level
 	 */
-	abstract public BigDecimal getNewCumulatedAmtLL(MCostDetail cd);
+	abstract public BigDecimal getNewAccumulatedAmountLowerLevel(MCostDetail cd);
 
 	/**
 	 * Method to implement the costing method Get the new Cumulated Qty
@@ -306,26 +309,20 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 	 *            Cost Detail
 	 * @return New Cumulated Qty
 	 */
-	abstract public BigDecimal getNewCumulatedQty(MCostDetail cd);
+	abstract public BigDecimal getNewAccumulatedQuantity(MCostDetail cd);
 
 	/**
 	 * Recalculate Cost Detail
-	 * 
-	 * @param cd
-	 *            Cost Detail
-	 * @param ct
-	 *            Cost Type
-	 * @param ce
-	 *            Cost Element
+	 * @param costDetail
 	 */
-	public void adjustCostDetail(MCostDetail cd) {
-		MCostType ct = (MCostType) cd.getM_CostType();
-		MCostElement ce = (MCostElement) cd.getM_CostElement();
-		MTransaction trx = new MTransaction(cd.getCtx(),
-				cd.getM_Transaction_ID(), cd.get_TrxName());
-		IDocumentLine docLine = trx.getDocumentLine();
-		CostEngineFactory.getCostEngine(cd.getAD_Client_ID()).createCostDetail(
-				m_as, trx, docLine, ct, ce);
+	public void adjustCostDetail(MCostDetail costDetail) {
+		MCostType costType = (MCostType) costDetail.getM_CostType();
+		MCostElement costElement = (MCostElement) costDetail.getM_CostElement();
+		MTransaction transaction = new MTransaction(costDetail.getCtx(),
+				costDetail.getM_Transaction_ID(), costDetail.get_TrxName());
+		IDocumentLine docLine = transaction.getDocumentLine();
+		CostEngineFactory.getCostEngine(costDetail.getAD_Client_ID()).createCostDetail(
+                (MAcctSchema) costDetail.getC_AcctSchema(), costType, costElement, transaction, docLine, true);
 	}
 
 	public void clearAccounting(MCostDetail cd) {
@@ -333,8 +330,11 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 		MTransaction trx = new MTransaction(cd.getCtx(),
 				cd.getM_Transaction_ID(), cd.get_TrxName());
 		IDocumentLine docLine = trx.getDocumentLine();
-		MPeriod.testPeriodOpen(cd.getCtx(), cd.getDateAcct(),
-				docLine.getC_DocType_ID(), cd.getAD_Org_ID());
+		MDocType dt = MDocType.get(cd.getCtx(), docLine.getC_DocType_ID());
+		Boolean openPeriod = MPeriod.isOpen(cd.getCtx(),  cd.getDateAcct() ,  dt .getDocBaseType(),  cd.getAD_Org_ID());
+		
+		if(!openPeriod)
+			return;
 
 		String sqldelete = "DELETE FROM Fact_Acct WHERE Record_ID =? AND AD_Table_ID=?";
 		int ad_table_id = 0;

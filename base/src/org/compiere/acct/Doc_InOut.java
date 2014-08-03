@@ -164,7 +164,7 @@ public class Doc_InOut extends Doc
 				BigDecimal costs = null;			
 				MProduct product = line.getProduct();
 				
-				for (MCostDetail cost :  line.getCostDetail(as))
+				for (MCostDetail cost :  line.getCostDetail(as,false))
 				{	 
 					if (!MCostDetail.existsCost(cost))
 						continue;
@@ -269,7 +269,7 @@ public class Doc_InOut extends Doc
 				DocLine line = p_lines[i];
 				BigDecimal costs = null;				
 				MProduct product = line.getProduct();
-				for (MCostDetail cost : line.getCostDetail(as))
+				for (MCostDetail cost : line.getCostDetail(as, false))
 				{	
 					if (!MCostDetail.existsCost(cost))
 						continue;
@@ -361,7 +361,7 @@ public class Doc_InOut extends Doc
 				DocLine line = p_lines[i];
 				BigDecimal costs = null;
 				MProduct product = line.getProduct();
-				for (MCostDetail cost : line.getCostDetail(as))
+				for (MCostDetail cost : line.getCostDetail(as, true))
 				{	
 						if (!MCostDetail.existsCost(cost))
 							continue;
@@ -456,7 +456,7 @@ public class Doc_InOut extends Doc
 				BigDecimal costs = null;
 				
 				MProduct product = line.getProduct();
-				for(MCostDetail cost : line.getCostDetail(as))
+				for(MCostDetail cost : line.getCostDetail(as,true))
 				{	
 					if (!MCostDetail.existsCost(cost))
 						continue;

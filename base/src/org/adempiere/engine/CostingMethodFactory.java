@@ -7,9 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.I_M_Cost;
-import org.compiere.model.I_M_CostElement;
-import org.compiere.model.X_M_CostElement;
+import org.compiere.model.X_M_CostType;
 
 /**
  * @author teo_sarca
@@ -28,23 +26,19 @@ public class CostingMethodFactory
 	s_map = new HashMap<String, Class<? extends ICostingMethod>>();
 	static
 	{
-		s_map.put(X_M_CostElement.COSTINGMETHOD_Fifo, FifoLifoCostingMethod.class);
-		s_map.put(X_M_CostElement.COSTINGMETHOD_Lifo, FifoLifoCostingMethod.class);
-		s_map.put(X_M_CostElement.COSTINGMETHOD_AverageInvoice, AverageInvoiceCostingMethod.class);
-		s_map.put(X_M_CostElement.COSTINGMETHOD_AveragePO, AveragePOCostingMethod.class);
-		s_map.put(X_M_CostElement.COSTINGMETHOD_LastInvoice, LastInvoiceCostingMethod.class);
-		s_map.put(X_M_CostElement.COSTINGMETHOD_LastPOPrice, LastPOPriceCostingMethod.class);
-		s_map.put(X_M_CostElement.COSTINGMETHOD_StandardCosting, StandardCostingMethod.class);
+		s_map.put(X_M_CostType.COSTINGMETHOD_Fifo, FifoLifoCostingMethod.class);
+		s_map.put(X_M_CostType.COSTINGMETHOD_Lifo, FifoLifoCostingMethod.class);
+		s_map.put(X_M_CostType.COSTINGMETHOD_AverageInvoice, AverageInvoiceCostingMethod.class);
+		s_map.put(X_M_CostType.COSTINGMETHOD_AveragePO, AveragePOCostingMethod.class);
+		s_map.put(X_M_CostType.COSTINGMETHOD_LastInvoice, LastInvoiceCostingMethod.class);
+		s_map.put(X_M_CostType.COSTINGMETHOD_LastPOPrice, LastPOPriceCostingMethod.class);
+		s_map.put(X_M_CostType.COSTINGMETHOD_StandardCosting, StandardCostingMethod.class);
 	}
 	
 	private CostingMethodFactory()
 	{
 	}
-	
-	public ICostingMethod getCostingMethod(I_M_CostElement ce, I_M_Cost costingMethod)
-	{
-		return getCostingMethod(ce, costingMethod);
-	}
+
 	
 	/**
 	 * Get Costing method
@@ -53,10 +47,8 @@ public class CostingMethodFactory
 	 * 					from cost element
 	 * @return costing method class instance
 	 */
-	public ICostingMethod getCostingMethod(I_M_CostElement ce, String costingMethod)
+	public ICostingMethod getCostingMethod(String costingMethod)
 	{
-		if (costingMethod == null)
-			costingMethod = ce.getCostingMethod();
 		Class<? extends ICostingMethod> cl = s_map.get(costingMethod);
 		if (cl == null)
 		{

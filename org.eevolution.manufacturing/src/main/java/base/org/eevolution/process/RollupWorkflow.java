@@ -23,10 +23,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
-
-import org.adempiere.engine.CostDimension;
 import org.adempiere.engine.CostEngine;
+import org.adempiere.engine.CostDimension;
 import org.adempiere.engine.CostEngineFactory;
+import org.adempiere.engine.StandardCostingMethod;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCost;
 import org.compiere.model.MCostElement;
@@ -236,7 +236,7 @@ public class RollupWorkflow extends SvrProcess
 				for (MWFNode node : nodes)
 				{
 					final CostEngine costEngine = CostEngineFactory.getCostEngine(node.getAD_Client_ID());
-					final BigDecimal rate = costEngine.getResourceActualCostRate(null, node.getS_Resource_ID(), d, get_TrxName());
+					final BigDecimal rate = StandardCostingMethod.getResourceActualCostRate(null, node.getS_Resource_ID(), d, get_TrxName());
 					final BigDecimal baseValue = m_routingService.getResourceBaseValue(node.getS_Resource_ID(), node);
 					BigDecimal nodeCost = baseValue.multiply(rate);
 					if (nodeCost.scale() > precision)

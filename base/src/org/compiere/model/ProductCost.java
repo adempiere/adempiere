@@ -339,12 +339,12 @@ public class ProductCost
 			+ "P_CostAdjustment_Acct, P_InventoryClearing_Acct, "
 			+ "P_WIP_Acct,P_MethodChangeVariance_Acct,P_UsageVariance_Acct,"		//  11.12.13
 			+ "P_RateVariance_Acct,P_MixVariance_Acct,P_FloorStock_Acct," 					//  14.15.16
-			+ "P_CostOfProduction_Acct,P_Labor_Acct,P_Burden_Acct,P_OutsideProcessing_Acct, "		//  17.18,19,20
+			+ "P_CostOfProduction_Acct,P_Labor_Acct,P_Burden_Acct,P_OutsideProcessing_Acct,"		//  17.18,19,20
 			+ "P_Overhead_Acct,P_Scrap_Acct "											//  21,22
 			+ "FROM M_Product_Category pc, M_Product_Category_Acct pca "
 			+ "WHERE pc.M_Product_Category_ID=pca.M_Product_Category_ID"
 			+ " AND pca.C_AcctSchema_ID=? AND (pca.AD_Org_ID=? OR pca.AD_Org_ID=0)"
-			+ " ORDER BY pca.AD_Org_ID DESC , pc.IsDefault DESC, pc.Created";
+			+ " ORDER BY pca.AD_Org_ID DESC , pc.IsDefault DESC, pc.Created ";
 		//
 		int validCombination_ID = 0;
 		PreparedStatement pstmt = null;

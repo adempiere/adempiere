@@ -160,9 +160,9 @@ public class ValuationEffectiveDate extends SvrProcess {
 				// .append("p.M_Product_Category_ID,tc.M_AttributeSetInstance_ID,p.Classifiscation,p.Group1,p.Group2,EndingQtyBalance AS QtyOnHand,")
 				.append("p.M_Product_Category_ID,tc.M_AttributeSetInstance_ID,p.Group1,p.Group2,  tc.qty + tc.cumulatedqty AS QtyOnHand,")
 				//.append(" CASE WHEN tc.qty < 0 THEN (tc.Amt * -1 ) + tc.CumulatedAmt  ELSE (tc.Amt + tc.CumulatedAmt) END AS CostAmt,")
-				.append(" CASE WHEN tc.Qty < 0 THEN ((tc.costAmt + tc.costadjustment) * -1) + tc.CumulatedAmt ELSE ((tc.costAmt + tc.costadjustment) * 1) + tc.CumulatedAmt END  AS CostAmt,")
+				.append(" CASE WHEN tc.Qty < 0 OR (tc.qty = 0 AND tc.cumulatedqty < 0) THEN ((tc.costAmt + tc.costadjustment) * -1) + tc.CumulatedAmt ELSE ((tc.costAmt + tc.costadjustment) * 1) + tc.CumulatedAmt END  AS CostAmt,")
 				//.append(" CASE WHEN tc.qty < 0 THEN (tc.AmtLL * -1 )  + tc.CumulatedAmtLL ELSE (tc.Amt + tc.CumulatedAmt) END AS CostAmtLL")
-				.append(" CASE WHEN tc.Qty < 0 THEN ((tc.costAmtLL + tc.costadjustmentLL) * -1)  + tc.CumulatedAmtLL ELSE ((tc.costAmtLL + tc.costadjustmentLL) * 1) + tc.CumulatedAmtLL END AS CostAmtLL")
+				.append(" CASE WHEN tc.Qty < 0 OR (tc.qty = 0 AND tc.cumulatedqty < 0) THEN ((tc.costAmtLL + tc.costadjustmentLL) * -1)  + tc.CumulatedAmtLL ELSE ((tc.costAmtLL + tc.costadjustmentLL) * 1) + tc.CumulatedAmtLL END AS CostAmtLL")
 				.append(" FROM M_Product p ")
 				.append(" INNER JOIN M_CostDetail tc ON (p.M_Product_ID=tc.M_Product_ID) ");
 		insert.append(whereClause1).append(whereClause2);

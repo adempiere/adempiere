@@ -150,7 +150,7 @@ public class Doc_Inventory extends Doc
 		{
 			DocLine line = p_lines[i];
 			BigDecimal costs=Env.ZERO;			
-			for (MCostDetail cost : line.getCostDetail(as))
+			for (MCostDetail cost : line.getCostDetail(as, false))
 			{
 
 				if (!MCostDetail.existsCost(cost))

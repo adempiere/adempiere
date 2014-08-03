@@ -20,58 +20,72 @@ import org.compiere.util.Env;
 public class LastPOPriceCostingMethod extends AbstractCostingMethod implements ICostingMethod
 {
 
-	
-	public void setCostingMethod (MAcctSchema as,IDocumentLine model, MTransaction mtrx,
-			MCost dimension, BigDecimal costThisLevel , BigDecimal costLowLevel, Boolean isSOTrx)
-	{
-		m_as = as;
-		m_model = mtrx.getDocumentLine();
-		m_trx  = mtrx;
-		m_dimension = dimension;
-		m_costThisLevel = (costThisLevel == null ? Env.ZERO : costThisLevel);
-		m_costLowLevel = (costLowLevel == null ? Env.ZERO : costLowLevel);
-		m_cost = m_costThisLevel.add(m_costLowLevel);
-		m_isSOTrx = isSOTrx;
-	}
+    /**
+     * Constructor for Cost Engine
+     * @param accountSchema
+     * @param transaction
+     * @param model
+     * @param dimension
+     * @param costThisLevel
+     * @param costLowLevel
+     * @param isSalesTransaction
+     */
+    public void setCostingMethod(MAcctSchema accountSchema, MTransaction transaction, IDocumentLine model,
+                                 MCost dimension, BigDecimal costThisLevel,
+                                 BigDecimal costLowLevel, Boolean isSalesTransaction) {
+        this.accountSchema = accountSchema;
+        this.transaction = transaction;
+        this.dimension = dimension;
+        this.costThisLevel = (costThisLevel == null ? Env.ZERO : costThisLevel);
+        this.costLowLevel = (costLowLevel == null ? Env.ZERO : costLowLevel);
+        this.isSalesTransaction = isSalesTransaction;
+        this.model = model;
+        this.costingLevel = org.compiere.model.MProduct.get(this.transaction.getCtx(), this.transaction.getM_Product_ID())
+                .getCostingLevel(accountSchema, transaction.getAD_Org_ID());
+        // find if this transaction exist into cost detail
+        this.costDetail = MCostDetail.getByTransaction(this.model, this.transaction,
+                this.accountSchema.getC_AcctSchema_ID(), this.dimension.getM_CostType_ID(),
+                this.dimension.getM_CostElement_ID());
+    }
 	
 	public MCostDetail process() {
-		MCost cost = ((MCostDetail)  m_costdetail).getM_Cost();
+		MCost cost = ((MCostDetail)  costDetail).getM_Cost();
 		CLogger s_log = CLogger.getCLogger(LastPOPriceCostingMethod.class);
 
-		boolean isReturnTrx =  m_costdetail.getQty().signum() < 0;
-		MAcctSchema as = MAcctSchema.get(m_model.getCtx(),  m_costdetail.getC_AcctSchema_ID(), m_model.get_TrxName());
+		boolean isReturnTrx =  costDetail.getQty().signum() < 0;
+		MAcctSchema as = MAcctSchema.get(model.getCtx(),  costDetail.getC_AcctSchema_ID(), model.get_TrxName());
 		int precision = as.getCostingPrecision();
-		BigDecimal price = m_costdetail.getAmt();
+		BigDecimal price = costDetail.getAmt();
 
-		if ( m_costdetail.getQty().signum() != 0)
-			price =  m_costdetail.getAmt().divide(m_costdetail.getQty(), precision,
+		if ( costDetail.getQty().signum() != 0)
+			price =  costDetail.getAmt().divide(costDetail.getQty(), precision,
 					BigDecimal.ROUND_HALF_UP);
 
-		if ( m_costdetail.getC_OrderLine_ID() != 0) {
+		if ( costDetail.getC_OrderLine_ID() != 0) {
 			if (!isReturnTrx) {
-				if ( m_costdetail.getQty().signum() != 0)
+				if ( costDetail.getQty().signum() != 0)
 					cost.setCurrentCostPrice(price);
 				else {
 					BigDecimal cCosts = cost.getCurrentCostPrice().add(
-							 m_costdetail.getAmt());
+                            costDetail.getAmt());
 					cost.setCurrentCostPrice(cCosts);
 				}
 			}
-			cost.add( m_costdetail.getAmt(),  m_costdetail.getQty());
+			cost.add( costDetail.getAmt(),  costDetail.getQty());
 			s_log.finer("PO - LastPO - " + cost);
 		} 
-		else if ( m_costdetail.getM_InOutLine_ID() != 0 // AR Shipment Detail Record
-				||  m_costdetail.getM_MovementLine_ID() != 0
-				||  m_costdetail.getM_InventoryLine_ID() != 0
-				||  m_costdetail.getM_ProductionLine_ID() != 0
-				||  m_costdetail.getC_ProjectIssue_ID() != 0
-				||  m_costdetail.getPP_Cost_Collector_ID() != 0) 
+		else if ( costDetail.getM_InOutLine_ID() != 0 // AR Shipment Detail Record
+				||  costDetail.getM_MovementLine_ID() != 0
+				||  costDetail.getM_InventoryLine_ID() != 0
+				||  costDetail.getM_ProductionLine_ID() != 0
+				||  costDetail.getC_ProjectIssue_ID() != 0
+				||  costDetail.getPP_Cost_Collector_ID() != 0)
 		{
-			cost.setCurrentQty(cost.getCurrentQty().add(m_costdetail.getQty()));
+			cost.setCurrentQty(cost.getCurrentQty().add(costDetail.getQty()));
 			s_log.finer("QtyAdjust - LastPO - " + cost);
 			cost.saveEx();
 		}
-		return m_costdetail;
+		return costDetail;
 	}
 
 	@Override
@@ -86,41 +100,35 @@ public class LastPOPriceCostingMethod extends AbstractCostingMethod implements I
 		return null;
 	}
 
-	@Override
+    @Override
+    public void updateAmountCost() {
+
+    }
+
+    @Override
 	public BigDecimal getNewCurrentCostPrice(MCostDetail cd, int scale,
 			int roundingMode) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public BigDecimal getNewCumulatedAmt(MCostDetail cd) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public java.math.BigDecimal getNewAccumulatedAmount(org.compiere.model.MCostDetail cd) {
+        return null;
+    }
 
-	@Override
-	public BigDecimal getNewCurrentCostPriceLL(MCostDetail cd, int scale,
-			int roundingMode) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public java.math.BigDecimal getNewCurrentCostPriceLowerLevel(org.compiere.model.MCostDetail cd, int scale, int roundingMode) {
+        return null;
+    }
 
-	@Override
-	public BigDecimal getNewCumulatedAmtLL(MCostDetail cd) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public java.math.BigDecimal getNewAccumulatedAmountLowerLevel(org.compiere.model.MCostDetail cd) {
+        return null;
+    }
 
-	@Override
-	public BigDecimal getNewCumulatedQty(MCostDetail cd) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void updateAmtCost() {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public java.math.BigDecimal getNewAccumulatedQuantity(org.compiere.model.MCostDetail cd) {
+        return null;
+    }
 }

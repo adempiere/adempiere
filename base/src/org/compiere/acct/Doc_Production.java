@@ -153,7 +153,7 @@ public class Doc_Production extends Doc
 			DocLine line = p_lines[i];
 			MProduct product = line.getProduct();
 			BigDecimal costs = Env.ZERO;			
-			for (MCostDetail cost : line.getCostDetail(as))
+			for (MCostDetail cost : line.getCostDetail(as , false))
 			{
 				
 				if(!MCostDetail.existsCost(cost))

@@ -19,8 +19,6 @@ package org.compiere.acct;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.List;
-
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCostDetail;
 import org.compiere.model.MMovement;
@@ -134,7 +132,7 @@ public class Doc_Movement extends Doc
 		{
 			DocLine line = p_lines[i];
 			BigDecimal costs = Env.ZERO;			
-			for (MCostDetail cost : line.getCostDetail(as))
+			for (MCostDetail cost : line.getCostDetail(as, false))
 			{
 				if(!MCostDetail.existsCost(cost))
 					continue;
