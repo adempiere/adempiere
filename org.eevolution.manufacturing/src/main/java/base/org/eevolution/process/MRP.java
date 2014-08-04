@@ -500,14 +500,13 @@ public class MRP extends SvrProcess
 	
 			if (isSynchronize()) {
 				// Delete Distribution Order with Draft Status
-				where = getDeleteSQLWhere(MDDOrderLine.Table_Name,"mrp." +  MPPMRP.COLUMNNAME_DD_OrderLine_ID + " = " +  MPPMRP.COLUMNNAME_DD_OrderLine_ID + " AND mrp.TypeMRP =?",
-						AD_Client_ID, AD_Org_ID, null, null, M_Product_ID , null)
+				where = getDeleteSQLWhere(MDDOrderLine.Table_Name,"mrp." +  MPPMRP.COLUMNNAME_DD_OrderLine_ID + " = " +  MPPMRP.COLUMNNAME_DD_OrderLine_ID ,
+						AD_Client_ID, AD_Org_ID, null, null, M_Product_ID , MPPMRP.TYPEMRP_Supply)
 						+ " AND EXISTS (SELECT 1 FROM  M_Locator l WHERE l.M_Locator_ID=M_LocatorTo_ID AND l.M_Warehouse_ID=? ) "
 						+ " AND EXISTS (SELECT 1 FROM  DD_Order o WHERE o.DD_Order_ID=DD_OrderLine.DD_Order_ID AND DocStatus = ?)";
 				
 				myParameters = new ArrayList(parameters);
-				myParameters.add(MPPMRP.TYPEMRP_Supply);
-				myParameters.add(M_Warehouse_ID);
+                myParameters.add(M_Warehouse_ID);
 				myParameters.add(MPPMRP.DOCSTATUS_Drafted);
 				deletePO(MDDOrderLine.Table_Name, where, trxName ,myParameters.toArray());
 			}
@@ -762,7 +761,7 @@ public class MRP extends SvrProcess
 	 *  @param AD_Client_ID Client ID
 	 *  @param AD_Org_ID Organization ID
 	 *  @param M_Warehuse_ID Warehouse ID
-	 *	@param MProduct
+	 *	@param product
 	 * @throws SQLException 
 	 */
 	private void setProduct(int AD_Client_ID , int AD_Org_ID, int S_Resource_ID , int M_Warehouse_ID, MProduct product, int PP_MRP_ID, String trxName) throws SQLException
