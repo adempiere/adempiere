@@ -105,12 +105,12 @@ public class CostBillOfMaterial extends SvrProcess
 
 	/**
 	 * Generate an Explosion for this product
-	 * @param product
+	 * @param productId
 	 * @param isComponent component / header
 	 */
-	private void explodeProduct(int M_Product_ID, boolean isComponent)
+	private void explodeProduct(int productId, boolean isComponent)
 	{
-		MProduct product = MProduct.get(getCtx(), M_Product_ID);
+		MProduct product = MProduct.get(getCtx(), productId);
 		List<MPPProductBOM> list = getBOMs(product, isComponent);
 		if (!isComponent && list.size() == 0)
 		{
@@ -142,7 +142,7 @@ public class CostBillOfMaterial extends SvrProcess
 	/**
 	 * Get BOMs for given product
 	 * @param product
-	 * @param isComponent
+	 * @param includeAlternativeBOMs
 	 * @return list of MPPProductBOM
 	 */
 	private List<MPPProductBOM> getBOMs(MProduct product, boolean includeAlternativeBOMs)
@@ -165,14 +165,11 @@ public class CostBillOfMaterial extends SvrProcess
 		return list;
 	}
 
-	/**
-	 * Create T_BOMLine
-	 * @param product
-	 * @param costElement
-	 * @param qty
-	 * @param bomLine
-	 * @return
-	 */
+    /**
+     * createLines
+     * @param bom
+     * @param bomLine
+     */
 	private void createLines(MPPProductBOM bom, MPPProductBOMLine bomLine)
 	{
 		MProduct product;
@@ -211,7 +208,7 @@ public class CostBillOfMaterial extends SvrProcess
 			//
 			// Set Costs:
 			final CostEngine engine = CostEngineFactory.getCostEngine(getAD_Client_ID());
-			Collection <MCost> costs = engine.getByElement(
+			Collection <MCost> costs = MCost.getByElement(
 					product,
 					m_as,
 					p_M_CostType_ID,
