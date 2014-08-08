@@ -159,50 +159,51 @@ public class RollupBillOfMaterial extends SvrProcess
 	/**
 	 * Update costs for co-products on BOM Lines from given BOM
 	 * @param bom product's BOM
-	 * @param element cost element
-	 * @param baseCost base product cost (BOM Cost)
+	 * @param baseDimension base product cost (BOM Cost)
 	 */
-	private void updateCoProductCosts(MPPProductBOM bom, MCost baseCost)
+	private void updateCoProductCosts(MPPProductBOM bom, MCost baseDimension)
 	{
 		// Skip if not BOM found
 		if (bom == null)
 			return;
 		
 		BigDecimal costPriceTotal = Env.ZERO;
-		for (MPPProductBOMLine bomline : bom.getLines())
+		for (MPPProductBOMLine bomLine : bom.getLines())
 		{
-			if (!bomline.isCoProduct())
+			if (!bomLine.isCoProduct())
 			{
 				continue;
 			}
-			final BigDecimal costPrice = baseCost.getCurrentCostPriceLL().multiply(bomline.getCostAllocationPerc(true));
+			final BigDecimal costPrice = baseDimension.getCurrentCostPriceLL().multiply(bomLine.getCostAllocationPerc(true));
 			//
 			// Get/Create Cost
-			MCost cost = MCost.get(baseCost.getCtx(), baseCost.getAD_Client_ID(), baseCost.getAD_Org_ID(), baseCost.getM_Warehouse_ID(),
-									bomline.getM_Product_ID(),
-									baseCost.getM_CostType_ID(), baseCost.getC_AcctSchema_ID(),
-									baseCost.getM_CostElement_ID(),
-									0, // ASI
-									baseCost.get_TrxName());
-			if (cost == null)
+            MCost dimension = MCost.getDimension(
+                    (MProduct)bomLine.getM_Product(),
+                    baseDimension.getC_AcctSchema_ID() ,
+                    baseDimension.getAD_Org_ID() ,
+                    baseDimension.getM_Warehouse_ID() ,
+                    0 ,
+                    baseDimension.getM_CostType_ID() ,
+                    baseDimension.getM_CostElement_ID());
+			if (dimension == null)
 			{
-				cost = new MCost (baseCost.getCtx(), 0, baseCost.get_TrxName());
+                dimension = new MCost (baseDimension.getCtx(), 0, baseDimension.get_TrxName());
 				//cost.setAD_Client_ID(baseCost.getAD_Client_ID());
-				cost.setAD_Org_ID(baseCost.getAD_Org_ID());
-				cost.setM_Product_ID(bomline.getM_Product_ID());
-				cost.setM_CostType_ID(baseCost.getM_CostType_ID());
-				cost.setC_AcctSchema_ID(baseCost.getC_AcctSchema_ID());
-				cost.setM_CostElement_ID(baseCost.getM_CostElement_ID());
-				cost.setM_AttributeSetInstance_ID(0);
+                dimension.setAD_Org_ID(baseDimension.getAD_Org_ID());
+                dimension.setM_Product_ID(bomLine.getM_Product_ID());
+                dimension.setM_CostType_ID(baseDimension.getM_CostType_ID());
+                dimension.setC_AcctSchema_ID(baseDimension.getC_AcctSchema_ID());
+                dimension.setM_CostElement_ID(baseDimension.getM_CostElement_ID());
+                dimension.setM_AttributeSetInstance_ID(0);
 			}
-			cost.setCurrentCostPriceLL(costPrice);
-			cost.saveEx();
+            dimension.setCurrentCostPriceLL(costPrice);
+            dimension.saveEx();
 			costPriceTotal = costPriceTotal.add(costPrice);
 		}
 		// Update Base Cost:
 		if(costPriceTotal.signum() != 0)
 		{
-			baseCost.setCurrentCostPriceLL(costPriceTotal);
+			baseDimension.setCurrentCostPriceLL(costPriceTotal);
 		}
 	}
 
