@@ -282,7 +282,7 @@ public class WTreeBOM extends TreeBOM implements IFormController, EventListener,
 		if (M_Product_ID == 0)
 			return;
 		MProduct product = MProduct.get(getCtx(), M_Product_ID);
-		SimpleTreeNode parent = new SimpleTreeNode(productSummary(product, false), new ArrayList());
+        SimpleTreeNode parent = new SimpleTreeNode(productSummary(product, false), new ArrayList());
 
 		dataBOM.clear();
 
@@ -348,14 +348,14 @@ public class WTreeBOM extends TreeBOM implements IFormController, EventListener,
 		m_tree.addEventListener(Events.ON_SELECTION, this);
 		loadTableBOM();
 	}
-	
-	public SimpleTreeNode parent(MPPProductBOMLine bomline) 
+
+    public SimpleTreeNode parent(MPPProductBOMLine bomline)
 	{
 
 		
 		MProduct M_Product = MProduct.get(getCtx(), bomline.getM_Product_ID());
 		MPPProductBOM bomproduct = new MPPProductBOM(getCtx(), bomline.getPP_Product_BOM_ID(), null);
-		SimpleTreeNode parent = new SimpleTreeNode(productSummary(M_Product, false), new ArrayList());
+        SimpleTreeNode parent = new SimpleTreeNode(productSummary(M_Product, false), new ArrayList());
 
 		Vector<Object> line = new Vector<Object>(17);
 		line.add( new Boolean(false));  //  0 Select
@@ -386,10 +386,10 @@ public class WTreeBOM extends TreeBOM implements IFormController, EventListener,
 		}
 		return parent;
 	}
-	
-	public SimpleTreeNode parent(MPPProductBOM bom) 
-	{
-		SimpleTreeNode parent = new SimpleTreeNode(productSummary(bom), new ArrayList()); 
+
+	public SimpleTreeNode parent(MPPProductBOM bom)
+    {
+		SimpleTreeNode parent = new SimpleTreeNode(productSummary(bom), new ArrayList());
 
 		for (MPPProductBOMLine bomline : bom.getLines())
 		{
@@ -420,13 +420,13 @@ public class WTreeBOM extends TreeBOM implements IFormController, EventListener,
 		}
 		return parent;
 	}
-	
-	public SimpleTreeNode component(MProduct product) 
-	{   
+
+    public SimpleTreeNode component(MProduct product)
+    {
 
 		if (isImplosion())
 		{
-		    SimpleTreeNode parent = new SimpleTreeNode(productSummary(product, false), new ArrayList());
+            SimpleTreeNode parent = new SimpleTreeNode(productSummary(product, false), new ArrayList());
 			for (MPPProductBOMLine bomline : MPPProductBOMLine.getByProduct(product))
 			{
 				parent.getChildren().add(parent(bomline));
@@ -438,9 +438,9 @@ public class WTreeBOM extends TreeBOM implements IFormController, EventListener,
 			for (MPPProductBOM bom : MPPProductBOM.getProductBOMs(product))
 			{
 				return parent(bom);
-			}  
-			return new SimpleTreeNode(productSummary(product, true), new ArrayList());
-		}
+			}
+            return new SimpleTreeNode(productSummary(product, true), new ArrayList());
+        }
 	}
 
 	private int getM_Product_ID() {

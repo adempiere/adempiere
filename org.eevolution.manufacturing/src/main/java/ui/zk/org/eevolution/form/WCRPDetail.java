@@ -213,11 +213,11 @@ public class WCRPDetail extends CRPDetail implements IFormController,
 		Tree tree = new Tree();
 
 		List<String> nodes = model.getDataset().getColumnKeys();
-		SimpleTreeNode root = new SimpleTreeNode(getResource(resource.getValue()).getName(),
-				new ArrayList());
+        SimpleTreeNode root = new SimpleTreeNode(getResource(resource.getValue()).getName(),
+                new ArrayList());
 		for (String node : nodes) {
-			root.getChildren().add(new SimpleTreeNode(node, new ArrayList()));
-		}
+            root.getChildren().add(new SimpleTreeNode(node, new ArrayList()));
+        }
 
 		Treecols treeCols = new Treecols();
 		tree.appendChild(treeCols);

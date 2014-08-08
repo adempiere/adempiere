@@ -456,11 +456,11 @@ ValueChangeListener,Serializable,WTableModelListener
 		{
 			if (getMovementDate() == null)
 			{
-					try 
+					try
 					{
-						Messagebox.show( Msg.getMsg(Env.getCtx(), "NoDate"), "Info",Messagebox.OK, Messagebox.INFORMATION);
-					} 
-					catch (InterruptedException ex) 
+					Messagebox.show( Msg.getMsg(Env.getCtx(), "NoDate"), "Info",Messagebox.OK, Messagebox.INFORMATION);
+					}
+					catch (InterruptedException ex)
 					{
 						throw new AdempiereException (ex);
 					}
@@ -469,11 +469,11 @@ ValueChangeListener,Serializable,WTableModelListener
 
 			if ((isOnlyReceipt() || isBackflush()) && getM_Locator_ID() <= 0) 
 			{
-				try 
+				try
 				{
-					Messagebox.show(Msg.getMsg(Env.getCtx(), "NoLocator"),"Info", Messagebox.OK, Messagebox.INFORMATION);
+				Messagebox.show(Msg.getMsg(Env.getCtx(), "NoLocator"),"Info", Messagebox.OK, Messagebox.INFORMATION);
 				}
-				catch (InterruptedException ex) 
+				catch (InterruptedException ex)
 				{
 					throw new AdempiereException (ex);
 				}
@@ -485,31 +485,31 @@ ValueChangeListener,Serializable,WTableModelListener
 			
 			generateSummaryTable();
 			int result = -1;
-			try 
+			try
 			{
-				result = Messagebox.show(Msg.getMsg(Env.getCtx(), "Update"),"",Messagebox.OK|Messagebox.CANCEL,Messagebox.QUESTION);
+			result = Messagebox.show(Msg.getMsg(Env.getCtx(), "Update"),"",Messagebox.OK|Messagebox.CANCEL,Messagebox.QUESTION);
 			}
-			catch (InterruptedException ex) 
+			catch (InterruptedException ex)
 			{
 				throw new AdempiereException(ex);
 			}
 			if ( result == Messagebox.OK)
 			{				
-				try 
+				try
 				{
-					final boolean isCloseDocument = (Messagebox.show(Msg.parseTranslation(Env.getCtx(),"@IsCloseDocument@ : "+  getPP_Order().getDocumentNo()),"",Messagebox.OK|Messagebox.CANCEL,Messagebox.QUESTION) == Messagebox.OK);
+				final boolean isCloseDocument = (Messagebox.show(Msg.parseTranslation(Env.getCtx(),"@IsCloseDocument@ : "+  getPP_Order().getDocumentNo()),"",Messagebox.OK|Messagebox.CANCEL,Messagebox.QUESTION) == Messagebox.OK);
 
-					if (cmd_process(isCloseDocument, issue))
-					{
-						dispose();
-						return;
-					}
+				if (cmd_process(isCloseDocument, issue))
+				{
+					dispose();
+					return;
 				}
-				catch (InterruptedException ex) 
+				}
+				catch (InterruptedException ex)
 				{
 					throw new AdempiereException(ex);
 				}
-				Clients.showBusy(null, false);
+                Clients.showBusy(null, false);
 			}
 			TabsReceiptsIssue.setSelectedIndex(0);
 		}	

@@ -19,10 +19,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
-
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCost;
@@ -374,22 +372,14 @@ public class Doc_PPCostCollector extends Doc
 		for (MCostDetail cd : getCostDetails())
 		{
 			MCostElement element = MCostElement.get(getCtx(), cd.getM_CostElement_ID());
-			MCost c = MCost.get(product, 0, as, cd.getAD_Org_ID(),cd.getM_Warehouse_ID(), cd.getM_CostElement_ID());
-			BigDecimal costs = cd.getAmt().add(c.getCurrentCostPriceLL()).negate();
+            MCost costDimension =  MCost.getDimension(product , as.getC_AcctSchema_ID() , cd.getAD_Org_ID() , cd.getM_Warehouse_ID() , cd.getM_CostElement_ID() , 0  , cd.getM_CostType_ID());
+			BigDecimal costs = cd.getAmt().add(costDimension.getCurrentCostPriceLL()).negate();
 			if (costs.scale() > as.getStdPrecision())
 				costs = costs.setScale(as.getStdPrecision(), RoundingMode.HALF_UP);
 			BigDecimal qty = cd.getQty();
 			createLines(element, as, fact, product, debit, credit, costs, qty);
 		}
 		return fact;
-	}
-
-	
-	public Collection<MCostElement> getCostElements()
-	{
-		final String costingMethod = MCostElement.COSTINGMETHOD_StandardCosting;
-		final Collection<MCostElement> elements = MCostElement.getByCostingMethod(getCtx(), costingMethod);
-		return elements;
 	}
 	
 	protected static final MProduct getProductForResource(Properties ctx, int S_Resource_ID, String trxName)
