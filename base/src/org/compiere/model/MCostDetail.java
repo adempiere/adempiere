@@ -1229,34 +1229,38 @@ public class MCostDetail extends X_M_CostDetail
 		MProduct product = MProduct.get(getCtx(), getM_Product_ID());
 		String CostingLevel = product.getCostingLevel(as);
 		//	Org Element
-		int Org_ID = getAD_Org_ID();
-		int M_ASI_ID = getM_AttributeSetInstance_ID();
+		int organizationId = getAD_Org_ID();
+        int warehouseId = getM_Warehouse_ID();
+		int attributeSetInstanceId = getM_AttributeSetInstance_ID();
 		if (MAcctSchema.COSTINGLEVEL_Client.equals(CostingLevel))
 		{
-			Org_ID = 0;
-			M_ASI_ID = 0;
+			organizationId = 0;
+            warehouseId = 0;
+			attributeSetInstanceId = 0;
 		}
-		else if (MAcctSchema.COSTINGLEVEL_Organization.equals(CostingLevel))
-			M_ASI_ID = 0;
-		else if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(CostingLevel))
-			Org_ID = 0;
+		else if (MAcctSchema.COSTINGLEVEL_Organization.equals(CostingLevel)) {
+            warehouseId = 0;
+            attributeSetInstanceId = 0;
+        }
+		else if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(CostingLevel)) {
+            warehouseId = 0;
+            organizationId = 0;
+        }
 
 		//	Create Material Cost elements
 		if (getM_CostElement_ID() == 0)
 		{
-			MCostElement[] ces = MCostElement.getCostingMethods(this);
-			for (int i = 0; i < ces.length; i++)
-			{
-				MCostElement ce = ces[i];
-				ok = process (as, product, ce, Org_ID, M_ASI_ID);
-				if (!ok)
-					break;
-			}
+            for (MCostElement costElement : MCostElement.getCostElement(getCtx(), get_TrxName()))
+            {
+                ok = process (as, product, costElement , organizationId , warehouseId, attributeSetInstanceId);
+                if (!ok)
+                    break;
+            }
 		}	//	Material Cost elements
 		else
 		{
 			MCostElement ce = MCostElement.get(getCtx(), getM_CostElement_ID());
-			ok = process (as, product, ce, Org_ID, M_ASI_ID);
+			ok = process (as, product, ce, organizationId, warehouseId , attributeSetInstanceId);
 		}
 		
 		//	Save it
@@ -1273,16 +1277,17 @@ public class MCostDetail extends X_M_CostDetail
 
 
     /**
-     * 	Process cost detail for cost record
-     *	@param as accounting schema
-     *	@param product product
-     *	@param ce cost element
-     *	@param Org_ID org - corrected for costing level
-     *	@param M_ASI_ID - asi corrected for costing level
-     *	@return true if cost ok
+     * process
+     * @param as
+     * @param product
+     * @param costElement
+     * @param OrgId
+     * @param warehouseId
+     * @param attributeSetInstanceId
+     * @return
      */
-    private boolean process (MAcctSchema as, MProduct product, MCostElement ce,
-                             int Org_ID, int M_ASI_ID)
+    private boolean process (MAcctSchema as, MProduct product, MCostElement costElement,
+                             int OrgId, int warehouseId , int attributeSetInstanceId)
     {
         return true;
     }
@@ -1299,34 +1304,38 @@ public class MCostDetail extends X_M_CostDetail
 			MProduct product = MProduct.get(getCtx(), getM_Product_ID());
 			String CostingLevel = product.getCostingLevel(as);
 			//	Org Element
-			int Org_ID = getAD_Org_ID();
-			int M_ASI_ID = getM_AttributeSetInstance_ID();
-			if (MAcctSchema.COSTINGLEVEL_Client.equals(CostingLevel))
-			{
-				Org_ID = 0;
-				M_ASI_ID = 0;
-			}
-			else if (MAcctSchema.COSTINGLEVEL_Organization.equals(CostingLevel))
-				M_ASI_ID = 0;
-			else if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(CostingLevel))
-				Org_ID = 0;
+            int organizationId = getAD_Org_ID();
+            int warehouseId = getM_Warehouse_ID();
+            int attributeSetInstanceId = getM_AttributeSetInstance_ID();
+            if (MAcctSchema.COSTINGLEVEL_Client.equals(CostingLevel))
+            {
+                organizationId = 0;
+                warehouseId = 0;
+                attributeSetInstanceId = 0;
+            }
+            else if (MAcctSchema.COSTINGLEVEL_Organization.equals(CostingLevel)) {
+                warehouseId = 0;
+                attributeSetInstanceId = 0;
+            }
+            else if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(CostingLevel)) {
+                warehouseId = 0;
+                organizationId = 0;
+            }
 
 			//	Create Material Cost elements
 			if (getM_CostElement_ID() == 0)
 			{
-				MCostElement[] ces = MCostElement.getCostingMethods(this);
-				for (int i = 0; i < ces.length; i++)
-				{
-					MCostElement ce = ces[i];
-					ok = process (as, product, ce, Org_ID, M_ASI_ID);
-					if (!ok)
-						break;
-				}
+                for (MCostElement costElement : MCostElement.getCostElement(getCtx(), get_TrxName()))
+                {
+                    ok = process (as, product, costElement , organizationId , warehouseId, attributeSetInstanceId);
+                    if (!ok)
+                        break;
+                }
 			}	//	Material Cost elements
 			else
 			{
 				MCostElement ce = MCostElement.get(getCtx(), getM_CostElement_ID());
-				ok = process (as, product, ce, Org_ID, M_ASI_ID);
+				ok = process (as, product, ce, organizationId, warehouseId , attributeSetInstanceId);
 			}
 			
 			return ok;

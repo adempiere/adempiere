@@ -267,21 +267,6 @@ public class CostEngine {
 	public void createCostDetail(MAcctSchema accountSchema , MTransaction transaction, IDocumentLine model, Boolean isSOTrx) {
 		
 		MClient client = new MClient (transaction.getCtx() , transaction.getAD_Client_ID(), transaction.get_TrxName());
-		MProduct product = new MProduct(transaction.getCtx(), transaction.getM_Product_ID(),
-				transaction.get_TrxName());
-		String CostingLevel = product.getCostingLevel(accountSchema);
-		// Organization Element
-		int organizationId = transaction.getAD_Org_ID();
-		int attributeSetInstanceId = transaction.getM_AttributeSetInstance_ID();
-		if (MAcctSchema.COSTINGLEVEL_Client.equals(CostingLevel)) {
-			organizationId = 0;
-			attributeSetInstanceId = 0;
-		} else if (MAcctSchema.COSTINGLEVEL_Organization.equals(CostingLevel))
-			attributeSetInstanceId = 0;
-		else if (MAcctSchema.COSTINGLEVEL_Warehouse.equals(CostingLevel))
-			attributeSetInstanceId = 0;
-		else if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(CostingLevel))
-			organizationId = 0;
 		StringBuilder description = new StringBuilder();
 		if (!Util.isEmpty(model.getDescription(), true))
 			description.append(model.getDescription());
@@ -297,11 +282,6 @@ public class CostEngine {
 			if (!costType.isActive())
 				continue;
 			for (MCostElement costElement : costElements) {
-				if (MCost.get(transaction.getCtx(), transaction.getAD_Client_ID(), organizationId, transaction.getM_Warehouse_ID() ,
-						transaction.getM_Product_ID(), costType.getM_CostType_ID(),
-						accountSchema.getC_AcctSchema_ID(), costElement.getM_CostElement_ID(),
-						attributeSetInstanceId, transaction.get_TrxName()) == null)
-					continue;
 				createCostDetail(accountSchema, costType, costElement , transaction, model , client.isCostImmediate());
 			}
 		}

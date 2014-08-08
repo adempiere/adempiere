@@ -484,7 +484,7 @@ public class MAcctSchema extends X_C_AcctSchema
 		}
 		
 		//	Create Cost Elements
-		MCostElement.getMaterialCostElement(this, getCostingMethod());
+		MCostElement.getMaterialCostElement(this);
 		
 		//	Default Costing Level
 		if (getCostingLevel() == null)
@@ -628,6 +628,11 @@ public class MAcctSchema extends X_C_AcctSchema
 			if (info.getC_AcctSchema1_ID() == getC_AcctSchema_ID())
 				setAD_OrgOnly_ID(0);
 		}
+
+        if (!getCostingMethod().equals(getM_CostType().getCostingMethod()))
+            throw new org.adempiere.exceptions.AdempiereException("@M_CostType_ID@ @Not Valid@ @ActionNotAllowedHere@ @CostingMethod@ : "
+                    + MRefList.get(getCtx(), COSTINGMETHOD_AD_Reference_ID , getCostingMethod() , get_TrxName()));
+
 		return true;
 	}	//	beforeSave
 	

@@ -558,7 +558,7 @@ public class MCost extends X_M_Cost
 		if (MCostElement.COSTINGMETHOD_Fifo.equals(costingMethod)
 			|| MCostElement.COSTINGMETHOD_Lifo.equals(costingMethod))
 		{
-			MCostElement ce = MCostElement.getMaterialCostElement(as, costingMethod);
+			MCostElement ce = MCostElement.getMaterialCostElement(product);
 			materialCost = MCostQueue.getCosts(product, M_ASI_ID,
 				as, Org_ID,M_Warehouse_ID , ce, qty, trxName);
 		}
@@ -1670,58 +1670,6 @@ public class MCost extends X_M_Cost
 		return cost;	
 
 	}	//	get
-	
-	@Deprecated
-	public static MCost get (MProduct product, int M_AttributeSetInstance_ID,
-			MAcctSchema as, int AD_Org_ID, int M_Warehouse_ID, int M_CostElement_ID)
-	{
-		return get(product, M_AttributeSetInstance_ID, as, AD_Org_ID, M_Warehouse_ID, M_CostElement_ID, product.get_TrxName());
-	}
-
-	/**
-	 * Get Cost Record
-	 * @param ctx context
-	 * @param AD_Client_ID client
-	 * @param AD_Org_ID org
-	 * @param M_Product_ID product
-	 * @param M_CostType_ID cost type
-	 * @param C_AcctSchema_ID as
-	 * @param M_CostElement_ID cost element
-	 * @param M_AttributeSetInstance_ID asi
-	 * @param trxName transaction name
-	 * @return cost or null
-	 */
-	public static MCost get (Properties ctx, int AD_Client_ID, int AD_Org_ID, int M_Warehouse_ID , int M_Product_ID,
-		int M_CostType_ID, int C_AcctSchema_ID, int M_CostElement_ID,
-		int M_AttributeSetInstance_ID,
-		String trxName)
-	{
-		final String whereClause = "AD_Client_ID=? AND AD_Org_ID=?"
-                                    +" AND ("+COLUMNNAME_M_Warehouse_ID+"=? OR " + COLUMNNAME_M_Warehouse_ID + " IS NULL)"
-									+" AND "+COLUMNNAME_M_Product_ID+"=?"
-									+" AND "+COLUMNNAME_M_CostType_ID+"=?"
-									+" AND "+COLUMNNAME_C_AcctSchema_ID+"=?"
-									+" AND "+COLUMNNAME_M_CostElement_ID+"=?"
-									+" AND "+COLUMNNAME_M_AttributeSetInstance_ID+"=?";
-		final Object[] params = new Object[]{AD_Client_ID, AD_Org_ID, M_Warehouse_ID , M_Product_ID,
-												M_CostType_ID, C_AcctSchema_ID,
-												M_CostElement_ID, M_AttributeSetInstance_ID};
-		return new Query(ctx, Table_Name, whereClause, trxName)
-					.setOnlyActiveRecords(true)
-					.setParameters(params)
-					.firstOnly();
-	}	//	get
-
-	@Deprecated
-	public static MCost get (Properties ctx, int AD_Client_ID, int AD_Org_ID, int M_Warehouse_ID , int M_Product_ID,
-			int M_CostType_ID, int C_AcctSchema_ID, int M_CostElement_ID,
-			int M_AttributeSetInstance_ID)
-	{
-		return get(ctx, AD_Client_ID, AD_Org_ID, M_Warehouse_ID ,
-				M_Product_ID, M_CostType_ID, C_AcctSchema_ID, M_CostElement_ID,
-				M_AttributeSetInstance_ID,
-				null); // trxName
-	}
 
 	/**	Logger	*/
 	private static CLogger 	s_log = CLogger.getCLogger (MCost.class);

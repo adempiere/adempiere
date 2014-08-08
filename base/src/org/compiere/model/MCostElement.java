@@ -124,133 +124,31 @@ public class MCostElement extends X_M_CostElement
 					.setOrderBy(COLUMNNAME_Created)
 					.list();
 	}
-	
-	/**
-	 * 	Get Material Cost Element or create it
-	 *	@param po parent
-	 *	@param CostingMethod method
-	 *	@return cost element
-	 */
-    @Deprecated
-	public static MCostElement getMaterialCostElement (PO po, String CostingMethod)
-	{
-		if (CostingMethod == null || CostingMethod.length() == 0)
-		{
-			s_log.severe("No CostingMethod");
-			return null;
-		}
-		//
-		final String whereClause = "AD_Client_ID=? AND CostingMethod=? AND CostElementType=?";
-		MCostElement retValue = new Query(po.getCtx(), Table_Name, whereClause, po.get_TrxName())
-			.setParameters(po.getAD_Client_ID(), CostingMethod, COSTELEMENTTYPE_Material)
-			.setOrderBy("AD_Org_ID")
-			.firstOnly();
-		if (retValue != null)
-			return retValue;
-		
-		//	Create New
-		retValue = new MCostElement (po.getCtx(), 0, po.get_TrxName());
-		retValue.setClientOrg(po.getAD_Client_ID(), 0);
-		String name = MRefList.getListName(po.getCtx(), COSTINGMETHOD_AD_Reference_ID, CostingMethod);
-		if (name == null || name.length() == 0)
-			name = CostingMethod;
-		retValue.setName(name);
-		retValue.setCostElementType(COSTELEMENTTYPE_Material);
-		retValue.setCostingMethod(CostingMethod);
-		retValue.saveEx();
-		
-		//
-		return retValue;
-	}	//	getMaterialCostElement
-  
-	/**
-	 * 	Get first Material Cost Element
-	 *	@param ctx context
-	 *	@param CostingMethod costing method
-	 *	@return Cost Element or null
-	 */
-	@Deprecated
-	public static MCostElement getMaterialCostElement(Properties ctx, String CostingMethod)
-	{
-		final String whereClause = "AD_Client_ID=? AND CostingMethod=? AND CostElementType=?";
-		List<MCostElement> list = new Query(ctx, I_M_CostElement.Table_Name, whereClause, null)
-		.setParameters(Env.getAD_Client_ID(ctx),CostingMethod,COSTELEMENTTYPE_Material)
-		.setOrderBy(I_M_CostElement.COLUMNNAME_AD_Org_ID)
-		.list();
-		MCostElement retValue = null;
-		if (list.size() > 0)
-			retValue = list.get(0);
-		if (list.size() > 1)
-			s_log.info("More then one Material Cost Element for CostingMethod=" + CostingMethod);
-		return retValue;
-	}	//	getMaterialCostElement
-	
-	/**
-	 * 	Get active Material Cost Element for client 
-	 *	@param po parent
-	 *	@return cost element array
-	 */
-	@Deprecated
-	public static List<MCostElement> getCostElementsWithCostingMethods (PO po)
-	{
-		final String whereClause = "AD_Client_ID=? AND CostingMethod IS NOT NULL";
-		return new Query(po.getCtx(),MCostElement.Table_Name,whereClause,po.get_TrxName())
-		.setParameters(po.getAD_Client_ID())
-		.setOnlyActiveRecords(true)
-		.list();
-	}	//	getCostElementCostingMethod	
-	
-	@Deprecated
-	public static MCostElement[] getActiveCostingMethods (PO po)
-	{
-		final String whereClause = "CostingMethod IS NOT NULL AND CostElementType='M'";
-		List<MCostElement>list = new Query(po.getCtx(),I_M_CostElement.Table_Name, whereClause, po.get_TrxName())
-		.setClient_ID()
-		.setOnlyActiveRecords(true)
-		.list(); 
-		//
-		MCostElement[] retValue = new MCostElement[list.size ()];
-		list.toArray (retValue);
-		return retValue;
-	}	//
-	
-	/**
-	 * 	Get active Material Cost Element for client 
-	 *	@param po parent
-	 *	@return cost element array
-	 */
-	public static MCostElement[] getCostingMethods (PO po)
-	{
-		final String whereClause ="AD_Client_ID=? AND CostElementType=? AND CostingMethod IS NOT NULL";
-		List<MCostElement> list = new Query(po.getCtx(), I_M_CostElement.Table_Name, whereClause, po.get_TrxName())
-		.setParameters(po.getAD_Client_ID(),COSTELEMENTTYPE_Material)
-		.setOnlyActiveRecords(true)
-		.list();
-		//
-		MCostElement[] retValue = new MCostElement[list.size ()];
-		list.toArray (retValue);
-		return retValue;
-	}	//	getMaterialCostElement
 
-	// MZ Goodwill
-	/**
-	 * 	Get active non Material Cost Element for client 
-	 *	@param po parent
-	 *	@return cost element array
-	 */
-	public static MCostElement[] getNonCostingMethods (PO po)
-	{
-		final String whereClause = "AD_Client_ID=? AND CostingMethod IS NULL";
-		List<MCostElement>list = new Query(po.getCtx(),I_M_CostElement.Table_Name, whereClause, po.get_TrxName())
-		.setParameters(po.getAD_Client_ID())
-		.setOnlyActiveRecords(true)
-		.list(); 
-		//
-		MCostElement[] retValue = new MCostElement[list.size ()];
-		list.toArray (retValue);
-		return retValue;
-	}	//	getMaterialCostElement
-	// end MZ
+    /**
+     * Get Material Cost Element or create it
+     * @param po
+     * @return cost element entity
+     */
+    public static MCostElement getMaterialCostElement (PO po)
+    {
+
+        MCostElement costElement = MCostElement.getByMaterialCostElementType(po);
+        if (costElement != null)
+            return costElement;
+
+        //	Create New
+        costElement = new MCostElement (po.getCtx(), 0, po.get_TrxName());
+        costElement.setClientOrg(po.getAD_Client_ID(), 0);
+        String name = MRefList.getListName(po.getCtx(), COSTELEMENTTYPE_AD_Reference_ID, COSTELEMENTTYPE_Material);
+        if (name == null || name.length() == 0)
+            name = COSTELEMENTTYPE_Material;
+        costElement.setName(name);
+        costElement.setCostElementType(COSTELEMENTTYPE_Material);
+        costElement.saveEx();
+        return costElement;
+    }
+
 	/**
 	 * 	Get Cost Element from Cache
 	 *	@param ctx context
@@ -289,22 +187,6 @@ public class MCostElement extends X_M_CostElement
 		list.toArray(retValue);
 		return retValue;	
 	}
-	
-	/**
-	 * Get All Cost Elements for current AD_Client_ID
-	 * @param ctx context
-	 * @param trxName transaction
-	 * @return array cost elements
-	 **/
-	@Deprecated
-	public static List<MCostElement> getByCostingMethod (Properties ctx, String CostingMethod)
-	{		
-		final String whereClause = "AD_Client_ID = ? AND CostingMethod=?";
-		return new Query(ctx, Table_Name, whereClause, null)
-					.setOnlyActiveRecords(true)
-					.setParameters(Env.getAD_Client_ID(ctx),CostingMethod)
-					.list();	
-	}	
 
 	/**	Cache						*/
 	private static CCache<Integer,MCostElement>	s_cache	= new CCache<Integer,MCostElement>("M_CostElement", 20);

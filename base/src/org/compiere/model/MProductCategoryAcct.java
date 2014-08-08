@@ -130,7 +130,7 @@ public class MProductCategoryAcct extends X_M_Product_Category_Acct
 	{
 		//	Create Cost Elements
 		if (getCostingMethod() != null && getCostingMethod().length() > 0)
-			MCostElement.getMaterialCostElement(this, getCostingMethod());
+			MCostElement.getMaterialCostElement(this);
 	}	//	checkCosting
 
 	/**

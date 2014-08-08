@@ -623,9 +623,9 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 		}
 	}
 
-	public void createUsageVariances(MPPCostCollector ccuv) {
+	public void createUsageVariances(MPPCostCollector usegeVariance) {
 		// Apply only for material Usage Variance
-		if (!ccuv
+		if (!usegeVariance
 				.isCostCollectorType(MPPCostCollector.COSTCOLLECTORTYPE_UsegeVariance)) {
 			throw new IllegalArgumentException(
 					"Cost Collector is not Material Usage Variance");
@@ -633,28 +633,28 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 		//
 		final MProduct product;
 		final BigDecimal qty;
-		if (ccuv.getPP_Order_BOMLine_ID() > 0) {
-			product = MProduct.get(ccuv.getCtx(), ccuv.getM_Product_ID());
-			qty = ccuv.getMovementQty();
+		if (usegeVariance.getPP_Order_BOMLine_ID() > 0) {
+			product = MProduct.get(usegeVariance.getCtx(), usegeVariance.getM_Product_ID());
+			qty = usegeVariance.getMovementQty();
 		} else {
-			product = MProduct.forS_Resource_ID(ccuv.getCtx(),
-					ccuv.getS_Resource_ID(), null);
+			product = MProduct.forS_Resource_ID(usegeVariance.getCtx(),
+					usegeVariance.getS_Resource_ID(), null);
 			final RoutingService routingService = RoutingServiceFactory.get()
-					.getRoutingService(ccuv.getAD_Client_ID());
-			qty = routingService.getResourceBaseValue(ccuv.getS_Resource_ID(),
-					ccuv);
+					.getRoutingService(usegeVariance.getAD_Client_ID());
+			qty = routingService.getResourceBaseValue(usegeVariance.getS_Resource_ID(),
+					usegeVariance);
 		}
 		//
-		for (MAcctSchema as : CostEngine.getAcctSchema(ccuv)) {
-			for (MCostElement element : MCostElement.getCostingMethods(ccuv)) {
-				final BigDecimal price = getProductActualCostPrice(ccuv,
-						product, as, element, ccuv.get_TrxName());
+		for (MAcctSchema as : CostEngine.getAcctSchema(usegeVariance)) {
+			for (MCostElement element : MCostElement.getCostElement(usegeVariance.getCtx(), usegeVariance.get_TrxName())) {
+				final BigDecimal price = getProductActualCostPrice(usegeVariance,
+						product, as, element, usegeVariance.get_TrxName());
 				final BigDecimal amt = CostEngine.roundCost(price.multiply(qty),
 						as.getC_AcctSchema_ID());
 				//
 				// Create / Update Cost Detail
 				if (amt.compareTo(Env.ZERO) != 0)
-					createVarianceCostDetail(ccuv, amt, qty, null, // no
+					createVarianceCostDetail(usegeVariance, amt, qty, null, // no
 																	// original
 																	// cost
 																	// detail
