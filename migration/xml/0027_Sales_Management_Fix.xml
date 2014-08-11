@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="U" Name="Sales Management fixes" ReleaseNo="" SeqNo="910">
+  <Migration EntityType="D" Name="Sales Management fixes" ReleaseNo="3.8.0" SeqNo="27">
     <Comments>Sales Opportunity window should display SO Doc Type</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="62256" Table="AD_Field">
