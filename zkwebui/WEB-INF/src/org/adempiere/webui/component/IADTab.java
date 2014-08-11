@@ -12,7 +12,6 @@
  *****************************************************************************/
 package org.adempiere.webui.component;
 
-import org.adempiere.webui.panel.IADTabpanel;
 import org.adempiere.webui.part.UIPart;
 import org.compiere.model.DataStatusEvent;
 import org.compiere.model.GridTab;
@@ -48,7 +47,7 @@ public interface IADTab extends UIPart {
 	/**
 	 * @return selected tab panel reference
 	 */
-	public IADTabpanel getSelectedTabpanel();
+	public org.adempiere.webui.panel.IADTabPanel getSelectedTabpanel();
 
 	/**
 	 *
@@ -69,7 +68,7 @@ public interface IADTab extends UIPart {
 	 * @param tab
 	 * @param tabPanel
 	 */
-	public void addTab(GridTab tab, IADTabpanel tabPanel);
+	public void addTab(GridTab tab, org.adempiere.webui.panel.IADTabPanel tabPanel);
 
 	/**
 	 * @return Number of tab
@@ -106,7 +105,7 @@ public interface IADTab extends UIPart {
 	 * @param index
 	 * @return IADTabpanel
 	 */
-	public IADTabpanel getADTabpanel(int index);
+	public org.adempiere.webui.panel.IADTabPanel getADTabpanel(int index);
 
 	/**
 	 * constant for tab placement
@@ -124,5 +123,5 @@ public interface IADTab extends UIPart {
 	 * @param gTab
 	 * @return IADTabpanel or null if not found
 	 */
-	public IADTabpanel findADTabpanel(GridTab gTab);
+	public org.adempiere.webui.panel.IADTabPanel findADTabpanel(GridTab gTab);
 }

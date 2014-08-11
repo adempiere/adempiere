@@ -453,7 +453,16 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 				colIndex ++;
 				
 				if (editors.get(gridField[i]) == null)
-					editors.put(gridField[i], WebEditorFactory.getEditor(gridField[i], true));
+				{	
+					WEditor editor = WebEditorFactory.getEditor(gridField[i], true);
+					if (!gridField[i].isUpdateable() && gridTab.getRecord_ID() <= 0)
+					{	
+						editor.setReadWrite(true);
+						editor.dynamicDisplay();
+					}	
+					
+					editors.put(gridField[i], editor);
+				}	
 				org.zkoss.zul.Column column = (org.zkoss.zul.Column) columns.getChildren().get(colIndex);
 				if (column.isVisible()) {
 					Div div = (Div) currentRow.getChildren().get(colIndex);

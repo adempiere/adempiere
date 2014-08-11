@@ -12,6 +12,13 @@
  *****************************************************************************/
 package org.adempiere.webui.panel;
 
+import java.util.List;
+
+import org.adempiere.webui.component.CWindowToolbar;
+import org.adempiere.webui.component.Grid;
+import org.adempiere.webui.component.GridPanel;
+import org.adempiere.webui.panel.ADTabPanel.EmbeddedPanel;
+import org.adempiere.webui.panel.ADTabPanel.HorizontalEmbeddedPanel;
 import org.compiere.model.GridTab;
 import org.compiere.util.Evaluatee;
 import org.zkoss.zk.ui.Component;
@@ -20,8 +27,12 @@ import org.zkoss.zk.ui.Component;
  * Interface for UI component that edit/display record using ad_tab definitions
  * @author Low Heng Sin
  *
+ * @author e-Evolution , victor.perez@e-evolution.com
+ *    <li>Implement embedded or horizontal tab panel https://adempiere.atlassian.net/browse/ADEMPIERE-319
+ *    <li>New ADempiere 3.8.0 ZK Theme Light  https://adempiere.atlassian.net/browse/ADEMPIERE-320
+ *
  */
-public interface IADTabpanel extends Component, Evaluatee {
+public interface IADTabPanel extends Component, Evaluatee {
 
 	/**
 	 * @return display logic
@@ -101,4 +112,27 @@ public interface IADTabpanel extends Component, Evaluatee {
 	 * @return true if the event is process
 	 */
 	public boolean onEnterKey();
+	
+	public void setUnselected(IADTabPanel panel);
+	
+	public void setSelected(IADTabPanel panel);
+	
+	public Grid getGrid();
+	
+	public GridPanel getListPanel();
+	
+	public List<EmbeddedPanel> getIncludedPanel();
+
+    public List<HorizontalEmbeddedPanel> getHorizontalIncludedPanel();
+	
+	public int getWindowNo();
+	
+	public void setGlobalToolbar (CWindowToolbar toolbar);
+	
+	public CWindowToolbar getGlobalToolbar();
+
+    public void setIsEmbedded(boolean isEmbedded);
+
+    public boolean isEmbedded() ;
+	
 }

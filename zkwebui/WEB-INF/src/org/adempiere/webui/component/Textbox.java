@@ -37,10 +37,10 @@ public class Textbox extends org.zkoss.zul.Textbox implements EventListener
 	private static final long serialVersionUID = 2201466028538929955L;
 
 	private Obscure	m_obscure = null;
-	
-	private Object m_oldValue = null;
 
-	private boolean m_infocus;
+    private Object m_oldValue = null;
+
+    private boolean m_infocus;
 
 
     public Textbox()
@@ -128,7 +128,7 @@ public class Textbox extends org.zkoss.zul.Textbox implements EventListener
 	 */
 	public void set_oldValue() {
 		this.m_oldValue = getValue();
-	}
+}
 
 	/**
 	 * Get the old value of the field explicitly set in the past

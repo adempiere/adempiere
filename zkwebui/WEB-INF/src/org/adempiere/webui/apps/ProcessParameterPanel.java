@@ -98,6 +98,12 @@ implements ValueChangeListener, IProcessParameter
 			initComponent();
 		}	//	ProcessParameterPanel
 
+		// Allow restart Process Info
+		public void setProcessInfo(ProcessInfo pi)
+		{
+			m_processInfo = pi;
+		}
+
 		private void initComponent() {
 			centerPanel = GridFactory.newGridLayout();
 			centerPanel.setInnerWidth(width);
@@ -137,7 +143,7 @@ implements ValueChangeListener, IProcessParameter
 		
 		public void setMode(int mode)
 		{
-			this.mode = mode;
+			this.mode = BROWSER_MODE; //forced two columns
 		}
 
 		/**
@@ -527,33 +533,33 @@ implements ValueChangeListener, IProcessParameter
 
 			return true;
 		}	//	saveParameters
-		
-		/* 
+
+		/*
 		 * * load parameters from saved instance
 		 */
-		
+
 		public boolean loadParameters(MPInstance instance)
 		{
 			log.config("");
-			
+
 			MPInstancePara[] params = instance.getParameters();
 			for (int j = 0; j < m_mFields.size(); j++)
 			{
 				GridField mField = (GridField)m_mFields.get(j);
-				
+
 				//	Get Values
 				WEditor editor = (WEditor)m_wEditors.get(j);
 				WEditor editor2 = (WEditor)m_wEditors2.get(j);
-				
+
 				editor.setValue(null);
 				if (editor2 != null)
 					editor2.setValue(null);
-				
+
 				for ( int i = 0; i<params.length; i++)
 				{
 					MPInstancePara para = params[i];
 					para.getParameterName();
-					
+
 					if ( mField.getColumnName().equals(para.getParameterName()) )
 					{
 						if (para.getP_Date() != null || para.getP_Date_To() != null )
@@ -562,7 +568,7 @@ implements ValueChangeListener, IProcessParameter
 							if (editor2 != null )
 								editor2.setValue(para.getP_Date_To());
 						}
-						
+
 						//	String
 						else if ( para.getP_String() != null || para.getP_String_To() != null )
 						{
@@ -576,7 +582,7 @@ implements ValueChangeListener, IProcessParameter
 							if (editor2 != null)
 								editor2.setValue(para.getP_Number_To());
 						}
-						
+
 						log.fine(para.toString());
 						break;
 					}
@@ -661,7 +667,7 @@ implements ValueChangeListener, IProcessParameter
 			dynamicDisplay();
 		}
 		
-		private void dynamicDisplay() {
+		public void dynamicDisplay() {
 			for(int i = 0; i < m_wEditors.size(); i++) {
 				WEditor editor = m_wEditors.get(i);
 				GridField mField = editor.getGridField();
@@ -695,7 +701,7 @@ implements ValueChangeListener, IProcessParameter
 		 * @author teo_sarca [ 1699826 ]
 		 * @see org.compiere.model.GridField#restoreValue()
 		 */
-		protected void restoreContext() {
+		public void restoreContext() {
 			for (GridField f : m_mFields) {
 				if (f != null)
 					f.restoreValue();

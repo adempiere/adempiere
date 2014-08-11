@@ -57,6 +57,7 @@ import org.compiere.util.Evaluator;
  *  @author Jorg Janke
  *  @author Victor Perez , e-Evolution.SC FR [ 1757088 ], [1877902] Implement JSR 223 Scripting APIs to Callout
  *  		http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1877902&group_id=176962 to FR [1877902]
+ *    <li>Implement embedded or horizontal tab panel https://adempiere.atlassian.net/browse/ADEMPIERE-319
  *  @author Carlos Ruiz, qss FR [1877902]
  *  @author Juan David Arboleda (arboleda), GlobalQSS, [ 1795398 ] Process Parameter: add display and readonly logic
  *  @author Teo Sarca, teo.sarca@gmail.com
@@ -1895,5 +1896,10 @@ public class GridField
     public boolean isRange()  
     {             
       return m_vo.IsRange;  
+    }
+    
+    public boolean isEmbedded()
+    {
+    	return m_vo.isEmbedded;
     }
 }   //  MField
