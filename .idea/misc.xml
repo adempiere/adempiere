@@ -2,6 +2,7 @@
 <project version="4">
   <component name="EclipseCodeFormatter">
     <option name="defaultSettings" value="true" />
+    <option name="formatter" value="ECLIPSE" />
     <option name="id" value="1386171739650" />
     <option name="importOrderConfigFilePath" value="$USER_HOME$/Develop/FCAQ/formatter Eclipse build in .xml" />
     <option name="importOrderFromFile" value="true" />
