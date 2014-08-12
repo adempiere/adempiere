@@ -251,7 +251,6 @@ public class GridFieldVO implements Serializable
 			vo.ValueMin = rs.getString("ValueMin");
 			vo.ValueMax = rs.getString("ValueMax");
 			vo.isRange = rs.getString("IsRange").equals("Y");
-			vo.isEmbedded = rs.getString("isEmbedded").equals("Y");
 			//
 			vo.AD_Reference_Value_ID = rs.getInt("AD_Reference_Value_ID");
 			vo.ValidationCode = rs.getString("ValidationCode");
