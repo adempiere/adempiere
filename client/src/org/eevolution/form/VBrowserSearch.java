@@ -20,16 +20,15 @@ package org.eevolution.form;
 
 import java.awt.Component;
 import java.awt.LayoutManager;
-import java.awt.Window;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyVetoException;
 import java.beans.VetoableChangeListener;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-
 import javax.swing.JLabel;
-import javax.swing.SwingUtilities;
+
 
 import org.adempiere.model.MBrowseField;
 import org.compiere.apps.ALayoutConstraint;
@@ -350,11 +349,6 @@ public class VBrowserSearch extends CPanel implements
 								//m_separators.get(index).setText("");
 						}
 					}
-					Window win = SwingUtilities.getWindowAncestor(comp);
-				      if (win != null) {
-				         win.pack();
-				         win.setLocationRelativeTo(null);
-				      }
 				}					
 			}
 		}

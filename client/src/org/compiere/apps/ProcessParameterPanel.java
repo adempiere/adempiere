@@ -18,7 +18,6 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Window;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyVetoException;
 import java.beans.VetoableChangeListener;
@@ -29,11 +28,8 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
-
 import javax.swing.Box;
 import javax.swing.JLabel;
-import javax.swing.SwingUtilities;
-
 import org.adempiere.exceptions.DBException;
 import org.compiere.grid.ed.VEditor;
 import org.compiere.grid.ed.VEditorFactory;
@@ -561,11 +557,6 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 									m_separators.get(index).setText("");
 							}
 						}
-						Window win = SwingUtilities.getWindowAncestor(comp);
-					      if (win != null) {
-					         win.pack();
-					         win.setLocationRelativeTo(null);
-					      }
 					}					
 				}
 			}
