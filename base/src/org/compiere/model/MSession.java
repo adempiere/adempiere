@@ -347,9 +347,18 @@ public class MSession extends X_AD_Session
 		if ( pinfo.getTableName().equalsIgnoreCase("AD_Process") && !po.is_new() && po.is_ValueChanged("Statistic_Count") )
 			return;
 		
-		if ( m_migration == null )
+		// Check that m_migration still points to a valid migration.  A merge during the session
+		// may have deleted the current migration.  If needed, create a new one.
+		if ( m_migration == null)
+		{
 			createMigration(po.getCtx());
-		
+		}
+		else 
+		{
+			MMigration mig = new MMigration(po.getCtx(), m_migration.get_ID(), null);
+			if ( mig.get_ID() == 0 ) // Couldn't find the migration - it may have been deleted/merged.  Create another one.
+				createMigration(po.getCtx());
+		}
 		MMigrationStep step = new MMigrationStep(m_migration, po, pinfo, event);
 		step.saveEx();
 		
