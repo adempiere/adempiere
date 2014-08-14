@@ -50,7 +50,6 @@ public class MigrationStepRollback extends SvrProcess {
 		// Set the parent status
 		MMigration migration = migrationstep.getParent();
 		migration.updateStatus(get_TrxName());
-		migration.saveEx();
 		
 		return retval;
 	}

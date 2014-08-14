@@ -51,9 +51,9 @@ public class MigrationStepApply extends SvrProcess {
 		else
 			retval += migrationstep.apply();
 		
+		// Set the parent status
 		MMigration migration = migrationstep.getParent();
 		migration.updateStatus(get_TrxName());
-		migration.saveEx();
 		
 		return retval;
 	}

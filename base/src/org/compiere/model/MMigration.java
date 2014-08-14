@@ -61,6 +61,7 @@ public class MMigration extends X_AD_Migration {
 	}
 	
 	public void apply() throws SQLException {
+				
 		for ( MMigrationStep step : getSteps(false) )
 		{
 			try {
@@ -86,6 +87,7 @@ public class MMigration extends X_AD_Migration {
 				// else continue
 			}
 		}
+		updateStatus(null);
 	}
 	
 	public void updateStatus(String trxName) {
@@ -94,7 +96,7 @@ public class MMigration extends X_AD_Migration {
 		" FROM AD_MigrationStep " +
 		" WHERE AD_Migration_ID = " + getAD_Migration_ID() +
 		" AND IsActive = 'Y'";
-		int total = DB.getSQLValue(null, base);
+		int total = DB.getSQLValue(trxName, base);
 
 		String sql = base + " AND StatusCode = 'A'";
 		int applied = DB.getSQLValue(trxName, sql);
