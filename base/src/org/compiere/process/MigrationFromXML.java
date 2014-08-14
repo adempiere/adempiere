@@ -10,6 +10,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MMigration;
+import org.compiere.util.Ini;
+import org.compiere.util.Msg;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -22,6 +24,12 @@ public class MigrationFromXML extends SvrProcess {
 
 	@Override
 	protected String doIt() throws Exception {
+		
+		if ( Ini.isPropertyBool(Ini.P_LOGMIGRATIONSCRIPT) )
+		{
+			addLog( Msg.getMsg(getCtx(), "LogMigrationScriptFlagIsSetMessage"));
+			return "@Error@" + Msg.getMsg(getCtx(), "LogMigrationScripFlagtIsSet");
+		}
 		
 		File file = new File(fileName);
 		if ( !file.exists() )

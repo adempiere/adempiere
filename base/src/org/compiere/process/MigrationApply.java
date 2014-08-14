@@ -17,6 +17,8 @@
 package org.compiere.process;
 
 import org.compiere.model.MMigration;
+import org.compiere.util.Ini;
+import org.compiere.util.Msg;
 
 public class MigrationApply extends SvrProcess {
 
@@ -28,8 +30,14 @@ public class MigrationApply extends SvrProcess {
 
 		if ( migration == null || migration.is_new() )
 		{
-			addLog("No migration");
-			return "@Error@";
+			addLog( Msg.getMsg(getCtx(), "NoMigrationMessage"));
+			return "@Error@" + Msg.getMsg(getCtx(), "NoMigration");
+		}
+
+		if ( Ini.isPropertyBool(Ini.P_LOGMIGRATIONSCRIPT) )
+		{
+			addLog( Msg.getMsg(getCtx(), "LogMigrationScriptFlagIsSetMessage"));
+			return "@Error@" + Msg.getMsg(getCtx(), "LogMigrationScripFlagtIsSet");
 		}
 		
 		boolean apply = true;

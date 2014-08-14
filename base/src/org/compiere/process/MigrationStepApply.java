@@ -20,6 +20,8 @@ package org.compiere.process;
 import org.compiere.model.MMigration;
 import org.compiere.model.MMigrationStep;
 import org.compiere.process.SvrProcess;
+import org.compiere.util.Ini;
+import org.compiere.util.Msg;
 
 public class MigrationStepApply extends SvrProcess {
 
@@ -34,6 +36,12 @@ public class MigrationStepApply extends SvrProcess {
 	 */
 	@Override
 	protected String doIt() throws Exception {
+
+		if ( Ini.isPropertyBool(Ini.P_LOGMIGRATIONSCRIPT) )
+		{
+			addLog( Msg.getMsg(getCtx(), "LogMigrationScriptFlagIsSetMessage"));
+			return "@Error@" + Msg.getMsg(getCtx(), "LogMigrationScripFlagtIsSet");
+		}
 
 		String retval = migrationstep.toString();
 		if ( migrationstep == null || migrationstep.is_new() )
