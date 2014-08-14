@@ -100,7 +100,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		setStepType(MMigrationStep.STEPTYPE_ApplicationDictionary);
 		setAction(event);
 		setAD_Table_ID(po.get_Table_ID());
-		setRecord_ID(po.get_ID());
+		setRecord_ID(po.get_ID());  // In a multi-key table - this will be the one of the IDs.
 		setStatusCode(MMigrationStep.STATUSCODE_Applied);
 		setApply(MMigrationStep.APPLY_Rollback);
 		
@@ -115,6 +115,24 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		for (int i = 0; i < size; i++)
 		{
 			Object value = po.get_Value(i);
+			
+			//  Determine if the column is one of several in a multi-key table.
+			//  If so, all the keys and their values have to be saved in the
+			//  newValue column regardless of whether they changed or not.
+			boolean isMultiKeyColumn = false;
+			if ( po.get_KeyColumns().length > 1 ) 
+			{
+				for (int j = 0; j < po.get_KeyColumns().length; j++)
+				{
+					String name = po.get_KeyColumns()[j];
+					if (name.equals(info.getColumnName(i)))
+					{
+						isMultiKeyColumn = true;
+						break;
+					}
+				}
+			}
+			
 			if (  !info.isEncrypted(i)		//	not encrypted
 				&& !info.isVirtualColumn(i)	//	no virtual column
 				)
@@ -123,7 +141,8 @@ public class MMigrationStep extends X_AD_MigrationStep {
 				data.setAD_Column_ID(info.getColumn(i).AD_Column_ID);
 				// reference data (old value) on delete/update
 				if ( event.equals(MMigrationStep.ACTION_Delete) 
-						|| ( event.equals(MMigrationStep.ACTION_Update) && po.is_ValueChanged(i))
+						|| ( event.equals(MMigrationStep.ACTION_Update) && po.is_ValueChanged(i)
+						|| isMultiKeyColumn)
 				)
 				{
 					if ( po.get_ValueOld(i) == null )
@@ -134,7 +153,8 @@ public class MMigrationStep extends X_AD_MigrationStep {
 				}
 				// save new value
 				if ( event.equals(MMigrationStep.ACTION_Insert) 
-						|| ( event.equals(MMigrationStep.ACTION_Update) && po.is_ValueChanged(i)) )
+						|| ( event.equals(MMigrationStep.ACTION_Update) && po.is_ValueChanged(i)) 
+						|| isMultiKeyColumn)
 				{
 					if ( value == null )
 						data.setIsNewNull(true);
@@ -167,7 +187,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 
 	public String rollback() {
 		if ( !MMigrationStep.STATUSCODE_Applied.equals(getStatusCode()) )
-			return " Not applied, no rollback required";
+			return "Not applied, no rollback required";
 		
 		if (  MMigrationStep.STEPTYPE_SQLStatement.equals(getStepType()) )
 			return applySQL(true);
@@ -417,7 +437,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			MTable table = MTable.get( getCtx(), getAD_Table_ID() );
 			
 			PO po = null;
-			if ( getRecord_ID() > 0 )
+			if ( table.isSingleKey() && getRecord_ID() > 0 )
 				po = table.getPO( getRecord_ID(), get_TrxName() );
 			else 
 			{
@@ -447,25 +467,44 @@ public class MMigrationStep extends X_AD_MigrationStep {
 				.setParameters(params)
 				.firstOnly();
 			}
+			
+			//  If the record was deleted, po will be null.  Recreate the record.
 			if ( po == null && getAction().equals(ACTION_Delete) )
 			{
 				po = table.getPO(0, get_TrxName());
 				// TODO: only works for single key tables
 				po.set_ValueNoCheck(po.get_KeyColumns()[0], getRecord_ID() );
 				po.setIsDirectLoad(true);
+
+				// Recover the back up values of the deleted record
+				for (MMigrationData data : m_migrationData )
+				{
+					String value = data.getBackupValue();
+					if ( data.isBackupNull() )
+						value = null;
+
+					MColumn column = (MColumn) data.getAD_Column();
+                    if(column == null)
+                        continue;
+
+					po.set_ValueNoCheck(column.getColumnName(), stringToObject(column, value));
+				}
 			}
 
+			// If the record was inserted, delete it.
 			if ( getAction().equals(ACTION_Insert) && po != null) 
 			{
 				po.deleteEx(false, get_TrxName());
 				//TODO column sync database?
 			}
-			else 
+
+			// If the record was updated, set the values back to the old values.
+			if ( getAction().equals(ACTION_Update) && po != null) 
 			{
 				for (MMigrationData data : m_migrationData )
 				{
-					String value = data.getBackupValue();
-					if ( data.isBackupNull() )
+					String value = data.getOldValue();
+					if ( data.isOldNull() )
 						value = null;
 
 					MColumn column = (MColumn) data.getAD_Column();

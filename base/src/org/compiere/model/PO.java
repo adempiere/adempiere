@@ -371,7 +371,7 @@ public abstract class PO
 
 	/**
 	 *  Get Key Columns.
-	 *  @return table name
+	 *  @return key column name(s)
 	 */
 	public String[] get_KeyColumns()
 	{
