@@ -29,6 +29,7 @@ import java.util.StringTokenizer;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.process.MigrationLoader;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
@@ -49,6 +50,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 	private static final long serialVersionUID = 6002302731217174562L;
 	private List<MMigrationData> m_migrationData;
 	private MMigration parent;
+	private MigrationLoader loader;
 	/** Logger */
 	private static CLogger log = CLogger
 			.getCLogger(MMigrationStep.class);
@@ -174,9 +176,11 @@ public class MMigrationStep extends X_AD_MigrationStep {
 				setApply(MMigrationStep.APPLY_Rollback);
 				saveEx();
 			}
+			log.log(Level.CONFIG, "Migration step already applied: " + this);
 			return "Already applied";
 		}
-		
+
+		log.log(Level.CONFIG, "Applying migration step: " + this);
 		if ( MMigrationStep.STEPTYPE_SQLStatement.equals(getStepType()) )
 			return applySQL(false);
 		else if ( MMigrationStep.STEPTYPE_ApplicationDictionary.equals(getStepType()) )
@@ -397,11 +401,15 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			{
 				po.saveEx(get_TrxName());
 
-				if ( po instanceof MColumn )
+				//  Synchronize the AD_Column changes with the database.  To avoid a database lock,
+				//  pass these to the MigrationLoader class and perform the sync in a different 
+				//  transaction.
+				if ( po instanceof MColumn && loader != null )
 				{
 					MColumn col = (MColumn) po;
-					if (!col.isVirtualColumn())
-						col.syncDatabase();
+					if (!col.isVirtualColumn()) {
+						loader.addSyncColumn(col.getAD_Column_ID());
+					}
 				}
 			}
 		}
@@ -411,7 +419,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			setStatusCode(MMigrationStep.STATUSCODE_Failed);
 			setApply(MMigrationStep.APPLY_Apply);
 			saveEx(null);
-			final String error = "Migration Script : " + getParent().getSeqNo() + " - " + getParent().getName() +  " ---> Strp " + getSeqNo() +  " failed";
+			final String error = "Migration Script : " + getParent().getSeqNo() + " - " + getParent().getName() +  " ---> Step " + getSeqNo() +  " failed";
 			throw new AdempiereException(error, e);
 		}
 		setStatusCode(MMigrationStep.STATUSCODE_Applied);
@@ -516,10 +524,15 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			}
 			po.saveEx();
 			
-			if ( po instanceof MColumn )
+			//  Synchronize the AD_Column changes with the database.  To avoid a database lock,
+			//  pass these to the MigrationLoader class and perform the sync in a different 
+			//  transaction.
+			if ( po instanceof MColumn && loader != null )
 			{
 				MColumn col = (MColumn) po;
-				col.syncDatabase();
+				if (!col.isVirtualColumn()) {
+					loader.addSyncColumn(col.getAD_Column_ID());
+				}
 			}
 		}
 		catch (Exception e) {
@@ -642,7 +655,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		}
 		
 		mstep.saveEx();
-		log.log(Level.CONFIG, "Migration " + mstep.getAD_Migration().getName() + " Step " + mstep.getSeqNo() + " loaded");
+		log.log(Level.CONFIG, "Migration: " + mstep.getAD_Migration().getName() + ": Step " + mstep.getSeqNo() + " loaded");
 
 	}
 
@@ -668,6 +681,10 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		}
 		return true;
 	}	//	beforeDelete
+
+	public void set_ColSyncCallback(MigrationLoader loader) {
+		this.loader = loader;
+	}
 
 
 }

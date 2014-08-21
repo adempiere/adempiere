@@ -18,6 +18,10 @@
 @Rem globalqss - cruiz - 2007-10-09 - added fourth parameter for postgres (ignored in oracle)
 @call %ADEMPIERE_DB_PATH%\ImportAdempiere system/%ADEMPIERE_DB_SYSTEM% %ADEMPIERE_DB_USER% %ADEMPIERE_DB_PASSWORD% %ADEMPIERE_DB_SYSTEM%
 
+@Rem Load and apply all xml migrations
+@call %ADEMPIERE_HOME%\utils\RUN_Migrate
+
+@Rem Sign the database to match the build
 @call %ADEMPIERE_HOME%\utils\RUN_SignDatabaseBuild > NUL 2>&1
 
 @pause
