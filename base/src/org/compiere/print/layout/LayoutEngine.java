@@ -1241,6 +1241,9 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		PrintData includedData = de.getPrintData(data.getCtx(), format, query);
 		if (includedData == null)
 			return null;
+
+        data.addNode(includedData);
+
 		log.fine(includedData.toString());
 		//
 		element = layoutTable (format, includedData, item.getXSpace());
@@ -1761,6 +1764,10 @@ public class LayoutEngine implements Pageable, Printable, Doc
 					//	System.out.println("  row=" + row + ",col=" + col + " - " + item.getAD_Column_ID() + " => " + dataElement);
 						data[row][col] = dataElement;
 					}
+                    else if (item.isTypePrintFormat())
+                    {
+                        m_currPage.addElement (includeFormat(item, printData)) ;
+                    }
 					else  // item.isTypeBox() or isTypePrintFormat()
 					{
 						log.warning("Unsupported: " + (item.isTypeBox() ? "Box" : "PrintFormat") + " in Table: " + item);
