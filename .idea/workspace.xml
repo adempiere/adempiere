@@ -2,579 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f088a603-86f9-4692-ad7b-06b6ff86e906" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/AD10030.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/AD10030HR.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/AD16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/AD32.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/About16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/About24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Account10.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Account16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Account24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/AdemPiere150x50.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/AdemPiereCom.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/AdemPiereComHR.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/AdemPiereComx.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Adempiere.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Adempiere120x60.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/AdempiereHR.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Adempierex.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Archive16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Archive24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Assignment10.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Assignment16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Assignment24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Attachment16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Attachment24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Attachment24D.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/AttachmentX16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/AttachmentX24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/BPartner10.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/BPartner16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/BPartner24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Bold16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/C10030.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/C10030HR.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/C10030x.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/C10030xHR.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/C16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/C32.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Calculator10.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Calculator16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Calculator24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Calendar10.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Calendar16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Calendar24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Cancel10.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Cancel16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Cancel24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/ChangeLog16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Chat16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Chat24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/ChatX16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/ChatX24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/ComPiereCom.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/ComPiereComHR.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/ComPiereComx.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Compiere.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/CompiereHR.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Compierex.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Copy16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Copy24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Customize16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Customize24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Delete16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Delete24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/DeleteSelection16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/DeleteSelection24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Detail16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Detail24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/EMailSupport16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/EMailSupport24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Edit16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Edit24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Editor16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Editor24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/End16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/End24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Error32.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Exit16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Exit24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Export16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Export16X.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Export24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Export24X.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/ExportX16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/ExportX24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/FastBack24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/FastForward24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Find16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Find24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/FindX16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/FindX24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/First16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/First24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/First24D.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Folder16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Folder24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/GetMail16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/GetMail24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Help16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Help24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/History16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/History24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/History24D.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/HistoryX16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/HistoryX24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Home16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Home24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Ignore16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Ignore24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images/Ignore24back.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Import16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Import24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Info16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Info24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/InfoAccount16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/InfoAccount24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/InfoBPartner16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/InfoBPartner24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/InfoProduct16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/InfoProduct24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/InfoSchedule16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/InfoSchedule24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Inform32.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Italic16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Java_logo.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Last16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Last24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Last24D.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Location10.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Locator10.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Lock16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Lock24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/LockX16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/LockX24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Logout16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Logout24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Minus16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Minus24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Multi16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Multi24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/MultiX16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/MultiX24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/New16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/New24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Next16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Next24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Next24D.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Normal16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Ok16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Ok24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Online10.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Online16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Online24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Open16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Open24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/PAttribute10.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/PAttribute16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/PAttribute24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/PageSetup16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/PageSetup24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Parent16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Parent24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Payment16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Payment24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/PickOpen10.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Plus16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Plus24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Posterita.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/PosteritaAjaxUILogo.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Preference16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Preference24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Previous16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Previous24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Previous24D.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Print16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Print24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/PrintScreen16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/PrintScreen24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Process16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Process24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Product10.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Product16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Product24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Question32.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Redo16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Redo24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Refresh16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Refresh24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Register16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Register24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Report16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Report24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Request16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Request24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Reset16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Reset24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Save16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Save24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/ScreenShot16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/ScreenShot24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Script16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Script24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/SelectAll16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/SelectAll24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/SendMail16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/SendMail24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Server16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Server24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Setup16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Setup24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/StepBack24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/StepForward24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Summary16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Summary24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Translate16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Translate24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Underline16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Undo16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Undo24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/VPreference16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/VPreference24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Warn32.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/WinSize16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/WinSize24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/WorkFlow16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/WorkFlow24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/WorkFlow_16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/WorkFlow_24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Zoom16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/Zoom24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/ZoomAcross16.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/ZoomAcross24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/theme/default/images/adtab-bg-uns.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/theme/default/images/bar-bg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/downarrow.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images/errormsg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/lib/evolutionZK.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/gradient-bg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/logo.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/logo_ad.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/logoff.JPG" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/mClosed.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/mDocAction.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/mOpen.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/mProcess.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/mReport.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/mSetVariable.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/mUserChoice.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/mWindow.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/mWorkFlow.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/mWorkbench.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/ns-collapse.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/ns-expand.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/top.JPG" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/uparrow.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/wfBack24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/wfEnd24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/wfNext24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/wfStart24.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/images_old/zip.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/xml/0029_ImplementEmbeddedOrHorizontalTab.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/IFormLauncher.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/ProcessParameterPanel.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/StringBox.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/AD10030.png" afterPath="$PROJECT_DIR$/zkwebui/images/AD10030.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/AD10030HR.png" afterPath="$PROJECT_DIR$/zkwebui/images/AD10030HR.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/AD16.png" afterPath="$PROJECT_DIR$/zkwebui/images/AD16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/AD32.png" afterPath="$PROJECT_DIR$/zkwebui/images/AD32.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/About16.png" afterPath="$PROJECT_DIR$/zkwebui/images/About16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/About24.png" afterPath="$PROJECT_DIR$/zkwebui/images/About24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Account10.png" afterPath="$PROJECT_DIR$/zkwebui/images/Account10.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Account16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Account16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Account24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Account24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/AdemPiere150x50.png" afterPath="$PROJECT_DIR$/zkwebui/images/AdemPiere150x50.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/AdemPiereCom.png" afterPath="$PROJECT_DIR$/zkwebui/images/AdemPiereCom.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/AdemPiereComHR.png" afterPath="$PROJECT_DIR$/zkwebui/images/AdemPiereComHR.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/AdemPiereComx.png" afterPath="$PROJECT_DIR$/zkwebui/images/AdemPiereComx.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Adempiere.png" afterPath="$PROJECT_DIR$/zkwebui/images/Adempiere.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Adempiere120x60.png" afterPath="$PROJECT_DIR$/zkwebui/images/Adempiere120x60.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/AdempiereHR.png" afterPath="$PROJECT_DIR$/zkwebui/images/AdempiereHR.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Adempierex.png" afterPath="$PROJECT_DIR$/zkwebui/images/Adempierex.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Archive16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Archive16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Archive24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Archive24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Assignment10.png" afterPath="$PROJECT_DIR$/zkwebui/images/Assignment10.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Assignment16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Assignment16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Assignment24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Assignment24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Attachment16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Attachment16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Attachment24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Attachment24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Attachment24D.png" afterPath="$PROJECT_DIR$/zkwebui/images/Attachment24D.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/AttachmentX16.png" afterPath="$PROJECT_DIR$/zkwebui/images/AttachmentX16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/AttachmentX24.png" afterPath="$PROJECT_DIR$/zkwebui/images/AttachmentX24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/BPartner10.png" afterPath="$PROJECT_DIR$/zkwebui/images/BPartner10.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/BPartner16.png" afterPath="$PROJECT_DIR$/zkwebui/images/BPartner16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/BPartner24.png" afterPath="$PROJECT_DIR$/zkwebui/images/BPartner24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Bold16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Bold16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/C10030.png" afterPath="$PROJECT_DIR$/zkwebui/images/C10030.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/C10030HR.png" afterPath="$PROJECT_DIR$/zkwebui/images/C10030HR.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/C10030x.png" afterPath="$PROJECT_DIR$/zkwebui/images/C10030x.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/C10030xHR.png" afterPath="$PROJECT_DIR$/zkwebui/images/C10030xHR.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/C16.png" afterPath="$PROJECT_DIR$/zkwebui/images/C16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/C32.png" afterPath="$PROJECT_DIR$/zkwebui/images/C32.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Calculator10.png" afterPath="$PROJECT_DIR$/zkwebui/images/Calculator10.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Calculator16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Calculator16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Calculator24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Calculator24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Calendar10.png" afterPath="$PROJECT_DIR$/zkwebui/images/Calendar10.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Calendar16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Calendar16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Calendar24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Calendar24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Cancel10.png" afterPath="$PROJECT_DIR$/zkwebui/images/Cancel10.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Cancel16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Cancel16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Cancel24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Cancel24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/ChangeLog16.png" afterPath="$PROJECT_DIR$/zkwebui/images/ChangeLog16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Chat16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Chat16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Chat24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Chat24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/ChatX16.png" afterPath="$PROJECT_DIR$/zkwebui/images/ChatX16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/ChatX24.png" afterPath="$PROJECT_DIR$/zkwebui/images/ChatX24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/ComPiereCom.png" afterPath="$PROJECT_DIR$/zkwebui/images/ComPiereCom.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/ComPiereComHR.png" afterPath="$PROJECT_DIR$/zkwebui/images/ComPiereComHR.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/ComPiereComx.png" afterPath="$PROJECT_DIR$/zkwebui/images/ComPiereComx.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Compiere.png" afterPath="$PROJECT_DIR$/zkwebui/images/Compiere.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/CompiereHR.png" afterPath="$PROJECT_DIR$/zkwebui/images/CompiereHR.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Compierex.png" afterPath="$PROJECT_DIR$/zkwebui/images/Compierex.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Copy16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Copy16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Copy24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Copy24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Customize16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Customize16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Customize24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Customize24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Delete16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Delete16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Delete24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Delete24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/DeleteSelection16.png" afterPath="$PROJECT_DIR$/zkwebui/images/DeleteSelection16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/DeleteSelection24.png" afterPath="$PROJECT_DIR$/zkwebui/images/DeleteSelection24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Detail16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Detail16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Detail24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Detail24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/EMailSupport16.png" afterPath="$PROJECT_DIR$/zkwebui/images/EMailSupport16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/EMailSupport24.png" afterPath="$PROJECT_DIR$/zkwebui/images/EMailSupport24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Edit16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Edit16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Edit24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Edit24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Editor16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Editor16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Editor24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Editor24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/End16.png" afterPath="$PROJECT_DIR$/zkwebui/images/End16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/End24.png" afterPath="$PROJECT_DIR$/zkwebui/images/End24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Error32.png" afterPath="$PROJECT_DIR$/zkwebui/images/Error32.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Exit16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Exit16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Exit24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Exit24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Export16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Export16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Export16X.png" afterPath="$PROJECT_DIR$/zkwebui/images/Export16X.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Export24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Export24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Export24X.png" afterPath="$PROJECT_DIR$/zkwebui/images/Export24X.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/ExportX16.png" afterPath="$PROJECT_DIR$/zkwebui/images/ExportX16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/ExportX24.png" afterPath="$PROJECT_DIR$/zkwebui/images/ExportX24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/FastBack24.png" afterPath="$PROJECT_DIR$/zkwebui/images/FastBack24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/FastForward24.png" afterPath="$PROJECT_DIR$/zkwebui/images/FastForward24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Find16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Find16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Find24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Find24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/FindX16.png" afterPath="$PROJECT_DIR$/zkwebui/images/FindX16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/FindX24.png" afterPath="$PROJECT_DIR$/zkwebui/images/FindX24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/First16.png" afterPath="$PROJECT_DIR$/zkwebui/images/First16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/First24.png" afterPath="$PROJECT_DIR$/zkwebui/images/First24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/First24D.png" afterPath="$PROJECT_DIR$/zkwebui/images/First24D.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Folder16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Folder16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Folder24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Folder24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/GetMail16.png" afterPath="$PROJECT_DIR$/zkwebui/images/GetMail16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/GetMail24.png" afterPath="$PROJECT_DIR$/zkwebui/images/GetMail24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Help16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Help16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Help24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Help24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/History16.png" afterPath="$PROJECT_DIR$/zkwebui/images/History16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/History24.png" afterPath="$PROJECT_DIR$/zkwebui/images/History24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/History24D.png" afterPath="$PROJECT_DIR$/zkwebui/images/History24D.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/HistoryX16.png" afterPath="$PROJECT_DIR$/zkwebui/images/HistoryX16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/HistoryX24.png" afterPath="$PROJECT_DIR$/zkwebui/images/HistoryX24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Home16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Home16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Home24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Home24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Ignore16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Ignore16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Ignore24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Ignore24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Import16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Import16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Import24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Import24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Info16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Info16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Info24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Info24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/InfoAccount16.png" afterPath="$PROJECT_DIR$/zkwebui/images/InfoAccount16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/InfoAccount24.png" afterPath="$PROJECT_DIR$/zkwebui/images/InfoAccount24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/InfoBPartner16.png" afterPath="$PROJECT_DIR$/zkwebui/images/InfoBPartner16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/InfoBPartner24.png" afterPath="$PROJECT_DIR$/zkwebui/images/InfoBPartner24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/InfoProduct16.png" afterPath="$PROJECT_DIR$/zkwebui/images/InfoProduct16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/InfoProduct24.png" afterPath="$PROJECT_DIR$/zkwebui/images/InfoProduct24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/InfoSchedule16.png" afterPath="$PROJECT_DIR$/zkwebui/images/InfoSchedule16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/InfoSchedule24.png" afterPath="$PROJECT_DIR$/zkwebui/images/InfoSchedule24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Inform32.png" afterPath="$PROJECT_DIR$/zkwebui/images/Inform32.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Italic16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Italic16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Java_logo.png" afterPath="$PROJECT_DIR$/zkwebui/images/Java_logo.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Last16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Last16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Last24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Last24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Last24D.png" afterPath="$PROJECT_DIR$/zkwebui/images/Last24D.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Location10.png" afterPath="$PROJECT_DIR$/zkwebui/images/Location10.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Locator10.png" afterPath="$PROJECT_DIR$/zkwebui/images/Locator10.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Lock16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Lock16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Lock24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Lock24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/LockX16.png" afterPath="$PROJECT_DIR$/zkwebui/images/LockX16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/LockX24.png" afterPath="$PROJECT_DIR$/zkwebui/images/LockX24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Logout16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Logout16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Logout24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Logout24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Minus16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Minus16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Minus24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Minus24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Multi16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Multi16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Multi24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Multi24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/MultiX16.png" afterPath="$PROJECT_DIR$/zkwebui/images/MultiX16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/MultiX24.png" afterPath="$PROJECT_DIR$/zkwebui/images/MultiX24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/New16.png" afterPath="$PROJECT_DIR$/zkwebui/images/New16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/New24.png" afterPath="$PROJECT_DIR$/zkwebui/images/New24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Next16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Next16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Next24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Next24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Next24D.png" afterPath="$PROJECT_DIR$/zkwebui/images/Next24D.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Normal16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Normal16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Ok16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Ok16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Ok24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Ok24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Online10.png" afterPath="$PROJECT_DIR$/zkwebui/images/Online10.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Online16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Online16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Online24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Online24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Open16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Open16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Open24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Open24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/PAttribute10.png" afterPath="$PROJECT_DIR$/zkwebui/images/PAttribute10.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/PAttribute16.png" afterPath="$PROJECT_DIR$/zkwebui/images/PAttribute16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/PAttribute24.png" afterPath="$PROJECT_DIR$/zkwebui/images/PAttribute24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/PageSetup16.png" afterPath="$PROJECT_DIR$/zkwebui/images/PageSetup16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/PageSetup24.png" afterPath="$PROJECT_DIR$/zkwebui/images/PageSetup24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Parent16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Parent16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Parent24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Parent24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Payment16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Payment16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Payment24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Payment24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/PickOpen10.png" afterPath="$PROJECT_DIR$/zkwebui/images/PickOpen10.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Plus16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Plus16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Plus24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Plus24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Posterita.jpg" afterPath="$PROJECT_DIR$/zkwebui/images/Posterita.jpg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/PosteritaAjaxUILogo.jpg" afterPath="$PROJECT_DIR$/zkwebui/images/PosteritaAjaxUILogo.jpg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Preference16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Preference16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Preference24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Preference24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Previous16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Previous16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Previous24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Previous24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Previous24D.png" afterPath="$PROJECT_DIR$/zkwebui/images/Previous24D.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Print16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Print16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Print24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Print24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/PrintScreen16.png" afterPath="$PROJECT_DIR$/zkwebui/images/PrintScreen16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/PrintScreen24.png" afterPath="$PROJECT_DIR$/zkwebui/images/PrintScreen24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Process16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Process16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Process24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Process24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Product10.png" afterPath="$PROJECT_DIR$/zkwebui/images/Product10.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Product16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Product16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Product24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Product24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Question32.png" afterPath="$PROJECT_DIR$/zkwebui/images/Question32.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Redo16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Redo16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Redo24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Redo24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Refresh16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Refresh16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Refresh24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Refresh24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Register16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Register16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Register24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Register24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Report16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Report16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Report24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Report24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Request16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Request16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Request24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Request24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Reset16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Reset16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Reset24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Reset24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Save16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Save16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Save24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Save24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/ScreenShot16.png" afterPath="$PROJECT_DIR$/zkwebui/images/ScreenShot16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/ScreenShot24.png" afterPath="$PROJECT_DIR$/zkwebui/images/ScreenShot24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Script16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Script16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Script24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Script24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/SelectAll16.png" afterPath="$PROJECT_DIR$/zkwebui/images/SelectAll16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/SelectAll24.png" afterPath="$PROJECT_DIR$/zkwebui/images/SelectAll24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/SendMail16.png" afterPath="$PROJECT_DIR$/zkwebui/images/SendMail16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/SendMail24.png" afterPath="$PROJECT_DIR$/zkwebui/images/SendMail24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Server16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Server16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Server24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Server24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Setup16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Setup16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Setup24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Setup24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/StepBack24.png" afterPath="$PROJECT_DIR$/zkwebui/images/StepBack24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/StepForward24.png" afterPath="$PROJECT_DIR$/zkwebui/images/StepForward24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Summary16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Summary16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Summary24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Summary24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Translate16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Translate16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Translate24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Translate24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Underline16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Underline16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Undo16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Undo16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Undo24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Undo24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/VPreference16.png" afterPath="$PROJECT_DIR$/zkwebui/images/VPreference16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/VPreference24.png" afterPath="$PROJECT_DIR$/zkwebui/images/VPreference24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Warn32.png" afterPath="$PROJECT_DIR$/zkwebui/images/Warn32.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/WinSize16.png" afterPath="$PROJECT_DIR$/zkwebui/images/WinSize16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/WinSize24.png" afterPath="$PROJECT_DIR$/zkwebui/images/WinSize24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/WorkFlow16.png" afterPath="$PROJECT_DIR$/zkwebui/images/WorkFlow16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/WorkFlow24.png" afterPath="$PROJECT_DIR$/zkwebui/images/WorkFlow24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/WorkFlow_16.png" afterPath="$PROJECT_DIR$/zkwebui/images/WorkFlow_16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/WorkFlow_24.png" afterPath="$PROJECT_DIR$/zkwebui/images/WorkFlow_24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Zoom16.png" afterPath="$PROJECT_DIR$/zkwebui/images/Zoom16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/Zoom24.png" afterPath="$PROJECT_DIR$/zkwebui/images/Zoom24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/ZoomAcross16.png" afterPath="$PROJECT_DIR$/zkwebui/images/ZoomAcross16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/ZoomAcross24.png" afterPath="$PROJECT_DIR$/zkwebui/images/ZoomAcross24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/theme/default/images/adtab-left-bg.png" afterPath="$PROJECT_DIR$/zkwebui/theme/default/images/adtab-left-bg.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/theme/default/images/adtab-right-bg.png" afterPath="$PROJECT_DIR$/zkwebui/theme/default/images/adtab-right-bg.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/downarrow.png" afterPath="$PROJECT_DIR$/zkwebui/images/downarrow.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/gradient-bg.png" afterPath="$PROJECT_DIR$/zkwebui/images/gradient-bg.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/theme/default/images/header-bg.png" afterPath="$PROJECT_DIR$/zkwebui/theme/default/images/header-bg.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/packages/liberoHR.jar" afterPath="$PROJECT_DIR$/packages/liberoHR.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/packages/liberoMFG.jar" afterPath="$PROJECT_DIR$/packages/liberoMFG.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/packages/liberoWM.jar" afterPath="$PROJECT_DIR$/packages/liberoWM.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkpackages/liberozkHR.jar" afterPath="$PROJECT_DIR$/zkpackages/liberozkHR.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkpackages/liberozkMFG.jar" afterPath="$PROJECT_DIR$/zkpackages/liberozkMFG.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/theme/default/images/login-box-bg.png" afterPath="$PROJECT_DIR$/zkwebui/theme/default/images/login-box-bg.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/theme/default/images/login-box-footer.png" afterPath="$PROJECT_DIR$/zkwebui/theme/default/images/login-box-footer.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/theme/default/images/login-box-header.png" afterPath="$PROJECT_DIR$/zkwebui/theme/default/images/login-box-header.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/logo.png" afterPath="$PROJECT_DIR$/zkwebui/images/logo.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/logo_ad.png" afterPath="$PROJECT_DIR$/zkwebui/images/logo_ad.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/mClosed.png" afterPath="$PROJECT_DIR$/zkwebui/images/mClosed.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/mDocAction.png" afterPath="$PROJECT_DIR$/zkwebui/images/mDocAction.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/mOpen.png" afterPath="$PROJECT_DIR$/zkwebui/images/mOpen.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/mProcess.png" afterPath="$PROJECT_DIR$/zkwebui/images/mProcess.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/mReport.png" afterPath="$PROJECT_DIR$/zkwebui/images/mReport.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/mSetVariable.png" afterPath="$PROJECT_DIR$/zkwebui/images/mSetVariable.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/mUserChoice.png" afterPath="$PROJECT_DIR$/zkwebui/images/mUserChoice.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/mWindow.png" afterPath="$PROJECT_DIR$/zkwebui/images/mWindow.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/mWorkFlow.png" afterPath="$PROJECT_DIR$/zkwebui/images/mWorkFlow.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/mWorkbench.png" afterPath="$PROJECT_DIR$/zkwebui/images/mWorkbench.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/mysql-connector-java-5.1.13-bin.jar" afterPath="$PROJECT_DIR$/lib/mysql-connector-java-5.1.13-bin.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/ns-collapse.png" afterPath="$PROJECT_DIR$/zkwebui/images/ns-collapse.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/ns-expand.png" afterPath="$PROJECT_DIR$/zkwebui/images/ns-expand.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/uparrow.png" afterPath="$PROJECT_DIR$/zkwebui/images/uparrow.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/wfBack24.png" afterPath="$PROJECT_DIR$/zkwebui/images/wfBack24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/wfEnd24.png" afterPath="$PROJECT_DIR$/zkwebui/images/wfEnd24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/wfNext24.png" afterPath="$PROJECT_DIR$/zkwebui/images/wfNext24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/wfStart24.png" afterPath="$PROJECT_DIR$/zkwebui/images/wfStart24.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/images/zip.png" afterPath="$PROJECT_DIR$/zkwebui/images/zip.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.classpath" afterPath="$PROJECT_DIR$/.classpath" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/migration/xml/0027_Sales_Management_Fix.xml" afterPath="$PROJECT_DIR$/migration/xml/0027_Sales_Management_Fix.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/ADButtonTabList.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/ADButtonTabList.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/ADSortTab.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/ADSortTab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/ADTabPanel.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/ADTabPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/ADWindowPanel.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/ADWindowPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/ddlutils/oracle/views/AD_FIELD_V.sql" afterPath="$PROJECT_DIR$/db/ddlutils/oracle/views/AD_FIELD_V.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/ddlutils/postgresql/views/AD_FIELD_V.sql" afterPath="$PROJECT_DIR$/db/ddlutils/postgresql/views/AD_FIELD_V.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/ddlutils/oracle/views/AD_FIELD_VT.sql" afterPath="$PROJECT_DIR$/db/ddlutils/oracle/views/AD_FIELD_VT.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/ddlutils/postgresql/views/AD_FIELD_VT.sql" afterPath="$PROJECT_DIR$/db/ddlutils/postgresql/views/AD_FIELD_VT.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/AbstractADTab.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/AbstractADTab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/AbstractADWindowPanel.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/AbstractADWindowPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/CWindowToolbar.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/CWindowToolbar.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/eevolution/model/CalloutBOM.java" afterPath="$PROJECT_DIR$/base/src/org/eevolution/model/CalloutBOM.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/CompositeADTab.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/CompositeADTab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/util/Evaluator.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/util/Evaluator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/window/FindWindow.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/window/FindWindow.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/GridField.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/GridField.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/GridFieldVO.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/GridFieldVO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/GridPanel.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/GridPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/GridTab.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/GridTab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/GridTabRowRenderer.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/GridTabRowRenderer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/IADTab.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/IADTab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/IADTabPanel.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/IADTabPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/Label.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/Label.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/ListPanel.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/ListPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/LoginPanel.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/LoginPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/NumberBox.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/NumberBox.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/apps/ProcessDialog.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/apps/ProcessDialog.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/apps/ProcessParameterPanel.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/apps/ProcessParameterPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/StatusBarPanel.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/StatusBarPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/desktop/TabbedDesktop.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/desktop/TabbedDesktop.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/Textbox.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/Textbox.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/TreeSearchPanel.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/TreeSearchPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/window/WAccountDialog.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/window/WAccountDialog.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/editor/WEditor.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/editor/WEditor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/editor/WImageEditor.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/editor/WImageEditor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/editor/WStringEditor.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/editor/WStringEditor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/editor/WTableDirEditor.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/editor/WTableDirEditor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/apps/form/WTrxMaterial.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/apps/form/WTrxMaterial.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/part/WindowContainer.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/part/WindowContainer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/migration/380lts-release/oracle/924_003_M_CostQueue_NewField.sql" afterPath="$PROJECT_DIR$/migration/380lts-release/oracle/924_003_M_CostQueue_NewField.sql" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/adempiereTrunk.eml" afterPath="$PROJECT_DIR$/adempiereTrunk.eml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/theme/default/css/theme.css.dsp" afterPath="$PROJECT_DIR$/zkwebui/theme/default/css/theme.css.dsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/theme/default/css/themeie.css.dsp" afterPath="$PROJECT_DIR$/zkwebui/theme/default/css/themeie.css.dsp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="adempiereDevelop.iws" />
@@ -632,8 +61,8 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <ui_properties converted="true" />
     <breakpoint_rules converted="true" />
+    <ui_properties converted="true" />
   </component>
   <component name="DiffToolSettings">
     <option name="WHITESPACES" value="true" />
@@ -644,171 +73,96 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="AbstractADWindowPanel.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/AbstractADWindowPanel.java">
+      <file leaf-file-name="LayoutEngine.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/base/src/org/compiere/print/layout/LayoutEngine.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="240" max-vertical-offset="34380">
-              <caret line="121" column="0" selection-start-line="121" selection-start-column="0" selection-end-line="123" selection-end-column="100" />
-              <folding>
-                <element signature="e#6670#6691#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ADSortTab.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/ADSortTab.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="13245">
-              <caret line="78" column="16" selection-start-line="78" selection-start-column="16" selection-end-line="78" selection-end-column="16" />
-              <folding>
-                <element signature="e#28818#28819#0" expanded="true" />
-                <element signature="e#28860#28861#0" expanded="true" />
-                <element signature="e#28899#28900#0" expanded="true" />
-                <element signature="e#28932#28933#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="WEditor.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/editor/WEditor.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="8565">
-              <caret line="53" column="80" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="WStringEditor.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/editor/WStringEditor.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3540">
-              <caret line="47" column="13" selection-start-line="47" selection-start-column="13" selection-end-line="47" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="StringBox.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/StringBox.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3210">
-              <caret line="18" column="59" selection-start-line="18" selection-start-column="37" selection-end-line="18" selection-end-column="37" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MPPOrder.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/base/src/org/eevolution/model/MPPOrder.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="26820">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="15" selection-end-column="79" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="NumberBox.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/NumberBox.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6735">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="15" selection-end-column="79" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ADTabPanel.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/ADTabPanel.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="690" max-vertical-offset="28455">
-              <caret line="77" column="3" selection-start-line="77" selection-start-column="3" selection-end-line="77" selection-end-column="3" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="30000">
+              <caret line="453" column="0" selection-start-line="453" selection-start-column="0" selection-end-line="453" selection-end-column="0" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="imports" expanded="true" />
-                <element signature="e#3857#3884#0" expanded="true" />
-                <element signature="e#4108#4117#0" expanded="true" />
-                <element signature="e#4177#4185#0" expanded="true" />
-                <element signature="e#4351#4384#0" expanded="true" />
-                <element signature="e#4469#4502#0" expanded="true" />
-                <element signature="e#4731#4747#0" expanded="true" />
-                <element signature="e#4815#4835#0" expanded="true" />
-                <element signature="e#4898#4913#0" expanded="true" />
-                <element signature="e#5174#5175#0" expanded="true" />
-                <element signature="e#5201#5202#0" expanded="true" />
-                <element signature="e#5265#5266#0" expanded="true" />
-                <element signature="e#5306#5307#0" expanded="true" />
-                <element signature="e#5335#5336#0" expanded="true" />
-                <element signature="e#5357#5358#0" expanded="true" />
-                <element signature="e#5388#5389#0" expanded="true" />
-                <element signature="e#5420#5421#0" expanded="true" />
-                <element signature="e#12489#12508#0" expanded="true" />
-                <element signature="e#19408#19409#0" expanded="true" />
-                <element signature="e#19433#19434#0" expanded="true" />
-                <element signature="e#24372#24373#0" expanded="true" />
-                <element signature="e#24420#24421#0" expanded="true" />
-                <element signature="e#24494#24495#0" expanded="true" />
-                <element signature="e#24534#24535#0" expanded="true" />
-                <element signature="e#24847#24848#0" expanded="true" />
-                <element signature="e#24891#24892#0" expanded="true" />
-                <element signature="e#24997#24998#0" expanded="true" />
-                <element signature="e#25065#25066#0" expanded="true" />
-                <element signature="e#25148#25149#0" expanded="true" />
-                <element signature="e#25179#25180#0" expanded="true" />
-                <element signature="e#25925#25926#0" expanded="true" />
-                <element signature="e#25955#25956#0" expanded="true" />
-                <element signature="e#26031#26032#0" expanded="true" />
-                <element signature="e#26068#26069#0" expanded="true" />
-                <element signature="e#39430#39431#0" expanded="true" />
-                <element signature="e#39453#39454#0" expanded="true" />
-                <element signature="e#39583#39584#0" expanded="true" />
-                <element signature="e#39613#39614#0" expanded="true" />
-                <element signature="e#43689#43690#0" expanded="true" />
-                <element signature="e#43724#43725#0" expanded="true" />
-                <element signature="e#44302#44303#0" expanded="true" />
-                <element signature="e#44325#44326#0" expanded="true" />
-                <element signature="e#49247#49248#0" expanded="true" />
-                <element signature="e#49265#49266#0" expanded="true" />
-                <element signature="e#49322#49323#0" expanded="true" />
-                <element signature="e#49364#49365#0" expanded="true" />
-                <element signature="e#49403#49404#0" expanded="true" />
-                <element signature="e#49436#49437#0" expanded="true" />
-                <element signature="e#49497#49498#0" expanded="true" />
-                <element signature="e#49524#49525#0" expanded="true" />
-                <element signature="e#49597#49598#0" expanded="true" />
-                <element signature="e#49643#49644#0" expanded="true" />
-                <element signature="e#49728#49753#0" expanded="true" />
-                <element signature="e#49836#49864#0" expanded="true" />
-                <element signature="e#49933#49952#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="IADTabPanel.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/IADTabPanel.java">
+      <file leaf-file-name="MInOut.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MInOut.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.23076923" vertical-offset="0" max-vertical-offset="1860">
-              <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="31" selection-end-column="98" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="22521" max-vertical-offset="34365">
+              <caret line="1551" column="66" selection-start-line="1551" selection-start-column="66" selection-end-line="1551" selection-end-column="66" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ADWindowPanel.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/ADWindowPanel.java">
+      <file leaf-file-name="MInvoice.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MInvoice.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3720">
-              <caret line="70" column="6" selection-start-line="70" selection-start-column="2" selection-end-line="70" selection-end-column="2" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="10414" max-vertical-offset="34890">
+              <caret line="750" column="27" selection-start-line="750" selection-start-column="27" selection-end-line="750" selection-end-column="27" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MInvoiceLine.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MInvoiceLine.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="15291" max-vertical-offset="19455">
+              <caret line="1043" column="67" selection-start-line="1043" selection-start-column="29" selection-end-line="1043" selection-end-column="29" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="924_003_M_CostQueue_NewField.sql" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/migration/380lts-release/postgresql/924_003_M_CostQueue_NewField.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="240" max-vertical-offset="1155">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PrintData.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/base/src/org/compiere/print/PrintData.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.6125828" vertical-offset="0" max-vertical-offset="11790">
+              <caret line="52" column="13" selection-start-line="52" selection-start-column="13" selection-end-line="52" selection-end-column="13" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="924_003_M_CostQueue_NewField.sql" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/migration/380lts-release/oracle/924_003_M_CostQueue_NewField.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="247" max-vertical-offset="1170">
+              <caret line="31" column="367" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MLandedCostAllocation.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MLandedCostAllocation.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1600" max-vertical-offset="3435">
+              <caret line="144" column="11" selection-start-line="144" selection-start-column="11" selection-end-line="144" selection-end-column="11" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="X_C_Invoice.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/X_C_Invoice.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="9786" max-vertical-offset="23040">
+              <caret line="688" column="21" selection-start-line="688" selection-start-column="21" selection-end-line="688" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -827,9 +181,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/base/src/org/compiere/model/PO.java" />
-        <option value="$PROJECT_DIR$/base/src/org/compiere/model/MUser.java" />
-        <option value="$PROJECT_DIR$/base/src/org/compiere/model/MColumn.java" />
         <option value="$PROJECT_DIR$/base/src/org/compiere/util/Login.java" />
         <option value="$PROJECT_DIR$/base/src/org/compiere/process/UserPassword.java" />
         <option value="$PROJECT_DIR$/serverRoot/src/main/servlet/org/compiere/web/AdempiereMonitorFilter.java" />
@@ -878,12 +229,16 @@
         <option value="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/ADSortTab.java" />
         <option value="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/editor/WEditor.java" />
         <option value="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/StringBox.java" />
+        <option value="$PROJECT_DIR$/base/src/org/compiere/print/layout/LayoutEngine.java" />
+        <option value="$PROJECT_DIR$/migration/380lts-release/oracle/924_003_M_CostQueue_NewField.sql" />
+        <option value="$PROJECT_DIR$/base/src/org/compiere/print/PrintData.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
+    <option name="x" value="1" />
     <option name="y" value="22" />
-    <option name="width" value="1920" />
+    <option name="width" value="1844" />
     <option name="height" value="1174" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -900,7 +255,7 @@
     <option name="STATE" value="0" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="PackagesPane" proportions="" version="1">
+    <navigator currentView="ProjectPane" proportions="" version="1">
       <flattenPackages PackagesPane="false" />
       <showMembers PackagesPane="true" />
       <showModules />
@@ -930,6 +285,96 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="migration" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="migration" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="380lts-release" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="migration" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="380lts-release" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="postgresql" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="migration" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="380lts-release" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="oracle" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="base" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="PackagesPane">
@@ -955,112 +400,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="org" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereDevelop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereTrunk" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="eevolution" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereDevelop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereTrunk" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="eevolution" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="model" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereDevelop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereTrunk" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiere" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="webui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereDevelop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereTrunk" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiere" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="webui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="component" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereDevelop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereTrunk" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiere" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1209,6 +548,14 @@
       <option name="PROGRAM_PARAMETERS" />
       <method />
     </configuration>
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+      <method />
+    </configuration>
     <configuration default="true" type="Specs2RunConfiguration" factoryName="Specs2">
       <module name="" />
       <setting name="path" value="" />
@@ -1220,27 +567,6 @@
       <setting name="testName" value="" />
       <setting name="testKind" value="Class" />
       <setting name="showProgressMessages" value="true" />
-      <method />
-    </configuration>
-    <configuration default="true" type="Remote" factoryName="Remote">
-      <option name="USE_SOCKET_TRANSPORT" value="true" />
-      <option name="SERVER_MODE" value="false" />
-      <option name="SHMEM_ADDRESS" value="javadebug" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="5005" />
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
@@ -1268,6 +594,19 @@
       <envs />
       <properties />
       <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -1386,30 +725,30 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1920" height="1174" extended-state="6" />
+    <frame x="1" y="22" width="1844" height="1174" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="SQL" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32986766" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3285985" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.09375" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16773163" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="SBT Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3289225" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.06439394" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33553874" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.41950756" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.24973376" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.185836" sideWeight="0.5" order="0" side_tool="true" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2863485" sideWeight="0.5" order="0" side_tool="true" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24147727" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.41950756" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
       <window_info id="SBT Execute" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -1601,8 +940,44 @@
           <properties />
           <option name="timeStamp" value="86" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/base/src/org/compiere/print/layout/LayoutEngine.java</url>
+          <line>1075</line>
+          <properties />
+          <option name="timeStamp" value="87" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/base/src/org/compiere/print/layout/LayoutEngine.java</url>
+          <line>1244</line>
+          <properties />
+          <option name="timeStamp" value="89" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/base/src/org/compiere/print/layout/LayoutEngine.java</url>
+          <line>443</line>
+          <properties />
+          <option name="timeStamp" value="90" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/base/src/org/compiere/print/layout/LayoutEngine.java</url>
+          <line>1764</line>
+          <properties />
+          <option name="timeStamp" value="93" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/base/src/org/compiere/print/layout/LayoutEngine.java</url>
+          <line>461</line>
+          <properties />
+          <option name="timeStamp" value="94" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/base/src/org/compiere/print/layout/LayoutEngine.java</url>
+          <line>458</line>
+          <properties />
+          <option name="timeStamp" value="95" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="87" />
+      <option name="time" value="96" />
     </breakpoint-manager>
   </component>
   <component name="antWorkspaceConfiguration">
@@ -1642,188 +1017,6 @@
     </buildFile>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/base/src/org/adempiere/process/RMACreateOrder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.9592391" vertical-offset="794" max-vertical-offset="1590">
-          <caret line="122" column="13" selection-start-line="0" selection-start-column="0" selection-end-line="122" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/install/src/org/compiere/install/KeyStoreMgt.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6990">
-          <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MInvoiceLine.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="7494" max-vertical-offset="19275">
-          <caret line="543" column="16" selection-start-line="543" selection-start-column="16" selection-end-line="543" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MInOutLine.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="10119" max-vertical-offset="11655">
-          <caret line="718" column="0" selection-start-line="718" selection-start-column="0" selection-end-line="731" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/process/InOutCreateInvoice.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.62" vertical-offset="645" max-vertical-offset="1395">
-          <caret line="94" column="29" selection-start-line="94" selection-start-column="29" selection-end-line="94" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/GridTab.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="34907" max-vertical-offset="44670">
-          <caret line="2517" column="53" selection-start-line="2517" selection-start-column="38" selection-end-line="2517" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MCostDetail.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.269231" vertical-offset="18374" max-vertical-offset="21795">
-          <caret line="1288" column="27" selection-start-line="1288" selection-start-column="12" selection-end-line="1288" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/adempiere/engine/StandardCostingMethod.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="8946" max-vertical-offset="10500">
-          <caret line="643" column="114" selection-start-line="643" selection-start-column="87" selection-end-line="643" selection-end-column="87" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/adempiere/engine/CostEngine.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2869" max-vertical-offset="10170">
-          <caret line="268" column="119" selection-start-line="268" selection-start-column="119" selection-end-line="268" selection-end-column="119" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/X_M_Cost.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2541" max-vertical-offset="7245">
-          <caret line="218" column="22" selection-start-line="218" selection-start-column="22" selection-end-line="218" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/eevolution/process/RollupBillOfMaterial.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3720" max-vertical-offset="4725">
-          <caret line="177" column="48" selection-start-line="177" selection-start-column="14" selection-end-line="177" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/posterita/posterita/src/main/org/posterita/struts/pos/POSProductAction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="55" max-vertical-offset="14610">
-          <caret line="97" column="44" selection-start-line="97" selection-start-column="44" selection-end-line="97" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/posterita/posterita/src/main/org/posterita/businesslogic/POSProductManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="7465" max-vertical-offset="20835">
-          <caret line="619" column="49" selection-start-line="619" selection-start-column="5" selection-end-line="619" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/util/DB.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="748" max-vertical-offset="33600">
-          <caret line="168" column="19" selection-start-line="168" selection-start-column="19" selection-end-line="168" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MProductCategoryAcct.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1596" max-vertical-offset="2280">
-          <caret line="132" column="52" selection-start-line="132" selection-start-column="52" selection-end-line="132" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/extend/src/test/functional/MCostElementTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="525">
-          <caret line="41" column="67" selection-start-line="41" selection-start-column="67" selection-end-line="41" selection-end-column="67" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MCostElement.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.076923" vertical-offset="2370" max-vertical-offset="6300">
-          <caret line="196" column="112" selection-start-line="196" selection-start-column="4" selection-end-line="196" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MAcctSchema.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="8440" max-vertical-offset="9120">
-          <caret line="633" column="32" selection-start-line="633" selection-start-column="32" selection-end-line="633" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MRefList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="239" max-vertical-offset="3825">
-          <caret line="57" column="27" selection-start-line="57" selection-start-column="27" selection-end-line="57" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/process/CostUpdate.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="5072" max-vertical-offset="9030">
-          <caret line="368" column="0" selection-start-line="368" selection-start-column="0" selection-end-line="368" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="e#3081#3102#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/org/compiere/apps/APanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="29547" max-vertical-offset="41430">
-          <caret line="2098" column="0" selection-start-line="2098" selection-start-column="0" selection-end-line="2098" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MCost.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.923077" vertical-offset="27735" max-vertical-offset="29325">
-          <caret line="1891" column="43" selection-start-line="1891" selection-start-column="40" selection-end-line="1891" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MInOut.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="9399" max-vertical-offset="33900">
-          <caret line="684" column="31" selection-start-line="684" selection-start-column="31" selection-end-line="684" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/ModelValidationEngine.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="6477" max-vertical-offset="12450">
-          <caret line="474" column="0" selection-start-line="474" selection-start-column="0" selection-end-line="474" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/PO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="4287" max-vertical-offset="58515">
-          <caret line="368" column="0" selection-start-line="368" selection-start-column="0" selection-end-line="368" selection-end-column="0" />
-          <folding>
-            <element signature="e#12269#12270#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/POInfo.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="3447" max-vertical-offset="12645">
@@ -1921,7 +1114,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="375">
           <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1929,7 +1121,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="375">
           <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1937,7 +1128,70 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="945">
           <caret line="30" column="21" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/ADTabPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="690" max-vertical-offset="28455">
+          <caret line="77" column="3" selection-start-line="77" selection-start-column="3" selection-end-line="77" selection-end-column="3" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/ADWindowPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3720">
+          <caret line="70" column="6" selection-start-line="70" selection-start-column="2" selection-end-line="70" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/editor/WStringEditor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3540">
+          <caret line="47" column="13" selection-start-line="47" selection-start-column="13" selection-end-line="47" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/NumberBox.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6735">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="15" selection-end-column="79" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/eevolution/model/MPPOrder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="26820">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="15" selection-end-column="79" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/StringBox.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3210">
+          <caret line="18" column="59" selection-start-line="18" selection-start-column="37" selection-end-line="18" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/IADTabPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.9326501" vertical-offset="1177" max-vertical-offset="1860">
+          <caret line="56" column="54" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/editor/WEditor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="8565">
+          <caret line="53" column="80" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/ADSortTab.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="13245">
+          <caret line="78" column="16" selection-start-line="78" selection-start-column="16" selection-end-line="78" selection-end-column="16" />
         </state>
       </provider>
     </entry>
@@ -1946,148 +1200,216 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="240" max-vertical-offset="34380">
           <caret line="121" column="0" selection-start-line="121" selection-start-column="0" selection-end-line="123" selection-end-column="100" />
           <folding>
-            <element signature="e#6670#6691#0" expanded="true" />
+            <element signature="e#25454#25728#0" expanded="true" />
+            <element signature="e#25891#26109#0" expanded="true" />
+            <element signature="e#50004#50964#0" expanded="true" />
+            <element signature="e#51195#51313#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/ADTabPanel.java">
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/print/MPrintFormatItem.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="690" max-vertical-offset="28455">
-          <caret line="77" column="3" selection-start-line="77" selection-start-column="3" selection-end-line="77" selection-end-column="3" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="4813" max-vertical-offset="8880">
+          <caret line="364" column="17" selection-start-line="364" selection-start-column="17" selection-end-line="364" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/print/layout/ImageElement.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="553" max-vertical-offset="5355">
+          <caret line="83" column="31" selection-start-line="83" selection-start-column="31" selection-end-line="83" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LayoutEngine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="17880" max-vertical-offset="30510">
+          <caret line="1192" column="25" selection-start-line="1192" selection-start-column="25" selection-end-line="1192" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/print/layout/TableElement.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="793" max-vertical-offset="24405">
+          <caret line="110" column="11" selection-start-line="110" selection-start-column="11" selection-end-line="110" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/print/layout/PrintElement.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1213" max-vertical-offset="4980">
+          <caret line="125" column="16" selection-start-line="125" selection-start-column="16" selection-end-line="125" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/migration/380lts-release/postgresql/890_03_SmartReport00.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="9540">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/migration/380lts-release/postgresql/850_ADEMPIERE-191-Add-Unaccent_Function.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="915">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/migration/380lts-release/oracle/850_ADEMPIERE-191-Add-Unaccent_Function.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="750">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/migration/380lts-release/oracle/872_MFG-028-Pick-list-simulated.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="13901" max-vertical-offset="14895">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/acct/Doc_MatchInv.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-12.538462" vertical-offset="409" max-vertical-offset="6435">
+          <caret line="79" column="16" selection-start-line="79" selection-start-column="16" selection-end-line="79" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MMatchInv.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-14.269231" vertical-offset="2194" max-vertical-offset="8640">
+          <caret line="199" column="17" selection-start-line="199" selection-start-column="11" selection-end-line="199" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/org/compiere/apps/form/Match.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="5485" max-vertical-offset="6750">
+          <caret line="416" column="38" selection-start-line="416" selection-start-column="38" selection-end-line="416" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/X_M_InOut.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="16641" max-vertical-offset="23730">
+          <caret line="1146" column="21" selection-start-line="1146" selection-start-column="21" selection-end-line="1146" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MInOut.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="22521" max-vertical-offset="34365">
+          <caret line="1551" column="66" selection-start-line="1551" selection-start-column="66" selection-end-line="1551" selection-end-column="66" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/X_C_Invoice.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="9786" max-vertical-offset="23040">
+          <caret line="688" column="21" selection-start-line="688" selection-start-column="21" selection-end-line="688" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MInvoice.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="10414" max-vertical-offset="34890">
+          <caret line="750" column="27" selection-start-line="750" selection-start-column="27" selection-end-line="750" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MLandedCostAllocation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1600" max-vertical-offset="3435">
+          <caret line="144" column="11" selection-start-line="144" selection-start-column="11" selection-end-line="144" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/migration/380lts-release/postgresql/925_004_M_CostQueue_DateAcct.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="658">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/migration/380lts-release/postgresql/926_005_M_CostDetail_AddField_CostingMethod.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2565">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MInvoiceLine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="15291" max-vertical-offset="19455">
+          <caret line="1043" column="67" selection-start-line="1043" selection-start-column="29" selection-end-line="1043" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/migration/380lts-release/postgresql/924_003_M_CostQueue_NewField.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1155">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/migration/380lts-release/oracle/924_003_M_CostQueue_NewField.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="247" max-vertical-offset="1170">
+          <caret line="31" column="367" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/print/layout/LayoutEngine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="30000">
+          <caret line="453" column="0" selection-start-line="453" selection-start-column="0" selection-end-line="453" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
-            <element signature="e#3857#3884#0" expanded="true" />
-            <element signature="e#4108#4117#0" expanded="true" />
-            <element signature="e#4177#4185#0" expanded="true" />
-            <element signature="e#4351#4384#0" expanded="true" />
-            <element signature="e#4469#4502#0" expanded="true" />
-            <element signature="e#4731#4747#0" expanded="true" />
-            <element signature="e#4815#4835#0" expanded="true" />
-            <element signature="e#4898#4913#0" expanded="true" />
-            <element signature="e#5174#5175#0" expanded="true" />
-            <element signature="e#5201#5202#0" expanded="true" />
-            <element signature="e#5265#5266#0" expanded="true" />
-            <element signature="e#5306#5307#0" expanded="true" />
-            <element signature="e#5335#5336#0" expanded="true" />
-            <element signature="e#5357#5358#0" expanded="true" />
-            <element signature="e#5388#5389#0" expanded="true" />
-            <element signature="e#5420#5421#0" expanded="true" />
-            <element signature="e#12489#12508#0" expanded="true" />
-            <element signature="e#19408#19409#0" expanded="true" />
-            <element signature="e#19433#19434#0" expanded="true" />
-            <element signature="e#24372#24373#0" expanded="true" />
-            <element signature="e#24420#24421#0" expanded="true" />
-            <element signature="e#24494#24495#0" expanded="true" />
-            <element signature="e#24534#24535#0" expanded="true" />
-            <element signature="e#24847#24848#0" expanded="true" />
-            <element signature="e#24891#24892#0" expanded="true" />
-            <element signature="e#24997#24998#0" expanded="true" />
-            <element signature="e#25065#25066#0" expanded="true" />
-            <element signature="e#25148#25149#0" expanded="true" />
-            <element signature="e#25179#25180#0" expanded="true" />
-            <element signature="e#25925#25926#0" expanded="true" />
-            <element signature="e#25955#25956#0" expanded="true" />
-            <element signature="e#26031#26032#0" expanded="true" />
-            <element signature="e#26068#26069#0" expanded="true" />
-            <element signature="e#39430#39431#0" expanded="true" />
-            <element signature="e#39453#39454#0" expanded="true" />
-            <element signature="e#39583#39584#0" expanded="true" />
-            <element signature="e#39613#39614#0" expanded="true" />
-            <element signature="e#43689#43690#0" expanded="true" />
-            <element signature="e#43724#43725#0" expanded="true" />
-            <element signature="e#44302#44303#0" expanded="true" />
-            <element signature="e#44325#44326#0" expanded="true" />
-            <element signature="e#49247#49248#0" expanded="true" />
-            <element signature="e#49265#49266#0" expanded="true" />
-            <element signature="e#49322#49323#0" expanded="true" />
-            <element signature="e#49364#49365#0" expanded="true" />
-            <element signature="e#49403#49404#0" expanded="true" />
-            <element signature="e#49436#49437#0" expanded="true" />
-            <element signature="e#49497#49498#0" expanded="true" />
-            <element signature="e#49524#49525#0" expanded="true" />
-            <element signature="e#49597#49598#0" expanded="true" />
-            <element signature="e#49643#49644#0" expanded="true" />
-            <element signature="e#49728#49753#0" expanded="true" />
-            <element signature="e#49836#49864#0" expanded="true" />
-            <element signature="e#49933#49952#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/ADWindowPanel.java">
+    <entry file="file://$PROJECT_DIR$/migration/380lts-release/oracle/build.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3720">
-          <caret line="70" column="6" selection-start-line="70" selection-start-column="2" selection-end-line="70" selection-end-column="2" />
+        <state vertical-scroll-proportion="0.7284768" vertical-offset="0" max-vertical-offset="906">
+          <caret line="44" column="43" selection-start-line="44" selection-start-column="34" selection-end-line="44" selection-end-column="43" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/ADSortTab.java">
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/print/PrintData.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="13245">
-          <caret line="78" column="16" selection-start-line="78" selection-start-column="16" selection-end-line="78" selection-end-column="16" />
+        <state vertical-scroll-proportion="0.6125828" vertical-offset="0" max-vertical-offset="11790">
+          <caret line="52" column="13" selection-start-line="52" selection-start-column="13" selection-end-line="52" selection-end-column="13" />
           <folding>
-            <element signature="e#28818#28819#0" expanded="true" />
-            <element signature="e#28860#28861#0" expanded="true" />
-            <element signature="e#28899#28900#0" expanded="true" />
-            <element signature="e#28932#28933#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/editor/WEditor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="8565">
-          <caret line="53" column="80" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/editor/WStringEditor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3540">
-          <caret line="47" column="13" selection-start-line="47" selection-start-column="13" selection-end-line="47" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/NumberBox.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6735">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="15" selection-end-column="79" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/eevolution/model/MPPOrder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="26820">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="15" selection-end-column="79" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/StringBox.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3210">
-          <caret line="18" column="59" selection-start-line="18" selection-start-column="37" selection-end-line="18" selection-end-column="37" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/IADTabPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.23076923" vertical-offset="0" max-vertical-offset="1860">
-          <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="31" selection-end-column="98" />
-          <folding />
         </state>
       </provider>
     </entry>
