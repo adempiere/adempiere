@@ -32,6 +32,7 @@ package org.adempiere.process;
 import java.io.File;
 import java.io.FileInputStream;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -40,7 +41,9 @@ import org.compiere.Adempiere;
 import org.compiere.model.MCity;
 import org.compiere.model.MCountry;
 import org.compiere.model.MCurrency;
+import org.compiere.model.MLanguage;
 import org.compiere.model.MSetup;
+import org.compiere.model.Query;
 import org.compiere.print.PrintUtil;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoParameter;
@@ -299,6 +302,20 @@ public class InitialClientSetup extends SvrProcess
 
 		//	Create Print Documents
 		PrintUtil.setupPrintForm(ms.getAD_Client_ID());
+		
+       // Update translation after create a new tenant
+
+		String whereClause   = MLanguage.COLUMNNAME_IsSystemLanguage+"='Y' AND "+ MLanguage.COLUMNNAME_IsActive+"='Y'"; //Adempiere-53 Changes
+
+		List<MLanguage> list = new Query(Env.getCtx(), MLanguage.Table_Name, whereClause, get_TrxName()).list();
+
+		for (MLanguage lang : list)
+
+		{
+			log.fine ("Updating Translation - " + lang);
+			lang.maintain(true);
+
+		}	//	for
 
 		return "@OK@";
 	}
