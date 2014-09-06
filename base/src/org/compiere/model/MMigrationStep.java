@@ -322,8 +322,9 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			PO po = null;
 			//reset cache of persistence object
 			POInfo.removeFromCache(getAD_Table_ID());
-			if ( table.isSingleKey() && getRecord_ID() > 0 )
+			if ( table.isSingleKey() && getRecord_ID() > 0 ) {
 				po = table.getPO( getRecord_ID(), get_TrxName() );
+			}
 			else 
 			{
 				String where = "";
@@ -358,6 +359,11 @@ public class MMigrationStep extends X_AD_MigrationStep {
 				po = table.getPO(0, get_TrxName());
 				po.set_ValueNoCheck(po.get_KeyColumns()[0], getRecord_ID() );
 				po.setIsDirectLoad(true);
+			}
+			else if (po == null) // Action other than insert
+			{
+				// The PO has not been set and we aren't inserting a new record - something is wrong.
+				throw new AdempiereException("Step " + getSeqNo() + ", Record " + getRecord_ID() + " was not found in table " + table.getName() + " (" + table.get_ID() + ").", new AdempiereException());
 			}
 
 			for (MMigrationData data : m_migrationData )
