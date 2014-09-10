@@ -66,7 +66,7 @@ public class MMigration extends X_AD_Migration {
 		super(ctx, rs, trxName);
 	}
 	
-	public void apply() throws SQLException {
+	public void apply() throws AdempiereException {
 				
 		for ( MMigrationStep step : getSteps(false) )  // locks the AD_MigrationStep table
 		{

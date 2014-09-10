@@ -146,7 +146,7 @@ public class MigrationLoader {
 		migration.setFailOnError(true);
 		try {
 			migration.apply();
-		} catch (SQLException e) {
+		} catch (AdempiereException e) {
 			throw new AdempiereException(e);
 		}
 	}
