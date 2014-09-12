@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Alert quantity on hand is insufficient" ReleaseNo="3.8.0" SeqNo="11">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="13023" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" isOldNull="true">org.compiere.model.CalloutInventory.checkOnHand</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

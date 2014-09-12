@@ -1,1 +1,0 @@
-UPDATE M_CostElement SET IsCalculated = 'N' WHERE AD_Client_ID=11;

@@ -237,8 +237,9 @@
 	<!-- Migration Directory			-->
 	<mkdir dir="${build.dir}/Adempiere/migration"/>
 	<copy todir="${build.dir}/Adempiere/migration">
-	  <fileset dir="${migration.dir}/xml">
+	  <fileset dir="${migration.dir}/dist">
 	    <include name="**/*.xml"/>
+	    <include name="**/*.sql"/>
 	  </fileset>
 	</copy>
 

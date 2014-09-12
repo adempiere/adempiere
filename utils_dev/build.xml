@@ -31,6 +31,7 @@
 		<ant inheritAll="false" dir="posterita/posterita"/>
 		<ant inheritAll="false" dir="zkwebui"/>
 		<ant inheritAll="false" dir="mobile"/>
+		<ant inheritAll="false" dir="migration"/>
 		<ant inheritAll="false" dir="org.eevolution.cashflow"/>
 		<ant inheritAll="false" dir="org.eevolution.manufacturing"/>
 		<ant inheritAll="false" dir="org.eevolution.hr_and_payroll"/>
@@ -57,6 +58,7 @@
 		<ant inheritAll="false" dir="install" target="clean"/>
 		<ant inheritAll="false" dir="zkwebui" target="clean"/>
 		<ant inheritAll="false" dir="mobile" target="clean"/>
+		<ant inheritAll="false" dir="migration" target="clean"/>
 		<ant inheritAll="false" dir="org.eevolution.cashflow" target="clean"/>
 		<ant inheritAll="false" dir="org.eevolution.manufacturing" target="clean"/>
 		<ant inheritAll="false" dir="org.eevolution.hr_and_payroll" target="clean"/>
@@ -87,7 +89,8 @@
 			<fileset dir="install/build" includes="Adempiere_*"/>
 		</copy>
 		<!-- Delete Existing stuff, but not utils + data 	-->
-		<delete failonerror="false">
+		<delete failonerror="false" includeEmptyDirs="true">
+			<fileset dir="${env.ADEMPIERE_HOME}/migration" includes="**/*" />
 			<fileset dir="${env.ADEMPIERE_HOME}/lib"/>
 			<fileset dir="${env.ADEMPIERE_HOME}/jboss"/>
 		</delete>
@@ -113,6 +116,12 @@
 		<copy todir="${env.ADEMPIERE_INSTALL}">
 			<fileset dir="install/build" includes="Adempiere_*"/>
 		</copy>
+		<!-- Delete Existing stuff, but not utils + data 	-->
+		<delete failonerror="false" includeEmptyDirs="true">
+			<fileset dir="${env.ADEMPIERE_HOME}/migration" includes="**/*" />
+			<fileset dir="${env.ADEMPIERE_HOME}/lib"/>
+			<fileset dir="${env.ADEMPIERE_HOME}/jboss"/>
+		</delete>
 		<!-- Unzip Install File			-->
 		<unzip src="install/build/Adempiere_${env.ADEMPIERE_VERSION_FILE}.zip" 
 			dest="${env.ADEMPIERE_ROOT}" 

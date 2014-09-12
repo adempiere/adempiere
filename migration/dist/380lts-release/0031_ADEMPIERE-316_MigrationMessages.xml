@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="ADEMPIERE-316 PreventActionsWhileLogging" ReleaseNo="3.8.0" SeqNo="31">
+    <Comments>Add messages</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <Comments>LogMigrationScripFlagtIsSet</Comments>
+      <PO AD_Table_ID="109" Action="I" Record_ID="53284" Table="AD_Message">
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53284</Data>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="589" Column="Created">2014-08-13 21:02:12.486</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="198" Column="MsgText">'Log Migration Script' flag is set.</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="591" Column="Updated">2014-08-13 21:02:12.486</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="6766" Column="Value">LogMigrationScripFlagtIsSet</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <Comments>LogMigrationScriptFlagIsSetMessage</Comments>
+      <PO AD_Table_ID="109" Action="I" Record_ID="53285" Table="AD_Message">
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53285</Data>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="589" Column="Created">2014-08-13 21:09:58.912</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Migrations can't be applied or rolledback if the 'Log Migration Script' flag is set. Please deselect this flag in Tools-&gt;Preferences and try again.</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="591" Column="Updated">2014-08-13 21:09:58.912</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="6766" Column="Value">LogMigrationScriptFlagIsSetMessage</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <Comments>NoMigrationMessage</Comments>
+      <PO AD_Table_ID="109" Action="I" Record_ID="53286" Table="AD_Message">
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53286</Data>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="589" Column="Created">2014-08-13 21:17:17.579</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="198" Column="MsgText">The migration is null or is new and cannot be applied or rolled back.  </Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="591" Column="Updated">2014-08-13 21:17:17.579</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="6766" Column="Value">NoMigrationMessage</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <Comments>NoMigration</Comments>
+      <PO AD_Table_ID="109" Action="I" Record_ID="53287" Table="AD_Message">
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53287</Data>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="589" Column="Created">2014-08-13 21:18:24.858</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="198" Column="MsgText">No migration.</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="591" Column="Updated">2014-08-13 21:18:24.858</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="6766" Column="Value">NoMigration</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

@@ -1,1 +1,0 @@
-UPDATE M_Transaction t SET AD_Org_ID = (SELECT AD_Org_ID FROM M_Locator l WHERE l.M_Locator_ID=t.M_Locator_ID);

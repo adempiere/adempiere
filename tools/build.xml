@@ -439,6 +439,10 @@
 			<zipfileset src="lib/jnlp.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
+			<!-- Commons IO			-->
+			<zipfileset src="lib/commons-io.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
 			<!-- Barcode, ftp			-->
 			<zipfileset src="lib/barbecue-1.5-beta1.jar">
 				<patternset refid="manifest.exclude" />
