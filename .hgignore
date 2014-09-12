@@ -2,6 +2,10 @@ syntax: glob
 build
 
 extend/test.properties
+.settings/org.eclipse.ltk.core.refactoring.prefs
+.settings/org.zkoss.eclipse.preferences.prefs
+migration/oracle.properties
+migration/postgresql.properties
 syntax: regexp
 ^.DS_Store$
 ^tools/.DS_Store$
