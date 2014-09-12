@@ -1,10 +1,14 @@
 package org.adempiere.process;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -14,6 +18,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.apache.commons.io.FileUtils;
 import org.compiere.Adempiere;
 import org.compiere.model.MColumn;
 import org.compiere.model.MMigration;
@@ -40,7 +45,20 @@ public class MigrationLoader {
 	private CLogger	log	= CLogger.getCLogger (MigrationLoader.class);
 	private MMigration m_Migration;
 	
-	public void load(Properties ctx)
+	private Comparator<File> fileComparator = new Comparator<File>() {
+		// Note - Not locale sensitive.
+	    public int compare(File f1, File f2) {
+	        return f1.getName().compareToIgnoreCase(f2.getName());
+	    }
+	};
+		
+	static String readFile(File file, Charset encoding) throws IOException 
+	{
+	  byte[] encoded = Files.readAllBytes(Paths.get(file.getPath()));
+	  return new String(encoded, encoding);
+	}
+		
+	public void loadXML(Properties ctx)
 	{
 		
 		if (! DB.isConnected()) {
@@ -67,18 +85,15 @@ public class MigrationLoader {
 				log.log(Level.CONFIG, "Processing migration files in directory: " + home.getAbsolutePath() );
 			}
 			
-			File[] migrationFiles = home.listFiles(new FilenameFilter() {
-				
-				@Override
-				public boolean accept(File dir, String name) {
-					
-					return name.endsWith(".xml");
-				}
-			});
+			// Recursively find files
+			@SuppressWarnings("unchecked")
+			List<File> migrationFiles = (List<File>) FileUtils.listFiles(home, new String[]{"xml"}, true);
+			Collections.sort(migrationFiles, fileComparator);
+
 			
 			for (File file : migrationFiles )
 			{
-
+				if (file.getName().equals("build.xml")) continue; 
 				log.log(Level.CONFIG, "Loading file: " + file);
 				
 				Document doc = builder.parse(file);
@@ -172,7 +187,7 @@ public class MigrationLoader {
 		CLogMgt.setLevel(Level.CONFIG);
 		
 		MigrationLoader loader = new MigrationLoader();
-		loader.load(Env.getCtx());  // and apply - each migration has to be applied before the next is loaded.
+		loader.loadXML(Env.getCtx());  // and apply - each migration has to be applied before the next is loaded.
 		//loader.applyMigrations();	
 		
 		ProcessInfo pi = new ProcessInfo("Sequence Check", 258);
@@ -217,7 +232,7 @@ public class MigrationLoader {
 	}
 	
 	/**
-	 * Array list of containing the column IDs that need to be synced with the database
+	 * Array list containing the column IDs that need to be synced with the database
 	 */
 	private List<Integer> syncColumns = new ArrayList<Integer>();
 	

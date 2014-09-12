@@ -30,6 +30,6 @@ public class RunDatabaseMigration
 
 		// Migration Loader will be called via shell script.
 		MigrationLoader loader = new MigrationLoader();
-		loader.load(Env.getCtx());
+		loader.loadXML(Env.getCtx());
 	}
 }
