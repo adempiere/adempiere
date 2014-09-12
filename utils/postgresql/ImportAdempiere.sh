@@ -134,10 +134,11 @@ PGPASSWORD=$sysPwd dropuser -h $dbHost -p $dbPort -U $sysUser $dbUser 2> /dev/nu
 
 # recreate user
 # (using psql instead of createuser so that we can supply user's password)
+# (Allowed to fail if user role still exists - may be associated with other databases.)
 echo "recreate user \"$dbUser\""
 PGPASSWORD=$sysPwd psql -h $dbHost -p $dbPort -U $sysUser -c "CREATE ROLE $dbUser SUPERUSER LOGIN PASSWORD '$dbPwd'" 1> /dev/null
 result=$?
-if [ $result -ne 0 ]
+if [ $result -ne 0 ] && [ $result -ne 1 ]
 then
 	echo "create user failed with exit code $result"
 	exit $errorCreateUser

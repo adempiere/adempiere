@@ -153,11 +153,13 @@ SET PGPASSWORD=
 
 REM recreate user
 REM (using psql instead of createuser so that we can supply user's password)
+REM (Allowed to fail if user role still exists - may be associated with other databases.)
 ECHO recreate user "%dbUser%"
 SET PGPASSWORD=%sysPwd%
 psql -h %dbHost% -p %dbPort% -U %sysUser% -c "CREATE ROLE %dbUser% SUPERUSER LOGIN PASSWORD '%dbPwd%'" 1>NUL
 SET result=%ERRORLEVEL%
 IF %result%==0 GOTO :USERCREATED
+IF %result%==1 GOTO :USERCREATED
 ECHO create user failed with exit code %result%
 EXIT /B %errorCreateUser%
 :USERCREATED
