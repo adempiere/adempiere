@@ -164,6 +164,9 @@ public class MigrationLoader {
 		} catch (AdempiereException e) {
 			throw new AdempiereException(e);
 		}
+		finally {
+			migration.updateStatus(null);
+		}
 	}
 	
 	protected void setMigration(MMigration mig) {
@@ -273,7 +276,7 @@ public class MigrationLoader {
 			public void run(String trxName) {
 	
 			MColumn col = new MColumn(Env.getCtx(), ad_column_id, trxName);
-			if (!col.isVirtualColumn())	{
+			if (ad_column_id > 0 && !col.isVirtualColumn())	{
 				log.log(Level.CONFIG, "Synchronizing column " + ad_column_id + ": " + col.toString());
 				col.syncDatabase();
 			}

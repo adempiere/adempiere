@@ -59,7 +59,7 @@ public class MMigration extends X_AD_Migration {
 	private MigrationLoader loader;
 
 	public MMigration(Properties ctx, int AD_Migration_ID, String trxName) {
-		super(ctx, AD_Migration_ID, trxName);
+		super(ctx, AD_Migration_ID, trxName);		
 	}
 
 	public MMigration(Properties ctx, ResultSet rs, String trxName) {
@@ -70,6 +70,9 @@ public class MMigration extends X_AD_Migration {
 				
 		for ( MMigrationStep step : getSteps(false) )  // locks the AD_MigrationStep table
 		{
+			if (!step.isActive())
+				continue;
+			
 			try {
 				Trx.run(new StepRunner(step, false));
 			}
@@ -91,6 +94,9 @@ public class MMigration extends X_AD_Migration {
 	public void rollback() throws SQLException {
 		for ( MMigrationStep step : getSteps(true) )
 		{
+			if (!step.isActive())
+				continue;
+
 			try {
 				Trx.run(new StepRunner(step, true));
 			} catch (Exception e) {
@@ -98,9 +104,9 @@ public class MMigration extends X_AD_Migration {
 					throw new AdempiereException(e);
 				// else continue
 			}
+			if (loader != null)
+				loader.syncColumns();
 		}
-		if (loader != null)
-			loader.syncColumns();
 
 		Trx trx = Trx.get("Migration", true);
 		this.set_TrxName(trx.getTrxName());
@@ -274,7 +280,13 @@ public class MMigration extends X_AD_Migration {
 		Object[] params = new Object[] { getAD_Migration_ID(), lastSeq, from.getAD_Migration_ID() };
 		DB.executeUpdateEx(updateSql, params, get_TrxName());
 		
-		from.deleteEx(false, get_TrxName());
+		try {
+			DB.commit(false, get_TrxName());
+			from.deleteEx(false, get_TrxName());
+		} catch (IllegalStateException | SQLException e) {
+			log.log(Level.SEVERE, "[" + get_TrxName() + "]", e);
+		}
+		
 	}
 	
 	class StepRunner implements TrxRunnable {
@@ -312,5 +324,19 @@ public class MMigration extends X_AD_Migration {
 	public void set_ColSyncCallback(MigrationLoader loader) {
 		this.loader = loader;
 	}
+
+	/**
+	 * 	Before Save
+	 *	@param newRecord new
+	 *	@return true
+	 */
+	protected boolean beforeSave (boolean newRecord)
+	{
+		if (this.getAD_Client_ID() > 0)
+			this.setAD_Client_ID(0); // Migrations are always owned by System
+		if (this.getAD_Org_ID() > 0)
+			this.setAD_Org_ID(0);
+		return true;
+	}	//	beforeSave
 
 }

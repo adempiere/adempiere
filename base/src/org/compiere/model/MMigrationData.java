@@ -81,4 +81,18 @@ public class MMigrationData extends X_AD_MigrationData {
 		data.saveEx();
 	}
 
+	/**
+	 * 	Before Save
+	 *	@param newRecord new
+	 *	@return true
+	 */
+	protected boolean beforeSave (boolean newRecord)
+	{
+		if (this.getAD_Client_ID() > 0)
+			this.setAD_Client_ID(0); // Migrations are always owned by System
+		if (this.getAD_Org_ID() > 0)
+			this.setAD_Org_ID(0);
+		return true;
+	}	//	beforeSave
+
 }

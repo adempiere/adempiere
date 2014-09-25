@@ -368,6 +368,9 @@ public class MMigrationStep extends X_AD_MigrationStep {
 
 			for (MMigrationData data : m_migrationData )
 			{
+				if (!data.isActive())
+					continue;
+				
 				// TODO: option to apply only when existing value equals reference value
 				String value = data.getNewValue();
 				if ( data.isNewNull() )
@@ -493,6 +496,9 @@ public class MMigrationStep extends X_AD_MigrationStep {
 				// Recover the back up values of the deleted record
 				for (MMigrationData data : m_migrationData )
 				{
+					if (!data.isActive())
+						continue;
+
 					String value = data.getBackupValue();
 					if ( data.isBackupNull() )
 						value = null;
@@ -508,7 +514,8 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			// If the record was inserted, delete it.
 			if ( getAction().equals(ACTION_Insert) && po != null) 
 			{
-				po.deleteEx(false, get_TrxName());
+				// force delete to remove processed records.
+				po.deleteEx(true, get_TrxName());
 				//TODO column sync database?
 			}
 
@@ -691,6 +698,20 @@ public class MMigrationStep extends X_AD_MigrationStep {
 	public void set_ColSyncCallback(MigrationLoader loader) {
 		this.loader = loader;
 	}
+
+	/**
+	 * 	Before Save
+	 *	@param newRecord new
+	 *	@return true
+	 */
+	protected boolean beforeSave (boolean newRecord)
+	{
+		if (this.getAD_Client_ID() > 0)
+			this.setAD_Client_ID(0); // Migrations are always owned by System
+		if (this.getAD_Org_ID() > 0)
+			this.setAD_Org_ID(0);
+		return true;
+	}	//	beforeSave
 
 
 }
