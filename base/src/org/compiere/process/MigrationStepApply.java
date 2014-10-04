@@ -20,13 +20,12 @@ package org.compiere.process;
 import org.adempiere.process.MigrationLoader;
 import org.compiere.model.MMigration;
 import org.compiere.model.MMigrationStep;
-import org.compiere.process.SvrProcess;
 import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 
 public class MigrationStepApply extends SvrProcess {
 
-	private MMigrationStep migrationstep;
+	private MMigrationStep migrationStep;
 	private MigrationLoader loader;
 
 	/**
@@ -45,17 +44,19 @@ public class MigrationStepApply extends SvrProcess {
 			return "@Error@" + Msg.getMsg(getCtx(), "LogMigrationScripFlagtIsSet");
 		}
 
-		String retval = migrationstep.toString();
-		if ( migrationstep == null || migrationstep.is_new() )
+		String retval = migrationStep.toString();
+		if ( migrationStep == null || migrationStep.is_new() )
 			return "No migration step";
-		else if ( MMigrationStep.STATUSCODE_Applied.equals(migrationstep.getStatusCode()) )
-			retval +=migrationstep.rollback();
+		else if ( MMigrationStep.STATUSCODE_Applied.equals(migrationStep.getStatusCode()) )
+			retval += migrationStep.rollback();
 		else
-			retval += migrationstep.apply();
-		
+			retval += migrationStep.apply();
+
+        commitEx();
+
 		loader.syncColumns();
 		// Set the parent status
-		MMigration migration = migrationstep.getParent();
+		MMigration migration = migrationStep.getParent();
 		migration.updateStatus(get_TrxName());
 		
 		return retval;
@@ -64,10 +65,10 @@ public class MigrationStepApply extends SvrProcess {
 	@Override
 	protected void prepare() {
 		
-		migrationstep = new MMigrationStep(getCtx(), getRecord_ID(), get_TrxName());
+		migrationStep = new MMigrationStep(getCtx(), getRecord_ID(), get_TrxName());
 
 		loader = new MigrationLoader();
-		migrationstep.set_ColSyncCallback(loader);
+		migrationStep.set_ColSyncCallback(loader);
 
 	}
 
