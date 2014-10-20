@@ -30,7 +30,7 @@ public class ADDataStatusListener implements DataStatusListener {
 		this.m_status_data = e.getInfo();
 		
 		
-		String dbInfo = e.getMessage();
+		//String dbInfo = e.getMessage();
 		//if (curTab != null && curTab.isQueryActive())
 		//	dbInfo = "[ " + dbInfo + " ]";
 		//m_status_db = dbInfo;
