@@ -212,20 +212,20 @@ public class GenerateCostDetail extends SvrProcess {
         if (costTypeId > 0) {
             deleteCostDetailWhereClause.append(" AND ")
                     .append(MCostDetail.COLUMNNAME_M_CostType_ID).append("=? ");
-            deleteParameters.add(p_M_CostType_ID);
+            deleteParameters.add(costTypeId);
             resetCostWhereClause.append(" AND ")
                     .append(MCostDetail.COLUMNNAME_M_CostType_ID).append("=? ");
-            resetCostParameters.add(p_M_CostType_ID);
+            resetCostParameters.add(costTypeId);//SHW
         }
         if (costElementId > 0) {
             deleteCostDetailWhereClause.append(" AND ")
                     .append(MCostDetail.COLUMNNAME_M_CostElement_ID)
                     .append("=? ");
-            deleteParameters.add(p_M_CostElement_ID);
+            deleteParameters.add(costElementId);
             resetCostWhereClause.append(" AND ")
                     .append(MCostDetail.COLUMNNAME_M_CostElement_ID)
                     .append("=? ");
-            resetCostParameters.add(p_M_CostElement_ID);
+            resetCostParameters.add(costElementId);//SHW
         }
         if (productId > 0) {
             deleteCostDetailWhereClause.append(" AND ")

@@ -3,21 +3,12 @@
  */
 package org.adempiere.engine;
 
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Properties;
-import org.compiere.model.MAcctSchema;
-import org.compiere.model.MCost;
-import org.compiere.model.MCostDetail;
-import org.compiere.model.MCostElement;
-import org.compiere.model.MCostType;
-import org.compiere.model.MInOutLine;
-import org.compiere.model.MLandedCostAllocation;
-import org.compiere.model.MMatchInv;
-import org.compiere.model.MMatchPO;
-import org.compiere.model.MProduct;
-import org.compiere.model.MTransaction;
-import org.compiere.util.Env;
+import java.math.*;
+import java.sql.*;
+import java.util.*;
+import org.compiere.model.*;
+import org.compiere.util.*;
+import org.eevolution.model.*;
 
 /**
  * @author victor.perez@e-evolution.com, www.e-evolution.com
@@ -36,6 +27,10 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
      * @param costLowLevel
      * @param isSalesTransaction
      */
+	//SHW
+	private Timestamp actualdateacct = null;
+	private BigDecimal movementqty = Env.ZERO;
+	//SHW
 	public void setCostingMethod(MAcctSchema accountSchema, MTransaction transaction, IDocumentLine model,
                                  MCost dimension, BigDecimal costThisLevel,
                                  BigDecimal costLowLevel, Boolean isSalesTransaction) {
@@ -46,6 +41,18 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 		this.costLowLevel = (costLowLevel == null ? Env.ZERO : costLowLevel);
 		this.isSalesTransaction = isSalesTransaction;
 		this.model = model;
+		//SHW
+		actualdateacct = model.getDateAcct();
+		movementqty = transaction.getMovementQty();
+		
+		if (model instanceof MLandedCostAllocation || model instanceof MMatchInv)
+		{
+			Timestamp dateacct = transaction.getDocumentLine().getDateAcct();
+		MDocType dt = new MDocType(transaction.getCtx(), transaction.getDocumentLine().getC_DocType_ID(), transaction.get_TrxName());
+		if (!MPeriod.isOpen(transaction.getCtx(), dateacct, dt.getDocBaseType(), transaction.getAD_Org_ID()))
+			actualdateacct = ((MLandedCostAllocation) model).getC_InvoiceLine().getC_Invoice().getDateAcct();
+		}
+		//SHW Ende
 		this.costingLevel = MProduct.get(this.transaction.getCtx(), this.transaction.getM_Product_ID())
 				.getCostingLevel(accountSchema, transaction.getAD_Org_ID());
 		// find if this transaction exist into cost detail
@@ -58,7 +65,7 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 		// try find the last cost detail transaction
 		lastCostDetail = MCostDetail.getLastTransaction(model, transaction,
 				accountSchema.getC_AcctSchema_ID(), dimension.getM_CostType_ID(),
-				dimension.getM_CostElement_ID(), model.getDateAcct(),
+				dimension.getM_CostElement_ID(),actualdateacct,//SHW actaaltdateacct statt transaction.getmovementqty
 				costingLevel);
 
 		// If model is reversal then no calculate cost
@@ -74,20 +81,19 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 		return;
 	}	
 
-		
 		// created a new instance cost detail to process calculated cost
 		if (lastCostDetail == null) {
 			lastCostDetail = new MCostDetail(transaction,
 					accountSchema.getC_AcctSchema_ID(), dimension.getM_CostType_ID(),
 					dimension.getM_CostElement_ID(), Env.ZERO, Env.ZERO,
 					Env.ZERO, transaction.get_TrxName());
-			lastCostDetail.setDateAcct(model.getDateAcct());
+			lastCostDetail.setDateAcct(actualdateacct);
 		}
 			
 		BigDecimal quantityOnHand = getNewAccumulatedQuantity(lastCostDetail);
 		
 		// The cost detail was created before then is necessary to update cost by
-		// generate adjustment	
+		// generate adjustment
 		if (transaction.getM_Transaction_ID() == lastCostDetail.getM_Transaction_ID()) {
 			
 			//Processing provision of purchase cost  
@@ -155,6 +161,11 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 		// calculated costing
 		if (transaction.getMovementType().endsWith("+"))
 		{
+			BigDecimal movementqty = Env.ZERO;
+			if (model instanceof MLandedCostAllocation 
+					|| model instanceof MInvoice)
+				movementqty = Env.ZERO;
+			else movementqty = transaction.getMovementQty();
 			//Project of cost if a cost was entry in zero, the inventory is revalued using the fist cost
 			//Example ; Quantity On hand 2.00 , Total Cost : 0.00 , Transaction Quantity 4.00 , Cost Total Transaction 17.8196
 			//cost This Level = ( (17.8196 / 4)  * 6 ) / 4 | (costThisLevel * costThisLevel) / lastCostDetail.getQty()
@@ -181,14 +192,36 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 						.getCostingPrecision(),  BigDecimal.ROUND_HALF_UP);
 				adjustCost = currentCostPrice.multiply(transaction.getMovementQty()).abs();
 			}
-				
+			//SHW Bei geschlossenen Perioden wird nur der bestehende Stock aktualisiert
+			if (model instanceof MLandedCostAllocation || model instanceof MMatchInv)
+			{
 
-			
-			amount = transaction.getMovementQty().multiply(costThisLevel);
-			amountLowerLevel = transaction.getMovementQty().multiply(costLowLevel);
-			
-			accumulatedQuantity = getNewAccumulatedQuantity(lastCostDetail).add(
-					transaction.getMovementQty());
+				MLandedCostAllocation alo = (MLandedCostAllocation)this.model;
+				int asi = alo.getM_InOutLine().getM_AttributeSetInstance_ID();
+				String whereClause = "M_Attributesetinstance_ID=? and m_Product_ID=? and seqno <=? and m_costtype_ID=? and m_costelement_ID=?";
+				BigDecimal qty = new Query(alo.getCtx(), MCostDetail.Table_Name, whereClause, alo.get_TrxName())
+					.setParameters(asi, alo.getM_Product_ID(), lastCostDetail.getSeqNo(), lastCostDetail.getM_CostType_ID(), lastCostDetail.getM_CostElement_ID())
+					.sum(MCostDetail.COLUMNNAME_Qty);
+				movementqty = qty;
+				amount = qty.multiply(costThisLevel);
+				amountLowerLevel = qty.multiply(costLowLevel);
+				accumulatedQuantity = getNewAccumulatedQuantity(lastCostDetail);
+				currentCostPrice = amount;
+				currentCostPriceLowerLevel = amountLowerLevel;
+			}
+	
+
+			else
+			//SHW Ende
+			{
+				amount = transaction.getMovementQty().multiply(costThisLevel);
+				amountLowerLevel = transaction.getMovementQty().multiply(costLowLevel);
+				
+				accumulatedQuantity = getNewAccumulatedQuantity(lastCostDetail).add(
+						movementqty);
+				currentCostPrice = costThisLevel;
+				currentCostPriceLowerLevel = costLowLevel;
+			}
 			
 			accumulatedAmount = getNewAccumulatedAmount(lastCostDetail);
 			accumulatedAmount = accumulatedQuantity.signum() > 0 ? accumulatedAmount.add(amount) : accumulatedAmount.add(amount.negate());
@@ -196,8 +229,7 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 			accumulatedAmountLowerLevel = getNewAccumulatedAmountLowerLevel(lastCostDetail);
 			accumulatedAmountLowerLevel = accumulatedQuantity.signum() > 0 ? accumulatedAmountLowerLevel.add(amountLowerLevel) : accumulatedAmountLowerLevel.add(amountLowerLevel.negate());
 	
-			currentCostPrice = costThisLevel;
-			currentCostPriceLowerLevel = costLowLevel;
+			
 	
 		}
 		else if (transaction.getMovementType().endsWith("-")) {
@@ -265,10 +297,20 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 			BigDecimal movementQuantity = transaction.getMovementQty();
 			// if exist adjustment cost for Landed Cost Allocation or Match Inv then set the movement qty to zero
 			if (adjustCost.add(adjustCostLowerLevel).signum() != 0
-			&& (model instanceof MLandedCostAllocation || model instanceof MMatchInv))
+			|| (model instanceof MLandedCostAllocation || model instanceof MMatchInv))//SHW || statt &&
 				movementQuantity = Env.ZERO;
 
 			// create new cost detail
+			if (model instanceof MLandedCostAllocation)
+			{
+				costDetail = new MCostDetail(transaction, accountSchema.getC_AcctSchema_ID(),
+					dimension.getM_CostType_ID(),
+					dimension.getM_CostElement_ID(), currentCostPrice,
+					currentCostPriceLowerLevel,
+					Env.ZERO, transaction.get_TrxName());
+				
+			}
+			else
 			costDetail = new MCostDetail(transaction, accountSchema.getC_AcctSchema_ID(),
 					dimension.getM_CostType_ID(),
 					dimension.getM_CostElement_ID(), currentCostPrice
@@ -276,7 +318,7 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 					currentCostPriceLowerLevel.multiply(movementQuantity).abs(),
 					movementQuantity, transaction.get_TrxName());
 			// set account date for this cost detail
-			costDetail.setDateAcct(model.getDateAcct());
+			costDetail.setDateAcct(actualdateacct);
 			costDetail.setSeqNo(seqNo);
 
 			// set transaction id
@@ -325,6 +367,8 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 		createCostDetail();
 		updateInventoryValue();
 		createCostAdjustment();
+		//CostEngineFactory.getCostEngine(accountSchema.getAD_Client_ID())
+        //.clearAccounting(accountSchema, transaction);
        // if (costDetail != null && costDetail.getM_CostDetail_ID() > 0)
        //     DB.executeUpdate("UPDATE M_CostDetail SET Processing='N' WHERE M_CostDetail_ID=?", costDetail.getM_CostDetail_ID(), costDetail.get_TrxName());
 
@@ -571,7 +615,9 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 		MCostType costType = (MCostType) costDetail.getM_CostType();
 		MCostElement costElement = (MCostElement) costDetail.getM_CostElement();
 		MAcctSchema accountSchema = (MAcctSchema) costDetail.getC_AcctSchema();
-
+		//SHW
+        CostEngineFactory.getCostEngine(accountSchema.getAD_Client_ID())
+                .clearAccounting(accountSchema, transaction);
 
 		if (MTransaction.MOVEMENTTYPE_VendorReceipts.equals(transaction.getMovementType()))
 		{
@@ -620,4 +666,159 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
             CostEngineFactory.getCostEngine(clientId).createCostDetail(
                     accountSchema, costType, costElement, transaction, transaction.getDocumentLine(), true);
 	}	
+	
+
+	public void createUpdateAverageCostDetail(MPPCostCollector ccv,
+			BigDecimal CostVarThisLevel, BigDecimal VarCostLowLevel, 
+			MProduct product,
+			MAcctSchema as, MCostType ct, MCostElement ce) {
+
+		String whereClause = " exists (select 1 from pp_cost_collector pc" +
+				" where pc.pp_cost_collector_ID=m_transaction.pp_Cost_collector_ID and costcollectortype =? " +
+				" and pc.pp_order_ID=?)";
+		MTransaction mtrx =  new Query(ccv.getCtx(), MTransaction.Table_Name, whereClause, ccv.get_TrxName())
+		.setParameters(MPPCostCollector.COSTCOLLECTORTYPE_MaterialReceipt,ccv.getPP_Order_ID())
+		.setOrderBy("M_Transaction_ID desc")
+		.first();
+
+		BigDecimal costThisLevel = Env.ZERO;
+		BigDecimal costLowLevel = Env.ZERO;
+		String costingLevel = MProduct.get(mtrx.getCtx(),
+				mtrx.getM_Product_ID()).getCostingLevel(as,
+						mtrx.getAD_Org_ID());
+		ccv.set_ValueOfColumn("Cost",CostVarThisLevel.compareTo(Env.ZERO)!= 0 ? CostVarThisLevel: VarCostLowLevel);
+		ccv.saveEx();		
+		IDocumentLine model = (IDocumentLine) ccv;
+
+		MCost cost = MCost.validateCostForCostType(as, ct, ce,product.getM_Product_ID(), 
+				0, 0, 0, mtrx.get_TrxName());
+		final ICostingMethod method = CostingMethodFactory.get()
+				.getCostingMethod(ct.getCostingMethod());
+		method.setCostingMethod(as, mtrx, model, cost, costThisLevel,
+				costLowLevel, model.isSOTrx());
+		method.process();
+	}
+
+	public BigDecimal getResourceActualCostRate(MPPCostCollector cc,
+			int S_Resource_ID, CostDimension d, String trxName) {
+		if (S_Resource_ID <= 0)
+			return Env.ZERO;
+		final MProduct resourceProduct = MProduct.forS_Resource_ID(
+				Env.getCtx(), S_Resource_ID, null);
+		return getProductActualCostPrice(cc, resourceProduct,
+				MAcctSchema.get(Env.getCtx(), d.getC_AcctSchema_ID()),
+				MCostElement.get(Env.getCtx(), d.getM_CostElement_ID()),
+				trxName);
+	}
+	
+
+	public BigDecimal getProductActualCostPrice(MPPCostCollector cc, MProduct product, MAcctSchema as, MCostElement element, String trxName) 
+	{
+		String CostingLevel = product.getCostingLevel(as);
+		// Org Element
+		int AD_Org_ID = 0;
+		int M_Warehouse_ID = 0;
+		if (product.getS_Resource_ID() != 0){
+			AD_Org_ID = product.getS_Resource().getAD_Org_ID();
+			M_Warehouse_ID = product.getS_Resource().getM_Warehouse_ID();
+		}
+			
+		else 
+		{
+			AD_Org_ID = (cc == null)? element.getAD_Org_ID():cc.getAD_Org_ID();
+			M_Warehouse_ID = (cc == null)? 0:cc.getM_Warehouse_ID();
+		}
+		int M_ASI_ID = (cc == null)? 0:cc.getM_AttributeSetInstance_ID();
+		if (MAcctSchema.COSTINGLEVEL_Client.equals(CostingLevel)) {
+			AD_Org_ID = 0;
+			M_ASI_ID = 0;
+			M_Warehouse_ID = 0;
+		} 
+		else if (MAcctSchema.COSTINGLEVEL_Organization.equals(CostingLevel))
+			M_ASI_ID = 0;
+		else if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(CostingLevel))
+			AD_Org_ID = 0;
+		CostDimension d = new CostDimension(product,
+				as, as.getM_CostType_ID(),
+				AD_Org_ID,
+				M_ASI_ID,
+				M_Warehouse_ID, //warehouse
+				element.getM_CostElement_ID());
+		MCost cost = d.toQuery(MCost.class, trxName).firstOnly();
+
+		if (cost == null)
+			return Env.ZERO;
+		BigDecimal price = cost.getCurrentCostPrice().add(
+				cost.getCurrentCostPriceLL());
+		return roundCost(price, as.getC_AcctSchema_ID());
+	}
+
+	protected BigDecimal roundCost(BigDecimal price, int accountSchemaId) {
+		// Fix Cost Precision
+		int precision = MAcctSchema.get(Env.getCtx(), accountSchemaId)
+				.getCostingPrecision();
+		BigDecimal priceRounded = price;
+		if (priceRounded.scale() > precision) {
+			priceRounded = priceRounded.setScale(precision,
+					RoundingMode.HALF_UP);
+		}
+		return priceRounded;
+	}
+	
+
+	public BigDecimal getResourceFutureCostRate(MPPCostCollector cc,
+			int S_Resource_ID, CostDimension d, String trxName) {
+		if (S_Resource_ID <= 0)
+			return Env.ZERO;
+		final MProduct resourceProduct = MProduct.forS_Resource_ID(
+				Env.getCtx(), S_Resource_ID, null);
+		return getProductFutureCostPrice(cc, resourceProduct,
+				MAcctSchema.get(Env.getCtx(), d.getC_AcctSchema_ID()),
+				MCostElement.get(Env.getCtx(), d.getM_CostElement_ID()),
+				trxName);
+	}
+	
+
+	public BigDecimal getProductFutureCostPrice(MPPCostCollector cc, MProduct product, MAcctSchema as, MCostElement element, String trxName) 
+	{
+		String CostingLevel = product.getCostingLevel(as);
+		// Org Element
+		int AD_Org_ID = 0;
+		int M_Warehouse_ID = 0;
+		if (product.getS_Resource_ID() != 0){
+			AD_Org_ID = product.getS_Resource().getAD_Org_ID();
+			M_Warehouse_ID = product.getS_Resource().getM_Warehouse_ID();
+		}
+			
+		else 
+		{
+			AD_Org_ID = (cc == null)? element.getAD_Org_ID():cc.getAD_Org_ID();
+			M_Warehouse_ID = (cc == null)? 0:cc.getM_Warehouse_ID();
+		}
+		int M_ASI_ID = (cc == null)? 0:cc.getM_AttributeSetInstance_ID();
+		if (MAcctSchema.COSTINGLEVEL_Client.equals(CostingLevel)) {
+			AD_Org_ID = 0;
+			M_ASI_ID = 0;
+			M_Warehouse_ID = 0;
+		} 
+		else if (MAcctSchema.COSTINGLEVEL_Organization.equals(CostingLevel))
+			M_ASI_ID = 0;
+		else if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(CostingLevel))
+			AD_Org_ID = 0;
+		CostDimension d = new CostDimension(product,
+				as, as.getM_CostType_ID(),
+				AD_Org_ID,
+				M_ASI_ID,
+				M_Warehouse_ID, //warehouse
+				element.getM_CostElement_ID());
+		MCost cost = d.toQuery(MCost.class, trxName).firstOnly();
+
+		if (cost == null)
+			return Env.ZERO;
+		BigDecimal price = cost.getFutureCostPrice().add(
+				cost.getFutureCostPriceLL());
+		return roundCost(price, as.getC_AcctSchema_ID());
+	}
+
+	
 }

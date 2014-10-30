@@ -145,13 +145,24 @@ public class MCostDetail extends X_M_CostDetail
 		ArrayList<Object> params = new ArrayList<Object>();
 		StringBuffer whereClause = new StringBuffer();
 		StringBuffer orderBy = new StringBuffer();
-		
-		if(model instanceof MLandedCostAllocation)
+		//SHW
+		if(model instanceof MLandedCostAllocation 
+				|| model instanceof MMatchInv)
 		{
-			;
+			Timestamp dateacct = transaction.getDocumentLine().getDateAcct();
+			MDocType dt = new MDocType(transaction.getCtx(), transaction.getDocumentLine().getC_DocType_ID(), transaction.get_TrxName());
+			if (MPeriod.isOpen(transaction.getCtx(), dateacct, dt.getDocBaseType(), transaction.getAD_Org_ID()))
+			{
+				whereClause.append(MCostDetail.COLUMNNAME_M_Transaction_ID + "=? AND ");
+				params.add(transaction.getM_Transaction_ID());				
+			}
+			else
+				whereClause.append("DateAcct <= " +DB.TO_DATE(dateAcct) + " AND ");
+								
 		}	
-		
-		whereClause.append("DateAcct <= " +DB.TO_DATE(dateAcct) + " AND ");
+		else
+			//SHW Ende
+			whereClause.append("DateAcct <= " +DB.TO_DATE(dateAcct) + " AND ");
 		orderBy.append(MCostDetail.COLUMNNAME_SeqNo).append(" DESC");			
 		
 		whereClause.append(MCostDetail.COLUMNNAME_AD_Client_ID + "=? AND ");
@@ -1493,5 +1504,122 @@ public class MCostDetail extends X_M_CostDetail
 		return DB.getSQLValue(this.get_TrxName(), whereClause , getM_CostDetail_ID());		
 	}
 	
+
 	
+	/**
+	 * Get a list of cost detail based on the document line and cost type
+	 * @param docLine Document Line
+	 * @param C_AcctSchema_ID Account Schema
+	 * @param M_CostType_ID Cost type
+	 * @return list MCostDetail 
+	 */
+	//SHW
+	public static List<MCostDetail> getByDocLine(DocLine docLine ,int C_AcctSchema_ID, int M_CostType_ID)
+	{
+		final String whereClause = MCostDetail.COLUMNNAME_AD_Client_ID + "=? AND "
+		+ MCostDetail.COLUMNNAME_C_AcctSchema_ID + "=? AND "
+		+ MCostDetail.COLUMNNAME_M_Product_ID+ "=? AND "
+		//+ MCostDetail.COLUMNNAME_M_AttributeSetInstance_ID+ "=? AND "
+		+ MCostDetail.COLUMNNAME_M_CostType_ID + "=? AND "
+
+		+ docLine.getTableName() + "_ID=?";
+		return new Query (docLine.getCtx(), I_M_CostDetail.Table_Name, whereClause , docLine.getTrxName())
+		.setParameters(
+				docLine.getAD_Client_ID(),
+				C_AcctSchema_ID,
+				docLine.getM_Product_ID(),
+				//docLine.getM_AttributeSetInstance_ID(),
+				M_CostType_ID,
+				docLine.get_ID())
+		.setOrderBy(MCostDetail.COLUMNNAME_M_Transaction_ID)
+		.list();
+	}
+	/**
+	 * Get a summary cost of all cost details based on the document line and cost type
+	 * @param docLine Document Line
+	 * @param C_AcctSchema_ID Account Schema
+	 * @param M_CostType_ID Cost type
+	 * @return list MCostDetail 
+	 */
+	public static BigDecimal getCostByDocLine(DocLine docLine ,int C_AcctSchema_ID, int M_CostType_ID)
+	{
+		String whereClause = MCostDetail.COLUMNNAME_AD_Client_ID + "=? AND "
+		+ MCostDetail.COLUMNNAME_C_AcctSchema_ID + "=? AND "
+		+ MCostDetail.COLUMNNAME_M_Product_ID+ "=? AND "
+		//+ MCostDetail.COLUMNNAME_M_AttributeSetInstance_ID+ "=? AND "
+		+ MCostDetail.COLUMNNAME_M_CostType_ID + "=? AND "
+		+ docLine.getTableName() + "_ID=?";
+		if (docLine.getTableName().equals(MInOut.Table_Name))
+			whereClause = whereClause + " and " + MInvoiceLine.COLUMNNAME_C_InvoiceLine_ID + " is null " +
+					" and " + MLandedCostAllocation.COLUMNNAME_C_LandedCostAllocation_ID + " is null";
+		BigDecimal costs = Env.ZERO;
+		costs = new Query (docLine.getCtx(), I_M_CostDetail.Table_Name, whereClause , docLine.getTrxName())
+		.setParameters(
+				docLine.getAD_Client_ID(),
+				C_AcctSchema_ID,
+				docLine.getM_Product_ID(),
+				//docLine.getM_AttributeSetInstance_ID(),
+				M_CostType_ID,
+				docLine.get_ID())
+		.aggregate(MCostDetail.COLUMNNAME_CostAmt + " + " +
+					MCostDetail.COLUMNNAME_CostAdjustment+ " + " +
+					MCostDetail.COLUMNNAME_CostAmtLL + " + " + 
+					MCostDetail.COLUMNNAME_CostAdjustmentLL, Query.AGGREGATE_SUM );
+		return costs;
+	}
+	
+	public static BigDecimal getByDocLineLandedCost(MLandedCostAllocation lca ,int C_AcctSchema_ID, int M_CostType_ID)
+	{
+		final String whereClause = MCostDetail.COLUMNNAME_AD_Client_ID + "=? AND "
+		+ MCostDetail.COLUMNNAME_C_AcctSchema_ID + "=? AND "
+		+ MCostDetail.COLUMNNAME_M_Product_ID+ "=? AND "
+		//+ MCostDetail.COLUMNNAME_M_AttributeSetInstance_ID+ "=? AND "
+		+ MCostDetail.COLUMNNAME_M_CostType_ID + "=? AND "
+
+		+ "c_invoiceline_ID=? and m_inoutline_id=?";
+		return new Query (lca.getCtx(), I_M_CostDetail.Table_Name, whereClause , lca.get_TrxName())
+		.setParameters(
+				lca.getAD_Client_ID(),
+				C_AcctSchema_ID,
+				lca.getM_Product_ID(),
+				M_CostType_ID,
+				lca.getC_InvoiceLine_ID(),
+				lca.getM_InOutLine_ID())
+		
+		.aggregate(MCostDetail.COLUMNNAME_CostAmt + " + " +
+					MCostDetail.COLUMNNAME_CostAdjustment+ " + " +
+					MCostDetail.COLUMNNAME_CostAmtLL + " + " + 
+					MCostDetail.COLUMNNAME_CostAdjustmentLL, Query.AGGREGATE_SUM );
+	}
+	/**
+	 * Returns the summary costs of costdetails (different cost elements)
+	 * @param iLine
+	 * @param ioLine
+	 * @param C_AcctSchema_ID
+	 * @param M_CostType_ID
+	 * @return
+	 */
+	public static BigDecimal getByDocLineMatchInv(MInvoiceLine iLine, MInOutLine ioLine ,int C_AcctSchema_ID, int M_CostType_ID)
+	{
+		final String whereClause = MCostDetail.COLUMNNAME_AD_Client_ID + "=? AND "
+		+ MCostDetail.COLUMNNAME_C_AcctSchema_ID + "=? AND "
+		+ MCostDetail.COLUMNNAME_M_Product_ID+ "=? AND "
+		//+ MCostDetail.COLUMNNAME_M_AttributeSetInstance_ID+ "=? AND "
+		+ MCostDetail.COLUMNNAME_M_CostType_ID + "=? AND "
+
+		+ "c_invoiceline_ID=? and m_inoutline_id=?";
+		return new Query (iLine.getCtx(), I_M_CostDetail.Table_Name, whereClause , iLine.get_TrxName())
+		.setParameters(
+				iLine.getAD_Client_ID(),
+				C_AcctSchema_ID,
+				ioLine.getM_Product_ID(),
+				M_CostType_ID,
+				iLine.getC_InvoiceLine_ID(),
+				ioLine.getM_InOutLine_ID())
+		.aggregate(MCostDetail.COLUMNNAME_CostAmt + " + " +
+				MCostDetail.COLUMNNAME_CostAdjustment+ " + " +
+				MCostDetail.COLUMNNAME_CostAmtLL + " + " + 
+				MCostDetail.COLUMNNAME_CostAdjustmentLL, Query.AGGREGATE_SUM );
+	}
+	//SHW Ende
 }	//	MCostDetail
