@@ -55,7 +55,46 @@ public class MCostDetail extends X_M_CostDetail
 	 */
 	private static final long serialVersionUID = -7882724307127281675L;
 
-	
+
+    /**
+     * get Quantity On hand by Attribute Set Instance and Sequence
+     * @param context
+     * @param productId
+     * @param costTypeId
+     * @param costElementId
+     * @param attributeSetInstanceId
+     * @param seqNo
+     * @param trxName
+     * @return
+     */
+    public static BigDecimal getQtyOnHandByASIAndSeqNo (Properties context , int productId , int costTypeId , int costElementId , int attributeSetInstanceId, int seqNo , String trxName)
+    {
+        List<Object> parameters = new ArrayList<Object>();
+        StringBuilder whereClause = new StringBuilder();
+        whereClause.append(I_M_CostDetail.COLUMNNAME_M_Product_ID).append("=? AND ");
+        parameters.add(productId);
+        whereClause.append(I_M_CostDetail.COLUMNNAME_M_CostType_ID).append("=? AND ");
+        parameters.add(costTypeId);
+        whereClause.append(I_M_CostDetail.COLUMNNAME_M_CostElement_ID).append("=? AND ");
+        parameters.add(costElementId);
+        whereClause.append(I_M_CostDetail.COLUMNNAME_M_AttributeSetInstance_ID).append("=? AND");
+        parameters.add(attributeSetInstanceId);
+        whereClause.append(I_M_CostDetail.COLUMNNAME_SeqNo).append("<=?");
+        parameters.add(seqNo);
+        return new Query(context, Table_Name, whereClause.toString(), trxName)
+                .setParameters(parameters)
+                .sum(I_M_CostDetail.COLUMNNAME_Qty);
+    }
+
+
+    /**
+     * Get Cost detail by transaction
+     * @param transaction
+     * @param accountSchemaId
+     * @param costTypeId
+     * @param costElementId
+     * @return
+     */
 	public static List<MCostDetail> getByTransaction(MTransaction transaction, int accountSchemaId , int costTypeId , int  costElementId)
 	{
 		StringBuilder whereClause = new StringBuilder();

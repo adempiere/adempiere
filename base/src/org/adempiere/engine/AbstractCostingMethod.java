@@ -4,6 +4,7 @@
 package org.adempiere.engine;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +45,9 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 	protected final CLogger log = CLogger.getCLogger(getClass());
 
 	protected MAcctSchema accountSchema;
+    protected Timestamp dateAccounting;
+    protected Boolean isOpenPeriod = null;
+    protected BigDecimal movementQuantity =  Env.ZERO;
     protected IDocumentLine model;
     protected MTransaction transaction;
     protected MCost dimension;
