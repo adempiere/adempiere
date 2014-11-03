@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>adempiereTrunk</name>
+	<name>adempiere</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -17,4 +17,10 @@
 		<nature>org.eclipse.wst.common.modulecore.ModuleCoreNature</nature>
 		<nature>org.eclipse.jem.workbench.JavaEMFNature</nature>
 	</natures>
+	<variableList>
+		<variable>
+			<name>ADEMPIERE_PROPERTIES</name>
+			<value>file:/C:/Adempiere/Adempiere.properties</value>
+		</variable>
+	</variableList>
 </projectDescription>
