@@ -115,7 +115,7 @@ public class MCost extends X_M_Cost
 			
 			if (ce == null)
 				throw new IllegalArgumentException(
-						"No Costing Elemnt Material Type");
+						"No Costing Element Material Type");
 
 			if (ct == null)
 				throw new AdempiereException(
@@ -1665,8 +1665,13 @@ public class MCost extends X_M_Cost
 		{	
 			cost = new MCost (product, M_AttributeSetInstance_ID,
 					as.getC_AcctSchema_ID(), AD_Org_ID, M_Warehouse_ID, M_CostType_ID, M_CostElement_ID,  product.get_TrxName());
-			cost.saveEx();
-		}	
+			cost.saveEx();			
+			s_log.fine("No cost records found.  Creating cost: " + cost.toString());
+		}
+		else 
+		{
+			s_log.fine("Cost exists: " + cost.toString());
+		}
 		return cost;	
 
 	}	//	get

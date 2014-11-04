@@ -567,10 +567,12 @@ public class CreateFromShipment extends CreateFrom
 				//boolean isInvoiced = (C_InvoiceLine_ID != 0);
 				//	Precision of Qty UOM
 				int precision = 2;
+				int asi = 0;
 				if (M_Product_ID != 0)
 				{
 					MProduct product = MProduct.get(Env.getCtx(), M_Product_ID);
 					precision = product.getUOMPrecision();
+					asi = product.getM_AttributeSetInstance_ID();
 				}
 				QtyEntered = QtyEntered.setScale(precision, BigDecimal.ROUND_HALF_DOWN);
 				//
@@ -600,7 +602,16 @@ public class CreateFromShipment extends CreateFrom
 								.divide(ol.getQtyEntered(), 12, BigDecimal.ROUND_HALF_UP));
 						iol.setC_UOM_ID(ol.getC_UOM_ID());
 					}
-					iol.setM_AttributeSetInstance_ID(ol.getM_AttributeSetInstance_ID());
+					//
+					if (ol.getM_AttributeSetInstance_ID() > 0 ) {
+						// asi will be zero or will be the ASI of the product on the order line.
+						// Set the receipt line ASI to match the order line.  This should be set correctly 
+						// when the order was created but in case the order line asi was zero, use the 
+						// product ASI if one exists.
+						asi = ol.getM_AttributeSetInstance_ID();  
+					}
+					iol.setM_AttributeSetInstance_ID(asi);
+					//
 					iol.setDescription(ol.getDescription());
 					//
 					iol.setC_Project_ID(ol.getC_Project_ID());

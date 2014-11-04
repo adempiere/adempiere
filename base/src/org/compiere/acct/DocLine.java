@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
+
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCharge;
@@ -31,6 +32,7 @@ import org.compiere.model.ProductCost;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.eevolution.process.GenerateCostDetail;
 
 /**
  *  Standard Document Line
@@ -1180,7 +1182,16 @@ public class DocLine
 	public List<MCostDetail> getCostDetail(MAcctSchema as, boolean isExcludeLandedCost)
 	{
 		MCostType ct = MCostType.get(as, getM_Product_ID(), getAD_Org_ID());
-		return MCostDetail.getByDocLine(this, as.getC_AcctSchema_ID(), ct.getM_CostType_ID(), isExcludeLandedCost);
+		List<MCostDetail> costDetails = MCostDetail.getByDocLine(this, as.getC_AcctSchema_ID(), ct.getM_CostType_ID(), isExcludeLandedCost);
+		if (costDetails == null || costDetails.size() == 0) {
+			// There are no cost details so we have to try and create some
+			
+			GenerateCostDetail gcd = new GenerateCostDetail();
+			gcd.generateCostDetail(getCtx(), this.getM_Product_ID(), getTrxName());
+				
+			costDetails = MCostDetail.getByDocLine(this, as.getC_AcctSchema_ID(), ct.getM_CostType_ID(), isExcludeLandedCost);
+		}
+		return costDetails;
 	}
 	
 	public int getAD_Client_ID()

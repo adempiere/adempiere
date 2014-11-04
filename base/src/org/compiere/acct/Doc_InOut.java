@@ -162,13 +162,14 @@ public class Doc_InOut extends Doc
 			{
 				DocLine line = p_lines[i];
 				BigDecimal costs = null;			
-				MProduct product = line.getProduct();
-				
+				//MProduct product = line.getProduct();
+
 				for (MCostDetail cost :  line.getCostDetail(as,false))
 				{	 
 					if (!MCostDetail.existsCost(cost))
 						continue;
 					
+					// Costs for customers shipments will be negative (reduce inventory)
 					costs = MCostDetail.getTotalCost(cost, as);
 					total = total.add(costs);
 					
@@ -179,7 +180,7 @@ public class Doc_InOut extends Doc
 					//  CoGS            DR
 					dr = fact.createLine(line,
 							line.getAccount(ProductCost.ACCTTYPE_P_Cogs, as),
-							as.getC_Currency_ID(), costs, null);
+							as.getC_Currency_ID(), costs.negate(), null);
 					if (dr == null)
 					{
 						p_Error = "FactLine DR not created: " + line;
@@ -207,7 +208,7 @@ public class Doc_InOut extends Doc
 					//  Inventory               CR
 					cr = fact.createLine(line,
 							line.getAccount(ProductCost.ACCTTYPE_P_Asset, as),
-							as.getC_Currency_ID(), null, costs);
+							as.getC_Currency_ID(), null, costs.negate());
 					if (cr == null)
 					{
 						p_Error = "FactLine CR not created: " + line;
@@ -268,12 +269,13 @@ public class Doc_InOut extends Doc
 			{
 				DocLine line = p_lines[i];
 				BigDecimal costs = null;				
-				MProduct product = line.getProduct();
+				//MProduct product = line.getProduct();
 				for (MCostDetail cost : line.getCostDetail(as, false))
 				{	
 					if (!MCostDetail.existsCost(cost))
 						continue;
 					
+					// Costs for customers returns will be positive (increase inventory)
 					costs = MCostDetail.getTotalCost(cost, as);
 					
 					total = total.add(costs);
@@ -361,11 +363,13 @@ public class Doc_InOut extends Doc
 				DocLine line = p_lines[i];
 				BigDecimal costs = null;
 				MProduct product = line.getProduct();
-				for (MCostDetail cost : line.getCostDetail(as, true))
+
+				for (MCostDetail cost :  line.getCostDetail(as,true))
 				{	
 						if (!MCostDetail.existsCost(cost))
 							continue;
-						
+				
+						// Costs for purchase receipts will be positive (increases inventory)
 						costs = MCostDetail.getTotalCost(cost, as);
 						
 						total = total.add(costs);
@@ -384,7 +388,6 @@ public class Doc_InOut extends Doc
 						}
 						dr = fact.createLine(line, assets,
 							C_Currency_ID, costs, null);
-						dr.addDescription(description);
 						//
 						if (dr == null)
 						{
@@ -392,6 +395,7 @@ public class Doc_InOut extends Doc
 							log.log(Level.WARNING, p_Error);
 							return null;
 						}
+						dr.addDescription(description);
 						dr.setM_Locator_ID(line.getM_Locator_ID());
 						dr.setLocationFromBPartner(getC_BPartner_Location_ID(), true);   // from Loc
 						dr.setLocationFromLocator(line.getM_Locator_ID(), false);   // to Loc
@@ -409,7 +413,6 @@ public class Doc_InOut extends Doc
 						cr = fact.createLine(line,
 							getAccount(Doc.ACCTTYPE_NotInvoicedReceipts, as),
 							C_Currency_ID, null, costs);
-						cr.addDescription(description);
 						//
 						if (cr == null)
 						{
@@ -417,6 +420,7 @@ public class Doc_InOut extends Doc
 							log.log(Level.WARNING, p_Error);
 							return null;
 						}
+						cr.addDescription(description);
 						cr.setM_Locator_ID(line.getM_Locator_ID());
 						cr.setLocationFromBPartner(getC_BPartner_Location_ID(), true);   //  from Loc
 						cr.setLocationFromLocator(line.getM_Locator_ID(), false);   //  to Loc
@@ -461,6 +465,7 @@ public class Doc_InOut extends Doc
 					if (!MCostDetail.existsCost(cost))
 						continue;
 					
+					// Costs for Purchase returns will be negative (reduce inventory)
 					costs = MCostDetail.getTotalCost(cost, as);
 					
 					total = total.add(costs);
@@ -470,7 +475,6 @@ public class Doc_InOut extends Doc
 						dr = fact.createLine(line,
 							getAccount(Doc.ACCTTYPE_NotInvoicedReceipts, as),
 							C_Currency_ID, costs , null);
-						dr.addDescription(description);
 						//
 						if (dr == null)
 						{
@@ -478,6 +482,7 @@ public class Doc_InOut extends Doc
 							log.log(Level.WARNING, p_Error);
 							return null;
 						}
+						dr.addDescription(description);
 						dr.setM_Locator_ID(line.getM_Locator_ID());
 						dr.setLocationFromBPartner(getC_BPartner_Location_ID(), true);   //  from Loc
 						dr.setLocationFromLocator(line.getM_Locator_ID(), false);   //  to Loc

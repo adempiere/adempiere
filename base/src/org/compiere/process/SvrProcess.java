@@ -525,5 +525,13 @@ public abstract class SvrProcess implements ProcessCall
 		return MTable.getTableName(getCtx(), getTable_ID());
 	}
 	// metas: end
+
+
+	/**
+	 * @param ctx the ctx to set
+	 */
+	public void set_ctx(Properties ctx) {
+		this.m_ctx = ctx;
+	}
 	
 }   //  SvrProcess

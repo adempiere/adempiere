@@ -182,7 +182,10 @@ public class Doc_MatchPO extends Doc
 		BigDecimal costs = Env.ZERO;
 		for (MTransaction trx: MTransaction.getByInOutLine(ioLine))
 		{
-		    String costingLevel = MProduct.get(getCtx(), trx.getM_Product_ID()).getCostingLevel(as, trx.getAD_Org_ID());
+			if (trx == null)
+				continue;
+			
+		    //String costingLevel = MProduct.get(getCtx(), trx.getM_Product_ID()).getCostingLevel(as, trx.getAD_Org_ID());
 		    MCostElement element = MCostElement.getByMaterialCostElementType(trx);
 		    MCostDetail cd = MCostDetail.getByTransaction(ioLine, trx, as.getC_AcctSchema_ID(), ct.getM_CostType_ID(), element.getM_CostElement_ID());
 		    if(cd != null)
@@ -195,7 +198,9 @@ public class Doc_MatchPO extends Doc
 			//	No Costs yet - no PPV
 			if (costs == null || costs.signum() == 0)
 			{
-				p_Error = "Resubmit - No Costs for " + product.getName();
+				// TODO make these a translatable message
+				p_Error = "No Standard Cost information was found for " + product.getName() +
+						".  Please add a standard cost for material and repost this document.";
 				log.log(Level.SEVERE, p_Error);
 				return null;
 			}
