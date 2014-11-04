@@ -784,11 +784,6 @@ public class CalloutOrder extends CalloutEngine
 				BigDecimal QtyOrdered = (BigDecimal)mTab.getValue("QtyOrdered");
 				int M_Warehouse_ID = Env.getContextAsInt(ctx, WindowNo, "M_Warehouse_ID");
 				M_AttributeSetInstance_ID = Env.getContextAsInt(ctx, WindowNo, "M_AttributeSetInstance_ID");
-				if (M_AttributeSetInstance_ID == product.getM_AttributeSetInstance_ID() ) {
-					// The ASI is a product ASI.  Don't use it in the search 
-					M_AttributeSetInstance_ID = 0;  // Don't care
-				}
-					
 				BigDecimal available = MStorage.getQtyAvailable
 					(M_Warehouse_ID, M_Product_ID.intValue(), M_AttributeSetInstance_ID, null);
 				if (available == null)
@@ -1264,10 +1259,6 @@ public class CalloutOrder extends CalloutEngine
 			{
 				int M_Warehouse_ID = Env.getContextAsInt(ctx, WindowNo, "M_Warehouse_ID");
 				int M_AttributeSetInstance_ID = Env.getContextAsInt(ctx, WindowNo, "M_AttributeSetInstance_ID");
-				if (M_AttributeSetInstance_ID == product.getM_AttributeSetInstance_ID() ) {
-					// The ASI is a product ASI.  Don't use it in the search 
-					M_AttributeSetInstance_ID = 0;  // Don't care
-				}
 				BigDecimal available = MStorage.getQtyAvailable
 					(M_Warehouse_ID, M_Product_ID, M_AttributeSetInstance_ID, null);
 				if (available == null)

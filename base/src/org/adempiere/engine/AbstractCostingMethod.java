@@ -20,7 +20,6 @@ import org.compiere.model.MCostType;
 import org.compiere.model.MDocType;
 import org.compiere.model.MInOutLine;
 import org.compiere.model.MInventoryLine;
-import org.compiere.model.MLandedCostAllocation;
 import org.compiere.model.MMatchInv;
 import org.compiere.model.MMatchPO;
 import org.compiere.model.MMovementLine;
@@ -157,14 +156,13 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 		MTransaction originalTransaction = MTransaction.getByDocumentLine(transaction);
 		if (originalTransaction == null)
 		{	
-			//throw new AdempiereException("Can not found the original transaction");
-			// TODO make this a message and translate.
-			log.severe("Transaction not found :" + transaction);
+			 //throw new AdempiereException("Can not found the original transaction");
+			System.out.println("Transaction not found :" + transaction);
 			return;
 		}	
 		
-		// Find the last cost detail which is the original transaction.  Use this to reverse the 
-		// cost information
+		costDetail = new MCostDetail(model.getCtx(), 0, transaction.get_TrxName());
+		// Qty Transaction
 		lastCostDetail = MCostDetail.getByTransaction(originalTransaction.getDocumentLine(),
                 originalTransaction, accountSchema.getC_AcctSchema_ID(),
                 dimension.getM_CostType_ID(),
@@ -178,132 +176,85 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 			
 			 //throw new
 			 //		 AdempiereException("Can not found the original cost detail");
-			// TODO Add a message and translate.
-			log.severe("Detail Cost not found :" + originalTransaction);
+			System.out.println("Detail Cost not found :" + originalTransaction);
 			return;
 		}
 
-		//  Create a new cost detail for the reversal
-		costDetail = new MCostDetail(model.getCtx(), 0, transaction.get_TrxName());
+            costDetail.copyValues(lastCostDetail, costDetail);
+			costDetail.setAD_Org_ID(lastCostDetail.getAD_Org_ID());
+			costDetail.setM_Warehouse_ID(lastCostDetail.getM_Warehouse_ID());
 
-		// Copy the all non-standard values of the last cost detail.
-        MCostDetail.copyValues(lastCostDetail, costDetail);
-		costDetail.setAD_Org_ID(lastCostDetail.getAD_Org_ID());
-		costDetail.setM_Warehouse_ID(lastCostDetail.getM_Warehouse_ID());
-		//
-		costDetail.setDescription("Reversal "
-                + originalTransaction.getM_Transaction_ID());
+			
+			setReversalCostDetail();
+			
+			costDetail.setM_AttributeSetInstance_ID(transaction
+                    .getM_AttributeSetInstance_ID());
 
-		// Set the amounts and quantities of the reversal	
-		setReversalCostDetail();
-		
-		updateAmountCost();
-		updateRelatedRecordIDs();
-		
-		costDetail.saveEx(transaction.get_TrxName());
-		
-		// Set parameters to update the cost dimension
-		accumulatedQuantity = getNewAccumulatedQuantity(costDetail);
-		accumulatedAmount = getNewAccumulatedAmount(costDetail);
-		accumulatedAmountLowerLevel = getNewAccumulatedAmountLowerLevel(costDetail);
+			costDetail.setDateAcct(this.model.getDateAcct());
+			//costDetail.setProcessing(false); not should change so that be costing re processing by early transaction
+			//costDetail.setM_Transaction_ID(transaction.getM_Transaction_ID());
+			costDetail.setDescription("Reversal "
+                    + originalTransaction.getM_Transaction_ID());
+			costDetail.setIsReversal(true);
+			costDetail.saveEx();
 
-		// Update the original cost detail
-		lastCostDetail
-				.setDescription(lastCostDetail.getDescription() != null ? lastCostDetail
-                        .getDescription() : "" + "|Reversal "
-                        + costDetail.getM_Transaction_ID());
-		lastCostDetail.setIsReversal(true);
-		lastCostDetail.saveEx(transaction.get_TrxName());
+			// Update the original cost detail
+			lastCostDetail
+					.setDescription(lastCostDetail.getDescription() != null ? lastCostDetail
+                            .getDescription() : "" + "|Reversal "
+                            + costDetail.getM_Transaction_ID());
+			lastCostDetail.setIsReversal(true);
+			lastCostDetail.saveEx(transaction.get_TrxName());
 			
 		// Only uncomment to debug Trx.get(costDetail.get_TrxName(),
 		// false).commit();
 	}
 	
-	/**
-	 * Set the values of the reversal cost detail.
-	 */
 	protected void setReversalCostDetail()
 	{
-		costDetail.setSeqNo(lastCostDetail.getSeqNo() + 10);
-
-		currentCostPrice = getNewCurrentCostPrice(
+		costDetail.setCurrentCostPrice(getNewCurrentCostPrice(
                 lastCostDetail, accountSchema.getCostingPrecision(),
-                BigDecimal.ROUND_HALF_UP);
-		currentCostPriceLowerLevel = getNewCurrentCostPriceLowerLevel(
-                lastCostDetail, accountSchema.getCostingPrecision(),
-                BigDecimal.ROUND_HALF_UP);
+                BigDecimal.ROUND_HALF_UP));
 		
-		costDetail.setCurrentCostPrice(currentCostPrice);
-		costDetail.setCurrentCostPriceLL(currentCostPriceLowerLevel);
-
+		costDetail.setCurrentCostPriceLL(getNewCurrentCostPriceLowerLevel(
+                lastCostDetail, accountSchema.getCostingPrecision(),
+                BigDecimal.ROUND_HALF_UP));
 		costDetail.setCurrentQty(Env.ZERO);
-		costDetail.setQty(lastCostDetail.getQty().negate());
-		costDetail.setAmt(lastCostDetail.getAmt().negate());
-		costDetail.setCostAmt(lastCostDetail.getCostAmt().negate());
-		costDetail.setCostAdjustment(lastCostDetail.getCostAdjustment().negate());
-		costDetail.setCostAdjustmentDate(lastCostDetail.getCostAdjustmentDate());
-		
-		//  MM: Why are these zero?
+		costDetail.setQty(Env.ZERO);
+		costDetail.setAmt(Env.ZERO);
+		costDetail.setCostAmt(Env.ZERO);
+		costDetail.setCostAdjustment(Env.ZERO);
 		costDetail.setAmtLL(Env.ZERO);
 		costDetail.setCostAmtLL(Env.ZERO);
 		costDetail.setCostAdjustmentLL(Env.ZERO);
+		costDetail.setCumulatedAmt(Env.ZERO);
+		costDetail.setCumulatedAmtLL(Env.ZERO);
+		costDetail.setCumulatedQty(Env.ZERO);
+        costDetail.setM_Transaction_ID(transaction.getM_Transaction_ID());
 		
-		costDetail.setCumulatedAmt(dimension.getCumulatedAmt());
-		costDetail.setCumulatedAmtLL(dimension.getCumulatedAmtLL());
-		costDetail.setCumulatedQty(dimension.getCumulatedQty());
-        
-		costDetail.setM_Transaction_ID(transaction.getM_Transaction_ID());
+		costDetail.setSeqNo(lastCostDetail.getSeqNo() + 10);
+		costDetail.setQty(lastCostDetail.getQty().negate());
+		costDetail.setAmt(lastCostDetail.getAmt());
+		costDetail.setCostAmt(lastCostDetail.getCostAmt());
+	
+		costDetail.setCostAdjustment(lastCostDetail.getCostAdjustment());
+		costDetail.setCostAdjustmentDate(lastCostDetail
+                .getCostAdjustmentDate());
 		
-		costDetail.setM_AttributeSetInstance_ID(transaction.getM_AttributeSetInstance_ID());
-
-		costDetail.setDateAcct(this.model.getDateAcct());
-		//costDetail.setProcessing(false); not should change so that be costing re processing by early transaction
-		//costDetail.setM_Transaction_ID(transaction.getM_Transaction_ID());
-		costDetail.setIsReversal(true);
+		currentCostPrice = lastCostDetail.getCurrentCostPrice();
+		currentCostPriceLowerLevel = lastCostDetail.getCurrentCostPriceLL();
+		
+		updateAmountCost();
+		
+		// Update the new cost detail
+		accumulatedQuantity = getNewAccumulatedQuantity(costDetail);
+		accumulatedAmount = getNewAccumulatedAmount(costDetail);
+		accumulatedAmountLowerLevel = getNewAccumulatedAmountLowerLevel(costDetail);
+		currentCostPrice = getNewCurrentCostPrice(costDetail,
+                accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
 	}
 	
-	/**
-	 * Update the costDetail cost amounts according to the cost method.
-	 */
 	public abstract void updateAmountCost();
-
-	/**
-	 * Update the costDetail references to any related records
-	 */
-	public void updateRelatedRecordIDs() {
-		
-		if (transaction != null)
-			costDetail.setM_Transaction_ID(transaction.getM_Transaction_ID());
-
-		// set the id for model
-		costDetail.set_ValueOfColumn(CostEngine.getIDColumnName(model),
-				CostEngine.getIDColumn(model));
-		
-		if (model instanceof MInOutLine)
-		{	
-			MInOutLine ioLine =  (MInOutLine) model;
-			costDetail.setC_OrderLine_ID(ioLine.getC_OrderLine_ID());
-			// IMPORTANT : reset possible provision purchase cost processed
-			costDetail.setC_InvoiceLine_ID(0);
-		}
-
-		if (model instanceof MMatchInv && costDetail.getM_InOutLine_ID() == 0)
-		{	
-			MMatchInv iMatch =  (MMatchInv) model;
-			costDetail.setM_InOutLine_ID(iMatch.getM_InOutLine_ID());
-		}
-		if(model instanceof MMatchPO && costDetail.getM_InOutLine_ID() == 0)
-		{
-			MMatchPO poMatch =  (MMatchPO) model;
-			costDetail.setM_InOutLine_ID(poMatch.getM_InOutLine_ID());
-		}
-		if (model instanceof MLandedCostAllocation) {
-			MLandedCostAllocation allocation = (MLandedCostAllocation) model;
-			costDetail.setM_InOutLine_ID(allocation.getM_InOutLine_ID());
-			costDetail.setC_InvoiceLine_ID(allocation.getC_InvoiceLine_ID());
-			costDetail.setProcessed(false);
-		}
-	}
 
 	/**
 	 * Method to implement the costing method Get the New Current Cost Price

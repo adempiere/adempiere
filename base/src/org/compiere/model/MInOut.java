@@ -37,7 +37,6 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.compiere.util.Trx;
 
 /**
  *  Shipment Model
@@ -1449,10 +1448,6 @@ public class MInOut extends X_M_InOut implements DocAction
 					{
 						m_processMsg = CLogger.retrieveErrorString("Could not create Material Transaction");
 						return DocAction.STATUS_Invalid;
-					} else {
-						// Have to commit here or matching records will not be able to find
-						// the material transaction and determine the costs.
-						Trx.get(get_TrxName(), false).commit();   
 					}
 				}
 			}	//	stock movement

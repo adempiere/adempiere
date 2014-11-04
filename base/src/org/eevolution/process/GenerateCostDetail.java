@@ -31,7 +31,6 @@ import org.compiere.model.MProduct;
 import org.compiere.model.MTransaction;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
-import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
@@ -44,7 +43,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Properties;
 
 /**
  * Regenerate Cost Detail The Generate Cost Transaction process allows the
@@ -75,18 +73,11 @@ public class GenerateCostDetail extends SvrProcess {
     private List<MCostElement> costElements = new ArrayList<MCostElement>();
     private StringBuffer deleteCostDetailWhereClause;
     private StringBuffer resetCostWhereClause;
-	private String m_trxName;
-	private boolean p_IsServerProcess = false;
-	private StringBuffer resetCostSubWhereClause;
-	
-	/**	Log					*/
-	private CLogger			log = CLogger.getCLogger(getClass());
 
     /**
      * Prepare - e.g., get Parameters.
      */
     protected void prepare() {
-    	log.finest("Preparing");
         ProcessInfoParameter[] parameters = getParameter();
         for (ProcessInfoParameter parameter : parameters) {
             String name = parameter.getParameterName();
@@ -103,7 +94,6 @@ public class GenerateCostDetail extends SvrProcess {
                 p_M_Product_ID = parameter.getParameterAsInt();
             } else if (name.equals(MCostDetail.COLUMNNAME_DateAcct)) {
                 p_DateAcct = (Timestamp) parameter.getParameter();
-                // TODO remove this restriction
                 if (p_DateAcct == null)
                     throw new FillMandatoryException(
                             MCostDetail.COLUMNNAME_DateAcct);
@@ -112,19 +102,9 @@ public class GenerateCostDetail extends SvrProcess {
                     p_DateAcctTo = new Timestamp(System.currentTimeMillis());
             }
         }
-        
-        log.fine("Parameters: " + MCostDetail.COLUMNNAME_C_AcctSchema_ID + "=" + p_C_AcctSchema_ID + ", " + 
-            	MCostDetail.COLUMNNAME_M_CostType_ID + "=" + p_M_CostType_ID + ", " +
-            	MCostDetail.COLUMNNAME_M_CostElement_ID + "=" + p_M_CostElement_ID + ", " +
-            	MCostDetail.COLUMNNAME_M_Product_ID + "=" + p_M_Product_ID + ", " +
-            	MCostDetail.COLUMNNAME_DateAcct + " from " + p_DateAcct + 
-                " to " + p_DateAcctTo);
-        
         if (p_DateAcct != null) {
             setup();
         }
-        
-        p_IsServerProcess  = true;
 
     } // prepare
 
@@ -151,7 +131,6 @@ public class GenerateCostDetail extends SvrProcess {
         record = DB.executeUpdateEx(sqlDelete.toString(),
                 deleteParameters.toArray(), get_TrxName());
         commitEx();
-        log.info("Deleted " + record + " M_CostDetail records.");
     }
 
     private void resetCostDimension(String costingMethod) throws SQLException {
@@ -173,8 +152,6 @@ public class GenerateCostDetail extends SvrProcess {
         record = DB.executeUpdateEx(sqlReset.toString(),
                 resetCostParameters.toArray(), get_TrxName());
         commitEx();
-        log.info("Reset " + record + " M_Cost records.");
-
 
     }
     
@@ -204,10 +181,6 @@ public class GenerateCostDetail extends SvrProcess {
             costElements.add(MCostElement.get(getCtx(), p_M_CostElement_ID));
         else
             costElements = MCostElement.getCostElement(getCtx(), get_TrxName());
-        
-        log.fine("acctSchemas: " + acctSchemas.toString() + " " +
-        		"costTypes " + costTypes.toString() + " " + 
-        		"costElements " + costElements.toString());
     }
 
     /**
@@ -219,14 +192,12 @@ public class GenerateCostDetail extends SvrProcess {
      * @param productId
      * @param dateAccount
      */
-    private void applyCriteria(int accountSchemaId, int costTypeId,
+    private void applyCriterial(int accountSchemaId, int costTypeId,
                                 int costElementId, int productId, Timestamp dateAccount, Timestamp dateAccountTo) {
         deleteParameters = new ArrayList<Object>();
         resetCostParameters = new ArrayList<Object>();
         deleteCostDetailWhereClause = new StringBuffer("1=1");
         resetCostWhereClause = new StringBuffer("1=1");
-        resetCostSubWhereClause = new StringBuffer(" AND EXISTS ( SELECT 1 FROM RV_Transaction WHERE 1=1");
-        
 
         if (accountSchemaId > 0) {
             deleteCostDetailWhereClause.append(" AND ")
@@ -263,27 +234,22 @@ public class GenerateCostDetail extends SvrProcess {
             resetCostWhereClause.append(" AND ")
                     .append(MCostDetail.COLUMNNAME_M_Product_ID).append("=? ");
             resetCostParameters.add(productId);
-            resetCostSubWhereClause.append(" AND ")
-            		.append(MCostDetail.COLUMNNAME_M_Product_ID).append("=? ");
-            resetCostParameters.add(productId); // again
         }
         if (dateAccount != null) {
             deleteCostDetailWhereClause.append(" AND ")
                     .append(MCostDetail.COLUMNNAME_DateAcct).append(">=? ");
             deleteParameters.add(dateAccount);
-        	resetCostSubWhereClause.append(" AND TRUNC(")
-            		.append(MCostDetail.COLUMNNAME_DateAcct).append(")>=? ");
-        	resetCostParameters.add(dateAccount);
         }
         if (dateAccountTo != null) {
             deleteCostDetailWhereClause.append(" AND ")
                     .append(MCostDetail.COLUMNNAME_DateAcct).append("<=? ");
             deleteParameters.add(dateAccountTo);
-        	resetCostSubWhereClause.append(" AND TRUNC(")
-            		.append(MCostDetail.COLUMNNAME_DateAcct).append(")<=? ");
-        	resetCostParameters.add(dateAccountTo);
         }
-        resetCostWhereClause.append(resetCostSubWhereClause).append(")");
+        //avoid rest cost dimension if not exist transaction conserve of last cost calculated
+        resetCostWhereClause.append(" AND EXISTS ( SELECT 1 FROM RV_Transaction WHERE M_Product_ID=? AND TRUNC(DateAcct)>=? AND TRUNC(DateAcct)<=?)");
+        resetCostParameters.add(productId);
+        resetCostParameters.add(dateAccount);
+        resetCostParameters.add(dateAccountTo);
         return;
     }
 
@@ -295,12 +261,7 @@ public class GenerateCostDetail extends SvrProcess {
             for (MCostType ct : costTypes) {
                 // for each Cost Element
                 for (MCostElement ce : costElements) {
-                    log.fine("Deleting and resetting cost info for acctSchema: " + as.toString() + " " +
-                    		"costType: " + ct.toString() + " " + 
-                    		"costElement: " + ce.toString() + " " + 
-                    		"Product ID=" + p_M_Product_ID + " " +
-                    		"DateAcct from " + p_DateAcct + " to " + p_DateAcctTo);
-                    applyCriteria(as.getC_AcctSchema_ID(),
+                    applyCriterial(as.getC_AcctSchema_ID(),
                             ct.getM_CostType_ID(), ce.getM_CostElement_ID(),
                             p_M_Product_ID, p_DateAcct, p_DateAcctTo);
                     deleteCostDetail();
@@ -310,8 +271,7 @@ public class GenerateCostDetail extends SvrProcess {
         }
 
         KeyNamePair[] transactions = getTransactionIdsByDateAcct();
-        log.fine("Transaction to process : " + transactions.length);
-
+        System.out.println("Transaction to process : " + transactions.length);
         int process = 0;
         int productId = 0;
 
@@ -320,10 +280,10 @@ public class GenerateCostDetail extends SvrProcess {
             int transactionId = keyNamePair.getKey();
             int transactionProductId = DB.getSQLValue(get_TrxName() , "SELECT M_Product_ID FROM M_Transaction WHERE M_Transaction_ID=?" , transactionId);
 
-            if (productId != transactionProductId) {  //  New product
+            if (productId != transactionProductId) {
                 productId = transactionProductId;
                 MProduct product = MProduct.get(Env.getCtx(), productId);
-                log.fine("Starting to process Product: " + product.getValue() + " " + product.getName());
+                System.out.println("Product : " + product.getValue() + " Name :" + product.getName());
                 generateCostDetailForCollectorCost(productId);
             }
 
@@ -333,7 +293,7 @@ public class GenerateCostDetail extends SvrProcess {
                 for (MCostType costType : costTypes) {
                     // for each Cost Element
                     for (MCostElement costElement : costElements) {
-                        GenerateCostDetail.generateCostDetail(accountSchema, costType, costElement, transactionId, get_TrxName());
+                        GenerateCostDetail.generateCostDetail(accountSchema, costType, costElement, transactionId);
                     }
                 }
             }
@@ -342,9 +302,9 @@ public class GenerateCostDetail extends SvrProcess {
         }
     }
 
-    public static void generateCostDetail(MAcctSchema accountSchema, MCostType costType , MCostElement costElement,int transactionId, String trxName) {
+    public static void generateCostDetail(MAcctSchema accountSchema, MCostType costType , MCostElement costElement,int transactionId) {
 
-        Trx.run(trxName, new TrxRunnable() {
+        Trx.run(new TrxRunnable() {
             MAcctSchema accountSchema;
             MCostType costType;
             MCostElement costElement;
@@ -364,7 +324,7 @@ public class GenerateCostDetail extends SvrProcess {
                 MTransaction transaction = new MTransaction(accountSchema.getCtx(), transactionId, trxName);
 
                 //Create Cost Detail for this Transaction
-                 CostEngineFactory.getCostEngine(accountSchema.getAD_Client_ID())
+                CostEngineFactory.getCostEngine(accountSchema.getAD_Client_ID())
                         .createCostDetail(accountSchema,  costType, costElement, transaction,
                                 transaction.getDocumentLine(), true);
                 CostEngineFactory.getCostEngine(accountSchema.getAD_Client_ID())
@@ -427,10 +387,8 @@ public class GenerateCostDetail extends SvrProcess {
                 .getCostCollectorNotTransaction(getCtx(), productId,
                         getAD_Client_ID(), p_DateAcct, get_TrxName());
         // Process Collector Cost Manufacturing
-        log.fine("Found " + ccs.size() + " non-transactional cost collectors for product ID " + productId);
         for (MPPCostCollector cc : ccs) {
             for (MCostDetail cd : MCostDetail.getByCollectorCost(cc)) {
-                log.fine("Deleting cost detail: " + cd.toString());
                 cd.deleteEx(true);
             }
 
@@ -440,80 +398,20 @@ public class GenerateCostDetail extends SvrProcess {
         }
     }
 
-    protected int getAD_Client_ID() {
-    	int AD_Client_ID = 0;
-    	if (!p_IsServerProcess) {
-    		// no server process - use the environment client
-    		// TODO split the generate cost details functions out of the process
-    		AD_Client_ID = Env.getAD_Client_ID(getCtx());
-    	}
-    	else {
-    		// Server process - use the process client
-    		AD_Client_ID = super.getAD_Client_ID();
-    	}        
-    	return AD_Client_ID;
-    }
-    
-	/**
-	 * Return the main transaction of the current process.
-	 * @return the transaction name
-	 */
-	public String get_TrxName()
-	{
-    	String trxName = "";
-    	if (!p_IsServerProcess) {
-    		// no server process - use the set transaction name.
-    		trxName = m_trxName;
-    	}
-    	else {
-    		// Server process - use the process transaction.
-    		trxName = super.get_TrxName();
-    	}        
-    	return trxName;
-	}	//	get_TrxName
-    
-	/**
-	 * Commit the current transaction
-	 */
-	public void commitEx() throws SQLException
-	{
-    	if (!p_IsServerProcess) {
-    		// no server process - we have to find the transaction to use.
-    		Trx trx = Trx.get(get_TrxName(), false); // Don't create a new one.
-    		
-    		if (trx != null) {
-    			trx.commit(true);
-    		}
-    	}
-    	else {
-    		// Server process - use the process transaction.
-    		super.commitEx();
-    	}        
-	}	//	commitEx
-
-	/**
-	 * @param trxName the trxName to set
-	 */
-	public void set_trxName(String trxName) {
-		this.m_trxName = trxName;
-	}
-
-	private KeyNamePair[] getTransactionIdsByDateAcct() {
+    private KeyNamePair[] getTransactionIdsByDateAcct() {
         StringBuilder sql = new StringBuilder();
         List<Object> parameters = new ArrayList<Object>();
         StringBuilder whereClause = new StringBuilder("WHERE ");
         whereClause.append(MCostDetail.COLUMNNAME_AD_Client_ID).append("=")
-                .append(getAD_Client_ID());
+                .append(getAD_Client_ID()).append(" AND ");
         if (p_M_Product_ID > 0) {
-            whereClause.append(" AND ").append(MCostDetail.COLUMNNAME_M_Product_ID)
-                    .append("=?");
+            whereClause.append(MCostDetail.COLUMNNAME_M_Product_ID)
+                    .append("=?").append(" AND ");
             parameters.add(p_M_Product_ID);
         }
-        if (p_DateAcct != null) {
-        	whereClause.append(" AND ").append(MCostDetail.COLUMNNAME_DateAcct).append(">=?");
-        	parameters.add(p_DateAcct);
-        }
-        
+        whereClause.append(MCostDetail.COLUMNNAME_DateAcct).append(">=?");
+        parameters.add(p_DateAcct);
+
         if (p_DateAcctTo != null) {
             whereClause.append(" AND ").append(MCostDetail.COLUMNNAME_DateAcct).append("<=?");
             parameters.add(p_DateAcctTo);
@@ -523,63 +421,7 @@ public class GenerateCostDetail extends SvrProcess {
                 .append(whereClause)
                 .append(" ORDER BY M_Product_ID ,  TRUNC( DateAcct ) , M_Transaction_ID , SUBSTR(MovementType,2,1) ");
         //.append(" ORDER BY M_Product_ID , DateAcct , M_Transaction_ID");
-        log.fine("SQL :" + sql);
+        System.out.append("SQL :" + sql);
         return DB.getKeyNamePairs(get_TrxName(), sql.toString(), false, parameters.toArray());
-    }
-
-
-    public void generateCostDetail(Properties ctx, Timestamp DateAcct, String trxName) {
-    	generateCostDetail(ctx, DateAcct, null, 0,0,0,0, trxName);
-    }
-
-    public void generateCostDetail(Properties ctx, Timestamp DateAcct, Timestamp DateAcctTo, String trxName) {
-    	generateCostDetail(ctx, DateAcct, DateAcctTo, 0,0,0,0, trxName);
-    }
-
-    public void generateCostDetail(Properties ctx, int M_Product_ID, String trxName) {
-    	generateCostDetail(	ctx, null, null,
-	    		M_Product_ID, 0,0,0, trxName);
-    }
-
-    public void generateCostDetail(Properties ctx, int M_Product_ID, int M_CostElement_ID, 
-			int M_CostType_ID, int C_AcctSchema_ID, String trxName) {
-
-    	generateCostDetail(	ctx, null, null,
-	    		M_Product_ID, M_CostElement_ID, 
-				M_CostType_ID, C_AcctSchema_ID, trxName);
-    }
-    /**
-     * Generate cost details.  DateAcct is mandatory, the parameters can be null.
-     * @param M_Product_ID
-     * @param M_CostElement_ID
-     * @param M_CostType_ID
-     * @param C_AcctSchema_ID
-     * @param DateAcct
-     * @param DateAcctTo
-     */
-    public void generateCostDetail(	Properties ctx, Timestamp DateAcct, Timestamp DateAcctTo,
-						    		int M_Product_ID, int M_CostElement_ID, 
-									int M_CostType_ID, int C_AcctSchema_ID, String trxName) {
-
-    	p_M_Product_ID = M_Product_ID;
-        p_M_CostElement_ID = M_CostElement_ID;
-        p_M_CostType_ID = M_CostType_ID;
-        p_C_AcctSchema_ID = C_AcctSchema_ID;
-        p_DateAcct = DateAcct;
-        p_DateAcctTo = DateAcctTo;
-        
-        
-        set_trxName(trxName);
-        set_ctx(ctx);  // Provide the context to use
-        
-        //if (p_DateAcct == null)  // Mandatory
-        //	return;
-        
-        setup();
-        try {
-			generateCostDetail();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
     }
 }
