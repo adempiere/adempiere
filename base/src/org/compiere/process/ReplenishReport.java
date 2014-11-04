@@ -428,11 +428,6 @@ public class ReplenishReport extends SvrProcess
 			}
 			MOrderLine line = new MOrderLine (order);
 			line.setM_Product_ID(replenish.getM_Product_ID());
-			MProduct product = MProduct.get(getCtx(), replenish.getM_Product_ID());
-			int asi = product.getM_AttributeSetInstance_ID(); // Product ASI
-			if (asi > 0) {
-				line.setM_AttributeSetInstance_ID(asi);
-			}
 			line.setQty(replenish.getQtyToOrder());
 			line.setPrice();
 			line.saveEx();
