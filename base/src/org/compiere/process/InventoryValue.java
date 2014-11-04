@@ -101,20 +101,22 @@ public class InventoryValue extends SvrProcess
 		//	Insert Standard Costs
 		sql = new StringBuffer ("INSERT INTO T_InventoryValue "
 			+ "(AD_PInstance_ID, M_Warehouse_ID, M_Product_ID, M_AttributeSetInstance_ID,"
-			+ " AD_Client_ID, AD_Org_ID, CostStandard) "
+			+ " AD_Client_ID, AD_Org_ID, CostStandard, M_CostElement_ID, M_CostType_ID) "
 			+ "SELECT ").append(getAD_PInstance_ID())
 			.append(", w.M_Warehouse_ID, c.M_Product_ID, c.M_AttributeSetInstance_ID,"
-			+ " w.AD_Client_ID, w.AD_Org_ID, c.CurrentCostPrice "
+			+ " w.AD_Client_ID, w.AD_Org_ID, c.CurrentCostPrice, c.M_CostElement_ID, c.M_CostType_ID "
 			+ "FROM M_Warehouse w"
 			+ " INNER JOIN AD_ClientInfo ci ON (w.AD_Client_ID=ci.AD_Client_ID)"
 			+ " INNER JOIN C_AcctSchema acs ON (ci.C_AcctSchema1_ID=acs.C_AcctSchema_ID)"
-			+ " INNER JOIN M_Cost c ON (acs.C_AcctSchema_ID=c.C_AcctSchema_ID AND acs.M_CostType_ID=c.M_CostType_ID AND c.AD_Org_ID IN (0, w.AD_Org_ID))"
+			+ " INNER JOIN M_Cost c ON (acs.C_AcctSchema_ID=c.C_AcctSchema_ID AND acs.M_CostType_ID=c.M_CostType_ID "
+			+ "		AND c.AD_Org_ID IN (0, w.AD_Org_ID)  AND (c.M_Warehouse_ID is null OR c.m_Warehouse_ID in (0,w.M_Warehouse_ID)))"
 			+ " INNER JOIN M_CostElement ce ON (c.M_CostElement_ID=ce.M_CostElement_ID AND ce.CostingMethod='S' AND ce.CostElementType='M') "
 			+ "WHERE w.M_Warehouse_ID=").append(p_M_Warehouse_ID);
 		int noInsertStd = DB.executeUpdateEx(sql.toString(), get_TrxName());
 		log.fine("Inserted Std=" + noInsertStd);
 		if (noInsertStd == 0)
 			return "No Standard Costs found";
+		commitEx();
 
 		//	Insert addl Costs
 		int noInsertCost = 0;
@@ -122,14 +124,15 @@ public class InventoryValue extends SvrProcess
 		{
 			sql = new StringBuffer ("INSERT INTO T_InventoryValue "
 				+ "(AD_PInstance_ID, M_Warehouse_ID, M_Product_ID, M_AttributeSetInstance_ID,"
-				+ " AD_Client_ID, AD_Org_ID, CostStandard, Cost, M_CostElement_ID) "
+				+ " AD_Client_ID, AD_Org_ID, CostStandard, Cost, M_CostElement_ID, M_CostType_ID) "
 				+ "SELECT ").append(getAD_PInstance_ID())
 				.append(", w.M_Warehouse_ID, c.M_Product_ID, c.M_AttributeSetInstance_ID,"
-				+ " w.AD_Client_ID, w.AD_Org_ID, 0, c.CurrentCostPrice, c.M_CostElement_ID "
+				+ " w.AD_Client_ID, w.AD_Org_ID, 0, c.CurrentCostPrice, c.M_CostElement_ID, c.M_CostType_ID "
 				+ "FROM M_Warehouse w"
 				+ " INNER JOIN AD_ClientInfo ci ON (w.AD_Client_ID=ci.AD_Client_ID)"
 				+ " INNER JOIN C_AcctSchema acs ON (ci.C_AcctSchema1_ID=acs.C_AcctSchema_ID)"
-				+ " INNER JOIN M_Cost c ON (acs.C_AcctSchema_ID=c.C_AcctSchema_ID AND acs.M_CostType_ID=c.M_CostType_ID AND c.AD_Org_ID IN (0, w.AD_Org_ID)) "
+				+ " INNER JOIN M_Cost c ON (acs.C_AcctSchema_ID=c.C_AcctSchema_ID AND acs.M_CostType_ID=c.M_CostType_ID "
+				+ "		AND c.AD_Org_ID IN (0, w.AD_Org_ID)  AND (c.M_Warehouse_ID is null OR c.m_Warehouse_ID in (0,w.M_Warehouse_ID))) "
 				+ "WHERE w.M_Warehouse_ID=").append(p_M_Warehouse_ID)
 				.append(" AND c.M_CostElement_ID=").append(p_M_CostElement_ID)
 				.append(" AND NOT EXISTS (SELECT * FROM T_InventoryValue iv "
@@ -139,6 +142,7 @@ public class InventoryValue extends SvrProcess
 					+ " AND iv.M_AttributeSetInstance_ID=c.M_AttributeSetInstance_ID)");
 			noInsertCost = DB.executeUpdateEx(sql.toString(), get_TrxName());
 			log.fine("Inserted Cost=" + noInsertCost);
+			commitEx();
 			//	Update Std Cost Records
 			sql = new StringBuffer ("UPDATE T_InventoryValue iv "
 				+ "SET (Cost, M_CostElement_ID)="
@@ -147,7 +151,7 @@ public class InventoryValue extends SvrProcess
 					+ " INNER JOIN AD_ClientInfo ci ON (w.AD_Client_ID=ci.AD_Client_ID)"
 					+ " INNER JOIN C_AcctSchema acs ON (ci.C_AcctSchema1_ID=acs.C_AcctSchema_ID)"
 					+ " INNER JOIN M_Cost c ON (acs.C_AcctSchema_ID=c.C_AcctSchema_ID"
-						+ " AND acs.M_CostType_ID=c.M_CostType_ID AND c.AD_Org_ID IN (0, w.AD_Org_ID)) "
+					+ "		AND c.AD_Org_ID IN (0, w.AD_Org_ID)  AND (c.M_Warehouse_ID is null OR c.m_Warehouse_ID in (0,w.M_Warehouse_ID))) "
 					+ "WHERE c.M_CostElement_ID=" + p_M_CostElement_ID
 					+ " AND iv.M_Warehouse_ID=w.M_Warehouse_ID"
 					+ " AND iv.M_Product_ID=c.M_Product_ID"
@@ -160,7 +164,7 @@ public class InventoryValue extends SvrProcess
 		}		
 		if ((noInsertStd+noInsertCost) == 0)
 			return "No Costs found";
-		
+		commitEx();
 		//  Update Constants
 		//  YYYY-MM-DD HH24:MI:SS.mmmm  JDBC Timestamp format
 		String myDate = p_DateValue.toString();
@@ -172,7 +176,8 @@ public class InventoryValue extends SvrProcess
 			.append(" WHERE AD_PInstance_ID=" + getAD_PInstance_ID());
 		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
 		log.fine("Constants=" + no);
-
+		commitEx();
+		
 		//  Get current QtyOnHand with ASI
 		sql = new StringBuffer ("UPDATE T_InventoryValue iv SET QtyOnHand = "
 				+ "(SELECT SUM(QtyOnHand) FROM M_Storage s"
@@ -184,6 +189,8 @@ public class InventoryValue extends SvrProcess
 			.append(" AND iv.M_AttributeSetInstance_ID<>0");
 		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
 		log.fine("QtHand with ASI=" + no);
+		commitEx();
+		
 		//  Get current QtyOnHand without ASI
 		sql = new StringBuffer ("UPDATE T_InventoryValue iv SET QtyOnHand = "
 				+ "(SELECT SUM(QtyOnHand) FROM M_Storage s"
@@ -194,6 +201,7 @@ public class InventoryValue extends SvrProcess
 			.append(" AND iv.M_AttributeSetInstance_ID=0");
 		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
 		log.fine("QtHand w/o ASI=" + no);
+		commitEx();
 		
 		//  Adjust for Valuation Date
 		sql = new StringBuffer("UPDATE T_InventoryValue iv "
@@ -209,6 +217,7 @@ public class InventoryValue extends SvrProcess
 			+ " AND iv.AD_PInstance_ID=").append(getAD_PInstance_ID());
 		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
 		log.fine("Update with ASI=" + no);
+		commitEx();
 		//
 		sql = new StringBuffer("UPDATE T_InventoryValue iv "
 			+ "SET QtyOnHand="
@@ -223,12 +232,14 @@ public class InventoryValue extends SvrProcess
 
 		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
 		log.fine("Update w/o ASI=" + no);
+		commitEx();
 		
 		//  Delete Records w/o OnHand Qty
 		sql = new StringBuffer("DELETE T_InventoryValue "
 			+ "WHERE (QtyOnHand=0 OR QtyOnHand IS NULL) AND AD_PInstance_ID=").append(getAD_PInstance_ID());
 		int noQty = DB.executeUpdateEx (sql.toString(), get_TrxName());
 		log.fine("NoQty Deleted=" + noQty);
+		commitEx();
 
 		//  Update Prices
 		sql = new StringBuffer("UPDATE T_InventoryValue iv "
@@ -260,6 +271,7 @@ public class InventoryValue extends SvrProcess
 		String msg = "";
 		if (no == 0)
 			msg = "No Prices";
+		commitEx();
 
 		//	Convert if different Currency
 		if (as.getC_Currency_ID() != p_C_Currency_ID)
@@ -274,6 +286,7 @@ public class InventoryValue extends SvrProcess
 				+ "WHERE iv.AD_PInstance_ID=" + getAD_PInstance_ID());
 			no = DB.executeUpdateEx (sql.toString(), get_TrxName());
 			log.fine("Converted=" + no);
+			commitEx();
 		}
 		
 		//  Update Values
@@ -287,6 +300,7 @@ public class InventoryValue extends SvrProcess
 			+ "WHERE AD_PInstance_ID=" + getAD_PInstance_ID()
 			, get_TrxName());
 		log.fine("Calculation=" + no);
+		commitEx();
 		//
 		return msg;
 	}   //  doIt
