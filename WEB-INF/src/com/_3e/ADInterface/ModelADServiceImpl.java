@@ -359,8 +359,11 @@ public class ModelADServiceImpl implements ModelADService {
 
 		m_webservicetype = null;
 		final String sql = "SELECT * FROM WS_WebServiceType " +
-				"WHERE AD_Client_ID=? " +
-				"AND WS_WebService_ID=? " +
+				/** 2014-11-05 Carlos Parada Remove Client Filter */
+				//"WHERE AD_Client_ID=? " +
+				//"AND WS_WebService_ID=? " +
+				"WHERE WS_WebService_ID=? " +
+				/** End Carlos Parada */
 				"AND WS_WebServiceMethod_ID=? " +
 				"AND Value=? " +
 				"AND IsActive='Y'";
@@ -369,10 +372,17 @@ public class ModelADServiceImpl implements ModelADService {
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt(1, m_cs.getM_AD_Client_ID());
+			/** 2014-11-05 Carlos Parada Remove Client Filter */
+			/*pstmt.setInt(1, m_cs.getM_AD_Client_ID());
 			pstmt.setInt(2, m_webservice.getWS_WebService_ID());
 			pstmt.setInt(3, m_webservicemethod.getWS_WebServiceMethod_ID());
-			pstmt.setString(4, serviceTypeValue);
+			pstmt.setString(4, serviceTypeValue);*/
+			
+			pstmt.setInt(1, m_webservice.getWS_WebService_ID());
+			pstmt.setInt(2, m_webservicemethod.getWS_WebServiceMethod_ID());
+			pstmt.setString(3, serviceTypeValue);
+			/** End Carlos Parada */
+			
 			rs = pstmt.executeQuery ();
 			if (rs.next ())
 				m_webservicetype = new MWebServiceType (m_cs.getM_ctx(), rs, null);
@@ -570,7 +580,11 @@ public class ModelADServiceImpl implements ModelADService {
     		}
     		
     		sql += " FROM " + table.getTableName() + " WHERE IsActive='Y'";
-    		sql = role.addAccessSQL(sql, table.getTableName(), true, true);
+    		/** 2014-11-05 Carlos Parada Change for ReadOnly SQL Access */
+    		//sql = role.addAccessSQL(sql, table.getTableName(), true, true);
+    		sql = role.addAccessSQL(sql, table.getTableName(), true, false);
+    		/** End Carlos Parada */ 
+    		
     		sql += filter;
     		if (rt.getWhereClause() != null && rt.getWhereClause().length() > 0)
     			sql += " AND " + rt.getWhereClause();
@@ -992,8 +1006,10 @@ public class ModelADServiceImpl implements ModelADService {
 		MRole role = new MRole(ctx, roleid, null);
 
     	String sqlquery = "SELECT * FROM " + tableName;
-		sqlquery = role.addAccessSQL(sqlquery, tableName, true, true);
-		
+    	/** 2014-11-05 Carlos Parada Change for ReadOnly SQL Access */
+		//sqlquery = role.addAccessSQL(sqlquery, tableName, true, true);
+		sqlquery = role.addAccessSQL(sqlquery, tableName, true, false);
+		/** End Carlos Parada */
 		for (DataField field : modelCRUD.getDataRow().getFieldList()) {
     		if (m_webservicetype.isInputColumnNameAllowed(field.getColumn())) {
         		sqlquery += " AND " + field.getColumn() + "=?";
