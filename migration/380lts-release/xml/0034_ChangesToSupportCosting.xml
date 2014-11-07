@@ -494,28 +494,6 @@ GROUP BY c.AD_Client_ID, c.AD_Org_ID, c.IsActive,
         <Data AD_Column_ID="14403" Column="IsCostImmediate" oldValue="false">true</Data>
       </PO>
     </Step>
-    <Step SeqNo="400" StepType="AD">
-      <PO AD_Table_ID="771" Action="U" Record_ID="0" Table="M_Cost">
-        <Data AD_Column_ID="13468" Column="AD_Org_ID" oldValue="0">0</Data>
-        <Data AD_Column_ID="13471" Column="C_AcctSchema_ID" oldValue="101">101</Data>
-        <Data AD_Column_ID="13478" Column="CurrentCostPrice" oldValue="0">7.500000000000</Data>
-        <Data AD_Column_ID="14196" Column="M_AttributeSetInstance_ID" oldValue="0">0</Data>
-        <Data AD_Column_ID="13472" Column="M_CostElement_ID" oldValue="101">101</Data>
-        <Data AD_Column_ID="13470" Column="M_CostType_ID" oldValue="100">100</Data>
-        <Data AD_Column_ID="13469" Column="M_Product_ID" oldValue="139">139</Data>
-      </PO>
-    </Step>
-    <Step SeqNo="410" StepType="AD">
-      <PO AD_Table_ID="771" Action="U" Record_ID="0" Table="M_Cost">
-        <Data AD_Column_ID="13468" Column="AD_Org_ID" oldValue="0">0</Data>
-        <Data AD_Column_ID="13471" Column="C_AcctSchema_ID" oldValue="101">101</Data>
-        <Data AD_Column_ID="13478" Column="CurrentCostPrice" oldValue="7.500000000000">0</Data>
-        <Data AD_Column_ID="14196" Column="M_AttributeSetInstance_ID" oldValue="0">0</Data>
-        <Data AD_Column_ID="13472" Column="M_CostElement_ID" oldValue="101">101</Data>
-        <Data AD_Column_ID="13470" Column="M_CostType_ID" oldValue="100">100</Data>
-        <Data AD_Column_ID="13469" Column="M_Product_ID" oldValue="139">139</Data>
-      </PO>
-    </Step>
     <Step SeqNo="420" StepType="AD">
       <PO AD_Table_ID="771" Action="U" Record_ID="0" Table="M_Cost">
         <Data AD_Column_ID="13468" Column="AD_Org_ID" oldValue="0">0</Data>
