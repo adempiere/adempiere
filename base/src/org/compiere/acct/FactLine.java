@@ -1038,18 +1038,23 @@ public final class FactLine extends X_Fact_Acct
 	 * 	@param AD_Table_ID table
 	 * 	@param Record_ID record
 	 * 	@param Line_ID line
+     * 	@param quantity Line
 	 * 	@param multiplier targetQty/documentQty
 	 * 	@return true if success
 	 */
-	public boolean updateReverseLine (int AD_Table_ID, int Record_ID, int Line_ID,
-		BigDecimal multiplier)
+	public boolean updateReverseLine (
+            int AD_Table_ID,
+            int Record_ID,
+            int Line_ID,
+            BigDecimal quantity,
+		    BigDecimal multiplier)
 	{
 		boolean success = false;
 
 		String sql = "SELECT * "
 			+ "FROM Fact_Acct "
 			+ "WHERE C_AcctSchema_ID=? AND AD_Table_ID=? AND Record_ID=?"
-			+ " AND Line_ID=? AND Account_ID=?";
+			+ " AND Line_ID=? AND Account_ID=? AND Qty=?";
 		// MZ Goodwill
 		// for Inventory Move
 		if (MMovement.Table_ID == AD_Table_ID)
@@ -1065,6 +1070,7 @@ public final class FactLine extends X_Fact_Acct
 			pstmt.setInt(3, Record_ID);
 			pstmt.setInt(4, Line_ID);
 			pstmt.setInt(5, m_acct.getAccount_ID());
+            pstmt.setBigDecimal(6, quantity.negate());
 			// MZ Goodwill
 			// for Inventory Move
 			if (MMovement.Table_ID == AD_Table_ID)

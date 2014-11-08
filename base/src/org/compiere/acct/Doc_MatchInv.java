@@ -166,12 +166,13 @@ public class Doc_MatchInv extends Doc
 			p_Error = "No Product Costs";
 			return null;
 		}
+        dr.setM_Product_ID(m_receiptLine.getM_Product_ID());
 		dr.setQty(getQty());
 		BigDecimal temp = dr.getAcctBalance();
 		//	Set AmtAcctCr/Dr from Receipt (sets also Project)
 		if (!dr.updateReverseLine (MInOut.Table_ID, 		//	Amt updated
 			m_receiptLine.getM_InOut_ID(), m_receiptLine.getM_InOutLine_ID(),
-			multiplier))
+            getQty() , multiplier))
 		{
 			p_Error = "Mat.Receipt not posted yet";
 			return null;
@@ -247,11 +248,13 @@ public class Doc_MatchInv extends Doc
 				facts.add(fact);
 				return facts;
 			}
+            cr.setM_Product_ID(m_invoiceLine.getM_Product_ID());
 			cr.setQty(getQty().negate());
+
 			temp = cr.getAcctBalance();
 			//	Set AmtAcctCr/Dr from Invoice (sets also Project)
 			if (as.isAccrual() && !cr.updateReverseLine (MInvoice.Table_ID, 		//	Amt updated
-				m_invoiceLine.getC_Invoice_ID(), m_invoiceLine.getC_InvoiceLine_ID(), multiplier))
+				m_invoiceLine.getC_Invoice_ID(), m_invoiceLine.getC_InvoiceLine_ID(), getQty().negate() , multiplier))
 			{
 				p_Error = "Invoice not posted yet";
 				return null;
