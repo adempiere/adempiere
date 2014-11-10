@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- Nov 1, 2013 11:40:41 AM IST
 -- Fix the migration script erros in Process Gear. Regenerated the scripts with ADempiere sequence number.
 DELETE  FROM  AD_Field_Trl WHERE AD_Field_ID=1000001

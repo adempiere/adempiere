@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- Jul 16, 2012 10:56:47 AM CDT
 -- MFG-25
 INSERT INTO PP_ForecastRule (AD_Client_ID,AD_Org_ID,CalculationClass,Created,CreatedBy,Description,IsActive,Name,PP_ForecastRule_ID,Updated,UpdatedBy) VALUES (0,0,'BestForcastModel',TO_DATE('2012-07-16 10:56:46','YYYY-MM-DD HH24:MI:SS'),100,'Best Forcast Model','Y','Best Forcast Model',50007,TO_DATE('2012-07-16 10:56:46','YYYY-MM-DD HH24:MI:SS'),100)

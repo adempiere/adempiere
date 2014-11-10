@@ -1,3 +1,7 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
+
 -- Oct 6, 2009 2:43:50 PM CDT
 -- Warehouse Management Functionality
 UPDATE AD_Browse_Field SET SeqNo=50,IsDisplayed='Y' WHERE AD_Browse_Field_ID=50539

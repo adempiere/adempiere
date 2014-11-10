@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- Nov 7, 2013 5:36:59 PM IST
 -- Added the Virtual Columns in T_Combined Aging Table
 INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,ColumnSQL,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsRange,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,69826,148,0,18,132,53323,'Account_ID','(select max(account_id) from fact_acct fa where fa.c_tax_id is null and ((fa.ad_table_id=318 and fa.record_id=t_combinedaging.c_invoice_id) or (fa.ad_table_id=335 and fa.record_id=t_combinedaging.c_payment_id and case when t_combinedaging.issotrx=''Y'' then fa.amtacctcr<>0 else fa.amtacctdr<>0 end)))',TO_DATE('2013-11-07 17:36:55','YYYY-MM-DD HH24:MI:SS'),0,'Account used','D',22,'The (natural) account used','Y','Y','N','N','N','N','N','N','N','N','N','N','N','N','Account',0,TO_DATE('2013-11-07 17:36:55','YYYY-MM-DD HH24:MI:SS'),0,0)

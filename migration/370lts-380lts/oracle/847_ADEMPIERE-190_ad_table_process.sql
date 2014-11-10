@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- Table: ad_table_process
 
 -- DROP TABLE ad_table_process;

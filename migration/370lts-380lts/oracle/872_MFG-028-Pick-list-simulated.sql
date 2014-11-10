@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- Jul 22, 2012 9:10:31 PM CDT
 -- MFG-28
 INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,63733,53288,0,29,53045,'QtyRequired',TO_DATE('2012-07-22 21:10:30','YYYY-MM-DD HH24:MI:SS'),100,'EE01',22,'Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Qty Required',0,TO_DATE('2012-07-22 21:10:30','YYYY-MM-DD HH24:MI:SS'),100,0)

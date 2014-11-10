@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- 14/06/2009 0:31:02
 -- AD Migration
 INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,Description,EntityType,Help,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,53877,0,'AD_Migration_ID',TO_DATE('2009-06-14 00:31:01','YYYY-MM-DD HH24:MI:SS'),100,'Migration change management.','D','Migration change management.','Y','Migration','Migration',TO_DATE('2009-06-14 00:31:01','YYYY-MM-DD HH24:MI:SS'),100)

@@ -1,5 +1,6 @@
 SET DEFINE OFF
 SET SQLBLANKLINES ON
+SET SCAN OFF
 
 -- Sep 2, 2009 1:30:20 AM ECT
 -- Warehouse Management

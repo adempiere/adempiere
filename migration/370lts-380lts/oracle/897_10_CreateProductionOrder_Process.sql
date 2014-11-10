@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- Oct 1, 2013 10:26:33 AM IST
 -- "Create Production Order" process is created
 INSERT INTO AD_Process (AccessLevel,AD_Client_ID,AD_Org_ID,AD_Process_ID,Classname,CopyFromProcess,Created,CreatedBy,Description,EntityType,Help,IsActive,IsBetaFunctionality,IsDirectPrint,IsReport,IsServerProcess,Name,ShowHelp,Statistic_Count,Statistic_Seconds,Updated,UpdatedBy,Value) VALUES ('3',0,0,53477,'org.compiere.process.OrderLineCreateProduction','N',TO_DATE('2013-10-01 10:26:28','YYYY-MM-DD HH24:MI:SS'),0,'Create Production Order','D','Create Production Order','Y','N','N','N','N','Create Production Order','Y',0,0,TO_DATE('2013-10-01 10:26:28','YYYY-MM-DD HH24:MI:SS'),0,'Create Production Order')

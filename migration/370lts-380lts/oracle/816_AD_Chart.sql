@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- 23/08/2010 1:24:00 PM
 -- Chart
 INSERT INTO AD_Table (AccessLevel,AD_Client_ID,AD_Org_ID,AD_Table_ID,CopyColumnsFromTable,Created,CreatedBy,Description,EntityType,Help,ImportTable,IsActive,IsCentrallyMaintained,IsChangeLog,IsDeleteable,IsHighVolume,IsSecurityEnabled,IsView,LoadSeq,Name,ReplicationType,TableName,Updated,UpdatedBy) VALUES ('4',0,0,53282,'N',TO_DATE('2010-08-23 13:23:59','YYYY-MM-DD HH24:MI:SS'),100,'Chart definition','D','Charts provide a graphical display of information.','N','Y','Y','N','Y','N','N','N',0,'Chart','L','AD_Chart',TO_DATE('2010-08-23 13:23:59','YYYY-MM-DD HH24:MI:SS'),100)

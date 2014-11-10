@@ -1,6 +1,6 @@
-SET SQLBLANKLINES ON
 SET DEFINE OFF
-
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- Oct 6, 2010 12:18:31 AM CDT
 -- Cost Engine
 UPDATE AD_PrintFormatItem SET AD_Column_ID=59910, IsGroupBy='N', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_DATE('2010-10-06 00:18:30','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=51645

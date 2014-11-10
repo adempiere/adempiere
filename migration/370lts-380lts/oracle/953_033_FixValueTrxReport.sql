@@ -1,3 +1,7 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
+
 -- 18/01/2011 12:12:35 AM CST
 -- Fix Value Transaction Report
 UPDATE AD_PrintFormatItem SET SortNo=0,IsOrderBy='N' WHERE AD_PrintFormatItem_ID=51588

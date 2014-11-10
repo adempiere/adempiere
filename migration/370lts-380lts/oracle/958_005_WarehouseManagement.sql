@@ -1,5 +1,6 @@
 SET DEFINE OFF
 SET SQLBLANKLINES ON
+SET SCAN OFF
 -- Sep 6, 2009 11:42:41 PM ECT
 -- Warehouse Management
 UPDATE AD_EntityType SET Classpath=NULL, Description='Libero Warehouse Management covers all Warehouse inbound and outbound operation', EntityType='EE03', Help='Project

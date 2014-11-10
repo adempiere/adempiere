@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 
 AlTER TABLE C_OrderLine ADD createfrom CHAR(1) CHECK ( createfrom IN ('Y','N') );
 

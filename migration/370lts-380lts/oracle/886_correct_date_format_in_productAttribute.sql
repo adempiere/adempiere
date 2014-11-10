@@ -1,3 +1,7 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
+
 create or replace FUNCTION productAttribute
 (
     p_M_AttributeSetInstance_ID     IN NUMBER

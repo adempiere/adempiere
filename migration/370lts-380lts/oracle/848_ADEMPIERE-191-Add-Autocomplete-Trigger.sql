@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- Jun 14, 2013 4:40:27 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,55913,0,11,'ACTriggerLength',TO_DATE('2013-06-14 16:40:26','YYYY-MM-DD HH24:MI:SS'),100,'Identifier autocomplete trigger length','U',10,'Y','Auto Complete Min Length','Auto Complete Min Length',TO_DATE('2013-06-14 16:40:26','YYYY-MM-DD HH24:MI:SS'),100)

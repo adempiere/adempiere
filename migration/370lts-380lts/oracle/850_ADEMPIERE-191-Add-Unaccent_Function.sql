@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- Function: unaccent_string(text, numeric)
 -- DROP FUNCTION unaccent_string;
 CREATE OR REPLACE FUNCTION unaccent_string

@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- Sep 25, 2013 12:06:09 PM IST
 -- Adding the new column " IsRange" to the " AD_Column"  table for  "Range Based Look Up"
 ALTER TABLE AD_COLUMN ADD IsRange CHAR(1) DEFAULT 'N' NOT NULL ENABLE;

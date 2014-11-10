@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- Sep 28, 2009 11:47:57 PM ECT
 -- Warehouse Management
 INSERT INTO AD_Reference (AD_Client_ID,AD_Org_ID,AD_Reference_ID,Created,CreatedBy,EntityType,IsActive,IsOrderByValue,Name,Updated,UpdatedBy,ValidationType) VALUES (0,0,53326,TO_DATE('2009-09-28 23:47:54','YYYY-MM-DD HH24:MI:SS'),0,'EE03','Y','N','WM_InOutBound Draft Status',TO_DATE('2009-09-28 23:47:54','YYYY-MM-DD HH24:MI:SS'),0,'T')

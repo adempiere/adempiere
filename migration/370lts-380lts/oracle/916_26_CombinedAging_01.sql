@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- 01/07/2011 4:39:28 PM
 -- --
 INSERT INTO AD_Table (AccessLevel,AD_Client_ID,AD_Org_ID,AD_Table_ID,Created,CreatedBy,EntityType,IsActive,IsCentrallyMaintained,IsChangeLog,IsDeleteable,IsHighVolume,IsSecurityEnabled,IsView,LoadSeq,Name,ReplicationType,TableName,Updated,UpdatedBy) VALUES ('3',0,0,53323,TO_DATE('2011-07-01 16:39:20','YYYY-MM-DD HH24:MI:SS'),100,'D','Y','Y','N','Y','N','N','N',145,'T_CombinedAging','L','T_CombinedAging',TO_DATE('2011-07-01 16:39:20','YYYY-MM-DD HH24:MI:SS'),100)

@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- Jun 29, 2012 10:31:56 AM CDT
 -- https://adempiere.atlassian.net/browse/ADEMPIERE-10
 INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,63488,53902,0,19,284,'AD_Browse_ID',TO_DATE('2012-06-29 10:31:55','YYYY-MM-DD HH24:MI:SS'),100,'EE07',22,'Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Smart Browse',0,TO_DATE('2012-06-29 10:31:55','YYYY-MM-DD HH24:MI:SS'),100,0)

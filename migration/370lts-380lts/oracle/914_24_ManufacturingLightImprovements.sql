@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- Nov 13, 2013 12:40:24 PM IST
 -- Improvements in Manufacturing Light
 INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,68430,70351,0,180,TO_DATE('2013-11-13 12:40:23','YYYY-MM-DD HH24:MI:SS'),0,'Discontinued By',7,'D','The Discontinued By indicates the individual who discontinued this product','Y','Y','Y','N','N','N','N','N','Discontinued by',TO_DATE('2013-11-13 12:40:23','YYYY-MM-DD HH24:MI:SS'),0)

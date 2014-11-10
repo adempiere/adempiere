@@ -1,3 +1,7 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
+
 -- Dec 18, 2012 7:08:09 PM CET
 -- Generate Invoices from Shipments
 INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,Description,EntityType,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,55778,0,'ToBeInvoiced',TO_DATE('2012-12-18 19:08:07','YYYY-MM-DD HH24:MI:SS'),100,'If Shipment line is marked as ToBeInvoiced=''N'' then it is included in the generated Invoice line with price 0.0','D','Y','To be Invoiced','To be Invoiced',TO_DATE('2012-12-18 19:08:07','YYYY-MM-DD HH24:MI:SS'),100)

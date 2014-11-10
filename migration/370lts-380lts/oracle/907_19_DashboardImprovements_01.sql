@@ -1,3 +1,7 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
+
 -- Nov 1, 2013 2:33:11 PM IST
 -- Improvement in Dashboard
 UPDATE AD_Field SET Description='Zoom Field has to be the primary key of the Zoom Tab selected. For example, for Zoom Tab Business Partner in Business Partner window, Zoom Field must be C_BPartner_ID.',Updated=TO_DATE('2013-11-01 14:33:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Field_ID=70190

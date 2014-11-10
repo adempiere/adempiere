@@ -1,3 +1,7 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
+
 INSERT INTO AD_Menu (Action,AD_Client_ID,AD_Menu_ID,AD_Org_ID,AD_Process_ID,Created,CreatedBy,EntityType,IsActive,IsCentrallyMaintained,IsReadOnly,IsSOTrx,IsSummary,Name,Updated,UpdatedBy) VALUES ('P',0,53349,0,53356,TO_DATE('2011-07-01 16:54:19','YYYY-MM-DD HH24:MI:SS'),100,'D','Y','Y','N','N','N','Aging with payments (revalued)',TO_DATE('2011-07-01 16:54:19','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 

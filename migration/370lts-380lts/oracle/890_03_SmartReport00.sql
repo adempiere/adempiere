@@ -1,3 +1,7 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
+
 ALTER TABLE pa_reportline ADD ReportLineStyle CHAR(1);
 
 ALTER TABLE pa_reportline ADD TabLevel number(10,0);

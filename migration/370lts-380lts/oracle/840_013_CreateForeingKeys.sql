@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 alter table AD_VIEW_TRL add constraint AD_VIEW_TRL_KEY primary key("AD_VIEW_ID","AD_LANGUAGE");
 alter table AD_VIEW_COLUMN_TRL add constraint AD_VIEW_COLUMN_TRL_KEY primary key("AD_VIEW_COLUMN_ID","AD_LANGUAGE");
 

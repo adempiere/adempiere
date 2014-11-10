@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- Oct 5, 2013 8:54:14 PM IST
 -- SmartJS Report functionality in ADempiere380
 UPDATE AD_Field SET Name='Suffix Text for Period',Updated=TO_DATE('2013-10-05 20:54:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Field_ID=69736

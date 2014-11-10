@@ -1,3 +1,7 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
+
 -- Apr 24, 2014 7:04:53 PM GMT05:30
 -- Import Budget AD Chages
 INSERT INTO AD_Table (AccessLevel,AD_Client_ID,AD_Org_ID,AD_Table_ID,CopyColumnsFromTable,Created,CreatedBy,EntityType,ImportTable,IsActive,IsCentrallyMaintained,IsChangeLog,IsDeleteable,IsHighVolume,IsSecurityEnabled,IsView,LoadSeq,Name,ReplicationType,TableName,Updated,UpdatedBy) VALUES ('3',0,0,53618,'N',TO_DATE('2013-10-11 16:23:56','YYYY-MM-DD HH24:MI:SS'),100,'D','N','Y','Y','N','Y','N','N','N',0,'I_Budget','L','I_Budget',TO_DATE('2013-10-11 16:23:56','YYYY-MM-DD HH24:MI:SS'),100)

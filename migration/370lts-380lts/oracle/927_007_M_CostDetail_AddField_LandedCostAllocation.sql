@@ -1,5 +1,6 @@
-SET SQLBLANKLINES ON
 SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- Jun 25, 2010 5:02:52 PM EEST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,59609,2819,0,30,808,'C_LandedCostAllocation_ID',TO_DATE('2010-06-25 17:02:48','YYYY-MM-DD HH24:MI:SS'),0,'Allocation for Land Costs','D',10,'Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Landed Cost Allocation',0,TO_DATE('2010-06-25 17:02:48','YYYY-MM-DD HH24:MI:SS'),0,0)

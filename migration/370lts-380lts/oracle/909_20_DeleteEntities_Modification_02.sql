@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- Nov 6, 2013 9:19:10 PM IST
 --  Added Delete Entities to the Application Dictionary Menu
 UPDATE AD_Window_Trl SET IsTranslated='N' WHERE AD_Window_ID=53072

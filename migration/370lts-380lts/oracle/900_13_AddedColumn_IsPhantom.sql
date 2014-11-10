@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- Oct 3, 2013 1:38:22 PM IST
 -- isphantom column is added in M_Product Table
 ALTER TABLE M_PRODUCT ADD isphantom CHAR(1) DEFAULT 'N' NOT NULL ENABLE CHECK (isphantom IN ('Y','N')) ENABLE

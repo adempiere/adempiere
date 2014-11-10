@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- May 3, 2012 6:20:47 PM CDT
 -- ADEMPIERE-84-Add-New-Dunning-Fields
 INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,63010,3092,0,17,394,598,'InvoiceCollectionType',TO_DATE('2012-05-03 18:19:56','YYYY-MM-DD HH24:MI:SS'),0,'Invoice Collection Status','D',1,'Status of the invoice collection process','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Collection Status',0,TO_DATE('2012-05-03 18:19:56','YYYY-MM-DD HH24:MI:SS'),0,0)

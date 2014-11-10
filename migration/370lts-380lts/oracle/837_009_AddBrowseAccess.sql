@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- Jul 2, 2012 1:56:30 PM CDT
 -- ADEMPIERE-10 Smart Browser
 INSERT INTO AD_Tab (AD_Client_ID,AD_Org_ID,AD_Tab_ID,AD_Table_ID,AD_Window_ID,Created,CreatedBy,Description,EntityType,HasTree,Help,IsActive,IsAdvancedTab,IsInfoTab,IsInsertRecord,IsReadOnly,IsSingleRow,IsSortTab,IsTranslationTab,Name,Processing,SeqNo,TabLevel,Updated,UpdatedBy) VALUES (0,0,53533,53225,111,TO_DATE('2012-07-02 13:56:26','YYYY-MM-DD HH24:MI:SS'),100,'Browse Access','EE07','N','The Browse Access Tab defines the Browses and type of access that this Role is granted.','Y','N','N','Y','N','N','N','N','Browse Access','N',60,1,TO_DATE('2012-07-02 13:56:26','YYYY-MM-DD HH24:MI:SS'),100)

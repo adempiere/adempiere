@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- Oct 16, 2013 3:04:35 PM IST
 -- Modifying the errors in SmartReport Migration Scripts
 DELETE  FROM  AD_Field_Trl WHERE AD_Field_ID=69735

@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- Feb 7, 2011 12:21:46 PM CST
 -- Add M_InOutLine_ID Landed Cost Allocation
 INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,60320,1026,0,19,760,'M_InOutLine_ID',TO_DATE('2011-02-07 12:19:30','YYYY-MM-DD HH24:MI:SS'),0,'Line on Shipment or Receipt document','D',10,'The Shipment/Receipt Line indicates a unique line in a Shipment/Receipt document','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Shipment/Receipt Line',0,TO_DATE('2011-02-07 12:19:30','YYYY-MM-DD HH24:MI:SS'),0,0)

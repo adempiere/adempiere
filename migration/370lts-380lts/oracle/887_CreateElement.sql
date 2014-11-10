@@ -1,3 +1,7 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
+
 -- Dec 8, 2010 9:22:37 PM COT
 INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,EntityType,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,54396,0,'Probability',TO_DATE('2010-12-08 21:22:36','YYYY-MM-DD HH24:MI:SS'),100,'D','Y','Probability','Probability',TO_DATE('2010-12-08 21:22:36','YYYY-MM-DD HH24:MI:SS'),100)
 ;

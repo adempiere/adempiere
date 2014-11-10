@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 DELETE FROM t_inventoryvalue;
 ALTER TABLE t_inventoryvalue DROP  CONSTRAINT t_inventoryvalue_key;
 DROP  INDEX  t_inventoryvalue_key;

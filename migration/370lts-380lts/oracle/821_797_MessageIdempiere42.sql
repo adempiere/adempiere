@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- Jul 4, 2011 12:21:51 PM COT
 -- IDEMPIERE-42 5Translation in MPaymentTerm exception in PaymentTermValidate
 INSERT INTO AD_Message (AD_Client_ID,AD_Message_ID,AD_Org_ID,Created,CreatedBy,EntityType,IsActive,MsgText,MsgType,Updated,UpdatedBy,Value) VALUES (0,53136,0,TO_DATE('2011-07-04 12:21:51','YYYY-MM-DD HH24:MI:SS'),100,'D','Y','Total','I',TO_DATE('2011-07-04 12:21:51','YYYY-MM-DD HH24:MI:SS'),100,'Total')

@@ -1,3 +1,7 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
+
 -- Dec 23, 2013 10:36:28 AM IST
 -- Changed the Manufacturing Light BOM Viewer to Libero BOM Viewer.
 UPDATE AD_Form SET Classname='org.eevolution.form.VTreeBOM',Updated=TO_DATE('2013-12-23 10:36:28','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Form_ID=53017

@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- Jan 2, 2012 11:35:45 AM EST
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_Field SET SeqNo=70,IsDisplayed='Y' WHERE AD_Field_ID=13013

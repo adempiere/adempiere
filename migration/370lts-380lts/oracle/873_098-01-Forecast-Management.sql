@@ -1,3 +1,7 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
+
 -- Jun 28, 2012 4:51:22 PM CDT
 -- http://adempiere.atlassian.net/browse/ADEMPIERE-98  Forecast Management
 INSERT INTO AD_Window (AD_Client_ID,AD_Org_ID,AD_Window_ID,Created,CreatedBy,Description,EntityType,Help,IsActive,IsBetaFunctionality,IsDefault,IsSOTrx,Name,Processing,Updated,UpdatedBy,WindowType) VALUES (0,0,53180,TO_DATE('2012-06-28 16:51:21','YYYY-MM-DD HH24:MI:SS'),100,'Import Sales Histroy','EE01','Import Sales History loaded','Y','N','N','Y','Import Sales History','N',TO_DATE('2012-06-28 16:51:21','YYYY-MM-DD HH24:MI:SS'),100,'M')

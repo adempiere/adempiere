@@ -1,5 +1,6 @@
 SET DEFINE OFF
 SET SQLBLANKLINES ON
+SET SCAN OFF
 -- Aug 20, 2012 3:42:27 PM CDT
 -- MFG-35
 INSERT INTO AD_Process (AD_Client_ID,AD_Org_ID,AD_Process_ID,AccessLevel,Classname,Created,CreatedBy,Description,EntityType,Help,IsActive,IsBetaFunctionality,IsDirectPrint,IsReport,Name,ShowHelp,Statistic_Count,Statistic_Seconds,Updated,UpdatedBy,Value,WorkflowValue) VALUES (0,0,53320,'3','org.eevolution.process.MRP',TO_DATE('2012-08-20 15:42:24','YYYY-MM-DD HH24:MI:SS'),100,'This process calcualte the demand, approved and open orders for a product.','EE01','This process calcualte the demand, approved and open orders for a product.','Y','Y','N','N','Net Change Material Plan','Y',0,0,TO_DATE('2012-08-20 15:42:24','YYYY-MM-DD HH24:MI:SS'),100,'MRP_Net_Change Material Plan',NULL)

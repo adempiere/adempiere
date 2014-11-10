@@ -1,5 +1,6 @@
 SET DEFINE OFF
 SET SQLBLANKLINES ON
+SET SCAN OFF
 -- Sep 11, 2009 12:01:41 PM ECT
 -- Warehouse Management
 INSERT INTO AD_View (AD_Client_ID,AD_Org_ID,AD_View_ID,Created,CreatedBy,Description,EntityType,IsActive,Name,Updated,UpdatedBy,Value) VALUES (0,0,50001,TO_DATE('2009-09-11 12:01:38','YYYY-MM-DD HH24:MI:SS'),0,'Allow select the Outbound Order lines to be release to pick.','EE03','Y','Outbound Order to Release',TO_DATE('2009-09-11 12:01:38','YYYY-MM-DD HH24:MI:SS'),0,'OutboundOrderToRelease')

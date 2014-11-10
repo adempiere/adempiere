@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- Aug 28, 2013 7:49:15 PM CDT
 -- feature ADEMPIERE-101-Data-Entity-for-Classification-Group1-Group2
 INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,67104,55492,0,19,208,'M_Product_Class_ID',TO_DATE('2013-08-28 19:48:41','YYYY-MM-DD HH24:MI:SS'),100,'Class of a Product','D',22,'Identifies the Class which this product belongs to','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Product Class',0,TO_DATE('2013-08-28 19:48:41','YYYY-MM-DD HH24:MI:SS'),100,0)

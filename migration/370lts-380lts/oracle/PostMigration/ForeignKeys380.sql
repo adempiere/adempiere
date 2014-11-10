@@ -498,4 +498,36 @@ ALTER TABLE WM_Strategy ADD (CONSTRAINT MWarehouse_WMStrategy FOREIGN KEY (M_War
 
 ALTER TABLE WM_Strategy_Detail ADD (CONSTRAINT WMRule_WMStrategyDetail FOREIGN KEY (WM_Rule_ID) REFERENCES WM_Rule);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
 
-ALTER TABLE WM_Strategy_Detail ADD (CONSTRAINT WMStrategy_WMStrategyDetail FOREIGN KEY (WM_Strategy_ID) REFERENCES WM_Strategy);  
+ALTER TABLE WM_Strategy_Detail ADD (CONSTRAINT WMStrategy_WMStrategyDetail FOREIGN KEY (WM_Strategy_ID) REFERENCES WM_Strategy);
+
+ALTER TABLE I_Budget ADD (CONSTRAINT AAsset_IBudget FOREIGN KEY (A_Asset_ID) REFERENCES A_Asset);
+
+ALTER TABLE I_Budget ADD (CONSTRAINT ADOrgTrx_IBudget FOREIGN KEY (AD_OrgTrx_ID) REFERENCES AD_Org);
+
+ALTER TABLE I_Budget ADD (CONSTRAINT CAcctSchema_IBudget FOREIGN KEY (C_AcctSchema_ID) REFERENCES C_AcctSchema);
+
+ALTER TABLE I_Budget ADD (CONSTRAINT CActivity_IBudget FOREIGN KEY (C_Activity_ID) REFERENCES C_Activity);
+
+ALTER TABLE I_Budget ADD (CONSTRAINT CBPartner_IBudget FOREIGN KEY (C_BPartner_ID) REFERENCES C_BPartner);
+
+ALTER TABLE I_Budget ADD (CONSTRAINT CCampaign_IBudget FOREIGN KEY (C_Campaign_ID) REFERENCES C_Campaign);
+
+ALTER TABLE I_Budget ADD (CONSTRAINT User1_IBudget FOREIGN KEY (User1_ID) REFERENCES C_ElementValue);
+
+ALTER TABLE I_Budget ADD (CONSTRAINT User2_IBudget FOREIGN KEY (User2_ID) REFERENCES C_ElementValue);
+
+ALTER TABLE I_Budget ADD (CONSTRAINT CLocFrom_IBudget FOREIGN KEY (C_LocFrom_ID) REFERENCES C_Location);
+
+ALTER TABLE I_Budget ADD (CONSTRAINT CLocTo_IBudget FOREIGN KEY (C_LocTo_ID) REFERENCES C_Location);
+
+ALTER TABLE I_Budget ADD (CONSTRAINT CProject_IBudget FOREIGN KEY (C_Project_ID) REFERENCES C_Project);
+
+ALTER TABLE I_Budget ADD (CONSTRAINT CSalesRegion_IBudget FOREIGN KEY (C_SalesRegion_ID) REFERENCES C_SalesRegion);
+
+ALTER TABLE I_Budget ADD (CONSTRAINT CValidCombination_IBudget FOREIGN KEY (C_ValidCombination_ID) REFERENCES C_ValidCombination);
+
+ALTER TABLE I_Budget ADD (CONSTRAINT GLBudget_IBudget FOREIGN KEY (GL_Budget_ID) REFERENCES GL_Budget);
+
+ALTER TABLE I_Budget ADD (CONSTRAINT GLJournalBatch_IBudget FOREIGN KEY (GL_JournalBatch_ID) REFERENCES GL_JournalBatch);
+
+ALTER TABLE I_Budget ADD (CONSTRAINT MProduct_IBudget FOREIGN KEY (M_Product_ID) REFERENCES M_Product);

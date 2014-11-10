@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- Jul 13, 2012 1:42:31 PM CDT
 -- https://adempiere.atlassian.net/browse/ADEMPIERE-98
 UPDATE AD_Menu SET Description='With the goal of planning in mind, it is required a correct formation of periods groups, which needs to be measured, the operative calendars allows to set calendars with weekly and monthly periods.',Updated=TO_DATE('2012-07-13 13:42:31','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53421

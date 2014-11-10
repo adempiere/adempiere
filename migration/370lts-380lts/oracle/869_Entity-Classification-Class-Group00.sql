@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- May 12, 2012 6:39:10 PM CDT
 -- Data Entity for Classification, Class , Group http://adempiere.atlassian.net/browse/ADEMPIERE-101
 INSERT INTO AD_Window (AD_Client_ID,AD_Org_ID,AD_Window_ID,Created,CreatedBy,Description,EntityType,Help,IsActive,IsBetaFunctionality,IsDefault,IsSOTrx,Name,Processing,Updated,UpdatedBy,WindowType) VALUES (0,0,53176,TO_DATE('2012-05-12 18:39:09','YYYY-MM-DD HH24:MI:SS'),0,'Maintain Product Classifications','D','The Product Classification allows you to define different classification of products.','Y','N','N','N','Product Classification','N',TO_DATE('2012-05-12 18:39:09','YYYY-MM-DD HH24:MI:SS'),0,'M')

@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- Oct 5, 2013 5:36:37 PM IST
 -- SmartJS Report functionality in ADempiere380
 INSERT INTO AD_SysConfig (AD_Client_ID,AD_Org_ID,AD_SysConfig_ID,ConfigurationLevel,Created,CreatedBy,Description,EntityType,IsActive,Name,Updated,UpdatedBy,Value) VALUES (0,0,50074,'C',TO_DATE('2013-10-05 17:36:34','YYYY-MM-DD HH24:MI:SS'),0,'Y/N-Define if want to generate the Report','D','Y','GENERATE_REPORT',TO_DATE('2013-10-05 17:36:34','YYYY-MM-DD HH24:MI:SS'),0,'N')

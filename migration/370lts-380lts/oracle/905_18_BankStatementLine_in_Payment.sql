@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- Oct 28, 2013 11:17:44 PM IST
 -- Adding a new Tab "Bank Statement Line' in Payment Window
 INSERT INTO AD_Tab (AD_Client_ID,AD_Column_ID,AD_Org_ID,AD_Tab_ID,AD_Table_ID,AD_Window_ID,Created,CreatedBy,Description,EntityType,HasTree,ImportFields,IsActive,IsAdvancedTab,IsInfoTab,IsInsertRecord,IsReadOnly,IsSingleRow,IsSortTab,IsTranslationTab,Name,Processing,SeqNo,TabLevel,Updated,UpdatedBy) VALUES (0,4937,0,53794,393,195,TO_DATE('2013-10-28 23:17:40','YYYY-MM-DD HH24:MI:SS'),0,'Bank Statement Line','D','N','N','Y','N','N','Y','N','N','N','N','Bank Statement Line','N',30,1,TO_DATE('2013-10-28 23:17:40','YYYY-MM-DD HH24:MI:SS'),0)

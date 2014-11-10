@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- Jun 29, 2012 9:57:04 AM CDT
 -- https://adempiere.atlassian.net/browse/ADEMPIERE-10
 INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,63484,53905,0,19,50006,'AD_View_ID',TO_DATE('2012-06-29 09:56:57','YYYY-MM-DD HH24:MI:SS'),100,'View allows you to create dynamic views of information from the dictionary application','EE07',22,'These views can be based on tables and views of the dictionary application.','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','View',0,TO_DATE('2012-06-29 09:56:57','YYYY-MM-DD HH24:MI:SS'),100,0)

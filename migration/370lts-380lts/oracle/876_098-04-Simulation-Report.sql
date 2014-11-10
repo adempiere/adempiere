@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- Jul 14, 2012 12:18:58 AM CDT
 -- https://adempiere.atlassian.net/browse/ADEMPIERE-98
 UPDATE AD_Table SET AccessLevel='3', Description='This process generates a report containing the result of the forecast calculation, parameters can be used to filter the result of the report. ', EntityType='EE01', Help=NULL, ImportTable='N', IsActive='Y', IsChangeLog='N', IsDeleteable='N', IsHighVolume='N', IsSecurityEnabled='N', IsView='Y', Name='Simulation of Forecast ', ReplicationType='L', TableName='RV_PP_ForecastRun',Updated=TO_DATE('2012-07-14 00:18:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53399

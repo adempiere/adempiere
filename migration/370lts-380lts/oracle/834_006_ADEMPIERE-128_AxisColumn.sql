@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- Jun 27, 2012 11:28:44 AM CDT
 -- https://adempiere.atlassian.net/browse/ADEMPIERE-128 New feature lets you define a field as column axis
 INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,55507,0,18,251,'Axis_Column_ID',TO_DATE('2012-06-27 11:28:39','YYYY-MM-DD HH24:MI:SS'),100,'Axis the link column.','EE07',22,'Axis Column defines the base column to show the records on this table as columns inside the browser','Y','Axis Column','Axis Column',TO_DATE('2012-06-27 11:28:39','YYYY-MM-DD HH24:MI:SS'),100)

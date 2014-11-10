@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- Oct 5, 2009 12:35:38 PM ECT
 -- Warehouse Management
 UPDATE AD_Browse SET WhereClause='iob.IsSOTrx=''Y'' AND iob.DocStatus=''DR'' AND iobl.Processed=''N''',Updated=TO_DATE('2009-10-05 12:35:38','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Browse_ID=50001

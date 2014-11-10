@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- Nov 17, 2009 3:21:23 PM CST
 -- Application Dictionary
 INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,58588,120,0,18,1,276,'AD_Reference_ID',TO_DATE('2009-11-17 15:21:16','YYYY-MM-DD HH24:MI:SS'),0,'System Reference and Validation','D',10,'The Reference could be a display type, list or table validation.','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Reference',0,TO_DATE('2009-11-17 15:21:16','YYYY-MM-DD HH24:MI:SS'),0,0)

@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- Oct 23, 2013 2:53:07 PM IST
 -- Added a new column "Has Role" in User Window
 INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,56541,0,17,'HasRole',TO_DATE('2013-10-23 14:53:06','YYYY-MM-DD HH24:MI:SS'),0,'Has Role Y/N','D',1,'Y','HasRole','Has Role Y/N',TO_DATE('2013-10-23 14:53:06','YYYY-MM-DD HH24:MI:SS'),0)

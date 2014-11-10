@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- Nov 2, 2013 12:13:15 PM IST
 -- Create Template Role
 INSERT INTO AD_Role (AD_Client_ID,AD_Org_ID,AD_Role_ID,Allow_Info_Account,Allow_Info_Asset,Allow_Info_BPartner,Allow_Info_CashJournal,Allow_Info_CRP,Allow_Info_InOut,Allow_Info_Invoice,Allow_Info_MRP,Allow_Info_Order,Allow_Info_Payment,Allow_Info_Product,Allow_Info_Resource,Allow_Info_Schedule,AmtApproval,ConfirmQueryRecords,Created,CreatedBy,IsAccessAllOrgs,IsActive,IsCanApproveOwnDoc,IsCanExport,IsCanReport,IsChangeLog,IsManual,IsPersonalAccess,IsPersonalLock,IsShowAcct,IsUseUserOrgAccess,MaxQueryRecords,Name,OverwritePriceLimit,PreferenceType,Updated,UpdatedBy,UserDiscount,UserLevel) VALUES (0,0,50008,'Y','N','Y','N','N','Y','Y','N','Y','Y','Y','N','N',0,0,TO_DATE('2013-11-02 12:13:14','YYYY-MM-DD HH24:MI:SS'),0,'N','Y','N','Y','Y','N','N','N','N','N','N',0,'Role Template','N','O',TO_DATE('2013-11-02 12:13:14','YYYY-MM-DD HH24:MI:SS'),0,0,'S  ')

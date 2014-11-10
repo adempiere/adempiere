@@ -1,3 +1,7 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
+
 -- Dec 10, 2013 11:01:47 AM IST
 -- Corrected the Class Names for Copy Account Process
 UPDATE AD_Process SET Classname='org.compiere.process.ProductCategoryAcctCopy',Updated=TO_DATE('2013-12-10 11:01:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Process_ID=140

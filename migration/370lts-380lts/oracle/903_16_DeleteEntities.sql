@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+SET SCAN OFF
 -- Oct 25, 2013 7:26:50 PM IST
 -- 'Delete Entities' Form into ADempiere380
 INSERT INTO AD_Form (AccessLevel,AD_Client_ID,AD_Form_ID,AD_Org_ID,Classname,Created,CreatedBy,EntityType,IsActive,IsBetaFunctionality,Name,Updated,UpdatedBy) VALUES ('3',0,53039,0,'org.compiere.apps.form.VDelete',TO_DATE('2013-10-25 19:26:48','YYYY-MM-DD HH24:MI:SS'),0,'D','Y','N','Delete Entities',TO_DATE('2013-10-25 19:26:48','YYYY-MM-DD HH24:MI:SS'),0)
