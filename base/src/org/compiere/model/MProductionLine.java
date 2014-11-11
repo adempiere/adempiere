@@ -334,10 +334,7 @@ public class MProductionLine extends X_M_ProductionLine  implements IDocumentLin
 	public Timestamp getDateAcct(){
 		return getM_ProductionPlan().getM_Production().getMovementDate();
 	}
-	public BigDecimal getMovementQty()
-	{
-		return getMovementQty();
-	}
+	
 	public boolean isSOTrx(){
 		return false;
 	}
