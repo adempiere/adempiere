@@ -167,6 +167,10 @@
   	<mkdir dir="${build.dir}/Adempiere/packages/liberoHR/lib"/>
   	<copy file="../packages/liberoHR.jar" tofile="${build.dir}/Adempiere/packages/liberoHR/lib/liberoHR.jar"/>
 
+	<mkdir dir="${build.dir}/Adempiere/zkpackages/liberoHR"/>
+	<mkdir dir="${build.dir}/Adempiere/zkpackages/liberoHR/lib"/>
+	<copy file="../zkpackages/liberozkHR.jar" tofile="${build.dir}/Adempiere/zkpackages/liberozkHR/lib/liberozkHR.jar"/>
+
   	<copy file="../lib/CheckConflicts.sh" tofile="${build.dir}/Adempiere/lib/CheckConflicts.sh"/>
 
 	<!-- Base Directory			-->
