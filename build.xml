@@ -96,7 +96,8 @@
 
     <!-- Transfer liberozkHR.jar -->
     <copy file="${dist}/lib/liberozkHR.jar" todir="${env.ADEMPIERE_HOME}/zkpackages/liberozkHR/lib"/>
-    <copy file="${dist}/lib/liberozkHR.jar" todir="${adempiere.trunk}/zkpackages/"/>
+    <copy file="${dist}/lib/liberozkHR.jar" todir="${adempiere.trunk}/zkpackages"/>
+      
     <delete dir="${build}"/>
     <delete dir="${buildPatches}"/>
   </target>
