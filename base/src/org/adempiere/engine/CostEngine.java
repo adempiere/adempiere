@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.compiere.acct.DocLine;
 import org.compiere.model.I_C_InvoiceLine;
 import org.compiere.model.I_C_OrderLine;
 import org.compiere.model.I_C_ProjectIssue;
@@ -43,6 +44,7 @@ import org.compiere.model.MCost;
 import org.compiere.model.MCostDetail;
 import org.compiere.model.MCostElement;
 import org.compiere.model.MCostType;
+import org.compiere.model.MCurrency;
 import org.compiere.model.MDocType;
 import org.compiere.model.MInOutLine;
 import org.compiere.model.MInventoryLine;
@@ -61,6 +63,7 @@ import org.compiere.model.MTransaction;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
 import org.compiere.model.X_M_ProductionLine;
+import org.compiere.model.X_M_ProductionPlan;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -210,6 +213,61 @@ public class CostEngine {
 					accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
 
 		return actualCost;
+	}
+	
+	public static BigDecimal getParentActualCostByCostTypeProduction(MAcctSchema accountSchema, MCostType costType, 
+			MCostElement costElement, X_M_ProductionLine model) {
+		//	Get BOM Cost - Sum of individual lines
+		BigDecimal bomCost = Env.ZERO;	
+		StringBuffer whereClause = new StringBuffer();
+		whereClause.append(MCostDetail.COLUMNNAME_M_CostType_ID + "=? AND ");
+		whereClause.append(MCostDetail.COLUMNNAME_M_CostElement_ID + "=? AND ");
+		whereClause.append(MCostDetail.COLUMNNAME_M_ProductionLine_ID + "=? ");
+		int M_ProductionPlan = model.getM_ProductionPlan_ID();
+		List<MProductionLine> pLines = new Query(model.getCtx(), MProductionLine.Table_Name, "M_Productionplan_ID=?", null) 
+			.setOnlyActiveRecords(true)
+			.setParameters(M_ProductionPlan)
+			.list();
+		MCost cost = null;
+		int precision = MCurrency.getStdPrecision(model.getCtx(), accountSchema.getC_Currency_ID());
+		for (MProductionLine pLine:pLines)
+		{
+			if (pLine.isParent())
+				continue;
+
+			BigDecimal actualCostTotal = new Query(model.getCtx(),
+					I_M_CostDetail.Table_Name, whereClause.toString(),
+					model.get_TrxName())
+					.setClient_ID()
+					.setParameters(costType.getM_CostType_ID(), costElement.getM_CostElement_ID(),
+							pLine.getM_ProductionLine_ID())
+					.sum("(" + MCostDetail.COLUMNNAME_Amt + "+"
+							+ MCostDetail.COLUMNNAME_AmtLL + ")");
+			if (actualCostTotal.compareTo(Env.ZERO) != 0)
+			{
+
+				if (actualCostTotal != null && actualCostTotal.scale() > precision)
+				{
+					actualCostTotal.setScale(precision, BigDecimal.ROUND_HALF_UP);					
+				}
+
+				bomCost.add(actualCostTotal);				
+			}
+			else
+			{
+				cost = MCost.validateCostForCostType(accountSchema, costType, costElement,
+						pLine.getM_Product_ID(), model.getAD_Org_ID(), model.getM_Locator().getM_Warehouse_ID(),
+						model.getM_AttributeSetInstance_ID(), model.get_TrxName());
+				actualCostTotal = cost.getCurrentCostPrice().multiply(pLine.getMovementQty().negate());
+				if (actualCostTotal != null && actualCostTotal.scale() > precision)
+				{
+					actualCostTotal.setScale(precision, BigDecimal.ROUND_HALF_UP);						
+				}
+				bomCost = bomCost.add(cost.getCurrentCostPrice().multiply(pLine.getMovementQty().negate()));				
+			}
+	    }
+		bomCost = bomCost.divide(model.getM_ProductionPlan().getProductionQty(), precision, BigDecimal.ROUND_HALF_UP);
+		return bomCost;
 	}
 
 	protected static BigDecimal roundCost(BigDecimal price, int accountSchemaId) {
@@ -384,13 +442,14 @@ public class CostEngine {
 					costLowLevel = CostEngine.getParentActualCostByCostType(
                             accountSchema, costType.getM_CostType_ID(), costElement.getM_CostElement_ID(), costCollector.getPP_Order()
                     );
-				}
+				} 
 			}
 			if (model instanceof MProductionLine) {
+				
 				MProductionLine productionLine = (MProductionLine) model;
-				costThisLevel = CostEngine.getParentActualCostByCostType(
-                        accountSchema, costType.getM_CostType_ID(), costElement.getM_CostElement_ID(), productionLine
-                );
+				if (productionLine.isParent())
+						costThisLevel = CostEngine.getParentActualCostByCostTypeProduction(
+                        accountSchema, costType, costElement, productionLine);
 				
 				if(costThisLevel.signum() == 0)
 					costThisLevel = cost.getCurrentCostPrice();
@@ -412,7 +471,7 @@ public class CostEngine {
 						costThisLevel = Env.ZERO;
 					} 
 				} else if ( productionLine.getMovementQty().signum() < 0)
-					costThisLevel= Env.ZERO;
+					costLowLevel= Env.ZERO;
 			}
 		}
 
@@ -689,7 +748,7 @@ public class CostEngine {
 			}
 			else
 			{
-				System.out.println ("Document no implementado :" + transaction);
+				System.out.println ("Document does not exist :" + transaction);
 			}	
 
 	}
@@ -713,6 +772,8 @@ public class CostEngine {
 			docBaseType = MPeriodControl.DOCBASETYPE_MatchInvoice;
 		else if (model instanceof MMatchPO)
 			docBaseType = MPeriodControl.DOCBASETYPE_MatchPO;
+		else if (model instanceof MProduction)
+			docBaseType = MPeriodControl.DOCBASETYPE_MaterialProduction;
 		else
 		{		
 			MDocType dt = MDocType.get(model.getCtx(), model.get_ValueAsInt(MDocType.COLUMNNAME_C_DocType_ID));
@@ -722,7 +783,7 @@ public class CostEngine {
 		Boolean openPeriod = MPeriod.isOpen(model.getCtx(), dateAcct , docBaseType ,  model.getAD_Org_ID());
 		if (!openPeriod)
 		{	
-			System.out.println("Periodo Cerrado no se puede restablecer al contabilidad para este documento.");
+			System.out.println("Period closed.");
 			return false;
 		}	
 

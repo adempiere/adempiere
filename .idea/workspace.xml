@@ -2,18 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f088a603-86f9-4692-ad7b-06b6ff86e906" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/acct/Doc_InOut.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/acct/Doc_InOut.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/acct/Doc_Inventory.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/acct/Doc_Inventory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/acct/Doc_MatchInv.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/acct/Doc_MatchInv.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/acct/Doc_Movement.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/acct/Doc_Movement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/acct/FactLine.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/acct/FactLine.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/org/compiere/apps/search/InfoPAttribute.java" afterPath="$PROJECT_DIR$/client/src/org/compiere/apps/search/InfoPAttribute.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/InfoPAttributePanel.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/InfoPAttributePanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/adempiere/engine/AverageInvoiceCostingMethod.java" afterPath="$PROJECT_DIR$/base/src/org/adempiere/engine/AverageInvoiceCostingMethod.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/adempiere/engine/CostEngine.java" afterPath="$PROJECT_DIR$/base/src/org/adempiere/engine/CostEngine.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/acct/DocLine.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/acct/DocLine.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/acct/Doc_Production.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/acct/Doc_Production.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/process/ProductionCreate.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/process/ProductionCreate.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="adempiereDevelop.iws" />
     <ignored path=".idea/workspace.xml" />
+    <ignored path="$PROJECT_DIR$/bin/" />
+    <ignored path=".idea/dataSources.local.xml" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,8 +67,8 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <ui_properties converted="true" />
     <breakpoint_rules converted="true" />
+    <ui_properties converted="true" />
   </component>
   <component name="DiffToolSettings">
     <option name="WHITESPACES" value="true" />
@@ -79,120 +79,22 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MMigration.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MMigration.java">
+      <file leaf-file-name="AverageInvoiceCostingMethod.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/base/src/org/adempiere/engine/AverageInvoiceCostingMethod.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="3474" max-vertical-offset="4545">
-              <caret line="285" column="47" selection-start-line="285" selection-start-column="47" selection-end-line="285" selection-end-column="47" />
+            <state vertical-scroll-proportion="0.27162978" vertical-offset="0" max-vertical-offset="12450">
+              <caret line="33" column="40" selection-start-line="33" selection-start-column="13" selection-end-line="33" selection-end-column="40" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Doc_Inventory.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/base/src/org/compiere/acct/Doc_Inventory.java">
+      <file leaf-file-name="AbstractCostingMethod.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/base/src/org/adempiere/engine/AbstractCostingMethod.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2577" max-vertical-offset="3345">
-              <caret line="219" column="25" selection-start-line="219" selection-start-column="25" selection-end-line="219" selection-end-column="25" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="36" max-vertical-offset="5490">
+              <caret line="43" column="22" selection-start-line="43" selection-start-column="22" selection-end-line="43" selection-end-column="22" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Doc_MatchInv.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/base/src/org/compiere/acct/Doc_MatchInv.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="3059" max-vertical-offset="5745">
-              <caret line="255" column="38" selection-start-line="255" selection-start-column="38" selection-end-line="255" selection-end-column="38" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Doc_Movement.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/base/src/org/compiere/acct/Doc_Movement.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1992" max-vertical-offset="2760">
-              <caret line="190" column="72" selection-start-line="190" selection-start-column="72" selection-end-line="190" selection-end-column="72" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="WPAttributeEditor.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/editor/WPAttributeEditor.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.81765836" vertical-offset="5244" max-vertical-offset="6600">
-              <caret line="395" column="0" selection-start-line="395" selection-start-column="0" selection-end-line="395" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#5552#5553#0" expanded="true" />
-                <element signature="e#5575#5576#0" expanded="true" />
-                <element signature="e#5627#5628#0" expanded="true" />
-                <element signature="e#5666#5667#0" expanded="true" />
-                <element signature="e#6327#6328#0" expanded="true" />
-                <element signature="e#6358#6359#0" expanded="true" />
-                <element signature="e#6486#6487#0" expanded="true" />
-                <element signature="e#6524#6525#0" expanded="true" />
-                <element signature="e#11833#11834#0" expanded="true" />
-                <element signature="e#11885#11886#0" expanded="true" />
-                <element signature="e#11929#11930#0" expanded="true" />
-                <element signature="e#11981#11982#0" expanded="true" />
-                <element signature="e#12574#12575#0" expanded="true" />
-                <element signature="e#12598#12599#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="InfoProductPanel.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/InfoProductPanel.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="4116" max-vertical-offset="29565">
-              <caret line="353" column="32" selection-start-line="353" selection-start-column="32" selection-end-line="353" selection-end-column="32" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FactLine.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/base/src/org/compiere/acct/FactLine.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="14874" max-vertical-offset="16575">
-              <caret line="1044" column="32" selection-start-line="1044" selection-start-column="19" selection-end-line="1044" selection-end-column="36" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Doc_InOut.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/base/src/org/compiere/acct/Doc_InOut.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.076923" vertical-offset="7238" max-vertical-offset="7980">
-              <caret line="528" column="93" selection-start-line="528" selection-start-column="93" selection-end-line="528" selection-end-column="93" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DocLine.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/base/src/org/compiere/acct/DocLine.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="44" max-vertical-offset="16305">
-              <caret line="49" column="11" selection-start-line="49" selection-start-column="11" selection-end-line="49" selection-end-column="11" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Fact.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/base/src/org/compiere/acct/Fact.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.5" vertical-offset="10628" max-vertical-offset="13575">
-              <caret line="753" column="41" selection-start-line="753" selection-start-column="34" selection-end-line="753" selection-end-column="41" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -207,62 +109,8 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/org.eevolution.manufacturing" />
   </component>
-  <component name="IdeDocumentHistory">
-    <option name="changedFiles">
-      <list>
-        <option value="$PROJECT_DIR$/db/ddlutils/oracle/views/RV_TRANSACTION_COSTING.sql" />
-        <option value="$PROJECT_DIR$/db/ddlutils/postgresql/views/RV_TRANSACTION_COSTING.sql" />
-        <option value="$PROJECT_DIR$/db/ddlutils/postgresql/views/RV_M_TRANSACTION_COSTING.sql" />
-        <option value="$PROJECT_DIR$/db/ddlutils/oracle/views/RV_M_TRANSACTION_COSTING.sql" />
-        <option value="$PROJECT_DIR$/base/src/org/adempiere/engine/CostDimension.java" />
-        <option value="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/eevolution/process/MRP.java" />
-        <option value="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/WListItemRenderer.java" />
-        <option value="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/WListbox.java" />
-        <option value="$PROJECT_DIR$/client/src/org/eevolution/form/Browser.java" />
-        <option value="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/eevolution/form/WBrowser.java" />
-        <option value="$PROJECT_DIR$/client/src/org/eevolution/form/VBrowser.java" />
-        <option value="$PROJECT_DIR$/base/src/org/compiere/model/CalloutInventory.java" />
-        <option value="$PROJECT_DIR$/base/src/org/adempiere/engine/StandardCostingMethod.java" />
-        <option value="$PROJECT_DIR$/base/src/org/adempiere/engine/CostEngine.java" />
-        <option value="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/eevolution/process/RollupBillOfMaterial.java" />
-        <option value="$PROJECT_DIR$/posterita/posterita/src/main/org/posterita/businesslogic/POSProductManager.java" />
-        <option value="$PROJECT_DIR$/base/src/org/compiere/model/MCost.java" />
-        <option value="$PROJECT_DIR$/base/src/org/compiere/model/MProductCategoryAcct.java" />
-        <option value="$PROJECT_DIR$/extend/src/test/functional/MCostElementTest.java" />
-        <option value="$PROJECT_DIR$/base/src/org/compiere/model/MCostElement.java" />
-        <option value="$PROJECT_DIR$/base/src/org/compiere/model/MAcctSchema.java" />
-        <option value="$PROJECT_DIR$/base/src/org/compiere/process/CostUpdate.java" />
-        <option value="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/compiere/acct/Doc_PPCostCollector.java" />
-        <option value="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/ui/zk/org/eevolution/form/WCRP.java" />
-        <option value="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/ui/zk/org/eevolution/form/WCRPDetail.java" />
-        <option value="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/ui/zk/org/eevolution/form/WMRPDetailed.java" />
-        <option value="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/ui/zk/org/eevolution/form/WOrderReceiptIssue.java" />
-        <option value="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/ui/zk/org/eevolution/form/WTreeBOM.java" />
-        <option value="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/ADTabpanel2.java" />
-        <option value="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/AbstractADWindowPanel.java" />
-        <option value="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/ADTabPanel.java" />
-        <option value="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/IADTabPanel.java" />
-        <option value="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/ADWindowPanel.java" />
-        <option value="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/ADSortTab.java" />
-        <option value="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/editor/WEditor.java" />
-        <option value="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/StringBox.java" />
-        <option value="$PROJECT_DIR$/base/src/org/compiere/print/layout/LayoutEngine.java" />
-        <option value="$PROJECT_DIR$/migration/380lts-release/oracle/924_003_M_CostQueue_NewField.sql" />
-        <option value="$PROJECT_DIR$/base/src/org/compiere/print/PrintData.java" />
-        <option value="$PROJECT_DIR$/base/src/org/adempiere/engine/AbstractCostingMethod.java" />
-        <option value="$PROJECT_DIR$/base/src/org/compiere/model/MCostDetail.java" />
-        <option value="$PROJECT_DIR$/base/src/org/adempiere/engine/AverageInvoiceCostingMethod.java" />
-        <option value="$PROJECT_DIR$/base/src/org/eevolution/process/BrowseCopyFrom.java" />
-        <option value="$PROJECT_DIR$/base/src/org/eevolution/process/ViewCopyFrom.java" />
-        <option value="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/InfoPAttributePanel.java" />
-        <option value="$PROJECT_DIR$/base/src/org/compiere/acct/FactLine.java" />
-        <option value="$PROJECT_DIR$/base/src/org/compiere/acct/Doc_InOut.java" />
-        <option value="$PROJECT_DIR$/base/src/org/compiere/acct/Doc_Inventory.java" />
-        <option value="$PROJECT_DIR$/base/src/org/compiere/acct/Doc_MatchInv.java" />
-        <option value="$PROJECT_DIR$/base/src/org/compiere/acct/Doc_Movement.java" />
-        <option value="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/editor/WPAttributeEditor.java" />
-      </list>
-    </option>
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="23" />
@@ -882,6 +730,7 @@
       <setting name="testName" value="" />
       <setting name="testKind" value="Class" />
       <setting name="showProgressMessages" value="true" />
+      <envs />
       <method />
     </configuration>
     <configuration default="true" type="Remote" factoryName="Remote">
@@ -1074,21 +923,7 @@
       <setting name="testName" value="" />
       <setting name="testKind" value="Class" />
       <setting name="showProgressMessages" value="true" />
-      <method />
-    </configuration>
-    <configuration default="true" type="ScalaTestRunConfiguration" factoryName="ScalaTest">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <extension name="scalaCoverage" />
-      <module name="" />
-      <setting name="path" value="" />
-      <setting name="package" value="" />
-      <setting name="vmparams" value="" />
-      <setting name="params" value="" />
-      <setting name="workingDirectory" value="$PROJECT_DIR$" />
-      <setting name="searchForTest" value="Across module dependencies" />
-      <setting name="testName" value="" />
-      <setting name="testKind" value="Class" />
-      <setting name="showProgressMessages" value="true" />
+      <envs />
       <method />
     </configuration>
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
@@ -1109,6 +944,22 @@
       <option name="CLEAR_LOGCAT" value="false" />
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
       <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
+      <method />
+    </configuration>
+    <configuration default="true" type="ScalaTestRunConfiguration" factoryName="ScalaTest">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <extension name="scalaCoverage" />
+      <module name="" />
+      <setting name="path" value="" />
+      <setting name="package" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workingDirectory" value="$PROJECT_DIR$" />
+      <setting name="searchForTest" value="Across module dependencies" />
+      <setting name="testName" value="" />
+      <setting name="testKind" value="Class" />
+      <setting name="showProgressMessages" value="true" />
+      <envs />
       <method />
     </configuration>
     <list size="4">
@@ -1165,6 +1016,7 @@
     <task active="true" id="Default" summary="Default task">
       <changelist id="f088a603-86f9-4692-ad7b-06b6ff86e906" name="Default" comment="" />
       <created>1396124903315</created>
+      <option name="number" value="Default" />
       <updated>1396124903315</updated>
       <workItem from="1414517246116" duration="2124000" />
       <workItem from="1414677823833" duration="3163000" />
@@ -1175,44 +1027,48 @@
       <workItem from="1415287337457" duration="3038000" />
       <workItem from="1415305100448" duration="2231000" />
       <workItem from="1415376729536" duration="5593000" />
+      <workItem from="1416434458596" duration="584000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="29694000" />
+    <option name="totallyTimeSpent" value="30278000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1920" height="1053" extended-state="6" />
-    <editor active="false" />
+    <frame x="0" y="23" width="1920" height="1053" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32986766" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1486631" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16773163" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4106952" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4106952" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="JSF" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33553874" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.41925132" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
+      <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.24973376" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2859425" sideWeight="0.5" order="0" side_tool="true" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24147727" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2859425" sideWeight="0.5" order="0" side_tool="true" content_ui="combo" />
       <window_info id="SBT Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3289225" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24147727" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="SQL" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1486631" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4106952" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.41925132" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
       <window_info id="SBT Execute" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -1442,6 +1298,7 @@
       </breakpoints>
       <option name="time" value="96" />
     </breakpoint-manager>
+    <watches-manager />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
@@ -1696,7 +1553,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="2662" max-vertical-offset="6030">
           <caret line="221" column="47" selection-start-line="221" selection-start-column="47" selection-end-line="221" selection-end-column="47" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1714,13 +1570,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/adempiere/engine/AbstractCostingMethod.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="990" max-vertical-offset="5925">
-          <caret line="66" column="40" selection-start-line="66" selection-start-column="26" selection-end-line="66" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/base/src/org/adempiere/engine/AveragePOCostingMethod.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-17.2881" vertical-offset="8416" max-vertical-offset="9255">
@@ -1732,13 +1581,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.27184466" vertical-offset="595" max-vertical-offset="1110">
           <caret line="49" column="26" selection-start-line="49" selection-start-column="26" selection-end-line="49" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/adempiere/engine/AverageInvoiceCostingMethod.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="975" max-vertical-offset="12315">
-          <caret line="110" column="88" selection-start-line="110" selection-start-column="88" selection-end-line="110" selection-end-column="88" />
         </state>
       </provider>
     </entry>
@@ -1767,15 +1609,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="210" max-vertical-offset="12450">
           <caret line="51" column="29" selection-start-line="51" selection-start-column="29" selection-end-line="51" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MMigration.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3474" max-vertical-offset="4545">
-          <caret line="285" column="47" selection-start-line="285" selection-start-column="47" selection-end-line="285" selection-end-column="47" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1789,10 +1622,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/base/src/org/compiere/acct/Fact.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.5" vertical-offset="10628" max-vertical-offset="13575">
+        <state vertical-scroll-proportion="0.0" vertical-offset="10628" max-vertical-offset="13575">
           <caret line="753" column="41" selection-start-line="753" selection-start-column="34" selection-end-line="753" selection-end-column="41" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <element signature="n#!!doc" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1807,32 +1640,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/base/src/org/compiere/acct/Doc_InOut.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.076923" vertical-offset="7238" max-vertical-offset="7980">
+        <state vertical-scroll-proportion="0.0" vertical-offset="7238" max-vertical-offset="7980">
           <caret line="528" column="93" selection-start-line="528" selection-start-column="93" selection-end-line="528" selection-end-column="93" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/acct/Doc_Inventory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2577" max-vertical-offset="3345">
-          <caret line="219" column="25" selection-start-line="219" selection-start-column="25" selection-end-line="219" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/acct/Doc_MatchInv.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3059" max-vertical-offset="5745">
-          <caret line="255" column="38" selection-start-line="255" selection-start-column="38" selection-end-line="255" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/acct/Doc_Movement.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1992" max-vertical-offset="2760">
-          <caret line="190" column="72" selection-start-line="190" selection-start-column="72" selection-end-line="190" selection-end-column="72" />
           <folding />
         </state>
       </provider>
@@ -1847,25 +1656,59 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/editor/WPAttributeEditor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.81765836" vertical-offset="5244" max-vertical-offset="6600">
+        <state vertical-scroll-proportion="10.382409" vertical-offset="0" max-vertical-offset="6330">
           <caret line="395" column="0" selection-start-line="395" selection-start-column="0" selection-end-line="395" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#5552#5553#0" expanded="true" />
-            <element signature="e#5575#5576#0" expanded="true" />
-            <element signature="e#5627#5628#0" expanded="true" />
-            <element signature="e#5666#5667#0" expanded="true" />
-            <element signature="e#6327#6328#0" expanded="true" />
-            <element signature="e#6358#6359#0" expanded="true" />
-            <element signature="e#6486#6487#0" expanded="true" />
-            <element signature="e#6524#6525#0" expanded="true" />
-            <element signature="e#11833#11834#0" expanded="true" />
-            <element signature="e#11885#11886#0" expanded="true" />
-            <element signature="e#11929#11930#0" expanded="true" />
-            <element signature="e#11981#11982#0" expanded="true" />
-            <element signature="e#12574#12575#0" expanded="true" />
-            <element signature="e#12598#12599#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/acct/Doc_Movement.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.95219886" vertical-offset="1992" max-vertical-offset="2760">
+          <caret line="190" column="72" selection-start-line="190" selection-start-column="72" selection-end-line="190" selection-end-column="72" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/acct/Doc_MatchInv.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.48948374" vertical-offset="3059" max-vertical-offset="5745">
+          <caret line="255" column="38" selection-start-line="255" selection-start-column="38" selection-end-line="255" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/acct/Doc_Inventory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6367113" vertical-offset="2577" max-vertical-offset="3345">
+          <caret line="219" column="25" selection-start-line="219" selection-start-column="25" selection-end-line="219" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MMigration.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.32695985" vertical-offset="3474" max-vertical-offset="4545">
+          <caret line="285" column="47" selection-start-line="285" selection-start-column="47" selection-end-line="285" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/adempiere/engine/AbstractCostingMethod.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="36" max-vertical-offset="5490">
+          <caret line="43" column="22" selection-start-line="43" selection-start-column="22" selection-end-line="43" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/adempiere/engine/AverageInvoiceCostingMethod.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.27162978" vertical-offset="0" max-vertical-offset="12450">
+          <caret line="33" column="40" selection-start-line="33" selection-start-column="13" selection-end-line="33" selection-end-column="40" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1960,4 +1803,3 @@
     </states>
   </component>
 </project>
-

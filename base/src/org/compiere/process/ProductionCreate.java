@@ -1,8 +1,10 @@
 package org.compiere.process;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.logging.Level;
 
+import org.compiere.model.MCostType;
 import org.compiere.model.MProduction;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
@@ -22,19 +24,21 @@ public class ProductionCreate extends SvrProcess {
 	private boolean mustBeStocked = false;  //not used
 	private boolean recreate = false;
 	private BigDecimal newQty = null;
+	private int p_M_CostType_ID =0;
 	//private int p_M_Locator_ID=0;
 	
 	
-	protected void prepare() {
-		
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
-		{
-			String name = para[i].getParameterName();
+	protected void prepare() {for (ProcessInfoParameter para : getParameter())
+	{
+		String name = para.getParameterName();
+		if (para.getParameter() == null)
+			;
 			if ("Recreate".equals(name))
-				recreate = "Y".equals(para[i].getParameter());
+				recreate = "Y".equals(para.getParameter());
 			else if ("ProductionQty".equals(name))
-				newQty  = (BigDecimal) para[i].getParameter();
+				newQty  = (BigDecimal) para.getParameter();
+			else if (MCostType.COLUMNNAME_M_CostType_ID.equals(name))
+				p_M_CostType_ID = para.getParameterAsInt();
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);		
 		}
@@ -59,7 +63,11 @@ public class ProductionCreate extends SvrProcess {
 	
 	private boolean costsOK(int M_Product_ID) throws AdempiereUserError {
 		// Warning will not work if non-standard costing is used
-		
+		// SHW Parameter p_M_Costtype 
+
+		ArrayList<Object> params = new ArrayList<Object>();
+		params.add(M_Product_ID);
+		params.add(p_M_CostType_ID);
 		String sql = "SELECT ABS(((cc.currentcostprice-(SELECT SUM(c.currentcostprice*bom.qtybom)"
 			+ " FROM m_cost c"
 			+ " INNER JOIN pp_product_bomline bom ON (c.m_product_id=bom.m_product_id)"
@@ -68,11 +76,10 @@ public class ProductionCreate extends SvrProcess {
 			+ " )/cc.currentcostprice))"
 			+ " FROM m_product pp"
 			+ " INNER JOIN m_cost cc on (cc.m_product_id=pp.m_product_id)"
-			+ " INNER JOIN m_costelement ce ON (cc.m_costelement_id=ce.m_costelement_id)"
 			+ " WHERE cc.currentcostprice > 0 AND pp.M_Product_ID = ?"
-			+ " AND ce.costingmethod='S'";
+			+ " AND cc.m_costtype_ID=?";
 		
-		BigDecimal costPercentageDiff = DB.getSQLValueBD(get_TrxName(), sql, M_Product_ID);
+		BigDecimal costPercentageDiff = DB.getSQLValueBD(get_TrxName(), sql, params);
 		
 		if (costPercentageDiff == null)
 		{
@@ -89,8 +96,8 @@ public class ProductionCreate extends SvrProcess {
 		
 		int created = 0;
 		isBom(m_production.getM_Product_ID());
-		
-		if (!costsOK(m_production.getM_Product_ID()))
+		MCostType ct = new MCostType(getCtx(), p_M_CostType_ID, get_TrxName());
+		if (!costsOK(m_production.getM_Product_ID()) && ct.getCostingMethod().equals(MCostType.COSTINGMETHOD_StandardCosting))
 			throw new AdempiereUserError("Excessive difference in standard costs");
 		
 		if (!recreate && "true".equalsIgnoreCase(m_production.get_ValueAsString("IsCreated")))

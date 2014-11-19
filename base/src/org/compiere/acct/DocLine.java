@@ -751,46 +751,17 @@ public class DocLine
 	 *	@param zeroCostsOK zero/no costs are OK
 	 *  @return costs
 	 */
-	/*public BigDecimal getProductCosts (MAcctSchema as, int AD_Org_ID, boolean zeroCostsOK)
+	public BigDecimal getProductCosts (MAcctSchema as, int AD_Org_ID, boolean zeroCostsOK)
 	{
-		
-		final String whereClause = null;
+		ProductCost pc = getProductCost();
+		int C_OrderLine_ID = getC_OrderLine_ID();
+		String costingMethod = null;
+		BigDecimal costs = pc.getProductCosts(as, AD_Org_ID, 0,costingMethod, 
+			C_OrderLine_ID, zeroCostsOK);
+		if (costs != null)
+			return costs;
 		return Env.ZERO;
-		/*MCostDetail[] details = getCostDetail(as, AD_Org_ID);
-		if (zeroCostsOK && details.length == 0)
-		{
-			return Env.ZERO;
-		}
-		BigDecimal costs = Env.ZERO;
-		BigDecimal qty = Env.ZERO;
-		for (MCostDetail cd : details)
-		{
-			if (cd.isProcessed())
-			{
-				// TODO: re-process + cost adjustments
-			}
-			if (cd.isSOTrx())
-				costs = costs.subtract(cd.getAmt());
-			else
-				costs = costs.add(cd.getAmt());
-			qty = qty.add(cd.getQty());
-		
-			if (!cd.isProcessed())
-			{
-				cd.setProcessed(true);//ancabradau 
-				cd.saveEx();
-			}
-		}
-		// Check if Qty is same
-		// TODO: check if it's needed
-//		BigDecimal lineQty = getQty() == null ? Env.ZERO : getQty();
-//		if (lineQty.compareTo(qty) != 0)
-//		{
-//			throw new AdempiereException("Qty not match - LineQty="+lineQty+", CostsQty="+qty);
-//		}
-		return costs;*/
-		
-//	}   //  getProductCosts
+	}   //  getProductCosts
 
 	/**
 	 * 	Get Product 
