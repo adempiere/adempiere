@@ -5,6 +5,7 @@ package org.adempiere.engine;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
@@ -20,6 +21,7 @@ import org.compiere.model.MMatchInv;
 import org.compiere.model.MMatchPO;
 import org.compiere.model.MPeriod;
 import org.compiere.model.MProduct;
+import org.compiere.model.MProductionLine;
 import org.compiere.model.MTransaction;
 import org.compiere.model.Query;
 import org.compiere.util.Env;
@@ -42,6 +44,10 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
      * @param costLowLevel
      * @param isSalesTransaction
      */
+	
+	private Boolean isOpenPeriod = true;
+	private Timestamp dateAccounting = null;
+	private BigDecimal movementQuantity = Env.ZERO;
 	public void setCostingMethod(MAcctSchema accountSchema, MTransaction transaction, IDocumentLine model,
                                  MCost dimension, BigDecimal costThisLevel,
                                  BigDecimal costLowLevel, Boolean isSalesTransaction) {
@@ -61,16 +67,20 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 
         //Setting Accounting period status
         MDocType documentType = new MDocType(transaction.getCtx(), transaction.getDocumentLine().getC_DocType_ID(), transaction.get_TrxName());
-        this.isOpenPeriod = MPeriod.isOpen(transaction.getCtx(), model.getDateAcct() , documentType.getDocBaseType(), transaction.getAD_Org_ID());
+        String docbaseType = "";
+        if (model instanceof MProductionLine)
+        	docbaseType = MDocType.DOCBASETYPE_MaterialProduction;
+        else
+        	docbaseType = documentType.getDocBaseType();
+        this.isOpenPeriod = MPeriod.isOpen(transaction.getCtx(), model.getDateAcct() , docbaseType, transaction.getAD_Org_ID());
 
         //Setting Date Accounting based on Open Period
         if (this.isOpenPeriod)
             this.dateAccounting = model.getDateAcct();
-        else if (model instanceof MLandedCostAllocation || model instanceof MMatchInv) {
-                this.dateAccounting = ((MLandedCostAllocation) model).getC_InvoiceLine().getC_Invoice().getDateAcct();
-        }
         else
-            this.dateAccounting = null; // Is Necessary define that happen in this case when period is close
+        {
+            this.dateAccounting = null;         	
+        }
 
         this.movementQuantity = transaction.getMovementQty();
 	}
@@ -204,10 +214,31 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
             // If period is not open then an adjustment cost is create based on quantity on hand of attribute instance
             // the amount difference is apply to adjustment cost account, the reason is because is import distribute
             // proportionally
-			if (model instanceof MLandedCostAllocation || model instanceof MMatchInv)
+			if (model instanceof MLandedCostAllocation)
 			{
                 if (!isOpenPeriod) {
                     MLandedCostAllocation costAllocation = (MLandedCostAllocation) this.model;
+                    this.movementQuantity = MCostDetail.getQtyOnHandByASIAndSeqNo(
+                            transaction.getCtx(),
+                            transaction.getM_Product_ID(),
+                            dimension.getM_CostType_ID(),
+                            dimension.getM_CostElement_ID(),
+                            costAllocation.getM_InOutLine().getM_AttributeSetInstance_ID(),
+                            lastCostDetail.getSeqNo(),
+                            transaction.get_TrxName());
+
+                    accumulatedQuantity = getNewAccumulatedQuantity(lastCostDetail);
+                    currentCostPrice = movementQuantity.multiply(costThisLevel);
+                    currentCostPriceLowerLevel = movementQuantity.multiply(costLowLevel);
+                    adjustCost = currentCostPrice;
+                    adjustCostLowerLevel = currentCostPriceLowerLevel;
+                }
+			}
+
+			if (model instanceof MMatchInv)
+			{
+                if (!isOpenPeriod) {
+                	MMatchInv costAllocation = (MMatchInv) this.model;
                     this.movementQuantity = MCostDetail.getQtyOnHandByASIAndSeqNo(
                             transaction.getCtx(),
                             transaction.getM_Product_ID(),
