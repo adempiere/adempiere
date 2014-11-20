@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import org.compiere.acct.DocLine;
 import org.compiere.model.I_C_InvoiceLine;
 import org.compiere.model.I_C_OrderLine;
 import org.compiere.model.I_C_ProjectIssue;
@@ -44,7 +43,6 @@ import org.compiere.model.MCost;
 import org.compiere.model.MCostDetail;
 import org.compiere.model.MCostElement;
 import org.compiere.model.MCostType;
-import org.compiere.model.MCurrency;
 import org.compiere.model.MDocType;
 import org.compiere.model.MInOutLine;
 import org.compiere.model.MInventoryLine;
@@ -62,8 +60,7 @@ import org.compiere.model.MProjectIssue;
 import org.compiere.model.MTransaction;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
-import org.compiere.model.X_M_ProductionLine;
-import org.compiere.model.X_M_ProductionPlan;
+import org.compiere.model.X_M_Product;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -178,96 +175,43 @@ public class CostEngine {
 		return actualCost;
 	}
 
-    /**
-     * Get Actual Cost of Parent Product Based on Cost Type
-     * @param accountSchema
-     * @param costTypeId
-     * @param costElementId
-     * @param model
-     * @return
-     */
-	public static BigDecimal getParentActualCostByCostType(MAcctSchema accountSchema, int costTypeId, int costElementId, X_M_ProductionLine model) {
-		StringBuffer whereClause = new StringBuffer();
-
-		whereClause.append(MCostDetail.COLUMNNAME_M_CostType_ID + "=? AND ");
-		whereClause.append(MCostDetail.COLUMNNAME_M_CostElement_ID + "=? AND ");
-		whereClause.append(MCostDetail.COLUMNNAME_M_ProductionLine_ID);
-		whereClause.append(" IN (SELECT M_ProductionLine_ID FROM M_ProductionLine pl WHERE pl.M_ProductionPlan_ID=? AND ");
-		whereClause.append(" pl.M_Product_ID <> ? )");
-
-		BigDecimal actualCostTotal = new Query(model.getCtx(),
-				I_M_CostDetail.Table_Name, whereClause.toString(),
-				model.get_TrxName())
-				.setClient_ID()
-				.setParameters(costTypeId, costElementId,
-						model.getM_ProductionPlan_ID(), model.getM_Product_ID())
-				.sum("(" + MCostDetail.COLUMNNAME_Amt + "+"
-						+ MCostDetail.COLUMNNAME_AmtLL + ")");
-
-		if (actualCostTotal == null)
-			actualCostTotal = Env.ZERO;
-
-		BigDecimal actualCost = Env.ZERO;
-		if (model.getMovementQty().signum() != 0 && actualCostTotal.signum() != 0)
-			actualCost = actualCostTotal.divide(model.getMovementQty().abs(),
-					accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
-
-		return actualCost;
-	}
-	
-	public static BigDecimal getParentActualCostByCostTypeProduction(MAcctSchema accountSchema, MCostType costType, 
-			MCostElement costElement, X_M_ProductionLine model) {
+	public static BigDecimal getParentActualCostByCostType(MAcctSchema accountSchema, MCostType costType,
+			MCostElement costElement, I_M_Production production) {
 		//	Get BOM Cost - Sum of individual lines
-		BigDecimal bomCost = Env.ZERO;	
-		StringBuffer whereClause = new StringBuffer();
-		whereClause.append(MCostDetail.COLUMNNAME_M_CostType_ID + "=? AND ");
-		whereClause.append(MCostDetail.COLUMNNAME_M_CostElement_ID + "=? AND ");
-		whereClause.append(MCostDetail.COLUMNNAME_M_ProductionLine_ID + "=? ");
-		int M_ProductionPlan = model.getM_ProductionPlan_ID();
-		List<MProductionLine> pLines = new Query(model.getCtx(), MProductionLine.Table_Name, "M_Productionplan_ID=?", null) 
-			.setOnlyActiveRecords(true)
-			.setParameters(M_ProductionPlan)
-			.list();
-		MCost cost = null;
-		int precision = MCurrency.getStdPrecision(model.getCtx(), accountSchema.getC_Currency_ID());
-		for (MProductionLine pLine:pLines)
+		BigDecimal totalCost = Env.ZERO;
+		for (MProductionLine productionLine : ((MProduction)production).getLines())
 		{
-			if (pLine.isParent())
+			if (productionLine.isParent())
 				continue;
 
-			BigDecimal actualCostTotal = new Query(model.getCtx(),
-					I_M_CostDetail.Table_Name, whereClause.toString(),
-					model.get_TrxName())
-					.setClient_ID()
-					.setParameters(costType.getM_CostType_ID(), costElement.getM_CostElement_ID(),
-							pLine.getM_ProductionLine_ID())
-					.sum("(" + MCostDetail.COLUMNNAME_Amt + "+"
-							+ MCostDetail.COLUMNNAME_AmtLL + ")");
-			if (actualCostTotal.compareTo(Env.ZERO) != 0)
-			{
+			String productType = productionLine.getM_Product().getProductType();
 
-				if (actualCostTotal != null && actualCostTotal.scale() > precision)
-				{
-					actualCostTotal.setScale(precision, BigDecimal.ROUND_HALF_UP);					
-				}
+			BigDecimal cost = BigDecimal.ZERO;
 
-				bomCost.add(actualCostTotal);				
+			if (X_M_Product.PRODUCTTYPE_Item.equals(productType)) {
+				cost = MCostDetail.getCostByModel(accountSchema.getC_AcctSchema_ID(), costType.getM_CostType_ID() , costElement.getM_CostElement_ID() , productionLine);
 			}
-			else
+			else if(X_M_Product.PRODUCTTYPE_Resource.equals(productType))
 			{
-				cost = MCost.validateCostForCostType(accountSchema, costType, costElement,
-						pLine.getM_Product_ID(), model.getAD_Org_ID(), model.getM_Locator().getM_Warehouse_ID(),
-						model.getM_AttributeSetInstance_ID(), model.get_TrxName());
-				actualCostTotal = cost.getCurrentCostPrice().multiply(pLine.getMovementQty().negate());
-				if (actualCostTotal != null && actualCostTotal.scale() > precision)
-				{
-					actualCostTotal.setScale(precision, BigDecimal.ROUND_HALF_UP);						
-				}
-				bomCost = bomCost.add(cost.getCurrentCostPrice().multiply(pLine.getMovementQty().negate()));				
+				MCost costDimension = MCost.validateCostForCostType(accountSchema, costType, costElement,
+						productionLine.getM_Product_ID(), productionLine.getAD_Org_ID(), productionLine.getM_Locator().getM_Warehouse_ID(),
+						productionLine.getM_AttributeSetInstance_ID(), productionLine.get_TrxName());
+
+				if (costDimension != null && costDimension.getCurrentCostPrice().signum() != 0 )
+					cost = costDimension.getCurrentCostPrice().multiply(productionLine.getMovementQty().negate());
 			}
-	    }
-		bomCost = bomCost.divide(model.getM_ProductionPlan().getProductionQty(), precision, BigDecimal.ROUND_HALF_UP);
-		return bomCost;
+
+
+			if (cost != null && cost.signum() != 0)
+				totalCost = totalCost.add(cost);
+
+		}
+
+		BigDecimal unitCost = Env.ZERO;
+		if (production.getProductionQty().signum() != 0 && totalCost.signum() != 0)
+			unitCost = totalCost.divide(production.getProductionQty() , accountSchema.getCostingPrecision() , BigDecimal.ROUND_HALF_UP);
+
+		return unitCost;
 	}
 
 	protected static BigDecimal roundCost(BigDecimal price, int accountSchemaId) {
@@ -448,8 +392,8 @@ public class CostEngine {
 				
 				MProductionLine productionLine = (MProductionLine) model;
 				if (productionLine.isParent())
-						costThisLevel = CostEngine.getParentActualCostByCostTypeProduction(
-                        accountSchema, costType, costElement, productionLine);
+						costThisLevel = CostEngine.getParentActualCostByCostType(
+								accountSchema, costType, costElement, productionLine.getM_Production());
 				
 				if(costThisLevel.signum() == 0)
 					costThisLevel = cost.getCurrentCostPrice();

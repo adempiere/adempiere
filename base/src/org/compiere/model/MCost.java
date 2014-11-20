@@ -115,7 +115,7 @@ public class MCost extends X_M_Cost
 			
 			if (ce == null)
 				throw new IllegalArgumentException(
-						"No Costing Elemnt Material Type");
+						"No Costing Element Material Type");
 
 			if (ct == null)
 				throw new AdempiereException(

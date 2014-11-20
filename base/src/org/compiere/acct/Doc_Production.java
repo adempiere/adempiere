@@ -19,22 +19,19 @@ package org.compiere.acct;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 
-import javax.sound.sampled.Line;
-
-import org.adempiere.engine.CostEngineFactory;
 import org.compiere.model.MAcctSchema;
+import org.compiere.model.MCost;
 import org.compiere.model.MCostDetail;
-import org.compiere.model.MTransaction;
+import org.compiere.model.MCostElement;
+import org.compiere.model.MCostType;
+import org.compiere.model.MProduct;
 import org.compiere.model.ProductCost;
-import org.compiere.model.Query;
+import org.compiere.model.X_M_Product;
 import org.compiere.model.X_M_Production;
 import org.compiere.model.X_M_ProductionLine;
-import org.compiere.model.X_M_ProductionPlan;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 
@@ -87,40 +84,39 @@ public class Doc_Production extends Doc
 		//	Production
 		//	-- ProductionLine	- the real level
 		String sqlPL = "SELECT * FROM M_ProductionLine pl "
-			+ "WHERE pl.M_Production_ID=? "
-			+ "ORDER BY pl.m_productionplan_ID, movementqty , pl.Line";
+				+ "WHERE pl.M_Production_ID=? "
+				+ "ORDER BY pl.Line";
 
 		try
-		{			
-					PreparedStatement pstmtPL = DB.prepareStatement(sqlPL, getTrxName());
-					pstmtPL.setInt(1,get_ID());
-					ResultSet rsPL = pstmtPL.executeQuery();
-					while (rsPL.next())
-					{
-						X_M_ProductionLine line = new X_M_ProductionLine(getCtx(), rsPL, getTrxName());
-						int sel_product_ID = prod.getM_Product_ID() !=0 ? prod.getM_Product_ID():							
-								line.getM_ProductionPlan().getM_Product_ID();
-						if (line.getMovementQty().signum() == 0)
-						{
-							log.info("LineQty=0 - " + line);
-							continue;
-						}
-						DocLine docLine = new DocLine (line, this);
-						docLine.setQty (line.getMovementQty(), false);
-						//	Identify finished BOM Product
-						docLine.setProductionBOM(line.getM_Product_ID() == sel_product_ID);
-						//
-						log.fine(docLine.toString());
-						list.add (docLine);
-					}
-					rsPL.close();
-					pstmtPL.close();
-				}
-				catch (Exception ee)
+		{
+
+			PreparedStatement pstmtPL = DB.prepareStatement(sqlPL, getTrxName());
+			pstmtPL.setInt(1,get_ID());
+			ResultSet rsPL = pstmtPL.executeQuery();
+			while (rsPL.next())
+			{
+				X_M_ProductionLine line = new X_M_ProductionLine(getCtx(), rsPL, getTrxName());
+				if (line.getMovementQty().signum() == 0)
 				{
-					log.log(Level.SEVERE, sqlPL, ee);
+					log.info("LineQty=0 - " + line);
+					continue;
 				}
-			
+				DocLine docLine = new DocLine (line, this);
+				docLine.setQty (line.getMovementQty(), false);
+				//	Identify finished BOM Product
+				docLine.setProductionBOM(line.getM_Product_ID() == prod.getM_Product_ID());
+				//
+				log.fine(docLine.toString());
+				list.add (docLine);
+			}
+			rsPL.close();
+			pstmtPL.close();
+		}
+		catch (Exception ee)
+		{
+			log.log(Level.SEVERE, sqlPL, ee);
+		}
+
 		DocLine[] dl = new DocLine[list.size()];
 		list.toArray(dl);
 		return dl;
@@ -153,45 +149,195 @@ public class Doc_Production extends Doc
 		setC_Currency_ID (as.getC_Currency_ID());
 
 		//  Line pointer
+		FactLine factLine = null;
+		BigDecimal total = Env.ZERO;
+		DocLine parentProductionLine = null;
+
+		for (DocLine line : p_lines) {
+
+			MProduct product = line.getProduct();
+			if (line.isProductionBOM())
+				parentProductionLine = line;
+
+			if (X_M_Product.PRODUCTTYPE_Item.equals(product.getProductType()))
+			{
+				BigDecimal totalCosts = Env.ZERO;
+				for (MCostDetail cost : line.getCostDetail(as, false)) {
+
+					if (!MCostDetail.existsCost(cost))
+						continue;
+
+					BigDecimal costTransaction =  MCostDetail.getTotalCost(cost, as);
+
+					totalCosts = totalCosts.add(costTransaction);
+
+					String description = cost.getM_CostElement().getName() + " " + cost.getM_CostType().getName();
+
+					if (cost.getQty().signum() > 0)
+					{
+						// Debit Work in Process credit  Inventory
+						factLine = fact.createLine(line,  line.getAccount(ProductCost.ACCTTYPE_P_Asset, as), line.getAccount(ProductCost.ACCTTYPE_P_WorkInProcess, as),
+								as.getC_Currency_ID() , costTransaction.abs());
+					}
+					else if (cost.getQty().signum() < 0)
+					{
+						// Debit  Inventory credit  Work in Process
+						factLine = fact.createLine(line, line.getAccount(ProductCost.ACCTTYPE_P_WorkInProcess, as), line.getAccount(ProductCost.ACCTTYPE_P_Asset, as),
+								as.getC_Currency_ID() , costTransaction.abs());
+
+
+					}
+					factLine.setM_Product_ID(cost.getM_Product_ID());
+					factLine.setM_Locator_ID(line.getM_LocatorTo_ID());
+					factLine.setDescription(description);
+					factLine.saveEx();
+
+					total = total.add(totalCosts);
+
+				}
+			}
+			else if (X_M_Product.PRODUCTTYPE_Item.equals(product.getProductType()))
+			{
+				BigDecimal totalCosts = Env.ZERO;
+				for (MCostElement costElement :  MCostElement.getCostElement(line.getCtx(), line.getTrxName())) {
+					int warehouseId = DB.getSQLValue(line.getTrxName() , "SELECT M_Warehouse_ID WHERE M_Locator WHERE M_Locator_ID=?", line.getM_Locator_ID());
+					BigDecimal costTransaction = Env.ZERO;
+					MCost costDimension = MCost.validateCostForCostType(
+							 as,
+							 (MCostType)as.getM_CostType() ,
+							 costElement,
+							 product.getM_Product_ID(),
+							 line.getAD_Org_ID() ,
+							 warehouseId ,
+							 line.getM_AttributeSetInstance_ID() ,
+							 line.getTrxName());
+
+					if (costDimension != null)
+						costTransaction = costDimension.getCurrentCostPrice().add(costDimension.getCurrentCostPriceLL());
+
+					totalCosts = totalCosts.add(costTransaction.multiply(line.getQty()));
+
+					String description = costElement.getName() + " " + as.getM_CostType().getName();
+
+					if (line.getQty().signum() > 0)
+					{
+						// Debit Cost of Production Credit Working in process
+						factLine = fact.createLine(line,  line.getAccount(ProductCost.ACCTTYPE_P_CostOfProduction, as), line.getAccount(ProductCost.ACCTTYPE_P_WorkInProcess, as),
+								as.getC_Currency_ID() , costTransaction.abs());
+					}
+					else if (line.getQty().signum() < 0 )
+					{
+						// Debit Work in Process credit Cost of Production
+						factLine = fact.createLine(line, line.getAccount(ProductCost.ACCTTYPE_P_WorkInProcess, as), line.getAccount(ProductCost.ACCTTYPE_P_CostOfProduction , as),
+								as.getC_Currency_ID() , costTransaction.abs());
+					}
+
+					factLine.setM_Product_ID(line.getM_Product_ID());
+					factLine.setM_Locator_ID(line.getM_LocatorTo_ID());
+					factLine.setDescription(description);
+					factLine.saveEx();
+				}
+				total = total.add(totalCosts);
+			}
+		}
+
+		// When total no is zero then create an adjustment cost , can happen when of resource rate was changes from original cost finish good
+		if (total.signum() != 0)
+		{
+			factLine = fact.createLine( parentProductionLine , parentProductionLine.getAccount(ProductCost.ACCTTYPE_P_CostAdjustment, as),
+					as.getC_Currency_ID() , total);
+			factLine.setM_Product_ID(parentProductionLine.getM_Product_ID());
+			factLine.setM_Locator_ID(parentProductionLine.getM_LocatorTo_ID());
+			factLine.setDescription(" Adjustment Cost");
+			factLine.saveEx();
+
+		}
+
+		ArrayList<Fact> facts = new ArrayList<Fact>();
+		facts.add(fact);
+		return facts;
+	}   //  createFact
+
+	/**
+	 *  Create Facts (the accounting logic) for
+	 *  MMP.
+	 *  <pre>
+	 *  Production
+	 *      Inventory       DR      CR
+	 *  </pre>
+	 *  @param as account schema
+	 *  @return Fact
+	 */
+	/*public ArrayList<Fact> createFacts (MAcctSchema as)
+	{
+		//  create Fact Header
+		Fact fact = new Fact(this, as, Fact.POST_Actual);
+		setC_Currency_ID (as.getC_Currency_ID());
+
+		//  Line pointer
 		FactLine fl = null;
-		BigDecimal totalCost = Env.ZERO;
 		for (int i = 0; i < p_lines.length; i++)
 		{
-			DocLine line = p_lines[i];	
-
+			DocLine line = p_lines[i];
+			//	Calculate Costs
 			BigDecimal costs = null;
+
+			 adaxa-pb don't use cost details
 			// MZ Goodwill
-			// if Production CostDetail exist then get Cost from Cost Detail 
-			
-				
-				if (line.getCostDetail(as , false).size() == 0)
+			// if Production CostDetail exist then get Cost from Cost Detail
+			MCostDetail cd = MCostDetail.get (as.getCtx(), "M_ProductionLine_ID=?",
+					line.get_ID(), line.getM_AttributeSetInstance_ID(), as.getC_AcctSchema_ID(), getTrxName());
+			if (cd != null)
+				costs = cd.getAmt();
+			else
+
+			{
+				int variedHeader = 0;
+				BigDecimal variance = null;
+				costs = line.getProductCosts(as, line.getAD_Org_ID(), false);
+				if (line.isProductionBOM() && line.getM_Production_ID() != variedHeader )
 				{
-					String sqlDelete = "delete from m_costdetail where m_productionline_ID=" + line.get_ID();
-					if (line.isProductionBOM())
-						DB.executeUpdateEx(sqlDelete, null);
-					
 					//	Get BOM Cost - Sum of individual lines
-					List<MTransaction> transactions = new Query(getCtx(), MTransaction.Table_Name, "m_Productionline_ID=?", null)
-						.setParameters(line.get_ID())
-						.list();
-					for (MTransaction mtrx :transactions)
+					BigDecimal bomCost = Env.ZERO;
+					for (int ii = 0; ii < p_lines.length; ii++)
 					{
-						CostEngineFactory.getCostEngine(getAD_Client_ID()).createCostDetail(mtrx);
+						DocLine line0 = p_lines[ii];
+						if (line0.getM_Production_ID() != line.getM_Production_ID())
+							continue;
+						//pb changed this 20/10/06
+						 if ( !line0.isProductionBOM() )
+						bomCost = bomCost.add(line0.getProductCosts(as, line.getAD_Org_ID(), false).setScale(2,BigDecimal.ROUND_HALF_UP));
 					}
-				}	
-				for (MCostDetail cost : line.getCostDetail(as , false))
-				{
-					if(!MCostDetail.existsCost(cost))
-						continue;	 					
-					costs = MCostDetail.getTotalCost(cost, as);						
+					variance = (costs.setScale(2,BigDecimal.ROUND_HALF_UP)).subtract(bomCost.negate());
+					//TODO use currency precision instead of hardcoded 2
+					// get variance account
+					int validCombination = MAcctSchemaDefault.get(getCtx(),
+							as.get_ID()).getP_RateVariance_Acct();
+					MAccount base = MAccount.get(getCtx(), validCombination);
+					MAccount account = MAccount.get(getCtx(),as.getAD_Client_ID(),as.getAD_Org_ID(),
+							as.get_ID(), base.getAccount_ID(), 0,0,0,0,0,0,0,0,0,0,0,0,0,0, null);
+					//
+					// only post variance if it's not zero
+					if (variance.compareTo(new BigDecimal("0.00")) != 0)
+					{
+						//post variance
+						fl = fact.createLine(line,
+								account,
+								as.getC_Currency_ID(), variance.negate());
+						fl.setQty(Env.ZERO);
+						if (fl == null)
+						{
+							p_Error = "Couldn't post variance " + line.getLine() + " - " + line;
+							return null;
+						}
+					}
+					// costs = bomCost.negate();
 				}
-				if (line.isProductionBOM())
-					costs = totalCost;
 				else
-					costs = costs.negate();
-					
+					costs = line.getProductCosts(as, line.getAD_Org_ID(), false);
+			}
 			// end MZ
-			
+
 			//  Inventory       DR      CR
 			fl = fact.createLine(line,
 				line.getAccount(ProductCost.ACCTTYPE_P_Asset, as),
@@ -201,34 +347,25 @@ public class Doc_Production extends Doc
 				p_Error = "No Costs for Line " + line.getLine() + " - " + line;
 				return null;
 			}
-
-			if (!line.isProductionBOM())
-			{
-				totalCost = totalCost.add(fl.getAmtAcctCr());
-			}
 			fl.setM_Locator_ID(line.getM_Locator_ID());
 			fl.setQty(line.getQty());
-			
+
 			//	Cost Detail
 			String description = line.getDescription();
 			if (description == null)
 				description = "";
 			if (line.isProductionBOM())
 				description += "(*)";
-
-			if (line.isProductionBOM())
-				totalCost = Env.ZERO;
-				/*
-			MCostDetail.createProduction(as, line.getAD_Org_ID(), 
-				line.getM_Product_ID(), line.getM_AttributeSetInstance_ID(), 
-				line.get_ID(), 0, 
-				costs, line.getQty(), 
-				description, getTrxName());*/
+			MCostDetail.createProduction(as, line.getAD_Org_ID(),
+				line.getM_Product_ID(), line.getM_AttributeSetInstance_ID(),
+				line.get_ID(), 0,
+				costs, line.getQty(),
+				description, getTrxName());
 		}
 		//
 		ArrayList<Fact> facts = new ArrayList<Fact>();
 		facts.add(fact);
 		return facts;
 	}   //  createFact
-
+*/
 }   //  Doc_Production
