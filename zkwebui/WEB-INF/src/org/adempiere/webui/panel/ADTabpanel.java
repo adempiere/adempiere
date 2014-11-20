@@ -20,15 +20,23 @@ package org.adempiere.webui.panel;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyVetoException;
 import java.beans.VetoableChangeListener;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.adempiere.webui.component.*;
+
 import org.adempiere.webui.component.Column;
 import org.adempiere.webui.component.Columns;
+import org.adempiere.webui.component.EditorBox;
 import org.adempiere.webui.component.Grid;
+import org.adempiere.webui.component.GridPanel;
 import org.adempiere.webui.component.Group;
 import org.adempiere.webui.component.Label;
+import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.SimpleTreeModel;
 import org.adempiere.webui.component.Tab;
@@ -36,20 +44,38 @@ import org.adempiere.webui.component.Tabbox;
 import org.adempiere.webui.component.Tabpanel;
 import org.adempiere.webui.component.Tabpanels;
 import org.adempiere.webui.component.Tabs;
-import org.adempiere.webui.editor.*;
+import org.adempiere.webui.component.Window;
+import org.adempiere.webui.editor.IZoomableEditor;
+import org.adempiere.webui.editor.WButtonEditor;
+import org.adempiere.webui.editor.WEditor;
+import org.adempiere.webui.editor.WEditorPopupMenu;
+import org.adempiere.webui.editor.WebEditorFactory;
 import org.adempiere.webui.event.ContextMenuListener;
+import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.util.GridTabDataBinder;
 import org.adempiere.webui.util.TreeUtils;
 import org.adempiere.webui.window.FDialog;
-import org.compiere.model.*;
+import org.adempiere.webui.window.WAlertDialog;
+import org.compiere.model.DataStatusEvent;
+import org.compiere.model.DataStatusListener;
+import org.compiere.model.GridField;
+import org.compiere.model.GridTab;
+import org.compiere.model.GridTable;
+import org.compiere.model.GridWindow;
+import org.compiere.model.Lookup;
+import org.compiere.model.MLookup;
+import org.compiere.model.MMemo;
+import org.compiere.model.MTree;
+import org.compiere.model.MTreeNode;
+import org.compiere.model.X_AD_FieldGroup;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Evaluatee;
+import org.compiere.util.Util;
 import org.zkoss.zk.au.out.AuFocus;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
-import org.zkoss.zk.ui.HtmlBasedComponent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -67,7 +93,7 @@ import org.zkoss.zul.TreeModel;
 import org.zkoss.zul.Treeitem;
 import org.zkoss.zul.West;
 
-/** 
+/**
  *
  * This class is based on org.compiere.grid.GridController written by Jorg Janke.
  * Changes have been brought for UI compatibility.
@@ -79,13 +105,9 @@ import org.zkoss.zul.West;
  * @version $Revision: 0.10 $
  *
  * @author Low Heng Sin
- *
- * @author e-Evolution , victor.perez@e-evolution.com
- *      <li>Implement embedded or horizontal tab panel https://adempiere.atlassian.net/browse/ADEMPIERE-319
- *      <li>New ADempiere 3.8.0 ZK Theme Light  https://adempiere.atlassian.net/browse/ADEMPIERE-320
  */
-public class ADTabPanel extends Div implements Evaluatee, EventListener,
-DataStatusListener, IADTabPanel, VetoableChangeListener
+public class ADTabpanel extends Div implements Evaluatee, EventListener<Event>,
+DataStatusListener, IADTabpanel, VetoableChangeListener
 {
 	/**
 	 * generated serial version ID
@@ -96,7 +118,7 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
 
     static
     {
-        logger = CLogger.getCLogger(ADTabPanel.class);
+        logger = CLogger.getCLogger(ADTabpanel.class);
     }
 
     private GridTab           gridTab;
@@ -106,9 +128,9 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
 
     private AbstractADWindowPanel      windowPanel;
 
-    public int               windowNo;
+    private int               windowNo;
 
-    public Grid              grid;
+    private Grid              grid;
 
     private ArrayList<WEditor> editors = new ArrayList<WEditor>();
 
@@ -116,7 +138,7 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
 
     private boolean			  uiCreated = false;
 
-    public GridPanel		  listPanel;
+    private GridPanel		  listPanel;
 
     private Map<String, List<Row>> fieldGroupContents = new HashMap<String, List<Row>>();
 
@@ -127,12 +149,18 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
 	private Component formComponent = null;
 
 	private ADTreePanel treePanel = null;
+	
+	private Tabbox tabBox	= null;
+	
+	private Tabs tabs	= null;
+	
+	private Tabpanels tabPanels	= null;
 
 	private GridTabDataBinder dataBinder;
 
 	private Map<Integer, Group> includedTab = new HashMap<Integer, Group>();
 	private Map<Integer, Groupfoot> includedTabFooter = new HashMap<Integer, Groupfoot>();
-
+	private Map<Integer, Tabpanel> embeddTabPanel = new HashMap<Integer, Tabpanel>();
 	private List<EmbeddedPanel> includedPanel = new ArrayList<EmbeddedPanel>();
 
 	private boolean active = false;
@@ -143,7 +171,6 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
 
 	private boolean m_vetoActive = false;
 	
-	private CWindowToolbar globalToolbar;
 	
 	private static final String ON_DEFER_SET_SELECTED_NODE = "onDeferSetSelectedNode";
 	
@@ -156,22 +183,9 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
 	 */
 	private long m_lastCallTime = 0;
 
-    private boolean isEmbedded = false;
-	
-	private int INC = 30;
-		
-	public CWindowToolbar getGlobalToolbar()
-	{
-		return globalToolbar;
-	}
-	
-	public void setGlobalToolbar(CWindowToolbar globalToolbar) {
-		this.globalToolbar = globalToolbar;
-	}
-	
-	
+	private boolean m_processingEvent;
 
-	public ADTabPanel()
+	public ADTabpanel()
 	{
         init();
     }
@@ -196,11 +210,7 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
         grid.makeNoStrip();
 
         listPanel = new GridPanel();
-        listPanel.setADTabPanel(this);
         listPanel.getListbox().addEventListener(Events.ON_DOUBLE_CLICK, this);
-        listPanel.addEventListener(Events.ON_FOCUS, this);
-        this.addEventListener(Events.ON_CLICK, this);
-        this.addEventListener(Events.ON_FOCUS, this);
     }
 
     /**
@@ -347,20 +357,9 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
             			if (ep.adTabId == field.getIncluded_Tab_ID()) {
             				ep.group = (Group) includedTab.get(ep.adTabId);
             				createEmbeddedPanelUI(ep);
-            				((ADTabPanel)ep.tabPanel).autoResize();
             				break;
             			}
             		}
-                    //Horizontal
-                    for (HorizontalEmbeddedPanel ep : horizontalIncludedPanel)
-                    {
-                        if (ep.adTabId == field.getIncluded_Tab_ID()) {
-                            ep.divComponent = horizontalIncludedTab.get(ep.adTabId);
-                            createHorizontalEmbeddedPanelUI(ep);
-                            ((ADTabPanel)ep.tabPanel).autoResize();
-                            break;
-                        }
-                    }
 
             		// Start a new row for the next field
             		row = new Row();
@@ -457,8 +456,6 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
                 if (editor != null) // Not heading
                 {
                     editor.setGridTab(this.getGridTab());
-                    editor.setADTabPanel(this);
-                    
                 	field.addPropertyChangeListener(editor);
                     editors.add(editor);
                     editor.getComponent().setAttribute("ComponentType", "Editor");
@@ -716,32 +713,24 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
             GridField mField = comp.getGridField();
             if (mField != null && mField.getIncluded_Tab_ID() <= 0)
             {
+            	
                 if (mField.isDisplayed(true))       //  check context
                 {
                     if (!comp.isVisible())
                     {
                         comp.setVisible(true);      //  visibility
                     }
-                    boolean dis = false;
                     if (noData)
                     {
                         comp.setReadWrite(false);
-                        dis = true;
                     }
                     else
                     {
+                    	comp.dynamicDisplay();
                         boolean rw = mField.isEditable(true);   //  r/w - check Context
                         comp.setReadWrite(rw);
                         comp.setMandatory(mField.isMandatory(true));    //  check context
-                        comp.dynamicDisplay();
-                        dis = !rw;
-                        
                     }
-                    
-                    comp.repaintComponent();	
-                    	
-                    
-                    
                 }
                 else if (comp.isVisible())
                 {
@@ -808,39 +797,10 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
         			group.setVisible(visible);
         	}
         }
-        
+
         // collapse the groups closed
         for (Group group : collapsedGroups) {
         	group.setOpen(false);
-        }
-        
-        for (EmbeddedPanel ep : includedPanel) {
-        	
-        	if(ep.gridWindow.getTab(ep.tabIndex).isDisplayed())
-    		{
-    			ep.windowPanel.getParent().setVisible(true);
-    			ep.group.setVisible(true);
-    		}
-        	else {
-        		
-        		ep.windowPanel.getParent().setVisible(false);
-    			ep.group.setVisible(false);
-        	}
-        }
-
-        //Horizontal
-        for (HorizontalEmbeddedPanel ep : horizontalIncludedPanel) {
-
-            if(ep.gridWindow.getTab(ep.tabIndex).isDisplayed())
-            {
-                ep.windowPanel.getParent().setVisible(true);
-                ep.divComponent.setVisible(true);
-            }
-            else {
-
-                ep.windowPanel.getParent().setVisible(false);
-                ep.divComponent.setVisible(false);
-            }
         }
         
         logger.config(gridTab.toString() + " - fini - " + (col<=0 ? "complete" : "seletive"));
@@ -943,48 +903,6 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
      */
     public void activate(boolean activate)
     {
-    	
-    	if (getGrid() != null && activate)
-		{
-			Grid gridCurrent = getGrid();
-			((HtmlBasedComponent)gridCurrent).setStyle("border-left: 6px solid #fa962f; "); //border-top: 1px solid #fa962f; border-bottom: 1px solid #fa962f; border-right: 1px solid #fa962f;");
-	    	gridCurrent.setWidth("99.1%");
-
-		}
-    	else if (getGrid() != null && !activate)
-    	{
-    		Grid gridtPrevious = getGrid();
-			((HtmlBasedComponent)gridtPrevious).setStyle("border:none;");
-			gridtPrevious.setWidth("100%");
-			gridtPrevious.setHeight("100%");	
-    	}
-		if (getListPanel() != null && activate)
-		{	
-			GridPanel gridPanel = getListPanel();
-			//gridPanel.setHeight("95%");
-			((HtmlBasedComponent)gridPanel).setStyle("border-left: 6px solid #fa962f; "); //border-top: 1px solid #fa962f; border-bottom: 1px solid #fa962f; border-right: 1px solid #fa962f;");
-			gridPanel.setWidth("99.1%");
-			//gridPanel.setHeight("95%");
-		}	
-		else if (getListPanel() != null && !activate)
-		{
-			GridPanel gridPanel = getListPanel();
-		    ((HtmlBasedComponent)gridPanel).setStyle("border:none;");	
-		    gridPanel.setWidth("100%");
-		    gridPanel.setHeight("100%");
-		}
-		
-        //activate embedded panel
-        for(EmbeddedPanel ep : includedPanel)
-        {
-        	activateChild(activate, ep);
-        }
-        //Horizontal
-        for(HorizontalEmbeddedPanel ep : horizontalIncludedPanel)
-        {
-            activateChild(activate, ep);
-        }
-		
     	active = activate;
         if (listPanel.isVisible()) {
         	if (activate)
@@ -997,10 +915,15 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
         		setFocusToField();
         	}
         }
+
+        //activate embedded panel
+        for(EmbeddedPanel ep : includedPanel)
+        {
+        	activateChild(activate, ep);
+        }
     }
 
 	private void activateChild(boolean activate, EmbeddedPanel panel) {
-		
 		if (activate)
 		{
 			panel.windowPanel.getADTab().evaluate(null);
@@ -1069,55 +992,7 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
      */
     public void onEvent(Event event)
     {
-    	if (event.getTarget() instanceof Tab)
-    	{
-    		Tab tab = (Tab)event.getTarget();
-    		for (HorizontalEmbeddedPanel embedded : horizontalIncludedPanel )
-    		{
-    			if (embedded.gridWindow.getTab(embedded.tabIndex).getName().equals(tab.getLabel()))
-    			{	
-    				if (!getGlobalToolbar().getCurrentPanel().equals(embedded.tabPanel))
-    				{
-    					getGlobalToolbar().getCurrentPanel().activate(false);
-    					getGlobalToolbar().getCurrentPanel().setUnselected(getGlobalToolbar().getCurrentPanel());
-    					getGlobalToolbar().getCurrentPanel().setSelected(embedded.tabPanel);
-    					embedded.tabPanel.activate(true);
-    					
-    					if(gridTab.getAD_Tab_ID() != getGlobalToolbar().getCurrentPanel().getGridTab().getAD_Tab_ID())
-        				{        					
-        					DataStatusEvent m_DataStatusEvent = new DataStatusEvent(this, gridTab.getRowCount(),
-        							false,
-        							false, false);
-        					windowPanel.dataStatusChanged(m_DataStatusEvent);
-        				}
-    				}
-    				return;
-    			}	
-    		}
-    	}
-    	
-		if(event.getTarget() instanceof IADTabPanel)
-		{			
-			IADTabPanel panel = (IADTabPanel)event.getTarget();
-			if (panel == panel.getGlobalToolbar().getCurrentPanel())
-				return;
-			
-			IADTabPanel last = panel.getGlobalToolbar().getCurrentPanel();
-			last.setUnselected(last);
-			last.activate(false);
-			
-			panel.setSelected(panel);
-			panel.activate(true);
-			autoResize();
-			if(gridTab.getAD_Tab_ID() != panel.getGridTab().getAD_Tab_ID())
-			{					
-				DataStatusEvent m_DataStatusEvent = new DataStatusEvent(this, gridTab.getRowCount(),
-						false,
-						false, false);
-				windowPanel.dataStatusChanged(m_DataStatusEvent);
-			}
-		}
-		else if (event.getTarget() == listPanel.getListbox())
+    	if (event.getTarget() == listPanel.getListbox())
     	{
     		this.switchRowPresentation();
     	}
@@ -1134,90 +1009,6 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
             	setSelectedNode(gridTab.getRecord_ID());
             }
     	}
-    }
-    
-    public void autoResize()
-    {
-    	if(windowPanel!=null)
-    	{
-	    	if(windowPanel.isEmbedded())
-			{
-				Borderlayout window = ((ADWindowPanel)windowPanel).getComponent();
-	
-	    		if(isGridView())
-	    		{
-	    			int size = MSysConfig.getIntValue("TAB_INCLUDING_HEIGHT", 400);
-		    		window.setHeight(size + "px");
-					listPanel.resize();
-	    			window.resize();
-	    		}
-	    		else
-	    		{
-	    			try{
-		    			int addSize = 0;
-		    			int size = 0;
-		    			if (grid.getRows() != null)
-		    			{	
-			    			for(Object o : grid.getRows().getChildren())
-			    			{
-			    				if(o instanceof Row )
-			    				{	    	
-			    					if( ((Row) o).isVisible())
-			    					{
-			    						size += getComponentSize((Row) o); 
-			    					}
-			    				}
-			    				else if(o instanceof org.zkoss.zul.Group)
-			    				{
-			    					size +=20; 
-			    				}
-			    			}
-		    			}	
-
-                        size += 25; // 25 = statusbar
-		    			size += addSize; 
-		    			size += doAutoSize();
-						window.setHeight(size + "px");
-		    			window.resize();
-	    			}
-	    			catch(Exception e)
-	    			{
-	    				e.printStackTrace();
-	    				//nothing to do, just ignore
-	    				window.setHeight( "61px");
-                        window.resize();
-	    			}
-	    			
-	    		}
-	    		
-				
-			}
-    	}
-    }
-    
-    
-    
-    public void setUnselected(IADTabPanel panel)
-    {
-    	if (panel != null)
-    	{	
-    		getGlobalToolbar().setPreviousPanel(panel);    	
-    	}
-
-    }
-    
-    public void setSelected(IADTabPanel panel)
-    {
-    	if (panel != null)
-    	{	
-    		getGlobalToolbar().setCurrentPanel(panel);
-    	}	
-    }
-    
-    public void repaintComponents(boolean isRow)
-    {
-    	for(WEditor editor:editors)
-    		editor.repaintComponent(isRow);
     }
 
     private void navigateTo(DefaultTreeNode<MTreeNode> value) {
@@ -1344,15 +1135,8 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
         	for (EmbeddedPanel panel : includedPanel)
         		panel.tabPanel.query(false, 0, 0);
         }
-        //Horizontal
-        if (!horizontalIncludedPanel.isEmpty() && e.getChangedColumn() == -1) {
-            for (HorizontalEmbeddedPanel panel : horizontalIncludedPanel)
-                panel.tabPanel.query(false, 0, 0);
-        }
+
     }
-
-
-
 
     private void deleteNode(int recordId) {
 		if (recordId <= 0) return;
@@ -1439,43 +1223,23 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
 	        {
 	        	activateChild(false, ep);
 	        }
-            //Horizontal
-            for(HorizontalEmbeddedPanel ep : horizontalIncludedPanel)
-            {
-                activateChild(false, ep);
-            }
 		} else {
 			formComponent.setVisible(true);
-			repaintComponents(false);
 			//activate embedded panel
 	        for(EmbeddedPanel ep : includedPanel)
 	        {
 	        	activateChild(true, ep);
 	        }
-            //Horizontal
-            for(HorizontalEmbeddedPanel ep : horizontalIncludedPanel)
-            {
-                activateChild(true , ep);
-            }
 		}
 		listPanel.setVisible(!formComponent.isVisible());
 		if (listPanel.isVisible()) {
-			listPanel.getADTabPanel().getGlobalToolbar().setCurrentPanel(this);
 			listPanel.refresh(gridTab);
 			listPanel.scrollToCurrentRow();
-			repaintComponents(true);
-
 		} else {
 			listPanel.deactivate();
 		}
-		autoResize();
-		
 	}
 
-	public GridPanel getListPanel()
-	{
-		return listPanel;
-	}
 	class ZoomListener implements EventListener<Event> {
 
 		private IZoomableEditor searchEditor;
@@ -1503,7 +1267,7 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
 	 * @param tabPanel
 	 */
 	public void embed(Properties ctx, int windowNo, GridWindow gridWindow,
-			int adTabId, int tabIndex, IADTabPanel tabPanel) {
+			int adTabId, int tabIndex, IADTabpanel tabPanel) {
 		EmbeddedPanel ep = new EmbeddedPanel();
 		ep.tabPanel = tabPanel;
 		ep.adTabId = adTabId;
@@ -1590,26 +1354,19 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
 		GridWindow gridWindow;
 		int tabIndex;
 		ADWindowPanel windowPanel;
-		IADTabPanel tabPanel;
+		IADTabpanel tabPanel;
 		int adTabId;
 		Panelchildren panelChildren;
 		Row toolbarRow;
 	}
 
 	/**
-	 * @see IADTabPanel#afterSave(boolean)
+	 * @see IADTabpanel#afterSave(boolean)
 	 */
 	public void afterSave(boolean onSaveEvent) {
 		if (!includedPanel.isEmpty()) {
         	for (EmbeddedPanel panel : includedPanel)
-        		//panel.tabPanel.getGridTab().dataRefreshAll()
         		panel.tabPanel.query(false, 0, 0);
-        }
-        //Horizontal
-        if (!horizontalIncludedPanel.isEmpty()) {
-            for (HorizontalEmbeddedPanel panel : horizontalIncludedPanel)
-                //panel.tabPanel.getGridTab().dataRefreshAll()
-                panel.tabPanel.query(false, 0, 0);
         }
 		
 		//  Sync tree
@@ -1644,17 +1401,11 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
 	private void createEmbeddedPanelUI(EmbeddedPanel ep) {
 		org.zkoss.zul.Row row = new Row();
 		row.setSpans("5");
-		if(!ep.gridWindow.getTab(ep.tabIndex).isDisplayed())
-		{
-			row.setVisible(false);
-			ep.group.setVisible(false);
-		}
-		
 		grid.getRows().insertBefore(row, includedTabFooter.get(ep.adTabId));
 		ep.windowPanel.createPart(row);
 		ep.windowPanel.getComponent().setWidth("100%");
 		ep.windowPanel.getComponent().setStyle("position: relative");
-		//ep.windowPanel.getComponent().setHeight(400 + "px");
+		ep.windowPanel.getComponent().setHeight("400px");
 
 		Label title = new Label(ep.gridWindow.getTab(ep.tabIndex).getName());
 		ep.group.appendChild(title);
@@ -1689,7 +1440,7 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
 	}
 
 	/**
-	 * @see IADTabPanel#onEnterKey()
+	 * @see IADTabpanel#onEnterKey()
 	 */
 	public boolean onEnterKey() {
 		if (listPanel.isVisible()) {
@@ -1737,20 +1488,13 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
 	 * @param gTab
 	 * @return embedded panel or null if not found
 	 */
-	public IADTabPanel findEmbeddedPanel(GridTab gTab) {
-		IADTabPanel panel = null;
+	public IADTabpanel findEmbeddedPanel(GridTab gTab) {
+		IADTabpanel panel = null;
 		for(EmbeddedPanel ep : includedPanel) {
 			if (ep.tabPanel.getGridTab().equals(gTab)) {
 				return ep.tabPanel;
 			}
 		}
-        //Horizontal
-        for(HorizontalEmbeddedPanel ep : horizontalIncludedPanel) {
-            if (ep.tabPanel.getGridTab().equals(gTab)) {
-                return ep.tabPanel;
-            }
-        }
-
 		return panel;
 	}
 
@@ -1761,7 +1505,7 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
 	public GridPanel getGridView() {
 		return listPanel;
 	}
-		
+	
 	/**
 	 * Add a row to the rows and group.
 	 * 
@@ -1790,429 +1534,6 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
 	public void set_processingEvent(boolean m_processingEvent) {
 		this.m_processingEvent = m_processingEvent;
 	}
-
-
-	
-	public int doAutoSize()
-	{
-			int size = 0;
-			for(EmbeddedPanel panel : includedPanel)
-			{
-				size += includedAutoResize(panel);
-			}
-
-            for(HorizontalEmbeddedPanel panel : horizontalIncludedPanel)
-            {
-                size += includedAutoResize(panel);
-            }
-            return size;
-	}
-	
-	public int includedAutoResize(EmbeddedPanel embeddedpanel)
-	{
-		if(embeddedpanel.windowPanel  !=null)
-    	{
-	    	if(embeddedpanel.windowPanel.isEmbedded())
-			{
-				Borderlayout window = embeddedpanel.windowPanel.getComponent();
-	    			try{
-	    				
-	    				int size = 0;
-	    				int addSize = 0;
-	    				if (!embeddedpanel.tabPanel.getGridTab().isSingleRow())
-	    				{
-	    					size = MSysConfig.getIntValue("TAB_INCLUDING_HEIGHT", 400);
-	    				}
-	    				else {
-	    					
-	    					for(Object o : embeddedpanel.tabPanel.getGrid().getRows().getChildren())
-			    			{
-			    				if(o instanceof Row)
-			    				{
-			    					if( ((Row) o).isVisible())
-			    					{
-			    						size += getComponentSize((Row) o) ; 
-			    					}
-			    				}
-			    				else if (o instanceof org.zkoss.zul.Group)
-			    				{
-			    					size +=20; // Group
-			    				}
-			    				
-			    			}
-			    		    size += 25; // 25 = statusbar
-	    	    			size += addSize;
-			    			List<EmbeddedPanel> included = embeddedpanel.tabPanel.getIncludedPanel();
-			    			if(included.size()>0)
-			    			{
-			    				for(EmbeddedPanel panel : included)
-			    				{
-				    				size += includedAutoResize(panel);
-			    				}
-			    			}
-	    				}
-	    			
-					    window.setHeight(size + "px");
-	    			    window.resize();
-	    			    return size;
-	    			}
-	    			catch(Exception e)
-	    			{
-	    				e.printStackTrace();
-	    			}
-	    			
-	    			return 0;
-			}
-
-    	}
-		return 0; 
-	}
-
-    public int includedAutoResize(HorizontalEmbeddedPanel embeddedPanel)
-    {
-        if(embeddedPanel.windowPanel  !=null)
-        {
-            if(embeddedPanel.windowPanel.isEmbedded())
-            {
-                Borderlayout window = embeddedPanel.windowPanel.getComponent();
-                try{
-                    int size = 0;
-                    int addSize = 0;
-                    if (!embeddedPanel.tabPanel.getGridTab().isSingleRow())
-                    {
-                        size = MSysConfig.getIntValue("TAB_INCLUDING_HEIGHT", 400);
-                    }
-                    else {
-                        for(Object o : embeddedPanel.tabPanel.getGrid().getRows().getChildren())
-                        {
-                            if(o instanceof Row)
-                            {
-                                if( ((Row) o).isVisible())
-                                {
-                                    size += getComponentSize((Row) o) ;
-                                }
-                            }
-                            else if (o instanceof org.zkoss.zul.Div)
-                            {
-                                size +=20; // Group
-                            }
-
-                        }
-                        size += 25; // 25 = statusbar
-
-                        size += addSize;
-                        List<HorizontalEmbeddedPanel> included = embeddedPanel.tabPanel.getHorizontalIncludedPanel();
-                        if(included.size()>0)
-                        {
-                            for(HorizontalEmbeddedPanel panel : included)
-                            {
-                                size += includedAutoResize(panel);
-                            }
-                        }
-                    }
-
-                    window.setHeight(size + "px");
-                    window.resize();
-                    return size;
-                }
-                catch(Exception e)
-                {
-                    e.printStackTrace();
-                }
-
-                return 0;
-            }
-
-        }
-        return 0;
-    }
-	
-	private int getComponentSize(Row row) { 
-		
-		int addSize = 0;
-		
-		for (Object o : ((Row) row).getChildren()) {
-			
-			if(o instanceof org.zkoss.zkex.zul.Borderlayout)
-			{
-				return 0;
-			}
-			
-			if (o instanceof org.zkoss.zk.ui.HtmlBasedComponent  ){
-				
-				String height = ((org.zkoss.zk.ui.HtmlBasedComponent) o).getHeight();
-				
-				if (height==null)
-				{
-					height="30";
-				}
-				
-				if(!height.contains("%"))
-				{
-									
-					int size = Integer.parseInt(height.replace("px", "")) + 6; 
-					
-					if (size > addSize) 
-						addSize = size;
-				}
-				
-			}
-		}
-		
-		return addSize;
-	}
-
-	@Deprecated
-	private int sizeImage(Row row) { 
-		
-		int addSize = 0;
-		
-		for (Object o : ((Row) row).getChildren()) {
-			
-			if (o instanceof org.zkoss.zul.Image){
-				
-				int size = Integer.parseInt(((org.zkoss.zul.Image) o)
-						.getHeight().replace("px", "")) - INC; 
-				
-				if (size > addSize)
-					addSize = size;
-			}
-		}
-		
-		return addSize;
-	}
-
-	@Override
-	public Grid getGrid() {
-		return grid;
-	}
-
-    public void setIsEmbedded(boolean isEmbedded)
-    {
-        this.isEmbedded=isEmbedded;
-    }
-
-    public boolean isEmbedded()
-    {
-        return isEmbedded;
-    }
-
-	@Override
-	public List<EmbeddedPanel> getIncludedPanel() {
-		return includedPanel;
-	}
-
-    public List<HorizontalEmbeddedPanel> getHorizontalIncludedPanel() {
-        return horizontalIncludedPanel;
-    }
-
-
-    private List<HorizontalEmbeddedPanel> horizontalIncludedPanel = new ArrayList<HorizontalEmbeddedPanel>();
-    private Map<Integer, org.zkoss.zul.Div> horizontalIncludedTab = new HashMap<Integer, org.zkoss.zul.Div>();
-    private Map<Integer, Tabpanel> embeddedTabPanel = new HashMap<Integer, Tabpanel>();
-
-    private Tabbox tabBox	= null;
-    private Tabs tabs	= null;
-    private Tabpanels tabPanels	= null;
-
-    class HorizontalEmbeddedPanel {
-        org.zkoss.zul.Div divComponent ;
-        org.zkoss.zul.Row toolbarRow ;
-        Grid embeddedGrid;
-        GridWindow gridWindow;
-        int tabIndex ;
-        ADWindowPanel windowPanel;
-        IADTabPanel tabPanel;
-        int adTabId;
-        Panelchildren panelChildren;
-    }
-
-    /**
-     * Embed detail tab
-     * @param ctx
-     * @param windowNo
-     * @param gridWindow
-     * @param adTabId
-     * @param tabIndex
-     * @param tabPanel
-     */
-    public void HorizontalEmbedded(Properties ctx, int windowNo, GridWindow gridWindow,
-                      int adTabId, int tabIndex, IADTabPanel tabPanel) {
-        HorizontalEmbeddedPanel ep = new HorizontalEmbeddedPanel();
-        ep.tabPanel = tabPanel;
-        ep.adTabId = adTabId;
-        ep.tabIndex = tabIndex;
-        ep.gridWindow = gridWindow;
-        org.zkoss.zul.Div parentRow = horizontalIncludedTab.get(adTabId );
-        ep.divComponent = parentRow;
-        horizontalIncludedPanel.add(ep);
-        if (tabPanel instanceof ADTabPanel) {
-            ADTabPanel atp = (ADTabPanel) tabPanel;
-            atp.listPanel.setPageSize(-1);
-        }
-        ADWindowPanel panel = new ADWindowPanel(ctx, windowNo, gridWindow, tabIndex, tabPanel);
-        ep.windowPanel = panel;
-  
-
-        if (parentRow != null) {
-            createHorizontalEmbeddedPanelUI(ep);
-            if (active)
-                activateChild(true, ep);
-        }
-    }
-	
-    private void activateChild(boolean activate, HorizontalEmbeddedPanel panel) {
-        if (activate)
-        {
-            panel.windowPanel.getADTab().evaluate(null);
-            panel.windowPanel.getADTab().setSelectedIndex(0);
-            panel.tabPanel.query(false, 0, 0);
-        }
-        
-       /* panel.tabPanel.activate(activate);
-        if (activate)
-        {
-            activateTabPanel(panel);
-        }*/
-    }
-
-    private void activateTabPanel(HorizontalEmbeddedPanel panel) {
-
-        if( tabPanels != null )
-
-        panel.divComponent.setVisible(true);
-//			panel.divComponent.setStyle("position: relative; overflow:auto; ");
-
-
-        tabPanels.setVisible(true);
-        tabPanels.setStyle("margin:0; padding:0; border: none; position: relative; ");
-
-//			embeddTabPanel.get(panel.adTabId).setVisible(true);
-        //embeddedTabPanel.get(panel.adTabId).setStyle(" margin:0; padding:0; border: none; height: 600px; ");
-        embeddedTabPanel.get(panel.adTabId).setStyle(" margin:0; padding:0; border: none; position: relative; ");
-
-        panel.panelChildren.setVisible(true);
-        panel.panelChildren.setStyle(" margin:0; padding:0; border: none; position: relative;  ");
-        //panel.panelChildren.setStyle(" margin:0; padding:0; border: none; height: 600px; ");
-        
-
-        panel.embeddedGrid.setVisible(true);
-       // panel.embeddedGrid.setStyle("border: none; height: 600px;  ");
-        panel.embeddedGrid.setStyle("border: none; position: relative; ");
-
-    }
-
-    private void createHorizontalEmbeddedPanelUI(HorizontalEmbeddedPanel ep) {
-
-        org.zkoss.zul.Row ChildRow = createHorizontalPanelForEmbedded(ep.divComponent, includedTabFooter.get(ep.adTabId), ep);
-
-        ep.windowPanel.createPart(ChildRow);
-        ep.windowPanel.getComponent().setWidth("100%");
-        //ep.windowPanel.getComponent().setStyle("position: relative");
-        ep.windowPanel.getComponent().setHeight("600px");
-
-        FToolbar bar = ep.windowPanel.getToolbar();
-        bar.setAlign("start");
-        bar.setStyle("background-color: transparent; height: 20%; ");
-
-        ep.toolbarRow.appendChild(bar);
-        ep.windowPanel.getStatusBar().setZclass("z-group-foot");
-        ep.windowPanel.initPanel(-1, null);
-    }
-
-    private org.zkoss.zul.Row createHorizontalPanelForEmbedded(org.zkoss.zul.Div divComponent, org.zkoss.zul.Row footer , HorizontalEmbeddedPanel ep ) {
-        //Setting Properties to Div Component
-        divComponent.setHeight("100%");
-        divComponent.setWidth("100%");
-        // Create a Panel Object
-        Panel panel = new Panel();
-        //Setting Properties to Panel
-        panel.setFramable(true);
-    	//panel.setStyle("overflow:auto");
-        panel.setWidth("100%");
-        panel.setHeight("100%");
-        panel.setMaximizable(true);
-      
-
-        //creating Object to PanelChildren class
-        ep.panelChildren = new Panelchildren();
-        // Creating a Object to Grid And Apply Properties
-        Grid newGrid = new Grid();
-        newGrid.setVflex(true);
-        newGrid.setStyle("margin:0; padding:0; position: absolute; border: none;");
-        newGrid.makeNoStrip();
-        newGrid.setWidth("100%");
-        newGrid.setHeight("100%");
-        // Grid append to Panel Children
-        ep.panelChildren.appendChild( newGrid );
-        // Panel Children Append to Panel
-        panel.appendChild(ep.panelChildren);
-        // Creating one Tabbox And panel append to TabPanels
-        Tabbox panels =  setTabPanels(ep, panel) ;
-        // TabBox Append to divComponent
-        panels.setParent( divComponent );
-        ep.embeddedGrid = newGrid;
-        //Creating Rows based on the Grid
-        Rows newRows = newGrid.newRows();
-        newRows.setWidth("100%");
-        newRows.setHeight("100%");
-        org.zkoss.zul.Row newRow = new Group();
-        // Create a Row For ToolBar
-        org.zkoss.zul.Row toolbarRow = new org.adempiere.webui.component.Row();
-        toolbarRow.setSpans("5");
-        ep.toolbarRow = toolbarRow;
-        //Create a Row For All Widgets
-        org.zkoss.zul.Row panelRow = new org.adempiere.webui.component.Row();
-        panelRow.setSpans("5");
-        panelRow.setWidth("100%");
-        panelRow.setHeight("100%");
-        // Added to Group
-        newRows.appendChild( newRow );
-        // Added to tool-bar Row
-        newRows.appendChild(toolbarRow);
-        // Now added to Panel Row
-        newRows.appendChild( panelRow );
-        //Added to footer
-        newRows.appendChild( footer );
-
-
-        return panelRow ;
-    }
-
-    private Tabbox setTabPanels(HorizontalEmbeddedPanel ep, Panel panel  ) {
-        // For One Tab We created only one TabBox
-        if (null == tabBox && null == tabPanels) {
-            tabBox = new Tabbox();
-            tabBox.setHeight("100%");
-            //tabBox.setStyle("height: 100%; width: 100%; position: relative;");
-            tabPanels = new Tabpanels();
-            tabPanels.setHeight("600px");
-            tabBox.appendChild(tabPanels);
-            tabs = new Tabs();
-            tabBox.appendChild(tabs);
-
-        }
-        // Setting Name For Tab
-        Tab tab = new Tab(ep.gridWindow.getTab(ep.tabIndex).getName());
-        tab.addEventListener(Events.ON_CLICK, this);
-        tab.addEventListener(Events.ON_FOCUS, this);
-        // Appending Tab to Tabs
-        tabs.appendChild(tab);
-        //Creating a TabPanel For every Tab
-        Tabpanel tabPanel = new Tabpanel();
-        embeddedTabPanel.put(ep.adTabId, tabPanel);
-        tabPanel.setStyle("margin:0; padding:0; border: none; height:600px;");
-        //Setting Embedded Panel to tabPanel
-        tabPanel.appendChild(panel);
-        //Appending Tab Panel To TabPanels
-        tabPanels.appendChild(tabPanel);
-        //By Default first Tab should populated
-        tabBox.setSelectedIndex(0);
-
-        // Returning the tabbox
-        return tabBox;
-
-    }	
 
 }
 

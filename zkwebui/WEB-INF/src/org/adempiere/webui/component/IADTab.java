@@ -12,6 +12,7 @@
  *****************************************************************************/
 package org.adempiere.webui.component;
 
+import org.adempiere.webui.panel.IADTabpanel;
 import org.adempiere.webui.part.UIPart;
 import org.compiere.model.DataStatusEvent;
 import org.compiere.model.GridTab;
@@ -50,7 +51,7 @@ public interface IADTab extends UIPart {
 	 * 获取被选中的Tab Panel
 	 * @return selected tab panel reference
 	 */
-	public org.adempiere.webui.panel.IADTabPanel getSelectedTabpanel();
+	public IADTabpanel getSelectedTabpanel();
 
 	/**
 	 * 是否可以导航
@@ -72,7 +73,7 @@ public interface IADTab extends UIPart {
 	 * @param tab
 	 * @param tabPanel
 	 */
-	public void addTab(GridTab tab, org.adempiere.webui.panel.IADTabPanel tabPanel);
+	public void addTab(GridTab tab, IADTabpanel tabPanel);
 
 	/**
 	 * 获取Tab数量
@@ -114,7 +115,7 @@ public interface IADTab extends UIPart {
 	 * @param index
 	 * @return IADTabpanel
 	 */
-	public org.adempiere.webui.panel.IADTabPanel getADTabpanel(int index);
+	public IADTabpanel getADTabpanel(int index);
 
 	/**
 	 * constant for tab placement
@@ -134,5 +135,5 @@ public interface IADTab extends UIPart {
 	 * @param gTab
 	 * @return IADTabpanel or null if not found
 	 */
-	public org.adempiere.webui.panel.IADTabPanel findADTabpanel(GridTab gTab);
+	public IADTabpanel findADTabpanel(GridTab gTab);
 }

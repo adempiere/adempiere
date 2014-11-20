@@ -20,7 +20,6 @@ import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Grid;
@@ -35,8 +34,11 @@ import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.editor.WTableDirEditor;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
-import org.adempiere.webui.panel.*;
-import org.adempiere.webui.panel.ADTabPanel;
+import org.adempiere.webui.panel.ADForm;
+import org.adempiere.webui.panel.ADTabpanel;
+import org.adempiere.webui.panel.CustomForm;
+import org.adempiere.webui.panel.IFormController;
+import org.adempiere.webui.panel.StatusBarPanel;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.theme.ThemeUtils;
 import org.compiere.apps.form.TrxMaterial;
@@ -51,8 +53,8 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zul.Borderlayout;
 import org.zkoss.zul.Center;
 import org.zkoss.zul.North;
-import org.zkoss.zul.South;
 import org.zkoss.zul.Separator;
+import org.zkoss.zul.South;
 
 /**
  * Material Transaction History
@@ -71,7 +73,7 @@ public class WTrxMaterial extends TrxMaterial
 	private CustomForm form = new CustomForm();	
 
 	/** GridController          */
-	private ADTabPanel m_gridController = null;
+	private ADTabpanel m_gridController = null;
 
 	//
 	private Panel mainPanel = new Panel();
@@ -204,7 +206,7 @@ public class WTrxMaterial extends TrxMaterial
 		super.dynInit(statusBar);
 		//
 		
-		m_gridController = new ADTabPanel();
+		m_gridController = new ADTabpanel();
 		m_gridController.init(null, m_WindowNo, m_mTab, m_mWindow);
 		if (!m_gridController.isGridView())
 			m_gridController.switchRowPresentation();

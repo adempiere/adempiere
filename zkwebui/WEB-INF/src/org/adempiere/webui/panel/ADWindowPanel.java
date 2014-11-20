@@ -32,7 +32,6 @@ import org.adempiere.webui.component.IADTab;
 import org.adempiere.webui.component.Tabbox;
 import org.adempiere.webui.component.Tabpanel;
 import org.adempiere.webui.component.Tabs;
-import org.adempiere.webui.panel.ADTabPanel.EmbeddedPanel;
 import org.adempiere.webui.part.ITabOnSelectHandler;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.theme.ThemeUtils;
@@ -56,7 +55,6 @@ import org.zkoss.zul.North;
 import org.zkoss.zul.South;
 import org.zkoss.zul.Tab;
 import org.zkoss.zul.West;
-import org.zkoss.zul.Vbox;
 
 /**
  *
@@ -65,11 +63,6 @@ import org.zkoss.zul.Vbox;
  *
  * @author <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
  * @author <a href="mailto:hengsin@gmail.com">Low Heng Sin</a>
- *
- * @author e-Evolution , victor.perez@e-evolution.com
- *    <li>Implement embedded or horizontal tab panel https://adempiere.atlassian.net/browse/ADEMPIERE-319
- *    <li>New ADempiere 3.8.0 ZK Theme Light  https://adempiere.atlassian.net/browse/ADEMPIERE-320
- *
  * @date Feb 25, 2007
  * @version $Revision: 0.10 $
  */
@@ -85,7 +78,7 @@ public class ADWindowPanel extends AbstractADWindowPanel
 	private West west;
 
 	private East east;
-	
+
 	private Keylistener keyListener;
 
     public ADWindowPanel(Properties ctx, int windowNo)
@@ -95,7 +88,7 @@ public class ADWindowPanel extends AbstractADWindowPanel
 
 
 	public ADWindowPanel(Properties ctx, int windowNo, GridWindow gridWindow,
-			int tabIndex, IADTabPanel tabPanel) {
+			int tabIndex, IADTabpanel tabPanel) {
 		super(ctx, windowNo, gridWindow, tabIndex, tabPanel);
 	}
 
@@ -202,9 +195,9 @@ public class ADWindowPanel extends AbstractADWindowPanel
 			public void onSelect() {
 				IADTab adTab = getADTab();
 				if (adTab != null) {
-					IADTabPanel iadTabpanel = adTab.getSelectedTabpanel();
-					if (iadTabpanel != null && iadTabpanel instanceof ADTabPanel) {
-						ADTabPanel adTabpanel = (ADTabPanel) iadTabpanel;
+					IADTabpanel iadTabpanel = adTab.getSelectedTabpanel();
+					if (iadTabpanel != null && iadTabpanel instanceof ADTabpanel) {
+						ADTabpanel adTabpanel = (ADTabpanel) iadTabpanel;
 						if (adTabpanel.isGridView()) {
 							adTabpanel.getGridView().scrollToCurrentRow();
 						}
@@ -231,24 +224,6 @@ public class ADWindowPanel extends AbstractADWindowPanel
 	@Override
 	public boolean initPanel(int adWindowId, MQuery query) {
 		boolean retValue = super.initPanel(adWindowId, query);
-		
-		if(toolbar.getCurrentPanel() instanceof ADTabPanel)
-		{
-			ADTabPanel tabPanel = (ADTabPanel)toolbar.getCurrentPanel();
-			if (tabPanel != null)
-			{	
-				if( tabPanel.getIncludedPanel() != null && tabPanel.getIncludedPanel().size()>0)
-				{
-					for(EmbeddedPanel panel : tabPanel.getIncludedPanel())
-					{
-	                    tabPanel.includedAutoResize(panel);
-					}
-				}
-				tabPanel.setFocus(true);
-			}	
-		}
-		
-		
 		if (adTab.getTabCount() == 1) {
 			if (west != null)
 				west.setVisible(false);
@@ -268,7 +243,7 @@ public class ADWindowPanel extends AbstractADWindowPanel
     		KeyEvent keyEvent = (KeyEvent) event;
     		//enter == 13
     		if (keyEvent.getKeyCode() == 13 && this.getComponent().getParent().isVisible()) {
-    			IADTabPanel panel = adTab.getSelectedTabpanel();
+    			IADTabpanel panel = adTab.getSelectedTabpanel();
     			if (panel != null) {
     				if (panel.onEnterKey()) {
     					keyEvent.stopPropagation();
