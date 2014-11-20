@@ -286,13 +286,13 @@ public class LoginPanel extends Window implements EventListener<Event>
         ArrayList<String> supported = Env.getSupportedLanguages();
         String[] availableLanguages = Language.getNames();
         for (String langName : availableLanguages) {
-    		Language language = Language.getLanguage(langName);
-    		if (!language.isBaseLanguage()) {
-    			if (!supported.contains(language.getAD_Language()))
-    				continue;
-    		}
-			lstLanguage.appendItem(langName, language.getAD_Language());
-		}
+            Language language = Language.getLanguage(langName);
+            if (!language.isBaseLanguage()) {
+                if (!supported.contains(language.getAD_Language()))
+                    continue;
+            }
+            lstLanguage.appendItem(langName, language.getAD_Language());
+        }
 
         chkRememberMe = new Checkbox(Msg.getMsg(Language.getBaseAD_Language(), "RememberMe"));
         chkRememberMe.setId("chkRememberMe");

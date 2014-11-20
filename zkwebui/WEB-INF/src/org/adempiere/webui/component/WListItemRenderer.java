@@ -329,6 +329,43 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 					listcell.setLabel(field.toString());
 				}
 			}
+            else if (field instanceof org.adempiere.webui.component.Combobox)
+            {
+                listcell.setValue(field);
+                if (isCellEditable)
+                {
+                    Combobox combobox =  (Combobox)field;
+                    combobox.addEventListener(Events.ON_CHANGE, this);
+                    listcell.appendChild(combobox);
+                }
+                else
+                {
+                    Combobox combobox =  (Combobox)field;
+                    if(combobox!=null && combobox.getItemCount()>0) {
+                        if (combobox.getSelectedIndex() >= 0)
+                            listcell.setLabel((String)combobox.getItemAtIndex(combobox.getSelectedIndex()).getLabel());
+                        else
+                            listcell.setLabel("");
+                    }
+                }
+            }
+            else if (field instanceof org.adempiere.webui.component.Button)
+            {
+                listcell.setValue(field);
+                if (isCellEditable)
+                {
+                    Button button =  (Button)field;
+                    button.addEventListener(Events.ON_CLICK, this);
+                    listcell.appendChild(button);
+                }
+                else
+                {
+                    Button button =  (Button)field;
+                    if(button!=null ) {
+                        listcell.setLabel("");
+                    }
+                }
+            }
 			// if ID column make it invisible
 			else if (field instanceof IDColumn)
 			{

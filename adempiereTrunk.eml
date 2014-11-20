@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<component inheritJdk="true">
+<component LANGUAGE_LEVEL="JDK_1_7" jdk="1.7" jdk_type="JavaSDK">
 	<exclude-output/>
 	<contentEntry url="file://$MODULE_DIR$"/>
 	<lib name="jstl.jar" scope="COMPILE">
@@ -371,10 +371,13 @@
 	<lib name="OpenForecast-0.5.0.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/OpenForecast-0.5.0.jar!/"/>
 	</lib>
+	<lib name="liberoWM.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/packages/liberoWM.jar!/"/>
+	</lib>
 	<lib name="liberoCashflow.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/packages/liberoCashflow.jar!/"/>
 	</lib>
-	<lib name="liberoWM.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/packages/liberoWM.jar!/"/>
+	<lib name="tools/lib/commons-io.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/commons-io.jar!/"/>
 	</lib>
 </component>

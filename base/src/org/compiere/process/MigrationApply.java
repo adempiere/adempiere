@@ -16,20 +16,30 @@
  *****************************************************************************/
 package org.compiere.process;
 
+import org.adempiere.process.MigrationLoader;
 import org.compiere.model.MMigration;
+import org.compiere.util.Ini;
+import org.compiere.util.Msg;
 
 public class MigrationApply extends SvrProcess {
 
 	private MMigration migration;
 	private boolean failOnError = false;
+	private MigrationLoader loader;
 
 	@Override
 	protected String doIt() throws Exception {
 
 		if ( migration == null || migration.is_new() )
 		{
-			addLog("No migration");
-			return "@Error@";
+			addLog( Msg.getMsg(getCtx(), "NoMigrationMessage"));
+			return "@Error@" + Msg.getMsg(getCtx(), "NoMigration");
+		}
+
+		if ( Ini.isPropertyBool(Ini.P_LOGMIGRATIONSCRIPT) )
+		{
+			addLog( Msg.getMsg(getCtx(), "LogMigrationScriptFlagIsSetMessage"));
+			return "@Error@" + Msg.getMsg(getCtx(), "LogMigrationScripFlagtIsSet");
 		}
 		
 		boolean apply = true;
@@ -37,6 +47,7 @@ public class MigrationApply extends SvrProcess {
 			apply = false;
 		
 		migration.setFailOnError(failOnError);
+
 		
 		if ( apply )
 		{
@@ -71,6 +82,8 @@ public class MigrationApply extends SvrProcess {
 			
 		}
 
+		migration.updateStatus(get_TrxName());
+		
 		return "@OK@";
 	}
 
@@ -78,7 +91,10 @@ public class MigrationApply extends SvrProcess {
 	protected void prepare() {
 		
 		migration = new MMigration(getCtx(), getRecord_ID(), get_TrxName());
-		
+
+		loader = new MigrationLoader();
+		migration.set_ColSyncCallback(loader);
+
 		ProcessInfoParameter[] params = getParameter();
 		for ( ProcessInfoParameter p : params)
 		{
@@ -86,7 +102,5 @@ public class MigrationApply extends SvrProcess {
 			if ( para.equals("FailOnError") )
 				failOnError  = "Y".equals((String)p.getParameter());
 		}
-
 	}
-
 }

@@ -278,6 +278,19 @@ public interface I_AD_Browse
 	  */
 	public boolean isSelectedByDefault();
 
+    /** Column name IsShowTotal */
+    public static final String COLUMNNAME_IsShowTotal = "IsShowTotal";
+
+	/** Set Show Total.
+	  * Show totals into Smart Browser
+	  */
+	public void setIsShowTotal (boolean IsShowTotal);
+
+	/** Get Show Total.
+	  * Show totals into Smart Browser
+	  */
+	public boolean isShowTotal();
+
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
 

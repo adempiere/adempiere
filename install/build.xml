@@ -167,6 +167,10 @@
   	<mkdir dir="${build.dir}/Adempiere/packages/liberoHR/lib"/>
   	<copy file="../packages/liberoHR.jar" tofile="${build.dir}/Adempiere/packages/liberoHR/lib/liberoHR.jar"/>
 
+	<mkdir dir="${build.dir}/Adempiere/zkpackages/liberoHR"/>
+	<mkdir dir="${build.dir}/Adempiere/zkpackages/liberoHR/lib"/>
+	<copy file="../zkpackages/liberozkHR.jar" tofile="${build.dir}/Adempiere/zkpackages/liberozkHR/lib/liberozkHR.jar"/>
+
   	<copy file="../lib/CheckConflicts.sh" tofile="${build.dir}/Adempiere/lib/CheckConflicts.sh"/>
 
 	<!-- Base Directory			-->
@@ -237,8 +241,9 @@
 	<!-- Migration Directory			-->
 	<mkdir dir="${build.dir}/Adempiere/migration"/>
 	<copy todir="${build.dir}/Adempiere/migration">
-	  <fileset dir="${migration.dir}/xml">
+	  <fileset dir="${migration.dir}/dist">
 	    <include name="**/*.xml"/>
+	    <include name="**/*.sql"/>
 	  </fileset>
 	</copy>
 
@@ -278,17 +283,30 @@
   		<!-- <tarfileset dir="${build.dir}" includes="Adempiere/**/*.sh" filemode="755"> -->
   		<tarfileset dir="${build.dir}" includes="Adempiere/**/*.sh">
   		   </tarfileset>
-	</tar>
+	</tar>  	
 
 	<!-- Create Checksums		-->
-	<checksum file="${build.dir}/Adempiere_${env.ADEMPIERE_VERSION_FILE}.tar.gz"/>
-	<concat destfile="${build.dir}/Adempiere_${env.ADEMPIERE_VERSION_FILE}.tar.gz.MD5" append="yes"> *Adempiere_${env.ADEMPIERE_VERSION_FILE}.tar.gz</concat>
-	<!-- Test with md5sum -c Adempiere_251.zip.MD5	-->
-	<checksum file="${build.dir}/Adempiere_${env.ADEMPIERE_VERSION_FILE}.zip"/>
-	<concat destfile="${build.dir}/Adempiere_${env.ADEMPIERE_VERSION_FILE}.zip.MD5" append="yes"> *Adempiere_${env.ADEMPIERE_VERSION_FILE}.zip</concat>
+  	
+  	<checksum file="${build.dir}/Adempiere_${env.ADEMPIERE_VERSION_FILE}.tar.gz"/>
+  	<sleep milliseconds="2000"/>
+  	<loadfile property="myfile" srcFile="${build.dir}/Adempiere_${env.ADEMPIERE_VERSION_FILE}.tar.gz.MD5">
+  	     <filterchain>
+  	        <striplinebreaks/>
+  	      </filterchain>
+  	       
+  	 </loadfile>  		
+  	 <concat destfile="${build.dir}/Adempiere_${env.ADEMPIERE_VERSION_FILE}.tar.gz.MD5">${myfile} Adempiere_${env.ADEMPIERE_VERSION_FILE}.tar.gz</concat>
+  		<!-- Test with md5sum -c Adempiere_251.zip.MD5	-->
+  		<checksum file="${build.dir}/Adempiere_${env.ADEMPIERE_VERSION_FILE}.zip"/>
+  	<sleep milliseconds="2000"/>
+  	  	<loadfile property="myfile2" srcFile="${build.dir}/Adempiere_${env.ADEMPIERE_VERSION_FILE}.zip.MD5">
+  	  	    <filterchain>
+  	  	        <striplinebreaks/>
+  	  	   </filterchain>  	  	       
+  	  	 </loadfile>  	
+  		<concat destfile="${build.dir}/Adempiere_${env.ADEMPIERE_VERSION_FILE}.zip.MD5">${myfile2} Adempiere_${env.ADEMPIERE_VERSION_FILE}.zip</concat>
 
   </target>
-
 
   <target name="clean" description="deletes build">
 	<delete dir="${build.dir}"/>

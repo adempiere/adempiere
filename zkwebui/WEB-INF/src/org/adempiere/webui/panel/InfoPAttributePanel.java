@@ -45,10 +45,12 @@ import org.compiere.util.Msg;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zkex.zul.Borderlayout;
+import org.zkoss.zkex.zul.Center;
+import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Separator;
 import org.zkoss.zul.Textbox;
-import org.zkoss.zul.Vbox;
 
 /**
  * Search by Product Attribute.
@@ -129,19 +131,31 @@ public class InfoPAttributePanel extends Window implements EventListener
 	 */
 	private void jbInit() throws Exception
 	{
-		Vbox vbox = new Vbox();
-		this.appendChild(vbox);
+
+		setWidth("410px");
+		setHeight("410px");
 		
+		Borderlayout layout = new Borderlayout();
+		Center center = new Center();
+		layout.appendChild(center);
+		center.setFlex(true);
+		center.setAutoscroll(true);
+		center.setStyle("border: none");
+		this.appendChild(layout);
+		
+		South south = new South();
+		layout.appendChild(south);
+
 		Grid grid = new Grid();
 		ThemeUtils.addSclass("small-grid", grid);
-		vbox.appendChild(grid);
+		center.appendChild(grid);
         
 		rows = new Rows();
 		grid.appendChild(rows);
 		
 		//	ConfirmPanel
 		confirmPanel.addActionListener(this);		
-		vbox.appendChild(confirmPanel);
+		south.appendChild(confirmPanel);
 	}	//	jbInit
 
 	/**
@@ -198,7 +212,7 @@ public class InfoPAttributePanel extends Window implements EventListener
 			row.appendChild(lotField.getComponent());
 			lotField.getComponent().setWidth("150px");
 			lotField.getComponent().setAttribute("zk_component_ID", "InfoPAttributePanel_lotField");
-			
+
 			row = new Row();
 			rows.appendChild(row);
 			div = new Div();
@@ -253,16 +267,16 @@ public class InfoPAttributePanel extends Window implements EventListener
 				String description = rs.getString(3);
 				String attributeValueType = rs.getString(4);
 				boolean isInstanceAttribute = "Y".equals(rs.getString(5)); 
-				// Add label for product attributes if there are any 
+				// Add label for product attributes if there are any
 				if (!productLine && !isInstanceAttribute)
 				{
 					Row row = new Row();
 					rows.appendChild(row);
 					row.setSpans("2");
-    				Label group = new Label(Msg.translate(Env.getCtx(), "IsProductAttribute")); 
+    				Label group = new Label(Msg.translate(Env.getCtx(), "IsProductAttribute"));
     				row.appendChild(group);
     				rows.appendChild(row);
-    				
+
     				row = new Row();
 					rows.appendChild(row);
 					row.setSpans("2");
@@ -270,7 +284,7 @@ public class InfoPAttributePanel extends Window implements EventListener
                     separator.setBar(true);
         			row.appendChild(separator);
         			rows.appendChild(row);
-        			
+
 					productLine = true;
 				}
 				//	Add label for Instances attributes
@@ -360,7 +374,7 @@ public class InfoPAttributePanel extends Window implements EventListener
 				}
 				if (fieldTo != null)
 					fieldTo.setAttribute("zk_component_ID", "InfoPAttributePanel_fieldTo_" + name);
-				
+
 				if (isInstanceAttribute)
 					m_instanceEditorsTo.add(fieldTo);
 				else
@@ -741,7 +755,7 @@ public class InfoPAttributePanel extends Window implements EventListener
 		return m_query;
 	}	//	getQuery
 	/**
-	 * Get Display 
+	 * Get Display
 	 * @return String representation of the attribute set instances.
 	 */
 	public String getDisplay()
@@ -762,7 +776,7 @@ public class InfoPAttributePanel extends Window implements EventListener
 			display.append(lotSelection.getSelectedItem().getValue().toString() + "-");
 		if (guaranteeDateField != null && guaranteeDateField.getValue() != null)
 			display.append(guaranteeDateSelection.getSelectedItem().getValue().toString() + guaranteeDateField.getValue().toString() + "-");
-    
+
 		for (int i = 0; i < m_productEditors.size(); i++)
 		{
 			Component c = (Component)m_productEditors.get(i);
@@ -775,10 +789,11 @@ public class InfoPAttributePanel extends Window implements EventListener
 			else if (c instanceof NumberBox)
 			{
 				NumberBox field = (NumberBox)c;
-				display.append(field.getValue().toString() + "-");
+				if (field.getValue() != null)
+					display.append(field.getValue().toString() + "-");
 				NumberBox fieldTo = (NumberBox)cTo;
-				display.append(fieldTo.getValue().toString() + "-");
-				 
+				if (fieldTo.getValue() != null)
+					display.append(fieldTo.getValue().toString() + "-");
 			}
 			else
 			{
@@ -799,10 +814,11 @@ public class InfoPAttributePanel extends Window implements EventListener
 			else if (c instanceof NumberBox)
 			{
 				NumberBox field = (NumberBox)c;
-				display.append(field.getValue().toString() + "-");
+				if (field.getValue() != null)
+					display.append(field.getValue().toString() + "-");
 				NumberBox fieldTo = (NumberBox)cTo;
-				display.append(fieldTo.getValue().toString() + "-");
-				 
+				if (fieldTo.getValue() != null)
+					display.append(fieldTo.getValue().toString() + "-");
 			}
 			else
 			{

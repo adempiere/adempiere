@@ -34,7 +34,7 @@ import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WebEditorFactory;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
-import org.adempiere.webui.panel.ADTabpanel;
+import org.adempiere.webui.panel.ADTabPanel;
 import org.adempiere.webui.panel.StatusBarPanel;
 import org.adempiere.webui.session.SessionManager;
 import org.compiere.model.DataStatusEvent;
@@ -125,7 +125,7 @@ public final class WAccountDialog extends Window
 	/** MTab for AccountCombination     */
 	private GridTab                m_mTab = null;
 	/** GridController                  */
-	private ADTabpanel      m_adTabPanel = null;
+	private ADTabPanel m_adTabPanel = null;
 
 	/** Account used                */
 	private MAccountLookup		m_mAccount = null;
@@ -208,7 +208,7 @@ public final class WAccountDialog extends Window
 		northPanel.appendChild(toolBar);
 		northPanel.setWidth("100%");
 
-		m_adTabPanel = new ADTabpanel();
+		m_adTabPanel = new ADTabPanel();
 
 		Borderlayout layout = new Borderlayout();
 		layout.setParent(this);

@@ -1199,6 +1199,8 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 			format = MPrintFormat.createFromReportView(ctx, AD_ReportView_ID, pi.getTitle());
 		if (format == null)
 			return null;
+			
+		format.setTranslationLanguage(format.getLanguage());	
 		//
 		PrintInfo info = new PrintInfo (pi);
 		info.setAD_Table_ID(AD_Table_ID);

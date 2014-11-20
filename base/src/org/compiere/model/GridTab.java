@@ -685,16 +685,16 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 				}
 				else
 				{
-					if (!m_query.isActive()){ // create a where criteria - otherwise, use the query.
-						//	we have column and value
-						if (where.length() != 0)
-							where.append(" AND ");
-						where.append(getTableName()).append(".").append(lc).append("=");
-						if (lc.endsWith("_ID"))
-							where.append(DB.TO_NUMBER(new BigDecimal(value), DisplayType.ID));
-						else
-							where.append(DB.TO_STRING(value));
-					}
+					//if (!m_query.isActive()){ // create a where criteria - otherwise, use the query.
+					//	we have column and value
+					if (where.length() != 0)
+						where.append(" AND ");
+					where.append(getTableName()).append(".").append(lc).append("=");
+					if (lc.endsWith("_ID"))
+						where.append(DB.TO_NUMBER(new BigDecimal(value), DisplayType.ID));
+					else
+						where.append(DB.TO_STRING(value));
+					//}
 				}
 			}
 		}	//	isDetail
@@ -888,19 +888,19 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	 */
 	public void dataRefreshAll ()
 	{
-		dataRefreshAll(true);
+		dataRefreshAll(true ,false);
 	}
 
 	/**************************************************************************
 	 *  Refresh all data
 	 *  @param fireEvent
 	 */
-	public void dataRefreshAll (boolean fireEvent)
+	public void dataRefreshAll (boolean fireEvent,  boolean retainedCurrentRow)
 	{
 		log.fine("#" + m_vo.TabNo);
 		/** @todo does not work with alpha key */
 		int keyNo = m_mTable.getKeyID(m_currentRow);
-		m_mTable.dataRefreshAll(fireEvent);
+		m_mTable.dataRefreshAll(fireEvent, retainedCurrentRow ? m_currentRow : -1);
 		//  Should use RowID - not working for tables with multiple keys
 		if (keyNo != -1)
 		{
@@ -1520,7 +1520,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			return true;
 
 		//  ** dynamic content **
-		String parsed = Env.parseContext (m_vo.ctx, 0, dl, false, false).trim();
+		String parsed = Env.parseContext (m_vo.ctx, this.getWindowNo(), dl, false, false).trim(); //Add WindowNo
 		if (parsed.length() == 0)
 			return true;
 		boolean retValue = Evaluator.evaluateLogic(this, dl);
@@ -2465,7 +2465,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	 *  @return current row
 	 */
 	private int setCurrentRow (int newCurrentRow, boolean fireEvents)
-	{
+	{	
 		int oldCurrentRow = m_currentRow;
 		m_currentRow = verifyRow (newCurrentRow);
 		log.fine("Row=" + m_currentRow + " - fire=" + fireEvents);
@@ -2480,11 +2480,11 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			{
 				Object value = m_mTable.getValueAt(m_currentRow, i);
 				mField.setValue(value, m_mTable.isInserting());
-				
+
 				// ADEMPIERE-120 - Reset of Default Values on new records
-				// The state of the context can be undefined when setCurrentRow is 
-				// called which can result in unpredictable behaviour.  On record 
-				// insertion, the call to mField.validateValue() happens later in 
+				// The state of the context can be undefined when setCurrentRow is
+				// called which can result in unpredictable behaviour.  On record
+				// insertion, the call to mField.validateValue() happens later in
 				// dataNew() function.  Thanks to Angelo Dabalà for catching
 				// and diagnosing the issue.
 //				if (m_mTable.isInserting())		//	set invalid values to null
@@ -3149,13 +3149,13 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			}
 		return tabNo;
 	}
-	
+
 	// metas: make GridTab compatible with PO conventions
 	public String get_TableName()
 	{
 		return this.getTableName();
 	}
-
+	
 	public GridTab getParentTab()
 	{
 		int parentTabNo = getParentTabNo();

@@ -29,6 +29,7 @@ import java.util.logging.Level;
 
 import javax.swing.Box;
 import javax.swing.JDialog;
+import javax.swing.JScrollPane;
 
 import org.compiere.apps.AEnv;
 import org.compiere.apps.ALayout;
@@ -58,7 +59,7 @@ import org.compiere.util.Msg;
  *  @author     Jorg Janke
  *  @version    $Id: InfoPAttribute.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
  *
- * @author Michael McKay, 
+ * @author Michael McKay,
  * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
  * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
  */
@@ -121,6 +122,7 @@ public class InfoPAttribute extends CDialog
 	private VDate guaranteeDateField = new VDate ("GuaranteeDate", false, false, true, DisplayType.Date, Msg.translate(Env.getCtx(), "GuaranteeDate")); 
 	private CLabel lotLabel2 = new CLabel(Msg.translate(Env.getCtx(), "M_Lot_ID"));
 	private VComboBox lotSelection = null; 
+	private JScrollPane scrollPane = new JScrollPane();
 	//
 
 	/**
@@ -132,7 +134,10 @@ public class InfoPAttribute extends CDialog
 		this.getContentPane().add(mainPanel, BorderLayout.CENTER);
 		mainPanel.setLayout(mainLayout);
 		mainPanel.add(centerPanel, BorderLayout.CENTER);
+		mainPanel.add(scrollPane, BorderLayout.CENTER);
 		centerPanel.setLayout(new ALayout());
+		scrollPane.getViewport().add(centerPanel, null);
+
 		//	ConfirmPanel
 		confirmPanel.addActionListener(this);
 		mainPanel.add(confirmPanel, BorderLayout.SOUTH);
@@ -215,7 +220,7 @@ public class InfoPAttribute extends CDialog
 				String description = rs.getString(3);
 				String attributeValueType = rs.getString(4);
 				boolean isInstanceAttribute = "Y".equals(rs.getString(5)); 
-				// Add label for product attributes if there are any 
+				// Add label for product attributes if there are any
 				if (!productLine && !isInstanceAttribute)
 				{
 					CPanel group = new CPanel();
@@ -604,7 +609,7 @@ public class InfoPAttribute extends CDialog
 		return m_query;
 	}	//	createQuery
 	/**
-	 * Get Display 
+	 * Get Display
 	 * @return String representation of the attribute set instances.
 	 */
 	public String getDisplay()
@@ -625,7 +630,7 @@ public class InfoPAttribute extends CDialog
 			display.append(lotSelection.getDisplay() + "-");
 		if (guaranteeDateField != null && guaranteeDateField.getValue() != null)
 			display.append(guaranteeDateSelection.getDisplay() + guaranteeDateField.getValue().toString() + "-");
-    
+
 		for (int i = 0; i < m_productEditors.size(); i++)
 		{
 			Component c = (Component)m_productEditors.get(i);
@@ -641,13 +646,13 @@ public class InfoPAttribute extends CDialog
 				display.append(field.getDisplay() + "-");
 				VNumber fieldTo = (VNumber)cTo;
 				display.append(fieldTo.getDisplay() + "-");
-				 
+
 			}
 			else
 			{
 				VString field = (VString)c;
 				display.append(field.getDisplay() + "-");
-				
+
 			}
 		}
 
@@ -666,13 +671,13 @@ public class InfoPAttribute extends CDialog
 				display.append(field.getDisplay() + "-");
 				VNumber fieldTo = (VNumber)cTo;
 				display.append(fieldTo.getDisplay() + "-");
-				 
+
 			}
 			else
 			{
 				VString field = (VString)c;
 				display.append(field.getDisplay() + "-");
-				
+
 			}
 		}
 		//  TODO - there is a more elegant way to do this.
@@ -690,7 +695,7 @@ public class InfoPAttribute extends CDialog
 		}
 		m_display = display.toString();
 	}  // set display
-	
+
 	/**
 	 * 	Get resulting Query WHERE
 	 *	@return query or null

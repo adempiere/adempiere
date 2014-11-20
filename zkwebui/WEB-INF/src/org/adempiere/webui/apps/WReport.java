@@ -106,8 +106,6 @@ public class WReport implements EventListener {
 		}
 
 		m_query = query;
-		if (whereExtended != null && whereExtended.length() > 0 && m_query != null)
-			m_query.addRestriction(Env.parseContext(Env.getCtx(), WindowNo, whereExtended, false));
 		this.parent = parent;
 		this.WindowNo = WindowNo;
 		this.m_whereExtended = whereExtended;
@@ -225,8 +223,13 @@ public class WReport implements EventListener {
 	private void launchReport (MPrintFormat pf)
 	{
 		int Record_ID = 0;
+		//  The query is passed into A/WReport.java with only the key or link column included.
 		if (m_query.getRestrictionCount()==1 && m_query.getCode(0) instanceof Integer)
 			Record_ID = ((Integer)m_query.getCode(0)).intValue();
+		//  Add the extended query after the record ID has been identified.
+		if (m_whereExtended != null && m_whereExtended.length() > 0 && m_query != null)
+			m_query.addRestriction(Env.parseContext(Env.getCtx(), WindowNo, m_whereExtended, false));
+
 		PrintInfo info = new PrintInfo(
 			pf.getName(),
 			pf.getAD_Table_ID(),
@@ -245,7 +248,7 @@ public class WReport implements EventListener {
 		{
 			// It's a default report using the standard printing engine
 			ReportEngine re = new ReportEngine (Env.getCtx(), pf, m_query, info);
-			re.setWhereExtended(m_whereExtended);
+			re.setWhereExtended(m_whereExtended);  // TODO: Is this required?  The extended query, if any, is included in the query.
 			ReportCtl.preview(re);
 		}
 	}	//	launchReport

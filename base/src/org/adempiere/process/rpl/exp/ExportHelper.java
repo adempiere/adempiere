@@ -386,8 +386,8 @@ public class ExportHelper {
 				}
 				Collection<PO> instances = new Query(masterPO.getCtx(),
 					tableEmbedded.getTableName(), whereClause.toString(),
-					masterPO.get_TrxName()).setClient_ID().setParameters(
-					new Object[] { masterID }).list();
+					masterPO.get_TrxName()).setApplyAccessFilter(true) //Adempiere-65 change
+					.setParameters(new Object[] { masterID }).list();
 
 				for (PO instance : instances) 
 				{		
@@ -438,7 +438,7 @@ public class ExportHelper {
 				}
 				
 				Collection<PO> instances = new Query(masterPO.getCtx(),tableEmbedded.getTableName(), whereClause.toString(),masterPO.get_TrxName())
-                                				.setClient_ID()
+				                                .setApplyAccessFilter(true) //Adempiere-65 change
                                 				.setParameters(value)
                                 				.list();
 

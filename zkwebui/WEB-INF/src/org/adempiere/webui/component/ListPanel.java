@@ -415,9 +415,9 @@ public class ListPanel extends Borderlayout implements EventListener
                 }
                 else
                 {
-                	comp.dynamicDisplay();
                     boolean rw = mField.isEditable(true);   //  r/w - check Context
                     comp.setReadWrite(rw);
+                    comp.dynamicDisplay();
                 }
             }
         }   //  all components

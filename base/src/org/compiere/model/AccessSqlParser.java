@@ -19,6 +19,8 @@ package org.compiere.model;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
@@ -179,9 +181,12 @@ public class AccessSqlParser
 		for (int sqlIndex = 0; sqlIndex < sqlIn.length; sqlIndex++)
 		{
 			String sql = sqlIn[sqlIndex];
-			int index = sql.indexOf("(SELECT ", 7);
-			while (index != -1)
+			String patternStr = "\\(\\s*SELECT";  // Open bracket followed by possible white space and the Select keyword, not case sensitive
+		    Pattern pattern = Pattern.compile(patternStr, Pattern.CASE_INSENSITIVE);
+		    Matcher matcher = pattern.matcher(sql);
+			while (matcher.find(7))
 			{
+		    	int index = matcher.start(); //this will give you index
 				int endIndex = index+1;
 				int parenthesisLevel = 0;
 				//	search for the end of the sql
@@ -203,7 +208,7 @@ public class AccessSqlParser
 				//	remove inner SQL (##)
 				sql = sql.substring(0,index+1) + "##" 
 					+ sql.substring(endIndex);
-				index = sql.indexOf("(SELECT ", 7);
+				matcher = pattern.matcher(sql);
 			}			
 			list.add(sql);	//	last SQL
 		}

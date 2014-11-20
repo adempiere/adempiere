@@ -6,9 +6,9 @@ CREATE OR REPLACE VIEW AD_Field_V AS
             COALESCE(f.ad_reference_value_id, c.ad_reference_value_id) AS ad_reference_value_id, c.callout, 
             COALESCE(f.ad_reference_id, c.ad_reference_id) AS ad_reference_id, COALESCE(f.ad_val_rule_id, c.ad_val_rule_id) AS ad_val_rule_id, 
             c.ad_process_id, c.isalwaysupdateable, c.readonlylogic, c.mandatorylogic, c.isupdateable, c.isencrypted AS isencryptedcolumn, 
-            c.isselectioncolumn, c.isrange,tbl.tablename, c.valuemin, c.valuemax, fg.name AS fieldgroup, vr.code AS validationcode, f.included_tab_id, 
+            c.isselectioncolumn, c.isrange , tbl.tablename, c.valuemin, c.valuemax, fg.name AS fieldgroup, vr.code AS validationcode, f.included_tab_id, 
             fg.fieldgrouptype, fg.iscollapsedbydefault, COALESCE(f.infofactoryclass, c.infofactoryclass) AS infofactoryclass, c.isautocomplete,
-			f.hideinlistview, f.preferredwidth, c.AD_Chart_ID, f.isdisplayedgrid, f.seqnogrid
+            f.preferredwidth, c.AD_Chart_ID, f.isdisplayedgrid, f.seqnogrid , f.isembedded
      FROM ad_field f
      JOIN ad_tab t ON f.ad_tab_id = t.ad_tab_id
      LEFT JOIN ad_fieldgroup fg ON f.ad_fieldgroup_id = fg.ad_fieldgroup_id

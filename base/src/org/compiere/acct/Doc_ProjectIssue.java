@@ -138,7 +138,7 @@ public class Doc_ProjectIssue extends Doc
 			costs = getLaborCost(as);
 		if (costs == null)	//	standard Product Costs
 		{	
-			for(MCostDetail cost : m_line.getCostDetail(as))
+			for(MCostDetail cost : m_line.getCostDetail(as, false))
 			{	
 				if(!MCostDetail.existsCost(cost))
 					continue;

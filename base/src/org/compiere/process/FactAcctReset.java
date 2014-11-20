@@ -44,6 +44,7 @@ import org.compiere.util.DB;
 import org.compiere.util.TimeUtil;
 import org.eevolution.model.X_DD_Order;
 import org.eevolution.model.X_HR_Process;
+import org.eevolution.model.X_PP_Cost_Collector;
 import org.eevolution.model.X_PP_Order;
 
 /**
@@ -239,6 +240,8 @@ public class FactAcctReset extends SvrProcess
 			docBaseType = "IN ('" + MPeriodControl.DOCBASETYPE_ManufacturingOrder 
 				+ "','" + MPeriodControl.DOCBASETYPE_MaintenanceOrder
 				+ "','" + MPeriodControl.DOCBASETYPE_QualityOrder + "')";
+		else if (AD_Table_ID == X_PP_Cost_Collector.Table_ID)
+			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_ManufacturingCostCollector + "'";
 		else if (AD_Table_ID == X_DD_Order.Table_ID)
 			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_DistributionOrder+ "'";
 		else if (AD_Table_ID == X_HR_Process.Table_ID)

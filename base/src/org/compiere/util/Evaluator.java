@@ -96,12 +96,30 @@ public class Evaluator
 				+ "'<expression> [<logic> <expression>]' => " + logic);
 			return false;
 		}
+		
+		String exprStrand = st.nextToken().trim();              
+        if (exprStrand.matches("^@\\d+$"))
+        {
+                exprStrand = exprStrand.concat(st.nextToken());
+                exprStrand = exprStrand.concat(st.nextToken());                 
+        }        
 
-		boolean retValue = evaluateLogicTuple(source, st.nextToken());
+		//boolean retValue = evaluateLogicTuple(source, st.nextToken());
+        boolean retValue = evaluateLogicTuple(source, exprStrand);
 		while (st.hasMoreTokens())
 		{
 			String logOp = st.nextToken().trim();
-			boolean temp = evaluateLogicTuple(source, st.nextToken());
+            //boolean temp = evaluateLogicTuple(source, st.nextToken());                    
+
+            exprStrand = st.nextToken().trim();             
+            if (exprStrand.matches("^@\\d+$"))
+            {
+                    exprStrand = exprStrand.concat(st.nextToken());
+                    exprStrand = exprStrand.concat(st.nextToken());                         
+            }
+
+            boolean temp = evaluateLogicTuple(source, exprStrand);
+
 			if (logOp.equals("&"))
 				retValue = retValue & temp;
 			else if (logOp.equals("|"))
@@ -130,7 +148,7 @@ public class Evaluator
 		StringTokenizer st = new StringTokenizer (logic.trim(), "!=^><", true);
 		if (st.countTokens() != 3)
 		{
-			s_log.log(Level.SEVERE, "Logic tuple does not comply with format "
+			s_log.log(Level.INFO, "Logic tuple does not comply with format "
 				+ "'@context@=value' where operand could be one of '=!^><' => " + logic);
 			return false;
 		}

@@ -19,8 +19,6 @@ package org.compiere.acct;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.List;
-
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCostDetail;
 import org.compiere.model.MMovement;
@@ -134,7 +132,7 @@ public class Doc_Movement extends Doc
 		{
 			DocLine line = p_lines[i];
 			BigDecimal costs = Env.ZERO;			
-			for (MCostDetail cost : line.getCostDetail(as))
+			for (MCostDetail cost : line.getCostDetail(as, false))
 			{
 				if(!MCostDetail.existsCost(cost))
 					continue;
@@ -155,12 +153,13 @@ public class Doc_Movement extends Doc
 						continue;
 					dr.setM_Locator_ID(line.getM_Locator_ID());
 					dr.addDescription(description);
+                    dr.setM_Product_ID(cost.getM_Product_ID());
 					dr.setQty(cost.getQty().negate());	//	outgoing
 					if (m_DocStatus.equals(MMovement.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
 					{
 						//	Set AmtAcctDr from Original Movement
 						if (!dr.updateReverseLine (MMovement.Table_ID, 
-								m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
+								m_Reversal_ID, line.getReversalLine_ID(),cost.getQty().negate(),Env.ONE))
 						{
 							p_Error = "Original Inventory Move not posted yet";
 							return null;
@@ -178,12 +177,13 @@ public class Doc_Movement extends Doc
 						continue;
 					cr.setM_Locator_ID(line.getM_LocatorTo_ID());
 					cr.addDescription(description);
+                    cr.setM_Product_ID(cost.getM_Product_ID());
 					cr.setQty(cost.getQty());
 					if (m_DocStatus.equals(MMovement.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
 					{
 						//	Set AmtAcctCr from Original Movement
 						if (!cr.updateReverseLine (MMovement.Table_ID, 
-								m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
+								m_Reversal_ID, line.getReversalLine_ID(),cost.getQty() , Env.ONE))
 						{
 							p_Error = "Original Inventory Move not posted yet";
 							return null;

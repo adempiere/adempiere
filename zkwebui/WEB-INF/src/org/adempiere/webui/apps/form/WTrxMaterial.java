@@ -35,11 +35,8 @@ import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.editor.WTableDirEditor;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
-import org.adempiere.webui.panel.ADForm;
-import org.adempiere.webui.panel.ADTabpanel;
-import org.adempiere.webui.panel.CustomForm;
-import org.adempiere.webui.panel.IFormController;
-import org.adempiere.webui.panel.StatusBarPanel;
+import org.adempiere.webui.panel.*;
+import org.adempiere.webui.panel.ADTabPanel;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.theme.ThemeUtils;
 import org.compiere.apps.form.TrxMaterial;
@@ -74,7 +71,7 @@ public class WTrxMaterial extends TrxMaterial
 	private CustomForm form = new CustomForm();	
 
 	/** GridController          */
-	private ADTabpanel  m_gridController = null;
+	private ADTabPanel m_gridController = null;
 
 	//
 	private Panel mainPanel = new Panel();
@@ -207,7 +204,7 @@ public class WTrxMaterial extends TrxMaterial
 		super.dynInit(statusBar);
 		//
 		
-		m_gridController = new ADTabpanel();
+		m_gridController = new ADTabPanel();
 		m_gridController.init(null, m_WindowNo, m_mTab, m_mWindow);
 		if (!m_gridController.isGridView())
 			m_gridController.switchRowPresentation();

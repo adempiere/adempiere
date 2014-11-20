@@ -150,6 +150,10 @@ public abstract class ADForm extends Window implements EventListener
 		{
 			tail = originalName.substring("org.adempiere.".length());
 		}
+		else if(originalName.startsWith("org.eevolution."))
+		{
+			tail = originalName.substring("org.eevolution.".length());
+		}
 		if (tail != null)
 		{
 			zkName = zkPackage + tail;

@@ -209,7 +209,7 @@ public class WAcctViewer extends Window implements EventListener<Event>
 
 	public WAcctViewer(int AD_Client_ID, int AD_Table_ID, int Record_ID)
 	{
-		this (0, 0, 0, false);	
+		this (AD_Client_ID, AD_Table_ID, Record_ID, false);	
 	}
 	
 	/**

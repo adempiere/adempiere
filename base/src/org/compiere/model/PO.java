@@ -371,7 +371,7 @@ public abstract class PO
 
 	/**
 	 *  Get Key Columns.
-	 *  @return table name
+	 *  @return key column name(s)
 	 */
 	public String[] get_KeyColumns()
 	{
@@ -3443,7 +3443,8 @@ public abstract class PO
 				+ "WHERE t.AD_Tree_ID="+tableName+".AD_Tree_ID AND t.TreeType='" + treeType + "')";
 		
 		PO tree = MTable.get(getCtx(), tableName).getPO(whereClause, get_TrxName());
-		tree.deleteEx(true);
+		if (tree != null)
+			tree.deleteEx(true);
 		return true;
 	}	//	delete_Tree
 

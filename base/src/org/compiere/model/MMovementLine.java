@@ -18,9 +18,11 @@ package org.compiere.model;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.engine.IDocumentLine;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -33,7 +35,7 @@ import org.eevolution.model.MDDOrderLine;
  *  @author Jorg Janke
  *  @version $Id: MMovementLine.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
  */
-public class MMovementLine extends X_M_MovementLine
+public class MMovementLine extends X_M_MovementLine implements IDocumentLine
 {
 	/**
 	 * 
@@ -350,5 +352,26 @@ public class MMovementLine extends X_M_MovementLine
 			+ ", M_LocatorTo_ID=" + getM_LocatorTo_ID()
 			+ "]"
 		;
+	}	
+
+	public IDocumentLine getReversalDocumentLine(){
+		return (IDocumentLine)getReversalLine();
+	}
+
+	public Timestamp getDateAcct(){
+		return getParent().getMovementDate();
+	}
+
+	public BigDecimal getPriceActual(){
+		return Env.ZERO;
+	}
+
+
+	public int getC_DocType_ID(){
+		return getParent().getC_DocType_ID();
+	}
+
+	public boolean isSOTrx(){
+		return false;
 	}	
 }	//	MMovementLine

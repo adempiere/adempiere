@@ -231,9 +231,7 @@ public class MTransaction extends X_M_Transaction
 	{
 		if (newRecord)
 		{	
-			MClient client = MClient.get(getCtx());
-			if (client.isCostImmediate())
-				CostEngineFactory.getCostEngine(getAD_Client_ID()).createCostDetail(this);
+			CostEngineFactory.getCostEngine(getAD_Client_ID()).createCostDetail(this);
 		}	
 		return true;
 	}	//	afterSave

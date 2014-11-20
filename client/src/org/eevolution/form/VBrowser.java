@@ -37,7 +37,6 @@ import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.logging.Level;
-
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -46,7 +45,6 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
-
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.model.MBrowse;
 import org.adempiere.model.MBrowseField;
@@ -66,7 +64,6 @@ import org.compiere.grid.ed.VEditor;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.MiniTable;
 import org.compiere.model.GridFieldVO;
-import org.compiere.model.GridTab;
 import org.compiere.model.MPInstance;
 import org.compiere.model.MProcess;
 import org.compiere.model.MQuery;
@@ -126,7 +123,7 @@ public class VBrowser extends Browser implements ActionListener,
 	 *            window no
 	 * @param value
 	 *            QueryValue
-	 * @param tableName
+	 * @param browse
 	 *            table name
 	 * @param keyColumn
 	 *            key column (ignored)
@@ -915,6 +912,23 @@ public class VBrowser extends Browser implements ActionListener,
 		m_frame.setCursor(Cursor.getDefaultCursor());
 		bExport.setSelected(false);
 	}
+	
+	protected   ArrayList<ArrayList<Object>> getDataRows()
+	{
+		ArrayList<ArrayList<Object>> rows = m_rows;
+		
+		if (isShowTotal)
+		{	
+			ArrayList<Object> row = new ArrayList<Object>();
+			int lastRow = detail.getRowCount();
+			for (int column = 0; column <= detail.getColumnCount() ; column++) {
+				row.add(detail.getValueAt(lastRow , column));
+			}
+			rows.add(row);
+		}	
+			
+		return rows;
+	}
 
 	private void bDeleteActionPerformed(java.awt.event.ActionEvent evt) {
 		cmd_deleteSelection();
@@ -1221,4 +1235,41 @@ public class VBrowser extends Browser implements ActionListener,
 		m_whereClause = sql.toString();
 		return sql.toString();
 	}	
+	
+	public void setParameters() {
+		
+		m_parameters_values = new ArrayList<Object>();
+		m_parameters = new ArrayList<Object>();
+		m_parameters_field = new ArrayList<GridFieldVO>();
+		boolean onRange = false;
+		
+		for (Entry<Object, Object> entry : searchPanel.getParamenters().entrySet()) {
+			VEditor editor = (VEditor) entry.getValue();
+			GridFieldVO field = editor.getField().getVO();
+			if (!onRange) {
+
+				if (editor.getValue() != null
+						&& !editor.getValue().toString().isEmpty()
+						&& !field.isRange) {
+					m_parameters.add(field.Help);
+					m_parameters_values.add(editor.getValue());
+					m_parameters_field.add(field);
+				} else if (editor.getValue() != null
+						&& !editor.getValue().toString().isEmpty()
+						&& field.isRange) {
+					m_parameters.add(field.Help);
+					m_parameters_values.add(editor.getValue());
+					m_parameters_field.add(field);
+					onRange = true;
+				} else
+					continue;
+			} else if (editor.getValue() != null
+					&& !editor.getValue().toString().isEmpty()) {
+				m_parameters.add(field.Help);
+				m_parameters_values.add(editor.getValue());
+				m_parameters_field.add(field);
+				onRange = false;
+			}
+		}
+	}
 }

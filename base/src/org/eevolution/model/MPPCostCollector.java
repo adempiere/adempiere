@@ -21,34 +21,13 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Properties;
-
-import org.adempiere.engine.CostEngineFactory;
-import org.adempiere.engine.IDocumentLine;
-import org.adempiere.engine.StorageEngine;
+import java.util.*;
+import org.adempiere.engine.*;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DocTypeNotFoundException;
 import org.adempiere.exceptions.FillMandatoryException;
 import org.adempiere.exceptions.NoVendorForProductException;
-import org.compiere.model.I_C_UOM;
-import org.compiere.model.MBPartner;
-import org.compiere.model.MDocType;
-import org.compiere.model.MLocator;
-import org.compiere.model.MOrder;
-import org.compiere.model.MOrderLine;
-import org.compiere.model.MPeriod;
-import org.compiere.model.MProduct;
-import org.compiere.model.MProductPO;
-import org.compiere.model.MTransaction;
-import org.compiere.model.MUOM;
-import org.compiere.model.MWarehouse;
-import org.compiere.model.ModelValidationEngine;
-import org.compiere.model.ModelValidator;
-import org.compiere.model.Query;
+import org.compiere.model.*;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
@@ -76,7 +55,26 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 365223076601569263L;
+	private static final long serialVersionUID = 2329378809441860241L;
+
+	/**
+	 * 
+	 */
+	
+	public static MPPCostCollector createVarianceCostCollector(MPPCostCollector cc,
+			String CostCollectorType) {
+		MPPCostCollector ccv = new MPPCostCollector(cc.getCtx(), 0,
+				cc.get_TrxName());
+		MPPCostCollector.copyValues(cc, ccv);
+		ccv.setProcessing(false);
+		ccv.setProcessed(false);
+		ccv.setDocStatus(MPPCostCollector.STATUS_Drafted);
+		ccv.setDocAction(MPPCostCollector.ACTION_Complete);
+		ccv.setCostCollectorType(CostCollectorType);
+		ccv.setDocumentNo(null); // reset
+		ccv.saveEx();
+		return ccv;
+	}
 
 	/**
 	 * get Cost Collector That not was generate by inventory transaction
@@ -85,15 +83,15 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 	 * @param dateAcct
 	 * @return Collection the Cost Collector
 	 */
-	public static List<MPPCostCollector> getCostCollectorNotTransaction(Properties ctx, MProduct product,int AD_Client_ID, Timestamp dateAcct, String trxName)
+	public static List<MPPCostCollector> getCostCollectorNotTransaction(Properties ctx, int M_Product_ID,int AD_Client_ID, Timestamp dateAcct, String trxName)
 	{
 		List<Object> params = new ArrayList();
 		final StringBuffer whereClause = new StringBuffer();
 		whereClause.append(MPPCostCollector.COLUMNNAME_CostCollectorType +" NOT IN ('100','110') AND ");
-		if(product != null)
+		if(M_Product_ID > 0)
 		{	
 		  whereClause.append(MPPCostCollector.COLUMNNAME_M_Product_ID + "=? AND ");
-		  params.add(product.getM_Product_ID());
+		  params.add(M_Product_ID);
 		}	 
 			 
 		  whereClause.append(MPPCostCollector.COLUMNNAME_DateAcct + ">=?");
@@ -109,33 +107,32 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
     /**
      * Create & Complete Cost Collector 
      * @param order
-     * @param M_Product_ID
-     * @param M_Locator_ID
-     * @param M_AttributeSetInstance_ID
-     * @param S_Resource_ID
-     * @param PP_Order_BOMLine_ID
-     * @param PP_Order_Node_ID
-     * @param C_DocType_ID
-     * @param CostCollectorType
-     * @param movementdate
+     * @param productId
+     * @param locatorId
+     * @param attributeSetInstanceId
+     * @param resourceId
+     * @param orderBOMLineId
+     * @param orderNodeId
+     * @param docTypeId
+     * @param costCollectorType
+     * @param movementDate
      * @param qty
      * @param scrap
      * @param reject
      * @param durationSetup
      * @param duration
-     * @param trxName
      * @return completed cost collector
      */
 	public static MPPCostCollector createCollector (MPPOrder order,
-			int M_Product_ID,
-			int M_Locator_ID,
-			int M_AttributeSetInstance_ID,
-			int S_Resource_ID,
-			int PP_Order_BOMLine_ID,
-			int PP_Order_Node_ID,
-			int C_DocType_ID,
-			String CostCollectorType,
-			Timestamp movementdate,
+			int productId,
+			int locatorId,
+			int attributeSetInstanceId,
+			int resourceId,
+			int orderBOMLineId,
+			int orderNodeId,
+			int docTypeId,
+			String costCollectorType,
+			Timestamp movementDate,
 			BigDecimal qty,
 			BigDecimal scrap,
 			BigDecimal reject,
@@ -144,19 +141,19 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 		)
 	{
 		MPPCostCollector cc = new MPPCostCollector(order);
-		cc.setPP_Order_BOMLine_ID(PP_Order_BOMLine_ID);
-		cc.setPP_Order_Node_ID(PP_Order_Node_ID);
-		cc.setC_DocType_ID(C_DocType_ID);
-		cc.setC_DocTypeTarget_ID(C_DocType_ID);
-		cc.setCostCollectorType(CostCollectorType);
+		cc.setPP_Order_BOMLine_ID(orderBOMLineId);
+		cc.setPP_Order_Node_ID(orderNodeId);
+		cc.setC_DocType_ID(docTypeId);
+		cc.setC_DocTypeTarget_ID(docTypeId);
+		cc.setCostCollectorType(costCollectorType);
 		cc.setDocAction(MPPCostCollector.DOCACTION_Complete);
 		cc.setDocStatus(MPPCostCollector.DOCSTATUS_Drafted);
 		cc.setIsActive(true);
-		cc.setM_Locator_ID(M_Locator_ID);
-		cc.setM_AttributeSetInstance_ID(M_AttributeSetInstance_ID);
-		cc.setS_Resource_ID(S_Resource_ID);
-		cc.setMovementDate(movementdate);
-		cc.setDateAcct(movementdate);
+		cc.setM_Locator_ID(locatorId);
+		cc.setM_AttributeSetInstance_ID(attributeSetInstanceId);
+		cc.setS_Resource_ID(resourceId);
+		cc.setMovementDate(movementDate);
+		cc.setDateAcct(movementDate);
 		cc.setMovementQty(qty);
 		cc.setScrappedQty(scrap);
 		cc.setQtyReject(reject);
@@ -167,13 +164,13 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 		cc.setProcessing(false);
 		cc.setUser1_ID(order.getUser1_ID());
 		cc.setUser2_ID(order.getUser2_ID());
-		cc.setM_Product_ID(M_Product_ID);
-		if(PP_Order_Node_ID > 0)
+		cc.setM_Product_ID(productId);
+		if(orderNodeId > 0)
 		{	
-			cc.setIsSubcontracting(PP_Order_Node_ID);
+			cc.setIsSubcontracting(orderNodeId);
 		}
 		// If this is an material issue, we should use BOM Line's UOM
-		if (PP_Order_BOMLine_ID > 0)
+		if (orderBOMLineId > 0)
 		{
 			cc.setC_UOM_ID(0); // we set the BOM Line UOM on beforeSave
 		}
@@ -209,12 +206,12 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
-	 *	@param PP_Cost_Collector id
+	 *	@param costCollectorId id
 	 */
-	public MPPCostCollector(Properties ctx, int PP_Cost_Collector_ID, String trxName)
+	public MPPCostCollector(Properties ctx, int costCollectorId, String trxName)
 	{
-		super (ctx, PP_Cost_Collector_ID,trxName);
-		if (PP_Cost_Collector_ID == 0)
+		super (ctx, costCollectorId,trxName);
+		if (costCollectorId == 0)
 		{
 			//setC_DocType_ID(0);
 			setDocStatus (DOCSTATUS_Drafted);	// DR
@@ -234,12 +231,12 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 	 */
 	public MPPCostCollector(Properties ctx, ResultSet rs,String trxName)
 	{
-		super (ctx, rs, trxName);
+		super(ctx, rs, trxName);
 	}	//	MPPCostCollector
 	
 	/**
 	 * 	Load Constructor
-	 *	@param MPPOrder
+	 *	@param order
 	 */
 	public MPPCostCollector(MPPOrder order)
 	{
@@ -248,6 +245,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 		m_order = order;	
 	}	//	MPPCostCollector
 
+	
 
 	/**
 	 * 	Add to Description
@@ -550,7 +548,10 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 			}
 			else
 			{
-				CostEngineFactory.getCostEngine(getAD_Client_ID()).createActivityControl(this);
+				final StandardCostingMethod standardCostingMethod = (StandardCostingMethod) CostingMethodFactory.get()
+						.getCostingMethod(X_M_CostType.COSTINGMETHOD_StandardCosting);
+				standardCostingMethod.createActivityControl(this);
+				
 				if(activity.getQtyDelivered().compareTo(activity.getQtyRequired()) >= 0)
 				{
 					activity.closeIt();
@@ -581,7 +582,9 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 			activity.setDurationReal(activity.getDurationReal()+getDurationReal().intValueExact());
 			activity.setSetupTimeReal(activity.getSetupTimeReal()+getSetupTimeReal().intValueExact());
 			activity.saveEx();
-			CostEngineFactory.getCostEngine(getAD_Client_ID()).createUsageVariances(this);
+			final StandardCostingMethod standardCostingMethod = (StandardCostingMethod) CostingMethodFactory.get()
+					.getCostingMethod(X_M_CostType.COSTINGMETHOD_StandardCosting);
+			standardCostingMethod.createActivityControl(this);
 		}
 		else
 		{

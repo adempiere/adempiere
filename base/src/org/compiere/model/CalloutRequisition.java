@@ -73,7 +73,7 @@ public class CalloutRequisition extends CalloutEngine
 		if (isCalloutActive() || value == null)
 			return "";
 		
-		final I_M_Requisition req = GridTabWrapper.create(mTab, I_M_Requisition.class);
+		final I_M_Requisition req = GridTabWrapper.create(mTab.getParentTab(), I_M_Requisition.class);
 		final I_M_RequisitionLine line = GridTabWrapper.create(mTab, I_M_RequisitionLine.class);
 		//	Qty changed - recalc price
 		if (mField.getColumnName().equals(I_M_RequisitionLine.COLUMNNAME_Qty) 

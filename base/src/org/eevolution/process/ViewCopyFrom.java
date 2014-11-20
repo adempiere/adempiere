@@ -65,23 +65,29 @@ public class ViewCopyFrom extends SvrProcess {
 		MView viewFrom = new MView(getCtx(), p_AD_View_ID, get_TrxName());
 		MView viewTo = new MView(getCtx(), p_Record_ID, get_TrxName());
 
-		viewFrom.copyValues(viewFrom, viewTo);
+        String name = viewTo.getName();
+        String value = viewTo.getValue();
+
+		viewTo.copyValues(viewFrom, viewTo);
+        viewTo.setName(name);
+        viewTo.setValue(value);
 		viewTo.saveEx();
 
 		for (MViewDefinition viewDefinitionFrom : viewFrom.getViewDefinitions()) {
 			MViewDefinition viewDefinitionTo = new MViewDefinition(getCtx(), 0,
 					get_TrxName());
-			viewDefinitionFrom.copyValues(viewDefinitionFrom, viewDefinitionTo);
+			viewDefinitionTo.copyValues(viewDefinitionFrom, viewDefinitionTo);
+            viewDefinitionTo.setAD_View_ID(viewTo.getAD_View_ID());
 			viewDefinitionTo.saveEx();
 
 			for (MViewColumn viewColumnFrom : viewDefinitionFrom
 					.getADViewColunms()) {
 				MViewColumn viewColumnTo = new MViewColumn(getCtx(), 0,
 						get_TrxName());
-				viewColumnFrom.copyValues(viewColumnFrom, viewColumnTo);
+				viewColumnTo.copyValues(viewColumnFrom, viewColumnTo);
+                viewColumnTo.setAD_View_Definition_ID(viewDefinitionTo.getAD_View_Definition_ID());
 				viewColumnTo.saveEx();
 			}
-
 		}
 		return "@Ok@";
 	}

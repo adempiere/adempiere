@@ -327,7 +327,8 @@ public class MSession extends X_AD_Session
 				"AD_PACKAGE_IMP_BACKUP","AD_PACKAGE_IMP_DETAIL",	"AD_PACKAGE_IMP_INST",
 				"AD_PACKAGE_IMP_PROC",	"AD_PINSTANCE",				"AD_PINSTANCE_LOG",
 				"AD_PINSTANCE_PARA",	"AD_REPLICATION_LOG",		"AD_SCHEDULERLOG",
-				"AD_SESSION",			"AD_WORKFLOWPROCESSORLOG",	"CM_WEBACCESSLOG",
+				"AD_SESSION",			"AD_WF_ACTIVITY",			"AD_WF_EVENTAUDIT",
+				"AD_WF_PROCESS",		"AD_WORKFLOWPROCESSORLOG",	"CM_WEBACCESSLOG",
 				"C_ACCTPROCESSORLOG",	"K_INDEXLOG",				"R_REQUESTPROCESSORLOG",
 				"T_AGING",				"T_ALTER_COLUMN",			"T_DISTRIBUTIONRUNDETAIL",
 				"T_INVENTORYVALUE",		"T_INVOICEGL",				"T_REPLENISH",
@@ -347,9 +348,18 @@ public class MSession extends X_AD_Session
 		if ( pinfo.getTableName().equalsIgnoreCase("AD_Process") && !po.is_new() && po.is_ValueChanged("Statistic_Count") )
 			return;
 		
-		if ( m_migration == null )
+		// Check that m_migration still points to a valid migration.  A merge during the session
+		// may have deleted the current migration.  If needed, create a new one.
+		if ( m_migration == null)
+		{
 			createMigration(po.getCtx());
-		
+		}
+		else 
+		{
+			MMigration mig = new MMigration(po.getCtx(), m_migration.get_ID(), null);
+			if ( mig.get_ID() == 0 ) // Couldn't find the migration - it may have been deleted/merged.  Create another one.
+				createMigration(po.getCtx());
+		}
 		MMigrationStep step = new MMigrationStep(m_migration, po, pinfo, event);
 		step.saveEx();
 		

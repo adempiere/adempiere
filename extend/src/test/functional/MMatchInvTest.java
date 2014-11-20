@@ -4,9 +4,7 @@
 package test.functional;
 
 import java.util.Properties;
-
 import org.compiere.model.MMatchInv;
-
 import test.AdempiereTestCase;
 
 /**
@@ -31,6 +29,7 @@ public class MMatchInvTest extends AdempiereTestCase
 		MMatchInv.getInvoice(ctx, C_Invoice_ID, trxName);
 		MMatchInv.getInvoiceLine(ctx, C_InvoiceLine_ID, trxName);
 		MMatchInv.getInOut(ctx, M_InOut_ID, trxName);
-		MMatchInv.getInOutLine(ctx, M_InOutLine_ID, trxName);
+		MMatchInv.getInOutLine( new org.compiere.model.MInOutLine(ctx, M_InOutLine_ID, trxName));
+
 	}
 }

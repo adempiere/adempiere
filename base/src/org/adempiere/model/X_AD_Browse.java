@@ -31,7 +31,7 @@ public class X_AD_Browse extends PO implements I_AD_Browse, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20140613L;
 
     /** Standard Constructor */
     public X_AD_Browse (Properties ctx, int AD_Browse_ID, String trxName)
@@ -394,6 +394,30 @@ public class X_AD_Browse extends PO implements I_AD_Browse, I_Persistent
 	public boolean isSelectedByDefault () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsSelectedByDefault);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Show Total.
+		@param IsShowTotal 
+		Show totals into Smart Browser
+	  */
+	public void setIsShowTotal (boolean IsShowTotal)
+	{
+		set_Value (COLUMNNAME_IsShowTotal, Boolean.valueOf(IsShowTotal));
+	}
+
+	/** Get Show Total.
+		@return Show totals into Smart Browser
+	  */
+	public boolean isShowTotal () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsShowTotal);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

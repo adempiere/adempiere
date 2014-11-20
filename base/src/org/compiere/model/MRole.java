@@ -1263,6 +1263,7 @@ public final class MRole extends X_AD_Role
 	 */
 	public boolean isTableAccess (int AD_Table_ID, boolean ro)
 	{
+	
 		if (!isTableAccessLevel (AD_Table_ID, ro))	//	Role Based Access
 			return false;
 		loadTableAccess(false);
@@ -1270,44 +1271,44 @@ public final class MRole extends X_AD_Role
 		boolean hasAccess = true;	//	assuming exclusive rule
 		for (int i = 0; i < m_tableAccess.length; i++)
 		{
+			if (m_tableAccess[i].getAD_Table_ID() != AD_Table_ID)
+				continue;
+		
 			if (!X_AD_Table_Access.ACCESSTYPERULE_Accessing.equals(m_tableAccess[i].getAccessTypeRule()))
 				continue;
+		
 			if (m_tableAccess[i].isExclude())		//	Exclude
 			//	If you Exclude Access to a table and select Read Only, 
 			//	you can only read data (otherwise no access).
 			{
-				if (m_tableAccess[i].getAD_Table_ID() == AD_Table_ID)
-				{
-					if (ro)
-						hasAccess = m_tableAccess[i].isReadOnly();
-					else
-						hasAccess = false;
-					log.fine("Exclude AD_Table_ID=" + AD_Table_ID 
-						+ " (ro="  + ro + ",TableAccessRO=" + m_tableAccess[i].isReadOnly() + ") = " + hasAccess);
-					return hasAccess;
-				}
+				if (ro)
+					hasAccess = m_tableAccess[i].isReadOnly();
+				else
+					hasAccess = false;
+				log.fine("Exclude AD_Table_ID=" + AD_Table_ID 
+					+ " (ro="  + ro + ",TableAccessRO=" + m_tableAccess[i].isReadOnly() + ") = " + hasAccess);
+				return hasAccess;
+			
 			}
 			else								//	Include
 			//	If you Include Access to a table and select Read Only, 
 			//	you can only read data (otherwise full access).
 			{
-				hasAccess = false;
-				if (m_tableAccess[i].getAD_Table_ID() == AD_Table_ID)
-				{
-					if (!ro)	//	rw only if not r/o
-						hasAccess = !m_tableAccess[i].isReadOnly();
-					else
-						hasAccess = true;
-					log.fine("Include AD_Table_ID=" + AD_Table_ID 
-						+ " (ro="  + ro + ",TableAccessRO=" + m_tableAccess[i].isReadOnly() + ") = " + hasAccess);
-					return hasAccess;
-				}
+				if (!ro)	//	rw only if not r/o
+					hasAccess = !m_tableAccess[i].isReadOnly();
+				else
+					hasAccess = true;
+				log.fine("Include AD_Table_ID=" + AD_Table_ID 
+					+ " (ro="  + ro + ",TableAccessRO=" + m_tableAccess[i].isReadOnly() + ") = " + hasAccess);
+				return hasAccess;
+			
 			}
 		}	//	for all Table Access
 		if (!hasAccess)
 			log.fine("AD_Table_ID=" + AD_Table_ID 
 				+ "(ro="  + ro + ") = " + hasAccess);
 		return hasAccess;
+	
 	}	//	isTableAccess
 
 	/**

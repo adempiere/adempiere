@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+	Name:			build.xml
+	Description:	buildfile for building Adempiere Migrate subproject
+	Created:		2010-05-07
+	Sponsor:		K.K. Alice
+	Author:			Stefan Christians
+
+	FileTarget:		~/development/sandbox/adempiere/migrate/build.xml
+	FileOwner:		root.root
+	FilePerms:		0644
+-->
+
+<project name="migrate" default="migrateAll" basedir=".">
+
+	<description>
+		This buildfile is used to build the Migrate subproject within
+		the Adempiere project.
+	</description>
+
+	<!-- =========================================== -->
+	<!-- Properties                                  -->
+	<!-- =========================================== -->
+
+	<!-- import global properties -->
+	<import file="../utils_dev/properties.xml" optional="true"/>
+
+	<!-- properties for main build -->
+	<property name="tools.dir" value="../tools/lib" />
+	<property name="source.dir" value="src" />
+	<property name="build.dir" value="build" />
+	<property name="jar.dir" value="lib" />
+	<property name="jar.name" value="migrate" />
+	<path id="project.class.path">
+		<pathelement path="${classpath}" />
+	</path>
+
+	<!-- properties for distribution -->
+	<property name="dist.dir" value="../lib" />
+	<available property="dist.dir.exists" file="${dist.dir}" />
+
+	<!-- properties for API documentation -->
+	<property name="apidoc.dir" value="apidoc" />
+
+	<!-- properties for user documentation -->
+	<fileset id="docbook.fileset.source" dir="${source.dir}" includes="**/documentation/**/*.xml"/>
+	<available property="docbook.exists" file="../docbook/build.xml"/>
+	<import file="../docbook/build.xml" optional="true"/>
+
+	<!-- =========================================== -->
+	<!-- Init                                        -->
+	<!-- =========================================== -->
+	<target name="migrateInit">
+		<echo message="=========== Build Migrate ===========" />
+
+		<!-- create the time stamp -->
+		<tstamp />
+
+		<!-- main build settings -->
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${jar.dir}" />
+		<uptodate property="jar.uptodate" targetfile="${jar.dir}/${jar.name}.jar">
+			<srcfiles dir="${source.dir}">
+				<include name="**/*.java" />
+				<include name="**/images/*" />
+				<include name="**/*.gif" />
+				<include name="**/*.jpg" />
+				<include name="**/*.wav" />
+				<include name="**/*.htm" />
+				<include name="**/*.html" />
+				<include name="**/*.properties" />
+				<exclude name="**/package.html" />
+				<exclude name="**/documentation/*" />
+			</srcfiles>
+		</uptodate>
+
+		<!-- API documentation settings -->
+		<mkdir dir="${apidoc.dir}" />
+		<uptodate property="apidoc.uptodate" targetfile="${apidoc.dir}/index.html">
+			<srcfiles dir="${source.dir}" includes="**/*.java" />
+		</uptodate>
+
+	</target>
+
+	<!-- =========================================== -->
+	<!-- Compile                                     -->
+	<!-- =========================================== -->
+	<target name="migrateCompile" depends="migrateInit" unless="jar.uptodate">
+		<!-- compile the java code -->
+		<javac srcdir="${source.dir}" destdir="${build.dir}" includeAntRuntime="false">
+			<classpath refid="project.class.path" />
+		</javac>
+		<!-- copy all image & sound files from source to the build directory -->
+		<copy todir="${build.dir}">
+			<fileset dir="${source.dir}">
+				<include name="**/images/*" />
+				<include name="**/*.gif" />
+				<include name="**/*.jpg" />
+				<include name="**/*.wav" />
+				<include name="**/*.htm" />
+				<include name="**/*.html" />
+				<include name="**/*.properties" />
+				<exclude name="**/package.html" />
+				<exclude name="**/documentation/*" />
+			</fileset>
+		</copy>
+	</target>
+
+	<!-- =========================================== -->
+	<!-- Pack                                        -->
+	<!-- =========================================== -->
+	<target name="migratePack" depends="migrateCompile" unless="jar.uptodate">
+		<!-- put everything from the build directory into the jar file -->
+		<jar jarfile="${jar.dir}/${jar.name}.jar" excludes="**/*.jbx" index="yes">
+			<fileset dir="${build.dir}" />
+			<manifest>
+				<attribute name="Created-By" value="Stefan Christians" />
+				<attribute name="Specification-Title" value="Migration Tool for ${env.ADEMPIERE_VERSION}" />
+				<attribute name="Specification-Version" value="Migrate ${env.ADEMPIERE_VERSION} ${env.ADEMPIERE_VERSION_FILE}" />
+				<attribute name="Specification-Vendor" value="K.K. Alice" />
+				<attribute name="Implementation-Title" value="Migrate ${env.ADEMPIERE_VERSION} ${env.ADEMPIERE_VERSION_FILE}" />
+				<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${env.ADEMPIERE_VERSION_FILE} ${DSTAMP}-${TSTAMP}" />
+				<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}" />
+				<attribute name="Implementation-URL" value="http://www.adempiere.org" />
+				<attribute name="Main-Class" value="com.kkalice.adempiere.migrate.Migrate" />
+			</manifest>
+		</jar>
+	</target>
+
+	<!-- =========================================== -->
+	<!-- Distribute                                  -->
+	<!-- =========================================== -->
+	<target name="migrateDistInit" if="dist.dir.exists">
+		<uptodate property="dist.uptodate" targetfile="${dist.dir}/${jar.name}.jar">
+			<srcfiles dir="${jar.dir}">
+				<include name="${jar.name}.jar" />
+			</srcfiles>
+		</uptodate>
+	</target>
+
+	<target name="migrateDistribute" depends="migratePack, migrateDistInit" if="dist.dir.exists" unless="dist.uptodate">
+		<copy file="${jar.dir}/${jar.name}.jar" tofile="${dist.dir}/${jar.name}.jar" overwrite="true" />
+	</target>
+
+	<!-- =========================================== -->
+	<!-- API documentation (JavaDoc)                  -->
+	<!-- =========================================== -->
+	<target name="migrateApidoc" depends="migrateInit" unless="apidoc.uptodate">
+		<!-- create the api documentation -->
+		<javadoc packagenames="*" sourcepath="${source.dir}" destdir="${apidoc.dir}" />
+	</target>
+
+	<!-- =========================================== -->
+	<!-- User Documentation (DocBook)                -->
+	<!-- =========================================== -->
+	<target name="migrateUserdoc" depends="migrateInit" if="docbook.exists">
+		<antcall target="docbook.all" />
+	</target>
+
+	<!-- =========================================== -->
+	<!-- ALL                                         -->
+	<!-- =========================================== -->
+	<target name="migrateAll" depends="migrateDistribute, migrateApidoc, migrateUserdoc" />
+
+	<!-- =========================================== -->
+	<!-- Clean up                                    -->
+	<!-- =========================================== -->
+	<target name="migrate.clean">
+		<!-- Delete the build directory tree -->
+		<delete dir="${build.dir}" failonerror="false" />
+		<!-- Delete the target files -->
+		<delete file="${jar.dir}/${jar.name}.jar" failonerror="false" />
+		<!-- Delete the distribution files -->
+		<delete file="${dist.dir}/${jar.name}.jar" failonerror="false" />
+		<!-- Delete the api documentation directory trees -->
+		<delete dir="${apidoc.dir}" failonerror="false" />
+		<!-- Delete the user documentation directory trees -->
+		<delete dir="userdoc" failonerror="false" />
+	</target>
+
+</project>

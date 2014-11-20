@@ -20,7 +20,6 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
-
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCharge;
@@ -1171,18 +1170,18 @@ public class DocLine
 			.append("]");
 		return sb.toString();
 	}	//	toString
-
+	
 	/**
 	 * getCostDetail
+	 * @param as
+	 * @param isExcludeLandedCost exclude cost detail for landed cost
 	 * @return cost detail list for this document line or null if not found
 	 */
-	public List<MCostDetail> getCostDetail(MAcctSchema as)
+	public List<MCostDetail> getCostDetail(MAcctSchema as, boolean isExcludeLandedCost)
 	{
 		MCostType ct = MCostType.get(as, getM_Product_ID(), getAD_Org_ID());
-		return MCostDetail.getByDocLine(this, as.getC_AcctSchema_ID(), ct.getM_CostType_ID());
+		return MCostDetail.getByDocLine(this, as.getC_AcctSchema_ID(), ct.getM_CostType_ID(), isExcludeLandedCost);
 	}
-	
-	
 	
 	public int getAD_Client_ID()
 	{

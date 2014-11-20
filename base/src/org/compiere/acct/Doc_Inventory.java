@@ -150,7 +150,7 @@ public class Doc_Inventory extends Doc
 		{
 			DocLine line = p_lines[i];
 			BigDecimal costs=Env.ZERO;			
-			for (MCostDetail cost : line.getCostDetail(as))
+			for (MCostDetail cost : line.getCostDetail(as, false))
 			{
 
 				if (!MCostDetail.existsCost(cost))
@@ -175,12 +175,13 @@ public class Doc_Inventory extends Doc
 						continue;
 					dr.setM_Locator_ID(line.getM_Locator_ID());
 					dr.addDescription(description);
+                    dr.setM_Product_ID(cost.getM_Product_ID());
 					dr.setQty(cost.getQty());
 					if (m_DocStatus.equals(MInventory.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
 					{
 						//	Set AmtAcctDr from Original Phys.Inventory
 						if (!dr.updateReverseLine (MInventory.Table_ID, 
-								m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
+								m_Reversal_ID, line.getReversalLine_ID(), cost.getQty() ,Env.ONE))
 						{
 							p_Error = "Original Physical Inventory not posted yet";
 							return null;
@@ -206,6 +207,7 @@ public class Doc_Inventory extends Doc
 					if (cr == null)
 						continue;
 					cr.setM_Locator_ID(line.getM_Locator_ID());
+                    cr.setM_Product_ID(cost.getM_Product_ID());
 					cr.setQty(cost.getQty().negate());
 					if (line.getC_Charge_ID() != 0)	//	explicit overwrite for charge
 						cr.setAD_Org_ID(line.getAD_Org_ID());
@@ -214,7 +216,7 @@ public class Doc_Inventory extends Doc
 					{
 						//	Set AmtAcctCr from Original Phys.Inventory
 						if (!cr.updateReverseLine (MInventory.Table_ID, 
-								m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
+								m_Reversal_ID, line.getReversalLine_ID(), cost.getQty().negate(), Env.ONE))
 						{
 							p_Error = "Original Physical Inventory not posted yet";
 							return null;

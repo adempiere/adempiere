@@ -56,11 +56,11 @@ public class MCostType extends X_M_CostType
 			
 			if(pca != null && pca.getCostingMethod() != null && pca.getCostingMethod().length() > 0)
 			{				
-				ct = MCostType.getByMethodCosting(as.getCtx(), pca.getCostingMethod(), as.get_TrxName());
+				ct = MCostType.getByMethodCosting(as, pca.getCostingMethod());
 			}
 			else if (ct == null)
 			{
-				ct = MCostType.getByMethodCosting(as.getCtx(), as.getCostingMethod(), as.get_TrxName());				 
+				ct = MCostType.getByMethodCosting(as , as.getCostingMethod());				 
 			}
 		}		
 		if(ct == null)
@@ -101,18 +101,17 @@ public class MCostType extends X_M_CostType
 	{
 		return new Query(ctx, Table_Name, "AD_Org_ID=?", trxName)
 		.setOnlyActiveRecords(true)
-		.setClient_ID()
+		//.setClient_ID()
 		.setParameters(AD_Org_ID)
 		.setOrderBy(COLUMNNAME_M_CostType_ID)
 		.first();
 	}
 	
-	public static MCostType getByMethodCosting(Properties ctx,String costingMethod, String trxName)
+	public static MCostType getByMethodCosting(MAcctSchema accountSchema , String costingMethod)
 	{
-		return new Query(ctx, Table_Name, "CostingMethod=?", trxName)
+		return new Query(accountSchema.getCtx(), Table_Name, "AD_Client_ID=? AND CostingMethod=?", accountSchema.get_TrxName())
 		.setOnlyActiveRecords(true)
-		.setParameters(costingMethod)
-		.setClient_ID()
+		.setParameters(accountSchema.getAD_Client_ID()  , costingMethod)
 		.setOrderBy(COLUMNNAME_CostingMethod)
 		.first();
 	}

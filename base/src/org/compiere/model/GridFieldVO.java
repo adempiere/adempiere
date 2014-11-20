@@ -34,6 +34,7 @@ import org.compiere.util.Env;
  *
  *  @author Jorg Janke
  *  @author Victor Perez , e-Evolution.SC FR [ 1757088 ] , [1877902] Implement JSR 223 Scripting APIs to Callout
+ *    <li>Implement embedded or horizontal tab panel https://adempiere.atlassian.net/browse/ADEMPIERE-319
  *  @author Carlos Ruiz, qss FR [1877902]
  *  @author Juan David Arboleda (arboleda), GlobalQSS, [ 1795398 ] Process Parameter: add display and readonly logic
  *  @see  http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1877902&group_id=176962 to FR [1877902]
@@ -191,6 +192,8 @@ public class GridFieldVO implements Serializable
 					vo.PreferredWidth = rs.getInt(i);
 				else if (columnName.equalsIgnoreCase("IsRange"))
 					vo.IsRange = "Y".equals(rs.getString (i));
+				else if (columnName.equalsIgnoreCase("isEmbedded"))
+					vo.isEmbedded = "Y".equals(rs.getString (i));
 			}
 			if (vo.Header == null)
 				vo.Header = vo.ColumnName;
@@ -296,6 +299,7 @@ public class GridFieldVO implements Serializable
 		voT.ValueMin = voF.ValueMin;
 		voT.ValueMax = voF.ValueMax;
 		voT.isRange = voF.isRange;
+		voT.isEmbedded= voF.isEmbedded;
 		voT.DisplayLogic = voF.DisplayLogic;
 		voT.ReadOnlyLogic = voF.ReadOnlyLogic;
 		voT.ValidationCode = voF.ValidationCode;
@@ -370,9 +374,10 @@ public class GridFieldVO implements Serializable
 	public Properties   ctx = null;
 	
 	
-	/** RangeLookup     */
-	
+	/** RangeLookup     */	
 	public boolean      IsRange = false;
+	/** isEmbedded **/
+	public boolean      isEmbedded = false;	
 	/** Window No                   */
 	public int          WindowNo;
 	/** Tab No                      */
@@ -613,7 +618,7 @@ public class GridFieldVO implements Serializable
 
 		//  Process Parameter
 		clone.isRange = isRange;
-		clone.IsRange = IsRange;
+		clone.isEmbedded = isEmbedded;
 		clone.DefaultValue2 = DefaultValue2;
 
 		return clone;

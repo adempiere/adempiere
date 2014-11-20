@@ -57,6 +57,19 @@ public class MMatchInv extends X_M_MatchInv implements IDocumentLine
 	private static final long serialVersionUID = 3668871839074170205L;
 
 
+    /**
+     * get Match Inv list
+     * @param inOutLine
+     * @return  Match Inv list entities
+     */
+	public static List<MMatchInv> getInOutLine (MInOutLine inOutLine)
+	{
+		return new Query(inOutLine.getCtx(), I_M_MatchInv.Table_Name, I_M_MatchInv.COLUMNNAME_M_InOutLine_ID + "=?", inOutLine.get_TrxName())
+		.setParameters(inOutLine.getM_InOutLine_ID())
+		.list();
+	}	//	getInOutLine
+
+	
 	/**
 	 * 	Get InOut-Invoice Matches
 	 *	@param ctx context
@@ -449,12 +462,12 @@ public class MMatchInv extends X_M_MatchInv implements IDocumentLine
 
 						MInOutLine inout_line = (MInOutLine) getM_InOutLine();
 						MCost dimension = new MCost (product, M_ASI_ID,
-								as.getC_AcctSchema_ID(), Org_ID, inout_line.getM_Warehouse_ID() , cd.getM_CostType_ID(), cd.getM_CostElement_ID());
+								as.getC_AcctSchema_ID(), Org_ID, inout_line.getM_Warehouse_ID() , cd.getM_CostType_ID(), cd.getM_CostElement_ID() , get_TrxName());
 						
 						for (MTransaction trx: MTransaction.getByInOutLine(inout_line))
 						{
-							final ICostingMethod method = CostingMethodFactory.get().getCostingMethod(ce, ct.getCostingMethod());
-							method.setCostingMethod(as, this, trx, dimension, Env.ZERO, Env.ZERO, false);
+							final ICostingMethod method = CostingMethodFactory.get().getCostingMethod(ct.getCostingMethod());
+							method.setCostingMethod(as, trx, this, dimension, Env.ZERO, Env.ZERO, false);
 							method.processCostDetail(cd);
 						}
 					}
@@ -505,8 +518,8 @@ public class MMatchInv extends X_M_MatchInv implements IDocumentLine
 	 *	@param M_InOutLine_ID shipment
 	 *	@param trxName transaction
 	 *	@return array of matches
-	 */
-	public static MMatchInv[] getInOutLine (Properties ctx, 
+	 *
+     * public static MMatchInv[] getInOutLine (Properties ctx,
 		int M_InOutLine_ID, String trxName)
 	{
 		if (M_InOutLine_ID <= 0)
@@ -520,6 +533,7 @@ public class MMatchInv extends X_M_MatchInv implements IDocumentLine
 		.list();
 		return list.toArray (new MMatchInv[list.size()]);
 	}	//	getInOutLine
+	*/
 	// end Bayu
 
 	@Override

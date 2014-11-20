@@ -164,7 +164,7 @@ public class Doc_InOut extends Doc
 				BigDecimal costs = null;			
 				MProduct product = line.getProduct();
 				
-				for (MCostDetail cost :  line.getCostDetail(as))
+				for (MCostDetail cost :  line.getCostDetail(as,false))
 				{	 
 					if (!MCostDetail.existsCost(cost))
 						continue;
@@ -190,6 +190,7 @@ public class Doc_InOut extends Doc
 					dr.setLocationFromLocator(line.getM_Locator_ID(), true);    //  from Loc
 					dr.setLocationFromBPartner(getC_BPartner_Location_ID(), false);  //  to Loc
 					dr.setAD_Org_ID(line.getOrder_Org_ID());		//	Revenue X-Org
+                    dr.setM_Locator_ID(cost.getM_Product_ID());
 					dr.setQty(cost.getQty().negate());
 					dr.addDescription(description);
 					if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) 
@@ -197,7 +198,7 @@ public class Doc_InOut extends Doc
 					{
 						//	Set AmtAcctDr from Original Shipment/Receipt
 						if (!dr.updateReverseLine (MInOut.Table_ID, 
-								m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
+								m_Reversal_ID, line.getReversalLine_ID() , cost.getQty().negate() , Env.ONE))
 						{
 							p_Error = "Original Shipment/Receipt not posted yet";
 							return null;
@@ -218,12 +219,14 @@ public class Doc_InOut extends Doc
 					cr.setLocationFromLocator(line.getM_Locator_ID(), true);    // from Loc
 					cr.setLocationFromBPartner(getC_BPartner_Location_ID(), false);  // to Loc
 					cr.addDescription(description);
+                    cr.setM_Product_ID(cost.getM_Product_ID());
+                    cr.setQty(cost.getQty());
 					if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) 
 							&& m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
 					{
 						//	Set AmtAcctCr from Original Shipment/Receipt
 						if (!cr.updateReverseLine (MInOut.Table_ID, 
-								m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
+								m_Reversal_ID, line.getReversalLine_ID(),cost.getQty() ,Env.ONE))
 						{
 							p_Error = "Original Shipment/Receipt not posted yet";
 							return null;
@@ -269,7 +272,7 @@ public class Doc_InOut extends Doc
 				DocLine line = p_lines[i];
 				BigDecimal costs = null;				
 				MProduct product = line.getProduct();
-				for (MCostDetail cost : line.getCostDetail(as))
+				for (MCostDetail cost : line.getCostDetail(as, false))
 				{	
 					if (!MCostDetail.existsCost(cost))
 						continue;
@@ -294,12 +297,14 @@ public class Doc_InOut extends Doc
 					dr.setLocationFromLocator(line.getM_Locator_ID(), true);    // from Loc
 					dr.setLocationFromBPartner(getC_BPartner_Location_ID(), false);  // to Loc
 					dr.addDescription(description);
+                    dr.setM_Product_ID(cost.getM_Product_ID());
+                    dr.setQty(cost.getQty());
 					if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) 
 							&& m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
 					{
 						//	Set AmtAcctDr from Original Shipment/Receipt
 						if (!dr.updateReverseLine (MInOut.Table_ID, 
-								m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
+								m_Reversal_ID, line.getReversalLine_ID() , cost.getQty() ,Env.ONE))
 						{
 							p_Error = "Original Shipment/Receipt not posted yet";
 							return null;
@@ -320,6 +325,7 @@ public class Doc_InOut extends Doc
 					cr.setLocationFromLocator(line.getM_Locator_ID(), true);    //  from Loc
 					cr.setLocationFromBPartner(getC_BPartner_Location_ID(), false);  //  to Loc
 					cr.setAD_Org_ID(line.getOrder_Org_ID());		//	Revenue X-Org
+                    cr.setM_Product_ID(cost.getM_Product_ID());
 					cr.setQty(cost.getQty().negate());
 					cr.addDescription(description);
 					if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) 
@@ -327,7 +333,7 @@ public class Doc_InOut extends Doc
 					{
 						//	Set AmtAcctCr from Original Shipment/Receipt
 						if (!cr.updateReverseLine (MInOut.Table_ID, 
-								m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
+								m_Reversal_ID, line.getReversalLine_ID(),cost.getQty().negate() , Env.ONE))
 						{
 							p_Error = "Original Shipment/Receipt not posted yet";
 							return null;
@@ -361,7 +367,7 @@ public class Doc_InOut extends Doc
 				DocLine line = p_lines[i];
 				BigDecimal costs = null;
 				MProduct product = line.getProduct();
-				for (MCostDetail cost : line.getCostDetail(as))
+				for (MCostDetail cost : line.getCostDetail(as, true))
 				{	
 						if (!MCostDetail.existsCost(cost))
 							continue;
@@ -395,11 +401,13 @@ public class Doc_InOut extends Doc
 						dr.setM_Locator_ID(line.getM_Locator_ID());
 						dr.setLocationFromBPartner(getC_BPartner_Location_ID(), true);   // from Loc
 						dr.setLocationFromLocator(line.getM_Locator_ID(), false);   // to Loc
+                        dr.setM_Product_ID(cost.getM_Product_ID());
+                        dr.setQty(cost.getQty());
 						if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
 						{
 							//	Set AmtAcctDr from Original Shipment/Receipt
 							if (!dr.updateReverseLine (MInOut.Table_ID, 
-									m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
+									m_Reversal_ID, line.getReversalLine_ID() , cost.getQty() ,Env.ONE))
 							{
 								p_Error = "Original Receipt not posted yet";
 								return null;
@@ -420,12 +428,13 @@ public class Doc_InOut extends Doc
 						cr.setM_Locator_ID(line.getM_Locator_ID());
 						cr.setLocationFromBPartner(getC_BPartner_Location_ID(), true);   //  from Loc
 						cr.setLocationFromLocator(line.getM_Locator_ID(), false);   //  to Loc
+                        cr.setM_Product_ID(cost.getM_Product_ID());
 						cr.setQty(cost.getQty().negate());
 						if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
 						{
 							//	Set AmtAcctCr from Original Shipment/Receipt
 							if (!cr.updateReverseLine (MInOut.Table_ID, 
-									m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
+									m_Reversal_ID, line.getReversalLine_ID(),cost.getQty().negate(),Env.ONE))
 							{
 								p_Error = "Original Receipt not posted yet";
 								return null;
@@ -456,7 +465,7 @@ public class Doc_InOut extends Doc
 				BigDecimal costs = null;
 				
 				MProduct product = line.getProduct();
-				for(MCostDetail cost : line.getCostDetail(as))
+				for(MCostDetail cost : line.getCostDetail(as,true))
 				{	
 					if (!MCostDetail.existsCost(cost))
 						continue;
@@ -481,12 +490,13 @@ public class Doc_InOut extends Doc
 						dr.setM_Locator_ID(line.getM_Locator_ID());
 						dr.setLocationFromBPartner(getC_BPartner_Location_ID(), true);   //  from Loc
 						dr.setLocationFromLocator(line.getM_Locator_ID(), false);   //  to Loc
+                        dr.setM_Product_ID(cost.getM_Product_ID());
 						dr.setQty(cost.getQty().negate());
 						if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
 						{
 							//	Set AmtAcctDr from Original Shipment/Receipt
 							if (!dr.updateReverseLine (MInOut.Table_ID, 
-									m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
+									m_Reversal_ID, line.getReversalLine_ID(),cost.getQty().negate(),Env.ONE))
 							{
 								p_Error = "Original Receipt not posted yet";
 								return null;
@@ -510,11 +520,13 @@ public class Doc_InOut extends Doc
 						cr.setLocationFromBPartner(getC_BPartner_Location_ID(), true);   // from Loc
 						cr.setLocationFromLocator(line.getM_Locator_ID(), false);   // to Loc
 						cr.addDescription(description);
+                        cr.setM_Product_ID(cost.getM_Product_ID());
+                        cr.setQty(cost.getQty());
 						if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
 						{
 							//	Set AmtAcctCr from Original Shipment/Receipt
 							if (!cr.updateReverseLine (MInOut.Table_ID, 
-									m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
+									m_Reversal_ID, line.getReversalLine_ID() , cost.getQty() ,Env.ONE))
 							{
 								p_Error = "Original Receipt not posted yet";
 								return null;
