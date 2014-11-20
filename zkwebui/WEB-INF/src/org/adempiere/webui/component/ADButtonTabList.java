@@ -16,6 +16,7 @@ package org.adempiere.webui.component;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.adempiere.webui.component.ADTabListModel.ADTabLabel;
 import org.adempiere.webui.theme.ThemeUtils;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;

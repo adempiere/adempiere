@@ -172,7 +172,7 @@ public class ADTreePanel extends Panel implements EventListener<Event>
 		//	if ID==0=root - don't update it
 		if (keyID == 0)
 			return;	
-			
+
 		//  try to find the node
 		TreeModel<Object> model = tree.getModel();
 		DefaultTreeNode<Object> root = (DefaultTreeNode<Object>) model.getRoot();

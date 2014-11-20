@@ -168,7 +168,7 @@ public class AReport implements ActionListener
 			if (pp == null)
 				createNewFormat (AD_Table_ID);		//	calls launch
 			else
-				copyFormat(pp.getKey(), AD_Client_ID);
+				copyFormat(pp.getKey(), AD_Client_ID);  // copies that last format. What if there were several?
 		}
 		//	One Format exists or no invoker - show it
 		else if (m_list.size() == 1 || invoker == null)
