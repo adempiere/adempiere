@@ -7,7 +7,7 @@
   font-weight: normal;
   font-style: normal;
   color: #636363;
-  border: 1px solid #b8fea1;
+  border: 1px solid #58f2d4;
   min-width: 230px;
   <c:if test="${ zk.ie == 8 }">
 

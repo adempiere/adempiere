@@ -22,7 +22,7 @@
   font-style: normal;
   color: #000000;
   display: none;
-  border: 1px solid #b8fea1;
+  border: 1px solid #58f2d4;
   padding: 2px 5px;
   background: #e1fed8;
   text-align: center;

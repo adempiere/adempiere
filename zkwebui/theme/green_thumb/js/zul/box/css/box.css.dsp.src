@@ -40,7 +40,7 @@ td.z-splitter-outer {
   padding: 0;
 }
 .z-splitter {
-  border: 1px solid #b8fea1;
+  border: 1px solid #58f2d4;
 }
 .z-splitter-horizontal {
   width: 8px;
@@ -120,7 +120,7 @@ td.z-splitter-outer {
 .z-splitter-button {
   color: #636363;
   display: inline-block;
-  border: 1px solid #b8fea1;
+  border: 1px solid #58f2d4;
   position: relative;
   vertical-align: top;
   cursor: pointer;

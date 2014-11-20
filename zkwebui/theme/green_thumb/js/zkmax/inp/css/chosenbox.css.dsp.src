@@ -3,7 +3,7 @@
 <%@ taglib uri="http://www.zkoss.org/dsp/web/theme" prefix="t" %>
 .z-chosenbox {
   display: inline-block;
-  border: 1px solid #b8fea1;
+  border: 1px solid #58f2d4;
   line-height: normal;
   background: #e1fed8;
   overflow: hidden;
@@ -111,7 +111,7 @@
   font-style: normal;
   color: #363636;
   display: block;
-  border: 1px solid #b8fea1;
+  border: 1px solid #58f2d4;
   padding: 2px;
   background: #e1fed8;
   position: absolute;

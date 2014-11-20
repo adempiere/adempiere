@@ -23,7 +23,7 @@
   font-style: normal;
   color: #000000;
   height: 30px;
-  border: 1px solid #b8fea1;
+  border: 1px solid #58f2d4;
   border-right: 0;
    ${t:borderRadius('4px 0 0 4px') };
   margin: 0;
@@ -74,7 +74,7 @@
   </c:if>
 
   height: 30px;
-  border: 1px solid #b8fea1;
+  border: 1px solid #58f2d4;
    ${t:borderRadius('0 4px 4px 0') };
   padding: 4px;
   line-height: 16px;
@@ -123,7 +123,7 @@ input[disabled] + .z-datebox-button:active,
 input[disabled] + .z-timebox-button:active,
 input[disabled] + .z-spinner-button:active,
 input[disabled] + .z-doublespinner-button:active {
-  border-color: #b8fea1;
+  border-color: #58f2d4;
   background: none;
   filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
    ${t:boxShadow('none') };
@@ -176,7 +176,7 @@ input[disabled] + .z-doublespinner-button:active {
 .z-timebox-rightedge,
 .z-spinner-rightedge,
 .z-doublespinner-rightedge {
-  border-right: 1px solid #b8fea1;
+  border-right: 1px solid #58f2d4;
    ${t:borderRadius('4px') };
 }
 .z-combobox-input[readonly],
@@ -425,7 +425,7 @@ input[disabled] + .z-doublespinner-button:active {
   font-weight: normal;
   font-size: 14px;
   display: block;
-  border: 1px solid #b8fea1;
+  border: 1px solid #58f2d4;
   padding: 2px;
   background: #e1fed8;
   position: absolute;

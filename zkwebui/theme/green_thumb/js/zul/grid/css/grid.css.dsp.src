@@ -2,7 +2,7 @@
 <%@ taglib uri="http://www.zkoss.org/dsp/zk/core" prefix="z" %>
 <%@ taglib uri="http://www.zkoss.org/dsp/web/theme" prefix="t" %>
 .z-grid {
-  border: 1px solid #b8fea1;
+  border: 1px solid #58f2d4;
   overflow: hidden;
   zoom: 1;
 }
@@ -28,7 +28,7 @@
   text-align: inherit;
 }
 .z-grid-header-border {
-  border-bottom: 1px solid #b8fea1;
+  border-bottom: 1px solid #58f2d4;
   margin-top: -1px;
   position: relative;
 }
@@ -58,7 +58,7 @@
   text-align: center;
 }
 .z-grid-footer {
-  border-top: 1px solid #b8fea1;
+  border-top: 1px solid #58f2d4;
   background: #b8fea1;
   overflow: hidden;
 }
@@ -84,15 +84,15 @@
   border-left: none;
 }
 .z-columns th:first-child.z-columns-border {
-  border-left: 1px solid #b8fea1;
+  border-left: 1px solid #58f2d4;
 }
 .z-columns-bar {
-  border-left: 1px solid #b8fea1;
-  border-bottom: 1px solid #b8fea1;
+  border-left: 1px solid #58f2d4;
+  border-bottom: 1px solid #58f2d4;
 }
 .z-column {
-  border-left: 1px solid #b8fea1;
-  border-bottom: 1px solid #b8fea1;
+  border-left: 1px solid #58f2d4;
+  border-bottom: 1px solid #58f2d4;
   padding: 0;
   <c:if test="${ zk.ie != 8 }">
 
@@ -176,8 +176,8 @@
   color: #636363;
 }
 .z-group-inner {
-  border-top: 1px solid #b8fea1;
-  border-bottom: 1px solid #b8fea1;
+  border-top: 1px solid #58f2d4;
+  border-bottom: 1px solid #58f2d4;
   <c:if test="${ zk.ie != 8 }">
 
    ${t:gradient('ver', '#ffffff 0%; #e9f2fb 100%') };
@@ -241,12 +241,12 @@
 }
 .z-grid-paging-top {
   width: 100%;
-  border-bottom: 1px solid #b8fea1;
+  border-bottom: 1px solid #58f2d4;
   overflow: hidden;
 }
 .z-grid-paging-bottom {
   width: 100%;
-  border-top: 1px solid #b8fea1;
+  border-top: 1px solid #58f2d4;
   overflow: hidden;
 }
 .z-columns-menugrouping .z-menuitem-image {

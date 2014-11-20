@@ -17,7 +17,7 @@
   min-height: 21px;
   </c:if>
 
-  border: 1px solid #b8fea1;
+  border: 1px solid #58f2d4;
    ${t:borderRadius('4px') };
   margin: 0;
   padding: 4px 5px 3px;

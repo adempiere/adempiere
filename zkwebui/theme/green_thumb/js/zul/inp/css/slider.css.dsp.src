@@ -11,7 +11,7 @@
 .z-slider-button {
   width: 20px;
   height: 20px;
-  border: 1px solid #b8fea1;
+  border: 1px solid #58f2d4;
    ${t:borderRadius('4px') };
   <c:if test="${ zk.ie != 8 }">
 

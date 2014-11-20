@@ -5,7 +5,7 @@
   display: inline-block;
   width: 50px;
   height: 30px;
-  border: 1px solid #81f95b;
+  border: 1px solid #1ea086;
    ${t:borderRadius('4px') };
   margin: 0 2px;
   padding: 3px;
@@ -58,7 +58,7 @@
 .z-colorpicker {
   width: 384px;
   height: 332px;
-  border: 1px solid #81f95b;
+  border: 1px solid #1ea086;
   background: #e1fed8;
   position: relative;
   overflow: hidden;
@@ -66,7 +66,7 @@
 .z-colorpicker-gradient {
   width: 256px;
   height: 256px;
-  border: 1px solid #81f95b;
+  border: 1px solid #1ea086;
   position: absolute;
   left: 7px;
   top: 31px;
@@ -80,7 +80,7 @@
 .z-colorpicker-bar {
   width: 12px;
   height: 256px;
-  border: 1px solid #81f95b;
+  border: 1px solid #1ea086;
   background-image: url(${c:encodeURL('~./zkex/img/colorbox/colorpicker_hue.png')});
   position: absolute;
   left: 7px;
@@ -172,7 +172,7 @@
 .z-colorpicker-input {
   width: 50px;
   height: 30px;
-  border: 1px solid #b8fea1;
+  border: 1px solid #58f2d4;
   padding: 2px;
   background: #e1fed8;
   float: right;
@@ -199,14 +199,14 @@
 .z-colorpalette {
   width: 262px;
   height: 222px;
-  border: 1px solid #81f95b;
+  border: 1px solid #1ea086;
   padding-left: 4px;
   background: #e1fed8;
 }
 .z-colorpalette-newcolor {
   width: 50px;
   height: 24px;
-  border: 1px solid #81f95b;
+  border: 1px solid #1ea086;
   margin: 4px 2px;
   position: relative;
   left: 123px;
@@ -225,7 +225,7 @@
   color: #000000;
   width: 65px;
   height: 30px;
-  border: 1px solid #b8fea1;
+  border: 1px solid #58f2d4;
   padding: 2px;
   background: #e1fed8;
 }

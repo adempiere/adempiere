@@ -46,7 +46,7 @@
 .z-west,
 .z-center,
 .z-east {
-  border: 1px solid #b8fea1;
+  border: 1px solid #58f2d4;
   background: #e1fed8;
   position: absolute;
   overflow: hidden;
@@ -69,7 +69,7 @@
   font-style: normal;
   color: #3fa51f;
   height: 40px;
-  border-bottom: 1px solid #b8fea1;
+  border-bottom: 1px solid #58f2d4;
   padding: 5px 5px;
   line-height: 29px;
    ${t:gradient('ver', '#e1fed8 0%; #b8fea1 100%') };
@@ -91,7 +91,7 @@
 .z-east-collapsed {
   width: 40px;
   height: 40px;
-  border: 1px solid #b8fea1;
+  border: 1px solid #58f2d4;
   padding: 5px;
   background: #fcfcfc;
   position: absolute;
@@ -154,7 +154,7 @@
 .z-south-splitter-button {
   color: #636363;
   display: inline-block;
-  border: 1px solid #b8fea1;
+  border: 1px solid #58f2d4;
   vertical-align: top;
   position: relative;
   cursor: pointer;
@@ -177,8 +177,8 @@
 }
 .z-north-splitter,
 .z-south-splitter {
-  border-left: 1px solid #b8fea1;
-  border-right: 1px solid #b8fea1;
+  border-left: 1px solid #58f2d4;
+  border-right: 1px solid #58f2d4;
    ${t:gradient('ver', '#fdfdfd 0%; #f1f1f1 100%') };
   cursor: s-resize;
 }
