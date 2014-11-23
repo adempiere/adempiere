@@ -14,16 +14,15 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
-package org.adempiere.model;
+package org.compiere.model;
 
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
-import org.adempiere.model.I_AD_Theme;
-import org.adempiere.model.I_AD_ThemeResource;
-import org.compiere.model.Query;
-import org.adempiere.model.X_AD_Theme;
+import org.compiere.model.I_AD_Theme;
+import org.compiere.model.I_AD_ThemeResource;
+import org.compiere.model.X_AD_Theme;
 
 /**
  *  Theme - Model for themes available to the ZK interface
@@ -65,7 +64,7 @@ public class MTheme extends X_AD_Theme
 	public static MTheme getDefault (Properties ctx)
 	{
 		MTheme theme = new Query(ctx, I_AD_Theme.Table_Name, "IsDefaultTheme='Y'", null)
-				.setOrderBy("ThemePriority, Name")
+				.setOrderBy("ThemePriority, ThemeName")
 				.setOnlyActiveRecords(true)
 				.first();
 		
@@ -81,7 +80,7 @@ public class MTheme extends X_AD_Theme
 	{
 		List<MTheme> list = new Query(ctx, I_AD_Theme.Table_Name, null, null)
 								.setClient_ID()
-								.setOrderBy("ThemePriority Desc, Name")
+								.setOrderBy("ThemePriority Desc, ThemeName")
 								.setOnlyActiveRecords(true)
 								.list();
 		MTheme[] retValue = list.toArray(new MTheme[list.size()]);
@@ -103,7 +102,7 @@ public class MTheme extends X_AD_Theme
 	 */
 	public static MTheme get (Properties ctx, String themeName)
 	{
-		final String whereClause = I_AD_Theme.COLUMNNAME_Name+"=?";
+		final String whereClause = I_AD_Theme.COLUMNNAME_ThemeName+"=?";
 		MTheme theme = new Query(ctx, I_AD_Theme.Table_Name, whereClause, null)
 			.setOnlyActiveRecords(true)
 			.setParameters(themeName)
@@ -171,7 +170,7 @@ public class MTheme extends X_AD_Theme
 	}
 
 	public String get_themeName() {
-		return this.get_ValueAsString(COLUMNNAME_Name);
+		return this.get_ValueAsString(COLUMNNAME_ThemeName);
 	}
 		
 	/**

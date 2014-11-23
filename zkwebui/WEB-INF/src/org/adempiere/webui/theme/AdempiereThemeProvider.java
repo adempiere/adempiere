@@ -16,7 +16,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.adempiere.model.MTheme;
+import org.compiere.model.MTheme;
 import org.compiere.util.Env;
 import org.zkoss.lang.Strings;
 import org.zkoss.web.fn.ServletFns;

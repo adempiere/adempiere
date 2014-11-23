@@ -14,11 +14,10 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
-package org.adempiere.model;
+package org.compiere.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Theme
@@ -270,19 +269,6 @@ public interface I_AD_Theme
 	  */
 	public String getLogo_Small_Image();
 
-    /** Column name Name */
-    public static final String COLUMNNAME_Name = "Name";
-
-	/** Set Name.
-	  * The name of the theme
-	  */
-	public void setName (String Name);
-
-	/** Get Name.
-	  * The name of the theme
-	  */
-	public String getName();
-
     /** Column name ThemeDisplay */
     public static final String COLUMNNAME_ThemeDisplay = "ThemeDisplay";
 
@@ -295,6 +281,19 @@ public interface I_AD_Theme
 	  * The theme name to display.
 	  */
 	public String getThemeDisplay();
+
+    /** Column name ThemeName */
+    public static final String COLUMNNAME_ThemeName = "ThemeName";
+
+	/** Set Name.
+	  * The name of the theme
+	  */
+	public void setThemeName (String ThemeName);
+
+	/** Get Name.
+	  * The name of the theme
+	  */
+	public String getThemeName();
 
     /** Column name ThemeOrigin */
     public static final String COLUMNNAME_ThemeOrigin = "ThemeOrigin";

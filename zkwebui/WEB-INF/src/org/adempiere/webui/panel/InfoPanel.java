@@ -420,10 +420,10 @@ public abstract class InfoPanel extends Window implements EventListener<Event>, 
 		else
 		{
 			setAttribute(Window.MODE_KEY, Window.MODE_EMBEDDED);
-			setBorder("none");
-			setWidth("100%");
-			setHeight("100%");
-			setStyle("position: absolute");
+//			setBorder("none");
+//			setWidth("100%");
+//			setHeight("100%");
+//			setStyle("position: absolute");
     		ThemeUtils.addSclass("info-panel-embedded", this);
 		}
 		

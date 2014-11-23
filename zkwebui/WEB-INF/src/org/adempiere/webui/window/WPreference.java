@@ -13,7 +13,6 @@
  *****************************************************************************/
 package org.adempiere.webui.window;
 
-import org.adempiere.model.MTheme;
 import org.adempiere.webui.component.Combobox;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Listbox;
@@ -27,6 +26,7 @@ import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.util.UserPreference;
 import org.compiere.model.MColumn;
 import org.compiere.model.MLookupFactory;
+import org.compiere.model.MTheme;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;

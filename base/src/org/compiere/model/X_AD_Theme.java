@@ -15,11 +15,10 @@
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
-package org.adempiere.model;
+package org.compiere.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Theme
@@ -31,7 +30,7 @@ public class X_AD_Theme extends PO implements I_AD_Theme, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140610L;
+	private static final long serialVersionUID = 20141123L;
 
     /** Standard Constructor */
     public X_AD_Theme (Properties ctx, int AD_Theme_ID, String trxName)
@@ -330,23 +329,6 @@ public class X_AD_Theme extends PO implements I_AD_Theme, I_Persistent
 		return (String)get_Value(COLUMNNAME_Logo_Small_Image);
 	}
 
-	/** Set Name.
-		@param Name 
-		The name of the theme
-	  */
-	public void setName (String Name)
-	{
-		set_Value (COLUMNNAME_Name, Name);
-	}
-
-	/** Get Name.
-		@return The name of the theme
-	  */
-	public String getName () 
-	{
-		return (String)get_Value(COLUMNNAME_Name);
-	}
-
 	/** Set Display Name.
 		@param ThemeDisplay 
 		The theme name to display.
@@ -371,6 +353,23 @@ public class X_AD_Theme extends PO implements I_AD_Theme, I_Persistent
     {
         return new KeyNamePair(get_ID(), getThemeDisplay());
     }
+
+	/** Set Name.
+		@param ThemeName 
+		The name of the theme
+	  */
+	public void setThemeName (String ThemeName)
+	{
+		set_Value (COLUMNNAME_ThemeName, ThemeName);
+	}
+
+	/** Get Name.
+		@return The name of the theme
+	  */
+	public String getThemeName () 
+	{
+		return (String)get_Value(COLUMNNAME_ThemeName);
+	}
 
 	/** ThemeOrigin AD_Reference_ID=53694 */
 	public static final int THEMEORIGIN_AD_Reference_ID=53694;

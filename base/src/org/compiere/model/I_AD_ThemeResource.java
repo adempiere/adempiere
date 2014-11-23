@@ -14,11 +14,10 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
-package org.adempiere.model;
+package org.compiere.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_ThemeResource
@@ -72,7 +71,7 @@ public interface I_AD_ThemeResource
 	/** Get AD_Theme ID	  */
 	public int getAD_Theme_ID();
 
-	public org.adempiere.model.I_AD_Theme getAD_Theme() throws RuntimeException;
+	public org.compiere.model.I_AD_Theme getAD_Theme() throws RuntimeException;
 
     /** Column name AD_ThemeResource_ID */
     public static final String COLUMNNAME_AD_ThemeResource_ID = "AD_ThemeResource_ID";

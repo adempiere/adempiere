@@ -15,11 +15,10 @@
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
-package org.adempiere.model;
+package org.compiere.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_ThemeResource
@@ -31,7 +30,7 @@ public class X_AD_ThemeResource extends PO implements I_AD_ThemeResource, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140610L;
+	private static final long serialVersionUID = 20141123L;
 
     /** Standard Constructor */
     public X_AD_ThemeResource (Properties ctx, int AD_ThemeResource_ID, String trxName)
@@ -72,9 +71,9 @@ public class X_AD_ThemeResource extends PO implements I_AD_ThemeResource, I_Pers
       return sb.toString();
     }
 
-	public org.adempiere.model.I_AD_Theme getAD_Theme() throws RuntimeException
+	public org.compiere.model.I_AD_Theme getAD_Theme() throws RuntimeException
     {
-		return (org.adempiere.model.I_AD_Theme)MTable.get(getCtx(), org.adempiere.model.I_AD_Theme.Table_Name)
+		return (org.compiere.model.I_AD_Theme)MTable.get(getCtx(), org.compiere.model.I_AD_Theme.Table_Name)
 			.getPO(getAD_Theme_ID(), get_TrxName());	}
 
 	/** Set AD_Theme ID.

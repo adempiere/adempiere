@@ -14,9 +14,9 @@ package org.adempiere.webui.theme;
 
 import java.util.Properties;
 
-import org.adempiere.model.MTheme;
 import org.adempiere.webui.component.Label;
 import org.compiere.model.MSysConfig;
+import org.compiere.model.MTheme;
 import org.compiere.util.Env;
 import org.zkoss.zhtml.impl.AbstractTag;
 import org.zkoss.zk.au.out.AuScript;

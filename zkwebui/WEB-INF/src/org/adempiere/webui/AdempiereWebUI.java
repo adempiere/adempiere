@@ -23,7 +23,6 @@ import java.util.Properties;
 
 import javax.servlet.http.HttpSession;
 
-import org.adempiere.model.MTheme;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.DrillCommand;
 import org.adempiere.webui.component.TokenCommand;
@@ -41,6 +40,7 @@ import org.compiere.model.MRole;
 import org.compiere.model.MSession;
 import org.compiere.model.MSysConfig;
 import org.compiere.model.MSystem;
+import org.compiere.model.MTheme;
 import org.compiere.model.MUser;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;

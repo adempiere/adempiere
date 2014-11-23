@@ -17,8 +17,8 @@
 
 package org.adempiere.webui.theme;
 
-import org.adempiere.model.MTheme;
 import org.compiere.model.MSysConfig;
+import org.compiere.model.MTheme;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.zkoss.web.theme.StandardTheme.ThemeOrigin;

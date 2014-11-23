@@ -299,7 +299,7 @@ public class WAcctViewer extends Window implements EventListener<Event>
 
 		Hbox boxAcctSchema = new Hbox();
 		ThemeUtils.addSclass("label-box", boxAcctSchema);
-		boxAcctSchema.setWidths("30%, 70%");
+		// boxAcctSchema.setWidths("30%, 70%");
 
 		lacctSchema.setValue(Msg.translate(Env.getCtx(), "C_AcctSchema_ID"));
 		lacctSchema.setAttribute("zk_component_ID", "Lookup_Criteria_Label_C_AcctSchema_ID");
@@ -309,6 +309,15 @@ public class WAcctViewer extends Window implements EventListener<Event>
 		selAcctSchema.setAttribute("zk_component_ID", "Lookup_Criteria_C_AcctSchema_ID");
 
 		Cell cell = new Cell();
+		cell.appendChild(lacctSchema);
+		ThemeUtils.addSclass("label-cell", cell);
+		boxAcctSchema.appendChild(cell);
+		
+		cell = new Cell();
+		cell.appendChild(selAcctSchema);
+		ThemeUtils.addSclass("field-cell", cell);
+		boxAcctSchema.appendChild(cell);
+		
 		boxAcctSchema.appendChild(lacctSchema);
 		boxAcctSchema.appendChild(selAcctSchema);
 
@@ -654,9 +663,9 @@ public class WAcctViewer extends Window implements EventListener<Event>
 
 		Borderlayout layout = new Borderlayout();
 		layout.setParent(this);
-		layout.setHeight("100%");
-		layout.setWidth("100%");
-		layout.setStyle("background-color: transparent");
+//		layout.setHeight("100%");
+//		layout.setWidth("100%");
+//		layout.setStyle("background-color: transparent");
 
 		Center center = new Center();
 		center.setParent(layout);

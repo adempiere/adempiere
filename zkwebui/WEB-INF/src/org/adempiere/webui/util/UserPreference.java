@@ -17,9 +17,9 @@ import java.io.Serializable;
 import java.util.Properties;
 import java.util.logging.Logger;
 
-import org.adempiere.model.MTheme;
 import org.compiere.model.I_AD_Preference;
 import org.compiere.model.MPreference;
+import org.compiere.model.MTheme;
 import org.compiere.model.Query;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
