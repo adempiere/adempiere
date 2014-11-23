@@ -62,6 +62,9 @@ syntax: regexp
 ^zkwebui/WEB-INF/classes$
 ^migration/my_processes_post_migration$
 ^zkwebui/theme/.*\.css.dsp$
+^zkwebui/theme/.*\.css.dsp.src$
+^zkwebui/css/.*\.css.dsp$
+^zkwebui/css/.*\.css.dsp.src$
 ^.*\.orig$
 
 syntax: regexp
