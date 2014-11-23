@@ -84,7 +84,7 @@ public class MMigration extends X_AD_Migration {
 			if (loader != null)
 				loader.syncColumns();
 		}
-		Trx trx = Trx.get("Migration", true);
+		Trx trx = Trx.get(Trx.createTrxName("Migration_"), true);
 		this.set_TrxName(trx.getTrxName());
 		updateStatus(this.get_TrxName());
 		trx.commit();
@@ -205,22 +205,23 @@ public class MMigration extends X_AD_Migration {
 		mmigration.setSeqNo(Integer.parseInt(seqNo));
 		mmigration.setEntityType(entityType);
 		mmigration.setReleaseNo(releaseNo);
-		mmigration.saveEx();
 
 		Node comment = (Element) element.getElementsByTagName("Comments").item(0);
 		if ( comment != null )
 			mmigration.setComments(comment.getTextContent());
-		
+
+		mmigration.saveEx();
+
 		NodeList children = element.getElementsByTagName("Step");
 		for ( int i = 0; i < children.getLength(); i++ )
 		{
 			Element step = (Element) children.item(i);
 			if ( "Step".equals(step.getTagName()))
 				MMigrationStep.fromXmlNode(mmigration, step);
-				Trx.get(trxName, false).commit(true);
+				//Trx.get(trxName, false).commit(true);
 		}
 		
-		mmigration.saveEx();
+		mmigration.saveEx(trxName);
 		
 		return mmigration;
 	}
@@ -316,7 +317,7 @@ public class MMigration extends X_AD_Migration {
 	protected boolean beforeDelete ()
 	{
 		for (MMigrationStep step : getSteps(false)) {
-			step.deleteEx(true);
+			step.deleteEx(true, get_TrxName());
 		}
 		return true;
 	}	//	beforeDelete
