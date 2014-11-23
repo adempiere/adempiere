@@ -345,7 +345,7 @@
 			border: none;
 		}		
 	}
-	
+
 	.z-listheader {
 	    white-space: wrap;
 	    //line-height: 14px;
@@ -364,6 +364,9 @@
 }
 
 .info-panel.info-panel-embedded {
+	
+	height: 		100%;
+	width:			100%;
 	border: 		none; 
 	position: 		absolute;
 	
@@ -413,24 +416,33 @@
 /*  WAcctViewer								*/
 /********************************************/
 
-.wacct-viewer-window {
-	.modal {
+.wacct-viewer-window {	
+	.label-box {
+		width: 100%
+	}
+
+    .z-window-content {
+		.z-borderlayout {
+			height:		100%;
+			width:		100%;
+			position: 	absolute;
+		}
+	}
+	
+}
+
+.wacct-viewer-window.modal {
 		border: 1px solid @windowBorderColor;
 		height: 85%;
 		width: 85%;
 		overflow: auto;
-	}
+}
 	
-	.embedded {
+.wacct-viewer-window.embedded {
 		border: none;
 		height: 100%;
 		width: 100%;
 		position: absolute;
-	}
-	
-	.label-box {
-		width: 100%
-	}
 }
 
 .color-row-low.z-listitem.z-listitem-selected > .z-listcell > .z-listcell-content {
