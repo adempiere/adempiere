@@ -61,6 +61,8 @@ syntax: regexp
 ^zkwebui/dist$
 ^zkwebui/WEB-INF/classes$
 ^migration/my_processes_post_migration$
+^zkwebui/theme/.*\.css.dsp$
+^.*\.orig$
 
 syntax: regexp
 ^lib/mobile\.war$

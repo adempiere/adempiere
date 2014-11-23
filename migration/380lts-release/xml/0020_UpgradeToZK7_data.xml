@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Adding data to the Theme Management" ReleaseNo="FEATURE_294" SeqNo="630">
+    <Step SeqNo="1610" StepType="AD">
+      <PO AD_Table_ID="53809" Action="I" Record_ID="50000" Table="AD_Theme">
+        <Data AD_Column_ID="72958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="72959" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="72965" Column="AD_Theme_ID">50000</Data>
+        <Data AD_Column_ID="72976" Column="CacheHours">8760</Data>
+        <Data AD_Column_ID="72961" Column="Created">2014-05-24 22:52:10.538</Data>
+        <Data AD_Column_ID="72963" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="72966" Column="Description">The default theme for ADempiere.</Data>
+        <Data AD_Column_ID="72967" Column="Help">Based on the ZK7 Breeze theme.</Data>
+        <Data AD_Column_ID="72960" Column="IsActive">true</Data>
+        <Data AD_Column_ID="72977" Column="IsCached">false</Data>
+        <Data AD_Column_ID="72974" Column="IsDefaultTheme">true</Data>
+        <Data AD_Column_ID="72970" Column="Name">adempiere_default</Data>
+        <Data AD_Column_ID="72971" Column="ThemeDisplay">Adempiere</Data>
+        <Data AD_Column_ID="72972" Column="ThemeOrigin">FOLDER</Data>
+        <Data AD_Column_ID="72973" Column="ThemePriority">1000</Data>
+        <Data AD_Column_ID="72962" Column="Updated">2014-05-24 22:52:10.538</Data>
+        <Data AD_Column_ID="72964" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="72969" Column="Value">adempiere_default</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1720" StepType="AD">
+      <PO AD_Table_ID="53810" Action="I" Record_ID="50003" Table="AD_ThemeResource">
+        <Data AD_Column_ID="72978" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="72979" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="72991" Column="AD_Theme_ID">50000</Data>
+        <Data AD_Column_ID="72985" Column="AD_ThemeResource_ID">50003</Data>
+        <Data AD_Column_ID="72981" Column="Created">2014-05-25 08:38:26.605</Data>
+        <Data AD_Column_ID="72983" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="72986" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="72987" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="72980" Column="IsActive">true</Data>
+        <Data AD_Column_ID="72990" Column="ResourceURI">/css/adempiere_default.css.dsp</Data>
+        <Data AD_Column_ID="72982" Column="Updated">2014-05-25 08:38:26.605</Data>
+        <Data AD_Column_ID="72984" Column="UpdatedBy">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1780" StepType="AD">
+      <PO AD_Table_ID="53810" Action="I" Record_ID="50004" Table="AD_ThemeResource">
+        <Data AD_Column_ID="72978" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="72979" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="72991" Column="AD_Theme_ID">50000</Data>
+        <Data AD_Column_ID="72985" Column="AD_ThemeResource_ID">50004</Data>
+        <Data AD_Column_ID="72981" Column="Created">2014-05-25 08:39:21.225</Data>
+        <Data AD_Column_ID="72983" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="72986" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="72987" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="72980" Column="IsActive">true</Data>
+        <Data AD_Column_ID="72990" Column="ResourceURI">/css/PAPanel.css</Data>
+        <Data AD_Column_ID="72982" Column="Updated">2014-05-25 08:39:21.225</Data>
+        <Data AD_Column_ID="72984" Column="UpdatedBy">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1790" StepType="AD">
+      <PO AD_Table_ID="53810" Action="I" Record_ID="50005" Table="AD_ThemeResource">
+        <Data AD_Column_ID="72978" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="72979" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="72991" Column="AD_Theme_ID">50000</Data>
+        <Data AD_Column_ID="72985" Column="AD_ThemeResource_ID">50005</Data>
+        <Data AD_Column_ID="72981" Column="Created">2014-05-25 08:39:33.583</Data>
+        <Data AD_Column_ID="72983" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="72986" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="72987" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="72980" Column="IsActive">true</Data>
+        <Data AD_Column_ID="72990" Column="ResourceURI">/css/report.css</Data>
+        <Data AD_Column_ID="72982" Column="Updated">2014-05-25 08:39:33.583</Data>
+        <Data AD_Column_ID="72984" Column="UpdatedBy">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1800" StepType="AD">
+      <PO AD_Table_ID="53809" Action="U" Record_ID="50000" Table="AD_Theme">
+        <Data AD_Column_ID="72971" Column="ThemeDisplay" oldValue="Adempiere">Adempiere Default</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1810" StepType="AD">
+      <PO AD_Table_ID="53809" Action="I" Record_ID="50001" Table="AD_Theme">
+        <Data AD_Column_ID="72958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="72959" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="72965" Column="AD_Theme_ID">50001</Data>
+        <Data AD_Column_ID="72976" Column="CacheHours">8760</Data>
+        <Data AD_Column_ID="72961" Column="Created">2014-05-25 10:44:10.583</Data>
+        <Data AD_Column_ID="72963" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="72966" Column="Description">Green theme based on the ZK7 default Breeze theme with larger buttons for thick thumbs.</Data>
+        <Data AD_Column_ID="72967" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="72960" Column="IsActive">true</Data>
+        <Data AD_Column_ID="72977" Column="IsCached">false</Data>
+        <Data AD_Column_ID="72974" Column="IsDefaultTheme">false</Data>
+        <Data AD_Column_ID="72970" Column="Name">green_thumb</Data>
+        <Data AD_Column_ID="72971" Column="ThemeDisplay">Green Thumb</Data>
+        <Data AD_Column_ID="72972" Column="ThemeOrigin">FOLDER</Data>
+        <Data AD_Column_ID="72973" Column="ThemePriority">1</Data>
+        <Data AD_Column_ID="72962" Column="Updated">2014-05-25 10:44:10.583</Data>
+        <Data AD_Column_ID="72964" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="72969" Column="Value">green_thumb</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1820" StepType="AD">
+      <PO AD_Table_ID="53810" Action="I" Record_ID="50006" Table="AD_ThemeResource">
+        <Data AD_Column_ID="72978" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="72979" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="72991" Column="AD_Theme_ID">50001</Data>
+        <Data AD_Column_ID="72985" Column="AD_ThemeResource_ID">50006</Data>
+        <Data AD_Column_ID="72981" Column="Created">2014-05-25 10:45:00.781</Data>
+        <Data AD_Column_ID="72983" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="72986" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="72987" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="72980" Column="IsActive">true</Data>
+        <Data AD_Column_ID="72990" Column="ResourceURI">/css/adempiere_default.css.dsp</Data>
+        <Data AD_Column_ID="72982" Column="Updated">2014-05-25 10:45:00.781</Data>
+        <Data AD_Column_ID="72984" Column="UpdatedBy">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="2210" StepType="AD">
+      <PO AD_Table_ID="53809" Action="U" Record_ID="50000" Table="AD_Theme">
+        <Data AD_Column_ID="73017" Column="Browser_Icon_Image" isOldNull="true">~./images/icon.png</Data>
+        <Data AD_Column_ID="73018" Column="Browser_Title" isOldNull="true">Adempiere</Data>
+        <Data AD_Column_ID="73011" Column="Login_Bottom_Panel_Zul" isOldNull="true">~./zul/login-bottom.zul</Data>
+        <Data AD_Column_ID="73012" Column="Login_Left_Panel_Zul" isOldNull="true">~./zul/login-left.zul</Data>
+        <Data AD_Column_ID="73013" Column="Login_Right_Panel_Zul" isOldNull="true">~./zul/login-right.zul</Data>
+        <Data AD_Column_ID="73014" Column="Login_Top_Panel_Zul" isOldNull="true">~./zul/login-top.zul</Data>
+        <Data AD_Column_ID="73015" Column="Logo_Large_Image" isOldNull="true">~./images/login-logo.png</Data>
+        <Data AD_Column_ID="73016" Column="Logo_Small_Image" isOldNull="true">~./images/header-logo.png</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="2220" StepType="AD">
+      <PO AD_Table_ID="53809" Action="U" Record_ID="50000" Table="AD_Theme">
+        <Data AD_Column_ID="73015" Column="Logo_Large_Image" oldValue="~./images/login-logo.png">~./images/logo-large.png</Data>
+        <Data AD_Column_ID="73016" Column="Logo_Small_Image" oldValue="~./images/header-logo.png">~./images/logo-small.png</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="2230" StepType="AD">
+      <PO AD_Table_ID="53809" Action="U" Record_ID="50001" Table="AD_Theme">
+        <Data AD_Column_ID="73017" Column="Browser_Icon_Image" isOldNull="true">~./images/icon.png</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="2240" StepType="AD">
+      <PO AD_Table_ID="53809" Action="U" Record_ID="50001" Table="AD_Theme">
+        <Data AD_Column_ID="73018" Column="Browser_Title" isOldNull="true">Garden World</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="2250" StepType="AD">
+      <PO AD_Table_ID="53809" Action="U" Record_ID="50001" Table="AD_Theme">
+        <Data AD_Column_ID="73015" Column="Logo_Large_Image" isOldNull="true">~./images/logo-large.png</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="2260" StepType="AD">
+      <PO AD_Table_ID="53809" Action="U" Record_ID="50001" Table="AD_Theme">
+        <Data AD_Column_ID="73016" Column="Logo_Small_Image" isOldNull="true">~./images/logo-small.png</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="2270" StepType="AD">
+      <PO AD_Table_ID="53809" Action="U" Record_ID="50001" Table="AD_Theme">
+        <Data AD_Column_ID="73014" Column="Login_Top_Panel_Zul" isOldNull="true">~./zul/login-top.zul</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="2280" StepType="AD">
+      <PO AD_Table_ID="53809" Action="U" Record_ID="50001" Table="AD_Theme">
+        <Data AD_Column_ID="73011" Column="Login_Bottom_Panel_Zul" isOldNull="true">~./zul/login-bottom.zul</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="2290" StepType="AD">
+      <PO AD_Table_ID="53809" Action="U" Record_ID="50001" Table="AD_Theme">
+        <Data AD_Column_ID="73012" Column="Login_Left_Panel_Zul" isOldNull="true">~./zul/login-left.zul</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="2300" StepType="AD">
+      <PO AD_Table_ID="53809" Action="U" Record_ID="50001" Table="AD_Theme">
+        <Data AD_Column_ID="72967" Column="Help" isOldNull="true">Green theme for Garden World</Data>
+        <Data AD_Column_ID="73013" Column="Login_Right_Panel_Zul" isOldNull="true">~./zul/login-right.zul</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="2310" StepType="AD">
+      <PO AD_Table_ID="53810" Action="U" Record_ID="50006" Table="AD_ThemeResource">
+        <Data AD_Column_ID="72990" Column="ResourceURI" oldValue="/css/adempiere_default.css.dsp">/css/green_thumb.css.dsp</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
