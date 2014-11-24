@@ -298,7 +298,9 @@ public class WAcctViewer extends Window implements EventListener<Event>
 		// Accounting Schema
 
 		Hbox boxAcctSchema = new Hbox();
-		ThemeUtils.addSclass("label-box", boxAcctSchema);
+		ThemeUtils.addSclass("selection-box", boxAcctSchema);
+		ThemeUtils.addSclass("acct-schema", boxAcctSchema);
+		boxAcctSchema.setHflex("1");
 		// boxAcctSchema.setWidths("30%, 70%");
 
 		lacctSchema.setValue(Msg.translate(Env.getCtx(), "C_AcctSchema_ID"));
@@ -318,12 +320,11 @@ public class WAcctViewer extends Window implements EventListener<Event>
 		ThemeUtils.addSclass("field-cell", cell);
 		boxAcctSchema.appendChild(cell);
 		
-		boxAcctSchema.appendChild(lacctSchema);
-		boxAcctSchema.appendChild(selAcctSchema);
-
 		Hbox boxSelDoc = new Hbox();
-		ThemeUtils.addSclass("label-box", boxSelDoc);
-		boxSelDoc.setWidths("30%, 50%, 20%");
+		ThemeUtils.addSclass("selection-box", boxSelDoc);
+		ThemeUtils.addSclass("select-document", boxSelDoc);
+		boxSelDoc.setHflex("1");
+		//boxSelDoc.setWidths("30%, 50%, 20%");
 
 		selDocument.setLabel(Msg.getMsg(Env.getCtx(), "SelectDocument"));
 		selDocument.setAttribute("zk_component_ID", "Lookup_Criteria_selDocument");
@@ -333,17 +334,28 @@ public class WAcctViewer extends Window implements EventListener<Event>
 		selTable.setAttribute("zk_component_ID", "Lookup_Criteria_selTable");
 		selRecord.setAttribute("zk_component_ID", "Lookup_Criteria_selRecord");
 
+		cell = new Cell();
+		cell.appendChild(selDocument);
+		ThemeUtils.addSclass("doc-cell", cell);
+		boxSelDoc.appendChild(cell);
 
-		boxSelDoc.appendChild(selDocument);
-		boxSelDoc.appendChild(selTable);
-		boxSelDoc.appendChild(selRecord);
+		cell = new Cell();
+		cell.appendChild(selTable);
+		ThemeUtils.addSclass("table-cell", cell);
+		boxSelDoc.appendChild(cell);
+
+		cell = new Cell();
+		cell.appendChild(selRecord);
+		ThemeUtils.addSclass("record-cell", cell);
+		boxSelDoc.appendChild(cell);
 
 			// Posting Type
 
 		Hbox boxPostingType = new Hbox();
-		ThemeUtils.addSclass("label-box", boxPostingType);
-		boxPostingType.setWidth("100%");
-		boxPostingType.setWidths("30%, 70%");
+		ThemeUtils.addSclass("selection-box", boxPostingType);
+		ThemeUtils.addSclass("select-posting", boxPostingType);
+		boxPostingType.setHflex("1");
+		//boxPostingType.setWidths("30%, 70%");
 
 		lpostingType.setValue(Msg.translate(Env.getCtx(), "PostingType"));
 		selPostingType.setMold("select");
@@ -351,31 +363,51 @@ public class WAcctViewer extends Window implements EventListener<Event>
 		selPostingType.addEventListener(Events.ON_CLICK, this);
 		selPostingType.setAttribute("zk_component_ID", "Lookup_Criteria_selPostingType");
 
-		boxPostingType.appendChild(lpostingType);
-		boxPostingType.appendChild(selPostingType);
+		cell = new Cell();
+		cell.appendChild(lpostingType);
+		ThemeUtils.addSclass("label-cell", cell);
+		boxPostingType.appendChild(cell);
+		
+		cell = new Cell();
+		cell.appendChild(selPostingType);
+		ThemeUtils.addSclass("field-cell", cell);
+		boxPostingType.appendChild(cell);
 
 			// Date
 
 		Hbox boxDate = new Hbox();
-		ThemeUtils.addSclass("label-box", boxDate);
-		boxDate.setWidth("100%");
-		boxDate.setWidths("30%, 35%, 35%");
+		ThemeUtils.addSclass("selection-box", boxDate);
+		ThemeUtils.addSclass("select-date", boxDate);
+		boxDate.setHflex("1");
+		//boxDate.setWidths("30%, 35%, 35%");
 
 		lDate.setValue(Msg.translate(Env.getCtx(), "DateAcct"));
 		lDate.setAttribute("zk_component_ID", "Lookup_Criteria_Label_Date");
 		selDateFrom.setAttribute("zk_component_ID", "Lookup_Criteria_selDateFrom");
 		selDateTo.setAttribute("zk_component_ID", "Lookup_Criteria_selDateTo");
 
-		boxDate.appendChild(lDate);
-		boxDate.appendChild(selDateFrom);
-		boxDate.appendChild(selDateTo);
+		cell = new Cell();
+		cell.appendChild(lDate);
+		ThemeUtils.addSclass("label-cell", cell);
+		boxDate.appendChild(cell);
+
+		cell = new Cell();
+		cell.appendChild(selDateFrom);
+		ThemeUtils.addSclass("date-from-cell", cell);
+		boxDate.appendChild(cell);
+
+		cell = new Cell();
+		cell.appendChild(selDateTo);
+		ThemeUtils.addSclass("date-to-cell", cell);
+		boxDate.appendChild(cell);
 
 			// Organization
 
 		Hbox boxOrg = new Hbox();
-		ThemeUtils.addSclass("label-box", boxOrg);
-		boxOrg.setWidth("100%");
-		boxOrg.setWidths("30%, 70%");
+		ThemeUtils.addSclass("selection-box", boxOrg);
+		ThemeUtils.addSclass("select-org", boxOrg);
+		boxOrg.setHflex("1");
+		//boxOrg.setWidths("30%, 70%");
 
 		lOrg.setValue(Msg.translate(Env.getCtx(), "AD_Org_ID"));
 		selOrg.setMold("select");
@@ -384,79 +416,152 @@ public class WAcctViewer extends Window implements EventListener<Event>
 		lOrg.setAttribute("zk_component_ID", "Lookup_Criteria_Label_Org");
 		selOrg.setAttribute("zk_component_ID", "Lookup_Criteria_selOrg");
 
-		boxOrg.appendChild(lOrg);
-		boxOrg.appendChild(selOrg);
+		cell = new Cell();
+		cell.appendChild(lOrg);
+		ThemeUtils.addSclass("label-cell", cell);
+		boxOrg.appendChild(cell);
+		
+		cell = new Cell();
+		cell.appendChild(selOrg);
+		ThemeUtils.addSclass("field-cell", cell);
+		boxOrg.appendChild(cell);
 
 			// Account
 
 		Hbox boxAcct = new Hbox();
-		ThemeUtils.addSclass("label-box", boxAcct);
-		boxAcct.setWidths("30%, 70%");
+		ThemeUtils.addSclass("selection-box", boxAcct);
+		ThemeUtils.addSclass("select-acct", boxAcct);
+		boxAcct.setHflex("1");
+		//boxAcct.setWidths("30%, 70%");
 
 		lAcct.setValue(Msg.translate(Env.getCtx(), "Account_ID"));
 		lAcct.setAttribute("zk_component_ID", "Lookup_Criteria_Label_Acct");
 		selAcct.setAttribute("zk_component_ID", "Lookup_Criteria_selAcct");
 
-		boxAcct.appendChild(lAcct);
-		boxAcct.appendChild(selAcct);
-
+		cell = new Cell();
+		cell.appendChild(lAcct);
+		ThemeUtils.addSclass("label-cell", cell);
+		boxAcct.appendChild(cell);
+		
+		cell = new Cell();
+		cell.appendChild(selAcct);
+		ThemeUtils.addSclass("field-cell", cell);
+		boxAcct.appendChild(cell);
+		
 		Hbox boxSel1 = new Hbox();
-		ThemeUtils.addSclass("label-box", boxSel1);
-		boxSel1.setWidths("30%, 70%");
-
-		boxSel1.appendChild(lsel1);
-		boxSel1.appendChild(sel1);
+		ThemeUtils.addSclass("button-box", boxSel1);
+		boxSel1.setHflex("1");
+		
+		cell = new Cell();
+		cell.appendChild(lsel1);
+		ThemeUtils.addSclass("label-cell", cell);
+		boxSel1.appendChild(cell);
+		
+		cell = new Cell();
+		cell.appendChild(sel1);
+		ThemeUtils.addSclass("field-cell", cell);
+		boxSel1.appendChild(cell);
 
 		Hbox boxSel2 = new Hbox();
-		ThemeUtils.addSclass("label-box", boxSel2);
-		boxSel2.setWidths("30%, 70%");
+		ThemeUtils.addSclass("button-box", boxSel2);
+		boxSel2.setHflex("1");
 
-		boxSel2.appendChild(lsel2);
-		boxSel2.appendChild(sel2);
+		cell = new Cell();
+		cell.appendChild(lsel2);
+		ThemeUtils.addSclass("label-cell", cell);
+		boxSel2.appendChild(cell);
+		
+		cell = new Cell();
+		cell.appendChild(sel2);
+		ThemeUtils.addSclass("field-cell", cell);
+		boxSel2.appendChild(cell);
 
 		Hbox boxSel3 = new Hbox();
-		ThemeUtils.addSclass("label-box", boxSel3);
-		boxSel3.setWidths("30%, 70%");
+		ThemeUtils.addSclass("button-box", boxSel3);
+		boxSel3.setHflex("1");
 
-		boxSel3.appendChild(lsel3);
-		boxSel3.appendChild(sel3);
+		cell = new Cell();
+		cell.appendChild(lsel3);
+		ThemeUtils.addSclass("label-cell", cell);
+		boxSel3.appendChild(cell);
+		
+		cell = new Cell();
+		cell.appendChild(sel3);
+		ThemeUtils.addSclass("field-cell", cell);
+		boxSel3.appendChild(cell);
 
 		Hbox boxSel4 = new Hbox();
-		ThemeUtils.addSclass("label-box", boxSel4);
-		boxSel4.setWidths("30%, 70%");
+		ThemeUtils.addSclass("button-box", boxSel4);
+		boxSel4.setHflex("1");
 
-		boxSel4.appendChild(lsel4);
-		boxSel4.appendChild(sel4);
+		cell = new Cell();
+		cell.appendChild(lsel4);
+		ThemeUtils.addSclass("label-cell", cell);
+		boxSel4.appendChild(cell);
+		
+		cell = new Cell();
+		cell.appendChild(sel4);
+		ThemeUtils.addSclass("field-cell", cell);
+		boxSel4.appendChild(cell);
 
 		Hbox boxSel5 = new Hbox();
-		ThemeUtils.addSclass("label-box", boxSel5);
-		boxSel5.setWidths("30%, 70%");
+		ThemeUtils.addSclass("button-box", boxSel5);
+		boxSel5.setHflex("1");
 
-		boxSel5.appendChild(lsel5);
-		boxSel5.appendChild(sel5);
+		cell = new Cell();
+		cell.appendChild(lsel5);
+		ThemeUtils.addSclass("label-cell", cell);
+		boxSel5.appendChild(cell);
+		
+		cell = new Cell();
+		cell.appendChild(sel5);
+		ThemeUtils.addSclass("field-cell", cell);
+		boxSel5.appendChild(cell);
 
 		Hbox boxSel6 = new Hbox();
-		ThemeUtils.addSclass("label-box", boxSel6);
-		boxSel6.setWidths("30%, 70%");
+		ThemeUtils.addSclass("button-box", boxSel6);
+		boxSel6.setHflex("1");
 
-		boxSel6.appendChild(lsel6);
-		boxSel6.appendChild(sel6);
+		cell = new Cell();
+		cell.appendChild(lsel6);
+		ThemeUtils.addSclass("label-cell", cell);
+		boxSel6.appendChild(cell);
+		
+		cell = new Cell();
+		cell.appendChild(sel6);
+		ThemeUtils.addSclass("field-cell", cell);
+		boxSel6.appendChild(cell);
 
 		Hbox boxSel7 = new Hbox();
-		ThemeUtils.addSclass("label-box", boxSel7);
-		boxSel7.setWidths("30%, 70%");
+		ThemeUtils.addSclass("button-box", boxSel7);
+		boxSel7.setHflex("1");
 
-		boxSel7.appendChild(lsel7);
-		boxSel7.appendChild(sel7);
+		cell = new Cell();
+		cell.appendChild(lsel7);
+		ThemeUtils.addSclass("label-cell", cell);
+		boxSel7.appendChild(cell);
+		
+		cell = new Cell();
+		cell.appendChild(sel7);
+		ThemeUtils.addSclass("field-cell", cell);
+		boxSel7.appendChild(cell);
 
 		Hbox boxSel8 = new Hbox();
-		ThemeUtils.addSclass("label-box", boxSel8);
-		boxSel8.setWidths("30%, 70%");
+		ThemeUtils.addSclass("button-box", boxSel8);
+		boxSel8.setHflex("1");
 
-		boxSel8.appendChild(lsel8);
-		boxSel8.appendChild(sel8);
+		cell = new Cell();
+		cell.appendChild(lsel8);
+		ThemeUtils.addSclass("label-cell", cell);
+		boxSel8.appendChild(cell);
+		
+		cell = new Cell();
+		cell.appendChild(sel8);
+		ThemeUtils.addSclass("field-cell", cell);
+		boxSel8.appendChild(cell);
 
-		selectionPanel.setWidth("100%");
+		//selectionPanel.setWidth("100%");
+		selectionPanel.setHflex("1");
 		selectionPanel.appendChild(boxAcctSchema);
 		selectionPanel.appendChild(boxSelDoc);
 		selectionPanel.appendChild(boxPostingType);

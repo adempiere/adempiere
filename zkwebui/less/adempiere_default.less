@@ -417,18 +417,57 @@
 /********************************************/
 
 .wacct-viewer-window {	
-	.label-box {
+
+	background: none;
+
+	.selection-box {
 		width: 100%
 	}
 
-    .z-window-content {
+	.acct-schema, 
+	.select-posting,
+	.select-org,
+	.select-acct,
+	.button-box {
+		.label-cell {
+			width:	30%;
+		}
+
+		.field-cell {
+			width:	70%
+		}
+	}
+    
+	.select-document {
+		.doc-cell {
+			width:	30%;
+		}
+		.table-cell {
+			width:	35%
+		}
+		.record-cell {
+			width:	35%
+		}
+	}
+
+	.select-date {
+		.label-cell {
+			width:	30%;
+		}
+
+		.date-from-cell,
+		.date-to-cell {
+			width:	35%;
+		}
+	}
+
+	.z-window-content {
 		.z-borderlayout {
 			height:		100%;
 			width:		100%;
 			position: 	absolute;
 		}
-	}
-	
+	}	
 }
 
 .wacct-viewer-window.modal {
