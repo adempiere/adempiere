@@ -63,17 +63,17 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 	
 	public static MPPCostCollector createVarianceCostCollector(MPPCostCollector cc,
 			String CostCollectorType) {
-		MPPCostCollector ccv = new MPPCostCollector(cc.getCtx(), 0,
+		MPPCostCollector costCollectorVariance = new MPPCostCollector(cc.getCtx(), 0,
 				cc.get_TrxName());
-		MPPCostCollector.copyValues(cc, ccv);
-		ccv.setProcessing(false);
-		ccv.setProcessed(false);
-		ccv.setDocStatus(MPPCostCollector.STATUS_Drafted);
-		ccv.setDocAction(MPPCostCollector.ACTION_Complete);
-		ccv.setCostCollectorType(CostCollectorType);
-		ccv.setDocumentNo(null); // reset
-		ccv.saveEx();
-		return ccv;
+		MPPCostCollector.copyValues(cc, costCollectorVariance);
+		costCollectorVariance.setProcessing(false);
+		costCollectorVariance.setProcessed(false);
+		costCollectorVariance.setDocStatus(MPPCostCollector.STATUS_Drafted);
+		costCollectorVariance.setDocAction(MPPCostCollector.ACTION_Complete);
+		costCollectorVariance.setCostCollectorType(CostCollectorType);
+		costCollectorVariance.setDocumentNo(null); // reset
+		costCollectorVariance.saveEx();
+		return costCollectorVariance;
 	}
 
 	/**
@@ -563,16 +563,19 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 		// Usage Variance (material)
 		else if (isCostCollectorType(COSTCOLLECTORTYPE_UsegeVariance) && getPP_Order_BOMLine_ID() > 0)
 		{
-			MPPOrderBOMLine obomline = getPP_Order_BOMLine();
-			obomline.setQtyDelivered(obomline.getQtyDelivered().add(getMovementQty()));
-			obomline.setQtyScrap(obomline.getQtyScrap().add(getScrappedQty()));
-			obomline.setQtyReject(obomline.getQtyReject().add(getQtyReject()));  
-			//obomline.setDateDelivered(getMovementDate());	//	overwrite=last	
-			obomline.setM_AttributeSetInstance_ID(getM_AttributeSetInstance_ID());
-			log.fine("OrderLine - Reserved=" + obomline.getQtyReserved() + ", Delivered=" + obomline.getQtyDelivered());				
-			obomline.saveEx();
-			log.fine("OrderLine -> Reserved="+obomline.getQtyReserved()+", Delivered="+obomline.getQtyDelivered());
-			CostEngineFactory.getCostEngine(getAD_Client_ID()).createCostDetail(null, this);
+			MPPOrderBOMLine orderBOMLine = getPP_Order_BOMLine();
+			orderBOMLine.setQtyDelivered(orderBOMLine.getQtyDelivered().add(getMovementQty()));
+			orderBOMLine.setQtyScrap(orderBOMLine.getQtyScrap().add(getScrappedQty()));
+			orderBOMLine.setQtyReject(orderBOMLine.getQtyReject().add(getQtyReject()));
+			//orderBOMLine.setDateDelivered(getMovementDate());	//	overwrite=last
+			orderBOMLine.setM_AttributeSetInstance_ID(getM_AttributeSetInstance_ID());
+			log.fine("OrderLine - Reserved=" + orderBOMLine.getQtyReserved() + ", Delivered=" + orderBOMLine.getQtyDelivered());
+			orderBOMLine.saveEx();
+			log.fine("OrderLine -> Reserved=" + orderBOMLine.getQtyReserved() + ", Delivered=" + orderBOMLine.getQtyDelivered());
+			//CostEngineFactory.getCostEngine(getAD_Client_ID()).createCostDetail(null, this);
+			final StandardCostingMethod standardCostingMethod = (StandardCostingMethod) CostingMethodFactory.get()
+					.getCostingMethod(X_M_CostType.COSTINGMETHOD_StandardCosting);
+			standardCostingMethod.createUsageVariances(this);
 		}
 		//
 		// Usage Variance (resource)

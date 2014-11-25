@@ -43,7 +43,7 @@ public class MPPOrderCost extends X_PP_Order_Cost
 	 * @param cost Cost Dimension
 	 * @return Order Cost Dimension
 	 */
-	public static MPPOrderCost createOrderCostDimensionint (int PP_Order_ID ,MCost cost)
+	public static MPPOrderCost createOrderCostDimension(int PP_Order_ID, MCost cost)
 	{
 		// Check if we already added this cost dimension
 		MPPOrderCost orderCostDimension = MPPOrderCost.getByCostDimension(PP_Order_ID,cost);

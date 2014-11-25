@@ -178,13 +178,13 @@ public class MCostDetail extends X_M_CostDetail
 				BigDecimal.ROUND_HALF_UP); 
 	}
 	
-	public static List<MCostDetail> getByCollectorCost(MPPCostCollector cc)
+	public static List<MCostDetail> getByCollectorCost(MPPCostCollector costCollector)
 	{
 		StringBuffer whereClause = new StringBuffer();
 		whereClause.append(MCostDetail.COLUMNNAME_PP_Cost_Collector_ID).append("=? ");	
-		return new Query(cc.getCtx(), MCostDetail.Table_Name , whereClause.toString(), cc.get_TrxName())
+		return new Query(costCollector.getCtx(), MCostDetail.Table_Name , whereClause.toString(), costCollector.get_TrxName())
 		.setClient_ID()
-		.setParameters()
+		.setParameters(costCollector.getPP_Cost_Collector_ID())
 		.list();
 	}
 	

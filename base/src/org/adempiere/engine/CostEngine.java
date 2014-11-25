@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
@@ -226,65 +227,34 @@ public class CostEngine {
 		return priceRounded;
 	}
 
-	/*public List<MCost> getByElement(MProduct product, MAcctSchema as,
-			int M_CostType_ID, int AD_Org_ID,int M_Warehouse_ID ,int M_AttributeSetInstance_ID,
-			int M_CostElement_ID) {
-		CostDimension cd = new CostDimension(product, as, M_CostType_ID,
-				AD_Org_ID,  M_Warehouse_ID, M_AttributeSetInstance_ID, M_CostElement_ID);
-		return cd.toQuery(MCost.class, product.get_TrxName())
-				.setOnlyActiveRecords(true).list();
-	}*/
-
-    /**
-     * create cost detail based transaction
-     * @param transaction
-     */
-	public void createCostDetail(MTransaction transaction) {
-		createCostDetail(transaction, transaction.getDocumentLine());
-	}
-
-    /**
-     * create cost detail
-     * @param transaction
-     * @param model
-     */
+	/**
+	 * Generate by transaction
+	 * @param transaction
+	 */
 	public void createCostDetail(MTransaction transaction, IDocumentLine model) {
-		// happen when you create invoice from Purchase Order
-		if (transaction == null)
-			return;
 
-		for (MAcctSchema accountSchema : MAcctSchema.getClientAcctSchema(transaction.getCtx(),
-                transaction.getAD_Client_ID())) {
-			createCostDetail(accountSchema, transaction, model, model.isSOTrx());
-		}
-	}
-
-    /**
-     * Create Cost Detail
-     * @param accountSchema Account Schema
-     * @param transaction Transaction
-     * @param model  Model
-     * @param isSOTrx  Is Sales Transaction
-     */
-	public void createCostDetail(MAcctSchema accountSchema , MTransaction transaction, IDocumentLine model, Boolean isSOTrx) {
-		
 		MClient client = new MClient (transaction.getCtx() , transaction.getAD_Client_ID(), transaction.get_TrxName());
 		StringBuilder description = new StringBuilder();
 		if (!Util.isEmpty(model.getDescription(), true))
 			description.append(model.getDescription());
-		if (isSOTrx != null) {
-			description.append(isSOTrx ? "(|->)" : "(|<-)");
+		if (model != null) {
+			description.append(model.isSOTrx() ? "(|->)" : "(|<-)");
 		}
+
+		List<MAcctSchema> acctSchemas = new ArrayList(Arrays.asList(MAcctSchema
+				.getClientAcctSchema(transaction.getCtx(), transaction.getAD_Client_ID(),
+						transaction.get_TrxName())));
 
 		List<MCostElement> costElements = MCostElement.getCostElement(transaction.getCtx(),
 				transaction.get_TrxName());
 		List<MCostType> costTypes = MCostType.get(transaction.getCtx(), transaction.get_TrxName());
-
-		for (MCostType costType : costTypes) {
-			if (!costType.isActive())
-				continue;
-			for (MCostElement costElement : costElements) {
-				createCostDetail(accountSchema, costType, costElement , transaction, model , client.isCostImmediate());
+		for (MAcctSchema accountSchema : acctSchemas) {
+			for (MCostType costType : costTypes) {
+				if (!costType.isActive())
+					continue;
+				for (MCostElement costElement : costElements) {
+					createCostDetail(accountSchema, costType, costElement, transaction, model, client.isCostImmediate());
+				}
 			}
 		}
 	}
@@ -428,7 +398,7 @@ public class CostEngine {
 
 
 
-	public void createCostDetail(MAcctSchema accountSchema, CostComponent costCollector, IDocumentLine model,
+	/*public void createCostDetail(MAcctSchema accountSchema, CostComponent costCollector, IDocumentLine model,
                                  Boolean isSOTrx, boolean setProcessed) {
 		final String idColumnName = model.get_TableName() + "_ID";
 		final String trxName = model.get_TrxName();
@@ -474,7 +444,8 @@ public class CostEngine {
 
             method.process();
 		}
-	}
+	}*/
+
 
 	//Create cost detail for by document
 	public void createCostDetailForLandedCostAllocation(
@@ -689,6 +660,13 @@ public class CostEngine {
                         production.getMovementDate()))
 					return;
 
+			}
+			else if (transaction.getPP_Cost_Collector_ID() > 0)
+			{
+				MPPCostCollector costCollector = (MPPCostCollector) transaction.getPP_Cost_Collector();
+				if(!clearAccounting(accountSchema, accountSchema.getM_CostType() , costCollector ,
+						costCollector.getDateAcct()));
+				return;
 			}
 			else
 			{

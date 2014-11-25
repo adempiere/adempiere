@@ -231,7 +231,7 @@ public class MTransaction extends X_M_Transaction
 	{
 		if (newRecord)
 		{	
-			CostEngineFactory.getCostEngine(getAD_Client_ID()).createCostDetail(this);
+			CostEngineFactory.getCostEngine(getAD_Client_ID()).createCostDetail(this , getDocumentLine());
 		}	
 		return true;
 	}	//	afterSave

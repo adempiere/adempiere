@@ -537,7 +537,7 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 	 */
 	public void updateAmountCost() {
 		
-		if (transaction.getMovementQty().signum() > 0) {
+		if (movementQuantity.signum() > 0) {
 			costDetail.setCostAmt(costDetail.getAmt().subtract(
 					costDetail.getCostAdjustment()));
 			costDetail.setCostAmtLL(costDetail.getAmtLL().subtract(
