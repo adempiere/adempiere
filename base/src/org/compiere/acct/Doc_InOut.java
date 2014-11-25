@@ -190,7 +190,7 @@ public class Doc_InOut extends Doc
 					dr.setLocationFromLocator(line.getM_Locator_ID(), true);    //  from Loc
 					dr.setLocationFromBPartner(getC_BPartner_Location_ID(), false);  //  to Loc
 					dr.setAD_Org_ID(line.getOrder_Org_ID());		//	Revenue X-Org
-                    dr.setM_Locator_ID(cost.getM_Product_ID());
+                    dr.setM_Product_ID(cost.getM_Product_ID());
 					dr.setQty(cost.getQty().negate());
 					dr.addDescription(description);
 					if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) 
