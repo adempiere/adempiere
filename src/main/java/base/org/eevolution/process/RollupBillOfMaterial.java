@@ -45,7 +45,6 @@ import org.eevolution.model.MPPProductPlanning;
  * Roll-UP Bill of Material 
  *	
  * @author victor.perez@e-evolution.com, e-Evolution, S.C.
- * @version $Id: RollupBillOfMaterial.java,v 1.1 2004/06/22 05:24:03 vpj-cd Exp $
  * 
  * @author Teo Sarca, www.arhipac.ro
  */
