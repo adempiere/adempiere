@@ -29,6 +29,7 @@ import org.compiere.model.MCost;
 import org.compiere.model.MCostElement;
 import org.compiere.model.MCostType;
 import org.compiere.model.MProduct;
+import org.compiere.model.MUOMConversion;
 import org.compiere.model.Query;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
@@ -44,7 +45,6 @@ import org.eevolution.model.MPPProductPlanning;
  * Roll-UP Bill of Material 
  *	
  * @author victor.perez@e-evolution.com, e-Evolution, S.C.
- * @version $Id: RollupBillOfMaterial.java,v 1.1 2004/06/22 05:24:03 vpj-cd Exp $
  * 
  * @author Teo Sarca, www.arhipac.ro
  */
@@ -241,6 +241,11 @@ public class RollupBillOfMaterial extends SvrProcess
 				}
 				
 				BigDecimal costPrice = cost.getCurrentCostPrice().add(cost.getCurrentCostPriceLL());
+				if (bomline.getM_Product().getC_UOM_ID() != bomline.getC_UOM_ID())
+				{
+					BigDecimal rate = MUOMConversion.getProductRateFrom(getCtx(), component.getM_Product_ID(), bomline.getC_UOM_ID());
+					costPrice = costPrice.multiply(rate);
+				}
 				BigDecimal componentCost = costPrice.multiply(qty);
 				costPriceLL = costPriceLL.add(componentCost);
 				log.info("CostElement: "+element.getName()

@@ -1831,7 +1831,8 @@ public final class MPayment extends X_C_Payment
 				m_processMsg = "@NoCashBook@";
 				return DocAction.STATUS_Invalid;
 			}
-			MCash cash = MCash.get (getCtx(), getAD_Org_ID(), getDateAcct(), getC_Currency_ID(), get_TrxName());
+			//MCash cash = MCash.get (getCtx(), getAD_Org_ID(), getDateAcct(), getC_Currency_ID(), get_TrxName());SHW
+			MCash cash = MCash.get(getCtx(), getC_CashBook_ID(), getDateAcct(),get_TrxName());
 			if (cash == null || cash.get_ID() == 0)
 			{
 				m_processMsg = "@NoCashBook@";

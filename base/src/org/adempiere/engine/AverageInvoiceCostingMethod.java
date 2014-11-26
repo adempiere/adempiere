@@ -66,9 +66,10 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
         //Setting Date Accounting based on Open Period
         if (this.isOpenPeriod)
             this.dateAccounting = model.getDateAcct();
-        else if (model instanceof MLandedCostAllocation || model instanceof MMatchInv) {
+        else if (model instanceof MLandedCostAllocation )
                 this.dateAccounting = ((MLandedCostAllocation) model).getC_InvoiceLine().getC_Invoice().getDateAcct();
-        }
+        else if (model instanceof MMatchInv)
+			this.dateAccounting = ((MMatchInv) model).getC_InvoiceLine().getC_Invoice().getDateAcct();
         else
             this.dateAccounting = null; // Is Necessary define that happen in this case when period is close
 
@@ -207,13 +208,23 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 			if (model instanceof MLandedCostAllocation || model instanceof MMatchInv)
 			{
                 if (!isOpenPeriod) {
-                    MLandedCostAllocation costAllocation = (MLandedCostAllocation) this.model;
+
+					int attributeSetInstanceId = 0;
+					if (model instanceof  MLandedCostAllocation) {
+						MLandedCostAllocation costAllocation = (MLandedCostAllocation) this.model;
+						attributeSetInstanceId = costAllocation.getM_AttributeSetInstance_ID();
+					}
+					if (model instanceof MMatchInv) {
+						MMatchInv matchInv = (MMatchInv) this.model;
+						attributeSetInstanceId = matchInv.getM_AttributeSetInstance_ID();
+					}
+
                     this.movementQuantity = MCostDetail.getQtyOnHandByASIAndSeqNo(
                             transaction.getCtx(),
                             transaction.getM_Product_ID(),
                             dimension.getM_CostType_ID(),
                             dimension.getM_CostElement_ID(),
-                            costAllocation.getM_InOutLine().getM_AttributeSetInstance_ID(),
+							attributeSetInstanceId,
                             lastCostDetail.getSeqNo(),
                             transaction.get_TrxName());
 
@@ -526,7 +537,7 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 	 */
 	public void updateAmountCost() {
 		
-		if (transaction.getMovementQty().signum() > 0) {
+		if (movementQuantity.signum() > 0) {
 			costDetail.setCostAmt(costDetail.getAmt().subtract(
 					costDetail.getCostAdjustment()));
 			costDetail.setCostAmtLL(costDetail.getAmtLL().subtract(

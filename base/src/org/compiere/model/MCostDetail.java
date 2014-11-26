@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.engine.CostEngine;
 import org.adempiere.engine.IDocumentLine;
 import org.compiere.acct.DocLine;
 import org.compiere.util.CLogger;
@@ -55,6 +56,31 @@ public class MCostDetail extends X_M_CostDetail
 	 */
 	private static final long serialVersionUID = -7882724307127281675L;
 
+
+	/**
+	 * Get Cost by Model
+	 * @param accountSchemaId
+	 * @param costTypeId
+	 * @param costElementId
+	 * @param model
+	 * @return
+	 */
+	public static BigDecimal getCostByModel(int accountSchemaId, int costTypeId, int costElementId, IDocumentLine model) {
+
+		StringBuilder whereClause = new StringBuilder();
+		whereClause.append(I_M_CostDetail.COLUMNNAME_C_AcctSchema_ID).append("=? AND ");
+		whereClause.append(I_M_CostDetail.COLUMNNAME_M_CostType_ID).append("=? AND ");
+		whereClause.append(I_M_CostDetail.COLUMNNAME_M_CostElement_ID).append("=? AND ");
+		whereClause.append( CostEngine.getIDColumnName(model)).append("=? ");
+
+		return  new Query(model.getCtx(),
+				I_M_CostDetail.Table_Name, whereClause.toString(),
+				model.get_TrxName())
+				.setClient_ID()
+				.setParameters(accountSchemaId , costTypeId, costElementId, model.get_ID())
+				.sum("(" + MCostDetail.COLUMNNAME_Amt + "+"
+						+ MCostDetail.COLUMNNAME_AmtLL + ")");
+	}
 
     /**
      * get Quantity On hand by Attribute Set Instance and Sequence
@@ -152,13 +178,13 @@ public class MCostDetail extends X_M_CostDetail
 				BigDecimal.ROUND_HALF_UP); 
 	}
 	
-	public static List<MCostDetail> getByCollectorCost(MPPCostCollector cc)
+	public static List<MCostDetail> getByCollectorCost(MPPCostCollector costCollector)
 	{
 		StringBuffer whereClause = new StringBuffer();
 		whereClause.append(MCostDetail.COLUMNNAME_PP_Cost_Collector_ID).append("=? ");	
-		return new Query(cc.getCtx(), MCostDetail.Table_Name , whereClause.toString(), cc.get_TrxName())
+		return new Query(costCollector.getCtx(), MCostDetail.Table_Name , whereClause.toString(), costCollector.get_TrxName())
 		.setClient_ID()
-		.setParameters()
+		.setParameters(costCollector.getPP_Cost_Collector_ID())
 		.list();
 	}
 	
@@ -184,7 +210,6 @@ public class MCostDetail extends X_M_CostDetail
 		ArrayList<Object> params = new ArrayList<Object>();
 		StringBuffer whereClause = new StringBuffer();
 		StringBuffer orderBy = new StringBuffer();
-		//SHW
 		if(model instanceof MLandedCostAllocation 
 				|| model instanceof MMatchInv)
 		{
@@ -200,7 +225,6 @@ public class MCostDetail extends X_M_CostDetail
 								
 		}	
 		else
-			//SHW Ende
 			whereClause.append("DateAcct <= " +DB.TO_DATE(dateAcct) + " AND ");
 		orderBy.append(MCostDetail.COLUMNNAME_SeqNo).append(" DESC");			
 		

@@ -1509,7 +1509,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			for (MCost cost : costs)
 			{
 				//Create or Update the Order Cost dimension
-				MPPOrderCost.createOrderCostDimensionint(get_ID(), cost);	
+				MPPOrderCost.createOrderCostDimension(get_ID(), cost);
 			}
 		}
 		//
@@ -1532,7 +1532,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			for (MCost cost : costs)
 			{
 				//Create or Update the Order Cost dimension
-				MPPOrderCost.createOrderCostDimensionint(get_ID(), cost);		
+				MPPOrderCost.createOrderCostDimension(get_ID(), cost);
 			}
 		}
 		//
@@ -1561,7 +1561,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			for (MCost cost : costs)
 			{
 				//Create or Update the Order Cost dimension
-				MPPOrderCost.createOrderCostDimensionint(get_ID(), cost);	
+				MPPOrderCost.createOrderCostDimension(get_ID(), cost);
 			}
 		}
 	}

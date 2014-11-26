@@ -18,25 +18,16 @@ public class MProductionLine extends X_M_ProductionLine  implements IDocumentLin
 	 */
 	private static final long serialVersionUID = 1L;
 	private MProduction parent;
-	
+
+
+
 	/**
 	 * get true if Production Line is Parent Product
 	 * @return true
 	 */
 	public boolean isParent()
 	{
-		return (getM_Product_ID()==getM_ProductionPlan().getM_Product_ID())?true:false;
-		/*
-	 final StringBuffer whereClause = new StringBuffer();
-		whereClause.append(X_M_ProductionLine.COLUMNNAME_M_ProductionLine_ID);
-		whereClause.append(" IN (SELECT M_ProductionLine_ID FROM M_ProductionLine pl INNER JOIN M_ProductionPlan pp ON (pp.M_ProductionPlan_ID=pl.M_ProductionPlan_ID)");
-		whereClause.append(" WHERE pl.M_ProductionPlan_ID=? AND ");
-		whereClause.append(" pp.M_Product_ID = pl.M_Product_ID )");
-
-	 return new Query(getCtx(), X_M_ProductionLine.Table_Name, whereClause.toString(),get_TrxName())
-		.setClient_ID()
-		.setParameters(getM_ProductionPlan_ID())
-		.match();*/
+		return getM_Product_ID() == getM_ProductionPlan().getM_Product_ID() ? true : false;
 	}
 
 
@@ -356,7 +347,13 @@ public class MProductionLine extends X_M_ProductionLine  implements IDocumentLin
 	}
 
 	public int getC_DocType_ID(){
-		return -1;
+
+		StringBuilder whereClause = new StringBuilder();
+		whereClause.append(I_C_DocType.COLUMNNAME_DocBaseType).append("=?");
+
+		return new Query(getCtx() , X_C_DocType.Table_Name , whereClause.toString() , get_TrxName())
+				.setClient_ID().setParameters(X_C_DocType.DOCBASETYPE_MaterialProduction)
+				.firstId();
 	}
 	
 }

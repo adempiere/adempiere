@@ -29,6 +29,7 @@ import org.compiere.model.MLocator;
 import org.compiere.model.MProduct;
 import org.compiere.model.MStorage;
 import org.compiere.model.MUOM;
+import org.compiere.model.MUOMConversion;
 import org.compiere.model.MWarehouse;
 import org.compiere.model.Query;
 import org.compiere.util.DB;
@@ -319,7 +320,13 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 							,COMPONENTTYPE_By_Product
 							,COMPONENTTYPE_Co_Product))
 		{
-			setQtyRequired(qty);
+			BigDecimal qtyrequired = qty;
+			if (getM_Product().getC_UOM_ID() != getC_UOM_ID())
+			{
+				BigDecimal rate = MUOMConversion.getProductRateFrom(getCtx(), getM_Product_ID(), getC_UOM_ID());
+				qtyrequired = qty.multiply(rate);
+			}
+			setQtyRequired(qtyrequired);
 			setQtyEntered(qty);
 		}
 		else if (isComponentType(COMPONENTTYPE_Packing,COMPONENTTYPE_Tools))

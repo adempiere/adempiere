@@ -196,10 +196,10 @@ public class ImportProductBOM extends SvrProcess {
 			bom = new MPPProductBOM(Env.getCtx(), 0, get_TrxName());
 			bom.setAD_Org_ID(importBOM.getAD_Org_ID());
 			bom.setM_Product_ID(importBOM.getM_Product_ID());
-			bom.setValue(importBOM.getValue());
+			bom.setValue(((importBOM.getValue() == null || importBOM.getValue().isEmpty())? importBOM.getM_Product().getValue():importBOM.getValue()));
 		}
 
-		bom.setName(importBOM.getName());
+		bom.setName((importBOM.getName() == null || importBOM.getName().isEmpty())? importBOM.getM_Product().getName():importBOM.getName());
 		bom.setValidFrom(importBOM.getValidFrom());
 		bom.setValidTo(importBOM.getValidTo());
 		bom.setBOMType(importBOM.getBOMType());
