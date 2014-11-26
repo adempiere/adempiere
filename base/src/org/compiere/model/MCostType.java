@@ -101,7 +101,7 @@ public class MCostType extends X_M_CostType
 	{
 		return new Query(ctx, Table_Name, "AD_Org_ID=?", trxName)
 		.setOnlyActiveRecords(true)
-		//.setClient_ID()
+		.setClient_ID()
 		.setParameters(AD_Org_ID)
 		.setOrderBy(COLUMNNAME_M_CostType_ID)
 		.first();
