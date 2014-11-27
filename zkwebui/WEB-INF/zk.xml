@@ -31,6 +31,11 @@
 	<system-config>
 		<id-generator-class>org.adempiere.webui.AdempiereIdGenerator</id-generator-class>
 	</system-config>
+	
+	<!-- Using the event thread is deprecated in ZK7 but its a lot of work to change the modal windows to spearate threads -->
+	<system-config>
+    	<disable-event-thread>false</disable-event-thread>
+	</system-config>
 
 	<desktop-config>
 	    <theme-provider-class>org.adempiere.webui.theme.AdempiereThemeProvider</theme-provider-class>
