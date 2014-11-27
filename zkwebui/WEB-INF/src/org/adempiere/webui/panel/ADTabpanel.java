@@ -263,14 +263,14 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 		else
 		{
 			this.appendChild(grid);
-			formComponent = grid;
+			formComponent = grid;			
 		}
         this.appendChild(listPanel);
         listPanel.setVisible(false);
         listPanel.setWindowNo(windowNo);
         listPanel.setADWindowPanel(winPanel);
 
-        gridTab.getTableModel().addVetoableChangeListener(this);
+		gridTab.getTableModel().addVetoableChangeListener(this);
     }
 
     /**
@@ -1216,8 +1216,11 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 	 * Toggle between form and grid view
 	 */
 	public void switchRowPresentation() {
+		Component adwindowContentArea = formComponent.getParent().getParent().getParent();
 		if (formComponent.isVisible()) {
 			formComponent.setVisible(false);
+			ThemeUtils.removeSclass("form", adwindowContentArea);
+			ThemeUtils.addSclass("list", adwindowContentArea);
 			//de-activate embedded panel
 	        for(EmbeddedPanel ep : includedPanel)
 	        {
@@ -1225,6 +1228,8 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 	        }
 		} else {
 			formComponent.setVisible(true);
+			ThemeUtils.removeSclass("list", adwindowContentArea);
+			ThemeUtils.addSclass("form", adwindowContentArea);
 			//activate embedded panel
 	        for(EmbeddedPanel ep : includedPanel)
 	        {

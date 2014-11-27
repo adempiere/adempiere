@@ -168,9 +168,10 @@ public class ADWindowPanel extends AbstractADWindowPanel
 
         contentArea = new Center();
         contentArea.setParent(layout);
-        contentArea.setAutoscroll(true);
+        //contentArea.setAutoscroll(true);
         contentArea.setHflex("true");
         contentArea.setVflex("true");
+        ThemeUtils.addSclass("adwindow-content-area", contentArea);
         adTab.createPart(contentArea);
 
         if (parent instanceof Tabpanel) {
