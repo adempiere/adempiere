@@ -78,7 +78,7 @@ public final class ThemeUtils {
 	public static void removeSclass(String cls,  Object target) {
 		String sclass = " " + getSclass(target) + " ";
 		if (hasSclass(cls, target)) {
-			sclass.replace(cls, "").trim();
+			sclass = sclass.replace(cls, "").trim();
 			setSclass(sclass, target);
 		}
 	}
