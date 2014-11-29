@@ -65,8 +65,10 @@
 @themeWindowBGColor:				@baseBackgroundColor;
 @themeColorFontData:				#000000;
 @themeColorFontDataDisabled:		#080808;
-@themeRowHoverGradientTopColor:		@themeColorPrimaryLight;
+@themeRowHoverGradientTopColor:		@themeColorPrimaryMidLight;
 @themeRowHoverGradientBottomColor:	@themeColorPrimaryMidLight;
+@themeRowBandBackgroundColor:		@themeColorPrimaryVeryLight;
+@themeRowCurrentBackgroundColor:	@themeColorPrimaryLight;
 @themeColorFontColorRowLow:			#BB0000; // Red
 @themeColorFontColorRowNormal:		@themeColorFontData;
 @themeColorFontColorRowHigh:		#00BB00; // Green
@@ -785,6 +787,7 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 	}
 	
 	.z-center {  // TODO - make this aware of the tab orientations ie. top, bottom, accordion
+		//border: none;
 		border-top: 2px solid @baseBorderColorHighlight;
 		border-bottom: 2px solid @baseBorderColorHighlight;
 		border-left: none;
@@ -880,14 +883,6 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 	}
 }
 
-.ad-gridpanel {
-	height: 100%;
-
-	&-center {
-		height: 100%;
-	}
-}
-
 .adtab-grid {
 	width: 100%;
 	position: absolute;
@@ -900,14 +895,55 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 		width: 100%;
 		height: 100%;
 		
-		.z-grid-odd > .z-row-inner, .z-grid-odd > .z-cell {
-	    	background: none repeat scroll 0 0 #F7F7F7;
+			height: 100%;
+
+		.ad-gridpanel-center {
+			height: 100%;
+			
+			.ad-grid.z-row {
+				.ad-grid-row-content {
+					border:			none;
+					width:			100%;
+					height:			100%;
+					overflow: 		hidden;
+					text-overflow:	ellipsis;
+				}
+				
+				.ad-grid-row-content.yes-no {
+					text-align:	center;
+				}
+				.ad-grid-row-content.numeric {
+					text-align:	right;
+				}
+			}
+
+			.z-grid-odd > .z-row-inner, .z-grid-odd > .z-cell {
+		    	background: none repeat scroll 0 0 @themeRowBandBackgroundColor;
+			}
+
+			.ad-grid.z-row.current.z-grid-odd > .z-row-inner, .ad-grid.z-row.current.z-grid-odd > .z-cell {
+		    	background: none repeat scroll 0 0 @themeRowCurrentBackgroundColor;
+
+				.ad-grid-row-content {
+					color:  @themeHighlightTextColor; 
+				}
+			}
+
+			.ad-grid.z-row.current {  // how the currently selected row is displayed
+				//.ad-grid-row-content {
+				background: none repeat scroll 0 0 @themeRowCurrentBackgroundColor;
+				
+				.ad-grid-row-content {
+					color:  @themeHighlightTextColor; 
+				}
+			}
 		}
-		
+				
 		.z-row:hover > .z-row-inner, .z-row:hover > .z-cell {
 		    background: linear-gradient(to bottom, @themeRowHoverGradientTopColor 0%, @themeRowHoverGradientBottomColor 100%) repeat scroll 0 0 padding-box rgba(0, 0, 0, 0);
 		    position: relative;
 		}
+		
 	} // -panel
 
 	&-group {  // a row

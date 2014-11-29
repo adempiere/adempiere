@@ -29,6 +29,7 @@ import org.adempiere.webui.editor.WebEditorFactory;
 import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.panel.AbstractADWindowPanel;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.util.GridTabDataBinder;
 import org.adempiere.webui.window.ADWindow;
 import org.compiere.model.GridField;
@@ -65,8 +66,8 @@ import org.zkoss.zhtml.Text;
  */
 public class GridTabRowRenderer implements RowRenderer<Object[]>, RowRendererExt, RendererCtrl {
 
-	private static final String CURRENT_ROW_STYLE = "border-top: 2px solid #6f97d2; border-bottom: 2px solid #6f97d2";
-	private static final int MAX_TEXT_LENGTH = 60;
+	//private static final String CURRENT_ROW_STYLE = "border-top: 2px solid #6f97d2; border-bottom: 2px solid #6f97d2";
+	//private static final int MAX_TEXT_LENGTH = 60;
 	private GridTab gridTab;
 	private int windowNo;
 	private GridTabDataBinder dataBinder;
@@ -244,12 +245,15 @@ public class GridTabRowRenderer implements RowRenderer<Object[]>, RowRendererExt
 	 */
 	private void setLabelText(String text, Label label) {
 		String display = text;
-		if (text != null && text.length() > MAX_TEXT_LENGTH)
-			display = text.substring(0, MAX_TEXT_LENGTH - 3) + "...";
+		// Since ZK7 truncation of strings moved to theme - text-overflow property controls 
+		// the presentation.
+		//if (text != null && text.length() > MAX_TEXT_LENGTH)
+		//	display = text.substring(0, MAX_TEXT_LENGTH - 3) + "...";
 		if (display != null)
 			display = XMLs.encodeText(display);
 		label.appendChild(new Text(display));
-		if (text != null && text.length() > MAX_TEXT_LENGTH)
+		//if (text != null && text.length() > MAX_TEXT_LENGTH)
+		if (text != null)
 			label.setDynamicProperty("title", text);
 		else
 			label.setDynamicProperty("title", "");
@@ -362,7 +366,7 @@ public class GridTabRowRenderer implements RowRenderer<Object[]>, RowRendererExt
 			colIndex ++;
 
 			Div div = new Div();
-			String divStyle = "border: none; width: 100%; height: 100%;";
+			ThemeUtils.addSclass("ad-grid-row-content", div);
 			org.zkoss.zul.Column column = (org.zkoss.zul.Column) columns.getChildren().get(colIndex);
 			if (column.isVisible()) {
 				Component component = getDisplayComponent(currentValues[i], gridField[i]);
@@ -373,13 +377,14 @@ public class GridTabRowRenderer implements RowRenderer<Object[]>, RowRendererExt
 //				}
 
 				if (DisplayType.YesNo == gridField[i].getDisplayType() || DisplayType.Image == gridField[i].getDisplayType()) {
-					divStyle += "text-align:center; ";
+					ThemeUtils.addSclass("yes-no", div);
+					//divStyle += "text-align:center; ";
 				}
 				else if (DisplayType.isNumeric(gridField[i].getDisplayType())) {
-					divStyle += "text-align:right; ";
+					ThemeUtils.addSclass("numeric", div);
+					//divStyle += "text-align:right; ";
 				}
 			}
-			div.setStyle(divStyle);
 			div.setAttribute("columnName", gridField[i].getColumnName());
 			div.addEventListener(Events.ON_CLICK, rowListener);
 			div.addEventListener(Events.ON_DOUBLE_CLICK, rowListener);
@@ -410,10 +415,10 @@ public class GridTabRowRenderer implements RowRenderer<Object[]>, RowRendererExt
 	 */
 	public void setCurrentRow(Row row) {
 		if (currentRow != null && currentRow.getParent() != null && currentRow != row) {
-			currentRow.setStyle(null);
+			ThemeUtils.removeSclass("current", currentRow);
 		}
 		currentRow = row;
-		currentRow.setStyle(CURRENT_ROW_STYLE);
+		ThemeUtils.addSclass("current", currentRow);
 		if (currentRowIndex == gridTab.getCurrentRow()) {
 			if (editing) {
 				stopEditing(false);
