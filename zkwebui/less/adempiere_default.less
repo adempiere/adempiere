@@ -829,7 +829,11 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 	}
 	
 	.ad-grid {
-		overflow: auto;
+		overflow: hidden;
+		
+		.z-grid-body {
+			overflow:	auto;  // to show scroll bars
+		}
 	}
 } // .adwindow-content-area
 
@@ -891,6 +895,8 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 	&-panel {
 		position: absolute;
 		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 		width: 100%;
 		height: 100%;
 		
