@@ -743,8 +743,8 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
         List<Component> rows = grid.getRows().getChildren();
         for(Component comp: rows)
         {
-        	// Ignore the groups
-        	if (comp instanceof Group) {
+        	// Ignore the groups and group footers
+        	if (comp instanceof Group || comp instanceof Groupfoot) {
         		continue;
         	}
         	
@@ -940,7 +940,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 	
 	private void activateTabPanel(EmbeddedPanel panel) {
 		
-		if( tabPanels != null )
+		if( tabPanels != null ) {
 			
 			panel.group.setVisible(true);
 //			panel.divComponent.setStyle("position: relative; overflow:auto; ");
@@ -957,7 +957,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 			
 //			panel.embeddedGrid.setVisible(true);
 //			panel.embeddedGrid.setStyle("border: none; height: 400px;  ");
-			
+		}
 	}
 
 	/**
