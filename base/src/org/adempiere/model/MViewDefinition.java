@@ -163,7 +163,7 @@ public class MViewDefinition extends X_AD_View_Definition {
 	 * @return List<MColumn>
 	 */
 	public List<MColumn> getEntityAttributes() {
-		final String whereClause = MColumn.COLUMNNAME_AD_Table_ID + "=?";
+		final String whereClause = MColumn.COLUMNNAME_AD_Table_ID + "=? AND NOT EXISTS(SELECT 1 FROM AD_View_Column WHERE AD_View_Column.AD_Column_ID=AD_Column.AD_Column_ID)";
 
 		return new Query(getCtx(), MColumn.Table_Name, whereClause,
 				get_TrxName()).setParameters(getAD_Table_ID())

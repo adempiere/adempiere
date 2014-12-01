@@ -2505,7 +2505,8 @@ public class GridTable extends AbstractTableModel
 					|| columnName.equals("IsPaid") || columnName.equals("IsAllocated")
 					// Bug [ 1807947 ] 
 					|| ( columnName.equals("C_DocType_ID") && hasDocTypeTargetField )
-					|| ( columnName.equals("Line") )
+					|| ( columnName.equals("Line")
+					|| !field.IsAllowCopy())
 				)
 				{
 					rowData[i] = field.getDefault();
@@ -2849,7 +2850,11 @@ public class GridTable extends AbstractTableModel
 		//	Info
 		m_rowData = null;
 		m_changed = false;
-		fireDataStatusIEvent(DATA_REFRESH_MESSAGE, "");
+		m_rowChanged = -1;
+		m_inserting = false;
+		fireTableDataChanged();
+		if (fireStatusEvent)
+		    fireDataStatusIEvent(DATA_REFRESH_MESSAGE, "");
 	}	//	dataRefreshAll
 
 

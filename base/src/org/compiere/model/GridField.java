@@ -1891,13 +1891,22 @@ public class GridField
 	{
 		return isParentTabField(m_vo.ColumnName);
 	}
-	
-	 /**           Selection column in range based or not        */  
-    public boolean isRange()  
-    {             
-      return m_vo.IsRange;  
-    }
-    
+
+	/**           Selection column in range based or not        */
+	public boolean isRange()
+	{
+		return m_vo.IsRange;
+	}
+
+	/**
+	 *
+	 * @return true if this field (m_vo.IsAllowCopy) also exist in parent tab
+	 */
+	public boolean IsAllowCopy()
+	{
+		return m_vo.IsAllowsCopy;
+	}
+
     public boolean isEmbedded()
     {
     	return m_vo.isEmbedded;

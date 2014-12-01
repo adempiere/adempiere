@@ -27,13 +27,12 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyVetoException;
 import java.beans.VetoableChangeListener;
 import java.io.File;
-import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -59,11 +58,11 @@ import org.compiere.apps.ProcessCtl;
 import org.compiere.apps.ProcessParameterPanel;
 import org.compiere.apps.StatusBar;
 import org.compiere.apps.Waiting;
-import org.compiere.apps.search.Info_Column;
 import org.compiere.grid.ed.VEditor;
 import org.compiere.minigrid.IDColumn;
-import org.compiere.minigrid.MiniTable;
 import org.compiere.model.GridFieldVO;
+import org.eevolution.grid.BrowseTable;
+import org.compiere.model.GridField;
 import org.compiere.model.MPInstance;
 import org.compiere.model.MProcess;
 import org.compiere.model.MQuery;
@@ -77,7 +76,6 @@ import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
-import org.compiere.util.KeyNamePair;
 import org.compiere.util.Login;
 import org.compiere.util.Msg;
 import org.compiere.util.Splash;
@@ -215,46 +213,42 @@ public class VBrowser extends Browser implements ActionListener,
 	 * @return true, if success
 	 */
 	private boolean initBrowser() {
-		if (!initBrowserTable())
+		List<MBrowseField> fields = initBrowserTable();
+		if (fields == null)
 			return false;
 		
 		StringBuilder where = new StringBuilder("");
-		setContextWhere(m_Browse , null);
+		setContextWhere(m_Browse, null);
 		if (p_whereClause.length() > 0) {
 			where.append(p_whereClause);
 		}
 
-		prepareTable(m_generalLayout, m_View.getFromClause(), where.toString(),
-				"2");
-		
+		prepareTable(fields, m_View.getFromClause(), where.toString(),"2");
 		return true;
 	} // initInfo
 
 	/**
 	 * Init info with Table. - find QueryColumns (Value, Name, ..) - build
 	 * gridController & column
-	 * 
-	 * @return true if success
+	 *
+	 * @return BrowseFields
 	 */
-	private boolean initBrowserTable() {
-		
-		ArrayList<Info_Column> list = initBrowserData();
+	private List<MBrowseField> initBrowserTable() {
+
+		List<MBrowseField> list = initBrowserData();
 		if (list.size() == 0) {
 			ADialog.error(p_WindowNo, m_frame, "Error", "No Browse Fields");
-			log.log(Level.SEVERE, "No Brwose for view=" + m_View.getName());
-			return false;
+			log.log(Level.SEVERE, "No Browser for view=" + m_View.getName());
+			return null;
 		}
 		log.finest("Browse Fields #" + list.size());
 
-		detail = new MiniTable();
+		detail= new BrowseTable(this);
 		centerPanel.setViewportView(detail);
-		// Convert ArrayList to Array
-		m_generalLayout = new Info_Column[list.size()];
-		list.toArray(m_generalLayout);
-		return true;
+
+		return list;
 	} // initInfoTable
 
-	
 	/**
 	 * Set Status Line
 	 * 
@@ -339,6 +333,34 @@ public class VBrowser extends Browser implements ActionListener,
 		
 	}//cmd_deleteSelection
 
+	/**************************************************************************
+	 * Prepare Table, Construct SQL (m_m_sqlMain, m_sqlAdd) and size Window
+	 * @param layout layout array
+	 * @param from from clause
+	 * @param staticWhere where clause
+	 * @param orderBy order by clause
+	 */
+	protected void prepareTable(List<MBrowseField> layout,String from,
+								 String staticWhere, String orderBy) {
+		p_layout = layout;
+		StringBuffer sql = new StringBuffer("SELECT DISTINCT ");
+		sql.append(detail.prepareTable(p_layout, p_multiSelection));
+		// Table Selection (Invoked before setting column class so that row
+		// selection is enabled)
+		detail.setRowSelectionAllowed(true);
+		// detail.addMouseListener(this);
+		detail.setMultiSelection(p_multiSelection);
+		detail.setShowTotals(m_Browse.isShowTotal());
+
+		sql.append(" FROM ").append(from);
+		sql.append(" WHERE ");
+		m_sqlMain = sql.toString();
+		m_sqlCount = "SELECT COUNT(*) FROM " + from + " WHERE ";
+		m_sqlOrderBy = getSQLOrderBy();
+
+		if (m_keyColumnIndex == -1)
+			log.log(Level.WARNING, "No KeyColumn - " + sql);
+	} // prepareTable
 
 
 	/**************************************************************************
@@ -353,7 +375,7 @@ public class VBrowser extends Browser implements ActionListener,
 	 * @param orderBy
 	 *            order by clause
 	 */
-	protected void prepareTable(Info_Column[] layout, String from,
+	/*protected void prepareTable(Info_Column[] layout, String from,
 			String staticWhere, String orderBy) {
 		p_layout = layout;
 		StringBuffer sql = new StringBuffer("SELECT DISTINCT ");
@@ -394,6 +416,7 @@ public class VBrowser extends Browser implements ActionListener,
 		if (m_keyColumnIndex == -1)
 			log.log(Level.WARNING, "No KeyColumn - " + sql);
 	} // prepareTable
+	*/
 
 	/**
 	 * Test Row Count
@@ -506,6 +529,7 @@ public class VBrowser extends Browser implements ActionListener,
 
 		if (p_multiSelection) {
 			int rows = detail.getRowCount();
+			BrowserRows browserRows = detail.getData();
 			m_values = new LinkedHashMap<Integer,LinkedHashMap<String,Object>>();
 			for (int row = 0; row < rows; row++) {
 				//Find the IDColumn Key
@@ -515,8 +539,17 @@ public class VBrowser extends Browser implements ActionListener,
 					IDColumn dataColumn = (IDColumn) data;
 					if (dataColumn.isSelected()) {
 						LinkedHashMap<String, Object> values = new LinkedHashMap<String, Object>();
-						int col = 0;
-						for (Info_Column column : m_generalLayout)
+						for(int col = 0 ; col < browserRows.getColumnCount(); col++)
+						{
+							MBrowseField bField = browserRows.getBrowseField(col);
+							if (!bField.isReadOnly() || bField.isIdentifier() )
+							{
+								GridField gField = (GridField)detail.getData().getValue(row, col);
+								Object value = gField.getValue();
+								values.put(bField.getAD_View_Column().getColumnName(), value);
+							}
+						}
+						/*for (Info_Column column : m_generalLayout)
 						{	
 							String columnName = column.getColSQL().substring(
 									column.getColSQL().indexOf("AS ") + 3);
@@ -533,11 +566,9 @@ public class VBrowser extends Browser implements ActionListener,
 								}
 							}
 							col++;
-						}
+						}*/
 						if(values.size() > 0)
-						{
 							m_values.put(dataColumn.getRecord_ID(), values);
-						}
 					}
 				}
 			}
@@ -641,7 +672,8 @@ public class VBrowser extends Browser implements ActionListener,
 		buttonSearchPanel = new javax.swing.JPanel();
 		bSearch = new javax.swing.JButton();
 		centerPanel = new javax.swing.JScrollPane();
-		detail = new MiniTable();
+		//detail = new MiniTable();
+		detail = new BrowseTable(this);
 		footPanel = new javax.swing.JPanel();
 		footButtonPanel = new javax.swing.JPanel();
 		bCancel = new javax.swing.JButton();
@@ -950,7 +982,8 @@ public class VBrowser extends Browser implements ActionListener,
 	private javax.swing.JToggleButton bZoom;
 	private javax.swing.JPanel buttonSearchPanel;
 	private javax.swing.JScrollPane centerPanel;
-	private MiniTable detail;
+	//private MiniTable detail;
+	private BrowseTable detail;
 	private javax.swing.JPanel footButtonPanel;
 	private javax.swing.JPanel footPanel;
 	private javax.swing.JPanel graphPanel;
@@ -1000,7 +1033,7 @@ public class VBrowser extends Browser implements ActionListener,
 					int row = detail.getRowCount();
 					detail.setRowCount(row + 1);
 					int colOffset = 1; // columns start with 1
-					for (int col = 0; col < p_layout.length; col++) {
+					/*for (int col = 0; col < p_layout.length; col++) {
 						Object value = null;
 						Class<?> c = p_layout[col].getColClass();
 						int colIndex = col + colOffset;						
@@ -1037,6 +1070,39 @@ public class VBrowser extends Browser implements ActionListener,
 							value = m_rs.getString(colIndex);
 						// store
 						detail.setValueAt(value, row, col);
+					}*/
+					int colIndex =0;
+					int col = 0;
+					for (MBrowseField field : p_layout) {
+						Object value = null;
+						if (field.isKey())
+							value = new IDColumn(m_rs.getInt(col + colOffset));
+						else if (field.getAD_Reference_ID()==DisplayType.TableDir
+							  || field.getAD_Reference_ID()==DisplayType.Table
+							  || field.getAD_Reference_ID()==DisplayType.Integer
+							  || field.getAD_Reference_ID()==DisplayType.PAttribute
+							  || field.getAD_Reference_ID()==DisplayType.Account)
+							value = m_rs.getInt(col+colOffset);
+						else if (field.getAD_Reference_ID()==DisplayType.Amount
+							  || field.getAD_Reference_ID()==DisplayType.Number
+							  || field.getAD_Reference_ID()==DisplayType.CostPrice)
+							value = m_rs.getBigDecimal(col+colOffset);
+						else if (field.getAD_Reference_ID()==DisplayType.Date ||
+								field.getAD_Reference_ID()==DisplayType.DateTime)
+							value = m_rs.getTimestamp(col+colOffset);
+						else if (field.getAD_Reference_ID()==DisplayType.YesNo){
+							value = m_rs.getString(col + colOffset);
+							if (value != null)
+								value= value.equals("Y");
+						}
+						else
+							value = m_rs.getObject(col+colOffset);
+						// store
+						detail.setValueAt(field ,value, row, colIndex, col);
+						if (field.isDisplayed())
+							colIndex++;
+
+						col ++;
 					}
 				}
 			} catch (SQLException e) {
@@ -1048,7 +1114,7 @@ public class VBrowser extends Browser implements ActionListener,
 			log.fine("#" + no + " - " + (System.currentTimeMillis() - start)
 					+ "ms");
 			if (detail.getShowTotals())
-				detail.addTotals(p_layout);
+				detail.addTotals();
 			detail.autoSize();
 			//
 			m_frame.setCursor(Cursor.getDefaultCursor());
@@ -1092,7 +1158,7 @@ public class VBrowser extends Browser implements ActionListener,
 		login.batchLogin();
 
 		Properties m_ctx = Env.getCtx();
-		MBrowse browse = new MBrowse(m_ctx, 1000002, null);
+		MBrowse browse = new MBrowse(m_ctx, 50025, null);
 		CFrame frame = new CFrame();
 		boolean modal = true;
 		int WindowNo = 0;
@@ -1174,7 +1240,7 @@ public class VBrowser extends Browser implements ActionListener,
 	}
 
 	@Override
-	public Object getParamenterValue(Object key) {
+	public Object getParameterValue(Object key) {
 			VEditor editor = (VEditor) searchPanel.getParamenters().get(key);
 			if(editor != null)
 				return editor.getValue();

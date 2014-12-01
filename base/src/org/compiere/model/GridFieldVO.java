@@ -190,6 +190,9 @@ public class GridFieldVO implements Serializable
 				//	vo.HideInListView = "Y".equals(rs.getString(i));
 				else if (columnName.equalsIgnoreCase("PreferredWidth"))
 					vo.PreferredWidth = rs.getInt(i);
+				//Allows Copy
+				else if (columnName.equalsIgnoreCase("IsAllowsCopy"))
+					vo.IsAllowsCopy = "Y".equals(rs.getString(i));
 				else if (columnName.equalsIgnoreCase("IsRange"))
 					vo.IsRange = "Y".equals(rs.getString (i));
 				else if (columnName.equalsIgnoreCase("isEmbedded"))
@@ -473,6 +476,7 @@ public class GridFieldVO implements Serializable
 	/**	Display Obscure	*/
 	public String		ObscureType = null;
 
+	public boolean IsAllowsCopy = false;
 
 	/**	Lookup Validation code	*/
 	public String		ValidationCode = "";
@@ -510,7 +514,7 @@ public class GridFieldVO implements Serializable
 	/**
 	 *  Validate Fields and create LookupInfo if required
 	 */
-	protected void initFinish()
+	public void initFinish()
 	{
 		//  Not null fields
 		if (DisplayLogic == null)
