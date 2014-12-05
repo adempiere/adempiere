@@ -244,7 +244,10 @@ public class RollupBillOfMaterial extends SvrProcess
 				if (bomline.getM_Product().getC_UOM_ID() != bomline.getC_UOM_ID())
 				{
 					BigDecimal rate = MUOMConversion.getProductRateFrom(getCtx(), component.getM_Product_ID(), bomline.getC_UOM_ID());
-					costPrice = costPrice.multiply(rate);
+					if (rate == null)
+						costPrice = costPrice.multiply(BigDecimal.ONE);
+					else
+						costPrice = costPrice.multiply(rate);
 				}
 				BigDecimal componentCost = costPrice.multiply(qty);
 				costPriceLL = costPriceLL.add(componentCost);
