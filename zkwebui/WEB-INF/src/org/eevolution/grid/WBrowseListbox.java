@@ -18,9 +18,10 @@
 package org.eevolution.grid;
 
 import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
@@ -28,9 +29,11 @@ import java.util.logging.Level;
 
 import javax.script.ScriptEngine;
 
+import org.adempiere.model.I_AD_Browse_Field;
 import org.adempiere.model.MBrowseField;
 import org.adempiere.model.MViewColumn;
 import org.adempiere.webui.component.ListHead;
+import org.adempiere.webui.component.ListItem;
 import org.adempiere.webui.component.ListModelTable;
 import org.adempiere.webui.component.Listbox;
 import org.adempiere.webui.event.TableValueChangeEvent;
@@ -42,10 +45,8 @@ import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.GridField;
 import org.compiere.model.MRule;
-import org.compiere.util.CLogger;
-import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
-import org.compiere.util.Util;
+import org.compiere.model.MSysConfig;
+import org.compiere.util.*;
 import org.eevolution.form.WBrowserCallout;
 import org.eevolution.form.WBrowser;
 import org.eevolution.form.WBrowserRows;
@@ -71,6 +72,9 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 	 */
 	private static final long serialVersionUID = 8717707799347994189L;
 
+	public static final String SYSCONFIG_INFO_DEFAULTSELECTED = "INFO_DEFAULTSELECTED";
+	public static final String SYSCONFIG_INFO_DOUBLECLICKTOGGLESSELECTION = "INFO_DOUBLECLICKTOGGLESSELECTION";
+
 	/**	Logger. */
 	private static CLogger logger = CLogger.getCLogger(WBrowseListbox.class);
 
@@ -81,24 +85,37 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 	private ArrayList<Integer> m_readWriteColumn = new ArrayList<Integer>();
 	// TODO this duplicates other info held on columns. Needs rationalising.
 	/** Layout set in prepareTable and used in loadTable.    */
-	//private ColumnInfo[] m_layout = null;
+	private List<MBrowseField> m_layout = null;
 	/** column class types (e.g. Boolean) */
 	private ArrayList<Class> m_modelHeaderClass = new ArrayList<Class>();
 	/** Color Column Index of Model.     */
 	private int m_colorColumnIndex = -1;
 	/** Color Column compare data.       */
 	private Object m_colorDataCompare = Env.ZERO;
-	
-	
-	protected WBrowserRows data= new WBrowserRows(this);
 
-	protected WBrowser vbrowse; 
+	/** Specify if the records should be checked(selected) by default (multi selection mode only) */
+	private boolean				p_isDefaultSelected = MSysConfig.getBooleanValue(SYSCONFIG_INFO_DEFAULTSELECTED, false, Env.getAD_Client_ID(Env.getCtx()));
+	/** Is Total Show */
+	private boolean showTotals = false;
+	private boolean autoResize = true;
+
+	protected WBrowserRows browserRows = new WBrowserRows(this);
+
+	public boolean isAutoResize() {
+		return autoResize;
+	}
+
+	public void setAutoResize(boolean autoResize) {
+		this.autoResize = autoResize;
+	}
+
+	protected WBrowser browser;
 	
 	/** Active BrowseCallOuts **/
-	private List<String> activeCallouts = new ArrayList<String>();
+	private List<String> activeCallOuts = new ArrayList<String>();
 	
 	/** Active BrowseCallOutsInstances **/
-	private List<WBrowserCallout> activeCalloutInstance = new ArrayList<WBrowserCallout>();
+	private List<WBrowserCallout> activeCallOutInstance = new ArrayList<WBrowserCallout>();
 	
 	/** Context **/
 	private Properties ctx =Env.getCtx();   
@@ -109,15 +126,13 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 	/** List of Column Width    */
 	private ArrayList<Integer>   m_minWidth = new ArrayList<Integer>();
 	
-	private boolean showTotals = false;
-	
-	private List<GridField> gridFields = new ArrayList<GridField>();
+	//private List<GridField> gridFields = new ArrayList<GridField>();
 	/**
 	 * Default constructor.
 	 *
 	 * Sets a row renderer and an empty model
 	 */
-	public WBrowseListbox(WBrowser wbrowse)
+	public WBrowseListbox(WBrowser browser)
 	{
 		super();
 		WBrowseListItemRenderer rowRenderer = new WBrowseListItemRenderer(this);
@@ -125,7 +140,7 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 
 		setItemRenderer(rowRenderer);
 		setModel(new ListModelTable());
-		this.vbrowse = wbrowse;
+		this.browser = browser;
 	}
 
 	/**
@@ -160,6 +175,10 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 		    	rowRenderer.renderListHead(head);
 	    	}
 	    }
+
+	    autoSize();
+		if(getShowTotals()) //addTotals(m_layout);
+			addTotals();
 
 	    // re-render
 	    this.repaint();
@@ -287,73 +306,19 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 	 */
 	public void setValueAt(Object value, int row, int column)
 	{
-		getModel().setDataAt(value, row, column);
-	}
-	 
-    
-    /**
-	 * Set Value with BrowseField
-	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 15/10/2013, 10:02:04
-	 * @param bField
-	 * @param aValue
-	 * @param row
-	 * @param column
-	 * @param index
-	 * @return void
-	 */
-	public void setValueAt(MBrowseField bField,Object aValue, int row, int column,int index) {
-		GridField gField=(GridField)data.getValue(row, index);
-		GridField gf = null;
-		
-		if (gField==null)
+		getModel().setDataAt(value, row, convertColumnIndexToModel(column));
+		if(value instanceof IDColumn)
 		{
-			gField=data.getBrowseField(index).getGridField();
-			gf = new GridField(gField.getVO());
-			gf.setValue(aValue, false);
-			data.setValue(row, index, gf);
-		}
-		else
-		{
-			gField.setValue(aValue, false);
-			data.setValue(row, index, gField);
-		}
+			IDColumn id = (IDColumn) value;
+			boolean selected = id.isSelected();
+			ListItem listItem = this.getItemAtIndex(row);
 
-		if (gField.isDisplayed())
-			setValueAt((gField.getDisplayType()==DisplayType.Date ||
-						gField.getDisplayType()==DisplayType.DateTime ? 
-								new Date(((Timestamp)aValue).getTime()) : aValue)  	
-			, row, column);
-			
-			
-		
+			if (listItem != null && !listItem.isSelected() && selected) {
+				listItem.setSelected(true);
+			}
+		}
 	}
-	
-	/**
-	 * Set Value On Table And BrowseRows
-	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 21/10/2013, 12:00:51
-	 * @param gField
-	 * @param aValue
-	 * @param row
-	 * @param column
-	 * @return void
-	 */
-	public void setValueAt(GridField gField,Object aValue, int row, int column) {
-		// TODO Auto-generated method stub
-		
-		if (gField==null)
-			throw new UnsupportedOperationException("No GridField");
-		
-		GridField gf = new GridField(gField.getVO());
-		gf.setValue(aValue, false);
-		data.setValue(row, data.getTableIndex(column), gf);
-		
-		if (gField.isDisplayed())
-			setValueAt(
-					(gField.getDisplayType()==DisplayType.Date ||
-					gField.getDisplayType()==DisplayType.DateTime ? 
-							(Date)aValue : aValue)
-					, row, column);
-	}//setValueAt
+
 
     /**
      * Convert the index for a column from the display index to the
@@ -364,6 +329,8 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
      *
      * @param   viewColumnIndex     the index of the column in the view
      * @return  the index of the corresponding column in the model
+     *
+     * @see #convertColumnIndexToVi
      */
     public int convertColumnIndexToModel(int viewColumnIndex)
     {
@@ -399,100 +366,69 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 		return;
 	}   //  setColumnReadOnly
 
-	/*
-	public String prepareTable(ColumnInfo[] layout,
-							String from,
-							String where,
-							boolean multiSelection,
-							String tableName)
-	{
-		return prepareTable(layout, from, where, multiSelection, tableName, true);
-	}   //  prepareTable
-	*/
-    /*public String prepareTable(ColumnInfo[] layout,
-            String from,
-            String where,
-            boolean multiSelection,
-            String tableName,boolean addAccessSQL)
-    {
-        int columnIndex = 0;
-        StringBuffer sql = new StringBuffer ("SELECT ");
-        setLayout(layout);
 
-        clearColumns();
+	/**
+	 * Set Value with BrowseField
+	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 15/10/2013, 10:02:04
+	 * @param browserField
+	 * @param aValue
+	 * @param row
+	 * @param column
+	 * @param index
+	 * @return void
+	 */
+	public void setValueAt(MBrowseField browserField,Object value, int row, int column,int index) {
+		//GridField gField=(GridField)data.getValue(row, index);
 
-        setMultiSelection(multiSelection);
+		GridField gridField= browserField.getGridField();
+		if (gridField==null)
+		{
+			gridField = browserRows.getBrowserField(index).getGridField();
+			GridField gf = new GridField(gridField.getVO());
+			gf.setValue(value, false);
+			browserRows.setValue(row, index, gf);
+		}
+		else
+		{
+			gridField.setValue(value, false);
+			browserRows.setValue(row, index, gridField);
+		}
 
-        //  add columns & sql
-        for (columnIndex = 0; columnIndex < layout.length; columnIndex++)
-        {
-            //  create sql
-            if (columnIndex > 0)
-            {
-                sql.append(", ");
-            }
-            sql.append(layout[columnIndex].getColSQL());
+		if (gridField.isDisplayed())
+			setValueAt(value, row, column);
+			
+			
+		
+	}
+	
+	/**
+	 * Set Value On Table And BrowseRows
+	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 21/10/2013, 12:00:51
+	 * @param gridField
+	 * @param value
+	 * @param row
+	 * @param column
+	 * @return void
+	 */
+	public void setValueAt(GridField gridField,Object value, int row, int column) {
 
-            //  adding ID column
-            if (layout[columnIndex].isKeyPairCol())
-            {
-                sql.append(",").append(layout[columnIndex].getKeyPairColSQL());
-            }
+		if (gridField==null)
+			throw new UnsupportedOperationException("No GridField");
 
-            //  add to model
-            addColumn(layout[columnIndex].getColHeader());
+		GridField gf = new GridField(gridField.getVO());
+		gf.setValue(value, false);
+		browserRows.setValue(row, browserRows.getTableIndex(column), gf);
 
-            // set the colour column
-            if (layout[columnIndex].isColorColumn())
-            {
-                setColorColumn(columnIndex);
-            }
-            if (layout[columnIndex].getColClass() == IDColumn.class)
-            {
-                m_keyColumnIndex = columnIndex;
-            }
-        }
-
-        //  set editors (two steps)
-        for (columnIndex = 0; columnIndex < layout.length; columnIndex++)
-        {
-            setColumnClass(columnIndex,
-                        layout[columnIndex].getColClass(),
-                        layout[columnIndex].isReadOnly(),
-                        layout[columnIndex].getColHeader());
-        }
-
-        sql.append( " FROM ").append(from);
-        sql.append(" WHERE ").append(where);
-
-        if (from.length() == 0)
-        {
-            return sql.toString();
-        }
-        //
-        if (addAccessSQL)
-        {
-            String finalSQL = MRole.getDefault().addAccessSQL(sql.toString(),
-                                                        tableName,
-                                                        MRole.SQL_FULLYQUALIFIED,
-                                                        MRole.SQL_RO);
-
-            logger.finest(finalSQL);
-
-            return finalSQL;
-        }
-        else
-        {
-            return sql.toString();
-        }
-    }   // prepareTable
-    */
+		if (gridField.isDisplayed())
+			setValueAt(value, row, column);
+	}//setValueAt
 
 	public String prepareTable(List<MBrowseField> fields, boolean multiSelection)
 	{
 		StringBuffer sql = new StringBuffer("");
 		m_multiSelection = multiSelection;
 		clearColumns();
+		setLayout(fields);
 		int col = 0;
 		//  Add columns & sql
 		for (MBrowseField field : fields)
@@ -502,8 +438,10 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 			if (col > 0 && columnView.getColumnSQL().length() > 0)
 				sql.append(", ");
 
-			if (field.isKey())
+			if (field.isKey()) {
 				setKey(col);
+				field.setName("#");
+			}
 
 			sql.append(columnView.getColumnSQL())
 					.append(" ")
@@ -511,10 +449,15 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 					.append(" ")
 					.append(columnView.getColumnName());
 
-			data.addBrowseField(col, field);
-			field.setGridField(new GridField(data.getGridFieldVO(vbrowse.p_WindowNo, field.getName(), col)));
+			browserRows.addBrowserField(col, field);
+			// Use get value get from memory entity because field can be calculated
+			field.setGridField(new GridField(
+					browserRows.getGridFieldVO(
+							browser.p_WindowNo,field.get_ValueAsString(I_AD_Browse_Field.COLUMNNAME_Name), col)
+			));
 			if (field.isDisplayed()){
-				addColumn(field.getName());
+				// Use get value get from memory entity because field can be calculated
+				addColumn(field.get_ValueAsString(I_AD_Browse_Field.COLUMNNAME_Name));
 				col++;
 			}
 		}
@@ -561,11 +504,28 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 	}   //  addColumn
 
 	/**
+	 *  Add Table Column and specify the column header.
+	 *
+	 *  @param info	ColumInfo class for the column
+	 */
+	public void addColumn (MBrowseField info)
+	{
+		WBrowseListItemRenderer renderer = (WBrowseListItemRenderer)getItemRenderer();
+		renderer.addColumn(info.getName());
+		getModel().addColumn();
+
+		return;
+	}   //  addColumn
+
+	/**
 	 * Set the attributes of the column.
+	 *
 	 * @param index		The index of the column to be modified
 	 * @param classType	The class of data that the column will contain
 	 * @param readOnly	Whether the data in the column is read only
 	 * @param header	The header text for the column
+	 *
+	 * @see #setColumnClass(int, Class, boolean)
 	 */
 	public void setColumnClass (int index, Class classType, boolean readOnly, String header)
 	{
@@ -585,53 +545,6 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
  		return;
 	}
 
-
-    /**
-     * Set the attributes of the column.
-     *
-     * @param index     The index of the column to be modified
-     * @param classType The class of data that the column will contain
-     * @param readOnly  Whether the data in the column is read only
-     *
-     * @see #setColumnClass(int, Class, boolean, String)
-     */
-    /*public void setColumnClass (int index, Class classType, boolean readOnly)
-    {
-        setColumnReadOnly(index, readOnly);
-
-        WBrowseListItemRenderer renderer = (WBrowseListItemRenderer)getItemRenderer();
-
-        renderer.setColumnClass(index, classType);
-
-        m_modelHeaderClass.add(classType);
-
-        return;
-    }*/
-
-	/**
-	 * Set the attributes of the column.
-	 *
-	 * @param classType	The class of data that the column will contain
-	 * @param readOnly	Whether the data in the column is read only
-	 * @param header	The header text for the column
-	 *
-	 * @see #setColumnClass(int, Class, boolean)
-	 * @see #addColumn(String)
-	 */
-	/*public void addColumn(Class classType, boolean readOnly, String header)
-	{
-		m_modelHeaderClass.add(classType);
-
-		setColumnReadOnly(m_modelHeaderClass.size() - 1, readOnly);
-
-		addColumn(header);
-
-		WBrowseListItemRenderer renderer = (WBrowseListItemRenderer)getItemRenderer();
-		renderer.setColumnClass((renderer.getNoColumns() - 1), classType);
-
- 		return;
-	}*/
-
 	/**
 	 *	Set the Column to determine the color of the row (based on model index).
 	 *  @param modelIndex 	the index of the column used to decide the colour
@@ -641,122 +554,70 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 		m_colorColumnIndex = modelIndex;
 	}   //  setColorColumn
 
-	/**
-	 *	Load Table from ResultSet - The ResultSet is not closed.
-	 *
-	 *  @param rs 	ResultSet containing data t enter int the table.
-	 *  			The contents must conform to the column layout defined in
-	 *  			{@link #prepareTable(ColumnInfo[], String, String, boolean, String)}
-	 */
-	/*public void loadTable(ResultSet rs)
+	public void loadTable(ResultSet rs)
 	{
 		int no = 0;
-		int row = 0; // model row
-		int col = 0; // model column
-		Object data = null;
-		int rsColIndex = 0; // index into result set
-		int rsColOffset = 1;  //  result set columns start with 1
-		Class columnClass; // class of the column
-
 		if (getLayout() == null)
-		{
 			throw new UnsupportedOperationException("Layout not defined");
-		}
 
 		clearTable();
-
 		try
 		{
 			while (rs.next())
 			{
-				row = getItemCount();
-				setRowCount(row + 1);
-				rsColOffset = 1;
 				no++;
-				for (col = 0; col < m_layout.length; col++)
-				{
-					//reset the data value
-					data=null;
-					columnClass = m_layout[col].getColClass();
-					rsColIndex = col + rsColOffset;
-
-					if (isColumnClassMismatch(col, columnClass))
-					{
-						throw new ApplicationException("Cannot enter a " + columnClass.getName()
-								+ " in column " + col + ". " +
-								"An object of type " + m_modelHeaderClass.get(col).getSimpleName()
-								+ " was expected.");
-					}
-					
-					if (columnClass == IDColumn.class && !m_layout[col].getColSQL().equals("'Row' AS \"Row\""))
-					{
-						data = new IDColumn(rs.getInt(rsColIndex));
-					}
-					else if (columnClass == IDColumn.class && m_layout[col].getColSQL().equals("'Row' AS \"Row\""))
-					{	
-						data = new IDColumn(no);
-					}	
-					else if (columnClass == Boolean.class)
-					{
-						data = new Boolean(rs.getString(rsColIndex).equals("Y"));
-					}
-					else if (columnClass == Timestamp.class)
-					{
-						data = rs.getTimestamp(rsColIndex);
-					}
-					else if (columnClass == BigDecimal.class)
-					{
-						data = rs.getBigDecimal(rsColIndex);
-					}
-					else if (columnClass == Double.class)
-					{
-						data = new Double(rs.getDouble(rsColIndex));
-					}
-					else if (columnClass == Integer.class)
-					{
-						data = new Integer(rs.getInt(rsColIndex));
-					}
-					else if (columnClass == KeyNamePair.class)
-					{
-						// TODO factor out this generation
-						String display = rs.getString(rsColIndex);
-						int key = rs.getInt(rsColIndex + 1);
-						data = new KeyNamePair(key, display);
-						rsColOffset++;
+				int row = getRowCount();
+				setRowCount(row + 1);
+				int colOffset = 1;
+				int colIndex =0;
+				int col = 0;
+				for (MBrowseField field : getLayout()) {
+					Object value = null;
+					if (field.isKey() && !field.getAD_View_Column().getColumnSQL().equals("'Row' AS \"Row\""))
+						value = new IDColumn(rs.getInt(col + colOffset));
+					else if (field.isKey() && !field.getAD_View_Column().getColumnSQL().equals("'Row' AS \"Row\""))
+						value  = new IDColumn(no);
+					else if (DisplayType.TableDir == field.getAD_Reference_ID()
+							|| DisplayType.Table == field.getAD_Reference_ID()
+							|| DisplayType.Integer == field.getAD_Reference_ID()
+							|| DisplayType.PAttribute == field.getAD_Reference_ID()
+							|| DisplayType.Account == field.getAD_Reference_ID())
+						value = rs.getInt(col + colOffset);
+					else if (DisplayType.isNumeric(field.getAD_Reference_ID()))
+						value = rs.getBigDecimal(col + colOffset);
+					else if (DisplayType.isDate(field.getAD_Reference_ID()))
+						value = rs.getTimestamp(col + colOffset);
+					else if (DisplayType.YesNo == field.getAD_Reference_ID()) {
+						value = rs.getString(col + colOffset);
+						if (value != null)
+							value = value.equals("Y");
 					}
 					else
-					{
-						// TODO factor out this cleanup
-						String s = rs.getString(rsColIndex);
-						if (s != null)
-						{
-							data = s.trim();	//	problems with NCHAR
-						}
-						else
-						{
-							data=null;
-						}
-					}
-					//  store in underlying model
-					getModel().setDataAt(data, row, col);
+						value = rs.getObject(col + colOffset);
+
+					setValueAt(field ,value, row, colIndex, col);
+					if (field.isDisplayed())
+						colIndex++;
+
+					col ++;
 				}
+
 			}
 		}
-		catch (SQLException exception)
-		{
+		catch (SQLException exception) {
 			logger.log(Level.SEVERE, "", exception);
 		}
-		// TODO implement this
-		//autoSize();
+
+		autoSize();
+		if(getShowTotals())
+			addTotals();
 
 		// repaint the table
 		this.repaint();
 
 		logger.config("Row(rs)=" + getRowCount());
+	}
 
-		return;
-	}	//	loadTable
-	 */
 	/**
 	 * @param col
 	 * @param columnClass
@@ -768,74 +629,6 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 	}
 
 	/**
-	 *	Load Table from Object Array.
-	 *  @param pos array of Persistent Objects
-	 */
-	/*
-	public void loadTable(PO[] pos)
-	{
-		int row = 0;
-		int col = 0;
-		int poIndex = 0; // index into the PO array
-		String columnName;
-		Object data;
-		Class columnClass;
-
-		if (m_layout == null)
-		{
-			throw new UnsupportedOperationException("Layout not defined");
-		}
-
-		//  Clear Table
-		clearTable();
-
-		for (poIndex = 0; poIndex < pos.length; poIndex++)
-		{
-			PO myPO = pos[poIndex];
-			row = getRowCount();
-			setRowCount(row + 1);
-
-			for (col = 0; col < m_layout.length; col++)
-			{
-				columnName = m_layout[col].getColSQL();
-				data = myPO.get_Value(columnName);
-				if (data != null)
-				{
-					columnClass = m_layout[col].getColClass();
-
-					if (isColumnClassMismatch(col, columnClass))
-					{
-						throw new ApplicationException("Cannot enter a " + columnClass.getName()
-								+ " in column " + col + ". " +
-								"An object of type " + m_modelHeaderClass.get(col).getSimpleName()
-								+ " was expected.");
-					}
-
-					if (columnClass == IDColumn.class)
-					{
-						data = new IDColumn(((Integer)data).intValue());
-					}
-					else if (columnClass == Double.class)
-					{
-						data = new Double(((BigDecimal)data).doubleValue());
-					}
-				}
-				//  store
-				getModel().setDataAt(data, row, col);
-			}
-		}
-		// TODO implement this
-		//autoSize();
-
-		// repaint the table
-		this.repaint();
-
-		logger.config("Row(array)=" + getRowCount());
-
-		return;
-	}	//	loadTable
-	*/
-	/**
 	 * Clear the table components.
 	 */
 	public void clear()
@@ -844,6 +637,8 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 	}
 	/**
 	 *  Get the key of currently selected row based on layout defined in
+	 *  {@link #prepareTable(ColumnInfo[], String, String, boolean, String)}.
+	 *
 	 *  @return ID if key
 	 */
 	public Integer getSelectedRowKey()
@@ -853,7 +648,7 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 		final int noIndex = -1;
 		Object data;
 
-		if (this.data.getColumnCount() == 0)
+		if (this.browserRows.getColumnCount() == 0)
 		{
 			throw new UnsupportedOperationException("Layout not defined");
 		}
@@ -901,17 +696,6 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 		return;
 	}   //  setRowCount
 
-	/**
-	 *  Get Layout.
-	 *
-	 *  @return Array of ColumnInfo
-	 */
-	/*
-	public ColumnInfo[] getLayoutInfo()
-	{
-		return getLayout();
-	}   //  getLayout
-	*/
 	/**
 	 * Removes all data stored in the underlying model.
 	 *
@@ -972,6 +756,15 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 	{
 		return this.isMultiple();
 	}   //  isMultiSelection
+
+	/**
+	 * (for multi-selection only)
+	 * @return true if records are selected by default
+	 */
+	public boolean isDefaultSelected()
+	{
+		return p_isDefaultSelected;
+	}
 
 	/**
 	 *  Set ColorColumn comparison criteria.
@@ -1062,6 +855,71 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 		return valOtherwise;
 	}   //  getColorCode
 
+	/**
+	 *  Set if Totals is Show
+	 *  @param show Show
+	 */
+	public void setShowTotals(boolean show)
+	{
+		showTotals = show;
+	}
+	/**
+	 *  get if Totals is Show
+	 */
+	public boolean getShowTotals()
+	{
+		return showTotals;
+	}
+
+	/**
+	 *  Adding a new row with the totals
+	 */
+	public void addTotals()
+	{
+		if (getRowCount() == 0 || this.browserRows.getViewColumns() == 0)
+			return;
+
+		Object[] total = new Object[this.browserRows.getViewColumns()];
+
+		for (int row = 0 ; row < getRowCount(); row ++){
+			for (int col = 0; col < this.browserRows.getViewColumns(); col++){
+				Object data = getModel().getValueAt(row, col);
+				int referenceType = this.browserRows.getBrowserField(this.browserRows.getTableIndex(col)).getAD_Reference_ID();
+				if(DisplayType.isNumeric(referenceType)){
+					BigDecimal subtotal = Env.ZERO;
+					if(total[col]!= null)
+						subtotal = (BigDecimal)(total[col]);
+
+					BigDecimal amt =  (BigDecimal) data;
+					if(subtotal == null)
+						subtotal = Env.ZERO;
+					if(amt == null )
+						amt = Env.ZERO;
+					total[col] = subtotal.add(amt);
+				}
+			}
+		}
+
+		//adding total row
+		int row = getRowCount() + 1;
+		boolean markerSet = false;
+		setRowCount(row);
+		for (int col = 0; col < this.browserRows.getViewColumns(); col++)
+		{
+			MBrowseField bField = this.browserRows.getBrowserField(this.browserRows.getTableIndex(col));
+			if(DisplayType.isNumeric(bField.getAD_Reference_ID()))
+				setValueAt(bField.getGridField() , total[col] , row - 1, col);
+			else{
+				if(DisplayType.isText(bField.getAD_Reference_ID()) && !markerSet) {
+					setValueAt(" Σ  ", row - 1, col);
+					markerSet = true;
+				}
+				else
+					setValueAt(null , row - 1, col );
+			}
+		}
+	}
+
 	/* (non-Javadoc)
 	 * @see org.adempiere.webui.event.TableValueChangeListener#tableValueChange
 	 * 		(org.adempiere.webui.event.TableValueChangeEvent)
@@ -1089,7 +947,7 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 			else
 			{
 				
-				GridField gfield = (GridField)data.getValue(row, data.getTableIndex(col));
+				GridField gfield = (GridField)browserRows.getValue(row, browserRows.getTableIndex(col));
 				setValueAt(gfield, event.getNewValue(), row, col);
 				if (gfield.getCallout()!=null){
 					
@@ -1117,15 +975,28 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 	}
 
     /**
+	 *  Get the record id of the lead (highlighted) row
+	 *  @return selected key
+	 */
+	public int getLeadRowKey()
+	{
+		Integer rowKey = getSelectedRowKey();
+		if (rowKey != null)
+			return rowKey.intValue();
+		else
+			return 0;
+	}   //  getLeadRowKey
+
+    /**
      * Get the table layout.
      *
      * @return the layout of the table
-     * @see #setLayout(ColumnInfo[])
+     * @see #setLayout(List<MBrowseField>)
      */
-	/*public ColumnInfo[] getLayout()
+	public List<MBrowseField> getLayout()
 	{
 		return m_layout;
-	}*/
+	}
 
 	/**
 	 * Set the column information for the table.
@@ -1133,13 +1004,13 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 	 * @param layout	The new layout to set for the table
 	 * @see #getLayout()
 	 */
-	/*private void setLayout(ColumnInfo[] layout)
+	private void setLayout(List<MBrowseField> layout)
 	{
 		this.m_layout = layout;
-		getModel().setNoColumns(m_layout.length);
+		getModel().setNoColumns(m_layout.size());
 
 		return;
-	}*/
+	}
 
     /**
      * Respond to a change in the table's model.
@@ -1160,27 +1031,35 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
         		&& event.getFirstRow() != WTableModelEvent.ALL_ROWS
         		&& !m_readWriteColumn.isEmpty())
         {
-        	int[] indices = this.getSelectedIndices();
         	ListModelTable model = this.getModel();
         	if (event.getLastRow() > event.getFirstRow())
-        		model.updateComponent(event.getFirstRow(), event.getLastRow());
-        	else
-        		model.updateComponent(event.getFirstRow());
-        	if (indices != null && indices.length > 0)
         	{
-        		this.setSelectedIndices(indices);
+        		int[] indices = this.getSelectedIndices();
+        		model.updateComponent(event.getFirstRow(), event.getLastRow());
+        		if (indices != null && indices.length > 0)
+            	{
+            		this.setSelectedIndices(indices);
+            	}
         	}
+        	else
+        	{
+        		boolean selected = false;
+        		ListItem listItem = this.getItemAtIndex(event.getFirstRow());
+        		if (listItem != null && listItem.isSelected()) {
+        			selected = true;
+        		}
+        		model.updateComponent(event.getFirstRow());
+        		listItem = this.getItemAtIndex(event.getFirstRow());
+        		if (listItem != null && !listItem.isSelected() && selected) {
+        			listItem.setSelected(true);
+        		}
+        	}
+
         }
 
         return;
     }
 
-    /**
-     * no op, to ease porting of swing form
-     */
-	public void autoSize() {
-		//no op
-	}
 
 	public int getColumnCount() {
 		return getModel() != null ? getModel().getNoColumns() : 0;
@@ -1200,7 +1079,7 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 	private void setKey(int col)
 	{
 		m_keyColumnIndex = col;
-		vbrowse.m_keyColumnIndex=col;
+		browser.m_keyColumnIndex=col;
 	}//setKey
 	
 	public void setColumnClass (int index, GridField gField, int displayType ,boolean readOnly, String header)
@@ -1219,80 +1098,160 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 		
 	}   //  setColumnClass
 
-	
 
-	/**
-	 *  Set if Totals is Show
-	 * @param show
-	 */
-	public void setShowTotals(boolean show)
-	{
-		showTotals= show;
-	}
 
-	/**
-	 * Shoe Totals
-	 * @return
-	 */
-	public boolean getShowTotals()
-	{
-		return showTotals;
-	}
 
-	/**
-	 *  Adding a new row with the totals
-	 */
-	public void addTotals()
-	{
-		if (getRowCount() == 0 || this.data.getViewColumns() == 0)
-			return;
 
-		Object[] total = new Object[this.data.getViewColumns()];
-
-		for (int row = 0 ; row < getRowCount(); row ++){
-			for (int col = 0; col < this.data.getViewColumns(); col++){
-				Object data = getModel().getValueAt(row, col);
-				int ReferenceType = this.data.getBrowseField(this.data.getTableIndex(col)).getAD_Reference_ID();
-				//if (c == BigDecimal.class)
-				if(DisplayType.isNumeric(ReferenceType)){
-					BigDecimal subtotal = Env.ZERO;
-					if(total[col]!= null)
-						subtotal = (BigDecimal)(total[col]);
-
-					BigDecimal amt =  (BigDecimal) data;
-					if(subtotal == null)
-						subtotal = Env.ZERO;
-					if(amt == null )
-						amt = Env.ZERO;
-					total[col] = subtotal.add(amt);
+	public ArrayList<Integer> getSelectedKeys() {
+		if (getModel() == null)
+		{
+			throw new UnsupportedOperationException("Layout not defined");
+		}
+		if (getKeyColumnIndex() < 0)
+		{
+			throw new UnsupportedOperationException("Key Column is not defined");
+		}
+		//
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		for (int row = 0; row < getRowCount(); row++)
+		{
+			Object data = getModel().getValueAt(row, getKeyColumnIndex());
+			if (data instanceof IDColumn)
+			{
+				IDColumn record = (IDColumn)data;
+				if (record.isSelected())
+				{
+					list.add(record.getRecord_ID());
 				}
 			}
 		}
+		return list;
+	}
 
-		//adding total row
-
-		int row = getRowCount() + 1;
-		setRowCount(row);
-		for (int col = 0; col < this.data.getViewColumns(); col++)
+	/**
+	 *	Size Columns.
+	 *  Uses Mimimum Column Size
+	 */
+	public void autoSize()
+	{
+//  TODO finish port from SWING
+		if ( !autoResize  )
+			return;
+/*
+		long start = System.currentTimeMillis();
+		//
+		final int SLACK = 8;		//	making sure it fits in a column
+		final int MAXSIZE = 300;    //	max size of a column
+		//
+		ListModelTable model = this.getModel();
+		int size = model.getNoColumns();
+		//	for all columns
+		for (int col = 0; col < size; col++)
 		{
-			MBrowseField bField = this.data.getBrowseField(this.data.getTableIndex(col));
-			if(DisplayType.isNumeric(bField.getAD_Reference_ID()))
-				setValueAt(bField.getGridField() ,total[col] , row - 1, col);
-			else{
-				if(bField.isKey())
-					setValueAt(" Σ  " , row -1 , col);
-				else
-					setValueAt(null , row - 1, col );
+			//  Column & minimum width
+			ListColumn tc = model.get.getColumn(col);
+			int width = 0;
+			if (m_minWidth.size() > col)
+				width = ((Integer)m_minWidth.get(col)).intValue();
+		//  log.config( "Column=" + col + " " + column.getHeaderValue());
+
+			//	Header
+			TableCellRenderer renderer = tc.getHeaderRenderer();
+			if (renderer == null)
+				renderer = new DefaultTableCellRenderer();
+			Component comp = renderer.getTableCellRendererComponent
+				(this, tc.getHeaderValue(), false, false, 0, 0);
+		//	log.fine( "Hdr - preferred=" + comp.getPreferredSize().width + ", width=" + comp.getWidth());
+			width = Math.max(width, comp.getPreferredSize().width + SLACK);
+
+			//	Cells
+			int maxRow = Math.min(30, getRowCount());       //  first 30 rows
+			for (int row = 0; row < maxRow; row++)
+			{
+				renderer = getCellRenderer(row, col);
+				comp = renderer.getTableCellRendererComponent
+					(this, getValueAt(row, col), false, false, row, col);
+				if (comp != null) {
+					int rowWidth = comp.getPreferredSize().width + SLACK;
+					width = Math.max(width, rowWidth);
+				}
 			}
+			//	Width not greater ..
+			width = Math.min(MAXSIZE, width);
+			tc.setPreferredWidth(width);
+		//	log.fine( "width=" + width);
+		}	//	for all columns
+		log.finer("Cols=" + size + " - " + (System.currentTimeMillis()-start) + "ms");
+*/
+	}	//	autoSize
 
+/**
+ * Determines if the row is marked selected in the key column. The table
+ * selection status (highlight) is not considered.
+ * @param row
+ * @return true if the row is marked selected in the key column
+ */
+public boolean isRowChecked(int row)
+{
+	int keyColumn = this.getKeyColumnIndex();
+
+	if (keyColumn < 0)
+		return false;
+
+	//  The selection can be indicated by an IDColumn or Boolean in the keyColumn position
+	Object data = getValueAt(row, convertColumnIndexToView(keyColumn));
+	if (data instanceof IDColumn)
+		return ((IDColumn) data).isSelected();
+	else if (data instanceof Boolean)
+		return (Boolean) data;
+
+	return	false;
+}
+
+
+	public void setKeyColumnIndex(int keyColumnIndex) {
+
+		m_keyColumnIndex = keyColumnIndex;
+
+	}
+
+
+	public int convertColumnIndexToView(int modelColumnIndex) {
+		return modelColumnIndex;
+	}
+
+
+	public int convertRowIndexToModel(int row) {
+		return row;
+	}
+
+    /**
+     * If the table row has a IDColumn or a boolean checkbox in the KeyColumnIndex
+     * this function will set the checkbox according to the setValue parameter
+     * @param row - the view row
+     * @param setValue - the checkbox value to set
+     */
+    public void setRowChecked(int row, boolean setValue)
+    {
+        //  The key column will be defined or zero by default.
+    	//  Check the class of the data in the cell to verify if
+    	//  it is a selection column.  Selection columns can be
+    	//  of type IDColumn or Boolean.
+    	Object data = this.getValueAt(row, this.convertColumnIndexToView(getKeyColumnIndex()));
+		if (data instanceof IDColumn)
+		{
+			IDColumn id = (IDColumn)data;
+			id.setSelected(setValue);
 		}
-	}
+		else if (data instanceof Boolean)
+		{
+			data = setValue;
+		}
+		else return;
 
+		this.setValueAt(data, row, this.convertColumnIndexToView(getKeyColumnIndex()));
 
-	public List<GridField> getGridFields() {
-		return gridFields;
 	}
-	
 	/**
 	 * Get Browse Rows Data 
 	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 15/10/2013, 10:01:47
@@ -1300,7 +1259,7 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 	 * @return BrowserRows
 	 */
 	public WBrowserRows getData() {
-		return data;
+		return browserRows;
 	}
 	
 	/**************************************************************************
@@ -1338,7 +1297,7 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 			String cmd = st.nextToken().trim();
 			
 			//detect infinite loop
-			if (activeCallouts.contains(cmd)) continue;
+			if (activeCallOuts.contains(cmd)) continue;
 			
 			String retValue = "";
 			// FR [1877902]
@@ -1364,10 +1323,10 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 
 				// Window context are    W_
 				// Login context  are    G_
-				MRule.setContext(engine, ctx, vbrowse.p_WindowNo);
+				MRule.setContext(engine, ctx, browser.p_WindowNo);
 				// now add the callout parameters windowNo, tab, field, value, oldValue to the engine 
 				// Method arguments context are A_
-				engine.put(MRule.ARGUMENTS_PREFIX + "WindowNo", vbrowse.p_WindowNo);
+				engine.put(MRule.ARGUMENTS_PREFIX + "WindowNo", browser.p_WindowNo);
 				engine.put(MRule.ARGUMENTS_PREFIX + "Tab", this);
 				engine.put(MRule.ARGUMENTS_PREFIX + "Field", field);
 				engine.put(MRule.ARGUMENTS_PREFIX + "Value", value);
@@ -1378,7 +1337,7 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 
 				try 
 				{
-					activeCallouts.add(cmd);
+					activeCallOuts.add(cmd);
 					retValue = engine.eval(rule.getScript()).toString();
 				}
 				catch (Exception e)
@@ -1389,7 +1348,7 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 				}
 				finally
 				{
-					activeCallouts.remove(cmd);
+					activeCallOuts.remove(cmd);
 				}
 				
 			} else {
@@ -1417,9 +1376,9 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 
 				try
 				{
-					activeCallouts.add(cmd);
-					activeCalloutInstance.add(call);
-					retValue = call.start(ctx, method, vbrowse.p_WindowNo, data, field, value, oldValue,currentRow,currentColumn);
+					activeCallOuts.add(cmd);
+					activeCallOutInstance.add(call);
+					retValue = call.start(ctx, method, browser.p_WindowNo, browserRows, field, value, oldValue,currentRow,currentColumn);
 				}
 				catch (Exception e)
 				{
@@ -1429,8 +1388,8 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 				}
 				finally
 				{
-					activeCallouts.remove(cmd);
-					activeCalloutInstance.remove(call);
+					activeCallOuts.remove(cmd);
+					activeCallOutInstance.remove(call);
 				}
 				
 			}			
@@ -1442,5 +1401,5 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 			}
 		}   //  for each callout
 		return "";
-	}	//	processCallout
+	}	//	process Callout
 }

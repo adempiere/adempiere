@@ -243,8 +243,6 @@ public class WBrowser extends Browser implements IFormController,
 			return null;
 		}
 		log.finest("Browse Fields #" + list.size());
-
-		detail= new WBrowseListbox(this);
 		//centerPanel.setViewportView(detail);
 
 		return list;
@@ -455,7 +453,7 @@ public class WBrowser extends Browser implements IFormController,
 						LinkedHashMap<String, Object> values = new LinkedHashMap<String, Object>();
 						for(int col  = 0 ; col < browserRows.getColumnCount(); col ++)
 						{
-							MBrowseField bField =browserRows.getBrowseField(col);
+							MBrowseField bField =browserRows.getBrowserField(col);
 							if (!bField.isReadOnly() || bField.isIdentifier() )
 							{
 								GridField gField = (GridField)detail.getData().getValue( row, col );
@@ -602,9 +600,6 @@ public class WBrowser extends Browser implements IFormController,
 		bOk = new Button();
 		graphPanel = new Borderlayout();
 		detailPanel= new Borderlayout();
-		if (isShowTotal())
-			detail.setShowTotals(true);
-		
 
 		Borderlayout mainLayout = new Borderlayout();
 
@@ -982,53 +977,13 @@ public class WBrowser extends Browser implements IFormController,
 		// Clear Table
 		detail.setRowCount(0);
 		try {
-			m_pstmt = getStatement(dataSql);	
+			m_pstmt = getStatement(dataSql);
 			log.fine("Start query - " + (System.currentTimeMillis() - start)
 					+ "ms");
 			m_rs = m_pstmt.executeQuery();
 			log.fine("End query - " + (System.currentTimeMillis() - start)
 					+ "ms");
-
-
-			while (m_rs.next()) {
-				int row = detail.getRowCount();
-				detail.setRowCount(row + 1);
-				int colOffset = 1; // columns start with 1
-				int colIndex =0;
-				int col = 0;
-				for (MBrowseField field : p_layout) {
-					Object value = null;
-					if (field.isKey())
-						value = new IDColumn(m_rs.getInt(col + colOffset));
-					else if (field.getAD_Reference_ID()==DisplayType.TableDir
-							|| field.getAD_Reference_ID()==DisplayType.Table
-							|| field.getAD_Reference_ID()==DisplayType.Integer
-							|| field.getAD_Reference_ID()==DisplayType.PAttribute
-							|| field.getAD_Reference_ID()==DisplayType.Account)
-						value = m_rs.getInt(col+colOffset);
-					else if (field.getAD_Reference_ID()==DisplayType.Amount
-							|| field.getAD_Reference_ID()==DisplayType.Number
-							|| field.getAD_Reference_ID()==DisplayType.CostPrice)
-						value = m_rs.getBigDecimal(col+colOffset);
-					else if (field.getAD_Reference_ID()==DisplayType.Date ||
-							field.getAD_Reference_ID()==DisplayType.DateTime)
-						value = m_rs.getTimestamp(col+colOffset);
-					else if (field.getAD_Reference_ID()==DisplayType.YesNo) {
-						value = m_rs.getString(col + colOffset);
-						if (value != null)
-							value = value.equals("Y");
-					}
-					else
-						value = m_rs.getObject(col+colOffset);
-					// store
-					detail.setValueAt(field ,value, row, colIndex, col);
-					if (field.isDisplayed())
-						colIndex++;
-
-					col ++;
-				}
-			}
-			//detail.loadTable(m_rs);
+			detail.loadTable(m_rs);
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, dataSql, e);
 		}
@@ -1124,8 +1079,7 @@ public class WBrowser extends Browser implements IFormController,
 	 */
 	@Override
 	public Object getParameterValue(Object key)
-	{
-			WEditor editor = (WEditor)  searchGrid.getParamenters().get(key);
+	{       WEditor editor = (WEditor)  searchGrid.getParamenters().get(key);
 			if(editor != null)
 				return editor.getValue();
 			else

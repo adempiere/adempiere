@@ -24,21 +24,21 @@ import org.compiere.util.CLogger;
 
 
 /**
- * @author <a href="mailto:carlosaparada@gmail.com">Carlos Parada</a>
+ * @author carlosaparada@gmail.com Carlos Parada, ERP Consultores y asociados
  *
  */
-public class BrowserCallOutExample extends BrowserCalloutEngine {
+public class BrowserCallOutExample extends BrowserCallOutEngine {
 
 	
-	public String methodExample(Properties ctx,  int WindowNo,BrowserRows mRow, GridField mField, Object value, Object oldValue,int current_Row, int current_Column) 
+	public String methodExample(Properties ctx,  int WindowNo,BrowserRows row, GridField field, Object value, Object oldValue,int currentRow, int currentColumn)
 	{
 		System.out.println("Hi! this is a example of implementation callouts");
 		
 		System.out.println("This is a Value for :"+value);
 		System.out.println("This is a Old Value :"+oldValue);
-		System.out.println("This is a Value for GridField:"+mField.getValue());
-		System.out.println("This is a Old Value for GridField:"+mField.getOldValue());
-		mRow.setValueofColumn("SO_CreditUsed", new BigDecimal(9999.33),current_Row);
+		System.out.println("This is a Value for GridField:" + field.getValue());
+		System.out.println("This is a Old Value for GridField:" + field.getOldValue());
+		row.setValueOfColumn("SO_CreditUsed", new BigDecimal(9999.33), currentRow);
 		return "";
 	}
 	

@@ -23,13 +23,13 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.adempiere.model.MBrowseField;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.*;
 import org.adempiere.webui.editor.WEditor;
@@ -58,7 +58,6 @@ import org.zkoss.zul.ListitemRenderer;
 import org.zkoss.zul.ListitemRendererExt;
 
 /**
- * Renderer for {@link org.adempiere.webui.component.ListItems}
  * for the {@link org.adempiere.webui.component.Listbox}.
  *
  * @author Andrew Kimball
@@ -80,14 +79,30 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
     private Listbox listBox;
 
 	private EventListener cellListener;
-	
+
 	private WBrowseListbox wbListBox;
-	
+
 	private Object[] currentValues;
-	
+
+	private List<WTableColumn> hiddenColumns = new ArrayList<WTableColumn>();
+
+	private Map<WTableColumn, ColumnAttributes> columnAttributesMap
+			= new HashMap<WTableColumn, ColumnAttributes>();
+
 	private Map<String, Map<Object, String>> lookupCache = null;
 	
 	private static final int MAX_TEXT_LENGTH = 60;
+
+	class ColumnAttributes {
+
+		protected Object headerValue;
+
+		protected int minWidth;
+
+		protected int maxWidth;
+
+		protected int preferredWidth;
+	}
 
 	/**
 	 * Default constructor.
@@ -146,114 +161,6 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
 		render((ListItem)item, data);
 	}
 
-/*
-	public void render(ListItem item, Object data) throws Exception {
-		//don't render if not visible
-		
-		WBrowseListbox table = null;
-
-		if (item.getListbox() instanceof WBrowseListbox)
-		{
-			table = (WBrowseListbox)item.getListbox();
-		}
-		
-		
-		//if (gridPanel != null && !gridPanel.isVisible()) {
-		//	return;
-		//}
-
-		//if (grid == null)
-		//	grid = (Grid) row.getParent().getParent();
-
-		//if (rowListener == null)
-		//	rowListener = new RowListener((Grid)row.getParent().getParent());
-
-		
-		ListCell listcell = new ListCell();
-		
-		
-		if (data instanceof ArrayList){
-			currentValues = new Object[((ArrayList)data).size()];
-			((ArrayList)data).toArray(currentValues);
-		}
-		else
-			currentValues = (Object[])data;
-		int columnCount = wbListBox.getgFields().size();//gridTab.getTableModel().getColumnCount();
-		
-		GridField[] gridField  = new GridField[columnCount];//;= gridTab.getFields();
-		wbListBox.getGridFields().toArray(gridField);
-		//Center grid = (Center) item.getParent().getParent();
-		//org.zkoss.zul.Columns columns = grid.getColumns();
-
-		//int rowIndex = row.getParent().getChildren().indexOf(row);
-		//if (paging != null && paging.getPageSize() > 0) {
-		//	rowIndex = (paging.getActivePage() * paging.getPageSize()) + rowIndex;
-		//}
-
-		int colIndex = -1;
-		int compCount = 0;
-		for (int i = 0; i < columnCount; i++) {
-			if (!gridField[i].isDisplayed()) {
-				continue;
-			}
-			colIndex ++;
-
-			Div div = new Div();
-			String divStyle = "border: none; width: 100%; height: 100%;";
-			//org.zkoss.zul.Column column = (org.zkoss.zul.Column) columns.getChildren().get(colIndex);
-			if (gridField[i].isDisplayed()) {
-				
-				if (gridField[i].isKey())
-				{
-					listcell.setValue(((IDColumn) currentValues[i]).getRecord_ID());
-					if (!table.isCheckmark()) {
-						table.setCheckmark(true);
-						table.removeEventListener(Events.ON_SELECT, this);
-						table.addEventListener(Events.ON_SELECT, this);
-						listcell.appendChild(div);
-					}
-					continue;
-				}
-				compCount++;
-				Component component = getDisplayComponent(currentValues[i], gridField[i]);
-				div.appendChild(component);
-//				if (compCount == 1) {
-					//add hidden input component to help focusing to row
-					div.appendChild(createAnchorInput());
-//				}
-
-				if (DisplayType.YesNo == gridField[i].getDisplayType() || DisplayType.Image == gridField[i].getDisplayType()) {
-					divStyle += "text-align:center; ";
-				}
-				else if (DisplayType.isNumeric(gridField[i].getDisplayType())) {
-					divStyle += "text-align:right; ";
-				}
-			}
-			div.setStyle(divStyle);
-			div.setAttribute("columnName", gridField[i].getColumnName());
-			//div.addEventListener(Events.ON_CLICK, rowListener);
-			//div.addEventListener(Events.ON_DOUBLE_CLICK, rowListener);
-			//row.appendChild(div);
-			listcell.appendChild(div);
-		}
-		
-		listcell.setParent(item);
-		listcell.addEventListener(Events.ON_DOUBLE_CLICK, cellListener);
-		//if (rowIndex == gridTab.getCurrentRow()) {
-		//	setCurrentRow(row);
-		//}
-		//row.addEventListener(Events.ON_OK, rowListener);
-	}
-	
-	private Input createAnchorInput() {
-		Input input = new Input();
-		input.setDynamicProperty("type", "text");
-		input.setValue("");
-		input.setDynamicProperty("readonly", "readonly");
-		input.setStyle("border: none; display: none; width: 3px;");
-		return input;
-	}
-	*/
 	private Component getDisplayComponent(Object value, GridField gridField) {
 		Component component;
 		if (gridField.getDisplayType() == DisplayType.YesNo) {
@@ -321,7 +228,6 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
 			else
 				return "";
     	}
-    	//else if (gridTab.getTableModel().getColumnClass(getColumnIndex(gridField)).equals(Timestamp.class))
 		else if (DisplayType.isDate(gridField.getDisplayType()))
     	{
     		SimpleDateFormat dateFormat = DisplayType.getDateFormat(gridField.getDisplayType(), AEnv.getLanguage(Env.getCtx()));
@@ -405,21 +311,26 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
 	 * @param columnIndex	The column in which the cell is to be placed.
 	 * @return	The list cell component.
 	 */
-	
 	private Listcell getCellComponent(WBrowseListbox table, Object field,
 									  int rowIndex, int columnIndex)
 	{
 		ListCell listcell = new ListCell();
-		//boolean isCellEditable = table != null ? table.isCellEditable(rowIndex, columnIndex) : false;
+		MBrowseField browseField = table.browserRows.getBrowserField(columnIndex);
+		if (browseField == null)
+			return listcell;
 
-        // TODO put this in factory method for generating cell renderers, which
+		GridField gridField  = browseField.getGridField();
+		boolean isCellEditable = gridField.isReadOnly() == false; //table != null ? table.isCellEditable(rowIndex, columnIndex) : false;
+		boolean isColumnVisible = Boolean.TRUE;
+
+		if ( !m_tableColumns.isEmpty() )
+			isColumnVisible = isColumnVisible(getColumn(columnIndex));
+
         // are assigned to Table Columns
-		
-		GridField gfield = wbListBox.getGridFields().get(columnIndex);
-		if (gfield != null)
+		if (field != null && isColumnVisible && gridField != null)
 		{
-			boolean isCellEditable = gfield.isReadOnly()==false;
-			if (gfield.getDisplayType() == DisplayType.YesNo)
+
+			if ( DisplayType.YesNo == gridField.getDisplayType())
 			{
 				listcell.setValue(Boolean.valueOf(field.toString()));
 
@@ -441,9 +352,7 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
 				listcell.appendChild(checkbox);
 				ZkCssHelper.appendStyle(listcell, "text-align:center");
 			}
-			else if ((gfield.getDisplayType() == DisplayType.Number
-						|| gfield.getDisplayType() == DisplayType.Amount
-							|| gfield.getDisplayType() == DisplayType.Integer) && !gfield.isKey())
+			else if ((DisplayType.isNumeric(gridField.getDisplayType())) && !gridField.isKey())
 			{
 				DecimalFormat format = field instanceof BigDecimal
 					? DisplayType.getNumberFormat(DisplayType.Amount, AEnv.getLanguage(Env.getCtx()))
@@ -459,8 +368,7 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
 					numberbox.setValue(field);
 					numberbox.setWidth("100px");
 					numberbox.setEnabled(true);
-					numberbox.setStyle("text-align:right; "
-									+ listcell.getStyle());
+					numberbox.setStyle("text-align:right; " + listcell.getStyle());
 					numberbox.addEventListener(Events.ON_CHANGE, this);
 					listcell.appendChild(numberbox);
 				}
@@ -470,50 +378,96 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
 					ZkCssHelper.appendStyle(listcell, "text-align:right");
 				}
 			}
-			else if (gfield.getDisplayType() == DisplayType.Date)
+			else if (DisplayType.Date == gridField.getDisplayType()
+			|| 		 DisplayType.DateTime == gridField.getDisplayType())
 			{
 
-				SimpleDateFormat dateFormat = DisplayType.getDateFormat(DisplayType.Date, AEnv.getLanguage(Env.getCtx()));
-				//listcell.setValue(dateFormat.format((Timestamp)field));
-				listcell.setValue(dateFormat.format(field));
+				SimpleDateFormat dateFormat = DisplayType.getDateFormat(gridField.getDisplayType() ,  AEnv.getLanguage(Env.getCtx()));
+				listcell.setValue(dateFormat.format((Timestamp)field)); //listcell.setValue(dateFormat.format(field));
 				if (isCellEditable)
 				{
 					Datebox datebox = new Datebox();
 					datebox.setFormat(dateFormat.toPattern());
-					//datebox.setValue(new Date(((Timestamp)field).getTime()));
-					datebox.setValue((Date) field);
+					datebox.setValue(((Timestamp)field)); //datebox.setValue((Date) field);
 					datebox.addEventListener(Events.ON_CHANGE, this);
 					listcell.appendChild(datebox);
 				}
 				else
 				{
-					//listcell.setLabel(dateFormat.format((Timestamp)field));
-					listcell.setLabel(dateFormat.format(field));
+					listcell.setLabel(dateFormat.format((Timestamp) field)); //listcell.setLabel(dateFormat.format(field));
 				}
 			}
-			else if (gfield.getDisplayType() == DisplayType.String)
+			else if (DisplayType.String == gridField.getDisplayType())
 			{
 				listcell.setValue((field==null ?"" :field.toString()));
 				if (isCellEditable)
 				{
 					Textbox textbox = new Textbox();
-					textbox.setValue((field==null ?"" :field.toString()));
+					textbox.setValue((field == null ? "" : field.toString()));
 					textbox.addEventListener(Events.ON_CHANGE, this);
 					listcell.appendChild(textbox);
 				}
 				else
 				{
-					listcell.setLabel((field==null ?"" :field.toString()));
+					listcell.setLabel((field == null ? "" : field.toString()));
 				}
 			}
-			//----------------------------------------------------------------------------------------
-			
-			else 
-				if (gfield.isLookup() && !gfield.isKey())
-			{	
+            else if (field instanceof org.adempiere.webui.component.Combobox)
+            {
+                listcell.setValue(field);
+                if (isCellEditable)
+                {
+                    Combobox combobox =  (Combobox)field;
+                    combobox.addEventListener(Events.ON_CHANGE, this);
+                    listcell.appendChild(combobox);
+                }
+                else
+                {
+                    Combobox combobox =  (Combobox)field;
+                    if(combobox!=null && combobox.getItemCount()>0) {
+                        if (combobox.getSelectedIndex() >= 0)
+                            listcell.setLabel((String)combobox.getItemAtIndex(combobox.getSelectedIndex()).getLabel());
+                        else
+                            listcell.setLabel("");
+                    }
+                }
+            }
+            else if (field instanceof org.adempiere.webui.component.Button)
+            {
+                listcell.setValue(field);
+                if (isCellEditable)
+                {
+                    Button button =  (Button)field;
+                    button.addEventListener(Events.ON_CLICK, this);
+                    listcell.appendChild(button);
+                }
+                else
+                {
+                    Button button =  (Button)field;
+                    if(button!=null ) {
+                        listcell.setLabel("");
+                    }
+                }
+            }
+			// if ID column make it invisible
+			else if (gridField.isKey() && field instanceof IDColumn)
+			{
+				IDColumn id = (IDColumn) field;
+				if (id != null && id.getRecord_ID() != null)
+				{
+					listcell.setValue(id.getRecord_ID());
+					if (!table.isCheckmark()) {
+						table.setCheckmark(true);
+						table.removeEventListener(Events.ON_SELECT, this);
+						table.addEventListener(Events.ON_SELECT, this);
+					}
+				}
+			}
+			else if (gridField.isLookup() || DisplayType.ID == gridField.getDisplayType())
+			{
 				if (isCellEditable)
 				{
-					WEditor editor = WebEditorFactory.getEditor(gfield, false);
+					WEditor editor = WebEditorFactory.getEditor(gridField, false);
 					editor.setValue(field);
 					editor.getComponent().addEventListener(Events.ON_CHANGE, this);
 					listcell.appendChild(editor.getComponent());
@@ -521,43 +475,23 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
 				else
 				{
 					Component component;
-					if (gfield.getDisplayType() == DisplayType.YesNo) {
+					if (gridField.getDisplayType() == DisplayType.YesNo) {
 						component = createReadonlyCheckbox(field);
 					} else {
-						String text = getDisplayText(field, gfield);
-
+						String text = getDisplayText(field, gridField);
 						Label label = new Label();
 						setLabelText(text, label);
 
 						component = label;
 					}
-					
+
 					listcell.appendChild(component);
-				}
-			}
-			
-			
-			
-			
-			//-----------------------------------------------------------------------------------------
-			
-			
-			
-			
-			// if ID column make it invisible
-			else if (gfield.isKey())
-			{
-				listcell.setValue(((IDColumn) field).getRecord_ID());
-				if (!table.isCheckmark()) {
-					table.setCheckmark(true);
-					table.removeEventListener(Events.ON_SELECT, this);
-					table.addEventListener(Events.ON_SELECT, this);
 				}
 			}
 			else
 			{
-				listcell.setLabel((field==null ?"" :field.toString()));
-				listcell.setValue((field==null ?"" :field.toString()));
+				listcell.setLabel((field==null ? null : field.toString()));
+				listcell.setValue((field == null ? null : field.toString()));
 			}
 		}
 		else
@@ -565,6 +499,8 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
 			listcell.setLabel("");
 			listcell.setValue("");
 		}
+
+		listcell.setAttribute("zk_component_ID", "ListItem_Cell_" + rowIndex + "_" + columnIndex);
 
 		return listcell;
 	}
@@ -587,7 +523,7 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
 	}   //  updateColumn
 
 	/**
-	 *  Add Table Column.
+	 *  Add Table Column.  Assumes it is visible.
 	 *  after adding a column, you need to set the column classes again
 	 *  (DefaultTableModel fires TableStructureChanged, which calls
 	 *  JTable.tableChanged .. createDefaultColumnsFromModel
@@ -599,10 +535,31 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
 
 		tableColumn = new WTableColumn();
 		tableColumn.setHeaderValue(Util.cleanAmp(header));
+		setColumnVisibility(tableColumn, true);
 		m_tableColumns.add(tableColumn);
 
 		return;
 	}   //  addColumn
+
+	/**
+	 *  Add Table Column.
+	 *  after adding a column, you need to set the column classes again
+	 *  (DefaultTableModel fires TableStructureChanged, which calls
+	 *  JTable.tableChanged .. createDefaultColumnsFromModel
+	 *  @param ColumnInfo for the column
+	 */
+	/*public void addColumn(ColumnInfo info)
+	{
+		WTableColumn tableColumn;
+
+		tableColumn = new WTableColumn();
+		tableColumn.setHeaderValue(Util.cleanAmp(info.getColHeader()));
+		setColumnVisibility(tableColumn, info.getVisibility());
+		m_tableColumns.add(tableColumn);
+
+		return;
+	}   //  addColumn
+	*/
 
 	/**
 	 * Get the number of columns.
@@ -615,7 +572,7 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
 
 	/**
 	 * This is unused.
-	 * The readonly proprty of a column should be set in
+	 * The read only property of a column should be set in
 	 * the parent table.
 	 *
 	 * @param colIndex
@@ -646,10 +603,16 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
         String headerText = headerValue.toString();
         if (m_headers.size() <= headerIndex || m_headers.get(headerIndex) == null)
         {
-        	if (classType != null && classType.isAssignableFrom(IDColumn.class))
+        	if (!isColumnVisible(getColumn(headerIndex)))
         	{
         		header = new ListHeader("");
-        		header.setWidth("20px");
+        		header.setWidth("0px");
+        		header.setStyle("width: 0px");
+        	}
+        	else if (classType != null && classType.isAssignableFrom(IDColumn.class))
+        	{
+        		header = new ListHeader("");
+        		header.setWidth("35px");
         	}
         	else
         	{
@@ -658,10 +621,10 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
 	
 	            header = new ListHeader(headerText);
 	
-	            /*header.setSort("auto");
+	            header.setSort("auto");
 	            header.setSortAscending(ascComparator);
 	            header.setSortDescending(dscComparator);
-				*/
+
 	            int width = headerText.trim().length() * 9;
 	            if (width > 300)
 	            	width = 300;
@@ -692,11 +655,19 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
         {
             header = m_headers.get(headerIndex);
 
-            if (!header.getLabel().equals(headerText))
+            if (!isColumnVisible(getColumn(headerIndex)))
+        	{
+        		header.setLabel("");
+        		header.setWidth("0px");
+        		header.setStyle("width: 0px");
+        	}
+        	else if (!header.getLabel().equals(headerText))
             {
                 header.setLabel(headerText);
             }
         }
+
+        header.setAttribute("zk_component_ID", "ListItem_Header_C" + headerIndex);
 
 		return header;
 	}
@@ -764,6 +735,7 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
 	 *
 	 * @param head	The ListHead component to render.
 	 * @see #addColumn(String)
+	 * @see #WListItemRenderer(List)
 	 */
 	public void renderListHead(ListHead head)
 	{
@@ -840,18 +812,21 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
 				tableColumn = m_tableColumns.get(0);
 				for (int i = 0; i < cnt; i++) {
 					IDColumn idcolumn = (IDColumn) table.getValueAt(i, 0);
-					Listitem item = table.getItemAtIndex(i);
+					if (idcolumn != null)
+					{
+						Listitem item = table.getItemAtIndex(i);
 
-					value = item.isSelected();
-					Boolean old = idcolumn.isSelected();
+						value = item.isSelected();
+						Boolean old = idcolumn.isSelected();
 
-					if (!old.equals(value)) {
-						vcEvent = new TableValueChangeEvent(source,
-								tableColumn.getHeaderValue().toString(),
-								i, 0,
-								old, value);
+						if (!old.equals(value)) {
+							vcEvent = new TableValueChangeEvent(source,
+									tableColumn.getHeaderValue().toString(),
+									i, 0,
+									old, value);
 
-						fireTableValueChange(vcEvent);
+							fireTableValueChange(vcEvent);
+						}
 					}
 				}
 			}
@@ -929,6 +904,8 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
 	public void clearColumns()
 	{
 		m_tableColumns.clear();
+		columnAttributesMap.clear();
+		hiddenColumns.clear();
 	}
 
 	/**
@@ -1024,6 +1001,69 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
 		if (index >= 0 && index < m_tableColumns.size())
 		{
 			m_tableColumns.get(index).setColumnClass(classType);
+		}
+	}
+
+	/**
+     *
+     * @param column
+     * @return boolean
+     */
+	public boolean isColumnVisible(WTableColumn column)
+	{
+		return !hiddenColumns.contains(column);
+	}
+
+	/**
+	 * Hide or show column
+	 * @param index of the column
+	 * @param visible
+	 */
+	public void setColumnVisibility(int index, boolean visible)
+	{
+		WTableColumn column;
+
+		if (index >= 0 && index < m_tableColumns.size())
+		{
+			column = m_tableColumns.get(index);
+			setColumnVisibility(column, visible);
+		}
+		else
+			return;
+	}
+	/**
+	 * Hide or show column
+	 * @param column
+	 * @param visible
+	 */
+	public void setColumnVisibility(WTableColumn column, boolean visible)
+	{
+
+		if (visible)
+		{
+			if (isColumnVisible(column)) return;
+			ColumnAttributes attributes = columnAttributesMap.get(column);
+			if (attributes == null) return;
+
+			column.setMinWidth(attributes.minWidth);
+			column.setMaxWidth(attributes.maxWidth);
+			column.setPreferredWidth(attributes.preferredWidth);
+			columnAttributesMap.remove(column);
+			hiddenColumns.remove(column);
+		}
+		else
+		{
+			if (!isColumnVisible(column)) return;
+
+			ColumnAttributes attributes = new ColumnAttributes();
+			attributes.minWidth = column.getMinWidth();
+			attributes.maxWidth = column.getMaxWidth();
+			attributes.preferredWidth = column.getPreferredWidth();
+			columnAttributesMap.put(column, attributes);
+			column.setMinWidth(0);
+			column.setMaxWidth(0);
+			column.setPreferredWidth(0);
+        	hiddenColumns.add(column);
 		}
 	}
 

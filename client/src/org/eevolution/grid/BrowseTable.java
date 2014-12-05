@@ -47,7 +47,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Util;
-import org.eevolution.form.BrowserCallout;
+import org.eevolution.form.BrowserCallOut;
 import org.eevolution.form.BrowserRows;
 import org.eevolution.form.VBrowser;
 
@@ -63,10 +63,12 @@ public class BrowseTable extends CTable implements IBrowseTable
 	 */
 	private static final long serialVersionUID = 2853772547464132497L;
 
+	/**	Logger. */
+	private static CLogger log = CLogger.getCLogger(BrowseTable.class);
 	/**
 	 *  Default Constructor
 	 */
-	public BrowseTable(VBrowser vbrowse)
+	public BrowseTable(VBrowser browser)
 	{
 		super();
 		setCellSelectionEnabled(false);
@@ -74,7 +76,7 @@ public class BrowseTable extends CTable implements IBrowseTable
 		//  Default Editor
 		this.setCellEditor(new ROCellEditor());
 		
-		this.vbrowse = vbrowse;
+		this.browser = browser;
 	}   //  MiniTable
 
 	/** List of R/W columns     */
@@ -93,20 +95,20 @@ public class BrowseTable extends CTable implements IBrowseTable
 	/** Lauout set in prepareTable and used in loadTable    */
 	//private ColumnInfo[]        m_layout = null;
 	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(BrowseTable.class);
+
 	/** Is Total Show */
 	private boolean showTotals = false;
 	private boolean autoResize = true;
 	
-	protected BrowserRows data= new BrowserRows(this);
+	protected BrowserRows browserRows = new BrowserRows(this);
 
-	protected VBrowser vbrowse; 
+	protected VBrowser browser;
 	
 	/** Active BrowseCallOuts **/
-	private List<String> activeCallouts = new ArrayList<String>();
+	private List<String> activeCallOuts = new ArrayList<String>();
 	
 	/** Active BrowseCallOutsInstances **/
-	private List<BrowserCallout> activeCalloutInstance = new ArrayList<BrowserCallout>();
+	private List<BrowserCallOut> activeCallOutInstance = new ArrayList<BrowserCallOut>();
 	
 	/** Context **/
 	private Properties ctx =Env.getCtx();   
@@ -259,7 +261,11 @@ public class BrowseTable extends CTable implements IBrowseTable
 				sql.append(", ");
 
 			if (field.isKey())
+			{
 				setKey(col);
+				field.setName("#");
+			}
+
 
 			sql.append(columnView.getColumnSQL())
 				.append(" ")
@@ -267,8 +273,8 @@ public class BrowseTable extends CTable implements IBrowseTable
 				.append(" ")
 				.append(columnView.getColumnName());
 
-			data.addBrowseField(col, field);
-			field.setGridField(new GridField(data.getGridFieldVO(vbrowse.p_WindowNo, field.getName(), col)));
+			browserRows.addBrowserField(col, field);
+			field.setGridField(new GridField(browserRows.getGridFieldVO(browser.p_WindowNo, field.getName(), col)));
 			if (field.isDisplayed()){
 				addColumn(field.getName());
 				col++;
@@ -290,50 +296,6 @@ public class BrowseTable extends CTable implements IBrowseTable
 
 		return sql.toString();
 	}   //  prepareTable
-
-	/**
-	protected void prepareTable(Info_Column[] layout, String from,
-								String staticWhere, String orderBy) {
-		p_layout = layout;
-		StringBuffer sql = new StringBuffer("SELECT DISTINCT ");
-		// add columns & sql
-		for (int i = 0; i < layout.length; i++) {
-			if (i > 0 && layout[i].getColSQL().length() > 0)
-				sql.append(", ");
-			sql.append(layout[i].getColSQL());
-			// adding ID column
-			if (layout[i].isIDcol())
-				sql.append(",").append(layout[i].getIDcolSQL());
-			// add to model
-			detail.addColumn(layout[i].getColHeader());
-			if (layout[i].isColorColumn())
-				detail.setColorColumn(i);
-			if (layout[i].getColClass() == IDColumn.class)
-				m_keyColumnIndex = i;
-		}
-
-		// Table Selection (Invoked before setting column class so that row
-		// selection is enabled)
-		detail.setRowSelectionAllowed(true);
-		// detail.addMouseListener(this);
-		detail.setMultiSelection(p_multiSelection);
-		detail.setShowTotals(true);
-
-		// set editors (two steps)
-		for (int i = 0; i < layout.length; i++)
-			detail.setColumnClass(i, layout[i].getColClass(), layout[i].getDisplayType() ,
-					layout[i].isReadOnly(), layout[i].getColHeader());
-
-		sql.append(" FROM ").append(from);
-		sql.append(" WHERE ");
-		m_sqlMain = sql.toString();
-		m_sqlCount = "SELECT COUNT(*) FROM " + from + " WHERE ";
-		m_sqlOrderBy = getSQLOrderBy();
-
-		if (m_keyColumnIndex == -1)
-			log.log(Level.WARNING, "No KeyColumn - " + sql);
-	} // prepareTable
-	 */
 
 	/**
 	 *  Add Table Column.
@@ -430,7 +392,7 @@ public class BrowseTable extends CTable implements IBrowseTable
 	public Integer getSelectedRowKey()
 	{
 		
-		if (data.getColumnCount() == 0)
+		if (browserRows.getColumnCount() == 0)
 			throw new UnsupportedOperationException("Layout not defined");
 
 		int row = getSelectedRow();
@@ -450,7 +412,7 @@ public class BrowseTable extends CTable implements IBrowseTable
 	 */
 	public Collection<Integer> getSelectedKeys()
 	{
-		if (data.getColumnCount() == 0)
+		if (browserRows.getColumnCount() == 0)
 		{
 			throw new UnsupportedOperationException("Layout not defined");
 		}
@@ -585,50 +547,49 @@ public class BrowseTable extends CTable implements IBrowseTable
 	 */
 	public void addTotals()
 	{
-		if (getRowCount() == 0 || this.data.getViewColumns() == 0)
+		if (getRowCount() == 0 || this.browserRows.getViewColumns() == 0)
 			return;
 		
-		Object[] total = new Object[this.data.getViewColumns()];
+		Object[] total = new Object[this.browserRows.getViewColumns()];
 		
 		for (int row = 0 ; row < getRowCount(); row ++){
+            for (int col = 0; col < this.browserRows.getViewColumns(); col++){
+                Object data = getModel().getValueAt(row, col);
+                //Class<?> c = layout[col].getColClass();
+                int ReferenceType = this.browserRows.getBrowserField(this.browserRows.getTableIndex(col)).getAD_Reference_ID();
+                //if (c == BigDecimal.class)
+                if(DisplayType.isNumeric(ReferenceType)){
+                    BigDecimal subtotal = Env.ZERO;
+                    if(total[col] != null)
+                        subtotal = (BigDecimal)(total[col]);
 
-				for (int col = 0; col < this.data.getViewColumns(); col++){
-					Object data = getModel().getValueAt(row, col);
-					//Class<?> c = layout[col].getColClass();
-					int ReferenceType = this.data.getBrowseField(this.data.getTableIndex(col)).getAD_Reference_ID();
-					//if (c == BigDecimal.class)
-					if(DisplayType.isNumeric(ReferenceType)){
-						BigDecimal subtotal = Env.ZERO;
-						if(total[col] != null)
-							subtotal = (BigDecimal)(total[col]);
-							
-						BigDecimal amt =  (BigDecimal) data;
-						if(subtotal == null)
-							subtotal = Env.ZERO;
-						if(amt == null )
-							amt = Env.ZERO;
-						total[col] = subtotal.add(amt);
-					}
-				}	
+                    BigDecimal amt =  (BigDecimal) data;
+                    if(subtotal == null)
+                        subtotal = Env.ZERO;
+                    if(amt == null )
+                        amt = Env.ZERO;
+                    total[col] = subtotal.add(amt);
+                }
+            }
 		}
 		
 		//adding total row
-
 		int row = getRowCount() + 1;
+		boolean markerSet = false;
 		setRowCount(row);
-		for (int col = 0; col < this.data.getViewColumns(); col++)
+		for (int col = 0; col < this.browserRows.getViewColumns(); col++)
 		{
-			//Class<?> c = layout[col].getColClass();
-			MBrowseField bField = this.data.getBrowseField(this.data.getTableIndex(col));
+			MBrowseField bField = this.browserRows.getBrowserField(this.browserRows.getTableIndex(col));
 			if(DisplayType.isNumeric(bField.getAD_Reference_ID()))
 				setValueAt(bField.getGridField() , total[col] , row - 1, col);
 			else{	
-				if(bField.isKey())
-					setValueAt(" Σ  " , row -1 , col);
+				if(DisplayType.isText(bField.getAD_Reference_ID()) && !markerSet) {
+					setValueAt(" Σ  ", row - 1, col);
+					markerSet = true;
+				}
 				else
 					setValueAt(null , row - 1, col );	
-			}	
-			
+			}
 		}
 	}
 
@@ -639,65 +600,60 @@ public class BrowseTable extends CTable implements IBrowseTable
 	 * @return BrowserRows
 	 */
 	public BrowserRows getData() {
-		return data;
+		return browserRows;
 	}
 
 	/**
 	 * Set Value with BrowseField
 	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 15/10/2013, 10:02:04
-	 * @param bField
-	 * @param aValue
+	 * @param browserField
+	 * @param value
 	 * @param row
 	 * @param column
 	 * @param index
 	 * @return void
 	 */
-	public void setValueAt(MBrowseField bField,Object aValue, int row, int column,int index) {
-		// TODO Auto-generated method stub
-		
-		
-		GridField gField=(GridField)data.getValue(row, index);
-		
+	public void setValueAt(MBrowseField browserField,Object value, int row, int column,int index) {
+		//GridField gField=(GridField)browserRows.getValue(row, index);
+		GridField gField= browserField.getGridField();
 		if (gField==null)
 		{
-			gField=data.getBrowseField(index).getGridField();
+			gField = browserRows.getBrowserField(index).getGridField();
 			GridField gf = new GridField(gField.getVO());
-			gf.setValue(aValue, false);
-			gf.setValue(aValue, false);
-			data.setValue(row, index, gf);
+			gf.setValue(value, false);
+			gf.setValue(value, false);
+			browserRows.setValue(row, index, gf);
 		}
 		else
 		{
-			gField.setValue(aValue, false);
-			data.setValue(row, index, gField);
+			gField.setValue(value, false);
+			browserRows.setValue(row, index, gField);
 		}
 
 		if (gField.isDisplayed())
-			super.setValueAt(aValue, row, column);
+			super.setValueAt(value, row, column);
 		
 	}
 	
 	/**
 	 * Set Value On Table And BrowseRows
 	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 21/10/2013, 12:00:51
-	 * @param gField
-	 * @param aValue
+	 * @param gridField
+	 * @param value
 	 * @param row
 	 * @param column
 	 * @return void
 	 */
-	public void setValueAt(GridField gField,Object aValue, int row, int column) {
-		// TODO Auto-generated method stub
-		
-		if (gField==null)
+	public void setValueAt(GridField gridField,Object value, int row, int column) {
+		if (gridField==null)
 			throw new UnsupportedOperationException("No GridField");
 		
-		GridField gf = new GridField(gField.getVO());
-		gf.setValue(aValue, false);
-		data.setValue(row, data.getTableIndex(column), gf);
+		GridField gf = new GridField(gridField.getVO());
+		gf.setValue(value, false);
+		browserRows.setValue(row, browserRows.getTableIndex(column), gf);
 		
-		if (gField.isDisplayed())
-			super.setValueAt(aValue, row, column);
+		if (gridField.isDisplayed())
+			super.setValueAt(value, row, column);
 	}//setValueAt
 
 	/**
@@ -709,7 +665,7 @@ public class BrowseTable extends CTable implements IBrowseTable
 	private void setKey(int col)
 	{
 		p_keyColumnIndex = col;
-		vbrowse.m_keyColumnIndex = col;
+		browser.m_keyColumnIndex = col;
 	}//setKey
 	
 	/**************************************************************************
@@ -747,7 +703,7 @@ public class BrowseTable extends CTable implements IBrowseTable
 			String cmd = st.nextToken().trim();
 			
 			//detect infinite loop
-			if (activeCallouts.contains(cmd)) continue;
+			if (activeCallOuts.contains(cmd)) continue;
 			
 			String retValue = "";
 			// FR [1877902]
@@ -773,10 +729,10 @@ public class BrowseTable extends CTable implements IBrowseTable
 
 				// Window context are    W_
 				// Login context  are    G_
-				MRule.setContext(engine, ctx, vbrowse.p_WindowNo);
+				MRule.setContext(engine, ctx, browser.p_WindowNo);
 				// now add the callout parameters windowNo, tab, field, value, oldValue to the engine 
 				// Method arguments context are A_
-				engine.put(MRule.ARGUMENTS_PREFIX + "WindowNo", vbrowse.p_WindowNo);
+				engine.put(MRule.ARGUMENTS_PREFIX + "WindowNo", browser.p_WindowNo);
 				engine.put(MRule.ARGUMENTS_PREFIX + "Tab", this);
 				engine.put(MRule.ARGUMENTS_PREFIX + "Field", field);
 				engine.put(MRule.ARGUMENTS_PREFIX + "Value", value);
@@ -787,7 +743,7 @@ public class BrowseTable extends CTable implements IBrowseTable
 
 				try 
 				{
-					activeCallouts.add(cmd);
+					activeCallOuts.add(cmd);
 					retValue = engine.eval(rule.getScript()).toString();
 				}
 				catch (Exception e)
@@ -798,12 +754,12 @@ public class BrowseTable extends CTable implements IBrowseTable
 				}
 				finally
 				{
-					activeCallouts.remove(cmd);
+					activeCallOuts.remove(cmd);
 				}
 				
 			} else {
 
-				BrowserCallout call = null;
+				BrowserCallOut call = null;
 				String method = null;
 				int methodStart = cmd.lastIndexOf('.');
 				try
@@ -811,7 +767,7 @@ public class BrowseTable extends CTable implements IBrowseTable
 					if (methodStart != -1)      //  no class
 					{
 						Class<?> cClass = Class.forName(cmd.substring(0,methodStart));
-						call = (BrowserCallout)cClass.newInstance();
+						call = (BrowserCallOut)cClass.newInstance();
 						method = cmd.substring(methodStart+1);
 					}
 				}
@@ -826,9 +782,9 @@ public class BrowseTable extends CTable implements IBrowseTable
 
 				try
 				{
-					activeCallouts.add(cmd);
-					activeCalloutInstance.add(call);
-					retValue = call.start(ctx, method, vbrowse.p_WindowNo, data, field, value, oldValue,currentRow,currentColumn);
+					activeCallOuts.add(cmd);
+					activeCallOutInstance.add(call);
+					retValue = call.start(ctx, method, browser.p_WindowNo, browserRows , field, value, oldValue,currentRow,currentColumn);
 				}
 				catch (Exception e)
 				{
@@ -838,8 +794,8 @@ public class BrowseTable extends CTable implements IBrowseTable
 				}
 				finally
 				{
-					activeCallouts.remove(cmd);
-					activeCalloutInstance.remove(call);
+					activeCallOuts.remove(cmd);
+					activeCallOutInstance.remove(call);
 				}
 				
 			}			

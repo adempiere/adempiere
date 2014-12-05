@@ -123,7 +123,7 @@ public class MBrowseField extends X_AD_Browse_Field {
 		setName(column.getName());
 		setDescription(column.getDescription());
 		setHelp(column.getHelp());
-		setAD_View_Column_ID(column.get_ID());
+		setAD_View_Column_ID(column.getAD_View_Column_ID());
 		setIsActive(true);
 		setIsIdentifier(column.isIdentifier());
 		setIsRange(false);
@@ -235,6 +235,7 @@ public class MBrowseField extends X_AD_Browse_Field {
 				Env.getAD_Language(Env.getCtx()));
 	}
 
+
 	public void setGridField(GridField gridField) {
 		this.gridField = gridField;
 	}
@@ -242,5 +243,4 @@ public class MBrowseField extends X_AD_Browse_Field {
 	public GridField getGridField() {
 		return gridField;
 	}
-
 }

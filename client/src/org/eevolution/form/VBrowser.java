@@ -96,7 +96,6 @@ public class VBrowser extends Browser implements ActionListener,
 	 * @param browse_ID
 	 */
 	public static CFrame openBrowse(int browse_ID) {
-		
 		MBrowse browse = new MBrowse(Env.getCtx(), browse_ID , null);
 		boolean modal = true;
 		int WindowNo = 0;
@@ -541,7 +540,7 @@ public class VBrowser extends Browser implements ActionListener,
 						LinkedHashMap<String, Object> values = new LinkedHashMap<String, Object>();
 						for(int col = 0 ; col < browserRows.getColumnCount(); col++)
 						{
-							MBrowseField bField = browserRows.getBrowseField(col);
+							MBrowseField bField = browserRows.getBrowserField(col);
 							if (!bField.isReadOnly() || bField.isIdentifier() )
 							{
 								GridField gField = (GridField)detail.getData().getValue(row, col);
@@ -967,7 +966,6 @@ public class VBrowser extends Browser implements ActionListener,
 	}
 
 	private void bPrintActionPerformed(java.awt.event.ActionEvent evt) {
-		// TODO add your handling code here:
 	}
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1033,64 +1031,25 @@ public class VBrowser extends Browser implements ActionListener,
 					int row = detail.getRowCount();
 					detail.setRowCount(row + 1);
 					int colOffset = 1; // columns start with 1
-					/*for (int col = 0; col < p_layout.length; col++) {
-						Object value = null;
-						Class<?> c = p_layout[col].getColClass();
-						int colIndex = col + colOffset;						
-						if (c == IDColumn.class && !p_layout[col].getColSQL().equals("'Row' AS \"Row\""))
-						{	
-							IDColumn idColumn = new IDColumn(m_rs.getInt(colIndex));
-							idColumn.setSelected(isSelectedByDefault());
-							value = idColumn;
-
-						}	
-						else if (c == IDColumn.class && p_layout[col].getColSQL().equals("'Row' AS \"Row\""))
-						{	
-							IDColumn idColumn = new IDColumn(no);
-							idColumn.setSelected(isSelectedByDefault());
-							value = idColumn;
-						}	
-						else if (c == Boolean.class)
-							value = new Boolean("Y".equals(m_rs
-									.getString(colIndex)));
-						else if (c == Timestamp.class)
-							value = m_rs.getTimestamp(colIndex);
-						else if (c == BigDecimal.class)
-							value = m_rs.getBigDecimal(colIndex);
-						else if (c == Double.class)
-							value = new Double(m_rs.getDouble(colIndex));
-						else if (c == Integer.class)
-							value = new Integer(m_rs.getInt(colIndex));
-						else if (c == KeyNamePair.class) {
-							String display = m_rs.getString(colIndex);
-							int key = m_rs.getInt(colIndex + 1);
-							value = new KeyNamePair(key, display);
-							colOffset++;
-						} else
-							value = m_rs.getString(colIndex);
-						// store
-						detail.setValueAt(value, row, col);
-					}*/
 					int colIndex =0;
 					int col = 0;
 					for (MBrowseField field : p_layout) {
 						Object value = null;
-						if (field.isKey())
+						if (field.isKey() && !field.getAD_View_Column().getColumnSQL().equals("'Row' AS \"Row\""))
 							value = new IDColumn(m_rs.getInt(col + colOffset));
-						else if (field.getAD_Reference_ID()==DisplayType.TableDir
-							  || field.getAD_Reference_ID()==DisplayType.Table
-							  || field.getAD_Reference_ID()==DisplayType.Integer
-							  || field.getAD_Reference_ID()==DisplayType.PAttribute
-							  || field.getAD_Reference_ID()==DisplayType.Account)
-							value = m_rs.getInt(col+colOffset);
-						else if (field.getAD_Reference_ID()==DisplayType.Amount
-							  || field.getAD_Reference_ID()==DisplayType.Number
-							  || field.getAD_Reference_ID()==DisplayType.CostPrice)
-							value = m_rs.getBigDecimal(col+colOffset);
-						else if (field.getAD_Reference_ID()==DisplayType.Date ||
-								field.getAD_Reference_ID()==DisplayType.DateTime)
+						else if (field.isKey() && !field.getAD_View_Column().getColumnSQL().equals("'Row' AS \"Row\""))
+							value  = new IDColumn(no);
+						else if (DisplayType.TableDir == field.getAD_Reference_ID()
+							  || DisplayType.Table == field.getAD_Reference_ID()
+							  || DisplayType.Integer == field.getAD_Reference_ID()
+							  || DisplayType.PAttribute == field.getAD_Reference_ID()
+							  || DisplayType.Account == field.getAD_Reference_ID())
+							value = m_rs.getInt(col + colOffset);
+						else if (DisplayType.isNumeric(field.getAD_Reference_ID()))
+							value = m_rs.getBigDecimal(col + colOffset);
+						else if (DisplayType.isDate(field.getAD_Reference_ID()))
 							value = m_rs.getTimestamp(col+colOffset);
-						else if (field.getAD_Reference_ID()==DisplayType.YesNo){
+						else if (DisplayType.YesNo == field.getAD_Reference_ID()){
 							value = m_rs.getString(col + colOffset);
 							if (value != null)
 								value= value.equals("Y");
@@ -1284,7 +1243,8 @@ public class VBrowser extends Browser implements ActionListener,
 						&& !editor.getValue().toString().isEmpty()
 						&& field.isRange) {
 					sql.append(" AND ");
-					sql.append(field.Help).append(" BETWEEN ?");
+					//sql.append(field.Help).append(" BETWEEN ?");
+					sql.append(field.Help).append(" >= ? ");
 					m_parameters.add(field.Help);
 					m_parameters_values.add(editor.getValue());
 					onRange = true;
@@ -1292,11 +1252,14 @@ public class VBrowser extends Browser implements ActionListener,
 					continue;
 			} else if (editor.getValue() != null
 					&& !editor.getValue().toString().isEmpty()) {
-				sql.append(" AND ? ");
+				//sql.append(" AND ? ");
+				sql.append(" AND ").append(field.Help).append(" <= ? ");
 				m_parameters.add(field.Help);
 				m_parameters_values.add(editor.getValue());
 				onRange = false;
 			}
+			else
+				onRange = false;
 		}
 		m_whereClause = sql.toString();
 		return sql.toString();

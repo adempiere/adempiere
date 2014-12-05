@@ -801,12 +801,32 @@ public abstract class Browser {
 				select.append("=").append(id).append(") AS ");
 				select.append("\"").append(sqlColName).append("\"");
 
-				MViewColumn columnView = new MViewColumn(field.getCtx() , 0 , field.get_TrxName());
-				columnView.setName(colName);
-				columnView.setColumnSQL(select.toString());
-				MBrowseField browseField = new MBrowseField(m_Browse, columnView);
+				MViewColumn viewColumn = new MViewColumn(field.getCtx() , 0 , field.get_TrxName());
+				MViewColumn.copyValues(field.getAD_View_Column(), viewColumn);
+				viewColumn.setAD_View_Column_ID(field.getAD_View_Column_ID());
+				viewColumn.setColumnSQL(select.toString());
+
+				MBrowseField browseField = new MBrowseField(field.getCtx() , 0 , field.get_TrxName());
+				browseField.setAD_Browse_ID(field.getAD_Browse_ID());
+				browseField.setAD_Element_ID(field.getAD_Element_ID());
+				browseField.setName(colName);
+				browseField.setDescription(viewColumn.getDescription());
+				browseField.setHelp(viewColumn.getHelp());
+				if (viewColumn.get_ID() > 0)
+					browseField.setAD_View_Column_ID(viewColumn.getAD_View_Column_ID());
+				browseField.setIsActive(true);
+				browseField.setIsIdentifier(viewColumn.isIdentifier());
+				browseField.setIsRange(false);
+				browseField.setIsQueryCriteria(false);
+				browseField.setAD_Reference_ID(viewColumn.getAD_Reference_ID());
+				browseField.setAD_Reference_Value_ID(viewColumn.getAD_Column().getAD_Reference_Value_ID());
+				browseField.setIsKey(false);
+				browseField.setIsDisplayed(true);
 				browseField.setAD_Reference_ID(ycol.getAD_Column().getAD_Reference_ID());
 				browseField.setIsReadOnly(field.isReadOnly());
+				browseField.setAD_Reference_ID(ycol.getAD_Column().getAD_Reference_ID());
+				browseField.setAD_Element_ID(field.getAD_Element_ID());
+
 				list.add(browseField);
 				log.finest("Added Column=" + sqlColName +  " SQL = " + select);
 			}
@@ -1204,7 +1224,6 @@ public abstract class Browser {
 					ArrayList<Object> row = new ArrayList<Object>();
 					int colOffset = 1; // columns start with 1
 					int col = 0;
-					//for (int col = 0; col < p_layout.length; col++) {
 					for (MBrowseField field : p_layout) {
 
 						if (isFirstRow) {
@@ -1218,18 +1237,14 @@ public abstract class Browser {
 							data = new IDColumn(m_rs.getInt(colIndex));
 						else if (field.isKey() && field.getName().equals(field.getAD_View_Column().getColumnSQL().equals("'Row' AS \"Row\"")))
 							data = new IDColumn(no);
-						else if (field.getAD_Reference_ID() == DisplayType.YesNo)
+						else if (DisplayType.YesNo == field.getAD_Reference_ID())
 							data = new Boolean("Y".equals(m_rs
 									.getString(colIndex)));
-						else if (field.getAD_Reference_ID() == DisplayType.Date
-							  || field.getAD_Reference_ID() == DisplayType.DateTime )
+						else if (DisplayType.isDate(field.getAD_Reference_ID()))
 							data = m_rs.getTimestamp(colIndex);
-						else if (
-						   field.getAD_Reference_ID() == DisplayType.Number
-						|| field.getAD_Reference_ID() == DisplayType.Amount
-						|| field.getAD_Reference_ID() == DisplayType.CostPrice)
+						else if (DisplayType.isNumeric(field.getAD_Reference_ID()))
 							data = m_rs.getBigDecimal(colIndex);
-						else if (field.getAD_Reference_ID() == DisplayType.Integer)
+						else if (DisplayType.Integer == field.getAD_Reference_ID())
 							data = new Integer(m_rs.getInt(colIndex));
 						/*else if (c == KeyNamePair.class) {
 							String display = m_rs.getString(colIndex);
@@ -1240,7 +1255,7 @@ public abstract class Browser {
 							data = m_rs.getString(colIndex);
 
 						row.add(data);
-
+						col++;
 					}
 					/*for (int col = 0; col < p_layout.length; col++) {
 

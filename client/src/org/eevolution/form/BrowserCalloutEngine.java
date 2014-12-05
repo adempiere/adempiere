@@ -1,7 +1,5 @@
 /******************************************************************************
- * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2003-2013 e-Evolution Consultants. All Rights Reserved.      *
- * Copyright (C) 2003-2013 Victor Pérez Juárez 								  * 
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -12,24 +10,27 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * Contributor(s): Victor Pérez Juárez  (victor.perez@e-evolution.com)		  *
- * Sponsors: e-Evolution Consultants (http://www.e-evolution.com/)            *
+ * Copyright (C) 2003-2014 e-Evolution,SC. All Rights Reserved.               *
+ * Contributor(s): carlosaparada@gmail.com 							  		  *
  *****************************************************************************/
-package org.eevolution.form;
 
-import java.lang.reflect.Method;
-import java.util.Properties;
-import java.util.logging.Level;
+
+package org.eevolution.form;
 
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.util.CLogger;
 
+import java.lang.reflect.Method;
+import java.util.Properties;
+import java.util.logging.Level;
+
 /**
- * Browser Callout Engine.
+ * Browser CallOut Engine.
  * @author eEvolution author Victor Perez<victor.perez@e-evolution.com>
- */
-public class BrowserCalloutEngine extends CalloutEngine implements BrowserCallout {
+ * @author carlosaparada@gmail.com Carlos Parada, ERP Consultores y asociados
+ **/
+public class BrowserCallOutEngine extends CalloutEngine implements BrowserCallOut {
 
 	
 	/** Logger */

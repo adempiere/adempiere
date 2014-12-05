@@ -22,16 +22,16 @@ import java.util.Properties;
 import org.compiere.model.GridField;
 
 /**
- *  Browser Callout Interface for Browser Callout.
+ *  Browser CallOut Interface for Browser CallOut.
  *  Used in Browser
  *  @author   eEvolution author Victor Perez<victor.perez@e-evolution.com>
  */ 
-public interface BrowserCallout
+public interface BrowserCallOut
 {
 	/**
-	 *	Start BrowserCallout.
+	 *	Start BrowserCallOut.
 	 *  <p>
-	 *	Callout's are used for cross field validation and setting values in other fields
+	 *	CallOut's are used for cross field validation and setting values in other fields
 	 *	when returning a non empty (error message) string, an exception is raised
 	 *  <p>
 	 *	When invoked, the Tab model has the new value!
