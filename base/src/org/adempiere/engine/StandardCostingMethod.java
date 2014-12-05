@@ -752,15 +752,20 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 				trxName);
 	}
 	
-	public static BigDecimal getProductActualCostPrice(MPPCostCollector cc,
+	public static BigDecimal getProductActualCostPrice(MPPCostCollector costCollector,
 			MProduct product, MAcctSchema as, MCostElement element,
 			String trxName) {
 		String CostingLevel = product.getCostingLevel(as);
 		// Org Element
-		int AD_Org_ID = cc.getAD_Org_ID();
-		int M_Warehouse_ID = cc.getM_Warehouse_ID();
-		
-		int M_ASI_ID = cc.getM_AttributeSetInstance_ID();
+		int AD_Org_ID = 0;
+		int M_Warehouse_ID = 0 ;
+		int M_ASI_ID = 0;
+		if (costCollector != null) {
+			AD_Org_ID = costCollector.getAD_Org_ID();
+			M_Warehouse_ID = costCollector.getM_Warehouse_ID();
+			M_ASI_ID = costCollector.getM_AttributeSetInstance_ID();
+		}
+
 		if (MAcctSchema.COSTINGLEVEL_Client.equals(CostingLevel)) {
 			AD_Org_ID = 0;
 			M_ASI_ID = 0;
