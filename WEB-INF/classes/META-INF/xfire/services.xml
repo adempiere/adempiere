@@ -1,0 +1,45 @@
+<!-- START SNIPPET: services -->
+<beans xmlns="http://xfire.codehaus.org/config/1.0">
+
+  <service>
+   <name>ADService</name>
+   <namespace>http://3e.pl/ADInterface</namespace>
+    <serviceClass>com._3e.ADInterface.ADService</serviceClass>
+    <implementationClass>com._3e.ADInterface.ADServiceImpl</implementationClass>
+    <serviceFactory>org.codehaus.xfire.xmlbeans.XmlBeansServiceFactory</serviceFactory>
+	<scope>session</scope>
+	<style>rpc</style>
+  </service>
+
+  <service>
+   <name>ModelADService</name>
+   <namespace>http://3e.pl/ADInterface</namespace>
+    <serviceClass>com._3e.ADInterface.ModelADService</serviceClass>
+    <implementationClass>com._3e.ADInterface.ModelADServiceImpl</implementationClass>
+    <serviceFactory>org.codehaus.xfire.xmlbeans.XmlBeansServiceFactory</serviceFactory>
+	<scope>request</scope>
+	<style>rpc</style>
+  </service>
+
+  <service>
+   <name>ExternalSales</name>
+   <namespace>http://externalSales.ws.erpCommon.openbravo.org</namespace>
+    <serviceClass>com.globalqss.ObPOSInterface.ExternalSales</serviceClass>
+    <implementationClass>com.globalqss.ObPOSInterface.ExternalSalesImpl</implementationClass>
+    <serviceFactory>org.codehaus.xfire.xmlbeans.XmlBeansServiceFactory</serviceFactory>
+	<scope>request</scope>
+	<style>rpc</style>
+  </service>
+
+  <service>
+   <name>WebService</name>
+   <namespace>http://externalSales.ws.erpCommon.openbravo.org</namespace>
+    <serviceClass>com.globalqss.ObPOSInterface.WebService</serviceClass>
+    <implementationClass>com.globalqss.ObPOSInterface.WebServiceImpl</implementationClass>
+    <serviceFactory>org.codehaus.xfire.xmlbeans.XmlBeansServiceFactory</serviceFactory>
+	<scope>request</scope>
+	<style>rpc</style>
+  </service>
+
+</beans>
+<!-- END SNIPPET: services -->

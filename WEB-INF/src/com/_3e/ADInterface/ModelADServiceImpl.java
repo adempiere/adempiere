@@ -35,6 +35,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -45,14 +46,17 @@ import org.codehaus.xfire.fault.XFireFault;
 import org.compiere.model.MColumn;
 import org.compiere.model.MRefTable;
 import org.compiere.model.MRole;
+import org.compiere.model.MSysConfig;
 import org.compiere.model.MTable;
 import org.compiere.model.MWebService;
 import org.compiere.model.MWebServiceType;
 import org.compiere.model.PO;
 import org.compiere.model.POInfo;
+import org.compiere.model.Query;
 import org.compiere.model.X_AD_Reference;
 import org.compiere.model.X_WS_WebServiceMethod;
 import org.compiere.model.X_WS_WebService_Para;
+import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -113,6 +117,9 @@ public class ModelADServiceImpl implements ModelADService {
 	private X_WS_WebServiceMethod m_webservicemethod;
 	private MWebServiceType m_webservicetype;
 
+	/** Cache List PO */
+	private static CCache<String,List<PO>> s_cache = new CCache<String,List<PO>>("PO" , 20, 10);	//	10 minutes
+	
 	public ModelADServiceImpl()
 	{
 		m_cs = new CompiereService();
@@ -382,6 +389,10 @@ public class ModelADServiceImpl implements ModelADService {
 			pstmt.setInt(2, m_webservicemethod.getWS_WebServiceMethod_ID());
 			pstmt.setString(3, serviceTypeValue);
 			/** End Carlos Parada */
+			
+			System.out.println("m_webservice.getWS_WebService_ID()" + m_webservice.getWS_WebService_ID());
+			System.out.println("m_webservicemethod.getWS_WebServiceMethod_ID()" + m_webservicemethod.getWS_WebServiceMethod_ID());
+			System.out.println("serviceTypeValue" + serviceTypeValue);
 			
 			rs = pstmt.executeQuery ();
 			if (rs.next ())
@@ -980,20 +991,33 @@ public class ModelADServiceImpl implements ModelADService {
 		WindowTabData resp = ret.addNewWindowTabData();
     	ModelCRUD modelCRUD = req.getModelCRUDRequest().getModelCRUD();
 		String serviceType = modelCRUD.getServiceType();
-    	
+		
+		/** 2014-12-04 Carlos Parada Add Support for Paginate Records */ 
+
+		/** Current Page*/
+		int currentPage = req.getModelCRUDRequest().getModelCRUD().getPageNo();
+		
+		/** Records per Page*/
+		int m_RecByPage  = MSysConfig.getIntValue("WS_RECORDS_BY_PAGE", 1);
+		
+		/** Quantity Pages*/
+		int qtyPages =  0;
+		
+		log.info("Current Page " + currentPage);
+
+		/** 2014-12-04 Carlos Parada */ 
+		
     	ADLoginRequest reqlogin = req.getModelCRUDRequest().getADLoginRequest();
     	String err = modelLogin(reqlogin, webServiceName, "queryData", serviceType);
     	if (err != null && err.length() > 0) {
     		resp.setError(err);
         	return ret;
     	}
-
     	// Validate parameters vs service type
 		validateCRUD(modelCRUD);
 
     	Properties ctx = m_cs.getM_ctx();
     	String tableName = modelCRUD.getTableName();
-
     	// get the PO for the tablename and record ID
     	MTable table = MTable.get(ctx, tableName);
     	if (table == null)
@@ -1004,48 +1028,61 @@ public class ModelADServiceImpl implements ModelADService {
 
 		int roleid = reqlogin.getRoleID();
 		MRole role = new MRole(ctx, roleid, null);
+		// 2014-12-04 Carlos Parada Replace ResultSet For Query  
+		List<PO> records = null ;
+		String key = m_cs.getM_AD_User_ID() + "_" + serviceType;
+		
+		if (currentPage != 0 )
+			records = (List<PO>) s_cache.get (key);
+    	String sqlWhere = "";//"SELECT * FROM " + tableName;
 
-    	String sqlquery = "SELECT * FROM " + tableName;
-    	/** 2014-11-05 Carlos Parada Change for ReadOnly SQL Access */
-		//sqlquery = role.addAccessSQL(sqlquery, tableName, true, true);
-		sqlquery = role.addAccessSQL(sqlquery, tableName, true, false);
-		/** End Carlos Parada */
+    	//sqlquery = role.addAccessSQL(sqlquery, tableName, true, true);
 		for (DataField field : modelCRUD.getDataRow().getFieldList()) {
     		if (m_webservicetype.isInputColumnNameAllowed(field.getColumn())) {
-        		sqlquery += " AND " + field.getColumn() + "=?";
+    			sqlWhere += (sqlWhere.equals("") ? "" : " AND ") + field.getColumn() + "=?";
     		} else {
 				throw new XFireFault("Web service type "
 						+ m_webservicetype.getValue() + ": input column "
 						+ field.getColumn() + " not allowed", new QName("queryData"));
     		}
 		}
-		
 		if (modelCRUD.getFilter() != null && modelCRUD.getFilter().length() > 0)
-			sqlquery += " AND " + modelCRUD.getFilter();
+			sqlWhere += " AND " + modelCRUD.getFilter();
 		
     	POInfo poinfo = POInfo.getPOInfo(ctx, table.getAD_Table_ID());
     	int cnt = 0;
 
-    	PreparedStatement pstmtquery = null;
-		ResultSet rsquery = null;
 		try
 		{
-			pstmtquery = DB.prepareStatement (sqlquery, null);
-			int p = 1;
-			for (DataField field : modelCRUD.getDataRow().getFieldList()) {
-    			int idx = poinfo.getColumnIndex(field.getColumn());
-    			Class<?> c = poinfo.getColumnClass(idx);
-    			if (c == Integer.class)
-	        		pstmtquery.setInt(p++, Integer.valueOf(field.getVal()));
-    			else if (c == Timestamp.class)
-	        		pstmtquery.setTimestamp(p++, Timestamp.valueOf(field.getVal()));
-    			else if (c == Boolean.class || c == String.class)
-	        		pstmtquery.setString(p++, field.getVal());
+			if (records == null){
+				Query query = new Query(ctx, poinfo.getTableName(), sqlWhere, null);
+				Object[] parameters = new Object[modelCRUD.getDataRow().getFieldList().size()];
+				int p = 1;
+				int i=0;
+				for (DataField field : modelCRUD.getDataRow().getFieldList()){ 
+					parameters[i] = field.getVal();
+					i++;
+				}
+
+				if (parameters.length > 0)
+					query.setParameters(parameters);
+				
+				records = query.setApplyAccessFilter(true).list();
+				
 			}
-			rsquery = pstmtquery.executeQuery ();
+			
 			// Angelo Dabala' (genied) must create just one DataSet, moved outside of the while loop
 			DataSet ds = resp.addNewDataSet();
-			while (rsquery.next ()) {
+			
+			// Set Quantity of Pages
+			if (records.size() != 0)
+				qtyPages = new BigDecimal(records.size()).divide(new BigDecimal(m_RecByPage)).setScale(0, BigDecimal.ROUND_UP).intValue();
+			
+			int begin= 0, end = 0;
+			begin = currentPage * m_RecByPage;
+			end = ( ((currentPage + 1 ) *  m_RecByPage) > records.size() ? records.size() : ((currentPage + 1 ) *  m_RecByPage) );
+			for (int j= begin; j < end ; j++){
+				PO record = records.get(j); 
 				cnt++;
 				DataRow dr = ds.addNewDataRow();
 				for (int i = 0; i < poinfo.getColumnCount(); i++) {
@@ -1053,19 +1090,16 @@ public class ModelADServiceImpl implements ModelADService {
 					if (m_webservicetype.isOutputColumnNameAllowed(columnName)) {
 						DataField dfid = dr.addNewField();
 						dfid.setColumn(columnName);
-						dfid.setVal(rsquery.getString(columnName));
+						dfid.setLval(record.get_ValueAsString(columnName));
 					}
 		    	}
 			}
+			
 		}
 		catch (Exception e)
 		{
+			e.printStackTrace();
 			// ignore this exception
-		}
-		finally
-		{
-			DB.close(rsquery, pstmtquery);
-			rsquery = null; pstmtquery = null;
 		}
 
 		resp.setSuccess(true);
@@ -1073,7 +1107,7 @@ public class ModelADServiceImpl implements ModelADService {
     	resp.setNumRows(cnt);
     	resp.setTotalRows(cnt);
     	resp.setStartRow(1);
-
+    	resp.setQtyPages(qtyPages);
 		return ret;
 	}
 
