@@ -33,7 +33,7 @@ public class X_A_Asset_Info_Lic extends PO implements I_A_Asset_Info_Lic, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20140901L;
 
     /** Standard Constructor */
     public X_A_Asset_Info_Lic (Properties ctx, int A_Asset_Info_Lic_ID, String trxName)
@@ -74,6 +74,11 @@ public class X_A_Asset_Info_Lic extends PO implements I_A_Asset_Info_Lic, I_Pers
       return sb.toString();
     }
 
+	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException
+    {
+		return (org.compiere.model.I_A_Asset)MTable.get(getCtx(), org.compiere.model.I_A_Asset.Table_Name)
+			.getPO(getA_Asset_ID(), get_TrxName());	}
+
 	/** Set Asset.
 		@param A_Asset_ID 
 		Asset used internally or by customers
@@ -97,8 +102,8 @@ public class X_A_Asset_Info_Lic extends PO implements I_A_Asset_Info_Lic, I_Pers
 		return ii.intValue();
 	}
 
-	/** Set Asset Info Lic..
-		@param A_Asset_Info_Lic_ID Asset Info Lic.	  */
+	/** Set A_Asset_Info_Lic_ID.
+		@param A_Asset_Info_Lic_ID A_Asset_Info_Lic_ID	  */
 	public void setA_Asset_Info_Lic_ID (int A_Asset_Info_Lic_ID)
 	{
 		if (A_Asset_Info_Lic_ID < 1) 
@@ -107,8 +112,8 @@ public class X_A_Asset_Info_Lic extends PO implements I_A_Asset_Info_Lic, I_Pers
 			set_ValueNoCheck (COLUMNNAME_A_Asset_Info_Lic_ID, Integer.valueOf(A_Asset_Info_Lic_ID));
 	}
 
-	/** Get Asset Info Lic..
-		@return Asset Info Lic.	  */
+	/** Get A_Asset_Info_Lic_ID.
+		@return A_Asset_Info_Lic_ID	  */
 	public int getA_Asset_Info_Lic_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Info_Lic_ID);
@@ -139,15 +144,15 @@ public class X_A_Asset_Info_Lic extends PO implements I_A_Asset_Info_Lic, I_Pers
 		return (String)get_Value(COLUMNNAME_A_Issuing_Agency);
 	}
 
-	/** Set License Fee.
-		@param A_License_Fee License Fee	  */
+	/** Set Asset License Fee.
+		@param A_License_Fee Asset License Fee	  */
 	public void setA_License_Fee (BigDecimal A_License_Fee)
 	{
 		set_Value (COLUMNNAME_A_License_Fee, A_License_Fee);
 	}
 
-	/** Get License Fee.
-		@return License Fee	  */
+	/** Get Asset License Fee.
+		@return Asset License Fee	  */
 	public BigDecimal getA_License_Fee () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_License_Fee);
@@ -156,29 +161,29 @@ public class X_A_Asset_Info_Lic extends PO implements I_A_Asset_Info_Lic, I_Pers
 		return bd;
 	}
 
-	/** Set License No.
-		@param A_License_No License No	  */
+	/** Set Asset License No.
+		@param A_License_No Asset License No	  */
 	public void setA_License_No (String A_License_No)
 	{
 		set_Value (COLUMNNAME_A_License_No, A_License_No);
 	}
 
-	/** Get License No.
-		@return License No	  */
+	/** Get Asset License No.
+		@return Asset License No	  */
 	public String getA_License_No () 
 	{
 		return (String)get_Value(COLUMNNAME_A_License_No);
 	}
 
-	/** Set Policy Renewal Date.
-		@param A_Renewal_Date Policy Renewal Date	  */
+	/** Set Asset Renewal Date.
+		@param A_Renewal_Date Asset Renewal Date	  */
 	public void setA_Renewal_Date (Timestamp A_Renewal_Date)
 	{
 		set_Value (COLUMNNAME_A_Renewal_Date, A_Renewal_Date);
 	}
 
-	/** Get Policy Renewal Date.
-		@return Policy Renewal Date	  */
+	/** Get Asset Renewal Date.
+		@return Asset Renewal Date	  */
 	public Timestamp getA_Renewal_Date () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_A_Renewal_Date);
@@ -201,15 +206,38 @@ public class X_A_Asset_Info_Lic extends PO implements I_A_Asset_Info_Lic, I_Pers
 		return (String)get_Value(COLUMNNAME_A_State);
 	}
 
-	/** Set Text.
-		@param Text Text	  */
+	/** Set Processed.
+		@param Processed 
+		The document has been processed
+	  */
+	public void setProcessed (boolean Processed)
+	{
+		throw new IllegalArgumentException ("Processed is virtual column");	}
+
+	/** Get Processed.
+		@return The document has been processed
+	  */
+	public boolean isProcessed () 
+	{
+		Object oo = get_Value(COLUMNNAME_Processed);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Description.
+		@param Text Description	  */
 	public void setText (String Text)
 	{
 		set_Value (COLUMNNAME_Text, Text);
 	}
 
-	/** Get Text.
-		@return Text	  */
+	/** Get Description.
+		@return Description	  */
 	public String getText () 
 	{
 		return (String)get_Value(COLUMNNAME_Text);

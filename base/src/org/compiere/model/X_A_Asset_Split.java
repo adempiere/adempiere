@@ -33,7 +33,7 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20140901L;
 
     /** Standard Constructor */
     public X_A_Asset_Split (Properties ctx, int A_Asset_Split_ID, String trxName)
@@ -129,14 +129,17 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 	}
 
 	/** Set Asset Cost.
-		@param A_Asset_Cost Asset Cost	  */
+		@param A_Asset_Cost 
+		Asset Cost
+	  */
 	public void setA_Asset_Cost (BigDecimal A_Asset_Cost)
 	{
 		set_Value (COLUMNNAME_A_Asset_Cost, A_Asset_Cost);
 	}
 
 	/** Get Asset Cost.
-		@return Asset Cost	  */
+		@return Asset Cost
+	  */
 	public BigDecimal getA_Asset_Cost () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Asset_Cost);

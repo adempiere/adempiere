@@ -35,11 +35,29 @@ public interface I_A_Depreciation_Entry
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
-    /** AccessLevel = 7 - System - Client - Org 
+    /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(7);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
+
+    /** Column name A_Depreciation_Entry_ID */
+    public static final String COLUMNNAME_A_Depreciation_Entry_ID = "A_Depreciation_Entry_ID";
+
+	/** Set Depreciation Entry	  */
+	public void setA_Depreciation_Entry_ID (int A_Depreciation_Entry_ID);
+
+	/** Get Depreciation Entry	  */
+	public int getA_Depreciation_Entry_ID();
+
+    /** Column name A_Entry_Type */
+    public static final String COLUMNNAME_A_Entry_Type = "A_Entry_Type";
+
+	/** Set Entry Type	  */
+	public void setA_Entry_Type (String A_Entry_Type);
+
+	/** Get Entry Type	  */
+	public String getA_Entry_Type();
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -61,24 +79,6 @@ public interface I_A_Depreciation_Entry
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
-
-    /** Column name A_Depreciation_Entry_ID */
-    public static final String COLUMNNAME_A_Depreciation_Entry_ID = "A_Depreciation_Entry_ID";
-
-	/** Set Depreciation Entry	  */
-	public void setA_Depreciation_Entry_ID (int A_Depreciation_Entry_ID);
-
-	/** Get Depreciation Entry	  */
-	public int getA_Depreciation_Entry_ID();
-
-    /** Column name A_Entry_Type */
-    public static final String COLUMNNAME_A_Entry_Type = "A_Entry_Type";
-
-	/** Set Entry Type	  */
-	public void setA_Entry_Type (String A_Entry_Type);
-
-	/** Get Entry Type	  */
-	public String getA_Entry_Type();
 
     /** Column name C_AcctSchema_ID */
     public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
@@ -195,6 +195,32 @@ public interface I_A_Depreciation_Entry
 	  */
 	public String getDescription();
 
+    /** Column name DocAction */
+    public static final String COLUMNNAME_DocAction = "DocAction";
+
+	/** Set Document Action.
+	  * The targeted status of the document
+	  */
+	public void setDocAction (String DocAction);
+
+	/** Get Document Action.
+	  * The targeted status of the document
+	  */
+	public String getDocAction();
+
+    /** Column name DocStatus */
+    public static final String COLUMNNAME_DocStatus = "DocStatus";
+
+	/** Set Document Status.
+	  * The current status of the document
+	  */
+	public void setDocStatus (String DocStatus);
+
+	/** Get Document Status.
+	  * The current status of the document
+	  */
+	public String getDocStatus();
+
     /** Column name DocumentNo */
     public static final String COLUMNNAME_DocumentNo = "DocumentNo";
 
@@ -236,6 +262,32 @@ public interface I_A_Depreciation_Entry
 	  */
 	public boolean isActive();
 
+    /** Column name IsApproved */
+    public static final String COLUMNNAME_IsApproved = "IsApproved";
+
+	/** Set Approved.
+	  * Indicates if this document requires approval
+	  */
+	public void setIsApproved (boolean IsApproved);
+
+	/** Get Approved.
+	  * Indicates if this document requires approval
+	  */
+	public boolean isApproved();
+
+    /** Column name Posted */
+    public static final String COLUMNNAME_Posted = "Posted";
+
+	/** Set Posted.
+	  * Posting status
+	  */
+	public void setPosted (boolean Posted);
+
+	/** Get Posted.
+	  * Posting status
+	  */
+	public boolean isPosted();
+
     /** Column name PostingType */
     public static final String COLUMNNAME_PostingType = "PostingType";
 
@@ -261,6 +313,19 @@ public interface I_A_Depreciation_Entry
 	  * The document has been processed
 	  */
 	public boolean isProcessed();
+
+    /** Column name ProcessedOn */
+    public static final String COLUMNNAME_ProcessedOn = "ProcessedOn";
+
+	/** Set Processed On.
+	  * The date+time (expressed in decimal format) when the document has been processed
+	  */
+	public void setProcessedOn (BigDecimal ProcessedOn);
+
+	/** Get Processed On.
+	  * The date+time (expressed in decimal format) when the document has been processed
+	  */
+	public BigDecimal getProcessedOn();
 
     /** Column name Processing */
     public static final String COLUMNNAME_Processing = "Processing";

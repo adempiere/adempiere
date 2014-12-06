@@ -150,7 +150,11 @@
 	<mkdir dir="${build.dir}/Adempiere/packages/liberoMFG"/>
 	<mkdir dir="${build.dir}/Adempiere/packages/liberoMFG/lib"/>
   	<copy file="../packages/liberoMFG.jar" tofile="${build.dir}/Adempiere/packages/liberoMFG/lib/liberoMFG.jar"/>
-	
+
+   <mkdir dir="${build.dir}/Adempiere/packages/FixedAsset"/>
+   <mkdir dir="${build.dir}/Adempiere/packages/FixedAsset/lib"/>
+   <copy file="../packages/FixedAsset.jar" tofile="${build.dir}/Adempiere/packages/FixedAsset/lib/FixedAsset.jar"/>
+
 	<mkdir dir="${build.dir}/Adempiere/packages/liberoCashflow"/>
 	<mkdir dir="${build.dir}/Adempiere/packages/liberoCashflow/lib"/>
   	<copy file="../packages/liberoCashflow.jar" tofile="${build.dir}/Adempiere/packages/liberoCashflow/lib/liberoCashflow.jar"/>

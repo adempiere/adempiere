@@ -1500,11 +1500,13 @@ public class MInOut extends X_M_InOut implements DocAction
             }
 
 			//	Create Asset for SO
-			if (product != null
-				&& isSOTrx()
-				&& product.isCreateAsset()
-				&& sLine.getMovementQty().signum() > 0
-				&& !isReversal())
+			// Move code to model validator to solve build dependence
+			/*if (product != null
+					&& isSOTrx()
+					&& product.isCreateAsset()
+					&& !product.getM_Product_Category().getA_Asset_Group().isFixedAsset()
+					&& sLine.getMovementQty().signum() > 0
+					&& !isReversal())
 			{
 				log.fine("Asset");
 				info.append("@A_Asset_ID@: ");
@@ -1526,7 +1528,7 @@ public class MInOut extends X_M_InOut implements DocAction
 					}
 					info.append(asset.getValue());
 				}
-			}	//	Asset
+			}	//	Asset*/
 
 
 			//	Matching
@@ -2135,13 +2137,14 @@ public class MInOut extends X_M_InOut implements DocAction
 				}
 			}
 			//	De-Activate Asset
-			MAsset asset = MAsset.getFromShipment(getCtx(), sLines[i].getM_InOutLine_ID(), get_TrxName());
+			//Move code to model asset validator to solve build dependence
+			/*MAsset asset = MAsset.getFromShipment(getCtx(), sLines[i].getM_InOutLine_ID(), get_TrxName());
 			if (asset != null)
 			{
 				asset.setIsActive(false);
-				asset.addDescription("(" + reversal.getDocumentNo() + " #" + rLine.getLine() + "<-)");
+				asset.setDescription(asset.getDescription() + " (" + reversal.getDocumentNo() + " #" + rLine.getLine() + "<-)");
 				asset.saveEx();
-			}
+			}*/
 		}
 		reversal.setC_Order_ID(getC_Order_ID());
 		// Set M_RMA_ID

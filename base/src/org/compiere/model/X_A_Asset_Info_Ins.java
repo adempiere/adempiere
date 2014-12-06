@@ -33,7 +33,7 @@ public class X_A_Asset_Info_Ins extends PO implements I_A_Asset_Info_Ins, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20140901L;
 
     /** Standard Constructor */
     public X_A_Asset_Info_Ins (Properties ctx, int A_Asset_Info_Ins_ID, String trxName)
@@ -97,8 +97,8 @@ public class X_A_Asset_Info_Ins extends PO implements I_A_Asset_Info_Ins, I_Pers
 		return ii.intValue();
 	}
 
-	/** Set Asset Info Ins..
-		@param A_Asset_Info_Ins_ID Asset Info Ins.	  */
+	/** Set A_Asset_Info_Ins_ID.
+		@param A_Asset_Info_Ins_ID A_Asset_Info_Ins_ID	  */
 	public void setA_Asset_Info_Ins_ID (int A_Asset_Info_Ins_ID)
 	{
 		if (A_Asset_Info_Ins_ID < 1) 
@@ -107,8 +107,8 @@ public class X_A_Asset_Info_Ins extends PO implements I_A_Asset_Info_Ins, I_Pers
 			set_ValueNoCheck (COLUMNNAME_A_Asset_Info_Ins_ID, Integer.valueOf(A_Asset_Info_Ins_ID));
 	}
 
-	/** Get Asset Info Ins..
-		@return Asset Info Ins.	  */
+	/** Get A_Asset_Info_Ins_ID.
+		@return A_Asset_Info_Ins_ID	  */
 	public int getA_Asset_Info_Ins_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Info_Ins_ID);
@@ -125,15 +125,15 @@ public class X_A_Asset_Info_Ins extends PO implements I_A_Asset_Info_Ins, I_Pers
         return new KeyNamePair(get_ID(), String.valueOf(getA_Asset_Info_Ins_ID()));
     }
 
-	/** Set Insurance Premium.
-		@param A_Ins_Premium Insurance Premium	  */
+	/** Set Asset Insurance Premium.
+		@param A_Ins_Premium Asset Insurance Premium	  */
 	public void setA_Ins_Premium (BigDecimal A_Ins_Premium)
 	{
 		set_Value (COLUMNNAME_A_Ins_Premium, A_Ins_Premium);
 	}
 
-	/** Get Insurance Premium.
-		@return Insurance Premium	  */
+	/** Get Asset Insurance Premium.
+		@return Asset Insurance Premium	  */
 	public BigDecimal getA_Ins_Premium () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Ins_Premium);
@@ -142,15 +142,15 @@ public class X_A_Asset_Info_Ins extends PO implements I_A_Asset_Info_Ins, I_Pers
 		return bd;
 	}
 
-	/** Set Insured Value.
-		@param A_Ins_Value Insured Value	  */
+	/** Set Asset Insurance Value.
+		@param A_Ins_Value Asset Insurance Value	  */
 	public void setA_Ins_Value (BigDecimal A_Ins_Value)
 	{
 		set_Value (COLUMNNAME_A_Ins_Value, A_Ins_Value);
 	}
 
-	/** Get Insured Value.
-		@return Insured Value	  */
+	/** Get Asset Insurance Value.
+		@return Asset Insurance Value	  */
 	public BigDecimal getA_Ins_Value () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Ins_Value);
@@ -173,43 +173,43 @@ public class X_A_Asset_Info_Ins extends PO implements I_A_Asset_Info_Ins, I_Pers
 		return (String)get_Value(COLUMNNAME_A_Insurance_Co);
 	}
 
-	/** Set Policy Number.
-		@param A_Policy_No Policy Number	  */
+	/** Set Asset Policy No.
+		@param A_Policy_No Asset Policy No	  */
 	public void setA_Policy_No (String A_Policy_No)
 	{
 		set_Value (COLUMNNAME_A_Policy_No, A_Policy_No);
 	}
 
-	/** Get Policy Number.
-		@return Policy Number	  */
+	/** Get Asset Policy No.
+		@return Asset Policy No	  */
 	public String getA_Policy_No () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Policy_No);
 	}
 
-	/** Set Policy Renewal Date.
-		@param A_Renewal_Date Policy Renewal Date	  */
+	/** Set Asset Renewal Date.
+		@param A_Renewal_Date Asset Renewal Date	  */
 	public void setA_Renewal_Date (Timestamp A_Renewal_Date)
 	{
 		set_Value (COLUMNNAME_A_Renewal_Date, A_Renewal_Date);
 	}
 
-	/** Get Policy Renewal Date.
-		@return Policy Renewal Date	  */
+	/** Get Asset Renewal Date.
+		@return Asset Renewal Date	  */
 	public Timestamp getA_Renewal_Date () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_A_Renewal_Date);
 	}
 
-	/** Set Replacement Costs.
-		@param A_Replace_Cost Replacement Costs	  */
+	/** Set Asset Replace Cost.
+		@param A_Replace_Cost Asset Replace Cost	  */
 	public void setA_Replace_Cost (BigDecimal A_Replace_Cost)
 	{
 		set_Value (COLUMNNAME_A_Replace_Cost, A_Replace_Cost);
 	}
 
-	/** Get Replacement Costs.
-		@return Replacement Costs	  */
+	/** Get Asset Replace Cost.
+		@return Asset Replace Cost	  */
 	public BigDecimal getA_Replace_Cost () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Replace_Cost);
@@ -218,15 +218,15 @@ public class X_A_Asset_Info_Ins extends PO implements I_A_Asset_Info_Ins, I_Pers
 		return bd;
 	}
 
-	/** Set Text.
-		@param Text Text	  */
+	/** Set Description.
+		@param Text Description	  */
 	public void setText (String Text)
 	{
 		set_Value (COLUMNNAME_Text, Text);
 	}
 
-	/** Get Text.
-		@return Text	  */
+	/** Get Description.
+		@return Description	  */
 	public String getText () 
 	{
 		return (String)get_Value(COLUMNNAME_Text);
