@@ -82,6 +82,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.logging.Level;
+
 import org.zkoss.zul.Separator;
 import org.zkoss.zul.Vbox;
 
@@ -1109,9 +1110,35 @@ public class WBrowser extends Browser implements IFormController,
 
                     if(DisplayType.String == field.displayType)
                     {
-                        sql.append(field.Help).append(" LIKE ? ");
-                        m_parameters.add(field.Help);
-					    m_parameters_values.add("%" + editor.getValue() + "%");
+						if (field.ColumnName.equals("Value")
+								|| field.ColumnName.equals("DocumentNo"))
+						{
+							String value = (String)editor.getValue();
+							if (value.contains(","))
+							{
+								value = value.replace(" ", "");
+								String token;
+								String inStr = new String(value);
+								StringBuffer outStr = new StringBuffer("(");
+								int i = inStr.indexOf(',');
+								while (i != -1)
+								{
+									outStr.append("'" + inStr.substring(0, i) + "',");	
+									inStr = inStr.substring(i+1, inStr.length());
+									i = inStr.indexOf(',');
+
+								}
+								outStr.append("'" + inStr + "')");
+								sql.append(field.Help).append(" IN ")
+								.append(outStr);
+							}						
+						}
+						else
+                    	{
+                    		sql.append(field.Help).append(" LIKE ? ");
+                    		m_parameters.add(field.Help);
+                    		m_parameters_values.add("%" + editor.getValue() + "%");
+                    	}      	
                     }
                     else
                     {
