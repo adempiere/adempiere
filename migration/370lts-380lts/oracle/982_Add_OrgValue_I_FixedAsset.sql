@@ -1,6 +1,7 @@
 SET DEFINE OFF
 SET SQLBLANKLINES ON
-﻿-- 09 Okt 12 12:56:52
+
+-- 09 Okt 12 12:56:52
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 INSERT INTO AD_Column (AD_Table_ID,SeqNo,EntityType,Version,IsTranslated,IsMandatory,IsIdentifier,IsParent,FieldLength,IsSelectionColumn,AD_Reference_ID,IsSyncDatabase,IsKey,AD_Element_ID,IsAllowLogging,IsAutocomplete,IsEncrypted,Description,Name,ColumnName,AD_Org_ID,Updated,CreatedBy,AD_Client_ID,IsActive,Created,UpdatedBy,AD_Column_ID,IsUpdateable,IsAlwaysUpdateable) VALUES (53277,0,'D',0,'N','N','N','N',40,'N',10,'Y','N',2115,'Y','N','N','Key of the Organization','Org Key','OrgValue',0,TO_DATE('2012-10-09 12:56:52','YYYY-MM-DD HH24:MI:SS'),0,0,'Y',TO_DATE('2012-10-09 12:56:52','YYYY-MM-DD HH24:MI:SS'),0,21592,'Y','N')
 ;
@@ -12,8 +13,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- 09 Okt 12 12:56:54
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-ALTER TABLE I_FixedAsset ADD OrgValue NVARCHAR(40) DEFAULT NULL 
-;
+ALTER TABLE I_FIXEDASSET ADD (ORGVALUE VARCHAR2(40) DEFAULT NULL );
 
 -- 09 Okt 12 12:57:17
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator

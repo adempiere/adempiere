@@ -1,6 +1,7 @@
 SET DEFINE OFF
 SET SQLBLANKLINES ON
-﻿-- Mar 24, 2013 8:41:39 PM ICT
+
+-- Mar 24, 2013 8:41:39 PM ICT
 INSERT INTO AD_Ref_List (AD_Ref_List_ID,AD_Reference_ID,EntityType,Name,Value,Created,CreatedBy,Updated,UpdatedBy,IsActive,AD_Org_ID,AD_Client_ID) VALUES (200139,183,'U','Fixed Assets Document','FAA',TO_DATE('2013-03-24 20:41:37','YYYY-MM-DD HH24:MI:SS'),100,TO_DATE('2013-03-24 20:41:37','YYYY-MM-DD HH24:MI:SS'),100,'Y',0,0)
 ;
 
