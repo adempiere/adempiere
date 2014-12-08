@@ -1250,14 +1250,14 @@ public class VBrowser extends Browser implements ActionListener,
 								outStr.append("'" + inStr + "')");
 								sql.append(field.Help).append(" IN ")
 								.append(outStr);
-							}
-							else
-							{
-								sql.append(field.Help).append(" LIKE ? ");
-								m_parameters.add(field.Help);
-								m_parameters_values.add("%" + editor.getValue() + "%");								
-							}								
+							}						
 						}
+						else
+						{
+							sql.append(field.Help).append(" LIKE ? ");
+							m_parameters.add(field.Help);
+							m_parameters_values.add("%" + editor.getValue() + "%");								
+						}		
 					}
 					else
 					{
