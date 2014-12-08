@@ -1228,18 +1228,45 @@ public class VBrowser extends Browser implements ActionListener,
 						&& !field.isRange) {
 					sql.append(" AND ");
 					if(DisplayType.String == field.displayType)
-                    {
-                        sql.append(field.Help).append(" LIKE ? ");
-                        m_parameters.add(field.Help);
-					    m_parameters_values.add("%" + editor.getValue() + "%");
-                    }
-                    else
-                    {
-                        sql.append(field.Help).append("=? ");
-                        m_parameters.add(field.Help);
-                        m_parameters_values.add(editor.getValue());
-                    }
-				} else if (editor.getValue() != null
+					{
+						if (field.ColumnName.equals("Value")
+								|| field.ColumnName.equals("DocumentNo"))
+						{
+							String value = (String)editor.getValue();
+							if (value.contains(","))
+							{
+								value = value.replace(" ", "");
+								String token;
+								String inStr = new String(value);
+								StringBuffer outStr = new StringBuffer("(");
+								int i = inStr.indexOf(',');
+								while (i != -1)
+								{
+									outStr.append("'" + inStr.substring(0, i) + "',");	
+									inStr = inStr.substring(i+1, inStr.length());
+									i = inStr.indexOf(',');
+
+								}
+								outStr.append("'" + inStr + "')");
+								sql.append(field.Help).append(" IN ")
+								.append(outStr);
+							}
+							else
+							{
+								sql.append(field.Help).append(" LIKE ? ");
+								m_parameters.add(field.Help);
+								m_parameters_values.add("%" + editor.getValue() + "%");								
+							}								
+						}
+					}
+					else
+					{
+						sql.append(field.Help).append("=? ");
+						m_parameters.add(field.Help);
+						m_parameters_values.add(editor.getValue());
+					}
+				} 
+				else if (editor.getValue() != null
 						&& !editor.getValue().toString().isEmpty()
 						&& field.isRange) {
 					sql.append(" AND ");
