@@ -326,6 +326,23 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 		return ii.intValue();
 	}
 
+	/** Set Callout.
+		@param Callout
+		Fully qualified class names and method - separated by semicolons
+	  */
+	public void setCallout (String Callout)
+	{
+		set_Value (COLUMNNAME_Callout, Callout);
+	}
+
+	/** Get Callout.
+		@return Fully qualified class names and method - separated by semicolons
+	  */
+	public String getCallout ()
+	{
+		return (String)get_Value(COLUMNNAME_Callout);
+	}
+
 	/** Set Default Logic.
 		@param DefaultValue 
 		Default value hierarchy, separated by ;

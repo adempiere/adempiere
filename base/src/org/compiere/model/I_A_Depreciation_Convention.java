@@ -41,6 +41,15 @@ public interface I_A_Depreciation_Convention
 
     /** Load Meta Data */
 
+    /** Column name A_Depreciation_Convention_ID */
+    public static final String COLUMNNAME_A_Depreciation_Convention_ID = "A_Depreciation_Convention_ID";
+
+	/** Set Depreciation Convention	  */
+	public void setA_Depreciation_Convention_ID (int A_Depreciation_Convention_ID);
+
+	/** Get Depreciation Convention	  */
+	public int getA_Depreciation_Convention_ID();
+
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -61,15 +70,6 @@ public interface I_A_Depreciation_Convention
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
-
-    /** Column name A_Depreciation_Convention_ID */
-    public static final String COLUMNNAME_A_Depreciation_Convention_ID = "A_Depreciation_Convention_ID";
-
-	/** Set Depreciation Convention	  */
-	public void setA_Depreciation_Convention_ID (int A_Depreciation_Convention_ID);
-
-	/** Get Depreciation Convention	  */
-	public int getA_Depreciation_Convention_ID();
 
     /** Column name ConventionType */
     public static final String COLUMNNAME_ConventionType = "ConventionType";

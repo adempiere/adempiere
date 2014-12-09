@@ -41,6 +41,15 @@ public interface I_A_Depreciation
 
     /** Load Meta Data */
 
+    /** Column name A_Depreciation_ID */
+    public static final String COLUMNNAME_A_Depreciation_ID = "A_Depreciation_ID";
+
+	/** Set Depreciation Type	  */
+	public void setA_Depreciation_ID (int A_Depreciation_ID);
+
+	/** Get Depreciation Type	  */
+	public int getA_Depreciation_ID();
+
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -61,15 +70,6 @@ public interface I_A_Depreciation
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
-
-    /** Column name A_Depreciation_ID */
-    public static final String COLUMNNAME_A_Depreciation_ID = "A_Depreciation_ID";
-
-	/** Set Depreciation Type	  */
-	public void setA_Depreciation_ID (int A_Depreciation_ID);
-
-	/** Get Depreciation Type	  */
-	public int getA_Depreciation_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

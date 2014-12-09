@@ -41,6 +41,37 @@ public interface I_A_Depreciation_Build
 
     /** Load Meta Data */
 
+    /** Column name A_Depreciation_Build_ID */
+    public static final String COLUMNNAME_A_Depreciation_Build_ID = "A_Depreciation_Build_ID";
+
+	/** Set Build Depreciation	  */
+	public void setA_Depreciation_Build_ID (int A_Depreciation_Build_ID);
+
+	/** Get Build Depreciation	  */
+	public int getA_Depreciation_Build_ID();
+
+    /** Column name A_End_Asset_ID */
+    public static final String COLUMNNAME_A_End_Asset_ID = "A_End_Asset_ID";
+
+	/** Set To Asset	  */
+	public void setA_End_Asset_ID (int A_End_Asset_ID);
+
+	/** Get To Asset	  */
+	public int getA_End_Asset_ID();
+
+	public org.compiere.model.I_A_Asset getA_End_Asset() throws RuntimeException;
+
+    /** Column name A_Start_Asset_ID */
+    public static final String COLUMNNAME_A_Start_Asset_ID = "A_Start_Asset_ID";
+
+	/** Set From Asset	  */
+	public void setA_Start_Asset_ID (int A_Start_Asset_ID);
+
+	/** Get From Asset	  */
+	public int getA_Start_Asset_ID();
+
+	public org.compiere.model.I_A_Asset getA_Start_Asset() throws RuntimeException;
+
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -61,37 +92,6 @@ public interface I_A_Depreciation_Build
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
-
-    /** Column name A_Depreciation_Build_ID */
-    public static final String COLUMNNAME_A_Depreciation_Build_ID = "A_Depreciation_Build_ID";
-
-	/** Set Depreciation Build	  */
-	public void setA_Depreciation_Build_ID (int A_Depreciation_Build_ID);
-
-	/** Get Depreciation Build	  */
-	public int getA_Depreciation_Build_ID();
-
-    /** Column name A_End_Asset_ID */
-    public static final String COLUMNNAME_A_End_Asset_ID = "A_End_Asset_ID";
-
-	/** Set End Aset ID	  */
-	public void setA_End_Asset_ID (int A_End_Asset_ID);
-
-	/** Get End Aset ID	  */
-	public int getA_End_Asset_ID();
-
-	public org.compiere.model.I_A_Asset getA_End_Asset() throws RuntimeException;
-
-    /** Column name A_Start_Asset_ID */
-    public static final String COLUMNNAME_A_Start_Asset_ID = "A_Start_Asset_ID";
-
-	/** Set Start Asset	  */
-	public void setA_Start_Asset_ID (int A_Start_Asset_ID);
-
-	/** Get Start Asset	  */
-	public int getA_Start_Asset_ID();
-
-	public org.compiere.model.I_A_Asset getA_Start_Asset() throws RuntimeException;
 
     /** Column name C_Period_ID */
     public static final String COLUMNNAME_C_Period_ID = "C_Period_ID";

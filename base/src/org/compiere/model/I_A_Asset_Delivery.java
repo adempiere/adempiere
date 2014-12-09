@@ -41,42 +41,6 @@ public interface I_A_Asset_Delivery
 
     /** Load Meta Data */
 
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
-
-    /** Column name AD_User_ID */
-    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
-
-	/** Set Usuario.
-	  * User within the system - Internal or Business Partner Contact
-	  */
-	public void setAD_User_ID (int AD_User_ID);
-
-	/** Get Usuario.
-	  * User within the system - Internal or Business Partner Contact
-	  */
-	public int getAD_User_ID();
-
-	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
-
     /** Column name A_Asset_Delivery_ID */
     public static final String COLUMNNAME_A_Asset_Delivery_ID = "A_Asset_Delivery_ID";
 
@@ -104,6 +68,42 @@ public interface I_A_Asset_Delivery
 	public int getA_Asset_ID();
 
 	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException;
+
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
+    /** Column name AD_User_ID */
+    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
+
+	/** Set User/Contact.
+	  * User within the system - Internal or Business Partner Contact
+	  */
+	public void setAD_User_ID (int AD_User_ID);
+
+	/** Get User/Contact.
+	  * User within the system - Internal or Business Partner Contact
+	  */
+	public int getAD_User_ID();
+
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -294,19 +294,6 @@ public interface I_A_Asset_Delivery
 	  */
 	public String getSerNo();
 
-    /** Column name URL */
-    public static final String COLUMNNAME_URL = "URL";
-
-	/** Set URL.
-	  * Full URL address - e.g. http://www.adempiere.org
-	  */
-	public void setURL (String URL);
-
-	/** Get URL.
-	  * Full URL address - e.g. http://www.adempiere.org
-	  */
-	public String getURL();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -322,6 +309,19 @@ public interface I_A_Asset_Delivery
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name URL */
+    public static final String COLUMNNAME_URL = "URL";
+
+	/** Set URL.
+	  * Full URL address - e.g. http://www.idempiere.org
+	  */
+	public void setURL (String URL);
+
+	/** Get URL.
+	  * Full URL address - e.g. http://www.idempiere.org
+	  */
+	public String getURL();
 
     /** Column name VersionNo */
     public static final String COLUMNNAME_VersionNo = "VersionNo";

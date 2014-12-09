@@ -20,6 +20,7 @@ package org.adempiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.compiere.model.GridField;
 import org.compiere.model.M_Element;
 import org.compiere.model.Query;
 import org.compiere.util.CLogger;
@@ -40,6 +41,8 @@ public class MBrowseField extends X_AD_Browse_Field {
 	 * 
 	 */
 	private static final long serialVersionUID = 3076943543303710639L;
+
+	private GridField gridField;
 
 	/**
 	 * get Browse Field based on View Column
@@ -120,7 +123,7 @@ public class MBrowseField extends X_AD_Browse_Field {
 		setName(column.getName());
 		setDescription(column.getDescription());
 		setHelp(column.getHelp());
-		setAD_View_Column_ID(column.get_ID());
+		setAD_View_Column_ID(column.getAD_View_Column_ID());
 		setIsActive(true);
 		setIsIdentifier(column.isIdentifier());
 		setIsRange(false);
@@ -230,5 +233,14 @@ public class MBrowseField extends X_AD_Browse_Field {
 		return  baseLanguage ? super.getHelp() : DB.getSQLValueString(get_TrxName(),
 				sql, getAD_Browse_Field_ID(),
 				Env.getAD_Language(Env.getCtx()));
+	}
+
+
+	public void setGridField(GridField gridField) {
+		this.gridField = gridField;
+	}
+
+	public GridField getGridField() {
+		return gridField;
 	}
 }

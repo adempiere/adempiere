@@ -41,49 +41,33 @@ public interface I_A_Asset
 
     /** Load Meta Data */
 
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+    /** Column name A_Asset_Action */
+    public static final String COLUMNNAME_A_Asset_Action = "A_Asset_Action";
 
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
+	/** Set Asset Action	  */
+	public void setA_Asset_Action (String A_Asset_Action);
 
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+	/** Get Asset Action	  */
+	public String getA_Asset_Action();
 
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
+    /** Column name A_Asset_Class_ID */
+    public static final String COLUMNNAME_A_Asset_Class_ID = "A_Asset_Class_ID";
 
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
+	/** Set Asset class	  */
+	public void setA_Asset_Class_ID (int A_Asset_Class_ID);
 
-    /** Column name AD_User_ID */
-    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
+	/** Get Asset class	  */
+	public int getA_Asset_Class_ID();
 
-	/** Set Usuario.
-	  * User within the system - Internal or Business Partner Contact
-	  */
-	public void setAD_User_ID (int AD_User_ID);
-
-	/** Get Usuario.
-	  * User within the system - Internal or Business Partner Contact
-	  */
-	public int getAD_User_ID();
-
-	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
+	public org.compiere.model.I_A_Asset_Class getA_Asset_Class() throws RuntimeException;
 
     /** Column name A_Asset_CreateDate */
     public static final String COLUMNNAME_A_Asset_CreateDate = "A_Asset_CreateDate";
 
-	/** Set Asset Creation Date	  */
+	/** Set Create Date	  */
 	public void setA_Asset_CreateDate (Timestamp A_Asset_CreateDate);
 
-	/** Get Asset Creation Date	  */
+	/** Get Create Date	  */
 	public Timestamp getA_Asset_CreateDate();
 
     /** Column name A_Asset_Group_ID */
@@ -117,19 +101,48 @@ public interface I_A_Asset
     /** Column name A_Asset_RevalDate */
     public static final String COLUMNNAME_A_Asset_RevalDate = "A_Asset_RevalDate";
 
-	/** Set Asset Reval. Date	  */
+	/** Set Revaluation Date	  */
 	public void setA_Asset_RevalDate (Timestamp A_Asset_RevalDate);
 
-	/** Get Asset Reval. Date	  */
+	/** Get Revaluation Date	  */
 	public Timestamp getA_Asset_RevalDate();
+
+    /** Column name A_Asset_Status */
+    public static final String COLUMNNAME_A_Asset_Status = "A_Asset_Status";
+
+	/** Set Asset Status	  */
+	public void setA_Asset_Status (String A_Asset_Status);
+
+	/** Get Asset Status	  */
+	public String getA_Asset_Status();
+
+    /** Column name A_Asset_Type_ID */
+    public static final String COLUMNNAME_A_Asset_Type_ID = "A_Asset_Type_ID";
+
+	/** Set Asset Type	  */
+	public void setA_Asset_Type_ID (int A_Asset_Type_ID);
+
+	/** Get Asset Type	  */
+	public int getA_Asset_Type_ID();
+
+	public org.compiere.model.I_A_Asset_Type getA_Asset_Type() throws RuntimeException;
+
+    /** Column name A_AssetType */
+    public static final String COLUMNNAME_A_AssetType = "A_AssetType";
+
+	/** Set Asset Type	  */
+	public void setA_AssetType (String A_AssetType);
+
+	/** Get Asset Type	  */
+	public String getA_AssetType();
 
     /** Column name A_Parent_Asset_ID */
     public static final String COLUMNNAME_A_Parent_Asset_ID = "A_Parent_Asset_ID";
 
-	/** Set Asset ID	  */
+	/** Set Parent Asset	  */
 	public void setA_Parent_Asset_ID (int A_Parent_Asset_ID);
 
-	/** Get Asset ID	  */
+	/** Get Parent Asset	  */
 	public int getA_Parent_Asset_ID();
 
 	public org.compiere.model.I_A_Asset getA_Parent_Asset() throws RuntimeException;
@@ -137,20 +150,65 @@ public interface I_A_Asset
     /** Column name A_QTY_Current */
     public static final String COLUMNNAME_A_QTY_Current = "A_QTY_Current";
 
-	/** Set Quantity	  */
+	/** Set Current Qty	  */
 	public void setA_QTY_Current (BigDecimal A_QTY_Current);
 
-	/** Get Quantity	  */
+	/** Get Current Qty	  */
 	public BigDecimal getA_QTY_Current();
 
     /** Column name A_QTY_Original */
     public static final String COLUMNNAME_A_QTY_Original = "A_QTY_Original";
 
-	/** Set Original Qty	  */
+	/** Set A_QTY_Original	  */
 	public void setA_QTY_Original (BigDecimal A_QTY_Original);
 
-	/** Get Original Qty	  */
+	/** Get A_QTY_Original	  */
 	public BigDecimal getA_QTY_Original();
+
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
+    /** Column name AD_User_ID */
+    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
+
+	/** Set User/Contact.
+	  * User within the system - Internal or Business Partner Contact
+	  */
+	public void setAD_User_ID (int AD_User_ID);
+
+	/** Get User/Contact.
+	  * User within the system - Internal or Business Partner Contact
+	  */
+	public int getAD_User_ID();
+
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
+
+    /** Column name AssetActivationDate */
+    public static final String COLUMNNAME_AssetActivationDate = "AssetActivationDate";
+
+	/** Set Activation Date	  */
+	public void setAssetActivationDate (Timestamp AssetActivationDate);
+
+	/** Get Activation Date	  */
+	public Timestamp getAssetActivationDate();
 
     /** Column name AssetDepreciationDate */
     public static final String COLUMNNAME_AssetDepreciationDate = "AssetDepreciationDate";
@@ -191,20 +249,20 @@ public interface I_A_Asset
 	  */
 	public Timestamp getAssetServiceDate();
 
-    /** Column name C_BPartnerSR_ID */
-    public static final String COLUMNNAME_C_BPartnerSR_ID = "C_BPartnerSR_ID";
+    /** Column name C_Activity_ID */
+    public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
 
-	/** Set BPartner (Agent).
-	  * Business Partner (Agent or Sales Rep)
+	/** Set Activity.
+	  * Business Activity
 	  */
-	public void setC_BPartnerSR_ID (int C_BPartnerSR_ID);
+	public void setC_Activity_ID (int C_Activity_ID);
 
-	/** Get BPartner (Agent).
-	  * Business Partner (Agent or Sales Rep)
+	/** Get Activity.
+	  * Business Activity
 	  */
-	public int getC_BPartnerSR_ID();
+	public int getC_Activity_ID();
 
-	public org.compiere.model.I_C_BPartner getC_BPartnerSR() throws RuntimeException;
+	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException;
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -236,6 +294,21 @@ public interface I_A_Asset
 
 	public org.compiere.model.I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException;
 
+    /** Column name C_BPartnerSR_ID */
+    public static final String COLUMNNAME_C_BPartnerSR_ID = "C_BPartnerSR_ID";
+
+	/** Set BPartner (Agent).
+	  * Business Partner (Agent or Sales Rep)
+	  */
+	public void setC_BPartnerSR_ID (int C_BPartnerSR_ID);
+
+	/** Get BPartner (Agent).
+	  * Business Partner (Agent or Sales Rep)
+	  */
+	public int getC_BPartnerSR_ID();
+
+	public org.compiere.model.I_C_BPartner getC_BPartnerSR() throws RuntimeException;
+
     /** Column name C_Location_ID */
     public static final String COLUMNNAME_C_Location_ID = "C_Location_ID";
 
@@ -249,7 +322,7 @@ public interface I_A_Asset
 	  */
 	public int getC_Location_ID();
 
-	public org.compiere.model.I_C_Location getC_Location() throws RuntimeException;
+	public I_C_Location getC_Location() throws RuntimeException;
 
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
@@ -320,6 +393,15 @@ public interface I_A_Asset
 	  * Comment or Hint
 	  */
 	public String getHelp();
+
+    /** Column name InventoryNo */
+    public static final String COLUMNNAME_InventoryNo = "InventoryNo";
+
+	/** Set Inventory No	  */
+	public void setInventoryNo (String InventoryNo);
+
+	/** Get Inventory No	  */
+	public String getInventoryNo();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -438,19 +520,6 @@ public interface I_A_Asset
 	  */
 	public int getLastMaintenanceUnit();
 
-    /** Column name LeaseTerminationDate */
-    public static final String COLUMNNAME_LeaseTerminationDate = "LeaseTerminationDate";
-
-	/** Set Lease Termination.
-	  * Lease Termination Date
-	  */
-	public void setLeaseTerminationDate (Timestamp LeaseTerminationDate);
-
-	/** Get Lease Termination.
-	  * Lease Termination Date
-	  */
-	public Timestamp getLeaseTerminationDate();
-
     /** Column name Lease_BPartner_ID */
     public static final String COLUMNNAME_Lease_BPartner_ID = "Lease_BPartner_ID";
 
@@ -465,6 +534,19 @@ public interface I_A_Asset
 	public int getLease_BPartner_ID();
 
 	public org.compiere.model.I_C_BPartner getLease_BPartner() throws RuntimeException;
+
+    /** Column name LeaseTerminationDate */
+    public static final String COLUMNNAME_LeaseTerminationDate = "LeaseTerminationDate";
+
+	/** Set Lease Termination.
+	  * Lease Termination Date
+	  */
+	public void setLeaseTerminationDate (Timestamp LeaseTerminationDate);
+
+	/** Get Lease Termination.
+	  * Lease Termination Date
+	  */
+	public Timestamp getLeaseTerminationDate();
 
     /** Column name LifeUseUnits */
     public static final String COLUMNNAME_LifeUseUnits = "LifeUseUnits";
@@ -548,7 +630,7 @@ public interface I_A_Asset
 	  */
 	public int getM_Locator_ID();
 
-	public org.compiere.model.I_M_Locator getM_Locator() throws RuntimeException;
+	public I_M_Locator getM_Locator() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -564,6 +646,28 @@ public interface I_A_Asset
 	public int getM_Product_ID();
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
+
+    /** Column name ManufacturedYear */
+    public static final String COLUMNNAME_ManufacturedYear = "ManufacturedYear";
+
+	/** Set Manufactured Year	  */
+	public void setManufacturedYear (int ManufacturedYear);
+
+	/** Get Manufactured Year	  */
+	public int getManufacturedYear();
+
+    /** Column name Manufacturer */
+    public static final String COLUMNNAME_Manufacturer = "Manufacturer";
+
+	/** Set Manufacturer.
+	  * Manufacturer of the Product
+	  */
+	public void setManufacturer (String Manufacturer);
+
+	/** Get Manufacturer.
+	  * Manufacturer of the Product
+	  */
+	public String getManufacturer();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -581,13 +685,13 @@ public interface I_A_Asset
     /** Column name NextMaintenenceDate */
     public static final String COLUMNNAME_NextMaintenenceDate = "NextMaintenenceDate";
 
-	/** Set Next Maintenance.
-	  * Next Maintenance Date
+	/** Set Next Maintenence.
+	  * Next Maintenence Date
 	  */
 	public void setNextMaintenenceDate (Timestamp NextMaintenenceDate);
 
-	/** Get Next Maintenance.
-	  * Next Maintenance Date
+	/** Get Next Maintenence.
+	  * Next Maintenence Date
 	  */
 	public Timestamp getNextMaintenenceDate();
 
@@ -595,14 +699,27 @@ public interface I_A_Asset
     public static final String COLUMNNAME_NextMaintenenceUnit = "NextMaintenenceUnit";
 
 	/** Set Next Unit.
-	  * Next Maintenance Unit
+	  * Next Maintenence Unit
 	  */
 	public void setNextMaintenenceUnit (int NextMaintenenceUnit);
 
 	/** Get Next Unit.
-	  * Next Maintenance Unit
+	  * Next Maintenence Unit
 	  */
 	public int getNextMaintenenceUnit();
+
+    /** Column name Processed */
+    public static final String COLUMNNAME_Processed = "Processed";
+
+	/** Set Processed.
+	  * The document has been processed
+	  */
+	public void setProcessed (boolean Processed);
+
+	/** Get Processed.
+	  * The document has been processed
+	  */
+	public boolean isProcessed();
 
     /** Column name Processing */
     public static final String COLUMNNAME_Processing = "Processing";

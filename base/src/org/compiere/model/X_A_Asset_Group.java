@@ -30,7 +30,7 @@ public class X_A_Asset_Group extends PO implements I_A_Asset_Group, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20140901L;
 
     /** Standard Constructor */
     public X_A_Asset_Group (Properties ctx, int A_Asset_Group_ID, String trxName)
@@ -41,9 +41,13 @@ public class X_A_Asset_Group extends PO implements I_A_Asset_Group, I_Persistent
 			setA_Asset_Group_ID (0);
 			setIsCreateAsActive (true);
 // Y
+			setIsDefault (false);
+// 'N'
 			setIsDepreciated (false);
 			setIsOneAssetPerUOM (false);
 			setIsOwned (false);
+			setIsTrackIssues (false);
+// N
 			setName (null);
         } */
     }
@@ -76,6 +80,31 @@ public class X_A_Asset_Group extends PO implements I_A_Asset_Group, I_Persistent
       return sb.toString();
     }
 
+	public org.compiere.model.I_A_Asset_Class getA_Asset_Class() throws RuntimeException
+    {
+		return (org.compiere.model.I_A_Asset_Class)MTable.get(getCtx(), org.compiere.model.I_A_Asset_Class.Table_Name)
+			.getPO(getA_Asset_Class_ID(), get_TrxName());	}
+
+	/** Set Asset class.
+		@param A_Asset_Class_ID Asset class	  */
+	public void setA_Asset_Class_ID (int A_Asset_Class_ID)
+	{
+		if (A_Asset_Class_ID < 1) 
+			set_Value (COLUMNNAME_A_Asset_Class_ID, null);
+		else 
+			set_Value (COLUMNNAME_A_Asset_Class_ID, Integer.valueOf(A_Asset_Class_ID));
+	}
+
+	/** Get Asset class.
+		@return Asset class	  */
+	public int getA_Asset_Class_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Class_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Asset Group.
 		@param A_Asset_Group_ID 
 		Group of Assets
@@ -106,6 +135,31 @@ public class X_A_Asset_Group extends PO implements I_A_Asset_Group, I_Persistent
     {
         return new KeyNamePair(get_ID(), String.valueOf(getA_Asset_Group_ID()));
     }
+
+	public org.compiere.model.I_A_Asset_Type getA_Asset_Type() throws RuntimeException
+    {
+		return (org.compiere.model.I_A_Asset_Type)MTable.get(getCtx(), org.compiere.model.I_A_Asset_Type.Table_Name)
+			.getPO(getA_Asset_Type_ID(), get_TrxName());	}
+
+	/** Set Asset Type.
+		@param A_Asset_Type_ID Asset Type	  */
+	public void setA_Asset_Type_ID (int A_Asset_Type_ID)
+	{
+		if (A_Asset_Type_ID < 1) 
+			set_Value (COLUMNNAME_A_Asset_Type_ID, null);
+		else 
+			set_Value (COLUMNNAME_A_Asset_Type_ID, Integer.valueOf(A_Asset_Type_ID));
+	}
+
+	/** Get Asset Type.
+		@return Asset Type	  */
+	public int getA_Asset_Type_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Type_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** Set Description.
 		@param Description 
@@ -165,6 +219,30 @@ public class X_A_Asset_Group extends PO implements I_A_Asset_Group, I_Persistent
 		return false;
 	}
 
+	/** Set Default.
+		@param IsDefault 
+		Default value
+	  */
+	public void setIsDefault (boolean IsDefault)
+	{
+		set_Value (COLUMNNAME_IsDefault, Boolean.valueOf(IsDefault));
+	}
+
+	/** Get Default.
+		@return Default value
+	  */
+	public boolean isDefault () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsDefault);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Depreciate.
 		@param IsDepreciated 
 		The asset will be depreciated
@@ -180,6 +258,27 @@ public class X_A_Asset_Group extends PO implements I_A_Asset_Group, I_Persistent
 	public boolean isDepreciated () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsDepreciated);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set IsFixedAsset.
+		@param IsFixedAsset IsFixedAsset	  */
+	public void setIsFixedAsset (boolean IsFixedAsset)
+	{
+		set_Value (COLUMNNAME_IsFixedAsset, Boolean.valueOf(IsFixedAsset));
+	}
+
+	/** Get IsFixedAsset.
+		@return IsFixedAsset	  */
+	public boolean isFixedAsset () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsFixedAsset);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

@@ -58,7 +58,7 @@ public class CostDimension
 	{
 		this.AD_Client_ID = client_ID;
 		this.AD_Org_ID = org_ID;
-		this.M_Warehouse_ID  = M_Warehouse_ID;
+		this.M_Warehouse_ID  = warehouse_ID;
 		this.M_Product_ID = product_ID;
 		this.M_AttributeSetInstance_ID = attributeSetInstance_ID;
 		this.M_CostType_ID = costType_ID;

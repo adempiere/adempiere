@@ -477,8 +477,9 @@ public class MProduct extends X_M_Product
 		MProductCategory pc = MProductCategory.get(getCtx(), getM_Product_Category_ID());
 		if (pc.getA_Asset_Group_ID() == 0)
 			return false;
-		MAssetGroup ag = MAssetGroup.get(getCtx(), pc.getA_Asset_Group_ID());
-		return ag.isOneAssetPerUOM();
+		//MAssetGroup.get(getCtx(), pc.getA_Asset_Group_ID());
+		//return ag.isOneAssetPerUOM();
+		return  pc.getA_Asset_Group().isOneAssetPerUOM();
 	}	//	isOneAssetPerUOM
 	
 	/**
@@ -962,32 +963,32 @@ public class MProduct extends X_M_Product
 	
 	/**
 	 * Get Product Costing Method
-	 * @param C_AcctSchema_ID accounting schema ID
+	 * @param accountSchema accounting schema ID
 	 * @return product costing method
 	 */
-	public String getCostingMethod(MAcctSchema as)
+	public String getCostingMethod(MAcctSchema accountSchema)
 	{
-		MProductCategoryAcct pca = MProductCategoryAcct.get(getCtx(), getM_Product_Category_ID(), as.get_ID(), get_TrxName());
+		MProductCategoryAcct pca = MProductCategoryAcct.get(getCtx(), getM_Product_Category_ID(), accountSchema.get_ID(), get_TrxName());
 		String costingMethod = pca.getCostingMethod();
 		if (costingMethod == null)
 		{
-			costingMethod = as.getCostingMethod();
+			costingMethod = accountSchema.getCostingMethod();
 		}
 		return costingMethod;
 	}
 	
 	/**
 	 * Get Product Costing Method
-	 * @param C_AcctSchema_ID accounting schema ID
+	 * @param assetSchema accounting schema ID
 	 * @return product costing method
 	 */
-	public String getCostingMethod(MAcctSchema as , int AD_Org_ID)
+	public String getCostingMethod(MAcctSchema assetSchema , int AD_Org_ID)
 	{
-		MProductCategoryAcct pca = MProductCategoryAcct.get(getCtx(), getM_Product_Category_ID(), as.get_ID() , AD_Org_ID, get_TrxName());
+		MProductCategoryAcct pca = MProductCategoryAcct.get(getCtx(), getM_Product_Category_ID(), assetSchema.get_ID() , AD_Org_ID, get_TrxName());
 		String costingMethod = pca.getCostingMethod();
 		if (costingMethod == null)
 		{
-			costingMethod = as.getCostingMethod();
+			costingMethod = assetSchema.getCostingMethod();
 		}
 		return costingMethod;
 	}
@@ -996,8 +997,8 @@ public class MProduct extends X_M_Product
 	 * Get the Attribute Set Instance.  This is called by callouts to fill the M_AttributeSetInstance_ID
 	 * field.  The ASI should override the context if the product has a defined ASI or if the 
 	 * context ASI does not use the same attribute set.
-	 * @param context
-	 * @param window number
+	 * @param ctx
+	 * @param WindowNo number
 	 */
 	public Integer getEnvAttributeSetInstance(Properties ctx, int WindowNo)
 	{

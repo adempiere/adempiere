@@ -41,34 +41,13 @@ public interface I_A_Asset_Acct
 
     /** Load Meta Data */
 
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
-
     /** Column name A_Accumdepreciation_Acct */
     public static final String COLUMNNAME_A_Accumdepreciation_Acct = "A_Accumdepreciation_Acct";
 
-	/** Set Accumulated Depreciation	  */
+	/** Set Accumulated Depreciation Account	  */
 	public void setA_Accumdepreciation_Acct (int A_Accumdepreciation_Acct);
 
-	/** Get Accumulated Depreciation	  */
+	/** Get Accumulated Depreciation Account	  */
 	public int getA_Accumdepreciation_Acct();
 
 	public I_C_ValidCombination getA_Accumdepreciation_A() throws RuntimeException;
@@ -76,10 +55,10 @@ public interface I_A_Asset_Acct
     /** Column name A_Asset_Acct */
     public static final String COLUMNNAME_A_Asset_Acct = "A_Asset_Acct";
 
-	/** Set Asset Cost Account	  */
+	/** Set Asset Acct	  */
 	public void setA_Asset_Acct (int A_Asset_Acct);
 
-	/** Get Asset Cost Account	  */
+	/** Get Asset Acct	  */
 	public int getA_Asset_Acct();
 
 	public I_C_ValidCombination getA_Asset_A() throws RuntimeException;
@@ -87,10 +66,10 @@ public interface I_A_Asset_Acct
     /** Column name A_Asset_Acct_ID */
     public static final String COLUMNNAME_A_Asset_Acct_ID = "A_Asset_Acct_ID";
 
-	/** Set Asset Acct.	  */
+	/** Set A_Asset_Acct_ID	  */
 	public void setA_Asset_Acct_ID (int A_Asset_Acct_ID);
 
-	/** Get Asset Acct.	  */
+	/** Get A_Asset_Acct_ID	  */
 	public int getA_Asset_Acct_ID();
 
     /** Column name A_Asset_ID */
@@ -106,13 +85,15 @@ public interface I_A_Asset_Acct
 	  */
 	public int getA_Asset_ID();
 
+	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException;
+
     /** Column name A_Asset_Spread_ID */
     public static final String COLUMNNAME_A_Asset_Spread_ID = "A_Asset_Spread_ID";
 
-	/** Set Asset Spread	  */
+	/** Set A_Asset_Spread_ID	  */
 	public void setA_Asset_Spread_ID (int A_Asset_Spread_ID);
 
-	/** Get Asset Spread	  */
+	/** Get A_Asset_Spread_ID	  */
 	public int getA_Asset_Spread_ID();
 
 	public org.compiere.model.I_A_Asset_Spread getA_Asset_Spread() throws RuntimeException;
@@ -120,13 +101,24 @@ public interface I_A_Asset_Acct
     /** Column name A_Depreciation_Acct */
     public static final String COLUMNNAME_A_Depreciation_Acct = "A_Depreciation_Acct";
 
-	/** Set Depreciation Expense Account	  */
+	/** Set Depreciation Account	  */
 	public void setA_Depreciation_Acct (int A_Depreciation_Acct);
 
-	/** Get Depreciation Expense Account	  */
+	/** Get Depreciation Account	  */
 	public int getA_Depreciation_Acct();
 
 	public I_C_ValidCombination getA_Depreciation_A() throws RuntimeException;
+
+    /** Column name A_Depreciation_Conv_F_ID */
+    public static final String COLUMNNAME_A_Depreciation_Conv_F_ID = "A_Depreciation_Conv_F_ID";
+
+	/** Set Depreciation Convention (fiscal)	  */
+	public void setA_Depreciation_Conv_F_ID (int A_Depreciation_Conv_F_ID);
+
+	/** Get Depreciation Convention (fiscal)	  */
+	public int getA_Depreciation_Conv_F_ID();
+
+	public org.compiere.model.I_A_Depreciation_Convention getA_Depreciation_Conv_F() throws RuntimeException;
 
     /** Column name A_Depreciation_Conv_ID */
     public static final String COLUMNNAME_A_Depreciation_Conv_ID = "A_Depreciation_Conv_ID";
@@ -139,13 +131,24 @@ public interface I_A_Asset_Acct
 
 	public org.compiere.model.I_A_Depreciation_Convention getA_Depreciation_Conv() throws RuntimeException;
 
+    /** Column name A_Depreciation_F_ID */
+    public static final String COLUMNNAME_A_Depreciation_F_ID = "A_Depreciation_F_ID";
+
+	/** Set Depreciation (fiscal)	  */
+	public void setA_Depreciation_F_ID (int A_Depreciation_F_ID);
+
+	/** Get Depreciation (fiscal)	  */
+	public int getA_Depreciation_F_ID();
+
+	public org.compiere.model.I_A_Depreciation getA_Depreciation_F() throws RuntimeException;
+
     /** Column name A_Depreciation_ID */
     public static final String COLUMNNAME_A_Depreciation_ID = "A_Depreciation_ID";
 
-	/** Set Depreciation Type	  */
+	/** Set Depreciation	  */
 	public void setA_Depreciation_ID (int A_Depreciation_ID);
 
-	/** Get Depreciation Type	  */
+	/** Get Depreciation	  */
 	public int getA_Depreciation_ID();
 
 	public org.compiere.model.I_A_Depreciation getA_Depreciation() throws RuntimeException;
@@ -153,28 +156,39 @@ public interface I_A_Asset_Acct
     /** Column name A_Depreciation_Manual_Amount */
     public static final String COLUMNNAME_A_Depreciation_Manual_Amount = "A_Depreciation_Manual_Amount";
 
-	/** Set Depreciation Manual Amount	  */
+	/** Set A_Depreciation_Manual_Amount	  */
 	public void setA_Depreciation_Manual_Amount (BigDecimal A_Depreciation_Manual_Amount);
 
-	/** Get Depreciation Manual Amount	  */
+	/** Get A_Depreciation_Manual_Amount	  */
 	public BigDecimal getA_Depreciation_Manual_Amount();
 
     /** Column name A_Depreciation_Manual_Period */
     public static final String COLUMNNAME_A_Depreciation_Manual_Period = "A_Depreciation_Manual_Period";
 
-	/** Set Depreciation Manual Period	  */
+	/** Set A_Depreciation_Manual_Period	  */
 	public void setA_Depreciation_Manual_Period (String A_Depreciation_Manual_Period);
 
-	/** Get Depreciation Manual Period	  */
+	/** Get A_Depreciation_Manual_Period	  */
 	public String getA_Depreciation_Manual_Period();
+
+    /** Column name A_Depreciation_Method_F_ID */
+    public static final String COLUMNNAME_A_Depreciation_Method_F_ID = "A_Depreciation_Method_F_ID";
+
+	/** Set Depreciation Method (fiscal)	  */
+	public void setA_Depreciation_Method_F_ID (int A_Depreciation_Method_F_ID);
+
+	/** Get Depreciation Method (fiscal)	  */
+	public int getA_Depreciation_Method_F_ID();
+
+	public org.compiere.model.I_A_Depreciation_Method getA_Depreciation_Method_F() throws RuntimeException;
 
     /** Column name A_Depreciation_Method_ID */
     public static final String COLUMNNAME_A_Depreciation_Method_ID = "A_Depreciation_Method_ID";
 
-	/** Set Depreciation Calculation Type	  */
+	/** Set Depreciation Method	  */
 	public void setA_Depreciation_Method_ID (int A_Depreciation_Method_ID);
 
-	/** Get Depreciation Calculation Type	  */
+	/** Get Depreciation Method	  */
 	public int getA_Depreciation_Method_ID();
 
 	public org.compiere.model.I_A_Depreciation_Method getA_Depreciation_Method() throws RuntimeException;
@@ -182,10 +196,10 @@ public interface I_A_Asset_Acct
     /** Column name A_Depreciation_Table_Header_ID */
     public static final String COLUMNNAME_A_Depreciation_Table_Header_ID = "A_Depreciation_Table_Header_ID";
 
-	/** Set Depreciation Table Header	  */
+	/** Set A_Depreciation_Table_Header_ID	  */
 	public void setA_Depreciation_Table_Header_ID (int A_Depreciation_Table_Header_ID);
 
-	/** Get Depreciation Table Header	  */
+	/** Get A_Depreciation_Table_Header_ID	  */
 	public int getA_Depreciation_Table_Header_ID();
 
 	public org.compiere.model.I_A_Depreciation_Table_Header getA_Depreciation_Table_Header() throws RuntimeException;
@@ -193,11 +207,20 @@ public interface I_A_Asset_Acct
     /** Column name A_Depreciation_Variable_Perc */
     public static final String COLUMNNAME_A_Depreciation_Variable_Perc = "A_Depreciation_Variable_Perc";
 
-	/** Set Depreciation Variable Perc.	  */
+	/** Set Variable Percent	  */
 	public void setA_Depreciation_Variable_Perc (BigDecimal A_Depreciation_Variable_Perc);
 
-	/** Get Depreciation Variable Perc.	  */
+	/** Get Variable Percent	  */
 	public BigDecimal getA_Depreciation_Variable_Perc();
+
+    /** Column name A_Depreciation_Variable_Perc_F */
+    public static final String COLUMNNAME_A_Depreciation_Variable_Perc_F = "A_Depreciation_Variable_Perc_F";
+
+	/** Set Variable Percent (fiscal)	  */
+	public void setA_Depreciation_Variable_Perc_F (BigDecimal A_Depreciation_Variable_Perc_F);
+
+	/** Get Variable Percent (fiscal)	  */
+	public BigDecimal getA_Depreciation_Variable_Perc_F();
 
     /** Column name A_Disposal_Gain */
     public static final String COLUMNNAME_A_Disposal_Gain = "A_Disposal_Gain";
@@ -210,6 +233,17 @@ public interface I_A_Asset_Acct
 
 	public I_C_ValidCombination getA_Disposal_G() throws RuntimeException;
 
+    /** Column name A_Disposal_Gain_Acct */
+    public static final String COLUMNNAME_A_Disposal_Gain_Acct = "A_Disposal_Gain_Acct";
+
+	/** Set Disposal Gain Acct	  */
+	public void setA_Disposal_Gain_Acct (int A_Disposal_Gain_Acct);
+
+	/** Get Disposal Gain Acct	  */
+	public int getA_Disposal_Gain_Acct();
+
+	public I_C_ValidCombination getA_Disposal_Gain_A() throws RuntimeException;
+
     /** Column name A_Disposal_Loss */
     public static final String COLUMNNAME_A_Disposal_Loss = "A_Disposal_Loss";
 
@@ -220,6 +254,17 @@ public interface I_A_Asset_Acct
 	public int getA_Disposal_Loss();
 
 	public I_C_ValidCombination getA_Disposal_L() throws RuntimeException;
+
+    /** Column name A_Disposal_Loss_Acct */
+    public static final String COLUMNNAME_A_Disposal_Loss_Acct = "A_Disposal_Loss_Acct";
+
+	/** Set Disposal Loss Acct	  */
+	public void setA_Disposal_Loss_Acct (int A_Disposal_Loss_Acct);
+
+	/** Get Disposal Loss Acct	  */
+	public int getA_Disposal_Loss_Acct();
+
+	public I_C_ValidCombination getA_Disposal_Loss_A() throws RuntimeException;
 
     /** Column name A_Disposal_Revenue */
     public static final String COLUMNNAME_A_Disposal_Revenue = "A_Disposal_Revenue";
@@ -232,22 +277,33 @@ public interface I_A_Asset_Acct
 
 	public I_C_ValidCombination getA_Disposal_Reve() throws RuntimeException;
 
+    /** Column name A_Disposal_Revenue_Acct */
+    public static final String COLUMNNAME_A_Disposal_Revenue_Acct = "A_Disposal_Revenue_Acct";
+
+	/** Set Disposal Revenue Acct	  */
+	public void setA_Disposal_Revenue_Acct (int A_Disposal_Revenue_Acct);
+
+	/** Get Disposal Revenue Acct	  */
+	public int getA_Disposal_Revenue_Acct();
+
+	public I_C_ValidCombination getA_Disposal_Revenue_A() throws RuntimeException;
+
     /** Column name A_Period_End */
     public static final String COLUMNNAME_A_Period_End = "A_Period_End";
 
-	/** Set Period End	  */
+	/** Set A_Period_End	  */
 	public void setA_Period_End (int A_Period_End);
 
-	/** Get Period End	  */
+	/** Get A_Period_End	  */
 	public int getA_Period_End();
 
     /** Column name A_Period_Start */
     public static final String COLUMNNAME_A_Period_Start = "A_Period_Start";
 
-	/** Set Period Start	  */
+	/** Set A_Period_Start	  */
 	public void setA_Period_Start (int A_Period_Start);
 
-	/** Get Period Start	  */
+	/** Get A_Period_Start	  */
 	public int getA_Period_Start();
 
     /** Column name A_Reval_Accumdep_Offset_Cur */
@@ -272,13 +328,35 @@ public interface I_A_Asset_Acct
 
 	public I_C_ValidCombination getA_Reval_Accumdep_Offset_Pr() throws RuntimeException;
 
+    /** Column name A_Reval_Adep_Offset_Cur_Acct */
+    public static final String COLUMNNAME_A_Reval_Adep_Offset_Cur_Acct = "A_Reval_Adep_Offset_Cur_Acct";
+
+	/** Set A_Reval_Accumdep_Offset_Cur	  */
+	public void setA_Reval_Adep_Offset_Cur_Acct (int A_Reval_Adep_Offset_Cur_Acct);
+
+	/** Get A_Reval_Accumdep_Offset_Cur	  */
+	public int getA_Reval_Adep_Offset_Cur_Acct();
+
+	public I_C_ValidCombination getA_Reval_Adep_Offset_Cur_A() throws RuntimeException;
+
+    /** Column name A_Reval_Adep_Offset_Prior_Acct */
+    public static final String COLUMNNAME_A_Reval_Adep_Offset_Prior_Acct = "A_Reval_Adep_Offset_Prior_Acct";
+
+	/** Set A_Reval_Accumdep_Offset_Prior	  */
+	public void setA_Reval_Adep_Offset_Prior_Acct (int A_Reval_Adep_Offset_Prior_Acct);
+
+	/** Get A_Reval_Accumdep_Offset_Prior	  */
+	public int getA_Reval_Adep_Offset_Prior_Acct();
+
+	public I_C_ValidCombination getA_Reval_Adep_Offset_Prior_A() throws RuntimeException;
+
     /** Column name A_Reval_Cal_Method */
     public static final String COLUMNNAME_A_Reval_Cal_Method = "A_Reval_Cal_Method";
 
-	/** Set Revaluation Calculation Method	  */
+	/** Set A_Reval_Cal_Method	  */
 	public void setA_Reval_Cal_Method (String A_Reval_Cal_Method);
 
-	/** Get Revaluation Calculation Method	  */
+	/** Get A_Reval_Cal_Method	  */
 	public String getA_Reval_Cal_Method();
 
     /** Column name A_Reval_Cost_Offset */
@@ -292,6 +370,17 @@ public interface I_A_Asset_Acct
 
 	public I_C_ValidCombination getA_Reval_Cost_Off() throws RuntimeException;
 
+    /** Column name A_Reval_Cost_Offset_Acct */
+    public static final String COLUMNNAME_A_Reval_Cost_Offset_Acct = "A_Reval_Cost_Offset_Acct";
+
+	/** Set Reval Cost Offset Acct	  */
+	public void setA_Reval_Cost_Offset_Acct (int A_Reval_Cost_Offset_Acct);
+
+	/** Get Reval Cost Offset Acct	  */
+	public int getA_Reval_Cost_Offset_Acct();
+
+	public I_C_ValidCombination getA_Reval_Cost_Offset_A() throws RuntimeException;
+
     /** Column name A_Reval_Cost_Offset_Prior */
     public static final String COLUMNNAME_A_Reval_Cost_Offset_Prior = "A_Reval_Cost_Offset_Prior";
 
@@ -302,6 +391,17 @@ public interface I_A_Asset_Acct
 	public int getA_Reval_Cost_Offset_Prior();
 
 	public I_C_ValidCombination getA_Reval_Cost_Offset_Pr() throws RuntimeException;
+
+    /** Column name A_Reval_Cost_Offset_Prior_Acct */
+    public static final String COLUMNNAME_A_Reval_Cost_Offset_Prior_Acct = "A_Reval_Cost_Offset_Prior_Acct";
+
+	/** Set Reval Cost Offset Prior Acct	  */
+	public void setA_Reval_Cost_Offset_Prior_Acct (int A_Reval_Cost_Offset_Prior_Acct);
+
+	/** Get Reval Cost Offset Prior Acct	  */
+	public int getA_Reval_Cost_Offset_Prior_Acct();
+
+	public I_C_ValidCombination getA_Reval_Cost_Offset_Prior_A() throws RuntimeException;
 
     /** Column name A_Reval_Depexp_Offset */
     public static final String COLUMNNAME_A_Reval_Depexp_Offset = "A_Reval_Depexp_Offset";
@@ -314,23 +414,55 @@ public interface I_A_Asset_Acct
 
 	public I_C_ValidCombination getA_Reval_Depexp_Off() throws RuntimeException;
 
+    /** Column name A_Reval_Depexp_Offset_Acct */
+    public static final String COLUMNNAME_A_Reval_Depexp_Offset_Acct = "A_Reval_Depexp_Offset_Acct";
+
+	/** Set Reval Depexp Offset Acct	  */
+	public void setA_Reval_Depexp_Offset_Acct (int A_Reval_Depexp_Offset_Acct);
+
+	/** Get Reval Depexp Offset Acct	  */
+	public int getA_Reval_Depexp_Offset_Acct();
+
+	public I_C_ValidCombination getA_Reval_Depexp_Offset_A() throws RuntimeException;
+
     /** Column name A_Salvage_Value */
     public static final String COLUMNNAME_A_Salvage_Value = "A_Salvage_Value";
 
-	/** Set Salvage Value	  */
+	/** Set Asset Salvage Value	  */
 	public void setA_Salvage_Value (BigDecimal A_Salvage_Value);
 
-	/** Get Salvage Value	  */
+	/** Get Asset Salvage Value	  */
 	public BigDecimal getA_Salvage_Value();
 
     /** Column name A_Split_Percent */
     public static final String COLUMNNAME_A_Split_Percent = "A_Split_Percent";
 
-	/** Set Split Percentage	  */
+	/** Set Split Percent	  */
 	public void setA_Split_Percent (BigDecimal A_Split_Percent);
 
-	/** Get Split Percentage	  */
+	/** Get Split Percent	  */
 	public BigDecimal getA_Split_Percent();
+
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
 
     /** Column name C_AcctSchema_ID */
     public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
@@ -413,4 +545,17 @@ public interface I_A_Asset_Acct
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name ValidFrom */
+    public static final String COLUMNNAME_ValidFrom = "ValidFrom";
+
+	/** Set Valid from.
+	  * Valid from including this date (first day)
+	  */
+	public void setValidFrom (Timestamp ValidFrom);
+
+	/** Get Valid from.
+	  * Valid from including this date (first day)
+	  */
+	public Timestamp getValidFrom();
 }

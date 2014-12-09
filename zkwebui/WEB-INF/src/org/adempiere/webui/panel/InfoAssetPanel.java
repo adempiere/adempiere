@@ -31,7 +31,7 @@ import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.event.ValueChangeListener;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
-import org.compiere.model.MAsset;
+import org.compiere.model.I_A_Asset;
 import org.compiere.model.MColumn;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MQuery;
@@ -162,7 +162,7 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener
 		// From A_Asset.
 		fBPartner_ID = new WSearchEditor(
 				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 
-						MColumn.getColumn_ID(MAsset.Table_Name, MAsset.COLUMNNAME_C_BPartner_ID),
+						MColumn.getColumn_ID(I_A_Asset.Table_Name, I_A_Asset.COLUMNNAME_C_BPartner_ID),
 						DisplayType.Search), 
 						Msg.translate(Env.getCtx(), "C_BPartner_ID"), "", false, false, true);
 		fBPartner_ID.addValueChangeListener(this);
@@ -170,7 +170,7 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener
 		
 		fProduct_ID = new WSearchEditor(
 				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0,  
-						MColumn.getColumn_ID(MAsset.Table_Name, MAsset.COLUMNNAME_M_Product_ID), 
+						MColumn.getColumn_ID(I_A_Asset.Table_Name, I_A_Asset.COLUMNNAME_M_Product_ID),
 						DisplayType.Search), 
 						Msg.translate(Env.getCtx(), "M_Product_ID"), "", false, false, true);
 		fProduct_ID.addValueChangeListener(this);

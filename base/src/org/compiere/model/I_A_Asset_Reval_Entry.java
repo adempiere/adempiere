@@ -41,27 +41,6 @@ public interface I_A_Asset_Reval_Entry
 
     /** Load Meta Data */
 
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
-
     /** Column name A_Asset_Reval_Entry_ID */
     public static final String COLUMNNAME_A_Asset_Reval_Entry_ID = "A_Asset_Reval_Entry_ID";
 
@@ -115,6 +94,27 @@ public interface I_A_Asset_Reval_Entry
 
 	/** Get Reval. Multiplier	  */
 	public String getA_Reval_Multiplier();
+
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
 
     /** Column name C_AcctSchema_ID */
     public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";

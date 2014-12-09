@@ -188,6 +188,19 @@ public interface I_AD_Browse_Field
 
 	public org.adempiere.model.I_AD_View_Column getAxis_Parent_Column() throws RuntimeException;
 
+    /** Column name Callout */
+    public static final String COLUMNNAME_Callout = "Callout";
+
+	/** Set Callout.
+	  * Fully qualified class names and method - separated by semicolons
+	  */
+	public void setCallout (String Callout);
+
+	/** Get Callout.
+	  * Fully qualified class names and method - separated by semicolons
+	  */
+	public String getCallout();
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 

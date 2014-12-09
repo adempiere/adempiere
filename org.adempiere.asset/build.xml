@@ -1,0 +1,65 @@
+<project name="FixedAsset" default="dist" basedir=".">
+    <description>
+        Building FixedAsset.jar
+        by
+        Victor Perez 
+        http://www.e-evolution.com
+    </description>
+  <!-- set global properties for this build -->
+  <property file="build.properties"/>
+  <import file="${adempiere.source}/utils_dev/properties.xml"/>	
+  <property name="src" location="src/main/java/base"/>
+  <property name="build" location="build"/>
+  <property name="dist"  location="dist"/>
+
+  <path id="lib.class.path">
+     <fileset dir="${adempiere.source}/lib">
+        <include name="*.jar"/>
+     </fileset>
+      <pathelement path="${adempiere.source}/base/Base.jar"/>
+      <fileset dir="${adempiere.source}/packages">
+       <include name="*.jar"/>
+    </fileset>
+  </path>
+
+  <target name="init" depends="clean">
+    <echo message="source location: ${adempiere.source}"/>
+    <!-- Create the time stamp -->
+    <tstamp/>
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${build}"/>
+  </target>
+
+  <target name="compile" depends="init"
+        description="compile the source " >
+    <!-- Compile the java code from ${src} into ${build} -->
+    <javac srcdir="${src}" destdir="${build}">
+      <classpath refid="lib.class.path"/>
+    </javac>
+
+  </target>
+
+  <target name="dist" depends="compile"
+        description="generate the distribution" >
+    <!-- Create the distribution directory -->
+    <mkdir dir="${dist}/lib"/>
+
+    <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
+    <jar jarfile="${dist}/lib/FixedAsset.jar" basedir="${build}"/>
+
+    <!-- Create target Libero deployment -->
+    <mkdir dir="${env.ADEMPIERE_HOME}/packages/FixedAsset/lib"/>
+
+    <!-- Transfer FixedAsset.jar -->
+    <copy file="${dist}/lib/FixedAsset.jar" todir="${env.ADEMPIERE_HOME}/packages/FixedAsset/lib"/>
+    <copy file="${dist}/lib/FixedAsset.jar" todir="${adempiere.source}/packages/"/>
+
+  </target>
+
+  <target name="clean"
+        description="clean up" >
+    <!-- Delete the ${build} and ${dist} directory trees -->
+    <delete dir="${build}"/>
+    <delete dir="${dist}"/>
+  </target>
+</project>
