@@ -93,7 +93,7 @@ import org.zkoss.zul.Vbox;
  *  https://sourceforge.net/tracker/?func=detail&aid=3426137&group_id=176962&atid=879335
  *
  */
-public class WBrowser extends Browser implements IFormController,
+public class WBrowser extends Browser implements IBrowser ,IFormController,
 		EventListener, WTableModelListener, ValueChangeListener, ASyncProcess {
 
 	private CustomForm m_frame = new CustomForm();
@@ -940,7 +940,7 @@ public class WBrowser extends Browser implements IFormController,
 	}
 
 	
-	protected   ArrayList<ArrayList<Object>> getDataRows()
+	public  ArrayList<ArrayList<Object>> getDataRows()
 	{
 		ArrayList<ArrayList<Object>> rows = m_rows;
 		if (isShowTotal)

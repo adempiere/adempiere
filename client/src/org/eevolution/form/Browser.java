@@ -920,7 +920,7 @@ public abstract class Browser {
 	 */
 	 public abstract Object getParameterValue(Object key);
 	 
-	 abstract void setParameters();	 
+	 public abstract void setParameters();
 	 
 	 abstract public String  getSQLWhere(boolean refresh);
 	 
@@ -1064,7 +1064,7 @@ public abstract class Browser {
 		return stmt;
 	}
 	
-	protected abstract  ArrayList<ArrayList<Object>> getDataRows();
+	public abstract  ArrayList<ArrayList<Object>> getDataRows();
 	
 	protected File exportXLS() {
 		File file = null;

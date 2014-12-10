@@ -87,7 +87,7 @@ import org.compiere.util.Splash;
  * <li>FR [ 3426137 ] Smart Browser
  * https://sourceforge.net/tracker/?func=detail&aid=3426137&group_id=176962&atid=879335
  */
-public class VBrowser extends Browser implements ActionListener,
+public class VBrowser extends Browser implements IBrowser, ActionListener,
 		VetoableChangeListener, ChangeListener, ListSelectionListener,
 		TableModelListener, ASyncProcess {
 	CFrame m_frame = new CFrame();
@@ -944,7 +944,7 @@ public class VBrowser extends Browser implements ActionListener,
 		bExport.setSelected(false);
 	}
 	
-	protected   ArrayList<ArrayList<Object>> getDataRows()
+	public ArrayList<ArrayList<Object>> getDataRows()
 	{
 		ArrayList<ArrayList<Object>> rows = m_rows;
 		
