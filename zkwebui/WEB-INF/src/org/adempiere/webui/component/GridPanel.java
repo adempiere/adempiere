@@ -173,9 +173,10 @@ private void init_components() {
 	listbox = new Grid();
 	listbox.setOddRowSclass(null);
 
-	listbox.setHeight("100%");
+	//listbox.setHeight("100%");
+        listbox.setVflex(true);
 	//true might look better, false for better performance
-    listbox.setSizedByContent(true);
+        listbox.setSizedByContent(true);
 	listbox.addEventListener(Events.ON_CLICK, this);
 	listbox.setVflex("1");
 
