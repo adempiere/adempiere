@@ -1080,6 +1080,12 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
 		}
 
 	}
+
+	@Override
+	public void render(Listitem item, Object data, int index) throws Exception {
+		// TODO Add index functionality
+		render((ListItem)item, data);
+	}
 }
 
 
