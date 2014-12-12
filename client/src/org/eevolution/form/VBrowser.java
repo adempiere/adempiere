@@ -543,9 +543,12 @@ public class VBrowser extends Browser implements IBrowser, ActionListener,
 							MBrowseField bField = browserRows.getBrowserField(col);
 							if (!bField.isReadOnly() || bField.isIdentifier() )
 							{
+								String columnName = bField.getAD_View_Column().getColumnSQL().substring(
+										bField.getAD_View_Column().getColumnSQL().indexOf("AS ") + 3);
+
 								GridField gField = (GridField)detail.getData().getValue(row, col);
 								Object value = gField.getValue();
-								values.put(bField.getAD_View_Column().getColumnName(), value);
+								values.put(columnName, value);
 							}
 						}
 						/*for (Info_Column column : m_generalLayout)
@@ -980,7 +983,6 @@ public class VBrowser extends Browser implements IBrowser, ActionListener,
 	private javax.swing.JToggleButton bZoom;
 	private javax.swing.JPanel buttonSearchPanel;
 	private javax.swing.JScrollPane centerPanel;
-	//private MiniTable detail;
 	private BrowseTable detail;
 	private javax.swing.JPanel footButtonPanel;
 	private javax.swing.JPanel footPanel;
