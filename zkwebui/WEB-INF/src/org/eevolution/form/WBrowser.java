@@ -457,12 +457,9 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 							MBrowseField bField =browserRows.getBrowserField(col);
 							if (!bField.isReadOnly() || bField.isIdentifier() )
 							{
-								String columnName = bField.getAD_View_Column().getColumnSQL().substring(
-										bField.getAD_View_Column().getColumnSQL().indexOf("AS ") + 3);
-
 								GridField gField = (GridField)detail.getData().getValue( row, col );
 								Object value = gField.getValue();
-								values.put(columnName, value);
+								values.put(bField.getAD_View_Column().getColumnName(), value);
 							}
 
 						}
