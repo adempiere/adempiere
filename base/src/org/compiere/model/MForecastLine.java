@@ -90,11 +90,14 @@ public class MForecastLine extends  X_M_ForecastLine
 	{
 		I_PP_Period period = getPP_Period();
 		Timestamp validFrom = period.getStartDate();
-		
-		if (DatePromised.before(period.getStartDate()))
-			return false;
-		if (DatePromised.after(period.getEndDate()))
-			return false;
+
+		if (period != null && period.getPP_Period_ID() > 0) {
+
+			if (DatePromised.before(period.getStartDate()))
+				return false;
+			if (DatePromised.after(period.getEndDate()))
+				return false;
+		}
 		return true;
 	}
 	
