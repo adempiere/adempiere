@@ -191,9 +191,9 @@ public class LiberoValidator implements ModelValidator
 			MPPMRP.M_RequisitionLine(rl);
 		}
 		//
-		else if (po instanceof X_M_Forecast && isChange)
+		else if (po instanceof MForecast && isChange)
 		{
-			X_M_Forecast fl = (X_M_Forecast)po;
+			MForecast fl = (MForecast)po;
 			MPPMRP.M_Forecast(fl);
 		}
 		//

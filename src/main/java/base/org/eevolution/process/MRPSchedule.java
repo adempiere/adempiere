@@ -134,7 +134,9 @@ public class MRPSchedule extends SvrProcess {
 				order.setDateFinishSchedule(mrp.getDateFinishSchedule());
 				order.setDatePromised(mrp.getDatePromised());
 				order.setPlanner_ID(mrp.getPlanner_ID());
-				order.setPriorityRule(mrp.getPriority());
+				if (mrp.getPriority() != null)
+					order.setPriorityRule(mrp.getPriority());
+
 				order.setLine(p_Line);
 				order.saveEx();
 			}
