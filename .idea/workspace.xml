@@ -2,29 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f088a603-86f9-4692-ad7b-06b6ff86e906" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/base/src/org/eevolution/form/CRP.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/base/src/org/eevolution/form/crp/CRPDatasetFactory.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/base/src/org/eevolution/form/CRPDetail.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/base/src/org/eevolution/form/crp/CRPModel.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/base/src/org/eevolution/form/crp/DiagramTreeCellRenderer.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/base/src/org/eevolution/form/MRPDetailed.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/base/src/org/eevolution/form/OrderDistribution.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/base/src/org/eevolution/form/OrderDistributionReceipt.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/base/src/org/eevolution/form/OrderReceiptIssue.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/base/src/org/eevolution/form/TreeBOM.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/artifacts/Webui.xml" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/WEB-INF/web.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/ui/swing/org/eevolution/form/CRP.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/ui/swing/org/eevolution/form/CRPDetail.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/ui/swing/org/eevolution/form/MRPDetailed.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/ui/swing/org/eevolution/form/OrderDistribution.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/ui/swing/org/eevolution/form/OrderDistributionReceipt.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/ui/swing/org/eevolution/form/OrderReceiptIssue.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/ui/swing/org/eevolution/form/TreeBOM.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/ui/swing/org/eevolution/form/crp/CRPDatasetFactory.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/ui/swing/org/eevolution/form/crp/CRPModel.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/ui/swing/org/eevolution/form/crp/DiagramTreeCellRenderer.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/packages/FixedAsset.jar" afterPath="$PROJECT_DIR$/packages/FixedAsset.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/packages/liberoCashflow.jar" afterPath="$PROJECT_DIR$/packages/liberoCashflow.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/packages/liberoHR.jar" afterPath="$PROJECT_DIR$/packages/liberoHR.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/packages/liberoMFG.jar" afterPath="$PROJECT_DIR$/packages/liberoMFG.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/packages/liberoWM.jar" afterPath="$PROJECT_DIR$/packages/liberoWM.jar" />
@@ -32,20 +12,11 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkpackages/liberozkMFG.jar" afterPath="$PROJECT_DIR$/zkpackages/liberozkMFG.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/mysql-connector-java-5.1.13-bin.jar" afterPath="$PROJECT_DIR$/lib/mysql-connector-java-5.1.13-bin.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.classpath" afterPath="$PROJECT_DIR$/.classpath" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/eevolution/model/MPPCostCollector.java" afterPath="$PROJECT_DIR$/base/src/org/eevolution/model/MPPCostCollector.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/eevolution/model/MPPOrder.java" afterPath="$PROJECT_DIR$/base/src/org/eevolution/model/MPPOrder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/eevolution/model/MPPOrderBOMLine.java" afterPath="$PROJECT_DIR$/base/src/org/eevolution/model/MPPOrderBOMLine.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/org/eevolution/form/Browser.java" afterPath="$PROJECT_DIR$/client/src/org/eevolution/form/Browser.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/org/eevolution/form/BrowserRows.java" afterPath="$PROJECT_DIR$/client/src/org/eevolution/form/BrowserRows.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/org/eevolution/form/VBrowser.java" afterPath="$PROJECT_DIR$/client/src/org/eevolution/form/VBrowser.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/adempiereDevelop.eml" afterPath="$PROJECT_DIR$/adempiereDevelop.eml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/adempiereDevelop.iml" afterPath="$PROJECT_DIR$/adempiereDevelop.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/org/compiere/minigrid/IMiniTable.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/minigrid/IMiniTable.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/org/eevolution/form/BrowserCallOutEngine.java" afterPath="$PROJECT_DIR$/base/src/org/eevolution/form/BrowserCallOutEngine.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/org/eevolution/grid/IBrowseTable.java" afterPath="$PROJECT_DIR$/base/src/org/eevolution/grid/IBrowseTable.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/org/eevolution/form/Browser.java" afterPath="$PROJECT_DIR$/base/src/org/eevolution/form/Browser.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/org/compiere/minigrid/IDColumn.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/minigrid/IDColumn.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/org/compiere/minigrid/ColumnInfo.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/minigrid/ColumnInfo.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/org/eevolution/form/BrowserCallOut.java" afterPath="$PROJECT_DIR$/base/src/org/eevolution/form/BrowserCallOut.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/org/eevolution/form/BrowserCallOutExample.java" afterPath="$PROJECT_DIR$/base/src/org/eevolution/form/BrowserCallOutExample.java" />
     </list>
     <ignored path="adempiereDevelop.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -61,6 +32,9 @@
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CompilerWorkspaceConfiguration">
     <option name="COMPILER_PROCESS_HEAP_SIZE" value="1700" />
+  </component>
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/adempiereDevelop$Adempiere.coverage" NAME="Adempiere Coverage Results" MODIFIED="1418366379325" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -105,8 +79,8 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <breakpoint_rules converted="true" />
     <ui_properties converted="true" />
+    <breakpoint_rules converted="true" />
   </component>
   <component name="DiffToolSettings">
     <option name="WHITESPACES" value="true" />
@@ -116,110 +90,7 @@
     <favorites_list name="adempiereDevelop" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="IDColumnRenderer.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/src/org/compiere/minigrid/IDColumnRenderer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1575">
-              <caret line="39" column="13" selection-start-line="39" selection-start-column="13" selection-end-line="39" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ColumnInfo.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/base/src/org/compiere/minigrid/ColumnInfo.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3180">
-              <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BrowserRows.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/src/org/eevolution/form/BrowserRows.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.615385" vertical-offset="3650" max-vertical-offset="5970">
-              <caret line="297" column="22" selection-start-line="297" selection-start-column="11" selection-end-line="297" selection-end-column="22" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CRP.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/base/src/org/eevolution/form/CRP.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="3" max-vertical-offset="6990">
-              <caret line="30" column="41" selection-start-line="30" selection-start-column="41" selection-end-line="30" selection-end-column="41" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CRPDatasetFactory.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/base/src/org/eevolution/form/crp/CRPDatasetFactory.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3510">
-              <caret line="50" column="32" selection-start-line="50" selection-start-column="32" selection-end-line="50" selection-end-column="32" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DiagramTreeCellRenderer.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/base/src/org/eevolution/form/crp/DiagramTreeCellRenderer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1020">
-              <caret line="38" column="13" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="WFPanelManufacturing.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/ui/swing/org/eevolution/form/WFPanelManufacturing.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="525">
-              <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="OrderDistributionReceipt.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/base/src/org/eevolution/form/OrderDistributionReceipt.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3390">
-              <caret line="53" column="49" selection-start-line="53" selection-start-column="49" selection-end-line="53" selection-end-column="49" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GenForm.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/client/src/org/compiere/apps/form/GenForm.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.17396908" vertical-offset="0" max-vertical-offset="1230">
-              <caret line="26" column="22" selection-start-line="26" selection-start-column="22" selection-end-line="26" selection-end-column="22" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BrowseTable.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/src/org/eevolution/grid/BrowseTable.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="11220">
-              <caret line="58" column="24" selection-start-line="58" selection-start-column="13" selection-end-line="58" selection-end-column="24" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -233,7 +104,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/base/src/org/adempiere/engine/AverageInvoiceCostingMethod.java" />
-        <option value="$PROJECT_DIR$/base/src/org/compiere/model/MCostDetail.java" />
         <option value="$PROJECT_DIR$/base/src/org/compiere/model/MProductionLine.java" />
         <option value="$PROJECT_DIR$/base/src/org/compiere/model/MCost.java" />
         <option value="$PROJECT_DIR$/base/src/org/compiere/acct/Doc_Production.java" />
@@ -253,6 +123,25 @@
         <option value="$PROJECT_DIR$/base/src/org/eevolution/model/MPPOrderBOMLine.java" />
         <option value="$PROJECT_DIR$/base/src/org/eevolution/model/MPPOrder.java" />
         <option value="$PROJECT_DIR$/base/src/org/eevolution/model/MPPCostCollector.java" />
+        <option value="$PROJECT_DIR$/base/src/org/eevolution/form/Browser.java" />
+        <option value="$PROJECT_DIR$/base/src/org/eevolution/form/IBrowser.java" />
+        <option value="$PROJECT_DIR$/db/ddlutils/oracle/views/AD_FIELD_VT.sql" />
+        <option value="$PROJECT_DIR$/db/ddlutils/oracle/views/AD_FIELD_V.sql" />
+        <option value="$PROJECT_DIR$/db/ddlutils/postgresql/views/AD_FIELD_V.sql" />
+        <option value="$PROJECT_DIR$/db/ddlutils/postgresql/views/AD_FIELD_VT.sql" />
+        <option value="$PROJECT_DIR$/base/src/org/compiere/model/GridFieldVO.java" />
+        <option value="$PROJECT_DIR$/client/src/org/eevolution/grid/BrowseTable.java" />
+        <option value="$PROJECT_DIR$/base/src/org/compiere/model/MForecastLine.java" />
+        <option value="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/eevolution/model/LiberoValidator.java" />
+        <option value="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/eevolution/model/MPPMRP.java" />
+        <option value="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/eevolution/form/WBrowser.java" />
+        <option value="$PROJECT_DIR$/client/src/org/eevolution/form/VBrowser.java" />
+        <option value="$PROJECT_DIR$/client/src/org/eevolution/form/BrowserRows.java" />
+        <option value="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/eevolution/process/MRPSchedule.java" />
+        <option value="$PROJECT_DIR$/client/src/org/eevolution/form/Browser.java" />
+        <option value="$PROJECT_DIR$/base/src/org/compiere/model/MCostDetail.java" />
+        <option value="$PROJECT_DIR$/base/src/org/compiere/acct/Doc_InOut.java" />
+        <option value="$PROJECT_DIR$/base/src/org/compiere/print/layout/LayoutEngine.java" />
       </list>
     </option>
   </component>
@@ -279,7 +168,19 @@
             <id />
           </State>
           <State>
+            <id>Abstraction issues</id>
+          </State>
+          <State>
             <id>Android Lint</id>
+          </State>
+          <State>
+            <id>CSS</id>
+          </State>
+          <State>
+            <id>Code style issues</id>
+          </State>
+          <State>
+            <id>FreeMarker inspections</id>
           </State>
           <State>
             <id>GSPGrailsGroovy</id>
@@ -294,18 +195,59 @@
             <id>Groovy</id>
           </State>
           <State>
+            <id>Imports</id>
+          </State>
+          <State>
+            <id>Inheritance issues</id>
+          </State>
+          <State>
+            <id>Invalid elementsCSS</id>
+          </State>
+          <State>
             <id>J2ME Plugin</id>
+          </State>
+          <State>
+            <id>JBoss Seam issues</id>
+          </State>
+          <State>
+            <id>JSP Inspections</id>
+          </State>
+          <State>
+            <id>JavaFX</id>
+          </State>
+          <State>
+            <id>LESS</id>
+          </State>
+          <State>
+            <id>Logging issues</id>
           </State>
           <State>
             <id>Maven</id>
           </State>
           <State>
+            <id>OSGi</id>
+          </State>
+          <State>
             <id>Plugin DevKit</id>
+          </State>
+          <State>
+            <id>Potentially confusing code constructsGroovy</id>
+          </State>
+          <State>
+            <id>SASS/SCSS</id>
+          </State>
+          <State>
+            <id>Scala: General</id>
           </State>
           <State>
             <id>XPath</id>
           </State>
         </expanded-state>
+        <selected-state>
+          <State>
+            <id>Abstraction issues</id>
+          </State>
+        </selected-state>
       </profile-state>
     </entry>
   </component>
@@ -325,7 +267,7 @@
     <option name="STATE" value="2" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
+    <navigator currentView="PackagesPane" proportions="" version="1">
       <flattenPackages PackagesPane="false" />
       <showMembers PackagesPane="true" />
       <showModules />
@@ -337,6 +279,20 @@
       <sortByType PackagesPane="true" />
     </navigator>
     <panes>
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="adempiereDevelop">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -353,20 +309,6 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="adempiereDevelop" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scope">
-        <subPane subId="Project Files">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="adempiereDevelop">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -411,7 +353,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="eevolution" />
+              <option name="myItemId" value="compiere" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -429,33 +371,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="eevolution" />
+              <option name="myItemId" value="compiere" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="model" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereDevelop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereDevelop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="eevolution" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="form" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -495,10 +415,11 @@
     <property name="FileHistory.org.zmlx.hg4idea.provider.HgHistoryProvider_treeWidth3" value="711" />
     <property name="FileHistory.org.zmlx.hg4idea.provider.HgHistoryProvider_treeOrder3" value="3" />
     <property name="FullScreen" value="false" />
-    <property name="options.lastSelected" value="configurable.group.appearance" />
+    <property name="options.lastSelected" value="preferences.sourceCode.Groovy" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
-    <property name="last_directory_selection" value="$PROJECT_DIR$/base/src/org/eevolution/form/crp" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/client/src/org/compiere/minigrid" />
+    <property name="LayoutCode.rearrangeEntriesJava" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -508,18 +429,18 @@
       <recent name="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/editor" />
       <recent name="$PROJECT_DIR$/base/src/org/adempiere/engine" />
     </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="org.compiere.minigrid" />
+      <recent name="org.compiere.apps.search" />
+      <recent name="org.eevolution.form" />
+      <recent name="org.eevolution.form.crp" />
+      <recent name="org.eevolution.grid" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/org.adempiere.asset/src" />
     </key>
-    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="org.eevolution.form.crp" />
-      <recent name="org.eevolution.form" />
-      <recent name="org.compiere.minigrid" />
-      <recent name="org.eevolution.grid" />
-      <recent name="org.compiere.model" />
-    </key>
   </component>
-  <component name="RunManager" selected="Tomcat Server.Tomcat">
+  <component name="RunManager" selected="Application.Adempiere">
     <configuration default="false" name="Adempiere" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="org.compiere.Adempiere" />
@@ -533,12 +454,14 @@
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="adempiereDevelop" />
       <envs />
+      <RunnerSettings RunnerId="Cover" />
       <RunnerSettings RunnerId="Debug">
         <option name="DEBUG_PORT" value="" />
         <option name="TRANSPORT" value="0" />
         <option name="LOCAL" value="true" />
       </RunnerSettings>
       <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Cover" />
       <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Run" />
       <method />
@@ -871,6 +794,22 @@
       <envs />
       <method />
     </configuration>
+    <configuration default="true" type="ScalaTestRunConfiguration" factoryName="ScalaTest">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <extension name="scalaCoverage" />
+      <module name="" />
+      <setting name="path" value="" />
+      <setting name="package" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workingDirectory" value="$PROJECT_DIR$" />
+      <setting name="searchForTest" value="Across module dependencies" />
+      <setting name="testName" value="" />
+      <setting name="testKind" value="Class" />
+      <setting name="showProgressMessages" value="true" />
+      <envs />
+      <method />
+    </configuration>
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
       <module name="" />
       <option name="ACTIVITY_CLASS" value="" />
@@ -889,22 +828,6 @@
       <option name="CLEAR_LOGCAT" value="false" />
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
       <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
-      <method />
-    </configuration>
-    <configuration default="true" type="ScalaTestRunConfiguration" factoryName="ScalaTest">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <extension name="scalaCoverage" />
-      <module name="" />
-      <setting name="path" value="" />
-      <setting name="package" value="" />
-      <setting name="vmparams" value="" />
-      <setting name="params" value="" />
-      <setting name="workingDirectory" value="$PROJECT_DIR$" />
-      <setting name="searchForTest" value="Across module dependencies" />
-      <setting name="testName" value="" />
-      <setting name="testKind" value="Class" />
-      <setting name="showProgressMessages" value="true" />
-      <envs />
       <method />
     </configuration>
     <configuration default="false" name="Tomcat" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 7.0.56" ALTERNATIVE_JRE_ENABLED="false" ALTERNATIVE_JRE_PATH="">
@@ -985,11 +908,11 @@
       </method>
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Application.Adempiere" />
-      <item index="1" class="java.lang.String" itemvalue="Application.HashPasswords" />
-      <item index="2" class="java.lang.String" itemvalue="Application.MigrationLoader" />
-      <item index="3" class="java.lang.String" itemvalue="Application.GenerateModel" />
-      <item index="4" class="java.lang.String" itemvalue="Tomcat Server.Tomcat" />
+      <item index="0" class="java.lang.String" itemvalue="Tomcat Server.Tomcat" />
+      <item index="1" class="java.lang.String" itemvalue="Application.Adempiere" />
+      <item index="2" class="java.lang.String" itemvalue="Application.HashPasswords" />
+      <item index="3" class="java.lang.String" itemvalue="Application.MigrationLoader" />
+      <item index="4" class="java.lang.String" itemvalue="Application.GenerateModel" />
     </list>
     <recent_temporary>
       <list size="4">
@@ -1056,15 +979,16 @@
       <workItem from="1417886962243" duration="28000" />
       <workItem from="1417887078162" duration="7650000" />
       <workItem from="1418022017123" duration="2447000" />
-      <workItem from="1418137371408" duration="7641000" />
+      <workItem from="1418137371408" duration="30390000" />
+      <workItem from="1418404901142" duration="10551000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="74638000" />
+    <option name="totallyTimeSpent" value="107938000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1920" height="1173" extended-state="0" />
+    <frame x="0" y="23" width="1920" height="1173" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1080,20 +1004,21 @@
       <window_info id="JSF" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32985783" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2859425" sideWeight="0.5" order="0" side_tool="true" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24147727" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25559106" sideWeight="0.5" order="0" side_tool="true" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2407583" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32986766" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2379147" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.37630332" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32985783" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32985783" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2691943" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.48909953" sideWeight="0.8189563" order="17" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.24973376" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="SBT Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3289225" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="SQL" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
@@ -1284,13 +1209,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/base/src/org/compiere/print/layout/LayoutEngine.java</url>
-          <line>1075</line>
+          <line>1074</line>
           <properties />
           <option name="timeStamp" value="87" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/base/src/org/compiere/print/layout/LayoutEngine.java</url>
-          <line>1244</line>
+          <line>1243</line>
           <properties />
           <option name="timeStamp" value="89" />
         </line-breakpoint>
@@ -1312,10 +1237,126 @@
           <properties />
           <option name="timeStamp" value="101" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/eevolution/process/MRPSchedule.java</url>
+          <line>207</line>
+          <properties />
+          <option name="timeStamp" value="107" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/client/src/org/eevolution/form/Browser.java</url>
+          <line>75</line>
+          <properties />
+          <option name="timeStamp" value="111" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/eevolution/process/MRPSchedule.java</url>
+          <line>85</line>
+          <properties />
+          <option name="timeStamp" value="113" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/client/src/org/eevolution/form/Browser.java</url>
+          <line>480</line>
+          <properties />
+          <option name="timeStamp" value="114" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/client/src/org/eevolution/form/VBrowser.java</url>
+          <line>509</line>
+          <properties />
+          <option name="timeStamp" value="124" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/base/src/org/compiere/model/MForecastLine.java</url>
+          <line>95</line>
+          <properties />
+          <option name="timeStamp" value="125" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/base/src/org/compiere/model/MForecastLine.java</url>
+          <line>91</line>
+          <properties />
+          <option name="timeStamp" value="126" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/eevolution/process/MRPSchedule.java</url>
+          <line>113</line>
+          <properties />
+          <option name="timeStamp" value="129" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/eevolution/model/MPPMRP.java</url>
+          <line>702</line>
+          <properties />
+          <option name="timeStamp" value="130" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/eevolution/form/WBrowser.java</url>
+          <line>459</line>
+          <properties />
+          <option name="timeStamp" value="132" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/eevolution/form/WBrowser.java</url>
+          <line>461</line>
+          <properties />
+          <option name="timeStamp" value="133" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/eevolution/form/WBrowser.java</url>
+          <line>446</line>
+          <properties />
+          <option name="timeStamp" value="134" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/client/src/org/eevolution/form/VBrowser.java</url>
+          <line>531</line>
+          <properties />
+          <option name="timeStamp" value="136" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/client/src/org/eevolution/form/VBrowser.java</url>
+          <line>547</line>
+          <properties />
+          <option name="timeStamp" value="140" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/client/src/org/eevolution/form/VBrowser.java</url>
+          <line>569</line>
+          <properties />
+          <option name="timeStamp" value="141" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/client/src/org/eevolution/grid/BrowseTable.java</url>
+          <line>617</line>
+          <properties />
+          <option name="timeStamp" value="142" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/client/src/org/eevolution/form/VBrowser.java</url>
+          <line>1058</line>
+          <properties />
+          <option name="timeStamp" value="144" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/client/src/org/eevolution/grid/BrowseTable.java</url>
+          <line>650</line>
+          <properties />
+          <option name="timeStamp" value="145" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="102" />
+      <option name="time" value="148" />
     </breakpoint-manager>
-    <watches-manager />
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="bField.getAD_View_Column().getColumnName()" />
+        <watch expression="value" />
+        <watch expression="m_values" />
+        <watch expression="sql" />
+        <watch expression="psel.getC_PaySelection_ID()" />
+      </configuration>
+    </watches-manager>
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
@@ -1347,173 +1388,6 @@
     </buildFile>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/extend/build.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="15" max-vertical-offset="2085">
-          <caret line="31" column="9" selection-start-line="31" selection-start-column="9" selection-end-line="31" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/serverApps/build.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="405" max-vertical-offset="2505">
-          <caret line="34" column="69" selection-start-line="34" selection-start-column="69" selection-end-line="34" selection-end-column="69" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/WRequest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="525" max-vertical-offset="3900">
-          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/install/Adempiere/build.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1778" max-vertical-offset="9285">
-          <caret line="134" column="54" selection-start-line="134" selection-start-column="54" selection-end-line="134" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/org.eevolution.warehouse/build.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1065">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/org.adempiere.asset/build.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="554" max-vertical-offset="1065">
-          <caret line="52" column="32" selection-start-line="52" selection-start-column="32" selection-end-line="52" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/install/build.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.3461537" vertical-offset="2224" max-vertical-offset="4890">
-          <caret line="161" column="59" selection-start-line="161" selection-start-column="59" selection-end-line="161" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/util/TimeUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.7886497" vertical-offset="11279" max-vertical-offset="11790">
-          <caret line="709" column="6" selection-start-line="709" selection-start-column="6" selection-end-line="709" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/org/eevolution/form/VBrowser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="13830" max-vertical-offset="15675">
-          <caret line="1253" column="25" selection-start-line="1233" selection-start-column="24" selection-end-line="1253" selection-end-column="25" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#8470#8471#0" expanded="false" />
-            <element signature="e#8504#8505#0" expanded="false" />
-            <element signature="e#19546#19586#0" expanded="false" />
-            <element signature="e#22866#22867#0" expanded="false" />
-            <element signature="e#22902#22903#0" expanded="false" />
-            <element signature="e#23346#23347#0" expanded="false" />
-            <element signature="e#23384#23385#0" expanded="false" />
-            <element signature="e#23824#23825#0" expanded="false" />
-            <element signature="e#23862#23863#0" expanded="false" />
-            <element signature="e#25010#25011#0" expanded="false" />
-            <element signature="e#25048#25049#0" expanded="false" />
-            <element signature="e#25698#25699#0" expanded="false" />
-            <element signature="e#25736#25737#0" expanded="false" />
-            <element signature="e#25970#25971#0" expanded="false" />
-            <element signature="e#26004#26005#0" expanded="false" />
-            <element signature="e#29667#29668#0" expanded="false" />
-            <element signature="e#29695#29696#0" expanded="false" />
-            <element signature="e#35075#35076#0" expanded="false" />
-            <element signature="e#35096#35097#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/JasperReports/src/org/compiere/report/ReportStarter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33274648" vertical-offset="4731" max-vertical-offset="17820">
-          <caret line="413" column="40" selection-start-line="413" selection-start-column="25" selection-end-line="413" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/print/layout/LayoutEngine.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="24537" max-vertical-offset="27960">
-          <caret line="1764" column="0" selection-start-line="1764" selection-start-column="0" selection-end-line="1764" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/acct/Doc_MatchPO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="55" max-vertical-offset="4695">
-          <caret line="33" column="32" selection-start-line="33" selection-start-column="27" selection-end-line="33" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/acct/Doc_MatchInv.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2367" max-vertical-offset="5745">
-          <caret line="209" column="62" selection-start-line="209" selection-start-column="62" selection-end-line="209" selection-end-column="62" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/adempiere/engine/LastInvoiceCostingMethod.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="1830">
-          <caret line="34" column="43" selection-start-line="34" selection-start-column="43" selection-end-line="34" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/adempiere/engine/AverageInvoiceCostingMethod.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="111.92308" vertical-offset="10995" max-vertical-offset="12180">
-          <caret line="561" column="26" selection-start-line="561" selection-start-column="18" selection-end-line="561" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/acct/Doc_InOut.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="6327" max-vertical-offset="7980">
-          <caret line="467" column="48" selection-start-line="467" selection-start-column="48" selection-end-line="467" selection-end-column="48" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/acct/DocLine.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="15529" max-vertical-offset="16305">
-          <caret line="1182" column="34" selection-start-line="1182" selection-start-column="34" selection-end-line="1182" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MCostDetail.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="5592" max-vertical-offset="24690">
-          <caret line="420" column="36" selection-start-line="420" selection-start-column="36" selection-end-line="420" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/eevolution/model/MPPOrderBOMLine.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="7287" max-vertical-offset="8685">
-          <caret line="551" column="19" selection-start-line="551" selection-start-column="19" selection-end-line="551" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/ui/swing/org/eevolution/form/VOrderReceiptIssue.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-12.115385" vertical-offset="11475" max-vertical-offset="12225">
@@ -1527,7 +1401,7 @@
         <state vertical-scroll-proportion="-7.3076925" vertical-offset="16775" max-vertical-offset="26820">
           <caret line="1202" column="37" selection-start-line="1202" selection-start-column="37" selection-end-line="1202" selection-end-column="37" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <element signature="n#!!doc" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1536,9 +1410,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-3.2692308" vertical-offset="395" max-vertical-offset="4635">
           <caret line="49" column="29" selection-start-line="49" selection-start-column="29" selection-end-line="49" selection-end-column="29" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1550,19 +1421,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/eevolution/form/WBrowser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.269231" vertical-offset="15780" max-vertical-offset="16530">
-          <caret line="1194" column="63" selection-start-line="1194" selection-start-column="63" selection-end-line="1194" selection-end-column="63" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/RolePanel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="5127" max-vertical-offset="6210">
           <caret line="412" column="0" selection-start-line="412" selection-start-column="0" selection-end-line="412" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1574,27 +1436,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/eevolution/form/MRPDetailed.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4260">
-          <caret line="45" column="22" selection-start-line="45" selection-start-column="22" selection-end-line="45" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/eevolution/form/TreeBOM.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="195" max-vertical-offset="825">
-          <caret line="31" column="13" selection-start-line="31" selection-start-column="13" selection-end-line="31" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/ui/swing/org/eevolution/form/CProductBOMTree.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="495">
           <caret line="30" column="43" selection-start-line="30" selection-start-column="43" selection-end-line="30" selection-end-column="43" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1602,7 +1447,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.35714287" vertical-offset="0" max-vertical-offset="630">
           <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1622,43 +1466,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/eevolution/grid/IBrowseTable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="750">
-          <caret line="6" column="27" selection-start-line="6" selection-start-column="27" selection-end-line="6" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/eevolution/form/Browser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="15564" max-vertical-offset="20505">
-          <caret line="1135" column="44" selection-start-line="1135" selection-start-column="40" selection-end-line="1135" selection-end-column="48" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/minigrid/IDColumn.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1035">
-          <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/client/src/org/compiere/minigrid/CheckRenderer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1440">
           <caret line="41" column="19" selection-start-line="41" selection-start-column="19" selection-end-line="41" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/minigrid/IMiniTable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1155">
-          <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1682,7 +1493,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="776">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1690,7 +1500,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1755">
           <caret line="43" column="13" selection-start-line="43" selection-start-column="13" selection-end-line="43" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1698,56 +1507,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1575">
           <caret line="39" column="13" selection-start-line="39" selection-start-column="13" selection-end-line="39" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/minigrid/ColumnInfo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3180">
-          <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/org/eevolution/grid/BrowseTable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="11220">
-          <caret line="58" column="24" selection-start-line="58" selection-start-column="13" selection-end-line="58" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/org/eevolution/form/BrowserRows.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.615385" vertical-offset="3650" max-vertical-offset="5970">
-          <caret line="297" column="22" selection-start-line="297" selection-start-column="11" selection-end-line="297" selection-end-column="22" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/eevolution/form/CRP.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3" max-vertical-offset="6990">
-          <caret line="30" column="41" selection-start-line="30" selection-start-column="41" selection-end-line="30" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/eevolution/form/crp/CRPDatasetFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3510">
-          <caret line="50" column="32" selection-start-line="50" selection-start-column="32" selection-end-line="50" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/eevolution/form/crp/DiagramTreeCellRenderer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1020">
-          <caret line="38" column="13" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
           <folding />
         </state>
       </provider>
@@ -1760,19 +1519,387 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/eevolution/form/OrderDistributionReceipt.java">
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/util/MiniBrowser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3390">
-          <caret line="53" column="49" selection-start-line="53" selection-start-column="49" selection-end-line="53" selection-end-column="49" />
-          <folding />
+        <state vertical-scroll-proportion="0.23195876" vertical-offset="0" max-vertical-offset="1470">
+          <caret line="35" column="13" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="24" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/client/src/org/compiere/apps/form/GenForm.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.17396908" vertical-offset="0" max-vertical-offset="1230">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1230">
           <caret line="26" column="22" selection-start-line="26" selection-start-column="22" selection-end-line="26" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/org/compiere/minigrid/ColumnInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3180">
+          <caret line="24" column="23" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/org/compiere/minigrid/IDColumn.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.730769" vertical-offset="462" max-vertical-offset="1260">
+          <caret line="42" column="10" selection-start-line="42" selection-start-column="8" selection-end-line="42" selection-end-column="10" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/org/compiere/apps/search/Info_Column.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1395">
+          <caret line="28" column="21" selection-start-line="28" selection-start-column="21" selection-end-line="28" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/eevolution/form/IBrowser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1365">
+          <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db/ddlutils/oracle/views/AD_FIELD_V.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="615">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="35" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db/ddlutils/oracle/views/AD_FIELD_VT.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="645">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="37" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db/ddlutils/postgresql/views/AD_FIELD_V.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="615">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="35" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db/ddlutils/postgresql/views/AD_FIELD_VT.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="645">
+          <caret line="0" column="2" selection-start-line="0" selection-start-column="2" selection-end-line="37" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/GridFieldVO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="45" max-vertical-offset="9375">
+          <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/adempiere/model/MBrowseField.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-33.307693" vertical-offset="2404" max-vertical-offset="3405">
+          <caret line="238" column="23" selection-start-line="238" selection-start-column="23" selection-end-line="238" selection-end-column="23" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/adempiere/model/X_AD_View_Column.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2295" max-vertical-offset="3645">
+          <caret line="195" column="20" selection-start-line="195" selection-start-column="20" selection-end-line="195" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/adempiere/model/MView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.615385" vertical-offset="2900" max-vertical-offset="4050">
+          <caret line="242" column="23" selection-start-line="242" selection-start-column="23" selection-end-line="242" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/process/SvrProcess.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1680" max-vertical-offset="7200">
+          <caret line="157" column="0" selection-start-line="157" selection-start-column="0" selection-end-line="157" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/X_M_ForecastLine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4530">
+          <caret line="122" column="16" selection-start-line="122" selection-start-column="16" selection-end-line="122" selection-end-column="16" />
+          <folding>
+            <element signature="e#3986#3987#0" expanded="false" />
+            <element signature="e#4042#4043#0" expanded="false" />
+            <element signature="e#4148#4149#0" expanded="false" />
+            <element signature="e#4207#4208#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/eevolution/model/MPPMRP.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="9600" max-vertical-offset="17655">
+          <caret line="703" column="0" selection-start-line="703" selection-start-column="0" selection-end-line="703" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/eevolution/model/LiberoValidator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2730" max-vertical-offset="5640">
+          <caret line="230" column="0" selection-start-line="230" selection-start-column="0" selection-end-line="230" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/ModelValidationEngine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="5100" max-vertical-offset="12450">
+          <caret line="376" column="0" selection-start-line="376" selection-start-column="0" selection-end-line="376" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/PO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="31995" max-vertical-offset="58485">
+          <caret line="2272" column="0" selection-start-line="2272" selection-start-column="0" selection-end-line="2272" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MForecastLine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="794" max-vertical-offset="1470">
+          <caret line="85" column="0" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/org/eevolution/form/VBrowserSearch.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3375" max-vertical-offset="5415">
+          <caret line="293" column="0" selection-start-line="293" selection-start-column="0" selection-end-line="293" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#3088#3089#0" expanded="false" />
+            <element signature="e#3126#3127#0" expanded="false" />
+            <element signature="e#3202#3203#0" expanded="false" />
+            <element signature="e#3222#3223#0" expanded="false" />
+            <element signature="e#3312#3313#0" expanded="false" />
+            <element signature="e#3342#3343#0" expanded="false" />
+            <element signature="e#3397#3398#0" expanded="false" />
+            <element signature="e#3425#3426#0" expanded="false" />
+            <element signature="e#3539#3540#0" expanded="false" />
+            <element signature="e#3555#3556#0" expanded="false" />
+            <element signature="e#7588#7589#0" expanded="false" />
+            <element signature="e#7610#7611#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/eevolution/grid/WBrowseListbox.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="17325" max-vertical-offset="19815">
+          <caret line="1261" column="23" selection-start-line="1261" selection-start-column="23" selection-end-line="1261" selection-end-column="23" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#4570#4571#0" expanded="false" />
+            <element signature="e#4594#4595#0" expanded="false" />
+            <element signature="e#4644#4645#0" expanded="false" />
+            <element signature="e#4679#4680#0" expanded="false" />
+            <element signature="e#11025#11026#0" expanded="false" />
+            <element signature="e#11060#11061#0" expanded="false" />
+            <element signature="e#16576#16577#0" expanded="false" />
+            <element signature="e#16614#16615#0" expanded="false" />
+            <element signature="e#18740#18741#0" expanded="false" />
+            <element signature="e#18773#18774#0" expanded="false" />
+            <element signature="e#19796#19797#0" expanded="false" />
+            <element signature="e#19839#19840#0" expanded="false" />
+            <element signature="e#20718#20719#0" expanded="false" />
+            <element signature="e#20761#20762#0" expanded="false" />
+            <element signature="e#21191#21192#0" expanded="false" />
+            <element signature="e#21222#21223#0" expanded="false" />
+            <element signature="e#21378#21379#0" expanded="false" />
+            <element signature="e#21411#21412#0" expanded="false" />
+            <element signature="e#23268#23269#0" expanded="false" />
+            <element signature="e#23292#23293#0" expanded="false" />
+            <element signature="e#23364#23365#0" expanded="false" />
+            <element signature="e#23388#23389#0" expanded="false" />
+            <element signature="e#26734#26735#0" expanded="false" />
+            <element signature="e#26756#26757#0" expanded="false" />
+            <element signature="e#28715#28716#0" expanded="false" />
+            <element signature="e#28779#28780#0" expanded="false" />
+            <element signature="e#28815#28816#0" expanded="false" />
+            <element signature="e#28845#28846#0" expanded="false" />
+            <element signature="e#32787#32788#0" expanded="false" />
+            <element signature="e#32817#32818#0" expanded="false" />
+            <element signature="e#32865#32866#0" expanded="false" />
+            <element signature="e#32882#32883#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/eevolution/form/WBrowser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="5511" max-vertical-offset="16770">
+          <caret line="468" column="73" selection-start-line="468" selection-start-column="73" selection-end-line="468" selection-end-column="73" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/org/eevolution/form/BrowserRows.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1979" max-vertical-offset="5925">
+          <caret line="169" column="21" selection-start-line="169" selection-start-column="21" selection-end-line="169" selection-end-column="21" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2529#2530#0" expanded="true" />
+            <element signature="e#2552#2553#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/org/eevolution/grid/BrowseTable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="8384" max-vertical-offset="11220">
+          <caret line="652" column="20" selection-start-line="652" selection-start-column="20" selection-end-line="652" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/org/eevolution/form/VBrowser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="172.6923" vertical-offset="15230" max-vertical-offset="15900">
+          <caret line="990" column="17" selection-start-line="990" selection-start-column="15" selection-end-line="990" selection-end-column="17" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/eevolution/form/WBrowserRows.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5700">
+          <caret line="30" column="13" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/eevolution/process/MRPSchedule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="735" max-vertical-offset="2985">
+          <caret line="97" column="9" selection-start-line="83" selection-start-column="8" selection-end-line="97" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/org/eevolution/form/Browser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="315" max-vertical-offset="20730">
+          <caret line="67" column="13" selection-start-line="67" selection-start-column="13" selection-end-line="67" selection-end-column="13" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#2889#2905#0" expanded="true" />
+            <element signature="e#3007#3015#0" expanded="true" />
+            <element signature="e#4679#4687#0" expanded="true" />
+            <element signature="e#5641#5679#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/process/PaySelectionCreateFrom.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2318" max-vertical-offset="3750">
+          <caret line="211" column="14" selection-start-line="211" selection-start-column="14" selection-end-line="211" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MCostDetail.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="21907" max-vertical-offset="24060">
+          <caret line="51" column="13" selection-start-line="51" selection-start-column="13" selection-end-line="51" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/acct/Doc_InOut.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.35666218" vertical-offset="6350" max-vertical-offset="7980">
+          <caret line="469" column="79" selection-start-line="469" selection-start-column="79" selection-end-line="469" selection-end-column="79" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/print/layout/LayoutEngine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.41841003" vertical-offset="825" max-vertical-offset="29355">
+          <caret line="50" column="36" selection-start-line="50" selection-start-column="36" selection-end-line="50" selection-end-column="36" />
+          <folding>
+            <element signature="e#10589#10590#0" expanded="true" />
+            <element signature="e#10643#10644#0" expanded="true" />
+            <element signature="e#12021#12022#0" expanded="true" />
+            <element signature="e#12058#12059#0" expanded="true" />
+            <element signature="e#13602#13603#0" expanded="true" />
+            <element signature="e#13623#13624#0" expanded="true" />
+            <element signature="e#16499#16500#0" expanded="true" />
+            <element signature="e#16523#16524#0" expanded="true" />
+            <element signature="e#16650#16651#0" expanded="true" />
+            <element signature="e#16677#16678#0" expanded="true" />
+            <element signature="e#17070#17071#0" expanded="true" />
+            <element signature="e#17090#17091#0" expanded="true" />
+            <element signature="e#19719#19720#0" expanded="true" />
+            <element signature="e#19741#19742#0" expanded="true" />
+            <element signature="e#20173#20174#0" expanded="true" />
+            <element signature="e#20194#20195#0" expanded="true" />
+            <element signature="e#20316#20317#0" expanded="true" />
+            <element signature="e#20344#20345#0" expanded="true" />
+            <element signature="e#21654#21655#0" expanded="true" />
+            <element signature="e#21676#21677#0" expanded="true" />
+            <element signature="e#22854#22855#0" expanded="true" />
+            <element signature="e#22905#22906#0" expanded="true" />
+            <element signature="e#23041#23042#0" expanded="true" />
+            <element signature="e#23073#23074#0" expanded="true" />
+            <element signature="e#23799#23800#0" expanded="true" />
+            <element signature="e#23840#23841#0" expanded="true" />
+            <element signature="e#25005#25006#0" expanded="true" />
+            <element signature="e#25046#25047#0" expanded="true" />
+            <element signature="e#25665#25666#0" expanded="true" />
+            <element signature="e#25704#25705#0" expanded="true" />
+            <element signature="e#26262#26263#0" expanded="true" />
+            <element signature="e#26302#26303#0" expanded="true" />
+            <element signature="e#56277#56278#0" expanded="true" />
+            <element signature="e#56305#56306#0" expanded="true" />
+            <element signature="e#58182#58183#0" expanded="true" />
+            <element signature="e#58204#58205#0" expanded="true" />
+            <element signature="e#58325#58326#0" expanded="true" />
+            <element signature="e#58349#58350#0" expanded="true" />
+            <element signature="e#58560#58561#0" expanded="true" />
+            <element signature="e#58610#58611#0" expanded="true" />
+            <element signature="e#58984#58985#0" expanded="true" />
+            <element signature="e#59002#59003#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
