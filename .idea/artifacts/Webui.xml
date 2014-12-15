@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="Webui">
+  <artifact type="exploded-war" build-on-make="true" name="Webui">
     <output-path>$PROJECT_DIR$/out/artifacts/Webui</output-path>
     <root id="root">
       <element id="javaee-facet-resources" facet="adempiereDevelop/web/Web" />

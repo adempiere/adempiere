@@ -1133,7 +1133,7 @@
     <orderEntry type="module-library">
       <library name="liberoCashflow.jar">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/packages/liberoCashflow.jar!/" />
+          <root url="file:///adempiereDevelop/packages/liberoCashflow.jar" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
