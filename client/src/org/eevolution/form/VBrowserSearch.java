@@ -231,7 +231,7 @@ public class VBrowserSearch extends CPanel implements
 		}
 	}
 
-	public LinkedHashMap<Object, Object> getParamenters() {
+	public LinkedHashMap<Object, Object> getParameters() {
 		return m_search;
 	}
 	

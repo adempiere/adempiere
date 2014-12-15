@@ -212,7 +212,7 @@ public class WBrowserSearch extends  Grid implements ValueChangeListener {
 		}
 	}
 
-	public LinkedHashMap<Object, Object> getParamenters() {
+	public LinkedHashMap<Object, Object> getParameters() {
 		return m_search;
 	}
 

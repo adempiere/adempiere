@@ -10,7 +10,6 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * Copyright (C) 2003-2014 e-Evolution,SC. All Rights Reserved.               *
  * Contributor(s): carlosaparada@gmail.com 							  		  *
  *****************************************************************************/
 
@@ -18,22 +17,20 @@ package org.eevolution.form;
 
 import org.adempiere.model.MBrowseField;
 import org.compiere.model.GridField;
-import org.compiere.model.GridFieldVO;
 import org.eevolution.grid.BrowseTable;
-
-import java.util.ArrayList;
+import org.eevolution.grid.IBrowserRows;
 import java.util.LinkedHashMap;
 
 /**
- *   @author victor.perez@www.e-evolution.com, e-Evolution
  *   @author carlosaparada@gmail.com Carlos Parada, ERP Consultores y asociados
+ *   @author victor.perez@www.e-evolution.com, e-Evolution
  */
-public class BrowserRows {
+public class BrowserRows implements IBrowserRows {
 
 	private Integer column = null;
 	private Integer row = null;
-	private Integer viewColumns=0;
-	private LinkedHashMap<Integer, LinkedHashMap<Integer, Object>> rows = new LinkedHashMap<Integer, LinkedHashMap<Integer, Object>>();
+	private Integer noViewColumns = 0;
+	private LinkedHashMap<Integer, LinkedHashMap<Integer, GridField>> rows = new LinkedHashMap<Integer, LinkedHashMap<Integer, GridField>>();
 	private LinkedHashMap<Integer, MBrowseField> browserFields = new LinkedHashMap<Integer, MBrowseField>();
 	private LinkedHashMap<Integer, Integer> displayIndexes =new LinkedHashMap<Integer, Integer>();
 	private LinkedHashMap<Integer, Integer> indexesDisplay =new LinkedHashMap<Integer, Integer>();
@@ -50,7 +47,6 @@ public class BrowserRows {
 	/**
 	 * Build With table
 	 * *** Build Of Class ***
-	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 21/10/2013, 16:05:28
 	 * @param table
 	 */
 	public BrowserRows(BrowseTable table)
@@ -59,82 +55,19 @@ public class BrowserRows {
 	}
 
 	/**
-	 * Get GridFieldVO From Column
-	 * @param windowNo
-	 * @param title
-	 * @param col
-	 * @return
-	 * @return GridFieldVO
-	 */
-	public GridFieldVO getGridFieldVO(int windowNo,String title,int col)
-	{
-		MBrowseField field  = getBrowserField(col);
-		GridFieldVO voBase = GridFieldVO.createStdField(field.getCtx(),
-				windowNo, 0, 0, 0, false, false, false);
-
-		String uniqueName =  field.getAD_View_Column().getColumnSQL();
-		voBase.isProcess = true;
-		voBase.IsDisplayed = field.isDisplayed();
-		voBase.IsReadOnly = field.isReadOnly();
-		voBase.IsUpdateable = true;
-		voBase.WindowNo = windowNo;
-		voBase.AD_Column_ID = field.getAD_View_Column().getAD_Column_ID();
-		voBase.AD_Table_ID = field.getAD_View_Column().getAD_Column()
-				.getAD_Table_ID();
-		voBase.ColumnName = field.getAD_View_Column().getAD_Column()
-				.getColumnName();
-		voBase.displayType = field.getAD_Reference_ID();
-		voBase.AD_Reference_Value_ID = field.getAD_Reference_Value_ID();
-		voBase.IsMandatory = field.isMandatory();
-		voBase.IsAlwaysUpdateable = false;
-		voBase.IsKey = field.isKey();
-		voBase.DefaultValue = field.getDefaultValue();
-		voBase.DefaultValue2 = field.getDefaultValue2();
-		voBase.InfoFactoryClass = field.getInfoFactoryClass();
-		voBase.FieldLength = field.getFieldLength();
-		voBase.ReadOnlyLogic = field.getReadOnlyLogic();
-		voBase.DisplayLogic =  field.getDisplayLogic();
-		voBase.VFormat = field.getVFormat();
-		voBase.ValueMin = field.getValueMin();
-		voBase.ValueMax = field.getValueMax();
-		voBase.ValidationCode = field.getAD_Val_Rule().getCode();
-		voBase.isRange = field.isRange();
-		voBase.Description = field.getDescription();
-		voBase.Help = uniqueName;
-		voBase.Header = title;
-		voBase.Callout = field.getCallout();
-		voBase.initFinish();
-
-		GridField gField = new GridField(GridFieldVO.createParameter(voBase));
-		//  Set Default
-		Object defaultObject = gField.getDefault();
-		gField.setValue (defaultObject, true);
-		gField.lookupLoadComplete();
-		return voBase;
-	}
-
-	/**
 	 * Add Column
-	 * @param col
 	 * @param field
 	 * @return void
 	 */
-	public void addBrowserField(int col, MBrowseField field)
+	public void addBrowserField(MBrowseField field, int column)
 	{
-		/**
-		 * Carlos Parada Add Indexes to LinkedHasMap
-		 */
 		if (field.isDisplayed()){
-			indexesDisplay.put(col, viewColumns);
-			displayIndexes.put(viewColumns, col);
-			viewColumns++;
+			indexesDisplay.put(column, noViewColumns);
+			displayIndexes.put(noViewColumns, column);
+			noViewColumns++;
 		}
-		columnNamesIndex.put(field.getAD_View_Column().getAD_Column().getColumnName(), col);
-		/**
-		 * End Carlos Parada
-		 */
-
-		browserFields.put(col, field);
+		columnNamesIndex.put(field.getAD_View_Column().getAD_Column().getColumnName(), column);
+		browserFields.put(column, field);
 	}
 
 	/**
@@ -154,50 +87,49 @@ public class BrowserRows {
 	 * @param row
 	 * @return void
 	 */
-	public void setRow (int id  , ArrayList<Object> row)
+	/*public void setRow (int id  , ArrayList<Object> row)
 	{
-		LinkedHashMap<Integer, Object> values = rows.get(id);
+		LinkedHashMap<Integer, GridField> values = rows.get(id);
 		if (values == null)
-			values = new LinkedHashMap<Integer, Object>();
+			values = new LinkedHashMap<Integer, GridField>();
 
 		for (Object o : row)
 			values.put(id, o);
 
 		rows.put(id, values);
-	}
+	}*/
 
 	/**
 	 * Set Value to Browse Rows
 	 * @param row
 	 * @param col
-	 * @param value
 	 * @return void
 	 */
-	public void setValue(int row , int col, Object value)
+	public void setValue(int row , int col, GridField gridField)
 	{
 		this.column = col;
 		this.row = row;
 
-		LinkedHashMap<Integer, Object> values = rows.get(row);
+		LinkedHashMap<Integer, GridField> values = rows.get(row);
 		if (values == null)
-			values = new LinkedHashMap<Integer, Object>();
+			values = new LinkedHashMap<Integer, GridField>();
 
-		values.put(col , value);
+		values.put(col , gridField);
 		rows.put(row , values);
 	}
 
 	/**
 	 * Get Value From BrowseRows
-	 * @param id
+	 * @param row
 	 * @param col
 	 * @return
 	 * @return Object
 	 */
-	public Object getValue(int id , int col)
+	public GridField getValue(int row , int col)
 	{
-		if (rows.size() > id)
+		if (rows.size() > row)
 		{
-			LinkedHashMap<Integer, Object> values = rows.get(id);
+			LinkedHashMap<Integer, GridField> values = rows.get(row);
 			return values.get(col);
 		}
 		return null;
@@ -205,7 +137,6 @@ public class BrowserRows {
 
 	/**
 	 * Heads
-	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 02/09/2013, 07:02:36
 	 * @return
 	 * @return LinkedHashMap<Integer,MBrowseField>
 	 */
@@ -215,17 +146,15 @@ public class BrowserRows {
 
 	/**
 	 * Rows
-	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 02/09/2013, 07:02:18
 	 * @return
 	 * @return LinkedHashMap<Integer,LinkedHashMap<Integer,Object>>
 	 */
-	public LinkedHashMap<Integer, LinkedHashMap<Integer, Object>> getRows() {
+	public LinkedHashMap<Integer, LinkedHashMap<Integer, GridField>> getRows() {
 		return rows;
 	}
 
 	/**
 	 * Qty Rows
-	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 02/09/2013, 07:02:22
 	 * @return
 	 * @return int
 	 */
@@ -236,7 +165,6 @@ public class BrowserRows {
 
 	/**
 	 * Clear Rows
-	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 02/09/2013, 07:02:27
 	 * @return void
 	 */
 	public void clear()
@@ -246,7 +174,6 @@ public class BrowserRows {
 
 	/**
 	 * Get Number of Columns
-	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 15/10/2013, 09:44:11
 	 * @return
 	 * @return int
 	 */
@@ -258,17 +185,15 @@ public class BrowserRows {
 
 	/**
 	 * Returns Qty Columns Displayed
-	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 15/10/2013, 11:09:56
 	 * @return
 	 * @return Integer
 	 */
-	public Integer getViewColumns() {
-		return viewColumns;
+	public Integer getNoViewColumns() {
+		return noViewColumns;
 	}
 
 	/**
 	 * get Column Index From Table
-	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 21/10/2013, 16:07:43
 	 * @param index
 	 * @return
 	 * @return int
@@ -280,7 +205,6 @@ public class BrowserRows {
 
 	/**
 	 * Get Column Index From Browse Fields
-	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 21/10/2013, 11:53:52
 	 * @param display
 	 * @return
 	 * @return int
@@ -291,7 +215,6 @@ public class BrowserRows {
 
 	/**
 	 * get Table
-	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 21/10/2013, 16:12:57
 	 * @return
 	 * @return BrowseTable
 	 */
@@ -301,7 +224,6 @@ public class BrowserRows {
 
 	/**
 	 * set Table
-	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 21/10/2013, 16:06:07
 	 * @param table
 	 * @return void
 	 */
@@ -311,7 +233,6 @@ public class BrowserRows {
 
 	/**
 	 * Get Selected Row
-	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 21/10/2013, 16:13:11
 	 * @return
 	 * @return int
 	 */
@@ -325,7 +246,6 @@ public class BrowserRows {
 
 	/**
 	 * Get Selected Row
-	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 21/10/2013, 16:13:11
 	 * @return
 	 * @return int
 	 */
@@ -339,7 +259,6 @@ public class BrowserRows {
 
 	/**
 	 * Get Value of Selected Cell
-	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 21/10/2013, 16:17:26
 	 * @return
 	 * @return Object
 	 */
@@ -352,18 +271,16 @@ public class BrowserRows {
 	}
 
 	/**
-	 * Set Value on Selected Cell
-	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 21/10/2013, 16:18:14
-	 * @param Value
-	 * @return void
+	 *
+	 * @param gridField
 	 */
-	public void setValueOfSelectedCell(Object Value)
+	public void setValueOfSelectedCell(GridField gridField)
 	{
 
-		if (table!=null){
-			GridField gField=(GridField) getValue(getSelectedRow(), getTableIndex(getSelectedColumn()));
-			if (gField!=null){
-				table.setValueAt(gField, Value, getSelectedRow(), getSelectedColumn());
+		if (table != null){
+			//GridField gridField = getValue(getSelectedRow(), getTableIndex(getSelectedColumn()));
+			if (gridField != null){
+				table.setValueAt(getSelectedRow(), getSelectedColumn(), gridField);
 			}
 		}
 	}
@@ -371,7 +288,6 @@ public class BrowserRows {
 
 	/**
 	 * Get Object GridField from Column Index
-	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> Oct 22, 2013, 2:49:42 PM
 	 * @param col
 	 * @return
 	 * @return Object
@@ -385,19 +301,18 @@ public class BrowserRows {
 	}
 
 	/**
-	 * Set Value of Column From ColumnName
-	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> Oct 22, 2013, 2:53:50 PM
+	 *
+	 * @param row
 	 * @param ColumnName
-	 * @param Value
-	 * @return void
+	 * @param gridField
 	 */
-	public void setValueOfColumn(String ColumnName, Object Value, int row)
+	public void setValueOfColumn(int row, String ColumnName, GridField gridField)
 	{
-		if (table!=null){
-			if (columnNamesIndex.get(ColumnName)!=null){
-				GridField gField=(GridField) getValue(row, columnNamesIndex.get(ColumnName));
-				if (gField!=null){
-					table.setValueAt(gField, Value, row, getDisplayIndex(columnNamesIndex.get(ColumnName)));
+		if (table != null){
+			if (columnNamesIndex.get(ColumnName) != null) {
+				//GridField gridField = getValue(row, columnNamesIndex.get(ColumnName));
+				if (gridField != null){
+					table.setValueAt(row, getDisplayIndex(columnNamesIndex.get(ColumnName)), gridField);
 				}
 			}
 
@@ -405,18 +320,17 @@ public class BrowserRows {
 	}
 
 	/**
-	 * Get Object GridField from ColumnName
-	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> Oct 22, 2013, 2:48:21 PM
+	 *
+	 * @param row
 	 * @param ColumnName
 	 * @return
-	 * @return Object
 	 */
-	public Object getValueOfColumn(String ColumnName, int row)
+	public Object getValueOfColumn(int row, String ColumnName)
 	{
 		int index;
-		if(table!=null){
-			index =(columnNamesIndex.get(ColumnName)==null?-1: columnNamesIndex.get(ColumnName));
-			if (index>=0)
+		if(table != null){
+			index = (columnNamesIndex.get(ColumnName) == null ? -1: columnNamesIndex.get(ColumnName));
+			if (index >= 0)
 				return getValue(row, index);
 		}
 		return null;
@@ -424,9 +338,8 @@ public class BrowserRows {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		StringBuffer result = new StringBuffer();
-		for (int i=0;i<rows.size();i++)
+		for (int i=0; i < rows.size() ; i++)
 			result.append(rows.get(i) + "\n");
 		return result.toString();
 	}

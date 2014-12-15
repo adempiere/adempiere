@@ -31,11 +31,24 @@ import java.util.Set;
 
 import org.adempiere.model.MBrowseField;
 import org.adempiere.webui.apps.AEnv;
-import org.adempiere.webui.component.*;
+import org.adempiere.webui.component.Button;
+import org.adempiere.webui.component.Checkbox;
+import org.adempiere.webui.component.Combobox;
+import org.adempiere.webui.component.Datebox;
+import org.adempiere.webui.component.ListCell;
+import org.adempiere.webui.component.ListHead;
+import org.adempiere.webui.component.ListHeader;
+import org.adempiere.webui.component.ListItem;
+import org.adempiere.webui.component.NumberBox;
+import org.adempiere.webui.component.Textbox;
+import org.adempiere.webui.component.WTableColumn;
+import org.adempiere.webui.component.ZkCssHelper;
 import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WebEditorFactory;
 import org.adempiere.webui.event.TableValueChangeEvent;
 import org.adempiere.webui.event.TableValueChangeListener;
+import org.adempiere.webui.event.ValueChangeEvent;
+import org.adempiere.webui.event.ValueChangeListener;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.GridField;
 import org.compiere.util.DisplayType;
@@ -63,7 +76,7 @@ import org.zkoss.zul.ListitemRendererExt;
  * @author Andrew Kimball
  *
  */
-public class WBrowseListItemRenderer implements ListitemRenderer, EventListener, ListitemRendererExt
+public class WBrowseListItemRenderer implements ListitemRenderer, EventListener, ListitemRendererExt , ValueChangeListener
 {
 	/** Array of listeners for changes in the table components. */
 	protected ArrayList<TableValueChangeListener> m_listeners =
@@ -80,7 +93,7 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
 
 	private EventListener cellListener;
 
-	private WBrowseListbox wbListBox;
+	private WBrowseListbox table;
 
 	private Object[] currentValues;
 
@@ -108,21 +121,21 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
 	 * Default constructor.
 	 *
 	 */
-	public WBrowseListItemRenderer(WBrowseListbox p_wbListBox)
+	public WBrowseListItemRenderer(WBrowseListbox table)
 	{
 		super();
-		wbListBox = p_wbListBox;
+		this.table = table;
 	}
 
 	/**
-	 * Constructor specifying the column headers.
 	 *
-	 * @param columnNames	vector of column titles.
+	 * @param columnNames
+	 * @param table
 	 */
-	public WBrowseListItemRenderer(List< ? extends String> columnNames,WBrowseListbox p_wbListBox)
+	public WBrowseListItemRenderer(List< ? extends String> columnNames,WBrowseListbox table)
 	{
 		super();
-		wbListBox = p_wbListBox;
+		table = table;
 		WTableColumn tableColumn;
 
 		for (String columnName : columnNames)
@@ -291,7 +304,7 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
 			cellListener = new CellListener();
 		}
 
-		for (Object field : (List<?>)data)
+		for (Object field : (List<?>) data )
 		{
 			listcell = getCellComponent(table, field, rowIndex, colIndex);
 			listcell.setParent(item);
@@ -319,18 +332,17 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
 		if (browseField == null)
 			return listcell;
 
-		GridField gridField  = browseField.getGridField();
-		boolean isCellEditable = gridField.isReadOnly() == false; //table != null ? table.isCellEditable(rowIndex, columnIndex) : false;
+		GridField gridField  = table.browserRows.getValue(rowIndex,columnIndex);
 		boolean isColumnVisible = Boolean.TRUE;
 
 		if ( !m_tableColumns.isEmpty() )
 			isColumnVisible = isColumnVisible(getColumn(columnIndex));
 
         // are assigned to Table Columns
-		if (field != null && isColumnVisible && gridField != null)
+		if (isColumnVisible && gridField != null)
 		{
-
-			if ( DisplayType.YesNo == gridField.getDisplayType())
+			boolean isCellEditable = !gridField.isReadOnly();
+			if ( DisplayType.YesNo == browseField.getAD_Reference_ID())
 			{
 				listcell.setValue(Boolean.valueOf(field.toString()));
 
@@ -352,14 +364,14 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
 				listcell.appendChild(checkbox);
 				ZkCssHelper.appendStyle(listcell, "text-align:center");
 			}
-			else if ((DisplayType.isNumeric(gridField.getDisplayType())) && !gridField.isKey())
+			else if ((DisplayType.isNumeric(browseField.getAD_Reference_ID())) && !browseField.isKey())
 			{
 				DecimalFormat format = field instanceof BigDecimal
 					? DisplayType.getNumberFormat(DisplayType.Amount, AEnv.getLanguage(Env.getCtx()))
 				    : DisplayType.getNumberFormat(DisplayType.Integer, AEnv.getLanguage(Env.getCtx()));
 
 				// set cell value to allow sorting
-				listcell.setValue((field==null ?"0" :field.toString()));
+				listcell.setValue((field == null ? "0" : field.toString()));
 
 				if (isCellEditable)
 				{
@@ -378,28 +390,27 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
 					ZkCssHelper.appendStyle(listcell, "text-align:right");
 				}
 			}
-			else if (DisplayType.Date == gridField.getDisplayType()
-			|| 		 DisplayType.DateTime == gridField.getDisplayType())
+			else if (DisplayType.Date == browseField.getAD_Reference_ID()
+			|| 		 DisplayType.DateTime == browseField.getAD_Reference_ID())
 			{
+				if (field != null) {
 
-				SimpleDateFormat dateFormat = DisplayType.getDateFormat(gridField.getDisplayType() ,  AEnv.getLanguage(Env.getCtx()));
-				listcell.setValue(dateFormat.format((Timestamp)field)); //listcell.setValue(dateFormat.format(field));
-				if (isCellEditable)
-				{
-					Datebox datebox = new Datebox();
-					datebox.setFormat(dateFormat.toPattern());
-					datebox.setValue(((Timestamp)field)); //datebox.setValue((Date) field);
-					datebox.addEventListener(Events.ON_CHANGE, this);
-					listcell.appendChild(datebox);
-				}
-				else
-				{
-					listcell.setLabel(dateFormat.format((Timestamp) field)); //listcell.setLabel(dateFormat.format(field));
+					SimpleDateFormat dateFormat = DisplayType.getDateFormat(browseField.getAD_Reference_ID(), AEnv.getLanguage(Env.getCtx()));
+					listcell.setValue(dateFormat.format((Timestamp) field)); //listcell.setValue(dateFormat.format(field));
+					if (isCellEditable) {
+						Datebox datebox = new Datebox();
+						datebox.setFormat(dateFormat.toPattern());
+						datebox.setValue(((Timestamp) field)); //datebox.setValue((Date) field);
+						datebox.addEventListener(Events.ON_CHANGE, this);
+						listcell.appendChild(datebox);
+					} else {
+						listcell.setLabel(dateFormat.format((Timestamp) field)); //listcell.setLabel(dateFormat.format(field));
+					}
 				}
 			}
-			else if (DisplayType.String == gridField.getDisplayType())
+			else if (DisplayType.String == browseField.getAD_Reference_ID())
 			{
-				listcell.setValue((field==null ?"" :field.toString()));
+				listcell.setValue((field == null ? "" : field.toString()));
 				if (isCellEditable)
 				{
 					Textbox textbox = new Textbox();
@@ -408,9 +419,8 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
 					listcell.appendChild(textbox);
 				}
 				else
-				{
 					listcell.setLabel((field == null ? "" : field.toString()));
-				}
+
 			}
             else if (field instanceof org.adempiere.webui.component.Combobox)
             {
@@ -450,7 +460,7 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
                 }
             }
 			// if ID column make it invisible
-			else if (gridField.isKey() && field instanceof IDColumn)
+			else if (field instanceof IDColumn && browseField.isKey())
 			{
 				IDColumn id = (IDColumn) field;
 				if (id != null && id.getRecord_ID() != null)
@@ -463,13 +473,16 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
 					}
 				}
 			}
-			else if (gridField.isLookup() || DisplayType.ID == gridField.getDisplayType())
+			else if (DisplayType.isLookup(browseField.getAD_Reference_ID()) || DisplayType.ID == browseField.getAD_Reference_ID())
 			{
 				if (isCellEditable)
 				{
-					WEditor editor = WebEditorFactory.getEditor(gridField, false);
-					editor.setValue(field);
-					editor.getComponent().addEventListener(Events.ON_CHANGE, this);
+					WEditor editor = WebEditorFactory.getEditor(gridField, true);
+					editor.addValueChangeListener(this);
+					editor.dynamicDisplay();
+					editor.setReadWrite(true);
+					editor.fillHorizontal();
+					gridField.addPropertyChangeListener(editor);
 					listcell.appendChild(editor.getComponent());
 				}
 				else
@@ -490,7 +503,7 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
 			}
 			else
 			{
-				listcell.setLabel((field==null ? null : field.toString()));
+				listcell.setLabel((field == null ? null : field.toString()));
 				listcell.setValue((field == null ? null : field.toString()));
 			}
 		}
@@ -735,7 +748,6 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
 	 *
 	 * @param head	The ListHead component to render.
 	 * @see #addColumn(String)
-	 * @see #WListItemRenderer(List)
 	 */
 	public void renderListHead(ListHead head)
 	{
@@ -1066,6 +1078,28 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
         	hiddenColumns.add(column);
 		}
 	}
+
+	/**
+	 *	Editor Listener
+	 *	@param evt Event
+	 */
+	public void valueChange(ValueChangeEvent evt) {
+		if (evt.getSource() instanceof WEditor) {
+			GridField changedField = ((WEditor) evt.getSource()).getGridField();
+			if (changedField != null) {
+				//processDependencies(changedField);
+				// future processCallout (changedField);
+			}
+		}
+		String columnName = "";
+		if(evt.getSource() instanceof WEditor)
+		{
+			WEditor wEditor = (WEditor)evt.getSource();
+			columnName = wEditor.getGridField().getVO().Help;
+		}
+		//processNewValue(evt.getNewValue(), columnName);
+	} // valueChange
+
 
 	class CellListener implements EventListener {
 
