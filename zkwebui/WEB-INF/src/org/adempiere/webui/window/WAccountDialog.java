@@ -416,12 +416,16 @@ public final class WAccountDialog extends Window
 			{
 				GridField field = m_mTab.getField("User1_ID");
 				f_User1_ID = WebEditorFactory.getEditor(field, false);
+				// Change the label from the default to the user defined name
+				//f_User1_ID.setLabel(ase.getName());				
 				addLine(field, f_User1_ID, isMandatory);
 			}
 			else if (type.equals(MAcctSchemaElement.ELEMENTTYPE_UserList2))
 			{
 				GridField field = m_mTab.getField("User2_ID");
 				f_User2_ID = WebEditorFactory.getEditor(field, false);
+				// Change the label from the default to the user defined name
+				//f_User2_ID.setLabel(ase.getName());				
 				addLine(field, f_User2_ID, isMandatory);
 			}
 		}	//	Create Fields in Element Order

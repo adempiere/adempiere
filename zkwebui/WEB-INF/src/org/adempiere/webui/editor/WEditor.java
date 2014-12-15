@@ -443,6 +443,10 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
     {
         return label;
     }
+    
+    public void setLabel(String labelStr) {
+    	label.setValue(labelStr);
+    }
 
     /**
      *

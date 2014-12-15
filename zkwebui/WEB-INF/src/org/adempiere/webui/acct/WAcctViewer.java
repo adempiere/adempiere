@@ -46,6 +46,7 @@ import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAcctSchemaElement;
 import org.compiere.model.X_C_AcctSchema_Element;
+import org.compiere.report.core.RColumn;
 import org.compiere.report.core.RModel;
 import org.compiere.report.core.RModelExcelExporter;
 import org.compiere.util.CLogMgt;
@@ -844,7 +845,11 @@ public class WAcctViewer extends Window implements EventListener
 		{
 			MAcctSchemaElement ase = elements[i];
 			String columnName = ase.getColumnName();
-			String displayColumnName = ase.getDisplayColumnName();
+			String displayColumnName;
+			if (columnName.equals("User1_ID") || columnName.equals("User2_ID"))
+				displayColumnName = ase.getName();
+			else
+				displayColumnName = ase.getDisplayColumnName();
 
 			//  Add Sort Option
 
@@ -1070,11 +1075,27 @@ public class WAcctViewer extends Window implements EventListener
 
 			for (int i = 0; i < rmodel.getColumnCount(); i++)
 			{
-				Listheader listheader = new Listheader(rmodel.getColumnName(i));
+				// Replace user columns with the user selected names
+				String displayColumnName = rmodel.getColumnName(i);;
+				String columnName;
+				RColumn col = rmodel.getColumn(i);
+				columnName = col.getColumnName();
+				MAcctSchema as = MAcctSchema.get(Env.getCtx(), m_data.C_AcctSchema_ID);
+				if (columnName.equals("User1_ID")) {
+					MAcctSchemaElement ase = as.getAcctSchemaElement(MAcctSchemaElement.ELEMENTTYPE_UserList1);
+					if (ase != null)
+						displayColumnName = Msg.translate(Env.getCtx(), ase.getName());					
+				}
+				else if (columnName.equals("User2_ID")) {
+					MAcctSchemaElement ase = as.getAcctSchemaElement(MAcctSchemaElement.ELEMENTTYPE_UserList2);
+					if (ase != null)
+						displayColumnName = Msg.translate(Env.getCtx(), ase.getName());					
+				}
+
+				Listheader listheader = new Listheader(displayColumnName);
 				listheader.setTooltiptext(rmodel.getColumnName(i));
 				listhead.appendChild(listheader);
 			}
-
 			table.appendChild(listhead);
 		}
 		// Elaine 2008/07/28
