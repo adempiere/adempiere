@@ -227,11 +227,6 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- Groovy -->
-			<!-- SHW: old Lib
-			<zipfileset src="lib/groovy-all-1.5.1.jar">
-				<patternset refid="manifest.exclude" />
-			</zipfileset>
-			-->
 			<zipfileset src="lib/groovy-all-2.0.1.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
@@ -250,7 +245,7 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/payflow.jar">
-							<patternset refid="manifest.exclude" />
+				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/miglayout-3.7.1-swing.jar">
 					<patternset refid="manifest.exclude" />
@@ -287,14 +282,6 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- JFreeChart			-->
-			<!-- SHW: old Lib
-			<zipfileset src="lib/jfreechart-1.0.13.jar">
-				<patternset refid="manifest.exclude" />
-			</zipfileset>
-			<zipfileset src="lib/jcommon-1.0.16.jar">
-				<patternset refid="manifest.exclude" />
-			</zipfileset>
-			-->
 			<zipfileset src="lib/jfreechart-1.0.15.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
@@ -313,11 +300,6 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- POI -->
-			<!--  SHW: old Lib
-			<zipfileset src="lib/poi-3.5-FINAL-20090928.jar">
-				<patternset refid="manifest.exclude" />
-			</zipfileset>
-			 -->
 			<zipfileset src="lib/poi-3.9-20121203.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
@@ -397,11 +379,6 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- Groovy -->
-			<!-- SHW: old Lib
-			<zipfileset src="lib/groovy-all-1.5.1.jar">
-				<patternset refid="manifest.exclude" />
-			</zipfileset>
-			-->
 			<zipfileset src="lib/groovy-all-2.0.1.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
@@ -451,14 +428,6 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- JFreeChart			-->
-			<!-- SHW: old Lib
-			<zipfileset src="lib/jfreechart-1.0.13.jar">
-				<patternset refid="manifest.exclude" />
-			</zipfileset>
-			<zipfileset src="lib/jcommon-1.0.16.jar">
-				<patternset refid="manifest.exclude" />
-			</zipfileset>
-			-->
 			<zipfileset src="lib/jfreechart-1.0.15.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
@@ -502,11 +471,6 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- POI -->
-			<!--  SHW: old Lib
-			<zipfileset src="lib/poi-3.5-FINAL-20090928.jar">
-				<patternset refid="manifest.exclude" />
-			</zipfileset>
-			 -->
 			<zipfileset src="lib/poi-3.9-20121203.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
