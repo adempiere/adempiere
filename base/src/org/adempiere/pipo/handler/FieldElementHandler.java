@@ -177,8 +177,8 @@ public class FieldElementHandler extends AbstractElementHandler
 					m_Field.setIsMandatory(atts.getValue("isMandatory"));
 				
 				m_Field.setDefaultValue(atts.getValue("DefaultValue"));
-				if(atts.getValue("HideInListView") != null)
-					m_Field.setHideInListView(Boolean.valueOf(atts.getValue("HideInListView")).booleanValue());
+				if(atts.getValue("IsDisplayedGrid") != null)
+					m_Field.setIsDisplayedGrid(Boolean.valueOf(atts.getValue("IsDisplayedGrid")).booleanValue());
 				if(atts.getValue("PreferredWidth") != null)
 					m_Field.setPreferredWidth(Integer.parseInt(atts.getValue("PreferredWidth")));
 				
@@ -348,7 +348,7 @@ public class FieldElementHandler extends AbstractElementHandler
 				(m_Field.getPreferredWidth() > 0 ? ""
 						+ m_Field.getPreferredWidth() : "0"));
 		
-		atts.addAttribute("", "", "HideInListView", "CDATA", m_Field.isHideInListView() == true ? "true" : "false");
+		atts.addAttribute("", "", "IsDisplayedGrid", "CDATA", m_Field.isDisplayedGrid() == true ? "true" : "false");
 		
 		
 		if (m_Field.getAD_Reference_ID() > 0) {
