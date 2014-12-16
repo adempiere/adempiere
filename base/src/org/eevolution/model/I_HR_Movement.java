@@ -233,6 +233,21 @@ public interface I_HR_Movement
 
 	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
 
+    /** Column name C_SalesRegion_ID */
+    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
+
+	/** Set Sales Region.
+	  * Sales coverage region
+	  */
+	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
+
+	/** Get Sales Region.
+	  * Sales coverage region
+	  */
+	public int getC_SalesRegion_ID();
+
+	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
+
     /** Column name ColumnType */
     public static final String COLUMNNAME_ColumnType = "ColumnType";
 
@@ -271,13 +286,45 @@ public interface I_HR_Movement
 	  */
 	public String getDescription();
 
+    /** Column name DocumentNote */
+    public static final String COLUMNNAME_DocumentNote = "DocumentNote";
+
+	/** Set Document Note.
+	  * Additional information for a Document
+	  */
+	public void setDocumentNote (String DocumentNote);
+
+	/** Get Document Note.
+	  * Additional information for a Document
+	  */
+	public String getDocumentNote();
+
+    /** Column name HR_Attribute_ID */
+    public static final String COLUMNNAME_HR_Attribute_ID = "HR_Attribute_ID";
+
+	/** Set Payroll Employee Attribute.
+	  * Employee Attribute allows to add any metadata of type (text, date , quantity and amount ) of an Employee.
+	  */
+	public void setHR_Attribute_ID (int HR_Attribute_ID);
+
+	/** Get Payroll Employee Attribute.
+	  * Employee Attribute allows to add any metadata of type (text, date , quantity and amount ) of an Employee.
+	  */
+	public int getHR_Attribute_ID();
+
+	public org.eevolution.model.I_HR_Attribute getHR_Attribute() throws RuntimeException;
+
     /** Column name HR_Concept_Category_ID */
     public static final String COLUMNNAME_HR_Concept_Category_ID = "HR_Concept_Category_ID";
 
-	/** Set Payroll Concept Category	  */
+	/** Set Global Payroll Concept Category.
+	  * Global Payroll Concept Category allows to grouping of Global Concept to reports and queries
+	  */
 	public void setHR_Concept_Category_ID (int HR_Concept_Category_ID);
 
-	/** Get Payroll Concept Category	  */
+	/** Get Global Payroll Concept Category.
+	  * Global Payroll Concept Category allows to grouping of Global Concept to reports and queries
+	  */
 	public int getHR_Concept_Category_ID();
 
 	public org.eevolution.model.I_HR_Concept_Category getHR_Concept_Category() throws RuntimeException;
@@ -285,24 +332,88 @@ public interface I_HR_Movement
     /** Column name HR_Concept_ID */
     public static final String COLUMNNAME_HR_Concept_ID = "HR_Concept_ID";
 
-	/** Set Payroll Concept	  */
+	/** Set Global Payroll Concept.
+	  * The Global Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
+	  */
 	public void setHR_Concept_ID (int HR_Concept_ID);
 
-	/** Get Payroll Concept	  */
+	/** Get Global Payroll Concept.
+	  * The Global Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
+	  */
 	public int getHR_Concept_ID();
 
 	public org.eevolution.model.I_HR_Concept getHR_Concept() throws RuntimeException;
 
+    /** Column name HR_Contract_ID */
+    public static final String COLUMNNAME_HR_Contract_ID = "HR_Contract_ID";
+
+	/** Set Payroll Contract	  */
+	public void setHR_Contract_ID (int HR_Contract_ID);
+
+	/** Get Payroll Contract	  */
+	public int getHR_Contract_ID();
+
+	public org.eevolution.model.I_HR_Contract getHR_Contract() throws RuntimeException;
+
     /** Column name HR_Department_ID */
     public static final String COLUMNNAME_HR_Department_ID = "HR_Department_ID";
 
-	/** Set Payroll Department	  */
+	/** Set Department.
+	  * Department of the organization
+	  */
 	public void setHR_Department_ID (int HR_Department_ID);
 
-	/** Get Payroll Department	  */
+	/** Get Department.
+	  * Department of the organization
+	  */
 	public int getHR_Department_ID();
 
 	public org.eevolution.model.I_HR_Department getHR_Department() throws RuntimeException;
+
+    /** Column name HR_Designation_ID */
+    public static final String COLUMNNAME_HR_Designation_ID = "HR_Designation_ID";
+
+	/** Set Designation.
+	  * Designation is a nationally recognized level
+	  */
+	public void setHR_Designation_ID (int HR_Designation_ID);
+
+	/** Get Designation.
+	  * Designation is a nationally recognized level
+	  */
+	public int getHR_Designation_ID();
+
+	public org.eevolution.model.I_HR_Designation getHR_Designation() throws RuntimeException;
+
+    /** Column name HR_EmployeeType_ID */
+    public static final String COLUMNNAME_HR_EmployeeType_ID = "HR_EmployeeType_ID";
+
+	/** Set Employee Type.
+	  * Employee Type
+	  */
+	public void setHR_EmployeeType_ID (int HR_EmployeeType_ID);
+
+	/** Get Employee Type.
+	  * Employee Type
+	  */
+	public int getHR_EmployeeType_ID();
+
+	public org.eevolution.model.I_HR_EmployeeType getHR_EmployeeType() throws RuntimeException;
+
+    /** Column name HR_JobType_ID */
+    public static final String COLUMNNAME_HR_JobType_ID = "HR_JobType_ID";
+
+	/** Set Job Type.
+	  * The Job Type for a Job Openings
+	  */
+	public void setHR_JobType_ID (int HR_JobType_ID);
+
+	/** Get Job Type.
+	  * The Job Type for a Job Openings
+	  */
+	public int getHR_JobType_ID();
+
+	public org.eevolution.model.I_HR_JobType getHR_JobType() throws RuntimeException;
 
     /** Column name HR_Job_ID */
     public static final String COLUMNNAME_HR_Job_ID = "HR_Job_ID";
@@ -324,6 +435,36 @@ public interface I_HR_Movement
 	/** Get Payroll Movement	  */
 	public int getHR_Movement_ID();
 
+    /** Column name HR_PayrollConcept_ID */
+    public static final String COLUMNNAME_HR_PayrollConcept_ID = "HR_PayrollConcept_ID";
+
+	/** Set Payroll Concept.
+	  * The payroll concept allows to define all those Global Concept that are using to calculate a payroll.
+	  */
+	public void setHR_PayrollConcept_ID (int HR_PayrollConcept_ID);
+
+	/** Get Payroll Concept.
+	  * The payroll concept allows to define all those Global Concept that are using to calculate a payroll.
+	  */
+	public int getHR_PayrollConcept_ID();
+
+	public org.eevolution.model.I_HR_PayrollConcept getHR_PayrollConcept() throws RuntimeException;
+
+    /** Column name HR_Payroll_ID */
+    public static final String COLUMNNAME_HR_Payroll_ID = "HR_Payroll_ID";
+
+	/** Set Payroll.
+	  * The Payroll definition allows to define all the payroll concepts , year and periods, to  calculate a payroll.
+	  */
+	public void setHR_Payroll_ID (int HR_Payroll_ID);
+
+	/** Get Payroll.
+	  * The Payroll definition allows to define all the payroll concepts , year and periods, to  calculate a payroll.
+	  */
+	public int getHR_Payroll_ID();
+
+	public org.eevolution.model.I_HR_Payroll getHR_Payroll() throws RuntimeException;
+
     /** Column name HR_Process_ID */
     public static final String COLUMNNAME_HR_Process_ID = "HR_Process_ID";
 
@@ -334,6 +475,21 @@ public interface I_HR_Movement
 	public int getHR_Process_ID();
 
 	public org.eevolution.model.I_HR_Process getHR_Process() throws RuntimeException;
+
+    /** Column name HR_SkillType_ID */
+    public static final String COLUMNNAME_HR_SkillType_ID = "HR_SkillType_ID";
+
+	/** Set Skill Type.
+	  * Skill Type for an Employee
+	  */
+	public void setHR_SkillType_ID (int HR_SkillType_ID);
+
+	/** Get Skill Type.
+	  * Skill Type for an Employee
+	  */
+	public int getHR_SkillType_ID();
+
+	public org.eevolution.model.I_HR_SkillType getHR_SkillType() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -385,6 +541,32 @@ public interface I_HR_Movement
 
 	public org.eevolution.model.I_PP_Cost_Collector getPP_Cost_Collector() throws RuntimeException;
 
+    /** Column name PaymentRule */
+    public static final String COLUMNNAME_PaymentRule = "PaymentRule";
+
+	/** Set Payment Rule.
+	  * How you pay the invoice
+	  */
+	public void setPaymentRule (String PaymentRule);
+
+	/** Get Payment Rule.
+	  * How you pay the invoice
+	  */
+	public String getPaymentRule();
+
+    /** Column name PeriodNo */
+    public static final String COLUMNNAME_PeriodNo = "PeriodNo";
+
+	/** Set Period No.
+	  * Unique Period Number
+	  */
+	public void setPeriodNo (int PeriodNo);
+
+	/** Get Period No.
+	  * Unique Period Number
+	  */
+	public int getPeriodNo();
+
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
 
@@ -410,6 +592,21 @@ public interface I_HR_Movement
 	  * Quantity
 	  */
 	public BigDecimal getQty();
+
+    /** Column name SeqNo */
+    public static final String COLUMNNAME_SeqNo = "SeqNo";
+
+	/** Set Sequence.
+	  * Method of ordering records;
+ lowest number comes first
+	  */
+	public void setSeqNo (int SeqNo);
+
+	/** Get Sequence.
+	  * Method of ordering records;
+ lowest number comes first
+	  */
+	public int getSeqNo();
 
     /** Column name ServiceDate */
     public static final String COLUMNNAME_ServiceDate = "ServiceDate";
