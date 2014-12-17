@@ -337,16 +337,16 @@ public class VBrowser extends Browser implements IBrowser, ActionListener,
 
 	/**************************************************************************
 	 * Prepare Table, Construct SQL (m_m_sqlMain, m_sqlAdd) and size Window
-	 * @param layout layout array
+	 * @param fields list
 	 * @param from from clause
 	 * @param staticWhere where clause
 	 * @param orderBy order by clause
 	 */
-	protected void prepareTable(List<MBrowseField> layout,String from,
+	protected void prepareTable(List<MBrowseField> fields,String from,
 								 String staticWhere, String orderBy) {
-		p_layout = layout;
+		browserFields = fields;
 		StringBuffer sql = new StringBuffer("SELECT DISTINCT ");
-		sql.append(detail.prepareTable(p_layout, p_multiSelection));
+		sql.append(detail.prepareTable(browserFields, p_multiSelection));
 		// Table Selection (Invoked before setting column class so that row
 		// selection is enabled)
 		detail.setRowSelectionAllowed(true);
@@ -985,7 +985,7 @@ public class VBrowser extends Browser implements IBrowser, ActionListener,
 					int colOffset = 1; // columns start with 1
 					int columnDisplayIndex =0;
 					int column = 0;
-					for (MBrowseField field : p_layout) {
+					for (MBrowseField field : browserFields) {
 						Object value = null;
 						if (field.isKey() && !field.getAD_View_Column().getColumnSQL().equals("'Row' AS \"Row\""))
 							value = new IDColumn(m_rs.getInt(column + colOffset));

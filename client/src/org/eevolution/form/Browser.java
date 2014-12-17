@@ -155,8 +155,7 @@ public abstract class Browser {
 	public CLogger log = CLogger.getCLogger(getClass());
 
 	/** Layout of Grid */
-	//public Info_Column[] p_layout;
-	public List<MBrowseField> p_layout;
+	public List<MBrowseField> browserFields;
 
 	public String m_sqlMain;
 	/** Count SQL Statement */
@@ -200,7 +199,6 @@ public abstract class Browser {
 		m_language = Language.getLanguage(Env
 				.getAD_Language(m_Browse.getCtx()));
 
-		//p_layout = m_Browse.getDisplayFields();
 		
 		isCollapsibleByDefault = browse.isCollapsibleByDefault();
 		isDeleteable = browse.isDeleteable();
@@ -738,13 +736,14 @@ public abstract class Browser {
 	public String getSQLOrderBy() {
 		StringBuilder sqlOrderBy = new StringBuilder();
 		for (MBrowseField field : m_Browse.getOrderByFields()) {
-			if (sqlOrderBy.length() > 0 && field.isOrderBy())
-				sqlOrderBy.append(",");
-
 			if (field.isOrderBy()) {
-				int orderByPosition = getOrderByPosition(field
-						.getAD_View_Column());
-				if (orderByPosition > 0)
+				int orderByPosition = getOrderByPosition(field);
+				if (orderByPosition <= 0)
+					continue;
+
+				if (sqlOrderBy.length() > 0)
+					sqlOrderBy.append(",");
+
 					sqlOrderBy.append(orderByPosition);
 			}
 		}
@@ -753,21 +752,22 @@ public abstract class Browser {
 	}
 
 
-	private int getOrderByPosition(MViewColumn viewColumn)
+	private int getOrderByPosition(MBrowseField BrowserField)
 	{
 		int colOffset = 1; // columns start with 1
 		int col = 0;
-		for (MBrowseField field : p_layout) {
+		for (MBrowseField field : browserFields) {
 			int sortBySqlNo = col + colOffset;
-			Class<?> c = DisplayType.getClass(field.getAD_Reference_ID(), true);
-			if (c == KeyNamePair.class)
-				colOffset++;
-			if (viewColumn.getAD_View_Column_ID() == field.getAD_View_Column_ID())
+			//Class<?> c = DisplayType.getClass(field.getAD_Reference_ID(), true);
+			//if (c == KeyNamePair.class)
+			//	colOffset++;
+			if (BrowserField.getAD_Browse_Field_ID() == field.getAD_Browse_Field_ID())
 				return sortBySqlNo;
 			col ++;
 		}
 
-		return 0;
+
+		return -1;
 	}
 	
 	protected PreparedStatement getStatement(String sql) {
@@ -944,7 +944,7 @@ public abstract class Browser {
 					ArrayList<Object> row = new ArrayList<Object>();
 					int colOffset = 1; // columns start with 1
 					int col = 0;
-					for (MBrowseField field : p_layout) {
+					for (MBrowseField field : browserFields) {
 
 						if (isFirstRow) {
 							String columnName = field.getName();

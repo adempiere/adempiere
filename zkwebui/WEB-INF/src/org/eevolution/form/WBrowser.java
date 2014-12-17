@@ -309,16 +309,16 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 
 	/**************************************************************************
 	 * Prepare Table, Construct SQL (m_m_sqlMain, m_sqlAdd) and size Window
-	 * @param layout layout array
+	 * @param fields layout array
 	 * @param from from clause
 	 * @param staticWhere where clause
 	 * @param orderBy order by clause
 	 */
-	protected void prepareTable(List<MBrowseField> layout,String from,
+	protected void prepareTable(List<MBrowseField> fields,String from,
 								String staticWhere, String orderBy) {
-		p_layout = layout;
+		browserFields = fields;
 		StringBuffer sql = new StringBuffer("SELECT DISTINCT ");
-		sql.append(detail.prepareTable(p_layout, p_multiSelection));
+		sql.append(detail.prepareTable(fields, p_multiSelection));
 		detail.setMultiSelection(p_multiSelection);
 		detail.setShowTotals(m_Browse.isShowTotal());
 
