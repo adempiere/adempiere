@@ -2630,13 +2630,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="6157" Column="SeqNo" oldValue="15">22</Data>
       </PO>
     </Step>
-    <Step SeqNo="800" StepType="AD">
-      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
-        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
-        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53284">53284</Data>
-        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="16">23</Data>
-      </PO>
-    </Step>
     <Step SeqNo="810" StepType="AD">
       <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
         <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>

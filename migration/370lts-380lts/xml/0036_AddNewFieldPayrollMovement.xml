@@ -486,8 +486,8 @@
       <PO AD_Table_ID="276" Action="U" Record_ID="53398" Table="AD_Element">
         <Data AD_Column_ID="58588" Column="AD_Reference_ID" isOldNull="true">13</Data>
         <Data AD_Column_ID="2604" Column="Description" isOldNull="true">The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.</Data>
-        <Data AD_Column_ID="2603" Column="Name" oldValue="Payroll Concept">General Payroll Concept</Data>
-        <Data AD_Column_ID="4299" Column="PrintName" oldValue="Payroll Concept">General Payroll Concept</Data>
+        <Data AD_Column_ID="2603" Column="Name" oldValue="Payroll Concept">Global Payroll Concept</Data>
+        <Data AD_Column_ID="4299" Column="PrintName" oldValue="Payroll Concept">Global Payroll Concept</Data>
       </PO>
     </Step>
     <Step SeqNo="420" StepType="AD">
@@ -503,7 +503,7 @@
     <Step SeqNo="440" StepType="AD">
       <PO AD_Table_ID="101" Action="U" Record_ID="55035" Table="AD_Column">
         <Data AD_Column_ID="112" Column="Description" oldValue="The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.">The Global Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.</Data>
-        <Data AD_Column_ID="111" Column="Name" oldValue="General Payroll Concept">Global Payroll Concept</Data>
+        <Data AD_Column_ID="111" Column="Name" oldValue="Global Payroll Concept">Global Payroll Concept</Data>
       </PO>
     </Step>
     <Step SeqNo="450" StepType="AD">
