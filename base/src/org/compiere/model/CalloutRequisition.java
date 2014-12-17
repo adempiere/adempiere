@@ -48,7 +48,7 @@ public class CalloutRequisition extends CalloutEngine
 		Integer M_Product_ID = (Integer)value;
 		if (M_Product_ID == null || M_Product_ID.intValue() == 0)
 			return "";
-		final I_M_Requisition req = GridTabWrapper.create(mTab, I_M_Requisition.class);
+		final I_M_Requisition req = GridTabWrapper.create(mTab.getParentTab(), I_M_Requisition.class);
 		final I_M_RequisitionLine line = GridTabWrapper.create(mTab, I_M_RequisitionLine.class);
 		setPrice(ctx, WindowNo, req, line);
 		MProduct product = MProduct.get(ctx, M_Product_ID);

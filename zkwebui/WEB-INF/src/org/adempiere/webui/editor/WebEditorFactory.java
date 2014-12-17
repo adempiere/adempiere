@@ -19,8 +19,11 @@ package org.adempiere.webui.editor;
 
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
+import org.compiere.model.MAcctSchema;
+import org.compiere.model.MAcctSchemaElement;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
 
 /**
  *
@@ -184,6 +187,24 @@ public class WebEditorFactory
             editor = new WUnknownEditor(gridField);
         }
         
+        // Change the label from the column to a user defined value for specific fields.
+        if (gridField.getColumnName().equals("User1_ID") || gridField.getColumnName().equals("User2_ID")) {
+        	int as_id = Env.getContextAsInt(Env.getCtx(), gridTab.getWindowNo(), gridTab.getTabNo(), "$C_AcctSchema_ID");
+        	if (as_id > 0) {
+            	MAcctSchema as = MAcctSchema.get(Env.getCtx(),	as_id);
+            	if (as != null) {
+            		MAcctSchemaElement ase;
+            		if (gridField.getColumnName().equals("User1_ID")) {
+                    	ase = as.getAcctSchemaElement(MAcctSchemaElement.ELEMENTTYPE_UserList1);
+            		}
+            		else
+            			ase = as.getAcctSchemaElement(MAcctSchemaElement.ELEMENTTYPE_UserList2);
+            		
+            		if ( ase != null )
+            			editor.setLabel(ase.getName());
+            	}
+        	}
+        }
         return editor;
     }
 }
