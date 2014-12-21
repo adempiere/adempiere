@@ -238,9 +238,9 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="activemq-core-5.0.0.jar">
+      <library name="activemq-core-5.7.0.jar">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/activemq-core-5.0.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/tools/lib/activemq-core-5.7.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

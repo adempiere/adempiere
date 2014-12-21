@@ -27,7 +27,7 @@
           <element id="library" level="module" name="postgresql.jar" module-name="adempiereDevelop" />
           <element id="library" level="module" name="c3p0-0.9.1.2.jar" module-name="adempiereDevelop" />
           <element id="library" level="module" name="c3p0-oracle-thin-extras-0.9.1.2.jar" module-name="adempiereDevelop" />
-          <element id="library" level="module" name="activemq-core-5.0.0.jar" module-name="adempiereDevelop" />
+          <element id="library" level="module" name="activemq-core-5.7.0.jar" module-name="adempiereDevelop" />
           <element id="library" level="module" name="looks-2.0.4.jar" module-name="adempiereDevelop" />
           <element id="library" level="module" name="xercesImpl.jar" module-name="adempiereDevelop" />
           <element id="library" level="module" name="xjavadoc-1.1.jar" module-name="adempiereDevelop" />

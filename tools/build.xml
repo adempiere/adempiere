@@ -289,7 +289,7 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- JMS -->
-			<zipfileset src="lib/activemq-core-5.0.0.jar">
+			<zipfileset src="lib/activemq-core-5.7.0.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- C3P0 connection pool -->
@@ -460,7 +460,7 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- JMS -->
-			<zipfileset src="lib/activemq-core-5.0.0.jar">
+			<zipfileset src="lib/activemq-core-5.7.0.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- C3P0 connection pool -->

@@ -131,7 +131,7 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/activemq-core-5.0.0.jar">
+	<classpathentry exported="true" kind="lib" path="tools/lib/activemq-core-5.7.0.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
