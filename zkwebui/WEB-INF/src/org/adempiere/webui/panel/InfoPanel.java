@@ -366,7 +366,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 		//  the p_centerCenter which should fill the remaining space.
 		// Have to set the criteriaGrid height specifically.  58 is the height of the reset button and label.
 		// p_criteriaGrid is assumed to hold a Rows component that is non null and has children.
-		int rowHeight = (25*((Rows) p_criteriaGrid.getFirstChild()).getChildren().size());
+		int rowHeight = (30*((Rows) p_criteriaGrid.getFirstChild()).getChildren().size());
 		rowHeight = rowHeight > 58 ? rowHeight : 58;
 		p_northLayout.setHeight(rowHeight + "px");
 		p_southLayout.setHeight("70px");
