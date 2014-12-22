@@ -486,7 +486,7 @@
       <PO AD_Table_ID="276" Action="U" Record_ID="53398" Table="AD_Element">
         <Data AD_Column_ID="58588" Column="AD_Reference_ID" isOldNull="true">13</Data>
         <Data AD_Column_ID="2604" Column="Description" isOldNull="true">The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.</Data>
-        <Data AD_Column_ID="2603" Column="Name" oldValue="Payroll Concept">Global Payroll Concept</Data>
+        <Data AD_Column_ID="2603" Column="Name" oldValue="Payroll Concept">AD Payroll Concept</Data>
         <Data AD_Column_ID="4299" Column="PrintName" oldValue="Payroll Concept">Global Payroll Concept</Data>
       </PO>
     </Step>
