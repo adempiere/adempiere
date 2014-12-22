@@ -163,7 +163,6 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
     private void initComponents()
     {
     	LayoutUtils.addSclass("adtab-content", this);
-
         grid = new Grid();
         //have problem moving the following out as css class
         grid.setWidth("100%");
@@ -1251,8 +1250,11 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
 		}
 		listPanel.setVisible(!formComponent.isVisible());
 		if (listPanel.isVisible()) {
-			listPanel.getADTabPanel().getGlobalToolbar().setCurrentPanel(this);
-			listPanel.refresh(gridTab);
+
+			if (listPanel != null && listPanel.getADTabPanel() != null && listPanel.getADTabPanel().getGlobalToolbar() != null )
+				listPanel.getADTabPanel().getGlobalToolbar().setCurrentPanel(this);
+
+				listPanel.refresh(gridTab);
 			listPanel.scrollToCurrentRow();
 			repaintComponents(true);
 
