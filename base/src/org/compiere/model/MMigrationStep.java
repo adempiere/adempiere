@@ -203,6 +203,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 	private String applySQL(boolean rollback) {
 
 		String sqlStatements = rollback ? getRollbackStatement() : getSQLStatement();
+		Boolean isParse = isParse();
 		
 		if ( sqlStatements == null || sqlStatements.trim().length() == 0 || sqlStatements.equals(";"))
 		{
@@ -226,12 +227,18 @@ public class MMigrationStep extends X_AD_MigrationStep {
              conn.setAutoCommit(false);
              stmt = conn.createStatement();
 
-             StringTokenizer tokens = new StringTokenizer(sqlStatements, ";");
-             while(tokens.hasMoreTokens()) {
-                 final String sql = tokens.nextToken().trim();
-                 if (sql != null && sql.length() > 0 )
-                    stmt.addBatch(sql);
-             }
+             //  Parse the statement based on semi-colons
+             if (isParse) {
+	             StringTokenizer tokens = new StringTokenizer(sqlStatements, ";");
+	             while(tokens.hasMoreTokens()) {
+	                 final String sql = tokens.nextToken().trim();
+	                 if (sql != null && sql.length() > 0 )
+	                    stmt.addBatch(sql);
+	             }
+             } 
+		     else {  // Don't parse.  Assume its a single statement.
+		         stmt.addBatch(sqlStatements);
+		     }
 
              stmt.executeBatch();
              conn.commit();
