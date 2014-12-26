@@ -203,7 +203,11 @@ public class MMigrationStep extends X_AD_MigrationStep {
 	private String applySQL(boolean rollback) {
 
 		String sqlStatements = rollback ? getRollbackStatement() : getSQLStatement();
-		Boolean isParse = isParse();
+		Boolean isParse = true;
+		
+		// Check if the parse column has been added by the migration yet.
+		if (this.get_ColumnIndex(this.COLUMNNAME_Parse) > 0)
+			isParse = isParse();
 		
 		if ( sqlStatements == null || sqlStatements.trim().length() == 0 || sqlStatements.equals(";"))
 		{
@@ -667,7 +671,11 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		else if ( MMigrationStep.STEPTYPE_SQLStatement.equals(mstep.getStepType()) )
 		{
 			mstep.setDBType(step.getAttribute("DBType"));
-			mstep.setParse("Y".equals(step.getAttribute("Parse")));
+			
+			// If Parse is defined, set it accordingly, else, use the default or ignore
+			if (!step.getAttribute("Parse").equals(""))
+				mstep.setParse("Y".equals(step.getAttribute("Parse")));
+			
 			Node sql = step.getElementsByTagName("SQLStatement").item(0);
 			if ( sql != null )
 				mstep.setSQLStatement(sql.getTextContent());

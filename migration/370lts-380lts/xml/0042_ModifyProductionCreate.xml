@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
   <Migration EntityType="D" Name="Modify process ProductionCreate" ReleaseNo="3.8.0" SeqNo="42">
+    <Comments>Changes the source of dateacct from the orginating document either the movement, cost collector or the transaction dateacct.
+</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="285" Action="I" Record_ID="1000000" Table="AD_Process_Para">
         <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
@@ -40,7 +42,7 @@
         <Data AD_Column_ID="3738" Column="IsMandatory" oldValue="false">true</Data>
       </PO>
     </Step>
-    <Step DBType="Postgres" SeqNo="30" StepType="SQL">
+    <Step DBType="Postgres" Parse="N" SeqNo="30" StepType="SQL">
       <SQLStatement>CREATE OR REPLACE FUNCTION prodqtyreserved(p_product_id numeric, p_warehouse_id numeric, p_dummy integer)
   RETURNS numeric AS
 $BODY$
@@ -109,7 +111,7 @@ ALTER FUNCTION prodqtyreserved(numeric, numeric, integer)
 </SQLStatement>
       <RollbackStatement>DROP FUNCTION prodqtyreserved;</RollbackStatement>
     </Step>
-    <Step DBType="Oracle" SeqNo="40" StepType="SQL">
+    <Step DBType="Oracle" Parse="N" SeqNo="40" StepType="SQL">
       <SQLStatement>create or replace function prodqtyreserved 
 (
   p_product_id in number 
@@ -175,7 +177,7 @@ begin
 end prodqtyreserved;</SQLStatement>
       <RollbackStatement>drop function prodqtyreserved;</RollbackStatement>
     </Step>
-    <Step DBType="Postgres" SeqNo="50" StepType="SQL">
+    <Step DBType="Postgres" Parse="Y" SeqNo="50" StepType="SQL">
       <Comments>Changes the source of dateacct from the orginating document either the movement, cost collector or the transaction dateacct.
 </Comments>
       <SQLStatement>CREATE OR REPLACE VIEW rv_transaction AS 
@@ -290,7 +292,7 @@ ALTER TABLE rv_transaction
   OWNER TO adempiere;
 </RollbackStatement>
     </Step>
-    <Step DBType="Oracle" SeqNo="60" StepType="SQL">
+    <Step DBType="Oracle" Parse="Y" SeqNo="60" StepType="SQL">
       <Comments>Changes the source of dateacct from the orginating document either the movement, cost collector or the transaction dateacct.</Comments>
       <SQLStatement>CREATE OR REPLACE VIEW RV_TRANSACTION
 AS SELECT t.M_Transaction_ID, t.AD_Client_ID,t.AD_Org_ID,

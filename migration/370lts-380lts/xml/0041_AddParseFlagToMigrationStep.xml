@@ -92,7 +92,7 @@
         <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="169" Column="Description">Select if the SQL statement should be parsed based on terminating semi-colons.</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">1</Data>
-        <Data AD_Column_ID="383" Column="AD_Client_ID">@StepType@='SQL'</Data>
+        <Data AD_Column_ID="177" Column="DisplayLogic">@StepType@='SQL'</Data>
         <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">Deselect if the SQL statement provided is a function definition (CREATE OR REPLACE FUNCTION...) rather than a collection of statements.  This prevents parsing of the function based on semi-colons which can occur in the function definition.  Also deselect this with single sql statements that have semi-colons in text within the statement.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
