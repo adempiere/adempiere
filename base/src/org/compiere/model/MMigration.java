@@ -192,8 +192,9 @@ public class MMigration extends X_AD_Migration {
 		
 		String where = "Name = ?"
 			+ " AND SeqNo = ?"
-			+ " AND EntityType = ?";
-		Object[] params = new Object[] {name, Integer.parseInt(seqNo), entityType};
+			+ " AND EntityType = ?"
+			+ " AND ReleaseNo = ?";
+		Object[] params = new Object[] {name, Integer.parseInt(seqNo), entityType, releaseNo};
 		MMigration mmigration = new Query(ctx, MMigration.Table_Name, where, trxName)
 		.setParameters(params).firstOnly();
 		if ( mmigration != null ) {
