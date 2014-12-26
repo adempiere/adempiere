@@ -618,7 +618,8 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		else if ( MMigrationStep.STEPTYPE_SQLStatement.equals(getStepType()) )
 		{
 			step.setAttribute("DBType", getDBType());
-
+			step.setAttribute("Parse", isParse() ? "Y":"N");
+			
 			if ( getSQLStatement() != null )
 			{
 				Element sql = document.createElement("SQLStatement");
@@ -666,6 +667,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		else if ( MMigrationStep.STEPTYPE_SQLStatement.equals(mstep.getStepType()) )
 		{
 			mstep.setDBType(step.getAttribute("DBType"));
+			mstep.setParse("Y".equals(step.getAttribute("Parse")));
 			Node sql = step.getElementsByTagName("SQLStatement").item(0);
 			if ( sql != null )
 				mstep.setSQLStatement(sql.getTextContent());
