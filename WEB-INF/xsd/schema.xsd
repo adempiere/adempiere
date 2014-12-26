@@ -155,7 +155,10 @@
    	</xsd:sequence>
    	<xsd:attribute name="NumRows" type="xsd:int" />
    	<xsd:attribute name="TotalRows" type="xsd:int" />   	
-   	<xsd:attribute name="StartRow" type="xsd:int" />    	
+   	<xsd:attribute name="StartRow" type="xsd:int" />    
+   	<!-- 2014-12-02 Carlos Parada Set Quantity of Pages-->
+   	<xsd:attribute name="QtyPages" type="xsd:int" />    
+   	<!-- End Carlos Parada -->	
    </xsd:complexType>
 
    <xsd:complexType name="DataSet">
@@ -468,6 +471,13 @@
      		</xsd:restriction>
      	</xsd:simpleType>
      </xsd:element>
+     <!--
+     	2014-12-02 Carlos Parada Add Nro of Page 
+      -->
+      	<xsd:element name="PageNo" type="xsd:int"/>
+      <!--
+      	End Carlos Parada 
+       -->
      <xsd:element name="DataRow" type="tns:DataRow" minOccurs="0" maxOccurs="1"/>
    </xsd:sequence>
    </xsd:complexType>
