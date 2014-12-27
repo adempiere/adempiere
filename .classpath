@@ -29,6 +29,7 @@
 	<classpathentry kind="src" path="org.eevolution.manufacturing/src/main/java/ui/zk"/>
 	<classpathentry kind="src" path="org.eevolution.warehouse/src/main/java/base"/>
 	<classpathentry kind="src" path="org.adempiere.asset/src/main/java/base"/>
+	<classpathentry kind="src" path="org.adempiere.webservice/WEB-INF/src"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jstl.jar">
 		<attributes>
@@ -340,7 +341,10 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="tools/lib/OpenForecast-0.5.0.jar"/>
 	<classpathentry kind="lib" path="packages/liberoWM.jar"/>
-	<classpathentry kind="lib" path="/adempiereDevelop/packages/liberoCashflow.jar"/>
 	<classpathentry kind="lib" path="tools/lib/commons-io.jar"/>
+	<classpathentry kind="lib" path="org.adempiere.webservice/WEB-INF/lib/xfire-all-1.2.6.jar"/>
+	<classpathentry kind="lib" path="org.adempiere.webservice/WEB-INF/lib/xbean.jar"/>
+	<classpathentry kind="lib" path="org.adempiere.webservice/WEB-INF/lib/xbean-spring-2.8.jar"/>
+	<classpathentry kind="lib" path="org.adempiere.webservice/WEB-INF/lib/generated_xmlbeans.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
