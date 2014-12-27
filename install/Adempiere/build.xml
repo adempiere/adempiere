@@ -414,7 +414,7 @@
 		<!-- bundle everything in one ear file for simpler deployment -->
 		<ear destfile="${basedir}/lib/adempiere.ear" appxml="${basedir}/lib/adempiereAll.xml" >
 			<fileset dir="${basedir}/lib"
-				includes="Adempiere.jar,AdempiereSLib.jar,adempiereRoot.jar,adempiereApps.jar,adempiereApps.war,adempiereRoot.war,adempiereWebStore.war,adempiereWebCM.war,posterita.war,posterita.jar,webui.war,mobile.war" />
+				includes="Adempiere.jar,AdempiereSLib.jar,adempiereRoot.jar,adempiereApps.jar,adempiereApps.war,adempiereRoot.war,adempiereWebStore.war,adempiereWebCM.war,posterita.war,posterita.jar,webui.war,mobile.war,ADInterface-1.0.war" />
 		</ear>
 	</target>
 
@@ -429,7 +429,7 @@
 		<!-- bundle everything in one ear file for simpler deployment -->
 		<ear destfile="${basedir}/lib/adempiere.ear" appxml="${basedir}/lib/adempiereAll.xml" >
 			<fileset dir="${basedir}/lib"
-				includes="adempiereRoot.jar,adempiereApps.jar,adempiereApps.war,adempiereRoot.war,adempiereWebStore.war,adempiereWebCM.war,posterita.war,posterita.jar,webui.war,mobile.war" />
+				includes="adempiereRoot.jar,adempiereApps.jar,adempiereApps.war,adempiereRoot.war,adempiereWebStore.war,adempiereWebCM.war,posterita.war,posterita.jar,webui.war,mobile.war,ADInterface-1.0.war" />
 			<metainf dir="${basedir}/glassfish" includes="sun-application.xml"/>
 		</ear>
 	</target>
@@ -477,6 +477,9 @@
 		<!-- Filter JBoss Templates Conf	-->
 		<copy file="${basedir}/jboss/server/adempiere/conf/jboss-serviceTemplate.xml" tofile="${basedir}/jboss/server/adempiere/conf/jboss-service.xml" filtering="yes" overwrite="yes" />
 		<copy file="${basedir}/jboss/server/adempiere/conf/login-configTemplate.xml" tofile="${basedir}/jboss/server/adempiere/conf/login-config.xml" filtering="yes" overwrite="yes" />
+
+		<!-- Filter JBoss Templates HTTP Invoker	-->
+		<copy file="${basedir}/jboss/server/adempiere/deploy/http-invoker.sar/META-INF/jboss-serviceTemplate.xml" tofile="${basedir}/jboss/server/adempiere/deploy/http-invoker.sar/META-INF/jboss-service.xml" filtering="yes" overwrite="yes" />
 
 		<!-- Filter Tomcat 6.0 				-->
 		<copy file="${basedir}/jboss/server/adempiere/deploy/jboss-web.deployer/serverTemplate.xml" tofile="${basedir}/jboss/server/adempiere/deploy/jboss-web.deployer/server.xml" filtering="yes" overwrite="yes" />

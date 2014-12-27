@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns="http://java.sun.com/xml/ns/javaee"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_5.xsd"
+             version="5">
+	<display-name>Adempiere Applications</display-name>
+	<module>
+		<ejb>adempiereRoot.jar</ejb> 
+	</module>
+	<module>
+		<web>
+			<web-uri>adempiereRoot.war</web-uri>
+			<context-root>/admin</context-root>
+		</web>
+	</module>
+	<module>
+		<web>
+			<web-uri>adempiereApps.war</web-uri>
+			<context-root>/adempiere</context-root>
+		</web>
+	</module>
+	<module>
+		<web>
+			<web-uri>adempiereWebStore.war</web-uri>
+			<context-root>/wstore</context-root>
+		</web>
+	</module>
+	<module>
+		<web>
+			<web-uri>adempiereWebCM.war</web-uri>
+			<context-root>/</context-root>
+		</web>
+	</module>
+	<module>
+		<web>
+			<web-uri>posterita.war</web-uri>
+			<context-root>/posterita</context-root>
+		</web>
+	</module>
+	<module>
+		<web>
+			<web-uri>webui.war</web-uri>
+			<context-root>/webui</context-root>
+		</web>
+	</module>
+	<module>
+		<web>
+			<web-uri>ADInterface-1.0.war</web-uri>
+			<context-root>/ADInterface</context-root>
+		</web>
+	</module>
+</application>

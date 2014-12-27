@@ -1,0 +1,239 @@
+<xsd:schema targetNamespace="http://externalSales.ws.erpCommon.openbravo.org" elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://externalSales.ws.erpCommon.openbravo.org" xmlns:wsdl="wsdl">
+   <xsd:complexType name="Category">
+      <xsd:sequence>
+         <xsd:element name="description" type="xsd:string"/>
+         <xsd:element name="id" type="xsd:int"/>
+         <xsd:element name="name" type="xsd:string"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="Tax">
+      <xsd:sequence>
+         <xsd:element name="id" type="xsd:int"/>
+         <xsd:element name="name" type="xsd:string"/>
+         <xsd:element name="percentage" type="xsd:double"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="Product">
+      <xsd:sequence>
+         <xsd:element name="category" type="tns:Category"/>
+         <xsd:element name="description" type="xsd:string"/>
+         <xsd:element name="ean" type="xsd:string"/>
+         <xsd:element name="id" type="xsd:int"/>
+         <xsd:element name="imageUrl" type="xsd:string"/>
+         <xsd:element name="listPrice" type="xsd:double"/>
+         <xsd:element name="name" type="xsd:string"/>
+         <xsd:element name="number" type="xsd:string"/>
+         <xsd:element name="purchasePrice" type="xsd:double"/>
+         <xsd:element name="tax" type="tns:Tax"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="ProductPlus">
+      <xsd:complexContent>
+         <xsd:extension base="tns:Product">
+            <xsd:sequence>
+               <xsd:element name="qtyonhand" type="xsd:double"/>
+            </xsd:sequence>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="BPartner">
+      <xsd:sequence>
+         <xsd:element name="address1" type="xsd:string"/>
+         <xsd:element name="address2" type="xsd:string"/>
+         <xsd:element name="city" type="xsd:string"/>
+         <xsd:element name="country" type="xsd:string"/>
+         <xsd:element name="id" type="xsd:string"/>
+         <xsd:element name="name" type="xsd:string"/>
+         <xsd:element name="postal" type="xsd:string"/>
+         <xsd:element name="region" type="xsd:string"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="OrderLine">
+      <xsd:sequence>
+         <xsd:element name="orderLineId" type="xsd:int"/>
+         <xsd:element name="price" type="xsd:double"/>
+         <xsd:element name="productId" type="xsd:int"/>
+         <xsd:element name="taxId" type="xsd:int"/>
+         <xsd:element name="units" type="xsd:double"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="OrderIdentifier">
+      <xsd:sequence>
+         <xsd:element name="dateNew" type="xsd:dateTime"/>
+         <xsd:element name="documentNo" type="xsd:string"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="Payment">
+      <xsd:sequence>
+         <xsd:element name="amount" type="xsd:double"/>
+         <xsd:element name="paymentType" type="xsd:string"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="Order">
+      <xsd:sequence>
+         <xsd:element name="businessPartner" type="tns:BPartner"/>
+         <xsd:element name="lines" type="tns:ArrayOf_tns1_OrderLine"/>
+         <xsd:element name="orderId" type="tns:OrderIdentifier"/>
+         <xsd:element name="payment" type="tns:ArrayOf_tns1_Payment"/>
+         <xsd:element name="state" type="xsd:int"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="ArrayOf_tns1_Product">
+      <xsd:sequence>
+         <xsd:element name="products" type="tns:Product" minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="ArrayOf_tns1_ProductPlus">
+      <xsd:sequence>
+         <xsd:element name="products" type="tns:ProductPlus" minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="ArrayOf_tns1_OrderLine">
+      <xsd:sequence>
+         <xsd:element name="orderlines" type="tns:OrderLine" minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="ArrayOf_tns1_Payment">
+      <xsd:sequence>
+         <xsd:element name="payments" type="tns:Payment" minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="ArrayOf_tns1_Order">
+      <xsd:sequence>
+         <xsd:element name="orders" type="tns:Order" minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="ArrayOf_tns1_OrderIdentifier">
+      <xsd:sequence>
+         <xsd:element name="orderidentifiers" type="tns:OrderIdentifier" minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="Contact">
+      <xsd:sequence>
+         <xsd:element name="businessPartnerId" type="xsd:int"/>
+         <xsd:element name="clientId" type="xsd:int"/>
+         <xsd:element name="email" type="xsd:string"/>
+         <xsd:element name="fax" type="xsd:string"/>
+         <xsd:element name="firstName" type="xsd:string"/>
+         <xsd:element name="id" type="xsd:int"/>
+         <xsd:element name="lastName" type="xsd:string"/>
+         <xsd:element name="phone" type="xsd:string"/>
+         <xsd:element name="phone2" type="xsd:string"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="Location">
+      <xsd:sequence>
+         <xsd:element name="address1" type="xsd:string"/>
+         <xsd:element name="address2" type="xsd:string"/>
+         <xsd:element name="businessPartnerId" type="xsd:int"/>
+         <xsd:element name="city" type="xsd:string"/>
+         <xsd:element name="clientId" type="xsd:int"/>
+         <xsd:element name="country" type="xsd:string"/>
+         <xsd:element name="id" type="xsd:int"/>
+         <xsd:element name="postal" type="xsd:string"/>
+         <xsd:element name="region" type="xsd:string"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="BusinessPartner">
+      <xsd:sequence>
+         <xsd:element name="clientId" type="xsd:int"/>
+         <xsd:element name="complete" type="xsd:boolean"/>
+         <xsd:element name="contacts" type="tns:ArrayOf_tns1_Contact"/>
+         <xsd:element name="customer" type="xsd:boolean"/>
+         <xsd:element name="description" type="xsd:string"/>
+         <xsd:element name="id" type="xsd:int"/>
+         <xsd:element name="locations" type="tns:ArrayOf_tns1_Location"/>
+         <xsd:element name="name" type="xsd:string"/>
+         <xsd:element name="searchKey" type="xsd:string"/>
+         <xsd:element name="vendor" type="xsd:boolean"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="Customer">
+      <xsd:complexContent>
+         <xsd:extension base="tns:BusinessPartner">
+            <xsd:sequence/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="ArrayOf_tns1_Contact">
+      <xsd:sequence>
+         <xsd:element name="contacts" type="tns:Contact" minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="ArrayOf_tns1_Location">
+      <xsd:sequence>
+         <xsd:element name="locations" type="tns:Location" minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="ArrayOf_tns1_Customer">
+      <xsd:sequence>
+         <xsd:element name="customers" type="tns:Customer" minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="ArrayOf_xsd_int">
+      <xsd:sequence>
+         <xsd:element name="ints" type="xsd:int" minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:element name="ProductsPlusCatalogRequest" type="tns:ProductsPlusCatalogRequest"/>
+   <xsd:complexType name="ProductsPlusCatalogRequest">
+      <xsd:sequence>
+         <xsd:element name="entityId" type="xsd:int"/>
+         <xsd:element name="OrganizationId" type="xsd:int"/>
+         <xsd:element name="salesChannel" type="xsd:int"/>
+         <xsd:element name="username" type="xsd:string"/>
+         <xsd:element name="password" type="xsd:string"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:element name="ProductsPlusCatalogResponse" type="tns:ProductsPlusCatalogResponse"/>
+   <xsd:complexType name="ProductsPlusCatalogResponse">
+      <xsd:sequence>
+         <xsd:element name="ArrayOf_tns1_ProductPlus" type="tns:ArrayOf_tns1_ProductPlus"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:element name="ProductsCatalogRequest" type="tns:ProductsCatalogRequest"/>
+   <xsd:complexType name="ProductsCatalogRequest">
+      <xsd:sequence>
+         <xsd:element name="entityId" type="xsd:int"/>
+         <xsd:element name="OrganizationId" type="xsd:int"/>
+         <xsd:element name="salesChannel" type="xsd:int"/>
+         <xsd:element name="username" type="xsd:string"/>
+         <xsd:element name="password" type="xsd:string"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:element name="ProductsCatalogResponse" type="tns:ProductsCatalogResponse"/>
+   <xsd:complexType name="ProductsCatalogResponse">
+      <xsd:sequence>
+         <xsd:element name="ArrayOf_tns1_Product" type="tns:ArrayOf_tns1_Product"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:element name="GetCustomersRequest" type="tns:GetCustomersRequest"/>
+   <xsd:complexType name="GetCustomersRequest">
+      <xsd:sequence>
+         <xsd:element name="clientId" type="xsd:int"/>
+         <xsd:element name="username" type="xsd:string"/>
+         <xsd:element name="password" type="xsd:string"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:element name="GetCustomersResponse" type="tns:GetCustomersResponse"/>
+   <xsd:complexType name="GetCustomersResponse">
+      <xsd:sequence>
+         <xsd:element name="ArrayOf_tns1_Customer" type="tns:ArrayOf_tns1_Customer"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:element name="UploadOrdersRequest" type="tns:UploadOrdersRequest"/>
+   <xsd:complexType name="UploadOrdersRequest">
+      <xsd:sequence>
+         <xsd:element name="entityId" type="xsd:int"/>
+         <xsd:element name="OrganizationId" type="xsd:int"/>
+         <xsd:element name="salesChannel" type="xsd:int"/>
+         <xsd:element name="newOrders" type="tns:ArrayOf_tns1_Order"/>
+         <xsd:element name="username" type="xsd:string"/>
+         <xsd:element name="password" type="xsd:string"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:element name="UploadOrdersResponse" type="tns:UploadOrdersResponse"/>
+   <xsd:complexType name="UploadOrdersResponse">
+      <xsd:sequence></xsd:sequence>
+   </xsd:complexType>
+</xsd:schema>
