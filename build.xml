@@ -4,6 +4,7 @@
 <!-- Original contribution from 3E                            -->
 <!-- http://www.3e.pl                                         -->
 <!-- Extended by Carlos Ruiz - globalqss                      -->
+<!-- Extended by victor.perez@e-evolution.com - e-Evolution	  -->
 <!-- ======================================================== -->
 
 <project name="ADInterface" default="war" basedir=".">
@@ -12,16 +13,16 @@
   	</description>
 	<!-- set global properties for this build -->
 	<!--<property environment="env"/>-->
+	<property file="build.properties"/>
 	<property name="src.dir" value="${basedir}/WEB-INF/src"/>
 	<property name="classes.dir" value="${basedir}/WEB-INF/classes"/>
 	<property name="dist.dir" value="${basedir}/dist"/>
 	<property name="deploy.dir" value="${basedir}/deploy"/>
-	<property name="deploy.name" value="webservice"/>
+	<property name="deploy.name" value="WebService"/>
 	<property name="WEBINF.dir" value="${basedir}/WEB-INF"/>
-        <!-- <property name="Adempiere.dir" value="${basedir}/../lib"></property>  To enable when integrated in trunk -->
-
-        <!-- Point to the directory where you have adempiere built -->
-        <property name="Adempiere.dir" value="${user.home}/develop/adempiereTrunk/install/build/Adempiere/lib"></property>  <!-- To delete when integrated in trunk -->
+    <!-- <property name="Adempiere.dir" value="${basedir}/../lib"></property>  To enable when integrated in trunk -->
+    <!-- Point to the directory where you have adempiere built -->
+	<property name="Adempiere.dir" value="${adempiere.trunk}/adempiere/Adempiere/lib"></property>  <!-- To delete when integrated in trunk -->
 
 	<property name="war.name"	value="ADInterface-1.0"/>
 	<property name="compile.debug"       value="true"/>
@@ -110,8 +111,9 @@
 		      </fileset>
 		</war>
 		
-		 <copy file="${dist.dir}/${war.name}.war" tofile="${deploy.dir}/lib/${war.name}.war"/> 
-		
+		 <copy file="${dist.dir}/${war.name}.war" tofile="${deploy.dir}/lib/${war.name}.war"/>
+		<copy file="${dist.dir}/${war.name}.war" tofile="${adempiere.trunk}/lib/${war.name}.war"/>
+
 		<zip
 			zipfile="${dist.dir}/${deploy.name}.zip">
 		  <fileset dir="${deploy.dir}" />
