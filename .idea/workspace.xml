@@ -1,61 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="794d0be3-185e-4d6b-b083-ce7fe40a3cd5" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/META-INF/context.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/META-INF/xfire/services.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/com/_3e/ADInterface/ADDataStatusListener.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/com/_3e/ADInterface/ADInfo.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/com/_3e/ADInterface/ADLookup.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/com/_3e/ADInterface/ADService.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/com/_3e/ADInterface/ADServiceImpl.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/com/_3e/ADInterface/CompiereService.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/com/_3e/ADInterface/CompiereUtil.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/com/_3e/ADInterface/InfoBPartner.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/com/_3e/ADInterface/InfoProduct.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/com/_3e/ADInterface/Info_Column.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/com/_3e/ADInterface/ModelADService.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/com/_3e/ADInterface/ModelADServiceImpl.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/com/_3e/ADInterface/Process.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/com/_3e/ADInterface/ReportEngineEx.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/com/_3e/ADInterface/WWindowStatus$AD_WrongTabException.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/com/_3e/ADInterface/WWindowStatus.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/com/globalqss/ObPOSInterface/ExternalSales.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/com/globalqss/ObPOSInterface/ExternalSalesImpl.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/com/globalqss/ObPOSInterface/WebService.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/com/globalqss/ObPOSInterface/WebServiceImpl.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/net/sf/compilo/data/CompiereDataSourceFactory.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/net/sf/compilo/data/DBDataSource.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/net/sf/compilo/data/ReportViewDataSource.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/net/sf/compilo/data/compiereDataSource.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/net/sf/compilo/data/sqlProcessor.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/net/sf/compilo/report/FileFilter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/net/sf/compilo/report/ReportInfo.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/net/sf/compilo/report/ReportPool.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/net/sf/compilo/report/ReportProcessor.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/net/sf/jasperreports/engine/util/JRQueryExecuter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/org/compiere/model/I_WS_WebService.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/org/compiere/model/I_WS_WebServiceFieldInput.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/org/compiere/model/I_WS_WebServiceFieldOutput.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/org/compiere/model/I_WS_WebServiceMethod.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/org/compiere/model/I_WS_WebServiceType.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/org/compiere/model/I_WS_WebServiceTypeAccess.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/org/compiere/model/I_WS_WebService_Para.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/org/compiere/model/MWebService.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/org/compiere/model/MWebServiceType.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/org/compiere/model/X_WS_WebService.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/org/compiere/model/X_WS_WebServiceFieldInput.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/org/compiere/model/X_WS_WebServiceFieldOutput.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/org/compiere/model/X_WS_WebServiceMethod.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/org/compiere/model/X_WS_WebServiceType.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/org/compiere/model/X_WS_WebServiceTypeAccess.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/org/compiere/model/X_WS_WebService_Para.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/org/spinsuite/service/MSpinSuiteServiceImpl.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/org/spinsuite/service/SpinSuiteService.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/WEB-INF/classes/org/spinsuite/service/SpinSuiteServiceImpl.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/deploy/lib/ADInterface-1.0.war" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.xml" afterPath="$PROJECT_DIR$/build.xml" />
-    </list>
+    <list default="true" id="794d0be3-185e-4d6b-b083-ce7fe40a3cd5" name="Default" comment="" />
     <ignored path="contribution_web_services.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/WEB-INF/classes/" />
