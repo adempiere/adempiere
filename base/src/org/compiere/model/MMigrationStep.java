@@ -239,12 +239,12 @@ public class MMigrationStep extends X_AD_MigrationStep {
 	                 if (sql != null && sql.length() > 0 )
 	                    stmt.addBatch(sql);
 	             }
+	             stmt.executeBatch();
              } 
 		     else {  // Don't parse.  Assume its a single statement.
-		         stmt.addBatch(sqlStatements);
+		         stmt.executeUpdate(sqlStatements);
 		     }
 
-             stmt.executeBatch();
              conn.commit();
              setStatusCode(rollback ? MMigrationStep.STATUSCODE_Unapplied : MMigrationStep.STATUSCODE_Applied);
              setApply(rollback ? MMigrationStep.APPLY_Apply : MMigrationStep.APPLY_Rollback);
@@ -673,8 +673,10 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			mstep.setDBType(step.getAttribute("DBType"));
 			
 			// If Parse is defined, set it accordingly, else, use the default or ignore
-			if (!step.getAttribute("Parse").equals(""))
+			if (!step.getAttribute("Parse").equals("")) {
 				mstep.setParse("Y".equals(step.getAttribute("Parse")));
+				log.log(Level.CONFIG, "Migration: " + mstep.getAD_Migration().getName() + ": Step " + mstep.getSeqNo() + " Parsing set to: " + mstep.isParse());
+			}
 			
 			Node sql = step.getElementsByTagName("SQLStatement").item(0);
 			if ( sql != null )

@@ -175,7 +175,7 @@ begin
     END IF;
     RETURN 0;
 end prodqtyreserved;</SQLStatement>
-      <RollbackStatement>drop function prodqtyreserved;</RollbackStatement>
+      <RollbackStatement>DROP FUNCTION prodqtyreserved</RollbackStatement>
     </Step>
     <Step DBType="Postgres" Parse="Y" SeqNo="50" StepType="SQL">
       <Comments>Changes the source of dateacct from the orginating document either the movement, cost collector or the transaction dateacct.
