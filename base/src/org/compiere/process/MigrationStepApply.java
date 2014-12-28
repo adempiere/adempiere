@@ -17,7 +17,6 @@
 
 package org.compiere.process;
 
-import org.adempiere.process.MigrationLoader;
 import org.compiere.model.MMigration;
 import org.compiere.model.MMigrationStep;
 import org.compiere.util.Ini;
@@ -26,7 +25,6 @@ import org.compiere.util.Msg;
 public class MigrationStepApply extends SvrProcess {
 
 	private MMigrationStep migrationStep;
-	private MigrationLoader loader;
 
 	/**
 	 * 
@@ -54,7 +52,6 @@ public class MigrationStepApply extends SvrProcess {
 
         commitEx();
 
-		loader.syncColumns();
 		// Set the parent status
 		MMigration migration = migrationStep.getParent();
 		migration.updateStatus(get_TrxName());
@@ -66,9 +63,6 @@ public class MigrationStepApply extends SvrProcess {
 	protected void prepare() {
 		
 		migrationStep = new MMigrationStep(getCtx(), getRecord_ID(), get_TrxName());
-
-		loader = new MigrationLoader();
-		migrationStep.set_ColSyncCallback(loader);
 
 	}
 

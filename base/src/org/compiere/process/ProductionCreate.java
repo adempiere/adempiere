@@ -64,7 +64,9 @@ public class ProductionCreate extends SvrProcess {
 	private boolean costsOK(int M_Product_ID) throws AdempiereUserError {
 		// Warning will not work if non-standard costing is used
 		// SHW Parameter p_M_Costtype 
-
+		MCostType ct = new MCostType(getCtx(), p_M_CostType_ID, get_TrxName());
+		if (!ct.getCostingMethod().equals(MCostType.COSTINGMETHOD_StandardCosting))
+			return true;
 		ArrayList<Object> params = new ArrayList<Object>();
 		params.add(M_Product_ID);
 		params.add(p_M_CostType_ID);
