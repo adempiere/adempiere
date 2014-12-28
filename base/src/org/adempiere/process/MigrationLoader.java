@@ -6,7 +6,6 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -20,7 +19,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.adempiere.exceptions.AdempiereException;
 import org.apache.commons.io.FileUtils;
 import org.compiere.Adempiere;
-import org.compiere.model.MColumn;
+import org.compiere.model.I_AD_Migration;
+import org.compiere.model.I_AD_MigrationStep;
 import org.compiere.model.MMigration;
 import org.compiere.model.MTable;
 import org.compiere.process.ProcessInfo;
@@ -152,13 +152,12 @@ public class MigrationLoader {
 			return;
 
 		if (MMigration.STATUSCODE_Applied.equals(migration.getStatusCode())) {
-			log.log(Level.CONFIG, "Migration already applied - skipping: " + migration);
+			log.log(Level.CONFIG, migration.toString() + " ---> Migration already applied - skipping.");
 			return;
 		}
 			
-		migration.set_ColSyncCallback(this);
-		log.log(Level.CONFIG, "Applying migration: " + migration);
-		migration.setFailOnError(true);
+		log.log(Level.CONFIG, migration.toString());
+		migration.setFailOnError(false);
 		try {
 			migration.apply();
 		} catch (AdempiereException e) {
@@ -186,12 +185,21 @@ public class MigrationLoader {
 	}
 	
 	public static void main(String[] args) {
+		
+		
+		Boolean clean_migrations = false;
+		// If called with the argument "clean", the loader will apply any
+		// outstanding migrations, mark ALL applied dictionary migrations as processed
+		// and delete all the steps and data to save space.
+		if (args.length > 0)
+		 clean_migrations = args[0].equals("clean");
+		
 		Adempiere.startupEnvironment(false);
 		CLogMgt.setLevel(Level.CONFIG);
 		
 		MigrationLoader loader = new MigrationLoader();
 		loader.loadXML(Env.getCtx());  // and apply - each migration has to be applied before the next is loaded.
-		//loader.applyMigrations();	
+		loader.clean(Env.getCtx(), clean_migrations, null);
 		
 		ProcessInfo pi = new ProcessInfo("Sequence Check", 258);
 		pi.setAD_Client_ID(0);
@@ -221,65 +229,23 @@ public class MigrationLoader {
 		
 		System.out.println("Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());
 	}
-	
-	// Synchronizing the column in the database with the changes in the AD_Column table
-	// has to be performed in its own transaction to avoid a database lock.
-	// The following classes and interface provide a method of doing so.  
-	
-	/**
-	 * Interface to identify the column to sync.  Called from the step.apply().
-	 *
-	 */
-	public interface SyncCol {
-		  public void addSyncColumn(int column_id);
-	}
-	
-	/**
-	 * Array list containing the column IDs that need to be synced with the database
-	 */
-	private List<Integer> syncColumns = new ArrayList<Integer>();
-	
-	/**
-	 * Add a column ID to the list of columns that need to be synced with the database
-	 * @param ad_column_id
-	 */
-	public void addSyncColumn (int ad_column_id) {
-		syncColumns.add(ad_column_id);
-	}
-	
-	/**
-	 * Synchronize all columns in the list with the database.  This operation is performed in
-	 * its own transaction.
-	 */
-	public void syncColumns() {
-		if (syncColumns == null || syncColumns.size() == 0)
+
+	private void clean(Properties ctx, Boolean clean_migrations, String trxName) {
+		
+		if (!clean_migrations)
+			return;
+		// For backward compatibility, check if the processed column has been added 
+		// to the AD_Migration table
+		// The processed column was added to AD_MigrationStep just prior to release 3.8.0.
+		MMigration migration = new MMigration(ctx,0,trxName);
+		if (migration.get_ColumnIndex(I_AD_Migration.COLUMNNAME_Processed) < 0)
 			return;
 
-		for (int ad_column_id : syncColumns) {
-			try {
-				Trx.run(new SyncRunner(ad_column_id));
-			}
-			catch (org.adempiere.exceptions.DBException e) {
-				log.log(Level.CONFIG, "Error synchronizing column " + ad_column_id + ". " + e.toString());
-			}
+		migration = null;
+		Boolean notProcessed = false;
+		for (MMigration mig : MMigration.getMigrations(Env.getCtx(), notProcessed, trxName)) {
+			if (mig != null)
+				mig.clean();
 		}
-		syncColumns.clear();
-	}
-
-	class SyncRunner implements TrxRunnable {
-			int ad_column_id;
-				
-			public SyncRunner(int column_id) {
-				this.ad_column_id = column_id;
-			}
-			
-			public void run(String trxName) {
-	
-			MColumn col = new MColumn(Env.getCtx(), ad_column_id, trxName);
-			if (ad_column_id > 0 && !col.isVirtualColumn())	{
-				log.log(Level.CONFIG, "Synchronizing column " + ad_column_id + ": " + col.toString());
-				col.syncDatabase();
-			}
-		}
-	}
+	}	
 }

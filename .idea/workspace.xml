@@ -10,6 +10,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f088a603-86f9-4692-ad7b-06b6ff86e906" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/migration/370lts-380lts/xml/0036_AddNewFieldPayrollMovement.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/migration/380lts-release/xml/0034_ChangesToSupportCosting.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/migration/370lts-380lts/xml/0035_IsAllowCopy.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/migration/370lts-380lts/xml/0038_HistoryPayrollMovement.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/migration/370lts-380lts/xml/0037_ImportEmployeeAttribute.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/migration/370lts-380lts/xml/0039_FixMenuPosition.xml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/ADInterface-1.0.war" afterPath="$PROJECT_DIR$/lib/ADInterface-1.0.war" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/launch/Release/Adempiere.exe" afterPath="$PROJECT_DIR$/launch/Release/Adempiere.exe" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/packages/FixedAsset.jar" afterPath="$PROJECT_DIR$/packages/FixedAsset.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/packages/liberoCashflow.jar" afterPath="$PROJECT_DIR$/packages/liberoCashflow.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/packages/liberoHR.jar" afterPath="$PROJECT_DIR$/packages/liberoHR.jar" />
@@ -17,8 +25,99 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/packages/liberoWM.jar" afterPath="$PROJECT_DIR$/packages/liberoWM.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkpackages/liberozkHR.jar" afterPath="$PROJECT_DIR$/zkpackages/liberozkHR.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkpackages/liberozkMFG.jar" afterPath="$PROJECT_DIR$/zkpackages/liberozkMFG.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice" afterPath="$PROJECT_DIR$/org.adempiere.webservice" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/mysql-connector-java-5.1.13-bin.jar" afterPath="$PROJECT_DIR$/lib/mysql-connector-java-5.1.13-bin.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.classpath" afterPath="$PROJECT_DIR$/.classpath" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/.classpath" afterPath="$PROJECT_DIR$/org.adempiere.webservice/.classpath" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.hgsubstate" afterPath="$PROJECT_DIR$/.hgsubstate" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.project" afterPath="$PROJECT_DIR$/.project" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/.project" afterPath="$PROJECT_DIR$/org.adempiere.webservice/.project" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/migration/370lts-380lts/xml/0035_DropADColumn_ADMigrationData_Const.xml" afterPath="$PROJECT_DIR$/migration/370lts-380lts/xml/0035_DropADColumn_ADMigrationData_Const.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/migration/370lts-380lts/xml/0036_IsAllowCopy.xml" afterPath="$PROJECT_DIR$/migration/370lts-380lts/xml/0036_IsAllowCopy.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/migration/370lts-380lts/xml/0037_AddNewFieldPayrollMovement.xml" afterPath="$PROJECT_DIR$/migration/370lts-380lts/xml/0037_AddNewFieldPayrollMovement.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/migration/370lts-380lts/xml/0038_ImportEmployeeAttribute.xml" afterPath="$PROJECT_DIR$/migration/370lts-380lts/xml/0038_ImportEmployeeAttribute.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/migration/370lts-380lts/xml/0039_HistoryPayrollMovement.xml" afterPath="$PROJECT_DIR$/migration/370lts-380lts/xml/0039_HistoryPayrollMovement.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/migration/370lts-380lts/xml/0040_ChangesToSupportCosting.xml" afterPath="$PROJECT_DIR$/migration/370lts-380lts/xml/0040_ChangesToSupportCosting.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/migration/370lts-380lts/xml/0041_AddParseFlagToMigrationStep.xml" afterPath="$PROJECT_DIR$/migration/370lts-380lts/xml/0041_AddParseFlagToMigrationStep.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/migration/370lts-380lts/xml/0042_ModifyProductionCreate.xml" afterPath="$PROJECT_DIR$/migration/370lts-380lts/xml/0042_ModifyProductionCreate.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/migration/370lts-380lts/xml/0043_AddMissingMessagesForAdvSearch.xml" afterPath="$PROJECT_DIR$/migration/370lts-380lts/xml/0043_AddMissingMessagesForAdvSearch.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/migration/370lts-380lts/xml/0044_AddProcessedFieldtoADMigration.xml" afterPath="$PROJECT_DIR$/migration/370lts-380lts/xml/0044_AddProcessedFieldtoADMigration.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/migration/370lts-380lts/xml/0045_FixMenuPosition.xml" afterPath="$PROJECT_DIR$/migration/370lts-380lts/xml/0045_FixMenuPosition.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/launch/Adempiere.xml" afterPath="$PROJECT_DIR$/launch/Adempiere.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/testScripts/AdempiereWebServices-soapui-project.xml" afterPath="$PROJECT_DIR$/org.adempiere.webservice/testScripts/AdempiereWebServices-soapui-project.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/EclipseMultiProject.classpath" afterPath="$PROJECT_DIR$/org.adempiere.webservice/EclipseMultiProject.classpath" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/Notes/HowToAddNewWebService.txt" afterPath="$PROJECT_DIR$/org.adempiere.webservice/Notes/HowToAddNewWebService.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/I_AD_Migration.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/I_AD_Migration.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/I_AD_MigrationStep.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/I_AD_MigrationStep.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/org/compiere/model/I_WS_WebService.java" afterPath="$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/org/compiere/model/I_WS_WebService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/org/compiere/model/I_WS_WebServiceFieldInput.java" afterPath="$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/org/compiere/model/I_WS_WebServiceFieldInput.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/org/compiere/model/I_WS_WebServiceFieldOutput.java" afterPath="$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/org/compiere/model/I_WS_WebServiceFieldOutput.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/org/compiere/model/I_WS_WebServiceMethod.java" afterPath="$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/org/compiere/model/I_WS_WebServiceMethod.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/org/compiere/model/I_WS_WebServiceType.java" afterPath="$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/org/compiere/model/I_WS_WebServiceType.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/org/compiere/model/I_WS_WebServiceTypeAccess.java" afterPath="$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/org/compiere/model/I_WS_WebServiceTypeAccess.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/org/compiere/model/I_WS_WebService_Para.java" afterPath="$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/org/compiere/model/I_WS_WebService_Para.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/net/sf/jasperreports/engine/util/JRQueryExecuter.java" afterPath="$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/net/sf/jasperreports/engine/util/JRQueryExecuter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MColumn.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MColumn.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MMigration.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MMigration.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MMigrationStep.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MMigrationStep.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/org/compiere/model/MWebService.java" afterPath="$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/org/compiere/model/MWebService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/org/compiere/model/MWebServiceType.java" afterPath="$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/org/compiere/model/MWebServiceType.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/process/MigrationApply.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/process/MigrationApply.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/adempiere/process/MigrationLoader.java" afterPath="$PROJECT_DIR$/base/src/org/adempiere/process/MigrationLoader.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/process/MigrationStepApply.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/process/MigrationStepApply.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/process/MigrationStepRollback.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/process/MigrationStepRollback.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/testScripts/MsgModelRunProcess" afterPath="$PROJECT_DIR$/org.adempiere.webservice/testScripts/MsgModelRunProcess" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/testScripts/MsgModelSetDocAction" afterPath="$PROJECT_DIR$/org.adempiere.webservice/testScripts/MsgModelSetDocAction" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/process/ProductionCreate.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/process/ProductionCreate.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/README.md" afterPath="$PROJECT_DIR$/org.adempiere.webservice/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/utils/RUN_ImportAdempiere.bat" afterPath="$PROJECT_DIR$/utils/RUN_ImportAdempiere.bat" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/utils/RUN_MigrateXML.bat" afterPath="$PROJECT_DIR$/utils/RUN_MigrateXML.bat" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/utils/RUN_MigrateXML.sh" afterPath="$PROJECT_DIR$/utils/RUN_MigrateXML.sh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/RUN_build.sh" afterPath="$PROJECT_DIR$/org.adempiere.webservice/RUN_build.sh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/RUN_xmlbean.sh" afterPath="$PROJECT_DIR$/org.adempiere.webservice/RUN_xmlbean.sh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/testScripts/TestModelMsg.sh" afterPath="$PROJECT_DIR$/org.adempiere.webservice/testScripts/TestModelMsg.sh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/migration/oracle/WS001_WebServices.sql" afterPath="$PROJECT_DIR$/org.adempiere.webservice/migration/oracle/WS001_WebServices.sql" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/migration/postgresql/WS001_WebServices.sql" afterPath="$PROJECT_DIR$/org.adempiere.webservice/migration/postgresql/WS001_WebServices.sql" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/migration/oracle/WS002_WebServicesDefinition.sql" afterPath="$PROJECT_DIR$/org.adempiere.webservice/migration/oracle/WS002_WebServicesDefinition.sql" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/migration/postgresql/WS002_WebServicesDefinition.sql" afterPath="$PROJECT_DIR$/org.adempiere.webservice/migration/postgresql/WS002_WebServicesDefinition.sql" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/migration/oracle/WS003_WebServicesConfigGardenWorldSample.sql" afterPath="$PROJECT_DIR$/org.adempiere.webservice/migration/oracle/WS003_WebServicesConfigGardenWorldSample.sql" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/migration/postgresql/WS003_WebServicesConfigGardenWorldSample.sql" afterPath="$PROJECT_DIR$/org.adempiere.webservice/migration/postgresql/WS003_WebServicesConfigGardenWorldSample.sql" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/migration/oracle/WS004_WebServicesFixDict.sql" afterPath="$PROJECT_DIR$/org.adempiere.webservice/migration/oracle/WS004_WebServicesFixDict.sql" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/migration/postgresql/WS004_WebServicesFixDict.sql" afterPath="$PROJECT_DIR$/org.adempiere.webservice/migration/postgresql/WS004_WebServicesFixDict.sql" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/migration/oracle/WS005_Add_EntityType_Spin.sql" afterPath="$PROJECT_DIR$/org.adempiere.webservice/migration/oracle/WS005_Add_EntityType_Spin.sql" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/migration/postgresql/WS005_Add_EntityType_Spin.sql" afterPath="$PROJECT_DIR$/org.adempiere.webservice/migration/postgresql/WS005_Add_EntityType_Spin.sql" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/migration/oracle/WS006_AddRecordsPerPageInSystemConfigurator.sql" afterPath="$PROJECT_DIR$/org.adempiere.webservice/migration/oracle/WS006_AddRecordsPerPageInSystemConfigurator.sql" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/migration/postgresql/WS006_AddRecordsPerPageInSystemConfigurator.sql" afterPath="$PROJECT_DIR$/org.adempiere.webservice/migration/postgresql/WS006_AddRecordsPerPageInSystemConfigurator.sql" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/X_AD_Migration.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/X_AD_Migration.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/X_AD_MigrationStep.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/X_AD_MigrationStep.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/org/compiere/model/X_WS_WebService.java" afterPath="$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/org/compiere/model/X_WS_WebService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/org/compiere/model/X_WS_WebServiceFieldInput.java" afterPath="$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/org/compiere/model/X_WS_WebServiceFieldInput.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/org/compiere/model/X_WS_WebServiceFieldOutput.java" afterPath="$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/org/compiere/model/X_WS_WebServiceFieldOutput.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/org/compiere/model/X_WS_WebServiceMethod.java" afterPath="$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/org/compiere/model/X_WS_WebServiceMethod.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/org/compiere/model/X_WS_WebServiceType.java" afterPath="$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/org/compiere/model/X_WS_WebServiceType.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/org/compiere/model/X_WS_WebServiceTypeAccess.java" afterPath="$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/org/compiere/model/X_WS_WebServiceTypeAccess.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/org/compiere/model/X_WS_WebService_Para.java" afterPath="$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/org/compiere/model/X_WS_WebService_Para.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/serverRoot/src/web/adempiere.html" afterPath="$PROJECT_DIR$/serverRoot/src/web/adempiere.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/serverRoot/src/web/adempiere.jnlp" afterPath="$PROJECT_DIR$/serverRoot/src/web/adempiere.jnlp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/.idea/ant.xml" afterPath="$PROJECT_DIR$/org.adempiere.webservice/.idea/ant.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/build.properties.template" afterPath="$PROJECT_DIR$/org.adempiere.webservice/build.properties.template" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/migration/build.properties" afterPath="$PROJECT_DIR$/migration/build.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/build.xml" afterPath="$PROJECT_DIR$/org.adempiere.webservice/build.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/utils_dev/build.xml" afterPath="$PROJECT_DIR$/utils_dev/build.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/.idea/compiler.xml" afterPath="$PROJECT_DIR$/org.adempiere.webservice/.idea/compiler.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/.idea/encodings.xml" afterPath="$PROJECT_DIR$/org.adempiere.webservice/.idea/encodings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/deploy/jboss/server/adempiere/deploy/http-invoker.sar/invoker.war/WEB-INF/jboss-web.xml" afterPath="$PROJECT_DIR$/org.adempiere.webservice/deploy/jboss/server/adempiere/deploy/http-invoker.sar/invoker.war/WEB-INF/jboss-web.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/.idea/misc.xml" afterPath="$PROJECT_DIR$/org.adempiere.webservice/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/.idea/modules.xml" afterPath="$PROJECT_DIR$/org.adempiere.webservice/.idea/modules.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/org.adempiere.webservice.iml" afterPath="$PROJECT_DIR$/org.adempiere.webservice/org.adempiere.webservice.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.settings/org.eclipse.wst.common.component" afterPath="$PROJECT_DIR$/.settings/org.eclipse.wst.common.component" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.settings/org.eclipse.wst.common.project.facet.core.xml" afterPath="$PROJECT_DIR$/.settings/org.eclipse.wst.common.project.facet.core.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/.idea/copyright/profiles_settings.xml" afterPath="$PROJECT_DIR$/org.adempiere.webservice/.idea/copyright/profiles_settings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/.idea/scopes/scope_settings.xml" afterPath="$PROJECT_DIR$/org.adempiere.webservice/.idea/scopes/scope_settings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/.idea/uiDesigner.xml" afterPath="$PROJECT_DIR$/org.adempiere.webservice/.idea/uiDesigner.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/.idea/vcs.xml" afterPath="$PROJECT_DIR$/org.adempiere.webservice/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/web.xml" afterPath="$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/web.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/deploy/jboss/server/adempiere/deploy/http-invoker.sar/invoker.war/WEB-INF/web.xml" afterPath="$PROJECT_DIR$/org.adempiere.webservice/deploy/jboss/server/adempiere/deploy/http-invoker.sar/invoker.war/WEB-INF/web.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.webservice/.idea/workspace.xml" afterPath="$PROJECT_DIR$/org.adempiere.webservice/.idea/workspace.xml" />
     </list>
     <ignored path="adempiereDevelop.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -81,8 +180,8 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <breakpoint_rules converted="true" />
     <ui_properties converted="true" />
+    <breakpoint_rules converted="true" />
   </component>
   <component name="DiffToolSettings">
     <option name="WHITESPACES" value="true" />
@@ -293,74 +392,6 @@
       <sortByType PackagesPane="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereDevelop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereDevelop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereDevelop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereDevelop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereDevelop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereDevelop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="eevolution" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereDevelop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereDevelop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="eevolution" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="process" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="Scope">
         <subPane subId="Project Files">
           <PATH>
@@ -485,6 +516,74 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="org" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="org" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="eevolution" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="org" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="eevolution" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="process" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -910,6 +1009,22 @@
       <envs />
       <method />
     </configuration>
+    <configuration default="true" type="ScalaTestRunConfiguration" factoryName="ScalaTest">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <extension name="scalaCoverage" />
+      <module name="" />
+      <setting name="path" value="" />
+      <setting name="package" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workingDirectory" value="$PROJECT_DIR$" />
+      <setting name="searchForTest" value="Across module dependencies" />
+      <setting name="testName" value="" />
+      <setting name="testKind" value="Class" />
+      <setting name="showProgressMessages" value="true" />
+      <envs />
+      <method />
+    </configuration>
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
       <module name="" />
       <option name="ACTIVITY_CLASS" value="" />
@@ -928,22 +1043,6 @@
       <option name="CLEAR_LOGCAT" value="false" />
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
       <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
-      <method />
-    </configuration>
-    <configuration default="true" type="ScalaTestRunConfiguration" factoryName="ScalaTest">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <extension name="scalaCoverage" />
-      <module name="" />
-      <setting name="path" value="" />
-      <setting name="package" value="" />
-      <setting name="vmparams" value="" />
-      <setting name="params" value="" />
-      <setting name="workingDirectory" value="$PROJECT_DIR$" />
-      <setting name="searchForTest" value="Across module dependencies" />
-      <setting name="testName" value="" />
-      <setting name="testKind" value="Class" />
-      <setting name="showProgressMessages" value="true" />
-      <envs />
       <method />
     </configuration>
     <configuration default="false" name="Tomcat" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 7.0.56" ALTERNATIVE_JRE_ENABLED="false" ALTERNATIVE_JRE_PATH="">
@@ -1102,64 +1201,65 @@
       <workItem from="1419255472575" duration="36000" />
       <workItem from="1419256882779" duration="17487000" />
       <workItem from="1419455570368" duration="34339000" />
+      <workItem from="1419802456406" duration="8000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="238708000" />
+    <option name="totallyTimeSpent" value="238716000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="1173" extended-state="0" />
     <editor active="false" />
     <layout>
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.0" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32985783" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.41042653" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
-      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33459717" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="JSF" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32985783" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25559106" sideWeight="0.5" order="0" side_tool="true" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32985783" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32985783" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32406417" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.46445498" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32960597" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32985783" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.41042653" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.42938387" sideWeight="0.8189563" order="17" side_tool="false" content_ui="tabs" />
+      <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="JSF" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33459717" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.24973376" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32985783" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25559106" sideWeight="0.5" order="0" side_tool="true" content_ui="combo" />
       <window_info id="SBT Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3289225" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32985783" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="SQL" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32406417" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.46445498" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.42938387" sideWeight="0.8189563" order="17" side_tool="false" content_ui="tabs" />
       <window_info id="SBT Execute" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="14" side_tool="true" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16773163" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16773163" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32985783" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="SBT Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3289225" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.41042653" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.41042653" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33459717" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="JSF" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33459717" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32985783" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
@@ -1178,9 +1278,9 @@
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32985783" sideWeight="0.8189563" order="17" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.24973376" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="SBT Execute" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="14" side_tool="true" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
@@ -1294,6 +1394,13 @@
       <expanded value="true" />
     </buildFile>
     <buildFile url="file://$PROJECT_DIR$/migration/370lts-380lts/postgresql/build.xml">
+      <targetFilters>
+        <filter targetName="init" isVisible="false" />
+        <filter targetName="init-post-migration" isVisible="false" />
+        <filter targetName="run-scripts" isVisible="false" />
+        <filter targetName="run-post-migration-scripts" isVisible="false" />
+        <filter targetName="load" isVisible="false" />
+      </targetFilters>
       <expanded value="true" />
     </buildFile>
   </component>
@@ -1346,24 +1453,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="25694" max-vertical-offset="45120">
           <caret line="1782" column="0" selection-start-line="1782" selection-start-column="0" selection-end-line="1782" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#2941#2942#0" expanded="false" />
-            <element signature="e#2987#2988#0" expanded="false" />
-            <element signature="e#4074#4075#0" expanded="false" />
-            <element signature="e#4122#4123#0" expanded="false" />
-            <element signature="e#9073#9074#0" expanded="false" />
-            <element signature="e#9103#9104#0" expanded="false" />
-            <element signature="e#21060#21061#0" expanded="false" />
-            <element signature="e#21092#21093#0" expanded="false" />
-            <element signature="e#21219#21220#0" expanded="false" />
-            <element signature="e#21245#21246#0" expanded="false" />
-            <element signature="e#28022#28023#0" expanded="false" />
-            <element signature="e#28078#28079#0" expanded="false" />
-            <element signature="e#76472#76473#0" expanded="false" />
-            <element signature="e#76516#76517#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1371,20 +1460,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="7739" max-vertical-offset="9285">
           <caret line="562" column="0" selection-start-line="562" selection-start-column="0" selection-end-line="562" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#2510#2511#0" expanded="false" />
-            <element signature="e#2549#2550#0" expanded="false" />
-            <element signature="e#20017#20018#0" expanded="false" />
-            <element signature="e#20037#20038#0" expanded="false" />
-            <element signature="e#20133#20134#0" expanded="false" />
-            <element signature="e#20182#20183#0" expanded="false" />
-            <element signature="e#20283#20284#0" expanded="false" />
-            <element signature="e#20335#20336#0" expanded="false" />
-            <element signature="e#20450#20451#0" expanded="false" />
-            <element signature="e#20503#20504#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1408,35 +1483,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/migration/370lts-380lts/xml/0038_HistoryPayrollMovement.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.2188612" vertical-offset="214610" max-vertical-offset="215850">
-          <caret line="14353" column="68" selection-start-line="14353" selection-start-column="64" selection-end-line="14353" selection-end-column="68" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MBankAccount.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="1.7081851" vertical-offset="750" max-vertical-offset="1800">
           <caret line="145" column="0" selection-start-line="145" selection-start-column="0" selection-end-line="145" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/migration/370lts-380lts/xml/0036_AddNewFieldPayrollMovement.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.56049824" vertical-offset="7035" max-vertical-offset="37605">
-          <caret line="490" column="11" selection-start-line="490" selection-start-column="11" selection-end-line="490" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/migration/370lts-380lts/xml/0037_ImportEmployeeAttribute.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="36653" max-vertical-offset="37710">
-          <caret line="2505" column="11" selection-start-line="2505" selection-start-column="11" selection-end-line="2505" selection-end-column="11" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1444,9 +1494,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.4395018" vertical-offset="2258" max-vertical-offset="4830">
           <caret line="195" column="27" selection-start-line="195" selection-start-column="27" selection-end-line="195" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1544,7 +1591,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="3325" max-vertical-offset="11175">
           <caret line="294" column="16" selection-start-line="294" selection-start-column="16" selection-end-line="294" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1552,18 +1598,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="4898" max-vertical-offset="11430">
           <caret line="441" column="0" selection-start-line="441" selection-start-column="0" selection-end-line="441" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#5939#5940#0" expanded="false" />
-            <element signature="e#5967#5968#0" expanded="false" />
-            <element signature="e#35307#35308#0" expanded="false" />
-            <element signature="e#35333#35334#0" expanded="false" />
-            <element signature="e#35424#35425#0" expanded="false" />
-            <element signature="e#35442#35443#0" expanded="false" />
-            <element signature="e#35668#35669#0" expanded="false" />
-            <element signature="e#35695#35696#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1571,10 +1605,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.15287244" vertical-offset="38" max-vertical-offset="4830">
           <caret line="52" column="0" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1590,7 +1620,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.36514118" vertical-offset="435" max-vertical-offset="2190">
           <caret line="79" column="128" selection-start-line="79" selection-start-column="128" selection-end-line="79" selection-end-column="128" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1598,7 +1627,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="2978" max-vertical-offset="7425">
           <caret line="275" column="0" selection-start-line="275" selection-start-column="0" selection-end-line="275" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1606,9 +1634,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6645">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="17" selection-end-column="79" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1616,7 +1641,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1065">
           <caret line="65" column="0" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1624,7 +1648,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.3" vertical-offset="0" max-vertical-offset="105">
           <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1635,7 +1658,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.375" vertical-offset="0" max-vertical-offset="165">
           <caret line="2" column="322" selection-start-line="2" selection-start-column="322" selection-end-line="2" selection-end-column="322" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1646,7 +1668,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="23160">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1665,7 +1686,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1027">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1673,7 +1693,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1027">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1681,7 +1700,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3359299" vertical-offset="0" max-vertical-offset="1027">
           <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1689,7 +1707,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-1.4829601" vertical-offset="1523" max-vertical-offset="2550">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1705,7 +1722,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-6.3534565" vertical-offset="6525" max-vertical-offset="9330">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1713,7 +1729,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1027">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1745,7 +1760,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.30726257" vertical-offset="0" max-vertical-offset="1665">
           <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="21" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1753,7 +1767,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334" vertical-offset="1" max-vertical-offset="4335">
           <caret line="47" column="13" selection-start-line="47" selection-start-column="13" selection-end-line="47" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>

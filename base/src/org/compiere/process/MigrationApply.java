@@ -16,7 +16,6 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import org.adempiere.process.MigrationLoader;
 import org.compiere.model.MMigration;
 import org.compiere.util.Ini;
 import org.compiere.util.Msg;
@@ -25,7 +24,6 @@ public class MigrationApply extends SvrProcess {
 
 	private MMigration migration;
 	private boolean failOnError = false;
-	private MigrationLoader loader;
 
 	@Override
 	protected String doIt() throws Exception {
@@ -91,9 +89,6 @@ public class MigrationApply extends SvrProcess {
 	protected void prepare() {
 		
 		migration = new MMigration(getCtx(), getRecord_ID(), get_TrxName());
-
-		loader = new MigrationLoader();
-		migration.set_ColSyncCallback(loader);
 
 		ProcessInfoParameter[] params = getParameter();
 		for ( ProcessInfoParameter p : params)

@@ -19,6 +19,7 @@ package org.compiere.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_MigrationStep
  *  @author Adempiere (generated) 
@@ -29,7 +30,7 @@ public class X_AD_MigrationStep extends PO implements I_AD_MigrationStep, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20141225L;
 
     /** Standard Constructor */
     public X_AD_MigrationStep (Properties ctx, int AD_MigrationStep_ID, String trxName)
@@ -265,6 +266,30 @@ public class X_AD_MigrationStep extends PO implements I_AD_MigrationStep, I_Pers
 		return (String)get_Value(COLUMNNAME_ErrorMsg);
 	}
 
+	/** Set Parse Statement.
+		@param Parse 
+		Select if the SQL statement should be parsed based on terminating semi-colons.
+	  */
+	public void setParse (boolean Parse)
+	{
+		set_Value (COLUMNNAME_Parse, Boolean.valueOf(Parse));
+	}
+
+	/** Get Parse Statement.
+		@return Select if the SQL statement should be parsed based on terminating semi-colons.
+	  */
+	public boolean isParse () 
+	{
+		Object oo = get_Value(COLUMNNAME_Parse);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Record ID.
 		@param Record_ID 
 		Direct internal record ID
@@ -338,6 +363,14 @@ public class X_AD_MigrationStep extends PO implements I_AD_MigrationStep, I_Pers
 			 return 0;
 		return ii.intValue();
 	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getSeqNo()));
+    }
 
 	/** StatusCode AD_Reference_ID=53311 */
 	public static final int STATUSCODE_AD_Reference_ID=53311;

@@ -15,10 +15,8 @@
 
 package org.compiere.process;
 
-import org.adempiere.process.MigrationLoader;
 import org.compiere.model.MMigration;
 import org.compiere.model.MMigrationStep;
-import org.compiere.process.SvrProcess;
 import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 
@@ -32,7 +30,6 @@ import org.compiere.util.Msg;
 public class MigrationStepRollback extends SvrProcess {
 
 	private MMigrationStep migrationstep;
-	private MigrationLoader loader;
 
 	@Override
 	protected String doIt() throws Exception {
@@ -49,7 +46,6 @@ public class MigrationStepRollback extends SvrProcess {
 		else
 			retval += migrationstep.rollback();
 
-		loader.syncColumns();
 		// Set the parent status
 		MMigration migration = migrationstep.getParent();
 		migration.updateStatus(get_TrxName());
@@ -61,9 +57,6 @@ public class MigrationStepRollback extends SvrProcess {
 	protected void prepare() {
 		
 		migrationstep = new MMigrationStep(getCtx(), getRecord_ID(), get_TrxName());
-
-		loader = new MigrationLoader();
-		migrationstep.set_ColSyncCallback(loader);
 
 	}
 }

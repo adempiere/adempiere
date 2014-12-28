@@ -377,4 +377,16 @@
 	<lib name="tools/lib/commons-io.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/commons-io.jar!/"/>
 	</lib>
+	<lib name="xfire-all-1.2.6.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/lib/xfire-all-1.2.6.jar!/"/>
+	</lib>
+	<lib name="xbean.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/lib/xbean.jar!/"/>
+	</lib>
+	<lib name="xbean-spring-2.8.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/lib/xbean-spring-2.8.jar!/"/>
+	</lib>
+	<lib name="generated_xmlbeans.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/lib/generated_xmlbeans.jar!/"/>
+	</lib>
 </component>

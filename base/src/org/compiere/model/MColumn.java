@@ -733,7 +733,6 @@ public class MColumn extends X_AD_Column
 			if ( sql == null )
 				return "No sql";
 			
-			int no = 0;
 			if (sql.indexOf(DB.SQLSTATEMENT_SEPARATOR) == -1)
 			{
 				DB.executeUpdateEx(sql, get_TrxName());
@@ -747,6 +746,8 @@ public class MColumn extends X_AD_Column
 				}
 			}
 			
+			// Remove the old table definition from cache 
+			POInfo.removeFromCache(getAD_Table_ID());
 			return sql;
 
 		} 

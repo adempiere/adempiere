@@ -45,6 +45,7 @@
       <sourceFolder url="file://$MODULE_DIR$/org.eevolution.manufacturing/src/main/java/ui/zk" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/org.eevolution.warehouse/src/main/java/base" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/org.adempiere.asset/src/main/java/base" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.webservice/WEB-INF/src" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="inheritedJdk" />
@@ -1131,18 +1132,45 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="liberoCashflow.jar">
+      <library name="tools/lib/commons-io.jar">
         <CLASSES>
-          <root url="file:///adempiereDevelop/packages/liberoCashflow.jar" />
+          <root url="jar://$MODULE_DIR$/tools/lib/commons-io.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="tools/lib/commons-io.jar">
+      <library name="xfire-all-1.2.6.jar">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/commons-io.jar!/" />
+          <root url="jar://$MODULE_DIR$/org.adempiere.webservice/WEB-INF/lib/xfire-all-1.2.6.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="xbean.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/org.adempiere.webservice/WEB-INF/lib/xbean.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="xbean-spring-2.8.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/org.adempiere.webservice/WEB-INF/lib/xbean-spring-2.8.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="generated_xmlbeans.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/org.adempiere.webservice/WEB-INF/lib/generated_xmlbeans.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
