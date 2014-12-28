@@ -94,11 +94,6 @@
         <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
       </PO>
     </Step>
-    <Step SeqNo="30" StepType="AD">
-      <PO AD_Table_ID="106" Action="U" Record_ID="53233" Table="AD_Tab">
-        <Data AD_Column_ID="13449" Column="ReadOnlyLogic" isOldNull="true">@Processed@=Y</Data>
-      </PO>
-    </Step>
     <Step SeqNo="60" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="75050" Table="AD_Field">
         <Data AD_Column_ID="177" Column="DisplayLogic" isOldNull="true">1=2</Data>

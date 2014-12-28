@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Fix Menu Position" ReleaseNo="3.8.0" SeqNo="39">
+  <Migration EntityType="D" Name="Fix Menu Position" ReleaseNo="3.8.0" SeqNo="45">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
         <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
