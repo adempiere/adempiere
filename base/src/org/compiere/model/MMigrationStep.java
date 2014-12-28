@@ -256,7 +256,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
              conn.close();
          } catch (SQLException e) {
              setErrorMsg(e.toString());
-             log.log(Level.SEVERE, parent.toString() + "---> " + (rollback ? "Rollback" : "Application") + " of " + toString() + " failed.", e);
+             log.log(Level.SEVERE, "Step failed.", e);
              try {
                  conn.rollback();
                  conn.close();

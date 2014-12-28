@@ -157,7 +157,7 @@ public class MigrationLoader {
 		}
 			
 		log.log(Level.CONFIG, migration.toString());
-		migration.setFailOnError(true);
+		migration.setFailOnError(false);
 		try {
 			migration.apply();
 		} catch (AdempiereException e) {
