@@ -13,6 +13,10 @@ SET errorGeneral=1
 SET errorNoEnvironment=10
 SET errorNoXMLFiles=11
 
+REM Can be called with argument "clean" to mark the applied dictionary migrations as processed
+REM and delete the steps and data to reduce the database size.
+SET cleanMode=%1
+
 REM change to directory in which this script resides
 SET DIR_SAV=%CD%
 CALL :NORMALIZE DIR_SAV
@@ -62,6 +66,12 @@ Echo.
 Echo It is recommended that production databases be migrated using 
 Echo RUN_Migrate.bat.
 Echo.
+Echo Usage: RUN_Migrate.bat
+Echo.
+Echo Optional argument "clean" will mark all dictionary migrations that have
+Echo been applied as processed and will delete the steps and data to save 
+Echo space.
+Echo.
 Echo WARNING: If the database is not a fresh import of the seed, make sure 
 Echo you have a backup!
 Echo.
@@ -70,7 +80,7 @@ PAUSE
 Set JAVA=%JAVA_HOME%\bin\java
 SET CP=%ADEMPIERE_HOME%\lib\CInstall.jar;%ADEMPIERE_HOME%\lib\Adempiere.jar;%ADEMPIERE_HOME%\lib\CCTools.jar;%ADEMPIERE_HOME%\lib\oracle.jar;%ADEMPIERE_HOME%\lib\jboss.jar;%ADEMPIERE_HOME%\lib\postgresql.jar;
 
-"%JAVA%" -classpath %CP% -DADEMPIERE_HOME=%ADEMPIERE_HOME% org.adempiere.process.MigrationLoader
+"%JAVA%" -classpath %CP% -DADEMPIERE_HOME=%ADEMPIERE_HOME% org.adempiere.process.MigrationLoader %cleanMode%
 SET result=%ERRORLEVEL% 
 
 IF NOT %result%==%errorSuccess% GOTO :SANE

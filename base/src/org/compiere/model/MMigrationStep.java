@@ -29,10 +29,10 @@ import java.util.StringTokenizer;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.adempiere.process.MigrationLoader;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -50,7 +50,6 @@ public class MMigrationStep extends X_AD_MigrationStep {
 	private static final long serialVersionUID = 6002302731217174562L;
 	private List<MMigrationData> m_migrationData;
 	private MMigration parent;
-	private MigrationLoader loader;
 	/** Logger */
 	private static CLogger log = CLogger
 			.getCLogger(MMigrationStep.class);
@@ -85,7 +84,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 
 	public String toString() {
 		MMigration parent = (MMigration) getAD_Migration();
-		return "Migration: " + parent.getName() + "; Step: " + getSeqNo() + "; Type: " + getStepType() + ". ";
+		return parent.toString() + "; Step: " + getSeqNo() + "; Type: " + getStepType() + ". ";
 	}
 	/**
 	 * Create a PO migration step from PO event.
@@ -181,11 +180,17 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		}
 
 		log.log(Level.CONFIG, "Applying migration step: " + this);
+
+		String retCode = "";
 		if ( MMigrationStep.STEPTYPE_SQLStatement.equals(getStepType()) )
-			return applySQL(false);
+			retCode = applySQL(false);
 		else if ( MMigrationStep.STEPTYPE_ApplicationDictionary.equals(getStepType()) )
-			return applyPO();
-		return "Unknown step type";
+			retCode =  applyPO();
+		else
+			return "Unknown step type";
+
+		log.log(Level.CONFIG, getParent().toString() + " ---> Step " + getSeqNo() + " " + retCode + ".");
+		return "";
 
 	}
 
@@ -205,8 +210,9 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		String sqlStatements = rollback ? getRollbackStatement() : getSQLStatement();
 		Boolean isParse = true;
 		
-		// Check if the parse column has been added by the migration yet.
-		if (this.get_ColumnIndex(this.COLUMNNAME_Parse) > 0)
+		// For backward compatibility, check if the parse column has been added by the migration yet.
+		// The parse column was added to AD_MigrationStep just prior to release 3.8.0.
+		if (this.get_ColumnIndex(I_AD_MigrationStep.COLUMNNAME_Parse) > 0)
 			isParse = isParse();
 		
 		if ( sqlStatements == null || sqlStatements.trim().length() == 0 || sqlStatements.equals(";"))
@@ -218,8 +224,6 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			saveEx();
 			return " No SQL";
 		}
-
-
 
         if (getDBType().equals(MMigrationStep.DBTYPE_AllDatabaseTypes)
         || (DB.isOracle() && getDBType().equals(MMigrationStep.DBTYPE_Oracle))
@@ -252,7 +256,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
              conn.close();
          } catch (SQLException e) {
              setErrorMsg(e.toString());
-             log.log(Level.SEVERE, (rollback ? "Rollback" : "Application") + " of " + toString() + " failed.", e);
+             log.log(Level.SEVERE, parent.toString() + "---> " + (rollback ? "Rollback" : "Application") + " of " + toString() + " failed.", e);
              try {
                  conn.rollback();
                  conn.close();
@@ -274,7 +278,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
          saveEx(null);
      }
 		
-		return rollback ? " Rolled-back" : " Applied";
+		return rollback ? "successfully rolled-back" : "successfully applied";
 	}
 	
 	/**
@@ -401,7 +405,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 					else
 						data.setBackupValue(backupValue.toString());
 
-					data.saveEx();
+					data.saveEx(get_TrxName());
 				}
 
 				// apply new values
@@ -421,14 +425,13 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			{
 				po.saveEx(get_TrxName());
 
-				//  Synchronize the AD_Column changes with the database.  To avoid a database lock,
-				//  pass these to the MigrationLoader class and perform the sync in a different 
-				//  transaction.
-				if ( po instanceof MColumn && loader != null )
+				//  Synchronize the AD_Column changes with the database.
+				if ( po instanceof MColumn )
 				{
 					MColumn col = (MColumn) po;
 					if (!col.isVirtualColumn()) {
-						loader.addSyncColumn(col.getAD_Column_ID());
+						log.log(Level.CONFIG, "Synchronizing column: " + col.toString() + " in table: " + MTable.get(Env.getCtx(),col.getAD_Table_ID()));
+						col.syncDatabase();
 					}
 				}
 			}
@@ -446,8 +449,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		setApply(MMigrationStep.APPLY_Rollback);
 		setErrorMsg(null);
 		saveEx();
-		log.log(Level.CONFIG, "Migration " + getParent().getSeqNo() +" - "+ getParent().getName() + " ---> Step " + getSeqNo() + " successfully applied");
-		return "Applied";
+		return "successfully applied";
 	}
 	
 	private String rollbackPO() {
@@ -529,9 +531,8 @@ public class MMigrationStep extends X_AD_MigrationStep {
 				po.deleteEx(true, get_TrxName());
 				//TODO column sync database?
 			}
-
 			// If the record was updated, set the values back to the old values.
-			if ( getAction().equals(ACTION_Update) && po != null) 
+			else if ( getAction().equals(ACTION_Update) && po != null) 
 			{
 				for (MMigrationData data : m_migrationData )
 				{
@@ -545,17 +546,16 @@ public class MMigrationStep extends X_AD_MigrationStep {
 
 					po.set_ValueNoCheck(column.getColumnName(), stringToObject(column, value));
 				}
-			}
-			po.saveEx();
-			
-			//  Synchronize the AD_Column changes with the database.  To avoid a database lock,
-			//  pass these to the MigrationLoader class and perform the sync in a different 
-			//  transaction.
-			if ( po instanceof MColumn && loader != null )
-			{
-				MColumn col = (MColumn) po;
-				if (!col.isVirtualColumn()) {
-					loader.addSyncColumn(col.getAD_Column_ID());
+				po.saveEx();
+				
+				//  Synchronize the AD_Column changes with the database.
+				if ( po instanceof MColumn )
+				{
+					MColumn col = (MColumn) po;
+					if (!col.isVirtualColumn()) {
+						log.log(Level.CONFIG, "Synchronizing column: " + col.toString() + " in table: " + MTable.get(Env.getCtx(),col.getAD_Table_ID()));
+						col.syncDatabase();
+					}
 				}
 			}
 		}
@@ -563,12 +563,14 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			setErrorMsg(e.toString());
 			setStatusCode(MMigrationStep.STATUSCODE_Failed);
 			setApply(MMigrationStep.APPLY_Rollback);
+			log.log(Level.CONFIG, getParent().toString() + " ---> Step " + getSeqNo() + " rolled failed.");
 			throw new AdempiereException("Migration step failed.", e);
 		}
 		setStatusCode(MMigrationStep.STATUSCODE_Unapplied);
 		setApply(MMigrationStep.APPLY_Apply);
 		setErrorMsg(null);
 		saveEx();
+		log.log(Level.CONFIG, getParent().toString() + " ---> Step " + getSeqNo() + " successfully rolled back.");
 		return "Rolled back";
 	}
 	
@@ -675,7 +677,6 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			// If Parse is defined, set it accordingly, else, use the default or ignore
 			if (!step.getAttribute("Parse").equals("")) {
 				mstep.setParse("Y".equals(step.getAttribute("Parse")));
-				log.log(Level.CONFIG, "Migration: " + mstep.getAD_Migration().getName() + ": Step " + mstep.getSeqNo() + " Parsing set to: " + mstep.isParse());
 			}
 			
 			Node sql = step.getElementsByTagName("SQLStatement").item(0);
@@ -687,7 +688,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		}
 		
 		mstep.saveEx();
-		log.log(Level.CONFIG, "Migration: " + mstep.getAD_Migration().getName() + ": Step " + mstep.getSeqNo() + " loaded");
+		log.log(Level.CONFIG, mstep.getAD_Migration().toString() + ": Step " + mstep.getSeqNo() + " loaded");
 
 	}
 
@@ -713,10 +714,6 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		}
 		return true;
 	}	//	beforeDelete
-
-	public void set_ColSyncCallback(MigrationLoader loader) {
-		this.loader = loader;
-	}
 
 	/**
 	 * 	Before Save

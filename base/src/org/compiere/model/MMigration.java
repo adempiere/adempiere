@@ -25,7 +25,6 @@ import java.util.logging.Level;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.adempiere.process.MigrationLoader;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -56,7 +55,6 @@ public class MMigration extends X_AD_Migration {
 	}
 
 	private boolean isFailOnError = false;
-	private MigrationLoader loader;
 
 	public MMigration(Properties ctx, int AD_Migration_ID, String trxName) {
 		super(ctx, AD_Migration_ID, trxName);		
@@ -68,8 +66,11 @@ public class MMigration extends X_AD_Migration {
 	
 	public void apply() throws AdempiereException {
 				
-		for ( MMigrationStep step : getSteps(false) )  // locks the AD_MigrationStep table
+		for ( MMigrationStep step : getSteps(false) )
 		{
+			// Reload the step in case the underlying table/columns have changed.
+			step = new MMigrationStep(Env.getCtx(),step.get_ID(), get_TrxName());
+			
 			if (!step.isActive())
 				continue;
 			
@@ -81,8 +82,6 @@ public class MMigration extends X_AD_Migration {
 					throw new AdempiereException(e);
 				// else continue processing
 			}
-			if (loader != null)
-				loader.syncColumns();
 		}
 		Trx trx = Trx.get("Migration", true);
 		this.set_TrxName(trx.getTrxName());
@@ -94,6 +93,9 @@ public class MMigration extends X_AD_Migration {
 	public void rollback() throws SQLException {
 		for ( MMigrationStep step : getSteps(true) )
 		{
+			// Reload the step in case the underlying table/columns have changed.
+			step = new MMigrationStep(Env.getCtx(),step.get_ID(), get_TrxName());
+
 			if (!step.isActive())
 				continue;
 
@@ -104,8 +106,6 @@ public class MMigration extends X_AD_Migration {
 					throw new AdempiereException(e);
 				// else continue
 			}
-			if (loader != null)
-				loader.syncColumns();
 		}
 
 		Trx trx = Trx.get("Migration", true);
@@ -123,10 +123,10 @@ public class MMigration extends X_AD_Migration {
 		" AND IsActive = 'Y'";
 		int total = DB.getSQLValue(trxName, base);
 
-		String sql = base + " AND StatusCode = 'A'";
+		String sql = base + " AND StatusCode = '" + MMigration.STATUSCODE_Applied + "'";
 		int applied = DB.getSQLValue(trxName, sql);
 		
-		sql = base + " AND StatusCode IN ('F','U')";  //  Failed or Unapplied
+		sql = base + " AND StatusCode IN ('" + MMigration.STATUSCODE_Failed + "','" + MMigration.STATUSCODE_Unapplied + "')";  //  Failed or Unapplied
 		int unapplied = DB.getSQLValue(trxName, sql);
 		String status = "";
 		
@@ -166,6 +166,13 @@ public class MMigration extends X_AD_Migration {
 		.list();
 	}
 	
+	public static List<MMigration> getMigrations(Properties ctx, Boolean processed, String trxName) {
+		String where = "Processed = " + (processed ? "'Y'" : "'N'");
+		return MTable.get(ctx, MMigration.Table_ID)
+		.createQuery(where, trxName)  // locks the table
+		.setOnlyActiveRecords(true)
+		.list();
+	}
 
 	public static boolean updated = false;
 	
@@ -218,7 +225,6 @@ public class MMigration extends X_AD_Migration {
 			Element step = (Element) children.item(i);
 			if ( "Step".equals(step.getTagName()))
 				MMigrationStep.fromXmlNode(mmigration, step);
-				Trx.get(trxName, false).commit(true);
 		}
 		
 		mmigration.saveEx();
@@ -301,8 +307,6 @@ public class MMigration extends X_AD_Migration {
 		public void run(String trxName) {
 						
 			step.set_TrxName(trxName);
-			if ( loader != null)
-				step.set_ColSyncCallback(loader);
 			if ( rollback )
 				step.rollback();
 			else
@@ -322,10 +326,6 @@ public class MMigration extends X_AD_Migration {
 		return true;
 	}	//	beforeDelete
 
-	public void set_ColSyncCallback(MigrationLoader loader) {
-		this.loader = loader;
-	}
-
 	/**
 	 * 	Before Save
 	 *	@param newRecord new
@@ -339,5 +339,32 @@ public class MMigration extends X_AD_Migration {
 			this.setAD_Org_ID(0);
 		return true;
 	}	//	beforeSave
+	
+	// String representation of the Migration
+	public String toString() {
+		return "Migration " + getSeqNo() + " - " + getName() + " - " + this.getReleaseNo() + " (" + this.getEntityType() + ")";
+	}
+
+	/**
+	 * Clean the migration of data.  Only the header will be left.
+	 * The migration should be applied and have the entity type for Dictionary 'D'.
+	 * Steps and Step data will be deleted and the migration marked as "processed".
+	 * The goal is to leave a record of the applied migration but reduce the database
+	 * size.
+	 */
+	public void clean() {
+		if ( getEntityType().equals("D") && getStatusCode().equals(MMigration.STATUSCODE_Applied) ) {
+			log.log(Level.CONFIG, "Cleaning migration: " + this.toString());
+
+			this.setProcessed(true);
+			
+			for (MMigrationStep step : getSteps(false)) {
+				log.log(Level.CONFIG, "   Deleting step: " + step.toString());
+				step.deleteEx(true);
+			}
+			this.saveEx();
+		}
+	}
+
 
 }

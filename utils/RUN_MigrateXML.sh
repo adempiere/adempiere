@@ -17,6 +17,10 @@ echo "Migrate ADempiere using XML"
 echo "==================================="
 echo
 
+# Can be called with argument "clean" to mark the applied dictionary migrations as processed
+# and delete the steps and data to reduce the database size.
+CLEAN_MODE=$1
+
 # change to directory in which this script resides
 DIR_SAV=$(pwd)
 cd $(dirname $0)
@@ -49,6 +53,12 @@ then
 	echo "It is recommended that production databases be migrated using "
 	echo "RUN_Migrate.sh"
 	echo
+	echo Usage: RUN_Migrate.bat
+	echo
+	echo Optional argument "clean" will mark all dictionary migrations that have
+	echo been applied as processed and will delete the steps and data to save 
+	echo space.
+	echo
 	echo "WARNING: If the database is not a fresh import of the seed, make sure "
 	echo "you have a backup!"
 	echo
@@ -58,7 +68,7 @@ then
 	CP=$ADEMPIERE_HOME/lib/CInstall.jar:$ADEMPIERE_HOME/lib/Adempiere.jar:$ADEMPIERE_HOME/lib/CCTools.jar:$ADEMPIERE_HOME/lib/oracle.jar:$ADEMPIERE_HOME/lib/jboss.jar:$ADEMPIERE_HOME/lib/postgresql.jar:
 	JAVA=$JAVA_HOME/bin/java
 
-	$JAVA -classpath $CP -DADEMPIERE_HOME=$ADEMPIERE_HOME org.adempiere.process.MigrationLoader
+	$JAVA -classpath $CP -DADEMPIERE_HOME=$ADEMPIERE_HOME org.adempiere.process.MigrationLoader $CLEAN_MODE
 	result=$? 
 		
 else
