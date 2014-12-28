@@ -33,6 +33,10 @@ import javax.swing.ImageIcon;
 
 import org.compiere.util.CCache;
 import org.compiere.util.Ini;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 
 /**
  *  Image Model
@@ -116,18 +120,28 @@ public class MImage extends X_AD_Image
 		{
 			try
 			{
+			BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(data));
+	        m_image = bufferedImage;
+	        return m_image;
+			}
+			catch (IOException e) {
+				log.log(Level.WARNING, "(byteArray)", e);
+				return null;
+            }
+			/*try
+			{
 				Toolkit tk = Toolkit.getDefaultToolkit();
 				m_image = tk.createImage(data);
 				MediaTracker mediaTracker = new MediaTracker(new Container());
                 mediaTracker.addImage(m_image, 0);
                 mediaTracker.waitForID(0);
-                return m_image;
+				return m_image;
 			}
 			catch (Exception e)
 			{
 				log.log(Level.WARNING, "(byteArray)", e);
 				return null;
-			}
+			}*/
 		}
 		//	Via URL
 		URL url = getURL();
@@ -163,7 +177,8 @@ public class MImage extends X_AD_Image
 		{
 			try
 			{
-				m_icon = new ImageIcon(data, getName());
+				BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(data));
+				m_icon = new ImageIcon(bufferedImage, getName());
 				return m_icon;
 			}
 			catch (Exception e)

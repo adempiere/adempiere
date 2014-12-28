@@ -1680,7 +1680,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 					if (item.isTypeImage())
 					{
 						if (item.isImageField())
-							data[row][col] = createImageElement (item);
+							data[row][col] = createImageElement(item);
 						else if (item.isImageIsAttached())
 							data[row][col] = ImageElement.get (item.get_ID());
 						else
