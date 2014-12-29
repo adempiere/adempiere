@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Changes to support costing" ReleaseNo="3.8.0" SeqNo="40">
+  <Migration EntityType="D" Name="Changes to support costing" ReleaseNo="3.8.0" SeqNo="39">
     <Comments>Set System Configurator, set Immediate costing and add default costs to Garden World so that costing and accounting processes function correctly after loading the seed.  Also fix bug  ADEMPIERE-343 Report Product Cost has error in Report View.</Comments>
     <Step SeqNo="10" StepType="AD">
       <Comments>Set Client Accounting to Immediate</Comments>

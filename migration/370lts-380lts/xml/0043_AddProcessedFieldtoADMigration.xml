@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Adding processed field to AD_Migration table to indicate the" ReleaseNo="3.8.0" SeqNo="44">
+  <Migration EntityType="D" Name="Adding processed field to AD_Migration table to indicate the" ReleaseNo="3.8.0" SeqNo="43">
     <Step SeqNo="10" StepType="AD">
       <Comments>Add processed column to the migration table</Comments>
       <PO AD_Table_ID="101" Action="I" Record_ID="75304" Table="AD_Column">

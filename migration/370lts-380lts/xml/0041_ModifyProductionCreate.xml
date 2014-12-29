@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Modify process ProductionCreate" ReleaseNo="3.8.0" SeqNo="42">
+  <Migration EntityType="D" Name="Modify process ProductionCreate" ReleaseNo="3.8.0" SeqNo="41">
     <Comments>Changes the source of dateacct from the orginating document either the movement, cost collector or the transaction dateacct.
 </Comments>
     <Step SeqNo="10" StepType="AD">

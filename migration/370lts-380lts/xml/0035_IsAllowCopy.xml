@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Is Allow Copy" ReleaseNo="3.8.0" SeqNo="36">
+  <Migration EntityType="D" Name="Is Allow Copy" ReleaseNo="3.8.0" SeqNo="35">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="276" Action="I" Record_ID="57572" Table="AD_Element">
         <Data AD_Column_ID="2595" Column="AD_Client_ID">0</Data>

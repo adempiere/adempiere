@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add missing messages for advanced search" ReleaseNo="3.8.0" SeqNo="43">
+  <Migration EntityType="D" Name="Add missing messages for advanced search" ReleaseNo="3.8.0" SeqNo="42">
     <Comments>Last Query, New Query</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="109" Action="I" Record_ID="53293" Table="AD_Message">
