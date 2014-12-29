@@ -54,7 +54,7 @@ public class MMigration extends X_AD_Migration {
 		this.isFailOnError = isFailOnError;
 	}
 
-	private boolean isFailOnError = false;
+	private boolean isFailOnError = true;
 
 	public MMigration(Properties ctx, int AD_Migration_ID, String trxName) {
 		super(ctx, AD_Migration_ID, trxName);		
@@ -69,7 +69,7 @@ public class MMigration extends X_AD_Migration {
 		for ( MMigrationStep step : getSteps(false) )
 		{
 			// Reload the step in case the underlying table/columns have changed.
-			step = new MMigrationStep(Env.getCtx(),step.get_ID(), get_TrxName());
+			step.load(get_TrxName()); //= new MMigrationStep(Env.getCtx(),step.get_ID(), get_TrxName());
 			
 			if (!step.isActive())
 				continue;
@@ -94,7 +94,7 @@ public class MMigration extends X_AD_Migration {
 		for ( MMigrationStep step : getSteps(true) )
 		{
 			// Reload the step in case the underlying table/columns have changed.
-			step = new MMigrationStep(Env.getCtx(),step.get_ID(), get_TrxName());
+			step.load(get_TrxName()); //= new MMigrationStep(Env.getCtx(),step.get_ID(), get_TrxName());
 
 			if (!step.isActive())
 				continue;
@@ -225,6 +225,7 @@ public class MMigration extends X_AD_Migration {
 			Element step = (Element) children.item(i);
 			if ( "Step".equals(step.getTagName()))
 				MMigrationStep.fromXmlNode(mmigration, step);
+				Trx.get(trxName, false).commit(true);
 		}
 		
 		mmigration.saveEx();
