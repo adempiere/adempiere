@@ -1,7 +1,6 @@
 package org.adempiere.process;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -175,7 +174,7 @@ public class MigrationLoader {
 			   private Element element;
 			   private MigrationLoader loader;
 			   
-			   TrxRunnable setParamenters(Properties ctx , Element element, MigrationLoader loader)
+			   TrxRunnable setParameters(Properties ctx, Element element, MigrationLoader loader)
 			   {
 				   this.ctx =  ctx;
 				   this.element = element;
@@ -195,7 +194,7 @@ public class MigrationLoader {
 						e.printStackTrace();
 					}
 	            }
-	       }.setParamenters(Env.getCtx(), (Element) migrations.item(i), this));
+	       }.setParameters(Env.getCtx(), (Element) migrations.item(i), this));
 		}
 		if (apply) {
 			// Apply the migration just loaded.
