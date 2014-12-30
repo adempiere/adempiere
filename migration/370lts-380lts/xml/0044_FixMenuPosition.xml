@@ -107,5 +107,41 @@
         <Data AD_Column_ID="598" Column="IsActive" oldValue="true">false</Data>
       </PO>
     </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53251">53251</Data>
+        <Data AD_Column_ID="6155" Column="Parent_ID" oldValue="218">153</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="6">1</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53203">53203</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="1">2</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="586">586</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="2">3</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="138">138</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="3">4</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="139">139</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="4">5</Data>
+      </PO>
+    </Step>
   </Migration>
 </Migrations>

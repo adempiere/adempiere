@@ -26,7 +26,7 @@
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="3360" Column="IsUpdateable">false</Data>
         <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
@@ -48,7 +48,7 @@
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
         <Data AD_Column_ID="112" Column="Description">The document has been processed</Data>
         <Data AD_Column_ID="6482" Column="EntityType">D</Data>
-        <Data AD_Column_ID="128" Column="IsEncrypted" isNewNull="true"/>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
       </PO>
     </Step>
@@ -70,9 +70,9 @@
         <Data AD_Column_ID="578" Column="IsActive">true</Data>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="176" Column="IsDisplayed">true</Data>
-        <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true"/>
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
         <Data AD_Column_ID="59703" Column="IsEmbedded" isNewNull="true"/>
-        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="186" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
         <Data AD_Column_ID="184" Column="IsHeading">false</Data>
         <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>

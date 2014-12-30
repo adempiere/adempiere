@@ -87,7 +87,7 @@ If a set of attributes, attribute or attribute search is not found, it is create
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -137,7 +137,7 @@ If a set of attributes, attribute or attribute search is not found, it is create
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -190,7 +190,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -240,7 +240,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -290,7 +290,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -340,7 +340,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -390,7 +390,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -465,7 +465,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">true</Data>
@@ -542,7 +542,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -592,7 +592,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -642,7 +642,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -796,7 +796,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -846,7 +846,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -896,7 +896,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -946,7 +946,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -996,7 +996,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -1046,7 +1046,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -1096,7 +1096,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -1146,7 +1146,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -1196,7 +1196,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -1246,7 +1246,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -1296,7 +1296,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -1346,7 +1346,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -1396,7 +1396,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -1446,7 +1446,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -1496,7 +1496,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -1546,7 +1546,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -1596,7 +1596,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -1646,7 +1646,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -1696,7 +1696,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -1746,7 +1746,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -1796,7 +1796,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -1871,7 +1871,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -1946,7 +1946,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -1996,7 +1996,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>

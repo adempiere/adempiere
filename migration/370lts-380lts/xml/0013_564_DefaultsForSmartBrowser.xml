@@ -350,14 +350,13 @@
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="7714" Column="EntityType">EE07</Data>
         <Data AD_Column_ID="170" Column="Help">Flag to indicate if is collapsible by default</Data>
-        <Data AD_Column_ID="59703" Column="HideInListView" isNewNull="true"/>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
         <Data AD_Column_ID="578" Column="IsActive">true</Data>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="176" Column="IsDisplayed">true</Data>
-        <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true"/>
-        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
+        <Data AD_Column_ID="186" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
         <Data AD_Column_ID="184" Column="IsHeading">false</Data>
         <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
@@ -392,14 +391,13 @@
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="7714" Column="EntityType">EE07</Data>
         <Data AD_Column_ID="170" Column="Help">Allows auto select rows of a browser</Data>
-        <Data AD_Column_ID="59703" Column="HideInListView" isNewNull="true"/>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
         <Data AD_Column_ID="578" Column="IsActive">true</Data>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="176" Column="IsDisplayed">true</Data>
-        <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true"/>
-        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
+        <Data AD_Column_ID="186" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
         <Data AD_Column_ID="184" Column="IsHeading">false</Data>
         <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
@@ -434,14 +432,13 @@
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="7714" Column="EntityType">EE07</Data>
         <Data AD_Column_ID="170" Column="Help">Allow define if a Browser is execute by default</Data>
-        <Data AD_Column_ID="59703" Column="HideInListView" isNewNull="true"/>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
         <Data AD_Column_ID="578" Column="IsActive">true</Data>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="176" Column="IsDisplayed">true</Data>
-        <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true"/>
-        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
+        <Data AD_Column_ID="186" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
         <Data AD_Column_ID="184" Column="IsHeading">false</Data>
         <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
@@ -476,14 +473,13 @@
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="7714" Column="EntityType">EE07</Data>
         <Data AD_Column_ID="170" Column="Help">The Records Deletable checkbox indicates if a record can be deleted from the database.  If records cannot be deleted, you can only deselect the Active flag</Data>
-        <Data AD_Column_ID="59703" Column="HideInListView" isNewNull="true"/>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
         <Data AD_Column_ID="578" Column="IsActive">true</Data>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="176" Column="IsDisplayed">true</Data>
-        <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true"/>
-        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
+        <Data AD_Column_ID="186" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
         <Data AD_Column_ID="184" Column="IsHeading">false</Data>
         <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
@@ -518,14 +514,13 @@
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="7714" Column="EntityType">EE07</Data>
         <Data AD_Column_ID="170" Column="Help">The Window field identifies a unique Window in the system.</Data>
-        <Data AD_Column_ID="59703" Column="HideInListView" isNewNull="true"/>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
         <Data AD_Column_ID="578" Column="IsActive">true</Data>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="176" Column="IsDisplayed">true</Data>
-        <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true"/>
-        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
+        <Data AD_Column_ID="186" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
         <Data AD_Column_ID="184" Column="IsHeading">false</Data>
         <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
