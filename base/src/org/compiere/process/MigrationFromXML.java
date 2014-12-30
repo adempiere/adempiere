@@ -37,7 +37,7 @@ public class MigrationFromXML extends SvrProcess {
 		if ( Ini.isPropertyBool(Ini.P_LOGMIGRATIONSCRIPT) )
 		{
 			addLog( Msg.getMsg(getCtx(), "LogMigrationScriptFlagIsSetMessage"));
-			return "@Error@" + Msg.getMsg(getCtx(), "LogMigrationScripFlagtIsSet");
+			return "@Error@" + Msg.getMsg(getCtx(), "LogMigrationScriptFlagIsSet");
 		}
 		
 		// file can be a file or directory
