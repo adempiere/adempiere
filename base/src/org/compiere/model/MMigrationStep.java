@@ -157,8 +157,10 @@ public class MMigrationStep extends X_AD_MigrationStep {
 						|| ( event.equals(MMigrationStep.ACTION_Update) && po.is_ValueChanged(i)) 
 						|| isMultiKeyColumn)
 				{
-					if ( value == null )
+					if ( value == null && info.getDefaultLogic(i) == null && !info.isColumnMandatory(i))
 						data.setIsNewNull(true);
+					else if (value == null && info.getDefaultLogic(i) != null && info.isColumnMandatory(i))
+						data.setNewValue(info.getDefaultLogic(i));
 					else
 						data.setNewValue(value.toString());
 					data.saveEx();
@@ -385,16 +387,18 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			{
 				if (!data.isActive())
 					continue;
-				
+
+				MColumn column = (MColumn) data.getAD_Column();
+				if(column == null)
+					continue;
+
 				// TODO: option to apply only when existing value equals reference value
 				String value = data.getNewValue();
 				if ( data.isNewNull() )
 					value = null;
 
-				MColumn column = (MColumn) data.getAD_Column();
-                if(column == null)
-                    continue;
-
+				if (value == null && column.isMandatory() && column.getDefaultValue() != null)
+					value = column.getDefaultValue();
 
 				// backup existing value
 				if ( !po.is_new() )
