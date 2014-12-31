@@ -665,7 +665,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	/**
 	 * Execute the script
 	 * @param AD_Rule_ID
-	 * @param string Column Type
+	 * @param columnType Column Type
 	 * @return Object
 	 */
 	private Object executeScript(int AD_Rule_ID, String columnType)
@@ -726,7 +726,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		params.add(MPPCostCollector.DOCSTATUS_Completed);
 		params.add(MPPCostCollector.DOCSTATUS_Closed);
 
-		List<MPPCostCollector> listColector = new Query(getCtx(), MPPCostCollector.Table_Name, 
+		List<MPPCostCollector> listCollector = new Query(getCtx(), MPPCostCollector.Table_Name,
 				whereClause.toString(), get_TrxName())
 		.setOnlyActiveRecords(true)
 		.setParameters(params)
@@ -734,9 +734,9 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		.list();
 
 
-		for (MPPCostCollector cc : listColector)
+		for (MPPCostCollector cc : listCollector)
 		{
-			createMovementForCC(C_BPartner_ID, cc);
+			createMovementForCostCollector(C_BPartner_ID, cc);
 		}
 	}
 
@@ -746,7 +746,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 * @param cc
 	 * @return
 	 */
-	private MHRMovement createMovementForCC(int C_BPartner_ID, I_PP_Cost_Collector cc)
+	private MHRMovement createMovementForCostCollector(int C_BPartner_ID, I_PP_Cost_Collector cc)
 	{
 		//get the concept that should store the labor
 		MHRConcept concept = MHRConcept.forValue(getCtx(), CONCEPT_PP_COST_COLLECTOR_LABOR);
@@ -871,6 +871,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		m_dateTo   = hrPeriod.getEndDate();
 		m_scriptCtx.put("_From", m_dateFrom);
 		m_scriptCtx.put("_To", m_dateTo);
+		m_scriptCtx.put("_Period", hrPeriod.getPeriodNo());
 				
 		if(getHR_Payroll_ID() > 0)
 		{
@@ -925,6 +926,9 @@ public class MHRProcess extends X_HR_Process implements DocAction
 				MHRMovement movement = m_movement.get(concept.get_ID()); // as it's now recursive, it can happen that the concept is already generated
 				if (movement == null) {
 					movement = createMovementFromConcept(concept, printed);
+                    movement.setHR_Payroll_ID(pc.getHR_Payroll_ID());
+                    movement.setHR_PayrollConcept_ID(pc.getHR_PayrollConcept_ID());
+
 					movement = m_movement.get(concept.get_ID());
 				}
 				if (movement == null)
@@ -1236,12 +1240,12 @@ public class MHRProcess extends X_HR_Process implements DocAction
 
 	/**
 	 * Helper Method : get the sum of the concept values, grouped by the Category
-	 * @param pconcept
+	 * @param concept
 	 * @return
 	 */
-	public double getConceptGroup (String pconcept)
+	public double getConceptGroup (String concept)
 	{
-		final MHRConceptCategory category = MHRConceptCategory.forValue(getCtx(), pconcept);
+		final MHRConceptCategory category = MHRConceptCategory.forValue(getCtx(), concept);
 		if (category == null)
 		{
 			return 0.0; // TODO: need to throw exception ?
@@ -1280,7 +1284,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 * Helper Method : Get Concept [get concept to search key ]
 	 * @param pList Value List
 	 * @param amount Amount to search
-	 * @param column Number of column to return (1.......8)
+	 * @param columnParam Number of column to return (1.......8)
 	 * @return The amount corresponding to the designated column 'column'
 	 */
 	public double getList (String pList, double amount, String columnParam)
@@ -1484,8 +1488,8 @@ public class MHRProcess extends X_HR_Process implements DocAction
 
 	/**
 	 * 	Helper Method : Get Months, Date in Format Timestamp
-	 *  @param start
-	 *  @param end
+	 *  @param startParam
+	 *  @param endParam
 	 *  @return no. of month between two dates
 	 */ 
 	public int getMonths(Timestamp startParam,Timestamp endParam)
@@ -1552,10 +1556,10 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 *  Helper Method : Concept by range from-to in periods from a different payroll
 	 *  periods with values 0 -1 1, etc. actual previous one period, next period
 	 *  0 corresponds to actual period
-	 *  @param conceptValue 
-	 *  @param pFrom 
-	 *  @param pTo the search is done by the period value, it helps to search from previous years
+	 *  @param conceptValue
 	 *  @param payrollValue is the value of the payroll.
+	 *  @param periodFrom
+	 *  @param periodTo the search is done by the period value, it helps to search from previous years
 	 */
 	public double getConcept(String conceptValue, String payrollValue,int periodFrom,int periodTo)
 	{
@@ -1629,8 +1633,8 @@ public class MHRProcess extends X_HR_Process implements DocAction
 
 	/**
 	 * Helper Method: gets Concept value of a payrroll between 2 dates
-	 * @param pConcept
-	 * @param pPayrroll
+	 * @param conceptValue
+	 * @param payrollValue
 	 * @param from
 	 * @param to
 	 * */
@@ -1827,6 +1831,65 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	} // getAttributeDocType
 
 	/**
+	 * Get attribute by employee
+	 * @param conceptValue
+	 * @param BPartnerId
+	 * @return
+	 */
+	public BigDecimal getAttributeBPartner(String conceptValue, int BPartnerId) {
+		MHRConcept concept = MHRConcept.forValue(getCtx(), conceptValue);
+		if (concept == null)
+			return BigDecimal.ZERO;
+
+		ArrayList<Object> params = new ArrayList<>();
+		StringBuffer whereClause = new StringBuffer();
+		// check ValidFrom:
+		whereClause.append(MHRAttribute.COLUMNNAME_ValidFrom).append("<=?");
+		params.add(m_dateFrom);
+		// check client
+		whereClause.append(" AND AD_Client_ID = ?");
+		params.add(getAD_Client_ID());
+		if (m_HR_Payroll_ID > 0) {
+			whereClause.append(" AND (HR_Payroll_ID=? OR HR_Payroll_ID IS NULL)");
+			params.add(m_HR_Payroll_ID);
+		}
+		if (m_HR_Department_ID > 0) {
+			whereClause.append(" AND (HR_Department_ID=? OR HR_Department_ID IS NULL)");
+			params.add(m_HR_Department_ID);
+		}
+		if (m_HR_Job_ID > 0) {
+			whereClause.append(" AND (HR_Job_ID=? OR HR_Job_ID IS NULL)");
+			params.add(m_HR_Job_ID);
+		}
+
+		// check concept
+		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Concept c WHERE c.HR_Concept_ID=HR_Attribute.HR_Concept_ID")
+				   .append(" AND c.Value = ?)");
+		params.add(concept);
+		//
+		if (!concept.getType().equals(MHRConcept.TYPE_Information)) {
+			whereClause.append(" AND " + MHRAttribute.COLUMNNAME_C_BPartner_ID + " = ?");
+			params.add(BPartnerId);
+		}
+
+		MHRAttribute attribute = new Query(getCtx(), MHRAttribute.Table_Name, whereClause.toString(),
+				get_TrxName()).setParameters(params)
+				.setOrderBy(MHRAttribute.COLUMNNAME_ValidFrom + " DESC").first();
+		if (attribute == null)
+			return BigDecimal.ZERO;
+
+		// if column type is Quantity return quantity
+		if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Quantity))
+			return attribute.getQty();
+
+		// if column type is Amount return amount
+		if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Amount))
+			return attribute.getAmount();
+
+		return BigDecimal.ZERO;
+	} // getAttribute
+
+	/**
 	 * Helper Method : get days from specific period
 	 * @param period
 	 * @return no. of days
@@ -1877,7 +1940,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	
 	/**
 	 * Copy Line from Movement
-	 * @param HRProcess Human Resource Process
+	 * @param from Human Resource Process
 	 * @return return copy lines
 	 */
 	public int copyLinesFrom (MHRProcess from)
