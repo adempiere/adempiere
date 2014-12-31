@@ -180,122 +180,10 @@ end prodqtyreserved;</SQLStatement>
     <Step DBType="Postgres" Parse="Y" SeqNo="50" StepType="SQL">
       <Comments>Changes the source of dateacct from the orginating document either the movement, cost collector or the transaction dateacct.
 </Comments>
-      <SQLStatement>CREATE OR REPLACE VIEW rv_transaction AS 
- SELECT t.m_transaction_id, t.ad_client_id, t.ad_org_id, t.movementtype, 
-    t.movementdate, t.movementqty, t.m_attributesetinstance_id, 
-    asi.m_attributeset_id, asi.serno, asi.lot, asi.m_lot_id, asi.guaranteedate, 
-    t.m_product_id, p.value, p.name, p.description, p.upc, p.sku, p.c_uom_id, 
-    p.m_product_category_id, p.classification, p.weight, p.volume, p.versionno, 
-    t.m_locator_id, l.m_warehouse_id, l.x, l.y, l.z, t.m_inventoryline_id, 
-    il.m_inventory_id, t.m_movementline_id, ml.m_movement_id, t.m_inoutline_id, 
-    iol.m_inout_id, t.m_productionline_id, prdl.m_productionplan_id, 
-    prdp.m_production_id, t.c_projectissue_id, t.pp_cost_collector_id, 
-    COALESCE(il.line, ml.line, iol.line, prdl.line, pjl.line) AS line, 
-    COALESCE(io.dateacct, cc.dateacct, t.movementdate) AS dateacct, 
-    COALESCE(i.documentno, m.documentno, io.documentno, prd.name, pj.value, cc.documentno) AS documentno, 
-    COALESCE(i.c_doctype_id, m.c_doctype_id, io.c_doctype_id, 0::numeric, 0::numeric, cc.c_doctype_id) AS c_doctype_id, 
-    COALESCE(pjl.c_project_id, iol.c_project_id, i.c_project_id, m.c_project_id, cc.c_project_id) AS c_project_id, 
-    COALESCE(i.c_activity_id, iol.c_activity_id, m.c_activity_id, cc.c_activity_id) AS c_activity_id, 
-    COALESCE(i.c_campaign_id, iol.c_campaign_id, m.c_campaign_id) AS c_campaign_id, 
-    0 AS c_region_id, 
-    COALESCE(il.createdby, io.c_bpartner_id, m.c_bpartner_id) AS c_bpartner_id, 
-    COALESCE(i.user1_id, iol.user1_id, m.user1_id, cc.user1_id) AS user1_id, 
-    COALESCE(i.user2_id, iol.user2_id, m.user2_id, cc.user2_id) AS user2_id
-   FROM m_transaction t
-   JOIN m_locator l ON t.m_locator_id = l.m_locator_id
-   JOIN m_product p ON t.m_product_id = p.m_product_id
-   LEFT JOIN m_attributesetinstance asi ON t.m_attributesetinstance_id = asi.m_attributesetinstance_id
-   LEFT JOIN m_inventoryline il ON t.m_inventoryline_id = il.m_inventoryline_id
-   LEFT JOIN m_inventory i ON il.m_inventory_id = i.m_inventory_id
-   LEFT JOIN m_movementline ml ON t.m_movementline_id = ml.m_movementline_id
-   LEFT JOIN m_movement m ON ml.m_movement_id = m.m_movement_id
-   LEFT JOIN m_inoutline iol ON t.m_inoutline_id = iol.m_inoutline_id
-   LEFT JOIN m_inout io ON iol.m_inout_id = io.m_inout_id
-   LEFT JOIN m_productionline prdl ON t.m_productionline_id = prdl.m_productionline_id
-   LEFT JOIN m_productionplan prdp ON prdl.m_productionplan_id = prdp.m_productionplan_id
-   LEFT JOIN m_production prd ON prdp.m_production_id = prd.m_production_id
-   LEFT JOIN c_projectissue pjl ON t.c_projectissue_id = pjl.c_projectissue_id
-   LEFT JOIN c_project pj ON pjl.c_project_id = pj.c_project_id
-   LEFT JOIN pp_cost_collector cc ON t.pp_cost_collector_id = cc.pp_cost_collector_id;
-
-ALTER TABLE rv_transaction
-  OWNER TO adempiere;</SQLStatement>
-      <RollbackStatement>CREATE OR REPLACE VIEW rv_transaction AS 
- SELECT t.m_transaction_id, 
-	t.ad_client_id, 
-	t.ad_org_id, 
-	t.movementtype, 
-    t.movementdate, 
-	t.movementqty, 
-	t.m_attributesetinstance_id, 
-    asi.m_attributeset_id, 
-	asi.serno, asi.lot, 
-	asi.m_lot_id, 
-	asi.guaranteedate, 
-    t.m_product_id, 
-	p.value, 
-	p.name, 
-	p.description, 
-	p.upc, 
-	p.sku, 
-	p.c_uom_id, 
-    p.m_product_category_id, 
-	p.classification, 
-	p.weight, 
-	p.volume, 
-	p.versionno, 
-    t.m_locator_id, 
-	l.m_warehouse_id, 
-	l.x, 
-	l.y, 
-	l.z, 
-	t.m_inventoryline_id, 
-    il.m_inventory_id, 
-	t.m_movementline_id, 
-	ml.m_movement_id, 
-	t.m_inoutline_id, 
-    iol.m_inout_id, 
-	t.m_productionline_id, 
-	prdl.m_productionplan_id, 
-    prdp.m_production_id, 
-	t.c_projectissue_id, 
-	t.pp_cost_collector_id, 
-    COALESCE(il.line, ml.line, iol.line, prdl.line, pjl.line) AS line, 
-    COALESCE(io.dateacct, cc.dateacct, t.movementdate) AS dateacct, 
-    COALESCE(i.documentno, m.documentno, io.documentno, prd.name, pj.value, cc.documentno) AS documentno, 
-    COALESCE(i.c_doctype_id, m.c_doctype_id, io.c_doctype_id, 0::numeric, 0::numeric, cc.c_doctype_id) AS c_doctype_id, 
-    COALESCE(pjl.c_project_id, iol.c_project_id, i.c_project_id, m.c_project_id, cc.c_project_id) AS c_project_id, 
-    COALESCE(i.c_activity_id, iol.c_activity_id, m.c_activity_id, cc.c_activity_id) AS c_activity_id, 
-    COALESCE(i.c_campaign_id, iol.c_campaign_id, m.c_campaign_id) AS c_campaign_id, 
-    0 AS c_region_id, 
-    COALESCE(il.createdby, io.c_bpartner_id, m.c_bpartner_id) AS c_bpartner_id, 
-    COALESCE(i.user1_id, iol.user1_id, m.user1_id, cc.user1_id) AS user1_id, 
-    COALESCE(i.user2_id, iol.user2_id, m.user2_id, cc.user2_id) AS user2_id
-   FROM m_transaction t
-   JOIN m_locator l ON t.m_locator_id = l.m_locator_id
-   JOIN m_product p ON t.m_product_id = p.m_product_id
-   LEFT JOIN m_attributesetinstance asi ON t.m_attributesetinstance_id = asi.m_attributesetinstance_id
-   LEFT JOIN m_inventoryline il ON t.m_inventoryline_id = il.m_inventoryline_id
-   LEFT JOIN m_inventory i ON il.m_inventory_id = i.m_inventory_id
-   LEFT JOIN m_movementline ml ON t.m_movementline_id = ml.m_movementline_id
-   LEFT JOIN m_movement m ON ml.m_movement_id = m.m_movement_id
-   LEFT JOIN m_inoutline iol ON t.m_inoutline_id = iol.m_inoutline_id
-   LEFT JOIN m_inout io ON iol.m_inout_id = io.m_inout_id
-   LEFT JOIN m_productionline prdl ON t.m_productionline_id = prdl.m_productionline_id
-   LEFT JOIN m_productionplan prdp ON prdl.m_productionplan_id = prdp.m_productionplan_id
-   LEFT JOIN m_production prd ON prdp.m_production_id = prd.m_production_id
-   LEFT JOIN c_projectissue pjl ON t.c_projectissue_id = pjl.c_projectissue_id
-   LEFT JOIN c_project pj ON pjl.c_project_id = pj.c_project_id
-   LEFT JOIN pp_cost_collector cc ON t.pp_cost_collector_id = cc.pp_cost_collector_id;
-
-ALTER TABLE rv_transaction
-  OWNER TO adempiere;
-</RollbackStatement>
-    </Step>
-    <Step DBType="Oracle" Parse="Y" SeqNo="60" StepType="SQL">
-      <Comments>Changes the source of dateacct from the orginating document either the movement, cost collector or the transaction dateacct.</Comments>
-      <SQLStatement>CREATE OR REPLACE VIEW RV_TRANSACTION
-AS SELECT t.M_Transaction_ID, t.AD_Client_ID,t.AD_Org_ID,
+      <SQLStatement>DROP VIEW RV_TRANSACTION;
+CREATE OR REPLACE VIEW RV_TRANSACTION
+AS
+SELECT t.M_Transaction_ID, t.AD_Client_ID,t.AD_Org_ID,
     t.MovementType,t.MovementDate,t.MovementQty,
     -- Instance
     t.M_AttributeSetInstance_ID, asi.M_AttributeSet_ID, asi.SerNo, asi.Lot, asi.M_Lot_ID,asi.GuaranteeDate,
@@ -311,57 +199,7 @@ AS SELECT t.M_Transaction_ID, t.AD_Client_ID,t.AD_Org_ID,
     -- In/Out
     t.M_InOutLine_ID,iol.M_InOut_ID,
     -- Production
-    t.M_ProductionLine_ID,prdl.M_ProductionPlan_ID,prdp.M_Production_ID,
-    -- ProjectIssue
-    t.C_ProjectIssue_ID,
-    t.PP_Cost_Collector_ID,
-    COALESCE(il.Line,ml.Line,iol.Line,prdl.Line,pjl.Line) AS Line,
-    COALESCE(io.dateacct, cc.dateacct, t.movementdate) AS dateacct, 
-    COALESCE(i.documentno, m.documentno, io.documentno, prd.name, pj.value, cc.documentno) AS documentno,
-    COALESCE(i.c_doctype_id, m.c_doctype_id, io.c_doctype_id, 0, 0, cc.c_doctype_id) AS c_doctype_id,
-    -- DIMENSION
-    COALESCE(pjl.C_Project_ID, iol.C_Project_ID , i.C_Project_ID, m.C_Project_ID,cc.C_Project_ID) AS C_Project_ID,
-    COALESCE(i.C_Activity_ID,iol.C_Activity_ID,m.C_Activity_ID, cc.C_Activity_ID) AS C_Activity_ID,
-    COALESCE(i.C_Campaign_ID,iol.C_Campaign_ID, m.C_Campaign_ID) AS C_Campaign_ID,
-    0 AS C_Region_ID,
-    COALESCE(il.CreatedBy, io.C_BPartner_ID, m.C_BPartner_ID ) AS C_BPartner_ID,
-    COALESCE(i.User1_ID, iol.User1_ID, m.User1_ID , cc.User1_ID) AS User1_ID,
-    COALESCE(i.User2_ID, iol.User2_ID, m.User2_ID , cc.User2_ID) AS User2_ID
-FROM M_Transaction t
-  INNER JOIN M_Locator l ON (t.M_Locator_ID=l.M_Locator_ID)
-  INNER JOIN M_Product p ON (t.M_Product_ID=p.M_Product_ID)
-  LEFT OUTER JOIN M_AttributeSetInstance asi ON (t.M_AttributeSetInstance_ID=asi.M_AttributeSetInstance_ID)
-  LEFT OUTER JOIN M_InventoryLine il ON (t.M_InventoryLine_ID=il.M_InventoryLine_ID)
-  LEFT OUTER JOIN M_inventory i ON (il.m_inventory_id = i.m_inventory_id)
-  LEFT OUTER JOIN M_MovementLine ml ON (t.M_MovementLine_ID=ml.M_MovementLine_ID)
-  LEFT OUTER JOIN M_movement m ON (ml.m_movement_id = m.m_movement_id)
-  LEFT OUTER JOIN M_InOutLine iol ON (t.M_InOutLine_ID=iol.M_InOutLine_ID)
-  LEFT OUTER JOIN M_InOut io ON (iol.M_InOut_ID = io.M_InOut_ID)
-  LEFT OUTER JOIN M_ProductionLine prdl ON (t.M_ProductionLine_ID=prdl.M_ProductionLine_ID)
-  LEFT OUTER JOIN M_ProductionPlan prdp ON (prdl.M_ProductionPlan_ID=prdp.M_ProductionPlan_ID)
-  LEFT OUTER JOIN M_Production prd ON prdp.M_Production_ID = prd.M_Production_ID
-  LEFT OUTER JOIN C_ProjectIssue pjl ON (t.C_ProjectIssue_ID=pjl.C_ProjectIssue_ID)
-  LEFT OUTER JOIN C_Project pj ON pjl.C_Project_id = pj.C_Project_id
-  LEFT OUTER JOIN PP_Cost_Collector cc ON t.PP_Cost_Collector_ID = cc.PP_Cost_Collector_ID;
-</SQLStatement>
-      <RollbackStatement>CREATE OR REPLACE VIEW RV_TRANSACTION
-AS SELECT t.M_Transaction_ID, t.AD_Client_ID,t.AD_Org_ID,
-    t.MovementType,t.MovementDate,t.MovementQty,
-    -- Instance
-    t.M_AttributeSetInstance_ID, asi.M_AttributeSet_ID, asi.SerNo, asi.Lot, asi.M_Lot_ID,asi.GuaranteeDate,
-    -- Product
-    t.M_Product_ID,p.Value,p.Name,p.Description,p.UPC,p.SKU,
-    p.C_UOM_ID,p.M_Product_Category_ID,p.Classification, p.Weight,p.Volume,p.VersionNo,
-    -- Locator
-    t.M_Locator_ID, l.M_Warehouse_ID, l.X, l.Y, l.Z,
-    -- Inventory
-    t.M_InventoryLine_ID,il.M_Inventory_ID,
-    -- Movement
-    t.M_MovementLine_ID,ml.M_Movement_ID,
-    -- In/Out
-    t.M_InOutLine_ID,iol.M_InOut_ID,
-    -- Production
-    t.M_ProductionLine_ID,prdl.M_ProductionPlan_ID,prdp.M_Production_ID,
+    t.M_ProductionLine_ID,prdl.M_ProductionPlan_ID,prdl.M_Production_ID,
     -- ProjectIssue
     t.C_ProjectIssue_ID,
     t.PP_Cost_Collector_ID,
@@ -388,11 +226,195 @@ FROM M_Transaction t
   LEFT OUTER JOIN M_InOutLine iol ON (t.M_InOutLine_ID=iol.M_InOutLine_ID)
   LEFT OUTER JOIN M_InOut io ON (iol.M_InOut_ID = io.M_InOut_ID)
   LEFT OUTER JOIN M_ProductionLine prdl ON (t.M_ProductionLine_ID=prdl.M_ProductionLine_ID)
-  LEFT OUTER JOIN M_ProductionPlan prdp ON (prdl.M_ProductionPlan_ID=prdp.M_ProductionPlan_ID)
-  LEFT OUTER JOIN M_Production prd ON prdp.M_Production_ID = prd.M_Production_ID
+  --LEFT OUTER JOIN M_ProductionPlan prdp ON (prdl.M_Productio  nPlan_ID=prdp.M_ProductionPlan_ID)
+  LEFT OUTER JOIN M_Production prd ON prdl.M_Production_ID = prd.M_Production_ID
   LEFT OUTER JOIN C_ProjectIssue pjl ON (t.C_ProjectIssue_ID=pjl.C_ProjectIssue_ID)
   LEFT OUTER JOIN C_Project pj ON pjl.C_Project_id = pj.C_Project_id
-  LEFT OUTER JOIN PP_Cost_Collector cc ON t.PP_Cost_Collector_ID = cc.PP_Cost_Collector_ID;
+  LEFT OUTER JOIN PP_Cost_Collector cc ON t.PP_Cost_Collector_ID = cc.PP_Cost_Collector_ID;</SQLStatement>
+      <RollbackStatement>&lt;html&gt;
+  &lt;head&gt;
+    
+  &lt;/head&gt;
+  &lt;body&gt;
+    DROP VIEW RV_TRANSACTION; CREATE OR REPLACE VIEW RV_TRANSACTION AS SELECT 
+    t.M_Transaction_ID, t.AD_Client_ID,t.AD_Org_ID, 
+    t.MovementType,t.MovementDate,t.MovementQty, -- Instance 
+    t.M_AttributeSetInstance_ID, asi.M_AttributeSet_ID, asi.SerNo, asi.Lot, 
+    asi.M_Lot_ID,asi.GuaranteeDate, -- Product 
+    t.M_Product_ID,p.Value,p.Name,p.Description,p.UPC,p.SKU, 
+    p.C_UOM_ID,p.M_Product_Category_ID,p.Classification, 
+    p.Weight,p.Volume,p.VersionNo, -- Locator t.M_Locator_ID, 
+    l.M_Warehouse_ID, l.X, l.Y, l.Z, -- Inventory 
+    t.M_InventoryLine_ID,il.M_Inventory_ID, -- Movement 
+    t.M_MovementLine_ID,ml.M_Movement_ID, -- In/Out 
+    t.M_InOutLine_ID,iol.M_InOut_ID, -- Production 
+    t.M_ProductionLine_ID,prdl.M_ProductionPlan_ID,prdp.M_Production_ID, -- 
+    ProjectIssue t.C_ProjectIssue_ID, t.PP_Cost_Collector_ID, 
+    COALESCE(il.Line,ml.Line,iol.Line,prdl.Line,pjl.Line) AS Line, 
+    COALESCE(i.movementdate, m.movementdate, io.dateacct, prd.movementdate, 
+    pjl.movementdate, cc.dateacct) AS dateacct, COALESCE(i.documentno, 
+    m.documentno, io.documentno, prd.name, pj.value, cc.documentno) AS 
+    documentno, COALESCE(i.c_doctype_id, m.c_doctype_id, io.c_doctype_id, 0, 
+    0, cc.c_doctype_id) AS c_doctype_id, -- DIMENSION 
+    COALESCE(pjl.C_Project_ID, iol.C_Project_ID , i.C_Project_ID, 
+    m.C_Project_ID,cc.C_Project_ID) AS C_Project_ID, 
+    COALESCE(i.C_Activity_ID,iol.C_Activity_ID,m.C_Activity_ID, 
+    cc.C_Activity_ID) AS C_Activity_ID, 
+    COALESCE(i.C_Campaign_ID,iol.C_Campaign_ID, m.C_Campaign_ID) AS 
+    C_Campaign_ID, 0 AS C_Region_ID, COALESCE(il.CreatedBy, io.C_BPartner_ID, 
+    m.C_BPartner_ID ) AS C_BPartner_ID, COALESCE(i.User1_ID, iol.User1_ID, 
+    m.User1_ID , cc.User1_ID) AS User1_ID, COALESCE(i.User2_ID, iol.User2_ID, 
+    m.User2_ID , cc.User2_ID) AS User2_ID FROM M_Transaction t INNER JOIN 
+    M_Locator l ON (t.M_Locator_ID=l.M_Locator_ID) INNER JOIN M_Product p ON 
+    (t.M_Product_ID=p.M_Product_ID) LEFT OUTER JOIN M_AttributeSetInstance asi 
+    ON (t.M_AttributeSetInstance_ID=asi.M_AttributeSetInstance_ID) LEFT OUTER 
+    JOIN M_InventoryLine il ON (t.M_InventoryLine_ID=il.M_InventoryLine_ID) 
+    LEFT OUTER JOIN M_inventory i ON (il.m_inventory_id = i.m_inventory_id) 
+    LEFT OUTER JOIN M_MovementLine ml ON 
+    (t.M_MovementLine_ID=ml.M_MovementLine_ID) LEFT OUTER JOIN M_movement m ON 
+    (ml.m_movement_id = m.m_movement_id) LEFT OUTER JOIN M_InOutLine iol ON 
+    (t.M_InOutLine_ID=iol.M_InOutLine_ID) LEFT OUTER JOIN M_InOut io ON 
+    (iol.M_InOut_ID = io.M_InOut_ID) LEFT OUTER JOIN M_ProductionLine prdl ON 
+    (t.M_ProductionLine_ID=prdl.M_ProductionLine_ID) LEFT OUTER JOIN 
+    M_ProductionPlan prdp ON 
+    (prdl.M_ProductionPlan_ID=prdp.M_ProductionPlan_ID) LEFT OUTER JOIN 
+    M_Production prd ON prdp.M_Production_ID = prd.M_Production_ID LEFT OUTER 
+    JOIN C_ProjectIssue pjl ON (t.C_ProjectIssue_ID=pjl.C_ProjectIssue_ID) 
+    LEFT OUTER JOIN C_Project pj ON pjl.C_Project_id = pj.C_Project_id LEFT 
+    OUTER JOIN PP_Cost_Collector cc ON t.PP_Cost_Collector_ID = 
+    cc.PP_Cost_Collector_ID;
+  &lt;/body&gt;
+&lt;/html&gt;
+</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="60" StepType="SQL">
+      <Comments>Changes the source of dateacct from the orginating document either the movement, cost collector or the transaction dateacct.</Comments>
+      <SQLStatement>DROP VIEW RV_TRANSACTION;
+CREATE OR REPLACE VIEW RV_TRANSACTION
+AS
+SELECT t.M_Transaction_ID, t.AD_Client_ID,t.AD_Org_ID,
+    t.MovementType,t.MovementDate,t.MovementQty,
+    -- Instance
+    t.M_AttributeSetInstance_ID, asi.M_AttributeSet_ID, asi.SerNo, asi.Lot, asi.M_Lot_ID,asi.GuaranteeDate,
+    -- Product
+    t.M_Product_ID,p.Value,p.Name,p.Description,p.UPC,p.SKU,
+    p.C_UOM_ID,p.M_Product_Category_ID,p.Classification, p.Weight,p.Volume,p.VersionNo,
+    -- Locator
+    t.M_Locator_ID, l.M_Warehouse_ID, l.X, l.Y, l.Z,
+    -- Inventory
+    t.M_InventoryLine_ID,il.M_Inventory_ID,
+    -- Movement
+    t.M_MovementLine_ID,ml.M_Movement_ID,
+    -- In/Out
+    t.M_InOutLine_ID,iol.M_InOut_ID,
+    -- Production
+    t.M_ProductionLine_ID,prdl.M_ProductionPlan_ID,prdl.M_Production_ID,
+    -- ProjectIssue
+    t.C_ProjectIssue_ID,
+    t.PP_Cost_Collector_ID,
+    COALESCE(il.Line,ml.Line,iol.Line,prdl.Line,pjl.Line) AS Line,
+    COALESCE(i.movementdate, m.movementdate, io.dateacct, prd.movementdate, pjl.movementdate, cc.dateacct) AS dateacct,
+    COALESCE(i.documentno, m.documentno, io.documentno, prd.name, pj.value, cc.documentno) AS documentno,
+    COALESCE(i.c_doctype_id, m.c_doctype_id, io.c_doctype_id, 0, 0, cc.c_doctype_id) AS c_doctype_id,
+    -- DIMENSION
+    COALESCE(pjl.C_Project_ID, iol.C_Project_ID , i.C_Project_ID, m.C_Project_ID,cc.C_Project_ID) AS C_Project_ID,
+    COALESCE(i.C_Activity_ID,iol.C_Activity_ID,m.C_Activity_ID, cc.C_Activity_ID) AS C_Activity_ID,
+    COALESCE(i.C_Campaign_ID,iol.C_Campaign_ID, m.C_Campaign_ID) AS C_Campaign_ID,
+    0 AS C_Region_ID,
+    COALESCE(il.CreatedBy, io.C_BPartner_ID, m.C_BPartner_ID ) AS C_BPartner_ID,
+    COALESCE(i.User1_ID, iol.User1_ID, m.User1_ID , cc.User1_ID) AS User1_ID,
+    COALESCE(i.User2_ID, iol.User2_ID, m.User2_ID , cc.User2_ID) AS User2_ID
+FROM M_Transaction t
+  INNER JOIN M_Locator l ON (t.M_Locator_ID=l.M_Locator_ID)
+  INNER JOIN M_Product p ON (t.M_Product_ID=p.M_Product_ID)
+  LEFT OUTER JOIN M_AttributeSetInstance asi ON (t.M_AttributeSetInstance_ID=asi.M_AttributeSetInstance_ID)
+  LEFT OUTER JOIN M_InventoryLine il ON (t.M_InventoryLine_ID=il.M_InventoryLine_ID)
+  LEFT OUTER JOIN M_inventory i ON (il.m_inventory_id = i.m_inventory_id)
+  LEFT OUTER JOIN M_MovementLine ml ON (t.M_MovementLine_ID=ml.M_MovementLine_ID)
+  LEFT OUTER JOIN M_movement m ON (ml.m_movement_id = m.m_movement_id)
+  LEFT OUTER JOIN M_InOutLine iol ON (t.M_InOutLine_ID=iol.M_InOutLine_ID)
+  LEFT OUTER JOIN M_InOut io ON (iol.M_InOut_ID = io.M_InOut_ID)
+  LEFT OUTER JOIN M_ProductionLine prdl ON (t.M_ProductionLine_ID=prdl.M_ProductionLine_ID)
+  --LEFT OUTER JOIN M_ProductionPlan prdp ON (prdl.M_ProductionPlan_ID=prdp.M_ProductionPlan_ID)
+  LEFT OUTER JOIN M_Production prd ON prdl.M_Production_ID = prd.M_Production_ID
+  LEFT OUTER JOIN C_ProjectIssue pjl ON (t.C_ProjectIssue_ID=pjl.C_ProjectIssue_ID)
+  LEFT OUTER JOIN C_Project pj ON pjl.C_Project_id = pj.C_Project_id
+  LEFT OUTER JOIN PP_Cost_Collector cc ON t.PP_Cost_Collector_ID = cc.PP_Cost_Collector_ID;</SQLStatement>
+      <RollbackStatement>&lt;html&gt;
+  &lt;head&gt;
+
+  &lt;/head&gt;
+  &lt;body&gt;
+    DROP VIEW RV_TRANSACTION;
+CREATE OR REPLACE VIEW RV_TRANSACTION
+AS
+SELECT t.M_Transaction_ID, t.AD_Client_ID,t.AD_Org_ID,
+    t.MovementType,t.MovementDate,t.MovementQty,
+    -- Instance
+    t.M_AttributeSetInstance_ID, asi.M_AttributeSet_ID, asi.SerNo, asi.Lot, 
+    asi.M_Lot_ID,asi.GuaranteeDate,
+    -- Product
+    t.M_Product_ID,p.Value,p.Name,p.Description,p.UPC,p.SKU,
+    p.C_UOM_ID,p.M_Product_Category_ID,p.Classification, 
+    p.Weight,p.Volume,p.VersionNo,
+    -- Locator
+    t.M_Locator_ID, l.M_Warehouse_ID, l.X, l.Y, l.Z,
+    -- Inventory
+    t.M_InventoryLine_ID,il.M_Inventory_ID,
+    -- Movement
+    t.M_MovementLine_ID,ml.M_Movement_ID,
+    -- In/Out
+    t.M_InOutLine_ID,iol.M_InOut_ID,
+    -- Production
+    t.M_ProductionLine_ID,prdl.M_ProductionPlan_ID,prdp.M_Production_ID,
+    -- ProjectIssue
+    t.C_ProjectIssue_ID,
+    t.PP_Cost_Collector_ID,
+    COALESCE(il.Line,ml.Line,iol.Line,prdl.Line,pjl.Line) AS Line,
+    COALESCE(i.movementdate, m.movementdate, io.dateacct, prd.movementdate, 
+    pjl.movementdate, cc.dateacct) AS dateacct,
+    COALESCE(i.documentno, m.documentno, io.documentno, prd.name, pj.value, 
+    cc.documentno) AS documentno,
+    COALESCE(i.c_doctype_id, m.c_doctype_id, io.c_doctype_id, 0, 0, 
+    cc.c_doctype_id) AS c_doctype_id,
+    -- DIMENSION
+    COALESCE(pjl.C_Project_ID, iol.C_Project_ID , i.C_Project_ID, 
+    m.C_Project_ID,cc.C_Project_ID) AS C_Project_ID,
+    COALESCE(i.C_Activity_ID,iol.C_Activity_ID,m.C_Activity_ID, 
+    cc.C_Activity_ID) AS C_Activity_ID,
+    COALESCE(i.C_Campaign_ID,iol.C_Campaign_ID, m.C_Campaign_ID) AS 
+    C_Campaign_ID,
+    0 AS C_Region_ID,
+    COALESCE(il.CreatedBy, io.C_BPartner_ID, m.C_BPartner_ID ) AS 
+    C_BPartner_ID,
+    COALESCE(i.User1_ID, iol.User1_ID, m.User1_ID , cc.User1_ID) AS User1_ID,
+    COALESCE(i.User2_ID, iol.User2_ID, m.User2_ID , cc.User2_ID) AS User2_ID
+FROM M_Transaction t
+  INNER JOIN M_Locator l ON (t.M_Locator_ID=l.M_Locator_ID)
+  INNER JOIN M_Product p ON (t.M_Product_ID=p.M_Product_ID)
+  LEFT OUTER JOIN M_AttributeSetInstance asi ON 
+    (t.M_AttributeSetInstance_ID=asi.M_AttributeSetInstance_ID)
+  LEFT OUTER JOIN M_InventoryLine il ON 
+    (t.M_InventoryLine_ID=il.M_InventoryLine_ID)
+  LEFT OUTER JOIN M_inventory i ON (il.m_inventory_id = i.m_inventory_id)
+  LEFT OUTER JOIN M_MovementLine ml ON 
+    (t.M_MovementLine_ID=ml.M_MovementLine_ID)
+  LEFT OUTER JOIN M_movement m ON (ml.m_movement_id = m.m_movement_id)
+  LEFT OUTER JOIN M_InOutLine iol ON (t.M_InOutLine_ID=iol.M_InOutLine_ID)
+  LEFT OUTER JOIN M_InOut io ON (iol.M_InOut_ID = io.M_InOut_ID)
+  LEFT OUTER JOIN M_ProductionLine prdl ON 
+    (t.M_ProductionLine_ID=prdl.M_ProductionLine_ID)
+  LEFT OUTER JOIN M_ProductionPlan prdp ON 
+    (prdl.M_ProductionPlan_ID=prdp.M_ProductionPlan_ID)
+  LEFT OUTER JOIN M_Production prd ON prdp.M_Production_ID = 
+    prd.M_Production_ID
+  LEFT OUTER JOIN C_ProjectIssue pjl ON 
+    (t.C_ProjectIssue_ID=pjl.C_ProjectIssue_ID)
+  LEFT OUTER JOIN C_Project pj ON pjl.C_Project_id = pj.C_Project_id
+  LEFT OUTER JOIN PP_Cost_Collector cc ON t.PP_Cost_Collector_ID = 
+    cc.PP_Cost_Collector_ID;
+  &lt;/body&gt;
+&lt;/html&gt;
 </RollbackStatement>
     </Step>
   </Migration>
