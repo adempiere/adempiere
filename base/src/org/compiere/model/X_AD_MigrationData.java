@@ -19,17 +19,18 @@ package org.compiere.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_MigrationData
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_AD_MigrationData extends PO implements I_AD_MigrationData, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20141230L;
 
     /** Standard Constructor */
     public X_AD_MigrationData (Properties ctx, int AD_MigrationData_ID, String trxName)
@@ -146,6 +147,14 @@ public class X_AD_MigrationData extends PO implements I_AD_MigrationData, I_Pers
 			 return 0;
 		return ii.intValue();
 	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getAD_MigrationStep_ID()));
+    }
 
 	/** Set Backup Value.
 		@param BackupValue 
