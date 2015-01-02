@@ -1417,7 +1417,7 @@ public abstract class PO
 					m_oldValues[index] = new Boolean ("Y".equals(decrypt(index, rs.getString(columnName))));
 				else if (clazz == Timestamp.class)
 					m_oldValues[index] = decrypt(index, rs.getTimestamp(columnName));
-				else if (DisplayType.isLOB(dt))
+				else if (DisplayType.isLOB(dt) || (DisplayType.isText(dt) && p_info.getFieldLength(index) > 4000))
 					m_oldValues[index] = get_LOB (rs.getObject(columnName));
 				else if (clazz == String.class)
 					m_oldValues[index] = decrypt(index, rs.getString(columnName));
@@ -2398,7 +2398,7 @@ public abstract class PO
 					continue;
 				updated = true;
 			}
-			if (DisplayType.isLOB(dt))
+			if (DisplayType.isLOB(dt) || (DisplayType.isText(dt) && p_info.getFieldLength(i) > 4000))
 			{
 				lobAdd (value, i, dt);
 				//	If no changes set UpdatedBy explicitly to ensure commit of lob
@@ -2653,7 +2653,7 @@ public abstract class PO
 
 			//	Display Type
 			int dt = p_info.getColumnDisplayType(i);
-			if (DisplayType.isLOB(dt))
+			if (DisplayType.isLOB(dt) || (DisplayType.isText(dt) && p_info.getFieldLength(i) > 4000))
 			{
 				lobAdd (value, i, dt);
 				continue;

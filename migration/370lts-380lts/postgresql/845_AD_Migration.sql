@@ -538,7 +538,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- 14/06/2009 1:07:19
 -- AD Migration
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,57873,53881,0,36,53218,'RollbackStatement',TO_TIMESTAMP('2009-06-14 01:07:18','YYYY-MM-DD HH24:MI:SS'),100,'SQL statement to rollback the current step.','D',8000,'Y','N','N','N','N','N','N','N','N','N','Y','Rollback Statement',0,TO_TIMESTAMP('2009-06-14 01:07:18','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,57873,53881,0,14,53218,'RollbackStatement',TO_TIMESTAMP('2009-06-14 01:07:18','YYYY-MM-DD HH24:MI:SS'),100,'SQL statement to rollback the current step.','D',8000,'Y','N','N','N','N','N','N','N','N','N','Y','Rollback Statement',0,TO_TIMESTAMP('2009-06-14 01:07:18','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- 14/06/2009 1:07:19
