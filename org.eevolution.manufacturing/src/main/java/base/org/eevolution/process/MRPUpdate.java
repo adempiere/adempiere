@@ -264,7 +264,7 @@ public class MRPUpdate extends SvrProcess
 		params.add(M_Warehouse_ID);
 
 		String sql_insert = " SELECT t.ad_org_id,"
-			+"t.created, t.createdby , t.datepromised,"
+			+"t.created, t.createdby , t.datepromised ,"
 			+"t.datepromised, t.datepromised, t.datepromised, f.Name," 
 			+"'IP', t.isactive , "
 			+"t.m_forecastline_id, t.m_forecast_id, "
@@ -286,7 +286,7 @@ public class MRPUpdate extends SvrProcess
 		
 		// Insert from C_OrderLine Sales Order Line
 		sql_insert = " SELECT t.ad_org_id,"
-			+"t.created, t.createdby , t.datepromised,"
+			+"t.created, t.createdby , t.dateordered ,"
 			+"t.datepromised, t.datepromised, t.dateordered, o.DocumentNo," 
 			+"o.DocStatus, o.isactive , "
 			+" null, null, "
@@ -307,7 +307,7 @@ public class MRPUpdate extends SvrProcess
 
 		// Insert from C_OrderLine Purchase Lines
 		sql_insert = " SELECT t.ad_org_id,"
-			+"t.created, t.createdby , t.datepromised,"
+			+"t.created, t.createdby , t.dateordered ,"
 			+"t.datepromised, t.datepromised, t.dateordered, o.DocumentNo," 
 			+"o.DocStatus, o.isactive , "
 			+" null, null, "
@@ -329,7 +329,7 @@ public class MRPUpdate extends SvrProcess
 
 		// Insert from M_RequisitionLine
 		sql_insert = " SELECT rl.ad_org_id,"
-			+"rl.created, rl.createdby , t.daterequired,"
+			+"rl.created, rl.createdby , t.DateDoc,"
 			+" t.daterequired,  t.daterequired,  t.datedoc, t.DocumentNo," 
 			+"t.DocStatus, t.isactive , "
 			+" null, null, "
@@ -355,7 +355,7 @@ public class MRPUpdate extends SvrProcess
 		params.add(S_Resource_ID);
 		params.add(M_Warehouse_ID);
 		sql_insert = " SELECT t.ad_org_id,"
-			+"t.created, t.createdby , t.datepromised,"
+			+"t.created, t.createdby , t.DateOrdered,"
 			+"t.datepromised, t.datepromised, t.datestartschedule , t.DocumentNo," 
 			+"t.DocStatus, t.isactive , "
 			+" null, null, "
@@ -376,7 +376,7 @@ public class MRPUpdate extends SvrProcess
 		//
 		//Insert from PP_Order_BOMLine
 		sql_insert = " SELECT t.ad_org_id,"
-			+"t.created, t.createdby , o.datepromised,"
+			+"t.created, t.createdby , t.DateOrdered,"
 			+"o.datepromised, o.datepromised, o.datestartschedule, o.DocumentNo," 
 			+"o.DocStatus, o.isactive , "
 			+" null, null, "
@@ -397,7 +397,7 @@ public class MRPUpdate extends SvrProcess
 		
 		//// Insert from DD_OrderLine Demand
 		sql_insert = " SELECT t.ad_org_id,"
-				+"t.created, t.createdby , t.datepromised,"
+				+"t.created, t.createdby , t.DateOrdered,"
 				+"t.datepromised, t.datepromised, t.dateordered, o.DocumentNo," 
 				+"o.DocStatus, o.isactive , "
 				+" null, null, "
@@ -423,7 +423,7 @@ public class MRPUpdate extends SvrProcess
 
 		//// Insert from DD_OrderLine Supply
 		sql_insert = " SELECT t.ad_org_id,"
-				+"t.created, t.createdby , t.datepromised,"
+				+"t.created, t.createdby , t.DateOrdered,"
 				+"t.datepromised, t.datepromised, t.dateordered, o.DocumentNo," 
 				+"o.DocStatus, o.isactive , "
 				+" null, null, "
