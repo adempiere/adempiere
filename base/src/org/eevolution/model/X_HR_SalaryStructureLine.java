@@ -25,14 +25,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for HR_SalaryStructureLine
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_HR_SalaryStructureLine extends PO implements I_HR_SalaryStructureLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131208L;
+	private static final long serialVersionUID = 20150101L;
 
     /** Standard Constructor */
     public X_HR_SalaryStructureLine (Properties ctx, int HR_SalaryStructureLine_ID, String trxName)
@@ -42,8 +42,8 @@ public class X_HR_SalaryStructureLine extends PO implements I_HR_SalaryStructure
         {
 			setAmount (Env.ZERO);
 			setHR_Concept_ID (0);
-			setHR_SalaryStructureLine_ID (0);
 			setHR_SalaryStructure_ID (0);
+			setHR_SalaryStructureLine_ID (0);
 			setPercentage (Env.ZERO);
         } */
     }
@@ -101,8 +101,10 @@ public class X_HR_SalaryStructureLine extends PO implements I_HR_SalaryStructure
 		return (org.eevolution.model.I_HR_Concept)MTable.get(getCtx(), org.eevolution.model.I_HR_Concept.Table_Name)
 			.getPO(getHR_Concept_ID(), get_TrxName());	}
 
-	/** Set Payroll Concept.
-		@param HR_Concept_ID Payroll Concept	  */
+	/** Set AD Payroll Concept.
+		@param HR_Concept_ID 
+		The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
+	  */
 	public void setHR_Concept_ID (int HR_Concept_ID)
 	{
 		if (HR_Concept_ID < 1) 
@@ -111,34 +113,12 @@ public class X_HR_SalaryStructureLine extends PO implements I_HR_SalaryStructure
 			set_Value (COLUMNNAME_HR_Concept_ID, Integer.valueOf(HR_Concept_ID));
 	}
 
-	/** Get Payroll Concept.
-		@return Payroll Concept	  */
+	/** Get AD Payroll Concept.
+		@return The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
+	  */
 	public int getHR_Concept_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Concept_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Salary Structure Line.
-		@param HR_SalaryStructureLine_ID 
-		Salary Structure Line
-	  */
-	public void setHR_SalaryStructureLine_ID (int HR_SalaryStructureLine_ID)
-	{
-		if (HR_SalaryStructureLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_HR_SalaryStructureLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_HR_SalaryStructureLine_ID, Integer.valueOf(HR_SalaryStructureLine_ID));
-	}
-
-	/** Get Salary Structure Line.
-		@return Salary Structure Line
-	  */
-	public int getHR_SalaryStructureLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_SalaryStructureLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -167,6 +147,29 @@ public class X_HR_SalaryStructureLine extends PO implements I_HR_SalaryStructure
 	public int getHR_SalaryStructure_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_SalaryStructure_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Salary Structure Line.
+		@param HR_SalaryStructureLine_ID 
+		Salary Structure Line
+	  */
+	public void setHR_SalaryStructureLine_ID (int HR_SalaryStructureLine_ID)
+	{
+		if (HR_SalaryStructureLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_HR_SalaryStructureLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_HR_SalaryStructureLine_ID, Integer.valueOf(HR_SalaryStructureLine_ID));
+	}
+
+	/** Get Salary Structure Line.
+		@return Salary Structure Line
+	  */
+	public int getHR_SalaryStructureLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_SalaryStructureLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

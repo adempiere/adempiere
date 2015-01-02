@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_Concept_Category
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC
+ *  @version Release 3.8.0
  */
 public interface I_HR_Concept_Category 
 {
@@ -106,10 +106,14 @@ public interface I_HR_Concept_Category
     /** Column name HR_Concept_Category_ID */
     public static final String COLUMNNAME_HR_Concept_Category_ID = "HR_Concept_Category_ID";
 
-	/** Set Payroll Concept Category	  */
+	/** Set Global Payroll Concept Category.
+	  * Global Payroll Concept Category allows to grouping of Global Concept to reports and queries
+	  */
 	public void setHR_Concept_Category_ID (int HR_Concept_Category_ID);
 
-	/** Get Payroll Concept Category	  */
+	/** Get Global Payroll Concept Category.
+	  * Global Payroll Concept Category allows to grouping of Global Concept to reports and queries
+	  */
 	public int getHR_Concept_Category_ID();
 
     /** Column name IsActive */

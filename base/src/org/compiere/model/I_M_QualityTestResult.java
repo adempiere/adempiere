@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_QualityTestResult
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.8.0
  */
 public interface I_M_QualityTestResult 
 {
@@ -30,7 +30,7 @@ public interface I_M_QualityTestResult
     /** TableName=M_QualityTestResult */
     public static final String Table_Name = "M_QualityTestResult";
 
-    /** AD_Table_ID=1000006 */
+    /** AD_Table_ID=53331 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -52,13 +52,13 @@ public interface I_M_QualityTestResult
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
-	/** Set Organisation.
-	  * Organisational entity within client
+	/** Set Organization.
+	  * Organizational entity within client
 	  */
 	public void setAD_Org_ID (int AD_Org_ID);
 
-	/** Get Organisation.
-	  * Organisational entity within client
+	/** Get Organization.
+	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
 
@@ -137,6 +137,15 @@ public interface I_M_QualityTestResult
 
 	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
 
+    /** Column name M_QualityTestResult_ID */
+    public static final String COLUMNNAME_M_QualityTestResult_ID = "M_QualityTestResult_ID";
+
+	/** Set Quality Test Result	  */
+	public void setM_QualityTestResult_ID (int M_QualityTestResult_ID);
+
+	/** Get Quality Test Result	  */
+	public int getM_QualityTestResult_ID();
+
     /** Column name M_QualityTest_ID */
     public static final String COLUMNNAME_M_QualityTest_ID = "M_QualityTest_ID";
 
@@ -146,16 +155,7 @@ public interface I_M_QualityTestResult
 	/** Get Quality Test	  */
 	public int getM_QualityTest_ID();
 
-	public I_M_QualityTest getM_QualityTest() throws RuntimeException;
-
-    /** Column name M_QualityTestResult_ID */
-    public static final String COLUMNNAME_M_QualityTestResult_ID = "M_QualityTestResult_ID";
-
-	/** Set Quality Test Result	  */
-	public void setM_QualityTestResult_ID (int M_QualityTestResult_ID);
-
-	/** Get Quality Test Result	  */
-	public int getM_QualityTestResult_ID();
+	public org.compiere.model.I_M_QualityTest getM_QualityTest() throws RuntimeException;
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";

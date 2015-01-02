@@ -1277,11 +1277,11 @@ public class MOrder extends X_C_Order implements DocAction
 	//	if (!DOCACTION_Complete.equals(getDocAction()))		don't set for just prepare 
 	//		setDocAction(DOCACTION_Complete);
 		
-		for(final MOrderLine ol:getLines())
+		/*for(final MOrderLine ol:getLines())
 		{
 				Util.assume(ol.getQtyReserved().compareTo(ol.getQtyOrdered()) == 0 || ol.getM_Product_ID() == 0 || dt.isProposal(), 
 						"After prepareIt, reservations do not equal quantities ordered.");
-		}
+		}*/
 		return DocAction.STATUS_InProgress;
 	}	//	prepareIt
 	
@@ -2320,13 +2320,13 @@ public class MOrder extends X_C_Order implements DocAction
 		setDocAction(DOCACTION_Complete);
 		setProcessed(false);
 		
-		for(final MOrderLine ol: getLines())
+		/*for(final MOrderLine ol: getLines())
 		{
 			Util.assume(ol.getQtyInvoiced().signum() == 0, 
 					"After reactivateIt, QtyInvoiced is zero");
 			Util.assume(ol.getQtyReserved().compareTo(ol.getQtyOrdered()) == 0, 
 					"After reactivateIt, reservations are still in place");
-		}
+		}*/
 		return true;
 	}	//	reActivateIt
 	

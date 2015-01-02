@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Depreciation_Method
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_A_Depreciation_Method extends PO implements I_A_Depreciation_Method, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140901L;
+	private static final long serialVersionUID = 20150101L;
 
     /** Standard Constructor */
     public X_A_Depreciation_Method (Properties ctx, int A_Depreciation_Method_ID, String trxName)
@@ -72,8 +72,8 @@ public class X_A_Depreciation_Method extends PO implements I_A_Depreciation_Meth
       return sb.toString();
     }
 
-	/** Set Depreciation Calculation Type.
-		@param A_Depreciation_Method_ID Depreciation Calculation Type	  */
+	/** Set Depreciation Method.
+		@param A_Depreciation_Method_ID Depreciation Method	  */
 	public void setA_Depreciation_Method_ID (int A_Depreciation_Method_ID)
 	{
 		if (A_Depreciation_Method_ID < 1) 
@@ -82,8 +82,8 @@ public class X_A_Depreciation_Method extends PO implements I_A_Depreciation_Meth
 			set_ValueNoCheck (COLUMNNAME_A_Depreciation_Method_ID, Integer.valueOf(A_Depreciation_Method_ID));
 	}
 
-	/** Get Depreciation Calculation Type.
-		@return Depreciation Calculation Type	  */
+	/** Get Depreciation Method.
+		@return Depreciation Method	  */
 	public int getA_Depreciation_Method_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Depreciation_Method_ID);
@@ -172,15 +172,15 @@ public class X_A_Depreciation_Method extends PO implements I_A_Depreciation_Meth
 		return false;
 	}
 
-	/** Set Text.
-		@param Text Text	  */
+	/** Set Description.
+		@param Text Description	  */
 	public void setText (String Text)
 	{
 		set_Value (COLUMNNAME_Text, Text);
 	}
 
-	/** Get Text.
-		@return Text	  */
+	/** Get Description.
+		@return Description	  */
 	public String getText () 
 	{
 		return (String)get_Value(COLUMNNAME_Text);

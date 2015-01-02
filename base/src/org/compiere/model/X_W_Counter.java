@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for W_Counter
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_W_Counter extends PO implements I_W_Counter, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20150101L;
 
     /** Standard Constructor */
     public X_W_Counter (Properties ctx, int W_Counter_ID, String trxName)
@@ -74,7 +74,7 @@ public class X_W_Counter extends PO implements I_W_Counter, I_Persistent
       return sb.toString();
     }
 
-	/** Set Usuario.
+	/** Set User/Contact.
 		@param AD_User_ID 
 		User within the system - Internal or Business Partner Contact
 	  */
@@ -86,7 +86,7 @@ public class X_W_Counter extends PO implements I_W_Counter, I_Persistent
 			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
-	/** Get Usuario.
+	/** Get User/Contact.
 		@return User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID () 

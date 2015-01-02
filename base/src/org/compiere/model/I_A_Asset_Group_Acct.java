@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Group_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC
+ *  @version Release 3.8.0
  */
 public interface I_A_Asset_Group_Acct 
 {
@@ -35,11 +35,32 @@ public interface I_A_Asset_Group_Acct
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
-    /** AccessLevel = 7 - System - Client - Org 
+    /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(7);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
+
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
 
     /** Column name A_Accumdepreciation_Acct */
     public static final String COLUMNNAME_A_Accumdepreciation_Acct = "A_Accumdepreciation_Acct";
@@ -233,39 +254,6 @@ public interface I_A_Asset_Group_Acct
 	/** Get Variable Percent (fiscal)	  */
 	public BigDecimal getA_Depreciation_Variable_Perc_F();
 
-    /** Column name A_Disposal_Gain */
-    public static final String COLUMNNAME_A_Disposal_Gain = "A_Disposal_Gain";
-
-	/** Set Disposal Gain	  */
-	public void setA_Disposal_Gain (int A_Disposal_Gain);
-
-	/** Get Disposal Gain	  */
-	public int getA_Disposal_Gain();
-
-	public I_C_ValidCombination getA_Disposal_G() throws RuntimeException;
-
-    /** Column name A_Disposal_Gain_Acct */
-    public static final String COLUMNNAME_A_Disposal_Gain_Acct = "A_Disposal_Gain_Acct";
-
-	/** Set Disposal Gain Acct	  */
-	public void setA_Disposal_Gain_Acct (int A_Disposal_Gain_Acct);
-
-	/** Get Disposal Gain Acct	  */
-	public int getA_Disposal_Gain_Acct();
-
-	public I_C_ValidCombination getA_Disposal_Gain_A() throws RuntimeException;
-
-    /** Column name A_Disposal_Loss */
-    public static final String COLUMNNAME_A_Disposal_Loss = "A_Disposal_Loss";
-
-	/** Set Loss on Disposal	  */
-	public void setA_Disposal_Loss (int A_Disposal_Loss);
-
-	/** Get Loss on Disposal	  */
-	public int getA_Disposal_Loss();
-
-	public I_C_ValidCombination getA_Disposal_L() throws RuntimeException;
-
     /** Column name A_Disposal_Loss_Acct */
     public static final String COLUMNNAME_A_Disposal_Loss_Acct = "A_Disposal_Loss_Acct";
 
@@ -276,17 +264,6 @@ public interface I_A_Asset_Group_Acct
 	public int getA_Disposal_Loss_Acct();
 
 	public I_C_ValidCombination getA_Disposal_Loss_A() throws RuntimeException;
-
-    /** Column name A_Disposal_Revenue */
-    public static final String COLUMNNAME_A_Disposal_Revenue = "A_Disposal_Revenue";
-
-	/** Set Disposal Revenue	  */
-	public void setA_Disposal_Revenue (int A_Disposal_Revenue);
-
-	/** Get Disposal Revenue	  */
-	public int getA_Disposal_Revenue();
-
-	public I_C_ValidCombination getA_Disposal_Reve() throws RuntimeException;
 
     /** Column name A_Disposal_Revenue_Acct */
     public static final String COLUMNNAME_A_Disposal_Revenue_Acct = "A_Disposal_Revenue_Acct";
@@ -426,27 +403,6 @@ public interface I_A_Asset_Group_Acct
 
 	/** Get Split Percent	  */
 	public BigDecimal getA_Split_Percent();
-
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
 
     /** Column name C_AcctSchema_ID */
     public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";

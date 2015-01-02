@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Split
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC
+ *  @version Release 3.8.0
  */
 public interface I_A_Asset_Split 
 {
@@ -41,6 +41,27 @@ public interface I_A_Asset_Split
 
     /** Load Meta Data */
 
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
     /** Column name A_Amount_Split */
     public static final String COLUMNNAME_A_Amount_Split = "A_Amount_Split";
 
@@ -53,23 +74,19 @@ public interface I_A_Asset_Split
     /** Column name A_Asset_Acct_ID */
     public static final String COLUMNNAME_A_Asset_Acct_ID = "A_Asset_Acct_ID";
 
-	/** Set Asset Acct.	  */
+	/** Set A_Asset_Acct_ID	  */
 	public void setA_Asset_Acct_ID (int A_Asset_Acct_ID);
 
-	/** Get Asset Acct.	  */
+	/** Get A_Asset_Acct_ID	  */
 	public int getA_Asset_Acct_ID();
 
     /** Column name A_Asset_Cost */
     public static final String COLUMNNAME_A_Asset_Cost = "A_Asset_Cost";
 
-	/** Set Asset Cost.
-	  * Asset Cost
-	  */
+	/** Set Asset Cost	  */
 	public void setA_Asset_Cost (BigDecimal A_Asset_Cost);
 
-	/** Get Asset Cost.
-	  * Asset Cost
-	  */
+	/** Get Asset Cost	  */
 	public BigDecimal getA_Asset_Cost();
 
     /** Column name A_Asset_ID */
@@ -108,10 +125,10 @@ public interface I_A_Asset_Split
     /** Column name A_Depreciation_Workfile_ID */
     public static final String COLUMNNAME_A_Depreciation_Workfile_ID = "A_Depreciation_Workfile_ID";
 
-	/** Set Depreciation Workfile	  */
+	/** Set A_Depreciation_Workfile_ID	  */
 	public void setA_Depreciation_Workfile_ID (int A_Depreciation_Workfile_ID);
 
-	/** Get Depreciation Workfile	  */
+	/** Get A_Depreciation_Workfile_ID	  */
 	public int getA_Depreciation_Workfile_ID();
 
     /** Column name A_Percent_Original */
@@ -135,10 +152,10 @@ public interface I_A_Asset_Split
     /** Column name A_QTY_Current */
     public static final String COLUMNNAME_A_QTY_Current = "A_QTY_Current";
 
-	/** Set Quantity	  */
+	/** Set Current Qty	  */
 	public void setA_QTY_Current (BigDecimal A_QTY_Current);
 
-	/** Get Quantity	  */
+	/** Get Current Qty	  */
 	public BigDecimal getA_QTY_Current();
 
     /** Column name A_QTY_Split */
@@ -162,32 +179,11 @@ public interface I_A_Asset_Split
     /** Column name A_Transfer_Balance_IS */
     public static final String COLUMNNAME_A_Transfer_Balance_IS = "A_Transfer_Balance_IS";
 
-	/** Set Transfer Balance IS	  */
+	/** Set A_Transfer_Balance_IS	  */
 	public void setA_Transfer_Balance_IS (boolean A_Transfer_Balance_IS);
 
-	/** Get Transfer Balance IS	  */
+	/** Get A_Transfer_Balance_IS	  */
 	public boolean isA_Transfer_Balance_IS();
-
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
 
     /** Column name C_Period_ID */
     public static final String COLUMNNAME_C_Period_ID = "C_Period_ID";

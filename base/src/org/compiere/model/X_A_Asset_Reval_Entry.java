@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Reval_Entry
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140901L;
+	private static final long serialVersionUID = 20150101L;
 
     /** Standard Constructor */
     public X_A_Asset_Reval_Entry (Properties ctx, int A_Asset_Reval_Entry_ID, String trxName)
@@ -155,16 +155,16 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
 	public static final String A_REVAL_CAL_METHOD_InceptionToDate = "IDF";
 	/** Year Balances = YBF */
 	public static final String A_REVAL_CAL_METHOD_YearBalances = "YBF";
-	/** Set Revaluation Calculation Method.
-		@param A_Reval_Cal_Method Revaluation Calculation Method	  */
+	/** Set A_Reval_Cal_Method.
+		@param A_Reval_Cal_Method A_Reval_Cal_Method	  */
 	public void setA_Reval_Cal_Method (String A_Reval_Cal_Method)
 	{
 
 		set_Value (COLUMNNAME_A_Reval_Cal_Method, A_Reval_Cal_Method);
 	}
 
-	/** Get Revaluation Calculation Method.
-		@return Revaluation Calculation Method	  */
+	/** Get A_Reval_Cal_Method.
+		@return A_Reval_Cal_Method	  */
 	public String getA_Reval_Cal_Method () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Reval_Cal_Method);

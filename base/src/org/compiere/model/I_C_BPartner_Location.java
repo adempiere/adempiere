@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_BPartner_Location
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC
+ *  @version Release 3.8.0
  */
 public interface I_C_BPartner_Location 
 {
@@ -120,6 +120,32 @@ public interface I_C_BPartner_Location
 
 	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
 
+    /** Column name ContactPerson */
+    public static final String COLUMNNAME_ContactPerson = "ContactPerson";
+
+	/** Set Contact Person.
+	  * Contact Person Defines the contact person for this location
+	  */
+	public void setContactPerson (String ContactPerson);
+
+	/** Get Contact Person.
+	  * Contact Person Defines the contact person for this location
+	  */
+	public String getContactPerson();
+
+    /** Column name ContactType */
+    public static final String COLUMNNAME_ContactType = "ContactType";
+
+	/** Set Contact Type.
+	  * Contact Type defines the type of contact for this location
+	  */
+	public void setContactType (String ContactType);
+
+	/** Get Contact Type.
+	  * Contact Type defines the type of contact for this location
+	  */
+	public String getContactType();
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -136,6 +162,19 @@ public interface I_C_BPartner_Location
 	  */
 	public int getCreatedBy();
 
+    /** Column name EMail */
+    public static final String COLUMNNAME_EMail = "EMail";
+
+	/** Set EMail Address.
+	  * Electronic Mail Address
+	  */
+	public void setEMail (String EMail);
+
+	/** Get EMail Address.
+	  * Electronic Mail Address
+	  */
+	public String getEMail();
+
     /** Column name Fax */
     public static final String COLUMNNAME_Fax = "Fax";
 
@@ -148,6 +187,21 @@ public interface I_C_BPartner_Location
 	  * Facsimile number
 	  */
 	public String getFax();
+
+    /** Column name HR_Relationship_ID */
+    public static final String COLUMNNAME_HR_Relationship_ID = "HR_Relationship_ID";
+
+	/** Set Employee Relationship.
+	  * Employee Relationship Identifies an employee relations
+	  */
+	public void setHR_Relationship_ID (int HR_Relationship_ID);
+
+	/** Get Employee Relationship.
+	  * Employee Relationship Identifies an employee relations
+	  */
+	public int getHR_Relationship_ID();
+
+	public org.eevolution.model.I_HR_Relationship getHR_Relationship() throws RuntimeException;
 
     /** Column name ISDN */
     public static final String COLUMNNAME_ISDN = "ISDN";
@@ -226,6 +280,19 @@ public interface I_C_BPartner_Location
 	  * Business Partner Shipment Address
 	  */
 	public boolean isShipTo();
+
+    /** Column name MobilePhone */
+    public static final String COLUMNNAME_MobilePhone = "MobilePhone";
+
+	/** Set Mobile Phone.
+	  * Identifies an alternate telephone mobile number.
+	  */
+	public void setMobilePhone (String MobilePhone);
+
+	/** Get Mobile Phone.
+	  * Identifies an alternate telephone mobile number.
+	  */
+	public String getMobilePhone();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

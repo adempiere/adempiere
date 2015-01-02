@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for T_BOM_Indented
  *  @author Adempiere (generated) 
- *  @version 360LTS.013
+ *  @version Release 3.8.0
  */
 public interface I_T_BOM_Indented 
 {
@@ -75,7 +75,7 @@ public interface I_T_BOM_Indented
 	  */
 	public int getAD_PInstance_ID();
 
-	public I_AD_PInstance getAD_PInstance() throws RuntimeException;
+	public org.compiere.model.I_AD_PInstance getAD_PInstance() throws RuntimeException;
 
     /** Column name C_AcctSchema_ID */
     public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
@@ -90,7 +90,7 @@ public interface I_T_BOM_Indented
 	  */
 	public int getC_AcctSchema_ID();
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
+	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
 
     /** Column name Cost */
     public static final String COLUMNNAME_Cost = "Cost";
@@ -150,12 +150,12 @@ public interface I_T_BOM_Indented
     /** Column name CurrentCostPriceLL */
     public static final String COLUMNNAME_CurrentCostPriceLL = "CurrentCostPriceLL";
 
-	/** Set Current Cost Price Lower Level.
+	/** Set Current Cost Price LL.
 	  * Current Price Lower Level Is the sum of the costs of the components of this product manufactured for this level.
 	  */
 	public void setCurrentCostPriceLL (BigDecimal CurrentCostPriceLL);
 
-	/** Get Current Cost Price Lower Level.
+	/** Get Current Cost Price LL.
 	  * Current Price Lower Level Is the sum of the costs of the components of this product manufactured for this level.
 	  */
 	public BigDecimal getCurrentCostPriceLL();
@@ -172,10 +172,10 @@ public interface I_T_BOM_Indented
     /** Column name FutureCostPriceLL */
     public static final String COLUMNNAME_FutureCostPriceLL = "FutureCostPriceLL";
 
-	/** Set Future Cost Price Lower Level	  */
+	/** Set Future Cost Price LL	  */
 	public void setFutureCostPriceLL (BigDecimal FutureCostPriceLL);
 
-	/** Get Future Cost Price Lower Level	  */
+	/** Get Future Cost Price LL	  */
 	public BigDecimal getFutureCostPriceLL();
 
     /** Column name IsActive */
@@ -222,7 +222,7 @@ public interface I_T_BOM_Indented
 	  */
 	public int getM_CostElement_ID();
 
-	public I_M_CostElement getM_CostElement() throws RuntimeException;
+	public org.compiere.model.I_M_CostElement getM_CostElement() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -237,7 +237,7 @@ public interface I_T_BOM_Indented
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Qty */
     public static final String COLUMNNAME_Qty = "Qty";
@@ -274,7 +274,7 @@ public interface I_T_BOM_Indented
 	/** Get Selected Product	  */
 	public int getSel_Product_ID();
 
-	public I_M_Product getSel_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getSel_Product() throws RuntimeException;
 
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";

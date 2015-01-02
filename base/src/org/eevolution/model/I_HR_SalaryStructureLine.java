@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_SalaryStructureLine
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC
+ *  @version Release 3.8.0
  */
 public interface I_HR_SalaryStructureLine 
 {
@@ -95,26 +95,17 @@ public interface I_HR_SalaryStructureLine
     /** Column name HR_Concept_ID */
     public static final String COLUMNNAME_HR_Concept_ID = "HR_Concept_ID";
 
-	/** Set Payroll Concept	  */
+	/** Set AD Payroll Concept.
+	  * The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
+	  */
 	public void setHR_Concept_ID (int HR_Concept_ID);
 
-	/** Get Payroll Concept	  */
+	/** Get AD Payroll Concept.
+	  * The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
+	  */
 	public int getHR_Concept_ID();
 
 	public org.eevolution.model.I_HR_Concept getHR_Concept() throws RuntimeException;
-
-    /** Column name HR_SalaryStructureLine_ID */
-    public static final String COLUMNNAME_HR_SalaryStructureLine_ID = "HR_SalaryStructureLine_ID";
-
-	/** Set Salary Structure Line.
-	  * Salary Structure Line
-	  */
-	public void setHR_SalaryStructureLine_ID (int HR_SalaryStructureLine_ID);
-
-	/** Get Salary Structure Line.
-	  * Salary Structure Line
-	  */
-	public int getHR_SalaryStructureLine_ID();
 
     /** Column name HR_SalaryStructure_ID */
     public static final String COLUMNNAME_HR_SalaryStructure_ID = "HR_SalaryStructure_ID";
@@ -130,6 +121,19 @@ public interface I_HR_SalaryStructureLine
 	public int getHR_SalaryStructure_ID();
 
 	public org.eevolution.model.I_HR_SalaryStructure getHR_SalaryStructure() throws RuntimeException;
+
+    /** Column name HR_SalaryStructureLine_ID */
+    public static final String COLUMNNAME_HR_SalaryStructureLine_ID = "HR_SalaryStructureLine_ID";
+
+	/** Set Salary Structure Line.
+	  * Salary Structure Line
+	  */
+	public void setHR_SalaryStructureLine_ID (int HR_SalaryStructureLine_ID);
+
+	/** Get Salary Structure Line.
+	  * Salary Structure Line
+	  */
+	public int getHR_SalaryStructureLine_ID();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

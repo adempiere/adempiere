@@ -26,14 +26,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for I_HR_Attribute
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_I_HR_Attribute extends PO implements I_I_HR_Attribute, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20141215L;
+	private static final long serialVersionUID = 20150101L;
 
     /** Standard Constructor */
     public X_I_HR_Attribute (Properties ctx, int I_HR_Attribute_ID, String trxName)
@@ -213,7 +213,7 @@ public class X_I_HR_Attribute extends PO implements I_I_HR_Attribute, I_Persiste
 		return (org.eevolution.model.I_HR_Concept)MTable.get(getCtx(), org.eevolution.model.I_HR_Concept.Table_Name)
 			.getPO(getHR_Concept_ID(), get_TrxName());	}
 
-	/** Set General Payroll Concept.
+	/** Set AD Payroll Concept.
 		@param HR_Concept_ID 
 		The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
 	  */
@@ -225,7 +225,7 @@ public class X_I_HR_Attribute extends PO implements I_I_HR_Attribute, I_Persiste
 			set_Value (COLUMNNAME_HR_Concept_ID, Integer.valueOf(HR_Concept_ID));
 	}
 
-	/** Get General Payroll Concept.
+	/** Get AD Payroll Concept.
 		@return The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
 	  */
 	public int getHR_Concept_ID () 
@@ -281,8 +281,8 @@ public class X_I_HR_Attribute extends PO implements I_I_HR_Attribute, I_Persiste
 		return (String)get_Value(COLUMNNAME_I_ErrorMsg);
 	}
 
-	/** Set I_HR_Attribute ID.
-		@param I_HR_Attribute_ID I_HR_Attribute ID	  */
+	/** Set I_HR_Attribute.
+		@param I_HR_Attribute_ID I_HR_Attribute	  */
 	public void setI_HR_Attribute_ID (int I_HR_Attribute_ID)
 	{
 		if (I_HR_Attribute_ID < 1) 
@@ -291,8 +291,8 @@ public class X_I_HR_Attribute extends PO implements I_I_HR_Attribute, I_Persiste
 			set_ValueNoCheck (COLUMNNAME_I_HR_Attribute_ID, Integer.valueOf(I_HR_Attribute_ID));
 	}
 
-	/** Get I_HR_Attribute ID.
-		@return I_HR_Attribute ID	  */
+	/** Get I_HR_Attribute.
+		@return I_HR_Attribute	  */
 	public int getI_HR_Attribute_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_I_HR_Attribute_ID);

@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_PayrollConcept
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC
+ *  @version Release 3.8.0
  */
 public interface I_HR_PayrollConcept 
 {
@@ -93,10 +93,14 @@ public interface I_HR_PayrollConcept
     /** Column name HR_Concept_ID */
     public static final String COLUMNNAME_HR_Concept_ID = "HR_Concept_ID";
 
-	/** Set Payroll Concept	  */
+	/** Set AD Payroll Concept.
+	  * The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
+	  */
 	public void setHR_Concept_ID (int HR_Concept_ID);
 
-	/** Get Payroll Concept	  */
+	/** Get AD Payroll Concept.
+	  * The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
+	  */
 	public int getHR_Concept_ID();
 
 	public org.eevolution.model.I_HR_Concept getHR_Concept() throws RuntimeException;
@@ -104,19 +108,27 @@ public interface I_HR_PayrollConcept
     /** Column name HR_PayrollConcept_ID */
     public static final String COLUMNNAME_HR_PayrollConcept_ID = "HR_PayrollConcept_ID";
 
-	/** Set Payroll Concept	  */
+	/** Set Payroll Concept.
+	  * The payroll concept allows to define all those Global Concept that are using to calculate a payroll.
+	  */
 	public void setHR_PayrollConcept_ID (int HR_PayrollConcept_ID);
 
-	/** Get Payroll Concept	  */
+	/** Get Payroll Concept.
+	  * The payroll concept allows to define all those Global Concept that are using to calculate a payroll.
+	  */
 	public int getHR_PayrollConcept_ID();
 
     /** Column name HR_Payroll_ID */
     public static final String COLUMNNAME_HR_Payroll_ID = "HR_Payroll_ID";
 
-	/** Set Payroll	  */
+	/** Set Payroll.
+	  * The Payroll definition allows to define all the payroll concepts , year and periods, to  calculate a payroll.
+	  */
 	public void setHR_Payroll_ID (int HR_Payroll_ID);
 
-	/** Get Payroll	  */
+	/** Get Payroll.
+	  * The Payroll definition allows to define all the payroll concepts , year and periods, to  calculate a payroll.
+	  */
 	public int getHR_Payroll_ID();
 
 	public org.eevolution.model.I_HR_Payroll getHR_Payroll() throws RuntimeException;

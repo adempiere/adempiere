@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_List
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_HR_List extends PO implements I_HR_List, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20150101L;
 
     /** Standard Constructor */
     public X_HR_List (Properties ctx, int HR_List_ID, String trxName)
@@ -95,8 +95,10 @@ public class X_HR_List extends PO implements I_HR_List, I_Persistent
 		return (org.eevolution.model.I_HR_Department)MTable.get(getCtx(), org.eevolution.model.I_HR_Department.Table_Name)
 			.getPO(getHR_Department_ID(), get_TrxName());	}
 
-	/** Set Payroll Department.
-		@param HR_Department_ID Payroll Department	  */
+	/** Set Department.
+		@param HR_Department_ID 
+		Department of the organization
+	  */
 	public void setHR_Department_ID (int HR_Department_ID)
 	{
 		if (HR_Department_ID < 1) 
@@ -105,8 +107,9 @@ public class X_HR_List extends PO implements I_HR_List, I_Persistent
 			set_Value (COLUMNNAME_HR_Department_ID, Integer.valueOf(HR_Department_ID));
 	}
 
-	/** Get Payroll Department.
-		@return Payroll Department	  */
+	/** Get Department.
+		@return Department of the organization
+	  */
 	public int getHR_Department_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Department_ID);
@@ -140,6 +143,26 @@ public class X_HR_List extends PO implements I_HR_List, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Payroll List.
+		@param HR_List_ID Payroll List	  */
+	public void setHR_List_ID (int HR_List_ID)
+	{
+		if (HR_List_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_HR_List_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_HR_List_ID, Integer.valueOf(HR_List_ID));
+	}
+
+	/** Get Payroll List.
+		@return Payroll List	  */
+	public int getHR_List_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_List_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_HR_ListType getHR_ListType() throws RuntimeException
     {
 		return (org.eevolution.model.I_HR_ListType)MTable.get(getCtx(), org.eevolution.model.I_HR_ListType.Table_Name)
@@ -165,33 +188,15 @@ public class X_HR_List extends PO implements I_HR_List, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Payroll List.
-		@param HR_List_ID Payroll List	  */
-	public void setHR_List_ID (int HR_List_ID)
-	{
-		if (HR_List_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_HR_List_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_HR_List_ID, Integer.valueOf(HR_List_ID));
-	}
-
-	/** Get Payroll List.
-		@return Payroll List	  */
-	public int getHR_List_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_List_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.eevolution.model.I_HR_Payroll getHR_Payroll() throws RuntimeException
     {
 		return (org.eevolution.model.I_HR_Payroll)MTable.get(getCtx(), org.eevolution.model.I_HR_Payroll.Table_Name)
 			.getPO(getHR_Payroll_ID(), get_TrxName());	}
 
 	/** Set Payroll.
-		@param HR_Payroll_ID Payroll	  */
+		@param HR_Payroll_ID 
+		The Payroll definition allows to define all the payroll concepts , year and periods, to  calculate a payroll.
+	  */
 	public void setHR_Payroll_ID (int HR_Payroll_ID)
 	{
 		if (HR_Payroll_ID < 1) 
@@ -201,7 +206,8 @@ public class X_HR_List extends PO implements I_HR_List, I_Persistent
 	}
 
 	/** Get Payroll.
-		@return Payroll	  */
+		@return The Payroll definition allows to define all the payroll concepts , year and periods, to  calculate a payroll.
+	  */
 	public int getHR_Payroll_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Payroll_ID);

@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Reval
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_A_Asset_Reval extends PO implements I_A_Asset_Reval, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140901L;
+	private static final long serialVersionUID = 20150101L;
 
     /** Standard Constructor */
     public X_A_Asset_Reval (Properties ctx, int A_Asset_Reval_ID, String trxName)
@@ -91,17 +91,14 @@ public class X_A_Asset_Reval extends PO implements I_A_Asset_Reval, I_Persistent
     }
 
 	/** Set Accumulated Depreciation.
-		@param A_Accumulated_Depr 
-		Accumulated Depreciation
-	  */
+		@param A_Accumulated_Depr Accumulated Depreciation	  */
 	public void setA_Accumulated_Depr (BigDecimal A_Accumulated_Depr)
 	{
 		set_Value (COLUMNNAME_A_Accumulated_Depr, A_Accumulated_Depr);
 	}
 
 	/** Get Accumulated Depreciation.
-		@return Accumulated Depreciation
-	  */
+		@return Accumulated Depreciation	  */
 	public BigDecimal getA_Accumulated_Depr () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Accumulated_Depr);
@@ -111,17 +108,14 @@ public class X_A_Asset_Reval extends PO implements I_A_Asset_Reval, I_Persistent
 	}
 
 	/** Set Asset Cost.
-		@param A_Asset_Cost 
-		Asset Cost
-	  */
+		@param A_Asset_Cost Asset Cost	  */
 	public void setA_Asset_Cost (BigDecimal A_Asset_Cost)
 	{
 		set_Value (COLUMNNAME_A_Asset_Cost, A_Asset_Cost);
 	}
 
 	/** Get Asset Cost.
-		@return Asset Cost
-	  */
+		@return Asset Cost	  */
 	public BigDecimal getA_Asset_Cost () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Asset_Cost);

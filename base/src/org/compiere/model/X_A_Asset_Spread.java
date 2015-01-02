@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Spread
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_A_Asset_Spread extends PO implements I_A_Asset_Spread, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140901L;
+	private static final long serialVersionUID = 20150101L;
 
     /** Standard Constructor */
     public X_A_Asset_Spread (Properties ctx, int A_Asset_Spread_ID, String trxName)
@@ -86,8 +86,8 @@ public class X_A_Asset_Spread extends PO implements I_A_Asset_Spread, I_Persiste
       return sb.toString();
     }
 
-	/** Set Asset Spread.
-		@param A_Asset_Spread_ID Asset Spread	  */
+	/** Set A_Asset_Spread_ID.
+		@param A_Asset_Spread_ID A_Asset_Spread_ID	  */
 	public void setA_Asset_Spread_ID (int A_Asset_Spread_ID)
 	{
 		if (A_Asset_Spread_ID < 1) 
@@ -96,8 +96,8 @@ public class X_A_Asset_Spread extends PO implements I_A_Asset_Spread, I_Persiste
 			set_ValueNoCheck (COLUMNNAME_A_Asset_Spread_ID, Integer.valueOf(A_Asset_Spread_ID));
 	}
 
-	/** Get Asset Spread.
-		@return Asset Spread	  */
+	/** Get A_Asset_Spread_ID.
+		@return A_Asset_Spread_ID	  */
 	public int getA_Asset_Spread_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Spread_ID);
@@ -114,15 +114,15 @@ public class X_A_Asset_Spread extends PO implements I_A_Asset_Spread, I_Persiste
         return new KeyNamePair(get_ID(), String.valueOf(getA_Asset_Spread_ID()));
     }
 
-	/** Set Asset Spread Type.
-		@param A_Asset_Spread_Type Asset Spread Type	  */
+	/** Set Spread Type.
+		@param A_Asset_Spread_Type Spread Type	  */
 	public void setA_Asset_Spread_Type (String A_Asset_Spread_Type)
 	{
 		set_Value (COLUMNNAME_A_Asset_Spread_Type, A_Asset_Spread_Type);
 	}
 
-	/** Get Asset Spread Type.
-		@return Asset Spread Type	  */
+	/** Get Spread Type.
+		@return Spread Type	  */
 	public String getA_Asset_Spread_Type () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Asset_Spread_Type);

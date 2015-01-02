@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_HR_Movement
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_I_HR_Movement extends PO implements I_I_HR_Movement, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140515L;
+	private static final long serialVersionUID = 20150101L;
 
     /** Standard Constructor */
     public X_I_HR_Movement (Properties ctx, int I_HR_Movement_ID, String trxName)
@@ -180,8 +180,10 @@ public class X_I_HR_Movement extends PO implements I_I_HR_Movement, I_Persistent
 		return (org.eevolution.model.I_HR_Concept)MTable.get(getCtx(), org.eevolution.model.I_HR_Concept.Table_Name)
 			.getPO(getHR_Concept_ID(), get_TrxName());	}
 
-	/** Set Payroll Concept.
-		@param HR_Concept_ID Payroll Concept	  */
+	/** Set AD Payroll Concept.
+		@param HR_Concept_ID 
+		The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
+	  */
 	public void setHR_Concept_ID (int HR_Concept_ID)
 	{
 		if (HR_Concept_ID < 1) 
@@ -190,8 +192,9 @@ public class X_I_HR_Movement extends PO implements I_I_HR_Movement, I_Persistent
 			set_Value (COLUMNNAME_HR_Concept_ID, Integer.valueOf(HR_Concept_ID));
 	}
 
-	/** Get Payroll Concept.
-		@return Payroll Concept	  */
+	/** Get AD Payroll Concept.
+		@return The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
+	  */
 	public int getHR_Concept_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Concept_ID);
@@ -312,23 +315,6 @@ public class X_I_HR_Movement extends PO implements I_I_HR_Movement, I_Persistent
 		return (String)get_Value(COLUMNNAME_I_IsImported);
 	}
 
-	/** Set Process Name.
-		@param ProcessName 
-		Name of the Process
-	  */
-	public void setProcessName (String ProcessName)
-	{
-		set_Value (COLUMNNAME_ProcessName, ProcessName);
-	}
-
-	/** Get Process Name.
-		@return Name of the Process
-	  */
-	public String getProcessName () 
-	{
-		return (String)get_Value(COLUMNNAME_ProcessName);
-	}
-
 	/** Set Processed.
 		@param Processed 
 		The document has been processed
@@ -372,6 +358,23 @@ public class X_I_HR_Movement extends PO implements I_I_HR_Movement, I_Persistent
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Set Process Name.
+		@param ProcessName 
+		Name of the Process
+	  */
+	public void setProcessName (String ProcessName)
+	{
+		set_Value (COLUMNNAME_ProcessName, ProcessName);
+	}
+
+	/** Get Process Name.
+		@return Name of the Process
+	  */
+	public String getProcessName () 
+	{
+		return (String)get_Value(COLUMNNAME_ProcessName);
 	}
 
 	/** Set Quantity.

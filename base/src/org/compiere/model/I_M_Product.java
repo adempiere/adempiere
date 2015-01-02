@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_Product
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC
+ *  @version Release 3.8.0
  */
 public interface I_M_Product 
 {
@@ -637,7 +637,7 @@ public interface I_M_Product
 	/** Get Part Type	  */
 	public int getM_PartType_ID();
 
-	public I_M_PartType getM_PartType() throws RuntimeException;
+	public org.compiere.model.I_M_PartType getM_PartType() throws RuntimeException;
 
     /** Column name M_Product_Category_ID */
     public static final String COLUMNNAME_M_Product_Category_ID = "M_Product_Category_ID";

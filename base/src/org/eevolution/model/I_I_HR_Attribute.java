@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_HR_Attribute
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC
+ *  @version Release 3.8.0
  */
 public interface I_I_HR_Attribute 
 {
@@ -162,12 +162,12 @@ public interface I_I_HR_Attribute
     /** Column name HR_Concept_ID */
     public static final String COLUMNNAME_HR_Concept_ID = "HR_Concept_ID";
 
-	/** Set General Payroll Concept.
+	/** Set AD Payroll Concept.
 	  * The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
 	  */
 	public void setHR_Concept_ID (int HR_Concept_ID);
 
-	/** Get General Payroll Concept.
+	/** Get AD Payroll Concept.
 	  * The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
 	  */
 	public int getHR_Concept_ID();
@@ -205,10 +205,10 @@ public interface I_I_HR_Attribute
     /** Column name I_HR_Attribute_ID */
     public static final String COLUMNNAME_I_HR_Attribute_ID = "I_HR_Attribute_ID";
 
-	/** Set I_HR_Attribute ID	  */
+	/** Set I_HR_Attribute	  */
 	public void setI_HR_Attribute_ID (int I_HR_Attribute_ID);
 
-	/** Get I_HR_Attribute ID	  */
+	/** Get I_HR_Attribute	  */
 	public int getI_HR_Attribute_ID();
 
     /** Column name I_IsImported */

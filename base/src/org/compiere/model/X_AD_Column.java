@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Column
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_AD_Column extends PO implements I_AD_Column, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20150101L;
 
     /** Standard Constructor */
     public X_AD_Column (Properties ctx, int AD_Column_ID, String trxName)
@@ -58,6 +58,7 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 			setIsMandatory (false);
 			setIsParent (false);
 			setIsRange (false);
+// N
 			setIsSelectionColumn (false);
 			setIsTranslated (false);
 			setIsUpdateable (true);
