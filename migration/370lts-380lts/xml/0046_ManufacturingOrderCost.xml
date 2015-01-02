@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Manufacturing Order Cost" ReleaseNo="3.8.0" SeqNo="46">
+  <Migration EntityType="EE01" Name="Manufacturing Order Cost" ReleaseNo="3.8.0" SeqNo="46">
     <Comments>Manufacturing Order Cost report.</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="100" Action="I" Record_ID="53921" Table="AD_Table">
@@ -189,6 +189,8 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="50" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="75312" Table="AD_Column">
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">75312</Data>
@@ -231,8 +233,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="551" Column="Updated">2014-12-30 16:23:36.144</Data>
         <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
-        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
         <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="110" Column="Version">1</Data>
       </PO>
@@ -901,6 +901,12 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="220" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="75324" Table="AD_Column">
+        <Data AD_Column_ID="551" Column="Updated">2014-12-30 16:23:58.441</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">75324</Data>
@@ -941,12 +947,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="111" Column="Name">Rate Variance</Data>
         <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
-        <Data AD_Column_ID="551" Column="Updated">2014-12-30 16:23:58.441</Data>
-        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
-        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
-        <Data AD_Column_ID="110" Column="Version">0</Data>
       </PO>
     </Step>
     <Step SeqNo="230" StepType="AD">
@@ -1126,8 +1126,8 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="270" StepType="AD">
       <PO AD_Table_ID="276" Action="I" Record_ID="57741" Table="AD_Element">
-        <Data AD_Column_ID="2595" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="2594" Column="AD_Element_ID">57741</Data>
+        <Data AD_Column_ID="2595" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="2596" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58588" Column="AD_Reference_ID">37</Data>
         <Data AD_Column_ID="58590" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -1845,6 +1845,9 @@ If the document type of your document has no automatic document sequence defined
     </Step>
     <Step SeqNo="450" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="75341" Table="AD_Column">
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">75341</Data>
@@ -1888,9 +1891,6 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="551" Column="Updated">2014-12-30 16:24:25.4</Data>
         <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
-        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
-        <Data AD_Column_ID="110" Column="Version">0</Data>
       </PO>
     </Step>
     <Step SeqNo="460" StepType="AD">
@@ -2813,19 +2813,6 @@ If the document type of your document has no automatic document sequence defined
     </Step>
     <Step SeqNo="660" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="75360" Table="AD_Column">
-        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
-        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="109" Column="AD_Column_ID">75360</Data>
-        <Data AD_Column_ID="2608" Column="AD_Element_ID">614</Data>
-        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
-        <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
-        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">137</Data>
-        <Data AD_Column_ID="114" Column="AD_Table_ID">53921</Data>
-        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
-        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
-        <Data AD_Column_ID="116" Column="ColumnName">User2_ID</Data>
-        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
         <Data AD_Column_ID="549" Column="Created">2014-12-30 16:24:53.557</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
@@ -2859,6 +2846,19 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
         <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">75360</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">614</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">137</Data>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">53921</Data>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">User2_ID</Data>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="670" StepType="AD">
@@ -3654,6 +3654,7 @@ Take care when setting yield to anything but 100% particularly when yied is used
     </Step>
     <Step SeqNo="850" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="75376" Table="AD_Column">
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">75376</Data>
@@ -3697,7 +3698,6 @@ Take care when setting yield to anything but 100% particularly when yied is used
         <Data AD_Column_ID="551" Column="Updated">2014-12-30 16:25:16.391</Data>
         <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
-        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
         <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="110" Column="Version">0</Data>
       </PO>
@@ -3763,16 +3763,6 @@ Take care when setting yield to anything but 100% particularly when yied is used
     </Step>
     <Step SeqNo="880" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="75378" Table="AD_Column">
-        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
-        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="109" Column="AD_Column_ID">75378</Data>
-        <Data AD_Column_ID="2608" Column="AD_Element_ID">53247</Data>
-        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
-        <Data AD_Column_ID="226" Column="AD_Reference_ID">22</Data>
-        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
-        <Data AD_Column_ID="114" Column="AD_Table_ID">53921</Data>
-        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
         <Data AD_Column_ID="116" Column="ColumnName">Assay</Data>
         <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
@@ -3809,6 +3799,16 @@ Take care when setting yield to anything but 100% particularly when yied is used
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
         <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">75378</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">53247</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">22</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">53921</Data>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="890" StepType="AD">
@@ -3889,9 +3889,8 @@ Take care when setting yield to anything but 100% particularly when yied is used
         <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Type of Order: MRP records grouped by source (Sales Order, Purchase Order, Distribution Order, Requisition)</Data>
-        <Data AD_Column_ID="6482" Column="EntityType">EE01</Data>
-        <Data AD_Column_ID="118" Column="FieldLength">1</Data>
         <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="118" Column="FieldLength">1</Data>
         <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
@@ -3918,6 +3917,7 @@ Take care when setting yield to anything but 100% particularly when yied is used
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
         <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">EE01</Data>
       </PO>
     </Step>
     <Step SeqNo="920" StepType="AD">
@@ -4005,9 +4005,8 @@ Take care when setting yield to anything but 100% particularly when yied is used
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
         <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true"/>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
-        <Data AD_Column_ID="6483" Column="IsSyncDatabase">Y</Data>
-        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="3360" Column="IsUpdateable">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
         <Data AD_Column_ID="111" Column="Name">Schedule Type</Data>
         <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
@@ -4018,6 +4017,7 @@ Take care when setting yield to anything but 100% particularly when yied is used
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
         <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase">Y</Data>
       </PO>
     </Step>
     <Step SeqNo="940" StepType="AD">
@@ -4243,8 +4243,8 @@ The sum the Current Cost Price + Current Cost Price Lower Level is the total cos
         <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="1000" StepType="AD">
@@ -4368,7 +4368,6 @@ The sum the Current Cost Price + Current Cost Price Lower Level is the total cos
         <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="6482" Column="EntityType">EE01</Data>
         <Data AD_Column_ID="118" Column="FieldLength">22</Data>
-        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
         <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
@@ -4395,6 +4394,7 @@ The sum the Current Cost Price + Current Cost Price Lower Level is the total cos
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
         <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="1040" StepType="AD">
@@ -4484,7 +4484,6 @@ The sum the Current Cost Price + Current Cost Price Lower Level is the total cos
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase">Y</Data>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="3360" Column="IsUpdateable">false</Data>
         <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
         <Data AD_Column_ID="111" Column="Name">Product Category</Data>
         <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
@@ -4495,6 +4494,7 @@ The sum the Current Cost Price + Current Cost Price Lower Level is the total cos
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
         <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">false</Data>
       </PO>
     </Step>
     <Step SeqNo="1060" StepType="AD">
@@ -4588,7 +4588,6 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="3360" Column="IsUpdateable">false</Data>
         <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
-        <Data AD_Column_ID="111" Column="Name">Product Name</Data>
         <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="551" Column="Updated">2014-12-30 16:25:44.276</Data>
@@ -4596,6 +4595,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
         <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="111" Column="Name">Product Name</Data>
       </PO>
     </Step>
     <Step SeqNo="1080" StepType="AD">
@@ -4713,10 +4713,10 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="6948" Column="SortNo">0</Data>
         <Data AD_Column_ID="6959" Column="Updated">2014-12-30 16:25:49.744</Data>
         <Data AD_Column_ID="6952" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="6967" Column="XPosition">0</Data>
         <Data AD_Column_ID="6962" Column="XSpace">0</Data>
         <Data AD_Column_ID="6957" Column="YPosition">0</Data>
         <Data AD_Column_ID="6947" Column="YSpace">0</Data>
+        <Data AD_Column_ID="6967" Column="XPosition">0</Data>
       </PO>
     </Step>
     <Step SeqNo="1120" StepType="AD">
@@ -4835,7 +4835,6 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="6940" Column="Name">Approved</Data>
         <Data AD_Column_ID="7032" Column="PrintAreaType">C</Data>
         <Data AD_Column_ID="7031" Column="PrintFormatType">F</Data>
-        <Data AD_Column_ID="6946" Column="PrintName">Approved</Data>
         <Data AD_Column_ID="8197" Column="PrintNameSuffix" isNewNull="true"/>
         <Data AD_Column_ID="9965" Column="RunningTotalLines">0</Data>
         <Data AD_Column_ID="6939" Column="SeqNo">0</Data>
@@ -4847,6 +4846,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="6962" Column="XSpace">0</Data>
         <Data AD_Column_ID="6957" Column="YPosition">0</Data>
         <Data AD_Column_ID="6947" Column="YSpace">0</Data>
+        <Data AD_Column_ID="6946" Column="PrintName">Approved</Data>
       </PO>
     </Step>
     <Step SeqNo="1140" StepType="AD">
@@ -4955,7 +4955,6 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="9966" Column="IsRunningTotal">false</Data>
         <Data AD_Column_ID="7566" Column="IsSetNLPosition">false</Data>
         <Data AD_Column_ID="6956" Column="IsSummarized">false</Data>
-        <Data AD_Column_ID="7565" Column="IsSuppressNull">false</Data>
         <Data AD_Column_ID="56359" Column="IsSuppressRepeats" isNewNull="true"/>
         <Data AD_Column_ID="10258" Column="IsVarianceCalc">false</Data>
         <Data AD_Column_ID="7030" Column="LineAlignmentType">X</Data>
@@ -4977,6 +4976,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="6962" Column="XSpace">0</Data>
         <Data AD_Column_ID="6957" Column="YPosition">0</Data>
         <Data AD_Column_ID="6947" Column="YSpace">0</Data>
+        <Data AD_Column_ID="7565" Column="IsSuppressNull">false</Data>
       </PO>
     </Step>
     <Step SeqNo="1160" StepType="AD">
@@ -5076,7 +5076,6 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="13238" Column="IsImageField" isNewNull="true"/>
         <Data AD_Column_ID="9964" Column="IsMaxCalc">false</Data>
         <Data AD_Column_ID="9967" Column="IsMinCalc">false</Data>
-        <Data AD_Column_ID="6943" Column="IsNextLine">false</Data>
         <Data AD_Column_ID="7654" Column="IsNextPage">false</Data>
         <Data AD_Column_ID="6970" Column="IsOrderBy">false</Data>
         <Data AD_Column_ID="6950" Column="IsPageBreak">false</Data>
@@ -5107,6 +5106,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="6962" Column="XSpace">0</Data>
         <Data AD_Column_ID="6957" Column="YPosition">0</Data>
         <Data AD_Column_ID="6947" Column="YSpace">0</Data>
+        <Data AD_Column_ID="6943" Column="IsNextLine">false</Data>
       </PO>
     </Step>
     <Step SeqNo="1180" StepType="AD">
@@ -5198,7 +5198,6 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="7061" Column="IsAveraged">false</Data>
         <Data AD_Column_ID="13237" Column="IsCentrallyMaintained" isNewNull="true"/>
         <Data AD_Column_ID="7060" Column="IsCounted">false</Data>
-        <Data AD_Column_ID="10259" Column="IsDeviationCalc">false</Data>
         <Data AD_Column_ID="13054" Column="IsFilledRectangle" isNewNull="true"/>
         <Data AD_Column_ID="7655" Column="IsFixedWidth">false</Data>
         <Data AD_Column_ID="6971" Column="IsGroupBy">false</Data>
@@ -5237,6 +5236,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="6962" Column="XSpace">0</Data>
         <Data AD_Column_ID="6957" Column="YPosition">0</Data>
         <Data AD_Column_ID="6947" Column="YSpace">0</Data>
+        <Data AD_Column_ID="10259" Column="IsDeviationCalc">false</Data>
       </PO>
     </Step>
     <Step SeqNo="1200" StepType="AD">
@@ -5319,7 +5319,6 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="15015" Column="BarcodeType" isNewNull="true"/>
         <Data AD_Column_ID="7638" Column="BelowColumn">0</Data>
         <Data AD_Column_ID="6942" Column="Created">2014-12-30 16:26:05.153</Data>
-        <Data AD_Column_ID="6955" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="6968" Column="FieldAlignmentType">L</Data>
         <Data AD_Column_ID="56351" Column="FormatPattern" isNewNull="true"/>
         <Data AD_Column_ID="7059" Column="ImageIsAttached">false</Data>
@@ -5367,6 +5366,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="6962" Column="XSpace">0</Data>
         <Data AD_Column_ID="6957" Column="YPosition">0</Data>
         <Data AD_Column_ID="6947" Column="YSpace">0</Data>
+        <Data AD_Column_ID="6955" Column="CreatedBy">100</Data>
       </PO>
     </Step>
     <Step SeqNo="1220" StepType="AD">
@@ -5439,7 +5439,6 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="6944" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="6949" Column="AD_Column_ID">75344</Data>
         <Data AD_Column_ID="6961" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="6958" Column="AD_PrintColor_ID" isNewNull="true"/>
         <Data AD_Column_ID="6963" Column="AD_PrintFont_ID" isNewNull="true"/>
         <Data AD_Column_ID="6945" Column="AD_PrintFormatChild_ID" isNewNull="true"/>
         <Data AD_Column_ID="6954" Column="AD_PrintFormatItem_ID">57866</Data>
@@ -5497,6 +5496,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="6962" Column="XSpace">0</Data>
         <Data AD_Column_ID="6957" Column="YPosition">0</Data>
         <Data AD_Column_ID="6947" Column="YSpace">0</Data>
+        <Data AD_Column_ID="6958" Column="AD_PrintColor_ID" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="1240" StepType="AD">
@@ -5555,13 +5555,13 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="9965" Column="RunningTotalLines">0</Data>
         <Data AD_Column_ID="6939" Column="SeqNo">0</Data>
         <Data AD_Column_ID="13057" Column="ShapeType">N</Data>
-        <Data AD_Column_ID="6948" Column="SortNo">0</Data>
         <Data AD_Column_ID="6959" Column="Updated">2014-12-30 16:26:09.056</Data>
         <Data AD_Column_ID="6952" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="6967" Column="XPosition">0</Data>
         <Data AD_Column_ID="6962" Column="XSpace">0</Data>
         <Data AD_Column_ID="6957" Column="YPosition">0</Data>
         <Data AD_Column_ID="6947" Column="YSpace">0</Data>
+        <Data AD_Column_ID="6948" Column="SortNo">0</Data>
       </PO>
     </Step>
     <Step SeqNo="1250" StepType="AD">
@@ -5676,7 +5676,6 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="7030" Column="LineAlignmentType">X</Data>
         <Data AD_Column_ID="13055" Column="LineWidth">1</Data>
         <Data AD_Column_ID="6966" Column="MaxHeight">0</Data>
-        <Data AD_Column_ID="6953" Column="MaxWidth">0</Data>
         <Data AD_Column_ID="6940" Column="Name">Document No</Data>
         <Data AD_Column_ID="7032" Column="PrintAreaType">C</Data>
         <Data AD_Column_ID="7031" Column="PrintFormatType">F</Data>
@@ -5692,6 +5691,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="6962" Column="XSpace">0</Data>
         <Data AD_Column_ID="6957" Column="YPosition">0</Data>
         <Data AD_Column_ID="6947" Column="YSpace">0</Data>
+        <Data AD_Column_ID="6953" Column="MaxWidth">0</Data>
       </PO>
     </Step>
     <Step SeqNo="1270" StepType="AD">
@@ -5796,7 +5796,6 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="6970" Column="IsOrderBy">false</Data>
         <Data AD_Column_ID="6950" Column="IsPageBreak">false</Data>
         <Data AD_Column_ID="6969" Column="IsPrinted">false</Data>
-        <Data AD_Column_ID="6951" Column="IsRelativePosition">true</Data>
         <Data AD_Column_ID="9966" Column="IsRunningTotal">false</Data>
         <Data AD_Column_ID="7566" Column="IsSetNLPosition">false</Data>
         <Data AD_Column_ID="6956" Column="IsSummarized">false</Data>
@@ -5822,6 +5821,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="6962" Column="XSpace">0</Data>
         <Data AD_Column_ID="6957" Column="YPosition">0</Data>
         <Data AD_Column_ID="6947" Column="YSpace">0</Data>
+        <Data AD_Column_ID="6951" Column="IsRelativePosition">true</Data>
       </PO>
     </Step>
     <Step SeqNo="1290" StepType="AD">
@@ -5917,7 +5917,6 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="13054" Column="IsFilledRectangle" isNewNull="true"/>
         <Data AD_Column_ID="7655" Column="IsFixedWidth">false</Data>
         <Data AD_Column_ID="6971" Column="IsGroupBy">false</Data>
-        <Data AD_Column_ID="6965" Column="IsHeightOneLine">false</Data>
         <Data AD_Column_ID="13238" Column="IsImageField" isNewNull="true"/>
         <Data AD_Column_ID="9964" Column="IsMaxCalc">false</Data>
         <Data AD_Column_ID="9967" Column="IsMinCalc">false</Data>
@@ -5952,6 +5951,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="6962" Column="XSpace">0</Data>
         <Data AD_Column_ID="6957" Column="YPosition">0</Data>
         <Data AD_Column_ID="6947" Column="YSpace">0</Data>
+        <Data AD_Column_ID="6965" Column="IsHeightOneLine">false</Data>
       </PO>
     </Step>
     <Step SeqNo="1310" StepType="AD">
@@ -6038,7 +6038,6 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="6968" Column="FieldAlignmentType">L</Data>
         <Data AD_Column_ID="56351" Column="FormatPattern" isNewNull="true"/>
         <Data AD_Column_ID="7059" Column="ImageIsAttached">false</Data>
-        <Data AD_Column_ID="7058" Column="ImageURL" isNewNull="true"/>
         <Data AD_Column_ID="6964" Column="IsActive">true</Data>
         <Data AD_Column_ID="7061" Column="IsAveraged">false</Data>
         <Data AD_Column_ID="13237" Column="IsCentrallyMaintained" isNewNull="true"/>
@@ -6082,6 +6081,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="6962" Column="XSpace">0</Data>
         <Data AD_Column_ID="6957" Column="YPosition">0</Data>
         <Data AD_Column_ID="6947" Column="YSpace">0</Data>
+        <Data AD_Column_ID="7058" Column="ImageURL" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="1330" StepType="AD">
@@ -6159,7 +6159,6 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="6945" Column="AD_PrintFormatChild_ID" isNewNull="true"/>
         <Data AD_Column_ID="6954" Column="AD_PrintFormatItem_ID">57877</Data>
         <Data AD_Column_ID="6960" Column="AD_PrintFormat_ID">50273</Data>
-        <Data AD_Column_ID="7639" Column="AD_PrintGraph_ID" isNewNull="true"/>
         <Data AD_Column_ID="13056" Column="ArcDiameter">0</Data>
         <Data AD_Column_ID="15015" Column="BarcodeType" isNewNull="true"/>
         <Data AD_Column_ID="7638" Column="BelowColumn">0</Data>
@@ -6212,6 +6211,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="6962" Column="XSpace">0</Data>
         <Data AD_Column_ID="6957" Column="YPosition">0</Data>
         <Data AD_Column_ID="6947" Column="YSpace">0</Data>
+        <Data AD_Column_ID="7639" Column="AD_PrintGraph_ID" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="1350" StepType="AD">
@@ -6275,8 +6275,8 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="6952" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="6967" Column="XPosition">0</Data>
         <Data AD_Column_ID="6962" Column="XSpace">0</Data>
-        <Data AD_Column_ID="6957" Column="YPosition">0</Data>
         <Data AD_Column_ID="6947" Column="YSpace">0</Data>
+        <Data AD_Column_ID="6957" Column="YPosition">0</Data>
       </PO>
     </Step>
     <Step SeqNo="1360" StepType="AD">
@@ -6397,7 +6397,6 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="7031" Column="PrintFormatType">F</Data>
         <Data AD_Column_ID="6946" Column="PrintName">Planner</Data>
         <Data AD_Column_ID="8197" Column="PrintNameSuffix" isNewNull="true"/>
-        <Data AD_Column_ID="9965" Column="RunningTotalLines">0</Data>
         <Data AD_Column_ID="6939" Column="SeqNo">0</Data>
         <Data AD_Column_ID="13057" Column="ShapeType">N</Data>
         <Data AD_Column_ID="6948" Column="SortNo">0</Data>
@@ -6407,6 +6406,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="6962" Column="XSpace">0</Data>
         <Data AD_Column_ID="6957" Column="YPosition">0</Data>
         <Data AD_Column_ID="6947" Column="YSpace">0</Data>
+        <Data AD_Column_ID="9965" Column="RunningTotalLines">0</Data>
       </PO>
     </Step>
     <Step SeqNo="1380" StepType="AD">
@@ -6518,7 +6518,6 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="7565" Column="IsSuppressNull">false</Data>
         <Data AD_Column_ID="56359" Column="IsSuppressRepeats" isNewNull="true"/>
         <Data AD_Column_ID="10258" Column="IsVarianceCalc">false</Data>
-        <Data AD_Column_ID="7030" Column="LineAlignmentType">X</Data>
         <Data AD_Column_ID="13055" Column="LineWidth">1</Data>
         <Data AD_Column_ID="6966" Column="MaxHeight">0</Data>
         <Data AD_Column_ID="6953" Column="MaxWidth">0</Data>
@@ -6537,6 +6536,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="6962" Column="XSpace">0</Data>
         <Data AD_Column_ID="6957" Column="YPosition">0</Data>
         <Data AD_Column_ID="6947" Column="YSpace">0</Data>
+        <Data AD_Column_ID="7030" Column="LineAlignmentType">X</Data>
       </PO>
     </Step>
     <Step SeqNo="1400" StepType="AD">
@@ -6640,7 +6640,6 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="7654" Column="IsNextPage">false</Data>
         <Data AD_Column_ID="6970" Column="IsOrderBy">true</Data>
         <Data AD_Column_ID="6950" Column="IsPageBreak">false</Data>
-        <Data AD_Column_ID="6969" Column="IsPrinted">false</Data>
         <Data AD_Column_ID="6951" Column="IsRelativePosition">true</Data>
         <Data AD_Column_ID="9966" Column="IsRunningTotal">false</Data>
         <Data AD_Column_ID="7566" Column="IsSetNLPosition">false</Data>
@@ -6667,6 +6666,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="6962" Column="XSpace">0</Data>
         <Data AD_Column_ID="6957" Column="YPosition">0</Data>
         <Data AD_Column_ID="6947" Column="YSpace">0</Data>
+        <Data AD_Column_ID="6969" Column="IsPrinted">false</Data>
       </PO>
     </Step>
     <Step SeqNo="1420" StepType="AD">
@@ -6762,7 +6762,6 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="13054" Column="IsFilledRectangle" isNewNull="true"/>
         <Data AD_Column_ID="7655" Column="IsFixedWidth">false</Data>
         <Data AD_Column_ID="6971" Column="IsGroupBy">false</Data>
-        <Data AD_Column_ID="6965" Column="IsHeightOneLine">false</Data>
         <Data AD_Column_ID="13238" Column="IsImageField" isNewNull="true"/>
         <Data AD_Column_ID="9964" Column="IsMaxCalc">false</Data>
         <Data AD_Column_ID="9967" Column="IsMinCalc">false</Data>
@@ -6797,6 +6796,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="6962" Column="XSpace">0</Data>
         <Data AD_Column_ID="6957" Column="YPosition">0</Data>
         <Data AD_Column_ID="6947" Column="YSpace">0</Data>
+        <Data AD_Column_ID="6965" Column="IsHeightOneLine">false</Data>
       </PO>
     </Step>
     <Step SeqNo="1440" StepType="AD">
@@ -6883,7 +6883,6 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="6968" Column="FieldAlignmentType">T</Data>
         <Data AD_Column_ID="56351" Column="FormatPattern" isNewNull="true"/>
         <Data AD_Column_ID="7059" Column="ImageIsAttached">false</Data>
-        <Data AD_Column_ID="7058" Column="ImageURL" isNewNull="true"/>
         <Data AD_Column_ID="6964" Column="IsActive">true</Data>
         <Data AD_Column_ID="7061" Column="IsAveraged">false</Data>
         <Data AD_Column_ID="13237" Column="IsCentrallyMaintained" isNewNull="true"/>
@@ -6927,6 +6926,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="6962" Column="XSpace">0</Data>
         <Data AD_Column_ID="6957" Column="YPosition">0</Data>
         <Data AD_Column_ID="6947" Column="YSpace">0</Data>
+        <Data AD_Column_ID="7058" Column="ImageURL" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="1460" StepType="AD">
@@ -7003,8 +7003,8 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="6965" Column="IsHeightOneLine" oldValue="false">true</Data>
         <Data AD_Column_ID="6956" Column="IsSummarized" oldValue="false">true</Data>
         <Data AD_Column_ID="6953" Column="MaxWidth" oldValue="0">50</Data>
-        <Data AD_Column_ID="6946" Column="PrintName" oldValue="Quantity">Qty BOM</Data>
         <Data AD_Column_ID="8197" Column="PrintNameSuffix" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="6946" Column="PrintName" oldValue="Quantity">Qty BOM</Data>
       </PO>
     </Step>
     <Step SeqNo="1480" StepType="AD">
@@ -7204,6 +7204,26 @@ If you leave the search key empty, the system automatically creates a numeric nu
     </Step>
     <Step SeqNo="1510" StepType="AD">
       <PO AD_Table_ID="489" Action="I" Record_ID="57893" Table="AD_PrintFormatItem">
+        <Data AD_Column_ID="10258" Column="IsVarianceCalc">false</Data>
+        <Data AD_Column_ID="7030" Column="LineAlignmentType">X</Data>
+        <Data AD_Column_ID="13055" Column="LineWidth">1</Data>
+        <Data AD_Column_ID="6966" Column="MaxHeight">0</Data>
+        <Data AD_Column_ID="6953" Column="MaxWidth">0</Data>
+        <Data AD_Column_ID="6940" Column="Name">Schedule Type</Data>
+        <Data AD_Column_ID="7032" Column="PrintAreaType">C</Data>
+        <Data AD_Column_ID="7031" Column="PrintFormatType">F</Data>
+        <Data AD_Column_ID="6946" Column="PrintName">Schedule Type</Data>
+        <Data AD_Column_ID="8197" Column="PrintNameSuffix" isNewNull="true"/>
+        <Data AD_Column_ID="9965" Column="RunningTotalLines">0</Data>
+        <Data AD_Column_ID="6939" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="13057" Column="ShapeType">N</Data>
+        <Data AD_Column_ID="6948" Column="SortNo">0</Data>
+        <Data AD_Column_ID="6959" Column="Updated">2014-12-30 16:26:55.677</Data>
+        <Data AD_Column_ID="6952" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="6967" Column="XPosition">0</Data>
+        <Data AD_Column_ID="6962" Column="XSpace">0</Data>
+        <Data AD_Column_ID="6957" Column="YPosition">0</Data>
+        <Data AD_Column_ID="6947" Column="YSpace">0</Data>
         <Data AD_Column_ID="6944" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="6949" Column="AD_Column_ID">75382</Data>
         <Data AD_Column_ID="6961" Column="AD_Org_ID">0</Data>
@@ -7245,26 +7265,6 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="6956" Column="IsSummarized">false</Data>
         <Data AD_Column_ID="7565" Column="IsSuppressNull">false</Data>
         <Data AD_Column_ID="56359" Column="IsSuppressRepeats" isNewNull="true"/>
-        <Data AD_Column_ID="10258" Column="IsVarianceCalc">false</Data>
-        <Data AD_Column_ID="7030" Column="LineAlignmentType">X</Data>
-        <Data AD_Column_ID="13055" Column="LineWidth">1</Data>
-        <Data AD_Column_ID="6966" Column="MaxHeight">0</Data>
-        <Data AD_Column_ID="6953" Column="MaxWidth">0</Data>
-        <Data AD_Column_ID="6940" Column="Name">Schedule Type</Data>
-        <Data AD_Column_ID="7032" Column="PrintAreaType">C</Data>
-        <Data AD_Column_ID="7031" Column="PrintFormatType">F</Data>
-        <Data AD_Column_ID="6946" Column="PrintName">Schedule Type</Data>
-        <Data AD_Column_ID="8197" Column="PrintNameSuffix" isNewNull="true"/>
-        <Data AD_Column_ID="9965" Column="RunningTotalLines">0</Data>
-        <Data AD_Column_ID="6939" Column="SeqNo">0</Data>
-        <Data AD_Column_ID="13057" Column="ShapeType">N</Data>
-        <Data AD_Column_ID="6948" Column="SortNo">0</Data>
-        <Data AD_Column_ID="6959" Column="Updated">2014-12-30 16:26:55.677</Data>
-        <Data AD_Column_ID="6952" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="6967" Column="XPosition">0</Data>
-        <Data AD_Column_ID="6962" Column="XSpace">0</Data>
-        <Data AD_Column_ID="6957" Column="YPosition">0</Data>
-        <Data AD_Column_ID="6947" Column="YSpace">0</Data>
       </PO>
     </Step>
     <Step SeqNo="1520" StepType="AD">
@@ -7334,6 +7334,36 @@ If you leave the search key empty, the system automatically creates a numeric nu
     </Step>
     <Step SeqNo="1530" StepType="AD">
       <PO AD_Table_ID="489" Action="I" Record_ID="57895" Table="AD_PrintFormatItem">
+        <Data AD_Column_ID="7654" Column="IsNextPage">false</Data>
+        <Data AD_Column_ID="6970" Column="IsOrderBy">false</Data>
+        <Data AD_Column_ID="6950" Column="IsPageBreak">false</Data>
+        <Data AD_Column_ID="6969" Column="IsPrinted">false</Data>
+        <Data AD_Column_ID="6951" Column="IsRelativePosition">true</Data>
+        <Data AD_Column_ID="9966" Column="IsRunningTotal">false</Data>
+        <Data AD_Column_ID="7566" Column="IsSetNLPosition">false</Data>
+        <Data AD_Column_ID="6956" Column="IsSummarized">false</Data>
+        <Data AD_Column_ID="7565" Column="IsSuppressNull">false</Data>
+        <Data AD_Column_ID="56359" Column="IsSuppressRepeats" isNewNull="true"/>
+        <Data AD_Column_ID="10258" Column="IsVarianceCalc">false</Data>
+        <Data AD_Column_ID="7030" Column="LineAlignmentType">X</Data>
+        <Data AD_Column_ID="13055" Column="LineWidth">1</Data>
+        <Data AD_Column_ID="6966" Column="MaxHeight">0</Data>
+        <Data AD_Column_ID="6953" Column="MaxWidth">0</Data>
+        <Data AD_Column_ID="6940" Column="Name">Selected</Data>
+        <Data AD_Column_ID="7032" Column="PrintAreaType">C</Data>
+        <Data AD_Column_ID="7031" Column="PrintFormatType">F</Data>
+        <Data AD_Column_ID="6946" Column="PrintName">Selected</Data>
+        <Data AD_Column_ID="8197" Column="PrintNameSuffix" isNewNull="true"/>
+        <Data AD_Column_ID="9965" Column="RunningTotalLines">0</Data>
+        <Data AD_Column_ID="6939" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="13057" Column="ShapeType">N</Data>
+        <Data AD_Column_ID="6948" Column="SortNo">0</Data>
+        <Data AD_Column_ID="6959" Column="Updated">2014-12-30 16:26:59.751</Data>
+        <Data AD_Column_ID="6952" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="6967" Column="XPosition">0</Data>
+        <Data AD_Column_ID="6962" Column="XSpace">0</Data>
+        <Data AD_Column_ID="6957" Column="YPosition">0</Data>
+        <Data AD_Column_ID="6947" Column="YSpace">0</Data>
         <Data AD_Column_ID="6944" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="6949" Column="AD_Column_ID">75376</Data>
         <Data AD_Column_ID="6961" Column="AD_Org_ID">0</Data>
@@ -7365,36 +7395,6 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="9964" Column="IsMaxCalc">false</Data>
         <Data AD_Column_ID="9967" Column="IsMinCalc">false</Data>
         <Data AD_Column_ID="6943" Column="IsNextLine">false</Data>
-        <Data AD_Column_ID="7654" Column="IsNextPage">false</Data>
-        <Data AD_Column_ID="6970" Column="IsOrderBy">false</Data>
-        <Data AD_Column_ID="6950" Column="IsPageBreak">false</Data>
-        <Data AD_Column_ID="6969" Column="IsPrinted">false</Data>
-        <Data AD_Column_ID="6951" Column="IsRelativePosition">true</Data>
-        <Data AD_Column_ID="9966" Column="IsRunningTotal">false</Data>
-        <Data AD_Column_ID="7566" Column="IsSetNLPosition">false</Data>
-        <Data AD_Column_ID="6956" Column="IsSummarized">false</Data>
-        <Data AD_Column_ID="7565" Column="IsSuppressNull">false</Data>
-        <Data AD_Column_ID="56359" Column="IsSuppressRepeats" isNewNull="true"/>
-        <Data AD_Column_ID="10258" Column="IsVarianceCalc">false</Data>
-        <Data AD_Column_ID="7030" Column="LineAlignmentType">X</Data>
-        <Data AD_Column_ID="13055" Column="LineWidth">1</Data>
-        <Data AD_Column_ID="6966" Column="MaxHeight">0</Data>
-        <Data AD_Column_ID="6953" Column="MaxWidth">0</Data>
-        <Data AD_Column_ID="6940" Column="Name">Selected</Data>
-        <Data AD_Column_ID="7032" Column="PrintAreaType">C</Data>
-        <Data AD_Column_ID="7031" Column="PrintFormatType">F</Data>
-        <Data AD_Column_ID="6946" Column="PrintName">Selected</Data>
-        <Data AD_Column_ID="8197" Column="PrintNameSuffix" isNewNull="true"/>
-        <Data AD_Column_ID="9965" Column="RunningTotalLines">0</Data>
-        <Data AD_Column_ID="6939" Column="SeqNo">0</Data>
-        <Data AD_Column_ID="13057" Column="ShapeType">N</Data>
-        <Data AD_Column_ID="6948" Column="SortNo">0</Data>
-        <Data AD_Column_ID="6959" Column="Updated">2014-12-30 16:26:59.751</Data>
-        <Data AD_Column_ID="6952" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="6967" Column="XPosition">0</Data>
-        <Data AD_Column_ID="6962" Column="XSpace">0</Data>
-        <Data AD_Column_ID="6957" Column="YPosition">0</Data>
-        <Data AD_Column_ID="6947" Column="YSpace">0</Data>
       </PO>
     </Step>
     <Step SeqNo="1540" StepType="AD">
@@ -7594,18 +7594,6 @@ If you leave the search key empty, the system automatically creates a numeric nu
     </Step>
     <Step SeqNo="1570" StepType="AD">
       <PO AD_Table_ID="489" Action="I" Record_ID="57899" Table="AD_PrintFormatItem">
-        <Data AD_Column_ID="6944" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="6949" Column="AD_Column_ID">75358</Data>
-        <Data AD_Column_ID="6961" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="6958" Column="AD_PrintColor_ID" isNewNull="true"/>
-        <Data AD_Column_ID="6963" Column="AD_PrintFont_ID" isNewNull="true"/>
-        <Data AD_Column_ID="6945" Column="AD_PrintFormatChild_ID" isNewNull="true"/>
-        <Data AD_Column_ID="6954" Column="AD_PrintFormatItem_ID">57899</Data>
-        <Data AD_Column_ID="6960" Column="AD_PrintFormat_ID">50273</Data>
-        <Data AD_Column_ID="7639" Column="AD_PrintGraph_ID" isNewNull="true"/>
-        <Data AD_Column_ID="13056" Column="ArcDiameter">0</Data>
-        <Data AD_Column_ID="15015" Column="BarcodeType" isNewNull="true"/>
-        <Data AD_Column_ID="7638" Column="BelowColumn">0</Data>
         <Data AD_Column_ID="6942" Column="Created">2014-12-30 16:27:06.836</Data>
         <Data AD_Column_ID="6955" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="6968" Column="FieldAlignmentType">L</Data>
@@ -7655,6 +7643,18 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="6962" Column="XSpace">0</Data>
         <Data AD_Column_ID="6957" Column="YPosition">0</Data>
         <Data AD_Column_ID="6947" Column="YSpace">0</Data>
+        <Data AD_Column_ID="6944" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6949" Column="AD_Column_ID">75358</Data>
+        <Data AD_Column_ID="6961" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6958" Column="AD_PrintColor_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6963" Column="AD_PrintFont_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6945" Column="AD_PrintFormatChild_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6954" Column="AD_PrintFormatItem_ID">57899</Data>
+        <Data AD_Column_ID="6960" Column="AD_PrintFormat_ID">50273</Data>
+        <Data AD_Column_ID="7639" Column="AD_PrintGraph_ID" isNewNull="true"/>
+        <Data AD_Column_ID="13056" Column="ArcDiameter">0</Data>
+        <Data AD_Column_ID="15015" Column="BarcodeType" isNewNull="true"/>
+        <Data AD_Column_ID="7638" Column="BelowColumn">0</Data>
       </PO>
     </Step>
     <Step SeqNo="1580" StepType="AD">
@@ -8439,18 +8439,6 @@ If you leave the search key empty, the system automatically creates a numeric nu
     </Step>
     <Step SeqNo="1700" StepType="AD">
       <PO AD_Table_ID="489" Action="I" Record_ID="57912" Table="AD_PrintFormatItem">
-        <Data AD_Column_ID="6944" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="6949" Column="AD_Column_ID">75369</Data>
-        <Data AD_Column_ID="6961" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="6958" Column="AD_PrintColor_ID" isNewNull="true"/>
-        <Data AD_Column_ID="6963" Column="AD_PrintFont_ID" isNewNull="true"/>
-        <Data AD_Column_ID="6945" Column="AD_PrintFormatChild_ID" isNewNull="true"/>
-        <Data AD_Column_ID="6954" Column="AD_PrintFormatItem_ID">57912</Data>
-        <Data AD_Column_ID="6960" Column="AD_PrintFormat_ID">50273</Data>
-        <Data AD_Column_ID="7639" Column="AD_PrintGraph_ID" isNewNull="true"/>
-        <Data AD_Column_ID="13056" Column="ArcDiameter">0</Data>
-        <Data AD_Column_ID="15015" Column="BarcodeType" isNewNull="true"/>
-        <Data AD_Column_ID="7638" Column="BelowColumn">5</Data>
         <Data AD_Column_ID="6942" Column="Created">2014-12-30 16:27:28.64</Data>
         <Data AD_Column_ID="6955" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="6968" Column="FieldAlignmentType">T</Data>
@@ -8500,6 +8488,18 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="6962" Column="XSpace">0</Data>
         <Data AD_Column_ID="6957" Column="YPosition">0</Data>
         <Data AD_Column_ID="6947" Column="YSpace">0</Data>
+        <Data AD_Column_ID="6944" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6949" Column="AD_Column_ID">75369</Data>
+        <Data AD_Column_ID="6961" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6958" Column="AD_PrintColor_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6963" Column="AD_PrintFont_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6945" Column="AD_PrintFormatChild_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6954" Column="AD_PrintFormatItem_ID">57912</Data>
+        <Data AD_Column_ID="6960" Column="AD_PrintFormat_ID">50273</Data>
+        <Data AD_Column_ID="7639" Column="AD_PrintGraph_ID" isNewNull="true"/>
+        <Data AD_Column_ID="13056" Column="ArcDiameter">0</Data>
+        <Data AD_Column_ID="15015" Column="BarcodeType" isNewNull="true"/>
+        <Data AD_Column_ID="7638" Column="BelowColumn">5</Data>
       </PO>
     </Step>
     <Step SeqNo="1710" StepType="AD">
@@ -9384,6 +9384,9 @@ If you leave the search key empty, the system automatically creates a numeric nu
     </Step>
     <Step SeqNo="1850" StepType="AD">
       <PO AD_Table_ID="285" Action="I" Record_ID="55087" Table="AD_Process_Para">
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="7729" Column="AD_Element_ID">53276</Data>
         <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
@@ -9411,9 +9414,6 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="2826" Column="SeqNo">10</Data>
         <Data AD_Column_ID="2820" Column="Updated">2014-12-30 16:27:57.333</Data>
         <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
-        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="1860" StepType="AD">
@@ -9600,115 +9600,118 @@ If you leave the search key empty, the system automatically creates a numeric nu
       </PO>
     </Step>
     <Step DBType="ALL" Parse="Y" SeqNo="1930" StepType="SQL">
-      <SQLStatement>CREATE OR REPLACE VIEW RV_PP_ORDER_COSTDETAIL AS SELECT o.ad_client_id,
-o.ad_org_id,
-obl.pp_order_id,
-obl.m_product_id,
-oc.m_costtype_id,
-oc.m_costelement_id,
-oc.c_acctschema_id,
-CASE WHEN obl.isqtypercentage = 'Y' THEN obl.qtybatch ELSE obl.qtybom END AS qty,
-obl.qtyrequired,
-oc.currentcostprice,
-oc.currentcostpricell,
-CASE WHEN obl.isqtypercentage = 'Y' THEN obl.qtybatch * oc.currentcostprice ELSE obl.qtybom * oc.currentcostprice END AS expectedcost,
-CASE WHEN obl.isqtypercentage = 'Y' THEN obl.qtybatch * oc.currentcostpricell ELSE obl.qtybom * oc.currentcostpricell END AS expectedcostll,
-abs(COALESCE(( SELECT sum(cd.qty) AS sum FROM m_costdetail cd JOIN pp_cost_collector cc ON cd.pp_cost_collector_id = cc.pp_cost_collector_id AND cd.m_product_id = cc.m_product_id WHERE cc.pp_order_id = o.pp_order_id AND cd.m_product_id = obl.m_product_id AND cd.m_costtype_id = oc.m_costtype_id AND cd.m_costelement_id = oc.m_costelement_id AND cd.c_acctschema_id = oc.c_acctschema_id AND cc.costcollectortype = '110'), 0)) AS cumulatedqty,
-abs(COALESCE(( SELECT sum(cd.amt) AS sum FROM m_costdetail cd JOIN pp_cost_collector cc ON cd.pp_cost_collector_id = cc.pp_cost_collector_id AND cd.m_product_id = cc.m_product_id WHERE cc.pp_order_id = o.pp_order_id AND cd.m_product_id = obl.m_product_id AND cd.m_costtype_id = oc.m_costtype_id AND cd.m_costelement_id = oc.m_costelement_id AND cd.c_acctschema_id = oc.c_acctschema_id AND cc.costcollectortype = '110'), 0)) AS cumulatedamt,
-abs(COALESCE(( SELECT sum(cd.amtll) AS sum FROM m_costdetail cd JOIN pp_cost_collector cc ON cd.pp_cost_collector_id = cc.pp_cost_collector_id AND cd.m_product_id = cc.m_product_id WHERE cc.pp_order_id = o.pp_order_id AND cd.m_product_id = obl.m_product_id AND cd.m_costtype_id = oc.m_costtype_id AND cd.m_costelement_id = oc.m_costelement_id AND cd.c_acctschema_id = oc.c_acctschema_id AND cc.costcollectortype = '110'), 0)) AS cumulatedamtll,
-abs(COALESCE(( SELECT sum(cd.amt + cd.amtll) AS sum FROM m_costdetail cd JOIN pp_cost_collector cc ON cd.pp_cost_collector_id = cc.pp_cost_collector_id AND cd.m_product_id = cc.m_product_id WHERE cc.pp_order_id = o.pp_order_id AND cd.m_product_id = obl.m_product_id AND cd.m_costtype_id = oc.m_costtype_id AND cd.m_costelement_id = oc.m_costelement_id AND cd.c_acctschema_id = oc.c_acctschema_id AND cc.costcollectortype = '120'), 0)) AS usagevariance,
-abs(COALESCE(( SELECT sum(cd.amtll) AS sum FROM m_costdetail cd JOIN pp_cost_collector cc ON cd.pp_cost_collector_id = cc.pp_cost_collector_id AND cd.m_product_id = cc.m_product_id WHERE cc.pp_order_id = o.pp_order_id AND cd.m_product_id = obl.m_product_id AND cd.m_costtype_id = oc.m_costtype_id AND cd.m_costelement_id = oc.m_costelement_id AND cd.c_acctschema_id = oc.c_acctschema_id AND cc.costcollectortype = '130'), 0)) AS methodchangevariance,
-abs(COALESCE(( SELECT sum(cd.amt + cd.amtll) AS sum FROM m_costdetail cd JOIN pp_cost_collector cc ON cd.pp_cost_collector_id = cc.pp_cost_collector_id AND cd.m_product_id = cc.m_product_id WHERE cc.pp_order_id = o.pp_order_id AND cd.m_product_id = obl.m_product_id AND cd.m_costtype_id = oc.m_costtype_id AND cd.m_costelement_id = oc.m_costelement_id AND cd.c_acctschema_id = oc.c_acctschema_id AND cc.costcollectortype = '140'), 0)) AS ratevariance,
-abs(COALESCE(( SELECT sum(cd.amt + cd.amtll) AS sum FROM m_costdetail cd JOIN pp_cost_collector cc ON cd.pp_cost_collector_id = cc.pp_cost_collector_id AND cd.m_product_id = cc.m_product_id WHERE cc.pp_order_id = o.pp_order_id AND cd.m_product_id = obl.m_product_id AND cd.m_costtype_id = oc.m_costtype_id AND cd.m_costelement_id = oc.m_costelement_id AND cd.c_acctschema_id = oc.c_acctschema_id AND cc.costcollectortype = '150'), 0)) AS mixvariance,
-abs(COALESCE(( SELECT sum(cd.amt) AS sum FROM m_costdetail cd JOIN pp_cost_collector cc ON cd.pp_cost_collector_id = cc.pp_cost_collector_id AND cd.m_product_id = cc.m_product_id WHERE cc.pp_order_id = o.pp_order_id AND cd.m_product_id = obl.m_product_id AND cd.m_costtype_id = oc.m_costtype_id AND cd.m_costelement_id = oc.m_costelement_id AND cd.c_acctschema_id = oc.c_acctschema_id), 0)) AS amt,
-abs(COALESCE(( SELECT sum(cd.amtll) AS sum FROM m_costdetail cd JOIN pp_cost_collector cc ON cd.pp_cost_collector_id = cc.pp_cost_collector_id AND cd.m_product_id = cc.m_product_id WHERE cc.pp_order_id = o.pp_order_id AND cd.m_product_id = obl.m_product_id AND cd.m_costtype_id = oc.m_costtype_id AND cd.m_costelement_id = oc.m_costelement_id AND cd.c_acctschema_id = oc.c_acctschema_id), 0)) AS amtll
-FROM pp_order_bomline obl
-JOIN pp_order o ON obl.pp_order_id = o.pp_order_id
-LEFT JOIN pp_order_cost oc ON o.pp_order_id = oc.pp_order_id AND obl.m_product_id = oc.m_product_id;
+      <SQLStatement>
+        CREATE OR REPLACE VIEW RV_PP_ORDER_COSTDETAIL AS SELECT o.ad_client_id,
+        o.ad_org_id,
+        obl.pp_order_id,
+        obl.m_product_id,
+        oc.m_costtype_id,
+        oc.m_costelement_id,
+        oc.c_acctschema_id,
+        CASE WHEN obl.isqtypercentage = 'Y' THEN obl.qtybatch ELSE obl.qtybom END AS qty,
+        obl.qtyrequired,
+        oc.currentcostprice,
+        oc.currentcostpricell,
+        CASE WHEN obl.isqtypercentage = 'Y' THEN obl.qtybatch * oc.currentcostprice ELSE obl.qtybom * oc.currentcostprice END AS expectedcost,
+        CASE WHEN obl.isqtypercentage = 'Y' THEN obl.qtybatch * oc.currentcostpricell ELSE obl.qtybom * oc.currentcostpricell END AS expectedcostll,
+        abs(COALESCE(( SELECT sum(cd.qty) AS sum FROM m_costdetail cd JOIN pp_cost_collector cc ON cd.pp_cost_collector_id = cc.pp_cost_collector_id AND cd.m_product_id = cc.m_product_id WHERE cc.pp_order_id = o.pp_order_id AND cd.m_product_id = obl.m_product_id AND cd.m_costtype_id = oc.m_costtype_id AND cd.m_costelement_id = oc.m_costelement_id AND cd.c_acctschema_id = oc.c_acctschema_id AND cc.costcollectortype = '110'), 0)) AS cumulatedqty,
+        abs(COALESCE(( SELECT sum(cd.amt) AS sum FROM m_costdetail cd JOIN pp_cost_collector cc ON cd.pp_cost_collector_id = cc.pp_cost_collector_id AND cd.m_product_id = cc.m_product_id WHERE cc.pp_order_id = o.pp_order_id AND cd.m_product_id = obl.m_product_id AND cd.m_costtype_id = oc.m_costtype_id AND cd.m_costelement_id = oc.m_costelement_id AND cd.c_acctschema_id = oc.c_acctschema_id AND cc.costcollectortype = '110'), 0)) AS cumulatedamt,
+        abs(COALESCE(( SELECT sum(cd.amtll) AS sum FROM m_costdetail cd JOIN pp_cost_collector cc ON cd.pp_cost_collector_id = cc.pp_cost_collector_id AND cd.m_product_id = cc.m_product_id WHERE cc.pp_order_id = o.pp_order_id AND cd.m_product_id = obl.m_product_id AND cd.m_costtype_id = oc.m_costtype_id AND cd.m_costelement_id = oc.m_costelement_id AND cd.c_acctschema_id = oc.c_acctschema_id AND cc.costcollectortype = '110'), 0)) AS cumulatedamtll,
+        abs(COALESCE(( SELECT sum(cd.amt + cd.amtll) AS sum FROM m_costdetail cd JOIN pp_cost_collector cc ON cd.pp_cost_collector_id = cc.pp_cost_collector_id AND cd.m_product_id = cc.m_product_id WHERE cc.pp_order_id = o.pp_order_id AND cd.m_product_id = obl.m_product_id AND cd.m_costtype_id = oc.m_costtype_id AND cd.m_costelement_id = oc.m_costelement_id AND cd.c_acctschema_id = oc.c_acctschema_id AND cc.costcollectortype = '120'), 0)) AS usagevariance,
+        abs(COALESCE(( SELECT sum(cd.amtll) AS sum FROM m_costdetail cd JOIN pp_cost_collector cc ON cd.pp_cost_collector_id = cc.pp_cost_collector_id AND cd.m_product_id = cc.m_product_id WHERE cc.pp_order_id = o.pp_order_id AND cd.m_product_id = obl.m_product_id AND cd.m_costtype_id = oc.m_costtype_id AND cd.m_costelement_id = oc.m_costelement_id AND cd.c_acctschema_id = oc.c_acctschema_id AND cc.costcollectortype = '130'), 0)) AS methodchangevariance,
+        abs(COALESCE(( SELECT sum(cd.amt + cd.amtll) AS sum FROM m_costdetail cd JOIN pp_cost_collector cc ON cd.pp_cost_collector_id = cc.pp_cost_collector_id AND cd.m_product_id = cc.m_product_id WHERE cc.pp_order_id = o.pp_order_id AND cd.m_product_id = obl.m_product_id AND cd.m_costtype_id = oc.m_costtype_id AND cd.m_costelement_id = oc.m_costelement_id AND cd.c_acctschema_id = oc.c_acctschema_id AND cc.costcollectortype = '140'), 0)) AS ratevariance,
+        abs(COALESCE(( SELECT sum(cd.amt + cd.amtll) AS sum FROM m_costdetail cd JOIN pp_cost_collector cc ON cd.pp_cost_collector_id = cc.pp_cost_collector_id AND cd.m_product_id = cc.m_product_id WHERE cc.pp_order_id = o.pp_order_id AND cd.m_product_id = obl.m_product_id AND cd.m_costtype_id = oc.m_costtype_id AND cd.m_costelement_id = oc.m_costelement_id AND cd.c_acctschema_id = oc.c_acctschema_id AND cc.costcollectortype = '150'), 0)) AS mixvariance,
+        abs(COALESCE(( SELECT sum(cd.amt) AS sum FROM m_costdetail cd JOIN pp_cost_collector cc ON cd.pp_cost_collector_id = cc.pp_cost_collector_id AND cd.m_product_id = cc.m_product_id WHERE cc.pp_order_id = o.pp_order_id AND cd.m_product_id = obl.m_product_id AND cd.m_costtype_id = oc.m_costtype_id AND cd.m_costelement_id = oc.m_costelement_id AND cd.c_acctschema_id = oc.c_acctschema_id), 0)) AS amt,
+        abs(COALESCE(( SELECT sum(cd.amtll) AS sum FROM m_costdetail cd JOIN pp_cost_collector cc ON cd.pp_cost_collector_id = cc.pp_cost_collector_id AND cd.m_product_id = cc.m_product_id WHERE cc.pp_order_id = o.pp_order_id AND cd.m_product_id = obl.m_product_id AND cd.m_costtype_id = oc.m_costtype_id AND cd.m_costelement_id = oc.m_costelement_id AND cd.c_acctschema_id = oc.c_acctschema_id), 0)) AS amtll
+        FROM pp_order_bomline obl
+        JOIN pp_order o ON obl.pp_order_id = o.pp_order_id
+        LEFT JOIN pp_order_cost oc ON o.pp_order_id = oc.pp_order_id AND obl.m_product_id = oc.m_product_id;
 
-CREATE OR REPLACE VIEW RV_PP_ORDER_COST AS
-SELECT o.ad_client_id,
-o.ad_org_id,
-o.pp_order_id,
-o.documentno,
-o.docstatus,
-o.m_warehouse_id,
-o.m_product_id AS parent_id,
-p.m_product_category_id,
-o.qtyentered,
-o.qtyreject,
-o.qtyscrap,
-o.qtybatchs,
-o.qtybatchsize,
-o.dateordered,
-o.datepromised,
-o.datestart,
-o.datestartschedule,
-o.datefinish,
-o.datefinishschedule,
-o.dateconfirm,
-o.datedelivered,
-o.lot,
-o.pp_product_bom_id,
-o.ad_workflow_id,
-o.weight,
-o.c_doctypetarget_id,
-o.m_attributesetinstance_id,
-o.planner_id,
-o.priorityrule,
-o.ad_orgtrx_id,
-o.user1_id,
-o.user2_id,
-o.c_doctype_id,
-o.line,
-o.description,
-o.s_resource_id,
-o.floatbefored,
-o.floatafter,
-o.c_uom_id,
-o.qtyordered,
-o.qtydelivered,
-o.yield,
-o.c_project_id,
-o.c_campaign_id,
-o.c_activity_id,
-o.isapproved,
-o.isprinted,
-o.isselected,
-o.processed,
-o.assay,
-o.isqtypercentage,
-o.ordertype,
-o.issotrx,
-o.scheduletype,
-o.serno,
-ocd.c_acctschema_id,
-ocd.m_costtype_id,
-ocd.m_costelement_id,
-ocd.m_product_id,
-ocd.qty,
-ocd.currentcostprice,
-ocd.*::rv_pp_order_costdetail AS ocd,
-ocd.currentcostpricell,
-ocd.qtyrequired,
-ocd.expectedcost,
-ocd.expectedcostll,
-ocd.expectedcost + ocd.expectedcostll AS expectedtotalcost,
-ocd.cumulatedqty,
-ocd.cumulatedamt,
-ocd.cumulatedamtll,
-ocd.usagevariance,
-ocd.methodchangevariance,
-ocd.ratevariance,
-ocd.mixvariance,
-ocd.amt,
-ocd.amtll,
-ocd.cumulatedamt + ocd.usagevariance + ocd.methodchangevariance + ocd.ratevariance + ocd.mixvariance AS totalamt
-FROM RV_PP_ORDER o
-JOIN rv_pp_order_costdetail ocd ON o.pp_order_id = ocd.pp_order_id
-JOIN m_product p ON p.m_product_id = o.m_product_id;</SQLStatement>
-      <RollbackStatement>DROP VIEW RV_PP_ORDER_COSTDETAIL;
-DROP VIEW RV_PP_ORDER_COST;</RollbackStatement>
+        CREATE OR REPLACE VIEW RV_PP_ORDER_COST AS
+        SELECT o.ad_client_id,
+        o.ad_org_id,
+        o.pp_order_id,
+        o.documentno,
+        o.docstatus,
+        o.m_warehouse_id,
+        o.m_product_id AS parent_id,
+        p.m_product_category_id,
+        o.qtyentered,
+        o.qtyreject,
+        o.qtyscrap,
+        o.qtybatchs,
+        o.qtybatchsize,
+        o.dateordered,
+        o.datepromised,
+        o.datestart,
+        o.datestartschedule,
+        o.datefinish,
+        o.datefinishschedule,
+        o.dateconfirm,
+        o.datedelivered,
+        o.lot,
+        o.pp_product_bom_id,
+        o.ad_workflow_id,
+        o.weight,
+        o.c_doctypetarget_id,
+        o.m_attributesetinstance_id,
+        o.planner_id,
+        o.priorityrule,
+        o.ad_orgtrx_id,
+        o.user1_id,
+        o.user2_id,
+        o.c_doctype_id,
+        o.line,
+        o.description,
+        o.s_resource_id,
+        o.floatbefored,
+        o.floatafter,
+        o.c_uom_id,
+        o.qtyordered,
+        o.qtydelivered,
+        o.yield,
+        o.c_project_id,
+        o.c_campaign_id,
+        o.c_activity_id,
+        o.isapproved,
+        o.isprinted,
+        o.isselected,
+        o.processed,
+        o.assay,
+        o.isqtypercentage,
+        o.ordertype,
+        o.issotrx,
+        o.scheduletype,
+        o.serno,
+        ocd.c_acctschema_id,
+        ocd.m_costtype_id,
+        ocd.m_costelement_id,
+        ocd.m_product_id,
+        ocd.qty,
+        ocd.currentcostprice,
+        ocd.currentcostpricell,
+        ocd.qtyrequired,
+        ocd.expectedcost,
+        ocd.expectedcostll,
+        ocd.expectedcost + ocd.expectedcostll AS expectedtotalcost,
+        ocd.cumulatedqty,
+        ocd.cumulatedamt,
+        ocd.cumulatedamtll,
+        ocd.usagevariance,
+        ocd.methodchangevariance,
+        ocd.ratevariance,
+        ocd.mixvariance,
+        ocd.amt,
+        ocd.amtll,
+        ocd.cumulatedamt + ocd.usagevariance + ocd.methodchangevariance + ocd.ratevariance + ocd.mixvariance AS totalamt
+        FROM RV_PP_ORDER o
+        JOIN rv_pp_order_costdetail ocd ON o.pp_order_id = ocd.pp_order_id
+        JOIN m_product p ON p.m_product_id = o.m_product_id;
+      </SQLStatement>
+      <RollbackStatement>
+        DROP VIEW RV_PP_ORDER_COSTDETAIL;
+        DROP VIEW RV_PP_ORDER_COST;
+      </RollbackStatement>
     </Step>
   </Migration>
 </Migrations>
