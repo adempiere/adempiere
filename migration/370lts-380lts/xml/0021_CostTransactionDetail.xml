@@ -308,7 +308,7 @@ LEFT OUTER JOIN M_CostElement ce ON (ce.M_CostElement_ID=cd.M_CostElement_ID);</
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true"/>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -358,7 +358,7 @@ LEFT OUTER JOIN M_CostElement ce ON (ce.M_CostElement_ID=cd.M_CostElement_ID);</
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true"/>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -410,7 +410,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true"/>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">true</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -460,7 +460,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true"/>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -510,7 +510,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true"/>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -560,7 +560,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true"/>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -610,7 +610,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true"/>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -660,7 +660,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true"/>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -710,7 +710,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true"/>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -760,7 +760,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true"/>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -810,7 +810,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true"/>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -860,7 +860,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true"/>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -910,7 +910,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true"/>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -960,7 +960,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true"/>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -1010,7 +1010,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true"/>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -1060,7 +1060,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true"/>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -1110,7 +1110,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true"/>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -1160,7 +1160,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true"/>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>

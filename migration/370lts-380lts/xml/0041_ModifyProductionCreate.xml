@@ -180,8 +180,7 @@ end prodqtyreserved;</SQLStatement>
     <Step DBType="Postgres" Parse="Y" SeqNo="50" StepType="SQL">
       <Comments>Changes the source of dateacct from the orginating document either the movement, cost collector or the transaction dateacct.
 </Comments>
-      <SQLStatement>DROP VIEW RV_TRANSACTION;
-CREATE OR REPLACE VIEW RV_TRANSACTION
+      <SQLStatement>CREATE OR REPLACE VIEW RV_TRANSACTION
 AS
 SELECT t.M_Transaction_ID, t.AD_Client_ID,t.AD_Org_ID,
     t.MovementType,t.MovementDate,t.MovementQty,
@@ -231,12 +230,8 @@ FROM M_Transaction t
   LEFT OUTER JOIN C_ProjectIssue pjl ON (t.C_ProjectIssue_ID=pjl.C_ProjectIssue_ID)
   LEFT OUTER JOIN C_Project pj ON pjl.C_Project_id = pj.C_Project_id
   LEFT OUTER JOIN PP_Cost_Collector cc ON t.PP_Cost_Collector_ID = cc.PP_Cost_Collector_ID;</SQLStatement>
-      <RollbackStatement>&lt;html&gt;
-  &lt;head&gt;
-    
-  &lt;/head&gt;
-  &lt;body&gt;
-    DROP VIEW RV_TRANSACTION; CREATE OR REPLACE VIEW RV_TRANSACTION AS SELECT 
+      <RollbackStatement>
+DROP VIEW RV_TRANSACTION; CREATE OR REPLACE VIEW RV_TRANSACTION AS SELECT 
     t.M_Transaction_ID, t.AD_Client_ID,t.AD_Org_ID, 
     t.MovementType,t.MovementDate,t.MovementQty, -- Instance 
     t.M_AttributeSetInstance_ID, asi.M_AttributeSet_ID, asi.SerNo, asi.Lot, 
@@ -283,8 +278,7 @@ FROM M_Transaction t
     LEFT OUTER JOIN C_Project pj ON pjl.C_Project_id = pj.C_Project_id LEFT 
     OUTER JOIN PP_Cost_Collector cc ON t.PP_Cost_Collector_ID = 
     cc.PP_Cost_Collector_ID;
-  &lt;/body&gt;
-&lt;/html&gt;
+
 </RollbackStatement>
     </Step>
     <Step DBType="Oracle" Parse="Y" SeqNo="60" StepType="SQL">
