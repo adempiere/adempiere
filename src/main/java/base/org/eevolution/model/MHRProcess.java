@@ -1001,6 +1001,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 
 		log.info("Concept - " + concept.getName());
 		MHRMovement movement = new MHRMovement (getCtx(), 0, get_TrxName());
+		movement.setAD_Org_ID(m_employee.getAD_Org_ID());
 		movement.setC_BPartner_ID(m_C_BPartner_ID);
 		movement.setHR_Concept_ID(concept.getHR_Concept_ID());
 		movement.setHR_Concept_Category_ID(concept.getHR_Concept_Category_ID());
@@ -1169,6 +1170,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			}
 			MHRMovement m = new MHRMovement(getCtx(), 0, get_TrxName());
 			MHREmployee employee = MHREmployee.getActiveEmployee(getCtx(), m_C_BPartner_ID, get_TrxName());
+			m.setAD_Org_ID(employee.getAD_Org_ID());
 			m.setColumnType(c.getColumnType());
 			m.setColumnValue(BigDecimal.valueOf(value));
 
