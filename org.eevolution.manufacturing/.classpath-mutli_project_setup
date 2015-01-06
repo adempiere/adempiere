@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry excluding="org/eevolution/plugin/" kind="src" path="extension/eevolution/libero/src/main/java"/>
+	<classpathentry kind="src" path="extension/eevolution/libero/src/test/java"/>
+	<classpathentry kind="src" path="extension/eevolution/mm/src/main/java"/>
+	<classpathentry kind="src" output="WEB-INF/classes" path="zkwebui/WEB-INF/src"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="/base"/>
+	<classpathentry kind="src" path="/extend"/>
+	<classpathentry kind="src" path="/zkwebui"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/client"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
