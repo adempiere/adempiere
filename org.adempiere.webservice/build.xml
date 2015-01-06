@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ======================================================== -->
+<!-- ADInterface (Web Services Implementation)                -->
+<!-- Original contribution from 3E                            -->
+<!-- http://www.3e.pl                                         -->
+<!-- Extended by Carlos Ruiz - globalqss                      -->
+<!-- Extended by victor.perez@e-evolution.com - e-Evolution	  -->
+<!-- ======================================================== -->
+
+<project name="ADInterface" default="war" basedir=".">
+	<description>
+	    This buildfile is used to build the file ADInterface-1.0.war
+  	</description>
+	<!-- set global properties for this build -->
+	<!--<property environment="env"/>-->
+	<property file="build.properties"/>
+	<property name="src.dir" value="${basedir}/WEB-INF/src"/>
+	<property name="classes.dir" value="${basedir}/WEB-INF/classes"/>
+	<property name="dist.dir" value="${basedir}/dist"/>
+	<property name="deploy.dir" value="${basedir}/deploy"/>
+	<property name="deploy.name" value="WebService"/>
+	<property name="WEBINF.dir" value="${basedir}/WEB-INF"/>
+    <property name="Adempiere.dir" value="${basedir}/../lib"></property>  <!-- To enable when integrated in trunk -->
+    <!-- Point to the directory where you have adempiere built -->
+	<!-- <property name="Adempiere.dir" value="${adempiere.trunk}/adempiere/Adempiere/lib"></property> -->  <!-- To delete when integrated in trunk -->
+
+	<property name="war.name"	value="ADInterface-1.0"/>
+	<property name="compile.debug"       value="true"/>
+	<property name="compile.deprecation" value="false"/>
+	<property name="compile.optimize"    value="true"/>
+
+	<path id="compile.classpath">
+		<pathelement location="${basedir}"/>
+	  	<pathelement location="${basedir}/WEB-INF/src"/>
+
+	    <fileset dir="${basedir}/WEB-INF/lib">
+	    	<include name="*.jar"/>
+	    </fileset>
+                <pathelement location="${Adempiere.dir}/../base"/>
+                <pathelement location="${Adempiere.dir}/../client"/>
+                <pathelement location="${Adempiere.dir}/../JasperReports"/>
+	    <fileset dir="${Adempiere.dir}">
+	    	<include name="*.jar"/>
+	    </fileset>
+		
+	</path>
+
+        <!-- define xmlbean task -->
+	<taskdef name="xmlbean" classname="org.apache.xmlbeans.impl.tool.XMLBean">
+	    <classpath refid="compile.classpath"/>
+	</taskdef>
+
+	<target name="clean" description="delete class directory">
+	   <delete dir="${classes.dir}" />
+	   <delete dir="${dist.dir}" />
+		<delete file="${deploy.dir}/lib/${war.name}.war" />
+	</target>
+
+	<target name="xmlbean" description="generate jar file from xmlbean xsd">
+	    <mkdir dir="${basedir}/temp"/>
+	    <xmlbean javasource="1.5" schema="${basedir}/WEB-INF/xsd" destfile="${basedir}/WEB-INF/lib/generated_xmlbeans.jar"
+	             srcgendir="${basedir}/temp">
+	    	<classpath refid="compile.classpath"/>
+	    </xmlbean>
+            <jar jarfile="${basedir}/WEB-INF/lib/generated_xmlbeans-sources.jar" basedir="${basedir}/temp" duplicate="preserve"/>
+	    <delete dir="${basedir}/temp"/>
+	</target>
+
+	<target name="compile" depends="clean" description="Compile Java sources">
+	    <mkdir dir="${classes.dir}"/>
+	    <javac srcdir="WEB-INF/src"
+	           destdir="${classes.dir}"
+	           debug="${compile.debug}"
+	     	   deprecation="${compile.deprecation}"
+	           optimize="${compile.optimize}">
+	        <classpath refid="compile.classpath"/>
+	    </javac>
+		<copy todir="${classes.dir}">
+		    <fileset dir="WEB-INF/src"
+		             excludes="**/*.java" />
+		</copy>
+	</target>
+
+	<target name="war" depends="compile">
+		<echo message="=========== Build ADInterface Web Services ==========="/>
+		<delete dir="${dist.dir}" />
+		<delete file="${deploy.dir}/lib/${war.name}.war" />
+		
+		<mkdir dir="${dist.dir}" />
+	
+		<war
+		  warfile="${dist.dir}/${war.name}.war"
+		  webxml="${WEBINF.dir}/web.xml">
+		      <fileset dir="${basedir}" excludes="
+		      	        .settings/**,
+		      	        build.xml,
+				**RUN_build.sh
+				RUN_xmlbean.sh
+				Notes/**,
+				dist/**,
+				.*,
+				work/**,
+				WEB-INF/src/**,
+		      		**/web.xml,
+		      		testScripts/**,
+		      		migration/**,
+		      		WEB-INF/lib/*-sources.jar,
+		      	deploy/**"
+		      		>
+		      </fileset>
+		</war>
+		
+		 <copy file="${dist.dir}/${war.name}.war" tofile="${deploy.dir}/lib/${war.name}.war"/>
+		<copy file="${dist.dir}/${war.name}.war" tofile="${adempiere.trunk}/lib/${war.name}.war"/>
+
+		<zip
+			zipfile="${dist.dir}/${deploy.name}.zip">
+		  <fileset dir="${deploy.dir}" />
+		</zip>
+	</target>
+</project>
