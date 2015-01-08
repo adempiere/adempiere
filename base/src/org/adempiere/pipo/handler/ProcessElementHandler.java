@@ -78,12 +78,17 @@ public class ProcessElementHandler extends AbstractElementHandler {
 
 			name = atts.getValue("ADWorkflowNameID");
 			if (name != null && name.trim().length() > 0) {
-				id = get_IDWithColumn(ctx, "AD_Workflow", "Name", name);
-				if (id <= 0) {
-					element.defer = true;
-					element.unresolved = "AD_Workflow: " + name;
-					return;
-				}
+				    id = get_IDWithColumn(ctx, "AD_Workflow", "Name", name);
+                    if (id <= 0) {
+                        if (element.pass == 1) {
+                        element.defer = true;
+                        element.unresolved = "AD_Workflow: " + name;
+                        return;
+                    } else {
+                        log.warning("AD_Workflow: " + name + " not found for Workflow: " + name);
+                    }
+                }
+                if (id > 0)
 				m_Process.setAD_Workflow_ID(id);
 			}
 
@@ -117,6 +122,28 @@ public class ProcessElementHandler extends AbstractElementHandler {
 				}
 				if (id > 0)
 					m_Process.setAD_ReportView_ID(id);
+			}
+			
+			name = atts.getValue("ADFormNameID");
+			if (name != null && name.trim().length() > 0) {
+				id = get_IDWithColumn(ctx, "AD_Form", "Name", name);
+				if (id <= 0) {
+					element.defer = true;
+					element.unresolved = "AD_Form: " + name;
+					return;
+				}
+				m_Process.setAD_Form_ID(id);
+			}
+			
+			name = atts.getValue("ADBrowseNameID");
+			if (name != null && name.trim().length() > 0) {
+				id = get_IDWithColumn(ctx, "AD_Browse", "Name", name);
+				if (id <= 0) {
+					element.defer = true;
+					element.unresolved = "AD_Browse: " + name;
+					return;
+				}
+				m_Process.setAD_Browse_ID(id);
 			}
 
 			m_Process.setAccessLevel(atts.getValue("AccessLevel"));
@@ -197,6 +224,17 @@ public class ProcessElementHandler extends AbstractElementHandler {
 					packOut.createWorkflow(m_Process.getAD_Workflow_ID(), 
 							document);
 				}
+				if (m_Process.getAD_Form_ID() > 0) {
+
+					packOut.createForm(m_Process.getAD_Form_ID(), 
+							document);
+				}
+				if (m_Process.getAD_Browse_ID() > 0) {
+
+					packOut.createBrowse(m_Process.getAD_Browse_ID(), 
+							document);
+				}
+				
 				createProcessBinding(atts, m_Process);
 				document.startElement("", "", "process", atts);
 				// processpara tags
@@ -307,6 +345,23 @@ public class ProcessElementHandler extends AbstractElementHandler {
 			atts.addAttribute("", "", "ADReportViewNameID", "CDATA", name);
 		} else
 			atts.addAttribute("", "", "ADReportViewNameID", "CDATA", "");
+		
+		if (m_Process.getAD_Form_ID() > 0) {
+			sql = "SELECT Name FROM AD_Form WHERE AD_Form_ID=?";
+			name = DB.getSQLValueString(null, sql, m_Process
+					.getAD_Form_ID());
+			atts.addAttribute("", "", "ADFormNameID", "CDATA", name);
+		} else
+			atts.addAttribute("", "", "ADFormNameID", "CDATA", "");
+		
+		if (m_Process.getAD_Browse_ID() > 0) {
+			sql = "SELECT Name FROM AD_Browse WHERE AD_Browse_ID=?";
+			name = DB.getSQLValueString(null, sql, m_Process
+					.getAD_Browse_ID());
+			atts.addAttribute("", "", "ADBrowseNameID", "CDATA", name);
+		} else
+			atts.addAttribute("", "", "ADBrowseNameID", "CDATA", "");
+		
 		atts.addAttribute("", "", "AccessLevel", "CDATA", (m_Process
 				.getAccessLevel() != null ? m_Process.getAccessLevel() : ""));
 		atts.addAttribute("", "", "Classname", "CDATA", (m_Process

@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Depreciation_Build
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_A_Depreciation_Build extends PO implements I_A_Depreciation_Build, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20150101L;
 
     /** Standard Constructor */
     public X_A_Depreciation_Build (Properties ctx, int A_Depreciation_Build_ID, String trxName)
@@ -71,8 +71,8 @@ public class X_A_Depreciation_Build extends PO implements I_A_Depreciation_Build
       return sb.toString();
     }
 
-	/** Set Depreciation Build.
-		@param A_Depreciation_Build_ID Depreciation Build	  */
+	/** Set Build Depreciation.
+		@param A_Depreciation_Build_ID Build Depreciation	  */
 	public void setA_Depreciation_Build_ID (int A_Depreciation_Build_ID)
 	{
 		if (A_Depreciation_Build_ID < 1) 
@@ -81,8 +81,8 @@ public class X_A_Depreciation_Build extends PO implements I_A_Depreciation_Build
 			set_ValueNoCheck (COLUMNNAME_A_Depreciation_Build_ID, Integer.valueOf(A_Depreciation_Build_ID));
 	}
 
-	/** Get Depreciation Build.
-		@return Depreciation Build	  */
+	/** Get Build Depreciation.
+		@return Build Depreciation	  */
 	public int getA_Depreciation_Build_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Depreciation_Build_ID);
@@ -104,8 +104,8 @@ public class X_A_Depreciation_Build extends PO implements I_A_Depreciation_Build
 		return (org.compiere.model.I_A_Asset)MTable.get(getCtx(), org.compiere.model.I_A_Asset.Table_Name)
 			.getPO(getA_End_Asset_ID(), get_TrxName());	}
 
-	/** Set End Aset ID.
-		@param A_End_Asset_ID End Aset ID	  */
+	/** Set To Asset.
+		@param A_End_Asset_ID To Asset	  */
 	public void setA_End_Asset_ID (int A_End_Asset_ID)
 	{
 		if (A_End_Asset_ID < 1) 
@@ -114,8 +114,8 @@ public class X_A_Depreciation_Build extends PO implements I_A_Depreciation_Build
 			set_Value (COLUMNNAME_A_End_Asset_ID, Integer.valueOf(A_End_Asset_ID));
 	}
 
-	/** Get End Aset ID.
-		@return End Aset ID	  */
+	/** Get To Asset.
+		@return To Asset	  */
 	public int getA_End_Asset_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_End_Asset_ID);
@@ -129,8 +129,8 @@ public class X_A_Depreciation_Build extends PO implements I_A_Depreciation_Build
 		return (org.compiere.model.I_A_Asset)MTable.get(getCtx(), org.compiere.model.I_A_Asset.Table_Name)
 			.getPO(getA_Start_Asset_ID(), get_TrxName());	}
 
-	/** Set Start Asset.
-		@param A_Start_Asset_ID Start Asset	  */
+	/** Set From Asset.
+		@param A_Start_Asset_ID From Asset	  */
 	public void setA_Start_Asset_ID (int A_Start_Asset_ID)
 	{
 		if (A_Start_Asset_ID < 1) 
@@ -139,8 +139,8 @@ public class X_A_Depreciation_Build extends PO implements I_A_Depreciation_Build
 			set_Value (COLUMNNAME_A_Start_Asset_ID, Integer.valueOf(A_Start_Asset_ID));
 	}
 
-	/** Get Start Asset.
-		@return Start Asset	  */
+	/** Get From Asset.
+		@return From Asset	  */
 	public int getA_Start_Asset_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Start_Asset_ID);

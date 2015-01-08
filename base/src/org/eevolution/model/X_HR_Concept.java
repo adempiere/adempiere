@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_Concept
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20150101L;
 
     /** Standard Constructor */
     public X_HR_Concept (Properties ctx, int HR_Concept_ID, String trxName)
@@ -176,8 +176,10 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 		return (org.eevolution.model.I_HR_Concept_Category)MTable.get(getCtx(), org.eevolution.model.I_HR_Concept_Category.Table_Name)
 			.getPO(getHR_Concept_Category_ID(), get_TrxName());	}
 
-	/** Set Payroll Concept Category.
-		@param HR_Concept_Category_ID Payroll Concept Category	  */
+	/** Set Global Payroll Concept Category.
+		@param HR_Concept_Category_ID 
+		Global Payroll Concept Category allows to grouping of Global Concept to reports and queries
+	  */
 	public void setHR_Concept_Category_ID (int HR_Concept_Category_ID)
 	{
 		if (HR_Concept_Category_ID < 1) 
@@ -186,8 +188,9 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 			set_Value (COLUMNNAME_HR_Concept_Category_ID, Integer.valueOf(HR_Concept_Category_ID));
 	}
 
-	/** Get Payroll Concept Category.
-		@return Payroll Concept Category	  */
+	/** Get Global Payroll Concept Category.
+		@return Global Payroll Concept Category allows to grouping of Global Concept to reports and queries
+	  */
 	public int getHR_Concept_Category_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Concept_Category_ID);
@@ -196,8 +199,10 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Payroll Concept.
-		@param HR_Concept_ID Payroll Concept	  */
+	/** Set AD Payroll Concept.
+		@param HR_Concept_ID 
+		The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
+	  */
 	public void setHR_Concept_ID (int HR_Concept_ID)
 	{
 		if (HR_Concept_ID < 1) 
@@ -206,8 +211,9 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 			set_ValueNoCheck (COLUMNNAME_HR_Concept_ID, Integer.valueOf(HR_Concept_ID));
 	}
 
-	/** Get Payroll Concept.
-		@return Payroll Concept	  */
+	/** Get AD Payroll Concept.
+		@return The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
+	  */
 	public int getHR_Concept_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Concept_ID);
@@ -221,8 +227,10 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 		return (org.eevolution.model.I_HR_Department)MTable.get(getCtx(), org.eevolution.model.I_HR_Department.Table_Name)
 			.getPO(getHR_Department_ID(), get_TrxName());	}
 
-	/** Set Payroll Department.
-		@param HR_Department_ID Payroll Department	  */
+	/** Set Department.
+		@param HR_Department_ID 
+		Department of the organization
+	  */
 	public void setHR_Department_ID (int HR_Department_ID)
 	{
 		if (HR_Department_ID < 1) 
@@ -231,8 +239,9 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 			set_Value (COLUMNNAME_HR_Department_ID, Integer.valueOf(HR_Department_ID));
 	}
 
-	/** Get Payroll Department.
-		@return Payroll Department	  */
+	/** Get Department.
+		@return Department of the organization
+	  */
 	public int getHR_Department_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Department_ID);
@@ -272,7 +281,9 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 			.getPO(getHR_Payroll_ID(), get_TrxName());	}
 
 	/** Set Payroll.
-		@param HR_Payroll_ID Payroll	  */
+		@param HR_Payroll_ID 
+		The Payroll definition allows to define all the payroll concepts , year and periods, to  calculate a payroll.
+	  */
 	public void setHR_Payroll_ID (int HR_Payroll_ID)
 	{
 		if (HR_Payroll_ID < 1) 
@@ -282,7 +293,8 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 	}
 
 	/** Get Payroll.
-		@return Payroll	  */
+		@return The Payroll definition allows to define all the payroll concepts , year and periods, to  calculate a payroll.
+	  */
 	public int getHR_Payroll_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Payroll_ID);
@@ -330,6 +342,30 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 	public boolean isEmployee () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsEmployee);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Invoiced.
+		@param IsInvoiced 
+		Is this invoiced?
+	  */
+	public void setIsInvoiced (boolean IsInvoiced)
+	{
+		set_Value (COLUMNNAME_IsInvoiced, Boolean.valueOf(IsInvoiced));
+	}
+
+	/** Get Invoiced.
+		@return Is this invoiced?
+	  */
+	public boolean isInvoiced () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsInvoiced);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

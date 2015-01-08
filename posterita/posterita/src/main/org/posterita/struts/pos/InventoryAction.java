@@ -92,7 +92,7 @@ public class InventoryAction extends BaseDispatchAction
            {
         	   MInventory inventory2=new MInventory(ctx,bean.getInventoryId(),null);
         	   inventory2.setDescription(bean.getDescription());
-        	   inventory2.save();
+        	   inventory2.saveEx();
            }
            
             

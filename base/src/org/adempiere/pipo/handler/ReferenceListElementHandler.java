@@ -119,28 +119,21 @@ public class ReferenceListElementHandler extends AbstractElementHandler {
 		if (m_Ref_List.getAD_Ref_List_ID() <= PackOut.MAX_OFFICIAL_ID)
 			atts.addAttribute("", "", "AD_Ref_List_ID", "CDATA", Integer.toString(m_Ref_List.getAD_Ref_List_ID()));
 		if (m_Ref_List.getAD_Ref_List_ID() > 0) {
-			sql = "SELECT Name FROM AD_Ref_List WHERE AD_Ref_List_ID=?";
-			name = DB.getSQLValueString(null, sql, m_Ref_List
-					.getAD_Ref_List_ID());
-			if (name != null)
-				atts.addAttribute("", "", "ADReflistNameID", "CDATA", name);
+			if (m_Ref_List.getName() != null)
+				atts.addAttribute("", "", "ADReflistNameID", "CDATA", m_Ref_List.getName());
 			else
 				atts.addAttribute("", "", "ADReflistNameID", "CDATA", "");
-		} else {
+		} else
 			atts.addAttribute("", "", "ADReflistNameID", "CDATA", "");
-		}
+
 		
 		if (m_Ref_List.getAD_Reference_ID() > 0) {
-			sql = "SELECT Name FROM AD_Reference WHERE AD_Reference_ID=?";
-			name = DB.getSQLValueString(null, sql, m_Ref_List
-					.getAD_Reference_ID());
-			if (name != null)
-				atts.addAttribute("", "", "ADRefenceNameID", "CDATA", name);
+			if (m_Ref_List.getAD_Reference().getName() != null)
+				atts.addAttribute("", "", "ADRefenceNameID", "CDATA", m_Ref_List.getAD_Reference().getName());
 			else
 				atts.addAttribute("", "", "ADRefenceNameID", "CDATA", "");
-		} else {
+		} else
 			atts.addAttribute("", "", "ADRefenceNameID", "CDATA", "");
-		}
 		
 		atts.addAttribute("", "", "Description", "CDATA", (m_Ref_List
 				.getDescription() != null ? m_Ref_List.getDescription() : ""));

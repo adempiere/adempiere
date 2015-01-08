@@ -303,8 +303,8 @@ public class AssetServlet extends HttpServlet
 			
 			//	Delivery Record
 			ad.setDeliveryConfirmation(msg);
-			ad.save();
-			asset.save();
+			ad.saveEx();
+			asset.saveEx();
 		}
 		catch (IOException ex)
 		{
@@ -319,7 +319,7 @@ public class AssetServlet extends HttpServlet
 					msg = msg.substring (0, 119);
 				ad.setDeliveryConfirmation (msg);
 				ad.save ();
-			//	asset.save();	not delivered
+			//	asset.saveEx();	not delivered
 			}
 			catch (Exception ex1)
 			{

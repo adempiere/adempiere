@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_ProductPlanning
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0
  */
 public interface I_I_ProductPlanning 
 {
@@ -136,10 +136,14 @@ public interface I_I_ProductPlanning
     /** Column name DD_NetworkDistribution_ID */
     public static final String COLUMNNAME_DD_NetworkDistribution_ID = "DD_NetworkDistribution_ID";
 
-	/** Set Network Distribution	  */
+	/** Set Network Distribution.
+	  * Identifies a distribution network, distribution networks are used to establish the source and target of the materials in the supply chain
+	  */
 	public void setDD_NetworkDistribution_ID (int DD_NetworkDistribution_ID);
 
-	/** Get Network Distribution	  */
+	/** Get Network Distribution.
+	  * Identifies a distribution network, distribution networks are used to establish the source and target of the materials in the supply chain
+	  */
 	public int getDD_NetworkDistribution_ID();
 
     /** Column name DeliveryTime_Promised */
@@ -232,10 +236,14 @@ public interface I_I_ProductPlanning
     /** Column name IsMPS */
     public static final String COLUMNNAME_IsMPS = "IsMPS";
 
-	/** Set Is MPS	  */
+	/** Set Is MPS.
+	  * Indicates if this product is part of the master production schedule
+	  */
 	public void setIsMPS (boolean IsMPS);
 
-	/** Get Is MPS	  */
+	/** Get Is MPS.
+	  * Indicates if this product is part of the master production schedule
+	  */
 	public boolean isMPS();
 
     /** Column name IsPhantom */
@@ -366,28 +374,40 @@ public interface I_I_ProductPlanning
     /** Column name Order_Period */
     public static final String COLUMNNAME_Order_Period = "Order_Period";
 
-	/** Set Order Period	  */
+	/** Set Order Period.
+	  * Order Period
+	  */
 	public void setOrder_Period (BigDecimal Order_Period);
 
-	/** Get Order Period	  */
+	/** Get Order Period.
+	  * Order Period
+	  */
 	public BigDecimal getOrder_Period();
 
     /** Column name Order_Policy */
     public static final String COLUMNNAME_Order_Policy = "Order_Policy";
 
-	/** Set Order Policy	  */
+	/** Set Order Policy.
+	  * Order Policy
+	  */
 	public void setOrder_Policy (String Order_Policy);
 
-	/** Get Order Policy	  */
+	/** Get Order Policy.
+	  * Order Policy
+	  */
 	public String getOrder_Policy();
 
     /** Column name Order_Qty */
     public static final String COLUMNNAME_Order_Qty = "Order_Qty";
 
-	/** Set Order Qty	  */
+	/** Set Order Qty.
+	  * Order Qty
+	  */
 	public void setOrder_Qty (BigDecimal Order_Qty);
 
-	/** Get Order Qty	  */
+	/** Get Order Qty.
+	  * Order Qty
+	  */
 	public BigDecimal getOrder_Qty();
 
     /** Column name OrgValue */
@@ -406,10 +426,14 @@ public interface I_I_ProductPlanning
     /** Column name Planner_ID */
     public static final String COLUMNNAME_Planner_ID = "Planner_ID";
 
-	/** Set Planner	  */
+	/** Set Planner.
+	  * Company Agent for Planning
+	  */
 	public void setPlanner_ID (int Planner_ID);
 
-	/** Get Planner	  */
+	/** Get Planner.
+	  * Company Agent for Planning
+	  */
 	public int getPlanner_ID();
 
 	public org.compiere.model.I_AD_User getPlanner() throws RuntimeException;
@@ -445,10 +469,14 @@ public interface I_I_ProductPlanning
     /** Column name PP_Product_Planning_ID */
     public static final String COLUMNNAME_PP_Product_Planning_ID = "PP_Product_Planning_ID";
 
-	/** Set Product Planning	  */
+	/** Set Product Planning.
+	  * Product Planning
+	  */
 	public void setPP_Product_Planning_ID (int PP_Product_Planning_ID);
 
-	/** Get Product Planning	  */
+	/** Get Product Planning.
+	  * Product Planning
+	  */
 	public int getPP_Product_Planning_ID();
 
 	public org.eevolution.model.I_PP_Product_Planning getPP_Product_Planning() throws RuntimeException;
@@ -571,20 +599,28 @@ public interface I_I_ProductPlanning
     /** Column name TimeFence */
     public static final String COLUMNNAME_TimeFence = "TimeFence";
 
-	/** Set Time Fence	  */
+	/** Set Time Fence.
+	  * The Time Fence is the number of days since you execute the MRP process inside of which  the system must not change the planned orders. 
+	  */
 	public void setTimeFence (BigDecimal TimeFence);
 
-	/** Get Time Fence	  */
+	/** Get Time Fence.
+	  * The Time Fence is the number of days since you execute the MRP process inside of which  the system must not change the planned orders. 
+	  */
 	public BigDecimal getTimeFence();
 
-    /** Column name TransfertTime */
-    public static final String COLUMNNAME_TransfertTime = "TransfertTime";
+    /** Column name TransferTime */
+    public static final String COLUMNNAME_TransferTime = "TransferTime";
 
-	/** Set Transfert Time	  */
-	public void setTransfertTime (BigDecimal TransfertTime);
+	/** Set Transfer Time.
+	  * Transfer Time
+	  */
+	public void setTransferTime (BigDecimal TransferTime);
 
-	/** Get Transfert Time	  */
-	public BigDecimal getTransfertTime();
+	/** Get Transfer Time.
+	  * Transfer Time
+	  */
+	public BigDecimal getTransferTime();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

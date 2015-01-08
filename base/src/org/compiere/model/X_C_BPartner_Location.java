@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BPartner_Location
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20150101L;
 
     /** Standard Constructor */
     public X_C_BPartner_Location (Properties ctx, int C_BPartner_Location_ID, String trxName)
@@ -189,6 +189,64 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 		return ii.intValue();
 	}
 
+	/** Set Contact Person.
+		@param ContactPerson 
+		Contact Person Defines the contact person for this location
+	  */
+	public void setContactPerson (String ContactPerson)
+	{
+		set_Value (COLUMNNAME_ContactPerson, ContactPerson);
+	}
+
+	/** Get Contact Person.
+		@return Contact Person Defines the contact person for this location
+	  */
+	public String getContactPerson () 
+	{
+		return (String)get_Value(COLUMNNAME_ContactPerson);
+	}
+
+	/** ContactType AD_Reference_ID=53619 */
+	public static final int CONTACTTYPE_AD_Reference_ID=53619;
+	/** Emergency = Emergency */
+	public static final String CONTACTTYPE_Emergency = "Emergency";
+	/** Primary = Primary */
+	public static final String CONTACTTYPE_Primary = "Primary";
+	/** Set Contact Type.
+		@param ContactType 
+		Contact Type defines the type of contact for this location
+	  */
+	public void setContactType (String ContactType)
+	{
+
+		set_Value (COLUMNNAME_ContactType, ContactType);
+	}
+
+	/** Get Contact Type.
+		@return Contact Type defines the type of contact for this location
+	  */
+	public String getContactType () 
+	{
+		return (String)get_Value(COLUMNNAME_ContactType);
+	}
+
+	/** Set EMail Address.
+		@param EMail 
+		Electronic Mail Address
+	  */
+	public void setEMail (String EMail)
+	{
+		set_Value (COLUMNNAME_EMail, EMail);
+	}
+
+	/** Get EMail Address.
+		@return Electronic Mail Address
+	  */
+	public String getEMail () 
+	{
+		return (String)get_Value(COLUMNNAME_EMail);
+	}
+
 	/** Set Fax.
 		@param Fax 
 		Facsimile number
@@ -204,6 +262,51 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 	public String getFax () 
 	{
 		return (String)get_Value(COLUMNNAME_Fax);
+	}
+
+	public org.eevolution.model.I_HR_Relationship getHR_Relationship() throws RuntimeException
+    {
+		return (org.eevolution.model.I_HR_Relationship)MTable.get(getCtx(), org.eevolution.model.I_HR_Relationship.Table_Name)
+			.getPO(getHR_Relationship_ID(), get_TrxName());	}
+
+	/** Set Employee Relationship.
+		@param HR_Relationship_ID 
+		Employee Relationship Identifies an employee relations
+	  */
+	public void setHR_Relationship_ID (int HR_Relationship_ID)
+	{
+		if (HR_Relationship_ID < 1) 
+			set_Value (COLUMNNAME_HR_Relationship_ID, null);
+		else 
+			set_Value (COLUMNNAME_HR_Relationship_ID, Integer.valueOf(HR_Relationship_ID));
+	}
+
+	/** Get Employee Relationship.
+		@return Employee Relationship Identifies an employee relations
+	  */
+	public int getHR_Relationship_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Relationship_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set ISDN.
+		@param ISDN 
+		ISDN or modem line
+	  */
+	public void setISDN (String ISDN)
+	{
+		set_Value (COLUMNNAME_ISDN, ISDN);
+	}
+
+	/** Get ISDN.
+		@return ISDN or modem line
+	  */
+	public String getISDN () 
+	{
+		return (String)get_Value(COLUMNNAME_ISDN);
 	}
 
 	/** Set Invoice Address.
@@ -228,23 +331,6 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 			return "Y".equals(oo);
 		}
 		return false;
-	}
-
-	/** Set ISDN.
-		@param ISDN 
-		ISDN or modem line
-	  */
-	public void setISDN (String ISDN)
-	{
-		set_Value (COLUMNNAME_ISDN, ISDN);
-	}
-
-	/** Get ISDN.
-		@return ISDN or modem line
-	  */
-	public String getISDN () 
-	{
-		return (String)get_Value(COLUMNNAME_ISDN);
 	}
 
 	/** Set Pay-From Address.
@@ -317,6 +403,23 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Set Mobile Phone.
+		@param MobilePhone 
+		Identifies an alternate telephone mobile number.
+	  */
+	public void setMobilePhone (String MobilePhone)
+	{
+		set_Value (COLUMNNAME_MobilePhone, MobilePhone);
+	}
+
+	/** Get Mobile Phone.
+		@return Identifies an alternate telephone mobile number.
+	  */
+	public String getMobilePhone () 
+	{
+		return (String)get_Value(COLUMNNAME_MobilePhone);
 	}
 
 	/** Set Name.

@@ -1,0 +1,178 @@
+<project name="adempiereLiberoSB" default="zkdist" basedir=".">
+    <description>
+        Building Libero liberoSB.jar
+        by
+        Victor Perez 
+        http://www.e-evolution.com
+    </description>
+  <!-- set global properties for this build -->
+  <property file="build.properties"/>
+  <import file="${adempiere.trunk}/utils_dev/properties.xml"/>
+  <!--property name="src" location="extension/eevolution/smartbrowser/src/main/java"/-->
+  <property name="patchesBase" location="../../base/src"/>
+  <property name="patchesClient" location="../../client/src"/>	
+  <property name="zkPatches" location="../../zkwebui/WEB-INF/src"/>	
+  <property name="build" location="build"/>
+  <property name="buildPatches" location="buildPatches"/>
+  <property name="dist"  location="dist"/>
+  <property name="zkBuildPatches" location="zkBuildPatches"/>		
+  <property name="zksrc" value="../../zkwebui/WEB-INF/src"/>
+  <property name="zkclasses" value="${basedir}/WEB-INF/classes"/>
+	
+	<path id="compile.class.path">
+		<pathelement location="${basedir}/WEB-INF/classes"/>
+		<pathelement location="${basedir}/buildPatches"/>
+	    <pathelement location="${basedir}/build"/>
+		<pathelement location="${basedir}/zkBuildPatches"/>
+	    <pathelement location="${adempiere.trunk}/zkwebui/WEB-INF/classes"/>
+	 	 <fileset dir="${adempiere.trunk}/packages">
+	 	       <include name="*.jar"/>
+	 	 </fileset>
+	    <fileset dir="${adempiere.trunk}/lib">
+	      <include name="*.jar"/>
+	    </fileset>
+	    <fileset dir="${adempiere.trunk}/zkwebui/WEB-INF/lib">
+	      <include name="*.jar"/>
+	    </fileset>
+		<fileset dir="${dist}/lib">
+	  	      <include name="*.jar"/>
+	  	</fileset>
+	  </path>
+
+	<path id="lib.class.path">
+		<pathelement location="../../WEB-INF/classes"/>
+	    <pathelement location="${adempiere.trunk}/zkwebui/WEB-INF/classes"/>
+		<fileset dir="${adempiere.trunk}/zkwebui/WEB-INF/lib">
+		   <include name="*.jar"/>
+		</fileset>
+		<fileset dir="${adempiere.trunk}/lib">
+	        <include name="*.jar"/>
+		</fileset>
+		<fileset dir="dist/lib">
+		  	<include name="*.jar"/>
+		</fileset>
+	</path>
+
+  <target name="init" depends="clean">
+    <echo message="Trunk location: ${adempiere.trunk}"/>
+    <echo message="ADempiere home: ${env.ADEMPIERE_HOME}"/>
+    <!-- Create the time stamp -->
+    <tstamp/>
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${build}"/>
+ 	<mkdir dir="${buildPatches}"/>
+	<mkdir dir="${zkBuildPatches}"/>
+    <!-- Create the distribution directory -->
+    <mkdir dir="${dist}/lib"/>
+  </target>
+
+  <target name="compile"
+        description="compile the source " >
+    <!-- Compile the java code from ${src} into ${build} -->
+    <javac srcdir="${patchesBase}:${patchesClient}" destdir="${build}">
+      <classpath refid="lib.class.path"/>
+      <include name="**/org/adempiere/model/*.java"/>  
+      <include name="**/org/compiere/model/*.java"/>  	
+      <include name="**/org/compiere/apps/*.java"/>
+      <include name="**/org/eevolution/form/*.java"/>
+      <include name="**/org/eevolution/process/*.java"/>    	
+    </javac>
+
+  </target>
+
+  <target name="dist" depends="compile"
+        description="generate the distribution" >
+    <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
+    <jar jarfile="${dist}/lib/liberoSB.jar" basedir="${build}"/>
+
+    <!-- Create target Libero deployment -->
+    <mkdir dir="${env.ADEMPIERE_HOME}/packages/liberoSB/lib"/>
+
+    <!-- Transfer liberoWM.jar -->
+    <copy file="${dist}/lib/liberoSB.jar" todir="${env.ADEMPIERE_HOME}/packages/liberoSB/lib"/>
+    <copy file="${dist}/lib/liberoSB.jar" todir="${adempiere.trunk}/packages/"/>
+
+  </target>
+	
+  <target name="zkdist" depends="init, patchesDist ,zkcompile , zkPatchesDist "
+        description="generate the distribution" >
+    <!-- Create the distribution directory -->
+    <mkdir dir="${dist}/lib"/>
+
+    <!-- Put everything in ${zkclasses} into the MyProject-${DSTAMP}.jar file -->
+    <!--jar jarfile="${dist}/lib/liberozkSB.jar" basedir="${basedir}" includes="WEB-INF/"/-->
+
+    <!-- Create target Liberozk deployment -->
+    <!--mkdir dir="${env.ADEMPIERE_HOME}/zkpackages/liberozkSB/lib"/-->
+
+    <!-- Transfer liberozkHR.jar -->
+    <!--copy file="${dist}/lib/liberozkSB.jar" todir="${env.ADEMPIERE_HOME}/zkpackages/liberozkSB/lib"/-->
+    <!--copy file="${dist}/lib/liberozkSB.jar" todir="${adempiere.trunk}/zkpackages/"/-->  	
+  </target>	
+	
+	
+	
+  <target name="zkcompile" 
+	        description="compile the source " >
+	    <mkdir dir="${zkclasses}"/>
+	    <!-- Compile the zk java code from ${src} into ${zkclasses} -->
+	    <javac srcdir="${zksrc}:${zkPatches}" destdir="${zkclasses}">
+	      <classpath refid="compile.class.path"/>
+	    </javac>
+ </target>	
+	
+ <target name="patchesDist" depends="patchesCompile"
+	          description="generate the distribution" >
+	      <!-- Create the distribution directory -->
+	      <mkdir dir="${dist}/lib"/>
+
+	      <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
+	      <jar jarfile="${dist}/lib/patches.jar" basedir="${buildPatches}"/>
+ </target>
+	
+<target name="zkPatchesDist" depends="zkPatchesCompile"
+		          description="generate the distribution" >
+		      <!-- Create the distribution directory -->
+		      <mkdir dir="${dist}/lib"/>
+	   		  <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
+	    	 <jar jarfile="${dist}/lib/zkpatches.jar" basedir="${zkBuildPatches}"/>
+
+</target>	
+	  
+ <target name="patchesCompile" 
+	        description="compile the source " >
+    <javac debug="false" srcdir="${patchesBase}:${patchesClient}" destdir="${buildPatches}">
+      <include name="**/org/compiere/model/*.java"/>
+   	  <include name="**/org/compiere/images/*"/>
+      <include name="**/org/eevolution/model/*.java"/>
+      <include name="**/org/eevolution/form/*.java"/>
+      <include name="**/org/eevolution/process/*.java"/>
+      <include name="**/org/adempiere/model/*.java"/>
+      <include name="**/org/compiere/apps/*.java"/>	
+      <include name="**/org/compiere/apps/search/*.java"/>		
+      <classpath refid="compile.class.path"/>
+    </javac>
+ </target>  
+
+	 <target name="zkPatchesCompile" 
+		        description="compile the source " >
+	 	
+		 <javac debug="false" srcdir="${zkPatches}" destdir="${zkBuildPatches}">
+			  <classpath refid="lib.class.path"/>
+		 	  <include name="**/org/adempiere/webui/apps/*.java"/>
+		 	  <include name="**/org/adempiere/webui/desktop/*.java"/>
+		 	  <include name="**/org/eevolution/form/*.java"/>
+		 	  
+		 </javac>
+	 </target>  	
+	
+  <target name="clean"
+        description="clean up" >
+    <!-- Delete the ${build} and ${dist} directory trees -->
+    <delete dir="${build}"/>
+    <delete dir="${buildPatches}"/>
+    <delete dir="${zkBuildPatches}"/>
+    <delete dir="${dist}"/>
+    <delete dir="${basedir}/WEB-INF/classes"/>
+  </target>
+</project>

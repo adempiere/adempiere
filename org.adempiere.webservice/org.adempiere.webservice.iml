@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="EclipseModuleManager">
+    <libelement value="jar://$MODULE_DIR$/WEB-INF/lib/generated_xmlbeans.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/WEB-INF/lib/xbean-spring-2.8.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/WEB-INF/lib/xbean.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/WEB-INF/lib/xfire-all-1.2.6.jar!/" />
+    <src_description expected_position="0">
+      <src_folder value="file://$MODULE_DIR$/WEB-INF/src" expected_position="0" />
+    </src_description>
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/WEB-INF/classes" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/WEB-INF/src" isTestSource="false" />
+    </content>
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library name="generated_xmlbeans.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/WEB-INF/lib/generated_xmlbeans.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/WEB-INF/lib/generated_xmlbeans-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="xbean-spring-2.8.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/WEB-INF/lib/xbean-spring-2.8.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="xbean.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/WEB-INF/lib/xbean.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/WEB-INF/lib/xmlbeans-2.4.0-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="xfire-all-1.2.6.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/WEB-INF/lib/xfire-all-1.2.6.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/WEB-INF/lib/xfire-all-1.2.6-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="module" module-name="adempiere_370" />
+  </component>
+</module>

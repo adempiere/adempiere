@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<SOAP-ENV:Body>
+<setDocAction xmlns="http://3e.pl/ADInterface">
+<ModelSetDocActionRequest>
+  <ModelSetDocAction>
+    <serviceType>ActionCompleteOrder</serviceType>
+    <tableName>C_Order</tableName>
+    <recordID>102</recordID>
+    <docAction>CO</docAction>
+  </ModelSetDocAction>
+  <ADLoginRequest>
+    <user>WebService</user>
+    <pass>WebService</pass>
+    <lang>en_US</lang>
+    <ClientID>11</ClientID>
+    <RoleID>50004</RoleID>
+    <OrgID>11</OrgID>
+    <WarehouseID>103</WarehouseID>
+    <stage/>
+  </ADLoginRequest>
+</ModelSetDocActionRequest>
+</setDocAction>
+</SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

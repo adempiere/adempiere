@@ -22,6 +22,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Collection;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.sql.RowSet;
 import javax.sql.rowset.CachedRowSet;
@@ -255,4 +256,9 @@ public class CCachedRowSet extends CachedRowSetImpl implements CachedRowSet
 			return Double.valueOf(s).intValue();
 		}	
 	}
+
+    @Override
+    public void setTypeMap(Map map) {
+        super.setTypeMap(map);
+    }
 }	//	CCachedRowSet

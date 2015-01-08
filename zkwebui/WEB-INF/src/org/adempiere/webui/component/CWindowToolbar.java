@@ -24,15 +24,16 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Level;
-
 import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.event.ToolbarListener;
+import org.adempiere.webui.panel.IADTabPanel;
 import org.adempiere.webui.session.SessionManager;
 import org.compiere.model.MRole;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.HtmlBasedComponent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -42,6 +43,9 @@ import org.zkoss.zul.Space;
 /**
  *
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
+ * @author e-Evolution , victor.perez@e-evolution.com
+ *    <li>Implement embedded or horizontal tab panel https://adempiere.atlassian.net/browse/ADEMPIERE-319
+ *    <li>New ADempiere 3.8.0 ZK Theme Light  https://adempiere.atlassian.net/browse/ADEMPIERE-320
  * @date    Feb 25, 2007
  * @version $Revision: 0.10 $
  *
@@ -104,9 +108,35 @@ public class CWindowToolbar extends FToolbar implements EventListener
 
 	private KeyEvent prevKeyEvent;
 
-	/**	Last Modifier of Action Event					*/
-//	public int 				lastModifiers;
-	//
+    // Single tools bar switch
+	private IADTabPanel previousTabPanel;
+	private IADTabPanel currentTabPanel;
+
+	public void setPreviousPanel(IADTabPanel previousTab)
+	{
+		if (previousTabPanel == null || previousTabPanel != previousTab)
+	        previousTabPanel = previousTab;
+		
+		//previousTab.activate(false);
+	}
+	
+	public IADTabPanel getPreviousPanel()
+	{
+        return previousTabPanel;
+	}
+	
+	public IADTabPanel getCurrentPanel()
+	{
+		return currentTabPanel;
+	}
+	
+	public void setCurrentPanel(IADTabPanel tabPanel)
+	{
+		if (currentTabPanel == null || currentTabPanel != tabPanel)			
+	        currentTabPanel = tabPanel;	
+		
+		//currentTabPanel.activate(true);
+	}	
 
     public CWindowToolbar()
     {
@@ -117,6 +147,10 @@ public class CWindowToolbar extends FToolbar implements EventListener
     {
     	this.embedded = embedded;
         init();
+        if(embedded)
+        {
+        	this.setVisible(false);
+        }
     }
 
     private void init()

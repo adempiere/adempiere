@@ -20,6 +20,7 @@ import java.util.logging.Level;
 
 import org.compiere.model.MPaymentTerm;
 import org.compiere.util.AdempiereUserError;
+import org.compiere.util.Msg;
  
 /**
  *	Validate Payment Term and Schedule	
@@ -32,6 +33,7 @@ public class PaymentTermValidate extends SvrProcess
 	/**
 	 *  Prepare - e.g., get Parameters.
 	 */
+	@Override
 	protected void prepare()
 	{
 		ProcessInfoParameter[] para = getParameter();
@@ -50,14 +52,16 @@ public class PaymentTermValidate extends SvrProcess
 	 *  @return Message
 	 *  @throws Exception if not successful
 	 */
+	@Override
 	protected String doIt() throws Exception
 	{
 		log.info ("C_PaymentTerm_ID=" + getRecord_ID());
 		MPaymentTerm pt = new MPaymentTerm (getCtx(), getRecord_ID(), get_TrxName());
 		String msg = pt.validate();
-		pt.save();
+		pt.saveEx();
 		//
-		if ("@OK@".equals(msg))
+		String validMsg = Msg.parseTranslation(getCtx(), "@OK@");
+		if (validMsg.equals(msg))
 			return msg;
 		throw new AdempiereUserError (msg);
 	}	//	doIt

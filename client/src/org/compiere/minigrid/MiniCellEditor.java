@@ -22,6 +22,8 @@ import java.sql.Timestamp;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.JTable;
+import javax.swing.UIManager;
+import javax.swing.border.Border;
 import javax.swing.table.TableCellEditor;
 
 import org.compiere.grid.ed.VDate;
@@ -35,6 +37,9 @@ import org.compiere.util.DisplayType;
  *
  *  @author     Jorg Janke
  *  @version    $Id: MiniCellEditor.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ *  
+ *   *  @author Michael McKay, 
+ * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
  */
 public class MiniCellEditor extends AbstractCellEditor implements TableCellEditor
 {
@@ -43,6 +48,29 @@ public class MiniCellEditor extends AbstractCellEditor implements TableCellEdito
 	 */
 	private static final long serialVersionUID = 4431508736596874253L;
 
+	/**
+	 *  Default Constructor
+	 *  @param c Class
+	 */
+	public MiniCellEditor(Class c, int displayType)
+	{
+		super();		
+		if(DisplayType.Date == displayType)
+			m_editor = new VDate();
+		else if(DisplayType.DateTime == displayType)	
+			m_editor = new VDate(DisplayType.DateTime);
+		else if(DisplayType.Amount == displayType)
+			m_editor = new VNumber("Amount", false, false, true, DisplayType.Amount, "Amount");
+		else if(DisplayType.Number == displayType)
+			m_editor = new VNumber("Number", false, false, true, DisplayType.Number, "Number");
+		else if (DisplayType.Integer == displayType)
+			m_editor = new VNumber("Integer", false, false, true, DisplayType.Integer, "Integer");
+		else if(DisplayType.String == displayType)
+			m_editor = new VString();
+		else
+			m_editor = new VString();
+	}
+	
 	/**
 	 *  Default Constructor
 	 *  @param c Class
@@ -61,6 +89,7 @@ public class MiniCellEditor extends AbstractCellEditor implements TableCellEdito
 			m_editor = new VNumber("Integer", false, false, true, DisplayType.Integer, "Integer");
 		else
 			m_editor = new VString();
+		
 
 	}   //  MiniCellEditor
 
@@ -89,7 +118,7 @@ public class MiniCellEditor extends AbstractCellEditor implements TableCellEdito
 
 		//	Set UI
 		m_editor.setBorder(null);
-	//	m_editor.setBorder(UIManager.getBorder("Table.focusCellHighlightBorder"));
+		//m_editor.setBorder(UIManager.getBorder("Table.focusCellHighlightBorder"));
 		m_editor.setFont(table.getFont());
 		return (Component)m_editor;
 	}	//	getTableCellEditorComponent
@@ -107,4 +136,8 @@ public class MiniCellEditor extends AbstractCellEditor implements TableCellEdito
 		return null;
 	}	//	getCellEditorValue
 
+	public void setBorder(Border border)
+	{
+		m_editor.setBorder(border);
+	}
 }   //  MiniCellEditor

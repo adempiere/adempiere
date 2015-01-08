@@ -1,0 +1,49 @@
+/* Compiere HTML UI (c) Jorg Janke */
+/* $Id: popup.css,v 1.1 2009/04/15 11:26:44 vinhpt Exp $ */
+h1 {
+	color: #003FAF;
+	font-size: 16px !important;
+	margin-bottom: 10px;
+	margin-top: 0;
+}
+
+th	{
+	font-size: 10px;
+	background-color: #D7E2F8;
+	font-weight: bold;
+	color: black;
+}
+
+td	{
+	font-size: 10px;
+	color: black;
+}
+
+
+.Cerror{
+	background: #FF4A4A;
+}
+
+.Cmandatory{
+	background: #9DFFFF;
+}
+
+.popupTable	{
+	border-left: none;
+	border-right: none;
+	margin: 0px;
+	padding: 2px;
+}
+
+.popupHeader	{
+	border-top: none;
+}
+
+.popupCenter	{
+	border-bottom: 1px solid #000000;
+	border-top: 1px solid #000000;
+}
+
+.popupFooter	{
+	border-bottom: none;
+}

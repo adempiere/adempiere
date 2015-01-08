@@ -134,13 +134,13 @@ public class InvoiceBatchProcess extends SvrProcess
 			//	Update Batch Line
 			line.setC_Invoice_ID(m_invoice.getC_Invoice_ID());
 			line.setC_InvoiceLine_ID(invoiceLine.getC_InvoiceLine_ID());
-			line.save();
+			line.saveEx();
 			
 		}	//	for all lines
 		completeInvoice();
 		//
 		batch.setProcessed(true);
-		batch.save();
+		batch.saveEx();
 		
 		return "#" + m_count;
 	}	//	doIt
@@ -156,7 +156,7 @@ public class InvoiceBatchProcess extends SvrProcess
 		
 		m_invoice.setDocAction(p_DocAction);
 		m_invoice.processIt(p_DocAction);
-		m_invoice.save();
+		m_invoice.saveEx();
 		
 		addLog(0, m_invoice.getDateInvoiced(), m_invoice.getGrandTotal(), m_invoice.getDocumentNo());
 		m_count++;

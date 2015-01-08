@@ -17,27 +17,27 @@
 
 package org.adempiere.webui.panel;
 
+import java.net.URI;
 import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.apps.AEnv;
+import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Panel;
-import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.WRecordInfo;
 import org.compiere.apps.IStatusBar;
 import org.compiere.model.DataStatusEvent;
 import org.compiere.model.MRole;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.zkoss.zhtml.Text;
-import org.zkoss.zk.au.out.AuScript;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Page;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zkex.zul.North;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
+import org.zkoss.zul.Image;
 import org.zkoss.zul.Vbox;
 
 /**
@@ -76,9 +76,15 @@ public class StatusBarPanel extends Panel implements EventListener, IStatusBar
 
 	private Div popup;
 
-	private Div popupContent;
-	private String popupStyle;
+	//private Div popupContent;
+	//private String popupStyle;
 	private boolean embedded;
+	
+	private Borderlayout layout = new Borderlayout();
+	
+	private Image image = new Image();
+
+	private North north;
 
 	public StatusBarPanel()
 	{
@@ -99,16 +105,25 @@ public class StatusBarPanel extends Panel implements EventListener, IStatusBar
     {
         statusDB = new Label("  ");
         statusLine = new Label();
-
+        
         Hbox hbox = new Hbox();
         hbox.setWidth("100%");
         hbox.setHeight("100%");
+        
+        URI uri = AEnv.getImage("errormsg.png");
+    	image.setSrc(uri.toString());
+    	image.setVisible(false);
+    	hbox.appendChild(image);
+    	image.setVisible(false);
+        
         if (embedded)
-        	hbox.setWidths("90%,10%");
+        	hbox.setWidths("5%,80%,10%");
         else
-        	hbox.setWidths("50%,50%");
+        	hbox.setWidths("5%,50%,40%");
+        
         west = new Div();
         west.setStyle("text-align: left; ");
+        LayoutUtils.addSclass("status-db", statusLine);
         west.appendChild(statusLine);
         Vbox vbox = new Vbox();
         vbox.setPack("center");
@@ -136,11 +151,11 @@ public class StatusBarPanel extends Panel implements EventListener, IStatusBar
         vbox.appendChild(east);
         hbox.appendChild(vbox);
 
-        this.appendChild(hbox);
+         this.appendChild(hbox);
 
         statusDB.addEventListener(Events.ON_CLICK, this);
 
-        createPopup();
+       // createPopup();
     }
 
     /**
@@ -197,12 +212,28 @@ public class StatusBarPanel extends Panel implements EventListener, IStatusBar
     public void setStatusLine (String text, boolean error, boolean showPopup)
     {
     	statusLine.setText(text);
-    	if (error)
-    		statusLine.setStyle("color: red");
+    	
+    	if (error){
+    		this.setSclass("message-error");
+    		statusLine.setSclass("message-error-text");
+    		image.setVisible(true);
+    		this.setHeight("50px");
+    		if(north !=null)
+    		north.setHeight("83px");
+    	}
     	else
-    		statusLine.setStyle("color: black");
+    	{
+    		this.setSclass("message-info");
+    		statusLine.setSclass("message-info-text");
+    		image.setVisible(false);
+    		this.setHeight("25px");
+    		if(north !=null)
+    			north.setHeight("68px");
+    	}
+    	
     	statusLine.setTooltiptext(text);
 
+    	/*
     	if (showPopup && AEnv.isBrowserSupported())
     	{
 	    	Text t = new Text(text);
@@ -233,9 +264,10 @@ public class StatusBarPanel extends Panel implements EventListener, IStatusBar
 	    	script += ")";
 	    	AuScript aus = new AuScript(popup, script);
 	    	Clients.response("statusPopupFade", aus);
-    	}
+    	}*/
     }
 
+    /*
 	private void createPopup() {
 		popupContent = new Div();
 
@@ -245,12 +277,13 @@ public class StatusBarPanel extends Panel implements EventListener, IStatusBar
         popup.addEventListener(Events.ON_CLICK, this);
         popup.setPage(SessionManager.getAppDesktop().getComponent().getPage());
         popup.setStyle("position: absolute; display: none");
-	}
+	}*/
 
 	private void showPopup() {
-		popup.setVisible(true);
-		popup.setStyle(popupStyle);
-
+		//popup.setVisible(true);
+		//popup.setStyle(popupStyle);
+		//popupContent.setVisible(true);
+		/*
 		String script = "var d = $e('" + popup.getUuid() + "');";
 		script += "d.style.display='block';d.style.visibility='hidden';";
 		script += "var dhs = document.defaultView.getComputedStyle(d, null).getPropertyValue('height');";
@@ -259,12 +292,15 @@ public class StatusBarPanel extends Panel implements EventListener, IStatusBar
 		script += "var rhs = document.defaultView.getComputedStyle(r, null).getPropertyValue('height');";
 		script += "var rh = parseInt(rhs, 10);";
 		script += "var p = Position.cumulativeOffset(r);";
-		script += "d.style.top=(rh-dh-5)+'px';";
-		script += "d.style.left=(p[0]+1)+'px';";
+		//script += "d.style.top=(rh-dh)+'px';";
+		script += "d.style.top=(rh/2-dh/2)+'px';";
+		//script += "d.style.left=(p[0]+1)+'px';";
+		script += "d.style.left=(lh/2-dw/2)+'px';";
 		script += "d.style.visibility='visible';";
 
 		AuScript aus = new AuScript(popup, script);
 		Clients.response(aus);
+		*/
 	}
 
     /**
@@ -324,6 +360,10 @@ public class StatusBarPanel extends Panel implements EventListener, IStatusBar
 	 */
 	public void setEastVisibility(boolean visible) {
 		east.setVisible(visible);
+	}
+
+	public void setNorth(North n) {
+		this.north = n;
 	}
 
 }

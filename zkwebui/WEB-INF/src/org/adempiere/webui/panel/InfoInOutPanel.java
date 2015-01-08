@@ -20,24 +20,22 @@ package org.adempiere.webui.panel;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.Date;
+import java.text.SimpleDateFormat;
 
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Checkbox;
 import org.adempiere.webui.component.Datebox;
-import org.adempiere.webui.component.Grid;
-import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WSearchEditor;
-import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
-import org.adempiere.webui.event.WTableModelEvent;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
+import org.compiere.model.MColumn;
+import org.compiere.model.MInOut;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MQuery;
 import org.compiere.util.DisplayType;
@@ -46,14 +44,7 @@ import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
-import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
-import org.zkoss.zul.Separator;
-import org.zkoss.zul.Vbox;
 
 /**
 * Based on InfoInOut written by Jorg Janke
@@ -64,6 +55,9 @@ import org.zkoss.zul.Vbox;
 * Zk Port
 * @author Elaine
 * @version	InfoInOut.java Adempiere Swing UI 3.4.1
+*
+ * @author Michael McKay, ADEMPIERE-72 VLookup and Info Window improvements
+ * 	<li>https://adempiere.atlassian.net/browse/ADEMPIERE-72
 */
 
 public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, EventListener
@@ -73,9 +67,12 @@ public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, Ev
 	 */
 	private static final long serialVersionUID = -3927370377224858985L;
 
+	private int fieldID = 0;
+	
 	private Textbox fDocumentNo = new Textbox();
 
 	private WEditor fBPartner_ID;
+	private WEditor fShipper_ID;
 
 	private Textbox fDescription = new Textbox();
 	private Textbox fPOReference = new Textbox();
@@ -92,19 +89,24 @@ public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, Ev
 	private Label lDateFrom = new Label(Msg.translate(Env.getCtx(), "MovementDate"));
 	private Label lDateTo = new Label("-");
 
-	private Vbox southBody;
-
-	private Borderlayout layout;
-
+	/** From Clause             */
+	private static String s_From = " M_InOut i";
+	/** Order Clause             */
+	private static String s_Order = "2,3,4";
 	/**  Array of Column Info    */
-	private static final ColumnInfo[] s_invoiceLayout = {
+	private static final ColumnInfo[] s_Layout = {
 		new ColumnInfo(" ", "i.M_InOut_ID", IDColumn.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "C_BPartner_ID"), "(SELECT Name FROM C_BPartner bp WHERE bp.C_BPartner_ID=i.C_BPartner_ID)", String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "MovementDate"), "i.MovementDate", Timestamp.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "DocumentNo"), "i.DocumentNo", String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "Description"), "i.Description", String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "POReference"), "i.POReference", String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "IsSOTrx"), "i.IsSOTrx", Boolean.class)
+		new ColumnInfo(Msg.translate(Env.getCtx(), "M_Shipper_ID"), "(SELECT Name FROM M_Shipper ms WHERE ms.M_Shipper_ID = i.M_Shipper_ID)", String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "ShipDate"), "i.ShipDate", Timestamp.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "TrackingNo"), "i.TrackingNo", String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "IsDropShip"), "i.IsDropShip", Boolean.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "DropShip_BPartner_ID"), "(SELECT Name FROM C_BPartner bp WHERE bp.C_BPartner_ID=i.DropShip_BPartner_ID)", String.class),		
+		new ColumnInfo(Msg.translate(Env.getCtx(), "DocStatus"), "i.docstatus", String.class)
 	};
 
 	/**
@@ -115,10 +117,10 @@ public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, Ev
 	 *  @param multiSelection multiple selections
 	 *  @param whereClause where clause
 	 */
-	protected InfoInOutPanel(	int WindowNo, String value,
+	protected InfoInOutPanel(	int WindowNo, int record_id, String value,
 								boolean multiSelection, String whereClause)
 	{
-		this(WindowNo, value, multiSelection, whereClause, true);
+		this(WindowNo, true, record_id, value, multiSelection, true, whereClause);
 	}
 	
 	/**
@@ -129,64 +131,87 @@ public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, Ev
 	 *  @param multiSelection multiple selections
 	 *  @param whereClause where clause
 	 */
-	protected InfoInOutPanel(	int WindowNo, String value,
-								boolean multiSelection, String whereClause, boolean lookup)
+	protected InfoInOutPanel(	int WindowNo, boolean modal, int record_id, String value,
+								boolean multiSelection, boolean saveResults, String whereClause)
 	{
-		super (WindowNo, "i", "M_InOut_ID", multiSelection, whereClause, lookup);
+		super (WindowNo, modal, "i", "M_InOut_ID", multiSelection, saveResults, whereClause);
 		log.info( "InfoInOut");
 		setTitle(Msg.getMsg(Env.getCtx(), "InfoInOut"));
-
-		try
-		{
-			statInit();
-			p_loadedOK = initInfo ();
-		}
-		catch (Exception e)
-		{
-			return;
-		}
-
-		int no = contentPanel.getRowCount();
-		setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
-		setStatusDB(Integer.toString(no));
-		
-		if (value != null && value.length() > 0)
-		{
-			fDocumentNo.setValue(value);
-			executeQuery();
-		}
+		//
+		StringBuffer where = new StringBuffer("i.IsActive='Y'");
+		if (whereClause.length() > 0)
+			where.append(" AND ").append(Util.replace(whereClause, "M_InOut.", "i."));
+		setWhereClause(where.toString());
+		setTableLayout(s_Layout);
+		setFromClause(s_From);
+		setOrderClause(s_Order);
+		//
+		statInit();
+		initInfo (record_id, value);
+		//
+		if(autoQuery() || record_id != 0 || (value != null && value.length() > 0 && value != "%"))
+        {
+			prepareAndExecuteQuery();
+        }
+        //
+        p_loadedOK = true;
 	} // InfoInOutPanel
 
 	/**
 	 *	Static Setup - add fields to parameterPanel
-	 *  @throws Exception if Lookups cannot be initialized
 	 */
 	
-	private void statInit() throws Exception
+	private void statInit()
 	{
 		fDocumentNo.setWidth("100%");
-		fDescription.setWidth("100%");
-		fPOReference.setWidth("100%");
-		fDateFrom.setWidth("165px");
-		fDateTo.setWidth("165px");
-    	
 		fDocumentNo.addEventListener(Events.ON_CHANGE, this);
+        fDocumentNo.setAttribute("zk_component_ID", "Lookup_Criteria_DocumentNo");
+		fDescription.setWidth("100%");
 		fDescription.addEventListener(Events.ON_CHANGE, this);
+        fDescription.setAttribute("zk_component_ID", "Lookup_Criteria_Description");
+		fPOReference.setWidth("100%");
 		fPOReference.addEventListener(Events.ON_CHANGE, this);
+        fPOReference.setAttribute("zk_component_ID", "Lookup_Criteria_POReference");
 
-		fIsSOTrx.setLabel(Msg.translate(Env.getCtx(), "IsSOTrx"));
+		// 	Format the dates and number boxes
+		fDateFrom = new Datebox();
+		fDateFrom.setWidth("97px");
+		fDateFrom.setAttribute("zk_component_ID", "Lookup_Criteria_DateFrom");
+		fDateFrom.addEventListener(Events.ON_CHANGE, this);
+		//
+		fDateTo = new Datebox();
+		fDateTo.setWidth("97px");
+		fDateTo.setAttribute("zk_component_ID", "Lookup_Criteria_DateTo");
+		fDateTo.addEventListener(Events.ON_CHANGE, this);
+		//
+		SimpleDateFormat dateFormat = DisplayType.getDateFormat(DisplayType.Date, AEnv.getLanguage(Env.getCtx()));
+		fDateFrom.setFormat(dateFormat.toPattern());
+		fDateTo.setFormat(dateFormat.toPattern());
+    	
+
+        fIsSOTrx.setLabel(Msg.translate(Env.getCtx(), "IsSOTrx"));
+        fIsSOTrx.setName("IsSOTrx");
+        fIsSOTrx.setAttribute("zk_component_ID", "Lookup_Criteria_IsSoTrx");
+        fIsSOTrx.addActionListener(this);
 		fIsSOTrx.setChecked(!"N".equals(Env.getContext(Env.getCtx(), p_WindowNo, "IsSOTrx")));
-		fIsSOTrx.addEventListener(Events.ON_CHECK, this);
 		
 		fBPartner_ID = new WSearchEditor(
-				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 3499, DisplayType.Search), 
-				Msg.translate(Env.getCtx(), "BPartner"), "", false, false, true);
+				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0,  
+						MColumn.getColumn_ID(MInOut.Table_Name, MInOut.COLUMNNAME_C_BPartner_ID),
+						DisplayType.Search),  
+				Msg.translate(Env.getCtx(), "C_BPartner_ID"), "", false, false, true);
+		fBPartner_ID.getComponent().setAttribute("zk_component_ID", "Lookup_Criteria_C_BPartner_ID");
 		fBPartner_ID.addValueChangeListener(this);
-		
-		Grid grid = GridFactory.newGridLayout();
-		
+		//
+		fShipper_ID = new WSearchEditor(
+				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 
+						MColumn.getColumn_ID(MInOut.Table_Name, MInOut.COLUMNNAME_M_Shipper_ID),
+						DisplayType.TableDir),  
+						Msg.translate(Env.getCtx(), "M_Shipper_ID"), "", false, false, true);
+		fShipper_ID.getComponent().setAttribute("zk_component_ID", "Lookup_Criteria_M_Shipper_ID");
+		fShipper_ID.addValueChangeListener(this);
+	
 		Rows rows = new Rows();
-		grid.appendChild(rows);
 		
 		Row row = new Row();
 		rows.appendChild(row);
@@ -209,71 +234,63 @@ public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, Ev
 		row.appendChild(hbox);
 		
 		row = new Row();
-		row.setSpans("1, 1, 3");
 		rows.appendChild(row);
 		row.appendChild(lPOReference.rightAlign());
 		row.appendChild(fPOReference);		
+		row.appendChild(fShipper_ID.getLabel().rightAlign());
+		row.appendChild(fShipper_ID.getComponent());
 		row.appendChild(new Label());
-		
-		layout = new Borderlayout();
-        layout.setWidth("100%");
-        layout.setHeight("100%");
-        if (!isLookup())
-        {
-        	layout.setStyle("position: absolute");
-        }
-        this.appendChild(layout);
-        
-        North north = new North();
-        layout.appendChild(north);
-		north.appendChild(grid);
-        
-        Center center = new Center();
-		layout.appendChild(center);
-		center.setFlex(true);
-		Div div = new Div();
-		div.appendChild(contentPanel);
-		if (isLookup())
-        	contentPanel.setWidth("99%");
-        else
-        	contentPanel.setStyle("width: 99%; margin: 0px auto;");
-        contentPanel.setVflex(true);
-		div.setStyle("width :100%; height: 100%");
-		center.appendChild(div);
-        
-		South south = new South();
-		layout.appendChild(south);
-		southBody = new Vbox();
-		southBody.setWidth("100%");
-		south.appendChild(southBody);
-		southBody.appendChild(confirmPanel);
-		southBody.appendChild(new Separator());
-		southBody.appendChild(statusBar);
+
+		p_criteriaGrid.appendChild(rows);
+		super.setSizes();
 	}
 	
 	/**
 	 *	General Init
-	 *	@return true, if success
 	 */
 	
-	private boolean initInfo ()
+	private void initInfo (int record_id, String value)
 	{
-		//  Set Defaults
-		String bp = Env.getContext(Env.getCtx(), p_WindowNo, "C_BPartner_ID");
-	
-		if (bp != null && bp.length() != 0)
-			fBPartner_ID.setValue(new Integer(bp));
+		if (!(record_id == 0) && value != null && value.length() > 0)
+		{
+			log.severe("Received both a record_id and a value: " + record_id + " - " + value);
+		}
+		//  Set values
+        if (!(record_id == 0))  // A record is defined
+        {
+        	fieldID = record_id;
+        } 
+        else
+        {
+			if (value != null && value.length() > 0)
+			{
+				fDocumentNo.setValue(value);
+			}
+			else
+			{
+				// Try to find other criteria in the context
+				String id;
+				//  M_InOut_ID
+				id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "M_InOut_ID", true);
+				if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
+				{
+					fieldID = new Integer(id).intValue();
+				}
 
-		// Prepare table
-		
-		StringBuffer where = new StringBuffer("i.IsActive='Y'");
-		
-		if (p_whereClause.length() > 0)
-			where.append(" AND ").append(Util.replace(p_whereClause, "M_InOut.", "i."));
-		
-		prepareTable(s_invoiceLayout, " M_InOut i", where.toString(), "2,3,4");
+				//  C_BPartner_ID
+				id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "C_BPartner_ID", true);
+				if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
+					fBPartner_ID.setValue(new Integer(id));
 
-		return true;
+				//  M_Shipper_ID
+				id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "M_Shipper_ID", true);
+				if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
+				{
+					fShipper_ID.setValue(new Integer(id).intValue());
+				}
+
+			}
+        }
 	} // initInfo
 
 	/*************************************************************************/
@@ -289,26 +306,39 @@ public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, Ev
 	{
 		StringBuffer sql = new StringBuffer();
 		
+		//  => ID
+		if(isResetRecordID())
+			fieldID = 0;
+		if(!(fieldID == 0))
+			sql.append(" AND i.M_InOut_ID = ?");
+		//
 		if (fDocumentNo.getText().length() > 0)
 			sql.append(" AND UPPER(i.DocumentNo) LIKE ?");
-		
+		//
 		if (fDescription.getText().length() > 0)
 			sql.append(" AND UPPER(i.Description) LIKE ?");
-		
+		//
 		if (fPOReference.getText().length() > 0)
 			sql.append(" AND UPPER(i.POReference) LIKE ?");
-
+		//
 		if (fBPartner_ID.getDisplay() != "")
 			sql.append(" AND i.C_BPartner_ID=?");
-
+		//
+		if (fShipper_ID.getValue() != null)
+			sql.append(" AND i.M_Shipper_ID=?");
+		//
 		if (fDateFrom.getValue() != null || fDateTo.getValue() != null)
 		{
-			Date f = fDateFrom.getValue();
-			Timestamp from = new Timestamp(f.getTime());
-			
-			Date t = fDateTo.getValue();
-			Timestamp to = new Timestamp(t.getTime());
-
+			Timestamp from = null;
+			Timestamp to = null;
+			//
+			if (fDateFrom.getValue() != null)
+				from = new Timestamp(fDateFrom.getValue().getTime());
+			if (fDateTo.getValue() != null)
+				to = new Timestamp(fDateTo.getValue().getTime());
+			//
+			log.fine("Date From=" + from + ", To=" + to);
+			//
 			if (from == null && to != null)
 				sql.append(" AND TRUNC(i.MovementDate, 'DD') <= ?");
 			else if (from != null && to == null)
@@ -333,32 +363,45 @@ public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, Ev
 	{
 		int index = 1;
 	
+		//  => ID
+		if (!(fieldID == 0))
+			pstmt.setInt(index++, fieldID);
+		//
 		if (fDocumentNo.getText().length() > 0)
 			pstmt.setString(index++, getSQLText(fDocumentNo));
-		
+		//
 		if (fDescription.getText().length() > 0)
 			pstmt.setString(index++, getSQLText(fDescription));
-		
+		//
 		if (fPOReference.getText().length() > 0)
 			pstmt.setString(index++, getSQLText(fPOReference));
-
+		//
 		if (fBPartner_ID.getDisplay() != "")
 		{
 			Integer bp = (Integer)fBPartner_ID.getValue();
 			pstmt.setInt(index++, bp.intValue());
 			log.fine("BPartner=" + bp);
 		}
-
+		//
+		if (fShipper_ID.getValue() != null)
+		{
+			Integer bp = (Integer)fShipper_ID.getValue();
+			pstmt.setInt(index++, bp.intValue());
+			log.fine("Shipper=" + bp);
+		}
+		//
 		if (fDateFrom.getValue() != null || fDateTo.getValue() != null)
 		{
-			Date f = fDateFrom.getValue();
-			Timestamp from = new Timestamp(f.getTime());
-			
-			Date t = fDateTo.getValue();
-			Timestamp to = new Timestamp(t.getTime());
-
+			Timestamp from = null;
+			Timestamp to = null;
+			//
+			if (fDateFrom.getValue() != null)
+				from = new Timestamp(fDateFrom.getValue().getTime());
+			if (fDateTo.getValue() != null)
+				to = new Timestamp(fDateTo.getValue().getTime());
+			//
 			log.fine("Date From=" + from + ", To=" + to);
-			
+			//
 			if (from == null && to != null)
 				pstmt.setTimestamp(index++, to);
 			else if (from != null && to == null)
@@ -371,23 +414,6 @@ public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, Ev
 		}
 		pstmt.setString(index++, fIsSOTrx .isChecked() ? "Y" : "N");
 	} // setParameters
-
-	/**
-	 *  Get SQL WHERE parameter
-	 *  @param f field
-	 *  @return sql part
-	 */
-	
-	private String getSQLText (Textbox f)
-	{
-		String s = f.getText().toUpperCase();
-	
-		if (!s.endsWith("%"))
-			s += "%";
-		
-		log.fine( "String=" + s);
-		return s;
-	} // getSQLText
 
 	// Elaine 2008/12/16
 	/**
@@ -416,23 +442,39 @@ public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, Ev
 	{
 		return true;
 	}	//	hasZoom
-
-	public void valueChange(ValueChangeEvent evt) 
+	
+	/**
+	 * Does the parameter panel have outstanding changes that have not been
+	 * used in a query?
+	 * @return true if there are outstanding changes.
+	 */
+	protected boolean hasOutstandingChanges()
 	{
-		if (fBPartner_ID.equals(evt.getSource()))
-		{
-	    	fBPartner_ID.setValue(evt.getNewValue());
-		}
+		//  All the tracked fields
+		return(
+				fDocumentNo.hasChanged()	||
+				fDescription.hasChanged()	||
+				fPOReference.hasChanged()	||
+				fIsSOTrx.hasChanged()	||
+				fBPartner_ID.hasChanged()	||
+				fShipper_ID.hasChanged()	||
+				fDateFrom.hasChanged()	||
+				fDateTo.hasChanged());
 	}
-
-	public void tableChanged(WTableModelEvent event) 
+	/**
+	 * Record outstanding changes by copying the current
+	 * value to the oldValue on all fields
+	 */
+	protected void setFieldOldValues()
 	{
-		
-	}
-
-	@Override
-	protected void insertPagingComponent() {
-		southBody.insertBefore(paging, southBody.getFirstChild());
-		layout.invalidate();
+		fDocumentNo.set_oldValue();
+		fDescription.set_oldValue();
+		fPOReference.set_oldValue();
+		fIsSOTrx.set_oldValue();
+		fBPartner_ID.set_oldValue();
+		fShipper_ID.set_oldValue();
+		fDateFrom.set_oldValue();
+		fDateTo.set_oldValue();
+		return;
 	}
 }

@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Improve initial setup" ReleaseNo="3.8.0" SeqNo="2">
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="53547" Table="AD_Process_Para">
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">53161</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">53547</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">39</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">Logo</Data>
+        <Data AD_Column_ID="2818" Column="Created">2011-08-15 17:27:23.056</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="2823" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="3737" Column="FieldLength">256</Data>
+        <Data AD_Column_ID="2824" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2822" Column="Name">Logo</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">240</Data>
+        <Data AD_Column_ID="2820" Column="Updated">2011-08-15 17:27:23.056</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53284" Table="AD_Process_Para">
+        <Data AD_Column_ID="3738" Column="IsMandatory" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53285" Table="AD_Process_Para">
+        <Data AD_Column_ID="3738" Column="IsMandatory" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53296" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="180">125</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53288" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="80">175</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53289" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="90">180</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53290" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="100">182</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53348" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="110">184</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53353" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="120">186</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53284" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="40">250</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53285" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="50">260</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53347" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="20">40</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="382" Action="I" Record_ID="50106" Table="AD_ImpFormat_Row">
+        <Data AD_Column_ID="4682" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="4702" Column="AD_Column_ID">62066</Data>
+        <Data AD_Column_ID="4690" Column="AD_ImpFormat_ID">102</Data>
+        <Data AD_Column_ID="4681" Column="AD_ImpFormat_Row_ID">50106</Data>
+        <Data AD_Column_ID="4683" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="4704" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="4705" Column="ConstantValue" isNewNull="true"/>
+        <Data AD_Column_ID="4685" Column="Created">2011-08-17 16:46:13.896</Data>
+        <Data AD_Column_ID="4686" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="4696" Column="DataFormat" isNewNull="true"/>
+        <Data AD_Column_ID="4695" Column="DataType">S</Data>
+        <Data AD_Column_ID="4697" Column="DecimalPoint">.</Data>
+        <Data AD_Column_ID="4698" Column="DivideBy100">false</Data>
+        <Data AD_Column_ID="4694" Column="EndNo">0</Data>
+        <Data AD_Column_ID="4684" Column="IsActive">true</Data>
+        <Data AD_Column_ID="4689" Column="Name">K - Charge Name</Data>
+        <Data AD_Column_ID="6650" Column="Script" isNewNull="true"/>
+        <Data AD_Column_ID="4691" Column="SeqNo">100</Data>
+        <Data AD_Column_ID="4693" Column="StartNo">10</Data>
+        <Data AD_Column_ID="4687" Column="Updated">2011-08-17 16:46:13.896</Data>
+        <Data AD_Column_ID="4688" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="382" Action="I" Record_ID="50107" Table="AD_ImpFormat_Row">
+        <Data AD_Column_ID="4682" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="4702" Column="AD_Column_ID">62069</Data>
+        <Data AD_Column_ID="4690" Column="AD_ImpFormat_ID">102</Data>
+        <Data AD_Column_ID="4681" Column="AD_ImpFormat_Row_ID">50107</Data>
+        <Data AD_Column_ID="4683" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="4704" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="4705" Column="ConstantValue" isNewNull="true"/>
+        <Data AD_Column_ID="4685" Column="Created">2011-08-17 16:46:34.896</Data>
+        <Data AD_Column_ID="4686" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="4696" Column="DataFormat" isNewNull="true"/>
+        <Data AD_Column_ID="4695" Column="DataType">S</Data>
+        <Data AD_Column_ID="4697" Column="DecimalPoint">.</Data>
+        <Data AD_Column_ID="4698" Column="DivideBy100">false</Data>
+        <Data AD_Column_ID="4694" Column="EndNo">0</Data>
+        <Data AD_Column_ID="4684" Column="IsActive">true</Data>
+        <Data AD_Column_ID="4689" Column="Name">J - Tax Category Name</Data>
+        <Data AD_Column_ID="6650" Column="Script" isNewNull="true"/>
+        <Data AD_Column_ID="4691" Column="SeqNo">110</Data>
+        <Data AD_Column_ID="4693" Column="StartNo">11</Data>
+        <Data AD_Column_ID="4687" Column="Updated">2011-08-17 16:46:34.896</Data>
+        <Data AD_Column_ID="4688" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="53548" Table="AD_Process_Para">
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">260</Data>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">53161</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">53548</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">10</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">DUNS</Data>
+        <Data AD_Column_ID="2818" Column="Created">2011-08-18 14:43:57.478</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="2823" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">60</Data>
+        <Data AD_Column_ID="2824" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2822" Column="Name">DUNS</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">235</Data>
+        <Data AD_Column_ID="2820" Column="Updated">2011-08-18 14:43:57.478</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53548" Table="AD_Process_Para">
+        <Data AD_Column_ID="7728" Column="EntityType" oldValue="U">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="53549" Table="AD_Process_Para">
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">53161</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">53549</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">15</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">StartDate</Data>
+        <Data AD_Column_ID="2818" Column="Created">2011-08-18 14:45:32.318</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="2823" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">7</Data>
+        <Data AD_Column_ID="2824" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2822" Column="Name">Current Year Start Date</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">270</Data>
+        <Data AD_Column_ID="2820" Column="Updated">2011-08-18 14:45:32.318</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="53550" Table="AD_Process_Para">
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">53161</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">53550</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">11</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">HistoryYears</Data>
+        <Data AD_Column_ID="2818" Column="Created">2011-08-18 14:46:32.994</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="2823" Column="Description">Number of years prior to current year to create in calendar</Data>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="2824" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2822" Column="Name">History Years</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">280</Data>
+        <Data AD_Column_ID="2820" Column="Updated">2011-08-18 14:46:32.994</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53549" Table="AD_Process_Para">
+        <Data AD_Column_ID="2823" Column="Description" isOldNull="true">Starting date of the current financial year</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53549" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="270">171</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="230" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53550" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="280">172</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="240" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="53551" Table="AD_Process_Para">
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">53161</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">53551</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">10</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">BankName</Data>
+        <Data AD_Column_ID="2818" Column="Created">2011-08-18 14:50:34.386</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="2823" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">60</Data>
+        <Data AD_Column_ID="2824" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2822" Column="Name">Bank Name</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">270</Data>
+        <Data AD_Column_ID="2820" Column="Updated">2011-08-18 14:50:34.386</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="250" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="53552" Table="AD_Process_Para">
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">53161</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">53552</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">10</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">RoutingNo</Data>
+        <Data AD_Column_ID="2818" Column="Created">2011-08-18 14:51:10.478</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="2823" Column="Description">Bank Routing Number</Data>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">60</Data>
+        <Data AD_Column_ID="2824" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2822" Column="Name">Routing No</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">280</Data>
+        <Data AD_Column_ID="2820" Column="Updated">2011-08-18 14:51:10.479</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="260" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="53553" Table="AD_Process_Para">
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">53161</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">53553</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">10</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">AccountNo</Data>
+        <Data AD_Column_ID="2818" Column="Created">2011-08-18 14:51:36.317</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="2823" Column="Description">Bank account number</Data>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">60</Data>
+        <Data AD_Column_ID="2824" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2822" Column="Name">Account No</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">290</Data>
+        <Data AD_Column_ID="2820" Column="Updated">2011-08-18 14:51:36.317</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="270" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53284" Table="AD_Process_Para">
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true" oldValue="clientAdmin"/>
+      </PO>
+    </Step>
+    <Step SeqNo="280" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53285" Table="AD_Process_Para">
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true" oldValue="clientUser"/>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

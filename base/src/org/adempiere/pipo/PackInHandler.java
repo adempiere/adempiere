@@ -46,6 +46,8 @@ import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 
 import org.adempiere.pipo.handler.AdElementHandler;
+import org.adempiere.pipo.handler.BrowseElementHandler;
+import org.adempiere.pipo.handler.BrowseFieldElementHandler;
 import org.adempiere.pipo.handler.CodeSnipitElementHandler;
 import org.adempiere.pipo.handler.ColumnElementHandler;
 import org.adempiere.pipo.handler.CommonTranslationHandler;
@@ -82,6 +84,9 @@ import org.adempiere.pipo.handler.TableElementHandler;
 import org.adempiere.pipo.handler.TaskAccessElementHandler;
 import org.adempiere.pipo.handler.TaskElementHandler;
 import org.adempiere.pipo.handler.UserRoleElementHandler;
+import org.adempiere.pipo.handler.ViewColumnElementHandler;
+import org.adempiere.pipo.handler.ViewDefinitionElementHandler;
+import org.adempiere.pipo.handler.ViewElementHandler;
 import org.adempiere.pipo.handler.WindowAccessElementHandler;
 import org.adempiere.pipo.handler.WindowElementHandler;
 import org.adempiere.pipo.handler.WorkflowAccessElementHandler;
@@ -207,6 +212,11 @@ public class PackInHandler extends DefaultHandler {
     	handlers.put("preference", new PreferenceElementHandler());
     	handlers.put("tab", new TabElementHandler());
     	handlers.put("field", new FieldElementHandler());
+    	handlers.put("view", new ViewElementHandler());
+    	handlers.put("viewdefinition", new ViewDefinitionElementHandler());
+    	handlers.put("viewcolumn", new ViewColumnElementHandler());
+    	handlers.put("browse", new BrowseElementHandler());
+    	handlers.put("browsefield", new BrowseFieldElementHandler());
     	handlers.put("process", new ProcessElementHandler());
     	handlers.put("processpara", new ProcessParaElementHandler());
     	handlers.put("processaccess", new ProcessAccessElementHandler());
@@ -663,7 +673,7 @@ public class PackInHandler extends DefaultHandler {
         		String workflowName = atts.getValue("Name");
         		MWorkflow wf = null;
 
-    				int workflow_id =  IDFinder.get_IDWithColumn("AD_Workflow", "Name", workflowName ,m_AD_Client_ID , m_trxName);
+    				int workflow_id =  IDFinder.get_IDWithColumn("AD_Workflow", "Name", workflowName, m_AD_Client_ID, m_trxName);
     				if(workflow_id > 0)
     				{
     					wf = new MWorkflow(m_ctx, workflow_id , m_trxName);
@@ -787,7 +797,7 @@ public class PackInHandler extends DefaultHandler {
     				}    				
     			}
     			if (log.isLoggable(Level.INFO)) {
-    				log.info("Processeing Defer Element: " + d.element.getElementValue() + " - " 
+    				log.info("Processing Defer Element: " + d.element.getElementValue() + " - "
 						+ d.element.attributes.getValue(0));
     			}
     			ElementHandler handler = handlers.get(d.element.getElementValue());

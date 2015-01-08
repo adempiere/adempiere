@@ -122,6 +122,8 @@ public class MMenu extends X_AD_Menu
 			setAD_Window_ID(0);
 		if (getAD_Form_ID() != 0 && !action.equals(ACTION_Form))
 			setAD_Form_ID(0);
+		if (getAD_Browse_ID() != 0 && !action.equals(ACTION_SmartBrowse))
+			setAD_Browse_ID(0);
 		if (getAD_Workflow_ID() != 0 && !action.equals(ACTION_WorkFlow))
 			setAD_Workflow_ID(0);
 		if (getAD_Workbench_ID() != 0 && !action.equals(ACTION_Workbench))

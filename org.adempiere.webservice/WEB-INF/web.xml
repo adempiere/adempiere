@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- START SNIPPET: webxml -->
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+    
+<web-app>
+
+  <servlet>
+    <servlet-name>XFireServlet</servlet-name>
+    <display-name>XFire Servlet</display-name>
+    <servlet-class>
+        org.codehaus.xfire.transport.http.XFireConfigurableServlet
+    </servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>XFireServlet</servlet-name>
+    <url-pattern>/servlet/XFireServlet/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>XFireServlet</servlet-name>
+    <url-pattern>/services/*</url-pattern>
+  </servlet-mapping>
+
+  <session-config>
+    <session-timeout>15</session-timeout>
+  </session-config>
+
+</web-app>
+<!-- END SNIPPET: webxml -->

@@ -67,7 +67,9 @@ public class CostUpdate extends SvrProcess
 	/** Client Accounting SChema	*/
 	private MAcctSchema[]	m_ass = null;
 	/** Map of Cost Elements		*/
-	private HashMap<String,MCostElement>	m_ces = new HashMap<String,MCostElement>();
+	private HashMap<String,MCostElement> costElements = new HashMap<String,MCostElement>();
+
+    MClient client = null;
 	
 	
 	/**
@@ -75,6 +77,7 @@ public class CostUpdate extends SvrProcess
 	 */
 	protected void prepare ()
 	{
+        client = MClient.get(getCtx());
 		ProcessInfoParameter[] para = getParameter();
 		for (int i = 0; i < para.length; i++)
 		{
@@ -100,6 +103,7 @@ public class CostUpdate extends SvrProcess
 	 *	@return info
 	 *	@throws Exception
 	 */
+	@SuppressWarnings("deprecation")
 	protected String doIt() throws Exception
 	{
 		log.info("M_Product_Category_ID=" + p_M_Product_Category_ID
@@ -127,8 +131,7 @@ public class CostUpdate extends SvrProcess
 			throw new AdempiereUserError ("@NotFound@ @M_CostElement_ID@ (Standard) " + p_SetStandardCostTo);
 
 		//	Prepare
-		MClient client = MClient.get(getCtx());
-		m_ce = MCostElement.getMaterialCostElement(client, MAcctSchema.COSTINGMETHOD_StandardCosting);
+		m_ce = MCostElement.getMaterialCostElement(client);
 		if (m_ce.get_ID() == 0)
 			throw new AdempiereUserError ("@NotFound@ @M_CostElement_ID@ (StdCost)");
 		log.config(m_ce.toString());
@@ -167,7 +170,7 @@ public class CostUpdate extends SvrProcess
 			|| to.equals(TO_LiFo)
 			|| to.equals(TO_StandardCost))
 		{
-			MCostElement ce = getCostElement(p_SetFutureCostTo);
+			MCostElement ce = MCostElement.getByMaterialCostElementType(client);
 			return ce != null;
 		}
 		return true;
@@ -240,9 +243,9 @@ public class CostUpdate extends SvrProcess
 	 */
 	private boolean createNew (MProduct product, MAcctSchema as)
 	{
-		MCost cost = MCost.get(product, 0, as, 0, m_ce.getM_CostElement_ID());
-		if (cost.is_new())
-			return cost.save();
+        MCost dimension = MCost.getOrCreate(product , 0 , as ,0 , 0, as.getM_CostType_ID() ,  m_ce.getM_CostElement_ID());
+		if (dimension.is_new())
+			return dimension.save();
 		return false;
 	}	//	createNew
 
@@ -357,58 +360,61 @@ public class CostUpdate extends SvrProcess
 	private BigDecimal getCosts (MCost cost, String to) throws Exception
 	{
 		BigDecimal retValue = null;
-		
-		//	Average Invoice
+
+        MCostElement costElement = MCostElement.getByMaterialCostElementType(cost);
+        if (costElement == null)
+            throw new AdempiereSystemError("@M_CostElement_ID@ @NotFound@: ");
+
+                    //	Average Invoice
 		if (to.equals(TO_AverageInvoice))
 		{
-			MCostElement ce = getCostElement(TO_AverageInvoice);
-			if (ce == null)
+			if (costElement == null)
 				throw new AdempiereSystemError("CostElement not found: " + TO_AverageInvoice);
-			MCost xCost = MCost.get(getCtx(), cost.getAD_Client_ID(), cost.getAD_Org_ID(), cost.getM_Product_ID(), cost.getM_CostType_ID(), cost.getC_AcctSchema_ID(), ce.getM_CostElement_ID(), cost.getM_AttributeSetInstance_ID());
-			if (xCost != null)
-				retValue = xCost.getCurrentCostPrice();
+			MCost costDimension = getDimension(cost , costElement.getM_CostElement_ID());
+            if (costDimension != null)
+				retValue = costDimension.getCurrentCostPrice();
 		}
 		//	Average Invoice History
 		else if (to.equals(TO_AverageInvoiceHistory))
 		{
-			MCostElement ce = getCostElement(TO_AverageInvoice);
-			if (ce == null)
+			if (costElement == null)
 				throw new AdempiereSystemError("CostElement not found: " + TO_AverageInvoice);
-			MCost xCost = MCost.get(getCtx(), cost.getAD_Client_ID(), cost.getAD_Org_ID(), cost.getM_Product_ID(), cost.getM_CostType_ID(), cost.getC_AcctSchema_ID(), ce.getM_CostElement_ID(), cost.getM_AttributeSetInstance_ID());
-			if (xCost != null) 
-				retValue = xCost.getHistoryAverage();
+
+            MCost costDimension = getDimension(cost , costElement.getM_CostElement_ID());
+			if (costDimension != null)
+				retValue = costDimension.getHistoryAverage();
 		}
 		
 		//	Average PO
 		else if (to.equals(TO_AveragePO))
 		{
-			MCostElement ce = getCostElement(TO_AveragePO);
-			if (ce == null)
+			if (costElement == null)
 				throw new AdempiereSystemError("CostElement not found: " + TO_AveragePO);
-			MCost xCost = MCost.get(getCtx(), cost.getAD_Client_ID(), cost.getAD_Org_ID(), cost.getM_Product_ID(), cost.getM_CostType_ID(), cost.getC_AcctSchema_ID(), ce.getM_CostElement_ID(), cost.getM_AttributeSetInstance_ID());
-			if (xCost != null)
-				retValue = xCost.getCurrentCostPrice();
+
+            MCost costDimension = getDimension(cost , costElement.getM_CostElement_ID());
+ 			if (costDimension != null)
+				retValue = costDimension.getCurrentCostPrice();
 		}
 		//	Average PO History
 		else if (to.equals(TO_AveragePOHistory))
 		{
-			MCostElement ce = getCostElement(TO_AveragePO);
-			if (ce == null)
+			if (costElement == null)
 				throw new AdempiereSystemError("CostElement not found: " + TO_AveragePO);
-			MCost xCost = MCost.get(getCtx(), cost.getAD_Client_ID(), cost.getAD_Org_ID(), cost.getM_Product_ID(), cost.getM_CostType_ID(), cost.getC_AcctSchema_ID(), ce.getM_CostElement_ID(), cost.getM_AttributeSetInstance_ID());
-			if (xCost != null) 
-				retValue = xCost.getHistoryAverage();
+
+            MCost costDimension = getDimension(cost , costElement.getM_CostElement_ID());
+            if (costDimension != null)
+				retValue = costDimension.getHistoryAverage();
 		}
 		
 		//	FiFo
 		else if (to.equals(TO_FiFo))
 		{
-			MCostElement ce = getCostElement(TO_FiFo);
-			if (ce == null)
+			if (costElement == null)
 				throw new AdempiereSystemError("CostElement not found: " + TO_FiFo);
-			MCost xCost = MCost.get(getCtx(), cost.getAD_Client_ID(), cost.getAD_Org_ID(), cost.getM_Product_ID(), cost.getM_CostType_ID(), cost.getC_AcctSchema_ID(), ce.getM_CostElement_ID(), cost.getM_AttributeSetInstance_ID());
-			if (xCost != null)
-				retValue = xCost.getCurrentCostPrice();
+
+            MCost costDimension = getDimension(cost , costElement.getM_CostElement_ID());
+			if (costDimension != null)
+				retValue = costDimension.getCurrentCostPrice();
 		}
 
 		//	Future Std Costs
@@ -418,12 +424,11 @@ public class CostUpdate extends SvrProcess
 		//	Last Inv Price
 		else if (to.equals(TO_LastInvoicePrice))
 		{
-			MCostElement ce = getCostElement(TO_LastInvoicePrice);
-			if (ce != null)
+			if (costElement != null)
 			{
-				MCost xCost = MCost.get(getCtx(), cost.getAD_Client_ID(), cost.getAD_Org_ID(), cost.getM_Product_ID(), cost.getM_CostType_ID(), cost.getC_AcctSchema_ID(), ce.getM_CostElement_ID(), cost.getM_AttributeSetInstance_ID());
-				if (xCost != null)
-					retValue = xCost.getCurrentCostPrice();
+                MCost costDimension = getDimension(cost , costElement.getM_CostElement_ID());
+                if (costDimension != null)
+					retValue = costDimension.getCurrentCostPrice();
 			}
 			if (retValue == null)
 			{
@@ -433,16 +438,15 @@ public class CostUpdate extends SvrProcess
 					cost.getM_AttributeSetInstance_ID(), cost.getAD_Org_ID(), as.getC_Currency_ID());				
 			}
 		}
-		
+
 		//	Last PO Price
 		else if (to.equals(TO_LastPOPrice))
 		{
-			MCostElement ce = getCostElement(TO_LastPOPrice);
-			if (ce != null)
+			if (costElement != null)
 			{
-				MCost xCost = MCost.get(getCtx(), cost.getAD_Client_ID(), cost.getAD_Org_ID(), cost.getM_Product_ID(), cost.getM_CostType_ID(), cost.getC_AcctSchema_ID(), ce.getM_CostElement_ID(), cost.getM_AttributeSetInstance_ID());
-				if (xCost != null)
-					retValue = xCost.getCurrentCostPrice();
+                MCost costDimension = getDimension(cost , costElement.getM_CostElement_ID());
+				if (costDimension != null)
+					retValue = costDimension.getCurrentCostPrice();
 			}
 			if (retValue == null)
 			{
@@ -452,16 +456,16 @@ public class CostUpdate extends SvrProcess
 					cost.getM_AttributeSetInstance_ID(), cost.getAD_Org_ID(), as.getC_Currency_ID());				
 			}
 		}
-	
+
 		//	FiFo
 		else if (to.equals(TO_LiFo))
 		{
-			MCostElement ce = getCostElement(TO_LiFo);
-			if (ce == null)
+			if (costElement == null)
 				throw new AdempiereSystemError("CostElement not found: " + TO_LiFo);
-			MCost xCost = MCost.get(getCtx(), cost.getAD_Client_ID(), cost.getAD_Org_ID(), cost.getM_Product_ID(), cost.getM_CostType_ID(), cost.getC_AcctSchema_ID(), ce.getM_CostElement_ID(), cost.getM_AttributeSetInstance_ID());
-			if (xCost != null)
-				retValue = xCost.getCurrentCostPrice();
+
+            MCost costDimension = getDimension(cost , costElement.getM_CostElement_ID());
+			if (costDimension != null)
+				retValue = costDimension.getCurrentCostPrice();
 		}
 		
 		//	Old Std Costs
@@ -478,23 +482,41 @@ public class CostUpdate extends SvrProcess
 		
 		return retValue;
 	}	//	getCosts
-	
-	
+
+    /**
+     * get Dimension cost
+     * @param dimension
+     * @param costElementId
+     * @return
+     */
+	private MCost getDimension (MCost dimension , int costElementId)
+    {
+        return MCost.getDimension(
+                (MProduct)dimension.getM_Product() ,
+                dimension.getC_AcctSchema_ID() ,
+                dimension.getAD_Org_ID() ,
+                dimension.getM_Warehouse_ID() ,
+                dimension.getM_AttributeSetInstance_ID() ,
+                dimension.getM_CostType_ID() ,
+                costElementId);
+    }
+
 	/**
 	 * 	Get Cost Element
 	 *	@param CostingMethod method
 	 *	@return costing element or null
 	 */
-	private MCostElement getCostElement (String CostingMethod)
+	/*private MCostElement getCostElement (String CostingMethod)
 	{
-		MCostElement ce = m_ces.get(CostingMethod);
-		if (ce == null)
+		MCostElement costElement = costElements.get(CostingMethod);
+		if (costElement == null)
 		{
-			ce = MCostElement.getMaterialCostElement(getCtx(), CostingMethod);
-			m_ces.put(CostingMethod, ce);
+            costElement = MCostElement.getByMaterialCostElementType(po) MCostElement.getMaterialCostElement(getCtx(), CostingMethod);
+			costElements.put(CostingMethod, costElement);
 		}
 		return ce;
 	}	//	getCostElement
+	*/
 
 	/**
 	 * 	Get Old Current Cost Price

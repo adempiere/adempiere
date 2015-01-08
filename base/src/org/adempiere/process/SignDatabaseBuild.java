@@ -60,8 +60,7 @@ public class SignDatabaseBuild
 			ex.printStackTrace();
 		} finally {
 			DB.close(updateStmt);
-		}
-
+		}		
 	}
 
 }	//	SignDatabaseBuild

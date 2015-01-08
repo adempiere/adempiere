@@ -142,7 +142,7 @@ public class ProjectIssue extends SvrProcess
 		if (inOut.getC_Project_ID() == 0)
 		{
 			inOut.setC_Project_ID(m_project.getC_Project_ID());
-			inOut.save();
+			inOut.saveEx();
 		}
 		else if (inOut.getC_Project_ID() != m_project.getC_Project_ID())
 			throw new IllegalArgumentException ("Receipt for other Project (" 
@@ -192,7 +192,7 @@ public class ProjectIssue extends SvrProcess
 			if (pl == null)
 				pl = new MProjectLine(m_project);
 			pl.setMProjectIssue(pi);		//	setIssue
-			pl.save();
+			pl.saveEx();
 			addLog(pi.getLine(), pi.getMovementDate(), pi.getMovementQty(), null);
 			counter++;
 		}	//	all InOutLines
@@ -254,7 +254,7 @@ public class ProjectIssue extends SvrProcess
 			//	Find/Create Project Line
 			MProjectLine pl = new MProjectLine(m_project);
 			pl.setMProjectIssue(pi);		//	setIssue
-			pl.save();
+			pl.saveEx();
 			addLog(pi.getLine(), pi.getMovementDate(), pi.getMovementQty(), null);
 			counter++;
 		}	//	allExpenseLines
@@ -292,7 +292,7 @@ public class ProjectIssue extends SvrProcess
 
 		//	Update Line
 		pl.setMProjectIssue(pi);
-		pl.save();
+		pl.saveEx();
 		addLog(pi.getLine(), pi.getMovementDate(), pi.getMovementQty(), null);
 		return "@Created@ 1";
 	}	//	issueProjectLine
@@ -323,7 +323,7 @@ public class ProjectIssue extends SvrProcess
 		//	Create Project Line
 		MProjectLine pl = new MProjectLine(m_project);
 		pl.setMProjectIssue(pi);
-		pl.save();
+		pl.saveEx();
 		addLog(pi.getLine(), pi.getMovementDate(), pi.getMovementQty(), null);
 		return "@Created@ 1";
 	}	//	issueInventory

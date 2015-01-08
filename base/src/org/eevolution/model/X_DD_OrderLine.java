@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for DD_OrderLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20150101L;
 
     /** Standard Constructor */
     public X_DD_OrderLine (Properties ctx, int DD_OrderLine_ID, String trxName)
@@ -897,6 +897,31 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 	public int getUser2_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_User2_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.eevolution.model.I_WM_InOutBoundLine getWM_InOutBoundLine() throws RuntimeException
+    {
+		return (org.eevolution.model.I_WM_InOutBoundLine)MTable.get(getCtx(), org.eevolution.model.I_WM_InOutBoundLine.Table_Name)
+			.getPO(getWM_InOutBoundLine_ID(), get_TrxName());	}
+
+	/** Set Inbound & Outbound Order Line.
+		@param WM_InOutBoundLine_ID Inbound & Outbound Order Line	  */
+	public void setWM_InOutBoundLine_ID (int WM_InOutBoundLine_ID)
+	{
+		if (WM_InOutBoundLine_ID < 1) 
+			set_Value (COLUMNNAME_WM_InOutBoundLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_WM_InOutBoundLine_ID, Integer.valueOf(WM_InOutBoundLine_ID));
+	}
+
+	/** Get Inbound & Outbound Order Line.
+		@return Inbound & Outbound Order Line	  */
+	public int getWM_InOutBoundLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_WM_InOutBoundLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

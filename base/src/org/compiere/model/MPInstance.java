@@ -21,12 +21,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  *  Process Instance Model
@@ -95,7 +97,7 @@ public class MPInstance extends X_AD_PInstance
 			MPInstancePara pip = new MPInstancePara (this, para[i].getSeqNo());
 			pip.setParameterName(para[i].getColumnName());
 			pip.setInfo(para[i].getName());
-			pip.save();
+			pip.saveEx();
 		}
 	}	//	MPInstance
 
@@ -198,7 +200,7 @@ public class MPInstance extends X_AD_PInstance
 			P_Date, P_ID, P_Number, P_Msg);
 		m_log.add(logEntry);
 		//	save it to DB ?
-	//	log.save();
+	//	log.saveEx();
 	}	//	addLog
 
 	
@@ -351,5 +353,24 @@ public class MPInstance extends X_AD_PInstance
 		//
 		ip.saveEx();
 		return ip;
+	}
+	
+	public static List<MPInstance> get(Properties ctx, int AD_Process_ID, int AD_User_ID) {
+		String where = "AD_Process_ID = ? AND AD_User_ID = ? AND Name IS NOT NULL ";
+		
+		List<MPInstance> list = MTable.get(ctx, MPInstance.Table_Name).createQuery(where, null).setOnlyActiveRecords(true)
+		.setClient_ID().setParameters(AD_Process_ID, AD_User_ID).setOrderBy("Name").list();
+		
+		where = "AD_Process_ID = ? AND AD_User_ID = ? AND Name IS NULL ";
+		MPInstance lastrun = MTable.get(ctx, MPInstance.Table_Name).createQuery(where, null).setOnlyActiveRecords(true)
+		.setClient_ID().setParameters(AD_Process_ID, AD_User_ID).setOrderBy("Created DESC").first();
+		
+		if ( lastrun != null )
+		{
+			lastrun.setName("** " + Msg.getMsg(ctx, "LastRun") + " **");
+			Collections.addAll(list, lastrun);
+		}
+		
+		return list;
 	}
 }	//	MPInstance

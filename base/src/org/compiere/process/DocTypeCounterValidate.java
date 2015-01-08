@@ -51,7 +51,7 @@ public class DocTypeCounterValidate extends SvrProcess
 			throw new IllegalArgumentException("Not found C_DocTypeCounter_ID=" + p_C_DocTypeCounter_ID);
 		//
 		String error = m_counter.validate();
-		m_counter.save();
+		m_counter.saveEx();
 		if (error != null)
 			throw new Exception(error);
 		

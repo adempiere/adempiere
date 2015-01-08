@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_Job
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0
  */
 public interface I_HR_Job 
 {
@@ -95,10 +95,14 @@ public interface I_HR_Job
     /** Column name HR_Department_ID */
     public static final String COLUMNNAME_HR_Department_ID = "HR_Department_ID";
 
-	/** Set Payroll Department	  */
+	/** Set Department.
+	  * Department of the organization
+	  */
 	public void setHR_Department_ID (int HR_Department_ID);
 
-	/** Get Payroll Department	  */
+	/** Get Department.
+	  * Department of the organization
+	  */
 	public int getHR_Department_ID();
 
 	public org.eevolution.model.I_HR_Department getHR_Department() throws RuntimeException;

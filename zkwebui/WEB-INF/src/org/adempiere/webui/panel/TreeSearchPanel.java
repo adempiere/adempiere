@@ -19,6 +19,7 @@ package org.adempiere.webui.panel;
 
 import java.util.TreeMap;
 
+import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.AutoComplete;
 import org.adempiere.webui.component.Label;
@@ -90,10 +91,11 @@ public class TreeSearchPanel extends Panel implements EventListener, TreeDataLis
     {
     	Div div = new Div();
         lblSearch = new Label();
+        LayoutUtils.addSclass("desktop-header-font", lblSearch);
         lblSearch.setValue(Msg.getMsg(Env.getCtx(),"TreeSearch").replaceAll("&", "") + ":");
         lblSearch.setTooltiptext(Msg.getMsg(Env.getCtx(),"TreeSearchText"));
         div.appendChild(lblSearch);
-        String divStyle = "height: 20px; vertical-align: middle;";
+        String divStyle = " height: 20px; vertical-align: middle;";
         if (!AEnv.isInternetExplorer())
         {
         	divStyle += "margin-bottom: 10px; display: inline-block;";
@@ -112,7 +114,7 @@ public class TreeSearchPanel extends Panel implements EventListener, TreeDataLis
         this.appendChild(cmbSearch);
         if (!AEnv.isInternetExplorer())
         {
-        	this.setStyle("height: 20px;");
+        	this.setStyle("height: 20px; padding: 7px;");
     	}
     }
 

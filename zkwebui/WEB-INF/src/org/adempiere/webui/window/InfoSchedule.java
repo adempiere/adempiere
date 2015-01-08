@@ -530,7 +530,11 @@ public class InfoSchedule extends Window implements EventListener
 				break;
 		}
 		if (slot != null) {
-			MResourceAssignment ma = new MResourceAssignment(Env.getCtx(), 0, null);
+			MResourceAssignment ma;
+			if (m_mAssignment == null)
+				ma = new MResourceAssignment(Env.getCtx(), 0, null);
+			else
+				ma = m_mAssignment;
 			ma.setS_Resource_ID(S_Resource_ID);
 			
 			ma.setAssignDateFrom(TimeUtil.getDayTime(start, slot.getStartTime()));

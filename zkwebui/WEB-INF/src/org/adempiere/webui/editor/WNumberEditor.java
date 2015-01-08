@@ -49,7 +49,8 @@ public class WNumberEditor extends WEditor implements ContextMenuListener
 {
     public static final String[] LISTENER_EVENTS = {Events.ON_CHANGE, Events.ON_OK};
 
-    public static final int MAX_DISPLAY_LENGTH = 20;
+    public static final int MAX_DISPLAY_LENGTH = 35;
+    public static final int MIN_DISPLAY_LENGTH = 11;
 
     private Object oldValue;
 
@@ -109,6 +110,12 @@ public class WNumberEditor extends WEditor implements ContextMenuListener
 		if (gridField != null)
 		{
 			getComponent().setTooltiptext(gridField.getDescription());
+	        int displayLength = gridField.getDisplayLength();
+	        if (displayLength > MAX_DISPLAY_LENGTH)
+	            displayLength = MAX_DISPLAY_LENGTH;
+	        else if (displayLength <= 0 || displayLength < MIN_DISPLAY_LENGTH)
+	        	displayLength = MIN_DISPLAY_LENGTH;
+			getComponent().getDecimalbox().setCols(displayLength);
 		}
 
 		if (!DisplayType.isNumeric(displayType))

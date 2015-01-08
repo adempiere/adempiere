@@ -37,6 +37,8 @@ import org.compiere.util.Env;
  *	Import Invoice from I_Invoice
  *
  * 	@author 	Jorg Janke
+ *  @author		victor.perez@e-evolution.com, www.e-evolution.com
+ *  <li> https://adempiere.atlassian.net/browse/ADEMPIERE-84
  * 	@version 	$Id: ImportInvoice.java,v 1.1 2007/09/05 09:27:31 cruiz Exp $
  */
 public class ImportInvoice extends SvrProcess
@@ -645,7 +647,7 @@ public class ImportInvoice extends SvrProcess
 					if (invoice != null)
 					{
 						invoice.processIt(m_docAction);
-						invoice.save();
+						invoice.saveEx();
 					}
 					//	Group Change
 					oldC_BPartner_ID = imp.getC_BPartner_ID();
@@ -689,8 +691,15 @@ public class ImportInvoice extends SvrProcess
 						invoice.setDateInvoiced(imp.getDateInvoiced());
 					if (imp.getDateAcct() != null)
 						invoice.setDateAcct(imp.getDateAcct());
+					//ADEMPIERE-84
+					if (imp.getInvoiceCollectionType() != null)
+						invoice.setInvoiceCollectionType(imp.getInvoiceCollectionType());
+					if(imp.getDunningGrace() != null)
+						invoice.setDunningGrace(imp.getDunningGrace());
+					if(imp.getC_DunningLevel_ID() != 0)
+						invoice.setC_DunningLevel_ID(imp.getC_DunningLevel_ID());
 					//
-					invoice.save();
+					invoice.saveEx();
 					noInsert++;
 					lineNo = 10;
 				}
@@ -729,7 +738,7 @@ public class ImportInvoice extends SvrProcess
 				BigDecimal taxAmt = imp.getTaxAmt();
 				if (taxAmt != null && Env.ZERO.compareTo(taxAmt) != 0)
 					line.setTaxAmt(taxAmt);
-				line.save();
+				line.saveEx();
 				//
 				imp.setC_InvoiceLine_ID(line.getC_InvoiceLine_ID());
 				imp.setI_IsImported(true);
@@ -741,7 +750,7 @@ public class ImportInvoice extends SvrProcess
 			if (invoice != null)
 			{
 				invoice.processIt (m_docAction);
-				invoice.save();
+				invoice.saveEx();
 			}
 			rs.close();
 			pstmt.close();

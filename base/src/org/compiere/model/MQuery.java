@@ -43,6 +43,9 @@ import org.compiere.util.ValueNamePair;
  * @author Teo Sarca
  * 		<li>BF [ 2860022 ] MQuery.get() is generating restrictions for non-existent column
  * 			https://sourceforge.net/tracker/?func=detail&aid=2860022&group_id=176962&atid=879332
+ * @author  Tony Snook tspc@users.sourceforge.net
+ * 		<li>BF [2945715] Improve Advanced Search
+ * 			https://sourceforge.net/tracker/index.php?func=detail&aid=2945715&group_id=176962&atid=879335
  */
 public class MQuery implements Serializable
 {
@@ -625,6 +628,7 @@ public class MQuery implements Serializable
 			qualified = false;
 		//
 		StringBuffer sb = new StringBuffer();
+		//BF[2945715]
 		if (! isActive())
 		    return sb.toString();
 		

@@ -701,7 +701,7 @@ public abstract class Doc
 				.append(" - PeriodOpen=").append(isPeriodOpen())
 				.append(", Balanced=").append(isBalanced());
 			note.setTextMsg(Text.toString());
-			note.save();
+			note.saveEx();
 			p_Error = Text.toString();
 		}
 

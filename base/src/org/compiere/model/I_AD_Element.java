@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Element
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0
  */
 public interface I_AD_Element 
 {
@@ -74,6 +74,36 @@ public interface I_AD_Element
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name AD_Reference_ID */
+    public static final String COLUMNNAME_AD_Reference_ID = "AD_Reference_ID";
+
+	/** Set Reference.
+	  * System Reference and Validation
+	  */
+	public void setAD_Reference_ID (int AD_Reference_ID);
+
+	/** Get Reference.
+	  * System Reference and Validation
+	  */
+	public int getAD_Reference_ID();
+
+	public org.compiere.model.I_AD_Reference getAD_Reference() throws RuntimeException;
+
+    /** Column name AD_Reference_Value_ID */
+    public static final String COLUMNNAME_AD_Reference_Value_ID = "AD_Reference_Value_ID";
+
+	/** Set Reference Key.
+	  * Required to specify, if data type is Table or List
+	  */
+	public void setAD_Reference_Value_ID (int AD_Reference_Value_ID);
+
+	/** Get Reference Key.
+	  * Required to specify, if data type is Table or List
+	  */
+	public int getAD_Reference_Value_ID();
+
+	public org.compiere.model.I_AD_Reference getAD_Reference_Value() throws RuntimeException;
 
     /** Column name ColumnName */
     public static final String COLUMNNAME_ColumnName = "ColumnName";
@@ -131,6 +161,19 @@ public interface I_AD_Element
  Determines ownership and synchronization
 	  */
 	public String getEntityType();
+
+    /** Column name FieldLength */
+    public static final String COLUMNNAME_FieldLength = "FieldLength";
+
+	/** Set Length.
+	  * Length of the column in the database
+	  */
+	public void setFieldLength (int FieldLength);
+
+	/** Get Length.
+	  * Length of the column in the database
+	  */
+	public int getFieldLength();
 
     /** Column name Help */
     public static final String COLUMNNAME_Help = "Help";

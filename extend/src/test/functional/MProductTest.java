@@ -92,7 +92,7 @@ public class MProductTest extends AdempiereTestCase {
 		m_product.setName("Test Product");  // N
 		m_product.setC_UOM_ID(getUOM_ID("Each"));
 
-		boolean saveResult = m_product.save();
+		boolean saveResult = m_product.saveEx();
 		assertEquals("Create new product.", true, saveResult);
 	}  
 	

@@ -17,17 +17,16 @@
 
 package org.adempiere.webui.editor;
 
-import java.awt.Color;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-
-import org.adempiere.webui.component.Bandbox;
+import org.adempiere.webui.component.*;
 import org.adempiere.webui.component.Button;
-import org.adempiere.webui.component.Datebox;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
+import org.adempiere.webui.panel.IADTabPanel;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.util.DisplayType;
@@ -41,12 +40,17 @@ import org.zkoss.zul.Image;
 /**
  *
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
+ *
+ * @author e-Evolution , victor.perez@e-evolution.com
+ *    <li>Implement embedded or horizontal tab panel https://adempiere.atlassian.net/browse/ADEMPIERE-319
+ *    <li>New ADempiere 3.8.0 ZK Theme Light  https://adempiere.atlassian.net/browse/ADEMPIERE-320
+ *
  * @date    Mar 11, 2007
  * @version $Revision: 0.10 $
  */
 public abstract class WEditor implements EventListener, PropertyChangeListener
 {
-	private static final String[] lISTENER_EVENTS = {};
+    private static final String[] LISTENER_EVENTS = {};
 
     public static final int MAX_DISPLAY_LENGTH = 35;
 
@@ -73,6 +77,20 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
     private String columnName;
 
 	protected boolean hasFocus;
+	
+	private IADTabPanel tabPanel;
+
+    private Object m_oldValue = null;
+	
+	public void setADTabPanel(IADTabPanel panel)
+	{
+		tabPanel = panel;
+	}
+	
+	public IADTabPanel getADTabPanel()
+	{
+		return tabPanel;
+	}
 
     /**
      *
@@ -194,7 +212,11 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
         }
 
         ((HtmlBasedComponent)component).setTooltiptext(description);
-        label.setTooltiptext(description);
+        
+        if(gridField!=null)
+        	label.setTooltiptext(description + "\n\n" + gridField.getHelp());
+        else
+        	label.setTooltiptext(description);
 
         //init listeners
         for (String event : this.getEvents())
@@ -204,6 +226,19 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
         component.addEventListener(Events.ON_FOCUS, new EventListener() {
 			public void onEvent(Event event) throws Exception {
 				hasFocus = true;
+				if(gridTab!=null)
+				{
+					CWindowToolbar toolbar = tabPanel.getGlobalToolbar();
+					
+					if(toolbar!=null)
+					{	
+						if (tabPanel.getGlobalToolbar().getCurrentPanel() != toolbar.getCurrentPanel())
+						{	
+							tabPanel.getGlobalToolbar().getCurrentPanel().setUnselected(toolbar.getCurrentPanel());
+							tabPanel.getGlobalToolbar().getCurrentPanel().setSelected(tabPanel);
+						}
+					}
+				}
 			}
 
         });
@@ -213,6 +248,8 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
 			}
 
         });
+        
+        repaintComponent();
     }
 
     /**
@@ -272,6 +309,71 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
     {
         return component;
     }
+    
+    /**
+     * 
+     */
+    
+    public void repaintComponent()
+    {
+    	repaintComponent(false);
+    }
+    
+    public void repaintComponent(boolean isRow)
+    {
+    	if(gridField!=null) {
+            boolean isCustomField = true;
+
+            if (!isRow) {
+                int height = 0;
+                if (gridField.getDisplayType() == DisplayType.Text
+                        || gridField.getDisplayType() == DisplayType.TextLong
+                        || gridField.getDisplayType() == DisplayType.Memo) {
+                    height = ((gridField.getFieldLength() + 200) / 100) * 24;
+                    ((HtmlBasedComponent) component).setHeight("60px");
+                }
+
+                if (gridField.isReadOnly() || !this.isReadWrite()) //|| !gridField.isEditable(false)
+                {
+                    if (gridField.getDisplayType() == DisplayType.Text)
+                        ((HtmlBasedComponent) component).setSclass("field-text-dis");
+
+                    else if (gridField.getDisplayType() == DisplayType.TextLong)
+                        ((HtmlBasedComponent) component).setSclass("field-longtext-dis");
+
+                    else if (gridField.getDisplayType() == DisplayType.Memo)
+                        ((HtmlBasedComponent) component).setSclass("field-memo-dis");
+                    else
+                        isCustomField = false;
+                } else {
+                    if (gridField.getDisplayType() == DisplayType.Text)
+                        ((HtmlBasedComponent) component).setSclass("field-text");
+
+                    else if (gridField.getDisplayType() == DisplayType.TextLong)
+                        ((HtmlBasedComponent) component).setSclass("field-longtext");
+
+                    else if (gridField.getDisplayType() == DisplayType.Memo)
+                        ((HtmlBasedComponent) component).setSclass("field-memo");
+
+                    else
+                        isCustomField = false;
+                }
+            }
+
+
+            if (isCustomField)
+            {
+                if (gridField.isReadOnly() || !this.isReadWrite()) //|| !gridField.isEditable(false)
+                {
+                    ((HtmlBasedComponent) component).setSclass("readonly-field");
+                } else if (this.isMandatory() && !gridField.isReadOnly()) {
+                    ((HtmlBasedComponent) component).setSclass("mandatory-field");
+                } else {
+                    ((HtmlBasedComponent) component).setSclass("normal-field");
+                }
+            }
+        }
+    }
 
     /**
      * @param gridTab
@@ -299,6 +401,8 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
         {
             setValue((evt.getNewValue()));
         }
+        
+        repaintComponent();
     }
 
     /**
@@ -339,6 +443,10 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
     {
         return label;
     }
+    
+    public void setLabel(String labelStr) {
+    	label.setValue(labelStr);
+    }
 
     /**
      *
@@ -359,6 +467,14 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
     public void setVisible(boolean visible)
     {
         label.setVisible(visible);
+        
+        
+        if (component instanceof org.adempiere.webui.component.StringBox)
+        {
+        	((StringBox)component).getTextBox().setVisible(visible);
+        }
+        		
+        
         component.setVisible(visible);
     }
 
@@ -415,7 +531,7 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
      */
     public String[] getEvents()
     {
-        return WEditor.lISTENER_EVENTS;
+        return WEditor.LISTENER_EVENTS;
     }
 
     /**
@@ -500,5 +616,39 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
 	private void markMandatory(boolean mandatory) {
 		getLabel().setStyle( (getLabel().isZoomable() ? STYLE_ZOOMABLE_LABEL : "") + (mandatory ? STYLE_EMPTY_MANDATORY_LABEL : STYLE_NORMAL_LABEL));
 	}
-	
+
+    /**
+     * Set the old value of the field.  For use in future comparisons.
+     * The old value must be explicitly set though this call.
+     */
+    public void set_oldValue() {
+        this.m_oldValue = getValue();
+    }
+
+    /**
+     * Get the old value of the field explicitly set in the past
+     * @return
+     */
+    public Object get_oldValue() {
+        return m_oldValue;
+    }
+    /**
+     * Has the field changed over time?
+     * @return true if the old value is different than the current.
+     */
+    public boolean hasChanged() {
+        // Both or either could be null
+        if(getValue() != null)
+            if(m_oldValue != null)
+                return !m_oldValue.equals(getValue());
+            else
+                return true;
+        else  // getValue() is null
+            if(m_oldValue != null)
+                return true;
+            else
+                return false;
+    }
+
+
 }

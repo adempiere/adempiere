@@ -34,6 +34,8 @@ import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 
+import org.adempiere.exceptions.AdempiereException;
+
 /**
  *  General Utilities
  *
@@ -41,6 +43,7 @@ import javax.swing.KeyStroke;
  *  @version    $Id: Util.java,v 1.3 2006/07/30 00:52:23 jjanke Exp $
  *  
  *  @author     Teo Sarca, SC ARHIPAC SERVICE SRL - BF [ 1748346 ]
+ *  @author     t.schoeneberg@metas.de - FR [ 3407104 ] Explicit Assumptions
  */
 public class Util
 {
@@ -97,6 +100,50 @@ public class Util
 		return out.toString();
 	}	//	removeCRLF
 
+	
+	/**
+	 * Fetch the numbers from a string
+	 * @param text
+	 * @return string which contains all digits, or null if text is null 
+	 */
+	public static String getDigits(final String text)
+	{
+		if (text == null)
+		{
+			return null;
+		}
+	    StringBuilder sb = new StringBuilder();
+	    for(int i = 0; i < text.length(); i++)
+	    {
+	        if(Character.isDigit(text.charAt(i)))
+	            sb.append(text.charAt(i));
+	    }
+	    return sb.toString();
+	}
+	
+	/**
+	 * Fetch only the text from a given string <br>
+	 * E.g. text= '9000 St. Gallen'<br> This method will return test St. Gallen
+	 * @param text
+	 * @return string which contains all letters not digits, or null if text is null 
+	 */
+	public static String stripDigits(final String text)
+	{
+		if (text == null)
+		{
+			return null;
+		}
+		char[] inArray = text.toCharArray();
+		StringBuilder out = new StringBuilder(inArray.length);
+	    for(int i = 0; i < inArray.length; i++)
+	    {
+	    	char c = inArray[i];
+	        if(Character.isLetter(c) || !Character.isDigit(c))
+	            out.append(c);
+	    }
+	    return out.toString();
+	}
+
 
 	/**
 	 * Clean - Remove all white spaces
@@ -125,8 +172,44 @@ public class Util
 		}
 		return out.toString();
 	}	//	cleanWhitespace
+	
+	/**
+	 * remove white space from the begin
+	 * @param in
+	 * @return
+	 */
+	public static String cleanBeginWhitespace (String in)
+	{
+		int len = in.length();
+		int st = 0;
+		int off = 0;
+		char[] val = in.toCharArray();
+
+		while ((st < len) && (val[off + st] <= ' '))
+		{
+			st++;
+		}
+		return ((st > 0) || (len < in.length())) ? in.substring(st, len) : in;
+	}
 
 
+	public static String lpadZero(final String value, final int size, final String description)
+	{
+		if (value == null)
+		{
+			throw new IllegalArgumentException("value is null");
+		}
+
+		final String valueFixed = value.trim();
+
+		if (valueFixed.length() > size)
+		{
+			throw new AdempiereException("value='" + valueFixed + "' of '" + description + "' is bigger than " + size + " characters");
+		}
+		final String s = "0000000000000000000" + valueFixed;
+		return s.substring(s.length() - size);
+	}
+	
 	/**
 	 * Mask HTML content.
 	 * i.e. replace characters with &values;
@@ -236,6 +319,7 @@ public class Util
 		else
 			return str.length() == 0;
 	}	//	isEmpty
+
 	
 	/**************************************************************************
 	 * Find index of search character in str.
@@ -683,4 +767,24 @@ public class Util
 		/* */
 	}
 
+		/**
+	 * Little method that throws an {@link AdempiereException} if the given boolean condition is false. It might be a
+	 * good idea to use "assume" over the assert keyword, because
+	 * <ul>
+	 * <li>assert is globally switched on and off and you never know what else libs are using assert</li>
+	 * <li>there are critical assumptions that should always be validated. Not only during development time or when
+	 * someone minds to use the -ea cmdline parameter</li>
+	 * </ul>
+	 * 
+	 * @param cond
+	 * @param errMsg
+	 *            the error message to pass to the adempiere exception, if the condition is <code>false</code>
+	 */
+	public static void assume(final boolean cond, final String errMsg)
+	{
+		if (!cond)
+		{
+			throw new AdempiereException("Assumtion failure: " + errMsg);
+		}
+	}
 }   //  Util

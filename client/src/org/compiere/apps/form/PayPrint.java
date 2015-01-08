@@ -43,6 +43,8 @@ public class PayPrint {
 	public int				m_C_BankAccount_ID = -1;
 	/**	Export Class for Bank Account	*/
 	public String			m_PaymentExportClass = null;
+	/**	Payment Selection	*/
+	public int         		m_C_PaySelection_ID = 0;
 
 	/** Payment Information */
 	public MPaySelectionCheck[]     m_checks = null;

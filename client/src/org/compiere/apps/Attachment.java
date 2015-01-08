@@ -17,6 +17,7 @@
 package org.compiere.apps;
 
 import java.awt.BorderLayout;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Frame;
@@ -28,6 +29,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.logging.Level;
 
 import javax.swing.JFileChooser;
@@ -375,7 +377,7 @@ public final class Attachment extends CDialog
 				{	
 					m_attachment.setBinaryData(new byte[0]); // ATTENTION! HEAVY HACK HERE... Else it will not save :(
 					m_attachment.setTextMsg(text.getText());
-					m_attachment.save();
+					m_attachment.saveEx();
 				}
 			}
 			else
@@ -555,8 +557,19 @@ public final class Attachment extends CDialog
             //	p.waitFor();
                 return true;
             }
-            else	//	other OS
+            else	//	other OS. originally nothing here. add the following codes
             {
+            	try {
+            		Desktop desktop = null;
+            		if (Desktop.isDesktopSupported()) {
+            			desktop = Desktop.getDesktop();
+            			File file = new File(tempFile.getAbsolutePath());
+            			desktop.open(file);
+            			return true;
+            		}               
+            	} catch (IOException e) {
+            		e.printStackTrace();
+            	}
             }
         } 
         catch (Exception e) 

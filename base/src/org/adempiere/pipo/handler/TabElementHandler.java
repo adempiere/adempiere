@@ -75,6 +75,7 @@ public class TabElementHandler extends AbstractElementHandler
 				element.defer = true;
 				return;
 			}
+			
 			StringBuffer sqlB = new StringBuffer ("select AD_Tab_ID from AD_Tab where AD_Window_ID = " + windowid
 					+ " and Name = '"+name +"'"
 					+ " and AD_Table_ID = ?");
@@ -98,12 +99,12 @@ public class TabElementHandler extends AbstractElementHandler
 			id = 0;
 			if (getStringValue(atts,"ADColumnSortYesNoNameID")!= null){
 				name = atts.getValue("ADColumnSortYesNoNameID");	    
-				id  = get_IDWithMasterAndColumn (ctx, "AD_Column","Name", name, MTable.Table_Name, get_IDWithColumn(ctx,MTable.Table_Name, MTable.COLUMNNAME_TableName, atts.getValue("ADTableNameID")));
+				id  = get_IDWithMasterAndColumn (ctx, "AD_Column","ColumnName", name, MTable.Table_Name, get_IDWithColumn(ctx,MTable.Table_Name, MTable.COLUMNNAME_TableName, atts.getValue("ADTableNameID")));
 				m_Tab.setAD_ColumnSortYesNo_ID(id);
 			}
 			if (getStringValue(atts,"ADColumnSortOrderNameID")!= null){
 				name = atts.getValue("ADColumnSortOrderNameID");	    
-				id  = get_IDWithMasterAndColumn (ctx, "AD_Column","Name", name, MTable.Table_Name, get_IDWithColumn(ctx,MTable.Table_Name, MTable.COLUMNNAME_TableName, atts.getValue("ADTableNameID")));				
+				id  = get_IDWithMasterAndColumn (ctx, "AD_Column","ColumnName", name, MTable.Table_Name, get_IDWithColumn(ctx,MTable.Table_Name, MTable.COLUMNNAME_TableName, atts.getValue("ADTableNameID")));				
 				m_Tab.setAD_ColumnSortOrder_ID(id);
 			}
 			if (getStringValue(atts,"ADImageNameID")!= null){

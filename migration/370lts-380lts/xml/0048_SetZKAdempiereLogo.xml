@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Set ZK Adempiere Logo" ReleaseNo="3.8.0" SeqNo="48">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="50009" Action="U" Record_ID="50025" Table="AD_SysConfig">
+        <Data AD_Column_ID="50196" Column="Value" oldValue="/images/AD10030.png">/images/AD10030HB.png</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

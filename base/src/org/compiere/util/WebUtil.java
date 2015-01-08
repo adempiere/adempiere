@@ -1105,7 +1105,7 @@ public final class WebUtil
 		String retValue = email.send();
 		//	Log
 		MUserMail um = new MUserMail(mailMsg, to.getAD_User_ID(), email);
-		um.save();
+		um.saveEx();
 		//
 		return retValue;
 	}	//	sendEMail

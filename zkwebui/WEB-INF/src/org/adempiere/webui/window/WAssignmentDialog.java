@@ -174,7 +174,7 @@ public class WAssignmentDialog extends Window implements EventListener
 		Div div = new Div();
 		div.appendChild(fDateFrom);
 		div.appendChild(fTimeFrom);
-		fTimeFrom.setStyle("margin-left: 5px");
+		fTimeFrom.setStyle("margin-left: 1px");
 		row.appendChild(div);
 		rows.appendChild(row);
 		

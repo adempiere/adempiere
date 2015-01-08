@@ -73,7 +73,7 @@ public class MIssue extends X_AD_Issue
 		//
 		MIssue issue = new MIssue(record);
 		String error = issue.report();
-		issue.save();
+		issue.saveEx();
 		if (error != null)
 			return null;
 		return issue;

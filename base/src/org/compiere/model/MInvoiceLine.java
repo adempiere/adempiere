@@ -1036,6 +1036,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 					MLandedCostAllocation lca = new MLandedCostAllocation (this, lc.getM_CostElement_ID());
 					lca.setM_Product_ID(iol.getM_Product_ID());
 					lca.setM_AttributeSetInstance_ID(iol.getM_AttributeSetInstance_ID());
+					lca.setM_InOutLine_ID(iol.getM_InOutLine_ID());//SHW
 					BigDecimal base = iol.getBase(lc.getLandedCostDistribution());
 					lca.setBase(base);
 					// MZ Goodwill
@@ -1190,7 +1191,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		if (difference.signum() != 0)
 		{
 			largestAmtAllocation.setAmt(largestAmtAllocation.getAmt().add(difference));
-			largestAmtAllocation.save();
+			largestAmtAllocation.saveEx();
 			log.config("Difference=" + difference
 				+ ", C_LandedCostAllocation_ID=" + largestAmtAllocation.getC_LandedCostAllocation_ID()
 				+ ", Amt" + largestAmtAllocation.getAmt());

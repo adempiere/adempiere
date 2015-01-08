@@ -724,14 +724,14 @@ public class ImportGLJournal extends SvrProcess
 						imp.getM_Product_ID(), imp.getC_BPartner_ID(), imp.getAD_OrgTrx_ID(),
 						imp.getC_LocFrom_ID(), imp.getC_LocTo_ID(), imp.getC_SalesRegion_ID(),
 						imp.getC_Project_ID(), imp.getC_Campaign_ID(), imp.getC_Activity_ID(),
-						imp.getUser1_ID(), imp.getUser2_ID(), 0, 0);
+						imp.getUser1_ID(), imp.getUser2_ID(), 0, 0, null);
 					if (acct != null && acct.get_ID() == 0)
-						acct.save();
+						acct.saveEx();
 					if (acct == null || acct.get_ID() == 0)
 					{
 						imp.setI_ErrorMsg("ERROR creating Account");
 						imp.setI_IsImported(false);
-						imp.save();
+						imp.saveEx();
 						continue;
 					}
 					else

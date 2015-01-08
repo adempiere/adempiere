@@ -88,6 +88,7 @@ public final class ImpFormatRow
 	//
 	private Callout				m_callout = null;
 	private String				m_method = null;
+	private String				m_defaultValue = null;
 	//
 	private SimpleDateFormat	m_dformat = null;
 	private int					m_maxLength = 0;
@@ -237,10 +238,11 @@ public final class ImpFormatRow
 	 *  @param decimalPoint decimal point representation
 	 *  @param divideBy100 divide number by 100
 	 *  @param constantValue constant value
+	 *  @param defaultValue default
 	 *  @param callout Java callout
 	 */
 	public void setFormatInfo (String dataFormat, String decimalPoint, boolean divideBy100,
-		String constantValue, String callout)
+		String constantValue, String callout, String defaultValue)
 	{
 		if (dataFormat == null)
 			m_dataFormat = "";
@@ -273,6 +275,9 @@ public final class ImpFormatRow
 				}
 			}
 		}
+		//		default
+		m_defaultValue = defaultValue;
+
 		//	callout
 		if (callout != null)
 		{
@@ -324,7 +329,7 @@ public final class ImpFormatRow
 	{
 		return m_divideBy100;
 	}
-
+	
 	/**
 	 *  Get the constant value
 	 *  @return constant value
@@ -333,7 +338,16 @@ public final class ImpFormatRow
 	{
 		return m_constantValue;
 	}
-
+	
+	/**
+	 *  Get the default value
+	 *  @return default value
+	 */
+	public String getDefaultValue()
+	{
+		return m_defaultValue;
+	}
+	
 	/**
 	 *	Set maximum length for Strings (truncated).
 	 * 	Ignored, if 0

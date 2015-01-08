@@ -26,14 +26,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for I_ProductPlanning
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_I_ProductPlanning extends PO implements I_I_ProductPlanning, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20150101L;
 
     /** Standard Constructor */
     public X_I_ProductPlanning (Properties ctx, int I_ProductPlanning_ID, String trxName)
@@ -163,7 +163,9 @@ public class X_I_ProductPlanning extends PO implements I_I_ProductPlanning, I_Pe
 	}
 
 	/** Set Network Distribution.
-		@param DD_NetworkDistribution_ID Network Distribution	  */
+		@param DD_NetworkDistribution_ID 
+		Identifies a distribution network, distribution networks are used to establish the source and target of the materials in the supply chain
+	  */
 	public void setDD_NetworkDistribution_ID (int DD_NetworkDistribution_ID)
 	{
 		if (DD_NetworkDistribution_ID < 1) 
@@ -173,7 +175,8 @@ public class X_I_ProductPlanning extends PO implements I_I_ProductPlanning, I_Pe
 	}
 
 	/** Get Network Distribution.
-		@return Network Distribution	  */
+		@return Identifies a distribution network, distribution networks are used to establish the source and target of the materials in the supply chain
+	  */
 	public int getDD_NetworkDistribution_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_DD_NetworkDistribution_ID);
@@ -305,14 +308,17 @@ public class X_I_ProductPlanning extends PO implements I_I_ProductPlanning, I_Pe
 	}
 
 	/** Set Is MPS.
-		@param IsMPS Is MPS	  */
+		@param IsMPS 
+		Indicates if this product is part of the master production schedule
+	  */
 	public void setIsMPS (boolean IsMPS)
 	{
 		set_Value (COLUMNNAME_IsMPS, Boolean.valueOf(IsMPS));
 	}
 
 	/** Get Is MPS.
-		@return Is MPS	  */
+		@return Indicates if this product is part of the master production schedule
+	  */
 	public boolean isMPS () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsMPS);
@@ -539,14 +545,17 @@ public class X_I_ProductPlanning extends PO implements I_I_ProductPlanning, I_Pe
 	}
 
 	/** Set Order Period.
-		@param Order_Period Order Period	  */
+		@param Order_Period 
+		Order Period
+	  */
 	public void setOrder_Period (BigDecimal Order_Period)
 	{
 		set_Value (COLUMNNAME_Order_Period, Order_Period);
 	}
 
 	/** Get Order Period.
-		@return Order Period	  */
+		@return Order Period
+	  */
 	public BigDecimal getOrder_Period () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Order_Period);
@@ -564,7 +573,9 @@ public class X_I_ProductPlanning extends PO implements I_I_ProductPlanning, I_Pe
 	/** Period Order Quantity = POQ */
 	public static final String ORDER_POLICY_PeriodOrderQuantity = "POQ";
 	/** Set Order Policy.
-		@param Order_Policy Order Policy	  */
+		@param Order_Policy 
+		Order Policy
+	  */
 	public void setOrder_Policy (String Order_Policy)
 	{
 
@@ -572,21 +583,25 @@ public class X_I_ProductPlanning extends PO implements I_I_ProductPlanning, I_Pe
 	}
 
 	/** Get Order Policy.
-		@return Order Policy	  */
+		@return Order Policy
+	  */
 	public String getOrder_Policy () 
 	{
 		return (String)get_Value(COLUMNNAME_Order_Policy);
 	}
 
 	/** Set Order Qty.
-		@param Order_Qty Order Qty	  */
+		@param Order_Qty 
+		Order Qty
+	  */
 	public void setOrder_Qty (BigDecimal Order_Qty)
 	{
 		set_Value (COLUMNNAME_Order_Qty, Order_Qty);
 	}
 
 	/** Get Order Qty.
-		@return Order Qty	  */
+		@return Order Qty
+	  */
 	public BigDecimal getOrder_Qty () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Order_Qty);
@@ -618,7 +633,9 @@ public class X_I_ProductPlanning extends PO implements I_I_ProductPlanning, I_Pe
 			.getPO(getPlanner_ID(), get_TrxName());	}
 
 	/** Set Planner.
-		@param Planner_ID Planner	  */
+		@param Planner_ID 
+		Company Agent for Planning
+	  */
 	public void setPlanner_ID (int Planner_ID)
 	{
 		if (Planner_ID < 1) 
@@ -628,7 +645,8 @@ public class X_I_ProductPlanning extends PO implements I_I_ProductPlanning, I_Pe
 	}
 
 	/** Get Planner.
-		@return Planner	  */
+		@return Company Agent for Planning
+	  */
 	public int getPlanner_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_Planner_ID);
@@ -688,7 +706,9 @@ public class X_I_ProductPlanning extends PO implements I_I_ProductPlanning, I_Pe
 			.getPO(getPP_Product_Planning_ID(), get_TrxName());	}
 
 	/** Set Product Planning.
-		@param PP_Product_Planning_ID Product Planning	  */
+		@param PP_Product_Planning_ID 
+		Product Planning
+	  */
 	public void setPP_Product_Planning_ID (int PP_Product_Planning_ID)
 	{
 		if (PP_Product_Planning_ID < 1) 
@@ -698,7 +718,8 @@ public class X_I_ProductPlanning extends PO implements I_I_ProductPlanning, I_Pe
 	}
 
 	/** Get Product Planning.
-		@return Product Planning	  */
+		@return Product Planning
+	  */
 	public int getPP_Product_Planning_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Product_Planning_ID);
@@ -895,14 +916,17 @@ public class X_I_ProductPlanning extends PO implements I_I_ProductPlanning, I_Pe
 	}
 
 	/** Set Time Fence.
-		@param TimeFence Time Fence	  */
+		@param TimeFence 
+		The Time Fence is the number of days since you execute the MRP process inside of which  the system must not change the planned orders. 
+	  */
 	public void setTimeFence (BigDecimal TimeFence)
 	{
 		set_Value (COLUMNNAME_TimeFence, TimeFence);
 	}
 
 	/** Get Time Fence.
-		@return Time Fence	  */
+		@return The Time Fence is the number of days since you execute the MRP process inside of which  the system must not change the planned orders. 
+	  */
 	public BigDecimal getTimeFence () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_TimeFence);
@@ -911,18 +935,21 @@ public class X_I_ProductPlanning extends PO implements I_I_ProductPlanning, I_Pe
 		return bd;
 	}
 
-	/** Set Transfert Time.
-		@param TransfertTime Transfert Time	  */
-	public void setTransfertTime (BigDecimal TransfertTime)
+	/** Set Transfer Time.
+		@param TransferTime 
+		Transfer Time
+	  */
+	public void setTransferTime (BigDecimal TransferTime)
 	{
-		set_Value (COLUMNNAME_TransfertTime, TransfertTime);
+		set_Value (COLUMNNAME_TransferTime, TransferTime);
 	}
 
-	/** Get Transfert Time.
-		@return Transfert Time	  */
-	public BigDecimal getTransfertTime () 
+	/** Get Transfer Time.
+		@return Transfer Time
+	  */
+	public BigDecimal getTransferTime () 
 	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_TransfertTime);
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_TransferTime);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;

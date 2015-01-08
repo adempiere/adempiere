@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for DD_NetworkDistributionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0
  */
 public interface I_DD_NetworkDistributionLine 
 {
@@ -82,10 +82,14 @@ public interface I_DD_NetworkDistributionLine
     /** Column name DD_NetworkDistribution_ID */
     public static final String COLUMNNAME_DD_NetworkDistribution_ID = "DD_NetworkDistribution_ID";
 
-	/** Set Network Distribution	  */
+	/** Set Network Distribution.
+	  * Identifies a distribution network, distribution networks are used to establish the source and target of the materials in the supply chain
+	  */
 	public void setDD_NetworkDistribution_ID (int DD_NetworkDistribution_ID);
 
-	/** Get Network Distribution	  */
+	/** Get Network Distribution.
+	  * Identifies a distribution network, distribution networks are used to establish the source and target of the materials in the supply chain
+	  */
 	public int getDD_NetworkDistribution_ID();
 
 	public org.eevolution.model.I_DD_NetworkDistribution getDD_NetworkDistribution() throws RuntimeException;
@@ -183,14 +187,18 @@ public interface I_DD_NetworkDistributionLine
 	  */
 	public int getPriorityNo();
 
-    /** Column name TransfertTime */
-    public static final String COLUMNNAME_TransfertTime = "TransfertTime";
+    /** Column name TransferTime */
+    public static final String COLUMNNAME_TransferTime = "TransferTime";
 
-	/** Set Transfert Time	  */
-	public void setTransfertTime (BigDecimal TransfertTime);
+	/** Set Transfer Time.
+	  * Transfer Time
+	  */
+	public void setTransferTime (BigDecimal TransferTime);
 
-	/** Get Transfert Time	  */
-	public BigDecimal getTransfertTime();
+	/** Get Transfer Time.
+	  * Transfer Time
+	  */
+	public BigDecimal getTransferTime();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

@@ -112,11 +112,11 @@ public class ReplicationLocal extends SvrProcess
 		double sec = (System.currentTimeMillis() - m_start);
 		sec /= 1000;
 		m_replicationRun.setDescription(sec + " s");
-		m_replicationRun.save();
+		m_replicationRun.saveEx();
 		if (m_replicated)
 		{
 			m_replication.setDateLastRun (m_replicationStart);
-			m_replication.save();
+			m_replication.saveEx();
 		}
 		//
 		exit();
@@ -203,7 +203,7 @@ public class ReplicationLocal extends SvrProcess
 		if (dateRun != null)
 			m_replicationStart = dateRun;
 		m_replicationRun = new MReplicationRun (getCtx(), m_replication.getAD_Replication_ID(), m_replicationStart, get_TrxName());
-		m_replicationRun.save();
+		m_replicationRun.saveEx();
 	}	//	setupRemote
 
 	/*************************************************************************/
@@ -324,7 +324,7 @@ public class ReplicationLocal extends SvrProcess
 			targetRS.close();
 			targetRS = null;
 		}
-		rLog.save();
+		rLog.saveEx();
 		return !pi.isError();
 	}	//	mergeDataTable
 
@@ -497,7 +497,7 @@ public class ReplicationLocal extends SvrProcess
 		if (pi.isError())
 			m_replicated = false;
 		rLog.setIsReplicated(!pi.isError());
-		rLog.save();
+		rLog.saveEx();
 		return !pi.isError();
 	}	//	sendUpdatesTable
 

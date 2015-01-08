@@ -603,17 +603,15 @@ public class POSProductManager extends ProductManager
     private static void createCosting(Properties ctx, MProduct product, BigDecimal costPrice, BigDecimal stock, String trxName) throws OperationException
     {
         MClient client = new MClient(ctx, Env.getAD_Client_ID(ctx), null);
-       
-        MCostElement costElements[] = MCostElement.getCostingMethods(client);
         
-        for(int i = 0; i < costElements.length; i++)
+        for(MCostElement costElement : MCostElement.getCostElement(ctx, trxName))
         {
-            MCost cost = MCost.get(product, 0, client.getAcctSchema(), 0, costElements[i].get_ID());
-            cost.set_TrxName(trxName);
-            cost.setCurrentCostPrice(costPrice);
+            MCost costDimension = MCost.getDimension(product , client.getAcctSchema().getC_AcctSchema_ID() , 0 , 0 , 0 , 0 , costElement.getM_CostElement_ID());
+            costDimension.set_TrxName(trxName);
+            costDimension.setCurrentCostPrice(costPrice);
             if(stock!=null)
-                cost.setCurrentQty(stock);
-            PoManager.save(cost);
+                costDimension.setCurrentQty(stock);
+            PoManager.save(costDimension);
         }
     }
    

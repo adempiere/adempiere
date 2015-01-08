@@ -34,7 +34,7 @@ import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WebEditorFactory;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
-import org.adempiere.webui.panel.ADTabpanel;
+import org.adempiere.webui.panel.ADTabPanel;
 import org.adempiere.webui.panel.StatusBarPanel;
 import org.adempiere.webui.session.SessionManager;
 import org.compiere.model.DataStatusEvent;
@@ -124,7 +124,7 @@ public final class WAccountDialog extends Window
 	/** MTab for AccountCombination     */
 	private GridTab                m_mTab = null;
 	/** GridController                  */
-	private ADTabpanel      m_adTabPanel = null;
+	private ADTabPanel m_adTabPanel = null;
 
 	/** Account used                */
 	private MAccountLookup		m_mAccount = null;
@@ -207,7 +207,7 @@ public final class WAccountDialog extends Window
 		northPanel.appendChild(toolBar);
 		northPanel.setWidth("100%");
 
-		m_adTabPanel = new ADTabpanel();
+		m_adTabPanel = new ADTabPanel();
 
 		Borderlayout layout = new Borderlayout();
 		layout.setParent(this);
@@ -416,12 +416,16 @@ public final class WAccountDialog extends Window
 			{
 				GridField field = m_mTab.getField("User1_ID");
 				f_User1_ID = WebEditorFactory.getEditor(field, false);
+				// Change the label from the default to the user defined name
+				//f_User1_ID.setLabel(ase.getName());				
 				addLine(field, f_User1_ID, isMandatory);
 			}
 			else if (type.equals(MAcctSchemaElement.ELEMENTTYPE_UserList2))
 			{
 				GridField field = m_mTab.getField("User2_ID");
 				f_User2_ID = WebEditorFactory.getEditor(field, false);
+				// Change the label from the default to the user defined name
+				//f_User2_ID.setLabel(ase.getName());				
 				addLine(field, f_User2_ID, isMandatory);
 			}
 		}	//	Create Fields in Element Order
@@ -1003,9 +1007,9 @@ public final class WAccountDialog extends Window
 			M_Product_ID, C_BPartner_ID, AD_OrgTrx_ID,
 			C_LocFrom_ID, C_LocTo_ID, C_SRegion_ID,
 			C_Project_ID, C_Campaign_ID, C_Activity_ID,
-			User1_ID, User2_ID, 0, 0);
+			User1_ID, User2_ID, 0, 0, null);
 		if (acct != null && acct.get_ID() == 0)
-			acct.save();
+			acct.saveEx();
 
 		//  Show Info
 		if (acct == null || acct.get_ID() == 0)
@@ -1016,7 +1020,7 @@ public final class WAccountDialog extends Window
 			if (Alias != null && Alias.length() > 0)
 			{
 				acct.setAlias(Alias);
-				acct.save();
+				acct.saveEx();
 			}
 			loadInfo (acct.get_ID(), s_AcctSchema.getC_AcctSchema_ID());
 		}
