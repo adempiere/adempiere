@@ -93,9 +93,9 @@ public class GridFieldVO implements Serializable
 			{
 				columnName = rsmd.getColumnName (i);
 				if (columnName.equalsIgnoreCase("Name"))
-					vo.Header = rs.getString (i);
+					vo.Header = rs.getString(i);
 				else if (columnName.equalsIgnoreCase("AD_Reference_ID"))
-					vo.displayType = rs.getInt (i);
+					vo.displayType = rs.getInt(i);
 				else if (columnName.equalsIgnoreCase("AD_Column_ID"))
 					vo.AD_Column_ID = rs.getInt (i);
 				else if (columnName.equalsIgnoreCase("AD_Table_ID"))
@@ -191,7 +191,7 @@ public class GridFieldVO implements Serializable
 				else if (columnName.equalsIgnoreCase("PreferredWidth"))
 					vo.PreferredWidth = rs.getInt(i);
 				//Allows Copy
-				else if (columnName.equalsIgnoreCase("IsAllowsCopy"))
+				else if (columnName.equalsIgnoreCase(I_AD_Field.COLUMNNAME_IsAllowCopy))
 					vo.IsAllowsCopy = "Y".equals(rs.getString(i));
 				else if (columnName.equalsIgnoreCase("IsRange"))
 					vo.IsRange = "Y".equals(rs.getString (i));
