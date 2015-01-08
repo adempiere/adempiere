@@ -19,10 +19,12 @@
 	<target name="jar" depends="init">
 		<ant inheritAll="false" dir="tools"/>
 		<ant inheritAll="false" dir="base"/>
+		<ant inheritAll="false" dir="org.adempiere.asset"/>
 		<ant inheritAll="false" dir="extend"/>
 		<ant inheritAll="false" dir="client"/>
 		<ant inheritAll="false" dir="JasperReports"/>
 		<ant inheritAll="false" dir="JasperReportsWebApp"/>
+		<ant inheritAll="false" dir="org.adempiere.webservice"/>
 		<ant inheritAll="false" dir="serverRoot"/>
 		<ant inheritAll="false" dir="serverApps"/>
 		<ant inheritAll="false" dir="webStore"/>
@@ -30,6 +32,13 @@
 		<ant inheritAll="false" dir="sqlj"/>
 		<ant inheritAll="false" dir="posterita/posterita"/>
 		<ant inheritAll="false" dir="zkwebui"/>
+		<ant inheritAll="false" dir="mobile"/>
+		<ant inheritAll="false" dir="migration"/>
+		<ant inheritAll="false" dir="org.eevolution.cashflow"/>
+		<ant inheritAll="false" dir="org.eevolution.manufacturing"/>
+		<ant inheritAll="false" dir="org.eevolution.hr_and_payroll"/>
+		<ant inheritAll="false" dir="org.eevolution.warehouse"/>
+        <ant inheritAll="false" dir="com.kkalice.adempiere.migrate"/>
 	</target>
 	<target name="build" depends="jar">
 		<ant inheritAll="false" dir="install"/>		
@@ -37,7 +46,10 @@
 	<target name="clean">
 		<ant inheritAll="false" dir="tools" target="clean"/>
 		<ant inheritAll="false" dir="base" target="clean"/>
+		<ant inheritAll="false" dir="org.adempiere.asset" target="clean"/>
+		<ant inheritAll="false" dir="org.adempiere.webservice" target="clean"/>
 		<ant inheritAll="false" dir="extend" target="clean"/>
+		<ant inheritAll="false" dir="org.eevolution.cashflow" target="clean"/>
 		<ant inheritAll="false" dir="JasperReports" target="clean"/>
 		<ant inheritAll="false" dir="JasperReportsWebApp" target="clean"/>
 		<ant inheritAll="false" dir="client" target="clean"/>
@@ -49,10 +61,17 @@
 		<ant inheritAll="false" dir="posterita/posterita" target="clean"/>
 		<ant inheritAll="false" dir="install" target="clean"/>
 		<ant inheritAll="false" dir="zkwebui" target="clean"/>
+		<ant inheritAll="false" dir="mobile" target="clean"/>
+		<ant inheritAll="false" dir="migration" target="clean"/>
+		<ant inheritAll="false" dir="org.eevolution.cashflow" target="clean"/>
+		<ant inheritAll="false" dir="org.eevolution.manufacturing" target="clean"/>
+		<ant inheritAll="false" dir="org.eevolution.hr_and_payroll" target="clean"/>
+		<ant inheritAll="false" dir="org.eevolution.warehouse" target="clean"/>
+        <ant inheritAll="false" dir="com.kkalice.adempiere.migrate" target="migrate.clean"/>
 	</target>
 
   <target name="clean-all" depends="clean">
-    <delete dir="${env.ADEMPIERE_ROOT}"/>
+    <delete dir="${env.ADEMPIERE_HOME}"/>
   </target>
 
     <target name="update-adempiere-jar" depends="init">
@@ -74,7 +93,8 @@
 			<fileset dir="install/build" includes="Adempiere_*"/>
 		</copy>
 		<!-- Delete Existing stuff, but not utils + data 	-->
-		<delete failonerror="false">
+		<delete failonerror="false" includeEmptyDirs="true">
+			<fileset dir="${env.ADEMPIERE_HOME}/migration" includes="**/*" />
 			<fileset dir="${env.ADEMPIERE_HOME}/lib"/>
 			<fileset dir="${env.ADEMPIERE_HOME}/jboss"/>
 		</delete>
@@ -100,6 +120,12 @@
 		<copy todir="${env.ADEMPIERE_INSTALL}">
 			<fileset dir="install/build" includes="Adempiere_*"/>
 		</copy>
+		<!-- Delete Existing stuff, but not utils + data 	-->
+		<delete failonerror="false" includeEmptyDirs="true">
+			<fileset dir="${env.ADEMPIERE_HOME}/migration" includes="**/*" />
+			<fileset dir="${env.ADEMPIERE_HOME}/lib"/>
+			<fileset dir="${env.ADEMPIERE_HOME}/jboss"/>
+		</delete>
 		<!-- Unzip Install File			-->
 		<unzip src="install/build/Adempiere_${env.ADEMPIERE_VERSION_FILE}.zip" 
 			dest="${env.ADEMPIERE_ROOT}" 

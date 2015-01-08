@@ -74,14 +74,14 @@ public class InvoicePayScheduleValidate extends SvrProcess
 		}
 		boolean valid = invoice.getGrandTotal().compareTo(total) == 0;
 		invoice.setIsPayScheduleValid(valid);
-		invoice.save();
+		invoice.saveEx();
 		//	Schedule
 		for (int i = 0; i < schedule.length; i++)
 		{
 			if (schedule[i].isValid() != valid)
 			{
 				schedule[i].setIsValid(valid);
-				schedule[i].save();				
+				schedule[i].saveEx();				
 			}
 		}
 		String msg = "@OK@";

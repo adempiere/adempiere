@@ -15,6 +15,9 @@
  *  @author Michael McKay                                                     * 
  *  	<li>BF3441324  - Partially paid invoice does not appear in payment    *
  *                       selection                                            *
+ * 		<li>ADEMPIERE-72 VLookup and Info Window improvements				  *
+ * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72		  *
+ * 		<li>release/380 Fix query for speed									  *
  *****************************************************************************/
 package org.compiere.apps.form;
 
@@ -37,7 +40,6 @@ import org.compiere.model.MPaySelection;
 import org.compiere.model.MPaySelectionLine;
 import org.compiere.model.MRole;
 import org.compiere.model.X_C_Order;
-import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
@@ -68,7 +70,9 @@ public class PaySelect
 	/** SQL for Query           */
 	private String          m_sql;
 	/** Number of selected rows */
-	public int             m_noSelected = 0;
+	protected int             m_noSelected = 0;
+	/** Sum of invoice amounts on selected rows */
+	protected BigDecimal      m_sum = new BigDecimal(0.0);
 	/** Client ID               */
 	private int             m_AD_Client_ID = 0;
 	/**/
@@ -209,13 +213,31 @@ public class PaySelect
 		ORDER BY 2,3
 		 */
 
+		//  release/380 Improve speed
+		String numPayments = 	
+				  "COALESCE((SELECT COUNT(ps.C_PaymentTerm_ID)"
+				+ " 		FROM"
+				+ " 			C_PaySchedule ps, C_InvoicePaySchedule cips"
+				+ " 		WHERE"
+				+ " 			ps.C_PaySchedule_ID = cips.C_PaySchedule_ID"
+				+ " 			AND cips.C_INVOICE_ID = i.C_Invoice_ID"
+				+ " 			AND cips.duedate <= i.duedate"
+				+ " 		GROUP BY ps.C_PaymentTerm_ID),1)  || ' / ' ||"
+			    + " 		COALESCE((SELECT COUNT(ps.C_PaymentTerm_ID) AS maxpayno"
+			    + " 		    FROM "
+				+ " 			C_PaySchedule ps, C_InvoicePaySchedule cips"
+				+ " 		WHERE "
+				+ " 			ps.C_PaySchedule_ID = cips.C_PaySchedule_ID"
+				+ " 			AND cips.C_INVOICE_ID = i.C_Invoice_ID"
+				+ " 		GROUP BY ps.C_PaymentTerm_ID),1)";
+		
 		m_sql = miniTable.prepareTable(new ColumnInfo[] {
 			//  0..5
-			new ColumnInfo(" ", "i.C_Invoice_ID", IDColumn.class, false, false, null),
+			new ColumnInfo(" ", "i.C_Invoice_ID", IDColumn.class, true, false, null),
 			new ColumnInfo(Msg.translate(ctx, "DueDate"), "COALESCE(ips.duedate,paymentTermDueDate(i.C_PaymentTerm_ID, i.DateInvoiced)) AS DateDue", Timestamp.class, true, true, null),
 			new ColumnInfo(Msg.translate(ctx, "C_BPartner_ID"), "bp.Name", KeyNamePair.class, true, false, "i.C_BPartner_ID"),
 			new ColumnInfo(Msg.translate(ctx, "DocumentNo"), "i.DocumentNo", String.class),
-			new ColumnInfo(Msg.getMsg(ctx, "Payment #"), "np.numpaymts", KeyNamePair.class, true, false, "np.C_InvoicePaySchedule_ID"),
+			new ColumnInfo(Msg.getMsg(ctx, "Payment #"), numPayments, KeyNamePair.class, true, false, "i.C_InvoicePaySchedule_ID"),
 			new ColumnInfo(Msg.translate(ctx, "C_Currency_ID"), "c.ISO_Code", KeyNamePair.class, true, false, "i.C_Currency_ID"),
 			// 6..11
 			new ColumnInfo(Msg.translate(ctx, "GrandTotal"), "i.GrandTotal", BigDecimal.class),
@@ -223,26 +245,13 @@ public class PaySelect
 			new ColumnInfo(Msg.getMsg(ctx, "DiscountDate"), "SysDate-paymentTermDueDays(i.C_PaymentTerm_ID,i.DateInvoiced,SysDate)", Timestamp.class),
 			new ColumnInfo(Msg.getMsg(ctx, "AmountDue"), "currencyConvert(invoiceOpen(i.C_Invoice_ID,i.C_InvoicePaySchedule_ID),i.C_Currency_ID, ?,?,i.C_ConversionType_ID, i.AD_Client_ID,i.AD_Org_ID)", BigDecimal.class),
 			new ColumnInfo(Msg.getMsg(ctx, "AmountPay"), "currencyConvert(invoiceOpen(i.C_Invoice_ID,i.C_InvoicePaySchedule_ID)-paymentTermDiscount(i.GrandTotal,i.C_Currency_ID,i.C_PaymentTerm_ID,i.DateInvoiced, ?),i.C_Currency_ID, ?,?,i.C_ConversionType_ID, i.AD_Client_ID,i.AD_Org_ID)", BigDecimal.class),
-			new ColumnInfo(Msg.translate(ctx, "PaySched_ID"), "np.C_InvoicePaySchedule_ID", Integer.class)
+			new ColumnInfo(Msg.translate(ctx, "PaySched_ID"), "i.C_InvoicePaySchedule_ID", Integer.class)
 			},
 			//	FROM
 			"C_Invoice_v i"
 			+ " INNER JOIN C_BPartner bp ON (i.C_BPartner_ID=bp.C_BPartner_ID)"
 			+ " INNER JOIN C_Currency c ON (i.C_Currency_ID=c.C_Currency_ID)"
 			+ " INNER JOIN C_PaymentTerm p ON (i.C_PaymentTerm_ID=p.C_PaymentTerm_ID)"
-			+ " INNER JOIN (SELECT civ.c_invoice_id, civ.c_invoicepayschedule_id, civ.duedate," 
-			+ 			   " (SELECT COUNT(C_Invoice_ID) AS payno"
-			+			   " FROM C_Invoice_V"
-			+			   " WHERE C_Invoice_ID = civ.C_Invoice_ID"
-			+			   " AND duedate <= civ.duedate"
-			+			   " GROUP BY C_Invoice_ID) || ' / ' ||"
-			+			   " (SELECT COUNT(C_Invoice_ID) as numpmts"
-			+			   " FROM C_Invoice_V"
-			+			   " WHERE C_Invoice_ID = civ.C_Invoice_ID"
-			+			   " GROUP BY C_Invoice_ID) as numpaymts"
-			+			   " FROM C_Invoice_v civ) np ON (i.C_Invoice_ID=np.C_Invoice_ID"
-			+														" AND (i.C_InvoicePaySchedule_ID IS NULL"
-			+														" OR i.C_InvoicePaySchedule_ID = np.C_InvoicePaySchedule_ID))"
 			+ " LEFT OUTER JOIN C_InvoicePaySchedule ips ON (i.C_InvoicePaySchedule_ID = ips.C_InvoicePaySchedule_ID)",
 			//	WHERE
 			"i.IsSOTrx=? AND IsPaid='N'"
@@ -305,7 +314,7 @@ public class PaySelect
 	 *  Query and create TableInfo
 	 */
 	public void loadTableInfo(BankInfo bi, Timestamp payDate, ValueNamePair paymentRule, boolean onlyDue, 
-			KeyNamePair bpartner, KeyNamePair docType, IMiniTable miniTable)
+			int C_BPartner_ID, KeyNamePair docType, IMiniTable miniTable)
 	{
 		log.config("");
 		//  not yet initialized
@@ -322,10 +331,8 @@ public class PaySelect
 		}
 		//
 		if (onlyDue)
-			sql += " AND paymentTermDueDate(i.C_PaymentTerm_ID, i.DateInvoiced) <= ?";
+			sql += " AND COALESCE(ips.duedate,paymentTermDueDate(i.C_PaymentTerm_ID, i.DateInvoiced)) <= ?";
 		//
-		KeyNamePair pp = bpartner;
-		int C_BPartner_ID = pp.getKey();
 		if (C_BPartner_ID != 0)
 			sql += " AND i.C_BPartner_ID=?";
 		//Document Type
@@ -335,7 +342,7 @@ public class PaySelect
 			sql += " AND i.c_doctype_id =?";
 		sql += " ORDER BY DateDue, bp.Name, i.DocumentNo";
 
-		log.finest(sql + " - C_Currency_ID=" + bi.C_Currency_ID + ", C_BPartner_ID=" + C_BPartner_ID + ", C_doctype_id=" + c_doctype_id  );
+		log.fine(sql + " - C_Currency_ID=" + bi.C_Currency_ID + ", C_BPartner_ID=" + C_BPartner_ID + ", C_doctype_id=" + c_doctype_id  );
 		//  Get Open Invoices
 		try
 		{
@@ -375,28 +382,32 @@ public class PaySelect
 	public String calculateSelection(IMiniTable miniTable)
 	{
 		m_noSelected = 0;
-		BigDecimal invoiceAmt = new BigDecimal(0.0);
+		m_sum = new BigDecimal(0.0);
 
 		int rows = miniTable.getRowCount();
-		for (int i = 0; i < rows; i++)
+		if (rows > 0)
 		{
-			IDColumn id = (IDColumn)miniTable.getValueAt(i, 0);
-			if (id.isSelected())
+			for (int i=0; i < rows; i++)  // Count the rest - this will remove de-selections
 			{
+				IDColumn id = (IDColumn)miniTable.getValueAt(i, 0);
 				BigDecimal amt = (BigDecimal)miniTable.getValueAt(i, 10);
-				if (amt != null)
-					invoiceAmt = invoiceAmt.add(amt);
-				m_noSelected++;
+				if (id.isSelected())
+				{
+					amt = (BigDecimal)miniTable.getValueAt(i, 10);
+					if (amt != null)
+						m_sum = m_sum.add(amt);
+					m_noSelected++;
+				}
 			}
 		}
-
 		//  Information
-		BigDecimal remaining = m_bankBalance.subtract(invoiceAmt);
+		BigDecimal remaining = m_bankBalance.subtract(m_sum);
 		StringBuffer info = new StringBuffer();
 		info.append(m_noSelected).append(" ").append(Msg.getMsg(Env.getCtx(), "Selected")).append(" - ");
-		info.append(m_format.format(invoiceAmt)).append(", ");
+		info.append(m_format.format(m_sum)).append(", ");
 		info.append(Msg.getMsg(Env.getCtx(), "Remaining")).append(" ").append(m_format.format(remaining));
 		return info.toString();
+		
 	}   //  calculateSelection
 
 	public Trx trx = null;

@@ -1,23 +1,45 @@
 <!-- ============================================= -->
-<!-- ADempiere migration tool.                     -->
+<!-- ADempiere migration files.                    -->
 <!--                                               -->
 <!-- ============================================= -->
 
-<project name="migration" default="zip" basedir=".">
-
+<project name="migration" default="zip_current_release" basedir=".">
+ 
   <description>
     ADempiere migration tool.
   </description>
 
   <!-- Set global properties for this build -->
-  <property environment="env"/>
   <property file="build.properties"/>
-  <property name="version" value="0.5"/>
 	
   <target name="zip">
   	<zip destfile="dist/${ant.project.name}-${version}.zip" >
   	  <fileset dir="." includes="**/*" excludes="dist/${ant.project.name}-${version}.zip, build.bat, build.sh, build.properties, logs/*.log" />
   	</zip>
   </target>
+
+  <target name="zip_current_release" depends="install">
+  	<zip destfile="dist/${ant.project.name}-to-${release}.zip" >
+  	  <fileset dir="." includes="**/*" excludes="*.zip" />
+  	</zip>
+  </target>
+
+  <target name="clean">
+	<delete failonerror="false" includeEmptyDirs="true">
+		<fileset dir="./dist">
+			<include name="**/*" />
+		</fileset>
+	</delete>
+  </target>
+	
+  <!-- Copy migration files to dist directory -->	
+  <target name="install" depends="clean">
+	<copy todir="./dist">
+		<fileset dir="${basedir}">
+		    <filename name="*${release}*/**/*.*"/>
+		</fileset>
+	</copy>
+  </target>
+	 	
 	
 </project>

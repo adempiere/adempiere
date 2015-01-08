@@ -344,6 +344,8 @@ public class MWFNode extends X_AD_WF_Node
 			return "Workbench:?";*/
 		else if (ACTION_UserForm.equals(action))
 			return "Form:AD_Form_ID=" + getAD_Form_ID();
+		else if (ACTION_SmartBrowse.equals(action))
+			return "Smart:AD_Browse_ID=" + getAD_Browse_ID();
 		else if (ACTION_UserWindow.equals(action))
 			return "Window:AD_Window_ID=" + getAD_Window_ID();
 		else if (ACTION_WaitSleep.equals(action))
@@ -618,6 +620,14 @@ public class MWFNode extends X_AD_WF_Node
 			if (getAD_Form_ID() == 0)
 			{
 				log.saveError("FillMandatory", Msg.getElement(getCtx(), "AD_Form_ID"));
+				return false;
+			}
+		}
+		else if (action.equals(ACTION_SmartBrowse)) 
+		{
+			if (getAD_Browse_ID() == 0)
+			{
+				log.saveError("FillMandatory", Msg.getElement(getCtx(), "AD_Browse_ID"));
 				return false;
 			}
 		}

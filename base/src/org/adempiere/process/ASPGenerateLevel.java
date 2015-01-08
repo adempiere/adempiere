@@ -22,6 +22,7 @@
 *                                                                     *
 * Contributors:                                                       *
 * - Carlos Ruiz - globalqss                                           *
+* - Victor Perez - victor.perez@e-evolution.com                       *
 *                                                                     *
 * Sponsors:                                                           *
 * - Company (http://www.globalqss.com)                                *
@@ -32,6 +33,7 @@ package org.adempiere.process;
 import java.util.Enumeration;
 import java.util.logging.Level;
 
+import org.adempiere.model.MBrowse;
 import org.compiere.model.MClientInfo;
 import org.compiere.model.MColumn;
 import org.compiere.model.MField;
@@ -52,6 +54,7 @@ import org.compiere.model.X_ASP_Tab;
 import org.compiere.model.X_ASP_Task;
 import org.compiere.model.X_ASP_Window;
 import org.compiere.model.X_ASP_Workflow;
+import org.eevolution.model.X_ASP_Browse;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
@@ -75,6 +78,7 @@ public class ASPGenerateLevel extends SvrProcess
 	private int noProcesses = 0;
 	private int noParameters = 0;
 	private int noForms = 0;
+	private int noBrowses = 0;
 	private int noTasks = 0;
 	private int noWorkflows = 0;
 	
@@ -145,6 +149,8 @@ public class ASPGenerateLevel extends SvrProcess
 			addLog("Process Parameter " + noParameters);
 		if (noForms > 0)
 			addLog("Form " + noForms);
+		if (noBrowses > 0)
+			addLog("noBrowses " + noBrowses);
 		if (noTasks > 0)
 			addLog("Task " + noTasks);
 		if (noWorkflows > 0)
@@ -235,6 +241,20 @@ public class ASPGenerateLevel extends SvrProcess
 				aspForm.setASP_Status(p_ASP_Status);
 				if (aspForm.save())
 					noForms++;
+			}
+		} else if (menu.getAction().equals(MMenu.ACTION_SmartBrowse)) {
+			// Add Browse
+			MBrowse browse = new MBrowse(getCtx(), menu.getAD_Browse_ID(), get_TrxName());
+			if (DB.getSQLValueEx(
+					get_TrxName(),
+					"SELECT COUNT(*) FROM ASP_Browse WHERE ASP_Level_ID = ? AND AD_Browse_ID = ?",
+					p_ASP_Level_ID, browse.getAD_Browse_ID()) < 1) {
+				X_ASP_Browse aspBrowse = new X_ASP_Browse(getCtx(), 0, get_TrxName());
+				aspBrowse.setASP_Level_ID(p_ASP_Level_ID);
+				aspBrowse.setAD_Browse_ID(browse.getAD_Browse_ID());
+				aspBrowse.setASP_Status(p_ASP_Status);
+				if (aspBrowse.save())
+					noBrowses++;
 			}
 		} else if (menu.getAction().equals(MMenu.ACTION_Task)) {
 			// Add Task

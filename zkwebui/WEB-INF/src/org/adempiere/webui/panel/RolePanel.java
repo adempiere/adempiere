@@ -317,7 +317,7 @@ public class RolePanel extends Window implements EventListener, Deferrable
             //force reload of default role
             MRole.getDefault(m_ctx, true);
         }
-        setUserID();
+        login.getRoles(m_userName, m_password);
         updateOrganisationList();
     }
 
@@ -388,7 +388,7 @@ public class RolePanel extends Window implements EventListener, Deferrable
             if(eventCompId.equals(lstRole.getId()))
                 updateClientList();
             else if(eventCompId.equals(lstClient.getId())) {
-        		setUserID();
+                login.getRoles(m_userName, m_password);
                 updateOrganisationList();
             }
             else if(eventCompId.equals(lstOrganisation.getId()))
@@ -404,16 +404,6 @@ public class RolePanel extends Window implements EventListener, Deferrable
         }
     }
 
-	private void setUserID() {
-		// Carlos Ruiz - globalqss - Wrong #AD_User_ID when user with the same name from two Ten.  
-		// https://sourceforge.net/tracker/index.php?func=detail&aid=2984836&group_id=176962&atid=955896
-		Env.setContext(m_ctx, "#AD_Client_ID", (String) lstClient.getSelectedItem().getValue());
-		MUser user = MUser.get (m_ctx, m_userName, m_password);
-		if (user != null) {
-			Env.setContext(m_ctx, "#AD_User_ID", user.getAD_User_ID() );
-			Env.setContext(m_ctx, "#SalesRep_ID", user.getAD_User_ID() );
-		}
-	}
     /**
      *  validate Roles
      *

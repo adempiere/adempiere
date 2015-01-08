@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Adempiere-301 Add message for IsProductAttribute" ReleaseNo="3.8.0" SeqNo="24">
+    <Comments>Add message for IsProductAttribute</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <Comments>Need to add message for IsProductAttribute</Comments>
+      <PO AD_Table_ID="109" Action="I" Record_ID="53277" Table="AD_Message">
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53277</Data>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="589" Column="Created">2014-07-17 21:31:15.757</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Product Attribute</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="591" Column="Updated">2014-07-17 21:31:15.757</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="6766" Column="Value">IsProductAttribute</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

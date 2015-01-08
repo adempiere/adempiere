@@ -25,13 +25,10 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
-import org.adempiere.webui.component.Grid;
-import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
-import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
@@ -41,18 +38,15 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
-import org.zkoss.zul.Div;
-import org.zkoss.zul.Separator;
-import org.zkoss.zul.Vbox;
+import org.zkoss.zk.ui.event.Events;
 
 /**
  * Zk Port
  * @author Elaine
  * @version	InfoGeneral.java Adempiere Swing UI 3.4.1 
+ *
+ * @author Michael McKay, ADEMPIERE-72 VLookup and Info Window improvements
+ * 	<li>https://adempiere.atlassian.net/browse/ADEMPIERE-72
  */
 public class InfoGeneralPanel extends InfoPanel implements EventListener
 {
@@ -60,6 +54,8 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
 	 * 
 	 */
 	private static final long serialVersionUID = -665127800885078238L;
+	
+	private int fieldID = 0;
 	private Textbox txt1;
 	private Textbox txt2;
 	private Textbox txt3;
@@ -69,7 +65,7 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
 	private Label lbl2;
 	private Label lbl3;
 	private Label lbl4;
-	
+		
 	/** String Array of Column Info */
 	private ColumnInfo[] m_generalLayout;
 	
@@ -78,52 +74,89 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
 	
 	/** list of query columns (SQL) */
 	private ArrayList<String> m_queryColumnsSql = new ArrayList<String>();
-	private Borderlayout layout;
-	private Vbox southBody;
 	
-	public InfoGeneralPanel(String queryValue, int windowNo,String tableName,String keyColumn, boolean isSOTrx, String whereClause) 
+	/**
+	 *	Standard Constructor
+	 *  @param queryValue Query Value
+	 * 	@param WindowNo window no
+	 * 	@param tableName The name of the table to search
+	 * 	@param keyColumn The name of the keyColumn in the table.
+	 * 	@param multiSelection multiple selections
+	 *  @param saveResults  True if results will be saved, false for info only
+	 * 	@param whereClause where clause
+	 *  @param lookup True if the column has a lookup - open modal
+	 */
+	@Deprecated
+	public InfoGeneralPanel(String queryValue, int windowNo, String tableName, 
+			String keyColumn, boolean multipleSelection, String whereClause) 
 	{
-		super(windowNo, tableName, keyColumn, false,whereClause);
-				
+		this(windowNo, true, 0, queryValue,  tableName, keyColumn, false, false, whereClause);
+	}
+
+	/**
+	 *	Standard Constructor
+	 *  @param record_id The record ID to find
+	 *  @param value Query Value
+	 * 	@param WindowNo window no
+	 * 	@param tableName The name of the table to search
+	 * 	@param keyColumn The name of the keyColumn in the table.
+	 * 	@param multiSelection multiple selections
+	 * 	@param isSOTrx True if the records should be filtered for sales transactions
+	 * 	@param whereClause The where clause of the search
+	 */
+	public InfoGeneralPanel(int record_id, String value, int windowNo, 
+			String tableName, String keyColumn, 
+			boolean multipleSelection, String whereClause) 
+	{
+		this(windowNo, true, record_id, value, tableName, keyColumn, multipleSelection, 
+				false, whereClause);
+	}
+	/**
+	 *	Standard Constructor
+	 *  @param record_id The record ID to find
+	 *  @param value Query Value
+	 * 	@param WindowNo window no
+	 * 	@param tableName The name of the table to search
+	 * 	@param keyColumn The name of the keyColumn in the table.
+	 * 	@param multiSelection multiple selections
+	 * 	@param isSOTrx True if the records should be filtered for sales transactions
+	 * 	@param whereClause The where clause of the search
+	 *  @param lookup True if the column has a lookup - open modal
+	 */
+	public InfoGeneralPanel(int windowNo, boolean modal, int record_id, String value,  
+			String tableName, String keyColumn, 
+			boolean multipleSelection, boolean saveResults, String whereClause) 
+	{
+		super (windowNo, modal, tableName, keyColumn, multipleSelection, saveResults, whereClause);
+		log.info(tableName + " - " + keyColumn + " - " + whereClause);				
 		setTitle(Msg.getMsg(Env.getCtx(), "Info"));
-
-		try
-		{
-			init();
-			initComponents();
-			
-			if (queryValue != null && queryValue.length() > 0)
-			{
-				txt1.setValue(queryValue);
-			}
-
-			p_loadedOK = initInfo ();
-		}
-		catch (Exception e)
-		{
-			return;
-		}
-
-		// Elaine 2008/12/15
-		int no = contentPanel.getRowCount();
-		setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
-		setStatusDB(Integer.toString(no));
 		//
-		
-		if (queryValue != null && queryValue.length() > 0)
+		if (!initInfoTable())  // Populates m_generalLayout
+			return;
+		//
+		setTableLayout(m_generalLayout);
+		setFromClause(tableName);
+		setOrderClause("2");
+		StringBuffer where = new StringBuffer("IsActive='Y'");
+		if (whereClause.length() > 0)
+			where.append(" AND ").append(p_whereClause);
+		setWhereClause(where.toString());
+		//
+		statInit();
+		initInfo (record_id, value);
+		//		
+		if(autoQuery() || record_id != 0 || (value != null && value.length() > 0 && value != "%"))
         {
-            executeQuery();
-            renderItems();
+			prepareAndExecuteQuery();
         }
-		
+        //
+        p_loadedOK = true;		
 	}
 	
 	private void initComponents()
 	{
-		Grid grid = GridFactory.newGridLayout();
 		
 		Rows rows = new Rows();
-		grid.appendChild(rows);
 		
 		Row row = new Row();
 		rows.appendChild(row);
@@ -135,44 +168,12 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
 		row.appendChild(txt3);
 		row.appendChild(lbl4.rightAlign());
 		row.appendChild(txt4);
-		
-		layout = new Borderlayout();
-        layout.setWidth("100%");
-        layout.setHeight("100%");
-        if (!isLookup())
-        {
-        	layout.setStyle("position: absolute");
-        }
-        this.appendChild(layout);
 
-        North north = new North();
-        layout.appendChild(north);
-		north.appendChild(grid);
-        
-        Center center = new Center();
-		layout.appendChild(center);
-		center.setFlex(true);
-		Div div = new Div();
-		div.appendChild(contentPanel);
-		if (isLookup())
-			contentPanel.setWidth("99%");
-        else
-        	contentPanel.setStyle("width: 99%; margin: 0px auto;");
-        contentPanel.setVflex(true);
-		div.setStyle("width :100%; height: 100%");
-		center.appendChild(div);
-		
-		South south = new South();
-		layout.appendChild(south);
-		southBody = new Vbox();
-		southBody.setWidth("100%");
-		south.appendChild(southBody);
-		southBody.appendChild(confirmPanel);
-		southBody.appendChild(new Separator());
-		southBody.appendChild(statusBar);
+		p_criteriaGrid.appendChild(rows);
+		super.setSizes();
 	}
 
-	private void init()
+	private void statInit()
 	{
 		txt1 = new Textbox();
 		txt2 = new Textbox();
@@ -183,55 +184,74 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
 		lbl2 = new Label();
 		lbl3 = new Label();
 		lbl4 = new Label();
+		
+		initComponents();
 	}
 	
-	private boolean initInfo ()
+	protected void initInfo()
 	{
-		if (!initInfoTable())
-			return false;
-
-		//  Prepare table
-		
-		StringBuffer where = new StringBuffer("IsActive='Y'");
-		
-		if (p_whereClause.length() > 0)
-			where.append(" AND ").append(p_whereClause);
-		prepareTable(m_generalLayout, p_tableName, where.toString(), "2");
-
-		//	Set & enable Fields
-		
+		initInfo(0,"");
+	}
+	
+	private void initInfo (int record_id, String value)
+	{
+		//	Set & enable Fields		
 		lbl1.setValue(Util.cleanAmp(Msg.translate(Env.getCtx(), m_queryColumns.get(0).toString())));
-		
+		txt1.setAttribute("zk_component_ID", "Lookup_txt1_" + m_queryColumns.get(0).toString());
+		txt1.addEventListener(Events.ON_CHANGE, this);
+		//
 		if (m_queryColumns.size() > 1)
 		{
 			lbl2.setValue(Msg.translate(Env.getCtx(), m_queryColumns.get(1).toString()));
+			txt2.setAttribute("zk_component_ID", "Lookup_txt2_" + m_queryColumns.get(1).toString());
+			txt2.addEventListener(Events.ON_CHANGE, this);
 		}
 		else
 		{
 			lbl2.setVisible(false);
 			txt2.setVisible(false);
 		}
-		
+		//
 		if (m_queryColumns.size() > 2)
 		{
 			lbl3.setValue(Msg.translate(Env.getCtx(), m_queryColumns.get(2).toString()));
+			txt3.setAttribute("zk_component_ID", "Lookup_txt3_" + m_queryColumns.get(2).toString());
+			txt3.addEventListener(Events.ON_CHANGE, this);
 		}
 		else
 		{
 			lbl3.setVisible(false);
 			txt3.setVisible(false);
 		}
-		
+		//
 		if (m_queryColumns.size() > 3)
 		{
 			lbl4.setValue(Msg.translate(Env.getCtx(), m_queryColumns.get(3).toString()));
+			txt4.setAttribute("zk_component_ID", "Lookup_txt4_" + m_queryColumns.get(3).toString());
+			txt4.addEventListener(Events.ON_CHANGE, this);
 		}
 		else
 		{
 			lbl4.setVisible(false);
 			txt4.setVisible(false);
 		}
-		return true;
+		//  Set values
+		if (!(record_id == 0) && value != null && value.length() > 0)
+		{
+			log.severe("Received both a record_id and a value: " + record_id + " - " + value);
+		}
+		
+		if (record_id != 0)
+		{
+			fieldID = record_id;
+		}
+		else
+		{
+			if (value != null && value.length() > 0)
+			{
+				txt1.setValue(value);
+			}
+		}
 	}
 
 	private boolean initInfoTable ()
@@ -410,35 +430,28 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
 	public String getSQLWhere() 
 	{
 		StringBuffer sql = new StringBuffer();
-		addSQLWhere (sql, 0, txt1.getText().toUpperCase());
-		addSQLWhere (sql, 1, txt2.getText().toUpperCase());
-		addSQLWhere (sql, 2, txt3.getText().toUpperCase());
-		addSQLWhere (sql, 3, txt4.getText().toUpperCase());
+		if(isResetRecordID())  // Set in Info.java.
+			fieldID = 0;
+		
+		if(!(fieldID==0))
+		{
+			sql.append(" AND ").append(getTableName()).append(".").append(getKeyColumn()).append(" = ?");
+		}
+		addSQLWhere (sql, 0, txt1);
+		addSQLWhere (sql, 1, txt2);
+		addSQLWhere (sql, 2, txt3);
+		addSQLWhere (sql, 3, txt4);
 		return sql.toString();
 	}
 	
-	private void addSQLWhere(StringBuffer sql, int index, String value)
+	private void addSQLWhere(StringBuffer sql, int index, Textbox value)
 	{
-		if (!(value.equals("") || value.equals("%")) && index < m_queryColumns.size())
+		if (isValidSQLText(value) && index < m_queryColumns.size())
 		{
 			// Angelo Dabala' (genied) nectosoft: [2893220] avoid to append string parameters directly because of special chars like quote(s)
 			sql.append(" AND UPPER(").append(m_queryColumnsSql.get(index).toString()).append(") LIKE ?");
 		}
 	}
-
-	/**
-	 *  Get SQL WHERE parameter
-	 *  @param f field
-	 *  @return sql part
-	 */
-	private String getSQLText (Textbox f)
-	{
-		String s = f.getText().toUpperCase();
-		if (!s.endsWith("%"))
-			s += "%";
-		log.fine( "String=" + s);
-		return s;
-	}   //  getSQLText
 
 	/**
 	 *  Set Parameters for Query.
@@ -450,24 +463,44 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
 	protected void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
 	{
 		int index = 1;
-		if (txt1.getText().length() > 0)
+		if (!(fieldID == 0))
+			pstmt.setInt(index++, fieldID);
+		if (isValidSQLText(txt1))
 			pstmt.setString(index++, getSQLText(txt1));
-		if (txt2.getText().length() > 0)
+		if (isValidSQLText(txt2))
 			pstmt.setString(index++, getSQLText(txt2));
-		if (txt3.getText().length() > 0)
+		if (isValidSQLText(txt3))
 			pstmt.setString(index++, getSQLText(txt3));
-		if (txt4.getText().length() > 0)
+		if (isValidSQLText(txt4))
 			pstmt.setString(index++, getSQLText(txt4));
 	}   //  setParameters
 
-    public void tableChanged(WTableModelEvent event)
-    {
-    }
-        
-    @Override
-	protected void insertPagingComponent()
-    {
-		southBody.insertBefore(paging, southBody.getFirstChild());
-		layout.invalidate();
-    }
+	/**
+	 * Does the parameter panel have outstanding changes that have not been
+	 * used in a query?
+	 * @return true if there are outstanding changes.
+	 */
+	protected boolean hasOutstandingChanges()
+	{
+		//  All the tracked fields
+		return(
+			txt1.hasChanged()	||
+			txt2.hasChanged() ||
+			txt3.hasChanged() ||
+			txt4.hasChanged()
+			);
+	}
+	
+	/**
+	 * Record outstanding changes by copying the current
+	 * value to the oldValue on all fields
+	 */
+	protected void setFieldOldValues()
+	{
+		txt1.set_oldValue();
+		txt2.set_oldValue();
+		txt3.set_oldValue();
+		txt4.set_oldValue();
+		return;
+	}
 }

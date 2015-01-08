@@ -170,9 +170,9 @@ public class WChat extends Window implements EventListener
 			{
 				log.config(data);
 				if (m_chat.get_ID() == 0)
-					m_chat.save();
+					m_chat.saveEx();
 				MChatEntry entry = new MChatEntry(m_chat, data);
-				entry.save();
+				entry.saveEx();
 			}	//	data to be saved
 		}
 		dispose();

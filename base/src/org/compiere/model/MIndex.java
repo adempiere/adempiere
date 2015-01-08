@@ -191,7 +191,7 @@ public class MIndex extends X_K_Index
 	            thisIndex.setKeyword(name);
 	            thisIndex.setRecord_ID(recordID);
 	            thisIndex.setSourceUpdated(sourceUpdated);
-	            thisIndex.save();
+	            thisIndex.saveEx();
 	        }
 	        return true;
 		} else {

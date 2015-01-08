@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="The Advanced Zoom and RelationTypes do not work ADEMPIERE-80 " ReleaseNo="3.8.0" SeqNo="28">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="103" Action="U" Record_ID="53347" Table="AD_Ref_Table">
+        <Data AD_Column_ID="146" Column="WhereClause" oldValue="C_Order_ID=@C_Order_ID@ OR&#10;M_InOut_ID IN (&#10;  SELECT i.M_InOut_ID from /* intentionally lowercase */ M_InOut i&#10;    LEFT JOIN M_InOutline il ON il.M_InOut_ID = i.M_InOut_ID&#10;    LEFT JOIN C_OrderLine ol ON ol.C_OrderLine_ID = il.C_OrderLine_ID&#10;  where ol.C_Order_ID=@C_Order_ID@ AND i.MovementType IN ('C-')&#10;)">(C_Order_ID=@C_Order_ID@ AND IsSOTrx='Y') OR
+M_InOut_ID IN (
+  SELECT i.M_InOut_ID from /* intentionally lowercase */ M_InOut i
+    LEFT JOIN M_InOutline il ON il.M_InOut_ID = i.M_InOut_ID
+    LEFT JOIN C_OrderLine ol ON ol.C_OrderLine_ID = il.C_OrderLine_ID
+  where ol.C_Order_ID=@C_Order_ID@ AND i.MovementType IN ('C-')
+)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="103" Action="U" Record_ID="53334" Table="AD_Ref_Table">
+        <Data AD_Column_ID="146" Column="WhereClause" oldValue="C_Order_ID=@C_Order_ID@ OR&#10;C_Invoice_ID IN (&#10;  SELECT i.C_Invoice_ID from /* intentionally lowercase */ C_Invoice i&#10;    LEFT JOIN C_InvoiceLine il ON il.C_Invoice_ID = i.C_Invoice_ID&#10;    LEFT JOIN C_OrderLine ol ON ol.C_OrderLine_ID = il.C_OrderLine_ID&#10;  where ol.C_Order_ID=@C_Order_ID@ AND i.isSOTrx='Y'&#10;)">(C_Order_ID=@C_Order_ID@ AND IsSOTrx='Y') OR
+C_Invoice_ID IN (
+  SELECT i.C_Invoice_ID from /* intentionally lowercase */ C_Invoice i
+    LEFT JOIN C_InvoiceLine il ON il.C_Invoice_ID = i.C_Invoice_ID
+    LEFT JOIN C_OrderLine ol ON ol.C_OrderLine_ID = il.C_OrderLine_ID
+  where ol.C_Order_ID=@C_Order_ID@ AND i.isSOTrx='Y'
+)</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

@@ -19,6 +19,8 @@ package org.compiere.model;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
@@ -34,6 +36,10 @@ import org.compiere.util.CLogger;
  * 			<li>BF [ 1964496 ] AccessSqlParser is not parsing well JOIN CLAUSE
  * 			<li>BF [ 2840157 ] AccessSqlParser is not parsing well ON keyword
  * 				https://sourceforge.net/tracker/?func=detail&aid=2840157&group_id=176962&atid=879332
+ * 
+ * @author Michael McKay
+ * 			<li>ADEMPIERE-70 AccessSqlParser confused by subordinate Select statements in From 
+ * 				when using joins to other tables.  https://adempiere.atlassian.net/browse/ADEMPIERE-70 
  */
 public class AccessSqlParser
 {
@@ -175,9 +181,12 @@ public class AccessSqlParser
 		for (int sqlIndex = 0; sqlIndex < sqlIn.length; sqlIndex++)
 		{
 			String sql = sqlIn[sqlIndex];
-			int index = sql.indexOf("(SELECT ", 7);
-			while (index != -1)
+			String patternStr = "\\(\\s*SELECT";  // Open bracket followed by possible white space and the Select keyword, not case sensitive
+		    Pattern pattern = Pattern.compile(patternStr, Pattern.CASE_INSENSITIVE);
+		    Matcher matcher = pattern.matcher(sql);
+			while (matcher.find(7))
 			{
+		    	int index = matcher.start(); //this will give you index
 				int endIndex = index+1;
 				int parenthesisLevel = 0;
 				//	search for the end of the sql
@@ -199,7 +208,7 @@ public class AccessSqlParser
 				//	remove inner SQL (##)
 				sql = sql.substring(0,index+1) + "##" 
 					+ sql.substring(endIndex);
-				index = sql.indexOf("(SELECT ", 7);
+				matcher = pattern.matcher(sql);
 			}			
 			list.add(sql);	//	last SQL
 		}
@@ -236,14 +245,21 @@ public class AccessSqlParser
 			from = from.replaceAll("[\r\n\t ]+RIGHT[\r\n\t ]+OUTER[\r\n\t ]+JOIN[\r\n\t ]+", ", ");
 			from = from.replaceAll("[\r\n\t ]+FULL[\r\n\t ]+JOIN[\r\n\t ]+", ", ");
 			from = from.replaceAll("[\r\n\t ]+[Oo][Nn][\r\n\t ]+", ON); // teo_sarca, BF [ 2840157 ]
-			//	Remove ON clause - assumes that there is no IN () in the clause
+
+			//	Remove ON clause
 			index = from.indexOf(ON);
 			while (index != -1)
 			{
-				int indexClose = from.indexOf(')');		//	does not catch "IN (1,2)" in ON
+				//  ADEMPIERE-70: FROM clause can have subordinate queries in the form (##) so 
+				//  ADEMPIERE-70: FROM clause can have subordinate queries in the form (##) so 
+				//  start the search from the index, not the beginning and search between "ON"
+				//  Assume the ON clause has multiple nested clauses like (a OR (b AND c))
+				int indexClose = -1;  
 				int indexNextOn = from.indexOf(ON, index+4);
 				if (indexNextOn != -1)
-					indexClose = from.lastIndexOf(')', indexNextOn);
+					indexClose = from.lastIndexOf(')', indexNextOn);  // Search between "ON" keywords
+				else 
+					indexClose = from.lastIndexOf(')', from.length());  // Its the last clause.  Search from the end.
 				if (indexClose != -1)
 				{
 					if (index > indexClose)

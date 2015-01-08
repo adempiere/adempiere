@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_Product_BOMLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0
  */
 public interface I_PP_Product_BOMLine 
 {
@@ -114,6 +114,32 @@ public interface I_PP_Product_BOMLine
 	  * Cost allocation percent in case of a co-product.
 	  */
 	public BigDecimal getCostAllocationPerc();
+
+    /** Column name CostStandard */
+    public static final String COLUMNNAME_CostStandard = "CostStandard";
+
+	/** Set Standard Cost.
+	  * Standard Costs
+	  */
+	public void setCostStandard (BigDecimal CostStandard);
+
+	/** Get Standard Cost.
+	  * Standard Costs
+	  */
+	public BigDecimal getCostStandard();
+
+    /** Column name CostStandardCumAmt */
+    public static final String COLUMNNAME_CostStandardCumAmt = "CostStandardCumAmt";
+
+	/** Set Std Cost Amount Sum.
+	  * Standard Cost Invoice Amount Sum (internal)
+	  */
+	public void setCostStandardCumAmt (BigDecimal CostStandardCumAmt);
+
+	/** Get Std Cost Amount Sum.
+	  * Standard Cost Invoice Amount Sum (internal)
+	  */
+	public BigDecimal getCostStandardCumAmt();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -305,6 +331,17 @@ public interface I_PP_Product_BOMLine
 	public int getM_ChangeNotice_ID();
 
 	public org.compiere.model.I_M_ChangeNotice getM_ChangeNotice() throws RuntimeException;
+
+    /** Column name M_PartType_ID */
+    public static final String COLUMNNAME_M_PartType_ID = "M_PartType_ID";
+
+	/** Set Part Type	  */
+	public void setM_PartType_ID (int M_PartType_ID);
+
+	/** Get Part Type	  */
+	public int getM_PartType_ID();
+
+	public org.compiere.model.I_M_PartType getM_PartType() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";

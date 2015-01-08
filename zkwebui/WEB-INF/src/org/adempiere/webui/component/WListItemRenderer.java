@@ -24,13 +24,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.event.TableValueChangeEvent;
 import org.adempiere.webui.event.TableValueChangeListener;
+import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
@@ -54,7 +57,10 @@ import org.zkoss.zul.ListitemRendererExt;
  *
  * @author Andrew Kimball
  *
+ * @author	Michael McKay
+ * 				<li>release/380 - enable red rows based on color row in miniTable. 
  */
+
 public class WListItemRenderer implements ListitemRenderer, EventListener, ListitemRendererExt
 {
 	/** Array of listeners for changes in the table components. */
@@ -71,6 +77,22 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
     private Listbox listBox;
 
 	private EventListener cellListener;
+
+    private List<WTableColumn> hiddenColumns = new ArrayList<WTableColumn>();
+
+    private Map<WTableColumn, ColumnAttributes> columnAttributesMap
+	= new HashMap<WTableColumn, ColumnAttributes>();
+
+    class ColumnAttributes {
+    	
+		protected Object headerValue;
+
+		protected int minWidth;
+
+		protected int maxWidth;
+
+		protected int preferredWidth;
+	}
 
 	/**
 	 * Default constructor.
@@ -149,6 +171,19 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 			table = (WListbox)item.getListbox();
 		}
 
+
+		int colorCode = 0;
+		if (table != null)
+		{
+			colorCode = table.getColorCode(rowIndex);
+			if (colorCode < 0)
+			{
+				//  Color the row.
+				//  TODO: do this with a class and CSS
+				item.setStyle("color: #FF0000; " + item.getStyle());
+			}
+		}
+
 		if (!(data instanceof List))
 		{
 			throw new IllegalArgumentException("A model element was not a list");
@@ -168,6 +203,8 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 			listcell = getCellComponent(table, field, rowIndex, colIndex);
 			listcell.setParent(item);
 			listcell.addEventListener(Events.ON_DOUBLE_CLICK, cellListener);
+			listcell.setAttribute("zk_component_ID", "ListItem_R" + rowIndex + "_C" + colIndex);
+
 			colIndex++;
 		}
 
@@ -188,10 +225,14 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 	{
 		ListCell listcell = new ListCell();
 		boolean isCellEditable = table != null ? table.isCellEditable(rowIndex, columnIndex) : false;
+		boolean isColumnVisible = Boolean.TRUE;
+		
+		if ( !m_tableColumns.isEmpty() )
+			isColumnVisible = isColumnVisible(getColumn(columnIndex));
 
         // TODO put this in factory method for generating cell renderers, which
         // are assigned to Table Columns
-		if (field != null)
+		if (field != null && isColumnVisible )
 		{
 			if (field instanceof Boolean)
 			{
@@ -231,8 +272,6 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 					numberbox.setValue(field);
 					numberbox.setWidth("100px");
 					numberbox.setEnabled(true);
-					numberbox.setStyle("text-align:right; "
-									+ listcell.getStyle());
 					numberbox.addEventListener(Events.ON_CHANGE, this);
 					listcell.appendChild(numberbox);
 				}
@@ -275,6 +314,43 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 					listcell.setLabel(field.toString());
 				}
 			}
+            else if (field instanceof org.adempiere.webui.component.Combobox)
+            {
+                listcell.setValue(field);
+                if (isCellEditable)
+                {
+                    Combobox combobox =  (Combobox)field;
+                    combobox.addEventListener(Events.ON_CHANGE, this);
+                    listcell.appendChild(combobox);
+                }
+                else
+                {
+                    Combobox combobox =  (Combobox)field;
+                    if(combobox!=null && combobox.getItemCount()>0) {
+                        if (combobox.getSelectedIndex() >= 0)
+                            listcell.setLabel((String)combobox.getItemAtIndex(combobox.getSelectedIndex()).getLabel());
+                        else
+                            listcell.setLabel("");
+                    }
+                }
+            }
+            else if (field instanceof org.adempiere.webui.component.Button)
+            {
+                listcell.setValue(field);
+                if (isCellEditable)
+                {
+                    Button button =  (Button)field;
+                    button.addEventListener(Events.ON_CLICK, this);
+                    listcell.appendChild(button);
+                }
+                else
+                {
+                    Button button =  (Button)field;
+                    if(button!=null ) {
+                        listcell.setLabel("");
+                    }
+                }
+            }
 			// if ID column make it invisible
 			else if (field instanceof IDColumn)
 			{
@@ -296,6 +372,8 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 			listcell.setLabel("");
 			listcell.setValue("");
 		}
+		
+		listcell.setAttribute("zk_component_ID", "ListItem_Cell_" + rowIndex + "_" + columnIndex);
 
 		return listcell;
 	}
@@ -318,7 +396,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 	}   //  updateColumn
 
 	/**
-	 *  Add Table Column.
+	 *  Add Table Column.  Assumes it is visible.
 	 *  after adding a column, you need to set the column classes again
 	 *  (DefaultTableModel fires TableStructureChanged, which calls
 	 *  JTable.tableChanged .. createDefaultColumnsFromModel
@@ -330,6 +408,26 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 
 		tableColumn = new WTableColumn();
 		tableColumn.setHeaderValue(Util.cleanAmp(header));
+		setColumnVisibility(tableColumn,true);
+		m_tableColumns.add(tableColumn);
+
+		return;
+	}   //  addColumn
+
+	/**
+	 *  Add Table Column.
+	 *  after adding a column, you need to set the column classes again
+	 *  (DefaultTableModel fires TableStructureChanged, which calls
+	 *  JTable.tableChanged .. createDefaultColumnsFromModel
+	 *  @param ColumnInfo for the column
+	 */
+	public void addColumn(ColumnInfo info)
+	{
+		WTableColumn tableColumn;
+
+		tableColumn = new WTableColumn();
+		tableColumn.setHeaderValue(Util.cleanAmp(info.getColHeader()));
+		setColumnVisibility(tableColumn,info.getVisibility());
 		m_tableColumns.add(tableColumn);
 
 		return;
@@ -346,7 +444,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 
 	/**
 	 * This is unused.
-	 * The readonly proprty of a column should be set in
+	 * The read only property of a column should be set in
 	 * the parent table.
 	 *
 	 * @param colIndex
@@ -377,10 +475,16 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
         String headerText = headerValue.toString();
         if (m_headers.size() <= headerIndex || m_headers.get(headerIndex) == null)
         {
-        	if (classType != null && classType.isAssignableFrom(IDColumn.class))
+        	if (!isColumnVisible(getColumn(headerIndex)))
         	{
         		header = new ListHeader("");
-        		header.setWidth("20px");
+        		header.setWidth("0px");
+        		header.setStyle("width: 0px");
+        	}
+        	else if (classType != null && classType.isAssignableFrom(IDColumn.class))
+        	{
+        		header = new ListHeader("");
+        		header.setWidth("35px");
         	}
         	else
         	{
@@ -423,11 +527,19 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
         {
             header = m_headers.get(headerIndex);
 
-            if (!header.getLabel().equals(headerText))
+            if (!isColumnVisible(getColumn(headerIndex)))
+        	{
+        		header.setLabel("");
+        		header.setWidth("0px");
+        		header.setStyle("width: 0px");
+        	}
+        	else if (!header.getLabel().equals(headerText))
             {
                 header.setLabel(headerText);
             }
         }
+
+        header.setAttribute("zk_component_ID", "ListItem_Header_C" + headerIndex);
 
 		return header;
 	}
@@ -572,18 +684,21 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 				tableColumn = m_tableColumns.get(0);
 				for (int i = 0; i < cnt; i++) {
 					IDColumn idcolumn = (IDColumn) table.getValueAt(i, 0);
-					Listitem item = table.getItemAtIndex(i);
-
-					value = item.isSelected();
-					Boolean old = idcolumn.isSelected();
-
-					if (!old.equals(value)) {
-						vcEvent = new TableValueChangeEvent(source,
-								tableColumn.getHeaderValue().toString(),
-								i, 0,
-								old, value);
-
-						fireTableValueChange(vcEvent);
+					if (idcolumn != null)
+					{
+						Listitem item = table.getItemAtIndex(i);
+	
+						value = item.isSelected();
+						Boolean old = idcolumn.isSelected();
+	
+						if (!old.equals(value)) {
+							vcEvent = new TableValueChangeEvent(source,
+									tableColumn.getHeaderValue().toString(),
+									i, 0,
+									old, value);
+	
+							fireTableValueChange(vcEvent);
+						}
 					}
 				}
 			}
@@ -661,6 +776,8 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 	public void clearColumns()
 	{
 		m_tableColumns.clear();
+		columnAttributesMap.clear();
+		hiddenColumns.clear();
 	}
 
 	/**
@@ -756,6 +873,69 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 		if (index >= 0 && index < m_tableColumns.size())
 		{
 			m_tableColumns.get(index).setColumnClass(classType);
+		}
+	}
+
+	/**
+     * 
+     * @param column
+     * @return boolean
+     */
+	public boolean isColumnVisible(WTableColumn column) 
+	{
+		return !hiddenColumns.contains(column);
+	}
+
+	/**
+	 * Hide or show column
+	 * @param index of the column
+	 * @param visible
+	 */
+	public void setColumnVisibility(int index, boolean visible) 
+	{
+		WTableColumn column;
+		
+		if (index >= 0 && index < m_tableColumns.size())
+		{
+			column = m_tableColumns.get(index);
+			setColumnVisibility(column, visible);
+		}
+		else
+			return;
+	}
+	/**
+	 * Hide or show column
+	 * @param column
+	 * @param visible
+	 */
+	public void setColumnVisibility(WTableColumn column, boolean visible) 
+	{
+
+		if (visible)
+		{
+			if (isColumnVisible(column)) return;
+			ColumnAttributes attributes = columnAttributesMap.get(column);
+			if (attributes == null) return;
+			
+			column.setMinWidth(attributes.minWidth);
+			column.setMaxWidth(attributes.maxWidth);
+			column.setPreferredWidth(attributes.preferredWidth);
+			columnAttributesMap.remove(column);
+			hiddenColumns.remove(column);
+		}
+		else 
+		{
+			if (!isColumnVisible(column)) return;
+
+			ColumnAttributes attributes = new ColumnAttributes();
+			attributes.minWidth = column.getMinWidth();
+			attributes.maxWidth = column.getMaxWidth();
+			attributes.preferredWidth = column.getPreferredWidth();
+			columnAttributesMap.put(column, attributes);			
+			column.setMinWidth(0);
+			column.setMaxWidth(0);            	
+			column.setPreferredWidth(0);
+        	hiddenColumns.add(column);
 		}
 	}
 

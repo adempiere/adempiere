@@ -1,6 +1,8 @@
 package org.compiere.minigrid;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import org.compiere.model.PO;
 
@@ -13,6 +15,8 @@ public interface IMiniTable
 	public void setValueAt(Object value, int row, int column);
 	
 	public int convertColumnIndexToModel(int viewColumnIndex);
+	
+	public int convertColumnIndexToView(int modelColumnIndex);
 	
 	public void setColumnReadOnly (int index, boolean readOnly);
 	
@@ -28,9 +32,19 @@ public interface IMiniTable
 	
 	public void loadTable(PO[] pos);
 	
+	public void setKeyColumnIndex (int keyColumnIndex);
+
+	public int getKeyColumnIndex();
+	
+	public ArrayList<Integer> getSelectedKeys();
+	
 	public Integer getSelectedRowKey();
 	
 	public int getSelectedRow();
+	
+	public int getRowKey(int row);
+	
+	public boolean isRowChecked(int row);
 	
 	public void setRowCount (int rowCount);
 	
@@ -39,6 +53,8 @@ public interface IMiniTable
 	public int getColumnCount();
 	
 	public int getRowCount();
+	
+	public boolean getShowTotals();
 	
 	public void setMultiSelection(boolean multiSelection);
 	
@@ -51,4 +67,9 @@ public interface IMiniTable
 	public void repaint();
 	
 	public void autoSize();
+
+	public int convertRowIndexToModel(int row);
+	
+	public void setRowChecked(int row, boolean value);
+	
 }

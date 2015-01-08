@@ -102,7 +102,7 @@ public class M_Production_Run extends SvrProcess {
 				for (X_M_ProductionPlan pp :lines)
 				{	
 	
-					if (!production.isCreated()) 
+					if (!"Y".equals(production.getIsCreated()) ) 
 					{
 						int line = 100;
 						int no = DB.executeUpdateEx("DELETE M_ProductionLine WHERE M_ProductionPlan_ID = ?", new Object[]{pp.getM_ProductionPlan_ID()},get_TrxName());
@@ -111,6 +111,7 @@ public class M_Production_Run extends SvrProcess {
 						MProduct product = MProduct.get(getCtx(), pp.getM_Product_ID());
 			
 						X_M_ProductionLine pl = new X_M_ProductionLine(getCtx(), 0 , get_TrxName());
+						pl.setAD_Org_ID(pp.getAD_Org_ID());
 						pl.setLine(line);
 						pl.setDescription(pp.getDescription());
 						pl.setM_Product_ID(pp.getM_Product_ID());
@@ -183,9 +184,9 @@ public class M_Production_Run extends SvrProcess {
 				} 	
 		} // Production Plan
 				
-		if(!production.isCreated())	
+		if(!"Y".equals(production.getIsCreated()) )
 		{	
-			production.setIsCreated(true);
+			production.setIsCreated("Y");
 			production.saveEx();
 		}
 		else
@@ -238,6 +239,7 @@ public class M_Production_Run extends SvrProcess {
 			{	
 				line += 1;
 				X_M_ProductionLine pl = new X_M_ProductionLine(getCtx(), 0 , get_TrxName());
+				pl.setAD_Org_ID(pp.getAD_Org_ID());
 				pl.setLine(line);
 				pl.setDescription(bomline.getDescription());
 				pl.setM_Product_ID(bomline.getM_Product_ID());

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app PUBLIC
+   "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+   "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<!-- The http-invoker.sar/invoker.war web.xml descriptor
+$Id: web.xml 26202 2004-11-29 16:54:36Z starksm $
+-->
+<web-app>
+    <filter>
+      <filter-name>ReadOnlyAccessFilter</filter-name>
+      <filter-class>org.jboss.invocation.http.servlet.ReadOnlyAccessFilter</filter-class>
+      <init-param>
+         <param-name>readOnlyContext</param-name>
+         <param-value>readonly</param-value>
+         <description>The top level JNDI context the filter will enforce
+         read-only access on. If specified only Context.lookup operations
+         will be allowed on this context. Another other operations or lookups
+         on any other context will fail. Do not associate this filter with the
+         JMXInvokerServlets if you want unrestricted access.
+         </description>
+      </init-param>
+      <init-param>
+         <param-name>invokerName</param-name>
+         <param-value>jboss:service=Naming</param-value>
+         <description>The JMX ObjectName of the naming service mbean
+         </description>
+      </init-param>
+    </filter>
+
+    <filter-mapping>
+      <filter-name>ReadOnlyAccessFilter</filter-name>
+      <url-pattern>/readonly/*</url-pattern>
+    </filter-mapping>
+
+<!-- ### Servlets -->
+    <servlet>
+        <servlet-name>EJBInvokerServlet</servlet-name>
+        <description>The EJBInvokerServlet receives posts containing serlized
+        MarshalledInvocation objects that are routed to the EJB invoker given by
+        the invokerName init-param. The return content is a serialized
+        MarshalledValue containg the return value of the inovocation, or any
+        exception that may have been thrown.
+        </description>
+        <servlet-class>org.jboss.invocation.http.servlet.InvokerServlet</servlet-class>
+        <init-param>
+            <param-name>invokerName</param-name>
+            <param-value>jboss:service=invoker,type=http</param-value>
+            <description>The RMI/HTTP EJB compatible invoker</description>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+   <servlet>
+       <servlet-name>JMXInvokerServlet</servlet-name>
+       <description>The JMXInvokerServlet receives posts containing serlized
+       MarshalledInvocation objects that are routed to the invoker given by
+       the the MBean whose object name hash is specified by the
+       invocation.getObjectName() value. The return content is a serialized
+       MarshalledValue containg the return value of the inovocation, or any
+       exception that may have been thrown.
+       </description>
+       <servlet-class>org.jboss.invocation.http.servlet.InvokerServlet</servlet-class>
+       <load-on-startup>1</load-on-startup>
+   </servlet>
+
+    <servlet>
+        <servlet-name>JNDIFactory</servlet-name>
+        <description>A servlet that exposes the JBoss JNDI Naming service stub
+        through http. The return content is a serialized
+        MarshalledValue containg the org.jnp.interfaces.Naming stub. This
+        configuration handles requests for the standard JNDI naming service.
+        </description>
+        <servlet-class>org.jboss.invocation.http.servlet.NamingFactoryServlet</servlet-class>
+        <init-param>
+            <param-name>namingProxyMBean</param-name>
+            <param-value>jboss:service=invoker,type=http,target=Naming</param-value>
+        </init-param>
+      <init-param>
+         <param-name>proxyAttribute</param-name>
+         <param-value>Proxy</param-value>
+      </init-param>
+      <load-on-startup>2</load-on-startup>
+    </servlet>
+
+   <servlet>
+       <servlet-name>ReadOnlyJNDIFactory</servlet-name>
+       <description>A servlet that exposes the JBoss JNDI Naming service stub
+       through http, but only for a single read-only context. The return content
+       is a serialized MarshalledValue containg the org.jnp.interfaces.Naming
+       stub.
+       </description>
+       <servlet-class>org.jboss.invocation.http.servlet.NamingFactoryServlet</servlet-class>
+      <init-param>
+          <param-name>namingProxyMBean</param-name>
+          <param-value>jboss:service=invoker,type=http,target=Naming,readonly=true</param-value>
+      </init-param>
+      <init-param>
+         <param-name>proxyAttribute</param-name>
+         <param-value>Proxy</param-value>
+      </init-param>
+       <load-on-startup>2</load-on-startup>
+   </servlet>
+
+<!-- ### Servlet Mappings -->
+    <servlet-mapping>
+        <servlet-name>JNDIFactory</servlet-name>
+        <url-pattern>/JNDIFactory/*</url-pattern>
+    </servlet-mapping>
+    <!-- A mapping for the NamingFactoryServlet that only allows invocations
+    of lookups under a read-only context. This is enforced by the
+    ReadOnlyAccessFilter
+    -->
+    <servlet-mapping>
+        <servlet-name>ReadOnlyJNDIFactory</servlet-name>
+        <url-pattern>/ReadOnlyJNDIFactory/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EJBInvokerServlet</servlet-name>
+        <url-pattern>/EJBInvokerServlet/*</url-pattern>
+    </servlet-mapping>
+   <servlet-mapping>
+       <servlet-name>JMXInvokerServlet</servlet-name>
+       <url-pattern>/JMXInvokerServlet/*</url-pattern>
+   </servlet-mapping>
+    <!-- A mapping for the JMXInvokerServlet that only allows invocations
+    of lookups under a read-only context. This is enforced by the
+    ReadOnlyAccessFilter
+    -->
+    <servlet-mapping>
+        <servlet-name>JMXInvokerServlet</servlet-name>
+        <url-pattern>/readonly/JMXInvokerServlet/*</url-pattern>
+    </servlet-mapping>
+
+    <!-- Alternate mappings that place the servlets under the restricted
+    path to required authentication for access. Remove the unsecure mappings
+    if only authenticated users should be allowed.
+    -->
+    <servlet-mapping>
+        <servlet-name>JNDIFactory</servlet-name>
+        <url-pattern>/restricted/JNDIFactory/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>JMXInvokerServlet</servlet-name>
+        <url-pattern>/restricted/JMXInvokerServlet/*</url-pattern>
+    </servlet-mapping>
+
+   <!-- An example security constraint that restricts access to the HTTP invoker
+   to users with the role HttpInvoker Edit the roles to what you want and
+   configure the WEB-INF/jboss-web.xml/security-domain element to reference
+   the security domain you want.
+   -->
+   <security-constraint>
+      <web-resource-collection>
+         <web-resource-name>HttpInvokers</web-resource-name>
+         <description>An example security config that only allows users with the
+            role HttpInvoker to access the HTTP invoker servlets
+         </description>
+         <url-pattern>/restricted/*</url-pattern>
+         <http-method>GET</http-method>
+         <http-method>POST</http-method>
+      </web-resource-collection>
+      <auth-constraint>
+         <role-name>HttpInvoker</role-name>
+      </auth-constraint>
+   </security-constraint>
+   <login-config>
+      <auth-method>BASIC</auth-method>
+      <realm-name>JBoss HTTP Invoker</realm-name>
+   </login-config>
+
+   <security-role>
+      <role-name>HttpInvoker</role-name>
+   </security-role>
+</web-app>

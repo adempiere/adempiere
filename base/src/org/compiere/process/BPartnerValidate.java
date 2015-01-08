@@ -138,7 +138,7 @@ public class BPartnerValidate extends SvrProcess
 			MPayment payment = payments[i];
 			if (payment.testAllocation())
 			{
-				payment.save();
+				payment.saveEx();
 				changed++;
 			}
 		}
@@ -161,7 +161,7 @@ public class BPartnerValidate extends SvrProcess
 			MInvoice invoice = invoices[i];
 			if (invoice.testAllocation())
 			{
-				invoice.save();
+				invoice.saveEx();
 				changed++;
 			}
 		}

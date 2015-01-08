@@ -77,7 +77,7 @@ public class AcctProcessor extends AdempiereServer
 			m_ass = new MAcctSchema[] {new MAcctSchema (getCtx(), m_model.getC_AcctSchema_ID(), null)};
 		//
 		postSession();
-		MCost.create(m_client);
+		//MCost.create(m_client);
 		//
 		int no = m_model.deleteLog();
 		m_summary.append("Logs deleted=").append(no);
@@ -85,7 +85,7 @@ public class AcctProcessor extends AdempiereServer
 		MAcctProcessorLog pLog = new MAcctProcessorLog(m_model, m_summary.toString());
 		pLog.setReference("#" + String.valueOf(p_runCount) 
 			+ " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
-		pLog.save();
+		pLog.saveEx();
 	}	//	doWork
 
 	/**

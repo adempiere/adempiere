@@ -137,7 +137,7 @@ public class RfQResponseRank extends SvrProcess
 					if (!respQty.isActive() || !respQty.isValidAmt())
 					{
 						respQty.setRanking(999);
-						respQty.save();
+						respQty.saveEx();
 						log.fine("  - ignored: " + respQty);
 					}
 				}	//	for all respones line qtys
@@ -175,12 +175,12 @@ public class RfQResponseRank extends SvrProcess
 						}
 						qty.setRanking(lastRank);
 						log.fine("  - Rank " + lastRank + ": " + qty);
-						qty.save();
+						qty.saveEx();
 						//	
 						if (rank == 0)	//	Update RfQ
 						{
 							rfqQty.setBestResponseAmt(qty.getNetAmt());
-							rfqQty.save();
+							rfqQty.saveEx();
 						}
 						rank++;
 					}
@@ -217,13 +217,13 @@ public class RfQResponseRank extends SvrProcess
 						&& respQty.getRfQLineQty().isPurchaseQty())
 					{
 						respLine.setIsSelectedWinner(true);
-						respLine.save();
+						respLine.saveEx();
 						break;
 					}
 				}
 			}
 			response.setRanking(ranking);
-			response.save();
+			response.saveEx();
 			log.fine("- Response Ranking " + ranking + ": " + response);
 			if (!rfq.isQuoteSelectedLines())	//	no total selected winner if not all lines
 			{
@@ -238,7 +238,7 @@ public class RfQResponseRank extends SvrProcess
 		if (winner != null)
 		{
 			winner.setIsSelectedWinner(true);
-			winner.save();
+			winner.saveEx();
 			log.fine("- Response Winner: " + winner);
 		}
 	}	//	rankLines
@@ -271,7 +271,7 @@ public class RfQResponseRank extends SvrProcess
 				if (response.isSelectedWinner())
 					response.setIsSelectedWinner(false);
 			}
-			response.save();
+			response.saveEx();
 			log.fine("rankResponse - " + response);
 		}
 	}	//	rankResponses

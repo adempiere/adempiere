@@ -1,6 +1,6 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2006 Adempiere, Inc. All Rights Reserved.                *
+ * Copyright (C) 1999-2006 Adempiere, Inc. All Rights Reserved.               *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -10,9 +10,10 @@
  * You should have received a copy of the GNU General Public License along    *
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
- *
- * Copyright (C) 2005 Robert Klein. robeklein@hotmail.com
- * Contributor(s): Low Heng Sin hengsin@avantz.com
+ *																			  *
+ * Copyright (C) 2005 Robert Klein. robeklein@hotmail.com					  *
+ * Contributor(s): Low Heng Sin hengsin@avantz.com							  *
+ *                 Victor Perez  victor.perez@e-evoluton.com				  *
  *****************************************************************************/
 package org.adempiere.pipo.handler;
 
@@ -26,12 +27,16 @@ import java.util.logging.Level;
 
 import javax.xml.transform.sax.TransformerHandler;
 
+import org.adempiere.model.I_AD_Browse_Access;
+import org.adempiere.model.X_AD_Browse;
+import org.adempiere.model.X_AD_Browse_Access;
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
 import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.exception.DatabaseAccessException;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.MRole;
+import org.compiere.model.Query;
 import org.compiere.model.X_AD_Form;
 import org.compiere.model.X_AD_Package_Exp_Detail;
 import org.compiere.model.X_AD_Process;
@@ -54,6 +59,7 @@ public class RoleElementHandler extends AbstractElementHandler {
 	private ProcessAccessElementHandler processHandler = new ProcessAccessElementHandler();
 	private UserRoleElementHandler userHandler = new UserRoleElementHandler();
 	private WindowAccessElementHandler windowHandler = new WindowAccessElementHandler();
+	private BrowseAccessElementHandler browseHandler = new BrowseAccessElementHandler();
 	private FormAccessElementHandler formHandler = new FormAccessElementHandler();
 	private TaskAccessElementHandler taskHandler = new TaskAccessElementHandler();
 	private WorkflowAccessElementHandler workflowHandler = new WorkflowAccessElementHandler();
@@ -273,7 +279,7 @@ public class RoleElementHandler extends AbstractElementHandler {
 			log.log(Level.SEVERE, "AD_Window_Access", e);
 			throw new DatabaseAccessException("Failed to export window access.");
 		}
-
+		
 		// Process AD_Process_Access Values
 		sql = "SELECT * FROM AD_Process_Access WHERE AD_Role_ID= " + Role_id;
 		pstmt = null;
@@ -312,6 +318,16 @@ public class RoleElementHandler extends AbstractElementHandler {
 		catch (Exception e) {
 			log.log(Level.SEVERE, "AD_Form_Access", e);
 			throw new DatabaseAccessException("Failed to export form access.");
+		}
+
+		// Process AD_Browse_Access
+		String whereClause = I_AD_Browse_Access.COLUMNNAME_AD_Role_ID + "=?";
+		List<X_AD_Browse_Access> browseaccess = new Query(ctx, I_AD_Browse_Access.Table_Name, whereClause,  getTrxName(ctx))
+		.setParameters(Role_id)
+		.list();
+		for(X_AD_Browse_Access ba : browseaccess)
+		{
+			createBrowseAccess(ctx, document, ba.getAD_Browse_ID(), ba.getAD_Role_ID());
 		}
 
 		// Process AD_Workflow_Access Values
@@ -408,6 +424,15 @@ public class RoleElementHandler extends AbstractElementHandler {
 		ctx.remove(X_AD_Role.COLUMNNAME_AD_Role_ID);
 	}
 
+	private void createBrowseAccess(Properties ctx,
+			TransformerHandler document, int AD_Browse_ID, int AD_Role_ID) throws SAXException {
+		Env.setContext(ctx, X_AD_Browse.COLUMNNAME_AD_Browse_ID, AD_Browse_ID);
+		Env.setContext(ctx, X_AD_Role.COLUMNNAME_AD_Role_ID, AD_Role_ID);
+		browseHandler.create(ctx, document);
+		ctx.remove(X_AD_Browse.COLUMNNAME_AD_Browse_ID);
+		ctx.remove(X_AD_Role.COLUMNNAME_AD_Role_ID);
+	}
+	
 	private void createUserRole(Properties ctx, TransformerHandler document,
 			int AD_User_ID, int AD_Role_ID, int AD_Org_ID) throws SAXException {
 		Env.setContext(ctx, X_AD_User.COLUMNNAME_AD_User_ID, AD_User_ID);

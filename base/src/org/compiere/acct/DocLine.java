@@ -18,11 +18,13 @@ package org.compiere.acct;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
+import java.util.List;
+import java.util.Properties;
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCharge;
 import org.compiere.model.MCostDetail;
+import org.compiere.model.MCostType;
 import org.compiere.model.MProduct;
 import org.compiere.model.PO;
 import org.compiere.model.ProductCost;
@@ -35,11 +37,11 @@ import org.compiere.util.Env;
  *
  *  @author 	Jorg Janke
  *  @author Armen Rizal, Goodwill Consulting
- * 			<li>BF [ 1745154 ] Cost in Reversing Material Related Docs  
+ * 			<li>BF [ 1745154 ] Cost in Reversing Material Related Docs
  *  @version 	$Id: DocLine.java,v 1.2 2006/07/30 00:53:33 jjanke Exp $
  */
 public class DocLine
-{	
+{
 	/**
 	 *	Create Document Line
 	 *	@param po line persistent object
@@ -161,11 +163,11 @@ public class DocLine
 	 * 	Set C_ConversionType_ID
 	 *	@param C_ConversionType_ID id
 	 */
-	protected void setC_ConversionType_ID(int C_ConversionType_ID)
+	public void setC_ConversionType_ID(int C_ConversionType_ID)
 	{
 		m_C_ConversionType_ID = C_ConversionType_ID;
 	}	//	setC_ConversionType_ID
-	
+
 	/**
 	 *  Set Amount (DR)
 	 *  @param sourceAmt source amt
@@ -411,14 +413,14 @@ public class DocLine
 				return acct;
 		}
 		//	Product Account
-		return getProductCost().getAccount (AcctType, as);
+		return getProductCost().getAccount (AcctType, as, getAD_Org_ID());
 	}   //  getAccount
 
 	/**
 	 * 	Get Charge
 	 * 	@return C_Charge_ID
 	 */
-	protected int getC_Charge_ID()
+	public int getC_Charge_ID()
 	{
 		int index = p_po.get_ColumnIndex("C_Charge_ID");
 		if (index != -1)
@@ -464,16 +466,16 @@ public class DocLine
 		}
 		return m_C_Period_ID;
 	}	//	getC_Period_ID
-	
+
 	/**
 	 * 	Set C_Period_ID
 	 *	@param C_Period_ID id
 	 */
-	protected void setC_Period_ID (int C_Period_ID)
+	public void setC_Period_ID (int C_Period_ID)
 	{
 		m_C_Period_ID = C_Period_ID;
 	}	//	setC_Period_ID
-	
+
 	/**************************************************************************
 	 *  Get (Journal) AcctSchema
 	 *  @return C_AcctSchema_ID
@@ -491,7 +493,7 @@ public class DocLine
 	{
 		return p_po.get_ID();
 	}	//	get_ID
-	
+
 	/**
 	 * 	Get AD_Org_ID
 	 *	@return org
@@ -500,7 +502,7 @@ public class DocLine
 	{
 		return p_po.getAD_Org_ID();
 	}	//	getAD_Org_ID
-	
+
 	/**
 	 * 	Get Order AD_Org_ID
 	 *	@return order org if defined
@@ -609,7 +611,7 @@ public class DocLine
 	{
 		m_productionBOM = productionBOM;
 	}	//	setProductionBOM
-	
+
 	/**
 	 * 	Is this the BOM to be produced
 	 *	@return true if BOM
@@ -618,7 +620,7 @@ public class DocLine
 	{
 		return m_productionBOM;
 	}	//	isProductionBOM
-	
+
 	/**
 	 *  Get Production Plan
 	 *  @return M_ProductionPlan_ID
@@ -659,7 +661,7 @@ public class DocLine
 	{
 		return m_C_LocFrom_ID;
 	}	//	getC_LocFrom_ID
-		
+
 	/**
 	 * 	Set C_LocFrom_ID
 	 *	@param C_LocFrom_ID loc from
@@ -712,11 +714,11 @@ public class DocLine
 	public ProductCost getProductCost()
 	{
 		if (m_productCost == null)
-			m_productCost = new ProductCost (Env.getCtx(), 
+			m_productCost = new ProductCost (Env.getCtx(),
 				getM_Product_ID(), getM_AttributeSetInstance_ID(), p_po.get_TrxName());
 		return m_productCost;
 	}	//	getProductCost
-	
+
 	// MZ Goodwill
 	/**
 	 *  Get Total Product Costs from Cost Detail or from Current Cost
@@ -726,19 +728,22 @@ public class DocLine
 	 *	@param whereClause null are OK
 	 *  @return costs
 	 */
+	/*
 	public BigDecimal getProductCosts (MAcctSchema as, int AD_Org_ID, boolean zeroCostsOK, String whereClause)
 	{
 		if (whereClause != null)
 		{
-			MCostDetail cd = MCostDetail.get (Env.getCtx(), whereClause, 
+			// TODO: comment this
+			MCostDetail cd = MCostDetail.get (Env.getCtx(), whereClause,
 					get_ID(), getM_AttributeSetInstance_ID(), as.getC_AcctSchema_ID(), p_po.get_TrxName());
 			if (cd != null)
 				return cd.getAmt();
 		}
 		return getProductCosts(as, AD_Org_ID, zeroCostsOK);
 	}   //  getProductCosts
+	*/
 	// end MZ
-	
+
 	/**
 	 *  Get Total Product Costs
 	 *  @param as accounting schema
@@ -746,26 +751,55 @@ public class DocLine
 	 *	@param zeroCostsOK zero/no costs are OK
 	 *  @return costs
 	 */
-	public BigDecimal getProductCosts (MAcctSchema as, int AD_Org_ID, boolean zeroCostsOK)
+	/*public BigDecimal getProductCosts (MAcctSchema as, int AD_Org_ID, boolean zeroCostsOK)
 	{
-		ProductCost pc = getProductCost();
-		int C_OrderLine_ID = getC_OrderLine_ID();
-		String costingMethod = null;
-		BigDecimal costs = pc.getProductCosts(as, AD_Org_ID, costingMethod, 
-			C_OrderLine_ID, zeroCostsOK);
-		if (costs != null)
-			return costs;
+
+		final String whereClause = null;
 		return Env.ZERO;
-	}   //  getProductCosts
+		/*MCostDetail[] details = getCostDetail(as, AD_Org_ID);
+		if (zeroCostsOK && details.length == 0)
+		{
+			return Env.ZERO;
+		}
+		BigDecimal costs = Env.ZERO;
+		BigDecimal qty = Env.ZERO;
+		for (MCostDetail cd : details)
+		{
+			if (cd.isProcessed())
+			{
+				// TODO: re-process + cost adjustments
+			}
+			if (cd.isSOTrx())
+				costs = costs.subtract(cd.getAmt());
+			else
+				costs = costs.add(cd.getAmt());
+			qty = qty.add(cd.getQty());
+
+			if (!cd.isProcessed())
+			{
+				cd.setProcessed(true);//ancabradau
+				cd.saveEx();
+			}
+		}
+		// Check if Qty is same
+		// TODO: check if it's needed
+//		BigDecimal lineQty = getQty() == null ? Env.ZERO : getQty();
+//		if (lineQty.compareTo(qty) != 0)
+//		{
+//			throw new AdempiereException("Qty not match - LineQty="+lineQty+", CostsQty="+qty);
+//		}
+		return costs;*/
+
+//	}   //  getProductCosts
 
 	/**
-	 * 	Get Product 
+	 * 	Get Product
 	 *	@return product or null if no product
 	 */
 	public MProduct getProduct()
 	{
 		if (m_productCost == null)
-			m_productCost = new ProductCost (Env.getCtx(), 
+			m_productCost = new ProductCost (Env.getCtx(),
 				getM_Product_ID(), getM_AttributeSetInstance_ID(), p_po.get_TrxName());
 		if (m_productCost != null)
 			return m_productCost.getProduct();
@@ -831,8 +865,8 @@ public class DocLine
 		return m_qty;
 	}   //  getQty
 
-	
-	
+
+
 	/**
 	 *  Description
 	 *  @return doc line description
@@ -906,8 +940,8 @@ public class DocLine
 	{
 		m_C_BPartner_ID = C_BPartner_ID;
 	}	//	setC_BPartner_ID
-	
-	
+
+
 	/**
 	 * 	Get C_BPartner_Location_ID
 	 *	@return BPartner Location
@@ -923,7 +957,7 @@ public class DocLine
 		}
 		return m_doc.getC_BPartner_Location_ID();
 	}	//	getC_BPartner_Location_ID
-	
+
 	/**
 	 *  Get TrxOrg
 	 *  @return AD_OrgTrx_ID
@@ -998,7 +1032,7 @@ public class DocLine
 		}
 		return 0;
 	}   //  getC_ProjectPhase_ID
-	
+
 	/**
 	 *  Get Project Task
 	 *  @return C_ProjectTask_ID
@@ -1014,7 +1048,7 @@ public class DocLine
 		}
 		return 0;
 	}   //  getC_ProjectTask_ID
-	
+
 	/**
 	 *  Get Campaign
 	 *  @return C_Campaign_ID
@@ -1078,7 +1112,7 @@ public class DocLine
 		}
 		return 0;
 	}   //  getUser2_ID
-        
+
         	/**
 	 *  Get User Defined Column
 	 *  @param ColumnName column name
@@ -1118,14 +1152,14 @@ public class DocLine
 		return m_ReversalLine_ID;
 	}   //  getReversalLine_ID
 	//end AZ Goodwill
-	
+
 	/**
 	 *  String representation
 	 *  @return String
 	 */
 	public String toString()
 	{
-		StringBuffer sb = new StringBuffer("DocLine=[");
+		StringBuffer sb = new StringBuffer(getClass().getName()).append("=[");	// arhipac: replaced
 		sb.append(p_po.get_ID());
 		if (getDescription() != null)
 			sb.append(",").append(getDescription());
@@ -1137,4 +1171,36 @@ public class DocLine
 		return sb.toString();
 	}	//	toString
 
+	/**
+	 * getCostDetail
+	 * @param as
+	 * @param isExcludeLandedCost exclude cost detail for landed cost
+	 * @return cost detail list for this document line or null if not found
+	 */
+	public List<MCostDetail> getCostDetail(MAcctSchema as, boolean isExcludeLandedCost)
+	{
+		MCostType ct = MCostType.get(as, getM_Product_ID(), getAD_Org_ID());
+		return MCostDetail.getByDocLine(this, as.getC_AcctSchema_ID(), ct.getM_CostType_ID(), isExcludeLandedCost);
+	}
+
+	public int getAD_Client_ID()
+	{
+		return m_doc.getAD_Client_ID();
+	}
+	public boolean isSOTrx()
+	{
+		return m_doc.isSOTrx();
+	}
+	public Properties getCtx()
+	{
+		return p_po.getCtx();
+	}
+	public String getTrxName()
+	{
+		return p_po.get_TrxName();
+	}
+	public String getTableName()
+	{
+		return p_po.get_TableName();
+	}
 }	//	DocumentLine

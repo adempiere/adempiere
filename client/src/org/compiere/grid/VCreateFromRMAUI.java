@@ -36,6 +36,11 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
+/*
+ * @author	Michael McKay
+ * 				<li>release/380 - fix row selection event handling to fire single event per row selection
+ */
+
 public class VCreateFromRMAUI extends CreateFromRMA implements VetoableChangeListener
 {
 	private static final long serialVersionUID = 1L;
@@ -175,14 +180,13 @@ public class VCreateFromRMAUI extends CreateFromRMA implements VetoableChangeLis
 	protected void loadTableOIS (Vector<?> data)
 	{
 		//  Remove previous listeners
-		dialog.getMiniTable().getModel().removeTableModelListener(dialog);
+		dialog.getMiniTable().removeMiniTableSelectionListener(dialog);
 		//  Set Model
 		DefaultTableModel model = new DefaultTableModel(data, getOISColumnNames());
-		model.addTableModelListener(dialog);
 		dialog.getMiniTable().setModel(model);
 		// 
-		
 		configureMiniTable(dialog.getMiniTable());
+		dialog.getMiniTable().addMiniTableSelectionListener(dialog);
 	}   //  loadOrder
 	
 	public void showWindow()

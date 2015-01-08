@@ -28,6 +28,7 @@ import org.compiere.model.MAcctSchema;
 import org.compiere.model.MClientInfo;
 import org.compiere.model.MConversionRate;
 import org.compiere.model.MCostDetail;
+import org.compiere.model.MCostType;
 import org.compiere.model.MCurrency;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
@@ -842,12 +843,61 @@ public class Doc_Invoice extends Doc
 				lca.getM_Product_ID(), lca.getM_AttributeSetInstance_ID(), getTrxName());
 			BigDecimal drAmt = null;
 			BigDecimal crAmt = null;
+			BigDecimal amt = Env.ZERO;
 			if (dr)
 				drAmt = lca.getAmt();
 			else
 				crAmt = lca.getAmt();
-			FactLine fl = fact.createLine (line, pc.getAccount(ProductCost.ACCTTYPE_P_CostAdjustment, as),
-				getC_Currency_ID(), drAmt, crAmt);
+			
+			
+			FactLine fl = null;
+
+			MCostType ct = MCostType.get(as, il.getM_Product_ID(), 0);
+			if(MCostType.COSTINGMETHOD_AverageInvoice.equals(ct.getCostingMethod()))
+			{	
+				//for (MCostDetail cd:MCostDetail.getByDocLineLandedCost(lca, as.getC_AcctSchema_ID(), ct.getM_CostType_ID()))
+				{
+
+					 amt = MCostDetail.getByDocLineLandedCost(lca, as.getC_AcctSchema_ID(), ct.getM_CostType_ID());
+
+						if (dr)
+							drAmt = amt;
+						else
+							crAmt = amt;
+				}/*
+				int asi = lca.getM_InOutLine().getM_AttributeSetInstance_ID();
+				BigDecimal qty = new Query(getCtx(), MStorage.Table_Name, "m_attributesetinstance_ID=? and m_product_id=?", lca.get_TrxName())
+				.setParameters(asi, lca.getM_Product_ID())
+				.sum(MStorage.COLUMNNAME_QtyOnHand);
+				BigDecimal amt = lca.getAmt().divide(lca.getQty(),as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+				amt = amt.multiply(qty);*/
+				if (amt.compareTo(Env.ZERO)!= 0)
+				{						
+					fl = fact.createLine (line, pc.getAccount(ProductCost.ACCTTYPE_P_Asset, as),
+							as.getC_Currency_ID(), drAmt, crAmt);
+					fl.setDescription(desc);
+					fl.setM_Product_ID(lca.getM_Product_ID());					
+				}
+				
+				if (dr)
+					drAmt = lca.getAmt().subtract(amt);
+				else
+					crAmt = lca.getAmt().subtract(amt);
+				if (drAmt.compareTo(Env.ZERO)!= 0 || crAmt.compareTo(Env.ZERO)!= 0)
+				{
+					fl = fact.createLine (line, pc.getAccount(ProductCost.ACCTTYPE_P_CostAdjustment, as),
+							as.getC_Currency_ID(), drAmt, crAmt);
+					fl.setDescription(desc);
+					fl.setM_Product_ID(lca.getM_Product_ID());
+
+				}
+			}	
+			else
+			{	
+				fl = fact.createLine (line, pc.getAccount(ProductCost.ACCTTYPE_P_CostAdjustment, as),
+						getC_Currency_ID(), drAmt, crAmt);
+			}	
+			
 			fl.setDescription(desc);
 			fl.setM_Product_ID(lca.getM_Product_ID());
 			

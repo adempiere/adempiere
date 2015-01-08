@@ -831,7 +831,8 @@ public class CConnection implements Serializable, Cloneable
 	}
 
 	/**
-	 *  Set Database Type and default settings.
+	 *  Set Database Type.  Since 3.8.0 - The call should be followed with setDatabaseDefaults() if 
+	 *  the type is changed.
 	 *  Checked against installed databases
 	 *  @param type database Type, e.g. Database.DB_ORACLE
 	 */
@@ -846,6 +847,15 @@ public class CConnection implements Serializable, Cloneable
 				break;
 			}
 		}
+	} 	//  setType
+	
+	/**
+	 * Sets the defaults for the type of database. 
+	 * Since 3.8.0.
+	 */
+	public void setDatabaseDefaults() {
+		//  Check the database type and then set the ports to the default values
+		
 		//  Oracle
 		if (isOracle ())
 		{
@@ -872,8 +882,8 @@ public class CConnection implements Serializable, Cloneable
 				setDbPort (DB_MySQL.DEFAULT_PORT);
 		}//  added by dete
 		//end vpj-cd e-evolution 09 ene 2006
-	} 	//  setType
-
+	} // setDatabaseDefaluts
+	
 	/**
 	 *  Supports BLOB
 	 *  @return true if BLOB is supported

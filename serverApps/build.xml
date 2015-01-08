@@ -32,6 +32,7 @@
 
 
   <path id="base.path">
+    <pathelement path="../org.adempiere.asset/dist/lib/FixedAsset.jar"/>
     <pathelement location="../lib/Adempiere.jar" />
     <pathelement location="../lib/CSTools.jar" />
     <pathelement location="../tools/lib/servlet-api.jar" />
@@ -51,7 +52,7 @@
     </path>
   	
     <javac
-      target="1.5" 
+      target="1.7" encoding="UTF-8"
 	  destdir="${build.war.dir}"
 	  debug="on"
 	  deprecation="off"

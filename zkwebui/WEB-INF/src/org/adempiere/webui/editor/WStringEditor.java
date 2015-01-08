@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.adempiere.webui.ValuePreference;
 import org.adempiere.webui.component.Combobox;
-import org.adempiere.webui.component.Textbox;
+import org.adempiere.webui.component.StringBox;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.event.ContextMenuEvent;
 import org.adempiere.webui.event.ContextMenuListener;
@@ -34,6 +34,7 @@ import org.compiere.model.MRole;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.zkoss.zk.ui.HtmlBasedComponent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Menuitem;
@@ -70,7 +71,7 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 
     public WStringEditor(GridField gridField, boolean tableEditor)
     {
-        super(gridField.isAutocomplete() ? new Combobox() : new Textbox(), gridField);
+        super(gridField.isAutocomplete() ? new Combobox() : new StringBox(), gridField);
         this.tableEditor = tableEditor;
         init(gridField.getObscureType());
     }
@@ -89,14 +90,14 @@ public class WStringEditor extends WEditor implements ContextMenuListener
     public WStringEditor(String columnName, boolean mandatory, boolean isReadOnly, boolean isUpdateable,
     		int displayLength, int fieldLength, String vFormat, String obscureType)
     {
-    	super(new Textbox(), columnName, null, null, mandatory, isReadOnly,isUpdateable);
-
+    	super(new StringBox(), columnName, null, null, mandatory, isReadOnly,isUpdateable);
+    	
     	init(obscureType);
     }
 
     @Override
     public org.zkoss.zul.Textbox getComponent() {
-    	return (org.zkoss.zul.Textbox) component;
+    	return (org.zkoss.zul.Textbox) (((StringBox)component).getTextBox());
     }
 
     @Override
@@ -125,20 +126,23 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 	        {
 	            getComponent().setMultiline(true);
 	            getComponent().setRows(3);
+	            ((HtmlBasedComponent) getComponent()).setSclass("field-text");
 	        }
 	        else if (gridField.getDisplayType() == DisplayType.TextLong)
 	        {
 	            getComponent().setMultiline(true);
 	            getComponent().setRows(5);
+	            ((HtmlBasedComponent)getComponent()).setSclass("field-textlong");
 	        }
 	        else if (gridField.getDisplayType() == DisplayType.Memo)
 	        {
 	            getComponent().setMultiline(true);
 	            getComponent().setRows(8);
+	            ((HtmlBasedComponent)getComponent()).setSclass("field-memo");
 	        }
 
-	        if (getComponent() instanceof Textbox)
-	        	((Textbox)getComponent()).setObscureType(obscureType);
+	        if (getComponent() instanceof org.zkoss.zul.api.Textbox)
+	        	((StringBox)component).setObscureType(obscureType);
 
 	        popupMenu = new WEditorPopupMenu(false, false, true);
 	        Menuitem editor = new Menuitem(Msg.getMsg(Env.getCtx(), "Editor"), "images/Editor16.png");
@@ -214,6 +218,8 @@ public class WStringEditor extends WEditor implements ContextMenuListener
         if (password)
         {
             getComponent().setType("password");
+            //Remove the popup menu preferences and editor
+	        popupMenu = null;
         }
         else
         {

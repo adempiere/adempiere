@@ -752,7 +752,7 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 		{
 			MAllocationLine line = m_lines[i];
 			line.setIsActive(false);
-			line.save();
+			line.saveEx();
 			bps.add(new Integer(line.processIt(true)));	//	reverse
 		}
 		updateBP(bps);

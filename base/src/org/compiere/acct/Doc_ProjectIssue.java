@@ -1,4 +1,5 @@
 /******************************************************************************
+
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 
 import org.compiere.model.MAcctSchema;
+import org.compiere.model.MCostDetail;
 import org.compiere.model.MProduct;
 import org.compiere.model.MProject;
 import org.compiere.model.MProjectIssue;
@@ -128,20 +130,37 @@ public class Doc_ProjectIssue extends Doc
 		FactLine cr = null;
 
 		//  Issue Cost
-		BigDecimal cost = null;
+		BigDecimal costs = null;
+		BigDecimal total = Env.ZERO;
 		if (m_issue.getM_InOutLine_ID() != 0)
-			cost = getPOCost(as);
+			costs = getPOCost(as);
 		else if (m_issue.getS_TimeExpenseLine_ID() != 0)
-			cost = getLaborCost(as);
-		if (cost == null)	//	standard Product Costs
-			cost = m_line.getProductCosts(as, getAD_Org_ID(), false);
+			costs = getLaborCost(as);
+		if (costs == null)	//	standard Product Costs
+		{	
+			for(MCostDetail cost : m_line.getCostDetail(as, false))
+			{	
+				if(!MCostDetail.existsCost(cost))
+					continue;
+				
+				costs = MCostDetail.getTotalCost(cost, as);
+				total = total.add(costs);
+			}	
+		}	
+		
+		if (total == null || total.signum() == 0)
+		{
+			p_Error = "Resubmit - No Costs for " + product.getName();
+			log.log(Level.WARNING, p_Error);
+			return null;
+		}
 		
 		//  Project         DR
 		int acctType = ACCTTYPE_ProjectWIP;
 		if (MProject.PROJECTCATEGORY_AssetProject.equals(ProjectCategory))
 			acctType = ACCTTYPE_ProjectAsset;
 		dr = fact.createLine(m_line,
-			getAccount(acctType, as), as.getC_Currency_ID(), cost, null);
+			getAccount(acctType, as), as.getC_Currency_ID(), costs, null);
 		dr.setQty(m_line.getQty().negate());
 		
 		//  Inventory               CR
@@ -149,8 +168,8 @@ public class Doc_ProjectIssue extends Doc
 		if (product.isService())
 			acctType = ProductCost.ACCTTYPE_P_Expense;
 		cr = fact.createLine(m_line,
-			m_line.getAccount(acctType, as),
-			as.getC_Currency_ID(), null, cost);
+			m_line.getAccount(acctType,as),
+			as.getC_Currency_ID(), null, costs);
 		cr.setM_Locator_ID(m_line.getM_Locator_ID());
 		cr.setLocationFromLocator(m_line.getM_Locator_ID(), true);	// from Loc
 		//

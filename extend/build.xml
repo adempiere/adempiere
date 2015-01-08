@@ -23,6 +23,7 @@
     <pathelement path="${jar.path}/CCTools.jar"/>
 	<pathelement path="${jar.path}/jboss.jar"/>
     <pathelement path="../base/build"/>
+    <pathelement path="../org.adempiere.asset/build"/>
     <pathelement path="../tools/lib/junit.jar"/>
     <pathelement path="../adempiere/Adempiere/lib/Adempiere.jar" />
 	<fileset dir="../tools/lib/testing/">
@@ -47,7 +48,7 @@
   
   <target name="compile" depends="makedir">
     <!-- compile the java code from ${src} into ${build.dir} -->
-    <javac target="1.6" srcdir="${src}" destdir="${build.dir}" deprecation="on" debug="on">
+    <javac  target="1.7" encoding="UTF-8" srcdir="${src}" destdir="${build.dir}" deprecation="on" debug="on">
       <classpath refid="project.class.path"/>
     </javac>
     <!-- copy all image & sound files from src to the build directory -->

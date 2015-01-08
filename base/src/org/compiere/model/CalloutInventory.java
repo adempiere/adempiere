@@ -23,6 +23,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.model.GridTabWrapper;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 
@@ -184,6 +185,34 @@ public class CalloutInventory extends CalloutEngine
 		}
 		return new BigDecimal(0);
 	}
-	
+
+    /**
+     * Check if of qty Onhand
+     * @param ctx
+     * @param WindowNo
+     * @param mTab
+     * @param mField
+     * @param value
+     * @return
+     */
+    public String checkOnHand(Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value) {
+        I_M_InventoryLine line = GridTabWrapper.create(mTab, I_M_InventoryLine.class);
+
+        if (line.getM_Product_ID() == 0)
+            return "";
+
+        if (line.getM_Product().isStocked() && line.getQtyInternalUse().signum() > 0) {
+            BigDecimal qtyInternalUse = line.getQtyInternalUse();
+            BigDecimal qtyOnHand = DB.getSQLValueBD(null, "SELECT bomQtyOnHand(M_Product_ID,?,?) FROM M_Product WHERE M_Product_ID=?",line.getM_Inventory().getM_Warehouse_ID(), 0, line.getM_Product_ID());
+            if (qtyOnHand == null)
+                qtyOnHand = Env.ZERO;
+            if (qtyOnHand.signum() == 0)
+                mTab.fireDataStatusEEvent("NoQtyAvailable", "0", false);
+            else if (qtyOnHand.compareTo(qtyInternalUse) < 0)
+                mTab.fireDataStatusEEvent("InsufficientQtyAvailable", qtyOnHand.toString(), false);
+        }
+        return "";
+    }
+
 
 }	//	CalloutInventory

@@ -56,7 +56,7 @@ public class AttachmentManager
 		try
 		{
 			saveLogo(ctx,file);
-			udiAttachment.save();
+			udiAttachment.saveEx();
 		}
 		catch (OperationException e)
 		{

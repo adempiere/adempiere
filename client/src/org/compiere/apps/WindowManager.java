@@ -24,10 +24,14 @@ import java.util.List;
 
 import org.compiere.apps.form.FormFrame;
 import org.compiere.swing.CFrame;
+import org.eevolution.form.VBrowser;
 
 /**
  * Managed a list of window.
  * @author Low Heng Sin
+ * @author victor.perez@e-evoluton.com, www.e-evolution.com 
+ * 	<li>FR [ 3426137 ] Smart Browser
+ *  https://sourceforge.net/tracker/?func=detail&aid=3426137&group_id=176962&atid=879335
  * @version 2006/11/20
  */
 public class WindowManager {
@@ -123,6 +127,18 @@ public class WindowManager {
 				if ( ff.getAD_Form_ID() == AD_FORM_ID )
 					return ff;
 			}
+		}
+		return null;
+	}
+	
+	public VBrowser findBrowse(int AD_Browse_ID) {
+		for ( CFrame w : windows ) {
+			
+			/*if ( w instanceof VBrowser ) {
+				Browser ff = (VBrowser)w;
+				if ( ff.getAD_Browse_ID() == AD_Browse_ID )
+					return ff;
+			}*/
 		}
 		return null;
 	}

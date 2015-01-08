@@ -84,7 +84,19 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 				AD_Backup_ID = 0;
 			}
 
-			String name = atts.getValue("ADWorkflowResponsibleNameID");
+            String name = atts.getValue("ADTableNameID");
+            if (name != null && name.trim().length() > 0) {
+                id = get_IDWithColumn(ctx, "AD_Table", "TableName", name);
+                if (id <= 0) {
+                    element.defer = true;
+                    element.unresolved = "AD_Table: " + name;
+                    return;
+                }
+                m_Workflow.setAD_Table_ID(id);
+
+            }
+
+			name = atts.getValue("ADWorkflowResponsibleNameID");
 			if (name != null && name.trim().length() > 0) {
 				id = get_IDWithColumn(ctx, "AD_WF_Responsible", "Name", name);
 				if (id <= 0) {
@@ -93,18 +105,6 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 					return;
 				}
 				m_Workflow.setAD_WF_Responsible_ID(id);
-			}
-
-			name = atts.getValue("ADTableNameID");
-			if (name != null && name.trim().length() > 0) {
-				id = get_IDWithColumn(ctx, "AD_Table", "TableName", name);
-				if (id <= 0) {
-					element.defer = true;
-					element.unresolved = "AD_Table: " + name;
-					return;
-				}
-				m_Workflow.setAD_Table_ID(id);
-
 			}
 
 			name = atts.getValue("ADWorkflowProcessorNameID");

@@ -19,6 +19,7 @@ import java.sql.SQLException;
 import java.util.Vector;
 import java.util.logging.Level;
 
+import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.IMiniTable;
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
@@ -35,6 +36,11 @@ import org.compiere.util.Msg;
  *
  *  @author Jorg Janke
  *  @version $Id: Charge.java,v 1.3 2006/07/30 00:51:28 jjanke Exp $
+ *  
+ * @author Michael McKay, 
+ * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
+ * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
+ *  
  */
 public class Charge
 {
@@ -84,9 +90,8 @@ public class Charge
 			while (rs.next())
 			{
 				Vector<Object> line = new Vector<Object>(4);
-				line.add(new Boolean(false));       //  0-Selection
-				KeyNamePair pp = new KeyNamePair(rs.getInt(1), rs.getString(2));
-				line.add(pp);                       //  1-Value
+				line.add(new IDColumn(rs.getInt(1)));  //  0-C_ElementValue_ID
+				line.add(rs.getString(2));          //  1-Value
 				line.add(rs.getString(3));          //  2-Name
 				boolean isExpenseType = rs.getString(4).equals("E");
 				line.add(new Boolean(isExpenseType));   //  3-Expense
@@ -137,7 +142,7 @@ public class Charge
 	{
 		//  Header Info
 		Vector<String> columnNames = new Vector<String>(4);
-		columnNames.add(Msg.getMsg(Env.getCtx(), "Select"));
+		columnNames.add(Msg.getMsg(Env.getCtx(), " "));
 		columnNames.add(Msg.translate(Env.getCtx(), "Value"));
 		columnNames.add(Msg.translate(Env.getCtx(), "Name"));
 		columnNames.add(Msg.getMsg(Env.getCtx(), "Expense"));
@@ -147,7 +152,9 @@ public class Charge
 	
 	public void setColumnClass(IMiniTable dataTable)
 	{
-		dataTable.setColumnClass(0, Boolean.class, false);      //  0-Selection
+		//  Have to include the name string to avoid auto sizing
+		dataTable.setKeyColumnIndex(0);
+		dataTable.setColumnClass(0, IDColumn.class, true);      //  0-Selection & key column
 		dataTable.setColumnClass(1, String.class, true);        //  1-Value
 		dataTable.setColumnClass(2, String.class, true);        //  2-Name
 		dataTable.setColumnClass(3, Boolean.class, true);       //  3-Expense
@@ -201,6 +208,7 @@ public class Charge
 				MElementValue.ACCOUNTSIGN_Natural,
 				false, false, null);
 		ev.setAD_Org_ID(m_AD_Org_ID);
+		ev.setC_Element_ID(m_C_Element_ID);
 		if (!ev.save())
 			log.log(Level.WARNING, "C_ElementValue_ID not created");
 		return ev.getC_ElementValue_ID();
@@ -349,7 +357,7 @@ public class Charge
             defaultAccount.getUser1_ID(),
             defaultAccount.getUser2_ID(),
             defaultAccount.getUserElement1_ID(),
-            defaultAccount.getUserElement2_ID());
+            defaultAccount.getUserElement2_ID(), null);
 
         return account;
     }
@@ -367,11 +375,10 @@ public class Charge
 		int rows = dataTable.getRowCount();
 		for (int i = 0; i < rows; i++)
 		{
-			if (((Boolean)dataTable.getValueAt(i, 0)).booleanValue())
+			if (dataTable.isRowChecked(i))
 			{
-				KeyNamePair pp = (KeyNamePair)dataTable.getValueAt(i, 1);
-				int C_ElementValue_ID = pp.getKey();
-				String name = (String)dataTable.getValueAt(i, 2);
+				int C_ElementValue_ID = dataTable.getRowKey(i);
+				String name = (String)dataTable.getValueAt(i, dataTable.convertColumnIndexToModel(2));
 				//
 				int C_Charge_ID = createCharge(name, C_ElementValue_ID);
 				if (C_Charge_ID == 0)
@@ -387,7 +394,7 @@ public class Charge
 					listCreated.append(name);
 				}
 				//  reset selection
-				dataTable.setValueAt(new Boolean(false), i, 0);
+				dataTable.setRowChecked(i, false);
 			}
 		}
 	}   //  createAccount

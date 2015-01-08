@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Transfer
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0
  */
 public interface I_A_Asset_Transfer 
 {
@@ -41,14 +41,37 @@ public interface I_A_Asset_Transfer
 
     /** Load Meta Data */
 
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
     /** Column name A_Accumdepreciation_Acct */
     public static final String COLUMNNAME_A_Accumdepreciation_Acct = "A_Accumdepreciation_Acct";
 
-	/** Set Accumulated Depreciation	  */
+	/** Set Accumulated Depreciation Account	  */
 	public void setA_Accumdepreciation_Acct (int A_Accumdepreciation_Acct);
 
-	/** Get Accumulated Depreciation	  */
+	/** Get Accumulated Depreciation Account	  */
 	public int getA_Accumdepreciation_Acct();
+
+	public I_C_ValidCombination getA_Accumdepreciation_A() throws RuntimeException;
 
     /** Column name A_Accumdepreciation_Acct_New */
     public static final String COLUMNNAME_A_Accumdepreciation_Acct_New = "A_Accumdepreciation_Acct_New";
@@ -64,28 +87,50 @@ public interface I_A_Asset_Transfer
     /** Column name A_Accumdepreciation_Acct_Str */
     public static final String COLUMNNAME_A_Accumdepreciation_Acct_Str = "A_Accumdepreciation_Acct_Str";
 
-	/** Set Old Accum Depreciation Acct	  */
+	/** Set Old Asset Cost Acct	  */
 	public void setA_Accumdepreciation_Acct_Str (String A_Accumdepreciation_Acct_Str);
 
-	/** Get Old Accum Depreciation Acct	  */
+	/** Get Old Asset Cost Acct	  */
 	public String getA_Accumdepreciation_Acct_Str();
+
+    /** Column name A_Accumdepreciation_New_Acct */
+    public static final String COLUMNNAME_A_Accumdepreciation_New_Acct = "A_Accumdepreciation_New_Acct";
+
+	/** Set Accumulated Depreciation Account (new)	  */
+	public void setA_Accumdepreciation_New_Acct (int A_Accumdepreciation_New_Acct);
+
+	/** Get Accumulated Depreciation Account (new)	  */
+	public int getA_Accumdepreciation_New_Acct();
+
+	public I_C_ValidCombination getA_Accumdepreciation_New_A() throws RuntimeException;
+
+    /** Column name A_Accumulated_Depr_F */
+    public static final String COLUMNNAME_A_Accumulated_Depr_F = "A_Accumulated_Depr_F";
+
+	/** Set Accumulated Depreciation (fiscal)	  */
+	public void setA_Accumulated_Depr_F (BigDecimal A_Accumulated_Depr_F);
+
+	/** Get Accumulated Depreciation (fiscal)	  */
+	public BigDecimal getA_Accumulated_Depr_F();
 
     /** Column name A_Asset_Acct */
     public static final String COLUMNNAME_A_Asset_Acct = "A_Asset_Acct";
 
-	/** Set Asset Cost Account	  */
+	/** Set Asset Acct	  */
 	public void setA_Asset_Acct (int A_Asset_Acct);
 
-	/** Get Asset Cost Account	  */
+	/** Get Asset Acct	  */
 	public int getA_Asset_Acct();
+
+	public I_C_ValidCombination getA_Asset_A() throws RuntimeException;
 
     /** Column name A_Asset_Acct_ID */
     public static final String COLUMNNAME_A_Asset_Acct_ID = "A_Asset_Acct_ID";
 
-	/** Set Asset Acct.	  */
+	/** Set A_Asset_Acct_ID	  */
 	public void setA_Asset_Acct_ID (int A_Asset_Acct_ID);
 
-	/** Get Asset Acct.	  */
+	/** Get A_Asset_Acct_ID	  */
 	public int getA_Asset_Acct_ID();
 
     /** Column name A_Asset_Acct_New */
@@ -102,10 +147,10 @@ public interface I_A_Asset_Transfer
     /** Column name A_Asset_Acct_Str */
     public static final String COLUMNNAME_A_Asset_Acct_Str = "A_Asset_Acct_Str";
 
-	/** Set Old Asset Cost Acct	  */
+	/** Set A_Asset_Acct_Str	  */
 	public void setA_Asset_Acct_Str (String A_Asset_Acct_Str);
 
-	/** Get Old Asset Cost Acct	  */
+	/** Get A_Asset_Acct_Str	  */
 	public String getA_Asset_Acct_Str();
 
     /** Column name A_Asset_ID */
@@ -121,31 +166,47 @@ public interface I_A_Asset_Transfer
 	  */
 	public int getA_Asset_ID();
 
+	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException;
+
+    /** Column name A_Asset_New_Acct */
+    public static final String COLUMNNAME_A_Asset_New_Acct = "A_Asset_New_Acct";
+
+	/** Set Asset Acct (new)	  */
+	public void setA_Asset_New_Acct (int A_Asset_New_Acct);
+
+	/** Get Asset Acct (new)	  */
+	public int getA_Asset_New_Acct();
+
+	public I_C_ValidCombination getA_Asset_New_A() throws RuntimeException;
+
     /** Column name A_Asset_Transfer_ID */
     public static final String COLUMNNAME_A_Asset_Transfer_ID = "A_Asset_Transfer_ID";
 
-	/** Set Asset Transfer	  */
+	/** Set A_Asset_Transfer_ID	  */
 	public void setA_Asset_Transfer_ID (int A_Asset_Transfer_ID);
 
-	/** Get Asset Transfer	  */
+	/** Get A_Asset_Transfer_ID	  */
 	public int getA_Asset_Transfer_ID();
 
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+    /** Column name A_CapvsExp */
+    public static final String COLUMNNAME_A_CapvsExp = "A_CapvsExp";
 
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
+	/** Set Capital/Expense	  */
+	public void setA_CapvsExp (String A_CapvsExp);
+
+	/** Get Capital/Expense	  */
+	public String getA_CapvsExp();
 
     /** Column name A_Depreciation_Acct */
     public static final String COLUMNNAME_A_Depreciation_Acct = "A_Depreciation_Acct";
 
-	/** Set Depreciation Expense Account	  */
+	/** Set Depreciation Account	  */
 	public void setA_Depreciation_Acct (int A_Depreciation_Acct);
 
-	/** Get Depreciation Expense Account	  */
+	/** Get Depreciation Account	  */
 	public int getA_Depreciation_Acct();
+
+	public I_C_ValidCombination getA_Depreciation_A() throws RuntimeException;
 
     /** Column name A_Depreciation_Acct_New */
     public static final String COLUMNNAME_A_Depreciation_Acct_New = "A_Depreciation_Acct_New";
@@ -161,11 +222,22 @@ public interface I_A_Asset_Transfer
     /** Column name A_Depreciation_Acct_Str */
     public static final String COLUMNNAME_A_Depreciation_Acct_Str = "A_Depreciation_Acct_Str";
 
-	/** Set Old Depreciation Exp Acct	  */
+	/** Set A_Depreciation_Acct_Str	  */
 	public void setA_Depreciation_Acct_Str (String A_Depreciation_Acct_Str);
 
-	/** Get Old Depreciation Exp Acct	  */
+	/** Get A_Depreciation_Acct_Str	  */
 	public String getA_Depreciation_Acct_Str();
+
+    /** Column name A_Depreciation_New_Acct */
+    public static final String COLUMNNAME_A_Depreciation_New_Acct = "A_Depreciation_New_Acct";
+
+	/** Set Depreciation Acct (new)	  */
+	public void setA_Depreciation_New_Acct (int A_Depreciation_New_Acct);
+
+	/** Get Depreciation Acct (new)	  */
+	public int getA_Depreciation_New_Acct();
+
+	public I_C_ValidCombination getA_Depreciation_New_A() throws RuntimeException;
 
     /** Column name A_Disposal_Loss */
     public static final String COLUMNNAME_A_Disposal_Loss = "A_Disposal_Loss";
@@ -175,6 +247,17 @@ public interface I_A_Asset_Transfer
 
 	/** Get Loss on Disposal	  */
 	public int getA_Disposal_Loss();
+
+    /** Column name A_Disposal_Loss_Acct */
+    public static final String COLUMNNAME_A_Disposal_Loss_Acct = "A_Disposal_Loss_Acct";
+
+	/** Set Disposal Loss Acct	  */
+	public void setA_Disposal_Loss_Acct (int A_Disposal_Loss_Acct);
+
+	/** Get Disposal Loss Acct	  */
+	public int getA_Disposal_Loss_Acct();
+
+	public I_C_ValidCombination getA_Disposal_Loss_A() throws RuntimeException;
 
     /** Column name A_Disposal_Loss_New */
     public static final String COLUMNNAME_A_Disposal_Loss_New = "A_Disposal_Loss_New";
@@ -187,13 +270,24 @@ public interface I_A_Asset_Transfer
 
 	public I_C_ValidCombination getA_Disposal_Loss_() throws RuntimeException;
 
+    /** Column name A_Disposal_Loss_New_Acct */
+    public static final String COLUMNNAME_A_Disposal_Loss_New_Acct = "A_Disposal_Loss_New_Acct";
+
+	/** Set Disposal Loss Acct (new)	  */
+	public void setA_Disposal_Loss_New_Acct (int A_Disposal_Loss_New_Acct);
+
+	/** Get Disposal Loss Acct (new)	  */
+	public int getA_Disposal_Loss_New_Acct();
+
+	public I_C_ValidCombination getA_Disposal_Loss_New_A() throws RuntimeException;
+
     /** Column name A_Disposal_Loss_Str */
     public static final String COLUMNNAME_A_Disposal_Loss_Str = "A_Disposal_Loss_Str";
 
-	/** Set Old Disposal Loss	  */
+	/** Set Disposal Loss Str	  */
 	public void setA_Disposal_Loss_Str (String A_Disposal_Loss_Str);
 
-	/** Get Old Disposal Loss	  */
+	/** Get Disposal Loss Str	  */
 	public String getA_Disposal_Loss_Str();
 
     /** Column name A_Disposal_Revenue */
@@ -204,6 +298,17 @@ public interface I_A_Asset_Transfer
 
 	/** Get Disposal Revenue	  */
 	public int getA_Disposal_Revenue();
+
+    /** Column name A_Disposal_Revenue_Acct */
+    public static final String COLUMNNAME_A_Disposal_Revenue_Acct = "A_Disposal_Revenue_Acct";
+
+	/** Set Disposal Revenue Acct	  */
+	public void setA_Disposal_Revenue_Acct (int A_Disposal_Revenue_Acct);
+
+	/** Get Disposal Revenue Acct	  */
+	public int getA_Disposal_Revenue_Acct();
+
+	public I_C_ValidCombination getA_Disposal_Revenue_A() throws RuntimeException;
 
     /** Column name A_Disposal_Revenue_New */
     public static final String COLUMNNAME_A_Disposal_Revenue_New = "A_Disposal_Revenue_New";
@@ -216,71 +321,69 @@ public interface I_A_Asset_Transfer
 
 	public I_C_ValidCombination getA_Disposal_Revenue_() throws RuntimeException;
 
+    /** Column name A_Disposal_Revenue_New_Acct */
+    public static final String COLUMNNAME_A_Disposal_Revenue_New_Acct = "A_Disposal_Revenue_New_Acct";
+
+	/** Set Disposal Revenue Acct (new)	  */
+	public void setA_Disposal_Revenue_New_Acct (int A_Disposal_Revenue_New_Acct);
+
+	/** Get Disposal Revenue Acct (new)	  */
+	public int getA_Disposal_Revenue_New_Acct();
+
+	public I_C_ValidCombination getA_Disposal_Revenue_New_A() throws RuntimeException;
+
     /** Column name A_Disposal_Revenue_Str */
     public static final String COLUMNNAME_A_Disposal_Revenue_Str = "A_Disposal_Revenue_Str";
 
-	/** Set Old Disposal Revenue	  */
+	/** Set Disposal Revenue Str	  */
 	public void setA_Disposal_Revenue_Str (String A_Disposal_Revenue_Str);
 
-	/** Get Old Disposal Revenue	  */
+	/** Get Disposal Revenue Str	  */
 	public String getA_Disposal_Revenue_Str();
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
 
     /** Column name A_Period_End */
     public static final String COLUMNNAME_A_Period_End = "A_Period_End";
 
-	/** Set Period End	  */
+	/** Set A_Period_End	  */
 	public void setA_Period_End (int A_Period_End);
 
-	/** Get Period End	  */
+	/** Get A_Period_End	  */
 	public int getA_Period_End();
 
     /** Column name A_Period_Start */
     public static final String COLUMNNAME_A_Period_Start = "A_Period_Start";
 
-	/** Set Period Start	  */
+	/** Set A_Period_Start	  */
 	public void setA_Period_Start (int A_Period_Start);
 
-	/** Get Period Start	  */
+	/** Get A_Period_Start	  */
 	public int getA_Period_Start();
 
     /** Column name A_Split_Percent */
     public static final String COLUMNNAME_A_Split_Percent = "A_Split_Percent";
 
-	/** Set Split Percentage	  */
+	/** Set Split Percent	  */
 	public void setA_Split_Percent (BigDecimal A_Split_Percent);
 
-	/** Get Split Percentage	  */
+	/** Get Split Percent	  */
 	public BigDecimal getA_Split_Percent();
 
     /** Column name A_Transfer_Balance */
     public static final String COLUMNNAME_A_Transfer_Balance = "A_Transfer_Balance";
 
-	/** Set Transfer Balance Sheet	  */
+	/** Set A_Transfer_Balance	  */
 	public void setA_Transfer_Balance (boolean A_Transfer_Balance);
 
-	/** Get Transfer Balance Sheet	  */
+	/** Get A_Transfer_Balance	  */
 	public boolean isA_Transfer_Balance();
 
     /** Column name A_Transfer_Balance_IS */
     public static final String COLUMNNAME_A_Transfer_Balance_IS = "A_Transfer_Balance_IS";
 
-	/** Set Transfer Balance IS	  */
+	/** Set A_Transfer_Balance_IS	  */
 	public void setA_Transfer_Balance_IS (boolean A_Transfer_Balance_IS);
 
-	/** Get Transfer Balance IS	  */
+	/** Get A_Transfer_Balance_IS	  */
 	public boolean isA_Transfer_Balance_IS();
 
     /** Column name C_AcctSchema_ID */
@@ -342,6 +445,58 @@ public interface I_A_Asset_Transfer
 	  */
 	public Timestamp getDateAcct();
 
+    /** Column name DateDoc */
+    public static final String COLUMNNAME_DateDoc = "DateDoc";
+
+	/** Set Document Date.
+	  * Date of the Document
+	  */
+	public void setDateDoc (Timestamp DateDoc);
+
+	/** Get Document Date.
+	  * Date of the Document
+	  */
+	public Timestamp getDateDoc();
+
+    /** Column name DocAction */
+    public static final String COLUMNNAME_DocAction = "DocAction";
+
+	/** Set Document Action.
+	  * The targeted status of the document
+	  */
+	public void setDocAction (String DocAction);
+
+	/** Get Document Action.
+	  * The targeted status of the document
+	  */
+	public String getDocAction();
+
+    /** Column name DocStatus */
+    public static final String COLUMNNAME_DocStatus = "DocStatus";
+
+	/** Set Document Status.
+	  * The current status of the document
+	  */
+	public void setDocStatus (String DocStatus);
+
+	/** Get Document Status.
+	  * The current status of the document
+	  */
+	public String getDocStatus();
+
+    /** Column name DocumentNo */
+    public static final String COLUMNNAME_DocumentNo = "DocumentNo";
+
+	/** Set Document No.
+	  * Document sequence number of the document
+	  */
+	public void setDocumentNo (String DocumentNo);
+
+	/** Get Document No.
+	  * Document sequence number of the document
+	  */
+	public String getDocumentNo();
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -354,6 +509,19 @@ public interface I_A_Asset_Transfer
 	  * The record is active in the system
 	  */
 	public boolean isActive();
+
+    /** Column name Posted */
+    public static final String COLUMNNAME_Posted = "Posted";
+
+	/** Set Posted.
+	  * Posting status
+	  */
+	public void setPosted (boolean Posted);
+
+	/** Get Posted.
+	  * Posting status
+	  */
+	public boolean isPosted();
 
     /** Column name PostingType */
     public static final String COLUMNNAME_PostingType = "PostingType";
@@ -380,6 +548,19 @@ public interface I_A_Asset_Transfer
 	  * The document has been processed
 	  */
 	public boolean isProcessed();
+
+    /** Column name ProcessedOn */
+    public static final String COLUMNNAME_ProcessedOn = "ProcessedOn";
+
+	/** Set Processed On.
+	  * The date+time (expressed in decimal format) when the document has been processed
+	  */
+	public void setProcessedOn (BigDecimal ProcessedOn);
+
+	/** Get Processed On.
+	  * The date+time (expressed in decimal format) when the document has been processed
+	  */
+	public BigDecimal getProcessedOn();
 
     /** Column name Processing */
     public static final String COLUMNNAME_Processing = "Processing";

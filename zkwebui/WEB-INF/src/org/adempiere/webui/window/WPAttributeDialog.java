@@ -39,24 +39,29 @@ import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.Window;
+import org.adempiere.webui.panel.InfoPAttributeInstancePanel;
 import org.adempiere.webui.session.SessionManager;
 import org.compiere.model.MAttribute;
 import org.compiere.model.MAttributeInstance;
 import org.compiere.model.MAttributeSet;
 import org.compiere.model.MAttributeSetInstance;
 import org.compiere.model.MAttributeValue;
+import org.compiere.model.MColumn;
 import org.compiere.model.MDocType;
 import org.compiere.model.MLot;
 import org.compiere.model.MLotCtl;
+import org.compiere.model.MProduct;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.model.MSerNoCtl;
+import org.compiere.model.MWindow;
 import org.compiere.model.X_M_MovementLine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
 import org.zkoss.zk.ui.HtmlBasedComponent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -118,7 +123,7 @@ public class WPAttributeDialog extends Window implements EventListener
 		m_WindowNoParent = WindowNo;
 
 		//get columnName from ad_column
-		m_columnName = DB.getSQLValueString(null, "SELECT ColumnName FROM AD_Column WHERE AD_Column_ID = ?", m_AD_Column_ID);
+		m_columnName = MColumn.getColumnName(Env.getCtx(), AD_Column_ID);
 		if (m_columnName == null || m_columnName.trim().length() == 0) 
 		{
 			//fallback
@@ -151,6 +156,7 @@ public class WPAttributeDialog extends Window implements EventListener
 	private int						m_C_BPartner_ID;
 	private int						m_AD_Column_ID;
 	private int						m_WindowNoParent;
+
 	/**	Enter Product Attributes		*/
 	private boolean					m_productWindow = false;
 	/**	Change							*/
@@ -170,13 +176,13 @@ public class WPAttributeDialog extends Window implements EventListener
 //	private VString fieldLotString = new VString ("Lot", false, false, true, 20, 20, null, null);
 	private Textbox fieldLotString = new Textbox();
 	private Listbox fieldLot = new Listbox();
-	private Button bLot = new Button(Msg.getMsg (Env.getCtx(), "New"));
+	private Button bLot = new Button(Util.cleanAmp(Msg.getMsg (Env.getCtx(), "New")));
 	//	Lot Popup
 	Menupopup 					popupMenu = new Menupopup();
 	private Menuitem 			mZoom;
 	//	Ser No
 	private Textbox fieldSerNo = new Textbox();
-	private Button bSerNo = new Button(Msg.getMsg (Env.getCtx(), "New"));
+	private Button bSerNo = new Button(Util.cleanAmp(Msg.getMsg (Env.getCtx(), "New")));
 	//	Date
 	private Datebox fieldGuaranteeDate = new Datebox();
 	//
@@ -188,6 +194,8 @@ public class WPAttributeDialog extends Window implements EventListener
 	private ConfirmPanel confirmPanel = new ConfirmPanel (true);
 	
 	private String m_columnName = null;
+	private MProduct m_product;
+	private boolean m_productASI;
 
 	/**
 	 *	Layout
@@ -231,6 +239,21 @@ public class WPAttributeDialog extends Window implements EventListener
 		if (m_M_Product_ID != 0)
 		{
 			//	Get Model
+			m_product = MProduct.get(Env.getCtx(), m_M_Product_ID);
+			if (m_product.getM_AttributeSetInstance_ID() > 0)
+			{
+				m_productASI = true;
+				//  The product has an instance associated with it.
+				if (m_M_AttributeSetInstance_ID != m_product.getM_AttributeSetInstance_ID())
+				{
+					log.fine("Different ASI than what is specified on Product!");
+				}
+			}
+			else 
+			{
+				// Only show product attributes when in the product window.
+				m_productASI = m_productWindow;				
+			}
 			m_masi = MAttributeSetInstance.get(Env.getCtx(), m_M_AttributeSetInstance_ID, m_M_Product_ID);
 			if (m_masi == null)
 			{
@@ -255,52 +278,51 @@ public class WPAttributeDialog extends Window implements EventListener
 			FDialog.error(m_WindowNo, this, "PAttributeNoAttributeSet");
 			return false;
 		}
-		//	Product has no Instance Attributes
-		if (!m_productWindow && !as.isInstanceAttribute())
-		{
-			FDialog.error(m_WindowNo, this, "PAttributeNoInstanceAttribute");
-			return false;
-		}
 
-		//	Show Product Attributes
-		if (m_productWindow)
+		//	BF3468823 Show Product Attributes
+		//  Product attributes can be shown in any window but are read/write only in the product
+		//  window.  Instance attributes are shown in any window but the product window and are
+		//  always read/write.  The two are exclusive and can't co-exists.  
+		if (!m_productWindow || !m_productASI)	//	Set Instance Attributes and dialog controls
 		{
-			MAttribute[] attributes = as.getMAttributes (false);
-			log.fine ("Product Attributes=" + attributes.length);
-			for (int i = 0; i < attributes.length; i++)
-				addAttributeLine (rows, attributes[i], true, !m_productWindow);
-		}
-		else	//	Set Instance Attributes
-		{
-			Row row = new Row();
-			
-			//	New/Edit - Selection
-			if (m_M_AttributeSetInstance_ID == 0)		//	new
-				cbNewEdit.setLabel(Msg.getMsg(Env.getCtx(), "NewRecord"));
-			else
-				cbNewEdit.setLabel(Msg.getMsg(Env.getCtx(), "EditRecord"));
-			cbNewEdit.addEventListener(Events.ON_CHECK, this);
-			row.appendChild(cbNewEdit);
-			bSelect.setLabel(Msg.getMsg(Env.getCtx(), "SelectExisting"));
-			bSelect.setImage("images/PAttribute16.png");
-			bSelect.addEventListener(Events.ON_CLICK, this);
-			row.appendChild(bSelect);
-			rows.appendChild(row);
-			
-			//	All Attributes
-			MAttribute[] attributes = as.getMAttributes (true);
+			if (!m_productASI)  // Instance attributes possible.  Set up controls.
+			{
+				Row row = new Row();
+				
+				//	New/Edit - Selection
+				if (m_M_AttributeSetInstance_ID == 0)		//	new
+					cbNewEdit.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "NewRecord")));
+				else
+					cbNewEdit.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "EditRecord")));
+				cbNewEdit.addEventListener(Events.ON_CHECK, this);
+				row.appendChild(cbNewEdit);
+				bSelect.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "SelectExisting")));
+				bSelect.setImage("images/PAttribute16.png");
+				bSelect.addEventListener(Events.ON_CLICK, this);
+				row.appendChild(bSelect);
+				rows.appendChild(row);
+			}
+			//	Add the Instance Attributes if any.  If its a product attribute set
+			//  this will do nothing.
+			MAttribute[] attributes = as.getMAttributes (true); // True = Instances
 			log.fine ("Instance Attributes=" + attributes.length);
 			for (int i = 0; i < attributes.length; i++)
 				addAttributeLine (rows, attributes[i], false, false);
 		}
+		//  Product attributes can be shown in any window but are read/write in the Product window only.
+		//  This will do nothing if it is an instance attribute set. 
+		MAttribute[] attributes = as.getMAttributes (false); // False = products
+		log.fine ("Product Attributes=" + attributes.length);
+		for (int i = 0; i < attributes.length; i++)
+			addAttributeLine (rows, attributes[i], true, !m_productWindow);
 
 		//	Lot
-		if (!m_productWindow && as.isLot())
+		if ((!m_productWindow || !m_productASI) && as.isLot())
 		{
 			Row row = new Row();
 			row.setParent(rows);
 			m_row++;
-			Label label = new Label (Msg.translate(Env.getCtx(), "Lot"));
+			Label label = new Label (Util.cleanAmp(Msg.translate(Env.getCtx(), "Lot")));
 			row.appendChild(label);
 			row.appendChild(fieldLotString);
 			fieldLotString.setText (m_masi.getLot());
@@ -320,7 +342,7 @@ public class WPAttributeDialog extends Window implements EventListener
 				fieldLot.appendItem(pair.getName(), pair.getKey());
 			}
 						
-			label = new Label (Msg.translate(Env.getCtx(), "M_Lot_ID"));
+			label = new Label (Util.cleanAmp(Msg.translate(Env.getCtx(), "M_Lot_ID")));
 			row = new Row();
 			row.setParent(rows);
 			m_row++;
@@ -363,12 +385,12 @@ public class WPAttributeDialog extends Window implements EventListener
 		}	//	Lot
 
 		//	SerNo
-		if (!m_productWindow && as.isSerNo())
+		if ((!m_productWindow || !m_productASI) && as.isSerNo())
 		{
 			Row row = new Row();
 			row.setParent(rows);
 			m_row++;
-			Label label = new Label (Msg.translate(Env.getCtx(), "SerNo"));
+			Label label = new Label (Util.cleanAmp(Msg.translate(Env.getCtx(), "SerNo")));
 			row.appendChild(label);
 			row.appendChild(fieldSerNo);
 			fieldSerNo.setText(m_masi.getSerNo());
@@ -389,12 +411,12 @@ public class WPAttributeDialog extends Window implements EventListener
 		}	//	SerNo
 
 		//	GuaranteeDate
-		if (!m_productWindow && as.isGuaranteeDate())
+		if ((!m_productWindow || !m_productASI) && as.isGuaranteeDate())
 		{
 			Row row = new Row();
 			row.setParent(rows);
 			m_row++;
-			Label label = new Label (Msg.translate(Env.getCtx(), "GuaranteeDate"));
+			Label label = new Label (Util.cleanAmp(Msg.translate(Env.getCtx(), "GuaranteeDate")));
 			if (m_M_AttributeSetInstance_ID == 0)
 				fieldGuaranteeDate.setValue(m_masi.getGuaranteeDate(true));
 			else
@@ -417,7 +439,7 @@ public class WPAttributeDialog extends Window implements EventListener
 		}
 
 		//	Attrribute Set Instance Description
-		Label label = new Label (Msg.translate(Env.getCtx(), "Description"));
+		Label label = new Label (Util.cleanAmp(Msg.translate(Env.getCtx(), "Description")));
 //		label.setLabelFor(fieldDescription);
 		fieldDescription.setText(m_masi.getDescription());
 		fieldDescription.setReadonly(true);
@@ -488,8 +510,6 @@ public class WPAttributeDialog extends Window implements EventListener
 		}
 		else if (MAttribute.ATTRIBUTEVALUETYPE_Number.equals(attribute.getAttributeValueType()))
 		{
-//			VNumber editor = new VNumber(attribute.getName(), attribute.isMandatory(), 
-//				false, true, DisplayType.Number, attribute.getName());
 			NumberBox editor = new NumberBox(false);
 			if (instance != null)
 				editor.setValue(instance.getValueNumber());
@@ -503,8 +523,6 @@ public class WPAttributeDialog extends Window implements EventListener
 		}
 		else	//	Text Field
 		{
-//			VString editor = new VString (attribute.getName(), attribute.isMandatory(), 
-//				false, true, 20, INSTANCE_VALUE_LENGTH, null, null);
 			Textbox editor = new Textbox();
 			if (instance != null)
 				editor.setText(instance.getValue());
@@ -588,9 +606,14 @@ public class WPAttributeDialog extends Window implements EventListener
 		//	Cancel
 		else if (e.getTarget().getId().equals("Cancel"))
 		{
-			m_changed = false;
-			m_M_AttributeSetInstance_ID = 0;
-			m_M_Locator_ID = 0;
+			//  Don't try to delete product ASIs.  They can only be cleared 
+			//  in the product window.
+			if (m_productWindow || !m_productASI) 
+			{
+				m_changed = m_M_AttributeSetInstance_ID != 0;
+				m_M_AttributeSetInstance_ID = 0;
+				m_M_Locator_ID = 0;
+			}
 			dispose();
 		}
 		//	Zoom M_Lot
@@ -621,10 +644,9 @@ public class WPAttributeDialog extends Window implements EventListener
 		}
 		
 		// teo_sarca [ 1564520 ] Inventory Move: can't select existing attributes
+		// Trifon - Always read Locator from Context. There are too many windows to read explicitly one by one.
 		int M_Locator_ID = 0;
-		if (m_AD_Column_ID == 8551) { // TODO: hardcoded: M_MovementLine[324].M_AttributeSetInstance_ID[8551]
-			M_Locator_ID = Env.getContextAsInt(Env.getCtx(), m_WindowNoParent, X_M_MovementLine.COLUMNNAME_M_Locator_ID, true); // only window
-		}
+		M_Locator_ID = Env.getContextAsInt(Env.getCtx(), m_WindowNoParent, X_M_MovementLine.COLUMNNAME_M_Locator_ID, true); // only window
 		
 		String title = "";
 		//	Get Text
@@ -640,7 +662,7 @@ public class WPAttributeDialog extends Window implements EventListener
 			pstmt.setInt(2, M_Locator_ID <= 0 ? M_Warehouse_ID : M_Locator_ID);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				title = rs.getString(1) + " - " + rs.getString(2);
+				title = ": " + rs.getString(1) + " - " + rs.getString(2);
 				M_Warehouse_ID = rs.getInt(3); // fetch the actual warehouse - teo_sarca [ 1564520 ]
 			}
 		}
@@ -654,17 +676,28 @@ public class WPAttributeDialog extends Window implements EventListener
 			rs = null; pstmt = null;
 		}
 		//		
-		WPAttributeInstance pai = new WPAttributeInstance(title, 
+		InfoPAttributeInstancePanel pai = new InfoPAttributeInstancePanel(this, title, 
 			M_Warehouse_ID, M_Locator_ID, m_M_Product_ID, m_C_BPartner_ID);
-		if (pai.getM_AttributeSetInstance_ID() != -1)
+		//
+		if (m_M_AttributeSetInstance_ID != pai.getM_AttributeSetInstance_ID() ||
+				!(m_M_AttributeSetInstance_ID == 0 && pai.getM_AttributeSetInstance_ID() == -1))
 		{
-			m_M_AttributeSetInstance_ID = pai.getM_AttributeSetInstance_ID();
-			m_M_AttributeSetInstanceName = pai.getM_AttributeSetInstanceName();
-			m_M_Locator_ID = pai.getM_Locator_ID();
 			m_changed = true;
-			return true;
+			//
+			if (pai.getM_AttributeSetInstance_ID() != -1)
+			{
+				m_M_AttributeSetInstance_ID = pai.getM_AttributeSetInstance_ID();
+				m_M_AttributeSetInstanceName = pai.getM_AttributeSetInstanceName();
+				m_M_Locator_ID = pai.getM_Locator_ID();
+			}
+			else
+			{
+				m_M_AttributeSetInstance_ID = 0;
+				m_M_AttributeSetInstanceName = "";
+				// Leave the locator alone
+			}
 		}
-		return false;
+		return m_changed;
 	}	//	cmd_select
 
 	/**
@@ -708,18 +741,8 @@ public class WPAttributeDialog extends Window implements EventListener
 		zoomQuery.addRestriction("M_Lot_ID", MQuery.EQUAL, M_Lot_ID);
 		log.info(zoomQuery.toString());
 		//
-		//TODO: to port
-		/*
-		int AD_Window_ID = 257;		//	Lot
-		AWindow frame = new AWindow();
-		if (frame.initWindow(AD_Window_ID, zoomQuery))
-		{
-			this.setVisible(false);
-			this.setModal (false);	//	otherwise blocked
-			this.setVisible(true);
-			AEnv.addToWindowManager(frame);
-			AEnv.showScreen(frame, SwingConstants.EAST);
-		}*/
+		int AD_Window_ID = MWindow.getWindow_ID("Lot");		//	Lot
+		AEnv.zoom (AD_Window_ID, zoomQuery);
 	}	//	cmd_zoom
 
 	/**
@@ -773,40 +796,43 @@ public class WPAttributeDialog extends Window implements EventListener
 			m_M_AttributeSetInstanceName = m_masi.getDescription();
 		}
 
-		//	Save Instance Attributes
-		MAttribute[] attributes = as.getMAttributes(!m_productWindow);
-		for (int i = 0; i < attributes.length; i++)
-		{
-			if (MAttribute.ATTRIBUTEVALUETYPE_List.equals(attributes[i].getAttributeValueType()))
+		//  Save attributes
+		if (m_M_AttributeSetInstance_ID > 0) {
+			//	Save Instance Attributes
+			MAttribute[] attributes = as.getMAttributes(!m_productASI);
+			for (int i = 0; i < attributes.length; i++)
 			{
-				Listbox editor = (Listbox)m_editors.get(i);
-				ListItem item = editor.getSelectedItem();
-				MAttributeValue value = item != null ? (MAttributeValue)item.getValue() : null;
-				log.fine(attributes[i].getName() + "=" + value);
-				if (attributes[i].isMandatory() && value == null)
-					mandatory += " - " + attributes[i].getName();
-				attributes[i].setMAttributeInstance(m_M_AttributeSetInstance_ID, value);
-			}
-			else if (MAttribute.ATTRIBUTEVALUETYPE_Number.equals(attributes[i].getAttributeValueType()))
-			{
-				NumberBox editor = (NumberBox)m_editors.get(i);
-				BigDecimal value = editor.getValue();
-				log.fine(attributes[i].getName() + "=" + value);
-				if (attributes[i].isMandatory() && value == null)
-					mandatory += " - " + attributes[i].getName();
-				//setMAttributeInstance doesn't work without decimal point
-				if (value != null && value.scale() == 0)
-					value = value.setScale(1, BigDecimal.ROUND_HALF_UP);
-				attributes[i].setMAttributeInstance(m_M_AttributeSetInstance_ID, value);
-			}
-			else
-			{
-				Textbox editor = (Textbox)m_editors.get(i);
-				String value = editor.getText();
-				log.fine(attributes[i].getName() + "=" + value);
-				if (attributes[i].isMandatory() && (value == null || value.length() == 0))
-					mandatory += " - " + attributes[i].getName();
-				attributes[i].setMAttributeInstance(m_M_AttributeSetInstance_ID, value);
+				if (MAttribute.ATTRIBUTEVALUETYPE_List.equals(attributes[i].getAttributeValueType()))
+				{
+					Listbox editor = (Listbox)m_editors.get(i);
+					ListItem item = editor.getSelectedItem();
+					MAttributeValue value = item != null ? (MAttributeValue)item.getValue() : null;
+					log.fine(attributes[i].getName() + "=" + value);
+					if (attributes[i].isMandatory() && value == null)
+						mandatory += " - " + attributes[i].getName();
+					attributes[i].setMAttributeInstance(m_M_AttributeSetInstance_ID, value);
+				}
+				else if (MAttribute.ATTRIBUTEVALUETYPE_Number.equals(attributes[i].getAttributeValueType()))
+				{
+					NumberBox editor = (NumberBox)m_editors.get(i);
+					BigDecimal value = editor.getValue();
+					log.fine(attributes[i].getName() + "=" + value);
+					if (attributes[i].isMandatory() && value == null)
+						mandatory += " - " + attributes[i].getName();
+					//setMAttributeInstance doesn't work without decimal point
+					if (value != null && value.scale() == 0)
+						value = value.setScale(1, BigDecimal.ROUND_HALF_UP);
+					attributes[i].setMAttributeInstance(m_M_AttributeSetInstance_ID, value);
+				}
+				else
+				{
+					Textbox editor = (Textbox)m_editors.get(i);
+					String value = editor.getText();
+					log.fine(attributes[i].getName() + "=" + value);
+					if (attributes[i].isMandatory() && (value == null || value.length() == 0))
+						mandatory += " - " + attributes[i].getName();
+					attributes[i].setMAttributeInstance(m_M_AttributeSetInstance_ID, value);
+				}
 			}
 			m_changed = true;
 		}	//	for all attributes

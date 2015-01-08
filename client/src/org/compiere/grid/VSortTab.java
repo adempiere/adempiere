@@ -52,13 +52,25 @@ import javax.swing.event.MouseInputListener;
 
 import org.compiere.apps.ADialog;
 import org.compiere.apps.APanel;
+import org.compiere.model.GridFieldVO;
+import org.compiere.model.I_AD_Column;
+import org.compiere.model.MColumn;
+import org.compiere.model.MLookup;
+import org.compiere.model.MLookupFactory;
+import org.compiere.model.MLookupInfo;
+import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
+import org.compiere.model.MTable;
+import org.compiere.model.Query;
+import org.compiere.model.PO;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.compiere.util.Language;
 import org.compiere.util.Msg;
 import org.compiere.util.NamePair;
 
@@ -252,7 +264,7 @@ public class VSortTab extends CPanel implements APanelTab
 					boolean isTranslated = trl && "Y".equals(rs.getString(8));
 					if (identifierSql.length() > 0)
 						identifierSql.append(",");
-					identifierSql.append(isTranslated ? "tt." : "t.").append(rs.getString(3));
+					identifierSql.append(getIdentifier(rs.getString(1), rs.getString(3), rs.getInt(2),isTranslated));
 					identifiersCount++;
 //					m_IdentifierColumnName = rs.getString(3);
 					if (isTranslated)
@@ -282,6 +294,32 @@ public class VSortTab extends CPanel implements APanelTab
 		noLabel.setText(Msg.getMsg(Env.getCtx(), "Available"));
 		log.fine(m_ColumnSortName);
 	}	//	dynInit
+	
+	/**
+	 * get Identifier
+	 * @param tableName
+	 * @param columnName
+	 * @param AD_Column_ID
+	 * @param isTranslated
+	 * @return Sql
+	 */
+	private String getIdentifier (String tableName, String columnName,Integer AD_Column_ID, boolean isTranslated)
+	{
+		Language language = Language.getLanguage(Env
+				.getAD_Language(Env.getCtx()));
+		StringBuilder sql = new StringBuilder("");
+		MColumn column = MColumn.get(Env.getCtx(), AD_Column_ID);
+		if(DisplayType.TableDir == column.getAD_Reference_ID() || DisplayType.Search == column.getAD_Reference_ID())
+			sql.append("(").append(MLookupFactory.getLookup_TableDirEmbed(language, columnName, "t")).append(")");
+		else if (DisplayType.Table == column.getAD_Reference_ID())
+			sql.append("(").append(MLookupFactory.getLookup_TableEmbed(language, column.getColumnName(), "t", column.getAD_Reference_Value_ID())).append(")");
+		else if(DisplayType.List == column.getAD_Reference_ID())
+			sql.append("(").append(MLookupFactory.getLookup_ListEmbed(language, column.getAD_Reference_Value_ID(), columnName)).append(")");
+		else 
+			sql.append(isTranslated ? "tt." : "t.").append(columnName);
+		
+		return sql.toString();
+	}
 
 	/**
 	 * 	Static Layout
@@ -630,7 +668,7 @@ public class VSortTab extends CPanel implements APanelTab
 		log.fine("");
 		boolean ok = true;
 		StringBuffer info = new StringBuffer();
-		StringBuffer sql = null;
+		MTable table = MTable.get(Env.getCtx(), m_AD_Table_ID);
 		//	noList - Set SortColumn to null and optional YesNo Column to 'N'
 		for (int i = 0; i < noModel.getSize(); i++)
 		{
@@ -640,13 +678,12 @@ public class VSortTab extends CPanel implements APanelTab
 			if(pp.getSortNo() == 0 && (m_ColumnYesNoName == null || !pp.isYes()))
 				continue; // no changes
 			//
-			sql = new StringBuffer();
-			sql.append("UPDATE ").append(m_TableName)
-			.append(" SET ").append(m_ColumnSortName).append("=0");
-			if (m_ColumnYesNoName != null)
-				sql.append(",").append(m_ColumnYesNoName).append("='N'");
-			sql.append(" WHERE ").append(m_KeyColumnName).append("=").append(pp.getKey());
-			if (DB.executeUpdate(sql.toString(), null) == 1) {
+			
+			PO po = table.getPO(pp.getKey(), null);
+			po.set_ValueOfColumn(m_ColumnSortName, 0);
+			po.set_ValueOfColumn(m_ColumnYesNoName, false);
+			
+			if (po.save()) {
 				pp.setSortNo(0);
 				pp.setIsYes(false);
 			}
@@ -669,13 +706,12 @@ public class VSortTab extends CPanel implements APanelTab
 			if(pp.getSortNo() == index && (m_ColumnYesNoName == null || pp.isYes()))
 				continue; // no changes
 			//
-			sql = new StringBuffer();
-			sql.append("UPDATE ").append(m_TableName)
-			.append(" SET ").append(m_ColumnSortName).append("=").append(index);
-			if (m_ColumnYesNoName != null)
-				sql.append(",").append(m_ColumnYesNoName).append("='Y'");
-			sql.append(" WHERE ").append(m_KeyColumnName).append("=").append(pp.getKey());
-			if (DB.executeUpdate(sql.toString(), null) == 1) {
+
+			PO po = table.getPO(pp.getKey(), null);
+			po.set_ValueOfColumn(m_ColumnSortName, index);
+			po.set_ValueOfColumn(m_ColumnYesNoName, true);
+			
+			if (po.save()) {
 				pp.setSortNo(index);
 				pp.setIsYes(true);
 			}

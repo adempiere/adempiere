@@ -29,6 +29,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -2090,8 +2091,13 @@ public class GridTable extends AbstractTableModel
 					|| (oldValue != null && oldValue.equals (dbValue))
 					//	Target == DB (changed by trigger to new value already)
 					|| (value == null && dbValue == null)
-					|| (value != null && value.equals (dbValue)) )
-				{
+					|| (value != null && value.equals (dbValue)) 
+					
+					//   GridTable.dataSave(boolean manualCmd) has a Bug when comparing new, old and db value 
+					// - https://adempiere.atlassian.net/browse/ADEMPIERE-157
+					|| ((oldValue.getClass().equals(byte[].class) && dbValue.getClass().equals(byte[].class)) && Arrays.equals((byte[])oldValue, (byte[])dbValue))
+					|| ((value.getClass().equals(byte[].class) && dbValue.getClass().equals(byte[].class)) && Arrays.equals((byte[])oldValue, (byte[])dbValue))
+				) {
 					po.set_ValueNoCheck (columnName, value);
 				}
 				//	Original != DB
@@ -2499,7 +2505,8 @@ public class GridTable extends AbstractTableModel
 					|| columnName.equals("IsPaid") || columnName.equals("IsAllocated")
 					// Bug [ 1807947 ] 
 					|| ( columnName.equals("C_DocType_ID") && hasDocTypeTargetField )
-					|| ( columnName.equals("Line") )
+					|| ( columnName.equals("Line")
+					|| !field.IsAllowCopy())
 				)
 				{
 					rowData[i] = field.getDefault();
@@ -2806,20 +2813,40 @@ public class GridTable extends AbstractTableModel
 	 */
 	public void dataRefreshAll()
 	{
-		dataRefreshAll(true);
+		dataRefreshAll(true ,-1);
 	}
 
 	/**
 	 *	Refresh all Rows - ignore changes
 	 *  @param fireStatusEvent
 	 */
-	public void dataRefreshAll(boolean fireStatusEvent)
+	public void dataRefreshAll(boolean fireStatusEvent ,int rowToRetained)
 	{
+		
 		log.info("");
-		m_inserting = false;	//	should not happen
-		dataIgnore();
+ 		m_inserting = false;	//	should not happen
+ 		dataIgnore();
+		String retainedWhere = null;
+		if (rowToRetained >= 0)
+		{
+			retainedWhere = getWhereClause(rowToRetained);
+		}
 		close(false);
-		open(m_maxRows);
+
+		if (retainedWhere != null)
+	{
+			// String whereClause = m_whereClause;
+			if (m_whereClause != null && m_whereClause.trim().length() > 0)
+			{
+				m_whereClause = "((" + m_whereClause + ") OR (" + retainedWhere + ")) ";
+			}
+			open(m_maxRows);
+			// m_whereClause = whereClause;
+		}
+		else
+		{
+			open(m_maxRows);
+		}
 		//	Info
 		m_rowData = null;
 		m_changed = false;
@@ -2827,7 +2854,7 @@ public class GridTable extends AbstractTableModel
 		m_inserting = false;
 		fireTableDataChanged();
 		if (fireStatusEvent)
-			fireDataStatusIEvent(DATA_REFRESH_MESSAGE, "");
+		    fireDataStatusIEvent(DATA_REFRESH_MESSAGE, "");
 	}	//	dataRefreshAll
 
 
@@ -3534,6 +3561,11 @@ public class GridTable extends AbstractTableModel
 				// no columns updated or processed to commpare
 				return false;
 			}
+			
+			
+			// todo: temporary fix for carlos assumption that all windows have _id column
+			if ( findColumn(m_tableName + "_ID") == -1)
+				return false;
 
 	    	Timestamp dbUpdated = null;
 	    	String dbProcessedS = null;
@@ -3660,4 +3692,22 @@ public class GridTable extends AbstractTableModel
 		return bChanged;	
 	}
 	
+	    /**
+		 * get where clause for row
+		 * @param row
+		 * @return where clause
+		 */
+		public String getWhereClause(int row)
+		{
+			if (row < 0 || m_sort.size() == 0 || m_inserting)
+				return null;
+
+			Object[] rowData = getDataAtRow(row);
+			if (rowData == null)
+				return null;
+
+			String where = getWhereClause(rowData);
+
+			return where;
+		}
 }

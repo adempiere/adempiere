@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="ADEMPIERE-72 - Info Window Improvements" ReleaseNo="3.8.0" SeqNo="32">
+    <Comments>Adds messages and adjustments related to improvements to the info windows.</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <Comments>Update the system configuration defaults to include INFO_AUTO_WILDCARD.</Comments>
+      <PO AD_Table_ID="50009" Action="I" Record_ID="50071" Table="AD_SysConfig">
+        <Data AD_Column_ID="50188" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="50187" Column="AD_SysConfig_ID">50071</Data>
+        <Data AD_Column_ID="50189" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="53271" Column="ConfigurationLevel">C</Data>
+        <Data AD_Column_ID="50190" Column="Created">2012-04-23 13:39:31</Data>
+        <Data AD_Column_ID="50192" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="50193" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="50197" Column="Description">Determines the wild card pattern to apply to search text as none, first, last or both.  The percent sign "%" is the wildcard.  The astrixs could be any text.  "*%" is the default - last only. * - is none.  %* is first only.  %*%, % or %% is both.</Data>
+        <Data AD_Column_ID="50195" Column="Name">INFO_AUTO_WILDCARD</Data>
+        <Data AD_Column_ID="50196" Column="Value">*%</Data>
+        <Data AD_Column_ID="50191" Column="Updated">2012-04-23 13:39:31</Data>
+        <Data AD_Column_ID="50194" Column="IsActive">true</Data>
+        <Data AD_Column_ID="53270" Column="EntityType">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <Comments>Update the system configuration defaults to include INFO_AUTO_QUERY.</Comments>
+      <PO AD_Table_ID="50009" Action="I" Record_ID="50072" Table="AD_SysConfig">
+        <Data AD_Column_ID="50189" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="50188" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="53271" Column="ConfigurationLevel">C</Data>
+        <Data AD_Column_ID="50190" Column="Created">2012-04-23 13:35:17</Data>
+        <Data AD_Column_ID="50192" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="50197" Column="Description">Info Windows - is the query performed automatically (Y) or does the user have to click the Refresh button.</Data>
+        <Data AD_Column_ID="50195" Column="Name">INFO_AUTO_QUERY</Data>
+        <Data AD_Column_ID="50191" Column="Updated">2012-04-23 13:35:17</Data>
+        <Data AD_Column_ID="50193" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="50196" Column="Value">Y</Data>
+        <Data AD_Column_ID="50187" Column="AD_SysConfig_ID">50072</Data>
+        <Data AD_Column_ID="53270" Column="EntityType">D</Data>
+        <Data AD_Column_ID="50194" Column="IsActive">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <Comments>Expected Change</Comments>
+      <PO AD_Table_ID="109" Action="I" Record_ID="53235" Table="AD_Message">
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="589" Column="Created">2013-09-14 08:51:14.108</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Expected Change</Data>
+        <Data AD_Column_ID="199" Column="MsgTip">The expected change or delta in the amount.</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="591" Column="Updated">2013-09-14 08:51:14.108</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="6766" Column="Value">ExpectedChange</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53235</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <Comments>Only Stock</Comments>
+      <PO AD_Table_ID="109" Action="I" Record_ID="53236" Table="AD_Message">
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="589" Column="Created">2013-09-14 09:02:01.841</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53236</Data>
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Only Stock</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="591" Column="Updated">2013-09-14 09:02:01.841</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="6766" Column="Value">OnlyStock</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <Comments>OnlyStockTip</Comments>
+      <PO AD_Table_ID="109" Action="I" Record_ID="53237" Table="AD_Message">
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="589" Column="Created">2013-09-14 09:11:50.476</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="198" Column="MsgText">If selected, only display inventory items. Otherwise, display all products.</Data>
+        <Data AD_Column_ID="199" Column="MsgTip">If selected, only display inventory items. Otherwise, display all products.</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="591" Column="Updated">2013-09-14 09:11:50.476</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="6766" Column="Value">OnlyStockTip</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53237</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <Comments>AutoRefresh</Comments>
+      <PO AD_Table_ID="109" Action="I" Record_ID="53238" Table="AD_Message">
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="589" Column="Created">2013-09-14 09:13:40.626</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Auto Refresh</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="591" Column="Updated">2013-09-14 09:13:40.626</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="6766" Column="Value">AutoRefresh</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53238</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <Comments>ShowDetail</Comments>
+      <PO AD_Table_ID="109" Action="I" Record_ID="53239" Table="AD_Message">
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="589" Column="Created">2013-09-14 09:15:00.041</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Show Detail</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="591" Column="Updated">2013-09-14 09:15:00.041</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="6766" Column="Value">ShowDetail</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53239</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <Comments>ShowAttributeDetails</Comments>
+      <PO AD_Table_ID="109" Action="I" Record_ID="53240" Table="AD_Message">
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="589" Column="Created">2013-09-14 09:17:41.327</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Show Attribute Details</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="591" Column="Updated">2013-09-14 09:17:41.327</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="6766" Column="Value">ShowAttributeDetails</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53240</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <Comments>ContactAndAddress</Comments>
+      <PO AD_Table_ID="109" Action="I" Record_ID="53241" Table="AD_Message">
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="589" Column="Created">2013-09-14 09:18:59.4</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Contact and Address Information</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="591" Column="Updated">2013-09-14 09:18:59.4</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="6766" Column="Value">ContactAndAddress</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53241</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <Comments>OnlyReceipt</Comments>
+      <PO AD_Table_ID="109" Action="I" Record_ID="53242" Table="AD_Message">
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="589" Column="Created">2013-09-14 09:21:14.632</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Only Receipts</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="591" Column="Updated">2013-09-14 09:21:14.632</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="6766" Column="Value">OnlyReceipt</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53242</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <Comments>OnlyPayment</Comments>
+      <PO AD_Table_ID="109" Action="I" Record_ID="53243" Table="AD_Message">
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="589" Column="Created">2013-09-14 09:22:44.268</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Only AP Payments</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="591" Column="Updated">2013-09-14 09:22:44.268</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="6766" Column="Value">OnlyPayment</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53243</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <Comments>Received</Comments>
+      <PO AD_Table_ID="109" Action="I" Record_ID="53244" Table="AD_Message">
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="589" Column="Created">2013-09-14 09:26:20.706</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Received</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="591" Column="Updated">2013-09-14 09:26:20.706</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="6766" Column="Value">Received</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53244</Data>
+      </PO>
+    </Step>
+    <Step DBType="Postgres" SeqNo="130" StepType="SQL">
+      <Comments>Add M_Product_ID to M_Product_Stock_V </Comments>
+      <SQLStatement>DROP VIEW adempiere.m_product_stock_v;
+
+CREATE OR REPLACE VIEW adempiere.m_product_stock_v AS 
+ SELECT ms.isactive, ms.created, ms.createdby, ms.updated, ms.updatedby, mp.m_product_id, mp.value, mp.help, ms.qtyonhand - ms.qtyreserved AS qtyavailable, ms.qtyonhand, ms.qtyreserved, mp.description, mw.name AS warehouse, mw.m_warehouse_id, mw.ad_client_id, mw.ad_org_id, mp.documentnote
+   FROM adempiere.m_storage ms
+   JOIN adempiere.m_product mp ON ms.m_product_id = mp.m_product_id
+   JOIN adempiere.m_locator ml ON ms.m_locator_id = ml.m_locator_id
+   JOIN adempiere.m_warehouse mw ON ml.m_warehouse_id = mw.m_warehouse_id
+  ORDER BY mw.name;
+
+ALTER TABLE adempiere.m_product_stock_v
+  OWNER TO adempiere;</SQLStatement>
+      <RollbackStatement>DROP VIEW adempiere.m_product_stock_v;
+
+CREATE OR REPLACE VIEW adempiere.m_product_stock_v AS 
+ SELECT ms.isactive, ms.created, ms.createdby, ms.updated, ms.updatedby, mp.value, mp.help, ms.qtyonhand - ms.qtyreserved AS qtyavailable, ms.qtyonhand, ms.qtyreserved, mp.description, mw.name AS warehouse, mw.m_warehouse_id, mw.ad_client_id, mw.ad_org_id, mp.documentnote
+   FROM adempiere.m_storage ms
+   JOIN adempiere.m_product mp ON ms.m_product_id = mp.m_product_id
+   JOIN adempiere.m_locator ml ON ms.m_locator_id = ml.m_locator_id
+   JOIN adempiere.m_warehouse mw ON ml.m_warehouse_id = mw.m_warehouse_id
+  ORDER BY mw.name;
+
+ALTER TABLE adempiere.m_product_stock_v
+  OWNER TO adempiere;</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="135" StepType="SQL">
+      <Comments>Add M_Product_ID to M_Product_Stock_V </Comments>
+      <SQLStatement>--create views
+DROP VIEW M_Product_Stock_V;
+CREATE OR REPLACE VIEW M_PRODUCT_STOCK_V
+AS
+SELECT 
+ms.IsActive, ms.Created, ms.CreatedBy, ms.Updated, ms.UpdatedBy,
+mp.M_Product_ID, mp.VALUE, mp.help, (ms.qtyonhand - ms.qtyreserved) AS qtyavailable, ms.qtyonhand, 
+ms.qtyreserved, mp.description, mw.NAME AS warehouse, mw.m_warehouse_id, mw.ad_client_id, 
+mw.ad_org_id, mp.documentnote
+FROM M_STORAGE ms 
+JOIN M_PRODUCT mp ON ms.m_product_id = mp.m_product_id
+JOIN M_LOCATOR ml ON ms.m_locator_id = ml.m_locator_id
+JOIN M_WAREHOUSE mw ON ml.m_warehouse_id = mw.m_warehouse_id 
+ORDER BY mw.NAME;
+</SQLStatement>
+      <RollbackStatement>DROP VIEW M_Product_Stock_V;
+
+CREATE VIEW M_PRODUCT_STOCK_V
+AS SELECT ms.isactive, ms.created, ms.createdby, ms.updated, ms.updatedby, mp.m_product_id, mp.value, mp.help, ms.qtyonhand - ms.qtyreserved AS qtyavailable, ms.qtyonhand, ms.qtyreserved, mp.description, mw.name AS warehouse, mw.m_warehouse_id, mw.ad_client_id, mw.ad_org_id, mp.documentnote
+   FROM adempiere.m_storage ms
+   JOIN adempiere.m_product mp ON ms.m_product_id = mp.m_product_id
+   JOIN adempiere.m_locator ml ON ms.m_locator_id = ml.m_locator_id
+   JOIN adempiere.m_warehouse mw ON ml.m_warehouse_id = mw.m_warehouse_id
+  ORDER BY mw.name;</RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="140" StepType="SQL">
+      <Comments>Adding field description to the m_product_substituterelated_v view</Comments>
+      <SQLStatement>DROP VIEW adempiere.m_product_substituterelated_v;
+
+CREATE OR REPLACE VIEW adempiere.m_product_substituterelated_v AS 
+         SELECT s.ad_client_id, s.ad_org_id, s.isactive, s.created, s.createdby, s.updated, s.updatedby, s.m_product_id, s.substitute_id, s.name AS description, 'S'::text AS rowtype, mp.value, mp.name, sum(ms.qtyonhand - ms.qtyreserved) AS qtyavailable, sum(ms.qtyonhand) AS qtyonhand, sum(ms.qtyreserved) AS qtyreserved, round(max(mpr.pricestd), 0) AS pricestd, mpr.m_pricelist_version_id, mw.m_warehouse_id, org.name AS orgname
+           FROM adempiere.m_substitute s
+      JOIN adempiere.m_storage ms ON ms.m_product_id = s.substitute_id
+   JOIN adempiere.m_product mp ON ms.m_product_id = mp.m_product_id
+   JOIN adempiere.m_locator ml ON ms.m_locator_id = ml.m_locator_id
+   JOIN adempiere.m_warehouse mw ON ml.m_warehouse_id = mw.m_warehouse_id
+   JOIN adempiere.m_productprice mpr ON ms.m_product_id = mpr.m_product_id
+   JOIN adempiere.ad_org org ON org.ad_org_id = mw.ad_org_id
+  GROUP BY s.ad_client_id, s.ad_org_id, s.isactive, s.created, s.createdby, s.updated, s.updatedby, s.m_product_id, s.substitute_id, s.name, mp.value, mw.m_warehouse_id, mpr.m_pricelist_version_id, org.name, mp.name
+UNION 
+         SELECT r.ad_client_id, r.ad_org_id, r.isactive, r.created, r.createdby, r.updated, r.updatedby, r.m_product_id, r.relatedproduct_id AS substitute_id, r.name AS description, 'R'::text AS rowtype, mp.value, mp.name, sum(ms.qtyonhand - ms.qtyreserved) AS qtyavailable, sum(ms.qtyonhand) AS qtyonhand, sum(ms.qtyreserved) AS qtyreserved, round(max(mpr.pricestd), 0) AS pricestd, mpr.m_pricelist_version_id, mw.m_warehouse_id, org.name AS orgname
+           FROM adempiere.m_relatedproduct r
+      JOIN adempiere.m_storage ms ON ms.m_product_id = r.relatedproduct_id
+   JOIN adempiere.m_product mp ON ms.m_product_id = mp.m_product_id
+   JOIN adempiere.m_locator ml ON ms.m_locator_id = ml.m_locator_id
+   JOIN adempiere.m_warehouse mw ON ml.m_warehouse_id = mw.m_warehouse_id
+   JOIN adempiere.m_productprice mpr ON ms.m_product_id = mpr.m_product_id
+   JOIN adempiere.ad_org org ON org.ad_org_id = mw.ad_org_id
+  GROUP BY r.ad_client_id, r.ad_org_id, r.isactive, r.created, r.createdby, r.updated, r.updatedby, r.m_product_id, r.relatedproduct_id, r.name, mw.m_warehouse_id, mpr.m_pricelist_version_id, org.name, mp.value, mp.name;
+
+ALTER TABLE adempiere.m_product_substituterelated_v
+  OWNER TO adempiere;</SQLStatement>
+      <RollbackStatement>DROP VIEW adempiere.m_product_substituterelated_v;
+
+CREATE OR REPLACE VIEW adempiere.m_product_substituterelated_v AS 
+         SELECT s.ad_client_id, s.ad_org_id, s.isactive, s.created, s.createdby, s.updated, s.updatedby, s.m_product_id, s.substitute_id, 'S'::text AS rowtype, mp.name, sum(ms.qtyonhand - ms.qtyreserved) AS qtyavailable, sum(ms.qtyonhand) AS qtyonhand, sum(ms.qtyreserved) AS qtyreserved, round(max(mpr.pricestd), 0) AS pricestd, mpr.m_pricelist_version_id, mw.m_warehouse_id, org.name AS orgname
+           FROM adempiere.m_substitute s
+      JOIN adempiere.m_storage ms ON ms.m_product_id = s.substitute_id
+   JOIN adempiere.m_product mp ON ms.m_product_id = mp.m_product_id
+   JOIN adempiere.m_locator ml ON ms.m_locator_id = ml.m_locator_id
+   JOIN adempiere.m_warehouse mw ON ml.m_warehouse_id = mw.m_warehouse_id
+   JOIN adempiere.m_productprice mpr ON ms.m_product_id = mpr.m_product_id
+   JOIN adempiere.ad_org org ON org.ad_org_id = mw.ad_org_id
+  GROUP BY s.ad_client_id, s.ad_org_id, s.isactive, s.created, s.createdby, s.updated, s.updatedby, s.m_product_id, s.substitute_id, mw.m_warehouse_id, mpr.m_pricelist_version_id, org.name, mp.name
+UNION 
+         SELECT r.ad_client_id, r.ad_org_id, r.isactive, r.created, r.createdby, r.updated, r.updatedby, r.m_product_id, r.relatedproduct_id AS substitute_id, 'R'::text AS rowtype, mp.name, sum(ms.qtyonhand - ms.qtyreserved) AS qtyavailable, sum(ms.qtyonhand) AS qtyonhand, sum(ms.qtyreserved) AS qtyreserved, round(max(mpr.pricestd), 0) AS pricestd, mpr.m_pricelist_version_id, mw.m_warehouse_id, org.name AS orgname
+           FROM adempiere.m_relatedproduct r
+      JOIN adempiere.m_storage ms ON ms.m_product_id = r.relatedproduct_id
+   JOIN adempiere.m_product mp ON ms.m_product_id = mp.m_product_id
+   JOIN adempiere.m_locator ml ON ms.m_locator_id = ml.m_locator_id
+   JOIN adempiere.m_warehouse mw ON ml.m_warehouse_id = mw.m_warehouse_id
+   JOIN adempiere.m_productprice mpr ON ms.m_product_id = mpr.m_product_id
+   JOIN adempiere.ad_org org ON org.ad_org_id = mw.ad_org_id
+  GROUP BY r.ad_client_id, r.ad_org_id, r.isactive, r.created, r.createdby, r.updated, r.updatedby, r.m_product_id, r.relatedproduct_id, mw.m_warehouse_id, mpr.m_pricelist_version_id, org.name, mp.name;
+
+ALTER TABLE adempiere.m_product_substituterelated_v
+  OWNER TO adempiere;</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="140" StepType="SQL">
+      <Comments>Adding field description to the m_product_substituterelated_v view</Comments>
+      <SQLStatement>DROP VIEW M_PRODUCT_SUBSTITUTERELATED_V;
+
+CREATE OR REPLACE VIEW M_PRODUCT_SUBSTITUTERELATED_V AS
+SELECT s.ad_client_id, 
+		s.ad_org_id, 
+		s.isactive, 
+		s.created, 
+		s.createdby, 
+		s.updated, 
+		s.updatedby,
+		s.m_product_id, 
+		s.substitute_id,
+		s.name AS description, 
+		'S' AS rowtype,
+		mp.value,
+		mp.name, 
+		sum(ms.qtyonhand - ms.qtyreserved) AS qtyavailable, 
+		sum(ms.qtyonhand) AS qtyonhand, 
+		sum(ms.qtyreserved) AS qtyreserved,
+		ROUND(MAX(mpr.pricestd),0) AS pricestd, 
+		mpr.m_pricelist_version_id, 
+		mw.m_warehouse_id, 
+		org.name AS orgname
+           FROM m_substitute s
+      JOIN m_storage ms ON ms.m_product_id = s.substitute_id
+   JOIN m_product mp ON ms.m_product_id = mp.m_product_id
+   JOIN m_locator ml ON ms.m_locator_id = ml.m_locator_id
+   JOIN m_warehouse mw ON ml.m_warehouse_id = mw.m_warehouse_id
+   JOIN m_productprice mpr ON ms.m_product_id = mpr.m_product_id
+   JOIN ad_org org ON org.ad_org_id = mw.ad_org_id
+   GROUP BY s.ad_client_id, 
+   			s.ad_org_id, 
+   			s.isactive, 
+   			s.created, 
+   			s.createdby, 
+   			s.updated, 
+   			s.updatedby, 
+   			s.m_product_id, 
+   			s.substitute_id, 
+   			s.name, mp.value, 
+   			mw.m_warehouse_id, 
+   			mpr.m_pricelist_version_id, 
+   			org.name,  
+   			mp.name
+	UNION 
+         SELECT r.ad_client_id, 
+         	r.ad_org_id, 
+         	r.isactive, 
+         	r.created, 
+         	r.createdby, 
+         	r.updated, 
+         	r.updatedby,
+			r.m_product_id, 
+			r.relatedproduct_id AS substitute_id,
+			r.name AS description, 
+			'R' AS rowtype, 
+			mp.value, 
+			mp.name, 
+			sum(ms.qtyonhand - ms.qtyreserved) AS qtyavailable, 
+			sum(ms.qtyonhand) AS qtyonhand, 
+			sum(ms.qtyreserved) AS qtyreserved, 
+			ROUND(MAX(mpr.pricestd),0) AS pricestd, 
+			mpr.m_pricelist_version_id, 
+			mw.m_warehouse_id, 
+			org.name AS orgname
+           FROM m_relatedproduct r
+      JOIN m_storage ms ON ms.m_product_id = r.relatedproduct_id
+   JOIN m_product mp ON ms.m_product_id = mp.m_product_id
+   JOIN m_locator ml ON ms.m_locator_id = ml.m_locator_id
+   JOIN m_warehouse mw ON ml.m_warehouse_id = mw.m_warehouse_id
+   JOIN m_productprice mpr ON ms.m_product_id = mpr.m_product_id
+   JOIN ad_org org ON org.ad_org_id = mw.ad_org_id 
+   GROUP BY r.ad_client_id, 
+   			r.ad_org_id, 
+   			r.isactive, 
+   			r.created, 
+   			r.createdby, 
+   			r.updated, 
+   			r.updatedby, 
+   			r.m_product_id, 
+   			r.relatedproduct_id, 
+   			r.name, 
+   			mw.m_warehouse_id, 
+   			mpr.m_pricelist_version_id, 
+   			org.name, 
+   			mp.value,
+   			mp.name;
+</SQLStatement>
+      <RollbackStatement>DROP VIEW M_PRODUCT_SUBSTITUTERELATED_V;
+
+CREATE OR REPLACE FORCE VIEW "ADEMPIERE"."M_PRODUCT_SUBSTITUTERELATED_V" ("AD_CLIENT_ID", "AD_ORG_ID", "ISACTIVE", "CREATED", "CREATEDBY", "UPDATED", "UPDATEDBY", "M_PRODUCT_ID", "SUBSTITUTE_ID", "ROWTYPE", "NAME", "QTYAVAILABLE", "QTYONHAND", "QTYRESERVED", "PRICESTD", "M_PRICELIST_VERSION_ID", "M_WAREHOUSE_ID", "ORGNAME") AS 
+  SELECT s.ad_client_id, s.ad_org_id, s.isactive, s.created, s.createdby, s.updated, s.updatedby,
+	s.m_product_id, s.substitute_id, 'S' AS rowtype,  mp.name, sum(ms.qtyonhand - ms.qtyreserved) AS qtyavailable, sum(ms.qtyonhand) AS qtyonhand, sum(ms.qtyreserved) AS qtyreserved,
+ROUND(MAX(mpr.pricestd),0) AS pricestd, mpr.m_pricelist_version_id, mw.m_warehouse_id, org.name AS orgname
+           FROM m_substitute s
+      JOIN m_storage ms ON ms.m_product_id = s.substitute_id
+   JOIN m_product mp ON ms.m_product_id = mp.m_product_id
+   JOIN m_locator ml ON ms.m_locator_id = ml.m_locator_id
+   JOIN m_warehouse mw ON ml.m_warehouse_id = mw.m_warehouse_id
+   JOIN m_productprice mpr ON ms.m_product_id = mpr.m_product_id
+   JOIN ad_org org ON org.ad_org_id = mw.ad_org_id
+   GROUP BY s.ad_client_id, s.ad_org_id, s.isactive, s.created, s.createdby, s.updated, s.updatedby, s.m_product_id, s.substitute_id, mw.m_warehouse_id, mpr.m_pricelist_version_id, org.name,  mp.name
+UNION
+         SELECT r.ad_client_id, r.ad_org_id, r.isactive, r.created, r.createdby, r.updated, r.updatedby,
+	r.m_product_id, r.relatedproduct_id AS substitute_id, 'R' AS rowtype,  mp.name, sum(ms.qtyonhand - ms.qtyreserved) AS qtyavailable, sum(ms.qtyonhand) AS qtyonhand, sum(ms.qtyreserved) AS qtyreserved, round(MAX(mpr.pricestd),0) AS pricestd, mpr.m_pricelist_version_id, mw.m_warehouse_id, org.name AS orgname
+           FROM m_relatedproduct r
+      JOIN m_storage ms ON ms.m_product_id = r.relatedproduct_id
+   JOIN m_product mp ON ms.m_product_id = mp.m_product_id
+   JOIN m_locator ml ON ms.m_locator_id = ml.m_locator_id
+   JOIN m_warehouse mw ON ml.m_warehouse_id = mw.m_warehouse_id
+   JOIN m_productprice mpr ON ms.m_product_id = mpr.m_product_id
+   JOIN ad_org org ON org.ad_org_id = mw.ad_org_id
+   GROUP BY r.ad_client_id, r.ad_org_id, r.isactive, r.created, r.createdby, r.updated, r.updatedby, r.m_product_id, r.relatedproduct_id, mw.m_warehouse_id, mpr.m_pricelist_version_id, org.name,  mp.name;
+</RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>

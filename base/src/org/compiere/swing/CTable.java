@@ -56,10 +56,13 @@ import org.jdesktop.swingx.icon.ColumnControlIcon;
  * Model Independent enhanced JTable.
  * Provides sizing and sorting.
  * 
- * @author	Jorg Janke
- * @version	$Id: CTable.java,v 1.2 2006/07/30 00:52:24 jjanke Exp $
- * 
+ * @author	Jorg Janke * 
  * @author	Teo Sarca, SC ARHIPAC SERVICE SRL - BF [ 1585369 ], FR [ 1753943 ]
+ * @author Michael McKay, 
+ * 				<li><a href="https://adempiere.atlassian.net/browse/ADEMPIERE-72">ADEMPIERE-72</a> VLookup and Info Window improvements
+ * 				<li><a href="https://adempiere.atlassian.net/browse/ADEMPIERE-241">ADMPIERE-241</a> Adding Select All checkbox to table header
+ * 					
+ * @version	$Id: CTable.java,v 1.3 2013/11/03 $
  */
 public class CTable extends JTable
 {
@@ -138,7 +141,6 @@ public class CTable extends JTable
     
 	/**
 	 * 	Set Model index of Key Column.
-	 *  Used for identifying previous selected row after fort complete to set as selected row.
 	 *  If not set, column 0 is used.
 	 * 	@param keyColumnIndex model index
 	 */
@@ -153,6 +155,8 @@ public class CTable extends JTable
 	 */
 	public int getKeyColumnIndex()
 	{
+		if (p_keyColumnIndex == -1)  // Not set
+			return 0;
 		return p_keyColumnIndex;
 	}	//	getKeyColumnIndex
 
@@ -472,7 +476,17 @@ public class CTable extends JTable
 				int mc = convertColumnIndexToModel(vc);
 				TableColumn column = getTableHeader().getResizingColumn();
 				if (column != null) return;
-				sort(mc);
+
+				Object renderer = getColumnModel().getColumn(mc).getCellRenderer();
+				boolean sort = true;
+				if(renderer instanceof DefaultTableCellRenderer)
+				{
+					Object cProperty = ((DefaultTableCellRenderer) renderer).getClientProperty("SortColumn");
+					if (cProperty != null)
+						sort = (Boolean) cProperty;
+				}
+				if (sort)
+					sort(mc);
 			}
 		}
 		
@@ -687,7 +701,7 @@ public class CTable extends JTable
 		else 
 		{
 			if (!isColumnVisible(column)) return;
-			
+
 			ColumnAttributes attributes = new ColumnAttributes();
 			attributes.cellEditor = column.getCellEditor();
 			attributes.cellRenderer = column.getCellRenderer();
@@ -696,14 +710,16 @@ public class CTable extends JTable
 			attributes.preferredWidth = column.getPreferredWidth();
 			columnAttributesMap.put(column, attributes);
 			
-			TableCellNone h = new TableCellNone(column.getIdentifier() != null ?
-        			column.getIdentifier().toString() : column.getHeaderValue().toString());
-        	column.setCellEditor(h);
-        	column.setCellRenderer(h);
-        	column.setMinWidth(0);
-        	column.setMaxWidth(0);            	
-        	column.setPreferredWidth(0);
-        	
+			if ( !(column.getCellEditor() instanceof TableCellNone) )
+			{
+				TableCellNone h = new TableCellNone(column.getIdentifier() != null ?
+						column.getIdentifier().toString() : column.getHeaderValue().toString());
+				column.setCellEditor(h);
+				column.setCellRenderer(h);
+				column.setMinWidth(0);
+				column.setMaxWidth(0);            	
+				column.setPreferredWidth(0);
+			}
         	hiddenColumns.add(column);
 		}
 	}

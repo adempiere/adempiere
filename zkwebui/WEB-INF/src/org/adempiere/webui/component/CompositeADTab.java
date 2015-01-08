@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.adempiere.webui.LayoutUtils;
-import org.adempiere.webui.panel.IADTabpanel;
 import org.compiere.model.DataStatusEvent;
 import org.compiere.model.GridTab;
 import org.compiere.util.CLogger;
@@ -33,6 +32,9 @@ import org.zkoss.zul.Div;
  *
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
  * @author <a href="mailto:hengsin@gmail.com">Low Heng Sin</a>
+ * @author e-Evolution , victor.perez@e-evolution.com
+ *    <li>Implement embedded or horizontal tab panel https://adempiere.atlassian.net/browse/ADEMPIERE-319
+ *    <li>New ADempiere 3.8.0 ZK Theme Light  https://adempiere.atlassian.net/browse/ADEMPIERE-320
  * @date    Feb 25, 2007
  * @version $Revision: 0.10 $
  */
@@ -67,11 +69,11 @@ public class CompositeADTab extends AbstractADTab
     }
 
     @Override
-	protected void doAddTab(GridTab gTab, IADTabpanel tabPanel) {
+	protected void doAddTab(GridTab gTab, org.adempiere.webui.panel.IADTabPanel tabPanel) {
     	tabPanel.setParent(div);
         tabPanel.setVisible(false);
 
-        ADTabListModel.ADTabLabel tabLabel = new ADTabListModel.ADTabLabel(gTab.getName(), gTab.getTabLevel(),gTab.getDescription());
+        ADTabListModel.ADTabLabel tabLabel = new ADTabListModel.ADTabLabel(gTab.getName(), gTab.getTabLevel(), gTab.getDescription() + "\n\n" + gTab.getHelp());
         tabLabelList.add(tabLabel);
 	}
 
@@ -95,7 +97,7 @@ public class CompositeADTab extends AbstractADTab
     /**
      * Return the selected Tab Panel
      */
-    public IADTabpanel getSelectedTabpanel()
+    public org.adempiere.webui.panel.IADTabPanel getSelectedTabpanel()
     {
         for(int i = 0; i < tabPanelList.size(); i++) {
         	if (tabPanelList.get(i).isVisible())
@@ -122,8 +124,8 @@ public class CompositeADTab extends AbstractADTab
 
 	@Override
 	protected void doTabSelectionChanged(int oldIndex, int newIndex) {
-		IADTabpanel oldTabpanel = oldIndex >= 0 ? tabPanelList.get(oldIndex) : null;
-        IADTabpanel newTabpanel = tabPanelList.get(newIndex);
+		org.adempiere.webui.panel.IADTabPanel oldTabpanel = oldIndex >= 0 ? tabPanelList.get(oldIndex) : null;
+        org.adempiere.webui.panel.IADTabPanel newTabpanel = tabPanelList.get(newIndex);
         if (oldTabpanel != null) {
         	oldTabpanel.setVisible(false);
         }
@@ -150,8 +152,8 @@ public class CompositeADTab extends AbstractADTab
 	}
 
 	@Override
-	public IADTabpanel findADTabpanel(GridTab gTab) {
-		for (IADTabpanel tabpanel : tabPanelList) {
+	public org.adempiere.webui.panel.IADTabPanel findADTabpanel(GridTab gTab) {
+		for (org.adempiere.webui.panel.IADTabPanel tabpanel : tabPanelList) {
 			if (tabpanel.getGridTab() == gTab) {
 				return tabpanel;
 			}

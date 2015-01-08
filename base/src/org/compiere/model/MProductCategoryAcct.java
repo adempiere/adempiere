@@ -63,6 +63,42 @@ public class MProductCategoryAcct extends X_M_Product_Category_Acct
 		return acct;
 	}	//	get
 	
+	/**
+	 * 	Get Category Acct
+	 *	@param ctx context
+	 *	@param M_Product_Category_ID category
+	 *	@param C_AcctSchema_ID acct schema
+	 *	@param trxName trx
+	 *	@return category acct
+	 */
+	public static MProductCategoryAcct get (Properties ctx, 
+							int M_Product_Category_ID, int C_AcctSchema_ID, int AD_Org_ID, String trxName)
+	{
+		
+		MAcctSchema as = MAcctSchema.get(ctx, C_AcctSchema_ID, trxName);
+		
+		if(!MAcctSchema.COSTINGLEVEL_Organization.equals(as.getCostingLevel()))
+		{
+			 return MProductCategoryAcct.get(ctx, M_Product_Category_ID, C_AcctSchema_ID, trxName);
+		}
+		
+		String key = M_Product_Category_ID+"#"+C_AcctSchema_ID + "#"+AD_Org_ID;
+		MProductCategoryAcct acct = s_cache.get(key);
+		if (acct != null)
+			return acct;
+		
+		final String whereClause = "M_Product_Category_ID=? AND C_AcctSchema_ID=? AND (AD_Org_ID=? OR AD_Org_ID = 0)";
+		acct = new Query(ctx, Table_Name, whereClause, trxName)
+					.setParameters(M_Product_Category_ID, C_AcctSchema_ID, AD_Org_ID)
+					.setOrderBy(COLUMNNAME_AD_Org_ID + " DESC")
+					.first();
+		if (acct != null)
+		{
+			s_cache.put(key, acct);
+		}
+		return acct;
+	}	//	get
+	
 	/**************************************************************************
 	 * 	Standard Constructor
 	 *	@param ctx context
@@ -94,7 +130,7 @@ public class MProductCategoryAcct extends X_M_Product_Category_Acct
 	{
 		//	Create Cost Elements
 		if (getCostingMethod() != null && getCostingMethod().length() > 0)
-			MCostElement.getMaterialCostElement(this, getCostingMethod());
+			MCostElement.getMaterialCostElement(this);
 	}	//	checkCosting
 
 	/**

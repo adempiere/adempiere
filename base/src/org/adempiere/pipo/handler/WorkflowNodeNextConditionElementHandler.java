@@ -78,7 +78,18 @@ public class WorkflowNodeNextConditionElementHandler extends
 				element.unresolved = "AD_WF_Node=" + workflowNodeNextName;
 				element.defer = true;
 				return;
-			}
+            }
+
+            String columnName = atts.getValue("ADColumnNameID");
+            int tableId = DB.getSQLValue(getTrxName(ctx) , "SELECT AD_Table_ID FROM AD_Workflow WHERE AD_Workflow_ID=?", workflowId);
+            int columnId = get_IDWithMasterAndColumn(ctx, "AD_Column", "ColumnName",
+                    columnName, "AD_Table", tableId);
+
+            if (columnId <= 0 && tableId > 0 && columnName != null && columnName.length() > 0) {
+                element.unresolved = "AD_Column=" + columnName;
+                element.defer = true;
+                return;
+            }
 
 			sqlB = new StringBuffer(
 					"SELECT  ad_wf_nodenext_id FROM AD_WF_NodeNext  WHERE ad_wf_node_id =? and ad_wf_next_id =?");
@@ -105,17 +116,6 @@ public class WorkflowNodeNextConditionElementHandler extends
 				AD_Backup_ID = 0;
 			}
 
-			sqlB = new StringBuffer(
-					"SELECT  AD_Column.ad_column_id FROM AD_Column, AD_Table WHERE AD_Column.ad_table_id = AD_Table.ad_table_id and AD_Table.name = '"
-							+ atts.getValue("ADTableNameID")
-							+ "' and AD_Column.name = ?");
-			// int columnId =
-			// DB.getSQLValue(m_trxName,sqlB.toString(),atts.getValue("ADTableNameID"),
-			// atts.getValue("ADColumnNameID"));
-			int columnId = DB.getSQLValue(getTrxName(ctx), sqlB.toString(),
-					atts.getValue("ADColumnNameID"));
-			m_WFNodeNextCondition.setAD_Column_ID(columnId);
-
 			m_WFNodeNextCondition.setAD_WF_NodeNext_ID(wfNodeNextTablePKId);
 			m_WFNodeNextCondition
 					.setIsActive(atts.getValue("isActive") != null ? Boolean
@@ -129,6 +129,7 @@ public class WorkflowNodeNextConditionElementHandler extends
 			m_WFNodeNextCondition.setOperation(atts.getValue("Operation"));
 			m_WFNodeNextCondition.setValue(atts.getValue("Value"));
 			m_WFNodeNextCondition.setValue2(atts.getValue("Value2"));
+            m_WFNodeNextCondition.setAD_Column_ID(columnId);
 			
 			log.info("about to execute m_WFNodeNextCondition.save");
 			if (m_WFNodeNextCondition.save(getTrxName(ctx)) == true) {

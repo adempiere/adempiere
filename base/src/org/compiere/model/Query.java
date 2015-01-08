@@ -31,6 +31,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.DBException;
+import org.adempiere.model.POWrapper;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -65,6 +66,10 @@ public class Query
 	public static final String AGGREGATE_MIN		= "MIN";
 	public static final String AGGREGATE_MAX		= "MAX";
 	
+	// metas
+	public static final int NO_LIMIT = -1;
+	private int limit = NO_LIMIT;
+		
 	private static CLogger log	= CLogger.getCLogger (Query.class);
 	
 	private Properties ctx = null;
@@ -215,15 +220,34 @@ public class Query
 		return this;
 	}
 	
-	/**
+/**
 	 * Return a list of all po that match the query criteria.
 	 * @return List
 	 * @throws DBException 
 	 */
-	@SuppressWarnings("unchecked")
 	public <T extends PO> List<T> list() throws DBException
 	{
-		List<T> list = new ArrayList<T>();
+		return list(null);
+	}
+	/**
+	 * Return a list of all po that match the query criteria.
+	 * @param clazz all resulting POs will be converted to this interface
+	 * @return List
+	 * @throws DBException 
+	 */
+	@SuppressWarnings("unchecked")
+	public <T> List<T> list(Class<T> clazz) throws DBException
+	{
+		final List<T> list;
+		if (limit > 0)
+		{
+			list = new ArrayList<T>(limit);
+		}
+		else
+		{
+			list = new ArrayList<T>();
+		}
+		
 		String sql = buildSQL(null, true);
 		
 		PreparedStatement pstmt = null;
@@ -234,8 +258,20 @@ public class Query
 			rs = createResultSet(pstmt);
 			while (rs.next ())
 			{
-				T po = (T)table.getPO(rs, trxName);
+				PO o = table.getPO(rs, trxName);
+				T po;
+				if (clazz != null && !o.getClass().isAssignableFrom(clazz))
+					po = POWrapper.create(o, clazz);
+				else
+					po = (T)o;
+					
 				list.add(po);
+				
+				if (limit > 0 && list.size() >= limit)
+				{
+					log.fine("Limit of "+limit+" reached. Stop.");
+					break;
+				}
 			}
 		}
 		catch (SQLException e)

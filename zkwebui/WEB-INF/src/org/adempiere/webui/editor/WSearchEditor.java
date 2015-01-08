@@ -17,6 +17,7 @@
 
 package org.adempiere.webui.editor;
 
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -33,19 +34,27 @@ import org.adempiere.webui.event.ValueChangeListener;
 import org.adempiere.webui.grid.WBPartner;
 import org.adempiere.webui.panel.InfoBPartnerPanel;
 import org.adempiere.webui.panel.InfoPanel;
+import org.adempiere.webui.panel.InfoPanelFactory;
 import org.adempiere.webui.panel.InfoProductPanel;
 import org.adempiere.webui.window.WFieldRecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.model.Lookup;
+import org.compiere.model.MBPartner;
+import org.compiere.model.MColumn;
+import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
+import org.compiere.model.MOrderLine;
+import org.compiere.model.MProductPrice;
+import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.compiere.util.Util;
+import org.compiere.util.Trx;
+import org.eevolution.model.I_PP_Product_BOMLine;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 
@@ -54,18 +63,38 @@ import org.zkoss.zk.ui.event.Events;
  * Web UI port of search type VLookup
  *
  * @author Ashley G Ramdass
+ * @author Cristina Ghita, c.ghita@metas.ro, METAS GROUP - add autocomplete for search fields
  *
+ * @author	Michael McKay
+ * 				<li>release/380 - change order of value change and value change event to allow event
+ * 					handlers to see the changed value in the same thread. Also added old value comparison
  */
+
 public class WSearchEditor extends WEditor implements ContextMenuListener, ValueChangeListener, IZoomableEditor
 {
 	private static final String[] LISTENER_EVENTS = {Events.ON_CLICK, Events.ON_CHANGE, Events.ON_OK};
-	private Lookup 				lookup;
+	private Lookup 				m_lookup;
 	private String				m_tableName = null;
 	private String				m_keyColumnName = null;
-	private String 				columnName;
+	private String 				m_columnName;
 	private WEditorPopupMenu	popupMenu;
     private Object              value;
+    private Object				m_oldValue;
     private InfoPanel			infoPanel = null;
+    private Boolean				m_settingValue = false;
+    private WSearchEditorAutoComplete autoComplete = null; // ADEMPIERE-191
+    private Boolean				m_needsUpdate = false;
+    private String				m_lastDisplay = null;
+	/** Override context for sales transactions */
+	private boolean				m_isSOTrxEnvOverride = false;
+	/** Context for sales transactions */
+	private boolean 			m_isSOTrx = true;     //  default
+	/** Does the selected record match the context? */
+	private boolean 			m_isSOMatch = true;
+    
+	//	Field for Value Preference
+	private GridField              m_mField = null;
+
 
 	private static CLogger log = CLogger.getCLogger(WSearchEditor.class);
 
@@ -73,10 +102,18 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 	{
 		super(new Searchbox(), gridField);
 
-		lookup = gridField.getLookup();
+		m_mField = gridField;
+		m_lookup = gridField.getLookup();
 		
-		if (lookup != null)
-			columnName = lookup.getColumnName();
+		if (m_lookup != null)
+			m_columnName = m_lookup.getColumnName();
+		
+		if (gridField != null && gridField.isAutocomplete()
+				&& m_lookup instanceof MLookup
+				&& m_lookup.getDisplayType() == DisplayType.Search)
+		{
+			autoComplete = new WSearchEditorAutoComplete(this, (MLookup)m_lookup);
+		}
 		
 		init();
 	}
@@ -95,7 +132,10 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 
 	@Override
 	public void setReadWrite(boolean readWrite) {
-		getComponent().setEnabled(readWrite);
+		if (m_lookup != null && m_lookup.getDisplayType() == DisplayType.Search)
+			getComponent().setEnabled(readWrite, true);
+		else
+			getComponent().setEnabled(readWrite);
 	}
 
 
@@ -118,9 +158,9 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 			throw new IllegalArgumentException("Lookup cannot be null");
 		}
 
-		this.lookup = lookup;
-        columnName = lookup.getColumnName();
-		super.setColumnName(columnName);
+		this.m_lookup = lookup;
+        m_columnName = lookup.getColumnName();
+		super.setColumnName(m_columnName);
 		init();
 	}
 
@@ -134,8 +174,8 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 			throw new IllegalArgumentException("Lookup cannot be null");
 		}
 
-		this.lookup = lookup;
-        this.columnName = columnName;
+		this.m_lookup = lookup;
+        this.m_columnName = columnName;
 		super.setColumnName(columnName);
 		init();
 	}
@@ -143,19 +183,19 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 
 	/**
      * initialise editor
-     * @param columnName columnName
+     * @param m_columnName columnName
 	 */
 	private void init()
 	{
 
-		columnName = this.getColumnName();
+		m_columnName = this.getColumnName();
                 
-		if (columnName.equals("C_BPartner_ID"))
+		if (m_columnName.equals("C_BPartner_ID"))
 		{
 			popupMenu = new WEditorPopupMenu(true, true, true, true, true);
 			getComponent().setButtonImage("/images/BPartner10.png");
 		}
-		else if (columnName.equals("M_Product_ID"))
+		else if (m_columnName.equals("M_Product_ID"))
 		{
 			popupMenu = new WEditorPopupMenu(true, true, true, false, false);
 			getComponent().setButtonImage("/images/Product10.png");
@@ -171,7 +211,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		{
 			WFieldRecordInfo.addMenu(popupMenu);
 		}
-
+		
 		return;
 	}
 
@@ -186,7 +226,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
         this.value = value;
 		if (value != null && !"".equals(String.valueOf(value)))
 		{
-		    String text = lookup.getDisplay(value);
+		    String text = m_lookup.getDisplay(value);
 
             if (text.startsWith("_"))
             {
@@ -199,6 +239,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		{
 			getComponent().setText("");
 		}
+		m_lastDisplay = getDisplay();
 	}
 
 	@Override
@@ -213,17 +254,29 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		return getComponent().getText();
 	}
 
+	/**
+	 *  Action Listener Interface
+	 *  @param listener listener
+	 */
+	public void addActionListener(ActionListener listener)
+	{
+		//m_combo.addActionListener(listener);
+		//m_text.addActionListener(listener);
+	}   //  addActionListener
+
 	public void onEvent(Event e)
 	{
-		if (Events.ON_CHANGE.equals(e.getName()) || Events.ON_OK.equals(e.getName()))
+		if(m_settingValue) // Ignore events if in the middle of setting the value
 		{
-			if (infoPanel != null)
-		 	{
-				infoPanel.detach();
-		 	 	infoPanel = null;
-		 	}
+			return;
+		}
+		if (Events.ON_CHANGE.equals(e.getName()) || Events.ON_OK.equals(e.getName()))
+		{ 
+			if ( autoComplete != null ) {
+				autoComplete.setValue(getComponent().getText()); // ADEMPIERE-191
+				autoComplete.setSearchText(getComponent().getText());  // ADEMPIERE-191
+			}
 			actionText(getComponent().getText());
-
 		}
 		else if (Events.ON_CLICK.equals(e.getName()))
 		{
@@ -261,11 +314,11 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 
 	public void actionZoom()
 	{
-	   	AEnv.actionZoom(lookup, getValue());
+	   	AEnv.actionZoom(m_lookup, getValue());
 	}
     private void actionZoom(Object value)
     {
-        AEnv.actionZoom(lookup, value);
+        AEnv.actionZoom(m_lookup, value);
     }
 
 	public void onMenu(ContextMenuEvent evt)
@@ -312,24 +365,52 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 
 	private void actionText(String text)
 	{
+
+		if (infoPanel != null) // An info panel is open
+	 	{
+			if(!m_needsUpdate) // If no changes are in progress, close the panel
+			{
+				infoPanel.detach();
+				infoPanel = null;
+			}
+	 	}
+
+		// Nothing entered, just pressing enter again => ignore - teo_sarca BF [ 1834399 ]
+		if (text != null && text.length() > 0 && text.equals(m_lastDisplay))
+		{
+			log.finest("Nothing entered [SKIP]");
+			m_needsUpdate = false;
+			return;
+		}
+
+		m_needsUpdate = true;  //Something changed
 		//	Nothing entered
 		if (text == null || text.length() == 0 || text.equals("%"))
 		{
 			actionButton(text);
 			return;
 		}
+		
+
 		text = text.toUpperCase();
 		log.config(getColumnName() + " - " + text);
 
 		//	Exact first
 		PreparedStatement pstmt = null;
-		String finalSQL = Msg.parseTranslation(Env.getCtx(), getDirectAccessSQL(text));
+		ResultSet rs = null;
+		String rSQL = getDirectAccessSQL(text);
+		if(rSQL == null || rSQL.length() == 0){
+			// Search should have been disabled for this field.
+			log.severe("Search enabled on field " + getColumnName() + ". Associated table has no standard/identifier columns.");
+			return;
+		}
+		String finalSQL = Msg.parseTranslation(Env.getCtx(), rSQL);
 		int id = -3;
 
 		try
 		{
 			pstmt = DB.prepareStatement(finalSQL, null);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				id = rs.getInt(1);		//	first
@@ -346,15 +427,19 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		}
 
 		//	Try like
-		if (id == -3 && !text.endsWith("%"))
+		if (id == -3)
 		{
-			text += "%";
-			finalSQL = Msg.parseTranslation(Env.getCtx(), getDirectAccessSQL(text));
-
+			rSQL = getDirectAccessSQL(InfoPanel.getSQLText(text));
+			if(rSQL == null || rSQL.length() == 0){
+				// Search should have been disabled for this field.
+				log.severe("Search enabled on field " + getColumnName() + ". Associated table has no standard/identifier columns.");
+				return;
+			}
+			finalSQL = Msg.parseTranslation(Env.getCtx(), rSQL);
 			try
 			{
 				pstmt = DB.prepareStatement(finalSQL, null);
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 				if (rs.next())
 				{
 					id = rs.getInt(1);		//	first
@@ -403,10 +488,10 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 	{
 		log.fine("Value=" + value);
 
-		ValueChangeEvent evt = new ValueChangeEvent(this, this.getColumnName(), getValue(), value);
-		// -> ADTabpanel - valuechange
-		fireValueChange(evt);
+		m_settingValue = true;
 		
+		Object oldValue = getValue();
+				
 		//  is the value updated ?
 		boolean updated = false;
 		if (value instanceof Object[] && ((Object[])value).length > 0)
@@ -416,12 +501,20 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		
 		if (value == null && getValue() == null)
 			updated = true;
-		else if (value != null && value.equals(getValue()))
+		else if (value != null && value.equals(getValue()) && !m_needsUpdate)
 			updated = true;
 		if (!updated)
 		{
 			setValue(value);
 		}
+		
+		// Fire the change event after the change so listeners can react in the same thread.
+		ValueChangeEvent evt = new ValueChangeEvent(this, this.getColumnName(), oldValue, getValue());
+		// -> ADTabpanel - valuechange
+		fireValueChange(evt);
+
+		m_settingValue = false;  // last in the chain of changes.
+		m_needsUpdate = false;
 	}	//	actionCombo
 
 	/**
@@ -431,7 +524,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 	
 	private void actionBPartner (boolean newRecord)
 	{
-		WBPartner vbp = new WBPartner (lookup.getWindowNo());
+		WBPartner vbp = new WBPartner (m_lookup.getWindowNo());
 		int BPartner_ID = 0;
 		
 		//  if update, get current value
@@ -457,7 +550,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 			return;
 		
 		//  Maybe new BPartner - put in cache
-		lookup.getDirect(new Integer(result), false, true);
+		m_lookup.getDirect(new Integer(result), false, true);
 		setValue(new Integer(result));
 		actionCombo (new Integer(result));      //  data binding
 		
@@ -466,128 +559,215 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 	
 	private void actionButton(String queryValue)
 	{
-		if (lookup == null)
+		if (m_lookup == null)
 			return;		//	leave button disabled
 		
+		// If an infoPanel is already open, close it.
+		if (infoPanel != null)
+		{
+			infoPanel.detach();
+			infoPanel = null;
+		}
+
 		/**
 		 *  Three return options:
 		 *  - Value Selected & OK pressed   => store result => result has value
 		 *  - Cancel pressed                => store null   => result == null && cancelled
-		 *  - Window closed                 -> ignore       => result == null && !cancalled
+		 *  - Window closed                 -> ignore       => result == null && !cancelled
 		 */
 
+		m_settingValue = true;  // We're changing something - ignore other events;
+		//
 		Object result[] = null;			
-		boolean cancelled = false;	
-
-		String col = lookup.getColumnName();		//	fully qualified name
-
+		boolean cancelled = false;
+		boolean multipleSelection = false;
+		boolean modal = true;
+		boolean saveResults = true;
+		
+		int record_id = 0;
+		//
+		String col = m_lookup.getColumnName();		//	fully qualified name
 		if (col.indexOf('.') != -1)
 			col = col.substring(col.indexOf('.')+1);
-
 		//  Zoom / Validation
 		String whereClause = getWhereClause();
-
-		log.fine(col + ", Zoom=" + lookup.getZoom() + " (" + whereClause + ")");
-
-		// boolean resetValue = false;	// Reset value so that is always treated as new entry
-
-		if (col.equals("M_Product_ID"))
+		//
+		log.fine(col + ", Zoom=" + m_lookup.getZoom() + " (" + whereClause + ")");
+		//
+		//  If the record has a value (ID) find the name.  The displayed text could be different.
+		if (queryValue.length() == 0 && getValue() != null && !getValue().equals(""))
 		{
+			Object currentValue = getValue();
+			try{
+				record_id = ((Number)currentValue).intValue();
+				queryValue = "";
+			} catch (Exception e) {
+				//  Can't cast the string "" to a number.
+			}
+		}
+		//
+		String infoPanelFactoryClass = m_lookup.getInfoPanelFactoryClass();
+		if (infoPanelFactoryClass != null && infoPanelFactoryClass.trim().length() > 0)
+		{
+			try {
+				@SuppressWarnings("unchecked")
+				Class<InfoPanelFactory> clazz = (Class<InfoPanelFactory>)this.getClass().getClassLoader().loadClass(infoPanelFactoryClass);
+				InfoPanelFactory factory = clazz.newInstance();
+				if (m_tableName == null)	//	sets table name & key column
+				{
+					if(!hasSearchableColumns()){
+						// Search should have been disabled for this field.
+						log.severe("Search enabled on field " + m_columnName + ". Associated table has no standard/identifier columns.");
+						return;
+					}
+				}
+				// multipleSelection assumed false for custom info windows
+				infoPanel = factory.create (m_lookup.getWindowNo(), modal,
+						m_tableName, m_keyColumnName, record_id, queryValue, multipleSelection, saveResults,
+						 whereClause);
+				//
+			} catch (Exception e) {
+				log.log(Level.SEVERE, "Failed to load custom InfoFactory - " + e.getLocalizedMessage(), e);
+			}
+		}
+		else if (col.equals("M_Product_ID"))
+		{			
 			//	Reset
-			Env.setContext(Env.getCtx(), lookup.getWindowNo(), Env.TAB_INFO, "M_Product_ID", "0");
-			Env.setContext(Env.getCtx(), lookup.getWindowNo(), Env.TAB_INFO, "M_AttributeSetInstance_ID", "0");
-			Env.setContext(Env.getCtx(), lookup.getWindowNo(), Env.TAB_INFO, "M_Lookup_ID", "0");
-
-			//  Replace Value with name if no value exists
-			if (queryValue.length() == 0 && getComponent().getText().length() > 0)
-				queryValue = "@" + getComponent().getText() + "@";   //  Name indicator - otherwise Value
-
-			int M_Warehouse_ID = Env.getContextAsInt(Env.getCtx(), lookup.getWindowNo(), "M_Warehouse_ID");
-			int M_PriceList_ID = Env.getContextAsInt(Env.getCtx(), lookup.getWindowNo(), "M_PriceList_ID");
-
+			resetTabInfo();
+			//
+			int M_Warehouse_ID = Env.getContextAsInt(Env.getCtx(), m_lookup.getWindowNo(), "M_Warehouse_ID");
+			int M_PriceList_ID = Env.getContextAsInt(Env.getCtx(), m_lookup.getWindowNo(), "M_PriceList_ID");
+			//
+			if(m_mField != null)
+			{
+				int AD_Table_ID = MColumn.getTable_ID(Env.getCtx(), m_mField.getAD_Column_ID(), null);
+				// TODO hard-coded - add to AD_Column?
+				multipleSelection = (MOrderLine.Table_ID ==  AD_Table_ID) || 
+									(MInvoiceLine.Table_ID == AD_Table_ID) || 
+									(I_PP_Product_BOMLine.Table_ID == AD_Table_ID) || 
+									(MProductPrice.Table_ID == AD_Table_ID);
+			}
 			//	Show Info
-			InfoProductPanel ip = new InfoProductPanel (lookup.getWindowNo(),
-					M_Warehouse_ID, M_PriceList_ID, true, queryValue, whereClause);
+			infoPanel = new InfoProductPanel(m_lookup.getWindowNo(), modal,
+					M_Warehouse_ID, M_PriceList_ID, record_id, queryValue, multipleSelection, saveResults, whereClause);
 
-			ip.setVisible(true);
-			ip.setTitle(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "InfoProduct")));
-			ip.setStyle("border: 2px");
-			ip.setClosable(true);
-			ip.setAttribute("mode", "modal");
-			ip.addValueChangeListener(this);
-			infoPanel = ip;
-			AEnv.showWindow(ip);
-			
-			cancelled = ip.isCancelled();
-			result = ip.getSelectedKeys();
 		}
 		else if (col.equals("C_BPartner_ID"))
 		{
-			//  Replace Value with name if no value exists
-			if (queryValue.length() == 0 && getComponent().getText().length() > 0)
-				queryValue = getComponent().getText();
-
-			boolean isSOTrx = true;     //  default
-
-			if (Env.getContext(Env.getCtx(), lookup.getWindowNo(), "IsSOTrx").equals("N"))
-				isSOTrx = false;
-
-			InfoBPartnerPanel ip = new InfoBPartnerPanel(queryValue, lookup.getWindowNo(), isSOTrx,false, whereClause);
-
-			ip.setVisible(true);
-			ip.setTitle(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "InfoBPartner")));
-			ip.setStyle("border: 2px");
-			ip.setClosable(true);
-			ip.setAttribute("mode", "modal");
-			ip.addValueChangeListener(this);
-			infoPanel = ip;
-			AEnv.showWindow(ip);
-
-			cancelled = ip.isCancelled();
-			result = ip.getSelectedKeys();
+			resetTabInfo();
+			//
+			setIsSOTrx(m_isSOTrxEnvOverride, false);
+			//  If the record has a value, set the ID and isSOMatch
+			//  If we have a record id, set isSOMatch
+			if (record_id > 0)
+			{
+				String trxName = Trx.createTrxName();
+				MBPartner bp = new MBPartner(Env.getCtx(), record_id, trxName);
+				m_isSOMatch = (m_isSOTrx && bp.isCustomer()) || (!m_isSOTrx && bp.isVendor());
+				Trx.get(trxName, false).close();
+			}
+			//
+			infoPanel = new InfoBPartnerPanel(m_lookup.getWindowNo(), modal, record_id, queryValue, 
+												m_isSOTrx, m_isSOMatch, multipleSelection, saveResults, whereClause);
 		}
 		else	//	General Info
 		{
 			if (m_tableName == null)	//	sets table name & key column
 				getDirectAccessSQL("*");
-
-            if (queryValue.length() == 0 && getComponent().getText().length() > 0)
-                queryValue = getComponent().getText();
-
-			InfoPanel ig = InfoPanel.create(lookup.getWindowNo(), m_tableName,m_keyColumnName,queryValue, false, whereClause);
-			ig.setVisible(true);
-			ig.setStyle("border: 2px");
-			ig.setClosable(true);
-			ig.setAttribute("mode", "modal");
-			ig.addValueChangeListener(this);
-			infoPanel = ig;
-			AEnv.showWindow(ig);
-
-			cancelled = ig.isCancelled();
-			result = ig.getSelectedKeys();
-
+			//
+			infoPanel = InfoPanel.create(m_lookup.getWindowNo(), modal, m_tableName, m_keyColumnName, 
+											record_id, queryValue, multipleSelection, saveResults, whereClause);
 		}
-
-		infoPanel = null;
+		//
+		if (infoPanel != null){
+			infoPanel.addValueChangeListener(this);
+			AEnv.showWindow(infoPanel);
+			//
+			cancelled = infoPanel.isCancelled();
+			result = infoPanel.getSelectedKeys();
+			//
+			infoPanel = null;
+		}
 		//  Result
-		if (result != null && result.length > 0)
+		if (isReadWrite())
 		{
-			//ensure data binding happen
-			if (result.length > 1)
-				actionCombo (result);
+			if (result != null && result.length > 0)
+			{
+				//ensure data binding happen
+				if (result.length > 1)
+					actionCombo (result);
+				else
+					actionCombo (result[0]);
+			}
+			else if (cancelled)
+			{
+				log.config(getColumnName() + " - Result = null (cancelled)");
+				actionCombo(null);
+			}
 			else
-				actionCombo (result[0]);
+			{
+				log.config(getColumnName() + " - Result = null (not cancelled)");
+				actionCombo(getValue());  //Reset the combo box to the current value
+			}
 		}
-		else if (cancelled)
+		else
+			m_settingValue = false;
+	}
+
+	/**
+	 * 	Determines if the lookup has searchable (text) fields.	
+	 */
+	private boolean hasSearchableColumns()
+	{
+		boolean retValue = false;
+
+		m_tableName = MQuery.getZoomTableName(m_columnName);
+		m_keyColumnName = MQuery.getZoomColumnName(m_columnName);
+
+		if (   m_columnName.equals("M_Product_ID") 
+			|| m_columnName.equals("C_BPartner_ID")
+			|| m_columnName.equals("C_Order_ID")
+			|| m_columnName.equals("C_Invoice_ID")
+			|| m_columnName.equals("M_InOut_ID")
+			|| m_columnName.equals("C_Payment_ID")
+			|| m_columnName.equals("GL_JournalBatch_ID")
+			|| m_columnName.equals("SalesRep_ID"))
 		{
-			log.config(getColumnName() + " - Result = null (cancelled)");
-			actionCombo(null);
+			retValue = true;
 		}
 		else
 		{
-			log.config(getColumnName() + " - Result = null (not cancelled)");
+			/** Check Well Known Columns of Table - assumes TableDir	**/
+			String query = "SELECT t.TableName, c.ColumnName "
+				+ "FROM AD_Column c "
+				+ " INNER JOIN AD_Table t ON (c.AD_Table_ID=t.AD_Table_ID AND t.IsView='N')"
+				+ " WHERE (c.ColumnName IN ('DocumentNo', 'Value', 'Name') OR c.IsIdentifier='Y')"
+				+ " AND c.AD_Reference_ID IN (10,14)"
+				+ " AND EXISTS (SELECT * FROM AD_Column cc WHERE cc.AD_Table_ID=t.AD_Table_ID"
+					+ " AND cc.IsKey='Y' AND cc.ColumnName=?)";
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			try
+			{
+				pstmt = DB.prepareStatement(query, null);
+				pstmt.setString(1, m_keyColumnName);
+				rs = pstmt.executeQuery();
+				if (rs.next())
+				{
+					retValue = true;
+				}
+			}
+			catch (SQLException ex)
+			{
+				log.log(Level.SEVERE, query, ex);
+			}
+			finally
+			{
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
+			}
 		}
-		
+		return retValue;
 	}
 
 	/**
@@ -609,21 +789,31 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 
 		if (m_columnName.equals("M_Product_ID"))
 		{
-			//	Reset
-			Env.setContext(Env.getCtx(), lookup.getWindowNo(), Env.TAB_INFO, "M_Product_ID", "0");
-			Env.setContext(Env.getCtx(), lookup.getWindowNo(), Env.TAB_INFO, "M_AttributeSetInstance_ID", "0");
-			Env.setContext(Env.getCtx(), lookup.getWindowNo(), Env.TAB_INFO, "M_Locator_ID", "0");
-
-			sql.append("SELECT M_Product_ID FROM M_Product WHERE (UPPER(Value) LIKE ")
-				.append(DB.TO_STRING(text))
-				.append(" OR UPPER(Name) LIKE ").append(DB.TO_STRING(text))
-				.append(" OR UPC LIKE ").append(DB.TO_STRING(text)).append(")");
+			sql.append("SELECT M_Product_ID FROM M_Product WHERE (");
+			if (text.startsWith("@") && text.endsWith("@"))
+			{
+				sql.append("UPPER(Name) LIKE  ")
+					.append(DB.TO_STRING(text.substring(1,text.length()-1))).append(")");
+			}
+			else
+			{
+				sql.append("UPPER(Value) LIKE ").append(DB.TO_STRING(text))
+					.append(" OR UPPER(Name) LIKE ").append(DB.TO_STRING(text))
+					.append(" OR UPPER(SKU) LIKE ").append(DB.TO_STRING(text))
+					.append(" OR UPPER(UPC) LIKE ").append(DB.TO_STRING(text)).append(")");
+			}
 		}
 		else if (m_columnName.equals("C_BPartner_ID"))
 		{
-			sql.append("SELECT C_BPartner_ID FROM C_BPartner WHERE (UPPER(Value) LIKE ")
-				.append(DB.TO_STRING(text))
-				.append(" OR UPPER(Name) LIKE ").append(DB.TO_STRING(text)).append(")");
+			sql.append("SELECT C_BPartner_ID FROM C_BPartner WHERE (");
+			//	Put query string in Name if not fully numeric
+    		if (!text.matches(".*\\D+.*")) // If text has no non-digit characters ...
+    			//  search against the Value field
+				sql.append("UPPER(Value) LIKE ").append(DB.TO_STRING(text));
+    		else
+    			// A few non-digit characters might be in the name. E.g. 451Group, 1st Choice, ...
+    			sql.append("UPPER(Name) LIKE ").append(DB.TO_STRING(text)); 
+			sql.append(")");
 		}
 		else if (m_columnName.equals("C_Order_ID"))
 		{
@@ -653,36 +843,27 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		else if (m_columnName.equals("SalesRep_ID"))
 		{
 			sql.append("SELECT AD_User_ID FROM AD_User WHERE UPPER(Name) LIKE ")
-				.append(DB.TO_STRING(text));
-			
+				.append(DB.TO_STRING(text));			
 			m_tableName = "AD_User";
 			m_keyColumnName = "AD_User_ID";
 		}
-		
 		//	Predefined
-		
 		if (sql.length() > 0)
 		{
 			String wc = getWhereClause();
-			
 			if (wc != null && wc.length() > 0)
 				sql.append(" AND ").append(wc);
-			
 			sql.append(" AND IsActive='Y'");
 			//	***
-			
 			log.finest(m_columnName + " (predefined) " + sql.toString());
-			
 			return MRole.getDefault().addAccessSQL(sql.toString(),
 				m_tableName, MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
 		}
 		
 		//	Check if it is a Table Reference
-		
-		if (lookup != null && lookup instanceof MLookup)
+		if (m_lookup != null && m_lookup instanceof MLookup)
 		{
-			int AD_Reference_ID = ((MLookup)lookup).getAD_Reference_Value_ID();
-		
+			int AD_Reference_ID = ((MLookup)m_lookup).getAD_Reference_Value_ID();
 			if (AD_Reference_ID != 0)
 			{
 				boolean isValueDisplayed = false;
@@ -752,8 +933,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 			} // Table Reference
 		} // MLookup
 		
-		/** Check Well Known Columns of Table - assumes TableDir	**/
-		
+		//  Check Well Known Columns of Table - assumes TableDir
 		String query = "SELECT t.TableName, c.ColumnName "
 			+ "FROM AD_Column c "
 			+ " INNER JOIN AD_Table t ON (c.AD_Table_ID=t.AD_Table_ID AND t.IsView='N') "
@@ -761,45 +941,32 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 			+ " AND c.AD_Reference_ID IN (10,14)"
 			+ " AND EXISTS (SELECT * FROM AD_Column cc WHERE cc.AD_Table_ID=t.AD_Table_ID"
 				+ " AND cc.IsKey='Y' AND cc.ColumnName=?)";
-		
-		m_keyColumnName = m_columnName;
 		sql = new StringBuffer();
 		PreparedStatement pstmt = null;
-		
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(query, null);
 			pstmt.setString(1, m_keyColumnName);
-			ResultSet rs = pstmt.executeQuery();
-		
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				if (sql.length() != 0)
 					sql.append(" OR ");
-			
 				m_tableName = rs.getString(1);
 				sql.append("UPPER(").append(rs.getString(2)).append(") LIKE ").append(DB.TO_STRING(text));
 			}
-			
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (SQLException ex)
 		{
 			log.log(Level.SEVERE, query, ex);
 		}
-		
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
-		catch (SQLException ex1)
-		{
-		}
-		pstmt = null;
-		//
+		// Return null if nothing found.
 		if (sql.length() == 0)
 		{
 			log.log(Level.SEVERE, m_columnName + " (TableDir) - no standard/identifier columns");
@@ -810,9 +977,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 			.append(m_columnName).append(" FROM ").append(m_tableName)
 			.append(" WHERE ").append(sql)
 			.append(" AND IsActive='Y'");
-		
 		String wc = getWhereClause();
-		
 		if (wc != null && wc.length() > 0)
 			retValue.append(" AND ").append(wc);
 		//	***
@@ -825,13 +990,13 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 	{
 		String whereClause = "";
 
-		if (lookup == null)
+		if (m_lookup == null)
 			return "";
 
-		if (lookup.getZoomQuery() != null)
-			whereClause = lookup.getZoomQuery().getWhereClause();
+		if (m_lookup.getZoomQuery() != null)
+			whereClause = m_lookup.getZoomQuery().getWhereClause();
 
-		String validation = lookup.getValidation();
+		String validation = m_lookup.getValidation();
 
 		if (validation == null)
 			validation = "";
@@ -846,7 +1011,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 
 		if (whereClause.indexOf('@') != -1)
 		{
-			String validated = Env.parseContext(Env.getCtx(), lookup.getWindowNo(), whereClause, false);
+			String validated = Env.parseContext(Env.getCtx(), m_lookup.getWindowNo(), whereClause, false);
 
 			if (validated.length() == 0)
 				log.severe(getColumnName() + " - Cannot Parse=" + whereClause);
@@ -867,7 +1032,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 
 	public void valueChange(ValueChangeEvent evt)
 	{
-        if ("zoom".equals(evt.getPropertyName()))
+        	if ("zoom".equals(evt.getPropertyName()))
         {
             actionZoom(evt.getNewValue());
         }
@@ -918,4 +1083,84 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		}
 		return null;
 	}
+	
+	/**
+	 * Set the old value of the field.  For use in future comparisons.
+	 * The old value must be explicitly set though this call.
+	 * @param m_oldValue
+	 */
+	public void set_oldValue() {
+		this.m_oldValue = getValue();
+	}
+	/**
+	 * Get the old value of the field explicitly set in the past
+	 * @return
+	 */
+	public Object get_oldValue() {
+		return m_oldValue;
+	}
+	/**
+	 * Has the field changed over time?
+	 * @return true if the old value is different than the current.
+	 */
+	public boolean hasChanged() {
+		// Both or either could be null
+		if(getValue() != null)
+			if(m_oldValue != null)
+				return !m_oldValue.equals(getValue());
+			else
+				return true;
+		else  // getValue() is null
+			if(m_oldValue != null)
+				return true;
+			else
+				return false;
+	}
+
+	/**
+	 * Reset Env.TAB_INFO context variables
+	 * @param m_columnName
+	 */
+	private void resetTabInfo()
+	{
+		if (this.m_lookup == null)
+			return;
+		String col = m_lookup.getColumnName();		//	fully qualified name
+		if (col.indexOf('.') != -1)
+			col = col.substring(col.indexOf('.')+1);
+		//
+		// TODO : hard-coded
+		final String[] infoNames;
+		if (col.equals("M_Product_ID"))
+		{
+			infoNames = new String[]{"M_Product_ID","M_AttributeSetInstance_ID","M_Locator_ID","M_Lookup_ID"};
+		}
+		else if (col.equals("C_BPartner_ID"))
+		{
+			infoNames = new String[]{"C_BPartner_ID","AD_User_ID","C_BPartner_Location_ID"};
+		}
+        else {
+			infoNames = new String[]{};
+		}
+		for (String name : infoNames)
+		{
+			Env.setContext(Env.getCtx(), m_lookup.getWindowNo(), Env.TAB_INFO, name, null);
+		}
+	}
+
+	/**
+	 * @param override - true to override the environment, false to use environment
+	 * @param trx the m_isSOTrx to set
+	 */
+	public void setIsSOTrx(boolean override, boolean trx) {
+		m_isSOTrxEnvOverride = override;
+		if (m_isSOTrxEnvOverride)
+			m_isSOTrx = trx;
+		else
+			if (Env.getContext(Env.getCtx(), m_lookup.getWindowNo(), "IsSOTrx").equals("N"))
+				m_isSOTrx = false;
+			else
+				m_isSOTrx = true;
+	}
+
 }

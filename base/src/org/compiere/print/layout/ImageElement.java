@@ -16,16 +16,22 @@
  *****************************************************************************/
 package org.compiere.print.layout;
 
+import java.awt.Container;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.MediaTracker;
 import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Properties;
 import java.util.logging.Level;
+
+import javax.imageio.ImageIO;
 
 import org.compiere.model.MAttachment;
 import org.compiere.model.MImage;
@@ -141,7 +147,19 @@ public class ImageElement extends PrintElement
 		URL imageURL = getURL(imageURLstring);
 		if (imageURL != null)
 		{
-			m_image = Toolkit.getDefaultToolkit().createImage(imageURL);
+			try {
+			Toolkit tk = Toolkit.getDefaultToolkit();
+			m_image = tk.getDefaultToolkit().getImage(imageURL);
+			MediaTracker mediaTracker = new MediaTracker(new Container());
+            mediaTracker.addImage(m_image, 0);
+            mediaTracker.waitForID(0);
+			}
+			catch (Exception e)
+			{
+				log.log(Level.WARNING, "(byteArray)", e);
+			}
+
+			//m_image = Toolkit.getDefaultToolkit().getImage(imageURL);
 			if (m_image != null)
 				log.fine("URL=" + imageURL);
 			else
@@ -159,7 +177,19 @@ public class ImageElement extends PrintElement
 	{
 		if (imageURL != null)
 		{
-			m_image = Toolkit.getDefaultToolkit().createImage(imageURL);
+			//m_image = Toolkit.getDefaultToolkit().createImage(imageURL);
+			try {
+				Toolkit tk = Toolkit.getDefaultToolkit();
+				m_image = tk.getDefaultToolkit().getImage(imageURL);
+				MediaTracker mediaTracker = new MediaTracker(new Container());
+	            mediaTracker.addImage(m_image, 0);
+	            mediaTracker.waitForID(0);
+				}
+				catch (Exception e)
+				{
+					log.log(Level.WARNING, "(byteArray)", e);
+				}
+
 			if (m_image != null)
 				log.fine("URL=" + imageURL);
 			else
@@ -241,7 +271,19 @@ public class ImageElement extends PrintElement
 
 		byte[] imageData = mimage.getData();
 		if (imageData != null)
-			m_image = Toolkit.getDefaultToolkit().createImage(imageData);
+
+		try
+		{
+			BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(imageData));
+		    m_image = bufferedImage;
+		}
+		catch (Exception e)
+		{
+			log.log(Level.WARNING, "(byteArray)", e);
+		}
+
+			//m_image = Toolkit.getDefaultToolkit().createImage(imageData);
+
 		if (m_image != null)
 			log.fine(mimage.toString() 
 				+ " - Size=" + imageData.length);
@@ -271,7 +313,16 @@ public class ImageElement extends PrintElement
 		}
 		byte[] imageData = attachment.getEntryData(0);
 		if (imageData != null)
-			m_image = Toolkit.getDefaultToolkit().createImage(imageData);
+		//m_image = Toolkit.getDefaultToolkit().createImage(imageData);
+		try
+		{
+			BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(imageData));
+		    m_image = bufferedImage;
+		}
+		catch (Exception e)
+		{
+			log.log(Level.WARNING, "(byteArray)", e);
+		}
 		if (m_image != null)
 			log.fine(attachment.getEntryName(0) 
 				+ " - Size=" + imageData.length);

@@ -517,7 +517,7 @@ public class PriceListManager
 				int processId = column.getAD_Process_ID();
 				MProcess process = MProcess.get(ctx, processId);
 				MPInstance pInstance = new MPInstance(process, 0);			
-				pInstance.save();
+				pInstance.saveEx();
 				
 				MProcessPara[] params = process.getParameters();
 				ProcessInfoParameter[] processParams = null;

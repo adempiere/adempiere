@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PP_Product_BOMLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_PP_Product_BOMLine extends PO implements I_PP_Product_BOMLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20150101L;
 
     /** Standard Constructor */
     public X_PP_Product_BOMLine (Properties ctx, int PP_Product_BOMLine_ID, String trxName)
@@ -172,6 +172,44 @@ public class X_PP_Product_BOMLine extends PO implements I_PP_Product_BOMLine, I_
 	public BigDecimal getCostAllocationPerc () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CostAllocationPerc);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Standard Cost.
+		@param CostStandard 
+		Standard Costs
+	  */
+	public void setCostStandard (BigDecimal CostStandard)
+	{
+		throw new IllegalArgumentException ("CostStandard is virtual column");	}
+
+	/** Get Standard Cost.
+		@return Standard Costs
+	  */
+	public BigDecimal getCostStandard () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CostStandard);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Std Cost Amount Sum.
+		@param CostStandardCumAmt 
+		Standard Cost Invoice Amount Sum (internal)
+	  */
+	public void setCostStandardCumAmt (BigDecimal CostStandardCumAmt)
+	{
+		throw new IllegalArgumentException ("CostStandardCumAmt is virtual column");	}
+
+	/** Get Std Cost Amount Sum.
+		@return Standard Cost Invoice Amount Sum (internal)
+	  */
+	public BigDecimal getCostStandardCumAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CostStandardCumAmt);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
@@ -441,6 +479,27 @@ public class X_PP_Product_BOMLine extends PO implements I_PP_Product_BOMLine, I_
 	public int getM_ChangeNotice_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_ChangeNotice_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_PartType getM_PartType() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_PartType)MTable.get(getCtx(), org.compiere.model.I_M_PartType.Table_Name)
+			.getPO(getM_PartType_ID(), get_TrxName());	}
+
+	/** Set Part Type.
+		@param M_PartType_ID Part Type	  */
+	public void setM_PartType_ID (int M_PartType_ID)
+	{
+		throw new IllegalArgumentException ("M_PartType_ID is virtual column");	}
+
+	/** Get Part Type.
+		@return Part Type	  */
+	public int getM_PartType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_PartType_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

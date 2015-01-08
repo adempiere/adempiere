@@ -1476,12 +1476,12 @@ public class VPayment extends CDialog
 				approved = m_mPayment.processOnline();
 				info = m_mPayment.getR_RespMsg() + " (" + m_mPayment.getR_AuthCode()
 					+ ") ID=" + m_mPayment.getR_PnRef();
-				m_mPayment.save();
+				m_mPayment.saveEx();
 
 				if (approved)
 				{
 					boolean ok = m_mPayment.processIt(DocAction.ACTION_Complete);
-					m_mPayment.save();
+					m_mPayment.saveEx();
 					if (ok)
 						ADialog.info(m_WindowNo, this, "PaymentProcessed", info + "\n" + m_mPayment.getDocumentNo());
 					else

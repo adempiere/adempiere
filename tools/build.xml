@@ -67,7 +67,7 @@
 	<!-- ============================================= -->
 	<target name="toolsCompile" depends="toolsInit" unless="jars.uptodate">
 		<!-- compile the java code from ${src} into ${build.dir}S -->
-		<javac target="1.6" srcdir="${src}" destdir="${build.dir}" deprecation="on" debug="on">
+		<javac target="1.7" encoding="UTF-8" srcdir="${src}" destdir="${build.dir}" deprecation="on" debug="on">
 			<classpath refid="project.class.path" />
 		</javac>
 		<!-- copy all image & sound files from src to the build directory -->
@@ -227,7 +227,7 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- Groovy -->
-			<zipfileset src="lib/groovy-all-1.5.1.jar">
+			<zipfileset src="lib/groovy-all-2.0.1.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/groovy-engine.jar">
@@ -245,7 +245,7 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/payflow.jar">
-							<patternset refid="manifest.exclude" />
+				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/miglayout-3.7.1-swing.jar">
 					<patternset refid="manifest.exclude" />
@@ -282,14 +282,14 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- JFreeChart			-->
-			<zipfileset src="lib/jfreechart-1.0.13.jar">
+			<zipfileset src="lib/jfreechart-1.0.15.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/jcommon-1.0.16.jar">
+			<zipfileset src="lib/jcommon-1.0.18.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- JMS -->
-			<zipfileset src="lib/activemq-core-5.0.0.jar">
+			<zipfileset src="lib/activemq-core-5.7.0.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- C3P0 connection pool -->
@@ -300,11 +300,15 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- POI -->
-			<zipfileset src="lib/poi-3.5-FINAL-20090928.jar">
+			<zipfileset src="lib/poi-3.9-20121203.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- CGLib -->
 			<zipfileset src="lib/cglib.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<!-- Open Forecast -->
+			<zipfileset src="lib/OpenForecast-0.5.0.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<manifest>
@@ -375,7 +379,7 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- Groovy -->
-			<zipfileset src="lib/groovy-all-1.5.1.jar">
+			<zipfileset src="lib/groovy-all-2.0.1.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/groovy-engine.jar">
@@ -412,6 +416,10 @@
 			<zipfileset src="lib/jnlp.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
+			<!-- Commons IO			-->
+			<zipfileset src="lib/commons-io.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
 			<!-- Barcode, ftp			-->
 			<zipfileset src="lib/barbecue-1.5-beta1.jar">
 				<patternset refid="manifest.exclude" />
@@ -420,10 +428,10 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- JFreeChart			-->
-			<zipfileset src="lib/jfreechart-1.0.13.jar">
+			<zipfileset src="lib/jfreechart-1.0.15.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/jcommon-1.0.16.jar">
+			<zipfileset src="lib/jcommon-1.0.18.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- Graph				-->
@@ -452,7 +460,7 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- JMS -->
-			<zipfileset src="lib/activemq-core-5.0.0.jar">
+			<zipfileset src="lib/activemq-core-5.7.0.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- C3P0 connection pool -->
@@ -463,7 +471,11 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- POI -->
-			<zipfileset src="lib/poi-3.5-FINAL-20090928.jar">
+			<zipfileset src="lib/poi-3.9-20121203.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<!-- Open Forecast -->
+			<zipfileset src="lib/OpenForecast-0.5.0.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<manifest>

@@ -27,18 +27,21 @@ import javax.swing.JComponent;
 import javax.swing.JPopupMenu;
 
 import org.compiere.model.GridTab;
-import org.compiere.model.MAsset;
-import org.compiere.model.MBPartner;
-import org.compiere.model.MCampaign;
-import org.compiere.model.MInOut;
-import org.compiere.model.MInvoice;
-import org.compiere.model.MOrder;
+import org.compiere.model.I_AD_User;
+import org.compiere.model.I_A_Asset;
+import org.compiere.model.I_C_BPartner;
+import org.compiere.model.I_C_Campaign;
+import org.compiere.model.I_C_Invoice;
+import org.compiere.model.I_C_Order;
+import org.compiere.model.I_C_OrderLine;
+import org.compiere.model.I_C_Payment;
+import org.compiere.model.I_C_Project;
+import org.compiere.model.I_M_InOut;
+import org.compiere.model.I_M_Product;
+import org.compiere.model.I_M_RMA;
+import org.compiere.model.I_R_Request;
 import org.compiere.model.MOrderLine;
-import org.compiere.model.MPayment;
-import org.compiere.model.MProduct;
-import org.compiere.model.MProject;
 import org.compiere.model.MQuery;
-import org.compiere.model.MRMA;
 import org.compiere.model.MRequest;
 import org.compiere.model.MUser;
 import org.compiere.swing.CMenuItem;
@@ -119,21 +122,21 @@ public class ARequest implements ActionListener
 		if (m_AD_Table_ID == MUser.Table_ID)
 			m_where.append(" OR AD_User_ID=").append(m_Record_ID)
 				.append(" OR SalesRep_ID=").append(m_Record_ID);
-		else if (m_AD_Table_ID == MBPartner.Table_ID)
+		else if (m_AD_Table_ID == I_C_BPartner.Table_ID)
 			m_where.append(" OR C_BPartner_ID=").append(m_Record_ID);
-		else if (m_AD_Table_ID == MOrder.Table_ID)
+		else if (m_AD_Table_ID == I_C_Order.Table_ID)
 			m_where.append(" OR C_Order_ID=").append(m_Record_ID);
-		else if (m_AD_Table_ID == MInvoice.Table_ID)
+		else if (m_AD_Table_ID == I_C_Invoice.Table_ID)
 			m_where.append(" OR C_Invoice_ID=").append(m_Record_ID);
-		else if (m_AD_Table_ID == MPayment.Table_ID)
+		else if (m_AD_Table_ID == I_C_Payment.Table_ID)
 			m_where.append(" OR C_Payment_ID=").append(m_Record_ID);
-		else if (m_AD_Table_ID == MProduct.Table_ID)
+		else if (m_AD_Table_ID == I_M_Product.Table_ID)
 			m_where.append(" OR M_Product_ID=").append(m_Record_ID);
-		else if (m_AD_Table_ID == MProject.Table_ID)
+		else if (m_AD_Table_ID == I_C_Project.Table_ID)
 			m_where.append(" OR C_Project_ID=").append(m_Record_ID);
-		else if (m_AD_Table_ID == MCampaign.Table_ID)
+		else if (m_AD_Table_ID == I_C_Campaign.Table_ID)
 			m_where.append(" OR C_Campaign_ID=").append(m_Record_ID);
-		else if (m_AD_Table_ID == MAsset.Table_ID)
+		else if (m_AD_Table_ID == I_A_Asset.Table_ID)
 			m_where.append(" OR A_Asset_ID=").append(m_Record_ID);
 		//
 		String sql = "SELECT Processed, COUNT(*) "
@@ -225,38 +228,38 @@ public class ARequest implements ActionListener
 			if (m_C_BPartner_ID != 0)
 				tab.setValue("C_BPartner_ID", new Integer(m_C_BPartner_ID));
 			//
-			if (m_AD_Table_ID == MBPartner.Table_ID)
+			if (m_AD_Table_ID == I_C_BPartner.Table_ID)
 				tab.setValue("C_BPartner_ID", new Integer(m_Record_ID));
-			else if (m_AD_Table_ID == MUser.Table_ID)
+			else if (m_AD_Table_ID == I_AD_User.Table_ID)
 				tab.setValue("AD_User_ID", new Integer(m_Record_ID));
 			//
-			else if (m_AD_Table_ID == MProject.Table_ID)
+			else if (m_AD_Table_ID == I_C_Project.Table_ID)
 				tab.setValue("C_Project_ID", new Integer(m_Record_ID));
-			else if (m_AD_Table_ID == MAsset.Table_ID)
+			else if (m_AD_Table_ID == I_A_Asset.Table_ID)
 				tab.setValue("A_Asset_ID", new Integer(m_Record_ID));
 			//
-			else if (m_AD_Table_ID == MOrder.Table_ID)
+			else if (m_AD_Table_ID == I_C_Order.Table_ID)
 				tab.setValue("C_Order_ID", new Integer(m_Record_ID));
-			else if (m_AD_Table_ID == MInvoice.Table_ID)
+			else if (m_AD_Table_ID == I_C_Invoice.Table_ID)
 				tab.setValue("C_Invoice_ID", new Integer(m_Record_ID));
 			//
-			else if (m_AD_Table_ID == MProduct.Table_ID)
+			else if (m_AD_Table_ID == I_M_Product.Table_ID)
 				tab.setValue("M_Product_ID", new Integer(m_Record_ID));
-			else if (m_AD_Table_ID == MPayment.Table_ID)
+			else if (m_AD_Table_ID == I_C_Payment.Table_ID)
 				tab.setValue("C_Payment_ID", new Integer(m_Record_ID));
 			//
-			else if (m_AD_Table_ID == MInOut.Table_ID)
+			else if (m_AD_Table_ID == I_M_InOut.Table_ID)
 				tab.setValue("M_InOut_ID", new Integer(m_Record_ID));
-			else if (m_AD_Table_ID == MRMA.Table_ID)
+			else if (m_AD_Table_ID == I_M_RMA.Table_ID)
 				tab.setValue("M_RMA_ID", new Integer(m_Record_ID));
 			//
-			else if (m_AD_Table_ID == MCampaign.Table_ID)
+			else if (m_AD_Table_ID == I_C_Campaign.Table_ID)
 				tab.setValue("C_Campaign_ID", new Integer(m_Record_ID));
 			//
-			else if (m_AD_Table_ID == MRequest.Table_ID)
+			else if (m_AD_Table_ID == I_R_Request.Table_ID)
 				tab.setValue(MRequest.COLUMNNAME_R_RequestRelated_ID, new Integer(m_Record_ID));
 			// FR [2842165] - Order Ref link from SO line creating new request
-			else if (m_AD_Table_ID == MOrderLine.Table_ID) {
+			else if (m_AD_Table_ID == I_C_OrderLine.Table_ID) {
 				MOrderLine oLine = new MOrderLine(Env.getCtx(), m_Record_ID, null);
 				if (oLine != null) {
 					tab.setValue(MOrderLine.COLUMNNAME_C_Order_ID, new Integer(oLine.getC_Order_ID()));

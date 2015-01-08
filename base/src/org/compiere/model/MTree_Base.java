@@ -358,22 +358,22 @@ public class MTree_Base extends X_AD_Tree
 			if (TREETYPE_BPartner.equals(getTreeType()))
 			{
 				MTree_NodeBP ndBP = new MTree_NodeBP(this, 0);
-				ndBP.save();
+				ndBP.saveEx();
 			}
 			else if (TREETYPE_Menu.equals(getTreeType()))
 			{
 				MTree_NodeMM ndMM = new MTree_NodeMM(this, 0);
-				ndMM.save();
+				ndMM.saveEx();
 			}
 			else if (TREETYPE_Product.equals(getTreeType()))
 			{
 				MTree_NodePR ndPR = new MTree_NodePR(this, 0);
-				ndPR.save();
+				ndPR.saveEx();
 			}
 			else
 			{
 				MTree_Node nd = new MTree_Node(this, 0);
-				nd.save();
+				nd.saveEx();
 			}
 		}
 		

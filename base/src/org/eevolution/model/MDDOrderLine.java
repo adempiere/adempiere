@@ -40,7 +40,7 @@ import org.compiere.util.Msg;
 			ol.setQtyOrdered(wbl.getQuantity());
 			ol.setPriceActual(wbl.getPrice());
 			ol.setTax();
-			ol.save();
+			ol.saveEx();
 
  *	</code>
  *  @author Jorg Janke
@@ -140,7 +140,7 @@ public class MDDOrderLine extends X_DD_OrderLine
 			ol.setPrice();
 			ol.setPriceActual(wbl.getPrice());
 			ol.setTax();
-			ol.save();
+			ol.saveEx();
 	 *  @param  order parent order
 	 */
 	public MDDOrderLine (MDDOrder order)

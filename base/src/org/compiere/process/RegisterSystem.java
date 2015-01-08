@@ -158,7 +158,7 @@ public class RegisterSystem extends SvrProcess
 				int Record_ID = Integer.parseInt(sb.substring(index+10));
 				reg.setRecord_ID(Record_ID);
 				reg.setIsRegistered(true);
-				reg.save();
+				reg.saveEx();
 				//
 				info = info.substring(0, index);
 			}

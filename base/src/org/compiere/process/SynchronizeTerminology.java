@@ -72,7 +72,7 @@ public class SynchronizeTerminology extends SvrProcess
 				elem.setDescription(desc);
 				elem.setHelp(help);
 				elem.setPrintName(name);
-				elem.save();
+				elem.saveEx();
 			}
 			pstmt.close();
 			rs.close();
@@ -98,7 +98,7 @@ public class SynchronizeTerminology extends SvrProcess
 				elem.setDescription(desc);
 				elem.setHelp(help);
 				elem.setPrintName(name);
-				elem.save();
+				elem.saveEx();
 			}
 			pstmt.close();
 			rs.close();
@@ -304,6 +304,48 @@ public class SynchronizeTerminology extends SvrProcess
 				+" 		AND f.AD_Field_ID=trl.AD_Field_ID AND p.AD_LANGUAGE=trl.AD_LANGUAGE"
 				+" 		AND f.IsCentrallyMaintained='Y' AND f.IsActive='Y'"
 				+" 		AND (trl.Name<>p.Name OR NVL(trl.Description,' ')<>NVL(p.Description,' ') OR NVL(trl.Help,' ')<>NVL(p.Help,' ')))";
+			no = DB.executeUpdate(sql, false, get_TrxName());	  	
+			log.info("  rows updated: "+no);
+			trx.commit(true);
+			
+			//Browse Fields should now be synchronized
+			log.info("Synchronize Browse Field");
+			sql=" 	UPDATE AD_BROWSE_FIELD f"
+				+" 		SET (Name, Description, Help) = "
+				+" 	            (SELECT e.Name, e.Description, e.Help"
+				+" 	            FROM AD_ELEMENT e "
+				+" 	    	    WHERE e.AD_Element_ID=f.AD_Element_ID),"
+				+" 			Updated = SYSDATE"
+				+" 	WHERE f.IsCentrallyMaintained='Y' AND f.IsActive='Y'"
+				+" 	 AND EXISTS (SELECT 1 FROM AD_ELEMENT e "
+				+" 				  WHERE f.AD_Element_ID=e.AD_Element_ID "
+				+" 				  AND (f.Name <> e.Name OR NVL(f.Description,' ') <> NVL(e.Description,' ') OR NVL(f.Help,' ') <> NVL(e.Help,' ')))";
+			no = DB.executeUpdate(sql, false, get_TrxName());	  	
+			log.info("  rows updated: "+no);
+			trx.commit(true);
+
+			//	Browse Field Translations
+			log.info("Synchronize Browse Field Translations");
+			sql="UPDATE AD_BROWSE_FIELD_TRL trl"
+				+" SET Name = (SELECT e.Name FROM AD_ELEMENT_TRL e , AD_BROWSE_FIELD f"
+				+"			WHERE e.AD_LANGUAGE=trl.AD_LANGUAGE AND e.AD_Element_ID=f.AD_Element_ID "
+				+"			 AND f.AD_Browse_Field_ID=trl.AD_Browse_Field_ID),"
+				+"	Description = (SELECT e.Description FROM AD_ELEMENT_TRL e, AD_BROWSE_FIELD f"
+				+"			WHERE e.AD_LANGUAGE=trl.AD_LANGUAGE AND e.AD_Element_ID=f.AD_Element_ID "
+				+"			 AND f.AD_Browse_Field_ID=trl.AD_Browse_Field_ID),"
+				+"	Help = (SELECT e.Help FROM AD_ELEMENT_TRL e, AD_BROWSE_FIELD f"
+				+"			WHERE e.AD_LANGUAGE=trl.AD_LANGUAGE AND e.AD_Element_ID=f.AD_Element_ID "
+				+"			 AND f.AD_Browse_Field_ID=trl.AD_Browse_Field_ID),"
+				+"	IsTranslated = (SELECT e.IsTranslated FROM AD_ELEMENT_TRL e, AD_BROWSE_FIELD f"
+				+"			WHERE e.AD_LANGUAGE=trl.AD_LANGUAGE AND e.AD_Element_ID=f.AD_Element_ID "
+				+"			  AND f.AD_Browse_Field_ID=trl.AD_Browse_Field_ID),"
+				+"	Updated = SYSDATE"
+				+" WHERE EXISTS (SELECT 1 FROM AD_BROWSE_FIELD f, AD_ELEMENT_TRL e"
+				+"		WHERE trl.AD_Browse_Field_ID=f.AD_Browse_Field_ID"
+				+"		  AND f.AD_Element_ID=e.AD_Element_ID"
+				+"		  AND trl.AD_LANGUAGE=e.AD_LANGUAGE"
+				+"		  AND f.IsCentrallyMaintained='Y' AND f.IsActive='Y'"
+				+"		  AND (trl.Name <> e.Name OR NVL(trl.Description,' ') <> NVL(e.Description,' ') OR NVL(trl.Help,' ') <> NVL(e.Help,' ')))";
 			no = DB.executeUpdate(sql, false, get_TrxName());	  	
 			log.info("  rows updated: "+no);
 			trx.commit(true);

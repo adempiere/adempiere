@@ -83,7 +83,7 @@ public class MLotCtl extends X_M_LotCtl
 		save();
 		//
 		MLot retValue = new MLot (this, M_Product_ID, name.toString());
-		retValue.save();
+		retValue.saveEx();
 		return retValue;
 	}	//	createLot
 

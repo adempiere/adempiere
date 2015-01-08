@@ -24,6 +24,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.MPaySchedule;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -138,12 +139,13 @@ public class MPaymentTerm extends X_C_PaymentTerm
 	 */
 	public String validate()
 	{
+		String validMsg = Msg.parseTranslation(getCtx(), "@OK@");
 		getSchedule(true);
 		if (m_schedule.length == 0)
 		{
 			if (! isValid())
 				setIsValid(true);
-			return "@OK@";
+			return validMsg;
 		}
 		if (m_schedule.length == 1)
 		{
@@ -152,7 +154,7 @@ public class MPaymentTerm extends X_C_PaymentTerm
 			if (m_schedule[0].isValid())
 			{
 				m_schedule[0].setIsValid(false);
-				m_schedule[0].save();
+				m_schedule[0].saveEx();
 			}
 			return "@Invalid@ @Count@ # = 1 (@C_PaySchedule_ID@)";
 		}
@@ -173,12 +175,13 @@ public class MPaymentTerm extends X_C_PaymentTerm
 			if (m_schedule[i].isValid() != valid)
 			{
 				m_schedule[i].setIsValid(valid);
-				m_schedule[i].save();
+				m_schedule[i].saveEx();
 			}
 		}
-		String msg = "@OK@";
-		if (!valid)
-			msg = "@Total@ = " + total + " - @Difference@ = " + HUNDRED.subtract(total); 
+		
+		if (valid)
+			return validMsg;
+		String msg = "@Total@ = " + total + " - @Difference@ = " + HUNDRED.subtract(total); 
 		return Msg.parseTranslation(getCtx(), msg);
 	}	//	validate
 
@@ -287,6 +290,7 @@ public class MPaymentTerm extends X_C_PaymentTerm
 	 * 	String Representation
 	 *	@return info
 	 */
+	@Override
 	public String toString ()
 	{
 		StringBuffer sb = new StringBuffer ("MPaymentTerm[");
@@ -301,6 +305,7 @@ public class MPaymentTerm extends X_C_PaymentTerm
 	 *	@param newRecord new
 	 *	@return true
 	 */
+	@Override
 	protected boolean beforeSave (boolean newRecord)
 	{
 		if (isDueFixed())
@@ -329,5 +334,15 @@ public class MPaymentTerm extends X_C_PaymentTerm
 			validate();
 		return true;
 	}	//	beforeSave
+	
+	@Override
+	protected boolean beforeDelete ()
+	{
+		for (MPaySchedule line : getSchedule(true))
+		{
+			line.deleteEx(true);
+		}
+		return true;
+	}
 	
 }	//	MPaymentTerm

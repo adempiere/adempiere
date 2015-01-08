@@ -19,20 +19,21 @@ package org.compiere.model;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.Properties;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20150101L;
 
     /** Standard Constructor */
     public X_A_Asset_Acct (Properties ctx, int A_Asset_Acct_ID, String trxName)
@@ -40,16 +41,22 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
       super (ctx, A_Asset_Acct_ID, trxName);
       /** if (A_Asset_Acct_ID == 0)
         {
+			setA_Accumdepreciation_Acct (0);
+			setA_Asset_Acct (0);
 			setA_Asset_Acct_ID (0);
-			setA_Depreciation_Conv_ID (0);
+			setA_Asset_ID (0);
+			setA_Depreciation_Acct (0);
+			setA_Depreciation_F_ID (0);
 			setA_Depreciation_ID (0);
-			setA_Depreciation_Method_ID (0);
+			setA_Disposal_Loss_Acct (0);
+			setA_Disposal_Revenue_Acct (0);
 			setA_Period_End (0);
 			setA_Period_Start (0);
-			setA_Salvage_Value (Env.ZERO);
 			setA_Split_Percent (Env.ZERO);
+// 1
 			setC_AcctSchema_ID (0);
 			setPostingType (null);
+// 'A'
         } */
     }
 
@@ -60,7 +67,7 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
     }
 
     /** AccessLevel
-      * @return 7 - System - Client - Org 
+      * @return 3 - Client - Org 
       */
     protected int get_AccessLevel()
     {
@@ -86,15 +93,15 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
 			.getPO(getA_Accumdepreciation_Acct(), get_TrxName());	}
 
-	/** Set Accumulated Depreciation.
-		@param A_Accumdepreciation_Acct Accumulated Depreciation	  */
+	/** Set Accumulated Depreciation Account.
+		@param A_Accumdepreciation_Acct Accumulated Depreciation Account	  */
 	public void setA_Accumdepreciation_Acct (int A_Accumdepreciation_Acct)
 	{
 		set_Value (COLUMNNAME_A_Accumdepreciation_Acct, Integer.valueOf(A_Accumdepreciation_Acct));
 	}
 
-	/** Get Accumulated Depreciation.
-		@return Accumulated Depreciation	  */
+	/** Get Accumulated Depreciation Account.
+		@return Accumulated Depreciation Account	  */
 	public int getA_Accumdepreciation_Acct () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Accumdepreciation_Acct);
@@ -108,15 +115,15 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
 			.getPO(getA_Asset_Acct(), get_TrxName());	}
 
-	/** Set Asset Cost Account.
-		@param A_Asset_Acct Asset Cost Account	  */
+	/** Set Asset Acct.
+		@param A_Asset_Acct Asset Acct	  */
 	public void setA_Asset_Acct (int A_Asset_Acct)
 	{
 		set_Value (COLUMNNAME_A_Asset_Acct, Integer.valueOf(A_Asset_Acct));
 	}
 
-	/** Get Asset Cost Account.
-		@return Asset Cost Account	  */
+	/** Get Asset Acct.
+		@return Asset Acct	  */
 	public int getA_Asset_Acct () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Acct);
@@ -125,8 +132,8 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Asset Acct..
-		@param A_Asset_Acct_ID Asset Acct.	  */
+	/** Set A_Asset_Acct_ID.
+		@param A_Asset_Acct_ID A_Asset_Acct_ID	  */
 	public void setA_Asset_Acct_ID (int A_Asset_Acct_ID)
 	{
 		if (A_Asset_Acct_ID < 1) 
@@ -135,8 +142,8 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 			set_ValueNoCheck (COLUMNNAME_A_Asset_Acct_ID, Integer.valueOf(A_Asset_Acct_ID));
 	}
 
-	/** Get Asset Acct..
-		@return Asset Acct.	  */
+	/** Get A_Asset_Acct_ID.
+		@return A_Asset_Acct_ID	  */
 	public int getA_Asset_Acct_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Acct_ID);
@@ -152,6 +159,11 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
     {
         return new KeyNamePair(get_ID(), String.valueOf(getA_Asset_Acct_ID()));
     }
+
+	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException
+    {
+		return (org.compiere.model.I_A_Asset)MTable.get(getCtx(), org.compiere.model.I_A_Asset.Table_Name)
+			.getPO(getA_Asset_ID(), get_TrxName());	}
 
 	/** Set Asset.
 		@param A_Asset_ID 
@@ -181,8 +193,8 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 		return (org.compiere.model.I_A_Asset_Spread)MTable.get(getCtx(), org.compiere.model.I_A_Asset_Spread.Table_Name)
 			.getPO(getA_Asset_Spread_ID(), get_TrxName());	}
 
-	/** Set Asset Spread.
-		@param A_Asset_Spread_ID Asset Spread	  */
+	/** Set A_Asset_Spread_ID.
+		@param A_Asset_Spread_ID A_Asset_Spread_ID	  */
 	public void setA_Asset_Spread_ID (int A_Asset_Spread_ID)
 	{
 		if (A_Asset_Spread_ID < 1) 
@@ -191,8 +203,8 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 			set_Value (COLUMNNAME_A_Asset_Spread_ID, Integer.valueOf(A_Asset_Spread_ID));
 	}
 
-	/** Get Asset Spread.
-		@return Asset Spread	  */
+	/** Get A_Asset_Spread_ID.
+		@return A_Asset_Spread_ID	  */
 	public int getA_Asset_Spread_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Spread_ID);
@@ -206,18 +218,43 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
 			.getPO(getA_Depreciation_Acct(), get_TrxName());	}
 
-	/** Set Depreciation Expense Account.
-		@param A_Depreciation_Acct Depreciation Expense Account	  */
+	/** Set Depreciation Account.
+		@param A_Depreciation_Acct Depreciation Account	  */
 	public void setA_Depreciation_Acct (int A_Depreciation_Acct)
 	{
 		set_Value (COLUMNNAME_A_Depreciation_Acct, Integer.valueOf(A_Depreciation_Acct));
 	}
 
-	/** Get Depreciation Expense Account.
-		@return Depreciation Expense Account	  */
+	/** Get Depreciation Account.
+		@return Depreciation Account	  */
 	public int getA_Depreciation_Acct () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Depreciation_Acct);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_A_Depreciation_Convention getA_Depreciation_Conv_F() throws RuntimeException
+    {
+		return (org.compiere.model.I_A_Depreciation_Convention)MTable.get(getCtx(), org.compiere.model.I_A_Depreciation_Convention.Table_Name)
+			.getPO(getA_Depreciation_Conv_F_ID(), get_TrxName());	}
+
+	/** Set Depreciation Convention (fiscal).
+		@param A_Depreciation_Conv_F_ID Depreciation Convention (fiscal)	  */
+	public void setA_Depreciation_Conv_F_ID (int A_Depreciation_Conv_F_ID)
+	{
+		if (A_Depreciation_Conv_F_ID < 1) 
+			set_Value (COLUMNNAME_A_Depreciation_Conv_F_ID, null);
+		else 
+			set_Value (COLUMNNAME_A_Depreciation_Conv_F_ID, Integer.valueOf(A_Depreciation_Conv_F_ID));
+	}
+
+	/** Get Depreciation Convention (fiscal).
+		@return Depreciation Convention (fiscal)	  */
+	public int getA_Depreciation_Conv_F_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_A_Depreciation_Conv_F_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -248,13 +285,38 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_A_Depreciation getA_Depreciation_F() throws RuntimeException
+    {
+		return (org.compiere.model.I_A_Depreciation)MTable.get(getCtx(), org.compiere.model.I_A_Depreciation.Table_Name)
+			.getPO(getA_Depreciation_F_ID(), get_TrxName());	}
+
+	/** Set Depreciation (fiscal).
+		@param A_Depreciation_F_ID Depreciation (fiscal)	  */
+	public void setA_Depreciation_F_ID (int A_Depreciation_F_ID)
+	{
+		if (A_Depreciation_F_ID < 1) 
+			set_Value (COLUMNNAME_A_Depreciation_F_ID, null);
+		else 
+			set_Value (COLUMNNAME_A_Depreciation_F_ID, Integer.valueOf(A_Depreciation_F_ID));
+	}
+
+	/** Get Depreciation (fiscal).
+		@return Depreciation (fiscal)	  */
+	public int getA_Depreciation_F_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_A_Depreciation_F_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_A_Depreciation getA_Depreciation() throws RuntimeException
     {
 		return (org.compiere.model.I_A_Depreciation)MTable.get(getCtx(), org.compiere.model.I_A_Depreciation.Table_Name)
 			.getPO(getA_Depreciation_ID(), get_TrxName());	}
 
-	/** Set Depreciation Type.
-		@param A_Depreciation_ID Depreciation Type	  */
+	/** Set Depreciation.
+		@param A_Depreciation_ID Depreciation	  */
 	public void setA_Depreciation_ID (int A_Depreciation_ID)
 	{
 		if (A_Depreciation_ID < 1) 
@@ -263,8 +325,8 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 			set_Value (COLUMNNAME_A_Depreciation_ID, Integer.valueOf(A_Depreciation_ID));
 	}
 
-	/** Get Depreciation Type.
-		@return Depreciation Type	  */
+	/** Get Depreciation.
+		@return Depreciation	  */
 	public int getA_Depreciation_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Depreciation_ID);
@@ -273,15 +335,15 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Depreciation Manual Amount.
-		@param A_Depreciation_Manual_Amount Depreciation Manual Amount	  */
+	/** Set A_Depreciation_Manual_Amount.
+		@param A_Depreciation_Manual_Amount A_Depreciation_Manual_Amount	  */
 	public void setA_Depreciation_Manual_Amount (BigDecimal A_Depreciation_Manual_Amount)
 	{
 		set_Value (COLUMNNAME_A_Depreciation_Manual_Amount, A_Depreciation_Manual_Amount);
 	}
 
-	/** Get Depreciation Manual Amount.
-		@return Depreciation Manual Amount	  */
+	/** Get A_Depreciation_Manual_Amount.
+		@return A_Depreciation_Manual_Amount	  */
 	public BigDecimal getA_Depreciation_Manual_Amount () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Depreciation_Manual_Amount);
@@ -296,19 +358,44 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 	public static final String A_DEPRECIATION_MANUAL_PERIOD_Period = "PR";
 	/** Yearly = YR */
 	public static final String A_DEPRECIATION_MANUAL_PERIOD_Yearly = "YR";
-	/** Set Depreciation Manual Period.
-		@param A_Depreciation_Manual_Period Depreciation Manual Period	  */
+	/** Set A_Depreciation_Manual_Period.
+		@param A_Depreciation_Manual_Period A_Depreciation_Manual_Period	  */
 	public void setA_Depreciation_Manual_Period (String A_Depreciation_Manual_Period)
 	{
 
 		set_Value (COLUMNNAME_A_Depreciation_Manual_Period, A_Depreciation_Manual_Period);
 	}
 
-	/** Get Depreciation Manual Period.
-		@return Depreciation Manual Period	  */
+	/** Get A_Depreciation_Manual_Period.
+		@return A_Depreciation_Manual_Period	  */
 	public String getA_Depreciation_Manual_Period () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Depreciation_Manual_Period);
+	}
+
+	public org.compiere.model.I_A_Depreciation_Method getA_Depreciation_Method_F() throws RuntimeException
+    {
+		return (org.compiere.model.I_A_Depreciation_Method)MTable.get(getCtx(), org.compiere.model.I_A_Depreciation_Method.Table_Name)
+			.getPO(getA_Depreciation_Method_F_ID(), get_TrxName());	}
+
+	/** Set Depreciation Method (fiscal).
+		@param A_Depreciation_Method_F_ID Depreciation Method (fiscal)	  */
+	public void setA_Depreciation_Method_F_ID (int A_Depreciation_Method_F_ID)
+	{
+		if (A_Depreciation_Method_F_ID < 1) 
+			set_Value (COLUMNNAME_A_Depreciation_Method_F_ID, null);
+		else 
+			set_Value (COLUMNNAME_A_Depreciation_Method_F_ID, Integer.valueOf(A_Depreciation_Method_F_ID));
+	}
+
+	/** Get Depreciation Method (fiscal).
+		@return Depreciation Method (fiscal)	  */
+	public int getA_Depreciation_Method_F_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_A_Depreciation_Method_F_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	public org.compiere.model.I_A_Depreciation_Method getA_Depreciation_Method() throws RuntimeException
@@ -316,8 +403,8 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 		return (org.compiere.model.I_A_Depreciation_Method)MTable.get(getCtx(), org.compiere.model.I_A_Depreciation_Method.Table_Name)
 			.getPO(getA_Depreciation_Method_ID(), get_TrxName());	}
 
-	/** Set Depreciation Calculation Type.
-		@param A_Depreciation_Method_ID Depreciation Calculation Type	  */
+	/** Set Depreciation Method.
+		@param A_Depreciation_Method_ID Depreciation Method	  */
 	public void setA_Depreciation_Method_ID (int A_Depreciation_Method_ID)
 	{
 		if (A_Depreciation_Method_ID < 1) 
@@ -326,8 +413,8 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 			set_Value (COLUMNNAME_A_Depreciation_Method_ID, Integer.valueOf(A_Depreciation_Method_ID));
 	}
 
-	/** Get Depreciation Calculation Type.
-		@return Depreciation Calculation Type	  */
+	/** Get Depreciation Method.
+		@return Depreciation Method	  */
 	public int getA_Depreciation_Method_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Depreciation_Method_ID);
@@ -341,8 +428,8 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 		return (org.compiere.model.I_A_Depreciation_Table_Header)MTable.get(getCtx(), org.compiere.model.I_A_Depreciation_Table_Header.Table_Name)
 			.getPO(getA_Depreciation_Table_Header_ID(), get_TrxName());	}
 
-	/** Set Depreciation Table Header.
-		@param A_Depreciation_Table_Header_ID Depreciation Table Header	  */
+	/** Set A_Depreciation_Table_Header_ID.
+		@param A_Depreciation_Table_Header_ID A_Depreciation_Table_Header_ID	  */
 	public void setA_Depreciation_Table_Header_ID (int A_Depreciation_Table_Header_ID)
 	{
 		if (A_Depreciation_Table_Header_ID < 1) 
@@ -351,8 +438,8 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 			set_Value (COLUMNNAME_A_Depreciation_Table_Header_ID, Integer.valueOf(A_Depreciation_Table_Header_ID));
 	}
 
-	/** Get Depreciation Table Header.
-		@return Depreciation Table Header	  */
+	/** Get A_Depreciation_Table_Header_ID.
+		@return A_Depreciation_Table_Header_ID	  */
 	public int getA_Depreciation_Table_Header_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Depreciation_Table_Header_ID);
@@ -361,18 +448,35 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Depreciation Variable Perc..
-		@param A_Depreciation_Variable_Perc Depreciation Variable Perc.	  */
+	/** Set Variable Percent.
+		@param A_Depreciation_Variable_Perc Variable Percent	  */
 	public void setA_Depreciation_Variable_Perc (BigDecimal A_Depreciation_Variable_Perc)
 	{
 		set_Value (COLUMNNAME_A_Depreciation_Variable_Perc, A_Depreciation_Variable_Perc);
 	}
 
-	/** Get Depreciation Variable Perc..
-		@return Depreciation Variable Perc.	  */
+	/** Get Variable Percent.
+		@return Variable Percent	  */
 	public BigDecimal getA_Depreciation_Variable_Perc () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Depreciation_Variable_Perc);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Variable Percent (fiscal).
+		@param A_Depreciation_Variable_Perc_F Variable Percent (fiscal)	  */
+	public void setA_Depreciation_Variable_Perc_F (BigDecimal A_Depreciation_Variable_Perc_F)
+	{
+		set_Value (COLUMNNAME_A_Depreciation_Variable_Perc_F, A_Depreciation_Variable_Perc_F);
+	}
+
+	/** Get Variable Percent (fiscal).
+		@return Variable Percent (fiscal)	  */
+	public BigDecimal getA_Depreciation_Variable_Perc_F () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Depreciation_Variable_Perc_F);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
@@ -400,6 +504,28 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_ValidCombination getA_Disposal_Gain_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getA_Disposal_Gain_Acct(), get_TrxName());	}
+
+	/** Set Disposal Gain Acct.
+		@param A_Disposal_Gain_Acct Disposal Gain Acct	  */
+	public void setA_Disposal_Gain_Acct (int A_Disposal_Gain_Acct)
+	{
+		set_Value (COLUMNNAME_A_Disposal_Gain_Acct, Integer.valueOf(A_Disposal_Gain_Acct));
+	}
+
+	/** Get Disposal Gain Acct.
+		@return Disposal Gain Acct	  */
+	public int getA_Disposal_Gain_Acct () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_A_Disposal_Gain_Acct);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_C_ValidCombination getA_Disposal_L() throws RuntimeException
     {
 		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
@@ -417,6 +543,28 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 	public int getA_Disposal_Loss () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Disposal_Loss);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_C_ValidCombination getA_Disposal_Loss_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getA_Disposal_Loss_Acct(), get_TrxName());	}
+
+	/** Set Disposal Loss Acct.
+		@param A_Disposal_Loss_Acct Disposal Loss Acct	  */
+	public void setA_Disposal_Loss_Acct (int A_Disposal_Loss_Acct)
+	{
+		set_Value (COLUMNNAME_A_Disposal_Loss_Acct, Integer.valueOf(A_Disposal_Loss_Acct));
+	}
+
+	/** Get Disposal Loss Acct.
+		@return Disposal Loss Acct	  */
+	public int getA_Disposal_Loss_Acct () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_A_Disposal_Loss_Acct);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -444,15 +592,37 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Period End.
-		@param A_Period_End Period End	  */
+	public I_C_ValidCombination getA_Disposal_Revenue_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getA_Disposal_Revenue_Acct(), get_TrxName());	}
+
+	/** Set Disposal Revenue Acct.
+		@param A_Disposal_Revenue_Acct Disposal Revenue Acct	  */
+	public void setA_Disposal_Revenue_Acct (int A_Disposal_Revenue_Acct)
+	{
+		set_Value (COLUMNNAME_A_Disposal_Revenue_Acct, Integer.valueOf(A_Disposal_Revenue_Acct));
+	}
+
+	/** Get Disposal Revenue Acct.
+		@return Disposal Revenue Acct	  */
+	public int getA_Disposal_Revenue_Acct () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_A_Disposal_Revenue_Acct);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set A_Period_End.
+		@param A_Period_End A_Period_End	  */
 	public void setA_Period_End (int A_Period_End)
 	{
 		set_Value (COLUMNNAME_A_Period_End, Integer.valueOf(A_Period_End));
 	}
 
-	/** Get Period End.
-		@return Period End	  */
+	/** Get A_Period_End.
+		@return A_Period_End	  */
 	public int getA_Period_End () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Period_End);
@@ -461,15 +631,15 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Period Start.
-		@param A_Period_Start Period Start	  */
+	/** Set A_Period_Start.
+		@param A_Period_Start A_Period_Start	  */
 	public void setA_Period_Start (int A_Period_Start)
 	{
 		set_Value (COLUMNNAME_A_Period_Start, Integer.valueOf(A_Period_Start));
 	}
 
-	/** Get Period Start.
-		@return Period Start	  */
+	/** Get A_Period_Start.
+		@return A_Period_Start	  */
 	public int getA_Period_Start () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Period_Start);
@@ -522,6 +692,50 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_ValidCombination getA_Reval_Adep_Offset_Cur_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getA_Reval_Adep_Offset_Cur_Acct(), get_TrxName());	}
+
+	/** Set A_Reval_Accumdep_Offset_Cur.
+		@param A_Reval_Adep_Offset_Cur_Acct A_Reval_Accumdep_Offset_Cur	  */
+	public void setA_Reval_Adep_Offset_Cur_Acct (int A_Reval_Adep_Offset_Cur_Acct)
+	{
+		set_Value (COLUMNNAME_A_Reval_Adep_Offset_Cur_Acct, Integer.valueOf(A_Reval_Adep_Offset_Cur_Acct));
+	}
+
+	/** Get A_Reval_Accumdep_Offset_Cur.
+		@return A_Reval_Accumdep_Offset_Cur	  */
+	public int getA_Reval_Adep_Offset_Cur_Acct () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_A_Reval_Adep_Offset_Cur_Acct);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_C_ValidCombination getA_Reval_Adep_Offset_Prior_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getA_Reval_Adep_Offset_Prior_Acct(), get_TrxName());	}
+
+	/** Set A_Reval_Accumdep_Offset_Prior.
+		@param A_Reval_Adep_Offset_Prior_Acct A_Reval_Accumdep_Offset_Prior	  */
+	public void setA_Reval_Adep_Offset_Prior_Acct (int A_Reval_Adep_Offset_Prior_Acct)
+	{
+		set_Value (COLUMNNAME_A_Reval_Adep_Offset_Prior_Acct, Integer.valueOf(A_Reval_Adep_Offset_Prior_Acct));
+	}
+
+	/** Get A_Reval_Accumdep_Offset_Prior.
+		@return A_Reval_Accumdep_Offset_Prior	  */
+	public int getA_Reval_Adep_Offset_Prior_Acct () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_A_Reval_Adep_Offset_Prior_Acct);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** A_Reval_Cal_Method AD_Reference_ID=53259 */
 	public static final int A_REVAL_CAL_METHOD_AD_Reference_ID=53259;
 	/** Default = DFT */
@@ -530,16 +744,16 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 	public static final String A_REVAL_CAL_METHOD_InceptionToDate = "IDF";
 	/** Year Balances = YBF */
 	public static final String A_REVAL_CAL_METHOD_YearBalances = "YBF";
-	/** Set Revaluation Calculation Method.
-		@param A_Reval_Cal_Method Revaluation Calculation Method	  */
+	/** Set A_Reval_Cal_Method.
+		@param A_Reval_Cal_Method A_Reval_Cal_Method	  */
 	public void setA_Reval_Cal_Method (String A_Reval_Cal_Method)
 	{
 
 		set_Value (COLUMNNAME_A_Reval_Cal_Method, A_Reval_Cal_Method);
 	}
 
-	/** Get Revaluation Calculation Method.
-		@return Revaluation Calculation Method	  */
+	/** Get A_Reval_Cal_Method.
+		@return A_Reval_Cal_Method	  */
 	public String getA_Reval_Cal_Method () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Reval_Cal_Method);
@@ -567,6 +781,28 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_ValidCombination getA_Reval_Cost_Offset_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getA_Reval_Cost_Offset_Acct(), get_TrxName());	}
+
+	/** Set Reval Cost Offset Acct.
+		@param A_Reval_Cost_Offset_Acct Reval Cost Offset Acct	  */
+	public void setA_Reval_Cost_Offset_Acct (int A_Reval_Cost_Offset_Acct)
+	{
+		set_Value (COLUMNNAME_A_Reval_Cost_Offset_Acct, Integer.valueOf(A_Reval_Cost_Offset_Acct));
+	}
+
+	/** Get Reval Cost Offset Acct.
+		@return Reval Cost Offset Acct	  */
+	public int getA_Reval_Cost_Offset_Acct () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_A_Reval_Cost_Offset_Acct);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_C_ValidCombination getA_Reval_Cost_Offset_Pr() throws RuntimeException
     {
 		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
@@ -584,6 +820,28 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 	public int getA_Reval_Cost_Offset_Prior () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Reval_Cost_Offset_Prior);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_C_ValidCombination getA_Reval_Cost_Offset_Prior_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getA_Reval_Cost_Offset_Prior_Acct(), get_TrxName());	}
+
+	/** Set Reval Cost Offset Prior Acct.
+		@param A_Reval_Cost_Offset_Prior_Acct Reval Cost Offset Prior Acct	  */
+	public void setA_Reval_Cost_Offset_Prior_Acct (int A_Reval_Cost_Offset_Prior_Acct)
+	{
+		set_Value (COLUMNNAME_A_Reval_Cost_Offset_Prior_Acct, Integer.valueOf(A_Reval_Cost_Offset_Prior_Acct));
+	}
+
+	/** Get Reval Cost Offset Prior Acct.
+		@return Reval Cost Offset Prior Acct	  */
+	public int getA_Reval_Cost_Offset_Prior_Acct () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_A_Reval_Cost_Offset_Prior_Acct);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -611,15 +869,37 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Salvage Value.
-		@param A_Salvage_Value Salvage Value	  */
+	public I_C_ValidCombination getA_Reval_Depexp_Offset_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getA_Reval_Depexp_Offset_Acct(), get_TrxName());	}
+
+	/** Set Reval Depexp Offset Acct.
+		@param A_Reval_Depexp_Offset_Acct Reval Depexp Offset Acct	  */
+	public void setA_Reval_Depexp_Offset_Acct (int A_Reval_Depexp_Offset_Acct)
+	{
+		set_Value (COLUMNNAME_A_Reval_Depexp_Offset_Acct, Integer.valueOf(A_Reval_Depexp_Offset_Acct));
+	}
+
+	/** Get Reval Depexp Offset Acct.
+		@return Reval Depexp Offset Acct	  */
+	public int getA_Reval_Depexp_Offset_Acct () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_A_Reval_Depexp_Offset_Acct);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Asset Salvage Value.
+		@param A_Salvage_Value Asset Salvage Value	  */
 	public void setA_Salvage_Value (BigDecimal A_Salvage_Value)
 	{
 		set_Value (COLUMNNAME_A_Salvage_Value, A_Salvage_Value);
 	}
 
-	/** Get Salvage Value.
-		@return Salvage Value	  */
+	/** Get Asset Salvage Value.
+		@return Asset Salvage Value	  */
 	public BigDecimal getA_Salvage_Value () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Salvage_Value);
@@ -628,15 +908,15 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 		return bd;
 	}
 
-	/** Set Split Percentage.
-		@param A_Split_Percent Split Percentage	  */
+	/** Set Split Percent.
+		@param A_Split_Percent Split Percent	  */
 	public void setA_Split_Percent (BigDecimal A_Split_Percent)
 	{
 		set_Value (COLUMNNAME_A_Split_Percent, A_Split_Percent);
 	}
 
-	/** Get Split Percentage.
-		@return Split Percentage	  */
+	/** Get Split Percent.
+		@return Split Percent	  */
 	public BigDecimal getA_Split_Percent () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Split_Percent);
@@ -722,5 +1002,22 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Set Valid from.
+		@param ValidFrom 
+		Valid from including this date (first day)
+	  */
+	public void setValidFrom (Timestamp ValidFrom)
+	{
+		set_ValueNoCheck (COLUMNNAME_ValidFrom, ValidFrom);
+	}
+
+	/** Get Valid from.
+		@return Valid from including this date (first day)
+	  */
+	public Timestamp getValidFrom () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_ValidFrom);
 	}
 }

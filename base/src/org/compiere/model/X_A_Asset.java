@@ -22,18 +22,17 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 import org.compiere.util.Env;
-import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_A_Asset extends PO implements I_A_Asset, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20150101L;
 
     /** Standard Constructor */
     public X_A_Asset (Properties ctx, int A_Asset_ID, String trxName)
@@ -41,8 +40,12 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
       super (ctx, A_Asset_ID, trxName);
       /** if (A_Asset_ID == 0)
         {
+			setA_Asset_Action (null);
+// 'MD'
 			setA_Asset_Group_ID (0);
 			setA_Asset_ID (0);
+			setA_Asset_Status (null);
+// 'NW'
 			setIsDepreciated (false);
 			setIsDisposed (false);
 			setIsFullyDepreciated (false);
@@ -50,7 +53,10 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 			setIsInPosession (false);
 			setIsOwned (false);
 			setM_AttributeSetInstance_ID (0);
+			setM_Product_ID (0);
 			setName (null);
+			setProcessed (false);
+// 'N'
 			setValue (null);
         } */
     }
@@ -83,15 +89,113 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
       return sb.toString();
     }
 
-	/** Set Asset Creation Date.
-		@param A_Asset_CreateDate Asset Creation Date	  */
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
+			.getPO(getAD_User_ID(), get_TrxName());	}
+
+	/** Set User/Contact.
+		@param AD_User_ID 
+		User within the system - Internal or Business Partner Contact
+	  */
+	public void setAD_User_ID (int AD_User_ID)
+	{
+		if (AD_User_ID < 1) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+	}
+
+	/** Get User/Contact.
+		@return User within the system - Internal or Business Partner Contact
+	  */
+	public int getAD_User_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Asset Type.
+		@param A_AssetType Asset Type	  */
+	public void setA_AssetType (String A_AssetType)
+	{
+		set_Value (COLUMNNAME_A_AssetType, A_AssetType);
+	}
+
+	/** Get Asset Type.
+		@return Asset Type	  */
+	public String getA_AssetType () 
+	{
+		return (String)get_Value(COLUMNNAME_A_AssetType);
+	}
+
+	/** A_Asset_Action AD_Reference_ID=53360 */
+	public static final int A_ASSET_ACTION_AD_Reference_ID=53360;
+	/** Dispose = DI */
+	public static final String A_ASSET_ACTION_Dispose = "DI";
+	/** Inbound = IB */
+	public static final String A_ASSET_ACTION_Inbound = "IB";
+	/** Modify = MD */
+	public static final String A_ASSET_ACTION_Modify = "MD";
+	/** Outbound = OB */
+	public static final String A_ASSET_ACTION_Outbound = "OB";
+	/** Reevaluate = RE */
+	public static final String A_ASSET_ACTION_Reevaluate = "RE";
+	/** Retire = RT */
+	public static final String A_ASSET_ACTION_Retire = "RT";
+	/** Transfer = TR */
+	public static final String A_ASSET_ACTION_Transfer = "TR";
+	/** Set Asset Action.
+		@param A_Asset_Action Asset Action	  */
+	public void setA_Asset_Action (String A_Asset_Action)
+	{
+
+		set_Value (COLUMNNAME_A_Asset_Action, A_Asset_Action);
+	}
+
+	/** Get Asset Action.
+		@return Asset Action	  */
+	public String getA_Asset_Action () 
+	{
+		return (String)get_Value(COLUMNNAME_A_Asset_Action);
+	}
+
+	public org.compiere.model.I_A_Asset_Class getA_Asset_Class() throws RuntimeException
+    {
+		return (org.compiere.model.I_A_Asset_Class)MTable.get(getCtx(), org.compiere.model.I_A_Asset_Class.Table_Name)
+			.getPO(getA_Asset_Class_ID(), get_TrxName());	}
+
+	/** Set Asset class.
+		@param A_Asset_Class_ID Asset class	  */
+	public void setA_Asset_Class_ID (int A_Asset_Class_ID)
+	{
+		if (A_Asset_Class_ID < 1) 
+			set_Value (COLUMNNAME_A_Asset_Class_ID, null);
+		else 
+			set_Value (COLUMNNAME_A_Asset_Class_ID, Integer.valueOf(A_Asset_Class_ID));
+	}
+
+	/** Get Asset class.
+		@return Asset class	  */
+	public int getA_Asset_Class_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Class_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Create Date.
+		@param A_Asset_CreateDate Create Date	  */
 	public void setA_Asset_CreateDate (Timestamp A_Asset_CreateDate)
 	{
 		set_ValueNoCheck (COLUMNNAME_A_Asset_CreateDate, A_Asset_CreateDate);
 	}
 
-	/** Get Asset Creation Date.
-		@return Asset Creation Date	  */
+	/** Get Create Date.
+		@return Create Date	  */
 	public Timestamp getA_Asset_CreateDate () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_A_Asset_CreateDate);
@@ -148,43 +252,71 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Asset Reval. Date.
-		@param A_Asset_RevalDate Asset Reval. Date	  */
+	/** Set Revaluation Date.
+		@param A_Asset_RevalDate Revaluation Date	  */
 	public void setA_Asset_RevalDate (Timestamp A_Asset_RevalDate)
 	{
 		set_Value (COLUMNNAME_A_Asset_RevalDate, A_Asset_RevalDate);
 	}
 
-	/** Get Asset Reval. Date.
-		@return Asset Reval. Date	  */
+	/** Get Revaluation Date.
+		@return Revaluation Date	  */
 	public Timestamp getA_Asset_RevalDate () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_A_Asset_RevalDate);
 	}
 
-	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
-    {
-		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
-			.getPO(getAD_User_ID(), get_TrxName());	}
-
-	/** Set Usuario.
-		@param AD_User_ID 
-		User within the system - Internal or Business Partner Contact
-	  */
-	public void setAD_User_ID (int AD_User_ID)
+	/** A_Asset_Status AD_Reference_ID=53359 */
+	public static final int A_ASSET_STATUS_AD_Reference_ID=53359;
+	/** Activated = AC */
+	public static final String A_ASSET_STATUS_Activated = "AC";
+	/** Disposed = DI */
+	public static final String A_ASSET_STATUS_Disposed = "DI";
+	/** Depreciated = DP */
+	public static final String A_ASSET_STATUS_Depreciated = "DP";
+	/** New = NW */
+	public static final String A_ASSET_STATUS_New = "NW";
+	/** Preservation = PR */
+	public static final String A_ASSET_STATUS_Preservation = "PR";
+	/** Retired = RE */
+	public static final String A_ASSET_STATUS_Retired = "RE";
+	/** Sold = SO */
+	public static final String A_ASSET_STATUS_Sold = "SO";
+	/** Set Asset Status.
+		@param A_Asset_Status Asset Status	  */
+	public void setA_Asset_Status (String A_Asset_Status)
 	{
-		if (AD_User_ID < 1) 
-			set_Value (COLUMNNAME_AD_User_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+
+		set_Value (COLUMNNAME_A_Asset_Status, A_Asset_Status);
 	}
 
-	/** Get Usuario.
-		@return User within the system - Internal or Business Partner Contact
-	  */
-	public int getAD_User_ID () 
+	/** Get Asset Status.
+		@return Asset Status	  */
+	public String getA_Asset_Status () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
+		return (String)get_Value(COLUMNNAME_A_Asset_Status);
+	}
+
+	public org.compiere.model.I_A_Asset_Type getA_Asset_Type() throws RuntimeException
+    {
+		return (org.compiere.model.I_A_Asset_Type)MTable.get(getCtx(), org.compiere.model.I_A_Asset_Type.Table_Name)
+			.getPO(getA_Asset_Type_ID(), get_TrxName());	}
+
+	/** Set Asset Type.
+		@param A_Asset_Type_ID Asset Type	  */
+	public void setA_Asset_Type_ID (int A_Asset_Type_ID)
+	{
+		if (A_Asset_Type_ID < 1) 
+			set_Value (COLUMNNAME_A_Asset_Type_ID, null);
+		else 
+			set_Value (COLUMNNAME_A_Asset_Type_ID, Integer.valueOf(A_Asset_Type_ID));
+	}
+
+	/** Get Asset Type.
+		@return Asset Type	  */
+	public int getA_Asset_Type_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Type_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -195,8 +327,8 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		return (org.compiere.model.I_A_Asset)MTable.get(getCtx(), org.compiere.model.I_A_Asset.Table_Name)
 			.getPO(getA_Parent_Asset_ID(), get_TrxName());	}
 
-	/** Set Asset ID.
-		@param A_Parent_Asset_ID Asset ID	  */
+	/** Set Parent Asset.
+		@param A_Parent_Asset_ID Parent Asset	  */
 	public void setA_Parent_Asset_ID (int A_Parent_Asset_ID)
 	{
 		if (A_Parent_Asset_ID < 1) 
@@ -205,8 +337,8 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 			set_Value (COLUMNNAME_A_Parent_Asset_ID, Integer.valueOf(A_Parent_Asset_ID));
 	}
 
-	/** Get Asset ID.
-		@return Asset ID	  */
+	/** Get Parent Asset.
+		@return Parent Asset	  */
 	public int getA_Parent_Asset_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Parent_Asset_ID);
@@ -215,15 +347,15 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Quantity.
-		@param A_QTY_Current Quantity	  */
+	/** Set Current Qty.
+		@param A_QTY_Current Current Qty	  */
 	public void setA_QTY_Current (BigDecimal A_QTY_Current)
 	{
 		set_Value (COLUMNNAME_A_QTY_Current, A_QTY_Current);
 	}
 
-	/** Get Quantity.
-		@return Quantity	  */
+	/** Get Current Qty.
+		@return Current Qty	  */
 	public BigDecimal getA_QTY_Current () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_QTY_Current);
@@ -232,21 +364,35 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		return bd;
 	}
 
-	/** Set Original Qty.
-		@param A_QTY_Original Original Qty	  */
+	/** Set A_QTY_Original.
+		@param A_QTY_Original A_QTY_Original	  */
 	public void setA_QTY_Original (BigDecimal A_QTY_Original)
 	{
 		set_Value (COLUMNNAME_A_QTY_Original, A_QTY_Original);
 	}
 
-	/** Get Original Qty.
-		@return Original Qty	  */
+	/** Get A_QTY_Original.
+		@return A_QTY_Original	  */
 	public BigDecimal getA_QTY_Original () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_QTY_Original);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set Activation Date.
+		@param AssetActivationDate Activation Date	  */
+	public void setAssetActivationDate (Timestamp AssetActivationDate)
+	{
+		set_Value (COLUMNNAME_AssetActivationDate, AssetActivationDate);
+	}
+
+	/** Get Activation Date.
+		@return Activation Date	  */
+	public Timestamp getAssetActivationDate () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_AssetActivationDate);
 	}
 
 	/** Set Asset Depreciation Date.
@@ -298,6 +444,62 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 	public Timestamp getAssetServiceDate () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_AssetServiceDate);
+	}
+
+	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Activity)MTable.get(getCtx(), org.compiere.model.I_C_Activity.Table_Name)
+			.getPO(getC_Activity_ID(), get_TrxName());	}
+
+	/** Set Activity.
+		@param C_Activity_ID 
+		Business Activity
+	  */
+	public void setC_Activity_ID (int C_Activity_ID)
+	{
+		if (C_Activity_ID < 1) 
+			set_Value (COLUMNNAME_C_Activity_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Activity_ID, Integer.valueOf(C_Activity_ID));
+	}
+
+	/** Get Activity.
+		@return Business Activity
+	  */
+	public int getC_Activity_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Activity_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_BPartner getC_BPartnerSR() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
+			.getPO(getC_BPartnerSR_ID(), get_TrxName());	}
+
+	/** Set BPartner (Agent).
+		@param C_BPartnerSR_ID 
+		Business Partner (Agent or Sales Rep)
+	  */
+	public void setC_BPartnerSR_ID (int C_BPartnerSR_ID)
+	{
+		if (C_BPartnerSR_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartnerSR_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartnerSR_ID, Integer.valueOf(C_BPartnerSR_ID));
+	}
+
+	/** Get BPartner (Agent).
+		@return Business Partner (Agent or Sales Rep)
+	  */
+	public int getC_BPartnerSR_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartnerSR_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
@@ -356,37 +558,9 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_BPartner getC_BPartnerSR() throws RuntimeException
+	public I_C_Location getC_Location() throws RuntimeException
     {
-		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
-			.getPO(getC_BPartnerSR_ID(), get_TrxName());	}
-
-	/** Set BPartner (Agent).
-		@param C_BPartnerSR_ID 
-		Business Partner (Agent or Sales Rep)
-	  */
-	public void setC_BPartnerSR_ID (int C_BPartnerSR_ID)
-	{
-		if (C_BPartnerSR_ID < 1) 
-			set_Value (COLUMNNAME_C_BPartnerSR_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_BPartnerSR_ID, Integer.valueOf(C_BPartnerSR_ID));
-	}
-
-	/** Get BPartner (Agent).
-		@return Business Partner (Agent or Sales Rep)
-	  */
-	public int getC_BPartnerSR_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartnerSR_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.compiere.model.I_C_Location getC_Location() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_Location)MTable.get(getCtx(), org.compiere.model.I_C_Location.Table_Name)
+		return (I_C_Location)MTable.get(getCtx(), I_C_Location.Table_Name)
 			.getPO(getC_Location_ID(), get_TrxName());	}
 
 	/** Set Address.
@@ -489,6 +663,20 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 	public String getHelp () 
 	{
 		return (String)get_Value(COLUMNNAME_Help);
+	}
+
+	/** Set Inventory No.
+		@param InventoryNo Inventory No	  */
+	public void setInventoryNo (String InventoryNo)
+	{
+		set_Value (COLUMNNAME_InventoryNo, InventoryNo);
+	}
+
+	/** Get Inventory No.
+		@return Inventory No	  */
+	public String getInventoryNo () 
+	{
+		return (String)get_Value(COLUMNNAME_InventoryNo);
 	}
 
 	/** Set Depreciate.
@@ -665,6 +853,23 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Lease Termination.
+		@param LeaseTerminationDate 
+		Lease Termination Date
+	  */
+	public void setLeaseTerminationDate (Timestamp LeaseTerminationDate)
+	{
+		set_Value (COLUMNNAME_LeaseTerminationDate, LeaseTerminationDate);
+	}
+
+	/** Get Lease Termination.
+		@return Lease Termination Date
+	  */
+	public Timestamp getLeaseTerminationDate () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_LeaseTerminationDate);
+	}
+
 	public org.compiere.model.I_C_BPartner getLease_BPartner() throws RuntimeException
     {
 		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
@@ -691,23 +896,6 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Lease Termination.
-		@param LeaseTerminationDate 
-		Lease Termination Date
-	  */
-	public void setLeaseTerminationDate (Timestamp LeaseTerminationDate)
-	{
-		set_Value (COLUMNNAME_LeaseTerminationDate, LeaseTerminationDate);
-	}
-
-	/** Get Lease Termination.
-		@return Lease Termination Date
-	  */
-	public Timestamp getLeaseTerminationDate () 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_LeaseTerminationDate);
 	}
 
 	/** Set Life use.
@@ -820,9 +1008,9 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_M_Locator getM_Locator() throws RuntimeException
+	public I_M_Locator getM_Locator() throws RuntimeException
     {
-		return (org.compiere.model.I_M_Locator)MTable.get(getCtx(), org.compiere.model.I_M_Locator.Table_Name)
+		return (I_M_Locator)MTable.get(getCtx(), I_M_Locator.Table_Name)
 			.getPO(getM_Locator_ID(), get_TrxName());	}
 
 	/** Set Locator.
@@ -860,9 +1048,9 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 	public void setM_Product_ID (int M_Product_ID)
 	{
 		if (M_Product_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
+			set_Value (COLUMNNAME_M_Product_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -874,6 +1062,40 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Manufactured Year.
+		@param ManufacturedYear Manufactured Year	  */
+	public void setManufacturedYear (int ManufacturedYear)
+	{
+		set_Value (COLUMNNAME_ManufacturedYear, Integer.valueOf(ManufacturedYear));
+	}
+
+	/** Get Manufactured Year.
+		@return Manufactured Year	  */
+	public int getManufacturedYear () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_ManufacturedYear);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Manufacturer.
+		@param Manufacturer 
+		Manufacturer of the Product
+	  */
+	public void setManufacturer (String Manufacturer)
+	{
+		set_Value (COLUMNNAME_Manufacturer, Manufacturer);
+	}
+
+	/** Get Manufacturer.
+		@return Manufacturer of the Product
+	  */
+	public String getManufacturer () 
+	{
+		return (String)get_Value(COLUMNNAME_Manufacturer);
 	}
 
 	/** Set Name.
@@ -893,25 +1115,17 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), getName());
-    }
-
-	/** Set Next Maintenance.
+	/** Set Next Maintenence.
 		@param NextMaintenenceDate 
-		Next Maintenance Date
+		Next Maintenence Date
 	  */
 	public void setNextMaintenenceDate (Timestamp NextMaintenenceDate)
 	{
 		set_Value (COLUMNNAME_NextMaintenenceDate, NextMaintenenceDate);
 	}
 
-	/** Get Next Maintenance.
-		@return Next Maintenance Date
+	/** Get Next Maintenence.
+		@return Next Maintenence Date
 	  */
 	public Timestamp getNextMaintenenceDate () 
 	{
@@ -920,7 +1134,7 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 
 	/** Set Next Unit.
 		@param NextMaintenenceUnit 
-		Next Maintenance Unit
+		Next Maintenence Unit
 	  */
 	public void setNextMaintenenceUnit (int NextMaintenenceUnit)
 	{
@@ -928,7 +1142,7 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 	}
 
 	/** Get Next Unit.
-		@return Next Maintenance Unit
+		@return Next Maintenence Unit
 	  */
 	public int getNextMaintenenceUnit () 
 	{
@@ -936,6 +1150,30 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Processed.
+		@param Processed 
+		The document has been processed
+	  */
+	public void setProcessed (boolean Processed)
+	{
+		set_Value (COLUMNNAME_Processed, Boolean.valueOf(Processed));
+	}
+
+	/** Get Processed.
+		@return The document has been processed
+	  */
+	public boolean isProcessed () 
+	{
+		Object oo = get_Value(COLUMNNAME_Processed);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Process Now.

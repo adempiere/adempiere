@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process name="PickingOrder" xmlns="http://jbpm.org/4.0/jpdl" version="1" description="Picking order are interegare with ">
+   <start name="start1" g="50,65,48,48">
+      <transition name="to Customer" to="Customer" g="-71,-19"/>
+   </start>
+   <state name="Customer" g="255,58,92,52">
+      <transition name="to Print Picking Order" to="Print Picking Order" g="-119,-19"/>
+      <transition name="to exclusive1" to="exclusive1" g="-75,-19"/>
+   </state>
+   <task name="Print Picking Order" g="225,160,156,52"/>
+   <decision name="exclusive1" g="434,56,97,48"/>
+</process>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="" vcs="hg4idea" />
+    <mapping directory="$PROJECT_DIR$/org.eevolution.hr_and_payroll" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/org.eevolution.manufacturing" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/org.eevolution.warehouse" vcs="Git" />
+  </component>
+</project>
+

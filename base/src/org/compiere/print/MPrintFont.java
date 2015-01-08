@@ -126,7 +126,7 @@ public class MPrintFont extends X_AD_PrintFont
 		name.append(" ").append(font.getSize());
 		pf.setName(name.toString());
 		pf.setFont(font);
-		pf.save();
+		pf.saveEx();
 		return pf;
 	}	//	create
 

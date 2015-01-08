@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_PaySelectionCheck
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.8.0
  */
 public interface I_HR_PaySelectionCheck 
 {
@@ -63,21 +63,6 @@ public interface I_HR_PaySelectionCheck
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_BP_BankAccount_ID */
-    public static final String COLUMNNAME_C_BP_BankAccount_ID = "C_BP_BankAccount_ID";
-
-	/** Set Partner Bank Account.
-	  * Bank Account of the Business Partner
-	  */
-	public void setC_BP_BankAccount_ID (int C_BP_BankAccount_ID);
-
-	/** Get Partner Bank Account.
-	  * Bank Account of the Business Partner
-	  */
-	public int getC_BP_BankAccount_ID();
-
-	public org.compiere.model.I_C_BP_BankAccount getC_BP_BankAccount() throws RuntimeException;
-
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 
@@ -92,6 +77,21 @@ public interface I_HR_PaySelectionCheck
 	public int getC_BPartner_ID();
 
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
+
+    /** Column name C_BP_BankAccount_ID */
+    public static final String COLUMNNAME_C_BP_BankAccount_ID = "C_BP_BankAccount_ID";
+
+	/** Set Partner Bank Account.
+	  * Bank Account of the Business Partner
+	  */
+	public void setC_BP_BankAccount_ID (int C_BP_BankAccount_ID);
+
+	/** Get Partner Bank Account.
+	  * Bank Account of the Business Partner
+	  */
+	public int getC_BP_BankAccount_ID();
+
+	public org.compiere.model.I_C_BP_BankAccount getC_BP_BankAccount() throws RuntimeException;
 
     /** Column name C_Payment_ID */
     public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
@@ -153,27 +153,19 @@ public interface I_HR_PaySelectionCheck
     /** Column name HR_PaySelectionCheck_ID */
     public static final String COLUMNNAME_HR_PaySelectionCheck_ID = "HR_PaySelectionCheck_ID";
 
-	/** Set Payroll Pay Selection Check ID.
-	  * Payroll Payment Selection Check
-	  */
+	/** Set Payroll Pay Selection Check ID	  */
 	public void setHR_PaySelectionCheck_ID (int HR_PaySelectionCheck_ID);
 
-	/** Get Payroll Pay Selection Check ID.
-	  * Payroll Payment Selection Check
-	  */
+	/** Get Payroll Pay Selection Check ID	  */
 	public int getHR_PaySelectionCheck_ID();
 
     /** Column name HR_PaySelection_ID */
     public static final String COLUMNNAME_HR_PaySelection_ID = "HR_PaySelection_ID";
 
-	/** Set Payroll Payment Selection ID.
-	  * Payroll Payment Selection
-	  */
+	/** Set Payroll Payment Selection ID	  */
 	public void setHR_PaySelection_ID (int HR_PaySelection_ID);
 
-	/** Get Payroll Payment Selection ID.
-	  * Payroll Payment Selection
-	  */
+	/** Get Payroll Payment Selection ID	  */
 	public int getHR_PaySelection_ID();
 
 	public org.eevolution.model.I_HR_PaySelection getHR_PaySelection() throws RuntimeException;

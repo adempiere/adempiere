@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Use
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_A_Asset_Use extends PO implements I_A_Asset_Use, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20150101L;
 
     /** Standard Constructor */
     public X_A_Asset_Use (Properties ctx, int A_Asset_Use_ID, String trxName)
@@ -40,6 +40,7 @@ public class X_A_Asset_Use extends PO implements I_A_Asset_Use, I_Persistent
       /** if (A_Asset_Use_ID == 0)
         {
 			setA_Asset_ID (0);
+// @A_Asset_ID@
 			setA_Asset_Use_ID (0);
 			setUseDate (new Timestamp( System.currentTimeMillis() ));
 			setUseUnits (0);
@@ -74,6 +75,11 @@ public class X_A_Asset_Use extends PO implements I_A_Asset_Use, I_Persistent
       return sb.toString();
     }
 
+	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException
+    {
+		return (org.compiere.model.I_A_Asset)MTable.get(getCtx(), org.compiere.model.I_A_Asset.Table_Name)
+			.getPO(getA_Asset_ID(), get_TrxName());	}
+
 	/** Set Asset.
 		@param A_Asset_ID 
 		Asset used internally or by customers
@@ -97,8 +103,8 @@ public class X_A_Asset_Use extends PO implements I_A_Asset_Use, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Asset Use.
-		@param A_Asset_Use_ID Asset Use	  */
+	/** Set A_Asset_Use_ID.
+		@param A_Asset_Use_ID A_Asset_Use_ID	  */
 	public void setA_Asset_Use_ID (int A_Asset_Use_ID)
 	{
 		if (A_Asset_Use_ID < 1) 
@@ -107,8 +113,8 @@ public class X_A_Asset_Use extends PO implements I_A_Asset_Use, I_Persistent
 			set_ValueNoCheck (COLUMNNAME_A_Asset_Use_ID, Integer.valueOf(A_Asset_Use_ID));
 	}
 
-	/** Get Asset Use.
-		@return Asset Use	  */
+	/** Get A_Asset_Use_ID.
+		@return A_Asset_Use_ID	  */
 	public int getA_Asset_Use_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Use_ID);

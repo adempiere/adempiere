@@ -38,6 +38,7 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.Adempiere;
 import org.compiere.db.CConnection;
@@ -774,14 +775,13 @@ public final class ALogin extends CDialog
 		// @Trifon - Set Proper "#AD_Client_ID", #AD_User_ID and "#SalesRep_ID"  
 		// https://sourceforge.net/tracker/?func=detail&aid=2957215&group_id=176962&atid=879332
 		Env.setContext(m_ctx, "#AD_Client_ID", client.getKey());
-		MUser user = MUser.get (m_ctx, userTextField.getText(), new String (passwordField.getPassword()) );
-		if (user != null) {
-			Env.setContext(m_ctx, "#AD_User_ID", user.getAD_User_ID() );
-			Env.setContext(m_ctx, "#SalesRep_ID", user.getAD_User_ID() );
-		}
+
+        KeyNamePair rolesKNPairs[] = m_login.getRoles(userTextField.getText() , new String (passwordField.getPassword()));
+        if(rolesKNPairs == null || rolesKNPairs.length == 0)
+            throw new AdempiereException("@UserPwdError@");
 		//
 		KeyNamePair[] orgs = m_login.getOrgs(client);
-		//  delete existing cleint items
+		//  delete existing client items
 		if (orgCombo.getItemCount() > 0)
 			orgCombo.removeAllItems();
 

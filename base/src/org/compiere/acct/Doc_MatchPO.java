@@ -26,16 +26,21 @@ import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAcctSchemaElement;
 import org.compiere.model.MConversionRate;
+import org.compiere.model.MCostDetail;
+import org.compiere.model.MCostElement;
+import org.compiere.model.MCostType;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInOutLine;
 import org.compiere.model.MMatchPO;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
+import org.compiere.model.MTransaction;
 import org.compiere.model.ProductCost;
 import org.compiere.model.X_M_InOut;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+
 
 /**
  *  Post MatchPO Documents.
@@ -168,13 +173,24 @@ public class Doc_MatchPO extends Doc
 		}
 
 		//	Calculate PPV for standard costing
-		MProduct product = MProduct.get(getCtx(), getM_Product_ID());
-		String costingMethod = product.getCostingMethod(as);
+		
 		//get standard cost and also make sure cost for other costing method is updated
-		BigDecimal costs = m_pc.getProductCosts(as, getAD_Org_ID(), 
-			MAcctSchema.COSTINGMETHOD_StandardCosting, m_C_OrderLine_ID, false);	//	non-zero costs
+		MProduct product = MProduct.get(getCtx(), getM_Product_ID());
+		MCostType ct =  MCostType.get(as, getM_Product_ID(), getAD_Org_ID());
+		String costingMethod = ct.getCostingMethod();
+		MInOutLine ioLine = MInOutLine.get(getCtx(), m_M_InOutLine_ID);
+		BigDecimal costs = Env.ZERO;
+		for (MTransaction trx: MTransaction.getByInOutLine(ioLine))
+		{
+		    String costingLevel = MProduct.get(getCtx(), trx.getM_Product_ID()).getCostingLevel(as, trx.getAD_Org_ID());
+		    MCostElement element = MCostElement.getByMaterialCostElementType(trx);
+		    MCostDetail cd = MCostDetail.getByTransaction(ioLine, trx, as.getC_AcctSchema_ID(), ct.getM_CostType_ID(), element.getM_CostElement_ID());
+		    if(cd != null)
+		    	costs =costs.add(MCostDetail.getTotalCost(cd, as));
 
-		if (MAcctSchema.COSTINGMETHOD_StandardCosting.equals(costingMethod))
+		}
+		
+		if (MCostType.COSTINGMETHOD_StandardCosting.equals(costingMethod))
 		{
 			//	No Costs yet - no PPV
 			if (costs == null || costs.signum() == 0)
@@ -185,7 +201,7 @@ public class Doc_MatchPO extends Doc
 			}
 	
 			//	Difference
-			BigDecimal difference = poCost.subtract(costs);
+			BigDecimal difference = poCost.subtract(costs.setScale(as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP));
 			//	Nothing to post
 			if (difference.signum() == 0)
 			{

@@ -20,7 +20,6 @@ package org.adempiere.webui.editor;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Datebox;
 import org.adempiere.webui.event.ContextMenuEvent;
 import org.adempiere.webui.event.ContextMenuListener;
@@ -28,8 +27,6 @@ import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.window.WFieldRecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.util.CLogger;
-import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 
@@ -38,7 +35,11 @@ import org.zkoss.zk.ui.event.Events;
  * @author <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
  * @date Mar 12, 2007
  * @version $Revision: 0.10 $
+ *
+ * @author	Michael McKay
+ * 				<li>release/380 - add old value comparison to support lookup/info windows
  */
+ 
 public class WDateEditor extends WEditor implements ContextMenuListener
 {
 	private static final String[] LISTENER_EVENTS = {Events.ON_CHANGE, Events.ON_OK};
@@ -52,6 +53,8 @@ public class WDateEditor extends WEditor implements ContextMenuListener
 
     private Timestamp oldValue = new Timestamp(0);
 	private WEditorPopupMenu popupMenu;
+	
+	private Object m_oldValue;
 
     /**
      *
@@ -106,7 +109,6 @@ public class WDateEditor extends WEditor implements ContextMenuListener
 
 	private void init()
 	{
-		getComponent().setFormat(DisplayType.getDateFormat(AEnv.getLanguage(Env.getCtx())).toPattern());
 		popupMenu = new WEditorPopupMenu(false, false, true);
 		popupMenu.addMenuListener(this);
 		if (gridField != null && gridField.getGridTab() != null)
@@ -210,6 +212,39 @@ public class WDateEditor extends WEditor implements ContextMenuListener
 		{
 			WFieldRecordInfo.start(gridField);
 		}
+	}
+	/**
+	 * Set the old value of the field.  For use in future comparisons.
+	 * The old value must be explicitly set though this call.
+	 * @param m_oldValue
+	 */
+	public void set_oldValue() {
+		this.m_oldValue = getValue();
+	}
+
+	/**
+	 * Get the old value of the field explicitly set in the past
+	 * @return
+	 */
+	public Object get_oldValue() {
+		return m_oldValue;
+	}
+	/**
+	 * Has the field changed over time?
+	 * @return true if the old value is different than the current.
+	 */
+	public boolean hasChanged() {
+		// Both or either could be null
+		if(getValue() != null)
+			if(m_oldValue != null)
+				return !m_oldValue.equals(getValue());
+			else
+				return true;
+		else  // getValue() is null
+			if(m_oldValue != null)
+				return true;
+			else
+				return false;
 	}
 
 }

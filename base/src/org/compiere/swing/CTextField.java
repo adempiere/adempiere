@@ -30,6 +30,10 @@ import org.adempiere.plaf.AdempierePLAF;
  *
  *  @author     Jorg Janke
  *  @version    $Id: CTextField.java,v 1.2 2006/07/30 00:52:24 jjanke Exp $
+ * 
+ * @author Michael McKay, 
+ * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
+ * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
  */
 public class CTextField extends JTextField 
 	implements CEditor, KeyListener
@@ -124,12 +128,16 @@ public class CTextField extends JTextField
 	private void init()
 	{
 		setBackground (false);
+		set_oldValue();
 	}   //  init
 
 	/*************************************************************************/
 
 	/** Mandatory (default false)   */
 	private boolean m_mandatory = false;
+	
+	/** Old value - for future comparison */
+	private Object m_oldValue;
 
 	/**
 	 *	Set Editor Mandatory
@@ -255,5 +263,39 @@ public class CTextField extends JTextField
 	public void keyTyped(KeyEvent e)
 	{
 	}	//	keyTyped
+
+	/**
+	 * Set the old value of the field.  For use in future comparisons.
+	 * The old value must be explicitly set though this call.
+	 * @param m_oldValue
+	 */
+	public void set_oldValue() {
+		this.m_oldValue = getValue();
+	}
+
+	/**
+	 * Get the old value of the field explicitly set in the past
+	 * @return
+	 */
+	public Object get_oldValue() {
+		return m_oldValue;
+	}
+	/**
+	 * Has the field changed over time?
+	 * @return true if the old value is different than the current.
+	 */
+	public boolean hasChanged() {
+		// Both or either could be null
+		if(getValue() != null)
+			if(m_oldValue != null)
+				return !m_oldValue.equals(getValue());
+			else
+				return true;
+		else  // getValue() is null
+			if(m_oldValue != null)
+				return true;
+			else
+				return false;
+	}
 
 }   //  CTextField

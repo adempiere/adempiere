@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Split
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20150101L;
 
     /** Standard Constructor */
     public X_A_Asset_Split (Properties ctx, int A_Asset_Split_ID, String trxName)
@@ -108,8 +108,8 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 		return bd;
 	}
 
-	/** Set Asset Acct..
-		@param A_Asset_Acct_ID Asset Acct.	  */
+	/** Set A_Asset_Acct_ID.
+		@param A_Asset_Acct_ID A_Asset_Acct_ID	  */
 	public void setA_Asset_Acct_ID (int A_Asset_Acct_ID)
 	{
 		if (A_Asset_Acct_ID < 1) 
@@ -118,8 +118,8 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 			set_Value (COLUMNNAME_A_Asset_Acct_ID, Integer.valueOf(A_Asset_Acct_ID));
 	}
 
-	/** Get Asset Acct..
-		@return Asset Acct.	  */
+	/** Get A_Asset_Acct_ID.
+		@return A_Asset_Acct_ID	  */
 	public int getA_Asset_Acct_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Acct_ID);
@@ -218,8 +218,8 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
         return new KeyNamePair(get_ID(), String.valueOf(getA_Asset_Split_ID()));
     }
 
-	/** Set Depreciation Workfile.
-		@param A_Depreciation_Workfile_ID Depreciation Workfile	  */
+	/** Set A_Depreciation_Workfile_ID.
+		@param A_Depreciation_Workfile_ID A_Depreciation_Workfile_ID	  */
 	public void setA_Depreciation_Workfile_ID (int A_Depreciation_Workfile_ID)
 	{
 		if (A_Depreciation_Workfile_ID < 1) 
@@ -228,8 +228,8 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 			set_ValueNoCheck (COLUMNNAME_A_Depreciation_Workfile_ID, Integer.valueOf(A_Depreciation_Workfile_ID));
 	}
 
-	/** Get Depreciation Workfile.
-		@return Depreciation Workfile	  */
+	/** Get A_Depreciation_Workfile_ID.
+		@return A_Depreciation_Workfile_ID	  */
 	public int getA_Depreciation_Workfile_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Depreciation_Workfile_ID);
@@ -272,15 +272,15 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 		return bd;
 	}
 
-	/** Set Quantity.
-		@param A_QTY_Current Quantity	  */
+	/** Set Current Qty.
+		@param A_QTY_Current Current Qty	  */
 	public void setA_QTY_Current (BigDecimal A_QTY_Current)
 	{
 		set_Value (COLUMNNAME_A_QTY_Current, A_QTY_Current);
 	}
 
-	/** Get Quantity.
-		@return Quantity	  */
+	/** Get Current Qty.
+		@return Current Qty	  */
 	public BigDecimal getA_QTY_Current () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_QTY_Current);
@@ -329,15 +329,15 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 		return (String)get_Value(COLUMNNAME_A_Split_Type);
 	}
 
-	/** Set Transfer Balance IS.
-		@param A_Transfer_Balance_IS Transfer Balance IS	  */
+	/** Set A_Transfer_Balance_IS.
+		@param A_Transfer_Balance_IS A_Transfer_Balance_IS	  */
 	public void setA_Transfer_Balance_IS (boolean A_Transfer_Balance_IS)
 	{
 		set_Value (COLUMNNAME_A_Transfer_Balance_IS, Boolean.valueOf(A_Transfer_Balance_IS));
 	}
 
-	/** Get Transfer Balance IS.
-		@return Transfer Balance IS	  */
+	/** Get A_Transfer_Balance_IS.
+		@return A_Transfer_Balance_IS	  */
 	public boolean isA_Transfer_Balance_IS () 
 	{
 		Object oo = get_Value(COLUMNNAME_A_Transfer_Balance_IS);

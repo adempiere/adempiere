@@ -73,6 +73,24 @@ public final class MCountry extends X_C_Country
 	}	//	get
 
 	/**
+	 * 	Get Country using ISO code
+	 *	@param ctx Context
+	 *	@param ISOcode	Iso code
+	 *	@return MCountry
+	 */
+	public static MCountry get (Properties ctx, String ISOcode)
+	{
+
+		MCountry retValue = null;
+		//	Try database
+		Query query = new Query(ctx, I_C_Country.Table_Name, "CountryCode=?", null);
+		query.setParameters(ISOcode);
+		retValue = (MCountry)query.firstOnly();
+		
+		return retValue;
+	}	
+	
+	/**
 	 * 	Get Default Country
 	 * 	@param ctx context
 	 *	@return Country
@@ -371,7 +389,7 @@ public final class MCountry extends X_C_Country
 			mc.setCountryCode(cc);
 			mc.setName(name);
 			mc.setDescription(name);
-			mc.save();
+			mc.saveEx();
 		}
 		**/
 	}	//	main

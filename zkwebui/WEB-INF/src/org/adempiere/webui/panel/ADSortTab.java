@@ -26,6 +26,9 @@ import java.util.Set;
 import java.util.logging.Level;
 
 import org.adempiere.webui.component.Button;
+import org.adempiere.webui.component.CWindowToolbar;
+import org.adempiere.webui.component.Grid;
+import org.adempiere.webui.component.GridPanel;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.ListHead;
 import org.adempiere.webui.component.ListHeader;
@@ -33,16 +36,25 @@ import org.adempiere.webui.component.ListItem;
 import org.adempiere.webui.component.Listbox;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.SimpleListModel;
+import org.adempiere.webui.panel.ADTabPanel.EmbeddedPanel;
+import org.adempiere.webui.panel.ADTabPanel.HorizontalEmbeddedPanel;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.GridTab;
+import org.compiere.model.MColumn;
+import org.compiere.model.MLookupFactory;
 import org.compiere.model.MRole;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.compiere.util.Language;
 import org.compiere.util.Msg;
 import org.compiere.util.NamePair;
 import org.zkoss.zhtml.Span;
 import org.zkoss.zk.au.out.AuFocus;
+import org.zkoss.zk.ui.HtmlBasedComponent;
 import org.zkoss.zk.ui.event.DropEvent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -63,10 +75,12 @@ import org.zkoss.zul.event.ListDataEvent;
  * @author victor.perez@e-evolution.com, e-Evolution
  * 				FR [ 2826406 ] The Tab Sort without parent column
  *				<li> https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2826406&group_id=176962
+ *              <li>Implement embedded or horizontal tab panel https://adempiere.atlassian.net/browse/ADEMPIERE-319
+ *              <li>New ADempiere 3.8.0 ZK Theme Light  https://adempiere.atlassian.net/browse/ADEMPIERE-320
  * Zk Port
  * @author Low Heng Sin
  */
-public class ADSortTab extends Panel implements IADTabpanel
+public class ADSortTab extends Panel implements IADTabPanel
 {
 
 	private static final long serialVersionUID = 4289328613547509587L;
@@ -109,6 +123,10 @@ public class ADSortTab extends Panel implements IADTabpanel
 	private Button bRemove = new Button();
 	private Button bUp = new Button();
 	private Button bDown = new Button();
+	
+	private CWindowToolbar globalToolbar;
+
+    private boolean isEmbedded = false;
 	//
 	SimpleListModel noModel = new SimpleListModel() {
 		/**
@@ -214,7 +232,7 @@ public class ADSortTab extends Panel implements IADTabpanel
 					boolean isTranslated = trl && "Y".equals(rs.getString(8));
 					if (identifierSql.length() > 0)
 						identifierSql.append(",");
-					identifierSql.append(isTranslated ? "tt." : "t.").append(rs.getString(3));
+					identifierSql.append(getIdentifier(rs.getString(1), rs.getString(3), rs.getInt(2),isTranslated));
 					identifiersCount++;
 //					m_IdentifierColumnName = rs.getString(3);
 					if (isTranslated)
@@ -244,6 +262,33 @@ public class ADSortTab extends Panel implements IADTabpanel
 		noLabel.setValue(Msg.getMsg(Env.getCtx(), "Available"));
 		log.fine(m_ColumnSortName);
 	}	//	dynInit
+	
+	/**
+	 * get Identifier
+	 * @param tableName
+	 * @param columnName
+	 * @param AD_Column_ID
+	 * @param isTranslated
+	 * @return Sql
+	 */
+	private String getIdentifier (String tableName, String columnName,Integer AD_Column_ID, boolean isTranslated)
+	{
+		Language language = Language.getLanguage(Env
+				.getAD_Language(Env.getCtx()));
+		StringBuilder sql = new StringBuilder("");
+		MColumn column = MColumn.get(Env.getCtx(), AD_Column_ID);
+		if(DisplayType.TableDir == column.getAD_Reference_ID() || DisplayType.Search == column.getAD_Reference_ID())
+			sql.append("(").append(MLookupFactory.getLookup_TableDirEmbed(language, columnName, "t")).append(")");
+		else if (DisplayType.Table == column.getAD_Reference_ID())
+			sql.append("(").append(MLookupFactory.getLookup_TableEmbed(language, column.getColumnName(), "t", column.getAD_Reference_Value_ID())).append(")");
+		else if(DisplayType.List == column.getAD_Reference_ID())
+			sql.append("(").append(MLookupFactory.getLookup_ListEmbed(language, column.getAD_Reference_Value_ID(), columnName)).append(")");
+		else 
+			sql.append(isTranslated ? "tt." : "t.").append(columnName);
+		
+		return sql.toString();
+	}
+
 
 	/**
 	 * 	Static Layout
@@ -628,7 +673,7 @@ public class ADSortTab extends Panel implements IADTabpanel
 		log.fine("");
 		boolean ok = true;
 		StringBuffer info = new StringBuffer();
-		StringBuffer sql = null;
+		MTable table = MTable.get(Env.getCtx(), m_AD_Table_ID);
 		//	noList - Set SortColumn to null and optional YesNo Column to 'N'
 		for (int i = 0; i < noModel.getSize(); i++)
 		{
@@ -638,13 +683,12 @@ public class ADSortTab extends Panel implements IADTabpanel
 			if(pp.getSortNo() == 0 && (m_ColumnYesNoName == null || !pp.isYes()))
 				continue; // no changes
 			//
-			sql = new StringBuffer();
-			sql.append("UPDATE ").append(m_TableName)
-			.append(" SET ").append(m_ColumnSortName).append("=0");
-			if (m_ColumnYesNoName != null)
-				sql.append(",").append(m_ColumnYesNoName).append("='N'");
-			sql.append(" WHERE ").append(m_KeyColumnName).append("=").append(pp.getKey());
-			if (DB.executeUpdate(sql.toString(), null) == 1) {
+			
+			PO po = table.getPO(pp.getKey(), null);
+			po.set_ValueOfColumn(m_ColumnSortName, 0);
+			po.set_ValueOfColumn(m_ColumnYesNoName, false);
+			
+			if (po.save()) {
 				pp.setSortNo(0);
 				pp.setIsYes(false);
 			}
@@ -667,13 +711,12 @@ public class ADSortTab extends Panel implements IADTabpanel
 			if(pp.getSortNo() == index && (m_ColumnYesNoName == null || pp.isYes()))
 				continue; // no changes
 			//
-			sql = new StringBuffer();
-			sql.append("UPDATE ").append(m_TableName)
-			.append(" SET ").append(m_ColumnSortName).append("=").append(index);
-			if (m_ColumnYesNoName != null)
-				sql.append(",").append(m_ColumnYesNoName).append("='Y'");
-			sql.append(" WHERE ").append(m_KeyColumnName).append("=").append(pp.getKey());
-			if (DB.executeUpdate(sql.toString(), null) == 1) {
+
+			PO po = table.getPO(pp.getKey(), null);
+			po.set_ValueOfColumn(m_ColumnSortName, index);
+			po.set_ValueOfColumn(m_ColumnYesNoName, true);
+			
+			if (po.save()) {
 				pp.setSortNo(index);
 				pp.setIsYes(true);
 			}
@@ -902,5 +945,69 @@ public class ADSortTab extends Panel implements IADTabpanel
 	public boolean onEnterKey() {
 		return false;
 	}
+
+	public CWindowToolbar getGlobalToolbar()
+	{
+		return globalToolbar;
+	}
+	
+	public void setGlobalToolbar(CWindowToolbar globalToolbar) {
+		this.globalToolbar = globalToolbar;
+	}
+
+	public void setUnselected(IADTabPanel panel)
+    {
+    	((HtmlBasedComponent)this).setStyle("border:none;");
+		
+		this.setWidth("100%");
+		this.setHeight("100%");
+		
+    }
+    
+    public void setSelected(IADTabPanel panel)
+    {
+    	getGlobalToolbar().setCurrentPanel(panel);
+    	((HtmlBasedComponent)this).setStyle("border-left: 7px solid #fa962f; border-top: 1px solid #fa962f; border-bottom: 1px solid #fa962f; border-right: 1px solid #fa962f;");		
+		this.setWidth("99%");
+		this.setHeight("98%");
+    }
+
+	@Override
+	public Grid getGrid() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<EmbeddedPanel> getIncludedPanel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<HorizontalEmbeddedPanel> getHorizontalIncludedPanel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public int getWindowNo() {
+		// TODO Auto-generated method stub
+		return m_WindowNo;
+	}
+
+	@Override
+	public GridPanel getListPanel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+    public void setIsEmbedded(boolean isEmbedded)
+    {
+        this.isEmbedded=isEmbedded;
+    }
+
+    public boolean isEmbedded()
+    {
+        return isEmbedded;
+    }
 }	//ADSortTab
 
