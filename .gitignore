@@ -31,6 +31,8 @@ sqlj/sqlj.jar
 webCM/deploy/
 zkwebui/dist/
 zkwebui/WEB-INF/classes/
+org.adempiere.webservice/WEB-INF/classes/
+org.adempiere.webservice/dist
 
 syntax: glob
 build
