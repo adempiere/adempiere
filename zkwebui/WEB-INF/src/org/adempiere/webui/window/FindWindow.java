@@ -62,6 +62,7 @@ import org.adempiere.webui.component.Window;
 import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WNumberEditor;
 import org.adempiere.webui.editor.WStringEditor;
+import org.adempiere.webui.editor.WTableDirEditor;
 import org.adempiere.webui.editor.WebEditorFactory;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
@@ -1560,6 +1561,11 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
         editor.setReadWrite(enabled);
         editor.setVisible(enabled);
         editor.dynamicDisplay();
+        // Table Direct Editors don't update the lookups if not read enabled
+        // So we have to do this after setting the ReadWrite
+        if (enabled && editor instanceof WTableDirEditor) {
+        	((WTableDirEditor) editor).actionRefresh();
+        }
         //
         return editor.getComponent();
 
