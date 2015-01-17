@@ -53,6 +53,7 @@ import org.compiere.grid.GridController;
 import org.compiere.model.DataStatusEvent;
 import org.compiere.model.DataStatusListener;
 import org.compiere.model.GridField;
+import org.compiere.model.GridFieldVO;
 import org.compiere.model.GridTab;
 import org.compiere.model.GridWindow;
 import org.compiere.model.GridWindowVO;
@@ -420,12 +421,18 @@ public final class VAccountDialog extends CDialog
 			{
 				GridField field = m_mTab.getField("User1_ID");
 				f_User1_ID = VEditorFactory.getEditor(m_mTab, field, false);
+				GridFieldVO newFieldVO = f_User1_ID.getField().getVO();
+				newFieldVO.Header = f_User1_ID.getName();
+				field = new GridField (newFieldVO);
 				addLine(field, f_User1_ID, isMandatory);
 			}
 			else if (type.equals(MAcctSchemaElement.ELEMENTTYPE_UserList2))
 			{
 				GridField field = m_mTab.getField("User2_ID");
 				f_User2_ID = VEditorFactory.getEditor(m_mTab, field, false);
+				GridFieldVO newFieldVO = f_User2_ID.getField().getVO();
+				newFieldVO.Header = f_User2_ID.getName();
+				field = new GridField (newFieldVO);
 				addLine(field, f_User2_ID, isMandatory);
 			}
 		}	//	Create Fields in Element Order
@@ -469,7 +476,7 @@ public final class VAccountDialog extends CDialog
 	}	//	initAccount
 
 	/**
-	 *	Add Editor to parameterPanel alernative right/left depending on m_newRow.
+	 *	Add Editor to parameterPanel alternative right/left depending on m_newRow.
 	 *  Field Value changes update Editors
 	 *  @param field field
 	 *  @param editor editor
