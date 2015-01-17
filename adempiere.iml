@@ -46,6 +46,7 @@
       <sourceFolder url="file://$MODULE_DIR$/org.eevolution.warehouse/src/main/java/base" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/org.adempiere.asset/src/main/java/base" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/org.adempiere.webservice/WEB-INF/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/com.kkalice.adempiere.migrate/src" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="inheritedJdk" />
