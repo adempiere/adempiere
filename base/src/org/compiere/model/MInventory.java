@@ -471,14 +471,14 @@ public class MInventory extends X_M_Inventory implements DocAction
 								m_processMsg = "Transaction not inserted(2)";
 								return DocAction.STATUS_Invalid;
 							}
-							if(QtyMA.signum() != 0)
+							/*if(QtyMA.signum() != 0)
 							{	
 								String err = createCostDetail(line, ma.getM_AttributeSetInstance_ID() , QtyMA.negate());
 								if (err != null && err.length() > 0) {
 									m_processMsg = err;
 									return DocAction.STATUS_Invalid;
 								}
-							}
+							}*/
 							
 							qtyDiff = QtyNew;						
 
@@ -530,14 +530,14 @@ public class MInventory extends X_M_Inventory implements DocAction
 						return DocAction.STATUS_Invalid;
 					}
 					
-					if(qtyDiff.signum() != 0)
+					/*if(qtyDiff.signum() != 0)
 					{	
 						String err = createCostDetail(line, line.getM_AttributeSetInstance_ID(), qtyDiff);
 						if (err != null && err.length() > 0) {
 							m_processMsg = err;
 							return DocAction.STATUS_Invalid;
 						}
-					}
+					}*/
 				}	//	Fallback
 			}	//	stock movement
 
@@ -945,6 +945,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 	 * @param Qty
 	 * @return an EMPTY String on success otherwise an ERROR message
 	 */
+	/*
 	private String createCostDetail(MInventoryLine line, int M_AttributeSetInstance_ID, BigDecimal qty)
 	{
 		// Get Account Schemas to create MCostDetail
@@ -991,6 +992,33 @@ public class MInventory extends X_M_Inventory implements DocAction
 		}
 		
 		return "";
+	}*/
+
+	//if isReversal CostDetail is created from CostDetail of original document 
+	// is made a new CostDetail where Amt and Qty are negate
+	private void createCostDetail(MTransaction trx, int reversalLine_ID) {
+			
+		String whereClause = MCostDetail.COLUMNNAME_M_InventoryLine_ID+"=?"
+		                                 +" AND "+MCostDetail.COLUMNNAME_M_AttributeSetInstance_ID+"=?";
+		List<MCostDetail> list = new Query(trx.getCtx(), MCostDetail.Table_Name, whereClause, trx.get_TrxName())
+		                      .setParameters(new Object[]{reversalLine_ID, trx.getM_AttributeSetInstance_ID()})
+		                      .list();
+		
+		MCostDetail cdnew = null;
+		for (MCostDetail cd : list)
+		{
+			cdnew = new MCostDetail(trx.getCtx(), 0, trx.get_TrxName());
+			copyValues((PO) cd, cdnew);
+			cdnew.setProcessed(false);
+			cdnew.setM_AttributeSetInstance_ID(cd.getM_AttributeSetInstance_ID());
+			cdnew.setM_InventoryLine_ID(trx.getM_InventoryLine_ID());
+			cdnew.setM_Product_ID(cd.getM_Product_ID());
+			cdnew.setAmt(cd.getAmt().negate());
+			cdnew.setQty(cd.getQty().negate());
+			cdnew.saveEx();
+			cdnew.process();
+		}
+		
 	}
 
 	/**

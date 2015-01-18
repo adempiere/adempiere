@@ -103,6 +103,7 @@ public class RfQCreate extends SvrProcess
 			counter++;
 			if (p_IsSendRfQ)
 			{
+				commitEx();
 				if (response.sendRfQ())
 					sent++;
 				else

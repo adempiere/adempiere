@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Info_Fin
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0
  */
 public interface I_A_Asset_Info_Fin 
 {
@@ -35,42 +35,11 @@ public interface I_A_Asset_Info_Fin
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
-    /** AccessLevel = 7 - System - Client - Org 
+    /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(7);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
-
-    /** Column name A_Asset_ID */
-    public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
-
-	/** Set Asset.
-	  * Asset used internally or by customers
-	  */
-	public void setA_Asset_ID (int A_Asset_ID);
-
-	/** Get Asset.
-	  * Asset used internally or by customers
-	  */
-	public int getA_Asset_ID();
-
-    /** Column name A_Asset_Info_Fin_ID */
-    public static final String COLUMNNAME_A_Asset_Info_Fin_ID = "A_Asset_Info_Fin_ID";
-
-	/** Set Asset Info Fin.	  */
-	public void setA_Asset_Info_Fin_ID (int A_Asset_Info_Fin_ID);
-
-	/** Get Asset Info Fin.	  */
-	public int getA_Asset_Info_Fin_ID();
-
-    /** Column name A_Contract_Date */
-    public static final String COLUMNNAME_A_Contract_Date = "A_Contract_Date";
-
-	/** Set Contract Date	  */
-	public void setA_Contract_Date (Timestamp A_Contract_Date);
-
-	/** Get Contract Date	  */
-	public Timestamp getA_Contract_Date();
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -93,40 +62,73 @@ public interface I_A_Asset_Info_Fin
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name A_Asset_ID */
+    public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
+
+	/** Set Asset.
+	  * Asset used internally or by customers
+	  */
+	public void setA_Asset_ID (int A_Asset_ID);
+
+	/** Get Asset.
+	  * Asset used internally or by customers
+	  */
+	public int getA_Asset_ID();
+
+	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException;
+
+    /** Column name A_Asset_Info_Fin_ID */
+    public static final String COLUMNNAME_A_Asset_Info_Fin_ID = "A_Asset_Info_Fin_ID";
+
+	/** Set Asset Info Financial ID	  */
+	public void setA_Asset_Info_Fin_ID (int A_Asset_Info_Fin_ID);
+
+	/** Get Asset Info Financial ID	  */
+	public int getA_Asset_Info_Fin_ID();
+
+    /** Column name A_Contract_Date */
+    public static final String COLUMNNAME_A_Contract_Date = "A_Contract_Date";
+
+	/** Set Contract Date	  */
+	public void setA_Contract_Date (Timestamp A_Contract_Date);
+
+	/** Get Contract Date	  */
+	public Timestamp getA_Contract_Date();
+
     /** Column name A_Due_On */
     public static final String COLUMNNAME_A_Due_On = "A_Due_On";
 
-	/** Set Payment Due Date	  */
+	/** Set Asset Due On	  */
 	public void setA_Due_On (String A_Due_On);
 
-	/** Get Payment Due Date	  */
+	/** Get Asset Due On	  */
 	public String getA_Due_On();
 
     /** Column name A_Expired_Date */
     public static final String COLUMNNAME_A_Expired_Date = "A_Expired_Date";
 
-	/** Set Contract Expiration Date	  */
+	/** Set Asset Expired Date	  */
 	public void setA_Expired_Date (Timestamp A_Expired_Date);
 
-	/** Get Contract Expiration Date	  */
+	/** Get Asset Expired Date	  */
 	public Timestamp getA_Expired_Date();
 
     /** Column name A_Finance_Meth */
     public static final String COLUMNNAME_A_Finance_Meth = "A_Finance_Meth";
 
-	/** Set Finance Method	  */
+	/** Set Asset Finance Method	  */
 	public void setA_Finance_Meth (String A_Finance_Meth);
 
-	/** Get Finance Method	  */
+	/** Get Asset Finance Method	  */
 	public String getA_Finance_Meth();
 
     /** Column name A_Monthly_Payment */
     public static final String COLUMNNAME_A_Monthly_Payment = "A_Monthly_Payment";
 
-	/** Set Monthly Payment	  */
+	/** Set Asset Monthly Payment	  */
 	public void setA_Monthly_Payment (BigDecimal A_Monthly_Payment);
 
-	/** Get Monthly Payment	  */
+	/** Get Asset Monthly Payment	  */
 	public BigDecimal getA_Monthly_Payment();
 
     /** Column name A_Purchase_Option */
@@ -159,10 +161,10 @@ public interface I_A_Asset_Info_Fin
     /** Column name A_Purchase_Price */
     public static final String COLUMNNAME_A_Purchase_Price = "A_Purchase_Price";
 
-	/** Set Option Purchase Price	  */
+	/** Set Purchase Price	  */
 	public void setA_Purchase_Price (BigDecimal A_Purchase_Price);
 
-	/** Get Option Purchase Price	  */
+	/** Get Purchase Price	  */
 	public BigDecimal getA_Purchase_Price();
 
     /** Column name C_BPartner_ID */
@@ -177,6 +179,8 @@ public interface I_A_Asset_Info_Fin
 	  * Identifies a Business Partner
 	  */
 	public int getC_BPartner_ID();
+
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -206,6 +210,19 @@ public interface I_A_Asset_Info_Fin
 	  * The record is active in the system
 	  */
 	public boolean isActive();
+
+    /** Column name Processed */
+    public static final String COLUMNNAME_Processed = "Processed";
+
+	/** Set Processed.
+	  * The document has been processed
+	  */
+	public void setProcessed (boolean Processed);
+
+	/** Get Processed.
+	  * The document has been processed
+	  */
+	public boolean isProcessed();
 
     /** Column name TextMsg */
     public static final String COLUMNNAME_TextMsg = "TextMsg";

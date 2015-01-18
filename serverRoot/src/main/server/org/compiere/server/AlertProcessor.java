@@ -111,7 +111,7 @@ public class AlertProcessor extends AdempiereServer
 		pLog.setReference("#" + String.valueOf(p_runCount) 
 			+ " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
 		pLog.setTextMsg(m_errors.toString());
-		pLog.save();
+		pLog.saveEx();
 	}	//	doWork
 
 	/**
@@ -154,7 +154,7 @@ public class AlertProcessor extends AdempiereServer
 					rule.setErrorMsg("Pre=" + error.getName());
 					m_errors.append("Pre=" + error.getName());
 					rule.setIsValid(false);
-					rule.save();
+					rule.saveEx();
 					valid = false;
 					break;
 				}
@@ -180,7 +180,7 @@ public class AlertProcessor extends AdempiereServer
 				rule.setErrorMsg("Select=" + e.getLocalizedMessage());
 				m_errors.append("Select=" + e.getLocalizedMessage());
 				rule.setIsValid(false);
-				rule.save();
+				rule.saveEx();
 				valid = false;
 				break;
 			}
@@ -196,7 +196,7 @@ public class AlertProcessor extends AdempiereServer
 					rule.setErrorMsg("Post=" + error.getName());
 					m_errors.append("Post=" + error.getName());
 					rule.setIsValid(false);
-					rule.save();
+					rule.saveEx();
 					valid = false;
 					break;
 				}
@@ -218,7 +218,7 @@ public class AlertProcessor extends AdempiereServer
 		if (!valid)
 		{
 			alert.setIsValid(false);
-			alert.save();
+			alert.saveEx();
 			return false;
 		}
 		

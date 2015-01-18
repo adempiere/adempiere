@@ -95,7 +95,7 @@ public class ADButtonTabList extends Panel implements IADTabList, EventListener 
 				}
 			}
 
-			String style = (tabPlacement == IADTab.LEFT ? "margin-left:" : "margin-right:") + (tabLabel.tabLevel*15+5) + "px";
+			String style = (tabPlacement == IADTab.LEFT ? "margin-left:" : "margin-right:") + (tabLabel.tabLevel*10+5) + "px";
 			if (button.isVisible()) {
 				int width = tabLabel.label.length() * 10 + 20;
 				if (width > tabWidth)
@@ -109,14 +109,14 @@ public class ADButtonTabList extends Panel implements IADTabList, EventListener 
 		}
 
 		//set width
-		if (tabWidth > 190)
-			tabWidth = 190;
+		if (tabWidth > 105)
+			tabWidth = 105;
 		for (int i = 0; i < items.length; i++) {
 			ADTabLabel tabLabel = (ADTabLabel) items[i];
 			Button button = btnList.get(i);
 			if (!button.isVisible())
 				continue;
-			String width = (tabWidth - tabLabel.tabLevel*15)+"px";
+			String width = (tabWidth - tabLabel.tabLevel*10)+"px";
 			button.setStyle(button.getStyle() + "; display: block; width:" + width);
 		}
 	}

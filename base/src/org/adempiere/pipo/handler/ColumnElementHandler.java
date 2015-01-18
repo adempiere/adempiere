@@ -107,8 +107,8 @@ public class ColumnElementHandler extends AbstractElementHandler {
 			m_Column.setAD_Process_ID(AD_Process_ID);
 			//
 			String Name = atts.getValue("ADReferenceNameID");
-			id = get_IDWithColumn(ctx, "AD_Reference", "Name", Name);
-			m_Column.setAD_Reference_ID(id);
+			int referenceId = get_IDWithColumn(ctx, "AD_Reference", "Name", Name);
+			m_Column.setAD_Reference_ID(referenceId);
 			// log.info("Column ID ->"+id);
 			Name = atts.getValue("ADTableNameID");
 			id = get_IDWithColumn(ctx, "AD_Table", "TableName", Name);
@@ -117,9 +117,13 @@ public class ColumnElementHandler extends AbstractElementHandler {
 			Name = atts.getValue("ADValRuleNameID");
 			id = get_IDWithColumn(ctx, "AD_Val_Rule", "Name", Name);
 			m_Column.setAD_Val_Rule_ID(id);
-			Name = atts.getValue("ADReferenceNameValueID");
-			id = get_IDWithColumn(ctx, "AD_Reference", "Name", Name);
-			m_Column.setAD_Reference_Value_ID(id);
+            //Validate that reference id is for Table or List
+            if (DisplayType.Table == referenceId || DisplayType.List == referenceId || DisplayType.Search == referenceId)
+            {
+                Name = atts.getValue("ADReferenceNameValueID");
+                id = get_IDWithColumn(ctx, "AD_Reference", "Name", Name);
+                m_Column.setAD_Reference_Value_ID(id);
+            }
 			m_Column.setCallout(getStringValue(atts, "Callout"));
 			m_Column.setColumnSQL(getStringValue(atts, "ColumnSQL"));
 

@@ -186,7 +186,7 @@ public class ExpenseAPInvoice extends SvrProcess
 						new IllegalStateException("Cannot save Invoice Line");
 					//	Update TEL
 					line.setC_InvoiceLine_ID(il.getC_InvoiceLine_ID());
-					line.save();
+					line.saveEx();
 				}	//	for all expense lines
 			}								//	********* Expense Line Loop
  		}

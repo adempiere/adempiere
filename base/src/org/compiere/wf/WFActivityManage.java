@@ -111,7 +111,7 @@ public class WFActivityManage extends SvrProcess
 				msg += " - " + msg1;
 		}
 		//
-		activity.save();
+		activity.saveEx();
 		
 		return msg;
 	}	//	doIt

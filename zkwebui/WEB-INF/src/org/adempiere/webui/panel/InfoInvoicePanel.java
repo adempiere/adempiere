@@ -19,43 +19,38 @@ package org.adempiere.webui.panel;
 
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.Date;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
 
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Checkbox;
 import org.adempiere.webui.component.Datebox;
-import org.adempiere.webui.component.Grid;
-import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.NumberBox;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
+import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.editor.WSearchEditor;
-import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
-import org.adempiere.webui.event.WTableModelEvent;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
-import org.compiere.model.MLookup;
+import org.compiere.model.MColumn;
+import org.compiere.model.MInvoice;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MQuery;
+import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
-import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
+import org.compiere.util.Trx;
 import org.compiere.util.Util;
-import org.zkoss.zk.ui.WrongValueException;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
-import org.zkoss.zul.Div;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Hbox;
-import org.zkoss.zul.Separator;
-import org.zkoss.zul.Vbox;
 
 /**
  * Search Invoice and return selection
@@ -66,7 +61,10 @@ import org.zkoss.zul.Vbox;
  * Zk Port
  * @author Elaine
  * @version	InfoInvoice.java Adempiere Swing UI 3.4.1 
- **/
+ * 
+ * @author Michael McKay, ADEMPIERE-72 VLookup and Info Window improvements
+ * 	<li>https://adempiere.atlassian.net/browse/ADEMPIERE-72
+*/
 public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
 {
     /**
@@ -82,10 +80,10 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
      * @param whereClause where clause
     *
      */
-    protected InfoInvoicePanel(int WindowNo, String value,
+    protected InfoInvoicePanel(int WindowNo, int record_id, String value,
             boolean multiSelection, String whereClause)
     {
-    	this(WindowNo, value, multiSelection, whereClause, true);
+    	this(WindowNo, true, record_id, value, multiSelection, true, whereClause);
     }
     
 	/**
@@ -96,430 +94,518 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
      * @param whereClause where clause
     *
      */
-    protected InfoInvoicePanel(int WindowNo, String value,
-            boolean multiSelection, String whereClause, boolean lookup)
+    protected InfoInvoicePanel(int WindowNo, boolean modal, int record_id, String value,
+            boolean multiSelection, boolean saveResults, String whereClause)
     {
-        super ( WindowNo, "i", "C_Invoice_ID", multiSelection, whereClause, lookup);
-        
+        super ( WindowNo, modal, "i", "C_Invoice_ID", multiSelection, saveResults, whereClause);       
         setTitle(Msg.getMsg(Env.getCtx(), "InfoInvoice"));
-        //
-        initComponents();
-        init();
-           
-       p_loadedOK = initInfo ();
-       int no = contentPanel.getRowCount();
-       setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
-       setStatusDB(Integer.toString(no));
-       if (value != null && value.length() > 0)
-       {
-           String values[] = value.split("_");
-           txtDocumentNo.setText(values[0]);
-           executeQuery();
-           renderItems();
-       }
+		//
+		StringBuffer where = new StringBuffer("i.IsActive='Y'");
+		if (whereClause.length() > 0)
+			where.append(" AND ").append(Util.replace(whereClause, "C_Invoice.", "i."));
+		setWhereClause(where.toString());
+		setTableLayout(s_Layout);
+		setFromClause(s_From);
+		setOrderClause(s_Order);
+		//
+		setShowTotals(true);
+		//
+		statInit();
+		initInfo (record_id, value);
+		//	AutoQuery
+		if(autoQuery() || record_id != 0 || (value != null && value.length() > 0 && value != "%"))
+		{
+    	   prepareAndExecuteQuery();
+       	}
+		//
+		p_loadedOK = true;
     }
-
+    
+    private int fieldID = 0;
     private Label lblDocumentNo;
     private Label lblDescription;
     private Label lblDateInvoiced;
     private Label lblGrandTotal;
     
-    private Textbox txtDocumentNo;
-    private Textbox txtDescription;
+    private Textbox fDocumentNo;
+    private Textbox fDescription;
     
-    private Datebox dateFrom;
-    private Datebox dateTo;
+    private Datebox fDateFrom;
+    private Datebox fDateTo;
     
-    private NumberBox amountFrom;
-    private NumberBox amountTo;
+    private NumberBox fAmtFrom;
+    private NumberBox fAmtTo;
     
-    private WSearchEditor editorBPartner;
-    private WSearchEditor editorOrder;
+    private WSearchEditor fBPartner_ID;
+    private WSearchEditor fOrder_ID;
     
-    private Checkbox isSoTrx;
-    private Checkbox isPaid;
-	private Borderlayout layout;
-	private Vbox southBody;
-    
-    /**  Array of Column Info    */
-    private static final ColumnInfo[] s_invoiceLayout = {
-        new ColumnInfo(" ", "i.C_Invoice_ID", IDColumn.class),
-        new ColumnInfo(Msg.translate(Env.getCtx(), "C_BPartner_ID"), "(SELECT Name FROM C_BPartner bp WHERE bp.C_BPartner_ID=i.C_BPartner_ID)", String.class),
-        new ColumnInfo(Msg.translate(Env.getCtx(), "DateInvoiced"), "i.DateInvoiced", Timestamp.class),
-        new ColumnInfo(Msg.translate(Env.getCtx(), "DueDate"), "i.DueDate", Timestamp.class),
-        new ColumnInfo(Msg.translate(Env.getCtx(), "DocumentNo"), "i.DocumentNo", String.class),
-        new ColumnInfo(Msg.translate(Env.getCtx(), "C_Currency_ID"), "(SELECT ISO_Code FROM C_Currency c WHERE c.C_Currency_ID=i.C_Currency_ID)", String.class),
-        new ColumnInfo(Msg.translate(Env.getCtx(), "GrandTotal"), "i.GrandTotal",  BigDecimal.class),
-        new ColumnInfo(Msg.translate(Env.getCtx(), "ConvertedAmount"), "currencyBase(i.GrandTotal, i.C_Currency_ID, i.DateAcct, i.AD_Client_ID, i.AD_Org_ID)", BigDecimal.class),
-        new ColumnInfo(Msg.translate(Env.getCtx(), "OpenAmt"), "invoiceOpen(C_Invoice_ID,C_InvoicePaySchedule_ID)", BigDecimal.class, true, true, null),
-        new ColumnInfo(Msg.translate(Env.getCtx(), "IsPaid"), "i.IsPaid", Boolean.class),
-        new ColumnInfo(Msg.translate(Env.getCtx(), "IsSOTrx"), "i.IsSOTrx", Boolean.class),
-        new ColumnInfo(Msg.translate(Env.getCtx(), "Description"), "i.Description", String.class),
-        new ColumnInfo(Msg.translate(Env.getCtx(), "POReference"), "i.POReference", String.class),
-        new ColumnInfo("", "''", KeyNamePair.class, "i.C_InvoicePaySchedule_ID")
+    private Checkbox fIsSOTrx;
+    private Checkbox fIsPaid;
+
+	private WListbox scheduleTbl = null;
+	private String m_sqlSchedule;
+
+	private int 				m_C_Invoice_ID = 0;
+
+	/** From Clause             */
+	private static String s_From = " C_Invoice i";
+	/** Order Clause             */
+	private static String s_Order = "2,3";
+
+   /**  Array of Column Info    */
+    private static final ColumnInfo[] s_Layout = {
+		new ColumnInfo(" ", "i.C_Invoice_ID", IDColumn.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "C_BPartner_ID"), "(SELECT Name FROM C_BPartner bp WHERE bp.C_BPartner_ID=i.C_BPartner_ID)", String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "DateInvoiced"), "i.DateInvoiced", Timestamp.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "DocumentNo"), "i.DocumentNo", String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "C_Currency_ID"), "(SELECT ISO_Code FROM C_Currency c WHERE c.C_Currency_ID=i.C_Currency_ID)", String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "GrandTotal"), "i.GrandTotal",  BigDecimal.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "ConvertedAmount"), "currencyBase(i.GrandTotal, i.C_Currency_ID, i.DateAcct, i.AD_Client_ID, i.AD_Org_ID)", BigDecimal.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "OpenAmt"), "invoiceOpen(C_Invoice_ID,0)", BigDecimal.class, true, true, null),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "C_PaymentTerm_ID"), "(SELECT pt.Name FROM C_PaymentTerm pt WHERE pt.C_PaymentTerm_ID = i.C_PaymentTerm_ID)", String.class),		
+		new ColumnInfo(Msg.translate(Env.getCtx(), "IsPaid"), "i.IsPaid", Boolean.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "IsSOTrx"), "i.IsSOTrx", Boolean.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "Description"), "i.Description", String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "POReference"), "i.POReference", String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "DocStatus"), "i.docstatus", String.class),
     };
-    
-    private static int INDEX_PAYSCHEDULE = s_invoiceLayout.length - 1;  //  last item
-   
+
+	//  Invoice payment schedule info
+	/** From Clause             */
+	private static String s_subFrom = " C_Invoice_v i";
+    /** Where Clause						*/
+    private static String s_subWhere = "i.C_Invoice_ID = ?";
+	/**  Array of Column Info    */
+    private static ColumnInfo[] s_subLayout = new ColumnInfo[] {
+		new ColumnInfo(" ", "i.C_InvoicePaySchedule_ID", IDColumn.class),
+		new ColumnInfo(Msg.getMsg(Env.getCtx(), "Payment #"), "(SELECT ((SELECT COUNT(C_Invoice_ID) AS payno"
+				+			   " FROM C_Invoice_V"
+				+			   " WHERE C_Invoice_ID = civ.C_Invoice_ID"
+				+			   " AND duedate <= civ.duedate"
+				+			   " GROUP BY C_Invoice_ID) || ' / ' ||"
+				+			   " (SELECT COUNT(C_Invoice_ID) as numpmts"
+				+			   " FROM C_Invoice_V"
+				+			   " WHERE C_Invoice_ID = civ.C_Invoice_ID"
+				+			   " GROUP BY C_Invoice_ID)) as numpaymts"
+				+			   " FROM C_Invoice_v civ WHERE i.C_Invoice_ID=civ.C_Invoice_ID"
+				+														" AND (i.C_InvoicePaySchedule_ID IS NULL"
+				+														" OR i.C_InvoicePaySchedule_ID = civ.C_InvoicePaySchedule_ID))", String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "DueDate"), "i.DueDate", Timestamp.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "C_Currency_ID"), "(SELECT ISO_Code FROM C_Currency c WHERE c.C_Currency_ID=i.C_Currency_ID)", String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "GrandTotal"), "i.GrandTotal",  BigDecimal.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "ConvertedAmount"), "currencyBase(i.GrandTotal, i.C_Currency_ID, i.DateAcct, i.AD_Client_ID, i.AD_Org_ID)", BigDecimal.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "OpenAmt"), "invoiceOpen(C_Invoice_ID,C_InvoicePaySchedule_ID)", BigDecimal.class, true, true, null),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "IsPaid"), "CASE WHEN invoiceOpen(C_Invoice_ID,C_InvoicePaySchedule_ID) <= 0 THEN 'Y' ELSE 'N' END", Boolean.class)
+	};
+
     private void initComponents()
     {
         lblDocumentNo = new Label(Util.cleanAmp(Msg.translate(Env.getCtx(), "DocumentNo")));
         lblDescription = new Label(Msg.translate(Env.getCtx(), "Description"));
         lblDateInvoiced = new Label(Msg.translate(Env.getCtx(), "DateInvoiced"));
         lblGrandTotal = new Label(Msg.translate(Env.getCtx(), "GrandTotal"));
-        
-        txtDocumentNo = new Textbox();
-        txtDescription = new Textbox();
-        
-        dateFrom = new Datebox();
-        dateTo= new Datebox();
-        
-        amountFrom = new NumberBox(false);
-        amountTo = new NumberBox(false);
-        
-        isPaid = new Checkbox();
-        isPaid.setLabel(Msg.translate(Env.getCtx(), "IsPaid"));
-        isPaid.setChecked(false);
-        isSoTrx = new Checkbox();
-        isSoTrx.setLabel(Msg.translate(Env.getCtx(), "IsSOTrx"));
-        isSoTrx.setChecked(!"N".equals(Env.getContext(Env.getCtx(), p_WindowNo, "IsSOTrx")));
-        MLookup lookupBP = MLookupFactory.get(Env.getCtx(), p_WindowNo,
-                0, 3499, DisplayType.Search);
-        editorBPartner = new WSearchEditor(lookupBP, Msg.translate(
-                Env.getCtx(), "C_BPartner_ID"), "", false, false, true);
-        editorBPartner.addValueChangeListener(this);
-        
-        MLookup lookupOrder = MLookupFactory.get(Env.getCtx(), p_WindowNo,
-                0, 4247, DisplayType.Search);
-        editorOrder = new WSearchEditor(lookupOrder, Msg.translate(
-                Env.getCtx(), "C_Order_ID"), "", false, false, true);
-        editorOrder.addValueChangeListener(this);
+        //
+        fDocumentNo = new Textbox();
+        fDocumentNo.addEventListener(Events.ON_CHANGE, this);
+        fDocumentNo.setAttribute("zk_component_ID", "Lookup_Criteria_DocumentNo");
+        fDescription = new Textbox();
+        fDescription.addEventListener(Events.ON_CHANGE, this);
+        fDescription.setAttribute("zk_component_ID", "Lookup_Criteria_Description");
+		// 	Format the dates and number boxes
+        fDateFrom = new Datebox();
+        fDateTo = new Datebox();
+		fDateFrom.setWidth("97px");
+		fDateTo.setWidth("97px");
+		//
+		fDateFrom.setAttribute("zk_component_ID", "Lookup_Criteria_DateFrom");
+		fDateFrom.addEventListener(Events.ON_CHANGE, this);
+		fDateTo.setAttribute("zk_component_ID", "Lookup_Criteria_DateTo");
+		fDateTo.addEventListener(Events.ON_CHANGE, this);
+		//
+		SimpleDateFormat dateFormat = DisplayType.getDateFormat(DisplayType.Date, AEnv.getLanguage(Env.getCtx()));
+		fDateFrom.setFormat(dateFormat.toPattern());
+		fDateTo.setFormat(dateFormat.toPattern());
+		//
+		DecimalFormat format = DisplayType.getNumberFormat(DisplayType.Amount, AEnv.getLanguage(Env.getCtx()));
+		fAmtFrom = new NumberBox(false);
+		fAmtFrom.getDecimalbox().setWidth("90px");
+		fAmtFrom.getDecimalbox().setFormat(format.toPattern());
+		fAmtFrom.getDecimalbox().setStyle("text-align:right; " + fAmtFrom.getDecimalbox().getStyle());
+		fAmtFrom.setAttribute("zk_component_ID", "Lookup_Criteria_AmtFrom");
+		fAmtFrom.addEventListener(Events.ON_CHANGE, this);
+		fAmtTo = new NumberBox(false);
+		fAmtTo.getDecimalbox().setWidth("90px");
+		fAmtTo.getDecimalbox().setFormat(format.toPattern());
+		fAmtTo.getDecimalbox().setStyle("text-align:right; " + fAmtTo.getDecimalbox().getStyle());
+		fAmtTo.setAttribute("zk_component_ID", "Lookup_Criteria_AmtTo");
+		fAmtTo.addEventListener(Events.ON_CHANGE, this);		
+        //
+        fIsPaid = new Checkbox();
+        fIsPaid.setLabel(Msg.translate(Env.getCtx(), "IsPaid"));
+        fIsPaid.setAttribute("zk_component_ID", "Lookup_Criteria_IsPaid");
+        fIsPaid.addActionListener(this);
+        //
+        fIsSOTrx = new Checkbox();
+        fIsSOTrx.setLabel(Msg.translate(Env.getCtx(), "IsSOTrx"));
+        fIsSOTrx.setAttribute("zk_component_ID", "Lookup_Criteria_IsSoTrx");
+        fIsSOTrx.addActionListener(this);
+        //
+		fBPartner_ID = new WSearchEditor(
+				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0,  
+						MColumn.getColumn_ID(MInvoice.Table_Name, MInvoice.COLUMNNAME_C_BPartner_ID),
+						DisplayType.Search),  
+				Msg.translate(Env.getCtx(), "C_BPartner_ID"), "", false, false, true);
+		fBPartner_ID.getComponent().setAttribute("zk_component_ID", "Lookup_Criteria_C_BPartner_ID");
+		fBPartner_ID.addValueChangeListener(this);
+        //
+        fOrder_ID = new WSearchEditor(
+        		MLookupFactory.get(Env.getCtx(), p_WindowNo,0, 
+        				MColumn.getColumn_ID(MInvoice.Table_Name, MInvoice.COLUMNNAME_C_Order_ID), 
+        				DisplayType.Search), 
+                Msg.translate(Env.getCtx(), "C_Order_ID"), "", false, false, true);
+        fOrder_ID.getComponent().setAttribute("zk_component_ID", "Lookup_Criteria_C_Order_ID");
+        fOrder_ID.addValueChangeListener(this);
     }
     
-    private void init()
+    private void statInit()
     {
-    	txtDocumentNo.setWidth("100%");
-    	txtDescription.setWidth("100%");
-    	dateFrom.setWidth("165px");
-		dateTo.setWidth("165px");
-		amountFrom.getDecimalbox().setWidth("155px");
-		amountTo.getDecimalbox().setWidth("155px");
+    	initComponents();
     	
-        Grid grid = GridFactory.newGridLayout();
-		
+    	fDocumentNo.setWidth("100%");
+    	fDescription.setWidth("100%");
+    	fDateFrom.setWidth("165px");
+		fDateTo.setWidth("165px");
+		fAmtFrom.getDecimalbox().setWidth("155px");
+		fAmtTo.getDecimalbox().setWidth("155px");
+    			
 		Rows rows = new Rows();
-		grid.appendChild(rows);
 		
 		Row row = new Row();
 		rows.appendChild(row);
 		row.appendChild(lblDocumentNo.rightAlign());
-		row.appendChild(txtDocumentNo);
-		row.appendChild(editorBPartner.getLabel().rightAlign());
-		row.appendChild(editorBPartner.getComponent());
-		row.appendChild(isSoTrx);
-		row.appendChild(isPaid);
+		row.appendChild(fDocumentNo);
+		row.appendChild(fBPartner_ID.getLabel().rightAlign());
+		row.appendChild(fBPartner_ID.getComponent());
+		row.appendChild(fIsSOTrx);
+		row.appendChild(fIsPaid);
 		
 		row = new Row();
 		row.setSpans("1, 1, 1, 3");
 		rows.appendChild(row);
 		row.appendChild(lblDescription.rightAlign());
-		row.appendChild(txtDescription);
+		row.appendChild(fDescription);
 		row.appendChild(lblDateInvoiced.rightAlign());
 		Hbox hbox = new Hbox();
-		hbox.appendChild(dateFrom);
+		hbox.appendChild(fDateFrom);
 		hbox.appendChild(new Label("-"));
-		hbox.appendChild(dateTo);
+		hbox.appendChild(fDateTo);
 		row.appendChild(hbox);
 		
 		row = new Row();
 		row.setSpans("1, 1, 1, 3");
 		rows.appendChild(row);
-		row.appendChild(editorOrder.getLabel().rightAlign());
-		row.appendChild(editorOrder.getComponent());
+		row.appendChild(fOrder_ID.getLabel().rightAlign());
+		row.appendChild(fOrder_ID.getComponent());
 		row.appendChild(lblGrandTotal.rightAlign());
 		hbox = new Hbox();
-		hbox.appendChild(amountFrom);
+		hbox.appendChild(fAmtFrom);
 		hbox.appendChild(new Label("-"));
-		hbox.appendChild(amountTo);
+		hbox.appendChild(fAmtTo);
 		row.appendChild(hbox);
+
+		p_criteriaGrid.appendChild(rows);
 		
-		layout = new Borderlayout();
-        layout.setWidth("100%");
-        layout.setHeight("100%");
-        if (!isLookup())
-        {
-        	layout.setStyle("position: absolute");
-        }
-        this.appendChild(layout);
+		scheduleTbl = new WListbox();
+		m_sqlSchedule = scheduleTbl.prepareTable(s_subLayout, s_subFrom, s_subWhere, false, "i");
+		scheduleTbl.setMultiSelection(false);
+		scheduleTbl.autoSize();
+		scheduleTbl.setAttribute("zk_component_ID", "Lookup_Data_Schedule");
+		scheduleTbl.setShowTotals(true);
 
-        North north = new North();
-        layout.appendChild(north);
-		north.appendChild(grid);
+		p_centerSouth.appendChild(scheduleTbl);
+		p_centerSouth.setTitle(Msg.translate(Env.getCtx(), "C_InvoicePaySchedule_ID"));
+		p_centerSouth.setTooltiptext(Msg.translate(Env.getCtx(), "C_InvoicePaySchedule_ID"));
 
-        Center center = new Center();
-		layout.appendChild(center);
-		center.setFlex(true);
-		Div div = new Div();
-		div.appendChild(contentPanel);
-		if (isLookup())
-			contentPanel.setWidth("99%");
-        else
-        	contentPanel.setStyle("width: 99%; margin: 0px auto;");
-        contentPanel.setVflex(true);
-		div.setStyle("width :100%; height: 100%");
-		center.appendChild(div);
-        
-		South south = new South();
-		layout.appendChild(south);
-		southBody = new Vbox();
-		southBody.setWidth("100%");
-		south.appendChild(southBody);
-		southBody.appendChild(confirmPanel);
-		southBody.appendChild(new Separator());
-		southBody.appendChild(statusBar);
+		super.setSizes();
+    }
+    
+    protected void initInfo()
+    {
+    	initInfo(0,"");
     }
     
     /**
      *  General Init
-     *  @return true, if success
      */
-    private boolean initInfo ()
+    private void initInfo (int record_id, String value)
     {
-        //  Set Defaults
-        String bp = Env.getContext(Env.getCtx(), p_WindowNo, "C_BPartner_ID");
-        if (bp != null && bp.length() != 0)
-            editorBPartner.setValue(new Integer(bp));
+		if (!(record_id == 0) && value != null && value.length() > 0)
+		{
+			log.severe("Received both a record_id and a value: " + record_id + " - " + value);
+		}
 
-        //  prepare table
-        StringBuffer where = new StringBuffer("i.IsActive='Y'");
-        if (p_whereClause.length() > 0)
-            where.append(" AND ").append(Util.replace(p_whereClause, "C_Invoice.", "i."));
-        prepareTable(s_invoiceLayout,
-            " C_Invoice_v i",   //  corrected for CM
-            where.toString(),
-            "2,3,4,5");
-        //
-        return true;
-           
+		//  Set values
+        if (!(record_id == 0))  // A record is defined
+        {
+        	fieldID = record_id;
+        	
+        	// Have to set isPaid and isSOTrx to match or the query will return no results
+			String trxName = Trx.createTrxName();
+			MInvoice mi = new MInvoice(Env.getCtx(),record_id,trxName);
+        	fIsPaid.setSelected(mi.isPaid());
+        	fIsSOTrx.setSelected(mi.isSOTrx());
+        	mi = null;
+        	Trx.get(trxName, false).close();
+        }
+        else  // Try to find other criteria in the context
+        {
+			String id;
+			
+			//  C_BPartner_ID
+			id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "C_BPartner_ID", true);
+			if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
+				fBPartner_ID.setValue(new Integer(id));
+			
+			//  C_Order_ID
+			id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "C_Order_ID", true);
+			if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
+				fOrder_ID.setValue(new Integer(id));
+
+			//  IsSOTrx - Window context
+			id = Env.getContext(Env.getCtx(), p_WindowNo, "IsSOTrx", true);
+			if (id != null && id.length() != 0 && (id == "Y" || id == "N"))
+			{
+				fIsSOTrx.setSelected(id == "Y");
+			}
+			
+			//  The value passed in from the field
+			if (value != null && value.length() > 0)
+			{
+				fDocumentNo.setValue(value);			
+			}
+			else
+			{
+				//  C_Invoice_ID
+				id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "C_Invoice_ID", true);
+				if (id != null && id.length() != 0  && (new Integer(id).intValue() > 0))
+				{
+					fieldID = new Integer(id).intValue();
+					
+		        	// Have to set isPaid and isSOTrx to match or the query will return no results
+					String trxName = Trx.createTrxName();
+					MInvoice mi = new MInvoice(Env.getCtx(),record_id,trxName);
+		        	fIsPaid.setSelected(mi.isPaid());
+		        	fIsSOTrx.setSelected(mi.isSOTrx());
+		        	mi = null;
+		        	Trx.get(trxName, false).close();
+				}				
+			}
+        }
     }   //  initInfo
-    @Override
-    public String getSQLWhere()
-    {
-        StringBuffer sql = new StringBuffer();
-        if (txtDocumentNo.getText().length() > 0)
-            sql.append(" AND UPPER(i.DocumentNo) LIKE ?");
-        if (txtDescription.getText().length() > 0)
-            sql.append(" AND UPPER(i.Description) LIKE ?");
-        //
-        if (editorBPartner.getValue() != null)
-            sql.append(" AND i.C_BPartner_ID=?");
-        //
-        if (editorOrder.getValue() != null)
-            sql.append(" AND i.C_Order_ID=?");
-        Date fromDate = null;
-        Date toDate = null;
-        try
-        {
-            fromDate = dateFrom.getValue();
-        }
-        catch (WrongValueException e)
-        {
-            
-        }
-        try
-        {
-            toDate = dateTo.getValue();
-        }
-        catch (WrongValueException e)
-        {
-            
-        }
-        if (fromDate == null && toDate != null)
-        {
-            sql.append(" AND TRUNC(i.DateInvoiced, 'DD') <= ?");
-        }
-        else if (fromDate != null && toDate == null)
-        {
-            sql.append(" AND TRUNC(i.DateInvoiced, 'DD') >= ?");
-        }
-        else if (fromDate != null && toDate != null)
-        {
-                sql.append(" AND TRUNC(i.DateInvoiced, 'DD') BETWEEN ? AND ?");
-        }
-        //
-        Double fromAmount = null;
-        Double toAmount = null;
-        if (!Util.isEmpty(amountFrom.getText()))
-        {
-            try
-            {
-                fromAmount = Double.parseDouble(amountFrom.getText());
-            }
-            catch (NumberFormatException e)
-            {
-                
-            }
-        }
-        if (!Util.isEmpty(amountTo.getText()))
-        {
-            try
-            {
-                toAmount = Double.parseDouble(amountTo.getText());
-            }
-            catch (NumberFormatException e)
-            {
-                
-            }
-        }
-        if (fromAmount == null && toAmount != null)
-        {
-            sql.append(" AND i.GrandTotal <= ?");
-        }
-        else if (fromAmount != null && toAmount == null)
-        {
-            sql.append(" AND i.GrandTotal >= ?");
-        }
-        else if (fromAmount != null && toAmount != null)
-        {
-              sql.append(" AND i.GrandTotal BETWEEN ? AND ?");
-        }
-        sql.append(" AND i.IsPaid=? AND i.IsSOTrx=?");
 
-        log.finer(sql.toString());
-        return sql.toString();
-    }
+	/**************************************************************************
+	 *	Construct SQL Where Clause and define parameters.
+	 *  (setParameters needs to set parameters)
+	 *  Includes first AND
+	 *  @return sql
+	 */
+	protected String getSQLWhere()
+	{
+		StringBuffer sql = new StringBuffer();
+		//  => ID
+		if(isResetRecordID())
+			fieldID = 0;
+		if(!(fieldID == 0))
+			sql.append(" AND i.C_Invoice_ID = ?");
+		//
+		if (isValidSQLText(fDocumentNo))
+			sql.append(" AND UPPER(i.DocumentNo) LIKE ?");
+		//
+		if (isValidSQLText(fDescription))
+			sql.append(" AND UPPER(i.Description) LIKE ?");
+		//
+		if (fBPartner_ID.getValue() != null)
+			sql.append(" AND i.C_BPartner_ID=?");
+		//
+		if (fOrder_ID.getValue() != null)
+			sql.append(" AND i.C_Order_ID=?");
+		//
+		if (fDateFrom.getValue() != null || fDateTo.getValue() != null)
+		{
+			Timestamp from = null;
+			Timestamp to = null;
+			//
+			if (fDateFrom.getValue() != null)
+				from = new Timestamp(fDateFrom.getValue().getTime());
+			if (fDateTo.getValue() != null)
+				to = new Timestamp(fDateTo.getValue().getTime());
+			//
+			log.fine("Date From=" + from + ", To=" + to);
+			//
+			if (from == null && to != null)
+				sql.append(" AND TRUNC(i.DateInvoiced, 'DD') <= ?");
+			else if (from != null && to == null)
+				sql.append(" AND TRUNC(i.DateInvoiced, 'DD') >= ?");
+			else if (from != null && to != null)
+				sql.append(" AND TRUNC(i.DateInvoiced, 'DD') BETWEEN ? AND ?");
+		}
+		//
+		if (fAmtFrom.getValue() != null || fAmtTo.getValue() != null)
+		{
+			BigDecimal from = (BigDecimal)fAmtFrom.getValue();
+			BigDecimal to = (BigDecimal)fAmtTo.getValue();
+			if (from == null && to != null)
+				sql.append(" AND i.GrandTotal <= ?");
+			else if (from != null && to == null)
+				sql.append(" AND i.GrandTotal >= ?");
+			else if (from != null && to != null)
+				sql.append(" AND i.GrandTotal BETWEEN ? AND ?");
+		}
+		//
+		sql.append(" AND i.IsPaid=? AND i.IsSOTrx=?");
 
-    @Override
-    protected void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
-    {
-        int index = 1;
-        if (txtDocumentNo.getText().length() > 0)
-            pstmt.setString(index++, getSQLText(txtDocumentNo));
-        if (txtDescription.getText().length() > 0)
-            pstmt.setString(index++, getSQLText(txtDescription));
-        
-        //
-        if (editorBPartner.getValue() != null)
-        {
-            Integer bp = (Integer)editorBPartner.getValue();
-            pstmt.setInt(index++, bp.intValue());
-            log.fine("BPartner=" + bp);
-        }
-        //
-        if (editorOrder.getValue() != null)
-        {
-            Integer order = (Integer)editorOrder.getValue();
-            pstmt.setInt(index++, order.intValue());
-            log.fine("Order=" + order);
-        }
-        Date fromD = null;
-        Date toD = null;
-        Timestamp from = null;
-        Timestamp to = null;
-        try
-        {
-            if (dateFrom.getValue() != null)
-            {
-                fromD = dateFrom.getValue();
-                from = new Timestamp(fromD.getTime());
-            }
-        }
-        catch (WrongValueException e)
-        {
-            
-        }
-        try
-        {
-            if (dateTo.getValue() != null)
-            {
-                toD = dateTo.getValue();
-                to = new Timestamp(toD.getTime());
-            }
-        }
-        catch (WrongValueException e)
-        {
-            
-        }
-        
-        log.fine("Date From=" + from + ", To=" + to);
-        if (from == null && to != null)
-        {
-            pstmt.setTimestamp(index++, to);
-        }
-        else if (from != null && to == null)
-        {
-            pstmt.setTimestamp(index++, from);
-        }
-        else if (from != null && to != null)
-        {
-            pstmt.setTimestamp(index++, from);
-            pstmt.setTimestamp(index++, to);
-        }
-    
-    //
-        BigDecimal fromBD = null;
-        BigDecimal toBD = null;
-        Double fromAmt = null;
-        Double toAmt = null;
-        
-        if (!Util.isEmpty(amountFrom.getText()))
-        {
-            try
-            {
-                fromAmt = Double.parseDouble(amountFrom.getText());
-                fromBD = BigDecimal.valueOf(fromAmt);
-            }
-            catch (Exception e)
-            {
-                
-            }
-        }
-        
-        if (!Util.isEmpty(amountTo.getText()))
-        {
-            try
-            {
-                toAmt = Double.parseDouble(amountTo.getText());
-                toBD = BigDecimal.valueOf(toAmt);
-            }
-            catch (Exception e)
-            {
-                
-            }
-        }
-        
-        if (fromBD == null && toBD != null)
-        {
-            pstmt.setBigDecimal(index++, toBD);
-        }
-        else if (fromBD != null && toBD == null)
-        {
-            pstmt.setBigDecimal(index++, fromBD);
-        }
-        else if (fromBD != null && toBD != null)
-        {
-              pstmt.setBigDecimal(index++, fromBD);
-              pstmt.setBigDecimal(index++, toBD);
-        }
-        pstmt.setString(index++,isPaid.isChecked() ? "Y" : "N");
-        pstmt.setString(index++,isSoTrx.isChecked() ? "Y" : "N");
-       
-    }
+	//	log.fine( "InfoInvoice.setWhereClause", sql.toString());
+		return sql.toString();
+	}	//	getSQLWhere
 
-    /**
-     *  Get SQL WHERE parameter
-     *  @param f field
-     *  @return sql
-     */
-    private String getSQLText (Textbox f)
-    {
-        String s = f.getText().toUpperCase();
-        if (!s.endsWith("%"))
-            s += "%";
-        log.fine("String=" + s);
-        return s;
-    }   //  getSQLText
-    
+	/**
+	 *  Set Parameters for Query.
+	 *  (as defined in getSQLWhere)
+	 *  @param pstmt statement
+	 *  @param forCount for counting records
+	 *  @throws SQLException
+	 */
+	protected void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
+	{
+		int index = 1;
+		//  => ID
+		if (!(fieldID == 0))
+			pstmt.setInt(index++, fieldID);
+		if (isValidSQLText(fDocumentNo))
+			pstmt.setString(index++, getSQLText(fDocumentNo));
+		if (isValidSQLText(fDescription))
+			pstmt.setString(index++, getSQLText(fDescription));
+		//
+		if (fBPartner_ID.getValue() != null)
+		{
+			Integer bp = (Integer)fBPartner_ID.getValue();
+			pstmt.setInt(index++, bp.intValue());
+			log.fine("BPartner=" + bp);
+		}
+		//
+		if (fOrder_ID.getValue() != null)
+		{
+			Integer order = (Integer)fOrder_ID.getValue();
+			pstmt.setInt(index++, order.intValue());
+			log.fine("Order=" + order);
+		}
+		//
+		if (fDateFrom.getValue() != null || fDateTo.getValue() != null)
+		{
+			Timestamp from = null;
+			Timestamp to = null;
+			//
+			if (fDateFrom.getValue() != null)
+				from = new Timestamp(fDateFrom.getValue().getTime());
+			if (fDateTo.getValue() != null)
+				to = new Timestamp(fDateTo.getValue().getTime());
+			//
+			log.fine("Date From=" + from + ", To=" + to);
+			//
+			if (from == null && to != null)
+				pstmt.setTimestamp(index++, to);
+			else if (from != null && to == null)
+				pstmt.setTimestamp(index++, from);
+			else if (from != null && to != null)
+			{
+				pstmt.setTimestamp(index++, from);
+				pstmt.setTimestamp(index++, to);
+			}
+		}
+		//
+		if (fAmtFrom.getValue() != null || fAmtTo.getValue() != null)
+		{
+			BigDecimal from = (BigDecimal)fAmtFrom.getValue();
+			BigDecimal to = (BigDecimal)fAmtTo.getValue();
+			log.fine("Amt From=" + from + ", To=" + to);
+			if (from == null && to != null)
+				pstmt.setBigDecimal(index++, to);
+			else if (from != null && to == null)
+				pstmt.setBigDecimal(index++, from);
+			else if (from != null && to != null)
+			{
+				pstmt.setBigDecimal(index++, from);
+				pstmt.setBigDecimal(index++, to);
+			}
+		}
+			pstmt.setString(index++, fIsPaid.isSelected() ? "Y" : "N");
+			pstmt.setString(index++, fIsSOTrx.isSelected() ? "Y" : "N");
+	}   //  setParameters
+
+	/**
+	 * A record was selected - take action to sync subordinate tables if any
+	 */
+	protected void recordSelected(int key)
+	{
+		//  Found and selected the same record or selected the first record
+    	if (m_C_Invoice_ID != key)
+    	{
+    		refresh();
+    	}
+       	p_centerSouth.setOpen(p_table.getSelectedCount()>0);
+		return;
+	}
+	/**
+	 * No record was selected - take action to sync subordinate tables if any
+	 */
+	protected void noRecordSelected()
+	{
+		//  Nothing was selected, or the query is empty
+		//  - close the panel
+		m_C_Invoice_ID = 0;
+		p_centerLayout.getSouth().setOpen(false);
+		return;
+	}
+
+	/**
+	 * 	Refresh Query
+	 */
+	protected void refresh()
+	{
+    	String sql;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		int leadRowKey = p_table.getLeadRowKey();
+		
+    	if (m_C_Invoice_ID != leadRowKey)
+		{
+    		m_C_Invoice_ID = leadRowKey;
+    		
+    		//  Payment Schedule table
+			sql = m_sqlSchedule;
+	
+			log.finest(sql);
+			try
+			{
+				pstmt = DB.prepareStatement(sql, null);
+				pstmt.setInt(1, m_C_Invoice_ID);
+				rs = pstmt.executeQuery();
+				scheduleTbl.loadTable(rs);
+				rs.close();
+			}
+			catch (Exception e)
+			{
+				log.log(Level.WARNING, sql, e);
+			}
+			finally
+			{
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
+			}
+		}			
+	}	//	refresh
+
     // Elaine 2008/12/16
 	/**
 	 *	Zoom
@@ -533,7 +619,7 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
 		MQuery query = new MQuery("C_Invoice");
 		query.addRestriction("C_Invoice_ID", MQuery.EQUAL, C_Invoice_ID);
 		query.setRecordCount(1);
-		int AD_WindowNo = getAD_Window_ID("C_Invoice", isSoTrx.isSelected());
+		int AD_WindowNo = getAD_Window_ID("C_Invoice", fIsSOTrx.isSelected());
 		AEnv.zoom (AD_WindowNo, query);
 	}	//	zoom
 
@@ -547,22 +633,6 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
 	}	//	hasZoom
 	//
     
-    public void tableChanged(WTableModelEvent event)
-    {
-        
-    }
-    public void valueChange(ValueChangeEvent evt)
-    {
-        if (editorBPartner.equals(evt.getSource()))
-        {
-            editorBPartner.setValue(evt.getNewValue());
-        }
-        if (editorOrder.equals(evt.getSource()))
-        {
-            editorOrder.setValue(evt.getNewValue());
-        }
-    }
-
 	@Override
 	protected void saveSelectionDetail()
 	{
@@ -570,24 +640,12 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
 		Integer ID = getSelectedRowKey();
 		Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "C_Invoice_ID", ID == null ? "0" : ID.toString());
 		//
-		int C_InvoicePaySchedule_ID = 0;
-		int row = contentPanel.getSelectedRow();
-		if (row >= 0)
-		{
-			Object value = contentPanel.getValueAt(row, INDEX_PAYSCHEDULE);
-			if (value != null && value instanceof KeyNamePair)
-				C_InvoicePaySchedule_ID = ((KeyNamePair)value).getKey();
-		}
-		if (C_InvoicePaySchedule_ID <= 0)	//	not selected
+		Integer C_InvoicePaySchedule_ID = scheduleTbl.getSelectedRowKey();
+		if (C_InvoicePaySchedule_ID == null || C_InvoicePaySchedule_ID.intValue() <= 0)	//	not selected
 			Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "C_InvoicePaySchedule_ID", "0");
 		else
-			Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "C_InvoicePaySchedule_ID", String.valueOf(C_InvoicePaySchedule_ID));
-	}
-
-	@Override
-	protected void insertPagingComponent()
-	{
-		southBody.insertBefore(paging, southBody.getFirstChild());
-		layout.invalidate();
+		{
+			Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "C_InvoicePaySchedule_ID", C_InvoicePaySchedule_ID.toString());
+		}
 	}
 }

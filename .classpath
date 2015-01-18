@@ -14,11 +14,22 @@
 	<classpathentry kind="src" path="serverApps/src/main/servlet"/>
 	<classpathentry kind="src" path="zkwebui/WEB-INF/src"/>
 	<classpathentry excluding="org/compiere/interfaces/" kind="src" path="JasperReports/src"/>
-	<classpathentry excluding="org/compiere/utils/DigestOfFile.java" kind="src" path="JasperReportsWebApp/src"/>
+	<classpathentry excluding="org/compiere/utils/DigestOfFile.java|org/compiere/interfaces/" kind="src" path="JasperReportsWebApp/src"/>
 	<classpathentry kind="src" path="tools/src"/>
 	<classpathentry kind="src" path="webCM/src/main/servlet"/>
 	<classpathentry kind="src" path="migration/src"/>
 	<classpathentry kind="src" path="posterita/posterita/src/main"/>
+	<classpathentry kind="src" path="org.eevolution.cashflow/src/main/java"/>
+	<classpathentry kind="src" path="org.eevolution.hr_and_payroll/src/main/java/base"/>
+	<classpathentry kind="src" path="org.eevolution.hr_and_payroll/src/main/java/ui/swing"/>
+	<classpathentry kind="src" path="org.eevolution.hr_and_payroll/src/main/java/ui/zk"/>
+	<classpathentry kind="src" path="org.eevolution.manufacturing/src/main/java/base"/>
+	<classpathentry kind="src" path="org.eevolution.manufacturing/src/main/java/test"/>
+	<classpathentry kind="src" path="org.eevolution.manufacturing/src/main/java/ui/swing"/>
+	<classpathentry kind="src" path="org.eevolution.manufacturing/src/main/java/ui/zk"/>
+	<classpathentry kind="src" path="org.eevolution.warehouse/src/main/java/base"/>
+	<classpathentry kind="src" path="org.adempiere.asset/src/main/java/base"/>
+	<classpathentry kind="src" path="org.adempiere.webservice/WEB-INF/src"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jstl.jar">
 		<attributes>
@@ -121,7 +132,7 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/activemq-core-5.0.0.jar">
+	<classpathentry exported="true" kind="lib" path="tools/lib/activemq-core-5.7.0.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
@@ -166,11 +177,6 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/groovy-all-1.5.1.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="tools/lib/groovy-engine.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
@@ -197,16 +203,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="tools/lib/javaee.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/jcommon-1.0.16.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/jfreechart-1.0.13.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
@@ -313,20 +309,42 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="JasperReportsTools/lib/jasperreports-3.7.3.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/poi-3.5-FINAL-20090928.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="tools/lib/mysql-connector-java-5.1.13-bin.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="tools/lib/groovy-all-2.0.1.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="tools/lib/jcommon-1.0.18.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="tools/lib/jfreechart-1.0.15.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="JasperReportsTools/lib/jasperreports-5.1.0.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="tools/lib/poi-3.9-20121203.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="tools/lib/OpenForecast-0.5.0.jar"/>
+	<classpathentry kind="lib" path="packages/liberoWM.jar"/>
+	<classpathentry kind="lib" path="tools/lib/commons-io.jar"/>
+	<classpathentry kind="lib" path="org.adempiere.webservice/WEB-INF/lib/xfire-all-1.2.6.jar"/>
+	<classpathentry kind="lib" path="org.adempiere.webservice/WEB-INF/lib/xbean.jar"/>
+	<classpathentry kind="lib" path="org.adempiere.webservice/WEB-INF/lib/xbean-spring-2.8.jar"/>
+	<classpathentry kind="lib" path="org.adempiere.webservice/WEB-INF/lib/generated_xmlbeans.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

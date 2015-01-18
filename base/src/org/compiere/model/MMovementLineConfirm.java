@@ -114,8 +114,9 @@ public class MMovementLineConfirm extends X_M_MovementLineConfirm
 	{
 		MMovementLine line = getLine();
 		
-		line.setTargetQty(getTargetQty());
-		line.setMovementQty(getConfirmedQty());
+		//line.setTargetQty(getTargetQty());                Adempiere-186 Changes
+		//line.setMovementQty(getConfirmedQty());
+		line.setTargetQty(getConfirmedQty());
 		line.setConfirmedQty(getConfirmedQty());
 		line.setScrappedQty(getScrappedQty());
 		

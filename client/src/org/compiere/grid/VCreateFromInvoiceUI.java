@@ -42,6 +42,10 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 
+/*
+ * @author	Michael McKay
+ * 				<li>release/380 - fix row selection event handling to fire single event per row selection
+ */
 public class VCreateFromInvoiceUI extends CreateFromInvoice implements ActionListener, VetoableChangeListener
 {
 	private static final long serialVersionUID = 1L;
@@ -363,14 +367,13 @@ public class VCreateFromInvoiceUI extends CreateFromInvoice implements ActionLis
 	protected void loadTableOIS (Vector<?> data)
 	{
 		//  Remove previous listeners
-		dialog.getMiniTable().getModel().removeTableModelListener(dialog);
+		dialog.getMiniTable().removeMiniTableSelectionListener(dialog);
 		//  Set Model
 		DefaultTableModel model = new DefaultTableModel(data, getOISColumnNames());
-		model.addTableModelListener(dialog);
 		dialog.getMiniTable().setModel(model);
 		// 
-		
 		configureMiniTable(dialog.getMiniTable());
+		dialog.getMiniTable().addMiniTableSelectionListener(dialog);
 	}   //  loadOrder
 	
 	public void showWindow()

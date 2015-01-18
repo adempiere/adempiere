@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_Department
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0
  */
 public interface I_HR_Department 
 {
@@ -78,6 +78,21 @@ public interface I_HR_Department
 
 	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException;
 
+    /** Column name C_BPartner_ID */
+    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
+
+	/** Set Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID);
+
+	/** Get Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID();
+
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -93,6 +108,19 @@ public interface I_HR_Department
 	  * User who created this records
 	  */
 	public int getCreatedBy();
+
+    /** Column name CurrentStrength */
+    public static final String COLUMNNAME_CurrentStrength = "CurrentStrength";
+
+	/** Set Current Strength.
+	  * Current Strength 
+	  */
+	public void setCurrentStrength (String CurrentStrength);
+
+	/** Get Current Strength.
+	  * Current Strength 
+	  */
+	public String getCurrentStrength();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -110,10 +138,14 @@ public interface I_HR_Department
     /** Column name HR_Department_ID */
     public static final String COLUMNNAME_HR_Department_ID = "HR_Department_ID";
 
-	/** Set Payroll Department	  */
+	/** Set Department.
+	  * Department of the organization
+	  */
 	public void setHR_Department_ID (int HR_Department_ID);
 
-	/** Get Payroll Department	  */
+	/** Get Department.
+	  * Department of the organization
+	  */
 	public int getHR_Department_ID();
 
     /** Column name IsActive */
@@ -141,6 +173,19 @@ public interface I_HR_Department
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
+
+    /** Column name StrengthRequired */
+    public static final String COLUMNNAME_StrengthRequired = "StrengthRequired";
+
+	/** Set Stregth Required.
+	  * Stregth Required
+	  */
+	public void setStrengthRequired (int StrengthRequired);
+
+	/** Get Stregth Required.
+	  * Stregth Required
+	  */
+	public int getStrengthRequired();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

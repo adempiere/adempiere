@@ -70,7 +70,7 @@ public class MForm extends X_AD_Form
 		{
 			int AD_Role_ID = Env.getAD_Role_ID(getCtx());
 			MFormAccess pa = new MFormAccess(this, AD_Role_ID);
-			pa.save();
+			pa.saveEx();
 		}
 		return success;
 	}	//	afterSave

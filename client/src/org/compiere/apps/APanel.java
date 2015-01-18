@@ -27,6 +27,7 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -522,6 +523,7 @@ public final class APanel extends CPanel
 			if (aWorkflow != null)
 				toolBar.add(aWorkflow.getButton());
 			toolBar.add(aRequest.getButton());
+			toolBar.add(AProcess.createAppsAction(this).getButton());
 			if (MRole.getDefault().isAllow_Info_Product())
 			{
 				toolBar.add(aProduct.getButton());
@@ -1314,6 +1316,18 @@ public final class APanel extends CPanel
 	 */
 	public void stateChanged (ChangeEvent e)
 	{
+		//author: Matteo Carminati - mcarminati@ma-tica.it
+		//https://sourceforge.net/tracker/?func=detail&aid=3472415&group_id=176962&atid=879332
+		//Run LostFocus Event when change tab			
+		if (m_curWinTab != null)
+		{
+			Component cp = m_window.getFocusOwner();
+			if (cp != null){
+				m_window.dispatchEvent(new FocusEvent(cp, FocusEvent.FOCUS_LOST));
+			}
+		}
+		//--
+		
 		if (m_disposing)
 			return;
 		log.info(e.toString());
@@ -2427,7 +2441,7 @@ public final class APanel extends CPanel
 	 *	Start Button Process
 	 *  @param vButton button
 	 */
-	private void actionButton (VButton vButton)
+	protected void actionButton (VButton vButton)
 	{
 		log.info(vButton.toString());
 

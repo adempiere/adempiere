@@ -653,6 +653,31 @@ public final class AEnv
 	}	//	zoom
 	
 	/**
+	 * 	Zoom
+	 *  @AD_Window_ID Window
+	 *	@param query query
+	 */
+	public static void zoom (Component invoker , int AD_Window_ID , MQuery query)
+	{
+		if (query == null || query.getTableName() == null || query.getTableName().length() == 0)
+			return;
+		
+		AWindow frame = new AWindow(invoker.getGraphicsConfiguration());
+		if (!frame.initWindow(AD_Window_ID, query))
+			return;
+		addToWindowManager(frame);
+		if (Ini.isPropertyBool(Ini.P_OPEN_WINDOW_MAXIMIZED))
+		{
+			AEnv.showMaximized(frame);
+		}
+		else
+		{
+			AEnv.showCenterScreen(frame);
+		}
+		frame = null;
+	}	//	zoom
+	
+	/**
 	 * Track open frame in window manager
 	 * @param frame
 	 */

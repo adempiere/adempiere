@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 import java.util.logging.Level;
 
 import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 
 /**
  *	PO Info Column Info Value Object
@@ -85,6 +86,23 @@ public class POInfoColumn implements Serializable
 		}
 		else
 			ColumnClass = org.compiere.util.DisplayType.getClass(displayType, true);
+		
+		//ADEMPIERE-101
+		if(org.compiere.util.DisplayType.Table==DisplayType && ad_Reference_Value_ID>0)
+		{
+			//Get the key ID
+			String sqlKey ="Select AD_Key FROM AD_Ref_Table WHERE AD_Reference_ID=?";
+			final int key_id = DB.getSQLValueEx(null, sqlKey,ad_Reference_Value_ID);
+			//Get Reference ID
+			String sqlRef ="Select AD_Reference_ID FROM AD_Column WHERE AD_Column_ID=?";
+			final int ref_id = DB.getSQLValueEx(null, sqlRef,key_id);
+			if (org.compiere.util.DisplayType.String==ref_id)
+			{
+				DisplayType = org.compiere.util.DisplayType.String;
+				ColumnClass = String.class;
+			}
+		}
+		
 		IsMandatory = isMandatory;
 		IsUpdateable = isUpdateable;
 		DefaultLogic = defaultLogic;
@@ -128,6 +146,8 @@ public class POInfoColumn implements Serializable
 	public String       ColumnName;
 	/** Virtual Column 	*/
 	public String       ColumnSQL;
+	/** Is Lazy Loading */
+	public boolean		IsLazyLoading;
 	/** Display Type	*/
 	public int          DisplayType;
 	/**	Data Type		*/
@@ -168,6 +188,8 @@ public class POInfoColumn implements Serializable
 	public BigDecimal	ValueMin_BD = null;
 	/**	Max Value		*/
 	public BigDecimal	ValueMax_BD = null;
+	
+	public boolean		IsCalculated = false; // metas: pr50_us215
 
 	/**
 	 * 	String representation

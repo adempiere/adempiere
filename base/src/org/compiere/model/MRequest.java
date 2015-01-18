@@ -868,12 +868,12 @@ public class MRequest extends X_R_Request
 		checkChange(ra, "DateCompletePlan");
 		//
 		if (m_changed)
-			ra.save();
+			ra.saveEx();
 		
 		//	Current Info
 		MRequestUpdate update = new MRequestUpdate(this);
 		if (update.isNewInfo())
-			update.save();
+			update.saveEx();
 		else
 			update = null;
 		//
@@ -996,7 +996,7 @@ public class MRequest extends X_R_Request
 		if (newRecord && getResult() != null)
 		{
 			MRequestUpdate update = new MRequestUpdate(this);
-			update.save();
+			update.saveEx();
 		}
 		//	Initial Mail
 		if (newRecord)
@@ -1024,7 +1024,7 @@ public class MRequest extends X_R_Request
 					{
 						ecr.setPP_Product_BOM_ID(newG.getPP_Product_BOM_ID());
 						ecr.setM_ChangeNotice_ID(newG.getM_ChangeNotice_ID());
-						ecr.save();
+						ecr.saveEx();
 					}
 				}
 			}

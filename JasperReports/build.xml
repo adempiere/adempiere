@@ -63,10 +63,15 @@
 	      <pathelement path="../extend/Extend.jar"/>
 	      <pathelement path="../lib/CSTools.jar"/>
 	      <pathelement path="../lib/oracle.jar"/>
-		  <pathelement path="../JasperReportsTools/lib/jasperreports-3.7.3.jar"/>
-	      <pathelement path="../JasperReportsTools/lib/commons-digester-1.7.jar"/>
+      	<!-- SHW: old Lib <pathelement path="../JasperReportsTools/lib/jasperreports-3.7.3.jar"/>--> 
+      	  <pathelement path="../JasperReportsTools/lib/jasperreports-5.1.0.jar"/>
+      	  <!-- SHW: old Lib <pathelement path="../JasperReportsTools/lib/commons-digester-1.7.jar"/> -->
+      	  <pathelement path="../JasperReportsTools/lib/commons-digester-2.1.jar"/>
 	      <pathelement path="../tools/lib/commons-logging.jar"/>
-	      <pathelement path="../JasperReportsTools/lib/commons-beanutils-1.7.jar"/>      	
+      	  <!-- SHW: old Lib <pathelement path="../JasperReportsTools/lib/commons-beanutils-1.7.jar"/>  -->  
+      	  <pathelement path="../JasperReportsTools/lib/commons-beanutils-1.8.0.jar"/>
+	      <!-- SHW:new library  --> 
+	      <pathelement path="../JasperReportsTools/lib/jasperreports-fonts-5.1.0.jar"/> 	
       	  <pathelement path="../tools/lib/xercesImpl.jar"/>
       	  <pathelement path="../tools/lib/xml-apis.jar"/>
       	  <pathelement path="../tools/lib/postgresql.jar"/>  
@@ -113,14 +118,18 @@
 
   	<unjar src="../JasperReportsTools/lib/iReport.jar" dest="${needed.dir}">
   		<!-- producing an iReport runTime -->
-  	    <patternset>
+  	    <patternset> 
+  	        <exclude name="**/*.class"/>
+  	  	  	<!-- SHW: iReport not needed
   	        <include name="it/businesslogic/ireport/barcode/*.class"/>
   	    	<include name="it/businesslogic/ireport/chart/*.class"/>
   	        <include name="it/businesslogic/ireport/util/*.class"/>
   	        <include name="it/businesslogic/ireport/*Element.class"/>
   	    	<include name="it/businesslogic/dtds/*"/>
+  	     -->
   	    </patternset>
 	</unjar>
+  	
   	<!-- futur dev jfree chart but it needs scriptlets
   	<unjar src="../tools/lib/jfreechart-1.0.13.jar" dest="${needed.dir}" />
   	-->
@@ -129,18 +138,25 @@
 	  index="yes"
   	  duplicate="preserve">
       <fileset dir="${needed.dir}"/>
-  	  <zipfileset src="../JasperReportsTools/lib/jasperreports-3.7.3.jar" >
+  	  <!-- SHW: old Lib <zipfileset src="../JasperReportsTools/lib/jasperreports-3.7.3.jar" > -->
+  	  <zipfileset src="../JasperReportsTools/lib/jasperreports-5.1.0.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
-  	  <zipfileset src="../JasperReportsTools/lib/commons-digester-1.7.jar" >
+  	  <!-- SHW: old Lib <zipfileset src="../JasperReportsTools/lib/commons-digester-1.7.jar" > -->
+  	  <zipfileset src="../JasperReportsTools/lib/commons-digester-2.1.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
   	  <zipfileset src="../tools/lib/commons-logging.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
-  	  <zipfileset src="../JasperReportsTools/lib/commons-beanutils-1.7.jar" >
+  		<!-- SHW: old Lib <zipfileset src="../JasperReportsTools/lib/commons-beanutils-1.7.jar" > -->
+  	  <zipfileset src="../JasperReportsTools/lib/commons-beanutils-1.8.0.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
+      <!-- SHW: new lib--> 
+      <zipfileset src="../JasperReportsTools/lib/jasperreports-fonts-5.1.0.jar" >
+  		<patternset refid="manifest.exclude"/>
+  	  </zipfileset>
   	  <zipfileset src="../tools/lib/xercesImpl.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>

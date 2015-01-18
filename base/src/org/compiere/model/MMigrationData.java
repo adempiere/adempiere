@@ -16,12 +16,9 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.math.BigDecimal;
 import java.sql.ResultSet;
-import java.sql.Timestamp;
 import java.util.Properties;
 
-import org.compiere.util.DisplayType;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -30,6 +27,11 @@ import org.w3c.dom.Node;
  * Represents PO column data for a migration step
  */
 public class MMigrationData extends X_AD_MigrationData {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3597076848116587021L;
 
 	public MMigrationData(Properties ctx, int AD_MigrationData_ID,
 			String trxName) {
@@ -78,5 +80,19 @@ public class MMigrationData extends X_AD_MigrationData {
 		data.setNewValue(element.getTextContent());
 		data.saveEx();
 	}
+
+	/**
+	 * 	Before Save
+	 *	@param newRecord new
+	 *	@return true
+	 */
+	protected boolean beforeSave (boolean newRecord)
+	{
+		if (this.getAD_Client_ID() > 0)
+			this.setAD_Client_ID(0); // Migrations are always owned by System
+		if (this.getAD_Org_ID() > 0)
+			this.setAD_Org_ID(0);
+		return true;
+	}	//	beforeSave
 
 }

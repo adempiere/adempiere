@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_Payroll
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_HR_Payroll extends PO implements I_HR_Payroll, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20150101L;
 
     /** Standard Constructor */
     public X_HR_Payroll (Properties ctx, int HR_Payroll_ID, String trxName)
@@ -174,7 +174,9 @@ public class X_HR_Payroll extends PO implements I_HR_Payroll, I_Persistent
 	}
 
 	/** Set Payroll.
-		@param HR_Payroll_ID Payroll	  */
+		@param HR_Payroll_ID 
+		The Payroll definition allows to define all the payroll concepts , year and periods, to  calculate a payroll.
+	  */
 	public void setHR_Payroll_ID (int HR_Payroll_ID)
 	{
 		if (HR_Payroll_ID < 1) 
@@ -184,7 +186,8 @@ public class X_HR_Payroll extends PO implements I_HR_Payroll, I_Persistent
 	}
 
 	/** Get Payroll.
-		@return Payroll	  */
+		@return The Payroll definition allows to define all the payroll concepts , year and periods, to  calculate a payroll.
+	  */
 	public int getHR_Payroll_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Payroll_ID);
@@ -218,20 +221,22 @@ public class X_HR_Payroll extends PO implements I_HR_Payroll, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
-	/** PaymentRule AD_Reference_ID=214 */
-	public static final int PAYMENTRULE_AD_Reference_ID=214;
-	/** Credit Card = C */
-	public static final String PAYMENTRULE_CreditCard = "C";
-	/** Check = K */
-	public static final String PAYMENTRULE_Check = "K";
-	/** Direct Deposit = A */
-	public static final String PAYMENTRULE_DirectDeposit = "A";
+	/** PaymentRule AD_Reference_ID=195 */
+	public static final int PAYMENTRULE_AD_Reference_ID=195;
+	/** Cash = B */
+	public static final String PAYMENTRULE_Cash = "B";
+	/** Credit Card = K */
+	public static final String PAYMENTRULE_CreditCard = "K";
+	/** Direct Deposit = T */
+	public static final String PAYMENTRULE_DirectDeposit = "T";
+	/** Check = S */
+	public static final String PAYMENTRULE_Check = "S";
+	/** On Credit = P */
+	public static final String PAYMENTRULE_OnCredit = "P";
 	/** Direct Debit = D */
 	public static final String PAYMENTRULE_DirectDebit = "D";
-	/** Account = T */
-	public static final String PAYMENTRULE_Account = "T";
-	/** Cash = X */
-	public static final String PAYMENTRULE_Cash = "X";
+	/** Mixed = M */
+	public static final String PAYMENTRULE_Mixed = "M";
 	/** Set Payment Rule.
 		@param PaymentRule 
 		How you pay the invoice

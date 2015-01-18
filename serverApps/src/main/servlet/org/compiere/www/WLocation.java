@@ -207,7 +207,7 @@ public class WLocation extends HttpServlet
 		doc.addPopupClose(ws.ctx);
 
 		//  Save Location
-		location.save();
+		location.saveEx();
 		C_Location_ID = location.getC_Location_ID();
 
 		td center  = doc.addPopupCenter(false);

@@ -25,12 +25,14 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.StringTokenizer;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -47,8 +49,9 @@ public class MMigrationStep extends X_AD_MigrationStep {
 	 */
 	private static final long serialVersionUID = 6002302731217174562L;
 	private List<MMigrationData> m_migrationData;
+	private MMigration parent;
 	/** Logger */
-	private CLogger log = CLogger
+	private static CLogger log = CLogger
 			.getCLogger(MMigrationStep.class);
 
 
@@ -76,11 +79,12 @@ public class MMigrationStep extends X_AD_MigrationStep {
 	public MMigrationStep(MMigration parent) {
 		this(parent.getCtx(), 0, parent.get_TrxName());
 		setAD_Migration_ID(parent.getAD_Migration_ID());
+		this.parent = parent;
 	}
 
 	public String toString() {
 		MMigration parent = (MMigration) getAD_Migration();
-		return "Migration: " + parent.getName() + "; Step: " + getSeqNo() + "; Type: " + getStepType() + ". ";
+		return parent.toString() + "; Step: " + getSeqNo() + "; Type: " + getStepType() + ". ";
 	}
 	/**
 	 * Create a PO migration step from PO event.
@@ -97,7 +101,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		setStepType(MMigrationStep.STEPTYPE_ApplicationDictionary);
 		setAction(event);
 		setAD_Table_ID(po.get_Table_ID());
-		setRecord_ID(po.get_ID());
+		setRecord_ID(po.get_ID());  // In a multi-key table - this will be the one of the IDs.
 		setStatusCode(MMigrationStep.STATUSCODE_Applied);
 		setApply(MMigrationStep.APPLY_Rollback);
 		
@@ -112,6 +116,24 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		for (int i = 0; i < size; i++)
 		{
 			Object value = po.get_Value(i);
+			
+			//  Determine if the column is one of several in a multi-key table.
+			//  If so, all the keys and their values have to be saved in the
+			//  newValue column regardless of whether they changed or not.
+			boolean isMultiKeyColumn = false;
+			if ( po.get_KeyColumns().length > 1 ) 
+			{
+				for (int j = 0; j < po.get_KeyColumns().length; j++)
+				{
+					String name = po.get_KeyColumns()[j];
+					if (name.equals(info.getColumnName(i)))
+					{
+						isMultiKeyColumn = true;
+						break;
+					}
+				}
+			}
+			
 			if (  !info.isEncrypted(i)		//	not encrypted
 				&& !info.isVirtualColumn(i)	//	no virtual column
 				)
@@ -120,7 +142,8 @@ public class MMigrationStep extends X_AD_MigrationStep {
 				data.setAD_Column_ID(info.getColumn(i).AD_Column_ID);
 				// reference data (old value) on delete/update
 				if ( event.equals(MMigrationStep.ACTION_Delete) 
-						|| ( event.equals(MMigrationStep.ACTION_Update) && po.is_ValueChanged(i))
+						|| ( event.equals(MMigrationStep.ACTION_Update) && po.is_ValueChanged(i)
+						|| isMultiKeyColumn)
 				)
 				{
 					if ( po.get_ValueOld(i) == null )
@@ -131,9 +154,12 @@ public class MMigrationStep extends X_AD_MigrationStep {
 				}
 				// save new value
 				if ( event.equals(MMigrationStep.ACTION_Insert) 
-						|| ( event.equals(MMigrationStep.ACTION_Update) && po.is_ValueChanged(i)) )
+						|| ( event.equals(MMigrationStep.ACTION_Update) && po.is_ValueChanged(i)) 
+						|| isMultiKeyColumn)
 				{
-					if ( value == null )
+					if (value == null && info.getDefaultLogic(i) != null && !info.isColumnMandatory(i))
+						data.setNewValue(info.getDefaultLogic(i));
+					else if (value == null)
 						data.setIsNewNull(true);
 					else
 						data.setNewValue(value.toString());
@@ -151,20 +177,28 @@ public class MMigrationStep extends X_AD_MigrationStep {
 				setApply(MMigrationStep.APPLY_Rollback);
 				saveEx();
 			}
+			log.log(Level.CONFIG, "Migration step already applied: " + this);
 			return "Already applied";
 		}
-		
+
+		log.log(Level.CONFIG, "Applying migration step: " + this);
+
+		String retCode = "";
 		if ( MMigrationStep.STEPTYPE_SQLStatement.equals(getStepType()) )
-			return applySQL(false);
+			retCode = applySQL(false);
 		else if ( MMigrationStep.STEPTYPE_ApplicationDictionary.equals(getStepType()) )
-			return applyPO();
-		return "Unknown step type";
+			retCode =  applyPO();
+		else
+			return "Unknown step type";
+
+		log.log(Level.CONFIG, getParent().toString() + " ---> Step " + getSeqNo() + " " + retCode + ".");
+		return "";
 
 	}
 
 	public String rollback() {
 		if ( !MMigrationStep.STATUSCODE_Applied.equals(getStatusCode()) )
-			return " Not applied, no rollback required";
+			return "Not applied, no rollback required";
 		
 		if (  MMigrationStep.STEPTYPE_SQLStatement.equals(getStepType()) )
 			return applySQL(true);
@@ -175,9 +209,15 @@ public class MMigrationStep extends X_AD_MigrationStep {
 
 	private String applySQL(boolean rollback) {
 
-		String sql = rollback ? getRollbackStatement() : getSQLStatement();
+		String sqlStatements = rollback ? getRollbackStatement() : getSQLStatement();
+		Boolean isParse = true;
 		
-		if ( sql == null || sql.trim().length() == 0 || sql.equals(";"))
+		// For backward compatibility, check if the parse column has been added by the migration yet.
+		// The parse column was added to AD_MigrationStep just prior to release 3.8.0.
+		if (this.get_ColumnIndex(I_AD_MigrationStep.COLUMNNAME_Parse) > 0)
+			isParse = isParse();
+		
+		if ( sqlStatements == null || sqlStatements.trim().length() == 0 || sqlStatements.equals(";"))
 		{
 			setErrorMsg("No SQL to execute.");
 			if ( !rollback )
@@ -186,56 +226,61 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			saveEx();
 			return " No SQL";
 		}
-		
-		sql = sql.trim();
-		if (sql.endsWith(";"))
-			sql = sql.substring(0, sql.length() - 1);		
 
-		if( getDBType().equals(MMigrationStep.DBTYPE_AllDatabaseTypes)
-				|| ( DB.isOracle() && getDBType().equals(MMigrationStep.DBTYPE_Oracle) )
-				|| ( DB.isPostgreSQL() && getDBType().equals(MMigrationStep.DBTYPE_Postgres) ) )
-		{
-			Connection conn = DB.getConnectionRW();
-			Statement stmt = null;
-			try {
+        if (getDBType().equals(MMigrationStep.DBTYPE_AllDatabaseTypes)
+        || (DB.isOracle() && getDBType().equals(MMigrationStep.DBTYPE_Oracle))
+        || (DB.isPostgreSQL() && getDBType().equals(MMigrationStep.DBTYPE_Postgres))) {
+         Connection conn = DB.getConnectionRW();
+         Statement stmt = null;
+         try {
 
-				conn.setAutoCommit(false);
-				stmt = conn.createStatement();
-				stmt.execute(sql);
-				conn.commit();
-				setStatusCode( rollback ? MMigrationStep.STATUSCODE_Unapplied :MMigrationStep.STATUSCODE_Applied);
-				setApply( rollback ? MMigrationStep.APPLY_Apply : MMigrationStep.APPLY_Rollback);
-				setErrorMsg(null);
-				conn.close();
-			} 
-			catch (SQLException e) {
-				setErrorMsg(e.toString());
-				log.log(Level.SEVERE, (rollback ? "Rollback" : "Application") + " of " + toString() + " failed.", e);
-				try {
-					conn.rollback();
-					conn.close();
-				} catch (SQLException se) {
-					;  // all out of luck
-				}
-				if ( !rollback )
-					setStatusCode(MMigrationStep.STATUSCODE_Failed);
-				setApply( rollback ? MMigrationStep.APPLY_Rollback : MMigrationStep.APPLY_Apply);
-				throw new AdempiereException("Step failed.", e);
-			} 
-			finally {
-				DB.close(stmt);
-				saveEx(null);
-			}
-		}
-		else
-		{
-			setStatusCode( rollback ? MMigrationStep.STATUSCODE_Unapplied :MMigrationStep.STATUSCODE_Applied);
-			setApply( rollback ? MMigrationStep.APPLY_Apply : MMigrationStep.APPLY_Rollback);
-			setErrorMsg(null);
-			saveEx(null);
-		}
+             conn.setAutoCommit(false);
+             stmt = conn.createStatement();
+
+             //  Parse the statement based on semi-colons
+             if (isParse) {
+	             StringTokenizer tokens = new StringTokenizer(sqlStatements, ";");
+	             while(tokens.hasMoreTokens()) {
+	                 final String sql = tokens.nextToken().trim();
+	                 if (sql != null && sql.length() > 0 )
+	                    stmt.addBatch(sql);
+	             }
+	             stmt.executeBatch();
+             } 
+		     else {  // Don't parse.  Assume its a single statement.
+		         stmt.executeUpdate(sqlStatements);
+		     }
+
+             conn.commit();
+             setStatusCode(rollback ? MMigrationStep.STATUSCODE_Unapplied : MMigrationStep.STATUSCODE_Applied);
+             setApply(rollback ? MMigrationStep.APPLY_Apply : MMigrationStep.APPLY_Rollback);
+             setErrorMsg(null);
+             conn.close();
+         } catch (SQLException e) {
+             setErrorMsg(e.toString());
+             log.log(Level.SEVERE, "Step failed.", e);
+             try {
+                 conn.rollback();
+                 conn.close();
+             } catch (SQLException se) {
+                 ;  // all out of luck
+             }
+             if (!rollback)
+                 setStatusCode(MMigrationStep.STATUSCODE_Failed);
+             setApply(rollback ? MMigrationStep.APPLY_Rollback : MMigrationStep.APPLY_Apply);
+             throw new AdempiereException("Step failed.", e);
+         } finally {
+             DB.close(stmt);
+             saveEx(null);
+         }
+     } else {
+         setStatusCode(rollback ? MMigrationStep.STATUSCODE_Unapplied : MMigrationStep.STATUSCODE_Applied);
+         setApply(rollback ? MMigrationStep.APPLY_Apply : MMigrationStep.APPLY_Rollback);
+         setErrorMsg(null);
+         saveEx(null);
+     }
 		
-		return rollback ? " Rolled-back" : " Applied";
+		return rollback ? "successfully rolled-back" : "successfully applied";
 	}
 	
 	/**
@@ -292,8 +337,11 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		try {
 			MTable table = MTable.get( getCtx(), getAD_Table_ID() );
 			PO po = null;
-			if ( table.isSingleKey() && getRecord_ID() > 0 )
+			//reset cache of persistence object
+			POInfo.removeFromCache(getAD_Table_ID());
+			if ( table.isSingleKey() && getRecord_ID() > 0 ) {
 				po = table.getPO( getRecord_ID(), get_TrxName() );
+			}
 			else 
 			{
 				String where = "";
@@ -309,6 +357,9 @@ public class MMigrationStep extends X_AD_MigrationStep {
 						where += " AND ";
 					
 					MColumn column = (MColumn) key.getAD_Column();
+                    if(column == null)
+                        continue;
+
 					where += column.getColumnName() + " = ? ";
 					
 					params.add(stringToObject(column, key.getNewValue()));
@@ -326,15 +377,28 @@ public class MMigrationStep extends X_AD_MigrationStep {
 				po.set_ValueNoCheck(po.get_KeyColumns()[0], getRecord_ID() );
 				po.setIsDirectLoad(true);
 			}
+			else if (po == null) // Action other than insert
+			{
+				// The PO has not been set and we aren't inserting a new record - something is wrong.
+				throw new AdempiereException("Step " + getSeqNo() + ", Record " + getRecord_ID() + " was not found in table " + table.getName() + " (" + table.get_ID() + ").", new AdempiereException());
+			}
 
 			for (MMigrationData data : m_migrationData )
 			{
+				if (!data.isActive())
+					continue;
+
+				MColumn column = (MColumn) data.getAD_Column();
+				if(column == null)
+					continue;
+
 				// TODO: option to apply only when existing value equals reference value
 				String value = data.getNewValue();
 				if ( data.isNewNull() )
 					value = null;
 
-				MColumn column = (MColumn) data.getAD_Column();
+				if (value == null && column.isMandatory() && column.getDefaultValue() != null)
+					value = column.getDefaultValue();
 
 				// backup existing value
 				if ( !po.is_new() )
@@ -345,7 +409,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 					else
 						data.setBackupValue(backupValue.toString());
 
-					data.saveEx();
+					data.saveEx(get_TrxName());
 				}
 
 				// apply new values
@@ -365,11 +429,14 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			{
 				po.saveEx(get_TrxName());
 
+				//  Synchronize the AD_Column changes with the database.
 				if ( po instanceof MColumn )
 				{
 					MColumn col = (MColumn) po;
-					if (!col.isVirtualColumn())
+					if (!col.isVirtualColumn()) {
+						log.log(Level.CONFIG, "Synchronizing column: " + col.toString() + " in table: " + MTable.get(Env.getCtx(),col.getAD_Table_ID()));
 						col.syncDatabase();
+					}
 				}
 			}
 		}
@@ -379,14 +446,14 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			setStatusCode(MMigrationStep.STATUSCODE_Failed);
 			setApply(MMigrationStep.APPLY_Apply);
 			saveEx(null);
-			throw new AdempiereException("Migration step failed.", e);
+			final String error = "Migration Script : " + getParent().getSeqNo() + " - " + getParent().getName() +  " ---> Step " + getSeqNo() +  " failed";
+			throw new AdempiereException(error, e);
 		}
 		setStatusCode(MMigrationStep.STATUSCODE_Applied);
 		setApply(MMigrationStep.APPLY_Rollback);
 		setErrorMsg(null);
 		saveEx();
-		
-		return "Applied";
+		return "successfully applied";
 	}
 	
 	private String rollbackPO() {
@@ -404,7 +471,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			MTable table = MTable.get( getCtx(), getAD_Table_ID() );
 			
 			PO po = null;
-			if ( getRecord_ID() > 0 )
+			if ( table.isSingleKey() && getRecord_ID() > 0 )
 				po = table.getPO( getRecord_ID(), get_TrxName() );
 			else 
 			{
@@ -421,6 +488,9 @@ public class MMigrationStep extends X_AD_MigrationStep {
 						where += " AND ";
 					
 					MColumn column = (MColumn) key.getAD_Column();
+                    if(column == null)
+                        continue;
+
 					where += column.getColumnName() + " = ? ";
 					
 					params.add(stringToObject(column, key.getNewValue()));
@@ -431,50 +501,80 @@ public class MMigrationStep extends X_AD_MigrationStep {
 				.setParameters(params)
 				.firstOnly();
 			}
+			
+			//  If the record was deleted, po will be null.  Recreate the record.
 			if ( po == null && getAction().equals(ACTION_Delete) )
 			{
 				po = table.getPO(0, get_TrxName());
 				// TODO: only works for single key tables
 				po.set_ValueNoCheck(po.get_KeyColumns()[0], getRecord_ID() );
 				po.setIsDirectLoad(true);
-			}
 
-			if ( getAction().equals(ACTION_Insert) && po != null) 
-			{
-				po.deleteEx(false, get_TrxName());
-				//TODO column sync database?
-			}
-			else 
-			{
+				// Recover the back up values of the deleted record
 				for (MMigrationData data : m_migrationData )
 				{
+					if (!data.isActive())
+						continue;
+
 					String value = data.getBackupValue();
 					if ( data.isBackupNull() )
 						value = null;
 
 					MColumn column = (MColumn) data.getAD_Column();
+                    if(column == null)
+                        continue;
 
 					po.set_ValueNoCheck(column.getColumnName(), stringToObject(column, value));
 				}
 			}
-			po.saveEx();
-			
-			if ( po instanceof MColumn )
+
+			// If the record was inserted, delete it.
+			if ( getAction().equals(ACTION_Insert) && po != null) 
 			{
-				MColumn col = (MColumn) po;
-				col.syncDatabase();
+				// force delete to remove processed records.
+				po.deleteEx(true, get_TrxName());
+				//TODO column sync database?
+			}
+			// If the record was updated, set the values back to the old values.
+			else if ( getAction().equals(ACTION_Update) && po != null) 
+			{
+				for (MMigrationData data : m_migrationData )
+				{
+					String value = data.getOldValue();
+					if ( data.isOldNull() )
+						value = null;
+
+					MColumn column = (MColumn) data.getAD_Column();
+                    if(column == null)
+                        continue;
+
+					po.set_ValueNoCheck(column.getColumnName(), stringToObject(column, value));
+				}
+				po.saveEx();
+				
+				//  Synchronize the AD_Column changes with the database.
+				if ( po instanceof MColumn )
+				{
+					MColumn col = (MColumn) po;
+					if (!col.isVirtualColumn()) {
+						log.log(Level.CONFIG, "Synchronizing column: " + col.toString() + " in table: " + MTable.get(Env.getCtx(),col.getAD_Table_ID()));
+						col.syncDatabase();
+					}
+				}
 			}
 		}
 		catch (Exception e) {
 			setErrorMsg(e.toString());
 			setStatusCode(MMigrationStep.STATUSCODE_Failed);
 			setApply(MMigrationStep.APPLY_Rollback);
+			log.log(Level.CONFIG, getParent().toString() + " ---> Step " + getSeqNo() + " rolled failed.");
 			throw new AdempiereException("Migration step failed.", e);
 		}
 		setStatusCode(MMigrationStep.STATUSCODE_Unapplied);
 		setApply(MMigrationStep.APPLY_Apply);
 		setErrorMsg(null);
 		saveEx();
+		log.log(Level.CONFIG, getParent().toString() + " ---> Step " + getSeqNo() + " successfully rolled back.");
 		return "Rolled back";
 	}
 	
@@ -528,7 +628,8 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		else if ( MMigrationStep.STEPTYPE_SQLStatement.equals(getStepType()) )
 		{
 			step.setAttribute("DBType", getDBType());
-
+			step.setAttribute("Parse", isParse() ? "Y":"N");
+			
 			if ( getSQLStatement() != null )
 			{
 				Element sql = document.createElement("SQLStatement");
@@ -576,6 +677,12 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		else if ( MMigrationStep.STEPTYPE_SQLStatement.equals(mstep.getStepType()) )
 		{
 			mstep.setDBType(step.getAttribute("DBType"));
+			
+			// If Parse is defined, set it accordingly, else, use the default or ignore
+			if (!step.getAttribute("Parse").equals("")) {
+				mstep.setParse("Y".equals(step.getAttribute("Parse")));
+			}
+			
 			Node sql = step.getElementsByTagName("SQLStatement").item(0);
 			if ( sql != null )
 				mstep.setSQLStatement(sql.getTextContent());
@@ -585,11 +692,46 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		}
 		
 		mstep.saveEx();
+		log.log(Level.CONFIG, mstep.getAD_Migration().toString() + ": Step " + mstep.getSeqNo() + " loaded");
 
 	}
 
+	/**
+	 * get parent migration
+	 */
 	public MMigration getParent() {
-		return (MMigration) getAD_Migration();
+		
+		if (parent == null)
+			parent =  (MMigration) getAD_Migration();
+		
+		return parent;
 	}
+	
+	/**
+	 * 	Before Delete
+	 *	@return true of it can be deleted
+	 */
+	protected boolean beforeDelete ()
+	{
+		for (MMigrationData data : m_migrationData) {
+			data.deleteEx(true);
+		}
+		return true;
+	}	//	beforeDelete
+
+	/**
+	 * 	Before Save
+	 *	@param newRecord new
+	 *	@return true
+	 */
+	protected boolean beforeSave (boolean newRecord)
+	{
+		if (this.getAD_Client_ID() > 0)
+			this.setAD_Client_ID(0); // Migrations are always owned by System
+		if (this.getAD_Org_ID() > 0)
+			this.setAD_Org_ID(0);
+		return true;
+	}	//	beforeSave
+
 
 }

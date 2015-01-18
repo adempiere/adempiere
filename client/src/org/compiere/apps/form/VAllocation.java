@@ -54,6 +54,13 @@ import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
 
+/**
+ * 
+ * @author Michael McKay, 
+ * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
+ * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
+ *
+ */
 public class VAllocation extends Allocation
 	implements FormPanel, ActionListener, TableModelListener, VetoableChangeListener
 {
@@ -116,6 +123,8 @@ public class VAllocation extends Allocation
 	private JLabel currencyLabel = new JLabel();
 	private VLookup currencyPick = null;
 	private JCheckBox multiCurrency = new JCheckBox();
+	private JLabel chargeLabel = new JLabel();
+    private VLookup chargePick = null;
 	private JLabel allocCurrencyLabel = new JLabel();
 	private StatusBar statusBar = new StatusBar();
 	private JLabel dateLabel = new JLabel();
@@ -131,6 +140,10 @@ public class VAllocation extends Allocation
 	private void jbInit() throws Exception
 	{
 		CompiereColor.setBackground(panel);
+		//
+		paymentTable.setMultiSelection(true);  // Should be performed before the class is set.
+		invoiceTable.setMultiSelection(true);  // Should be performed before the class is set.
+		invoiceTable.setSurrendersFocusOnKeystroke(true);
 		//
 		mainPanel.setLayout(mainLayout);
 		dateLabel.setText(Msg.getMsg(Env.getCtx(), "Date"));
@@ -154,6 +167,8 @@ public class VAllocation extends Allocation
 		paymentInfo.setHorizontalAlignment(SwingConstants.RIGHT);
 		paymentInfo.setHorizontalTextPosition(SwingConstants.RIGHT);
 		paymentInfo.setText(".");
+		chargeLabel.setText(Msg.translate(Env.getCtx(), "C_Charge_ID"));
+	    chargeLabel.setToolTipText(Msg.getMsg(Env.getCtx(), "ChargeDifference", false));	    
 		differenceLabel.setText(Msg.getMsg(Env.getCtx(), "Difference"));
 		differenceField.setBackground(AdempierePLAF.getFieldBackground_Inactive());
 		differenceField.setEditable(false);
@@ -198,10 +213,14 @@ public class VAllocation extends Allocation
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 0), 0, 0));
 		allocationPanel.add(differenceField, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-		allocationPanel.add(allocateButton, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0
-			,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+		allocationPanel.add(chargePick, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0
+	    		  ,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		allocationPanel.add(allocCurrencyLabel, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
 			,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		allocationPanel.add(allocateButton, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0
+			,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+		allocationPanel.add(chargeLabel, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));      
 		paymentPanel.add(paymentLabel, BorderLayout.NORTH);
 		paymentPanel.add(paymentInfo, BorderLayout.SOUTH);
 		paymentPanel.add(paymentScrollPane, BorderLayout.CENTER);
@@ -266,6 +285,19 @@ public class VAllocation extends Allocation
 		//  Date set to Login Date
 		dateField.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
 		dateField.addVetoableChangeListener(this);
+		
+
+		AD_Column_ID = 61804; // C_AllocationLine.C_Charge_ID
+
+		MLookup lookupCharge = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0,
+				AD_Column_ID, DisplayType.TableDir);
+
+		chargePick = new VLookup("C_Charge_ID", false, false, true,
+				lookupCharge);
+
+		chargePick.setValue(new Integer(m_C_Charge_ID));
+
+		chargePick.addVetoableChangeListener(this);
 	}   //  dynInit
 	
 	/**************************************************************************
@@ -342,6 +374,22 @@ public class VAllocation extends Allocation
 			
 			loadBPartner();
 		}
+		
+		else if (name.equals("C_Charge_ID")) {
+
+			if (value == null){
+
+				m_C_Charge_ID = 0;
+			}
+
+			else{
+
+				m_C_Charge_ID = ((Integer) value).intValue();
+			}
+
+			setAllocateButton();
+
+		}
 
 		//  BPartner
 		if (name.equals("C_BPartner_ID"))
@@ -397,6 +445,7 @@ public class VAllocation extends Allocation
 		calculate();
 	}
 	
+	
 	public void calculate()
 	{
 		allocDate = null;
@@ -412,11 +461,35 @@ public class VAllocation extends Allocation
 		//  Difference
 		totalDiff = totalPay.subtract(totalInv);
 		differenceField.setText(format.format(totalDiff));
-		
-		if (totalDiff.compareTo(new BigDecimal(0.0)) == 0)
+				
+	}
+	
+	private void setAllocateButton() {
+
+		if (totalDiff.compareTo(new BigDecimal(0.0)) == 0 ^ m_C_Charge_ID > 0)
+
+		{
 			allocateButton.setEnabled(true);
+
+			// chargePick.setValue(m_C_Charge_ID);
+
+		}
 		else
+		{
+
 			allocateButton.setEnabled(false);
+
+		}
+
+		if (totalDiff.compareTo(new BigDecimal(0.0)) == 0)
+		{
+
+			chargePick.setValue(null);
+
+			m_C_Charge_ID = 0;
+
+		}
+
 	}
 	
 	/**************************************************************************

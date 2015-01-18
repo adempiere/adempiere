@@ -26,6 +26,9 @@ import java.util.Set;
 import java.util.logging.Level;
 
 import org.adempiere.webui.component.Button;
+import org.adempiere.webui.component.CWindowToolbar;
+import org.adempiere.webui.component.Grid;
+import org.adempiere.webui.component.GridPanel;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.ListHead;
 import org.adempiere.webui.component.ListHeader;
@@ -33,6 +36,8 @@ import org.adempiere.webui.component.ListItem;
 import org.adempiere.webui.component.Listbox;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.SimpleListModel;
+import org.adempiere.webui.panel.ADTabPanel.EmbeddedPanel;
+import org.adempiere.webui.panel.ADTabPanel.HorizontalEmbeddedPanel;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.GridTab;
 import org.compiere.model.MColumn;
@@ -49,6 +54,7 @@ import org.compiere.util.Msg;
 import org.compiere.util.NamePair;
 import org.zkoss.zhtml.Span;
 import org.zkoss.zk.au.out.AuFocus;
+import org.zkoss.zk.ui.HtmlBasedComponent;
 import org.zkoss.zk.ui.event.DropEvent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -69,10 +75,12 @@ import org.zkoss.zul.event.ListDataEvent;
  * @author victor.perez@e-evolution.com, e-Evolution
  * 				FR [ 2826406 ] The Tab Sort without parent column
  *				<li> https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2826406&group_id=176962
+ *              <li>Implement embedded or horizontal tab panel https://adempiere.atlassian.net/browse/ADEMPIERE-319
+ *              <li>New ADempiere 3.8.0 ZK Theme Light  https://adempiere.atlassian.net/browse/ADEMPIERE-320
  * Zk Port
  * @author Low Heng Sin
  */
-public class ADSortTab extends Panel implements IADTabpanel
+public class ADSortTab extends Panel implements IADTabPanel
 {
 
 	private static final long serialVersionUID = 4289328613547509587L;
@@ -115,6 +123,10 @@ public class ADSortTab extends Panel implements IADTabpanel
 	private Button bRemove = new Button();
 	private Button bUp = new Button();
 	private Button bDown = new Button();
+	
+	private CWindowToolbar globalToolbar;
+
+    private boolean isEmbedded = false;
 	//
 	SimpleListModel noModel = new SimpleListModel() {
 		/**
@@ -933,5 +945,69 @@ public class ADSortTab extends Panel implements IADTabpanel
 	public boolean onEnterKey() {
 		return false;
 	}
+
+	public CWindowToolbar getGlobalToolbar()
+	{
+		return globalToolbar;
+	}
+	
+	public void setGlobalToolbar(CWindowToolbar globalToolbar) {
+		this.globalToolbar = globalToolbar;
+	}
+
+	public void setUnselected(IADTabPanel panel)
+    {
+    	((HtmlBasedComponent)this).setStyle("border:none;");
+		
+		this.setWidth("100%");
+		this.setHeight("100%");
+		
+    }
+    
+    public void setSelected(IADTabPanel panel)
+    {
+    	getGlobalToolbar().setCurrentPanel(panel);
+    	((HtmlBasedComponent)this).setStyle("border-left: 7px solid #fa962f; border-top: 1px solid #fa962f; border-bottom: 1px solid #fa962f; border-right: 1px solid #fa962f;");		
+		this.setWidth("99%");
+		this.setHeight("98%");
+    }
+
+	@Override
+	public Grid getGrid() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<EmbeddedPanel> getIncludedPanel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<HorizontalEmbeddedPanel> getHorizontalIncludedPanel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public int getWindowNo() {
+		// TODO Auto-generated method stub
+		return m_WindowNo;
+	}
+
+	@Override
+	public GridPanel getListPanel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+    public void setIsEmbedded(boolean isEmbedded)
+    {
+        this.isEmbedded=isEmbedded;
+    }
+
+    public boolean isEmbedded()
+    {
+        return isEmbedded;
+    }
 }	//ADSortTab
 

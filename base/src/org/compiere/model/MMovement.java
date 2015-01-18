@@ -23,6 +23,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
@@ -427,7 +428,7 @@ public class MMovement extends X_M_Movement implements DocAction
 						}
 
 						//
-						trxFrom = new MTransaction (getCtx(), line.getAD_Org_ID(), 
+						trxFrom = new MTransaction (getCtx(), locator.getAD_Org_ID(), 
 								MTransaction.MOVEMENTTYPE_MovementFrom,
 								line.getM_Locator_ID(), line.getM_Product_ID(), ma.getM_AttributeSetInstance_ID(),
 								ma.getMovementQty().negate(), getMovementDate(), get_TrxName());
@@ -438,10 +439,12 @@ public class MMovement extends X_M_Movement implements DocAction
 							return DocAction.STATUS_Invalid;
 						}
 						//
-						MTransaction trxTo = new MTransaction (getCtx(), line.getAD_Org_ID(), 
+						MLocator locatorTo = new MLocator (getCtx(), line.getM_LocatorTo_ID(), get_TrxName());
+						MTransaction trxTo = new MTransaction (getCtx(), locatorTo.getAD_Org_ID(), 
 								MTransaction.MOVEMENTTYPE_MovementTo,
 								line.getM_LocatorTo_ID(), line.getM_Product_ID(), M_AttributeSetInstanceTo_ID,
 								ma.getMovementQty(), getMovementDate(), get_TrxName());
+						trxTo.setAD_Org_ID(locatorTo.getAD_Org_ID());
 						trxTo.setM_MovementLine_ID(line.getM_MovementLine_ID());
 						if (!trxTo.save())
 						{
@@ -488,11 +491,13 @@ public class MMovement extends X_M_Movement implements DocAction
 						return DocAction.STATUS_Invalid;
 					}
 					//
+					MLocator locatorTo = new MLocator (getCtx(), line.getM_LocatorTo_ID(), get_TrxName());
 					MTransaction trxTo = new MTransaction (getCtx(), line.getAD_Org_ID(), 
 							MTransaction.MOVEMENTTYPE_MovementTo,
 							line.getM_LocatorTo_ID(), line.getM_Product_ID(), line.getM_AttributeSetInstanceTo_ID(),
 							line.getMovementQty(), getMovementDate(), get_TrxName());
 					trxTo.setM_MovementLine_ID(line.getM_MovementLine_ID());
+					trxTo.setAD_Org_ID(locatorTo.getAD_Org_ID());
 					if (!trxTo.save())
 					{
 						m_processMsg = "Transaction To not inserted";
@@ -634,7 +639,7 @@ public class MMovement extends X_M_Movement implements DocAction
 				{
 					line.setMovementQty(Env.ZERO);
 					line.addDescription("Void (" + old + ")");
-					line.save(get_TrxName());
+					line.saveEx();
 				}
 			}
 		}
@@ -729,11 +734,7 @@ public class MMovement extends X_M_Movement implements DocAction
 			rLine.setScrappedQty(Env.ZERO);
 			rLine.setConfirmedQty(Env.ZERO);
 			rLine.setProcessed(false);
-			if (!rLine.save())
-			{
-				m_processMsg = "Could not create Movement Reversal Line";
-				return false;
-			}
+			rLine.saveEx();
 		}
 		//
 		if (!reversal.processIt(DocAction.ACTION_Complete))
@@ -744,7 +745,7 @@ public class MMovement extends X_M_Movement implements DocAction
 		reversal.closeIt();
 		reversal.setDocStatus(DOCSTATUS_Reversed);
 		reversal.setDocAction(DOCACTION_None);
-		reversal.save();
+		reversal.saveEx();
 		m_processMsg = reversal.getDocumentNo();
 		
 		// After reverseCorrect
@@ -883,5 +884,37 @@ public class MMovement extends X_M_Movement implements DocAction
 			|| DOCSTATUS_Reversed.equals(ds);
 	}	//	isComplete
 	
+	private boolean isSameCostDimension(MAcctSchema as, MTransaction trxFrom, MTransaction trxTo)
+	{
+		if (trxFrom.getM_Product_ID() != trxTo.getM_Product_ID())
+		{
+			throw new AdempiereException("Same product is needed - "+trxFrom+", "+trxTo);
+		}
+		MProduct product = MProduct.get(getCtx(), trxFrom.getM_Product_ID());
+		String CostingLevel = product.getCostingLevel(as,trxFrom.getAD_Org_ID());
+		int Org_ID = trxFrom.getAD_Org_ID();
+		int Org_ID_To = trxTo.getAD_Org_ID();
+		int ASI_ID = trxFrom.getM_AttributeSetInstance_ID();
+		int ASI_ID_To = trxTo.getM_AttributeSetInstance_ID();
+		if (MAcctSchema.COSTINGLEVEL_Client.equals(CostingLevel))
+		{
+			Org_ID = 0;
+			Org_ID_To = 0;
+			ASI_ID = 0;
+			ASI_ID_To = 0;
+		}
+		else if (MAcctSchema.COSTINGLEVEL_Organization.equals(CostingLevel))
+		{
+			ASI_ID = 0;
+			ASI_ID_To = 0;
+		}
+		else if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(CostingLevel))
+		{
+			Org_ID = 0;
+			Org_ID_To = 0;
+		}
+		//
+		return Org_ID == Org_ID_To && ASI_ID == ASI_ID_To;
+	}
 }	//	MMovement
 

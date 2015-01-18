@@ -80,14 +80,14 @@ public class StorageCleanup extends SvrProcess
 			+ "WHERE AD_Client_ID = ?"
 			+ " AND QtyOnHand < 0"
 			//	Instance Attribute
-			+ " AND EXISTS (SELECT * FROM M_Product p"
-				+ " INNER JOIN M_AttributeSet mas ON (p.M_AttributeSet_ID=mas.M_AttributeSet_ID) "
-				+ "WHERE s.M_Product_ID=p.M_Product_ID AND mas.IsInstanceAttribute='Y')"
+		//	+ " AND EXISTS (SELECT * FROM M_Product p"
+		//		+ " INNER JOIN M_AttributeSet mas ON (p.M_AttributeSet_ID=mas.M_AttributeSet_ID) "
+		//		+ "WHERE s.M_Product_ID=p.M_Product_ID AND mas.IsInstanceAttribute='Y')"
 			//	Stock in same location
-		//	+ " AND EXISTS (SELECT * FROM M_Storage sl "
-		//		+ "WHERE sl.QtyOnHand > 0"
-		//		+ " AND s.M_Product_ID=sl.M_Product_ID"
-		//		+ " AND s.M_Locator_ID=sl.M_Locator_ID)"
+			+ " AND EXISTS (SELECT * FROM M_Storage sl "
+				+ "WHERE sl.QtyOnHand > 0"
+				+ " AND s.M_Product_ID=sl.M_Product_ID"
+				+ " AND s.M_Locator_ID=sl.M_Locator_ID)"
 			//	Stock in same Warehouse
 			+ " AND EXISTS (SELECT * FROM M_Storage sw"
 				+ " INNER JOIN M_Locator swl ON (sw.M_Locator_ID=swl.M_Locator_ID), M_Locator sl "
@@ -131,16 +131,26 @@ public class StorageCleanup extends SvrProcess
 		log.info(target.toString());
 		BigDecimal qty = target.getQtyOnHand().negate();
 
-		//	Create Movement
-		MMovement mh = new MMovement (getCtx(), 0, get_TrxName());
-		mh.setAD_Org_ID(target.getAD_Org_ID());
-		mh.setC_DocType_ID(p_C_DocType_ID);
-		mh.setDescription(getName());
-		if (!mh.save())
-			return 0;
-
-		int lines = 0;
+		MMovement mh = null;
 		MStorage[] sources = getSources(target.getM_Product_ID(), target.getM_Locator_ID());
+		
+		if (sources.length > 0)
+		{
+			//	Create Movement
+			mh = new MMovement (getCtx(), 0, get_TrxName());
+			mh.setAD_Org_ID(target.getAD_Org_ID());
+			mh.setC_DocType_ID(p_C_DocType_ID);
+			mh.setDescription(getName());
+			if (!mh.save())
+				return 0;
+		}
+		else
+		{
+			// No available sources
+			return 0;
+		}
+		
+		int lines = 0;
 		for (int i = 0; i < sources.length; i++)
 		{
 			MStorage source = sources[i];
@@ -171,7 +181,7 @@ public class StorageCleanup extends SvrProcess
 		
 		//	Process
 		mh.processIt(MMovement.ACTION_Complete);
-		mh.save();
+		mh.saveEx();
 		
 		addLog(0, null, new BigDecimal(lines), "@M_Movement_ID@ " + mh.getDocumentNo() + " (" 
 			+ MRefList.get(getCtx(), MMovement.DOCSTATUS_AD_Reference_ID, 
@@ -247,11 +257,15 @@ public class StorageCleanup extends SvrProcess
 			+ "FROM M_Storage s "
 			+ "WHERE QtyOnHand > 0"
 			+ " AND M_Product_ID=?"
-			//	Empty ASI
+			//	Empty ASI or ASI with no attribute set
 			+ " AND (M_AttributeSetInstance_ID=0"
-			+ " OR EXISTS (SELECT * FROM M_AttributeSetInstance asi "
-				+ "WHERE s.M_AttributeSetInstance_ID=asi.M_AttributeSetInstance_ID"
-				+ " AND asi.Description IS NULL) )"
+			+ "  OR EXISTS (SELECT * FROM M_AttributeSetInstance asi" 
+			+ " 	RIGHT OUTER JOIN M_AttributeSet mas ON (asi.M_AttributeSet_ID = mas.M_AttributeSet_ID)"  
+			+ " 	WHERE s.M_AttributeSetInstance_ID=asi.M_AttributeSetInstance_ID"
+			+ " 	AND (mas.M_AttributeSet_ID IS NULL OR mas.isinstanceattribute = 'N')))"
+			//+ " OR EXISTS (SELECT * FROM M_AttributeSetInstance asi "
+			//	+ "WHERE s.M_AttributeSetInstance_ID=asi.M_AttributeSetInstance_ID"
+			//	+ " AND (asi.M_AttributeSet_ID = 0 OR asi.M_AttributeSet_ID IS NULL)) )"
 			//	Stock in same Warehouse
 			+ " AND EXISTS (SELECT * FROM M_Locator sl, M_Locator x "
 				+ "WHERE s.M_Locator_ID=sl.M_Locator_ID"

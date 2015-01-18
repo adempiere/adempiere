@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_PaySelectionCheck
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_HR_PaySelectionCheck extends PO implements I_HR_PaySelectionCheck, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110412L;
+	private static final long serialVersionUID = 20150101L;
 
     /** Standard Constructor */
     public X_HR_PaySelectionCheck (Properties ctx, int HR_PaySelectionCheck_ID, String trxName)
@@ -85,34 +85,6 @@ public class X_HR_PaySelectionCheck extends PO implements I_HR_PaySelectionCheck
       return sb.toString();
     }
 
-	public org.compiere.model.I_C_BP_BankAccount getC_BP_BankAccount() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_BP_BankAccount)MTable.get(getCtx(), org.compiere.model.I_C_BP_BankAccount.Table_Name)
-			.getPO(getC_BP_BankAccount_ID(), get_TrxName());	}
-
-	/** Set Partner Bank Account.
-		@param C_BP_BankAccount_ID 
-		Bank Account of the Business Partner
-	  */
-	public void setC_BP_BankAccount_ID (int C_BP_BankAccount_ID)
-	{
-		if (C_BP_BankAccount_ID < 1) 
-			set_Value (COLUMNNAME_C_BP_BankAccount_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_BP_BankAccount_ID, Integer.valueOf(C_BP_BankAccount_ID));
-	}
-
-	/** Get Partner Bank Account.
-		@return Bank Account of the Business Partner
-	  */
-	public int getC_BP_BankAccount_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_BankAccount_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
 		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
@@ -136,6 +108,34 @@ public class X_HR_PaySelectionCheck extends PO implements I_HR_PaySelectionCheck
 	public int getC_BPartner_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_BP_BankAccount getC_BP_BankAccount() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_BP_BankAccount)MTable.get(getCtx(), org.compiere.model.I_C_BP_BankAccount.Table_Name)
+			.getPO(getC_BP_BankAccount_ID(), get_TrxName());	}
+
+	/** Set Partner Bank Account.
+		@param C_BP_BankAccount_ID 
+		Bank Account of the Business Partner
+	  */
+	public void setC_BP_BankAccount_ID (int C_BP_BankAccount_ID)
+	{
+		if (C_BP_BankAccount_ID < 1) 
+			set_Value (COLUMNNAME_C_BP_BankAccount_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BP_BankAccount_ID, Integer.valueOf(C_BP_BankAccount_ID));
+	}
+
+	/** Get Partner Bank Account.
+		@return Bank Account of the Business Partner
+	  */
+	public int getC_BP_BankAccount_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_BankAccount_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -215,9 +215,7 @@ public class X_HR_PaySelectionCheck extends PO implements I_HR_PaySelectionCheck
     }
 
 	/** Set Payroll Pay Selection Check ID.
-		@param HR_PaySelectionCheck_ID 
-		Payroll Payment Selection Check
-	  */
+		@param HR_PaySelectionCheck_ID Payroll Pay Selection Check ID	  */
 	public void setHR_PaySelectionCheck_ID (int HR_PaySelectionCheck_ID)
 	{
 		if (HR_PaySelectionCheck_ID < 1) 
@@ -227,8 +225,7 @@ public class X_HR_PaySelectionCheck extends PO implements I_HR_PaySelectionCheck
 	}
 
 	/** Get Payroll Pay Selection Check ID.
-		@return Payroll Payment Selection Check
-	  */
+		@return Payroll Pay Selection Check ID	  */
 	public int getHR_PaySelectionCheck_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_PaySelectionCheck_ID);
@@ -243,9 +240,7 @@ public class X_HR_PaySelectionCheck extends PO implements I_HR_PaySelectionCheck
 			.getPO(getHR_PaySelection_ID(), get_TrxName());	}
 
 	/** Set Payroll Payment Selection ID.
-		@param HR_PaySelection_ID 
-		Payroll Payment Selection
-	  */
+		@param HR_PaySelection_ID Payroll Payment Selection ID	  */
 	public void setHR_PaySelection_ID (int HR_PaySelection_ID)
 	{
 		if (HR_PaySelection_ID < 1) 
@@ -255,8 +250,7 @@ public class X_HR_PaySelectionCheck extends PO implements I_HR_PaySelectionCheck
 	}
 
 	/** Get Payroll Payment Selection ID.
-		@return Payroll Payment Selection
-	  */
+		@return Payroll Payment Selection ID	  */
 	public int getHR_PaySelection_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_PaySelection_ID);

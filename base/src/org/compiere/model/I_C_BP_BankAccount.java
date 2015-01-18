@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_BP_BankAccount
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0
  */
 public interface I_C_BP_BankAccount 
 {
@@ -41,18 +41,41 @@ public interface I_C_BP_BankAccount
 
     /** Load Meta Data */
 
-    /** Column name AccountNo */
-    public static final String COLUMNNAME_AccountNo = "AccountNo";
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
-	/** Set Account No.
-	  * Account Number
+	/** Get Client.
+	  * Client/Tenant for this installation.
 	  */
-	public void setAccountNo (String AccountNo);
+	public int getAD_Client_ID();
 
-	/** Get Account No.
-	  * Account Number
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
 	  */
-	public String getAccountNo();
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
+    /** Column name AD_User_ID */
+    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
+
+	/** Set User/Contact.
+	  * User within the system - Internal or Business Partner Contact
+	  */
+	public void setAD_User_ID (int AD_User_ID);
+
+	/** Get User/Contact.
+	  * User within the system - Internal or Business Partner Contact
+	  */
+	public int getAD_User_ID();
+
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
 
     /** Column name A_City */
     public static final String COLUMNNAME_A_City = "A_City";
@@ -79,42 +102,6 @@ public interface I_C_BP_BankAccount
 	  * Country
 	  */
 	public String getA_Country();
-
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
-
-    /** Column name AD_User_ID */
-    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
-
-	/** Set Usuario.
-	  * User within the system - Internal or Business Partner Contact
-	  */
-	public void setAD_User_ID (int AD_User_ID);
-
-	/** Get Usuario.
-	  * User within the system - Internal or Business Partner Contact
-	  */
-	public int getAD_User_ID();
-
-	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
 
     /** Column name A_EMail */
     public static final String COLUMNNAME_A_EMail = "A_EMail";
@@ -207,18 +194,18 @@ public interface I_C_BP_BankAccount
 	  */
 	public String getA_Zip();
 
-    /** Column name BankAccountType */
-    public static final String COLUMNNAME_BankAccountType = "BankAccountType";
+    /** Column name AccountNo */
+    public static final String COLUMNNAME_AccountNo = "AccountNo";
 
-	/** Set Bank Account Type.
-	  * Bank Account Type
+	/** Set Account No.
+	  * Account Number
 	  */
-	public void setBankAccountType (String BankAccountType);
+	public void setAccountNo (String AccountNo);
 
-	/** Get Bank Account Type.
-	  * Bank Account Type
+	/** Get Account No.
+	  * Account Number
 	  */
-	public String getBankAccountType();
+	public String getAccountNo();
 
     /** Column name BPBankAcctUse */
     public static final String COLUMNNAME_BPBankAcctUse = "BPBankAcctUse";
@@ -233,20 +220,31 @@ public interface I_C_BP_BankAccount
 	  */
 	public String getBPBankAcctUse();
 
-    /** Column name C_Bank_ID */
-    public static final String COLUMNNAME_C_Bank_ID = "C_Bank_ID";
+    /** Column name BankAccountType */
+    public static final String COLUMNNAME_BankAccountType = "BankAccountType";
 
-	/** Set Bank.
-	  * Bank
+	/** Set Bank Account Type.
+	  * Bank Account Type
 	  */
-	public void setC_Bank_ID (int C_Bank_ID);
+	public void setBankAccountType (String BankAccountType);
 
-	/** Get Bank.
-	  * Bank
+	/** Get Bank Account Type.
+	  * Bank Account Type
 	  */
-	public int getC_Bank_ID();
+	public String getBankAccountType();
 
-	public org.compiere.model.I_C_Bank getC_Bank() throws RuntimeException;
+    /** Column name C_BP_BankAccount_ID */
+    public static final String COLUMNNAME_C_BP_BankAccount_ID = "C_BP_BankAccount_ID";
+
+	/** Set Partner Bank Account.
+	  * Bank Account of the Business Partner
+	  */
+	public void setC_BP_BankAccount_ID (int C_BP_BankAccount_ID);
+
+	/** Get Partner Bank Account.
+	  * Bank Account of the Business Partner
+	  */
+	public int getC_BP_BankAccount_ID();
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -263,18 +261,20 @@ public interface I_C_BP_BankAccount
 
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
-    /** Column name C_BP_BankAccount_ID */
-    public static final String COLUMNNAME_C_BP_BankAccount_ID = "C_BP_BankAccount_ID";
+    /** Column name C_Bank_ID */
+    public static final String COLUMNNAME_C_Bank_ID = "C_Bank_ID";
 
-	/** Set Partner Bank Account.
-	  * Bank Account of the Business Partner
+	/** Set Bank.
+	  * Bank
 	  */
-	public void setC_BP_BankAccount_ID (int C_BP_BankAccount_ID);
+	public void setC_Bank_ID (int C_Bank_ID);
 
-	/** Get Partner Bank Account.
-	  * Bank Account of the Business Partner
+	/** Get Bank.
+	  * Bank
 	  */
-	public int getC_BP_BankAccount_ID();
+	public int getC_Bank_ID();
+
+	public org.compiere.model.I_C_Bank getC_Bank() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

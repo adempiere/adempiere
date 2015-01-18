@@ -113,6 +113,14 @@ public class RModel implements Serializable
 		m_data.cols.add(index, rc);
 	}   //  addColumn
 
+	/**************************************************************************
+	 *  Get Column
+	 *  @param index
+	 */
+	public RColumn getColumn (int index)
+	{
+		return m_data.cols.get(index);
+	}   //  getColumn
 	/**
 	 *  Add Row
 	 */

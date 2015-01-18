@@ -707,11 +707,78 @@ public class TimeUtil
 		return new Timestamp(gc.getTimeInMillis());
 	}
 
-	
-	/**
-	 * 	Test
-	 *	@param args ignored
+	/*
+	 * @param date calendar initialization date; if null, the current date is used
+	 * @return calendar
+	 * @author Teo Sarca, Teo Sarca <teo.sarca@gmail.com>
 	 */
+	static public Calendar getCalendar(Timestamp date)
+	{
+		GregorianCalendar cal = new GregorianCalendar(Language.getLoginLanguage().getLocale());
+		if (date != null) {
+			cal.setTimeInMillis(date.getTime());
+		}
+		return cal;
+	}
+
+	/**
+	 * [ ARHIPAC ] Get first date in month
+	 * @param day day; if null current time will be used
+	 * @return first day of the month (time will be 00:00)
+	 */
+	static public Timestamp getMonthFirstDay (Timestamp day)
+	{
+		if (day == null)
+			day = new Timestamp(System.currentTimeMillis());
+		Calendar cal = getCalendar(day);
+		cal.setTimeInMillis(day.getTime());
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		//
+		cal.set(Calendar.DAY_OF_MONTH, 1);	//	first
+		return new Timestamp (cal.getTimeInMillis());
+	}	//	getMonthFirstDay
+
+	/**
+	 * [ ARHIPAC ] Return Day + offset (truncates)
+	 * @param day Day; if null current time will be used
+	 * @param offset months offset
+	 * @return Day + offset (time will be 00:00)
+	 * @return Teo Sarca, SC ARHIPAC SERVICE SRL
+
+	 */
+	static public Timestamp addMonths (Timestamp day, int offset)
+	{
+		if (day == null)
+			day = new Timestamp(System.currentTimeMillis());
+		//
+		GregorianCalendar cal = new GregorianCalendar();
+		cal.setTime(day);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		if (offset == 0)
+			return new Timestamp (cal.getTimeInMillis());
+		cal.add(Calendar.MONTH, offset);
+		return new Timestamp (cal.getTimeInMillis());
+	}	//	addMonths
+
+	public static int getMonthsBetween (Timestamp start, Timestamp end)
+	{
+		Calendar startCal = getCalendar(start);
+		Calendar endCal = getCalendar(end);
+		//
+		return endCal.get(Calendar.YEAR) * 12 + endCal.get(Calendar.MONTH);
+	}
+
+
+		/**
+         * 	Test
+         *	@param args ignored
+         */
 	public static void main (String[] args)
 	{
 		Timestamp t1 = getDay(01, 01, 01);

@@ -17,9 +17,12 @@
 package org.adempiere.exceptions;
 
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 
 import org.compiere.util.CLogMgt;
 import org.compiere.util.DB;
+import org.compiere.util.Util;
 
 
 /**
@@ -41,6 +44,7 @@ public class DBException extends AdempiereException
 	 */
 	private static final long serialVersionUID = 4264201718343118625L;
 	private String m_sql = null;
+	private Object[] m_params = null;
 
 	/**
 	 * Create a new DBException based on a SQLException
@@ -60,10 +64,37 @@ public class DBException extends AdempiereException
 	 * @param e exception
 	 * @param sql sql query
 	 */
-	public DBException(SQLException e, String sql)
+	public DBException(Exception e, String sql)
+	{
+		this(e, sql, (Object[])null);
+	}
+
+	/**
+	 * Create a new DBException based on a SQLException and SQL Query
+	 * @param e exception
+	 * @param sql sql query
+	 * @param params sql parameters
+	 */
+	public DBException(Exception e, String sql, Object[] params)
 	{
 		this(e);
 		m_sql = sql;
+		if (params != null)
+			m_params = Arrays.copyOf(params, params.length);
+	}
+
+	/**
+	 * Create a new DBException based on a SQLException and SQL Query
+	 * @param e exception
+	 * @param sql sql query
+	 * @param params sql parameters
+	 */
+	public DBException(Exception e, String sql, List<Object> params)
+	{
+		this(e);
+		m_sql = sql;
+		if (params != null)
+			m_params = params.toArray();
 	}
 
 	/**
@@ -116,8 +147,35 @@ public class DBException extends AdempiereException
     	SQLException e = getSQLException();
     	return (e != null ? e.getSQLState() : null);
     }
+    
+    /**
+     * Return SQL query parameters
+     * @return
+     */
+    public Object[] getSQLParams()
+    {
+    	return m_params;
+    }
 
-
+    @Override
+    public String getMessage()
+    {
+    	StringBuffer sb = new StringBuffer();
+    	String msg = super.getMessage();
+    	if (!Util.isEmpty(msg))
+    		sb.append(msg);
+    	
+    	if (!Util.isEmpty(m_sql))
+    	{
+    		if (sb.length() > 0)
+    			sb.append(", ");
+    		sb.append("SQL=").append(m_sql);
+    		if (m_params != null)
+    			sb.append(" -- ").append(Arrays.toString(m_params));
+    	}
+    	return sb.toString();
+    }
+    
     private static final boolean isErrorCode(Exception e, int errorCode) {
     	if (e == null) {
     		return false;

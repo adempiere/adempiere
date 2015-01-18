@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="EE01" Name="MRP Detail Delete Cascade" ReleaseNo="3.8.0" SeqNo="47">
+    <Comments>MRP Detail delete cascade</Comments>
+    <Step DBType="Postgres" Parse="Y" SeqNo="10" StepType="SQL">
+      <SQLStatement>
+          ALTER TABLE pp_mrp_detail
+          ADD CONSTRAINT mrpdemand_ppmrpdetail FOREIGN KEY (mrp_demand_id)
+          REFERENCES pp_mrp (pp_mrp_id) MATCH SIMPLE
+          ON UPDATE NO ACTION ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
+
+          ALTER TABLE pp_mrp_detail
+          ADD CONSTRAINT mrpsupply_ppmrpdetail FOREIGN KEY (mrp_supply_id)
+          REFERENCES pp_mrp (pp_mrp_id) MATCH SIMPLE
+          ON UPDATE NO ACTION ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
+      </SQLStatement>
+      <RollbackStatement>
+      ALTER TABLE pp_mrp_detail
+        DROP CONSTRAINT mrpdemand_ppmrpdetail;
+      ALTER TABLE pp_mrp_detail
+        DROP CONSTRAINT mrpsupply_ppmrpdetail;
+</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="20" StepType="SQL">
+      <SQLStatement>
+          ALTER TABLE pp_mrp_detail
+          ADD CONSTRAINT mrpdemand_ppmrpdetail FOREIGN KEY (mrp_demand_id)
+          REFERENCES pp_mrp (pp_mrp_id)
+          ON DELETE CASCADE ENABLE;
+
+          ALTER TABLE pp_mrp_detail
+          ADD CONSTRAINT mrpsupply_ppmrpdetail FOREIGN KEY (mrp_supply_id)
+          REFERENCES pp_mrp (pp_mrp_id)
+          ON DELETE CASCADE ENABLE;
+      </SQLStatement>
+      <RollbackStatement>
+      ALTER TABLE pp_mrp_detail
+          DROP CONSTRAINT mrpdemand_ppmrpdetail;
+      ALTER TABLE pp_mrp_detail
+          DROP CONSTRAINT mrpsupply_ppmrpdetail;
+      </RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>

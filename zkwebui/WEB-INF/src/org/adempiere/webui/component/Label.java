@@ -28,10 +28,10 @@ import org.zkoss.zk.ui.Component;
  */
 public class Label extends org.zkoss.zul.Label
 {
-	/**
-	 * 
+    /**
+	 *
 	 */
-	private static final long serialVersionUID = -6818124304324329510L;
+	private static final long serialVersionUID = 1912498227823474678L;
 
 	private Component decorator;
 
@@ -54,6 +54,8 @@ public class Label extends org.zkoss.zul.Label
 	public void setMandatory(boolean mandatory) {
 		this.mandatory = mandatory;
 		setupMandatoryDecorator();
+		if(mandatory)
+			this.setSclass("mandatory-field-label");
 	}
 
 	public Component getDecorator() {

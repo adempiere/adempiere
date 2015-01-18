@@ -89,6 +89,8 @@ import org.w3c.dom.Element;
  *			<li>http://sourceforge.net/tracker/index.php?func=detail&aid=2195894&group_id=176962&atid=879335
  *			<li>BF [2947622] The replication ID (Primary Key) is not working
  *			<li>https://sourceforge.net/tracker/?func=detail&aid=2947622&group_id=176962&atid=879332
+ *			<li>Error when try load a PO Entity with virtual columns
+ *			<li>http://adempiere.atlassian.net/browse/ADEMPIERE-100
  */
 public abstract class PO
 	implements Serializable, Comparator, Evaluatee, Cloneable
@@ -301,6 +303,8 @@ public abstract class PO
 	 */
 	public boolean equals (Object cmp)
 	{
+		if (this == cmp)
+			return true;
 		if (cmp == null)
 			return false;
 		if (!(cmp instanceof PO))
@@ -367,7 +371,7 @@ public abstract class PO
 
 	/**
 	 *  Get Key Columns.
-	 *  @return table name
+	 *  @return key column name(s)
 	 */
 	public String[] get_KeyColumns()
 	{
@@ -1349,7 +1353,7 @@ public abstract class PO
 			}
 			else
 			{
-				log.log(Level.WARNING, "NO Data found for " + get_WhereClause(true));
+				if (!log.getLevel().equals(Level.CONFIG)) log.log(Level.WARNING, "NO Data found for " + get_WhereClause(true));
 				m_IDs = new Object[] {I_ZERO};
 				success = false;
 			//	throw new DBException("NO Data found for " + get_WhereClause(true));
@@ -1400,6 +1404,9 @@ public abstract class PO
 			String columnName = p_info.getColumnName(index);
 			Class<?> clazz = p_info.getColumnClass(index);
 			int dt = p_info.getColumnDisplayType(index);
+			//ADEMPIERE-100
+			if(p_info.isVirtualColumn(index))
+				continue;
 			try
 			{
 				if (clazz == Integer.class)
@@ -1410,7 +1417,7 @@ public abstract class PO
 					m_oldValues[index] = new Boolean ("Y".equals(decrypt(index, rs.getString(columnName))));
 				else if (clazz == Timestamp.class)
 					m_oldValues[index] = decrypt(index, rs.getTimestamp(columnName));
-				else if (DisplayType.isLOB(dt))
+				else if (DisplayType.isLOB(dt) || (DisplayType.isText(dt) && p_info.getFieldLength(index) > 4000))
 					m_oldValues[index] = get_LOB (rs.getObject(columnName));
 				else if (clazz == String.class)
 					m_oldValues[index] = decrypt(index, rs.getString(columnName));
@@ -2391,7 +2398,7 @@ public abstract class PO
 					continue;
 				updated = true;
 			}
-			if (DisplayType.isLOB(dt))
+			if (DisplayType.isLOB(dt) || (DisplayType.isText(dt) && p_info.getFieldLength(i) > 4000))
 			{
 				lobAdd (value, i, dt);
 				//	If no changes set UpdatedBy explicitly to ensure commit of lob
@@ -2646,7 +2653,7 @@ public abstract class PO
 
 			//	Display Type
 			int dt = p_info.getColumnDisplayType(i);
-			if (DisplayType.isLOB(dt))
+			if (DisplayType.isLOB(dt) || (DisplayType.isText(dt) && p_info.getFieldLength(i) > 4000))
 			{
 				lobAdd (value, i, dt);
 				continue;
@@ -3155,7 +3162,7 @@ public abstract class PO
 	 * 	Insert (missing) Translation Records
 	 * 	@return false if error (true if no translation or success)
 	 */
-	private boolean insertTranslations()
+	public boolean insertTranslations()
 	{
 		//	Not a translation table
 		if (m_IDs.length > 1
@@ -3432,11 +3439,12 @@ public abstract class PO
 			id = get_IDOld();
 		
 		String tableName = MTree_Base.getNodeTableName(treeType);
-		String whereClause = "Node_ID="+id+ " AND EXISTS (SELECT * FROM AD_Tree t "
-				+ "WHERE t.AD_Tree_ID=AD_Tree_ID AND t.TreeType='" + treeType + "')";
+		String whereClause = tableName + ".Node_ID="+id+ " AND EXISTS (SELECT * FROM AD_Tree t "
+				+ "WHERE t.AD_Tree_ID="+tableName+".AD_Tree_ID AND t.TreeType='" + treeType + "')";
 		
 		PO tree = MTable.get(getCtx(), tableName).getPO(whereClause, get_TrxName());
-		tree.deleteEx(true);
+		if (tree != null)
+			tree.deleteEx(true);
 		return true;
 	}	//	delete_Tree
 
@@ -4058,6 +4066,4 @@ public abstract class PO
 		clone.m_isReplication = false;
 		return clone;
 	}
-
-
 }   //  PO

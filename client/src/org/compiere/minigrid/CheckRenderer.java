@@ -19,10 +19,12 @@ package org.compiere.minigrid;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Insets;
+import java.awt.event.ItemListener;
 
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import org.adempiere.plaf.AdempierePLAF;
@@ -31,7 +33,11 @@ import org.adempiere.plaf.AdempierePLAF;
  *  Check Box Renderer based on Boolean values
  *
  *  @author     Jorg Janke
- *  @version    $Id: CheckRenderer.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ *  @author Michael McKay, 
+ * 		<li><a href="https://adempiere.atlassian.net/browse/ADEMPIERE-241">ADMPIERE-241</a> Adding Select All checkbox to table header.
+ * 		<li>release/380 - fix row selection event handling to fire single event per row selection
+ *  
+ *  @version    $Id: CheckRenderer.java,v 1.3 2013/11/03 $
  */
 public final class CheckRenderer extends DefaultTableCellRenderer
 {
@@ -49,6 +55,7 @@ public final class CheckRenderer extends DefaultTableCellRenderer
 		m_check.setMargin(new Insets(0,0,0,0));
 		m_check.setHorizontalAlignment(JLabel.CENTER);
 		m_check.setOpaque(true);
+		
 	}   //  CheckRenderer
 
 	private JCheckBox   m_check = new JCheckBox();
@@ -66,6 +73,12 @@ public final class CheckRenderer extends DefaultTableCellRenderer
 	public Component getTableCellRendererComponent(JTable table, Object value,
 		boolean isSelected, boolean hasFocus, int row, int col)
 	{
+		if (table.isCellEditable(row, col))
+			// Set client properties to prevent sorting based on ID
+			this.putClientProperty("SortColumn", Boolean.FALSE);
+		else
+			this.putClientProperty("SortColumn", Boolean.TRUE);
+
 		//  Background & Foreground
 		Color bg = AdempierePLAF.getFieldBackground_Normal();
 		//  Selected is white on blue in Windows
@@ -97,5 +110,9 @@ public final class CheckRenderer extends DefaultTableCellRenderer
 		else
 			m_check.setSelected(false);
 	}   //  setValue
+
+	public void addChangeListener(ChangeListener listener) {
+		m_check.addChangeListener(listener);
+	}
 
 }   //  CheckRenderer

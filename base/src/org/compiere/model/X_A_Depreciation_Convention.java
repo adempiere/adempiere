@@ -19,18 +19,17 @@ package org.compiere.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Depreciation_Convention
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_A_Depreciation_Convention extends PO implements I_A_Depreciation_Convention, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20150101L;
 
     /** Standard Constructor */
     public X_A_Depreciation_Convention (Properties ctx, int A_Depreciation_Convention_ID, String trxName)
@@ -91,14 +90,6 @@ public class X_A_Depreciation_Convention extends PO implements I_A_Depreciation_
 			 return 0;
 		return ii.intValue();
 	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), String.valueOf(getA_Depreciation_Convention_ID()));
-    }
 
 	/** Set ConventionType.
 		@param ConventionType ConventionType	  */

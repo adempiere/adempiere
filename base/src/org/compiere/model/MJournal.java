@@ -349,14 +349,17 @@ public class MJournal extends X_GL_Journal implements DocAction
 	 */
 	private boolean updateBatch()
 	{
-		String sql = "UPDATE GL_JournalBatch jb"
-			+ " SET (TotalDr, TotalCr) = (SELECT COALESCE(SUM(TotalDr),0), COALESCE(SUM(TotalCr),0)"
-				+ " FROM GL_Journal j WHERE j.IsActive='Y' AND jb.GL_JournalBatch_ID=j.GL_JournalBatch_ID) "
-			+ "WHERE GL_JournalBatch_ID=" + getGL_JournalBatch_ID();
-		int no = DB.executeUpdate(sql, get_TrxName());
-		if (no != 1)
-			log.warning("afterSave - Update Batch #" + no);
-		return no == 1;
+		if (getGL_JournalBatch_ID()!=0) {	// idempiere 344 - nmicoud
+			StringBuilder sql = new StringBuilder("UPDATE GL_JournalBatch jb")
+				.append(" SET (TotalDr, TotalCr) = (SELECT COALESCE(SUM(TotalDr),0), COALESCE(SUM(TotalCr),0)")
+				.append(" FROM GL_Journal j WHERE j.IsActive='Y' AND jb.GL_JournalBatch_ID=j.GL_JournalBatch_ID) ")
+				.append("WHERE GL_JournalBatch_ID=").append(getGL_JournalBatch_ID());
+			int no = DB.executeUpdate(sql.toString(), get_TrxName());
+			if (no != 1)
+				log.warning("afterSave - Update Batch #" + no);
+			return no == 1;
+		}
+		return true;
 	}	//	updateBatch
 	
 	

@@ -17,6 +17,20 @@
  *****************************************************************************/
 package org.eevolution.form;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.exceptions.DBException;
+import org.adempiere.impexp.ArrayExcelExporter;
+import org.adempiere.model.I_AD_View_Column;
+import org.adempiere.model.MBrowse;
+import org.adempiere.model.MBrowseField;
+import org.adempiere.model.MView;
+import org.adempiere.model.MViewColumn;
+import org.adempiere.model.MViewDefinition;
+import org.compiere.apps.search.Info_Column;
+import org.compiere.minigrid.IDColumn;
+import org.compiere.model.*;
+import org.compiere.process.ProcessInfo;
+
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -30,26 +44,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.logging.Level;
-
-import org.adempiere.exceptions.AdempiereException;
-import org.adempiere.exceptions.DBException;
-import org.adempiere.impexp.ArrayExcelExporter;
-import org.adempiere.model.I_AD_View_Column;
-import org.adempiere.model.MBrowse;
-import org.adempiere.model.MBrowseField;
-import org.adempiere.model.MView;
-import org.adempiere.model.MViewColumn;
-import org.compiere.apps.search.Info_Column;
-import org.compiere.minigrid.IDColumn;
-import org.compiere.model.MColumn;
-import org.compiere.model.MLookup;
-import org.compiere.model.MLookupFactory;
-import org.compiere.model.MProcess;
-import org.compiere.model.MQuery;
-import org.compiere.model.MRole;
-import org.compiere.model.MTable;
-import org.compiere.model.Query;
-import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
@@ -65,7 +59,6 @@ import org.compiere.util.Msg;
  * 
  */
 public abstract class Browser {
-
 	static public LinkedHashMap<String, Object> getBrowseValues(
 			int AD_PInstance_ID, String alias, int recordId, String trxName) {
 		LinkedHashMap<String, Object> values = new LinkedHashMap<String, Object>();
@@ -125,17 +118,17 @@ public abstract class Browser {
 
 	public static final int WINDOW_WIDTH = 1024; // width of the window
 
-	/** String Array of Column Info */
-	public Info_Column[] m_generalLayout;
 	/** list of query columns */
 	public ArrayList<String> m_queryColumns = new ArrayList<String>();
 	/** list of query columns (SQL) */
 	public ArrayList<String> m_queryColumnsSql = new ArrayList<String>();
-
+	
 	/** Parameters */
 	protected ArrayList<Object> m_parameters;
 	/** Parameters */
 	protected ArrayList<Object> m_parameters_values;
+	/** Parameters */
+	protected ArrayList<GridFieldVO> m_parameters_field;
 	/** Cache m_whereClause **/
 	protected String m_whereClause = ""; 
 	
@@ -162,14 +155,15 @@ public abstract class Browser {
 	public CLogger log = CLogger.getCLogger(getClass());
 
 	/** Layout of Grid */
-	public Info_Column[] p_layout;
+	public List<MBrowseField> browserFields;
+
 	public String m_sqlMain;
 	/** Count SQL Statement */
 	public String m_sqlCount;
 	/** Order By Clause */
 	public String m_sqlOrderBy;
 	/** Master (owning) Window */
-	public int p_WindowNo;
+	public int windowNo;
 	/** Table Name */
 	public String p_FromClause;
 	/** Key Column Name */
@@ -186,17 +180,34 @@ public abstract class Browser {
 	/** Language **/
 	private Language m_language = null;
 	/** Export rows **/
-	private ArrayList<ArrayList<Object>> m_rows = new ArrayList<ArrayList<Object>>();
+	protected ArrayList<ArrayList<Object>> m_rows = new ArrayList<ArrayList<Object>>();
+	
+	protected boolean isCollapsibleByDefault = true;
+	protected boolean isSelectedByDefault = false;
+	protected boolean isExecuteQueryByDefault = false;
+	protected boolean isDeleteable = true;
+	protected boolean isShowTotal = false;
+	protected int     AD_Window_ID = 0;
 
 
 	public Browser(boolean modal, int WindowNo, String value, MBrowse browse,
-			String keyColumn, boolean multiSelection, String where) {
+                   String keyColumn, boolean multiSelection, String where) {
 		m_Browse = browse;
 		m_View = browse.getAD_View();
 		p_keyColumn = keyColumn;
 		p_multiSelection = multiSelection;
 		m_language = Language.getLanguage(Env
 				.getAD_Language(m_Browse.getCtx()));
+
+		
+		isCollapsibleByDefault = browse.isCollapsibleByDefault();
+		isDeleteable = browse.isDeleteable();
+		isSelectedByDefault = browse.isSelectedByDefault();
+		isExecuteQueryByDefault = browse.isExecutedQueryByDefault();
+		isShowTotal = browse.isShowTotal();
+		
+		AD_Window_ID = browse.getAD_Window_ID();
+		
 		log.info(m_Browse.getName() + " - " + keyColumn + " - " + p_whereClause);
 	}
 	
@@ -206,132 +217,62 @@ public abstract class Browser {
 		
 		String whereClause = where != null ? where : "";
 
-		if(m_Browse.getWhereClause() != null )
-			   whereClause = whereClause + m_Browse.getWhereClause();
+		if(browse.getWhereClause() != null )
+			   whereClause = whereClause + browse.getWhereClause();
 		else
 				whereClause = " 1=1 ";
 		if (whereClause == null || whereClause.indexOf('@') == -1)
 			p_whereClause = whereClause;
 		else {
-			p_whereClause = Env.parseContext(Env.getCtx(), p_WindowNo,
+			p_whereClause = Env.parseContext(Env.getCtx(), getWindowNo(),
 					whereClause, true, true);
 			if (p_whereClause.length() == 0)
 				log.log(Level.SEVERE, "Cannot parse context= " + whereClause);
 		}
 
-		log.info(m_Browse.getName() + " - " + p_whereClause);
+		log.info(browse.getName() + " - " + p_whereClause);
 	}
 
-	public ArrayList<Info_Column> initBrowserData() {
-		List<MBrowseField> fields = m_Browse.getDisplayFields();
-		ArrayList<Info_Column> list = new ArrayList<Info_Column>();
-		
+	public List<MBrowseField> initBrowserData() {
+
+		List<MBrowseField> list = new ArrayList<MBrowseField>();
 		MBrowseField fieldKey =  m_Browse.getFieldKey();
 		if(fieldKey != null)
-		{
-			String columnSql = fieldKey.getAD_View_Column().getColumnSQL() + " AS "+ fieldKey.getAD_View_Column().getColumnName();
-			Info_Column infoCol = new Info_Column(fieldKey.getName(), columnSql , IDColumn.class , "" );
-			infoCol.setReadOnly(false);
-			list.add(infoCol);
-		}
+			list.add(fieldKey);
 		else
 		{
-			Info_Column infoCol = new Info_Column("Row", "'Row' AS \"Row\"", IDColumn.class  , "" );
-			infoCol.setReadOnly(false);
-			list.add(infoCol);
+			MViewColumn column = new MViewColumn(m_Browse.getCtx() , 0 , m_Browse.get_TrxName());
+			column.setName("Row");
+			column.setColumnSQL("'Row' AS \"Row\"");
+
+
+			MBrowseField browseField = new MBrowseField(m_Browse , column);
+			browseField.setAD_Reference_ID(DisplayType.ID);
+			browseField.setIsKey(true);
+			browseField.setIsReadOnly(false);
 		}
-			
 
-		for (MBrowseField field : fields) {
-			MViewColumn vcol = field.getAD_View_Column();
 
-			//String title = m_Browse.getTitle();
-			MColumn column =  vcol.getAD_Column();
-			String columnName = column.getColumnName();
-			
+		for (MBrowseField field : m_Browse.getDisplayFields()) {
+
 			if (field.isQueryCriteria()) {
 				m_queryColumns.add(field.getName());
 			}
-			m_queryColumnsSql.add(vcol.getColumnSQL());
+			m_queryColumnsSql.add(field.getAD_View_Column().getColumnSQL());
 
-			int displayType = field.getAD_Reference_ID();
 			if(field.isKey())
 				continue;
-			boolean isDisplayed = field.isDisplayed();
+
 			// Defines Field as Y-Axis
 			if(field.getAxis_Column_ID() > 0)
 			{
-					ArrayList<Info_Column> vlist = getInfoColumnForAxisField(field);
-					for (Info_Column infoCol : vlist){
-						list.add(infoCol);
-					}
-					continue;	
+				for (MBrowseField fieldAxis : getInfoColumnForAxisField(field)){
+					list.add(fieldAxis);
+				}
+				continue;
 			}
-			
-			String IDcolSQL = "";
-			String columnSql = vcol.getColumnSQL() + " AS "
-					+ vcol.getColumnName();
-			if (columnSql == null || columnSql.length() == 0)
-				columnSql = columnName;
-			// Default
-			StringBuilder colSql = new StringBuilder(columnSql);
-			Class colClass = null;
-			if (!isDisplayed)
-				;
-			else if (column.isVirtualColumn())
-			{
-				colSql = new StringBuilder("(" + column.getColumnSQL() + ")");
-				colClass = String.class;
-			}
-			else if (DisplayType.YesNo == displayType)
-				colClass = Boolean.class;
-			else if (DisplayType.Amount == displayType)
-				colClass = BigDecimal.class;
-			else if (DisplayType.Number == displayType
-					|| DisplayType.Quantity == displayType)
-				colClass = Double.class;
-			else if (DisplayType.Integer == displayType)
-				colClass = Integer.class;
-			else if (DisplayType.TableDir == displayType
-					|| DisplayType.Search == displayType) {
-				String alias = vcol.getAD_View_Definition().getTableAlias();
-				colSql = new StringBuilder("("
-						+ MLookupFactory.getLookup_TableDirEmbed(m_language,
-								columnName, alias) + ") AS "
-						+ vcol.getColumnName());
-				IDcolSQL = vcol.getColumnSQL();
-				colClass = KeyNamePair.class;
-			} else if (DisplayType.Table == displayType) {
-				String alias = vcol.getAD_View_Definition().getTableAlias();
-				colSql = new StringBuilder("("
-						+ MLookupFactory.getLookup_TableEmbed(m_language,
-								columnName, alias,
-								field.getAD_Reference_Value_ID()) + ") AS "
-						+ vcol.getColumnName());
-				IDcolSQL = vcol.getColumnSQL();
-				colClass = KeyNamePair.class;
-			} else if (DisplayType.String == displayType
-					|| DisplayType.Text == displayType
-					|| DisplayType.Memo == displayType)
-				colClass = String.class;
-			else if (DisplayType.isDate(displayType))
-				colClass = Timestamp.class;
-			else if (DisplayType.List == displayType) {
-				colSql = new StringBuilder("("
-						+ MLookupFactory.getLookup_ListEmbed(m_language,
-								field.getAD_Reference_Value_ID(),
-								vcol.getColumnSQL()) + ") AS "
-						+ vcol.getColumnName());
-				colClass = String.class;;
-			}
-			if (colClass != null) {
-				Info_Column infocol = new Info_Column(field.getName(), colSql.toString(), colClass , displayType , IDcolSQL );
-				infocol.setReadOnly(field.isReadOnly());
-				list.add(infocol);
-				log.finest("Added Field=" + columnName + " Name=" + field.getName());
-			} else
-				log.finest("Not Added Field=" +  columnName + "Name=" + field.getName());
-		}		
+			list.add(field);
+		}
 		return list;
 	}
 
@@ -446,104 +387,203 @@ public abstract class Browser {
 			return null;
 		return m_results.get(0);
 	}
+
+    protected int deleteSelection() {
+        MTable table = null;
+        MBrowseField fieldKey  = m_Browse.getFieldKey();
+        if (fieldKey != null)
+            if (fieldKey.getAD_View_Column().getAD_Column_ID() > 0)
+                table = (MTable) fieldKey.getAD_View_Column().getAD_Column().getAD_Table();
+
+        int records = 0 ;
+        for (int id : getSelectedRowKeys())
+        {
+            if (table != null)
+            {
+                table.getPO(id, null).deleteEx(true);
+                records++;
+            }
+        }
+        return records;
+    }
 	
-	protected int deleteSelection() {
-		
-		final MTable table = m_View.getParentViewDefinition().getAD_Table();
-		int records = 0 ;
-		for (int id : getSelectedRowKeys())
-		{
-			table.getPO(id, null).delete(true);
-			records++;
-		}
-		return records;
+	protected boolean isSelectedByDefault()
+	{
+		return isSelectedByDefault;
+	}
+	
+	protected boolean isExecuteQueryByDefault()
+	{
+		return isExecuteQueryByDefault;
 	}
 
+	protected boolean isCollapsibleByDefault()
+	{
+		return isCollapsibleByDefault;
+	}
+	
+	protected boolean isDeleteable()
+	{
+		return isDeleteable;
+	}
+	
+	protected boolean isShowTotal()
+	{
+		return isShowTotal;
+	}
+	protected int getAD_Window_ID()
+	{
+		return AD_Window_ID;
+	}
+	
 	public int getAD_Browse_ID() {
 		return m_Browse.getAD_Browse_ID();
 	}
+
 	/**
 	 * Get Info_Column for Axis Field
 	 * @param field defined as Axis
 	 * @return Info_Column with Axis Field
 	 */
-	public ArrayList<Info_Column> getInfoColumnForAxisField(MBrowseField field) 
-	{	
-		ArrayList<Info_Column> list = new ArrayList<Info_Column>();
+	public List<MBrowseField> getInfoColumnForAxisField(MBrowseField field)
+	{
+		List<MBrowseField> list = new ArrayList<MBrowseField>();
+
 		try {
 			I_AD_View_Column xcol, pcol, ycol;
 			xcol = field.getAD_View_Column();
 			pcol = field.getAxis_Parent_Column();
 			ycol = field.getAxis_Column();
-			
+
 			String columnName = xcol.getAD_Column().getColumnName();
-			MTable xTable = (MTable) xcol.getAD_Column().getAD_Table();
+
+			MBrowseField fieldKey = ((MBrowse) field.getAD_Browse()).getFieldKey();
+			if(fieldKey == null)
+				throw new AdempiereException("@NotFound@ @IsKey@");
+
+			MTable xTable = (MTable) ycol.getAD_View_Definition().getAD_Table();
 			String xTableName = xTable.getTableName();
-	
-			//MBrowseField fieldKey = field.getFieldKey();
-			//if(fieldKey == null)
-			//	throw new AdempiereException("@NotFound@ @IsKey@");
-	
+
 			String keyColumn = MQuery.getZoomColumnName(columnName);
 			String tableName = MQuery.getZoomTableName(columnName);
-	
-			MTable parentTable = MTable.get(field.getCtx(), tableName);
-			MColumn parentColumn = getParentColumn(parentTable.getAD_Table_ID());
-			if (parentColumn == null)
-				throw new AdempiereException("@NotFound@ @IsParent@");
-			if(pcol.getColumnName() == null)
-				throw new AdempiereException("@NotFound@ @ColumnName@");
-	
+
 			String whereClause =  "";
-			
-			if(field.getAD_Val_Rule_ID() > 0)
-				whereClause = Env.parseContext(Env.getCtx(), p_WindowNo, field.getAD_Val_Rule().getCode(), false);
-			
-			if(whereClause.length() > 0 )
-				whereClause += " AND ";
-			
-			whereClause += parentColumn.getColumnName() + "="
-					+ getParamenterValue(pcol.getColumnName());
+
+			if (pcol != null && pcol.getAD_View_Column_ID() > 0)
+			{
+				MTable parentTable = MTable.get(field.getCtx(), tableName);
+				MColumn parentColumn = getParentColumn(parentTable.getAD_Table_ID());
+				if (parentColumn == null)
+					throw new AdempiereException("@NotFound@ @IsParent@");
+
+				if(field.getAD_Val_Rule_ID() > 0)
+					whereClause = Env.parseContext(Env.getCtx(), getWindowNo() , field.getAD_Val_Rule().getCode(), false);
+
+			}
+
 
 			MLookup lookup = MLookupFactory.get(Env.getCtx(), 0,
 					xcol.getAD_Column_ID(), field.getAD_Reference_ID(),
 					m_language, keyColumn, field.getAD_Reference_Value_ID(), false, whereClause);
 
-			for (int id : MTable.getAllIDs(tableName, whereClause , null)) {
-				String colName = lookup.getDisplay(id).trim()
-						+ "/"
-						+ Msg.translate(m_language, ycol.getAD_Column()
-								.getColumnName());
-				StringBuffer select = new StringBuffer("(SELECT ")
-						.append(ycol.getAD_Column()
-								.getColumnName())
-						.append(" FROM  ")
-						.append(xTableName)
-						.append(" WHERE ")
-						//.append(xTableName)
-						//.append(".")
-						//.append(fieldKey.getAD_View_Column().getAD_Column()
-						//		.getColumnName()).append("=")
-						//.append(fieldKey.getAD_View_Column().getColumnSQL())
-						//.append(" AND ").append(xTableName).append(".")
-						.append(xTableName).append(".")
-						.append(xcol.getAD_Column().getColumnName())
-						.append("=").append(id).append(") AS ");
-				select.append("\"").append(colName).append("\"");
-				Info_Column infocol = new Info_Column(colName,
-						select.toString(), DisplayType.getClass(ycol.getAD_Column().getAD_Reference_ID(), true));
-				infocol.setReadOnly(field.isReadOnly());
-				list.add(infocol);
-				log.finest("Added Column=" + colName);
+			int cols = 0;
+
+			StringBuilder axisSql = new StringBuilder("(SELECT ");
+			axisSql.append("SUM(")
+					.append(ycol.getAD_Column()
+							.getColumnName())
+					.append(") FROM  ")
+					.append(ycol.getAD_View_Definition().getAD_Table().getTableName())
+					.append(" WHERE ")
+					.append(xTableName)
+					.append(".")
+					.append(fieldKey.getAD_View_Column().getAD_Column()
+							.getColumnName()).append("=")
+					.append(fieldKey.getAD_View_Column().getColumnSQL())
+					.append(getAxisSQLWhere(pcol, true))
+					.append(" AND ")
+					.append(xTableName).append(".")
+					.append(xcol.getAD_Column().getColumnName());
+
+			for (int id :  getAxisRecordIds(tableName, whereClause)) {
+				cols ++;
+				String display =  lookup.getDisplay(id).trim();
+				display = display.length() > 12 ? display.substring(1,12) + "_" + cols : display;
+				String joinColumn = Msg.translate(m_language, ycol.getAD_Column()
+						.getColumnName());
+				joinColumn = joinColumn.length() > 15 ? joinColumn.substring(1, 15) :  joinColumn;
+				String sqlColName = display + "/" + joinColumn;
+				String colName = lookup.getDisplay(id).trim() + "/" + Msg.translate(m_language, ycol.getAD_Column()
+						.getColumnName());
+
+				StringBuffer select = new StringBuffer(axisSql);
+				select.append("=").append(id).append(")");
+
+				MViewColumn viewColumn = new MViewColumn(field.getCtx() , 0 , field.get_TrxName());
+				MViewColumn.copyValues((MViewColumn) ycol, viewColumn);
+				viewColumn.setAD_View_Column_ID(ycol.getAD_View_Column_ID());
+				viewColumn.setAD_Column_ID(ycol.getAD_Column_ID());
+				viewColumn.setColumnSQL(select.toString());
+				viewColumn.setColumnName("\"" + sqlColName + "\"");
+
+				MBrowseField browseField = new MBrowseField((MBrowse)field.getAD_Browse() , viewColumn);
+				browseField.setAD_Browse_ID(field.getAD_Browse_ID());
+				browseField.setAD_Element_ID(field.getAD_Element_ID());
+				browseField.setName(colName);
+				browseField.setDescription(viewColumn.getDescription());
+				browseField.setHelp(viewColumn.getHelp());
+				if (viewColumn.get_ID() > 0)
+					browseField.setAD_View_Column_ID(viewColumn.getAD_View_Column_ID());
+				browseField.setIsActive(true);
+				browseField.setIsIdentifier(viewColumn.isIdentifier());
+				browseField.setIsRange(false);
+				browseField.setIsQueryCriteria(false);
+				browseField.setAD_Reference_ID(ycol.getAD_Column().getAD_Reference_ID());
+				browseField.setAD_Reference_Value_ID(ycol.getAD_Column().getAD_Reference_Value_ID());
+				browseField.setIsKey(false);
+				browseField.setIsDisplayed(true);
+				browseField.setIsReadOnly(field.isReadOnly());
+				browseField.setAD_Element_ID(field.getAD_Element_ID());
+
+				list.add(browseField);
+				log.finest("Added Column=" + sqlColName +  " SQL = " + select);
 			}
-			
+
 		} catch (Exception e) {
 			throw new AdempiereException(e);
-		}	
+		}
 		return list;
 	}
-	
-	/**
+
+
+    private int[] getAxisRecordIds(String tableName, String tableWhereClause) {
+
+        StringBuilder whereClause = new StringBuilder();
+        StringBuilder orderBy = new StringBuilder();
+        whereClause.append("EXISTS (SELECT 1 FROM AD_Table t WHERE t.TableName=? AND t.AD_Table_ID=AD_Column.AD_Table_ID) AND ");
+        whereClause.append(I_AD_Column.COLUMNNAME_IsIdentifier).append("=?");
+
+        List<MColumn> columns =  new Query(Env.getCtx() , I_AD_Column.Table_Name , whereClause.toString(), null)
+                .setOnlyActiveRecords(true)
+                .setParameters(tableName, true)
+                .setOrderBy(I_AD_Column.COLUMNNAME_SeqNo)
+                .list();
+
+        int count = 1;
+        for (MColumn column : columns)
+        {
+            orderBy.append(column.getColumnName());
+            if (count != columns.size())
+                orderBy.append(",");
+            count++;
+        }
+
+        return new Query(Env.getCtx(), tableName , tableWhereClause, null)
+                .setOnlyActiveRecords(true)
+                .setOrderBy(orderBy.toString()).getIDs();
+    }
+
+    /**
 	 * Get Parent Column for Table
 	 * @param AD_Table_ID Table ID
 	 * @return MColumn
@@ -596,26 +636,68 @@ public abstract class Browser {
 	 * @param key
 	 * @return Object Value
 	 */
-	 public abstract Object getParamenterValue(Object key);
+	 public abstract Object getParameterValue(Object key);
+	 
+	 public abstract void setParameters();
 	 
 	 abstract public String  getSQLWhere(boolean refresh);
+	 
+	 public String getAxisSQLWhere(I_AD_View_Column viewColumn, boolean refresh)
+	 {
+		 MViewDefinition viewDefinition = (MViewDefinition) viewColumn.getAD_View_Definition();
+		 MTable tableBaseName = (MTable) viewDefinition.getAD_Table();
+		 StringBuilder whereAxis = new StringBuilder();
+		 boolean onRange = false;
+		 setParameters();
+		 
+			for (int i = 0; i < m_parameters_field.size(); i++) {
+				
+				if (!m_parameters_field.get(i).Help.contains(viewDefinition.getTableAlias() + "."))
+					continue;
+				
+				String fieldName = m_parameters_field.get(i).Help.replace(viewDefinition.getTableAlias() + "." ,tableBaseName.getTableName() + ".");
+				
+				if (!onRange) {
+
+					if (m_parameters_values.get(i) != null
+							&& !m_parameters_values.get(i).toString().isEmpty()
+							&& !m_parameters_field.get(i).isRange) {
+						whereAxis.append(" AND ");
+						whereAxis.append(fieldName).append("=").append(m_parameters_values.get(i).toString());
+					} else if (m_parameters_values.get(i) != null
+							&& !m_parameters_values.get(i).toString().isEmpty()
+							&& m_parameters_field.get(i).isRange) {
+						whereAxis.append(" AND ");
+						whereAxis.append(fieldName).append(" BETWEEN ").append(m_parameters_values.get(i).toString());
+						onRange = true;
+					} else
+						continue;
+				} else if (m_parameters_values.get(i) != null
+						&& !m_parameters_values.get(i).toString().isEmpty()) {
+					whereAxis.append(" AND ").append(m_parameters_values.get(i).toString());
+					onRange = false;
+				}
+			}
+			
+			return whereAxis.toString();
+	 }
 	
 	protected String getSQL() {
 		String dynWhere = getSQLWhere(false);
 		StringBuilder sql = new StringBuilder(m_sqlMain);
 		if (dynWhere.length() > 0)
 			sql.append(dynWhere); // includes first AND
-		sql.append(m_sqlOrderBy);
+
 		String dataSql = Msg.parseTranslation(Env.getCtx(), sql.toString()); // Variables
 		dataSql = MRole.getDefault().addAccessSQL(dataSql,
 				m_View.getParentEntityAliasName(), MRole.SQL_FULLYQUALIFIED,
 				MRole.SQL_RO);
+        dataSql = dataSql + m_sqlOrderBy;
 		log.finer(dataSql);
-		//dataSql += " ORDER BY " + m_Browse.getOrderByClause(); 
 		return dataSql;
 	}
 	
-	public String getSQLOrderBy() {
+	/*public String getSQLOrderBy() {
 		StringBuilder sqlOrderBy = new StringBuilder();
 		for (MBrowseField field : m_Browse.getOrderByFields()) {
 			if (sqlOrderBy.length() > 0 && field.isOrderBy())
@@ -628,11 +710,12 @@ public abstract class Browser {
 					sqlOrderBy.append(orderByPosition);
 			}
 		}
-		return sqlOrderBy.length() > 0 ? "ORDER BY " + sqlOrderBy.toString()
+		return sqlOrderBy.length() > 0 ? " ORDER BY " + sqlOrderBy.toString()
 				: "";
-	}
-	
-	private int getOrderByPosition(String name)
+	}*/
+
+
+	/*private int getOrderByPosition(String name)
 	{
 		int colOffset = 1; // columns start with 1
 		for (int col = 0; col < p_layout.length; col++) {
@@ -648,6 +731,43 @@ public abstract class Browser {
 				return sortBySqlNo;
 		}
 		return 0;
+	}*/
+
+	public String getSQLOrderBy() {
+		StringBuilder sqlOrderBy = new StringBuilder();
+		for (MBrowseField field : m_Browse.getOrderByFields()) {
+			if (field.isOrderBy()) {
+				int orderByPosition = getOrderByPosition(field);
+				if (orderByPosition <= 0)
+					continue;
+
+				if (sqlOrderBy.length() > 0)
+					sqlOrderBy.append(",");
+
+					sqlOrderBy.append(orderByPosition);
+			}
+		}
+		return sqlOrderBy.length() > 0 ? " ORDER BY " + sqlOrderBy.toString()
+				: "";
+	}
+
+
+	private int getOrderByPosition(MBrowseField BrowserField)
+	{
+		int colOffset = 1; // columns start with 1
+		int col = 0;
+		for (MBrowseField field : browserFields) {
+			int sortBySqlNo = col + colOffset;
+			//Class<?> c = DisplayType.getClass(field.getAD_Reference_ID(), true);
+			//if (c == KeyNamePair.class)
+			//	colOffset++;
+			if (BrowserField.getAD_Browse_Field_ID() == field.getAD_Browse_Field_ID())
+				return sortBySqlNo;
+			col ++;
+		}
+
+
+		return -1;
 	}
 	
 	protected PreparedStatement getStatement(String sql) {
@@ -664,6 +784,8 @@ public abstract class Browser {
 		return stmt;
 	}
 	
+	public abstract  ArrayList<ArrayList<Object>> getDataRows();
+	
 	protected File exportXLS() {
 		File file = null;
 		try {
@@ -674,7 +796,10 @@ public abstract class Browser {
 			m_exporter.start();
 			while (m_exporter.isAlive())
 				;
-			if (m_rows.size() > 1) {
+			
+			ArrayList<ArrayList<Object>> rows = getDataRows();
+			
+			if (rows.size() > 1) {
 
 				String path = System.getProperty("java.io.tmpdir");
 				String prefix = makePrefix(m_Browse.getName());
@@ -683,7 +808,7 @@ public abstract class Browser {
 				}
 				file = File.createTempFile(prefix, ".xls", new File(path));
 				ArrayExcelExporter exporter = new ArrayExcelExporter(
-						Env.getCtx(), m_rows);
+						Env.getCtx(), rows);
 				exporter.export(file, m_language, false);
 			}
 		} catch (IOException e) {
@@ -818,41 +943,41 @@ public abstract class Browser {
 							: null);
 					ArrayList<Object> row = new ArrayList<Object>();
 					int colOffset = 1; // columns start with 1
-					for (int col = 0; col < p_layout.length; col++) {
+					int col = 0;
+					for (MBrowseField field : browserFields) {
 
 						if (isFirstRow) {
-							String columnName = p_layout[col].getColHeader();
+							String columnName = field.getName();
 							header.add(columnName);
 						}
+
 						Object data = null;
-						Class<?> c = p_layout[col].getColClass();
 						int colIndex = col + colOffset;
-						if (c == IDColumn.class && !p_layout[col].getColSQL().equals("'Row' AS \"Row\""))
+						if(field.isKey() && !field.getName().equals(field.getAD_View_Column().getColumnSQL().equals("'Row' AS \"Row\"")))
 							data = new IDColumn(m_rs.getInt(colIndex));
-						else if (c == IDColumn.class && p_layout[col].getColSQL().equals("'Row' AS \"Row\""))
+						else if (field.isKey() && field.getName().equals(field.getAD_View_Column().getColumnSQL().equals("'Row' AS \"Row\"")))
 							data = new IDColumn(no);
-						else if (c == Boolean.class)
+						else if (DisplayType.YesNo == field.getAD_Reference_ID())
 							data = new Boolean("Y".equals(m_rs
 									.getString(colIndex)));
-						else if (c == Timestamp.class)
+						else if (DisplayType.isDate(field.getAD_Reference_ID()))
 							data = m_rs.getTimestamp(colIndex);
-						else if (c == BigDecimal.class)
+						else if (DisplayType.isNumeric(field.getAD_Reference_ID()))
 							data = m_rs.getBigDecimal(colIndex);
-						else if (c == Double.class)
-							data = new Double(m_rs.getDouble(colIndex));
-						else if (c == Integer.class)
+						else if (DisplayType.Integer == field.getAD_Reference_ID())
 							data = new Integer(m_rs.getInt(colIndex));
-						else if (c == KeyNamePair.class) {
+						/*else if (c == KeyNamePair.class) {
 							String display = m_rs.getString(colIndex);
 							int key = m_rs.getInt(colIndex + 1);
 							data = new KeyNamePair(key, display);
 							colOffset++;
-						} else
+						}*/ else
 							data = m_rs.getString(colIndex);
-						
+
 						row.add(data);
+						col++;
 					}
-					
+
 					if (isFirstRow)
 						m_rows.add(header);
 					m_rows.add(row);
@@ -877,4 +1002,9 @@ public abstract class Browser {
 			m_pstmt = null;
 		}
 	} // Exporter
+
+	public int getWindowNo()
+	{
+		return windowNo;
+	}
 }

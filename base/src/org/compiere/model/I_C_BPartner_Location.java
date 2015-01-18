@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_BPartner_Location
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0
  */
 public interface I_C_BPartner_Location 
 {
@@ -105,6 +105,47 @@ public interface I_C_BPartner_Location
 
 	public I_C_Location getC_Location() throws RuntimeException;
 
+    /** Column name C_SalesRegion_ID */
+    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
+
+	/** Set Sales Region.
+	  * Sales coverage region
+	  */
+	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
+
+	/** Get Sales Region.
+	  * Sales coverage region
+	  */
+	public int getC_SalesRegion_ID();
+
+	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
+
+    /** Column name ContactPerson */
+    public static final String COLUMNNAME_ContactPerson = "ContactPerson";
+
+	/** Set Contact Person.
+	  * Contact Person Defines the contact person for this location
+	  */
+	public void setContactPerson (String ContactPerson);
+
+	/** Get Contact Person.
+	  * Contact Person Defines the contact person for this location
+	  */
+	public String getContactPerson();
+
+    /** Column name ContactType */
+    public static final String COLUMNNAME_ContactType = "ContactType";
+
+	/** Set Contact Type.
+	  * Contact Type defines the type of contact for this location
+	  */
+	public void setContactType (String ContactType);
+
+	/** Get Contact Type.
+	  * Contact Type defines the type of contact for this location
+	  */
+	public String getContactType();
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -121,20 +162,18 @@ public interface I_C_BPartner_Location
 	  */
 	public int getCreatedBy();
 
-    /** Column name C_SalesRegion_ID */
-    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
+    /** Column name EMail */
+    public static final String COLUMNNAME_EMail = "EMail";
 
-	/** Set Sales Region.
-	  * Sales coverage region
+	/** Set EMail Address.
+	  * Electronic Mail Address
 	  */
-	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
+	public void setEMail (String EMail);
 
-	/** Get Sales Region.
-	  * Sales coverage region
+	/** Get EMail Address.
+	  * Electronic Mail Address
 	  */
-	public int getC_SalesRegion_ID();
-
-	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
+	public String getEMail();
 
     /** Column name Fax */
     public static final String COLUMNNAME_Fax = "Fax";
@@ -148,6 +187,34 @@ public interface I_C_BPartner_Location
 	  * Facsimile number
 	  */
 	public String getFax();
+
+    /** Column name HR_Relationship_ID */
+    public static final String COLUMNNAME_HR_Relationship_ID = "HR_Relationship_ID";
+
+	/** Set Employee Relationship.
+	  * Employee Relationship Identifies an employee relations
+	  */
+	public void setHR_Relationship_ID (int HR_Relationship_ID);
+
+	/** Get Employee Relationship.
+	  * Employee Relationship Identifies an employee relations
+	  */
+	public int getHR_Relationship_ID();
+
+	public org.eevolution.model.I_HR_Relationship getHR_Relationship() throws RuntimeException;
+
+    /** Column name ISDN */
+    public static final String COLUMNNAME_ISDN = "ISDN";
+
+	/** Set ISDN.
+	  * ISDN or modem line
+	  */
+	public void setISDN (String ISDN);
+
+	/** Get ISDN.
+	  * ISDN or modem line
+	  */
+	public String getISDN();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -174,19 +241,6 @@ public interface I_C_BPartner_Location
 	  * Business Partner Invoice/Bill Address
 	  */
 	public boolean isBillTo();
-
-    /** Column name ISDN */
-    public static final String COLUMNNAME_ISDN = "ISDN";
-
-	/** Set ISDN.
-	  * ISDN or modem line
-	  */
-	public void setISDN (String ISDN);
-
-	/** Get ISDN.
-	  * ISDN or modem line
-	  */
-	public String getISDN();
 
     /** Column name IsPayFrom */
     public static final String COLUMNNAME_IsPayFrom = "IsPayFrom";
@@ -226,6 +280,19 @@ public interface I_C_BPartner_Location
 	  * Business Partner Shipment Address
 	  */
 	public boolean isShipTo();
+
+    /** Column name MobilePhone */
+    public static final String COLUMNNAME_MobilePhone = "MobilePhone";
+
+	/** Set Mobile Phone.
+	  * Identifies an alternate telephone mobile number.
+	  */
+	public void setMobilePhone (String MobilePhone);
+
+	/** Get Mobile Phone.
+	  * Identifies an alternate telephone mobile number.
+	  */
+	public String getMobilePhone();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

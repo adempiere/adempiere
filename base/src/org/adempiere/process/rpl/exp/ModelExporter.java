@@ -123,7 +123,7 @@ public class ModelExporter extends SvrProcess {
 		// Save the document to the disk file
         TransformerFactory tranFactory = TransformerFactory.newInstance();
         
-        tranFactory.setAttribute("indent-number", 4);
+     //   tranFactory.setAttribute("indent-number", 4); //Adempiere-65 change    
         
         Transformer aTransformer = tranFactory.newTransformer();
         aTransformer.setOutputProperty(OutputKeys.METHOD, "xml");

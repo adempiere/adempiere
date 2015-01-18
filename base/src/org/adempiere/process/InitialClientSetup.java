@@ -30,18 +30,29 @@
 package org.adempiere.process;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.Adempiere;
 import org.compiere.model.MCity;
+import org.compiere.model.MCountry;
 import org.compiere.model.MCurrency;
+import org.compiere.model.MLanguage;
 import org.compiere.model.MSetup;
+import org.compiere.model.Query;
 import org.compiere.print.PrintUtil;
+import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
+import org.compiere.util.CLogMgt;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
+import org.compiere.util.Util;
 
 /**
  * 	Process to create a new client (tenant)
@@ -53,29 +64,36 @@ public class InitialClientSetup extends SvrProcess
 {
 	
 	// Process Parameters
-	private String p_ClientName = null;
-	private String p_OrgValue = null;
-	private String p_OrgName = null;
-	private String p_AdminUserName = null;
-	private String p_NormalUserName = null;
-	private int p_C_Currency_ID = 0;
-	private int p_C_Country_ID = 0;
-	private int p_C_Region_ID = 0;
-	private String p_CityName = null;
-	private String p_Postal = null;
-	private String p_Address1 = null;
-	private String p_Phone = null;
-	private String p_Phone2 = null;
-	private String p_Fax = null;
-	private String p_EMail = null;
-	private String p_TaxID = null;
-	private int p_C_City_ID = 0;
-	private boolean p_IsUseBPDimension = true;
-	private boolean p_IsUseProductDimension = true;
-	private boolean p_IsUseProjectDimension = false;
-	private boolean p_IsUseCampaignDimension = false;
-	private boolean p_IsUseSalesRegionDimension = false;
-	private String p_CoAFile = null;
+	protected String p_ClientName = null;
+	protected String p_OrgValue = null;
+	protected String p_OrgName = null;
+	protected String p_AdminUserName = null;
+	protected String p_NormalUserName = null;
+	protected int p_C_Currency_ID = 0;
+	protected int p_C_Country_ID = 0;
+	protected int p_C_Region_ID = 0;
+	protected String p_CityName = null;
+	protected String p_Postal = null;
+	protected String p_Address1 = null;
+	protected String p_Phone = null;
+	protected String p_Phone2 = null;
+	protected String p_Fax = null;
+	protected String p_EMail = null;
+	protected String p_TaxID = null;
+	protected int p_C_City_ID = 0;
+	protected boolean p_IsUseBPDimension = true;
+	protected boolean p_IsUseProductDimension = true;
+	protected boolean p_IsUseProjectDimension = false;
+	protected boolean p_IsUseCampaignDimension = false;
+	protected boolean p_IsUseSalesRegionDimension = false;
+	protected String p_CoAFile = null;
+	protected String p_logoFile = null;
+	protected Timestamp p_startDate = null;
+	protected int		p_historyYears = 0;
+	protected String	p_DUNS = null;
+	protected String	p_bankName = null;
+	protected String	p_routingNo = null;
+	protected String 	p_accountNo = null;
 
 	/** WindowNo for this process */
 	public static final int     WINDOW_THIS_PROCESS = 9999;
@@ -137,6 +155,20 @@ public class InitialClientSetup extends SvrProcess
 				p_EMail = (String) para[i].getParameter();
 			else if (name.equals("TaxID"))
 				p_TaxID = (String) para[i].getParameter();
+			else if (name.equals("Logo"))
+				p_logoFile = (String) para[i].getParameter();
+			else if (name.equals("StartDate"))
+				p_startDate = (Timestamp) para[i].getParameter();
+			else if (name.equals("HistoryYears"))
+				p_historyYears = para[i].getParameterAsInt();
+			else if (name.equals("DUNS"))
+				p_DUNS = (String) para[i].getParameter();
+			else if (name.equals("BankName"))
+				p_bankName = (String) para[i].getParameter();
+			else if (name.equals("RoutingNo"))
+				p_routingNo = (String) para[i].getParameter();
+			else if (name.equals("AccountNo"))
+				p_accountNo = (String) para[i].getParameter();
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 		}
@@ -173,8 +205,6 @@ public class InitialClientSetup extends SvrProcess
 		// Validate Mandatory parameters
 		if (   p_ClientName == null || p_ClientName.length() == 0
 			|| p_OrgName == null || p_OrgName.length() == 0
-			|| p_AdminUserName == null || p_AdminUserName.length() == 0
-			|| p_NormalUserName == null || p_NormalUserName.length() == 0
 			|| p_C_Currency_ID <= 0
 			|| p_C_Country_ID <= 0
 			|| p_CoAFile == null || p_CoAFile.length() == 0
@@ -213,10 +243,27 @@ public class InitialClientSetup extends SvrProcess
 			throw new AdempiereException("CoaFile " + p_CoAFile + " is empty");
 
 		// Process
-		MSetup ms = new MSetup(Env.getCtx(), WINDOW_THIS_PROCESS);
+		MSetup ms = null;
+		
+		MCountry country = MCountry.get(getCtx(), p_C_Country_ID);
+		try
+		{
+			Class<?> ppClass = Class.forName("org.compiere.model.MSetup_" + country.getCountryCode());
+			if (ppClass != null)
+				ms = (MSetup) ppClass.newInstance();
+		}
+		catch (Exception e)    //  NoClassDefFound
+		{
+			// ignore as country specific setup class may not exist
+		}
+			
+		if ( ms == null )
+			ms = new MSetup();
+
+		ms.initialize(Env.getCtx(), WINDOW_THIS_PROCESS);
 
 		if (! ms.createClient(p_ClientName, p_OrgValue, p_OrgName, p_AdminUserName, p_NormalUserName
-				, p_Phone, p_Phone2, p_Fax, p_EMail, p_TaxID)) {
+				, p_Phone, p_Phone2, p_Fax, p_EMail, p_TaxID, p_DUNS, p_logoFile, p_C_Country_ID) ) {
 			ms.rollback();
 			throw new AdempiereException("Create client failed");
 		}
@@ -227,7 +274,8 @@ public class InitialClientSetup extends SvrProcess
 		MCurrency currency = MCurrency.get(getCtx(), p_C_Currency_ID);
 		KeyNamePair currency_kp = new KeyNamePair(p_C_Currency_ID, currency.getDescription());
 		if (!ms.createAccounting(currency_kp,
-			p_IsUseProductDimension, p_IsUseBPDimension, p_IsUseProjectDimension, p_IsUseCampaignDimension, p_IsUseSalesRegionDimension,
+			p_IsUseProductDimension, p_IsUseBPDimension, p_IsUseProjectDimension,
+			p_IsUseCampaignDimension, p_IsUseSalesRegionDimension, p_startDate, p_historyYears,
 			coaFile)) {
 			ms.rollback();
 			throw new AdempiereException("@AccountSetupError@");
@@ -238,12 +286,113 @@ public class InitialClientSetup extends SvrProcess
 			ms.rollback();
 			throw new AdempiereException("@AccountSetupError@");
 		}
+		
+		if ( !Util.isEmpty(p_bankName) && !Util.isEmpty(p_routingNo) && !Util.isEmpty(p_accountNo) )
+		{
+			ms.createBank(p_bankName, p_routingNo, p_accountNo, p_C_Currency_ID);
+		}
+		
+		// load chart of accounts
+		if ( !ms.importChart(coaFile) ){
+			ms.rollback();
+			throw new AdempiereException("@AccountSetupError@");
+		}
+		
 		addLog(ms.getInfo());
 
 		//	Create Print Documents
 		PrintUtil.setupPrintForm(ms.getAD_Client_ID());
+		
+       // Update translation after create a new tenant
+
+		String whereClause   = MLanguage.COLUMNNAME_IsSystemLanguage+"='Y' AND "+ MLanguage.COLUMNNAME_IsActive+"='Y'"; //Adempiere-53 Changes
+
+		List<MLanguage> list = new Query(Env.getCtx(), MLanguage.Table_Name, whereClause, get_TrxName()).list();
+
+		for (MLanguage lang : list)
+
+		{
+			log.fine ("Updating Translation - " + lang);
+			lang.maintain(true);
+
+		}	//	for
 
 		return "@OK@";
+	}
+	
+	
+	public static void main(String[] args) {
+		
+		Adempiere.startupEnvironment(false);
+		CLogMgt.setLevel(Level.CONFIG);
+		
+		String propFileName = Adempiere.getAdempiereHome() + File.separatorChar + "clientsetup.properties";
+		
+		if (args.length > 0)
+			propFileName = args[0];
+
+		ProcessInfo pi = new ProcessInfo("Initial Client Setup", 53161);
+		pi.setAD_Client_ID(0);
+		pi.setAD_User_ID(100);
+		
+		Properties prop = new Properties();
+		
+		try {
+			prop.load(new FileInputStream(propFileName));
+		
+			pi.addParameter("ClientName", prop.getProperty("ClientName"), prop.getProperty("ClientName"));
+			pi.addParameter("OrgValue", prop.getProperty("OrgValue"), prop.getProperty("OrgValue"));
+			pi.addParameter("OrgName", prop.getProperty("OrgName"), prop.getProperty("OrgName"));
+			pi.addParameter("AdminUserName", prop.getProperty("AdminUserName"), prop.getProperty("AdminUserName"));
+			pi.addParameter("NormalUserName", prop.getProperty("NormalUserName"), prop.getProperty("NormalUserName"));
+			if (prop.getProperty("CurrencyCode") !=null)
+			{
+				MCurrency currency = MCurrency.get(Env.getCtx(), prop.getProperty("CurrencyCode"));
+				if (currency != null)
+					pi.addParameter("C_Currency_ID", currency.getC_Currency_ID(), currency.getISO_Code());
+			}
+			
+			if (prop.getProperty("CountryCode") !=null)
+			{
+				MCountry country = MCountry.get(Env.getCtx(), prop.getProperty("CountryCode"));
+				if (country != null)
+					pi.addParameter("C_Country_ID", country.getC_Country_ID(), country.getCountryCode());
+			}
+			
+			pi.addParameter("C_Region_ID", prop.getProperty("C_Region_ID"), prop.getProperty("C_Region_ID"));
+			pi.addParameter("CityName", prop.getProperty("CityName"), prop.getProperty("CityName"));
+			pi.addParameter("C_City_ID", prop.getProperty("C_City_ID"), prop.getProperty("C_City_ID"));
+			pi.addParameter("Postal", prop.getProperty("Postal"), prop.getProperty("Postal"));
+			pi.addParameter("Address1", prop.getProperty("Address1"), prop.getProperty("Address1"));
+			pi.addParameter("IsUseBPDimension", prop.getProperty("IsUseBPDimension"), prop.getProperty("IsUseBPDimension"));
+			pi.addParameter("IsUseProductDimension", prop.getProperty("IsUseProductDimension"), prop.getProperty("IsUseProductDimension"));
+			pi.addParameter("IsUseProjectDimension", prop.getProperty("IsUseProjectDimension"), prop.getProperty("IsUseProjectDimension"));
+			pi.addParameter("IsUseCampaignDimension", prop.getProperty("IsUseCampaignDimension"), prop.getProperty("IsUseCampaignDimension"));
+			pi.addParameter("IsUseSalesRegionDimension", prop.getProperty("IsUseSalesRegionDimension"), prop.getProperty("IsUseSalesRegionDimension"));
+			pi.addParameter("CoAFile", prop.getProperty("CoAFile"), prop.getProperty("CoAFile"));
+			pi.addParameter("Phone", prop.getProperty("Phone"), prop.getProperty("Phone"));
+			pi.addParameter("Phone2", prop.getProperty("Phone2"), prop.getProperty("Phone2"));
+			pi.addParameter("Fax", prop.getProperty("Fax"), prop.getProperty("Fax"));
+			pi.addParameter("EMail", prop.getProperty("EMail"), prop.getProperty("EMail"));
+			pi.addParameter("TaxID", prop.getProperty("TaxID"), prop.getProperty("TaxID"));
+			pi.addParameter("Logo", prop.getProperty("Logo"), prop.getProperty("Logo"));
+			pi.addParameter("StartDate", prop.getProperty("StartDate"), prop.getProperty("StartDate"));
+			pi.addParameter("HistoryYears", prop.getProperty("HistoryYears"), prop.getProperty("HistoryYears"));
+			pi.addParameter("DUNS", prop.getProperty("DUNS"), prop.getProperty("DUNS"));
+			pi.addParameter("BankName", prop.getProperty("BankName"), prop.getProperty("BankName"));
+			pi.addParameter("RoutingNo", prop.getProperty("RoutingNo"), prop.getProperty("RoutingNo"));
+			pi.addParameter("AccountNo", prop.getProperty("AccountNo"), prop.getProperty("AccountNo"));
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		InitialClientSetup setup = new InitialClientSetup();
+		setup.startProcess(Env.getCtx(), pi, null);
+		
+		//System.out.println("Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());
+		
+		
 	}
 
 }

@@ -18,12 +18,12 @@
 
 package org.eevolution.process;
 
-import java.util.logging.Level;
-
 import org.adempiere.model.MBrowse;
 import org.adempiere.model.MBrowseField;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
+
+import java.util.logging.Level;
 
 /**
  * Copy Browse from other Browse
@@ -64,12 +64,17 @@ public class BrowseCopyFrom extends SvrProcess {
 		MBrowse browseFrom = new MBrowse(getCtx(), p_AD_Browse_ID,
 				get_TrxName());
 		MBrowse browseTo = new MBrowse(getCtx(), p_Record_ID, get_TrxName());
-		browseFrom.copyValues(browseFrom, browseTo);
+        String name = browseTo.getName();
+        String value = browseTo.getValue();
+		browseTo.copyValues(browseFrom, browseTo);
+        browseTo.setName(name);
+        browseTo.setValue(value);
 		browseTo.saveEx();
 
 		for (MBrowseField fieldFrom : browseFrom.getFields()) {
 			MBrowseField fieldTo = new MBrowseField(getCtx(), 0, get_TrxName());
-			fieldFrom.copyValues(fieldFrom, fieldTo);
+			fieldTo.copyValues(fieldFrom, fieldTo);
+            fieldTo.setAD_Browse_ID(browseTo.getAD_Browse_ID());
 			fieldTo.saveEx();
 		}
 		return "@Ok@";

@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_Attribute
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0
  */
 public interface I_HR_Attribute 
 {
@@ -102,6 +102,51 @@ public interface I_HR_Attribute
 
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
+    /** Column name C_Charge_ID */
+    public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
+
+	/** Set Charge.
+	  * Additional document charges
+	  */
+	public void setC_Charge_ID (int C_Charge_ID);
+
+	/** Get Charge.
+	  * Additional document charges
+	  */
+	public int getC_Charge_ID();
+
+	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException;
+
+    /** Column name C_DocType_ID */
+    public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
+
+	/** Set Document Type.
+	  * Document type or rules
+	  */
+	public void setC_DocType_ID (int C_DocType_ID);
+
+	/** Get Document Type.
+	  * Document type or rules
+	  */
+	public int getC_DocType_ID();
+
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
+
+    /** Column name C_Invoice_ID */
+    public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
+
+	/** Set Invoice.
+	  * Invoice Identifier
+	  */
+	public void setC_Invoice_ID (int C_Invoice_ID);
+
+	/** Get Invoice.
+	  * Invoice Identifier
+	  */
+	public int getC_Invoice_ID();
+
+	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException;
+
     /** Column name ColumnType */
     public static final String COLUMNNAME_ColumnType = "ColumnType";
 
@@ -154,19 +199,27 @@ public interface I_HR_Attribute
     /** Column name HR_Attribute_ID */
     public static final String COLUMNNAME_HR_Attribute_ID = "HR_Attribute_ID";
 
-	/** Set Payroll Employee Attribute	  */
+	/** Set Payroll Employee Attribute.
+	  * Employee Attribute allows to add any metadata of type (text, date , quantity and amount ) of an Employee.
+	  */
 	public void setHR_Attribute_ID (int HR_Attribute_ID);
 
-	/** Get Payroll Employee Attribute	  */
+	/** Get Payroll Employee Attribute.
+	  * Employee Attribute allows to add any metadata of type (text, date , quantity and amount ) of an Employee.
+	  */
 	public int getHR_Attribute_ID();
 
     /** Column name HR_Concept_ID */
     public static final String COLUMNNAME_HR_Concept_ID = "HR_Concept_ID";
 
-	/** Set Payroll Concept	  */
+	/** Set AD Payroll Concept.
+	  * The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
+	  */
 	public void setHR_Concept_ID (int HR_Concept_ID);
 
-	/** Get Payroll Concept	  */
+	/** Get AD Payroll Concept.
+	  * The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
+	  */
 	public int getHR_Concept_ID();
 
 	public org.eevolution.model.I_HR_Concept getHR_Concept() throws RuntimeException;
@@ -174,10 +227,14 @@ public interface I_HR_Attribute
     /** Column name HR_Department_ID */
     public static final String COLUMNNAME_HR_Department_ID = "HR_Department_ID";
 
-	/** Set Payroll Department	  */
+	/** Set Department.
+	  * Department of the organization
+	  */
 	public void setHR_Department_ID (int HR_Department_ID);
 
-	/** Get Payroll Department	  */
+	/** Get Department.
+	  * Department of the organization
+	  */
 	public int getHR_Department_ID();
 
 	public org.eevolution.model.I_HR_Department getHR_Department() throws RuntimeException;
@@ -207,10 +264,14 @@ public interface I_HR_Attribute
     /** Column name HR_Payroll_ID */
     public static final String COLUMNNAME_HR_Payroll_ID = "HR_Payroll_ID";
 
-	/** Set Payroll	  */
+	/** Set Payroll.
+	  * The Payroll definition allows to define all the payroll concepts , year and periods, to  calculate a payroll.
+	  */
 	public void setHR_Payroll_ID (int HR_Payroll_ID);
 
-	/** Get Payroll	  */
+	/** Get Payroll.
+	  * The Payroll definition allows to define all the payroll concepts , year and periods, to  calculate a payroll.
+	  */
 	public int getHR_Payroll_ID();
 
 	public org.eevolution.model.I_HR_Payroll getHR_Payroll() throws RuntimeException;

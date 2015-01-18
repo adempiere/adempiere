@@ -270,8 +270,18 @@ public class SimpleTreeModel extends org.zkoss.zul.SimpleTreeModel implements Tr
 		MTreeNode data = (MTreeNode) fromNode.getData();
 		if (data.getNode_ID() == recordId) 
 			return fromNode;
-		if (isLeaf(fromNode)) 
+
+		// If the MTree model and the tree model aren't in sync, the data 
+		// could include a new node that hasn't been initialized (node_id == -1).  
+		// This will have no children causing a NPE error in isLeaf().
+		try {
+			if (isLeaf(fromNode)) 
+				return null;
+		} catch (NullPointerException e) {
+			logger.severe("Uninitialized node exists in tree. Node ID: " + data.getNode_ID());
 			return null;
+		}
+				
 		int cnt = getChildCount(fromNode);
 		for(int i = 0; i < cnt; i++ ) {
 			SimpleTreeNode child = getChild(fromNode, i);

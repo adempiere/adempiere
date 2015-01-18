@@ -16,21 +16,25 @@
  *****************************************************************************/
 package org.adempiere.pipo.handler;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import static org.compiere.model.I_AD_Ref_Table.COLUMNNAME_AD_Reference_ID;
+
 import java.util.Properties;
-import java.util.logging.Level;
 
 import javax.xml.transform.sax.TransformerHandler;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
 import org.adempiere.pipo.PackOut;
-import org.adempiere.pipo.exception.DatabaseAccessException;
 import org.adempiere.pipo.exception.POSaveFailedException;
+import org.compiere.model.I_AD_Ref_Table;
+import org.compiere.model.I_AD_Reference;
 import org.compiere.model.MColumn;
+import org.compiere.model.MRefTable;
 import org.compiere.model.MTable;
+import org.compiere.model.Query;
 import org.compiere.model.X_AD_Ref_Table;
+import org.compiere.model.X_AD_Reference;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.xml.sax.Attributes;
@@ -42,8 +46,6 @@ public class ReferenceTableElementHandler extends AbstractElementHandler {
 	public void startElement(Properties ctx, Element element)
 			throws SAXException {
 		String elementValue = element.getElementValue();
-		int AD_Backup_ID = -1;
-		String Object_Status = null;
 
 		log.info(elementValue);
 		Attributes atts = element.attributes;
@@ -67,9 +69,6 @@ public class ReferenceTableElementHandler extends AbstractElementHandler {
 			if (AD_Reference_ID <= 0 && atts.getValue("AD_Reference_ID") != null && Integer.parseInt(atts.getValue("AD_Reference_ID")) <= PackOut.MAX_OFFICIAL_ID)
 				AD_Reference_ID = Integer.parseInt(atts.getValue("AD_Reference_ID"));
 			
-			StringBuffer sqlB = new StringBuffer(
-					"SELECT Count(*) FROM AD_Ref_Table WHERE AD_Reference_ID= ?");
-			int count = DB.getSQLValue(getTrxName(ctx), sqlB.toString(), AD_Reference_ID);
 			int tableId = get_IDWithColumn(ctx, "AD_Table", "TableName", atts
 					.getValue("ADTableNameID"));
 			if (tableId == 0) {
@@ -89,112 +88,100 @@ public class ReferenceTableElementHandler extends AbstractElementHandler {
 				tableId = get_IDWithColumn(ctx, "AD_Table", "TableName", atts
 						.getValue("ADTableNameID"));
 			}
-			name = atts.getValue("ADDisplay");
-			int DisplayId = get_IDWithMasterAndColumn(ctx, "AD_Column",
-					"ColumnName", name, "AD_Table", tableId);
-			if (DisplayId == 0) {
-				MColumn m_Column = new MColumn(ctx, 0, getTrxName(ctx));
-				m_Column.setAD_Table_ID(tableId);
-				// m_Column.setVersion(new BigDecimal("1")); // use constructor
-				// value
-				m_Column.setColumnName(name);
-				m_Column.setName(name);
-				m_Column.setAD_Reference_ID(30);
-				if (m_Column.save(getTrxName(ctx)) == true) {
-					record_log(ctx, 1, m_Column.getName(), "Column", m_Column
-							.get_ID(), 0, "New", "AD_Column", get_IDWithColumn(
-							ctx, "AD_Table", "TableName", "AD_Column"));
-				} else {
-					record_log(ctx, 0, m_Column.getName(), "Column", m_Column
-							.get_ID(), 0, "New", "AD_Column", get_IDWithColumn(
-							ctx, "AD_Table", "TableName", "AD_Column"));
-				}
-			}
+
 			name = atts.getValue("Key");
 			int keyId = get_IDWithMasterAndColumn(ctx, "AD_Column",
 					"ColumnName", name, "AD_Table", tableId);
-			if (keyId == 0) {
-				MColumn m_Column = new MColumn(ctx, 0, getTrxName(ctx));
-				m_Column.setAD_Table_ID(tableId);
-				// m_Column.setVersion(new BigDecimal("1")); // use constructor
-				// value
-				m_Column.setColumnName(name);
-				m_Column.setName(name);
-				m_Column.setAD_Reference_ID(30);
-				if (m_Column.save(getTrxName(ctx)) == true) {
-					record_log(ctx, 1, m_Column.getName(), "Column", m_Column
-							.get_ID(), 0, "New", "AD_Column", get_IDWithColumn(
-							ctx, "AD_Table", "TableName", "AD_Column"));
-				} else {
-					record_log(ctx, 0, m_Column.getName(), "Column", m_Column
-							.get_ID(), 0, "New", "AD_Column", get_IDWithColumn(
-							ctx, "AD_Table", "TableName", "AD_Column"));
-				}
-			}
+			if (keyId == 0)
+				throw new AdempiereException("@AD_Column_ID@:" + name + "@NotFound@");
 
-			name = atts.getValue("ADDisplay");
-			DisplayId = get_IDWithMasterAndColumn(ctx, "AD_Column",
-					"ColumnName", name, "AD_Table", tableId);
-			name = atts.getValue("Key");
-			keyId = get_IDWithMasterAndColumn(ctx, "AD_Column", "ColumnName",
-					name, "AD_Table", tableId);
-			String entityType = atts.getValue("EntityType");
+            int displayId = 0;
+            name = atts.getValue("ADDisplay");
+            displayId = get_IDWithMasterAndColumn(ctx, "AD_Column",
+                    "ColumnName", name, "AD_Table", tableId);
+
+            String isDisplayIdentifier = atts.getValue("IsDisplayIdentifier");
+            String isAlert =   atts.getValue("IsAlert");
+
+            String entityType = atts.getValue("EntityType");
 			String isValueDisplayed = atts.getValue("IsValueDisplayed");
-			String OrderByClause = atts.getValue("OrderByClause").replaceAll("'", "''");
-			String WhereClause = atts.getValue("WhereClause").replaceAll("'","''");
-			if (count > 0) {
-				sqlB = new StringBuffer("UPDATE AD_Ref_Table ").append(
-						"SET AD_Table_ID = " + tableId).append(
-						", AD_Display = " + DisplayId).append(
-						", AD_Key = " + keyId).append(
-						", isValueDisplayed = '" + isValueDisplayed).append(
-						"', OrderByClause = '" + OrderByClause).append(
-						"', EntityType ='" + entityType).append(
-						"', WhereClause = '" + WhereClause).append(
-						"' WHERE AD_Reference_ID = " + AD_Reference_ID);
 
-				int no = DB.executeUpdate(sqlB.toString(), getTrxName(ctx));
-				if (no > 0) {
-					record_log(ctx, 1, atts.getValue("ADRefenceNameID"),
-							"Reference Table", AD_Reference_ID, 0, "Update", "AD_Ref_Table",
-							get_IDWithColumn(ctx, "AD_Table", "TableName",
-									"AD_Ref_Table"));
-				} else {
-					record_log(ctx, 0, atts.getValue("ADRefenceNameID"),
-							"Reference Table", AD_Reference_ID, 0, "Update", "AD_Ref_Table",
-							get_IDWithColumn(ctx, "AD_Table", "TableName",
-									"AD_Ref_Table"));
-					throw new POSaveFailedException("ReferenceTable");
-				}
-			} else {
-				sqlB = new StringBuffer("INSERT INTO AD_Ref_Table")
-						.append(
-								"(AD_Client_ID, AD_Org_ID, CreatedBy, UpdatedBy, ")
-						.append(
-								"AD_Reference_ID, AD_Table_ID, AD_Display, AD_Key ")
-						.append(
-								",entityType, isValueDisplayed, OrderByClause, ")
-						.append(" WhereClause )").append(
-								"VALUES(0, 0, 0, 0, " + AD_Reference_ID).append(
-								", " + tableId).append(", " + DisplayId)
-						.append(", " + keyId).append(", '" + entityType)
-						.append("', '" + isValueDisplayed).append(
-								"', '" + OrderByClause).append(
-								"', '" + WhereClause + "')");
 
-				int no = DB.executeUpdate(sqlB.toString(), getTrxName(ctx));
-				if (no > 0) {
+            String OrderByClause = "";
+            String WhereClause = "";
+            String displaySQL = "";
+            if(DB.isOracle())
+            {
+			    OrderByClause = atts.getValue("OrderByClause");
+			    WhereClause = atts.getValue("WhereClause");
+                displaySQL = atts.getValue("DisplaySQL");
+            }
+            else if (DB.isPostgreSQL())
+            {
+                OrderByClause = atts.getValue("OrderByClause").replaceAll("''", "'");
+                WhereClause = atts.getValue("WhereClause").replaceAll("''", "'");
+                displaySQL = atts.getValue("DisplaySQL").replaceAll("''", "'");;
+            }
+
+            MRefTable refTable = new Query(ctx, I_AD_Ref_Table.Table_Name,
+                    COLUMNNAME_AD_Reference_ID + "=?", getTrxName(ctx)).
+                    setParameters(AD_Reference_ID)
+                    .firstOnly();
+
+            if (refTable != null)
+            {
+                    refTable.setAD_Table_ID(tableId);
+                    refTable.setAD_Display(displayId);
+                    refTable.setAD_Key(keyId);
+                    refTable.setIsValueDisplayed(isValueDisplayed.equals("Y"));
+                    refTable.setIsDisplayIdentifier(isDisplayIdentifier.equals("Y"));
+                    refTable.setIsAlert(isAlert.equals("Y"));
+                    refTable.setDisplaySQL(displaySQL);
+                    refTable.setOrderByClause(OrderByClause);
+                    refTable.setEntityType(entityType);
+                    refTable.setWhereClause(WhereClause);
+                    refTable.saveEx();
+                    if (refTable != null) {
+                        record_log(ctx, 1, atts.getValue("ADRefenceNameID"),
+                                "Reference Table", AD_Reference_ID, 0, "Update", "AD_Ref_Table",
+                                get_IDWithColumn(ctx, "AD_Table", "TableName",
+                                        "AD_Ref_Table"));
+                    } else {
+                        record_log(ctx, 0, atts.getValue("ADRefenceNameID"),
+                                "Reference Table", AD_Reference_ID, 0, "Update", "AD_Ref_Table",
+                                get_IDWithColumn(ctx, "AD_Table", "TableName",
+                                        "AD_Ref_Table"));
+                        throw new POSaveFailedException("ReferenceTable");
+                    }
+			}
+            else
+            {
+                refTable = new MRefTable(ctx, 0 , getTrxName(ctx));
+                refTable.setAD_Reference_ID(AD_Reference_ID);
+                refTable.setAD_Table_ID(tableId);
+                refTable.setAD_Display(displayId);
+                refTable.setAD_Key(keyId);
+                refTable.setIsValueDisplayed(isValueDisplayed.equals("Y"));
+                refTable.setIsDisplayIdentifier(isDisplayIdentifier.equals("Y"));
+                refTable.setIsAlert(isAlert.equals("Y"));
+                refTable.setDisplaySQL(displaySQL);
+                refTable.setOrderByClause(OrderByClause);
+                refTable.setEntityType(entityType);
+                refTable.setWhereClause(WhereClause);
+
+                if (refTable.save())
 					record_log(ctx, 1, atts.getValue("ADRefenceNameID"),
 							"Reference Table", AD_Reference_ID, 0, "New", "AD_Ref_Table",
 							get_IDWithColumn(ctx, "AD_Table", "TableName",
 									"AD_Ref_Table"));
-				} else {
+                else
+                {
 					record_log(ctx, 0, atts.getValue("ADRefenceNameID"),
 							"Reference Table", AD_Reference_ID, 0, "New", "AD_Ref_Table",
 							get_IDWithColumn(ctx, "AD_Table", "TableName",
 									"AD_Ref_Table"));
 					throw new POSaveFailedException("ReferenceTable");
-				}
+                }
 			}
 		} else {
 			element.skip = true;
@@ -219,72 +206,43 @@ public class ReferenceTableElementHandler extends AbstractElementHandler {
 		atts.clear();
 		if (reference_ID <= PackOut.MAX_OFFICIAL_ID)
 			atts.addAttribute("", "", "AD_Reference_ID", "CDATA", Integer.toString(reference_ID));
-		String name = null;
-		String sql = null;
-		String sql1 = "SELECT * FROM AD_Ref_Table WHERE AD_Reference_ID= "
-				+ reference_ID;
 
-		PreparedStatement pstmt = null;
-		pstmt = DB.prepareStatement(sql1, getTrxName(ctx));
-		try {
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next()) {
-				sql = "SELECT Name FROM AD_Reference WHERE AD_Reference_ID=?";
-				name = DB.getSQLValueString(null, sql, reference_ID);
-				atts.addAttribute("", "", "ADRefenceNameID", "CDATA", name);
-
-				if (rs.getInt("AD_Table_ID") > 0) {
-					sql = "SELECT TableName FROM AD_Table WHERE AD_Table_ID=?";
-					name = DB.getSQLValueString(null, sql, rs
-							.getInt("AD_Table_ID"));
-					atts.addAttribute("", "", "ADTableNameID", "CDATA", name);
-				} else
+        I_AD_Reference reference = new X_AD_Reference(ctx, reference_ID,getTrxName(ctx));
+        MRefTable refTable;
+        if (X_AD_Reference.VALIDATIONTYPE_TableValidation.equals(reference.getValidationType()))
+        {
+            refTable = new MRefTable(ctx, reference_ID, getTrxName(ctx));
+            if(refTable != null)
+            {
+                atts.addAttribute("", "", "ADRefenceNameID", "CDATA", reference.getName());
+                if(refTable.getAD_Table_ID() > 0)
+					atts.addAttribute("", "", "ADTableNameID", "CDATA", refTable.getAD_Table().getTableName());
+				else
 					atts.addAttribute("", "", "ADTableNameID", "CDATA", "");
-
-				if (rs.getInt("AD_Display") > 0) {
-					sql = "SELECT ColumnName FROM AD_Column WHERE AD_Column_ID=?";
-					name = DB.getSQLValueString(null, sql, rs
-							.getInt("AD_Display"));
-					atts.addAttribute("", "", "ADDisplay", "CDATA", name);
-				} else
+                if (refTable.getAD_Display() > 0)
+					atts.addAttribute("", "", "ADDisplay", "CDATA", MColumn.get(ctx,refTable.getAD_Display()).getColumnName());
+                else
 					atts.addAttribute("", "", "ADDisplay", "CDATA", "");
 
-				if (rs.getInt("AD_Key") > 0) {
-					sql = "SELECT ColumnName FROM AD_Column WHERE AD_Column_ID=?";
-					name = DB.getSQLValueString(null, sql, rs.getInt("AD_Key"));
-					atts.addAttribute("", "", "Key", "CDATA", name);
-				} else
+                if(refTable.getAD_Key() >  0)
+               	atts.addAttribute("", "", "Key", "CDATA", MColumn.get(ctx, refTable.getAD_Key()).getColumnName());
+				else
 					atts.addAttribute("", "", "Key", "CDATA", "");
-				atts.addAttribute("", "", "EntityType", "CDATA", (rs
-						.getString("EntityType") != null ? rs
-						.getString("EntityType") : ""));
-				atts
-						.addAttribute("", "", "IsValueDisplayed", "CDATA",
-								(rs.getString("IsValueDisplayed")
-										.compareTo("Y") == 0 ? "Y" : "N"));
-				atts.addAttribute("", "", "OrderByClause", "CDATA", (rs
-						.getString("OrderByClause") != null ? rs
-						.getString("OrderByClause") : ""));
-				atts.addAttribute("", "", "isActive", "CDATA", (rs.getString(
-						"isActive").compareTo("Y") == 0 ? "Y" : "N"));
-				atts.addAttribute("", "", "WhereClause", "CDATA", (rs
-						.getString("WhereClause") != null ? rs
-						.getString("WhereClause") : ""));
 
+                if(refTable.getAD_Window_ID() > 0)
+                    atts.addAttribute("", "", "ADWindowNameID", "CDATA", refTable.getAD_Window().getName());
+                else
+                    atts.addAttribute("", "", "ADWindowNameID", "CDATA", "");
+
+				atts.addAttribute("", "", "EntityType", "CDATA", (refTable.getEntityType() != null ? refTable.getEntityType() : ""));
+				atts.addAttribute("", "", "IsValueDisplayed", "CDATA", refTable.isValueDisplayed() ? "Y" : "N");
+                atts.addAttribute("", "", "IsDisplayIdentifier", "CDATA", refTable.isDisplayIdentifier() ? "Y" : "N");
+                atts.addAttribute("", "", "IsAlert", "CDATA", refTable.isAlert() ? "Y" : "N");
+                atts.addAttribute("", "", "DisplaySQL", "CDATA", (refTable.getDisplaySQL() != null ? refTable.getDisplaySQL() : ""));
+                atts.addAttribute("", "", "OrderByClause", "CDATA", (refTable.getOrderByClause()  != null ? refTable.getOrderByClause() : ""));
+				atts.addAttribute("", "", "isActive", "CDATA", (refTable.isActive() ? "Y" : "N"));
+				atts.addAttribute("", "", "WhereClause", "CDATA", ( refTable.getWhereClause() != null ? refTable.getWhereClause() : ""));
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		} catch (Exception e) {
-			log.log(Level.SEVERE, e.getLocalizedMessage(), e);
-			throw new DatabaseAccessException("Failed to export Reference Table", e);
-		} finally {
-			try {
-				if (pstmt != null)
-					pstmt.close();
-			} catch (Exception e) {
-			}
-			pstmt = null;
 		}
 		return atts;
 	}

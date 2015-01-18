@@ -191,7 +191,7 @@ public class CustomerManager
             location.setAddress2(bean.getAddress2());
             location.setPostal_Add(bean.getPostalAddress());
             location.setCity(bean.getCity());
-            location.save();
+            location.saveEx();
             MBPartnerLocation bpLocation = new MBPartnerLocation(partner);
             bpLocation.setC_Location_ID(location.get_ID());
             bpLocation.setPhone(bean.getPhone()); 

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Depreciation
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0
  */
 public interface I_A_Depreciation 
 {
@@ -49,15 +49,6 @@ public interface I_A_Depreciation
 	  */
 	public int getAD_Client_ID();
 
-    /** Column name A_Depreciation_ID */
-    public static final String COLUMNNAME_A_Depreciation_ID = "A_Depreciation_ID";
-
-	/** Set Depreciation Type	  */
-	public void setA_Depreciation_ID (int A_Depreciation_ID);
-
-	/** Get Depreciation Type	  */
-	public int getA_Depreciation_ID();
-
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -70,6 +61,15 @@ public interface I_A_Depreciation
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name A_Depreciation_ID */
+    public static final String COLUMNNAME_A_Depreciation_ID = "A_Depreciation_ID";
+
+	/** Set Depreciation	  */
+	public void setA_Depreciation_ID (int A_Depreciation_ID);
+
+	/** Get Depreciation	  */
+	public int getA_Depreciation_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -151,10 +151,10 @@ public interface I_A_Depreciation
     /** Column name Text */
     public static final String COLUMNNAME_Text = "Text";
 
-	/** Set Text	  */
+	/** Set Description	  */
 	public void setText (String Text);
 
-	/** Get Text	  */
+	/** Get Description	  */
 	public String getText();
 
     /** Column name Updated */

@@ -23,6 +23,7 @@
     <pathelement path="${jar.path}/CCTools.jar"/>
 	<pathelement path="${jar.path}/jboss.jar"/>
     <pathelement path="../base/build"/>
+    <pathelement path="../org.adempiere.asset/build"/>
     <pathelement path="../tools/lib/junit.jar"/>
     <pathelement path="../adempiere/Adempiere/lib/Adempiere.jar" />
 	<fileset dir="../tools/lib/testing/">

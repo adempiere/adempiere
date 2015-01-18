@@ -20,40 +20,32 @@ package org.adempiere.webui.panel;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
 
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Datebox;
-import org.adempiere.webui.component.Grid;
-import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.editor.WEditor;
-import org.adempiere.webui.editor.WSearchEditor;
-import org.adempiere.webui.event.ValueChangeEvent;
+import org.adempiere.webui.editor.WTableDirEditor;
 import org.adempiere.webui.event.ValueChangeListener;
-import org.adempiere.webui.event.WTableModelEvent;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
+import org.compiere.model.MColumn;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MQuery;
+import org.compiere.model.MResource;
+import org.compiere.model.MResourceType;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Div;
-import org.zkoss.zul.Separator;
-import org.zkoss.zul.Vbox;
 
 /**
 * Based on InfoAssignment written by Jorg Janke
@@ -64,6 +56,9 @@ import org.zkoss.zul.Vbox;
 * Zk Port
 * @author Elaine
 * @version	InfoAssignment.java Adempiere Swing UI 3.4.1
+*
+ * @author Michael McKay, ADEMPIERE-72 VLookup and Info Window improvements
+ * 	<li>https://adempiere.atlassian.net/browse/ADEMPIERE-72
 */
 
 public class InfoAssignmentPanel extends InfoPanel implements EventListener, ValueChangeListener
@@ -72,6 +67,9 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 	 * 
 	 */
 	private static final long serialVersionUID = -935642651768066799L;
+	
+	private int fieldID = 0;
+	
 	private WEditor fieldResourceType;
 	private WEditor fieldResource;
 	
@@ -82,19 +80,20 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 
 	private Label labelFrom = new Label(Msg.translate(Env.getCtx(), "DateFrom"));
 	private Label labelTo = new Label(Msg.translate(Env.getCtx(), "DateTo"));
-	private Borderlayout layout;
-	private Vbox southBody;
 
 	/** From Clause             */
-	private static String s_assignmentFROM =
+	private static String s_From =
 		"S_ResourceAssignment ra, S_ResourceType rt, S_Resource r, C_UOM uom";
-
-	private static String s_assignmentWHERE =
+	/** Where Clause             */
+	private static String s_Where =
 		"ra.IsActive='Y' AND ra.S_Resource_ID=r.S_Resource_ID "
 		+ "AND r.S_ResourceType_ID=rt.S_ResourceType_ID AND rt.C_UOM_ID=uom.C_UOM_ID";
+	/** Order Clause             */
+	private static String s_Order =
+		"rt.Name, r.Name";
 
 	/**  Array of Column Info    */
-	private static ColumnInfo[] s_assignmentLayout = {
+	private static ColumnInfo[] s_Layout = {
 		new ColumnInfo(" ", "ra.S_ResourceAssignment_ID", IDColumn.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "S_ResourceType_ID"), "rt.Name", String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "S_Resource_ID"), "r.Name", String.class),
@@ -106,79 +105,73 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 	};
 
 	/**
-	 *  Constructor
+	 *  Deprecated Constructor
 	 *  
 	 *  @param WindowNo WindowNo
 	 *  @param  value   Query value Name or Value if contains numbers
 	 *  @param multiSelection multiple selection
 	 *  @param whereClause where clause
 	 */
-	public InfoAssignmentPanel (int WindowNo,
+	@Deprecated
+	public InfoAssignmentPanel (int WindowNo, 
 		String value, boolean multiSelection, String whereClause)
 	{
-		this(WindowNo, value, multiSelection, whereClause, true);
+		this(WindowNo, true, 0, value, multiSelection, false, whereClause);
+	}
+
+	/**
+	 *  Constructor
+	 *  
+	 *  @param WindowNo WindowNo
+	 *  @param record_id The record ID to find
+	 *  @param value query value to find, exclusive of record_id
+	 *  @param multiSelection multiple selection
+	 *  @param saveResults  True if results will be saved, false for info only
+	 *  @param whereClause where clause
+	 */
+	public InfoAssignmentPanel (int WindowNo, int record_id, 
+		String value, boolean multiSelection, String whereClause)
+	{
+		this(WindowNo, true, record_id, value, multiSelection, false, whereClause);
 	}
 	
 	/**
 	 *  Constructor
 	 *
 	 *  @param WindowNo WindowNo
-	 *  @param  value   Query value Name or Value if contains numbers
+	 *  @param modal True if window is opened in modal mode.
+	 *  @param record_id The record ID to find
+	 *  @param value query value to find, exclusive of record_id
 	 *  @param multiSelection multiple selection
+	 *  @param saveResults  True if results will be saved (modal), false for info only (non-modal)
 	 *  @param whereClause where clause
 	 */
-	public InfoAssignmentPanel (int WindowNo,
-		String value, boolean multiSelection, String whereClause, boolean lookup)
+	public InfoAssignmentPanel (int WindowNo, boolean modal, int record_id, 
+		String value, boolean multiSelection, boolean saveResults, String whereClause)
 	{
-		super (WindowNo, "ra", "S_ResourceAssignment_ID",
-			multiSelection, whereClause, lookup);
+		super (WindowNo, modal, "ra", "S_ResourceAssignment_ID",
+			multiSelection, saveResults, whereClause);
 		log.info(value);
 		setTitle(Msg.getMsg(Env.getCtx(), "InfoAssignment"));
-
-		if (!initLookups())
-			return;
-		
+		//
+		StringBuffer where = new StringBuffer(s_Where);
+		if (whereClause != null && whereClause.length() > 0)
+			where.append(" AND ").append(whereClause);
+		setWhereClause(where.toString());
+		setTableLayout(s_Layout);
+		setFromClause(s_From);
+		setOrderClause(s_Order);
+		//		
 		statInit();
-		initInfo (value, whereClause);
+		initInfo (record_id, value, whereClause);
 
-		int no = contentPanel.getRowCount();
-		setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
-		setStatusDB(Integer.toString(no));
-		
+		//  Auto query
+		if(autoQuery() || record_id != 0 || (value != null && value.length() > 0 && value != "%"))
+			prepareAndExecuteQuery();
+
 		p_loadedOK = true;
 	} // InfoAssignmentPanel
 	
-	/**
-	 * 	Initialize Lookups
-	 * 	@return true if OK
-	 */
-	
-	private boolean initLookups()
-	{
-		try
-		{
-			int AD_Column_ID = 6851; //	S_Resource.S_ResourceType_ID
-
-			fieldResourceType = new WSearchEditor (
-					MLookupFactory.get(Env.getCtx(), p_WindowNo, 0, AD_Column_ID, DisplayType.TableDir), 
-					Msg.translate(Env.getCtx(), "S_ResourceType_ID"), "", false, false, true);
-			
-			AD_Column_ID = 6826; //	S_ResourceAssignment.S_Resource_ID
-			
-			fieldResource = new WSearchEditor (
-					MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, AD_Column_ID, DisplayType.TableDir), 
-					Msg.translate(Env.getCtx(), "S_Resource_ID"), "", false, false, true);
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, "InfoAssignment.initLookup");
-			return false;
-		}
-
-		bNew.setImage("/images/New16.png");
-		
-		return true;
-	} // initLookups
 
 	/**
 	 *	Static Setup - add fields to parameterPanel.
@@ -189,15 +182,39 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 	
 	private void statInit()
 	{
+		fieldResourceType = new WTableDirEditor (
+				MLookupFactory.get(Env.getCtx(), p_WindowNo, 0, 
+						MColumn.getColumn_ID(MResourceType.Table_Name, MResourceType.COLUMNNAME_S_ResourceType_ID), 
+						DisplayType.TableDir), 
+				Msg.translate(Env.getCtx(), "S_ResourceType_ID"), "", false, false, true);
+		fieldResourceType.getComponent().addEventListener(Events.ON_CHANGE, this);;
+		fieldResourceType.getComponent().setAttribute("zk_component_ID", "Lookup_Criteria_S_ResourceType_ID");
+		
+		fieldResource = new WTableDirEditor (
+				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0,
+						MColumn.getColumn_ID(MResource.Table_Name, MResource.COLUMNNAME_S_Resource_ID), 
+						DisplayType.TableDir), 
+				Msg.translate(Env.getCtx(), "S_Resource_ID"), "", false, false, true);
+		fieldResource.getComponent().addEventListener(Events.ON_CHANGE, this);
+		fieldResource.getComponent().setAttribute("zk_component_ID", "Lookup_Criteria_S_Resource_ID");
+
+		bNew.setImage("/images/New16.png");
 		fieldFrom.setWidth("180px");
 		fieldTo.setWidth("180px");
 		
+		fieldFrom.setAttribute("zk_component_ID", "Lookup_Criteria_fieldFrom");
+		fieldFrom.addEventListener(Events.ON_CHANGE, this);
+		fieldTo.setAttribute("zk_component_ID", "Lookup_Criteria_fieldTo");
+		fieldTo.addEventListener(Events.ON_CHANGE, this);
+		
+		SimpleDateFormat dateFormat = DisplayType.getDateFormat(DisplayType.Date, AEnv.getLanguage(Env.getCtx()));
+		fieldFrom.setFormat(dateFormat.toPattern());
+		fieldTo.setFormat(dateFormat.toPattern());
+
 		bNew.addEventListener(Events.ON_CLICK, this);
-		
-		Grid grid = GridFactory.newGridLayout();
-		
+		bNew.setAttribute("zk_component_ID", "Lookup_Criteria_bNew");
+
 		Rows rows = new Rows();
-		grid.appendChild(rows);
 		
 		Row row = new Row();
 		rows.appendChild(row);
@@ -220,41 +237,9 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 		div.appendChild(fieldTo);
 		row.appendChild(div);
 		row.appendChild(bNew);
-		
-		layout = new Borderlayout();
-        layout.setWidth("100%");
-        layout.setHeight("100%");
-        if (!isLookup())
-        {
-        	layout.setStyle("position: absolute");
-        }
-        this.appendChild(layout);
-
-        North north = new North();
-        layout.appendChild(north);
-		north.appendChild(grid);
-
-        Center center = new Center();
-		layout.appendChild(center);
-		center.setFlex(true);
-		div = new Div();
-		div.appendChild(contentPanel);
-		if (isLookup())
-			contentPanel.setWidth("99%");
-        else
-        	contentPanel.setStyle("width: 99%; margin: 0px auto;");
-        contentPanel.setVflex(true);
-		div.setStyle("width :100%; height: 100%");
-		center.appendChild(div);
-        
-		South south = new South();
-		layout.appendChild(south);
-		southBody = new Vbox();
-		southBody.setWidth("100%");
-		south.appendChild(southBody);
-		southBody.appendChild(confirmPanel);
-		southBody.appendChild(new Separator());
-		southBody.appendChild(statusBar);
+				
+		p_criteriaGrid.appendChild(rows);
+		super.setSizes();
 	}
 	
 	/**
@@ -263,38 +248,49 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 	 *  @param whereClause where clause
 	 */
 	
-	private void initInfo(String value, String whereClause)
+	private void initInfo(int record_id, String value, String whereClause)
 	{
-		//  C_BPartner bp, AD_User c, C_BPartner_Location l, C_Location a
+		//
+		if (!(record_id == 0) && value != null && value.length() > 0)
+		{
+			log.severe("Received both a record_id and a value: " + record_id + " - " + value);
+		}
 
-		//	Create Grid
-		
-		StringBuffer where = new StringBuffer(s_assignmentWHERE);
-		
-		if (whereClause != null && whereClause.length() > 0)
-			where.append(" AND ").append(whereClause);
-		
-		prepareTable(s_assignmentLayout, s_assignmentFROM,
-			where.toString(), "rt.Name,r.Name,ra.AssignDateFrom");
+		if (!(record_id == 0))  // A record is defined
+        {
+        	fieldID = record_id;
+        }
+        else
+        {
+			if (value != null && value.length() > 0)
+			{
+				//	Nowhere to use the value in this info dialog
+			}
+			else
+			{
+				//  Try to find the fieldID from the context
+	        	String sra = Env.getContext(Env.getCtx(), p_WindowNo, "S_ResourceAssignment_ID");
+				if (sra != null && sra.length() != 0)
+				{
+					fieldID = new Integer(sra).intValue();
+				}
+				//  Find the criteria in the context
+				//  S_Resource_Type_ID
+	        	String srt = Env.getContext(Env.getCtx(), p_WindowNo, "S_ResourceType_ID");
+				if (srt != null && srt.length() > 0)
+				{
+		    			fieldResourceType.setValue(new Integer(srt));
+				}
+				//  S_Resource_ID
+	        	String sr = Env.getContext(Env.getCtx(), p_WindowNo, "S_Resource_ID");
+				if (sr != null && sr.length() > 0)
+				{
+		    			fieldResource.setValue(new Integer(sr));
+				}
+			}
+        }
 	} // initInfo
 	
-	/*************************************************************************/
-
-	/**
-	 *  Event Listener
-	 *
-	 * 	@param e event
-	 */
-	public void onEvent (Event e)
-	{
-		//  don't requery if fieldValue and fieldName are empty
-		//	return;
-
-		super.onEvent(e);
-	} // onEvent
-
-	/*************************************************************************/
-
 	/**
 	 *  Get dynamic WHERE part of SQL
 	 *	To be overwritten by concrete classes
@@ -304,26 +300,27 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 	protected String getSQLWhere()
 	{
 		StringBuffer sql = new StringBuffer();
-
+		//  => ID
+		if(isResetRecordID())
+			fieldID = 0;
+		if(!(fieldID == 0))
+			sql.append(" AND ra.S_ResourceAssignment_ID=").append(fieldID);
+		//
 		Integer S_ResourceType_ID = (Integer)fieldResourceType.getValue();
-		
 		if (S_ResourceType_ID != null)
 			sql.append(" AND rt.S_ResourceType_ID=").append(S_ResourceType_ID.intValue());
-
+		//
 		Integer S_Resource_ID = (Integer)fieldResource.getValue();
-		
 		if (S_Resource_ID != null)
 			sql.append(" AND r.S_Resource_ID=").append(S_Resource_ID.intValue());
-
+		//
 		Date f = fieldFrom.getValue();
 		Timestamp ts = f != null ? new Timestamp(f.getTime()) : null;
-		
 		if (ts != null)
 			sql.append(" AND TRUNC(ra.AssignDateFrom, 'DD')>=").append(DB.TO_DATE(ts,false));
-
+		//
 		Date t = fieldTo.getValue();
 		ts = t != null ? new Timestamp(t.getTime()) : null;
-
 		if (ts != null)
 			sql.append(" AND TRUNC(ra.AssignDateTo, 'DD')<=").append(DB.TO_DATE(ts,false));
 		
@@ -340,46 +337,6 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 	
 	protected void setParameters (PreparedStatement pstmt, boolean forCount) throws SQLException
 	{
-	}
-
-	/**
-	 *  History dialog
-	 *	To be overwritten by concrete classes
-	 */
-	
-	protected void showHistory()
-	{
-	}
-
-	/**
-	 *  Has History (false)
-	 *	To be overwritten by concrete classes
-	 *  @return true if it has history (default false)
-	 */
-	
-	protected boolean hasHistory()
-	{
-		return false;
-	}
-
-	/**
-	 *  Customize dialog
-	 *	To be overwritten by concrete classes
-	 */
-	
-	protected void customize()
-	{
-	}
-
-	/**
-	 *  Has Customize (false)
-	 *	To be overwritten by concrete classes
-	 *  @return true if it has customize (default false)
-	 */
-	
-	protected boolean hasCustomize()
-	{
-		return false;
 	}
 
 	/**
@@ -422,22 +379,36 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 	
 	protected void saveSelectionDetail()
 	{
+		// No context to save??
 	}
 
-	public void valueChange(ValueChangeEvent evt) 
+	/**
+	 * Does the parameter panel have outstanding changes that have not been
+	 * used in a query?
+	 * @return true if there are outstanding changes.
+	 */
+	protected boolean hasOutstandingChanges()
 	{
-		
+		//  All the tracked fields
+		return(
+			fieldResourceType.hasChanged()	||
+			fieldResource.hasChanged() ||
+			fieldFrom.hasChanged() ||
+			fieldTo.hasChanged()
+			);
+			
 	}
-
-	public void tableChanged(WTableModelEvent event) 
+	/**
+	 * Record outstanding changes by copying the current
+	 * value to the oldValue on all fields
+	 */
+	protected void setFieldOldValues()
 	{
-	}
-		
-	@Override
-	protected void insertPagingComponent()
-    {
-		southBody.insertBefore(paging, southBody.getFirstChild());
-		layout.invalidate();
+		fieldResourceType.set_oldValue();
+		fieldResource.set_oldValue();
+		fieldFrom.set_oldValue();
+		fieldTo.set_oldValue();
+		return;
 	}
 
 }

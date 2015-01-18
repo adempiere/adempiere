@@ -1,9 +1,9 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
-<jnlp spec = "1.6+" version = "3.7.0LTS" 
+<jnlp spec = "1.7+" version = "3.8.0LTS"
 	codebase = "http://@ADEMPIERE_APPS_SERVER@:@ADEMPIERE_WEB_PORT@/admin/adempiereHome" 
 	href = "http://@ADEMPIERE_APPS_SERVER@:@ADEMPIERE_WEB_PORT@/admin/adempiereHome/adempiereDirect.jnlp">  
 	<information>
-		<title>Adempiere Client 3.7.0LTS @ADEMPIERE_APPS_SERVER@ Direct</title>
+		<title>Adempiere Client 3.8.0LTS @ADEMPIERE_APPS_SERVER@ Direct</title>
 		<vendor>ADempiere, Inc.</vendor>
 		<homepage href = "http://www.adempiere.org"/>
 		<description>Adempiere ERP+CRM (local) - Smart Business Solution for Distribution and Service - globally</description>
@@ -13,14 +13,14 @@
 		<icon href = "http://@ADEMPIERE_APPS_SERVER@:@ADEMPIERE_WEB_PORT@/admin/C32.gif"/>
 		<shortcut online="true">
 			<desktop/>
-			<menu submenu="Adempiere 3.7.0LTS @ADEMPIERE_APPS_SERVER@ Direct"/>
+			<menu submenu="Adempiere 3.8.0LTS @ADEMPIERE_APPS_SERVER@ Direct"/>
 		</shortcut>
 	</information>  
 	<security>
 		<all-permissions/>  
 	</security>
 	<resources>
-		<j2se version = "1.6+" href = "http://java.sun.com/products/autodl/j2se" initial-heap-size = "32m" max-heap-size = "512m"/>
+		<j2se version = "1.7+" href = "http://java.sun.com/products/autodl/j2se" initial-heap-size = "32m" max-heap-size = "512m"/>
 		<jar href = "Adempiere.jar" main = "true" download = "eager"/>
 		<jar href = "AdempiereCLib.jar" main = "false" download = "eager"/>
 		<jar href = "CompiereJasperReqs.jar" main = "false" download = "eager"/>

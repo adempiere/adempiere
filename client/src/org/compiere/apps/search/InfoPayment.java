@@ -17,13 +17,14 @@
 package org.compiere.apps.search;
 
 import java.awt.Frame;
+import java.awt.event.ActionEvent;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 
 import org.adempiere.plaf.AdempierePLAF;
+import org.compiere.apps.AEnv;
 import org.compiere.apps.ALayout;
 import org.compiere.apps.ALayoutConstraint;
 import org.compiere.grid.ed.VCheckBox;
@@ -31,13 +32,17 @@ import org.compiere.grid.ed.VDate;
 import org.compiere.grid.ed.VLookup;
 import org.compiere.grid.ed.VNumber;
 import org.compiere.minigrid.IDColumn;
+import org.compiere.model.MColumn;
 import org.compiere.model.MLookupFactory;
+import org.compiere.model.MPayment;
 import org.compiere.model.MQuery;
 import org.compiere.swing.CLabel;
+import org.compiere.swing.CPanel;
 import org.compiere.swing.CTextField;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.Trx;
 import org.compiere.util.Util;
 
 /**
@@ -45,6 +50,11 @@ import org.compiere.util.Util;
  *
  *  @author Jorg Janke
  *  @version  $Id: InfoPayment.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
+ *
+ * @author Michael McKay, 
+ * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
+ * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
+ * 				<li>release/380 fix event listeners
  */
 public class InfoPayment extends Info
 {
@@ -54,7 +64,7 @@ public class InfoPayment extends Info
 	private static final long serialVersionUID = -2917241055484901704L;
 
 	/**
-	 *  Detail Protected Contructor
+	 *  Detail Protected Constructor
 	 *  @param frame parent frame
 	 *  @param modal modal
 	 *  @param WindowNo window no
@@ -62,67 +72,88 @@ public class InfoPayment extends Info
 	 *  @param multiSelection multiple selections
 	 *  @param whereClause whwre clause
 	 */
+	@Deprecated
 	protected InfoPayment(Frame frame, boolean modal, int WindowNo, String value,
 		boolean multiSelection, String whereClause)
 	{
-		super (frame, modal, WindowNo, "p", "C_Payment_ID", multiSelection, whereClause);
+		this(frame, modal, WindowNo, 0, value, 
+				multiSelection, true, whereClause);
+	}
+	
+	/**
+	 *  Detail Protected Constructor
+	 *  @param frame parent frame
+	 *  @param modal modal
+	 *  @param WindowNo window no
+	 *  @param record_id The record ID to find
+	 *  @param value query value to find, exclusive of record_id
+	 *  @param multiSelection multiple selections
+	 *  @param saveResults  True if results will be saved, false for info only
+	 *  @param whereClause where clause
+	 */
+	protected InfoPayment(Frame frame, boolean modal, int WindowNo, int record_id, String value, 
+			boolean multiSelection, boolean saveResults, String whereClause)
+	{
+		super (frame, modal, WindowNo, "p", "C_Payment_ID", multiSelection, saveResults, whereClause);
 		log.info( "InfoPayment");
 		setTitle(Msg.getMsg(Env.getCtx(), "InfoPayment"));
 		//
-		try
-		{
-			statInit();
-			p_loadedOK = initInfo ();
-		}
-		catch (Exception e)
-		{
-			return;
-		}
+		StringBuffer where = new StringBuffer("p.IsActive='Y'");
+		if (whereClause.length() > 0)
+			where.append(" AND ").append(Util.replace(whereClause, "C_Payment.", "p."));
+		setWhereClause(where.toString());
+		setTableLayout(s_Layout);
+		setFromClause(s_From);
+		setOrderClause(s_Order);
 		//
-		int no = p_table.getRowCount();
-		setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
-		setStatusDB(Integer.toString(no));
-		if (value != null && value.length() > 0)
-		{
-			fDocumentNo.setValue(value);
+		setShowTotals(true);
+		//
+		statInit();
+		initInfo (record_id, value);
+
+		//  To get the focus after the table update
+		m_heldLastFocus = fDocumentNo;
+		
+		//	AutoQuery
+		if(autoQuery() || record_id != 0 || (value != null && value.length() > 0 && value != "%"))
 			executeQuery();
-		}
-		//
-		pack();
-		//	Focus
-		fDocumentNo.requestFocus();
+		
+		p_loadedOK = true;
+
+		AEnv.positionCenterWindow(frame, this);
 	}   //  InfoPayment
 
-	/**  String Array of Column Info    */
-	private Info_Column[] m_generalLayout;
-	/** list of query columns           */
-	private ArrayList 	m_queryColumns = new ArrayList();
-	/** Table Name              */
-	private String      m_tableName;
-	/** Key Column Name         */
-	private String      m_keyColumn;
+	/** SalesOrder Trx          */
+	private boolean 	m_isSOTrx = false;
 
 	//  Static Info
+	private int fieldID = 0;
 	private CLabel lDocumentNo = new CLabel(Msg.translate(Env.getCtx(), "DocumentNo"));
 	private CTextField fDocumentNo = new CTextField(10);
 	//
-//	private CLabel lOrg_ID = new CLabel(Msg.translate(Env.getCtx(), "AD_Org_ID"));
-//	private VLookup fOrg_ID;
+	private CLabel lBankAccount_ID = new CLabel(Msg.translate(Env.getCtx(), "C_BankAccount_ID"));
+	private VLookup fBankAccount_ID;
 	private CLabel lBPartner_ID = new CLabel(Msg.translate(Env.getCtx(), "BPartner"));
 	private VLookup fBPartner_ID;
 	//
 	private CLabel lDateFrom = new CLabel(Msg.translate(Env.getCtx(), "DateTrx"));
 	private VDate fDateFrom = new VDate("DateFrom", false, false, true, DisplayType.Date, Msg.translate(Env.getCtx(), "DateFrom"));
-	private CLabel lDateTo = new CLabel("-");
+	private CLabel lDateTo = new CLabel("-  ");
 	private VDate fDateTo = new VDate("DateTo", false, false, true, DisplayType.Date, Msg.translate(Env.getCtx(), "DateTo"));
 	private CLabel lAmtFrom = new CLabel(Msg.translate(Env.getCtx(), "PayAmt"));
 	private VNumber fAmtFrom = new VNumber("AmtFrom", false, false, true, DisplayType.Amount, Msg.translate(Env.getCtx(), "AmtFrom"));
-	private CLabel lAmtTo = new CLabel("-");
+	private CLabel lAmtTo = new CLabel("-  ");
 	private VNumber fAmtTo = new VNumber("AmtTo", false, false, true, DisplayType.Amount, Msg.translate(Env.getCtx(), "AmtTo"));
-	private VCheckBox fIsReceipt = new VCheckBox ("IsReceipt", false, false, true, Msg.translate(Env.getCtx(), "IsReceipt"), "", false);
+	private VCheckBox fcheckReceipt = new VCheckBox ("IsReceipt", false, false, true, Msg.translate(Env.getCtx(), "OnlyReceipt"), "", false);
+	private VCheckBox fcheckPayment = new VCheckBox ("IsReceipt", false, false, true, Msg.translate(Env.getCtx(), "OnlyPayment"), "", false);
+
+	/** From Clause             */
+	private static String s_From = " C_Payment_v p";
+	/** Order Clause             */
+	private static String s_Order = "2,3,4";
 
 	/**  Array of Column Info    */
-	private static final Info_Column[] s_paymentLayout = {
+	private static final Info_Column[] s_Layout = {
 		new Info_Column(" ", "p.C_Payment_ID", IDColumn.class),
 		new Info_Column(Msg.translate(Env.getCtx(), "C_BankAccount_ID"),
 			"(SELECT b.Name || ' ' || ba.AccountNo FROM C_Bank b, C_BankAccount ba WHERE b.C_Bank_ID=ba.C_Bank_ID AND ba.C_BankAccount_ID=p.C_BankAccount_ID)", String.class),
@@ -145,87 +176,149 @@ public class InfoPayment extends Info
 		new Info_Column(Msg.translate(Env.getCtx(), "WriteOffAmt"),
 			"p.WriteOffAmt",  BigDecimal.class),
 		new Info_Column(Msg.translate(Env.getCtx(), "IsAllocated"),
-			"p.IsAllocated",  Boolean.class)
+			"p.IsAllocated",  Boolean.class),
+		new Info_Column(Msg.translate(Env.getCtx(), "DocStatus"), "docstatus", String.class)
+
 	};
 
 	/**
 	 *	Static Setup - add fields to parameterPanel
-	 *  @throws Exception if Lookups cannot be created
 	 */
-	private void statInit() throws Exception
+	private void statInit()
 	{
 		lDocumentNo.setLabelFor(fDocumentNo);
 		fDocumentNo.setBackground(AdempierePLAF.getInfoBackground());
 		fDocumentNo.addActionListener(this);
-		fIsReceipt.setSelected(!"N".equals(Env.getContext(Env.getCtx(), p_WindowNo, "IsSOTrx")));
-		fIsReceipt.addActionListener(this);
+		fcheckReceipt.setSelected(true);  
+		fcheckReceipt.setActionCommand("OnlyReceipt");
+		fcheckReceipt.addActionListener(this);
+		fcheckPayment.setSelected(false);
+		fcheckPayment.setActionCommand("OnlyPayment");
+		fcheckPayment.addActionListener(this);
 		//
-	//	fOrg_ID = new VLookup("AD_Org_ID", false, false, true,
-	//		MLookupFactory.create(Env.getCtx(), 3486, m_WindowNo, DisplayType.TableDir, false),
-	//		DisplayType.TableDir, m_WindowNo);
-	//	lOrg_ID.setLabelFor(fOrg_ID);
-	//	fOrg_ID.setBackground(AdempierePLAF.getInfoBackground());
+		fBankAccount_ID = new VLookup("C_BankAccount_ID", false, false, true,
+				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 
+						MColumn.getColumn_ID(MPayment.Table_Name, MPayment.COLUMNNAME_C_BankAccount_ID), 
+						DisplayType.TableDir));
+		lBankAccount_ID.setLabelFor(fBankAccount_ID);
+		fBankAccount_ID.setBackground(AdempierePLAF.getInfoBackground());
+		fBankAccount_ID.addActionListener(this);
 		fBPartner_ID = new VLookup("C_BPartner_ID", false, false, true,
-			MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 3499, DisplayType.Search));
+			MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 
+					MColumn.getColumn_ID(MPayment.Table_Name, MPayment.COLUMNNAME_C_BPartner_ID), 
+					DisplayType.Search));
 		lBPartner_ID.setLabelFor(fBPartner_ID);
 		fBPartner_ID.setBackground(AdempierePLAF.getInfoBackground());
+		fBPartner_ID.addActionListener(this);
 		//
 		lDateFrom.setLabelFor(fDateFrom);
 		fDateFrom.setBackground(AdempierePLAF.getInfoBackground());
 		fDateFrom.setToolTipText(Msg.translate(Env.getCtx(), "DateFrom"));
+		fDateFrom.addActionListener(this);
 		lDateTo.setLabelFor(fDateTo);
 		fDateTo.setBackground(AdempierePLAF.getInfoBackground());
 		fDateTo.setToolTipText(Msg.translate(Env.getCtx(), "DateTo"));
+		fDateTo.addActionListener(this);
 		lAmtFrom.setLabelFor(fAmtFrom);
 		fAmtFrom.setBackground(AdempierePLAF.getInfoBackground());
 		fAmtFrom.setToolTipText(Msg.translate(Env.getCtx(), "AmtFrom"));
+		fAmtFrom.setBorder(fDateFrom.getBorder());  // Not sure why this is necessary?  The border is not visible otherwise.
+		fAmtFrom.addActionListener(this);
 		lAmtTo.setLabelFor(fAmtTo);
 		fAmtTo.setBackground(AdempierePLAF.getInfoBackground());
 		fAmtTo.setToolTipText(Msg.translate(Env.getCtx(), "AmtTo"));
+		fAmtTo.setBorder(fDateFrom.getBorder());  // Not sure why this is necessary?  The border is not visible otherwise.
+		fAmtTo.addActionListener(this);
 		//
-		parameterPanel.setLayout(new ALayout());
+		CPanel amtPanel = new CPanel();
+		CPanel datePanel = new CPanel();
+		
+		amtPanel.setLayout(new ALayout(0, 0, true));
+		amtPanel.add(fAmtFrom, new ALayoutConstraint(0,0));
+		amtPanel.add(lAmtTo, null);
+		amtPanel.add(fAmtTo, null);
+
+		datePanel.setLayout(new ALayout(0, 0, true));
+		datePanel.add(fDateFrom, new ALayoutConstraint(0,0));
+		datePanel.add(lDateTo, null);
+		datePanel.add(fDateTo, null);
+		//
 		//  First Row
-		parameterPanel.add(lDocumentNo, new ALayoutConstraint(0,0));
-		parameterPanel.add(fDocumentNo, null);
-		parameterPanel.add(lBPartner_ID, null);
-		parameterPanel.add(fBPartner_ID, null);
-		parameterPanel.add(fIsReceipt, new ALayoutConstraint(0,5));
+		p_criteriaGrid.add(lDocumentNo, new ALayoutConstraint(0,0));
+		p_criteriaGrid.add(fDocumentNo, null);
+		p_criteriaGrid.add(lBPartner_ID, null);
+		p_criteriaGrid.add(fBPartner_ID, null);
+		p_criteriaGrid.add(fcheckReceipt, new ALayoutConstraint(0,5));
 		//  2nd Row
-		parameterPanel.add(lDateFrom, new ALayoutConstraint(1,2));
-		parameterPanel.add(fDateFrom, null);
-		parameterPanel.add(lDateTo, null);
-		parameterPanel.add(fDateTo, null);
+		p_criteriaGrid.add(lBankAccount_ID, new ALayoutConstraint(1,0));
+		p_criteriaGrid.add(fBankAccount_ID);
+		p_criteriaGrid.add(lDateFrom, null);
+		p_criteriaGrid.add(datePanel, null);
+		p_criteriaGrid.add(fcheckPayment, new ALayoutConstraint(1,5));
 		//  3rd Row
-		parameterPanel.add(lAmtFrom, new ALayoutConstraint(2,2));
-		parameterPanel.add(fAmtFrom, null);
-		parameterPanel.add(lAmtTo, null);
-		parameterPanel.add(fAmtTo, null);
-	//	parameterPanel.add(lOrg_ID, null);
-	//	parameterPanel.add(fOrg_ID, null);
+		p_criteriaGrid.add(lAmtFrom, new ALayoutConstraint(2,2));
+		p_criteriaGrid.add(amtPanel, null);
 	}	//	statInit
 
 	/**
 	 *	General Init
 	 *	@return true, if success
 	 */
-	private boolean initInfo ()
+	protected void initInfo (int record_id, String value)
 	{
-		//  Set Defaults
-		String bp = Env.getContext(Env.getCtx(), p_WindowNo, "C_BPartner_ID");
-		if (bp != null && bp.length() != 0)
-			fBPartner_ID.setValue(new Integer(bp));
-
-		//  prepare table
-		StringBuffer where = new StringBuffer("p.IsActive='Y'");
-		if (p_whereClause.length() > 0)
-			where.append(" AND ").append(Util.replace(p_whereClause, "C_Payment.", "p."));
-		prepareTable(s_paymentLayout,
-			" C_Payment_v p",
-			where.toString(),
-			"2,3,4");
 		//
-	//	MPayment.setIsAllocated(Env.getCtx(), 0, null);
-		return true;
+		if (!(record_id == 0) && value != null && value.length() > 0)
+		{
+			log.severe("Received both a record_id and a value: " + record_id + " - " + value);
+		}
+
+		//  Set values
+        if (!(record_id == 0))  // A record is defined
+        {
+        	fieldID = record_id;
+        	String trxName = Trx.createTrxName();
+        	MPayment p = new MPayment(Env.getCtx(),record_id, trxName);
+			fcheckReceipt.setSelected(p.isReceipt());
+    		fcheckPayment.setSelected(!p.isReceipt());
+    		p = null;
+    		Trx.get(trxName, false).close();
+        } 
+        else  // Try to find other criteria in the context
+        {
+			String id;
+			
+			//  C_BPartner_ID
+			id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "C_BPartner_ID", true);
+			if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
+				fBPartner_ID.setValue(new Integer(id));
+			
+			//  The value passed in from the field
+			if (value != null && value.length() > 0)
+			{
+				fDocumentNo.setValue(value);
+			}
+			else
+			{
+				//  C_Payment_ID
+				id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "C_Payment_ID", true);
+				if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
+				{
+					fieldID = new Integer(id).intValue();
+		        	String trxName = Trx.createTrxName();
+		        	MPayment p = new MPayment(Env.getCtx(),record_id, trxName);
+					fcheckReceipt.setSelected(p.isReceipt());
+		    		fcheckPayment.setSelected(!p.isReceipt());
+		    		p = null;
+		    		Trx.get(trxName, false).close();
+				}
+				//  C_BankAccount_ID
+				id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "C_BankAccount_ID", true);
+				if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
+					fBankAccount_ID.setValue(new Integer(id));
+			}
+        }
+		//
+		return;
 	}	//	initInfo
 
 	
@@ -238,11 +331,21 @@ public class InfoPayment extends Info
 	protected String getSQLWhere()
 	{
 		StringBuffer sql = new StringBuffer();
-		if (fDocumentNo.getText().length() > 0)
+
+		//  => ID
+		if(isResetRecordID())
+			fieldID = 0;
+		if(!(fieldID == 0))
+			sql.append(" AND p.C_Payment_ID = ?");
+		//
+		if (isValidSQLText(fDocumentNo))
 			sql.append(" AND UPPER(p.DocumentNo) LIKE ?");
 		//
 		if (fBPartner_ID.getValue() != null)
 			sql.append(" AND p.C_BPartner_ID=?");
+		//
+		if (fBankAccount_ID.getValue() != null)
+			sql.append(" AND p.C_BankAccount_ID=?");
 		//
 		if (fDateFrom.getValue() != null || fDateTo.getValue() != null)
 		{
@@ -267,7 +370,22 @@ public class InfoPayment extends Info
 			else if (from != null && to != null)
 				sql.append(" AND p.PayAmt BETWEEN ? AND ?");
 		}
-		sql.append(" AND p.IsReceipt=?");
+		
+		
+		if (fcheckReceipt.isSelected() && fcheckPayment.isSelected())
+			log.severe("Both Only Receipt and Only Payment selected at the same time.");
+		//	Static SQL
+		if (fcheckReceipt.isSelected())
+		{
+			sql.append(" AND ");
+				sql.append ("p.IsReceipt='Y'");
+		}
+
+		if (fcheckPayment.isSelected())
+		{
+			sql.append(" AND ");
+				sql.append ("p.IsReceipt='N'");
+		}
 
 		log.fine(sql.toString());
 		return sql.toString();
@@ -283,14 +401,25 @@ public class InfoPayment extends Info
 	protected void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
 	{
 		int index = 1;
-		if (fDocumentNo.getText().length() > 0)
+		//  => ID
+		if (!(fieldID == 0))
+			pstmt.setInt(index++, fieldID);
+		//
+		if (isValidSQLText(fDocumentNo))
 			pstmt.setString(index++, getSQLText(fDocumentNo));
 		//
 		if (fBPartner_ID.getValue() != null)
 		{
-			Integer bp = (Integer)fBPartner_ID.getValue();
-			pstmt.setInt(index++, bp.intValue());
-			log.fine("BPartner=" + bp);
+			Integer id = (Integer)fBPartner_ID.getValue();
+			pstmt.setInt(index++, id.intValue());
+			log.fine("BPartner=" + id);
+		}
+		//
+		if (fBankAccount_ID.getValue() != null)
+		{
+			Integer id = (Integer)fBankAccount_ID.getValue();
+			pstmt.setInt(index++, id.intValue());
+			log.fine("BankAccount=" + id);
 		}
 		//
 		if (fDateFrom.getValue() != null || fDateTo.getValue() != null)
@@ -324,36 +453,41 @@ public class InfoPayment extends Info
 				pstmt.setBigDecimal(index++, to);
 			}
 		}
-		pstmt.setString(index++, fIsReceipt.isSelected() ? "Y" : "N");
 	}   //  setParameters
 
-	/**
-	 *  Get SQL WHERE parameter
-	 *  @param f field
-	 *  @return Upper case text with % at the end
+	/**************************************************************************
+	 *	(Button) Action Listener & Popup Menu
+	 *  @param e event
 	 */
-	private String getSQLText (CTextField f)
+	public void actionPerformed (ActionEvent e)
 	{
-		String s = f.getText().toUpperCase();
-		if (!s.endsWith("%"))
-			s += "%";
-		log.fine( "String=" + s);
-		return s;
-	}   //  getSQLText
-	
+		// Make the checkboxes exclusive
+		if(e.getActionCommand() == "OnlyReceipt")
+		{
+			if(fcheckReceipt.isSelected())
+				fcheckPayment.setSelected(false);
+		}
+		if(e.getActionCommand() == "OnlyPayment")
+		{
+			if(fcheckPayment.isSelected())
+				fcheckReceipt.setSelected(false);
+		}
+		super.actionPerformed(e);
+	}
+
 	/**
 	 *	Zoom
 	 */
-	protected void zoom()
+	protected void zoom(int record_ID)
 	{
 		log.info( "InfoPayment.zoom");
-		Integer C_Payment_ID = getSelectedRowKey();
+		Integer C_Payment_ID = record_ID;
 		if (C_Payment_ID == null)
 			return;
 		MQuery query = new MQuery("C_Payment");
 		query.addRestriction("C_Payment_ID", MQuery.EQUAL, C_Payment_ID);
 		query.setRecordCount(1);
-		int AD_WindowNo = getAD_Window_ID("C_Payment", fIsReceipt.isSelected());
+		int AD_WindowNo = getAD_Window_ID("C_Payment", (m_isSOTrx && fcheckReceipt.isSelected()) || (!m_isSOTrx && !fcheckReceipt.isSelected()));
 		zoom (AD_WindowNo, query);
 	}	//	zoom
 
@@ -366,4 +500,57 @@ public class InfoPayment extends Info
 		return true;
 	}	//	hasZoom
 	
+	/**
+	 * Does the parameter panel have outstanding changes that have not been
+	 * used in a query?
+	 * @return true if there are outstanding changes.
+	 */
+	protected boolean hasOutstandingChanges()
+	{
+		//  All the tracked fields
+		return(
+				fDocumentNo.hasChanged()	||
+				fBankAccount_ID.hasChanged()	||
+				fcheckPayment.hasChanged()	||
+				fcheckReceipt.hasChanged()	||
+				fBPartner_ID.hasChanged()	||
+				fAmtFrom.hasChanged() ||
+				fAmtTo.hasChanged() ||
+				fDateFrom.hasChanged()	||
+				fDateTo.hasChanged());
+	}
+	/**
+	 * Record outstanding changes by copying the current
+	 * value to the oldValue on all fields
+	 */
+	protected void setFieldOldValues()
+	{
+		fAmtFrom.set_oldValue();
+		fAmtTo.set_oldValue();
+		fDocumentNo.set_oldValue();
+		fBankAccount_ID.set_oldValue();
+		fcheckPayment.set_oldValue();
+		fcheckReceipt.set_oldValue();
+		fBPartner_ID.set_oldValue();
+		fDateFrom.set_oldValue();
+		fDateTo.set_oldValue();
+		return;
+	}
+    /**
+	 *  Clear all fields and set default values in check boxes
+	 */
+	protected void clearParameters()
+	{
+		//  Clear fields and set defaults
+		Object nullObject = null;
+		fDocumentNo.setValue("");
+		fAmtFrom.setValue(nullObject);
+		fAmtTo.setValue(nullObject);
+		fBPartner_ID.setValue(null);
+		fBankAccount_ID.setValue(null);
+		fDateFrom.setValue(nullObject);
+		fDateTo.setValue(nullObject);
+		fcheckReceipt.setSelected(true);  
+		fcheckPayment.setSelected(false);
+	}
 }   //  InfoPayment

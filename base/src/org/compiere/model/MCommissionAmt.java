@@ -163,7 +163,7 @@ public class MCommissionAmt extends X_C_CommissionAmt
 	{
 		MCommissionRun run = new MCommissionRun(getCtx(), getC_CommissionRun_ID(),get_TrxName());
 		run.updateFromAmt();
-		run.save();
+		run.saveEx();
 	}	//	updateRunHeader
 
 }	//	MCommissionAmt

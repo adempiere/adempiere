@@ -143,7 +143,7 @@ public class BOMValidate extends SvrProcess
 		if (!validateOldProduct (m_product))
 		{
 			m_product.setIsVerified(false);
-			m_product.save();
+			m_product.saveEx();
 			return m_product.getName() + " @NotValid@";
 		}
 		
@@ -155,14 +155,14 @@ public class BOMValidate extends SvrProcess
 			if (!validateBOM(boms[i]))
 			{
 				m_product.setIsVerified(false);
-				m_product.save();
+				m_product.saveEx();
 				return m_product.getName() + " " + boms[i].getName() + " @NotValid@";
 			}
 		}
 		
 		//	OK
 		m_product.setIsVerified(true);
-		m_product.save();
+		m_product.saveEx();
 		return m_product.getName() + " @IsValid@";
 	}	//	validateProduct
 

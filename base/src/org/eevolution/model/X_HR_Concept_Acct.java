@@ -23,14 +23,14 @@ import org.compiere.model.*;
 
 /** Generated Model for HR_Concept_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_HR_Concept_Acct extends PO implements I_HR_Concept_Acct, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20150101L;
 
     /** Standard Constructor */
     public X_HR_Concept_Acct (Properties ctx, int HR_Concept_Acct_ID, String trxName)
@@ -155,8 +155,10 @@ public class X_HR_Concept_Acct extends PO implements I_HR_Concept_Acct, I_Persis
 		return (org.eevolution.model.I_HR_Concept)MTable.get(getCtx(), org.eevolution.model.I_HR_Concept.Table_Name)
 			.getPO(getHR_Concept_ID(), get_TrxName());	}
 
-	/** Set Payroll Concept.
-		@param HR_Concept_ID Payroll Concept	  */
+	/** Set AD Payroll Concept.
+		@param HR_Concept_ID 
+		The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
+	  */
 	public void setHR_Concept_ID (int HR_Concept_ID)
 	{
 		if (HR_Concept_ID < 1) 
@@ -165,8 +167,9 @@ public class X_HR_Concept_Acct extends PO implements I_HR_Concept_Acct, I_Persis
 			set_ValueNoCheck (COLUMNNAME_HR_Concept_ID, Integer.valueOf(HR_Concept_ID));
 	}
 
-	/** Get Payroll Concept.
-		@return Payroll Concept	  */
+	/** Get AD Payroll Concept.
+		@return The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
+	  */
 	public int getHR_Concept_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Concept_ID);

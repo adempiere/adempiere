@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for T_BOMLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0
  */
 public interface I_T_BOMLine 
 {
@@ -164,15 +164,28 @@ public interface I_T_BOMLine
     /** Column name CurrentCostPriceLL */
     public static final String COLUMNNAME_CurrentCostPriceLL = "CurrentCostPriceLL";
 
-	/** Set Current Cost Price Lower Level.
+	/** Set Current Cost Price LL.
 	  * Current Price Lower Level Is the sum of the costs of the components of this product manufactured for this level.
 	  */
 	public void setCurrentCostPriceLL (BigDecimal CurrentCostPriceLL);
 
-	/** Get Current Cost Price Lower Level.
+	/** Get Current Cost Price LL.
 	  * Current Price Lower Level Is the sum of the costs of the components of this product manufactured for this level.
 	  */
 	public BigDecimal getCurrentCostPriceLL();
+
+    /** Column name DateTrx */
+    public static final String COLUMNNAME_DateTrx = "DateTrx";
+
+	/** Set Transaction Date.
+	  * Transaction Date
+	  */
+	public void setDateTrx (Timestamp DateTrx);
+
+	/** Get Transaction Date.
+	  * Transaction Date
+	  */
+	public Timestamp getDateTrx();
 
     /** Column name FutureCostPrice */
     public static final String COLUMNNAME_FutureCostPrice = "FutureCostPrice";
@@ -186,10 +199,10 @@ public interface I_T_BOMLine
     /** Column name FutureCostPriceLL */
     public static final String COLUMNNAME_FutureCostPriceLL = "FutureCostPriceLL";
 
-	/** Set Future Cost Price Lower Level	  */
+	/** Set Future Cost Price LL	  */
 	public void setFutureCostPriceLL (BigDecimal FutureCostPriceLL);
 
-	/** Get Future Cost Price Lower Level	  */
+	/** Get Future Cost Price LL	  */
 	public BigDecimal getFutureCostPriceLL();
 
     /** Column name Implosion */
@@ -294,6 +307,21 @@ public interface I_T_BOMLine
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
+    /** Column name M_Warehouse_ID */
+    public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
+
+	/** Set Warehouse.
+	  * Storage Warehouse and Service Point
+	  */
+	public void setM_Warehouse_ID (int M_Warehouse_ID);
+
+	/** Get Warehouse.
+	  * Storage Warehouse and Service Point
+	  */
+	public int getM_Warehouse_ID();
+
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
+
     /** Column name PP_Product_BOM_ID */
     public static final String COLUMNNAME_PP_Product_BOM_ID = "PP_Product_BOM_ID";
 
@@ -336,6 +364,15 @@ public interface I_T_BOMLine
 	  * Indicate the Quantity  use in this BOM
 	  */
 	public BigDecimal getQtyBOM();
+
+    /** Column name QtyRequired */
+    public static final String COLUMNNAME_QtyRequired = "QtyRequired";
+
+	/** Set Qty Required	  */
+	public void setQtyRequired (BigDecimal QtyRequired);
+
+	/** Get Qty Required	  */
+	public BigDecimal getQtyRequired();
 
     /** Column name Sel_Product_ID */
     public static final String COLUMNNAME_Sel_Product_ID = "Sel_Product_ID";

@@ -87,6 +87,33 @@ public class WReport implements EventListener {
 		getPrintFormats (AD_Table_ID);
 	}	//	AReport
 
+	/**
+	 *	Constructor
+	 *
+	 *  @param AD_Table_ID table
+	 *  @param query query
+	 *  @param parent The invoking parent component
+	 *  @param WindowNo the window number of the parent
+	 *  @param whereExtended The filtering where clause
+	 */
+	public WReport (int AD_Table_ID, MQuery	query, Component parent, int WindowNo, String whereExtended)
+	{
+		log.config("AD_Table_ID=" + AD_Table_ID + " " + query + " " + whereExtended);
+		if (!MRole.getDefault().isCanReport(AD_Table_ID))
+		{
+			FDialog.error(0, "AccessCannotReport", query.getTableName());
+			return;
+		}
+
+		m_query = query;
+		this.parent = parent;
+		this.WindowNo = WindowNo;
+		this.m_whereExtended = whereExtended;
+
+		//	See What is there
+		getPrintFormats (AD_Table_ID);
+	}	//	AReport
+	
 	/**	The Query						*/
 	private MQuery	 	m_query;
 	private Menupopup 	m_popup;
@@ -98,6 +125,8 @@ public class WReport implements EventListener {
 	Component parent;
 	/** The parent window number */
 	int WindowNo;
+	/** The filter to apply to this report */
+	String m_whereExtended;
 
 	/**
 	 * 	Get the Print Formats for the table.
@@ -132,7 +161,7 @@ public class WReport implements EventListener {
 			if (pp == null)
 				createNewFormat (AD_Table_ID);		//	calls launch
 			else
-				copyFormat(pp.getKey(), AD_Client_ID);
+				copyFormat(pp.getKey(), AD_Client_ID);  // copies the last format. What if there were several?
 		}
 		//	One Format exists or no invoker - show it
 		else if (m_list.size() == 1)
@@ -194,8 +223,13 @@ public class WReport implements EventListener {
 	private void launchReport (MPrintFormat pf)
 	{
 		int Record_ID = 0;
+		//  The query is passed into A/WReport.java with only the key or link column included.
 		if (m_query.getRestrictionCount()==1 && m_query.getCode(0) instanceof Integer)
 			Record_ID = ((Integer)m_query.getCode(0)).intValue();
+		//  Add the extended query after the record ID has been identified.
+		if (m_whereExtended != null && m_whereExtended.length() > 0 && m_query != null)
+			m_query.addRestriction(Env.parseContext(Env.getCtx(), WindowNo, m_whereExtended, false));
+
 		PrintInfo info = new PrintInfo(
 			pf.getName(),
 			pf.getAD_Table_ID(),
@@ -214,6 +248,7 @@ public class WReport implements EventListener {
 		{
 			// It's a default report using the standard printing engine
 			ReportEngine re = new ReportEngine (Env.getCtx(), pf, m_query, info);
+			re.setWhereExtended(m_whereExtended);  // TODO: Is this required?  The extended query, if any, is included in the query.
 			ReportCtl.preview(re);
 		}
 	}	//	launchReport

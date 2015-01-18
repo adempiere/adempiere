@@ -87,6 +87,7 @@ public abstract class TabbedDesktop extends AbstractDesktop {
 		form.setParent(tabPanel);
 		//do not show window title when open as tab
 		form.setTitle(null);
+		form.setAttribute(WINDOWNO_ATTRIBUTE, form.getWindowNo());
 		preOpenNewTab();
 		windowContainer.addWindow(tabPanel, form.getFormName(), true);
 

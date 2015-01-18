@@ -452,7 +452,12 @@ public class Viewer extends CFrame
 		StringBuffer sb = new StringBuffer("** ").append(Msg.getMsg(m_ctx, "NewReport")).append(" **");
 		KeyNamePair pp = new KeyNamePair(-1, sb.toString());
 		comboReport.addItem(pp);
-		if (selectValue != null)
+		
+		sb = new StringBuffer("** ").append(Msg.getMsg(m_ctx, "CopyReport")).append(" **");
+	   	pp = new KeyNamePair(-2, sb.toString());
+	    comboReport.addItem(pp);
+		
+	    if (selectValue != null)
 			comboReport.setSelectedItem(selectValue);
 		comboReport.addActionListener(this);
 	}	//	fillComboReport
@@ -1065,6 +1070,21 @@ public class Viewer extends CFrame
 			else
 				return;
 		}
+		//copy current
+		if (AD_PrintFormat_ID == -2) {
+			MPrintFormat current = m_reportEngine.getPrintFormat();
+			if (current != null) {
+				pf = MPrintFormat.copyToClient(m_ctx,
+						current.getAD_PrintFormat_ID(),
+						Env.getAD_Client_ID(m_ctx));
+
+				if (pf != null)
+					fillComboReport(pf.get_ID());
+				else
+					return;
+			} else
+				return;
+		}		
 		else
 			pf = MPrintFormat.get (Env.getCtx(), AD_PrintFormat_ID, true);
 		

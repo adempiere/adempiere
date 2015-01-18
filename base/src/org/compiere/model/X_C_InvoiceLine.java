@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_InvoiceLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20150101L;
 
     /** Standard Constructor */
     public X_C_InvoiceLine (Properties ctx, int C_InvoiceLine_ID, String trxName)
@@ -41,8 +41,8 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
       super (ctx, C_InvoiceLine_ID, trxName);
       /** if (C_InvoiceLine_ID == 0)
         {
-			setC_Invoice_ID (0);
 			setC_InvoiceLine_ID (0);
+			setC_Invoice_ID (0);
 			setC_Tax_ID (0);
 			setIsDescription (false);
 // N
@@ -91,6 +91,29 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** Set Trx Organization.
+		@param AD_OrgTrx_ID 
+		Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
+	{
+		if (AD_OrgTrx_ID < 1) 
+			set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
+	}
+
+	/** Get Trx Organization.
+		@return Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_OrgTrx_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	public org.compiere.model.I_A_Asset_Group getA_Asset_Group() throws RuntimeException
     {
@@ -154,30 +177,30 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 	public static final String A_CAPVSEXP_Capital = "Cap";
 	/** Expense = Exp */
 	public static final String A_CAPVSEXP_Expense = "Exp";
-	/** Set Capital vs Expense.
-		@param A_CapvsExp Capital vs Expense	  */
+	/** Set Capital/Expense.
+		@param A_CapvsExp Capital/Expense	  */
 	public void setA_CapvsExp (String A_CapvsExp)
 	{
 
 		set_Value (COLUMNNAME_A_CapvsExp, A_CapvsExp);
 	}
 
-	/** Get Capital vs Expense.
-		@return Capital vs Expense	  */
+	/** Get Capital/Expense.
+		@return Capital/Expense	  */
 	public String getA_CapvsExp () 
 	{
 		return (String)get_Value(COLUMNNAME_A_CapvsExp);
 	}
 
-	/** Set Asset Related?.
-		@param A_CreateAsset Asset Related?	  */
+	/** Set Create Asset.
+		@param A_CreateAsset Create Asset	  */
 	public void setA_CreateAsset (boolean A_CreateAsset)
 	{
 		set_Value (COLUMNNAME_A_CreateAsset, Boolean.valueOf(A_CreateAsset));
 	}
 
-	/** Get Asset Related?.
-		@return Asset Related?	  */
+	/** Get Create Asset.
+		@return Create Asset	  */
 	public boolean isA_CreateAsset () 
 	{
 		Object oo = get_Value(COLUMNNAME_A_CreateAsset);
@@ -188,29 +211,6 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 			return "Y".equals(oo);
 		}
 		return false;
-	}
-
-	/** Set Trx Organization.
-		@param AD_OrgTrx_ID 
-		Performing or initiating organization
-	  */
-	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
-	{
-		if (AD_OrgTrx_ID < 1) 
-			set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
-	}
-
-	/** Get Trx Organization.
-		@return Performing or initiating organization
-	  */
-	public int getAD_OrgTrx_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_OrgTrx_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set Processed.
@@ -318,6 +318,29 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Invoice Line.
+		@param C_InvoiceLine_ID 
+		Invoice Detail Line
+	  */
+	public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
+	{
+		if (C_InvoiceLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, Integer.valueOf(C_InvoiceLine_ID));
+	}
+
+	/** Get Invoice Line.
+		@return Invoice Detail Line
+	  */
+	public int getC_InvoiceLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_InvoiceLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Invoice)MTable.get(getCtx(), org.compiere.model.I_C_Invoice.Table_Name)
@@ -354,29 +377,6 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
         return new KeyNamePair(get_ID(), String.valueOf(getC_Invoice_ID()));
     }
 
-	/** Set Invoice Line.
-		@param C_InvoiceLine_ID 
-		Invoice Detail Line
-	  */
-	public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
-	{
-		if (C_InvoiceLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, Integer.valueOf(C_InvoiceLine_ID));
-	}
-
-	/** Get Invoice Line.
-		@return Invoice Detail Line
-	  */
-	public int getC_InvoiceLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_InvoiceLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_C_OrderLine getC_OrderLine() throws RuntimeException
     {
 		return (org.compiere.model.I_C_OrderLine)MTable.get(getCtx(), org.compiere.model.I_C_OrderLine.Table_Name)
@@ -400,34 +400,6 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 	public int getC_OrderLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_OrderLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
-			.getPO(getC_Project_ID(), get_TrxName());	}
-
-	/** Set Project.
-		@param C_Project_ID 
-		Financial Project
-	  */
-	public void setC_Project_ID (int C_Project_ID)
-	{
-		if (C_Project_ID < 1) 
-			set_Value (COLUMNNAME_C_Project_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
-	}
-
-	/** Get Project.
-		@return Financial Project
-	  */
-	public int getC_Project_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -484,6 +456,34 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 	public int getC_ProjectTask_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectTask_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
+			.getPO(getC_Project_ID(), get_TrxName());	}
+
+	/** Set Project.
+		@param C_Project_ID 
+		Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID)
+	{
+		if (C_Project_ID < 1) 
+			set_Value (COLUMNNAME_C_Project_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
+	}
+
+	/** Get Project.
+		@return Financial Project
+	  */
+	public int getC_Project_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -562,6 +562,47 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	/** Set Generate To.
+		@param GenerateTo 
+		Generate To
+	  */
+	public void setGenerateTo (String GenerateTo)
+	{
+		set_Value (COLUMNNAME_GenerateTo, GenerateTo);
+	}
+
+	/** Get Generate To.
+		@return Generate To
+	  */
+	public String getGenerateTo () 
+	{
+		return (String)get_Value(COLUMNNAME_GenerateTo);
+	}
+
+	/** Set Collective Asset.
+		@param IsCollectiveAsset 
+		Asset Quantity is Collective
+	  */
+	public void setIsCollectiveAsset (boolean IsCollectiveAsset)
+	{
+		set_Value (COLUMNNAME_IsCollectiveAsset, Boolean.valueOf(IsCollectiveAsset));
+	}
+
+	/** Get Collective Asset.
+		@return Asset Quantity is Collective
+	  */
+	public boolean isCollectiveAsset () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsCollectiveAsset);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Description Only.
 		@param IsDescription 
 		if true, the line is just description and no transaction
@@ -577,6 +618,27 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 	public boolean isDescription () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsDescription);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set IsFixedAssetInvoice.
+		@param IsFixedAssetInvoice IsFixedAssetInvoice	  */
+	public void setIsFixedAssetInvoice (boolean IsFixedAssetInvoice)
+	{
+		set_Value (COLUMNNAME_IsFixedAssetInvoice, Boolean.valueOf(IsFixedAssetInvoice));
+	}
+
+	/** Get IsFixedAssetInvoice.
+		@return IsFixedAssetInvoice	  */
+	public boolean isFixedAssetInvoice () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsFixedAssetInvoice);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -926,26 +988,6 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 		return bd;
 	}
 
-	/** Set Referenced Invoice Line.
-		@param Ref_InvoiceLine_ID Referenced Invoice Line	  */
-	public void setRef_InvoiceLine_ID (int Ref_InvoiceLine_ID)
-	{
-		if (Ref_InvoiceLine_ID < 1) 
-			set_Value (COLUMNNAME_Ref_InvoiceLine_ID, null);
-		else 
-			set_Value (COLUMNNAME_Ref_InvoiceLine_ID, Integer.valueOf(Ref_InvoiceLine_ID));
-	}
-
-	/** Get Referenced Invoice Line.
-		@return Referenced Invoice Line	  */
-	public int getRef_InvoiceLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Ref_InvoiceLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Revenue Recognition Amt.
 		@param RRAmt 
 		Revenue Recognition Amount
@@ -981,6 +1023,26 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 	public Timestamp getRRStartDate () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_RRStartDate);
+	}
+
+	/** Set Referenced Invoice Line.
+		@param Ref_InvoiceLine_ID Referenced Invoice Line	  */
+	public void setRef_InvoiceLine_ID (int Ref_InvoiceLine_ID)
+	{
+		if (Ref_InvoiceLine_ID < 1) 
+			set_Value (COLUMNNAME_Ref_InvoiceLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_Ref_InvoiceLine_ID, Integer.valueOf(Ref_InvoiceLine_ID));
+	}
+
+	/** Get Referenced Invoice Line.
+		@return Referenced Invoice Line	  */
+	public int getRef_InvoiceLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Ref_InvoiceLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Resource Assignment.

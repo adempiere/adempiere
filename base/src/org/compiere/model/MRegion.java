@@ -241,183 +241,183 @@ public final class MRegion extends X_C_Region
 		// Hokkaido
 		MRegion temp = new MRegion (country, "\u5317\u6d77\u9053");
 		temp.setDescription( "\u5317\u6d77\u9053(Hokkaido)" );
-		temp.save();
+		temp.saveEx();
 		// Aomori
 		temp = new MRegion (country, "\u9752\u68ee\u770c");
 		temp.setDescription( "\u9752\u68ee\u770c(Aomori)" );
-		temp.save();
+		temp.saveEx();
 		// Iwate
 		temp = new MRegion (country, "\u5ca9\u624b\u770c");
 		temp.setDescription( "\u5ca9\u624b\u770c(Iwate)" );
-		temp.save();
+		temp.saveEx();
 		// Miyagi
 		temp = new MRegion (country, "\u5bae\u57ce\u770c");
 		temp.setDescription( "\u5bae\u57ce\u770c(Miyagi)" );
-		temp.save();
+		temp.saveEx();
 		// Akita
 		temp = new MRegion (country, "\u79cb\u7530\u770c");
 		temp.setDescription( "\u79cb\u7530\u770c(Akita)" );
-		temp.save();
+		temp.saveEx();
 		// Yamagata
 		temp = new MRegion (country, "\u5c71\u5f62\u770c");
 		temp.setDescription( "\u5c71\u5f62\u770c(Yamagata)" );
-		temp.save();
+		temp.saveEx();
 		// Fukushima
 		temp = new MRegion (country, "\u798f\u5cf6\u770c");
 		temp.setDescription( "\u798f\u5cf6\u770c(Fukushima)" );
-		temp.save();
+		temp.saveEx();
 		// Ibaraki
 		temp = new MRegion (country, "\u8328\u57ce\u770c");
 		temp.setDescription( "\u8328\u57ce\u770c(Ibaraki)" );
-		temp.save();
+		temp.saveEx();
 		// Gunma
 		temp = new MRegion (country, "\u7fa4\u99ac\u770c");
 		temp.setDescription( "\u7fa4\u99ac\u770c(Gunma)" );
-		temp.save();
+		temp.saveEx();
 		// Saitama
 		temp = new MRegion (country, "\u57fc\u7389\u770c");
 		temp.setDescription( "\u57fc\u7389\u770c(Saitama)" );
-		temp.save();
+		temp.saveEx();
 		// Chiba
 		temp = new MRegion (country, "\u5343\u8449\u770c");
 		temp.setDescription( "\u5343\u8449\u770c(Chiba)" );
-		temp.save();
+		temp.saveEx();
 		// Tokyo
 		temp = new MRegion (country, "\u6771\u4eac\u90fd");
 		temp.setDescription( "\u6771\u4eac\u90fd(Tokyo)" );
-		temp.save();
+		temp.saveEx();
 		// Kanagawa
 		temp = new MRegion (country, "\u795e\u5948\u5ddd\u770c");
 		temp.setDescription( "\u795e\u5948\u5ddd\u770c(Kanagawa)" );
-		temp.save();
+		temp.saveEx();
 		// Niigata
 		temp = new MRegion (country, "\u65b0\u6f5f\u770c");
 		temp.setDescription( "\u65b0\u6f5f\u770c(Niigata)" );
-		temp.save();
+		temp.saveEx();
 		// Toyama
 		temp = new MRegion (country, "\u5bcc\u5c71\u770c");
 		temp.setDescription( "\u5bcc\u5c71\u770c(Toyama)" );
-		temp.save();
+		temp.saveEx();
 		// Ishikawa
 		temp = new MRegion (country, "\u77f3\u5ddd\u770c");
 		temp.setDescription( "\u77f3\u5ddd\u770c(Ishikawa)" );
-		temp.save();
+		temp.saveEx();
 		// Fukui
 		temp = new MRegion (country, "\u798f\u4e95\u770c");
 		temp.setDescription( "\u798f\u4e95\u770c(Fukui)" );
-		temp.save();
+		temp.saveEx();
 		// Yamanashi
 		temp = new MRegion (country, "\u5c71\u68a8\u770c");
 		temp.setDescription( "\u5c71\u68a8\u770c(Yamanashi)" );
-		temp.save();
+		temp.saveEx();
 		// Gifu
 		temp = new MRegion (country, "\u5c90\u961c\u770c");
 		temp.setDescription( "\u5c90\u961c\u770c(Gifu)" );
-		temp.save();
+		temp.saveEx();
 		// Shizuoka
 		temp = new MRegion (country, "\u9759\u5ca1\u770c");
 		temp.setDescription( "\u9759\u5ca1\u770c(Shizuoka)" );
-		temp.save();
+		temp.saveEx();
 		// Aichi
 		temp = new MRegion (country, "\u611b\u77e5\u770c");
 		temp.setDescription( "\u611b\u77e5\u770c(Aichi)" );
-		temp.save();
+		temp.saveEx();
 		// Mie
 		temp = new MRegion (country, "\u4e09\u91cd\u770c");
 		temp.setDescription( "\u4e09\u91cd\u770c(Mie)" );
-		temp.save();
+		temp.saveEx();
 		// Siga
 		temp = new MRegion (country, "\u6ecb\u8cc0\u770c");
 		temp.setDescription( "\u6ecb\u8cc0\u770c(Siga)" );
-		temp.save();
+		temp.saveEx();
 		// Kyoto
 		temp = new MRegion (country, "\u4eac\u90fd\u5e9c");
 		temp.setDescription( "\u4eac\u90fd\u5e9c(Kyoto)" );
-		temp.save();
+		temp.saveEx();
 		// Osaka
 		temp = new MRegion (country, "\u5927\u962a\u5e9c");
 		temp.setDescription( "\u5927\u962a\u5e9c(Osaka)" );
-		temp.save();
+		temp.saveEx();
 		// Hyogo
 		temp = new MRegion (country, "\u5175\u5eab\u770c");
 		temp.setDescription( "\u5175\u5eab\u770c(Hyogo)" );
-		temp.save();
+		temp.saveEx();
 		// Nara
 		temp = new MRegion (country, "\u5948\u826f\u770c");
 		temp.setDescription( "\u5948\u826f\u770c(Nara)" );
-		temp.save();
+		temp.saveEx();
 		// Wakayama
 		temp = new MRegion (country, "\u548c\u6b4c\u5c71\u770c");
 		temp.setDescription( "\u548c\u6b4c\u5c71\u770c(Wakayama)" );
-		temp.save();
+		temp.saveEx();
 		// Tottori
 		temp = new MRegion (country, "\u9ce5\u53d6\u770c");
 		temp.setDescription( "\u9ce5\u53d6\u770c(Tottori)" );
-		temp.save();
+		temp.saveEx();
 		// Shimane
 		temp = new MRegion (country, "\u5cf6\u6839\u770c");
 		temp.setDescription( "\u5cf6\u6839\u770c(Shimane)" );
-		temp.save();
+		temp.saveEx();
 		// Okayama
 		temp = new MRegion (country, "\u5ca1\u5c71\u770c");
 		temp.setDescription( "\u5ca1\u5c71\u770c(Okayama)" );
-		temp.save();
+		temp.saveEx();
 		// Hiroshima
 		temp = new MRegion (country, "\u5e83\u5cf6\u770c");
 		temp.setDescription( "\u5e83\u5cf6\u770c(Hiroshima)" );
-		temp.save();
+		temp.saveEx();
 		// Yamaguchi
 		temp = new MRegion (country, "\u5c71\u53e3\u770c");
 		temp.setDescription( "\u5c71\u53e3\u770c(Yamaguchi)" );
-		temp.save();
+		temp.saveEx();
 		// Tokushima
 		temp = new MRegion (country, "\u5fb3\u5cf6\u770c");
 		temp.setDescription( "\u5fb3\u5cf6\u770c(Tokushima)" );
-		temp.save();
+		temp.saveEx();
 		// Kagawa
 		temp = new MRegion (country, "\u9999\u5ddd\u770c");
 		temp.setDescription( "\u9999\u5ddd\u770c(Kagawa)" );
-		temp.save();
+		temp.saveEx();
 		// Ehime
 		temp = new MRegion (country, "\u611b\u5a9b\u770c");
 		temp.setDescription( "\u611b\u5a9b\u770c(Ehime)" );
-		temp.save();
+		temp.saveEx();
 		// Kouchi
 		temp = new MRegion (country, "\u9ad8\u77e5\u770c");
 		temp.setDescription( "\u9ad8\u77e5\u770c(Kouchi)" );
-		temp.save();
+		temp.saveEx();
 		// Fukuoka
 		temp = new MRegion (country, "\u798f\u5ca1\u770c");
 		temp.setDescription( "\u798f\u5ca1\u770c(Fukuoka)" );
-		temp.save();
+		temp.saveEx();
 		// Saga
 		temp = new MRegion (country, "\u4f50\u8cc0\u770c");
 		temp.setDescription( "\u4f50\u8cc0\u770c(Saga)" );
-		temp.save();
+		temp.saveEx();
 		// Nagasaki
 		temp = new MRegion (country, "\u9577\u5d0e\u770c");
 		temp.setDescription( "\u9577\u5d0e\u770c(Nagasaki)" );
-		temp.save();
+		temp.saveEx();
 		// Kumamoto
 		temp = new MRegion (country, "\u718a\u672c\u770c");
 		temp.setDescription( "\u718a\u672c\u770c(Kumamoto)" );
-		temp.save();
+		temp.saveEx();
 		// Ohita
 		temp = new MRegion (country, "\u5927\u5206\u770c");
 		temp.setDescription( "\u5927\u5206\u770c(Ohita)" );
-		temp.save();
+		temp.saveEx();
 		// Miyasaki
 		temp = new MRegion (country, "\u5bae\u5d0e\u770c");
 		temp.setDescription( "\u5bae\u5d0e\u770c(Miyasaki)" );
-		temp.save();
+		temp.saveEx();
 		// Kagoshima
 		temp = new MRegion (country, "\u9e7f\u5150\u5cf6\u770c");
 		temp.setDescription( "\u9e7f\u5150\u5cf6\u770c(Kagoshima)" );
-		temp.save();
+		temp.saveEx();
 		// Okinawa
 		temp = new MRegion (country, "\u6c96\u7e04\u770c");
 		temp.setDescription( "\u6c96\u7e04\u770c(Okinawa)" );
-		temp.save();
+		temp.saveEx();
 
 	}	//	main
 	

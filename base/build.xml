@@ -33,6 +33,7 @@
     <pathelement path="../tools/lib/jnlp.jar"/>
     <pathelement path="../tools/lib/servlet-api.jar" />  	
   	<pathelement path="../tools/lib/cron4j-2.2.1.jar" />
+    <pathelement path="../tools/lib/commons-io.jar"/>
   </path>
 
 
