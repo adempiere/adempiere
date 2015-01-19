@@ -179,7 +179,7 @@ public class MRegistration extends X_A_Registration
 			while (rs.next())
 			{
 				MRegistrationValue v = new MRegistrationValue (this, rs.getInt(1), "?");
-				v.save();
+				v.saveEx();
 			}
 			rs.close();
 			pstmt.close();

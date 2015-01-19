@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Field
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0
  */
 public interface I_AD_Field 
 {
@@ -263,19 +263,6 @@ public interface I_AD_Field
 	  */
 	public String getHelp();
 
-    /** Column name HideInListView */
-    public static final String COLUMNNAME_HideInListView = "HideInListView";
-
-	/** Set Hide in list view.
-	  * When checked this field will be hidden by default in list view
-	  */
-	public void setHideInListView (boolean HideInListView);
-
-	/** Get Hide in list view.
-	  * When checked this field will be hidden by default in list view
-	  */
-	public boolean isHideInListView();
-
     /** Column name Included_Tab_ID */
     public static final String COLUMNNAME_Included_Tab_ID = "Included_Tab_ID";
 
@@ -317,6 +304,19 @@ public interface I_AD_Field
 	  */
 	public boolean isActive();
 
+    /** Column name IsAllowCopy */
+    public static final String COLUMNNAME_IsAllowCopy = "IsAllowCopy";
+
+	/** Set Allow Copy.
+	  * Defines whether the value of this field is considered in the copy of record
+	  */
+	public void setIsAllowCopy (boolean IsAllowCopy);
+
+	/** Get Allow Copy.
+	  * Defines whether the value of this field is considered in the copy of record
+	  */
+	public boolean isAllowCopy();
+
     /** Column name IsCentrallyMaintained */
     public static final String COLUMNNAME_IsCentrallyMaintained = "IsCentrallyMaintained";
 
@@ -342,6 +342,32 @@ public interface I_AD_Field
 	  * Determines, if this field is displayed
 	  */
 	public boolean isDisplayed();
+
+    /** Column name IsDisplayedGrid */
+    public static final String COLUMNNAME_IsDisplayedGrid = "IsDisplayedGrid";
+
+	/** Set Displayed in Grid.
+	  * Determines, if this field is displayed in grid view
+	  */
+	public void setIsDisplayedGrid (boolean IsDisplayedGrid);
+
+	/** Get Displayed in Grid.
+	  * Determines, if this field is displayed in grid view
+	  */
+	public boolean isDisplayedGrid();
+
+    /** Column name IsEmbedded */
+    public static final String COLUMNNAME_IsEmbedded = "IsEmbedded";
+
+	/** Set Is Embedded.
+	  * When checked of include tab is embedded
+	  */
+	public void setIsEmbedded (boolean IsEmbedded);
+
+	/** Get Is Embedded.
+	  * When checked of include tab is embedded
+	  */
+	public boolean isEmbedded();
 
     /** Column name IsEncrypted */
     public static final String COLUMNNAME_IsEncrypted = "IsEncrypted";
@@ -474,6 +500,21 @@ public interface I_AD_Field
  lowest number comes first
 	  */
 	public int getSeqNo();
+
+    /** Column name SeqNoGrid */
+    public static final String COLUMNNAME_SeqNoGrid = "SeqNoGrid";
+
+	/** Set Grid Sequence.
+	  * Method of ordering records;
+ lowest number comes first
+	  */
+	public void setSeqNoGrid (int SeqNoGrid);
+
+	/** Get Grid Sequence.
+	  * Method of ordering records;
+ lowest number comes first
+	  */
+	public int getSeqNoGrid();
 
     /** Column name SortNo */
     public static final String COLUMNNAME_SortNo = "SortNo";

@@ -137,7 +137,7 @@ public class CommissionManager
         };
         
         MPInstance instance = new MPInstance(ctx,GENERATE_COMMISSION_PROCESS_ID,c_commission_id);
-        instance.save();
+        instance.saveEx();
         ProcessInfo poInfo = new ProcessInfo("Generate Commission",GENERATE_COMMISSION_PROCESS_ID);
         poInfo.setRecord_ID(c_commission_id);
         poInfo.setParameter(param);

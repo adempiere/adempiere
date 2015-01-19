@@ -301,7 +301,7 @@ public class OrderServlet extends HttpServlet
 		}
 		order.setDocAction (DocAction, true);	//	force creation
 		boolean ok = order.processIt (DocAction);
-		order.save();
+		order.saveEx();
 		return ok;
 	}	//	processOrder
 

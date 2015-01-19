@@ -53,7 +53,7 @@ public class MPrintColor extends X_AD_PrintColor
 		MPrintColor pc = new MPrintColor (Env.getCtx(), 0, null);
 		pc.setName(name);
 		pc.setColor(color);
-		pc.save();
+		pc.saveEx();
 		return pc;
 	}	//	create
 

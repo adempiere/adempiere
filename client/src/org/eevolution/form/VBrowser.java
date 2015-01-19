@@ -27,17 +27,15 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyVetoException;
 import java.beans.VetoableChangeListener;
 import java.io.File;
-import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.logging.Level;
-
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -46,7 +44,6 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
-
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.model.MBrowse;
 import org.adempiere.model.MBrowseField;
@@ -61,11 +58,11 @@ import org.compiere.apps.ProcessCtl;
 import org.compiere.apps.ProcessParameterPanel;
 import org.compiere.apps.StatusBar;
 import org.compiere.apps.Waiting;
-import org.compiere.apps.search.Info_Column;
 import org.compiere.grid.ed.VEditor;
 import org.compiere.minigrid.IDColumn;
-import org.compiere.minigrid.MiniTable;
 import org.compiere.model.GridFieldVO;
+import org.eevolution.grid.BrowseTable;
+import org.compiere.model.GridField;
 import org.compiere.model.MPInstance;
 import org.compiere.model.MProcess;
 import org.compiere.model.MQuery;
@@ -76,9 +73,9 @@ import org.compiere.swing.CFrame;
 import org.compiere.swing.CollapsiblePanel;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
-import org.compiere.util.KeyNamePair;
 import org.compiere.util.Login;
 import org.compiere.util.Msg;
 import org.compiere.util.Splash;
@@ -89,8 +86,9 @@ import org.compiere.util.Splash;
  * @author victor.perez@e-evolution.com, victor.perez@e-evolution.com
  * <li>FR [ 3426137 ] Smart Browser
  * https://sourceforge.net/tracker/?func=detail&aid=3426137&group_id=176962&atid=879335
+ * @author carlosaparada@gmail.com Carlos Parada, ERP Consultores y asociados
  */
-public class VBrowser extends Browser implements ActionListener,
+public class VBrowser extends Browser implements IBrowser, ActionListener,
 		VetoableChangeListener, ChangeListener, ListSelectionListener,
 		TableModelListener, ASyncProcess {
 	CFrame m_frame = new CFrame();
@@ -99,7 +97,6 @@ public class VBrowser extends Browser implements ActionListener,
 	 * @param browse_ID
 	 */
 	public static CFrame openBrowse(int browse_ID) {
-		
 		MBrowse browse = new MBrowse(Env.getCtx(), browse_ID , null);
 		boolean modal = true;
 		int WindowNo = 0;
@@ -124,7 +121,7 @@ public class VBrowser extends Browser implements ActionListener,
 	 *            window no
 	 * @param value
 	 *            QueryValue
-	 * @param tableName
+	 * @param browse
 	 *            table name
 	 * @param keyColumn
 	 *            key column (ignored)
@@ -141,12 +138,12 @@ public class VBrowser extends Browser implements ActionListener,
 		m_frame = frame;
 		m_frame.setTitle(browse.getTitle());
 		m_frame.getContentPane().add(statusBar, BorderLayout.SOUTH);
-		p_WindowNo = Env.createWindowNo(m_frame);
-		Env.clearWinContext(p_WindowNo);
+		windowNo = Env.createWindowNo(m_frame);
+		Env.clearWinContext(windowNo);
 		setContextWhere(browse, whereClause);		
 		initComponents();
 		statInit();
-		m_frame.setPreferredSize(getPreferredSize());
+		//m_frame.setPreferredSize(getPreferredSize());
 		//
 		int no = detail.getRowCount();
 		setStatusLine(
@@ -154,6 +151,10 @@ public class VBrowser extends Browser implements ActionListener,
 						+ Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"),
 				false);
 		setStatusDB(Integer.toString(no));
+		
+		if (isExecuteQueryByDefault())
+			executeQuery();
+		
 	} // InfoGeneral
 
 	/** Process Parameters Panel */
@@ -199,7 +200,7 @@ public class VBrowser extends Browser implements ActionListener,
 			pi.setAD_User_ID(Env.getAD_User_ID(Env.getCtx()));
 			pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
 			setBrowseProcessInfo(pi);
-			parameterPanel = new ProcessParameterPanel(p_WindowNo, getBrowseProcessInfo());
+			parameterPanel = new ProcessParameterPanel(windowNo, getBrowseProcessInfo());
 			parameterPanel.setMode(ProcessParameterPanel.MODE_HORIZONTAL);
 			parameterPanel.init();
 			processPanel.add(parameterPanel, BorderLayout.CENTER);
@@ -212,45 +213,42 @@ public class VBrowser extends Browser implements ActionListener,
 	 * @return true, if success
 	 */
 	private boolean initBrowser() {
-		if (!initBrowserTable())
+		List<MBrowseField> fields = initBrowserTable();
+		if (fields == null)
 			return false;
 		
 		StringBuilder where = new StringBuilder("");
-		setContextWhere(m_Browse , null);
+		setContextWhere(m_Browse, null);
 		if (p_whereClause.length() > 0) {
 			where.append(p_whereClause);
 		}
 
-		prepareTable(m_generalLayout, m_View.getFromClause(), where.toString(),
-				"2");
+		prepareTable(fields, m_View.getFromClause(), where.toString(),"2");
 		return true;
 	} // initInfo
 
 	/**
 	 * Init info with Table. - find QueryColumns (Value, Name, ..) - build
 	 * gridController & column
-	 * 
-	 * @return true if success
+	 *
+	 * @return BrowseFields
 	 */
-	private boolean initBrowserTable() {
-		
-		ArrayList<Info_Column> list = initBrowserData();
+	private List<MBrowseField> initBrowserTable() {
+
+		List<MBrowseField> list = initBrowserData();
 		if (list.size() == 0) {
-			ADialog.error(p_WindowNo, m_frame, "Error", "No Browse Fields");
-			log.log(Level.SEVERE, "No Brwose for view=" + m_View.getName());
-			return false;
+			ADialog.error(getWindowNo(), m_frame, "Error", "No Browse Fields");
+			log.log(Level.SEVERE, "No Browser for view=" + m_View.getName());
+			return null;
 		}
 		log.finest("Browse Fields #" + list.size());
 
-		detail = new MiniTable();
+		detail= new BrowseTable(this);
 		centerPanel.setViewportView(detail);
-		// Convert ArrayList to Array
-		m_generalLayout = new Info_Column[list.size()];
-		list.toArray(m_generalLayout);
-		return true;
+
+		return list;
 	} // initInfoTable
 
-	
 	/**
 	 * Set Status Line
 	 * 
@@ -279,16 +277,32 @@ public class VBrowser extends Browser implements ActionListener,
 	 */
 	protected void executeQuery() {
 
-		if (m_worker != null && m_worker.isAlive())
-			return;
-		//
-		if (!testCount())
-			return;
+		if (evaluateMandatoryFilter()) {
+			bZoom.setEnabled(true);
+			bSelectAll.setEnabled(true);
+			bExport.setEnabled(true);
+			if (isDeleteable())
+				bDelete.setEnabled(true);
 
-		m_frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		setStatusLine(Msg.getMsg(Env.getCtx(), "StartSearch"), false);
-		m_worker = new Worker();
-		m_worker.start();
+			p_loadedOK = initBrowser();
+			collapsibleSearch.setCollapsed(isCollapsibleByDefault());
+			//p_loadedOK = initBrowser();
+
+			Env.setContext(Env.getCtx(), 0, "currWindowNo", getWindowNo());
+			if (parameterPanel != null)
+				parameterPanel.refreshContext();
+
+			if (m_worker != null && m_worker.isAlive())
+				return;
+			//
+			if (!testCount())
+				return;
+
+			m_frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			setStatusLine(Msg.getMsg(Env.getCtx(), "StartSearch"), false);
+			m_worker = new Worker();
+			m_worker.start();
+		}
 	} // executeQuery
 
 	/**
@@ -300,7 +314,7 @@ public class VBrowser extends Browser implements ActionListener,
 		
 		MQuery query = getMQuery();
 		if(query != null)
-			AEnv.zoom(query);
+			AEnv.zoom(m_frame , getAD_Window_ID() , query);
 		
 		m_frame.setCursor(Cursor.getDefaultCursor());
 		bZoom.setSelected(false);
@@ -311,7 +325,7 @@ public class VBrowser extends Browser implements ActionListener,
 	 */
 	private void cmd_deleteSelection(){
 		m_frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		if (ADialog.ask(p_WindowNo, m_frame, "DeleteSelection"))
+		if (ADialog.ask(getWindowNo(), m_frame, "DeleteSelection"))
 		{	
 			int records = deleteSelection();
 			setStatusLine(Msg.getMsg(Env.getCtx(), "Deleted") + records, false);
@@ -321,51 +335,24 @@ public class VBrowser extends Browser implements ActionListener,
 		
 	}//cmd_deleteSelection
 
-
-
 	/**************************************************************************
 	 * Prepare Table, Construct SQL (m_m_sqlMain, m_sqlAdd) and size Window
-	 * 
-	 * @param layout
-	 *            layout array
-	 * @param from
-	 *            from clause
-	 * @param staticWhere
-	 *            where clause
-	 * @param orderBy
-	 *            order by clause
+	 * @param fields list
+	 * @param from from clause
+	 * @param staticWhere where clause
+	 * @param orderBy order by clause
 	 */
-	protected void prepareTable(Info_Column[] layout, String from,
-			String staticWhere, String orderBy) {
-		p_layout = layout;
+	protected void prepareTable(List<MBrowseField> fields,String from,
+								 String staticWhere, String orderBy) {
+		browserFields = fields;
 		StringBuffer sql = new StringBuffer("SELECT DISTINCT ");
-		// add columns & sql
-		for (int i = 0; i < layout.length; i++) {
-			if (i > 0 && layout[i].getColSQL().length() > 0)
-				sql.append(", ");
-			sql.append(layout[i].getColSQL());
-			// adding ID column
-			if (layout[i].isIDcol())
-				sql.append(",").append(layout[i].getIDcolSQL());
-			// add to model
-			detail.addColumn(layout[i].getColHeader());
-			if (layout[i].isColorColumn())
-				detail.setColorColumn(i);
-			if (layout[i].getColClass() == IDColumn.class)
-				m_keyColumnIndex = i;
-		}
-
+		sql.append(detail.prepareTable(browserFields, p_multiSelection));
 		// Table Selection (Invoked before setting column class so that row
 		// selection is enabled)
 		detail.setRowSelectionAllowed(true);
 		// detail.addMouseListener(this);
 		detail.setMultiSelection(p_multiSelection);
-		detail.setShowTotals(true);
-
-		// set editors (two steps)
-		for (int i = 0; i < layout.length; i++)
-			detail.setColumnClass(i, layout[i].getColClass(), layout[i].getDisplayType() ,
-					layout[i].isReadOnly(), layout[i].getColHeader());
+		detail.setShowTotals(m_Browse.isShowTotal());
 
 		sql.append(" FROM ").append(from);
 		sql.append(" WHERE ");
@@ -390,7 +377,7 @@ public class VBrowser extends Browser implements ActionListener,
 		// "ms");
 		MRole role = MRole.getDefault();
 		if (role.isQueryMax(no))
-			return ADialog.ask(p_WindowNo, m_frame, "InfoHighRecordCount",
+			return ADialog.ask(getWindowNo(), m_frame, "InfoHighRecordCount",
 					String.valueOf(no));
 		return true;
 	} // testCount
@@ -488,6 +475,7 @@ public class VBrowser extends Browser implements ActionListener,
 
 		if (p_multiSelection) {
 			int rows = detail.getRowCount();
+			BrowserRows browserRows = detail.getData();
 			m_values = new LinkedHashMap<Integer,LinkedHashMap<String,Object>>();
 			for (int row = 0; row < rows; row++) {
 				//Find the IDColumn Key
@@ -497,9 +485,18 @@ public class VBrowser extends Browser implements ActionListener,
 					IDColumn dataColumn = (IDColumn) data;
 					if (dataColumn.isSelected()) {
 						LinkedHashMap<String, Object> values = new LinkedHashMap<String, Object>();
-						int col = 0;
-						for (Info_Column column : m_generalLayout)
-						{	
+						for(int col = 0 ; col < browserRows.getColumnCount(); col++)
+						{
+							MBrowseField field = browserRows.getBrowserField(col);
+							if (!field.isReadOnly() || field.isIdentifier() )
+							{
+								GridField gridField = detail.getData().getValue(row, col);
+								Object value = gridField.getValue();
+								values.put(field.getAD_View_Column().getColumnName(), value);
+							}
+						}
+						/*for (Info_Column column : m_generalLayout)
+						{
 							String columnName = column.getColSQL().substring(
 									column.getColSQL().indexOf("AS ") + 3);
 							if (!column.isReadOnly()
@@ -515,11 +512,9 @@ public class VBrowser extends Browser implements ActionListener,
 								}
 							}
 							col++;
-						}
+						}*/
 						if(values.size() > 0)
-						{
 							m_values.put(dataColumn.getRecord_ID(), values);
-						}
 					}
 				}
 			}
@@ -619,11 +614,12 @@ public class VBrowser extends Browser implements ActionListener,
 		tabsPanel = new javax.swing.JTabbedPane();
 		searchTab = new javax.swing.JPanel();
 		topPanel = new javax.swing.JPanel();
-		searchPanel = new VBrowserSearch(p_WindowNo);
+		searchPanel = new VBrowserSearch(getWindowNo());
 		buttonSearchPanel = new javax.swing.JPanel();
 		bSearch = new javax.swing.JButton();
 		centerPanel = new javax.swing.JScrollPane();
-		detail = new MiniTable();
+		//detail = new MiniTable();
+		detail = new BrowseTable(this);
 		footPanel = new javax.swing.JPanel();
 		footButtonPanel = new javax.swing.JPanel();
 		bCancel = new javax.swing.JButton();
@@ -642,7 +638,7 @@ public class VBrowser extends Browser implements ActionListener,
 		bSelectAll.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				
-				int topIndex = detail.getShowTotals() ? 2 : 1;
+				int topIndex = detail.isShowTotals() ? 2 : 1;
 
 				ListSelectionModel selectionModel = detail
 						.getSelectionModel();
@@ -704,7 +700,8 @@ public class VBrowser extends Browser implements ActionListener,
 				bZoomActionPerformed(evt);
 			}
 		});
-		toolsBar.add(bZoom);
+		if (AD_Window_ID > 0)
+			toolsBar.add(bZoom);
 
 		bExport.setText(Msg.getMsg(Env.getCtx(),("Export")));
 		bExport.setFocusable(false);
@@ -728,7 +725,9 @@ public class VBrowser extends Browser implements ActionListener,
 				bDeleteActionPerformed(evt);
 			}
 		});
-		toolsBar.add(bDelete);
+		
+		if(isDeleteable())
+			toolsBar.add(bDelete);
 
 		//TODO: victor.perez@e-evolution.com, Implement Print functionality
 		/*
@@ -754,9 +753,9 @@ public class VBrowser extends Browser implements ActionListener,
 
 		searchPanel.setLayout(new java.awt.GridBagLayout());
 		
-		collapsibleSeach = new CollapsiblePanel(Msg.getMsg(Env.getCtx(),("SearchCriteria")));
-		collapsibleSeach.add(searchPanel);
-		topPanel.add(collapsibleSeach, java.awt.BorderLayout.NORTH);
+		collapsibleSearch = new CollapsiblePanel(Msg.getMsg(Env.getCtx(),("SearchCriteria")));
+		collapsibleSearch.add(searchPanel);
+		topPanel.add(collapsibleSearch, java.awt.BorderLayout.NORTH);
 
 		bSearch.setText(Msg.getMsg(Env.getCtx(), "StartSearch"));
 		bSearch.addActionListener(new java.awt.event.ActionListener() {
@@ -766,7 +765,7 @@ public class VBrowser extends Browser implements ActionListener,
 		});
 
 		buttonSearchPanel.add(bSearch);
-		collapsibleSeach.add(buttonSearchPanel);
+		collapsibleSearch.add(buttonSearchPanel);
 
 		searchTab.add(topPanel, java.awt.BorderLayout.NORTH);
 
@@ -863,7 +862,7 @@ public class VBrowser extends Browser implements ActionListener,
 		}
 		m_frame.setCursor(Cursor.getDefaultCursor());
 		p_loadedOK = initBrowser();
-		collapsibleSeach.setCollapsed(false);
+		collapsibleSearch.setCollapsed(false);
 	}
 
 	private void bCancelActionPerformed(java.awt.event.ActionEvent evt) {
@@ -873,12 +872,6 @@ public class VBrowser extends Browser implements ActionListener,
 	}
 
 	private void bSearchActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bSearchActionPerformed
-		bZoom.setEnabled(true);
-		bSelectAll.setEnabled(true);
-		bExport.setEnabled(true);
-		bDelete.setEnabled(true);
-		p_loadedOK = initBrowser();
-		collapsibleSeach.setCollapsed(true);
 		executeQuery();
 	}// GEN-LAST:event_bSearchActionPerformed
 
@@ -898,12 +891,34 @@ public class VBrowser extends Browser implements ActionListener,
 		bExport.setSelected(false);
 	}
 
+	public  ArrayList<ArrayList<Object>> getDataRows()
+	{
+		ArrayList<ArrayList<Object>> rows = m_rows;
+		if (isShowTotal())
+		{
+			ArrayList<Object> row = new ArrayList<Object>();
+			int lastRow = detail.getRowCount() - 1;
+			for (int column = 0; column <= detail.getColumnCount() - 1 ; column++) {
+				Object data = detail.getValueAt(lastRow , column);
+				if (data == null)
+					row.add(null);
+				else
+					row.add(data);
+			}
+			rows.add(row);
+		}
+		return rows;
+	}
+
 	private void bDeleteActionPerformed(java.awt.event.ActionEvent evt) {
 		cmd_deleteSelection();
 	}
 
 	private void bPrintActionPerformed(java.awt.event.ActionEvent evt) {
-		// TODO add your handling code here:
+	}
+
+	public CFrame getForm() {
+		return m_frame;
 	}
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
@@ -918,7 +933,7 @@ public class VBrowser extends Browser implements ActionListener,
 	private javax.swing.JToggleButton bZoom;
 	private javax.swing.JPanel buttonSearchPanel;
 	private javax.swing.JScrollPane centerPanel;
-	private MiniTable detail;
+	private BrowseTable detail;
 	private javax.swing.JPanel footButtonPanel;
 	private javax.swing.JPanel footPanel;
 	private javax.swing.JPanel graphPanel;
@@ -929,7 +944,7 @@ public class VBrowser extends Browser implements ActionListener,
 	private javax.swing.JPanel topPanel;
 	/** The GlassPane           	*/
 	private AGlassPane  m_glassPane = new AGlassPane();
-	private CollapsiblePanel collapsibleSeach;
+	private CollapsiblePanel collapsibleSearch;
 	private VBrowserSearch  searchPanel;
 
 	// End of variables declaration//GEN-END:variables
@@ -968,34 +983,41 @@ public class VBrowser extends Browser implements ActionListener,
 					int row = detail.getRowCount();
 					detail.setRowCount(row + 1);
 					int colOffset = 1; // columns start with 1
-					for (int col = 0; col < p_layout.length; col++) {
+					int columnDisplayIndex =0;
+					int column = 0;
+					for (MBrowseField field : browserFields) {
 						Object value = null;
-						Class<?> c = p_layout[col].getColClass();
-						int colIndex = col + colOffset;						
-						if (c == IDColumn.class && !p_layout[col].getColSQL().equals("'Row' AS \"Row\""))
-							value = new IDColumn(m_rs.getInt(colIndex));
-						else if (c == IDColumn.class && p_layout[col].getColSQL().equals("'Row' AS \"Row\""))
-							value = new IDColumn(no);
-						else if (c == Boolean.class)
-							value = new Boolean("Y".equals(m_rs
-									.getString(colIndex)));
-						else if (c == Timestamp.class)
-							value = m_rs.getTimestamp(colIndex);
-						else if (c == BigDecimal.class)
-							value = m_rs.getBigDecimal(colIndex);
-						else if (c == Double.class)
-							value = new Double(m_rs.getDouble(colIndex));
-						else if (c == Integer.class)
-							value = new Integer(m_rs.getInt(colIndex));
-						else if (c == KeyNamePair.class) {
-							String display = m_rs.getString(colIndex);
-							int key = m_rs.getInt(colIndex + 1);
-							value = new KeyNamePair(key, display);
-							colOffset++;
-						} else
-							value = m_rs.getString(colIndex);
-						// store
-						detail.setValueAt(value, row, col);
+						if (field.isKey() && !field.getAD_View_Column().getColumnSQL().equals("'Row' AS \"Row\""))
+							value = new IDColumn(m_rs.getInt(column + colOffset));
+						else if (field.isKey() && !field.getAD_View_Column().getColumnSQL().equals("'Row' AS \"Row\""))
+							value  = new IDColumn(no);
+						else if (DisplayType.TableDir == field.getAD_Reference_ID()
+							  || DisplayType.Table == field.getAD_Reference_ID()
+							  || DisplayType.Integer == field.getAD_Reference_ID()
+							  || DisplayType.PAttribute == field.getAD_Reference_ID()
+							  || DisplayType.Account == field.getAD_Reference_ID()) {
+							Integer id = m_rs.getInt(column + colOffset);
+							value = id != 0 ? id : null;
+						}
+						else if (DisplayType.isNumeric(field.getAD_Reference_ID()))
+							value = m_rs.getBigDecimal(column + colOffset);
+						else if (DisplayType.isDate(field.getAD_Reference_ID()))
+							value = m_rs.getTimestamp(column + colOffset);
+						else if (DisplayType.YesNo == field.getAD_Reference_ID()){
+							value = m_rs.getString(column + colOffset);
+							if (value != null)
+								value= value.equals("Y");
+						}
+						else
+							value = m_rs.getObject(column + colOffset);
+
+						GridField gridField = MBrowseField.createGridFieldVO(field , getWindowNo());
+						gridField.setValue(value, true);
+						detail.setValueAt(row, columnDisplayIndex, gridField);
+						if (field.isDisplayed())
+							columnDisplayIndex++;
+
+						column ++;
 					}
 				}
 			} catch (SQLException e) {
@@ -1006,8 +1028,8 @@ public class VBrowser extends Browser implements ActionListener,
 			//no = detail.getRowCount();
 			log.fine("#" + no + " - " + (System.currentTimeMillis() - start)
 					+ "ms");
-			if (detail.getShowTotals())
-				detail.addTotals(p_layout);
+			if (detail.isShowTotals())
+				detail.addTotals();
 			detail.autoSize();
 			//
 			m_frame.setCursor(Cursor.getDefaultCursor());
@@ -1051,7 +1073,7 @@ public class VBrowser extends Browser implements ActionListener,
 		login.batchLogin();
 
 		Properties m_ctx = Env.getCtx();
-		MBrowse browse = new MBrowse(m_ctx, 1000002, null);
+		MBrowse browse = new MBrowse(m_ctx, 50025, null);
 		CFrame frame = new CFrame();
 		boolean modal = true;
 		int WindowNo = 0;
@@ -1133,8 +1155,8 @@ public class VBrowser extends Browser implements ActionListener,
 	}
 
 	@Override
-	public Object getParamenterValue(Object key) {
-			VEditor editor = (VEditor) searchPanel.getParamenters().get(key);
+	public Object getParameterValue(Object key) {
+			VEditor editor = (VEditor) searchPanel.getParameters().get(key);
 			if(editor != null)
 				return editor.getValue();
 			else
@@ -1152,7 +1174,7 @@ public class VBrowser extends Browser implements ActionListener,
 		boolean onRange = false;
 		StringBuilder sql = new StringBuilder(p_whereClause);
 
-		for (Entry<Object, Object> entry : searchPanel.getParamenters().entrySet()) {
+		for (Entry<Object, Object> entry : searchPanel.getParameters().entrySet()) {
 			VEditor editor = (VEditor) entry.getValue();
 			GridFieldVO field = editor.getField().getVO();
 			if (!onRange) {
@@ -1161,14 +1183,51 @@ public class VBrowser extends Browser implements ActionListener,
 						&& !editor.getValue().toString().isEmpty()
 						&& !field.isRange) {
 					sql.append(" AND ");
-					sql.append(field.Help).append("=? ");
-					m_parameters.add(field.Help);
-					m_parameters_values.add(editor.getValue());
-				} else if (editor.getValue() != null
+					if(DisplayType.String == field.displayType)
+					{
+						if (field.ColumnName.equals("Value")
+								|| field.ColumnName.equals("DocumentNo"))
+						{
+							String value = (String)editor.getValue();
+							if (value.contains(","))
+							{
+								value = value.replace(" ", "");
+								String token;
+								String inStr = new String(value);
+								StringBuffer outStr = new StringBuffer("(");
+								int i = inStr.indexOf(',');
+								while (i != -1)
+								{
+									outStr.append("'" + inStr.substring(0, i) + "',");	
+									inStr = inStr.substring(i+1, inStr.length());
+									i = inStr.indexOf(',');
+
+								}
+								outStr.append("'" + inStr + "')");
+								sql.append(field.Help).append(" IN ")
+								.append(outStr);
+							}						
+						}
+						else
+						{
+							sql.append(field.Help).append(" LIKE ? ");
+							m_parameters.add(field.Help);
+							m_parameters_values.add("%" + editor.getValue() + "%");								
+						}		
+					}
+					else
+					{
+						sql.append(field.Help).append("=? ");
+						m_parameters.add(field.Help);
+						m_parameters_values.add(editor.getValue());
+					}
+				} 
+				else if (editor.getValue() != null
 						&& !editor.getValue().toString().isEmpty()
 						&& field.isRange) {
 					sql.append(" AND ");
-					sql.append(field.Help).append(" BETWEEN ?");
+					//sql.append(field.Help).append(" BETWEEN ?");
+					sql.append(field.Help).append(" >= ? ");
 					m_parameters.add(field.Help);
 					m_parameters_values.add(editor.getValue());
 					onRange = true;
@@ -1176,13 +1235,111 @@ public class VBrowser extends Browser implements ActionListener,
 					continue;
 			} else if (editor.getValue() != null
 					&& !editor.getValue().toString().isEmpty()) {
-				sql.append(" AND ? ");
+				//sql.append(" AND ? ");
+				sql.append(" AND ").append(field.Help).append(" <= ? ");
 				m_parameters.add(field.Help);
 				m_parameters_values.add(editor.getValue());
 				onRange = false;
 			}
+			else
+				onRange = false;
 		}
 		m_whereClause = sql.toString();
 		return sql.toString();
 	}	
+	
+	public void setParameters() {
+		
+		m_parameters_values = new ArrayList<Object>();
+		m_parameters = new ArrayList<Object>();
+		m_parameters_field = new ArrayList<GridFieldVO>();
+		boolean onRange = false;
+		
+		for (Entry<Object, Object> entry : searchPanel.getParameters().entrySet()) {
+			VEditor editor = (VEditor) entry.getValue();
+			GridFieldVO field = editor.getField().getVO();
+			if (!onRange) {
+
+				if (editor.getValue() != null
+						&& !editor.getValue().toString().isEmpty()
+						&& !field.isRange) {
+					m_parameters.add(field.Help);
+					m_parameters_values.add(editor.getValue());
+					m_parameters_field.add(field);
+				} else if (editor.getValue() != null
+						&& !editor.getValue().toString().isEmpty()
+						&& field.isRange) {
+					m_parameters.add(field.Help);
+					m_parameters_values.add(editor.getValue());
+					m_parameters_field.add(field);
+					onRange = true;
+				} else
+					continue;
+			} else if (editor.getValue() != null
+					&& !editor.getValue().toString().isEmpty()) {
+				m_parameters.add(field.Help);
+				m_parameters_values.add(editor.getValue());
+				m_parameters_field.add(field);
+				onRange = false;
+			}
+		}
+	}
+
+	/**
+	 * @author carlosaparada@gmail.com Carlos Parada, ERP Consultores y asociados
+	 * @return
+	 */
+	public boolean evaluateMandatoryFilter()
+	{
+		Object value_from=null;
+		boolean onRange = false;
+		boolean result =true;
+
+		for (Entry<Object, Object> entry : searchPanel.getParameters().entrySet()) {
+			VEditor editor = (VEditor) entry.getValue();
+			GridFieldVO field = editor.getField().getVO();
+			if (!onRange) {
+
+				if ((editor.getValue() == null
+						|| (editor.getValue() != null && editor.getValue().toString().isEmpty()))
+						&& !field.isRange
+						&& editor.isMandatory()) {
+					ADialog.error(windowNo, getForm().getContentPane(), "FillMandatory", Msg.translate(Env.getCtx(),field.ColumnName));
+					return false;
+				} else if (editor.getValue() != null
+						&& !editor.getValue().toString().isEmpty()
+						&& field.isRange
+						&& editor.isMandatory()) {
+					onRange = true;
+					value_from =editor.getValue();
+				}else if (editor.getValue() == null
+						&& field.isRange
+						&& editor.isMandatory()) {
+					onRange = true;
+					value_from = null;
+				}
+				else
+					continue;
+			} else if ((editor.getValue() == null
+					|| (editor.getValue() != null && editor.getValue().toString().isEmpty()))
+					&& editor.isMandatory()) {
+				if (value_from!=null){
+					value_from=null;
+					onRange = false;
+				}
+				else
+				{
+					ADialog.error(windowNo, getForm().getContentPane(), "FillMandatory", Msg.translate(Env.getCtx(),field.ColumnName));
+					return false;
+				}
+			}
+			else{
+				onRange = false;
+				value_from=null;
+			}
+
+		}
+
+		return result;
+	}
 }

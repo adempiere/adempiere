@@ -248,16 +248,25 @@ public class MRfQResponse extends X_C_RfQResponse
 		}
 		MClient client = MClient.get(getCtx());
 		//
-		String message = getDescription();
+		String message = m_rfq.getDescription();
 		if (message == null || message.length() == 0)
 			message = getHelp();
-		else if (getHelp() != null)
-			message += "\n" + getHelp();
+		else if (m_rfq.getHelp() != null)
+			message += "\n" + m_rfq.getHelp();
 		if (message == null)
 			message = getName();
 		//
 		EMail email = client.createEMail(to.getEMail(), "RfQ: " + getName(), message);
+		MRole rol = new MRole(getCtx(), Env.getAD_Role_ID(getCtx()), get_TrxName());
+		if (rol.getSupervisor()!= null && rol.getSupervisor().getEMail() != null)
+			email.addCc(rol.getSupervisor().getEMail());
+		MUser user = new MUser(getCtx(), Env.getAD_User_ID(getCtx()), get_TrxName());
 		email.addAttachment(createPDF());
+		if (user.getEMail() != null && user.getEMailUserPW() != null)
+		{
+			email.setFrom(user.getEMail());
+			email.createAuthenticator(user.getEMail(), user.getEMailUserPW());
+		}
 		if (EMail.SENT_OK.equals(email.send()))
 		{
 			setDateInvited(new Timestamp (System.currentTimeMillis()));

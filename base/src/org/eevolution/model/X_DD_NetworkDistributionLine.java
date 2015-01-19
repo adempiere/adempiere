@@ -26,14 +26,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for DD_NetworkDistributionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_DD_NetworkDistributionLine extends PO implements I_DD_NetworkDistributionLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20150101L;
 
     /** Standard Constructor */
     public X_DD_NetworkDistributionLine (Properties ctx, int DD_NetworkDistributionLine_ID, String trxName)
@@ -84,7 +84,9 @@ public class X_DD_NetworkDistributionLine extends PO implements I_DD_NetworkDist
 			.getPO(getDD_NetworkDistribution_ID(), get_TrxName());	}
 
 	/** Set Network Distribution.
-		@param DD_NetworkDistribution_ID Network Distribution	  */
+		@param DD_NetworkDistribution_ID 
+		Identifies a distribution network, distribution networks are used to establish the source and target of the materials in the supply chain
+	  */
 	public void setDD_NetworkDistribution_ID (int DD_NetworkDistribution_ID)
 	{
 		if (DD_NetworkDistribution_ID < 1) 
@@ -94,7 +96,8 @@ public class X_DD_NetworkDistributionLine extends PO implements I_DD_NetworkDist
 	}
 
 	/** Get Network Distribution.
-		@return Network Distribution	  */
+		@return Identifies a distribution network, distribution networks are used to establish the source and target of the materials in the supply chain
+	  */
 	public int getDD_NetworkDistribution_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_DD_NetworkDistribution_ID);
@@ -247,18 +250,21 @@ public class X_DD_NetworkDistributionLine extends PO implements I_DD_NetworkDist
 		return ii.intValue();
 	}
 
-	/** Set Transfert Time.
-		@param TransfertTime Transfert Time	  */
-	public void setTransfertTime (BigDecimal TransfertTime)
+	/** Set Transfer Time.
+		@param TransferTime 
+		Transfer Time
+	  */
+	public void setTransferTime (BigDecimal TransferTime)
 	{
-		set_Value (COLUMNNAME_TransfertTime, TransfertTime);
+		set_Value (COLUMNNAME_TransferTime, TransferTime);
 	}
 
-	/** Get Transfert Time.
-		@return Transfert Time	  */
-	public BigDecimal getTransfertTime () 
+	/** Get Transfer Time.
+		@return Transfer Time
+	  */
+	public BigDecimal getTransferTime () 
 	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_TransfertTime);
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_TransferTime);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;

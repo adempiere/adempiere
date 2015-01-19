@@ -65,26 +65,43 @@ public class AdempiereTreeModel extends DefaultTreeModel {
 		Trx trx = Trx.get (Trx.createTrxName("AdempiereTreeModel"), true);
 		try
 		{
-			int no = 0;
 			for (int i = 0; i < from.getChildCount(); i++)
 			{
 				MTreeNode nd = (MTreeNode)from.getChildAt(i);
 				String whereClause = "AD_Tree_ID="+AD_Tree_ID+ " AND Node_ID=" + nd.getNode_ID();
 				PO tree = MTable.get(Env.getCtx(), m_MTree.getNodeTableName()).getPO(whereClause, trx.getTrxName());
-				tree.set_CustomColumn("Parent_ID", from.getNode_ID());
-				tree.set_CustomColumn("SeqNo", i);
-				tree.saveEx();
-			}
-			if (from != to)
-				for (int i = 0; i < to.getChildCount(); i++)
+				if (tree.get_ValueAsInt("Parent_ID") != from.getNode_ID() || tree.get_ValueAsInt("SeqNo") != i)
 				{
-					MTreeNode nd = (MTreeNode)to.getChildAt(i);
-					String whereClause = "AD_Tree_ID="+AD_Tree_ID+ " AND Node_ID=" + nd.getNode_ID();
-					PO tree = MTable.get(Env.getCtx(), m_MTree.getNodeTableName()).getPO(whereClause, trx.getTrxName());
-					tree.set_CustomColumn("Parent_ID", to.getNode_ID());
+					tree.set_CustomColumn("Parent_ID", from.getNode_ID());
 					tree.set_CustomColumn("SeqNo", i);
 					tree.saveEx();
 				}
+			}
+			if (from != to)
+			{
+				// Renumber and set parent ID for the children of the 'to' node.
+				int nextSeqNo = 0;
+				for (int i = 0; i < to.getChildCount(); i++)
+				{
+					// Skip the entry of the 'from' node to avoid duplication
+					if ( i==Integer.parseInt(from.getSeqNo())) 
+						continue;
+					
+					MTreeNode nd = (MTreeNode)to.getChildAt(i);
+					String whereClause = "AD_Tree_ID="+AD_Tree_ID+ " AND Node_ID=" + nd.getNode_ID();
+					PO tree = MTable.get(Env.getCtx(), m_MTree.getNodeTableName()).getPO(whereClause, trx.getTrxName());
+					if (tree.get_ValueAsInt("Parent_ID") != to.getNode_ID() || tree.get_ValueAsInt("SeqNo") < nextSeqNo)
+					{
+						tree.set_CustomColumn("Parent_ID", to.getNode_ID());
+						tree.set_CustomColumn("SeqNo", nextSeqNo++);
+						tree.saveEx();
+					}
+					else
+					{
+						nextSeqNo = tree.get_ValueAsInt("SeqNo") + 1;
+					}
+				}
+			}
 			trx.commit(true);
 		}
 		catch (Exception e)
@@ -98,5 +115,4 @@ public class AdempiereTreeModel extends DefaultTreeModel {
 		
 	}
 
-	
 }

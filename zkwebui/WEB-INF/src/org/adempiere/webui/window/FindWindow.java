@@ -108,6 +108,10 @@ import org.zkoss.zul.Hbox;
  *  @date	December 21, 2011                                            
  *		<li>BF3431195 Advanced Lookup not working in ZK                       
  *      See https://sourceforge.net/tracker/?func=detail&aid=3431195&group_id=176962&atid=955896                  
+ *
+ *  @author  WalkingTree (www.walkingtree.in)
+ *  @date    October 4th,2013
+ *      <li> Added Range based lookup for selection columns.
  */
 public class FindWindow extends Window implements EventListener,ValueChangeListener
 {
@@ -163,6 +167,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
     private boolean         hasDescription = false;
     /** List of WEditors            */
     private ArrayList<WEditor>          m_sEditors = new ArrayList<WEditor>();
+	private ArrayList<WEditor> 			m_sEditors2		= new ArrayList<WEditor>();
     /** Target Fields with AD_Column_ID as key  */
     private Hashtable<Integer,GridField>    m_targetFields = new Hashtable<Integer,GridField>();
     /** For Grid Controller         */
@@ -171,6 +176,8 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
     public static final int     FIELDLENGTH = 20;
 	/** Reference ID for Yes/No	*/
 	public static final int		AD_REFERENCE_ID_YESNO = 319;
+
+	private List< String >  rangeFirstEditor	= new ArrayList<String>();
 
     private int m_AD_Tab_ID = 0;
 	private MUserQuery[] userQueries;
@@ -519,15 +526,29 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
      *  Dynamic Init.6
      *  Set up GridController
     **/
+    boolean isPair = false;
+	boolean isTwoColumns = false;
+	Row panel ;
+
     private void initFind()
     {
         log.config("");
 
         //  Get Info from target Tab
+        int parameterNo = 0;
         for (int i = 0; i < m_findFields.length; i++)
         {
             GridField mField = m_findFields[i];
+            if(mField.isSelectionColumn())
+            	parameterNo++;
+        }
+        
+        if(parameterNo>=7)
+			isTwoColumns=true;
 
+        for (int i = 0; i < m_findFields.length; i++)
+        {
+            GridField mField = m_findFields[i];
 			// Make Yes-No searchable as list
 			if (mField.getVO().displayType == DisplayType.YesNo)
 			{
@@ -584,7 +605,10 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
             else
             /**/
             if (mField.isSelectionColumn())
+            {
                 addSelectionColumn (mField);
+                isPair = !isPair;
+            }
 			/** metas: teo_sarca: Specify exactly which are the search fields - http://sourceforge.net/projects/adempiere/forums/forum/610548/topic/3736214
             else if (columnName.indexOf("Name") != -1)
                 addSelectionColumn (mField);
@@ -911,26 +935,70 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 
         //  Editor
         WEditor editor = null;
+		Label label 	= null;
+		Row panel 		= new Row ();
+
+		contentSimpleRows.appendChild(panel);
+
+		if ( mField.isRange() ) {
+			Hbox box = new Hbox();
         editor = WebEditorFactory.getEditor(mField, false);
+		label = editor.getLabel();
         editor.setMandatory(false);
         editor.setReadWrite(true);
         editor.dynamicDisplay();
-        Label label = editor.getLabel();
         Component fieldLabel = editor.getComponent();
-
+			box.appendChild(editor.getComponent());
+			rangeFirstEditor.add(mField.getColumnName());
+			// The Editor
+			WEditor toRangeEditor = WebEditorFactory.getEditor( mField, false);
+			// New Field value to be updated to editor
+			toRangeEditor.setMandatory(false);
+			toRangeEditor.setReadWrite(true);
+			toRangeEditor.dynamicDisplay();
         //
+			m_sEditors2.add (toRangeEditor);
+			Label separator = new Label(" - ");
+			box.appendChild(separator);
+			Component fieldLabel1 = toRangeEditor.getComponent();
+			box.appendChild(toRangeEditor.getComponent());
         if (displayLength > 0)      //  set it back
             mField.setDisplayLength(displayLength);
         //
+        if(isTwoColumns)
+		{
+			if(!isPair)
+				panel = new Row();
+		}
+		else
+			panel = new Row();
 
-        Row panel = new Row();
         panel.appendChild(LayoutUtils.makeRightAlign(label));
-        panel.appendChild(fieldLabel);
+        panel.appendChild(box);
+        fieldLabel.addEventListener(Events.ON_OK,this);
+        fieldLabel1.addEventListener(Events.ON_OK,this);
+        }
+        else {
+            editor = WebEditorFactory.getEditor(mField, false);
+            label = editor.getLabel();
+            editor.setMandatory(false);
+            editor.setReadWrite(true);
+            editor.dynamicDisplay();
+            Component fieldLabel = editor.getComponent();
 
-        contentSimpleRows.appendChild(panel);
+			//
+			if (displayLength > 0)      //  set it back
+				mField.setDisplayLength(displayLength);
+			//
+            panel.appendChild(LayoutUtils.makeRightAlign(label));
+            panel.appendChild(fieldLabel);
+			fieldLabel.addEventListener(Events.ON_OK,this);
+
+			m_sEditors2.add (null);
+		}
+
         m_sEditors.add(editor);
 
-        fieldLabel.addEventListener(Events.ON_OK,this);
     }   // addSelectionColumn
 
     public void onEvent(Event event) throws Exception
@@ -1048,7 +1116,17 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
                     dispose();
             	}
             }
+
+			// Check simple panel fields
+			for (WEditor editor : m_sEditors2)
+			{
+				if (editor != null && editor.getComponent() == event.getTarget())
+				{
+					cmd_ok_Simple();
+					dispose();
         }
+			}
+		}
 
     }   //  onEvent
 
@@ -1398,7 +1476,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
     /**
      * add the editor component in the 'QueryValue' field
      * @param component editor component
-     * @param label label to replace by editor component
+     * @param listcell label to replace by editor component
     **/
     private void addRowEditor(Component component, ListCell listcell)
     {
@@ -1547,26 +1625,33 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
                 value += "%";
             m_query.addRestriction("UPPER(Description)", MQuery.LIKE, value, lblDescription.getValue(), value);
         }
+		//
+
+
         //  Special Editors
         for (int i = 0; i < m_sEditors.size(); i++)
         {
             WEditor wed = (WEditor)m_sEditors.get(i);
             Object value = wed.getValue();
+			Object modifiedvalue = null;
+			String ColumnSQL = null;
+			String ColumnName = wed.getColumnName();
+			GridField field = getTargetMField(ColumnName);
             if (value != null && value.toString().length() > 0)
             {
-                String ColumnName = wed.getColumnName();
+
                 log.fine(ColumnName + "=" + value);
 
                 // globalqss - Carlos Ruiz - 20060711
                 // fix a bug with virtualColumn + isSelectionColumn not yielding results
-                GridField field = getTargetMField(ColumnName);
+				field = getTargetMField(ColumnName);
                 // add encryption here if the field is encrypted.
                 if (field.isEncryptedColumn()) {
                 	value = SecureEngine.encrypt(value);
                 }
                 
                 boolean isProductCategoryField = isProductCategoryField(field.getAD_Column_ID());
-                String ColumnSQL = field.getColumnSQL(false);
+				ColumnSQL = field.getColumnSQL(false);
                 //
                 // Be more permissive for String columns
                 if (isSearchLike(field))
@@ -1576,14 +1661,16 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
                         valueStr += "%";
                     //
                     ColumnSQL = "UPPER("+ColumnSQL+")";
-                    value = valueStr;
+					modifiedvalue = valueStr;
                 }
+				else
+					modifiedvalue = value;
                 //
-                if (value.toString().indexOf('%') != -1)
-                    m_query.addRestriction(ColumnSQL, MQuery.LIKE, value, ColumnName, wed.getDisplay());
+				if ( modifiedvalue.toString().indexOf('%') != -1 && !field.isRange() )
+					m_query.addRestriction(ColumnSQL, MQuery.LIKE, modifiedvalue, ColumnName, wed.getDisplay());
                 else if (isProductCategoryField && value instanceof Integer)
                     m_query.addRestriction(getSubCategoryWhereClause(((Integer) value).intValue()));
-                else
+				else if ( ! field.isRange()  )																//20121115
                     m_query.addRestriction(ColumnSQL, MQuery.EQUAL, value, ColumnName, wed.getDisplay());
                 /*
                 if (value.toString().indexOf('%') != -1)
@@ -1593,7 +1680,51 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
                 */
                 // end globalqss patch
             }
+
+			if (field.isRange() ){
+
+				WEditor toRangeEditor = (WEditor)m_sEditors2.get(i);
+				Object value2 = null;
+				Object parsedValue = null;
+				Object parsedValue2 = null;
+				String infoDisplay_to = null;
+				String infoDisplay = null;
+				if (toRangeEditor != null)
+					value2 = toRangeEditor.getValue();
+				if ( ( value != null && !value.toString().isEmpty()) && ( value2 != null && !value2.toString().isEmpty() ) && value2.toString().length() > 0)
+				{
+					ColumnName = toRangeEditor.getColumnName();
+					log.fine(ColumnName + "=" + value2);
+					field = getTargetMField(ColumnName);
+					infoDisplay = value.toString();
+					parsedValue = parseValue(field, value);
+					parsedValue2 = parseValue(field, value2);
+					infoDisplay_to = value2.toString();
+					if (parsedValue2 == null)
+						continue;
+					m_query.addRangeRestriction(ColumnSQL, parsedValue, parsedValue2,ColumnSQL, infoDisplay, infoDisplay_to );
+
+				}
+				// Case2 : If in given range filed First value as given and 2nd value is null
+				//		   then get all the records after the First value
+				else if( value!= null && ! value.toString().isEmpty() && ( value2 == null || value2.toString().isEmpty() ) ){
+
+					ColumnName = wed.getColumnName();
+					m_query.addRestriction(ColumnSQL, MQuery.GREATER_EQUAL, value, ColumnName, wed.getDisplay());
+				}
+				// Case3 : If in given range filed First value is given as null and 2nd value is given
+				//   	   then get all the records before the second value
+				else if( ( value == null || value.toString().isEmpty() ) && value2 != null && ! value2.toString().isEmpty() ){
+
+					ColumnName = toRangeEditor.getColumnName();
+					field = getTargetMField(ColumnName);
+					ColumnSQL = field.getColumnSQL(false);
+					m_query.addRestriction(ColumnSQL, MQuery.LESS_EQUAL, value2, ColumnName, toRangeEditor.getDisplay());
+				}
+			}
         }   //  editors
+
+
 
         m_isCancel = false; // teo_sarca [ 1708717 ]
         //  Test for no records

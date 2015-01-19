@@ -43,6 +43,8 @@ public class MAccount extends X_C_ValidCombination
 	 */
 	private static final long serialVersionUID = -1936396369349550834L;
 
+	
+	
 	/**
 	 * 	Get existing Account or create it 
 	 *	@param ctx context
@@ -65,6 +67,7 @@ public class MAccount extends X_C_ValidCombination
 	 *	@param UserElement1_ID
 	 *	@param UserElement2_ID
 	 *	@return account or null
+	 * @deprecated Use {@link #get(Properties,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,String)} instead
 	 */
 	public static MAccount get (Properties ctx, 
 		int AD_Client_ID, int AD_Org_ID, int C_AcctSchema_ID, 
@@ -73,6 +76,45 @@ public class MAccount extends X_C_ValidCombination
 		int C_LocFrom_ID, int C_LocTo_ID, int C_SalesRegion_ID, 
 		int C_Project_ID, int C_Campaign_ID, int C_Activity_ID,
 		int User1_ID, int User2_ID, int UserElement1_ID, int UserElement2_ID)
+	{
+		return get(ctx, AD_Client_ID, AD_Org_ID, C_AcctSchema_ID, Account_ID,
+				C_SubAcct_ID, M_Product_ID, C_BPartner_ID, AD_OrgTrx_ID,
+				C_LocFrom_ID, C_LocTo_ID, C_SalesRegion_ID, C_Project_ID,
+				C_Campaign_ID, C_Activity_ID, User1_ID, User2_ID,
+				UserElement1_ID, UserElement2_ID, null);
+	}	//	get
+
+	/**
+	 * 	Get existing Account or create it 
+	 *	@param ctx context
+	 * @param AD_Client_ID
+	 * @param AD_Org_ID
+	 * @param C_AcctSchema_ID
+	 * @param Account_ID
+	 * @param C_SubAcct_ID
+	 * @param M_Product_ID
+	 * @param C_BPartner_ID
+	 * @param AD_OrgTrx_ID
+	 * @param C_LocFrom_ID
+	 * @param C_LocTo_ID
+	 * @param C_SalesRegion_ID
+	 * @param C_Project_ID
+	 * @param C_Campaign_ID
+	 * @param C_Activity_ID
+	 * @param User1_ID
+	 * @param User2_ID
+	 * @param UserElement1_ID
+	 * @param UserElement2_ID
+	 * @param trxName TODO
+	 *	@return account or null
+	 */
+	public static MAccount get (Properties ctx, 
+		int AD_Client_ID, int AD_Org_ID, int C_AcctSchema_ID, 
+		int Account_ID, int C_SubAcct_ID,
+		int M_Product_ID, int C_BPartner_ID, int AD_OrgTrx_ID, 
+		int C_LocFrom_ID, int C_LocTo_ID, int C_SalesRegion_ID, 
+		int C_Project_ID, int C_Campaign_ID, int C_Activity_ID,
+		int User1_ID, int User2_ID, int UserElement1_ID, int UserElement2_ID, String trxName)
 	{
 		StringBuffer info = new StringBuffer();
 		info.append("AD_Client_ID=").append(AD_Client_ID).append(",AD_Org_ID=").append(AD_Org_ID);
@@ -192,7 +234,7 @@ public class MAccount extends X_C_ValidCombination
 		}
 		//	whereClause.append(" ORDER BY IsFullyQualified DESC");
 		
-		MAccount existingAccount = new Query(ctx, MAccount.Table_Name, whereClause.toString(), null)
+		MAccount existingAccount = new Query(ctx, MAccount.Table_Name, whereClause.toString(), trxName)
 										.setParameters(params)
 										.setOnlyActiveRecords(true)
 										.firstOnly();
@@ -202,7 +244,7 @@ public class MAccount extends X_C_ValidCombination
 			return existingAccount;
 
 		//	New
-		MAccount newAccount = new MAccount (ctx, 0, null);
+		MAccount newAccount = new MAccount (ctx, 0, trxName);
 		newAccount.setClientOrg(AD_Client_ID, AD_Org_ID);
 		newAccount.setC_AcctSchema_ID(C_AcctSchema_ID);
 		newAccount.setAccount_ID(Account_ID);
@@ -260,7 +302,7 @@ public class MAccount extends X_C_ValidCombination
 			fa.getM_Product_ID(), fa.getC_BPartner_ID(), fa.getAD_OrgTrx_ID(), 
 			fa.getC_LocFrom_ID(), fa.getC_LocTo_ID(), fa.getC_SalesRegion_ID(), 
 			fa.getC_Project_ID(), fa.getC_Campaign_ID(), fa.getC_Activity_ID(),
-			fa.getUser1_ID(), fa.getUser2_ID(), fa.getUserElement1_ID(), fa.getUserElement2_ID());
+			fa.getUser1_ID(), fa.getUser2_ID(), fa.getUserElement1_ID(), fa.getUserElement2_ID(), null);
 		return acct;
 	}	//	get
 	
@@ -811,13 +853,13 @@ public class MAccount extends X_C_ValidCombination
 	{
 		org.compiere.Adempiere.startup(true);
 		MAccount acct = get (Env.getCtx(), 11, 11, 101, 600, 0,
-			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, null);
 		System.out.println(acct);
 		System.out.println(acct.get_xmlString(new StringBuffer ("xxxx")));
 		
 		//
 		MAccount acct2 = get (Env.getCtx(), 11, 12, 101, 600, 0,
-			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, null);
 		System.out.println(acct2);
 		
 	}	//	main

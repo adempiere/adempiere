@@ -182,11 +182,11 @@ public class ProjectGenPO extends SvrProcess
 		}
 		
 		orderLine.setTax();
-		orderLine.save();
+		orderLine.saveEx();
 
 		//	update ProjectLine
 		projectLine.setC_OrderPO_ID(order.getC_Order_ID());
-		projectLine.save();
+		projectLine.saveEx();
 		addLog (projectLine.getLine(), null, projectLine.getPlannedQty(), order.getDocumentNo());
 	}	//	createPOfromProjectLine
 

@@ -16,6 +16,7 @@
 package org.compiere.model;
 
 import java.sql.ResultSet;
+import java.util.List;
 import java.util.Properties;
 
 
@@ -52,4 +53,51 @@ public class MForecast extends  X_M_Forecast
 	{
 		super(ctx, rs, trxName);
 	}	//	MForecast
+	
+	/**************************************************************************
+	 * 	Before Save
+	 *	@param newRecord new
+	 *	@return save
+	 */
+	protected boolean beforeSave (boolean newRecord)
+	{
+		Boolean isActiveOld = (Boolean) get_ValueOld(COLUMNNAME_IsActive);			
+		
+		if(isActiveOld != null && is_ValueChanged(MForecast.COLUMNNAME_IsActive))
+		{
+			for (MForecastLine line : getLines(isActiveOld))
+			{
+				line.setIsActive(isActive());
+				line.saveEx();
+			}
+		}
+		return true;
+	}
+	
+
+	/**
+	 * 	After Save
+	 *	@param newRecord new
+	 *	@param success success
+	 *	@return true if can be saved
+	 */
+	protected boolean afterSave (boolean newRecord, boolean success)
+	{
+		if (!success || newRecord)
+			return success;
+		
+		return true;
+	}
+	
+	public List<MForecastLine> getLines(boolean isActive)
+	{
+		final StringBuilder whereClause = new StringBuilder();
+		whereClause.append(MForecast.COLUMNNAME_M_Forecast_ID).append("=? AND ");
+		whereClause.append(MForecast.COLUMNNAME_IsActive).append("=?");
+		
+		return new Query(getCtx(),MForecastLine.Table_Name, whereClause.toString(), get_TrxName())
+		.setClient_ID()
+		.setParameters(get_ID(), isActive)
+		.list();
+	}
 }	//	MForecast

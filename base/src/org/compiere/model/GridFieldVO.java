@@ -34,6 +34,7 @@ import org.compiere.util.Env;
  *
  *  @author Jorg Janke
  *  @author Victor Perez , e-Evolution.SC FR [ 1757088 ] , [1877902] Implement JSR 223 Scripting APIs to Callout
+ *    <li>Implement embedded or horizontal tab panel https://adempiere.atlassian.net/browse/ADEMPIERE-319
  *  @author Carlos Ruiz, qss FR [1877902]
  *  @author Juan David Arboleda (arboleda), GlobalQSS, [ 1795398 ] Process Parameter: add display and readonly logic
  *  @see  http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1877902&group_id=176962 to FR [1877902]
@@ -92,9 +93,9 @@ public class GridFieldVO implements Serializable
 			{
 				columnName = rsmd.getColumnName (i);
 				if (columnName.equalsIgnoreCase("Name"))
-					vo.Header = rs.getString (i);
+					vo.Header = rs.getString(i);
 				else if (columnName.equalsIgnoreCase("AD_Reference_ID"))
-					vo.displayType = rs.getInt (i);
+					vo.displayType = rs.getInt(i);
 				else if (columnName.equalsIgnoreCase("AD_Column_ID"))
 					vo.AD_Column_ID = rs.getInt (i);
 				else if (columnName.equalsIgnoreCase("AD_Table_ID"))
@@ -105,6 +106,10 @@ public class GridFieldVO implements Serializable
 					vo.IsSameLine = "Y".equals(rs.getString (i));
 				else if (columnName.equalsIgnoreCase("IsDisplayed"))
 					vo.IsDisplayed = "Y".equals(rs.getString (i));
+				else if (columnName.equalsIgnoreCase("IsDisplayedGrid"))
+					vo.IsDisplayedGrid = "Y".equals(rs.getString (i));
+				else if (columnName.equalsIgnoreCase("SeqNoGrid"))
+					vo.SeqNoGrid = rs.getInt (i);
 				else if (columnName.equalsIgnoreCase("DisplayLogic"))
 					vo.DisplayLogic = rs.getString (i);
 				else if (columnName.equalsIgnoreCase("DefaultValue"))
@@ -153,6 +158,8 @@ public class GridFieldVO implements Serializable
 					vo.Callout = rs.getString (i);
 				else if (columnName.equalsIgnoreCase("AD_Process_ID"))
 					vo.AD_Process_ID = rs.getInt (i);
+				else if (columnName.equalsIgnoreCase("AD_Chart_ID"))
+					vo.AD_Chart_ID = rs.getInt (i);
 				else if (columnName.equalsIgnoreCase("ReadOnlyLogic"))
 					vo.ReadOnlyLogic = rs.getString (i);
 				else if (columnName.equalsIgnoreCase("MandatoryLogic"))
@@ -179,10 +186,17 @@ public class GridFieldVO implements Serializable
 				else if (columnName.equalsIgnoreCase("IsAutocomplete"))
 					vo.IsAutocomplete  = "Y".equals(rs.getString(i));
 				// FR 3051618 - Grid View improvements
-				else if (columnName.equalsIgnoreCase("HideInListView"))
-					vo.HideInListView = "Y".equals(rs.getString(i));
+				//else if (columnName.equalsIgnoreCase("HideInListView"))
+				//	vo.HideInListView = "Y".equals(rs.getString(i));
 				else if (columnName.equalsIgnoreCase("PreferredWidth"))
 					vo.PreferredWidth = rs.getInt(i);
+				//Allows Copy
+				else if (columnName.equalsIgnoreCase(I_AD_Field.COLUMNNAME_IsAllowCopy))
+					vo.IsAllowsCopy = "Y".equals(rs.getString(i));
+				else if (columnName.equalsIgnoreCase("IsRange"))
+					vo.IsRange = "Y".equals(rs.getString (i));
+				else if (columnName.equalsIgnoreCase("isEmbedded"))
+					vo.isEmbedded = "Y".equals(rs.getString (i));
 			}
 			if (vo.Header == null)
 				vo.Header = vo.ColumnName;
@@ -288,6 +302,7 @@ public class GridFieldVO implements Serializable
 		voT.ValueMin = voF.ValueMin;
 		voT.ValueMax = voF.ValueMax;
 		voT.isRange = voF.isRange;
+		voT.isEmbedded= voF.isEmbedded;
 		voT.DisplayLogic = voF.DisplayLogic;
 		voT.ReadOnlyLogic = voF.ReadOnlyLogic;
 		voT.ValidationCode = voF.ValidationCode;
@@ -360,6 +375,12 @@ public class GridFieldVO implements Serializable
 	
 	/** Context                     */
 	public Properties   ctx = null;
+	
+	
+	/** RangeLookup     */	
+	public boolean      IsRange = false;
+	/** isEmbedded **/
+	public boolean      isEmbedded = false;	
 	/** Window No                   */
 	public int          WindowNo;
 	/** Tab No                      */
@@ -392,8 +413,10 @@ public class GridFieldVO implements Serializable
 	public boolean      IsSameLine = false;
 	/**	Displayed		*/
 	public boolean      IsDisplayed = false;
-	/** Hide in list view */
-	public boolean		HideInListView = false;
+	/**	Displayed Grid		*/
+	public boolean      IsDisplayedGrid = true;
+	/** Grid Display sequence	*/
+	public int	SeqNoGrid = 0;
 	/** Preferred size in list view */
 	public int			PreferredWidth = 0;
 	/**	Dislay Logic	*/
@@ -440,6 +463,8 @@ public class GridFieldVO implements Serializable
 	public String       Callout = "";
 	/**	Process			*/
 	public int          AD_Process_ID = 0;
+	/** Chart			*/
+	public int			AD_Chart_ID = 0;
 	/**	Description		*/
 	public String       Description = "";
 	/**	Help			*/
@@ -451,6 +476,7 @@ public class GridFieldVO implements Serializable
 	/**	Display Obscure	*/
 	public String		ObscureType = null;
 
+	public boolean IsAllowsCopy = false;
 
 	/**	Lookup Validation code	*/
 	public String		ValidationCode = "";
@@ -488,7 +514,7 @@ public class GridFieldVO implements Serializable
 	/**
 	 *  Validate Fields and create LookupInfo if required
 	 */
-	protected void initFinish()
+	public void initFinish()
 	{
 		//  Not null fields
 		if (DisplayLogic == null)
@@ -557,7 +583,8 @@ public class GridFieldVO implements Serializable
 		clone.DisplayLength = DisplayLength;
 		clone.IsSameLine = IsSameLine;
 		clone.IsDisplayed = IsDisplayed;
-		clone.HideInListView = HideInListView;
+		clone.IsDisplayedGrid = IsDisplayedGrid;
+		clone.SeqNoGrid = SeqNoGrid;
 		clone.PreferredWidth = PreferredWidth;
 		clone.DisplayLogic = DisplayLogic;
 		clone.DefaultValue = DefaultValue;
@@ -582,6 +609,7 @@ public class GridFieldVO implements Serializable
 		clone.IsParent = IsParent;
 		clone.Callout = Callout;
 		clone.AD_Process_ID = AD_Process_ID;
+		clone.AD_Chart_ID = AD_Chart_ID;
 		clone.Description = Description;
 		clone.Help = Help;
 		clone.ReadOnlyLogic = ReadOnlyLogic;
@@ -594,6 +622,7 @@ public class GridFieldVO implements Serializable
 
 		//  Process Parameter
 		clone.isRange = isRange;
+		clone.isEmbedded = isEmbedded;
 		clone.DefaultValue2 = DefaultValue2;
 
 		return clone;

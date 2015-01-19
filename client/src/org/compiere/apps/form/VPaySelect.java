@@ -19,12 +19,16 @@
 package org.compiere.apps.form;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -32,8 +36,6 @@ import java.util.logging.Level;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
@@ -44,13 +46,22 @@ import org.compiere.apps.ProcessParameterPanel;
 import org.compiere.grid.ed.VCheckBox;
 import org.compiere.grid.ed.VComboBox;
 import org.compiere.grid.ed.VDate;
+import org.compiere.grid.ed.VLookup;
 import org.compiere.minigrid.MiniTable;
+import org.compiere.minigrid.MiniTable.MiniTableSelectionListener;
+import org.compiere.minigrid.MiniTable.RowSelectionEvent;
+import org.compiere.model.MBPartner;
+import org.compiere.model.MColumn;
+import org.compiere.model.MLookupFactory;
+import org.compiere.model.MSysConfig;
 import org.compiere.model.X_C_PaySelection;
 import org.compiere.plaf.CompiereColor;
 import org.compiere.process.ProcessInfo;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
+import org.compiere.swing.CTextField;
 import org.compiere.util.ASyncProcess;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
@@ -64,11 +75,19 @@ import org.compiere.util.ValueNamePair;
  *
  *  @author Jorg Janke
  *  @version $Id: VPaySelect.java,v 1.2 2008/07/11 08:20:12 cruiz Exp $
+ *  
+ *  @author Michael McKay, 
+ * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
+ * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
+ * 				<li>release/380 bug fix - PaySelect behaviour for auto query, window size,
+ * 					use of VLookup for BPartner field and better event processing
  */
-public class VPaySelect extends PaySelect implements FormPanel, ActionListener, TableModelListener, ASyncProcess
+public class VPaySelect extends PaySelect implements FormPanel, ActionListener, ASyncProcess, PropertyChangeListener, MiniTableSelectionListener
 {
 	/** @todo withholding */
 	private CPanel panel = new CPanel();
+
+	private boolean m_loadedOK = false;
 
 	/**
 	 *	Initialize Panel
@@ -80,12 +99,18 @@ public class VPaySelect extends PaySelect implements FormPanel, ActionListener, 
 		log.info("");
 		m_WindowNo = WindowNo;
 		m_frame = frame;
+
 		try
 		{
 			jbInit();
 			dynInit();
-			frame.getContentPane().add(commandPanel, BorderLayout.SOUTH);
-			frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
+			m_loadedOK = true;
+			
+			if (checkAutoQuery.isSelected())
+			{
+				setFieldOldValues();
+				loadTableInfo();
+			}
 		}
 		catch(Exception e)
 		{
@@ -108,7 +133,7 @@ public class VPaySelect extends PaySelect implements FormPanel, ActionListener, 
 	private CLabel labelBalance = new CLabel();
 	private VCheckBox onlyDue = new VCheckBox();
 	private CLabel labelBPartner = new CLabel();
-	private VComboBox fieldBPartner = new VComboBox();
+	private VLookup fieldBPartner;
 	private CLabel labelDtype = new CLabel();
 	private VComboBox fieldDtype = new VComboBox();
 
@@ -124,6 +149,15 @@ public class VPaySelect extends PaySelect implements FormPanel, ActionListener, 
 	private VDate fieldPayDate = new VDate();
 	private CLabel labelPaymentRule = new CLabel();
 	private VComboBox fieldPaymentRule = new VComboBox();
+	
+	private VCheckBox checkAutoQuery = new VCheckBox();
+	private static String SYSCONFIG_INFO_AUTO_QUERY = "INFO_AUTO_QUERY";
+
+	/** Window Width                */
+	Toolkit toolkit = Toolkit.getDefaultToolkit();
+	Dimension screensize = toolkit.getScreenSize();
+	protected final int        SCREEN_WIDTH = screensize.width > 1000 ? 1000 : screensize.width - 100;
+	protected final int        SCREEN_HEIGHT = screensize.height > 1000 ? 800 : screensize.height - 100;
 
 	/**
 	 *  Static Init
@@ -138,24 +172,48 @@ public class VPaySelect extends PaySelect implements FormPanel, ActionListener, 
 		//
 		labelBankAccount.setText(Msg.translate(Env.getCtx(), "C_BankAccount_ID"));
 		fieldBankAccount.addActionListener(this);
+		//
 		labelBPartner.setText(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
+		fieldBPartner = new VLookup("C_BPartner_ID", false, false, true,
+				MLookupFactory.get (Env.getCtx(), m_WindowNo, 0, 
+				MColumn.getColumn_ID(MBPartner.Table_Name, MBPartner.COLUMNNAME_C_BPartner_ID),
+				DisplayType.Search));
 		fieldBPartner.addActionListener(this);
+		//
 		bRefresh.addActionListener(this);
+		//
 		labelDtype.setText(Msg.translate(Env.getCtx(), "C_DocType_ID"));
 		fieldDtype.addActionListener(this);
+		//
 		labelPayDate.setText(Msg.translate(Env.getCtx(), "PayDate"));
+		fieldPayDate.addActionListener(this);
+		//
 		labelPaymentRule.setText(Msg.translate(Env.getCtx(), "PaymentRule"));
 		fieldPaymentRule.addActionListener(this);
 		//
 		labelBankBalance.setText(Msg.translate(Env.getCtx(), "CurrentBalance"));
 		labelBalance.setText("0");
+		//
 		onlyDue.setText(Msg.getMsg(Env.getCtx(), "OnlyDue"));
+		onlyDue.addActionListener(this);
+		//
 		dataStatus.setText(" ");
+		//
+		checkAutoQuery.setText(Msg.getMsg(Env.getCtx(), "AutoRefresh"));
+		checkAutoQuery.setToolTipText(Msg.getMsg(Env.getCtx(), "AutoRefresh"));
+		checkAutoQuery.setName("AutoQuery");
+		checkAutoQuery.setSelected(MSysConfig.getValue(SYSCONFIG_INFO_AUTO_QUERY,"Y",Env.getAD_Client_ID(Env.getCtx())).equals("Y"));  
+		checkAutoQuery.addActionListener(this);
 		//
 		bGenerate.addActionListener(this);
 		bCancel.addActionListener(this);
 		//
+		miniTable.addPropertyChangeListener(this);
+
+		//
 		mainPanel.add(parameterPanel, BorderLayout.NORTH);
+		mainPanel.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
+
 		parameterPanel.add(labelBankAccount,  new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		parameterPanel.add(fieldBankAccount,   new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
@@ -178,22 +236,24 @@ public class VPaySelect extends PaySelect implements FormPanel, ActionListener, 
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		parameterPanel.add(fieldDtype,    new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
+		parameterPanel.add(labelPaymentRule,  new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+			parameterPanel.add(fieldPaymentRule,  new GridBagConstraints(3, 2, 1, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 
-		parameterPanel.add(bRefresh,    new GridBagConstraints(4, 3, 1, 1, 0.0, 0.0
-			,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		parameterPanel.add(checkAutoQuery,    new GridBagConstraints(4, 2, 1, 1, 0.0, 0.0
+				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+
 
 		parameterPanel.add(labelPayDate,  new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		parameterPanel.add(fieldPayDate,   new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
-
-		parameterPanel.add(labelPaymentRule,  new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		parameterPanel.add(fieldPaymentRule,  new GridBagConstraints(3, 3, 1, 1, 0.0, 0.0
+		parameterPanel.add(onlyDue,  new GridBagConstraints(3, 3, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		parameterPanel.add(bRefresh,    new GridBagConstraints(4, 3, 1, 1, 0.0, 0.0
+				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 
-		parameterPanel.add(onlyDue,  new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		mainPanel.add(dataStatus, BorderLayout.SOUTH);
 		mainPanel.add(dataPane, BorderLayout.CENTER);
 		dataPane.getViewport().add(miniTable, null);
@@ -203,12 +263,15 @@ public class VPaySelect extends PaySelect implements FormPanel, ActionListener, 
 		commandLayout.setHgap(10);
 		commandPanel.add(bCancel, null);
 		commandPanel.add(bGenerate, null);
+		
+		m_frame.getContentPane().add(commandPanel, BorderLayout.SOUTH);
+		m_frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
+
 	}   //  jbInit
 
 	/**
 	 *  Dynamic Init.
 	 *  - Load Bank Info
-	 *  - Load BPartner
 	 *  - Load Document Type
 	 *  - Init Table
 	 */
@@ -221,20 +284,17 @@ public class VPaySelect extends PaySelect implements FormPanel, ActionListener, 
 		if (fieldBankAccount.getItemCount() == 0)
 			ADialog.error(m_WindowNo, panel, "VPaySelectNoBank");
 		else
-			fieldBankAccount.setSelectedIndex(0);
+			fieldBankAccount.setSelectedIndex(0);		
 		
-		ArrayList<KeyNamePair> bpartnerData = getBPartnerData();
-		for(KeyNamePair pp : bpartnerData)
-			fieldBPartner.addItem(pp);
-		fieldBPartner.setSelectedIndex(0);
+		loadBankInfo();
 		
 		ArrayList<KeyNamePair> docTypeData = getDocTypeData();
 		for(KeyNamePair pp : docTypeData)
 			fieldDtype.addItem(pp);
 		
 		prepareTable(miniTable);
+		miniTable.addMiniTableSelectionListener(this); // To enable buttons
 		
-		miniTable.getModel().addTableModelListener(this);
 		//
 		fieldPayDate.setMandatory(true);
 		fieldPayDate.setValue(new Timestamp(System.currentTimeMillis()));
@@ -245,6 +305,9 @@ public class VPaySelect extends PaySelect implements FormPanel, ActionListener, 
 	 */
 	private void loadBankInfo()
 	{
+		m_loadedOK = false; // Prevent event processing
+		
+		log.fine("");
 		BankInfo bi = (BankInfo)fieldBankAccount.getSelectedItem();
 		if (bi == null)
 			return;
@@ -258,6 +321,8 @@ public class VPaySelect extends PaySelect implements FormPanel, ActionListener, 
 		for(ValueNamePair vp : paymentRuleData)
 			fieldPaymentRule.addItem(vp);
 		fieldPaymentRule.setSelectedIndex(0);
+		
+		m_loadedOK = true; // Enable event processing
 	}   //  loadBankInfo
 
 	/**
@@ -271,11 +336,14 @@ public class VPaySelect extends PaySelect implements FormPanel, ActionListener, 
 		
 		BankInfo bi = (BankInfo)fieldBankAccount.getSelectedItem();
 		
-		ValueNamePair paymentRule = (ValueNamePair)fieldPaymentRule.getSelectedItem();
-		KeyNamePair bpartner = (KeyNamePair)fieldBPartner.getSelectedItem();
-		KeyNamePair docType = (KeyNamePair)fieldDtype.getSelectedItem();
-
-		loadTableInfo(bi, payDate, paymentRule, onlyDue.isSelected(), bpartner, docType, miniTable);
+		ValueNamePair paymentRule = (ValueNamePair) fieldPaymentRule.getSelectedItem();
+		KeyNamePair docType = (KeyNamePair) fieldDtype.getSelectedItem();
+		
+		int c_bpartner_id = 0;
+		if (fieldBPartner.getValue() != null)
+			c_bpartner_id = ((Integer) fieldBPartner.getValue()).intValue();
+		
+		loadTableInfo(bi, payDate, paymentRule, onlyDue.isSelected(), c_bpartner_id, docType, miniTable);
 		
 		calculateSelection();
 	}   //  loadTableInfo
@@ -297,36 +365,129 @@ public class VPaySelect extends PaySelect implements FormPanel, ActionListener, 
 	 */
 	public void actionPerformed (ActionEvent e)
 	{
-		//  Update Bank Info
-		if (e.getSource() == fieldBankAccount)
+		boolean triggerRefresh = false;
+		
+		if(!m_loadedOK)
+			return;
+
+		Object source = e.getSource();
+		String cmd = e.getActionCommand();
+		
+		//  Trigger an update if any criteria change
+		if (source instanceof VComboBox && ((VComboBox) source).getParent() instanceof VLookup)
+		{
+			source = ((VComboBox) source).getParent();
+			VLookup vl = ((VLookup)source);
+			
+			//  Discard changes from mouse movements and keyboard entries
+			//  Respond only to the Enter key which causes "comboBoxEdited"
+			//  VLookups trigger multiple events in search mode. Reject 
+			//  events that don't have changes from the last action.
+			if(cmd.equals("comboBoxChanged"))		
+			{
+				if (!vl.hasChanged())
+					return;
+				else
+					triggerRefresh = true;
+			}
+			else if(cmd.equals("comboBoxEdited"))
+			{
+				if (!vl.hasChanged())
+				{
+					vl.requestFocus();
+					return;
+				}
+				triggerRefresh = true;						
+			}
+		}
+		else if (source instanceof CTextField)
+		{
+			CTextField tf = ((CTextField) source);
+	
+			if (tf.getParent() instanceof VLookup)
+			{
+				// Ignore it.  User typed into the VLookup text field.
+				// Look for events form the VLookup VComboBox component
+				// instead.
+				return;
+			}
+			else if (tf.hasChanged())  //  The change may have come from another field
+			{
+				triggerRefresh = true;
+			}
+		}
+		else if (e.getSource() instanceof VCheckBox)
+		{
+			//  Check box changes generally always cause a refresh
+			//  Capture changes that don't 
+			triggerRefresh = true;
+			
+			VCheckBox cb = (VCheckBox) e.getSource();
+			if (cb.getName().equals("AutoQuery"))
+			{
+				//  Only trigger a refresh if the check box is selected
+				if(!cb.isSelected())
+				{
+					return;
+				}
+			}
+		}
+		else if(cmd.equals("comboBoxChanged"))		
+		{
+			VComboBox vcb = (VComboBox) source;
+			if (!vcb.hasChanged())
+			{
+				return;
+			} else {
+				triggerRefresh = true;
+			}
+		}
+		else if(cmd.equals("comboBoxEdited"))
+		{
+			VComboBox vcb = (VComboBox) source;			
+			if (!vcb.hasChanged())
+			{
+				vcb.requestFocus();
+				return;
+			}
+			triggerRefresh = true;						
+		}
+
+		
+		if (triggerRefresh && e.getSource() == fieldBankAccount)
+		{
 			loadBankInfo();
+		}
 
 		//  Generate PaySelection
-		else if (e.getSource() == bGenerate)
+		if (e.getSource() == bGenerate)
 		{
 			generatePaySelect();
 			dispose();
 		}
-
 		else if (e.getSource() == bCancel)
 			dispose();
-
-		//  Update Open Invoices
-		else if (e.getSource() == fieldBPartner || e.getSource() == bRefresh || e.getSource() == fieldDtype)
+				
+		// Refresh if the autoquery feature is selected or the refresh button is clicked.
+		if (e.getSource() == bRefresh || (checkAutoQuery.isSelected() && triggerRefresh))
+		{
+			setFieldOldValues();
 			loadTableInfo();
+		}
 
 	}   //  actionPerformed
 
 	/**
-	 *  Table Model Listener
-	 *  @param e event
+	 * Property Change Listener
+	 * @param e event
 	 */
-	public void tableChanged(TableModelEvent e)
+	public void propertyChange(PropertyChangeEvent e)
 	{
-		if (e.getColumn() == 0)
+		// Respond to updates to the table
+		if (e.getPropertyName() == "p_table_update")
 			calculateSelection();
-	}   //  valueChanged
-
+	}   
+	
 	/**
 	 *  Calculate selected rows.
 	 *  - add up selected rows
@@ -350,7 +511,7 @@ public class VPaySelect extends PaySelect implements FormPanel, ActionListener, 
 		calculateSelection();
 		if (m_noSelected == 0)
 			return;
-
+		
 		String msg = generatePaySelect(miniTable, (ValueNamePair) fieldPaymentRule.getSelectedItem(), 
 				fieldPayDate.getTimestamp(), (BankInfo)fieldBankAccount.getSelectedItem());
 		
@@ -438,4 +599,26 @@ public class VPaySelect extends PaySelect implements FormPanel, ActionListener, 
 	{
 		log.config("-");
 	}   //  executeASync
+
+	@Override
+	public void rowSelected(RowSelectionEvent e) {
+
+		calculateSelection();
+		
+	}
+
+	/**
+	 * Record outstanding changes by copying the current
+	 * value to the oldValue on all fields
+	 */
+	protected void setFieldOldValues()
+	{
+		fieldBankAccount.set_oldValue();
+		fieldBPartner.set_oldValue();
+		fieldDtype.set_oldValue();
+		fieldPaymentRule.set_oldValue();
+		onlyDue.set_oldValue();
+		return;
+	}
+
 }   //  VPaySelect

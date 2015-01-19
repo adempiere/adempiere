@@ -99,12 +99,32 @@ public class VFile extends JComponent
 	public VFile(String columnName, boolean mandatory, 
 		boolean isReadOnly, boolean isUpdateable, int fieldLength, boolean files)
 	{
+		this(columnName, mandatory, isReadOnly, isUpdateable, fieldLength, false, files);
+
+	}
+
+	/**
+	 *	Constructor
+	 *
+	 * 	@param columnName column name
+	 * 	@param mandatory mandatory
+	 * 	@param isReadOnly read only
+	 * 	@param isUpdateable updateable
+	 *  @param pathOrFile allow selection of either a directory or a file
+	 * 	@param files Files only if false Directory only, ignored if pathOrFile is true.
+	 */
+	public VFile(String columnName, boolean mandatory, 
+		boolean isReadOnly, boolean isUpdateable, int fieldLength, boolean pathOrFile, boolean files)
+	{
 		super();
 		super.setName(columnName);
 		m_columnName = columnName;
 		m_fieldLength = fieldLength;
-		if (files)	//	default Directories
-			m_selectionMode = JFileChooser.FILES_ONLY;
+		if (pathOrFile)
+			m_selectionMode = JFileChooser.FILES_AND_DIRECTORIES;
+		else
+			if (files)	//	default Directories
+				m_selectionMode = JFileChooser.FILES_ONLY;
 		String col = columnName.toLowerCase();
 		if (col.indexOf("open") != -1 || col.indexOf("load") != -1)
 			m_dialogType = JFileChooser.OPEN_DIALOG;

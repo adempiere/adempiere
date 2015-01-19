@@ -266,18 +266,18 @@ public class Merge
 				{
 					MPayment payment = payments[i];
 					if (payment.testAllocation())
-						payment.save();
+						payment.saveEx();
 				}
 				MInvoice[] invoices = MInvoice.getOfBPartner(Env.getCtx(), bp.getC_BPartner_ID(), null);
 				for (int i = 0; i < invoices.length; i++) 
 				{
 					MInvoice invoice = invoices[i];
 					if (invoice.testAllocation())
-						invoice.save();
+						invoice.saveEx();
 				}
 				bp.setTotalOpenBalance();
 				bp.setActualLifeTimeValue();
-				bp.save();
+				bp.saveEx();
 			}
 		}
 		else if (ColumnName.equals(M_PRODUCT_ID))

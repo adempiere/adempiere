@@ -78,7 +78,7 @@ public class OrderRePrice extends SvrProcess
 			for (int i = 0; i < lines.length; i++)
 			{
 				lines[i].setPrice(order.getM_PriceList_ID());
-				lines[i].save();
+				lines[i].saveEx();
 			}
 			order = new MOrder (getCtx(), p_C_Order_ID, get_TrxName());
 			BigDecimal newPrice = order.getGrandTotal();
@@ -92,7 +92,7 @@ public class OrderRePrice extends SvrProcess
 			for (int i = 0; i < lines.length; i++)
 			{
 				lines[i].setPrice(invoice.getM_PriceList_ID(), invoice.getC_BPartner_ID());
-				lines[i].save();
+				lines[i].saveEx();
 			}
 			invoice = new MInvoice (getCtx(), p_C_Invoice_ID, null);
 			BigDecimal newPrice = invoice.getGrandTotal();

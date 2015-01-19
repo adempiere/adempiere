@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Browse
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_AD_Browse extends PO implements I_AD_Browse, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130410L;
+	private static final long serialVersionUID = 20150101L;
 
     /** Standard Constructor */
     public X_AD_Browse (Properties ctx, int AD_Browse_ID, String trxName)
@@ -39,10 +39,10 @@ public class X_AD_Browse extends PO implements I_AD_Browse, I_Persistent
       super (ctx, AD_Browse_ID, trxName);
       /** if (AD_Browse_ID == 0)
         {
+			setAccessLevel (null);
+// 3
 			setAD_Browse_ID (0);
 			setAD_View_ID (0);
-			setAccessLevel (null);
-// 4
 			setEntityType (null);
 			setName (null);
         } */
@@ -75,6 +75,38 @@ public class X_AD_Browse extends PO implements I_AD_Browse, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** AccessLevel AD_Reference_ID=5 */
+	public static final int ACCESSLEVEL_AD_Reference_ID=5;
+	/** Organization = 1 */
+	public static final String ACCESSLEVEL_Organization = "1";
+	/** Client+Organization = 3 */
+	public static final String ACCESSLEVEL_ClientPlusOrganization = "3";
+	/** System only = 4 */
+	public static final String ACCESSLEVEL_SystemOnly = "4";
+	/** All = 7 */
+	public static final String ACCESSLEVEL_All = "7";
+	/** System+Client = 6 */
+	public static final String ACCESSLEVEL_SystemPlusClient = "6";
+	/** Client only = 2 */
+	public static final String ACCESSLEVEL_ClientOnly = "2";
+	/** Set Data Access Level.
+		@param AccessLevel 
+		Access Level required
+	  */
+	public void setAccessLevel (String AccessLevel)
+	{
+
+		set_Value (COLUMNNAME_AccessLevel, AccessLevel);
+	}
+
+	/** Get Data Access Level.
+		@return Access Level required
+	  */
+	public String getAccessLevel () 
+	{
+		return (String)get_Value(COLUMNNAME_AccessLevel);
+	}
 
 	/** Set Smart Browse.
 		@param AD_Browse_ID Smart Browse	  */
@@ -152,36 +184,32 @@ public class X_AD_Browse extends PO implements I_AD_Browse, I_Persistent
 		return ii.intValue();
 	}
 
-	/** AccessLevel AD_Reference_ID=5 */
-	public static final int ACCESSLEVEL_AD_Reference_ID=5;
-	/** Organization = 1 */
-	public static final String ACCESSLEVEL_Organization = "1";
-	/** Client+Organization = 3 */
-	public static final String ACCESSLEVEL_ClientPlusOrganization = "3";
-	/** System only = 4 */
-	public static final String ACCESSLEVEL_SystemOnly = "4";
-	/** All = 7 */
-	public static final String ACCESSLEVEL_All = "7";
-	/** System+Client = 6 */
-	public static final String ACCESSLEVEL_SystemPlusClient = "6";
-	/** Client only = 2 */
-	public static final String ACCESSLEVEL_ClientOnly = "2";
-	/** Set Data Access Level.
-		@param AccessLevel 
-		Access Level required
-	  */
-	public void setAccessLevel (String AccessLevel)
-	{
+	public org.compiere.model.I_AD_Window getAD_Window() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Window)MTable.get(getCtx(), org.compiere.model.I_AD_Window.Table_Name)
+			.getPO(getAD_Window_ID(), get_TrxName());	}
 
-		set_Value (COLUMNNAME_AccessLevel, AccessLevel);
+	/** Set Window.
+		@param AD_Window_ID 
+		Data entry or display window
+	  */
+	public void setAD_Window_ID (int AD_Window_ID)
+	{
+		if (AD_Window_ID < 1) 
+			set_Value (COLUMNNAME_AD_Window_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Window_ID, Integer.valueOf(AD_Window_ID));
 	}
 
-	/** Get Data Access Level.
-		@return Access Level required
+	/** Get Window.
+		@return Data entry or display window
 	  */
-	public String getAccessLevel () 
+	public int getAD_Window_ID () 
 	{
-		return (String)get_Value(COLUMNNAME_AccessLevel);
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Window_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Copy From.
@@ -270,6 +298,126 @@ public class X_AD_Browse extends PO implements I_AD_Browse, I_Persistent
 	public boolean isBetaFunctionality () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsBetaFunctionality);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Is collapsible by default.
+		@param IsCollapsibleByDefault 
+		Flag to indicate if is collapsible by default
+	  */
+	public void setIsCollapsibleByDefault (boolean IsCollapsibleByDefault)
+	{
+		set_Value (COLUMNNAME_IsCollapsibleByDefault, Boolean.valueOf(IsCollapsibleByDefault));
+	}
+
+	/** Get Is collapsible by default.
+		@return Flag to indicate if is collapsible by default
+	  */
+	public boolean isCollapsibleByDefault () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsCollapsibleByDefault);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Records deletable.
+		@param IsDeleteable 
+		Indicates if records can be deleted from the database
+	  */
+	public void setIsDeleteable (boolean IsDeleteable)
+	{
+		set_Value (COLUMNNAME_IsDeleteable, Boolean.valueOf(IsDeleteable));
+	}
+
+	/** Get Records deletable.
+		@return Indicates if records can be deleted from the database
+	  */
+	public boolean isDeleteable () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsDeleteable);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Is executed query by default.
+		@param IsExecutedQueryByDefault 
+		Is executed query by default
+	  */
+	public void setIsExecutedQueryByDefault (boolean IsExecutedQueryByDefault)
+	{
+		set_Value (COLUMNNAME_IsExecutedQueryByDefault, Boolean.valueOf(IsExecutedQueryByDefault));
+	}
+
+	/** Get Is executed query by default.
+		@return Is executed query by default
+	  */
+	public boolean isExecutedQueryByDefault () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsExecutedQueryByDefault);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Is selected by default.
+		@param IsSelectedByDefault 
+		Allows auto select rows of a browser
+	  */
+	public void setIsSelectedByDefault (boolean IsSelectedByDefault)
+	{
+		set_Value (COLUMNNAME_IsSelectedByDefault, Boolean.valueOf(IsSelectedByDefault));
+	}
+
+	/** Get Is selected by default.
+		@return Allows auto select rows of a browser
+	  */
+	public boolean isSelectedByDefault () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsSelectedByDefault);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Show Total.
+		@param IsShowTotal 
+		Show totals into Smart Browser
+	  */
+	public void setIsShowTotal (boolean IsShowTotal)
+	{
+		set_Value (COLUMNNAME_IsShowTotal, Boolean.valueOf(IsShowTotal));
+	}
+
+	/** Get Show Total.
+		@return Show totals into Smart Browser
+	  */
+	public boolean isShowTotal () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsShowTotal);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

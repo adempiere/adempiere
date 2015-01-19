@@ -266,7 +266,7 @@ public class MClick extends X_W_Click
 				click.setW_ClickCount_ID();
 				if (click.getW_ClickCount_ID() != 0)
 				{
-					click.save();
+					click.saveEx();
 					counter++;
 				}
 			}

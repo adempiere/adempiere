@@ -141,6 +141,8 @@ public class WImageEditor extends WEditor
 			}
 		}
 		getComponent().setContent(img);
+		getComponent().setWidth("100px");
+		getComponent().setHeight("100px");
     }
     
     @Override

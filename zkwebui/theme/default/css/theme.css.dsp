@@ -12,19 +12,20 @@ html,body {
 
 <%-- login --%>
 .login-window {
-	background-color: #E5E5E5;
+	background-color: #FAFAFA;
 }
 
 .login-box-body {
-	width: 660px;
+	width: 500px;
+	height: 300px;
 	background-image: url(../images/login-box-bg.png);
 	background-repeat: repeat-y;
 	background-color: transparent;
 	z-index: 1;
-	padding: 0;
+	padding: 10px;
 	margin: 0;
 	text-align: center;
-	padding-bottom: 100px;
+	padding-bottom: 5px;
 }
 
 .login-box-header {
@@ -32,11 +33,11 @@ html,body {
 	background-color: transparent;
 	z-index: 2;
 	height: 54px;
-	width: 660px;
+	width: 500px;
 }
 
 .login-box-header-txt {
-	color: white;
+	color: black;
 	font-weight: bold;
 	position: relative;
 	top: 30px;
@@ -53,26 +54,26 @@ html,body {
 	background-attachment: scroll;
 	background-repeat: repeat-y;
 	z-index: 2;
-	height: 110px;
-	width: 660px;
+	height: 70px;
+	width: 500px;
 }
 
 .login-box-footer-pnl {
-	width: 604px;
+	width: 420px;
 	margin-left: 10px;
 	margin-right: 10px;
-	padding-top: 40px;
+	padding-top: -10px;
 }
 
 .login-label {
 	color: black;
 	text-align: right;
-	width: 40%;
+	width: 20%;
 }
 
 .login-field {
 	text-align: left;
-	width: 55%;
+	width: 40%;
 }
 
 .login-btn {
@@ -81,9 +82,12 @@ html,body {
 }
 
 .login-east-panel, .login-west-panel {
-	width: 350px;
-	background-color: #E0EAF7;
+	width: 1px;
+	background-color: #DDE3EB;
 	position: relative;
+	border-style: solid;
+	border-width: 1px;
+	border-color:#919191;
 }
 
 <%-- header --%>
@@ -107,21 +111,29 @@ html,body {
 
 .toolbar {
 	padding: 0px;
+	height: 35px;
+}
+
+
+.toolbar-button{
+	padding-top:7px;
+	padding-bottom:7px;
+	padding-right:0px;
+	padding-left:5px;
 }
 
 .toolbar-button img {
 	width: 22px;
 	height: 22px;
-	padding: 0px 1px 0px 1px;
 	border-style: solid;
 	border-width: 1px;
 	border-color: transparent;
 }
 
 .embedded-toolbar-button img {
-	width: 16px;
-	height: 16px;
-	padding: 0px 1px 0px 1px;
+	width: 22px;
+	height: 22px;
+	<%--padding: 0px 1px 0px 1px;--%>
 	border-style: solid;
 	border-width: 1px;
 	border-color: transparent;
@@ -143,27 +155,31 @@ html,body {
 	background-position: bottom left;
 	background-color: white;
 	width: 100%;
-	height: 35px;
+	height: 80px;
 }
 
 .desktop-header-font {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 10px;
+	color: #FFFFFF;
 }
 
 <%-- button --%>
 .action-button {
-	height: 32px;
+	height: 15px;
 	width: 48px;
+	padding: 0px;
 }
 
 .action-text-button {
-	height: 32px;
+	height: 15px;
 	width: 80px;
+	padding: 0px;
 }
 
 .editor-button {
-	width: 26px;
+	width: 25px;
+	height:25px;
 	padding: 0px;
 }
 
@@ -197,15 +213,24 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 }
 
 .adwindow-status {
-	background-color: #E0EAF7;
-	height: 20px;
+	background-color: #DDE3EB;
+	color:black;
+	height: 25px;
+	padding-top: 0;
+	pdding-bottom: 0;
+<%--
+	background-image: url(../images/bar-bg.png);
+	background-repeat: repeat-x;
+	background-position: center left;
+--%>
 }
 
 .adwindow-nav {
+	width:110px;
 }
 
 .adwindow-left-nav {
-	border-right: 1px solid #7EAAC6;
+	border-right: 1px solid #919191;
 	border-left: none;
 }
 
@@ -215,12 +240,18 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 }
 
 .adwindow-nav-content {
-	background-color: #E0EAF7;
+	background-color: #FAFAFA;
 	height: 100%;
+	width:110px;
+	-moz-box-shadow: inset 0 0 5px #333;
+	-webkit-box-shadow: inset 0 0 5px#333;
+	box-shadow: inner 0 0 5px #333;
 }
 
 .adwindow-toolbar {
+	vertical-align: middle;
 	border: 0px;
+	height:39px;
 }
 
 .adwindow-navbtn-dis, .adwindow-navbtn-sel, .adwindow-navbtn-uns {
@@ -233,74 +264,95 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 .adwindow-navbtn-sel {
 	background-color: #9CBDFF;
 	font-weight: bold;
-	color: #274D5F;
+	color: #FFFFFF;
 	cursor: pointer;
-	border-top: 2px solid #7EAAC6;
-	border-bottom: 2px solid #7EAAC6;
+	border-top: none;
+	border-bottom: none;
 }
 
 .adwindow-left-navbtn-sel {
-	border-left: 2px solid #7EAAC6;
+	border-left: none;
 	border-right: none;
 	text-align: right;
 	-moz-border-radius-topleft: 5px;
 	-moz-border-radius-bottomleft: 5px;
 	-webkit-border-top-left-radius: 5px;
 	-webkit-border-bottom-left-radius: 5px;
-	background-color: #d1e7f6 !important;
+
+	-moz-box-shadow: 0 0 5px #333;
+	-webkit-box-shadow: 0 0 5px #333;
+	box-shadow: 0 0 5px #333;
+	
+
+	background-color: #0068c5 !important;
 	background-image: url(../images/adtab-left-bg.png);
-	background-repeat: repeat-y;
-	background-position: top right;
+	background-repeat: repeat-x;
+	background-position: top left;
 }
 
 .adwindow-right-navbtn-sel {
-	border-right: 2px solid #7EAAC6;
+	border-right: none;
 	border-left: none;
 	text-align: left;
 	-moz-border-radius-topright: 5px;
 	-moz-border-radius-bottomright: 5px;
 	-webkit-border-top-right-radius: 5px;
 	-webkit-border-bottom-right-radius: 5px;
-	background-color: #d1e7f6 !important;
+
+	-moz-box-shadow: 0 0 5px #333;
+	-webkit-box-shadow: 0 0 5px #333;
+	box-shadow: 0 0 5px #333;
+
+	background-color: #0068c5 !important;
 	background-image: url(../images/adtab-right-bg.png);
-	background-repeat: repeat-y;
+	background-repeat: repeat-x;
 	background-position: top left;
 }
 
 .adwindow-navbtn-uns {
 	background-color: #C4DCFB;
 	font-weight: normal;
-	color: #274D5F;
+	color: #000000;
 	cursor: pointer;
 }
 
 .adwindow-navbtn-dis {
-	background-color: #C4DCFB;
+	background-color: #AAAAAA;
 }
 
 .adwindow-navbtn-uns, .adwindow-navbtn-dis {
-	border-top: 1px solid #CCCCCC;
-	border-bottom: 1px solid #CCCCCC;
+	border-top: none;
+	border-bottom: none;
 }
 
 .adwindow-left-navbtn-uns, .adwindow-left-navbtn-dis {
-	border-left: 1px solid #CCCCCC;
+	background-image: url(../images/adtab-bg-uns.png);
+	border-left: none;
 	border-right: none;
 	text-align: right;
 	-moz-border-radius-topleft: 5px;
 	-moz-border-radius-bottomleft: 5px;
 	-webkit-border-top-left-radius: 5px;
 	-webkit-border-bottom-left-radius: 5px;
+
+	-moz-box-shadow: 0 0 5px #333;
+	-webkit-box-shadow: 0 0 5px #333;
+	box-shadow: 0 0 5px #333;
 }
 
 .adwindow-right-navbtn-uns, .adwindow-right-navbtn-dis {
-	border-right: 1px solid #CCCCCC;
+	background-image: url(../images/adtab-bg-uns.png);
+	border-right: none;
 	border-left: none;
 	text-align: left;
 	-moz-border-radius-topright: 5px;
 	-moz-border-radius-bottomright: 5px;
 	-webkit-border-top-right-radius: 5px;
 	-webkit-border-bottom-right-radius: 5px;
+
+	-moz-box-shadow: 0 0 5px #333;
+	-webkit-box-shadow: 0 0 5px #333;
+	box-shadow: 0 0 5px #333;
 }
 
 <%-- ad tab --%>
@@ -321,6 +373,8 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 	width: 100%;
 	height: 100%;
 	position: absolute;
+	background-color: #EDEDED;
+	
 }
 
 .adtab-grid-panel {
@@ -333,6 +387,7 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 .adtab-grid {
 	width: 100%;
 	position: absolute;
+	
 }
 
 .adtab-tabpanels {
@@ -341,12 +396,15 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 	border-bottom: 1px solid #9CBDFF;
 	border-left: 2px solid #9CBDFF;
 	border-right: 2px solid #9CBDFF;
+	
 }
 
 <%-- status bar --%>
 .status {
 	width: 100%;
-	height: 20px;
+	height: 25px;
+	padding-top: 0;
+	pdding-bottom: 0;
 }
 
 .status-db {
@@ -359,18 +417,56 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 	height: 100%;
 	margin: 0;
 	border-left: solid 1px #9CBDFF;
+	color:black;
+	font-weight: bold;
 }
 
 .status-info {
 	padding-right: 10px;
 	border-left: solid 1px #9CBDFF;
+	color:black;
+	font-weight: bold;
 }
 
 .status-border {
 	border: solid 1px #9CBDFF;
 }
 
-.form-button {
+.message-error{
+	background-color:#ffd7d7;
+}
+
+.message-error-text{
+	color: black; 
+	font-weight: bold;
+	margin-top:10px;
+}
+
+
+
+.message-info{
+	background-color:#DDE3EB;
+}
+
+.message-info-text{
+	color: black; 
+	font-weight: bold;
+}
+
+
+.message-warning{
+	background-color:yellow;
+}
+
+.message-warning-text{
+	color: black; 
+	font-weight: bold;
+}
+
+
+
+
+.form-button{
 	width: 99%;
 }
 
@@ -398,8 +494,13 @@ input:focus, textarea:focus, .z-combobox-inp:focus, z-datebox-inp:focus {
 }
 
 .mandatory-decorator-text {
-	text-decoration: none; font-size: xx-small; vertical-align: top; color:red;
+	text-decoration: none;  vertical-align: top; color:red;
+	font-weight: bold;
+	font-size: xx-small;
 }
+
+
+
 <%-- menu tree cell --%>
 div.z-tree-body td.menu-tree-cell {
 	cursor: pointer;
@@ -439,18 +540,4 @@ div.z-filetree-body td.menu-tree-cell {
 div.z-vfiletree-body td.menu-tree-cell {
 	cursor: pointer; padding: 0 2px;
 	font-size: ${fontSizeM}; font-weight: normal; overflow: visible;
-}
-
-<%-- FOCUSED FIELD in different color --%>
-
-.z-textbox-focus, .z-textbox-focus input,
-.z-decimalbox-focus, .z-decimalbox-focus input,
-.z-intbox-focus, .z-intbox-focus input,
-.z-longbox-focus, .z-longbox-focus input,
-.z-doublebox-focus, .z-doublebox-focus input,
-.z-combobox-focus .z-combobox-inp,
-.z-checkbox-focus .z-checkbox-inp,
-.z-datebox-focus .z-datebox-inp,
-.z-timebox-focus .z-timebox-inp {
-	background: #FFFFCC;
 }

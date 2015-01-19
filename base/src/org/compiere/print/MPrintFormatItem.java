@@ -526,7 +526,18 @@ public class MPrintFormatItem extends X_AD_PrintFormatItem
 		MPrintFormatItem.copyValues(this, to);
 		to.setClientOrg(To_Client_ID, 0);
 		to.setAD_PrintFormat_ID(AD_PrintFormat_ID);
-		to.save();
+		to.saveEx();
+		
+		if ( to.getAD_PrintFormatChild_ID() > 0 && to.getPrintFormatType().equals(MPrintFormatItem.PRINTFORMATTYPE_PrintFormat))
+ 		{
+			MPrintFormat child = (MPrintFormat) to.getAD_PrintFormatChild();
+			if ( child != null )
+			{
+				MPrintFormat childCopy = MPrintFormat.copyToClient(p_ctx, to.getAD_PrintFormatChild_ID(), To_Client_ID);
+				to.setAD_PrintFormatChild_ID(childCopy.getAD_PrintFormat_ID());
+				to.saveEx();
+			}
+		}
 		return to;
 	}	//	copyToClient
 

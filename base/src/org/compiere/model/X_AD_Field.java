@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Field
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_AD_Field extends PO implements I_AD_Field, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110831L;
+	private static final long serialVersionUID = 20150101L;
 
     /** Standard Constructor */
     public X_AD_Field (Properties ctx, int AD_Field_ID, String trxName)
@@ -48,6 +48,8 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 			setIsCentrallyMaintained (true);
 // Y
 			setIsDisplayed (true);
+// Y
+			setIsDisplayedGrid (true);
 // Y
 			setIsEncrypted (false);
 			setIsFieldOnly (false);
@@ -385,30 +387,6 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 		return (String)get_Value(COLUMNNAME_Help);
 	}
 
-	/** Set Hide in list view.
-		@param HideInListView 
-		When checked this field will be hidden by default in list view
-	  */
-	public void setHideInListView (boolean HideInListView)
-	{
-		set_Value (COLUMNNAME_HideInListView, Boolean.valueOf(HideInListView));
-	}
-
-	/** Get Hide in list view.
-		@return When checked this field will be hidden by default in list view
-	  */
-	public boolean isHideInListView () 
-	{
-		Object oo = get_Value(COLUMNNAME_HideInListView);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	public org.compiere.model.I_AD_Tab getIncluded_Tab() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_Tab)MTable.get(getCtx(), org.compiere.model.I_AD_Tab.Table_Name)
@@ -454,6 +432,30 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 		return (String)get_Value(COLUMNNAME_InfoFactoryClass);
 	}
 
+	/** Set Allow Copy.
+		@param IsAllowCopy 
+		Defines whether the value of this field is considered in the copy of record
+	  */
+	public void setIsAllowCopy (boolean IsAllowCopy)
+	{
+		set_Value (COLUMNNAME_IsAllowCopy, Boolean.valueOf(IsAllowCopy));
+	}
+
+	/** Get Allow Copy.
+		@return Defines whether the value of this field is considered in the copy of record
+	  */
+	public boolean isAllowCopy () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsAllowCopy);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Centrally maintained.
 		@param IsCentrallyMaintained 
 		Information maintained in System Element table
@@ -493,6 +495,54 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	public boolean isDisplayed () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsDisplayed);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Displayed in Grid.
+		@param IsDisplayedGrid 
+		Determines, if this field is displayed in grid view
+	  */
+	public void setIsDisplayedGrid (boolean IsDisplayedGrid)
+	{
+		set_Value (COLUMNNAME_IsDisplayedGrid, Boolean.valueOf(IsDisplayedGrid));
+	}
+
+	/** Get Displayed in Grid.
+		@return Determines, if this field is displayed in grid view
+	  */
+	public boolean isDisplayedGrid () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsDisplayedGrid);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Is Embedded.
+		@param IsEmbedded 
+		When checked of include tab is embedded
+	  */
+	public void setIsEmbedded (boolean IsEmbedded)
+	{
+		set_Value (COLUMNNAME_IsEmbedded, Boolean.valueOf(IsEmbedded));
+	}
+
+	/** Get Is Embedded.
+		@return When checked of include tab is embedded
+	  */
+	public boolean isEmbedded () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsEmbedded);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -734,6 +784,26 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	public int getSeqNo () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_SeqNo);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Grid Sequence.
+		@param SeqNoGrid 
+		Method of ordering records; lowest number comes first
+	  */
+	public void setSeqNoGrid (int SeqNoGrid)
+	{
+		set_Value (COLUMNNAME_SeqNoGrid, Integer.valueOf(SeqNoGrid));
+	}
+
+	/** Get Grid Sequence.
+		@return Method of ordering records; lowest number comes first
+	  */
+	public int getSeqNoGrid () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_SeqNoGrid);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

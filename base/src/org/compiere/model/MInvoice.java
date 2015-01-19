@@ -2202,15 +2202,15 @@ public class MInvoice extends X_C_Invoice implements DocAction
 			MAllocationLine aLine = new MAllocationLine (alloc, gt,
 				Env.ZERO, Env.ZERO, Env.ZERO);
 			aLine.setC_Invoice_ID(getC_Invoice_ID());
-			aLine.save();
+			aLine.saveEx();
 			//	Reversal Line
 			MAllocationLine rLine = new MAllocationLine (alloc, gt.negate(),
 				Env.ZERO, Env.ZERO, Env.ZERO);
 			rLine.setC_Invoice_ID(reversal.getC_Invoice_ID());
-			rLine.save();
+			rLine.saveEx();
 			//	Process It
 			if (alloc.processIt(DocAction.ACTION_Complete))
-				alloc.save();
+				alloc.saveEx();
 		}
 
 		// After reverseCorrect

@@ -29,11 +29,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.compiere.model.MUser;
+import org.adempiere.exceptions.AdempiereException;
+import org.apache.commons.codec.binary.Base64;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
-
-import org.apache.commons.codec.binary.Base64; 
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Login;
 
 /**
  * 	Adempiere Monitor Filter.
@@ -145,19 +146,23 @@ public class AdempiereMonitorFilter implements Filter
 			int index = namePassword.indexOf(':');
 			String name = namePassword.substring(0, index);
 			String password = namePassword.substring(index+1);
-			MUser user = MUser.get(Env.getCtx(), name, password);
-			if (user == null)
-			{
-				log.warning ("User not found: '" + name + "/" + password + "'");
-				return false;
-			}
-			if (!user.isAdministrator())
-			{
-				log.warning ("Not a Sys Admin = " + name);
-				return false;
-			}
-			log.info ("Name=" + name);
-			return true;
+            Login login = new Login(Env.getCtx());
+            KeyNamePair rolesKNPairs[] = login.getRoles(name, password);
+            if(rolesKNPairs == null || rolesKNPairs.length == 0)
+                throw new AdempiereException("@UserPwdError@");
+
+            for (KeyNamePair keyNamePair : rolesKNPairs)
+            {
+                 if ("System Administrator".equals(keyNamePair.getName()))
+                 {
+                     log.info ("Name=" + name);
+                     return true;
+                 }
+            }
+
+            log.warning ("Not a Sys Admin = " + name);
+            return false;
+
 		}
 		catch (Exception e)
 		{

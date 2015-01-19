@@ -43,4 +43,16 @@
 			<context-root>/webui</context-root>
 		</web>
 	</module>
+	<module>
+		<web>
+			<web-uri>mobile.war</web-uri>
+			<context-root>/mobile</context-root>
+		</web>
+	</module>
+	<module>
+		<web>
+			<web-uri>ADInterface-1.0.war</web-uri>
+			<context-root>/ADInterface</context-root>
+		</web>
+	</module>
 </application>

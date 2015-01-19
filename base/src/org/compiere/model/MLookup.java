@@ -263,6 +263,10 @@ public final class MLookup extends Lookup implements Serializable
 		}
 	}   //  containsKey
 
+	public MLookupInfo getLookupInfo() {
+		return m_info;
+	}
+	
 	/**
 	 * @return  a string representation of the object.
 	 */
@@ -796,5 +800,14 @@ public final class MLookup extends Lookup implements Serializable
 			MLookupCache.loadEnd (m_info, m_lookup);
 		}	//	run
 	}	//	Loader
+	
+	public String getTableName() {
+		return m_info.TableName;
+	}
+
+	public boolean isAlert() {
+		return m_info.IsAlert;
+	}
+
 
 }	//	MLookup

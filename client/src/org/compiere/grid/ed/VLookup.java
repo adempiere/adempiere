@@ -27,6 +27,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
@@ -56,6 +57,7 @@ import org.compiere.apps.search.InfoFactory;
 import org.compiere.apps.search.InfoProduct;
 import org.compiere.model.GridField;
 import org.compiere.model.Lookup;
+import org.compiere.model.MBPartner;
 import org.compiere.model.MColumn;
 import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MLookup;
@@ -74,6 +76,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 import org.compiere.util.NamePair;
+import org.compiere.util.Trx;
 import org.compiere.util.ValueNamePair;
 import org.eevolution.model.I_PP_Product_BOMLine;
 
@@ -100,6 +103,10 @@ import org.eevolution.model.I_PP_Product_BOMLine;
  *  @author hengsin, hengsin.low@idalica.com
  *  @see FR [2887701] https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2887701&group_id=176962
  *  @sponsor www.metas.de
+ * 
+ * @author Michael McKay, 
+ * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
+ * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
  */
 public class VLookup extends JComponent
 	implements VEditor, ActionListener, FocusListener
@@ -247,12 +254,27 @@ public class VLookup extends JComponent
 	{
 		super();
 		super.setName(columnName);
-		m_combo.setName(columnName);
+		
+		int windowNo = 0;
+		m_text.setName("VLookup Text - " + columnName);
+		m_button.setName("VLookup Button - " + columnName);
+		m_combo.setName("VLookup Combo - " + columnName);
 		m_columnName = columnName;
 		setMandatory(mandatory);
 		m_lookup = lookup;
 		if (m_lookup != null)
+		{
 			m_lookup.setMandatory(mandatory);
+			windowNo = m_lookup.getWindowNo();
+		}
+		//
+		if(!hasSearchableColumns()) // No known searchable columns
+		{
+			m_enableInfo = false;
+		}
+		//  Set default m_isSOTrx from context
+		if (Env.getContext(Env.getCtx(), windowNo, "IsSOTrx").equals("N"))
+			m_isSOTrx = false;				
 		//
 		setLayout(new BorderLayout());
 		mouseAdapter = new VLookup_mouseAdapter(this);    //  popup
@@ -276,6 +298,7 @@ public class VLookup extends JComponent
 		//	*** VComboBox	***
 		if (m_lookup != null && m_lookup.getDisplayType() != DisplayType.Search)	//	No Search
 		{
+			m_combo.setName("VLookup Combo");
 			//  Don't have to fill up combobox if it is readonly
 			if (!isReadOnly && isUpdateable)
 				m_lookup.fillComboBox (isMandatory(), true, true, false);
@@ -289,19 +312,31 @@ public class VLookup extends JComponent
 			m_combo.getEditor().getEditorComponent().addFocusListener(this);
 		}
 
+		//  Setup the user interface display 
 		setUI (true);
+		
 		//	ReadWrite	-	decides what components to show
 		if (isReadOnly || !isUpdateable || m_lookup == null)
 			setReadWrite(false);
 		else
 			setReadWrite(true);
+		
+		// If mandatory, make sure something is selected.
+		if (isMandatory() && m_combo.getItemCount() > 0)
+			m_combo.setSelectedIndex(0);
 
-		//	Popup
+		//	Create the Popup Menu
 		if (m_lookup != null)
 		{
 			if ((m_lookup.getDisplayType() == DisplayType.List && Env.getContextAsInt(Env.getCtx(), "#AD_Role_ID") == 0)
 				|| m_lookup.getDisplayType() != DisplayType.List)     //  only system admins can change lists, so no need to zoom for others
 			{
+				if(m_enableInfo  &&  !m_hasButton)  //  Enable the info window from the pop-up menu if there is no button
+				{
+					mInfo = new CMenuItem(Msg.getMsg(Env.getCtx(), "Info"), Env.getImageIcon("Info16.gif"));
+					mInfo.addActionListener(this);
+					popupMenu.add(mInfo);
+				}
 				mZoom = new CMenuItem(Msg.getMsg(Env.getCtx(), "Zoom"), Env.getImageIcon("Zoom16.gif"));
 				mZoom.addActionListener(this);
 				popupMenu.add(mZoom);
@@ -324,6 +359,8 @@ public class VLookup extends JComponent
 		//
 		if (m_lookup != null && m_lookup.getZoom() == 0)
 			mZoom.setEnabled(false);
+		
+		set_oldValue();
 	}	//	VLookup
 
 	/**
@@ -374,11 +411,24 @@ public class VLookup extends JComponent
 	private boolean				m_comboActive = true;
 	/** The Value								*/
 	private Object				m_value;
+	/** The old Value - for comparison at future points in time.	*/
+	private Object				m_oldValue;
+	/** Enable Info								*/
+	private boolean				m_enableInfo = true;
+	/** Is a button displayed?					*/
+	private boolean				m_hasButton = false;
+	/** Override context for sales transactions */
+	private boolean				m_isSOTrxEnvOverride = false;
+	/** Context for sales transactions */
+	private boolean 			m_isSOTrx = true;     //  default
+	/** Does the selected record match the context? */
+	private boolean 			m_isSOMatch = true;
 
 	private boolean 			m_stopediting = false;
 
 	//	Popup
 	JPopupMenu 					popupMenu = new JPopupMenu();
+	private CMenuItem			mInfo;
 	private CMenuItem 			mZoom;
 	private CMenuItem 			mRefresh;
 	private CMenuItem			mBPartnerNew;
@@ -412,31 +462,47 @@ public class VLookup extends JComponent
 		}
 
 		//	What to show
-		this.remove(m_combo);
+		this.remove(m_combo);  //  Need to attach m_combo to a parent for event processing in info panels.
 		this.remove(m_button);
 		this.remove(m_text);
+		
 		//
-		if (!isReadWrite())									//	r/o - show text only
+		if (!isReadWrite())									
 		{
+			//	r/o - show text & button only
 			LookAndFeel.installBorder(this, "TextField.border");
 			this.add(m_text, BorderLayout.CENTER);
+			this.add(m_combo, BorderLayout.SOUTH);  //  Need to attache m_combo to "this" so it has a parent
+			if (m_enableInfo && (m_lookup == null || m_lookup.getDisplayType() == DisplayType.Search))
+			{
+				this.add(m_button, BorderLayout.EAST);
+				m_hasButton = true;
+			}
 			m_text.setReadWrite(false);
 			m_combo.setReadWrite(false);
+			m_combo.setVisible(false);
 			m_comboActive = false;
 		}
 		else if (m_lookup != null && m_lookup.getDisplayType() != DisplayType.Search)	    //	show combo if not Search
 		{
 			this.setBorder(null);
 			this.add(m_combo, BorderLayout.CENTER);
+			m_combo.setVisible(true);
 			m_comboActive = true;
 		}
 		else 												//	Search or unstable - show text & button
 		{
 			LookAndFeel.installBorder(this, "TextField.border");
 			this.add(m_text, BorderLayout.CENTER);
-			this.add(m_button, BorderLayout.EAST);
+			if(m_enableInfo)
+			{
+				this.add(m_button, BorderLayout.EAST);
+				m_hasButton = true;
+			}
 			m_text.setReadWrite (true);
+			m_combo.setVisible(false);
 			m_comboActive = false;
+			this.add(m_combo, BorderLayout.SOUTH);
 		}
 	}   //  setUI
 
@@ -493,6 +559,15 @@ public class VLookup extends JComponent
 	{
 		return m_combo.isMandatory();
 	}	//	isMandatory
+
+	/**
+	 *	Is Value Being Set
+	 *  @return true if value is being set
+	 */
+	public boolean isValueBeingSet()
+	{
+		return m_settingValue;
+	}	//	isValueBeingSet
 
 	/**
 	 *	Set Background
@@ -653,6 +728,17 @@ public class VLookup extends JComponent
 	}	//	getValue
 
 	/**
+	 *	Return combobox component 
+	 *  @return combobox or null
+	 */
+	public Object getCombo()
+	{
+		if (m_comboActive)
+			return m_combo;
+		return null;
+	}	//	getValue
+
+	/**
 	 *  Return editor display
 	 *  @return display value
 	 */
@@ -683,6 +769,13 @@ public class VLookup extends JComponent
 		
 		if (m_mField != null)
 			FieldRecordInfo.addMenu(this, popupMenu);
+		
+		if (mField != null && mField.isAutocomplete()
+				&& m_lookup instanceof MLookup
+				&& m_lookup.getDisplayType() == DisplayType.Search)
+		{
+			enableLookupAutocomplete();
+		}
 	}   //  setField
 
 	@Override
@@ -698,7 +791,7 @@ public class VLookup extends JComponent
 	{
 		if (m_settingValue || m_settingFocus || m_stopediting)
 			return;
-		log.config(m_columnName + " - " + e.getActionCommand() + ", ComboValue=" + m_combo.getSelectedItem());
+		log.config(m_columnName + " - " + e.getActionCommand() + ", ComboValue=" + m_combo.getSelectedItem() + ", TextValue=" + m_text.getDisplay());
 	//	log.fine("Hash=" + this.hashCode());
 
 		//  Preference
@@ -729,6 +822,7 @@ public class VLookup extends JComponent
 					value = null;
 				}
 			}
+			
 			actionCombo (value);                //  data binding
 		}
 		//  Button pressed
@@ -739,6 +833,8 @@ public class VLookup extends JComponent
 			actionText();
 
 		//  Popup Menu
+		else if (e.getSource() == mInfo)
+			actionButton("");
 		else if (e.getSource() == mZoom)
 			actionZoom(m_combo.getSelectedItem());
 		else if (e.getSource() == mRefresh)
@@ -760,6 +856,16 @@ public class VLookup extends JComponent
 	}   //  addActionListener
 
 	/**
+	 *  Item Listener Interface
+	 *  @param listener listener
+	 */
+	public void addItemListener(ItemListener listener)
+	{
+		m_combo.addItemListener(listener);
+	}   //  addItemListener
+
+
+	/**
 	 *	Action - Combo.
 	 *  <br>
 	 *	== dataBinding == inform of new value
@@ -773,8 +879,9 @@ public class VLookup extends JComponent
 	 *  </pre>
 	 *  @param value new value
 	 */
-	private void actionCombo (Object value)
+	protected void actionCombo (Object value)
 	{
+		
 		log.fine("Value=" + value);
 		try
 		{
@@ -807,7 +914,7 @@ public class VLookup extends JComponent
 			// phib: the following check causes the update to fail on jre > 1.6.0_13
 			// commenting out as it does not appear to be necessary
 			//if (getListeners(PropertyChangeListener.class).length <= 0)
-				setValue(updatedValue);
+				setValue(updatedValue);				
 		}
 	}	//	actionCombo
 
@@ -819,6 +926,7 @@ public class VLookup extends JComponent
 	 */
 	private void actionButton (String queryValue)
 	{
+		
 		m_button.setEnabled(false);                 //  disable double click
 		if (m_lookup == null)
 			return;		//	leave button disabled
@@ -829,12 +937,13 @@ public class VLookup extends JComponent
 		 *  Three return options:
 		 *  - Value Selected & OK pressed   => store result => result has value
 		 *  - Cancel pressed                => store null   => result == null && cancelled
-		 *  - Window closed                 -> ignore       => result == null && !cancalled
+		 *  - Window closed                 -> ignore       => result == null && !cancelled
 		 */
 
 		Object result[] = null;
 		boolean cancelled = false;
 		boolean multipleSelection = false;
+		int record_id = 0;
 		//
 		String col = m_lookup.getColumnName();		//	fully qualified name
 		if (col.indexOf('.') != -1)
@@ -846,6 +955,18 @@ public class VLookup extends JComponent
 			+ ", Zoom=" + m_lookup.getZoom()
 			+ " (" + whereClause + ")");
 		//
+		//  If the record has a value (ID) find the name.  The displayed text could be different.
+		if (queryValue.length() == 0 && getValue() != null && !getValue().equals(""))
+		{
+			Object currentValue = getValue();
+			try{
+				record_id = ((Number)currentValue).intValue();
+				queryValue = "";
+			} catch (Exception e) {
+				//  Can't cast the string "" to a number.
+			}
+		}
+		//
 		boolean resetValue = false;	//	reset value so that is always treated as new entry
 		String infoFactoryClass = m_lookup.getInfoFactoryClass();
 		if (infoFactoryClass != null && infoFactoryClass.trim().length() > 0)
@@ -854,9 +975,16 @@ public class VLookup extends JComponent
 				Class<InfoFactory> clazz = (Class<InfoFactory>)this.getClass().getClassLoader().loadClass(infoFactoryClass);
 				InfoFactory factory = clazz.newInstance();
 				if (m_tableName == null)	//	sets table name & key column
-					getDirectAccessSQL("*");
+				{
+					if(!hasSearchableColumns()){
+						// Search should have been disabled for this field.
+						log.severe("Search enabled on field " + m_columnName + ". Associated table has no standard/identifier columns.");
+						return;
+					}
+				}
+				// multipleSelection assumed false for custom info windows
 				Info ig = factory.create (frame, true, m_lookup.getWindowNo(),
-					m_tableName, m_keyColumnName, queryValue, false, whereClause);
+					m_tableName, m_keyColumnName, record_id, queryValue, multipleSelection, whereClause);
 				ig.setVisible(true);
 				cancelled = ig.isCancelled();
 				result = ig.getSelectedKeys();
@@ -868,21 +996,22 @@ public class VLookup extends JComponent
 		{
 			//	Reset
 			resetTabInfo();
-			//  Replace Value with name if no value exists
-			if (queryValue.length() == 0 && m_text.getText().length() > 0)
-				queryValue = "@" + m_text.getText() + "@";   //  Name indicator - otherwise Value
+			//
 			int M_Warehouse_ID = Env.getContextAsInt(Env.getCtx(), m_lookup.getWindowNo(), "M_Warehouse_ID");
 			int M_PriceList_ID = Env.getContextAsInt(Env.getCtx(), m_lookup.getWindowNo(), "M_PriceList_ID");
-
+			//
 			if(m_mField != null)
 			{
-			int AD_Table_ID = MColumn.getTable_ID(Env.getCtx(), m_mField.getAD_Column_ID(), null);
-
-			multipleSelection = (MOrderLine.Table_ID ==  AD_Table_ID) || (MInvoiceLine.Table_ID == AD_Table_ID) || (I_PP_Product_BOMLine.Table_ID == AD_Table_ID) || (MProductPrice.Table_ID == AD_Table_ID);
+				int AD_Table_ID = MColumn.getTable_ID(Env.getCtx(), m_mField.getAD_Column_ID(), null);
+				// TODO hard-coded - add to AD_Column?
+				multipleSelection = (MOrderLine.Table_ID ==  AD_Table_ID) || 
+									(MInvoiceLine.Table_ID == AD_Table_ID) || 
+									(I_PP_Product_BOMLine.Table_ID == AD_Table_ID) || 
+									(MProductPrice.Table_ID == AD_Table_ID);
 			}
 			//	Show Info
 			InfoProduct ip = new InfoProduct (frame, true, m_lookup.getWindowNo(),
-				M_Warehouse_ID, M_PriceList_ID, queryValue, multipleSelection, whereClause);
+				M_Warehouse_ID, M_PriceList_ID, record_id, queryValue, multipleSelection, true, whereClause);
 			ip.setVisible(true);
 			cancelled = ip.isCancelled();
 			result = ip.getSelectedKeys();
@@ -890,57 +1019,78 @@ public class VLookup extends JComponent
 		}
 		else if (col.equals("C_BPartner_ID"))
 		{
-			//  Replace Value with name if no value exists
-			if (queryValue.length() == 0 && m_text.getText().length() > 0)
-				queryValue = m_text.getText();
-			boolean isSOTrx = true;     //  default
-			if (Env.getContext(Env.getCtx(), m_lookup.getWindowNo(), "IsSOTrx").equals("N"))
-				isSOTrx = false;
-			InfoBPartner ip = new InfoBPartner (frame, true, m_lookup.getWindowNo(),
-				queryValue, isSOTrx, multipleSelection, whereClause);
+			resetTabInfo();
+			//
+			setIsSOTrx(m_isSOTrxEnvOverride, false);
+			//  If we have a record id, set isSOMatch
+			if (record_id > 0)
+			{
+				String trxName = Trx.createTrxName();
+				MBPartner bp = new MBPartner(Env.getCtx(), record_id, trxName);
+				m_isSOMatch = (m_isSOTrx && bp.isCustomer()) || (!m_isSOTrx && bp.isVendor());
+				Trx.get(trxName, false).close();
+			}
+			//
+			InfoBPartner ip = new InfoBPartner (frame, true, m_lookup.getWindowNo(), record_id,
+				queryValue, m_isSOTrx, m_isSOMatch, multipleSelection, true, whereClause);
 			ip.setVisible(true);
 			cancelled = ip.isCancelled();
 			result = ip.getSelectedKeys();
 		}
 		else	//	General Info
 		{
-			if (m_tableName == null)	//	sets table name & key column
-				getDirectAccessSQL("*");
-			Info ig = Info.create (frame, true, m_lookup.getWindowNo(),
-				m_tableName, m_keyColumnName, queryValue, multipleSelection, whereClause);
+			if (m_tableName == null)
+			{	//	sets table name & key column
+				String rsql = getDirectAccessSQL("*");
+				if(rsql == null || rsql.length() == 0)
+				{
+					m_button.setEnabled(false);
+					return;
+				}
+			}
+			//
+			Info ig = Info.create (frame, true, m_lookup.getWindowNo(), m_tableName, 
+					m_keyColumnName, record_id, queryValue, multipleSelection, true, whereClause);
 			ig.setVisible(true);
 			cancelled = ig.isCancelled();
 			result = ig.getSelectedKeys();
 		}
-
-		//  Result
-		if (result != null && result.length > 0)
+		
+		if(isReadWrite())
 		{
-			log.config(m_columnName + " - Result = " + result.toString() + " (" + result.getClass().getName() + ")");
-			//  make sure that value is in cache
-			m_lookup.getDirect(result[0], false, true);
-			if (resetValue)
-				actionCombo (null);
-			// juddm added logic for multi-select handling
-			if (result.length > 1)
-				actionCombo (result);	//	data binding
+			//  Result
+			if (result != null && result.length > 0)
+			{
+				log.config(m_columnName + " - Result = " + result.toString() + " (" + result.getClass().getName() + ")");
+				//  make sure that value is in cache
+				m_lookup.getDirect(result[0], false, true);
+				if (resetValue)
+					actionCombo (null);
+				// juddm added logic for multi-select handling
+				if (result.length > 1)
+					actionCombo (result);	//	data binding
+				else
+					actionCombo (result[0]);
+	
+			}
+			else if (cancelled)
+			{
+				log.config(m_columnName + " - Result = null (cancelled)");
+				actionCombo(null);
+			}
 			else
-				actionCombo (result[0]);
-
-		}
-		else if (cancelled)
-		{
-			log.config(m_columnName + " - Result = null (cancelled)");
-			actionCombo(null);
+			{
+				log.config(m_columnName + " - Result = null (not cancelled)");
+				setValue(m_value);      //  to re-display value
+			}
+			//
+			m_text.requestFocus();
 		}
 		else
-		{
-			log.config(m_columnName + " - Result = null (not cancelled)");
-			setValue(m_value);      //  to re-display value
-		}
-		//
+			log.config(m_columnName + " - Field not writable.  No change.");
+		
 		m_button.setEnabled(true);
-		m_text.requestFocus();
+
 	}	//	actionButton
 
 	/**
@@ -978,45 +1128,6 @@ public class VLookup extends JComponent
 	}	//	getWhereClause
 
 	/**
-	 *
-	 *
-	 *
-	 */
-	private String getExtraWhereClause (String text)
-	{
-		StringBuffer sql = new StringBuffer();
-		m_tableName = m_columnName.substring(0, m_columnName.length()-3);
-		m_keyColumnName = m_columnName;
-		//
-		if (m_columnName.equals("M_Product_ID"))
-		{
-			//	Reset
-			resetTabInfo();
-			//
-			sql.append(" AND (UPPER(p.Value) LIKE ")
-				.append(DB.TO_STRING(text))
-				.append(" OR UPPER(p.Name) LIKE ").append(DB.TO_STRING(text))
-				.append(" OR p.SKU LIKE ").append(DB.TO_STRING(text)).append(")");
-				//.append(" OR p.SKU LIKE ").append(DB.TO_STRING(text))
-				//.append(" OR p.UPC LIKE ").append(DB.TO_STRING(text)).append(")");
-		}
-				//	Predefined
-		/*
-		if (sql.length() > 0)
-		{
-			String wc = getWhereClause();
-			if (wc != null && wc.length() > 0)
-				sql.append(" AND ").append(wc);
-			sql.append(" AND IsActive='Y'");
-			//	***
-			log.finest(m_columnName + " (predefined) " + sql.toString());
-			return MRole.getDefault().addAccessSQL(sql.toString(),
-				m_tableName, MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
-		}*/
-
-		return sql.toString();
-	}
-	/**
 	 *	Check, if data returns unique entry, otherwise involve Info via Button
 	 */
 	private void actionText()
@@ -1040,7 +1151,13 @@ public class VLookup extends JComponent
 		//	Exact first
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String finalSQL = Msg.parseTranslation(Env.getCtx(), getDirectAccessSQL(text));
+		String rSQL = getDirectAccessSQL(text);
+		if(rSQL == null || rSQL.length() == 0){
+			// Search should have been disabled for this field.
+			log.severe("Search enabled on field " + m_columnName + ". Associated table has no standard/identifier columns.");
+			return;
+		}
+		String finalSQL = Msg.parseTranslation(Env.getCtx(), rSQL);
 		int id = -3;
 		try
 		{
@@ -1063,10 +1180,15 @@ public class VLookup extends JComponent
 			rs = null; pstmt = null;
 		}
 		//	Try like
-		if (id == -3 && !text.endsWith("%"))
+		if (id == -3)
 		{
-			text += "%";
-			finalSQL = Msg.parseTranslation(Env.getCtx(), getDirectAccessSQL(text));
+			rSQL = getDirectAccessSQL(Info.getSQLText(text));
+			if(rSQL == null || rSQL.length() == 0){
+				// Search should have been disabled for this field.
+				log.severe("Search enabled on field " + m_columnName + ". Associated table has no standard/identifier columns.");
+				return;
+			}
+			finalSQL = Msg.parseTranslation(Env.getCtx(), rSQL);
 			try
 			{
 				pstmt = DB.prepareStatement(finalSQL, null);
@@ -1118,9 +1240,65 @@ public class VLookup extends JComponent
 	private String		m_keyColumnName = null;
 
 	/**
+	 * 	Determines if the lookup has searchable (text) fields.	
+	 */
+	private boolean hasSearchableColumns()
+	{
+		boolean retValue = false;
+
+		m_tableName = MQuery.getZoomTableName(m_columnName);
+		m_keyColumnName = MQuery.getZoomColumnName(m_columnName);
+
+		if (   m_columnName.equals("M_Product_ID") 
+		    || m_columnName.equals("M_ProductBOM_ID")
+			|| m_columnName.equals("C_BPartner_ID")
+			|| m_columnName.equals("C_Order_ID")
+			|| m_columnName.equals("C_Invoice_ID")
+			|| m_columnName.equals("M_InOut_ID")
+			|| m_columnName.equals("C_Payment_ID")
+			|| m_columnName.equals("GL_JournalBatch_ID")
+			|| m_columnName.equals("SalesRep_ID"))
+		{
+			retValue = true;
+		}
+		else
+		{
+			/** Check Well Known Columns of Table - assumes TableDir	**/
+			String query = "SELECT t.TableName, c.ColumnName "
+				+ "FROM AD_Column c "
+				+ " INNER JOIN AD_Table t ON (c.AD_Table_ID=t.AD_Table_ID AND t.IsView='N')"
+				+ " WHERE (c.ColumnName IN ('DocumentNo', 'Value', 'Name') OR c.IsIdentifier='Y')"
+				+ " AND c.AD_Reference_ID IN (10,14)"
+				+ " AND EXISTS (SELECT * FROM AD_Column cc WHERE cc.AD_Table_ID=t.AD_Table_ID"
+					+ " AND cc.IsKey='Y' AND cc.ColumnName=?)";
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			try
+			{
+				pstmt = DB.prepareStatement(query, null);
+				pstmt.setString(1, m_keyColumnName);
+				rs = pstmt.executeQuery();
+				if (rs.next())
+				{
+					retValue = true;
+				}
+			}
+			catch (SQLException ex)
+			{
+				log.log(Level.SEVERE, query, ex);
+			}
+			finally
+			{
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
+			}
+		}
+		return retValue;
+	}
+	
+	/**
 	 * 	Generate Access SQL for Search.
 	 * 	The SQL returns the ID of the value entered
-	 * 	Also sets m_tableName and m_keyColumnName
 	 *	@param text uppercase text for LIKE comparison
 	 *	@return sql or ""
 	 *  Example
@@ -1129,25 +1307,34 @@ public class VLookup extends JComponent
 	private String getDirectAccessSQL (String text)
 	{
 		StringBuffer sql = new StringBuffer();
-		m_tableName = MQuery.getZoomTableName(m_columnName);
-		m_keyColumnName = MQuery.getZoomColumnName(m_columnName);
 		//
 		if (m_columnName.equals("M_Product_ID"))
 		{
-			//	Reset
-			resetTabInfo();
-			//
-			sql.append("SELECT M_Product_ID FROM M_Product WHERE (UPPER(Value) LIKE ")
-				.append(DB.TO_STRING(text))
-				.append(" OR UPPER(Name) LIKE ").append(DB.TO_STRING(text))
-				.append(" OR SKU LIKE ").append(DB.TO_STRING(text))
-				.append(" OR UPC LIKE ").append(DB.TO_STRING(text)).append(")");
+			sql.append("SELECT M_Product_ID FROM M_Product WHERE (");
+			if (text.startsWith("@") && text.endsWith("@"))
+			{
+				sql.append("UPPER(Name) LIKE  ")
+					.append(DB.TO_STRING(text.substring(1,text.length()-1))).append(")");
+			}
+			else
+			{
+				sql.append("UPPER(Value) LIKE ").append(DB.TO_STRING(text))
+					.append(" OR UPPER(Name) LIKE ").append(DB.TO_STRING(text))
+					.append(" OR UPPER(SKU) LIKE ").append(DB.TO_STRING(text))
+					.append(" OR UPPER(UPC) LIKE ").append(DB.TO_STRING(text)).append(")");
+			}
 		}
 		else if (m_columnName.equals("C_BPartner_ID"))
 		{
-			sql.append("SELECT C_BPartner_ID FROM C_BPartner WHERE (UPPER(Value) LIKE ")
-				.append(DB.TO_STRING(text))
-				.append(" OR UPPER(Name) LIKE ").append(DB.TO_STRING(text)).append(")");
+			sql.append("SELECT C_BPartner_ID FROM C_BPartner WHERE (");
+			//	Put query string in Name if not fully numeric
+    		if (!text.matches(".*\\D+.*")) // If text has no non-digit characters ...
+    			//  search against the Value field
+				sql.append("UPPER(Value) LIKE ").append(DB.TO_STRING(text));
+    		else
+    			// A few non-digit characters might be in the name. E.g. 451Group, 1st Choice, ...
+    			sql.append("UPPER(Name) LIKE ").append(DB.TO_STRING(text)); 
+			sql.append(")");
 		}
 		else if (m_columnName.equals("C_Order_ID"))
 		{
@@ -1249,7 +1436,7 @@ public class VLookup extends JComponent
 			}	//	Table Reference
 		}	//	MLookup
 
-		/** Check Well Known Columns of Table - assumes TableDir	**/
+		// Check Well Known Columns of Table - assumes TableDir
 		String query = "SELECT t.TableName, c.ColumnName "
 			+ "FROM AD_Column c "
 			+ " INNER JOIN AD_Table t ON (c.AD_Table_ID=t.AD_Table_ID AND t.IsView='N') "
@@ -1282,10 +1469,10 @@ public class VLookup extends JComponent
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
 		}
-		//
+		// Return null if nothing found.
 		if (sql.length() == 0)
 		{
-			log.log(Level.SEVERE, m_columnName + " (TableDir) - no standard/identifier columns");
+			log.finest(m_columnName + " (TableDir) - no standard/identifier columns");
 			return "";
 		}
 		//
@@ -1563,6 +1750,11 @@ public class VLookup extends JComponent
 		//	Combo lost focus
 		if (e.getSource() != m_combo && e.getSource() != m_combo.getEditor().getEditorComponent())
 			return;
+
+		//  Advise listeners of the change.
+		ActionEvent evt = new ActionEvent(this, 0, "vlookup-update");
+		processEvent(evt);
+
 		if (m_lookup.isValidated() && !m_lookup.hasInactive())
 		{
 			m_haveFocus = false;
@@ -1615,13 +1807,19 @@ public class VLookup extends JComponent
 	{
 		if (this.m_lookup == null)
 			return;
-		String columnName = m_columnName;
 		//
-		// TODO : hardcoded
+		String col = m_lookup.getColumnName();		//	fully qualified name
+		if (col.indexOf('.') != -1)
+			col = col.substring(col.indexOf('.')+1);
+		// TODO : hard-coded
 		final String[] infoNames;
-		if ("M_Product_ID".equals(columnName))
+		if (col.equals("M_Product_ID"))
 		{
 			infoNames = new String[]{"M_Product_ID","M_AttributeSetInstance_ID","M_Locator_ID","M_Lookup_ID"};
+		}
+		else if (col.equals("C_BPartner_ID"))
+		{
+			infoNames = new String[]{"C_BPartner_ID","AD_User_ID","C_BPartner_Location_ID"};
 		}
 		else
 		{
@@ -1658,6 +1856,63 @@ public class VLookup extends JComponent
 	public void setStopEditing(boolean stopediting) {
 		m_stopediting = stopediting;
 	}
+	/**
+	 * Set the old value of the field.  For use in future comparisons.
+	 * The old value must be explicitly set though this call.
+	 * @param m_oldValue
+	 */
+	public void set_oldValue() {
+		this.m_oldValue = getValue();
+	}
+	/**
+	 * Get the old value of the field explicitly set in the past
+	 * @return
+	 */
+	public Object get_oldValue() {
+		return m_oldValue;
+	}
+	/**
+	 * Has the field changed over time?
+	 * @return true if the old value is different than the current.
+	 */
+	public boolean hasChanged() {
+		// Both or either could be null
+		if(getValue() != null)
+			if(m_oldValue != null)
+				return !m_oldValue.equals(getValue());
+			else
+				return true;
+		else  // getValue() is null
+			if(m_oldValue != null)
+				return true;
+			else
+				return false;
+	}
 
+	// ADEMPIERE-191
+	public void enableLookupAutocomplete()
+	{
+		if (m_lookup instanceof MLookup
+				&& m_lookup.getDisplayType() == DisplayType.Search)
+		{
+			new VLookupAutoCompleter(this.m_text, this, (MLookup) m_lookup);
+		}
+	}
+
+	
+	/**
+	 * @param override - true to override the environment, false to use environment
+	 * @param trx the m_isSOTrx to set
+	 */
+	public void setIsSOTrx(boolean override, boolean trx) {
+		m_isSOTrxEnvOverride = override;
+		if (m_isSOTrxEnvOverride)
+			m_isSOTrx = trx;
+		else
+			if (Env.getContext(Env.getCtx(), m_lookup.getWindowNo(), "IsSOTrx").equals("N"))
+				m_isSOTrx = false;
+			else
+				m_isSOTrx = true;
+	}
 
 }	//	VLookup

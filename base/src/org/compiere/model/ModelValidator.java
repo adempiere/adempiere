@@ -94,6 +94,8 @@ public interface ModelValidator
 	public static final int TIMING_BEFORE_POST = 15;
 	/** Called after document is posted */
 	public static final int TIMING_AFTER_POST = 16;
+
+	public static final int TIMING_PREPAREPOST = 17;
 	
 	// Correlation between constant events and list of event script model validators
 	public static String[] documentEventValidators = new String[] {
@@ -113,7 +115,8 @@ public interface ModelValidator
 		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_DocumentAfterReverseCorrect,  // TIMING_AFTER_REVERSECORRECT = 13
 		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_DocumentAfterReverseAccrual,  // TIMING_AFTER_REVERSEACCRUAL = 14
 		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_DocumentBeforePost,           // TIMING_BEFORE_POST = 15
-		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_DocumentAfterPost             // TIMING_AFTER_POST = 16
+		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_DocumentAfterPost,             // TIMING_AFTER_POST = 16
+		//X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_DocumentPreparePost            // TIMING_PreparePost = 17
 	};
 	
 	/**

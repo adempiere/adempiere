@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_MigrationStep
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.8.0
  */
 public interface I_AD_MigrationStep 
 {
@@ -75,7 +75,7 @@ public interface I_AD_MigrationStep
 	  */
 	public int getAD_Migration_ID();
 
-	public I_AD_Migration getAD_Migration() throws RuntimeException;
+	public org.compiere.model.I_AD_Migration getAD_Migration() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -103,7 +103,7 @@ public interface I_AD_MigrationStep
 	  */
 	public int getAD_Table_ID();
 
-	public I_AD_Table getAD_Table() throws RuntimeException;
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
 
     /** Column name Action */
     public static final String COLUMNNAME_Action = "Action";
@@ -190,6 +190,19 @@ public interface I_AD_MigrationStep
 	  * The record is active in the system
 	  */
 	public boolean isActive();
+
+    /** Column name Parse */
+    public static final String COLUMNNAME_Parse = "Parse";
+
+	/** Set Parse Statement.
+	  * Select if the SQL statement should be parsed based on terminating semi-colons.
+	  */
+	public void setParse (boolean Parse);
+
+	/** Get Parse Statement.
+	  * Select if the SQL statement should be parsed based on terminating semi-colons.
+	  */
+	public boolean isParse();
 
     /** Column name Record_ID */
     public static final String COLUMNNAME_Record_ID = "Record_ID";

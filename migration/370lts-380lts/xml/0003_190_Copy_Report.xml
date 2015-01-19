@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+     <Migrations>
+     <Migration EntityType="D" Name="Copy report" ReleaseNo="3.8.0" SeqNo="3">
+
+     <Step SeqNo="10" StepType="AD">
+
+     <PO AD_Table_ID="109" Action="I" Record_ID="53141" Table="AD_Message">
+
+     <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+     <Data AD_Column_ID="6765" Column="AD_Message_ID">53141</Data>
+     <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+     <Data AD_Column_ID="589" Column="Created">2011-08-19 15:02:59.633</Data>
+     <Data AD_Column_ID="590" Column="CreatedBy">100</Data>
+
+    <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+
+    <Data AD_Column_ID="588" Column="IsActive">true</Data>
+
+    <Data AD_Column_ID="198" Column="MsgText">Copy Report</Data>
+
+    <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+
+    <Data AD_Column_ID="197" Column="MsgType">M</Data>
+
+    <Data AD_Column_ID="591" Column="Updated">2011-08-19 15:02:59.633</Data>
+
+    <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
+
+    <Data AD_Column_ID="6766" Column="Value">CopyReport</Data>
+
+    </PO>
+
+    </Step>
+
+    </Migration>
+
+    </Migrations>

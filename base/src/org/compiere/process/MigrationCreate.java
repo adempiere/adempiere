@@ -18,16 +18,12 @@ package org.compiere.process;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
-import org.adempiere.model.GenericPO;
 import org.compiere.model.MMigration;
 import org.compiere.model.MMigrationStep;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
 import org.compiere.model.POInfo;
-import org.compiere.process.SvrProcess;
-import org.compiere.util.DB;
 
 public class MigrationCreate extends SvrProcess {
 

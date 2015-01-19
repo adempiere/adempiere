@@ -22,6 +22,11 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.engine.CostEngineFactory;
+import org.adempiere.engine.IDocumentLine;
+import org.adempiere.engine.CostingMethodFactory;
+import org.adempiere.engine.ICostingMethod;
+
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -44,7 +49,7 @@ import org.compiere.util.Env;
  * 			<li>BF [ 2240484 ] Re MatchingPO, MMatchPO doesn't contains Invoice info
  * 
  */
-public class MMatchInv extends X_M_MatchInv
+public class MMatchInv extends X_M_MatchInv implements IDocumentLine
 {
 	/**
 	 * 
@@ -52,6 +57,19 @@ public class MMatchInv extends X_M_MatchInv
 	private static final long serialVersionUID = 3668871839074170205L;
 
 
+    /**
+     * get Match Inv list
+     * @param inOutLine
+     * @return  Match Inv list entities
+     */
+	public static List<MMatchInv> getInOutLine (MInOutLine inOutLine)
+	{
+		return new Query(inOutLine.getCtx(), I_M_MatchInv.Table_Name, I_M_MatchInv.COLUMNNAME_M_InOutLine_ID + "=?", inOutLine.get_TrxName())
+		.setParameters(inOutLine.getM_InOutLine_ID())
+		.list();
+	}	//	getInOutLine
+
+	
 	/**
 	 * 	Get InOut-Invoice Matches
 	 *	@param ctx context
@@ -232,12 +250,10 @@ public class MMatchInv extends X_M_MatchInv
 	{
 		if (newRecord && success)
 		{				
-			// Elaine 2008/6/20	
-			String err = createMatchInvCostDetail();
-			if(err != null && err.length() > 0) 
+			MInOutLine inout_line = (MInOutLine) getM_InOutLine();
+			for (MTransaction trx: MTransaction.getByInOutLine(inout_line))
 			{
-				s_log.warning(err);
-				return false;
+				CostEngineFactory.getCostEngine(getAD_Client_ID()).createCostDetail(trx, this);
 			}
 		}
 		//
@@ -245,29 +261,16 @@ public class MMatchInv extends X_M_MatchInv
 	}	//	afterSave
 	
 	/**
-	 * 	Get the later Date Acct from invoice or shipment
+	 * 	Get the Date Acct from  shipment
 	 *	@return date or null
 	 */
 	public Timestamp getNewerDateAcct()
 	{
-		String sql = "SELECT i.DateAcct "
-			+ "FROM C_InvoiceLine il"
-			+ " INNER JOIN C_Invoice i ON (i.C_Invoice_ID=il.C_Invoice_ID) "
-			+ "WHERE C_InvoiceLine_ID=?";
-		Timestamp invoiceDate = DB.getSQLValueTS(get_TrxName(), sql, getC_InvoiceLine_ID());
-		//
-		sql = "SELECT io.DateAcct "
+		String sql = "SELECT io.DateAcct "
 			+ "FROM M_InOutLine iol"
 			+ " INNER JOIN M_InOut io ON (io.M_InOut_ID=iol.M_InOut_ID) "
 			+ "WHERE iol.M_InOutLine_ID=?";
 		Timestamp shipDate = DB.getSQLValueTS(get_TrxName(), sql, getM_InOutLine_ID());
-		//
-		if (invoiceDate == null)
-			return shipDate;
-		if (shipDate == null)
-			return invoiceDate;
-		if (invoiceDate.after(shipDate))
-			return invoiceDate;
 		return shipDate;
 	}	//	getNewerDateAcct
 	
@@ -322,7 +325,7 @@ public class MMatchInv extends X_M_MatchInv
 				else
 				{
 					mPO[i].setC_InvoiceLine_ID(null);
-					mPO[i].save();
+					mPO[i].saveEx();
 				}
 			}
 		}
@@ -331,7 +334,7 @@ public class MMatchInv extends X_M_MatchInv
 	
 
 	// Elaine 2008/6/20	
-	private String createMatchInvCostDetail()
+	/*private String createMatchInvCostDetail()
 	{
 		MInvoiceLine invoiceLine = new MInvoiceLine (getCtx(), getC_InvoiceLine_ID(), get_TrxName());
 		
@@ -403,12 +406,13 @@ public class MMatchInv extends X_M_MatchInv
 		}
 		
 		return "";
-	}
-	//
+	}*/
+	
 	//AZ Goodwill
 	private String deleteMatchInvCostDetail()
 	{
 		// Get Account Schemas to delete MCostDetail
+		
 		MAcctSchema[] acctschemas = MAcctSchema.getClientAcctSchema(getCtx(), getAD_Client_ID());
 		for(int asn = 0; asn < acctschemas.length; asn++)
 		{
@@ -419,8 +423,59 @@ public class MMatchInv extends X_M_MatchInv
 				continue;
 			}
 			
+			MProduct product = new MProduct(getCtx(), getM_Product_ID(), get_TrxName());
+			String CostingLevel = product.getCostingLevel(as);
+
+			int Org_ID = getAD_Org_ID();
+			int M_ASI_ID = getM_AttributeSetInstance_ID();
+			if (MAcctSchema.COSTINGLEVEL_Client.equals(CostingLevel))
+			{
+				Org_ID = 0;
+				M_ASI_ID = 0;
+			}
+			else if (MAcctSchema.COSTINGLEVEL_Organization.equals(CostingLevel))
+				M_ASI_ID = 0;
+			else if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(CostingLevel))
+				Org_ID = 0;
+			
+			List<MCostElement> ces = MCostElement.getCostElement(getCtx(), get_TrxName());
+			List<MCostType> cts = MCostType.get(getCtx(), get_TrxName());
+			for (MCostType ct : cts)
+			{	
+				if (!ct.isActive())
+					continue;
+				for (MCostElement ce : ces)
+					
+				{	
+					String whereClause = "c_invoiceline_id =? and m_costtype_id=? and m_costelement_ID=?";
+					List<MCostDetail> cds = new Query(getCtx(), MCostDetail.Table_Name, whereClause, get_TrxName())
+					.setParameters(getC_InvoiceLine_ID(), ct.getM_CostType_ID(), ce.getM_CostElement_ID())
+					.list();
+					for (MCostDetail cd:cds)
+					{
+						//cd.setDeltaAmt(cd.getAmt().negate());
+						cd.setCostAdjustment(Env.ZERO);
+						cd.setCostAdjustmentLL(Env.ZERO);
+						cd.saveEx();
+					//	cd.setProcessed(false);
+						//
+
+						MInOutLine inout_line = (MInOutLine) getM_InOutLine();
+						MCost dimension = new MCost (product, M_ASI_ID,
+								as.getC_AcctSchema_ID(), Org_ID, inout_line.getM_Warehouse_ID() , cd.getM_CostType_ID(), cd.getM_CostElement_ID() , get_TrxName());
+						
+						for (MTransaction trx: MTransaction.getByInOutLine(inout_line))
+						{
+							final ICostingMethod method = CostingMethodFactory.get().getCostingMethod(ct.getCostingMethod());
+							method.setCostingMethod(as, trx, this, dimension, Env.ZERO, Env.ZERO, false);
+							method.processCostDetail(cd);
+						}
+					}
+				}
+			}	
+			
 			// update/delete Cost Detail and recalculate Current Cost
-			MCostDetail cd = MCostDetail.get (getCtx(), "C_InvoiceLine_ID=?", 
+			/*MCostDetail cd = MCostDetail.get (getCtx(), "C_InvoiceLine_ID=?", 
 					getC_InvoiceLine_ID(), getM_AttributeSetInstance_ID(), as.getC_AcctSchema_ID(), get_TrxName());
 			if (cd != null)
 			{
@@ -450,8 +505,7 @@ public class MMatchInv extends X_M_MatchInv
 				{
 					cd.setProcessed(false);
 					cd.delete(true);
-				}
-			}
+				}*/
 		}
 		
 		return "";
@@ -464,8 +518,8 @@ public class MMatchInv extends X_M_MatchInv
 	 *	@param M_InOutLine_ID shipment
 	 *	@param trxName transaction
 	 *	@return array of matches
-	 */
-	public static MMatchInv[] getInOutLine (Properties ctx, 
+	 *
+     * public static MMatchInv[] getInOutLine (Properties ctx,
 		int M_InOutLine_ID, String trxName)
 	{
 		if (M_InOutLine_ID <= 0)
@@ -479,7 +533,66 @@ public class MMatchInv extends X_M_MatchInv
 		.list();
 		return list.toArray (new MMatchInv[list.size()]);
 	}	//	getInOutLine
+	*/
 	// end Bayu
+
+	@Override
+	public int getM_Locator_ID() {
+		return -1;
+	}
+
+	@Override
+	public BigDecimal getMovementQty() {
+		return getQty();
+	}
+
+	@Override
+	public BigDecimal getPriceActual() {
+
+		MInvoiceLine il = (MInvoiceLine) getC_InvoiceLine();
+		BigDecimal priceActual = MConversionRate.convertBase(getCtx(), il.getPriceActual(), il.getParent().getC_Currency_ID(),
+				 il.getParent().getDateAcct(), il.getParent().getC_ConversionType_ID(),
+				getAD_Client_ID(), getAD_Org_ID());	
+		if (X_C_DocType.DOCBASETYPE_APCreditMemo.equals(il.getParent().getC_DocType().getDocBaseType()))
+			return priceActual.multiply(new BigDecimal(-1));
+		else
+			return priceActual;
+	}
+
+	@Override
+	public int getReversalLine_ID() {
+		return -1;
+	}
+
+	@Override
+	public boolean isSOTrx() {
+		return false;
+	}
+
+	@Override
+	public void setM_Locator_ID(int M_Locator_ID) {
+	;
+	}
 	
+
+	public IDocumentLine getReversalDocumentLine() {
+		return null;
+	}
+
+	@Override
+	public int getM_AttributeSetInstanceTo_ID() {
+		// TODO Auto-generated method stub
+		return -1;
+	}
+
+	@Override
+	public int getM_LocatorTo_ID() {
+		// TODO Auto-generated method stub
+		return -1;
+	}
 	
+	@Override
+	public int getC_DocType_ID() {
+		return -1;
+	}
 }	//	MMatchInv

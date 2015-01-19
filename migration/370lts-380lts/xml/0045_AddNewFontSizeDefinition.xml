@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add new font size definition" ReleaseNo="3.8.0" SeqNo="45">
+    <Comments>Define new font to reports</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="491" Action="I" Record_ID="50001" Table="AD_PrintFont">
+        <Data AD_Column_ID="6987" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6986" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6989" Column="AD_PrintFont_ID">50001</Data>
+        <Data AD_Column_ID="6988" Column="Code">dialog-PLAIN-7</Data>
+        <Data AD_Column_ID="6990" Column="Created">2014-12-30 14:33:52.239</Data>
+        <Data AD_Column_ID="6993" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6984" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6991" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="6983" Column="Name">Dialog 7</Data>
+        <Data AD_Column_ID="6992" Column="Updated">2014-12-30 14:33:52.239</Data>
+        <Data AD_Column_ID="6985" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="491" Action="I" Record_ID="50002" Table="AD_PrintFont">
+        <Data AD_Column_ID="6987" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6986" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6989" Column="AD_PrintFont_ID">50002</Data>
+        <Data AD_Column_ID="6988" Column="Code">dialog-PLAIN-6</Data>
+        <Data AD_Column_ID="6990" Column="Created">2014-12-30 14:35:15.632</Data>
+        <Data AD_Column_ID="6993" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6984" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6991" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="6983" Column="Name">Dialog 6</Data>
+        <Data AD_Column_ID="6992" Column="Updated">2014-12-30 14:35:15.632</Data>
+        <Data AD_Column_ID="6985" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="491" Action="I" Record_ID="50003" Table="AD_PrintFont">
+        <Data AD_Column_ID="6987" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6986" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6989" Column="AD_PrintFont_ID">50003</Data>
+        <Data AD_Column_ID="6988" Column="Code">dialog-BOLD-7</Data>
+        <Data AD_Column_ID="6990" Column="Created">2014-12-30 14:35:38.841</Data>
+        <Data AD_Column_ID="6993" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6984" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6991" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="6983" Column="Name">Dialog bold 7</Data>
+        <Data AD_Column_ID="6992" Column="Updated">2014-12-30 14:35:38.841</Data>
+        <Data AD_Column_ID="6985" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="491" Action="I" Record_ID="50004" Table="AD_PrintFont">
+        <Data AD_Column_ID="6987" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6986" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6989" Column="AD_PrintFont_ID">50004</Data>
+        <Data AD_Column_ID="6988" Column="Code">dialog-BOLD-6</Data>
+        <Data AD_Column_ID="6990" Column="Created">2014-12-30 14:35:57.988</Data>
+        <Data AD_Column_ID="6993" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6984" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6991" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="6983" Column="Name">Dialog bold 6</Data>
+        <Data AD_Column_ID="6992" Column="Updated">2014-12-30 14:35:57.988</Data>
+        <Data AD_Column_ID="6985" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="491" Action="I" Record_ID="50005" Table="AD_PrintFont">
+        <Data AD_Column_ID="6987" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6986" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6989" Column="AD_PrintFont_ID">50005</Data>
+        <Data AD_Column_ID="6988" Column="Code">dialog-ITALIC-7</Data>
+        <Data AD_Column_ID="6990" Column="Created">2014-12-30 14:36:37.354</Data>
+        <Data AD_Column_ID="6993" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6984" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6991" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="6983" Column="Name">Dialog italic 7</Data>
+        <Data AD_Column_ID="6992" Column="Updated">2014-12-30 14:36:37.354</Data>
+        <Data AD_Column_ID="6985" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="491" Action="I" Record_ID="50006" Table="AD_PrintFont">
+        <Data AD_Column_ID="6987" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6986" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6989" Column="AD_PrintFont_ID">50006</Data>
+        <Data AD_Column_ID="6988" Column="Code">dialog-ITALIC-6</Data>
+        <Data AD_Column_ID="6990" Column="Created">2014-12-30 14:36:53.506</Data>
+        <Data AD_Column_ID="6993" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6984" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6991" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="6983" Column="Name">Dialog italic 6</Data>
+        <Data AD_Column_ID="6992" Column="Updated">2014-12-30 14:36:53.506</Data>
+        <Data AD_Column_ID="6985" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="491" Action="I" Record_ID="50007" Table="AD_PrintFont">
+        <Data AD_Column_ID="6987" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6986" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6989" Column="AD_PrintFont_ID">50007</Data>
+        <Data AD_Column_ID="6988" Column="Code">dialoginput-PLAIN-7</Data>
+        <Data AD_Column_ID="6990" Column="Created">2014-12-30 14:37:20.837</Data>
+        <Data AD_Column_ID="6993" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6984" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6991" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="6983" Column="Name">DialogInput 7</Data>
+        <Data AD_Column_ID="6992" Column="Updated">2014-12-30 14:37:20.837</Data>
+        <Data AD_Column_ID="6985" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="491" Action="I" Record_ID="50008" Table="AD_PrintFont">
+        <Data AD_Column_ID="6987" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6986" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6989" Column="AD_PrintFont_ID">50008</Data>
+        <Data AD_Column_ID="6988" Column="Code">dialoginput-PLAIN-6</Data>
+        <Data AD_Column_ID="6990" Column="Created">2014-12-30 14:37:38.741</Data>
+        <Data AD_Column_ID="6993" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6984" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6991" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="6983" Column="Name">DialogInput 6</Data>
+        <Data AD_Column_ID="6992" Column="Updated">2014-12-30 14:37:38.741</Data>
+        <Data AD_Column_ID="6985" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="491" Action="I" Record_ID="50009" Table="AD_PrintFont">
+        <Data AD_Column_ID="6987" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6986" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6989" Column="AD_PrintFont_ID">50009</Data>
+        <Data AD_Column_ID="6988" Column="Code">dialoginput-BOLD-7</Data>
+        <Data AD_Column_ID="6990" Column="Created">2014-12-30 14:37:56.286</Data>
+        <Data AD_Column_ID="6993" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6984" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6991" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="6983" Column="Name">DialogInput bold 7</Data>
+        <Data AD_Column_ID="6992" Column="Updated">2014-12-30 14:37:56.286</Data>
+        <Data AD_Column_ID="6985" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="491" Action="I" Record_ID="50010" Table="AD_PrintFont">
+        <Data AD_Column_ID="6987" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6986" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6989" Column="AD_PrintFont_ID">50010</Data>
+        <Data AD_Column_ID="6988" Column="Code">dialoginput-BOLD-6</Data>
+        <Data AD_Column_ID="6990" Column="Created">2014-12-30 14:38:09.958</Data>
+        <Data AD_Column_ID="6993" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6984" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6991" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="6983" Column="Name">DialogInput bold 6</Data>
+        <Data AD_Column_ID="6992" Column="Updated">2014-12-30 14:38:09.958</Data>
+        <Data AD_Column_ID="6985" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="491" Action="I" Record_ID="50011" Table="AD_PrintFont">
+        <Data AD_Column_ID="6987" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6986" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6989" Column="AD_PrintFont_ID">50011</Data>
+        <Data AD_Column_ID="6988" Column="Code">dialoginput-ITALIC-7</Data>
+        <Data AD_Column_ID="6990" Column="Created">2014-12-30 14:38:26.591</Data>
+        <Data AD_Column_ID="6993" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6984" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6991" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="6983" Column="Name">DialogInput italic 7</Data>
+        <Data AD_Column_ID="6992" Column="Updated">2014-12-30 14:38:26.591</Data>
+        <Data AD_Column_ID="6985" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="491" Action="I" Record_ID="50012" Table="AD_PrintFont">
+        <Data AD_Column_ID="6987" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6986" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6989" Column="AD_PrintFont_ID">50012</Data>
+        <Data AD_Column_ID="6988" Column="Code">dialoginput-ITALIC-6</Data>
+        <Data AD_Column_ID="6990" Column="Created">2014-12-30 14:38:40.702</Data>
+        <Data AD_Column_ID="6993" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6984" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6991" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="6983" Column="Name">DialogInput italic 6</Data>
+        <Data AD_Column_ID="6992" Column="Updated">2014-12-30 14:38:40.702</Data>
+        <Data AD_Column_ID="6985" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="491" Action="I" Record_ID="50013" Table="AD_PrintFont">
+        <Data AD_Column_ID="6987" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6986" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6989" Column="AD_PrintFont_ID">50013</Data>
+        <Data AD_Column_ID="6988" Column="Code">monospaced-PLAIN-7</Data>
+        <Data AD_Column_ID="6990" Column="Created">2014-12-30 14:38:57.971</Data>
+        <Data AD_Column_ID="6993" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6984" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6991" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="6983" Column="Name">Monospaced 7</Data>
+        <Data AD_Column_ID="6992" Column="Updated">2014-12-30 14:38:57.971</Data>
+        <Data AD_Column_ID="6985" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="491" Action="I" Record_ID="50014" Table="AD_PrintFont">
+        <Data AD_Column_ID="6987" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6986" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6989" Column="AD_PrintFont_ID">50014</Data>
+        <Data AD_Column_ID="6988" Column="Code">monospaced-PLAIN-6</Data>
+        <Data AD_Column_ID="6990" Column="Created">2014-12-30 14:39:21.281</Data>
+        <Data AD_Column_ID="6993" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6984" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6991" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="6983" Column="Name">Monospaced 6</Data>
+        <Data AD_Column_ID="6992" Column="Updated">2014-12-30 14:39:21.281</Data>
+        <Data AD_Column_ID="6985" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="491" Action="I" Record_ID="50015" Table="AD_PrintFont">
+        <Data AD_Column_ID="6987" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6986" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6989" Column="AD_PrintFont_ID">50015</Data>
+        <Data AD_Column_ID="6988" Column="Code">monospaced-BOLD-7</Data>
+        <Data AD_Column_ID="6990" Column="Created">2014-12-30 14:39:51.936</Data>
+        <Data AD_Column_ID="6993" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6984" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6991" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="6983" Column="Name">Monospaced bold 7</Data>
+        <Data AD_Column_ID="6992" Column="Updated">2014-12-30 14:39:51.936</Data>
+        <Data AD_Column_ID="6985" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="491" Action="I" Record_ID="50016" Table="AD_PrintFont">
+        <Data AD_Column_ID="6987" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6986" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6989" Column="AD_PrintFont_ID">50016</Data>
+        <Data AD_Column_ID="6988" Column="Code">monospaced-BOLD-6</Data>
+        <Data AD_Column_ID="6990" Column="Created">2014-12-30 14:40:10.775</Data>
+        <Data AD_Column_ID="6993" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6984" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6991" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="6983" Column="Name">Monospaced bold 6</Data>
+        <Data AD_Column_ID="6992" Column="Updated">2014-12-30 14:40:10.775</Data>
+        <Data AD_Column_ID="6985" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="491" Action="I" Record_ID="50017" Table="AD_PrintFont">
+        <Data AD_Column_ID="6987" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6986" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6989" Column="AD_PrintFont_ID">50017</Data>
+        <Data AD_Column_ID="6988" Column="Code">monospaced-ITALIC-7</Data>
+        <Data AD_Column_ID="6990" Column="Created">2014-12-30 14:40:35.109</Data>
+        <Data AD_Column_ID="6993" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6984" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6991" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="6983" Column="Name">Monospaced italic 7</Data>
+        <Data AD_Column_ID="6992" Column="Updated">2014-12-30 14:40:35.109</Data>
+        <Data AD_Column_ID="6985" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="491" Action="I" Record_ID="50018" Table="AD_PrintFont">
+        <Data AD_Column_ID="6987" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6986" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6989" Column="AD_PrintFont_ID">50018</Data>
+        <Data AD_Column_ID="6988" Column="Code">monospaced-ITALIC-6</Data>
+        <Data AD_Column_ID="6990" Column="Created">2014-12-30 14:40:53.587</Data>
+        <Data AD_Column_ID="6993" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6984" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6991" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="6983" Column="Name">Monospaced italic 6</Data>
+        <Data AD_Column_ID="6992" Column="Updated">2014-12-30 14:40:53.587</Data>
+        <Data AD_Column_ID="6985" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="491" Action="I" Record_ID="50019" Table="AD_PrintFont">
+        <Data AD_Column_ID="6987" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6986" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6989" Column="AD_PrintFont_ID">50019</Data>
+        <Data AD_Column_ID="6988" Column="Code">sansserif-PLAIN-7</Data>
+        <Data AD_Column_ID="6990" Column="Created">2014-12-30 14:41:17.596</Data>
+        <Data AD_Column_ID="6993" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6984" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6991" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="6983" Column="Name">SansSerif 7</Data>
+        <Data AD_Column_ID="6992" Column="Updated">2014-12-30 14:41:17.596</Data>
+        <Data AD_Column_ID="6985" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="491" Action="I" Record_ID="50020" Table="AD_PrintFont">
+        <Data AD_Column_ID="6987" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6986" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6989" Column="AD_PrintFont_ID">50020</Data>
+        <Data AD_Column_ID="6988" Column="Code">sansserif-PLAIN-6</Data>
+        <Data AD_Column_ID="6990" Column="Created">2014-12-30 14:41:31.574</Data>
+        <Data AD_Column_ID="6993" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6984" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6991" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="6983" Column="Name">SansSerif 6</Data>
+        <Data AD_Column_ID="6992" Column="Updated">2014-12-30 14:41:31.574</Data>
+        <Data AD_Column_ID="6985" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="491" Action="I" Record_ID="50021" Table="AD_PrintFont">
+        <Data AD_Column_ID="6987" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6986" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6989" Column="AD_PrintFont_ID">50021</Data>
+        <Data AD_Column_ID="6988" Column="Code">sansserif-BOLD-7</Data>
+        <Data AD_Column_ID="6990" Column="Created">2014-12-30 14:41:51.051</Data>
+        <Data AD_Column_ID="6993" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6984" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6991" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="6983" Column="Name">SansSerif bold 7</Data>
+        <Data AD_Column_ID="6992" Column="Updated">2014-12-30 14:41:51.051</Data>
+        <Data AD_Column_ID="6985" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="491" Action="I" Record_ID="50022" Table="AD_PrintFont">
+        <Data AD_Column_ID="6987" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6986" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6989" Column="AD_PrintFont_ID">50022</Data>
+        <Data AD_Column_ID="6988" Column="Code">sansserif-BOLD-6</Data>
+        <Data AD_Column_ID="6990" Column="Created">2014-12-30 14:42:13.775</Data>
+        <Data AD_Column_ID="6993" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6984" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6991" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="6983" Column="Name">SansSerif bold 6</Data>
+        <Data AD_Column_ID="6992" Column="Updated">2014-12-30 14:42:13.775</Data>
+        <Data AD_Column_ID="6985" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="230" StepType="AD">
+      <PO AD_Table_ID="491" Action="I" Record_ID="50023" Table="AD_PrintFont">
+        <Data AD_Column_ID="6987" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6986" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6989" Column="AD_PrintFont_ID">50023</Data>
+        <Data AD_Column_ID="6988" Column="Code">sansserif-ITALIC-7</Data>
+        <Data AD_Column_ID="6990" Column="Created">2014-12-30 14:42:35.909</Data>
+        <Data AD_Column_ID="6993" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6984" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6991" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="6983" Column="Name">SansSerif italic 7</Data>
+        <Data AD_Column_ID="6992" Column="Updated">2014-12-30 14:42:35.909</Data>
+        <Data AD_Column_ID="6985" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="240" StepType="AD">
+      <PO AD_Table_ID="491" Action="I" Record_ID="50024" Table="AD_PrintFont">
+        <Data AD_Column_ID="6987" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6986" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6989" Column="AD_PrintFont_ID">50024</Data>
+        <Data AD_Column_ID="6988" Column="Code">sansserif-ITALIC-6</Data>
+        <Data AD_Column_ID="6990" Column="Created">2014-12-30 14:42:51.496</Data>
+        <Data AD_Column_ID="6993" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6984" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6991" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="6983" Column="Name">SansSerif italic 6</Data>
+        <Data AD_Column_ID="6992" Column="Updated">2014-12-30 14:42:51.496</Data>
+        <Data AD_Column_ID="6985" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="250" StepType="AD">
+      <PO AD_Table_ID="491" Action="I" Record_ID="50025" Table="AD_PrintFont">
+        <Data AD_Column_ID="6987" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6986" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6989" Column="AD_PrintFont_ID">50025</Data>
+        <Data AD_Column_ID="6988" Column="Code">serif-PLAIN-7</Data>
+        <Data AD_Column_ID="6990" Column="Created">2014-12-30 14:43:09.723</Data>
+        <Data AD_Column_ID="6993" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6984" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6991" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="6983" Column="Name">Serif 7</Data>
+        <Data AD_Column_ID="6992" Column="Updated">2014-12-30 14:43:09.723</Data>
+        <Data AD_Column_ID="6985" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="260" StepType="AD">
+      <PO AD_Table_ID="491" Action="I" Record_ID="50026" Table="AD_PrintFont">
+        <Data AD_Column_ID="6987" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6986" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6989" Column="AD_PrintFont_ID">50026</Data>
+        <Data AD_Column_ID="6988" Column="Code">serif-PLAIN-6</Data>
+        <Data AD_Column_ID="6990" Column="Created">2014-12-30 14:43:22.459</Data>
+        <Data AD_Column_ID="6993" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6984" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6991" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="6983" Column="Name">Serif 6</Data>
+        <Data AD_Column_ID="6992" Column="Updated">2014-12-30 14:43:22.459</Data>
+        <Data AD_Column_ID="6985" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="270" StepType="AD">
+      <PO AD_Table_ID="491" Action="I" Record_ID="50027" Table="AD_PrintFont">
+        <Data AD_Column_ID="6987" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6986" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6989" Column="AD_PrintFont_ID">50027</Data>
+        <Data AD_Column_ID="6988" Column="Code">serif-BOLD-7</Data>
+        <Data AD_Column_ID="6990" Column="Created">2014-12-30 14:43:41.135</Data>
+        <Data AD_Column_ID="6993" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6984" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6991" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="6983" Column="Name">Serif bold 7</Data>
+        <Data AD_Column_ID="6992" Column="Updated">2014-12-30 14:43:41.135</Data>
+        <Data AD_Column_ID="6985" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="280" StepType="AD">
+      <PO AD_Table_ID="491" Action="I" Record_ID="50028" Table="AD_PrintFont">
+        <Data AD_Column_ID="6987" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6986" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6989" Column="AD_PrintFont_ID">50028</Data>
+        <Data AD_Column_ID="6988" Column="Code">serif-BOLD-6</Data>
+        <Data AD_Column_ID="6990" Column="Created">2014-12-30 14:43:57.888</Data>
+        <Data AD_Column_ID="6993" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6984" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6991" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="6983" Column="Name">Serif bold 6</Data>
+        <Data AD_Column_ID="6992" Column="Updated">2014-12-30 14:43:57.888</Data>
+        <Data AD_Column_ID="6985" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="290" StepType="AD">
+      <PO AD_Table_ID="491" Action="I" Record_ID="50029" Table="AD_PrintFont">
+        <Data AD_Column_ID="6987" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6986" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6989" Column="AD_PrintFont_ID">50029</Data>
+        <Data AD_Column_ID="6988" Column="Code">serif-ITALIC-7</Data>
+        <Data AD_Column_ID="6990" Column="Created">2014-12-30 14:44:22.352</Data>
+        <Data AD_Column_ID="6993" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6984" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6991" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="6983" Column="Name">Serif italic 7</Data>
+        <Data AD_Column_ID="6992" Column="Updated">2014-12-30 14:44:22.352</Data>
+        <Data AD_Column_ID="6985" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="300" StepType="AD">
+      <PO AD_Table_ID="491" Action="I" Record_ID="50030" Table="AD_PrintFont">
+        <Data AD_Column_ID="6987" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6986" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6989" Column="AD_PrintFont_ID">50030</Data>
+        <Data AD_Column_ID="6988" Column="Code">serif-ITALIC-6</Data>
+        <Data AD_Column_ID="6990" Column="Created">2014-12-30 14:44:45.646</Data>
+        <Data AD_Column_ID="6993" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6984" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6991" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="6983" Column="Name">Serif italic 6</Data>
+        <Data AD_Column_ID="6992" Column="Updated">2014-12-30 14:44:45.646</Data>
+        <Data AD_Column_ID="6985" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

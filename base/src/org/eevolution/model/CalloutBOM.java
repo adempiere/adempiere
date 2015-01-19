@@ -18,13 +18,11 @@ package org.eevolution.model;
 
 import java.math.BigDecimal;
 import java.util.Properties;
-
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.model.GridTabWrapper;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
-import org.compiere.model.I_M_Product;
 import org.compiere.model.MProduct;
 import org.compiere.model.MUOMConversion;
 import org.compiere.util.Env;
@@ -55,18 +53,25 @@ public class CalloutBOM extends CalloutEngine
 		final int M_Product_ID = (Integer)value;
 		if (M_Product_ID <= 0)
 			return "";
-		
+
 		I_PP_Product_BOMLine bomLine = GridTabWrapper.create(mTab, I_PP_Product_BOMLine.class);
-        I_PP_Product_BOM bom = bomLine.getPP_Product_BOM();
-        if (bom.getM_Product_ID() ==  bomLine.getM_Product_ID())
-        {                                                                               
-             throw new AdempiereException("@ValidComponent@ - Error Parent not be Component");				
-        }
-        // Set BOM Line defaults
-        I_M_Product product = MProduct.get(ctx, M_Product_ID);
-        bomLine.setDescription(product.getDescription());
-        bomLine.setHelp(product.getHelp());
-        bomLine.setC_UOM_ID(product.getC_UOM_ID());
+		I_PP_Product_BOM bom = bomLine.getPP_Product_BOM();
+
+		if( bom == null ) //Adempiere-272 changes
+		{
+			throw new AdempiereException("Please save header record first.");				
+		}    
+
+		if (bom.getM_Product_ID() ==  bomLine.getM_Product_ID())
+		{                                                                               
+			throw new AdempiereException("@ValidComponent@ - Error Parent not be Component");				
+		}
+		// Set BOM Line defaults
+		MProduct product = MProduct.get(ctx, M_Product_ID);  // May be the parent;
+		bomLine.setDescription(product.getDescription());
+		bomLine.setHelp(product.getHelp());
+		bomLine.setC_UOM_ID(product.getC_UOM_ID());
+		bomLine.setM_AttributeSetInstance_ID(product.getEnvAttributeSetInstance(ctx,WindowNo) == null ? 0 : product.getEnvAttributeSetInstance(ctx,WindowNo) );
 		return "";
 	}
         
@@ -119,13 +124,15 @@ public class CalloutBOM extends CalloutEngine
 		if (M_Product_ID <= 0)
 			return "";
 		
-        I_M_Product product =  MProduct.get(ctx, M_Product_ID);
+        MProduct product =  MProduct.get(ctx, M_Product_ID);
         I_PP_Product_BOM bom = GridTabWrapper.create(mTab, I_PP_Product_BOM.class);
         bom.setValue(product.getValue());
         bom.setName(product.getName());
         bom.setDescription(product.getDescription());
         bom.setHelp(product.getHelp());
         bom.setC_UOM_ID(product.getC_UOM_ID());
+		if (product.getEnvAttributeSetInstance(ctx,WindowNo) != null)
+			bom.setM_AttributeSetInstance_ID(product.getEnvAttributeSetInstance(ctx,WindowNo));
         
 		return "";
 	}	//	getdefaults

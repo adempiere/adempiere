@@ -17,15 +17,6 @@
  *****************************************************************************/
 package org.eevolution.form;
 
-import java.io.File;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map.Entry;
-import java.util.logging.Level;
-
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.model.MBrowse;
 import org.adempiere.model.MBrowseField;
@@ -44,7 +35,7 @@ import org.adempiere.webui.component.Tabs;
 import org.adempiere.webui.component.ToolBar;
 import org.adempiere.webui.component.VerticalBox;
 import org.adempiere.webui.component.WAppsAction;
-import org.adempiere.webui.component.WListbox;
+import org.eevolution.grid.WBrowseListbox;
 import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
@@ -56,8 +47,8 @@ import org.adempiere.webui.panel.StatusBarPanel;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.apps.ProcessCtl;
-import org.compiere.apps.search.Info_Column;
 import org.compiere.minigrid.IDColumn;
+import org.compiere.model.GridField;
 import org.compiere.model.GridFieldVO;
 import org.compiere.model.MPInstance;
 import org.compiere.model.MProcess;
@@ -67,8 +58,8 @@ import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoUtil;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
-import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.event.Event;
@@ -81,6 +72,17 @@ import org.zkoss.zul.Div;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Row;
+
+import java.io.File;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.logging.Level;
+
 import org.zkoss.zul.Separator;
 import org.zkoss.zul.Vbox;
 
@@ -91,7 +93,7 @@ import org.zkoss.zul.Vbox;
  *  https://sourceforge.net/tracker/?func=detail&aid=3426137&group_id=176962&atid=879335
  *
  */
-public class WBrowser extends Browser implements IFormController,
+public class WBrowser extends Browser implements IBrowser ,IFormController,
 		EventListener, WTableModelListener, ValueChangeListener, ASyncProcess {
 
 	private CustomForm m_frame = new CustomForm();
@@ -108,7 +110,7 @@ public class WBrowser extends Browser implements IFormController,
 	private Button bZoom;
 	private Button bSelectAll;
 
-	private WListbox detail;
+	private WBrowseListbox detail;
 	private Borderlayout graphPanel;
 	private WBrowserSearch searchGrid;
 	private Borderlayout searchTab;
@@ -138,10 +140,10 @@ public class WBrowser extends Browser implements IFormController,
 				whereClause);
 		
 		m_frame = new CustomForm();
-		p_WindowNo = SessionManager.getAppDesktop().registerWindow(this);
-		Env.clearWinContext(p_WindowNo);
-		setContextWhere(browse, whereClause);	
-		
+		windowNo = SessionManager.getAppDesktop().registerWindow(this);
+		Env.clearWinContext(windowNo);
+		setContextWhere(browse, whereClause);
+
 		initComponents();
 		statInit();
 		detail.setMultiSelection(true);
@@ -151,6 +153,9 @@ public class WBrowser extends Browser implements IFormController,
 						+ Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"),
 				false);
 		setStatusDB(Integer.toString(no));
+		
+		if(isExecuteQueryByDefault())
+			executeQuery();
 	}
 
 	private void statInit() {
@@ -187,7 +192,7 @@ public class WBrowser extends Browser implements IFormController,
 			pi.setAD_User_ID(Env.getAD_User_ID(Env.getCtx()));
 			pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
 			setBrowseProcessInfo(pi);
-			parameterPanel = new ProcessParameterPanel(p_WindowNo, getBrowseProcessInfo() , "100%");
+			parameterPanel = new ProcessParameterPanel(getWindowNo(), getBrowseProcessInfo() , "100%");
 			parameterPanel.setMode(ProcessParameterPanel.BROWSER_MODE);
 			parameterPanel.init();
 			
@@ -204,35 +209,45 @@ public class WBrowser extends Browser implements IFormController,
 		}		
 	}
 
+
+	/**
+	 * General Init
+	 *
+	 * @return true, if success
+	 */
 	private boolean initBrowser() {
-		if (!initBrowserTable())
+		List<MBrowseField> fields = initBrowserTable();
+		if (fields == null)
 			return false;
 
-		// prepare table	
 		StringBuilder where = new StringBuilder("");
-		setContextWhere(m_Browse , null);
+		setContextWhere(m_Browse, null);
 		if (p_whereClause.length() > 0) {
 			where.append(p_whereClause);
 		}
 
-		prepareTable(m_generalLayout, m_View.getFromClause(), where.toString(),
-				"2");
+		prepareTable(fields, m_View.getFromClause(), where.toString(),"2");
 		return true;
-	}
+	} // initInfo
+	/**
+	 * Init info with Table. - find QueryColumns (Value, Name, ..) - build
+	 * gridController & column
+	 *
+	 * @return BrowseFields
+	 */
+	private List<MBrowseField> initBrowserTable() {
 
-	private boolean initBrowserTable() {
-		ArrayList<Info_Column> list = initBrowserData();
+		List<MBrowseField> list = initBrowserData();
 		if (list.size() == 0) {
-
-			log.log(Level.SEVERE, "No Brwose for view=" + m_View.getName());
-			return false;
+			FDialog.error(getWindowNo(), m_frame, "Error", "No Browse Fields");
+			log.log(Level.SEVERE, "No Browser for view=" + m_View.getName());
+			return null;
 		}
-		log.finest("Browse Fields #" + list.size());	
-		// Convert ArrayList to Array
-		m_generalLayout = new Info_Column[list.size()];
-		list.toArray(m_generalLayout);
-		return true;
-	}
+		log.finest("Browse Fields #" + list.size());
+		//centerPanel.setViewportView(detail);
+
+		return list;
+	} // initInfoTable
 
 	public void setStatusLine(String text, boolean error) {
 		statusBar.setStatusLine(text, error);
@@ -243,11 +258,34 @@ public class WBrowser extends Browser implements IFormController,
 	}
 
 	protected void executeQuery() {
-		if (!testCount())
-			return;
+		if (evaluateMandatoryFilter()) {
+			if (getAD_Window_ID() > 1)
+				bZoom.setEnabled(true);
 
-		setStatusLine(Msg.getMsg(Env.getCtx(), "StartSearch"), false);
-		work();
+			bSelectAll.setEnabled(true);
+			bExport.setEnabled(true);
+
+			if (isDeleteable())
+				bDelete.setEnabled(true);
+
+			collapsibleSeach.setOpen(!isCollapsibleByDefault());
+
+			p_loadedOK = initBrowser();
+
+			Env.setContext(Env.getCtx(), 0, "currWindowNo", getWindowNo());
+			if (parameterPanel != null)
+				parameterPanel.refreshContext();
+
+			if (!testCount())
+				return;
+
+			setStatusLine(Msg.getMsg(Env.getCtx(), "StartSearch"), false);
+
+			work();
+
+			isAllSelected = isSelectedByDefault();
+			selectedRows();
+		}
 	}
 
 	private void cmd_zoom() {
@@ -255,20 +293,46 @@ public class WBrowser extends Browser implements IFormController,
 		
 		MQuery query = getMQuery();
 		if(query != null)
-			AEnv.zoom(query);
+			AEnv.zoom(getAD_Window_ID() , query);
 		
 		hideBusyDialog();
 	}
 	
 	private void cmd_deleteSelection() {
-		if (FDialog.ask(p_WindowNo, m_frame, "DeleteSelection"))
+		if (FDialog.ask(getWindowNo(), m_frame, "DeleteSelection"))
 		{	
 			int records = deleteSelection();
 			setStatusLine(Msg.getMsg(Env.getCtx(), "Deleted") + records, false);
 		}	
+		 executeQuery();
 	}
 
-	protected void prepareTable(Info_Column[] layout, String from,
+	/**************************************************************************
+	 * Prepare Table, Construct SQL (m_m_sqlMain, m_sqlAdd) and size Window
+	 * @param fields layout array
+	 * @param from from clause
+	 * @param staticWhere where clause
+	 * @param orderBy order by clause
+	 */
+	protected void prepareTable(List<MBrowseField> fields,String from,
+								String staticWhere, String orderBy) {
+		browserFields = fields;
+		StringBuffer sql = new StringBuffer("SELECT DISTINCT ");
+		sql.append(detail.prepareTable(fields, p_multiSelection));
+		detail.setMultiSelection(p_multiSelection);
+		detail.setShowTotals(m_Browse.isShowTotal());
+
+		sql.append(" FROM ").append(from);
+		sql.append(" WHERE ");
+		m_sqlMain = sql.toString();
+		m_sqlCount = "SELECT COUNT(*) FROM " + from + " WHERE ";
+		m_sqlOrderBy = getSQLOrderBy();
+
+		if (m_keyColumnIndex == -1)
+			log.log(Level.WARNING, "No KeyColumn - " + sql);
+	} // prepareTable
+
+	/*protected void prepareTable(Info_Column[] layout, String from,
 			String staticWhere, String orderBy) {
 		p_layout = layout;
 		detail.prepareTable(layout, "" , "" , true, "");
@@ -294,7 +358,7 @@ public class WBrowser extends Browser implements IFormController,
 		
 		if (m_keyColumnIndex == -1)
 			log.log(Level.WARNING, "No KeyColumn - " + sql);
-	}
+	}*/
 
 	private boolean testCount() {
 		int no = -1;
@@ -302,8 +366,8 @@ public class WBrowser extends Browser implements IFormController,
 
 		MRole role = MRole.getDefault();
 		if (role.isQueryMax(no))
-			return true; // use dialog //ADialog.ask(p_WindowNo, m_frame,
-							// "InfoHighRecordCount", String.valueOf(no));
+			return true;
+
 		return true;
 	}
 
@@ -346,6 +410,7 @@ public class WBrowser extends Browser implements IFormController,
 
 		if (p_multiSelection) {
 			int rows = detail.getRowCount();
+			WBrowserRows browserRows =detail.getData();
 			m_values = new LinkedHashMap<Integer,LinkedHashMap<String,Object>>();
 			for (int row = 0; row < rows; row++) {
 				//Find the IDColumn Key
@@ -355,8 +420,18 @@ public class WBrowser extends Browser implements IFormController,
 					IDColumn dataColumn = (IDColumn) data;
 					if (dataColumn.isSelected()) {
 						LinkedHashMap<String, Object> values = new LinkedHashMap<String, Object>();
-						int col = 0;
-						for (Info_Column column : m_generalLayout)
+						for(int col  = 0 ; col < browserRows.getColumnCount(); col ++)
+						{
+							MBrowseField bField =browserRows.getBrowserField(col);
+							if (!bField.isReadOnly() || bField.isIdentifier() )
+							{
+								GridField gField = (GridField)detail.getData().getValue( row, col );
+								Object value = gField.getValue();
+								values.put(bField.getAD_View_Column().getColumnName(), value);
+							}
+
+						}
+						/*for (Info_Column column : m_generalLayout)
 						{	
 							String columnName = column.getColSQL().substring(
 									column.getColSQL().indexOf("AS ") + 3);
@@ -373,11 +448,9 @@ public class WBrowser extends Browser implements IFormController,
 								}
 							}
 							col++;
-						}
+						}*/
 						if(values.size() > 0)
-						{
 							m_values.put(dataColumn.getRecord_ID(), values);
-						}
 					}
 				}
 			}
@@ -489,14 +562,13 @@ public class WBrowser extends Browser implements IFormController,
 		searchTab = new Borderlayout();
 		collapsibleSeach = new North();
 		topPanel = new Hbox();
-		searchGrid = new WBrowserSearch(p_WindowNo);
+		searchGrid = new WBrowserSearch(getWindowNo());
 		bSearch = new Button();
-		detail = new WListbox();
+		detail = new WBrowseListbox(this);
 		bCancel = new Button();
 		bOk = new Button();
 		graphPanel = new Borderlayout();
 		detailPanel= new Borderlayout();
-		
 
 		Borderlayout mainLayout = new Borderlayout();
 
@@ -507,38 +579,10 @@ public class WBrowser extends Browser implements IFormController,
 		bSelectAll.addActionListener(new EventListener(){
     	public void onEvent(Event evt)
     	{
-    		int topIndex = 1 ; //detail.getShowTotals() ? 2 : 1;
-    		int rows = detail.getRowCount();
-			int selectedList[] = new int[rows];
-    		if(!isAllSelected)
-			{
-				for (int row = 0; row <= rows - topIndex; row++) {
-					Object data = detail.getModel().getValueAt(row,
-							m_keyColumnIndex);
-					if (data instanceof IDColumn) {
-						IDColumn dataColumn = (IDColumn) data;
-						dataColumn.setSelected(true);
-						detail.getModel().setValueAt(dataColumn, row,m_keyColumnIndex);
-					}
-					selectedList[row] = row;
-				}
-				detail.setSelectedIndices(selectedList);
-			} else {
-				for (int row = 0; row <= rows - topIndex; row++) {
-					Object data = detail.getModel().getValueAt(row,
-							m_keyColumnIndex);
-					if (data instanceof IDColumn) {
-						IDColumn dataColumn = (IDColumn) data;
-						dataColumn.setSelected(false);
-						detail.getModel().setValueAt(dataColumn, row,m_keyColumnIndex);
-					}
-				}
-				detail.clearSelection();
-			}
-    			
-    			isAllSelected = !isAllSelected;
+    		selectedRows();
     	}
         });
+		
 
 		toolsBar.appendChild(bSelectAll);
 		
@@ -561,7 +605,10 @@ public class WBrowser extends Browser implements IFormController,
 				bZoomActionPerformed(evt);
 			}
 		});
-		toolsBar.appendChild(bZoom);
+		
+		//Only enable if exist a reference
+		if(AD_Window_ID > 0)
+			toolsBar.appendChild(bZoom);
 
 		bExport.setLabel(Msg.getMsg(Env.getCtx(),"Export"));
 		bExport.setEnabled(false);
@@ -579,7 +626,9 @@ public class WBrowser extends Browser implements IFormController,
 				bDeleteActionPerformed(evt);
 			}
 		});
-		toolsBar.appendChild(bDelete);
+		
+		if(isDeleteable())
+			toolsBar.appendChild(bDelete);
 
 		//TODO: victor.perez@e-evolution.com pending find functionality
 		/*bFind.setLabel("Find");
@@ -733,6 +782,41 @@ public class WBrowser extends Browser implements IFormController,
 
 		mainLayout.appendCenter(tabsPanel);
 	}
+	
+	private void selectedRows()
+	{	
+		//int topIndex = 1 ; //detail.isShowTotals() ? 	 : 1;
+		int topIndex = detail.isShowTotals() ? 2 : 1;
+		int rows = detail.getRowCount();
+		int selectedList[] = new int[rows];
+		if(isAllSelected)
+		{
+			for (int row = 0; row <= rows - topIndex; row++) {
+				Object data = detail.getModel().getValueAt(row,
+						m_keyColumnIndex);
+				if (data instanceof IDColumn) {
+					IDColumn dataColumn = (IDColumn) data;
+					dataColumn.setSelected(true);
+					detail.getModel().setValueAt(dataColumn, row,m_keyColumnIndex);
+				}
+				selectedList[row] = row;
+			}
+			detail.setSelectedIndices(selectedList);
+		} else {
+			for (int row = 0; row <= rows - topIndex; row++) {
+				Object data = detail.getModel().getValueAt(row,
+						m_keyColumnIndex);
+				if (data instanceof IDColumn) {
+					IDColumn dataColumn = (IDColumn) data;
+					dataColumn.setSelected(false);
+					detail.getModel().setValueAt(dataColumn, row,m_keyColumnIndex);
+				}
+			}
+			detail.clearSelection();
+		}
+			
+			isAllSelected = !isAllSelected;
+	}
 
 	private void bZoomActionPerformed(Event evt) {// GEN-FIRST:event_bZoomActionPerformed
 		// TODO add your handling code here:
@@ -795,8 +879,13 @@ public class WBrowser extends Browser implements IFormController,
 		bSelectAll.setEnabled(true);
 		bExport.setEnabled(true);
 		bDelete.setEnabled(true);
-		collapsibleSeach.setOpen(false);
+		collapsibleSeach.setOpen(!isCollapsibleByDefault());
 		p_loadedOK = initBrowser();
+		Env.setContext(Env.getCtx(), 0, "currWindowNo", getWindowNo());
+		
+		if (m_Browse.getAD_Process_ID() > 0)
+			parameterPanel.refreshContext();
+		
 		executeQuery();
 	}
 
@@ -818,6 +907,27 @@ public class WBrowser extends Browser implements IFormController,
 		bExport.setEnabled(true);
 	}
 
+	
+	public  ArrayList<ArrayList<Object>> getDataRows()
+	{
+		ArrayList<ArrayList<Object>> rows = m_rows;
+		if (isShowTotal())
+		{	
+			ArrayList<Object> row = new ArrayList<Object>();
+			int lastRow = detail.getRowCount() - 1;
+			for (int column = 0; column <= detail.getColumnCount() - 1 ; column++) {
+				Object data = detail.getValueAt(lastRow , column); 
+				if (data == null)
+					row.add(null);
+				else
+					row.add(data);
+			}
+			rows.add(row);
+		}				
+		return rows;
+	}
+	
+	
 	private void bDeleteActionPerformed(Event evt) {
 		cmd_deleteSelection();
 	}
@@ -836,13 +946,12 @@ public class WBrowser extends Browser implements IFormController,
 		// Clear Table
 		detail.setRowCount(0);
 		try {
-			m_pstmt = getStatement(dataSql);	
+			m_pstmt = getStatement(dataSql);
 			log.fine("Start query - " + (System.currentTimeMillis() - start)
 					+ "ms");
 			m_rs = m_pstmt.executeQuery();
 			log.fine("End query - " + (System.currentTimeMillis() - start)
 					+ "ms");
-
 			detail.loadTable(m_rs);
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, dataSql, e);
@@ -864,6 +973,29 @@ public class WBrowser extends Browser implements IFormController,
 		else {
 			detail.setFocus(true);
 		}
+		
+		if(isSelectedByDefault())
+		{	
+			isAllSelected = false;
+			selectedRows();			
+		}	
+		
+
+		int topIndex = detail.isShowTotals() ? 2 : 1;		//int topIndex = 1 ;
+		int rows = detail.getRowCount();
+		int selectedList[] = new int[rows];
+
+			for (int row = 0; row <= rows - topIndex; row++) {
+				Object data = detail.getModel().getValueAt(row,
+						m_keyColumnIndex);
+				if (data instanceof IDColumn) {
+					IDColumn dataColumn = (IDColumn) data;
+					dataColumn.setSelected(isSelectedByDefault());
+					detail.getModel().setValueAt(dataColumn, row,m_keyColumnIndex);
+				}
+				selectedList[row] = row;
+			}
+			detail.setSelectedIndices(selectedList);
 	} // run
 
 	@Override
@@ -911,13 +1043,12 @@ public class WBrowser extends Browser implements IFormController,
 	}
 	/**
 	 * get Parameter Value
-	 * @param id
+	 * @param key
 	 * @return Object Value
 	 */
 	@Override
-	public Object getParamenterValue(Object key)
-	{
-			WEditor editor = (WEditor)  searchGrid.getParamenters().get(key);
+	public Object getParameterValue(Object key)
+	{       WEditor editor = (WEditor)  searchGrid.getParameters().get(key);
 			if(editor != null)
 				return editor.getValue();
 			else
@@ -935,7 +1066,7 @@ public class WBrowser extends Browser implements IFormController,
 		boolean onRange = false;
 		StringBuilder sql = new StringBuilder(p_whereClause);
 
-		for (Entry<Object, Object> entry : searchGrid.getParamenters().entrySet()) {
+		for (Entry<Object, Object> entry : searchGrid.getParameters().entrySet()) {
 			WEditor editor = (WEditor) entry.getValue();
 			GridFieldVO field = editor.getGridField().getVO();
 			if (!onRange) {
@@ -944,28 +1075,167 @@ public class WBrowser extends Browser implements IFormController,
 						&& !editor.getValue().toString().isEmpty()
 						&& !field.isRange) {
 					sql.append(" AND ");
-					sql.append(field.Help).append("=? ");
-					m_parameters.add(field.Help);
-					m_parameters_values.add(editor.getValue());
+
+                    if(DisplayType.String == field.displayType)
+                    {
+						if (field.ColumnName.equals("Value")
+								|| field.ColumnName.equals("DocumentNo"))
+						{
+							String value = (String)editor.getValue();
+							if (value.contains(","))
+							{
+								value = value.replace(" ", "");
+								String token;
+								String inStr = new String(value);
+								StringBuffer outStr = new StringBuffer("(");
+								int i = inStr.indexOf(',');
+								while (i != -1)
+								{
+									outStr.append("'" + inStr.substring(0, i) + "',");	
+									inStr = inStr.substring(i+1, inStr.length());
+									i = inStr.indexOf(',');
+
+								}
+								outStr.append("'" + inStr + "')");
+								sql.append(field.Help).append(" IN ")
+								.append(outStr);
+							}						
+						}
+						else
+                    	{
+                    		sql.append(field.Help).append(" LIKE ? ");
+                    		m_parameters.add(field.Help);
+                    		m_parameters_values.add("%" + editor.getValue() + "%");
+                    	}      	
+                    }
+                    else
+                    {
+                        sql.append(field.Help).append("=? ");
+                        m_parameters.add(field.Help);
+                        m_parameters_values.add(editor.getValue());
+                    }
 				} else if (editor.getValue() != null
 						&& !editor.getValue().toString().isEmpty()
 						&& field.isRange) {
 					sql.append(" AND ");
-					sql.append(field.Help).append(" BETWEEN ?");
+					//sql.append(field.Help).append(" BETWEEN ?");
+					sql.append(field.Help).append(" >= ? ");
 					m_parameters.add(field.Help);
 					m_parameters_values.add(editor.getValue());
+					onRange = true;
+				}
+				else if (editor.getValue() == null
+						&& field.isRange) {
 					onRange = true;
 				} else
 					continue;
 			} else if (editor.getValue() != null
 					&& !editor.getValue().toString().isEmpty()) {
-				sql.append(" AND ? ");
+				//sql.append(" AND ? ");
+				sql.append(" AND ").append(field.Help).append(" <= ? ");
 				m_parameters.add(field.Help);
 				m_parameters_values.add(editor.getValue());
 				onRange = false;
 			}
+			else
+				onRange = false;
 		}
 		m_whereClause = sql.toString();
 		return sql.toString();
+	}
+
+	public void setParameters() {
+		
+		m_parameters_values = new ArrayList<Object>();
+		m_parameters = new ArrayList<Object>();
+		m_parameters_field = new ArrayList<GridFieldVO>();
+		boolean onRange = false;
+		
+		for (Entry<Object, Object> entry : searchGrid.getParameters().entrySet()) {
+			WEditor editor = (WEditor) entry.getValue();
+			GridFieldVO field = editor.getGridField().getVO();
+			if (!onRange) {
+
+				if (editor.getValue() != null
+						&& !editor.getValue().toString().isEmpty()
+						&& !field.isRange) {
+					m_parameters.add(field.Help);
+					m_parameters_values.add(editor.getValue());
+					m_parameters_field.add(field);
+				} else if (editor.getValue() != null
+						&& !editor.getValue().toString().isEmpty()
+						&& field.isRange) {
+					m_parameters.add(field.Help);
+					m_parameters_values.add(editor.getValue());
+					m_parameters_field.add(field);
+					onRange = true;
+				} else
+					continue;
+			} else if (editor.getValue() != null
+					&& !editor.getValue().toString().isEmpty()) {
+				m_parameters.add(field.Help);
+				m_parameters_values.add(editor.getValue());
+				m_parameters_field.add(field);
+				onRange = false;
+			}
+		}
+	}
+
+	/**
+	 * Evaluate Mandatory Filter
+	 * @return
+	 */
+	public boolean evaluateMandatoryFilter()
+	{
+		Object value_from=null;
+		boolean onRange = false;
+		boolean result =true;
+
+		for (Entry<Object, Object> entry : searchGrid.getParameters().entrySet()) {
+			WEditor editor = (WEditor) entry.getValue();
+			GridFieldVO field = editor.getGridField().getVO();
+			if (!onRange) {
+
+				if ((editor.getValue() == null
+						|| (editor.getValue() != null && editor.getValue().toString().isEmpty()))
+						&& !field.isRange
+						&& editor.isMandatory()) {
+					FDialog.error(getWindowNo(), getForm(), "FillMandatory", Msg.translate(Env.getCtx(), field.ColumnName));
+					return false;
+				} else if (editor.getValue() != null
+						&& !editor.getValue().toString().isEmpty()
+						&& field.isRange
+						&& editor.isMandatory()) {
+					onRange = true;
+					value_from =editor.getValue();
+				}else if (editor.getValue() == null
+						&& field.isRange
+						&& editor.isMandatory()) {
+					onRange = true;
+					value_from = null;
+				}
+				else
+					continue;
+			} else if ((editor.getValue() == null
+					|| (editor.getValue() != null && editor.getValue().toString().isEmpty()))
+					&& editor.isMandatory()) {
+				if (value_from!=null){
+					value_from=null;
+					onRange = false;
+				}
+				else
+				{
+					FDialog.error(getWindowNo(), getForm(), "FillMandatory", Msg.translate(Env.getCtx(),field.ColumnName));
+					return false;
+				}
+			}
+			else{
+				onRange = false;
+				value_from=null;
+			}
+
+		}
+
+		return result;
 	}
 }

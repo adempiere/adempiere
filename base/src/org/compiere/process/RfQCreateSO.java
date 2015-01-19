@@ -96,7 +96,7 @@ public class RfQCreateSO extends SvrProcess
 		order.setSalesRep_ID(rfq.getSalesRep_ID());
 		if (rfq.getDateWorkComplete() != null)
 			order.setDatePromised(rfq.getDateWorkComplete());
-		order.save();
+		order.saveEx();
 
 		MRfQLine[] lines = rfq.getLines();
 		for (int i = 0; i < lines.length; i++)
@@ -137,14 +137,14 @@ public class RfQCreateSO extends SvrProcess
 						}
 					}	//	price
 					ol.setPrice(price);
-					ol.save();
+					ol.saveEx();
 				}	//	Offer Qty
 			}	//	All Qtys
 		}	//	All Lines
 
 		//
 		rfq.setC_Order_ID(order.getC_Order_ID());
-		rfq.save();
+		rfq.saveEx();
 		return order.getDocumentNo();
 	}	//	doIt
 }

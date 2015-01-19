@@ -1,0 +1,2541 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Name:			manual.xml
+	Description:	User Documentation for Migrate in DocBook5 format
+	Created:		2010-08-11
+	Vendor:			K.K. Alice
+	Author:			Stefan Christians
+
+	FileTarget:	~/development/sandbox/adempiere/migrate/src/com/kkalice/adempiere/migrate/documentation/manual.xml
+	FileOwner:	root.root
+	FilePerms:	0644
+-->
+<!DOCTYPE book [
+<!ENTITY % isopub SYSTEM "http://www.w3.org/2003/entities/iso8879/isopub.ent">%isopub;
+<!ENTITY % isonum SYSTEM "http://www.w3.org/2003/entities/iso8879/isonum.ent">%isonum;
+]>
+<book xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0-extension adempiere-1.0">
+	<info>
+		<!-- version date -->
+		<date>2012-11-12</date>
+		<!-- version number -->
+		<releaseinfo></releaseinfo>
+		<!-- title - on cover page, first title is printed above subtitle, additional titles are printed below subtitle and abstract -->
+		<title>Migrate</title>
+		<title>User Manual</title>
+		<!-- subtitle -->
+		<subtitle>Adempiere Migration Tool</subtitle>
+		<!-- description: the title gets printed on the title page - keep it short -->
+		<abstract>
+			<title>Tool for Upgrading, Transferring, or Converting Databases</title>
+			<para>
+				While tools such as migration scripts for upgrading or <productname>DDLUtils</productname> for converting databases are suitable
+				for <productname>Adempiere</productname>'s application developers to maintain the seed database, they
+				are a bit challenging for the average user to maintain their live database.
+			</para>
+			<para>
+				<productname>Migrate</productname> provides a graphical user interface for upgrading databases.
+			</para>
+			<para>
+				It can also be used for converting between database vendors (like <productname>Oracle</productname> and <productname>postgreSQL</productname>)
+				or applications (like <productname>Compiere</productname> and <productname>Adempiere</productname>).
+			</para>
+		</abstract>
+		<!-- authors -->
+		<authorgroup>
+			<author><personname><firstname>Stefan</firstname><surname>Christians</surname></personname></author>
+		</authorgroup>
+		<!-- copyright holders get special mention in legal notice-->
+		<copyright>
+			<year></year>
+			<holder>Stefan Christians</holder>
+		</copyright>
+		<!-- collaborators -->
+		<collab>
+			<!-- persons are listed as contributors in legal notice -->
+			<person><personname><firstname>Stefan</firstname><surname>Christians</surname></personname></person>
+			<!-- organizations are listed as sponsors in legal notice -->
+			<org><orgname>K.K. Alice</orgname></org>
+		</collab>
+	</info>
+	<chapter>
+		<info>
+			<title>
+				Introduction
+			</title>
+		</info>
+		<section>
+			<info>
+				<title>
+					What is Data Migration?
+				</title>
+			</info>
+			<para>Welcome to <productname>Migrate</productname>, <productname>Adempiere</productname>'s universal migration tool for upgrading, transferring, and converting databases. </para>
+			<para>“Migrating” means moving from one place to another. Specifically for databases, “migrating data” can have either of the following meanings: <orderedlist numeration="loweralpha">
+					<listitem>
+						<para>Transferring</para>
+						<para>The process of transferring data between storage types or computer systems. Like copying data from hard disk to floppies, or from one server to another. This is commonly referred to as Copying, Transferring, Moving, or Replicating.</para>
+					</listitem>
+					<listitem>
+						<para>Converting</para>
+						<para>The process of converting data from one format or system to another. For example, if your company changes its database system from a proprietary vendor to an open source alternative, the data needs to be manipulated to fit into the new database's format. This is commonly referred to as Converting or Translating.</para>
+					</listitem>
+					<listitem>
+						<para>Upgrading</para>
+						<para>The process of upgrading a database's structure to enable new or different functionality. Newer software versions may have introduced new functionality or bug fixes which require a different database structure than was available in previous versions. In such cases, your database needs to be adjusted to the new structure so that it can be correctly utilized by the new software version. This is commonly referred to as version migration or upgrading.</para>
+					</listitem>
+				</orderedlist>
+			</para>
+			<para><productname>Migrate</productname> can do all three types of migration, therefore we call it a Universal Migration Tool. </para>
+			<para>You can use <productname>Migrate</productname> for following tasks: <itemizedlist spacing="compact">
+					<listitem>
+						<para>converting your database from <productname>Oracle</productname> to <productname>postgreSQL</productname>
+						</para>
+					</listitem>
+					<listitem>
+						<para>converting your database for use by <productname>Compiere</productname> to use by <productname>Adempiere</productname>
+						</para>
+					</listitem>
+					<listitem>
+						<para>upgrading your database for use by a different <productname>Adempiere</productname> version </para>
+					</listitem>
+				</itemizedlist>
+			</para>
+		</section>
+		<section>
+			<info>
+				<title>
+					History
+				</title>
+			</info>
+			<para>Before <productname>Adempiere</productname> forked from the <productname>Compiere</productname> project, version migration was available to <productname>Compiere</productname> users for a fee. The user had to load the newest reference database, which was distributed with the <productname>Compiere</productname> software package, and then start a closed-source proprietary migration program, which would check the license validity and download SQL scripts from <productname>Compiere</productname>'s web server to correctly upgrade the live database by copying the reference database's structure. This was done through a graphical user interface which was straight-forward and worked very well, but it had one disadvantage (apart from the obvious cost factor and being closed-source): it was not very flexible. </para>
+			<para>This is inherent in the nature of scripts – they run a number of commands in sequence to get from origin A to target B. It is not possible to get to a target C or D. For <productname>Compiere</productname> it meant that it was only possible to upgrade from older versions to the newest version, not to a version in between or downgrade to a lower version. You had to load the newest reference database to work with the newest scripts. As a consequence, you were forced to do a full upgrade every time, introducing many bugs and trial features, which was not ideal for business environments. </para>
+			<figure xml:id="doc_compiereMigration">
+				<info>
+					<title>
+						<productname>Compiere</productname>'s proprietary upgrade service
+					</title>
+					<titleabbrev>
+						Migration under <productname>Compiere</productname>
+					</titleabbrev>
+				</info>
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="images/doc_compiereMigration.png" format="PNG" contentwidth="6cm"/>
+					</imageobject>
+				</mediaobject>
+			</figure>
+			<para>Since <productname>Compiere</productname>'s version migration was proprietary, it was not included in the code base from which <productname>Adempiere</productname> forked out, and a new solution had to be found quickly to be able to do any version migration at all. Karsten Thiemann programmed a nice little tool called <productname>DBDifference</productname>, which would generate SQL-scripts based on the structural differences between the reference and target database. The SQL-scripts would then be manually applied to upgrade the target database. </para>
+			<para>As the user is actively involved in SQL-script generation and can also review and edit the scripts before they are applied to the target database, there is of course much more flexibility and control than was possible with <productname>Compiere</productname>'s solution. But for the casual database user the task was daunting, and real world implementations with numerous extensions and customizations messing up <productname>DBDifference</productname>'s logic required heavy interventions which were not always feasible. <productname>DBDifference</productname> also relied mainly on the reference database's design, without giving much thought to the contents of the Application Dictionary, a storage of meta-data and rules defining the data's use by <productname>Adempiere</productname> where also most customizations are defined. </para>
+			<para>Once your data reflected the structure required by an <productname>Adempiere</productname> release, things got easier because you could use scripts pre-generated by the <productname>Adempiere</productname> team (if you took good care of your customizations), but getting to that point was a major task. </para>
+			<figure xml:id="doc_adempiereMigration">
+				<info>
+					<title>
+						<productname>Adempiere</productname>'s script-based solution required massive user intervention
+					</title>
+					<titleabbrev>
+						Traditional Migration under <productname>Adempiere</productname>
+					</titleabbrev>
+				</info>
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="images/doc_adempiereMigration.png" format="PNG" contentwidth="6cm"/>
+					</imageobject>
+				</mediaobject>
+			</figure>
+			<para>To make things worse, with <productname>Adempiere</productname> you had the choice of using <productname>postgreSQL</productname>, a free and open-source database system. So if you previously used a proprietary database system, you had to do a conversion migration to translate your data to <productname>postgreSQL</productname>. Another set of tools ( <productname>DDLUtils</productname> ) was used for this purpose, also requiring heavy user intervention. </para>
+			<para>So although the migration tools introduced by <productname>Adempiere</productname> were very flexible and in many cases proven to be workable, they lacked the ease of use old hands were accustomed to from <productname>Compiere</productname>'s version migration tool. Being very suitable for <productname>Adempiere</productname>'s application developers to maintain the seed database, they are a bit challenging for the average <productname>Adempiere</productname> user. </para>
+			<para><productname>Migrate</productname> solves these disadvantages by providing a graphical user interface which makes it easy to use for the uninitiated, and giving up on the script concept entirely by using algorithms instead. Also <productname>Migrate</productname> uses a reference database against which the live database is checked, but the algorithms also make heavy use of the meta-data available in <productname>Adempiere</productname>'s Application Dictionary and thus are also aware of any customizations and extensions. Any changes to the live database are made directly, no scripts are generated or need to be applied. </para>
+			<figure xml:id="doc_migrateMigration">
+				<info>
+					<title>
+						<productname>Migrate</productname> simplifies automated migration using algorithms instead of scripts
+					</title>
+					<titleabbrev>
+						New Migration under <productname>Adempiere</productname> using <productname>Migrate</productname>
+					</titleabbrev>
+				</info>
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="images/doc_migrateMigration.png" format="PNG" contentwidth="6cm"/>
+					</imageobject>
+				</mediaobject>
+			</figure>
+		</section>
+		<section>
+			<info>
+				<title>
+					Functionality
+				</title>
+			</info>
+			<section>
+				<info>
+					<title>
+						Transfer Mode
+					</title>
+				</info>
+				<para><productname>Migrate</productname> reads the structure and data from a source database and writes it into a target database. In its most simple form, this corresponds to what we previously described as Transfer Migration. </para>
+				<para>You can therefore use migrate to transfer or copy a database from server A to server B, though it is not recommendable. This kind of migration is very straight-forward and does not require any overhead logic, and the tools provided by your database vendor (<command>exp</command> and <command>imp</command> for <productname>Oracle</productname>, <command>pg_dump</command> and <command>pg_restore</command> for <productname>postgreSQL</productname>) are much more suitable and extremely efficient. <productname>Migrate</productname> is much too slow and bulky for this task. </para>
+				<para>However, <productname>Migrate</productname> comes in handy if the source and target are for different database vendors, for example if you want to transfer your data from <productname>Oracle</productname> to <productname>postgreSQL</productname>. This is what we previously described as Conversion Migration. </para>
+				<para>In this case, <productname>Migrate</productname> reads content from the source database, translates it to a format understood by the target database, and then writes it to the target. </para>
+				<para>Note that although <productname>Migrate</productname> attempts to correctly translate content to the target's format, this is not always possible. Converting data types and indexes is relatively safe, converting views is a bit more difficult, and translating functions and procedural languages, such as from <productname>pl/sql</productname> to <productname>PL/pgSQL</productname>, is virtually impossible if you do not program a full-fledged command interpreter. Consequently, the user will be given warning messages to check on views that have been translated, but the translation of functions is currently not implemented at all. </para>
+				<para>In both above cases, data is read from the source and a new target is created, or an existing target is overwritten, to contain the source's data. The only difference is whether or not the source and target vendors are different. In <productname>Migrate</productname>, this kind of migration is called “Transfer Mode”. </para>
+			</section>
+			<section>
+				<info>
+					<title>
+						Upgrade Mode
+					</title>
+				</info>
+				<para>Things get more interesting if the target does not get overwritten, but if source data is merged into existing target data: The table structure etc. of your live data in the target table is modified to reflect the structure provided as reference from the source table. Data records missing in the target will be added from the source. Views and Functions defined in the target will be replaced by those defined in the source. So if a new <productname>Adempiere</productname> version required new tables or views or functions, that functionality would be copied to your live data from the source database. We therefore call this kind of migration “Upgrade Mode”, and the source is the reference database and the target is your live database. </para>
+				<para>This version migration is what will most often be used. </para>
+				<para>Note that version migration only refers to <productname>Adempiere</productname> versions, not versions of the database engine. Your database vendor will provide you tools to upgrade the database version, if necessary. Normally this is also achieved very efficiently by exporting (or dumping) data, installing the new database version, and then importing (or restoring) from the dump file. </para>
+			</section>
+			<section>
+				<info>
+					<title>
+						Putting it all Together
+					</title>
+				</info>
+				<para>Say you are currently running <productname>Compiere</productname> on an <productname>Oracle</productname> database, and you want to change over to <productname>Adempiere</productname> on a <productname>postgreSQL</productname> database. You would do this migration in two steps (each step will take approximately 3-5 hours, depending on the size of your live database): </para>
+				<para>First you would transfer your data from <productname>Oracle</productname> to <productname>postgreSQL</productname>. <productname>Migrate</productname> will take care that all data types are correctly translated and move the data. All tables, indexes, sequences, foreign keys etc. will be applied in the target database. An attempt will be made to translate views. Functions will be commented out (so that you can review the original code) and replaced with compilable stubs. </para>
+				<para>This translation is intended as a one-way step. If you try to translate back and forth between database vendors, you will eventually end up with gibberish.</para>
+				<para>As second step, you would load the reference database and run a version migration. Now the views and functions will be replaced by those defined in the reference database. So only your custom views need to be checked and custom functions need to be translated manually.</para>
+				<para>When done, you are ready to use <productname>Adempiere</productname> running on <productname>postgreSQL</productname>. From now on, you will only require version migrations each time you upgrade <productname>Adempiere</productname>, and they will run significantly faster. </para>
+			</section>
+		</section>
+		<section>
+			<info>
+				<title>
+					Process Description
+				</title>
+			</info>
+			<para><productname>Migrate</productname> performs the following steps to run a migration:</para>
+			<section>
+				<info>
+					<title>
+						Connect to Databases
+					</title>
+				</info>
+				<para><productname>Migrate</productname> uses <productname>JDBC</productname> to connect to the source and target databases.</para>
+				<para>If conducting a transfer migration, any existing data in the target database is erased.</para>
+			</section>
+			<section>
+				<info>
+					<title>
+						Load Meta-Data
+					</title>
+				</info>
+				<para>As a first step, some tests are made to detect and correct buggy behavior by some <productname>JDBC</productname> drivers.</para>
+				<para>Meta-data on the database's structure (tables, indexes, views, functions, sequences, foreign keys, etc.) is loaded.</para>
+				<para>The Application Dictionary is accessed to gather information on customizations, system clients, and languages used.</para>
+			</section>
+			<section>
+				<info>
+					<title>
+						Structural Migration
+					</title>
+				</info>
+				<para>To get rid of overhead, <productname>Migrate</productname> first of all removes all kinds of database objects which are not tables from the
+target database:</para>
+				<itemizedlist spacing="compact">
+					<listitem>
+						<para>check constraints</para>
+					</listitem>
+					<listitem>
+						<para>unique constraints</para>
+					</listitem>
+					<listitem>
+						<para>foreign keys</para>
+					</listitem>
+					<listitem>
+						<para>views</para>
+					</listitem>
+					<listitem>
+						<para>operators</para>
+					</listitem>
+					<listitem>
+						<para>triggers</para>
+					</listitem>
+					<listitem>
+						<para>functions</para>
+					</listitem>
+					<listitem>
+						<para>primary keys<footnote xml:id="fnNdxPkDrp">
+								<para>For performance reasons, primary keys and indexes are actually dropped at a later stage, and also temporary indexes are created and later dropped again during the migration process. These performance enhancements do not affect the functionality of the actual migration process and are omitted in this description for simplicity's sake.</para>
+							</footnote>
+						</para>
+					</listitem>
+					<listitem>
+						<para>indexes<footnoteref linkend="fnNdxPkDrp" />
+						</para>
+					</listitem>
+				</itemizedlist>
+				<para>With the database reduced to this state, <productname>Migrate</productname> can pretty much do whatever it wants without running into constraint issues or being slowed down for integrity checks.</para>
+				<para>Then temporary tables are truncated to reduce the amount of data that needs to be migrated and thus increase performance:</para>
+				<itemizedlist spacing="compact">
+					<listitem>
+						<para>Data from temporary tables (T_&hellip;) is removed</para>
+					</listitem>
+					<listitem>
+						<para>Records from Import tables (I_&hellip;) which have already been imported are removed</para>
+					</listitem>
+					<listitem>
+						<para>Records from the TEST table (Test) are removed</para>
+					</listitem>
+					<listitem>
+						<para>Processes and Errors are removed (AD_PInstance, AD_Find, AD_Error)</para>
+					</listitem>
+					<listitem>
+						<para>Changes which are not customizations are removed (AD_ChangeLog)</para>
+					</listitem>
+					<listitem>
+						<para>Sessions older than a week are removed (AD_Session)</para>
+					</listitem>
+					<listitem>
+						<para>Notes which have been processed are removed (AD_Note)</para>
+					</listitem>
+					<listitem>
+						<para>Log entries older than a week are removed (&hellip;Log)</para>
+					</listitem>
+				</itemizedlist>
+				<para>The GardenWorld demonstration client is dropped, and all system records which are not referenced by real clients are purged.</para>
+				<para>Any sequences defined in the target are synchronized with the reference database, and sequences which are not yet defined are added.</para>
+				<para>Finally, the main structural migration task of synchronizing the target's table structure starts:</para>
+				<itemizedlist spacing="compact">
+					<listitem>
+						<para>Non-customized tables are dropped from the target if they do not exist in the reference database</para>
+					</listitem>
+					<listitem>
+						<para>Tables existing only in the reference database are added to the target</para>
+					</listitem>
+					<listitem>
+						<para>Tables existing in both the target and the reference database are synchronized:</para>
+						<itemizedlist spacing="compact">
+							<listitem>
+								<para>Target tables are renamed to have the same name as their counterparts in the reference database<footnote>
+										<para>This feature is not implemented yet.</para>
+									</footnote>
+								</para>
+							</listitem>
+							<listitem>
+								<para>Non-customized columns are dropped from the target if they do not exist in the reference database</para>
+							</listitem>
+							<listitem>
+								<para>Columns existing only in the reference database are added to the target</para>
+							</listitem>
+							<listitem>
+								<para>Columns existing in both the target and the reference database are synchronized so that the target column has the same properties as the column in the reference database:</para>
+								<itemizedlist spacing="compact">
+									<listitem>
+										<para>column name</para>
+									</listitem>
+									<listitem>
+										<para>data type and size</para>
+									</listitem>
+									<listitem>
+										<para>default values</para>
+									</listitem>
+									<listitem>
+										<para>nullable constraint</para>
+									</listitem>
+								</itemizedlist>
+							</listitem>
+						</itemizedlist>
+					</listitem>
+				</itemizedlist>
+				<para>After table synchronization, any non-customized sequences are dropped from the target if they do not exist in the reference database.</para>
+				<para>Database objects are recreated – all objects existing in the reference database are created in the target, and those target objects which are customizations are re-created:</para>
+				<itemizedlist spacing="compact">
+					<listitem>
+						<para>functions</para>
+					</listitem>
+					<listitem>
+						<para>triggers</para>
+					</listitem>
+					<listitem>
+						<para>operators</para>
+					</listitem>
+					<listitem>
+						<para>views</para>
+					</listitem>
+					<listitem>
+						<para>indexes<footnote xml:id="fnNdxPkCrt">
+								<para>For performance reasons, indexes and primary keys are actually recreated at a later stage after data migration.</para>
+							</footnote>
+						</para>
+					</listitem>
+					<listitem>
+						<para>primary keys<footnoteref linkend="fnNdxPkCrt" />
+						</para>
+					</listitem>
+				</itemizedlist>
+			</section>
+			<section>
+				<info>
+					<title>
+						Data Migration
+					</title>
+				</info>
+				<para>Data records are transferred from the reference database to the target:</para>
+				<itemizedlist spacing="compact">
+					<listitem>
+						<para>if the record does not yet exist in the target, it is added.</para>
+					</listitem>
+					<listitem>
+						<para>if the record already exists in the target, the target record is updated to contain the same data in all columns as the reference database.</para>
+					</listitem>
+				</itemizedlist>
+				<para>New parent tables are populated<footnote>
+						<para>This feature is not implemented yet.</para>
+					</footnote> (only for upgrade migrations). If new tables are added to the target which use previously existing independent tables as child tables, records must be added to the parent table to reflect already existing data in the child tables.</para>
+				<para>Parent links are preserved (only for upgrade migrations). If a target table did not contain a column which is used as part of a foreign key constraint in the reference database, that column will have been added with a default value which does not reference any parent record. The correct parent must be found and the default value replaced with a link to the parent record.</para>
+				<para>Orphaned data is removed (only for upgrade migrations). Records who's parent records have been purged during migration are orphans which are no longer required and must be deleted.</para>
+				<para>Check constraints are enforced (only for upgrade migrations). Records containing values which would violate a check constraint are modified to comply with the constraint.</para>
+			</section>
+			<section>
+				<info>
+					<title>
+						Cleanup
+					</title>
+				</info>
+				<para>Cleanup operations are performed only for upgrade migrations:</para>
+				<para>Customizations are re-applied. Users may modify windows and processes in <productname>Adempiere</productname>, but those modifications would be overwritten and reset by the migration process. Modifications which should be preserved can be marked as customization in the change log, and they will be re-applied.</para>
+				<para>Sequence counters are checked to ensure that the next number is larger than any number already used in the database. Missing sequence counters are added (Sequence counters defined in the application dictionary as well as native database sequence counters).</para>
+				<para>Missing translations are added. If translation records are required but do not exist yet, they are added with the original text from the main record.</para>
+				<para>Terminology is synchronized:</para>
+				<itemizedlist spacing="compact">
+					<listitem>
+						<para>New elements are created in the application dictionary for any columns or parameters which have no base element defined yet.</para>
+					</listitem>
+					<listitem>
+						<para>unused elements are deleted</para>
+					</listitem>
+					<listitem>
+						<para>consistent terminology is deployed throughout the application dictionary</para>
+					</listitem>
+				</itemizedlist>
+				<para>Trees are re-organized so that customized nodes are inserted back into their original locations.</para>
+				<para>Security settings are verified and role access records updated or added.</para>
+				<para>Version information stored in the application dictionary is updated.</para>
+			</section>
+			<section>
+				<info>
+					<title>
+						Enforce Constraints
+					</title>
+				</info>
+				<para>Constraints are recreated – all constraints existing in the reference database are created in the target, and those target constraints which are customizations are re-created:</para>
+				<itemizedlist spacing="compact">
+					<listitem>
+						<para>foreign keys</para>
+					</listitem>
+					<listitem>
+						<para>check constraints</para>
+					</listitem>
+					<listitem>
+						<para>unique constraints</para>
+					</listitem>
+				</itemizedlist>
+			</section>
+			<section>
+				<info>
+					<title>
+						Close Database Connections
+					</title>
+				</info>
+				<para>The source connection is closed and, if appropriate, the reference database is dropped.</para>
+				<para>Any remaining changes are committed to the target and the target connection is closed. If requested, the live database will be optimized.</para>
+			</section>
+		</section>
+	</chapter>
+	<chapter>
+		<info>
+			<title>
+				Marking Customizations
+			</title>
+		</info>
+		<para>Customizations are preserved through migrations. Entities which are not recognized as customizations will be dropped or overwritten from the reference database.</para>
+		<para><productname>Migrate</productname> recognizes four different levels of customization:</para>
+		<variablelist>
+			<varlistentry>
+				<term><constant>CUSTOMPREFIXED</constant></term>
+				<listitem>
+						<para>An entity is named with a special prefix which identifies it as a customization. Prefixes are stored in the Application Dictionary.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><constant>CUSTOMMARKED</constant></term>
+				<listitem>
+					<para>An entity is marked as customization in the Application Dictionary.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><constant>CUSTOMIMPLIED</constant></term>
+				<listitem>
+					<para>An entity itself is not customized, but it contains customized components.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><constant>CUSTOMNONE</constant></term>
+				<listitem>
+					<para>An entity is not customized.</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+		<para>The only way to determine the customization level is by consulting the Application Dictionary, which means you must have informed the Application Dictionary about your customizations before you start <productname>Migrate</productname>.</para>
+		<section>
+			<info>
+				<title>
+					Registering Custom Entity Types
+				</title>
+			</info>
+			<para>You can register four-letter entity types to identify your customizations. These four letters can also be used as prefix to name database objects which are not maintained by the application dictionary.</para>
+			<para>For example, if you decide to identify your customizations by entity type <literal>QRST</literal>, then you can create a custom index and name it <literal>QRST_MyIndexName</literal>. Because <literal>QRST</literal> is registered as custom entity type in the Application Dictionary, <productname>Migrate</productname> understands that <literal>QRST_MyIndexName</literal> is a custom index and will preserve it.<footnote>
+					<para>Exception: If the same four letters are also registered as entity type in the reference database, they will not be considered as customization markers. The reasoning behind this is that if you use a customized reference database, those customizations contained in the reference database should also be maintained and controlled by the reference database and not protected by <productname>Migrate</productname>.</para>
+				</footnote>
+			</para>
+			<para>It is good practice to also name those objects which are maintained by the Application Dictionary using your custom prefix, like <literal>QRST_MyTableName</literal> and <literal>QRST_MyColumnName</literal>. This makes the customizations also easily recognizable by human database administrators. </para>
+			<para>Of course you can also use different entity types for different topics, like <literal>QRS1</literal> for security related customizations, <literal>QRS2</literal> for accounting related customizations, etc. </para>
+			<para>To register your custom entity type, log in as <userinput>System</userinput> and open the window <menuchoice><guimenu>Application Dictionary</guimenu><guimenuitem>Entity Type</guimenuitem></menuchoice>. </para>
+			<figure xml:id="doc_entityMenu">
+				<info>
+					<title>
+						Select <guimenuitem>Entity Type</guimenuitem> from the <guimenu>Application Dictionary</guimenu> menu
+					</title>
+					<titleabbrev>
+						Entity Type Menu
+					</titleabbrev>
+				</info>
+<screenshot><mediaobject><imageobject><imagedata fileref="images/doc_entityMenu.png" format="PNG" contentwidth="11cm"/></imageobject></mediaobject></screenshot>
+			</figure>
+			<para>Create a new record, enter four letters as your new entity type, and give it a short name and a description.</para>
+			<figure xml:id="doc_registerEntity">
+				<info>
+					<title>
+						Register your custom entity type in the Application Dictionary
+					</title>
+					<titleabbrev>
+						Registering an Entity Type
+					</titleabbrev>
+				</info>
+<screenshot><mediaobject><imageobject><imagedata fileref="images/doc_registerEntity.png" format="PNG" contentwidth="13.6cm"/></imageobject></mediaobject></screenshot>
+			</figure>
+		</section>
+		<section>
+			<info>
+				<title>
+					Mark Customizations in the Application Dictionary
+				</title>
+			</info>
+			<para>You can now use your new entity type to mark your customizations in the Application Dictionary.</para>
+			<para>For example, if you add a new column to a table, you can define it as being of your new entity type:</para>
+			<figure xml:id="doc_selectEntity">
+				<info>
+					<title>
+						Select your custom entity type for newly created objects
+					</title>
+					<titleabbrev>
+						Selecting an Entity Type
+					</titleabbrev>
+				</info>
+<screenshot><mediaobject><imageobject><imagedata fileref="images/doc_selectEntity.png" format="PNG" contentwidth="16cm"/></imageobject></mediaobject></screenshot>
+			</figure>
+			<para>Apart from your own entity types, you can of course also mark your customizations with one of the predefined types <constant>User maintained</constant>, <constant>Applications</constant>, <constant>Other Customizations</constant>, <constant>Extensions</constant>, or <constant>Other Extensions</constant>.</para>
+			<para>Do not use <constant>Adempiere</constant> or <constant>Dictionary</constant>, which mark your changes as system-maintained and they will be dropped during the next version migration.</para>
+		</section>
+		<section>
+			<info>
+				<title>
+					Mark Customizations in the Change Log
+				</title>
+			</info>
+			<para>In some cases it is not possible to identify your changes with a custom entity type.</para>
+			<para>For example, if you wanted to change the Business Partner window so that the organization field is not displayed next to the client field but below it in the next row. Logged in as <userinput>System</userinput>, you would make the changes in the window <menuchoice><guimenu>Application Dictionary</guimenu><guimenuitem>Window, Tab &amp; Field</guimenuitem></menuchoice>. Navigate to the <guilabel>Organization</guilabel> field, and deselect <guilabel>Same Line</guilabel> so that the field gets displayed in the next row.</para>
+			<figure xml:id="doc_tweakWindow">
+				<info>
+					<title>
+						Tweaking window appearance
+					</title>
+					<titleabbrev>
+						Window Customization
+					</titleabbrev>
+				</info>
+<screenshot><mediaobject><imageobject><imagedata fileref="images/doc_tweakWindow.png" format="PNG" contentwidth="11.4cm"/></imageobject></mediaobject></screenshot>
+			</figure>
+			<para>But as you can see, the entity type for this field is already <constant>Dictionary</constant>, and you can not apply your custom entity type.</para>
+			<para>To still protect your change from being undone during the next version migration, you can mark it as customization in the change log. For security reasons, <productname>Adempiere</productname> keeps a log of changes done to the system. The log can be accessed from the window <menuchoice><guimenu>System Admin</guimenu><guisubmenu>General Rules</guisubmenu><guisubmenu>Security</guisubmenu><guimenuitem>Change Audit.</guimenuitem></menuchoice>
+			</para>
+			<figure xml:id="doc_changeMenu">
+				<info>
+					<title>
+						Select <guimenuitem>Change Audit</guimenuitem> from the <guimenu>Security</guimenu> menu
+					</title>
+					<titleabbrev>
+						Change Log Menu
+					</titleabbrev>
+				</info>
+<screenshot><mediaobject><imageobject><imagedata fileref="images/doc_changeMenu.png" format="PNG" contentwidth="11cm"/></imageobject></mediaobject></screenshot>
+			</figure>
+			<para>Find the change you want to keep permanently and mark it is customization:</para>
+			<figure xml:id="doc_markCustomization">
+				<info>
+					<title>
+						Marking changes as customization in the Change Log
+					</title>
+					<titleabbrev>
+						Marking Customizations
+					</titleabbrev>
+				</info>
+<screenshot><mediaobject><imageobject><imagedata fileref="images/doc_markCustomization.png" format="PNG" contentwidth="14.5cm"/></imageobject></mediaobject></screenshot>
+			</figure>
+			<para><productname>Migrate</productname> will preserve changes marked as customization in such way.</para>
+		</section>
+	</chapter>
+	<chapter>
+		<info>
+			<title>
+				Migrating a Database
+			</title>
+		</info>
+		<section>
+			<info>
+				<title>
+					Preperation
+				</title>
+			</info>
+			<section>
+				<info>
+					<title>
+						Disconnect all Users
+					</title>
+				</info>
+				<para>The target database should be up and running.</para>
+				<para>No users should be logged in. Make sure all users are disconnected from the target and source database.</para>
+				<para>That includes the <productname>Adempiere</productname> server itself: Shut down the application server.</para>
+			</section>
+			<section>
+				<info>
+					<title>
+						Create a Backup
+					</title>
+				</info>
+				<para>You <emphasis>must</emphasis> have a backup of your live data before starting the migration process.</para>
+				<para>Remember the disclaimer at the beginning of this document: This program is distributed without warranty of fitness for a particular purpose. It may migrate your data, or it may completely mess up your database.</para>
+				<para>The easiest way to quickly create a backup is with <command>./RUN_DBExport.sh</command> (or <command>RUN_DBExport.bat</command>) in the <filename>utils</filename> directory.</para>
+				<para>That script will create a file <filename>ExpDat.dmp</filename> in the <filename>data</filename> directory, which can be easily restored using <command>./RUN_DBRestore.sh</command> (or <command>RUN_DBRestore.bat</command>), if necessary.</para>
+			</section>
+			<section>
+				<info>
+					<title>
+						Install new <productname>Adempiere</productname> version
+					</title>
+				</info>
+				<para>If you want to do an upgrade migration, download the <productname>Adempiere</productname> version you want to upgrade to and install it.</para>
+				<para>Then execute <command>./RUN_setup.sh</command> (or <command>RUN_setup.bat</command>) in <envar>$ADEMPIERE_HOME</envar> to configure <productname>Adempiere</productname>. The settings saved are also used by <productname>Migrate</productname>.</para>
+			</section>
+			<section>
+				<info>
+					<title>
+						Import Reference Database
+					</title>
+				</info>
+				<para>If you want to do an upgrade migration, install the reference database:</para>
+				<para>Execute <command>./RUN_ImportReference.sh</command> (or <command>RUN_ImportReference.bat</command>) in the <filename>utils</filename> directory.</para>
+				<para>If you want to do a transfer migration, make sure the source database is up and running.</para>
+			</section>
+			<section>
+				<info>
+					<title>
+						Verify Preconditions
+					</title>
+				</info>
+				<para>Make sure that</para>
+				<itemizedlist spacing="compact">
+					<listitem>
+						<para>no users are logged in</para>
+					</listitem>
+					<listitem>
+						<para>the <productname>Adempiere</productname> application server is shut down</para>
+					</listitem>
+					<listitem>
+						<para>you have a backup</para>
+					</listitem>
+					<listitem>
+						<para>the reference database is imported (for upgrade migrations)</para>
+					</listitem>
+					<listitem>
+						<para>the source or reference database is up and running</para>
+					</listitem>
+					<listitem>
+						<para>the target database is up and running</para>
+					</listitem>
+				</itemizedlist>
+			</section>
+		</section>
+		<section>
+			<info>
+				<title>
+					Running the Migration Tool
+				</title>
+			</info>
+			<para>Once all preparations have been done and verified, you can start <productname>Migrate</productname> by executing <command>./RUN_Migrate.sh</command> (or <command>RUN_Migrate.bat</command>) from the <filename>utils</filename> directory.</para>
+			<para>This will start the migration tool and display the interactive graphical user interface.<footnote>
+					<para>To run in text mode and/or suppress console output, the keywords <parameter>text</parameter> or <parameter>silent</parameter> can be given to the <command>RUN_Migrate</command> script as command line arguments.</para>
+				</footnote>
+			</para>
+			<para>When <productname>Migrate</productname> is started, it will read environment variables for setting parameters and options. Since the <command>RUN_Migrate</command> script loads <productname>Adempiere</productname>'s environment before calling <productname>Migrate</productname>, it effectively means that <productname>Adempiere</productname>'s settings will also be used by <productname>Migrate</productname>. Any settings not defined by environment variables will be supplemented with sensible values.</para>
+			<para>If <envar>$ADEMPIERE_HOME</envar> is defined, <productname>Migrate</productname> looks for a configuration file called <filename>migration.config</filename> in the <filename>$ADEMPIERE_HOME/utils</filename> directory, otherwise it will look for the configuration file in the current directory. If the file exists, configuration settings will be read from that configuration file, and any settings loaded from the environment will be overwritten. Once a migration was run, <productname>Migrate</productname> saves its settings to that configuration file, so next time it is started, your last parameters and options will be used again.</para>
+			<para>Any command line arguments passed to <productname>Migrate</productname> will override the settings loaded from the configuration file or from the environment so that command line arguments always take precedence.</para>
+			<section>
+				<info>
+					<title>
+						The User Interface
+					</title>
+				</info>
+				<figure xml:id="doc_gui">
+					<info>
+						<title>
+							<productname>Migrate</productname>'s interactive Graphical User Interface
+						</title>
+						<titleabbrev>
+							Grapical User Interface
+						</titleabbrev>
+					</info>
+<screenshot><mediaobject><imageobject><imagedata fileref="images/doc_gui.png" format="PNG" contentwidth="11cm"/></imageobject></mediaobject></screenshot>
+				</figure>
+				<para>Once the user interface is displayed, you need to select the migration mode, select some options to be used by the migration process, and set the database connection parameters.</para>
+				<section>
+					<info>
+						<title>
+							Migration Mode
+						</title>
+					</info>
+					<figure xml:id="doc_guiMode">
+						<info>
+							<title>
+								Migration Mode Settings
+							</title>
+							<titleabbrev>
+								Migration Mode
+							</titleabbrev>
+						</info>
+<screenshot><mediaobject><imageobject><imagedata fileref="images/doc_guiMode.png" format="PNG" contentwidth="11cm"/></imageobject></mediaobject></screenshot>
+					</figure>
+					<para>Select the mode in which to run the migration process.</para>
+					<para>Two different modes of migration can be performed:</para>
+					<variablelist>
+						<varlistentry>
+							<term>
+								<guilabel><accel>u</accel>pgrade</guilabel>
+							</term>
+							<listitem>
+								<para>Upgrade target to newest version as found in source.</para>
+								<para>This mode can also be used to convert from other applications to <productname>Adempiere</productname>.</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>
+								<guilabel>t<accel>r</accel>ansfer</guilabel>
+							</term>
+							<listitem>
+								<para>Copy source to target.</para>
+								<para>This mode can also be used to convert from other databases to <productname>postgreSQL</productname>.</para>
+							</listitem>
+						</varlistentry>
+					</variablelist>
+					<para>The default is to run an upgrade migration, but if different vendors are used as source and target database (see Parameters below), only a transfer migration can be performed.</para>
+				</section>
+				<section>
+					<info>
+						<title>
+							Options
+						</title>
+					</info>
+					<figure xml:id="doc_guiOptions">
+						<info>
+							<title>
+								Options
+							</title>
+							<titleabbrev>
+								Options
+							</titleabbrev>
+						</info>
+<screenshot><mediaobject><imageobject><imagedata fileref="images/doc_guiOptions.png" format="PNG" contentwidth="11cm"/></imageobject></mediaobject></screenshot>
+					</figure>
+					<para>Several options can be set to control migration behavior. Which options are available depends on the migration mode.</para>
+					<variablelist>
+						<varlistentry>
+							<term>
+								<guilabel>lo<accel>g</accel> level</guilabel>
+							</term>
+							<listitem>
+								<para><productname>Migrate</productname> creates three log files containing results of the migration process:</para>
+								<itemizedlist>
+									<listitem>
+										<para><filename>migration_<replaceable>timestamp</replaceable>.error.log</filename></para>
+										<para>contains any errors encountered during migration which must be fixed.</para>
+									</listitem>
+									<listitem>
+										<para><filename>migration_<replaceable>timestamp</replaceable>.warning.log</filename></para>
+										<para>contains hints for the database administrator of what has to be checked or might need to be done manually after migration has finished.</para>
+									</listitem>
+									<listitem>
+										<para><filename>migration_<replaceable>timestamp</replaceable>.trace.log</filename></para>
+										<para>contains the output messages of what steps and actions <productname>Migrate</productname> has performed.</para>
+									</listitem>
+								</itemizedlist>
+								<para>The log level option sets the threshold for messages to be recorded in the trace log. Messages with a lower priority will not be logged.</para>
+								<para>Available log levels in order of descending priority are:</para>
+								<itemizedlist spacing="compact">
+									<listitem>
+										<para><constant>no logging</constant></para>
+									</listitem>
+									<listitem>
+										<para><constant>errors only</constant></para>
+									</listitem>
+									<listitem>
+										<para><constant>post-migration tasks</constant> (warnings)</para>
+									</listitem>
+									<listitem>
+										<para><constant>migration steps</constant></para>
+									</listitem>
+									<listitem>
+										<para><constant>actions</constant></para>
+									</listitem>
+									<listitem>
+										<para><constant>details</constant></para>
+									</listitem>
+									<listitem>
+										<para><constant>SQL update queries</constant></para>
+									</listitem>
+									<listitem>
+										<para><constant>SQL read queries</constant></para>
+									</listitem>
+									<listitem>
+										<para><constant>everything</constant></para>
+									</listitem>
+								</itemizedlist>
+								<para>The default log level is <constant>actions</constant>.</para>
+								<para>Note that levels of <constant>details</constant> or lower can create huge trace files. Be sure to have enough disk space available.</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>
+								<guilabel><accel>a</accel>ttempt translations</guilabel>
+							</term>
+							<listitem>
+								<para>This option is only available in transfer mode.</para>
+								<para>When converting from one database to another, views and functions need to be translated.</para>
+								<para>If selected, <productname>Migrate</productname> will attempt to translate views and functions, otherwise they will be replaced with a compilable stub.</para>
+								<para>(Note that currently only translation of views is implemented).</para>
+								<para>The default is <constant>yes</constant>.</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>
+								<guilabel><accel>p</accel>reserve table IDs</guilabel>
+							</term>
+							<listitem>
+								<para>This option is only available in upgrade mode.</para>
+								<para>When running an upgrade, all system information is dropped. Table IDs therefore restart with the highest used sequence number available after migration. It may be beneficial, however, to remember higher ID numbers used before migration to ensure consistency over different versions.</para>
+								<para>If selected, table ID numbers are preserved through migration, otherwise <productname>Migrate</productname> restarts counting after migration</para>
+								<para>The default is <constant>yes.</constant>
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>
+								<guilabel><accel>d</accel>rop source</guilabel>
+							</term>
+							<listitem>
+								<para>This option is only available in upgrade mode.</para>
+								<para>When done with upgrading, the source database is no longer required and may be dropped to clear space. However, the database administrator may wish not to drop it for reference purposes.</para>
+								<para>If selected, the source is dropped after a successful upgrade, otherwise it is kept remaining in the database after migration.</para>
+								<para>(Note that the source will only be dropped if no errors occurred during migration).</para>
+								<para>The default is <constant>no.</constant>
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>
+								<guilabel><accel>o</accel>ptimize database</guilabel>
+							</term>
+							<listitem>
+								<para>After migration, the database can be automatically optimized. Most databases nowadays have scheduled processes which regularly run optimization tasks, so it may not be necessary to explicitly run them here. Examples for optimization tasks are space allocation or gathering of statistics, but what is actually performed depends on which kind of database is running.</para>
+								<para>If selected, the target database is optimized after migration, otherwise it is left to the database's automatic scheduler.</para>
+								<para>The default is <constant>no.</constant>
+								</para>
+							</listitem>
+						</varlistentry>
+					</variablelist>
+				</section>
+				<section>
+					<info>
+						<title>
+							Parameters
+						</title>
+					</info>
+					<figure xml:id="doc_guiParameters">
+						<info>
+							<title>
+								Connection Parameters
+							</title>
+							<titleabbrev>
+								Parameters
+							</titleabbrev>
+						</info>
+<screenshot><mediaobject><imageobject><imagedata fileref="images/doc_guiParameters.png" format="PNG" contentwidth="11cm"/></imageobject></mediaobject></screenshot>
+					</figure>
+					<para>Parameters are used to define the connections to the source and target databases.</para>
+					<para>In upgrade mode, the source is the reference against which the target's structure is updated, and live data in the target remains intact.</para>
+					<para>In transfer mode, the source is copied to the target, and all live data in the target is overwritten.</para>
+					<para>Two identical sets of parameters must be defined, one for the source connection and one for the target connection.</para>
+					<variablelist>
+						<varlistentry>
+							<term>
+								<guilabel>version</guilabel>
+							</term>
+							<listitem>
+								<para>This field is read-only and displays the <productname>Adempiere</productname> version number found in the database.</para>
+								<para>If no version number is displayed, it means that either no connection to the database could be established, or the database contains no <productname>Adempiere</productname> version information (which means it is not an <productname>Adempiere</productname> database).</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>
+								<guilabel>vendor</guilabel>
+							</term>
+							<listitem>
+								<para>The vendor (or product) of the database. Supported vendors currently are:</para>
+								<itemizedlist spacing="compact">
+									<listitem>
+										<para><productname>Oracle</productname></para>
+									</listitem>
+									<listitem>
+										<para><productname>postgreSQL</productname></para>
+									</listitem>
+								</itemizedlist>
+								<para>The default is <constant>postgresql</constant>.</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>
+								<guilabel>host</guilabel>
+							</term>
+							<listitem>
+								<para>The name or IP-address of the server on which the database is running.</para>
+								<para>The default is <constant>localhost</constant>.</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>
+								<guilabel>port</guilabel>
+							</term>
+							<listitem>
+								<para>The port on which the database is listening. </para>
+								<para>Common port numbers are <constant>5432</constant> for <productname>postgreSQL</productname> or <constant>1521</constant> for <productname>Oracle</productname>.</para>
+								<para>The default is <constant>5432</constant>.</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>
+								<guilabel>user</guilabel>
+							</term>
+							<listitem>
+								<para>The normal database user as which to log in.</para>
+								<para>The default is <constant>reference</constant> for source and <constant>adempiere</constant> for target.</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>
+								<guilabel>password</guilabel>
+							</term>
+							<listitem>
+								<para>The normal database user's password.</para>
+								<para>The default is <constant>adempiere</constant> for both source and target.</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>
+								<guilabel>system user</guilabel>
+							</term>
+							<listitem>
+								<para>Some databases require a system user for certain operations<footnote xml:id="sysUsrPwdNoUse">
+										<para>The <guilabel>system user</guilabel> and <guilabel>system password</guilabel> fields are not used if the selected database does not require log in by a system user for migration.</para>
+									</footnote>. This is the name of the system user as which to log in.</para>
+								<para>The default is <constant>postgres</constant>.</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>
+								<guilabel>system password</guilabel>
+							</term>
+							<listitem>
+								<para>The system user's password<footnoteref linkend="sysUsrPwdNoUse" />.</para>
+								<para>The default is <constant>postgres</constant>.</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>
+								<guilabel>database</guilabel>
+							</term>
+							<listitem>
+								<para>The name of the database to use.</para>
+								<para>The default is <constant>reference</constant> for source and <constant>adempiere</constant> for target.</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>
+								<guilabel>driver</guilabel>
+							</term>
+							<listitem>
+								<para>This field is read-only and displays the URL which will be used by <productname>Migrate</productname> to connect to the database. The driver and format used depend on the database vendor.</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>
+								<guilabel>catalog</guilabel>
+							</term>
+							<listitem>
+								<para>The catalog to use.</para>
+								<para>The usage and meaning of catalogs varies according to database vendor. If none is given, <productname>Migrate</productname> will try to find a sensible catalog.</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>
+								<guilabel>schema</guilabel>
+							</term>
+							<listitem>
+								<para>The schema to use.</para>
+								<para>The usage and meaning of schemas varies according to database vendor. If none is given, <productname>Migrate</productname> will try to find a sensible schema.</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>
+								<guibutton>reset</guibutton>
+							</term>
+							<listitem>
+								<para>Pressing this button resets the parameters to their original settings.</para>
+							</listitem>
+						</varlistentry>
+					</variablelist>
+				</section>
+				<section>
+					<info>
+						<title>
+							Command Buttons
+						</title>
+					</info>
+					<figure xml:id="doc_guiCommand">
+						<info>
+							<title>
+								Command Buttons
+							</title>
+							<titleabbrev>
+								Command Buttons
+							</titleabbrev>
+						</info>
+<screenshot><mediaobject><imageobject><imagedata fileref="images/doc_guiCommand.png" format="PNG" contentwidth="11cm"/></imageobject></mediaobject></screenshot>
+					</figure>
+					<variablelist>
+						<varlistentry>
+							<term>
+								<guibutton>Start <accel>M</accel>igration</guibutton>
+							</term>
+							<listitem>
+								<para>Start the migration process.</para>
+								<para>Pressing this button runs sanity checks and starts the migration process. Once the target database has been modified, the process must not be interrupted.</para>
+							</listitem>
+						</varlistentry>
+					</variablelist>
+				</section>
+				<section>
+					<info>
+						<title>
+							Status
+						</title>
+					</info>
+					<figure xml:id="doc_guiStatus">
+						<info>
+							<title>
+								Status Display
+							</title>
+							<titleabbrev>
+								Status
+							</titleabbrev>
+						</info>
+<screenshot><mediaobject><imageobject><imagedata fileref="images/doc_guiStatus.png" format="PNG" contentwidth="11cm"/></imageobject></mediaobject></screenshot>
+					</figure>
+					<para>The current status of the running migration process is displayed, indicating what action is being performed in which migration step.</para>
+					<variablelist>
+						<varlistentry>
+							<term>
+								<guilabel>step</guilabel>
+							</term>
+							<listitem>
+								<para>This field displays the current migration step being performed, which can be one of:</para>
+								<itemizedlist spacing="compact">
+									<listitem>
+										<para><computeroutput>CONNECT TO DATABASES</computeroutput></para>
+									</listitem>
+									<listitem>
+										<para><computeroutput>LOAD METADATA</computeroutput></para>
+									</listitem>
+									<listitem>
+										<para><computeroutput>SYNCHRONIZE TARGET FROM SOURCE</computeroutput></para>
+									</listitem>
+									<listitem>
+										<para><computeroutput>CLOSE DATABASE CONNECTIONS</computeroutput></para>
+									</listitem>
+									<listitem>
+										<para><computeroutput>DONE</computeroutput></para>
+									</listitem>
+								</itemizedlist>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>
+								<guilabel>action</guilabel>
+							</term>
+							<listitem>
+								<para>This field displays which action or operation is currently being performed within above migration step.</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>
+								<guilabel>detail</guilabel>
+							</term>
+							<listitem>
+								<para>This field displays details of the current action being performed, for example which record is presently being updated.</para>
+							</listitem>
+						</varlistentry>
+					</variablelist>
+				</section>
+				<section>
+					<info>
+						<title>
+							View Buttons
+						</title>
+					</info>
+					<figure xml:id="doc_guiView">
+						<info>
+							<title>
+								View Buttons
+							</title>
+							<titleabbrev>
+								View Buttons
+							</titleabbrev>
+						</info>
+<screenshot><mediaobject><imageobject><imagedata fileref="images/doc_guiView.png" format="PNG" contentwidth="11cm"/></imageobject></mediaobject></screenshot>
+					</figure>
+					<para>Press one of these buttons to view the different log files.</para>
+					<variablelist>
+						<varlistentry>
+							<term>
+								<guibutton><accel>v</accel>iew trace</guibutton>
+							</term>
+							<listitem>
+								<para>View a snapshot of the last 500 lines of the trace log. The trace log contains all output messages as defined with the log level.</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>
+								<guibutton>view <accel>w</accel>arnings</guibutton>
+							</term>
+							<listitem>
+								<para>View a snapshot of the last 500 lines of the warning log. The warning log contains tasks to be performed manually by the database administrator after migration, such as making sure that views and functions were translated correctly.</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>
+								<guibutton>view <accel>e</accel>rrors</guibutton>
+							</term>
+							<listitem>
+								<para>View a snapshot of the last 500 lines of the error log. The error log contains all errors which occurred during migration and need to be fixed.</para>
+							</listitem>
+						</varlistentry>
+					</variablelist>
+				</section>
+				<section>
+					<info>
+						<title>
+							Close Buttons
+						</title>
+					</info>
+					<figure xml:id="doc_guiClose">
+						<info>
+							<title>
+								Close Buttons
+							</title>
+							<titleabbrev>
+								Close Buttons
+							</titleabbrev>
+						</info>
+<screenshot><mediaobject><imageobject><imagedata fileref="images/doc_guiClose.png" format="PNG" contentwidth="11cm"/></imageobject></mediaobject></screenshot>
+					</figure>
+					<variablelist>
+						<varlistentry>
+							<term>
+								<guibutton><accel>C</accel>ancel</guibutton>
+							</term>
+							<listitem>
+								<para>Stop the migration process and close the program without saving any settings.</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term>
+								<guibutton>C<accel>l</accel>ose</guibutton>
+							</term>
+							<listitem>
+								<para>Stop the migration process and save settings and parameters before closing the program.</para>
+							</listitem>
+						</varlistentry>
+					</variablelist>
+				</section>
+			</section>
+			<section>
+				<info>
+					<title>
+						Starting from the Command Line
+					</title>
+				</info>
+				<para>Of course <productname>Migrate</productname> does not have to be started with the <command>RUN_Migrate</command> script but can also be started directly from the command line. This allows <productname>Migrate</productname> to be called from other scripts for automating migration, if required.</para>
+				<para>The command to start <productname>Migrate</productname> from the command line is:</para>
+				<cmdsynopsis><command>java</command>
+					<arg><replaceable>java Options</replaceable></arg>
+					<arg choice="plain">-cp <replaceable>classpath</replaceable></arg>
+					<arg><replaceable>migrate Options</replaceable></arg>
+					<arg choice="plain">com.kkalice.adempiere.migrate.Migrate</arg>
+				</cmdsynopsis>
+				<variablelist>
+					<varlistentry>
+						<term>
+							<productname>Java</productname> Options
+						</term>
+						<listitem>
+							<para>These are the options used by the Java Runtime Engine.</para>
+							<para>Sufficiently high memory settings should be used so that <productname>Migrate</productname> does not run out of memory.</para>
+							<para>Recommended are: <parameter>-Xms64M -Xmx512M</parameter>
+							</para>
+							<para>If the database contains large objects, higher settings may be necessary.</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term>
+							Classpath
+						</term>
+						<listitem>
+							<para>The classpath should contain the file <filename>migrate.jar</filename> as well as the <productname>JDBC</productname> database drivers
+for the databases to be used, for example:</para>
+							<informalexample><para><filename>$ADEMPIERE_HOME/lib/migrate.jar:$ADEMPIERE_HOME/lib/postgresql.jar:$ADEMPIERE_HOME/lib/oracle.jar</filename>
+								</para>
+								<para>or:</para>
+								<para><filename>migrate.jar:/usr/share/java/postgresql-jdbc.jar:/opt/oracle/jdbc/lib/ojdbc14.jar</filename>
+								</para>
+							</informalexample>
+							<para>Of course only the <productname>JDBC</productname> drivers for the database vendors you will actually be connecting to need to be supplied.</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term>
+							<productname>Migrate</productname> Options
+						</term>
+						<listitem>
+							<para>Options passed to <productname>Migrate</productname> must be prefixed with <userinput>-D</userinput> so that java knows it must pass the options on to the application as system properties.</para>
+							<para>It is highly recommended that all options and parameters are explicitly set on the command line to avoid unpleasant surprises when values you were expecting as default are unexpectedly overridden by environment variables or the configuration file.</para>
+							<variablelist>
+								<varlistentry>
+									<term>
+										GUI Mode / Text Mode / Silent Mode
+									</term>
+									<listitem>
+										<para>Two options are only available when starting <productname>Migrate</productname> from the command line:</para>
+										<variablelist spacing="compact">
+											<varlistentry>
+												<term>
+													<parameter>-DisText</parameter>
+												</term>
+												<listitem>
+													<para><productname>Migrate</productname> will run in Text mode, the GUI will not be started. All parameters and options must be provided by environment variables, the configuration file, or command line arguments.</para>
+												</listitem>
+											</varlistentry>
+											<varlistentry>
+												<term>
+													<parameter>-DisSilent</parameter>
+												</term>
+												<listitem>
+													<para>All console output will be suppressed. This implies <parameter>-DisText</parameter>.</para>
+												</listitem>
+											</varlistentry>
+										</variablelist>
+										<para>If none of these arguments are passed, <productname>Migrate</productname> will run interactively with a Graphical User Interface.</para>
+									</listitem>
+								</varlistentry>
+								<varlistentry>
+									<term>
+										Migration Mode
+									</term>
+									<listitem>
+										<para>Upgrade mode or transfer mode is selected by the <varname>isUpgrade</varname> property:</para>
+										<variablelist spacing="compact">
+											<varlistentry>
+												<term>
+													<parameter>-DisUpgrade=Y</parameter>
+												</term>
+												<listitem>
+													<para>run migration in upgrade mode.</para>
+												</listitem>
+											</varlistentry>
+											<varlistentry>
+												<term>
+													<parameter>-DisUpgrade=N</parameter>
+												</term>
+												<listitem>
+													<para>run migration in transfer mode.</para>
+												</listitem>
+											</varlistentry>
+										</variablelist>
+									</listitem>
+								</varlistentry>
+								<varlistentry>
+									<term>
+										Options
+									</term>
+									<listitem>
+										<variablelist spacing="compact">
+											<varlistentry>
+												<term>
+													<parameter>-DmaxLogLevel=<replaceable>&lt;log level&gt;</replaceable></parameter>
+												</term>
+												<listitem>
+													<para>Use following <productname>Java</productname> log levels to correspond to the thresholds which can be selected from the GUI:
+														<informaltable frame="none" colsep="0" rowsep="0">
+															<?dbfo table-width="6cm"?>
+															<tgroup cols="2">
+																<colspec colnum="1" colname="col1" colwidth="*" align="left"/>
+																<colspec colnum="2" colname="col2" colwidth="3*" align="left"/>
+																<tbody>
+																	<row>
+																		<entry>
+																			<constant>OFF</constant>
+																		</entry>
+																		<entry>
+																			= <constant>no logging</constant>
+																		</entry>
+																	</row>
+																	<row>
+																		<entry>
+																			<constant>SEVERE</constant>
+																		</entry>
+																		<entry>
+																			= <constant>errors only</constant>
+																		</entry>
+																	</row>
+																	<row>
+																		<entry>
+																			<constant>WARNING</constant>
+																		</entry>
+																		<entry>
+																			= <constant>post-migration tasks</constant>
+																		</entry>
+																	</row>
+																	<row>
+																		<entry>
+																			<constant>INFO</constant>
+																		</entry>
+																		<entry>
+																			= <constant>migration steps</constant>
+																		</entry>
+																	</row>
+																	<row>
+																		<entry>
+																			<constant>CONFIG</constant>
+																		</entry>
+																		<entry>
+																			= <constant>actions</constant>
+																		</entry>
+																	</row>
+																	<row>
+																		<entry>
+																			<constant>FINE</constant>
+																		</entry>
+																		<entry>
+																			= <constant>details</constant>
+																		</entry>
+																	</row>
+																	<row>
+																		<entry>
+																			<constant>FINER</constant>
+																		</entry>
+																		<entry>
+																			= <constant>SQL update queries</constant>
+																		</entry>
+																	</row>
+																	<row>
+																		<entry>
+																			<constant>FINEST</constant>
+																		</entry>
+																		<entry>
+																			= <constant>SQL read queries</constant>
+																		</entry>
+																	</row>
+																	<row>
+																		<entry>
+																			<constant>ALL</constant>
+																		</entry>
+																		<entry>
+																			= <constant>everything</constant>
+																		</entry>
+																	</row>
+																</tbody>
+															</tgroup>
+														</informaltable>
+													</para>
+												</listitem>
+											</varlistentry>
+											<varlistentry>
+												<term>
+													<parameter>-DattemptTranslation=Y, N</parameter>
+												</term>
+												<listitem>
+													<para>whether to translate views and functions</para>
+												</listitem>
+											</varlistentry>
+											<varlistentry>
+												<term>
+													<parameter>-DpreserveTableID=Y, N</parameter>
+												</term>
+												<listitem>
+													<para>whether to preserve table IDs</para>
+												</listitem>
+											</varlistentry>
+											<varlistentry>
+												<term>
+													<parameter>-DdropSource=Y, N</parameter>
+												</term>
+												<listitem>
+													<para>whether to drop the source database after successful migration</para>
+												</listitem>
+											</varlistentry>
+											<varlistentry>
+												<term>
+													<parameter>-DoptimizeDatabase=Y, N</parameter>
+												</term>
+												<listitem>
+													<para>whether to optimize the target database</para>
+												</listitem>
+											</varlistentry>
+										</variablelist>
+									</listitem>
+								</varlistentry>
+								<varlistentry>
+									<term>
+										Parameters
+									</term>
+									<listitem>
+										<para>Source connection parameters:</para>
+										<simplelist type="vert">
+											<member><parameter>-DsourceDB_vendor=</parameter><replaceable>&lt;database vendor&gt;</replaceable>
+											</member>
+											<member><parameter>-DsourceDB_host=</parameter><replaceable>&lt;host&gt;</replaceable>
+											</member>
+											<member><parameter>-DsourceDB_port=</parameter><replaceable>&lt;port&gt;</replaceable>
+											</member>
+											<member><parameter>-DsourceDB_name=</parameter><replaceable>&lt;database name&gt;</replaceable>
+											</member>
+											<member><parameter>-DsourceDB_catalog=</parameter><replaceable>&lt;catalog&gt;</replaceable>
+											</member>
+											<member><parameter>-DsourceDB_schema=</parameter><replaceable>&lt;schema&gt;</replaceable>
+											</member>
+											<member><parameter>-DsourceDB_user=</parameter><replaceable>&lt;normal user&gt;</replaceable>
+											</member>
+											<member><parameter>-DsourceDB_passwd=</parameter><replaceable>&lt;normal password&gt;</replaceable>
+											</member>
+											<member><parameter>-DsourceDB_systemUser=</parameter><replaceable>&lt;system user&gt;</replaceable>
+											</member>
+											<member><parameter>-DsourceDB_systemPasswd=</parameter><replaceable>&lt;system password&gt;</replaceable>
+											</member>
+										</simplelist>
+										<para>And target connection parameters:</para>
+										<simplelist type="vert">
+											<member><parameter>-DtargetDB_vendor=</parameter><replaceable>&lt;database vendor&gt;</replaceable>
+											</member>
+											<member><parameter>-DtargetDB_host=</parameter><replaceable>&lt;host&gt;</replaceable>
+											</member>
+											<member><parameter>-DtargetDB_port=</parameter><replaceable>&lt;port&gt;</replaceable>
+											</member>
+											<member><parameter>-DtargetDB_name=</parameter><replaceable>&lt;database name&gt;</replaceable>
+											</member>
+											<member><parameter>-DtargetDB_catalog=</parameter><replaceable>&lt;catalog&gt;</replaceable>
+											</member>
+											<member><parameter>-DtargetDB_schema=</parameter><replaceable>&lt;schema&gt;</replaceable>
+											</member>
+											<member><parameter>-DtargetDB_user=</parameter><replaceable>&lt;normal user&gt;</replaceable>
+											</member>
+											<member><parameter>-DtargetDB_passwd=</parameter><replaceable>&lt;normal password&gt;</replaceable>
+											</member>
+											<member><parameter>-DtargetDB_systemUser=</parameter><replaceable>&lt;system user&gt;</replaceable>
+											</member>
+											<member><parameter>-DtargetDB_systemPasswd=</parameter><replaceable>&lt;system password&gt;</replaceable>
+											</member>
+										</simplelist>
+										<para>To pass an empty string, either omit the string after the equal sign or write only the parameter name without any equal sign:</para>
+										<informalexample>
+											<para><parameter>-DsourceDB_catalog=</parameter></para>
+											<para>or just</para>
+											<para><parameter>-DsourceDB_catalog</parameter></para>
+										</informalexample>
+									</listitem>
+								</varlistentry>
+							</variablelist>
+						</listitem>
+					</varlistentry>
+				</variablelist>
+				<para>Example:</para>
+				<para>The following command runs a transfer migration from an <productname>Oracle</productname> to a <productname>postgreSQL</productname> database, assuming that <filename>migrate.jar</filename> is in the current directory. Everything should be typed on one line:</para>
+				<informalexample><para><command>java -Xms64M -Xmx512M -cp migrate.jar:/usr/share/java/postgresql-jdbc.jar:/opt/oracle/jdbc/lib/ojdbc14.jar -DisText -DisUpgrade=N -DmaxLogLevel=CONFIG -DattemptTranslation=Y -DoptimizeDatabase=N -DsourceDB_vendor=oracle -DsourceDB_host=localhost -DsourceDB_port=1521 -DsourceDB_name=erp -DsourceDB_schema=compiere -DsourceDB_user=compiere -DsourceDB_passwd=compiere -DsourceDB_systemUser=system -DsourceDB_systemPasswd=manager -DtargetDB_vendor=postgresql -DtargetDB_host=localhost -DtargetDB_port=5432 -DtargetDB_name=adempiere -DtargetDB_schema=adempiere -DtargetDB_user=adempiere -DtargetDB_passwd=adempiere com.kkalice.adempiere.migrate.Migrate</command></para></informalexample>
+			</section>
+		</section>
+		<section>
+			<info>
+				<title>
+					Post-Migration Tasks
+				</title>
+			</info>
+			<para><productname>Migrate</productname> already runs sanity checks and clean-up procedures after migration, so it is not necessary to start any post-migration scripts such as <command>RUN_PostMigration.sh</command> (or <command>RUN_PostMigration.bat</command>).</para>
+			<para>However, the database administrator should check the log files to verify whether any manual intervention is required after migration has completed, particularly the warning log and the error log.</para>
+			<para>For a transfer migration, warnings and errors issued for non-customized objects or system records can usually be ignored, as they will be replaced during the subsequent version migration anyway. Only problems with customized objects or live data of real clients need to be addressed by the database administrator.</para>
+			<section>
+				<info>
+					<title>
+						Warnings
+					</title>
+				</info>
+				<para>The warning log contains tasks to be performed manually by the database administrator after migration.</para>
+				<table xml:id="tblWarnings" frame="all" colsep="1" rowsep="1">
+					<title>Warning Messages</title>
+					<tgroup cols="4">
+						<colspec colnum="1" colname="col1" colwidth="2.57*" align="left"/>
+						<colspec colnum="2" colname="col2" colwidth="*" align="center"/>
+						<colspec colnum="3" colname="col3" colwidth="3.57*" align="left"/>
+						<colspec colnum="4" colname="col4" colwidth="3.57*" align="left"/>
+						<thead>
+							<row>
+								<entry align="center">Warning</entry>
+								<entry align="center">Mode</entry>
+								<entry align="center">Cause</entry>
+								<entry align="center">Solution</entry>
+							</row>
+						</thead>
+						<tbody>
+							<row>
+								<entry>
+									<computeroutput>Preserving node &hellip; in tree &hellip;</computeroutput>
+								</entry>
+								<entry>
+									upgrade
+								</entry>
+								<entry>
+									System nodes would normally be purged from trees, but are preserved if they are recognized as a customization
+									(for example, custom entries in the system-wide menu).
+								</entry>
+								<entry>
+									Review this list to verify whether all customized system nodes are really needed in the new version.
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Not dropping customized table &hellip;</computeroutput>
+								</entry>
+								<entry>
+									upgrade
+								</entry>
+								<entry>
+									A table not existing in the reference database would normally be dropped, but it is kept alive if recognized as
+									a customized table.
+								</entry>
+								<entry>
+									Review this list to verify whether all customized tables are really needed in the new version.
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Must re-write customized trigger function &hellip;</computeroutput>
+								</entry>
+								<entry>
+									transfer
+								</entry>
+								<entry>
+									If data is migrated from a database in which triggers can contain inline code to a database in which triggers
+									themselves can not contain code but only point to functions, the inline code has to be converted to a callable
+									function. At the time of conversion, the number of arguments to the function is unknown, and since also
+									translation of functions is not implemented yet, the trigger is basically rendered useless.
+								</entry>
+								<entry>
+									Translate the function called by the trigger into the target database's syntax.
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Must verify customized object &hellip;</computeroutput>
+								</entry>
+								<entry>
+									transfer
+								</entry>
+								<entry>
+									<productname>Migrate</productname> attempts to translate objects, but the result is not guaranteed to be
+									correct.
+								</entry>
+								<entry>
+									Review that the object is translated correctly and works the way it is intended to.
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Must re-write object &hellip; [<replaceable>error&nbsp;message</replaceable>]</computeroutput>
+								</entry>
+								<entry>
+									transfer
+								</entry>
+								<entry>
+									Sometimes translation of an object fails. <productname>Migrate</productname> then just replaces the object's
+									code with a compilable stub and indicates the last error as hint why translation failed.
+								</entry>
+								<entry>
+									Manually translate the object into the target database's syntax.
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Modified &hellip; rows in &hellip; to comply with check constraint &hellip;</computeroutput>
+								</entry>
+								<entry>
+									upgrade
+								</entry>
+								<entry>
+									A table contained values which would violate the check constraint rule. Those values have been modified to
+									comply with the constraint.
+								</entry>
+								<entry>
+									Review the table to make sure that the modifications do not disrupt any business logic.
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Could not find correct parent for &hellip; from &hellip; in &hellip; to
+									&hellip;</computeroutput>
+								</entry>
+								<entry>
+									upgrade
+								</entry>
+								<entry>
+									If a new column is added to a table and that column is part of a foreign key, <productname>Migrate</productname>
+									attempts to find the correct parents for records already existing in the child table. This warning is issued if
+									the correct parents could not be found.
+								</entry>
+								<entry>
+									If no error is reported when the foreign key is created, this warning can be ignored. Otherwise the child
+									records must be linked to the correct parents manually. (If you know what hint can be used to deduce the correct
+									parent, file a bug report).
+								</entry>
+							</row>
+						</tbody>
+					</tgroup>
+				</table>
+			</section>
+			<section>
+				<info>
+					<title>
+						Errors
+					</title>
+				</info>
+				<para>The error log contains all errors which occurred during migration and need to be fixed. If an error was raised by the database driver, the original error message is added as a hint.</para>
+				<table xml:id="tblErrors" frame="all" colsep="1" rowsep="1">
+					<title>Error Messages</title>
+					<tgroup cols="3">
+						<colspec colnum="1" colname="col1" colwidth="*" align="left"/>
+						<colspec colnum="2" colname="col2" colwidth="*" align="left"/>
+						<colspec colnum="3" colname="col3" colwidth="*" align="left"/>
+						<thead>
+							<row>
+								<entry align="center">Error</entry>
+								<entry align="center">Cause</entry>
+								<entry align="center">Solution</entry>
+							</row>
+						</thead>
+						<tbody>
+							<row>
+								<entry>
+									<computeroutput>Could not find driver &hellip; [<replaceable>error&nbsp;message</replaceable>]</computeroutput>
+								</entry>
+								<entry>
+									The required <productname>JDBC</productname> driver could not be found.
+								</entry>
+								<entry>
+									Make sure the <productname>JDBC</productname> driver is in the classpath.
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Could not connect to database &hellip;
+									[<replaceable>error&nbsp;message</replaceable>]</computeroutput>
+								</entry>
+								<entry>
+									A connection to the database could not be established.
+								</entry>
+								<entry>
+									<simplelist type="vert">
+										<member>Make sure host name, port, database name, user name, and user password are correct.</member>
+										<member>Make sure the server is reachable over the network.</member>
+										<member>Make sure access configuration allows connections from your IP address.</member>
+									</simplelist>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Could not commit changes in &hellip;
+									[<replaceable>error&nbsp;message</replaceable>]</computeroutput>
+								</entry>
+								<entry morerows="2" valign="middle">
+									Consult the database vendor's manual about the cause of the error.
+								</entry>
+								<entry morerows="2" valign="middle">
+									Eliminate the cause of the error.
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Could not roll back changes in &hellip;
+									[<replaceable>error&nbsp;message</replaceable>]</computeroutput>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Could not close &hellip; [<replaceable>error&nbsp;message</replaceable>]</computeroutput>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Could not determine product vendor for &hellip;
+									[<replaceable>error&nbsp;message</replaceable>]</computeroutput>
+								</entry>
+								<entry>
+									The database vendor could not be determined or is unsupported.
+								</entry>
+								<entry>
+									Explicitly set the database vendor.
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Could not determine catalog for &hellip;
+									[<replaceable>error&nbsp;message</replaceable>]</computeroutput>
+								</entry>
+								<entry>
+									No meaningful catalog could be determined.
+								</entry>
+								<entry>
+									Explicitly set the catalog to use.
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Could not determine schema for &hellip;
+									[<replaceable>error&nbsp;message</replaceable>]</computeroutput>
+								</entry>
+								<entry>
+									No meaningful schema could be determined.
+								</entry>
+								<entry>
+									Explicitly set the schema to use.
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Could not drop schema &hellip; [<replaceable>error&nbsp;message</replaceable>]</computeroutput>
+								</entry>
+								<entry>
+									The target schema could not be dropped.
+								</entry>
+								<entry>
+									Make sure the user has sufficient privileges to drop a schema.
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Could not test character set in &hellip;
+									[<replaceable>error&nbsp;message</replaceable>]</computeroutput>
+								</entry>
+								<entry>
+									<productname>Migrate</productname> temporarily creates a table with some string fields to check how the
+									<productname>JDBC</productname> driver reports character sizes. An error occurred while trying to create this
+									table.
+								</entry>
+								<entry>
+									Make sure no table with the name <filename>kkax_migr_chartest</filename> previously exists in the database.
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Target table &hellip; does not exist</computeroutput>
+								</entry>
+								<entry morerows="4" valign="middle">
+									Tables which were expected to exist for terminology checking could not be found.
+								</entry>
+								<entry morerows="4" valign="middle">
+									Terminology checking will only be successful on databases with an <productname>Adempiere</productname>-style
+									Application Dictionary.
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Source table &hellip; does not exist</computeroutput>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Target translation table &hellip; does not exist</computeroutput>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Join table &hellip; does not exist</computeroutput>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Extra table &hellip; does not exist</computeroutput>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Could not set savepoint &hellip;
+									[<replaceable>error&nbsp;message</replaceable>]</computeroutput>
+								</entry>
+								<entry morerows="18" valign="middle">
+									Consult the database vendor's manual about the cause of the error.
+								</entry>
+								<entry morerows="18" valign="middle">
+									Eliminate the cause of the error.
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Could not get savepoint name [<replaceable>error&nbsp;message</replaceable>]</computeroutput>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Could not rollback to savepoint &hellip;
+									[<replaceable>error&nbsp;message</replaceable>]</computeroutput>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Could not release savepoint &hellip;
+									[<replaceable>error&nbsp;message</replaceable>]</computeroutput>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Could not prepare statement &hellip;
+									[<replaceable>error&nbsp;message</replaceable>]</computeroutput>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Could not reset prepared statement &hellip;
+									[<replaceable>error&nbsp;message</replaceable>]</computeroutput>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Could not close prepared statement &hellip;
+									[<replaceable>error&nbsp;message</replaceable>]</computeroutput>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Could not count parameters for prepared statement &hellip;
+									[<replaceable>error&nbsp;message</replaceable>]</computeroutput>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Could not set parameter &hellip; of prepared statement &hellip;
+									[<replaceable>error&nbsp;message</replaceable>]</computeroutput>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Could not create statement [<replaceable>error&nbsp;message</replaceable>]</computeroutput>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Could not close statement [<replaceable>error&nbsp;message</replaceable>]</computeroutput>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Could not execute prepared statement query &hellip;
+									[<replaceable>error&nbsp;message</replaceable>]</computeroutput>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Could not execute sql query &hellip;
+									[<replaceable>error&nbsp;message</replaceable>]</computeroutput>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Could not close resultset &hellip;
+									[<replaceable>error&nbsp;message</replaceable>]</computeroutput>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Could not move cursor in result set &hellip;
+									[<replaceable>error&nbsp;message</replaceable>]</computeroutput>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Could not read column &hellip; from result set &hellip;
+									[<replaceable>error&nbsp;message</replaceable>]</computeroutput>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Could not check last column value from result set &hellip;
+									[<replaceable>error&nbsp;message</replaceable>]</computeroutput>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Could not execute prepared statement command &hellip;
+									[<replaceable>error&nbsp;message</replaceable>]</computeroutput>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Could not execute sql command &hellip;
+									[<replaceable>error&nbsp;message</replaceable>]</computeroutput>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>unknown data type &hellip;</computeroutput>
+								</entry>
+								<entry>
+									No unambiguous data type ID exists for the data type
+								</entry>
+								<entry>
+									File a bug report.
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>unknown data type or extra logic required for data type ID &hellip;</computeroutput>
+								</entry>
+								<entry>
+									The unambiguous data type ID could not be converted to a vendor-specific data type
+								</entry>
+								<entry>
+									File a bug report.
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Instantiation Exception for class &hellip;
+									[<replaceable>error&nbsp;message</replaceable>]</computeroutput>
+								</entry>
+								<entry morerows="2" valign="middle">
+									A <productname>Java</productname> interface could not be instantiated.
+								</entry>
+								<entry morerows="2" valign="middle">
+									File a bug report.
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Illegal Access Exception for class &hellip;
+									[<replaceable>error&nbsp;message</replaceable>]</computeroutput>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Could not find interface &hellip;
+									[<replaceable>error&nbsp;message</replaceable>]</computeroutput>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>A database can not be migrated to itself (source and target must be different)</computeroutput>
+								</entry>
+								<entry>
+									Source and target connection parameters must point to different databases.
+								</entry>
+								<entry>
+									Make sure source and target connection parameters are correct.
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<computeroutput>Source and target need to be same database vendor for upgrades</computeroutput>
+								</entry>
+								<entry>
+									Upgrades can only be run if source and target are the same database vendor.
+								</entry>
+								<entry>
+									Choose the correct reference database or run a transfer migration.
+								</entry>
+							</row>
+						</tbody>
+					</tgroup>
+				</table>
+			</section>
+			<section>
+				<info>
+					<title>
+						Start the Application Server
+					</title>
+				</info>
+				<para>Now that your database has been successfully migrated, all errors have been fixed, and all warnings have been taken care of, the application server may be started again.</para>
+				<para>Users are welcome to log in.</para>
+			</section>
+		</section>
+	</chapter>
+	<chapter>
+		<info>
+			<title>
+				Compiling and Extending
+			</title>
+		</info>
+		<section>
+			<info>
+				<title>
+					Compiling <productname>Migrate</productname>
+				</title>
+			</info>
+			<para>Normally there should be no need to compile <productname>Migrate</productname>, as it will be installed together with <productname>Adempiere</productname>.</para>
+			<para>However, there may be situations when you separately want to compile <productname>Migrate</productname>, either to modify the code to suit your personal needs, or to fix bugs or extend the code and hopefully contribute your enhancements to the <productname>Adempiere</productname> project.</para>
+			<section>
+				<info>
+					<title>
+						Requirements
+					</title>
+				</info>
+				<para><productname>Migrate</productname> requires the <productname>Java Development Kit</productname> version 1.7 (JDK 7)<footnote>
+						<para>There is actually only one reason for this limitation: Some <productname>JDBC</productname> drivers do not return a readable SQL statement but only an object reference when the toString() method is called on a prepared statement, rendering it useless for logging purposes. Therefore <productname>Migrate</productname> uses a wrapper around the PreparedStatement class, which overrides the toString() method and returns a human readable string to be used for logging. All other methods are caught to extract variable information which is used to generate the string, and then passed on to the original PreparedStatement class. As <productname>Java</productname> evolves, new methods are added to PreparedStatement, some of which also accept or return classes introduced in the new <productname>Java</productname> version. Since <productname>Java</productname> does not allow conditional compiling, a choice had to be made whether to be compatible with previous versions or with the newest version, and the decision went in favor of the newest version.</para>
+					</footnote> and therefore also at least version 3.7.0lts of <productname>Adempiere</productname>.</para>
+			</section>
+			<section>
+				<info>
+					<title>
+						Downloading and Compiling the Source Code
+					</title>
+				</info>
+				<procedure>
+					<step>
+						<para>Download the <productname>Adempiere</productname> source.</para>
+						<informalexample><para><command>hg clone http://adempiere.hg.sourceforge.net/hgroot/adempiere/adempiere#development .</command></para></informalexample>
+					</step>
+					<step>
+						<para>You can either compile the complete <productname>Adempiere</productname> project or only the <productname>Migrate</productname> sub-project.</para>
+						<stepalternatives>
+							<step>
+								<para>To compile the complete <productname>Adempiere</productname> project, change to directory <filename>utils_dev</filename>.</para>
+								<informalexample><para><command>cd utils_dev</command></para></informalexample>
+							</step>
+							<step>
+								<para>To compile only the <productname>Migrate</productname> sub-project, change to directory <filename>migrate</filename>.</para>
+								<informalexample><para><command>cd migrate</command></para></informalexample>
+							</step>
+						</stepalternatives>
+					</step>
+					<step>
+						<para>Then execute <command>RUN_build.sh</command> (or <command>RUN_build.bat</command>).</para>
+						<informalexample><para><command>./RUN_build.sh</command></para></informalexample>
+					</step>
+					<step>
+						<para>The resulting JAR file (<filename>migrate.jar</filename>) will be created in the <filename>migrate</filename> project directory and also copied to the <filename>../lib</filename> directory.</para>
+					</step>
+					<step>
+						<para>This will also generate the API and user documentation, to be found in the <filename>migrate/apidoc</filename> and <filename>migrate/userdoc</filename> directories, respectively.</para>
+					</step>
+				</procedure>
+				<para>For details on how to work with <productname>Adempiere</productname> source code, consult the <productname>Adempiere</productname><link xlink:href="http://www.adempiere.com/index.php/Compile"> documentation</link>.</para>
+			</section>
+			<section>
+				<info>
+					<title>
+						Building and Running <productname>Migrate</productname> in <productname>Eclipse</productname>
+					</title>
+				</info>
+				<para>Consult the <productname>Adempiere</productname><link xlink:href="http://www.adempiere.com/index.php/Create_your_ADempiere_development_environment"> documentation</link> on how to compile and run <productname>Adempiere</productname> from within <productname>ECLIPSE</productname>.</para>
+				<para>Note that the <productname>JDBC</productname> drivers for installed databases must be in the classpath.</para>
+				<para>If you have installed <productname>Adempiere</productname>, they can be found in <filename>$ADEMPIERE_HOME/lib</filename>:
+					<itemizedlist spacing="compact">
+						<listitem>
+							<para><filename>$ADEMPIERE_HOME/lib/oracle.jar</filename> for <productname>Oracle</productname>
+							</para>
+						</listitem>
+						<listitem>
+							<para><filename>$ADEMPIERE_HOME/lib/postgresql.jar</filename> for <productname>postgreSQL</productname>
+							</para>
+						</listitem>
+					</itemizedlist>
+				</para>
+				<para>Otherwise they can be found in subdirectories of your local database installation, for example
+					<itemizedlist spacing="compact">
+						<listitem>
+							<para><filename>$ORACLE_HOME/jdbc/lib/ojdbc14.jar</filename> for <productname>Oracle</productname>
+							</para>
+						</listitem>
+						<listitem>
+							<para><filename>/usr/share/java/postgresql-jdbc.jar</filename> for <productname>postgreSQL</productname>
+							</para>
+						</listitem>
+					</itemizedlist>
+				</para>
+				<para>To add files or directories to the <envar>classpath</envar> in <productname>Eclipse</productname> (version 3.4.1), in the <guimenu><accel>R</accel>un</guimenu> menu select <guimenuitem>Ru<accel>n</accel> Configurations&hellip;</guimenuitem>, select the <guilabel>Classpath</guilabel> tab and click the <guibutton>Add E<accel>x</accel>ternal JARs&hellip;</guibutton> button.</para>
+				<figure xml:id="doc_eclipse">
+					<info>
+						<title>
+							<productname>JDBC</productname> drivers must be set in the <envar>classpath</envar> for
+							<productname>Migrate</productname> to run in <productname>Eclipse</productname>
+						</title>
+						<titleabbrev>
+							Classpath Settings for <productname>Eclipse</productname>
+						</titleabbrev>
+					</info>
+<screenshot><mediaobject><imageobject><imagedata fileref="images/doc_eclipse.png" format="PNG" contentwidth="11.8cm"/></imageobject></mediaobject></screenshot>
+				</figure>
+			</section>
+		</section>
+		<section>
+			<info>
+				<title>
+					Extending <productname>Migrate</productname>
+				</title>
+			</info>
+			<section>
+				<info>
+					<title>
+						Source Files
+					</title>
+				</info>
+				<para>Being open-source, <productname>Migrate</productname> has the advantage that you can modify the source code to fit your particular needs.</para>
+				<para>More than that, <productname>Migrate</productname> is designed to be easily extendable for localization and for handling additional database vendors, and you are invited to help and contribute your solutions to <productname>Adempiere</productname>.</para>
+				<para>To help you navigate the source files, they are listed here by category:</para>
+				<table xml:id="tblSourceFiles" frame="all" colsep="1" rowsep="1">
+					<title>Source Files</title>
+					<tgroup cols="2">
+						<colspec colnum="1" colname="col1" colwidth="*" align="left"/>
+						<colspec colnum="2" colname="col2" colwidth="*" align="left"/>
+						<thead>
+							<row>
+								<entry align="center">Category</entry>
+								<entry align="center">Source Files</entry>
+							</row>
+						</thead>
+						<tbody>
+							<row>
+								<entry>
+									Main class
+								</entry>
+								<entry>
+									<para>
+										<simplelist type="vert">
+											<member><filename>Migrate.java</filename>
+											</member>
+										</simplelist>
+									</para>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Parameters and constants
+								</entry>
+								<entry>
+									<para>
+										<simplelist type="vert">
+											<member><filename>Parameters.java</filename>
+											</member>
+										</simplelist>
+									</para>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Graphical User Interface
+								</entry>
+								<entry>
+									<para>
+										<simplelist type="vert">
+											<member><filename>Gui.java</filename>
+											</member>
+											<member><filename>HelpAbout.java</filename>
+											</member>
+											<member><filename>HelpInfo.java</filename>
+											</member>
+											<member><filename>images/*</filename>
+											</member>
+										</simplelist>
+									</para>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Logging
+								</entry>
+								<entry>
+									<para>
+										<simplelist type="vert">
+											<member><filename>MigrateLogger.java</filename>
+											</member>
+											<member><filename>MigrateLogger_Formatter.java</filename>
+											</member>
+											<member><filename>MigrateLogger_Filter.java</filename>
+											</member>
+											<member><filename>PreparedStatementWrapper.java</filename>
+											</member>
+										</simplelist>
+									</para>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Localization
+								</entry>
+								<entry>
+									<para>
+										<simplelist type="vert">
+											<member><filename>Messages.java</filename>
+											</member>
+										</simplelist>
+									</para>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									User Documentation
+								</entry>
+								<entry>
+									<para>
+										<simplelist type="vert">
+											<member><filename>manual.xml</filename>
+											</member>
+											<member><filename>images/doc_<replaceable>&hellip;</replaceable>.png</filename>
+											</member>
+										</simplelist>
+									</para>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									<productname>JDBC</productname> connection to database
+								</entry>
+								<entry>
+									<para>
+										<simplelist type="vert">
+											<member><filename>DBConnection.java</filename>
+											</member>
+										</simplelist>
+									</para>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Vendor-specific SQL-generation and database rules and conventions
+								</entry>
+								<entry>
+									<para>
+										<simplelist type="vert">
+											<member><filename>DBEngine.java</filename>
+											</member>
+											<member><filename>DBEngineInterface.java</filename>
+											</member>
+										</simplelist>
+									</para>
+									<para>
+										<simplelist type="vert">
+											<member><filename>DBEngine_Oracle.java</filename>
+											</member>
+											<member><filename>DBEngine_Postgresql.java</filename>
+											</member>
+										</simplelist>
+									</para>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Database objects
+								</entry>
+								<entry>
+									<para>
+										<simplelist type="vert">
+											<member><filename>DBObject.java</filename>
+											</member>
+											<member><filename>DBObjectInterface.java</filename>
+											</member>
+											<member><filename>DBObjectDefinition.java</filename>
+											</member>
+										</simplelist>
+									</para>
+									<para>
+										<simplelist type="vert">
+											<member><filename>DBObject_Table.java</filename>
+											</member>
+											<member><filename>DBObject_Table_Column.java</filename>
+											</member>
+										</simplelist>
+									</para>
+									<para>
+										<simplelist type="vert">
+											<member><filename>DBObject_PrimaryKey.java</filename>
+											</member>
+											<member><filename>DBObject_PrimaryKey_Table.java</filename>
+											</member>
+											<member><filename>DBObject_PrimaryKey_Column.java</filename>
+											</member>
+										</simplelist>
+									</para>
+									<para>
+										<simplelist type="vert">
+											<member><filename>DBObject_ForeignKey.java</filename>
+											</member>
+											<member><filename>DBObject_ForeignKey_Table.java</filename>
+											</member>
+											<member><filename>DBObject_ForeignKey_Column.java</filename>
+											</member>
+										</simplelist>
+									</para>
+									<para>
+										<simplelist type="vert">
+											<member><filename>DBObject_Check.java</filename>
+											</member>
+											<member><filename>DBObject_Check_Table.java</filename>
+											</member>
+											<member><filename>DBObject_Check_Rule.java</filename>
+											</member>
+										</simplelist>
+									</para>
+									<para>
+										<simplelist type="vert">
+											<member><filename>DBObject_Unique.java</filename>
+											</member>
+											<member><filename>DBObject_Unique_Table.java</filename>
+											</member>
+											<member><filename>DBObject_Unique_Column.java</filename>
+											</member>
+										</simplelist>
+									</para>
+									<para>
+										<simplelist type="vert">
+											<member><filename>DBObject_Index.java</filename>
+											</member>
+											<member><filename>DBObject_Index_Table.java</filename>
+											</member>
+											<member><filename>DBObject_Index_Column.java</filename>
+											</member>
+										</simplelist>
+									</para>
+									<para>
+										<simplelist type="vert">
+											<member><filename>DBObject_View.java</filename>
+											</member>
+											<member><filename>DBObject_View_Definition.java</filename>
+											</member>
+										</simplelist>
+									</para>
+									<para>
+										<simplelist type="vert">
+											<member><filename>DBObject_Sequence.java</filename>
+											</member>
+											<member><filename>DBObject_Sequence_Counter.java</filename>
+											</member>
+										</simplelist>
+									</para>
+									<para>
+										<simplelist type="vert">
+											<member><filename>DBObject_Function.java</filename>
+											</member>
+											<member><filename>DBObject_Function_Argument.java</filename>
+											</member>
+											<member><filename>DBObject_Function_Body.java</filename>
+											</member>
+										</simplelist>
+									</para>
+									<para>
+										<simplelist type="vert">
+											<member><filename>DBObject_Operator.java</filename>
+											</member>
+											<member><filename>DBObject_Operator_Signature.java</filename>
+											</member>
+											<member><filename>DBObject_Operator_Definition.java</filename>
+											</member>
+										</simplelist>
+									</para>
+									<para>
+										<simplelist type="vert">
+											<member><filename>DBObject_Trigger.java</filename>
+											</member>
+											<member><filename>DBObject_Trigger_Table.java</filename>
+											</member>
+											<member><filename>DBObject_Trigger_Definition.java</filename>
+											</member>
+										</simplelist>
+									</para>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Application Dictionary Objects
+								</entry>
+								<entry>
+									<para>
+										<simplelist type="vert">
+											<member><filename>ADObject_TreeNode.java</filename>
+											</member>
+										</simplelist>
+									</para>
+								</entry>
+							</row>
+						</tbody>
+					</tgroup>
+				</table>
+			</section>
+			<section>
+				<info>
+					<title>
+						Adding Languages and Locales
+					</title>
+				</info>
+				<para>All messages are contained in the resource file <filename>Messages.java</filename>, which contains US-English text as default locale.</para>
+				<para>To add additional languages or locales, copy <filename>Messages.java</filename> to a new file following <productname>Java</productname>'s <link xlink:href="http://java.sun.com/developer/technicalArticles/Intl/ResourceBundles/">Resource Bundle</link> naming convention.</para>
+				<para>For example, to create a French resource file, name it <filename>Messages_fr.java</filename>.</para>
+				<para>To differentiate between French as spoken in France and French as spoken in Canada, create two resource files named <filename>Messages_fr_FR.java</filename> and <filename>Messages_fr_CA.java</filename>.</para>
+				<para>Of course the class declaration must be changed to match the file name, for example <code>public class <replaceable>Messages</replaceable> extends ListResourceBundle { &hellip;</code> would become <code>public class <replaceable>Messages_fr_FR</replaceable> extends ListResourceBundle { &hellip;</code>.
+				</para>
+				<para>The file contains an array of <code>{“<replaceable>key</replaceable>”, “<replaceable>localized String</replaceable>”}</code> pairs. The keys should not be modified, as they are used to look up the localized string by the Resource Bundle. The localized string should be translated to the required language.</para>
+				<para>Note that while Resource Bundles generally accept <code>{“<replaceable>key</replaceable>”, <replaceable>Object</replaceable>}</code> pairs, <productname>Migrate</productname> can only handle String values such as in <code>{“<replaceable>key</replaceable>”, “<replaceable>String</replaceable>”}</code> pairs<footnote>
+						<para>For this reason, to translate keyboard codes for mnemonic highlighting of menu items, labels, or buttons, the keyboard code, which is an int, is converted to an Integer which is converted to a String, as in:
+<programlisting>	&hellip;
+	{"guiMenuHelp", "Help"},
+	{"guiMenuHelpMnemonic", new Integer(KeyEvent.VK_H).toString()},
+	&hellip;
+</programlisting>
+						</para>
+					</footnote>.</para>
+			</section>
+			<section>
+				<info>
+					<title>
+						Adding Database Vendors
+					</title>
+				</info>
+				<para>To be able to communicate with different database vendors and follow their conventions and rules, <productname>Migrate</productname> uses a layer of “database engines” which answer to specific predefined requests and provide vendor-specific SQL statements.</para>
+				<para>These database engines are implemented as <productname>Java</productname> Interfaces and can therefore easily be extended to other database vendors. In this case, “easily” just means that interfaces for additional database vendors can easily be added, but the actual programming and debugging of such interfaces will still be a laborious task.</para>
+				<para>The interface definition, manifested in source file <filename>DBEngineInterface.java</filename>, defines which functions a vendor-specific database engine must contain, what arguments those functions will be given, and what <productname>Migrate</productname> expects as return values. Consult the <link xlink:href="../apidoc/com/kkalice/adempiere/migrate/DBEngineInterface.html">DBEngineInterface API</link> for details (it is generated by javadoc
+during compilation).</para>
+				<para>Two database engines are included with the original distribution of <productname>Migrate</productname>: one for <productname>Oracle</productname> and one for <productname>postgreSQL</productname>.</para>
+				<para>To add a new database engine, it is probably easiest to make a copy of the file which most closely matches the vendor you want to implement, name it according to the new vendor (for example, <filename>DBEngine_<replaceable>MySql</replaceable>.java</filename>, or <filename>DBEngine_<replaceable>AdabasD</replaceable>.java</filename>), and rename the class declaration inside the file (<code>public class DBEngine_<replaceable>MySql</replaceable> implements DBEngine_Interface {&hellip;</code>, or <code>public class DBEngine_<replaceable>AdabasD</replaceable> implements DBEngine_Interface {&hellip;</code>).</para>
+				<para>Then go through the methods step by step, compare the difference between <filename>DBEngine_Oracle.java</filename> and <filename>DBEngine_Postgresql.java</filename>, and figure out what your database vendor requires. After you are done programming the interface, extensive testing and debugging will follow.</para>
+			</section>
+			<section>
+				<info>
+					<title>
+						To Do
+					</title>
+				</info>
+				<para>The following are some features which would be nice for <productname>Migrate</productname> to have, but which have not been implemented yet.</para>
+				<para>The community is invited to submit contributions:</para>
+				<section>
+					<info>
+						<title>Identify Renamed Tables</title>
+					</info>
+					<para>In: <classname>Migrate</classname>.<function>synchronizeTables()</function></para>
+					<para><productname>Migrate</productname> drops tables not existing in the reference database and adds tables not existing in the target. So if a table has been renamed, the data contained in that table will be lost. It is therefore necessary to identify tables which have been renamed.</para>
+					<para>The obvious solution would be to check the <varname>AD_Element_ID</varname> of the table's primary key, but that method will fail:</para>
+					<informalexample><para>In the past, when <filename>C_Allocation</filename> was renamed to <filename>C_AllocationLine</filename>, the primary key <varname>C_Allocation_ID</varname> (element 1380) became <varname>C_AllocationHdr_ID</varname>, and a new primary key <varname>C_AllocationLine_ID</varname> (element 2534) was created for the renamed table.</para></informalexample>
+					<para>A different solution must be found.</para>
+				</section>
+				<section>
+					<info>
+						<title>Preserve Parent Links</title>
+					</info>
+					<para>In: <classname>Migrate</classname>.<function>preserveParentLinks()</function></para>
+					<para>If a table in the live database does not contain a column existing in the reference database, that column will be created with a default value. But if the new column is used as part of a foreign key constraint in the reference database, the default value will not reference any parent record in the target database, which will result in an error when the foreign key is created.</para>
+					<para>Such "unlinked" fields should be linked to the correct parent, and it must be deduced from other data in the table what the correct parent is.</para>
+					<para>Currently the hints how to find the correct parent are hard-coded.</para>
+					<informalexample><para>At some time, a <varname>C_Dunning_ID</varname> column was added to the <filename>C_DunningRun</filename> table, which was used as a foreign key to <filename>C_Dunning</filename>. When running an upgrade migration, the column is added and filled with <constant>0</constant> as default value. But <constant>0</constant> does not point to any parent in the <filename>C_Dunning</filename> table, and would thus result in an error when the foreign key is created.</para>
+						<para>It turns out that <filename>C_DunningRun</filename> contains a column called <varname>C_DunningLevel_ID</varname>, which links to the table <filename>C_DunningLevel</filename>. And <filename>C_DunningLevel</filename> has a link to the <filename>C_Dunning</filename> Table. So the correct target for the new <varname>C_Dunning_ID</varname> column can be deduced by following the link to <varname>C_DunningLevel_ID</varname> and from there to <filename>C_Dunning</filename>.</para>
+						<para>This hint is currently hard-coded.</para>
+					</informalexample>
+					<para><productname>Migrate</productname> should be able to find out by itself how to deduce the correct parent.</para>
+					<para>As long as that can not be done, such hints must continue to be hard-coded as additional situations of this type are encountered.</para>
+				</section>
+				<section>
+					<info>
+						<title>Populate New Parents</title>
+					</info>
+					<para>In: <classname>Migrate</classname>.<function>populateNewParents()</function></para>
+					<para>If new tables exist in the reference database but not in the target, they might be parent tables which must be filled with data from already existing child records.</para>
+					<informalexample><para>Originally there was only a table <filename>C_Allocation</filename>. At some point, that table was renamed <filename>C_AllocationLine</filename>, and a new parent table <filename>C_AllocationHdr</filename> was introduced.</para>
+						<para>At that time, <varname>C_AllocationHdr_ID</varname> had to be set to the value of <varname>C_AllocationLine_ID</varname>, and columns in <filename>C_AllocationHdr</filename> that also existed in <filename>C_AllocationLine</filename> had to be filled with the values from <filename>C_AllocationLine</filename>, using</para>
+						<para>
+							<code>INSERT INTO &hellip; SELECT &hellip;;</code>
+						</para>
+						<para>The link from the child to the new parent record had to be set, and since the parent record's <varname>C_AllocationHdr_ID</varname> now had the same value as the child's <varname>C_AllocationLine_ID</varname>, it could easily be done with:</para>
+						<para>
+							<code>UPDATE C_AllocationLine SET C_AllocationHdr_ID = C_AllocationLine_ID WHERE C_AllocationHdr_ID IS NULL;</code>
+						</para>
+						<para>Finally, any references from other tables pointing to the old child table had to be re-directed to point to the new parent table, for example</para>
+						<para>
+							<code>UPDATE Fact_Acct SET AD_Table_ID=735 WHERE AD_Table_ID=390;</code>
+						</para>
+						<para>(<filename>C_AllocationHdr</filename> has <varname>AD_Table_ID</varname> <constant>735</constant>, <filename>C_AllocationLine</filename> has <varname>AD_Table_ID</varname> <constant>390</constant>)</para>
+					</informalexample>
+					<para>Above is actually not so difficult to implement, but the problem is how to find the primary child table.</para>
+					<para>For example, if <filename>C_InvoiceLine</filename> and <filename>C_InvoiceTax</filename> exist, and a new table <filename>C_Invoice</filename> is created, how do we know that <filename>C_InvoiceLine</filename> is the table from which <filename>C_Invoice</filename> should be populated, not <filename>C_InvoiceTax</filename>?</para>
+					<para>Another problem arises from inconsistent table naming:
+						<simplelist type="vert">
+							<member><filename>C_Invoice</filename> - <filename>C_InvoiceLine</filename> (the short name is the parent, the long name is the child)</member>
+							<member><filename>C_AllocationHdr</filename> - <filename>C_AllocationLine</filename> (both parent and child names are long)</member>
+							<member><filename>GL_JournalBatch</filename> - <filename>GL_Journal</filename> - <filename>GL_JournalLine</filename> (the parent has a long name, the child has a short name, and the grandchild has a long name again)</member>
+						</simplelist>
+					</para>
+				</section>
+				<section>
+					<info>
+						<title>Translation of Functions</title>
+					</info>
+					<para>In: <classname>DBEngine_<replaceable>vendor</replaceable></classname>.<function>translateFunctionBodyFull()</function></para>
+					<para><productname>Migrate</productname> can more or less successfully translate views using regular expressions, but the translation of functions is much more difficult.</para>
+					<para>Any help to translate functions between the different procedural languages native to each database vendor would be highly appreciated.</para>
+				</section>
+				<section>
+					<info>
+						<title>Fail-Safe / Safe-Fail</title>
+					</info>
+					<para><productname>Migrate</productname> requires the migration process not to be interrupted.</para>
+					<para>If it does get interrupted, for example because of a power outage, you need to restore the live database from your backup and start the migration process again from scratch. That is because <productname>Migrate</productname> drops views, functions, constraints, indexes etc. before starting the migration process. If the migration process is interrupted before those objects are recreated, they will be lost forever.</para>
+					<para>It would be nice if <productname>Migrate</productname> saved the meta-data it gathered and then used that saved meta-data to resume migrations which were interrupted.</para>
+				</section>
+				<section>
+					<info>
+						<title>Delete Client / Delete Transactions</title>
+					</info>
+					<para>The original <productname>Compiere</productname> migration tool had a facility to delete transactions (in effect “resetting” a client) or to delete a client entirely. It is probably better not to include such functionality in <productname>Migrate</productname> but rather have a specialized tool for such kind of task.</para>
+					<para>However, if anybody sees the need to add such functionality to <productname>Migrate</productname>, there already is a private <function>dropClient()</function> function in the main <classname>Migrate</classname> class which can be made public and used for such purpose. (It is currently used to drop the <emphasis>GardenWorld</emphasis> client).</para>
+					<para>There is no function yet to delete only transactions.</para>
+				</section>
+			</section>
+		</section>
+	</chapter>
+	<wikicategory>Migration</wikicategory>
+	<wikicategory>Projects and Tools</wikicategory>
+</book>

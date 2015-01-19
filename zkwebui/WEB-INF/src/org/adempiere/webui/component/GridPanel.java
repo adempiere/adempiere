@@ -16,12 +16,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.swing.table.AbstractTableModel;
-
 import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.panel.AbstractADWindowPanel;
+import org.adempiere.webui.panel.IADTabPanel;
 import org.adempiere.webui.util.SortComparator;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
@@ -33,6 +32,7 @@ import org.zkoss.zk.au.out.AuFocus;
 import org.zkoss.zk.au.out.AuScript;
 import org.zkoss.zk.ui.AbstractComponent;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.HtmlBasedComponent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -49,6 +49,9 @@ import org.zkoss.zul.event.ZulEvents;
 /**
  * Grid view implemented using the Grid component.
  * @author Low Heng Sin
+ * @author e-Evolution , victor.perez@e-evolution.com
+ *    <li>Implement embedded or horizontal tab panel https://adempiere.atlassian.net/browse/ADEMPIERE-319
+ *    <li>New ADempiere 3.8.0 ZK Theme Light  https://adempiere.atlassian.net/browse/ADEMPIERE-320 
  *
  */
 public class GridPanel extends Borderlayout implements EventListener
@@ -98,6 +101,18 @@ public class GridPanel extends Borderlayout implements EventListener
 	public static final String PAGE_SIZE_KEY = "ZK_PAGING_SIZE";
 
 	public static final String MODE_LESS_KEY = "ZK_GRID_EDIT_MODELESS";
+	
+	private IADTabPanel tabPanel;
+	
+	public void setADTabPanel(IADTabPanel panel)
+	{
+		tabPanel = panel;
+	}
+	
+	public IADTabPanel getADTabPanel()
+	{
+		return tabPanel;
+	}
 
 	public GridPanel()
 	{
@@ -111,6 +126,10 @@ public class GridPanel extends Borderlayout implements EventListener
 	{
 		this.windowNo = windowNo;
 		listbox = new Grid();
+		
+		listbox.addEventListener(Events.ON_FOCUS, this);
+		
+		
 		listbox.setOddRowSclass(null);
 		south = new South();
 		this.appendChild(south);
@@ -262,7 +281,7 @@ public class GridPanel extends Borderlayout implements EventListener
 		int index = 0;
 		for (int i = 0; i < numColumns; i++)
 		{
-			
+
 			if (gridField[i].isDisplayed())
 			{
 				colnames.put(index, gridField[i].getHeader());
@@ -273,8 +292,8 @@ public class GridPanel extends Borderlayout implements EventListener
 				column.setLabel(gridField[i].getHeader());
 				
 				int displayLength = gridField[i].getPreferredWidthInListView() > 0 ? gridField[i].getPreferredWidthInListView() : gridField[i].getDisplayLength() * 9 ;
-					
-					
+
+				
 				int l = DisplayType.isNumeric(gridField[i].getDisplayType())
 					? 120 : displayLength ;
 				
@@ -293,11 +312,11 @@ public class GridPanel extends Borderlayout implements EventListener
 				{
 					if (l < MIN_NUMERIC_COL_WIDTH)
 						l = MIN_NUMERIC_COL_WIDTH;
-				}				
+				}
 				column.setWidth(Integer.toString(l) + "px");
 				
 				// FR 3051618 - Hide in list view
-				if (gridField[i].isHideInListView()) {
+				if (!gridField[i].isDisplayedGrid()) {
 					column.setVisible(false);
 				}
 				
@@ -345,7 +364,7 @@ public class GridPanel extends Borderlayout implements EventListener
 		renderer = new GridTabRowRenderer(gridTab, windowNo);
 		renderer.setGridPanel(this);
 		renderer.setADWindowPanel(windowPanel);
-
+		
 		listbox.setRowRenderer(renderer);
 		listbox.setModel(listModel);
 	}
@@ -362,8 +381,19 @@ public class GridPanel extends Borderlayout implements EventListener
 	{
 		if (event == null)
 			return;
+		
 		else if (event.getTarget() == listbox && Events.ON_CLICK.equals(event.getName()))
 		{
+			if(tabPanel != null)
+			{
+				if (tabPanel.getGlobalToolbar().getCurrentPanel() != tabPanel)
+				{		
+					tabPanel.getGlobalToolbar().getCurrentPanel().activate(false);
+					tabPanel.setUnselected(tabPanel.getGlobalToolbar().getCurrentPanel());
+					tabPanel.setSelected(tabPanel);
+					tabPanel.activate(true);
+				}
+			}
 			Object data = event.getData();
 			org.zkoss.zul.Row row = null;
 			String columnName = null;
@@ -598,15 +628,25 @@ public class GridPanel extends Borderlayout implements EventListener
                     comp.setReadWrite(false);
                 }
                 else
-                {
-                	comp.dynamicDisplay();
+                {              	
                     boolean rw = mField.isEditable(true);   //  r/w - check Context
                     comp.setReadWrite(rw);
+                    comp.dynamicDisplay();
                 }
-                
+
                 comp.setVisible(mField.isDisplayed(true));
+                comp.repaintComponent(true);
             }
         }   //  all components
+	}
+
+	public void repaintComponents()
+	{
+		if(renderer!=null)
+			for(WEditor editor : renderer.getEditors())
+				if(editor!=null)
+					editor.repaintComponent(true);
+
 	}
 
 	/**

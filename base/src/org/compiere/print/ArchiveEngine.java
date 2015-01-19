@@ -86,7 +86,7 @@ public class ArchiveEngine
 		//	TODO to be done async
 		MArchive archive = new MArchive (layout.getCtx(),info, null);
 		archive.setBinaryData(data);
-		archive.save();
+		archive.saveEx();
 		
 		return data;
 	}	//	archive

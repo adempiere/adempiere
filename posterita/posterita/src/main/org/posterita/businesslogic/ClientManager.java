@@ -76,7 +76,7 @@ public class ClientManager
 
 		// Step 1
 		boolean ok = setup.createClient(clientName, orgName, orgName, clientName
-				+ " Client User", clientName + " Org User", null, null, null, null, null);
+				+ " Client User", clientName + " Org User", null, null, null, null, null, null, null, countryId);
 
 		if (ok) 
 		{
@@ -84,7 +84,7 @@ public class ClientManager
 			KeyNamePair currency = new KeyNamePair(currencyId, currencyName);
 
 			if (!setup.createAccounting(currency, true, true, false, false,
-					false, file))
+					false, null, 0, file))
 			{
 				throw new OperationException("Could not create accounting for client");
 			}

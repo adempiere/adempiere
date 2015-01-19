@@ -23,7 +23,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import org.compiere.model.MAdvertisement;
-import org.compiere.model.MAsset;
+import org.compiere.model.X_A_Asset;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MCommissionRun;
 import org.compiere.model.MDocType;
@@ -655,10 +655,10 @@ public class WebInfo
 	 * 	Get Active Assets if not Credit Stop and EMail is verified
 	 *	@return payments of BP
 	 */
-	public ArrayList<MAsset> getAssets()
+	public ArrayList<X_A_Asset> getAssets()
 	{
 		m_infoMessage = null;
-		ArrayList<MAsset> list = new ArrayList<MAsset>();
+		ArrayList<X_A_Asset> list = new ArrayList<X_A_Asset>();
 		if (m_wu != null)
 		{
 			if (m_wu.isCreditStopHold())
@@ -681,7 +681,7 @@ public class WebInfo
 			pstmt.setInt(1, getC_BPartner_ID());
 			rs = pstmt.executeQuery();
 			while (rs.next())
-				list.add(new MAsset (m_ctx, rs, null));
+				list.add(new X_A_Asset(m_ctx, rs, null));
 		}
 		catch (Exception e)
 		{
@@ -1244,7 +1244,7 @@ public class WebInfo
 				MBPartner bp = new MBPartner (m_ctx, getC_BPartner_ID(), null);
 				bp.setPrimaryAD_User_ID(getAD_User_ID());				
 				retValue = new MRfQResponse (rfq, bp);	//	may have no lines
-				retValue.save();
+				retValue.saveEx();
 			}
 		}
 		//

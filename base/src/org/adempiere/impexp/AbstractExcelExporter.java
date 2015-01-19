@@ -469,4 +469,18 @@ public abstract class AbstractExcelExporter
 		if (autoOpen)
 			Env.startBrowser(file.toURI().toString());
 	}
+
+	/**
+	 * Export to file
+	 * @throws Exception
+	 */
+	public File export()
+	throws Exception
+	{
+		m_lang = Env.getLanguage(getCtx());
+		File file = File.createTempFile("Report_", ".xls");
+		FileOutputStream out = new FileOutputStream(file);
+		export(out);
+		return file;
+	}
 }

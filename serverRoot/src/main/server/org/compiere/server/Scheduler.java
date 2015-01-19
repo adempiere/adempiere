@@ -144,7 +144,7 @@ public class Scheduler extends AdempiereServer
 		MSchedulerLog pLog = new MSchedulerLog(m_model, m_summary.toString());
 		pLog.setReference("#" + String.valueOf(p_runCount)
 			+ " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
-		pLog.save();
+		pLog.saveEx();
 	}	//	doWork
 
 	/**
@@ -197,7 +197,7 @@ public class Scheduler extends AdempiereServer
 					note.setTextMsg(pi.getSummary());
 					//note.setDescription();
 					note.setRecord(MPInstance.Table_ID, pi.getAD_PInstance_ID());
-					note.save();
+					note.saveEx();
 				}
 			}
 		}
@@ -247,7 +247,7 @@ public class Scheduler extends AdempiereServer
 								attachment.setClientOrg(m_model.getAD_Client_ID(), m_model.getAD_Org_ID());
 								attachment.addEntry(report);
 								attachment.setTextMsg(m_model.getName());
-								attachment.save();
+								attachment.saveEx();
 							}
 						}
 					}
@@ -414,13 +414,13 @@ public class Scheduler extends AdempiereServer
 					runNow();
 					long next = predictor.nextMatchingTime();
 					p_model.setDateNextRun(new Timestamp(next));
-					p_model.save();
+					p_model.saveEx();
 				}
 			});
 			predictor = new Predictor(cronPattern);
 			long next = predictor.nextMatchingTime();
 			p_model.setDateNextRun(new Timestamp(next));
-			p_model.save();
+			p_model.saveEx();
 			cronScheduler.start();
 			while (true) {
 				if (!sleep()) {

@@ -69,6 +69,11 @@ public class WProcessInfo extends ProcessInfo {
 		if (className == null || className.trim().length() == 0)
 			return null;
 		
+		// Westfalia: Rules -> no check. (Rules start with "@script:")  }
+		final String prefix = "@script:";
+		if(className.startsWith(prefix)) 
+			return className;
+		
 		String zkPackage = "org.adempiere.webui.";
 		String zkPrefix = "W";
 		

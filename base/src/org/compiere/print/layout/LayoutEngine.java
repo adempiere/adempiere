@@ -40,7 +40,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
 import java.util.logging.Level;
-
 import javax.print.Doc;
 import javax.print.DocFlavor;
 import javax.print.attribute.DocAttributeSet;
@@ -977,7 +976,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 	}	//	createStandardHeaderFooter
 
 
-	
+
 	/**************************************************************************
 	 * 	Layout Form.
 	 *  For every Row, loop through the Format
@@ -1118,7 +1117,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 						item.getAD_PrintColor_ID (), item.getAD_PrintFont_ID (),
 						maxWidth, item.getMaxHeight (), item.isHeightOneLine (), alignment, true);
 				}
-				
+
 				//	Printed - set last width/height
 				if (element != null)
 				{
@@ -1180,7 +1179,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		}	//	for every row
 	}	//	layoutForm
 
-	
+
 	/**
 	 * 	Include Table Format
 	 *	@param item print format item
@@ -1205,7 +1204,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		{
 			data.dumpHeader();
 			data.dumpCurrentRow();
-			log.log(Level.SEVERE, "No Node - AD_Column_ID=" 
+			log.log(Level.SEVERE, "No Node - AD_Column_ID="
 				+ AD_Column_ID + " - " + item + " - " + data);
 			return null;
 		}
@@ -1241,6 +1240,9 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		PrintData includedData = de.getPrintData(data.getCtx(), format, query);
 		if (includedData == null)
 			return null;
+
+        data.addNode(includedData);
+
 		log.fine(includedData.toString());
 		//
 		element = layoutTable (format, includedData, item.getXSpace());
@@ -1257,7 +1259,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 			m_position[m_area] = loc;
 			((TableElement)element).setHeightToLastPage();
 		}
-		
+
 		m_lastWidth[m_area] = element.getWidth();
 		m_lastHeight[m_area] = element.getHeight();
 
@@ -1349,7 +1351,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		Object content = stringContent;
 		if (data.getValue() instanceof Boolean)
 			content = data.getValue();
-			
+
 		//	Convert AmtInWords Content to alpha
 		if (item.getColumnName().equals("AmtInWords"))
 		{
@@ -1425,7 +1427,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 	private PrintElement createBoxElement (MPrintFormatItem item)
 	{
 		Color color = getColor();	//	default
-		if (item.getAD_PrintColor_ID() != 0 
+		if (item.getAD_PrintColor_ID() != 0
 			&& m_printColor.get_ID() != item.getAD_PrintColor_ID())
 		{
 			MPrintColor c = MPrintColor.get (getCtx(), item.getAD_PrintColor_ID());
@@ -1434,7 +1436,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		}
 		return new BoxElement(item, color);
 	}	//	createBoxElement
-	
+
 	/**
 	 * 	Create Image Element from item
 	 *	@param item item
@@ -1442,7 +1444,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 	 */
 	private PrintElement createImageElement (MPrintFormatItem item)
 	{
-		Object obj = m_data.getNode(new Integer(item.getAD_Column_ID())); 
+		Object obj = m_data.getNode(new Integer(item.getAD_Column_ID()));
 		if (obj == null)
 			return null;
 		else if (obj instanceof PrintDataElement)
@@ -1472,7 +1474,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		}
 		return element;
 	}	//	createImageElement
-	
+
 	/**
 	 * 	Create Barcode Element
 	 *	@param item item
@@ -1505,7 +1507,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 			return element;
 		return null;
 	}	//	createBarcodeElement
-	
+
 	/**
 	 * 	Get default Color
 	 *	@return color
@@ -1514,9 +1516,9 @@ public class LayoutEngine implements Pageable, Printable, Doc
 	{
 		if (m_printColor == null)
 			return Color.BLACK;
-		return m_printColor.getColor(); 
+		return m_printColor.getColor();
 	}	//	getColor
-	
+
 	/**************************************************************************
 	 * 	Layout Table.
 	 *	Convert PrintData into TableElement
@@ -1587,7 +1589,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 					if (!item.isSuppressNull())
 					{
 						item.setIsSuppressNull(true);	//	display size will be set to 0 in TableElement
-						item.save();
+						item.saveEx();
 					}
 				}
 				columnHeader[col] = new ValueNamePair(item.getColumnName(),
@@ -1678,28 +1680,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 					if (item.isTypeImage())
 					{
 						if (item.isImageField())
-						{
-							Object obj = null;
-							if (item.getAD_Column_ID() > 0) // teo_sarca, [ 1673542 ]
-								obj = printData.getNode(new Integer(item.getAD_Column_ID()));
-							if (obj == null)
-								;
-							else if (obj instanceof PrintDataElement)
-							{
-								PrintDataElement pde = (PrintDataElement)obj;
-								// Get the PrintDataElement string value - teo_sarca [ 1673505 ]
-								Object o = pde.getValue();
-								String value = null;
-								if (o == null)
-									value = "";
-								else if (o instanceof KeyNamePair)
-									value = ((KeyNamePair)o).getName();
-								else
-									value = o.toString();
-								
-								data[row][col] = ImageElement.get (value);
-							}
-						}
+							data[row][col] = createImageElement(item);
 						else if (item.isImageIsAttached())
 							data[row][col] = ImageElement.get (item.get_ID());
 						else
@@ -1732,14 +1713,14 @@ public class LayoutEngine implements Pageable, Printable, Doc
 							if (element.isValid())
 								data[row][col] = element;
 						}
-						
+
 						if (data[row][col] != null)
 							((BarcodeElement)data[row][col]).layout(item.getMaxWidth(), item.getMaxHeight(), false, item.getFieldAlignmentType());
-					
+
 					}
 					else if (item.isTypeText() )
 					{
-						data[row][col] = item.getPrintName(format.getLanguage());	
+						data[row][col] = item.getPrintName(format.getLanguage());
 					}
 					else if (item.isTypeField())
 					{
@@ -1761,6 +1742,10 @@ public class LayoutEngine implements Pageable, Printable, Doc
 					//	System.out.println("  row=" + row + ",col=" + col + " - " + item.getAD_Column_ID() + " => " + dataElement);
 						data[row][col] = dataElement;
 					}
+                    else if (item.isTypePrintFormat())
+                    {
+                        m_currPage.addElement (includeFormat(item, printData)) ;
+                    }
 					else  // item.isTypeBox() or isTypePrintFormat()
 					{
 						log.warning("Unsupported: " + (item.isTypeBox() ? "Box" : "PrintFormat") + " in Table: " + item);
@@ -1807,9 +1792,9 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		pe.layout(0, 0, false, null);
 		return pe;
 	}	//	layoutParameter
-	
+
 	/**
-	 * Layout Process Instance Logs (if any) 
+	 * Layout Process Instance Logs (if any)
 	 * @return PrintElement
 	 */
 	private PrintElement layoutPInstanceLogs()
@@ -1825,7 +1810,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		return e;
 	}
 
-	
+
 	/**************************************************************************
 	 * 	Get number of pages (Pageable Interface)
 	 * 	@return number of pages
@@ -1905,7 +1890,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 	{
 		return m_isCopy;
 	}	//	isCopy
-	
+
 	/**
 	 * 	Set Copy
 	 *	@param isCopy if true document is a copy
@@ -1936,7 +1921,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 
 	/**
 	 * 	Get Document Attributes (Doc Interface)
-	 *	@return null to obtain all attribute values from the 
+	 *	@return null to obtain all attribute values from the
 	 *		job's attribute set.
 	 */
 	public DocAttributeSet getAttributes()

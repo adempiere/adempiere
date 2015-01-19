@@ -171,7 +171,7 @@ public class MAttachment extends X_AD_Attachment
 			} else {
 				m_attachmentPathRoot = client.getUnixAttachmentPath();
 			}
-			if("".equals(m_attachmentPathRoot)){
+			if(m_attachmentPathRoot==null || "".equals(m_attachmentPathRoot)){
 				log.severe("no attachmentPath defined");
 			} else if (!m_attachmentPathRoot.endsWith(File.separator)){
 				log.warning("attachment path doesn't end with " + File.separator);
@@ -548,7 +548,7 @@ public class MAttachment extends X_AD_Attachment
 	 */
 	private boolean saveLOBDataToFileSystem()
 	{
-		if("".equals(m_attachmentPathRoot)){
+		if(m_attachmentPathRoot==null || "".equals(m_attachmentPathRoot)){
 			log.severe("no attachmentPath defined");
 			return false;
 		}
@@ -885,7 +885,7 @@ public class MAttachment extends X_AD_Attachment
 		MAttachment att = new MAttachment(Env.getCtx(), 100, 0, null);
 		att.addEntry(new File ("C:\\Adempiere\\Dev.properties"));
 		att.addEntry(new File ("C:\\Adempiere\\index.html"));
-		att.save();
+		att.saveEx();
 		System.out.println (att);
 		att.dumpEntryNames();
 		int AD_Attachment_ID = att.getAD_Attachment_ID();

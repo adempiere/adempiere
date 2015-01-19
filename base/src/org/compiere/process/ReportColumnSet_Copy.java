@@ -77,7 +77,7 @@ public class ReportColumnSet_Copy extends SvrProcess
 		for (int i = 0; i < rcs.length; i++)
 		{
 			MReportColumn rc = MReportColumn.copy (getCtx(), to.getAD_Client_ID(), to.getAD_Org_ID(), to_ID, rcs[i], get_TrxName());
-			rc.save();
+			rc.saveEx();
 		}
 		//	Oper 1/2 were set to Null !
 		return "@Copied@=" + rcs.length;

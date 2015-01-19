@@ -74,19 +74,19 @@ import org.compiere.model.PrintInfo;
 import org.compiere.model.X_AD_PInstance_Para;
 import org.compiere.print.MPrintFormat;
 import org.compiere.print.PrintUtil;
-import org.compiere.print.ServerReportCtl;
+import org.compiere.print.ServerReportCtl; //360-->ReportCtl; 370, trunk-->ServerReportCtl
 import org.compiere.process.ClientProcess;
 import org.compiere.process.ProcessCall;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.DigestOfFile;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Language;
 import org.compiere.util.Trx;
 import org.compiere.util.Util;
-import org.compiere.utils.DigestOfFile;
 
 /**
  * @author rlemeill
@@ -101,6 +101,8 @@ import org.compiere.utils.DigestOfFile;
  * 			<li>FR [ 2581145 ] Jasper: Provide parameters info
  * @author Cristina Ghita, www.arhipac.ro
  * 			<li>BF [ 2778472 ] Subreport bug
+ * @author Trifon Trifonov, 
+ * 			<li>BF[ ] Create PDF file with human readable name: Title +"_"+ Record_ID +".pdf" - link</li>
  */
 public class ReportStarter implements ProcessCall, ClientProcess
 {
@@ -359,9 +361,22 @@ public class ReportStarter implements ProcessCall, ClientProcess
      * @author Ashley Ramdass
      * @return Connection DB Connection
      */
-    protected Connection getConnection()
+    protected Connection getConnection(Trx trx)
     {
-    	return DB.getConnectionRW();
+    	if (trx != null) {
+    		Connection resultConn = null;
+    		try {
+    			resultConn = trx.getConnection();
+    		} catch (Exception ex) {
+    			resultConn = DB.getConnectionRW();
+    		}
+    		if (resultConn == null) {
+    			resultConn = DB.getConnectionRW();
+    		}
+    		return resultConn;
+    	} else {
+    		return DB.getConnectionRW();
+    	}
     }
 
     /**
@@ -491,7 +506,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
             // in iReports you can 'SELECT' AD_Client_ID, AD_Org_ID and AD_User_ID using only AD_PINSTANCE_ID
             params.put("AD_PINSTANCE_ID", new Integer( AD_PInstance_ID));
 
-            // FR [3123850] - Add continuosly needed parameters to Jasper Starter - Carlos Ruiz - GlobalQSS
+            // FR [3123850] - Add continiuosly needed parameters to Jasper Starter - Carlos Ruiz - GlobalQSS
         	params.put("AD_CLIENT_ID", new Integer( Env.getAD_Client_ID(Env.getCtx())));
         	params.put("AD_ROLE_ID", new Integer( Env.getAD_Role_ID(Env.getCtx())));
         	params.put("AD_USER_ID", new Integer( Env.getAD_User_ID(Env.getCtx())));
@@ -561,7 +576,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
 
             Connection conn = null;
             try {
-            	conn = getConnection();
+            	conn = getConnection( trx );
                 jasperPrint = JasperFillManager.fillReport( jasperReport, params, conn);
                 if (reportData.isDirectPrint() && !processInfo.isPrintPreview())
                 {
@@ -599,20 +614,14 @@ public class ReportStarter implements ProcessCall, ClientProcess
                     	exporter.setParameter(JRPrintServiceExporterParameter.DISPLAY_PRINT_DIALOG, Boolean.FALSE);
                     	// Print report / document
                     	exporter.exportReport();
-                    	
-                    }
-                    else
-                    {
+                    } else {
                     	// You can use JasperPrint to create PDF
                     	// Used For the PH
-                    	try
-                    	{
+                    	try {
                     		File PDF = File.createTempFile("mail", ".pdf");
                     		JasperExportManager.exportReportToPdfFile(jasperPrint, PDF.getAbsolutePath());
                     		processInfo.setPDFReport(PDF);
-                    	}
-                    	catch (IOException e)
-                    	{
+                    	} catch (IOException e) {
                     		log.severe("ReportStarter.startProcess: Can not make PDF File - "+ e.getMessage());
                     	}
                 }
@@ -622,7 +631,8 @@ public class ReportStarter implements ProcessCall, ClientProcess
                 } else {
                     log.info( "ReportStarter.startProcess run report -"+jasperPrint.getName());
                     JRViewerProvider viewerLauncher = getReportViewerProvider();
-                    viewerLauncher.openViewer(jasperPrint, pi.getTitle()+" - " + reportPath);
+                    //viewerLauncher.openViewer(jasperPrint, pi.getTitle()+" - " + reportPath);
+                    viewerLauncher.openViewer(jasperPrint, pi.getTitle()+"_" + pi.getRecord_ID() + ".pdf");
                 }
             } catch (JRException e) {
                 log.severe("ReportStarter.startProcess: Can not run report - "+ e.getMessage());

@@ -147,9 +147,9 @@ public class MTest extends X_Test
 		MTest t1 = new MTest (ctx, 0, null);
 		t1.setName("Test1");
 		System.out.println("->" + t1.getCharacterData() + "<-");
-		t1.save();
+		t1.saveEx();
 		t1.setCharacterData("Long Text JJ");
-		t1.save();
+		t1.saveEx();
 		int Test_ID = t1.getTest_ID();
 		//
 		MTest t2 = new MTest (Env.getCtx(), Test_ID, null);
@@ -161,7 +161,7 @@ public class MTest extends X_Test
 		/**	Volume Test 
 		for (int i = 1; i < 20000; i++)
 		{
-			new MTest (ctx, "test", i).save();
+			new MTest (ctx, "test", i).saveEx();
 		}		
 		/** */	
 	}	//	main

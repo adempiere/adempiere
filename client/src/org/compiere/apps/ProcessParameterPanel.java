@@ -28,10 +28,8 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
-
 import javax.swing.Box;
 import javax.swing.JLabel;
-
 import org.adempiere.exceptions.DBException;
 import org.compiere.grid.ed.VEditor;
 import org.compiere.grid.ed.VEditorFactory;
@@ -41,7 +39,6 @@ import org.compiere.model.MClient;
 import org.compiere.model.MLookup;
 import org.compiere.model.MPInstancePara;
 import org.compiere.process.ProcessInfo;
-import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -60,6 +57,8 @@ import org.compiere.util.Env;
  * @author victor.perez@e-evoluton.com, www.e-evolution.com 
  * 			<li>FR [ 3426137 ] Smart Browser
  * 			 https://sourceforge.net/tracker/?func=detail&aid=3426137&group_id=176962&atid=879335
+ * 			<li> https://adempiere.atlassian.net/browse/ADEMPIERE-97
+ * 			<li> The parameters is not show when use display logic, the parameters dialog window is not automatically resize.
  * @version 	2006-12-01
  * @author Michael McKay (mjmckay)
  * 			<li>BF3423098 - Labels for process parameters with display logic false are still displayed
@@ -558,7 +557,7 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 									m_separators.get(index).setText("");
 							}
 						}
-					}
+					}					
 				}
 			}
 		} // Dynamic Display.
@@ -704,7 +703,7 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 				if (editor2 != null)
 					para.setInfo_To (editor2.getDisplay());
 				//
-				para.save();
+				para.saveEx();
 				log.fine(para.toString());
 			}	//	for every parameter
 
@@ -726,6 +725,16 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 					f.restoreValue();
 			}
 		}
+		
+		public void refreshContext()
+	 	{
+			for(int i = 0; i < m_vEditors.size(); i++) {
+				VEditor editor = m_vEditors.get(i);
+				GridField mField = editor.getField();
+				editor.setValue(mField.getDefault());
+			}
+	 	}
+		
 		/**
 		 * Define the mode to Display the parameters
 		 * @param mode

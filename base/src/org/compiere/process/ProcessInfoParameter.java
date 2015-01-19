@@ -18,6 +18,9 @@ package org.compiere.process;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+
+import org.compiere.util.Env;
 
 
 /**
@@ -122,6 +125,19 @@ public class ProcessInfoParameter implements Serializable
 	}	//	getParameterAsInt
 	
 	/**
+	 * Method getParameter as BigDecimal
+	 * @return Object
+	 */
+	public BigDecimal getParameterAsBigDecimal ()
+	{
+		if (m_Parameter == null)
+			return null;
+		if (m_Parameter instanceof BigDecimal)
+			return (BigDecimal) m_Parameter;
+		return new BigDecimal(m_Parameter.toString());
+	}	//	getParameterAsBigDecimal
+	
+	/**
 	 * Method getParameter as Boolean
 	 * @return boolean value
 	 */
@@ -133,6 +149,31 @@ public class ProcessInfoParameter implements Serializable
 			return ((Boolean)m_Parameter).booleanValue();
 		return "Y".equals(m_Parameter);
 	}
+	
+	/**
+	 * Method getParameter as Timestamp
+	 * @return Object
+	 */
+	public Timestamp getParameterAsTimestamp()
+	{
+		if (m_Parameter == null)
+			return null;
+		if (m_Parameter instanceof Timestamp)
+			return (Timestamp) m_Parameter;
+		return null;
+	}	//	getParameterAsTimestamp
+
+	
+	/**
+	 * Method getParameter as String
+	 * @return Object
+	 */
+	public String getParameterAsString()
+	{
+		if (m_Parameter == null)
+			return null;
+		return m_Parameter.toString();
+	}	//	getParameterAsString
 
 	/**
 	 * Method getParameter_To
@@ -156,6 +197,19 @@ public class ProcessInfoParameter implements Serializable
 		BigDecimal bd = new BigDecimal(m_Parameter_To.toString());
 		return bd.intValue();
 	}	//	getParameter_ToAsInt
+	
+	/**
+	 * Method getParameterTo as BigDecimal
+	 * @return Object
+	 */
+	public BigDecimal getParameterToAsBigDecimal ()
+	{
+		if (m_Parameter_To == null)
+			return null;
+		if (m_Parameter_To instanceof BigDecimal)
+			return (BigDecimal) m_Parameter_To;
+		return new BigDecimal(m_Parameter_To.toString());
+	}	//	getParameterToAsBigDecimal
 
 	/**
 	 * Method getParameter as Boolean
@@ -170,6 +224,29 @@ public class ProcessInfoParameter implements Serializable
 		return "Y".equals(m_Parameter_To);
 	}
 	
+	/**
+	 * Method getParameterTo as Timestamp
+	 * @return Object
+	 */
+	public Timestamp getParameterToAsTimestamp()
+	{
+		if (m_Parameter_To == null)
+			return null;
+		if (m_Parameter_To instanceof Timestamp)
+			return (Timestamp) m_Parameter_To;
+		return null;
+	}	//	getParameterToAsTimestamp
+	
+	/**
+	 * Method getParameterTo as String
+	 * @return Object
+	 */
+	public String getParameterToAsString()
+	{
+		if (m_Parameter_To == null)
+			return null;
+		return m_Parameter_To.toString();
+	}	//	getParameterToAsString
 	
 	/**
 	 * Method getParameterName

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PA_Report
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0
  */
 public interface I_PA_Report 
 {
@@ -242,6 +242,17 @@ public interface I_PA_Report
 
 	public org.compiere.model.I_PA_ReportCube getPA_ReportCube() throws RuntimeException;
 
+    /** Column name PA_ReportLineSet_ID */
+    public static final String COLUMNNAME_PA_ReportLineSet_ID = "PA_ReportLineSet_ID";
+
+	/** Set Report Line Set	  */
+	public void setPA_ReportLineSet_ID (int PA_ReportLineSet_ID);
+
+	/** Get Report Line Set	  */
+	public int getPA_ReportLineSet_ID();
+
+	public org.compiere.model.I_PA_ReportLineSet getPA_ReportLineSet() throws RuntimeException;
+
     /** Column name PA_Report_ID */
     public static final String COLUMNNAME_PA_Report_ID = "PA_Report_ID";
 
@@ -255,16 +266,23 @@ public interface I_PA_Report
 	  */
 	public int getPA_Report_ID();
 
-    /** Column name PA_ReportLineSet_ID */
-    public static final String COLUMNNAME_PA_ReportLineSet_ID = "PA_ReportLineSet_ID";
+    /** Column name PosPeriodName */
+    public static final String COLUMNNAME_PosPeriodName = "PosPeriodName";
 
-	/** Set Report Line Set	  */
-	public void setPA_ReportLineSet_ID (int PA_ReportLineSet_ID);
+	/** Set Pos Period Name	  */
+	public void setPosPeriodName (String PosPeriodName);
 
-	/** Get Report Line Set	  */
-	public int getPA_ReportLineSet_ID();
+	/** Get Pos Period Name	  */
+	public String getPosPeriodName();
 
-	public org.compiere.model.I_PA_ReportLineSet getPA_ReportLineSet() throws RuntimeException;
+    /** Column name PrePeriodName */
+    public static final String COLUMNNAME_PrePeriodName = "PrePeriodName";
+
+	/** Set Pre Period Name	  */
+	public void setPrePeriodName (String PrePeriodName);
+
+	/** Get Pre Period Name	  */
+	public String getPrePeriodName();
 
     /** Column name Processing */
     public static final String COLUMNNAME_Processing = "Processing";

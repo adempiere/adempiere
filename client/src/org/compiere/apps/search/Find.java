@@ -52,6 +52,7 @@ import java.util.regex.Pattern;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.InputMap;
@@ -212,7 +213,9 @@ public final class Find extends CDialog
 	private int				m_sLine = 6;
 	
 	/**	List of VEditors			*/
-	private ArrayList<VEditor>			m_sEditors = new ArrayList<VEditor>();
+	private ArrayList<VEditor>			m_sEditors  = new ArrayList<VEditor>();
+	private ArrayList<VEditor>			m_sEditors2 = new ArrayList<VEditor>();
+	
 	/** Target Fields with AD_Column_ID as key  */
 	private Hashtable<Integer,GridField>	m_targetFields = new Hashtable<Integer,GridField>();
 
@@ -597,6 +600,7 @@ public final class Find extends CDialog
 		
 		//	Editor
 		VEditor editor = null;
+		CLabel label = null;
 		if (mField.isLookup())
 		{
 			VLookup vl = new VLookup(mField.getColumnName(), false, false, true,
@@ -606,28 +610,81 @@ public final class Find extends CDialog
 
 			vl.setName(mField.getColumnName());
 			editor = vl;
+			
+			//
+			if (displayLength > 0)		//	set it back
+				mField.setDisplayLength(displayLength);
+			//
+			label = VEditorFactory.getLabel(mField);
+			m_sLine++;
+			//if (label != null)	//	may be null for Y/N
+				scontentPanel.add(label,   new GridBagConstraints(1, m_sLine, 1, 1, 0.0, 0.0
+					,GridBagConstraints.NORTHEAST, GridBagConstraints.NONE, new Insets(7, 5, 5, 5), 0, 0));
+			scontentPanel.add((Component)editor,   new GridBagConstraints(2, m_sLine, 1, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
 		}
-		else
+		else 
 		{
-			editor = VEditorFactory.getEditor(mField, false);
-			editor.setMandatory(false);
-			editor.setReadWrite(true);
+				if (mField.isRange()) {
+					
+					new Box(BoxLayout.X_AXIS);
+					Box box = Box.createHorizontalBox();
+					editor = VEditorFactory.getEditor(mField, false);
+					label = VEditorFactory.getLabel(mField);
+					editor.setMandatory(false);
+					editor.setReadWrite(true);
+					
+					box.add((Component) editor);
+					
+					VEditor editor2 = VEditorFactory.getEditor(mField, false);
+					editor2.setMandatory(false);
+		            editor2.setReadWrite(true);
+		            m_sEditors2.add (editor2);
+		            if (editor2 instanceof CTextField) {
+						((CTextField)editor2).addActionListener(this);
+		            }
+		            CLabel separator = new CLabel(" - ");
+		            box.add(separator);
+		            box.add((Component) editor2);
+		            m_sLine++;
+		            scontentPanel.add(label,   new GridBagConstraints(1, m_sLine, 1, 1, 0.0, 0.0
+		    				,GridBagConstraints.NORTHEAST, GridBagConstraints.NONE, new Insets(7, 5, 5, 5), 0, 0));
+		            
+		            scontentPanel.add((Component)box,   new GridBagConstraints(2, m_sLine, 1, 1, 0.0, 0.0
+			    			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
+		            
+		            
+		            if (displayLength > 0)		//	set it back
+		    			mField.setDisplayLength(displayLength);
+					
+				}
+				else {
+					editor = VEditorFactory.getEditor(mField, false);
+					editor.setMandatory(false);
+					editor.setReadWrite(true);
+					label = VEditorFactory.getLabel(mField);
+					//
+					if (displayLength > 0)		//	set it back
+						mField.setDisplayLength(displayLength);
+					//
+					label = VEditorFactory.getLabel(mField);
+					
+					m_sLine++;
+				//	if (label != null)	//	may be null for Y/N
+						scontentPanel.add(label,   new GridBagConstraints(1, m_sLine, 1, 1, 0.0, 0.0
+							,GridBagConstraints.NORTHEAST, GridBagConstraints.NONE, new Insets(7, 5, 5, 5), 0, 0));
+					scontentPanel.add((Component)editor,   new GridBagConstraints(2, m_sLine, 1, 1, 0.0, 0.0
+						,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
+					
+					m_sEditors2.add (null);
+				}
 		}
+		
 		// Add action listener to custom text fields - teo_sarca [ 1709292 ]
 		if (editor instanceof CTextField) {
 			((CTextField)editor).addActionListener(this);
 		}
-		CLabel label = VEditorFactory.getLabel(mField);
-		//
-		if (displayLength > 0)		//	set it back
-			mField.setDisplayLength(displayLength);
-		//
-		m_sLine++;
-		if (label != null)	//	may be null for Y/N
-			scontentPanel.add(label,   new GridBagConstraints(1, m_sLine, 1, 1, 0.0, 0.0
-				,GridBagConstraints.NORTHEAST, GridBagConstraints.NONE, new Insets(7, 5, 5, 5), 0, 0));
-		scontentPanel.add((Component)editor,   new GridBagConstraints(2, m_sLine, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
+		
 		m_sEditors.add(editor);
 	}	//	addSelectionColumn
 
@@ -1046,16 +1103,20 @@ public final class Find extends CDialog
 		{
 			VEditor ved = (VEditor)m_sEditors.get(i);
 			Object value = ved.getValue();
+			Object modifiedvalue = null;
+			String ColumnSQL = null;
+			String ColumnName = ((Component)ved).getName ();
+			GridField field = getTargetMField(ColumnName);
 			if (value != null && value.toString().length() > 0)
 			{
-				String ColumnName = ((Component)ved).getName ();
+				ColumnName = ((Component)ved).getName ();
 				log.fine(ColumnName + "=" + value);
 				
 				// globalqss - Carlos Ruiz - 20060711
 				// fix a bug with virtualColumn + isSelectionColumn not yielding results
-				GridField field = getTargetMField(ColumnName);
+				field = getTargetMField(ColumnName);
 				boolean isProductCategoryField = isProductCategoryField(field.getAD_Column_ID());
-				String ColumnSQL = field.getColumnSQL(false);
+				ColumnSQL = field.getColumnSQL(false);
                 //
                 // Be more permissive for String columns
                 if (isSearchLike(field))
@@ -1065,14 +1126,16 @@ public final class Find extends CDialog
                         valueStr += "%";
                     //
                     ColumnSQL = "UPPER("+ColumnSQL+")";
-                    value = valueStr;
+                    modifiedvalue = valueStr;
                 }
+                else
+                	modifiedvalue = value;
                 //
-				if (value.toString().indexOf('%') != -1)
-					m_query.addRestriction(ColumnSQL, MQuery.LIKE, value, ColumnName, ved.getDisplay());
+				if (modifiedvalue.toString().indexOf('%') != -1  && !field.isRange() )
+					m_query.addRestriction(ColumnSQL, MQuery.LIKE, modifiedvalue, ColumnName, ved.getDisplay());
 				else if (isProductCategoryField && value instanceof Integer) 
 					m_query.addRestriction(getSubCategoryWhereClause(((Integer) value).intValue()));
-				else
+				else if ( ! field.isRange()  )
 					m_query.addRestriction(ColumnSQL, MQuery.EQUAL, value, ColumnName, ved.getDisplay());
 				/*
 				if (value.toString().indexOf('%') != -1)
@@ -1082,6 +1145,50 @@ public final class Find extends CDialog
 				*/
 				// end globalqss patch
 			}
+			
+			 if (field.isRange() ){
+	            	
+	            	 VEditor editor2 = (VEditor)m_sEditors2.get(i);
+		           	 Object value2 = null;
+		           	 Object parsedValue = null;
+		           	 Object parsedValue2 = null;
+		           	 String infoDisplay_to = null;
+		           	 String infoDisplay = null;
+		           	 if (editor2 != null)
+		           	 value2 = editor2.getValue();
+		           	 //GridField field = null;
+		           	if ( ( value != null && !value.toString().isEmpty() ) && ( value2 != null && !value2.toString().isEmpty() ) && value2.toString().length() > 0)
+		           	 {
+			           	 ColumnName = ((Component)ved).getName ();
+			           	 log.fine(ColumnName + "=" + value2);
+			           	 field = getTargetMField(ColumnName);
+			           	 infoDisplay = value.toString();
+			           	 parsedValue = parseValue(field, value);
+			           	 parsedValue2 = parseValue(field, value2);
+			           	 infoDisplay_to = value2.toString();
+			           	 if (parsedValue2 == null)
+			           	 continue;
+			           	 m_query.addRangeRestriction(ColumnSQL, parsedValue, parsedValue2,ColumnSQL, infoDisplay, infoDisplay_to );
+		           	 
+		           	 }
+		           	// Case2 : If in given range filed First value as given and 2nd value is null
+		           	 //then get all the records after the First value
+		           	 else if( value!= null && ! value.toString().isEmpty() && ( value2 == null || value2.toString().isEmpty() ) ){
+		           		 
+		           		 ColumnName = ((Component)ved).getName ();
+		           		 m_query.addRestriction(ColumnSQL, MQuery.GREATER_EQUAL, value, ColumnName, ved.getDisplay());
+		           	 }
+		           	
+		           	// Case3 : If in given range filed First value is given as null and 2nd value is given 
+		           	 // then get all the records before the second value 
+		           	 else if( ( value == null || value.toString().isEmpty() ) && value2 != null && ! value2.toString().isEmpty() ){
+		           		 
+		           		 ColumnName = ((Component)ved).getName ();
+		           		 field = getTargetMField(ColumnName);
+		           		 ColumnSQL = field.getColumnSQL(false);
+		           		 m_query.addRestriction(ColumnSQL, MQuery.LESS_EQUAL, value2, ColumnName, editor2.getDisplay());
+		           	 }
+		       }
 		}	//	editors
 
 		m_isCancel = false; // teo_sarca [ 1708717 ]

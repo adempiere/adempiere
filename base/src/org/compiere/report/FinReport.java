@@ -23,6 +23,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
+
 import org.compiere.model.MAcctSchemaElement;
 import org.compiere.model.MReportCube;
 import org.compiere.print.MPrintFormat;
@@ -101,7 +102,7 @@ public class FinReport extends SvrProcess
 	protected void prepare()
 	{
 		StringBuffer sb = new StringBuffer ("Record_ID=")
-			.append(getRecord_ID());
+		.append(getRecord_ID());
 		//	Parameter
 		ProcessInfoParameter[] para = getParameter();
 		for (int i = 0; i < para.length; i++)
@@ -145,23 +146,23 @@ public class FinReport extends SvrProcess
 		//	Optional Org
 		if (p_Org_ID != 0)
 			m_parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(), 
-				p_PA_Hierarchy_ID, MAcctSchemaElement.ELEMENTTYPE_Organization, p_Org_ID));
+					p_PA_Hierarchy_ID, MAcctSchemaElement.ELEMENTTYPE_Organization, p_Org_ID));
 		//	Optional BPartner
 		if (p_C_BPartner_ID != 0)
 			m_parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(), 
-				p_PA_Hierarchy_ID, MAcctSchemaElement.ELEMENTTYPE_BPartner, p_C_BPartner_ID));
+					p_PA_Hierarchy_ID, MAcctSchemaElement.ELEMENTTYPE_BPartner, p_C_BPartner_ID));
 		//	Optional Product
 		if (p_M_Product_ID != 0)
 			m_parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(), 
-				p_PA_Hierarchy_ID, MAcctSchemaElement.ELEMENTTYPE_Product, p_M_Product_ID));
+					p_PA_Hierarchy_ID, MAcctSchemaElement.ELEMENTTYPE_Product, p_M_Product_ID));
 		//	Optional Project
 		if (p_C_Project_ID != 0)
 			m_parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(), 
-				p_PA_Hierarchy_ID, MAcctSchemaElement.ELEMENTTYPE_Project, p_C_Project_ID));
+					p_PA_Hierarchy_ID, MAcctSchemaElement.ELEMENTTYPE_Project, p_C_Project_ID));
 		//	Optional Activity
 		if (p_C_Activity_ID != 0)
 			m_parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(), 
-				p_PA_Hierarchy_ID, MAcctSchemaElement.ELEMENTTYPE_Activity, p_C_Activity_ID));
+					p_PA_Hierarchy_ID, MAcctSchemaElement.ELEMENTTYPE_Activity, p_C_Activity_ID));
 		//	Optional Campaign
 		if (p_C_Campaign_ID != 0)
 			m_parameterWhere.append(" AND C_Campaign_ID=").append(p_C_Campaign_ID);
@@ -170,15 +171,15 @@ public class FinReport extends SvrProcess
 		//	Optional Sales Region
 		if (p_C_SalesRegion_ID != 0)
 			m_parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(), 
-				p_PA_Hierarchy_ID, MAcctSchemaElement.ELEMENTTYPE_SalesRegion, p_C_SalesRegion_ID));
+					p_PA_Hierarchy_ID, MAcctSchemaElement.ELEMENTTYPE_SalesRegion, p_C_SalesRegion_ID));
 		//	Optional User1_ID
 		if (p_User1_ID != 0)
 			m_parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(), 
-				p_PA_Hierarchy_ID, MAcctSchemaElement.ELEMENTTYPE_UserList1, p_User1_ID));
+					p_PA_Hierarchy_ID, MAcctSchemaElement.ELEMENTTYPE_UserList1, p_User1_ID));
 		//  Optional User2_ID
 		if (p_User2_ID != 0)
 			m_parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(), 
-				p_PA_Hierarchy_ID, MAcctSchemaElement.ELEMENTTYPE_UserList2, p_User2_ID));
+					p_PA_Hierarchy_ID, MAcctSchemaElement.ELEMENTTYPE_UserList2, p_User2_ID));
 		//	Optional UserElement1_ID
 		if (p_UserElement1_ID != 0)
 			m_parameterWhere.append(" AND UserElement1_ID=").append(p_UserElement1_ID);
@@ -192,14 +193,18 @@ public class FinReport extends SvrProcess
 		//
 		setPeriods();
 		sb.append(" - C_Period_ID=").append(p_C_Period_ID)
-			.append(" - ").append(m_parameterWhere);
+		.append(" - ").append(m_parameterWhere);
 		//
+
+		ProcessInfoParameter[] pi = getProcessInfo().getParameter();
+		pi[0].setParameter(new Integer(p_C_Period_ID));
+		getProcessInfo().setParameter(pi);
 		
 		if ( p_PA_ReportCube_ID > 0)
 			m_parameterWhere.append(" AND PA_ReportCube_ID=").append(p_PA_ReportCube_ID);
-		
+
 		log.info(sb.toString());
-	//	m_report.list();
+		//	m_report.list();
 	}	//	prepare
 
 	/**
@@ -233,7 +238,7 @@ public class FinReport extends SvrProcess
 			while (rs.next())
 			{
 				FinReportPeriod frp = new FinReportPeriod (rs.getInt(1), rs.getString(2),
-					rs.getTimestamp(3), rs.getTimestamp(4), rs.getTimestamp(5));
+						rs.getTimestamp(3), rs.getTimestamp(4), rs.getTimestamp(5));
 				list.add(frp);
 				if (p_C_Period_ID == 0 && frp.inPeriod(today))
 					p_C_Period_ID = frp.getC_Period_ID();
@@ -259,7 +264,7 @@ public class FinReport extends SvrProcess
 		}
 	}	//	setPeriods
 
-	
+
 	/**************************************************************************
 	 *  Perform process.
 	 *  @return Message to be translated
@@ -268,7 +273,7 @@ public class FinReport extends SvrProcess
 	protected String doIt() throws Exception
 	{
 		log.info("AD_PInstance_ID=" + getAD_PInstance_ID());
-		
+
 		if ( p_PA_ReportCube_ID > 0 )
 		{
 			MReportCube cube = new MReportCube(getCtx(), p_PA_ReportCube_ID, get_TrxName());
@@ -279,10 +284,10 @@ public class FinReport extends SvrProcess
 		//	- AD_PInstance_ID, PA_ReportLine_ID, 0, 0
 		int PA_ReportLineSet_ID = m_report.getLineSet().getPA_ReportLineSet_ID();
 		StringBuffer sql = new StringBuffer ("INSERT INTO T_Report "
-			+ "(AD_PInstance_ID, PA_ReportLine_ID, Record_ID,Fact_Acct_ID, SeqNo,LevelNo, Name,Description) "
-			+ "SELECT ").append(getAD_PInstance_ID()).append(", PA_ReportLine_ID, 0,0, SeqNo,0, Name,Description "
-			+ "FROM PA_ReportLine "
-			+ "WHERE IsActive='Y' AND PA_ReportLineSet_ID=").append(PA_ReportLineSet_ID);
+				+ "(AD_PInstance_ID, PA_ReportLine_ID, Record_ID,Fact_Acct_ID, SeqNo,LevelNo, Name,Description,TabLevel, ReportLineStyle, FixedPercentage) "
+				+ "SELECT ").append(getAD_PInstance_ID()).append(", PA_ReportLine_ID, 0,0, SeqNo,0, Name,Description,TabLevel,ReportLineStyle,FixedPercentage "
+						+ "FROM PA_ReportLine "
+						+ "WHERE IsActive='Y' AND PA_ReportLineSet_ID=").append(PA_ReportLineSet_ID);
 
 		int no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.fine("Report Lines = " + no);
@@ -294,7 +299,7 @@ public class FinReport extends SvrProcess
 		m_lines = m_report.getLineSet().getLiness();
 		if (m_lines.length == 0)
 			throw new AdempiereUserError("@No@ @PA_ReportLine_ID@");
-		
+
 		//	for all lines
 		for (int line = 0; line < m_lines.length; line++)
 		{
@@ -307,14 +312,19 @@ public class FinReport extends SvrProcess
 		doCalculations();
 
 		deleteUnprintedLines();
-		
+
 		scaleResults();
 
+		
+
 		//	Create Report
-		if (Ini.isClient())
+		if (Ini.isClient()) 
 			getProcessInfo().setTransientObject (getPrintFormat());
-		else
+		else 
 			getProcessInfo().setSerializableObject(getPrintFormat());
+
+		MPrintFormat pf = getPrintFormat();
+
 
 		log.fine((System.currentTimeMillis() - m_start) + " ms");
 		return "";
@@ -364,7 +374,7 @@ public class FinReport extends SvrProcess
 				log.warning("No Amount Type in line: " + m_lines[line] + " or column: " + m_columns[col]);
 				continue;
 			}
-			
+
 			if (p_PA_ReportCube_ID > 0) 
 				select.append(" FROM Fact_Acct_Summary fa WHERE DateAcct ");
 			else {
@@ -399,7 +409,7 @@ public class FinReport extends SvrProcess
 				}
 				else if (m_lines[line].isNatural())
 				{
-						select.append( frp.getNaturalWhere("fa"));
+					select.append( frp.getNaturalWhere("fa"));
 				}
 				else
 				{
@@ -439,33 +449,33 @@ public class FinReport extends SvrProcess
 				}
 			}
 
-		//	Line Where
-		String s = m_lines[line].getWhereClause(p_PA_Hierarchy_ID);	//	(sources, posting type)
-		if (s != null && s.length() > 0)
-			select.append(" AND ").append(s);
+			//	Line Where
+			String s = m_lines[line].getWhereClause(p_PA_Hierarchy_ID);	//	(sources, posting type)
+			if (s != null && s.length() > 0)
+				select.append(" AND ").append(s);
 
-		//	Report Where
-		s = m_report.getWhereClause();
-		if (s != null && s.length() > 0)
-			select.append(" AND ").append(s);
+			//	Report Where
+			s = m_report.getWhereClause();
+			if (s != null && s.length() > 0)
+				select.append(" AND ").append(s);
 
-		//	PostingType
-		if (!m_lines[line].isPostingType())		//	only if not defined on line
-		{
-			String PostingType = m_columns[col].getPostingType();
-			if (PostingType != null && PostingType.length() > 0)
-				select.append(" AND PostingType='").append(PostingType).append("'");
-			// globalqss - CarlosRuiz
-			if (PostingType.equals(MReportColumn.POSTINGTYPE_Budget)) {
-				if (m_columns[col].getGL_Budget_ID() > 0)
-					select.append(" AND GL_Budget_ID=" + m_columns[col].getGL_Budget_ID());
+			//	PostingType
+			if (!m_lines[line].isPostingType())		//	only if not defined on line
+			{
+				String PostingType = m_columns[col].getPostingType();
+				if (PostingType != null && PostingType.length() > 0)
+					select.append(" AND PostingType='").append(PostingType).append("'");
+				// globalqss - CarlosRuiz
+				if (PostingType.equals(MReportColumn.POSTINGTYPE_Budget)) {
+					if (m_columns[col].getGL_Budget_ID() > 0)
+						select.append(" AND GL_Budget_ID=" + m_columns[col].getGL_Budget_ID());
+				}
+				// end globalqss
 			}
-			// end globalqss
-		}
 
 			if (m_columns[col].isColumnTypeSegmentValue())
 				select.append(m_columns[col].getWhereClause(p_PA_Hierarchy_ID));
-			
+
 			//	Parameter Where
 			select.append(m_parameterWhere);
 			log.finest("Line=" + line + ",Col=" + line + ": " + select);
@@ -474,7 +484,7 @@ public class FinReport extends SvrProcess
 			if (update.length() > 0)
 				update.append(", ");
 			update.append("Col_").append(col)
-				.append(" = (").append(select).append(")");
+			.append(" = (").append(select).append(")");
 			//
 			log.finest(info.toString());
 		}
@@ -483,12 +493,41 @@ public class FinReport extends SvrProcess
 		{
 			update.insert (0, "UPDATE T_Report SET ");
 			update.append(" WHERE AD_PInstance_ID=").append(getAD_PInstance_ID())
-				.append(" AND PA_ReportLine_ID=").append(m_lines[line].getPA_ReportLine_ID())
-				.append(" AND ABS(LevelNo)<2");		//	0=Line 1=Acct
+			.append(" AND PA_ReportLine_ID=").append(m_lines[line].getPA_ReportLine_ID())
+			.append(" AND ABS(LevelNo)<2");		//	0=Line 1=Acct
 			int no = DB.executeUpdate(update.toString(), get_TrxName());
 			if (no != 1)
 				log.log(Level.SEVERE, "#=" + no + " for " + update);
 			log.finest(update.toString());
+		}
+		
+		//Add extra columns for account type and balancesheet/Pl flag.
+		MReportSource[] mrs= m_lines[line].getSources();
+		for(int j=0;j<mrs.length;j++)
+		{
+			StringBuffer sql1=new StringBuffer("UPDATE t_report SET accounttype=accounttype1 ,ax_case=ax_case1 " 
+												+ "from (SELECT ev.accounttype as accounttype1 ," 
+					+ "CASE ev.accounttype " 
+					+ " WHEN 'A'::bpchar THEN 'B'::text " 
+					+ " WHEN 'C'::bpchar THEN 'P'::text " 
+					+ " WHEN 'E'::bpchar THEN 'P'::text " 
+					+ " WHEN 'F'::bpchar THEN 'P'::text " 
+					+ " WHEN 'L'::bpchar THEN 'B'::text " 
+					+ " WHEN 'M'::bpchar THEN 'B'::text " 
+					+ " WHEN 'O'::bpchar THEN 'B'::text " 
+					+ " WHEN 'P'::bpchar THEN 'P'::text " 
+					+ " WHEN 'R'::bpchar THEN 'P'::text " 
+					+ " WHEN 'T'::bpchar THEN 'P'::text " 
+					+ " ELSE '9. Unknown'::text  END   " 
+					+ "as ax_case1 FROM fact_acct f " 
+					+ "RIGHT  JOIN c_elementvalue ev  ON  f.account_id = ev.c_elementvalue_id WHERE ev.c_elementvalue_id= ")
+					.append(mrs[j].getC_ElementValue_ID())
+					.append(") t  " ).append(" where AD_PInstance_ID = ")
+					.append(getAD_PInstance_ID())
+					.append(" AND PA_ReportLine_ID= ")
+					.append(m_lines[line].getPA_ReportLine_ID());
+			int no = DB.executeUpdate(sql1.toString(), get_TrxName());
+			log.log(Level.SEVERE, "#=" + no + " for " + update);
 		}
 	}	//	insertLine
 
@@ -508,11 +547,11 @@ public class FinReport extends SvrProcess
 			int oper_2 = m_lines[line].getOper_2_ID();
 
 			log.fine("Line " + line + " = #" + oper_1 + " " 
-				+ m_lines[line].getCalculationType() + " #" + oper_2);
+					+ m_lines[line].getCalculationType() + " #" + oper_2);
 
 			//	Adding
 			if (m_lines[line].isCalculationTypeAdd() 
-				|| m_lines[line].isCalculationTypeRange())
+					|| m_lines[line].isCalculationTypeRange())
 			{
 				//	Reverse range
 				if (oper_1 > oper_2)
@@ -536,15 +575,15 @@ public class FinReport extends SvrProcess
 					sb.append ("COALESCE(SUM(r2.Col_").append (col).append("),0)");
 				}
 				sb.append(" FROM T_Report r2 WHERE r2.AD_PInstance_ID=").append(getAD_PInstance_ID())
-					.append(" AND r2.PA_ReportLine_ID IN (");
+				.append(" AND r2.PA_ReportLine_ID IN (");
 				if (m_lines[line].isCalculationTypeAdd())
 					sb.append(oper_1).append(",").append(oper_2);
 				else
 					sb.append(getLineIDs (oper_1, oper_2));		//	list of columns to add up
 				sb.append(") AND ABS(r2.LevelNo)<1) "		//	0=Line 1=Acct
-					+ "WHERE AD_PInstance_ID=").append(getAD_PInstance_ID())
-					.append(" AND PA_ReportLine_ID=").append(m_lines[line].getPA_ReportLine_ID())
-					.append(" AND ABS(LevelNo)<1");		//	not trx
+						+ "WHERE AD_PInstance_ID=").append(getAD_PInstance_ID())
+						.append(" AND PA_ReportLine_ID=").append(m_lines[line].getPA_ReportLine_ID())
+						.append(" AND ABS(LevelNo)<1");		//	not trx
 				int no = DB.executeUpdate(sb.toString(), get_TrxName());
 				if (no != 1)
 					log.log(Level.SEVERE, "(+) #=" + no + " for " + m_lines[line] + " - " + sb.toString());
@@ -572,12 +611,12 @@ public class FinReport extends SvrProcess
 					sb.append ("COALESCE(r2.Col_").append (col).append(",0)");
 				}
 				sb.append(" FROM T_Report r2 WHERE r2.AD_PInstance_ID=").append(getAD_PInstance_ID())
-					.append(" AND r2.PA_ReportLine_ID=").append(oper_1)
-					.append(" AND r2.Record_ID=0 AND r2.Fact_Acct_ID=0) "
-				//
-					+ "WHERE AD_PInstance_ID=").append(getAD_PInstance_ID())
-					   .append(" AND PA_ReportLine_ID=").append(m_lines[line].getPA_ReportLine_ID())
-					.append(" AND ABS(LevelNo)<1");			//	0=Line 1=Acct
+				.append(" AND r2.PA_ReportLine_ID=").append(oper_1)
+				.append(" AND r2.Record_ID=0 AND r2.Fact_Acct_ID=0) "
+						//
+						+ "WHERE AD_PInstance_ID=").append(getAD_PInstance_ID())
+						.append(" AND PA_ReportLine_ID=").append(m_lines[line].getPA_ReportLine_ID())
+						.append(" AND ABS(LevelNo)<1");			//	0=Line 1=Acct
 				int no = DB.executeUpdate(sb.toString(), get_TrxName());
 				if (no != 1)
 				{
@@ -587,6 +626,8 @@ public class FinReport extends SvrProcess
 
 				//	Step 2 - do Calculation with Second Value
 				sb = new StringBuffer ("UPDATE T_Report r1 SET (");
+				StringBuffer fp = new StringBuffer(" UPDATE T_Report SET ");
+				Boolean fixPerc = false;
 				for (int col = 0; col < m_columns.length; col++)
 				{
 					if (col > 0)
@@ -611,23 +652,52 @@ public class FinReport extends SvrProcess
 						sb.append ("DECODE (r2.Col_").append (col).append(", 0, NULL, r2.Col_").append (col).append(")");
 					}
 					// end fix bug [ 1563664 ]
-					if (m_lines[line].isCalculationTypePercent())
+					if (m_lines[line].isCalculationTypePercent()) {
 						sb.append(" *100");
+						Float fixedPercentage = getFixedPercentage(get_TrxName(), getAD_PInstance_ID(), m_lines[line].getPA_ReportLine_ID(),"Col_"+col);
+						if (fixedPercentage >0) 
+							fixPerc = true;
+						if (col > 0){
+							fp.append(",");
+						}
+						fp.append("Col_"+col+" = "+fixedPercentage);
+					}
 				}
 				sb.append(" FROM T_Report r2 WHERE r2.AD_PInstance_ID=").append(getAD_PInstance_ID())
-					.append(" AND r2.PA_ReportLine_ID=").append(oper_2)
-					.append(" AND r2.Record_ID=0 AND r2.Fact_Acct_ID=0) "
-				//
-					+ "WHERE AD_PInstance_ID=").append(getAD_PInstance_ID())
-					   .append(" AND PA_ReportLine_ID=").append(m_lines[line].getPA_ReportLine_ID())
-					.append(" AND ABS(LevelNo)<1");			//	0=Line 1=Acct
-				no = DB.executeUpdate(sb.toString(), get_TrxName());
-				if (no != 1)
-					log.severe ("(x) #=" + no + " for " + m_lines[line] + " - " + sb.toString ());
+				.append(" AND r2.PA_ReportLine_ID=").append(oper_2)
+				.append(" AND r2.Record_ID=0 AND r2.Fact_Acct_ID=0) "
+						//
+						+ "WHERE AD_PInstance_ID=").append(getAD_PInstance_ID())
+						.append(" AND PA_ReportLine_ID=").append(m_lines[line].getPA_ReportLine_ID())
+						.append(" AND ABS(LevelNo)<1");			//	0=Line 1=Acct
+
+				fp.append(" WHERE AD_PInstance_ID = "+getAD_PInstance_ID())
+				.append(" AND PA_ReportLine_ID= "+m_lines[line].getPA_ReportLine_ID())
+				.append(" AND ABS(LevelNo) < 1   "); // 0=Line 1=Acct
+				if (fixPerc){
+					try{
+						no = DB.executeUpdate(fp.toString(), get_TrxName());
+					}catch (Exception e)	{
+						log.log (Level.SEVERE, fp.toString(), e);
+					}
+					if (no != 1)
+						log.severe ("(x) #=" + no + " for " + m_lines[line] + " - " + sb.toString ());
+					else
+					{
+						log.fine("(x) Line=" + line + " - " + m_lines[line]);
+						log.finest (sb.toString());
+					}
+				}
 				else
 				{
-					log.fine("(x) Line=" + line + " - " + m_lines[line]);
-					log.finest (sb.toString());
+					no = DB.executeUpdate(sb.toString(), get_TrxName());
+					if (no != 1)
+						log.severe("(x) #=" + no + " for " + m_lines[line] + " - "
+								+ sb.toString());
+					else {
+						log.fine("(x) Line=" + line + " - " + m_lines[line]);
+						log.finest(sb.toString());
+					}
 				}
 			}
 		}	//	for all lines
@@ -658,7 +728,7 @@ public class FinReport extends SvrProcess
 				continue;
 			}
 			log.fine("Column " + col + " = #" + ii_1 + " " 
-				+ m_columns[col].getCalculationType() + " #" + ii_2);
+					+ m_columns[col].getCalculationType() + " #" + ii_2);
 			//	Reverse Range
 			if (ii_1 > ii_2 && m_columns[col].isCalculationTypeRange())
 			{
@@ -671,21 +741,21 @@ public class FinReport extends SvrProcess
 			//	+
 			if (m_columns[col].isCalculationTypeAdd())
 				sb.append ("COALESCE(Col_").append (ii_1).append(",0)")
-					.append("+")
-					.append ("COALESCE(Col_").append (ii_2).append(",0)");
+				.append("+")
+				.append ("COALESCE(Col_").append (ii_2).append(",0)");
 			//	-
 			else if (m_columns[col].isCalculationTypeSubtract())
 				sb.append ("COALESCE(Col_").append (ii_1).append(",0)")
-					.append("-")
-					.append ("COALESCE(Col_").append (ii_2).append(",0)");
+				.append("-")
+				.append ("COALESCE(Col_").append (ii_2).append(",0)");
 			//	/
 			if (m_columns[col].isCalculationTypePercent()) 
 				sb.append ("CASE WHEN COALESCE(Col_").append(ii_2)
-					.append(",0)=0 THEN NULL ELSE ")
-					.append("COALESCE(Col_").append (ii_1).append(",0)")
-					.append("/")
-					.append ("Col_").append (ii_2)
-					.append("*100 END");	//	Zero Divide
+				.append(",0)=0 THEN NULL ELSE ")
+				.append("COALESCE(Col_").append (ii_1).append(",0)")
+				.append("/")
+				.append ("Col_").append (ii_2)
+				.append("*100 END");	//	Zero Divide
 			//	Range
 			else if (m_columns[col].isCalculationTypeRange())
 			{
@@ -695,11 +765,11 @@ public class FinReport extends SvrProcess
 			}
 			//
 			sb.append(" WHERE AD_PInstance_ID=").append(getAD_PInstance_ID())
-				.append(" AND ABS(LevelNo)<2");			//	0=Line 1=Acct
+			.append(" AND ABS(LevelNo)<2");			//	0=Line 1=Acct
 			int no = DB.executeUpdate(sb.toString(), get_TrxName());
 			if (no < 1)
 				log.severe ("#=" + no + " for " + m_columns[col] 
-					+ " - " + sb.toString());
+				                                            + " - " + sb.toString());
 			else
 			{
 				log.fine("Col=" + col + " - " + m_columns[col]);
@@ -708,6 +778,41 @@ public class FinReport extends SvrProcess
 		} 	//	for all columns
 
 	}	//	doCalculations
+
+	private Float getFixedPercentage (String trxName, Integer AD_PInstance_ID, Integer PA_ReportLine_ID, String colName){
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT FixedPercentage, "+colName+" FROM T_Report WHERE AD_PInstance_ID= "+AD_PInstance_ID+" ");
+		sql.append("AND PA_ReportLine_ID= "+PA_ReportLine_ID+" ");
+		//		System.out.println("getFixedPercentage SQL::"+sql.toString());
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Float percent = new Float(0);
+		Float col = new Float(0);
+		Float percentage = new Float(0);
+		try	{
+			pstmt = DB.prepareStatement (sql.toString(), trxName);
+			rs = pstmt.executeQuery();
+			if (rs.next()){
+				percent = rs.getFloat("FixedPercentage");
+				col = rs.getFloat(colName);
+				percentage = percent/100;
+			}
+		}//try
+		catch (Exception e)	{
+			log.log (Level.SEVERE, sql.toString(), e);
+		}
+		finally	{
+			DB.close(pstmt); 
+			rs = null; pstmt = null;
+		}
+		if (col>0) {
+			BigDecimal bd = new BigDecimal(Float.toString(col*percentage));
+			bd = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
+        	return bd.floatValue();
+		}
+		else
+			return new Float(0);
+	}//getFixedPercentage
 
 	/**
 	 * 	Get List of PA_ReportLine_ID from .. to
@@ -720,7 +825,7 @@ public class FinReport extends SvrProcess
 		log.finest("From=" + fromID + " To=" + toID);
 		int firstPA_ReportLine_ID = 0;
 		int lastPA_ReportLine_ID = 0;
-		
+
 		// find the first and last ID 
 		for (int line = 0; line < m_lines.length; line++)
 		{
@@ -744,7 +849,7 @@ public class FinReport extends SvrProcess
 		{
 			int PA_ReportLine_ID = m_lines[line].getPA_ReportLine_ID();
 			log.finest("Add=" + addToList 
-				+ " ID=" + PA_ReportLine_ID + " - " + m_lines[line]);
+					+ " ID=" + PA_ReportLine_ID + " - " + m_lines[line]);
 			if (addToList)
 			{
 				sb.append (",").append (PA_ReportLine_ID);
@@ -756,7 +861,7 @@ public class FinReport extends SvrProcess
 		}
 		return sb.toString();
 	}	//	getLineIDs
-	
+
 	/**
 	 * 	Get Column Index
 	 * 	@param PA_ReportColumn_ID PA_ReportColumn_ID
@@ -772,7 +877,7 @@ public class FinReport extends SvrProcess
 		return -1;
 	}	//	getColumnIndex
 
-	
+
 	/**************************************************************************
 	 * 	Get Financial Reporting Period based on reporting Period and offset.
 	 * 	@param relativeOffset offset
@@ -806,27 +911,27 @@ public class FinReport extends SvrProcess
 		}
 		if (m_reportPeriod < 0 || m_reportPeriod >= m_periods.length)
 			throw new UnsupportedOperationException ("Period index not found - ReportPeriod="
-				+ m_reportPeriod + ", C_Period_ID=" + p_C_Period_ID);
+					+ m_reportPeriod + ", C_Period_ID=" + p_C_Period_ID);
 
 		//	Bounds check
 		int index = m_reportPeriod + relativeOffset;
 		if (index < 0)
 		{
 			log.log(Level.SEVERE, "Relative Offset(" + relativeOffset 
-				+ ") not valid for selected Period(" + m_reportPeriod + ")");
+					+ ") not valid for selected Period(" + m_reportPeriod + ")");
 			index = 0;
 		}
 		else if (index >= m_periods.length)
 		{
 			log.log(Level.SEVERE, "Relative Offset(" + relativeOffset 
-				+ ") not valid for selected Period(" + m_reportPeriod + ")");
+					+ ") not valid for selected Period(" + m_reportPeriod + ")");
 			index = m_periods.length - 1;
 		}
 		//	Get Period
 		return m_periods[index];
 	}	//	getPeriod
 
-	
+
 	/**************************************************************************
 	 *	Insert Detail Lines if enabled
 	 */
@@ -846,18 +951,18 @@ public class FinReport extends SvrProcess
 
 		//	Clean up empty rows
 		StringBuffer sql = new StringBuffer ("DELETE FROM T_Report WHERE ABS(LevelNo)<>0")
-			.append(" AND Col_0 IS NULL AND Col_1 IS NULL AND Col_2 IS NULL AND Col_3 IS NULL AND Col_4 IS NULL AND Col_5 IS NULL AND Col_6 IS NULL AND Col_7 IS NULL AND Col_8 IS NULL AND Col_9 IS NULL")
-			.append(" AND Col_10 IS NULL AND Col_11 IS NULL AND Col_12 IS NULL AND Col_13 IS NULL AND Col_14 IS NULL AND Col_15 IS NULL AND Col_16 IS NULL AND Col_17 IS NULL AND Col_18 IS NULL AND Col_19 IS NULL AND Col_20 IS NULL"); 
+		.append(" AND Col_0 IS NULL AND Col_1 IS NULL AND Col_2 IS NULL AND Col_3 IS NULL AND Col_4 IS NULL AND Col_5 IS NULL AND Col_6 IS NULL AND Col_7 IS NULL AND Col_8 IS NULL AND Col_9 IS NULL")
+		.append(" AND Col_10 IS NULL AND Col_11 IS NULL AND Col_12 IS NULL AND Col_13 IS NULL AND Col_14 IS NULL AND Col_15 IS NULL AND Col_16 IS NULL AND Col_17 IS NULL AND Col_18 IS NULL AND Col_19 IS NULL AND Col_20 IS NULL"); 
 		int no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.fine("Deleted empty #=" + no);
-		
+
 		//	Set SeqNo
 		sql = new StringBuffer ("UPDATE T_Report r1 "
-			+ "SET SeqNo = (SELECT SeqNo "
+				+ "SET SeqNo = (SELECT SeqNo "
 				+ "FROM T_Report r2 "
 				+ "WHERE r1.AD_PInstance_ID=r2.AD_PInstance_ID AND r1.PA_ReportLine_ID=r2.PA_ReportLine_ID"
 				+ " AND r2.Record_ID=0 AND r2.Fact_Acct_ID=0)"
-			+ "WHERE SeqNo IS NULL");
+				+ "WHERE SeqNo IS NULL");
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.fine("SeqNo #=" + no);
 
@@ -872,9 +977,9 @@ public class FinReport extends SvrProcess
 			+ "WHERE r.Fact_Acct_ID=fa.Fact_Acct_ID";
 		//	Translated Version ...
 		sql = new StringBuffer ("UPDATE T_Report r SET (Name,Description)=(")
-			.append(sql_select).append(") "
-			+ "WHERE Fact_Acct_ID <> 0 AND AD_PInstance_ID=")
-			.append(getAD_PInstance_ID());
+		.append(sql_select).append(") "
+				+ "WHERE Fact_Acct_ID <> 0 AND AD_PInstance_ID=")
+				.append(getAD_PInstance_ID());
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		if (CLogMgt.isLevelFinest())
 			log.fine("Trx Name #=" + no + " - " + sql.toString());
@@ -900,14 +1005,14 @@ public class FinReport extends SvrProcess
 
 		//	Insert
 		StringBuffer insert = new StringBuffer("INSERT INTO T_Report "
-			+ "(AD_PInstance_ID, PA_ReportLine_ID, Record_ID,Fact_Acct_ID,LevelNo ");
+				+ "(AD_PInstance_ID, PA_ReportLine_ID, Record_ID,Fact_Acct_ID,LevelNo ");
 		for (int col = 0; col < m_columns.length; col++)
 			insert.append(",Col_").append(col);
 		//	Select
 		insert.append(") SELECT ")
-			.append(getAD_PInstance_ID()).append(",")
-			.append(m_lines[line].getPA_ReportLine_ID()).append(",")
-			.append(variable).append(",0,");
+		.append(getAD_PInstance_ID()).append(",")
+		.append(m_lines[line].getPA_ReportLine_ID()).append(",")
+		.append(variable).append(",0,");
 		if (p_DetailsSourceFirst)
 			insert.append("-1 ");
 		else
@@ -940,7 +1045,7 @@ public class FinReport extends SvrProcess
 				select.append(" FROM Fact_Acct_Summary fb WHERE DateAcct ");
 			}  //report cube
 			else {
-			//	Get Period info
+				//	Get Period info
 				select.append(" FROM Fact_Acct fb WHERE TRUNC(DateAcct, 'DD') ");
 			}
 			FinReportPeriod frp = getPeriod (m_columns[col].getRelativePeriod());
@@ -988,10 +1093,10 @@ public class FinReport extends SvrProcess
 			//	Limited Segment Values
 			if (m_columns[col].isColumnTypeSegmentValue())
 				select.append(m_columns[col].getWhereClause(p_PA_Hierarchy_ID));
-			
+
 			//	Parameter Where
 			select.append(m_parameterWhere);
-		//	System.out.println("    c=" + col + ", l=" + line + ": " + select);
+			//	System.out.println("    c=" + col + ", l=" + line + ": " + select);
 			//
 			insert.append("(").append(select).append(")");
 		}
@@ -1011,11 +1116,11 @@ public class FinReport extends SvrProcess
 		if (p_PA_ReportCube_ID > 0)
 			insert.append(" FROM Fact_Acct_Summary x WHERE ").append(where);
 		else
-		//	FROM .. WHERE
-		insert.append(" FROM Fact_Acct x WHERE ").append(where);	
+			//	FROM .. WHERE
+			insert.append(" FROM Fact_Acct x WHERE ").append(where);	
 		//
 		insert.append(m_parameterWhere)
-			.append(" GROUP BY ").append(variable);
+		.append(" GROUP BY ").append(variable);
 
 		int no = DB.executeUpdate(insert.toString(), get_TrxName());
 		if (CLogMgt.isLevelFinest())
@@ -1025,11 +1130,11 @@ public class FinReport extends SvrProcess
 
 		//	Set Name,Description
 		StringBuffer sql = new StringBuffer ("UPDATE T_Report SET (Name,Description)=(")
-			.append(m_lines[line].getSourceValueQuery()).append("T_Report.Record_ID) "
-			//
-			+ "WHERE Record_ID <> 0 AND AD_PInstance_ID=").append(getAD_PInstance_ID())
-			.append(" AND PA_ReportLine_ID=").append(m_lines[line].getPA_ReportLine_ID())
-			.append(" AND Fact_Acct_ID=0");
+		.append(m_lines[line].getSourceValueQuery()).append("T_Report.Record_ID) "
+				//
+				+ "WHERE Record_ID <> 0 AND AD_PInstance_ID=").append(getAD_PInstance_ID())
+				.append(" AND PA_ReportLine_ID=").append(m_lines[line].getPA_ReportLine_ID())
+				.append(" AND Fact_Acct_ID=0");
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		if (CLogMgt.isLevelFinest())
 			log.fine("Name #=" + no + " - " + sql.toString());
@@ -1050,14 +1155,14 @@ public class FinReport extends SvrProcess
 
 		//	Insert
 		StringBuffer insert = new StringBuffer("INSERT INTO T_Report "
-			+ "(AD_PInstance_ID, PA_ReportLine_ID, Record_ID,Fact_Acct_ID,LevelNo ");
+				+ "(AD_PInstance_ID, PA_ReportLine_ID, Record_ID,Fact_Acct_ID,LevelNo ");
 		for (int col = 0; col < m_columns.length; col++)
 			insert.append(",Col_").append(col);
 		//	Select
 		insert.append(") SELECT ")
-			.append(getAD_PInstance_ID()).append(",")
-			.append(m_lines[line].getPA_ReportLine_ID()).append(",")
-			.append(variable).append(",Fact_Acct_ID, ");
+		.append(getAD_PInstance_ID()).append(",")
+		.append(m_lines[line].getPA_ReportLine_ID()).append(",")
+		.append(variable).append(",Fact_Acct_ID, ");
 		if (p_DetailsSourceFirst)
 			insert.append("-2 ");
 		else
@@ -1069,7 +1174,7 @@ public class FinReport extends SvrProcess
 			insert.append(", ");
 			//	Only relative Period (not calculation or segment value)
 			if (!(m_columns[col].isColumnTypeRelativePeriod() 
-				&& m_columns[col].getRelativePeriodAsInt() == 0))
+					&& m_columns[col].getRelativePeriodAsInt() == 0))
 			{
 				insert.append("NULL");
 				continue;
@@ -1087,7 +1192,7 @@ public class FinReport extends SvrProcess
 		}
 		//
 		insert.append(" FROM Fact_Acct WHERE ")
-			.append(m_lines[line].getWhereClause(p_PA_Hierarchy_ID));	//	(sources, posting type)
+		.append(m_lines[line].getWhereClause(p_PA_Hierarchy_ID));	//	(sources, posting type)
 		//	Report Where
 		String s = m_report.getWhereClause();
 		if (s != null && s.length() > 0)
@@ -1095,20 +1200,20 @@ public class FinReport extends SvrProcess
 		//	Period restriction
 		FinReportPeriod frp = getPeriod (0);
 		insert.append(" AND TRUNC(DateAcct, 'DD') ")
-			.append(frp.getPeriodWhere());
+		.append(frp.getPeriodWhere());
 		//	PostingType ??
-//		if (!m_lines[line].isPostingType())		//	only if not defined on line
-//		{
-//	      String PostingType = m_columns[col].getPostingType();
-//  	    if (PostingType != null && PostingType.length() > 0)
-//      	  	insert.append(" AND PostingType='").append(PostingType).append("'");
-//			// globalqss - CarlosRuiz
-//			if (PostingType.equals(MReportColumn.POSTINGTYPE_Budget)) {
-//				if (m_columns[col].getGL_Budget_ID() > 0)
-//					select.append(" AND GL_Budget_ID=" + m_columns[col].getGL_Budget_ID());
-//			}
-//			// end globalqss
-//		}
+		//		if (!m_lines[line].isPostingType())		//	only if not defined on line
+		//		{
+		//	      String PostingType = m_columns[col].getPostingType();
+		//  	    if (PostingType != null && PostingType.length() > 0)
+		//      	  	insert.append(" AND PostingType='").append(PostingType).append("'");
+		//			// globalqss - CarlosRuiz
+		//			if (PostingType.equals(MReportColumn.POSTINGTYPE_Budget)) {
+		//				if (m_columns[col].getGL_Budget_ID() > 0)
+		//					select.append(" AND GL_Budget_ID=" + m_columns[col].getGL_Budget_ID());
+		//			}
+		//			// end globalqss
+		//		}
 
 		int no = DB.executeUpdate(insert.toString(), get_TrxName());
 		log.finest("Trx #=" + no + " - " + insert);
@@ -1116,7 +1221,7 @@ public class FinReport extends SvrProcess
 			return;
 	}	//	insertLineTrx
 
-	
+
 	/**************************************************************************
 	 *	Delete Unprinted Lines
 	 */
@@ -1128,7 +1233,7 @@ public class FinReport extends SvrProcess
 			if (!m_lines[line].isPrinted())
 			{
 				String sql = "DELETE FROM T_Report WHERE AD_PInstance_ID=" + getAD_PInstance_ID()
-					+ " AND PA_ReportLine_ID=" + m_lines[line].getPA_ReportLine_ID();
+				+ " AND PA_ReportLine_ID=" + m_lines[line].getPA_ReportLine_ID();
 				int no = DB.executeUpdate(sql, get_TrxName());
 				if (no > 0)
 					log.fine(m_lines[line].getName() + " - #" + no);
@@ -1151,18 +1256,18 @@ public class FinReport extends SvrProcess
 					divisor = 1000000;
 				else
 					break;
-				
+
 				String sql = "UPDATE T_Report SET Col_" + column 
-					+ "=Col_" + column + "/" + divisor
-					+  " WHERE AD_PInstance_ID=" + getAD_PInstance_ID();
+				+ "=Col_" + column + "/" + divisor
+				+  " WHERE AD_PInstance_ID=" + getAD_PInstance_ID();
 				int no = DB.executeUpdate(sql, get_TrxName());
 				if (no > 0)
 					log.fine(m_columns[column].getName() + " - #" + no);
 			}
 		}
-		
+
 	}
-	
+
 	/**************************************************************************
 	 *	Get/Create PrintFormat
 	 * 	@return print format
@@ -1181,7 +1286,7 @@ public class FinReport extends SvrProcess
 			pf = MPrintFormat.createFromTable(Env.getCtx(), AD_Table_ID);
 			AD_PrintFormat_ID = pf.getAD_PrintFormat_ID();
 			m_report.setAD_PrintFormat_ID(AD_PrintFormat_ID);
-			m_report.save();
+			m_report.saveEx();
 		}
 		else
 			pf = MPrintFormat.get (getCtx(), AD_PrintFormat_ID, false);	//	use Cache
@@ -1196,7 +1301,7 @@ public class FinReport extends SvrProcess
 		}
 		else if (!m_report.getDescription().equals(pf.getDescription()))
 			pf.setDescription(m_report.getDescription());
-		pf.save();
+		pf.saveEx();
 		log.fine(pf + " - #" + pf.getItemCount());
 
 		//	Print Format Item Sync
@@ -1223,25 +1328,25 @@ public class FinReport extends SvrProcess
 				{
 					pfi.setIsPrinted(m_columns[index].isPrinted());
 					String s = m_columns[index].getName();
-					
+
 					if (m_columns[index].isColumnTypeRelativePeriod())
 					{
 						BigDecimal relativeOffset = m_columns[index].getRelativePeriod();
 						FinReportPeriod frp = getPeriod (relativeOffset);
-					
+
 						if ( s.contains("@Period@") )
 							s = s.replace("@Period@", frp.getName() );
 					}
-					
+
 					if (!pfi.getName().equals(s))
 					{
 						pfi.setName (s);
 						pfi.setPrintName (s);
 					}
-					int seq = 30 + index;
+					int seq = 50 + index;
 					if (pfi.getSeqNo() != seq)
 						pfi.setSeqNo(seq);
-					
+
 					s = m_columns[index].getFormatPattern();
 					pfi.setFormatPattern(s);
 				}
@@ -1296,6 +1401,31 @@ public class FinReport extends SvrProcess
 				if (pfi.getSortNo() != 0)
 					pfi.setSortNo(0);
 			}
+			
+			else if (ColumnName.equals("AccountType"))
+			{
+
+				if (pfi.getSeqNo() != 30)
+					pfi.setSeqNo(30);
+				if (!pfi.isPrinted())
+					pfi.setIsPrinted(true);
+				if (pfi.isOrderBy())
+					pfi.setIsOrderBy(false);
+				if (pfi.getSortNo() != 0)
+					pfi.setSortNo(0);
+			}
+			else if (ColumnName.equalsIgnoreCase("Ax_Case"))
+			{
+				
+				if (pfi.getSeqNo() != 40)
+					pfi.setSeqNo(40);
+				if (!pfi.isPrinted())
+					pfi.setIsPrinted(true);
+				if (pfi.isOrderBy())
+					pfi.setIsOrderBy(false);
+				if (pfi.getSortNo() != 0)
+					pfi.setSortNo(0);
+			}
 			else	//	Not Printed, No Sort
 			{
 				if (pfi.isPrinted())
@@ -1305,12 +1435,12 @@ public class FinReport extends SvrProcess
 				if (pfi.getSortNo() != 0)
 					pfi.setSortNo(0);
 			}
-			pfi.save();
+			pfi.saveEx();
 			log.fine(pfi.toString());
 		}
 		//	set translated to original
 		pf.setTranslation();
-		
+
 		// Reload to pick up changed pfi
 		pf = MPrintFormat.get (getCtx(), AD_PrintFormat_ID, true);	//	no cache
 		return pf;

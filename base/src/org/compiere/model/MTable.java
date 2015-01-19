@@ -90,7 +90,7 @@ public class MTable extends X_AD_Table
 	 *	@param tableName case insensitive table name
 	 *	@return Table
 	 */
-	public static MTable get (Properties ctx, String tableName)
+    public static MTable get (Properties ctx, String tableName)
 	{
 		if (tableName == null)
 			return null;
@@ -733,7 +733,7 @@ public class MTable extends X_AD_Table
 			else if (!seq.getName().equals(getTableName()))
 			{
 				seq.setName(getTableName());
-				seq.save();
+				seq.saveEx();
 			}
 		}	
 		
@@ -822,7 +822,8 @@ public class MTable extends X_AD_Table
 			retValue = -1;
 		}
 		return retValue;
-	}
+	}		int retValue = 0;
+
 	
 	/**
 	 * Create query to retrieve one or more PO.
@@ -858,10 +859,10 @@ public class MTable extends X_AD_Table
 		column.saveEx();		
 		column = new MColumn(this, COLUMNNAME_Updated	, 7 , DisplayType.DateTime , "");
 		column.saveEx();
-		column = new MColumn(this, COLUMNNAME_CreatedBy	, 22 , DisplayType.TableDir, "");
+		column = new MColumn(this, COLUMNNAME_CreatedBy	, 22 , DisplayType.Table, "");
 		column.setAD_Reference_Value_ID(110);
 		column.saveEx();
-		column = new MColumn(this, COLUMNNAME_UpdatedBy	, 22 , DisplayType.TableDir, "");
+		column = new MColumn(this, COLUMNNAME_UpdatedBy	, 22 , DisplayType.Table, "");
 		column.setAD_Reference_Value_ID(110);
 		column.saveEx();
 		if(!isView())

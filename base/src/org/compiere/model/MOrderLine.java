@@ -37,7 +37,7 @@ import org.compiere.util.Msg;
 			ol.setPrice();
 			ol.setPriceActual(wbl.getPrice());
 			ol.setTax();
-			ol.save();
+			ol.saveEx();
 
  *	</code>
  *  @author Jorg Janke
@@ -173,7 +173,7 @@ public class MOrderLine extends X_C_OrderLine
 			ol.setPrice();
 			ol.setPriceActual(wbl.getPrice());
 			ol.setTax();
-			ol.save();
+			ol.saveEx();
 	 *  @param  order parent order
 	 */
 	public MOrderLine (MOrder order)
@@ -317,7 +317,10 @@ public class MOrderLine extends X_C_OrderLine
 		//	Calculate Discount
 		setDiscount(m_productPrice.getDiscount());
 		//	Set UOM
-		setC_UOM_ID(m_productPrice.getC_UOM_ID());
+		
+		if( getC_UOM_ID() == 0 ){                           //Adempiere-122 changes
+		     setC_UOM_ID(m_productPrice.getC_UOM_ID());
+		}
 	}	//	setPrice
 
 	/**

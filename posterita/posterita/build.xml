@@ -21,6 +21,7 @@
 	<!--property name="reference.adempiere.dir" value="../reference/Adempiere340" /-->
 	<property name="reference.adempiere.dir" value="../../tools" />
 	<property name="reference.adempiere.lib" value="../../lib" />
+	<property name="reference.adempiere.packages" value="../../packages" />
 	<property name="reference.aspectj.dir" value="../reference/aspectJ" />
 	<property name="posteritadevhome.exists" value="false" />
 	<property file="${posterita.dev.home}/AdempiereEnv.properties" />
@@ -47,12 +48,15 @@
 	<target name="compile" depends="init">
 		<!-- compile the java code from ${src} into ${build.dir} -->
 		<mkdir dir="${src.web.dir}/WEB-INF/classes"/>
-		<javac srcdir="${src.main.dir}" destdir="${src.web.dir}/WEB-INF/classes" deprecation="on" source="1.6" target="1.6" debug="on">
+		<javac srcdir="${src.main.dir}" destdir="${src.web.dir}/WEB-INF/classes" deprecation="on" source="1.7" target="1.7" debug="on">
 			<classpath>
 				<fileset dir="${src.web.dir}/WEB-INF/lib/">
 					<include name="*.jar" />
 				</fileset>
 				<fileset dir="${reference.adempiere.dir}/lib/">
+					<include name="*.jar" />
+				</fileset>
+				<fileset dir="${reference.adempiere.packages}">
 					<include name="*.jar" />
 				</fileset>
 				<fileset dir="${reference.adempiere.lib}">
