@@ -189,19 +189,19 @@ public class WebEditorFactory
         
         // Change the label from the column to a user defined value for specific fields.
         if (gridField.getColumnName().equals("User1_ID") || gridField.getColumnName().equals("User2_ID")) {
-        	int as_id = Env.getContextAsInt(Env.getCtx(), gridTab.getWindowNo(), gridTab.getTabNo(), "$C_AcctSchema_ID");
-        	if (as_id > 0) {
-            	MAcctSchema as = MAcctSchema.get(Env.getCtx(),	as_id);
-            	if (as != null) {
-            		MAcctSchemaElement ase;
+        	int accountSchemaId = Env.getContextAsInt(Env.getCtx(), "$C_AcctSchema_ID");
+        	if (accountSchemaId > 0) {
+            	MAcctSchema accountSchema = MAcctSchema.get(Env.getCtx(),	accountSchemaId);
+            	if (accountSchema != null) {
+            		MAcctSchemaElement accountSchemaElement;
             		if (gridField.getColumnName().equals("User1_ID")) {
-                    	ase = as.getAcctSchemaElement(MAcctSchemaElement.ELEMENTTYPE_UserList1);
+                    	accountSchemaElement = accountSchema.getAcctSchemaElement(MAcctSchemaElement.ELEMENTTYPE_UserList1);
             		}
             		else
-            			ase = as.getAcctSchemaElement(MAcctSchemaElement.ELEMENTTYPE_UserList2);
+            			accountSchemaElement = accountSchema.getAcctSchemaElement(MAcctSchemaElement.ELEMENTTYPE_UserList2);
             		
-            		if ( ase != null )
-            			editor.setLabel(ase.getName());
+            		if ( accountSchemaElement != null )
+            			editor.setLabel(accountSchemaElement.getName());
             	}
         	}
         }

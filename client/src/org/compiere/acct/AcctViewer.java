@@ -529,14 +529,18 @@ public class AcctViewer extends CFrame
 		MAcctSchemaElement[] elements = m_data.ASchema.getAcctSchemaElements();
 		for (int i = 0; i < elements.length && selectionIndex < labels.length; i++)
 		{
-			MAcctSchemaElement ase = elements[i];
-			String columnName = ase.getColumnName();
-			String displayColumnName = ase.getDisplayColumnName();
+			MAcctSchemaElement acctSchemaElement = elements[i];
+			String columnName = acctSchemaElement.getColumnName();
+			String displayColumnName = acctSchemaElement.getDisplayColumnName();
+			if (columnName.equals("User1_ID") || columnName.equals("User2_ID"))
+				displayColumnName = acctSchemaElement.getName();
+			else
+				displayColumnName = acctSchemaElement.getDisplayColumnName();
 			//  Add Sort Option
 			sortAddItem(new ValueNamePair(columnName, Msg.translate(Env.getCtx(), displayColumnName)));
 			//  Additional Elements
-			if (!ase.isElementType(X_C_AcctSchema_Element.ELEMENTTYPE_Organization) 
-				&& !ase.isElementType(X_C_AcctSchema_Element.ELEMENTTYPE_Account))
+			if (!acctSchemaElement.isElementType(X_C_AcctSchema_Element.ELEMENTTYPE_Organization)
+				&& !acctSchemaElement.isElementType(X_C_AcctSchema_Element.ELEMENTTYPE_Account))
 			{
 				labels[selectionIndex].setText(Msg.translate(Env.getCtx(), displayColumnName));
 				labels[selectionIndex].setVisible(true);

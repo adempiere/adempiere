@@ -30,6 +30,7 @@
 	<classpathentry kind="src" path="org.eevolution.warehouse/src/main/java/base"/>
 	<classpathentry kind="src" path="org.adempiere.asset/src/main/java/base"/>
 	<classpathentry kind="src" path="org.adempiere.webservice/WEB-INF/src"/>
+	<classpathentry kind="src" path="com.kkalice.adempiere.migrate/src"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jstl.jar">
 		<attributes>

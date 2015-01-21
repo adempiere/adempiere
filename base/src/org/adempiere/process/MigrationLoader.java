@@ -23,6 +23,7 @@ import org.compiere.Adempiere;
 import org.compiere.model.I_AD_Migration;
 import org.compiere.model.MMigration;
 import org.compiere.model.MTable;
+import org.compiere.process.CleanUpGW;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.RoleAccessUpdate;
 import org.compiere.process.SequenceCheck;
@@ -116,7 +117,7 @@ public class MigrationLoader {
 		}
 		
 		// If the loading and application of the migrations was successful,
-		// run the post processes.  Don't run these if the migraitons are 
+		// run the post processes.  Don't run these if the migrations are 
 		// just loaded but not applied.
 		if (apply && success) {
 			
@@ -149,6 +150,15 @@ public class MigrationLoader {
 			rau.startProcess(Env.getCtx(), pi, null);
 			
 			log.log(Level.CONFIG, "Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());
+
+			pi = new ProcessInfo("Updating Garden World", 53733);
+			pi.setAD_Client_ID(0);
+			pi.setAD_User_ID(100);
+			
+			CleanUpGW updateGW = new CleanUpGW();
+			updateGW.startProcess(Env.getCtx(), pi, null);
+
+			log.log(Level.CONFIG, "Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());		
 
 		}
 	}
