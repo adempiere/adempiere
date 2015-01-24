@@ -18,6 +18,7 @@ package org.compiere.print;
 
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
+import java.sql.ResultSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
@@ -33,6 +34,9 @@ import org.compiere.util.Env;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: MPrintFont.java,v 1.3 2006/07/30 00:53:02 jjanke Exp $
+ * 	@author ysenih@erpcya.com, E.R.P Consultores y Asociados, C.A http://www.erpcya.com
+ * 			<li>FR [ 9223372036854775807  ]  Added default constructor for ResultSet
+ *			@see https://adempiere.atlassian.net/browse/ADEMPIERE-392
  */
 public class MPrintFont extends X_AD_PrintFont
 {
@@ -53,6 +57,16 @@ public class MPrintFont extends X_AD_PrintFont
 		if (AD_PrintFont_ID == 0)
 			setIsDefault(false);
 	}	//	MPrintFont
+	
+	/**
+	 * Constructor based in Result Set
+	 * @param ctx
+	 * @param rs
+	 * @param trxName
+	 */
+	public MPrintFont(Properties ctx, ResultSet rs, String trxName) {
+		super(ctx, rs, trxName);
+	}
 
 	/** Font cached					*/
 	private Font 	m_cacheFont = null;

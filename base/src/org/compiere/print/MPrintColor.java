@@ -18,6 +18,7 @@ package org.compiere.print;
 
 import java.awt.Color;
 import java.awt.SystemColor;
+import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -33,6 +34,9 @@ import org.compiere.util.Util;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: MPrintColor.java,v 1.3 2006/07/30 00:53:02 jjanke Exp $
+ * 	@author ysenih@erpcya.com, E.R.P Consultores y Asociados, C.A http://www.erpcya.com
+ * 			<li>FR [ 9223372036854775807  ]  Added default constructor for ResultSet
+ *			@see https://adempiere.atlassian.net/browse/ADEMPIERE-392
  */
 public class MPrintColor extends X_AD_PrintColor
 {
@@ -56,6 +60,16 @@ public class MPrintColor extends X_AD_PrintColor
 		pc.saveEx();
 		return pc;
 	}	//	create
+	
+	/**
+	 * Default Constructor from Result Set
+	 * @param ctx
+	 * @param rs
+	 * @param trxName
+	 */
+	public MPrintColor(Properties ctx, ResultSet rs, String trxName) {
+		super(ctx, rs, trxName);
+	}
 
 	/*************************************************************************/
 
