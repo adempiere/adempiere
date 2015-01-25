@@ -22,17 +22,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.logging.Level;
-import java.util.List;
 
 import org.adempiere.model.ImportValidator;
 import org.adempiere.process.ImportProcess;
-import org.compiere.model.MMigrationStep;
 import org.compiere.model.MProduct;
 import org.compiere.model.MProductPrice;
-import org.compiere.model.MQuery;
 import org.compiere.model.MTable;
 import org.compiere.model.ModelValidationEngine;
-import org.compiere.model.PO;
 import org.compiere.model.X_I_Product;
 import org.compiere.model.X_M_Product_Class;
 import org.compiere.model.X_M_Product_Classification;
