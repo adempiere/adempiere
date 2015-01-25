@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Generate Movement from Order" ReleaseNo="3.8.0" SeqNo="49">
-    <Step SeqNo="10" StepType="AD">
-      <PO AD_Table_ID="53223" Action="U" Record_ID="54255" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57985" Column="IsMandatory" oldValue="false">true</Data>
-      </PO>
-    </Step>
+  <Migration EntityType="EE01" Name="Generate Movement from Order" ReleaseNo="3.8.0" SeqNo="49">
     <Step SeqNo="20" StepType="AD">
       <PO AD_Table_ID="53230" Action="I" Record_ID="50038" Table="AD_View">
         <Data AD_Column_ID="58066" Column="AD_Client_ID">0</Data>
