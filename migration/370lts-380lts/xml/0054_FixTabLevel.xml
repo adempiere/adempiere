@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="ADEMPIERE-369FixTabLevels" ReleaseNo="3.8.1" SeqNo="6">
+  <Migration EntityType="D" Name="Fix Tab Levels" ReleaseNo="3.8.0" SeqNo="54">
     <Comments>See https://adempiere.atlassian.net/browse/ADEMPIERE-369</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="106" Action="U" Record_ID="53262" Table="AD_Tab">

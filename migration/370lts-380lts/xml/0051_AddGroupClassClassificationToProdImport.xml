@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Adding group, class and classification to product import" ReleaseNo="3.8.1" SeqNo="2">
+  <Migration EntityType="D" Name="Adding group, class and classification to product import" ReleaseNo="3.8.0" SeqNo="51">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="75394" Table="AD_Column">
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
@@ -468,9 +468,9 @@
         <Data AD_Column_ID="168" Column="Name">Product Class</Data>
         <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
         <Data AD_Column_ID="59704" Column="PreferredWidth" isNewNull="true"/>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
+        <Data AD_Column_ID="181" Column="SeqNo">10</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">10</Data>
         <Data AD_Column_ID="581" Column="Updated">2015-01-03 13:39:16.894</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">0</Data>
       </PO>
@@ -511,11 +511,11 @@
         <Data AD_Column_ID="168" Column="Name">Product Class Key</Data>
         <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
         <Data AD_Column_ID="59704" Column="PreferredWidth" isNewNull="true"/>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="581" Column="Updated">2015-01-03 13:39:18.104</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">20</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">20</Data>
       </PO>
     </Step>
     <Step SeqNo="230" StepType="AD">
@@ -554,11 +554,11 @@
         <Data AD_Column_ID="168" Column="Name">Product Classification</Data>
         <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
         <Data AD_Column_ID="59704" Column="PreferredWidth" isNewNull="true"/>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="581" Column="Updated">2015-01-03 13:39:20.774</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">30</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">30</Data>
       </PO>
     </Step>
     <Step SeqNo="240" StepType="AD">
@@ -597,11 +597,11 @@
         <Data AD_Column_ID="168" Column="Name">Product Classification Key</Data>
         <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
         <Data AD_Column_ID="59704" Column="PreferredWidth" isNewNull="true"/>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="581" Column="Updated">2015-01-03 13:39:21.694</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">40</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">40</Data>
       </PO>
     </Step>
     <Step SeqNo="250" StepType="AD">
@@ -640,11 +640,11 @@
         <Data AD_Column_ID="168" Column="Name">Product Group</Data>
         <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
         <Data AD_Column_ID="59704" Column="PreferredWidth" isNewNull="true"/>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="581" Column="Updated">2015-01-03 13:39:22.764</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">50</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">50</Data>
       </PO>
     </Step>
     <Step SeqNo="260" StepType="AD">
@@ -683,11 +683,11 @@
         <Data AD_Column_ID="168" Column="Name">Product Group Key</Data>
         <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
         <Data AD_Column_ID="59704" Column="PreferredWidth" isNewNull="true"/>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="581" Column="Updated">2015-01-03 13:39:23.754</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">60</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">60</Data>
       </PO>
     </Step>
     <Step SeqNo="270" StepType="AD">

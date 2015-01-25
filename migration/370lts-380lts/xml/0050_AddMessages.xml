@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Adding missing messages" ReleaseNo="3.8.1" SeqNo="1">
+  <Migration EntityType="D" Name="Adding missing messages" ReleaseNo="3.8.0" SeqNo="50">
     <Step SeqNo="20" StepType="AD">
       <PO AD_Table_ID="109" Action="I" Record_ID="53296" Table="AD_Message">
         <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
