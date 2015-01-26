@@ -22,7 +22,6 @@ import java.sql.ResultSet;
 import java.util.logging.Level;
 
 import org.compiere.model.MTree;
-import org.compiere.model.MTree_Base;
 import org.compiere.model.MTree_Node;
 import org.compiere.model.MTree_NodeBP;
 import org.compiere.model.MTree_NodeMM;
@@ -34,6 +33,10 @@ import org.compiere.util.DB;
  *	Tree Maintenance	
  *	
  *  @author Jorg Janke
+ *  
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *  	<li>FR [ 9223372036854775807 ] Add Support to Dynamic Tree
+ *  	@see http://adempiere.atlassian.net/browse/ADEMPIERE-393
  *  @version $Id: TreeMaintenance.java,v 1.2 2006/07/30 00:51:02 jjanke Exp $
  */
 public class TreeMaintenance extends SvrProcess
@@ -69,7 +72,7 @@ public class TreeMaintenance extends SvrProcess
 		if (m_AD_Tree_ID == 0)
 			throw new IllegalArgumentException("Tree_ID = 0");
 		MTree tree = new MTree (getCtx(), m_AD_Tree_ID, get_TrxName());	
-		if (tree == null || tree.getAD_Tree_ID() == 0)
+		if (tree.getAD_Tree_ID() == 0)
 			throw new IllegalArgumentException("No Tree -" + tree);
 		//
 		if (MTree.TREETYPE_BoM.equals(tree.getTreeType()))
@@ -78,10 +81,10 @@ public class TreeMaintenance extends SvrProcess
 	}	//	doIt
 
 	/**
-	 *  Verify Tree
+	 *  Verify Tree FR[ 9223372036854775807 ]
 	 * 	@param tree tree
 	 */
-	private String verifyTree (MTree_Base tree)
+	private String verifyTree (MTree tree)
 	{
 		String nodeTableName = tree.getNodeTableName();
 		String sourceTableName = tree.getSourceTableName(true);

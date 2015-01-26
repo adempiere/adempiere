@@ -26,6 +26,10 @@ import org.compiere.util.CCache;
  *	Sales Region Model
  *	
  *  @author Jorg Janke
+ *  
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *  	<li>FR [ 9223372036854775807 ] Add Support to Dynamic Tree
+ *  	@see https://adempiere.atlassian.net/browse/ADEMPIERE-393
  *  @version $Id: MSalesRegion.java,v 1.3 2006/07/30 00:54:54 jjanke Exp $
  */
 public class MSalesRegion extends X_C_SalesRegion
@@ -104,8 +108,9 @@ public class MSalesRegion extends X_C_SalesRegion
 	{
 		if (!success)
 			return success;
-		if (newRecord)
-			insert_Tree(MTree_Base.TREETYPE_SalesRegion);
+		//	Yamel Senih, FR[ 9223372036854775807 ]
+		//if (newRecord)
+			//insert_Tree(MTree_Base.TREETYPE_SalesRegion);
 		//	Value/Name change
 		if (!newRecord && (is_ValueChanged("Value") || is_ValueChanged("Name")))
 			MAccount.updateValueDescription(getCtx(), "C_SalesRegion_ID=" + getC_SalesRegion_ID(), get_TrxName());
@@ -118,11 +123,12 @@ public class MSalesRegion extends X_C_SalesRegion
 	 *	@param success
 	 *	@return deleted
 	 */
-	protected boolean afterDelete (boolean success)
-	{
-		if (success)
-			delete_Tree(MTree_Base.TREETYPE_SalesRegion);
-		return success;
-	}	//	afterDelete
+	//	Yamel Senih, FR[ 9223372036854775807 ]
+//	protected boolean afterDelete (boolean success)
+//	{
+//		if (success)
+//			delete_Tree(MTree_Base.TREETYPE_SalesRegion);
+//		return success;
+//	}	//	afterDelete
 	
 }	//	MSalesRegion

@@ -25,6 +25,10 @@ import org.compiere.util.CCache;
  * 	Web Project Model
  *	
  *  @author Jorg Janke
+ *  
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *  	<li>FR [ 9223372036854775807 ] Add Support to Dynamic Tree
+ *  	@see https://adempiere.atlassian.net/browse/ADEMPIERE-393
  *  @version $Id: MWebProject.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
  */
 public class MWebProject extends X_CM_WebProject
@@ -80,42 +84,38 @@ public class MWebProject extends X_CM_WebProject
 		super (ctx, rs, trxName);
 	}	//	MWebProject
 	
-	/**
-	 * 	Before Save
-	 *	@param newRecord new
-	 *	@return true
-	 */
-	protected boolean beforeSave (boolean newRecord)
-	{
-		//	Create Trees
-		if (newRecord)
-		{
-			MTree_Base tree = new MTree_Base (getCtx(), 
-				getName()+MTree_Base.TREETYPE_CMContainer, MTree_Base.TREETYPE_CMContainer, get_TrxName());
-			if (!tree.save())
-				return false;
-			setAD_TreeCMC_ID(tree.getAD_Tree_ID());
-			//
-			tree = new MTree_Base (getCtx(), 
-				getName()+MTree_Base.TREETYPE_CMContainerStage, MTree_Base.TREETYPE_CMContainerStage, get_TrxName());
-			if (!tree.save())
-				return false;
-			setAD_TreeCMS_ID(tree.getAD_Tree_ID());
-			//
-			tree = new MTree_Base (getCtx(), 
-				getName()+MTree_Base.TREETYPE_CMTemplate, MTree_Base.TREETYPE_CMTemplate, get_TrxName());
-			if (!tree.save())
-				return false;
-			setAD_TreeCMT_ID(tree.getAD_Tree_ID());
-			//
-			tree = new MTree_Base (getCtx(), 
-				getName()+MTree_Base.TREETYPE_CMMedia, MTree_Base.TREETYPE_CMMedia, get_TrxName());
-			if (!tree.save())
-				return false;
-			setAD_TreeCMM_ID(tree.getAD_Tree_ID());
-		}
-		return true;
-	}	//	beforeSave
+	//	Yamel Senih, FR[ 9223372036854775807 ]
+//	protected boolean beforeSave (boolean newRecord)
+//	{
+//		//	Create Trees
+//		if (newRecord)
+//		{
+//			MTree_Base tree = new MTree_Base (getCtx(), 
+//				getName()+MTree_Base.TREETYPE_CMContainer, MTree_Base.TREETYPE_CMContainer, get_TrxName());
+//			if (!tree.save())
+//				return false;
+//			setAD_TreeCMC_ID(tree.getAD_Tree_ID());
+//			//
+//			tree = new MTree_Base (getCtx(), 
+//				getName()+MTree_Base.TREETYPE_CMContainerStage, MTree_Base.TREETYPE_CMContainerStage, get_TrxName());
+//			if (!tree.save())
+//				return false;
+//			setAD_TreeCMS_ID(tree.getAD_Tree_ID());
+//			//
+//			tree = new MTree_Base (getCtx(), 
+//				getName()+MTree_Base.TREETYPE_CMTemplate, MTree_Base.TREETYPE_CMTemplate, get_TrxName());
+//			if (!tree.save())
+//				return false;
+//			setAD_TreeCMT_ID(tree.getAD_Tree_ID());
+//			//
+//			tree = new MTree_Base (getCtx(), 
+//				getName()+MTree_Base.TREETYPE_CMMedia, MTree_Base.TREETYPE_CMMedia, get_TrxName());
+//			if (!tree.save())
+//				return false;
+//			setAD_TreeCMM_ID(tree.getAD_Tree_ID());
+//		}
+//		return true;
+//	}	//	beforeSave
 	
 	/**
 	 * 	After Save.

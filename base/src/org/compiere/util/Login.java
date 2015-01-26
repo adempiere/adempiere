@@ -26,7 +26,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.logging.Level;
+
 import javax.swing.*;
+
 import org.compiere.Adempiere;
 import org.compiere.db.CConnection;
 import org.compiere.model.*;
@@ -42,6 +44,10 @@ import org.compiere.model.*;
  *  @author teo.sarca@gmail.com
  *  	<li>BF [ 2867246 ] Do not show InTrazit WHs on login
  *  		https://sourceforge.net/tracker/?func=detail&aid=2867246&group_id=176962&atid=879332
+ *  
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *  	<li>FR [ 9223372036854775807 ] Add Support to Dynamic Tree
+ *  	@see https://adempiere.atlassian.net/browse/ADEMPIERE-393
  *  @version $Id: Login.java,v 1.6 2006/10/02 05:19:06 jjanke Exp $
  */
 public class Login
@@ -631,7 +637,9 @@ public class Login
 			return;
 		}
 		//	Summary Org - Get Dependents
-		MTree_Base tree = MTree_Base.get(m_ctx, role.getAD_Tree_Org_ID(), null);
+		//	Yamel Senih, FR[ 9223372036854775807 ]
+		//MTree_Base tree = MTree_Base.get(m_ctx, role.getAD_Tree_Org_ID(), null);
+		MTree tree = MTree.get(m_ctx, role.getAD_Tree_Org_ID(), null);
 		String sql =  "SELECT AD_Client_ID, AD_Org_ID, Name, IsSummary FROM AD_Org "
 			+ "WHERE IsActive='Y' AND AD_Org_ID IN (SELECT Node_ID FROM "
 			+ tree.getNodeTableName()

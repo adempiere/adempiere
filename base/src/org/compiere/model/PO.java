@@ -91,6 +91,9 @@ import org.w3c.dom.Element;
  *			<li>https://sourceforge.net/tracker/?func=detail&aid=2947622&group_id=176962&atid=879332
  *			<li>Error when try load a PO Entity with virtual columns
  *			<li>http://adempiere.atlassian.net/browse/ADEMPIERE-100
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *  	<li>FR [ 9223372036854775807 ] Add Support to Dynamic Tree
+ *  	@see http://adempiere.atlassian.net/browse/ADEMPIERE-393
  */
 public abstract class PO
 	implements Serializable, Comparator, Evaluatee, Cloneable
@@ -2210,6 +2213,10 @@ public abstract class PO
 			try
 			{
 				success = afterSave (newRecord, success);
+				//	Yamel Senih, FR[ 9223372036854775807 ]
+				if (success && newRecord)
+					insertTreeNode();
+				//	End Yamel Senih
 			}
 			catch (Exception e)
 			{
@@ -3035,6 +3042,10 @@ public abstract class PO
 		try
 		{
 			success = afterDelete (success);
+			//	Yamel Senih, FR[ 9223372036854775807 ]
+			if (success)
+				deleteTreeNode();
+			//	End Yamel Senih
 		}
 		catch (Exception e)
 		{
@@ -3390,10 +3401,10 @@ public abstract class PO
 	 * 	@param treeType MTree TREETYPE_*
 	 *	@return true if inserted
 	 */
-	protected boolean insert_Tree (String treeType)
-	{
-		return insert_Tree (treeType, 0);
-	}	//	insert_Tree
+//	protected boolean insert_Tree (String treeType)
+//	{
+//		return insert_Tree (treeType, 0);
+//	}	//	insert_Tree
 
 	/**
 	 * 	Insert id data into Tree
@@ -3401,51 +3412,131 @@ public abstract class PO
 	 * 	@param C_Element_ID element for accounting element values
 	 *	@return true if inserted
 	 */
-	protected boolean insert_Tree (String treeType, int C_Element_ID)
-	{		
-		String tableName = MTree_Base.getNodeTableName(treeType);
-		final StringBuilder select = new StringBuilder("SELECT t.AD_Tree_ID FROM AD_Tree t WHERE t.AD_Client_ID=").append(getAD_Client_ID()).append(" AND t.IsActive='Y'"); 
-		if (C_Element_ID != 0)
-			select.append(" AND EXISTS (SELECT * FROM C_Element ae WHERE ae.C_Element_ID=")
-				.append(C_Element_ID).append(" AND t.AD_Tree_ID=ae.AD_Tree_ID)");
-		else	//	std trees
-			select.append(" AND t.IsAllNodes='Y' AND t.TreeType='").append(treeType).append("'");
-		//	Duplicate Check
-		select.append(" AND NOT EXISTS (SELECT * FROM " + MTree_Base.getNodeTableName(treeType) + " e "
-				+ "WHERE e.AD_Tree_ID=t.AD_Tree_ID AND Node_ID=").append(get_ID()).append(")");
-		int AD_Tree_ID = DB.getSQLValue(get_TrxName(), select.toString());
-		
-		PO tree = MTable.get(getCtx(), tableName).getPO(0, get_TrxName());
-		tree.setAD_Client_ID(getAD_Client_ID());
-		tree.setAD_Org_ID(0);
-		tree.setIsActive(true);
-		tree.set_CustomColumn("AD_Tree_ID",AD_Tree_ID);
-		tree.set_CustomColumn("Node_ID", get_ID());
-		tree.set_CustomColumn("Parent_ID", 0);
-		tree.set_CustomColumn("SeqNo", 999);
-		tree.saveEx();
-		return true;
-	}	//	insert_Tree
+	//	Yamel Senih, FR[ 9223372036854775807 ] Old Method
+//	protected boolean insert_Tree (String treeType, int C_Element_ID)
+//	{		
+//		String tableName = MTree_Base.getNodeTableName(treeType);
+//		final StringBuilder select = new StringBuilder("SELECT t.AD_Tree_ID FROM AD_Tree t WHERE t.AD_Client_ID=").append(getAD_Client_ID()).append(" AND t.IsActive='Y'"); 
+//		if (C_Element_ID != 0)
+//			select.append(" AND EXISTS (SELECT * FROM C_Element ae WHERE ae.C_Element_ID=")
+//				.append(C_Element_ID).append(" AND t.AD_Tree_ID=ae.AD_Tree_ID)");
+//		else	//	std trees
+//			select.append(" AND t.IsAllNodes='Y' AND t.TreeType='").append(treeType).append("'");
+//		//	Duplicate Check
+//		select.append(" AND NOT EXISTS (SELECT * FROM " + MTree_Base.getNodeTableName(treeType) + " e "
+//				+ "WHERE e.AD_Tree_ID=t.AD_Tree_ID AND Node_ID=").append(get_ID()).append(")");
+//		int AD_Tree_ID = DB.getSQLValue(get_TrxName(), select.toString());
+//		
+//		PO tree = MTable.get(getCtx(), tableName).getPO(0, get_TrxName());
+//		tree.setAD_Client_ID(getAD_Client_ID());
+//		tree.setAD_Org_ID(0);
+//		tree.setIsActive(true);
+//		tree.set_CustomColumn("AD_Tree_ID",AD_Tree_ID);
+//		tree.set_CustomColumn("Node_ID", get_ID());
+//		tree.set_CustomColumn("Parent_ID", 0);
+//		tree.set_CustomColumn("SeqNo", 999);
+//		tree.saveEx();
+//		return true;
+//	}	//	insert_Tree
 
 	/**
 	 * 	Delete ID Tree Nodes
 	 *	@param treeType MTree TREETYPE_*
 	 *	@return true if deleted
 	 */
-	protected boolean delete_Tree (String treeType)
+	//	Yamel Senih, FR[ 9223372036854775807 ] Old Method
+//	protected boolean delete_Tree (String treeType)
+//	{
+//		int id = get_ID();
+//		if (id == 0)
+//			id = get_IDOld();
+//		
+//		String tableName = MTree_Base.getNodeTableName(treeType);
+//		String whereClause = tableName + ".Node_ID="+id+ " AND EXISTS (SELECT * FROM AD_Tree t "
+//				+ "WHERE t.AD_Tree_ID="+tableName+".AD_Tree_ID AND t.TreeType='" + treeType + "')";
+//		
+//		PO tree = MTable.get(getCtx(), tableName).getPO(whereClause, get_TrxName());
+//		if (tree != null)
+//			tree.deleteEx(true);
+//		return true;
+//	}	//	delete_Tree
+	
+	/**************************************************************************
+	 *  Insert id data into Tree FR[ 9223372036854775807 ]
+	 *	@return true if inserted
+	 */
+	private boolean insertTreeNode()
+	{
+		int AD_Table_ID = get_Table_ID();
+		if (!MTree.hasTree(AD_Table_ID))
+			return false;
+		int id = get_ID();
+		int AD_Client_ID = getAD_Client_ID();
+		String treeTableName = MTree.getNodeTableName(AD_Table_ID);
+		int C_Element_ID = 0;
+		if (AD_Table_ID == X_C_ElementValue.Table_ID)
+		{
+			Integer ii = (Integer)get_Value("C_Element_ID");
+			if (ii != null)
+				C_Element_ID = ii.intValue();
+		}
+		//
+		StringBuilder sb = new StringBuilder ("INSERT INTO ")
+		.append(treeTableName)
+		.append(" (AD_Client_ID,AD_Org_ID, IsActive,Created,CreatedBy,Updated,UpdatedBy, ")
+		.append("AD_Tree_ID, Node_ID, Parent_ID, SeqNo) ")
+		//
+		.append("SELECT t.AD_Client_ID,0, 'Y', SysDate, 0, SysDate, 0,")
+		.append("t.AD_Tree_ID, ").append(id).append(", 0, 999 ")
+		.append("FROM AD_Tree t ")
+		.append("WHERE t.AD_Client_ID=").append(AD_Client_ID).append(" AND t.IsActive='Y'");
+		//	Account Element Value handling
+		if (C_Element_ID != 0)
+			sb.append(" AND EXISTS (SELECT * FROM C_Element ae WHERE ae.C_Element_ID=")
+			.append(C_Element_ID).append(" AND t.AD_Tree_ID=ae.AD_Tree_ID)");
+		else	//	std trees
+			sb.append(" AND t.IsAllNodes='Y' AND t.AD_Table_ID=").append(AD_Table_ID);
+		//	Duplicate Check
+		sb.append(" AND NOT EXISTS (SELECT * FROM ").append (treeTableName).append (" e ")
+		.append("WHERE e.AD_Tree_ID=t.AD_Tree_ID AND Node_ID=").append(id).append(")");
+		//
+		int no = DB.executeUpdate(sb.toString(), get_TrxName());
+		if (no > 0)
+			log.fine("#" + no + " - AD_Table_ID=" + AD_Table_ID);
+		else
+			log.warning("#" + no + " - AD_Table_ID=" + AD_Table_ID);
+		return no > 0;
+	}	//	insert_Tree
+
+	/**
+	 * 	Delete ID Tree Nodes FR[ 9223372036854775807 ]
+	 *	@return true if actually deleted (could be non existing)
+	 */
+	private boolean deleteTreeNode()
 	{
 		int id = get_ID();
 		if (id == 0)
 			id = get_IDOld();
-		
-		String tableName = MTree_Base.getNodeTableName(treeType);
-		String whereClause = tableName + ".Node_ID="+id+ " AND EXISTS (SELECT * FROM AD_Tree t "
-				+ "WHERE t.AD_Tree_ID="+tableName+".AD_Tree_ID AND t.TreeType='" + treeType + "')";
-		
-		PO tree = MTable.get(getCtx(), tableName).getPO(whereClause, get_TrxName());
-		if (tree != null)
-			tree.deleteEx(true);
-		return true;
+		int AD_Table_ID = get_Table_ID();
+		if (!MTree.hasTree(AD_Table_ID))
+			return false;
+		String treeTableName = MTree.getNodeTableName(AD_Table_ID);
+		if (treeTableName == null)
+			return false;
+		//
+		StringBuilder sb = new StringBuilder ("DELETE FROM ")
+		.append(treeTableName)
+		.append(" n WHERE Node_ID=").append(id)
+		.append(" AND EXISTS (SELECT * FROM AD_Tree t ")
+		.append("WHERE t.AD_Tree_ID=n.AD_Tree_ID AND t.AD_Table_ID=")
+		.append(AD_Table_ID).append(")");
+		//
+		int no = DB.executeUpdate(sb.toString(), get_TrxName());
+		if (no > 0)
+			log.fine("#" + no + " - AD_Table_ID=" + AD_Table_ID);
+		else
+			log.warning("#" + no + " - AD_Table_ID=" + AD_Table_ID);
+		return no > 0;
 	}	//	delete_Tree
 
 	/**************************************************************************

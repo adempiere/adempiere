@@ -54,7 +54,11 @@ import org.compiere.util.Trace;
  *  @contributor KittiU - FR [ 3062553 ] - Duplicated action in DocAction list for Multiple Role Users
  *  @author victor.perez@e-evoluton.com, www.e-evolution.com
  *  	<li>FR [ 3426137 ] Smart Browser
- * 		https://sourceforge.net/tracker/?func=detail&aid=3426137&group_id=176962&atid=879335 
+ * 		https://sourceforge.net/tracker/?func=detail&aid=3426137&group_id=176962&atid=879335
+ * 
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *  	<li>FR [ 9223372036854775807 ] Add Support to Dynamic Tree
+ *  	@see https://adempiere.atlassian.net/browse/ADEMPIERE-393
  *  @version $Id: MRole.java,v 1.5 2006/08/09 16:38:47 jjanke Exp $
  */
 public final class MRole extends X_AD_Role
@@ -801,7 +805,9 @@ public final class MRole extends X_AD_Role
 		if (!org.isSummary())
 			return;
 		//	Summary Org - Get Dependents
-		MTree_Base tree = MTree_Base.get(getCtx(), getAD_Tree_Org_ID(), get_TrxName());
+		//	Yamel Senih, FR[ 9223372036854775807 ]
+		//MTree_Base tree = MTree_Base.get(getCtx(), getAD_Tree_Org_ID(), get_TrxName());
+		MTree tree = MTree.get(getCtx(), getAD_Tree_Org_ID(), get_TrxName());
 		String sql =  "SELECT AD_Client_ID, AD_Org_ID FROM AD_Org "
 			+ "WHERE IsActive='Y' AND AD_Org_ID IN (SELECT Node_ID FROM "
 			+ tree.getNodeTableName()

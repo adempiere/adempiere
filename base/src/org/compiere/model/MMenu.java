@@ -32,6 +32,10 @@ import org.compiere.util.DB;
  *  @author victor.perez@e-evolution.com
  *  @see FR [ 1966326 ] Is necessary create method to get ID menu use menu Name http://sourceforge.net/tracker/index.php?func=detail&aid=1966326&group_id=176962&atid=879335
  *  @author red1 - FR: [ 2214883 ] Remove SQL code and Replace for Query
+ *	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *  		<li>FR [ 9223372036854775807 ] Add Support to Dynamic Tree
+ *  		@see https://adempiere.atlassian.net/browse/ADEMPIERE-393
+
  *  @version $Id: MMenu.java,v 1.3 2006/07/30 00:58:18 jjanke Exp $
  */
 public class MMenu extends X_AD_Menu
@@ -143,24 +147,26 @@ public class MMenu extends X_AD_Menu
 	 *	@param success success
 	 *	@return success
 	 */
-	protected boolean afterSave (boolean newRecord, boolean success)
-	{
-		if (newRecord)
-			insert_Tree(MTree_Base.TREETYPE_Menu);
-		return success;
-	}	//	afterSave
+	//	FR[ 9223372036854775807 ]
+//	protected boolean afterSave (boolean newRecord, boolean success)
+//	{
+//		if (newRecord)
+//			insert_Tree(MTree_Base.TREETYPE_Menu);
+//		return success;
+//	}	//	afterSave
 
 	/**
 	 * 	After Delete
 	 *	@param success
 	 *	@return deleted
 	 */
-	protected boolean afterDelete (boolean success)
-	{
-		if (success)
-			delete_Tree(MTree_Base.TREETYPE_Menu);
-		return success;
-	}	//	afterDelete
+	//	FR[ 9223372036854775807 ]
+//	protected boolean afterDelete (boolean success)
+//	{
+//		if (success)
+//			delete_Tree(MTree_Base.TREETYPE_Menu);
+//		return success;
+//	}	//	afterDelete
 	
 	/**
 	 *  FR [ 1966326 ]

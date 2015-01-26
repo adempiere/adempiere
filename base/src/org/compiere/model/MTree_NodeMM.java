@@ -28,6 +28,10 @@ import org.compiere.util.DB;
  *	(Disk) Tree Node Model Menu
  *	
  *  @author Jorg Janke
+ *  
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *  	<li>FR [ 9223372036854775807 ] Add Support to Dynamic Tree
+ *  	@see https://adempiere.atlassian.net/browse/ADEMPIERE-393
  *  @version $Id: MTree_NodeMM.java,v 1.3 2006/07/30 00:58:37 jjanke Exp $
  */
 public class MTree_NodeMM extends X_AD_TreeNodeMM
@@ -36,14 +40,49 @@ public class MTree_NodeMM extends X_AD_TreeNodeMM
 	 * 
 	 */
 	private static final long serialVersionUID = 3786314890360604549L;
-
+	
+	//	Yamel Senih, FR[ 9223372036854775807 ]
+//	public static MTree_NodeMM get (MTree_Base tree, int Node_ID)
+//	{
+//		MTree_NodeMM retValue = null;
+//		String sql = "SELECT * FROM AD_TreeNodeMM WHERE AD_Tree_ID=? AND Node_ID=?";
+//		PreparedStatement pstmt = null;
+//		try
+//		{
+//			pstmt = DB.prepareStatement (sql, tree.get_TrxName());
+//			pstmt.setInt (1, tree.getAD_Tree_ID());
+//			pstmt.setInt (2, Node_ID);
+//			ResultSet rs = pstmt.executeQuery ();
+//			if (rs.next ())
+//				retValue = new MTree_NodeMM (tree.getCtx(), rs, tree.get_TrxName());
+//			rs.close ();
+//			pstmt.close ();
+//			pstmt = null;
+//		}
+//		catch (Exception e)
+//		{
+//			s_log.log(Level.SEVERE, "get", e);
+//		}
+//		try
+//		{
+//			if (pstmt != null)
+//				pstmt.close ();
+//			pstmt = null;
+//		}
+//		catch (Exception e)
+//		{
+//			pstmt = null;
+//		}
+//		return retValue;
+//	}	//	get
+	
 	/**
-	 * 	Get Tree Node
+	 * 	Get Tree Node FR[ 9223372036854775807 ]
 	 *	@param tree tree
 	 *	@param Node_ID node
 	 *	@return node or null
 	 */
-	public static MTree_NodeMM get (MTree_Base tree, int Node_ID)
+	public static MTree_NodeMM get (MTree tree, int Node_ID)
 	{
 		MTree_NodeMM retValue = null;
 		String sql = "SELECT * FROM AD_TreeNodeMM WHERE AD_Tree_ID=? AND Node_ID=?";
@@ -90,13 +129,25 @@ public class MTree_NodeMM extends X_AD_TreeNodeMM
 	{
 		super(ctx, rs, trxName);
 	}	//	MTree_NodeMM
-
+	
+	//	Yamel Senih, FR[ 9223372036854775807 ] Old Method
+//	public MTree_NodeMM (MTree_Base tree, int Node_ID)
+//	{
+//		super (tree.getCtx(), 0, tree.get_TrxName());
+//		setClientOrg(tree);
+//		setAD_Tree_ID (tree.getAD_Tree_ID());
+//		setNode_ID(Node_ID);
+//		//	Add to root
+//		setParent_ID(0);
+//		setSeqNo (0);
+//	}	//	MTree_NodeMM
+	
 	/**
-	 * 	Full Constructor
+	 * 	Full Constructor FR[ 9223372036854775807 ]
 	 *	@param tree tree
 	 *	@param Node_ID node
 	 */
-	public MTree_NodeMM (MTree_Base tree, int Node_ID)
+	public MTree_NodeMM (MTree tree, int Node_ID)
 	{
 		super (tree.getCtx(), 0, tree.get_TrxName());
 		setClientOrg(tree);
@@ -106,5 +157,4 @@ public class MTree_NodeMM extends X_AD_TreeNodeMM
 		setParent_ID(0);
 		setSeqNo (0);
 	}	//	MTree_NodeMM
-	
 }	//	MTree_NodeMM

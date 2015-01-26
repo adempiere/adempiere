@@ -79,8 +79,6 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.compiere.util.Trx;
-import org.compiere.util.TrxRunnable;
 import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
 
@@ -111,6 +109,10 @@ import de.schaeffer.compiere.tools.DocumentSearch;
  * @author Paul Bowden
  *          <li>FR [ 2032092 ] Java 6 improvements to tree drag and drop
  *          https://sourceforge.net/tracker/index.php?func=detail&aid=2032092&group_id=176962&atid=879335
+ *          
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *  	<li>FR [ 9223372036854775807 ] Add Support to Dynamic Tree
+ *  	@see http://adempiere.atlassian.net/browse/ADEMPIERE-393
  */
 public final class VTreePanel extends CPanel
 	implements ActionListener
@@ -236,20 +238,33 @@ public final class VTreePanel extends CPanel
 		}
 	}   //  VTreePanel
 
+	
+	
 	/**
-	 *  Tree initialization.
+	 *  Tree initialization. FR[ 9223372036854775807 ]
 	 * 	May be called several times
 	 *	@param	AD_Tree_ID	tree to load
 	 *  @return true if loaded ok
 	 */
-	public boolean initTree (int AD_Tree_ID)
+	public boolean initTree (int AD_Tree_ID){
+		return initTree(AD_Tree_ID, null);
+	}
+	
+	
+	/**
+	 * Tree Initialization with Were Clause FR[ 9223372036854775807 ]
+	 * @param AD_Tree_ID
+	 * @param whereClause
+	 * @return
+	 */
+	public boolean initTree (int AD_Tree_ID, String whereClause)
 	{
 		log.config("AD_Tree_ID=" + AD_Tree_ID);
 		//
 		m_AD_Tree_ID = AD_Tree_ID;
 
 		//  Get Tree
-		MTree vTree = new MTree (Env.getCtx(), AD_Tree_ID, m_editable, true, null);
+		MTree vTree = new MTree (Env.getCtx(), AD_Tree_ID, m_editable, true, whereClause, null);
 		m_root = vTree.getRoot();
 		m_root.setName(Msg.getMsg(Env.getCtx(), vTree.getName() ) ); // translate name of menu.
 		// m_root.setName(Msg.getMsg(Env.getCtx(), "Menu") ); // @Trifon; this is the hardcoded way.

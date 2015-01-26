@@ -31,6 +31,10 @@ import org.compiere.util.Env;
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			BF [ 1883533 ] Change to summary - valid combination issue
  * 			BF [ 2320411 ] Translate "Already posted to" message
+ * 
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *  	<li>FR [ 9223372036854775807 ] Add Support to Dynamic Tree
+ *  	@see http://adempiere.atlassian.net/browse/ADEMPIERE-393
  */
 public class MElementValue extends X_C_ElementValue
 {
@@ -241,15 +245,15 @@ public class MElementValue extends X_C_ElementValue
 	@Override
 	protected boolean afterSave (boolean newRecord, boolean success)
 	{
-		if (newRecord)
-		{
+		//	Yamel Senih  FR[ 9223372036854775807 ]
+		//if (newRecord)
+		//{
 			// afalcone [Bugs #1837219]
-			int ad_Tree_ID= (new MElement(getCtx(), getC_Element_ID(), get_TrxName())).getAD_Tree_ID();
-			String treeType= (new MTree(getCtx(),ad_Tree_ID,get_TrxName())).getTreeType();
-			insert_Tree(treeType, getC_Element_ID());
+			//int ad_Tree_ID= (new MElement(getCtx(), getC_Element_ID(), get_TrxName())).getAD_Tree_ID();
+			//String treeType= (new MTree(getCtx(),ad_Tree_ID,get_TrxName())).getTreeType();
+			//insert_Tree(treeType, getC_Element_ID());
 			//	insert_Tree(MTree_Base.TREETYPE_ElementValue, getC_Element_ID()); Old
-			
-		}
+		//}
 		
 		//	Value/Name change
 		if (!newRecord && (is_ValueChanged(COLUMNNAME_Value) || is_ValueChanged(COLUMNNAME_Name)))
@@ -264,12 +268,13 @@ public class MElementValue extends X_C_ElementValue
 		return success;
 	}	//	afterSave
 	
-	@Override
-	protected boolean afterDelete (boolean success)
-	{
-		if (success)
-			delete_Tree(getC_Element().getAD_Tree().getTreeType());
-		return success;
-	}	//	afterDelete
+	//	Yamel Senih  FR[ 9223372036854775807 ]
+//	@Override
+//	protected boolean afterDelete (boolean success)
+//	{
+//		if (success)
+//			delete_Tree(getC_Element().getAD_Tree().getTreeType());
+//		return success;
+//	}	//	afterDelete
 
 }	//	MElementValue
