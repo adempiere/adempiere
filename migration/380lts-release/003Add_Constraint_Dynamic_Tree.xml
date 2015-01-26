@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
   <Migration EntityType="D" Name="Dynamic Tree" ReleaseNo="3.8.0" SeqNo="51">
+    <Comments>Constraint</Comments>
     <Step DBType="Postgres" Parse="Y" SeqNo="0" StepType="SQL">
       <Comments>Constraint</Comments>
-      <SQLStatement>﻿ALTER TABLE AD_Tree ADD CONSTRAINT FK_AD_Tree_AD_Table FOREIGN KEY (AD_Table_ID)
+      <SQLStatement>ALTER TABLE AD_Tree ADD CONSTRAINT FK_AD_Tree_AD_Table FOREIGN KEY (AD_Table_ID)
 	REFERENCES AD_Table(AD_Table_ID) 
 	ON UPDATE CASCADE 
 	ON DELETE RESTRICT;</SQLStatement>
