@@ -38,6 +38,10 @@ import org.zkoss.zul.event.TreeDataEvent;
 /**
  * 
  * @author Low Heng Sin
+ * 
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *  	<li>FR [ 9223372036854775807 ] Add Support to Dynamic Tree
+ *  	@see http://adempiere.atlassian.net/browse/ADEMPIERE-393
  *
  */
 public class SimpleTreeModel extends org.zkoss.zul.SimpleTreeModel implements TreeitemRenderer, EventListener {
@@ -57,25 +61,37 @@ public class SimpleTreeModel extends org.zkoss.zul.SimpleTreeModel implements Tr
 	}
 	
 	/**
-	 * @param tree
+	 * @param tree FR[ 9223372036854775807 ]
 	 * @param AD_Tree_ID
 	 * @param windowNo
 	 * @return SimpleTreeModel
 	 */
 	public static SimpleTreeModel initADTree(Tree tree, int AD_Tree_ID, int windowNo) {
-		return initADTree(tree, AD_Tree_ID, windowNo, true, null);
+		return initADTree(tree, AD_Tree_ID, windowNo, true, null, null);
 	}
 	
 	/**
-	 * @param tree
+	 * @param tree FR[ 9223372036854775807 ]
+	 * @param AD_Tree_ID
+	 * @param windowNo
+	 * @return SimpleTreeModel
+	 */
+	//	Add Where Clause
+	public static SimpleTreeModel initADTree(Tree tree, int AD_Tree_ID, int windowNo, String whereClause) {
+		return initADTree(tree, AD_Tree_ID, windowNo, true, whereClause, null);
+	}
+	
+	/**
+	 * @param tree FR[ 9223372036854775807 ]
 	 * @param AD_Tree_ID
 	 * @param windowNo
 	 * @param editable
+	 * @param whereClause
 	 * @param trxName
 	 * @return SimpleTreeModel
 	 */
-	public static SimpleTreeModel initADTree(Tree tree, int AD_Tree_ID, int windowNo, boolean editable, String trxName) { 
-		MTree vTree = new MTree (Env.getCtx(), AD_Tree_ID, editable, true, trxName);
+	public static SimpleTreeModel initADTree(Tree tree, int AD_Tree_ID, int windowNo, boolean editable, String whereClause, String trxName) { 
+		MTree vTree = new MTree (Env.getCtx(), AD_Tree_ID, editable, true, whereClause, trxName);
 		MTreeNode root = vTree.getRoot();
 		SimpleTreeModel treeModel = SimpleTreeModel.createFrom(root);
 		treeModel.setItemDraggable(true);

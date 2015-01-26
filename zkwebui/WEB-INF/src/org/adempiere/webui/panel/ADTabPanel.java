@@ -23,6 +23,7 @@ import java.beans.VetoableChangeListener;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.logging.Level;
+
 import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.component.*;
 import org.adempiere.webui.component.Column;
@@ -75,6 +76,10 @@ import org.zkoss.zul.Row;
  * @author e-Evolution , victor.perez@e-evolution.com
  *      <li>Implement embedded or horizontal tab panel https://adempiere.atlassian.net/browse/ADEMPIERE-319
  *      <li>New ADempiere 3.8.0 ZK Theme Light  https://adempiere.atlassian.net/browse/ADEMPIERE-320
+ *      
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *  	<li>FR [ 9223372036854775807 ] Add Support to Dynamic Tree
+ *  	@see http://adempiere.atlassian.net/browse/ADEMPIERE-393
  */
 public class ADTabPanel extends Div implements Evaluatee, EventListener,
 DataStatusListener, IADTabPanel, VetoableChangeListener
@@ -199,9 +204,13 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
         this.getChildren().clear();
 
         int AD_Tree_ID = 0;
+		//	Yamel Senih FR[ 9223372036854775807 ]
 		if (gridTab.isTreeTab())
+			//AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
+				//Env.getAD_Client_ID(Env.getCtx()), gridTab.getKeyColumnName());
 			AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
-				Env.getAD_Client_ID(Env.getCtx()), gridTab.getKeyColumnName());
+					Env.getAD_Client_ID(Env.getCtx()), gridTab.getAD_Table_ID());
+		//	End Yamel Senih
 		if (gridTab.isTreeTab() && AD_Tree_ID != 0)
 		{
 			Borderlayout layout = new Borderlayout();
@@ -549,11 +558,20 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
         }
 
         //create tree
+        //	Yamel Senih FR[ 9223372036854775807 ]
         if (gridTab.isTreeTab() && treePanel != null) {
-			int AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
-				Env.getAD_Client_ID(Env.getCtx()), gridTab.getKeyColumnName());
-			treePanel.initTree(AD_Tree_ID, windowNo);
+        	//int AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
+				//Env.getAD_Client_ID(Env.getCtx()), gridTab.getKeyColumnName());
+			//treePanel.initTree(AD_Tree_ID, windowNo);
+        	int AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
+					Env.getAD_Client_ID(Env.getCtx()), gridTab.getAD_Table_ID());
+        	//	Where Extended
+        	String whereClause = gridTab.getWhereExtended();
+			whereClause = Env.parseContext(Env.getCtx(), windowNo, whereClause, false, false);
+			//	Where
+        	treePanel.initTree(AD_Tree_ID, windowNo, whereClause);
         }
+        //	End Yamel Senih
 
         if (!gridTab.isSingleRow() && !isGridView())
         	switchRowPresentation();

@@ -33,6 +33,10 @@ import org.zkoss.zul.Treeitem;
 /**
  * 
  * @author hengsin
+ * 
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *  	<li>FR [ 9223372036854775807 ] Add Support to Dynamic Tree
+ *  	@see http://adempiere.atlassian.net/browse/ADEMPIERE-393
  *
  */
 public class ADTreePanel extends Panel implements EventListener
@@ -58,6 +62,17 @@ public class ADTreePanel extends Panel implements EventListener
     public void initTree(int AD_Tree_ID, int windowNo) 
     {
     	SimpleTreeModel.initADTree(tree, AD_Tree_ID, windowNo);
+    	pnlSearch.initialise();
+    }
+    
+    /**
+     * FR[ 9223372036854775807 ]
+     * @param AD_Tree_ID
+     * @param windowNo
+     */
+    public void initTree(int AD_Tree_ID, int windowNo, String whereClause) 
+    {
+    	SimpleTreeModel.initADTree(tree, AD_Tree_ID, windowNo, whereClause);
     	pnlSearch.initialise();
     }
     
