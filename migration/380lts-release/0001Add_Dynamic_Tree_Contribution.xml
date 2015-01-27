@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Dynamic Tree" ReleaseNo="3.8.0" SeqNo="49">
+  <Migration EntityType="D" Name="Dynamic Tree Contribution" ReleaseNo="3.8.0" SeqNo="49">
+    <Comments>See: http://adempiere.atlassian.net/browse/ADEMPIERE-393</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="882" Action="I" Record_ID="50018" Table="AD_EntityType">
         <Data AD_Column_ID="15593" Column="AD_Client_ID">0</Data>
@@ -728,6 +729,128 @@
         <Data AD_Column_ID="59704" Column="PreferredWidth" isOldNull="true">0</Data>
         <Data AD_Column_ID="181" Column="SeqNo" oldValue="90">100</Data>
         <Data AD_Column_ID="182" Column="SortNo" isOldNull="true">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="730" StepType="AD">
+      <PO AD_Table_ID="288" Action="U" Record_ID="20" Table="AD_Tree">
+        <Data AD_Column_ID="65355" Column="AD_Table_ID" isOldNull="true">188</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="740" StepType="AD">
+      <PO AD_Table_ID="288" Action="U" Record_ID="40" Table="AD_Tree">
+        <Data AD_Column_ID="65355" Column="AD_Table_ID" isOldNull="true">291</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="750" StepType="AD">
+      <PO AD_Table_ID="288" Action="U" Record_ID="50" Table="AD_Tree">
+        <Data AD_Column_ID="65355" Column="AD_Table_ID" isOldNull="true">155</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="760" StepType="AD">
+      <PO AD_Table_ID="288" Action="U" Record_ID="30" Table="AD_Tree">
+        <Data AD_Column_ID="65355" Column="AD_Table_ID" isOldNull="true">208</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="770" StepType="AD">
+      <PO AD_Table_ID="288" Action="U" Record_ID="60" Table="AD_Tree">
+        <Data AD_Column_ID="65355" Column="AD_Table_ID" isOldNull="true">203</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="780" StepType="AD">
+      <PO AD_Table_ID="288" Action="U" Record_ID="100" Table="AD_Tree">
+        <Data AD_Column_ID="65355" Column="AD_Table_ID" isOldNull="true">230</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="790" StepType="AD">
+      <PO AD_Table_ID="288" Action="U" Record_ID="112" Table="AD_Tree">
+        <Data AD_Column_ID="65355" Column="AD_Table_ID" isOldNull="true">855</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="800" StepType="AD">
+      <PO AD_Table_ID="288" Action="U" Record_ID="111" Table="AD_Tree">
+        <Data AD_Column_ID="65355" Column="AD_Table_ID" isOldNull="true">866</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="810" StepType="AD">
+      <PO AD_Table_ID="288" Action="U" Record_ID="113" Table="AD_Tree">
+        <Data AD_Column_ID="65355" Column="AD_Table_ID" isOldNull="true">857</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="820" StepType="AD">
+      <PO AD_Table_ID="288" Action="U" Record_ID="114" Table="AD_Tree">
+        <Data AD_Column_ID="65355" Column="AD_Table_ID" isOldNull="true">854</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="830" StepType="AD">
+      <PO AD_Table_ID="288" Action="U" Record_ID="10" Table="AD_Tree">
+        <Data AD_Column_ID="65355" Column="AD_Table_ID" isOldNull="true">116</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="840" StepType="AD">
+      <PO AD_Table_ID="288" Action="U" Record_ID="110" Table="AD_Tree">
+        <Data AD_Column_ID="65355" Column="AD_Table_ID" isOldNull="true">316</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="850" StepType="AD">
+      <PO AD_Table_ID="288" Action="U" Record_ID="103" Table="AD_Tree">
+        <Data AD_Column_ID="65355" Column="AD_Table_ID" isOldNull="true">291</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="860" StepType="AD">
+      <PO AD_Table_ID="288" Action="U" Record_ID="109" Table="AD_Tree">
+        <Data AD_Column_ID="65355" Column="AD_Table_ID" isOldNull="true">274</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="870" StepType="AD">
+      <PO AD_Table_ID="288" Action="U" Record_ID="101" Table="AD_Tree">
+        <Data AD_Column_ID="65355" Column="AD_Table_ID" isOldNull="true">188</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="880" StepType="AD">
+      <PO AD_Table_ID="288" Action="U" Record_ID="104" Table="AD_Tree">
+        <Data AD_Column_ID="65355" Column="AD_Table_ID" isOldNull="true">155</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="890" StepType="AD">
+      <PO AD_Table_ID="288" Action="U" Record_ID="102" Table="AD_Tree">
+        <Data AD_Column_ID="65355" Column="AD_Table_ID" isOldNull="true">208</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="900" StepType="AD">
+      <PO AD_Table_ID="288" Action="U" Record_ID="105" Table="AD_Tree">
+        <Data AD_Column_ID="65355" Column="AD_Table_ID" isOldNull="true">203</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="910" StepType="AD">
+      <PO AD_Table_ID="288" Action="U" Record_ID="108" Table="AD_Tree">
+        <Data AD_Column_ID="65355" Column="AD_Table_ID" isOldNull="true">230</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="920" StepType="AD">
+      <PO AD_Table_ID="288" Action="U" Record_ID="115" Table="AD_Tree">
+        <Data AD_Column_ID="65355" Column="AD_Table_ID" isOldNull="true">855</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="930" StepType="AD">
+      <PO AD_Table_ID="288" Action="U" Record_ID="118" Table="AD_Tree">
+        <Data AD_Column_ID="65355" Column="AD_Table_ID" isOldNull="true">857</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="940" StepType="AD">
+      <PO AD_Table_ID="288" Action="U" Record_ID="116" Table="AD_Tree">
+        <Data AD_Column_ID="65355" Column="AD_Table_ID" isOldNull="true">866</Data>
+      </PO>
+    </Step>
+    <Step DBType="Postgres" Parse="Y" SeqNo="950" StepType="SQL">
+      <Comments>Constraint</Comments>
+      <SQLStatement>ALTER TABLE AD_Tree ADD CONSTRAINT FK_AD_Tree_AD_Table FOREIGN KEY (AD_Table_ID)
+	REFERENCES AD_Table(AD_Table_ID) 
+	ON UPDATE CASCADE 
+	ON DELETE RESTRICT;</SQLStatement>
+    </Step>
+    <Step SeqNo="950" StepType="AD">
+      <PO AD_Table_ID="288" Action="U" Record_ID="117" Table="AD_Tree">
+        <Data AD_Column_ID="65355" Column="AD_Table_ID" isOldNull="true">854</Data>
       </PO>
     </Step>
   </Migration>
