@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component LANGUAGE_LEVEL="JDK_1_7" inheritJdk="true">
+	<exclude-output/>
+	<contentEntry url="file://$MODULE_DIR$"/>
+	<lib name="jstl.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/jstl.jar!/"/>
+	</lib>
+	<lib name="log4j.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/log4j.jar!/"/>
+	</lib>
+	<lib name="mail.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/mail.jar!/"/>
+	</lib>
+	<lib name="standard.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/standard.jar!/"/>
+	</lib>
+	<lib name="Verisign.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/Verisign.jar!/"/>
+	</lib>
+	<lib name="commons-httpclient.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/jboss/lib/commons-httpclient.jar!/"/>
+	</lib>
+	<lib name="ant-commons-net.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/ant-commons-net.jar!/"/>
+	</lib>
+	<lib name="ant-launcher.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/ant-launcher.jar!/"/>
+	</lib>
+	<lib name="ant.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/ant.jar!/"/>
+	</lib>
+	<lib name="jsp-api.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/jsp-api.jar!/"/>
+	</lib>
+	<lib name="servlet-api.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/servlet-api.jar!/"/>
+	</lib>
+	<lib name="ojdbc6.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/ojdbc6.jar!/"/>
+	</lib>
+	<lib name="jpayment.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/jpayment.jar!/"/>
+	</lib>
+	<lib name="jnlp.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/jnlp.jar!/"/>
+	</lib>
+	<lib name="commons-collections-3.1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/commons-collections-3.1.jar!/"/>
+	</lib>
+	<lib name="commons-logging.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/commons-logging.jar!/"/>
+	</lib>
+	<lib name="commons-net-1.4.0.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/commons-net-1.4.0.jar!/"/>
+	</lib>
+	<lib name="jgraph.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/jgraph.jar!/"/>
+	</lib>
+	<lib name="postgresql.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/postgresql.jar!/"/>
+	</lib>
+	<lib name="c3p0-0.9.1.2.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/c3p0-0.9.1.2.jar!/"/>
+	</lib>
+	<lib name="c3p0-oracle-thin-extras-0.9.1.2.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/c3p0-oracle-thin-extras-0.9.1.2.jar!/"/>
+	</lib>
+	<lib name="activemq-core-5.7.0.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/activemq-core-5.7.0.jar!/"/>
+	</lib>
+	<lib name="looks-2.0.4.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/looks-2.0.4.jar!/"/>
+	</lib>
+	<lib name="xercesImpl.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/xercesImpl.jar!/"/>
+	</lib>
+	<lib name="xjavadoc-1.1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/xjavadoc-1.1.jar!/"/>
+	</lib>
+	<lib name="xml-apis.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/xml-apis.jar!/"/>
+	</lib>
+	<lib name="jpedal.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/jpedal.jar!/"/>
+	</lib>
+	<lib name="swingx-1.6.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/swingx-1.6.jar!/"/>
+	</lib>
+	<lib name="bsh-2.0b5.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/bsh-2.0b5.jar!/"/>
+	</lib>
+	<lib name="bsh-engine.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/bsh-engine.jar!/"/>
+	</lib>
+	<lib name="groovy-engine.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/groovy-engine.jar!/"/>
+	</lib>
+	<lib name="jython.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/jython.jar!/"/>
+	</lib>
+	<lib name="jython-engine.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/jython-engine.jar!/"/>
+	</lib>
+	<lib name="script-api.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/script-api.jar!/"/>
+	</lib>
+	<lib name="barbecue-1.5-beta1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/barbecue-1.5-beta1.jar!/"/>
+	</lib>
+	<lib name="javaee.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/javaee.jar!/"/>
+	</lib>
+	<lib name="commons-beanutils.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/serverApps/src/web/WEB-INF/lib/commons-beanutils.jar!/"/>
+	</lib>
+	<lib name="commons-beanutils-bean-collections.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/serverApps/src/web/WEB-INF/lib/commons-beanutils-bean-collections.jar!/"/>
+	</lib>
+	<lib name="commons-beanutils-core.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/serverApps/src/web/WEB-INF/lib/commons-beanutils-core.jar!/"/>
+	</lib>
+	<lib name="commons-codec-1.3.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/serverApps/src/web/WEB-INF/lib/commons-codec-1.3.jar!/"/>
+	</lib>
+	<lib name="commons-digester-1.7.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/serverApps/src/web/WEB-INF/lib/commons-digester-1.7.jar!/"/>
+	</lib>
+	<lib name="commons-fileupload.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/serverApps/src/web/WEB-INF/lib/commons-fileupload.jar!/"/>
+	</lib>
+	<lib name="commons-lang-2.1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/serverApps/src/web/WEB-INF/lib/commons-lang-2.1.jar!/"/>
+	</lib>
+	<lib name="commons-validator-1.2.0.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/serverApps/src/web/WEB-INF/lib/commons-validator-1.2.0.jar!/"/>
+	</lib>
+	<lib name="iReport.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/JasperReportsTools/lib/iReport.jar!/"/>
+	</lib>
+	<lib name="jbosssx-client.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/jboss/client/jbosssx-client.jar!/"/>
+	</lib>
+	<lib name="jnp-client.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/jboss/client/jnp-client.jar!/"/>
+	</lib>
+	<lib name="jbossall-client.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/jboss/client/jbossall-client.jar!/"/>
+	</lib>
+	<lib name="appserv-rt.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/glassfishfacet/lib/appserv-rt.jar!/"/>
+	</lib>
+	<lib name="cglib.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/cglib.jar!/"/>
+	</lib>
+	<lib name="zcommon.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/zcommon-sources.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zcommon-sources.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zcommon.jar!/"/>
+	</lib>
+	<lib name="zk.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/zk-sources.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zk-sources.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zk.jar!/"/>
+	</lib>
+	<lib name="zul.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/zul-sources.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zul-sources.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zul.jar!/"/>
+	</lib>
+	<lib name="asm.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/asm.jar!/"/>
+	</lib>
+	<lib name="commons-el.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/commons-el.jar!/"/>
+	</lib>
+	<lib name="commons-io.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/commons-io.jar!/"/>
+	</lib>
+	<lib name="fckez.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/fckez.jar!/"/>
+	</lib>
+	<lib name="Filters.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/Filters.jar!/"/>
+	</lib>
+	<lib name="gmapsz.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/gmapsz.jar!/"/>
+	</lib>
+	<lib name="jruby.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/jruby.jar!/"/>
+	</lib>
+	<lib name="js.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/js.jar!/"/>
+	</lib>
+	<lib name="json_simple.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/json_simple.jar!/"/>
+	</lib>
+	<lib name="jxl.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/jxl.jar!/"/>
+	</lib>
+	<lib name="mvel.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/mvel.jar!/"/>
+	</lib>
+	<lib name="ognl.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/ognl.jar!/"/>
+	</lib>
+	<lib name="timelinez.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/timelinez-sources.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/timelinez-sources.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/timelinez.jar!/"/>
+	</lib>
+	<lib name="zcommons-el.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zcommons-el.jar!/"/>
+	</lib>
+	<lib name="zhtml.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/zhtml-sources.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zhtml-sources.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zhtml.jar!/"/>
+	</lib>
+	<lib name="zhtml-sources.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zhtml-sources.jar!/"/>
+	</lib>
+	<lib name="zkex.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/zkex-sources.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zkex-sources.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zkex.jar!/"/>
+	</lib>
+	<lib name="zkmax.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/zkmax-sources.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zkmax-sources.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zkmax.jar!/"/>
+	</lib>
+	<lib name="zkmax-sources.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zkmax-sources.jar!/"/>
+	</lib>
+	<lib name="zkplus.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/zkplus-sources.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zkplus-sources.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zkplus.jar!/"/>
+	</lib>
+	<lib name="zml.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zml.jar!/"/>
+	</lib>
+	<lib name="bsh.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/bsh.jar!/"/>
+	</lib>
+	<lib name="zkwebui/WEB-INF/lib/commons-fileupload.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/commons-fileupload.jar!/"/>
+	</lib>
+	<lib name="zkwebui/WEB-INF/lib/jython.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/jython.jar!/"/>
+	</lib>
+	<lib name="timelinez-sources.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/timelinez-sources.jar!/"/>
+	</lib>
+	<lib name="zcommon-sources.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zcommon-sources.jar!/"/>
+	</lib>
+	<lib name="zkex-sources.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zkex-sources.jar!/"/>
+	</lib>
+	<lib name="zk-sources.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zk-sources.jar!/"/>
+	</lib>
+	<lib name="zml-sources.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zml-sources.jar!/"/>
+	</lib>
+	<lib name="zul-sources.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zul-sources.jar!/"/>
+	</lib>
+	<lib name="zweb-sources.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zweb-sources.jar!/"/>
+	</lib>
+	<lib name="aspectjlib.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/posterita/reference/aspectJ/aspectjlib.jar!/"/>
+	</lib>
+	<lib name="aspectjtools.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/posterita/reference/aspectJ/aspectjtools.jar!/"/>
+	</lib>
+	<lib name="aspectjweaver.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/posterita/reference/aspectJ/aspectjweaver.jar!/"/>
+	</lib>
+	<lib name="struts.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/posterita/posterita/web/WEB-INF/lib/struts.jar!/"/>
+	</lib>
+	<lib name="aop.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/posterita/posterita/web/WEB-INF/lib/aop.jar!/"/>
+	</lib>
+	<lib name="aspectjrt.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/posterita/posterita/web/WEB-INF/lib/aspectjrt.jar!/"/>
+	</lib>
+	<lib name="barcode4j.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/posterita/posterita/web/WEB-INF/lib/barcode4j.jar!/"/>
+	</lib>
+	<lib name="commons-validator.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/posterita/posterita/web/WEB-INF/lib/commons-validator.jar!/"/>
+	</lib>
+	<lib name="spiffy-with_source-all-0.05.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/testing/spiffy-with_source-all-0.05.jar!/"/>
+	</lib>
+	<lib name="SuperCSV-with_src-1.52.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/testing/SuperCSV-with_src-1.52.jar!/"/>
+	</lib>
+	<lib name="keylistener.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/keylistener.jar!/"/>
+	</lib>
+	<lib name="junit.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/junit.jar!/"/>
+	</lib>
+	<lib name="tools/lib/junit.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/junit.jar!/"/>
+	</lib>
+	<lib name="displaytag-1.1.1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/posterita/posterita/web/WEB-INF/lib/displaytag-1.1.1.jar!/"/>
+	</lib>
+	<lib name="zweb.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zweb.jar!/"/>
+	</lib>
+	<lib name="posterita/posterita/web/WEB-INF/lib/commons-fileupload.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/posterita/posterita/web/WEB-INF/lib/commons-fileupload.jar!/"/>
+	</lib>
+	<lib name="zkplus-sources.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zkplus-sources.jar!/"/>
+	</lib>
+	<lib name="displaytag-export-poi-1.1.1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/posterita/posterita/web/WEB-INF/lib/displaytag-export-poi-1.1.1.jar!/"/>
+	</lib>
+	<lib name="log4j-1.2.13.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/posterita/posterita/web/WEB-INF/lib/log4j-1.2.13.jar!/"/>
+	</lib>
+	<lib name="servlet.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/posterita/posterita/web/WEB-INF/lib/servlet.jar!/"/>
+	</lib>
+	<lib name="liberoHR.jar" scope="COMPILE">
+		<srcroot url="file:///adempiereLiberoHR"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/packages/liberoHR.jar!/"/>
+	</lib>
+	<lib name="liberoMFG.jar" scope="COMPILE">
+		<srcroot url="file:///adempiereLibero"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/packages/liberoMFG.jar!/"/>
+	</lib>
+	<lib name="iText-2.1.7.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/iText-2.1.7.jar!/"/>
+	</lib>
+	<lib name="miglayout-3.7.1-swing.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/miglayout-3.7.1-swing.jar!/"/>
+	</lib>
+	<lib name="payflow.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/payflow.jar!/"/>
+	</lib>
+	<lib name="cron4j-2.2.1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/cron4j-2.2.1.jar!/"/>
+	</lib>
+	<lib name="mysql-connector-java-5.1.13-bin.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/mysql-connector-java-5.1.13-bin.jar!/"/>
+	</lib>
+	<lib name="groovy-all-2.0.1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/groovy-all-2.0.1.jar!/"/>
+	</lib>
+	<lib name="jcommon-1.0.18.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/jcommon-1.0.18.jar!/"/>
+	</lib>
+	<lib name="jfreechart-1.0.15.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/jfreechart-1.0.15.jar!/"/>
+	</lib>
+	<lib name="jasperreports-5.1.0.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/JasperReportsTools/lib/jasperreports-5.1.0.jar!/"/>
+	</lib>
+	<lib name="poi-3.9-20121203.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/poi-3.9-20121203.jar!/"/>
+	</lib>
+	<lib name="OpenForecast-0.5.0.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/OpenForecast-0.5.0.jar!/"/>
+	</lib>
+	<lib name="liberoWM.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/packages/liberoWM.jar!/"/>
+	</lib>
+	<lib name="tools/lib/commons-io.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/commons-io.jar!/"/>
+	</lib>
+	<lib name="xfire-all-1.2.6.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/lib/xfire-all-1.2.6.jar!/"/>
+	</lib>
+	<lib name="xbean.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/lib/xbean.jar!/"/>
+	</lib>
+	<lib name="xbean-spring-2.8.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/lib/xbean-spring-2.8.jar!/"/>
+	</lib>
+	<lib name="generated_xmlbeans.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/lib/generated_xmlbeans.jar!/"/>
+	</lib>
+</component>

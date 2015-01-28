@@ -843,13 +843,13 @@ public class WAcctViewer extends Window implements EventListener
 
 		for (int i = 0; i < elements.length && selectionIndex < labels.length; i++)
 		{
-			MAcctSchemaElement ase = elements[i];
-			String columnName = ase.getColumnName();
+			MAcctSchemaElement acctSchemaElement = elements[i];
+			String columnName = acctSchemaElement.getColumnName();
 			String displayColumnName;
 			if (columnName.equals("User1_ID") || columnName.equals("User2_ID"))
-				displayColumnName = ase.getName();
+				displayColumnName = acctSchemaElement.getName();
 			else
-				displayColumnName = ase.getDisplayColumnName();
+				displayColumnName = acctSchemaElement.getDisplayColumnName();
 
 			//  Add Sort Option
 
@@ -857,8 +857,8 @@ public class WAcctViewer extends Window implements EventListener
 
 			//  Additional Elements
 
-			if (!ase.isElementType(X_C_AcctSchema_Element.ELEMENTTYPE_Organization)
-				&& !ase.isElementType(X_C_AcctSchema_Element.ELEMENTTYPE_Account))
+			if (!acctSchemaElement.isElementType(X_C_AcctSchema_Element.ELEMENTTYPE_Organization)
+				&& !acctSchemaElement.isElementType(X_C_AcctSchema_Element.ELEMENTTYPE_Account))
 			{
 				labels[selectionIndex].setValue(Msg.translate(Env.getCtx(), displayColumnName));
 				labels[selectionIndex].setVisible(true);

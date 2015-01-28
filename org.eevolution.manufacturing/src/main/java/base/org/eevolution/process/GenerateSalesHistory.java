@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.compiere.model.I_C_Invoice;
 import org.compiere.model.MSequence;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
@@ -211,7 +212,7 @@ public class GenerateSalesHistory extends SvrProcess {
 		insert.append(" LEFT JOIN M_Product_Group  pg ON (p.Group2=pg.Value) ");
 		insert.append(" LEFT JOIN M_InOutLine iol ON (il.M_InOutLine_ID=iol.M_InOutLine_ID ) ");
 		insert.append(" LEFT JOIN M_Locator l ON (iol.M_Locator_ID=l.M_Locator_ID) ");
-		insert.append(" WHERE NOT EXISTS (SELECT 1 FROM C_SalesHistory sh WHERE sh.C_InvoiceLine_ID=il.C_InvoiceLine_ID) AND ");
+		insert.append(" WHERE i.IsSOTrx='Y' AND NOT EXISTS (SELECT 1 FROM C_SalesHistory sh WHERE sh.C_InvoiceLine_ID=il.C_InvoiceLine_ID) AND ");
 
 		StringBuffer whereClause = new StringBuffer();
 
