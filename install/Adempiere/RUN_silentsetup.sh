@@ -24,12 +24,6 @@ ARGS=CONFIG
 
 $JAVA -classpath $CP -DADEMPIERE_HOME=$ADEMPIERE_HOME org.compiere.install.SilentSetup $ARGS
 
-echo ===================================
-echo Make .sh executable & set Env
-echo ===================================
-chmod -R a+x *.sh
-find . -name '*.sh' -exec chmod a+x '{}' \;
-
 # Sign database build
 cd utils
 . ./RUN_SignDatabaseBuild.sh 
