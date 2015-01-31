@@ -3,5 +3,5 @@ UPDATE AD_Column SET FieldLength=10,Updated=TO_DATE('2015-01-31 00:00:00','YYYY-
 ;
 
 UPDATE AD_SYSTEM
- SET releaseno = '3.8.0LTS', VERSION = '2015-01-31'
+ SET releaseno = '3.8.0LTS', VERSION = '2015-01-31' , lastbuildinfo = 'ADempiere'
   WHERE ad_system_id = 0 AND ad_client_id = 0;
