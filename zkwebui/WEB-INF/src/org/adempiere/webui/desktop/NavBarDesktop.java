@@ -133,8 +133,9 @@ public class NavBarDesktop extends TabbedDesktop implements MenuListener, Serial
         dashboardRunnable = new DashboardRunnable(layout.getDesktop(), this);
 
         North n = new North();
-        layout.appendChild(n);
+        n.setSplittable(true);
         n.setCollapsible(false);
+        layout.appendChild(n);
         pnlHead.setParent(n);
 
         leftRegion = new West();
