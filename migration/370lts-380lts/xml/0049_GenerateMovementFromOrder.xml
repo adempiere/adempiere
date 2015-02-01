@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="EE01" Name="Generate Movement from Order" ReleaseNo="3.8.0" SeqNo="49">
+  <Migration EntityType="C" Name="Generate Movement from Order" ReleaseNo="3.8.0" SeqNo="49">
     <Step SeqNo="20" StepType="AD">
       <PO AD_Table_ID="53230" Action="I" Record_ID="50038" Table="AD_View">
         <Data AD_Column_ID="58066" Column="AD_Client_ID">0</Data>
@@ -146,6 +146,7 @@
     </Step>
     <Step SeqNo="80" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="75476" Table="AD_Column">
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
         <Data AD_Column_ID="6482" Column="EntityType">EE01</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
@@ -191,7 +192,6 @@
         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">113</Data>
-        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
       </PO>
     </Step>
     <Step SeqNo="90" StepType="AD">
@@ -1290,12 +1290,12 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="410" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="53056" Table="AD_View_Column">
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50038</Data>
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58109" Column="AD_Column_ID">75489</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">53056</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50080</Data>
-        <Data AD_Column_ID="58108" Column="AD_View_ID">50038</Data>
         <Data AD_Column_ID="58107" Column="ColumnName">MC_SalesRep_ID</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">mc.SalesRep_ID</Data>
         <Data AD_Column_ID="58096" Column="Created">2015-01-19 23:04:39.072</Data>
@@ -2029,6 +2029,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="760" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="53091" Table="AD_View_Column">
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58102" Column="Description">Business Activity</Data>
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58109" Column="AD_Column_ID">53868</Data>
@@ -2039,7 +2040,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58107" Column="ColumnName">O_C_Activity_ID</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">o.C_Activity_ID</Data>
         <Data AD_Column_ID="58096" Column="Created">2015-01-19 23:05:25.502</Data>
-        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58103" Column="EntityType">EE01</Data>
         <Data AD_Column_ID="58104" Column="Help">Activities indicate tasks that are performed and used to utilize Activity based Costing</Data>
         <Data AD_Column_ID="58095" Column="IsActive">true</Data>
@@ -3617,6 +3617,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1280" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="54263" Table="AD_Browse_Field">
+        <Data AD_Column_ID="63218" Column="Axis_Column_ID" isNewNull="true"/>
         <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">54263</Data>
         <Data AD_Column_ID="57983" Column="AD_Browse_ID">50046</Data>
@@ -3627,7 +3628,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="57971" Column="AD_View_Column_ID">53061</Data>
-        <Data AD_Column_ID="63218" Column="Axis_Column_ID" isNewNull="true"/>
         <Data AD_Column_ID="67114" Column="Callout" isNewNull="true"/>
         <Data AD_Column_ID="57964" Column="Created">2015-01-19 23:08:37.458</Data>
         <Data AD_Column_ID="57966" Column="CreatedBy">100</Data>
@@ -5333,12 +5333,12 @@ If the document type of your document has no automatic document sequence defined
     </Step>
     <Step SeqNo="1660" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="54301" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="57969" Column="AD_Element_ID">1007</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="57970" Column="AD_Reference_ID">17</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">54301</Data>
         <Data AD_Column_ID="57983" Column="AD_Browse_ID">50046</Data>
+        <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="57969" Column="AD_Element_ID">1007</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID">153</Data>
         <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="57971" Column="AD_View_Column_ID">53100</Data>
@@ -7852,6 +7852,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="3450" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="53159" Table="AD_View_Column">
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58102" Column="Description">Posting status</Data>
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58109" Column="AD_Column_ID">53910</Data>
@@ -7862,7 +7863,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58107" Column="ColumnName">ORDER_Posted</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">order.Posted</Data>
         <Data AD_Column_ID="58096" Column="Created">2015-01-19 23:24:47.216</Data>
-        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58103" Column="EntityType">EE01</Data>
         <Data AD_Column_ID="58104" Column="Help">The Posted field indicates the status of the Generation of General Ledger Accounting Lines </Data>
         <Data AD_Column_ID="58095" Column="IsActive">true</Data>
@@ -8922,12 +8922,12 @@ If the document type of your document has no automatic document sequence defined
     </Step>
     <Step SeqNo="3960" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="53209" Table="AD_View_Column">
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50083</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50039</Data>
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58109" Column="AD_Column_ID">53927</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">53209</Data>
-        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50083</Data>
         <Data AD_Column_ID="58107" Column="ColumnName">LINE_QtyInTransit</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">line.QtyInTransit</Data>
         <Data AD_Column_ID="58096" Column="Created">2015-01-19 23:26:41.56</Data>
@@ -9576,16 +9576,16 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="4270" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="53239" Table="AD_View_Column">
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">53239</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50084</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50039</Data>
         <Data AD_Column_ID="58107" Column="ColumnName">UOM_UOMSymbol</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">uom.UOMSymbol</Data>
         <Data AD_Column_ID="58096" Column="Created">2015-01-19 23:28:24.214</Data>
         <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58109" Column="AD_Column_ID">855</Data>
-        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">53239</Data>
-        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50084</Data>
-        <Data AD_Column_ID="58108" Column="AD_View_ID">50039</Data>
         <Data AD_Column_ID="58102" Column="Description">Symbol for a Unit of Measure</Data>
         <Data AD_Column_ID="58103" Column="EntityType">EE01</Data>
         <Data AD_Column_ID="58104" Column="Help">The Symbol identifies the Symbol to be displayed and printed for a Unit of Measure</Data>
@@ -10315,6 +10315,7 @@ The transaction is completed, if confirmed.</Data>
     </Step>
     <Step SeqNo="4620" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="53272" Table="AD_View_Column">
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58102" Column="Description">Date this record was updated</Data>
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58109" Column="AD_Column_ID">1252</Data>
@@ -10325,7 +10326,6 @@ The transaction is completed, if confirmed.</Data>
         <Data AD_Column_ID="58107" Column="ColumnName">W_Updated</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">w.Updated</Data>
         <Data AD_Column_ID="58096" Column="Created">2015-01-19 23:30:36.129</Data>
-        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58103" Column="EntityType">EE01</Data>
         <Data AD_Column_ID="58104" Column="Help">The Updated field indicates the date that this record was updated.</Data>
         <Data AD_Column_ID="58095" Column="IsActive">true</Data>
@@ -10949,11 +10949,11 @@ If you leave the search key empty, the system automatically creates a numeric nu
     </Step>
     <Step SeqNo="4780" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="54335" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57969" Column="AD_Element_ID">2397</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">54335</Data>
         <Data AD_Column_ID="57983" Column="AD_Browse_ID">50047</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="57969" Column="AD_Element_ID">2397</Data>
         <Data AD_Column_ID="57970" Column="AD_Reference_ID">20</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
@@ -19050,6 +19050,46 @@ If you leave the search key empty, the system automatically creates a numeric nu
     <Step SeqNo="9310" StepType="AD">
       <PO AD_Table_ID="53223" Action="U" Record_ID="54419" Table="AD_Browse_Field">
         <Data AD_Column_ID="57985" Column="IsMandatory" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="9320" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="54255" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57985" Column="IsMandatory" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="9330" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="55106" Table="AD_Process_Para">
+        <Data AD_Column_ID="3738" Column="IsMandatory" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="9340" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="54419" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57970" Column="AD_Reference_ID" oldValue="19">30</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="9350" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50047" Table="AD_Browse">
+        <Data AD_Column_ID="57995" Column="EntityType" oldValue="C">EE01</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="9360" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50047" Table="AD_Browse">
+        <Data AD_Column_ID="58000" Column="WhereClause" oldValue="o.DocStatus= 'CO' AND  line.QtyInTransit &lt;&gt; 0  AND  o.DD_Order_ID = @o.DD_Order_ID@">o.DocStatus= 'CO' AND  line.QtyInTransit &lt;&gt; 0 </Data>
+      </PO>
+    </Step>
+    <Step SeqNo="9370" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="54419" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57970" Column="AD_Reference_ID" oldValue="30">19</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="9380" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="54196" Table="AD_Field">
+        <Data AD_Column_ID="180" Column="DisplayLength" oldValue="1">29</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="9390" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="53934" Table="AD_Column">
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable" oldValue="false">true</Data>
       </PO>
     </Step>
   </Migration>
