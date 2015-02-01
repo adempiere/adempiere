@@ -141,7 +141,6 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 		
 		m_frame = new CustomForm();
 		windowNo = SessionManager.getAppDesktop().registerWindow(this);
-		Env.clearWinContext(windowNo);
 		setContextWhere(browse, whereClause);
 		initComponents();
 		statInit();
@@ -529,6 +528,7 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 		// Execute Process
 		ProcessCtl worker = new ProcessCtl(this, pi.getWindowNo() , pi , null);
 		worker.start();
+        Env.clearWinContext(getWindowNo());
 		SessionManager.getAppDesktop().closeActiveWindow();
 	}
 

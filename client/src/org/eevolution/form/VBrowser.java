@@ -138,7 +138,6 @@ public class VBrowser extends Browser implements IBrowser, ActionListener,
 		m_frame.setTitle(browse.getTitle());
 		m_frame.getContentPane().add(statusBar, BorderLayout.SOUTH);
 		windowNo = Env.createWindowNo(m_frame);
-		Env.clearWinContext(windowNo);
 		setContextWhere(browse, whereClause);		
 		initComponents();
 		statInit();
@@ -555,6 +554,7 @@ public class VBrowser extends Browser implements IBrowser, ActionListener,
 		// Execute Process
 		ProcessCtl worker = new ProcessCtl(this, pi.getWindowNo() , pi , null);
 		worker.start(); // complete tasks in unlockUI /
+        Env.clearWinContext(getWindowNo());
 	} // dispose
 
 	private void setupToolBar() {
