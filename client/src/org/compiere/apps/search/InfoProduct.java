@@ -365,7 +365,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
         String s_sqlFrom = " M_PRODUCT_STOCK_V ";
         /** Where Clause						*/
         String s_sqlWhere = "(QtyOnHand <> 0 OR QtyAvailable <> 0 OR QtyReserved <> 0 OR QtyOrdered <> 0) AND M_Product_ID = ?";
-//      String s_sqlWhere = "M_Product_ID = ?";
+
         m_sqlWarehouse = warehouseTbl.prepareTable(s_layoutWarehouse, s_sqlFrom, s_sqlWhere, false, "M_PRODUCT_STOCK_V");
 		m_sqlWarehouse += " Group By M_Warehouse_ID, Warehouse ";
 		m_sqlWarehouse += " Order By sum(QtyOnHand) DESC, Warehouse ";		
