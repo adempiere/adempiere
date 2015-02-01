@@ -152,43 +152,54 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 		}
 		
 		if (costDetail == null) {
-			costDetail = new MCostDetail(transaction, accountSchema.getC_AcctSchema_ID(),
-					dimension.getM_CostType_ID(),
-					dimension.getM_CostElement_ID(),
-					currentCostPrice.multiply(movementQuantity),
-					currentCostPriceLowerLevel.multiply(movementQuantity),
-					movementQuantity, transaction.get_TrxName());
-			costDetail.setSeqNo(seqNo);
-			costDetail.set_ValueOfColumn(idColumnName,
-					CostEngine.getIDColumn(model));
-			costDetail.setDateAcct(dateAccounting);
-		} else {
-			if (!adjustCost.equals(Env.ZERO)) {
-				costDetail.setCostAdjustment(adjustCost);
-				costDetail.setProcessed(false);
-				costDetail.setDescription("Adjust Cost");
+            costDetail = new MCostDetail(transaction, accountSchema.getC_AcctSchema_ID(),
+                    dimension.getM_CostType_ID(),
+                    dimension.getM_CostElement_ID(), currentCostPrice
+                    .multiply(movementQuantity).abs(),
+                    currentCostPriceLowerLevel.multiply(movementQuantity).abs(),
+                    movementQuantity, transaction.get_TrxName());
+            costDetail.setDateAcct(dateAccounting);
+            costDetail.setSeqNo(seqNo);
 
-			}
-			if (!adjustCostLowerLevel.equals(Env.ZERO)) {
-				costDetail.setCostAdjustmentLL(adjustCostLowerLevel);
-				costDetail.setProcessed(false);
-				costDetail.setDescription("Adjust Cost LL");
-
-			}
-			costDetail.set_ValueOfColumn(idColumnName,
-					CostEngine.getIDColumn(model));
-			costDetail.saveEx();
-			return;
 		}
 
-		if (!costDetail.set_ValueOfColumnReturningBoolean(idColumnName,
+
+        if (adjustCost.signum() != 0 || adjustCostLowerLevel.signum() != 0) {
+            String description = costDetail.getDescription() != null ? costDetail
+                    .getDescription() : "";
+            // update adjustment cost this level
+            if (adjustCost.signum() != 0) {
+                costDetail.setCostAdjustmentDate(model.getDateAcct());
+                costDetail.setCostAdjustment(adjustCost);
+                //costDetail.setCostAmt(BigDecimal.ZERO);
+                costDetail.setAmt(costDetail.getAmt().add(
+                        costDetail.getCostAdjustment()));
+                costDetail.setDescription(description + " Adjust Cost:"
+                        + adjustCost);
+            }
+            // update adjustment cost lower level
+            if (adjustCostLowerLevel.signum() != 0) {
+                description = costDetail.getDescription() != null ? costDetail
+                        .getDescription() : "";
+                costDetail.setCostAdjustmentDateLL(model.getDateAcct());
+                costDetail.setCostAdjustmentLL(adjustCostLowerLevel);
+                //costDetail.setCostAmtLL(BigDecimal.ZERO);
+                costDetail.setAmt(costDetail.getCostAmtLL().add(
+                        costDetail.getCostAdjustmentLL()));
+                costDetail.setDescription(description
+                        + " Adjust Cost LL:" + adjustCost);
+            }
+        }
+
+        if (!costDetail.set_ValueOfColumnReturningBoolean(idColumnName,
 				model.get_ID()))
 			throw new AdempiereException("Cannot set " + idColumnName);
 
-		if (isSalesTransaction != null)
-			costDetail.setIsSOTrx(isSalesTransaction);
-		else
-			costDetail.setIsSOTrx(model.isSOTrx());
+        // set if transaction is sales order type or not
+        if (isSalesTransaction != null)
+            costDetail.setIsSOTrx(isSalesTransaction);
+        else
+            costDetail.setIsSOTrx(model.isSOTrx());
 
 		// set transaction id
 		if (transaction != null)
@@ -320,47 +331,51 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 	 */
 	public void updateAmountCost() {
 
-		if (movementQuantity.signum() > 0) {
-			costDetail.setCostAmt(costDetail.getAmt().subtract(
-					costDetail.getCostAdjustment()));
-			costDetail.setCostAmtLL(costDetail.getAmtLL().subtract(
-					costDetail.getCostAdjustmentLL()));
-		}
-		else if (movementQuantity.signum() < 0 ) {
-			costDetail.setCostAmt(costDetail.getAmt().add(adjustCost));
-			costDetail.setCostAmtLL(costDetail.getAmtLL().add(
-					adjustCostLowerLevel));
-		}
-		// set the id for model
-		final String idColumnName = CostEngine.getIDColumnName(model);
-		costDetail.set_ValueOfColumn(idColumnName,
-				CostEngine.getIDColumn(model));
+        if (movementQuantity.signum() > 0) {
+            costDetail.setCostAmt(costDetail.getAmt().subtract(
+                    costDetail.getCostAdjustment()));
+            costDetail.setCostAmtLL(costDetail.getAmtLL().subtract(
+                    costDetail.getCostAdjustmentLL()));
+        }
+        else if (movementQuantity.signum() < 0 ) {
+            costDetail.setCostAmt(costDetail.getAmt().add(adjustCost));
+            costDetail.setCostAmtLL(costDetail.getAmtLL().add(
+                    adjustCostLowerLevel));
+        }
 
-		if (model instanceof MInOutLine)
-		{
-			MInOutLine ioLine =  (MInOutLine) model;
-			costDetail.setC_OrderLine_ID(ioLine.getC_OrderLine_ID());
-			// IMPORTANT : reset possible provision purchase cost processed
-			costDetail.setC_InvoiceLine_ID(0);
-		}
+        costDetail.setCumulatedQty(getNewAccumulatedQuantity(lastCostDetail));
+        costDetail.setCumulatedAmt(getNewAccumulatedAmount(lastCostDetail));
 
-		if (model instanceof MMatchInv && costDetail.getM_InOutLine_ID() == 0)
-		{
-			MMatchInv iMatch =  (MMatchInv) model;
-			costDetail.setM_InOutLine_ID(iMatch.getM_InOutLine_ID());
-		}
-		if(model instanceof MMatchPO && costDetail.getM_InOutLine_ID() == 0)
-		{
-			MMatchPO poMatch =  (MMatchPO) model;
-			costDetail.setM_InOutLine_ID(poMatch.getM_InOutLine_ID());
-		}
-		if (model instanceof MLandedCostAllocation) {
-			MLandedCostAllocation allocation = (MLandedCostAllocation) model;
-			costDetail.setM_InOutLine_ID(allocation.getM_InOutLine_ID());
-			costDetail.setC_InvoiceLine_ID(allocation.getC_InvoiceLine_ID());
-			costDetail.setProcessed(false);
-		}
-		costDetail.saveEx();
+        // set the id for model
+        final String idColumnName = CostEngine.getIDColumnName(model);
+        costDetail.set_ValueOfColumn(idColumnName,
+                CostEngine.getIDColumn(model));
+
+        if (model instanceof MInOutLine)
+        {
+            MInOutLine ioLine =  (MInOutLine) model;
+            costDetail.setC_OrderLine_ID(ioLine.getC_OrderLine_ID());
+            // IMPORTANT : reset possible provision purchase cost processed
+            costDetail.setC_InvoiceLine_ID(0);
+        }
+
+        if (model instanceof MMatchInv && costDetail.getM_InOutLine_ID() == 0)
+        {
+            MMatchInv iMatch =  (MMatchInv) model;
+            costDetail.setM_InOutLine_ID(iMatch.getM_InOutLine_ID());
+        }
+        if(model instanceof MMatchPO && costDetail.getM_InOutLine_ID() == 0)
+        {
+            MMatchPO poMatch =  (MMatchPO) model;
+            costDetail.setM_InOutLine_ID(poMatch.getM_InOutLine_ID());
+        }
+        if (model instanceof MLandedCostAllocation) {
+            MLandedCostAllocation allocation = (MLandedCostAllocation) model;
+            costDetail.setM_InOutLine_ID(allocation.getM_InOutLine_ID());
+            costDetail.setC_InvoiceLine_ID(allocation.getC_InvoiceLine_ID());
+            costDetail.setProcessed(false);
+        }
+        costDetail.saveEx();
 	}
 
     /**
@@ -688,7 +703,6 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 							quantity.negate(), costElement.getName() , // Description,
 							costCollector.get_TrxName(), costType.getM_CostType_ID());
 					costDetail.setPP_Cost_Collector_ID(costCollector.getPP_Cost_Collector_ID());
-					// setCostingMethod(ct.getCostingMethod());
 					costDetail.setDateAcct(costCollector.getDateAcct());
 					costDetail.saveEx();
 					processCostDetail(costDetail);
