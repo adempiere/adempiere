@@ -57,6 +57,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.InputMap;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -241,7 +242,7 @@ public final class Find extends CDialog
 	private ConfirmPanel confirmPanelA = new ConfirmPanel(true, true, false, false, false, false, true);
 	private CButton bIgnore = new CButton();
 	private JToolBar toolBar = new JToolBar();
-	private CComboBox fQueryName = new CComboBox();
+	private JComboBox fQueryName = new JComboBox();
 	private CButton bSave = new CButton();
 	private CButton bNew = new CButton();
 	private CButton bDelete = new CButton();
@@ -1440,7 +1441,8 @@ public final class Find extends CDialog
 	{
 		String value = m_sLast; 
 		if (fQueryName.getItemCount()>0){ // The list is initialized
-			value = fQueryName.getValue().toString();
+//			value = fQueryName.getValue().toString();
+			value = (String) fQueryName.getSelectedItem();
 		}
 		userQueries = MUserQuery.get(Env.getCtx(), m_AD_Tab_ID);
 		fQueryName.removeAllItems();
