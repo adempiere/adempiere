@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Remove View Product Costing" ReleaseNo="3.8.0" SeqNo="60">
+  <Migration EntityType="D" Name="Remove View Product Costing" ReleaseNo="3.8.0" SeqNo="40">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="284" Action="U" Record_ID="53036" Table="AD_Process">
         <Data AD_Column_ID="3371" Column="IsReport" oldValue="true">false</Data>

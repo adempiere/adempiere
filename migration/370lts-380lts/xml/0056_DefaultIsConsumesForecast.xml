@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Change Default Is Consumes Forecast" ReleaseNo="3.8.0" SeqNo="56">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="64175" Table="AD_Column">
+        <Data AD_Column_ID="117" Column="DefaultValue" oldValue="Y">N</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

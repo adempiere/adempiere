@@ -4900,7 +4900,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
       </PO>
     </Step>
-    <Step DBType="ALL" SeqNo="1600" StepType="SQL">
+    <Step DBType="ALL" Parse="Y" SeqNo="1600" StepType="SQL">
       <SQLStatement>UPDATE GL_JournalLine SET Account_ID = (SELECT Account_ID FROM C_ValidCombination vc WHERE vc.C_ValidCombination_ID = GL_JournalLine.C_ValidCombination_ID);
 UPDATE GL_JournalLine SET C_BPartner_ID = (SELECT C_BPartner_ID FROM C_ValidCombination vc WHERE vc.C_ValidCombination_ID = GL_JournalLine.C_ValidCombination_ID);
 UPDATE GL_JournalLine SET AD_OrgTrx_ID = (SELECT AD_OrgTrx_ID FROM C_ValidCombination vc WHERE vc.C_ValidCombination_ID = GL_JournalLine.C_ValidCombination_ID);

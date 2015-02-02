@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
   <Migration EntityType="D" Name="Cost Transaction Detail" ReleaseNo="3.8.0" SeqNo="21">
-    <Step DBType="ALL" SeqNo="1" StepType="SQL">
+    <Step DBType="ALL" Parse="Y" SeqNo="1" StepType="SQL">
       <SQLStatement>DROP VIEW RV_M_Transaction_Costing;
 DROP VIEW RV_TRANSACTION;
 
@@ -105,7 +105,7 @@ FROM M_Transaction t
 
 </RollbackStatement>
     </Step>
-    <Step DBType="ALL" SeqNo="2" StepType="SQL">
+    <Step DBType="ALL" Parse="Y" SeqNo="2" StepType="SQL">
       <SQLStatement>CREATE OR REPLACE VIEW RV_M_Transaction_Costing AS
  SELECT
  t.M_Transaction_ID,
