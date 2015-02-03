@@ -158,6 +158,7 @@ public final class Find extends CDialog
 		m_findFields = findFields;
 		m_sLast = "** ".concat(Msg.getMsg(Env.getCtx(), "Last Query")).concat(" **");
 		m_sNew = "** ".concat(Msg.getMsg(Env.getCtx(), "New Query")).concat(" **");
+		m_sTipText = "<".concat(Msg.getMsg(Env.getCtx(),"SelectOrEnterQueryName")).concat(">");
 		//
 		m_query = new MQuery (tableName);
 		m_query.addRestriction(Env.parseContext(Env.getCtx(), m_targetWindowNo, whereExtended, false));
@@ -230,6 +231,7 @@ public final class Find extends CDialog
 	/** Search messages using translation */
 	private String				m_sLast;
 	private String				m_sNew;
+	private String				m_sTipText;
 	
 	
 	//
@@ -372,7 +374,7 @@ public final class Find extends CDialog
 		bIgnore.setMargin(new Insets(2, 2, 2, 2));
 		bIgnore.setToolTipText(Msg.getMsg(Env.getCtx(),"Ignore"));
 		bIgnore.addActionListener(this);
-		fQueryName.setToolTipText (Msg.getMsg(Env.getCtx(),"QueryName"));
+		fQueryName.setToolTipText (Msg.getMsg(Env.getCtx(),"SelectOrEnterQueryName"));
 		fQueryName.setEditable(true);
 		fQueryName.addActionListener(this);
 		bSave.setIcon(new ImageIcon(org.compiere.Adempiere.class.getResource("images/Save24.gif")));
@@ -932,17 +934,29 @@ public final class Find extends CDialog
 		}
 		else if (e.getSource() == fQueryName) 
 		{
+			// fQueryName has changed.
 			int index = fQueryName.getSelectedIndex();
-			if(index < 0) return;
-			if(index == 0) { // no query - wipe and start over.
+			if(index < 0) 
+			{
+				if (fQueryName.getSelectedItem() == null || fQueryName.getSelectedItem().equals(m_sTipText))
+				{
+					return;
+				}
+			}
+			else if(index == 0) 
+			{ // no query - wipe and start over.
 				advancedTable.stopEditor(false);
 				DefaultTableModel model = (DefaultTableModel)advancedTable.getModel();
 				int cnt = model.getRowCount();
 				if (cnt > 0){
 					for (int i = cnt - 1; i >=0; i--)
+					{
 						model.removeRow(i);
+					}
 					cmd_new();  // No row - create one.
 				}
+				fQueryName.setSelectedIndex(-1);
+				fQueryName.setSelectedItem(m_sTipText);
 				advancedTable.requestFocusInWindow();
 			}
 			else parseUserQuery(userQueries[index-1]);
@@ -1205,9 +1219,10 @@ public final class Find extends CDialog
 	private void cmd_ok_Advanced()
 	{
 		m_isCancel = false; // teo_sarca [ 1708717 ]
-		//	save pending
-		if (bSave.isEnabled())
-			cmd_save(false);
+		
+		//	Always save the query
+		cmd_save(true);
+		
 		if (getNoOfRecords(m_query, true) != 0)
 			dispose();
 	}	//	cmd_ok_Advanced
@@ -1231,6 +1246,7 @@ public final class Find extends CDialog
 	private void cmd_ignore()
 	{
 		log.info("");
+		refreshUserQueries();
 	}	//	cmd_ignore
 
 	/**
@@ -1372,16 +1388,23 @@ public final class Find extends CDialog
 				
 			}
 		}
+		
+		
+		//  Save the query
+		//  Every query is saved automatically as ** Last Query ** when run.
+		//  Queries run without a name will not be saved.
+
 		Object selected = fQueryName.getSelectedItem();
 		
 		if (selected != null) {
 			String name = selected.toString();
-			if ((fQueryName.getSelectedIndex() == 0 || name.equals(m_sLast) || Util.isEmpty(name, true)) && saveQuery){ // New query - needs a name
-
-				ADialog.warn(m_targetWindowNo, this, "FillMandatory", Msg.translate(Env.getCtx(), "Name"));
-				return;
+			
+			if (name.equals(m_sLast) || name.equals(m_sTipText) || Util.isEmpty(name, true )) 
+			{
+				// No name to save to.  Just run the query.
 			}
-			if (saveQuery){
+			else if (saveQuery)
+			{
 				MUserQuery uq = MUserQuery.get(Env.getCtx(), m_AD_Tab_ID, name);
 				if (code.length() > 0) { // New or updated
 					if (uq == null) // Create a new record
@@ -1394,7 +1417,9 @@ public final class Find extends CDialog
 					}			
 					uq.setCode (code.toString());  // Update the query code
 					
-				} else	if (code.length() <= 0){ // Delete the query
+				} 
+				else if (code.length() <= 0) // Delete the query
+				{
 					if (uq.delete(true))
 					{
 						ADialog.info (m_targetWindowNo, this, "Deleted", name);
@@ -1407,7 +1432,7 @@ public final class Find extends CDialog
 				//
 				if (uq.save())
 				{
-					ADialog.info (m_targetWindowNo, this, "Saved", name);
+					//ADialog.info (m_targetWindowNo, this, "Saved", name);
 					refreshUserQueries();
 				}
 				else
@@ -1459,7 +1484,11 @@ public final class Find extends CDialog
 			}
 		}
 
-		if(!selected) fQueryName.setSelectedIndex(0);
+		if(!selected) 
+		{
+			fQueryName.setSelectedIndex(-1);
+			fQueryName.setSelectedItem(m_sTipText);
+		}
 
 		
 	}
