@@ -327,7 +327,7 @@ public class ASearch implements ActionListener
 						if (vnp.getValue().equals(fields[j]))
 						{
 							operator = vnp.getValue();
-							continue;
+							break;
 						}
 					}
 				}
@@ -496,7 +496,7 @@ public class ASearch implements ActionListener
 				return new Timestamp(time);
 			}
 			else if (dt == DisplayType.YesNo)
-				return Boolean.valueOf(in);
+				return in.equals("Y");
 			else
 				return in;
 		}
