@@ -18,6 +18,7 @@ package org.eevolution.process;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MBPartner;
+import org.compiere.model.MBPartnerLocation;
 import org.compiere.model.MClient;
 import org.compiere.model.MInterestArea;
 import org.compiere.model.MMailText;
@@ -25,7 +26,6 @@ import org.compiere.model.MPInstance;
 import org.compiere.model.MPInstancePara;
 import org.compiere.model.MProcess;
 import org.compiere.model.Query;
-import org.compiere.model.X_C_BPartner_Location;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
@@ -90,7 +90,7 @@ public class PayrollViaEMail extends SvrProcess
 			String name = para[i].getParameterName();
 			if (para[i].getParameter() == null)
 			{
-				log.fine("Null paramater: " + name);
+				log.fine("Null parameter: " + name);
 			}
 			else if (name.equals("HR_Process_ID"))
 			{
@@ -130,25 +130,23 @@ public class PayrollViaEMail extends SvrProcess
 		//	Mail Test
 		m_MailText = new MMailText(getCtx(), m_R_MailText_ID, get_TrxName());
 		if (m_MailText.getR_MailText_ID() == 0)
-			throw new Exception("Not found @R_MailText_ID@=" + m_R_MailText_ID);
+			throw new Exception("@R_MailText_ID@=" + m_R_MailText_ID +  " @NotFound@ ");
 		//	Client Info
 		m_client = MClient.get(getCtx());
 		if (m_client.getAD_Client_ID() == 0)
-			throw new Exception("Not found @AD_Client_ID@");
+			throw new Exception(" @AD_Client_ID@  @NotFound@ ");
 		if (m_client.getSMTPHost() == null || m_client.getSMTPHost().length() == 0)
-			throw new Exception("No SMTP Host found");
+			throw new Exception("@SMTPHost@  @NotFound@ ");
 		//
 		long start = System.currentTimeMillis();
 		
 		m_from = new MBPartner(getCtx(), m_C_BPartner_ID, get_TrxName());
 		
 		if (m_from.getC_BPartner_ID() == 0)
-			throw new Exception("No found @C_BPartner_ID@=" + m_C_BPartner_ID);
+			throw new Exception(" @C_BPartner_ID@=" + m_C_BPartner_ID + " @NotFound@ ");
 		if (m_C_BPartner_ID > 0)
-		{
-				//MUser tmpUser = new MUser(getCtx(),m_AD_User_ID,get_TrxName());
 				sendIndividualMail (m_from.getName(), m_C_BPartner_ID, null);
-		}else
+		else
 			sendBPGroup();
 		log.fine("From " + m_from);
 			
@@ -225,11 +223,11 @@ public class PayrollViaEMail extends SvrProcess
 	/**
 	 * 	Send Individual Mail
 	 *	@param Name user name
-	 *	@param AD_User_ID user
+	 *	@param C_BPartner_ID user
 	 *	@param unsubscribe unsubscribe message
 	 *	@return true if mail has been sent
 	 */
-	private Boolean sendIndividualMail (String Name, int C_BPartner_ID,String unsubscribe)
+	private Boolean sendIndividualMail (String Name, int C_BPartner_ID , String unsubscribe)
 	{
 		//	Prevent two email
 		try
@@ -245,16 +243,20 @@ public class PayrollViaEMail extends SvrProcess
 			if (unsubscribe != null)
 				message += unsubscribe;
 			
-			String whereClause = X_C_BPartner_Location.COLUMNNAME_C_BPartner_ID + " = ? AND " +
-								 "ContactType=?";
+			StringBuffer whereClause = new StringBuffer();
+            whereClause.append(MBPartnerLocation.COLUMNNAME_C_BPartner_ID)
+                    .append(" = ? AND ")
+                    .append(MBPartnerLocation.COLUMNNAME_ContactType)
+                    .append("=?");
+
 			
-			X_C_BPartner_Location location = new Query(getCtx(), X_C_BPartner_Location.Table_Name, whereClause, get_TrxName())
+			MBPartnerLocation location = new Query(getCtx(), MBPartnerLocation.Table_Name, whereClause.toString() , get_TrxName())
 								.setOnlyActiveRecords(true)
-								.setParameters(C_BPartner_ID, "Primary")
+								.setParameters(C_BPartner_ID, MBPartnerLocation.CONTACTTYPE_Primary)
 								.first();
 			
 			if(location == null)
-				throw new AdempiereException("No existe la dirección de correo electronico");
+				throw new AdempiereException("@EMail@ @NotFound@");
 			
 			
 			
@@ -263,7 +265,7 @@ public class PayrollViaEMail extends SvrProcess
 
 			String smtp = client.getSMTPHost();
 			String from = client.getRequestEMail();
-			String to_email = location.get_ValueAsString("EMail");
+			String to_email = location.getEMail();
 
 			String userx = client.getRequestUser();
 			String password = client.getRequestUserPW();
