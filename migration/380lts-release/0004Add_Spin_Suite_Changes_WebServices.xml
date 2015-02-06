@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="ECA01" Name="Spin-Suite" ReleaseNo="3.8.0" SeqNo="52">
+  <Migration EntityType="ECA01" Name="Spin-Suite" ReleaseNo="3.8.0" SeqNo="51">
     <Comments>Changes in Web Services</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="276" Action="I" Record_ID="55945" Table="AD_Element">
