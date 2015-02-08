@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="ECA01" Name="Spin-Suite" ReleaseNo="3.8.0" SeqNo="52">
-    <Comments>Add Spin Suite Security</Comments>
+  <Migration EntityType="D" Name="Spin-Suite Contribution" ReleaseNo="3.8.0" SeqNo="52">
+    <Comments>Add Security</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="100" Action="I" Record_ID="53880" Table="AD_Table">
         <Data AD_Column_ID="354" Column="AccessLevel">6</Data>
@@ -12,7 +12,7 @@
         <Data AD_Column_ID="106" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="105" Column="AD_Window_ID">53342</Data>
         <Data AD_Column_ID="50183" Column="CopyColumnsFromTable" isNewNull="true"/>
-        <Data AD_Column_ID="544" Column="Created">2015-02-06 00:11:07.195</Data>
+        <Data AD_Column_ID="544" Column="Created">2015-02-07 17:31:47.791</Data>
         <Data AD_Column_ID="545" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="103" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="6488" Column="EntityType">ECA01</Data>
@@ -30,7 +30,7 @@
         <Data AD_Column_ID="9342" Column="PO_Window_ID" isNewNull="true"/>
         <Data AD_Column_ID="9341" Column="ReplicationType">L</Data>
         <Data AD_Column_ID="107" Column="TableName">SPS_Window_Access</Data>
-        <Data AD_Column_ID="546" Column="Updated">2015-02-06 00:11:07.195</Data>
+        <Data AD_Column_ID="546" Column="Updated">2015-02-07 17:31:47.791</Data>
         <Data AD_Column_ID="547" Column="UpdatedBy">100</Data>
       </PO>
     </Step>
@@ -52,12 +52,12 @@
         <Data AD_Column_ID="117" Column="DefaultValue">@#AD_Client_ID@</Data>
         <Data AD_Column_ID="116" Column="ColumnName">AD_Client_ID</Data>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
-        <Data AD_Column_ID="549" Column="Created">2015-02-06 00:11:07.665</Data>
+        <Data AD_Column_ID="549" Column="Created">2015-02-07 17:31:48.528</Data>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID">129</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
         <Data AD_Column_ID="113" Column="Help">A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.</Data>
-        <Data AD_Column_ID="551" Column="Updated">2015-02-06 00:11:07.665</Data>
+        <Data AD_Column_ID="551" Column="Updated">2015-02-07 17:31:48.528</Data>
         <Data AD_Column_ID="118" Column="FieldLength">22</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
@@ -74,8 +74,8 @@
         <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
-        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
         <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
         <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
         <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
@@ -102,12 +102,12 @@
         <Data AD_Column_ID="117" Column="DefaultValue">@#AD_Org_ID@</Data>
         <Data AD_Column_ID="116" Column="ColumnName">AD_Org_ID</Data>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
-        <Data AD_Column_ID="549" Column="Created">2015-02-06 00:11:08.323</Data>
+        <Data AD_Column_ID="549" Column="Created">2015-02-07 17:31:49.363</Data>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID">104</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
         <Data AD_Column_ID="113" Column="Help">An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.</Data>
-        <Data AD_Column_ID="551" Column="Updated">2015-02-06 00:11:08.323</Data>
+        <Data AD_Column_ID="551" Column="Updated">2015-02-07 17:31:49.363</Data>
         <Data AD_Column_ID="118" Column="FieldLength">22</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
@@ -124,8 +124,8 @@
         <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
-        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
         <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
         <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
         <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
@@ -152,7 +152,7 @@
         <Data AD_Column_ID="117" Column="DefaultValue">Y</Data>
         <Data AD_Column_ID="116" Column="ColumnName">IsActive</Data>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
-        <Data AD_Column_ID="549" Column="Created">2015-02-06 00:11:09.377</Data>
+        <Data AD_Column_ID="549" Column="Created">2015-02-07 17:31:50.283</Data>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
@@ -160,7 +160,7 @@
 There are two reasons for de-activating and not deleting records:
 (1) The system requires the record for audit purposes.
 (2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.</Data>
-        <Data AD_Column_ID="551" Column="Updated">2015-02-06 00:11:09.377</Data>
+        <Data AD_Column_ID="551" Column="Updated">2015-02-07 17:31:50.283</Data>
         <Data AD_Column_ID="118" Column="FieldLength">1</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">20</Data>
@@ -177,8 +177,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
-        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
         <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
         <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
         <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
@@ -205,12 +205,12 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="116" Column="ColumnName">Created</Data>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
-        <Data AD_Column_ID="549" Column="Created">2015-02-06 00:11:10.211</Data>
+        <Data AD_Column_ID="549" Column="Created">2015-02-07 17:31:51.332</Data>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
         <Data AD_Column_ID="113" Column="Help">The Created field indicates the date that this record was created.</Data>
-        <Data AD_Column_ID="551" Column="Updated">2015-02-06 00:11:10.211</Data>
+        <Data AD_Column_ID="551" Column="Updated">2015-02-07 17:31:51.332</Data>
         <Data AD_Column_ID="118" Column="FieldLength">7</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">16</Data>
@@ -227,8 +227,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
-        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
         <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
         <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
         <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
@@ -255,12 +255,12 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="116" Column="ColumnName">Updated</Data>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
-        <Data AD_Column_ID="549" Column="Created">2015-02-06 00:11:10.952</Data>
+        <Data AD_Column_ID="549" Column="Created">2015-02-07 17:31:52.485</Data>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
         <Data AD_Column_ID="113" Column="Help">The Updated field indicates the date that this record was updated.</Data>
-        <Data AD_Column_ID="551" Column="Updated">2015-02-06 00:11:10.952</Data>
+        <Data AD_Column_ID="551" Column="Updated">2015-02-07 17:31:52.486</Data>
         <Data AD_Column_ID="118" Column="FieldLength">7</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">16</Data>
@@ -277,8 +277,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
-        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
         <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
         <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
         <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
@@ -305,12 +305,12 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="116" Column="ColumnName">CreatedBy</Data>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
-        <Data AD_Column_ID="549" Column="Created">2015-02-06 00:11:11.559</Data>
+        <Data AD_Column_ID="549" Column="Created">2015-02-07 17:31:53.463</Data>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
         <Data AD_Column_ID="113" Column="Help">The Created By field indicates the user who created this record.</Data>
-        <Data AD_Column_ID="551" Column="Updated">2015-02-06 00:11:11.559</Data>
+        <Data AD_Column_ID="551" Column="Updated">2015-02-07 17:31:53.463</Data>
         <Data AD_Column_ID="118" Column="FieldLength">22</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
@@ -327,8 +327,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
-        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
         <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
         <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
         <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
@@ -355,12 +355,12 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="116" Column="ColumnName">UpdatedBy</Data>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
-        <Data AD_Column_ID="549" Column="Created">2015-02-06 00:11:12.163</Data>
+        <Data AD_Column_ID="549" Column="Created">2015-02-07 17:31:54.309</Data>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
         <Data AD_Column_ID="113" Column="Help">The Updated By field indicates the user who updated this record.</Data>
-        <Data AD_Column_ID="551" Column="Updated">2015-02-06 00:11:12.163</Data>
+        <Data AD_Column_ID="551" Column="Updated">2015-02-07 17:31:54.309</Data>
         <Data AD_Column_ID="118" Column="FieldLength">22</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
@@ -377,8 +377,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
-        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
         <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
         <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
         <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
@@ -405,12 +405,12 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="116" Column="ColumnName">AD_Role_ID</Data>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
-        <Data AD_Column_ID="549" Column="Created">2015-02-06 00:11:12.971</Data>
+        <Data AD_Column_ID="549" Column="Created">2015-02-07 17:31:55.373</Data>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="120" Column="IsParent">true</Data>
         <Data AD_Column_ID="113" Column="Help">The Role determines security and access a user who has this Role will have in the System.</Data>
-        <Data AD_Column_ID="551" Column="Updated">2015-02-06 00:11:12.971</Data>
+        <Data AD_Column_ID="551" Column="Updated">2015-02-07 17:31:55.373</Data>
         <Data AD_Column_ID="118" Column="FieldLength">22</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
@@ -427,8 +427,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
-        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
         <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
         <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
         <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
@@ -467,12 +467,12 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="116" Column="ColumnName">SPS_Window_ID</Data>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
-        <Data AD_Column_ID="549" Column="Created">2015-02-06 00:11:14.155</Data>
+        <Data AD_Column_ID="549" Column="Created">2015-02-07 17:31:57.158</Data>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="120" Column="IsParent">true</Data>
         <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
-        <Data AD_Column_ID="551" Column="Updated">2015-02-06 00:11:14.155</Data>
+        <Data AD_Column_ID="551" Column="Updated">2015-02-07 17:31:57.158</Data>
         <Data AD_Column_ID="118" Column="FieldLength">10</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
@@ -489,8 +489,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
-        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
         <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
         <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
         <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
@@ -517,12 +517,12 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="116" Column="ColumnName">IsReadWrite</Data>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
-        <Data AD_Column_ID="549" Column="Created">2015-02-06 00:11:15.011</Data>
+        <Data AD_Column_ID="549" Column="Created">2015-02-07 17:31:58.315</Data>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
         <Data AD_Column_ID="113" Column="Help">The Read Write indicates that this field may be read and updated.</Data>
-        <Data AD_Column_ID="551" Column="Updated">2015-02-06 00:11:15.011</Data>
+        <Data AD_Column_ID="551" Column="Updated">2015-02-07 17:31:58.315</Data>
         <Data AD_Column_ID="118" Column="FieldLength">1</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">20</Data>
@@ -539,8 +539,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
-        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
         <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
         <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
         <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
@@ -562,7 +562,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="251" Column="AD_Table_ID">53880</Data>
         <Data AD_Column_ID="164" Column="AD_Window_ID">111</Data>
         <Data AD_Column_ID="2744" Column="CommitWarning" isNewNull="true"/>
-        <Data AD_Column_ID="574" Column="Created">2015-02-06 00:11:15.699</Data>
+        <Data AD_Column_ID="574" Column="Created">2015-02-07 17:31:59.228</Data>
         <Data AD_Column_ID="575" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="162" Column="Description">Mobile Window Access</Data>
         <Data AD_Column_ID="13450" Column="DisplayLogic" isNewNull="true"/>
@@ -586,7 +586,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="13449" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="165" Column="SeqNo">110</Data>
         <Data AD_Column_ID="6654" Column="TabLevel">1</Data>
-        <Data AD_Column_ID="576" Column="Updated">2015-02-06 00:11:15.699</Data>
+        <Data AD_Column_ID="576" Column="Updated">2015-02-07 17:31:59.229</Data>
         <Data AD_Column_ID="577" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="2741" Column="WhereClause" isNewNull="true"/>
       </PO>
@@ -602,7 +602,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="172" Column="AD_Tab_ID">54005</Data>
         <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
-        <Data AD_Column_ID="579" Column="Created">2015-02-06 00:11:16.272</Data>
+        <Data AD_Column_ID="579" Column="Created">2015-02-07 17:31:59.784</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="169" Column="Description">Client/Tenant for this installation.</Data>
@@ -630,7 +630,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="181" Column="SeqNo">10</Data>
         <Data AD_Column_ID="62479" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="182" Column="SortNo">0</Data>
-        <Data AD_Column_ID="581" Column="Updated">2015-02-06 00:11:16.274</Data>
+        <Data AD_Column_ID="581" Column="Updated">2015-02-07 17:31:59.784</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
       </PO>
     </Step>
@@ -645,7 +645,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="172" Column="AD_Tab_ID">54005</Data>
         <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
-        <Data AD_Column_ID="579" Column="Created">2015-02-06 00:11:16.977</Data>
+        <Data AD_Column_ID="579" Column="Created">2015-02-07 17:32:00.54</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="169" Column="Description">Organizational entity within client</Data>
@@ -673,7 +673,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="181" Column="SeqNo">20</Data>
         <Data AD_Column_ID="62479" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="182" Column="SortNo">0</Data>
-        <Data AD_Column_ID="581" Column="Updated">2015-02-06 00:11:16.978</Data>
+        <Data AD_Column_ID="581" Column="Updated">2015-02-07 17:32:00.541</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
       </PO>
     </Step>
@@ -688,7 +688,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="172" Column="AD_Tab_ID">54005</Data>
         <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
-        <Data AD_Column_ID="579" Column="Created">2015-02-06 00:11:17.551</Data>
+        <Data AD_Column_ID="579" Column="Created">2015-02-07 17:32:01.401</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="169" Column="Description">Responsibility Role</Data>
@@ -716,7 +716,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="181" Column="SeqNo">30</Data>
         <Data AD_Column_ID="62479" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="182" Column="SortNo">0</Data>
-        <Data AD_Column_ID="581" Column="Updated">2015-02-06 00:11:17.552</Data>
+        <Data AD_Column_ID="581" Column="Updated">2015-02-07 17:32:01.402</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
       </PO>
     </Step>
@@ -731,7 +731,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="172" Column="AD_Tab_ID">54005</Data>
         <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
-        <Data AD_Column_ID="579" Column="Created">2015-02-06 00:11:18.142</Data>
+        <Data AD_Column_ID="579" Column="Created">2015-02-07 17:32:02.141</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="169" Column="Description" isNewNull="true"/>
@@ -759,7 +759,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="181" Column="SeqNo">40</Data>
         <Data AD_Column_ID="62479" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="182" Column="SortNo">0</Data>
-        <Data AD_Column_ID="581" Column="Updated">2015-02-06 00:11:18.143</Data>
+        <Data AD_Column_ID="581" Column="Updated">2015-02-07 17:32:02.142</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
       </PO>
     </Step>
@@ -774,7 +774,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="172" Column="AD_Tab_ID">54005</Data>
         <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
-        <Data AD_Column_ID="579" Column="Created">2015-02-06 00:11:18.995</Data>
+        <Data AD_Column_ID="579" Column="Created">2015-02-07 17:32:03.049</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="169" Column="Description">The record is active in the system</Data>
@@ -805,7 +805,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="181" Column="SeqNo">50</Data>
         <Data AD_Column_ID="62479" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="182" Column="SortNo">0</Data>
-        <Data AD_Column_ID="581" Column="Updated">2015-02-06 00:11:18.995</Data>
+        <Data AD_Column_ID="581" Column="Updated">2015-02-07 17:32:03.05</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
       </PO>
     </Step>
@@ -820,7 +820,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="172" Column="AD_Tab_ID">54005</Data>
         <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
-        <Data AD_Column_ID="579" Column="Created">2015-02-06 00:11:19.586</Data>
+        <Data AD_Column_ID="579" Column="Created">2015-02-07 17:32:04.531</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="169" Column="Description">Field is read / write</Data>
@@ -848,7 +848,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="181" Column="SeqNo">60</Data>
         <Data AD_Column_ID="62479" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="182" Column="SortNo">0</Data>
-        <Data AD_Column_ID="581" Column="Updated">2015-02-06 00:11:19.586</Data>
+        <Data AD_Column_ID="581" Column="Updated">2015-02-07 17:32:04.532</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
       </PO>
     </Step>
