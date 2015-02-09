@@ -32,6 +32,7 @@ import java.util.logging.Level;
 import org.adempiere.model.MBrowse;
 import org.adempiere.webui.WArchive;
 import org.adempiere.webui.WRequest;
+import org.adempiere.webui.WSearch;
 import org.adempiere.webui.WZoomAcross;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.apps.ProcessModalDialog;
@@ -1493,7 +1494,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     public void onFind()
     {
     	GridTab currentTab = toolbar.getCurrentPanel().getGridTab();
-        if (currentTab == null)
+
+    	if (currentTab == null)
             return;
         
         if (!onSave(false))
@@ -1501,26 +1503,28 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
         //  Gets Fields from AD_Field_v
         GridField[] findFields = GridField.createFields(ctx, currentTab.getWindowNo(), 0,currentTab.getAD_Tab_ID());
-        FindWindow find = new FindWindow (currentTab.getWindowNo(), currentTab.getName(),
-                currentTab.getAD_Table_ID(), currentTab.getTableName(),
-                currentTab.getWhereExtended(), findFields, 1, currentTab.getAD_Tab_ID());
+//        FindWindow find = new FindWindow (currentTab.getWindowNo(), currentTab.getName(),
+//                currentTab.getAD_Table_ID(), currentTab.getTableName(),
+//                currentTab.getWhereExtended(), findFields, 1, currentTab.getAD_Tab_ID());
+        //  Open a popup or the search window
+        WSearch find = new WSearch (this, toolbar.getEvent().getTarget(), currentTab, findFields);
+    }
 
-        if (!find.isCancel())
+    public void onFindCallback(MQuery query)
+    {
+        //  Confirmed query
+        if (query != null)
         {
-	        MQuery query = find.getQuery();
-
-	        //  Confirmed query
-	        if (query != null)
-	        {
-	            m_onlyCurrentRows = false;          //  search history too
-                currentTab.setQuery(query);
-	            curTabPanel.query(m_onlyCurrentRows, m_onlyCurrentDays, MRole.getDefault().getMaxQueryRecords());   //  autoSize
-	        }
-
+        	GridTab currentTab = toolbar.getCurrentPanel().getGridTab();
+        	m_onlyCurrentRows = false;          //  search history too
+            currentTab.setQuery(query);
+            curTabPanel.query(m_onlyCurrentRows, m_onlyCurrentDays, MRole.getDefault().getMaxQueryRecords());   //  autoSize
             currentTab.dataRefresh(false); // Elaine 2008/07/25
-	        onRefresh();
+            onRefresh();
+
+            focusToActivePanel();
         }
-        focusToActivePanel();
+
     }
 
     /**
