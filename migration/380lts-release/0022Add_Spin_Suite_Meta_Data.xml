@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Spin-Suite-Contribution" ReleaseNo="3.8.0" SeqNo="56">
+  <Migration EntityType="D" Name="Spin-Suite-Contribution" ReleaseNo="3.8.0" SeqNo="72">
     <Comments>Meta-Data - 3</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="53499" Action="I" Record_ID="51346" Table="SPS_Column">

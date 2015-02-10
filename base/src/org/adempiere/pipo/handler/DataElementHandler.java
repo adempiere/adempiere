@@ -106,8 +106,8 @@ public class DataElementHandler extends AbstractElementHandler {
 			String d_rowname = atts.getValue("name");
 				   	    
 			// name can be null if there are keyXname attributes.
-			if (d_rowname != null && !d_rowname.equals("")){
-				int id = get_ID(ctx, d_tablename, d_rowname);
+			if (d_rowname == null || d_rowname.equals("")){
+				int id = 0;//get_ID(ctx, d_tablename, d_rowname);
 				genericPO = table.getPO(id, getTrxName(ctx));
 				if (id > 0){
 					if (genericPO == null || genericPO.get_ID() != id)
@@ -195,7 +195,8 @@ public class DataElementHandler extends AbstractElementHandler {
 			if (getClientId(ctx) > 0 && genericPO.getAD_Client_ID() != getClientId(ctx))
 				genericPO.set_ValueOfColumn("AD_Client_ID", getClientId(ctx));
 			// if new. TODO: no defaults for keyXname.
-			if (d_rowname != null && !d_rowname.equals("") && ((Integer)(genericPO.get_Value(d_tablename+"_ID"))).intValue() == 0) {
+			//if (d_rowname != null && !d_rowname.equals("") && ((Integer)(genericPO.get_Value(d_tablename+"_ID"))).intValue() == 0) 
+			{
 				log.info("new genericPO, table: "+d_tablename+" name:"+d_rowname);
 				genericPO.set_ValueOfColumn("Name", d_rowname);
 				// Set defaults.

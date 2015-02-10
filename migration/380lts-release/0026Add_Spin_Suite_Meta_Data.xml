@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Spin-Suite-Contribution" ReleaseNo="3.8.0" SeqNo="60">
+  <Migration EntityType="D" Name="Spin-Suite-Contribution" ReleaseNo="3.8.0" SeqNo="76">
     <Comments>Meta-Data - 7</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="53164" Action="I" Record_ID="50293" Table="WS_WebServiceType">
