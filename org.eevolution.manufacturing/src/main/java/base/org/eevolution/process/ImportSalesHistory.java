@@ -15,6 +15,7 @@
  *****************************************************************************/
 package org.eevolution.process;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -100,86 +101,89 @@ public class ImportSalesHistory extends SvrProcess {
 	/**
 	 * import records using I_SalesHistory table
 	 */
-	private void importRecords() {
-		for (X_I_SalesHistory ish : getRecords(false, m_IsImportOnlyNoErrors)) {
+	private void importRecords() throws SQLException {
+		for (X_I_SalesHistory salesHistoryImport : getRecords(false, m_IsImportOnlyNoErrors)) {
 			isImported = false;
-			MSalesHistory sh = importMSalesHistory(ish);
-			if (sh == null)
+			MSalesHistory salesHistory = importMSalesHistory(salesHistoryImport);
+			if (salesHistory == null)
 				isImported = false;
 
 			if (isImported) {
-				ish.setC_SalesHistory_ID(sh.getC_SalesHistory_ID());
-				ish.setI_IsImported(true);
-				ish.setProcessed(true);
-				ish.setI_ErrorMsg("");
-				ish.saveEx();
+				salesHistoryImport.setC_SalesHistory_ID(salesHistory.getC_SalesHistory_ID());
+				salesHistoryImport.setI_IsImported(true);
+				salesHistoryImport.setProcessed(true);
+				salesHistoryImport.setI_ErrorMsg("");
+				salesHistoryImport.saveEx();
 				imported++;
-				ish.saveEx();
+				salesHistoryImport.saveEx();
 			} else {
-				ish.setI_IsImported(false);
-				ish.setProcessed(true);
-				ish.saveEx();
+				salesHistoryImport.setI_IsImported(false);
+				salesHistoryImport.setProcessed(true);
+				salesHistoryImport.saveEx();
 				notimported++;
 			}
+            commitEx();
 		}
 	}
 
 	/**
 	 * Import Sales History using X_I_SalesHistory table
 	 * 
-	 * @param I_SalesHistoy
+	 * @param salesHistoryImporth
 	 *            X_I_SalesHistory
 	 * @return MSalesHistory Sales History
 	 */
-	private MSalesHistory importMSalesHistory(X_I_SalesHistory ish) {
+	private MSalesHistory importMSalesHistory(X_I_SalesHistory salesHistoryImporth) throws SQLException {
 		final String whereClause = I_C_SalesHistory.COLUMNNAME_C_SalesHistory_ID
 				+ "= ? ";
 
-		MSalesHistory sh = new Query(Env.getCtx(), I_C_SalesHistory.Table_Name,
+		MSalesHistory salesHistory = new Query(Env.getCtx(), I_C_SalesHistory.Table_Name,
 				whereClause, get_TrxName()).setClient_ID()
-				.setParameters(ish.getC_SalesHistory_ID()).first();
+				.setParameters(salesHistoryImporth.getC_SalesHistory_ID()).first();
 
-		if (sh == null) {
-			sh = new MSalesHistory(Env.getCtx(), 0, get_TrxName());
-			sh.setAD_Org_ID(ish.getAD_Org_ID());
-			sh.setM_Product_ID(ish.getM_Product_ID());
-			sh.setC_BPartner_ID(ish.getC_BPartner_ID());
-			sh.setM_Warehouse_ID(ish.getM_Warehouse_ID());
+		if (salesHistory == null) {
+			salesHistory = new MSalesHistory(Env.getCtx(), 0, get_TrxName());
+			salesHistory.setAD_Org_ID(salesHistoryImporth.getAD_Org_ID());
+			salesHistory.setM_Product_ID(salesHistoryImporth.getM_Product_ID());
+			salesHistory.setC_BPartner_ID(salesHistoryImporth.getC_BPartner_ID());
+			salesHistory.setM_Warehouse_ID(salesHistoryImporth.getM_Warehouse_ID());
 		}
 
-		sh.setC_BPartner_Location_ID(ish.getC_BPartner_Location_ID());
-		sh.setC_BP_Group_ID(ish.getC_BP_Group_ID());
-		sh.setSalesRep_ID(ish.getSalesRep_ID());
-		sh.setM_Product_Category_ID(ish.getM_Product_Category_ID());
-		sh.setM_Product_Class_ID(ish.getM_Product_Class_ID());
-		sh.setM_Product_Classification_ID(ish.getM_Product_Classification_ID());
-		sh.setM_Product_Group_ID(ish.getM_Product_Group_ID());
-		sh.setDateInvoiced(ish.getDateInvoiced());
-		sh.setQty(ish.getQty());
-		sh.setTotalInvQty(ish.getTotalInvQty());
-		sh.setCostAmt(ish.getCostAmt());
-		sh.setTotalInvCost(ish.getTotalInvCost());
-		sh.setPriceInvoiced(ish.getPriceInvoiced());
-		sh.setDocumentNo(ish.getDocumentNo());
-		sh.setTotalInvAmt(ish.getTotalInvAmt());
+		salesHistory.setC_BPartner_Location_ID(salesHistoryImporth.getC_BPartner_Location_ID());
+		salesHistory.setC_BP_Group_ID(salesHistoryImporth.getC_BP_Group_ID());
+		salesHistory.setSalesRep_ID(salesHistoryImporth.getSalesRep_ID());
+		salesHistory.setM_Product_Category_ID(salesHistoryImporth.getM_Product_Category_ID());
+		salesHistory.setM_Product_Class_ID(salesHistoryImporth.getM_Product_Class_ID());
+		salesHistory.setM_Product_Classification_ID(salesHistoryImporth.getM_Product_Classification_ID());
+		salesHistory.setM_Product_Group_ID(salesHistoryImporth.getM_Product_Group_ID());
+		salesHistory.setDateInvoiced(salesHistoryImporth.getDateInvoiced());
+		salesHistory.setQty(salesHistoryImporth.getQty());
+		salesHistory.setTotalInvQty(salesHistoryImporth.getTotalInvQty());
+		salesHistory.setCostAmt(salesHistoryImporth.getCostAmt());
+		salesHistory.setTotalInvCost(salesHistoryImporth.getTotalInvCost());
+		salesHistory.setPriceInvoiced(salesHistoryImporth.getPriceInvoiced());
+		salesHistory.setDocumentNo(salesHistoryImporth.getDocumentNo());
+		salesHistory.setTotalInvAmt(salesHistoryImporth.getTotalInvAmt());
 
-		sh.setC_Project_ID(ish.getC_Project_ID());
-		sh.setC_ProjectPhase_ID(ish.getC_ProjectPhase_ID());
-		sh.setC_ProjectTask_ID(ish.getC_ProjectTask_ID());
-		sh.setC_Campaign_ID(ish.getC_Campaign_ID());
-		sh.setC_Activity_ID(ish.getC_Activity_ID());
-		sh.setUser1_ID(ish.getUser1_ID());
-		sh.setUser2_ID(ish.getUser2_ID());
-		sh.saveEx();
-		isImported = true;
+		salesHistory.setC_Project_ID(salesHistoryImporth.getC_Project_ID());
+		salesHistory.setC_ProjectPhase_ID(salesHistoryImporth.getC_ProjectPhase_ID());
+		salesHistory.setC_ProjectTask_ID(salesHistoryImporth.getC_ProjectTask_ID());
+		salesHistory.setC_Campaign_ID(salesHistoryImporth.getC_Campaign_ID());
+		salesHistory.setC_Activity_ID(salesHistoryImporth.getC_Activity_ID());
+		salesHistory.setUser1_ID(salesHistoryImporth.getUser1_ID());
+		salesHistory.setUser2_ID(salesHistoryImporth.getUser2_ID());
+		salesHistory.saveEx();
 
-		return sh;
+
+        isImported = true;
+
+		return salesHistory;
 	}
 
 	/**
 	 * fill IDs values based on Search Key
 	 */
-	private void fillIDValues() {
+	private void fillIDValues() throws SQLException {
 		for (X_I_SalesHistory ish : getRecords(false, m_IsImportOnlyNoErrors)) {
 			// Organization
 			int AD_Org_ID = 0;
@@ -385,6 +389,7 @@ public class ImportSalesHistory extends SvrProcess {
 				ish.setI_ErrorMsg(Msg.parseTranslation(getCtx(), err.toString()));
 				ish.saveEx();
 			}
+            commitEx();
 		}
 	}
 
