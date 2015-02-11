@@ -500,7 +500,7 @@ public abstract class Browser {
 					.append(fieldKey.getAD_View_Column().getAD_Column()
 							.getColumnName()).append("=")
 					.append(fieldKey.getAD_View_Column().getColumnSQL())
-					.append(getAxisSQLWhere(pcol, true))
+					.append(getAxisSQLWhere(ycol))
 					.append(" AND ")
 					.append(xTableName).append(".")
 					.append(xcol.getAD_Column().getColumnName());
@@ -642,7 +642,7 @@ public abstract class Browser {
 	 
 	 abstract public String  getSQLWhere(boolean refresh);
 	 
-	 public String getAxisSQLWhere(I_AD_View_Column viewColumn, boolean refresh)
+	 public String getAxisSQLWhere(I_AD_View_Column viewColumn)
 	 {
 		 MViewDefinition viewDefinition = (MViewDefinition) viewColumn.getAD_View_Definition();
 		 MTable tableBaseName = (MTable) viewDefinition.getAD_Table();
@@ -651,12 +651,13 @@ public abstract class Browser {
 		 setParameters();
 		 
 			for (int i = 0; i < m_parameters_field.size(); i++) {
-				
-				if (!m_parameters_field.get(i).Help.contains(viewDefinition.getTableAlias() + "."))
-					continue;
-				
-				String fieldName = m_parameters_field.get(i).Help.replace(viewDefinition.getTableAlias() + "." ,tableBaseName.getTableName() + ".");
-				
+                String fieldName = "";
+                MColumn  column = tableBaseName.getColumn(m_parameters_field.get(i).ColumnName);
+                if (column != null)
+                    fieldName = tableBaseName.getTableName() + "." + column.getColumnName();
+                else
+                    continue;
+
 				if (!onRange) {
 
 					if (m_parameters_values.get(i) != null
