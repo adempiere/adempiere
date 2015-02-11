@@ -47,7 +47,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
@@ -75,9 +74,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
-import org.adempiere.webui.component.ListCell;
-import org.adempiere.webui.component.ListItem;
-import org.adempiere.webui.component.Listbox;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.ConfirmPanel;
@@ -111,7 +107,6 @@ import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.compiere.util.SecureEngine;
 import org.compiere.util.Util;
 import org.compiere.util.ValueNamePair;
 
