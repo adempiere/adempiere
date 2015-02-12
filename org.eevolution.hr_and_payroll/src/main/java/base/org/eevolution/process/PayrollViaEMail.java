@@ -49,8 +49,7 @@ import java.util.logging.Level;
 public class PayrollViaEMail extends SvrProcess
 {
 	/** What to send			*/
-	private int mailTextId = -1;
-	/**	Mail Text				*/
+	private int mailTextId = -1;	/**	Mail Text				*/
 	private MMailText mailText = null;
 
 	/**	From (sender)			*/
@@ -148,10 +147,12 @@ public class PayrollViaEMail extends SvrProcess
         StringBuffer whereClause = new StringBuffer();
 
         whereClause.append(I_C_BPartner.COLUMNNAME_IsActive).append("=? AND ")
-                   .append(I_C_BPartner.COLUMNNAME_IsEmployee).append("=? ");
+                   .append(I_C_BPartner.COLUMNNAME_IsEmployee).append("=? AND ")
+                   .append("EXISTS (SELECT 1 FROM HR_Movement m WHERE m.C_BPartner_ID=C_BPartner.C_BPartner_ID AND m.HR_Process_ID=?)");
 
         parameters.add(true);
         parameters.add(true);
+        parameters.add(payrollProcessId);
 
         if (bPartnerGroupId > 0) {
             whereClause.append(" AND ").append(I_C_BPartner.COLUMNNAME_C_BP_Group_ID).append("=? ");
@@ -199,7 +200,7 @@ public class PayrollViaEMail extends SvrProcess
             StringBuffer whereClause = new StringBuffer();
             whereClause.append(MBPartnerLocation.COLUMNNAME_C_BPartner_ID)
                     .append(" = ? AND ")
-                    .append("ContactType")
+                    .append(MBPartnerLocation.COLUMNNAME_ContactType)
                     .append("=?");
 
 
