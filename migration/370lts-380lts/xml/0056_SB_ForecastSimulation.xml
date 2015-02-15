@@ -5443,5 +5443,10 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="72125" Column="IsCollapsibleByDefault" oldValue="false">true</Data>
       </PO>
     </Step>
+    <Step SeqNo="2700" StepType="AD">
+      <PO AD_Table_ID="53396" Action="U" Record_ID="50007" Table="PP_ForecastRule">
+        <Data AD_Column_ID="63439" Column="CalculationClass" oldValue="BestForcastModel">BestForecastModel</Data>
+      </PO>
+    </Step>
   </Migration>
 </Migrations>

@@ -27,12 +27,12 @@ import net.sourceforge.openforecast.ForecastingModel;
 import net.sourceforge.openforecast.Observation;
 
 /**
- * DoubleExponentialSmoothing Implementation
+ * Best Forecast Model Model Implementation
  * 
  * @author victor.perez@e-evolution.com, www.e-Evolution.com
  * 
  */
-public class BestForcastModel implements ForecastRule {
+public class BestForecastModel implements ForecastRule {
 
 	private DataSet forecastData = null;
 	private org.eevolution.engine.forecast.DataSet forecastDataResult = null;
