@@ -253,6 +253,19 @@ public interface I_I_Product
 	  */
 	public String getHelp();
 
+    /** Column name ISO_Code */
+    public static final String COLUMNNAME_ISO_Code = "ISO_Code";
+
+	/** Set ISO Currency Code.
+	  * Three letter ISO 4217 Code of the Currency
+	  */
+	public void setISO_Code (String ISO_Code);
+
+	/** Get ISO Currency Code.
+	  * Three letter ISO 4217 Code of the Currency
+	  */
+	public String getISO_Code();
+
     /** Column name I_ErrorMsg */
     public static final String COLUMNNAME_I_ErrorMsg = "I_ErrorMsg";
 
@@ -317,19 +330,6 @@ public interface I_I_Product
 	  * The record is active in the system
 	  */
 	public boolean isActive();
-
-    /** Column name ISO_Code */
-    public static final String COLUMNNAME_ISO_Code = "ISO_Code";
-
-	/** Set ISO Currency Code.
-	  * Three letter ISO 4217 Code of the Currency
-	  */
-	public void setISO_Code (String ISO_Code);
-
-	/** Get ISO Currency Code.
-	  * Three letter ISO 4217 Code of the Currency
-	  */
-	public String getISO_Code();
 
     /** Column name M_Product_Category_ID */
     public static final String COLUMNNAME_M_Product_Category_ID = "M_Product_Category_ID";
@@ -619,6 +619,19 @@ public interface I_I_Product
 	  */
 	public BigDecimal getRoyaltyAmt();
 
+    /** Column name SKU */
+    public static final String COLUMNNAME_SKU = "SKU";
+
+	/** Set SKU.
+	  * Stock Keeping Unit
+	  */
+	public void setSKU (String SKU);
+
+	/** Get SKU.
+	  * Stock Keeping Unit
+	  */
+	public String getSKU();
+
     /** Column name ShelfDepth */
     public static final String COLUMNNAME_ShelfDepth = "ShelfDepth";
 
@@ -658,18 +671,18 @@ public interface I_I_Product
 	  */
 	public int getShelfWidth();
 
-    /** Column name SKU */
-    public static final String COLUMNNAME_SKU = "SKU";
+    /** Column name UPC */
+    public static final String COLUMNNAME_UPC = "UPC";
 
-	/** Set SKU.
-	  * Stock Keeping Unit
+	/** Set UPC/EAN.
+	  * Bar Code (Universal Product Code or its superset European Article Number)
 	  */
-	public void setSKU (String SKU);
+	public void setUPC (String UPC);
 
-	/** Get SKU.
-	  * Stock Keeping Unit
+	/** Get UPC/EAN.
+	  * Bar Code (Universal Product Code or its superset European Article Number)
 	  */
-	public String getSKU();
+	public String getUPC();
 
     /** Column name UnitsPerPallet */
     public static final String COLUMNNAME_UnitsPerPallet = "UnitsPerPallet";
@@ -683,19 +696,6 @@ public interface I_I_Product
 	  * Units Per Pallet
 	  */
 	public int getUnitsPerPallet();
-
-    /** Column name UPC */
-    public static final String COLUMNNAME_UPC = "UPC";
-
-	/** Set UPC/EAN.
-	  * Bar Code (Universal Product Code or its superset European Article Number)
-	  */
-	public void setUPC (String UPC);
-
-	/** Get UPC/EAN.
-	  * Bar Code (Universal Product Code or its superset European Article Number)
-	  */
-	public String getUPC();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
