@@ -22,6 +22,8 @@ migration/dist/
 mobile/dist/
 mobile/WEB-INF/classes/
 zkwebui/WEB-INF/classes/
+org.adempiere.webservice/WEB-INF/classes
+org.adempiere.webservice/dist
 sqlj/sqlj.jar
 webCM/deploy/
 zkwebui/dist/
