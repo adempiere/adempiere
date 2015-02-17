@@ -202,8 +202,8 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
         this.dataBinder = new GridTabDataBinder(gridTab);
 
         this.getChildren().clear();
-
-        int AD_Tree_ID = 0;
+        //	Raul Muñoz Get Add Dynamic Tree
+        int AD_Tree_ID = Env.getContextAsInt(Env.getCtx(), windowNo, "AD_Tree_ID", true);
 		//	Yamel Senih FR[ 9223372036854775807 ]
 		if (gridTab.isTreeTab())
 			//AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
@@ -563,8 +563,12 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
         	//int AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
 				//Env.getAD_Client_ID(Env.getCtx()), gridTab.getKeyColumnName());
 			//treePanel.initTree(AD_Tree_ID, windowNo);
-        	int AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
-					Env.getAD_Client_ID(Env.getCtx()), gridTab.getAD_Table_ID());
+        	int AD_Tree_ID = Env.getContextAsInt (Env.getCtx(), windowNo, "AD_Tree_ID", true);
+        	//	Valid Tree Value from context
+        	if(AD_Tree_ID == 0) {
+        		AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
+    					Env.getAD_Client_ID(Env.getCtx()), gridTab.getAD_Table_ID());
+        	}
         	//	Where Extended
         	String whereClause = gridTab.getWhereExtended();
 			whereClause = Env.parseContext(Env.getCtx(), windowNo, whereClause, false, false);
@@ -1174,6 +1178,31 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
             for (HorizontalEmbeddedPanel panel : horizontalIncludedPanel)
                 panel.tabPanel.query(false, 0, 0);
         }
+        //  Raul Muñoz Refresh Tree
+        if (gridTab.isTreeTab() && treePanel != null) {
+        	String treeName = "AD_Tree_ID";
+        	String whereClause = gridTab.getWhereExtended();
+        	whereClause = Env.parseContext(Env.getCtx(), windowNo, whereClause, false, false);
+        	int AD_Tree_ID = Env.getContextAsInt (Env.getCtx(), windowNo, treeName, true);
+			
+        	treePanel = new ADTreePanel();
+        	treePanel.initTree(AD_Tree_ID, windowNo, whereClause);
+
+        	Borderlayout layout = new Borderlayout();
+			layout.setParent(this);
+			layout.setStyle("width: 100%; height: 100%; position: absolute;");
+
+			West west = new West();
+			west.appendChild(treePanel);
+			west.setWidth("300px");
+			west.setCollapsible(true);
+			west.setSplittable(true);
+			west.setAutoscroll(true);
+			layout.appendChild(west);
+						
+        }
+        activate(true);
+        // End Raul Muñoz
     }
 
     private void deleteNode(int recordId) {
