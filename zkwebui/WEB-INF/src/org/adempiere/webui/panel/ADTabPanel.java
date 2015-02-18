@@ -143,6 +143,9 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
     private boolean isEmbedded = false;
 	
 	private int INC = 30;
+	
+	/**	Old Table		*/
+	private int m_OldTree_ID = 0;
 		
 	public CWindowToolbar getGlobalToolbar()
 	{
@@ -563,17 +566,19 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
         	//int AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
 				//Env.getAD_Client_ID(Env.getCtx()), gridTab.getKeyColumnName());
 			//treePanel.initTree(AD_Tree_ID, windowNo);
-        	int AD_Tree_ID = Env.getContextAsInt (Env.getCtx(), windowNo, "AD_Tree_ID", true);
+        	int m_AD_Tree_ID = Env.getContextAsInt (Env.getCtx(), windowNo, "AD_Tree_ID", true);
         	//	Valid Tree Value from context
-        	if(AD_Tree_ID == 0) {
-        		AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
+        	if(m_AD_Tree_ID == 0) {
+        		m_AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
     					Env.getAD_Client_ID(Env.getCtx()), gridTab.getAD_Table_ID());
         	}
         	//	Where Extended
         	String whereClause = gridTab.getWhereExtended();
 			whereClause = Env.parseContext(Env.getCtx(), windowNo, whereClause, false, false);
+			//	Save Old Tree
+			m_OldTree_ID = m_AD_Tree_ID;
 			//	Where
-        	treePanel.initTree(AD_Tree_ID, windowNo, whereClause);
+        	treePanel.initTree(m_AD_Tree_ID, windowNo, whereClause);
         }
         //	End Yamel Senih
 
@@ -1183,23 +1188,27 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
         	String treeName = "AD_Tree_ID";
         	String whereClause = gridTab.getWhereExtended();
         	whereClause = Env.parseContext(Env.getCtx(), windowNo, whereClause, false, false);
-        	int AD_Tree_ID = Env.getContextAsInt (Env.getCtx(), windowNo, treeName, true);
+        	int m_AD_Tree_ID = Env.getContextAsInt (Env.getCtx(), windowNo, treeName, true);
 			
-        	treePanel = new ADTreePanel();
-        	treePanel.initTree(AD_Tree_ID, windowNo, whereClause);
+        	if(m_OldTree_ID != m_AD_Tree_ID){
+        		treePanel = new ADTreePanel();
+            	treePanel.initTree(m_AD_Tree_ID, windowNo, whereClause);
 
-        	Borderlayout layout = new Borderlayout();
-			layout.setParent(this);
-			layout.setStyle("width: 100%; height: 100%; position: absolute;");
+            	Borderlayout layout = new Borderlayout();
+    			layout.setParent(this);
+    			layout.setStyle("width: 100%; height: 100%; position: absolute;");
 
-			West west = new West();
-			west.appendChild(treePanel);
-			west.setWidth("300px");
-			west.setCollapsible(true);
-			west.setSplittable(true);
-			west.setAutoscroll(true);
-			layout.appendChild(west);
-						
+    			West west = new West();
+    			west.appendChild(treePanel);
+    			west.setWidth("300px");
+    			west.setCollapsible(true);
+    			west.setSplittable(true);
+    			west.setAutoscroll(true);
+    			layout.appendChild(west);
+    			//	Add Listener
+    			treePanel.getTree().addEventListener(Events.ON_SELECT, this);
+				m_OldTree_ID = m_AD_Tree_ID;
+        	}			
         }
         activate(true);
         // End Raul Muñoz
