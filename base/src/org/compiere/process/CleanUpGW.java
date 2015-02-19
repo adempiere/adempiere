@@ -192,8 +192,8 @@ public class CleanUpGW extends SvrProcess
 
 		// Set only the date fields that have a value.  Leave the rest null.
 		String sql="UPDATE "+ tableName + " SET  " + columnName + " = ("
-				+ " CASE WHEN " + columnName + " > now() THEN add_months("+ columnName +", " + monthOffset + ") "  // columnName is already in the future, keep it there.
-				+ "      WHEN add_months("+ columnName +", " + monthOffset + ") > now() THEN now() "  // columnName will be moved to the future, make it today instead
+				+ " CASE WHEN " + columnName + " > getdate() THEN add_months("+ columnName +", " + monthOffset + ") "  // columnName is already in the future, keep it there.
+				+ "      WHEN add_months("+ columnName +", " + monthOffset + ") > getdate() THEN getdate() "  // columnName will be moved to the future, make it today instead
 				+ "      ELSE add_months("+ columnName +", " + monthOffset + ")"
 				+ " END ) "
 				+ " WHERE " + columnName + " IS NOT NULL "  
