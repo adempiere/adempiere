@@ -206,15 +206,17 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
 
         this.getChildren().clear();
         //	Raul Muñoz Get Add Dynamic Tree
-        int AD_Tree_ID = Env.getContextAsInt(Env.getCtx(), windowNo, "AD_Tree_ID", true);
+        int m_AD_Tree_ID = Env.getContextAsInt(Env.getCtx(), windowNo, "AD_Tree_ID", true);
+        m_OldTree_ID = m_AD_Tree_ID;
 		//	Yamel Senih FR[ 9223372036854775807 ]
 		if (gridTab.isTreeTab())
 			//AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
 				//Env.getAD_Client_ID(Env.getCtx()), gridTab.getKeyColumnName());
-			AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
+			m_AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
 					Env.getAD_Client_ID(Env.getCtx()), gridTab.getAD_Table_ID());
+		
 		//	End Yamel Senih
-		if (gridTab.isTreeTab() && AD_Tree_ID != 0)
+		if (gridTab.isTreeTab() && m_AD_Tree_ID != 0)
 		{
 			Borderlayout layout = new Borderlayout();
 			layout.setParent(this);
@@ -578,7 +580,7 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
 			//	Save Old Tree
 			m_OldTree_ID = m_AD_Tree_ID;
 			//	Where
-        	treePanel.initTree(m_AD_Tree_ID, windowNo, whereClause);
+        	treePanel.initTree(m_AD_Tree_ID, windowNo, null);
         }
         //	End Yamel Senih
 
@@ -1184,13 +1186,32 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
                 panel.tabPanel.query(false, 0, 0);
         }
         //  Raul Muñoz Refresh Tree
-        if (gridTab.isTreeTab() && treePanel != null) {
-        	String treeName = "AD_Tree_ID";
+		//	Tree to be initiated on second/.. tab
+        if (gridTab.isTreeTab() && treePanel != null && gridTab.getTabNo() != 0) {
         	String whereClause = gridTab.getWhereExtended();
         	whereClause = Env.parseContext(Env.getCtx(), windowNo, whereClause, false, false);
-        	int m_AD_Tree_ID = Env.getContextAsInt (Env.getCtx(), windowNo, treeName, true);
+        	String keyColumnName = gridTab.getKeyColumnName();
+			String treeName = "AD_Tree_ID";
+			//	Raul Muñoz 20/02/2015, 14:30
+			if (keyColumnName.startsWith("CM"))
+			{
+				if (keyColumnName.equals("CM_Container_ID"))
+					treeName = "AD_TreeCMC_ID";
+				else if (keyColumnName.equals("CM_CStage_ID"))
+					treeName = "AD_TreeCMS_ID";
+				else if (keyColumnName.equals("CM_Template_ID"))
+					treeName = "AD_TreeCMT_ID";
+				else if (keyColumnName.equals("CM_Media_ID"))
+					treeName = "AD_TreeCMM_ID";
+			}
 			
-        	if(m_OldTree_ID != m_AD_Tree_ID){
+			int m_AD_Tree_ID = Env.getContextAsInt (Env.getCtx(), windowNo, treeName, true);
+			
+			if (m_AD_Tree_ID == 0)
+				m_AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
+						Env.getAD_Client_ID(Env.getCtx()), gridTab.getAD_Table_ID());
+
+			if(m_OldTree_ID != m_AD_Tree_ID){
         		treePanel = new ADTreePanel();
             	treePanel.initTree(m_AD_Tree_ID, windowNo, whereClause);
 
