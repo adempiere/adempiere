@@ -56,6 +56,7 @@ import org.compiere.util.Msg;
 import org.compiere.util.SecureEngine;
 import org.compiere.util.Trace;
 import org.compiere.util.Trx;
+import org.compiere.util.TrxRunnable;
 import org.compiere.util.ValueNamePair;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -3488,106 +3489,19 @@ public abstract class PO
 	 *  Insert id data into Tree FR[ 9223372036854775807 ]
 	 *	@return true if inserted
 	 */
-	private boolean insertTreeNode()
+	public boolean insertTreeNode()
 	{
 		int AD_Table_ID = get_Table_ID();
 		if (!MTree.hasTree(AD_Table_ID))
 			return false;
-		int id = get_ID();
-		String treeTableName = MTree.getNodeTableName(AD_Table_ID);
-		int C_Element_ID = 0;
-		if (AD_Table_ID == X_C_ElementValue.Table_ID)
-		{
-			Integer ii = (Integer)get_Value("C_Element_ID");
-			if (ii != null)
-				C_Element_ID = ii.intValue();
-		}
+		int p_Record_ID = get_ID();
 
+		int p_AD_Tree_ID = MTree.getDefaultAD_Tree_ID(getAD_Client_ID(), get_TableName());
+		MTree tree =new MTree(getCtx(), p_AD_Tree_ID, get_TrxName());
 		int no = 0;
-		StringBuilder sb = 
-				new StringBuilder("SELECT ")
-				.append(getAD_Client_ID())
-				.append(" AD_Client_ID,")
-				.append(getAD_Org_ID())
-				.append(" AD_Org_ID ,")
-				.append("'Y' IsActive, ")
-				.append("SysDate Created, ")
-				.append("0 CreatedBy,")
-				.append("SysDate Updated, ")
-				.append("0 UpdatedBy, ")
-				.append("t.AD_Tree_ID, ")
-				.append("? Node_ID, ")
-				.append("0 Parent_ID, 999 SeqNo, ")
-				.append("t.TreeType ")
-				.append("FROM AD_Tree t ")
-				.append("WHERE t.AD_Client_ID=")
-				.append(getAD_Client_ID())
-				.append(" AND t.IsActive='Y'");
-		//	Account Element Value handling
-		if (C_Element_ID != 0)
-			sb.append(" AND EXISTS (SELECT * FROM C_Element ae WHERE ae.C_Element_ID=")
-				.append(C_Element_ID)
-				.append(" AND t.AD_Tree_ID=ae.AD_Tree_ID)");
-		else	//	std trees
-			sb.append(" AND t.IsAllNodes='Y' AND t.AD_Table_ID=").append(AD_Table_ID);
-		//	Duplicate Check
-		sb.append(" AND NOT EXISTS (SELECT * FROM ").append (treeTableName).append (" e ")
-		.append("WHERE e.AD_Tree_ID=t.AD_Tree_ID AND Node_ID=").append("?").append(")");
-		
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String treeType = "";
-		int p_AD_Tree_ID = 0;
-		try	{
-			pstmt = DB.prepareStatement(sb.toString(), get_TrxName());
-		    DB.setParameters(pstmt, new Object[]{id,id});
-		    rs = pstmt.executeQuery();
-		    while(rs.next()){
-		    	treeType = rs.getString("TreeType");
-		    	p_AD_Tree_ID = rs.getInt("AD_Tree_ID");
-		    	MTree m_MTree = MTree.get(getCtx(), p_AD_Tree_ID, get_TrxName());
-		    	if (MTree.TREETYPE_Menu.equals(treeType)) {
-					MTree_NodeMM node = new MTree_NodeMM(m_MTree, get_ID());
-					node.saveEx();
-					no++;
-				} else if  (MTree.TREETYPE_BPartner.equals(treeType)) {
-					MTree_NodeBP node = new MTree_NodeBP(m_MTree, get_ID());
-					node.setSeqNo(rs.getInt("SeqNo"));
-					node.saveEx();
-					no++;
-				} else if  (MTree.TREETYPE_Product.equals(treeType)) {
-					MTree_NodePR node = new MTree_NodePR(m_MTree, get_ID());
-					node.setSeqNo(rs.getInt("SeqNo"));
-					node.saveEx();
-					no++;
-				} else if  (MTree.TREETYPE_CMContainer.equals(treeType)) {
-					MTree_NodeCMC node = new MTree_NodeCMC(m_MTree, get_ID());
-					node.setSeqNo(rs.getInt("SeqNo"));
-					node.saveEx();
-					no++;
-				} else if  (MTree.TREETYPE_CMContainerStage.equals(treeType)) {
-					MTree_NodeCMS node = new MTree_NodeCMS(m_MTree, get_ID());
-					node.setSeqNo(rs.getInt("SeqNo"));
-					node.saveEx();
-					no++;
-				} else if  (MTree.TREETYPE_CMMedia.equals(treeType)) {
-					MTree_NodeCMS node = new MTree_NodeCMS(m_MTree, get_ID());
-					node.setSeqNo(rs.getInt("SeqNo"));
-					node.saveEx();
-					no++;
-				} else {
-					MTree_Node node = new MTree_Node(m_MTree, get_ID());
-					node.setSeqNo(rs.getInt("SeqNo"));
-					node.saveEx();
-					no++;
-				}
-		    }
-		}catch (SQLException e) {
-			throw new DBException(e, sb.toString());
-		} finally{
-		     DB.close(rs, pstmt);
-		     rs = null; pstmt = null;
-		}
+		if(MTree.addNode(getCtx(), p_Record_ID, tree, get_TrxName()))
+    		no++;
+
 		if (no > 0)
 			log.fine("#" + no + " - AD_Table_ID=" + AD_Table_ID);
 		else
