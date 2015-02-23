@@ -3494,7 +3494,6 @@ public abstract class PO
 		if (!MTree.hasTree(AD_Table_ID))
 			return false;
 		int id = get_ID();
-		int AD_Client_ID = getAD_Client_ID();
 		String treeTableName = MTree.getNodeTableName(AD_Table_ID);
 		int C_Element_ID = 0;
 		if (AD_Table_ID == X_C_ElementValue.Table_ID)
@@ -3503,27 +3502,92 @@ public abstract class PO
 			if (ii != null)
 				C_Element_ID = ii.intValue();
 		}
-		//
-		StringBuilder sb = new StringBuilder ("INSERT INTO ")
-		.append(treeTableName)
-		.append(" (AD_Client_ID,AD_Org_ID, IsActive,Created,CreatedBy,Updated,UpdatedBy, ")
-		.append("AD_Tree_ID, Node_ID, Parent_ID, SeqNo) ")
-		//
-		.append("SELECT t.AD_Client_ID,0, 'Y', SysDate, 0, SysDate, 0,")
-		.append("t.AD_Tree_ID, ").append(id).append(", 0, 999 ")
-		.append("FROM AD_Tree t ")
-		.append("WHERE t.AD_Client_ID=").append(AD_Client_ID).append(" AND t.IsActive='Y'");
+
+		int no = 0;
+		StringBuilder sb = 
+				new StringBuilder("SELECT ")
+				.append(getAD_Client_ID())
+				.append(" AD_Client_ID,")
+				.append(getAD_Org_ID())
+				.append(" AD_Org_ID ,")
+				.append("'Y' IsActive, ")
+				.append("SysDate Created, ")
+				.append("0 CreatedBy,")
+				.append("SysDate Updated, ")
+				.append("0 UpdatedBy, ")
+				.append("t.AD_Tree_ID, ")
+				.append("? Node_ID, ")
+				.append("0 Parent_ID, 999 SeqNo, ")
+				.append("t.TreeType ")
+				.append("FROM AD_Tree t ")
+				.append("WHERE t.AD_Client_ID=")
+				.append(getAD_Client_ID())
+				.append(" AND t.IsActive='Y'");
 		//	Account Element Value handling
 		if (C_Element_ID != 0)
 			sb.append(" AND EXISTS (SELECT * FROM C_Element ae WHERE ae.C_Element_ID=")
-			.append(C_Element_ID).append(" AND t.AD_Tree_ID=ae.AD_Tree_ID)");
+				.append(C_Element_ID)
+				.append(" AND t.AD_Tree_ID=ae.AD_Tree_ID)");
 		else	//	std trees
 			sb.append(" AND t.IsAllNodes='Y' AND t.AD_Table_ID=").append(AD_Table_ID);
 		//	Duplicate Check
 		sb.append(" AND NOT EXISTS (SELECT * FROM ").append (treeTableName).append (" e ")
-		.append("WHERE e.AD_Tree_ID=t.AD_Tree_ID AND Node_ID=").append(id).append(")");
-		//
-		int no = DB.executeUpdate(sb.toString(), get_TrxName());
+		.append("WHERE e.AD_Tree_ID=t.AD_Tree_ID AND Node_ID=").append("?").append(")");
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String treeType = "";
+		int p_AD_Tree_ID = 0;
+		try	{
+			pstmt = DB.prepareStatement(sb.toString(), get_TrxName());
+		    DB.setParameters(pstmt, new Object[]{id,id});
+		    rs = pstmt.executeQuery();
+		    while(rs.next()){
+		    	treeType = rs.getString("TreeType");
+		    	p_AD_Tree_ID = rs.getInt("AD_Tree_ID");
+		    	MTree m_MTree = MTree.get(getCtx(), p_AD_Tree_ID, get_TrxName());
+		    	if (MTree.TREETYPE_Menu.equals(treeType)) {
+					MTree_NodeMM node = new MTree_NodeMM(m_MTree, get_ID());
+					node.saveEx();
+					no++;
+				} else if  (MTree.TREETYPE_BPartner.equals(treeType)) {
+					MTree_NodeBP node = new MTree_NodeBP(m_MTree, get_ID());
+					node.setSeqNo(rs.getInt("SeqNo"));
+					node.saveEx();
+					no++;
+				} else if  (MTree.TREETYPE_Product.equals(treeType)) {
+					MTree_NodePR node = new MTree_NodePR(m_MTree, get_ID());
+					node.setSeqNo(rs.getInt("SeqNo"));
+					node.saveEx();
+					no++;
+				} else if  (MTree.TREETYPE_CMContainer.equals(treeType)) {
+					MTree_NodeCMC node = new MTree_NodeCMC(m_MTree, get_ID());
+					node.setSeqNo(rs.getInt("SeqNo"));
+					node.saveEx();
+					no++;
+				} else if  (MTree.TREETYPE_CMContainerStage.equals(treeType)) {
+					MTree_NodeCMS node = new MTree_NodeCMS(m_MTree, get_ID());
+					node.setSeqNo(rs.getInt("SeqNo"));
+					node.saveEx();
+					no++;
+				} else if  (MTree.TREETYPE_CMMedia.equals(treeType)) {
+					MTree_NodeCMS node = new MTree_NodeCMS(m_MTree, get_ID());
+					node.setSeqNo(rs.getInt("SeqNo"));
+					node.saveEx();
+					no++;
+				} else {
+					MTree_Node node = new MTree_Node(m_MTree, get_ID());
+					node.setSeqNo(rs.getInt("SeqNo"));
+					node.saveEx();
+					no++;
+				}
+		    }
+		}catch (SQLException e) {
+			throw new DBException(e, sb.toString());
+		} finally{
+		     DB.close(rs, pstmt);
+		     rs = null; pstmt = null;
+		}
 		if (no > 0)
 			log.fine("#" + no + " - AD_Table_ID=" + AD_Table_ID);
 		else
