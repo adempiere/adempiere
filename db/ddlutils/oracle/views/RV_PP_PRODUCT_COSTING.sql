@@ -1,0 +1,35 @@
+DROP VIEW RV_PP_Product_Costing;
+CREATE OR REPLACE VIEW  RV_PP_Product_Costing AS
+SELECT p.M_Product_ID,
+  cost.C_AcctSchema_ID,
+  p.Value,
+  p.Name,
+  p.M_Product_Category_ID ,
+  p.M_Product_Class_ID,
+  p.M_Product_Group_ID,
+  p.M_Product_Classification_ID,
+  p.IsStocked,
+  cost.AD_Client_ID,
+  cost.AD_Org_ID,
+  cost.M_Warehouse_ID,
+  cost.M_CostType_ID,
+  cost.M_CostElement_ID ,
+  cost.M_AttributeSetInstance_ID,
+  cost.IsActive,
+  cost.Created,
+  cost.CreatedBy,
+  cost.Updated,
+  cost.UpdatedBy,
+  cost.CurrentQty,
+  cost.CurrentCostPrice ,
+  cost.CurrentCostPriceLL,
+  cost.CumulatedAmt,
+  cost.CumulatedAmtLL ,
+  cost.FutureCostPrice ,
+  cost.FutureCostPriceLL ,
+  cost.Description,
+  cost.percent ,
+  cost.iscostfrozen
+FROM M_Product p
+LEFT JOIN M_Cost cost
+ON (p.M_Product_ID=cost.M_Product_ID);

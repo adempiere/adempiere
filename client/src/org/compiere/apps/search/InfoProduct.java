@@ -355,7 +355,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 
         ColumnInfo[] s_layoutWarehouse = new ColumnInfo[]{
         		new ColumnInfo(" ", "M_Warehouse_ID", IDColumn.class),
-        		new ColumnInfo(Msg.translate(Env.getCtx(), "Warehouse"), "Warehouse", String.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "WarehouseName"), "WarehouseName", String.class),
         		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyAvailable"), "sum(QtyAvailable)", Double.class, true, true, null),
         		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOnHand"), "sum(QtyOnHand)", Double.class),
            		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyReserved"), "sum(QtyReserved)", Double.class),

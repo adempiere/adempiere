@@ -43,21 +43,6 @@
         <Data AD_Column_ID="602" Column="UpdatedBy" isNewNull="true" oldValue="100"/>
       </PO>
     </Step>
-    <Step SeqNo="50" StepType="AD">
-      <PO AD_Table_ID="452" Action="D" Record_ID="10" Table="AD_TreeNodeMM">
-        <Data AD_Column_ID="6162" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
-        <Data AD_Column_ID="6149" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
-        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
-        <Data AD_Column_ID="6151" Column="Created" isNewNull="true" oldValue="2008-05-30 21:46:55.0"/>
-        <Data AD_Column_ID="6152" Column="CreatedBy" isNewNull="true" oldValue="0"/>
-        <Data AD_Column_ID="6150" Column="IsActive" isNewNull="true" oldValue="true"/>
-        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53060">53060</Data>
-        <Data AD_Column_ID="6155" Column="Parent_ID" isNewNull="true" oldValue="53053"/>
-        <Data AD_Column_ID="6157" Column="SeqNo" isNewNull="true" oldValue="6"/>
-        <Data AD_Column_ID="6153" Column="Updated" isNewNull="true" oldValue="2008-05-30 21:46:55.0"/>
-        <Data AD_Column_ID="6154" Column="UpdatedBy" isNewNull="true" oldValue="0"/>
-      </PO>
-    </Step>
     <Step SeqNo="60" StepType="AD">
       <PO AD_Table_ID="284" Action="U" Record_ID="53036" Table="AD_Process">
         <Data AD_Column_ID="3371" Column="IsReport" oldValue="false">true</Data>
