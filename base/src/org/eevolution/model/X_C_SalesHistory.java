@@ -34,7 +34,7 @@ public class X_C_SalesHistory extends PO implements I_C_SalesHistory, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150215L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_C_SalesHistory (Properties ctx, int C_SalesHistory_ID, String trxName)
