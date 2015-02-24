@@ -33,7 +33,7 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150215L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_I_Product (Properties ctx, int I_Product_ID, String trxName)
@@ -305,6 +305,23 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 	public Timestamp getDiscontinuedAt () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DiscontinuedAt);
+	}
+
+	/** Set Discontinued by.
+		@param DiscontinuedBy 
+		Discontinued By
+	  */
+	public void setDiscontinuedBy (Timestamp DiscontinuedBy)
+	{
+		set_Value (COLUMNNAME_DiscontinuedBy, DiscontinuedBy);
+	}
+
+	/** Get Discontinued by.
+		@return Discontinued By
+	  */
+	public Timestamp getDiscontinuedBy () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_DiscontinuedBy);
 	}
 
 	/** Set Document Note.

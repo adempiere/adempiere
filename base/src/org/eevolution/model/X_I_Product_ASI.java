@@ -30,7 +30,7 @@ public class X_I_Product_ASI extends PO implements I_I_Product_ASI, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150215L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_I_Product_ASI (Properties ctx, int I_Product_ASI_ID, String trxName)

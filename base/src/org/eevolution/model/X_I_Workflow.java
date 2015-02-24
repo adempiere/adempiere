@@ -34,7 +34,7 @@ public class X_I_Workflow extends PO implements I_I_Workflow, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150215L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_I_Workflow (Properties ctx, int I_Workflow_ID, String trxName)

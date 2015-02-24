@@ -31,7 +31,7 @@ public class X_WM_Rule extends PO implements I_WM_Rule, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150215L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_WM_Rule (Properties ctx, int WM_Rule_ID, String trxName)

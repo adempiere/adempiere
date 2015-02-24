@@ -148,6 +148,15 @@ public interface I_PP_Product_Planning
 	  */
 	public boolean isCreatePlan();
 
+    /** Column name IsIssue */
+    public static final String COLUMNNAME_IsIssue = "IsIssue";
+
+	/** Set Is Issue	  */
+	public void setIsIssue (boolean IsIssue);
+
+	/** Get Is Issue	  */
+	public boolean isIssue();
+
     /** Column name IsMPS */
     public static final String COLUMNNAME_IsMPS = "IsMPS";
 

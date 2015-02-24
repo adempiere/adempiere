@@ -33,7 +33,7 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150215L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_PP_Product_Planning (Properties ctx, int PP_Product_Planning_ID, String trxName)
@@ -43,6 +43,7 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
         {
 			setIsCreatePlan (true);
 // Y
+			setIsIssue (false);
 			setIsPhantom (false);
 			setIsRequiredDRP (false);
 			setIsRequiredMRP (false);
@@ -170,6 +171,27 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
 	public boolean isCreatePlan () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsCreatePlan);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Is Issue.
+		@param IsIssue Is Issue	  */
+	public void setIsIssue (boolean IsIssue)
+	{
+		set_Value (COLUMNNAME_IsIssue, Boolean.valueOf(IsIssue));
+	}
+
+	/** Get Is Issue.
+		@return Is Issue	  */
+	public boolean isIssue () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsIssue);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

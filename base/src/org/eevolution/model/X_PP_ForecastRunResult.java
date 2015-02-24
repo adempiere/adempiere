@@ -33,7 +33,7 @@ public class X_PP_ForecastRunResult extends PO implements I_PP_ForecastRunResult
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150215L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_PP_ForecastRunResult (Properties ctx, int PP_ForecastRunResult_ID, String trxName)
